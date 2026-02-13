@@ -60,15 +60,15 @@ class DiagnosticServiceInstance(DiagnosticCommonElement, ABC):
         # This represents the collection of DiagnosticAccess Permissions that allow for
         # the execution of the referencing 719 Document ID 673:
         # AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template R23-11.
-        self._access: Optional["DiagnosticAccess"] = None
+        self._access: Optional[DiagnosticAccess] = None
 
     @property
-    def access(self) -> Optional["DiagnosticAccess"]:
+    def access(self) -> Optional[DiagnosticAccess]:
         """Get access (Pythonic accessor)."""
         return self._access
 
     @access.setter
-    def access(self, value: Optional["DiagnosticAccess"]) -> None:
+    def access(self, value: Optional[DiagnosticAccess]) -> None:
         """
         Set access with validation.
 
@@ -121,7 +121,7 @@ class DiagnosticServiceInstance(DiagnosticCommonElement, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAccess(self) -> "DiagnosticAccess":
+    def getAccess(self) -> DiagnosticAccess:
         """
         AUTOSAR-compliant getter for access.
 
@@ -133,7 +133,7 @@ class DiagnosticServiceInstance(DiagnosticCommonElement, ABC):
         """
         return self.access  # Delegates to property
 
-    def setAccess(self, value: "DiagnosticAccess") -> DiagnosticServiceInstance:
+    def setAccess(self, value: DiagnosticAccess) -> DiagnosticServiceInstance:
         """
         AUTOSAR-compliant setter for access with method chaining.
 
@@ -179,7 +179,7 @@ class DiagnosticServiceInstance(DiagnosticCommonElement, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_access(self, value: Optional["DiagnosticAccess"]) -> DiagnosticServiceInstance:
+    def with_access(self, value: Optional[DiagnosticAccess]) -> DiagnosticServiceInstance:
         """
         Set access and return self for chaining.
 
@@ -232,15 +232,15 @@ class DiagnosticCustomServiceClass(DiagnosticServiceClass):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attribute may only be used for the definition of services.
         # The values shall not overlap with service IDs.
-        self._customService: Optional["PositiveInteger"] = None
+        self._customService: Optional[PositiveInteger] = None
 
     @property
-    def custom_service(self) -> Optional["PositiveInteger"]:
+    def custom_service(self) -> Optional[PositiveInteger]:
         """Get customService (Pythonic accessor)."""
         return self._customService
 
     @custom_service.setter
-    def custom_service(self, value: Optional["PositiveInteger"]) -> None:
+    def custom_service(self, value: Optional[PositiveInteger]) -> None:
         """
         Set customService with validation.
 
@@ -262,7 +262,7 @@ class DiagnosticCustomServiceClass(DiagnosticServiceClass):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCustomService(self) -> "PositiveInteger":
+    def getCustomService(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for customService.
 
@@ -274,7 +274,7 @@ class DiagnosticCustomServiceClass(DiagnosticServiceClass):
         """
         return self.custom_service  # Delegates to property
 
-    def setCustomService(self, value: "PositiveInteger") -> DiagnosticCustomServiceClass:
+    def setCustomService(self, value: PositiveInteger) -> DiagnosticCustomServiceClass:
         """
         AUTOSAR-compliant setter for customService with method chaining.
 
@@ -292,7 +292,7 @@ class DiagnosticCustomServiceClass(DiagnosticServiceClass):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_custom_service(self, value: Optional["PositiveInteger"]) -> DiagnosticCustomServiceClass:
+    def with_custom_service(self, value: Optional[PositiveInteger]) -> DiagnosticCustomServiceClass:
         """
         Set customService and return self for chaining.
 

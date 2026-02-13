@@ -5,12 +5,28 @@ Package: M2::AUTOSARTemplates::AutosarTopLevelStructure
 """
 
 
-from __future__ import annotations
 from typing import List, Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARPackage,
+)
+from armodel.v2.models.M2.MSR.AsamHdo.AdminData import (
+    AdminData,
+)
+from armodel.v2.models.M2.MSR.Documentation.BlockElements import (
+    DocumentationBlock,
+)
+from armodel.v2.models.M2.MSR.AsamHdo.SpecialData import (
+    Sdg,
+)
+
+__all__ = [
+    "AUTOSAR",
+    "FileInfoComment",
+]
 
 
 class AUTOSAR(ARObject):
@@ -96,18 +112,18 @@ class AUTOSAR(ARObject):
         # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This property allows to keep special data which is not the standard model.
         # It can be utilized to tool specific data.
-        self._adminData: Optional["AdminData"] = None
+        self._adminData: Optional[AdminData] = None
 
         # arPackage represents AR packages
-        self._arPackage: List["ARPackage"] = []
+        self._arPackage: List[ARPackage] = []
 
         # This represents a possibility to provide a structured in an AUTOSAR file.
         # 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module
         # Description Template R23-11.
-        self._fileInfo: Optional[FileInfoComment] = None
+        self._fileInfo: Optional["FileInfoComment"] = None
 
         # It is example to represent disclaimers and legal.
-        self._introduction: Optional["DocumentationBlock"] = None
+        self._introduction: Optional[DocumentationBlock] = None
 
     def clear(self) -> None:
         """Clear all properties of the AUTOSAR instance."""
@@ -120,42 +136,42 @@ class AUTOSAR(ARObject):
         self.setExtendedAttribute("xmlns", "http://autosar.org/3.2.3")
 
     @property
-    def admin_data(self) -> Optional["AdminData"]:
+    def admin_data(self) -> Optional[AdminData]:
         """Get adminData (Pythonic accessor)."""
         return self._adminData
-
+    
     @admin_data.setter
-    def admin_data(self, value: Optional["AdminData"]) -> None:
+    def admin_data(self, value: Optional[AdminData]) -> None:
         """
         Set adminData with validation.
-
+    
         Args:
             value: The adminData to set
-
+    
         Raises:
             TypeError: If value type is incorrect
         """
         if value is None:
             self._adminData = None
             return
-
+    
         # Skip type check for non-string types to avoid import issues
         # In V2, we use duck typing for flexibility
         self._adminData = value
-
+    
     @property
-    def ar_package(self) -> List["ARPackage"]:
+    def ar_package(self) -> List[ARPackage]:
         """Get arPackage (Pythonic accessor)."""
         return self._arPackage
-
+    
     @ar_package.setter
-    def ar_package(self, value: List["ARPackage"]) -> None:
+    def ar_package(self, value: List[ARPackage]) -> None:
         """
         Set arPackage with validation.
-
+    
         Args:
             value: The arPackage to set
-
+    
         Raises:
             TypeError: If value type is incorrect
         """
@@ -164,32 +180,31 @@ class AUTOSAR(ARObject):
                 f"ar_package must be a list or None, got {type(value).__name__}"
             )
         self._arPackage = value
-
+    
     @property
-    def ar_packages(self) -> List["ARPackage"]:
+    def ar_packages(self) -> List[ARPackage]:
         """Get arPackage (alias property)."""
         return self._arPackage
-
+    
     @ar_packages.setter
-    def ar_packages(self, value: List["ARPackage"]) -> None:
+    def ar_packages(self, value: List[ARPackage]) -> None:
         """
         Set arPackage with validation (alias setter).
-
+    
         Args:
             value: The arPackage to set
-
+    
         Raises:
             TypeError: If value type is incorrect
         """
         self.ar_package = value
-
     @property
-    def file_info(self) -> Optional[FileInfoComment]:
+    def file_info(self) -> Optional["FileInfoComment"]:
         """Get fileInfo (Pythonic accessor)."""
         return self._fileInfo
 
     @file_info.setter
-    def file_info(self, value: Optional[FileInfoComment]) -> None:
+    def file_info(self, value: Optional["FileInfoComment"]) -> None:
         """
         Set fileInfo with validation.
 
@@ -208,166 +223,132 @@ class AUTOSAR(ARObject):
         self._fileInfo = value
 
     @property
-    def introduction(self) -> Optional["DocumentationBlock"]:
+    def introduction(self) -> Optional[DocumentationBlock]:
         """Get introduction (Pythonic accessor)."""
         return self._introduction
-
+    
     @introduction.setter
-    def introduction(self, value: Optional["DocumentationBlock"]) -> None:
+    def introduction(self, value: Optional[DocumentationBlock]) -> None:
         """
         Set introduction with validation.
-
+    
         Args:
             value: The introduction to set
-
+    
         Raises:
             TypeError: If value type is incorrect
         """
         if value is None:
             self._introduction = None
             return
-
+    
         # Skip type check for non-string types to avoid import issues
         # In V2, we use duck typing for flexibility
         self._introduction = value
-
     def getTagName(self) -> str:
         """Get the XML tag name for AUTOSAR."""
         return "AUTOSAR"
 
-    def with_ar_package(self, value):
-        """
-        Set ar_package and return self for chaining.
-
-        Args:
-            value: The ar_package to set
-
-        Returns:
-            self for method chaining
-
-        Example:
-            >>> obj.with_ar_package("value")
-        """
-        self.ar_package = value  # Use property setter (gets validation)
-        return self
-
-    def with_sdg(self, value):
-        """
-        Set sdg and return self for chaining.
-
-        Args:
-            value: The sdg to set
-
-        Returns:
-            self for method chaining
-
-        Example:
-            >>> obj.with_sdg("value")
-        """
-        self.sdg = value  # Use property setter (gets validation)
-        return self
-
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAdminData(self) -> "AdminData":
+    def getAdminData(self) -> AdminData:
         """
         AUTOSAR-compliant getter for adminData.
-
+    
         Returns:
             The adminData value
-
+    
         Note:
             Delegates to admin_data property (CODING_RULE_V2_00017)
         """
         return self.admin_data  # Delegates to property
-
-    def setAdminData(self, value: "AdminData") -> AUTOSAR:
+    
+    def setAdminData(self, value: AdminData) -> "AUTOSAR":
         """
         AUTOSAR-compliant setter for adminData with method chaining.
-
+    
         Args:
             value: The adminData to set
-
+    
         Returns:
             self for method chaining
-
+    
         Note:
             Delegates to admin_data property setter (gets validation automatically)
         """
         self.admin_data = value  # Delegates to property setter
         return self
-
-    def getArPackage(self) -> List["ARPackage"]:
+    
+    def getArPackage(self) -> List[ARPackage]:
         """
         AUTOSAR-compliant getter for arPackage.
-
+    
         Returns:
             The arPackage value
-
+    
         Note:
             Delegates to ar_package property (CODING_RULE_V2_00017)
         """
         return self.ar_package  # Delegates to property
-
-    def getFileInfo(self) -> FileInfoComment:
+    
+    def getFileInfo(self) -> "FileInfoComment":
         """
         AUTOSAR-compliant getter for fileInfo.
-
+    
         Returns:
             The fileInfo value
-
+    
         Note:
             Delegates to file_info property (CODING_RULE_V2_00017)
         """
         return self.file_info  # Delegates to property
-
-    def setFileInfo(self, value: FileInfoComment) -> AUTOSAR:
+    
+    def setFileInfo(self, value: "FileInfoComment") -> "AUTOSAR":
         """
         AUTOSAR-compliant setter for fileInfo with method chaining.
-
+    
         Args:
             value: The fileInfo to set
-
+    
         Returns:
             self for method chaining
-
+    
         Note:
             Delegates to file_info property setter (gets validation automatically)
         """
         self.file_info = value  # Delegates to property setter
         return self
-
-    def getIntroduction(self) -> "DocumentationBlock":
+    
+    def getIntroduction(self) -> DocumentationBlock:
         """
         AUTOSAR-compliant getter for introduction.
-
+    
         Returns:
             The introduction value
-
+    
         Note:
             Delegates to introduction property (CODING_RULE_V2_00017)
         """
         return self.introduction  # Delegates to property
-
-    def setIntroduction(self, value: "DocumentationBlock") -> AUTOSAR:
+    
+    def setIntroduction(self, value: DocumentationBlock) -> "AUTOSAR":
         """
         AUTOSAR-compliant setter for introduction with method chaining.
-
+    
         Args:
             value: The introduction to set
-
+    
         Returns:
             self for method chaining
-
+    
         Note:
             Delegates to introduction property setter (gets validation automatically)
         """
         self.introduction = value  # Delegates to property setter
         return self
-
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_admin_data(self, value: Optional["AdminData"]) -> AUTOSAR:
+    def with_admin_data(self, value: Optional[AdminData]) -> "AUTOSAR":
         """
         Set adminData and return self for chaining.
 
@@ -383,7 +364,7 @@ class AUTOSAR(ARObject):
         self.admin_data = value  # Use property setter (gets validation)
         return self
 
-    def with_file_info(self, value: Optional[FileInfoComment]) -> AUTOSAR:
+    def with_file_info(self, value: Optional["FileInfoComment"]) -> "AUTOSAR":
         """
         Set fileInfo and return self for chaining.
 
@@ -399,7 +380,7 @@ class AUTOSAR(ARObject):
         self.file_info = value  # Use property setter (gets validation)
         return self
 
-    def with_introduction(self, value: Optional["DocumentationBlock"]) -> AUTOSAR:
+    def with_introduction(self, value: Optional[DocumentationBlock]) -> "AUTOSAR":
         """
         Set introduction and return self for chaining.
 

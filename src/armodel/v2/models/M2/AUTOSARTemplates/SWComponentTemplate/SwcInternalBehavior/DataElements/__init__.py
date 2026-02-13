@@ -53,15 +53,15 @@ class AutosarParameterRef(ARObject):
         # by: ParameterInAtomicSWC 381 Document ID 89:
                 # AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template
                 # R23-11.
-        self._autosar: Optional["RefType"] = None
+        self._autosar: Optional[RefType] = None
 
     @property
-    def autosar(self) -> Optional["RefType"]:
+    def autosar(self) -> Optional[RefType]:
         """Get autosar (Pythonic accessor)."""
         return self._autosar
 
     @autosar.setter
-    def autosar(self, value: Optional["RefType"]) -> None:
+    def autosar(self, value: Optional[RefType]) -> None:
         """
         Set autosar with validation.
 
@@ -87,15 +87,15 @@ class AutosarParameterRef(ARObject):
                 # context).
         # local instance is a special case which may optimization.
         # Therefore an explicit provided for this case.
-        self._localParameter: Optional["RefType"] = None
+        self._localParameter: Optional[RefType] = None
 
     @property
-    def local_parameter(self) -> Optional["RefType"]:
+    def local_parameter(self) -> Optional[RefType]:
         """Get localParameter (Pythonic accessor)."""
         return self._localParameter
 
     @local_parameter.setter
-    def local_parameter(self, value: Optional["RefType"]) -> None:
+    def local_parameter(self, value: Optional[RefType]) -> None:
         """
         Set localParameter with validation.
 
@@ -145,7 +145,7 @@ class AutosarParameterRef(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAutosar(self) -> "RefType":
+    def getAutosar(self) -> RefType:
         """
         AUTOSAR-compliant getter for autosar.
 
@@ -157,7 +157,7 @@ class AutosarParameterRef(ARObject):
         """
         return self.autosar  # Delegates to property
 
-    def setAutosar(self, value: "RefType") -> AutosarParameterRef:
+    def setAutosar(self, value: RefType) -> AutosarParameterRef:
         """
         AUTOSAR-compliant setter for autosar with method chaining.
 
@@ -173,7 +173,7 @@ class AutosarParameterRef(ARObject):
         self.autosar = value  # Delegates to property setter
         return self
 
-    def getLocalParameter(self) -> "RefType":
+    def getLocalParameter(self) -> RefType:
         """
         AUTOSAR-compliant getter for localParameter.
 
@@ -185,7 +185,7 @@ class AutosarParameterRef(ARObject):
         """
         return self.local_parameter  # Delegates to property
 
-    def setLocalParameter(self, value: "RefType") -> AutosarParameterRef:
+    def setLocalParameter(self, value: RefType) -> AutosarParameterRef:
         """
         AUTOSAR-compliant setter for localParameter with method chaining.
 
@@ -267,15 +267,15 @@ class AutosarVariableRef(ARObject):
                 # by an ImplementationDataType.
         # 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module
                 # Description Template R23-11.
-        self._autosarVariable: Optional["ArVariableIn"] = None
+        self._autosarVariable: Optional[ArVariableIn] = None
 
     @property
-    def autosar_variable(self) -> Optional["ArVariableIn"]:
+    def autosar_variable(self) -> Optional[ArVariableIn]:
         """Get autosarVariable (Pythonic accessor)."""
         return self._autosarVariable
 
     @autosar_variable.setter
-    def autosar_variable(self, value: Optional["ArVariableIn"]) -> None:
+    def autosar_variable(self, value: Optional[ArVariableIn]) -> None:
         """
         Set autosarVariable with validation.
 
@@ -299,15 +299,15 @@ class AutosarVariableRef(ARObject):
                 # current instance is the context.
         # local instance is a special case which may provide Therefore an explicit
                 # reference is this case.
-        self._localVariable: Optional["RefType"] = None
+        self._localVariable: Optional[RefType] = None
 
     @property
-    def local_variable(self) -> Optional["RefType"]:
+    def local_variable(self) -> Optional[RefType]:
         """Get localVariable (Pythonic accessor)."""
         return self._localVariable
 
     @local_variable.setter
-    def local_variable(self, value: Optional["RefType"]) -> None:
+    def local_variable(self, value: Optional[RefType]) -> None:
         """
         Set localVariable with validation.
 
@@ -325,7 +325,7 @@ class AutosarVariableRef(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAutosarVariable(self) -> "ArVariableIn":
+    def getAutosarVariable(self) -> ArVariableIn:
         """
         AUTOSAR-compliant getter for autosarVariable.
 
@@ -337,7 +337,7 @@ class AutosarVariableRef(ARObject):
         """
         return self.autosar_variable  # Delegates to property
 
-    def setAutosarVariable(self, value: "ArVariableIn") -> AutosarVariableRef:
+    def setAutosarVariable(self, value: ArVariableIn) -> AutosarVariableRef:
         """
         AUTOSAR-compliant setter for autosarVariable with method chaining.
 
@@ -353,7 +353,7 @@ class AutosarVariableRef(ARObject):
         self.autosar_variable = value  # Delegates to property setter
         return self
 
-    def getLocalVariable(self) -> "RefType":
+    def getLocalVariable(self) -> RefType:
         """
         AUTOSAR-compliant getter for localVariable.
 
@@ -365,7 +365,7 @@ class AutosarVariableRef(ARObject):
         """
         return self.local_variable  # Delegates to property
 
-    def setLocalVariable(self, value: "RefType") -> AutosarVariableRef:
+    def setLocalVariable(self, value: RefType) -> AutosarVariableRef:
         """
         AUTOSAR-compliant setter for localVariable with method chaining.
 
@@ -383,7 +383,7 @@ class AutosarVariableRef(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_autosar_variable(self, value: Optional["ArVariableIn"]) -> AutosarVariableRef:
+    def with_autosar_variable(self, value: Optional[ArVariableIn]) -> AutosarVariableRef:
         """
         Set autosarVariable and return self for chaining.
 
@@ -435,15 +435,15 @@ class ParameterAccess(AbstractAccessPoint):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to the accessed calibration parameter.
-        self._accessedParameter: Optional["RefType"] = None
+        self._accessedParameter: Optional[RefType] = None
 
     @property
-    def accessed_parameter(self) -> Optional["RefType"]:
+    def accessed_parameter(self) -> Optional[RefType]:
         """Get accessedParameter (Pythonic accessor)."""
         return self._accessedParameter
 
     @accessed_parameter.setter
-    def accessed_parameter(self, value: Optional["RefType"]) -> None:
+    def accessed_parameter(self, value: Optional[RefType]) -> None:
         """
         Set accessedParameter with validation.
 
@@ -460,15 +460,15 @@ class ParameterAccess(AbstractAccessPoint):
         self._accessedParameter = value
         # This allows denote instance and access specific mainly input values and
         # common axis.
-        self._swDataDef: Optional["SwDataDefProps"] = None
+        self._swDataDef: Optional[SwDataDefProps] = None
 
     @property
-    def sw_data_def(self) -> Optional["SwDataDefProps"]:
+    def sw_data_def(self) -> Optional[SwDataDefProps]:
         """Get swDataDef (Pythonic accessor)."""
         return self._swDataDef
 
     @sw_data_def.setter
-    def sw_data_def(self, value: Optional["SwDataDefProps"]) -> None:
+    def sw_data_def(self, value: Optional[SwDataDefProps]) -> None:
         """
         Set swDataDef with validation.
 
@@ -490,7 +490,7 @@ class ParameterAccess(AbstractAccessPoint):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAccessedParameter(self) -> "RefType":
+    def getAccessedParameter(self) -> RefType:
         """
         AUTOSAR-compliant getter for accessedParameter.
 
@@ -502,7 +502,7 @@ class ParameterAccess(AbstractAccessPoint):
         """
         return self.accessed_parameter  # Delegates to property
 
-    def setAccessedParameter(self, value: "RefType") -> ParameterAccess:
+    def setAccessedParameter(self, value: RefType) -> ParameterAccess:
         """
         AUTOSAR-compliant setter for accessedParameter with method chaining.
 
@@ -518,7 +518,7 @@ class ParameterAccess(AbstractAccessPoint):
         self.accessed_parameter = value  # Delegates to property setter
         return self
 
-    def getSwDataDef(self) -> "SwDataDefProps":
+    def getSwDataDef(self) -> SwDataDefProps:
         """
         AUTOSAR-compliant getter for swDataDef.
 
@@ -530,7 +530,7 @@ class ParameterAccess(AbstractAccessPoint):
         """
         return self.sw_data_def  # Delegates to property
 
-    def setSwDataDef(self, value: "SwDataDefProps") -> ParameterAccess:
+    def setSwDataDef(self, value: SwDataDefProps) -> ParameterAccess:
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
 
@@ -564,7 +564,7 @@ class ParameterAccess(AbstractAccessPoint):
         self.accessed_parameter = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> ParameterAccess:
+    def with_sw_data_def(self, value: Optional[SwDataDefProps]) -> ParameterAccess:
         """
         Set swDataDef and return self for chaining.
 
@@ -603,15 +603,15 @@ class VariableAccess(AbstractAccessPoint):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This denotes the accessed variable.
-        self._accessedVariable: Optional["RefType"] = None
+        self._accessedVariable: Optional[RefType] = None
 
     @property
-    def accessed_variable(self) -> Optional["RefType"]:
+    def accessed_variable(self) -> Optional[RefType]:
         """Get accessedVariable (Pythonic accessor)."""
         return self._accessedVariable
 
     @accessed_variable.setter
-    def accessed_variable(self, value: Optional["RefType"]) -> None:
+    def accessed_variable(self, value: Optional[RefType]) -> None:
         """
         Set accessedVariable with validation.
 
@@ -659,7 +659,7 @@ class VariableAccess(AbstractAccessPoint):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAccessedVariable(self) -> "RefType":
+    def getAccessedVariable(self) -> RefType:
         """
         AUTOSAR-compliant getter for accessedVariable.
 
@@ -671,7 +671,7 @@ class VariableAccess(AbstractAccessPoint):
         """
         return self.accessed_variable  # Delegates to property
 
-    def setAccessedVariable(self, value: "RefType") -> VariableAccess:
+    def setAccessedVariable(self, value: RefType) -> VariableAccess:
         """
         AUTOSAR-compliant setter for accessedVariable with method chaining.
 
@@ -770,22 +770,22 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This is a context in case there are subelements with explicit types.
         # The reference has to be ordered to reflect the nested structure.
-        self._contextData: List["AbstractImplementation"] = []
+        self._contextData: List[AbstractImplementation] = []
 
     @property
-    def context_data(self) -> List["AbstractImplementation"]:
+    def context_data(self) -> List[AbstractImplementation]:
         """Get contextData (Pythonic accessor)."""
         return self._contextData
         # This is the port providing/receiving the root of the variable.
-        self._portPrototype: Optional["RefType"] = None
+        self._portPrototype: Optional[RefType] = None
 
     @property
-    def port_prototype(self) -> Optional["RefType"]:
+    def port_prototype(self) -> Optional[RefType]:
         """Get portPrototype (Pythonic accessor)."""
         return self._portPrototype
 
     @port_prototype.setter
-    def port_prototype(self, value: Optional["RefType"]) -> None:
+    def port_prototype(self, value: Optional[RefType]) -> None:
         """
         Set portPrototype with validation.
 
@@ -802,15 +802,15 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
         self._portPrototype = value
         # This refers to the VariableDataPrototype typed by the in which the target can
         # be found.
-        self._rootVariable: Optional["RefType"] = None
+        self._rootVariable: Optional[RefType] = None
 
     @property
-    def root_variable(self) -> Optional["RefType"]:
+    def root_variable(self) -> Optional[RefType]:
         """Get rootVariable (Pythonic accessor)."""
         return self._rootVariable
 
     @root_variable.setter
-    def root_variable(self, value: Optional["RefType"]) -> None:
+    def root_variable(self, value: Optional[RefType]) -> None:
         """
         Set rootVariable with validation.
 
@@ -826,15 +826,15 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
 
         self._rootVariable = value
         # This reference points to the target ImplementationData TypeElement.
-        self._targetData: Optional["AbstractImplementation"] = None
+        self._targetData: Optional[AbstractImplementation] = None
 
     @property
-    def target_data(self) -> Optional["AbstractImplementation"]:
+    def target_data(self) -> Optional[AbstractImplementation]:
         """Get targetData (Pythonic accessor)."""
         return self._targetData
 
     @target_data.setter
-    def target_data(self, value: Optional["AbstractImplementation"]) -> None:
+    def target_data(self, value: Optional[AbstractImplementation]) -> None:
         """
         Set targetData with validation.
 
@@ -856,7 +856,7 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getContextData(self) -> List["AbstractImplementation"]:
+    def getContextData(self) -> List[AbstractImplementation]:
         """
         AUTOSAR-compliant getter for contextData.
 
@@ -868,7 +868,7 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
         """
         return self.context_data  # Delegates to property
 
-    def getPortPrototype(self) -> "RefType":
+    def getPortPrototype(self) -> RefType:
         """
         AUTOSAR-compliant getter for portPrototype.
 
@@ -880,7 +880,7 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
         """
         return self.port_prototype  # Delegates to property
 
-    def setPortPrototype(self, value: "RefType") -> ArVariableInImplementationDataInstanceRef:
+    def setPortPrototype(self, value: RefType) -> ArVariableInImplementationDataInstanceRef:
         """
         AUTOSAR-compliant setter for portPrototype with method chaining.
 
@@ -896,7 +896,7 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
         self.port_prototype = value  # Delegates to property setter
         return self
 
-    def getRootVariable(self) -> "RefType":
+    def getRootVariable(self) -> RefType:
         """
         AUTOSAR-compliant getter for rootVariable.
 
@@ -908,7 +908,7 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
         """
         return self.root_variable  # Delegates to property
 
-    def setRootVariable(self, value: "RefType") -> ArVariableInImplementationDataInstanceRef:
+    def setRootVariable(self, value: RefType) -> ArVariableInImplementationDataInstanceRef:
         """
         AUTOSAR-compliant setter for rootVariable with method chaining.
 
@@ -924,7 +924,7 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
         self.root_variable = value  # Delegates to property setter
         return self
 
-    def getTargetData(self) -> "AbstractImplementation":
+    def getTargetData(self) -> AbstractImplementation:
         """
         AUTOSAR-compliant getter for targetData.
 
@@ -936,7 +936,7 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
         """
         return self.target_data  # Delegates to property
 
-    def setTargetData(self, value: "AbstractImplementation") -> ArVariableInImplementationDataInstanceRef:
+    def setTargetData(self, value: AbstractImplementation) -> ArVariableInImplementationDataInstanceRef:
         """
         AUTOSAR-compliant setter for targetData with method chaining.
 
@@ -986,7 +986,7 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
         self.root_variable = value  # Use property setter (gets validation)
         return self
 
-    def with_target_data(self, value: Optional["AbstractImplementation"]) -> ArVariableInImplementationDataInstanceRef:
+    def with_target_data(self, value: Optional[AbstractImplementation]) -> ArVariableInImplementationDataInstanceRef:
         """
         Set targetData and return self for chaining.
 
@@ -1023,22 +1023,22 @@ class ArParameterInImplementationDataInstanceRef(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This is a context in case there are subelements with explicit types.
         # The reference has to be ordered to reflect the nested structure.
-        self._contextData: List["AbstractImplementation"] = []
+        self._contextData: List[AbstractImplementation] = []
 
     @property
-    def context_data(self) -> List["AbstractImplementation"]:
+    def context_data(self) -> List[AbstractImplementation]:
         """Get contextData (Pythonic accessor)."""
         return self._contextData
         # This reference points to the PortPrototype providing/ root of the parameter.
-        self._portPrototype: Optional["RefType"] = None
+        self._portPrototype: Optional[RefType] = None
 
     @property
-    def port_prototype(self) -> Optional["RefType"]:
+    def port_prototype(self) -> Optional[RefType]:
         """Get portPrototype (Pythonic accessor)."""
         return self._portPrototype
 
     @port_prototype.setter
-    def port_prototype(self, value: Optional["RefType"]) -> None:
+    def port_prototype(self, value: Optional[RefType]) -> None:
         """
         Set portPrototype with validation.
 
@@ -1083,15 +1083,15 @@ class ArParameterInImplementationDataInstanceRef(ARObject):
             )
         self._rootParameter = value
         # This reference points to the target ImplementationData TypeElement.
-        self._targetData: Optional["AbstractImplementation"] = None
+        self._targetData: Optional[AbstractImplementation] = None
 
     @property
-    def target_data(self) -> Optional["AbstractImplementation"]:
+    def target_data(self) -> Optional[AbstractImplementation]:
         """Get targetData (Pythonic accessor)."""
         return self._targetData
 
     @target_data.setter
-    def target_data(self, value: Optional["AbstractImplementation"]) -> None:
+    def target_data(self, value: Optional[AbstractImplementation]) -> None:
         """
         Set targetData with validation.
 
@@ -1113,7 +1113,7 @@ class ArParameterInImplementationDataInstanceRef(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getContextData(self) -> List["AbstractImplementation"]:
+    def getContextData(self) -> List[AbstractImplementation]:
         """
         AUTOSAR-compliant getter for contextData.
 
@@ -1125,7 +1125,7 @@ class ArParameterInImplementationDataInstanceRef(ARObject):
         """
         return self.context_data  # Delegates to property
 
-    def getPortPrototype(self) -> "RefType":
+    def getPortPrototype(self) -> RefType:
         """
         AUTOSAR-compliant getter for portPrototype.
 
@@ -1137,7 +1137,7 @@ class ArParameterInImplementationDataInstanceRef(ARObject):
         """
         return self.port_prototype  # Delegates to property
 
-    def setPortPrototype(self, value: "RefType") -> ArParameterInImplementationDataInstanceRef:
+    def setPortPrototype(self, value: RefType) -> ArParameterInImplementationDataInstanceRef:
         """
         AUTOSAR-compliant setter for portPrototype with method chaining.
 
@@ -1181,7 +1181,7 @@ class ArParameterInImplementationDataInstanceRef(ARObject):
         self.root_parameter = value  # Delegates to property setter
         return self
 
-    def getTargetData(self) -> "AbstractImplementation":
+    def getTargetData(self) -> AbstractImplementation:
         """
         AUTOSAR-compliant getter for targetData.
 
@@ -1193,7 +1193,7 @@ class ArParameterInImplementationDataInstanceRef(ARObject):
         """
         return self.target_data  # Delegates to property
 
-    def setTargetData(self, value: "AbstractImplementation") -> ArParameterInImplementationDataInstanceRef:
+    def setTargetData(self, value: AbstractImplementation) -> ArParameterInImplementationDataInstanceRef:
         """
         AUTOSAR-compliant setter for targetData with method chaining.
 
@@ -1243,7 +1243,7 @@ class ArParameterInImplementationDataInstanceRef(ARObject):
         self.root_parameter = value  # Use property setter (gets validation)
         return self
 
-    def with_target_data(self, value: Optional["AbstractImplementation"]) -> ArParameterInImplementationDataInstanceRef:
+    def with_target_data(self, value: Optional[AbstractImplementation]) -> ArParameterInImplementationDataInstanceRef:
         """
         Set targetData and return self for chaining.
 

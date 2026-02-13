@@ -136,15 +136,15 @@ class DataConstrRule(ARObject):
         # distinguish hard or soft limits.
         # 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template
                 # R23-11.
-        self._constrLevel: Optional["Integer"] = None
+        self._constrLevel: Optional[Integer] = None
 
     @property
-    def constr_level(self) -> Optional["Integer"]:
+    def constr_level(self) -> Optional[Integer]:
         """Get constrLevel (Pythonic accessor)."""
         return self._constrLevel
 
     @constr_level.setter
-    def constr_level(self, value: Optional["Integer"]) -> None:
+    def constr_level(self, value: Optional[Integer]) -> None:
         """
         Set constrLevel with validation.
 
@@ -222,7 +222,7 @@ class DataConstrRule(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getConstrLevel(self) -> "Integer":
+    def getConstrLevel(self) -> Integer:
         """
         AUTOSAR-compliant getter for constrLevel.
 
@@ -234,7 +234,7 @@ class DataConstrRule(ARObject):
         """
         return self.constr_level  # Delegates to property
 
-    def setConstrLevel(self, value: "Integer") -> DataConstrRule:
+    def setConstrLevel(self, value: Integer) -> DataConstrRule:
         """
         AUTOSAR-compliant setter for constrLevel with method chaining.
 
@@ -308,7 +308,7 @@ class DataConstrRule(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_constr_level(self, value: Optional["Integer"]) -> DataConstrRule:
+    def with_constr_level(self, value: Optional[Integer]) -> DataConstrRule:
         """
         Set constrLevel and return self for chaining.
 
@@ -493,15 +493,15 @@ class PhysConstrs(ARObject):
         return self._scaleConstr
         # This is the unit to which the physical constraints relate to.
         # it is the physical unit of the specified limits.
-        self._unit: Optional["Unit"] = None
+        self._unit: Optional[Unit] = None
 
     @property
-    def unit(self) -> Optional["Unit"]:
+    def unit(self) -> Optional[Unit]:
         """Get unit (Pythonic accessor)."""
         return self._unit
 
     @unit.setter
-    def unit(self, value: Optional["Unit"]) -> None:
+    def unit(self, value: Optional[Unit]) -> None:
         """
         Set unit with validation.
 
@@ -674,7 +674,7 @@ class PhysConstrs(ARObject):
         """
         return self.scale_constr  # Delegates to property
 
-    def getUnit(self) -> "Unit":
+    def getUnit(self) -> Unit:
         """
         AUTOSAR-compliant getter for unit.
 
@@ -686,7 +686,7 @@ class PhysConstrs(ARObject):
         """
         return self.unit  # Delegates to property
 
-    def setUnit(self, value: "Unit") -> PhysConstrs:
+    def setUnit(self, value: Unit) -> PhysConstrs:
         """
         AUTOSAR-compliant setter for unit with method chaining.
 
@@ -796,7 +796,7 @@ class PhysConstrs(ARObject):
         self.monotony = value  # Use property setter (gets validation)
         return self
 
-    def with_unit(self, value: Optional["Unit"]) -> PhysConstrs:
+    def with_unit(self, value: Optional[Unit]) -> PhysConstrs:
         """
         Set unit and return self for chaining.
 

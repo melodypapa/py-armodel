@@ -22,6 +22,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
+from armodel.v2.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import (
+    TraceableText,
+)
 
 
 class SdgDef(ARElement):
@@ -130,15 +133,15 @@ class SdgElementWithGid(ARObject, ABC):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Specifies the name that identifies the element.
-        self._gid: Optional["NameToken"] = None
+        self._gid: Optional[NameToken] = None
 
     @property
-    def gid(self) -> Optional["NameToken"]:
+    def gid(self) -> Optional[NameToken]:
         """Get gid (Pythonic accessor)."""
         return self._gid
 
     @gid.setter
-    def gid(self, value: Optional["NameToken"]) -> None:
+    def gid(self, value: Optional[NameToken]) -> None:
         """
         Set gid with validation.
 
@@ -190,7 +193,7 @@ class SdgElementWithGid(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_gid(self, value: Optional["NameToken"]) -> SdgElementWithGid:
+    def with_gid(self, value: Optional[NameToken]) -> SdgElementWithGid:
         """
         Set gid and return self for chaining.
 
@@ -257,15 +260,15 @@ class SdgClass(SdgElementWithGid):
         return self._attribute
         # Specifies if a caption is required.
         # Note: only Sdgs that caption can be referenced.
-        self._caption: Optional["Boolean"] = None
+        self._caption: Optional[Boolean] = None
 
     @property
-    def caption(self) -> Optional["Boolean"]:
+    def caption(self) -> Optional[Boolean]:
         """Get caption (Pythonic accessor)."""
         return self._caption
 
     @caption.setter
-    def caption(self, value: Optional["Boolean"]) -> None:
+    def caption(self, value: Optional[Boolean]) -> None:
         """
         Set caption with validation.
 
@@ -311,7 +314,7 @@ class SdgClass(SdgElementWithGid):
                 f"extendsMeta must be MetaClassName or None, got {type(value).__name__}"
             )
         self._extendsMeta = value
-        self._sdgConstraint: List["TraceableText"] = []
+        self._sdgConstraint: List[TraceableText] = []
 
     @property
     def sdg_constraint(self) -> List["TraceableText"]:
@@ -332,7 +335,7 @@ class SdgClass(SdgElementWithGid):
         """
         return self.attribute  # Delegates to property
 
-    def getCaption(self) -> "Boolean":
+    def getCaption(self) -> Boolean:
         """
         AUTOSAR-compliant getter for caption.
 
@@ -344,7 +347,7 @@ class SdgClass(SdgElementWithGid):
         """
         return self.caption  # Delegates to property
 
-    def setCaption(self, value: "Boolean") -> SdgClass:
+    def setCaption(self, value: Boolean) -> SdgClass:
         """
         AUTOSAR-compliant setter for caption with method chaining.
 
@@ -402,7 +405,7 @@ class SdgClass(SdgElementWithGid):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_caption(self, value: Optional["Boolean"]) -> SdgClass:
+    def with_caption(self, value: Optional[Boolean]) -> SdgClass:
         """
         Set caption and return self for chaining.
 

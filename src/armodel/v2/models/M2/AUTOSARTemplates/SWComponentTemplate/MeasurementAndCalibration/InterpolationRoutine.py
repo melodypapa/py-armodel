@@ -201,15 +201,15 @@ class InterpolationRoutine(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This specifies a BswModuleEntry which implements the interpolation method for
         # the given record layout.
-        self._interpolation: Optional["BswModuleEntry"] = None
+        self._interpolation: Optional[BswModuleEntry] = None
 
     @property
-    def interpolation(self) -> Optional["BswModuleEntry"]:
+    def interpolation(self) -> Optional[BswModuleEntry]:
         """Get interpolation (Pythonic accessor)."""
         return self._interpolation
 
     @interpolation.setter
-    def interpolation(self, value: Optional["BswModuleEntry"]) -> None:
+    def interpolation(self, value: Optional[BswModuleEntry]) -> None:
         """
         Set interpolation with validation.
 
@@ -230,15 +230,15 @@ class InterpolationRoutine(ARObject):
         self._interpolation = value
         # by the System Template) of a given that owns the 1228 Document ID 62:
         # AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11.
-        self._isDefault: Optional["Boolean"] = None
+        self._isDefault: Optional[Boolean] = None
 
     @property
-    def is_default(self) -> Optional["Boolean"]:
+    def is_default(self) -> Optional[Boolean]:
         """Get isDefault (Pythonic accessor)."""
         return self._isDefault
 
     @is_default.setter
-    def is_default(self, value: Optional["Boolean"]) -> None:
+    def is_default(self, value: Optional[Boolean]) -> None:
         """
         Set isDefault with validation.
 
@@ -289,7 +289,7 @@ class InterpolationRoutine(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getInterpolation(self) -> "BswModuleEntry":
+    def getInterpolation(self) -> BswModuleEntry:
         """
         AUTOSAR-compliant getter for interpolation.
 
@@ -301,7 +301,7 @@ class InterpolationRoutine(ARObject):
         """
         return self.interpolation  # Delegates to property
 
-    def setInterpolation(self, value: "BswModuleEntry") -> InterpolationRoutine:
+    def setInterpolation(self, value: BswModuleEntry) -> InterpolationRoutine:
         """
         AUTOSAR-compliant setter for interpolation with method chaining.
 
@@ -317,7 +317,7 @@ class InterpolationRoutine(ARObject):
         self.interpolation = value  # Delegates to property setter
         return self
 
-    def getIsDefault(self) -> "Boolean":
+    def getIsDefault(self) -> Boolean:
         """
         AUTOSAR-compliant getter for isDefault.
 
@@ -329,7 +329,7 @@ class InterpolationRoutine(ARObject):
         """
         return self.is_default  # Delegates to property
 
-    def setIsDefault(self, value: "Boolean") -> InterpolationRoutine:
+    def setIsDefault(self, value: Boolean) -> InterpolationRoutine:
         """
         AUTOSAR-compliant setter for isDefault with method chaining.
 
@@ -375,7 +375,7 @@ class InterpolationRoutine(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_interpolation(self, value: Optional["BswModuleEntry"]) -> InterpolationRoutine:
+    def with_interpolation(self, value: Optional[BswModuleEntry]) -> InterpolationRoutine:
         """
         Set interpolation and return self for chaining.
 
@@ -391,7 +391,7 @@ class InterpolationRoutine(ARObject):
         self.interpolation = value  # Use property setter (gets validation)
         return self
 
-    def with_is_default(self, value: Optional["Boolean"]) -> InterpolationRoutine:
+    def with_is_default(self, value: Optional[Boolean]) -> InterpolationRoutine:
         """
         Set isDefault and return self for chaining.
 

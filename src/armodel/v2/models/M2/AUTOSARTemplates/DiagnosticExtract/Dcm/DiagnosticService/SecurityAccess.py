@@ -33,15 +33,15 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This would be 0x01, 0x03, 0x05,.
         # id can be computed by adding 1 to the.
-        self._requestSeedId: Optional["PositiveInteger"] = None
+        self._requestSeedId: Optional[PositiveInteger] = None
 
     @property
-    def request_seed_id(self) -> Optional["PositiveInteger"]:
+    def request_seed_id(self) -> Optional[PositiveInteger]:
         """Get requestSeedId (Pythonic accessor)."""
         return self._requestSeedId
 
     @request_seed_id.setter
-    def request_seed_id(self, value: Optional["PositiveInteger"]) -> None:
+    def request_seed_id(self, value: Optional[PositiveInteger]) -> None:
         """
         Set requestSeedId with validation.
 
@@ -90,15 +90,15 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
             )
         self._securityAccess = value
         # This delay the time after ECU boot power-on where no request is accepted.
-        self._securityDelay: Optional["TimeValue"] = None
+        self._securityDelay: Optional[TimeValue] = None
 
     @property
-    def security_delay(self) -> Optional["TimeValue"]:
+    def security_delay(self) -> Optional[TimeValue]:
         """Get securityDelay (Pythonic accessor)."""
         return self._securityDelay
 
     @security_delay.setter
-    def security_delay(self, value: Optional["TimeValue"]) -> None:
+    def security_delay(self, value: Optional[TimeValue]) -> None:
         """
         Set securityDelay with validation.
 
@@ -147,7 +147,7 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getRequestSeedId(self) -> "PositiveInteger":
+    def getRequestSeedId(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for requestSeedId.
 
@@ -159,7 +159,7 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
         """
         return self.request_seed_id  # Delegates to property
 
-    def setRequestSeedId(self, value: "PositiveInteger") -> DiagnosticSecurityAccess:
+    def setRequestSeedId(self, value: PositiveInteger) -> DiagnosticSecurityAccess:
         """
         AUTOSAR-compliant setter for requestSeedId with method chaining.
 
@@ -203,7 +203,7 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
         self.security_access = value  # Delegates to property setter
         return self
 
-    def getSecurityDelay(self) -> "TimeValue":
+    def getSecurityDelay(self) -> TimeValue:
         """
         AUTOSAR-compliant getter for securityDelay.
 
@@ -215,7 +215,7 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
         """
         return self.security_delay  # Delegates to property
 
-    def setSecurityDelay(self, value: "TimeValue") -> DiagnosticSecurityAccess:
+    def setSecurityDelay(self, value: TimeValue) -> DiagnosticSecurityAccess:
         """
         AUTOSAR-compliant setter for securityDelay with method chaining.
 
@@ -261,7 +261,7 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_request_seed_id(self, value: Optional["PositiveInteger"]) -> DiagnosticSecurityAccess:
+    def with_request_seed_id(self, value: Optional[PositiveInteger]) -> DiagnosticSecurityAccess:
         """
         Set requestSeedId and return self for chaining.
 
@@ -293,7 +293,7 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
         self.security_access = value  # Use property setter (gets validation)
         return self
 
-    def with_security_delay(self, value: Optional["TimeValue"]) -> DiagnosticSecurityAccess:
+    def with_security_delay(self, value: Optional[TimeValue]) -> DiagnosticSecurityAccess:
         """
         Set securityDelay and return self for chaining.
 

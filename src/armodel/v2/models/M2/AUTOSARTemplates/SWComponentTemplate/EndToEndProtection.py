@@ -339,15 +339,15 @@ class EndToEndDescription(ARObject):
         # e.
         # bits 8.
         # counterOffset is not present the value is defined by profile.
-        self._counterOffset: Optional["PositiveInteger"] = None
+        self._counterOffset: Optional[PositiveInteger] = None
 
     @property
-    def counter_offset(self) -> Optional["PositiveInteger"]:
+    def counter_offset(self) -> Optional[PositiveInteger]:
         """Get counterOffset (Pythonic accessor)."""
         return self._counterOffset
 
     @counter_offset.setter
-    def counter_offset(self, value: Optional["PositiveInteger"]) -> None:
+    def counter_offset(self, value: Optional[PositiveInteger]) -> None:
         """
         Set counterOffset with validation.
 
@@ -379,15 +379,15 @@ class EndToEndDescription(ARObject):
         # concerning the maximum number of values is specific for each E2E profile)
                 # this attribute are controlled by a semantic depends on the category of the
                 # EndToEnd.
-        self._crcOffset: Optional["PositiveInteger"] = None
+        self._crcOffset: Optional[PositiveInteger] = None
 
     @property
-    def crc_offset(self) -> Optional["PositiveInteger"]:
+    def crc_offset(self) -> Optional[PositiveInteger]:
         """Get crcOffset (Pythonic accessor)."""
         return self._crcOffset
 
     @crc_offset.setter
-    def crc_offset(self, value: Optional["PositiveInteger"]) -> None:
+    def crc_offset(self, value: Optional[PositiveInteger]) -> None:
         """
         Set crcOffset with validation.
 
@@ -419,15 +419,15 @@ class EndToEndDescription(ARObject):
         # e.
         # it is explicitly high nibble of the high byte is not used.
         # applicable for the IDs up to 12 bits.
-        self._dataIdMode: Optional["PositiveInteger"] = None
+        self._dataIdMode: Optional[PositiveInteger] = None
 
     @property
-    def data_id_mode(self) -> Optional["PositiveInteger"]:
+    def data_id_mode(self) -> Optional[PositiveInteger]:
         """Get dataIdMode (Pythonic accessor)."""
         return self._dataIdMode
 
     @data_id_mode.setter
-    def data_id_mode(self, value: Optional["PositiveInteger"]) -> None:
+    def data_id_mode(self, value: Optional[PositiveInteger]) -> None:
         """
         Set dataIdMode with validation.
 
@@ -447,15 +447,15 @@ class EndToEndDescription(ARObject):
             )
         self._dataIdMode = value
         # The of this attribute is controlled by [constr_1261].
-        self._dataIdNibble: Optional["PositiveInteger"] = None
+        self._dataIdNibble: Optional[PositiveInteger] = None
 
     @property
-    def data_id_nibble(self) -> Optional["PositiveInteger"]:
+    def data_id_nibble(self) -> Optional[PositiveInteger]:
         """Get dataIdNibble (Pythonic accessor)."""
         return self._dataIdNibble
 
     @data_id_nibble.setter
-    def data_id_nibble(self, value: Optional["PositiveInteger"]) -> None:
+    def data_id_nibble(self, value: Optional[PositiveInteger]) -> None:
         """
         Set dataIdNibble with validation.
 
@@ -475,15 +475,15 @@ class EndToEndDescription(ARObject):
             )
         self._dataIdNibble = value
         # Group/VariableDataPrototype and Counter in bits.
-        self._dataLength: Optional["PositiveInteger"] = None
+        self._dataLength: Optional[PositiveInteger] = None
 
     @property
-    def data_length(self) -> Optional["PositiveInteger"]:
+    def data_length(self) -> Optional[PositiveInteger]:
         """Get dataLength (Pythonic accessor)."""
         return self._dataLength
 
     @data_length.setter
-    def data_length(self, value: Optional["PositiveInteger"]) -> None:
+    def data_length(self, value: Optional[PositiveInteger]) -> None:
         """
         Set dataLength with validation.
 
@@ -507,15 +507,15 @@ class EndToEndDescription(ARObject):
         # how many data is accepted.
         # For example, if the Data with counter 1 and MaxDeltaCounter 1, then at the
                 # next reception the receiver can accept values 2 and 3, but not 4.
-        self._maxDelta: Optional["PositiveInteger"] = None
+        self._maxDelta: Optional[PositiveInteger] = None
 
     @property
-    def max_delta(self) -> Optional["PositiveInteger"]:
+    def max_delta(self) -> Optional[PositiveInteger]:
         """Get maxDelta (Pythonic accessor)."""
         return self._maxDelta
 
     @max_delta.setter
-    def max_delta(self, value: Optional["PositiveInteger"]) -> None:
+    def max_delta(self, value: Optional[PositiveInteger]) -> None:
         """
         Set maxDelta with validation.
 
@@ -613,7 +613,7 @@ class EndToEndDescription(ARObject):
         self.category = value  # Delegates to property setter
         return self
 
-    def getCounterOffset(self) -> "PositiveInteger":
+    def getCounterOffset(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for counterOffset.
 
@@ -625,7 +625,7 @@ class EndToEndDescription(ARObject):
         """
         return self.counter_offset  # Delegates to property
 
-    def setCounterOffset(self, value: "PositiveInteger") -> EndToEndDescription:
+    def setCounterOffset(self, value: PositiveInteger) -> EndToEndDescription:
         """
         AUTOSAR-compliant setter for counterOffset with method chaining.
 
@@ -641,7 +641,7 @@ class EndToEndDescription(ARObject):
         self.counter_offset = value  # Delegates to property setter
         return self
 
-    def getCrcOffset(self) -> "PositiveInteger":
+    def getCrcOffset(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for crcOffset.
 
@@ -653,7 +653,7 @@ class EndToEndDescription(ARObject):
         """
         return self.crc_offset  # Delegates to property
 
-    def setCrcOffset(self, value: "PositiveInteger") -> EndToEndDescription:
+    def setCrcOffset(self, value: PositiveInteger) -> EndToEndDescription:
         """
         AUTOSAR-compliant setter for crcOffset with method chaining.
 
@@ -669,7 +669,7 @@ class EndToEndDescription(ARObject):
         self.crc_offset = value  # Delegates to property setter
         return self
 
-    def getDataIdMode(self) -> "PositiveInteger":
+    def getDataIdMode(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for dataIdMode.
 
@@ -681,7 +681,7 @@ class EndToEndDescription(ARObject):
         """
         return self.data_id_mode  # Delegates to property
 
-    def setDataIdMode(self, value: "PositiveInteger") -> EndToEndDescription:
+    def setDataIdMode(self, value: PositiveInteger) -> EndToEndDescription:
         """
         AUTOSAR-compliant setter for dataIdMode with method chaining.
 
@@ -697,7 +697,7 @@ class EndToEndDescription(ARObject):
         self.data_id_mode = value  # Delegates to property setter
         return self
 
-    def getDataIdNibble(self) -> "PositiveInteger":
+    def getDataIdNibble(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for dataIdNibble.
 
@@ -709,7 +709,7 @@ class EndToEndDescription(ARObject):
         """
         return self.data_id_nibble  # Delegates to property
 
-    def setDataIdNibble(self, value: "PositiveInteger") -> EndToEndDescription:
+    def setDataIdNibble(self, value: PositiveInteger) -> EndToEndDescription:
         """
         AUTOSAR-compliant setter for dataIdNibble with method chaining.
 
@@ -725,7 +725,7 @@ class EndToEndDescription(ARObject):
         self.data_id_nibble = value  # Delegates to property setter
         return self
 
-    def getDataLength(self) -> "PositiveInteger":
+    def getDataLength(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for dataLength.
 
@@ -737,7 +737,7 @@ class EndToEndDescription(ARObject):
         """
         return self.data_length  # Delegates to property
 
-    def setDataLength(self, value: "PositiveInteger") -> EndToEndDescription:
+    def setDataLength(self, value: PositiveInteger) -> EndToEndDescription:
         """
         AUTOSAR-compliant setter for dataLength with method chaining.
 
@@ -753,7 +753,7 @@ class EndToEndDescription(ARObject):
         self.data_length = value  # Delegates to property setter
         return self
 
-    def getMaxDelta(self) -> "PositiveInteger":
+    def getMaxDelta(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for maxDelta.
 
@@ -765,7 +765,7 @@ class EndToEndDescription(ARObject):
         """
         return self.max_delta  # Delegates to property
 
-    def setMaxDelta(self, value: "PositiveInteger") -> EndToEndDescription:
+    def setMaxDelta(self, value: PositiveInteger) -> EndToEndDescription:
         """
         AUTOSAR-compliant setter for maxDelta with method chaining.
 
@@ -799,7 +799,7 @@ class EndToEndDescription(ARObject):
         self.category = value  # Use property setter (gets validation)
         return self
 
-    def with_counter_offset(self, value: Optional["PositiveInteger"]) -> EndToEndDescription:
+    def with_counter_offset(self, value: Optional[PositiveInteger]) -> EndToEndDescription:
         """
         Set counterOffset and return self for chaining.
 
@@ -815,7 +815,7 @@ class EndToEndDescription(ARObject):
         self.counter_offset = value  # Use property setter (gets validation)
         return self
 
-    def with_crc_offset(self, value: Optional["PositiveInteger"]) -> EndToEndDescription:
+    def with_crc_offset(self, value: Optional[PositiveInteger]) -> EndToEndDescription:
         """
         Set crcOffset and return self for chaining.
 
@@ -831,7 +831,7 @@ class EndToEndDescription(ARObject):
         self.crc_offset = value  # Use property setter (gets validation)
         return self
 
-    def with_data_id_mode(self, value: Optional["PositiveInteger"]) -> EndToEndDescription:
+    def with_data_id_mode(self, value: Optional[PositiveInteger]) -> EndToEndDescription:
         """
         Set dataIdMode and return self for chaining.
 
@@ -847,7 +847,7 @@ class EndToEndDescription(ARObject):
         self.data_id_mode = value  # Use property setter (gets validation)
         return self
 
-    def with_data_id_nibble(self, value: Optional["PositiveInteger"]) -> EndToEndDescription:
+    def with_data_id_nibble(self, value: Optional[PositiveInteger]) -> EndToEndDescription:
         """
         Set dataIdNibble and return self for chaining.
 
@@ -863,7 +863,7 @@ class EndToEndDescription(ARObject):
         self.data_id_nibble = value  # Use property setter (gets validation)
         return self
 
-    def with_data_length(self, value: Optional["PositiveInteger"]) -> EndToEndDescription:
+    def with_data_length(self, value: Optional[PositiveInteger]) -> EndToEndDescription:
         """
         Set dataLength and return self for chaining.
 
@@ -879,7 +879,7 @@ class EndToEndDescription(ARObject):
         self.data_length = value  # Use property setter (gets validation)
         return self
 
-    def with_max_delta(self, value: Optional["PositiveInteger"]) -> EndToEndDescription:
+    def with_max_delta(self, value: Optional[PositiveInteger]) -> EndToEndDescription:
         """
         Set maxDelta and return self for chaining.
 
@@ -1016,23 +1016,23 @@ class EndToEndProtectionVariablePrototype(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # supported for this use case.
         # by: VariableDataPrototypeIn.
-        self._receiver: List["RefType"] = []
+        self._receiver: List[RefType] = []
 
     @property
-    def receiver(self) -> List["RefType"]:
+    def receiver(self) -> List[RefType]:
         """Get receiver (Pythonic accessor)."""
         return self._receiver
         # optional if an ecu extract is provided and the part of the extract.
         # by: VariableDataPrototypeIn.
-        self._sender: Optional["RefType"] = None
+        self._sender: Optional[RefType] = None
 
     @property
-    def sender(self) -> Optional["RefType"]:
+    def sender(self) -> Optional[RefType]:
         """Get sender (Pythonic accessor)."""
         return self._sender
 
     @sender.setter
-    def sender(self, value: Optional["RefType"]) -> None:
+    def sender(self, value: Optional[RefType]) -> None:
         """
         Set sender with validation.
 
@@ -1078,7 +1078,7 @@ class EndToEndProtectionVariablePrototype(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getReceiver(self) -> List["RefType"]:
+    def getReceiver(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for receiver.
 
@@ -1090,7 +1090,7 @@ class EndToEndProtectionVariablePrototype(ARObject):
         """
         return self.receiver  # Delegates to property
 
-    def getSender(self) -> "RefType":
+    def getSender(self) -> RefType:
         """
         AUTOSAR-compliant getter for sender.
 
@@ -1102,7 +1102,7 @@ class EndToEndProtectionVariablePrototype(ARObject):
         """
         return self.sender  # Delegates to property
 
-    def setSender(self, value: "RefType") -> EndToEndProtectionVariablePrototype:
+    def setSender(self, value: RefType) -> EndToEndProtectionVariablePrototype:
         """
         AUTOSAR-compliant setter for sender with method chaining.
 

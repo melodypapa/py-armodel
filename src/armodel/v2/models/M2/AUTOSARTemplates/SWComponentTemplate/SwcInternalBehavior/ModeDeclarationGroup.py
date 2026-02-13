@@ -71,15 +71,15 @@ class ModeAccessPoint(ARObject):
                 f"ident must be ModeAccessPointIdent or None, got {type(value).__name__}"
             )
         self._ident = value
-        self._modeGroupInstanceRef: Optional["RefType"] = None
+        self._modeGroupInstanceRef: Optional[RefType] = None
 
     @property
-    def mode_group_instance_ref(self) -> Optional["RefType"]:
+    def mode_group_instance_ref(self) -> Optional[RefType]:
         """Get modeGroupInstanceRef (Pythonic accessor)."""
         return self._modeGroupInstanceRef
 
     @mode_group_instance_ref.setter
-    def mode_group_instance_ref(self, value: Optional["RefType"]) -> None:
+    def mode_group_instance_ref(self, value: Optional[RefType]) -> None:
         """
         Set modeGroupInstanceRef with validation.
 
@@ -141,7 +141,7 @@ class ModeAccessPoint(ARObject):
         self.ident = value  # Delegates to property setter
         return self
 
-    def getModeGroupInstanceRef(self) -> "RefType":
+    def getModeGroupInstanceRef(self) -> RefType:
         """
         AUTOSAR-compliant getter for modeGroupInstanceRef.
 
@@ -153,7 +153,7 @@ class ModeAccessPoint(ARObject):
         """
         return self.mode_group_instance_ref  # Delegates to property
 
-    def setModeGroupInstanceRef(self, value: "RefType") -> ModeAccessPoint:
+    def setModeGroupInstanceRef(self, value: RefType) -> ModeAccessPoint:
         """
         AUTOSAR-compliant setter for modeGroupInstanceRef with method chaining.
 
@@ -223,15 +223,15 @@ class ModeSwitchPoint(AbstractAccessPoint):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # by: PModeGroupInAtomic.
-        self._modeGroupSwcInstanceRef: Optional["RefType"] = None
+        self._modeGroupSwcInstanceRef: Optional[RefType] = None
 
     @property
-    def mode_group_swc_instance_ref(self) -> Optional["RefType"]:
+    def mode_group_swc_instance_ref(self) -> Optional[RefType]:
         """Get modeGroupSwcInstanceRef (Pythonic accessor)."""
         return self._modeGroupSwcInstanceRef
 
     @mode_group_swc_instance_ref.setter
-    def mode_group_swc_instance_ref(self, value: Optional["RefType"]) -> None:
+    def mode_group_swc_instance_ref(self, value: Optional[RefType]) -> None:
         """
         Set modeGroupSwcInstanceRef with validation.
 
@@ -249,7 +249,7 @@ class ModeSwitchPoint(AbstractAccessPoint):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getModeGroupSwcInstanceRef(self) -> "RefType":
+    def getModeGroupSwcInstanceRef(self) -> RefType:
         """
         AUTOSAR-compliant getter for modeGroupSwcInstanceRef.
 
@@ -261,7 +261,7 @@ class ModeSwitchPoint(AbstractAccessPoint):
         """
         return self.mode_group_swc_instance_ref  # Delegates to property
 
-    def setModeGroupSwcInstanceRef(self, value: "RefType") -> ModeSwitchPoint:
+    def setModeGroupSwcInstanceRef(self, value: RefType) -> ModeSwitchPoint:
         """
         AUTOSAR-compliant setter for modeGroupSwcInstanceRef with method chaining.
 
@@ -314,10 +314,10 @@ class IncludedModeDeclarationGroupSet(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the referenced ModeDeclarationGroup.
-        self._mode: List["RefType"] = []
+        self._mode: List[RefType] = []
 
     @property
-    def mode(self) -> List["RefType"]:
+    def mode(self) -> List[RefType]:
         """Get mode (Pythonic accessor)."""
         return self._mode
         # The prefix shall be used by the RTE generator as a prefix creation of symbols
@@ -352,7 +352,7 @@ class IncludedModeDeclarationGroupSet(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getMode(self) -> List["RefType"]:
+    def getMode(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for mode.
 

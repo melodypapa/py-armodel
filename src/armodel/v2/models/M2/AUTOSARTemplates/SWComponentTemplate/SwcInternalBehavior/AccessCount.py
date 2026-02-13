@@ -197,15 +197,15 @@ class AccessCount(ARObject):
                 f"accessPoint must be AbstractAccessPoint or None, got {type(value).__name__}"
             )
         self._accessPoint = value
-        self._value: Optional["PositiveInteger"] = None
+        self._value: Optional[PositiveInteger] = None
 
     @property
-    def value(self) -> Optional["PositiveInteger"]:
+    def value(self) -> Optional[PositiveInteger]:
         """Get value (Pythonic accessor)."""
         return self._value
 
     @value.setter
-    def value(self, value: Optional["PositiveInteger"]) -> None:
+    def value(self, value: Optional[PositiveInteger]) -> None:
         """
         Set value with validation.
 
@@ -255,7 +255,7 @@ class AccessCount(ARObject):
         self.access_point = value  # Delegates to property setter
         return self
 
-    def getValue(self) -> "PositiveInteger":
+    def getValue(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for value.
 
@@ -267,7 +267,7 @@ class AccessCount(ARObject):
         """
         return self.value  # Delegates to property
 
-    def setValue(self, value: "PositiveInteger") -> AccessCount:
+    def setValue(self, value: PositiveInteger) -> AccessCount:
         """
         AUTOSAR-compliant setter for value with method chaining.
 
@@ -301,7 +301,7 @@ class AccessCount(ARObject):
         self.access_point = value  # Use property setter (gets validation)
         return self
 
-    def with_value(self, value: Optional["PositiveInteger"]) -> AccessCount:
+    def with_value(self, value: Optional[PositiveInteger]) -> AccessCount:
         """
         Set value and return self for chaining.
 

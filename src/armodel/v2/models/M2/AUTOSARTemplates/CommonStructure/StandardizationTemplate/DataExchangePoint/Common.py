@@ -41,15 +41,15 @@ class SpecElementReference(Identifiable, ABC):
         # E.
         # g.
         # because the name.
-        self._alternative: Optional["String"] = None
+        self._alternative: Optional[String] = None
 
     @property
-    def alternative(self) -> Optional["String"]:
+    def alternative(self) -> Optional[String]:
         """Get alternative (Pythonic accessor)."""
         return self._alternative
 
     @alternative.setter
-    def alternative(self, value: Optional["String"]) -> None:
+    def alternative(self, value: Optional[String]) -> None:
         """
         Set alternative with validation.
 
@@ -71,7 +71,7 @@ class SpecElementReference(Identifiable, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAlternative(self) -> "String":
+    def getAlternative(self) -> String:
         """
         AUTOSAR-compliant getter for alternative.
 
@@ -83,7 +83,7 @@ class SpecElementReference(Identifiable, ABC):
         """
         return self.alternative  # Delegates to property
 
-    def setAlternative(self, value: "String") -> SpecElementReference:
+    def setAlternative(self, value: String) -> SpecElementReference:
         """
         AUTOSAR-compliant setter for alternative with method chaining.
 
@@ -101,7 +101,7 @@ class SpecElementReference(Identifiable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_alternative(self, value: Optional["String"]) -> SpecElementReference:
+    def with_alternative(self, value: Optional[String]) -> SpecElementReference:
         """
         Set alternative and return self for chaining.
 
@@ -229,15 +229,15 @@ class SpecElementScope(SpecElementReference, ABC):
         # indicates, if a specification element is relevant for this point.
         # It is relevant if inScope==true.
         # It is or don’t care if inScope=false.
-        self._inScope: Optional["Boolean"] = None
+        self._inScope: Optional[Boolean] = None
 
     @property
-    def in_scope(self) -> Optional["Boolean"]:
+    def in_scope(self) -> Optional[Boolean]:
         """Get inScope (Pythonic accessor)."""
         return self._inScope
 
     @in_scope.setter
-    def in_scope(self, value: Optional["Boolean"]) -> None:
+    def in_scope(self, value: Optional[Boolean]) -> None:
         """
         Set inScope with validation.
 
@@ -259,7 +259,7 @@ class SpecElementScope(SpecElementReference, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getInScope(self) -> "Boolean":
+    def getInScope(self) -> Boolean:
         """
         AUTOSAR-compliant getter for inScope.
 
@@ -271,7 +271,7 @@ class SpecElementScope(SpecElementReference, ABC):
         """
         return self.in_scope  # Delegates to property
 
-    def setInScope(self, value: "Boolean") -> SpecElementScope:
+    def setInScope(self, value: Boolean) -> SpecElementScope:
         """
         AUTOSAR-compliant setter for inScope with method chaining.
 
@@ -289,7 +289,7 @@ class SpecElementScope(SpecElementReference, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_in_scope(self, value: Optional["Boolean"]) -> SpecElementScope:
+    def with_in_scope(self, value: Optional[Boolean]) -> SpecElementScope:
         """
         Set inScope and return self for chaining.
 

@@ -41,15 +41,15 @@ class EventTriggeringConstraint(TimingConstraint, ABC):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The referenced timing event.
-        self._event: Optional["TimingDescriptionEvent"] = None
+        self._event: Optional[TimingDescriptionEvent] = None
 
     @property
-    def event(self) -> Optional["TimingDescriptionEvent"]:
+    def event(self) -> Optional[TimingDescriptionEvent]:
         """Get event (Pythonic accessor)."""
         return self._event
 
     @event.setter
-    def event(self, value: Optional["TimingDescriptionEvent"]) -> None:
+    def event(self, value: Optional[TimingDescriptionEvent]) -> None:
         """
         Set event with validation.
 
@@ -135,7 +135,7 @@ class EventTriggeringConstraint(TimingConstraint, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getEvent(self) -> "TimingDescriptionEvent":
+    def getEvent(self) -> TimingDescriptionEvent:
         """
         AUTOSAR-compliant getter for event.
 
@@ -147,7 +147,7 @@ class EventTriggeringConstraint(TimingConstraint, ABC):
         """
         return self.event  # Delegates to property
 
-    def setEvent(self, value: "TimingDescriptionEvent") -> EventTriggeringConstraint:
+    def setEvent(self, value: TimingDescriptionEvent) -> EventTriggeringConstraint:
         """
         AUTOSAR-compliant setter for event with method chaining.
 
@@ -165,7 +165,7 @@ class EventTriggeringConstraint(TimingConstraint, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_event(self, value: Optional["TimingDescriptionEvent"]) -> EventTriggeringConstraint:
+    def with_event(self, value: Optional[TimingDescriptionEvent]) -> EventTriggeringConstraint:
         """
         Set event and return self for chaining.
 
@@ -226,15 +226,15 @@ class ConfidenceInterval(ARObject):
                 f"lowerBound must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._lowerBound = value
-        self._propability: Optional["Float"] = None
+        self._propability: Optional[Float] = None
 
     @property
-    def propability(self) -> Optional["Float"]:
+    def propability(self) -> Optional[Float]:
         """Get propability (Pythonic accessor)."""
         return self._propability
 
     @propability.setter
-    def propability(self, value: Optional["Float"]) -> None:
+    def propability(self, value: Optional[Float]) -> None:
         """
         Set propability with validation.
 
@@ -311,7 +311,7 @@ class ConfidenceInterval(ARObject):
         self.lower_bound = value  # Delegates to property setter
         return self
 
-    def getPropability(self) -> "Float":
+    def getPropability(self) -> Float:
         """
         AUTOSAR-compliant getter for propability.
 
@@ -323,7 +323,7 @@ class ConfidenceInterval(ARObject):
         """
         return self.propability  # Delegates to property
 
-    def setPropability(self, value: "Float") -> ConfidenceInterval:
+    def setPropability(self, value: Float) -> ConfidenceInterval:
         """
         AUTOSAR-compliant setter for propability with method chaining.
 
@@ -385,7 +385,7 @@ class ConfidenceInterval(ARObject):
         self.lower_bound = value  # Use property setter (gets validation)
         return self
 
-    def with_propability(self, value: Optional["Float"]) -> ConfidenceInterval:
+    def with_propability(self, value: Optional[Float]) -> ConfidenceInterval:
         """
         Set propability and return self for chaining.
 
@@ -1244,15 +1244,15 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
         # The maximum number of event occurrences within the time interval.
         # The event may never occur, or may times between 1 and the parameter specified
                 # then the event least the number of times specified by at maximum by.
-        self._maxNumberOf: Optional["PositiveInteger"] = None
+        self._maxNumberOf: Optional[PositiveInteger] = None
 
     @property
-    def max_number_of(self) -> Optional["PositiveInteger"]:
+    def max_number_of(self) -> Optional[PositiveInteger]:
         """Get maxNumberOf (Pythonic accessor)."""
         return self._maxNumberOf
 
     @max_number_of.setter
-    def max_number_of(self, value: Optional["PositiveInteger"]) -> None:
+    def max_number_of(self, value: Optional[PositiveInteger]) -> None:
         """
         Set maxNumberOf with validation.
 
@@ -1299,15 +1299,15 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
                 f"minimumInter must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._minimumInter = value
-        self._minNumberOf: Optional["PositiveInteger"] = None
+        self._minNumberOf: Optional[PositiveInteger] = None
 
     @property
-    def min_number_of(self) -> Optional["PositiveInteger"]:
+    def min_number_of(self) -> Optional[PositiveInteger]:
         """Get minNumberOf (Pythonic accessor)."""
         return self._minNumberOf
 
     @min_number_of.setter
-    def min_number_of(self, value: Optional["PositiveInteger"]) -> None:
+    def min_number_of(self, value: Optional[PositiveInteger]) -> None:
         """
         Set minNumberOf with validation.
 
@@ -1414,7 +1414,7 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getMaxNumberOf(self) -> "PositiveInteger":
+    def getMaxNumberOf(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for maxNumberOf.
 
@@ -1426,7 +1426,7 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
         """
         return self.max_number_of  # Delegates to property
 
-    def setMaxNumberOf(self, value: "PositiveInteger") -> BurstPatternEventTriggering:
+    def setMaxNumberOf(self, value: PositiveInteger) -> BurstPatternEventTriggering:
         """
         AUTOSAR-compliant setter for maxNumberOf with method chaining.
 
@@ -1470,7 +1470,7 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
         self.minimum_inter = value  # Delegates to property setter
         return self
 
-    def getMinNumberOf(self) -> "PositiveInteger":
+    def getMinNumberOf(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for minNumberOf.
 
@@ -1482,7 +1482,7 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
         """
         return self.min_number_of  # Delegates to property
 
-    def setMinNumberOf(self, value: "PositiveInteger") -> BurstPatternEventTriggering:
+    def setMinNumberOf(self, value: PositiveInteger) -> BurstPatternEventTriggering:
         """
         AUTOSAR-compliant setter for minNumberOf with method chaining.
 
@@ -1584,7 +1584,7 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_max_number_of(self, value: Optional["PositiveInteger"]) -> BurstPatternEventTriggering:
+    def with_max_number_of(self, value: Optional[PositiveInteger]) -> BurstPatternEventTriggering:
         """
         Set maxNumberOf and return self for chaining.
 
@@ -1616,7 +1616,7 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
         self.minimum_inter = value  # Use property setter (gets validation)
         return self
 
-    def with_min_number_of(self, value: Optional["PositiveInteger"]) -> BurstPatternEventTriggering:
+    def with_min_number_of(self, value: Optional[PositiveInteger]) -> BurstPatternEventTriggering:
         """
         Set minNumberOf and return self for chaining.
 

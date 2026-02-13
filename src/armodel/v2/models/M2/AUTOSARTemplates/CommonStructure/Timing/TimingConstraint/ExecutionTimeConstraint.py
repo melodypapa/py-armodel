@@ -39,15 +39,15 @@ class ExecutionTimeConstraint(TimingConstraint):
         # for the ExecutionTimeConstraint.
         # If the entity is in a module no component shall be provided.
         # by: ComponentIn.
-        self._component: Optional["SwComponent"] = None
+        self._component: Optional[SwComponent] = None
 
     @property
-    def component(self) -> Optional["SwComponent"]:
+    def component(self) -> Optional[SwComponent]:
         """Get component (Pythonic accessor)."""
         return self._component
 
     @component.setter
-    def component(self, value: Optional["SwComponent"]) -> None:
+    def component(self, value: Optional[SwComponent]) -> None:
         """
         Set component with validation.
 
@@ -66,15 +66,15 @@ class ExecutionTimeConstraint(TimingConstraint):
                 f"component must be SwComponent or None, got {type(value).__name__}"
             )
         self._component = value
-        self._executable: Optional["ExecutableEntity"] = None
+        self._executable: Optional[ExecutableEntity] = None
 
     @property
-    def executable(self) -> Optional["ExecutableEntity"]:
+    def executable(self) -> Optional[ExecutableEntity]:
         """Get executable (Pythonic accessor)."""
         return self._executable
 
     @executable.setter
-    def executable(self, value: Optional["ExecutableEntity"]) -> None:
+    def executable(self, value: Optional[ExecutableEntity]) -> None:
         """
         Set executable with validation.
 
@@ -178,7 +178,7 @@ class ExecutionTimeConstraint(TimingConstraint):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getComponent(self) -> "SwComponent":
+    def getComponent(self) -> SwComponent:
         """
         AUTOSAR-compliant getter for component.
 
@@ -190,7 +190,7 @@ class ExecutionTimeConstraint(TimingConstraint):
         """
         return self.component  # Delegates to property
 
-    def setComponent(self, value: "SwComponent") -> ExecutionTimeConstraint:
+    def setComponent(self, value: SwComponent) -> ExecutionTimeConstraint:
         """
         AUTOSAR-compliant setter for component with method chaining.
 
@@ -206,7 +206,7 @@ class ExecutionTimeConstraint(TimingConstraint):
         self.component = value  # Delegates to property setter
         return self
 
-    def getExecutable(self) -> "ExecutableEntity":
+    def getExecutable(self) -> ExecutableEntity:
         """
         AUTOSAR-compliant getter for executable.
 
@@ -218,7 +218,7 @@ class ExecutionTimeConstraint(TimingConstraint):
         """
         return self.executable  # Delegates to property
 
-    def setExecutable(self, value: "ExecutableEntity") -> ExecutionTimeConstraint:
+    def setExecutable(self, value: ExecutableEntity) -> ExecutionTimeConstraint:
         """
         AUTOSAR-compliant setter for executable with method chaining.
 
@@ -320,7 +320,7 @@ class ExecutionTimeConstraint(TimingConstraint):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_component(self, value: Optional["SwComponent"]) -> ExecutionTimeConstraint:
+    def with_component(self, value: Optional[SwComponent]) -> ExecutionTimeConstraint:
         """
         Set component and return self for chaining.
 
@@ -336,7 +336,7 @@ class ExecutionTimeConstraint(TimingConstraint):
         self.component = value  # Use property setter (gets validation)
         return self
 
-    def with_executable(self, value: Optional["ExecutableEntity"]) -> ExecutionTimeConstraint:
+    def with_executable(self, value: Optional[ExecutableEntity]) -> ExecutionTimeConstraint:
         """
         Set executable and return self for chaining.
 

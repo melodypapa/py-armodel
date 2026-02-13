@@ -38,15 +38,15 @@ class DiagnosticDebounceAlgorithmProps(Identifiable):
         # Switch to store the debounce counter value non-volatile not.
         # counter value shall be stored non-volatile counter value is volatile that
                 # this attribute is not relevant for the.
-        self._debounce: Optional["Boolean"] = None
+        self._debounce: Optional[Boolean] = None
 
     @property
-    def debounce(self) -> Optional["Boolean"]:
+    def debounce(self) -> Optional[Boolean]:
         """Get debounce (Pythonic accessor)."""
         return self._debounce
 
     @debounce.setter
-    def debounce(self, value: Optional["Boolean"]) -> None:
+    def debounce(self, value: Optional[Boolean]) -> None:
         """
         Set debounce with validation.
 
@@ -68,7 +68,7 @@ class DiagnosticDebounceAlgorithmProps(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDebounce(self) -> "Boolean":
+    def getDebounce(self) -> Boolean:
         """
         AUTOSAR-compliant getter for debounce.
 
@@ -80,7 +80,7 @@ class DiagnosticDebounceAlgorithmProps(Identifiable):
         """
         return self.debounce  # Delegates to property
 
-    def setDebounce(self, value: "Boolean") -> DiagnosticDebounceAlgorithmProps:
+    def setDebounce(self, value: Boolean) -> DiagnosticDebounceAlgorithmProps:
         """
         AUTOSAR-compliant setter for debounce with method chaining.
 
@@ -98,7 +98,7 @@ class DiagnosticDebounceAlgorithmProps(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_debounce(self, value: Optional["Boolean"]) -> DiagnosticDebounceAlgorithmProps:
+    def with_debounce(self, value: Optional[Boolean]) -> DiagnosticDebounceAlgorithmProps:
         """
         Set debounce and return self for chaining.
 

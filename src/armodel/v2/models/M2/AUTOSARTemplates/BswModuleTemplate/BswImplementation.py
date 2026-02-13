@@ -70,15 +70,15 @@ class BswImplementation(Implementation):
         # is made as an association because follows the pattern of the SWCT ARElement
                 # cannot be splitted, but we want implementation later, the Bsw not aggregated
                 # in BswBehavior.
-        self._behavior: Optional["BswInternalBehavior"] = None
+        self._behavior: Optional[BswInternalBehavior] = None
 
     @property
-    def behavior(self) -> Optional["BswInternalBehavior"]:
+    def behavior(self) -> Optional[BswInternalBehavior]:
         """Get behavior (Pythonic accessor)."""
         return self._behavior
 
     @behavior.setter
-    def behavior(self, value: Optional["BswInternalBehavior"]) -> None:
+    def behavior(self, value: Optional[BswInternalBehavior]) -> None:
         """
         Set behavior with validation.
 
@@ -241,7 +241,7 @@ class BswImplementation(Implementation):
         self.ar_release = value  # Delegates to property setter
         return self
 
-    def getBehavior(self) -> "BswInternalBehavior":
+    def getBehavior(self) -> BswInternalBehavior:
         """
         AUTOSAR-compliant getter for behavior.
 
@@ -253,7 +253,7 @@ class BswImplementation(Implementation):
         """
         return self.behavior  # Delegates to property
 
-    def setBehavior(self, value: "BswInternalBehavior") -> BswImplementation:
+    def setBehavior(self, value: BswInternalBehavior) -> BswImplementation:
         """
         AUTOSAR-compliant setter for behavior with method chaining.
 
@@ -351,7 +351,7 @@ class BswImplementation(Implementation):
         self.ar_release = value  # Use property setter (gets validation)
         return self
 
-    def with_behavior(self, value: Optional["BswInternalBehavior"]) -> BswImplementation:
+    def with_behavior(self, value: Optional[BswInternalBehavior]) -> BswImplementation:
         """
         Set behavior and return self for chaining.
 

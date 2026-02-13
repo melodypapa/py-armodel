@@ -41,15 +41,15 @@ class ExternalTriggeringPoint(ARObject):
         # semantical point of view, the ExternalTriggering considered a first-class
                 # Identifiable and therefore in the role ident shall always exist (until it
                 # possible to let ModeAccessPoint directly inherit.
-        self._ident: Optional["RefType"] = None
+        self._ident: Optional[RefType] = None
 
     @property
-    def ident(self) -> Optional["RefType"]:
+    def ident(self) -> Optional[RefType]:
         """Get ident (Pythonic accessor)."""
         return self._ident
 
     @ident.setter
-    def ident(self, value: Optional["RefType"]) -> None:
+    def ident(self, value: Optional[RefType]) -> None:
         """
         Set ident with validation.
 
@@ -64,15 +64,15 @@ class ExternalTriggeringPoint(ARObject):
             return
 
         self._ident = value
-        self._triggerTypeInstanceRef: Optional["RefType"] = None
+        self._triggerTypeInstanceRef: Optional[RefType] = None
 
     @property
-    def trigger_type_instance_ref(self) -> Optional["RefType"]:
+    def trigger_type_instance_ref(self) -> Optional[RefType]:
         """Get triggerTypeInstanceRef (Pythonic accessor)."""
         return self._triggerTypeInstanceRef
 
     @trigger_type_instance_ref.setter
-    def trigger_type_instance_ref(self, value: Optional["RefType"]) -> None:
+    def trigger_type_instance_ref(self, value: Optional[RefType]) -> None:
         """
         Set triggerTypeInstanceRef with validation.
 
@@ -90,7 +90,7 @@ class ExternalTriggeringPoint(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getIdent(self) -> "RefType":
+    def getIdent(self) -> RefType:
         """
         AUTOSAR-compliant getter for ident.
 
@@ -102,7 +102,7 @@ class ExternalTriggeringPoint(ARObject):
         """
         return self.ident  # Delegates to property
 
-    def setIdent(self, value: "RefType") -> ExternalTriggeringPoint:
+    def setIdent(self, value: RefType) -> ExternalTriggeringPoint:
         """
         AUTOSAR-compliant setter for ident with method chaining.
 
@@ -118,7 +118,7 @@ class ExternalTriggeringPoint(ARObject):
         self.ident = value  # Delegates to property setter
         return self
 
-    def getTriggerTypeInstanceRef(self) -> "RefType":
+    def getTriggerTypeInstanceRef(self) -> RefType:
         """
         AUTOSAR-compliant getter for triggerTypeInstanceRef.
 
@@ -130,7 +130,7 @@ class ExternalTriggeringPoint(ARObject):
         """
         return self.trigger_type_instance_ref  # Delegates to property
 
-    def setTriggerTypeInstanceRef(self, value: "RefType") -> ExternalTriggeringPoint:
+    def setTriggerTypeInstanceRef(self, value: RefType) -> ExternalTriggeringPoint:
         """
         AUTOSAR-compliant setter for triggerTypeInstanceRef with method chaining.
 

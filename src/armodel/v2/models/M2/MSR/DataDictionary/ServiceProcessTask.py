@@ -50,15 +50,15 @@ class SwServiceArg(Identifiable):
                 # a for the expected result, the direction "out".
         # If a pointer is used to pass a memory content to be read by the callee, its
                 # direction "in".
-        self._direction: Optional["ArgumentDirection"] = None
+        self._direction: Optional[ArgumentDirection] = None
 
     @property
-    def direction(self) -> Optional["ArgumentDirection"]:
+    def direction(self) -> Optional[ArgumentDirection]:
         """Get direction (Pythonic accessor)."""
         return self._direction
 
     @direction.setter
-    def direction(self, value: Optional["ArgumentDirection"]) -> None:
+    def direction(self, value: Optional[ArgumentDirection]) -> None:
         """
         Set direction with validation.
 
@@ -77,15 +77,15 @@ class SwServiceArg(Identifiable):
                 f"direction must be ArgumentDirection or None, got {type(value).__name__}"
             )
         self._direction = value
-        self._swArraysize: Optional["RefType"] = None
+        self._swArraysize: Optional[RefType] = None
 
     @property
-    def sw_arraysize(self) -> Optional["RefType"]:
+    def sw_arraysize(self) -> Optional[RefType]:
         """Get swArraysize (Pythonic accessor)."""
         return self._swArraysize
 
     @sw_arraysize.setter
-    def sw_arraysize(self, value: Optional["RefType"]) -> None:
+    def sw_arraysize(self, value: Optional[RefType]) -> None:
         """
         Set swArraysize with validation.
 
@@ -101,15 +101,15 @@ class SwServiceArg(Identifiable):
 
         self._swArraysize = value
         # atpSplitable.
-        self._swDataDef: Optional["SwDataDefProps"] = None
+        self._swDataDef: Optional[SwDataDefProps] = None
 
     @property
-    def sw_data_def(self) -> Optional["SwDataDefProps"]:
+    def sw_data_def(self) -> Optional[SwDataDefProps]:
         """Get swDataDef (Pythonic accessor)."""
         return self._swDataDef
 
     @sw_data_def.setter
-    def sw_data_def(self, value: Optional["SwDataDefProps"]) -> None:
+    def sw_data_def(self, value: Optional[SwDataDefProps]) -> None:
         """
         Set swDataDef with validation.
 
@@ -131,7 +131,7 @@ class SwServiceArg(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDirection(self) -> "ArgumentDirection":
+    def getDirection(self) -> ArgumentDirection:
         """
         AUTOSAR-compliant getter for direction.
 
@@ -143,7 +143,7 @@ class SwServiceArg(Identifiable):
         """
         return self.direction  # Delegates to property
 
-    def setDirection(self, value: "ArgumentDirection") -> SwServiceArg:
+    def setDirection(self, value: ArgumentDirection) -> SwServiceArg:
         """
         AUTOSAR-compliant setter for direction with method chaining.
 
@@ -159,7 +159,7 @@ class SwServiceArg(Identifiable):
         self.direction = value  # Delegates to property setter
         return self
 
-    def getSwArraysize(self) -> "RefType":
+    def getSwArraysize(self) -> RefType:
         """
         AUTOSAR-compliant getter for swArraysize.
 
@@ -171,7 +171,7 @@ class SwServiceArg(Identifiable):
         """
         return self.sw_arraysize  # Delegates to property
 
-    def setSwArraysize(self, value: "RefType") -> SwServiceArg:
+    def setSwArraysize(self, value: RefType) -> SwServiceArg:
         """
         AUTOSAR-compliant setter for swArraysize with method chaining.
 
@@ -187,7 +187,7 @@ class SwServiceArg(Identifiable):
         self.sw_arraysize = value  # Delegates to property setter
         return self
 
-    def getSwDataDef(self) -> "SwDataDefProps":
+    def getSwDataDef(self) -> SwDataDefProps:
         """
         AUTOSAR-compliant getter for swDataDef.
 
@@ -199,7 +199,7 @@ class SwServiceArg(Identifiable):
         """
         return self.sw_data_def  # Delegates to property
 
-    def setSwDataDef(self, value: "SwDataDefProps") -> SwServiceArg:
+    def setSwDataDef(self, value: SwDataDefProps) -> SwServiceArg:
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
 
@@ -217,7 +217,7 @@ class SwServiceArg(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_direction(self, value: Optional["ArgumentDirection"]) -> SwServiceArg:
+    def with_direction(self, value: Optional[ArgumentDirection]) -> SwServiceArg:
         """
         Set direction and return self for chaining.
 
@@ -249,7 +249,7 @@ class SwServiceArg(Identifiable):
         self.sw_arraysize = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> SwServiceArg:
+    def with_sw_data_def(self, value: Optional[SwDataDefProps]) -> SwServiceArg:
         """
         Set swDataDef and return self for chaining.
 

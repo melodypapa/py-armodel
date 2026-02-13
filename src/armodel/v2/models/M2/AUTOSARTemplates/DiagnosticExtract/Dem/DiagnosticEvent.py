@@ -52,15 +52,15 @@ class DiagnosticEvent(DiagnosticCommonElement):
                 # enclosing DiagnosticEvent and allows identify it when placed into a snapshot
                 # record or record storage.
         # can be reported as internal data element in or extended data records.
-        self._associated: Optional["PositiveInteger"] = None
+        self._associated: Optional[PositiveInteger] = None
 
     @property
-    def associated(self) -> Optional["PositiveInteger"]:
+    def associated(self) -> Optional[PositiveInteger]:
         """Get associated (Pythonic accessor)."""
         return self._associated
 
     @associated.setter
-    def associated(self, value: Optional["PositiveInteger"]) -> None:
+    def associated(self, value: Optional[PositiveInteger]) -> None:
         """
         Set associated with validation.
 
@@ -116,15 +116,15 @@ class DiagnosticEvent(DiagnosticCommonElement):
         # This is also sometimes trip DTC".
         # A value of "2" defines a DTC the operation cycle after the first occurred
                 # value of "2" is typically used in the US for OBD.
-        self._confirmation: Optional["PositiveInteger"] = None
+        self._confirmation: Optional[PositiveInteger] = None
 
     @property
-    def confirmation(self) -> Optional["PositiveInteger"]:
+    def confirmation(self) -> Optional[PositiveInteger]:
         """Get confirmation (Pythonic accessor)."""
         return self._confirmation
 
     @confirmation.setter
-    def confirmation(self, value: Optional["PositiveInteger"]) -> None:
+    def confirmation(self, value: Optional[PositiveInteger]) -> None:
         """
         Set confirmation with validation.
 
@@ -208,15 +208,15 @@ class DiagnosticEvent(DiagnosticCommonElement):
         self._eventKind = value
                 # assigned event or not.
         # of FreezeFrames is supported of FreezeFrames is not supported.
-        self._prestorage: Optional["Boolean"] = None
+        self._prestorage: Optional[Boolean] = None
 
     @property
-    def prestorage(self) -> Optional["Boolean"]:
+    def prestorage(self) -> Optional[Boolean]:
         """Get prestorage (Pythonic accessor)."""
         return self._prestorage
 
     @prestorage.setter
-    def prestorage(self, value: Optional["Boolean"]) -> None:
+    def prestorage(self, value: Optional[Boolean]) -> None:
         """
         Set prestorage with validation.
 
@@ -239,15 +239,15 @@ class DiagnosticEvent(DiagnosticCommonElement):
                 # Event requires the data to be non-volatile memory.
         # TRUE = Dem shall store data in non-volatile memory, FALSE = Data lost at
                 # shutdown (not stored in Nvm).
-        self._prestored: Optional["Boolean"] = None
+        self._prestored: Optional[Boolean] = None
 
     @property
-    def prestored(self) -> Optional["Boolean"]:
+    def prestored(self) -> Optional[Boolean]:
         """Get prestored (Pythonic accessor)."""
         return self._prestored
 
     @prestored.setter
-    def prestored(self, value: Optional["Boolean"]) -> None:
+    def prestored(self, value: Optional[Boolean]) -> None:
         """
         Set prestored with validation.
 
@@ -268,15 +268,15 @@ class DiagnosticEvent(DiagnosticCommonElement):
         self._prestored = value
         # a failed test in the current operation If the attribute is set to false then
         # reporting be ignored and not lead to a reset of the a failed test.
-        self._recoverableIn: Optional["Boolean"] = None
+        self._recoverableIn: Optional[Boolean] = None
 
     @property
-    def recoverable_in(self) -> Optional["Boolean"]:
+    def recoverable_in(self) -> Optional[Boolean]:
         """Get recoverableIn (Pythonic accessor)."""
         return self._recoverableIn
 
     @recoverable_in.setter
-    def recoverable_in(self, value: Optional["Boolean"]) -> None:
+    def recoverable_in(self, value: Optional[Boolean]) -> None:
         """
         Set recoverableIn with validation.
 
@@ -346,7 +346,7 @@ class DiagnosticEvent(DiagnosticCommonElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAssociated(self) -> "PositiveInteger":
+    def getAssociated(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for associated.
 
@@ -358,7 +358,7 @@ class DiagnosticEvent(DiagnosticCommonElement):
         """
         return self.associated  # Delegates to property
 
-    def setAssociated(self, value: "PositiveInteger") -> DiagnosticEvent:
+    def setAssociated(self, value: PositiveInteger) -> DiagnosticEvent:
         """
         AUTOSAR-compliant setter for associated with method chaining.
 
@@ -402,7 +402,7 @@ class DiagnosticEvent(DiagnosticCommonElement):
         self.clear_event = value  # Delegates to property setter
         return self
 
-    def getConfirmation(self) -> "PositiveInteger":
+    def getConfirmation(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for confirmation.
 
@@ -414,7 +414,7 @@ class DiagnosticEvent(DiagnosticCommonElement):
         """
         return self.confirmation  # Delegates to property
 
-    def setConfirmation(self, value: "PositiveInteger") -> DiagnosticEvent:
+    def setConfirmation(self, value: PositiveInteger) -> DiagnosticEvent:
         """
         AUTOSAR-compliant setter for confirmation with method chaining.
 
@@ -498,7 +498,7 @@ class DiagnosticEvent(DiagnosticCommonElement):
         self.event_kind = value  # Delegates to property setter
         return self
 
-    def getPrestorage(self) -> "Boolean":
+    def getPrestorage(self) -> Boolean:
         """
         AUTOSAR-compliant getter for prestorage.
 
@@ -510,7 +510,7 @@ class DiagnosticEvent(DiagnosticCommonElement):
         """
         return self.prestorage  # Delegates to property
 
-    def setPrestorage(self, value: "Boolean") -> DiagnosticEvent:
+    def setPrestorage(self, value: Boolean) -> DiagnosticEvent:
         """
         AUTOSAR-compliant setter for prestorage with method chaining.
 
@@ -526,7 +526,7 @@ class DiagnosticEvent(DiagnosticCommonElement):
         self.prestorage = value  # Delegates to property setter
         return self
 
-    def getPrestored(self) -> "Boolean":
+    def getPrestored(self) -> Boolean:
         """
         AUTOSAR-compliant getter for prestored.
 
@@ -538,7 +538,7 @@ class DiagnosticEvent(DiagnosticCommonElement):
         """
         return self.prestored  # Delegates to property
 
-    def setPrestored(self, value: "Boolean") -> DiagnosticEvent:
+    def setPrestored(self, value: Boolean) -> DiagnosticEvent:
         """
         AUTOSAR-compliant setter for prestored with method chaining.
 
@@ -554,7 +554,7 @@ class DiagnosticEvent(DiagnosticCommonElement):
         self.prestored = value  # Delegates to property setter
         return self
 
-    def getRecoverableIn(self) -> "Boolean":
+    def getRecoverableIn(self) -> Boolean:
         """
         AUTOSAR-compliant getter for recoverableIn.
 
@@ -566,7 +566,7 @@ class DiagnosticEvent(DiagnosticCommonElement):
         """
         return self.recoverable_in  # Delegates to property
 
-    def setRecoverableIn(self, value: "Boolean") -> DiagnosticEvent:
+    def setRecoverableIn(self, value: Boolean) -> DiagnosticEvent:
         """
         AUTOSAR-compliant setter for recoverableIn with method chaining.
 
@@ -584,7 +584,7 @@ class DiagnosticEvent(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_associated(self, value: Optional["PositiveInteger"]) -> DiagnosticEvent:
+    def with_associated(self, value: Optional[PositiveInteger]) -> DiagnosticEvent:
         """
         Set associated and return self for chaining.
 
@@ -616,7 +616,7 @@ class DiagnosticEvent(DiagnosticCommonElement):
         self.clear_event = value  # Use property setter (gets validation)
         return self
 
-    def with_confirmation(self, value: Optional["PositiveInteger"]) -> DiagnosticEvent:
+    def with_confirmation(self, value: Optional[PositiveInteger]) -> DiagnosticEvent:
         """
         Set confirmation and return self for chaining.
 
@@ -664,7 +664,7 @@ class DiagnosticEvent(DiagnosticCommonElement):
         self.event_kind = value  # Use property setter (gets validation)
         return self
 
-    def with_prestorage(self, value: Optional["Boolean"]) -> DiagnosticEvent:
+    def with_prestorage(self, value: Optional[Boolean]) -> DiagnosticEvent:
         """
         Set prestorage and return self for chaining.
 
@@ -680,7 +680,7 @@ class DiagnosticEvent(DiagnosticCommonElement):
         self.prestorage = value  # Use property setter (gets validation)
         return self
 
-    def with_prestored(self, value: Optional["Boolean"]) -> DiagnosticEvent:
+    def with_prestored(self, value: Optional[Boolean]) -> DiagnosticEvent:
         """
         Set prestored and return self for chaining.
 
@@ -696,7 +696,7 @@ class DiagnosticEvent(DiagnosticCommonElement):
         self.prestored = value  # Use property setter (gets validation)
         return self
 
-    def with_recoverable_in(self, value: Optional["Boolean"]) -> DiagnosticEvent:
+    def with_recoverable_in(self, value: Optional[Boolean]) -> DiagnosticEvent:
         """
         Set recoverableIn and return self for chaining.
 
@@ -756,15 +756,15 @@ class DiagnosticConnectedIndicator(Identifiable):
                 f"behaviorIndicatorBehaviorEnum must be DiagnosticConnected or None, got {type(value).__name__}"
             )
         self._behaviorIndicatorBehaviorEnum = value
-        self._healingCycle: Optional["PositiveInteger"] = None
+        self._healingCycle: Optional[PositiveInteger] = None
 
     @property
-    def healing_cycle(self) -> Optional["PositiveInteger"]:
+    def healing_cycle(self) -> Optional[PositiveInteger]:
         """Get healingCycle (Pythonic accessor)."""
         return self._healingCycle
 
     @healing_cycle.setter
-    def healing_cycle(self, value: Optional["PositiveInteger"]) -> None:
+    def healing_cycle(self, value: Optional[PositiveInteger]) -> None:
         """
         Set healingCycle with validation.
 
@@ -811,15 +811,15 @@ class DiagnosticConnectedIndicator(Identifiable):
             )
         self._indicator = value
         # this is not relevant for the Adaptive Platform.
-        self._indicatorFailure: Optional["PositiveInteger"] = None
+        self._indicatorFailure: Optional[PositiveInteger] = None
 
     @property
-    def indicator_failure(self) -> Optional["PositiveInteger"]:
+    def indicator_failure(self) -> Optional[PositiveInteger]:
         """Get indicatorFailure (Pythonic accessor)."""
         return self._indicatorFailure
 
     @indicator_failure.setter
-    def indicator_failure(self, value: Optional["PositiveInteger"]) -> None:
+    def indicator_failure(self, value: Optional[PositiveInteger]) -> None:
         """
         Set indicatorFailure with validation.
 
@@ -869,7 +869,7 @@ class DiagnosticConnectedIndicator(Identifiable):
         self.behavior_indicator_behavior_enum = value  # Delegates to property setter
         return self
 
-    def getHealingCycle(self) -> "PositiveInteger":
+    def getHealingCycle(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for healingCycle.
 
@@ -881,7 +881,7 @@ class DiagnosticConnectedIndicator(Identifiable):
         """
         return self.healing_cycle  # Delegates to property
 
-    def setHealingCycle(self, value: "PositiveInteger") -> DiagnosticConnectedIndicator:
+    def setHealingCycle(self, value: PositiveInteger) -> DiagnosticConnectedIndicator:
         """
         AUTOSAR-compliant setter for healingCycle with method chaining.
 
@@ -925,7 +925,7 @@ class DiagnosticConnectedIndicator(Identifiable):
         self.indicator = value  # Delegates to property setter
         return self
 
-    def getIndicatorFailure(self) -> "PositiveInteger":
+    def getIndicatorFailure(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for indicatorFailure.
 
@@ -937,7 +937,7 @@ class DiagnosticConnectedIndicator(Identifiable):
         """
         return self.indicator_failure  # Delegates to property
 
-    def setIndicatorFailure(self, value: "PositiveInteger") -> DiagnosticConnectedIndicator:
+    def setIndicatorFailure(self, value: PositiveInteger) -> DiagnosticConnectedIndicator:
         """
         AUTOSAR-compliant setter for indicatorFailure with method chaining.
 
@@ -971,7 +971,7 @@ class DiagnosticConnectedIndicator(Identifiable):
         self.behavior_indicator_behavior_enum = value  # Use property setter (gets validation)
         return self
 
-    def with_healing_cycle(self, value: Optional["PositiveInteger"]) -> DiagnosticConnectedIndicator:
+    def with_healing_cycle(self, value: Optional[PositiveInteger]) -> DiagnosticConnectedIndicator:
         """
         Set healingCycle and return self for chaining.
 
@@ -1003,7 +1003,7 @@ class DiagnosticConnectedIndicator(Identifiable):
         self.indicator = value  # Use property setter (gets validation)
         return self
 
-    def with_indicator_failure(self, value: Optional["PositiveInteger"]) -> DiagnosticConnectedIndicator:
+    def with_indicator_failure(self, value: Optional[PositiveInteger]) -> DiagnosticConnectedIndicator:
         """
         Set indicatorFailure and return self for chaining.
 
@@ -1211,15 +1211,15 @@ class DiagnosticIumprGroup(DiagnosticCommonElement):
         return self._iumpr
         # This aggregation allows for the variant modeling of the groupIdentifier.
         # atpVariation.
-        self._iumprGroup: Optional["RefType"] = None
+        self._iumprGroup: Optional[RefType] = None
 
     @property
-    def iumpr_group(self) -> Optional["RefType"]:
+    def iumpr_group(self) -> Optional[RefType]:
         """Get iumprGroup (Pythonic accessor)."""
         return self._iumprGroup
 
     @iumpr_group.setter
-    def iumpr_group(self, value: Optional["RefType"]) -> None:
+    def iumpr_group(self, value: Optional[RefType]) -> None:
         """
         Set iumprGroup with validation.
 
@@ -1249,7 +1249,7 @@ class DiagnosticIumprGroup(DiagnosticCommonElement):
         """
         return self.iumpr  # Delegates to property
 
-    def getIumprGroup(self) -> "RefType":
+    def getIumprGroup(self) -> RefType:
         """
         AUTOSAR-compliant getter for iumprGroup.
 
@@ -1261,7 +1261,7 @@ class DiagnosticIumprGroup(DiagnosticCommonElement):
         """
         return self.iumpr_group  # Delegates to property
 
-    def setIumprGroup(self, value: "RefType") -> DiagnosticIumprGroup:
+    def setIumprGroup(self, value: RefType) -> DiagnosticIumprGroup:
         """
         AUTOSAR-compliant setter for iumprGroup with method chaining.
 

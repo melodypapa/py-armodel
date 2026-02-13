@@ -46,10 +46,10 @@ class TimingExtension(ARElement, ABC):
         # The timing condition specifies a specific condition.
         # atpVariation 277 Document ID 411: AUTOSAR_CP_TPS_TimingExtensions Timing
                 # Extensions for Classic R23-11.
-        self._timingCondition: List["TimingCondition"] = []
+        self._timingCondition: List[TimingCondition] = []
 
     @property
-    def timing_condition(self) -> List["TimingCondition"]:
+    def timing_condition(self) -> List[TimingCondition]:
         """Get timingCondition (Pythonic accessor)."""
         return self._timingCondition
         # The timing constraints that belong to a specific timing in the role of a
@@ -57,10 +57,10 @@ class TimingExtension(ARElement, ABC):
         # to support different timing constraint variants timing specification, the
                 # aggregation is marked stereotype "atpVariation".
         # atpVariation.
-        self._timing: List["TimingConstraint"] = []
+        self._timing: List[TimingConstraint] = []
 
     @property
-    def timing(self) -> List["TimingConstraint"]:
+    def timing(self) -> List[TimingConstraint]:
         """Get timing (Pythonic accessor)."""
         return self._timing
         # The timing resource contains all instance references from within a timing
@@ -171,7 +171,7 @@ class TimingExtension(ARElement, ABC):
         """
         return self.timing_clock  # Delegates to property
 
-    def getTimingCondition(self) -> List["TimingCondition"]:
+    def getTimingCondition(self) -> List[TimingCondition]:
         """
         AUTOSAR-compliant getter for timingCondition.
 
@@ -183,7 +183,7 @@ class TimingExtension(ARElement, ABC):
         """
         return self.timing_condition  # Delegates to property
 
-    def getTiming(self) -> List["TimingConstraint"]:
+    def getTiming(self) -> List[TimingConstraint]:
         """
         AUTOSAR-compliant getter for timing.
 
@@ -359,15 +359,15 @@ class SwcTiming(TimingExtension):
         # All corresponding and constraints shall be defined within reason for the
                 # cardinality of 0.
         # 1 is to ensure.
-        self._behavior: Optional["SwcInternalBehavior"] = None
+        self._behavior: Optional[SwcInternalBehavior] = None
 
     @property
-    def behavior(self) -> Optional["SwcInternalBehavior"]:
+    def behavior(self) -> Optional[SwcInternalBehavior]:
         """Get behavior (Pythonic accessor)."""
         return self._behavior
 
     @behavior.setter
-    def behavior(self, value: Optional["SwcInternalBehavior"]) -> None:
+    def behavior(self, value: Optional[SwcInternalBehavior]) -> None:
         """
         Set behavior with validation.
 
@@ -389,7 +389,7 @@ class SwcTiming(TimingExtension):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBehavior(self) -> "SwcInternalBehavior":
+    def getBehavior(self) -> SwcInternalBehavior:
         """
         AUTOSAR-compliant getter for behavior.
 
@@ -401,7 +401,7 @@ class SwcTiming(TimingExtension):
         """
         return self.behavior  # Delegates to property
 
-    def setBehavior(self, value: "SwcInternalBehavior") -> SwcTiming:
+    def setBehavior(self, value: SwcInternalBehavior) -> SwcTiming:
         """
         AUTOSAR-compliant setter for behavior with method chaining.
 
@@ -419,7 +419,7 @@ class SwcTiming(TimingExtension):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_behavior(self, value: Optional["SwcInternalBehavior"]) -> SwcTiming:
+    def with_behavior(self, value: Optional[SwcInternalBehavior]) -> SwcTiming:
         """
         Set behavior and return self for chaining.
 
@@ -555,15 +555,15 @@ class BswModuleTiming(TimingExtension):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This defines the scope of a BswModuleTiming.
         # All descriptions and constraints shall within this scope.
-        self._behavior: Optional["BswInternalBehavior"] = None
+        self._behavior: Optional[BswInternalBehavior] = None
 
     @property
-    def behavior(self) -> Optional["BswInternalBehavior"]:
+    def behavior(self) -> Optional[BswInternalBehavior]:
         """Get behavior (Pythonic accessor)."""
         return self._behavior
 
     @behavior.setter
-    def behavior(self, value: Optional["BswInternalBehavior"]) -> None:
+    def behavior(self, value: Optional[BswInternalBehavior]) -> None:
         """
         Set behavior with validation.
 
@@ -585,7 +585,7 @@ class BswModuleTiming(TimingExtension):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBehavior(self) -> "BswInternalBehavior":
+    def getBehavior(self) -> BswInternalBehavior:
         """
         AUTOSAR-compliant getter for behavior.
 
@@ -597,7 +597,7 @@ class BswModuleTiming(TimingExtension):
         """
         return self.behavior  # Delegates to property
 
-    def setBehavior(self, value: "BswInternalBehavior") -> BswModuleTiming:
+    def setBehavior(self, value: BswInternalBehavior) -> BswModuleTiming:
         """
         AUTOSAR-compliant setter for behavior with method chaining.
 
@@ -615,7 +615,7 @@ class BswModuleTiming(TimingExtension):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_behavior(self, value: Optional["BswInternalBehavior"]) -> BswModuleTiming:
+    def with_behavior(self, value: Optional[BswInternalBehavior]) -> BswModuleTiming:
         """
         Set behavior and return self for chaining.
 
@@ -656,16 +656,16 @@ class BswCompositionTiming(TimingExtension):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This defines the scope of a BswCompositionTiming.
         # All descriptions and constraints shall within this scope.
-        self._implementation: List["BswImplementation"] = []
+        self._implementation: List[BswImplementation] = []
 
     @property
-    def implementation(self) -> List["BswImplementation"]:
+    def implementation(self) -> List[BswImplementation]:
         """Get implementation (Pythonic accessor)."""
         return self._implementation
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getImplementation(self) -> List["BswImplementation"]:
+    def getImplementation(self) -> List[BswImplementation]:
         """
         AUTOSAR-compliant getter for implementation.
 
@@ -699,15 +699,15 @@ class EcuTiming(TimingExtension):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This defines the scope of an EcuTiming.
         # All timing descriptions and constraints shall within this scope.
-        self._ecu: Optional["RefType"] = None
+        self._ecu: Optional[RefType] = None
 
     @property
-    def ecu(self) -> Optional["RefType"]:
+    def ecu(self) -> Optional[RefType]:
         """Get ecu (Pythonic accessor)."""
         return self._ecu
 
     @ecu.setter
-    def ecu(self, value: Optional["RefType"]) -> None:
+    def ecu(self, value: Optional[RefType]) -> None:
         """
         Set ecu with validation.
 
@@ -725,7 +725,7 @@ class EcuTiming(TimingExtension):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getEcu(self) -> "RefType":
+    def getEcu(self) -> RefType:
         """
         AUTOSAR-compliant getter for ecu.
 
@@ -737,7 +737,7 @@ class EcuTiming(TimingExtension):
         """
         return self.ecu  # Delegates to property
 
-    def setEcu(self, value: "RefType") -> EcuTiming:
+    def setEcu(self, value: RefType) -> EcuTiming:
         """
         AUTOSAR-compliant setter for ecu with method chaining.
 

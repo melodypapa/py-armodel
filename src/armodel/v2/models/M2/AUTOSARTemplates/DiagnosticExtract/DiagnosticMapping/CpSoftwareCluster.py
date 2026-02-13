@@ -60,15 +60,15 @@ class CpSwClusterToDiagEventMapping(DiagnosticMapping):
                 f"cpSoftware must be CpSoftwareCluster or None, got {type(value).__name__}"
             )
         self._cpSoftware = value
-        self._diagnosticEvent: Optional["DiagnosticEvent"] = None
+        self._diagnosticEvent: Optional[DiagnosticEvent] = None
 
     @property
-    def diagnostic_event(self) -> Optional["DiagnosticEvent"]:
+    def diagnostic_event(self) -> Optional[DiagnosticEvent]:
         """Get diagnosticEvent (Pythonic accessor)."""
         return self._diagnosticEvent
 
     @diagnostic_event.setter
-    def diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> None:
+    def diagnostic_event(self, value: Optional[DiagnosticEvent]) -> None:
         """
         Set diagnosticEvent with validation.
 
@@ -118,7 +118,7 @@ class CpSwClusterToDiagEventMapping(DiagnosticMapping):
         self.cp_software = value  # Delegates to property setter
         return self
 
-    def getDiagnosticEvent(self) -> "DiagnosticEvent":
+    def getDiagnosticEvent(self) -> DiagnosticEvent:
         """
         AUTOSAR-compliant getter for diagnosticEvent.
 
@@ -130,7 +130,7 @@ class CpSwClusterToDiagEventMapping(DiagnosticMapping):
         """
         return self.diagnostic_event  # Delegates to property
 
-    def setDiagnosticEvent(self, value: "DiagnosticEvent") -> CpSwClusterToDiagEventMapping:
+    def setDiagnosticEvent(self, value: DiagnosticEvent) -> CpSwClusterToDiagEventMapping:
         """
         AUTOSAR-compliant setter for diagnosticEvent with method chaining.
 
@@ -164,7 +164,7 @@ class CpSwClusterToDiagEventMapping(DiagnosticMapping):
         self.cp_software = value  # Use property setter (gets validation)
         return self
 
-    def with_diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> CpSwClusterToDiagEventMapping:
+    def with_diagnostic_event(self, value: Optional[DiagnosticEvent]) -> CpSwClusterToDiagEventMapping:
         """
         Set diagnosticEvent and return self for chaining.
 

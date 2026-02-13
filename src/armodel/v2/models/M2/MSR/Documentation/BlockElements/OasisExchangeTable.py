@@ -150,15 +150,15 @@ class Table(Paginateable):
             )
         self._helpEntry = value
         # : landscape : portrait.
-        self._orient: Optional["OrientEnum"] = None
+        self._orient: Optional[OrientEnum] = None
 
     @property
-    def orient(self) -> Optional["OrientEnum"]:
+    def orient(self) -> Optional[OrientEnum]:
         """Get orient (Pythonic accessor)."""
         return self._orient
 
     @orient.setter
-    def orient(self, value: Optional["OrientEnum"]) -> None:
+    def orient(self, value: Optional[OrientEnum]) -> None:
         """
         Set orient with validation.
 
@@ -392,7 +392,7 @@ class Table(Paginateable):
         self.frame = value  # Delegates to property setter
         return self
 
-    def getHelpEntry(self) -> "String":
+    def getHelpEntry(self) -> String:
         """
         AUTOSAR-compliant getter for helpEntry.
 
@@ -404,7 +404,7 @@ class Table(Paginateable):
         """
         return self.help_entry  # Delegates to property
 
-    def setHelpEntry(self, value: "String") -> Table:
+    def setHelpEntry(self, value: String) -> Table:
         """
         AUTOSAR-compliant setter for helpEntry with method chaining.
 
@@ -420,7 +420,7 @@ class Table(Paginateable):
         self.help_entry = value  # Delegates to property setter
         return self
 
-    def getOrient(self) -> "OrientEnum":
+    def getOrient(self) -> OrientEnum:
         """
         AUTOSAR-compliant getter for orient.
 
@@ -432,7 +432,7 @@ class Table(Paginateable):
         """
         return self.orient  # Delegates to property
 
-    def setOrient(self, value: "OrientEnum") -> Table:
+    def setOrient(self, value: OrientEnum) -> Table:
         """
         AUTOSAR-compliant setter for orient with method chaining.
 
@@ -504,7 +504,7 @@ class Table(Paginateable):
         self.rowsep = value  # Delegates to property setter
         return self
 
-    def getTableCaption(self) -> "Caption":
+    def getTableCaption(self) -> Caption:
         """
         AUTOSAR-compliant getter for tableCaption.
 
@@ -516,7 +516,7 @@ class Table(Paginateable):
         """
         return self.table_caption  # Delegates to property
 
-    def setTableCaption(self, value: "Caption") -> Table:
+    def setTableCaption(self, value: Caption) -> Table:
         """
         AUTOSAR-compliant setter for tableCaption with method chaining.
 
@@ -626,7 +626,7 @@ class Table(Paginateable):
         self.help_entry = value  # Use property setter (gets validation)
         return self
 
-    def with_orient(self, value: Optional["OrientEnum"]) -> Table:
+    def with_orient(self, value: Optional[OrientEnum]) -> Table:
         """
         Set orient and return self for chaining.
 
@@ -752,15 +752,15 @@ class Tgroup(ARObject):
                 f"align must be AlignEnum or None, got {type(value).__name__}"
             )
         self._align = value
-        self._cols: "Integer" = None
+        self._cols: Integer = None
 
     @property
-    def cols(self) -> "Integer":
+    def cols(self) -> Integer:
         """Get cols (Pythonic accessor)."""
         return self._cols
 
     @cols.setter
-    def cols(self, value: "Integer") -> None:
+    def cols(self, value: Integer) -> None:
         """
         Set cols with validation.
 
@@ -949,7 +949,7 @@ class Tgroup(ARObject):
         self.align = value  # Delegates to property setter
         return self
 
-    def getCols(self) -> "Integer":
+    def getCols(self) -> Integer:
         """
         AUTOSAR-compliant getter for cols.
 
@@ -961,7 +961,7 @@ class Tgroup(ARObject):
         """
         return self.cols  # Delegates to property
 
-    def setCols(self, value: "Integer") -> Tgroup:
+    def setCols(self, value: Integer) -> Tgroup:
         """
         AUTOSAR-compliant setter for cols with method chaining.
 
@@ -1147,7 +1147,7 @@ class Tgroup(ARObject):
         self.align = value  # Use property setter (gets validation)
         return self
 
-    def with_cols(self, value: "Integer") -> Tgroup:
+    def with_cols(self, value: Integer) -> Tgroup:
         """
         Set cols and return self for chaining.
 
@@ -1549,15 +1549,15 @@ class Entry(ARObject):
         self._align = value
                 # digits RGB hex-code.
         # 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11.
-        self._bgcolor: "String" = None
+        self._bgcolor: String = None
 
     @property
-    def bgcolor(self) -> "String":
+    def bgcolor(self) -> String:
         """Get bgcolor (Pythonic accessor)."""
         return self._bgcolor
 
     @bgcolor.setter
-    def bgcolor(self, value: "String") -> None:
+    def bgcolor(self, value: String) -> None:
         """
         Set bgcolor with validation.
 
@@ -1626,15 +1626,15 @@ class Entry(ARObject):
                 f"colsep must be TableSeparatorString or None, got {type(value).__name__}"
             )
         self._colsep = value
-        self._entryContents: "DocumentationBlock" = None
+        self._entryContents: DocumentationBlock = None
 
     @property
-    def entry_contents(self) -> "DocumentationBlock":
+    def entry_contents(self) -> DocumentationBlock:
         """Get entryContents (Pythonic accessor)."""
         return self._entryContents
 
     @entry_contents.setter
-    def entry_contents(self, value: "DocumentationBlock") -> None:
+    def entry_contents(self, value: DocumentationBlock) -> None:
         """
         Set entryContents with validation.
 
@@ -1873,7 +1873,7 @@ class Entry(ARObject):
         self.align = value  # Delegates to property setter
         return self
 
-    def getBgcolor(self) -> "String":
+    def getBgcolor(self) -> String:
         """
         AUTOSAR-compliant getter for bgcolor.
 
@@ -1885,7 +1885,7 @@ class Entry(ARObject):
         """
         return self.bgcolor  # Delegates to property
 
-    def setBgcolor(self, value: "String") -> Entry:
+    def setBgcolor(self, value: String) -> Entry:
         """
         AUTOSAR-compliant setter for bgcolor with method chaining.
 
@@ -1901,7 +1901,7 @@ class Entry(ARObject):
         self.bgcolor = value  # Delegates to property setter
         return self
 
-    def getColname(self) -> "String":
+    def getColname(self) -> String:
         """
         AUTOSAR-compliant getter for colname.
 
@@ -1913,7 +1913,7 @@ class Entry(ARObject):
         """
         return self.colname  # Delegates to property
 
-    def setColname(self, value: "String") -> Entry:
+    def setColname(self, value: String) -> Entry:
         """
         AUTOSAR-compliant setter for colname with method chaining.
 
@@ -1957,7 +1957,7 @@ class Entry(ARObject):
         self.colsep = value  # Delegates to property setter
         return self
 
-    def getEntryContents(self) -> "DocumentationBlock":
+    def getEntryContents(self) -> DocumentationBlock:
         """
         AUTOSAR-compliant getter for entryContents.
 
@@ -1969,7 +1969,7 @@ class Entry(ARObject):
         """
         return self.entry_contents  # Delegates to property
 
-    def setEntryContents(self, value: "DocumentationBlock") -> Entry:
+    def setEntryContents(self, value: DocumentationBlock) -> Entry:
         """
         AUTOSAR-compliant setter for entryContents with method chaining.
 
@@ -1985,7 +1985,7 @@ class Entry(ARObject):
         self.entry_contents = value  # Delegates to property setter
         return self
 
-    def getMorerows(self) -> "String":
+    def getMorerows(self) -> String:
         """
         AUTOSAR-compliant getter for morerows.
 
@@ -1997,7 +1997,7 @@ class Entry(ARObject):
         """
         return self.morerows  # Delegates to property
 
-    def setMorerows(self, value: "String") -> Entry:
+    def setMorerows(self, value: String) -> Entry:
         """
         AUTOSAR-compliant setter for morerows with method chaining.
 
@@ -2013,7 +2013,7 @@ class Entry(ARObject):
         self.morerows = value  # Delegates to property setter
         return self
 
-    def getNameend(self) -> "String":
+    def getNameend(self) -> String:
         """
         AUTOSAR-compliant getter for nameend.
 
@@ -2025,7 +2025,7 @@ class Entry(ARObject):
         """
         return self.nameend  # Delegates to property
 
-    def setNameend(self, value: "String") -> Entry:
+    def setNameend(self, value: String) -> Entry:
         """
         AUTOSAR-compliant setter for nameend with method chaining.
 
@@ -2041,7 +2041,7 @@ class Entry(ARObject):
         self.nameend = value  # Delegates to property setter
         return self
 
-    def getNamest(self) -> "String":
+    def getNamest(self) -> String:
         """
         AUTOSAR-compliant getter for namest.
 
@@ -2053,7 +2053,7 @@ class Entry(ARObject):
         """
         return self.namest  # Delegates to property
 
-    def setNamest(self, value: "String") -> Entry:
+    def setNamest(self, value: String) -> Entry:
         """
         AUTOSAR-compliant setter for namest with method chaining.
 
@@ -2069,7 +2069,7 @@ class Entry(ARObject):
         self.namest = value  # Delegates to property setter
         return self
 
-    def getRotate(self) -> "String":
+    def getRotate(self) -> String:
         """
         AUTOSAR-compliant getter for rotate.
 
@@ -2081,7 +2081,7 @@ class Entry(ARObject):
         """
         return self.rotate  # Delegates to property
 
-    def setRotate(self, value: "String") -> Entry:
+    def setRotate(self, value: String) -> Entry:
         """
         AUTOSAR-compliant setter for rotate with method chaining.
 
@@ -2125,7 +2125,7 @@ class Entry(ARObject):
         self.rowsep = value  # Delegates to property setter
         return self
 
-    def getSpanname(self) -> "String":
+    def getSpanname(self) -> String:
         """
         AUTOSAR-compliant getter for spanname.
 
@@ -2137,7 +2137,7 @@ class Entry(ARObject):
         """
         return self.spanname  # Delegates to property
 
-    def setSpanname(self, value: "String") -> Entry:
+    def setSpanname(self, value: String) -> Entry:
         """
         AUTOSAR-compliant setter for spanname with method chaining.
 
@@ -2199,7 +2199,7 @@ class Entry(ARObject):
         self.align = value  # Use property setter (gets validation)
         return self
 
-    def with_bgcolor(self, value: "String") -> Entry:
+    def with_bgcolor(self, value: String) -> Entry:
         """
         Set bgcolor and return self for chaining.
 
@@ -2247,7 +2247,7 @@ class Entry(ARObject):
         self.colsep = value  # Use property setter (gets validation)
         return self
 
-    def with_entry_contents(self, value: "DocumentationBlock") -> Entry:
+    def with_entry_contents(self, value: DocumentationBlock) -> Entry:
         """
         Set entryContents and return self for chaining.
 
@@ -2596,7 +2596,7 @@ class Colspec(ARObject):
         self.align = value  # Delegates to property setter
         return self
 
-    def getColname(self) -> "String":
+    def getColname(self) -> String:
         """
         AUTOSAR-compliant getter for colname.
 
@@ -2608,7 +2608,7 @@ class Colspec(ARObject):
         """
         return self.colname  # Delegates to property
 
-    def setColname(self, value: "String") -> Colspec:
+    def setColname(self, value: String) -> Colspec:
         """
         AUTOSAR-compliant setter for colname with method chaining.
 
@@ -2624,7 +2624,7 @@ class Colspec(ARObject):
         self.colname = value  # Delegates to property setter
         return self
 
-    def getColnum(self) -> "String":
+    def getColnum(self) -> String:
         """
         AUTOSAR-compliant getter for colnum.
 
@@ -2636,7 +2636,7 @@ class Colspec(ARObject):
         """
         return self.colnum  # Delegates to property
 
-    def setColnum(self, value: "String") -> Colspec:
+    def setColnum(self, value: String) -> Colspec:
         """
         AUTOSAR-compliant setter for colnum with method chaining.
 
@@ -2680,7 +2680,7 @@ class Colspec(ARObject):
         self.colsep = value  # Delegates to property setter
         return self
 
-    def getColwidth(self) -> "String":
+    def getColwidth(self) -> String:
         """
         AUTOSAR-compliant getter for colwidth.
 
@@ -2692,7 +2692,7 @@ class Colspec(ARObject):
         """
         return self.colwidth  # Delegates to property
 
-    def setColwidth(self, value: "String") -> Colspec:
+    def setColwidth(self, value: String) -> Colspec:
         """
         AUTOSAR-compliant setter for colwidth with method chaining.
 

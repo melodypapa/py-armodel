@@ -311,15 +311,15 @@ class RptExecutableEntityProperties(ARObject):
         # Highest RPT event id usable for RTE generated service attribute is relevant,
         # if dedicated id range applied to the ExecutableEntitys of a software specific
         # ExecutableEntitys.
-        self._maxRptEventId: Optional["PositiveInteger"] = None
+        self._maxRptEventId: Optional[PositiveInteger] = None
 
     @property
-    def max_rpt_event_id(self) -> Optional["PositiveInteger"]:
+    def max_rpt_event_id(self) -> Optional[PositiveInteger]:
         """Get maxRptEventId (Pythonic accessor)."""
         return self._maxRptEventId
 
     @max_rpt_event_id.setter
-    def max_rpt_event_id(self, value: Optional["PositiveInteger"]) -> None:
+    def max_rpt_event_id(self, value: Optional[PositiveInteger]) -> None:
         """
         Set maxRptEventId with validation.
 
@@ -340,15 +340,15 @@ class RptExecutableEntityProperties(ARObject):
         self._maxRptEventId = value
         # if dedicated id range applied to the ExecutableEntitys of a software specific
         # ExecutableEntitys.
-        self._minRptEventId: Optional["PositiveInteger"] = None
+        self._minRptEventId: Optional[PositiveInteger] = None
 
     @property
-    def min_rpt_event_id(self) -> Optional["PositiveInteger"]:
+    def min_rpt_event_id(self) -> Optional[PositiveInteger]:
         """Get minRptEventId (Pythonic accessor)."""
         return self._minRptEventId
 
     @min_rpt_event_id.setter
-    def min_rpt_event_id(self, value: Optional["PositiveInteger"]) -> None:
+    def min_rpt_event_id(self, value: Optional[PositiveInteger]) -> None:
         """
         Set minRptEventId with validation.
 
@@ -424,7 +424,7 @@ class RptExecutableEntityProperties(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getMaxRptEventId(self) -> "PositiveInteger":
+    def getMaxRptEventId(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for maxRptEventId.
 
@@ -436,7 +436,7 @@ class RptExecutableEntityProperties(ARObject):
         """
         return self.max_rpt_event_id  # Delegates to property
 
-    def setMaxRptEventId(self, value: "PositiveInteger") -> RptExecutableEntityProperties:
+    def setMaxRptEventId(self, value: PositiveInteger) -> RptExecutableEntityProperties:
         """
         AUTOSAR-compliant setter for maxRptEventId with method chaining.
 
@@ -452,7 +452,7 @@ class RptExecutableEntityProperties(ARObject):
         self.max_rpt_event_id = value  # Delegates to property setter
         return self
 
-    def getMinRptEventId(self) -> "PositiveInteger":
+    def getMinRptEventId(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for minRptEventId.
 
@@ -464,7 +464,7 @@ class RptExecutableEntityProperties(ARObject):
         """
         return self.min_rpt_event_id  # Delegates to property
 
-    def setMinRptEventId(self, value: "PositiveInteger") -> RptExecutableEntityProperties:
+    def setMinRptEventId(self, value: PositiveInteger) -> RptExecutableEntityProperties:
         """
         AUTOSAR-compliant setter for minRptEventId with method chaining.
 
@@ -538,7 +538,7 @@ class RptExecutableEntityProperties(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_max_rpt_event_id(self, value: Optional["PositiveInteger"]) -> RptExecutableEntityProperties:
+    def with_max_rpt_event_id(self, value: Optional[PositiveInteger]) -> RptExecutableEntityProperties:
         """
         Set maxRptEventId and return self for chaining.
 
@@ -554,7 +554,7 @@ class RptExecutableEntityProperties(ARObject):
         self.max_rpt_event_id = value  # Use property setter (gets validation)
         return self
 
-    def with_min_rpt_event_id(self, value: Optional["PositiveInteger"]) -> RptExecutableEntityProperties:
+    def with_min_rpt_event_id(self, value: Optional[PositiveInteger]) -> RptExecutableEntityProperties:
         """
         Set minRptEventId and return self for chaining.
 
@@ -865,10 +865,10 @@ class RptContainer(Identifiable):
                 # the host system and to results of the host system by the the rapid
                 # prototyping algorithm.
         # atpVariation by: AnyInstanceRef.
-        self._byPassPoint: List["AtpFeature"] = []
+        self._byPassPoint: List[AtpFeature] = []
 
     @property
-    def by_pass_point(self) -> List["AtpFeature"]:
+    def by_pass_point(self) -> List[AtpFeature]:
         """Get byPassPoint (Pythonic accessor)."""
         return self._byPassPoint
         # This attribute defines the applicable RptProfiles for the RptContainer.
@@ -1003,7 +1003,7 @@ class RptContainer(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getByPassPoint(self) -> List["AtpFeature"]:
+    def getByPassPoint(self) -> List[AtpFeature]:
         """
         AUTOSAR-compliant getter for byPassPoint.
 
@@ -1237,15 +1237,15 @@ class RptHook(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attribute provides a code label which is used in the the hook.
         # For example this can be an C or the name of data definition.
-        self._codeLabel: Optional["CIdentifier"] = None
+        self._codeLabel: Optional[CIdentifier] = None
 
     @property
-    def code_label(self) -> Optional["CIdentifier"]:
+    def code_label(self) -> Optional[CIdentifier]:
         """Get codeLabel (Pythonic accessor)."""
         return self._codeLabel
 
     @code_label.setter
-    def code_label(self, value: Optional["CIdentifier"]) -> None:
+    def code_label(self, value: Optional[CIdentifier]) -> None:
         """
         Set codeLabel with validation.
 
@@ -1292,15 +1292,15 @@ class RptHook(ARObject):
                 f"mcdIdentifier must be NameToken or str or None, got {type(value).__name__}"
             )
         self._mcdIdentifier = value
-        self._rptArHook: Optional["AtpFeature"] = None
+        self._rptArHook: Optional[AtpFeature] = None
 
     @property
-    def rpt_ar_hook(self) -> Optional["AtpFeature"]:
+    def rpt_ar_hook(self) -> Optional[AtpFeature]:
         """Get rptArHook (Pythonic accessor)."""
         return self._rptArHook
 
     @rpt_ar_hook.setter
-    def rpt_ar_hook(self, value: Optional["AtpFeature"]) -> None:
+    def rpt_ar_hook(self, value: Optional[AtpFeature]) -> None:
         """
         Set rptArHook with validation.
 
@@ -1329,7 +1329,7 @@ class RptHook(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCodeLabel(self) -> "CIdentifier":
+    def getCodeLabel(self) -> CIdentifier:
         """
         AUTOSAR-compliant getter for codeLabel.
 
@@ -1341,7 +1341,7 @@ class RptHook(ARObject):
         """
         return self.code_label  # Delegates to property
 
-    def setCodeLabel(self, value: "CIdentifier") -> RptHook:
+    def setCodeLabel(self, value: CIdentifier) -> RptHook:
         """
         AUTOSAR-compliant setter for codeLabel with method chaining.
 
@@ -1385,7 +1385,7 @@ class RptHook(ARObject):
         self.mcd_identifier = value  # Delegates to property setter
         return self
 
-    def getRptArHook(self) -> "AtpFeature":
+    def getRptArHook(self) -> AtpFeature:
         """
         AUTOSAR-compliant getter for rptArHook.
 
@@ -1397,7 +1397,7 @@ class RptHook(ARObject):
         """
         return self.rpt_ar_hook  # Delegates to property
 
-    def setRptArHook(self, value: "AtpFeature") -> RptHook:
+    def setRptArHook(self, value: AtpFeature) -> RptHook:
         """
         AUTOSAR-compliant setter for rptArHook with method chaining.
 
@@ -1427,7 +1427,7 @@ class RptHook(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_code_label(self, value: Optional["CIdentifier"]) -> RptHook:
+    def with_code_label(self, value: Optional[CIdentifier]) -> RptHook:
         """
         Set codeLabel and return self for chaining.
 
@@ -1459,7 +1459,7 @@ class RptHook(ARObject):
         self.mcd_identifier = value  # Use property setter (gets validation)
         return self
 
-    def with_rpt_ar_hook(self, value: Optional["AtpFeature"]) -> RptHook:
+    def with_rpt_ar_hook(self, value: Optional[AtpFeature]) -> RptHook:
         """
         Set rptArHook and return self for chaining.
 
@@ -1493,15 +1493,15 @@ class RptProfile(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Highest service point id useable for RTE generated points.
-        self._maxService: Optional["PositiveInteger"] = None
+        self._maxService: Optional[PositiveInteger] = None
 
     @property
-    def max_service(self) -> Optional["PositiveInteger"]:
+    def max_service(self) -> Optional[PositiveInteger]:
         """Get maxService (Pythonic accessor)."""
         return self._maxService
 
     @max_service.setter
-    def max_service(self, value: Optional["PositiveInteger"]) -> None:
+    def max_service(self, value: Optional[PositiveInteger]) -> None:
         """
         Set maxService with validation.
 
@@ -1520,15 +1520,15 @@ class RptProfile(Identifiable):
                 f"maxService must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._maxService = value
-        self._minServicePoint: Optional["PositiveInteger"] = None
+        self._minServicePoint: Optional[PositiveInteger] = None
 
     @property
-    def min_service_point(self) -> Optional["PositiveInteger"]:
+    def min_service_point(self) -> Optional[PositiveInteger]:
         """Get minServicePoint (Pythonic accessor)."""
         return self._minServicePoint
 
     @min_service_point.setter
-    def min_service_point(self, value: Optional["PositiveInteger"]) -> None:
+    def min_service_point(self, value: Optional[PositiveInteger]) -> None:
         """
         Set minServicePoint with validation.
 
@@ -1549,15 +1549,15 @@ class RptProfile(Identifiable):
         self._minServicePoint = value
         # This symbol is used for post-build hooking 1228 Document ID 62:
                 # AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11.
-        self._servicePoint: Optional["CIdentifier"] = None
+        self._servicePoint: Optional[CIdentifier] = None
 
     @property
-    def service_point(self) -> Optional["CIdentifier"]:
+    def service_point(self) -> Optional[CIdentifier]:
         """Get servicePoint (Pythonic accessor)."""
         return self._servicePoint
 
     @service_point.setter
-    def service_point(self, value: Optional["CIdentifier"]) -> None:
+    def service_point(self, value: Optional[CIdentifier]) -> None:
         """
         Set servicePoint with validation.
 
@@ -1608,7 +1608,7 @@ class RptProfile(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getMaxService(self) -> "PositiveInteger":
+    def getMaxService(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for maxService.
 
@@ -1620,7 +1620,7 @@ class RptProfile(Identifiable):
         """
         return self.max_service  # Delegates to property
 
-    def setMaxService(self, value: "PositiveInteger") -> RptProfile:
+    def setMaxService(self, value: PositiveInteger) -> RptProfile:
         """
         AUTOSAR-compliant setter for maxService with method chaining.
 
@@ -1636,7 +1636,7 @@ class RptProfile(Identifiable):
         self.max_service = value  # Delegates to property setter
         return self
 
-    def getMinServicePoint(self) -> "PositiveInteger":
+    def getMinServicePoint(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for minServicePoint.
 
@@ -1648,7 +1648,7 @@ class RptProfile(Identifiable):
         """
         return self.min_service_point  # Delegates to property
 
-    def setMinServicePoint(self, value: "PositiveInteger") -> RptProfile:
+    def setMinServicePoint(self, value: PositiveInteger) -> RptProfile:
         """
         AUTOSAR-compliant setter for minServicePoint with method chaining.
 
@@ -1664,7 +1664,7 @@ class RptProfile(Identifiable):
         self.min_service_point = value  # Delegates to property setter
         return self
 
-    def getServicePoint(self) -> "CIdentifier":
+    def getServicePoint(self) -> CIdentifier:
         """
         AUTOSAR-compliant getter for servicePoint.
 
@@ -1676,7 +1676,7 @@ class RptProfile(Identifiable):
         """
         return self.service_point  # Delegates to property
 
-    def setServicePoint(self, value: "CIdentifier") -> RptProfile:
+    def setServicePoint(self, value: CIdentifier) -> RptProfile:
         """
         AUTOSAR-compliant setter for servicePoint with method chaining.
 
@@ -1722,7 +1722,7 @@ class RptProfile(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_max_service(self, value: Optional["PositiveInteger"]) -> RptProfile:
+    def with_max_service(self, value: Optional[PositiveInteger]) -> RptProfile:
         """
         Set maxService and return self for chaining.
 
@@ -1738,7 +1738,7 @@ class RptProfile(Identifiable):
         self.max_service = value  # Use property setter (gets validation)
         return self
 
-    def with_min_service_point(self, value: Optional["PositiveInteger"]) -> RptProfile:
+    def with_min_service_point(self, value: Optional[PositiveInteger]) -> RptProfile:
         """
         Set minServicePoint and return self for chaining.
 
@@ -1754,7 +1754,7 @@ class RptProfile(Identifiable):
         self.min_service_point = value  # Use property setter (gets validation)
         return self
 
-    def with_service_point(self, value: Optional["CIdentifier"]) -> RptProfile:
+    def with_service_point(self, value: Optional[CIdentifier]) -> RptProfile:
         """
         Set servicePoint and return self for chaining.
 

@@ -236,15 +236,15 @@ class TransmissionModeCondition(ARObject):
                 f"dataFilter must be DataFilter or None, got {type(value).__name__}"
             )
         self._dataFilter = value
-        self._iSignalInIPdu: Optional["RefType"] = None
+        self._iSignalInIPdu: Optional[RefType] = None
 
     @property
-    def i_signal_in_i_pdu(self) -> Optional["RefType"]:
+    def i_signal_in_i_pdu(self) -> Optional[RefType]:
         """Get iSignalInIPdu (Pythonic accessor)."""
         return self._iSignalInIPdu
 
     @i_signal_in_i_pdu.setter
-    def i_signal_in_i_pdu(self, value: Optional["RefType"]) -> None:
+    def i_signal_in_i_pdu(self, value: Optional[RefType]) -> None:
         """
         Set iSignalInIPdu with validation.
 
@@ -290,7 +290,7 @@ class TransmissionModeCondition(ARObject):
         self.data_filter = value  # Delegates to property setter
         return self
 
-    def getISignalInIPdu(self) -> "RefType":
+    def getISignalInIPdu(self) -> RefType:
         """
         AUTOSAR-compliant getter for iSignalInIPdu.
 
@@ -302,7 +302,7 @@ class TransmissionModeCondition(ARObject):
         """
         return self.i_signal_in_i_pdu  # Delegates to property
 
-    def setISignalInIPdu(self, value: "RefType") -> TransmissionModeCondition:
+    def setISignalInIPdu(self, value: RefType) -> TransmissionModeCondition:
         """
         AUTOSAR-compliant setter for iSignalInIPdu with method chaining.
 
@@ -749,15 +749,15 @@ class EventControlledTiming(Describable):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Defines the number of repetitions for the Direct/N-Times mode and the event
         # driven part of Mixed.
-        self._numberOf: Optional["Integer"] = None
+        self._numberOf: Optional[Integer] = None
 
     @property
-    def number_of(self) -> Optional["Integer"]:
+    def number_of(self) -> Optional[Integer]:
         """Get numberOf (Pythonic accessor)."""
         return self._numberOf
 
     @number_of.setter
-    def number_of(self, value: Optional["Integer"]) -> None:
+    def number_of(self, value: Optional[Integer]) -> None:
         """
         Set numberOf with validation.
 
@@ -808,7 +808,7 @@ class EventControlledTiming(Describable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getNumberOf(self) -> "Integer":
+    def getNumberOf(self) -> Integer:
         """
         AUTOSAR-compliant getter for numberOf.
 
@@ -820,7 +820,7 @@ class EventControlledTiming(Describable):
         """
         return self.number_of  # Delegates to property
 
-    def setNumberOf(self, value: "Integer") -> EventControlledTiming:
+    def setNumberOf(self, value: Integer) -> EventControlledTiming:
         """
         AUTOSAR-compliant setter for numberOf with method chaining.
 
@@ -866,7 +866,7 @@ class EventControlledTiming(Describable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_number_of(self, value: Optional["Integer"]) -> EventControlledTiming:
+    def with_number_of(self, value: Optional[Integer]) -> EventControlledTiming:
         """
         Set numberOf and return self for chaining.
 
@@ -942,15 +942,15 @@ class TimeRangeType(ARObject):
                 f"toleranceTolerance must be TimeRangeType or None, got {type(value).__name__}"
             )
         self._toleranceTolerance = value
-        self._value: Optional["TimeValue"] = None
+        self._value: Optional[TimeValue] = None
 
     @property
-    def value(self) -> Optional["TimeValue"]:
+    def value(self) -> Optional[TimeValue]:
         """Get value (Pythonic accessor)."""
         return self._value
 
     @value.setter
-    def value(self, value: Optional["TimeValue"]) -> None:
+    def value(self, value: Optional[TimeValue]) -> None:
         """
         Set value with validation.
 
@@ -1000,7 +1000,7 @@ class TimeRangeType(ARObject):
         self.tolerance_tolerance = value  # Delegates to property setter
         return self
 
-    def getValue(self) -> "TimeValue":
+    def getValue(self) -> TimeValue:
         """
         AUTOSAR-compliant getter for value.
 
@@ -1012,7 +1012,7 @@ class TimeRangeType(ARObject):
         """
         return self.value  # Delegates to property
 
-    def setValue(self, value: "TimeValue") -> TimeRangeType:
+    def setValue(self, value: TimeValue) -> TimeRangeType:
         """
         AUTOSAR-compliant setter for value with method chaining.
 
@@ -1046,7 +1046,7 @@ class TimeRangeType(ARObject):
         self.tolerance_tolerance = value  # Use property setter (gets validation)
         return self
 
-    def with_value(self, value: Optional["TimeValue"]) -> TimeRangeType:
+    def with_value(self, value: Optional[TimeValue]) -> TimeRangeType:
         """
         Set value and return self for chaining.
 
@@ -1078,15 +1078,15 @@ class RelativeTolerance(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Maximum allowable deviation in percent (percent of the.
-        self._relative: Optional["Integer"] = None
+        self._relative: Optional[Integer] = None
 
     @property
-    def relative(self) -> Optional["Integer"]:
+    def relative(self) -> Optional[Integer]:
         """Get relative (Pythonic accessor)."""
         return self._relative
 
     @relative.setter
-    def relative(self, value: Optional["Integer"]) -> None:
+    def relative(self, value: Optional[Integer]) -> None:
         """
         Set relative with validation.
 
@@ -1108,7 +1108,7 @@ class RelativeTolerance(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getRelative(self) -> "Integer":
+    def getRelative(self) -> Integer:
         """
         AUTOSAR-compliant getter for relative.
 
@@ -1120,7 +1120,7 @@ class RelativeTolerance(ARObject):
         """
         return self.relative  # Delegates to property
 
-    def setRelative(self, value: "Integer") -> RelativeTolerance:
+    def setRelative(self, value: Integer) -> RelativeTolerance:
         """
         AUTOSAR-compliant setter for relative with method chaining.
 
@@ -1138,7 +1138,7 @@ class RelativeTolerance(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_relative(self, value: Optional["Integer"]) -> RelativeTolerance:
+    def with_relative(self, value: Optional[Integer]) -> RelativeTolerance:
         """
         Set relative and return self for chaining.
 
@@ -1170,15 +1170,15 @@ class AbsoluteTolerance(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Maximum allowable deviation in duration (in seconds).
-        self._absolute: Optional["TimeValue"] = None
+        self._absolute: Optional[TimeValue] = None
 
     @property
-    def absolute(self) -> Optional["TimeValue"]:
+    def absolute(self) -> Optional[TimeValue]:
         """Get absolute (Pythonic accessor)."""
         return self._absolute
 
     @absolute.setter
-    def absolute(self, value: Optional["TimeValue"]) -> None:
+    def absolute(self, value: Optional[TimeValue]) -> None:
         """
         Set absolute with validation.
 
@@ -1200,7 +1200,7 @@ class AbsoluteTolerance(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAbsolute(self) -> "TimeValue":
+    def getAbsolute(self) -> TimeValue:
         """
         AUTOSAR-compliant getter for absolute.
 
@@ -1212,7 +1212,7 @@ class AbsoluteTolerance(ARObject):
         """
         return self.absolute  # Delegates to property
 
-    def setAbsolute(self, value: "TimeValue") -> AbsoluteTolerance:
+    def setAbsolute(self, value: TimeValue) -> AbsoluteTolerance:
         """
         AUTOSAR-compliant setter for absolute with method chaining.
 
@@ -1230,7 +1230,7 @@ class AbsoluteTolerance(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_absolute(self, value: Optional["TimeValue"]) -> AbsoluteTolerance:
+    def with_absolute(self, value: Optional[TimeValue]) -> AbsoluteTolerance:
         """
         Set absolute and return self for chaining.
 

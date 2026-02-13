@@ -60,23 +60,23 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
         self._base = value
         # sequenceOffset=20 1228 Document ID 62:
                 # AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11.
-        self._contextData: List["ApplicationComposite"] = []
+        self._contextData: List[ApplicationComposite] = []
 
     @property
-    def context_data(self) -> List["ApplicationComposite"]:
+    def context_data(self) -> List[ApplicationComposite]:
         """Get contextData (Pythonic accessor)."""
         return self._contextData
         # This refers to the dataPrototype which is typed by the in which which the
         # target can be.
-        self._rootData: Optional["RefType"] = None
+        self._rootData: Optional[RefType] = None
 
     @property
-    def root_data(self) -> Optional["RefType"]:
+    def root_data(self) -> Optional[RefType]:
         """Get rootData (Pythonic accessor)."""
         return self._rootData
 
     @root_data.setter
-    def root_data(self, value: Optional["RefType"]) -> None:
+    def root_data(self, value: Optional[RefType]) -> None:
         """
         Set rootData with validation.
 
@@ -91,15 +91,15 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
             return
 
         self._rootData = value
-        self._targetData: Optional["ApplicationComposite"] = None
+        self._targetData: Optional[ApplicationComposite] = None
 
     @property
-    def target_data(self) -> Optional["ApplicationComposite"]:
+    def target_data(self) -> Optional[ApplicationComposite]:
         """Get targetData (Pythonic accessor)."""
         return self._targetData
 
     @target_data.setter
-    def target_data(self, value: Optional["ApplicationComposite"]) -> None:
+    def target_data(self, value: Optional[ApplicationComposite]) -> None:
         """
         Set targetData with validation.
 
@@ -165,7 +165,7 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
         self.base = value  # Delegates to property setter
         return self
 
-    def getContextData(self) -> List["ApplicationComposite"]:
+    def getContextData(self) -> List[ApplicationComposite]:
         """
         AUTOSAR-compliant getter for contextData.
 
@@ -177,7 +177,7 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
         """
         return self.context_data  # Delegates to property
 
-    def getRootData(self) -> "RefType":
+    def getRootData(self) -> RefType:
         """
         AUTOSAR-compliant getter for rootData.
 
@@ -189,7 +189,7 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
         """
         return self.root_data  # Delegates to property
 
-    def setRootData(self, value: "RefType") -> ApplicationCompositeElementInPortInterfaceInstanceRef:
+    def setRootData(self, value: RefType) -> ApplicationCompositeElementInPortInterfaceInstanceRef:
         """
         AUTOSAR-compliant setter for rootData with method chaining.
 
@@ -205,7 +205,7 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
         self.root_data = value  # Delegates to property setter
         return self
 
-    def getTargetData(self) -> "ApplicationComposite":
+    def getTargetData(self) -> ApplicationComposite:
         """
         AUTOSAR-compliant getter for targetData.
 
@@ -217,7 +217,7 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
         """
         return self.target_data  # Delegates to property
 
-    def setTargetData(self, value: "ApplicationComposite") -> ApplicationCompositeElementInPortInterfaceInstanceRef:
+    def setTargetData(self, value: ApplicationComposite) -> ApplicationCompositeElementInPortInterfaceInstanceRef:
         """
         AUTOSAR-compliant setter for targetData with method chaining.
 
@@ -267,7 +267,7 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
         self.root_data = value  # Use property setter (gets validation)
         return self
 
-    def with_target_data(self, value: Optional["ApplicationComposite"]) -> ApplicationCompositeElementInPortInterfaceInstanceRef:
+    def with_target_data(self, value: Optional[ApplicationComposite]) -> ApplicationCompositeElementInPortInterfaceInstanceRef:
         """
         Set targetData and return self for chaining.
 

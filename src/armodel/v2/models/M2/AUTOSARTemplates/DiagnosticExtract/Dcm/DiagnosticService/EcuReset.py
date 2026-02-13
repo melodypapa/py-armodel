@@ -36,15 +36,15 @@ class DiagnosticEcuReset(DiagnosticServiceInstance):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attribute shall be used to define a custom number if none of the
         # standardized values of shall be used.
-        self._customSub: Optional["PositiveInteger"] = None
+        self._customSub: Optional[PositiveInteger] = None
 
     @property
-    def custom_sub(self) -> Optional["PositiveInteger"]:
+    def custom_sub(self) -> Optional[PositiveInteger]:
         """Get customSub (Pythonic accessor)."""
         return self._customSub
 
     @custom_sub.setter
-    def custom_sub(self, value: Optional["PositiveInteger"]) -> None:
+    def custom_sub(self, value: Optional[PositiveInteger]) -> None:
         """
         Set customSub with validation.
 
@@ -94,7 +94,7 @@ class DiagnosticEcuReset(DiagnosticServiceInstance):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCustomSub(self) -> "PositiveInteger":
+    def getCustomSub(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for customSub.
 
@@ -106,7 +106,7 @@ class DiagnosticEcuReset(DiagnosticServiceInstance):
         """
         return self.custom_sub  # Delegates to property
 
-    def setCustomSub(self, value: "PositiveInteger") -> DiagnosticEcuReset:
+    def setCustomSub(self, value: PositiveInteger) -> DiagnosticEcuReset:
         """
         AUTOSAR-compliant setter for customSub with method chaining.
 
@@ -152,7 +152,7 @@ class DiagnosticEcuReset(DiagnosticServiceInstance):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_custom_sub(self, value: Optional["PositiveInteger"]) -> DiagnosticEcuReset:
+    def with_custom_sub(self, value: Optional[PositiveInteger]) -> DiagnosticEcuReset:
         """
         Set customSub and return self for chaining.
 

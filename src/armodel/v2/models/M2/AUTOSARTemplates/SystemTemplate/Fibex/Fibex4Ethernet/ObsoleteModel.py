@@ -42,15 +42,15 @@ class SoAdRoutingGroup(FibexElement):
                 # that are sent out server side after a client got subscribed.
         # that this attribute is only valid for event Receiver communication) and
                 # omitted in MethodActivationRoutingGroups.
-        self._eventGroup: Optional["RefType"] = None
+        self._eventGroup: Optional[RefType] = None
 
     @property
-    def event_group(self) -> Optional["RefType"]:
+    def event_group(self) -> Optional[RefType]:
         """Get eventGroup (Pythonic accessor)."""
         return self._eventGroup
 
     @event_group.setter
-    def event_group(self, value: Optional["RefType"]) -> None:
+    def event_group(self, value: Optional[RefType]) -> None:
         """
         Set eventGroup with validation.
 
@@ -84,7 +84,7 @@ class SoAdRoutingGroup(FibexElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getEventGroup(self) -> "RefType":
+    def getEventGroup(self) -> RefType:
         """
         AUTOSAR-compliant getter for eventGroup.
 
@@ -96,7 +96,7 @@ class SoAdRoutingGroup(FibexElement):
         """
         return self.event_group  # Delegates to property
 
-    def setEventGroup(self, value: "RefType") -> SoAdRoutingGroup:
+    def setEventGroup(self, value: RefType) -> SoAdRoutingGroup:
         """
         AUTOSAR-compliant setter for eventGroup with method chaining.
 
@@ -155,15 +155,15 @@ class SocketConnection(Describable):
         # 1.
         # 2.
         # This means that configured IP Address of the Client shall be.
-        self._clientIpAddr: Optional["Boolean"] = None
+        self._clientIpAddr: Optional[Boolean] = None
 
     @property
-    def client_ip_addr(self) -> Optional["Boolean"]:
+    def client_ip_addr(self) -> Optional[Boolean]:
         """Get clientIpAddr (Pythonic accessor)."""
         return self._clientIpAddr
 
     @client_ip_addr.setter
-    def client_ip_addr(self, value: Optional["Boolean"]) -> None:
+    def client_ip_addr(self, value: Optional[Boolean]) -> None:
         """
         Set clientIpAddr with validation.
 
@@ -214,15 +214,15 @@ class SocketConnection(Describable):
         # This means that the statically Port of the related client shall be ignored.
         # If set the Server only accepts statically configured Port.
         # that the statically configured Port of the Client used.
-        self._clientPortFrom: Optional["Boolean"] = None
+        self._clientPortFrom: Optional[Boolean] = None
 
     @property
-    def client_port_from(self) -> Optional["Boolean"]:
+    def client_port_from(self) -> Optional[Boolean]:
         """Get clientPortFrom (Pythonic accessor)."""
         return self._clientPortFrom
 
     @client_port_from.setter
-    def client_port_from(self, value: Optional["Boolean"]) -> None:
+    def client_port_from(self, value: Optional[Boolean]) -> None:
         """
         Set clientPortFrom with validation.
 
@@ -252,15 +252,15 @@ class SocketConnection(Describable):
         # Defines the time in seconds which shall pass before a with Pdu collection
         # enabled shall be transmitted to layer after the first Pdu has been put into
         # the.
-        self._pduCollection: Optional["TimeValue"] = None
+        self._pduCollection: Optional[TimeValue] = None
 
     @property
-    def pdu_collection(self) -> Optional["TimeValue"]:
+    def pdu_collection(self) -> Optional[TimeValue]:
         """Get pduCollection (Pythonic accessor)."""
         return self._pduCollection
 
     @pdu_collection.setter
-    def pdu_collection(self, value: Optional["TimeValue"]) -> None:
+    def pdu_collection(self, value: Optional[TimeValue]) -> None:
         """
         Set pduCollection with validation.
 
@@ -372,7 +372,7 @@ class SocketConnection(Describable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getClientIpAddr(self) -> "Boolean":
+    def getClientIpAddr(self) -> Boolean:
         """
         AUTOSAR-compliant getter for clientIpAddr.
 
@@ -384,7 +384,7 @@ class SocketConnection(Describable):
         """
         return self.client_ip_addr  # Delegates to property
 
-    def setClientIpAddr(self, value: "Boolean") -> SocketConnection:
+    def setClientIpAddr(self, value: Boolean) -> SocketConnection:
         """
         AUTOSAR-compliant setter for clientIpAddr with method chaining.
 
@@ -428,7 +428,7 @@ class SocketConnection(Describable):
         self.client_port = value  # Delegates to property setter
         return self
 
-    def getClientPortFrom(self) -> "Boolean":
+    def getClientPortFrom(self) -> Boolean:
         """
         AUTOSAR-compliant getter for clientPortFrom.
 
@@ -440,7 +440,7 @@ class SocketConnection(Describable):
         """
         return self.client_port_from  # Delegates to property
 
-    def setClientPortFrom(self, value: "Boolean") -> SocketConnection:
+    def setClientPortFrom(self, value: Boolean) -> SocketConnection:
         """
         AUTOSAR-compliant setter for clientPortFrom with method chaining.
 
@@ -468,7 +468,7 @@ class SocketConnection(Describable):
         """
         return self.pdu  # Delegates to property
 
-    def getPduCollection(self) -> "TimeValue":
+    def getPduCollection(self) -> TimeValue:
         """
         AUTOSAR-compliant getter for pduCollection.
 
@@ -480,7 +480,7 @@ class SocketConnection(Describable):
         """
         return self.pdu_collection  # Delegates to property
 
-    def setPduCollection(self, value: "TimeValue") -> SocketConnection:
+    def setPduCollection(self, value: TimeValue) -> SocketConnection:
         """
         AUTOSAR-compliant setter for pduCollection with method chaining.
 
@@ -582,7 +582,7 @@ class SocketConnection(Describable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_client_ip_addr(self, value: Optional["Boolean"]) -> SocketConnection:
+    def with_client_ip_addr(self, value: Optional[Boolean]) -> SocketConnection:
         """
         Set clientIpAddr and return self for chaining.
 
@@ -614,7 +614,7 @@ class SocketConnection(Describable):
         self.client_port = value  # Use property setter (gets validation)
         return self
 
-    def with_client_port_from(self, value: Optional["Boolean"]) -> SocketConnection:
+    def with_client_port_from(self, value: Optional[Boolean]) -> SocketConnection:
         """
         Set clientPortFrom and return self for chaining.
 
@@ -630,7 +630,7 @@ class SocketConnection(Describable):
         self.client_port_from = value  # Use property setter (gets validation)
         return self
 
-    def with_pdu_collection(self, value: Optional["TimeValue"]) -> SocketConnection:
+    def with_pdu_collection(self, value: Optional[TimeValue]) -> SocketConnection:
         """
         Set pduCollection and return self for chaining.
 

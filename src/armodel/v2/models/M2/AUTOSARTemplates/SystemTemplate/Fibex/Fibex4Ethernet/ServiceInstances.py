@@ -13,6 +13,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     Boolean,
     PositiveInteger,
     RefType,
+    TimeValue,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -27,11 +28,20 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__ import (
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import (
     FibexElement,
 )
 
 
+
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
+    ApplicationEndpoint,
+    EthernetCommunication,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
+    PduActivationRouting,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (    AbstractService,    AnyServiceInstanceId,    AnyVersionString,    ConsumedService,    ProvidedService,    SdClientConfig,    SdServerConfig,    ServiceVersion,    SocketConnection,    SomeipSdClientEvent,    SomeipSdClientService,    SomeipSdServer,    SomeipSdServerEvent,    TagWithOptionalValue,    UdpChecksum,)from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate import (    NetworkEndpoint,)
 class ConsumedEventGroup(Identifiable):
     """
     This element represents an event-group to which the service consumer wants
@@ -52,15 +62,15 @@ class ConsumedEventGroup(Identifiable):
                 # in case of multicast reception.
         # 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template
                 # R23-11.
-        self._application: Optional["ApplicationEndpoint"] = None
+        self._application: Optional[ApplicationEndpoint] = None
 
     @property
-    def application(self) -> Optional["ApplicationEndpoint"]:
+    def application(self) -> Optional[ApplicationEndpoint]:
         """Get application (Pythonic accessor)."""
         return self._application
 
     @application.setter
-    def application(self, value: Optional["ApplicationEndpoint"]) -> None:
+    def application(self, value: Optional[ApplicationEndpoint]) -> None:
         """
         Set application with validation.
 
@@ -83,15 +93,15 @@ class ConsumedEventGroup(Identifiable):
         # This could be at if ConsumedServiceInstance.
         # autoRequire is TRUE or as soon as the ConsumedServiceInstance by the
                 # application, if ConsumedService set to FALSE.
-        self._autoRequire: Optional["Boolean"] = None
+        self._autoRequire: Optional[Boolean] = None
 
     @property
-    def auto_require(self) -> Optional["Boolean"]:
+    def auto_require(self) -> Optional[Boolean]:
         """Get autoRequire (Pythonic accessor)."""
         return self._autoRequire
 
     @auto_require.setter
-    def auto_require(self, value: Optional["Boolean"]) -> None:
+    def auto_require(self, value: Optional[Boolean]) -> None:
         """
         Set autoRequire with validation.
 
@@ -111,15 +121,15 @@ class ConsumedEventGroup(Identifiable):
             )
         self._autoRequire = value
         # Shall be unique within one system to service discovery.
-        self._eventGroup: Optional["PositiveInteger"] = None
+        self._eventGroup: Optional[PositiveInteger] = None
 
     @property
-    def event_group(self) -> Optional["PositiveInteger"]:
+    def event_group(self) -> Optional[PositiveInteger]:
         """Get eventGroup (Pythonic accessor)."""
         return self._eventGroup
 
     @event_group.setter
-    def event_group(self, value: Optional["PositiveInteger"]) -> None:
+    def event_group(self, value: Optional[PositiveInteger]) -> None:
         """
         Set eventGroup with validation.
 
@@ -151,30 +161,30 @@ class ConsumedEventGroup(Identifiable):
                 # different ApplicationEndpoint objects to reserve resources in the
                 # configuration.
         # atpVariation.
-        self._eventMulticast: List["ApplicationEndpoint"] = []
+        self._eventMulticast: List[ApplicationEndpoint] = []
 
     @property
-    def event_multicast(self) -> List["ApplicationEndpoint"]:
+    def event_multicast(self) -> List[ApplicationEndpoint]:
         """Get eventMulticast (Pythonic accessor)."""
         return self._eventMulticast
         # The ServiceDiscovery module is able to activate and deactivate the PDU
         # routing for receiving events.
-        self._pduActivation: List["PduActivationRouting"] = []
+        self._pduActivation: List[PduActivationRouting] = []
 
     @property
-    def pdu_activation(self) -> List["PduActivationRouting"]:
+    def pdu_activation(self) -> List[PduActivationRouting]:
         """Get pduActivation (Pythonic accessor)."""
         return self._pduActivation
         # Defines the frame priority where values from 0 (best 7 (highest) are allowed.
-        self._priority: Optional["PositiveInteger"] = None
+        self._priority: Optional[PositiveInteger] = None
 
     @property
-    def priority(self) -> Optional["PositiveInteger"]:
+    def priority(self) -> Optional[PositiveInteger]:
         """Get priority (Pythonic accessor)."""
         return self._priority
 
     @priority.setter
-    def priority(self, value: Optional["PositiveInteger"]) -> None:
+    def priority(self, value: Optional[PositiveInteger]) -> None:
         """
         Set priority with validation.
 
@@ -194,25 +204,25 @@ class ConsumedEventGroup(Identifiable):
             )
         self._priority = value
         # events.
-        self._routingGroup: List["RefType"] = []
+        self._routingGroup: List[RefType] = []
 
     @property
-    def routing_group(self) -> List["RefType"]:
+    def routing_group(self) -> List[RefType]:
         """Get routingGroup (Pythonic accessor)."""
         return self._routingGroup
         # The readiness to receive events is defined by the Service the
                 # ConsumedEventGroup.
         # The Event know about this announcement to decide submission of events.
         # Therefore the Event be configured with Service-Discovery Client.
-        self._sdClientConfig: Optional["SdClientConfig"] = None
+        self._sdClientConfig: Optional[SdClientConfig] = None
 
     @property
-    def sd_client_config(self) -> Optional["SdClientConfig"]:
+    def sd_client_config(self) -> Optional[SdClientConfig]:
         """Get sdClientConfig (Pythonic accessor)."""
         return self._sdClientConfig
 
     @sd_client_config.setter
-    def sd_client_config(self, value: Optional["SdClientConfig"]) -> None:
+    def sd_client_config(self, value: Optional[SdClientConfig]) -> None:
         """
         Set sdClientConfig with validation.
 
@@ -232,15 +242,15 @@ class ConsumedEventGroup(Identifiable):
             )
         self._sdClientConfig = value
         # atpVariation.
-        self._sdClientTimer: Optional["SomeipSdClientEvent"] = None
+        self._sdClientTimer: Optional[SomeipSdClientEvent] = None
 
     @property
-    def sd_client_timer(self) -> Optional["SomeipSdClientEvent"]:
+    def sd_client_timer(self) -> Optional[SomeipSdClientEvent]:
         """Get sdClientTimer (Pythonic accessor)."""
         return self._sdClientTimer
 
     @sd_client_timer.setter
-    def sd_client_timer(self, value: Optional["SomeipSdClientEvent"]) -> None:
+    def sd_client_timer(self, value: Optional[SomeipSdClientEvent]) -> None:
         """
         Set sdClientTimer with validation.
 
@@ -598,7 +608,7 @@ class ConsumedEventGroup(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getApplication(self) -> "ApplicationEndpoint":
+    def getApplication(self) -> ApplicationEndpoint:
         """
         AUTOSAR-compliant getter for application.
 
@@ -610,7 +620,7 @@ class ConsumedEventGroup(Identifiable):
         """
         return self.application  # Delegates to property
 
-    def setApplication(self, value: "ApplicationEndpoint") -> ConsumedEventGroup:
+    def setApplication(self, value: ApplicationEndpoint) -> ConsumedEventGroup:
         """
         AUTOSAR-compliant setter for application with method chaining.
 
@@ -626,7 +636,7 @@ class ConsumedEventGroup(Identifiable):
         self.application = value  # Delegates to property setter
         return self
 
-    def getAutoRequire(self) -> "Boolean":
+    def getAutoRequire(self) -> Boolean:
         """
         AUTOSAR-compliant getter for autoRequire.
 
@@ -638,7 +648,7 @@ class ConsumedEventGroup(Identifiable):
         """
         return self.auto_require  # Delegates to property
 
-    def setAutoRequire(self, value: "Boolean") -> ConsumedEventGroup:
+    def setAutoRequire(self, value: Boolean) -> ConsumedEventGroup:
         """
         AUTOSAR-compliant setter for autoRequire with method chaining.
 
@@ -654,7 +664,7 @@ class ConsumedEventGroup(Identifiable):
         self.auto_require = value  # Delegates to property setter
         return self
 
-    def getEventGroup(self) -> "PositiveInteger":
+    def getEventGroup(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for eventGroup.
 
@@ -666,7 +676,7 @@ class ConsumedEventGroup(Identifiable):
         """
         return self.event_group  # Delegates to property
 
-    def setEventGroup(self, value: "PositiveInteger") -> ConsumedEventGroup:
+    def setEventGroup(self, value: PositiveInteger) -> ConsumedEventGroup:
         """
         AUTOSAR-compliant setter for eventGroup with method chaining.
 
@@ -682,7 +692,7 @@ class ConsumedEventGroup(Identifiable):
         self.event_group = value  # Delegates to property setter
         return self
 
-    def getEventMulticast(self) -> List["ApplicationEndpoint"]:
+    def getEventMulticast(self) -> List[ApplicationEndpoint]:
         """
         AUTOSAR-compliant getter for eventMulticast.
 
@@ -694,7 +704,7 @@ class ConsumedEventGroup(Identifiable):
         """
         return self.event_multicast  # Delegates to property
 
-    def getPduActivation(self) -> List["PduActivationRouting"]:
+    def getPduActivation(self) -> List[PduActivationRouting]:
         """
         AUTOSAR-compliant getter for pduActivation.
 
@@ -706,7 +716,7 @@ class ConsumedEventGroup(Identifiable):
         """
         return self.pdu_activation  # Delegates to property
 
-    def getPriority(self) -> "PositiveInteger":
+    def getPriority(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for priority.
 
@@ -718,7 +728,7 @@ class ConsumedEventGroup(Identifiable):
         """
         return self.priority  # Delegates to property
 
-    def setPriority(self, value: "PositiveInteger") -> ConsumedEventGroup:
+    def setPriority(self, value: PositiveInteger) -> ConsumedEventGroup:
         """
         AUTOSAR-compliant setter for priority with method chaining.
 
@@ -734,7 +744,7 @@ class ConsumedEventGroup(Identifiable):
         self.priority = value  # Delegates to property setter
         return self
 
-    def getRoutingGroup(self) -> List["RefType"]:
+    def getRoutingGroup(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for routingGroup.
 
@@ -746,7 +756,7 @@ class ConsumedEventGroup(Identifiable):
         """
         return self.routing_group  # Delegates to property
 
-    def getSdClientConfig(self) -> "SdClientConfig":
+    def getSdClientConfig(self) -> SdClientConfig:
         """
         AUTOSAR-compliant getter for sdClientConfig.
 
@@ -758,7 +768,7 @@ class ConsumedEventGroup(Identifiable):
         """
         return self.sd_client_config  # Delegates to property
 
-    def setSdClientConfig(self, value: "SdClientConfig") -> ConsumedEventGroup:
+    def setSdClientConfig(self, value: SdClientConfig) -> ConsumedEventGroup:
         """
         AUTOSAR-compliant setter for sdClientConfig with method chaining.
 
@@ -774,7 +784,7 @@ class ConsumedEventGroup(Identifiable):
         self.sd_client_config = value  # Delegates to property setter
         return self
 
-    def getSdClientTimer(self) -> "SomeipSdClientEvent":
+    def getSdClientTimer(self) -> SomeipSdClientEvent:
         """
         AUTOSAR-compliant getter for sdClientTimer.
 
@@ -786,7 +796,7 @@ class ConsumedEventGroup(Identifiable):
         """
         return self.sd_client_timer  # Delegates to property
 
-    def setSdClientTimer(self, value: "SomeipSdClientEvent") -> ConsumedEventGroup:
+    def setSdClientTimer(self, value: SomeipSdClientEvent) -> ConsumedEventGroup:
         """
         AUTOSAR-compliant setter for sdClientTimer with method chaining.
 
@@ -804,7 +814,7 @@ class ConsumedEventGroup(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_application(self, value: Optional["ApplicationEndpoint"]) -> ConsumedEventGroup:
+    def with_application(self, value: Optional[ApplicationEndpoint]) -> ConsumedEventGroup:
         """
         Set application and return self for chaining.
 
@@ -820,7 +830,7 @@ class ConsumedEventGroup(Identifiable):
         self.application = value  # Use property setter (gets validation)
         return self
 
-    def with_auto_require(self, value: Optional["Boolean"]) -> ConsumedEventGroup:
+    def with_auto_require(self, value: Optional[Boolean]) -> ConsumedEventGroup:
         """
         Set autoRequire and return self for chaining.
 
@@ -836,7 +846,7 @@ class ConsumedEventGroup(Identifiable):
         self.auto_require = value  # Use property setter (gets validation)
         return self
 
-    def with_event_group(self, value: Optional["PositiveInteger"]) -> ConsumedEventGroup:
+    def with_event_group(self, value: Optional[PositiveInteger]) -> ConsumedEventGroup:
         """
         Set eventGroup and return self for chaining.
 
@@ -852,7 +862,7 @@ class ConsumedEventGroup(Identifiable):
         self.event_group = value  # Use property setter (gets validation)
         return self
 
-    def with_priority(self, value: Optional["PositiveInteger"]) -> ConsumedEventGroup:
+    def with_priority(self, value: Optional[PositiveInteger]) -> ConsumedEventGroup:
         """
         Set priority and return self for chaining.
 
@@ -868,7 +878,7 @@ class ConsumedEventGroup(Identifiable):
         self.priority = value  # Use property setter (gets validation)
         return self
 
-    def with_sd_client_config(self, value: Optional["SdClientConfig"]) -> ConsumedEventGroup:
+    def with_sd_client_config(self, value: Optional[SdClientConfig]) -> ConsumedEventGroup:
         """
         Set sdClientConfig and return self for chaining.
 
@@ -884,7 +894,7 @@ class ConsumedEventGroup(Identifiable):
         self.sd_client_config = value  # Use property setter (gets validation)
         return self
 
-    def with_sd_client_timer(self, value: Optional["SomeipSdClientEvent"]) -> ConsumedEventGroup:
+    def with_sd_client_timer(self, value: Optional[SomeipSdClientEvent]) -> ConsumedEventGroup:
         """
         Set sdClientTimer and return self for chaining.
 
@@ -918,10 +928,10 @@ class SoAdConfig(ARObject):
         # Collection of SocketConnectionBundles.
         # Stereotypes: atpSplitable; atpVariation 2090 Document ID 63:
                 # AUTOSAR_CP_TPS_SystemTemplate R23-11.
-        self._connection: List["SocketConnection"] = []
+        self._connection: List[SocketConnection] = []
 
     @property
-    def connection(self) -> List["SocketConnection"]:
+    def connection(self) -> List[SocketConnection]:
         """Get connection (Pythonic accessor)."""
         return self._connection
         # Collection of SoAdAddresses.
@@ -935,7 +945,7 @@ class SoAdConfig(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getConnection(self) -> List["SocketConnection"]:
+    def getConnection(self) -> List[SocketConnection]:
         """
         AUTOSAR-compliant getter for connection.
 
@@ -980,15 +990,15 @@ class SocketAddress(Identifiable):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to a list of IPv6 Extension Headers allowed for SocketConnection.
         # If no list is referenced all IPv6 are allowed and processed.
-        self._allowedIPv6Ext: Optional["RefType"] = None
+        self._allowedIPv6Ext: Optional[RefType] = None
 
     @property
-    def allowed_i_pv6_ext(self) -> Optional["RefType"]:
+    def allowed_i_pv6_ext(self) -> Optional[RefType]:
         """Get allowedIPv6Ext (Pythonic accessor)."""
         return self._allowedIPv6Ext
 
     @allowed_i_pv6_ext.setter
-    def allowed_i_pv6_ext(self, value: Optional["RefType"]) -> None:
+    def allowed_i_pv6_ext(self, value: Optional[RefType]) -> None:
         """
         Set allowedIPv6Ext with validation.
 
@@ -1004,15 +1014,15 @@ class SocketAddress(Identifiable):
 
         self._allowedIPv6Ext = value
         # Reference to a list of TCP options allowed for this Socket.
-        self._allowedTcp: Optional["RefType"] = None
+        self._allowedTcp: Optional[RefType] = None
 
     @property
-    def allowed_tcp(self) -> Optional["RefType"]:
+    def allowed_tcp(self) -> Optional[RefType]:
         """Get allowedTcp (Pythonic accessor)."""
         return self._allowedTcp
 
     @allowed_tcp.setter
-    def allowed_tcp(self, value: Optional["RefType"]) -> None:
+    def allowed_tcp(self, value: Optional[RefType]) -> None:
         """
         Set allowedTcp with validation.
 
@@ -1027,15 +1037,15 @@ class SocketAddress(Identifiable):
             return
 
         self._allowedTcp = value
-        self._applicationEndpoint: Optional["ApplicationEndpoint"] = None
+        self._applicationEndpoint: Optional[ApplicationEndpoint] = None
 
     @property
-    def application_endpoint(self) -> Optional["ApplicationEndpoint"]:
+    def application_endpoint(self) -> Optional[ApplicationEndpoint]:
         """Get applicationEndpoint (Pythonic accessor)."""
         return self._applicationEndpoint
 
     @application_endpoint.setter
-    def application_endpoint(self, value: Optional["ApplicationEndpoint"]) -> None:
+    def application_endpoint(self, value: Optional[ApplicationEndpoint]) -> None:
         """
         Set applicationEndpoint with validation.
 
@@ -1056,15 +1066,15 @@ class SocketAddress(Identifiable):
         self._applicationEndpoint = value
         # This reference shall be used if the an IP unicast address for an is part of
                 # the model.
-        self._connector: Optional["EthernetCommunication"] = None
+        self._connector: Optional[EthernetCommunication] = None
 
     @property
-    def connector(self) -> Optional["EthernetCommunication"]:
+    def connector(self) -> Optional[EthernetCommunication]:
         """Get connector (Pythonic accessor)."""
         return self._connector
 
     @connector.setter
-    def connector(self, value: Optional["EthernetCommunication"]) -> None:
+    def connector(self, value: Optional[EthernetCommunication]) -> None:
         """
         Set connector with validation.
 
@@ -1085,15 +1095,15 @@ class SocketAddress(Identifiable):
         self._connector = value
                 # classifying network traffic.
         # If not set a zero is used to indicate packets that have not.
-        self._differentiated: Optional["PositiveInteger"] = None
+        self._differentiated: Optional[PositiveInteger] = None
 
     @property
-    def differentiated(self) -> Optional["PositiveInteger"]:
+    def differentiated(self) -> Optional[PositiveInteger]:
         """Get differentiated (Pythonic accessor)."""
         return self._differentiated
 
     @differentiated.setter
-    def differentiated(self, value: Optional["PositiveInteger"]) -> None:
+    def differentiated(self, value: Optional[PositiveInteger]) -> None:
         """
         Set differentiated with validation.
 
@@ -1116,15 +1126,15 @@ class SocketAddress(Identifiable):
                 # of service.
         # If not set a Flow Label of used to indicate packets that have not been 2090
                 # Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11.
-        self._flowLabel: Optional["PositiveInteger"] = None
+        self._flowLabel: Optional[PositiveInteger] = None
 
     @property
-    def flow_label(self) -> Optional["PositiveInteger"]:
+    def flow_label(self) -> Optional[PositiveInteger]:
         """Get flowLabel (Pythonic accessor)."""
         return self._flowLabel
 
     @flow_label.setter
-    def flow_label(self, value: Optional["PositiveInteger"]) -> None:
+    def flow_label(self, value: Optional[PositiveInteger]) -> None:
         """
         Set flowLabel with validation.
 
@@ -1149,22 +1159,22 @@ class SocketAddress(Identifiable):
                 # SocketAddress contains those Ecus (via the multicastConnector the model that
                 # will receive multicast the SocketAddress that is defined by the and
                 # NetworkEndpoint, Address and UDP Port combination.
-        self._multicast: List["EthernetCommunication"] = []
+        self._multicast: List[EthernetCommunication] = []
 
     @property
-    def multicast(self) -> List["EthernetCommunication"]:
+    def multicast(self) -> List[EthernetCommunication]:
         """Get multicast (Pythonic accessor)."""
         return self._multicast
         # Defines whether the Path MTU Discovery shall be for the related socket.
-        self._pathMtu: Optional["Boolean"] = None
+        self._pathMtu: Optional[Boolean] = None
 
     @property
-    def path_mtu(self) -> Optional["Boolean"]:
+    def path_mtu(self) -> Optional[Boolean]:
         """Get pathMtu (Pythonic accessor)."""
         return self._pathMtu
 
     @path_mtu.setter
-    def path_mtu(self, value: Optional["Boolean"]) -> None:
+    def path_mtu(self, value: Optional[Boolean]) -> None:
         """
         Set pathMtu with validation.
 
@@ -1185,15 +1195,15 @@ class SocketAddress(Identifiable):
         self._pathMtu = value
         # enabled shall be transmitted to layer after the first Pdu has been put into
         # the.
-        self._pduCollection: Optional["TimeValue"] = None
+        self._pduCollection: Optional[TimeValue] = None
 
     @property
-    def pdu_collection(self) -> Optional["TimeValue"]:
+    def pdu_collection(self) -> Optional[TimeValue]:
         """Get pduCollection (Pythonic accessor)."""
         return self._pduCollection
 
     @pdu_collection.setter
-    def pdu_collection(self, value: Optional["TimeValue"]) -> None:
+    def pdu_collection(self, value: Optional[TimeValue]) -> None:
         """
         Set pduCollection with validation.
 
@@ -1221,15 +1231,15 @@ class SocketAddress(Identifiable):
         return self._staticSocket
         # Specifies if UDP checksum handling shall be enabled (udpChecksumEnabled) or
         # skipped (udpChecksum the related socket connection.
-        self._udpChecksum: Optional["UdpChecksum"] = None
+        self._udpChecksum: Optional[UdpChecksum] = None
 
     @property
-    def udp_checksum(self) -> Optional["UdpChecksum"]:
+    def udp_checksum(self) -> Optional[UdpChecksum]:
         """Get udpChecksum (Pythonic accessor)."""
         return self._udpChecksum
 
     @udp_checksum.setter
-    def udp_checksum(self, value: Optional["UdpChecksum"]) -> None:
+    def udp_checksum(self, value: Optional[UdpChecksum]) -> None:
         """
         Set udpChecksum with validation.
 
@@ -1251,7 +1261,7 @@ class SocketAddress(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAllowedIPv6Ext(self) -> "RefType":
+    def getAllowedIPv6Ext(self) -> RefType:
         """
         AUTOSAR-compliant getter for allowedIPv6Ext.
 
@@ -1263,7 +1273,7 @@ class SocketAddress(Identifiable):
         """
         return self.allowed_i_pv6_ext  # Delegates to property
 
-    def setAllowedIPv6Ext(self, value: "RefType") -> SocketAddress:
+    def setAllowedIPv6Ext(self, value: RefType) -> SocketAddress:
         """
         AUTOSAR-compliant setter for allowedIPv6Ext with method chaining.
 
@@ -1279,7 +1289,7 @@ class SocketAddress(Identifiable):
         self.allowed_i_pv6_ext = value  # Delegates to property setter
         return self
 
-    def getAllowedTcp(self) -> "RefType":
+    def getAllowedTcp(self) -> RefType:
         """
         AUTOSAR-compliant getter for allowedTcp.
 
@@ -1291,7 +1301,7 @@ class SocketAddress(Identifiable):
         """
         return self.allowed_tcp  # Delegates to property
 
-    def setAllowedTcp(self, value: "RefType") -> SocketAddress:
+    def setAllowedTcp(self, value: RefType) -> SocketAddress:
         """
         AUTOSAR-compliant setter for allowedTcp with method chaining.
 
@@ -1307,7 +1317,7 @@ class SocketAddress(Identifiable):
         self.allowed_tcp = value  # Delegates to property setter
         return self
 
-    def getApplicationEndpoint(self) -> "ApplicationEndpoint":
+    def getApplicationEndpoint(self) -> ApplicationEndpoint:
         """
         AUTOSAR-compliant getter for applicationEndpoint.
 
@@ -1319,7 +1329,7 @@ class SocketAddress(Identifiable):
         """
         return self.application_endpoint  # Delegates to property
 
-    def setApplicationEndpoint(self, value: "ApplicationEndpoint") -> SocketAddress:
+    def setApplicationEndpoint(self, value: ApplicationEndpoint) -> SocketAddress:
         """
         AUTOSAR-compliant setter for applicationEndpoint with method chaining.
 
@@ -1335,7 +1345,7 @@ class SocketAddress(Identifiable):
         self.application_endpoint = value  # Delegates to property setter
         return self
 
-    def getConnector(self) -> "EthernetCommunication":
+    def getConnector(self) -> EthernetCommunication:
         """
         AUTOSAR-compliant getter for connector.
 
@@ -1347,7 +1357,7 @@ class SocketAddress(Identifiable):
         """
         return self.connector  # Delegates to property
 
-    def setConnector(self, value: "EthernetCommunication") -> SocketAddress:
+    def setConnector(self, value: EthernetCommunication) -> SocketAddress:
         """
         AUTOSAR-compliant setter for connector with method chaining.
 
@@ -1363,7 +1373,7 @@ class SocketAddress(Identifiable):
         self.connector = value  # Delegates to property setter
         return self
 
-    def getDifferentiated(self) -> "PositiveInteger":
+    def getDifferentiated(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for differentiated.
 
@@ -1375,7 +1385,7 @@ class SocketAddress(Identifiable):
         """
         return self.differentiated  # Delegates to property
 
-    def setDifferentiated(self, value: "PositiveInteger") -> SocketAddress:
+    def setDifferentiated(self, value: PositiveInteger) -> SocketAddress:
         """
         AUTOSAR-compliant setter for differentiated with method chaining.
 
@@ -1391,7 +1401,7 @@ class SocketAddress(Identifiable):
         self.differentiated = value  # Delegates to property setter
         return self
 
-    def getFlowLabel(self) -> "PositiveInteger":
+    def getFlowLabel(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for flowLabel.
 
@@ -1403,7 +1413,7 @@ class SocketAddress(Identifiable):
         """
         return self.flow_label  # Delegates to property
 
-    def setFlowLabel(self, value: "PositiveInteger") -> SocketAddress:
+    def setFlowLabel(self, value: PositiveInteger) -> SocketAddress:
         """
         AUTOSAR-compliant setter for flowLabel with method chaining.
 
@@ -1419,7 +1429,7 @@ class SocketAddress(Identifiable):
         self.flow_label = value  # Delegates to property setter
         return self
 
-    def getMulticast(self) -> List["EthernetCommunication"]:
+    def getMulticast(self) -> List[EthernetCommunication]:
         """
         AUTOSAR-compliant getter for multicast.
 
@@ -1431,7 +1441,7 @@ class SocketAddress(Identifiable):
         """
         return self.multicast  # Delegates to property
 
-    def getPathMtu(self) -> "Boolean":
+    def getPathMtu(self) -> Boolean:
         """
         AUTOSAR-compliant getter for pathMtu.
 
@@ -1443,7 +1453,7 @@ class SocketAddress(Identifiable):
         """
         return self.path_mtu  # Delegates to property
 
-    def setPathMtu(self, value: "Boolean") -> SocketAddress:
+    def setPathMtu(self, value: Boolean) -> SocketAddress:
         """
         AUTOSAR-compliant setter for pathMtu with method chaining.
 
@@ -1459,7 +1469,7 @@ class SocketAddress(Identifiable):
         self.path_mtu = value  # Delegates to property setter
         return self
 
-    def getPduCollection(self) -> "TimeValue":
+    def getPduCollection(self) -> TimeValue:
         """
         AUTOSAR-compliant getter for pduCollection.
 
@@ -1471,7 +1481,7 @@ class SocketAddress(Identifiable):
         """
         return self.pdu_collection  # Delegates to property
 
-    def setPduCollection(self, value: "TimeValue") -> SocketAddress:
+    def setPduCollection(self, value: TimeValue) -> SocketAddress:
         """
         AUTOSAR-compliant setter for pduCollection with method chaining.
 
@@ -1561,7 +1571,7 @@ class SocketAddress(Identifiable):
         self.allowed_tcp = value  # Use property setter (gets validation)
         return self
 
-    def with_application_endpoint(self, value: Optional["ApplicationEndpoint"]) -> SocketAddress:
+    def with_application_endpoint(self, value: Optional[ApplicationEndpoint]) -> SocketAddress:
         """
         Set applicationEndpoint and return self for chaining.
 
@@ -1577,7 +1587,7 @@ class SocketAddress(Identifiable):
         self.application_endpoint = value  # Use property setter (gets validation)
         return self
 
-    def with_connector(self, value: Optional["EthernetCommunication"]) -> SocketAddress:
+    def with_connector(self, value: Optional[EthernetCommunication]) -> SocketAddress:
         """
         Set connector and return self for chaining.
 
@@ -1593,7 +1603,7 @@ class SocketAddress(Identifiable):
         self.connector = value  # Use property setter (gets validation)
         return self
 
-    def with_differentiated(self, value: Optional["PositiveInteger"]) -> SocketAddress:
+    def with_differentiated(self, value: Optional[PositiveInteger]) -> SocketAddress:
         """
         Set differentiated and return self for chaining.
 
@@ -1609,7 +1619,7 @@ class SocketAddress(Identifiable):
         self.differentiated = value  # Use property setter (gets validation)
         return self
 
-    def with_flow_label(self, value: Optional["PositiveInteger"]) -> SocketAddress:
+    def with_flow_label(self, value: Optional[PositiveInteger]) -> SocketAddress:
         """
         Set flowLabel and return self for chaining.
 
@@ -1625,7 +1635,7 @@ class SocketAddress(Identifiable):
         self.flow_label = value  # Use property setter (gets validation)
         return self
 
-    def with_path_mtu(self, value: Optional["Boolean"]) -> SocketAddress:
+    def with_path_mtu(self, value: Optional[Boolean]) -> SocketAddress:
         """
         Set pathMtu and return self for chaining.
 
@@ -1641,7 +1651,7 @@ class SocketAddress(Identifiable):
         self.path_mtu = value  # Use property setter (gets validation)
         return self
 
-    def with_pdu_collection(self, value: Optional["TimeValue"]) -> SocketAddress:
+    def with_pdu_collection(self, value: Optional[TimeValue]) -> SocketAddress:
         """
         Set pduCollection and return self for chaining.
 
@@ -1657,7 +1667,7 @@ class SocketAddress(Identifiable):
         self.pdu_collection = value  # Use property setter (gets validation)
         return self
 
-    def with_udp_checksum(self, value: Optional["UdpChecksum"]) -> SocketAddress:
+    def with_udp_checksum(self, value: Optional[UdpChecksum]) -> SocketAddress:
         """
         Set udpChecksum and return self for chaining.
 
@@ -1690,16 +1700,16 @@ class ServiceInstanceCollectionSet(FibexElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # ServiceInstances that are part of the collection.
         # atpSplitable; atpVariation.
-        self._serviceInstance: List["AbstractService"] = []
+        self._serviceInstance: List[AbstractService] = []
 
     @property
-    def service_instance(self) -> List["AbstractService"]:
+    def service_instance(self) -> List[AbstractService]:
         """Get serviceInstance (Pythonic accessor)."""
         return self._serviceInstance
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getServiceInstance(self) -> List["AbstractService"]:
+    def getServiceInstance(self) -> List[AbstractService]:
         """
         AUTOSAR-compliant getter for serviceInstance.
 
@@ -1733,23 +1743,23 @@ class AbstractServiceInstance(Identifiable, ABC):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # A sequence of records to store arbitrary name/value pairs additional
         # information about the named atpVariation.
-        self._capability: List["TagWithOptionalValue"] = []
+        self._capability: List[TagWithOptionalValue] = []
 
     @property
-    def capability(self) -> List["TagWithOptionalValue"]:
+    def capability(self) -> List[TagWithOptionalValue]:
         """Get capability (Pythonic accessor)."""
         return self._capability
         # Major Version of the ServiceInterface.
         # Value can be set to that represents the Major Version of the service.
-        self._majorVersion: Optional["PositiveInteger"] = None
+        self._majorVersion: Optional[PositiveInteger] = None
 
     @property
-    def major_version(self) -> Optional["PositiveInteger"]:
+    def major_version(self) -> Optional[PositiveInteger]:
         """Get majorVersion (Pythonic accessor)."""
         return self._majorVersion
 
     @major_version.setter
-    def major_version(self, value: Optional["PositiveInteger"]) -> None:
+    def major_version(self, value: Optional[PositiveInteger]) -> None:
         """
         Set majorVersion with validation.
 
@@ -1770,15 +1780,15 @@ class AbstractServiceInstance(Identifiable, ABC):
         self._majorVersion = value
                 # routing for ClientServerOperations methods).
         # atpVariation.
-        self._method: Optional["PduActivationRouting"] = None
+        self._method: Optional[PduActivationRouting] = None
 
     @property
-    def method(self) -> Optional["PduActivationRouting"]:
+    def method(self) -> Optional[PduActivationRouting]:
         """Get method (Pythonic accessor)."""
         return self._method
 
     @method.setter
-    def method(self, value: Optional["PduActivationRouting"]) -> None:
+    def method(self, value: Optional[PduActivationRouting]) -> None:
         """
         Set method with validation.
 
@@ -1798,16 +1808,16 @@ class AbstractServiceInstance(Identifiable, ABC):
             )
         self._method = value
         # TCP/IP-sockets.
-        self._routingGroup: List["RefType"] = []
+        self._routingGroup: List[RefType] = []
 
     @property
-    def routing_group(self) -> List["RefType"]:
+    def routing_group(self) -> List[RefType]:
         """Get routingGroup (Pythonic accessor)."""
         return self._routingGroup
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCapability(self) -> List["TagWithOptionalValue"]:
+    def getCapability(self) -> List[TagWithOptionalValue]:
         """
         AUTOSAR-compliant getter for capability.
 
@@ -1819,7 +1829,7 @@ class AbstractServiceInstance(Identifiable, ABC):
         """
         return self.capability  # Delegates to property
 
-    def getMajorVersion(self) -> "PositiveInteger":
+    def getMajorVersion(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for majorVersion.
 
@@ -1831,7 +1841,7 @@ class AbstractServiceInstance(Identifiable, ABC):
         """
         return self.major_version  # Delegates to property
 
-    def setMajorVersion(self, value: "PositiveInteger") -> AbstractServiceInstance:
+    def setMajorVersion(self, value: PositiveInteger) -> AbstractServiceInstance:
         """
         AUTOSAR-compliant setter for majorVersion with method chaining.
 
@@ -1847,7 +1857,7 @@ class AbstractServiceInstance(Identifiable, ABC):
         self.major_version = value  # Delegates to property setter
         return self
 
-    def getMethod(self) -> "PduActivationRouting":
+    def getMethod(self) -> PduActivationRouting:
         """
         AUTOSAR-compliant getter for method.
 
@@ -1859,7 +1869,7 @@ class AbstractServiceInstance(Identifiable, ABC):
         """
         return self.method  # Delegates to property
 
-    def setMethod(self, value: "PduActivationRouting") -> AbstractServiceInstance:
+    def setMethod(self, value: PduActivationRouting) -> AbstractServiceInstance:
         """
         AUTOSAR-compliant setter for method with method chaining.
 
@@ -1875,7 +1885,7 @@ class AbstractServiceInstance(Identifiable, ABC):
         self.method = value  # Delegates to property setter
         return self
 
-    def getRoutingGroup(self) -> List["RefType"]:
+    def getRoutingGroup(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for routingGroup.
 
@@ -1889,7 +1899,7 @@ class AbstractServiceInstance(Identifiable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_major_version(self, value: Optional["PositiveInteger"]) -> AbstractServiceInstance:
+    def with_major_version(self, value: Optional[PositiveInteger]) -> AbstractServiceInstance:
         """
         Set majorVersion and return self for chaining.
 
@@ -1905,7 +1915,7 @@ class AbstractServiceInstance(Identifiable, ABC):
         self.major_version = value  # Use property setter (gets validation)
         return self
 
-    def with_method(self, value: Optional["PduActivationRouting"]) -> AbstractServiceInstance:
+    def with_method(self, value: Optional[PduActivationRouting]) -> AbstractServiceInstance:
         """
         Set method and return self for chaining.
 
@@ -1944,15 +1954,15 @@ class PduActivationRoutingGroup(Identifiable):
                 # that are sent out server side after a client got subscribed.
         # Please this attribute is only valid for event Receiver communication) and
                 # omitted in MethodActivationRoutingGroups.
-        self._eventGroup: Optional["RefType"] = None
+        self._eventGroup: Optional[RefType] = None
 
     @property
-    def event_group(self) -> Optional["RefType"]:
+    def event_group(self) -> Optional[RefType]:
         """Get eventGroup (Pythonic accessor)."""
         return self._eventGroup
 
     @event_group.setter
-    def event_group(self, value: Optional["RefType"]) -> None:
+    def event_group(self, value: Optional[RefType]) -> None:
         """
         Set eventGroup with validation.
 
@@ -1977,7 +1987,7 @@ class PduActivationRoutingGroup(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getEventGroup(self) -> "RefType":
+    def getEventGroup(self) -> RefType:
         """
         AUTOSAR-compliant getter for eventGroup.
 
@@ -1989,7 +1999,7 @@ class PduActivationRoutingGroup(Identifiable):
         """
         return self.event_group  # Delegates to property
 
-    def setEventGroup(self, value: "RefType") -> PduActivationRoutingGroup:
+    def setEventGroup(self, value: RefType) -> PduActivationRoutingGroup:
         """
         AUTOSAR-compliant setter for eventGroup with method chaining.
 
@@ -2055,15 +2065,15 @@ class SoConIPduIdentifier(Referrable):
         # If multiple Pdus are transmitted over the same connection can be used to
         # distinguish between the constraints on constructing the headerId for see
         # PRS_SOMEIP_00245.
-        self._headerId: Optional["PositiveInteger"] = None
+        self._headerId: Optional[PositiveInteger] = None
 
     @property
-    def header_id(self) -> Optional["PositiveInteger"]:
+    def header_id(self) -> Optional[PositiveInteger]:
         """Get headerId (Pythonic accessor)."""
         return self._headerId
 
     @header_id.setter
-    def header_id(self, value: Optional["PositiveInteger"]) -> None:
+    def header_id(self, value: Optional[PositiveInteger]) -> None:
         """
         Set headerId with validation.
 
@@ -2083,15 +2093,15 @@ class SoConIPduIdentifier(Referrable):
             )
         self._headerId = value
         # socket transmission if Pdu collection is this socket.
-        self._pduCollection: Optional["RefType"] = None
+        self._pduCollection: Optional[RefType] = None
 
     @property
-    def pdu_collection(self) -> Optional["RefType"]:
+    def pdu_collection(self) -> Optional[RefType]:
         """Get pduCollection (Pythonic accessor)."""
         return self._pduCollection
 
     @pdu_collection.setter
-    def pdu_collection(self, value: Optional["RefType"]) -> None:
+    def pdu_collection(self, value: Optional[RefType]) -> None:
         """
         Set pduCollection with validation.
 
@@ -2106,15 +2116,15 @@ class SoConIPduIdentifier(Referrable):
             return
 
         self._pduCollection = value
-        self._pduTriggering: Optional["RefType"] = None
+        self._pduTriggering: Optional[RefType] = None
 
     @property
-    def pdu_triggering(self) -> Optional["RefType"]:
+    def pdu_triggering(self) -> Optional[RefType]:
         """Get pduTriggering (Pythonic accessor)."""
         return self._pduTriggering
 
     @pdu_triggering.setter
-    def pdu_triggering(self, value: Optional["RefType"]) -> None:
+    def pdu_triggering(self, value: Optional[RefType]) -> None:
         """
         Set pduTriggering with validation.
 
@@ -2132,7 +2142,7 @@ class SoConIPduIdentifier(Referrable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getHeaderId(self) -> "PositiveInteger":
+    def getHeaderId(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for headerId.
 
@@ -2144,7 +2154,7 @@ class SoConIPduIdentifier(Referrable):
         """
         return self.header_id  # Delegates to property
 
-    def setHeaderId(self, value: "PositiveInteger") -> SoConIPduIdentifier:
+    def setHeaderId(self, value: PositiveInteger) -> SoConIPduIdentifier:
         """
         AUTOSAR-compliant setter for headerId with method chaining.
 
@@ -2160,7 +2170,7 @@ class SoConIPduIdentifier(Referrable):
         self.header_id = value  # Delegates to property setter
         return self
 
-    def getPduCollection(self) -> "RefType":
+    def getPduCollection(self) -> RefType:
         """
         AUTOSAR-compliant getter for pduCollection.
 
@@ -2172,7 +2182,7 @@ class SoConIPduIdentifier(Referrable):
         """
         return self.pdu_collection  # Delegates to property
 
-    def setPduCollection(self, value: "RefType") -> SoConIPduIdentifier:
+    def setPduCollection(self, value: RefType) -> SoConIPduIdentifier:
         """
         AUTOSAR-compliant setter for pduCollection with method chaining.
 
@@ -2188,7 +2198,7 @@ class SoConIPduIdentifier(Referrable):
         self.pdu_collection = value  # Delegates to property setter
         return self
 
-    def getPduTriggering(self) -> "RefType":
+    def getPduTriggering(self) -> RefType:
         """
         AUTOSAR-compliant getter for pduTriggering.
 
@@ -2200,7 +2210,7 @@ class SoConIPduIdentifier(Referrable):
         """
         return self.pdu_triggering  # Delegates to property
 
-    def setPduTriggering(self, value: "RefType") -> SoConIPduIdentifier:
+    def setPduTriggering(self, value: RefType) -> SoConIPduIdentifier:
         """
         AUTOSAR-compliant setter for pduTriggering with method chaining.
 
@@ -2218,7 +2228,7 @@ class SoConIPduIdentifier(Referrable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_header_id(self, value: Optional["PositiveInteger"]) -> SoConIPduIdentifier:
+    def with_header_id(self, value: Optional[PositiveInteger]) -> SoConIPduIdentifier:
         """
         Set headerId and return self for chaining.
 
@@ -2325,23 +2335,23 @@ class EventHandler(Identifiable):
         # All consumers of the event are referenced here.
         # atp.
         # Status=obsolete.
-        self._consumedEvent: List["RefType"] = []
+        self._consumedEvent: List[RefType] = []
 
     @property
-    def consumed_event(self) -> List["RefType"]:
+    def consumed_event(self) -> List[RefType]:
         """Get consumedEvent (Pythonic accessor)."""
         return self._consumedEvent
         # Unique Identifier that identifies the EventGroup in SOME/ This Identifier is
         # sent as Eventgroup ID in SOME/IP messages.
-        self._eventGroup: Optional["PositiveInteger"] = None
+        self._eventGroup: Optional[PositiveInteger] = None
 
     @property
-    def event_group(self) -> Optional["PositiveInteger"]:
+    def event_group(self) -> Optional[PositiveInteger]:
         """Get eventGroup (Pythonic accessor)."""
         return self._eventGroup
 
     @event_group.setter
-    def event_group(self, value: Optional["PositiveInteger"]) -> None:
+    def event_group(self, value: Optional[PositiveInteger]) -> None:
         """
         Set eventGroup with validation.
 
@@ -2364,15 +2374,15 @@ class EventHandler(Identifiable):
                 # is exceeded.
         # is transmitted in the SD-SubscribeEvent to client (answer to SD-Subscribe
                 # atpVariation.
-        self._eventMulticast: Optional["ApplicationEndpoint"] = None
+        self._eventMulticast: Optional[ApplicationEndpoint] = None
 
     @property
-    def event_multicast(self) -> Optional["ApplicationEndpoint"]:
+    def event_multicast(self) -> Optional[ApplicationEndpoint]:
         """Get eventMulticast (Pythonic accessor)."""
         return self._eventMulticast
 
     @event_multicast.setter
-    def event_multicast(self, value: Optional["ApplicationEndpoint"]) -> None:
+    def event_multicast(self, value: Optional[ApplicationEndpoint]) -> None:
         """
         Set eventMulticast with validation.
 
@@ -2397,15 +2407,15 @@ class EventHandler(Identifiable):
         # If 2 the first client will be server with unicast soon as the second client
                 # arrives both will be multicast.
         # not influence the handling of initial events, served using unicast only.
-        self._multicast: Optional["PositiveInteger"] = None
+        self._multicast: Optional[PositiveInteger] = None
 
     @property
-    def multicast(self) -> Optional["PositiveInteger"]:
+    def multicast(self) -> Optional[PositiveInteger]:
         """Get multicast (Pythonic accessor)."""
         return self._multicast
 
     @multicast.setter
-    def multicast(self, value: Optional["PositiveInteger"]) -> None:
+    def multicast(self, value: Optional[PositiveInteger]) -> None:
         """
         Set multicast with validation.
 
@@ -2425,29 +2435,29 @@ class EventHandler(Identifiable):
             )
         self._multicast = value
         # routing for events.
-        self._pduActivation: List["PduActivationRouting"] = []
+        self._pduActivation: List[PduActivationRouting] = []
 
     @property
-    def pdu_activation(self) -> List["PduActivationRouting"]:
+    def pdu_activation(self) -> List[PduActivationRouting]:
         """Get pduActivation (Pythonic accessor)."""
         return self._pduActivation
         # The ServiceDiscovery module is able to activate and PDU routing for events.
-        self._routingGroup: List["RefType"] = []
+        self._routingGroup: List[RefType] = []
 
     @property
-    def routing_group(self) -> List["RefType"]:
+    def routing_group(self) -> List[RefType]:
         """Get routingGroup (Pythonic accessor)."""
         return self._routingGroup
         # Server configuration parameter for Service-Discovery.
-        self._sdServerConfig: Optional["SdServerConfig"] = None
+        self._sdServerConfig: Optional[SdServerConfig] = None
 
     @property
-    def sd_server_config(self) -> Optional["SdServerConfig"]:
+    def sd_server_config(self) -> Optional[SdServerConfig]:
         """Get sdServerConfig (Pythonic accessor)."""
         return self._sdServerConfig
 
     @sd_server_config.setter
-    def sd_server_config(self, value: Optional["SdServerConfig"]) -> None:
+    def sd_server_config(self, value: Optional[SdServerConfig]) -> None:
         """
         Set sdServerConfig with validation.
 
@@ -2467,15 +2477,15 @@ class EventHandler(Identifiable):
             )
         self._sdServerConfig = value
         # atpVariation.
-        self._sdServerEg: Optional["SomeipSdServerEvent"] = None
+        self._sdServerEg: Optional[SomeipSdServerEvent] = None
 
     @property
-    def sd_server_eg(self) -> Optional["SomeipSdServerEvent"]:
+    def sd_server_eg(self) -> Optional[SomeipSdServerEvent]:
         """Get sdServerEg (Pythonic accessor)."""
         return self._sdServerEg
 
     @sd_server_eg.setter
-    def sd_server_eg(self, value: Optional["SomeipSdServerEvent"]) -> None:
+    def sd_server_eg(self, value: Optional[SomeipSdServerEvent]) -> None:
         """
         Set sdServerEg with validation.
 
@@ -2497,7 +2507,7 @@ class EventHandler(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getConsumedEvent(self) -> List["RefType"]:
+    def getConsumedEvent(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for consumedEvent.
 
@@ -2509,7 +2519,7 @@ class EventHandler(Identifiable):
         """
         return self.consumed_event  # Delegates to property
 
-    def getEventGroup(self) -> "PositiveInteger":
+    def getEventGroup(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for eventGroup.
 
@@ -2521,7 +2531,7 @@ class EventHandler(Identifiable):
         """
         return self.event_group  # Delegates to property
 
-    def setEventGroup(self, value: "PositiveInteger") -> EventHandler:
+    def setEventGroup(self, value: PositiveInteger) -> EventHandler:
         """
         AUTOSAR-compliant setter for eventGroup with method chaining.
 
@@ -2537,7 +2547,7 @@ class EventHandler(Identifiable):
         self.event_group = value  # Delegates to property setter
         return self
 
-    def getEventMulticast(self) -> "ApplicationEndpoint":
+    def getEventMulticast(self) -> ApplicationEndpoint:
         """
         AUTOSAR-compliant getter for eventMulticast.
 
@@ -2549,7 +2559,7 @@ class EventHandler(Identifiable):
         """
         return self.event_multicast  # Delegates to property
 
-    def setEventMulticast(self, value: "ApplicationEndpoint") -> EventHandler:
+    def setEventMulticast(self, value: ApplicationEndpoint) -> EventHandler:
         """
         AUTOSAR-compliant setter for eventMulticast with method chaining.
 
@@ -2565,7 +2575,7 @@ class EventHandler(Identifiable):
         self.event_multicast = value  # Delegates to property setter
         return self
 
-    def getMulticast(self) -> "PositiveInteger":
+    def getMulticast(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for multicast.
 
@@ -2577,7 +2587,7 @@ class EventHandler(Identifiable):
         """
         return self.multicast  # Delegates to property
 
-    def setMulticast(self, value: "PositiveInteger") -> EventHandler:
+    def setMulticast(self, value: PositiveInteger) -> EventHandler:
         """
         AUTOSAR-compliant setter for multicast with method chaining.
 
@@ -2593,7 +2603,7 @@ class EventHandler(Identifiable):
         self.multicast = value  # Delegates to property setter
         return self
 
-    def getPduActivation(self) -> List["PduActivationRouting"]:
+    def getPduActivation(self) -> List[PduActivationRouting]:
         """
         AUTOSAR-compliant getter for pduActivation.
 
@@ -2605,7 +2615,7 @@ class EventHandler(Identifiable):
         """
         return self.pdu_activation  # Delegates to property
 
-    def getRoutingGroup(self) -> List["RefType"]:
+    def getRoutingGroup(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for routingGroup.
 
@@ -2675,7 +2685,7 @@ class EventHandler(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_event_group(self, value: Optional["PositiveInteger"]) -> EventHandler:
+    def with_event_group(self, value: Optional[PositiveInteger]) -> EventHandler:
         """
         Set eventGroup and return self for chaining.
 
@@ -2691,7 +2701,7 @@ class EventHandler(Identifiable):
         self.event_group = value  # Use property setter (gets validation)
         return self
 
-    def with_event_multicast(self, value: Optional["ApplicationEndpoint"]) -> EventHandler:
+    def with_event_multicast(self, value: Optional[ApplicationEndpoint]) -> EventHandler:
         """
         Set eventMulticast and return self for chaining.
 
@@ -2707,7 +2717,7 @@ class EventHandler(Identifiable):
         self.event_multicast = value  # Use property setter (gets validation)
         return self
 
-    def with_multicast(self, value: Optional["PositiveInteger"]) -> EventHandler:
+    def with_multicast(self, value: Optional[PositiveInteger]) -> EventHandler:
         """
         Set multicast and return self for chaining.
 
@@ -2723,7 +2733,7 @@ class EventHandler(Identifiable):
         self.multicast = value  # Use property setter (gets validation)
         return self
 
-    def with_sd_server_config(self, value: Optional["SdServerConfig"]) -> EventHandler:
+    def with_sd_server_config(self, value: Optional[SdServerConfig]) -> EventHandler:
         """
         Set sdServerConfig and return self for chaining.
 
@@ -2739,7 +2749,7 @@ class EventHandler(Identifiable):
         self.sd_server_config = value  # Use property setter (gets validation)
         return self
 
-    def with_sd_server_eg(self, value: Optional["SomeipSdServerEvent"]) -> EventHandler:
+    def with_sd_server_eg(self, value: Optional[SomeipSdServerEvent]) -> EventHandler:
         """
         Set sdServerEg and return self for chaining.
 
@@ -2800,15 +2810,15 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
             )
         self._initialOfferBehavior = value
         # Cyclic offer is the delay is set (in seconds) and greater then 0.
-        self._offerCyclicDelay: Optional["TimeValue"] = None
+        self._offerCyclicDelay: Optional[TimeValue] = None
 
     @property
-    def offer_cyclic_delay(self) -> Optional["TimeValue"]:
+    def offer_cyclic_delay(self) -> Optional[TimeValue]:
         """Get offerCyclicDelay (Pythonic accessor)."""
         return self._offerCyclicDelay
 
     @offer_cyclic_delay.setter
-    def offer_cyclic_delay(self, value: Optional["TimeValue"]) -> None:
+    def offer_cyclic_delay(self, value: Optional[TimeValue]) -> None:
         """
         Set offerCyclicDelay with validation.
 
@@ -2830,15 +2840,15 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
                 # ProvidedSomeip are referencing the SomeipSd StopOffer Values from 0 (best 7
                 # (highest) are allowed.
         # 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11.
-        self._priority: Optional["PositiveInteger"] = None
+        self._priority: Optional[PositiveInteger] = None
 
     @property
-    def priority(self) -> Optional["PositiveInteger"]:
+    def priority(self) -> Optional[PositiveInteger]:
         """Get priority (Pythonic accessor)."""
         return self._priority
 
     @priority.setter
-    def priority(self, value: Optional["PositiveInteger"]) -> None:
+    def priority(self, value: Optional[PositiveInteger]) -> None:
         """
         Set priority with validation.
 
@@ -2888,15 +2898,15 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
                 f"request must be RequestResponseDelay or None, got {type(value).__name__}"
             )
         self._request = value
-        self._serviceOffer: Optional["PositiveInteger"] = None
+        self._serviceOffer: Optional[PositiveInteger] = None
 
     @property
-    def service_offer(self) -> Optional["PositiveInteger"]:
+    def service_offer(self) -> Optional[PositiveInteger]:
         """Get serviceOffer (Pythonic accessor)."""
         return self._serviceOffer
 
     @service_offer.setter
-    def service_offer(self, value: Optional["PositiveInteger"]) -> None:
+    def service_offer(self, value: Optional[PositiveInteger]) -> None:
         """
         Set serviceOffer with validation.
 
@@ -2946,7 +2956,7 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
         self.initial_offer_behavior = value  # Delegates to property setter
         return self
 
-    def getOfferCyclicDelay(self) -> "TimeValue":
+    def getOfferCyclicDelay(self) -> TimeValue:
         """
         AUTOSAR-compliant getter for offerCyclicDelay.
 
@@ -2958,7 +2968,7 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
         """
         return self.offer_cyclic_delay  # Delegates to property
 
-    def setOfferCyclicDelay(self, value: "TimeValue") -> SomeipSdServerServiceInstanceConfig:
+    def setOfferCyclicDelay(self, value: TimeValue) -> SomeipSdServerServiceInstanceConfig:
         """
         AUTOSAR-compliant setter for offerCyclicDelay with method chaining.
 
@@ -2974,7 +2984,7 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
         self.offer_cyclic_delay = value  # Delegates to property setter
         return self
 
-    def getPriority(self) -> "PositiveInteger":
+    def getPriority(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for priority.
 
@@ -2986,7 +2996,7 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
         """
         return self.priority  # Delegates to property
 
-    def setPriority(self, value: "PositiveInteger") -> SomeipSdServerServiceInstanceConfig:
+    def setPriority(self, value: PositiveInteger) -> SomeipSdServerServiceInstanceConfig:
         """
         AUTOSAR-compliant setter for priority with method chaining.
 
@@ -3030,7 +3040,7 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
         self.request = value  # Delegates to property setter
         return self
 
-    def getServiceOffer(self) -> "PositiveInteger":
+    def getServiceOffer(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for serviceOffer.
 
@@ -3042,7 +3052,7 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
         """
         return self.service_offer  # Delegates to property
 
-    def setServiceOffer(self, value: "PositiveInteger") -> SomeipSdServerServiceInstanceConfig:
+    def setServiceOffer(self, value: PositiveInteger) -> SomeipSdServerServiceInstanceConfig:
         """
         AUTOSAR-compliant setter for serviceOffer with method chaining.
 
@@ -3076,7 +3086,7 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
         self.initial_offer_behavior = value  # Use property setter (gets validation)
         return self
 
-    def with_offer_cyclic_delay(self, value: Optional["TimeValue"]) -> SomeipSdServerServiceInstanceConfig:
+    def with_offer_cyclic_delay(self, value: Optional[TimeValue]) -> SomeipSdServerServiceInstanceConfig:
         """
         Set offerCyclicDelay and return self for chaining.
 
@@ -3092,7 +3102,7 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
         self.offer_cyclic_delay = value  # Use property setter (gets validation)
         return self
 
-    def with_priority(self, value: Optional["PositiveInteger"]) -> SomeipSdServerServiceInstanceConfig:
+    def with_priority(self, value: Optional[PositiveInteger]) -> SomeipSdServerServiceInstanceConfig:
         """
         Set priority and return self for chaining.
 
@@ -3124,7 +3134,7 @@ class SomeipSdServerServiceInstanceConfig(ARElement):
         self.request = value  # Use property setter (gets validation)
         return self
 
-    def with_service_offer(self, value: Optional["PositiveInteger"]) -> SomeipSdServerServiceInstanceConfig:
+    def with_service_offer(self, value: Optional[PositiveInteger]) -> SomeipSdServerServiceInstanceConfig:
         """
         Set serviceOffer and return self for chaining.
 
@@ -3158,15 +3168,15 @@ class InitialSdDelayConfig(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Max Value in seconds to delay randomly the first offer (if by SdServerConfig)
         # or the transmission of a (if aggregated by SdClientConfig).
-        self._initialDelayMax: Optional["TimeValue"] = None
+        self._initialDelayMax: Optional[TimeValue] = None
 
     @property
-    def initial_delay_max(self) -> Optional["TimeValue"]:
+    def initial_delay_max(self) -> Optional[TimeValue]:
         """Get initialDelayMax (Pythonic accessor)."""
         return self._initialDelayMax
 
     @initial_delay_max.setter
-    def initial_delay_max(self, value: Optional["TimeValue"]) -> None:
+    def initial_delay_max(self, value: Optional[TimeValue]) -> None:
         """
         Set initialDelayMax with validation.
 
@@ -3186,15 +3196,15 @@ class InitialSdDelayConfig(ARObject):
             )
         self._initialDelayMax = value
         # find message (if aggregated by Sd.
-        self._initialDelayMin: Optional["TimeValue"] = None
+        self._initialDelayMin: Optional[TimeValue] = None
 
     @property
-    def initial_delay_min(self) -> Optional["TimeValue"]:
+    def initial_delay_min(self) -> Optional[TimeValue]:
         """Get initialDelayMin (Pythonic accessor)."""
         return self._initialDelayMin
 
     @initial_delay_min.setter
-    def initial_delay_min(self, value: Optional["TimeValue"]) -> None:
+    def initial_delay_min(self, value: Optional[TimeValue]) -> None:
         """
         Set initialDelayMin with validation.
 
@@ -3214,15 +3224,15 @@ class InitialSdDelayConfig(ARObject):
             )
         self._initialDelayMin = value
         # the maximum amount repetitions (if aggregated by SdClientConfig).
-        self._initial: Optional["PositiveInteger"] = None
+        self._initial: Optional[PositiveInteger] = None
 
     @property
-    def initial(self) -> Optional["PositiveInteger"]:
+    def initial(self) -> Optional[PositiveInteger]:
         """Get initial (Pythonic accessor)."""
         return self._initial
 
     @initial.setter
-    def initial(self, value: Optional["PositiveInteger"]) -> None:
+    def initial(self, value: Optional[PositiveInteger]) -> None:
         """
         Set initial with validation.
 
@@ -3244,7 +3254,7 @@ class InitialSdDelayConfig(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getInitialDelayMax(self) -> "TimeValue":
+    def getInitialDelayMax(self) -> TimeValue:
         """
         AUTOSAR-compliant getter for initialDelayMax.
 
@@ -3256,7 +3266,7 @@ class InitialSdDelayConfig(ARObject):
         """
         return self.initial_delay_max  # Delegates to property
 
-    def setInitialDelayMax(self, value: "TimeValue") -> InitialSdDelayConfig:
+    def setInitialDelayMax(self, value: TimeValue) -> InitialSdDelayConfig:
         """
         AUTOSAR-compliant setter for initialDelayMax with method chaining.
 
@@ -3272,7 +3282,7 @@ class InitialSdDelayConfig(ARObject):
         self.initial_delay_max = value  # Delegates to property setter
         return self
 
-    def getInitialDelayMin(self) -> "TimeValue":
+    def getInitialDelayMin(self) -> TimeValue:
         """
         AUTOSAR-compliant getter for initialDelayMin.
 
@@ -3284,7 +3294,7 @@ class InitialSdDelayConfig(ARObject):
         """
         return self.initial_delay_min  # Delegates to property
 
-    def setInitialDelayMin(self, value: "TimeValue") -> InitialSdDelayConfig:
+    def setInitialDelayMin(self, value: TimeValue) -> InitialSdDelayConfig:
         """
         AUTOSAR-compliant setter for initialDelayMin with method chaining.
 
@@ -3300,7 +3310,7 @@ class InitialSdDelayConfig(ARObject):
         self.initial_delay_min = value  # Delegates to property setter
         return self
 
-    def getInitial(self) -> "PositiveInteger":
+    def getInitial(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for initial.
 
@@ -3312,7 +3322,7 @@ class InitialSdDelayConfig(ARObject):
         """
         return self.initial  # Delegates to property
 
-    def setInitial(self, value: "PositiveInteger") -> InitialSdDelayConfig:
+    def setInitial(self, value: PositiveInteger) -> InitialSdDelayConfig:
         """
         AUTOSAR-compliant setter for initial with method chaining.
 
@@ -3330,7 +3340,7 @@ class InitialSdDelayConfig(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_initial_delay_max(self, value: Optional["TimeValue"]) -> InitialSdDelayConfig:
+    def with_initial_delay_max(self, value: Optional[TimeValue]) -> InitialSdDelayConfig:
         """
         Set initialDelayMax and return self for chaining.
 
@@ -3346,7 +3356,7 @@ class InitialSdDelayConfig(ARObject):
         self.initial_delay_max = value  # Use property setter (gets validation)
         return self
 
-    def with_initial_delay_min(self, value: Optional["TimeValue"]) -> InitialSdDelayConfig:
+    def with_initial_delay_min(self, value: Optional[TimeValue]) -> InitialSdDelayConfig:
         """
         Set initialDelayMin and return self for chaining.
 
@@ -3362,7 +3372,7 @@ class InitialSdDelayConfig(ARObject):
         self.initial_delay_min = value  # Use property setter (gets validation)
         return self
 
-    def with_initial(self, value: Optional["PositiveInteger"]) -> InitialSdDelayConfig:
+    def with_initial(self, value: Optional[PositiveInteger]) -> InitialSdDelayConfig:
         """
         Set initial and return self for chaining.
 
@@ -3394,15 +3404,15 @@ class RequestResponseDelay(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Maximum allowable response delay to entries received by seconds.
-        self._maxValue: Optional["TimeValue"] = None
+        self._maxValue: Optional[TimeValue] = None
 
     @property
-    def max_value(self) -> Optional["TimeValue"]:
+    def max_value(self) -> Optional[TimeValue]:
         """Get maxValue (Pythonic accessor)."""
         return self._maxValue
 
     @max_value.setter
-    def max_value(self, value: Optional["TimeValue"]) -> None:
+    def max_value(self, value: Optional[TimeValue]) -> None:
         """
         Set maxValue with validation.
 
@@ -3421,15 +3431,15 @@ class RequestResponseDelay(ARObject):
                 f"maxValue must be TimeValue or None, got {type(value).__name__}"
             )
         self._maxValue = value
-        self._minValue: Optional["TimeValue"] = None
+        self._minValue: Optional[TimeValue] = None
 
     @property
-    def min_value(self) -> Optional["TimeValue"]:
+    def min_value(self) -> Optional[TimeValue]:
         """Get minValue (Pythonic accessor)."""
         return self._minValue
 
     @min_value.setter
-    def min_value(self, value: Optional["TimeValue"]) -> None:
+    def min_value(self, value: Optional[TimeValue]) -> None:
         """
         Set minValue with validation.
 
@@ -3451,7 +3461,7 @@ class RequestResponseDelay(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getMaxValue(self) -> "TimeValue":
+    def getMaxValue(self) -> TimeValue:
         """
         AUTOSAR-compliant getter for maxValue.
 
@@ -3463,7 +3473,7 @@ class RequestResponseDelay(ARObject):
         """
         return self.max_value  # Delegates to property
 
-    def setMaxValue(self, value: "TimeValue") -> RequestResponseDelay:
+    def setMaxValue(self, value: TimeValue) -> RequestResponseDelay:
         """
         AUTOSAR-compliant setter for maxValue with method chaining.
 
@@ -3479,7 +3489,7 @@ class RequestResponseDelay(ARObject):
         self.max_value = value  # Delegates to property setter
         return self
 
-    def getMinValue(self) -> "TimeValue":
+    def getMinValue(self) -> TimeValue:
         """
         AUTOSAR-compliant getter for minValue.
 
@@ -3491,7 +3501,7 @@ class RequestResponseDelay(ARObject):
         """
         return self.min_value  # Delegates to property
 
-    def setMinValue(self, value: "TimeValue") -> RequestResponseDelay:
+    def setMinValue(self, value: TimeValue) -> RequestResponseDelay:
         """
         AUTOSAR-compliant setter for minValue with method chaining.
 
@@ -3509,7 +3519,7 @@ class RequestResponseDelay(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_max_value(self, value: Optional["TimeValue"]) -> RequestResponseDelay:
+    def with_max_value(self, value: Optional[TimeValue]) -> RequestResponseDelay:
         """
         Set maxValue and return self for chaining.
 
@@ -3525,7 +3535,7 @@ class RequestResponseDelay(ARObject):
         self.max_value = value  # Use property setter (gets validation)
         return self
 
-    def with_min_value(self, value: Optional["TimeValue"]) -> RequestResponseDelay:
+    def with_min_value(self, value: Optional[TimeValue]) -> RequestResponseDelay:
         """
         Set minValue and return self for chaining.
 
@@ -3686,15 +3696,15 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
         # If the value is set to 0 no shall be done.
         # If the value is set to 255 the retry done as along as the Eventgroup is
                 # requested SubscribeEventGroupAck was received.
-        self._subscribe: Optional["PositiveInteger"] = None
+        self._subscribe: Optional[PositiveInteger] = None
 
     @property
-    def subscribe(self) -> Optional["PositiveInteger"]:
+    def subscribe(self) -> Optional[PositiveInteger]:
         """Get subscribe (Pythonic accessor)."""
         return self._subscribe
 
     @subscribe.setter
-    def subscribe(self, value: Optional["PositiveInteger"]) -> None:
+    def subscribe(self, value: Optional[PositiveInteger]) -> None:
         """
         Set subscribe with validation.
 
@@ -3714,15 +3724,15 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
             )
         self._subscribe = value
         # this value is sent from the client server in the SD-subscribeEvent message.
-        self._timeToLive: Optional["PositiveInteger"] = None
+        self._timeToLive: Optional[PositiveInteger] = None
 
     @property
-    def time_to_live(self) -> Optional["PositiveInteger"]:
+    def time_to_live(self) -> Optional[PositiveInteger]:
         """Get timeToLive (Pythonic accessor)."""
         return self._timeToLive
 
     @time_to_live.setter
-    def time_to_live(self, value: Optional["PositiveInteger"]) -> None:
+    def time_to_live(self, value: Optional[PositiveInteger]) -> None:
         """
         Set timeToLive with validation.
 
@@ -3772,7 +3782,7 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
         self.request = value  # Delegates to property setter
         return self
 
-    def getSubscribe(self) -> "PositiveInteger":
+    def getSubscribe(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for subscribe.
 
@@ -3784,7 +3794,7 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
         """
         return self.subscribe  # Delegates to property
 
-    def setSubscribe(self, value: "PositiveInteger") -> SomeipSdClientEventGroupTimingConfig:
+    def setSubscribe(self, value: PositiveInteger) -> SomeipSdClientEventGroupTimingConfig:
         """
         AUTOSAR-compliant setter for subscribe with method chaining.
 
@@ -3800,7 +3810,7 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
         self.subscribe = value  # Delegates to property setter
         return self
 
-    def getTimeToLive(self) -> "PositiveInteger":
+    def getTimeToLive(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for timeToLive.
 
@@ -3812,7 +3822,7 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
         """
         return self.time_to_live  # Delegates to property
 
-    def setTimeToLive(self, value: "PositiveInteger") -> SomeipSdClientEventGroupTimingConfig:
+    def setTimeToLive(self, value: PositiveInteger) -> SomeipSdClientEventGroupTimingConfig:
         """
         AUTOSAR-compliant setter for timeToLive with method chaining.
 
@@ -3846,7 +3856,7 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
         self.request = value  # Use property setter (gets validation)
         return self
 
-    def with_subscribe(self, value: Optional["PositiveInteger"]) -> SomeipSdClientEventGroupTimingConfig:
+    def with_subscribe(self, value: Optional[PositiveInteger]) -> SomeipSdClientEventGroupTimingConfig:
         """
         Set subscribe and return self for chaining.
 
@@ -3862,7 +3872,7 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
         self.subscribe = value  # Use property setter (gets validation)
         return self
 
-    def with_time_to_live(self, value: Optional["PositiveInteger"]) -> SomeipSdClientEventGroupTimingConfig:
+    def with_time_to_live(self, value: Optional[PositiveInteger]) -> SomeipSdClientEventGroupTimingConfig:
         """
         Set timeToLive and return self for chaining.
 
@@ -3898,24 +3908,24 @@ class ConsumedProvidedServiceInstanceGroup(FibexElement):
         # This reference assigns a set of ProvidedServiceInstances to the
                 # ConsumedProvidedServiceInstanceGroup.
         # atpVariation.
-        self._consumed: List["ConsumedService"] = []
+        self._consumed: List[ConsumedService] = []
 
     @property
-    def consumed(self) -> List["ConsumedService"]:
+    def consumed(self) -> List[ConsumedService]:
         """Get consumed (Pythonic accessor)."""
         return self._consumed
         # This reference assigns a set of ConsumedService Instances to the
         # ConsumedProvidedServiceInstance atpVariation.
-        self._providedService: List["ProvidedService"] = []
+        self._providedService: List[ProvidedService] = []
 
     @property
-    def provided_service(self) -> List["ProvidedService"]:
+    def provided_service(self) -> List[ProvidedService]:
         """Get providedService (Pythonic accessor)."""
         return self._providedService
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getConsumed(self) -> List["ConsumedService"]:
+    def getConsumed(self) -> List[ConsumedService]:
         """
         AUTOSAR-compliant getter for consumed.
 
@@ -3927,7 +3937,7 @@ class ConsumedProvidedServiceInstanceGroup(FibexElement):
         """
         return self.consumed  # Delegates to property
 
-    def getProvidedService(self) -> List["ProvidedService"]:
+    def getProvidedService(self) -> List[ProvidedService]:
         """
         AUTOSAR-compliant getter for providedService.
 
@@ -3997,15 +4007,15 @@ class StaticSocketConnection(Identifiable):
                 # SOAD_SOCON_ONLINE.
         # is restricted to socket connection groups initiating a TCP connection and are
                 # under SoAd.
-        self._tcpConnect: Optional["TimeValue"] = None
+        self._tcpConnect: Optional[TimeValue] = None
 
     @property
-    def tcp_connect(self) -> Optional["TimeValue"]:
+    def tcp_connect(self) -> Optional[TimeValue]:
         """Get tcpConnect (Pythonic accessor)."""
         return self._tcpConnect
 
     @tcp_connect.setter
-    def tcp_connect(self, value: Optional["TimeValue"]) -> None:
+    def tcp_connect(self, value: Optional[TimeValue]) -> None:
         """
         Set tcpConnect with validation.
 
@@ -4095,7 +4105,7 @@ class StaticSocketConnection(Identifiable):
         self.remote_address = value  # Delegates to property setter
         return self
 
-    def getTcpConnect(self) -> "TimeValue":
+    def getTcpConnect(self) -> TimeValue:
         """
         AUTOSAR-compliant getter for tcpConnect.
 
@@ -4107,7 +4117,7 @@ class StaticSocketConnection(Identifiable):
         """
         return self.tcp_connect  # Delegates to property
 
-    def setTcpConnect(self, value: "TimeValue") -> StaticSocketConnection:
+    def setTcpConnect(self, value: TimeValue) -> StaticSocketConnection:
         """
         AUTOSAR-compliant setter for tcpConnect with method chaining.
 
@@ -4169,7 +4179,7 @@ class StaticSocketConnection(Identifiable):
         self.remote_address = value  # Use property setter (gets validation)
         return self
 
-    def with_tcp_connect(self, value: Optional["TimeValue"]) -> StaticSocketConnection:
+    def with_tcp_connect(self, value: Optional[TimeValue]) -> StaticSocketConnection:
         """
         Set tcpConnect and return self for chaining.
 
@@ -4247,15 +4257,15 @@ class SomeipSdClientServiceInstanceConfig(ARElement):
         self._initialFindBehavior = value
         # RequiredSomeip are referncing this SomeipSdClient SubscribeEventGroup, Stop
         # from 0 (best effort) to 7 allowed.
-        self._priority: Optional["PositiveInteger"] = None
+        self._priority: Optional[PositiveInteger] = None
 
     @property
-    def priority(self) -> Optional["PositiveInteger"]:
+    def priority(self) -> Optional[PositiveInteger]:
         """Get priority (Pythonic accessor)."""
         return self._priority
 
     @priority.setter
-    def priority(self, value: Optional["PositiveInteger"]) -> None:
+    def priority(self, value: Optional[PositiveInteger]) -> None:
         """
         Set priority with validation.
 
@@ -4277,15 +4287,15 @@ class SomeipSdClientServiceInstanceConfig(ARElement):
                 # is valid.
         # Note! The TTL value for is not used and shall be ignored by service.
         # This configuration is only kept for Default value if not specified shall.
-        self._serviceFind: Optional["PositiveInteger"] = None
+        self._serviceFind: Optional[PositiveInteger] = None
 
     @property
-    def service_find(self) -> Optional["PositiveInteger"]:
+    def service_find(self) -> Optional[PositiveInteger]:
         """Get serviceFind (Pythonic accessor)."""
         return self._serviceFind
 
     @service_find.setter
-    def service_find(self, value: Optional["PositiveInteger"]) -> None:
+    def service_find(self, value: Optional[PositiveInteger]) -> None:
         """
         Set serviceFind with validation.
 
@@ -4335,7 +4345,7 @@ class SomeipSdClientServiceInstanceConfig(ARElement):
         self.initial_find_behavior = value  # Delegates to property setter
         return self
 
-    def getPriority(self) -> "PositiveInteger":
+    def getPriority(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for priority.
 
@@ -4347,7 +4357,7 @@ class SomeipSdClientServiceInstanceConfig(ARElement):
         """
         return self.priority  # Delegates to property
 
-    def setPriority(self, value: "PositiveInteger") -> SomeipSdClientServiceInstanceConfig:
+    def setPriority(self, value: PositiveInteger) -> SomeipSdClientServiceInstanceConfig:
         """
         AUTOSAR-compliant setter for priority with method chaining.
 
@@ -4363,7 +4373,7 @@ class SomeipSdClientServiceInstanceConfig(ARElement):
         self.priority = value  # Delegates to property setter
         return self
 
-    def getServiceFind(self) -> "PositiveInteger":
+    def getServiceFind(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for serviceFind.
 
@@ -4375,7 +4385,7 @@ class SomeipSdClientServiceInstanceConfig(ARElement):
         """
         return self.service_find  # Delegates to property
 
-    def setServiceFind(self, value: "PositiveInteger") -> SomeipSdClientServiceInstanceConfig:
+    def setServiceFind(self, value: PositiveInteger) -> SomeipSdClientServiceInstanceConfig:
         """
         AUTOSAR-compliant setter for serviceFind with method chaining.
 
@@ -4409,7 +4419,7 @@ class SomeipSdClientServiceInstanceConfig(ARElement):
         self.initial_find_behavior = value  # Use property setter (gets validation)
         return self
 
-    def with_priority(self, value: Optional["PositiveInteger"]) -> SomeipSdClientServiceInstanceConfig:
+    def with_priority(self, value: Optional[PositiveInteger]) -> SomeipSdClientServiceInstanceConfig:
         """
         Set priority and return self for chaining.
 
@@ -4425,7 +4435,7 @@ class SomeipSdClientServiceInstanceConfig(ARElement):
         self.priority = value  # Use property setter (gets validation)
         return self
 
-    def with_service_find(self, value: Optional["PositiveInteger"]) -> SomeipSdClientServiceInstanceConfig:
+    def with_service_find(self, value: Optional[PositiveInteger]) -> SomeipSdClientServiceInstanceConfig:
         """
         Set serviceFind and return self for chaining.
 
@@ -4458,15 +4468,15 @@ class SomeipServiceVersion(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Major Version of the ServiceInterface.
-        self._majorVersion: Optional["PositiveInteger"] = None
+        self._majorVersion: Optional[PositiveInteger] = None
 
     @property
-    def major_version(self) -> Optional["PositiveInteger"]:
+    def major_version(self) -> Optional[PositiveInteger]:
         """Get majorVersion (Pythonic accessor)."""
         return self._majorVersion
 
     @major_version.setter
-    def major_version(self, value: Optional["PositiveInteger"]) -> None:
+    def major_version(self, value: Optional[PositiveInteger]) -> None:
         """
         Set majorVersion with validation.
 
@@ -4485,15 +4495,15 @@ class SomeipServiceVersion(ARObject):
                 f"majorVersion must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._majorVersion = value
-        self._minorVersion: Optional["PositiveInteger"] = None
+        self._minorVersion: Optional[PositiveInteger] = None
 
     @property
-    def minor_version(self) -> Optional["PositiveInteger"]:
+    def minor_version(self) -> Optional[PositiveInteger]:
         """Get minorVersion (Pythonic accessor)."""
         return self._minorVersion
 
     @minor_version.setter
-    def minor_version(self, value: Optional["PositiveInteger"]) -> None:
+    def minor_version(self, value: Optional[PositiveInteger]) -> None:
         """
         Set minorVersion with validation.
 
@@ -4515,7 +4525,7 @@ class SomeipServiceVersion(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getMajorVersion(self) -> "PositiveInteger":
+    def getMajorVersion(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for majorVersion.
 
@@ -4527,7 +4537,7 @@ class SomeipServiceVersion(ARObject):
         """
         return self.major_version  # Delegates to property
 
-    def setMajorVersion(self, value: "PositiveInteger") -> SomeipServiceVersion:
+    def setMajorVersion(self, value: PositiveInteger) -> SomeipServiceVersion:
         """
         AUTOSAR-compliant setter for majorVersion with method chaining.
 
@@ -4543,7 +4553,7 @@ class SomeipServiceVersion(ARObject):
         self.major_version = value  # Delegates to property setter
         return self
 
-    def getMinorVersion(self) -> "PositiveInteger":
+    def getMinorVersion(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for minorVersion.
 
@@ -4555,7 +4565,7 @@ class SomeipServiceVersion(ARObject):
         """
         return self.minor_version  # Delegates to property
 
-    def setMinorVersion(self, value: "PositiveInteger") -> SomeipServiceVersion:
+    def setMinorVersion(self, value: PositiveInteger) -> SomeipServiceVersion:
         """
         AUTOSAR-compliant setter for minorVersion with method chaining.
 
@@ -4573,7 +4583,7 @@ class SomeipServiceVersion(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_major_version(self, value: Optional["PositiveInteger"]) -> SomeipServiceVersion:
+    def with_major_version(self, value: Optional[PositiveInteger]) -> SomeipServiceVersion:
         """
         Set majorVersion and return self for chaining.
 
@@ -4589,7 +4599,7 @@ class SomeipServiceVersion(ARObject):
         self.major_version = value  # Use property setter (gets validation)
         return self
 
-    def with_minor_version(self, value: Optional["PositiveInteger"]) -> SomeipServiceVersion:
+    def with_minor_version(self, value: Optional[PositiveInteger]) -> SomeipServiceVersion:
         """
         Set minorVersion and return self for chaining.
 
@@ -4627,23 +4637,23 @@ class ConsumedServiceInstance(AbstractServiceInstance):
                 # this ConsumedService allowed to be located so that the ACL check in is
                 # successful and the connection is be established.
         # atpVariation.
-        self._allowedService: List["NetworkEndpoint"] = []
+        self._allowedService: List[NetworkEndpoint] = []
 
     @property
-    def allowed_service(self) -> List["NetworkEndpoint"]:
+    def allowed_service(self) -> List[NetworkEndpoint]:
         """Get allowedService (Pythonic accessor)."""
         return self._allowedService
         # Defines that this ConsumedServiceInstance shall be for) by the service
         # discovery at ECU.
-        self._autoRequire: Optional["Boolean"] = None
+        self._autoRequire: Optional[Boolean] = None
 
     @property
-    def auto_require(self) -> Optional["Boolean"]:
+    def auto_require(self) -> Optional[Boolean]:
         """Get autoRequire (Pythonic accessor)."""
         return self._autoRequire
 
     @auto_require.setter
-    def auto_require(self, value: Optional["Boolean"]) -> None:
+    def auto_require(self, value: Optional[Boolean]) -> None:
         """
         Set autoRequire with validation.
 
@@ -4671,23 +4681,23 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         return self._blocklisted
         # Selection of event-groups the consumer wants to for.
         # atpVariation.
-        self._consumedEvent: List["RefType"] = []
+        self._consumedEvent: List[RefType] = []
 
     @property
-    def consumed_event(self) -> List["RefType"]:
+    def consumed_event(self) -> List[RefType]:
         """Get consumedEvent (Pythonic accessor)."""
         return self._consumedEvent
         # Multicast Address that is used by the client to subscribe the server: This
         # enables the multicast subscription atpVariation.
-        self._eventMulticast: Optional["ApplicationEndpoint"] = None
+        self._eventMulticast: Optional[ApplicationEndpoint] = None
 
     @property
-    def event_multicast(self) -> Optional["ApplicationEndpoint"]:
+    def event_multicast(self) -> Optional[ApplicationEndpoint]:
         """Get eventMulticast (Pythonic accessor)."""
         return self._eventMulticast
 
     @event_multicast.setter
-    def event_multicast(self, value: Optional["ApplicationEndpoint"]) -> None:
+    def event_multicast(self, value: Optional[ApplicationEndpoint]) -> None:
         """
         Set eventMulticast with validation.
 
@@ -4706,15 +4716,15 @@ class ConsumedServiceInstance(AbstractServiceInstance):
                 f"eventMulticast must be ApplicationEndpoint or None, got {type(value).__name__}"
             )
         self._eventMulticast = value
-        self._instance: Optional["AnyServiceInstanceId"] = None
+        self._instance: Optional[AnyServiceInstanceId] = None
 
     @property
-    def instance(self) -> Optional["AnyServiceInstanceId"]:
+    def instance(self) -> Optional[AnyServiceInstanceId]:
         """Get instance (Pythonic accessor)."""
         return self._instance
 
     @instance.setter
-    def instance(self, value: Optional["AnyServiceInstanceId"]) -> None:
+    def instance(self, value: Optional[AnyServiceInstanceId]) -> None:
         """
         Set instance with validation.
 
@@ -4734,15 +4744,15 @@ class ConsumedServiceInstance(AbstractServiceInstance):
             )
         self._instance = value
         # atpVariation.
-        self._localUnicast: "ApplicationEndpoint" = None
+        self._localUnicast: ApplicationEndpoint = None
 
     @property
-    def local_unicast(self) -> "ApplicationEndpoint":
+    def local_unicast(self) -> ApplicationEndpoint:
         """Get localUnicast (Pythonic accessor)."""
         return self._localUnicast
 
     @local_unicast.setter
-    def local_unicast(self, value: "ApplicationEndpoint") -> None:
+    def local_unicast(self, value: ApplicationEndpoint) -> None:
         """
         Set localUnicast with validation.
 
@@ -4758,15 +4768,15 @@ class ConsumedServiceInstance(AbstractServiceInstance):
             )
         self._localUnicast = value
         # Value can be set to that represents the Minor Version of the or to ANY.
-        self._minorVersion: Optional["AnyVersionString"] = None
+        self._minorVersion: Optional[AnyVersionString] = None
 
     @property
-    def minor_version(self) -> Optional["AnyVersionString"]:
+    def minor_version(self) -> Optional[AnyVersionString]:
         """Get minorVersion (Pythonic accessor)."""
         return self._minorVersion
 
     @minor_version.setter
-    def minor_version(self, value: Optional["AnyVersionString"]) -> None:
+    def minor_version(self, value: Optional[AnyVersionString]) -> None:
         """
         Set minorVersion with validation.
 
@@ -4787,15 +4797,15 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         self._minorVersion = value
         # information from the ProvidedService 1228 Document ID 62:
         # AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11.
-        self._providedService: Optional["ProvidedService"] = None
+        self._providedService: Optional[ProvidedService] = None
 
     @property
-    def provided_service(self) -> Optional["ProvidedService"]:
+    def provided_service(self) -> Optional[ProvidedService]:
         """Get providedService (Pythonic accessor)."""
         return self._providedService
 
     @provided_service.setter
-    def provided_service(self, value: Optional["ProvidedService"]) -> None:
+    def provided_service(self, value: Optional[ProvidedService]) -> None:
         """
         Set providedService with validation.
 
@@ -4816,15 +4826,15 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         self._providedService = value
         # This reference shall ONLY be the remote address is determined from the not at
                 # runtime from the Service atpVariation.
-        self._remoteUnicast: "ApplicationEndpoint" = None
+        self._remoteUnicast: ApplicationEndpoint = None
 
     @property
-    def remote_unicast(self) -> "ApplicationEndpoint":
+    def remote_unicast(self) -> ApplicationEndpoint:
         """Get remoteUnicast (Pythonic accessor)."""
         return self._remoteUnicast
 
     @remote_unicast.setter
-    def remote_unicast(self, value: "ApplicationEndpoint") -> None:
+    def remote_unicast(self, value: ApplicationEndpoint) -> None:
         """
         Set remoteUnicast with validation.
 
@@ -4839,15 +4849,15 @@ class ConsumedServiceInstance(AbstractServiceInstance):
                 f"remoteUnicast must be ApplicationEndpoint, got {type(value).__name__}"
             )
         self._remoteUnicast = value
-        self._sdClientConfig: Optional["SdClientConfig"] = None
+        self._sdClientConfig: Optional[SdClientConfig] = None
 
     @property
-    def sd_client_config(self) -> Optional["SdClientConfig"]:
+    def sd_client_config(self) -> Optional[SdClientConfig]:
         """Get sdClientConfig (Pythonic accessor)."""
         return self._sdClientConfig
 
     @sd_client_config.setter
-    def sd_client_config(self, value: Optional["SdClientConfig"]) -> None:
+    def sd_client_config(self, value: Optional[SdClientConfig]) -> None:
         """
         Set sdClientConfig with validation.
 
@@ -4868,15 +4878,15 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         self._sdClientConfig = value
                 # discovery.
         # atpVariation.
-        self._sdClientTimer: Optional["SomeipSdClientService"] = None
+        self._sdClientTimer: Optional[SomeipSdClientService] = None
 
     @property
-    def sd_client_timer(self) -> Optional["SomeipSdClientService"]:
+    def sd_client_timer(self) -> Optional[SomeipSdClientService]:
         """Get sdClientTimer (Pythonic accessor)."""
         return self._sdClientTimer
 
     @sd_client_timer.setter
-    def sd_client_timer(self, value: Optional["SomeipSdClientService"]) -> None:
+    def sd_client_timer(self, value: Optional[SomeipSdClientService]) -> None:
         """
         Set sdClientTimer with validation.
 
@@ -4896,15 +4906,15 @@ class ConsumedServiceInstance(AbstractServiceInstance):
             )
         self._sdClientTimer = value
         # searched.
-        self._serviceIdentifier: Optional["PositiveInteger"] = None
+        self._serviceIdentifier: Optional[PositiveInteger] = None
 
     @property
-    def service_identifier(self) -> Optional["PositiveInteger"]:
+    def service_identifier(self) -> Optional[PositiveInteger]:
         """Get serviceIdentifier (Pythonic accessor)."""
         return self._serviceIdentifier
 
     @service_identifier.setter
-    def service_identifier(self, value: Optional["PositiveInteger"]) -> None:
+    def service_identifier(self, value: Optional[PositiveInteger]) -> None:
         """
         Set serviceIdentifier with validation.
 
@@ -4925,15 +4935,15 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         self._serviceIdentifier = value
         # Tags: atp.
         # Status=draft.
-        self._versionDriven: Optional["ServiceVersion"] = None
+        self._versionDriven: Optional[ServiceVersion] = None
 
     @property
-    def version_driven(self) -> Optional["ServiceVersion"]:
+    def version_driven(self) -> Optional[ServiceVersion]:
         """Get versionDriven (Pythonic accessor)."""
         return self._versionDriven
 
     @version_driven.setter
-    def version_driven(self, value: Optional["ServiceVersion"]) -> None:
+    def version_driven(self, value: Optional[ServiceVersion]) -> None:
         """
         Set versionDriven with validation.
 
@@ -4955,7 +4965,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAllowedService(self) -> List["NetworkEndpoint"]:
+    def getAllowedService(self) -> List[NetworkEndpoint]:
         """
         AUTOSAR-compliant getter for allowedService.
 
@@ -4967,7 +4977,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         """
         return self.allowed_service  # Delegates to property
 
-    def getAutoRequire(self) -> "Boolean":
+    def getAutoRequire(self) -> Boolean:
         """
         AUTOSAR-compliant getter for autoRequire.
 
@@ -4979,7 +4989,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         """
         return self.auto_require  # Delegates to property
 
-    def setAutoRequire(self, value: "Boolean") -> ConsumedServiceInstance:
+    def setAutoRequire(self, value: Boolean) -> ConsumedServiceInstance:
         """
         AUTOSAR-compliant setter for autoRequire with method chaining.
 
@@ -5007,7 +5017,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         """
         return self.blocklisted  # Delegates to property
 
-    def getConsumedEvent(self) -> List["RefType"]:
+    def getConsumedEvent(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for consumedEvent.
 
@@ -5019,7 +5029,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         """
         return self.consumed_event  # Delegates to property
 
-    def getEventMulticast(self) -> "ApplicationEndpoint":
+    def getEventMulticast(self) -> ApplicationEndpoint:
         """
         AUTOSAR-compliant getter for eventMulticast.
 
@@ -5031,7 +5041,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         """
         return self.event_multicast  # Delegates to property
 
-    def setEventMulticast(self, value: "ApplicationEndpoint") -> ConsumedServiceInstance:
+    def setEventMulticast(self, value: ApplicationEndpoint) -> ConsumedServiceInstance:
         """
         AUTOSAR-compliant setter for eventMulticast with method chaining.
 
@@ -5075,7 +5085,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         self.instance = value  # Delegates to property setter
         return self
 
-    def getLocalUnicast(self) -> "ApplicationEndpoint":
+    def getLocalUnicast(self) -> ApplicationEndpoint:
         """
         AUTOSAR-compliant getter for localUnicast.
 
@@ -5087,7 +5097,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         """
         return self.local_unicast  # Delegates to property
 
-    def setLocalUnicast(self, value: "ApplicationEndpoint") -> ConsumedServiceInstance:
+    def setLocalUnicast(self, value: ApplicationEndpoint) -> ConsumedServiceInstance:
         """
         AUTOSAR-compliant setter for localUnicast with method chaining.
 
@@ -5103,7 +5113,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         self.local_unicast = value  # Delegates to property setter
         return self
 
-    def getMinorVersion(self) -> "AnyVersionString":
+    def getMinorVersion(self) -> AnyVersionString:
         """
         AUTOSAR-compliant getter for minorVersion.
 
@@ -5115,7 +5125,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         """
         return self.minor_version  # Delegates to property
 
-    def setMinorVersion(self, value: "AnyVersionString") -> ConsumedServiceInstance:
+    def setMinorVersion(self, value: AnyVersionString) -> ConsumedServiceInstance:
         """
         AUTOSAR-compliant setter for minorVersion with method chaining.
 
@@ -5159,7 +5169,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         self.provided_service = value  # Delegates to property setter
         return self
 
-    def getRemoteUnicast(self) -> "ApplicationEndpoint":
+    def getRemoteUnicast(self) -> ApplicationEndpoint:
         """
         AUTOSAR-compliant getter for remoteUnicast.
 
@@ -5171,7 +5181,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         """
         return self.remote_unicast  # Delegates to property
 
-    def setRemoteUnicast(self, value: "ApplicationEndpoint") -> ConsumedServiceInstance:
+    def setRemoteUnicast(self, value: ApplicationEndpoint) -> ConsumedServiceInstance:
         """
         AUTOSAR-compliant setter for remoteUnicast with method chaining.
 
@@ -5243,7 +5253,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         self.sd_client_timer = value  # Delegates to property setter
         return self
 
-    def getServiceIdentifier(self) -> "PositiveInteger":
+    def getServiceIdentifier(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for serviceIdentifier.
 
@@ -5255,7 +5265,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         """
         return self.service_identifier  # Delegates to property
 
-    def setServiceIdentifier(self, value: "PositiveInteger") -> ConsumedServiceInstance:
+    def setServiceIdentifier(self, value: PositiveInteger) -> ConsumedServiceInstance:
         """
         AUTOSAR-compliant setter for serviceIdentifier with method chaining.
 
@@ -5301,7 +5311,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_auto_require(self, value: Optional["Boolean"]) -> ConsumedServiceInstance:
+    def with_auto_require(self, value: Optional[Boolean]) -> ConsumedServiceInstance:
         """
         Set autoRequire and return self for chaining.
 
@@ -5317,7 +5327,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         self.auto_require = value  # Use property setter (gets validation)
         return self
 
-    def with_event_multicast(self, value: Optional["ApplicationEndpoint"]) -> ConsumedServiceInstance:
+    def with_event_multicast(self, value: Optional[ApplicationEndpoint]) -> ConsumedServiceInstance:
         """
         Set eventMulticast and return self for chaining.
 
@@ -5333,7 +5343,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         self.event_multicast = value  # Use property setter (gets validation)
         return self
 
-    def with_instance(self, value: Optional["AnyServiceInstanceId"]) -> ConsumedServiceInstance:
+    def with_instance(self, value: Optional[AnyServiceInstanceId]) -> ConsumedServiceInstance:
         """
         Set instance and return self for chaining.
 
@@ -5349,7 +5359,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         self.instance = value  # Use property setter (gets validation)
         return self
 
-    def with_local_unicast(self, value: "ApplicationEndpoint") -> ConsumedServiceInstance:
+    def with_local_unicast(self, value: ApplicationEndpoint) -> ConsumedServiceInstance:
         """
         Set localUnicast and return self for chaining.
 
@@ -5365,7 +5375,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         self.local_unicast = value  # Use property setter (gets validation)
         return self
 
-    def with_minor_version(self, value: Optional["AnyVersionString"]) -> ConsumedServiceInstance:
+    def with_minor_version(self, value: Optional[AnyVersionString]) -> ConsumedServiceInstance:
         """
         Set minorVersion and return self for chaining.
 
@@ -5381,7 +5391,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         self.minor_version = value  # Use property setter (gets validation)
         return self
 
-    def with_provided_service(self, value: Optional["ProvidedService"]) -> ConsumedServiceInstance:
+    def with_provided_service(self, value: Optional[ProvidedService]) -> ConsumedServiceInstance:
         """
         Set providedService and return self for chaining.
 
@@ -5397,7 +5407,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         self.provided_service = value  # Use property setter (gets validation)
         return self
 
-    def with_remote_unicast(self, value: "ApplicationEndpoint") -> ConsumedServiceInstance:
+    def with_remote_unicast(self, value: ApplicationEndpoint) -> ConsumedServiceInstance:
         """
         Set remoteUnicast and return self for chaining.
 
@@ -5413,7 +5423,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         self.remote_unicast = value  # Use property setter (gets validation)
         return self
 
-    def with_sd_client_config(self, value: Optional["SdClientConfig"]) -> ConsumedServiceInstance:
+    def with_sd_client_config(self, value: Optional[SdClientConfig]) -> ConsumedServiceInstance:
         """
         Set sdClientConfig and return self for chaining.
 
@@ -5429,7 +5439,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         self.sd_client_config = value  # Use property setter (gets validation)
         return self
 
-    def with_sd_client_timer(self, value: Optional["SomeipSdClientService"]) -> ConsumedServiceInstance:
+    def with_sd_client_timer(self, value: Optional[SomeipSdClientService]) -> ConsumedServiceInstance:
         """
         Set sdClientTimer and return self for chaining.
 
@@ -5445,7 +5455,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         self.sd_client_timer = value  # Use property setter (gets validation)
         return self
 
-    def with_service_identifier(self, value: Optional["PositiveInteger"]) -> ConsumedServiceInstance:
+    def with_service_identifier(self, value: Optional[PositiveInteger]) -> ConsumedServiceInstance:
         """
         Set serviceIdentifier and return self for chaining.
 
@@ -5461,7 +5471,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         self.service_identifier = value  # Use property setter (gets validation)
         return self
 
-    def with_version_driven(self, value: Optional["ServiceVersion"]) -> ConsumedServiceInstance:
+    def with_version_driven(self, value: Optional[ServiceVersion]) -> ConsumedServiceInstance:
         """
         Set versionDriven and return self for chaining.
 
@@ -5499,23 +5509,23 @@ class ProvidedServiceInstance(AbstractServiceInstance):
                 # this Provided allowed to be located so that the in the ServiceDiscovery is
                 # successful and the allowed to be established.
         # atpVariation.
-        self._allowedService: List["NetworkEndpoint"] = []
+        self._allowedService: List[NetworkEndpoint] = []
 
     @property
-    def allowed_service(self) -> List["NetworkEndpoint"]:
+    def allowed_service(self) -> List[NetworkEndpoint]:
         """Get allowedService (Pythonic accessor)."""
         return self._allowedService
         # Defines that this ProvidedServiceInstance shall be the service discovery at
         # ECU start.
-        self._autoAvailable: Optional["Boolean"] = None
+        self._autoAvailable: Optional[Boolean] = None
 
     @property
-    def auto_available(self) -> Optional["Boolean"]:
+    def auto_available(self) -> Optional[Boolean]:
         """Get autoAvailable (Pythonic accessor)."""
         return self._autoAvailable
 
     @auto_available.setter
-    def auto_available(self, value: Optional["Boolean"]) -> None:
+    def auto_available(self, value: Optional[Boolean]) -> None:
         """
         Set autoAvailable with validation.
 
@@ -5544,15 +5554,15 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         # Can be used for e.
         # g.
         # service discovery identify the instance of the service.
-        self._instance: Optional["PositiveInteger"] = None
+        self._instance: Optional[PositiveInteger] = None
 
     @property
-    def instance(self) -> Optional["PositiveInteger"]:
+    def instance(self) -> Optional[PositiveInteger]:
         """Get instance (Pythonic accessor)."""
         return self._instance
 
     @instance.setter
-    def instance(self, value: Optional["PositiveInteger"]) -> None:
+    def instance(self, value: Optional[PositiveInteger]) -> None:
         """
         Set instance with validation.
 
@@ -5572,15 +5582,15 @@ class ProvidedServiceInstance(AbstractServiceInstance):
             )
         self._instance = value
         # Higher value means higher probability to.
-        self._loadBalancing: Optional["PositiveInteger"] = None
+        self._loadBalancing: Optional[PositiveInteger] = None
 
     @property
-    def load_balancing(self) -> Optional["PositiveInteger"]:
+    def load_balancing(self) -> Optional[PositiveInteger]:
         """Get loadBalancing (Pythonic accessor)."""
         return self._loadBalancing
 
     @load_balancing.setter
-    def load_balancing(self, value: Optional["PositiveInteger"]) -> None:
+    def load_balancing(self, value: Optional[PositiveInteger]) -> None:
         """
         Set loadBalancing with validation.
 
@@ -5600,15 +5610,15 @@ class ProvidedServiceInstance(AbstractServiceInstance):
             )
         self._loadBalancing = value
         # atpVariation.
-        self._localUnicast: "ApplicationEndpoint" = None
+        self._localUnicast: ApplicationEndpoint = None
 
     @property
-    def local_unicast(self) -> "ApplicationEndpoint":
+    def local_unicast(self) -> ApplicationEndpoint:
         """Get localUnicast (Pythonic accessor)."""
         return self._localUnicast
 
     @local_unicast.setter
-    def local_unicast(self, value: "ApplicationEndpoint") -> None:
+    def local_unicast(self, value: ApplicationEndpoint) -> None:
         """
         Set localUnicast with validation.
 
@@ -5623,15 +5633,15 @@ class ProvidedServiceInstance(AbstractServiceInstance):
                 f"localUnicast must be ApplicationEndpoint, got {type(value).__name__}"
             )
         self._localUnicast = value
-        self._minorVersion: Optional["PositiveInteger"] = None
+        self._minorVersion: Optional[PositiveInteger] = None
 
     @property
-    def minor_version(self) -> Optional["PositiveInteger"]:
+    def minor_version(self) -> Optional[PositiveInteger]:
         """Get minorVersion (Pythonic accessor)."""
         return self._minorVersion
 
     @minor_version.setter
-    def minor_version(self, value: Optional["PositiveInteger"]) -> None:
+    def minor_version(self, value: Optional[PositiveInteger]) -> None:
         """
         Set minorVersion with validation.
 
@@ -5650,15 +5660,15 @@ class ProvidedServiceInstance(AbstractServiceInstance):
                 f"minorVersion must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._minorVersion = value
-        self._priority: Optional["PositiveInteger"] = None
+        self._priority: Optional[PositiveInteger] = None
 
     @property
-    def priority(self) -> Optional["PositiveInteger"]:
+    def priority(self) -> Optional[PositiveInteger]:
         """Get priority (Pythonic accessor)."""
         return self._priority
 
     @priority.setter
-    def priority(self, value: Optional["PositiveInteger"]) -> None:
+    def priority(self, value: Optional[PositiveInteger]) -> None:
         """
         Set priority with validation.
 
@@ -5680,32 +5690,32 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         # This reference shall be used if the remote address of the clients is the
                 # configuration and not at runtime.
         # atpVariation.
-        self._remoteMulticast: List["ApplicationEndpoint"] = []
+        self._remoteMulticast: List[ApplicationEndpoint] = []
 
     @property
-    def remote_multicast(self) -> List["ApplicationEndpoint"]:
+    def remote_multicast(self) -> List[ApplicationEndpoint]:
         """Get remoteMulticast (Pythonic accessor)."""
         return self._remoteMulticast
         # This reference defines the remote addresses of service This reference shall
                 # ONLY be used if the of the clients is determined from the not at runtime.
         # atpVariation 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate
                 # Template R23-11.
-        self._remoteUnicast: List["ApplicationEndpoint"] = []
+        self._remoteUnicast: List[ApplicationEndpoint] = []
 
     @property
-    def remote_unicast(self) -> List["ApplicationEndpoint"]:
+    def remote_unicast(self) -> List[ApplicationEndpoint]:
         """Get remoteUnicast (Pythonic accessor)."""
         return self._remoteUnicast
         # Service Discovery Server configuration.
-        self._sdServerConfig: Optional["SdServerConfig"] = None
+        self._sdServerConfig: Optional[SdServerConfig] = None
 
     @property
-    def sd_server_config(self) -> Optional["SdServerConfig"]:
+    def sd_server_config(self) -> Optional[SdServerConfig]:
         """Get sdServerConfig (Pythonic accessor)."""
         return self._sdServerConfig
 
     @sd_server_config.setter
-    def sd_server_config(self, value: Optional["SdServerConfig"]) -> None:
+    def sd_server_config(self, value: Optional[SdServerConfig]) -> None:
         """
         Set sdServerConfig with validation.
 
@@ -5726,15 +5736,15 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         self._sdServerConfig = value
                 # discovery.
         # atpVariation.
-        self._sdServerTimer: Optional["SomeipSdServer"] = None
+        self._sdServerTimer: Optional[SomeipSdServer] = None
 
     @property
-    def sd_server_timer(self) -> Optional["SomeipSdServer"]:
+    def sd_server_timer(self) -> Optional[SomeipSdServer]:
         """Get sdServerTimer (Pythonic accessor)."""
         return self._sdServerTimer
 
     @sd_server_timer.setter
-    def sd_server_timer(self, value: Optional["SomeipSdServer"]) -> None:
+    def sd_server_timer(self, value: Optional[SomeipSdServer]) -> None:
         """
         Set sdServerTimer with validation.
 
@@ -5754,15 +5764,15 @@ class ProvidedServiceInstance(AbstractServiceInstance):
             )
         self._sdServerTimer = value
         # offered.
-        self._serviceIdentifier: Optional["PositiveInteger"] = None
+        self._serviceIdentifier: Optional[PositiveInteger] = None
 
     @property
-    def service_identifier(self) -> Optional["PositiveInteger"]:
+    def service_identifier(self) -> Optional[PositiveInteger]:
         """Get serviceIdentifier (Pythonic accessor)."""
         return self._serviceIdentifier
 
     @service_identifier.setter
-    def service_identifier(self, value: Optional["PositiveInteger"]) -> None:
+    def service_identifier(self, value: Optional[PositiveInteger]) -> None:
         """
         Set serviceIdentifier with validation.
 
@@ -5784,7 +5794,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAllowedService(self) -> List["NetworkEndpoint"]:
+    def getAllowedService(self) -> List[NetworkEndpoint]:
         """
         AUTOSAR-compliant getter for allowedService.
 
@@ -5796,7 +5806,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         """
         return self.allowed_service  # Delegates to property
 
-    def getAutoAvailable(self) -> "Boolean":
+    def getAutoAvailable(self) -> Boolean:
         """
         AUTOSAR-compliant getter for autoAvailable.
 
@@ -5808,7 +5818,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         """
         return self.auto_available  # Delegates to property
 
-    def setAutoAvailable(self, value: "Boolean") -> ProvidedServiceInstance:
+    def setAutoAvailable(self, value: Boolean) -> ProvidedServiceInstance:
         """
         AUTOSAR-compliant setter for autoAvailable with method chaining.
 
@@ -5836,7 +5846,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         """
         return self.event_handler  # Delegates to property
 
-    def getInstance(self) -> "PositiveInteger":
+    def getInstance(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for instance.
 
@@ -5848,7 +5858,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         """
         return self.instance  # Delegates to property
 
-    def setInstance(self, value: "PositiveInteger") -> ProvidedServiceInstance:
+    def setInstance(self, value: PositiveInteger) -> ProvidedServiceInstance:
         """
         AUTOSAR-compliant setter for instance with method chaining.
 
@@ -5864,7 +5874,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         self.instance = value  # Delegates to property setter
         return self
 
-    def getLoadBalancing(self) -> "PositiveInteger":
+    def getLoadBalancing(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for loadBalancing.
 
@@ -5876,7 +5886,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         """
         return self.load_balancing  # Delegates to property
 
-    def setLoadBalancing(self, value: "PositiveInteger") -> ProvidedServiceInstance:
+    def setLoadBalancing(self, value: PositiveInteger) -> ProvidedServiceInstance:
         """
         AUTOSAR-compliant setter for loadBalancing with method chaining.
 
@@ -5892,7 +5902,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         self.load_balancing = value  # Delegates to property setter
         return self
 
-    def getLocalUnicast(self) -> "ApplicationEndpoint":
+    def getLocalUnicast(self) -> ApplicationEndpoint:
         """
         AUTOSAR-compliant getter for localUnicast.
 
@@ -5904,7 +5914,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         """
         return self.local_unicast  # Delegates to property
 
-    def setLocalUnicast(self, value: "ApplicationEndpoint") -> ProvidedServiceInstance:
+    def setLocalUnicast(self, value: ApplicationEndpoint) -> ProvidedServiceInstance:
         """
         AUTOSAR-compliant setter for localUnicast with method chaining.
 
@@ -5920,7 +5930,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         self.local_unicast = value  # Delegates to property setter
         return self
 
-    def getMinorVersion(self) -> "PositiveInteger":
+    def getMinorVersion(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for minorVersion.
 
@@ -5932,7 +5942,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         """
         return self.minor_version  # Delegates to property
 
-    def setMinorVersion(self, value: "PositiveInteger") -> ProvidedServiceInstance:
+    def setMinorVersion(self, value: PositiveInteger) -> ProvidedServiceInstance:
         """
         AUTOSAR-compliant setter for minorVersion with method chaining.
 
@@ -5948,7 +5958,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         self.minor_version = value  # Delegates to property setter
         return self
 
-    def getPriority(self) -> "PositiveInteger":
+    def getPriority(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for priority.
 
@@ -5960,7 +5970,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         """
         return self.priority  # Delegates to property
 
-    def setPriority(self, value: "PositiveInteger") -> ProvidedServiceInstance:
+    def setPriority(self, value: PositiveInteger) -> ProvidedServiceInstance:
         """
         AUTOSAR-compliant setter for priority with method chaining.
 
@@ -5976,7 +5986,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         self.priority = value  # Delegates to property setter
         return self
 
-    def getRemoteMulticast(self) -> List["ApplicationEndpoint"]:
+    def getRemoteMulticast(self) -> List[ApplicationEndpoint]:
         """
         AUTOSAR-compliant getter for remoteMulticast.
 
@@ -5988,7 +5998,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         """
         return self.remote_multicast  # Delegates to property
 
-    def getRemoteUnicast(self) -> List["ApplicationEndpoint"]:
+    def getRemoteUnicast(self) -> List[ApplicationEndpoint]:
         """
         AUTOSAR-compliant getter for remoteUnicast.
 
@@ -6056,7 +6066,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         self.sd_server_timer = value  # Delegates to property setter
         return self
 
-    def getServiceIdentifier(self) -> "PositiveInteger":
+    def getServiceIdentifier(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for serviceIdentifier.
 
@@ -6068,7 +6078,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         """
         return self.service_identifier  # Delegates to property
 
-    def setServiceIdentifier(self, value: "PositiveInteger") -> ProvidedServiceInstance:
+    def setServiceIdentifier(self, value: PositiveInteger) -> ProvidedServiceInstance:
         """
         AUTOSAR-compliant setter for serviceIdentifier with method chaining.
 
@@ -6086,7 +6096,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_auto_available(self, value: Optional["Boolean"]) -> ProvidedServiceInstance:
+    def with_auto_available(self, value: Optional[Boolean]) -> ProvidedServiceInstance:
         """
         Set autoAvailable and return self for chaining.
 
@@ -6102,7 +6112,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         self.auto_available = value  # Use property setter (gets validation)
         return self
 
-    def with_instance(self, value: Optional["PositiveInteger"]) -> ProvidedServiceInstance:
+    def with_instance(self, value: Optional[PositiveInteger]) -> ProvidedServiceInstance:
         """
         Set instance and return self for chaining.
 
@@ -6118,7 +6128,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         self.instance = value  # Use property setter (gets validation)
         return self
 
-    def with_load_balancing(self, value: Optional["PositiveInteger"]) -> ProvidedServiceInstance:
+    def with_load_balancing(self, value: Optional[PositiveInteger]) -> ProvidedServiceInstance:
         """
         Set loadBalancing and return self for chaining.
 
@@ -6134,7 +6144,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         self.load_balancing = value  # Use property setter (gets validation)
         return self
 
-    def with_local_unicast(self, value: "ApplicationEndpoint") -> ProvidedServiceInstance:
+    def with_local_unicast(self, value: ApplicationEndpoint) -> ProvidedServiceInstance:
         """
         Set localUnicast and return self for chaining.
 
@@ -6150,7 +6160,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         self.local_unicast = value  # Use property setter (gets validation)
         return self
 
-    def with_minor_version(self, value: Optional["PositiveInteger"]) -> ProvidedServiceInstance:
+    def with_minor_version(self, value: Optional[PositiveInteger]) -> ProvidedServiceInstance:
         """
         Set minorVersion and return self for chaining.
 
@@ -6166,7 +6176,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         self.minor_version = value  # Use property setter (gets validation)
         return self
 
-    def with_priority(self, value: Optional["PositiveInteger"]) -> ProvidedServiceInstance:
+    def with_priority(self, value: Optional[PositiveInteger]) -> ProvidedServiceInstance:
         """
         Set priority and return self for chaining.
 
@@ -6182,7 +6192,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         self.priority = value  # Use property setter (gets validation)
         return self
 
-    def with_sd_server_config(self, value: Optional["SdServerConfig"]) -> ProvidedServiceInstance:
+    def with_sd_server_config(self, value: Optional[SdServerConfig]) -> ProvidedServiceInstance:
         """
         Set sdServerConfig and return self for chaining.
 
@@ -6198,7 +6208,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         self.sd_server_config = value  # Use property setter (gets validation)
         return self
 
-    def with_sd_server_timer(self, value: Optional["SomeipSdServer"]) -> ProvidedServiceInstance:
+    def with_sd_server_timer(self, value: Optional[SomeipSdServer]) -> ProvidedServiceInstance:
         """
         Set sdServerTimer and return self for chaining.
 
@@ -6214,7 +6224,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         self.sd_server_timer = value  # Use property setter (gets validation)
         return self
 
-    def with_service_identifier(self, value: Optional["PositiveInteger"]) -> ProvidedServiceInstance:
+    def with_service_identifier(self, value: Optional[PositiveInteger]) -> ProvidedServiceInstance:
         """
         Set serviceIdentifier and return self for chaining.
 

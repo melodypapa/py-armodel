@@ -236,7 +236,7 @@ class SwcToSwcSignal(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDataElement(self) -> List["RefType"]:
+    def getDataElement(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for dataElement.
 

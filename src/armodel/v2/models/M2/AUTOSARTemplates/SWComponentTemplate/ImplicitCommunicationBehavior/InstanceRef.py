@@ -71,15 +71,15 @@ class InnerDataPrototypeGroupInCompositionInstanceRef(ARObject):
         return self._contextSw
         # This represents the target of the InstanceRef xml.
         # sequenceOffset=30.
-        self._targetData: Optional["RefType"] = None
+        self._targetData: Optional[RefType] = None
 
     @property
-    def target_data(self) -> Optional["RefType"]:
+    def target_data(self) -> Optional[RefType]:
         """Get targetData (Pythonic accessor)."""
         return self._targetData
 
     @target_data.setter
-    def target_data(self, value: Optional["RefType"]) -> None:
+    def target_data(self, value: Optional[RefType]) -> None:
         """
         Set targetData with validation.
 
@@ -201,7 +201,7 @@ class InnerDataPrototypeGroupInCompositionInstanceRef(ARObject):
         """
         return self.context_sw  # Delegates to property
 
-    def getTargetData(self) -> "RefType":
+    def getTargetData(self) -> RefType:
         """
         AUTOSAR-compliant getter for targetData.
 
@@ -213,7 +213,7 @@ class InnerDataPrototypeGroupInCompositionInstanceRef(ARObject):
         """
         return self.target_data  # Delegates to property
 
-    def setTargetData(self, value: "RefType") -> InnerDataPrototypeGroupInCompositionInstanceRef:
+    def setTargetData(self, value: RefType) -> InnerDataPrototypeGroupInCompositionInstanceRef:
         """
         AUTOSAR-compliant setter for targetData with method chaining.
 
@@ -320,15 +320,15 @@ class InnerRunnableEntityGroupInCompositionInstanceRef(ARObject):
         # This represents the target association of the InstanceRef.
         # xml.
         # sequenceOffset=30.
-        self._targetRunnable: "RefType" = None
+        self._targetRunnable: RefType = None
 
     @property
-    def target_runnable(self) -> "RefType":
+    def target_runnable(self) -> RefType:
         """Get targetRunnable (Pythonic accessor)."""
         return self._targetRunnable
 
     @target_runnable.setter
-    def target_runnable(self, value: "RefType") -> None:
+    def target_runnable(self, value: RefType) -> None:
         """
         Set targetRunnable with validation.
 
@@ -382,7 +382,7 @@ class InnerRunnableEntityGroupInCompositionInstanceRef(ARObject):
         """
         return self.context_sw  # Delegates to property
 
-    def getTargetRunnable(self) -> "RefType":
+    def getTargetRunnable(self) -> RefType:
         """
         AUTOSAR-compliant getter for targetRunnable.
 
@@ -394,7 +394,7 @@ class InnerRunnableEntityGroupInCompositionInstanceRef(ARObject):
         """
         return self.target_runnable  # Delegates to property
 
-    def setTargetRunnable(self, value: "RefType") -> InnerRunnableEntityGroupInCompositionInstanceRef:
+    def setTargetRunnable(self, value: RefType) -> InnerRunnableEntityGroupInCompositionInstanceRef:
         """
         AUTOSAR-compliant setter for targetRunnable with method chaining.
 
@@ -501,15 +501,15 @@ class RunnableEntityInCompositionInstanceRef(ARObject):
         # This represents the target RunnableEntity.
         # xml.
         # sequenceOffset=30.
-        self._targetRunnable: Optional["RunnableEntity"] = None
+        self._targetRunnable: Optional[RunnableEntity] = None
 
     @property
-    def target_runnable(self) -> Optional["RunnableEntity"]:
+    def target_runnable(self) -> Optional[RunnableEntity]:
         """Get targetRunnable (Pythonic accessor)."""
         return self._targetRunnable
 
     @target_runnable.setter
-    def target_runnable(self, value: Optional["RunnableEntity"]) -> None:
+    def target_runnable(self, value: Optional[RunnableEntity]) -> None:
         """
         Set targetRunnable with validation.
 
@@ -571,7 +571,7 @@ class RunnableEntityInCompositionInstanceRef(ARObject):
         """
         return self.context_sw  # Delegates to property
 
-    def getTargetRunnable(self) -> "RunnableEntity":
+    def getTargetRunnable(self) -> RunnableEntity:
         """
         AUTOSAR-compliant getter for targetRunnable.
 
@@ -583,7 +583,7 @@ class RunnableEntityInCompositionInstanceRef(ARObject):
         """
         return self.target_runnable  # Delegates to property
 
-    def setTargetRunnable(self, value: "RunnableEntity") -> RunnableEntityInCompositionInstanceRef:
+    def setTargetRunnable(self, value: RunnableEntity) -> RunnableEntityInCompositionInstanceRef:
         """
         AUTOSAR-compliant setter for targetRunnable with method chaining.
 
@@ -617,7 +617,7 @@ class RunnableEntityInCompositionInstanceRef(ARObject):
         self.base = value  # Use property setter (gets validation)
         return self
 
-    def with_target_runnable(self, value: Optional["RunnableEntity"]) -> RunnableEntityInCompositionInstanceRef:
+    def with_target_runnable(self, value: Optional[RunnableEntity]) -> RunnableEntityInCompositionInstanceRef:
         """
         Set targetRunnable and return self for chaining.
 
@@ -681,15 +681,15 @@ class VariableDataPrototypeInCompositionInstanceRef(ARObject):
         self._base = value
         # xml.
         # sequenceOffset=30.
-        self._contextPort: Optional["RefType"] = None
+        self._contextPort: Optional[RefType] = None
 
     @property
-    def context_port(self) -> Optional["RefType"]:
+    def context_port(self) -> Optional[RefType]:
         """Get contextPort (Pythonic accessor)."""
         return self._contextPort
 
     @context_port.setter
-    def context_port(self, value: Optional["RefType"]) -> None:
+    def context_port(self, value: Optional[RefType]) -> None:
         """
         Set contextPort with validation.
 
@@ -715,15 +715,15 @@ class VariableDataPrototypeInCompositionInstanceRef(ARObject):
         # This represents the target VariableDataPrototype.
         # xml.
         # sequenceOffset=40.
-        self._targetVariable: Optional["RefType"] = None
+        self._targetVariable: Optional[RefType] = None
 
     @property
-    def target_variable(self) -> Optional["RefType"]:
+    def target_variable(self) -> Optional[RefType]:
         """Get targetVariable (Pythonic accessor)."""
         return self._targetVariable
 
     @target_variable.setter
-    def target_variable(self, value: Optional["RefType"]) -> None:
+    def target_variable(self, value: Optional[RefType]) -> None:
         """
         Set targetVariable with validation.
 
@@ -769,7 +769,7 @@ class VariableDataPrototypeInCompositionInstanceRef(ARObject):
         self.base = value  # Delegates to property setter
         return self
 
-    def getContextPort(self) -> "RefType":
+    def getContextPort(self) -> RefType:
         """
         AUTOSAR-compliant getter for contextPort.
 
@@ -781,7 +781,7 @@ class VariableDataPrototypeInCompositionInstanceRef(ARObject):
         """
         return self.context_port  # Delegates to property
 
-    def setContextPort(self, value: "RefType") -> VariableDataPrototypeInCompositionInstanceRef:
+    def setContextPort(self, value: RefType) -> VariableDataPrototypeInCompositionInstanceRef:
         """
         AUTOSAR-compliant setter for contextPort with method chaining.
 
@@ -809,7 +809,7 @@ class VariableDataPrototypeInCompositionInstanceRef(ARObject):
         """
         return self.context_sw  # Delegates to property
 
-    def getTargetVariable(self) -> "RefType":
+    def getTargetVariable(self) -> RefType:
         """
         AUTOSAR-compliant getter for targetVariable.
 
@@ -821,7 +821,7 @@ class VariableDataPrototypeInCompositionInstanceRef(ARObject):
         """
         return self.target_variable  # Delegates to property
 
-    def setTargetVariable(self, value: "RefType") -> VariableDataPrototypeInCompositionInstanceRef:
+    def setTargetVariable(self, value: RefType) -> VariableDataPrototypeInCompositionInstanceRef:
         """
         AUTOSAR-compliant setter for targetVariable with method chaining.
 

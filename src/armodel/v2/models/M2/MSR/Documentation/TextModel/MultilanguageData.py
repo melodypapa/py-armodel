@@ -223,15 +223,15 @@ class MultiLanguageParagraph(Paginateable):
         # This specifies an entry point in an online help system to with the parent
                 # class.
         # The syntax shall be the applied help system respectively help.
-        self._helpEntry: Optional["String"] = None
+        self._helpEntry: Optional[String] = None
 
     @property
-    def help_entry(self) -> Optional["String"]:
+    def help_entry(self) -> Optional[String]:
         """Get helpEntry (Pythonic accessor)."""
         return self._helpEntry
 
     @help_entry.setter
-    def help_entry(self, value: Optional["String"]) -> None:
+    def help_entry(self, value: Optional[String]) -> None:
         """
         Set helpEntry with validation.
 
@@ -275,7 +275,7 @@ class MultiLanguageParagraph(Paginateable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getHelpEntry(self) -> "String":
+    def getHelpEntry(self) -> String:
         """
         AUTOSAR-compliant getter for helpEntry.
 
@@ -287,7 +287,7 @@ class MultiLanguageParagraph(Paginateable):
         """
         return self.help_entry  # Delegates to property
 
-    def setHelpEntry(self, value: "String") -> MultiLanguageParagraph:
+    def setHelpEntry(self, value: String) -> MultiLanguageParagraph:
         """
         AUTOSAR-compliant setter for helpEntry with method chaining.
 
@@ -333,7 +333,7 @@ class MultiLanguageParagraph(Paginateable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_help_entry(self, value: Optional["String"]) -> MultiLanguageParagraph:
+    def with_help_entry(self, value: Optional[String]) -> MultiLanguageParagraph:
         """
         Set helpEntry and return self for chaining.
 
@@ -441,15 +441,15 @@ class MultiLanguageVerbatim(Paginateable):
         self._float = value
                 # class.
         # The syntax shall be the applied help system respectively help.
-        self._helpEntry: Optional["String"] = None
+        self._helpEntry: Optional[String] = None
 
     @property
-    def help_entry(self) -> Optional["String"]:
+    def help_entry(self) -> Optional[String]:
         """Get helpEntry (Pythonic accessor)."""
         return self._helpEntry
 
     @help_entry.setter
-    def help_entry(self, value: Optional["String"]) -> None:
+    def help_entry(self, value: Optional[String]) -> None:
         """
         Set helpEntry with validation.
 
@@ -578,7 +578,7 @@ class MultiLanguageVerbatim(Paginateable):
         self.float = value  # Delegates to property setter
         return self
 
-    def getHelpEntry(self) -> "String":
+    def getHelpEntry(self) -> String:
         """
         AUTOSAR-compliant getter for helpEntry.
 
@@ -590,7 +590,7 @@ class MultiLanguageVerbatim(Paginateable):
         """
         return self.help_entry  # Delegates to property
 
-    def setHelpEntry(self, value: "String") -> MultiLanguageVerbatim:
+    def setHelpEntry(self, value: String) -> MultiLanguageVerbatim:
         """
         AUTOSAR-compliant setter for helpEntry with method chaining.
 
@@ -696,7 +696,7 @@ class MultiLanguageVerbatim(Paginateable):
         self.float = value  # Use property setter (gets validation)
         return self
 
-    def with_help_entry(self, value: Optional["String"]) -> MultiLanguageVerbatim:
+    def with_help_entry(self, value: Optional[String]) -> MultiLanguageVerbatim:
         """
         Set helpEntry and return self for chaining.
 

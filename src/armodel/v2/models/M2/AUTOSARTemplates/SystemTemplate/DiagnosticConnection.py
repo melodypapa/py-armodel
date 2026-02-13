@@ -49,10 +49,10 @@ class DiagnosticConnection(ARElement):
         """Get functionalRequest (Pythonic accessor)."""
         return self._functionalRequest
         # Reference to UUDT responses.
-        self._periodicResponseUudt: List["RefType"] = []
+        self._periodicResponseUudt: List[RefType] = []
 
     @property
-    def periodic_response_uudt(self) -> List["RefType"]:
+    def periodic_response_uudt(self) -> List[RefType]:
         """Get periodicResponseUudt (Pythonic accessor)."""
         return self._periodicResponseUudt
         # Reference to a physical request message.
@@ -187,7 +187,7 @@ class DiagnosticConnection(ARElement):
         """
         return self.functional_request  # Delegates to property
 
-    def getPeriodicResponseUudt(self) -> List["RefType"]:
+    def getPeriodicResponseUudt(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for periodicResponseUudt.
 
@@ -521,15 +521,15 @@ class DoIpTpConnection(TpConnection):
                 f"doIpTarget must be DoIpLogicAddress or None, got {type(value).__name__}"
             )
         self._doIpTarget = value
-        self._tpSdu: Optional["RefType"] = None
+        self._tpSdu: Optional[RefType] = None
 
     @property
-    def tp_sdu(self) -> Optional["RefType"]:
+    def tp_sdu(self) -> Optional[RefType]:
         """Get tpSdu (Pythonic accessor)."""
         return self._tpSdu
 
     @tp_sdu.setter
-    def tp_sdu(self, value: Optional["RefType"]) -> None:
+    def tp_sdu(self, value: Optional[RefType]) -> None:
         """
         Set tpSdu with validation.
 
@@ -603,7 +603,7 @@ class DoIpTpConnection(TpConnection):
         self.do_ip_target = value  # Delegates to property setter
         return self
 
-    def getTpSdu(self) -> "RefType":
+    def getTpSdu(self) -> RefType:
         """
         AUTOSAR-compliant getter for tpSdu.
 
@@ -615,7 +615,7 @@ class DoIpTpConnection(TpConnection):
         """
         return self.tp_sdu  # Delegates to property
 
-    def setTpSdu(self, value: "RefType") -> DoIpTpConnection:
+    def setTpSdu(self, value: RefType) -> DoIpTpConnection:
         """
         AUTOSAR-compliant setter for tpSdu with method chaining.
 

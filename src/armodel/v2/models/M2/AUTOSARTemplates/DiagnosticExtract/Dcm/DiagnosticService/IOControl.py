@@ -72,15 +72,15 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
             )
         self._dataIdentifierIdentifier = value
         # freezeCurrentState.
-        self._freezeCurrent: Optional["Boolean"] = None
+        self._freezeCurrent: Optional[Boolean] = None
 
     @property
-    def freeze_current(self) -> Optional["Boolean"]:
+    def freeze_current(self) -> Optional[Boolean]:
         """Get freezeCurrent (Pythonic accessor)."""
         return self._freezeCurrent
 
     @freeze_current.setter
-    def freeze_current(self, value: Optional["Boolean"]) -> None:
+    def freeze_current(self, value: Optional[Boolean]) -> None:
         """
         Set freezeCurrent with validation.
 
@@ -128,15 +128,15 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
             )
         self._ioControlClass = value
         # resetToDefault.
-        self._resetToDefault: Optional["Boolean"] = None
+        self._resetToDefault: Optional[Boolean] = None
 
     @property
-    def reset_to_default(self) -> Optional["Boolean"]:
+    def reset_to_default(self) -> Optional[Boolean]:
         """Get resetToDefault (Pythonic accessor)."""
         return self._resetToDefault
 
     @reset_to_default.setter
-    def reset_to_default(self, value: Optional["Boolean"]) -> None:
+    def reset_to_default(self, value: Optional[Boolean]) -> None:
         """
         Set resetToDefault with validation.
 
@@ -156,15 +156,15 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
             )
         self._resetToDefault = value
         # shortTermAdjustment.
-        self._shortTerm: Optional["Boolean"] = None
+        self._shortTerm: Optional[Boolean] = None
 
     @property
-    def short_term(self) -> Optional["Boolean"]:
+    def short_term(self) -> Optional[Boolean]:
         """Get shortTerm (Pythonic accessor)."""
         return self._shortTerm
 
     @short_term.setter
-    def short_term(self, value: Optional["Boolean"]) -> None:
+    def short_term(self, value: Optional[Boolean]) -> None:
         """
         Set shortTerm with validation.
 
@@ -258,7 +258,7 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
         self.data_identifier_identifier = value  # Delegates to property setter
         return self
 
-    def getFreezeCurrent(self) -> "Boolean":
+    def getFreezeCurrent(self) -> Boolean:
         """
         AUTOSAR-compliant getter for freezeCurrent.
 
@@ -270,7 +270,7 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
         """
         return self.freeze_current  # Delegates to property
 
-    def setFreezeCurrent(self, value: "Boolean") -> DiagnosticIOControl:
+    def setFreezeCurrent(self, value: Boolean) -> DiagnosticIOControl:
         """
         AUTOSAR-compliant setter for freezeCurrent with method chaining.
 
@@ -314,7 +314,7 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
         self.io_control_class = value  # Delegates to property setter
         return self
 
-    def getResetToDefault(self) -> "Boolean":
+    def getResetToDefault(self) -> Boolean:
         """
         AUTOSAR-compliant getter for resetToDefault.
 
@@ -326,7 +326,7 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
         """
         return self.reset_to_default  # Delegates to property
 
-    def setResetToDefault(self, value: "Boolean") -> DiagnosticIOControl:
+    def setResetToDefault(self, value: Boolean) -> DiagnosticIOControl:
         """
         AUTOSAR-compliant setter for resetToDefault with method chaining.
 
@@ -342,7 +342,7 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
         self.reset_to_default = value  # Delegates to property setter
         return self
 
-    def getShortTerm(self) -> "Boolean":
+    def getShortTerm(self) -> Boolean:
         """
         AUTOSAR-compliant getter for shortTerm.
 
@@ -354,7 +354,7 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
         """
         return self.short_term  # Delegates to property
 
-    def setShortTerm(self, value: "Boolean") -> DiagnosticIOControl:
+    def setShortTerm(self, value: Boolean) -> DiagnosticIOControl:
         """
         AUTOSAR-compliant setter for shortTerm with method chaining.
 
@@ -388,7 +388,7 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
         self.data_identifier_identifier = value  # Use property setter (gets validation)
         return self
 
-    def with_freeze_current(self, value: Optional["Boolean"]) -> DiagnosticIOControl:
+    def with_freeze_current(self, value: Optional[Boolean]) -> DiagnosticIOControl:
         """
         Set freezeCurrent and return self for chaining.
 
@@ -420,7 +420,7 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
         self.io_control_class = value  # Use property setter (gets validation)
         return self
 
-    def with_reset_to_default(self, value: Optional["Boolean"]) -> DiagnosticIOControl:
+    def with_reset_to_default(self, value: Optional[Boolean]) -> DiagnosticIOControl:
         """
         Set resetToDefault and return self for chaining.
 
@@ -436,7 +436,7 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
         self.reset_to_default = value  # Use property setter (gets validation)
         return self
 
-    def with_short_term(self, value: Optional["Boolean"]) -> DiagnosticIOControl:
+    def with_short_term(self, value: Optional[Boolean]) -> DiagnosticIOControl:
         """
         Set shortTerm and return self for chaining.
 
@@ -494,15 +494,15 @@ class DiagnosticControlEnableMaskBit(ARObject):
         # This attribute represents the bit number of the bit in the record.
         # Bit number 0 is the most significant in the first byte of the CEMR in the
                 # network.
-        self._bitNumber: Optional["PositiveInteger"] = None
+        self._bitNumber: Optional[PositiveInteger] = None
 
     @property
-    def bit_number(self) -> Optional["PositiveInteger"]:
+    def bit_number(self) -> Optional[PositiveInteger]:
         """Get bitNumber (Pythonic accessor)."""
         return self._bitNumber
 
     @bit_number.setter
-    def bit_number(self, value: Optional["PositiveInteger"]) -> None:
+    def bit_number(self, value: Optional[PositiveInteger]) -> None:
         """
         Set bitNumber with validation.
 
@@ -531,7 +531,7 @@ class DiagnosticControlEnableMaskBit(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBitNumber(self) -> "PositiveInteger":
+    def getBitNumber(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for bitNumber.
 
@@ -543,7 +543,7 @@ class DiagnosticControlEnableMaskBit(ARObject):
         """
         return self.bit_number  # Delegates to property
 
-    def setBitNumber(self, value: "PositiveInteger") -> DiagnosticControlEnableMaskBit:
+    def setBitNumber(self, value: PositiveInteger) -> DiagnosticControlEnableMaskBit:
         """
         AUTOSAR-compliant setter for bitNumber with method chaining.
 
@@ -573,7 +573,7 @@ class DiagnosticControlEnableMaskBit(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_bit_number(self, value: Optional["PositiveInteger"]) -> DiagnosticControlEnableMaskBit:
+    def with_bit_number(self, value: Optional[PositiveInteger]) -> DiagnosticControlEnableMaskBit:
         """
         Set bitNumber and return self for chaining.
 

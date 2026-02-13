@@ -430,15 +430,15 @@ class McDataInstance(Identifiable):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The existence of this attribute turns the data instance into of data.
         # The attribute determines the size of the terms of number of elements.
-        self._arraySize: Optional["PositiveInteger"] = None
+        self._arraySize: Optional[PositiveInteger] = None
 
     @property
-    def array_size(self) -> Optional["PositiveInteger"]:
+    def array_size(self) -> Optional[PositiveInteger]:
         """Get arraySize (Pythonic accessor)."""
         return self._arraySize
 
     @array_size.setter
-    def array_size(self, value: Optional["PositiveInteger"]) -> None:
+    def array_size(self, value: Optional[PositiveInteger]) -> None:
         """
         Set arraySize with validation.
 
@@ -585,15 +585,15 @@ class McDataInstance(Identifiable):
         # These are the generated properties resulting from taken by the RTE generator
                 # for the actually instance.
         # Only those properties are which are needed for the measurement system.
-        self._resulting: Optional["SwDataDefProps"] = None
+        self._resulting: Optional[SwDataDefProps] = None
 
     @property
-    def resulting(self) -> Optional["SwDataDefProps"]:
+    def resulting(self) -> Optional[SwDataDefProps]:
         """Get resulting (Pythonic accessor)."""
         return self._resulting
 
     @resulting.setter
-    def resulting(self, value: Optional["SwDataDefProps"]) -> None:
+    def resulting(self, value: Optional[SwDataDefProps]) -> None:
         """
         Set resulting with validation.
 
@@ -752,7 +752,7 @@ class McDataInstance(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getArraySize(self) -> "PositiveInteger":
+    def getArraySize(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for arraySize.
 
@@ -764,7 +764,7 @@ class McDataInstance(Identifiable):
         """
         return self.array_size  # Delegates to property
 
-    def setArraySize(self, value: "PositiveInteger") -> McDataInstance:
+    def setArraySize(self, value: PositiveInteger) -> McDataInstance:
         """
         AUTOSAR-compliant setter for arraySize with method chaining.
 
@@ -904,7 +904,7 @@ class McDataInstance(Identifiable):
         """
         return self.mc_data  # Delegates to property
 
-    def getResulting(self) -> "SwDataDefProps":
+    def getResulting(self) -> SwDataDefProps:
         """
         AUTOSAR-compliant getter for resulting.
 
@@ -916,7 +916,7 @@ class McDataInstance(Identifiable):
         """
         return self.resulting  # Delegates to property
 
-    def setResulting(self, value: "SwDataDefProps") -> McDataInstance:
+    def setResulting(self, value: SwDataDefProps) -> McDataInstance:
         """
         AUTOSAR-compliant setter for resulting with method chaining.
 
@@ -1058,7 +1058,7 @@ class McDataInstance(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_array_size(self, value: Optional["PositiveInteger"]) -> McDataInstance:
+    def with_array_size(self, value: Optional[PositiveInteger]) -> McDataInstance:
         """
         Set arraySize and return self for chaining.
 
@@ -1138,7 +1138,7 @@ class McDataInstance(Identifiable):
         self.mc_data_access = value  # Use property setter (gets validation)
         return self
 
-    def with_resulting(self, value: Optional["SwDataDefProps"]) -> McDataInstance:
+    def with_resulting(self, value: Optional[SwDataDefProps]) -> McDataInstance:
         """
         Set resulting and return self for chaining.
 
@@ -1246,15 +1246,15 @@ class McSwEmulationMethodSupport(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Refers to the base pointer in case of the double-pointered.
-        self._baseReference: Optional["RefType"] = None
+        self._baseReference: Optional[RefType] = None
 
     @property
-    def base_reference(self) -> Optional["RefType"]:
+    def base_reference(self) -> Optional[RefType]:
         """Get baseReference (Pythonic accessor)."""
         return self._baseReference
 
     @base_reference.setter
-    def base_reference(self, value: Optional["RefType"]) -> None:
+    def base_reference(self, value: Optional[RefType]) -> None:
         """
         Set baseReference with validation.
 
@@ -1306,15 +1306,15 @@ class McSwEmulationMethodSupport(ARObject):
         """Get elementGroup (Pythonic accessor)."""
         return self._elementGroup
         # Refers to the pointer table in case of the single-pointered.
-        self._referenceTable: Optional["RefType"] = None
+        self._referenceTable: Optional[RefType] = None
 
     @property
-    def reference_table(self) -> Optional["RefType"]:
+    def reference_table(self) -> Optional[RefType]:
         """Get referenceTable (Pythonic accessor)."""
         return self._referenceTable
 
     @reference_table.setter
-    def reference_table(self, value: Optional["RefType"]) -> None:
+    def reference_table(self, value: Optional[RefType]) -> None:
         """
         Set referenceTable with validation.
 
@@ -1359,7 +1359,7 @@ class McSwEmulationMethodSupport(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBaseReference(self) -> "RefType":
+    def getBaseReference(self) -> RefType:
         """
         AUTOSAR-compliant getter for baseReference.
 
@@ -1371,7 +1371,7 @@ class McSwEmulationMethodSupport(ARObject):
         """
         return self.base_reference  # Delegates to property
 
-    def setBaseReference(self, value: "RefType") -> McSwEmulationMethodSupport:
+    def setBaseReference(self, value: RefType) -> McSwEmulationMethodSupport:
         """
         AUTOSAR-compliant setter for baseReference with method chaining.
 
@@ -1427,7 +1427,7 @@ class McSwEmulationMethodSupport(ARObject):
         """
         return self.element_group  # Delegates to property
 
-    def getReferenceTable(self) -> "RefType":
+    def getReferenceTable(self) -> RefType:
         """
         AUTOSAR-compliant getter for referenceTable.
 
@@ -1439,7 +1439,7 @@ class McSwEmulationMethodSupport(ARObject):
         """
         return self.reference_table  # Delegates to property
 
-    def setReferenceTable(self, value: "RefType") -> McSwEmulationMethodSupport:
+    def setReferenceTable(self, value: RefType) -> McSwEmulationMethodSupport:
         """
         AUTOSAR-compliant setter for referenceTable with method chaining.
 
@@ -1568,15 +1568,15 @@ class McParameterElementGroup(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Refers to the RAM location of this parameter group.
         # To be the init-RAM method.
-        self._ramLocation: Optional["RefType"] = None
+        self._ramLocation: Optional[RefType] = None
 
     @property
-    def ram_location(self) -> Optional["RefType"]:
+    def ram_location(self) -> Optional[RefType]:
         """Get ramLocation (Pythonic accessor)."""
         return self._ramLocation
 
     @ram_location.setter
-    def ram_location(self, value: Optional["RefType"]) -> None:
+    def ram_location(self, value: Optional[RefType]) -> None:
         """
         Set ramLocation with validation.
 
@@ -1649,7 +1649,7 @@ class McParameterElementGroup(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getRamLocation(self) -> "RefType":
+    def getRamLocation(self) -> RefType:
         """
         AUTOSAR-compliant getter for ramLocation.
 
@@ -1661,7 +1661,7 @@ class McParameterElementGroup(ARObject):
         """
         return self.ram_location  # Delegates to property
 
-    def setRamLocation(self, value: "RefType") -> McParameterElementGroup:
+    def setRamLocation(self, value: RefType) -> McParameterElementGroup:
         """
         AUTOSAR-compliant setter for ramLocation with method chaining.
 
@@ -1834,15 +1834,15 @@ class ImplementationElementInParameterInstanceRef(ARObject):
         self._context = value
         # xml.
         # sequenceOffset=30.
-        self._target: Optional["AbstractImplementation"] = None
+        self._target: Optional[AbstractImplementation] = None
 
     @property
-    def target(self) -> Optional["AbstractImplementation"]:
+    def target(self) -> Optional[AbstractImplementation]:
         """Get target (Pythonic accessor)."""
         return self._target
 
     @target.setter
-    def target(self, value: Optional["AbstractImplementation"]) -> None:
+    def target(self, value: Optional[AbstractImplementation]) -> None:
         """
         Set target with validation.
 
@@ -1892,7 +1892,7 @@ class ImplementationElementInParameterInstanceRef(ARObject):
         self.context = value  # Delegates to property setter
         return self
 
-    def getTarget(self) -> "AbstractImplementation":
+    def getTarget(self) -> AbstractImplementation:
         """
         AUTOSAR-compliant getter for target.
 
@@ -1904,7 +1904,7 @@ class ImplementationElementInParameterInstanceRef(ARObject):
         """
         return self.target  # Delegates to property
 
-    def setTarget(self, value: "AbstractImplementation") -> ImplementationElementInParameterInstanceRef:
+    def setTarget(self, value: AbstractImplementation) -> ImplementationElementInParameterInstanceRef:
         """
         AUTOSAR-compliant setter for target with method chaining.
 
@@ -1938,7 +1938,7 @@ class ImplementationElementInParameterInstanceRef(ARObject):
         self.context = value  # Use property setter (gets validation)
         return self
 
-    def with_target(self, value: Optional["AbstractImplementation"]) -> ImplementationElementInParameterInstanceRef:
+    def with_target(self, value: Optional[AbstractImplementation]) -> ImplementationElementInParameterInstanceRef:
         """
         Set target and return self for chaining.
 
@@ -1974,15 +1974,15 @@ class McFunction(ARElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Refers to the set of adjustable data (= calibration in this function.
-        self._defCalprmSet: Optional["RefType"] = None
+        self._defCalprmSet: Optional[RefType] = None
 
     @property
-    def def_calprm_set(self) -> Optional["RefType"]:
+    def def_calprm_set(self) -> Optional[RefType]:
         """Get defCalprmSet (Pythonic accessor)."""
         return self._defCalprmSet
 
     @def_calprm_set.setter
-    def def_calprm_set(self, value: Optional["RefType"]) -> None:
+    def def_calprm_set(self, value: Optional[RefType]) -> None:
         """
         Set defCalprmSet with validation.
 
@@ -1997,15 +1997,15 @@ class McFunction(ARElement):
             return
 
         self._defCalprmSet = value
-        self._inMeasurement: Optional["RefType"] = None
+        self._inMeasurement: Optional[RefType] = None
 
     @property
-    def in_measurement(self) -> Optional["RefType"]:
+    def in_measurement(self) -> Optional[RefType]:
         """Get inMeasurement (Pythonic accessor)."""
         return self._inMeasurement
 
     @in_measurement.setter
-    def in_measurement(self, value: Optional["RefType"]) -> None:
+    def in_measurement(self, value: Optional[RefType]) -> None:
         """
         Set inMeasurement with validation.
 
@@ -2021,15 +2021,15 @@ class McFunction(ARElement):
 
         self._inMeasurement = value
         # atpSplitable Set Tags:.
-        self._loc: Optional["RefType"] = None
+        self._loc: Optional[RefType] = None
 
     @property
-    def loc(self) -> Optional["RefType"]:
+    def loc(self) -> Optional[RefType]:
         """Get loc (Pythonic accessor)."""
         return self._loc
 
     @loc.setter
-    def loc(self, value: Optional["RefType"]) -> None:
+    def loc(self, value: Optional[RefType]) -> None:
         """
         Set loc with validation.
 
@@ -2044,15 +2044,15 @@ class McFunction(ARElement):
             return
 
         self._loc = value
-        self._out: Optional["RefType"] = None
+        self._out: Optional[RefType] = None
 
     @property
-    def out(self) -> Optional["RefType"]:
+    def out(self) -> Optional[RefType]:
         """Get out (Pythonic accessor)."""
         return self._out
 
     @out.setter
-    def out(self, value: Optional["RefType"]) -> None:
+    def out(self, value: Optional[RefType]) -> None:
         """
         Set out with validation.
 
@@ -2067,15 +2067,15 @@ class McFunction(ARElement):
             return
 
         self._out = value
-        self._refCalprmSet: Optional["RefType"] = None
+        self._refCalprmSet: Optional[RefType] = None
 
     @property
-    def ref_calprm_set(self) -> Optional["RefType"]:
+    def ref_calprm_set(self) -> Optional[RefType]:
         """Get refCalprmSet (Pythonic accessor)."""
         return self._refCalprmSet
 
     @ref_calprm_set.setter
-    def ref_calprm_set(self, value: Optional["RefType"]) -> None:
+    def ref_calprm_set(self, value: Optional[RefType]) -> None:
         """
         Set refCalprmSet with validation.
 
@@ -2099,7 +2099,7 @@ class McFunction(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDefCalprmSet(self) -> "RefType":
+    def getDefCalprmSet(self) -> RefType:
         """
         AUTOSAR-compliant getter for defCalprmSet.
 
@@ -2111,7 +2111,7 @@ class McFunction(ARElement):
         """
         return self.def_calprm_set  # Delegates to property
 
-    def setDefCalprmSet(self, value: "RefType") -> McFunction:
+    def setDefCalprmSet(self, value: RefType) -> McFunction:
         """
         AUTOSAR-compliant setter for defCalprmSet with method chaining.
 
@@ -2127,7 +2127,7 @@ class McFunction(ARElement):
         self.def_calprm_set = value  # Delegates to property setter
         return self
 
-    def getInMeasurement(self) -> "RefType":
+    def getInMeasurement(self) -> RefType:
         """
         AUTOSAR-compliant getter for inMeasurement.
 
@@ -2139,7 +2139,7 @@ class McFunction(ARElement):
         """
         return self.in_measurement  # Delegates to property
 
-    def setInMeasurement(self, value: "RefType") -> McFunction:
+    def setInMeasurement(self, value: RefType) -> McFunction:
         """
         AUTOSAR-compliant setter for inMeasurement with method chaining.
 
@@ -2155,7 +2155,7 @@ class McFunction(ARElement):
         self.in_measurement = value  # Delegates to property setter
         return self
 
-    def getLoc(self) -> "RefType":
+    def getLoc(self) -> RefType:
         """
         AUTOSAR-compliant getter for loc.
 
@@ -2167,7 +2167,7 @@ class McFunction(ARElement):
         """
         return self.loc  # Delegates to property
 
-    def setLoc(self, value: "RefType") -> McFunction:
+    def setLoc(self, value: RefType) -> McFunction:
         """
         AUTOSAR-compliant setter for loc with method chaining.
 
@@ -2183,7 +2183,7 @@ class McFunction(ARElement):
         self.loc = value  # Delegates to property setter
         return self
 
-    def getOut(self) -> "RefType":
+    def getOut(self) -> RefType:
         """
         AUTOSAR-compliant getter for out.
 
@@ -2195,7 +2195,7 @@ class McFunction(ARElement):
         """
         return self.out  # Delegates to property
 
-    def setOut(self, value: "RefType") -> McFunction:
+    def setOut(self, value: RefType) -> McFunction:
         """
         AUTOSAR-compliant setter for out with method chaining.
 
@@ -2211,7 +2211,7 @@ class McFunction(ARElement):
         self.out = value  # Delegates to property setter
         return self
 
-    def getRefCalprmSet(self) -> "RefType":
+    def getRefCalprmSet(self) -> RefType:
         """
         AUTOSAR-compliant getter for refCalprmSet.
 
@@ -2223,7 +2223,7 @@ class McFunction(ARElement):
         """
         return self.ref_calprm_set  # Delegates to property
 
-    def setRefCalprmSet(self, value: "RefType") -> McFunction:
+    def setRefCalprmSet(self, value: RefType) -> McFunction:
         """
         AUTOSAR-compliant setter for refCalprmSet with method chaining.
 

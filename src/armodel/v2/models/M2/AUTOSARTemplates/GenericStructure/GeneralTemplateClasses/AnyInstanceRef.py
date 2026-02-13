@@ -6,10 +6,14 @@ Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::AnyInst
 
 
 from __future__ import annotations
-from typing import List
+from typing import List, Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
+    AtpClassifier,
+    AtpFeature,
 )
 
 
@@ -32,17 +36,21 @@ class AnyInstanceRef(ARObject):
     def __init__(self):
         super().__init__()
 
-    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This is the base from which navigation path begins.
-        self._base: "AtpClassifier" = None
+        self._base: Optional[AtpClassifier] = None
+        # This is the context element for the instance ref.
+        self._contextElement: List[AtpFeature] = []
+        # This is the target of the instance ref.
+        self._target: Optional[AtpFeature] = None
 
     @property
-    def base(self) -> "AtpClassifier":
+    def base(self) -> Optional[AtpClassifier]:
         """Get base (Pythonic accessor)."""
         return self._base
 
     @base.setter
-    def base(self, value: "AtpClassifier") -> None:
+    def base(self, value: Optional[AtpClassifier]) -> None:
         """
         Set base with validation.
 
@@ -52,27 +60,28 @@ class AnyInstanceRef(ARObject):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._base = None
+            return
+
         if not isinstance(value, AtpClassifier):
             raise TypeError(
-                f"base must be AtpClassifier, got {type(value).__name__}"
+                f"base must be AtpClassifier or None, got {type(value).__name__}"
             )
         self._base = value
-        self._contextElement: List["AtpFeature"] = []
 
     @property
-    def context_element(self) -> List["AtpFeature"]:
+    def context_element(self) -> List[AtpFeature]:
         """Get contextElement (Pythonic accessor)."""
         return self._contextElement
-        # This is the target of the instance ref.
-        self._target: "AtpFeature" = None
 
     @property
-    def target(self) -> "AtpFeature":
+    def target(self) -> Optional[AtpFeature]:
         """Get target (Pythonic accessor)."""
         return self._target
 
     @target.setter
-    def target(self, value: "AtpFeature") -> None:
+    def target(self, value: Optional[AtpFeature]) -> None:
         """
         Set target with validation.
 
@@ -82,9 +91,13 @@ class AnyInstanceRef(ARObject):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._target = None
+            return
+
         if not isinstance(value, AtpFeature):
             raise TypeError(
-                f"target must be AtpFeature, got {type(value).__name__}"
+                f"target must be AtpFeature or None, got {type(value).__name__}"
             )
         self._target = value
 
@@ -106,7 +119,7 @@ class AnyInstanceRef(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBase(self) -> "AtpClassifier":
+    def getBase(self) -> Optional[AtpClassifier]:
         """
         AUTOSAR-compliant getter for base.
 
@@ -118,7 +131,7 @@ class AnyInstanceRef(ARObject):
         """
         return self.base  # Delegates to property
 
-    def setBase(self, value: "AtpClassifier") -> AnyInstanceRef:
+    def setBase(self, value: Optional[AtpClassifier]) -> AnyInstanceRef:
         """
         AUTOSAR-compliant setter for base with method chaining.
 
@@ -134,7 +147,7 @@ class AnyInstanceRef(ARObject):
         self.base = value  # Delegates to property setter
         return self
 
-    def getContextElement(self) -> List["AtpFeature"]:
+    def getContextElement(self) -> List[AtpFeature]:
         """
         AUTOSAR-compliant getter for contextElement.
 
@@ -146,7 +159,7 @@ class AnyInstanceRef(ARObject):
         """
         return self.context_element  # Delegates to property
 
-    def getTarget(self) -> "AtpFeature":
+    def getTarget(self) -> Optional[AtpFeature]:
         """
         AUTOSAR-compliant getter for target.
 
@@ -158,7 +171,7 @@ class AnyInstanceRef(ARObject):
         """
         return self.target  # Delegates to property
 
-    def setTarget(self, value: "AtpFeature") -> AnyInstanceRef:
+    def setTarget(self, value: Optional[AtpFeature]) -> AnyInstanceRef:
         """
         AUTOSAR-compliant setter for target with method chaining.
 
@@ -176,7 +189,7 @@ class AnyInstanceRef(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base(self, value: "AtpClassifier") -> AnyInstanceRef:
+    def with_base(self, value: Optional[AtpClassifier]) -> AnyInstanceRef:
         """
         Set base and return self for chaining.
 
@@ -192,7 +205,7 @@ class AnyInstanceRef(ARObject):
         self.base = value  # Use property setter (gets validation)
         return self
 
-    def with_target(self, value: "AtpFeature") -> AnyInstanceRef:
+    def with_target(self, value: Optional[AtpFeature]) -> AnyInstanceRef:
         """
         Set target and return self for chaining.
 

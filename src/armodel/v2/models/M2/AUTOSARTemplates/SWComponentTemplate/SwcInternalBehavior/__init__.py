@@ -60,25 +60,25 @@ class RunnableEntity(ExecutableEntity):
                 # server call result points in the atpVariation 381 Document ID 89:
                 # AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template
                 # R23-11.
-        self._asynchronous: List["AsynchronousServer"] = []
+        self._asynchronous: List[AsynchronousServer] = []
 
     @property
-    def asynchronous(self) -> List["AsynchronousServer"]:
+    def asynchronous(self) -> List[AsynchronousServer]:
         """Get asynchronous (Pythonic accessor)."""
         return self._asynchronous
         # If the value of this attribute is set to "true" the enclosing can be invoked
         # concurrently (even for one the corresponding AtomicSwComponent implies that
         # it is the responsibility of the the RunnableEntity to take care of this
         # concurrency.
-        self._canBeInvoked: Optional["Boolean"] = None
+        self._canBeInvoked: Optional[Boolean] = None
 
     @property
-    def can_be_invoked(self) -> Optional["Boolean"]:
+    def can_be_invoked(self) -> Optional[Boolean]:
         """Get canBeInvoked (Pythonic accessor)."""
         return self._canBeInvoked
 
     @can_be_invoked.setter
-    def can_be_invoked(self, value: Optional["Boolean"]) -> None:
+    def can_be_invoked(self, value: Optional[Boolean]) -> None:
         """
         Set canBeInvoked with validation.
 
@@ -148,18 +148,18 @@ class RunnableEntity(ExecutableEntity):
                 # support the conditional trigger ports or the variant existence of points in
                 # the implementation.
         # atpVariation.
-        self._external: List["RefType"] = []
+        self._external: List[RefType] = []
 
     @property
-    def external(self) -> List["RefType"]:
+    def external(self) -> List[RefType]:
         """Get external (Pythonic accessor)."""
         return self._external
         # The aggregation of InternalTriggeringPoint is subject to with the purpose to
         # support the variant internal triggering points in the atpVariation.
-        self._internal: List["RefType"] = []
+        self._internal: List[RefType] = []
 
     @property
-    def internal(self) -> List["RefType"]:
+    def internal(self) -> List[RefType]:
         """Get internal (Pythonic accessor)."""
         return self._internal
         # The runnable has a mode access point.
@@ -211,23 +211,23 @@ class RunnableEntity(ExecutableEntity):
         # The ServerCallPoint is subject to variability with to support the conditional
                 # existence of client or the variant existence of server in the implementation.
         # atpVariation.
-        self._serverCallPoint: List["ServerCallPoint"] = []
+        self._serverCallPoint: List[ServerCallPoint] = []
 
     @property
-    def server_call_point(self) -> List["ServerCallPoint"]:
+    def server_call_point(self) -> List[ServerCallPoint]:
         """Get serverCallPoint (Pythonic accessor)."""
         return self._serverCallPoint
         # The symbol describing this RunnableEntity’s entry point.
         # considered the API of the RunnableEntity and is the RTE contract phase.
-        self._symbol: Optional["CIdentifier"] = None
+        self._symbol: Optional[CIdentifier] = None
 
     @property
-    def symbol(self) -> Optional["CIdentifier"]:
+    def symbol(self) -> Optional[CIdentifier]:
         """Get symbol (Pythonic accessor)."""
         return self._symbol
 
     @symbol.setter
-    def symbol(self, value: Optional["CIdentifier"]) -> None:
+    def symbol(self, value: Optional[CIdentifier]) -> None:
         """
         Set symbol with validation.
 
@@ -730,7 +730,7 @@ class RunnableEntity(ExecutableEntity):
         """
         return self.argument  # Delegates to property
 
-    def getAsynchronous(self) -> List["AsynchronousServer"]:
+    def getAsynchronous(self) -> List[AsynchronousServer]:
         """
         AUTOSAR-compliant getter for asynchronous.
 
@@ -742,7 +742,7 @@ class RunnableEntity(ExecutableEntity):
         """
         return self.asynchronous  # Delegates to property
 
-    def getCanBeInvoked(self) -> "Boolean":
+    def getCanBeInvoked(self) -> Boolean:
         """
         AUTOSAR-compliant getter for canBeInvoked.
 
@@ -754,7 +754,7 @@ class RunnableEntity(ExecutableEntity):
         """
         return self.can_be_invoked  # Delegates to property
 
-    def setCanBeInvoked(self, value: "Boolean") -> RunnableEntity:
+    def setCanBeInvoked(self, value: Boolean) -> RunnableEntity:
         """
         AUTOSAR-compliant setter for canBeInvoked with method chaining.
 
@@ -818,7 +818,7 @@ class RunnableEntity(ExecutableEntity):
         """
         return self.data_write  # Delegates to property
 
-    def getExternal(self) -> List["RefType"]:
+    def getExternal(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for external.
 
@@ -830,7 +830,7 @@ class RunnableEntity(ExecutableEntity):
         """
         return self.external  # Delegates to property
 
-    def getInternal(self) -> List["RefType"]:
+    def getInternal(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for internal.
 
@@ -890,7 +890,7 @@ class RunnableEntity(ExecutableEntity):
         """
         return self.read_local  # Delegates to property
 
-    def getServerCallPoint(self) -> List["ServerCallPoint"]:
+    def getServerCallPoint(self) -> List[ServerCallPoint]:
         """
         AUTOSAR-compliant getter for serverCallPoint.
 
@@ -902,7 +902,7 @@ class RunnableEntity(ExecutableEntity):
         """
         return self.server_call_point  # Delegates to property
 
-    def getSymbol(self) -> "CIdentifier":
+    def getSymbol(self) -> CIdentifier:
         """
         AUTOSAR-compliant getter for symbol.
 
@@ -914,7 +914,7 @@ class RunnableEntity(ExecutableEntity):
         """
         return self.symbol  # Delegates to property
 
-    def setSymbol(self, value: "CIdentifier") -> RunnableEntity:
+    def setSymbol(self, value: CIdentifier) -> RunnableEntity:
         """
         AUTOSAR-compliant setter for symbol with method chaining.
 
@@ -956,7 +956,7 @@ class RunnableEntity(ExecutableEntity):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_can_be_invoked(self, value: Optional["Boolean"]) -> RunnableEntity:
+    def with_can_be_invoked(self, value: Optional[Boolean]) -> RunnableEntity:
         """
         Set canBeInvoked and return self for chaining.
 
@@ -972,7 +972,7 @@ class RunnableEntity(ExecutableEntity):
         self.can_be_invoked = value  # Use property setter (gets validation)
         return self
 
-    def with_symbol(self, value: Optional["CIdentifier"]) -> RunnableEntity:
+    def with_symbol(self, value: Optional[CIdentifier]) -> RunnableEntity:
         """
         Set symbol and return self for chaining.
 
@@ -1023,20 +1023,20 @@ class SwcInternalBehavior(InternalBehavior):
                 # objects.
         # atpVariation 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate
                 # Module Description Template R23-11.
-        self._arTypedPer: List["RefType"] = []
+        self._arTypedPer: List[RefType] = []
 
     @property
-    def ar_typed_per(self) -> List["RefType"]:
+    def ar_typed_per(self) -> List[RefType]:
         """Get arTypedPer (Pythonic accessor)."""
         return self._arTypedPer
         # This is a RTEEvent specified for the particular Swc of RTEEvent is subject to
         # variability with to support the conditional existence of RTE the number of
         # RTE events might vary due conditional existence of PortPrototypes using Data
         # due to different scheduling needs of atpVariation.
-        self._event: List["RTEEvent"] = []
+        self._event: List[RTEEvent] = []
 
     @property
-    def event(self) -> List["RTEEvent"]:
+    def event(self) -> List[RTEEvent]:
         """Get event (Pythonic accessor)."""
         return self._event
         # Options how to generate the ExclusiveArea related APIs.
@@ -1052,27 +1052,27 @@ class SwcInternalBehavior(InternalBehavior):
         # same The aggregation of explicitInterRunnable subject to variability with the
         # purpose to in the software components different algorithms in the requiring
         # different number of memory atpVariation.
-        self._explicitInter: List["RefType"] = []
+        self._explicitInter: List[RefType] = []
 
     @property
-    def explicit_inter(self) -> List["RefType"]:
+    def explicit_inter(self) -> List[RefType]:
         """Get explicitInter (Pythonic accessor)."""
         return self._explicitInter
         # Implement state message semantics for establishing among runnables of the
         # same The aggregation of implicitInterRunnable subject to variability with the
         # purpose to in the software components different algorithms in the requiring
         # different number of memory atpVariation.
-        self._implicitInter: List["RefType"] = []
+        self._implicitInter: List[RefType] = []
 
     @property
-    def implicit_inter(self) -> List["RefType"]:
+    def implicit_inter(self) -> List[RefType]:
         """Get implicitInter (Pythonic accessor)."""
         return self._implicitInter
         # The includedDataTypeSet is used by a software for its implementation.
-        self._includedData: List["RefType"] = []
+        self._includedData: List[RefType] = []
 
     @property
-    def included_data(self) -> List["RefType"]:
+    def included_data(self) -> List[RefType]:
         """Get includedData (Pythonic accessor)."""
         return self._includedData
         # This aggregation represents the included Mode DeclarationGroups atpSplitable
@@ -1161,15 +1161,15 @@ class SwcInternalBehavior(InternalBehavior):
                 # instantiated on one ECU.
         # In this case the will result in an appropriate component API on level (with
                 # or without instance.
-        self._supports: Optional["Boolean"] = None
+        self._supports: Optional[Boolean] = None
 
     @property
-    def supports(self) -> Optional["Boolean"]:
+    def supports(self) -> Optional[Boolean]:
         """Get supports (Pythonic accessor)."""
         return self._supports
 
     @supports.setter
-    def supports(self, value: Optional["Boolean"]) -> None:
+    def supports(self, value: Optional[Boolean]) -> None:
         """
         Set supports with validation.
 
@@ -1199,7 +1199,7 @@ class SwcInternalBehavior(InternalBehavior):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getArTypedPer(self) -> List["RefType"]:
+    def getArTypedPer(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for arTypedPer.
 
@@ -1211,7 +1211,7 @@ class SwcInternalBehavior(InternalBehavior):
         """
         return self.ar_typed_per  # Delegates to property
 
-    def getEvent(self) -> List["RTEEvent"]:
+    def getEvent(self) -> List[RTEEvent]:
         """
         AUTOSAR-compliant getter for event.
 
@@ -1235,7 +1235,7 @@ class SwcInternalBehavior(InternalBehavior):
         """
         return self.exclusive_area  # Delegates to property
 
-    def getExplicitInter(self) -> List["RefType"]:
+    def getExplicitInter(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for explicitInter.
 
@@ -1247,7 +1247,7 @@ class SwcInternalBehavior(InternalBehavior):
         """
         return self.explicit_inter  # Delegates to property
 
-    def getImplicitInter(self) -> List["RefType"]:
+    def getImplicitInter(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for implicitInter.
 
@@ -1259,7 +1259,7 @@ class SwcInternalBehavior(InternalBehavior):
         """
         return self.implicit_inter  # Delegates to property
 
-    def getIncludedData(self) -> List["RefType"]:
+    def getIncludedData(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for includedData.
 
@@ -1355,7 +1355,7 @@ class SwcInternalBehavior(InternalBehavior):
         """
         return self.shared  # Delegates to property
 
-    def getSupports(self) -> "Boolean":
+    def getSupports(self) -> Boolean:
         """
         AUTOSAR-compliant getter for supports.
 
@@ -1367,7 +1367,7 @@ class SwcInternalBehavior(InternalBehavior):
         """
         return self.supports  # Delegates to property
 
-    def setSupports(self, value: "Boolean") -> SwcInternalBehavior:
+    def setSupports(self, value: Boolean) -> SwcInternalBehavior:
         """
         AUTOSAR-compliant setter for supports with method chaining.
 
@@ -1397,7 +1397,7 @@ class SwcInternalBehavior(InternalBehavior):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_supports(self, value: Optional["Boolean"]) -> SwcInternalBehavior:
+    def with_supports(self, value: Optional[Boolean]) -> SwcInternalBehavior:
         """
         Set supports and return self for chaining.
 
@@ -1435,15 +1435,15 @@ class SwcExclusiveAreaPolicy(ARObject):
                 # the whole software component from the Rte or if the set of Enter and Exit
                 # expected per RunnableEntity.
         # The default value is.
-        self._apiPrinciple: Optional["ApiPrincipleEnum"] = None
+        self._apiPrinciple: Optional[ApiPrincipleEnum] = None
 
     @property
-    def api_principle(self) -> Optional["ApiPrincipleEnum"]:
+    def api_principle(self) -> Optional[ApiPrincipleEnum]:
         """Get apiPrinciple (Pythonic accessor)."""
         return self._apiPrinciple
 
     @api_principle.setter
-    def api_principle(self, value: Optional["ApiPrincipleEnum"]) -> None:
+    def api_principle(self, value: Optional[ApiPrincipleEnum]) -> None:
         """
         Set apiPrinciple with validation.
 
@@ -1493,7 +1493,7 @@ class SwcExclusiveAreaPolicy(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getApiPrinciple(self) -> "ApiPrincipleEnum":
+    def getApiPrinciple(self) -> ApiPrincipleEnum:
         """
         AUTOSAR-compliant getter for apiPrinciple.
 
@@ -1505,7 +1505,7 @@ class SwcExclusiveAreaPolicy(ARObject):
         """
         return self.api_principle  # Delegates to property
 
-    def setApiPrinciple(self, value: "ApiPrincipleEnum") -> SwcExclusiveAreaPolicy:
+    def setApiPrinciple(self, value: ApiPrincipleEnum) -> SwcExclusiveAreaPolicy:
         """
         AUTOSAR-compliant setter for apiPrinciple with method chaining.
 
@@ -1551,7 +1551,7 @@ class SwcExclusiveAreaPolicy(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_api_principle(self, value: Optional["ApiPrincipleEnum"]) -> SwcExclusiveAreaPolicy:
+    def with_api_principle(self, value: Optional[ApiPrincipleEnum]) -> SwcExclusiveAreaPolicy:
         """
         Set apiPrinciple and return self for chaining.
 

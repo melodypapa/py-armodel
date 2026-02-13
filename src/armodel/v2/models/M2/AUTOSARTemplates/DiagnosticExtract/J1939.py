@@ -32,15 +32,15 @@ class DiagnosticJ1939Spn(DiagnosticCommonElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attribute represents the concrete numerical the enclosing SPN.
-        self._spn: Optional["PositiveInteger"] = None
+        self._spn: Optional[PositiveInteger] = None
 
     @property
-    def spn(self) -> Optional["PositiveInteger"]:
+    def spn(self) -> Optional[PositiveInteger]:
         """Get spn (Pythonic accessor)."""
         return self._spn
 
     @spn.setter
-    def spn(self, value: Optional["PositiveInteger"]) -> None:
+    def spn(self, value: Optional[PositiveInteger]) -> None:
         """
         Set spn with validation.
 
@@ -62,7 +62,7 @@ class DiagnosticJ1939Spn(DiagnosticCommonElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getSpn(self) -> "PositiveInteger":
+    def getSpn(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for spn.
 
@@ -74,7 +74,7 @@ class DiagnosticJ1939Spn(DiagnosticCommonElement):
         """
         return self.spn  # Delegates to property
 
-    def setSpn(self, value: "PositiveInteger") -> DiagnosticJ1939Spn:
+    def setSpn(self, value: PositiveInteger) -> DiagnosticJ1939Spn:
         """
         AUTOSAR-compliant setter for spn with method chaining.
 
@@ -92,7 +92,7 @@ class DiagnosticJ1939Spn(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_spn(self, value: Optional["PositiveInteger"]) -> DiagnosticJ1939Spn:
+    def with_spn(self, value: Optional[PositiveInteger]) -> DiagnosticJ1939Spn:
         """
         Set spn and return self for chaining.
 

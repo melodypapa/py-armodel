@@ -44,15 +44,15 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
         # attribute is set to FALSE: aging cycle counter is aging cycle.
         # classic platform, the value of this attribute has to for each
                 # DiagnosticMemoryDestination.
-        self._agingRequires: Optional["Boolean"] = None
+        self._agingRequires: Optional[Boolean] = None
 
     @property
-    def aging_requires(self) -> Optional["Boolean"]:
+    def aging_requires(self) -> Optional[Boolean]:
         """Get agingRequires (Pythonic accessor)."""
         return self._agingRequires
 
     @aging_requires.setter
-    def aging_requires(self, value: Optional["Boolean"]) -> None:
+    def aging_requires(self, value: Optional[Boolean]) -> None:
         """
         Set agingRequires with validation.
 
@@ -100,15 +100,15 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
                 f"clearDtc must be DiagnosticClearDtc or None, got {type(value).__name__}"
             )
         self._clearDtc = value
-        self._dtcStatus: Optional["PositiveInteger"] = None
+        self._dtcStatus: Optional[PositiveInteger] = None
 
     @property
-    def dtc_status(self) -> Optional["PositiveInteger"]:
+    def dtc_status(self) -> Optional[PositiveInteger]:
         """Get dtcStatus (Pythonic accessor)."""
         return self._dtcStatus
 
     @dtc_status.setter
-    def dtc_status(self, value: Optional["PositiveInteger"]) -> None:
+    def dtc_status(self, value: Optional[PositiveInteger]) -> None:
         """
         Set dtcStatus with validation.
 
@@ -128,15 +128,15 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
             )
         self._dtcStatus = value
         # not, and which displacement strategy is followed.
-        self._event: Optional["DiagnosticEvent"] = None
+        self._event: Optional[DiagnosticEvent] = None
 
     @property
-    def event(self) -> Optional["DiagnosticEvent"]:
+    def event(self) -> Optional[DiagnosticEvent]:
         """Get event (Pythonic accessor)."""
         return self._event
 
     @event.setter
-    def event(self, value: Optional["DiagnosticEvent"]) -> None:
+    def event(self, value: Optional[DiagnosticEvent]) -> None:
         """
         Set event with validation.
 
@@ -155,15 +155,15 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
                 f"event must be DiagnosticEvent or None, got {type(value).__name__}"
             )
         self._event = value
-        self._maxNumberOf: Optional["PositiveInteger"] = None
+        self._maxNumberOf: Optional[PositiveInteger] = None
 
     @property
-    def max_number_of(self) -> Optional["PositiveInteger"]:
+    def max_number_of(self) -> Optional[PositiveInteger]:
         """Get maxNumberOf (Pythonic accessor)."""
         return self._maxNumberOf
 
     @max_number_of.setter
-    def max_number_of(self, value: Optional["PositiveInteger"]) -> None:
+    def max_number_of(self, value: Optional[PositiveInteger]) -> None:
         """
         Set maxNumberOf with validation.
 
@@ -211,15 +211,15 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
         self._memoryEntry = value
                 # status bits.
         # storage activated deactivated.
-        self._statusBit: Optional["Boolean"] = None
+        self._statusBit: Optional[Boolean] = None
 
     @property
-    def status_bit(self) -> Optional["Boolean"]:
+    def status_bit(self) -> Optional[Boolean]:
         """Get statusBit (Pythonic accessor)."""
         return self._statusBit
 
     @status_bit.setter
-    def status_bit(self, value: Optional["Boolean"]) -> None:
+    def status_bit(self, value: Optional[Boolean]) -> None:
         """
         Set statusBit with validation.
 
@@ -285,7 +285,7 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAgingRequires(self) -> "Boolean":
+    def getAgingRequires(self) -> Boolean:
         """
         AUTOSAR-compliant getter for agingRequires.
 
@@ -297,7 +297,7 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
         """
         return self.aging_requires  # Delegates to property
 
-    def setAgingRequires(self, value: "Boolean") -> DiagnosticMemoryDestination:
+    def setAgingRequires(self, value: Boolean) -> DiagnosticMemoryDestination:
         """
         AUTOSAR-compliant setter for agingRequires with method chaining.
 
@@ -341,7 +341,7 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
         self.clear_dtc = value  # Delegates to property setter
         return self
 
-    def getDtcStatus(self) -> "PositiveInteger":
+    def getDtcStatus(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for dtcStatus.
 
@@ -353,7 +353,7 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
         """
         return self.dtc_status  # Delegates to property
 
-    def setDtcStatus(self, value: "PositiveInteger") -> DiagnosticMemoryDestination:
+    def setDtcStatus(self, value: PositiveInteger) -> DiagnosticMemoryDestination:
         """
         AUTOSAR-compliant setter for dtcStatus with method chaining.
 
@@ -369,7 +369,7 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
         self.dtc_status = value  # Delegates to property setter
         return self
 
-    def getEvent(self) -> "DiagnosticEvent":
+    def getEvent(self) -> DiagnosticEvent:
         """
         AUTOSAR-compliant getter for event.
 
@@ -381,7 +381,7 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
         """
         return self.event  # Delegates to property
 
-    def setEvent(self, value: "DiagnosticEvent") -> DiagnosticMemoryDestination:
+    def setEvent(self, value: DiagnosticEvent) -> DiagnosticMemoryDestination:
         """
         AUTOSAR-compliant setter for event with method chaining.
 
@@ -397,7 +397,7 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
         self.event = value  # Delegates to property setter
         return self
 
-    def getMaxNumberOf(self) -> "PositiveInteger":
+    def getMaxNumberOf(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for maxNumberOf.
 
@@ -409,7 +409,7 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
         """
         return self.max_number_of  # Delegates to property
 
-    def setMaxNumberOf(self, value: "PositiveInteger") -> DiagnosticMemoryDestination:
+    def setMaxNumberOf(self, value: PositiveInteger) -> DiagnosticMemoryDestination:
         """
         AUTOSAR-compliant setter for maxNumberOf with method chaining.
 
@@ -453,7 +453,7 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
         self.memory_entry = value  # Delegates to property setter
         return self
 
-    def getStatusBit(self) -> "Boolean":
+    def getStatusBit(self) -> Boolean:
         """
         AUTOSAR-compliant getter for statusBit.
 
@@ -465,7 +465,7 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
         """
         return self.status_bit  # Delegates to property
 
-    def setStatusBit(self, value: "Boolean") -> DiagnosticMemoryDestination:
+    def setStatusBit(self, value: Boolean) -> DiagnosticMemoryDestination:
         """
         AUTOSAR-compliant setter for statusBit with method chaining.
 
@@ -511,7 +511,7 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_aging_requires(self, value: Optional["Boolean"]) -> DiagnosticMemoryDestination:
+    def with_aging_requires(self, value: Optional[Boolean]) -> DiagnosticMemoryDestination:
         """
         Set agingRequires and return self for chaining.
 
@@ -543,7 +543,7 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
         self.clear_dtc = value  # Use property setter (gets validation)
         return self
 
-    def with_dtc_status(self, value: Optional["PositiveInteger"]) -> DiagnosticMemoryDestination:
+    def with_dtc_status(self, value: Optional[PositiveInteger]) -> DiagnosticMemoryDestination:
         """
         Set dtcStatus and return self for chaining.
 
@@ -559,7 +559,7 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
         self.dtc_status = value  # Use property setter (gets validation)
         return self
 
-    def with_event(self, value: Optional["DiagnosticEvent"]) -> DiagnosticMemoryDestination:
+    def with_event(self, value: Optional[DiagnosticEvent]) -> DiagnosticMemoryDestination:
         """
         Set event and return self for chaining.
 
@@ -575,7 +575,7 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
         self.event = value  # Use property setter (gets validation)
         return self
 
-    def with_max_number_of(self, value: Optional["PositiveInteger"]) -> DiagnosticMemoryDestination:
+    def with_max_number_of(self, value: Optional[PositiveInteger]) -> DiagnosticMemoryDestination:
         """
         Set maxNumberOf and return self for chaining.
 
@@ -607,7 +607,7 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
         self.memory_entry = value  # Use property setter (gets validation)
         return self
 
-    def with_status_bit(self, value: Optional["Boolean"]) -> DiagnosticMemoryDestination:
+    def with_status_bit(self, value: Optional[Boolean]) -> DiagnosticMemoryDestination:
         """
         Set statusBit and return self for chaining.
 
@@ -757,15 +757,15 @@ class DiagnosticMemoryDestinationUserDefined(DiagnosticMemoryDestination):
         """Get authRole (Pythonic accessor)."""
         return self._authRole
         # This represents the identifier of the user-defined memory.
-        self._memoryId: Optional["PositiveInteger"] = None
+        self._memoryId: Optional[PositiveInteger] = None
 
     @property
-    def memory_id(self) -> Optional["PositiveInteger"]:
+    def memory_id(self) -> Optional[PositiveInteger]:
         """Get memoryId (Pythonic accessor)."""
         return self._memoryId
 
     @memory_id.setter
-    def memory_id(self, value: Optional["PositiveInteger"]) -> None:
+    def memory_id(self, value: Optional[PositiveInteger]) -> None:
         """
         Set memoryId with validation.
 
@@ -799,7 +799,7 @@ class DiagnosticMemoryDestinationUserDefined(DiagnosticMemoryDestination):
         """
         return self.auth_role  # Delegates to property
 
-    def getMemoryId(self) -> "PositiveInteger":
+    def getMemoryId(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for memoryId.
 
@@ -811,7 +811,7 @@ class DiagnosticMemoryDestinationUserDefined(DiagnosticMemoryDestination):
         """
         return self.memory_id  # Delegates to property
 
-    def setMemoryId(self, value: "PositiveInteger") -> DiagnosticMemoryDestinationUserDefined:
+    def setMemoryId(self, value: PositiveInteger) -> DiagnosticMemoryDestinationUserDefined:
         """
         AUTOSAR-compliant setter for memoryId with method chaining.
 
@@ -829,7 +829,7 @@ class DiagnosticMemoryDestinationUserDefined(DiagnosticMemoryDestination):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_memory_id(self, value: Optional["PositiveInteger"]) -> DiagnosticMemoryDestinationUserDefined:
+    def with_memory_id(self, value: Optional[PositiveInteger]) -> DiagnosticMemoryDestinationUserDefined:
         """
         Set memoryId and return self for chaining.
 

@@ -78,15 +78,15 @@ class SwCalprmAxis(ARObject):
         # This property specifies the category of a particular axis.
         # xml.
         # sequenceOffset=30.
-        self._category: Optional["CalprmAxisCategory"] = None
+        self._category: Optional[CalprmAxisCategory] = None
 
     @property
-    def category(self) -> Optional["CalprmAxisCategory"]:
+    def category(self) -> Optional[CalprmAxisCategory]:
         """Get category (Pythonic accessor)."""
         return self._category
 
     @category.setter
-    def category(self, value: Optional["CalprmAxisCategory"]) -> None:
+    def category(self, value: Optional[CalprmAxisCategory]) -> None:
         """
         Set category with validation.
 
@@ -135,15 +135,15 @@ class SwCalprmAxis(ARObject):
         self._displayFormat = value
                 # usually "1".
         # In a map this is "2".
-        self._swAxisIndex: Optional["AxisIndexType"] = None
+        self._swAxisIndex: Optional[AxisIndexType] = None
 
     @property
-    def sw_axis_index(self) -> Optional["AxisIndexType"]:
+    def sw_axis_index(self) -> Optional[AxisIndexType]:
         """Get swAxisIndex (Pythonic accessor)."""
         return self._swAxisIndex
 
     @sw_axis_index.setter
-    def sw_axis_index(self, value: Optional["AxisIndexType"]) -> None:
+    def sw_axis_index(self, value: Optional[AxisIndexType]) -> None:
         """
         Set swAxisIndex with validation.
 
@@ -222,7 +222,7 @@ class SwCalprmAxis(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCategory(self) -> "CalprmAxisCategory":
+    def getCategory(self) -> CalprmAxisCategory:
         """
         AUTOSAR-compliant getter for category.
 
@@ -234,7 +234,7 @@ class SwCalprmAxis(ARObject):
         """
         return self.category  # Delegates to property
 
-    def setCategory(self, value: "CalprmAxisCategory") -> SwCalprmAxis:
+    def setCategory(self, value: CalprmAxisCategory) -> SwCalprmAxis:
         """
         AUTOSAR-compliant setter for category with method chaining.
 
@@ -278,7 +278,7 @@ class SwCalprmAxis(ARObject):
         self.display_format = value  # Delegates to property setter
         return self
 
-    def getSwAxisIndex(self) -> "AxisIndexType":
+    def getSwAxisIndex(self) -> AxisIndexType:
         """
         AUTOSAR-compliant getter for swAxisIndex.
 
@@ -290,7 +290,7 @@ class SwCalprmAxis(ARObject):
         """
         return self.sw_axis_index  # Delegates to property
 
-    def setSwAxisIndex(self, value: "AxisIndexType") -> SwCalprmAxis:
+    def setSwAxisIndex(self, value: AxisIndexType) -> SwCalprmAxis:
         """
         AUTOSAR-compliant setter for swAxisIndex with method chaining.
 
@@ -364,7 +364,7 @@ class SwCalprmAxis(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_category(self, value: Optional["CalprmAxisCategory"]) -> SwCalprmAxis:
+    def with_category(self, value: Optional[CalprmAxisCategory]) -> SwCalprmAxis:
         """
         Set category and return self for chaining.
 
@@ -396,7 +396,7 @@ class SwCalprmAxis(ARObject):
         self.display_format = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_axis_index(self, value: Optional["AxisIndexType"]) -> SwCalprmAxis:
+    def with_sw_axis_index(self, value: Optional[AxisIndexType]) -> SwCalprmAxis:
         """
         Set swAxisIndex and return self for chaining.
 
@@ -468,15 +468,15 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
         # This attribute defines the maximum permissible gradient adjustable object
                 # (curve, map or cuboid) with a specific axis.
         # MaxGrad = maximum( - Value i-1,k)/(Axis Point i - Axis Point.
-        self._maxGradient: Optional["Float"] = None
+        self._maxGradient: Optional[Float] = None
 
     @property
-    def max_gradient(self) -> Optional["Float"]:
+    def max_gradient(self) -> Optional[Float]:
         """Get maxGradient (Pythonic accessor)."""
         return self._maxGradient
 
     @max_gradient.setter
-    def max_gradient(self, value: Optional["Float"]) -> None:
+    def max_gradient(self, value: Optional[Float]) -> None:
         """
         Set maxGradient with validation.
 
@@ -527,7 +527,7 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getMaxGradient(self) -> "Float":
+    def getMaxGradient(self) -> Float:
         """
         AUTOSAR-compliant getter for maxGradient.
 
@@ -539,7 +539,7 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
         """
         return self.max_gradient  # Delegates to property
 
-    def setMaxGradient(self, value: "Float") -> SwCalprmAxisTypeProps:
+    def setMaxGradient(self, value: Float) -> SwCalprmAxisTypeProps:
         """
         AUTOSAR-compliant setter for maxGradient with method chaining.
 
@@ -585,7 +585,7 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_max_gradient(self, value: Optional["Float"]) -> SwCalprmAxisTypeProps:
+    def with_max_gradient(self, value: Optional[Float]) -> SwCalprmAxisTypeProps:
         """
         Set maxGradient and return self for chaining.
 

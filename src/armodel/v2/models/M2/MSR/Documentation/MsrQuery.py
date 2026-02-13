@@ -421,15 +421,15 @@ class MsrQueryChapter(Paginateable):
         self._msrQueryProps = value
         # Tags: xml.
         # sequenceOffset=30.
-        self._msrQueryResult: Optional["MsrQueryResult"] = None
+        self._msrQueryResult: Optional[MsrQueryResult] = None
 
     @property
-    def msr_query_result(self) -> Optional["MsrQueryResult"]:
+    def msr_query_result(self) -> Optional[MsrQueryResult]:
         """Get msrQueryResult (Pythonic accessor)."""
         return self._msrQueryResult
 
     @msr_query_result.setter
-    def msr_query_result(self, value: Optional["MsrQueryResult"]) -> None:
+    def msr_query_result(self, value: Optional[MsrQueryResult]) -> None:
         """
         Set msrQueryResult with validation.
 
@@ -479,7 +479,7 @@ class MsrQueryChapter(Paginateable):
         self.msr_query_props = value  # Delegates to property setter
         return self
 
-    def getMsrQueryResult(self) -> "MsrQueryResult":
+    def getMsrQueryResult(self) -> MsrQueryResult:
         """
         AUTOSAR-compliant getter for msrQueryResult.
 
@@ -491,7 +491,7 @@ class MsrQueryChapter(Paginateable):
         """
         return self.msr_query_result  # Delegates to property
 
-    def setMsrQueryResult(self, value: "MsrQueryResult") -> MsrQueryChapter:
+    def setMsrQueryResult(self, value: MsrQueryResult) -> MsrQueryChapter:
         """
         AUTOSAR-compliant setter for msrQueryResult with method chaining.
 
@@ -525,7 +525,7 @@ class MsrQueryChapter(Paginateable):
         self.msr_query_props = value  # Use property setter (gets validation)
         return self
 
-    def with_msr_query_result(self, value: Optional["MsrQueryResult"]) -> MsrQueryChapter:
+    def with_msr_query_result(self, value: Optional[MsrQueryResult]) -> MsrQueryChapter:
         """
         Set msrQueryResult and return self for chaining.
 

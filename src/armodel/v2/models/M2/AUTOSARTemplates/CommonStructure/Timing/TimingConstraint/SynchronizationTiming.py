@@ -79,18 +79,18 @@ class SynchronizationTimingConstraint(TimingConstraint):
             )
         self._event = value
         # exclusive to scopeEvent, see ([constr_4522]).
-        self._scope: List["TimingDescriptionEvent"] = []
+        self._scope: List[TimingDescriptionEvent] = []
 
     @property
-    def scope(self) -> List["TimingDescriptionEvent"]:
+    def scope(self) -> List[TimingDescriptionEvent]:
         """Get scope (Pythonic accessor)."""
         return self._scope
         # The events that are in the scope of the constraint.
         # to scope, see ([constr_4522]).
-        self._scopeEvent: List["TimingDescriptionEvent"] = []
+        self._scopeEvent: List[TimingDescriptionEvent] = []
 
     @property
-    def scope_event(self) -> List["TimingDescriptionEvent"]:
+    def scope_event(self) -> List[TimingDescriptionEvent]:
         """Get scopeEvent (Pythonic accessor)."""
         return self._scopeEvent
         # Indicates whether the associated events of the
@@ -214,7 +214,7 @@ class SynchronizationTimingConstraint(TimingConstraint):
         self.event = value  # Delegates to property setter
         return self
 
-    def getScope(self) -> List["TimingDescriptionEvent"]:
+    def getScope(self) -> List[TimingDescriptionEvent]:
         """
         AUTOSAR-compliant getter for scope.
 
@@ -226,7 +226,7 @@ class SynchronizationTimingConstraint(TimingConstraint):
         """
         return self.scope  # Delegates to property
 
-    def getScopeEvent(self) -> List["TimingDescriptionEvent"]:
+    def getScopeEvent(self) -> List[TimingDescriptionEvent]:
         """
         AUTOSAR-compliant getter for scopeEvent.
 

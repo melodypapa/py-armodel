@@ -139,15 +139,15 @@ class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the maximum number of data identifiers can be included in one
         # request.
-        self._maxPeriodicDid: Optional["PositiveInteger"] = None
+        self._maxPeriodicDid: Optional[PositiveInteger] = None
 
     @property
-    def max_periodic_did(self) -> Optional["PositiveInteger"]:
+    def max_periodic_did(self) -> Optional[PositiveInteger]:
         """Get maxPeriodicDid (Pythonic accessor)."""
         return self._maxPeriodicDid
 
     @max_periodic_did.setter
-    def max_periodic_did(self, value: Optional["PositiveInteger"]) -> None:
+    def max_periodic_did(self, value: Optional[PositiveInteger]) -> None:
         """
         Set maxPeriodicDid with validation.
 
@@ -175,15 +175,15 @@ class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
         return self._periodicRate
         # This represents the maximum number of periodic data that can be scheduled in
         # parallel.
-        self._schedulerMax: Optional["PositiveInteger"] = None
+        self._schedulerMax: Optional[PositiveInteger] = None
 
     @property
-    def scheduler_max(self) -> Optional["PositiveInteger"]:
+    def scheduler_max(self) -> Optional[PositiveInteger]:
         """Get schedulerMax (Pythonic accessor)."""
         return self._schedulerMax
 
     @scheduler_max.setter
-    def scheduler_max(self, value: Optional["PositiveInteger"]) -> None:
+    def scheduler_max(self, value: Optional[PositiveInteger]) -> None:
         """
         Set schedulerMax with validation.
 
@@ -205,7 +205,7 @@ class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getMaxPeriodicDid(self) -> "PositiveInteger":
+    def getMaxPeriodicDid(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for maxPeriodicDid.
 
@@ -217,7 +217,7 @@ class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
         """
         return self.max_periodic_did  # Delegates to property
 
-    def setMaxPeriodicDid(self, value: "PositiveInteger") -> DiagnosticReadDataByPeriodicIDClass:
+    def setMaxPeriodicDid(self, value: PositiveInteger) -> DiagnosticReadDataByPeriodicIDClass:
         """
         AUTOSAR-compliant setter for maxPeriodicDid with method chaining.
 
@@ -245,7 +245,7 @@ class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
         """
         return self.periodic_rate  # Delegates to property
 
-    def getSchedulerMax(self) -> "PositiveInteger":
+    def getSchedulerMax(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for schedulerMax.
 
@@ -257,7 +257,7 @@ class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
         """
         return self.scheduler_max  # Delegates to property
 
-    def setSchedulerMax(self, value: "PositiveInteger") -> DiagnosticReadDataByPeriodicIDClass:
+    def setSchedulerMax(self, value: PositiveInteger) -> DiagnosticReadDataByPeriodicIDClass:
         """
         AUTOSAR-compliant setter for schedulerMax with method chaining.
 
@@ -275,7 +275,7 @@ class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_max_periodic_did(self, value: Optional["PositiveInteger"]) -> DiagnosticReadDataByPeriodicIDClass:
+    def with_max_periodic_did(self, value: Optional[PositiveInteger]) -> DiagnosticReadDataByPeriodicIDClass:
         """
         Set maxPeriodicDid and return self for chaining.
 
@@ -291,7 +291,7 @@ class DiagnosticReadDataByPeriodicIDClass(DiagnosticServiceClass):
         self.max_periodic_did = value  # Use property setter (gets validation)
         return self
 
-    def with_scheduler_max(self, value: Optional["PositiveInteger"]) -> DiagnosticReadDataByPeriodicIDClass:
+    def with_scheduler_max(self, value: Optional[PositiveInteger]) -> DiagnosticReadDataByPeriodicIDClass:
         """
         Set schedulerMax and return self for chaining.
 
@@ -325,15 +325,15 @@ class DiagnosticPeriodicRate(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the period of the DiagnosticPeriodicRate.
-        self._period: Optional["TimeValue"] = None
+        self._period: Optional[TimeValue] = None
 
     @property
-    def period(self) -> Optional["TimeValue"]:
+    def period(self) -> Optional[TimeValue]:
         """Get period (Pythonic accessor)."""
         return self._period
 
     @period.setter
-    def period(self, value: Optional["TimeValue"]) -> None:
+    def period(self, value: Optional[TimeValue]) -> None:
         """
         Set period with validation.
 
@@ -382,7 +382,7 @@ class DiagnosticPeriodicRate(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getPeriod(self) -> "TimeValue":
+    def getPeriod(self) -> TimeValue:
         """
         AUTOSAR-compliant getter for period.
 
@@ -394,7 +394,7 @@ class DiagnosticPeriodicRate(ARObject):
         """
         return self.period  # Delegates to property
 
-    def setPeriod(self, value: "TimeValue") -> DiagnosticPeriodicRate:
+    def setPeriod(self, value: TimeValue) -> DiagnosticPeriodicRate:
         """
         AUTOSAR-compliant setter for period with method chaining.
 
@@ -440,7 +440,7 @@ class DiagnosticPeriodicRate(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_period(self, value: Optional["TimeValue"]) -> DiagnosticPeriodicRate:
+    def with_period(self, value: Optional[TimeValue]) -> DiagnosticPeriodicRate:
         """
         Set period and return self for chaining.
 

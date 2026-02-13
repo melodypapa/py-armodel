@@ -61,15 +61,15 @@ class DiagnosticRequestCurrentPowertrainData(DiagnosticServiceInstance):
                 # for this specific concrete class.
         # Thereby, the reference represents the ability to access Class shared
                 # attributes among all DiagnosticRequestCurrent the given context.
-        self._requestCurrent: Optional["DiagnosticRequest"] = None
+        self._requestCurrent: Optional[DiagnosticRequest] = None
 
     @property
-    def request_current(self) -> Optional["DiagnosticRequest"]:
+    def request_current(self) -> Optional[DiagnosticRequest]:
         """Get requestCurrent (Pythonic accessor)."""
         return self._requestCurrent
 
     @request_current.setter
-    def request_current(self, value: Optional["DiagnosticRequest"]) -> None:
+    def request_current(self, value: Optional[DiagnosticRequest]) -> None:
         """
         Set requestCurrent with validation.
 
@@ -119,7 +119,7 @@ class DiagnosticRequestCurrentPowertrainData(DiagnosticServiceInstance):
         self.pid = value  # Delegates to property setter
         return self
 
-    def getRequestCurrent(self) -> "DiagnosticRequest":
+    def getRequestCurrent(self) -> DiagnosticRequest:
         """
         AUTOSAR-compliant getter for requestCurrent.
 
@@ -131,7 +131,7 @@ class DiagnosticRequestCurrentPowertrainData(DiagnosticServiceInstance):
         """
         return self.request_current  # Delegates to property
 
-    def setRequestCurrent(self, value: "DiagnosticRequest") -> DiagnosticRequestCurrentPowertrainData:
+    def setRequestCurrent(self, value: DiagnosticRequest) -> DiagnosticRequestCurrentPowertrainData:
         """
         AUTOSAR-compliant setter for requestCurrent with method chaining.
 
@@ -165,7 +165,7 @@ class DiagnosticRequestCurrentPowertrainData(DiagnosticServiceInstance):
         self.pid = value  # Use property setter (gets validation)
         return self
 
-    def with_request_current(self, value: Optional["DiagnosticRequest"]) -> DiagnosticRequestCurrentPowertrainData:
+    def with_request_current(self, value: Optional[DiagnosticRequest]) -> DiagnosticRequestCurrentPowertrainData:
         """
         Set requestCurrent and return self for chaining.
 

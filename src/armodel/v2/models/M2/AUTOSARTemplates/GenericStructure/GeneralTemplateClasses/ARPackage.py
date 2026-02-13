@@ -18,6 +18,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Identifier,
+    RefType,
 )
 
 
@@ -65,7 +66,7 @@ class ARPackage(CollectableElement):
         # Initialize list attributes (these are generated outside __init__ by code generator, which is a bug)
         self._arPackage: List[ARPackage] = []
         self._element: List[PackageableElement] = []
-        self._referenceBase: List["RefType"] = []
+        self._referenceBase: List[RefType] = []
 
     # ===== Manually added methods for Identifiable compatibility =====
     @property
@@ -180,10 +181,10 @@ class ARPackage(CollectableElement):
         # This denotes the reference bases for the package.
         # This is for all relative references within the package.
         # needs to be selected according to the base the references.
-        self._referenceBase: List["RefType"] = []
+        self._referenceBase: List[RefType] = []
 
     @property
-    def reference_base(self) -> List["RefType"]:
+    def reference_base(self) -> List[RefType]:
         """Get referenceBase (Pythonic accessor)."""
         return self._referenceBase
 
@@ -325,7 +326,7 @@ class ARPackage(CollectableElement):
         """
         return self.element  # Delegates to property
 
-    def getReferenceBase(self) -> List["RefType"]:
+    def getReferenceBase(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for referenceBase.
 
@@ -382,25 +383,25 @@ class ReferenceBase(ARObject):
         # ===== Attribute initialization (CODING_RULE_V2_00016) =====
         # This attribute represents a meta-class for which the global is supported via
         # this reference base.
-        self._globalElement: List["RefType"] = []
+        self._globalElement: List[RefType] = []
         # This represents the ability to express that global elements in various
         # packages which do not have a common Packages mentioned by Reference used in
         # addition to the one in.
         self._globalIn: List[ARPackage] = []
         # This attribute denotes if the current ReferenceBase is the that there can
         # only be one default reference a package.
-        self._isDefault: "Boolean" = None
+        self._isDefault: Boolean = None
         # This association specifies the basis of all relative the base equals
         # shortLabel.
         self._package: Optional[ARPackage] = None
         # This attribute represents the short label which shall be unique in the
         # current package.
-        self._shortLabel: Optional["Identifier"] = None
+        self._shortLabel: Optional[Identifier] = None
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
 
     @property
-    def global_element(self) -> List["RefType"]:
+    def global_element(self) -> List[RefType]:
         """Get globalElement (Pythonic accessor)."""
         return self._globalElement
 
@@ -410,12 +411,12 @@ class ReferenceBase(ARObject):
         return self._globalIn
 
     @property
-    def is_default(self) -> "Boolean":
+    def is_default(self) -> Boolean:
         """Get isDefault (Pythonic accessor)."""
         return self._isDefault
 
     @is_default.setter
-    def is_default(self, value: "Boolean") -> None:
+    def is_default(self, value: Boolean) -> None:
         """
         Set isDefault with validation.
 
@@ -462,12 +463,12 @@ class ReferenceBase(ARObject):
         self._package = value
 
     @property
-    def short_label(self) -> "Identifier":
+    def short_label(self) -> Identifier:
         """Get shortLabel (Pythonic accessor)."""
         return self._shortLabel
 
     @short_label.setter
-    def short_label(self, value: "Identifier") -> None:
+    def short_label(self, value: Identifier) -> None:
         """
         Set shortLabel with validation.
 
@@ -493,7 +494,7 @@ class ReferenceBase(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getGlobalElement(self) -> List["RefType"]:
+    def getGlobalElement(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for globalElement.
 
@@ -517,7 +518,7 @@ class ReferenceBase(ARObject):
         """
         return self.global_in  # Delegates to property
 
-    def getIsDefault(self) -> "Boolean":
+    def getIsDefault(self) -> Boolean:
         """
         AUTOSAR-compliant getter for isDefault.
 
@@ -529,7 +530,7 @@ class ReferenceBase(ARObject):
         """
         return self.is_default  # Delegates to property
 
-    def setIsDefault(self, value: "Boolean") -> ReferenceBase:
+    def setIsDefault(self, value: Boolean) -> ReferenceBase:
         """
         AUTOSAR-compliant setter for isDefault with method chaining.
 
@@ -573,7 +574,7 @@ class ReferenceBase(ARObject):
         self.package = value  # Delegates to property setter
         return self
 
-    def getShortLabel(self) -> "Identifier":
+    def getShortLabel(self) -> Identifier:
         """
         AUTOSAR-compliant getter for shortLabel.
 
@@ -585,7 +586,7 @@ class ReferenceBase(ARObject):
         """
         return self.short_label  # Delegates to property
 
-    def setShortLabel(self, value: "Identifier") -> ReferenceBase:
+    def setShortLabel(self, value: Identifier) -> ReferenceBase:
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
 
@@ -603,7 +604,7 @@ class ReferenceBase(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_is_default(self, value: "Boolean") -> ReferenceBase:
+    def with_is_default(self, value: Boolean) -> ReferenceBase:
         """
         Set isDefault and return self for chaining.
 
@@ -635,7 +636,7 @@ class ReferenceBase(ARObject):
         self.package = value  # Use property setter (gets validation)
         return self
 
-    def with_short_label(self, value: "Identifier") -> ReferenceBase:
+    def with_short_label(self, value: Identifier) -> ReferenceBase:
         """
         Set shortLabel and return self for chaining.
 

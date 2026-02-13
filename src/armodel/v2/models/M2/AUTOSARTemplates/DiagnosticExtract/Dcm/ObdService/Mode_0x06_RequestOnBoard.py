@@ -31,10 +31,10 @@ class DiagnosticRequestOnBoardMonitoringTestResults(DiagnosticServiceInstance):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This reference identifies the applicable collection of test for setting up a
         # request message for mode.
-        self._diagnosticTest: List["DiagnosticTestResult"] = []
+        self._diagnosticTest: List[DiagnosticTestResult] = []
 
     @property
-    def diagnostic_test(self) -> List["DiagnosticTestResult"]:
+    def diagnostic_test(self) -> List[DiagnosticTestResult]:
         """Get diagnosticTest (Pythonic accessor)."""
         return self._diagnosticTest
         # This reference substantiates that abstract reference in the role serviceClass
@@ -87,7 +87,7 @@ class DiagnosticRequestOnBoardMonitoringTestResults(DiagnosticServiceInstance):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDiagnosticTest(self) -> List["DiagnosticTestResult"]:
+    def getDiagnosticTest(self) -> List[DiagnosticTestResult]:
         """
         AUTOSAR-compliant getter for diagnosticTest.
 

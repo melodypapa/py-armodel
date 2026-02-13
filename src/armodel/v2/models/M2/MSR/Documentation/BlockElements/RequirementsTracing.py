@@ -7,16 +7,22 @@ Package: M2::MSR::Documentation::BlockElements::RequirementsTracing
 
 from __future__ import annotations
 from abc import ABC
-from typing import List, Optional
+from typing import TYPE_CHECKING, List, Optional
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    MultilanguageReferrable,
-)
+if TYPE_CHECKING:
+    from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import (
+        MultilanguageReferrable,
+    )
+    from armodel.v2.models.M2.MSR.Documentation.BlockElements import (
+        DocumentationBlock,
+    )
+else:
+    # Import at runtime for class inheritance
+    from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import (
+        MultilanguageReferrable,
+    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     String,
-)
-from armodel.v2.models.M2.MSR.Documentation.BlockElements import (
-    DocumentationBlock,
 )
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.PaginationAndView import (
     Paginateable,
@@ -156,15 +162,15 @@ class StructuredReq(Paginateable):
                 f"description must be DocumentationBlock or None, got {type(value).__name__}"
             )
         self._description = value
-        self._importance: "String" = None
+        self._importance: String = None
 
     @property
-    def importance(self) -> "String":
+    def importance(self) -> String:
         """Get importance (Pythonic accessor)."""
         return self._importance
 
     @importance.setter
-    def importance(self, value: "String") -> None:
+    def importance(self, value: String) -> None:
         """
         Set importance with validation.
 
@@ -179,15 +185,15 @@ class StructuredReq(Paginateable):
                 f"importance must be String or str, got {type(value).__name__}"
             )
         self._importance = value
-        self._issuedBy: "String" = None
+        self._issuedBy: String = None
 
     @property
-    def issued_by(self) -> "String":
+    def issued_by(self) -> String:
         """Get issuedBy (Pythonic accessor)."""
         return self._issuedBy
 
     @issued_by.setter
-    def issued_by(self, value: "String") -> None:
+    def issued_by(self, value: String) -> None:
         """
         Set issuedBy with validation.
 
@@ -294,15 +300,15 @@ class StructuredReq(Paginateable):
         return self._testedItem
         # This attribute allows to denote the type of requirement to example is it an
         # "enhancement", "new feature".
-        self._type: "String" = None
+        self._type: String = None
 
     @property
-    def type(self) -> "String":
+    def type(self) -> String:
         """Get type (Pythonic accessor)."""
         return self._type
 
     @type.setter
-    def type(self, value: "String") -> None:
+    def type(self, value: String) -> None:
         """
         Set type with validation.
 
@@ -408,7 +414,7 @@ class StructuredReq(Paginateable):
         """
         return self.applies_to  # Delegates to property
 
-    def getConflicts(self) -> "DocumentationBlock":
+    def getConflicts(self) -> DocumentationBlock:
         """
         AUTOSAR-compliant getter for conflicts.
 
@@ -420,7 +426,7 @@ class StructuredReq(Paginateable):
         """
         return self.conflicts  # Delegates to property
 
-    def setConflicts(self, value: "DocumentationBlock") -> StructuredReq:
+    def setConflicts(self, value: DocumentationBlock) -> StructuredReq:
         """
         AUTOSAR-compliant setter for conflicts with method chaining.
 
@@ -464,7 +470,7 @@ class StructuredReq(Paginateable):
         self.date = value  # Delegates to property setter
         return self
 
-    def getDependencies(self) -> "DocumentationBlock":
+    def getDependencies(self) -> DocumentationBlock:
         """
         AUTOSAR-compliant getter for dependencies.
 
@@ -476,7 +482,7 @@ class StructuredReq(Paginateable):
         """
         return self.dependencies  # Delegates to property
 
-    def setDependencies(self, value: "DocumentationBlock") -> StructuredReq:
+    def setDependencies(self, value: DocumentationBlock) -> StructuredReq:
         """
         AUTOSAR-compliant setter for dependencies with method chaining.
 
@@ -492,7 +498,7 @@ class StructuredReq(Paginateable):
         self.dependencies = value  # Delegates to property setter
         return self
 
-    def getDescription(self) -> "DocumentationBlock":
+    def getDescription(self) -> DocumentationBlock:
         """
         AUTOSAR-compliant getter for description.
 
@@ -504,7 +510,7 @@ class StructuredReq(Paginateable):
         """
         return self.description  # Delegates to property
 
-    def setDescription(self, value: "DocumentationBlock") -> StructuredReq:
+    def setDescription(self, value: DocumentationBlock) -> StructuredReq:
         """
         AUTOSAR-compliant setter for description with method chaining.
 
@@ -520,7 +526,7 @@ class StructuredReq(Paginateable):
         self.description = value  # Delegates to property setter
         return self
 
-    def getImportance(self) -> "String":
+    def getImportance(self) -> String:
         """
         AUTOSAR-compliant getter for importance.
 
@@ -532,7 +538,7 @@ class StructuredReq(Paginateable):
         """
         return self.importance  # Delegates to property
 
-    def setImportance(self, value: "String") -> StructuredReq:
+    def setImportance(self, value: String) -> StructuredReq:
         """
         AUTOSAR-compliant setter for importance with method chaining.
 
@@ -548,7 +554,7 @@ class StructuredReq(Paginateable):
         self.importance = value  # Delegates to property setter
         return self
 
-    def getIssuedBy(self) -> "String":
+    def getIssuedBy(self) -> String:
         """
         AUTOSAR-compliant getter for issuedBy.
 
@@ -560,7 +566,7 @@ class StructuredReq(Paginateable):
         """
         return self.issued_by  # Delegates to property
 
-    def setIssuedBy(self, value: "String") -> StructuredReq:
+    def setIssuedBy(self, value: String) -> StructuredReq:
         """
         AUTOSAR-compliant setter for issuedBy with method chaining.
 
@@ -576,7 +582,7 @@ class StructuredReq(Paginateable):
         self.issued_by = value  # Delegates to property setter
         return self
 
-    def getRationale(self) -> "DocumentationBlock":
+    def getRationale(self) -> DocumentationBlock:
         """
         AUTOSAR-compliant getter for rationale.
 
@@ -588,7 +594,7 @@ class StructuredReq(Paginateable):
         """
         return self.rationale  # Delegates to property
 
-    def setRationale(self, value: "DocumentationBlock") -> StructuredReq:
+    def setRationale(self, value: DocumentationBlock) -> StructuredReq:
         """
         AUTOSAR-compliant setter for rationale with method chaining.
 
@@ -604,7 +610,7 @@ class StructuredReq(Paginateable):
         self.rationale = value  # Delegates to property setter
         return self
 
-    def getRemark(self) -> "DocumentationBlock":
+    def getRemark(self) -> DocumentationBlock:
         """
         AUTOSAR-compliant getter for remark.
 
@@ -616,7 +622,7 @@ class StructuredReq(Paginateable):
         """
         return self.remark  # Delegates to property
 
-    def setRemark(self, value: "DocumentationBlock") -> StructuredReq:
+    def setRemark(self, value: DocumentationBlock) -> StructuredReq:
         """
         AUTOSAR-compliant setter for remark with method chaining.
 
@@ -632,7 +638,7 @@ class StructuredReq(Paginateable):
         self.remark = value  # Delegates to property setter
         return self
 
-    def getSupporting(self) -> "DocumentationBlock":
+    def getSupporting(self) -> DocumentationBlock:
         """
         AUTOSAR-compliant getter for supporting.
 
@@ -644,7 +650,7 @@ class StructuredReq(Paginateable):
         """
         return self.supporting  # Delegates to property
 
-    def setSupporting(self, value: "DocumentationBlock") -> StructuredReq:
+    def setSupporting(self, value: DocumentationBlock) -> StructuredReq:
         """
         AUTOSAR-compliant setter for supporting with method chaining.
 
@@ -672,7 +678,7 @@ class StructuredReq(Paginateable):
         """
         return self.tested_item  # Delegates to property
 
-    def getType(self) -> "String":
+    def getType(self) -> String:
         """
         AUTOSAR-compliant getter for type.
 
@@ -684,7 +690,7 @@ class StructuredReq(Paginateable):
         """
         return self.type  # Delegates to property
 
-    def setType(self, value: "String") -> StructuredReq:
+    def setType(self, value: String) -> StructuredReq:
         """
         AUTOSAR-compliant setter for type with method chaining.
 
@@ -700,7 +706,7 @@ class StructuredReq(Paginateable):
         self.type = value  # Delegates to property setter
         return self
 
-    def getUseCase(self) -> "DocumentationBlock":
+    def getUseCase(self) -> DocumentationBlock:
         """
         AUTOSAR-compliant getter for useCase.
 
@@ -712,7 +718,7 @@ class StructuredReq(Paginateable):
         """
         return self.use_case  # Delegates to property
 
-    def setUseCase(self, value: "DocumentationBlock") -> StructuredReq:
+    def setUseCase(self, value: DocumentationBlock) -> StructuredReq:
         """
         AUTOSAR-compliant setter for useCase with method chaining.
 
@@ -794,7 +800,7 @@ class StructuredReq(Paginateable):
         self.description = value  # Use property setter (gets validation)
         return self
 
-    def with_importance(self, value: "String") -> StructuredReq:
+    def with_importance(self, value: String) -> StructuredReq:
         """
         Set importance and return self for chaining.
 
@@ -810,7 +816,7 @@ class StructuredReq(Paginateable):
         self.importance = value  # Use property setter (gets validation)
         return self
 
-    def with_issued_by(self, value: "String") -> StructuredReq:
+    def with_issued_by(self, value: String) -> StructuredReq:
         """
         Set issuedBy and return self for chaining.
 
@@ -874,7 +880,7 @@ class StructuredReq(Paginateable):
         self.supporting = value  # Use property setter (gets validation)
         return self
 
-    def with_type(self, value: "String") -> StructuredReq:
+    def with_type(self, value: String) -> StructuredReq:
         """
         Set type and return self for chaining.
 
@@ -929,15 +935,15 @@ class TraceableText(Paginateable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the text to which the tag applies.
-        self._text: "DocumentationBlock" = None
+        self._text: DocumentationBlock = None
 
     @property
-    def text(self) -> "DocumentationBlock":
+    def text(self) -> DocumentationBlock:
         """Get text (Pythonic accessor)."""
         return self._text
 
     @text.setter
-    def text(self, value: "DocumentationBlock") -> None:
+    def text(self, value: DocumentationBlock) -> None:
         """
         Set text with validation.
 
@@ -955,7 +961,7 @@ class TraceableText(Paginateable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getText(self) -> "DocumentationBlock":
+    def getText(self) -> DocumentationBlock:
         """
         AUTOSAR-compliant getter for text.
 
@@ -967,7 +973,7 @@ class TraceableText(Paginateable):
         """
         return self.text  # Delegates to property
 
-    def setText(self, value: "DocumentationBlock") -> TraceableText:
+    def setText(self, value: DocumentationBlock) -> TraceableText:
         """
         AUTOSAR-compliant setter for text with method chaining.
 
@@ -985,7 +991,7 @@ class TraceableText(Paginateable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_text(self, value: "DocumentationBlock") -> TraceableText:
+    def with_text(self, value: DocumentationBlock) -> TraceableText:
         """
         Set text and return self for chaining.
 

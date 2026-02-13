@@ -43,15 +43,15 @@ class SwRecordLayout(ARElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This is the top level record layout group.
-        self._swRecord: Optional["RefType"] = None
+        self._swRecord: Optional[RefType] = None
 
     @property
-    def sw_record(self) -> Optional["RefType"]:
+    def sw_record(self) -> Optional[RefType]:
         """Get swRecord (Pythonic accessor)."""
         return self._swRecord
 
     @sw_record.setter
-    def sw_record(self, value: Optional["RefType"]) -> None:
+    def sw_record(self, value: Optional[RefType]) -> None:
         """
         Set swRecord with validation.
 
@@ -69,7 +69,7 @@ class SwRecordLayout(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getSwRecord(self) -> "RefType":
+    def getSwRecord(self) -> RefType:
         """
         AUTOSAR-compliant getter for swRecord.
 
@@ -81,7 +81,7 @@ class SwRecordLayout(ARElement):
         """
         return self.sw_record  # Delegates to property
 
-    def setSwRecord(self, value: "RefType") -> SwRecordLayout:
+    def setSwRecord(self, value: RefType) -> SwRecordLayout:
         """
         AUTOSAR-compliant setter for swRecord with method chaining.
 
@@ -139,15 +139,15 @@ class SwRecordLayoutV(ARObject):
         # This association allows to refer to a base type in case a is intended.
         # If no base type is referred, type referenced initially in the corresponding
                 # to be used.
-        self._baseType: Optional["SwBaseType"] = None
+        self._baseType: Optional[SwBaseType] = None
 
     @property
-    def base_type(self) -> Optional["SwBaseType"]:
+    def base_type(self) -> Optional[SwBaseType]:
         """Get baseType (Pythonic accessor)."""
         return self._baseType
 
     @base_type.setter
-    def base_type(self, value: Optional["SwBaseType"]) -> None:
+    def base_type(self, value: Optional[SwBaseType]) -> None:
         """
         Set baseType with validation.
 
@@ -287,7 +287,7 @@ class SwRecordLayoutV(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBaseType(self) -> "SwBaseType":
+    def getBaseType(self) -> SwBaseType:
         """
         AUTOSAR-compliant getter for baseType.
 
@@ -299,7 +299,7 @@ class SwRecordLayoutV(ARObject):
         """
         return self.base_type  # Delegates to property
 
-    def setBaseType(self, value: "SwBaseType") -> SwRecordLayoutV:
+    def setBaseType(self, value: SwBaseType) -> SwRecordLayoutV:
         """
         AUTOSAR-compliant setter for baseType with method chaining.
 
@@ -429,7 +429,7 @@ class SwRecordLayoutV(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base_type(self, value: Optional["SwBaseType"]) -> SwRecordLayoutV:
+    def with_base_type(self, value: Optional[SwBaseType]) -> SwRecordLayoutV:
         """
         Set baseType and return self for chaining.
 
@@ -534,15 +534,15 @@ class SwRecordLayoutGroup(ARObject):
         # possible to express the specific semantics of A2l in swRecordlayoutGroup but
                 # not versa.
         # Therefore the mapping is provided in attribute.
-        self._category: Optional["AsamRecordLayout"] = None
+        self._category: Optional[AsamRecordLayout] = None
 
     @property
-    def category(self) -> Optional["AsamRecordLayout"]:
+    def category(self) -> Optional[AsamRecordLayout]:
         """Get category (Pythonic accessor)."""
         return self._category
 
     @category.setter
-    def category(self, value: Optional["AsamRecordLayout"]) -> None:
+    def category(self, value: Optional[AsamRecordLayout]) -> None:
         """
         Set category with validation.
 
@@ -685,7 +685,7 @@ class SwRecordLayoutGroup(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCategory(self) -> "AsamRecordLayout":
+    def getCategory(self) -> AsamRecordLayout:
         """
         AUTOSAR-compliant getter for category.
 
@@ -697,7 +697,7 @@ class SwRecordLayoutGroup(ARObject):
         """
         return self.category  # Delegates to property
 
-    def setCategory(self, value: "AsamRecordLayout") -> SwRecordLayoutGroup:
+    def setCategory(self, value: AsamRecordLayout) -> SwRecordLayoutGroup:
         """
         AUTOSAR-compliant setter for category with method chaining.
 
@@ -827,7 +827,7 @@ class SwRecordLayoutGroup(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_category(self, value: Optional["AsamRecordLayout"]) -> SwRecordLayoutGroup:
+    def with_category(self, value: Optional[AsamRecordLayout]) -> SwRecordLayoutGroup:
         """
         Set category and return self for chaining.
 

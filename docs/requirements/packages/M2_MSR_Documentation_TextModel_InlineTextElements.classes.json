@@ -416,7 +416,7 @@
       ],
       "attributes": {
         "label1": {
-          "type": "SingleLanguageLong",
+          "type": "SingleLanguageLongName",
           "multiplicity": "0..1",
           "kind": "attribute",
           "is_ref": false,

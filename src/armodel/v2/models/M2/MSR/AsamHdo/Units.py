@@ -79,15 +79,15 @@ class Unit(ARElement):
             )
         self._displayName = value
         # is used for conversion from units to SI Units.
-        self._factorSiToUnit: Optional["Float"] = None
+        self._factorSiToUnit: Optional[Float] = None
 
     @property
-    def factor_si_to_unit(self) -> Optional["Float"]:
+    def factor_si_to_unit(self) -> Optional[Float]:
         """Get factorSiToUnit (Pythonic accessor)."""
         return self._factorSiToUnit
 
     @factor_si_to_unit.setter
-    def factor_si_to_unit(self, value: Optional["Float"]) -> None:
+    def factor_si_to_unit(self, value: Optional[Float]) -> None:
         """
         Set factorSiToUnit with validation.
 
@@ -106,15 +106,15 @@ class Unit(ARElement):
                 f"factorSiToUnit must be Float or float or None, got {type(value).__name__}"
             )
         self._factorSiToUnit = value
-        self._offsetSiToUnit: Optional["Float"] = None
+        self._offsetSiToUnit: Optional[Float] = None
 
     @property
-    def offset_si_to_unit(self) -> Optional["Float"]:
+    def offset_si_to_unit(self) -> Optional[Float]:
         """Get offsetSiToUnit (Pythonic accessor)."""
         return self._offsetSiToUnit
 
     @offset_si_to_unit.setter
-    def offset_si_to_unit(self, value: Optional["Float"]) -> None:
+    def offset_si_to_unit(self, value: Optional[Float]) -> None:
         """
         Set offsetSiToUnit with validation.
 
@@ -208,7 +208,7 @@ class Unit(ARElement):
         self.display_name = value  # Delegates to property setter
         return self
 
-    def getFactorSiToUnit(self) -> "Float":
+    def getFactorSiToUnit(self) -> Float:
         """
         AUTOSAR-compliant getter for factorSiToUnit.
 
@@ -220,7 +220,7 @@ class Unit(ARElement):
         """
         return self.factor_si_to_unit  # Delegates to property
 
-    def setFactorSiToUnit(self, value: "Float") -> Unit:
+    def setFactorSiToUnit(self, value: Float) -> Unit:
         """
         AUTOSAR-compliant setter for factorSiToUnit with method chaining.
 
@@ -236,7 +236,7 @@ class Unit(ARElement):
         self.factor_si_to_unit = value  # Delegates to property setter
         return self
 
-    def getOffsetSiToUnit(self) -> "Float":
+    def getOffsetSiToUnit(self) -> Float:
         """
         AUTOSAR-compliant getter for offsetSiToUnit.
 
@@ -248,7 +248,7 @@ class Unit(ARElement):
         """
         return self.offset_si_to_unit  # Delegates to property
 
-    def setOffsetSiToUnit(self, value: "Float") -> Unit:
+    def setOffsetSiToUnit(self, value: Float) -> Unit:
         """
         AUTOSAR-compliant setter for offsetSiToUnit with method chaining.
 
@@ -310,7 +310,7 @@ class Unit(ARElement):
         self.display_name = value  # Use property setter (gets validation)
         return self
 
-    def with_factor_si_to_unit(self, value: Optional["Float"]) -> Unit:
+    def with_factor_si_to_unit(self, value: Optional[Float]) -> Unit:
         """
         Set factorSiToUnit and return self for chaining.
 
@@ -326,7 +326,7 @@ class Unit(ARElement):
         self.factor_si_to_unit = value  # Use property setter (gets validation)
         return self
 
-    def with_offset_si_to_unit(self, value: Optional["Float"]) -> Unit:
+    def with_offset_si_to_unit(self, value: Optional[Float]) -> Unit:
         """
         Set offsetSiToUnit and return self for chaining.
 

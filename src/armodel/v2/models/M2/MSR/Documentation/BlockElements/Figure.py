@@ -54,15 +54,15 @@ class Area(ARObject):
         # "B") within the range.
         # If an access key with an to it is pressed, the element comes into activity
                 # performed when an element comes is dependent on the element itself.
-        self._accesskey: Optional["String"] = None
+        self._accesskey: Optional[String] = None
 
     @property
-    def accesskey(self) -> Optional["String"]:
+    def accesskey(self) -> Optional[String]:
         """Get accesskey (Pythonic accessor)."""
         return self._accesskey
 
     @accesskey.setter
-    def accesskey(self, value: Optional["String"]) -> None:
+    def accesskey(self, value: Optional[String]) -> None:
         """
         Set accesskey with validation.
         
@@ -82,15 +82,15 @@ class Area(ARObject):
             )
         self._accesskey = value
         # or applets, where these displayed by user agents.
-        self._alt: Optional["String"] = None
+        self._alt: Optional[String] = None
 
     @property
-    def alt(self) -> Optional["String"]:
+    def alt(self) -> Optional[String]:
         """Get alt (Pythonic accessor)."""
         return self._alt
 
     @alt.setter
-    def alt(self, value: Optional["String"]) -> None:
+    def alt(self, value: Optional[String]) -> None:
         """
         Set alt with validation.
         
@@ -109,15 +109,15 @@ class Area(ARObject):
                 f"alt must be String or str or None, got {type(value).__name__}"
             )
         self._alt = value
-        self._class_name: Optional["String"] = None
+        self._class_name: Optional[String] = None
 
     @property
-    def class_name(self) -> Optional["String"]:
+    def class_name(self) -> Optional[String]:
         """Get class_name (Pythonic accessor)."""
         return self._class_name
 
     @class_name.setter
-    def class_name(self, value: Optional["String"]) -> None:
+    def class_name(self, value: Optional[String]) -> None:
         """
         Set class_name with validation.
         
@@ -137,15 +137,15 @@ class Area(ARObject):
             )
         self._class_name = value
         # their order depend on figure defined.
-        self._coords: Optional["String"] = None
+        self._coords: Optional[String] = None
 
     @property
-    def coords(self) -> Optional["String"]:
+    def coords(self) -> Optional[String]:
         """Get coords (Pythonic accessor)."""
         return self._coords
 
     @coords.setter
-    def coords(self, value: Optional["String"]) -> None:
+    def coords(self, value: Optional[String]) -> None:
         """
         Set coords with validation.
         
@@ -166,15 +166,15 @@ class Area(ARObject):
         self._coords = value
                 # specify a link between the and the target element.
         # 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11.
-        self._href: Optional["String"] = None
+        self._href: Optional[String] = None
 
     @property
-    def href(self) -> Optional["String"]:
+    def href(self) -> Optional[String]:
         """Get href (Pythonic accessor)."""
         return self._href
 
     @href.setter
-    def href(self, value: Optional["String"]) -> None:
+    def href(self, value: Optional[String]) -> None:
         """
         Set href with validation.
         
@@ -221,15 +221,15 @@ class Area(ARObject):
             )
         self._nohref = value
         # can be stored in this attribute to be performed in.
-        self._onblur: Optional["String"] = None
+        self._onblur: Optional[String] = None
 
     @property
-    def onblur(self) -> Optional["String"]:
+    def onblur(self) -> Optional[String]:
         """Get onblur (Pythonic accessor)."""
         return self._onblur
 
     @onblur.setter
-    def onblur(self, value: Optional["String"]) -> None:
+    def onblur(self, value: Optional[String]) -> None:
         """
         Set onblur with validation.
         
@@ -249,15 +249,15 @@ class Area(ARObject):
             )
         self._onblur = value
         # attribute to be performed in.
-        self._onclick: Optional["String"] = None
+        self._onclick: Optional[String] = None
 
     @property
-    def onclick(self) -> Optional["String"]:
+    def onclick(self) -> Optional[String]:
         """Get onclick (Pythonic accessor)."""
         return self._onclick
 
     @onclick.setter
-    def onclick(self, value: Optional["String"]) -> None:
+    def onclick(self, value: Optional[String]) -> None:
         """
         Set onclick with validation.
         
@@ -277,15 +277,15 @@ class Area(ARObject):
             )
         self._onclick = value
         # attribute to be performed in.
-        self._ondblclick: Optional["String"] = None
+        self._ondblclick: Optional[String] = None
 
     @property
-    def ondblclick(self) -> Optional["String"]:
+    def ondblclick(self) -> Optional[String]:
         """Get ondblclick (Pythonic accessor)."""
         return self._ondblclick
 
     @ondblclick.setter
-    def ondblclick(self, value: Optional["String"]) -> None:
+    def ondblclick(self, value: Optional[String]) -> None:
         """
         Set ondblclick with validation.
         
@@ -306,15 +306,15 @@ class Area(ARObject):
         self._ondblclick = value
                 # the tab button).
         # can be stored in this attribute to be performed in.
-        self._onfocus: Optional["String"] = None
+        self._onfocus: Optional[String] = None
 
     @property
-    def onfocus(self) -> Optional["String"]:
+    def onfocus(self) -> Optional[String]:
         """Get onfocus (Pythonic accessor)."""
         return self._onfocus
 
     @onfocus.setter
-    def onfocus(self, value: Optional["String"]) -> None:
+    def onfocus(self, value: Optional[String]) -> None:
         """
         Set onfocus with validation.
         
@@ -334,15 +334,15 @@ class Area(ARObject):
             )
         self._onfocus = value
         # can be stored in this attribute to be performed in.
-        self._onkeydown: Optional["String"] = None
+        self._onkeydown: Optional[String] = None
 
     @property
-    def onkeydown(self) -> Optional["String"]:
+    def onkeydown(self) -> Optional[String]:
         """Get onkeydown (Pythonic accessor)."""
         return self._onkeydown
 
     @onkeydown.setter
-    def onkeydown(self, value: Optional["String"]) -> None:
+    def onkeydown(self, value: Optional[String]) -> None:
         """
         Set onkeydown with validation.
         
@@ -362,15 +362,15 @@ class Area(ARObject):
             )
         self._onkeydown = value
         # can be stored in this attribute to be performed in.
-        self._onkeypress: Optional["String"] = None
+        self._onkeypress: Optional[String] = None
 
     @property
-    def onkeypress(self) -> Optional["String"]:
+    def onkeypress(self) -> Optional[String]:
         """Get onkeypress (Pythonic accessor)."""
         return self._onkeypress
 
     @onkeypress.setter
-    def onkeypress(self, value: Optional["String"]) -> None:
+    def onkeypress(self, value: Optional[String]) -> None:
         """
         Set onkeypress with validation.
         
@@ -390,15 +390,15 @@ class Area(ARObject):
             )
         self._onkeypress = value
         # can be stored in this attribute to be performed in.
-        self._onkeyup: Optional["String"] = None
+        self._onkeyup: Optional[String] = None
 
     @property
-    def onkeyup(self) -> Optional["String"]:
+    def onkeyup(self) -> Optional[String]:
         """Get onkeyup (Pythonic accessor)."""
         return self._onkeyup
 
     @onkeyup.setter
-    def onkeyup(self, value: Optional["String"]) -> None:
+    def onkeyup(self, value: Optional[String]) -> None:
         """
         Set onkeyup with validation.
         
@@ -419,15 +419,15 @@ class Area(ARObject):
         self._onkeyup = value
                 # the current element.
         # can be stored in this attribute to be performed in.
-        self._onmousedown: Optional["String"] = None
+        self._onmousedown: Optional[String] = None
 
     @property
-    def onmousedown(self) -> Optional["String"]:
+    def onmousedown(self) -> Optional[String]:
         """Get onmousedown (Pythonic accessor)."""
         return self._onmousedown
 
     @onmousedown.setter
-    def onmousedown(self, value: Optional["String"]) -> None:
+    def onmousedown(self, value: Optional[String]) -> None:
         """
         Set onmousedown with validation.
         
@@ -449,15 +449,15 @@ class Area(ARObject):
         # e.
         # it is located on the can be stored in this attribute to be performed in 535
                 # Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11.
-        self._onmousemove: Optional["String"] = None
+        self._onmousemove: Optional[String] = None
 
     @property
-    def onmousemove(self) -> Optional["String"]:
+    def onmousemove(self) -> Optional[String]:
         """Get onmousemove (Pythonic accessor)."""
         return self._onmousemove
 
     @onmousemove.setter
-    def onmousemove(self, value: Optional["String"]) -> None:
+    def onmousemove(self, value: Optional[String]) -> None:
         """
         Set onmousemove with validation.
         
@@ -477,15 +477,15 @@ class Area(ARObject):
             )
         self._onmousemove = value
         # can be stored in this attribute to be performed in.
-        self._onmouseout: Optional["String"] = None
+        self._onmouseout: Optional[String] = None
 
     @property
-    def onmouseout(self) -> Optional["String"]:
+    def onmouseout(self) -> Optional[String]:
         """Get onmouseout (Pythonic accessor)."""
         return self._onmouseout
 
     @onmouseout.setter
-    def onmouseout(self, value: Optional["String"]) -> None:
+    def onmouseout(self, value: Optional[String]) -> None:
         """
         Set onmouseout with validation.
         
@@ -505,15 +505,15 @@ class Area(ARObject):
             )
         self._onmouseout = value
         # from another location can be stored in this attribute to be performed in.
-        self._onmouseover: Optional["String"] = None
+        self._onmouseover: Optional[String] = None
 
     @property
-    def onmouseover(self) -> Optional["String"]:
+    def onmouseover(self) -> Optional[String]:
         """Get onmouseover (Pythonic accessor)."""
         return self._onmouseover
 
     @onmouseover.setter
-    def onmouseover(self, value: Optional["String"]) -> None:
+    def onmouseover(self, value: Optional[String]) -> None:
         """
         Set onmouseover with validation.
         
@@ -534,15 +534,15 @@ class Area(ARObject):
         self._onmouseover = value
                 # current element.
         # can be stored in this attribute to be performed in.
-        self._onmouseup: Optional["String"] = None
+        self._onmouseup: Optional[String] = None
 
     @property
-    def onmouseup(self) -> Optional["String"]:
+    def onmouseup(self) -> Optional[String]:
         """Get onmouseup (Pythonic accessor)."""
         return self._onmouseup
 
     @onmouseup.setter
-    def onmouseup(self, value: Optional["String"]) -> None:
+    def onmouseup(self, value: Optional[String]) -> None:
         """
         Set onmouseup with validation.
         
@@ -589,15 +589,15 @@ class Area(ARObject):
                 f"shape must be AreaEnumShape or None, got {type(value).__name__}"
             )
         self._shape = value
-        self._style: Optional["String"] = None
+        self._style: Optional[String] = None
 
     @property
-    def style(self) -> Optional["String"]:
+    def style(self) -> Optional[String]:
         """Get style (Pythonic accessor)."""
         return self._style
 
     @style.setter
-    def style(self, value: Optional["String"]) -> None:
+    def style(self, value: Optional[String]) -> None:
         """
         Set style with validation.
         
@@ -620,15 +620,15 @@ class Area(ARObject):
         # shall lie between 0 and 32767.
         # The Tabbing the sequence in which elements are when the user navigates using
                 # the keyboard.
-        self._tabindex: Optional["String"] = None
+        self._tabindex: Optional[String] = None
 
     @property
-    def tabindex(self) -> Optional["String"]:
+    def tabindex(self) -> Optional[String]:
         """Get tabindex (Pythonic accessor)."""
         return self._tabindex
 
     @tabindex.setter
-    def tabindex(self, value: Optional["String"]) -> None:
+    def tabindex(self, value: Optional[String]) -> None:
         """
         Set tabindex with validation.
         
@@ -647,15 +647,15 @@ class Area(ARObject):
                 f"tabindex must be String or str or None, got {type(value).__name__}"
             )
         self._tabindex = value
-        self._title: Optional["String"] = None
+        self._title: Optional[String] = None
 
     @property
-    def title(self) -> Optional["String"]:
+    def title(self) -> Optional[String]:
         """Get title (Pythonic accessor)."""
         return self._title
 
     @title.setter
-    def title(self, value: Optional["String"]) -> None:
+    def title(self, value: Optional[String]) -> None:
         """
         Set title with validation.
         
@@ -693,7 +693,7 @@ class Area(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAccesskey(self) -> "String":
+    def getAccesskey(self) -> String:
         """
         AUTOSAR-compliant getter for accesskey.
         
@@ -705,7 +705,7 @@ class Area(ARObject):
         """
         return self.accesskey  # Delegates to property
 
-    def setAccesskey(self, value: "String") -> Area:
+    def setAccesskey(self, value: String) -> Area:
         """
         AUTOSAR-compliant setter for accesskey with method chaining.
         
@@ -721,7 +721,7 @@ class Area(ARObject):
         self.accesskey = value  # Delegates to property setter
         return self
 
-    def getAlt(self) -> "String":
+    def getAlt(self) -> String:
         """
         AUTOSAR-compliant getter for alt.
         
@@ -733,7 +733,7 @@ class Area(ARObject):
         """
         return self.alt  # Delegates to property
 
-    def setAlt(self, value: "String") -> Area:
+    def setAlt(self, value: String) -> Area:
         """
         AUTOSAR-compliant setter for alt with method chaining.
         
@@ -749,7 +749,7 @@ class Area(ARObject):
         self.alt = value  # Delegates to property setter
         return self
 
-    def getClass(self) -> "String":
+    def getClass(self) -> String:
         """
         AUTOSAR-compliant getter for class.
         
@@ -761,7 +761,7 @@ class Area(ARObject):
         """
         return self.class_name  # Delegates to property
 
-    def setClass(self, value: "String") -> Area:
+    def setClass(self, value: String) -> Area:
         """
         AUTOSAR-compliant setter for class_name with method chaining.
 
@@ -777,7 +777,7 @@ class Area(ARObject):
         self.class_name = value  # Delegates to property setter
         return self
 
-    def getCoords(self) -> "String":
+    def getCoords(self) -> String:
         """
         AUTOSAR-compliant getter for coords.
         
@@ -789,7 +789,7 @@ class Area(ARObject):
         """
         return self.coords  # Delegates to property
 
-    def setCoords(self, value: "String") -> Area:
+    def setCoords(self, value: String) -> Area:
         """
         AUTOSAR-compliant setter for coords with method chaining.
         
@@ -805,7 +805,7 @@ class Area(ARObject):
         self.coords = value  # Delegates to property setter
         return self
 
-    def getHref(self) -> "String":
+    def getHref(self) -> String:
         """
         AUTOSAR-compliant getter for href.
         
@@ -817,7 +817,7 @@ class Area(ARObject):
         """
         return self.href  # Delegates to property
 
-    def setHref(self, value: "String") -> Area:
+    def setHref(self, value: String) -> Area:
         """
         AUTOSAR-compliant setter for href with method chaining.
         
@@ -861,7 +861,7 @@ class Area(ARObject):
         self.nohref = value  # Delegates to property setter
         return self
 
-    def getOnblur(self) -> "String":
+    def getOnblur(self) -> String:
         """
         AUTOSAR-compliant getter for onblur.
         
@@ -873,7 +873,7 @@ class Area(ARObject):
         """
         return self.onblur  # Delegates to property
 
-    def setOnblur(self, value: "String") -> Area:
+    def setOnblur(self, value: String) -> Area:
         """
         AUTOSAR-compliant setter for onblur with method chaining.
         
@@ -889,7 +889,7 @@ class Area(ARObject):
         self.onblur = value  # Delegates to property setter
         return self
 
-    def getOnclick(self) -> "String":
+    def getOnclick(self) -> String:
         """
         AUTOSAR-compliant getter for onclick.
         
@@ -901,7 +901,7 @@ class Area(ARObject):
         """
         return self.onclick  # Delegates to property
 
-    def setOnclick(self, value: "String") -> Area:
+    def setOnclick(self, value: String) -> Area:
         """
         AUTOSAR-compliant setter for onclick with method chaining.
         
@@ -917,7 +917,7 @@ class Area(ARObject):
         self.onclick = value  # Delegates to property setter
         return self
 
-    def getOndblclick(self) -> "String":
+    def getOndblclick(self) -> String:
         """
         AUTOSAR-compliant getter for ondblclick.
         
@@ -929,7 +929,7 @@ class Area(ARObject):
         """
         return self.ondblclick  # Delegates to property
 
-    def setOndblclick(self, value: "String") -> Area:
+    def setOndblclick(self, value: String) -> Area:
         """
         AUTOSAR-compliant setter for ondblclick with method chaining.
         
@@ -945,7 +945,7 @@ class Area(ARObject):
         self.ondblclick = value  # Delegates to property setter
         return self
 
-    def getOnfocus(self) -> "String":
+    def getOnfocus(self) -> String:
         """
         AUTOSAR-compliant getter for onfocus.
         
@@ -957,7 +957,7 @@ class Area(ARObject):
         """
         return self.onfocus  # Delegates to property
 
-    def setOnfocus(self, value: "String") -> Area:
+    def setOnfocus(self, value: String) -> Area:
         """
         AUTOSAR-compliant setter for onfocus with method chaining.
         
@@ -973,7 +973,7 @@ class Area(ARObject):
         self.onfocus = value  # Delegates to property setter
         return self
 
-    def getOnkeydown(self) -> "String":
+    def getOnkeydown(self) -> String:
         """
         AUTOSAR-compliant getter for onkeydown.
         
@@ -985,7 +985,7 @@ class Area(ARObject):
         """
         return self.onkeydown  # Delegates to property
 
-    def setOnkeydown(self, value: "String") -> Area:
+    def setOnkeydown(self, value: String) -> Area:
         """
         AUTOSAR-compliant setter for onkeydown with method chaining.
         
@@ -1001,7 +1001,7 @@ class Area(ARObject):
         self.onkeydown = value  # Delegates to property setter
         return self
 
-    def getOnkeypress(self) -> "String":
+    def getOnkeypress(self) -> String:
         """
         AUTOSAR-compliant getter for onkeypress.
         
@@ -1013,7 +1013,7 @@ class Area(ARObject):
         """
         return self.onkeypress  # Delegates to property
 
-    def setOnkeypress(self, value: "String") -> Area:
+    def setOnkeypress(self, value: String) -> Area:
         """
         AUTOSAR-compliant setter for onkeypress with method chaining.
         
@@ -1029,7 +1029,7 @@ class Area(ARObject):
         self.onkeypress = value  # Delegates to property setter
         return self
 
-    def getOnkeyup(self) -> "String":
+    def getOnkeyup(self) -> String:
         """
         AUTOSAR-compliant getter for onkeyup.
         
@@ -1041,7 +1041,7 @@ class Area(ARObject):
         """
         return self.onkeyup  # Delegates to property
 
-    def setOnkeyup(self, value: "String") -> Area:
+    def setOnkeyup(self, value: String) -> Area:
         """
         AUTOSAR-compliant setter for onkeyup with method chaining.
         
@@ -1057,7 +1057,7 @@ class Area(ARObject):
         self.onkeyup = value  # Delegates to property setter
         return self
 
-    def getOnmousedown(self) -> "String":
+    def getOnmousedown(self) -> String:
         """
         AUTOSAR-compliant getter for onmousedown.
         
@@ -1069,7 +1069,7 @@ class Area(ARObject):
         """
         return self.onmousedown  # Delegates to property
 
-    def setOnmousedown(self, value: "String") -> Area:
+    def setOnmousedown(self, value: String) -> Area:
         """
         AUTOSAR-compliant setter for onmousedown with method chaining.
         
@@ -1085,7 +1085,7 @@ class Area(ARObject):
         self.onmousedown = value  # Delegates to property setter
         return self
 
-    def getOnmousemove(self) -> "String":
+    def getOnmousemove(self) -> String:
         """
         AUTOSAR-compliant getter for onmousemove.
         
@@ -1097,7 +1097,7 @@ class Area(ARObject):
         """
         return self.onmousemove  # Delegates to property
 
-    def setOnmousemove(self, value: "String") -> Area:
+    def setOnmousemove(self, value: String) -> Area:
         """
         AUTOSAR-compliant setter for onmousemove with method chaining.
         
@@ -1113,7 +1113,7 @@ class Area(ARObject):
         self.onmousemove = value  # Delegates to property setter
         return self
 
-    def getOnmouseout(self) -> "String":
+    def getOnmouseout(self) -> String:
         """
         AUTOSAR-compliant getter for onmouseout.
         
@@ -1125,7 +1125,7 @@ class Area(ARObject):
         """
         return self.onmouseout  # Delegates to property
 
-    def setOnmouseout(self, value: "String") -> Area:
+    def setOnmouseout(self, value: String) -> Area:
         """
         AUTOSAR-compliant setter for onmouseout with method chaining.
         
@@ -1141,7 +1141,7 @@ class Area(ARObject):
         self.onmouseout = value  # Delegates to property setter
         return self
 
-    def getOnmouseover(self) -> "String":
+    def getOnmouseover(self) -> String:
         """
         AUTOSAR-compliant getter for onmouseover.
         
@@ -1153,7 +1153,7 @@ class Area(ARObject):
         """
         return self.onmouseover  # Delegates to property
 
-    def setOnmouseover(self, value: "String") -> Area:
+    def setOnmouseover(self, value: String) -> Area:
         """
         AUTOSAR-compliant setter for onmouseover with method chaining.
         
@@ -1169,7 +1169,7 @@ class Area(ARObject):
         self.onmouseover = value  # Delegates to property setter
         return self
 
-    def getOnmouseup(self) -> "String":
+    def getOnmouseup(self) -> String:
         """
         AUTOSAR-compliant getter for onmouseup.
         
@@ -1181,7 +1181,7 @@ class Area(ARObject):
         """
         return self.onmouseup  # Delegates to property
 
-    def setOnmouseup(self, value: "String") -> Area:
+    def setOnmouseup(self, value: String) -> Area:
         """
         AUTOSAR-compliant setter for onmouseup with method chaining.
         
@@ -1225,7 +1225,7 @@ class Area(ARObject):
         self.shape = value  # Delegates to property setter
         return self
 
-    def getStyle(self) -> "String":
+    def getStyle(self) -> String:
         """
         AUTOSAR-compliant getter for style.
         
@@ -1237,7 +1237,7 @@ class Area(ARObject):
         """
         return self.style  # Delegates to property
 
-    def setStyle(self, value: "String") -> Area:
+    def setStyle(self, value: String) -> Area:
         """
         AUTOSAR-compliant setter for style with method chaining.
         
@@ -1253,7 +1253,7 @@ class Area(ARObject):
         self.style = value  # Delegates to property setter
         return self
 
-    def getTabindex(self) -> "String":
+    def getTabindex(self) -> String:
         """
         AUTOSAR-compliant getter for tabindex.
         
@@ -1265,7 +1265,7 @@ class Area(ARObject):
         """
         return self.tabindex  # Delegates to property
 
-    def setTabindex(self, value: "String") -> Area:
+    def setTabindex(self, value: String) -> Area:
         """
         AUTOSAR-compliant setter for tabindex with method chaining.
         
@@ -1281,7 +1281,7 @@ class Area(ARObject):
         self.tabindex = value  # Delegates to property setter
         return self
 
-    def getTitle(self) -> "String":
+    def getTitle(self) -> String:
         """
         AUTOSAR-compliant getter for title.
         
@@ -1293,7 +1293,7 @@ class Area(ARObject):
         """
         return self.title  # Delegates to property
 
-    def setTitle(self, value: "String") -> Area:
+    def setTitle(self, value: String) -> Area:
         """
         AUTOSAR-compliant setter for title with method chaining.
         
@@ -1311,7 +1311,7 @@ class Area(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_accesskey(self, value: Optional["String"]) -> Area:
+    def with_accesskey(self, value: Optional[String]) -> Area:
         """
         Set accesskey and return self for chaining.
         
@@ -1327,7 +1327,7 @@ class Area(ARObject):
         self.accesskey = value  # Use property setter (gets validation)
         return self
 
-    def with_alt(self, value: Optional["String"]) -> Area:
+    def with_alt(self, value: Optional[String]) -> Area:
         """
         Set alt and return self for chaining.
         
@@ -1343,7 +1343,7 @@ class Area(ARObject):
         self.alt = value  # Use property setter (gets validation)
         return self
 
-    def with_class_name(self, value: Optional["String"]) -> Area:
+    def with_class_name(self, value: Optional[String]) -> Area:
         """
         Set class_name and return self for chaining.
         
@@ -1359,7 +1359,7 @@ class Area(ARObject):
         self.class_name = value  # Use property setter (gets validation)
         return self
 
-    def with_coords(self, value: Optional["String"]) -> Area:
+    def with_coords(self, value: Optional[String]) -> Area:
         """
         Set coords and return self for chaining.
         
@@ -1375,7 +1375,7 @@ class Area(ARObject):
         self.coords = value  # Use property setter (gets validation)
         return self
 
-    def with_href(self, value: Optional["String"]) -> Area:
+    def with_href(self, value: Optional[String]) -> Area:
         """
         Set href and return self for chaining.
         
@@ -1407,7 +1407,7 @@ class Area(ARObject):
         self.nohref = value  # Use property setter (gets validation)
         return self
 
-    def with_onblur(self, value: Optional["String"]) -> Area:
+    def with_onblur(self, value: Optional[String]) -> Area:
         """
         Set onblur and return self for chaining.
         
@@ -1423,7 +1423,7 @@ class Area(ARObject):
         self.onblur = value  # Use property setter (gets validation)
         return self
 
-    def with_onclick(self, value: Optional["String"]) -> Area:
+    def with_onclick(self, value: Optional[String]) -> Area:
         """
         Set onclick and return self for chaining.
         
@@ -1439,7 +1439,7 @@ class Area(ARObject):
         self.onclick = value  # Use property setter (gets validation)
         return self
 
-    def with_ondblclick(self, value: Optional["String"]) -> Area:
+    def with_ondblclick(self, value: Optional[String]) -> Area:
         """
         Set ondblclick and return self for chaining.
         
@@ -1455,7 +1455,7 @@ class Area(ARObject):
         self.ondblclick = value  # Use property setter (gets validation)
         return self
 
-    def with_onfocus(self, value: Optional["String"]) -> Area:
+    def with_onfocus(self, value: Optional[String]) -> Area:
         """
         Set onfocus and return self for chaining.
         
@@ -1471,7 +1471,7 @@ class Area(ARObject):
         self.onfocus = value  # Use property setter (gets validation)
         return self
 
-    def with_onkeydown(self, value: Optional["String"]) -> Area:
+    def with_onkeydown(self, value: Optional[String]) -> Area:
         """
         Set onkeydown and return self for chaining.
         
@@ -1487,7 +1487,7 @@ class Area(ARObject):
         self.onkeydown = value  # Use property setter (gets validation)
         return self
 
-    def with_onkeypress(self, value: Optional["String"]) -> Area:
+    def with_onkeypress(self, value: Optional[String]) -> Area:
         """
         Set onkeypress and return self for chaining.
         
@@ -1503,7 +1503,7 @@ class Area(ARObject):
         self.onkeypress = value  # Use property setter (gets validation)
         return self
 
-    def with_onkeyup(self, value: Optional["String"]) -> Area:
+    def with_onkeyup(self, value: Optional[String]) -> Area:
         """
         Set onkeyup and return self for chaining.
         
@@ -1519,7 +1519,7 @@ class Area(ARObject):
         self.onkeyup = value  # Use property setter (gets validation)
         return self
 
-    def with_onmousedown(self, value: Optional["String"]) -> Area:
+    def with_onmousedown(self, value: Optional[String]) -> Area:
         """
         Set onmousedown and return self for chaining.
         
@@ -1535,7 +1535,7 @@ class Area(ARObject):
         self.onmousedown = value  # Use property setter (gets validation)
         return self
 
-    def with_onmousemove(self, value: Optional["String"]) -> Area:
+    def with_onmousemove(self, value: Optional[String]) -> Area:
         """
         Set onmousemove and return self for chaining.
         
@@ -1551,7 +1551,7 @@ class Area(ARObject):
         self.onmousemove = value  # Use property setter (gets validation)
         return self
 
-    def with_onmouseout(self, value: Optional["String"]) -> Area:
+    def with_onmouseout(self, value: Optional[String]) -> Area:
         """
         Set onmouseout and return self for chaining.
         
@@ -1567,7 +1567,7 @@ class Area(ARObject):
         self.onmouseout = value  # Use property setter (gets validation)
         return self
 
-    def with_onmouseover(self, value: Optional["String"]) -> Area:
+    def with_onmouseover(self, value: Optional[String]) -> Area:
         """
         Set onmouseover and return self for chaining.
         
@@ -1583,7 +1583,7 @@ class Area(ARObject):
         self.onmouseover = value  # Use property setter (gets validation)
         return self
 
-    def with_onmouseup(self, value: Optional["String"]) -> Area:
+    def with_onmouseup(self, value: Optional[String]) -> Area:
         """
         Set onmouseup and return self for chaining.
         
@@ -1615,7 +1615,7 @@ class Area(ARObject):
         self.shape = value  # Use property setter (gets validation)
         return self
 
-    def with_style(self, value: Optional["String"]) -> Area:
+    def with_style(self, value: Optional[String]) -> Area:
         """
         Set style and return self for chaining.
         
@@ -1631,7 +1631,7 @@ class Area(ARObject):
         self.style = value  # Use property setter (gets validation)
         return self
 
-    def with_tabindex(self, value: Optional["String"]) -> Area:
+    def with_tabindex(self, value: Optional[String]) -> Area:
         """
         Set tabindex and return self for chaining.
         
@@ -1647,7 +1647,7 @@ class Area(ARObject):
         self.tabindex = value  # Use property setter (gets validation)
         return self
 
-    def with_title(self, value: Optional["String"]) -> Area:
+    def with_title(self, value: Optional[String]) -> Area:
         """
         Set title and return self for chaining.
         
@@ -1711,15 +1711,15 @@ class Graphic(EngineeringObject):
         self._editfit = value
                 # added to the number in the units are: cm, mm, px, pt.
         # The default unit.
-        self._editHeight: Optional["String"] = None
+        self._editHeight: Optional[String] = None
 
     @property
-    def edit_height(self) -> Optional["String"]:
+    def edit_height(self) -> Optional[String]:
         """Get editHeight (Pythonic accessor)."""
         return self._editHeight
 
     @edit_height.setter
-    def edit_height(self, value: Optional["String"]) -> None:
+    def edit_height(self, value: Optional[String]) -> None:
         """
         Set editHeight with validation.
         
@@ -1738,15 +1738,15 @@ class Graphic(EngineeringObject):
                 f"editHeight must be String or str or None, got {type(value).__name__}"
             )
         self._editHeight = value
-        self._editscale: Optional["String"] = None
+        self._editscale: Optional[String] = None
 
     @property
-    def editscale(self) -> Optional["String"]:
+    def editscale(self) -> Optional[String]:
         """Get editscale (Pythonic accessor)."""
         return self._editscale
 
     @editscale.setter
-    def editscale(self, value: Optional["String"]) -> None:
+    def editscale(self, value: Optional[String]) -> None:
         """
         Set editscale with validation.
         
@@ -1767,15 +1767,15 @@ class Graphic(EngineeringObject):
         self._editscale = value
                 # added to the number in the units are: cm, mm, px, pt.
         # The default unit.
-        self._editWidth: Optional["String"] = None
+        self._editWidth: Optional[String] = None
 
     @property
-    def edit_width(self) -> Optional["String"]:
+    def edit_width(self) -> Optional[String]:
         """Get editWidth (Pythonic accessor)."""
         return self._editWidth
 
     @edit_width.setter
-    def edit_width(self, value: Optional["String"]) -> None:
+    def edit_width(self, value: Optional[String]) -> None:
         """
         Set editWidth with validation.
         
@@ -1795,15 +1795,15 @@ class Graphic(EngineeringObject):
             )
         self._editWidth = value
         # This attribute is ASAM FSX and kept in AUTOSAR in order cut and paste.
-        self._filename: Optional["String"] = None
+        self._filename: Optional[String] = None
 
     @property
-    def filename(self) -> Optional["String"]:
+    def filename(self) -> Optional[String]:
         """Get filename (Pythonic accessor)."""
         return self._filename
 
     @filename.setter
-    def filename(self, value: Optional["String"]) -> None:
+    def filename(self, value: Optional[String]) -> None:
         """
         Set filename with validation.
         
@@ -1857,15 +1857,15 @@ class Graphic(EngineeringObject):
                 # tool) is inserted by the as reference (this is the role of graphic).
         # real figure maybe injected during document be able to recognize this
                 # situation, this be applied.
-        self._generator: Optional["NameToken"] = None
+        self._generator: Optional[NameToken] = None
 
     @property
-    def generator(self) -> Optional["NameToken"]:
+    def generator(self) -> Optional[NameToken]:
         """Get generator (Pythonic accessor)."""
         return self._generator
 
     @generator.setter
-    def generator(self, value: Optional["NameToken"]) -> None:
+    def generator(self, value: Optional[NameToken]) -> None:
         """
         Set generator with validation.
         
@@ -1887,15 +1887,15 @@ class Graphic(EngineeringObject):
         # The unit can be the number in the string.
         # Possible units are: cm, pt.
         # The default unit is px.
-        self._height: Optional["String"] = None
+        self._height: Optional[String] = None
 
     @property
-    def height(self) -> Optional["String"]:
+    def height(self) -> Optional[String]:
         """Get height (Pythonic accessor)."""
         return self._height
 
     @height.setter
-    def height(self, value: Optional["String"]) -> None:
+    def height(self, value: Optional[String]) -> None:
         """
         Set height with validation.
         
@@ -1945,15 +1945,15 @@ class Graphic(EngineeringObject):
                 # the number in the string.
         # are: cm, mm, px, pt.
         # The default unit is px.
-        self._htmlHeight: Optional["String"] = None
+        self._htmlHeight: Optional[String] = None
 
     @property
-    def html_height(self) -> Optional["String"]:
+    def html_height(self) -> Optional[String]:
         """Get htmlHeight (Pythonic accessor)."""
         return self._htmlHeight
 
     @html_height.setter
-    def html_height(self, value: Optional["String"]) -> None:
+    def html_height(self, value: Optional[String]) -> None:
         """
         Set htmlHeight with validation.
         
@@ -1972,15 +1972,15 @@ class Graphic(EngineeringObject):
                 f"htmlHeight must be String or str or None, got {type(value).__name__}"
             )
         self._htmlHeight = value
-        self._htmlScale: Optional["String"] = None
+        self._htmlScale: Optional[String] = None
 
     @property
-    def html_scale(self) -> Optional["String"]:
+    def html_scale(self) -> Optional[String]:
         """Get htmlScale (Pythonic accessor)."""
         return self._htmlScale
 
     @html_scale.setter
-    def html_scale(self, value: Optional["String"]) -> None:
+    def html_scale(self, value: Optional[String]) -> None:
         """
         Set htmlScale with validation.
         
@@ -2002,15 +2002,15 @@ class Graphic(EngineeringObject):
                 # the number in the string.
         # are: cm, mm, px, pt.
         # The default unit is px.
-        self._htmlWidth: Optional["String"] = None
+        self._htmlWidth: Optional[String] = None
 
     @property
-    def html_width(self) -> Optional["String"]:
+    def html_width(self) -> Optional[String]:
         """Get htmlWidth (Pythonic accessor)."""
         return self._htmlWidth
 
     @html_width.setter
-    def html_width(self, value: Optional["String"]) -> None:
+    def html_width(self, value: Optional[String]) -> None:
         """
         Set htmlWidth with validation.
         
@@ -2056,15 +2056,15 @@ class Graphic(EngineeringObject):
                 f"notation must be GraphicNotationEnum or None, got {type(value).__name__}"
             )
         self._notation = value
-        self._scale: Optional["String"] = None
+        self._scale: Optional[String] = None
 
     @property
-    def scale(self) -> Optional["String"]:
+    def scale(self) -> Optional[String]:
         """Get scale (Pythonic accessor)."""
         return self._scale
 
     @scale.setter
-    def scale(self, value: Optional["String"]) -> None:
+    def scale(self, value: Optional[String]) -> None:
         """
         Set scale with validation.
         
@@ -2086,15 +2086,15 @@ class Graphic(EngineeringObject):
         # The unit can be the number in the string.
         # Possible units are: cm, pt.
         # The default unit is px.
-        self._width: Optional["String"] = None
+        self._width: Optional[String] = None
 
     @property
-    def width(self) -> Optional["String"]:
+    def width(self) -> Optional[String]:
         """Get width (Pythonic accessor)."""
         return self._width
 
     @width.setter
-    def width(self, value: Optional["String"]) -> None:
+    def width(self, value: Optional[String]) -> None:
         """
         Set width with validation.
         
@@ -2144,7 +2144,7 @@ class Graphic(EngineeringObject):
         self.editfit = value  # Delegates to property setter
         return self
 
-    def getEditHeight(self) -> "String":
+    def getEditHeight(self) -> String:
         """
         AUTOSAR-compliant getter for editHeight.
         
@@ -2156,7 +2156,7 @@ class Graphic(EngineeringObject):
         """
         return self.edit_height  # Delegates to property
 
-    def setEditHeight(self, value: "String") -> Graphic:
+    def setEditHeight(self, value: String) -> Graphic:
         """
         AUTOSAR-compliant setter for editHeight with method chaining.
         
@@ -2172,7 +2172,7 @@ class Graphic(EngineeringObject):
         self.edit_height = value  # Delegates to property setter
         return self
 
-    def getEditscale(self) -> "String":
+    def getEditscale(self) -> String:
         """
         AUTOSAR-compliant getter for editscale.
         
@@ -2184,7 +2184,7 @@ class Graphic(EngineeringObject):
         """
         return self.editscale  # Delegates to property
 
-    def setEditscale(self, value: "String") -> Graphic:
+    def setEditscale(self, value: String) -> Graphic:
         """
         AUTOSAR-compliant setter for editscale with method chaining.
         
@@ -2200,7 +2200,7 @@ class Graphic(EngineeringObject):
         self.editscale = value  # Delegates to property setter
         return self
 
-    def getEditWidth(self) -> "String":
+    def getEditWidth(self) -> String:
         """
         AUTOSAR-compliant getter for editWidth.
         
@@ -2212,7 +2212,7 @@ class Graphic(EngineeringObject):
         """
         return self.edit_width  # Delegates to property
 
-    def setEditWidth(self, value: "String") -> Graphic:
+    def setEditWidth(self, value: String) -> Graphic:
         """
         AUTOSAR-compliant setter for editWidth with method chaining.
         
@@ -2228,7 +2228,7 @@ class Graphic(EngineeringObject):
         self.edit_width = value  # Delegates to property setter
         return self
 
-    def getFilename(self) -> "String":
+    def getFilename(self) -> String:
         """
         AUTOSAR-compliant getter for filename.
         
@@ -2240,7 +2240,7 @@ class Graphic(EngineeringObject):
         """
         return self.filename  # Delegates to property
 
-    def setFilename(self, value: "String") -> Graphic:
+    def setFilename(self, value: String) -> Graphic:
         """
         AUTOSAR-compliant setter for filename with method chaining.
         
@@ -2312,7 +2312,7 @@ class Graphic(EngineeringObject):
         self.generator = value  # Delegates to property setter
         return self
 
-    def getHeight(self) -> "String":
+    def getHeight(self) -> String:
         """
         AUTOSAR-compliant getter for height.
         
@@ -2324,7 +2324,7 @@ class Graphic(EngineeringObject):
         """
         return self.height  # Delegates to property
 
-    def setHeight(self, value: "String") -> Graphic:
+    def setHeight(self, value: String) -> Graphic:
         """
         AUTOSAR-compliant setter for height with method chaining.
         
@@ -2368,7 +2368,7 @@ class Graphic(EngineeringObject):
         self.html_fit = value  # Delegates to property setter
         return self
 
-    def getHtmlHeight(self) -> "String":
+    def getHtmlHeight(self) -> String:
         """
         AUTOSAR-compliant getter for htmlHeight.
         
@@ -2380,7 +2380,7 @@ class Graphic(EngineeringObject):
         """
         return self.html_height  # Delegates to property
 
-    def setHtmlHeight(self, value: "String") -> Graphic:
+    def setHtmlHeight(self, value: String) -> Graphic:
         """
         AUTOSAR-compliant setter for htmlHeight with method chaining.
         
@@ -2396,7 +2396,7 @@ class Graphic(EngineeringObject):
         self.html_height = value  # Delegates to property setter
         return self
 
-    def getHtmlScale(self) -> "String":
+    def getHtmlScale(self) -> String:
         """
         AUTOSAR-compliant getter for htmlScale.
         
@@ -2408,7 +2408,7 @@ class Graphic(EngineeringObject):
         """
         return self.html_scale  # Delegates to property
 
-    def setHtmlScale(self, value: "String") -> Graphic:
+    def setHtmlScale(self, value: String) -> Graphic:
         """
         AUTOSAR-compliant setter for htmlScale with method chaining.
         
@@ -2424,7 +2424,7 @@ class Graphic(EngineeringObject):
         self.html_scale = value  # Delegates to property setter
         return self
 
-    def getHtmlWidth(self) -> "String":
+    def getHtmlWidth(self) -> String:
         """
         AUTOSAR-compliant getter for htmlWidth.
         
@@ -2436,7 +2436,7 @@ class Graphic(EngineeringObject):
         """
         return self.html_width  # Delegates to property
 
-    def setHtmlWidth(self, value: "String") -> Graphic:
+    def setHtmlWidth(self, value: String) -> Graphic:
         """
         AUTOSAR-compliant setter for htmlWidth with method chaining.
         
@@ -2480,7 +2480,7 @@ class Graphic(EngineeringObject):
         self.notation = value  # Delegates to property setter
         return self
 
-    def getScale(self) -> "String":
+    def getScale(self) -> String:
         """
         AUTOSAR-compliant getter for scale.
         
@@ -2492,7 +2492,7 @@ class Graphic(EngineeringObject):
         """
         return self.scale  # Delegates to property
 
-    def setScale(self, value: "String") -> Graphic:
+    def setScale(self, value: String) -> Graphic:
         """
         AUTOSAR-compliant setter for scale with method chaining.
         
@@ -2508,7 +2508,7 @@ class Graphic(EngineeringObject):
         self.scale = value  # Delegates to property setter
         return self
 
-    def getWidth(self) -> "String":
+    def getWidth(self) -> String:
         """
         AUTOSAR-compliant getter for width.
         
@@ -2520,7 +2520,7 @@ class Graphic(EngineeringObject):
         """
         return self.width  # Delegates to property
 
-    def setWidth(self, value: "String") -> Graphic:
+    def setWidth(self, value: String) -> Graphic:
         """
         AUTOSAR-compliant setter for width with method chaining.
         
@@ -2554,7 +2554,7 @@ class Graphic(EngineeringObject):
         self.editfit = value  # Use property setter (gets validation)
         return self
 
-    def with_edit_height(self, value: Optional["String"]) -> Graphic:
+    def with_edit_height(self, value: Optional[String]) -> Graphic:
         """
         Set editHeight and return self for chaining.
         
@@ -2570,7 +2570,7 @@ class Graphic(EngineeringObject):
         self.edit_height = value  # Use property setter (gets validation)
         return self
 
-    def with_editscale(self, value: Optional["String"]) -> Graphic:
+    def with_editscale(self, value: Optional[String]) -> Graphic:
         """
         Set editscale and return self for chaining.
         
@@ -2586,7 +2586,7 @@ class Graphic(EngineeringObject):
         self.editscale = value  # Use property setter (gets validation)
         return self
 
-    def with_edit_width(self, value: Optional["String"]) -> Graphic:
+    def with_edit_width(self, value: Optional[String]) -> Graphic:
         """
         Set editWidth and return self for chaining.
         
@@ -2602,7 +2602,7 @@ class Graphic(EngineeringObject):
         self.edit_width = value  # Use property setter (gets validation)
         return self
 
-    def with_filename(self, value: Optional["String"]) -> Graphic:
+    def with_filename(self, value: Optional[String]) -> Graphic:
         """
         Set filename and return self for chaining.
         
@@ -2634,7 +2634,7 @@ class Graphic(EngineeringObject):
         self.fit = value  # Use property setter (gets validation)
         return self
 
-    def with_generator(self, value: Optional["NameToken"]) -> Graphic:
+    def with_generator(self, value: Optional[NameToken]) -> Graphic:
         """
         Set generator and return self for chaining.
         
@@ -2650,7 +2650,7 @@ class Graphic(EngineeringObject):
         self.generator = value  # Use property setter (gets validation)
         return self
 
-    def with_height(self, value: Optional["String"]) -> Graphic:
+    def with_height(self, value: Optional[String]) -> Graphic:
         """
         Set height and return self for chaining.
         
@@ -2682,7 +2682,7 @@ class Graphic(EngineeringObject):
         self.html_fit = value  # Use property setter (gets validation)
         return self
 
-    def with_html_height(self, value: Optional["String"]) -> Graphic:
+    def with_html_height(self, value: Optional[String]) -> Graphic:
         """
         Set htmlHeight and return self for chaining.
         
@@ -2698,7 +2698,7 @@ class Graphic(EngineeringObject):
         self.html_height = value  # Use property setter (gets validation)
         return self
 
-    def with_html_scale(self, value: Optional["String"]) -> Graphic:
+    def with_html_scale(self, value: Optional[String]) -> Graphic:
         """
         Set htmlScale and return self for chaining.
         
@@ -2714,7 +2714,7 @@ class Graphic(EngineeringObject):
         self.html_scale = value  # Use property setter (gets validation)
         return self
 
-    def with_html_width(self, value: Optional["String"]) -> Graphic:
+    def with_html_width(self, value: Optional[String]) -> Graphic:
         """
         Set htmlWidth and return self for chaining.
         
@@ -2746,7 +2746,7 @@ class Graphic(EngineeringObject):
         self.notation = value  # Use property setter (gets validation)
         return self
 
-    def with_scale(self, value: Optional["String"]) -> Graphic:
+    def with_scale(self, value: Optional[String]) -> Graphic:
         """
         Set scale and return self for chaining.
         
@@ -2762,7 +2762,7 @@ class Graphic(EngineeringObject):
         self.scale = value  # Use property setter (gets validation)
         return self
 
-    def with_width(self, value: Optional["String"]) -> Graphic:
+    def with_width(self, value: Optional[String]) -> Graphic:
         """
         Set width and return self for chaining.
         
@@ -2829,15 +2829,15 @@ class Map(ARObject):
         # Any number of elements may be assigned class name or set of class names.
         # Multiple shall be separated by white space names are typically used to apply
                 # CSS to an element.
-        self._class_name: Optional["String"] = None
+        self._class_name: Optional[String] = None
 
     @property
-    def class_name(self) -> Optional["String"]:
+    def class_name(self) -> Optional[String]:
         """Get class_name (Pythonic accessor)."""
         return self._class_name
 
     @class_name.setter
-    def class_name(self, value: Optional["String"]) -> None:
+    def class_name(self, value: Optional[String]) -> None:
         """
         Set class_name with validation.
         
@@ -2859,15 +2859,15 @@ class Map(ARObject):
                 # to be referenced in image through the attribute USEMAP.
         # Although not actually necessary in the MSR model, it was order to support the
                 # MAPs which were created.
-        self._name: Optional["NameToken"] = None
+        self._name: Optional[NameToken] = None
 
     @property
-    def name(self) -> Optional["NameToken"]:
+    def name(self) -> Optional[NameToken]:
         """Get name (Pythonic accessor)."""
         return self._name
 
     @name.setter
-    def name(self, value: Optional["NameToken"]) -> None:
+    def name(self, value: Optional[NameToken]) -> None:
         """
         Set name with validation.
         
@@ -2887,15 +2887,15 @@ class Map(ARObject):
             )
         self._name = value
         # this attribute to be the Event.
-        self._onclick: Optional["String"] = None
+        self._onclick: Optional[String] = None
 
     @property
-    def onclick(self) -> Optional["String"]:
+    def onclick(self) -> Optional[String]:
         """Get onclick (Pythonic accessor)."""
         return self._onclick
 
     @onclick.setter
-    def onclick(self, value: Optional["String"]) -> None:
+    def onclick(self, value: Optional[String]) -> None:
         """
         Set onclick with validation.
         
@@ -2916,15 +2916,15 @@ class Map(ARObject):
         self._onclick = value
                 # in this attribute performed in the Event.
         # 535 Document ID 202: AUTOSAR_FO_TPS_GenericStructureTemplate Template R23-11.
-        self._ondblclick: Optional["String"] = None
+        self._ondblclick: Optional[String] = None
 
     @property
-    def ondblclick(self) -> Optional["String"]:
+    def ondblclick(self) -> Optional[String]:
         """Get ondblclick (Pythonic accessor)."""
         return self._ondblclick
 
     @ondblclick.setter
-    def ondblclick(self, value: Optional["String"]) -> None:
+    def ondblclick(self, value: Optional[String]) -> None:
         """
         Set ondblclick with validation.
         
@@ -2944,15 +2944,15 @@ class Map(ARObject):
             )
         self._ondblclick = value
         # can be stored in this attribute to be performed in.
-        self._onkeydown: Optional["String"] = None
+        self._onkeydown: Optional[String] = None
 
     @property
-    def onkeydown(self) -> Optional["String"]:
+    def onkeydown(self) -> Optional[String]:
         """Get onkeydown (Pythonic accessor)."""
         return self._onkeydown
 
     @onkeydown.setter
-    def onkeydown(self, value: Optional["String"]) -> None:
+    def onkeydown(self, value: Optional[String]) -> None:
         """
         Set onkeydown with validation.
         
@@ -2972,15 +2972,15 @@ class Map(ARObject):
             )
         self._onkeydown = value
         # can be stored in this attribute to be performed in.
-        self._onkeypress: Optional["String"] = None
+        self._onkeypress: Optional[String] = None
 
     @property
-    def onkeypress(self) -> Optional["String"]:
+    def onkeypress(self) -> Optional[String]:
         """Get onkeypress (Pythonic accessor)."""
         return self._onkeypress
 
     @onkeypress.setter
-    def onkeypress(self, value: Optional["String"]) -> None:
+    def onkeypress(self, value: Optional[String]) -> None:
         """
         Set onkeypress with validation.
         
@@ -3000,15 +3000,15 @@ class Map(ARObject):
             )
         self._onkeypress = value
         # can be stored in this attribute to be performed in.
-        self._onkeyup: Optional["String"] = None
+        self._onkeyup: Optional[String] = None
 
     @property
-    def onkeyup(self) -> Optional["String"]:
+    def onkeyup(self) -> Optional[String]:
         """Get onkeyup (Pythonic accessor)."""
         return self._onkeyup
 
     @onkeyup.setter
-    def onkeyup(self, value: Optional["String"]) -> None:
+    def onkeyup(self, value: Optional[String]) -> None:
         """
         Set onkeyup with validation.
         
@@ -3029,15 +3029,15 @@ class Map(ARObject):
         self._onkeyup = value
                 # the current element.
         # can be stored in this attribute to be performed in.
-        self._onmousedown: Optional["String"] = None
+        self._onmousedown: Optional[String] = None
 
     @property
-    def onmousedown(self) -> Optional["String"]:
+    def onmousedown(self) -> Optional[String]:
         """Get onmousedown (Pythonic accessor)."""
         return self._onmousedown
 
     @onmousedown.setter
-    def onmousedown(self, value: Optional["String"]) -> None:
+    def onmousedown(self, value: Optional[String]) -> None:
         """
         Set onmousedown with validation.
         
@@ -3058,15 +3058,15 @@ class Map(ARObject):
         self._onmousedown = value
         # e.
         # it is located on the can be stored in this attribute to be performed in.
-        self._onmousemove: Optional["String"] = None
+        self._onmousemove: Optional[String] = None
 
     @property
-    def onmousemove(self) -> Optional["String"]:
+    def onmousemove(self) -> Optional[String]:
         """Get onmousemove (Pythonic accessor)."""
         return self._onmousemove
 
     @onmousemove.setter
-    def onmousemove(self, value: Optional["String"]) -> None:
+    def onmousemove(self, value: Optional[String]) -> None:
         """
         Set onmousemove with validation.
         
@@ -3086,15 +3086,15 @@ class Map(ARObject):
             )
         self._onmousemove = value
         # can be stored in this attribute to be performed in.
-        self._onmouseout: Optional["String"] = None
+        self._onmouseout: Optional[String] = None
 
     @property
-    def onmouseout(self) -> Optional["String"]:
+    def onmouseout(self) -> Optional[String]:
         """Get onmouseout (Pythonic accessor)."""
         return self._onmouseout
 
     @onmouseout.setter
-    def onmouseout(self, value: Optional["String"]) -> None:
+    def onmouseout(self, value: Optional[String]) -> None:
         """
         Set onmouseout with validation.
         
@@ -3114,15 +3114,15 @@ class Map(ARObject):
             )
         self._onmouseout = value
         # from another location can be stored in this attribute to be performed in.
-        self._onmouseover: Optional["String"] = None
+        self._onmouseover: Optional[String] = None
 
     @property
-    def onmouseover(self) -> Optional["String"]:
+    def onmouseover(self) -> Optional[String]:
         """Get onmouseover (Pythonic accessor)."""
         return self._onmouseover
 
     @onmouseover.setter
-    def onmouseover(self, value: Optional["String"]) -> None:
+    def onmouseover(self, value: Optional[String]) -> None:
         """
         Set onmouseover with validation.
         
@@ -3143,15 +3143,15 @@ class Map(ARObject):
         self._onmouseover = value
                 # current element.
         # can be stored in this attribute to be performed in.
-        self._onmouseup: Optional["String"] = None
+        self._onmouseup: Optional[String] = None
 
     @property
-    def onmouseup(self) -> Optional["String"]:
+    def onmouseup(self) -> Optional[String]:
         """Get onmouseup (Pythonic accessor)."""
         return self._onmouseup
 
     @onmouseup.setter
-    def onmouseup(self, value: Optional["String"]) -> None:
+    def onmouseup(self, value: Optional[String]) -> None:
         """
         Set onmouseup with validation.
         
@@ -3173,15 +3173,15 @@ class Map(ARObject):
         # Some Web display this information as tooltips.
         # may make this information available to additional information about the
                 # element.
-        self._title: Optional["String"] = None
+        self._title: Optional[String] = None
 
     @property
-    def title(self) -> Optional["String"]:
+    def title(self) -> Optional[String]:
         """Get title (Pythonic accessor)."""
         return self._title
 
     @title.setter
-    def title(self, value: Optional["String"]) -> None:
+    def title(self, value: Optional[String]) -> None:
         """
         Set title with validation.
         
@@ -3231,7 +3231,7 @@ class Map(ARObject):
         self.area = value  # Delegates to property setter
         return self
 
-    def getClass(self) -> "String":
+    def getClass(self) -> String:
         """
         AUTOSAR-compliant getter for class.
         
@@ -3243,7 +3243,7 @@ class Map(ARObject):
         """
         return self.class_name  # Delegates to property
 
-    def setClass(self, value: "String") -> Map:
+    def setClass(self, value: String) -> Map:
         """
         AUTOSAR-compliant setter for class_name with method chaining.
 
@@ -3287,7 +3287,7 @@ class Map(ARObject):
         self.name = value  # Delegates to property setter
         return self
 
-    def getOnclick(self) -> "String":
+    def getOnclick(self) -> String:
         """
         AUTOSAR-compliant getter for onclick.
         
@@ -3299,7 +3299,7 @@ class Map(ARObject):
         """
         return self.onclick  # Delegates to property
 
-    def setOnclick(self, value: "String") -> Map:
+    def setOnclick(self, value: String) -> Map:
         """
         AUTOSAR-compliant setter for onclick with method chaining.
         
@@ -3315,7 +3315,7 @@ class Map(ARObject):
         self.onclick = value  # Delegates to property setter
         return self
 
-    def getOndblclick(self) -> "String":
+    def getOndblclick(self) -> String:
         """
         AUTOSAR-compliant getter for ondblclick.
         
@@ -3327,7 +3327,7 @@ class Map(ARObject):
         """
         return self.ondblclick  # Delegates to property
 
-    def setOndblclick(self, value: "String") -> Map:
+    def setOndblclick(self, value: String) -> Map:
         """
         AUTOSAR-compliant setter for ondblclick with method chaining.
         
@@ -3343,7 +3343,7 @@ class Map(ARObject):
         self.ondblclick = value  # Delegates to property setter
         return self
 
-    def getOnkeydown(self) -> "String":
+    def getOnkeydown(self) -> String:
         """
         AUTOSAR-compliant getter for onkeydown.
         
@@ -3355,7 +3355,7 @@ class Map(ARObject):
         """
         return self.onkeydown  # Delegates to property
 
-    def setOnkeydown(self, value: "String") -> Map:
+    def setOnkeydown(self, value: String) -> Map:
         """
         AUTOSAR-compliant setter for onkeydown with method chaining.
         
@@ -3371,7 +3371,7 @@ class Map(ARObject):
         self.onkeydown = value  # Delegates to property setter
         return self
 
-    def getOnkeypress(self) -> "String":
+    def getOnkeypress(self) -> String:
         """
         AUTOSAR-compliant getter for onkeypress.
         
@@ -3383,7 +3383,7 @@ class Map(ARObject):
         """
         return self.onkeypress  # Delegates to property
 
-    def setOnkeypress(self, value: "String") -> Map:
+    def setOnkeypress(self, value: String) -> Map:
         """
         AUTOSAR-compliant setter for onkeypress with method chaining.
         
@@ -3399,7 +3399,7 @@ class Map(ARObject):
         self.onkeypress = value  # Delegates to property setter
         return self
 
-    def getOnkeyup(self) -> "String":
+    def getOnkeyup(self) -> String:
         """
         AUTOSAR-compliant getter for onkeyup.
         
@@ -3411,7 +3411,7 @@ class Map(ARObject):
         """
         return self.onkeyup  # Delegates to property
 
-    def setOnkeyup(self, value: "String") -> Map:
+    def setOnkeyup(self, value: String) -> Map:
         """
         AUTOSAR-compliant setter for onkeyup with method chaining.
         
@@ -3427,7 +3427,7 @@ class Map(ARObject):
         self.onkeyup = value  # Delegates to property setter
         return self
 
-    def getOnmousedown(self) -> "String":
+    def getOnmousedown(self) -> String:
         """
         AUTOSAR-compliant getter for onmousedown.
         
@@ -3439,7 +3439,7 @@ class Map(ARObject):
         """
         return self.onmousedown  # Delegates to property
 
-    def setOnmousedown(self, value: "String") -> Map:
+    def setOnmousedown(self, value: String) -> Map:
         """
         AUTOSAR-compliant setter for onmousedown with method chaining.
         
@@ -3455,7 +3455,7 @@ class Map(ARObject):
         self.onmousedown = value  # Delegates to property setter
         return self
 
-    def getOnmousemove(self) -> "String":
+    def getOnmousemove(self) -> String:
         """
         AUTOSAR-compliant getter for onmousemove.
         
@@ -3467,7 +3467,7 @@ class Map(ARObject):
         """
         return self.onmousemove  # Delegates to property
 
-    def setOnmousemove(self, value: "String") -> Map:
+    def setOnmousemove(self, value: String) -> Map:
         """
         AUTOSAR-compliant setter for onmousemove with method chaining.
         
@@ -3483,7 +3483,7 @@ class Map(ARObject):
         self.onmousemove = value  # Delegates to property setter
         return self
 
-    def getOnmouseout(self) -> "String":
+    def getOnmouseout(self) -> String:
         """
         AUTOSAR-compliant getter for onmouseout.
         
@@ -3495,7 +3495,7 @@ class Map(ARObject):
         """
         return self.onmouseout  # Delegates to property
 
-    def setOnmouseout(self, value: "String") -> Map:
+    def setOnmouseout(self, value: String) -> Map:
         """
         AUTOSAR-compliant setter for onmouseout with method chaining.
         
@@ -3511,7 +3511,7 @@ class Map(ARObject):
         self.onmouseout = value  # Delegates to property setter
         return self
 
-    def getOnmouseover(self) -> "String":
+    def getOnmouseover(self) -> String:
         """
         AUTOSAR-compliant getter for onmouseover.
         
@@ -3523,7 +3523,7 @@ class Map(ARObject):
         """
         return self.onmouseover  # Delegates to property
 
-    def setOnmouseover(self, value: "String") -> Map:
+    def setOnmouseover(self, value: String) -> Map:
         """
         AUTOSAR-compliant setter for onmouseover with method chaining.
         
@@ -3539,7 +3539,7 @@ class Map(ARObject):
         self.onmouseover = value  # Delegates to property setter
         return self
 
-    def getOnmouseup(self) -> "String":
+    def getOnmouseup(self) -> String:
         """
         AUTOSAR-compliant getter for onmouseup.
         
@@ -3551,7 +3551,7 @@ class Map(ARObject):
         """
         return self.onmouseup  # Delegates to property
 
-    def setOnmouseup(self, value: "String") -> Map:
+    def setOnmouseup(self, value: String) -> Map:
         """
         AUTOSAR-compliant setter for onmouseup with method chaining.
         
@@ -3567,7 +3567,7 @@ class Map(ARObject):
         self.onmouseup = value  # Delegates to property setter
         return self
 
-    def getTitle(self) -> "String":
+    def getTitle(self) -> String:
         """
         AUTOSAR-compliant getter for title.
         
@@ -3579,7 +3579,7 @@ class Map(ARObject):
         """
         return self.title  # Delegates to property
 
-    def setTitle(self, value: "String") -> Map:
+    def setTitle(self, value: String) -> Map:
         """
         AUTOSAR-compliant setter for title with method chaining.
         
@@ -3613,7 +3613,7 @@ class Map(ARObject):
         self.area = value  # Use property setter (gets validation)
         return self
 
-    def with_class_name(self, value: Optional["String"]) -> Map:
+    def with_class_name(self, value: Optional[String]) -> Map:
         """
         Set class_name and return self for chaining.
         
@@ -3629,7 +3629,7 @@ class Map(ARObject):
         self.class_name = value  # Use property setter (gets validation)
         return self
 
-    def with_name(self, value: Optional["NameToken"]) -> Map:
+    def with_name(self, value: Optional[NameToken]) -> Map:
         """
         Set name and return self for chaining.
         
@@ -3645,7 +3645,7 @@ class Map(ARObject):
         self.name = value  # Use property setter (gets validation)
         return self
 
-    def with_onclick(self, value: Optional["String"]) -> Map:
+    def with_onclick(self, value: Optional[String]) -> Map:
         """
         Set onclick and return self for chaining.
         
@@ -3661,7 +3661,7 @@ class Map(ARObject):
         self.onclick = value  # Use property setter (gets validation)
         return self
 
-    def with_ondblclick(self, value: Optional["String"]) -> Map:
+    def with_ondblclick(self, value: Optional[String]) -> Map:
         """
         Set ondblclick and return self for chaining.
         
@@ -3677,7 +3677,7 @@ class Map(ARObject):
         self.ondblclick = value  # Use property setter (gets validation)
         return self
 
-    def with_onkeydown(self, value: Optional["String"]) -> Map:
+    def with_onkeydown(self, value: Optional[String]) -> Map:
         """
         Set onkeydown and return self for chaining.
         
@@ -3693,7 +3693,7 @@ class Map(ARObject):
         self.onkeydown = value  # Use property setter (gets validation)
         return self
 
-    def with_onkeypress(self, value: Optional["String"]) -> Map:
+    def with_onkeypress(self, value: Optional[String]) -> Map:
         """
         Set onkeypress and return self for chaining.
         
@@ -3709,7 +3709,7 @@ class Map(ARObject):
         self.onkeypress = value  # Use property setter (gets validation)
         return self
 
-    def with_onkeyup(self, value: Optional["String"]) -> Map:
+    def with_onkeyup(self, value: Optional[String]) -> Map:
         """
         Set onkeyup and return self for chaining.
         
@@ -3725,7 +3725,7 @@ class Map(ARObject):
         self.onkeyup = value  # Use property setter (gets validation)
         return self
 
-    def with_onmousedown(self, value: Optional["String"]) -> Map:
+    def with_onmousedown(self, value: Optional[String]) -> Map:
         """
         Set onmousedown and return self for chaining.
         
@@ -3741,7 +3741,7 @@ class Map(ARObject):
         self.onmousedown = value  # Use property setter (gets validation)
         return self
 
-    def with_onmousemove(self, value: Optional["String"]) -> Map:
+    def with_onmousemove(self, value: Optional[String]) -> Map:
         """
         Set onmousemove and return self for chaining.
         
@@ -3757,7 +3757,7 @@ class Map(ARObject):
         self.onmousemove = value  # Use property setter (gets validation)
         return self
 
-    def with_onmouseout(self, value: Optional["String"]) -> Map:
+    def with_onmouseout(self, value: Optional[String]) -> Map:
         """
         Set onmouseout and return self for chaining.
         
@@ -3773,7 +3773,7 @@ class Map(ARObject):
         self.onmouseout = value  # Use property setter (gets validation)
         return self
 
-    def with_onmouseover(self, value: Optional["String"]) -> Map:
+    def with_onmouseover(self, value: Optional[String]) -> Map:
         """
         Set onmouseover and return self for chaining.
         
@@ -3789,7 +3789,7 @@ class Map(ARObject):
         self.onmouseover = value  # Use property setter (gets validation)
         return self
 
-    def with_onmouseup(self, value: Optional["String"]) -> Map:
+    def with_onmouseup(self, value: Optional[String]) -> Map:
         """
         Set onmouseup and return self for chaining.
         
@@ -3805,7 +3805,7 @@ class Map(ARObject):
         self.onmouseup = value  # Use property setter (gets validation)
         return self
 
-    def with_title(self, value: Optional["String"]) -> Map:
+    def with_title(self, value: Optional[String]) -> Map:
         """
         Set title and return self for chaining.
         
@@ -3838,15 +3838,15 @@ class MlFigure(Paginateable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This element specifies the title of an illustration.
-        self._figureCaption: Optional["Caption"] = None
+        self._figureCaption: Optional[Caption] = None
 
     @property
-    def figure_caption(self) -> Optional["Caption"]:
+    def figure_caption(self) -> Optional[Caption]:
         """Get figureCaption (Pythonic accessor)."""
         return self._figureCaption
 
     @figure_caption.setter
-    def figure_caption(self, value: Optional["Caption"]) -> None:
+    def figure_caption(self, value: Optional[Caption]) -> None:
         """
         Set figureCaption with validation.
         
@@ -3869,15 +3869,15 @@ class MlFigure(Paginateable):
                 # bottom of the figure - Borders at the top and bottom of the figure - Borders
                 # all around the figure - Borders at the sides of the figure - No borders
                 # around the figure.
-        self._frame: Optional["FrameEnum"] = None
+        self._frame: Optional[FrameEnum] = None
 
     @property
-    def frame(self) -> Optional["FrameEnum"]:
+    def frame(self) -> Optional[FrameEnum]:
         """Get frame (Pythonic accessor)."""
         return self._frame
 
     @frame.setter
-    def frame(self, value: Optional["FrameEnum"]) -> None:
+    def frame(self, value: Optional[FrameEnum]) -> None:
         """
         Set frame with validation.
         
@@ -3898,15 +3898,15 @@ class MlFigure(Paginateable):
         self._frame = value
                 # class.
         # The syntax shall be the applied help system respectively help.
-        self._helpEntry: Optional["String"] = None
+        self._helpEntry: Optional[String] = None
 
     @property
-    def help_entry(self) -> Optional["String"]:
+    def help_entry(self) -> Optional[String]:
         """Get helpEntry (Pythonic accessor)."""
         return self._helpEntry
 
     @help_entry.setter
-    def help_entry(self, value: Optional["String"]) -> None:
+    def help_entry(self, value: Optional[String]) -> None:
         """
         Set helpEntry with validation.
         
@@ -3963,15 +3963,15 @@ class MlFigure(Paginateable):
         self._pgwide = value
         # This enables to be carried out, which can even be simple devices.
         # Behavior is the same as HTML.
-        self._verbatim: Optional["MultiLanguageVerbatim"] = None
+        self._verbatim: Optional[MultiLanguageVerbatim] = None
 
     @property
-    def verbatim(self) -> Optional["MultiLanguageVerbatim"]:
+    def verbatim(self) -> Optional[MultiLanguageVerbatim]:
         """Get verbatim (Pythonic accessor)."""
         return self._verbatim
 
     @verbatim.setter
-    def verbatim(self, value: Optional["MultiLanguageVerbatim"]) -> None:
+    def verbatim(self, value: Optional[MultiLanguageVerbatim]) -> None:
         """
         Set verbatim with validation.
         
@@ -3993,7 +3993,7 @@ class MlFigure(Paginateable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getFigureCaption(self) -> "Caption":
+    def getFigureCaption(self) -> Caption:
         """
         AUTOSAR-compliant getter for figureCaption.
         
@@ -4005,7 +4005,7 @@ class MlFigure(Paginateable):
         """
         return self.figure_caption  # Delegates to property
 
-    def setFigureCaption(self, value: "Caption") -> MlFigure:
+    def setFigureCaption(self, value: Caption) -> MlFigure:
         """
         AUTOSAR-compliant setter for figureCaption with method chaining.
         
@@ -4021,7 +4021,7 @@ class MlFigure(Paginateable):
         self.figure_caption = value  # Delegates to property setter
         return self
 
-    def getFrame(self) -> "FrameEnum":
+    def getFrame(self) -> FrameEnum:
         """
         AUTOSAR-compliant getter for frame.
         
@@ -4033,7 +4033,7 @@ class MlFigure(Paginateable):
         """
         return self.frame  # Delegates to property
 
-    def setFrame(self, value: "FrameEnum") -> MlFigure:
+    def setFrame(self, value: FrameEnum) -> MlFigure:
         """
         AUTOSAR-compliant setter for frame with method chaining.
         
@@ -4049,7 +4049,7 @@ class MlFigure(Paginateable):
         self.frame = value  # Delegates to property setter
         return self
 
-    def getHelpEntry(self) -> "String":
+    def getHelpEntry(self) -> String:
         """
         AUTOSAR-compliant getter for helpEntry.
         
@@ -4061,7 +4061,7 @@ class MlFigure(Paginateable):
         """
         return self.help_entry  # Delegates to property
 
-    def setHelpEntry(self, value: "String") -> MlFigure:
+    def setHelpEntry(self, value: String) -> MlFigure:
         """
         AUTOSAR-compliant setter for helpEntry with method chaining.
         
@@ -4117,7 +4117,7 @@ class MlFigure(Paginateable):
         self.pgwide = value  # Delegates to property setter
         return self
 
-    def getVerbatim(self) -> "MultiLanguageVerbatim":
+    def getVerbatim(self) -> MultiLanguageVerbatim:
         """
         AUTOSAR-compliant getter for verbatim.
         
@@ -4129,7 +4129,7 @@ class MlFigure(Paginateable):
         """
         return self.verbatim  # Delegates to property
 
-    def setVerbatim(self, value: "MultiLanguageVerbatim") -> MlFigure:
+    def setVerbatim(self, value: MultiLanguageVerbatim) -> MlFigure:
         """
         AUTOSAR-compliant setter for verbatim with method chaining.
         
@@ -4147,7 +4147,7 @@ class MlFigure(Paginateable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_figure_caption(self, value: Optional["Caption"]) -> MlFigure:
+    def with_figure_caption(self, value: Optional[Caption]) -> MlFigure:
         """
         Set figureCaption and return self for chaining.
         
@@ -4163,7 +4163,7 @@ class MlFigure(Paginateable):
         self.figure_caption = value  # Use property setter (gets validation)
         return self
 
-    def with_frame(self, value: Optional["FrameEnum"]) -> MlFigure:
+    def with_frame(self, value: Optional[FrameEnum]) -> MlFigure:
         """
         Set frame and return self for chaining.
         
@@ -4179,7 +4179,7 @@ class MlFigure(Paginateable):
         self.frame = value  # Use property setter (gets validation)
         return self
 
-    def with_help_entry(self, value: Optional["String"]) -> MlFigure:
+    def with_help_entry(self, value: Optional[String]) -> MlFigure:
         """
         Set helpEntry and return self for chaining.
         
@@ -4211,7 +4211,7 @@ class MlFigure(Paginateable):
         self.pgwide = value  # Use property setter (gets validation)
         return self
 
-    def with_verbatim(self, value: Optional["MultiLanguageVerbatim"]) -> MlFigure:
+    def with_verbatim(self, value: Optional[MultiLanguageVerbatim]) -> MlFigure:
         """
         Set verbatim and return self for chaining.
         

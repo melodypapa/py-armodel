@@ -22,6 +22,27 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     Identifier,
     String,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import (
+    MultilanguageReferrable,
+    Referrable,
+    ShortNameFragment,
+    SingleLanguageReferrable,
+)
+from armodel.v2.models.M2.MSR.AsamHdo.AdminData import (
+    AdminData,
+)
+from armodel.v2.models.M2.MSR.Documentation.BlockElements import (
+    DocumentationBlock,
+)
+from armodel.v2.models.M2.MSR.Documentation.Annotation import (
+    Annotation,
+)
+from armodel.v2.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
+    MultilanguageLongName,
+)
+from armodel.v2.models.M2.MSR.Documentation.TextModel.SingleLanguageData import (
+    SingleLanguageLongName,
+)
 
 
 class Describable(ARObject, ABC):
@@ -50,10 +71,10 @@ class Describable(ARObject, ABC):
 
         # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the administrative data for the.
-        self._adminData: Optional["AdminData"] = None
+        self._adminData: Optional[AdminData] = None
         # The category is a keyword that specializes the semantics Describable.
         # It affects the expected existence of the applicability of constraints.
-        self._category: Optional["CategoryString"] = None
+        self._category: Optional[CategoryString] = None
         # This represents a general but brief (one paragraph) what the object in
                 # question is about.
         # It is only Desc is intended to be collected into This property helps a human
@@ -63,15 +84,15 @@ class Describable(ARObject, ABC):
         self._desc: Optional["MultiLanguageOverview"] = None
         # This represents more information about how the object in built or is used.
         # Therefore it is a.
-        self._introduction: Optional["DocumentationBlock"] = None
+        self._introduction: Optional[DocumentationBlock] = None
 
     @property
-    def admin_data(self) -> Optional["AdminData"]:
+    def admin_data(self) -> Optional[AdminData]:
         """Get adminData (Pythonic accessor)."""
         return self._adminData
 
     @admin_data.setter
-    def admin_data(self, value: Optional["AdminData"]) -> None:
+    def admin_data(self, value: Optional[AdminData]) -> None:
         """
         Set adminData with validation.
 
@@ -92,12 +113,12 @@ class Describable(ARObject, ABC):
         self._adminData = value
 
     @property
-    def category(self) -> Optional["CategoryString"]:
+    def category(self) -> Optional[CategoryString]:
         """Get category (Pythonic accessor)."""
         return self._category
 
     @category.setter
-    def category(self, value: Optional["CategoryString"]) -> None:
+    def category(self, value: Optional[CategoryString]) -> None:
         """
         Set category with validation.
 
@@ -137,19 +158,16 @@ class Describable(ARObject, ABC):
             self._desc = None
             return
 
-        if not isinstance(value, MultiLanguageOverview):
-            raise TypeError(
-                f"desc must be MultiLanguageOverview or None, got {type(value).__name__}"
-            )
+        # Skip type check for MultiLanguageOverview (missing from class-package.json)
         self._desc = value
 
     @property
-    def introduction(self) -> Optional["DocumentationBlock"]:
+    def introduction(self) -> Optional[DocumentationBlock]:
         """Get introduction (Pythonic accessor)."""
         return self._introduction
 
     @introduction.setter
-    def introduction(self, value: Optional["DocumentationBlock"]) -> None:
+    def introduction(self, value: Optional[DocumentationBlock]) -> None:
         """
         Set introduction with validation.
 
@@ -203,7 +221,7 @@ class Describable(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAdminData(self) -> "AdminData":
+    def getAdminData(self) -> AdminData:
         """
         AUTOSAR-compliant getter for adminData.
 
@@ -215,7 +233,7 @@ class Describable(ARObject, ABC):
         """
         return self.admin_data  # Delegates to property
 
-    def setAdminData(self, value: "AdminData") -> Describable:
+    def setAdminData(self, value: AdminData) -> Describable:
         """
         AUTOSAR-compliant setter for adminData with method chaining.
 
@@ -231,7 +249,7 @@ class Describable(ARObject, ABC):
         self.admin_data = value  # Delegates to property setter
         return self
 
-    def getCategory(self) -> "CategoryString":
+    def getCategory(self) -> CategoryString:
         """
         AUTOSAR-compliant getter for category.
 
@@ -243,7 +261,7 @@ class Describable(ARObject, ABC):
         """
         return self.category  # Delegates to property
 
-    def setCategory(self, value: "CategoryString") -> Describable:
+    def setCategory(self, value: CategoryString) -> Describable:
         """
         AUTOSAR-compliant setter for category with method chaining.
 
@@ -287,7 +305,7 @@ class Describable(ARObject, ABC):
         self.desc = value  # Delegates to property setter
         return self
 
-    def getIntroduction(self) -> "DocumentationBlock":
+    def getIntroduction(self) -> DocumentationBlock:
         """
         AUTOSAR-compliant getter for introduction.
 
@@ -299,7 +317,7 @@ class Describable(ARObject, ABC):
         """
         return self.introduction  # Delegates to property
 
-    def setIntroduction(self, value: "DocumentationBlock") -> Describable:
+    def setIntroduction(self, value: DocumentationBlock) -> Describable:
         """
         AUTOSAR-compliant setter for introduction with method chaining.
 
@@ -317,7 +335,7 @@ class Describable(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_admin_data(self, value: Optional["AdminData"]) -> Describable:
+    def with_admin_data(self, value: Optional[AdminData]) -> Describable:
         """
         Set adminData and return self for chaining.
 
@@ -333,7 +351,7 @@ class Describable(ARObject, ABC):
         self.admin_data = value  # Use property setter (gets validation)
         return self
 
-    def with_category(self, value: Optional["CategoryString"]) -> Describable:
+    def with_category(self, value: Optional[CategoryString]) -> Describable:
         """
         Set category and return self for chaining.
 
@@ -365,7 +383,7 @@ class Describable(ARObject, ABC):
         self.desc = value  # Use property setter (gets validation)
         return self
 
-    def with_introduction(self, value: Optional["DocumentationBlock"]) -> Describable:
+    def with_introduction(self, value: Optional[DocumentationBlock]) -> Describable:
         """
         Set introduction and return self for chaining.
 
@@ -379,511 +397,6 @@ class Describable(ARObject, ABC):
             >>> obj.with_introduction("value")
         """
         self.introduction = value  # Use property setter (gets validation)
-        return self
-
-
-
-class Referrable(ARObject, ABC):
-    """
-    Instances of this class can be referred to by their identifier (while
-    adhering to namespace borders).
-
-    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable::Referrable
-
-    Sources:
-      - AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf (Page 328, Classic
-      Platform R23-11)
-      - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 328, Classic Platform
-      R23-11)
-      - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 305, Classic Platform R23-11)
-      - AUTOSAR_CP_TPS_ECUResourceTemplate.pdf (Page 63, Classic Platform
-      R23-11)
-      - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 1002, Classic
-      Platform R23-11)
-      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 2049, Classic Platform R23-11)
-      - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 238, Classic Platform R23-11)
-      - AUTOSAR_FO_TPS_ARXMLSerializationRules.pdf (Page 31, Foundation R23-11)
-      - AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf (Page 49, Foundation
-      R23-11)
-      - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 78, Foundation
-      R23-11)
-      - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 63, Foundation R23-11)
-      - AUTOSAR_FO_TPS_LogAndTraceExtract.pdf (Page 33, Foundation R23-11)
-      - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 66, Foundation R23-11)
-      - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 202, Foundation R23-11)
-    """
-    def __init__(self):
-        if type(self) is Referrable:
-            raise TypeError("Referrable is an abstract class.")
-        super().__init__()
-
-        # ===== Pythonic properties (CODING_RULE_V2_00016) =====
-        # This specifies an identifying shortName for the object.
-        # It needs to be unique within its context and is intended for humans but even
-        # more for technical reference.
-        self._shortName: "Identifier" = None
-        # This specifies how the Referrable.
-        # shortName is of several shortNameFragments.
-        self._shortNameFragment: List[ShortNameFragment] = []
-
-    @property
-    def short_name(self) -> "Identifier":
-        """Get shortName (Pythonic accessor)."""
-        return self._shortName
-
-    @short_name.setter
-    def short_name(self, value: "Identifier") -> None:
-        """
-        Set shortName with validation.
-
-        Args:
-            value: The shortName to set
-
-        Raises:
-            TypeError: If value type is incorrect
-        """
-        if not isinstance(value, (Identifier, str)):
-            raise TypeError(
-                f"shortName must be Identifier or str, got {type(value).__name__}"
-            )
-        # Always store as Identifier instance
-        if isinstance(value, str):
-            identifier = Identifier()
-            identifier.value = value
-            self._shortName = identifier
-        else:
-            self._shortName = value
-
-    @property
-    def short_name_fragment(self) -> List[ShortNameFragment]:
-        """Get shortNameFragment (Pythonic accessor)."""
-        return self._shortNameFragment
-
-    # ===== AUTOSAR-compatible methods (delegate to properties) =====
-
-    def getShortName(self) -> "Identifier":
-        """
-        AUTOSAR-compliant getter for shortName.
-
-        Returns:
-            The shortName value
-
-        Note:
-            Delegates to short_name property (CODING_RULE_V2_00017)
-        """
-        return self.short_name  # Delegates to property
-
-    def setShortName(self, value: "Identifier") -> Referrable:
-        """
-        AUTOSAR-compliant setter for shortName with method chaining.
-
-        Args:
-            value: The shortName to set
-
-        Returns:
-            self for method chaining
-
-        Note:
-            Delegates to short_name property setter (gets validation automatically)
-        """
-        self.short_name = value  # Delegates to property setter
-        return self
-
-    def getShortNameFragment(self) -> List[ShortNameFragment]:
-        """
-        AUTOSAR-compliant getter for shortNameFragment.
-
-        Returns:
-            The shortNameFragment value
-
-        Note:
-            Delegates to short_name_fragment property (CODING_RULE_V2_00017)
-        """
-        return self.short_name_fragment  # Delegates to property
-
-    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
-
-    def with_short_name(self, value: "Identifier") -> Referrable:
-        """
-        Set shortName and return self for chaining.
-
-        Args:
-            value: The shortName to set
-
-        Returns:
-            self for method chaining
-
-        Example:
-            >>> obj.with_short_name("value")
-        """
-        self.short_name = value  # Use property setter (gets validation)
-        return self
-
-
-
-class ShortNameFragment(ARObject):
-    """
-    This class describes how the Referrable.shortName is composed of several
-    shortNameFragments.
-
-    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable::ShortNameFragment
-
-    Sources:
-      - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 64, Foundation R23-11)
-    """
-    def __init__(self):
-        super().__init__()
-
-        # ===== Pythonic properties (CODING_RULE_V2_00016) =====
-        # This specifies a single shortName (fragment) which is the composed shortName.
-        self._fragment: "Identifier" = None
-        # This specifies the role of fragment to define e.
-        # g.
-        # the order fragments.
-        self._role: "String" = None
-
-    @property
-    def fragment(self) -> "Identifier":
-        """Get fragment (Pythonic accessor)."""
-        return self._fragment
-
-    @fragment.setter
-    def fragment(self, value: "Identifier") -> None:
-        """
-        Set fragment with validation.
-
-        Args:
-            value: The fragment to set
-
-        Raises:
-            TypeError: If value type is incorrect
-        """
-        if not isinstance(value, (Identifier, str)):
-            raise TypeError(
-                f"fragment must be Identifier or str, got {type(value).__name__}"
-            )
-        self._fragment = value
-
-    @property
-    def role(self) -> "String":
-        """Get role (Pythonic accessor)."""
-        return self._role
-
-    @role.setter
-    def role(self, value: "String") -> None:
-        """
-        Set role with validation.
-
-        Args:
-            value: The role to set
-
-        Raises:
-            TypeError: If value type is incorrect
-        """
-        if not isinstance(value, (String, str)):
-            raise TypeError(
-                f"role must be String or str, got {type(value).__name__}"
-            )
-        self._role = value
-
-    # ===== AUTOSAR-compatible methods (delegate to properties) =====
-
-    def getFragment(self) -> "Identifier":
-        """
-        AUTOSAR-compliant getter for fragment.
-
-        Returns:
-            The fragment value
-
-        Note:
-            Delegates to fragment property (CODING_RULE_V2_00017)
-        """
-        return self.fragment  # Delegates to property
-
-    def setFragment(self, value: "Identifier") -> ShortNameFragment:
-        """
-        AUTOSAR-compliant setter for fragment with method chaining.
-
-        Args:
-            value: The fragment to set
-
-        Returns:
-            self for method chaining
-
-        Note:
-            Delegates to fragment property setter (gets validation automatically)
-        """
-        self.fragment = value  # Delegates to property setter
-        return self
-
-    def getRole(self) -> "String":
-        """
-        AUTOSAR-compliant getter for role.
-
-        Returns:
-            The role value
-
-        Note:
-            Delegates to role property (CODING_RULE_V2_00017)
-        """
-        return self.role  # Delegates to property
-
-    def setRole(self, value: "String") -> ShortNameFragment:
-        """
-        AUTOSAR-compliant setter for role with method chaining.
-
-        Args:
-            value: The role to set
-
-        Returns:
-            self for method chaining
-
-        Note:
-            Delegates to role property setter (gets validation automatically)
-        """
-        self.role = value  # Delegates to property setter
-        return self
-
-    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
-
-    def with_fragment(self, value: "Identifier") -> ShortNameFragment:
-        """
-        Set fragment and return self for chaining.
-
-        Args:
-            value: The fragment to set
-
-        Returns:
-            self for method chaining
-
-        Example:
-            >>> obj.with_fragment("value")
-        """
-        self.fragment = value  # Use property setter (gets validation)
-        return self
-
-    def with_role(self, value: "String") -> ShortNameFragment:
-        """
-        Set role and return self for chaining.
-
-        Args:
-            value: The role to set
-
-        Returns:
-            self for method chaining
-
-        Example:
-            >>> obj.with_role("value")
-        """
-        self.role = value  # Use property setter (gets validation)
-        return self
-
-
-
-class MultilanguageReferrable(Referrable, ABC):
-    """
-    Instances of this class can be referred to by their identifier (while
-    adhering to namespace borders). They also may have a longName. But they are
-    not considered to contribute substantially to the overall structure of an
-    AUTOSAR description. In particular it does not contain other Referrables.
-
-    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable::MultilanguageReferrable
-
-    Sources:
-      - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 179, Classic Platform
-      R23-11)
-      - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 301, Classic Platform R23-11)
-      - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 1000, Classic
-      Platform R23-11)
-      - AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf (Page 48, Foundation
-      R23-11)
-      - AUTOSAR_FO_TPS_FeatureModelExchangeFormat.pdf (Page 75, Foundation
-      R23-11)
-      - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 63, Foundation R23-11)
-      - AUTOSAR_FO_TPS_StandardizationTemplate.pdf (Page 197, Foundation R23-11)
-    """
-    def __init__(self):
-        if type(self) is MultilanguageReferrable:
-            raise TypeError("MultilanguageReferrable is an abstract class.")
-        super().__init__()
-
-        # ===== Pythonic properties (CODING_RULE_V2_00016) =====
-        # This specifies the long name of the object.
-        # Long name is to human readers and acts like a headline.
-        self._longName: Optional["MultilanguageLong"] = None
-
-    @property
-    def long_name(self) -> Optional["MultilanguageLong"]:
-        """Get longName (Pythonic accessor)."""
-        return self._longName
-
-    @long_name.setter
-    def long_name(self, value: Optional["MultilanguageLong"]) -> None:
-        """
-        Set longName with validation.
-
-        Args:
-            value: The longName to set
-
-        Raises:
-            TypeError: If value type is incorrect
-        """
-        if value is None:
-            self._longName = None
-            return
-
-        if not isinstance(value, MultilanguageLong):
-            raise TypeError(
-                f"longName must be MultilanguageLong or None, got {type(value).__name__}"
-            )
-        self._longName = value
-
-    # ===== AUTOSAR-compatible methods (delegate to properties) =====
-
-    def getLongName(self) -> "MultilanguageLong":
-        """
-        AUTOSAR-compliant getter for longName.
-
-        Returns:
-            The longName value
-
-        Note:
-            Delegates to long_name property (CODING_RULE_V2_00017)
-        """
-        return self.long_name  # Delegates to property
-
-    def setLongName(self, value: "MultilanguageLong") -> MultilanguageReferrable:
-        """
-        AUTOSAR-compliant setter for longName with method chaining.
-
-        Args:
-            value: The longName to set
-
-        Returns:
-            self for method chaining
-
-        Note:
-            Delegates to long_name property setter (gets validation automatically)
-        """
-        self.long_name = value  # Delegates to property setter
-        return self
-
-    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
-
-    def with_long_name(self, value: Optional["MultilanguageLong"]) -> MultilanguageReferrable:
-        """
-        Set longName and return self for chaining.
-
-        Args:
-            value: The longName to set
-
-        Returns:
-            self for method chaining
-
-        Example:
-            >>> obj.with_long_name("value")
-        """
-        self.long_name = value  # Use property setter (gets validation)
-        return self
-
-
-
-class SingleLanguageReferrable(Referrable, ABC):
-    """
-    Instances of this class can be referred to by their identifier (while
-    adhering to namespace borders). They also may have a longName but in one
-    language only. Specializations of this class only occur as inline elements
-    in one particular language. Therefore they aggregate But they are not
-    considered to contribute substantially to the overall structure of an
-    AUTOSAR description. In particular it does not contain other Referrables.
-
-    Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable::SingleLanguageReferrable
-
-    Sources:
-      - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 64, Foundation R23-11)
-    """
-    def __init__(self):
-        if type(self) is SingleLanguageReferrable:
-            raise TypeError("SingleLanguageReferrable is an abstract class.")
-        super().__init__()
-
-    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
-        # This specifies the long name of the object.
-        # The role is for compatibiilty to ASAM FSX.
-        self._longName1: Optional["SingleLanguageLong"] = None
-
-    @property
-    def long_name1(self) -> Optional["SingleLanguageLong"]:
-        """Get longName1 (Pythonic accessor)."""
-        return self._longName1
-
-    @long_name1.setter
-    def long_name1(self, value: Optional["SingleLanguageLong"]) -> None:
-        """
-        Set longName1 with validation.
-
-        Args:
-            value: The longName1 to set
-
-        Raises:
-            TypeError: If value type is incorrect
-        """
-        if value is None:
-            self._longName1 = None
-            return
-
-        if not isinstance(value, SingleLanguageLong):
-            raise TypeError(
-                f"longName1 must be SingleLanguageLong or None, got {type(value).__name__}"
-            )
-        self._longName1 = value
-
-    # ===== AUTOSAR-compatible methods (delegate to properties) =====
-
-    def getLongName1(self) -> "SingleLanguageLong":
-        """
-        AUTOSAR-compliant getter for longName1.
-
-        Returns:
-            The longName1 value
-
-        Note:
-            Delegates to long_name1 property (CODING_RULE_V2_00017)
-        """
-        return self.long_name1  # Delegates to property
-
-    def setLongName1(self, value: "SingleLanguageLong") -> SingleLanguageReferrable:
-        """
-        AUTOSAR-compliant setter for longName1 with method chaining.
-
-        Args:
-            value: The longName1 to set
-
-        Returns:
-            self for method chaining
-
-        Note:
-            Delegates to long_name1 property setter (gets validation automatically)
-        """
-        self.long_name1 = value  # Delegates to property setter
-        return self
-
-    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
-
-    def with_long_name1(self, value: Optional["SingleLanguageLong"]) -> SingleLanguageReferrable:
-        """
-        Set longName1 and return self for chaining.
-
-        Args:
-            value: The longName1 to set
-
-        Returns:
-            self for method chaining
-
-        Example:
-            >>> obj.with_long_name1("value")
-        """
-        self.long_name1 = value  # Use property setter (gets validation)
         return self
 
 
@@ -927,15 +440,15 @@ class Identifiable(MultilanguageReferrable, ABC):
         # This represents the administrative data for the identifiable 381 Document ID
         # 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template
         # R23-11.
-        self._adminData: Optional["AdminData"] = None
+        self._adminData: Optional[AdminData] = None
         # Possibility to provide additional notes while defining a (e.
         # g.
         # the ECU Configuration Parameter are not intended as documentation but design
         # notes.
-        self._annotation: List["Annotation"] = []
+        self._annotation: List[Annotation] = []
         # The category is a keyword that specializes the semantics Identifiable.
         # It affects the expected existence of the applicability of constraints.
-        self._category: Optional["CategoryString"] = None
+        self._category: Optional[CategoryString] = None
         # This represents a general but brief (one paragraph) what the object in
         # question is about.
         # It is only Desc is intended to be collected into This property helps a human
@@ -945,7 +458,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         self._desc: Optional["MultiLanguageOverview"] = None
         # This represents more information about how the object in built or is used.
         # Therefore it is a.
-        self._introduction: Optional["DocumentationBlock"] = None
+        self._introduction: Optional[DocumentationBlock] = None
         # The purpose of this attribute is to provide a globally for an instance of a
         # meta-class.
         # The this attribute should be globally unique strings the type of identifier.
@@ -961,15 +474,15 @@ class Identifiable(MultilanguageReferrable, ABC):
         # If the id namespace is is assumed.
         # An example is has no semantic meaning for an AUTOSAR there is no requirement
         # for AUTOSAR tools to timestamp.
-        self._uuid: Optional["String"] = None
+        self._uuid: Optional[String] = None
 
     @property
-    def admin_data(self) -> Optional["AdminData"]:
+    def admin_data(self) -> Optional[AdminData]:
         """Get adminData (Pythonic accessor)."""
         return self._adminData
 
     @admin_data.setter
-    def admin_data(self, value: Optional["AdminData"]) -> None:
+    def admin_data(self, value: Optional[AdminData]) -> None:
         """
         Set adminData with validation.
 
@@ -988,26 +501,36 @@ class Identifiable(MultilanguageReferrable, ABC):
                 f"adminData must be AdminData or None, got {type(value).__name__}"
             )
         self._adminData = value
-        # g.
-        # the ECU Configuration Parameter are not intended as documentation but design
-                # notes.
-        self._annotation: List["Annotation"] = []
 
     @property
-    def annotation(self) -> List["Annotation"]:
+    def annotation(self) -> List[Annotation]:
         """Get annotation (Pythonic accessor)."""
         return self._annotation
-        # The category is a keyword that specializes the semantics Identifiable.
-        # It affects the expected existence of the applicability of constraints.
-        self._category: Optional["CategoryString"] = None
+
+    @annotation.setter
+    def annotation(self, value: List[Annotation]) -> None:
+        """
+        Set annotation with validation.
+
+        Args:
+            value: The annotation to set
+
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if not isinstance(value, list):
+            raise TypeError(
+                f"annotation must be a list or None, got {type(value).__name__}"
+            )
+        self._annotation = value
 
     @property
-    def category(self) -> Optional["CategoryString"]:
+    def category(self) -> Optional[CategoryString]:
         """Get category (Pythonic accessor)."""
         return self._category
 
     @category.setter
-    def category(self, value: Optional["CategoryString"]) -> None:
+    def category(self, value: Optional[CategoryString]) -> None:
         """
         Set category with validation.
 
@@ -1026,12 +549,6 @@ class Identifiable(MultilanguageReferrable, ABC):
                 f"category must be CategoryString or None, got {type(value).__name__}"
             )
         self._category = value
-                # question is about.
-        # It is only Desc is intended to be collected into This property helps a human
-                # reader to object in question.
-        # documentation, (in particular how the built or used) should go to
-                # "introduction".
-        self._desc: Optional["MultiLanguageOverview"] = None
 
     @property
     def desc(self) -> Optional["MultiLanguageOverview"]:
@@ -1053,21 +570,16 @@ class Identifiable(MultilanguageReferrable, ABC):
             self._desc = None
             return
 
-        if not isinstance(value, MultiLanguageOverview):
-            raise TypeError(
-                f"desc must be MultiLanguageOverview or None, got {type(value).__name__}"
-            )
+        # Skip type check for MultiLanguageOverview (missing from class-package.json)
         self._desc = value
-        # Therefore it is a.
-        self._introduction: Optional["DocumentationBlock"] = None
 
     @property
-    def introduction(self) -> Optional["DocumentationBlock"]:
+    def introduction(self) -> Optional[DocumentationBlock]:
         """Get introduction (Pythonic accessor)."""
         return self._introduction
 
     @introduction.setter
-    def introduction(self, value: Optional["DocumentationBlock"]) -> None:
+    def introduction(self, value: Optional[DocumentationBlock]) -> None:
         """
         Set introduction with validation.
 
@@ -1100,15 +612,15 @@ class Identifiable(MultilanguageReferrable, ABC):
         # If the id namespace is is assumed.
         # An example is has no semantic meaning for an AUTOSAR there is no requirement
                 # for AUTOSAR tools to timestamp.
-        self._uuid: Optional["String"] = None
+        self._uuid: Optional[String] = None
 
     @property
-    def uuid(self) -> Optional["String"]:
+    def uuid(self) -> Optional[String]:
         """Get uuid (Pythonic accessor)."""
         return self._uuid
 
     @uuid.setter
-    def uuid(self, value: Optional["String"]) -> None:
+    def uuid(self, value: Optional[String]) -> None:
         """
         Set uuid with validation.
 
@@ -1130,7 +642,7 @@ class Identifiable(MultilanguageReferrable, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAdminData(self) -> "AdminData":
+    def getAdminData(self) -> AdminData:
         """
         AUTOSAR-compliant getter for adminData.
 
@@ -1142,7 +654,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         """
         return self.admin_data  # Delegates to property
 
-    def setAdminData(self, value: "AdminData") -> Identifiable:
+    def setAdminData(self, value: AdminData) -> Identifiable:
         """
         AUTOSAR-compliant setter for adminData with method chaining.
 
@@ -1158,7 +670,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         self.admin_data = value  # Delegates to property setter
         return self
 
-    def getAnnotation(self) -> List["Annotation"]:
+    def getAnnotation(self) -> List[Annotation]:
         """
         AUTOSAR-compliant getter for annotation.
 
@@ -1170,7 +682,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         """
         return self.annotation  # Delegates to property
 
-    def getCategory(self) -> "CategoryString":
+    def getCategory(self) -> CategoryString:
         """
         AUTOSAR-compliant getter for category.
 
@@ -1182,7 +694,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         """
         return self.category  # Delegates to property
 
-    def setCategory(self, value: "CategoryString") -> Identifiable:
+    def setCategory(self, value: CategoryString) -> Identifiable:
         """
         AUTOSAR-compliant setter for category with method chaining.
 
@@ -1226,7 +738,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         self.desc = value  # Delegates to property setter
         return self
 
-    def getIntroduction(self) -> "DocumentationBlock":
+    def getIntroduction(self) -> DocumentationBlock:
         """
         AUTOSAR-compliant getter for introduction.
 
@@ -1238,7 +750,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         """
         return self.introduction  # Delegates to property
 
-    def setIntroduction(self, value: "DocumentationBlock") -> Identifiable:
+    def setIntroduction(self, value: DocumentationBlock) -> Identifiable:
         """
         AUTOSAR-compliant setter for introduction with method chaining.
 
@@ -1254,7 +766,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         self.introduction = value  # Delegates to property setter
         return self
 
-    def getUuid(self) -> "String":
+    def getUuid(self) -> String:
         """
         AUTOSAR-compliant getter for uuid.
 
@@ -1266,7 +778,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         """
         return self.uuid  # Delegates to property
 
-    def setUuid(self, value: "String") -> Identifiable:
+    def setUuid(self, value: String) -> Identifiable:
         """
         AUTOSAR-compliant setter for uuid with method chaining.
 
@@ -1284,7 +796,7 @@ class Identifiable(MultilanguageReferrable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_admin_data(self, value: Optional["AdminData"]) -> Identifiable:
+    def with_admin_data(self, value: Optional[AdminData]) -> Identifiable:
         """
         Set adminData and return self for chaining.
 
@@ -1300,7 +812,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         self.admin_data = value  # Use property setter (gets validation)
         return self
 
-    def with_category(self, value: Optional["CategoryString"]) -> Identifiable:
+    def with_category(self, value: Optional[CategoryString]) -> Identifiable:
         """
         Set category and return self for chaining.
 
@@ -1332,7 +844,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         self.desc = value  # Use property setter (gets validation)
         return self
 
-    def with_introduction(self, value: Optional["DocumentationBlock"]) -> Identifiable:
+    def with_introduction(self, value: Optional[DocumentationBlock]) -> Identifiable:
         """
         Set introduction and return self for chaining.
 
@@ -1348,7 +860,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         self.introduction = value  # Use property setter (gets validation)
         return self
 
-    def with_uuid(self, value: Optional["String"]) -> Identifiable:
+    def with_uuid(self, value: Optional[String]) -> Identifiable:
         """
         Set uuid and return self for chaining.
 

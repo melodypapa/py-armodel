@@ -19,7 +19,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (    ApplicationArray,    ApplicationRecord,    SenderRecArray,    SenderRecComposite,    SenderRecRecord,)from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (    DocumentationBlock,    ImplementationData,)from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (    ClientServerOperation,)from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate import (    SystemSignal,)
 
 class DataMapping(ARObject, ABC):
     """
@@ -40,15 +40,15 @@ class DataMapping(ARObject, ABC):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents introductory documentation about the.
-        self._introduction: Optional["DocumentationBlock"] = None
+        self._introduction: Optional[DocumentationBlock] = None
 
     @property
-    def introduction(self) -> Optional["DocumentationBlock"]:
+    def introduction(self) -> Optional[DocumentationBlock]:
         """Get introduction (Pythonic accessor)."""
         return self._introduction
 
     @introduction.setter
-    def introduction(self, value: Optional["DocumentationBlock"]) -> None:
+    def introduction(self, value: Optional[DocumentationBlock]) -> None:
         """
         Set introduction with validation.
 
@@ -102,7 +102,7 @@ class DataMapping(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getIntroduction(self) -> "DocumentationBlock":
+    def getIntroduction(self) -> DocumentationBlock:
         """
         AUTOSAR-compliant getter for introduction.
 
@@ -114,7 +114,7 @@ class DataMapping(ARObject, ABC):
         """
         return self.introduction  # Delegates to property
 
-    def setIntroduction(self, value: "DocumentationBlock") -> DataMapping:
+    def setIntroduction(self, value: DocumentationBlock) -> DataMapping:
         """
         AUTOSAR-compliant setter for introduction with method chaining.
 
@@ -132,7 +132,7 @@ class DataMapping(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_introduction(self, value: Optional["DocumentationBlock"]) -> DataMapping:
+    def with_introduction(self, value: Optional[DocumentationBlock]) -> DataMapping:
         """
         Set introduction and return self for chaining.
 
@@ -205,15 +205,15 @@ class SenderRecRecordElementMapping(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to an ApplicationRecordElement in the context of the dataElement or
         # in the context of a composite.
-        self._application: Optional["ApplicationRecord"] = None
+        self._application: Optional[ApplicationRecord] = None
 
     @property
-    def application(self) -> Optional["ApplicationRecord"]:
+    def application(self) -> Optional[ApplicationRecord]:
         """Get application (Pythonic accessor)."""
         return self._application
 
     @application.setter
-    def application(self, value: Optional["ApplicationRecord"]) -> None:
+    def application(self, value: Optional[ApplicationRecord]) -> None:
         """
         Set application with validation.
 
@@ -232,15 +232,15 @@ class SenderRecRecordElementMapping(ARObject):
                 f"application must be ApplicationRecord or None, got {type(value).__name__}"
             )
         self._application = value
-        self._complexType: Optional["SenderRecComposite"] = None
+        self._complexType: Optional[SenderRecComposite] = None
 
     @property
-    def complex_type(self) -> Optional["SenderRecComposite"]:
+    def complex_type(self) -> Optional[SenderRecComposite]:
         """Get complexType (Pythonic accessor)."""
         return self._complexType
 
     @complex_type.setter
-    def complex_type(self, value: Optional["SenderRecComposite"]) -> None:
+    def complex_type(self, value: Optional[SenderRecComposite]) -> None:
         """
         Set complexType with validation.
 
@@ -260,15 +260,15 @@ class SenderRecRecordElementMapping(ARObject):
             )
         self._complexType = value
         # or in the context of a.
-        self._implementation: Optional["ImplementationData"] = None
+        self._implementation: Optional[ImplementationData] = None
 
     @property
-    def implementation(self) -> Optional["ImplementationData"]:
+    def implementation(self) -> Optional[ImplementationData]:
         """Get implementation (Pythonic accessor)."""
         return self._implementation
 
     @implementation.setter
-    def implementation(self, value: Optional["ImplementationData"]) -> None:
+    def implementation(self, value: Optional[ImplementationData]) -> None:
         """
         Set implementation with validation.
 
@@ -289,15 +289,15 @@ class SenderRecRecordElementMapping(ARObject):
         self._implementation = value
         # DataPrototype that is defined in the Port and the physicalProps defined for
         # the System.
-        self._senderToSignal: Optional["RefType"] = None
+        self._senderToSignal: Optional[RefType] = None
 
     @property
-    def sender_to_signal(self) -> Optional["RefType"]:
+    def sender_to_signal(self) -> Optional[RefType]:
         """Get senderToSignal (Pythonic accessor)."""
         return self._senderToSignal
 
     @sender_to_signal.setter
-    def sender_to_signal(self, value: Optional["RefType"]) -> None:
+    def sender_to_signal(self, value: Optional[RefType]) -> None:
         """
         Set senderToSignal with validation.
 
@@ -313,15 +313,15 @@ class SenderRecRecordElementMapping(ARObject):
 
         self._senderToSignal = value
         # defined for the SystemSignal and a DataPrototype that is defined in the Port.
-        self._signalTo: Optional["RefType"] = None
+        self._signalTo: Optional[RefType] = None
 
     @property
-    def signal_to(self) -> Optional["RefType"]:
+    def signal_to(self) -> Optional[RefType]:
         """Get signalTo (Pythonic accessor)."""
         return self._signalTo
 
     @signal_to.setter
-    def signal_to(self, value: Optional["RefType"]) -> None:
+    def signal_to(self, value: Optional[RefType]) -> None:
         """
         Set signalTo with validation.
 
@@ -336,15 +336,15 @@ class SenderRecRecordElementMapping(ARObject):
             return
 
         self._signalTo = value
-        self._systemSignal: Optional["SystemSignal"] = None
+        self._systemSignal: Optional[SystemSignal] = None
 
     @property
-    def system_signal(self) -> Optional["SystemSignal"]:
+    def system_signal(self) -> Optional[SystemSignal]:
         """Get systemSignal (Pythonic accessor)."""
         return self._systemSignal
 
     @system_signal.setter
-    def system_signal(self, value: Optional["SystemSignal"]) -> None:
+    def system_signal(self, value: Optional[SystemSignal]) -> None:
         """
         Set systemSignal with validation.
 
@@ -366,7 +366,7 @@ class SenderRecRecordElementMapping(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getApplication(self) -> "ApplicationRecord":
+    def getApplication(self) -> ApplicationRecord:
         """
         AUTOSAR-compliant getter for application.
 
@@ -378,7 +378,7 @@ class SenderRecRecordElementMapping(ARObject):
         """
         return self.application  # Delegates to property
 
-    def setApplication(self, value: "ApplicationRecord") -> SenderRecRecordElementMapping:
+    def setApplication(self, value: ApplicationRecord) -> SenderRecRecordElementMapping:
         """
         AUTOSAR-compliant setter for application with method chaining.
 
@@ -450,7 +450,7 @@ class SenderRecRecordElementMapping(ARObject):
         self.implementation = value  # Delegates to property setter
         return self
 
-    def getSenderToSignal(self) -> "RefType":
+    def getSenderToSignal(self) -> RefType:
         """
         AUTOSAR-compliant getter for senderToSignal.
 
@@ -462,7 +462,7 @@ class SenderRecRecordElementMapping(ARObject):
         """
         return self.sender_to_signal  # Delegates to property
 
-    def setSenderToSignal(self, value: "RefType") -> SenderRecRecordElementMapping:
+    def setSenderToSignal(self, value: RefType) -> SenderRecRecordElementMapping:
         """
         AUTOSAR-compliant setter for senderToSignal with method chaining.
 
@@ -478,7 +478,7 @@ class SenderRecRecordElementMapping(ARObject):
         self.sender_to_signal = value  # Delegates to property setter
         return self
 
-    def getSignalTo(self) -> "RefType":
+    def getSignalTo(self) -> RefType:
         """
         AUTOSAR-compliant getter for signalTo.
 
@@ -490,7 +490,7 @@ class SenderRecRecordElementMapping(ARObject):
         """
         return self.signal_to  # Delegates to property
 
-    def setSignalTo(self, value: "RefType") -> SenderRecRecordElementMapping:
+    def setSignalTo(self, value: RefType) -> SenderRecRecordElementMapping:
         """
         AUTOSAR-compliant setter for signalTo with method chaining.
 
@@ -506,7 +506,7 @@ class SenderRecRecordElementMapping(ARObject):
         self.signal_to = value  # Delegates to property setter
         return self
 
-    def getSystemSignal(self) -> "SystemSignal":
+    def getSystemSignal(self) -> SystemSignal:
         """
         AUTOSAR-compliant getter for systemSignal.
 
@@ -518,7 +518,7 @@ class SenderRecRecordElementMapping(ARObject):
         """
         return self.system_signal  # Delegates to property
 
-    def setSystemSignal(self, value: "SystemSignal") -> SenderRecRecordElementMapping:
+    def setSystemSignal(self, value: SystemSignal) -> SenderRecRecordElementMapping:
         """
         AUTOSAR-compliant setter for systemSignal with method chaining.
 
@@ -536,7 +536,7 @@ class SenderRecRecordElementMapping(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_application(self, value: Optional["ApplicationRecord"]) -> SenderRecRecordElementMapping:
+    def with_application(self, value: Optional[ApplicationRecord]) -> SenderRecRecordElementMapping:
         """
         Set application and return self for chaining.
 
@@ -552,7 +552,7 @@ class SenderRecRecordElementMapping(ARObject):
         self.application = value  # Use property setter (gets validation)
         return self
 
-    def with_complex_type(self, value: Optional["SenderRecComposite"]) -> SenderRecRecordElementMapping:
+    def with_complex_type(self, value: Optional[SenderRecComposite]) -> SenderRecRecordElementMapping:
         """
         Set complexType and return self for chaining.
 
@@ -568,7 +568,7 @@ class SenderRecRecordElementMapping(ARObject):
         self.complex_type = value  # Use property setter (gets validation)
         return self
 
-    def with_implementation(self, value: Optional["ImplementationData"]) -> SenderRecRecordElementMapping:
+    def with_implementation(self, value: Optional[ImplementationData]) -> SenderRecRecordElementMapping:
         """
         Set implementation and return self for chaining.
 
@@ -616,7 +616,7 @@ class SenderRecRecordElementMapping(ARObject):
         self.signal_to = value  # Use property setter (gets validation)
         return self
 
-    def with_system_signal(self, value: Optional["SystemSignal"]) -> SenderRecRecordElementMapping:
+    def with_system_signal(self, value: Optional[SystemSignal]) -> SenderRecRecordElementMapping:
         """
         Set systemSignal and return self for chaining.
 
@@ -659,15 +659,15 @@ class SenderRecArrayElementMapping(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This aggregation will be used if the element is composite.
-        self._complexType: Optional["SenderRecComposite"] = None
+        self._complexType: Optional[SenderRecComposite] = None
 
     @property
-    def complex_type(self) -> Optional["SenderRecComposite"]:
+    def complex_type(self) -> Optional[SenderRecComposite]:
         """Get complexType (Pythonic accessor)."""
         return self._complexType
 
     @complex_type.setter
-    def complex_type(self, value: Optional["SenderRecComposite"]) -> None:
+    def complex_type(self, value: Optional[SenderRecComposite]) -> None:
         """
         Set complexType with validation.
 
@@ -714,15 +714,15 @@ class SenderRecArrayElementMapping(ARObject):
                 f"indexedArray must be IndexedArrayElement or None, got {type(value).__name__}"
             )
         self._indexedArray = value
-        self._systemSignal: Optional["SystemSignal"] = None
+        self._systemSignal: Optional[SystemSignal] = None
 
     @property
-    def system_signal(self) -> Optional["SystemSignal"]:
+    def system_signal(self) -> Optional[SystemSignal]:
         """Get systemSignal (Pythonic accessor)."""
         return self._systemSignal
 
     @system_signal.setter
-    def system_signal(self, value: Optional["SystemSignal"]) -> None:
+    def system_signal(self, value: Optional[SystemSignal]) -> None:
         """
         Set systemSignal with validation.
 
@@ -800,7 +800,7 @@ class SenderRecArrayElementMapping(ARObject):
         self.indexed_array = value  # Delegates to property setter
         return self
 
-    def getSystemSignal(self) -> "SystemSignal":
+    def getSystemSignal(self) -> SystemSignal:
         """
         AUTOSAR-compliant getter for systemSignal.
 
@@ -812,7 +812,7 @@ class SenderRecArrayElementMapping(ARObject):
         """
         return self.system_signal  # Delegates to property
 
-    def setSystemSignal(self, value: "SystemSignal") -> SenderRecArrayElementMapping:
+    def setSystemSignal(self, value: SystemSignal) -> SenderRecArrayElementMapping:
         """
         AUTOSAR-compliant setter for systemSignal with method chaining.
 
@@ -830,7 +830,7 @@ class SenderRecArrayElementMapping(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_complex_type(self, value: Optional["SenderRecComposite"]) -> SenderRecArrayElementMapping:
+    def with_complex_type(self, value: Optional[SenderRecComposite]) -> SenderRecArrayElementMapping:
         """
         Set complexType and return self for chaining.
 
@@ -862,7 +862,7 @@ class SenderRecArrayElementMapping(ARObject):
         self.indexed_array = value  # Use property setter (gets validation)
         return self
 
-    def with_system_signal(self, value: Optional["SystemSignal"]) -> SenderRecArrayElementMapping:
+    def with_system_signal(self, value: Optional[SystemSignal]) -> SenderRecArrayElementMapping:
         """
         Set systemSignal and return self for chaining.
 
@@ -896,15 +896,15 @@ class IndexedArrayElement(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to an ApplicationArrayElement in an array.
-        self._applicationArray: Optional["ApplicationArray"] = None
+        self._applicationArray: Optional[ApplicationArray] = None
 
     @property
-    def application_array(self) -> Optional["ApplicationArray"]:
+    def application_array(self) -> Optional[ApplicationArray]:
         """Get applicationArray (Pythonic accessor)."""
         return self._applicationArray
 
     @application_array.setter
-    def application_array(self, value: Optional["ApplicationArray"]) -> None:
+    def application_array(self, value: Optional[ApplicationArray]) -> None:
         """
         Set applicationArray with validation.
 
@@ -923,15 +923,15 @@ class IndexedArrayElement(ARObject):
                 f"applicationArray must be ApplicationArray or None, got {type(value).__name__}"
             )
         self._applicationArray = value
-        self._implementation: Optional["ImplementationData"] = None
+        self._implementation: Optional[ImplementationData] = None
 
     @property
-    def implementation(self) -> Optional["ImplementationData"]:
+    def implementation(self) -> Optional[ImplementationData]:
         """Get implementation (Pythonic accessor)."""
         return self._implementation
 
     @implementation.setter
-    def implementation(self, value: Optional["ImplementationData"]) -> None:
+    def implementation(self, value: Optional[ImplementationData]) -> None:
         """
         Set implementation with validation.
 
@@ -951,15 +951,15 @@ class IndexedArrayElement(ARObject):
             )
         self._implementation = value
         # Starting position is 0.
-        self._index: Optional["Integer"] = None
+        self._index: Optional[Integer] = None
 
     @property
-    def index(self) -> Optional["Integer"]:
+    def index(self) -> Optional[Integer]:
         """Get index (Pythonic accessor)."""
         return self._index
 
     @index.setter
-    def index(self, value: Optional["Integer"]) -> None:
+    def index(self, value: Optional[Integer]) -> None:
         """
         Set index with validation.
 
@@ -981,7 +981,7 @@ class IndexedArrayElement(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getApplicationArray(self) -> "ApplicationArray":
+    def getApplicationArray(self) -> ApplicationArray:
         """
         AUTOSAR-compliant getter for applicationArray.
 
@@ -993,7 +993,7 @@ class IndexedArrayElement(ARObject):
         """
         return self.application_array  # Delegates to property
 
-    def setApplicationArray(self, value: "ApplicationArray") -> IndexedArrayElement:
+    def setApplicationArray(self, value: ApplicationArray) -> IndexedArrayElement:
         """
         AUTOSAR-compliant setter for applicationArray with method chaining.
 
@@ -1037,7 +1037,7 @@ class IndexedArrayElement(ARObject):
         self.implementation = value  # Delegates to property setter
         return self
 
-    def getIndex(self) -> "Integer":
+    def getIndex(self) -> Integer:
         """
         AUTOSAR-compliant getter for index.
 
@@ -1049,7 +1049,7 @@ class IndexedArrayElement(ARObject):
         """
         return self.index  # Delegates to property
 
-    def setIndex(self, value: "Integer") -> IndexedArrayElement:
+    def setIndex(self, value: Integer) -> IndexedArrayElement:
         """
         AUTOSAR-compliant setter for index with method chaining.
 
@@ -1067,7 +1067,7 @@ class IndexedArrayElement(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_application_array(self, value: Optional["ApplicationArray"]) -> IndexedArrayElement:
+    def with_application_array(self, value: Optional[ApplicationArray]) -> IndexedArrayElement:
         """
         Set applicationArray and return self for chaining.
 
@@ -1083,7 +1083,7 @@ class IndexedArrayElement(ARObject):
         self.application_array = value  # Use property setter (gets validation)
         return self
 
-    def with_implementation(self, value: Optional["ImplementationData"]) -> IndexedArrayElement:
+    def with_implementation(self, value: Optional[ImplementationData]) -> IndexedArrayElement:
         """
         Set implementation and return self for chaining.
 
@@ -1099,7 +1099,7 @@ class IndexedArrayElement(ARObject):
         self.implementation = value  # Use property setter (gets validation)
         return self
 
-    def with_index(self, value: Optional["Integer"]) -> IndexedArrayElement:
+    def with_index(self, value: Optional[Integer]) -> IndexedArrayElement:
         """
         Set index and return self for chaining.
 
@@ -1133,15 +1133,15 @@ class SenderReceiverToSignalMapping(DataMapping):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # by: VariableDataPrototypeIn.
-        self._dataElementSystemInstanceRef: Optional["RefType"] = None
+        self._dataElementSystemInstanceRef: Optional[RefType] = None
 
     @property
-    def data_element_system_instance_ref(self) -> Optional["RefType"]:
+    def data_element_system_instance_ref(self) -> Optional[RefType]:
         """Get dataElementSystemInstanceRef (Pythonic accessor)."""
         return self._dataElementSystemInstanceRef
 
     @data_element_system_instance_ref.setter
-    def data_element_system_instance_ref(self, value: Optional["RefType"]) -> None:
+    def data_element_system_instance_ref(self, value: Optional[RefType]) -> None:
         """
         Set dataElementSystemInstanceRef with validation.
 
@@ -1158,15 +1158,15 @@ class SenderReceiverToSignalMapping(DataMapping):
         self._dataElementSystemInstanceRef = value
         # DataPrototype that is defined in the Port and the physicalProps defined for
         # the System.
-        self._senderToSignal: Optional["RefType"] = None
+        self._senderToSignal: Optional[RefType] = None
 
     @property
-    def sender_to_signal(self) -> Optional["RefType"]:
+    def sender_to_signal(self) -> Optional[RefType]:
         """Get senderToSignal (Pythonic accessor)."""
         return self._senderToSignal
 
     @sender_to_signal.setter
-    def sender_to_signal(self, value: Optional["RefType"]) -> None:
+    def sender_to_signal(self, value: Optional[RefType]) -> None:
         """
         Set senderToSignal with validation.
 
@@ -1182,15 +1182,15 @@ class SenderReceiverToSignalMapping(DataMapping):
 
         self._senderToSignal = value
         # defined for the SystemSignal and a DataPrototype that is defined in the Port.
-        self._signalTo: Optional["RefType"] = None
+        self._signalTo: Optional[RefType] = None
 
     @property
-    def signal_to(self) -> Optional["RefType"]:
+    def signal_to(self) -> Optional[RefType]:
         """Get signalTo (Pythonic accessor)."""
         return self._signalTo
 
     @signal_to.setter
-    def signal_to(self, value: Optional["RefType"]) -> None:
+    def signal_to(self, value: Optional[RefType]) -> None:
         """
         Set signalTo with validation.
 
@@ -1205,15 +1205,15 @@ class SenderReceiverToSignalMapping(DataMapping):
             return
 
         self._signalTo = value
-        self._systemSignal: Optional["SystemSignal"] = None
+        self._systemSignal: Optional[SystemSignal] = None
 
     @property
-    def system_signal(self) -> Optional["SystemSignal"]:
+    def system_signal(self) -> Optional[SystemSignal]:
         """Get systemSignal (Pythonic accessor)."""
         return self._systemSignal
 
     @system_signal.setter
-    def system_signal(self, value: Optional["SystemSignal"]) -> None:
+    def system_signal(self, value: Optional[SystemSignal]) -> None:
         """
         Set systemSignal with validation.
 
@@ -1235,7 +1235,7 @@ class SenderReceiverToSignalMapping(DataMapping):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDataElementSystemInstanceRef(self) -> "RefType":
+    def getDataElementSystemInstanceRef(self) -> RefType:
         """
         AUTOSAR-compliant getter for dataElementSystemInstanceRef.
 
@@ -1247,7 +1247,7 @@ class SenderReceiverToSignalMapping(DataMapping):
         """
         return self.data_element_system_instance_ref  # Delegates to property
 
-    def setDataElementSystemInstanceRef(self, value: "RefType") -> SenderReceiverToSignalMapping:
+    def setDataElementSystemInstanceRef(self, value: RefType) -> SenderReceiverToSignalMapping:
         """
         AUTOSAR-compliant setter for dataElementSystemInstanceRef with method chaining.
 
@@ -1263,7 +1263,7 @@ class SenderReceiverToSignalMapping(DataMapping):
         self.data_element_system_instance_ref = value  # Delegates to property setter
         return self
 
-    def getSenderToSignal(self) -> "RefType":
+    def getSenderToSignal(self) -> RefType:
         """
         AUTOSAR-compliant getter for senderToSignal.
 
@@ -1275,7 +1275,7 @@ class SenderReceiverToSignalMapping(DataMapping):
         """
         return self.sender_to_signal  # Delegates to property
 
-    def setSenderToSignal(self, value: "RefType") -> SenderReceiverToSignalMapping:
+    def setSenderToSignal(self, value: RefType) -> SenderReceiverToSignalMapping:
         """
         AUTOSAR-compliant setter for senderToSignal with method chaining.
 
@@ -1291,7 +1291,7 @@ class SenderReceiverToSignalMapping(DataMapping):
         self.sender_to_signal = value  # Delegates to property setter
         return self
 
-    def getSignalTo(self) -> "RefType":
+    def getSignalTo(self) -> RefType:
         """
         AUTOSAR-compliant getter for signalTo.
 
@@ -1303,7 +1303,7 @@ class SenderReceiverToSignalMapping(DataMapping):
         """
         return self.signal_to  # Delegates to property
 
-    def setSignalTo(self, value: "RefType") -> SenderReceiverToSignalMapping:
+    def setSignalTo(self, value: RefType) -> SenderReceiverToSignalMapping:
         """
         AUTOSAR-compliant setter for signalTo with method chaining.
 
@@ -1319,7 +1319,7 @@ class SenderReceiverToSignalMapping(DataMapping):
         self.signal_to = value  # Delegates to property setter
         return self
 
-    def getSystemSignal(self) -> "SystemSignal":
+    def getSystemSignal(self) -> SystemSignal:
         """
         AUTOSAR-compliant getter for systemSignal.
 
@@ -1331,7 +1331,7 @@ class SenderReceiverToSignalMapping(DataMapping):
         """
         return self.system_signal  # Delegates to property
 
-    def setSystemSignal(self, value: "SystemSignal") -> SenderReceiverToSignalMapping:
+    def setSystemSignal(self, value: SystemSignal) -> SenderReceiverToSignalMapping:
         """
         AUTOSAR-compliant setter for systemSignal with method chaining.
 
@@ -1397,7 +1397,7 @@ class SenderReceiverToSignalMapping(DataMapping):
         self.signal_to = value  # Use property setter (gets validation)
         return self
 
-    def with_system_signal(self, value: Optional["SystemSignal"]) -> SenderReceiverToSignalMapping:
+    def with_system_signal(self, value: Optional[SystemSignal]) -> SenderReceiverToSignalMapping:
         """
         Set systemSignal and return self for chaining.
 
@@ -1431,15 +1431,15 @@ class SenderReceiverToSignalGroupMapping(DataMapping):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # mapped to a signal group.
         # by: VariableDataPrototypeIn.
-        self._dataElement: Optional["RefType"] = None
+        self._dataElement: Optional[RefType] = None
 
     @property
-    def data_element(self) -> Optional["RefType"]:
+    def data_element(self) -> Optional[RefType]:
         """Get dataElement (Pythonic accessor)."""
         return self._dataElement
 
     @data_element.setter
-    def data_element(self, value: Optional["RefType"]) -> None:
+    def data_element(self, value: Optional[RefType]) -> None:
         """
         Set dataElement with validation.
 
@@ -1455,15 +1455,15 @@ class SenderReceiverToSignalGroupMapping(DataMapping):
 
         self._dataElement = value
         # type.
-        self._signalGroup: Optional["RefType"] = None
+        self._signalGroup: Optional[RefType] = None
 
     @property
-    def signal_group(self) -> Optional["RefType"]:
+    def signal_group(self) -> Optional[RefType]:
         """Get signalGroup (Pythonic accessor)."""
         return self._signalGroup
 
     @signal_group.setter
-    def signal_group(self, value: Optional["RefType"]) -> None:
+    def signal_group(self, value: Optional[RefType]) -> None:
         """
         Set signalGroup with validation.
 
@@ -1479,15 +1479,15 @@ class SenderReceiverToSignalGroupMapping(DataMapping):
 
         self._signalGroup = value
         # ApplicationRecordElements to Signals of.
-        self._typeMapping: Optional["SenderRecComposite"] = None
+        self._typeMapping: Optional[SenderRecComposite] = None
 
     @property
-    def type_mapping(self) -> Optional["SenderRecComposite"]:
+    def type_mapping(self) -> Optional[SenderRecComposite]:
         """Get typeMapping (Pythonic accessor)."""
         return self._typeMapping
 
     @type_mapping.setter
-    def type_mapping(self, value: Optional["SenderRecComposite"]) -> None:
+    def type_mapping(self, value: Optional[SenderRecComposite]) -> None:
         """
         Set typeMapping with validation.
 
@@ -1509,7 +1509,7 @@ class SenderReceiverToSignalGroupMapping(DataMapping):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDataElement(self) -> "RefType":
+    def getDataElement(self) -> RefType:
         """
         AUTOSAR-compliant getter for dataElement.
 
@@ -1521,7 +1521,7 @@ class SenderReceiverToSignalGroupMapping(DataMapping):
         """
         return self.data_element  # Delegates to property
 
-    def setDataElement(self, value: "RefType") -> SenderReceiverToSignalGroupMapping:
+    def setDataElement(self, value: RefType) -> SenderReceiverToSignalGroupMapping:
         """
         AUTOSAR-compliant setter for dataElement with method chaining.
 
@@ -1537,7 +1537,7 @@ class SenderReceiverToSignalGroupMapping(DataMapping):
         self.data_element = value  # Delegates to property setter
         return self
 
-    def getSignalGroup(self) -> "RefType":
+    def getSignalGroup(self) -> RefType:
         """
         AUTOSAR-compliant getter for signalGroup.
 
@@ -1549,7 +1549,7 @@ class SenderReceiverToSignalGroupMapping(DataMapping):
         """
         return self.signal_group  # Delegates to property
 
-    def setSignalGroup(self, value: "RefType") -> SenderReceiverToSignalGroupMapping:
+    def setSignalGroup(self, value: RefType) -> SenderReceiverToSignalGroupMapping:
         """
         AUTOSAR-compliant setter for signalGroup with method chaining.
 
@@ -1627,7 +1627,7 @@ class SenderReceiverToSignalGroupMapping(DataMapping):
         self.signal_group = value  # Use property setter (gets validation)
         return self
 
-    def with_type_mapping(self, value: Optional["SenderRecComposite"]) -> SenderReceiverToSignalGroupMapping:
+    def with_type_mapping(self, value: Optional[SenderRecComposite]) -> SenderReceiverToSignalGroupMapping:
         """
         Set typeMapping and return self for chaining.
 
@@ -1660,15 +1660,15 @@ class ClientServerToSignalMapping(DataMapping):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to the callSignal to which the IN and INOUT mapped.
-        self._callSignal: Optional["SystemSignal"] = None
+        self._callSignal: Optional[SystemSignal] = None
 
     @property
-    def call_signal(self) -> Optional["SystemSignal"]:
+    def call_signal(self) -> Optional[SystemSignal]:
         """Get callSignal (Pythonic accessor)."""
         return self._callSignal
 
     @call_signal.setter
-    def call_signal(self, value: Optional["SystemSignal"]) -> None:
+    def call_signal(self, value: Optional[SystemSignal]) -> None:
         """
         Set callSignal with validation.
 
@@ -1688,15 +1688,15 @@ class ClientServerToSignalMapping(DataMapping):
             )
         self._callSignal = value
         # by: OperationInSystem.
-        self._clientServer: Optional["ClientServerOperation"] = None
+        self._clientServer: Optional[ClientServerOperation] = None
 
     @property
-    def client_server(self) -> Optional["ClientServerOperation"]:
+    def client_server(self) -> Optional[ClientServerOperation]:
         """Get clientServer (Pythonic accessor)."""
         return self._clientServer
 
     @client_server.setter
-    def client_server(self, value: Optional["ClientServerOperation"]) -> None:
+    def client_server(self, value: Optional[ClientServerOperation]) -> None:
         """
         Set clientServer with validation.
 
@@ -1715,15 +1715,15 @@ class ClientServerToSignalMapping(DataMapping):
                 f"clientServer must be ClientServerOperation or None, got {type(value).__name__}"
             )
         self._clientServer = value
-        self._returnSignal: Optional["SystemSignal"] = None
+        self._returnSignal: Optional[SystemSignal] = None
 
     @property
-    def return_signal(self) -> Optional["SystemSignal"]:
+    def return_signal(self) -> Optional[SystemSignal]:
         """Get returnSignal (Pythonic accessor)."""
         return self._returnSignal
 
     @return_signal.setter
-    def return_signal(self, value: Optional["SystemSignal"]) -> None:
+    def return_signal(self, value: Optional[SystemSignal]) -> None:
         """
         Set returnSignal with validation.
 
@@ -1745,7 +1745,7 @@ class ClientServerToSignalMapping(DataMapping):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCallSignal(self) -> "SystemSignal":
+    def getCallSignal(self) -> SystemSignal:
         """
         AUTOSAR-compliant getter for callSignal.
 
@@ -1757,7 +1757,7 @@ class ClientServerToSignalMapping(DataMapping):
         """
         return self.call_signal  # Delegates to property
 
-    def setCallSignal(self, value: "SystemSignal") -> ClientServerToSignalMapping:
+    def setCallSignal(self, value: SystemSignal) -> ClientServerToSignalMapping:
         """
         AUTOSAR-compliant setter for callSignal with method chaining.
 
@@ -1773,7 +1773,7 @@ class ClientServerToSignalMapping(DataMapping):
         self.call_signal = value  # Delegates to property setter
         return self
 
-    def getClientServer(self) -> "ClientServerOperation":
+    def getClientServer(self) -> ClientServerOperation:
         """
         AUTOSAR-compliant getter for clientServer.
 
@@ -1785,7 +1785,7 @@ class ClientServerToSignalMapping(DataMapping):
         """
         return self.client_server  # Delegates to property
 
-    def setClientServer(self, value: "ClientServerOperation") -> ClientServerToSignalMapping:
+    def setClientServer(self, value: ClientServerOperation) -> ClientServerToSignalMapping:
         """
         AUTOSAR-compliant setter for clientServer with method chaining.
 
@@ -1801,7 +1801,7 @@ class ClientServerToSignalMapping(DataMapping):
         self.client_server = value  # Delegates to property setter
         return self
 
-    def getReturnSignal(self) -> "SystemSignal":
+    def getReturnSignal(self) -> SystemSignal:
         """
         AUTOSAR-compliant getter for returnSignal.
 
@@ -1813,7 +1813,7 @@ class ClientServerToSignalMapping(DataMapping):
         """
         return self.return_signal  # Delegates to property
 
-    def setReturnSignal(self, value: "SystemSignal") -> ClientServerToSignalMapping:
+    def setReturnSignal(self, value: SystemSignal) -> ClientServerToSignalMapping:
         """
         AUTOSAR-compliant setter for returnSignal with method chaining.
 
@@ -1831,7 +1831,7 @@ class ClientServerToSignalMapping(DataMapping):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_call_signal(self, value: Optional["SystemSignal"]) -> ClientServerToSignalMapping:
+    def with_call_signal(self, value: Optional[SystemSignal]) -> ClientServerToSignalMapping:
         """
         Set callSignal and return self for chaining.
 
@@ -1847,7 +1847,7 @@ class ClientServerToSignalMapping(DataMapping):
         self.call_signal = value  # Use property setter (gets validation)
         return self
 
-    def with_client_server(self, value: Optional["ClientServerOperation"]) -> ClientServerToSignalMapping:
+    def with_client_server(self, value: Optional[ClientServerOperation]) -> ClientServerToSignalMapping:
         """
         Set clientServer and return self for chaining.
 
@@ -1863,7 +1863,7 @@ class ClientServerToSignalMapping(DataMapping):
         self.client_server = value  # Use property setter (gets validation)
         return self
 
-    def with_return_signal(self, value: Optional["SystemSignal"]) -> ClientServerToSignalMapping:
+    def with_return_signal(self, value: Optional[SystemSignal]) -> ClientServerToSignalMapping:
         """
         Set returnSignal and return self for chaining.
 
@@ -1898,15 +1898,15 @@ class SenderReceiverCompositeElementToSignalMapping(DataMapping):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # one element is mapped to a SystemSignal.
         # by: VariableDataPrototypeIn.
-        self._dataElement: Optional["RefType"] = None
+        self._dataElement: Optional[RefType] = None
 
     @property
-    def data_element(self) -> Optional["RefType"]:
+    def data_element(self) -> Optional[RefType]:
         """Get dataElement (Pythonic accessor)."""
         return self._dataElement
 
     @data_element.setter
-    def data_element(self, value: Optional["RefType"]) -> None:
+    def data_element(self, value: Optional[RefType]) -> None:
         """
         Set dataElement with validation.
 
@@ -1921,15 +1921,15 @@ class SenderReceiverCompositeElementToSignalMapping(DataMapping):
             return
 
         self._dataElement = value
-        self._systemSignal: Optional["SystemSignal"] = None
+        self._systemSignal: Optional[SystemSignal] = None
 
     @property
-    def system_signal(self) -> Optional["SystemSignal"]:
+    def system_signal(self) -> Optional[SystemSignal]:
         """Get systemSignal (Pythonic accessor)."""
         return self._systemSignal
 
     @system_signal.setter
-    def system_signal(self, value: Optional["SystemSignal"]) -> None:
+    def system_signal(self, value: Optional[SystemSignal]) -> None:
         """
         Set systemSignal with validation.
 
@@ -1949,15 +1949,15 @@ class SenderReceiverCompositeElementToSignalMapping(DataMapping):
             )
         self._systemSignal = value
         # a SystemSignal.
-        self._typeMapping: Optional["SenderRecComposite"] = None
+        self._typeMapping: Optional[SenderRecComposite] = None
 
     @property
-    def type_mapping(self) -> Optional["SenderRecComposite"]:
+    def type_mapping(self) -> Optional[SenderRecComposite]:
         """Get typeMapping (Pythonic accessor)."""
         return self._typeMapping
 
     @type_mapping.setter
-    def type_mapping(self, value: Optional["SenderRecComposite"]) -> None:
+    def type_mapping(self, value: Optional[SenderRecComposite]) -> None:
         """
         Set typeMapping with validation.
 
@@ -1979,7 +1979,7 @@ class SenderReceiverCompositeElementToSignalMapping(DataMapping):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDataElement(self) -> "RefType":
+    def getDataElement(self) -> RefType:
         """
         AUTOSAR-compliant getter for dataElement.
 
@@ -1991,7 +1991,7 @@ class SenderReceiverCompositeElementToSignalMapping(DataMapping):
         """
         return self.data_element  # Delegates to property
 
-    def setDataElement(self, value: "RefType") -> SenderReceiverCompositeElementToSignalMapping:
+    def setDataElement(self, value: RefType) -> SenderReceiverCompositeElementToSignalMapping:
         """
         AUTOSAR-compliant setter for dataElement with method chaining.
 
@@ -2007,7 +2007,7 @@ class SenderReceiverCompositeElementToSignalMapping(DataMapping):
         self.data_element = value  # Delegates to property setter
         return self
 
-    def getSystemSignal(self) -> "SystemSignal":
+    def getSystemSignal(self) -> SystemSignal:
         """
         AUTOSAR-compliant getter for systemSignal.
 
@@ -2019,7 +2019,7 @@ class SenderReceiverCompositeElementToSignalMapping(DataMapping):
         """
         return self.system_signal  # Delegates to property
 
-    def setSystemSignal(self, value: "SystemSignal") -> SenderReceiverCompositeElementToSignalMapping:
+    def setSystemSignal(self, value: SystemSignal) -> SenderReceiverCompositeElementToSignalMapping:
         """
         AUTOSAR-compliant setter for systemSignal with method chaining.
 
@@ -2081,7 +2081,7 @@ class SenderReceiverCompositeElementToSignalMapping(DataMapping):
         self.data_element = value  # Use property setter (gets validation)
         return self
 
-    def with_system_signal(self, value: Optional["SystemSignal"]) -> SenderReceiverCompositeElementToSignalMapping:
+    def with_system_signal(self, value: Optional[SystemSignal]) -> SenderReceiverCompositeElementToSignalMapping:
         """
         Set systemSignal and return self for chaining.
 
@@ -2097,7 +2097,7 @@ class SenderReceiverCompositeElementToSignalMapping(DataMapping):
         self.system_signal = value  # Use property setter (gets validation)
         return self
 
-    def with_type_mapping(self, value: Optional["SenderRecComposite"]) -> SenderReceiverCompositeElementToSignalMapping:
+    def with_type_mapping(self, value: Optional[SenderRecComposite]) -> SenderReceiverCompositeElementToSignalMapping:
         """
         Set typeMapping and return self for chaining.
 
@@ -2131,15 +2131,15 @@ class TriggerToSignalMapping(DataMapping):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This is the SystemSignal taken to transport the Trigger network.
-        self._systemSignal: Optional["SystemSignal"] = None
+        self._systemSignal: Optional[SystemSignal] = None
 
     @property
-    def system_signal(self) -> Optional["SystemSignal"]:
+    def system_signal(self) -> Optional[SystemSignal]:
         """Get systemSignal (Pythonic accessor)."""
         return self._systemSignal
 
     @system_signal.setter
-    def system_signal(self, value: Optional["SystemSignal"]) -> None:
+    def system_signal(self, value: Optional[SystemSignal]) -> None:
         """
         Set systemSignal with validation.
 
@@ -2159,15 +2159,15 @@ class TriggerToSignalMapping(DataMapping):
             )
         self._systemSignal = value
         # by: TriggerInSystemInstance.
-        self._triggerRef: Optional["RefType"] = None
+        self._triggerRef: Optional[RefType] = None
 
     @property
-    def trigger_ref(self) -> Optional["RefType"]:
+    def trigger_ref(self) -> Optional[RefType]:
         """Get triggerRef (Pythonic accessor)."""
         return self._triggerRef
 
     @trigger_ref.setter
-    def trigger_ref(self, value: Optional["RefType"]) -> None:
+    def trigger_ref(self, value: Optional[RefType]) -> None:
         """
         Set triggerRef with validation.
 
@@ -2185,7 +2185,7 @@ class TriggerToSignalMapping(DataMapping):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getSystemSignal(self) -> "SystemSignal":
+    def getSystemSignal(self) -> SystemSignal:
         """
         AUTOSAR-compliant getter for systemSignal.
 
@@ -2197,7 +2197,7 @@ class TriggerToSignalMapping(DataMapping):
         """
         return self.system_signal  # Delegates to property
 
-    def setSystemSignal(self, value: "SystemSignal") -> TriggerToSignalMapping:
+    def setSystemSignal(self, value: SystemSignal) -> TriggerToSignalMapping:
         """
         AUTOSAR-compliant setter for systemSignal with method chaining.
 
@@ -2213,7 +2213,7 @@ class TriggerToSignalMapping(DataMapping):
         self.system_signal = value  # Delegates to property setter
         return self
 
-    def getTriggerRef(self) -> "RefType":
+    def getTriggerRef(self) -> RefType:
         """
         AUTOSAR-compliant getter for triggerRef.
 
@@ -2225,7 +2225,7 @@ class TriggerToSignalMapping(DataMapping):
         """
         return self.trigger_ref  # Delegates to property
 
-    def setTriggerRef(self, value: "RefType") -> TriggerToSignalMapping:
+    def setTriggerRef(self, value: RefType) -> TriggerToSignalMapping:
         """
         AUTOSAR-compliant setter for triggerRef with method chaining.
 
@@ -2243,7 +2243,7 @@ class TriggerToSignalMapping(DataMapping):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_system_signal(self, value: Optional["SystemSignal"]) -> TriggerToSignalMapping:
+    def with_system_signal(self, value: Optional[SystemSignal]) -> TriggerToSignalMapping:
         """
         Set systemSignal and return self for chaining.
 
@@ -2292,24 +2292,24 @@ class SenderRecArrayTypeMapping(SenderRecCompositeTypeMapping):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Each ApplicationArrayElement shall be mapped on a SystemSignal.
-        self._arrayElement: List["SenderRecArray"] = []
+        self._arrayElement: List[SenderRecArray] = []
 
     @property
-    def array_element(self) -> List["SenderRecArray"]:
+    def array_element(self) -> List[SenderRecArray]:
         """Get arrayElement (Pythonic accessor)."""
         return self._arrayElement
         # This mapping allows for the text-table translation between sending
         # DataPrototype that is defined in the Port and the physicalProps defined for
         # the System.
-        self._senderToSignal: Optional["RefType"] = None
+        self._senderToSignal: Optional[RefType] = None
 
     @property
-    def sender_to_signal(self) -> Optional["RefType"]:
+    def sender_to_signal(self) -> Optional[RefType]:
         """Get senderToSignal (Pythonic accessor)."""
         return self._senderToSignal
 
     @sender_to_signal.setter
-    def sender_to_signal(self, value: Optional["RefType"]) -> None:
+    def sender_to_signal(self, value: Optional[RefType]) -> None:
         """
         Set senderToSignal with validation.
 
@@ -2325,15 +2325,15 @@ class SenderRecArrayTypeMapping(SenderRecCompositeTypeMapping):
 
         self._senderToSignal = value
         # defined for the SystemSignal and a DataPrototype that is defined in the Port.
-        self._signalTo: Optional["RefType"] = None
+        self._signalTo: Optional[RefType] = None
 
     @property
-    def signal_to(self) -> Optional["RefType"]:
+    def signal_to(self) -> Optional[RefType]:
         """Get signalTo (Pythonic accessor)."""
         return self._signalTo
 
     @signal_to.setter
-    def signal_to(self, value: Optional["RefType"]) -> None:
+    def signal_to(self, value: Optional[RefType]) -> None:
         """
         Set signalTo with validation.
 
@@ -2351,7 +2351,7 @@ class SenderRecArrayTypeMapping(SenderRecCompositeTypeMapping):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getArrayElement(self) -> List["SenderRecArray"]:
+    def getArrayElement(self) -> List[SenderRecArray]:
         """
         AUTOSAR-compliant getter for arrayElement.
 
@@ -2363,7 +2363,7 @@ class SenderRecArrayTypeMapping(SenderRecCompositeTypeMapping):
         """
         return self.array_element  # Delegates to property
 
-    def getSenderToSignal(self) -> "RefType":
+    def getSenderToSignal(self) -> RefType:
         """
         AUTOSAR-compliant getter for senderToSignal.
 
@@ -2375,7 +2375,7 @@ class SenderRecArrayTypeMapping(SenderRecCompositeTypeMapping):
         """
         return self.sender_to_signal  # Delegates to property
 
-    def setSenderToSignal(self, value: "RefType") -> SenderRecArrayTypeMapping:
+    def setSenderToSignal(self, value: RefType) -> SenderRecArrayTypeMapping:
         """
         AUTOSAR-compliant setter for senderToSignal with method chaining.
 
@@ -2391,7 +2391,7 @@ class SenderRecArrayTypeMapping(SenderRecCompositeTypeMapping):
         self.sender_to_signal = value  # Delegates to property setter
         return self
 
-    def getSignalTo(self) -> "RefType":
+    def getSignalTo(self) -> RefType:
         """
         AUTOSAR-compliant getter for signalTo.
 
@@ -2403,7 +2403,7 @@ class SenderRecArrayTypeMapping(SenderRecCompositeTypeMapping):
         """
         return self.signal_to  # Delegates to property
 
-    def setSignalTo(self, value: "RefType") -> SenderRecArrayTypeMapping:
+    def setSignalTo(self, value: RefType) -> SenderRecArrayTypeMapping:
         """
         AUTOSAR-compliant setter for signalTo with method chaining.
 
@@ -2470,16 +2470,16 @@ class SenderRecRecordTypeMapping(SenderRecCompositeTypeMapping):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Each ApplicationRecordElement shall be mapped on a SystemSignal.
-        self._recordElement: List["SenderRecRecord"] = []
+        self._recordElement: List[SenderRecRecord] = []
 
     @property
-    def record_element(self) -> List["SenderRecRecord"]:
+    def record_element(self) -> List[SenderRecRecord]:
         """Get recordElement (Pythonic accessor)."""
         return self._recordElement
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getRecordElement(self) -> List["SenderRecRecord"]:
+    def getRecordElement(self) -> List[SenderRecRecord]:
         """
         AUTOSAR-compliant getter for recordElement.
 

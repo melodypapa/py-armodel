@@ -41,15 +41,15 @@ class SwcImplementation(Implementation):
         # The internal behavior implemented by this 381 Document ID 89:
         # AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module Description Template
         # R23-11.
-        self._behavior: Optional["SwcInternalBehavior"] = None
+        self._behavior: Optional[SwcInternalBehavior] = None
 
     @property
-    def behavior(self) -> Optional["SwcInternalBehavior"]:
+    def behavior(self) -> Optional[SwcInternalBehavior]:
         """Get behavior (Pythonic accessor)."""
         return self._behavior
 
     @behavior.setter
-    def behavior(self, value: Optional["SwcInternalBehavior"]) -> None:
+    def behavior(self, value: Optional[SwcInternalBehavior]) -> None:
         """
         Set behavior with validation.
 
@@ -73,10 +73,10 @@ class SwcImplementation(Implementation):
                 # the software components different algorithms in the requiring different
                 # number of memory this case PerInstanceMemory.
         # atpVariation.
-        self._perInstance: List["PerInstanceMemory"] = []
+        self._perInstance: List[PerInstanceMemory] = []
 
     @property
-    def per_instance(self) -> List["PerInstanceMemory"]:
+    def per_instance(self) -> List[PerInstanceMemory]:
         """Get perInstance (Pythonic accessor)."""
         return self._perInstance
         # Identify a specific RTE vendor.
@@ -85,15 +85,15 @@ class SwcImplementation(Implementation):
         # The that (if the association exists) the has been created to fit to the
                 # provided by this specific vendor.
         # integrate the code with another RTE vendor mode is in general not possible.
-        self._required: Optional["String"] = None
+        self._required: Optional[String] = None
 
     @property
-    def required(self) -> Optional["String"]:
+    def required(self) -> Optional[String]:
         """Get required (Pythonic accessor)."""
         return self._required
 
     @required.setter
-    def required(self, value: Optional["String"]) -> None:
+    def required(self, value: Optional[String]) -> None:
         """
         Set required with validation.
 
@@ -131,7 +131,7 @@ class SwcImplementation(Implementation):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBehavior(self) -> "SwcInternalBehavior":
+    def getBehavior(self) -> SwcInternalBehavior:
         """
         AUTOSAR-compliant getter for behavior.
 
@@ -143,7 +143,7 @@ class SwcImplementation(Implementation):
         """
         return self.behavior  # Delegates to property
 
-    def setBehavior(self, value: "SwcInternalBehavior") -> SwcImplementation:
+    def setBehavior(self, value: SwcInternalBehavior) -> SwcImplementation:
         """
         AUTOSAR-compliant setter for behavior with method chaining.
 
@@ -159,7 +159,7 @@ class SwcImplementation(Implementation):
         self.behavior = value  # Delegates to property setter
         return self
 
-    def getPerInstance(self) -> List["PerInstanceMemory"]:
+    def getPerInstance(self) -> List[PerInstanceMemory]:
         """
         AUTOSAR-compliant getter for perInstance.
 
@@ -171,7 +171,7 @@ class SwcImplementation(Implementation):
         """
         return self.per_instance  # Delegates to property
 
-    def getRequired(self) -> "String":
+    def getRequired(self) -> String:
         """
         AUTOSAR-compliant getter for required.
 
@@ -183,7 +183,7 @@ class SwcImplementation(Implementation):
         """
         return self.required  # Delegates to property
 
-    def setRequired(self, value: "String") -> SwcImplementation:
+    def setRequired(self, value: String) -> SwcImplementation:
         """
         AUTOSAR-compliant setter for required with method chaining.
 
@@ -201,7 +201,7 @@ class SwcImplementation(Implementation):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_behavior(self, value: Optional["SwcInternalBehavior"]) -> SwcImplementation:
+    def with_behavior(self, value: Optional[SwcInternalBehavior]) -> SwcImplementation:
         """
         Set behavior and return self for chaining.
 
@@ -217,7 +217,7 @@ class SwcImplementation(Implementation):
         self.behavior = value  # Use property setter (gets validation)
         return self
 
-    def with_required(self, value: Optional["String"]) -> SwcImplementation:
+    def with_required(self, value: Optional[String]) -> SwcImplementation:
         """
         Set required and return self for chaining.
 
@@ -253,15 +253,15 @@ class PerInstanceMemorySize(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Required alignment (1,2,4,.
         # ) of the referenced Per byte.
-        self._alignment: Optional["PositiveInteger"] = None
+        self._alignment: Optional[PositiveInteger] = None
 
     @property
-    def alignment(self) -> Optional["PositiveInteger"]:
+    def alignment(self) -> Optional[PositiveInteger]:
         """Get alignment (Pythonic accessor)."""
         return self._alignment
 
     @alignment.setter
-    def alignment(self, value: Optional["PositiveInteger"]) -> None:
+    def alignment(self, value: Optional[PositiveInteger]) -> None:
         """
         Set alignment with validation.
 
@@ -280,15 +280,15 @@ class PerInstanceMemorySize(ARObject):
                 f"alignment must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._alignment = value
-        self._perInstanceMemory: Optional["PerInstanceMemory"] = None
+        self._perInstanceMemory: Optional[PerInstanceMemory] = None
 
     @property
-    def per_instance_memory(self) -> Optional["PerInstanceMemory"]:
+    def per_instance_memory(self) -> Optional[PerInstanceMemory]:
         """Get perInstanceMemory (Pythonic accessor)."""
         return self._perInstanceMemory
 
     @per_instance_memory.setter
-    def per_instance_memory(self, value: Optional["PerInstanceMemory"]) -> None:
+    def per_instance_memory(self, value: Optional[PerInstanceMemory]) -> None:
         """
         Set perInstanceMemory with validation.
 
@@ -310,15 +310,15 @@ class PerInstanceMemorySize(ARObject):
         # The PerInstanceMemorySize is subject to the purpose to support variability in
                 # the implementations.
         # Different the implementation might require a different.
-        self._size: Optional["PositiveInteger"] = None
+        self._size: Optional[PositiveInteger] = None
 
     @property
-    def size(self) -> Optional["PositiveInteger"]:
+    def size(self) -> Optional[PositiveInteger]:
         """Get size (Pythonic accessor)."""
         return self._size
 
     @size.setter
-    def size(self, value: Optional["PositiveInteger"]) -> None:
+    def size(self, value: Optional[PositiveInteger]) -> None:
         """
         Set size with validation.
 
@@ -340,7 +340,7 @@ class PerInstanceMemorySize(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAlignment(self) -> "PositiveInteger":
+    def getAlignment(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for alignment.
 
@@ -352,7 +352,7 @@ class PerInstanceMemorySize(ARObject):
         """
         return self.alignment  # Delegates to property
 
-    def setAlignment(self, value: "PositiveInteger") -> PerInstanceMemorySize:
+    def setAlignment(self, value: PositiveInteger) -> PerInstanceMemorySize:
         """
         AUTOSAR-compliant setter for alignment with method chaining.
 
@@ -368,7 +368,7 @@ class PerInstanceMemorySize(ARObject):
         self.alignment = value  # Delegates to property setter
         return self
 
-    def getPerInstanceMemory(self) -> "PerInstanceMemory":
+    def getPerInstanceMemory(self) -> PerInstanceMemory:
         """
         AUTOSAR-compliant getter for perInstanceMemory.
 
@@ -380,7 +380,7 @@ class PerInstanceMemorySize(ARObject):
         """
         return self.per_instance_memory  # Delegates to property
 
-    def setPerInstanceMemory(self, value: "PerInstanceMemory") -> PerInstanceMemorySize:
+    def setPerInstanceMemory(self, value: PerInstanceMemory) -> PerInstanceMemorySize:
         """
         AUTOSAR-compliant setter for perInstanceMemory with method chaining.
 
@@ -396,7 +396,7 @@ class PerInstanceMemorySize(ARObject):
         self.per_instance_memory = value  # Delegates to property setter
         return self
 
-    def getSize(self) -> "PositiveInteger":
+    def getSize(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for size.
 
@@ -408,7 +408,7 @@ class PerInstanceMemorySize(ARObject):
         """
         return self.size  # Delegates to property
 
-    def setSize(self, value: "PositiveInteger") -> PerInstanceMemorySize:
+    def setSize(self, value: PositiveInteger) -> PerInstanceMemorySize:
         """
         AUTOSAR-compliant setter for size with method chaining.
 
@@ -426,7 +426,7 @@ class PerInstanceMemorySize(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_alignment(self, value: Optional["PositiveInteger"]) -> PerInstanceMemorySize:
+    def with_alignment(self, value: Optional[PositiveInteger]) -> PerInstanceMemorySize:
         """
         Set alignment and return self for chaining.
 
@@ -442,7 +442,7 @@ class PerInstanceMemorySize(ARObject):
         self.alignment = value  # Use property setter (gets validation)
         return self
 
-    def with_per_instance_memory(self, value: Optional["PerInstanceMemory"]) -> PerInstanceMemorySize:
+    def with_per_instance_memory(self, value: Optional[PerInstanceMemory]) -> PerInstanceMemorySize:
         """
         Set perInstanceMemory and return self for chaining.
 
@@ -458,7 +458,7 @@ class PerInstanceMemorySize(ARObject):
         self.per_instance_memory = value  # Use property setter (gets validation)
         return self
 
-    def with_size(self, value: Optional["PositiveInteger"]) -> PerInstanceMemorySize:
+    def with_size(self, value: Optional[PositiveInteger]) -> PerInstanceMemorySize:
         """
         Set size and return self for chaining.
 

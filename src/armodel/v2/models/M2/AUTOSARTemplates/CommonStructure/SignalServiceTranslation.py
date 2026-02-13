@@ -42,18 +42,18 @@ class SignalServiceTranslationProps(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to the EventGroup which encapsulates the payload.
-        self._control: List["RefType"] = []
+        self._control: List[RefType] = []
 
     @property
-    def control(self) -> List["RefType"]:
+    def control(self) -> List[RefType]:
         """Get control (Pythonic accessor)."""
         return self._control
         # Reference to the PNCs which control the offer/subscribe the translated
         # service instance.
-        self._controlPnc: List["RefType"] = []
+        self._controlPnc: List[RefType] = []
 
     @property
-    def control_pnc(self) -> List["RefType"]:
+    def control_pnc(self) -> List[RefType]:
         """Get controlPnc (Pythonic accessor)."""
         return self._controlPnc
         # Reference to the provided event group (aka Event which is automatically
@@ -197,7 +197,7 @@ class SignalServiceTranslationProps(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getControl(self) -> List["RefType"]:
+    def getControl(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for control.
 
@@ -209,7 +209,7 @@ class SignalServiceTranslationProps(Identifiable):
         """
         return self.control  # Delegates to property
 
-    def getControlPnc(self) -> List["RefType"]:
+    def getControlPnc(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for controlPnc.
 
@@ -354,15 +354,15 @@ class SignalServiceTranslationEventProps(Identifiable):
         """Get elementProps (Pythonic accessor)."""
         return self._elementProps
         # Defined whether the translation shall happen in a safe.
-        self._safeTranslation: Optional["Boolean"] = None
+        self._safeTranslation: Optional[Boolean] = None
 
     @property
-    def safe_translation(self) -> Optional["Boolean"]:
+    def safe_translation(self) -> Optional[Boolean]:
         """Get safeTranslation (Pythonic accessor)."""
         return self._safeTranslation
 
     @safe_translation.setter
-    def safe_translation(self, value: Optional["Boolean"]) -> None:
+    def safe_translation(self, value: Optional[Boolean]) -> None:
         """
         Set safeTranslation with validation.
 
@@ -381,15 +381,15 @@ class SignalServiceTranslationEventProps(Identifiable):
                 f"safeTranslation must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._safeTranslation = value
-        self._secure: Optional["Boolean"] = None
+        self._secure: Optional[Boolean] = None
 
     @property
-    def secure(self) -> Optional["Boolean"]:
+    def secure(self) -> Optional[Boolean]:
         """Get secure (Pythonic accessor)."""
         return self._secure
 
     @secure.setter
-    def secure(self, value: Optional["Boolean"]) -> None:
+    def secure(self, value: Optional[Boolean]) -> None:
         """
         Set secure with validation.
 
@@ -409,15 +409,15 @@ class SignalServiceTranslationEventProps(Identifiable):
             )
         self._secure = value
         # by: VariableDataPrototypeIn.
-        self._translation: Optional["RefType"] = None
+        self._translation: Optional[RefType] = None
 
     @property
-    def translation(self) -> Optional["RefType"]:
+    def translation(self) -> Optional[RefType]:
         """Get translation (Pythonic accessor)."""
         return self._translation
 
     @translation.setter
-    def translation(self, value: Optional["RefType"]) -> None:
+    def translation(self, value: Optional[RefType]) -> None:
         """
         Set translation with validation.
 
@@ -447,7 +447,7 @@ class SignalServiceTranslationEventProps(Identifiable):
         """
         return self.element_props  # Delegates to property
 
-    def getSafeTranslation(self) -> "Boolean":
+    def getSafeTranslation(self) -> Boolean:
         """
         AUTOSAR-compliant getter for safeTranslation.
 
@@ -459,7 +459,7 @@ class SignalServiceTranslationEventProps(Identifiable):
         """
         return self.safe_translation  # Delegates to property
 
-    def setSafeTranslation(self, value: "Boolean") -> SignalServiceTranslationEventProps:
+    def setSafeTranslation(self, value: Boolean) -> SignalServiceTranslationEventProps:
         """
         AUTOSAR-compliant setter for safeTranslation with method chaining.
 
@@ -475,7 +475,7 @@ class SignalServiceTranslationEventProps(Identifiable):
         self.safe_translation = value  # Delegates to property setter
         return self
 
-    def getSecure(self) -> "Boolean":
+    def getSecure(self) -> Boolean:
         """
         AUTOSAR-compliant getter for secure.
 
@@ -487,7 +487,7 @@ class SignalServiceTranslationEventProps(Identifiable):
         """
         return self.secure  # Delegates to property
 
-    def setSecure(self, value: "Boolean") -> SignalServiceTranslationEventProps:
+    def setSecure(self, value: Boolean) -> SignalServiceTranslationEventProps:
         """
         AUTOSAR-compliant setter for secure with method chaining.
 
@@ -503,7 +503,7 @@ class SignalServiceTranslationEventProps(Identifiable):
         self.secure = value  # Delegates to property setter
         return self
 
-    def getTranslation(self) -> "RefType":
+    def getTranslation(self) -> RefType:
         """
         AUTOSAR-compliant getter for translation.
 
@@ -515,7 +515,7 @@ class SignalServiceTranslationEventProps(Identifiable):
         """
         return self.translation  # Delegates to property
 
-    def setTranslation(self, value: "RefType") -> SignalServiceTranslationEventProps:
+    def setTranslation(self, value: RefType) -> SignalServiceTranslationEventProps:
         """
         AUTOSAR-compliant setter for translation with method chaining.
 
@@ -533,7 +533,7 @@ class SignalServiceTranslationEventProps(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_safe_translation(self, value: Optional["Boolean"]) -> SignalServiceTranslationEventProps:
+    def with_safe_translation(self, value: Optional[Boolean]) -> SignalServiceTranslationEventProps:
         """
         Set safeTranslation and return self for chaining.
 
@@ -549,7 +549,7 @@ class SignalServiceTranslationEventProps(Identifiable):
         self.safe_translation = value  # Use property setter (gets validation)
         return self
 
-    def with_secure(self, value: Optional["Boolean"]) -> SignalServiceTranslationEventProps:
+    def with_secure(self, value: Optional[Boolean]) -> SignalServiceTranslationEventProps:
         """
         Set secure and return self for chaining.
 
@@ -597,15 +597,15 @@ class SignalServiceTranslationElementProps(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to the leaf element the SignalService apply to.
-        self._element: Optional["RefType"] = None
+        self._element: Optional[RefType] = None
 
     @property
-    def element(self) -> Optional["RefType"]:
+    def element(self) -> Optional[RefType]:
         """Get element (Pythonic accessor)."""
         return self._element
 
     @element.setter
-    def element(self, value: Optional["RefType"]) -> None:
+    def element(self, value: Optional[RefType]) -> None:
         """
         Set element with validation.
 
@@ -648,15 +648,15 @@ class SignalServiceTranslationElementProps(Identifiable):
             )
         self._filter = value
         # triggers the sending of the.
-        self._transmission: Optional["Boolean"] = None
+        self._transmission: Optional[Boolean] = None
 
     @property
-    def transmission(self) -> Optional["Boolean"]:
+    def transmission(self) -> Optional[Boolean]:
         """Get transmission (Pythonic accessor)."""
         return self._transmission
 
     @transmission.setter
-    def transmission(self, value: Optional["Boolean"]) -> None:
+    def transmission(self, value: Optional[Boolean]) -> None:
         """
         Set transmission with validation.
 
@@ -678,7 +678,7 @@ class SignalServiceTranslationElementProps(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getElement(self) -> "RefType":
+    def getElement(self) -> RefType:
         """
         AUTOSAR-compliant getter for element.
 
@@ -690,7 +690,7 @@ class SignalServiceTranslationElementProps(Identifiable):
         """
         return self.element  # Delegates to property
 
-    def setElement(self, value: "RefType") -> SignalServiceTranslationElementProps:
+    def setElement(self, value: RefType) -> SignalServiceTranslationElementProps:
         """
         AUTOSAR-compliant setter for element with method chaining.
 
@@ -734,7 +734,7 @@ class SignalServiceTranslationElementProps(Identifiable):
         self.filter = value  # Delegates to property setter
         return self
 
-    def getTransmission(self) -> "Boolean":
+    def getTransmission(self) -> Boolean:
         """
         AUTOSAR-compliant getter for transmission.
 
@@ -746,7 +746,7 @@ class SignalServiceTranslationElementProps(Identifiable):
         """
         return self.transmission  # Delegates to property
 
-    def setTransmission(self, value: "Boolean") -> SignalServiceTranslationElementProps:
+    def setTransmission(self, value: Boolean) -> SignalServiceTranslationElementProps:
         """
         AUTOSAR-compliant setter for transmission with method chaining.
 
@@ -796,7 +796,7 @@ class SignalServiceTranslationElementProps(Identifiable):
         self.filter = value  # Use property setter (gets validation)
         return self
 
-    def with_transmission(self, value: Optional["Boolean"]) -> SignalServiceTranslationElementProps:
+    def with_transmission(self, value: Optional[Boolean]) -> SignalServiceTranslationElementProps:
         """
         Set transmission and return self for chaining.
 

@@ -190,15 +190,15 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
         # This specifies, how an object of the current BaseType is encoded, e.
         # g.
         # in an ECU within a message sequence.
-        self._baseType: Optional["BaseTypeEncoding"] = None
+        self._baseType: Optional[BaseTypeEncoding] = None
 
     @property
-    def base_type(self) -> Optional["BaseTypeEncoding"]:
+    def base_type(self) -> Optional[BaseTypeEncoding]:
         """Get baseType (Pythonic accessor)."""
         return self._baseType
 
     @base_type.setter
-    def base_type(self, value: Optional["BaseTypeEncoding"]) -> None:
+    def base_type(self, value: Optional[BaseTypeEncoding]) -> None:
         """
         Set baseType with validation.
 
@@ -217,15 +217,15 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
                 f"baseType must be BaseTypeEncoding or None, got {type(value).__name__}"
             )
         self._baseType = value
-        self._baseTypeSize: Optional["PositiveInteger"] = None
+        self._baseTypeSize: Optional[PositiveInteger] = None
 
     @property
-    def base_type_size(self) -> Optional["PositiveInteger"]:
+    def base_type_size(self) -> Optional[PositiveInteger]:
         """Get baseTypeSize (Pythonic accessor)."""
         return self._baseTypeSize
 
     @base_type_size.setter
-    def base_type_size(self, value: Optional["PositiveInteger"]) -> None:
+    def base_type_size(self, value: Optional[PositiveInteger]) -> None:
         """
         Set baseTypeSize with validation.
 
@@ -246,15 +246,15 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
         self._baseTypeSize = value
         # 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template
                 # R23-11.
-        self._byteOrder: Optional["ByteOrderEnum"] = None
+        self._byteOrder: Optional[ByteOrderEnum] = None
 
     @property
-    def byte_order(self) -> Optional["ByteOrderEnum"]:
+    def byte_order(self) -> Optional[ByteOrderEnum]:
         """Get byteOrder (Pythonic accessor)."""
         return self._byteOrder
 
     @byte_order.setter
-    def byte_order(self, value: Optional["ByteOrderEnum"]) -> None:
+    def byte_order(self, value: Optional[ByteOrderEnum]) -> None:
         """
         Set byteOrder with validation.
 
@@ -278,15 +278,15 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
         # "8" specifies, that the object in aligned to a byte while "32" specifies that
                 # it is byte.
         # If the value is set to "0" the meaning interpreted as "unspecified".
-        self._memAlignment: Optional["PositiveInteger"] = None
+        self._memAlignment: Optional[PositiveInteger] = None
 
     @property
-    def mem_alignment(self) -> Optional["PositiveInteger"]:
+    def mem_alignment(self) -> Optional[PositiveInteger]:
         """Get memAlignment (Pythonic accessor)."""
         return self._memAlignment
 
     @mem_alignment.setter
-    def mem_alignment(self, value: Optional["PositiveInteger"]) -> None:
+    def mem_alignment(self, value: Optional[PositiveInteger]) -> None:
         """
         Set memAlignment with validation.
 
@@ -343,7 +343,7 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBaseType(self) -> "BaseTypeEncoding":
+    def getBaseType(self) -> BaseTypeEncoding:
         """
         AUTOSAR-compliant getter for baseType.
 
@@ -355,7 +355,7 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
         """
         return self.base_type  # Delegates to property
 
-    def setBaseType(self, value: "BaseTypeEncoding") -> BaseTypeDirectDefinition:
+    def setBaseType(self, value: BaseTypeEncoding) -> BaseTypeDirectDefinition:
         """
         AUTOSAR-compliant setter for baseType with method chaining.
 
@@ -371,7 +371,7 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
         self.base_type = value  # Delegates to property setter
         return self
 
-    def getBaseTypeSize(self) -> "PositiveInteger":
+    def getBaseTypeSize(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for baseTypeSize.
 
@@ -383,7 +383,7 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
         """
         return self.base_type_size  # Delegates to property
 
-    def setBaseTypeSize(self, value: "PositiveInteger") -> BaseTypeDirectDefinition:
+    def setBaseTypeSize(self, value: PositiveInteger) -> BaseTypeDirectDefinition:
         """
         AUTOSAR-compliant setter for baseTypeSize with method chaining.
 
@@ -399,7 +399,7 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
         self.base_type_size = value  # Delegates to property setter
         return self
 
-    def getByteOrder(self) -> "ByteOrderEnum":
+    def getByteOrder(self) -> ByteOrderEnum:
         """
         AUTOSAR-compliant getter for byteOrder.
 
@@ -411,7 +411,7 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
         """
         return self.byte_order  # Delegates to property
 
-    def setByteOrder(self, value: "ByteOrderEnum") -> BaseTypeDirectDefinition:
+    def setByteOrder(self, value: ByteOrderEnum) -> BaseTypeDirectDefinition:
         """
         AUTOSAR-compliant setter for byteOrder with method chaining.
 
@@ -427,7 +427,7 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
         self.byte_order = value  # Delegates to property setter
         return self
 
-    def getMemAlignment(self) -> "PositiveInteger":
+    def getMemAlignment(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for memAlignment.
 
@@ -439,7 +439,7 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
         """
         return self.mem_alignment  # Delegates to property
 
-    def setMemAlignment(self, value: "PositiveInteger") -> BaseTypeDirectDefinition:
+    def setMemAlignment(self, value: PositiveInteger) -> BaseTypeDirectDefinition:
         """
         AUTOSAR-compliant setter for memAlignment with method chaining.
 
@@ -485,7 +485,7 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base_type(self, value: Optional["BaseTypeEncoding"]) -> BaseTypeDirectDefinition:
+    def with_base_type(self, value: Optional[BaseTypeEncoding]) -> BaseTypeDirectDefinition:
         """
         Set baseType and return self for chaining.
 
@@ -501,7 +501,7 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
         self.base_type = value  # Use property setter (gets validation)
         return self
 
-    def with_base_type_size(self, value: Optional["PositiveInteger"]) -> BaseTypeDirectDefinition:
+    def with_base_type_size(self, value: Optional[PositiveInteger]) -> BaseTypeDirectDefinition:
         """
         Set baseTypeSize and return self for chaining.
 
@@ -517,7 +517,7 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
         self.base_type_size = value  # Use property setter (gets validation)
         return self
 
-    def with_byte_order(self, value: Optional["ByteOrderEnum"]) -> BaseTypeDirectDefinition:
+    def with_byte_order(self, value: Optional[ByteOrderEnum]) -> BaseTypeDirectDefinition:
         """
         Set byteOrder and return self for chaining.
 
@@ -533,7 +533,7 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
         self.byte_order = value  # Use property setter (gets validation)
         return self
 
-    def with_mem_alignment(self, value: Optional["PositiveInteger"]) -> BaseTypeDirectDefinition:
+    def with_mem_alignment(self, value: Optional[PositiveInteger]) -> BaseTypeDirectDefinition:
         """
         Set memAlignment and return self for chaining.
 

@@ -62,15 +62,15 @@ class MultidimensionalTime(ARObject):
                 f"cseCode must be CseCodeType or None, got {type(value).__name__}"
             )
         self._cseCode = value
-        self._cseCodeFactor: Optional["Integer"] = None
+        self._cseCodeFactor: Optional[Integer] = None
 
     @property
-    def cse_code_factor(self) -> Optional["Integer"]:
+    def cse_code_factor(self) -> Optional[Integer]:
         """Get cseCodeFactor (Pythonic accessor)."""
         return self._cseCodeFactor
 
     @cse_code_factor.setter
-    def cse_code_factor(self, value: Optional["Integer"]) -> None:
+    def cse_code_factor(self, value: Optional[Integer]) -> None:
         """
         Set cseCodeFactor with validation.
 
@@ -120,7 +120,7 @@ class MultidimensionalTime(ARObject):
         self.cse_code = value  # Delegates to property setter
         return self
 
-    def getCseCodeFactor(self) -> "Integer":
+    def getCseCodeFactor(self) -> Integer:
         """
         AUTOSAR-compliant getter for cseCodeFactor.
 
@@ -132,7 +132,7 @@ class MultidimensionalTime(ARObject):
         """
         return self.cse_code_factor  # Delegates to property
 
-    def setCseCodeFactor(self, value: "Integer") -> MultidimensionalTime:
+    def setCseCodeFactor(self, value: Integer) -> MultidimensionalTime:
         """
         AUTOSAR-compliant setter for cseCodeFactor with method chaining.
 
@@ -166,7 +166,7 @@ class MultidimensionalTime(ARObject):
         self.cse_code = value  # Use property setter (gets validation)
         return self
 
-    def with_cse_code_factor(self, value: Optional["Integer"]) -> MultidimensionalTime:
+    def with_cse_code_factor(self, value: Optional[Integer]) -> MultidimensionalTime:
         """
         Set cseCodeFactor and return self for chaining.
 

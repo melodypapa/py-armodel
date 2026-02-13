@@ -903,15 +903,15 @@ class ConcreteClassTailoring(DataFormatElementScope):
         # e.
         # : The validation starts at an object of this and continues by following all
                 # references that are in scope of this Point.
-        self._validationRoot: Optional["Boolean"] = None
+        self._validationRoot: Optional[Boolean] = None
 
     @property
-    def validation_root(self) -> Optional["Boolean"]:
+    def validation_root(self) -> Optional[Boolean]:
         """Get validationRoot (Pythonic accessor)."""
         return self._validationRoot
 
     @validation_root.setter
-    def validation_root(self, value: Optional["Boolean"]) -> None:
+    def validation_root(self, value: Optional[Boolean]) -> None:
         """
         Set validationRoot with validation.
 
@@ -933,7 +933,7 @@ class ConcreteClassTailoring(DataFormatElementScope):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getValidationRoot(self) -> "Boolean":
+    def getValidationRoot(self) -> Boolean:
         """
         AUTOSAR-compliant getter for validationRoot.
 
@@ -945,7 +945,7 @@ class ConcreteClassTailoring(DataFormatElementScope):
         """
         return self.validation_root  # Delegates to property
 
-    def setValidationRoot(self, value: "Boolean") -> ConcreteClassTailoring:
+    def setValidationRoot(self, value: Boolean) -> ConcreteClassTailoring:
         """
         AUTOSAR-compliant setter for validationRoot with method chaining.
 
@@ -963,7 +963,7 @@ class ConcreteClassTailoring(DataFormatElementScope):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_validation_root(self, value: Optional["Boolean"]) -> ConcreteClassTailoring:
+    def with_validation_root(self, value: Optional[Boolean]) -> ConcreteClassTailoring:
         """
         Set validationRoot and return self for chaining.
 
@@ -1252,15 +1252,15 @@ class TextualCondition(AbstractCondition):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Human language description of the condition.
-        self._text: "String" = None
+        self._text: String = None
 
     @property
-    def text(self) -> "String":
+    def text(self) -> String:
         """Get text (Pythonic accessor)."""
         return self._text
 
     @text.setter
-    def text(self, value: "String") -> None:
+    def text(self, value: String) -> None:
         """
         Set text with validation.
 
@@ -1278,7 +1278,7 @@ class TextualCondition(AbstractCondition):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getText(self) -> "String":
+    def getText(self) -> String:
         """
         AUTOSAR-compliant getter for text.
 
@@ -1290,7 +1290,7 @@ class TextualCondition(AbstractCondition):
         """
         return self.text  # Delegates to property
 
-    def setText(self, value: "String") -> TextualCondition:
+    def setText(self, value: String) -> TextualCondition:
         """
         AUTOSAR-compliant setter for text with method chaining.
 
@@ -1308,7 +1308,7 @@ class TextualCondition(AbstractCondition):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_text(self, value: "String") -> TextualCondition:
+    def with_text(self, value: String) -> TextualCondition:
         """
         Set text and return self for chaining.
 
@@ -1520,15 +1520,15 @@ class ReferenceCondition(AttributeCondition):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The reference that has to be accepted by the restrictions ReferenceCondition.
-        self._reference: "RefType" = None
+        self._reference: RefType = None
 
     @property
-    def reference(self) -> "RefType":
+    def reference(self) -> RefType:
         """Get reference (Pythonic accessor)."""
         return self._reference
 
     @reference.setter
-    def reference(self, value: "RefType") -> None:
+    def reference(self, value: RefType) -> None:
         """
         Set reference with validation.
 
@@ -1542,7 +1542,7 @@ class ReferenceCondition(AttributeCondition):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getReference(self) -> "RefType":
+    def getReference(self) -> RefType:
         """
         AUTOSAR-compliant getter for reference.
 
@@ -1554,7 +1554,7 @@ class ReferenceCondition(AttributeCondition):
         """
         return self.reference  # Delegates to property
 
-    def setReference(self, value: "RefType") -> ReferenceCondition:
+    def setReference(self, value: RefType) -> ReferenceCondition:
         """
         AUTOSAR-compliant setter for reference with method chaining.
 
@@ -1834,15 +1834,15 @@ class ReferenceTailoring(AttributeTailoring):
         """Get typeTailoring (Pythonic accessor)."""
         return self._typeTailoring
         # Specifies the severity of unresolved references.
-        self._unresolvedRestriction: Optional["RefType"] = None
+        self._unresolvedRestriction: Optional[RefType] = None
 
     @property
-    def unresolved_restriction(self) -> Optional["RefType"]:
+    def unresolved_restriction(self) -> Optional[RefType]:
         """Get unresolvedRestriction (Pythonic accessor)."""
         return self._unresolvedRestriction
 
     @unresolved_restriction.setter
-    def unresolved_restriction(self, value: Optional["RefType"]) -> None:
+    def unresolved_restriction(self, value: Optional[RefType]) -> None:
         """
         Set unresolvedRestriction with validation.
 
@@ -1872,7 +1872,7 @@ class ReferenceTailoring(AttributeTailoring):
         """
         return self.type_tailoring  # Delegates to property
 
-    def getUnresolvedRestriction(self) -> "RefType":
+    def getUnresolvedRestriction(self) -> RefType:
         """
         AUTOSAR-compliant getter for unresolvedRestriction.
 
@@ -1884,7 +1884,7 @@ class ReferenceTailoring(AttributeTailoring):
         """
         return self.unresolved_restriction  # Delegates to property
 
-    def setUnresolvedRestriction(self, value: "RefType") -> ReferenceTailoring:
+    def setUnresolvedRestriction(self, value: RefType) -> ReferenceTailoring:
         """
         AUTOSAR-compliant setter for unresolvedRestriction with method chaining.
 

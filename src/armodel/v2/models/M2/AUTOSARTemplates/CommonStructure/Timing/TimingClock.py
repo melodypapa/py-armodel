@@ -30,15 +30,15 @@ class TimingClock(Identifiable, ABC):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Refers to a physical time base reference on the atpVariation.
-        self._platformTime: Optional["GlobalTimeDomain"] = None
+        self._platformTime: Optional[GlobalTimeDomain] = None
 
     @property
-    def platform_time(self) -> Optional["GlobalTimeDomain"]:
+    def platform_time(self) -> Optional[GlobalTimeDomain]:
         """Get platformTime (Pythonic accessor)."""
         return self._platformTime
 
     @platform_time.setter
-    def platform_time(self, value: Optional["GlobalTimeDomain"]) -> None:
+    def platform_time(self, value: Optional[GlobalTimeDomain]) -> None:
         """
         Set platformTime with validation.
 
@@ -60,7 +60,7 @@ class TimingClock(Identifiable, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getPlatformTime(self) -> "GlobalTimeDomain":
+    def getPlatformTime(self) -> GlobalTimeDomain:
         """
         AUTOSAR-compliant getter for platformTime.
 
@@ -72,7 +72,7 @@ class TimingClock(Identifiable, ABC):
         """
         return self.platform_time  # Delegates to property
 
-    def setPlatformTime(self, value: "GlobalTimeDomain") -> TimingClock:
+    def setPlatformTime(self, value: GlobalTimeDomain) -> TimingClock:
         """
         AUTOSAR-compliant setter for platformTime with method chaining.
 
@@ -90,7 +90,7 @@ class TimingClock(Identifiable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_platform_time(self, value: Optional["GlobalTimeDomain"]) -> TimingClock:
+    def with_platform_time(self, value: Optional[GlobalTimeDomain]) -> TimingClock:
         """
         Set platformTime and return self for chaining.
 

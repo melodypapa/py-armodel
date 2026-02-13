@@ -28,34 +28,34 @@ class SynchronizationPointConstraint(TimingConstraint):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The source executable entities cluster containing the entities that shall
         # finish execution before the.
-        self._sourceEec: List["EOCExecutableEntity"] = []
+        self._sourceEec: List[EOCExecutableEntity] = []
 
     @property
-    def source_eec(self) -> List["EOCExecutableEntity"]:
+    def source_eec(self) -> List[EOCExecutableEntity]:
         """Get sourceEec (Pythonic accessor)."""
         return self._sourceEec
         # The executable entities — referenced by their events — finish execution
         # before the synchronization.
-        self._sourceEvent: List["AbstractEvent"] = []
+        self._sourceEvent: List[AbstractEvent] = []
 
     @property
-    def source_event(self) -> List["AbstractEvent"]:
+    def source_event(self) -> List[AbstractEvent]:
         """Get sourceEvent (Pythonic accessor)."""
         return self._sourceEvent
         # The target executable entities cluster containing the entities that shall
         # start execution after the.
-        self._targetEec: List["EOCExecutableEntity"] = []
+        self._targetEec: List[EOCExecutableEntity] = []
 
     @property
-    def target_eec(self) -> List["EOCExecutableEntity"]:
+    def target_eec(self) -> List[EOCExecutableEntity]:
         """Get targetEec (Pythonic accessor)."""
         return self._targetEec
         # The executable entities — referenced by their events — start execution after
         # the synchronization point.
-        self._targetEvent: List["AbstractEvent"] = []
+        self._targetEvent: List[AbstractEvent] = []
 
     @property
-    def target_event(self) -> List["AbstractEvent"]:
+    def target_event(self) -> List[AbstractEvent]:
         """Get targetEvent (Pythonic accessor)."""
         return self._targetEvent
 
@@ -125,7 +125,7 @@ class SynchronizationPointConstraint(TimingConstraint):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getSourceEec(self) -> List["EOCExecutableEntity"]:
+    def getSourceEec(self) -> List[EOCExecutableEntity]:
         """
         AUTOSAR-compliant getter for sourceEec.
 
@@ -137,7 +137,7 @@ class SynchronizationPointConstraint(TimingConstraint):
         """
         return self.source_eec  # Delegates to property
 
-    def getSourceEvent(self) -> List["AbstractEvent"]:
+    def getSourceEvent(self) -> List[AbstractEvent]:
         """
         AUTOSAR-compliant getter for sourceEvent.
 
@@ -149,7 +149,7 @@ class SynchronizationPointConstraint(TimingConstraint):
         """
         return self.source_event  # Delegates to property
 
-    def getTargetEec(self) -> List["EOCExecutableEntity"]:
+    def getTargetEec(self) -> List[EOCExecutableEntity]:
         """
         AUTOSAR-compliant getter for targetEec.
 
@@ -161,7 +161,7 @@ class SynchronizationPointConstraint(TimingConstraint):
         """
         return self.target_eec  # Delegates to property
 
-    def getTargetEvent(self) -> List["AbstractEvent"]:
+    def getTargetEvent(self) -> List[AbstractEvent]:
         """
         AUTOSAR-compliant getter for targetEvent.
 

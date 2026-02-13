@@ -30,10 +30,10 @@ class BlueprintMappingSet(ARElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents a particular blueprint map in the set.
-        self._blueprintMap: List["RefType"] = []
+        self._blueprintMap: List[RefType] = []
 
     @property
-    def blueprint_map(self) -> List["RefType"]:
+    def blueprint_map(self) -> List[RefType]:
         """Get blueprintMap (Pythonic accessor)."""
         return self._blueprintMap
 
@@ -55,7 +55,7 @@ class BlueprintMappingSet(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBlueprintMap(self) -> List["RefType"]:
+    def getBlueprintMap(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for blueprintMap.
 

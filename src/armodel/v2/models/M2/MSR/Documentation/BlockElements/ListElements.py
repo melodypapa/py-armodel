@@ -66,15 +66,15 @@ class List(Paginateable):
             )
         self._item = value
         # Default is "UNNUMBER".
-        self._type: Optional["RefType"] = None
+        self._type: Optional[RefType] = None
 
     @property
-    def type(self) -> Optional["RefType"]:
+    def type(self) -> Optional[RefType]:
         """Get type (Pythonic accessor)."""
         return self._type
 
     @type.setter
-    def type(self, value: Optional["RefType"]) -> None:
+    def type(self, value: Optional[RefType]) -> None:
         """
         Set type with validation.
         
@@ -120,7 +120,7 @@ class List(Paginateable):
         self.item = value  # Delegates to property setter
         return self
 
-    def getType(self) -> "RefType":
+    def getType(self) -> RefType:
         """
         AUTOSAR-compliant getter for type.
         
@@ -132,7 +132,7 @@ class List(Paginateable):
         """
         return self.type  # Delegates to property
 
-    def setType(self, value: "RefType") -> List:
+    def setType(self, value: RefType) -> List:
         """
         AUTOSAR-compliant setter for type with method chaining.
         
@@ -201,15 +201,15 @@ class Item(Paginateable):
         # this represents the actual content of the item.
         # It is a DocumentationBlock.
         # This way it is use simple paragraphs to nested lists, or notes.
-        self._itemContents: "DocumentationBlock" = None
+        self._itemContents: DocumentationBlock = None
 
     @property
-    def item_contents(self) -> "DocumentationBlock":
+    def item_contents(self) -> DocumentationBlock:
         """Get itemContents (Pythonic accessor)."""
         return self._itemContents
 
     @item_contents.setter
-    def item_contents(self, value: "DocumentationBlock") -> None:
+    def item_contents(self, value: DocumentationBlock) -> None:
         """
         Set itemContents with validation.
         
@@ -227,7 +227,7 @@ class Item(Paginateable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getItemContents(self) -> "DocumentationBlock":
+    def getItemContents(self) -> DocumentationBlock:
         """
         AUTOSAR-compliant getter for itemContents.
         
@@ -239,7 +239,7 @@ class Item(Paginateable):
         """
         return self.item_contents  # Delegates to property
 
-    def setItemContents(self, value: "DocumentationBlock") -> Item:
+    def setItemContents(self, value: DocumentationBlock) -> Item:
         """
         AUTOSAR-compliant setter for itemContents with method chaining.
         
@@ -257,7 +257,7 @@ class Item(Paginateable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_item_contents(self, value: "DocumentationBlock") -> Item:
+    def with_item_contents(self, value: DocumentationBlock) -> Item:
         """
         Set itemContents and return self for chaining.
         
@@ -459,15 +459,15 @@ class LabeledItem(Paginateable):
         # This specifies an entry point in an online help system to with the parent
                 # class.
         # The syntax shall be the applied help system respectively help.
-        self._helpEntry: Optional["String"] = None
+        self._helpEntry: Optional[String] = None
 
     @property
-    def help_entry(self) -> Optional["String"]:
+    def help_entry(self) -> Optional[String]:
         """Get helpEntry (Pythonic accessor)."""
         return self._helpEntry
 
     @help_entry.setter
-    def help_entry(self, value: Optional["String"]) -> None:
+    def help_entry(self, value: Optional[String]) -> None:
         """
         Set helpEntry with validation.
         
@@ -488,15 +488,15 @@ class LabeledItem(Paginateable):
         self._helpEntry = value
         # It is a DocumentationBlock.
         # This way it is use simple paragraphs to nested lists, or notes.
-        self._itemContents: Optional["DocumentationBlock"] = None
+        self._itemContents: Optional[DocumentationBlock] = None
 
     @property
-    def item_contents(self) -> Optional["DocumentationBlock"]:
+    def item_contents(self) -> Optional[DocumentationBlock]:
         """Get itemContents (Pythonic accessor)."""
         return self._itemContents
 
     @item_contents.setter
-    def item_contents(self, value: Optional["DocumentationBlock"]) -> None:
+    def item_contents(self, value: Optional[DocumentationBlock]) -> None:
         """
         Set itemContents with validation.
         
@@ -543,7 +543,7 @@ class LabeledItem(Paginateable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getHelpEntry(self) -> "String":
+    def getHelpEntry(self) -> String:
         """
         AUTOSAR-compliant getter for helpEntry.
         
@@ -555,7 +555,7 @@ class LabeledItem(Paginateable):
         """
         return self.help_entry  # Delegates to property
 
-    def setHelpEntry(self, value: "String") -> LabeledItem:
+    def setHelpEntry(self, value: String) -> LabeledItem:
         """
         AUTOSAR-compliant setter for helpEntry with method chaining.
         
@@ -571,7 +571,7 @@ class LabeledItem(Paginateable):
         self.help_entry = value  # Delegates to property setter
         return self
 
-    def getItemContents(self) -> "DocumentationBlock":
+    def getItemContents(self) -> DocumentationBlock:
         """
         AUTOSAR-compliant getter for itemContents.
         
@@ -583,7 +583,7 @@ class LabeledItem(Paginateable):
         """
         return self.item_contents  # Delegates to property
 
-    def setItemContents(self, value: "DocumentationBlock") -> LabeledItem:
+    def setItemContents(self, value: DocumentationBlock) -> LabeledItem:
         """
         AUTOSAR-compliant setter for itemContents with method chaining.
         
@@ -629,7 +629,7 @@ class LabeledItem(Paginateable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_help_entry(self, value: Optional["String"]) -> LabeledItem:
+    def with_help_entry(self, value: Optional[String]) -> LabeledItem:
         """
         Set helpEntry and return self for chaining.
         
@@ -645,7 +645,7 @@ class LabeledItem(Paginateable):
         self.help_entry = value  # Use property setter (gets validation)
         return self
 
-    def with_item_contents(self, value: Optional["DocumentationBlock"]) -> LabeledItem:
+    def with_item_contents(self, value: Optional[DocumentationBlock]) -> LabeledItem:
         """
         Set itemContents and return self for chaining.
         
@@ -948,15 +948,15 @@ class DefItem(Paginateable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the definition part of the DefItem.
-        self._definition: "DocumentationBlock" = None
+        self._definition: DocumentationBlock = None
 
     @property
-    def definition(self) -> "DocumentationBlock":
+    def definition(self) -> DocumentationBlock:
         """Get definition (Pythonic accessor)."""
         return self._definition
 
     @definition.setter
-    def definition(self, value: "DocumentationBlock") -> None:
+    def definition(self, value: DocumentationBlock) -> None:
         """
         Set definition with validation.
         
@@ -974,15 +974,15 @@ class DefItem(Paginateable):
         # This specifies an entry point in an online help system to with the parent
                 # class.
         # The syntax shall be the applied help system respectively help.
-        self._helpEntry: Optional["String"] = None
+        self._helpEntry: Optional[String] = None
 
     @property
-    def help_entry(self) -> Optional["String"]:
+    def help_entry(self) -> Optional[String]:
         """Get helpEntry (Pythonic accessor)."""
         return self._helpEntry
 
     @help_entry.setter
-    def help_entry(self, value: Optional["String"]) -> None:
+    def help_entry(self, value: Optional[String]) -> None:
         """
         Set helpEntry with validation.
         
@@ -1004,7 +1004,7 @@ class DefItem(Paginateable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDef(self) -> "DocumentationBlock":
+    def getDef(self) -> DocumentationBlock:
         """
         AUTOSAR-compliant getter for def.
         
@@ -1016,7 +1016,7 @@ class DefItem(Paginateable):
         """
         return self.definition  # Delegates to property
 
-    def setDefinition(self, value: "DocumentationBlock") -> DefItem:
+    def setDefinition(self, value: DocumentationBlock) -> DefItem:
         """
         AUTOSAR-compliant setter for definition with method chaining.
         
@@ -1032,7 +1032,7 @@ class DefItem(Paginateable):
         self.definition = value  # Delegates to property setter
         return self
 
-    def getHelpEntry(self) -> "String":
+    def getHelpEntry(self) -> String:
         """
         AUTOSAR-compliant getter for helpEntry.
         
@@ -1044,7 +1044,7 @@ class DefItem(Paginateable):
         """
         return self.help_entry  # Delegates to property
 
-    def setHelpEntry(self, value: "String") -> DefItem:
+    def setHelpEntry(self, value: String) -> DefItem:
         """
         AUTOSAR-compliant setter for helpEntry with method chaining.
         
@@ -1062,7 +1062,7 @@ class DefItem(Paginateable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_def(self, value: "DocumentationBlock") -> DefItem:
+    def with_def(self, value: DocumentationBlock) -> DefItem:
         """
         Set def and return self for chaining.
         
@@ -1078,7 +1078,7 @@ class DefItem(Paginateable):
         self.definition = value  # Use property setter (gets validation)
         return self
 
-    def with_help_entry(self, value: Optional["String"]) -> DefItem:
+    def with_help_entry(self, value: Optional[String]) -> DefItem:
         """
         Set helpEntry and return self for chaining.
         

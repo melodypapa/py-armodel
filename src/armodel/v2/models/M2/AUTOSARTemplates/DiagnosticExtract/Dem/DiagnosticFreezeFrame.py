@@ -37,15 +37,15 @@ class DiagnosticFreezeFrame(DiagnosticCommonElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attribute shall be taken to verbally describe the the custom trigger.
-        self._customTrigger: Optional["String"] = None
+        self._customTrigger: Optional[String] = None
 
     @property
-    def custom_trigger(self) -> Optional["String"]:
+    def custom_trigger(self) -> Optional[String]:
         """Get customTrigger (Pythonic accessor)."""
         return self._customTrigger
 
     @custom_trigger.setter
-    def custom_trigger(self, value: Optional["String"]) -> None:
+    def custom_trigger(self, value: Optional[String]) -> None:
         """
         Set customTrigger with validation.
 
@@ -64,15 +64,15 @@ class DiagnosticFreezeFrame(DiagnosticCommonElement):
                 f"customTrigger must be String or str or None, got {type(value).__name__}"
             )
         self._customTrigger = value
-        self._recordNumber: Optional["PositiveInteger"] = None
+        self._recordNumber: Optional[PositiveInteger] = None
 
     @property
-    def record_number(self) -> Optional["PositiveInteger"]:
+    def record_number(self) -> Optional[PositiveInteger]:
         """Get recordNumber (Pythonic accessor)."""
         return self._recordNumber
 
     @record_number.setter
-    def record_number(self, value: Optional["PositiveInteger"]) -> None:
+    def record_number(self, value: Optional[PositiveInteger]) -> None:
         """
         Set recordNumber with validation.
 
@@ -120,15 +120,15 @@ class DiagnosticFreezeFrame(DiagnosticCommonElement):
         self._trigger = value
         # record is captured every time.
         # record is only captured for new event.
-        self._update: Optional["Boolean"] = None
+        self._update: Optional[Boolean] = None
 
     @property
-    def update(self) -> Optional["Boolean"]:
+    def update(self) -> Optional[Boolean]:
         """Get update (Pythonic accessor)."""
         return self._update
 
     @update.setter
-    def update(self, value: Optional["Boolean"]) -> None:
+    def update(self, value: Optional[Boolean]) -> None:
         """
         Set update with validation.
 
@@ -150,7 +150,7 @@ class DiagnosticFreezeFrame(DiagnosticCommonElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCustomTrigger(self) -> "String":
+    def getCustomTrigger(self) -> String:
         """
         AUTOSAR-compliant getter for customTrigger.
 
@@ -162,7 +162,7 @@ class DiagnosticFreezeFrame(DiagnosticCommonElement):
         """
         return self.custom_trigger  # Delegates to property
 
-    def setCustomTrigger(self, value: "String") -> DiagnosticFreezeFrame:
+    def setCustomTrigger(self, value: String) -> DiagnosticFreezeFrame:
         """
         AUTOSAR-compliant setter for customTrigger with method chaining.
 
@@ -178,7 +178,7 @@ class DiagnosticFreezeFrame(DiagnosticCommonElement):
         self.custom_trigger = value  # Delegates to property setter
         return self
 
-    def getRecordNumber(self) -> "PositiveInteger":
+    def getRecordNumber(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for recordNumber.
 
@@ -190,7 +190,7 @@ class DiagnosticFreezeFrame(DiagnosticCommonElement):
         """
         return self.record_number  # Delegates to property
 
-    def setRecordNumber(self, value: "PositiveInteger") -> DiagnosticFreezeFrame:
+    def setRecordNumber(self, value: PositiveInteger) -> DiagnosticFreezeFrame:
         """
         AUTOSAR-compliant setter for recordNumber with method chaining.
 
@@ -234,7 +234,7 @@ class DiagnosticFreezeFrame(DiagnosticCommonElement):
         self.trigger = value  # Delegates to property setter
         return self
 
-    def getUpdate(self) -> "Boolean":
+    def getUpdate(self) -> Boolean:
         """
         AUTOSAR-compliant getter for update.
 
@@ -246,7 +246,7 @@ class DiagnosticFreezeFrame(DiagnosticCommonElement):
         """
         return self.update  # Delegates to property
 
-    def setUpdate(self, value: "Boolean") -> DiagnosticFreezeFrame:
+    def setUpdate(self, value: Boolean) -> DiagnosticFreezeFrame:
         """
         AUTOSAR-compliant setter for update with method chaining.
 
@@ -264,7 +264,7 @@ class DiagnosticFreezeFrame(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_custom_trigger(self, value: Optional["String"]) -> DiagnosticFreezeFrame:
+    def with_custom_trigger(self, value: Optional[String]) -> DiagnosticFreezeFrame:
         """
         Set customTrigger and return self for chaining.
 
@@ -280,7 +280,7 @@ class DiagnosticFreezeFrame(DiagnosticCommonElement):
         self.custom_trigger = value  # Use property setter (gets validation)
         return self
 
-    def with_record_number(self, value: Optional["PositiveInteger"]) -> DiagnosticFreezeFrame:
+    def with_record_number(self, value: Optional[PositiveInteger]) -> DiagnosticFreezeFrame:
         """
         Set recordNumber and return self for chaining.
 
@@ -312,7 +312,7 @@ class DiagnosticFreezeFrame(DiagnosticCommonElement):
         self.trigger = value  # Use property setter (gets validation)
         return self
 
-    def with_update(self, value: Optional["Boolean"]) -> DiagnosticFreezeFrame:
+    def with_update(self, value: Optional[Boolean]) -> DiagnosticFreezeFrame:
         """
         Set update and return self for chaining.
 

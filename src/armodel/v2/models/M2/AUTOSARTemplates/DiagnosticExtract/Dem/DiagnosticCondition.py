@@ -37,15 +37,15 @@ class DiagnosticCondition(DiagnosticCommonElement, ABC):
                 # diagnostic event.
         # is the initialization after power up (before this reported the first time).
         # of a diagnostic event enabled of a diagnostic event disabled.
-        self._initValue: Optional["Boolean"] = None
+        self._initValue: Optional[Boolean] = None
 
     @property
-    def init_value(self) -> Optional["Boolean"]:
+    def init_value(self) -> Optional[Boolean]:
         """Get initValue (Pythonic accessor)."""
         return self._initValue
 
     @init_value.setter
-    def init_value(self, value: Optional["Boolean"]) -> None:
+    def init_value(self, value: Optional[Boolean]) -> None:
         """
         Set initValue with validation.
 
@@ -67,7 +67,7 @@ class DiagnosticCondition(DiagnosticCommonElement, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getInitValue(self) -> "Boolean":
+    def getInitValue(self) -> Boolean:
         """
         AUTOSAR-compliant getter for initValue.
 
@@ -79,7 +79,7 @@ class DiagnosticCondition(DiagnosticCommonElement, ABC):
         """
         return self.init_value  # Delegates to property
 
-    def setInitValue(self, value: "Boolean") -> DiagnosticCondition:
+    def setInitValue(self, value: Boolean) -> DiagnosticCondition:
         """
         AUTOSAR-compliant setter for initValue with method chaining.
 
@@ -97,7 +97,7 @@ class DiagnosticCondition(DiagnosticCommonElement, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_init_value(self, value: Optional["Boolean"]) -> DiagnosticCondition:
+    def with_init_value(self, value: Optional[Boolean]) -> DiagnosticCondition:
         """
         Set initValue and return self for chaining.
 

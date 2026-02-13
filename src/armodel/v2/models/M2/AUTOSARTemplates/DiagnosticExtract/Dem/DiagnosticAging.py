@@ -59,15 +59,15 @@ class DiagnosticAging(DiagnosticCommonElement):
                 f"agingCycle must be DiagnosticOperation or None, got {type(value).__name__}"
             )
         self._agingCycle = value
-        self._threshold: Optional["PositiveInteger"] = None
+        self._threshold: Optional[PositiveInteger] = None
 
     @property
-    def threshold(self) -> Optional["PositiveInteger"]:
+    def threshold(self) -> Optional[PositiveInteger]:
         """Get threshold (Pythonic accessor)."""
         return self._threshold
 
     @threshold.setter
-    def threshold(self, value: Optional["PositiveInteger"]) -> None:
+    def threshold(self, value: Optional[PositiveInteger]) -> None:
         """
         Set threshold with validation.
 
@@ -117,7 +117,7 @@ class DiagnosticAging(DiagnosticCommonElement):
         self.aging_cycle = value  # Delegates to property setter
         return self
 
-    def getThreshold(self) -> "PositiveInteger":
+    def getThreshold(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for threshold.
 
@@ -129,7 +129,7 @@ class DiagnosticAging(DiagnosticCommonElement):
         """
         return self.threshold  # Delegates to property
 
-    def setThreshold(self, value: "PositiveInteger") -> DiagnosticAging:
+    def setThreshold(self, value: PositiveInteger) -> DiagnosticAging:
         """
         AUTOSAR-compliant setter for threshold with method chaining.
 
@@ -163,7 +163,7 @@ class DiagnosticAging(DiagnosticCommonElement):
         self.aging_cycle = value  # Use property setter (gets validation)
         return self
 
-    def with_threshold(self, value: Optional["PositiveInteger"]) -> DiagnosticAging:
+    def with_threshold(self, value: Optional[PositiveInteger]) -> DiagnosticAging:
         """
         Set threshold and return self for chaining.
 

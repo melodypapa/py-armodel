@@ -88,15 +88,15 @@ class DataTransformation(Identifiable):
                 # available.
         # 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template
                 # R23-11.
-        self._executeDespite: Optional["Boolean"] = None
+        self._executeDespite: Optional[Boolean] = None
 
     @property
-    def execute_despite(self) -> Optional["Boolean"]:
+    def execute_despite(self) -> Optional[Boolean]:
         """Get executeDespite (Pythonic accessor)."""
         return self._executeDespite
 
     @execute_despite.setter
-    def execute_despite(self, value: Optional["Boolean"]) -> None:
+    def execute_despite(self, value: Optional[Boolean]) -> None:
         """
         Set executeDespite with validation.
 
@@ -219,7 +219,7 @@ class DataTransformation(Identifiable):
         self.data = value  # Delegates to property setter
         return self
 
-    def getExecuteDespite(self) -> "Boolean":
+    def getExecuteDespite(self) -> Boolean:
         """
         AUTOSAR-compliant getter for executeDespite.
 
@@ -231,7 +231,7 @@ class DataTransformation(Identifiable):
         """
         return self.execute_despite  # Delegates to property
 
-    def setExecuteDespite(self, value: "Boolean") -> DataTransformation:
+    def setExecuteDespite(self, value: Boolean) -> DataTransformation:
         """
         AUTOSAR-compliant setter for executeDespite with method chaining.
 
@@ -277,7 +277,7 @@ class DataTransformation(Identifiable):
         self.data = value  # Use property setter (gets validation)
         return self
 
-    def with_execute_despite(self, value: Optional["Boolean"]) -> DataTransformation:
+    def with_execute_despite(self, value: Optional[Boolean]) -> DataTransformation:
         """
         Set executeDespite and return self for chaining.
 
@@ -341,15 +341,15 @@ class TransformationTechnology(Identifiable):
             )
         self._bufferProperties = value
         # This attribute defines whether the Transformer has an state or not.
-        self._hasInternal: Optional["Boolean"] = None
+        self._hasInternal: Optional[Boolean] = None
 
     @property
-    def has_internal(self) -> Optional["Boolean"]:
+    def has_internal(self) -> Optional[Boolean]:
         """Get hasInternal (Pythonic accessor)."""
         return self._hasInternal
 
     @has_internal.setter
-    def has_internal(self, value: Optional["Boolean"]) -> None:
+    def has_internal(self, value: Optional[Boolean]) -> None:
         """
         Set hasInternal with validation.
 
@@ -369,15 +369,15 @@ class TransformationTechnology(Identifiable):
             )
         self._hasInternal = value
         # Specifies whether this transformer gets access to the original data.
-        self._needsOriginal: Optional["Boolean"] = None
+        self._needsOriginal: Optional[Boolean] = None
 
     @property
-    def needs_original(self) -> Optional["Boolean"]:
+    def needs_original(self) -> Optional[Boolean]:
         """Get needsOriginal (Pythonic accessor)."""
         return self._needsOriginal
 
     @needs_original.setter
-    def needs_original(self, value: Optional["Boolean"]) -> None:
+    def needs_original(self, value: Optional[Boolean]) -> None:
         """
         Set needsOriginal with validation.
 
@@ -397,15 +397,15 @@ class TransformationTechnology(Identifiable):
             )
         self._needsOriginal = value
         # Specifies the protocol that is implemented by this.
-        self._protocol: Optional["String"] = None
+        self._protocol: Optional[String] = None
 
     @property
-    def protocol(self) -> Optional["String"]:
+    def protocol(self) -> Optional[String]:
         """Get protocol (Pythonic accessor)."""
         return self._protocol
 
     @protocol.setter
-    def protocol(self, value: Optional["String"]) -> None:
+    def protocol(self, value: Optional[String]) -> None:
         """
         Set protocol with validation.
 
@@ -482,15 +482,15 @@ class TransformationTechnology(Identifiable):
             )
         self._transformer = value
         # Version of the implemented protocol.
-        self._version: Optional["String"] = None
+        self._version: Optional[String] = None
 
     @property
-    def version(self) -> Optional["String"]:
+    def version(self) -> Optional[String]:
         """Get version (Pythonic accessor)."""
         return self._version
 
     @version.setter
-    def version(self, value: Optional["String"]) -> None:
+    def version(self, value: Optional[String]) -> None:
         """
         Set version with validation.
 
@@ -540,7 +540,7 @@ class TransformationTechnology(Identifiable):
         self.buffer_properties = value  # Delegates to property setter
         return self
 
-    def getHasInternal(self) -> "Boolean":
+    def getHasInternal(self) -> Boolean:
         """
         AUTOSAR-compliant getter for hasInternal.
 
@@ -552,7 +552,7 @@ class TransformationTechnology(Identifiable):
         """
         return self.has_internal  # Delegates to property
 
-    def setHasInternal(self, value: "Boolean") -> TransformationTechnology:
+    def setHasInternal(self, value: Boolean) -> TransformationTechnology:
         """
         AUTOSAR-compliant setter for hasInternal with method chaining.
 
@@ -568,7 +568,7 @@ class TransformationTechnology(Identifiable):
         self.has_internal = value  # Delegates to property setter
         return self
 
-    def getNeedsOriginal(self) -> "Boolean":
+    def getNeedsOriginal(self) -> Boolean:
         """
         AUTOSAR-compliant getter for needsOriginal.
 
@@ -580,7 +580,7 @@ class TransformationTechnology(Identifiable):
         """
         return self.needs_original  # Delegates to property
 
-    def setNeedsOriginal(self, value: "Boolean") -> TransformationTechnology:
+    def setNeedsOriginal(self, value: Boolean) -> TransformationTechnology:
         """
         AUTOSAR-compliant setter for needsOriginal with method chaining.
 
@@ -596,7 +596,7 @@ class TransformationTechnology(Identifiable):
         self.needs_original = value  # Delegates to property setter
         return self
 
-    def getProtocol(self) -> "String":
+    def getProtocol(self) -> String:
         """
         AUTOSAR-compliant getter for protocol.
 
@@ -608,7 +608,7 @@ class TransformationTechnology(Identifiable):
         """
         return self.protocol  # Delegates to property
 
-    def setProtocol(self, value: "String") -> TransformationTechnology:
+    def setProtocol(self, value: String) -> TransformationTechnology:
         """
         AUTOSAR-compliant setter for protocol with method chaining.
 
@@ -680,7 +680,7 @@ class TransformationTechnology(Identifiable):
         self.transformer = value  # Delegates to property setter
         return self
 
-    def getVersion(self) -> "String":
+    def getVersion(self) -> String:
         """
         AUTOSAR-compliant getter for version.
 
@@ -692,7 +692,7 @@ class TransformationTechnology(Identifiable):
         """
         return self.version  # Delegates to property
 
-    def setVersion(self, value: "String") -> TransformationTechnology:
+    def setVersion(self, value: String) -> TransformationTechnology:
         """
         AUTOSAR-compliant setter for version with method chaining.
 
@@ -726,7 +726,7 @@ class TransformationTechnology(Identifiable):
         self.buffer_properties = value  # Use property setter (gets validation)
         return self
 
-    def with_has_internal(self, value: Optional["Boolean"]) -> TransformationTechnology:
+    def with_has_internal(self, value: Optional[Boolean]) -> TransformationTechnology:
         """
         Set hasInternal and return self for chaining.
 
@@ -742,7 +742,7 @@ class TransformationTechnology(Identifiable):
         self.has_internal = value  # Use property setter (gets validation)
         return self
 
-    def with_needs_original(self, value: Optional["Boolean"]) -> TransformationTechnology:
+    def with_needs_original(self, value: Optional[Boolean]) -> TransformationTechnology:
         """
         Set needsOriginal and return self for chaining.
 
@@ -758,7 +758,7 @@ class TransformationTechnology(Identifiable):
         self.needs_original = value  # Use property setter (gets validation)
         return self
 
-    def with_protocol(self, value: Optional["String"]) -> TransformationTechnology:
+    def with_protocol(self, value: Optional[String]) -> TransformationTechnology:
         """
         Set protocol and return self for chaining.
 
@@ -806,7 +806,7 @@ class TransformationTechnology(Identifiable):
         self.transformer = value  # Use property setter (gets validation)
         return self
 
-    def with_version(self, value: Optional["String"]) -> TransformationTechnology:
+    def with_version(self, value: Optional[String]) -> TransformationTechnology:
         """
         Set version and return self for chaining.
 
@@ -841,15 +841,15 @@ class BufferProperties(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Defines the length of the header (in bits) this transformer in front of the
         # data.
-        self._headerLength: Optional["Integer"] = None
+        self._headerLength: Optional[Integer] = None
 
     @property
-    def header_length(self) -> Optional["Integer"]:
+    def header_length(self) -> Optional[Integer]:
         """Get headerLength (Pythonic accessor)."""
         return self._headerLength
 
     @header_length.setter
-    def header_length(self, value: Optional["Integer"]) -> None:
+    def header_length(self, value: Optional[Integer]) -> None:
         """
         Set headerLength with validation.
 
@@ -869,15 +869,15 @@ class BufferProperties(ARObject):
             )
         self._headerLength = value
         # If set, the transformer uses the input buffer as output.
-        self._inPlace: Optional["Boolean"] = None
+        self._inPlace: Optional[Boolean] = None
 
     @property
-    def in_place(self) -> Optional["Boolean"]:
+    def in_place(self) -> Optional[Boolean]:
         """Get inPlace (Pythonic accessor)."""
         return self._inPlace
 
     @in_place.setter
-    def in_place(self, value: Optional["Boolean"]) -> None:
+    def in_place(self, value: Optional[Boolean]) -> None:
         """
         Set inPlace with validation.
 
@@ -899,7 +899,7 @@ class BufferProperties(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getHeaderLength(self) -> "Integer":
+    def getHeaderLength(self) -> Integer:
         """
         AUTOSAR-compliant getter for headerLength.
 
@@ -911,7 +911,7 @@ class BufferProperties(ARObject):
         """
         return self.header_length  # Delegates to property
 
-    def setHeaderLength(self, value: "Integer") -> BufferProperties:
+    def setHeaderLength(self, value: Integer) -> BufferProperties:
         """
         AUTOSAR-compliant setter for headerLength with method chaining.
 
@@ -927,7 +927,7 @@ class BufferProperties(ARObject):
         self.header_length = value  # Delegates to property setter
         return self
 
-    def getInPlace(self) -> "Boolean":
+    def getInPlace(self) -> Boolean:
         """
         AUTOSAR-compliant getter for inPlace.
 
@@ -939,7 +939,7 @@ class BufferProperties(ARObject):
         """
         return self.in_place  # Delegates to property
 
-    def setInPlace(self, value: "Boolean") -> BufferProperties:
+    def setInPlace(self, value: Boolean) -> BufferProperties:
         """
         AUTOSAR-compliant setter for inPlace with method chaining.
 
@@ -957,7 +957,7 @@ class BufferProperties(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_header_length(self, value: Optional["Integer"]) -> BufferProperties:
+    def with_header_length(self, value: Optional[Integer]) -> BufferProperties:
         """
         Set headerLength and return self for chaining.
 
@@ -973,7 +973,7 @@ class BufferProperties(ARObject):
         self.header_length = value  # Use property setter (gets validation)
         return self
 
-    def with_in_place(self, value: Optional["Boolean"]) -> BufferProperties:
+    def with_in_place(self, value: Optional[Boolean]) -> BufferProperties:
         """
         Set inPlace and return self for chaining.
 
@@ -1033,15 +1033,15 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Clear monitoring window on transition from state Valid to Invalid.
-        self._clearFromValid: Optional["Boolean"] = None
+        self._clearFromValid: Optional[Boolean] = None
 
     @property
-    def clear_from_valid(self) -> Optional["Boolean"]:
+    def clear_from_valid(self) -> Optional[Boolean]:
         """Get clearFromValid (Pythonic accessor)."""
         return self._clearFromValid
 
     @clear_from_valid.setter
-    def clear_from_valid(self, value: Optional["Boolean"]) -> None:
+    def clear_from_valid(self, value: Optional[Boolean]) -> None:
         """
         Set clearFromValid with validation.
 
@@ -1061,15 +1061,15 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
             )
         self._clearFromValid = value
         # Disables the E2EStateMachine (only E2E check is performed).
-        self._disableEndTo: Optional["Boolean"] = None
+        self._disableEndTo: Optional[Boolean] = None
 
     @property
-    def disable_end_to(self) -> Optional["Boolean"]:
+    def disable_end_to(self) -> Optional[Boolean]:
         """Get disableEndTo (Pythonic accessor)."""
         return self._disableEndTo
 
     @disable_end_to.setter
-    def disable_end_to(self, value: Optional["Boolean"]) -> None:
+    def disable_end_to(self, value: Optional[Boolean]) -> None:
         """
         Set disableEndTo with validation.
 
@@ -1120,15 +1120,15 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
                 # received valid messages.
         # For the receiver gets data with counter 1 and Max 3, then at the next
                 # reception the receiver Counters with values 2, 3 or 4.
-        self._maxDelta: Optional["PositiveInteger"] = None
+        self._maxDelta: Optional[PositiveInteger] = None
 
     @property
-    def max_delta(self) -> Optional["PositiveInteger"]:
+    def max_delta(self) -> Optional[PositiveInteger]:
         """Get maxDelta (Pythonic accessor)."""
         return self._maxDelta
 
     @max_delta.setter
-    def max_delta(self, value: Optional["PositiveInteger"]) -> None:
+    def max_delta(self, value: Optional[PositiveInteger]) -> None:
         """
         Set maxDelta with validation.
 
@@ -1150,15 +1150,15 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         # Maximal number of checks in which ProfileStatus equal to was determined,
                 # within the last Window for the state E2E_SM_VALID.
         # value is 0.
-        self._maxErrorState: Optional["PositiveInteger"] = None
+        self._maxErrorState: Optional[PositiveInteger] = None
 
     @property
-    def max_error_state(self) -> Optional["PositiveInteger"]:
+    def max_error_state(self) -> Optional[PositiveInteger]:
         """Get maxErrorState (Pythonic accessor)."""
         return self._maxErrorState
 
     @max_error_state.setter
-    def max_error_state(self, value: Optional["PositiveInteger"]) -> None:
+    def max_error_state(self, value: Optional[PositiveInteger]) -> None:
         """
         Set maxErrorState with validation.
 
@@ -1179,15 +1179,15 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         self._maxErrorState = value
         # EndToEndTransformationDescription holds these which are profile specific and
         # have the same all E2E transformers.
-        self._maxNoNewOr: Optional["PositiveInteger"] = None
+        self._maxNoNewOr: Optional[PositiveInteger] = None
 
     @property
-    def max_no_new_or(self) -> Optional["PositiveInteger"]:
+    def max_no_new_or(self) -> Optional[PositiveInteger]:
         """Get maxNoNewOr (Pythonic accessor)."""
         return self._maxNoNewOr
 
     @max_no_new_or.setter
-    def max_no_new_or(self, value: Optional["PositiveInteger"]) -> None:
+    def max_no_new_or(self, value: Optional[PositiveInteger]) -> None:
         """
         Set maxNoNewOr with validation.
 
@@ -1209,15 +1209,15 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         # Minimal number of checks in which ProfileStatus equal to determined, within
                 # the last WindowSize the state E2E_SM_INIT.
         # value is 1.
-        self._minOkStateInit: Optional["PositiveInteger"] = None
+        self._minOkStateInit: Optional[PositiveInteger] = None
 
     @property
-    def min_ok_state_init(self) -> Optional["PositiveInteger"]:
+    def min_ok_state_init(self) -> Optional[PositiveInteger]:
         """Get minOkStateInit (Pythonic accessor)."""
         return self._minOkStateInit
 
     @min_ok_state_init.setter
-    def min_ok_state_init(self, value: Optional["PositiveInteger"]) -> None:
+    def min_ok_state_init(self, value: Optional[PositiveInteger]) -> None:
         """
         Set minOkStateInit with validation.
 
@@ -1239,15 +1239,15 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         # Minimal number of checks in which ProfileStatus equal to was determined,
                 # within the last WindowSize the state E2E_SM_VALID.
         # value is 1.
-        self._minOkState: Optional["PositiveInteger"] = None
+        self._minOkState: Optional[PositiveInteger] = None
 
     @property
-    def min_ok_state(self) -> Optional["PositiveInteger"]:
+    def min_ok_state(self) -> Optional[PositiveInteger]:
         """Get minOkState (Pythonic accessor)."""
         return self._minOkState
 
     @min_ok_state.setter
-    def min_ok_state(self, value: Optional["PositiveInteger"]) -> None:
+    def min_ok_state(self, value: Optional[PositiveInteger]) -> None:
         """
         Set minOkState with validation.
 
@@ -1268,15 +1268,15 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         self._minOkState = value
         # EndToEndTransformationDescription holds these are profile specific and have
         # the same all E2E transformers.
-        self._syncCounterInit: Optional["PositiveInteger"] = None
+        self._syncCounterInit: Optional[PositiveInteger] = None
 
     @property
-    def sync_counter_init(self) -> Optional["PositiveInteger"]:
+    def sync_counter_init(self) -> Optional[PositiveInteger]:
         """Get syncCounterInit (Pythonic accessor)."""
         return self._syncCounterInit
 
     @sync_counter_init.setter
-    def sync_counter_init(self, value: Optional["PositiveInteger"]) -> None:
+    def sync_counter_init(self, value: Optional[PositiveInteger]) -> None:
         """
         Set syncCounterInit with validation.
 
@@ -1296,15 +1296,15 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
             )
         self._syncCounterInit = value
         # Size of the monitoring window of state Init for the E2E.
-        self._windowSizeInit: Optional["PositiveInteger"] = None
+        self._windowSizeInit: Optional[PositiveInteger] = None
 
     @property
-    def window_size_init(self) -> Optional["PositiveInteger"]:
+    def window_size_init(self) -> Optional[PositiveInteger]:
         """Get windowSizeInit (Pythonic accessor)."""
         return self._windowSizeInit
 
     @window_size_init.setter
-    def window_size_init(self, value: Optional["PositiveInteger"]) -> None:
+    def window_size_init(self, value: Optional[PositiveInteger]) -> None:
         """
         Set windowSizeInit with validation.
 
@@ -1324,15 +1324,15 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
             )
         self._windowSizeInit = value
         # Size of the monitoring window of state Valid for the E2E machine.
-        self._windowSize: Optional["PositiveInteger"] = None
+        self._windowSize: Optional[PositiveInteger] = None
 
     @property
-    def window_size(self) -> Optional["PositiveInteger"]:
+    def window_size(self) -> Optional[PositiveInteger]:
         """Get windowSize (Pythonic accessor)."""
         return self._windowSize
 
     @window_size.setter
-    def window_size(self, value: Optional["PositiveInteger"]) -> None:
+    def window_size(self, value: Optional[PositiveInteger]) -> None:
         """
         Set windowSize with validation.
 
@@ -1354,7 +1354,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getClearFromValid(self) -> "Boolean":
+    def getClearFromValid(self) -> Boolean:
         """
         AUTOSAR-compliant getter for clearFromValid.
 
@@ -1366,7 +1366,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.clear_from_valid  # Delegates to property
 
-    def setClearFromValid(self, value: "Boolean") -> EndToEndTransformationComSpecProps:
+    def setClearFromValid(self, value: Boolean) -> EndToEndTransformationComSpecProps:
         """
         AUTOSAR-compliant setter for clearFromValid with method chaining.
 
@@ -1382,7 +1382,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         self.clear_from_valid = value  # Delegates to property setter
         return self
 
-    def getDisableEndTo(self) -> "Boolean":
+    def getDisableEndTo(self) -> Boolean:
         """
         AUTOSAR-compliant getter for disableEndTo.
 
@@ -1394,7 +1394,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.disable_end_to  # Delegates to property
 
-    def setDisableEndTo(self, value: "Boolean") -> EndToEndTransformationComSpecProps:
+    def setDisableEndTo(self, value: Boolean) -> EndToEndTransformationComSpecProps:
         """
         AUTOSAR-compliant setter for disableEndTo with method chaining.
 
@@ -1438,7 +1438,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         self.e2e_profile = value  # Delegates to property setter
         return self
 
-    def getMaxDelta(self) -> "PositiveInteger":
+    def getMaxDelta(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for maxDelta.
 
@@ -1450,7 +1450,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.max_delta  # Delegates to property
 
-    def setMaxDelta(self, value: "PositiveInteger") -> EndToEndTransformationComSpecProps:
+    def setMaxDelta(self, value: PositiveInteger) -> EndToEndTransformationComSpecProps:
         """
         AUTOSAR-compliant setter for maxDelta with method chaining.
 
@@ -1466,7 +1466,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         self.max_delta = value  # Delegates to property setter
         return self
 
-    def getMaxErrorState(self) -> "PositiveInteger":
+    def getMaxErrorState(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for maxErrorState.
 
@@ -1478,7 +1478,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.max_error_state  # Delegates to property
 
-    def setMaxErrorState(self, value: "PositiveInteger") -> EndToEndTransformationComSpecProps:
+    def setMaxErrorState(self, value: PositiveInteger) -> EndToEndTransformationComSpecProps:
         """
         AUTOSAR-compliant setter for maxErrorState with method chaining.
 
@@ -1494,7 +1494,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         self.max_error_state = value  # Delegates to property setter
         return self
 
-    def getMaxNoNewOr(self) -> "PositiveInteger":
+    def getMaxNoNewOr(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for maxNoNewOr.
 
@@ -1506,7 +1506,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.max_no_new_or  # Delegates to property
 
-    def setMaxNoNewOr(self, value: "PositiveInteger") -> EndToEndTransformationComSpecProps:
+    def setMaxNoNewOr(self, value: PositiveInteger) -> EndToEndTransformationComSpecProps:
         """
         AUTOSAR-compliant setter for maxNoNewOr with method chaining.
 
@@ -1522,7 +1522,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         self.max_no_new_or = value  # Delegates to property setter
         return self
 
-    def getMinOkStateInit(self) -> "PositiveInteger":
+    def getMinOkStateInit(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for minOkStateInit.
 
@@ -1534,7 +1534,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.min_ok_state_init  # Delegates to property
 
-    def setMinOkStateInit(self, value: "PositiveInteger") -> EndToEndTransformationComSpecProps:
+    def setMinOkStateInit(self, value: PositiveInteger) -> EndToEndTransformationComSpecProps:
         """
         AUTOSAR-compliant setter for minOkStateInit with method chaining.
 
@@ -1550,7 +1550,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         self.min_ok_state_init = value  # Delegates to property setter
         return self
 
-    def getMinOkState(self) -> "PositiveInteger":
+    def getMinOkState(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for minOkState.
 
@@ -1562,7 +1562,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.min_ok_state  # Delegates to property
 
-    def setMinOkState(self, value: "PositiveInteger") -> EndToEndTransformationComSpecProps:
+    def setMinOkState(self, value: PositiveInteger) -> EndToEndTransformationComSpecProps:
         """
         AUTOSAR-compliant setter for minOkState with method chaining.
 
@@ -1578,7 +1578,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         self.min_ok_state = value  # Delegates to property setter
         return self
 
-    def getSyncCounterInit(self) -> "PositiveInteger":
+    def getSyncCounterInit(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for syncCounterInit.
 
@@ -1590,7 +1590,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.sync_counter_init  # Delegates to property
 
-    def setSyncCounterInit(self, value: "PositiveInteger") -> EndToEndTransformationComSpecProps:
+    def setSyncCounterInit(self, value: PositiveInteger) -> EndToEndTransformationComSpecProps:
         """
         AUTOSAR-compliant setter for syncCounterInit with method chaining.
 
@@ -1606,7 +1606,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         self.sync_counter_init = value  # Delegates to property setter
         return self
 
-    def getWindowSizeInit(self) -> "PositiveInteger":
+    def getWindowSizeInit(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for windowSizeInit.
 
@@ -1618,7 +1618,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.window_size_init  # Delegates to property
 
-    def setWindowSizeInit(self, value: "PositiveInteger") -> EndToEndTransformationComSpecProps:
+    def setWindowSizeInit(self, value: PositiveInteger) -> EndToEndTransformationComSpecProps:
         """
         AUTOSAR-compliant setter for windowSizeInit with method chaining.
 
@@ -1634,7 +1634,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         self.window_size_init = value  # Delegates to property setter
         return self
 
-    def getWindowSize(self) -> "PositiveInteger":
+    def getWindowSize(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for windowSize.
 
@@ -1646,7 +1646,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         """
         return self.window_size  # Delegates to property
 
-    def setWindowSize(self, value: "PositiveInteger") -> EndToEndTransformationComSpecProps:
+    def setWindowSize(self, value: PositiveInteger) -> EndToEndTransformationComSpecProps:
         """
         AUTOSAR-compliant setter for windowSize with method chaining.
 
@@ -1664,7 +1664,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_clear_from_valid(self, value: Optional["Boolean"]) -> EndToEndTransformationComSpecProps:
+    def with_clear_from_valid(self, value: Optional[Boolean]) -> EndToEndTransformationComSpecProps:
         """
         Set clearFromValid and return self for chaining.
 
@@ -1680,7 +1680,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         self.clear_from_valid = value  # Use property setter (gets validation)
         return self
 
-    def with_disable_end_to(self, value: Optional["Boolean"]) -> EndToEndTransformationComSpecProps:
+    def with_disable_end_to(self, value: Optional[Boolean]) -> EndToEndTransformationComSpecProps:
         """
         Set disableEndTo and return self for chaining.
 
@@ -1712,7 +1712,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         self.e2e_profile = value  # Use property setter (gets validation)
         return self
 
-    def with_max_delta(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationComSpecProps:
+    def with_max_delta(self, value: Optional[PositiveInteger]) -> EndToEndTransformationComSpecProps:
         """
         Set maxDelta and return self for chaining.
 
@@ -1728,7 +1728,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         self.max_delta = value  # Use property setter (gets validation)
         return self
 
-    def with_max_error_state(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationComSpecProps:
+    def with_max_error_state(self, value: Optional[PositiveInteger]) -> EndToEndTransformationComSpecProps:
         """
         Set maxErrorState and return self for chaining.
 
@@ -1744,7 +1744,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         self.max_error_state = value  # Use property setter (gets validation)
         return self
 
-    def with_max_no_new_or(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationComSpecProps:
+    def with_max_no_new_or(self, value: Optional[PositiveInteger]) -> EndToEndTransformationComSpecProps:
         """
         Set maxNoNewOr and return self for chaining.
 
@@ -1760,7 +1760,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         self.max_no_new_or = value  # Use property setter (gets validation)
         return self
 
-    def with_min_ok_state_init(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationComSpecProps:
+    def with_min_ok_state_init(self, value: Optional[PositiveInteger]) -> EndToEndTransformationComSpecProps:
         """
         Set minOkStateInit and return self for chaining.
 
@@ -1776,7 +1776,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         self.min_ok_state_init = value  # Use property setter (gets validation)
         return self
 
-    def with_min_ok_state(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationComSpecProps:
+    def with_min_ok_state(self, value: Optional[PositiveInteger]) -> EndToEndTransformationComSpecProps:
         """
         Set minOkState and return self for chaining.
 
@@ -1792,7 +1792,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         self.min_ok_state = value  # Use property setter (gets validation)
         return self
 
-    def with_sync_counter_init(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationComSpecProps:
+    def with_sync_counter_init(self, value: Optional[PositiveInteger]) -> EndToEndTransformationComSpecProps:
         """
         Set syncCounterInit and return self for chaining.
 
@@ -1808,7 +1808,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         self.sync_counter_init = value  # Use property setter (gets validation)
         return self
 
-    def with_window_size_init(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationComSpecProps:
+    def with_window_size_init(self, value: Optional[PositiveInteger]) -> EndToEndTransformationComSpecProps:
         """
         Set windowSizeInit and return self for chaining.
 
@@ -1824,7 +1824,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
         self.window_size_init = value  # Use property setter (gets validation)
         return self
 
-    def with_window_size(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationComSpecProps:
+    def with_window_size(self, value: Optional[PositiveInteger]) -> EndToEndTransformationComSpecProps:
         """
         Set windowSize and return self for chaining.
 
@@ -1862,15 +1862,15 @@ class E2EProfileCompatibilityProps(ARElement):
         # transition from NODATA to transition from INIT to INVALID due to (Autosar
         # R19-11 or former direct transition from NODATA to INVALID from INIT to
         # INVALID due to covered (state machine extended).
-        self._transitToInvalid: Optional["Boolean"] = None
+        self._transitToInvalid: Optional[Boolean] = None
 
     @property
-    def transit_to_invalid(self) -> Optional["Boolean"]:
+    def transit_to_invalid(self) -> Optional[Boolean]:
         """Get transitToInvalid (Pythonic accessor)."""
         return self._transitToInvalid
 
     @transit_to_invalid.setter
-    def transit_to_invalid(self, value: Optional["Boolean"]) -> None:
+    def transit_to_invalid(self, value: Optional[Boolean]) -> None:
         """
         Set transitToInvalid with validation.
 
@@ -1892,7 +1892,7 @@ class E2EProfileCompatibilityProps(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTransitToInvalid(self) -> "Boolean":
+    def getTransitToInvalid(self) -> Boolean:
         """
         AUTOSAR-compliant getter for transitToInvalid.
 
@@ -1904,7 +1904,7 @@ class E2EProfileCompatibilityProps(ARElement):
         """
         return self.transit_to_invalid  # Delegates to property
 
-    def setTransitToInvalid(self, value: "Boolean") -> E2EProfileCompatibilityProps:
+    def setTransitToInvalid(self, value: Boolean) -> E2EProfileCompatibilityProps:
         """
         AUTOSAR-compliant setter for transitToInvalid with method chaining.
 
@@ -1922,7 +1922,7 @@ class E2EProfileCompatibilityProps(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_transit_to_invalid(self, value: Optional["Boolean"]) -> E2EProfileCompatibilityProps:
+    def with_transit_to_invalid(self, value: Optional[Boolean]) -> E2EProfileCompatibilityProps:
         """
         Set transitToInvalid and return self for chaining.
 
@@ -2023,15 +2023,15 @@ class TransformationISignalProps(ARObject, ABC):
         # Defines whether the transformer chain of client/server coordinates an
         # autonomous error reaction the RTE or whether any error reaction is the the
         # application.
-        self._csErrorReaction: Optional["CSTransformerError"] = None
+        self._csErrorReaction: Optional[CSTransformerError] = None
 
     @property
-    def cs_error_reaction(self) -> Optional["CSTransformerError"]:
+    def cs_error_reaction(self) -> Optional[CSTransformerError]:
         """Get csErrorReaction (Pythonic accessor)."""
         return self._csErrorReaction
 
     @cs_error_reaction.setter
-    def cs_error_reaction(self, value: Optional["CSTransformerError"]) -> None:
+    def cs_error_reaction(self, value: Optional[CSTransformerError]) -> None:
         """
         Set csErrorReaction with validation.
 
@@ -2053,10 +2053,10 @@ class TransformationISignalProps(ARObject, ABC):
         # Fine granular modeling of TransfromationProps on the level of DataPrototypes.
         # This atpSplitable property has no atp.
         # Splitkey due (PropertySetPattern).
-        self._dataPrototype: List["RefType"] = []
+        self._dataPrototype: List[RefType] = []
 
     @property
-    def data_prototype(self) -> List["RefType"]:
+    def data_prototype(self) -> List[RefType]:
         """Get dataPrototype (Pythonic accessor)."""
         return self._dataPrototype
         # Reference to the TransformationTechnology description contains transformer
@@ -2091,7 +2091,7 @@ class TransformationISignalProps(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCsErrorReaction(self) -> "CSTransformerError":
+    def getCsErrorReaction(self) -> CSTransformerError:
         """
         AUTOSAR-compliant getter for csErrorReaction.
 
@@ -2103,7 +2103,7 @@ class TransformationISignalProps(ARObject, ABC):
         """
         return self.cs_error_reaction  # Delegates to property
 
-    def setCsErrorReaction(self, value: "CSTransformerError") -> TransformationISignalProps:
+    def setCsErrorReaction(self, value: CSTransformerError) -> TransformationISignalProps:
         """
         AUTOSAR-compliant setter for csErrorReaction with method chaining.
 
@@ -2119,7 +2119,7 @@ class TransformationISignalProps(ARObject, ABC):
         self.cs_error_reaction = value  # Delegates to property setter
         return self
 
-    def getDataPrototype(self) -> List["RefType"]:
+    def getDataPrototype(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for dataPrototype.
 
@@ -2161,7 +2161,7 @@ class TransformationISignalProps(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_cs_error_reaction(self, value: Optional["CSTransformerError"]) -> TransformationISignalProps:
+    def with_cs_error_reaction(self, value: Optional[CSTransformerError]) -> TransformationISignalProps:
         """
         Set csErrorReaction and return self for chaining.
 
@@ -2216,15 +2216,15 @@ class SOMEIPTransformationISignalProps(ARObject):
                 # BOM shall be added in the serialization for the payload according to the
                 # SOME/IP Strings.
         # attribute is not future safe, and will be an upcoming AUTOSAR release!".
-        self._implements: Optional["Boolean"] = None
+        self._implements: Optional[Boolean] = None
 
     @property
-    def implements(self) -> Optional["Boolean"]:
+    def implements(self) -> Optional[Boolean]:
         """Get implements (Pythonic accessor)."""
         return self._implements
 
     @implements.setter
-    def implements(self, value: Optional["Boolean"]) -> None:
+    def implements(self, value: Optional[Boolean]) -> None:
         """
         Set implements with validation.
 
@@ -2244,15 +2244,15 @@ class SOMEIPTransformationISignalProps(ARObject):
             )
         self._implements = value
         # The interface version the SOME/IP transformer shall use.
-        self._interfaceVersion: Optional["PositiveInteger"] = None
+        self._interfaceVersion: Optional[PositiveInteger] = None
 
     @property
-    def interface_version(self) -> Optional["PositiveInteger"]:
+    def interface_version(self) -> Optional[PositiveInteger]:
         """Get interfaceVersion (Pythonic accessor)."""
         return self._interfaceVersion
 
     @interface_version.setter
-    def interface_version(self, value: Optional["PositiveInteger"]) -> None:
+    def interface_version(self, value: Optional[PositiveInteger]) -> None:
         """
         Set interfaceVersion with validation.
 
@@ -2273,15 +2273,15 @@ class SOMEIPTransformationISignalProps(ARObject):
         self._interfaceVersion = value
         # This attribute shall be used to determine the wire type in context of using
         # the TLV encoding.
-        self._isDynamic: Optional["Boolean"] = None
+        self._isDynamic: Optional[Boolean] = None
 
     @property
-    def is_dynamic(self) -> Optional["Boolean"]:
+    def is_dynamic(self) -> Optional[Boolean]:
         """Get isDynamic (Pythonic accessor)."""
         return self._isDynamic
 
     @is_dynamic.setter
-    def is_dynamic(self, value: Optional["Boolean"]) -> None:
+    def is_dynamic(self, value: Optional[Boolean]) -> None:
         """
         Set isDynamic with validation.
 
@@ -2332,15 +2332,15 @@ class SOMEIPTransformationISignalProps(ARObject):
                 # arrays in the SOME/IP message.
         # This valid for all available occurrences of fixed-size dynamic size arrays in
                 # the SOME/IP message.
-        self._sizeOfArray: Optional["PositiveInteger"] = None
+        self._sizeOfArray: Optional[PositiveInteger] = None
 
     @property
-    def size_of_array(self) -> Optional["PositiveInteger"]:
+    def size_of_array(self) -> Optional[PositiveInteger]:
         """Get sizeOfArray (Pythonic accessor)."""
         return self._sizeOfArray
 
     @size_of_array.setter
-    def size_of_array(self, value: Optional["PositiveInteger"]) -> None:
+    def size_of_array(self, value: Optional[PositiveInteger]) -> None:
         """
         Set sizeOfArray with validation.
 
@@ -2362,15 +2362,15 @@ class SOMEIPTransformationISignalProps(ARObject):
         # The size of all length fields (in Bytes) of dynamic length in the SOME/IP
                 # message.
         # This attribute is valid for occurrences of strings in the SOME/IP.
-        self._sizeOfString: Optional["PositiveInteger"] = None
+        self._sizeOfString: Optional[PositiveInteger] = None
 
     @property
-    def size_of_string(self) -> Optional["PositiveInteger"]:
+    def size_of_string(self) -> Optional[PositiveInteger]:
         """Get sizeOfString (Pythonic accessor)."""
         return self._sizeOfString
 
     @size_of_string.setter
-    def size_of_string(self, value: Optional["PositiveInteger"]) -> None:
+    def size_of_string(self, value: Optional[PositiveInteger]) -> None:
         """
         Set sizeOfString with validation.
 
@@ -2393,15 +2393,15 @@ class SOMEIPTransformationISignalProps(ARObject):
         # This attribute is valid for all available structures in the SOME/IP message.
         # For fine granular modeling on the level of Data
                 # DataPrototypeTransformationProps shall.
-        self._sizeOfStruct: Optional["PositiveInteger"] = None
+        self._sizeOfStruct: Optional[PositiveInteger] = None
 
     @property
-    def size_of_struct(self) -> Optional["PositiveInteger"]:
+    def size_of_struct(self) -> Optional[PositiveInteger]:
         """Get sizeOfStruct (Pythonic accessor)."""
         return self._sizeOfStruct
 
     @size_of_struct.setter
-    def size_of_struct(self, value: Optional["PositiveInteger"]) -> None:
+    def size_of_struct(self, value: Optional[PositiveInteger]) -> None:
         """
         Set sizeOfStruct with validation.
 
@@ -2424,15 +2424,15 @@ class SOMEIPTransformationISignalProps(ARObject):
         # This attribute is valid for all available Unions in the SOME/IP message.
         # For a granular modeling on the level of Data DataPrototypeTransformationProps
                 # shall.
-        self._sizeOfUnion: Optional["PositiveInteger"] = None
+        self._sizeOfUnion: Optional[PositiveInteger] = None
 
     @property
-    def size_of_union(self) -> Optional["PositiveInteger"]:
+    def size_of_union(self) -> Optional[PositiveInteger]:
         """Get sizeOfUnion (Pythonic accessor)."""
         return self._sizeOfUnion
 
     @size_of_union.setter
-    def size_of_union(self, value: Optional["PositiveInteger"]) -> None:
+    def size_of_union(self, value: Optional[PositiveInteger]) -> None:
         """
         Set sizeOfUnion with validation.
 
@@ -2453,16 +2453,16 @@ class SOMEIPTransformationISignalProps(ARObject):
         self._sizeOfUnion = value
         # This reference identifies the TlvDataIdDefinitions relevant the enclosing
         # SOMEIPTransformationISignalProps.
-        self._tlvDataId: List["RefType"] = []
+        self._tlvDataId: List[RefType] = []
 
     @property
-    def tlv_data_id(self) -> List["RefType"]:
+    def tlv_data_id(self) -> List[RefType]:
         """Get tlvDataId (Pythonic accessor)."""
         return self._tlvDataId
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getImplements(self) -> "Boolean":
+    def getImplements(self) -> Boolean:
         """
         AUTOSAR-compliant getter for implements.
 
@@ -2474,7 +2474,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         """
         return self.implements  # Delegates to property
 
-    def setImplements(self, value: "Boolean") -> SOMEIPTransformationISignalProps:
+    def setImplements(self, value: Boolean) -> SOMEIPTransformationISignalProps:
         """
         AUTOSAR-compliant setter for implements with method chaining.
 
@@ -2490,7 +2490,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         self.implements = value  # Delegates to property setter
         return self
 
-    def getInterfaceVersion(self) -> "PositiveInteger":
+    def getInterfaceVersion(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for interfaceVersion.
 
@@ -2502,7 +2502,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         """
         return self.interface_version  # Delegates to property
 
-    def setInterfaceVersion(self, value: "PositiveInteger") -> SOMEIPTransformationISignalProps:
+    def setInterfaceVersion(self, value: PositiveInteger) -> SOMEIPTransformationISignalProps:
         """
         AUTOSAR-compliant setter for interfaceVersion with method chaining.
 
@@ -2518,7 +2518,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         self.interface_version = value  # Delegates to property setter
         return self
 
-    def getIsDynamic(self) -> "Boolean":
+    def getIsDynamic(self) -> Boolean:
         """
         AUTOSAR-compliant getter for isDynamic.
 
@@ -2530,7 +2530,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         """
         return self.is_dynamic  # Delegates to property
 
-    def setIsDynamic(self, value: "Boolean") -> SOMEIPTransformationISignalProps:
+    def setIsDynamic(self, value: Boolean) -> SOMEIPTransformationISignalProps:
         """
         AUTOSAR-compliant setter for isDynamic with method chaining.
 
@@ -2574,7 +2574,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         self.message_type = value  # Delegates to property setter
         return self
 
-    def getSizeOfArray(self) -> "PositiveInteger":
+    def getSizeOfArray(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for sizeOfArray.
 
@@ -2586,7 +2586,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         """
         return self.size_of_array  # Delegates to property
 
-    def setSizeOfArray(self, value: "PositiveInteger") -> SOMEIPTransformationISignalProps:
+    def setSizeOfArray(self, value: PositiveInteger) -> SOMEIPTransformationISignalProps:
         """
         AUTOSAR-compliant setter for sizeOfArray with method chaining.
 
@@ -2602,7 +2602,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         self.size_of_array = value  # Delegates to property setter
         return self
 
-    def getSizeOfString(self) -> "PositiveInteger":
+    def getSizeOfString(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for sizeOfString.
 
@@ -2614,7 +2614,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         """
         return self.size_of_string  # Delegates to property
 
-    def setSizeOfString(self, value: "PositiveInteger") -> SOMEIPTransformationISignalProps:
+    def setSizeOfString(self, value: PositiveInteger) -> SOMEIPTransformationISignalProps:
         """
         AUTOSAR-compliant setter for sizeOfString with method chaining.
 
@@ -2630,7 +2630,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         self.size_of_string = value  # Delegates to property setter
         return self
 
-    def getSizeOfStruct(self) -> "PositiveInteger":
+    def getSizeOfStruct(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for sizeOfStruct.
 
@@ -2642,7 +2642,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         """
         return self.size_of_struct  # Delegates to property
 
-    def setSizeOfStruct(self, value: "PositiveInteger") -> SOMEIPTransformationISignalProps:
+    def setSizeOfStruct(self, value: PositiveInteger) -> SOMEIPTransformationISignalProps:
         """
         AUTOSAR-compliant setter for sizeOfStruct with method chaining.
 
@@ -2658,7 +2658,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         self.size_of_struct = value  # Delegates to property setter
         return self
 
-    def getSizeOfUnion(self) -> "PositiveInteger":
+    def getSizeOfUnion(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for sizeOfUnion.
 
@@ -2670,7 +2670,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         """
         return self.size_of_union  # Delegates to property
 
-    def setSizeOfUnion(self, value: "PositiveInteger") -> SOMEIPTransformationISignalProps:
+    def setSizeOfUnion(self, value: PositiveInteger) -> SOMEIPTransformationISignalProps:
         """
         AUTOSAR-compliant setter for sizeOfUnion with method chaining.
 
@@ -2686,7 +2686,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         self.size_of_union = value  # Delegates to property setter
         return self
 
-    def getTlvDataId(self) -> List["RefType"]:
+    def getTlvDataId(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for tlvDataId.
 
@@ -2700,7 +2700,7 @@ class SOMEIPTransformationISignalProps(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_implements(self, value: Optional["Boolean"]) -> SOMEIPTransformationISignalProps:
+    def with_implements(self, value: Optional[Boolean]) -> SOMEIPTransformationISignalProps:
         """
         Set implements and return self for chaining.
 
@@ -2716,7 +2716,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         self.implements = value  # Use property setter (gets validation)
         return self
 
-    def with_interface_version(self, value: Optional["PositiveInteger"]) -> SOMEIPTransformationISignalProps:
+    def with_interface_version(self, value: Optional[PositiveInteger]) -> SOMEIPTransformationISignalProps:
         """
         Set interfaceVersion and return self for chaining.
 
@@ -2732,7 +2732,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         self.interface_version = value  # Use property setter (gets validation)
         return self
 
-    def with_is_dynamic(self, value: Optional["Boolean"]) -> SOMEIPTransformationISignalProps:
+    def with_is_dynamic(self, value: Optional[Boolean]) -> SOMEIPTransformationISignalProps:
         """
         Set isDynamic and return self for chaining.
 
@@ -2764,7 +2764,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         self.message_type = value  # Use property setter (gets validation)
         return self
 
-    def with_size_of_array(self, value: Optional["PositiveInteger"]) -> SOMEIPTransformationISignalProps:
+    def with_size_of_array(self, value: Optional[PositiveInteger]) -> SOMEIPTransformationISignalProps:
         """
         Set sizeOfArray and return self for chaining.
 
@@ -2780,7 +2780,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         self.size_of_array = value  # Use property setter (gets validation)
         return self
 
-    def with_size_of_string(self, value: Optional["PositiveInteger"]) -> SOMEIPTransformationISignalProps:
+    def with_size_of_string(self, value: Optional[PositiveInteger]) -> SOMEIPTransformationISignalProps:
         """
         Set sizeOfString and return self for chaining.
 
@@ -2796,7 +2796,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         self.size_of_string = value  # Use property setter (gets validation)
         return self
 
-    def with_size_of_struct(self, value: Optional["PositiveInteger"]) -> SOMEIPTransformationISignalProps:
+    def with_size_of_struct(self, value: Optional[PositiveInteger]) -> SOMEIPTransformationISignalProps:
         """
         Set sizeOfStruct and return self for chaining.
 
@@ -2812,7 +2812,7 @@ class SOMEIPTransformationISignalProps(ARObject):
         self.size_of_struct = value  # Use property setter (gets validation)
         return self
 
-    def with_size_of_union(self, value: Optional["PositiveInteger"]) -> SOMEIPTransformationISignalProps:
+    def with_size_of_union(self, value: Optional[PositiveInteger]) -> SOMEIPTransformationISignalProps:
         """
         Set sizeOfUnion and return self for chaining.
 
@@ -2907,15 +2907,15 @@ class DataPrototypeTransformationProps(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to a DataPrototype that is transported in the serialized ISignal.
-        self._dataPrototypeIn: Optional["RefType"] = None
+        self._dataPrototypeIn: Optional[RefType] = None
 
     @property
-    def data_prototype_in(self) -> Optional["RefType"]:
+    def data_prototype_in(self) -> Optional[RefType]:
         """Get dataPrototypeIn (Pythonic accessor)."""
         return self._dataPrototypeIn
 
     @data_prototype_in.setter
-    def data_prototype_in(self, value: Optional["RefType"]) -> None:
+    def data_prototype_in(self, value: Optional[RefType]) -> None:
         """
         Set dataPrototypeIn with validation.
 
@@ -2934,15 +2934,15 @@ class DataPrototypeTransformationProps(ARObject):
                 # DataPrototype.
         # If a network is provided then the baseType shall be the Transformer as input
                 # for the serialization/.
-        self._network: Optional["SwDataDefProps"] = None
+        self._network: Optional[SwDataDefProps] = None
 
     @property
-    def network(self) -> Optional["SwDataDefProps"]:
+    def network(self) -> Optional[SwDataDefProps]:
         """Get network (Pythonic accessor)."""
         return self._network
 
     @network.setter
-    def network(self, value: Optional["SwDataDefProps"]) -> None:
+    def network(self, value: Optional[SwDataDefProps]) -> None:
         """
         Set network with validation.
 
@@ -2992,7 +2992,7 @@ class DataPrototypeTransformationProps(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDataPrototypeIn(self) -> "RefType":
+    def getDataPrototypeIn(self) -> RefType:
         """
         AUTOSAR-compliant getter for dataPrototypeIn.
 
@@ -3004,7 +3004,7 @@ class DataPrototypeTransformationProps(ARObject):
         """
         return self.data_prototype_in  # Delegates to property
 
-    def setDataPrototypeIn(self, value: "RefType") -> DataPrototypeTransformationProps:
+    def setDataPrototypeIn(self, value: RefType) -> DataPrototypeTransformationProps:
         """
         AUTOSAR-compliant setter for dataPrototypeIn with method chaining.
 
@@ -3020,7 +3020,7 @@ class DataPrototypeTransformationProps(ARObject):
         self.data_prototype_in = value  # Delegates to property setter
         return self
 
-    def getNetwork(self) -> "SwDataDefProps":
+    def getNetwork(self) -> SwDataDefProps:
         """
         AUTOSAR-compliant getter for network.
 
@@ -3032,7 +3032,7 @@ class DataPrototypeTransformationProps(ARObject):
         """
         return self.network  # Delegates to property
 
-    def setNetwork(self, value: "SwDataDefProps") -> DataPrototypeTransformationProps:
+    def setNetwork(self, value: SwDataDefProps) -> DataPrototypeTransformationProps:
         """
         AUTOSAR-compliant setter for network with method chaining.
 
@@ -3094,7 +3094,7 @@ class DataPrototypeTransformationProps(ARObject):
         self.data_prototype_in = value  # Use property setter (gets validation)
         return self
 
-    def with_network(self, value: Optional["SwDataDefProps"]) -> DataPrototypeTransformationProps:
+    def with_network(self, value: Optional[SwDataDefProps]) -> DataPrototypeTransformationProps:
         """
         Set network and return self for chaining.
 
@@ -3146,15 +3146,15 @@ class DataPrototypeReference(ARObject, ABC):
         # This attribute represents the ability to specify a tag-id for of a specific
         # DataPrototype in the context (potentially deeply-nested) composite data
         # structure.
-        self._tagId: Optional["PositiveInteger"] = None
+        self._tagId: Optional[PositiveInteger] = None
 
     @property
-    def tag_id(self) -> Optional["PositiveInteger"]:
+    def tag_id(self) -> Optional[PositiveInteger]:
         """Get tagId (Pythonic accessor)."""
         return self._tagId
 
     @tag_id.setter
-    def tag_id(self, value: Optional["PositiveInteger"]) -> None:
+    def tag_id(self, value: Optional[PositiveInteger]) -> None:
         """
         Set tagId with validation.
 
@@ -3176,7 +3176,7 @@ class DataPrototypeReference(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTagId(self) -> "PositiveInteger":
+    def getTagId(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for tagId.
 
@@ -3188,7 +3188,7 @@ class DataPrototypeReference(ARObject, ABC):
         """
         return self.tag_id  # Delegates to property
 
-    def setTagId(self, value: "PositiveInteger") -> DataPrototypeReference:
+    def setTagId(self, value: PositiveInteger) -> DataPrototypeReference:
         """
         AUTOSAR-compliant setter for tagId with method chaining.
 
@@ -3206,7 +3206,7 @@ class DataPrototypeReference(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_tag_id(self, value: Optional["PositiveInteger"]) -> DataPrototypeReference:
+    def with_tag_id(self, value: Optional[PositiveInteger]) -> DataPrototypeReference:
         """
         Set tagId and return self for chaining.
 
@@ -3238,15 +3238,15 @@ class EndToEndTransformationISignalProps(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Length of payload and E2E header in bits.
-        self._dataLength: Optional["PositiveInteger"] = None
+        self._dataLength: Optional[PositiveInteger] = None
 
     @property
-    def data_length(self) -> Optional["PositiveInteger"]:
+    def data_length(self) -> Optional[PositiveInteger]:
         """Get dataLength (Pythonic accessor)."""
         return self._dataLength
 
     @data_length.setter
-    def data_length(self, value: Optional["PositiveInteger"]) -> None:
+    def data_length(self, value: Optional[PositiveInteger]) -> None:
         """
         Set dataLength with validation.
 
@@ -3266,15 +3266,15 @@ class EndToEndTransformationISignalProps(ARObject):
             )
         self._dataLength = value
         # Maximum length of payload and E2E header in bits.
-        self._maxDataLength: Optional["PositiveInteger"] = None
+        self._maxDataLength: Optional[PositiveInteger] = None
 
     @property
-    def max_data_length(self) -> Optional["PositiveInteger"]:
+    def max_data_length(self) -> Optional[PositiveInteger]:
         """Get maxDataLength (Pythonic accessor)."""
         return self._maxDataLength
 
     @max_data_length.setter
-    def max_data_length(self, value: Optional["PositiveInteger"]) -> None:
+    def max_data_length(self, value: Optional[PositiveInteger]) -> None:
         """
         Set maxDataLength with validation.
 
@@ -3295,15 +3295,15 @@ class EndToEndTransformationISignalProps(ARObject):
         self._maxDataLength = value
         # Minimum length of payload and E2E header in bits.
         # 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11.
-        self._minDataLength: Optional["PositiveInteger"] = None
+        self._minDataLength: Optional[PositiveInteger] = None
 
     @property
-    def min_data_length(self) -> Optional["PositiveInteger"]:
+    def min_data_length(self) -> Optional[PositiveInteger]:
         """Get minDataLength (Pythonic accessor)."""
         return self._minDataLength
 
     @min_data_length.setter
-    def min_data_length(self, value: Optional["PositiveInteger"]) -> None:
+    def min_data_length(self, value: Optional[PositiveInteger]) -> None:
         """
         Set minDataLength with validation.
 
@@ -3329,15 +3329,15 @@ class EndToEndTransformationISignalProps(ARObject):
         # concerning the maximum number of values is specific for each E2E profile)
                 # this attribute are controlled by a semantic depends on the category of the
                 # EndToEnd.
-        self._sourceId: Optional["PositiveInteger"] = None
+        self._sourceId: Optional[PositiveInteger] = None
 
     @property
-    def source_id(self) -> Optional["PositiveInteger"]:
+    def source_id(self) -> Optional[PositiveInteger]:
         """Get sourceId (Pythonic accessor)."""
         return self._sourceId
 
     @source_id.setter
-    def source_id(self, value: Optional["PositiveInteger"]) -> None:
+    def source_id(self, value: Optional[PositiveInteger]) -> None:
         """
         Set sourceId with validation.
 
@@ -3359,7 +3359,7 @@ class EndToEndTransformationISignalProps(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDataLength(self) -> "PositiveInteger":
+    def getDataLength(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for dataLength.
 
@@ -3371,7 +3371,7 @@ class EndToEndTransformationISignalProps(ARObject):
         """
         return self.data_length  # Delegates to property
 
-    def setDataLength(self, value: "PositiveInteger") -> EndToEndTransformationISignalProps:
+    def setDataLength(self, value: PositiveInteger) -> EndToEndTransformationISignalProps:
         """
         AUTOSAR-compliant setter for dataLength with method chaining.
 
@@ -3387,7 +3387,7 @@ class EndToEndTransformationISignalProps(ARObject):
         self.data_length = value  # Delegates to property setter
         return self
 
-    def getMaxDataLength(self) -> "PositiveInteger":
+    def getMaxDataLength(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for maxDataLength.
 
@@ -3399,7 +3399,7 @@ class EndToEndTransformationISignalProps(ARObject):
         """
         return self.max_data_length  # Delegates to property
 
-    def setMaxDataLength(self, value: "PositiveInteger") -> EndToEndTransformationISignalProps:
+    def setMaxDataLength(self, value: PositiveInteger) -> EndToEndTransformationISignalProps:
         """
         AUTOSAR-compliant setter for maxDataLength with method chaining.
 
@@ -3415,7 +3415,7 @@ class EndToEndTransformationISignalProps(ARObject):
         self.max_data_length = value  # Delegates to property setter
         return self
 
-    def getMinDataLength(self) -> "PositiveInteger":
+    def getMinDataLength(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for minDataLength.
 
@@ -3427,7 +3427,7 @@ class EndToEndTransformationISignalProps(ARObject):
         """
         return self.min_data_length  # Delegates to property
 
-    def setMinDataLength(self, value: "PositiveInteger") -> EndToEndTransformationISignalProps:
+    def setMinDataLength(self, value: PositiveInteger) -> EndToEndTransformationISignalProps:
         """
         AUTOSAR-compliant setter for minDataLength with method chaining.
 
@@ -3443,7 +3443,7 @@ class EndToEndTransformationISignalProps(ARObject):
         self.min_data_length = value  # Delegates to property setter
         return self
 
-    def getSourceId(self) -> "PositiveInteger":
+    def getSourceId(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for sourceId.
 
@@ -3455,7 +3455,7 @@ class EndToEndTransformationISignalProps(ARObject):
         """
         return self.source_id  # Delegates to property
 
-    def setSourceId(self, value: "PositiveInteger") -> EndToEndTransformationISignalProps:
+    def setSourceId(self, value: PositiveInteger) -> EndToEndTransformationISignalProps:
         """
         AUTOSAR-compliant setter for sourceId with method chaining.
 
@@ -3473,7 +3473,7 @@ class EndToEndTransformationISignalProps(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_data_length(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationISignalProps:
+    def with_data_length(self, value: Optional[PositiveInteger]) -> EndToEndTransformationISignalProps:
         """
         Set dataLength and return self for chaining.
 
@@ -3489,7 +3489,7 @@ class EndToEndTransformationISignalProps(ARObject):
         self.data_length = value  # Use property setter (gets validation)
         return self
 
-    def with_max_data_length(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationISignalProps:
+    def with_max_data_length(self, value: Optional[PositiveInteger]) -> EndToEndTransformationISignalProps:
         """
         Set maxDataLength and return self for chaining.
 
@@ -3505,7 +3505,7 @@ class EndToEndTransformationISignalProps(ARObject):
         self.max_data_length = value  # Use property setter (gets validation)
         return self
 
-    def with_min_data_length(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationISignalProps:
+    def with_min_data_length(self, value: Optional[PositiveInteger]) -> EndToEndTransformationISignalProps:
         """
         Set minDataLength and return self for chaining.
 
@@ -3521,7 +3521,7 @@ class EndToEndTransformationISignalProps(ARObject):
         self.min_data_length = value  # Use property setter (gets validation)
         return self
 
-    def with_source_id(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationISignalProps:
+    def with_source_id(self, value: Optional[PositiveInteger]) -> EndToEndTransformationISignalProps:
         """
         Set sourceId and return self for chaining.
 
@@ -3615,15 +3615,15 @@ class TlvDataIdDefinition(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attribute represents the definition of the value of the.
-        self._id: Optional["PositiveInteger"] = None
+        self._id: Optional[PositiveInteger] = None
 
     @property
-    def id(self) -> Optional["PositiveInteger"]:
+    def id(self) -> Optional[PositiveInteger]:
         """Get id (Pythonic accessor)."""
         return self._id
 
     @id.setter
-    def id(self, value: Optional["PositiveInteger"]) -> None:
+    def id(self, value: Optional[PositiveInteger]) -> None:
         """
         Set id with validation.
 
@@ -3643,15 +3643,15 @@ class TlvDataIdDefinition(ARObject):
             )
         self._id = value
         # This reference assigns a tlvDataId to a given argument of.
-        self._tlvArgument: Optional["RefType"] = None
+        self._tlvArgument: Optional[RefType] = None
 
     @property
-    def tlv_argument(self) -> Optional["RefType"]:
+    def tlv_argument(self) -> Optional[RefType]:
         """Get tlvArgument (Pythonic accessor)."""
         return self._tlvArgument
 
     @tlv_argument.setter
-    def tlv_argument(self, value: Optional["RefType"]) -> None:
+    def tlv_argument(self, value: Optional[RefType]) -> None:
         """
         Set tlvArgument with validation.
 
@@ -3668,15 +3668,15 @@ class TlvDataIdDefinition(ARObject):
         self._tlvArgument = value
         # This reference associates the definition of a TLV data id with a given
         # AbstractImplementationDataTypeElement.
-        self._tlv: Optional["AbstractImplementation"] = None
+        self._tlv: Optional[AbstractImplementation] = None
 
     @property
-    def tlv(self) -> Optional["AbstractImplementation"]:
+    def tlv(self) -> Optional[AbstractImplementation]:
         """Get tlv (Pythonic accessor)."""
         return self._tlv
 
     @tlv.setter
-    def tlv(self, value: Optional["AbstractImplementation"]) -> None:
+    def tlv(self, value: Optional[AbstractImplementation]) -> None:
         """
         Set tlv with validation.
 
@@ -3697,15 +3697,15 @@ class TlvDataIdDefinition(ARObject):
         self._tlv = value
         # This reference associates the definition of a TLV data id with a given
         # ApplicationRecordElement.
-        self._tlvRecord: Optional["ApplicationRecord"] = None
+        self._tlvRecord: Optional[ApplicationRecord] = None
 
     @property
-    def tlv_record(self) -> Optional["ApplicationRecord"]:
+    def tlv_record(self) -> Optional[ApplicationRecord]:
         """Get tlvRecord (Pythonic accessor)."""
         return self._tlvRecord
 
     @tlv_record.setter
-    def tlv_record(self, value: Optional["ApplicationRecord"]) -> None:
+    def tlv_record(self, value: Optional[ApplicationRecord]) -> None:
         """
         Set tlvRecord with validation.
 
@@ -3727,7 +3727,7 @@ class TlvDataIdDefinition(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getId(self) -> "PositiveInteger":
+    def getId(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for id.
 
@@ -3739,7 +3739,7 @@ class TlvDataIdDefinition(ARObject):
         """
         return self.id  # Delegates to property
 
-    def setId(self, value: "PositiveInteger") -> TlvDataIdDefinition:
+    def setId(self, value: PositiveInteger) -> TlvDataIdDefinition:
         """
         AUTOSAR-compliant setter for id with method chaining.
 
@@ -3755,7 +3755,7 @@ class TlvDataIdDefinition(ARObject):
         self.id = value  # Delegates to property setter
         return self
 
-    def getTlvArgument(self) -> "RefType":
+    def getTlvArgument(self) -> RefType:
         """
         AUTOSAR-compliant getter for tlvArgument.
 
@@ -3767,7 +3767,7 @@ class TlvDataIdDefinition(ARObject):
         """
         return self.tlv_argument  # Delegates to property
 
-    def setTlvArgument(self, value: "RefType") -> TlvDataIdDefinition:
+    def setTlvArgument(self, value: RefType) -> TlvDataIdDefinition:
         """
         AUTOSAR-compliant setter for tlvArgument with method chaining.
 
@@ -3783,7 +3783,7 @@ class TlvDataIdDefinition(ARObject):
         self.tlv_argument = value  # Delegates to property setter
         return self
 
-    def getTlv(self) -> "AbstractImplementation":
+    def getTlv(self) -> AbstractImplementation:
         """
         AUTOSAR-compliant getter for tlv.
 
@@ -3795,7 +3795,7 @@ class TlvDataIdDefinition(ARObject):
         """
         return self.tlv  # Delegates to property
 
-    def setTlv(self, value: "AbstractImplementation") -> TlvDataIdDefinition:
+    def setTlv(self, value: AbstractImplementation) -> TlvDataIdDefinition:
         """
         AUTOSAR-compliant setter for tlv with method chaining.
 
@@ -3811,7 +3811,7 @@ class TlvDataIdDefinition(ARObject):
         self.tlv = value  # Delegates to property setter
         return self
 
-    def getTlvRecord(self) -> "ApplicationRecord":
+    def getTlvRecord(self) -> ApplicationRecord:
         """
         AUTOSAR-compliant getter for tlvRecord.
 
@@ -3823,7 +3823,7 @@ class TlvDataIdDefinition(ARObject):
         """
         return self.tlv_record  # Delegates to property
 
-    def setTlvRecord(self, value: "ApplicationRecord") -> TlvDataIdDefinition:
+    def setTlvRecord(self, value: ApplicationRecord) -> TlvDataIdDefinition:
         """
         AUTOSAR-compliant setter for tlvRecord with method chaining.
 
@@ -3841,7 +3841,7 @@ class TlvDataIdDefinition(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_id(self, value: Optional["PositiveInteger"]) -> TlvDataIdDefinition:
+    def with_id(self, value: Optional[PositiveInteger]) -> TlvDataIdDefinition:
         """
         Set id and return self for chaining.
 
@@ -3873,7 +3873,7 @@ class TlvDataIdDefinition(ARObject):
         self.tlv_argument = value  # Use property setter (gets validation)
         return self
 
-    def with_tlv(self, value: Optional["AbstractImplementation"]) -> TlvDataIdDefinition:
+    def with_tlv(self, value: Optional[AbstractImplementation]) -> TlvDataIdDefinition:
         """
         Set tlv and return self for chaining.
 
@@ -3889,7 +3889,7 @@ class TlvDataIdDefinition(ARObject):
         self.tlv = value  # Use property setter (gets validation)
         return self
 
-    def with_tlv_record(self, value: Optional["ApplicationRecord"]) -> TlvDataIdDefinition:
+    def with_tlv_record(self, value: Optional[ApplicationRecord]) -> TlvDataIdDefinition:
         """
         Set tlvRecord and return self for chaining.
 
@@ -3924,15 +3924,15 @@ class EndToEndTransformationDescription(TransformationDescription):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Clear monitoring window on transition from state Valid to Invalid.
-        self._clearFromValid: Optional["Boolean"] = None
+        self._clearFromValid: Optional[Boolean] = None
 
     @property
-    def clear_from_valid(self) -> Optional["Boolean"]:
+    def clear_from_valid(self) -> Optional[Boolean]:
         """Get clearFromValid (Pythonic accessor)."""
         return self._clearFromValid
 
     @clear_from_valid.setter
-    def clear_from_valid(self, value: Optional["Boolean"]) -> None:
+    def clear_from_valid(self, value: Optional[Boolean]) -> None:
         """
         Set clearFromValid with validation.
 
@@ -3952,15 +3952,15 @@ class EndToEndTransformationDescription(TransformationDescription):
             )
         self._clearFromValid = value
         # Offset of the counter in the Data[] array in bits.
-        self._counterOffset: Optional["PositiveInteger"] = None
+        self._counterOffset: Optional[PositiveInteger] = None
 
     @property
-    def counter_offset(self) -> Optional["PositiveInteger"]:
+    def counter_offset(self) -> Optional[PositiveInteger]:
         """Get counterOffset (Pythonic accessor)."""
         return self._counterOffset
 
     @counter_offset.setter
-    def counter_offset(self, value: Optional["PositiveInteger"]) -> None:
+    def counter_offset(self, value: Optional[PositiveInteger]) -> None:
         """
         Set counterOffset with validation.
 
@@ -3980,15 +3980,15 @@ class EndToEndTransformationDescription(TransformationDescription):
             )
         self._counterOffset = value
         # Offset of the CRC in the Data[] array in bits.
-        self._crcOffset: Optional["PositiveInteger"] = None
+        self._crcOffset: Optional[PositiveInteger] = None
 
     @property
-    def crc_offset(self) -> Optional["PositiveInteger"]:
+    def crc_offset(self) -> Optional[PositiveInteger]:
         """Get crcOffset (Pythonic accessor)."""
         return self._crcOffset
 
     @crc_offset.setter
-    def crc_offset(self, value: Optional["PositiveInteger"]) -> None:
+    def crc_offset(self, value: Optional[PositiveInteger]) -> None:
         """
         Set crcOffset with validation.
 
@@ -4039,15 +4039,15 @@ class EndToEndTransformationDescription(TransformationDescription):
         # Offset of the Data ID nibble in the Data[] array in bits.
         # 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template
                 # R23-11.
-        self._dataIdNibble: Optional["PositiveInteger"] = None
+        self._dataIdNibble: Optional[PositiveInteger] = None
 
     @property
-    def data_id_nibble(self) -> Optional["PositiveInteger"]:
+    def data_id_nibble(self) -> Optional[PositiveInteger]:
         """Get dataIdNibble (Pythonic accessor)."""
         return self._dataIdNibble
 
     @data_id_nibble.setter
-    def data_id_nibble(self, value: Optional["PositiveInteger"]) -> None:
+    def data_id_nibble(self, value: Optional[PositiveInteger]) -> None:
         """
         Set dataIdNibble with validation.
 
@@ -4098,15 +4098,15 @@ class EndToEndTransformationDescription(TransformationDescription):
                 # received valid messages.
         # For the receiver gets data with counter 1 and Max 3, then at the next
                 # reception the receiver Counters with values 2, 3 or 4.
-        self._maxDelta: Optional["PositiveInteger"] = None
+        self._maxDelta: Optional[PositiveInteger] = None
 
     @property
-    def max_delta(self) -> Optional["PositiveInteger"]:
+    def max_delta(self) -> Optional[PositiveInteger]:
         """Get maxDelta (Pythonic accessor)."""
         return self._maxDelta
 
     @max_delta.setter
-    def max_delta(self, value: Optional["PositiveInteger"]) -> None:
+    def max_delta(self, value: Optional[PositiveInteger]) -> None:
         """
         Set maxDelta with validation.
 
@@ -4127,15 +4127,15 @@ class EndToEndTransformationDescription(TransformationDescription):
         self._maxDelta = value
         # Maximal number of checks in which ProfileStatus equal to was determined,
         # within the last Window for the state E2E_SM_VALID.
-        self._maxErrorState: Optional["PositiveInteger"] = None
+        self._maxErrorState: Optional[PositiveInteger] = None
 
     @property
-    def max_error_state(self) -> Optional["PositiveInteger"]:
+    def max_error_state(self) -> Optional[PositiveInteger]:
         """Get maxErrorState (Pythonic accessor)."""
         return self._maxErrorState
 
     @max_error_state.setter
-    def max_error_state(self, value: Optional["PositiveInteger"]) -> None:
+    def max_error_state(self, value: Optional[PositiveInteger]) -> None:
         """
         Set maxErrorState with validation.
 
@@ -4155,15 +4155,15 @@ class EndToEndTransformationDescription(TransformationDescription):
             )
         self._maxErrorState = value
         # The maximum allowed amount of consecutive failed checks.
-        self._maxNoNewOr: Optional["PositiveInteger"] = None
+        self._maxNoNewOr: Optional[PositiveInteger] = None
 
     @property
-    def max_no_new_or(self) -> Optional["PositiveInteger"]:
+    def max_no_new_or(self) -> Optional[PositiveInteger]:
         """Get maxNoNewOr (Pythonic accessor)."""
         return self._maxNoNewOr
 
     @max_no_new_or.setter
-    def max_no_new_or(self, value: Optional["PositiveInteger"]) -> None:
+    def max_no_new_or(self, value: Optional[PositiveInteger]) -> None:
         """
         Set maxNoNewOr with validation.
 
@@ -4184,15 +4184,15 @@ class EndToEndTransformationDescription(TransformationDescription):
         self._maxNoNewOr = value
         # Minimal number of checks in which ProfileStatus equal to determined, within
         # the last WindowSize the state E2E_SM_INIT.
-        self._minOkStateInit: Optional["PositiveInteger"] = None
+        self._minOkStateInit: Optional[PositiveInteger] = None
 
     @property
-    def min_ok_state_init(self) -> Optional["PositiveInteger"]:
+    def min_ok_state_init(self) -> Optional[PositiveInteger]:
         """Get minOkStateInit (Pythonic accessor)."""
         return self._minOkStateInit
 
     @min_ok_state_init.setter
-    def min_ok_state_init(self, value: Optional["PositiveInteger"]) -> None:
+    def min_ok_state_init(self, value: Optional[PositiveInteger]) -> None:
         """
         Set minOkStateInit with validation.
 
@@ -4213,15 +4213,15 @@ class EndToEndTransformationDescription(TransformationDescription):
         self._minOkStateInit = value
         # Minimal number of checks in which ProfileStatus equal to was determined,
         # within the last WindowSize the state E2E_SM_VALID.
-        self._minOkState: Optional["PositiveInteger"] = None
+        self._minOkState: Optional[PositiveInteger] = None
 
     @property
-    def min_ok_state(self) -> Optional["PositiveInteger"]:
+    def min_ok_state(self) -> Optional[PositiveInteger]:
         """Get minOkState (Pythonic accessor)."""
         return self._minOkState
 
     @min_ok_state.setter
-    def min_ok_state(self, value: Optional["PositiveInteger"]) -> None:
+    def min_ok_state(self, value: Optional[PositiveInteger]) -> None:
         """
         Set minOkState with validation.
 
@@ -4241,15 +4241,15 @@ class EndToEndTransformationDescription(TransformationDescription):
             )
         self._minOkState = value
         # Offset of the E2E header in the Data[] array in bits.
-        self._offset: Optional["PositiveInteger"] = None
+        self._offset: Optional[PositiveInteger] = None
 
     @property
-    def offset(self) -> Optional["PositiveInteger"]:
+    def offset(self) -> Optional[PositiveInteger]:
         """Get offset (Pythonic accessor)."""
         return self._offset
 
     @offset.setter
-    def offset(self, value: Optional["PositiveInteger"]) -> None:
+    def offset(self, value: Optional[PositiveInteger]) -> None:
         """
         Set offset with validation.
 
@@ -4297,15 +4297,15 @@ class EndToEndTransformationDescription(TransformationDescription):
             )
         self._profileBehaviorBehaviorEnum = value
         # Definition of the E2E profile.
-        self._profileName: Optional["NameToken"] = None
+        self._profileName: Optional[NameToken] = None
 
     @property
-    def profile_name(self) -> Optional["NameToken"]:
+    def profile_name(self) -> Optional[NameToken]:
         """Get profileName (Pythonic accessor)."""
         return self._profileName
 
     @profile_name.setter
-    def profile_name(self, value: Optional["NameToken"]) -> None:
+    def profile_name(self, value: Optional[NameToken]) -> None:
         """
         Set profileName with validation.
 
@@ -4327,15 +4327,15 @@ class EndToEndTransformationDescription(TransformationDescription):
         # Number of checks required for validating the consistency counter that shall
         # be received with a valid counter within the allowed lock-in range) after the
         # an unexpected behavior of a received.
-        self._syncCounterInit: Optional["PositiveInteger"] = None
+        self._syncCounterInit: Optional[PositiveInteger] = None
 
     @property
-    def sync_counter_init(self) -> Optional["PositiveInteger"]:
+    def sync_counter_init(self) -> Optional[PositiveInteger]:
         """Get syncCounterInit (Pythonic accessor)."""
         return self._syncCounterInit
 
     @sync_counter_init.setter
-    def sync_counter_init(self, value: Optional["PositiveInteger"]) -> None:
+    def sync_counter_init(self, value: Optional[PositiveInteger]) -> None:
         """
         Set syncCounterInit with validation.
 
@@ -4363,15 +4363,15 @@ class EndToEndTransformationDescription(TransformationDescription):
                 # here is the number of bits that are to This option is defined because the
                 # Some/IP by SOME/IP transformer shall be, due between non-protected and at the
                 # same position, before E2E header.
-        self._upperHeader: Optional["PositiveInteger"] = None
+        self._upperHeader: Optional[PositiveInteger] = None
 
     @property
-    def upper_header(self) -> Optional["PositiveInteger"]:
+    def upper_header(self) -> Optional[PositiveInteger]:
         """Get upperHeader (Pythonic accessor)."""
         return self._upperHeader
 
     @upper_header.setter
-    def upper_header(self, value: Optional["PositiveInteger"]) -> None:
+    def upper_header(self, value: Optional[PositiveInteger]) -> None:
         """
         Set upperHeader with validation.
 
@@ -4392,15 +4392,15 @@ class EndToEndTransformationDescription(TransformationDescription):
         self._upperHeader = value
         # Size of the monitoring window of state Init for the E2E 1228 Document ID 62:
         # AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11.
-        self._windowSizeInit: Optional["PositiveInteger"] = None
+        self._windowSizeInit: Optional[PositiveInteger] = None
 
     @property
-    def window_size_init(self) -> Optional["PositiveInteger"]:
+    def window_size_init(self) -> Optional[PositiveInteger]:
         """Get windowSizeInit (Pythonic accessor)."""
         return self._windowSizeInit
 
     @window_size_init.setter
-    def window_size_init(self, value: Optional["PositiveInteger"]) -> None:
+    def window_size_init(self, value: Optional[PositiveInteger]) -> None:
         """
         Set windowSizeInit with validation.
 
@@ -4420,15 +4420,15 @@ class EndToEndTransformationDescription(TransformationDescription):
             )
         self._windowSizeInit = value
         # Size of the monitoring window of state Valid for the E2E machine.
-        self._windowSize: Optional["PositiveInteger"] = None
+        self._windowSize: Optional[PositiveInteger] = None
 
     @property
-    def window_size(self) -> Optional["PositiveInteger"]:
+    def window_size(self) -> Optional[PositiveInteger]:
         """Get windowSize (Pythonic accessor)."""
         return self._windowSize
 
     @window_size.setter
-    def window_size(self, value: Optional["PositiveInteger"]) -> None:
+    def window_size(self, value: Optional[PositiveInteger]) -> None:
         """
         Set windowSize with validation.
 
@@ -4450,7 +4450,7 @@ class EndToEndTransformationDescription(TransformationDescription):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getClearFromValid(self) -> "Boolean":
+    def getClearFromValid(self) -> Boolean:
         """
         AUTOSAR-compliant getter for clearFromValid.
 
@@ -4462,7 +4462,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.clear_from_valid  # Delegates to property
 
-    def setClearFromValid(self, value: "Boolean") -> EndToEndTransformationDescription:
+    def setClearFromValid(self, value: Boolean) -> EndToEndTransformationDescription:
         """
         AUTOSAR-compliant setter for clearFromValid with method chaining.
 
@@ -4478,7 +4478,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.clear_from_valid = value  # Delegates to property setter
         return self
 
-    def getCounterOffset(self) -> "PositiveInteger":
+    def getCounterOffset(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for counterOffset.
 
@@ -4490,7 +4490,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.counter_offset  # Delegates to property
 
-    def setCounterOffset(self, value: "PositiveInteger") -> EndToEndTransformationDescription:
+    def setCounterOffset(self, value: PositiveInteger) -> EndToEndTransformationDescription:
         """
         AUTOSAR-compliant setter for counterOffset with method chaining.
 
@@ -4506,7 +4506,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.counter_offset = value  # Delegates to property setter
         return self
 
-    def getCrcOffset(self) -> "PositiveInteger":
+    def getCrcOffset(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for crcOffset.
 
@@ -4518,7 +4518,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.crc_offset  # Delegates to property
 
-    def setCrcOffset(self, value: "PositiveInteger") -> EndToEndTransformationDescription:
+    def setCrcOffset(self, value: PositiveInteger) -> EndToEndTransformationDescription:
         """
         AUTOSAR-compliant setter for crcOffset with method chaining.
 
@@ -4562,7 +4562,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.data_id_mode = value  # Delegates to property setter
         return self
 
-    def getDataIdNibble(self) -> "PositiveInteger":
+    def getDataIdNibble(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for dataIdNibble.
 
@@ -4574,7 +4574,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.data_id_nibble  # Delegates to property
 
-    def setDataIdNibble(self, value: "PositiveInteger") -> EndToEndTransformationDescription:
+    def setDataIdNibble(self, value: PositiveInteger) -> EndToEndTransformationDescription:
         """
         AUTOSAR-compliant setter for dataIdNibble with method chaining.
 
@@ -4618,7 +4618,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.e2e_profile = value  # Delegates to property setter
         return self
 
-    def getMaxDelta(self) -> "PositiveInteger":
+    def getMaxDelta(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for maxDelta.
 
@@ -4630,7 +4630,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.max_delta  # Delegates to property
 
-    def setMaxDelta(self, value: "PositiveInteger") -> EndToEndTransformationDescription:
+    def setMaxDelta(self, value: PositiveInteger) -> EndToEndTransformationDescription:
         """
         AUTOSAR-compliant setter for maxDelta with method chaining.
 
@@ -4646,7 +4646,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.max_delta = value  # Delegates to property setter
         return self
 
-    def getMaxErrorState(self) -> "PositiveInteger":
+    def getMaxErrorState(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for maxErrorState.
 
@@ -4658,7 +4658,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.max_error_state  # Delegates to property
 
-    def setMaxErrorState(self, value: "PositiveInteger") -> EndToEndTransformationDescription:
+    def setMaxErrorState(self, value: PositiveInteger) -> EndToEndTransformationDescription:
         """
         AUTOSAR-compliant setter for maxErrorState with method chaining.
 
@@ -4674,7 +4674,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.max_error_state = value  # Delegates to property setter
         return self
 
-    def getMaxNoNewOr(self) -> "PositiveInteger":
+    def getMaxNoNewOr(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for maxNoNewOr.
 
@@ -4686,7 +4686,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.max_no_new_or  # Delegates to property
 
-    def setMaxNoNewOr(self, value: "PositiveInteger") -> EndToEndTransformationDescription:
+    def setMaxNoNewOr(self, value: PositiveInteger) -> EndToEndTransformationDescription:
         """
         AUTOSAR-compliant setter for maxNoNewOr with method chaining.
 
@@ -4702,7 +4702,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.max_no_new_or = value  # Delegates to property setter
         return self
 
-    def getMinOkStateInit(self) -> "PositiveInteger":
+    def getMinOkStateInit(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for minOkStateInit.
 
@@ -4714,7 +4714,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.min_ok_state_init  # Delegates to property
 
-    def setMinOkStateInit(self, value: "PositiveInteger") -> EndToEndTransformationDescription:
+    def setMinOkStateInit(self, value: PositiveInteger) -> EndToEndTransformationDescription:
         """
         AUTOSAR-compliant setter for minOkStateInit with method chaining.
 
@@ -4730,7 +4730,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.min_ok_state_init = value  # Delegates to property setter
         return self
 
-    def getMinOkState(self) -> "PositiveInteger":
+    def getMinOkState(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for minOkState.
 
@@ -4742,7 +4742,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.min_ok_state  # Delegates to property
 
-    def setMinOkState(self, value: "PositiveInteger") -> EndToEndTransformationDescription:
+    def setMinOkState(self, value: PositiveInteger) -> EndToEndTransformationDescription:
         """
         AUTOSAR-compliant setter for minOkState with method chaining.
 
@@ -4758,7 +4758,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.min_ok_state = value  # Delegates to property setter
         return self
 
-    def getOffset(self) -> "PositiveInteger":
+    def getOffset(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for offset.
 
@@ -4770,7 +4770,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.offset  # Delegates to property
 
-    def setOffset(self, value: "PositiveInteger") -> EndToEndTransformationDescription:
+    def setOffset(self, value: PositiveInteger) -> EndToEndTransformationDescription:
         """
         AUTOSAR-compliant setter for offset with method chaining.
 
@@ -4842,7 +4842,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.profile_name = value  # Delegates to property setter
         return self
 
-    def getSyncCounterInit(self) -> "PositiveInteger":
+    def getSyncCounterInit(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for syncCounterInit.
 
@@ -4854,7 +4854,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.sync_counter_init  # Delegates to property
 
-    def setSyncCounterInit(self, value: "PositiveInteger") -> EndToEndTransformationDescription:
+    def setSyncCounterInit(self, value: PositiveInteger) -> EndToEndTransformationDescription:
         """
         AUTOSAR-compliant setter for syncCounterInit with method chaining.
 
@@ -4870,7 +4870,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.sync_counter_init = value  # Delegates to property setter
         return self
 
-    def getUpperHeader(self) -> "PositiveInteger":
+    def getUpperHeader(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for upperHeader.
 
@@ -4882,7 +4882,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.upper_header  # Delegates to property
 
-    def setUpperHeader(self, value: "PositiveInteger") -> EndToEndTransformationDescription:
+    def setUpperHeader(self, value: PositiveInteger) -> EndToEndTransformationDescription:
         """
         AUTOSAR-compliant setter for upperHeader with method chaining.
 
@@ -4898,7 +4898,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.upper_header = value  # Delegates to property setter
         return self
 
-    def getWindowSizeInit(self) -> "PositiveInteger":
+    def getWindowSizeInit(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for windowSizeInit.
 
@@ -4910,7 +4910,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.window_size_init  # Delegates to property
 
-    def setWindowSizeInit(self, value: "PositiveInteger") -> EndToEndTransformationDescription:
+    def setWindowSizeInit(self, value: PositiveInteger) -> EndToEndTransformationDescription:
         """
         AUTOSAR-compliant setter for windowSizeInit with method chaining.
 
@@ -4926,7 +4926,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.window_size_init = value  # Delegates to property setter
         return self
 
-    def getWindowSize(self) -> "PositiveInteger":
+    def getWindowSize(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for windowSize.
 
@@ -4938,7 +4938,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.window_size  # Delegates to property
 
-    def setWindowSize(self, value: "PositiveInteger") -> EndToEndTransformationDescription:
+    def setWindowSize(self, value: PositiveInteger) -> EndToEndTransformationDescription:
         """
         AUTOSAR-compliant setter for windowSize with method chaining.
 
@@ -4956,7 +4956,7 @@ class EndToEndTransformationDescription(TransformationDescription):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_clear_from_valid(self, value: Optional["Boolean"]) -> EndToEndTransformationDescription:
+    def with_clear_from_valid(self, value: Optional[Boolean]) -> EndToEndTransformationDescription:
         """
         Set clearFromValid and return self for chaining.
 
@@ -4972,7 +4972,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.clear_from_valid = value  # Use property setter (gets validation)
         return self
 
-    def with_counter_offset(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationDescription:
+    def with_counter_offset(self, value: Optional[PositiveInteger]) -> EndToEndTransformationDescription:
         """
         Set counterOffset and return self for chaining.
 
@@ -4988,7 +4988,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.counter_offset = value  # Use property setter (gets validation)
         return self
 
-    def with_crc_offset(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationDescription:
+    def with_crc_offset(self, value: Optional[PositiveInteger]) -> EndToEndTransformationDescription:
         """
         Set crcOffset and return self for chaining.
 
@@ -5020,7 +5020,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.data_id_mode = value  # Use property setter (gets validation)
         return self
 
-    def with_data_id_nibble(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationDescription:
+    def with_data_id_nibble(self, value: Optional[PositiveInteger]) -> EndToEndTransformationDescription:
         """
         Set dataIdNibble and return self for chaining.
 
@@ -5052,7 +5052,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.e2e_profile = value  # Use property setter (gets validation)
         return self
 
-    def with_max_delta(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationDescription:
+    def with_max_delta(self, value: Optional[PositiveInteger]) -> EndToEndTransformationDescription:
         """
         Set maxDelta and return self for chaining.
 
@@ -5068,7 +5068,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.max_delta = value  # Use property setter (gets validation)
         return self
 
-    def with_max_error_state(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationDescription:
+    def with_max_error_state(self, value: Optional[PositiveInteger]) -> EndToEndTransformationDescription:
         """
         Set maxErrorState and return self for chaining.
 
@@ -5084,7 +5084,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.max_error_state = value  # Use property setter (gets validation)
         return self
 
-    def with_max_no_new_or(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationDescription:
+    def with_max_no_new_or(self, value: Optional[PositiveInteger]) -> EndToEndTransformationDescription:
         """
         Set maxNoNewOr and return self for chaining.
 
@@ -5100,7 +5100,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.max_no_new_or = value  # Use property setter (gets validation)
         return self
 
-    def with_min_ok_state_init(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationDescription:
+    def with_min_ok_state_init(self, value: Optional[PositiveInteger]) -> EndToEndTransformationDescription:
         """
         Set minOkStateInit and return self for chaining.
 
@@ -5116,7 +5116,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.min_ok_state_init = value  # Use property setter (gets validation)
         return self
 
-    def with_min_ok_state(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationDescription:
+    def with_min_ok_state(self, value: Optional[PositiveInteger]) -> EndToEndTransformationDescription:
         """
         Set minOkState and return self for chaining.
 
@@ -5132,7 +5132,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.min_ok_state = value  # Use property setter (gets validation)
         return self
 
-    def with_offset(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationDescription:
+    def with_offset(self, value: Optional[PositiveInteger]) -> EndToEndTransformationDescription:
         """
         Set offset and return self for chaining.
 
@@ -5164,7 +5164,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.profile_behavior_behavior_enum = value  # Use property setter (gets validation)
         return self
 
-    def with_profile_name(self, value: Optional["NameToken"]) -> EndToEndTransformationDescription:
+    def with_profile_name(self, value: Optional[NameToken]) -> EndToEndTransformationDescription:
         """
         Set profileName and return self for chaining.
 
@@ -5180,7 +5180,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.profile_name = value  # Use property setter (gets validation)
         return self
 
-    def with_sync_counter_init(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationDescription:
+    def with_sync_counter_init(self, value: Optional[PositiveInteger]) -> EndToEndTransformationDescription:
         """
         Set syncCounterInit and return self for chaining.
 
@@ -5196,7 +5196,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.sync_counter_init = value  # Use property setter (gets validation)
         return self
 
-    def with_upper_header(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationDescription:
+    def with_upper_header(self, value: Optional[PositiveInteger]) -> EndToEndTransformationDescription:
         """
         Set upperHeader and return self for chaining.
 
@@ -5212,7 +5212,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.upper_header = value  # Use property setter (gets validation)
         return self
 
-    def with_window_size_init(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationDescription:
+    def with_window_size_init(self, value: Optional[PositiveInteger]) -> EndToEndTransformationDescription:
         """
         Set windowSizeInit and return self for chaining.
 
@@ -5228,7 +5228,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.window_size_init = value  # Use property setter (gets validation)
         return self
 
-    def with_window_size(self, value: Optional["PositiveInteger"]) -> EndToEndTransformationDescription:
+    def with_window_size(self, value: Optional[PositiveInteger]) -> EndToEndTransformationDescription:
         """
         Set windowSize and return self for chaining.
 
@@ -5284,15 +5284,15 @@ class SOMEIPTransformationDescription(TransformationDescription):
         # Defines the padding for alignment purposes that will be the SOME/IP
                 # transformer after the serialized the variable data length data element.
         # The be specified in Bits.
-        self._alignment: Optional["PositiveInteger"] = None
+        self._alignment: Optional[PositiveInteger] = None
 
     @property
-    def alignment(self) -> Optional["PositiveInteger"]:
+    def alignment(self) -> Optional[PositiveInteger]:
         """Get alignment (Pythonic accessor)."""
         return self._alignment
 
     @alignment.setter
-    def alignment(self, value: Optional["PositiveInteger"]) -> None:
+    def alignment(self, value: Optional[PositiveInteger]) -> None:
         """
         Set alignment with validation.
 
@@ -5312,15 +5312,15 @@ class SOMEIPTransformationDescription(TransformationDescription):
             )
         self._alignment = value
         # Defines which byte order shall be serialized by the.
-        self._byteOrder: Optional["ByteOrderEnum"] = None
+        self._byteOrder: Optional[ByteOrderEnum] = None
 
     @property
-    def byte_order(self) -> Optional["ByteOrderEnum"]:
+    def byte_order(self) -> Optional[ByteOrderEnum]:
         """Get byteOrder (Pythonic accessor)."""
         return self._byteOrder
 
     @byte_order.setter
-    def byte_order(self, value: Optional["ByteOrderEnum"]) -> None:
+    def byte_order(self, value: Optional[ByteOrderEnum]) -> None:
         """
         Set byteOrder with validation.
 
@@ -5340,15 +5340,15 @@ class SOMEIPTransformationDescription(TransformationDescription):
             )
         self._byteOrder = value
         # The interface version the SOME/IP transformer shall use.
-        self._interfaceVersion: Optional["PositiveInteger"] = None
+        self._interfaceVersion: Optional[PositiveInteger] = None
 
     @property
-    def interface_version(self) -> Optional["PositiveInteger"]:
+    def interface_version(self) -> Optional[PositiveInteger]:
         """Get interfaceVersion (Pythonic accessor)."""
         return self._interfaceVersion
 
     @interface_version.setter
-    def interface_version(self, value: Optional["PositiveInteger"]) -> None:
+    def interface_version(self, value: Optional[PositiveInteger]) -> None:
         """
         Set interfaceVersion with validation.
 
@@ -5370,7 +5370,7 @@ class SOMEIPTransformationDescription(TransformationDescription):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAlignment(self) -> "PositiveInteger":
+    def getAlignment(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for alignment.
 
@@ -5382,7 +5382,7 @@ class SOMEIPTransformationDescription(TransformationDescription):
         """
         return self.alignment  # Delegates to property
 
-    def setAlignment(self, value: "PositiveInteger") -> SOMEIPTransformationDescription:
+    def setAlignment(self, value: PositiveInteger) -> SOMEIPTransformationDescription:
         """
         AUTOSAR-compliant setter for alignment with method chaining.
 
@@ -5398,7 +5398,7 @@ class SOMEIPTransformationDescription(TransformationDescription):
         self.alignment = value  # Delegates to property setter
         return self
 
-    def getByteOrder(self) -> "ByteOrderEnum":
+    def getByteOrder(self) -> ByteOrderEnum:
         """
         AUTOSAR-compliant getter for byteOrder.
 
@@ -5410,7 +5410,7 @@ class SOMEIPTransformationDescription(TransformationDescription):
         """
         return self.byte_order  # Delegates to property
 
-    def setByteOrder(self, value: "ByteOrderEnum") -> SOMEIPTransformationDescription:
+    def setByteOrder(self, value: ByteOrderEnum) -> SOMEIPTransformationDescription:
         """
         AUTOSAR-compliant setter for byteOrder with method chaining.
 
@@ -5426,7 +5426,7 @@ class SOMEIPTransformationDescription(TransformationDescription):
         self.byte_order = value  # Delegates to property setter
         return self
 
-    def getInterfaceVersion(self) -> "PositiveInteger":
+    def getInterfaceVersion(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for interfaceVersion.
 
@@ -5438,7 +5438,7 @@ class SOMEIPTransformationDescription(TransformationDescription):
         """
         return self.interface_version  # Delegates to property
 
-    def setInterfaceVersion(self, value: "PositiveInteger") -> SOMEIPTransformationDescription:
+    def setInterfaceVersion(self, value: PositiveInteger) -> SOMEIPTransformationDescription:
         """
         AUTOSAR-compliant setter for interfaceVersion with method chaining.
 
@@ -5456,7 +5456,7 @@ class SOMEIPTransformationDescription(TransformationDescription):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_alignment(self, value: Optional["PositiveInteger"]) -> SOMEIPTransformationDescription:
+    def with_alignment(self, value: Optional[PositiveInteger]) -> SOMEIPTransformationDescription:
         """
         Set alignment and return self for chaining.
 
@@ -5472,7 +5472,7 @@ class SOMEIPTransformationDescription(TransformationDescription):
         self.alignment = value  # Use property setter (gets validation)
         return self
 
-    def with_byte_order(self, value: Optional["ByteOrderEnum"]) -> SOMEIPTransformationDescription:
+    def with_byte_order(self, value: Optional[ByteOrderEnum]) -> SOMEIPTransformationDescription:
         """
         Set byteOrder and return self for chaining.
 
@@ -5488,7 +5488,7 @@ class SOMEIPTransformationDescription(TransformationDescription):
         self.byte_order = value  # Use property setter (gets validation)
         return self
 
-    def with_interface_version(self, value: Optional["PositiveInteger"]) -> SOMEIPTransformationDescription:
+    def with_interface_version(self, value: Optional[PositiveInteger]) -> SOMEIPTransformationDescription:
         """
         Set interfaceVersion and return self for chaining.
 
@@ -5523,15 +5523,15 @@ class SOMEIPTransformationProps(TransformationProps):
         # Defines the padding for alignment purposes that will be the SOME/IP
                 # transformer after the serialized the variable data length data element.
         # The be specified in Bits.
-        self._alignment: Optional["PositiveInteger"] = None
+        self._alignment: Optional[PositiveInteger] = None
 
     @property
-    def alignment(self) -> Optional["PositiveInteger"]:
+    def alignment(self) -> Optional[PositiveInteger]:
         """Get alignment (Pythonic accessor)."""
         return self._alignment
 
     @alignment.setter
-    def alignment(self, value: Optional["PositiveInteger"]) -> None:
+    def alignment(self, value: Optional[PositiveInteger]) -> None:
         """
         Set alignment with validation.
 
@@ -5552,15 +5552,15 @@ class SOMEIPTransformationProps(TransformationProps):
         self._alignment = value
         # This attribute describes the size of the length field (in that will be put in
         # front of the referenced Array in message.
-        self._sizeOfArray: Optional["PositiveInteger"] = None
+        self._sizeOfArray: Optional[PositiveInteger] = None
 
     @property
-    def size_of_array(self) -> Optional["PositiveInteger"]:
+    def size_of_array(self) -> Optional[PositiveInteger]:
         """Get sizeOfArray (Pythonic accessor)."""
         return self._sizeOfArray
 
     @size_of_array.setter
-    def size_of_array(self, value: Optional["PositiveInteger"]) -> None:
+    def size_of_array(self, value: Optional[PositiveInteger]) -> None:
         """
         Set sizeOfArray with validation.
 
@@ -5581,15 +5581,15 @@ class SOMEIPTransformationProps(TransformationProps):
         self._sizeOfArray = value
         # This attribute describes the size of the length field (in that will be put in
         # front of the referenced String in message.
-        self._sizeOfString: Optional["PositiveInteger"] = None
+        self._sizeOfString: Optional[PositiveInteger] = None
 
     @property
-    def size_of_string(self) -> Optional["PositiveInteger"]:
+    def size_of_string(self) -> Optional[PositiveInteger]:
         """Get sizeOfString (Pythonic accessor)."""
         return self._sizeOfString
 
     @size_of_string.setter
-    def size_of_string(self, value: Optional["PositiveInteger"]) -> None:
+    def size_of_string(self, value: Optional[PositiveInteger]) -> None:
         """
         Set sizeOfString with validation.
 
@@ -5610,15 +5610,15 @@ class SOMEIPTransformationProps(TransformationProps):
         self._sizeOfString = value
         # This attribute describes the size of the length field (in that will be put in
         # front of a Structure in the SOME/.
-        self._sizeOfStruct: Optional["PositiveInteger"] = None
+        self._sizeOfStruct: Optional[PositiveInteger] = None
 
     @property
-    def size_of_struct(self) -> Optional["PositiveInteger"]:
+    def size_of_struct(self) -> Optional[PositiveInteger]:
         """Get sizeOfStruct (Pythonic accessor)."""
         return self._sizeOfStruct
 
     @size_of_struct.setter
-    def size_of_struct(self, value: Optional["PositiveInteger"]) -> None:
+    def size_of_struct(self, value: Optional[PositiveInteger]) -> None:
         """
         Set sizeOfStruct with validation.
 
@@ -5639,15 +5639,15 @@ class SOMEIPTransformationProps(TransformationProps):
         self._sizeOfStruct = value
         # This attribute describes the size of the length field (in that will be put in
         # front of a Union in the SOME/IP.
-        self._sizeOfUnion: Optional["PositiveInteger"] = None
+        self._sizeOfUnion: Optional[PositiveInteger] = None
 
     @property
-    def size_of_union(self) -> Optional["PositiveInteger"]:
+    def size_of_union(self) -> Optional[PositiveInteger]:
         """Get sizeOfUnion (Pythonic accessor)."""
         return self._sizeOfUnion
 
     @size_of_union.setter
-    def size_of_union(self, value: Optional["PositiveInteger"]) -> None:
+    def size_of_union(self, value: Optional[PositiveInteger]) -> None:
         """
         Set sizeOfUnion with validation.
 
@@ -5669,7 +5669,7 @@ class SOMEIPTransformationProps(TransformationProps):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAlignment(self) -> "PositiveInteger":
+    def getAlignment(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for alignment.
 
@@ -5681,7 +5681,7 @@ class SOMEIPTransformationProps(TransformationProps):
         """
         return self.alignment  # Delegates to property
 
-    def setAlignment(self, value: "PositiveInteger") -> SOMEIPTransformationProps:
+    def setAlignment(self, value: PositiveInteger) -> SOMEIPTransformationProps:
         """
         AUTOSAR-compliant setter for alignment with method chaining.
 
@@ -5697,7 +5697,7 @@ class SOMEIPTransformationProps(TransformationProps):
         self.alignment = value  # Delegates to property setter
         return self
 
-    def getSizeOfArray(self) -> "PositiveInteger":
+    def getSizeOfArray(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for sizeOfArray.
 
@@ -5709,7 +5709,7 @@ class SOMEIPTransformationProps(TransformationProps):
         """
         return self.size_of_array  # Delegates to property
 
-    def setSizeOfArray(self, value: "PositiveInteger") -> SOMEIPTransformationProps:
+    def setSizeOfArray(self, value: PositiveInteger) -> SOMEIPTransformationProps:
         """
         AUTOSAR-compliant setter for sizeOfArray with method chaining.
 
@@ -5725,7 +5725,7 @@ class SOMEIPTransformationProps(TransformationProps):
         self.size_of_array = value  # Delegates to property setter
         return self
 
-    def getSizeOfString(self) -> "PositiveInteger":
+    def getSizeOfString(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for sizeOfString.
 
@@ -5737,7 +5737,7 @@ class SOMEIPTransformationProps(TransformationProps):
         """
         return self.size_of_string  # Delegates to property
 
-    def setSizeOfString(self, value: "PositiveInteger") -> SOMEIPTransformationProps:
+    def setSizeOfString(self, value: PositiveInteger) -> SOMEIPTransformationProps:
         """
         AUTOSAR-compliant setter for sizeOfString with method chaining.
 
@@ -5753,7 +5753,7 @@ class SOMEIPTransformationProps(TransformationProps):
         self.size_of_string = value  # Delegates to property setter
         return self
 
-    def getSizeOfStruct(self) -> "PositiveInteger":
+    def getSizeOfStruct(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for sizeOfStruct.
 
@@ -5765,7 +5765,7 @@ class SOMEIPTransformationProps(TransformationProps):
         """
         return self.size_of_struct  # Delegates to property
 
-    def setSizeOfStruct(self, value: "PositiveInteger") -> SOMEIPTransformationProps:
+    def setSizeOfStruct(self, value: PositiveInteger) -> SOMEIPTransformationProps:
         """
         AUTOSAR-compliant setter for sizeOfStruct with method chaining.
 
@@ -5781,7 +5781,7 @@ class SOMEIPTransformationProps(TransformationProps):
         self.size_of_struct = value  # Delegates to property setter
         return self
 
-    def getSizeOfUnion(self) -> "PositiveInteger":
+    def getSizeOfUnion(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for sizeOfUnion.
 
@@ -5793,7 +5793,7 @@ class SOMEIPTransformationProps(TransformationProps):
         """
         return self.size_of_union  # Delegates to property
 
-    def setSizeOfUnion(self, value: "PositiveInteger") -> SOMEIPTransformationProps:
+    def setSizeOfUnion(self, value: PositiveInteger) -> SOMEIPTransformationProps:
         """
         AUTOSAR-compliant setter for sizeOfUnion with method chaining.
 
@@ -5811,7 +5811,7 @@ class SOMEIPTransformationProps(TransformationProps):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_alignment(self, value: Optional["PositiveInteger"]) -> SOMEIPTransformationProps:
+    def with_alignment(self, value: Optional[PositiveInteger]) -> SOMEIPTransformationProps:
         """
         Set alignment and return self for chaining.
 
@@ -5827,7 +5827,7 @@ class SOMEIPTransformationProps(TransformationProps):
         self.alignment = value  # Use property setter (gets validation)
         return self
 
-    def with_size_of_array(self, value: Optional["PositiveInteger"]) -> SOMEIPTransformationProps:
+    def with_size_of_array(self, value: Optional[PositiveInteger]) -> SOMEIPTransformationProps:
         """
         Set sizeOfArray and return self for chaining.
 
@@ -5843,7 +5843,7 @@ class SOMEIPTransformationProps(TransformationProps):
         self.size_of_array = value  # Use property setter (gets validation)
         return self
 
-    def with_size_of_string(self, value: Optional["PositiveInteger"]) -> SOMEIPTransformationProps:
+    def with_size_of_string(self, value: Optional[PositiveInteger]) -> SOMEIPTransformationProps:
         """
         Set sizeOfString and return self for chaining.
 
@@ -5859,7 +5859,7 @@ class SOMEIPTransformationProps(TransformationProps):
         self.size_of_string = value  # Use property setter (gets validation)
         return self
 
-    def with_size_of_struct(self, value: Optional["PositiveInteger"]) -> SOMEIPTransformationProps:
+    def with_size_of_struct(self, value: Optional[PositiveInteger]) -> SOMEIPTransformationProps:
         """
         Set sizeOfStruct and return self for chaining.
 
@@ -5875,7 +5875,7 @@ class SOMEIPTransformationProps(TransformationProps):
         self.size_of_struct = value  # Use property setter (gets validation)
         return self
 
-    def with_size_of_union(self, value: Optional["PositiveInteger"]) -> SOMEIPTransformationProps:
+    def with_size_of_union(self, value: Optional[PositiveInteger]) -> SOMEIPTransformationProps:
         """
         Set sizeOfUnion and return self for chaining.
 
@@ -5931,15 +5931,15 @@ class DataPrototypeInPortInterfaceRef(DataPrototypeReference):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # context of a SenderReceiverInterface.
         # implemented by: DataPrototypeInSender.
-        self._dataPrototypeIn: Optional["RefType"] = None
+        self._dataPrototypeIn: Optional[RefType] = None
 
     @property
-    def data_prototype_in(self) -> Optional["RefType"]:
+    def data_prototype_in(self) -> Optional[RefType]:
         """Get dataPrototypeIn (Pythonic accessor)."""
         return self._dataPrototypeIn
 
     @data_prototype_in.setter
-    def data_prototype_in(self, value: Optional["RefType"]) -> None:
+    def data_prototype_in(self, value: Optional[RefType]) -> None:
         """
         Set dataPrototypeIn with validation.
 
@@ -5957,7 +5957,7 @@ class DataPrototypeInPortInterfaceRef(DataPrototypeReference):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDataPrototypeIn(self) -> "RefType":
+    def getDataPrototypeIn(self) -> RefType:
         """
         AUTOSAR-compliant getter for dataPrototypeIn.
 
@@ -5969,7 +5969,7 @@ class DataPrototypeInPortInterfaceRef(DataPrototypeReference):
         """
         return self.data_prototype_in  # Delegates to property
 
-    def setDataPrototypeIn(self, value: "RefType") -> DataPrototypeInPortInterfaceRef:
+    def setDataPrototypeIn(self, value: RefType) -> DataPrototypeInPortInterfaceRef:
         """
         AUTOSAR-compliant setter for dataPrototypeIn with method chaining.
 

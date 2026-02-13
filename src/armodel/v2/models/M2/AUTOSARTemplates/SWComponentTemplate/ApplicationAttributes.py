@@ -41,15 +41,15 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Flag whether this data element was not measured directly was calculated from
         # possibly several other calculated values.
-        self._computed: Optional["Boolean"] = None
+        self._computed: Optional[Boolean] = None
 
     @property
-    def computed(self) -> Optional["Boolean"]:
+    def computed(self) -> Optional[Boolean]:
         """Get computed (Pythonic accessor)."""
         return self._computed
 
     @computed.setter
-    def computed(self, value: Optional["Boolean"]) -> None:
+    def computed(self, value: Optional[Boolean]) -> None:
         """
         Set computed with validation.
 
@@ -68,15 +68,15 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
                 f"computed must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._computed = value
-        self._dataElement: Optional["RefType"] = None
+        self._dataElement: Optional[RefType] = None
 
     @property
-    def data_element(self) -> Optional["RefType"]:
+    def data_element(self) -> Optional[RefType]:
         """Get dataElement (Pythonic accessor)."""
         return self._dataElement
 
     @data_element.setter
-    def data_element(self, value: Optional["RefType"]) -> None:
+    def data_element(self, value: Optional[RefType]) -> None:
         """
         Set dataElement with validation.
 
@@ -157,7 +157,7 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getComputed(self) -> "Boolean":
+    def getComputed(self) -> Boolean:
         """
         AUTOSAR-compliant getter for computed.
 
@@ -169,7 +169,7 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
         """
         return self.computed  # Delegates to property
 
-    def setComputed(self, value: "Boolean") -> SenderReceiverAnnotation:
+    def setComputed(self, value: Boolean) -> SenderReceiverAnnotation:
         """
         AUTOSAR-compliant setter for computed with method chaining.
 
@@ -185,7 +185,7 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
         self.computed = value  # Delegates to property setter
         return self
 
-    def getDataElement(self) -> "RefType":
+    def getDataElement(self) -> RefType:
         """
         AUTOSAR-compliant getter for dataElement.
 
@@ -197,7 +197,7 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
         """
         return self.data_element  # Delegates to property
 
-    def setDataElement(self, value: "RefType") -> SenderReceiverAnnotation:
+    def setDataElement(self, value: RefType) -> SenderReceiverAnnotation:
         """
         AUTOSAR-compliant setter for dataElement with method chaining.
 
@@ -271,7 +271,7 @@ class SenderReceiverAnnotation(GeneralAnnotation, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_computed(self, value: Optional["Boolean"]) -> SenderReceiverAnnotation:
+    def with_computed(self, value: Optional[Boolean]) -> SenderReceiverAnnotation:
         """
         Set computed and return self for chaining.
 
@@ -352,15 +352,15 @@ class ClientServerAnnotation(GeneralAnnotation):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the ClientServerOperation that the Client to.
-        self._operation: Optional["ClientServerOperation"] = None
+        self._operation: Optional[ClientServerOperation] = None
 
     @property
-    def operation(self) -> Optional["ClientServerOperation"]:
+    def operation(self) -> Optional[ClientServerOperation]:
         """Get operation (Pythonic accessor)."""
         return self._operation
 
     @operation.setter
-    def operation(self, value: Optional["ClientServerOperation"]) -> None:
+    def operation(self, value: Optional[ClientServerOperation]) -> None:
         """
         Set operation with validation.
 
@@ -382,7 +382,7 @@ class ClientServerAnnotation(GeneralAnnotation):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getOperation(self) -> "ClientServerOperation":
+    def getOperation(self) -> ClientServerOperation:
         """
         AUTOSAR-compliant getter for operation.
 
@@ -394,7 +394,7 @@ class ClientServerAnnotation(GeneralAnnotation):
         """
         return self.operation  # Delegates to property
 
-    def setOperation(self, value: "ClientServerOperation") -> ClientServerAnnotation:
+    def setOperation(self, value: ClientServerOperation) -> ClientServerAnnotation:
         """
         AUTOSAR-compliant setter for operation with method chaining.
 
@@ -412,7 +412,7 @@ class ClientServerAnnotation(GeneralAnnotation):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_operation(self, value: Optional["ClientServerOperation"]) -> ClientServerAnnotation:
+    def with_operation(self, value: Optional[ClientServerOperation]) -> ClientServerAnnotation:
         """
         Set operation and return self for chaining.
 
@@ -474,15 +474,15 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
                 f"age must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._age = value
-        self._argument: Optional["RefType"] = None
+        self._argument: Optional[RefType] = None
 
     @property
-    def argument(self) -> Optional["RefType"]:
+    def argument(self) -> Optional[RefType]:
         """Get argument (Pythonic accessor)."""
         return self._argument
 
     @argument.setter
-    def argument(self, value: Optional["RefType"]) -> None:
+    def argument(self, value: Optional[RefType]) -> None:
         """
         Set argument with validation.
 
@@ -498,15 +498,15 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
 
         self._argument = value
         # well as the data-elements type, (2ˆdatatypelength - 1).
-        self._bswResolution: Optional["Float"] = None
+        self._bswResolution: Optional[Float] = None
 
     @property
-    def bsw_resolution(self) -> Optional["Float"]:
+    def bsw_resolution(self) -> Optional[Float]:
         """Get bswResolution (Pythonic accessor)."""
         return self._bswResolution
 
     @bsw_resolution.setter
-    def bsw_resolution(self, value: Optional["Float"]) -> None:
+    def bsw_resolution(self, value: Optional[Float]) -> None:
         """
         Set bswResolution with validation.
 
@@ -525,15 +525,15 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
                 f"bswResolution must be Float or float or None, got {type(value).__name__}"
             )
         self._bswResolution = value
-        self._dataElement: Optional["RefType"] = None
+        self._dataElement: Optional[RefType] = None
 
     @property
-    def data_element(self) -> Optional["RefType"]:
+    def data_element(self) -> Optional[RefType]:
         """Get dataElement (Pythonic accessor)."""
         return self._dataElement
 
     @data_element.setter
-    def data_element(self, value: Optional["RefType"]) -> None:
+    def data_element(self, value: Optional[RefType]) -> None:
         """
         Set dataElement with validation.
 
@@ -557,15 +557,15 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
                 # Component.
         # 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template
                 # R23-11.
-        self._failure: Optional["RefType"] = None
+        self._failure: Optional[RefType] = None
 
     @property
-    def failure(self) -> Optional["RefType"]:
+    def failure(self) -> Optional[RefType]:
         """Get failure (Pythonic accessor)."""
         return self._failure
 
     @failure.setter
-    def failure(self, value: Optional["RefType"]) -> None:
+    def failure(self, value: Optional[RefType]) -> None:
         """
         Set failure with validation.
 
@@ -638,15 +638,15 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
                 f"pulseTest must be PulseTestEnum or None, got {type(value).__name__}"
             )
         self._pulseTest = value
-        self._trigger: Optional["RefType"] = None
+        self._trigger: Optional[RefType] = None
 
     @property
-    def trigger(self) -> Optional["RefType"]:
+    def trigger(self) -> Optional[RefType]:
         """Get trigger (Pythonic accessor)."""
         return self._trigger
 
     @trigger.setter
-    def trigger(self, value: Optional["RefType"]) -> None:
+    def trigger(self, value: Optional[RefType]) -> None:
         """
         Set trigger with validation.
 
@@ -692,7 +692,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         self.age = value  # Delegates to property setter
         return self
 
-    def getArgument(self) -> "RefType":
+    def getArgument(self) -> RefType:
         """
         AUTOSAR-compliant getter for argument.
 
@@ -704,7 +704,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         """
         return self.argument  # Delegates to property
 
-    def setArgument(self, value: "RefType") -> IoHwAbstractionServerAnnotation:
+    def setArgument(self, value: RefType) -> IoHwAbstractionServerAnnotation:
         """
         AUTOSAR-compliant setter for argument with method chaining.
 
@@ -720,7 +720,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         self.argument = value  # Delegates to property setter
         return self
 
-    def getBswResolution(self) -> "Float":
+    def getBswResolution(self) -> Float:
         """
         AUTOSAR-compliant getter for bswResolution.
 
@@ -732,7 +732,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         """
         return self.bsw_resolution  # Delegates to property
 
-    def setBswResolution(self, value: "Float") -> IoHwAbstractionServerAnnotation:
+    def setBswResolution(self, value: Float) -> IoHwAbstractionServerAnnotation:
         """
         AUTOSAR-compliant setter for bswResolution with method chaining.
 
@@ -748,7 +748,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         self.bsw_resolution = value  # Delegates to property setter
         return self
 
-    def getDataElement(self) -> "RefType":
+    def getDataElement(self) -> RefType:
         """
         AUTOSAR-compliant getter for dataElement.
 
@@ -760,7 +760,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         """
         return self.data_element  # Delegates to property
 
-    def setDataElement(self, value: "RefType") -> IoHwAbstractionServerAnnotation:
+    def setDataElement(self, value: RefType) -> IoHwAbstractionServerAnnotation:
         """
         AUTOSAR-compliant setter for dataElement with method chaining.
 
@@ -776,7 +776,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         self.data_element = value  # Delegates to property setter
         return self
 
-    def getFailure(self) -> "RefType":
+    def getFailure(self) -> RefType:
         """
         AUTOSAR-compliant getter for failure.
 
@@ -788,7 +788,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         """
         return self.failure  # Delegates to property
 
-    def setFailure(self, value: "RefType") -> IoHwAbstractionServerAnnotation:
+    def setFailure(self, value: RefType) -> IoHwAbstractionServerAnnotation:
         """
         AUTOSAR-compliant setter for failure with method chaining.
 
@@ -860,7 +860,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         self.pulse_test = value  # Delegates to property setter
         return self
 
-    def getTrigger(self) -> "RefType":
+    def getTrigger(self) -> RefType:
         """
         AUTOSAR-compliant getter for trigger.
 
@@ -872,7 +872,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         """
         return self.trigger  # Delegates to property
 
-    def setTrigger(self, value: "RefType") -> IoHwAbstractionServerAnnotation:
+    def setTrigger(self, value: RefType) -> IoHwAbstractionServerAnnotation:
         """
         AUTOSAR-compliant setter for trigger with method chaining.
 
@@ -922,7 +922,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         self.argument = value  # Use property setter (gets validation)
         return self
 
-    def with_bsw_resolution(self, value: Optional["Float"]) -> IoHwAbstractionServerAnnotation:
+    def with_bsw_resolution(self, value: Optional[Float]) -> IoHwAbstractionServerAnnotation:
         """
         Set bswResolution and return self for chaining.
 
@@ -1130,15 +1130,15 @@ class ModePortAnnotation(GeneralAnnotation):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The instance of annotated ModeDeclarationGroup.
-        self._modeGroup: Optional["RefType"] = None
+        self._modeGroup: Optional[RefType] = None
 
     @property
-    def mode_group(self) -> Optional["RefType"]:
+    def mode_group(self) -> Optional[RefType]:
         """Get modeGroup (Pythonic accessor)."""
         return self._modeGroup
 
     @mode_group.setter
-    def mode_group(self, value: Optional["RefType"]) -> None:
+    def mode_group(self, value: Optional[RefType]) -> None:
         """
         Set modeGroup with validation.
 
@@ -1156,7 +1156,7 @@ class ModePortAnnotation(GeneralAnnotation):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getModeGroup(self) -> "RefType":
+    def getModeGroup(self) -> RefType:
         """
         AUTOSAR-compliant getter for modeGroup.
 
@@ -1168,7 +1168,7 @@ class ModePortAnnotation(GeneralAnnotation):
         """
         return self.mode_group  # Delegates to property
 
-    def setModeGroup(self, value: "RefType") -> ModePortAnnotation:
+    def setModeGroup(self, value: RefType) -> ModePortAnnotation:
         """
         AUTOSAR-compliant setter for modeGroup with method chaining.
 
@@ -1219,15 +1219,15 @@ class TriggerPortAnnotation(GeneralAnnotation):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The instance of annotated trigger.
-        self._trigger: Optional["RefType"] = None
+        self._trigger: Optional[RefType] = None
 
     @property
-    def trigger(self) -> Optional["RefType"]:
+    def trigger(self) -> Optional[RefType]:
         """Get trigger (Pythonic accessor)."""
         return self._trigger
 
     @trigger.setter
-    def trigger(self, value: Optional["RefType"]) -> None:
+    def trigger(self, value: Optional[RefType]) -> None:
         """
         Set trigger with validation.
 
@@ -1245,7 +1245,7 @@ class TriggerPortAnnotation(GeneralAnnotation):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTrigger(self) -> "RefType":
+    def getTrigger(self) -> RefType:
         """
         AUTOSAR-compliant getter for trigger.
 
@@ -1257,7 +1257,7 @@ class TriggerPortAnnotation(GeneralAnnotation):
         """
         return self.trigger  # Delegates to property
 
-    def setTrigger(self, value: "RefType") -> TriggerPortAnnotation:
+    def setTrigger(self, value: RefType) -> TriggerPortAnnotation:
         """
         AUTOSAR-compliant setter for trigger with method chaining.
 
@@ -1308,15 +1308,15 @@ class NvDataPortAnnotation(GeneralAnnotation):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The instance of nv data annotated.
-        self._variable: Optional["RefType"] = None
+        self._variable: Optional[RefType] = None
 
     @property
-    def variable(self) -> Optional["RefType"]:
+    def variable(self) -> Optional[RefType]:
         """Get variable (Pythonic accessor)."""
         return self._variable
 
     @variable.setter
-    def variable(self, value: Optional["RefType"]) -> None:
+    def variable(self, value: Optional[RefType]) -> None:
         """
         Set variable with validation.
 
@@ -1334,7 +1334,7 @@ class NvDataPortAnnotation(GeneralAnnotation):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getVariable(self) -> "RefType":
+    def getVariable(self) -> RefType:
         """
         AUTOSAR-compliant getter for variable.
 
@@ -1346,7 +1346,7 @@ class NvDataPortAnnotation(GeneralAnnotation):
         """
         return self.variable  # Delegates to property
 
-    def setVariable(self, value: "RefType") -> NvDataPortAnnotation:
+    def setVariable(self, value: RefType) -> NvDataPortAnnotation:
         """
         AUTOSAR-compliant setter for variable with method chaining.
 

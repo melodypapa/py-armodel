@@ -63,15 +63,15 @@ class MemorySection(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The attribute describes the typical alignment of objects memory section.
-        self._alignment: Optional["AlignmentType"] = None
+        self._alignment: Optional[AlignmentType] = None
 
     @property
-    def alignment(self) -> Optional["AlignmentType"]:
+    def alignment(self) -> Optional[AlignmentType]:
         """Get alignment (Pythonic accessor)."""
         return self._alignment
 
     @alignment.setter
-    def alignment(self, value: Optional["AlignmentType"]) -> None:
+    def alignment(self, value: Optional[AlignmentType]) -> None:
         """
         Set alignment with validation.
 
@@ -145,15 +145,15 @@ class MemorySection(Identifiable):
         self._prefix = value
         # 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module
                 # Description Template R23-11.
-        self._size: Optional["PositiveInteger"] = None
+        self._size: Optional[PositiveInteger] = None
 
     @property
-    def size(self) -> Optional["PositiveInteger"]:
+    def size(self) -> Optional[PositiveInteger]:
         """Get size (Pythonic accessor)."""
         return self._size
 
     @size.setter
-    def size(self, value: Optional["PositiveInteger"]) -> None:
+    def size(self, value: Optional[PositiveInteger]) -> None:
         """
         Set size with validation.
 
@@ -273,7 +273,7 @@ class MemorySection(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAlignment(self) -> "AlignmentType":
+    def getAlignment(self) -> AlignmentType:
         """
         AUTOSAR-compliant getter for alignment.
 
@@ -285,7 +285,7 @@ class MemorySection(Identifiable):
         """
         return self.alignment  # Delegates to property
 
-    def setAlignment(self, value: "AlignmentType") -> MemorySection:
+    def setAlignment(self, value: AlignmentType) -> MemorySection:
         """
         AUTOSAR-compliant setter for alignment with method chaining.
 
@@ -353,7 +353,7 @@ class MemorySection(Identifiable):
         self.prefix = value  # Delegates to property setter
         return self
 
-    def getSize(self) -> "PositiveInteger":
+    def getSize(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for size.
 
@@ -365,7 +365,7 @@ class MemorySection(Identifiable):
         """
         return self.size  # Delegates to property
 
-    def setSize(self, value: "PositiveInteger") -> MemorySection:
+    def setSize(self, value: PositiveInteger) -> MemorySection:
         """
         AUTOSAR-compliant setter for size with method chaining.
 
@@ -439,7 +439,7 @@ class MemorySection(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_alignment(self, value: Optional["AlignmentType"]) -> MemorySection:
+    def with_alignment(self, value: Optional[AlignmentType]) -> MemorySection:
         """
         Set alignment and return self for chaining.
 
@@ -471,7 +471,7 @@ class MemorySection(Identifiable):
         self.prefix = value  # Use property setter (gets validation)
         return self
 
-    def with_size(self, value: Optional["PositiveInteger"]) -> MemorySection:
+    def with_size(self, value: Optional[PositiveInteger]) -> MemorySection:
         """
         Set size and return self for chaining.
 
@@ -542,15 +542,15 @@ class SectionNamePrefix(ImplementationProps):
                 # preprocessor implementation sections with this prefix.
         # of this link supersedes the usage of a memory with the default name (derived
                 # from the.
-        self._implementedIn: Optional["RefType"] = None
+        self._implementedIn: Optional[RefType] = None
 
     @property
-    def implemented_in(self) -> Optional["RefType"]:
+    def implemented_in(self) -> Optional[RefType]:
         """Get implementedIn (Pythonic accessor)."""
         return self._implementedIn
 
     @implemented_in.setter
-    def implemented_in(self, value: Optional["RefType"]) -> None:
+    def implemented_in(self, value: Optional[RefType]) -> None:
         """
         Set implementedIn with validation.
 
@@ -568,7 +568,7 @@ class SectionNamePrefix(ImplementationProps):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getImplementedIn(self) -> "RefType":
+    def getImplementedIn(self) -> RefType:
         """
         AUTOSAR-compliant getter for implementedIn.
 
@@ -580,7 +580,7 @@ class SectionNamePrefix(ImplementationProps):
         """
         return self.implemented_in  # Delegates to property
 
-    def setImplementedIn(self, value: "RefType") -> SectionNamePrefix:
+    def setImplementedIn(self, value: RefType) -> SectionNamePrefix:
         """
         AUTOSAR-compliant setter for implementedIn with method chaining.
 

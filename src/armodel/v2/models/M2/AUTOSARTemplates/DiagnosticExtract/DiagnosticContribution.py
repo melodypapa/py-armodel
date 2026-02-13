@@ -253,15 +253,15 @@ class DiagnosticProtocol(DiagnosticCommonElement):
                 # protocols.
         # Lower numeric higher protocol priority: - Highest protocol priority - Lowest
                 # protocol priority.
-        self._priority: Optional["PositiveInteger"] = None
+        self._priority: Optional[PositiveInteger] = None
 
     @property
-    def priority(self) -> Optional["PositiveInteger"]:
+    def priority(self) -> Optional[PositiveInteger]:
         """Get priority (Pythonic accessor)."""
         return self._priority
 
     @priority.setter
-    def priority(self, value: Optional["PositiveInteger"]) -> None:
+    def priority(self, value: Optional[PositiveInteger]) -> None:
         """
         Set priority with validation.
 
@@ -310,15 +310,15 @@ class DiagnosticProtocol(DiagnosticCommonElement):
         # NRC 0x78 (response pending) to the bootloader (in this case the be set to
         # "true") or if the transition shall be sending NRC 0x78 (in this case the be
         # set to "false").
-        self._sendRespPend: Optional["Boolean"] = None
+        self._sendRespPend: Optional[Boolean] = None
 
     @property
-    def send_resp_pend(self) -> Optional["Boolean"]:
+    def send_resp_pend(self) -> Optional[Boolean]:
         """Get sendRespPend (Pythonic accessor)."""
         return self._sendRespPend
 
     @send_resp_pend.setter
-    def send_resp_pend(self, value: Optional["Boolean"]) -> None:
+    def send_resp_pend(self, value: Optional[Boolean]) -> None:
         """
         Set sendRespPend with validation.
 
@@ -379,7 +379,7 @@ class DiagnosticProtocol(DiagnosticCommonElement):
         """
         return self.diagnostic  # Delegates to property
 
-    def getPriority(self) -> "PositiveInteger":
+    def getPriority(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for priority.
 
@@ -391,7 +391,7 @@ class DiagnosticProtocol(DiagnosticCommonElement):
         """
         return self.priority  # Delegates to property
 
-    def setPriority(self, value: "PositiveInteger") -> DiagnosticProtocol:
+    def setPriority(self, value: PositiveInteger) -> DiagnosticProtocol:
         """
         AUTOSAR-compliant setter for priority with method chaining.
 
@@ -435,7 +435,7 @@ class DiagnosticProtocol(DiagnosticCommonElement):
         self.protocol_kind = value  # Delegates to property setter
         return self
 
-    def getSendRespPend(self) -> "Boolean":
+    def getSendRespPend(self) -> Boolean:
         """
         AUTOSAR-compliant getter for sendRespPend.
 
@@ -447,7 +447,7 @@ class DiagnosticProtocol(DiagnosticCommonElement):
         """
         return self.send_resp_pend  # Delegates to property
 
-    def setSendRespPend(self, value: "Boolean") -> DiagnosticProtocol:
+    def setSendRespPend(self, value: Boolean) -> DiagnosticProtocol:
         """
         AUTOSAR-compliant setter for sendRespPend with method chaining.
 
@@ -493,7 +493,7 @@ class DiagnosticProtocol(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_priority(self, value: Optional["PositiveInteger"]) -> DiagnosticProtocol:
+    def with_priority(self, value: Optional[PositiveInteger]) -> DiagnosticProtocol:
         """
         Set priority and return self for chaining.
 
@@ -525,7 +525,7 @@ class DiagnosticProtocol(DiagnosticCommonElement):
         self.protocol_kind = value  # Use property setter (gets validation)
         return self
 
-    def with_send_resp_pend(self, value: Optional["Boolean"]) -> DiagnosticProtocol:
+    def with_send_resp_pend(self, value: Optional[Boolean]) -> DiagnosticProtocol:
         """
         Set sendRespPend and return self for chaining.
 
@@ -584,15 +584,15 @@ class DiagnosticServiceTable(DiagnosticCommonElement):
         """Get diagnostic (Pythonic accessor)."""
         return self._diagnostic
         # This represents the applicable EcuInstance for this.
-        self._ecuInstance: Optional["EcuInstance"] = None
+        self._ecuInstance: Optional[EcuInstance] = None
 
     @property
-    def ecu_instance(self) -> Optional["EcuInstance"]:
+    def ecu_instance(self) -> Optional[EcuInstance]:
         """Get ecuInstance (Pythonic accessor)."""
         return self._ecuInstance
 
     @ecu_instance.setter
-    def ecu_instance(self, value: Optional["EcuInstance"]) -> None:
+    def ecu_instance(self, value: Optional[EcuInstance]) -> None:
         """
         Set ecuInstance with validation.
 
@@ -639,10 +639,10 @@ class DiagnosticServiceTable(DiagnosticCommonElement):
             )
         self._protocolKind = value
         # scope of this Diagnostic.
-        self._serviceInstance: List["DiagnosticService"] = []
+        self._serviceInstance: List[DiagnosticService] = []
 
     @property
-    def service_instance(self) -> List["DiagnosticService"]:
+    def service_instance(self) -> List[DiagnosticService]:
         """Get serviceInstance (Pythonic accessor)."""
         return self._serviceInstance
 
@@ -660,7 +660,7 @@ class DiagnosticServiceTable(DiagnosticCommonElement):
         """
         return self.diagnostic  # Delegates to property
 
-    def getEcuInstance(self) -> "EcuInstance":
+    def getEcuInstance(self) -> EcuInstance:
         """
         AUTOSAR-compliant getter for ecuInstance.
 
@@ -672,7 +672,7 @@ class DiagnosticServiceTable(DiagnosticCommonElement):
         """
         return self.ecu_instance  # Delegates to property
 
-    def setEcuInstance(self, value: "EcuInstance") -> DiagnosticServiceTable:
+    def setEcuInstance(self, value: EcuInstance) -> DiagnosticServiceTable:
         """
         AUTOSAR-compliant setter for ecuInstance with method chaining.
 
@@ -716,7 +716,7 @@ class DiagnosticServiceTable(DiagnosticCommonElement):
         self.protocol_kind = value  # Delegates to property setter
         return self
 
-    def getServiceInstance(self) -> List["DiagnosticService"]:
+    def getServiceInstance(self) -> List[DiagnosticService]:
         """
         AUTOSAR-compliant getter for serviceInstance.
 
@@ -730,7 +730,7 @@ class DiagnosticServiceTable(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_ecu_instance(self, value: Optional["EcuInstance"]) -> DiagnosticServiceTable:
+    def with_ecu_instance(self, value: Optional[EcuInstance]) -> DiagnosticServiceTable:
         """
         Set ecuInstance and return self for chaining.
 
@@ -784,10 +784,10 @@ class DiagnosticEcuInstanceProps(DiagnosticCommonElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the actual EcuInstance to which the in the
         # DiagnosticEcuInstance.
-        self._ecuInstance: List["EcuInstance"] = []
+        self._ecuInstance: List[EcuInstance] = []
 
     @property
-    def ecu_instance(self) -> List["EcuInstance"]:
+    def ecu_instance(self) -> List[EcuInstance]:
         """Get ecuInstance (Pythonic accessor)."""
         return self._ecuInstance
         # This attribute is used to specify the role (if applicable) in the
@@ -822,7 +822,7 @@ class DiagnosticEcuInstanceProps(DiagnosticCommonElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getEcuInstance(self) -> List["EcuInstance"]:
+    def getEcuInstance(self) -> List[EcuInstance]:
         """
         AUTOSAR-compliant getter for ecuInstance.
 

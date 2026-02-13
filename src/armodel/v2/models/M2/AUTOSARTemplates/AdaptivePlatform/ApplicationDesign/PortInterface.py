@@ -33,15 +33,15 @@ class Field(AutosarDataPrototype):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attribute controls whether read access is foreseen to.
-        self._hasGetter: Optional["Boolean"] = None
+        self._hasGetter: Optional[Boolean] = None
 
     @property
-    def has_getter(self) -> Optional["Boolean"]:
+    def has_getter(self) -> Optional[Boolean]:
         """Get hasGetter (Pythonic accessor)."""
         return self._hasGetter
 
     @has_getter.setter
-    def has_getter(self, value: Optional["Boolean"]) -> None:
+    def has_getter(self, value: Optional[Boolean]) -> None:
         """
         Set hasGetter with validation.
 
@@ -60,15 +60,15 @@ class Field(AutosarDataPrototype):
                 f"hasGetter must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._hasGetter = value
-        self._hasNotifier: Optional["Boolean"] = None
+        self._hasNotifier: Optional[Boolean] = None
 
     @property
-    def has_notifier(self) -> Optional["Boolean"]:
+    def has_notifier(self) -> Optional[Boolean]:
         """Get hasNotifier (Pythonic accessor)."""
         return self._hasNotifier
 
     @has_notifier.setter
-    def has_notifier(self, value: Optional["Boolean"]) -> None:
+    def has_notifier(self, value: Optional[Boolean]) -> None:
         """
         Set hasNotifier with validation.
 
@@ -87,15 +87,15 @@ class Field(AutosarDataPrototype):
                 f"hasNotifier must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._hasNotifier = value
-        self._hasSetter: Optional["Boolean"] = None
+        self._hasSetter: Optional[Boolean] = None
 
     @property
-    def has_setter(self) -> Optional["Boolean"]:
+    def has_setter(self) -> Optional[Boolean]:
         """Get hasSetter (Pythonic accessor)."""
         return self._hasSetter
 
     @has_setter.setter
-    def has_setter(self, value: Optional["Boolean"]) -> None:
+    def has_setter(self, value: Optional[Boolean]) -> None:
         """
         Set hasSetter with validation.
 
@@ -117,7 +117,7 @@ class Field(AutosarDataPrototype):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getHasGetter(self) -> "Boolean":
+    def getHasGetter(self) -> Boolean:
         """
         AUTOSAR-compliant getter for hasGetter.
 
@@ -129,7 +129,7 @@ class Field(AutosarDataPrototype):
         """
         return self.has_getter  # Delegates to property
 
-    def setHasGetter(self, value: "Boolean") -> Field:
+    def setHasGetter(self, value: Boolean) -> Field:
         """
         AUTOSAR-compliant setter for hasGetter with method chaining.
 
@@ -145,7 +145,7 @@ class Field(AutosarDataPrototype):
         self.has_getter = value  # Delegates to property setter
         return self
 
-    def getHasNotifier(self) -> "Boolean":
+    def getHasNotifier(self) -> Boolean:
         """
         AUTOSAR-compliant getter for hasNotifier.
 
@@ -157,7 +157,7 @@ class Field(AutosarDataPrototype):
         """
         return self.has_notifier  # Delegates to property
 
-    def setHasNotifier(self, value: "Boolean") -> Field:
+    def setHasNotifier(self, value: Boolean) -> Field:
         """
         AUTOSAR-compliant setter for hasNotifier with method chaining.
 
@@ -173,7 +173,7 @@ class Field(AutosarDataPrototype):
         self.has_notifier = value  # Delegates to property setter
         return self
 
-    def getHasSetter(self) -> "Boolean":
+    def getHasSetter(self) -> Boolean:
         """
         AUTOSAR-compliant getter for hasSetter.
 
@@ -185,7 +185,7 @@ class Field(AutosarDataPrototype):
         """
         return self.has_setter  # Delegates to property
 
-    def setHasSetter(self, value: "Boolean") -> Field:
+    def setHasSetter(self, value: Boolean) -> Field:
         """
         AUTOSAR-compliant setter for hasSetter with method chaining.
 
@@ -203,7 +203,7 @@ class Field(AutosarDataPrototype):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_has_getter(self, value: Optional["Boolean"]) -> Field:
+    def with_has_getter(self, value: Optional[Boolean]) -> Field:
         """
         Set hasGetter and return self for chaining.
 
@@ -219,7 +219,7 @@ class Field(AutosarDataPrototype):
         self.has_getter = value  # Use property setter (gets validation)
         return self
 
-    def with_has_notifier(self, value: Optional["Boolean"]) -> Field:
+    def with_has_notifier(self, value: Optional[Boolean]) -> Field:
         """
         Set hasNotifier and return self for chaining.
 
@@ -235,7 +235,7 @@ class Field(AutosarDataPrototype):
         self.has_notifier = value  # Use property setter (gets validation)
         return self
 
-    def with_has_setter(self, value: Optional["Boolean"]) -> Field:
+    def with_has_setter(self, value: Optional[Boolean]) -> Field:
         """
         Set hasSetter and return self for chaining.
 

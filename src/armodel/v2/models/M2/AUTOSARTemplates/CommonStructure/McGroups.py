@@ -47,15 +47,15 @@ class McGroup(ARElement):
         # Refers to the set of adjustable data (= calibration by this McGroup.
         # 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module
                 # Description Template R23-11.
-        self._refCalprmSet: Optional["RefType"] = None
+        self._refCalprmSet: Optional[RefType] = None
 
     @property
-    def ref_calprm_set(self) -> Optional["RefType"]:
+    def ref_calprm_set(self) -> Optional[RefType]:
         """Get refCalprmSet (Pythonic accessor)."""
         return self._refCalprmSet
 
     @ref_calprm_set.setter
-    def ref_calprm_set(self, value: Optional["RefType"]) -> None:
+    def ref_calprm_set(self, value: Optional[RefType]) -> None:
         """
         Set refCalprmSet with validation.
 
@@ -70,15 +70,15 @@ class McGroup(ARElement):
             return
 
         self._refCalprmSet = value
-        self._ref: Optional["RefType"] = None
+        self._ref: Optional[RefType] = None
 
     @property
-    def ref(self) -> Optional["RefType"]:
+    def ref(self) -> Optional[RefType]:
         """Get ref (Pythonic accessor)."""
         return self._ref
 
     @ref.setter
-    def ref(self, value: Optional["RefType"]) -> None:
+    def ref(self, value: Optional[RefType]) -> None:
         """
         Set ref with validation.
 
@@ -93,10 +93,10 @@ class McGroup(ARElement):
             return
 
         self._ref = value
-        self._subGroup: List["RefType"] = []
+        self._subGroup: List[RefType] = []
 
     @property
-    def sub_group(self) -> List["RefType"]:
+    def sub_group(self) -> List[RefType]:
         """Get subGroup (Pythonic accessor)."""
         return self._subGroup
 
@@ -178,7 +178,7 @@ class McGroup(ARElement):
         """
         return self.mc_function  # Delegates to property
 
-    def getRefCalprmSet(self) -> "RefType":
+    def getRefCalprmSet(self) -> RefType:
         """
         AUTOSAR-compliant getter for refCalprmSet.
 
@@ -190,7 +190,7 @@ class McGroup(ARElement):
         """
         return self.ref_calprm_set  # Delegates to property
 
-    def setRefCalprmSet(self, value: "RefType") -> McGroup:
+    def setRefCalprmSet(self, value: RefType) -> McGroup:
         """
         AUTOSAR-compliant setter for refCalprmSet with method chaining.
 
@@ -206,7 +206,7 @@ class McGroup(ARElement):
         self.ref_calprm_set = value  # Delegates to property setter
         return self
 
-    def getRef(self) -> "RefType":
+    def getRef(self) -> RefType:
         """
         AUTOSAR-compliant getter for ref.
 
@@ -218,7 +218,7 @@ class McGroup(ARElement):
         """
         return self.ref  # Delegates to property
 
-    def setRef(self, value: "RefType") -> McGroup:
+    def setRef(self, value: RefType) -> McGroup:
         """
         AUTOSAR-compliant setter for ref with method chaining.
 
@@ -234,7 +234,7 @@ class McGroup(ARElement):
         self.ref = value  # Delegates to property setter
         return self
 
-    def getSubGroup(self) -> List["RefType"]:
+    def getSubGroup(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for subGroup.
 
