@@ -14,6 +14,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     String,
 )
+from armodel.v2.models.M2.MSR.Documentation.BlockElements import (
+    DocumentationBlock,
+)
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.PaginationAndView import (
     Paginateable,
 )
@@ -22,9 +25,6 @@ from armodel.v2.models.M2.MSR.Documentation.BlockElements.Prms import (
 )
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.Table import (
     Table,
-)
-from armodel.v2.models.M2.MSR.Documentation.BlockElements import (
-    DocumentationBlock,
 )
 from armodel.v2.models.M2.MSR.Documentation.MsrQueryChapter import (
     MsrQueryChapter,

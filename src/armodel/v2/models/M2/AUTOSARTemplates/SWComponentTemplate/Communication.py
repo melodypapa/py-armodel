@@ -6,13 +6,15 @@ Package: M2::AUTOSARTemplates::SWComponentTemplate::Communication
 
 
 from __future__ import annotations
+
 from abc import ABC
 from typing import List, Optional
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    Boolean,
-    PositiveInteger,
-    RefType,
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure import (
+    DataFilter,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
+    ValueSpecification,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -22,8 +24,28 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
+    Boolean,
+    PositiveInteger,
+    RefType,
+    TimeValue,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (    ApplicationComposite,    ClientServerOperation,    CompositeNetwork,    HandleOutOfRange,    ModeSwitchedAck,    TransformationCom,    TransmissionComSpec,    TransmissionMode,)from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwDataDefProps import (    SwDataDefProps,)from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure import (    DataFilter,)from armodel.v2.models.M2.MSR.CalibrationData import (    ParameterData,)from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (    TimeValue,)from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (    ValueSpecification,)
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
+    ApplicationComposite,
+    ClientServerOperation,
+    CompositeNetwork,
+    HandleOutOfRange,
+    ModeSwitchedAck,
+    TransformationCom,
+    TransmissionComSpec,
+    TransmissionMode,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwDataDefProps import (
+    SwDataDefProps,
+)
+from armodel.v2.models.M2.MSR.CalibrationData import (
+    ParameterData,
+)
+
 
 class PPortComSpec(ARObject, ABC):
     """

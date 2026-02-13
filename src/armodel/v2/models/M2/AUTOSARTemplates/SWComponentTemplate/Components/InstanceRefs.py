@@ -6,16 +6,29 @@ Package: M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs
 
 
 from __future__ import annotations
+
 from abc import ABC
 from typing import List, Optional
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    RefType,
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure import (
+    ModeDeclaration,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (    AtomicSwComponent,    SwComponent,)from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (    AbstractProvidedPort,    AbstractRequiredPort,    ClientServerOperation,)from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure import (    ModeDeclaration,)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+    AtomicSwComponent,
+    SwComponent,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+    AbstractProvidedPort,
+    AbstractRequiredPort,
+    ClientServerOperation,
+)
+
 
 class VariableInAtomicSwcInstanceRef(ARObject, ABC):
     """

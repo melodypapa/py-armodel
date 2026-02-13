@@ -6,17 +6,16 @@ Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataEle
 
 
 from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    RefType,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
+    RefType,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import (
     AbstractAccessPoint,

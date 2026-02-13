@@ -6,12 +6,9 @@ Package: M2::MSR::Documentation::BlockElements::Figure
 
 
 from __future__ import annotations
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    NameToken,
-    String,
-)
+
+from typing import List, Optional
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
@@ -20,6 +17,8 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
+    NameToken,
+    String,
 )
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.PaginationAndView import (
     Paginateable,
@@ -27,8 +26,6 @@ from armodel.v2.models.M2.MSR.Documentation.BlockElements.PaginationAndView impo
 from armodel.v2.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
     LanguageSpecific,
 )
-
-
 
 
 class Area(ARObject):
@@ -4460,7 +4457,7 @@ Package: M2::MSR::Documentation::BlockElements::Figure
     # Rotate 180 degree
     Rotate180Rotate180LimitTo = "5"
 
-    # 
+    #
     Text = "6"
 
     # Rotate 90 degree counter clockwise
@@ -4469,7 +4466,7 @@ Package: M2::MSR::Documentation::BlockElements::Figure
     # Rotate by 90 degree counter clock wise and then fit to text
     Rotate90CcwFitToTextRotate90CcwLimit = "8"
 
-    # 
+    #
     ToText = "9"
 
     # Rotate 90 degree clockwise
@@ -4478,7 +4475,7 @@ Package: M2::MSR::Documentation::BlockElements::Figure
     # Rotate by 90 degree and then fit to text
     Rotate90CwFitToTextRotate90CwLimitTo = "11"
 
-    # 
+    #
     Text = "12"
 
 

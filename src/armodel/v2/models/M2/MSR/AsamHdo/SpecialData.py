@@ -6,17 +6,18 @@ Package: M2::MSR::AsamHdo::SpecialData
 
 
 from __future__ import annotations
+
 from typing import Optional
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    NameToken,
-    RefType,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     MultilanguageReferrable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    NameToken,
+    RefType,
 )
 
 

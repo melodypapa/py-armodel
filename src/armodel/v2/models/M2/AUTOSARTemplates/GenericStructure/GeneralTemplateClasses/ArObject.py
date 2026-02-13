@@ -29,7 +29,7 @@ class ARObject(ABC):
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 191, Foundation
       R23-11)
     """
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is ARObject:
             raise TypeError("ARObject is an abstract class.")
         super().__init__()
@@ -41,12 +41,12 @@ class ARObject(ABC):
         # tool environment to an ArObject has changed.
         # The checksum semantic meaning for an AUTOSAR model and no requirement for
         # AUTOSAR tools to manage.
-        self._checksum: Optional[String] = None
+        self._checksum: Optional["String"] = None
 
         # tool environment to last change of an ArObject.
         # The timestamp semantic meaning for an AUTOSAR model and no requirement for
         # AUTOSAR tools to manage.
-        self._timestamp: Optional["DateTime"] = None
+        self._timestamp: Optional["String"] = None  # TODO: Use DateTime when available
 
     def getTagName(self) -> str:
         """

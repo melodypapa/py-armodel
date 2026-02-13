@@ -6,12 +6,10 @@ Package: M2::MSR::AsamHdo::BaseTypes
 
 
 from __future__ import annotations
+
 from abc import ABC
 from typing import Optional
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    PositiveInteger,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
@@ -20,6 +18,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
+    PositiveInteger,
 )
 
 

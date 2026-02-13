@@ -4,19 +4,10 @@ AUTOSAR Package - EthernetTopology
 Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology
 """
 from __future__ import annotations
+
 from abc import ABC
 from typing import List, Optional
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    Boolean,
-    Integer,
-    Ip4AddressString,
-    Ip6AddressString,
-    PositiveInteger,
-    RefType,
-    String,
-    UriString,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
@@ -28,16 +19,17 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     Identifiable,
     Referrable,
 )
-    FibexElement,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
-    CommunicationConnector,
-    PhysicalChannel,
-)
-
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
+    Integer,
+    Ip4AddressString,
+    Ip6AddressString,
     MacAddressString,
+    PositiveInteger,
+    RefType,
+    String,
     TimeValue,
+    UriString,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
     AbstractCanPhysicalChannel,
@@ -45,7 +37,13 @@ from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTop
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
     SoAdConfig,
 )
-
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import (
+    FibexElement,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
+    CommunicationConnector,
+    PhysicalChannel,
+)
 
 
 class EthernetPhysicalChannel(PhysicalChannel):

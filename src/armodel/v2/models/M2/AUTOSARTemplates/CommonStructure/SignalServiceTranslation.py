@@ -6,12 +6,9 @@ Package: M2::AUTOSARTemplates::CommonStructure::SignalServiceTranslation
 
 
 from __future__ import annotations
+
 from typing import List, Optional
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    Boolean,
-    RefType,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement,
 )
@@ -20,6 +17,8 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
+    Boolean,
+    RefType,
 )
 
 

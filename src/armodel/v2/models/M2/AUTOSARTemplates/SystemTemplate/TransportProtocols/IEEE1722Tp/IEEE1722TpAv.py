@@ -6,19 +6,17 @@ Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp::I
 
 
 from __future__ import annotations
+
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
     Boolean,
     PositiveInteger,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    AREnum,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp.__init__ import (
     IEEE1722TpAvConnection,
 )
-
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp.IEEE1722TpAv import (
     IEEE1722TpAaf,
     IEEE1722TpAafAes3,
@@ -29,7 +27,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEE
     IEEE1722TpRvfFrame,
     IEEE1722TpRvfPixel,
 )
-
 
 
 class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):

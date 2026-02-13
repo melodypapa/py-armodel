@@ -6,15 +6,10 @@ Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticEvent
 
 
 from __future__ import annotations
+
 from abc import ABC
 from typing import List, Optional
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    Boolean,
-    NameToken,
-    PositiveInteger,
-    RefType,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
     DiagnosticCommonElement,
 )
@@ -29,6 +24,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
+    Boolean,
+    NameToken,
+    PositiveInteger,
+    RefType,
 )
 
 

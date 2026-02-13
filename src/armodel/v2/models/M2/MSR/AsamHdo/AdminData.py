@@ -6,14 +6,15 @@ Package: M2::MSR::AsamHdo::AdminData
 
 
 from __future__ import annotations
+
 from typing import List, Optional
 
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     NameToken,
     String,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
 )
 from armodel.v2.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
     MultiLanguagePlainText,

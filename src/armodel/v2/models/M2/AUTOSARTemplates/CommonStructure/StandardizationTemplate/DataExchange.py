@@ -6,6 +6,7 @@ Package: M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::DataExc
 
 
 from __future__ import annotations
+
 from typing import List, Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.DataExchangePoint.Common import (

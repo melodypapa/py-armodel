@@ -6,17 +6,18 @@ Package: M2::AUTOSARTemplates::SWComponentTemplate::SwcImplementation
 
 
 from __future__ import annotations
+
 from typing import List, Optional
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    PositiveInteger,
-    String,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
     Implementation,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    PositiveInteger,
+    String,
 )
 
 

@@ -6,6 +6,7 @@ Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::ObdService::Mode_0x02_Req
 
 
 from __future__ import annotations
+
 from typing import List, Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (

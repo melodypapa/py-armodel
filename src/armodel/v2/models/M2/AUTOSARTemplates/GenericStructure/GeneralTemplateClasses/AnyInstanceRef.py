@@ -6,14 +6,15 @@ Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::AnyInst
 
 
 from __future__ import annotations
+
 from typing import List, Optional
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
     AtpClassifier,
     AtpFeature,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
 )
 
 

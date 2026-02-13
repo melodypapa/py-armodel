@@ -6,14 +6,9 @@ Package: M2::AUTOSARTemplates::SWComponentTemplate::NvBlockComponent
 
 
 from __future__ import annotations
+
 from typing import List, Optional
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    Boolean,
-    Identifier,
-    PositiveInteger,
-    RefType,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
@@ -22,6 +17,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
+    Boolean,
+    Identifier,
+    PositiveInteger,
+    RefType,
 )
 
 

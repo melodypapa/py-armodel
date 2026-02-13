@@ -6,6 +6,7 @@ Package: M2::AUTOSARTemplates::AbstractPlatform
 
 
 from __future__ import annotations
+
 from typing import List
 
 from armodel.v2.models.M2.AUTOSARTemplates.AdaptivePlatform.ApplicationDesign.PortInterface import (

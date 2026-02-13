@@ -6,6 +6,7 @@ Package: M2::AUTOSARTemplates::GenericStructure::DocumentationOnM1
 
 
 from __future__ import annotations
+
 from typing import List, Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
@@ -17,11 +18,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
-from armodel.v2.models.M2.MSR.Documentation.BlockElements import (
-    DocumentationBlock,
-)
-    PredefinedChapter,
-)
+from armodel.v2.models.M2.MSR.Documentation.Chapters import PredefinedChapter
 
 
 class Documentation(ARElement):

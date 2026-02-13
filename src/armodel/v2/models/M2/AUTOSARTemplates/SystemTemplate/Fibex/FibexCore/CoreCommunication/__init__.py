@@ -6,20 +6,18 @@ Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunicati
 
 
 from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    Boolean,
-    Integer,
-    PositiveInteger,
-    RefType,
-    String,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
+
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Filter import (
+    DataFilter,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Describable,
@@ -27,6 +25,16 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
+    Boolean,
+    ByteOrderEnum,
+    DataTypePolicyEnum,
+    Integer,
+    PositiveInteger,
+    RefType,
+    String,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import (
+    FibexElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.__init__ import (
     IPdu,
@@ -36,24 +44,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCo
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
     CommConnectorPort,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import (
-    FibexElement,
-)
-
-
-
-
-
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Filter import (
-    DataFilter,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ByteOrderEnum,
-    DataTypePolicyEnum,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     DataTransformation,
 )
+
 
 class ISignal(FibexElement):
     """

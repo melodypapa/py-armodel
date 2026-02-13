@@ -6,15 +6,16 @@ Package: M2::AUTOSARTemplates::DiagnosticExtract::Dem::DiagnosticExtendedDataRec
 
 
 from __future__ import annotations
+
 from typing import List, Optional
 
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
+    DiagnosticCommonElement,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
     String,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
-    DiagnosticCommonElement,
 )
 
 

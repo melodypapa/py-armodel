@@ -6,24 +6,35 @@ Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::Execut
 
 
 from __future__ import annotations
+
 from abc import ABC
 from typing import List, Optional
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    Boolean,
-    Integer,
-    PositiveInteger,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.__init__ import (
     TimingConstraint,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
+    BswImplementation,
+    CompositionSw,
+    EOCExecutableEntity,
+    ExecutableEntity,
+    ExecutionOrder,
+    LetDataExchange,
+    SwComponent,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import (
+    TimingDescriptionEvent,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
+    Boolean,
+    Integer,
+    PositiveInteger,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (    BswImplementation,    CompositionSw,    EOCExecutableEntity,    ExecutableEntity,    ExecutionOrder,    LetDataExchange,    SwComponent,)from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import (    TimingDescriptionEvent,)
+
 
 class ExecutionOrderConstraint(TimingConstraint):
     """

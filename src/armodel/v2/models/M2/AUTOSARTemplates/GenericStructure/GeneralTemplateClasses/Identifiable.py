@@ -6,6 +6,7 @@ Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identif
 
 
 from __future__ import annotations
+
 from abc import (
     ABC,
 )
@@ -19,7 +20,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     CategoryString,
-    Identifier,
     String,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import (
@@ -31,17 +31,11 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.MSR.AsamHdo.AdminData import (
     AdminData,
 )
-from armodel.v2.models.M2.MSR.Documentation.BlockElements import (
-    DocumentationBlock,
-)
 from armodel.v2.models.M2.MSR.Documentation.Annotation import (
     Annotation,
 )
-from armodel.v2.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
-    MultilanguageLongName,
-)
-from armodel.v2.models.M2.MSR.Documentation.TextModel.SingleLanguageData import (
-    SingleLanguageLongName,
+from armodel.v2.models.M2.MSR.Documentation.BlockElements import (
+    DocumentationBlock,
 )
 
 

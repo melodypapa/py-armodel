@@ -6,14 +6,10 @@ Package: M2::AUTOSARTemplates::SystemTemplate::NetworkManagement
 
 
 from __future__ import annotations
+
 from abc import ABC
 from typing import List, Optional
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    Boolean,
-    Integer,
-    PositiveInteger,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
@@ -22,11 +18,31 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
+    Boolean,
+    Integer,
+    PositiveInteger,
+    TimeValue,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate import (
+    Communication,
+    CommunicationCluster,
+    EcuInstance,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet import (
+    EthernetPhysical,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__ import (
     FibexElement,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (    FlexrayNmSchedule,    J1939NmAddress,    NmClusterCoupling,    NmCoordinatorRole,    NmEcu,    NmPdu,)from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate import (    Communication,    CommunicationCluster,    EcuInstance,)from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet import (    EthernetPhysical,)from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (    TimeValue,)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
+    FlexrayNmSchedule,
+    J1939NmAddress,
+    NmClusterCoupling,
+    NmCoordinatorRole,
+    NmEcu,
+    NmPdu,
+)
+
 
 class NmConfig(FibexElement):
     """

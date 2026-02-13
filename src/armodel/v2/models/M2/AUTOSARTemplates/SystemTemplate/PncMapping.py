@@ -6,17 +6,18 @@ Package: M2::AUTOSARTemplates::SystemTemplate::PncMapping
 
 
 from __future__ import annotations
+
 from typing import List, Optional
 
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Describable,
+    Referrable,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Identifier,
     PositiveInteger,
     RefType,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    Describable,
-    Referrable,
 )
 
 

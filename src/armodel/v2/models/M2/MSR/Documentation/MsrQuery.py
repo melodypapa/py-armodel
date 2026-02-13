@@ -6,6 +6,7 @@ Package: M2::MSR::Documentation::MsrQuery
 
 
 from __future__ import annotations
+
 from typing import List, Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -21,8 +22,10 @@ from armodel.v2.models.M2.MSR.Documentation.BlockElements import (
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.PaginationAndView import (
     Paginateable,
 )
-from armodel.v2.models.M2.MSR.Documentation.Chapters import Chapter
-from armodel.v2.models.M2.MSR.Documentation.Chapters import TopicContent
+from armodel.v2.models.M2.MSR.Documentation.Chapters import (
+    Chapter,
+    TopicContent,
+)
 
 
 class MsrQueryP1(Paginateable):

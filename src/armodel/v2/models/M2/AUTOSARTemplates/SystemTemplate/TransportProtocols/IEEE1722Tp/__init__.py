@@ -6,16 +6,17 @@ Package: M2::AUTOSARTemplates::SystemTemplate::TransportProtocols::IEEE1722Tp
 
 
 from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
 
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     PositiveInteger,
     RefType,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
-    ARElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.__init__ import (
     TpConfig,

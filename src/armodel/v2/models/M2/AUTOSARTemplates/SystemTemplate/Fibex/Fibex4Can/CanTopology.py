@@ -6,23 +6,23 @@ Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology
 
 
 from __future__ import annotations
-from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+
+from abc import ABC
+from typing import Optional
+
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Float,
     Integer,
     PositiveInteger,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
-    ARObject,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
     CommunicationConnector,
     PhysicalChannel,
 )
-
-
 
 
 class J1939Cluster(ARObject):

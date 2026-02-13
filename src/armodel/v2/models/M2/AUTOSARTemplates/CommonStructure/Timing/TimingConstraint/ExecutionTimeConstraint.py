@@ -6,6 +6,7 @@ Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::Execut
 
 
 from __future__ import annotations
+
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.__init__ import (

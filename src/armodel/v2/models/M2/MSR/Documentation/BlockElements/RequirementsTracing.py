@@ -6,6 +6,7 @@ Package: M2::MSR::Documentation::BlockElements::RequirementsTracing
 
 
 from __future__ import annotations
+
 from abc import ABC
 from typing import TYPE_CHECKING, List, Optional
 

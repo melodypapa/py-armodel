@@ -6,6 +6,7 @@ Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::General
 
 
 from __future__ import annotations
+
 from abc import ABC
 from typing import TYPE_CHECKING, Optional
 
@@ -16,11 +17,11 @@ if TYPE_CHECKING:
     from armodel.v2.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
         MultilanguageLongName,
     )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    String,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    String,
 )
 
 

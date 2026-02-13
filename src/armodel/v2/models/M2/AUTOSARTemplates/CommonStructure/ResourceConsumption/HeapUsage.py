@@ -6,15 +6,16 @@ Package: M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::HeapUsage
 
 
 from __future__ import annotations
+
 from abc import ABC
 from typing import Optional
 
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
     String,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    Identifiable,
 )
 
 

@@ -6,6 +6,7 @@ Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::ReadDT
 
 
 from __future__ import annotations
+
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (

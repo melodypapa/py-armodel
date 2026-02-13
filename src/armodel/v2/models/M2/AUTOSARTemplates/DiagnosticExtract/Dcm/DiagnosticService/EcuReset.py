@@ -6,17 +6,16 @@ Package: M2::AUTOSARTemplates::DiagnosticExtract::Dcm::DiagnosticService::EcuRes
 
 
 from __future__ import annotations
+
 from typing import Optional
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    PositiveInteger,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
     DiagnosticServiceClass,
     DiagnosticServiceInstance,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
+    PositiveInteger,
 )
 
 

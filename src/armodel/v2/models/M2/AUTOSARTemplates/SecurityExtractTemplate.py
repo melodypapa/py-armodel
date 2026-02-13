@@ -6,15 +6,10 @@ Package: M2::AUTOSARTemplates::SecurityExtractTemplate
 
 
 from __future__ import annotations
+
 from abc import ABC
 from typing import List, Optional
 
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    Boolean,
-    Float,
-    PositiveInteger,
-    String,
-)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
@@ -26,8 +21,31 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
+    Boolean,
+    Float,
+    PositiveInteger,
+    String,
+    TimeValue,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.SecurityExtractTemplate import (    CryptoKeySlot,    CryptoServiceKey,    CryptoServicePrimitive,    IdsmModule,    IdsmSignatureSupport,    SecurityEvent,    SecurityEventContext,    SecurityEventFilter,    SecurityEventOneEvery,    SecurityEventReporting,    SecurityEventThreshold,    SymbolProps,)from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate import (    Communication,    EcuInstance,)from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (    TimeValue,)
+from armodel.v2.models.M2.AUTOSARTemplates.SecurityExtractTemplate import (
+    CryptoKeySlot,
+    CryptoServiceKey,
+    CryptoServicePrimitive,
+    IdsmModule,
+    IdsmSignatureSupport,
+    SecurityEvent,
+    SecurityEventContext,
+    SecurityEventFilter,
+    SecurityEventOneEvery,
+    SecurityEventReporting,
+    SecurityEventThreshold,
+    SymbolProps,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate import (
+    Communication,
+    EcuInstance,
+)
+
 
 class SecurityEventContextProps(Identifiable):
     """
