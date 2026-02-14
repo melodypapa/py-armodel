@@ -1,11 +1,19 @@
 - check each file in @src/armodel/v2/models/ one by one until 5000 python files have been fixed.
-   - confirm all the string annotation has been replace the actual type definition
-   - import the actual type definition by looking up in @docs/requirements/class-package.json
-   - check all the import statement is correct by looking up in @docs/requirements/class-package.json
-   - combine the classes in one package for import statement 
-   - if the class is missing in the codebase, add the class definition by looking up in @docs/requirements/class-package.json for the location and the definition can be found in @docs/requirements/packages
-   - if the class is missing in @docs/requirements/class-package.json, summit an issue to one markdown file in @docs/requirements/issues/ and skip the changes for that class
-   - fix all the errors manually without using any scripts
-   - do not commit the changes yourself
-   - if the attributes is list, the pural shall be used 
-   - do not copy the model class from v1 codebase
+  - confirm all the string annotation has been replace the actual type definition
+  - import the actual type definition by looking up in @docs/requirements/class-package.json
+  - check all the import statement is correct by looking up in @docs/requirements/class-package.json
+  - combine the classes in one package for import statement
+  - if the class is missing in the codebase, add the class definition by looking up in @docs/requirements/class-package.json for the location and the definition can be found in @docs/requirements/packages
+  - if the class is missing in @docs/requirements/class-package.json, summit an issue to one markdown file in @docs/requirements/issues/ and skip the changes for that class
+  - fix all the errors manually without using any scripts
+  - do not commit the changes yourself
+  - if the attributes is list, the pural shall be used
+  - do not copy the model class from v1 codebase
+
+## Completed 2026-02-14
+
+Quality Fixes for GitHub Workflow (2026-02-14):
+- Fixed 2,896 Ruff whitespace issues across V2 models
+- Created feature branch: feature/v2-quality-fixes-2026-02-14
+- Created GitHub issue #464
+- Created PR #465
