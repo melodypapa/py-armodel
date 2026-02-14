@@ -9,6 +9,9 @@ from __future__ import annotations
 
 from typing import List, Optional
 
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
+    ModeDeclaration,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
@@ -29,20 +32,20 @@ class StateDependentFirewall(ARElement):
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 583, Classic Platform R23-11)
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attribute defines a defaultAction in case that the not yet set.
-        self._defaultAction: Optional["FirewallActionEnum"] = None
+        self._defaultAction: Optional[FirewallActionEnum] = None
 
     @property
-    def default_action(self) -> Optional["FirewallActionEnum"]:
+    def default_action(self) -> Optional[FirewallActionEnum]:
         """Get defaultAction (Pythonic accessor)."""
         return self._defaultAction
 
     @default_action.setter
-    def default_action(self, value: Optional["FirewallActionEnum"]) -> None:
+    def default_action(self, value: Optional[FirewallActionEnum]) -> None:
         """
         Set defaultAction with validation.
 
@@ -71,10 +74,10 @@ class StateDependentFirewall(ARElement):
         # Reference to firewall states in which the Firewall is active.
         # one of the referenced ModeDeclarations is the current state then the firewall
                 # rule shall be considered as.
-        self._firewallState: List["ModeDeclaration"] = []
+        self._firewallState: List[ModeDeclaration] = []
 
     @property
-    def firewall_state(self) -> List["ModeDeclaration"]:
+    def firewall_state(self) -> List[ModeDeclaration]:
         """Get firewallState (Pythonic accessor)."""
         return self._firewallState
 
@@ -160,7 +163,7 @@ class StateDependentFirewall(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDefaultAction(self) -> "FirewallActionEnum":
+    def getDefaultAction(self) -> Optional[FirewallActionEnum]:
         """
         AUTOSAR-compliant getter for defaultAction.
 
@@ -172,7 +175,7 @@ class StateDependentFirewall(ARElement):
         """
         return self.default_action  # Delegates to property
 
-    def setDefaultAction(self, value: "FirewallActionEnum") -> StateDependentFirewall:
+    def setDefaultAction(self, value: FirewallActionEnum) -> StateDependentFirewall:
         """
         AUTOSAR-compliant setter for defaultAction with method chaining.
 
@@ -214,7 +217,7 @@ class StateDependentFirewall(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_default_action(self, value: Optional["FirewallActionEnum"]) -> StateDependentFirewall:
+    def with_default_action(self, value: Optional[FirewallActionEnum]) -> StateDependentFirewall:
         """
         Set defaultAction and return self for chaining.
 
@@ -247,15 +250,15 @@ class FirewallRuleProps(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Action that is performed by the firewall if the matching fulfilled.
-        self._action: Optional["FirewallActionEnum"] = None
+        self._action: Optional[FirewallActionEnum] = None
 
     @property
-    def action(self) -> Optional["FirewallActionEnum"]:
+    def action(self) -> Optional[FirewallActionEnum]:
         """Get action (Pythonic accessor)."""
         return self._action
 
     @action.setter
-    def action(self, value: Optional["FirewallActionEnum"]) -> None:
+    def action(self, value: Optional[FirewallActionEnum]) -> None:
         """
         Set action with validation.
 
@@ -294,7 +297,7 @@ class FirewallRuleProps(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAction(self) -> "FirewallActionEnum":
+    def getAction(self) -> Optional[FirewallActionEnum]:
         """
         AUTOSAR-compliant getter for action.
 
@@ -306,7 +309,7 @@ class FirewallRuleProps(ARObject):
         """
         return self.action  # Delegates to property
 
-    def setAction(self, value: "FirewallActionEnum") -> FirewallRuleProps:
+    def setAction(self, value: FirewallActionEnum) -> FirewallRuleProps:
         """
         AUTOSAR-compliant setter for action with method chaining.
 
@@ -348,7 +351,7 @@ class FirewallRuleProps(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_action(self, value: Optional["FirewallActionEnum"]) -> FirewallRuleProps:
+    def with_action(self, value: Optional[FirewallActionEnum]) -> FirewallRuleProps:
         """
         Set action and return self for chaining.
 
@@ -409,15 +412,15 @@ class FirewallRule(ARElement):
             )
         self._bucketSize = value
         # Status=candidate.
-        self._dataLinkLayer: Optional["DataLinkLayerRule"] = None
+        self._dataLinkLayer: Optional[DataLinkLayerRule] = None
 
     @property
-    def data_link_layer(self) -> Optional["DataLinkLayerRule"]:
+    def data_link_layer(self) -> Optional[DataLinkLayerRule]:
         """Get dataLinkLayer (Pythonic accessor)."""
         return self._dataLinkLayer
 
     @data_link_layer.setter
-    def data_link_layer(self, value: Optional["DataLinkLayerRule"]) -> None:
+    def data_link_layer(self, value: Optional[DataLinkLayerRule]) -> None:
         """
         Set dataLinkLayer with validation.
 
@@ -436,15 +439,15 @@ class FirewallRule(ARElement):
                 f"dataLinkLayer must be DataLinkLayerRule or None, got {type(value).__name__}"
             )
         self._dataLinkLayer = value
-        self._ddsRule: Optional["DdsRule"] = None
+        self._ddsRule: Optional[DdsRule] = None
 
     @property
-    def dds_rule(self) -> Optional["DdsRule"]:
+    def dds_rule(self) -> Optional[DdsRule]:
         """Get ddsRule (Pythonic accessor)."""
         return self._ddsRule
 
     @dds_rule.setter
-    def dds_rule(self, value: Optional["DdsRule"]) -> None:
+    def dds_rule(self, value: Optional[DdsRule]) -> None:
         """
         Set ddsRule with validation.
 
@@ -463,15 +466,15 @@ class FirewallRule(ARElement):
                 f"ddsRule must be DdsRule or None, got {type(value).__name__}"
             )
         self._ddsRule = value
-        self._doIpRule: Optional["DoIpRule"] = None
+        self._doIpRule: Optional[DoIpRule] = None
 
     @property
-    def do_ip_rule(self) -> Optional["DoIpRule"]:
+    def do_ip_rule(self) -> Optional[DoIpRule]:
         """Get doIpRule (Pythonic accessor)."""
         return self._doIpRule
 
     @do_ip_rule.setter
-    def do_ip_rule(self, value: Optional["DoIpRule"]) -> None:
+    def do_ip_rule(self, value: Optional[DoIpRule]) -> None:
         """
         Set doIpRule with validation.
 
@@ -491,15 +494,15 @@ class FirewallRule(ARElement):
             )
         self._doIpRule = value
         # Status=candidate.
-        self._networkLayer: Optional["NetworkLayerRule"] = None
+        self._networkLayer: Optional[NetworkLayerRule] = None
 
     @property
-    def network_layer(self) -> Optional["NetworkLayerRule"]:
+    def network_layer(self) -> Optional[NetworkLayerRule]:
         """Get networkLayer (Pythonic accessor)."""
         return self._networkLayer
 
     @network_layer.setter
-    def network_layer(self, value: Optional["NetworkLayerRule"]) -> None:
+    def network_layer(self, value: Optional[NetworkLayerRule]) -> None:
         """
         Set networkLayer with validation.
 
@@ -519,10 +522,10 @@ class FirewallRule(ARElement):
             )
         self._networkLayer = value
         # Status=candidate.
-        self._payloadByte: List["PayloadBytePattern"] = []
+        self._payloadByte: List[PayloadBytePattern] = []
 
     @property
-    def payload_byte(self) -> List["PayloadBytePattern"]:
+    def payload_byte(self) -> List[PayloadBytePattern]:
         """Get payloadByte (Pythonic accessor)."""
         return self._payloadByte
         # This attribute defines the output rate that describes how leave the queue per
@@ -554,15 +557,15 @@ class FirewallRule(ARElement):
                 f"refillAmount must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._refillAmount = value
-        self._someipRule: Optional["SomeipProtocolRule"] = None
+        self._someipRule: Optional[SomeipProtocolRule] = None
 
     @property
-    def someip_rule(self) -> Optional["SomeipProtocolRule"]:
+    def someip_rule(self) -> Optional[SomeipProtocolRule]:
         """Get someipRule (Pythonic accessor)."""
         return self._someipRule
 
     @someip_rule.setter
-    def someip_rule(self, value: Optional["SomeipProtocolRule"]) -> None:
+    def someip_rule(self, value: Optional[SomeipProtocolRule]) -> None:
         """
         Set someipRule with validation.
 
@@ -581,15 +584,15 @@ class FirewallRule(ARElement):
                 f"someipRule must be SomeipProtocolRule or None, got {type(value).__name__}"
             )
         self._someipRule = value
-        self._someipSdRule: Optional["SomeipSdRule"] = None
+        self._someipSdRule: Optional[SomeipSdRule] = None
 
     @property
-    def someip_sd_rule(self) -> Optional["SomeipSdRule"]:
+    def someip_sd_rule(self) -> Optional[SomeipSdRule]:
         """Get someipSdRule (Pythonic accessor)."""
         return self._someipSdRule
 
     @someip_sd_rule.setter
-    def someip_sd_rule(self, value: Optional["SomeipSdRule"]) -> None:
+    def someip_sd_rule(self, value: Optional[SomeipSdRule]) -> None:
         """
         Set someipSdRule with validation.
 
@@ -609,15 +612,15 @@ class FirewallRule(ARElement):
             )
         self._someipSdRule = value
         # Status=candidate.
-        self._transportLayer: Optional["TransportLayerRule"] = None
+        self._transportLayer: Optional[TransportLayerRule] = None
 
     @property
-    def transport_layer(self) -> Optional["TransportLayerRule"]:
+    def transport_layer(self) -> Optional[TransportLayerRule]:
         """Get transportLayer (Pythonic accessor)."""
         return self._transportLayer
 
     @transport_layer.setter
-    def transport_layer(self, value: Optional["TransportLayerRule"]) -> None:
+    def transport_layer(self, value: Optional[TransportLayerRule]) -> None:
         """
         Set transportLayer with validation.
 
@@ -921,7 +924,7 @@ class FirewallRule(ARElement):
         self.bucket_size = value  # Use property setter (gets validation)
         return self
 
-    def with_data_link_layer(self, value: Optional["DataLinkLayerRule"]) -> FirewallRule:
+    def with_data_link_layer(self, value: Optional[DataLinkLayerRule]) -> FirewallRule:
         """
         Set dataLinkLayer and return self for chaining.
 
@@ -937,7 +940,7 @@ class FirewallRule(ARElement):
         self.data_link_layer = value  # Use property setter (gets validation)
         return self
 
-    def with_dds_rule(self, value: Optional["DdsRule"]) -> FirewallRule:
+    def with_dds_rule(self, value: Optional[DdsRule]) -> FirewallRule:
         """
         Set ddsRule and return self for chaining.
 
@@ -953,7 +956,7 @@ class FirewallRule(ARElement):
         self.dds_rule = value  # Use property setter (gets validation)
         return self
 
-    def with_do_ip_rule(self, value: Optional["DoIpRule"]) -> FirewallRule:
+    def with_do_ip_rule(self, value: Optional[DoIpRule]) -> FirewallRule:
         """
         Set doIpRule and return self for chaining.
 
@@ -969,7 +972,7 @@ class FirewallRule(ARElement):
         self.do_ip_rule = value  # Use property setter (gets validation)
         return self
 
-    def with_network_layer(self, value: Optional["NetworkLayerRule"]) -> FirewallRule:
+    def with_network_layer(self, value: Optional[NetworkLayerRule]) -> FirewallRule:
         """
         Set networkLayer and return self for chaining.
 
@@ -1001,7 +1004,7 @@ class FirewallRule(ARElement):
         self.refill_amount = value  # Use property setter (gets validation)
         return self
 
-    def with_someip_rule(self, value: Optional["SomeipProtocolRule"]) -> FirewallRule:
+    def with_someip_rule(self, value: Optional[SomeipProtocolRule]) -> FirewallRule:
         """
         Set someipRule and return self for chaining.
 
@@ -1017,7 +1020,7 @@ class FirewallRule(ARElement):
         self.someip_rule = value  # Use property setter (gets validation)
         return self
 
-    def with_someip_sd_rule(self, value: Optional["SomeipSdRule"]) -> FirewallRule:
+    def with_someip_sd_rule(self, value: Optional[SomeipSdRule]) -> FirewallRule:
         """
         Set someipSdRule and return self for chaining.
 
@@ -1033,7 +1036,7 @@ class FirewallRule(ARElement):
         self.someip_sd_rule = value  # Use property setter (gets validation)
         return self
 
-    def with_transport_layer(self, value: Optional["TransportLayerRule"]) -> FirewallRule:
+    def with_transport_layer(self, value: Optional[TransportLayerRule]) -> FirewallRule:
         """
         Set transportLayer and return self for chaining.
 
@@ -1048,3 +1051,139 @@ class FirewallRule(ARElement):
         """
         self.transport_layer = value  # Use property setter (gets validation)
         return self
+
+
+class FirewallActionEnum(ARObject):
+    """
+    Enumeration for firewall actions.
+
+    Tags: atp.Status=candidate
+
+    Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall
+
+    Sources:
+      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Classic Platform R23-11)
+    """
+
+    def __init__(self):
+        super().__init__()
+
+
+class DataLinkLayerRule(ARObject):
+    """
+    Configuration of rules on the Data Link Layer.
+
+    Tags: atp.Status=candidate
+
+    Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall
+
+    Sources:
+      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Classic Platform R23-11)
+    """
+
+    def __init__(self):
+        super().__init__()
+
+
+class NetworkLayerRule(ARObject):
+    """
+    Configuration of rules on the Network Layer.
+
+    Tags: atp.Status=candidate
+
+    Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall
+
+    Sources:
+      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Classic Platform R23-11)
+    """
+
+    def __init__(self):
+        super().__init__()
+
+
+class TransportLayerRule(ARObject):
+    """
+    Configuration of rules on the Transport Layer.
+
+    Tags: atp.Status=candidate
+
+    Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall
+
+    Sources:
+      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Classic Platform R23-11)
+    """
+
+    def __init__(self):
+        super().__init__()
+
+
+class DdsRule(ARObject):
+    """
+    Configuration of firewall rules for DDS.
+
+    Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall
+
+    Sources:
+      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Classic Platform R23-11)
+    """
+
+    def __init__(self):
+        super().__init__()
+
+
+class DoIpRule(ARObject):
+    """
+    Configuration of firewall rules for DoIP messages.
+
+    Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall
+
+    Sources:
+      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Classic Platform R23-11)
+    """
+
+    def __init__(self):
+        super().__init__()
+
+
+class SomeipProtocolRule(ARObject):
+    """
+    Configuration of firewall rules for SOME/IP messages.
+
+    Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall
+
+    Sources:
+      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Classic Platform R23-11)
+    """
+
+    def __init__(self):
+        super().__init__()
+
+
+class SomeipSdRule(ARObject):
+    """
+    Configuration of firewall rules for SOME/IP Service Discovery.
+
+    Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall
+
+    Sources:
+      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Classic Platform R23-11)
+    """
+
+    def __init__(self):
+        super().__init__()
+
+
+class PayloadBytePattern(ARObject):
+    """
+    Configuration of generic firewall rules.
+
+    Tags: atp.Status=candidate
+
+    Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall
+
+    Sources:
+      - AUTOSAR_CP_TPS_SystemTemplate.pdf (Classic Platform R23-11)
+    """
+
+    def __init__(self):
+        super().__init__()

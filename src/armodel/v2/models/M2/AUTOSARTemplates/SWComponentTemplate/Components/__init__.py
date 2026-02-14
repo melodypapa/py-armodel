@@ -13,6 +13,9 @@ from typing import Any, Dict, List, Optional
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
     ImplementationProps,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.EcuResourceTemplate import (
+    HwDescriptionEntity,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement,
 )
@@ -22,9 +25,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     RefType,
-)
-from armodel.v2.models.M2.AUTOSARTemplates.EcuResourceTemplate import (
-    HwDescriptionEntity,
 )
 
 

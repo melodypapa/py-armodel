@@ -18,6 +18,32 @@ if sys.platform == 'win32':
     sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
 
 
+def is_reexport_only_init(file_path: Path) -> bool:
+    """
+    Check if an __init__.py file only contains re-exports and no class definitions.
+    
+    Such files are Python package convenience modules and should not be flagged as extra.
+    
+    Returns:
+        True if the file is __init__.py and contains no class definitions, False otherwise.
+    """
+    if file_path.name != '__init__.py':
+        return False
+    
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            tree = ast.parse(f.read(), filename=str(file_path))
+        
+        # Check if there are any class definitions
+        for node in ast.walk(tree):
+            if isinstance(node, ast.ClassDef):
+                return False
+        
+        return True
+    except Exception:
+        return False
+
+
 def main():
     # Load specification
     spec_path = Path('docs/requirements/class-package.json')
@@ -101,7 +127,12 @@ def main():
     actual_v2_files = set(p.as_posix() for p in Path('src/armodel/v2/models').rglob('*.py')
                           if '__pycache__' not in str(p))
     expected_v2_files = set(c['python_file'] for c in v2_classes.values())
-    extra_files = actual_v2_files - expected_v2_files
+    
+    # Exclude re-export-only __init__.py files (Python convenience modules)
+    # These are files like CommonStructure/__init__.py that only re-export from submodules
+    reexport_only_files = {f for f in actual_v2_files if is_reexport_only_init(Path(f))}
+    actual_v2_files_without_reexports = actual_v2_files - reexport_only_files
+    extra_files = actual_v2_files_without_reexports - expected_v2_files
 
     # Find file/directory conflicts
     conflicts = []
@@ -126,6 +157,7 @@ def main():
     print(f'  📋 Duplicate definitions: {len(duplicates)}')
     print(f'  ❌ Missing (not in codebase): {len(missing)}')
     print(f'  📄 Extra files (not in spec): {len(extra_files)}')
+    print(f'  📦 Re-export-only __init__.py files: {len(reexport_only_files)} (Python convenience modules)')
     print(f'  ⚠️  File/directory conflicts: {len(conflicts)}')
     print()
 
@@ -179,6 +211,15 @@ def main():
             print(f'  ... and {len(extra_files) - 15} more')
         print()
 
+    if reexport_only_files:
+        print(f'RE-EXPORT-ONLY __init__.py FILES ({len(reexport_only_files)} Python convenience modules):')
+        print('  These files only re-export classes from submodules and are not part of the')
+        print('  AUTOSAR specification. They are Python package structure files that should')
+        print('  be kept for usability.')
+        for reexport_file in sorted(reexport_only_files):
+            print(f'  - {reexport_file}')
+        print()
+
     if conflicts:
         print(f'FILE/DIRECTORY CONFLICTS ({len(conflicts)} - violates CODING_RULE_STYLE_00008):')
         for conflict_file in sorted(conflicts):
@@ -200,6 +241,7 @@ def main():
         f.write(f'- **Duplicate definitions**: {len(duplicates)}\n')
         f.write(f'- **Missing**: {len(missing)}\n')
         f.write(f'- **Extra files**: {len(extra_files)}\n')
+        f.write(f'- **Re-export-only __init__.py files**: {len(reexport_only_files)} (Python convenience modules)\n')
         f.write(f'- **Conflicts**: {len(conflicts)}\n\n')
 
         if duplicates:
@@ -234,6 +276,16 @@ def main():
             f.write(f'Total: {len(extra_files)} files not in specification\n\n')
             for extra_file in sorted(extra_files):
                 f.write(f'- `{extra_file}`\n')
+            f.write('\n')
+
+        if reexport_only_files:
+            f.write('## Re-export-only __init__.py Files\n\n')
+            f.write(f'Total: {len(reexport_only_files)} Python convenience modules\n\n')
+            f.write('These files only re-export classes from submodules and are not part of the\n')
+            f.write('AUTOSAR specification. They are Python package structure files that provide\n')
+            f.write('convenient import paths and should be kept for usability.\n\n')
+            for reexport_file in sorted(reexport_only_files):
+                f.write(f'- `{reexport_file}`\n')
             f.write('\n')
 
         if conflicts:

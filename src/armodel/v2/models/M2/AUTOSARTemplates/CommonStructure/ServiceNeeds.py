@@ -42,6 +42,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     String,
     TimeValue,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
+    ApplicationDataType,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import (
     RamBlockStatusControlEnum,
 )
@@ -6872,15 +6875,15 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # reference to an ApplicationDataType that describes the of the data reported
         # by the software-component to.
-        self._applicationData: Optional["ApplicationDataType"] = None
+        self._applicationData: Optional[ApplicationDataType] = None
 
     @property
-    def application_data(self) -> Optional["ApplicationDataType"]:
+    def application_data(self) -> Optional[ApplicationDataType]:
         """Get applicationData (Pythonic accessor)."""
         return self._applicationData
 
     @application_data.setter
-    def application_data(self, value: Optional["ApplicationDataType"]) -> None:
+    def application_data(self, value: Optional[ApplicationDataType]) -> None:
         """
         Set applicationData with validation.
 
@@ -6983,7 +6986,7 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getApplicationData(self) -> "ApplicationDataType":
+    def getApplicationData(self) -> Optional[ApplicationDataType]:
         """
         AUTOSAR-compliant getter for applicationData.
 
@@ -6995,7 +6998,7 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
         """
         return self.application_data  # Delegates to property
 
-    def setApplicationData(self, value: "ApplicationDataType") -> ObdMonitorServiceNeeds:
+    def setApplicationData(self, value: ApplicationDataType) -> ObdMonitorServiceNeeds:
         """
         AUTOSAR-compliant setter for applicationData with method chaining.
 
@@ -7097,7 +7100,7 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_application_data(self, value: Optional["ApplicationDataType"]) -> ObdMonitorServiceNeeds:
+    def with_application_data(self, value: Optional[ApplicationDataType]) -> ObdMonitorServiceNeeds:
         """
         Set applicationData and return self for chaining.
 

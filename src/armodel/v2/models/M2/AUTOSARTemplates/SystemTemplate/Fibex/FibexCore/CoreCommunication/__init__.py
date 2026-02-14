@@ -64,9 +64,9 @@ class ISignal(FibexElement):
     Postbuild configured Com Stack (see ECUC Parameter Mapping). In case of the
     SystemSignalGroup an ISignal shall be created for each SystemSignal
     contained in the SystemSignalGroup.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::ISignal
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 315, Classic Platform
       R23-11)
@@ -93,10 +93,10 @@ class ISignal(FibexElement):
     def data(self, value: Optional[DataTransformation]) -> None:
         """
         Set data with validation.
-        
+
         Args:
             value: The data to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -131,10 +131,10 @@ class ISignal(FibexElement):
     def data_type_policy(self, value: Optional["DataTypePolicyEnum"]) -> None:
         """
         Set dataTypePolicy with validation.
-        
+
         Args:
             value: The dataTypePolicy to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -166,10 +166,10 @@ class ISignal(FibexElement):
     def init_value(self, value: Optional["ValueSpecification"]) -> None:
         """
         Set initValue with validation.
-        
+
         Args:
             value: The initValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -194,10 +194,10 @@ class ISignal(FibexElement):
     def i_signal_props(self, value: Optional[ISignalProps]) -> None:
         """
         Set iSignalProps with validation.
-        
+
         Args:
             value: The iSignalProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -225,10 +225,10 @@ class ISignal(FibexElement):
     def i_signal_type(self, value: Optional[ISignalTypeEnum]) -> None:
         """
         Set iSignalType with validation.
-        
+
         Args:
             value: The iSignalType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -256,10 +256,10 @@ class ISignal(FibexElement):
     def length(self, value: Optional["UnlimitedInteger"]) -> None:
         """
         Set length with validation.
-        
+
         Args:
             value: The length to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -294,10 +294,10 @@ class ISignal(FibexElement):
     def network(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set network with validation.
-        
+
         Args:
             value: The network to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -322,10 +322,10 @@ class ISignal(FibexElement):
     def system_signal(self, value: Optional[SystemSignal]) -> None:
         """
         Set systemSignal with validation.
-        
+
         Args:
             value: The systemSignal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -350,10 +350,10 @@ class ISignal(FibexElement):
     def timeout(self, value: Optional["ValueSpecification"]) -> None:
         """
         Set timeout with validation.
-        
+
         Args:
             value: The timeout to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -590,10 +590,10 @@ class ISignal(FibexElement):
     def getData(self) -> DataTransformation:
         """
         AUTOSAR-compliant getter for data.
-        
+
         Returns:
             The data value
-        
+
         Note:
             Delegates to data property (CODING_RULE_V2_00017)
         """
@@ -602,13 +602,13 @@ class ISignal(FibexElement):
     def setData(self, value: DataTransformation) -> ISignal:
         """
         AUTOSAR-compliant setter for data with method chaining.
-        
+
         Args:
             value: The data to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data property setter (gets validation automatically)
         """
@@ -618,10 +618,10 @@ class ISignal(FibexElement):
     def getDataTypePolicy(self) -> DataTypePolicyEnum:
         """
         AUTOSAR-compliant getter for dataTypePolicy.
-        
+
         Returns:
             The dataTypePolicy value
-        
+
         Note:
             Delegates to data_type_policy property (CODING_RULE_V2_00017)
         """
@@ -630,13 +630,13 @@ class ISignal(FibexElement):
     def setDataTypePolicy(self, value: DataTypePolicyEnum) -> ISignal:
         """
         AUTOSAR-compliant setter for dataTypePolicy with method chaining.
-        
+
         Args:
             value: The dataTypePolicy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_type_policy property setter (gets validation automatically)
         """
@@ -646,10 +646,10 @@ class ISignal(FibexElement):
     def getInitValue(self) -> ValueSpecification:
         """
         AUTOSAR-compliant getter for initValue.
-        
+
         Returns:
             The initValue value
-        
+
         Note:
             Delegates to init_value property (CODING_RULE_V2_00017)
         """
@@ -658,13 +658,13 @@ class ISignal(FibexElement):
     def setInitValue(self, value: ValueSpecification) -> ISignal:
         """
         AUTOSAR-compliant setter for initValue with method chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to init_value property setter (gets validation automatically)
         """
@@ -674,10 +674,10 @@ class ISignal(FibexElement):
     def getISignalProps(self) -> ISignalProps:
         """
         AUTOSAR-compliant getter for iSignalProps.
-        
+
         Returns:
             The iSignalProps value
-        
+
         Note:
             Delegates to i_signal_props property (CODING_RULE_V2_00017)
         """
@@ -686,13 +686,13 @@ class ISignal(FibexElement):
     def setISignalProps(self, value: ISignalProps) -> ISignal:
         """
         AUTOSAR-compliant setter for iSignalProps with method chaining.
-        
+
         Args:
             value: The iSignalProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to i_signal_props property setter (gets validation automatically)
         """
@@ -702,10 +702,10 @@ class ISignal(FibexElement):
     def getISignalType(self) -> ISignalTypeEnum:
         """
         AUTOSAR-compliant getter for iSignalType.
-        
+
         Returns:
             The iSignalType value
-        
+
         Note:
             Delegates to i_signal_type property (CODING_RULE_V2_00017)
         """
@@ -714,13 +714,13 @@ class ISignal(FibexElement):
     def setISignalType(self, value: ISignalTypeEnum) -> ISignal:
         """
         AUTOSAR-compliant setter for iSignalType with method chaining.
-        
+
         Args:
             value: The iSignalType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to i_signal_type property setter (gets validation automatically)
         """
@@ -730,10 +730,10 @@ class ISignal(FibexElement):
     def getLength(self) -> UnlimitedInteger:
         """
         AUTOSAR-compliant getter for length.
-        
+
         Returns:
             The length value
-        
+
         Note:
             Delegates to length property (CODING_RULE_V2_00017)
         """
@@ -742,13 +742,13 @@ class ISignal(FibexElement):
     def setLength(self, value: UnlimitedInteger) -> ISignal:
         """
         AUTOSAR-compliant setter for length with method chaining.
-        
+
         Args:
             value: The length to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to length property setter (gets validation automatically)
         """
@@ -758,10 +758,10 @@ class ISignal(FibexElement):
     def getNetwork(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for network.
-        
+
         Returns:
             The network value
-        
+
         Note:
             Delegates to network property (CODING_RULE_V2_00017)
         """
@@ -770,13 +770,13 @@ class ISignal(FibexElement):
     def setNetwork(self, value: "SwDataDefProps") -> ISignal:
         """
         AUTOSAR-compliant setter for network with method chaining.
-        
+
         Args:
             value: The network to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to network property setter (gets validation automatically)
         """
@@ -786,10 +786,10 @@ class ISignal(FibexElement):
     def getSystemSignal(self) -> SystemSignal:
         """
         AUTOSAR-compliant getter for systemSignal.
-        
+
         Returns:
             The systemSignal value
-        
+
         Note:
             Delegates to system_signal property (CODING_RULE_V2_00017)
         """
@@ -798,13 +798,13 @@ class ISignal(FibexElement):
     def setSystemSignal(self, value: SystemSignal) -> ISignal:
         """
         AUTOSAR-compliant setter for systemSignal with method chaining.
-        
+
         Args:
             value: The systemSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to system_signal property setter (gets validation automatically)
         """
@@ -814,10 +814,10 @@ class ISignal(FibexElement):
     def getTimeout(self) -> ValueSpecification:
         """
         AUTOSAR-compliant getter for timeout.
-        
+
         Returns:
             The timeout value
-        
+
         Note:
             Delegates to timeout property (CODING_RULE_V2_00017)
         """
@@ -826,13 +826,13 @@ class ISignal(FibexElement):
     def setTimeout(self, value: ValueSpecification) -> ISignal:
         """
         AUTOSAR-compliant setter for timeout with method chaining.
-        
+
         Args:
             value: The timeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timeout property setter (gets validation automatically)
         """
@@ -842,10 +842,10 @@ class ISignal(FibexElement):
     def getTransformation(self) -> List["TransformationISignal"]:
         """
         AUTOSAR-compliant getter for transformation.
-        
+
         Returns:
             The transformation value
-        
+
         Note:
             Delegates to transformation property (CODING_RULE_V2_00017)
         """
@@ -856,13 +856,13 @@ class ISignal(FibexElement):
     def with_data(self, value: Optional[DataTransformation]) -> ISignal:
         """
         Set data and return self for chaining.
-        
+
         Args:
             value: The data to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data("value")
         """
@@ -872,13 +872,13 @@ class ISignal(FibexElement):
     def with_data_type_policy(self, value: Optional["DataTypePolicyEnum"]) -> ISignal:
         """
         Set dataTypePolicy and return self for chaining.
-        
+
         Args:
             value: The dataTypePolicy to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_type_policy("value")
         """
@@ -888,13 +888,13 @@ class ISignal(FibexElement):
     def with_init_value(self, value: Optional["ValueSpecification"]) -> ISignal:
         """
         Set initValue and return self for chaining.
-        
+
         Args:
             value: The initValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_init_value("value")
         """
@@ -904,13 +904,13 @@ class ISignal(FibexElement):
     def with_i_signal_props(self, value: Optional[ISignalProps]) -> ISignal:
         """
         Set iSignalProps and return self for chaining.
-        
+
         Args:
             value: The iSignalProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_i_signal_props("value")
         """
@@ -920,13 +920,13 @@ class ISignal(FibexElement):
     def with_i_signal_type(self, value: Optional[ISignalTypeEnum]) -> ISignal:
         """
         Set iSignalType and return self for chaining.
-        
+
         Args:
             value: The iSignalType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_i_signal_type("value")
         """
@@ -936,13 +936,13 @@ class ISignal(FibexElement):
     def with_length(self, value: Optional["UnlimitedInteger"]) -> ISignal:
         """
         Set length and return self for chaining.
-        
+
         Args:
             value: The length to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_length("value")
         """
@@ -952,13 +952,13 @@ class ISignal(FibexElement):
     def with_network(self, value: Optional["SwDataDefProps"]) -> ISignal:
         """
         Set network and return self for chaining.
-        
+
         Args:
             value: The network to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_network("value")
         """
@@ -968,13 +968,13 @@ class ISignal(FibexElement):
     def with_system_signal(self, value: Optional[SystemSignal]) -> ISignal:
         """
         Set systemSignal and return self for chaining.
-        
+
         Args:
             value: The systemSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_system_signal("value")
         """
@@ -984,13 +984,13 @@ class ISignal(FibexElement):
     def with_timeout(self, value: Optional["ValueSpecification"]) -> ISignal:
         """
         Set timeout and return self for chaining.
-        
+
         Args:
             value: The timeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timeout("value")
         """
@@ -1004,9 +1004,9 @@ class ISignalIPduGroup(FibexElement):
     The AUTOSAR COM Layer is able to start and to stop sending and receiving
     configurable groups of I-Pdus during runtime. An ISignalIPduGroup contains
     either ISignalIPdus or ISignalIPduGroups.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::ISignalIPduGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 316, Classic Platform
       R23-11)
@@ -1034,10 +1034,10 @@ class ISignalIPduGroup(FibexElement):
     def communication(self, value: Optional[String]) -> None:
         """
         Set communication with validation.
-        
+
         Args:
             value: The communication to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1081,10 +1081,10 @@ class ISignalIPduGroup(FibexElement):
     def getCommunication(self) -> String:
         """
         AUTOSAR-compliant getter for communication.
-        
+
         Returns:
             The communication value
-        
+
         Note:
             Delegates to communication property (CODING_RULE_V2_00017)
         """
@@ -1093,13 +1093,13 @@ class ISignalIPduGroup(FibexElement):
     def setCommunication(self, value: String) -> ISignalIPduGroup:
         """
         AUTOSAR-compliant setter for communication with method chaining.
-        
+
         Args:
             value: The communication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to communication property setter (gets validation automatically)
         """
@@ -1109,10 +1109,10 @@ class ISignalIPduGroup(FibexElement):
     def getContained(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for contained.
-        
+
         Returns:
             The contained value
-        
+
         Note:
             Delegates to contained property (CODING_RULE_V2_00017)
         """
@@ -1121,10 +1121,10 @@ class ISignalIPduGroup(FibexElement):
     def getISignalIPdu(self) -> List[ISignalIPdu]:
         """
         AUTOSAR-compliant getter for iSignalIPdu.
-        
+
         Returns:
             The iSignalIPdu value
-        
+
         Note:
             Delegates to i_signal_i_pdu property (CODING_RULE_V2_00017)
         """
@@ -1133,10 +1133,10 @@ class ISignalIPduGroup(FibexElement):
     def getNmPdu(self) -> List[NmPdu]:
         """
         AUTOSAR-compliant getter for nmPdu.
-        
+
         Returns:
             The nmPdu value
-        
+
         Note:
             Delegates to nm_pdu property (CODING_RULE_V2_00017)
         """
@@ -1147,13 +1147,13 @@ class ISignalIPduGroup(FibexElement):
     def with_communication(self, value: Optional[String]) -> ISignalIPduGroup:
         """
         Set communication and return self for chaining.
-        
+
         Args:
             value: The communication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_communication("value")
         """
@@ -1169,9 +1169,9 @@ class SystemSignal(ARElement):
     signals allow to represent this communication in a flattened structure, with
     exactly one system signal defined for each data element prototype sent and
     received by connected SW component instances.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::SystemSignal
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 332, Classic Platform
       R23-11)
@@ -1196,10 +1196,10 @@ class SystemSignal(ARElement):
     def dynamic_length(self, value: Optional[Boolean]) -> None:
         """
         Set dynamicLength with validation.
-        
+
         Args:
             value: The dynamicLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1224,10 +1224,10 @@ class SystemSignal(ARElement):
     def physical_props(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set physicalProps with validation.
-        
+
         Args:
             value: The physicalProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1246,10 +1246,10 @@ class SystemSignal(ARElement):
     def getDynamicLength(self) -> Boolean:
         """
         AUTOSAR-compliant getter for dynamicLength.
-        
+
         Returns:
             The dynamicLength value
-        
+
         Note:
             Delegates to dynamic_length property (CODING_RULE_V2_00017)
         """
@@ -1258,13 +1258,13 @@ class SystemSignal(ARElement):
     def setDynamicLength(self, value: Boolean) -> SystemSignal:
         """
         AUTOSAR-compliant setter for dynamicLength with method chaining.
-        
+
         Args:
             value: The dynamicLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dynamic_length property setter (gets validation automatically)
         """
@@ -1274,10 +1274,10 @@ class SystemSignal(ARElement):
     def getPhysicalProps(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for physicalProps.
-        
+
         Returns:
             The physicalProps value
-        
+
         Note:
             Delegates to physical_props property (CODING_RULE_V2_00017)
         """
@@ -1286,13 +1286,13 @@ class SystemSignal(ARElement):
     def setPhysicalProps(self, value: "SwDataDefProps") -> SystemSignal:
         """
         AUTOSAR-compliant setter for physicalProps with method chaining.
-        
+
         Args:
             value: The physicalProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to physical_props property setter (gets validation automatically)
         """
@@ -1304,13 +1304,13 @@ class SystemSignal(ARElement):
     def with_dynamic_length(self, value: Optional[Boolean]) -> SystemSignal:
         """
         Set dynamicLength and return self for chaining.
-        
+
         Args:
             value: The dynamicLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dynamic_length("value")
         """
@@ -1320,13 +1320,13 @@ class SystemSignal(ARElement):
     def with_physical_props(self, value: Optional["SwDataDefProps"]) -> SystemSignal:
         """
         Set physicalProps and return self for chaining.
-        
+
         Args:
             value: The physicalProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_physical_props("value")
         """
@@ -1339,9 +1339,9 @@ class Frame(FibexElement, ABC):
     """
     Data frame which is sent over a communication medium. This element describes
     the pure Layout of a frame sent on a channel.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Frame
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 295, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 418, Classic Platform R23-11)
@@ -1370,10 +1370,10 @@ class Frame(FibexElement, ABC):
     def frame_length(self, value: Optional[Integer]) -> None:
         """
         Set frameLength with validation.
-        
+
         Args:
             value: The frameLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1401,10 +1401,10 @@ class Frame(FibexElement, ABC):
     def getFrameLength(self) -> Integer:
         """
         AUTOSAR-compliant getter for frameLength.
-        
+
         Returns:
             The frameLength value
-        
+
         Note:
             Delegates to frame_length property (CODING_RULE_V2_00017)
         """
@@ -1413,13 +1413,13 @@ class Frame(FibexElement, ABC):
     def setFrameLength(self, value: Integer) -> Frame:
         """
         AUTOSAR-compliant setter for frameLength with method chaining.
-        
+
         Args:
             value: The frameLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to frame_length property setter (gets validation automatically)
         """
@@ -1429,10 +1429,10 @@ class Frame(FibexElement, ABC):
     def getPduToFrame(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for pduToFrame.
-        
+
         Returns:
             The pduToFrame value
-        
+
         Note:
             Delegates to pdu_to_frame property (CODING_RULE_V2_00017)
         """
@@ -1443,13 +1443,13 @@ class Frame(FibexElement, ABC):
     def with_frame_length(self, value: Optional[Integer]) -> Frame:
         """
         Set frameLength and return self for chaining.
-        
+
         Args:
             value: The frameLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_frame_length("value")
         """
@@ -1465,9 +1465,9 @@ class FrameTriggering(Identifiable, ABC):
     a frame on the channel, on which it is sent. For the same frame, if
     FrameTriggerings exist on more than one channel of the same cluster the
     fan-out/ in is handled by the Bus interface.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::FrameTriggering
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 295, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 418, Classic Platform R23-11)
@@ -1494,10 +1494,10 @@ class FrameTriggering(Identifiable, ABC):
     def frame(self, value: Optional[Frame]) -> None:
         """
         Set frame with validation.
-        
+
         Args:
             value: The frame to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1536,10 +1536,10 @@ class FrameTriggering(Identifiable, ABC):
     def getFrame(self) -> Frame:
         """
         AUTOSAR-compliant getter for frame.
-        
+
         Returns:
             The frame value
-        
+
         Note:
             Delegates to frame property (CODING_RULE_V2_00017)
         """
@@ -1548,13 +1548,13 @@ class FrameTriggering(Identifiable, ABC):
     def setFrame(self, value: Frame) -> FrameTriggering:
         """
         AUTOSAR-compliant setter for frame with method chaining.
-        
+
         Args:
             value: The frame to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to frame property setter (gets validation automatically)
         """
@@ -1564,10 +1564,10 @@ class FrameTriggering(Identifiable, ABC):
     def getFramePort(self) -> List[FramePort]:
         """
         AUTOSAR-compliant getter for framePort.
-        
+
         Returns:
             The framePort value
-        
+
         Note:
             Delegates to frame_port property (CODING_RULE_V2_00017)
         """
@@ -1576,10 +1576,10 @@ class FrameTriggering(Identifiable, ABC):
     def getPduTriggering(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for pduTriggering.
-        
+
         Returns:
             The pduTriggering value
-        
+
         Note:
             Delegates to pdu_triggering property (CODING_RULE_V2_00017)
         """
@@ -1590,13 +1590,13 @@ class FrameTriggering(Identifiable, ABC):
     def with_frame(self, value: Optional[Frame]) -> FrameTriggering:
         """
         Set frame and return self for chaining.
-        
+
         Args:
             value: The frame to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_frame("value")
         """
@@ -1608,9 +1608,9 @@ class FrameTriggering(Identifiable, ABC):
 class Pdu(FibexElement, ABC):
     """
     Collection of all Pdus that can be routed through a bus interface.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Pdu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 303, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 340, Classic Platform R23-11)
@@ -1634,10 +1634,10 @@ class Pdu(FibexElement, ABC):
     def has_dynamic(self, value: Optional[Boolean]) -> None:
         """
         Set hasDynamic with validation.
-        
+
         Args:
             value: The hasDynamic to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1670,10 +1670,10 @@ class Pdu(FibexElement, ABC):
     def length(self, value: Optional["UnlimitedInteger"]) -> None:
         """
         Set length with validation.
-        
+
         Args:
             value: The length to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1692,10 +1692,10 @@ class Pdu(FibexElement, ABC):
     def getHasDynamic(self) -> Boolean:
         """
         AUTOSAR-compliant getter for hasDynamic.
-        
+
         Returns:
             The hasDynamic value
-        
+
         Note:
             Delegates to has_dynamic property (CODING_RULE_V2_00017)
         """
@@ -1704,13 +1704,13 @@ class Pdu(FibexElement, ABC):
     def setHasDynamic(self, value: Boolean) -> Pdu:
         """
         AUTOSAR-compliant setter for hasDynamic with method chaining.
-        
+
         Args:
             value: The hasDynamic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to has_dynamic property setter (gets validation automatically)
         """
@@ -1720,10 +1720,10 @@ class Pdu(FibexElement, ABC):
     def getLength(self) -> UnlimitedInteger:
         """
         AUTOSAR-compliant getter for length.
-        
+
         Returns:
             The length value
-        
+
         Note:
             Delegates to length property (CODING_RULE_V2_00017)
         """
@@ -1732,13 +1732,13 @@ class Pdu(FibexElement, ABC):
     def setLength(self, value: UnlimitedInteger) -> Pdu:
         """
         AUTOSAR-compliant setter for length with method chaining.
-        
+
         Args:
             value: The length to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to length property setter (gets validation automatically)
         """
@@ -1750,13 +1750,13 @@ class Pdu(FibexElement, ABC):
     def with_has_dynamic(self, value: Optional[Boolean]) -> Pdu:
         """
         Set hasDynamic and return self for chaining.
-        
+
         Args:
             value: The hasDynamic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_has_dynamic("value")
         """
@@ -1766,13 +1766,13 @@ class Pdu(FibexElement, ABC):
     def with_length(self, value: Optional["UnlimitedInteger"]) -> Pdu:
         """
         Set length and return self for chaining.
-        
+
         Args:
             value: The length to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_length("value")
         """
@@ -1790,9 +1790,9 @@ class PduTriggering(Identifiable):
     If the fan-out is specified between different clusters it shall be handled
     by the Pdu Router. If the fan-out is specified between different channels of
     the same cluster it shall be handled by the Bus Interface.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::PduTriggering
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 303, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 348, Classic Platform R23-11)
@@ -1817,10 +1817,10 @@ class PduTriggering(Identifiable):
     def i_pdu(self, value: Optional[Pdu]) -> None:
         """
         Set iPdu with validation.
-        
+
         Args:
             value: The iPdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1868,10 +1868,10 @@ class PduTriggering(Identifiable):
     def sec_oc_crypto(self, value: Optional["SecOcCryptoService"]) -> None:
         """
         Set secOcCrypto with validation.
-        
+
         Args:
             value: The secOcCrypto to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1899,10 +1899,10 @@ class PduTriggering(Identifiable):
     def getIPdu(self) -> Pdu:
         """
         AUTOSAR-compliant getter for iPdu.
-        
+
         Returns:
             The iPdu value
-        
+
         Note:
             Delegates to i_pdu property (CODING_RULE_V2_00017)
         """
@@ -1911,13 +1911,13 @@ class PduTriggering(Identifiable):
     def setIPdu(self, value: Pdu) -> PduTriggering:
         """
         AUTOSAR-compliant setter for iPdu with method chaining.
-        
+
         Args:
             value: The iPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to i_pdu property setter (gets validation automatically)
         """
@@ -1927,10 +1927,10 @@ class PduTriggering(Identifiable):
     def getIPduPort(self) -> List[IPduPort]:
         """
         AUTOSAR-compliant getter for iPduPort.
-        
+
         Returns:
             The iPduPort value
-        
+
         Note:
             Delegates to i_pdu_port property (CODING_RULE_V2_00017)
         """
@@ -1939,10 +1939,10 @@ class PduTriggering(Identifiable):
     def getISignal(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for iSignal.
-        
+
         Returns:
             The iSignal value
-        
+
         Note:
             Delegates to i_signal property (CODING_RULE_V2_00017)
         """
@@ -1951,10 +1951,10 @@ class PduTriggering(Identifiable):
     def getSecOcCrypto(self) -> "SecOcCryptoService":
         """
         AUTOSAR-compliant getter for secOcCrypto.
-        
+
         Returns:
             The secOcCrypto value
-        
+
         Note:
             Delegates to sec_oc_crypto property (CODING_RULE_V2_00017)
         """
@@ -1963,13 +1963,13 @@ class PduTriggering(Identifiable):
     def setSecOcCrypto(self, value: "SecOcCryptoService") -> PduTriggering:
         """
         AUTOSAR-compliant setter for secOcCrypto with method chaining.
-        
+
         Args:
             value: The secOcCrypto to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to sec_oc_crypto property setter (gets validation automatically)
         """
@@ -1979,10 +1979,10 @@ class PduTriggering(Identifiable):
     def getTriggerIPduSend(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for triggerIPduSend.
-        
+
         Returns:
             The triggerIPduSend value
-        
+
         Note:
             Delegates to trigger_i_pdu_send property (CODING_RULE_V2_00017)
         """
@@ -1993,13 +1993,13 @@ class PduTriggering(Identifiable):
     def with_i_pdu(self, value: Optional[Pdu]) -> PduTriggering:
         """
         Set iPdu and return self for chaining.
-        
+
         Args:
             value: The iPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_i_pdu("value")
         """
@@ -2009,13 +2009,13 @@ class PduTriggering(Identifiable):
     def with_sec_oc_crypto(self, value: Optional["SecOcCryptoService"]) -> PduTriggering:
         """
         Set secOcCrypto and return self for chaining.
-        
+
         Args:
             value: The secOcCrypto to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_sec_oc_crypto("value")
         """
@@ -2032,9 +2032,9 @@ class ISignalGroup(FibexElement):
     always be kept together. A ISignalGroup represents a COM Signal Group.
     Therefore it is recommended to put the ISignalGroup in the same Package as
     ISignals (see atp.recommendedPackage)
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::ISignalGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 993, Classic Platform
       R23-11)
@@ -2059,10 +2059,10 @@ class ISignalGroup(FibexElement):
     def com_based(self, value: Optional[DataTransformation]) -> None:
         """
         Set comBased with validation.
-        
+
         Args:
             value: The comBased to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2095,10 +2095,10 @@ class ISignalGroup(FibexElement):
     def system_signal(self, value: Optional[RefType]) -> None:
         """
         Set systemSignal with validation.
-        
+
         Args:
             value: The systemSignal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2123,10 +2123,10 @@ class ISignalGroup(FibexElement):
     def getComBased(self) -> DataTransformation:
         """
         AUTOSAR-compliant getter for comBased.
-        
+
         Returns:
             The comBased value
-        
+
         Note:
             Delegates to com_based property (CODING_RULE_V2_00017)
         """
@@ -2135,13 +2135,13 @@ class ISignalGroup(FibexElement):
     def setComBased(self, value: DataTransformation) -> ISignalGroup:
         """
         AUTOSAR-compliant setter for comBased with method chaining.
-        
+
         Args:
             value: The comBased to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to com_based property setter (gets validation automatically)
         """
@@ -2151,10 +2151,10 @@ class ISignalGroup(FibexElement):
     def getISignal(self) -> List[ISignal]:
         """
         AUTOSAR-compliant getter for iSignal.
-        
+
         Returns:
             The iSignal value
-        
+
         Note:
             Delegates to i_signal property (CODING_RULE_V2_00017)
         """
@@ -2163,10 +2163,10 @@ class ISignalGroup(FibexElement):
     def getSystemSignal(self) -> RefType:
         """
         AUTOSAR-compliant getter for systemSignal.
-        
+
         Returns:
             The systemSignal value
-        
+
         Note:
             Delegates to system_signal property (CODING_RULE_V2_00017)
         """
@@ -2175,13 +2175,13 @@ class ISignalGroup(FibexElement):
     def setSystemSignal(self, value: RefType) -> ISignalGroup:
         """
         AUTOSAR-compliant setter for systemSignal with method chaining.
-        
+
         Args:
             value: The systemSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to system_signal property setter (gets validation automatically)
         """
@@ -2191,10 +2191,10 @@ class ISignalGroup(FibexElement):
     def getTransformation(self) -> List["TransformationISignal"]:
         """
         AUTOSAR-compliant getter for transformation.
-        
+
         Returns:
             The transformation value
-        
+
         Note:
             Delegates to transformation property (CODING_RULE_V2_00017)
         """
@@ -2205,13 +2205,13 @@ class ISignalGroup(FibexElement):
     def with_com_based(self, value: Optional[DataTransformation]) -> ISignalGroup:
         """
         Set comBased and return self for chaining.
-        
+
         Args:
             value: The comBased to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_com_based("value")
         """
@@ -2221,13 +2221,13 @@ class ISignalGroup(FibexElement):
     def with_system_signal(self, value: Optional[RefType]) -> ISignalGroup:
         """
         Set systemSignal and return self for chaining.
-        
+
         Args:
             value: The systemSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_system_signal("value")
         """
@@ -2240,9 +2240,9 @@ class FramePort(CommConnectorPort):
     """
     Connectors reception or send port on the referenced channel referenced by a
     FrameTriggering.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::FramePort
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 304, Classic Platform R23-11)
     """
@@ -2261,9 +2261,9 @@ class IPduPort(CommConnectorPort):
     """
     Connectors reception or send port on the referenced channel referenced by a
     PduTriggering.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::IPduPort
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 304, Classic Platform R23-11)
     """
@@ -2284,10 +2284,10 @@ class IPduPort(CommConnectorPort):
     def i_pdu_signal(self, value: Optional["IPduSignalProcessing"]) -> None:
         """
         Set iPduSignal with validation.
-        
+
         Args:
             value: The iPduSignal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2317,10 +2317,10 @@ class IPduPort(CommConnectorPort):
     def rx_security(self, value: Optional[Boolean]) -> None:
         """
         Set rxSecurity with validation.
-        
+
         Args:
             value: The rxSecurity to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2348,10 +2348,10 @@ class IPduPort(CommConnectorPort):
     def timestamp_rx(self, value: Optional["TimeValue"]) -> None:
         """
         Set timestampRx with validation.
-        
+
         Args:
             value: The timestampRx to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2378,10 +2378,10 @@ class IPduPort(CommConnectorPort):
     def use_auth_data(self, value: Optional[Boolean]) -> None:
         """
         Set useAuthData with validation.
-        
+
         Args:
             value: The useAuthData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2400,10 +2400,10 @@ class IPduPort(CommConnectorPort):
     def getIPduSignal(self) -> "IPduSignalProcessing":
         """
         AUTOSAR-compliant getter for iPduSignal.
-        
+
         Returns:
             The iPduSignal value
-        
+
         Note:
             Delegates to i_pdu_signal property (CODING_RULE_V2_00017)
         """
@@ -2412,13 +2412,13 @@ class IPduPort(CommConnectorPort):
     def setIPduSignal(self, value: "IPduSignalProcessing") -> IPduPort:
         """
         AUTOSAR-compliant setter for iPduSignal with method chaining.
-        
+
         Args:
             value: The iPduSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to i_pdu_signal property setter (gets validation automatically)
         """
@@ -2428,10 +2428,10 @@ class IPduPort(CommConnectorPort):
     def getRxSecurity(self) -> Boolean:
         """
         AUTOSAR-compliant getter for rxSecurity.
-        
+
         Returns:
             The rxSecurity value
-        
+
         Note:
             Delegates to rx_security property (CODING_RULE_V2_00017)
         """
@@ -2440,13 +2440,13 @@ class IPduPort(CommConnectorPort):
     def setRxSecurity(self, value: Boolean) -> IPduPort:
         """
         AUTOSAR-compliant setter for rxSecurity with method chaining.
-        
+
         Args:
             value: The rxSecurity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rx_security property setter (gets validation automatically)
         """
@@ -2456,10 +2456,10 @@ class IPduPort(CommConnectorPort):
     def getTimestampRx(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timestampRx.
-        
+
         Returns:
             The timestampRx value
-        
+
         Note:
             Delegates to timestamp_rx property (CODING_RULE_V2_00017)
         """
@@ -2468,13 +2468,13 @@ class IPduPort(CommConnectorPort):
     def setTimestampRx(self, value: "TimeValue") -> IPduPort:
         """
         AUTOSAR-compliant setter for timestampRx with method chaining.
-        
+
         Args:
             value: The timestampRx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timestamp_rx property setter (gets validation automatically)
         """
@@ -2484,10 +2484,10 @@ class IPduPort(CommConnectorPort):
     def getUseAuthData(self) -> Boolean:
         """
         AUTOSAR-compliant getter for useAuthData.
-        
+
         Returns:
             The useAuthData value
-        
+
         Note:
             Delegates to use_auth_data property (CODING_RULE_V2_00017)
         """
@@ -2496,13 +2496,13 @@ class IPduPort(CommConnectorPort):
     def setUseAuthData(self, value: Boolean) -> IPduPort:
         """
         AUTOSAR-compliant setter for useAuthData with method chaining.
-        
+
         Args:
             value: The useAuthData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to use_auth_data property setter (gets validation automatically)
         """
@@ -2514,13 +2514,13 @@ class IPduPort(CommConnectorPort):
     def with_i_pdu_signal(self, value: Optional["IPduSignalProcessing"]) -> IPduPort:
         """
         Set iPduSignal and return self for chaining.
-        
+
         Args:
             value: The iPduSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_i_pdu_signal("value")
         """
@@ -2530,13 +2530,13 @@ class IPduPort(CommConnectorPort):
     def with_rx_security(self, value: Optional[Boolean]) -> IPduPort:
         """
         Set rxSecurity and return self for chaining.
-        
+
         Args:
             value: The rxSecurity to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rx_security("value")
         """
@@ -2546,13 +2546,13 @@ class IPduPort(CommConnectorPort):
     def with_timestamp_rx(self, value: Optional["TimeValue"]) -> IPduPort:
         """
         Set timestampRx and return self for chaining.
-        
+
         Args:
             value: The timestampRx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timestamp_rx("value")
         """
@@ -2562,13 +2562,13 @@ class IPduPort(CommConnectorPort):
     def with_use_auth_data(self, value: Optional[Boolean]) -> IPduPort:
         """
         Set useAuthData and return self for chaining.
-        
+
         Args:
             value: The useAuthData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_use_auth_data("value")
         """
@@ -2582,9 +2582,9 @@ class ISignalPort(CommConnectorPort):
     Connectors reception or send port on the referenced channel referenced by an
     ISignalTriggering. If different timeouts or DataFilters for ISignals need to
     be specified several ISignalPorts may be created.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::ISignalPort
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 305, Classic Platform R23-11)
     """
@@ -2608,10 +2608,10 @@ class ISignalPort(CommConnectorPort):
     def data_filter(self, value: Optional[DataFilter]) -> None:
         """
         Set dataFilter with validation.
-        
+
         Args:
             value: The dataFilter to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2636,10 +2636,10 @@ class ISignalPort(CommConnectorPort):
     def dds_qos_profile(self, value: Optional["DdsCpQosProfile"]) -> None:
         """
         Set ddsQosProfile with validation.
-        
+
         Args:
             value: The ddsQosProfile to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2666,10 +2666,10 @@ class ISignalPort(CommConnectorPort):
     def first_timeout(self, value: Optional["TimeValue"]) -> None:
         """
         Set firstTimeout with validation.
-        
+
         Args:
             value: The firstTimeout to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2696,10 +2696,10 @@ class ISignalPort(CommConnectorPort):
     def handle_invalid(self, value: Optional["HandleInvalidEnum"]) -> None:
         """
         Set handleInvalid with validation.
-        
+
         Args:
             value: The handleInvalid to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2738,10 +2738,10 @@ class ISignalPort(CommConnectorPort):
     def timeout(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeout with validation.
-        
+
         Args:
             value: The timeout to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -2760,10 +2760,10 @@ class ISignalPort(CommConnectorPort):
     def getDataFilter(self) -> DataFilter:
         """
         AUTOSAR-compliant getter for dataFilter.
-        
+
         Returns:
             The dataFilter value
-        
+
         Note:
             Delegates to data_filter property (CODING_RULE_V2_00017)
         """
@@ -2772,13 +2772,13 @@ class ISignalPort(CommConnectorPort):
     def setDataFilter(self, value: DataFilter) -> ISignalPort:
         """
         AUTOSAR-compliant setter for dataFilter with method chaining.
-        
+
         Args:
             value: The dataFilter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_filter property setter (gets validation automatically)
         """
@@ -2788,10 +2788,10 @@ class ISignalPort(CommConnectorPort):
     def getDdsQosProfile(self) -> DdsCpQosProfile:
         """
         AUTOSAR-compliant getter for ddsQosProfile.
-        
+
         Returns:
             The ddsQosProfile value
-        
+
         Note:
             Delegates to dds_qos_profile property (CODING_RULE_V2_00017)
         """
@@ -2800,13 +2800,13 @@ class ISignalPort(CommConnectorPort):
     def setDdsQosProfile(self, value: DdsCpQosProfile) -> ISignalPort:
         """
         AUTOSAR-compliant setter for ddsQosProfile with method chaining.
-        
+
         Args:
             value: The ddsQosProfile to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dds_qos_profile property setter (gets validation automatically)
         """
@@ -2816,10 +2816,10 @@ class ISignalPort(CommConnectorPort):
     def getFirstTimeout(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for firstTimeout.
-        
+
         Returns:
             The firstTimeout value
-        
+
         Note:
             Delegates to first_timeout property (CODING_RULE_V2_00017)
         """
@@ -2828,13 +2828,13 @@ class ISignalPort(CommConnectorPort):
     def setFirstTimeout(self, value: "TimeValue") -> ISignalPort:
         """
         AUTOSAR-compliant setter for firstTimeout with method chaining.
-        
+
         Args:
             value: The firstTimeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to first_timeout property setter (gets validation automatically)
         """
@@ -2844,10 +2844,10 @@ class ISignalPort(CommConnectorPort):
     def getHandleInvalid(self) -> HandleInvalidEnum:
         """
         AUTOSAR-compliant getter for handleInvalid.
-        
+
         Returns:
             The handleInvalid value
-        
+
         Note:
             Delegates to handle_invalid property (CODING_RULE_V2_00017)
         """
@@ -2856,13 +2856,13 @@ class ISignalPort(CommConnectorPort):
     def setHandleInvalid(self, value: HandleInvalidEnum) -> ISignalPort:
         """
         AUTOSAR-compliant setter for handleInvalid with method chaining.
-        
+
         Args:
             value: The handleInvalid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to handle_invalid property setter (gets validation automatically)
         """
@@ -2872,10 +2872,10 @@ class ISignalPort(CommConnectorPort):
     def getTimeout(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeout.
-        
+
         Returns:
             The timeout value
-        
+
         Note:
             Delegates to timeout property (CODING_RULE_V2_00017)
         """
@@ -2884,13 +2884,13 @@ class ISignalPort(CommConnectorPort):
     def setTimeout(self, value: "TimeValue") -> ISignalPort:
         """
         AUTOSAR-compliant setter for timeout with method chaining.
-        
+
         Args:
             value: The timeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timeout property setter (gets validation automatically)
         """
@@ -2902,13 +2902,13 @@ class ISignalPort(CommConnectorPort):
     def with_data_filter(self, value: Optional[DataFilter]) -> ISignalPort:
         """
         Set dataFilter and return self for chaining.
-        
+
         Args:
             value: The dataFilter to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_filter("value")
         """
@@ -2918,13 +2918,13 @@ class ISignalPort(CommConnectorPort):
     def with_dds_qos_profile(self, value: Optional["DdsCpQosProfile"]) -> ISignalPort:
         """
         Set ddsQosProfile and return self for chaining.
-        
+
         Args:
             value: The ddsQosProfile to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dds_qos_profile("value")
         """
@@ -2934,13 +2934,13 @@ class ISignalPort(CommConnectorPort):
     def with_first_timeout(self, value: Optional["TimeValue"]) -> ISignalPort:
         """
         Set firstTimeout and return self for chaining.
-        
+
         Args:
             value: The firstTimeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_first_timeout("value")
         """
@@ -2950,13 +2950,13 @@ class ISignalPort(CommConnectorPort):
     def with_handle_invalid(self, value: Optional["HandleInvalidEnum"]) -> ISignalPort:
         """
         Set handleInvalid and return self for chaining.
-        
+
         Args:
             value: The handleInvalid to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_handle_invalid("value")
         """
@@ -2966,13 +2966,13 @@ class ISignalPort(CommConnectorPort):
     def with_timeout(self, value: Optional["TimeValue"]) -> ISignalPort:
         """
         Set timeout and return self for chaining.
-        
+
         Args:
             value: The timeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timeout("value")
         """
@@ -2984,9 +2984,9 @@ class ISignalPort(CommConnectorPort):
 class ISignalProps(ARObject):
     """
     Additional ISignal properties that may be stored in different files.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::ISignalProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 323, Classic Platform R23-11)
     """
@@ -3006,10 +3006,10 @@ class ISignalProps(ARObject):
     def handle_out_of(self, value: Optional["HandleOutOfRange"]) -> None:
         """
         Set handleOutOf with validation.
-        
+
         Args:
             value: The handleOutOf to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3028,10 +3028,10 @@ class ISignalProps(ARObject):
     def getHandleOutOf(self) -> "HandleOutOfRange":
         """
         AUTOSAR-compliant getter for handleOutOf.
-        
+
         Returns:
             The handleOutOf value
-        
+
         Note:
             Delegates to handle_out_of property (CODING_RULE_V2_00017)
         """
@@ -3040,13 +3040,13 @@ class ISignalProps(ARObject):
     def setHandleOutOf(self, value: "HandleOutOfRange") -> ISignalProps:
         """
         AUTOSAR-compliant setter for handleOutOf with method chaining.
-        
+
         Args:
             value: The handleOutOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to handle_out_of property setter (gets validation automatically)
         """
@@ -3058,13 +3058,13 @@ class ISignalProps(ARObject):
     def with_handle_out_of(self, value: Optional["HandleOutOfRange"]) -> ISignalProps:
         """
         Set handleOutOf and return self for chaining.
-        
+
         Args:
             value: The handleOutOf to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_handle_out_of("value")
         """
@@ -3080,9 +3080,9 @@ class SystemSignalGroup(ARElement):
     composite data types. The SystemSignalGroup defines a signal grouping on VFB
     level. On cluster level the Signal grouping is described by the ISignalGroup
     element.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::SystemSignalGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 324, Classic Platform R23-11)
     """
@@ -3110,10 +3110,10 @@ class SystemSignalGroup(ARElement):
     def transforming(self, value: Optional[SystemSignal]) -> None:
         """
         Set transforming with validation.
-        
+
         Args:
             value: The transforming to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3132,10 +3132,10 @@ class SystemSignalGroup(ARElement):
     def getSystemSignal(self) -> List[SystemSignal]:
         """
         AUTOSAR-compliant getter for systemSignal.
-        
+
         Returns:
             The systemSignal value
-        
+
         Note:
             Delegates to system_signal property (CODING_RULE_V2_00017)
         """
@@ -3144,10 +3144,10 @@ class SystemSignalGroup(ARElement):
     def getTransforming(self) -> SystemSignal:
         """
         AUTOSAR-compliant getter for transforming.
-        
+
         Returns:
             The transforming value
-        
+
         Note:
             Delegates to transforming property (CODING_RULE_V2_00017)
         """
@@ -3156,13 +3156,13 @@ class SystemSignalGroup(ARElement):
     def setTransforming(self, value: SystemSignal) -> SystemSignalGroup:
         """
         AUTOSAR-compliant setter for transforming with method chaining.
-        
+
         Args:
             value: The transforming to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to transforming property setter (gets validation automatically)
         """
@@ -3174,13 +3174,13 @@ class SystemSignalGroup(ARElement):
     def with_transforming(self, value: Optional[SystemSignal]) -> SystemSignalGroup:
         """
         Set transforming and return self for chaining.
-        
+
         Args:
             value: The transforming to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_transforming("value")
         """
@@ -3221,9 +3221,9 @@ class ISignalToIPduMapping(Identifiable):
     shall reference the identical ISignal in the role iSignal in the scope of
     one System.(cid:99)() 326 of 2090 Document ID 63:
     AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR CP R23-11
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::ISignalToIPduMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 325, Classic Platform R23-11)
     """
@@ -3245,10 +3245,10 @@ class ISignalToIPduMapping(Identifiable):
     def i_signal(self, value: Optional[ISignal]) -> None:
         """
         Set iSignal with validation.
-        
+
         Args:
             value: The iSignal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3279,10 +3279,10 @@ class ISignalToIPduMapping(Identifiable):
     def i_signal_group(self, value: Optional[RefType]) -> None:
         """
         Set iSignalGroup with validation.
-        
+
         Args:
             value: The iSignalGroup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3310,10 +3310,10 @@ class ISignalToIPduMapping(Identifiable):
     def packing_byte(self, value: Optional[ByteOrderEnum]) -> None:
         """
         Set packingByte with validation.
-        
+
         Args:
             value: The packingByte to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3348,10 +3348,10 @@ class ISignalToIPduMapping(Identifiable):
     def start_position(self, value: Optional["UnlimitedInteger"]) -> None:
         """
         Set startPosition with validation.
-        
+
         Args:
             value: The startPosition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3377,10 +3377,10 @@ class ISignalToIPduMapping(Identifiable):
     def transfer_property(self, value: Optional[TransferPropertyEnum]) -> None:
         """
         Set transferProperty with validation.
-        
+
         Args:
             value: The transferProperty to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3409,10 +3409,10 @@ class ISignalToIPduMapping(Identifiable):
     def update(self, value: Optional["UnlimitedInteger"]) -> None:
         """
         Set update with validation.
-        
+
         Args:
             value: The update to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3431,10 +3431,10 @@ class ISignalToIPduMapping(Identifiable):
     def getISignal(self) -> ISignal:
         """
         AUTOSAR-compliant getter for iSignal.
-        
+
         Returns:
             The iSignal value
-        
+
         Note:
             Delegates to i_signal property (CODING_RULE_V2_00017)
         """
@@ -3443,13 +3443,13 @@ class ISignalToIPduMapping(Identifiable):
     def setISignal(self, value: ISignal) -> ISignalToIPduMapping:
         """
         AUTOSAR-compliant setter for iSignal with method chaining.
-        
+
         Args:
             value: The iSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to i_signal property setter (gets validation automatically)
         """
@@ -3459,10 +3459,10 @@ class ISignalToIPduMapping(Identifiable):
     def getISignalGroup(self) -> RefType:
         """
         AUTOSAR-compliant getter for iSignalGroup.
-        
+
         Returns:
             The iSignalGroup value
-        
+
         Note:
             Delegates to i_signal_group property (CODING_RULE_V2_00017)
         """
@@ -3471,13 +3471,13 @@ class ISignalToIPduMapping(Identifiable):
     def setISignalGroup(self, value: RefType) -> ISignalToIPduMapping:
         """
         AUTOSAR-compliant setter for iSignalGroup with method chaining.
-        
+
         Args:
             value: The iSignalGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to i_signal_group property setter (gets validation automatically)
         """
@@ -3487,10 +3487,10 @@ class ISignalToIPduMapping(Identifiable):
     def getPackingByte(self) -> ByteOrderEnum:
         """
         AUTOSAR-compliant getter for packingByte.
-        
+
         Returns:
             The packingByte value
-        
+
         Note:
             Delegates to packing_byte property (CODING_RULE_V2_00017)
         """
@@ -3499,13 +3499,13 @@ class ISignalToIPduMapping(Identifiable):
     def setPackingByte(self, value: ByteOrderEnum) -> ISignalToIPduMapping:
         """
         AUTOSAR-compliant setter for packingByte with method chaining.
-        
+
         Args:
             value: The packingByte to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to packing_byte property setter (gets validation automatically)
         """
@@ -3515,10 +3515,10 @@ class ISignalToIPduMapping(Identifiable):
     def getStartPosition(self) -> UnlimitedInteger:
         """
         AUTOSAR-compliant getter for startPosition.
-        
+
         Returns:
             The startPosition value
-        
+
         Note:
             Delegates to start_position property (CODING_RULE_V2_00017)
         """
@@ -3527,13 +3527,13 @@ class ISignalToIPduMapping(Identifiable):
     def setStartPosition(self, value: UnlimitedInteger) -> ISignalToIPduMapping:
         """
         AUTOSAR-compliant setter for startPosition with method chaining.
-        
+
         Args:
             value: The startPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to start_position property setter (gets validation automatically)
         """
@@ -3543,10 +3543,10 @@ class ISignalToIPduMapping(Identifiable):
     def getTransferProperty(self) -> TransferPropertyEnum:
         """
         AUTOSAR-compliant getter for transferProperty.
-        
+
         Returns:
             The transferProperty value
-        
+
         Note:
             Delegates to transfer_property property (CODING_RULE_V2_00017)
         """
@@ -3555,13 +3555,13 @@ class ISignalToIPduMapping(Identifiable):
     def setTransferProperty(self, value: TransferPropertyEnum) -> ISignalToIPduMapping:
         """
         AUTOSAR-compliant setter for transferProperty with method chaining.
-        
+
         Args:
             value: The transferProperty to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to transfer_property property setter (gets validation automatically)
         """
@@ -3571,10 +3571,10 @@ class ISignalToIPduMapping(Identifiable):
     def getUpdate(self) -> UnlimitedInteger:
         """
         AUTOSAR-compliant getter for update.
-        
+
         Returns:
             The update value
-        
+
         Note:
             Delegates to update property (CODING_RULE_V2_00017)
         """
@@ -3583,13 +3583,13 @@ class ISignalToIPduMapping(Identifiable):
     def setUpdate(self, value: UnlimitedInteger) -> ISignalToIPduMapping:
         """
         AUTOSAR-compliant setter for update with method chaining.
-        
+
         Args:
             value: The update to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to update property setter (gets validation automatically)
         """
@@ -3601,13 +3601,13 @@ class ISignalToIPduMapping(Identifiable):
     def with_i_signal(self, value: Optional[ISignal]) -> ISignalToIPduMapping:
         """
         Set iSignal and return self for chaining.
-        
+
         Args:
             value: The iSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_i_signal("value")
         """
@@ -3617,13 +3617,13 @@ class ISignalToIPduMapping(Identifiable):
     def with_i_signal_group(self, value: Optional[RefType]) -> ISignalToIPduMapping:
         """
         Set iSignalGroup and return self for chaining.
-        
+
         Args:
             value: The iSignalGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_i_signal_group("value")
         """
@@ -3633,13 +3633,13 @@ class ISignalToIPduMapping(Identifiable):
     def with_packing_byte(self, value: Optional[ByteOrderEnum]) -> ISignalToIPduMapping:
         """
         Set packingByte and return self for chaining.
-        
+
         Args:
             value: The packingByte to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_packing_byte("value")
         """
@@ -3649,13 +3649,13 @@ class ISignalToIPduMapping(Identifiable):
     def with_start_position(self, value: Optional["UnlimitedInteger"]) -> ISignalToIPduMapping:
         """
         Set startPosition and return self for chaining.
-        
+
         Args:
             value: The startPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_start_position("value")
         """
@@ -3665,13 +3665,13 @@ class ISignalToIPduMapping(Identifiable):
     def with_transfer_property(self, value: Optional[TransferPropertyEnum]) -> ISignalToIPduMapping:
         """
         Set transferProperty and return self for chaining.
-        
+
         Args:
             value: The transferProperty to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_transfer_property("value")
         """
@@ -3681,13 +3681,13 @@ class ISignalToIPduMapping(Identifiable):
     def with_update(self, value: Optional["UnlimitedInteger"]) -> ISignalToIPduMapping:
         """
         Set update and return self for chaining.
-        
+
         Args:
             value: The update to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_update("value")
         """
@@ -3699,9 +3699,9 @@ class ISignalToIPduMapping(Identifiable):
 class ISignalTriggering(Identifiable):
     """
     A ISignalTriggering allows an assignment of ISignals to physical channels.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::ISignalTriggering
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 330, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 229, Classic Platform R23-11)
@@ -3723,10 +3723,10 @@ class ISignalTriggering(Identifiable):
     def i_signal(self, value: Optional[ISignal]) -> None:
         """
         Set iSignal with validation.
-        
+
         Args:
             value: The iSignal to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3752,10 +3752,10 @@ class ISignalTriggering(Identifiable):
     def i_signal_group(self, value: Optional[RefType]) -> None:
         """
         Set iSignalGroup with validation.
-        
+
         Args:
             value: The iSignalGroup to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3780,10 +3780,10 @@ class ISignalTriggering(Identifiable):
     def getISignal(self) -> ISignal:
         """
         AUTOSAR-compliant getter for iSignal.
-        
+
         Returns:
             The iSignal value
-        
+
         Note:
             Delegates to i_signal property (CODING_RULE_V2_00017)
         """
@@ -3792,13 +3792,13 @@ class ISignalTriggering(Identifiable):
     def setISignal(self, value: ISignal) -> ISignalTriggering:
         """
         AUTOSAR-compliant setter for iSignal with method chaining.
-        
+
         Args:
             value: The iSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to i_signal property setter (gets validation automatically)
         """
@@ -3808,10 +3808,10 @@ class ISignalTriggering(Identifiable):
     def getISignalGroup(self) -> RefType:
         """
         AUTOSAR-compliant getter for iSignalGroup.
-        
+
         Returns:
             The iSignalGroup value
-        
+
         Note:
             Delegates to i_signal_group property (CODING_RULE_V2_00017)
         """
@@ -3820,13 +3820,13 @@ class ISignalTriggering(Identifiable):
     def setISignalGroup(self, value: RefType) -> ISignalTriggering:
         """
         AUTOSAR-compliant setter for iSignalGroup with method chaining.
-        
+
         Args:
             value: The iSignalGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to i_signal_group property setter (gets validation automatically)
         """
@@ -3836,10 +3836,10 @@ class ISignalTriggering(Identifiable):
     def getISignalPort(self) -> List[ISignalPort]:
         """
         AUTOSAR-compliant getter for iSignalPort.
-        
+
         Returns:
             The iSignalPort value
-        
+
         Note:
             Delegates to i_signal_port property (CODING_RULE_V2_00017)
         """
@@ -3850,13 +3850,13 @@ class ISignalTriggering(Identifiable):
     def with_i_signal(self, value: Optional[ISignal]) -> ISignalTriggering:
         """
         Set iSignal and return self for chaining.
-        
+
         Args:
             value: The iSignal to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_i_signal("value")
         """
@@ -3866,13 +3866,13 @@ class ISignalTriggering(Identifiable):
     def with_i_signal_group(self, value: Optional[RefType]) -> ISignalTriggering:
         """
         Set iSignalGroup and return self for chaining.
-        
+
         Args:
             value: The iSignalGroup to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_i_signal_group("value")
         """
@@ -3893,9 +3893,9 @@ class PduToFrameMapping(ARObject):
     bit for "Little Endian" and the most significant bit for "Big Endian"
     (cid:53) (cid:53) 346 of 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate
     System Template AUTOSAR CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::PduToFrameMapping
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 346, Classic Platform R23-11)
     """
@@ -3917,10 +3917,10 @@ class PduToFrameMapping(ARObject):
     def packing_byte(self, value: Optional[ByteOrderEnum]) -> None:
         """
         Set packingByte with validation.
-        
+
         Args:
             value: The packingByte to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3945,10 +3945,10 @@ class PduToFrameMapping(ARObject):
     def pdu(self, value: Optional[Pdu]) -> None:
         """
         Set pdu with validation.
-        
+
         Args:
             value: The pdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -3982,10 +3982,10 @@ class PduToFrameMapping(ARObject):
     def start_position(self, value: Optional[Integer]) -> None:
         """
         Set startPosition with validation.
-        
+
         Args:
             value: The startPosition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4016,10 +4016,10 @@ class PduToFrameMapping(ARObject):
     def update(self, value: Optional[Integer]) -> None:
         """
         Set update with validation.
-        
+
         Args:
             value: The update to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4038,10 +4038,10 @@ class PduToFrameMapping(ARObject):
     def getPackingByte(self) -> ByteOrderEnum:
         """
         AUTOSAR-compliant getter for packingByte.
-        
+
         Returns:
             The packingByte value
-        
+
         Note:
             Delegates to packing_byte property (CODING_RULE_V2_00017)
         """
@@ -4050,13 +4050,13 @@ class PduToFrameMapping(ARObject):
     def setPackingByte(self, value: ByteOrderEnum) -> PduToFrameMapping:
         """
         AUTOSAR-compliant setter for packingByte with method chaining.
-        
+
         Args:
             value: The packingByte to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to packing_byte property setter (gets validation automatically)
         """
@@ -4066,10 +4066,10 @@ class PduToFrameMapping(ARObject):
     def getPdu(self) -> Pdu:
         """
         AUTOSAR-compliant getter for pdu.
-        
+
         Returns:
             The pdu value
-        
+
         Note:
             Delegates to pdu property (CODING_RULE_V2_00017)
         """
@@ -4078,13 +4078,13 @@ class PduToFrameMapping(ARObject):
     def setPdu(self, value: Pdu) -> PduToFrameMapping:
         """
         AUTOSAR-compliant setter for pdu with method chaining.
-        
+
         Args:
             value: The pdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to pdu property setter (gets validation automatically)
         """
@@ -4094,10 +4094,10 @@ class PduToFrameMapping(ARObject):
     def getStartPosition(self) -> Integer:
         """
         AUTOSAR-compliant getter for startPosition.
-        
+
         Returns:
             The startPosition value
-        
+
         Note:
             Delegates to start_position property (CODING_RULE_V2_00017)
         """
@@ -4106,13 +4106,13 @@ class PduToFrameMapping(ARObject):
     def setStartPosition(self, value: Integer) -> PduToFrameMapping:
         """
         AUTOSAR-compliant setter for startPosition with method chaining.
-        
+
         Args:
             value: The startPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to start_position property setter (gets validation automatically)
         """
@@ -4122,10 +4122,10 @@ class PduToFrameMapping(ARObject):
     def getUpdate(self) -> Integer:
         """
         AUTOSAR-compliant getter for update.
-        
+
         Returns:
             The update value
-        
+
         Note:
             Delegates to update property (CODING_RULE_V2_00017)
         """
@@ -4134,13 +4134,13 @@ class PduToFrameMapping(ARObject):
     def setUpdate(self, value: Integer) -> PduToFrameMapping:
         """
         AUTOSAR-compliant setter for update with method chaining.
-        
+
         Args:
             value: The update to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to update property setter (gets validation automatically)
         """
@@ -4152,13 +4152,13 @@ class PduToFrameMapping(ARObject):
     def with_packing_byte(self, value: Optional[ByteOrderEnum]) -> PduToFrameMapping:
         """
         Set packingByte and return self for chaining.
-        
+
         Args:
             value: The packingByte to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_packing_byte("value")
         """
@@ -4168,13 +4168,13 @@ class PduToFrameMapping(ARObject):
     def with_pdu(self, value: Optional[Pdu]) -> PduToFrameMapping:
         """
         Set pdu and return self for chaining.
-        
+
         Args:
             value: The pdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_pdu("value")
         """
@@ -4184,13 +4184,13 @@ class PduToFrameMapping(ARObject):
     def with_start_position(self, value: Optional[Integer]) -> PduToFrameMapping:
         """
         Set startPosition and return self for chaining.
-        
+
         Args:
             value: The startPosition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_start_position("value")
         """
@@ -4200,13 +4200,13 @@ class PduToFrameMapping(ARObject):
     def with_update(self, value: Optional[Integer]) -> PduToFrameMapping:
         """
         Set update and return self for chaining.
-        
+
         Args:
             value: The update to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_update("value")
         """
@@ -4226,9 +4226,9 @@ class IPduTiming(Describable):
     Template). The Transmission Mode Selector is defined to be true, if at least
     one Condition evaluates to true and is defined to be false, if all
     Conditions evaluate to false.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::IPduTiming
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 348, Classic Platform R23-11)
     """
@@ -4248,10 +4248,10 @@ class IPduTiming(Describable):
     def minimum_delay(self, value: Optional["TimeValue"]) -> None:
         """
         Set minimumDelay with validation.
-        
+
         Args:
             value: The minimumDelay to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4280,10 +4280,10 @@ class IPduTiming(Describable):
     def transmission(self, value: Optional["TransmissionMode"]) -> None:
         """
         Set transmission with validation.
-        
+
         Args:
             value: The transmission to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4302,10 +4302,10 @@ class IPduTiming(Describable):
     def getMinimumDelay(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for minimumDelay.
-        
+
         Returns:
             The minimumDelay value
-        
+
         Note:
             Delegates to minimum_delay property (CODING_RULE_V2_00017)
         """
@@ -4314,13 +4314,13 @@ class IPduTiming(Describable):
     def setMinimumDelay(self, value: "TimeValue") -> IPduTiming:
         """
         AUTOSAR-compliant setter for minimumDelay with method chaining.
-        
+
         Args:
             value: The minimumDelay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minimum_delay property setter (gets validation automatically)
         """
@@ -4330,10 +4330,10 @@ class IPduTiming(Describable):
     def getTransmission(self) -> "TransmissionMode":
         """
         AUTOSAR-compliant getter for transmission.
-        
+
         Returns:
             The transmission value
-        
+
         Note:
             Delegates to transmission property (CODING_RULE_V2_00017)
         """
@@ -4342,13 +4342,13 @@ class IPduTiming(Describable):
     def setTransmission(self, value: "TransmissionMode") -> IPduTiming:
         """
         AUTOSAR-compliant setter for transmission with method chaining.
-        
+
         Args:
             value: The transmission to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to transmission property setter (gets validation automatically)
         """
@@ -4360,13 +4360,13 @@ class IPduTiming(Describable):
     def with_minimum_delay(self, value: Optional["TimeValue"]) -> IPduTiming:
         """
         Set minimumDelay and return self for chaining.
-        
+
         Args:
             value: The minimumDelay to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minimum_delay("value")
         """
@@ -4376,13 +4376,13 @@ class IPduTiming(Describable):
     def with_transmission(self, value: Optional["TransmissionMode"]) -> IPduTiming:
         """
         Set transmission and return self for chaining.
-        
+
         Args:
             value: The transmission to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_transmission("value")
         """
@@ -4395,9 +4395,9 @@ class PdurIPduGroup(FibexElement):
     """
     The AUTOSAR PduR will enable and disable the sending of configurable groups
     of IPdus during runtime according to the AUTOSAR PduR specification.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::PdurIPduGroup
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 352, Classic Platform R23-11)
     """
@@ -4419,10 +4419,10 @@ class PdurIPduGroup(FibexElement):
     def communication(self, value: Optional[String]) -> None:
         """
         Set communication with validation.
-        
+
         Args:
             value: The communication to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4452,10 +4452,10 @@ class PdurIPduGroup(FibexElement):
     def getCommunication(self) -> String:
         """
         AUTOSAR-compliant getter for communication.
-        
+
         Returns:
             The communication value
-        
+
         Note:
             Delegates to communication property (CODING_RULE_V2_00017)
         """
@@ -4464,13 +4464,13 @@ class PdurIPduGroup(FibexElement):
     def setCommunication(self, value: String) -> PdurIPduGroup:
         """
         AUTOSAR-compliant setter for communication with method chaining.
-        
+
         Args:
             value: The communication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to communication property setter (gets validation automatically)
         """
@@ -4480,10 +4480,10 @@ class PdurIPduGroup(FibexElement):
     def getIPdu(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for iPdu.
-        
+
         Returns:
             The iPdu value
-        
+
         Note:
             Delegates to i_pdu property (CODING_RULE_V2_00017)
         """
@@ -4494,13 +4494,13 @@ class PdurIPduGroup(FibexElement):
     def with_communication(self, value: Optional[String]) -> PdurIPduGroup:
         """
         Set communication and return self for chaining.
-        
+
         Args:
             value: The communication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_communication("value")
         """
@@ -4513,9 +4513,9 @@ class ContainedIPduProps(ARObject):
     """
     Defines the aspects of an IPdu which can be collected inside a
     ContainerIPdu.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::ContainedIPduProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 355, Classic Platform R23-11)
     """
@@ -4536,10 +4536,10 @@ class ContainedIPduProps(ARObject):
     def collection(self, value: Optional["ContainedIPdu"]) -> None:
         """
         Set collection with validation.
-        
+
         Args:
             value: The collection to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4564,10 +4564,10 @@ class ContainedIPduProps(ARObject):
     def contained_pdu(self, value: Optional[RefType]) -> None:
         """
         Set containedPdu with validation.
-        
+
         Args:
             value: The containedPdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4590,10 +4590,10 @@ class ContainedIPduProps(ARObject):
     def header_id_long(self, value: Optional[PositiveInteger]) -> None:
         """
         Set headerIdLong with validation.
-        
+
         Args:
             value: The headerIdLong to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4619,10 +4619,10 @@ class ContainedIPduProps(ARObject):
     def header_id_short(self, value: Optional[PositiveInteger]) -> None:
         """
         Set headerIdShort with validation.
-        
+
         Args:
             value: The headerIdShort to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4648,10 +4648,10 @@ class ContainedIPduProps(ARObject):
     def offset(self, value: Optional[PositiveInteger]) -> None:
         """
         Set offset with validation.
-        
+
         Args:
             value: The offset to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4677,10 +4677,10 @@ class ContainedIPduProps(ARObject):
     def priority(self, value: Optional[PositiveInteger]) -> None:
         """
         Set priority with validation.
-        
+
         Args:
             value: The priority to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4707,10 +4707,10 @@ class ContainedIPduProps(ARObject):
     def timeout(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeout with validation.
-        
+
         Args:
             value: The timeout to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4736,10 +4736,10 @@ class ContainedIPduProps(ARObject):
     def trigger(self, value: Optional[RefType]) -> None:
         """
         Set trigger with validation.
-        
+
         Args:
             value: The trigger to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4762,10 +4762,10 @@ class ContainedIPduProps(ARObject):
     def update(self, value: Optional[PositiveInteger]) -> None:
         """
         Set update with validation.
-        
+
         Args:
             value: The update to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -4784,10 +4784,10 @@ class ContainedIPduProps(ARObject):
     def getCollection(self) -> "ContainedIPdu":
         """
         AUTOSAR-compliant getter for collection.
-        
+
         Returns:
             The collection value
-        
+
         Note:
             Delegates to collection property (CODING_RULE_V2_00017)
         """
@@ -4796,13 +4796,13 @@ class ContainedIPduProps(ARObject):
     def setCollection(self, value: "ContainedIPdu") -> ContainedIPduProps:
         """
         AUTOSAR-compliant setter for collection with method chaining.
-        
+
         Args:
             value: The collection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to collection property setter (gets validation automatically)
         """
@@ -4812,10 +4812,10 @@ class ContainedIPduProps(ARObject):
     def getContainedPdu(self) -> RefType:
         """
         AUTOSAR-compliant getter for containedPdu.
-        
+
         Returns:
             The containedPdu value
-        
+
         Note:
             Delegates to contained_pdu property (CODING_RULE_V2_00017)
         """
@@ -4824,13 +4824,13 @@ class ContainedIPduProps(ARObject):
     def setContainedPdu(self, value: RefType) -> ContainedIPduProps:
         """
         AUTOSAR-compliant setter for containedPdu with method chaining.
-        
+
         Args:
             value: The containedPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to contained_pdu property setter (gets validation automatically)
         """
@@ -4840,10 +4840,10 @@ class ContainedIPduProps(ARObject):
     def getHeaderIdLong(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for headerIdLong.
-        
+
         Returns:
             The headerIdLong value
-        
+
         Note:
             Delegates to header_id_long property (CODING_RULE_V2_00017)
         """
@@ -4852,13 +4852,13 @@ class ContainedIPduProps(ARObject):
     def setHeaderIdLong(self, value: PositiveInteger) -> ContainedIPduProps:
         """
         AUTOSAR-compliant setter for headerIdLong with method chaining.
-        
+
         Args:
             value: The headerIdLong to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to header_id_long property setter (gets validation automatically)
         """
@@ -4868,10 +4868,10 @@ class ContainedIPduProps(ARObject):
     def getHeaderIdShort(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for headerIdShort.
-        
+
         Returns:
             The headerIdShort value
-        
+
         Note:
             Delegates to header_id_short property (CODING_RULE_V2_00017)
         """
@@ -4880,13 +4880,13 @@ class ContainedIPduProps(ARObject):
     def setHeaderIdShort(self, value: PositiveInteger) -> ContainedIPduProps:
         """
         AUTOSAR-compliant setter for headerIdShort with method chaining.
-        
+
         Args:
             value: The headerIdShort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to header_id_short property setter (gets validation automatically)
         """
@@ -4896,10 +4896,10 @@ class ContainedIPduProps(ARObject):
     def getOffset(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for offset.
-        
+
         Returns:
             The offset value
-        
+
         Note:
             Delegates to offset property (CODING_RULE_V2_00017)
         """
@@ -4908,13 +4908,13 @@ class ContainedIPduProps(ARObject):
     def setOffset(self, value: PositiveInteger) -> ContainedIPduProps:
         """
         AUTOSAR-compliant setter for offset with method chaining.
-        
+
         Args:
             value: The offset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to offset property setter (gets validation automatically)
         """
@@ -4924,10 +4924,10 @@ class ContainedIPduProps(ARObject):
     def getPriority(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for priority.
-        
+
         Returns:
             The priority value
-        
+
         Note:
             Delegates to priority property (CODING_RULE_V2_00017)
         """
@@ -4936,13 +4936,13 @@ class ContainedIPduProps(ARObject):
     def setPriority(self, value: PositiveInteger) -> ContainedIPduProps:
         """
         AUTOSAR-compliant setter for priority with method chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to priority property setter (gets validation automatically)
         """
@@ -4952,10 +4952,10 @@ class ContainedIPduProps(ARObject):
     def getTimeout(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeout.
-        
+
         Returns:
             The timeout value
-        
+
         Note:
             Delegates to timeout property (CODING_RULE_V2_00017)
         """
@@ -4964,13 +4964,13 @@ class ContainedIPduProps(ARObject):
     def setTimeout(self, value: "TimeValue") -> ContainedIPduProps:
         """
         AUTOSAR-compliant setter for timeout with method chaining.
-        
+
         Args:
             value: The timeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to timeout property setter (gets validation automatically)
         """
@@ -4980,10 +4980,10 @@ class ContainedIPduProps(ARObject):
     def getTrigger(self) -> RefType:
         """
         AUTOSAR-compliant getter for trigger.
-        
+
         Returns:
             The trigger value
-        
+
         Note:
             Delegates to trigger property (CODING_RULE_V2_00017)
         """
@@ -4992,13 +4992,13 @@ class ContainedIPduProps(ARObject):
     def setTrigger(self, value: RefType) -> ContainedIPduProps:
         """
         AUTOSAR-compliant setter for trigger with method chaining.
-        
+
         Args:
             value: The trigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to trigger property setter (gets validation automatically)
         """
@@ -5008,10 +5008,10 @@ class ContainedIPduProps(ARObject):
     def getUpdate(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for update.
-        
+
         Returns:
             The update value
-        
+
         Note:
             Delegates to update property (CODING_RULE_V2_00017)
         """
@@ -5020,13 +5020,13 @@ class ContainedIPduProps(ARObject):
     def setUpdate(self, value: PositiveInteger) -> ContainedIPduProps:
         """
         AUTOSAR-compliant setter for update with method chaining.
-        
+
         Args:
             value: The update to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to update property setter (gets validation automatically)
         """
@@ -5038,13 +5038,13 @@ class ContainedIPduProps(ARObject):
     def with_collection(self, value: Optional["ContainedIPdu"]) -> ContainedIPduProps:
         """
         Set collection and return self for chaining.
-        
+
         Args:
             value: The collection to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_collection("value")
         """
@@ -5054,13 +5054,13 @@ class ContainedIPduProps(ARObject):
     def with_contained_pdu(self, value: Optional[RefType]) -> ContainedIPduProps:
         """
         Set containedPdu and return self for chaining.
-        
+
         Args:
             value: The containedPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_contained_pdu("value")
         """
@@ -5070,13 +5070,13 @@ class ContainedIPduProps(ARObject):
     def with_header_id_long(self, value: Optional[PositiveInteger]) -> ContainedIPduProps:
         """
         Set headerIdLong and return self for chaining.
-        
+
         Args:
             value: The headerIdLong to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_header_id_long("value")
         """
@@ -5086,13 +5086,13 @@ class ContainedIPduProps(ARObject):
     def with_header_id_short(self, value: Optional[PositiveInteger]) -> ContainedIPduProps:
         """
         Set headerIdShort and return self for chaining.
-        
+
         Args:
             value: The headerIdShort to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_header_id_short("value")
         """
@@ -5102,13 +5102,13 @@ class ContainedIPduProps(ARObject):
     def with_offset(self, value: Optional[PositiveInteger]) -> ContainedIPduProps:
         """
         Set offset and return self for chaining.
-        
+
         Args:
             value: The offset to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_offset("value")
         """
@@ -5118,13 +5118,13 @@ class ContainedIPduProps(ARObject):
     def with_priority(self, value: Optional[PositiveInteger]) -> ContainedIPduProps:
         """
         Set priority and return self for chaining.
-        
+
         Args:
             value: The priority to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_priority("value")
         """
@@ -5134,13 +5134,13 @@ class ContainedIPduProps(ARObject):
     def with_timeout(self, value: Optional["TimeValue"]) -> ContainedIPduProps:
         """
         Set timeout and return self for chaining.
-        
+
         Args:
             value: The timeout to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_timeout("value")
         """
@@ -5150,13 +5150,13 @@ class ContainedIPduProps(ARObject):
     def with_trigger(self, value: Optional[RefType]) -> ContainedIPduProps:
         """
         Set trigger and return self for chaining.
-        
+
         Args:
             value: The trigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_trigger("value")
         """
@@ -5166,13 +5166,13 @@ class ContainedIPduProps(ARObject):
     def with_update(self, value: Optional[PositiveInteger]) -> ContainedIPduProps:
         """
         Set update and return self for chaining.
-        
+
         Args:
             value: The update to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_update("value")
         """
@@ -5185,9 +5185,9 @@ class SecureCommunicationProps(ARObject):
     """
     This meta-class contains configuration settings that are specific for an
     individual SecuredIPdu.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::SecureCommunicationProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 369, Classic Platform R23-11)
     """
@@ -5209,10 +5209,10 @@ class SecureCommunicationProps(ARObject):
     def auth_data(self, value: Optional[PositiveInteger]) -> None:
         """
         Set authData with validation.
-        
+
         Args:
             value: The authData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5239,10 +5239,10 @@ class SecureCommunicationProps(ARObject):
     def authentication(self, value: Optional[PositiveInteger]) -> None:
         """
         Set authentication with validation.
-        
+
         Args:
             value: The authentication to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5267,10 +5267,10 @@ class SecureCommunicationProps(ARObject):
     def data_id(self, value: Optional[PositiveInteger]) -> None:
         """
         Set dataId with validation.
-        
+
         Args:
             value: The dataId to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5296,10 +5296,10 @@ class SecureCommunicationProps(ARObject):
     def freshness_value(self, value: Optional[PositiveInteger]) -> None:
         """
         Set freshnessValue with validation.
-        
+
         Args:
             value: The freshnessValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5326,10 +5326,10 @@ class SecureCommunicationProps(ARObject):
     def message_link(self, value: Optional[PositiveInteger]) -> None:
         """
         Set messageLink with validation.
-        
+
         Args:
             value: The messageLink to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5357,10 +5357,10 @@ class SecureCommunicationProps(ARObject):
     def secondary(self, value: Optional[PositiveInteger]) -> None:
         """
         Set secondary with validation.
-        
+
         Args:
             value: The secondary to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5386,10 +5386,10 @@ class SecureCommunicationProps(ARObject):
     def secured_area(self, value: Optional[PositiveInteger]) -> None:
         """
         Set securedArea with validation.
-        
+
         Args:
             value: The securedArea to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5408,10 +5408,10 @@ class SecureCommunicationProps(ARObject):
     def getAuthData(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for authData.
-        
+
         Returns:
             The authData value
-        
+
         Note:
             Delegates to auth_data property (CODING_RULE_V2_00017)
         """
@@ -5420,13 +5420,13 @@ class SecureCommunicationProps(ARObject):
     def setAuthData(self, value: PositiveInteger) -> SecureCommunicationProps:
         """
         AUTOSAR-compliant setter for authData with method chaining.
-        
+
         Args:
             value: The authData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to auth_data property setter (gets validation automatically)
         """
@@ -5436,10 +5436,10 @@ class SecureCommunicationProps(ARObject):
     def getAuthentication(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for authentication.
-        
+
         Returns:
             The authentication value
-        
+
         Note:
             Delegates to authentication property (CODING_RULE_V2_00017)
         """
@@ -5448,13 +5448,13 @@ class SecureCommunicationProps(ARObject):
     def setAuthentication(self, value: PositiveInteger) -> SecureCommunicationProps:
         """
         AUTOSAR-compliant setter for authentication with method chaining.
-        
+
         Args:
             value: The authentication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to authentication property setter (gets validation automatically)
         """
@@ -5464,10 +5464,10 @@ class SecureCommunicationProps(ARObject):
     def getDataId(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for dataId.
-        
+
         Returns:
             The dataId value
-        
+
         Note:
             Delegates to data_id property (CODING_RULE_V2_00017)
         """
@@ -5476,13 +5476,13 @@ class SecureCommunicationProps(ARObject):
     def setDataId(self, value: PositiveInteger) -> SecureCommunicationProps:
         """
         AUTOSAR-compliant setter for dataId with method chaining.
-        
+
         Args:
             value: The dataId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to data_id property setter (gets validation automatically)
         """
@@ -5492,10 +5492,10 @@ class SecureCommunicationProps(ARObject):
     def getFreshnessValue(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for freshnessValue.
-        
+
         Returns:
             The freshnessValue value
-        
+
         Note:
             Delegates to freshness_value property (CODING_RULE_V2_00017)
         """
@@ -5504,13 +5504,13 @@ class SecureCommunicationProps(ARObject):
     def setFreshnessValue(self, value: PositiveInteger) -> SecureCommunicationProps:
         """
         AUTOSAR-compliant setter for freshnessValue with method chaining.
-        
+
         Args:
             value: The freshnessValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to freshness_value property setter (gets validation automatically)
         """
@@ -5520,10 +5520,10 @@ class SecureCommunicationProps(ARObject):
     def getMessageLink(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for messageLink.
-        
+
         Returns:
             The messageLink value
-        
+
         Note:
             Delegates to message_link property (CODING_RULE_V2_00017)
         """
@@ -5532,13 +5532,13 @@ class SecureCommunicationProps(ARObject):
     def setMessageLink(self, value: PositiveInteger) -> SecureCommunicationProps:
         """
         AUTOSAR-compliant setter for messageLink with method chaining.
-        
+
         Args:
             value: The messageLink to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to message_link property setter (gets validation automatically)
         """
@@ -5548,10 +5548,10 @@ class SecureCommunicationProps(ARObject):
     def getSecondary(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for secondary.
-        
+
         Returns:
             The secondary value
-        
+
         Note:
             Delegates to secondary property (CODING_RULE_V2_00017)
         """
@@ -5560,13 +5560,13 @@ class SecureCommunicationProps(ARObject):
     def setSecondary(self, value: PositiveInteger) -> SecureCommunicationProps:
         """
         AUTOSAR-compliant setter for secondary with method chaining.
-        
+
         Args:
             value: The secondary to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to secondary property setter (gets validation automatically)
         """
@@ -5576,10 +5576,10 @@ class SecureCommunicationProps(ARObject):
     def getSecuredArea(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for securedArea.
-        
+
         Returns:
             The securedArea value
-        
+
         Note:
             Delegates to secured_area property (CODING_RULE_V2_00017)
         """
@@ -5588,13 +5588,13 @@ class SecureCommunicationProps(ARObject):
     def setSecuredArea(self, value: PositiveInteger) -> SecureCommunicationProps:
         """
         AUTOSAR-compliant setter for securedArea with method chaining.
-        
+
         Args:
             value: The securedArea to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to secured_area property setter (gets validation automatically)
         """
@@ -5606,13 +5606,13 @@ class SecureCommunicationProps(ARObject):
     def with_auth_data(self, value: Optional[PositiveInteger]) -> SecureCommunicationProps:
         """
         Set authData and return self for chaining.
-        
+
         Args:
             value: The authData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_auth_data("value")
         """
@@ -5622,13 +5622,13 @@ class SecureCommunicationProps(ARObject):
     def with_authentication(self, value: Optional[PositiveInteger]) -> SecureCommunicationProps:
         """
         Set authentication and return self for chaining.
-        
+
         Args:
             value: The authentication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_authentication("value")
         """
@@ -5638,13 +5638,13 @@ class SecureCommunicationProps(ARObject):
     def with_data_id(self, value: Optional[PositiveInteger]) -> SecureCommunicationProps:
         """
         Set dataId and return self for chaining.
-        
+
         Args:
             value: The dataId to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_data_id("value")
         """
@@ -5654,13 +5654,13 @@ class SecureCommunicationProps(ARObject):
     def with_freshness_value(self, value: Optional[PositiveInteger]) -> SecureCommunicationProps:
         """
         Set freshnessValue and return self for chaining.
-        
+
         Args:
             value: The freshnessValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_freshness_value("value")
         """
@@ -5670,13 +5670,13 @@ class SecureCommunicationProps(ARObject):
     def with_message_link(self, value: Optional[PositiveInteger]) -> SecureCommunicationProps:
         """
         Set messageLink and return self for chaining.
-        
+
         Args:
             value: The messageLink to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_message_link("value")
         """
@@ -5686,13 +5686,13 @@ class SecureCommunicationProps(ARObject):
     def with_secondary(self, value: Optional[PositiveInteger]) -> SecureCommunicationProps:
         """
         Set secondary and return self for chaining.
-        
+
         Args:
             value: The secondary to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_secondary("value")
         """
@@ -5702,13 +5702,13 @@ class SecureCommunicationProps(ARObject):
     def with_secured_area(self, value: Optional[PositiveInteger]) -> SecureCommunicationProps:
         """
         Set securedArea and return self for chaining.
-        
+
         Args:
             value: The securedArea to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_secured_area("value")
         """
@@ -5720,9 +5720,9 @@ class SecureCommunicationProps(ARObject):
 class SecureCommunicationPropsSet(FibexElement):
     """
     Collection of properties used to configure SecuredIPdus.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::SecureCommunicationPropsSet
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 370, Classic Platform R23-11)
     """
@@ -5750,10 +5750,10 @@ class SecureCommunicationPropsSet(FibexElement):
     def getAuthentication(self) -> List[SecureCommunication]:
         """
         AUTOSAR-compliant getter for authentication.
-        
+
         Returns:
             The authentication value
-        
+
         Note:
             Delegates to authentication property (CODING_RULE_V2_00017)
         """
@@ -5762,10 +5762,10 @@ class SecureCommunicationPropsSet(FibexElement):
     def getFreshnessProps(self) -> List[SecureCommunication]:
         """
         AUTOSAR-compliant getter for freshnessProps.
-        
+
         Returns:
             The freshnessProps value
-        
+
         Note:
             Delegates to freshness_props property (CODING_RULE_V2_00017)
         """
@@ -5778,9 +5778,9 @@ class SecureCommunicationPropsSet(FibexElement):
 class SecureCommunicationFreshnessProps(Identifiable):
     """
     Freshness properties used to configure SecuredIPdus.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::SecureCommunicationFreshnessProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 370, Classic Platform R23-11)
     """
@@ -5803,10 +5803,10 @@ class SecureCommunicationFreshnessProps(Identifiable):
     def freshness(self, value: Optional[PositiveInteger]) -> None:
         """
         Set freshness with validation.
-        
+
         Args:
             value: The freshness to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5835,10 +5835,10 @@ class SecureCommunicationFreshnessProps(Identifiable):
     def freshness_value(self, value: Optional[PositiveInteger]) -> None:
         """
         Set freshnessValue with validation.
-        
+
         Args:
             value: The freshnessValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5864,10 +5864,10 @@ class SecureCommunicationFreshnessProps(Identifiable):
     def use_freshness(self, value: Optional[Boolean]) -> None:
         """
         Set useFreshness with validation.
-        
+
         Args:
             value: The useFreshness to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -5886,10 +5886,10 @@ class SecureCommunicationFreshnessProps(Identifiable):
     def getFreshness(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for freshness.
-        
+
         Returns:
             The freshness value
-        
+
         Note:
             Delegates to freshness property (CODING_RULE_V2_00017)
         """
@@ -5898,13 +5898,13 @@ class SecureCommunicationFreshnessProps(Identifiable):
     def setFreshness(self, value: PositiveInteger) -> SecureCommunicationFreshnessProps:
         """
         AUTOSAR-compliant setter for freshness with method chaining.
-        
+
         Args:
             value: The freshness to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to freshness property setter (gets validation automatically)
         """
@@ -5914,10 +5914,10 @@ class SecureCommunicationFreshnessProps(Identifiable):
     def getFreshnessValue(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for freshnessValue.
-        
+
         Returns:
             The freshnessValue value
-        
+
         Note:
             Delegates to freshness_value property (CODING_RULE_V2_00017)
         """
@@ -5926,13 +5926,13 @@ class SecureCommunicationFreshnessProps(Identifiable):
     def setFreshnessValue(self, value: PositiveInteger) -> SecureCommunicationFreshnessProps:
         """
         AUTOSAR-compliant setter for freshnessValue with method chaining.
-        
+
         Args:
             value: The freshnessValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to freshness_value property setter (gets validation automatically)
         """
@@ -5942,10 +5942,10 @@ class SecureCommunicationFreshnessProps(Identifiable):
     def getUseFreshness(self) -> Boolean:
         """
         AUTOSAR-compliant getter for useFreshness.
-        
+
         Returns:
             The useFreshness value
-        
+
         Note:
             Delegates to use_freshness property (CODING_RULE_V2_00017)
         """
@@ -5954,13 +5954,13 @@ class SecureCommunicationFreshnessProps(Identifiable):
     def setUseFreshness(self, value: Boolean) -> SecureCommunicationFreshnessProps:
         """
         AUTOSAR-compliant setter for useFreshness with method chaining.
-        
+
         Args:
             value: The useFreshness to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to use_freshness property setter (gets validation automatically)
         """
@@ -5972,13 +5972,13 @@ class SecureCommunicationFreshnessProps(Identifiable):
     def with_freshness(self, value: Optional[PositiveInteger]) -> SecureCommunicationFreshnessProps:
         """
         Set freshness and return self for chaining.
-        
+
         Args:
             value: The freshness to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_freshness("value")
         """
@@ -5988,13 +5988,13 @@ class SecureCommunicationFreshnessProps(Identifiable):
     def with_freshness_value(self, value: Optional[PositiveInteger]) -> SecureCommunicationFreshnessProps:
         """
         Set freshnessValue and return self for chaining.
-        
+
         Args:
             value: The freshnessValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_freshness_value("value")
         """
@@ -6004,13 +6004,13 @@ class SecureCommunicationFreshnessProps(Identifiable):
     def with_use_freshness(self, value: Optional[Boolean]) -> SecureCommunicationFreshnessProps:
         """
         Set useFreshness and return self for chaining.
-        
+
         Args:
             value: The useFreshness to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_use_freshness("value")
         """
@@ -6022,9 +6022,9 @@ class SecureCommunicationFreshnessProps(Identifiable):
 class SecureCommunicationAuthenticationProps(Identifiable):
     """
     Authentication properties used to configure SecuredIPdus.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::SecureCommunicationAuthenticationProps
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 371, Classic Platform R23-11)
     """
@@ -6045,10 +6045,10 @@ class SecureCommunicationAuthenticationProps(Identifiable):
     def auth_info_tx(self, value: Optional[PositiveInteger]) -> None:
         """
         Set authInfoTx with validation.
-        
+
         Args:
             value: The authInfoTx to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6067,10 +6067,10 @@ class SecureCommunicationAuthenticationProps(Identifiable):
     def getAuthInfoTx(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for authInfoTx.
-        
+
         Returns:
             The authInfoTx value
-        
+
         Note:
             Delegates to auth_info_tx property (CODING_RULE_V2_00017)
         """
@@ -6079,13 +6079,13 @@ class SecureCommunicationAuthenticationProps(Identifiable):
     def setAuthInfoTx(self, value: PositiveInteger) -> SecureCommunicationAuthenticationProps:
         """
         AUTOSAR-compliant setter for authInfoTx with method chaining.
-        
+
         Args:
             value: The authInfoTx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to auth_info_tx property setter (gets validation automatically)
         """
@@ -6097,13 +6097,13 @@ class SecureCommunicationAuthenticationProps(Identifiable):
     def with_auth_info_tx(self, value: Optional[PositiveInteger]) -> SecureCommunicationAuthenticationProps:
         """
         Set authInfoTx and return self for chaining.
-        
+
         Args:
             value: The authInfoTx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_auth_info_tx("value")
         """
@@ -6118,9 +6118,9 @@ class DynamicPartAlternative(ARObject):
     the MultiplexedIPdu. The selectorFieldCode specifies which Com IPdu is
     contained in the DynamicPart within a certain transmission of a multiplexed
     PDU.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::DynamicPartAlternative
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 411, Classic Platform R23-11)
     """
@@ -6141,10 +6141,10 @@ class DynamicPartAlternative(ARObject):
     def initial_dynamic(self, value: Optional[Boolean]) -> None:
         """
         Set initialDynamic with validation.
-        
+
         Args:
             value: The initialDynamic to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6170,10 +6170,10 @@ class DynamicPartAlternative(ARObject):
     def i_pdu(self, value: Optional[ISignalIPdu]) -> None:
         """
         Set iPdu with validation.
-        
+
         Args:
             value: The iPdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6200,10 +6200,10 @@ class DynamicPartAlternative(ARObject):
     def selector_field(self, value: Optional[Integer]) -> None:
         """
         Set selectorField with validation.
-        
+
         Args:
             value: The selectorField to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6222,10 +6222,10 @@ class DynamicPartAlternative(ARObject):
     def getInitialDynamic(self) -> Boolean:
         """
         AUTOSAR-compliant getter for initialDynamic.
-        
+
         Returns:
             The initialDynamic value
-        
+
         Note:
             Delegates to initial_dynamic property (CODING_RULE_V2_00017)
         """
@@ -6234,13 +6234,13 @@ class DynamicPartAlternative(ARObject):
     def setInitialDynamic(self, value: Boolean) -> DynamicPartAlternative:
         """
         AUTOSAR-compliant setter for initialDynamic with method chaining.
-        
+
         Args:
             value: The initialDynamic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to initial_dynamic property setter (gets validation automatically)
         """
@@ -6250,10 +6250,10 @@ class DynamicPartAlternative(ARObject):
     def getIPdu(self) -> ISignalIPdu:
         """
         AUTOSAR-compliant getter for iPdu.
-        
+
         Returns:
             The iPdu value
-        
+
         Note:
             Delegates to i_pdu property (CODING_RULE_V2_00017)
         """
@@ -6262,13 +6262,13 @@ class DynamicPartAlternative(ARObject):
     def setIPdu(self, value: ISignalIPdu) -> DynamicPartAlternative:
         """
         AUTOSAR-compliant setter for iPdu with method chaining.
-        
+
         Args:
             value: The iPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to i_pdu property setter (gets validation automatically)
         """
@@ -6278,10 +6278,10 @@ class DynamicPartAlternative(ARObject):
     def getSelectorField(self) -> Integer:
         """
         AUTOSAR-compliant getter for selectorField.
-        
+
         Returns:
             The selectorField value
-        
+
         Note:
             Delegates to selector_field property (CODING_RULE_V2_00017)
         """
@@ -6290,13 +6290,13 @@ class DynamicPartAlternative(ARObject):
     def setSelectorField(self, value: Integer) -> DynamicPartAlternative:
         """
         AUTOSAR-compliant setter for selectorField with method chaining.
-        
+
         Args:
             value: The selectorField to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to selector_field property setter (gets validation automatically)
         """
@@ -6308,13 +6308,13 @@ class DynamicPartAlternative(ARObject):
     def with_initial_dynamic(self, value: Optional[Boolean]) -> DynamicPartAlternative:
         """
         Set initialDynamic and return self for chaining.
-        
+
         Args:
             value: The initialDynamic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_initial_dynamic("value")
         """
@@ -6324,13 +6324,13 @@ class DynamicPartAlternative(ARObject):
     def with_i_pdu(self, value: Optional[ISignalIPdu]) -> DynamicPartAlternative:
         """
         Set iPdu and return self for chaining.
-        
+
         Args:
             value: The iPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_i_pdu("value")
         """
@@ -6340,13 +6340,13 @@ class DynamicPartAlternative(ARObject):
     def with_selector_field(self, value: Optional[Integer]) -> DynamicPartAlternative:
         """
         Set selectorField and return self for chaining.
-        
+
         Args:
             value: The selectorField to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_selector_field("value")
         """
@@ -6359,9 +6359,9 @@ class MultiplexedPart(ARObject, ABC):
     """
     The StaticPart and the DynamicPart have common properties. Both can be
     separated in multiple segments within the multiplexed PDU.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::MultiplexedPart
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 411, Classic Platform R23-11)
     """
@@ -6386,10 +6386,10 @@ class MultiplexedPart(ARObject, ABC):
     def getSegment(self) -> List[SegmentPosition]:
         """
         AUTOSAR-compliant getter for segment.
-        
+
         Returns:
             The segment value
-        
+
         Note:
             Delegates to segment property (CODING_RULE_V2_00017)
         """
@@ -6551,9 +6551,9 @@ class SegmentPosition(ARObject):
     discarded due to a failing minimum length check.(cid:99)() 417 of 2090
     Document ID 63: AUTOSAR_CP_TPS_SystemTemplate System Template AUTOSAR CP
     R23-11
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::SegmentPosition
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 412, Classic Platform R23-11)
     """
@@ -6575,10 +6575,10 @@ class SegmentPosition(ARObject):
     def segment_byte(self, value: Optional[ByteOrderEnum]) -> None:
         """
         Set segmentByte with validation.
-        
+
         Args:
             value: The segmentByte to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6603,10 +6603,10 @@ class SegmentPosition(ARObject):
     def segment_length(self, value: Optional[Integer]) -> None:
         """
         Set segmentLength with validation.
-        
+
         Args:
             value: The segmentLength to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6631,10 +6631,10 @@ class SegmentPosition(ARObject):
     def segment(self, value: Optional[Integer]) -> None:
         """
         Set segment with validation.
-        
+
         Args:
             value: The segment to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6653,10 +6653,10 @@ class SegmentPosition(ARObject):
     def getSegmentByte(self) -> ByteOrderEnum:
         """
         AUTOSAR-compliant getter for segmentByte.
-        
+
         Returns:
             The segmentByte value
-        
+
         Note:
             Delegates to segment_byte property (CODING_RULE_V2_00017)
         """
@@ -6665,13 +6665,13 @@ class SegmentPosition(ARObject):
     def setSegmentByte(self, value: ByteOrderEnum) -> SegmentPosition:
         """
         AUTOSAR-compliant setter for segmentByte with method chaining.
-        
+
         Args:
             value: The segmentByte to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to segment_byte property setter (gets validation automatically)
         """
@@ -6681,10 +6681,10 @@ class SegmentPosition(ARObject):
     def getSegmentLength(self) -> Integer:
         """
         AUTOSAR-compliant getter for segmentLength.
-        
+
         Returns:
             The segmentLength value
-        
+
         Note:
             Delegates to segment_length property (CODING_RULE_V2_00017)
         """
@@ -6693,13 +6693,13 @@ class SegmentPosition(ARObject):
     def setSegmentLength(self, value: Integer) -> SegmentPosition:
         """
         AUTOSAR-compliant setter for segmentLength with method chaining.
-        
+
         Args:
             value: The segmentLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to segment_length property setter (gets validation automatically)
         """
@@ -6709,10 +6709,10 @@ class SegmentPosition(ARObject):
     def getSegment(self) -> Integer:
         """
         AUTOSAR-compliant getter for segment.
-        
+
         Returns:
             The segment value
-        
+
         Note:
             Delegates to segment property (CODING_RULE_V2_00017)
         """
@@ -6721,13 +6721,13 @@ class SegmentPosition(ARObject):
     def setSegment(self, value: Integer) -> SegmentPosition:
         """
         AUTOSAR-compliant setter for segment with method chaining.
-        
+
         Args:
             value: The segment to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to segment property setter (gets validation automatically)
         """
@@ -6739,13 +6739,13 @@ class SegmentPosition(ARObject):
     def with_segment_byte(self, value: Optional[ByteOrderEnum]) -> SegmentPosition:
         """
         Set segmentByte and return self for chaining.
-        
+
         Args:
             value: The segmentByte to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_segment_byte("value")
         """
@@ -6755,13 +6755,13 @@ class SegmentPosition(ARObject):
     def with_segment_length(self, value: Optional[Integer]) -> SegmentPosition:
         """
         Set segmentLength and return self for chaining.
-        
+
         Args:
             value: The segmentLength to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_segment_length("value")
         """
@@ -6771,13 +6771,13 @@ class SegmentPosition(ARObject):
     def with_segment(self, value: Optional[Integer]) -> SegmentPosition:
         """
         Set segment and return self for chaining.
-        
+
         Args:
             value: The segment to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_segment("value")
         """
@@ -6789,9 +6789,9 @@ class SegmentPosition(ARObject):
 class NmPdu(Pdu):
     """
     Network Management Pdu
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::NmPdu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 302, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 342, Classic Platform R23-11)
@@ -6824,10 +6824,10 @@ class NmPdu(Pdu):
     def nm_data(self, value: Optional[Boolean]) -> None:
         """
         Set nmData with validation.
-        
+
         Args:
             value: The nmData to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6852,10 +6852,10 @@ class NmPdu(Pdu):
     def nm_vote_information(self, value: Optional[Boolean]) -> None:
         """
         Set nmVoteInformation with validation.
-        
+
         Args:
             value: The nmVoteInformation to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6881,10 +6881,10 @@ class NmPdu(Pdu):
     def unused_bit(self, value: Optional[Integer]) -> None:
         """
         Set unusedBit with validation.
-        
+
         Args:
             value: The unusedBit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -6903,10 +6903,10 @@ class NmPdu(Pdu):
     def getISignalToIPdu(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for iSignalToIPdu.
-        
+
         Returns:
             The iSignalToIPdu value
-        
+
         Note:
             Delegates to i_signal_to_i_pdu property (CODING_RULE_V2_00017)
         """
@@ -6915,10 +6915,10 @@ class NmPdu(Pdu):
     def getNmData(self) -> Boolean:
         """
         AUTOSAR-compliant getter for nmData.
-        
+
         Returns:
             The nmData value
-        
+
         Note:
             Delegates to nm_data property (CODING_RULE_V2_00017)
         """
@@ -6927,13 +6927,13 @@ class NmPdu(Pdu):
     def setNmData(self, value: Boolean) -> NmPdu:
         """
         AUTOSAR-compliant setter for nmData with method chaining.
-        
+
         Args:
             value: The nmData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_data property setter (gets validation automatically)
         """
@@ -6943,10 +6943,10 @@ class NmPdu(Pdu):
     def getNmVoteInformation(self) -> Boolean:
         """
         AUTOSAR-compliant getter for nmVoteInformation.
-        
+
         Returns:
             The nmVoteInformation value
-        
+
         Note:
             Delegates to nm_vote_information property (CODING_RULE_V2_00017)
         """
@@ -6955,13 +6955,13 @@ class NmPdu(Pdu):
     def setNmVoteInformation(self, value: Boolean) -> NmPdu:
         """
         AUTOSAR-compliant setter for nmVoteInformation with method chaining.
-        
+
         Args:
             value: The nmVoteInformation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to nm_vote_information property setter (gets validation automatically)
         """
@@ -6971,10 +6971,10 @@ class NmPdu(Pdu):
     def getUnusedBit(self) -> Integer:
         """
         AUTOSAR-compliant getter for unusedBit.
-        
+
         Returns:
             The unusedBit value
-        
+
         Note:
             Delegates to unused_bit property (CODING_RULE_V2_00017)
         """
@@ -6983,13 +6983,13 @@ class NmPdu(Pdu):
     def setUnusedBit(self, value: Integer) -> NmPdu:
         """
         AUTOSAR-compliant setter for unusedBit with method chaining.
-        
+
         Args:
             value: The unusedBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to unused_bit property setter (gets validation automatically)
         """
@@ -7001,13 +7001,13 @@ class NmPdu(Pdu):
     def with_nm_data(self, value: Optional[Boolean]) -> NmPdu:
         """
         Set nmData and return self for chaining.
-        
+
         Args:
             value: The nmData to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_data("value")
         """
@@ -7017,13 +7017,13 @@ class NmPdu(Pdu):
     def with_nm_vote_information(self, value: Optional[Boolean]) -> NmPdu:
         """
         Set nmVoteInformation and return self for chaining.
-        
+
         Args:
             value: The nmVoteInformation to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_nm_vote_information("value")
         """
@@ -7033,13 +7033,13 @@ class NmPdu(Pdu):
     def with_unused_bit(self, value: Optional[Integer]) -> NmPdu:
         """
         Set unusedBit and return self for chaining.
-        
+
         Args:
             value: The unusedBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_unused_bit("value")
         """
@@ -7053,9 +7053,9 @@ class UserDefinedPdu(Pdu):
     UserDefinedPdu allows to describe PDU-based communication over Complex
     Drivers. If a new BSW module is added above the BusIf (e.g. a new Nm module)
     then this Pdu element shall be used to describe the communication.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::UserDefinedPdu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 314, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 345, Classic Platform R23-11)
@@ -7077,10 +7077,10 @@ class UserDefinedPdu(Pdu):
     def cdd_type(self, value: Optional[String]) -> None:
         """
         Set cddType with validation.
-        
+
         Args:
             value: The cddType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -7099,10 +7099,10 @@ class UserDefinedPdu(Pdu):
     def getCddType(self) -> String:
         """
         AUTOSAR-compliant getter for cddType.
-        
+
         Returns:
             The cddType value
-        
+
         Note:
             Delegates to cdd_type property (CODING_RULE_V2_00017)
         """
@@ -7111,13 +7111,13 @@ class UserDefinedPdu(Pdu):
     def setCddType(self, value: String) -> UserDefinedPdu:
         """
         AUTOSAR-compliant setter for cddType with method chaining.
-        
+
         Args:
             value: The cddType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cdd_type property setter (gets validation automatically)
         """
@@ -7129,13 +7129,13 @@ class UserDefinedPdu(Pdu):
     def with_cdd_type(self, value: Optional[String]) -> UserDefinedPdu:
         """
         Set cddType and return self for chaining.
-        
+
         Args:
             value: The cddType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cdd_type("value")
         """
@@ -7148,9 +7148,9 @@ class IPdu(Pdu, ABC):
     """
     The IPdu (Interaction Layer Protocol Data Unit) element is used to sum up
     all Pdus that are routed by the PduR.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::IPdu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 341, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 226, Classic Platform R23-11)
@@ -7173,10 +7173,10 @@ class IPdu(Pdu, ABC):
     def contained_i_pdu(self, value: Optional[ContainedIPduProps]) -> None:
         """
         Set containedIPdu with validation.
-        
+
         Args:
             value: The containedIPdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -7195,10 +7195,10 @@ class IPdu(Pdu, ABC):
     def getContainedIPdu(self) -> ContainedIPduProps:
         """
         AUTOSAR-compliant getter for containedIPdu.
-        
+
         Returns:
             The containedIPdu value
-        
+
         Note:
             Delegates to contained_i_pdu property (CODING_RULE_V2_00017)
         """
@@ -7207,13 +7207,13 @@ class IPdu(Pdu, ABC):
     def setContainedIPdu(self, value: ContainedIPduProps) -> IPdu:
         """
         AUTOSAR-compliant setter for containedIPdu with method chaining.
-        
+
         Args:
             value: The containedIPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to contained_i_pdu property setter (gets validation automatically)
         """
@@ -7225,13 +7225,13 @@ class IPdu(Pdu, ABC):
     def with_contained_i_pdu(self, value: Optional[ContainedIPduProps]) -> IPdu:
         """
         Set containedIPdu and return self for chaining.
-        
+
         Args:
             value: The containedIPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_contained_i_pdu("value")
         """
@@ -7245,9 +7245,9 @@ class GeneralPurposePdu(Pdu):
     This element is used for AUTOSAR Pdus without additional attributes that are
     routed by a bus interface. Please note that the category name of such Pdus
     is standardized in the AUTOSAR System Template.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::GeneralPurposePdu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 344, Classic Platform R23-11)
     """
@@ -7266,9 +7266,9 @@ class StaticPart(MultiplexedPart):
     """
     Some parts/signals of the I-PDU may be the same regardless of the selector
     field. Such a part is called static part. The static part is optional.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::StaticPart
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 410, Classic Platform R23-11)
     """
@@ -7289,10 +7289,10 @@ class StaticPart(MultiplexedPart):
     def i_pdu(self, value: Optional[ISignalIPdu]) -> None:
         """
         Set iPdu with validation.
-        
+
         Args:
             value: The iPdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -7311,10 +7311,10 @@ class StaticPart(MultiplexedPart):
     def getIPdu(self) -> ISignalIPdu:
         """
         AUTOSAR-compliant getter for iPdu.
-        
+
         Returns:
             The iPdu value
-        
+
         Note:
             Delegates to i_pdu property (CODING_RULE_V2_00017)
         """
@@ -7323,13 +7323,13 @@ class StaticPart(MultiplexedPart):
     def setIPdu(self, value: ISignalIPdu) -> StaticPart:
         """
         AUTOSAR-compliant setter for iPdu with method chaining.
-        
+
         Args:
             value: The iPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to i_pdu property setter (gets validation automatically)
         """
@@ -7341,13 +7341,13 @@ class StaticPart(MultiplexedPart):
     def with_i_pdu(self, value: Optional[ISignalIPdu]) -> StaticPart:
         """
         Set iPdu and return self for chaining.
-        
+
         Args:
             value: The iPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_i_pdu("value")
         """
@@ -7361,9 +7361,9 @@ class DynamicPart(MultiplexedPart):
     Dynamic part of a multiplexed I-Pdu. Reserved space which is used to
     transport varying SignalIPdus at the same position, controlled by the
     corresponding selectorFieldCode.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::DynamicPart
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 410, Classic Platform R23-11)
     """
@@ -7385,10 +7385,10 @@ class DynamicPart(MultiplexedPart):
     def getDynamicPart(self) -> List[DynamicPartAlternative]:
         """
         AUTOSAR-compliant getter for dynamicPart.
-        
+
         Returns:
             The dynamicPart value
-        
+
         Note:
             Delegates to dynamic_part property (CODING_RULE_V2_00017)
         """
@@ -7401,9 +7401,9 @@ class DynamicPart(MultiplexedPart):
 class J1939DcmIPdu(IPdu):
     """
     Represents the IPdus handled by J1939Dcm.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::J1939DcmIPdu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 321, Classic Platform
       R23-11)
@@ -7425,10 +7425,10 @@ class J1939DcmIPdu(IPdu):
     def diagnostic(self, value: Optional[PositiveInteger]) -> None:
         """
         Set diagnostic with validation.
-        
+
         Args:
             value: The diagnostic to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -7452,10 +7452,10 @@ class J1939DcmIPdu(IPdu):
     def message_type(self, value: "e.g") -> None:
         """
         Set MessageType with validation.
-        
+
         Args:
             value: The MessageType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -7470,10 +7470,10 @@ class J1939DcmIPdu(IPdu):
     def getDiagnostic(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for diagnostic.
-        
+
         Returns:
             The diagnostic value
-        
+
         Note:
             Delegates to diagnostic property (CODING_RULE_V2_00017)
         """
@@ -7482,13 +7482,13 @@ class J1939DcmIPdu(IPdu):
     def setDiagnostic(self, value: PositiveInteger) -> J1939DcmIPdu:
         """
         AUTOSAR-compliant setter for diagnostic with method chaining.
-        
+
         Args:
             value: The diagnostic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diagnostic property setter (gets validation automatically)
         """
@@ -7498,10 +7498,10 @@ class J1939DcmIPdu(IPdu):
     def getMessageType(self) -> "e.g":
         """
         AUTOSAR-compliant getter for MessageType.
-        
+
         Returns:
             The MessageType value
-        
+
         Note:
             Delegates to message_type property (CODING_RULE_V2_00017)
         """
@@ -7510,13 +7510,13 @@ class J1939DcmIPdu(IPdu):
     def setMessageType(self, value: "e.g") -> J1939DcmIPdu:
         """
         AUTOSAR-compliant setter for MessageType with method chaining.
-        
+
         Args:
             value: The MessageType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to message_type property setter (gets validation automatically)
         """
@@ -7528,13 +7528,13 @@ class J1939DcmIPdu(IPdu):
     def with_diagnostic(self, value: Optional[PositiveInteger]) -> J1939DcmIPdu:
         """
         Set diagnostic and return self for chaining.
-        
+
         Args:
             value: The diagnostic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diagnostic("value")
         """
@@ -7544,13 +7544,13 @@ class J1939DcmIPdu(IPdu):
     def with_message_type(self, value: "e.g") -> J1939DcmIPdu:
         """
         Set MessageType and return self for chaining.
-        
+
         Args:
             value: The MessageType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_message_type("value")
         """
@@ -7563,9 +7563,9 @@ class NPdu(IPdu):
     """
     This is a Pdu of the Transport Layer. The main purpose of the TP Layer is to
     segment and reassemble IPdus.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::NPdu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_ECUConfiguration.pdf (Page 301, Classic Platform R23-11)
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 343, Classic Platform R23-11)
@@ -7587,9 +7587,9 @@ class ISignalIPdu(IPdu):
     disassembled in AUTOSAR COM consists of one or more signals. In case no
     multiplexing is performed this IPdu is routed to/from the Interface Layer. A
     maximum of one dynamic length signal per IPdu is allowed.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::ISignalIPdu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf (Page 994, Classic Platform
       R23-11)
@@ -7616,10 +7616,10 @@ class ISignalIPdu(IPdu):
     def i_pdu_timing(self, value: Optional[IPduTiming]) -> None:
         """
         Set iPduTiming with validation.
-        
+
         Args:
             value: The iPduTiming to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -7656,10 +7656,10 @@ class ISignalIPdu(IPdu):
     def unused_bit(self, value: Optional[Integer]) -> None:
         """
         Set unusedBit with validation.
-        
+
         Args:
             value: The unusedBit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -7678,10 +7678,10 @@ class ISignalIPdu(IPdu):
     def getIPduTiming(self) -> IPduTiming:
         """
         AUTOSAR-compliant getter for iPduTiming.
-        
+
         Returns:
             The iPduTiming value
-        
+
         Note:
             Delegates to i_pdu_timing property (CODING_RULE_V2_00017)
         """
@@ -7690,13 +7690,13 @@ class ISignalIPdu(IPdu):
     def setIPduTiming(self, value: IPduTiming) -> ISignalIPdu:
         """
         AUTOSAR-compliant setter for iPduTiming with method chaining.
-        
+
         Args:
             value: The iPduTiming to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to i_pdu_timing property setter (gets validation automatically)
         """
@@ -7706,10 +7706,10 @@ class ISignalIPdu(IPdu):
     def getISignalToPdu(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for iSignalToPdu.
-        
+
         Returns:
             The iSignalToPdu value
-        
+
         Note:
             Delegates to i_signal_to_pdu property (CODING_RULE_V2_00017)
         """
@@ -7718,10 +7718,10 @@ class ISignalIPdu(IPdu):
     def getUnusedBit(self) -> Integer:
         """
         AUTOSAR-compliant getter for unusedBit.
-        
+
         Returns:
             The unusedBit value
-        
+
         Note:
             Delegates to unused_bit property (CODING_RULE_V2_00017)
         """
@@ -7730,13 +7730,13 @@ class ISignalIPdu(IPdu):
     def setUnusedBit(self, value: Integer) -> ISignalIPdu:
         """
         AUTOSAR-compliant setter for unusedBit with method chaining.
-        
+
         Args:
             value: The unusedBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to unused_bit property setter (gets validation automatically)
         """
@@ -7748,13 +7748,13 @@ class ISignalIPdu(IPdu):
     def with_i_pdu_timing(self, value: Optional[IPduTiming]) -> ISignalIPdu:
         """
         Set iPduTiming and return self for chaining.
-        
+
         Args:
             value: The iPduTiming to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_i_pdu_timing("value")
         """
@@ -7764,13 +7764,13 @@ class ISignalIPdu(IPdu):
     def with_unused_bit(self, value: Optional[Integer]) -> ISignalIPdu:
         """
         Set unusedBit and return self for chaining.
-        
+
         Args:
             value: The unusedBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_unused_bit("value")
         """
@@ -7782,9 +7782,9 @@ class ISignalIPdu(IPdu):
 class DcmIPdu(IPdu):
     """
     Represents the IPdus handled by Dcm.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::DcmIPdu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 343, Classic Platform R23-11)
     """
@@ -7804,10 +7804,10 @@ class DcmIPdu(IPdu):
     def diag_pdu_type(self, value: Optional[DiagPduType]) -> None:
         """
         Set diagPduType with validation.
-        
+
         Args:
             value: The diagPduType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -7826,10 +7826,10 @@ class DcmIPdu(IPdu):
     def getDiagPduType(self) -> DiagPduType:
         """
         AUTOSAR-compliant getter for diagPduType.
-        
+
         Returns:
             The diagPduType value
-        
+
         Note:
             Delegates to diag_pdu_type property (CODING_RULE_V2_00017)
         """
@@ -7838,13 +7838,13 @@ class DcmIPdu(IPdu):
     def setDiagPduType(self, value: DiagPduType) -> DcmIPdu:
         """
         AUTOSAR-compliant setter for diagPduType with method chaining.
-        
+
         Args:
             value: The diagPduType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to diag_pdu_type property setter (gets validation automatically)
         """
@@ -7856,13 +7856,13 @@ class DcmIPdu(IPdu):
     def with_diag_pdu_type(self, value: Optional[DiagPduType]) -> DcmIPdu:
         """
         Set diagPduType and return self for chaining.
-        
+
         Args:
             value: The diagPduType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_diag_pdu_type("value")
         """
@@ -7876,9 +7876,9 @@ class GeneralPurposeIPdu(IPdu):
     This element is used for AUTOSAR Pdus without attributes that are routed by
     the PduR. Please note that the category name of such Pdus is standardized in
     the AUTOSAR System Template.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::GeneralPurposeIPdu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 345, Classic Platform R23-11)
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 60, Foundation R23-11)
@@ -7900,9 +7900,9 @@ class UserDefinedIPdu(IPdu):
     Drivers. If a new BSW module is added above the PduR (e.g. a Diagnostic
     Service ) then this IPdu element shall be used to describe the
     communication.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::UserDefinedIPdu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 346, Classic Platform R23-11)
     """
@@ -7923,10 +7923,10 @@ class UserDefinedIPdu(IPdu):
     def cdd_type(self, value: Optional[String]) -> None:
         """
         Set cddType with validation.
-        
+
         Args:
             value: The cddType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -7945,10 +7945,10 @@ class UserDefinedIPdu(IPdu):
     def getCddType(self) -> String:
         """
         AUTOSAR-compliant getter for cddType.
-        
+
         Returns:
             The cddType value
-        
+
         Note:
             Delegates to cdd_type property (CODING_RULE_V2_00017)
         """
@@ -7957,13 +7957,13 @@ class UserDefinedIPdu(IPdu):
     def setCddType(self, value: String) -> UserDefinedIPdu:
         """
         AUTOSAR-compliant setter for cddType with method chaining.
-        
+
         Args:
             value: The cddType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to cdd_type property setter (gets validation automatically)
         """
@@ -7975,13 +7975,13 @@ class UserDefinedIPdu(IPdu):
     def with_cdd_type(self, value: Optional[String]) -> UserDefinedIPdu:
         """
         Set cddType and return self for chaining.
-        
+
         Args:
             value: The cddType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_cdd_type("value")
         """
@@ -7994,9 +7994,9 @@ class ContainerIPdu(IPdu):
     """
     Allows to collect several IPdus in one ContainerIPdu based on the
     headerType.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::ContainerIPdu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 353, Classic Platform R23-11)
     """
@@ -8033,10 +8033,10 @@ class ContainerIPdu(IPdu):
     def container(self, value: Optional["TimeValue"]) -> None:
         """
         Set container with validation.
-        
+
         Args:
             value: The container to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -8062,10 +8062,10 @@ class ContainerIPdu(IPdu):
     def container_trigger(self, value: Optional[RefType]) -> None:
         """
         Set containerTrigger with validation.
-        
+
         Args:
             value: The containerTrigger to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -8086,10 +8086,10 @@ class ContainerIPdu(IPdu):
     def header_type(self, value: Optional["ContainerIPduHeader"]) -> None:
         """
         Set headerType with validation.
-        
+
         Args:
             value: The headerType to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -8114,10 +8114,10 @@ class ContainerIPdu(IPdu):
     def minimum_rx(self, value: Optional[PositiveInteger]) -> None:
         """
         Set minimumRx with validation.
-        
+
         Args:
             value: The minimumRx to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -8142,10 +8142,10 @@ class ContainerIPdu(IPdu):
     def minimum_tx(self, value: Optional[PositiveInteger]) -> None:
         """
         Set minimumTx with validation.
-        
+
         Args:
             value: The minimumTx to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -8171,10 +8171,10 @@ class ContainerIPdu(IPdu):
     def rx_accept(self, value: Optional["RxAcceptContainedI"]) -> None:
         """
         Set rxAccept with validation.
-        
+
         Args:
             value: The rxAccept to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -8201,10 +8201,10 @@ class ContainerIPdu(IPdu):
     def threshold_size(self, value: Optional[PositiveInteger]) -> None:
         """
         Set thresholdSize with validation.
-        
+
         Args:
             value: The thresholdSize to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -8229,10 +8229,10 @@ class ContainerIPdu(IPdu):
     def unused_bit(self, value: Optional[PositiveInteger]) -> None:
         """
         Set unusedBit with validation.
-        
+
         Args:
             value: The unusedBit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -8251,10 +8251,10 @@ class ContainerIPdu(IPdu):
     def getContainedIPdu(self) -> List[ContainedIPduProps]:
         """
         AUTOSAR-compliant getter for containedIPdu.
-        
+
         Returns:
             The containedIPdu value
-        
+
         Note:
             Delegates to contained_i_pdu property (CODING_RULE_V2_00017)
         """
@@ -8263,10 +8263,10 @@ class ContainerIPdu(IPdu):
     def getContainedPdu(self) -> List[RefType]:
         """
         AUTOSAR-compliant getter for containedPdu.
-        
+
         Returns:
             The containedPdu value
-        
+
         Note:
             Delegates to contained_pdu property (CODING_RULE_V2_00017)
         """
@@ -8275,10 +8275,10 @@ class ContainerIPdu(IPdu):
     def getContainer(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for container.
-        
+
         Returns:
             The container value
-        
+
         Note:
             Delegates to container property (CODING_RULE_V2_00017)
         """
@@ -8287,13 +8287,13 @@ class ContainerIPdu(IPdu):
     def setContainer(self, value: "TimeValue") -> ContainerIPdu:
         """
         AUTOSAR-compliant setter for container with method chaining.
-        
+
         Args:
             value: The container to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to container property setter (gets validation automatically)
         """
@@ -8303,10 +8303,10 @@ class ContainerIPdu(IPdu):
     def getContainerTrigger(self) -> RefType:
         """
         AUTOSAR-compliant getter for containerTrigger.
-        
+
         Returns:
             The containerTrigger value
-        
+
         Note:
             Delegates to container_trigger property (CODING_RULE_V2_00017)
         """
@@ -8315,13 +8315,13 @@ class ContainerIPdu(IPdu):
     def setContainerTrigger(self, value: RefType) -> ContainerIPdu:
         """
         AUTOSAR-compliant setter for containerTrigger with method chaining.
-        
+
         Args:
             value: The containerTrigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to container_trigger property setter (gets validation automatically)
         """
@@ -8331,10 +8331,10 @@ class ContainerIPdu(IPdu):
     def getHeaderType(self) -> "ContainerIPduHeader":
         """
         AUTOSAR-compliant getter for headerType.
-        
+
         Returns:
             The headerType value
-        
+
         Note:
             Delegates to header_type property (CODING_RULE_V2_00017)
         """
@@ -8343,13 +8343,13 @@ class ContainerIPdu(IPdu):
     def setHeaderType(self, value: "ContainerIPduHeader") -> ContainerIPdu:
         """
         AUTOSAR-compliant setter for headerType with method chaining.
-        
+
         Args:
             value: The headerType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to header_type property setter (gets validation automatically)
         """
@@ -8359,10 +8359,10 @@ class ContainerIPdu(IPdu):
     def getMinimumRx(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for minimumRx.
-        
+
         Returns:
             The minimumRx value
-        
+
         Note:
             Delegates to minimum_rx property (CODING_RULE_V2_00017)
         """
@@ -8371,13 +8371,13 @@ class ContainerIPdu(IPdu):
     def setMinimumRx(self, value: PositiveInteger) -> ContainerIPdu:
         """
         AUTOSAR-compliant setter for minimumRx with method chaining.
-        
+
         Args:
             value: The minimumRx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minimum_rx property setter (gets validation automatically)
         """
@@ -8387,10 +8387,10 @@ class ContainerIPdu(IPdu):
     def getMinimumTx(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for minimumTx.
-        
+
         Returns:
             The minimumTx value
-        
+
         Note:
             Delegates to minimum_tx property (CODING_RULE_V2_00017)
         """
@@ -8399,13 +8399,13 @@ class ContainerIPdu(IPdu):
     def setMinimumTx(self, value: PositiveInteger) -> ContainerIPdu:
         """
         AUTOSAR-compliant setter for minimumTx with method chaining.
-        
+
         Args:
             value: The minimumTx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to minimum_tx property setter (gets validation automatically)
         """
@@ -8415,10 +8415,10 @@ class ContainerIPdu(IPdu):
     def getRxAccept(self) -> "RxAcceptContainedI":
         """
         AUTOSAR-compliant getter for rxAccept.
-        
+
         Returns:
             The rxAccept value
-        
+
         Note:
             Delegates to rx_accept property (CODING_RULE_V2_00017)
         """
@@ -8427,13 +8427,13 @@ class ContainerIPdu(IPdu):
     def setRxAccept(self, value: "RxAcceptContainedI") -> ContainerIPdu:
         """
         AUTOSAR-compliant setter for rxAccept with method chaining.
-        
+
         Args:
             value: The rxAccept to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to rx_accept property setter (gets validation automatically)
         """
@@ -8443,10 +8443,10 @@ class ContainerIPdu(IPdu):
     def getThresholdSize(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for thresholdSize.
-        
+
         Returns:
             The thresholdSize value
-        
+
         Note:
             Delegates to threshold_size property (CODING_RULE_V2_00017)
         """
@@ -8455,13 +8455,13 @@ class ContainerIPdu(IPdu):
     def setThresholdSize(self, value: PositiveInteger) -> ContainerIPdu:
         """
         AUTOSAR-compliant setter for thresholdSize with method chaining.
-        
+
         Args:
             value: The thresholdSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to threshold_size property setter (gets validation automatically)
         """
@@ -8471,10 +8471,10 @@ class ContainerIPdu(IPdu):
     def getUnusedBit(self) -> PositiveInteger:
         """
         AUTOSAR-compliant getter for unusedBit.
-        
+
         Returns:
             The unusedBit value
-        
+
         Note:
             Delegates to unused_bit property (CODING_RULE_V2_00017)
         """
@@ -8483,13 +8483,13 @@ class ContainerIPdu(IPdu):
     def setUnusedBit(self, value: PositiveInteger) -> ContainerIPdu:
         """
         AUTOSAR-compliant setter for unusedBit with method chaining.
-        
+
         Args:
             value: The unusedBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to unused_bit property setter (gets validation automatically)
         """
@@ -8501,13 +8501,13 @@ class ContainerIPdu(IPdu):
     def with_container(self, value: Optional["TimeValue"]) -> ContainerIPdu:
         """
         Set container and return self for chaining.
-        
+
         Args:
             value: The container to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_container("value")
         """
@@ -8517,13 +8517,13 @@ class ContainerIPdu(IPdu):
     def with_container_trigger(self, value: Optional[RefType]) -> ContainerIPdu:
         """
         Set containerTrigger and return self for chaining.
-        
+
         Args:
             value: The containerTrigger to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_container_trigger("value")
         """
@@ -8533,13 +8533,13 @@ class ContainerIPdu(IPdu):
     def with_header_type(self, value: Optional["ContainerIPduHeader"]) -> ContainerIPdu:
         """
         Set headerType and return self for chaining.
-        
+
         Args:
             value: The headerType to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_header_type("value")
         """
@@ -8549,13 +8549,13 @@ class ContainerIPdu(IPdu):
     def with_minimum_rx(self, value: Optional[PositiveInteger]) -> ContainerIPdu:
         """
         Set minimumRx and return self for chaining.
-        
+
         Args:
             value: The minimumRx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minimum_rx("value")
         """
@@ -8565,13 +8565,13 @@ class ContainerIPdu(IPdu):
     def with_minimum_tx(self, value: Optional[PositiveInteger]) -> ContainerIPdu:
         """
         Set minimumTx and return self for chaining.
-        
+
         Args:
             value: The minimumTx to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_minimum_tx("value")
         """
@@ -8581,13 +8581,13 @@ class ContainerIPdu(IPdu):
     def with_rx_accept(self, value: Optional["RxAcceptContainedI"]) -> ContainerIPdu:
         """
         Set rxAccept and return self for chaining.
-        
+
         Args:
             value: The rxAccept to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_rx_accept("value")
         """
@@ -8597,13 +8597,13 @@ class ContainerIPdu(IPdu):
     def with_threshold_size(self, value: Optional[PositiveInteger]) -> ContainerIPdu:
         """
         Set thresholdSize and return self for chaining.
-        
+
         Args:
             value: The thresholdSize to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_threshold_size("value")
         """
@@ -8613,13 +8613,13 @@ class ContainerIPdu(IPdu):
     def with_unused_bit(self, value: Optional[PositiveInteger]) -> ContainerIPdu:
         """
         Set unusedBit and return self for chaining.
-        
+
         Args:
             value: The unusedBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_unused_bit("value")
         """
@@ -8637,9 +8637,9 @@ class SecuredIPdu(IPdu):
     for a payload that is transported in a separate message. The separate
     Authentic IPdu is described by the Pdu that is referenced with the payload
     reference from this SecuredIPdu.
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::SecuredIPdu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 367, Classic Platform R23-11)
     """
@@ -8659,10 +8659,10 @@ class SecuredIPdu(IPdu):
     def authentication(self, value: Optional["SecureCommunication"]) -> None:
         """
         Set authentication with validation.
-        
+
         Args:
             value: The authentication to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -8691,10 +8691,10 @@ class SecuredIPdu(IPdu):
     def dynamic(self, value: Optional[Boolean]) -> None:
         """
         Set dynamic with validation.
-        
+
         Args:
             value: The dynamic to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -8719,10 +8719,10 @@ class SecuredIPdu(IPdu):
     def freshness_props(self, value: Optional["SecureCommunication"]) -> None:
         """
         Set freshnessProps with validation.
-        
+
         Args:
             value: The freshnessProps to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -8747,10 +8747,10 @@ class SecuredIPdu(IPdu):
     def payload(self, value: Optional[RefType]) -> None:
         """
         Set payload with validation.
-        
+
         Args:
             value: The payload to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -8771,10 +8771,10 @@ class SecuredIPdu(IPdu):
     def secure(self, value: Optional["SecureCommunication"]) -> None:
         """
         Set secure with validation.
-        
+
         Args:
             value: The secure to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -8805,10 +8805,10 @@ class SecuredIPdu(IPdu):
     def use_as(self, value: Optional[Boolean]) -> None:
         """
         Set useAs with validation.
-        
+
         Args:
             value: The useAs to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -8837,10 +8837,10 @@ class SecuredIPdu(IPdu):
     def use_secured_pdu(self, value: Optional["SecuredPduHeader"]) -> None:
         """
         Set useSecuredPdu with validation.
-        
+
         Args:
             value: The useSecuredPdu to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -8859,10 +8859,10 @@ class SecuredIPdu(IPdu):
     def getAuthentication(self) -> "SecureCommunication":
         """
         AUTOSAR-compliant getter for authentication.
-        
+
         Returns:
             The authentication value
-        
+
         Note:
             Delegates to authentication property (CODING_RULE_V2_00017)
         """
@@ -8871,13 +8871,13 @@ class SecuredIPdu(IPdu):
     def setAuthentication(self, value: "SecureCommunication") -> SecuredIPdu:
         """
         AUTOSAR-compliant setter for authentication with method chaining.
-        
+
         Args:
             value: The authentication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to authentication property setter (gets validation automatically)
         """
@@ -8887,10 +8887,10 @@ class SecuredIPdu(IPdu):
     def getDynamic(self) -> Boolean:
         """
         AUTOSAR-compliant getter for dynamic.
-        
+
         Returns:
             The dynamic value
-        
+
         Note:
             Delegates to dynamic property (CODING_RULE_V2_00017)
         """
@@ -8899,13 +8899,13 @@ class SecuredIPdu(IPdu):
     def setDynamic(self, value: Boolean) -> SecuredIPdu:
         """
         AUTOSAR-compliant setter for dynamic with method chaining.
-        
+
         Args:
             value: The dynamic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dynamic property setter (gets validation automatically)
         """
@@ -8915,10 +8915,10 @@ class SecuredIPdu(IPdu):
     def getFreshnessProps(self) -> "SecureCommunication":
         """
         AUTOSAR-compliant getter for freshnessProps.
-        
+
         Returns:
             The freshnessProps value
-        
+
         Note:
             Delegates to freshness_props property (CODING_RULE_V2_00017)
         """
@@ -8927,13 +8927,13 @@ class SecuredIPdu(IPdu):
     def setFreshnessProps(self, value: "SecureCommunication") -> SecuredIPdu:
         """
         AUTOSAR-compliant setter for freshnessProps with method chaining.
-        
+
         Args:
             value: The freshnessProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to freshness_props property setter (gets validation automatically)
         """
@@ -8943,10 +8943,10 @@ class SecuredIPdu(IPdu):
     def getPayload(self) -> RefType:
         """
         AUTOSAR-compliant getter for payload.
-        
+
         Returns:
             The payload value
-        
+
         Note:
             Delegates to payload property (CODING_RULE_V2_00017)
         """
@@ -8955,13 +8955,13 @@ class SecuredIPdu(IPdu):
     def setPayload(self, value: RefType) -> SecuredIPdu:
         """
         AUTOSAR-compliant setter for payload with method chaining.
-        
+
         Args:
             value: The payload to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to payload property setter (gets validation automatically)
         """
@@ -8971,10 +8971,10 @@ class SecuredIPdu(IPdu):
     def getSecure(self) -> "SecureCommunication":
         """
         AUTOSAR-compliant getter for secure.
-        
+
         Returns:
             The secure value
-        
+
         Note:
             Delegates to secure property (CODING_RULE_V2_00017)
         """
@@ -8983,13 +8983,13 @@ class SecuredIPdu(IPdu):
     def setSecure(self, value: "SecureCommunication") -> SecuredIPdu:
         """
         AUTOSAR-compliant setter for secure with method chaining.
-        
+
         Args:
             value: The secure to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to secure property setter (gets validation automatically)
         """
@@ -8999,10 +8999,10 @@ class SecuredIPdu(IPdu):
     def getUseAs(self) -> Boolean:
         """
         AUTOSAR-compliant getter for useAs.
-        
+
         Returns:
             The useAs value
-        
+
         Note:
             Delegates to use_as property (CODING_RULE_V2_00017)
         """
@@ -9011,13 +9011,13 @@ class SecuredIPdu(IPdu):
     def setUseAs(self, value: Boolean) -> SecuredIPdu:
         """
         AUTOSAR-compliant setter for useAs with method chaining.
-        
+
         Args:
             value: The useAs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to use_as property setter (gets validation automatically)
         """
@@ -9027,10 +9027,10 @@ class SecuredIPdu(IPdu):
     def getUseSecuredPdu(self) -> "SecuredPduHeader":
         """
         AUTOSAR-compliant getter for useSecuredPdu.
-        
+
         Returns:
             The useSecuredPdu value
-        
+
         Note:
             Delegates to use_secured_pdu property (CODING_RULE_V2_00017)
         """
@@ -9039,13 +9039,13 @@ class SecuredIPdu(IPdu):
     def setUseSecuredPdu(self, value: "SecuredPduHeader") -> SecuredIPdu:
         """
         AUTOSAR-compliant setter for useSecuredPdu with method chaining.
-        
+
         Args:
             value: The useSecuredPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to use_secured_pdu property setter (gets validation automatically)
         """
@@ -9057,13 +9057,13 @@ class SecuredIPdu(IPdu):
     def with_authentication(self, value: Optional["SecureCommunication"]) -> SecuredIPdu:
         """
         Set authentication and return self for chaining.
-        
+
         Args:
             value: The authentication to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_authentication("value")
         """
@@ -9073,13 +9073,13 @@ class SecuredIPdu(IPdu):
     def with_dynamic(self, value: Optional[Boolean]) -> SecuredIPdu:
         """
         Set dynamic and return self for chaining.
-        
+
         Args:
             value: The dynamic to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dynamic("value")
         """
@@ -9089,13 +9089,13 @@ class SecuredIPdu(IPdu):
     def with_freshness_props(self, value: Optional["SecureCommunication"]) -> SecuredIPdu:
         """
         Set freshnessProps and return self for chaining.
-        
+
         Args:
             value: The freshnessProps to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_freshness_props("value")
         """
@@ -9105,13 +9105,13 @@ class SecuredIPdu(IPdu):
     def with_payload(self, value: Optional[RefType]) -> SecuredIPdu:
         """
         Set payload and return self for chaining.
-        
+
         Args:
             value: The payload to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_payload("value")
         """
@@ -9121,13 +9121,13 @@ class SecuredIPdu(IPdu):
     def with_secure(self, value: Optional["SecureCommunication"]) -> SecuredIPdu:
         """
         Set secure and return self for chaining.
-        
+
         Args:
             value: The secure to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_secure("value")
         """
@@ -9137,13 +9137,13 @@ class SecuredIPdu(IPdu):
     def with_use_as(self, value: Optional[Boolean]) -> SecuredIPdu:
         """
         Set useAs and return self for chaining.
-        
+
         Args:
             value: The useAs to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_use_as("value")
         """
@@ -9153,13 +9153,13 @@ class SecuredIPdu(IPdu):
     def with_use_secured_pdu(self, value: Optional["SecuredPduHeader"]) -> SecuredIPdu:
         """
         Set useSecuredPdu and return self for chaining.
-        
+
         Args:
             value: The useSecuredPdu to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_use_secured_pdu("value")
         """
@@ -9197,9 +9197,9 @@ class MultiplexedIPdu(IPdu):
     Extract/Ecu Extract. To support this use case the multiplicity is set to
     0..1. (cid:53) 409 of 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate
     System Template AUTOSAR CP R23-11 (cid:52)
-    
+
     Package: M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::MultiplexedIPdu
-    
+
     Sources:
       - AUTOSAR_CP_TPS_SystemTemplate.pdf (Page 408, Classic Platform R23-11)
     """
@@ -9229,10 +9229,10 @@ class MultiplexedIPdu(IPdu):
     def dynamic_part(self, value: Optional[DynamicPart]) -> None:
         """
         Set dynamicPart with validation.
-        
+
         Args:
             value: The dynamicPart to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -9258,10 +9258,10 @@ class MultiplexedIPdu(IPdu):
     def selector_field(self, value: Optional[Integer]) -> None:
         """
         Set selectorField with validation.
-        
+
         Args:
             value: The selectorField to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -9294,10 +9294,10 @@ class MultiplexedIPdu(IPdu):
     def unused_bit(self, value: Optional[Integer]) -> None:
         """
         Set unusedBit with validation.
-        
+
         Args:
             value: The unusedBit to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -9316,10 +9316,10 @@ class MultiplexedIPdu(IPdu):
     def getDynamicPart(self) -> DynamicPart:
         """
         AUTOSAR-compliant getter for dynamicPart.
-        
+
         Returns:
             The dynamicPart value
-        
+
         Note:
             Delegates to dynamic_part property (CODING_RULE_V2_00017)
         """
@@ -9328,13 +9328,13 @@ class MultiplexedIPdu(IPdu):
     def setDynamicPart(self, value: DynamicPart) -> MultiplexedIPdu:
         """
         AUTOSAR-compliant setter for dynamicPart with method chaining.
-        
+
         Args:
             value: The dynamicPart to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to dynamic_part property setter (gets validation automatically)
         """
@@ -9344,10 +9344,10 @@ class MultiplexedIPdu(IPdu):
     def getSelectorField(self) -> Integer:
         """
         AUTOSAR-compliant getter for selectorField.
-        
+
         Returns:
             The selectorField value
-        
+
         Note:
             Delegates to selector_field property (CODING_RULE_V2_00017)
         """
@@ -9356,13 +9356,13 @@ class MultiplexedIPdu(IPdu):
     def setSelectorField(self, value: Integer) -> MultiplexedIPdu:
         """
         AUTOSAR-compliant setter for selectorField with method chaining.
-        
+
         Args:
             value: The selectorField to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to selector_field property setter (gets validation automatically)
         """
@@ -9372,10 +9372,10 @@ class MultiplexedIPdu(IPdu):
     def getUnusedBit(self) -> Integer:
         """
         AUTOSAR-compliant getter for unusedBit.
-        
+
         Returns:
             The unusedBit value
-        
+
         Note:
             Delegates to unused_bit property (CODING_RULE_V2_00017)
         """
@@ -9384,13 +9384,13 @@ class MultiplexedIPdu(IPdu):
     def setUnusedBit(self, value: Integer) -> MultiplexedIPdu:
         """
         AUTOSAR-compliant setter for unusedBit with method chaining.
-        
+
         Args:
             value: The unusedBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to unused_bit property setter (gets validation automatically)
         """
@@ -9402,13 +9402,13 @@ class MultiplexedIPdu(IPdu):
     def with_dynamic_part(self, value: Optional[DynamicPart]) -> MultiplexedIPdu:
         """
         Set dynamicPart and return self for chaining.
-        
+
         Args:
             value: The dynamicPart to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_dynamic_part("value")
         """
@@ -9418,13 +9418,13 @@ class MultiplexedIPdu(IPdu):
     def with_selector_field(self, value: Optional[Integer]) -> MultiplexedIPdu:
         """
         Set selectorField and return self for chaining.
-        
+
         Args:
             value: The selectorField to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_selector_field("value")
         """
@@ -9434,13 +9434,13 @@ class MultiplexedIPdu(IPdu):
     def with_unused_bit(self, value: Optional[Integer]) -> MultiplexedIPdu:
         """
         Set unusedBit and return self for chaining.
-        
+
         Args:
             value: The unusedBit to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_unused_bit("value")
         """

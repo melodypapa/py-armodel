@@ -27,9 +27,9 @@ class List(Paginateable):
     """
     This meta-class represents the ability to express a list. The kind of list
     is specified in the attribute.
-    
+
     Package: M2::MSR::Documentation::BlockElements::ListElements::List
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 295, Foundation
       R23-11)
@@ -53,10 +53,10 @@ class List(Paginateable):
     def item(self, value: Item) -> None:
         """
         Set item with validation.
-        
+
         Args:
             value: The item to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -77,10 +77,10 @@ class List(Paginateable):
     def type(self, value: Optional[RefType]) -> None:
         """
         Set type with validation.
-        
+
         Args:
             value: The type to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -95,10 +95,10 @@ class List(Paginateable):
     def getItem(self) -> Item:
         """
         AUTOSAR-compliant getter for item.
-        
+
         Returns:
             The item value
-        
+
         Note:
             Delegates to item property (CODING_RULE_V2_00017)
         """
@@ -107,13 +107,13 @@ class List(Paginateable):
     def setItem(self, value: Item) -> List:
         """
         AUTOSAR-compliant setter for item with method chaining.
-        
+
         Args:
             value: The item to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to item property setter (gets validation automatically)
         """
@@ -123,10 +123,10 @@ class List(Paginateable):
     def getType(self) -> RefType:
         """
         AUTOSAR-compliant getter for type.
-        
+
         Returns:
             The type value
-        
+
         Note:
             Delegates to type property (CODING_RULE_V2_00017)
         """
@@ -135,13 +135,13 @@ class List(Paginateable):
     def setType(self, value: RefType) -> List:
         """
         AUTOSAR-compliant setter for type with method chaining.
-        
+
         Args:
             value: The type to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to type property setter (gets validation automatically)
         """
@@ -153,13 +153,13 @@ class List(Paginateable):
     def with_item(self, value: Item) -> List:
         """
         Set item and return self for chaining.
-        
+
         Args:
             value: The item to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_item("value")
         """
@@ -169,13 +169,13 @@ class List(Paginateable):
     def with_type(self, value: Optional[RefType]) -> List:
         """
         Set type and return self for chaining.
-        
+
         Args:
             value: The type to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_type("value")
         """
@@ -187,9 +187,9 @@ class List(Paginateable):
 class Item(Paginateable):
     """
     This meta-class represents one particular item in a list.
-    
+
     Package: M2::MSR::Documentation::BlockElements::ListElements::Item
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 295, Foundation
       R23-11)
@@ -212,10 +212,10 @@ class Item(Paginateable):
     def item_contents(self, value: "DocumentationBlock") -> None:
         """
         Set itemContents with validation.
-        
+
         Args:
             value: The itemContents to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -230,10 +230,10 @@ class Item(Paginateable):
     def getItemContents(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for itemContents.
-        
+
         Returns:
             The itemContents value
-        
+
         Note:
             Delegates to item_contents property (CODING_RULE_V2_00017)
         """
@@ -242,13 +242,13 @@ class Item(Paginateable):
     def setItemContents(self, value: "DocumentationBlock") -> Item:
         """
         AUTOSAR-compliant setter for itemContents with method chaining.
-        
+
         Args:
             value: The itemContents to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to item_contents property setter (gets validation automatically)
         """
@@ -260,13 +260,13 @@ class Item(Paginateable):
     def with_item_contents(self, value: "DocumentationBlock") -> Item:
         """
         Set itemContents and return self for chaining.
-        
+
         Args:
             value: The itemContents to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_item_contents("value")
         """
@@ -280,9 +280,9 @@ class LabeledList(Paginateable):
     This meta-class represents a labeled list, in which items have a label and a
     content. The policy how to render such items is specified in the labeled
     list.
-    
+
     Package: M2::MSR::Documentation::BlockElements::ListElements::LabeledList
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 296, Foundation
       R23-11)
@@ -308,10 +308,10 @@ class LabeledList(Paginateable):
     def indent_sample(self, value: Optional[IndentSample]) -> None:
         """
         Set indentSample with validation.
-        
+
         Args:
             value: The indentSample to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -335,10 +335,10 @@ class LabeledList(Paginateable):
     def labeled_item_label(self, value: LabeledItem) -> None:
         """
         Set labeledItemLabel with validation.
-        
+
         Args:
             value: The labeledItemLabel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -353,10 +353,10 @@ class LabeledList(Paginateable):
     def getIndentSample(self) -> IndentSample:
         """
         AUTOSAR-compliant getter for indentSample.
-        
+
         Returns:
             The indentSample value
-        
+
         Note:
             Delegates to indent_sample property (CODING_RULE_V2_00017)
         """
@@ -365,13 +365,13 @@ class LabeledList(Paginateable):
     def setIndentSample(self, value: IndentSample) -> LabeledList:
         """
         AUTOSAR-compliant setter for indentSample with method chaining.
-        
+
         Args:
             value: The indentSample to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to indent_sample property setter (gets validation automatically)
         """
@@ -381,10 +381,10 @@ class LabeledList(Paginateable):
     def getLabeledItemLabel(self) -> LabeledItem:
         """
         AUTOSAR-compliant getter for labeledItemLabel.
-        
+
         Returns:
             The labeledItemLabel value
-        
+
         Note:
             Delegates to labeled_item_label property (CODING_RULE_V2_00017)
         """
@@ -393,13 +393,13 @@ class LabeledList(Paginateable):
     def setLabeledItemLabel(self, value: LabeledItem) -> LabeledList:
         """
         AUTOSAR-compliant setter for labeledItemLabel with method chaining.
-        
+
         Args:
             value: The labeledItemLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to labeled_item_label property setter (gets validation automatically)
         """
@@ -411,13 +411,13 @@ class LabeledList(Paginateable):
     def with_indent_sample(self, value: Optional[IndentSample]) -> LabeledList:
         """
         Set indentSample and return self for chaining.
-        
+
         Args:
             value: The indentSample to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_indent_sample("value")
         """
@@ -427,13 +427,13 @@ class LabeledList(Paginateable):
     def with_labeled_item_label(self, value: LabeledItem) -> LabeledList:
         """
         Set labeledItemLabel and return self for chaining.
-        
+
         Args:
             value: The labeledItemLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_labeled_item_label("value")
         """
@@ -445,9 +445,9 @@ class LabeledList(Paginateable):
 class LabeledItem(Paginateable):
     """
     this represents an item of a labeled list.
-    
+
     Package: M2::MSR::Documentation::BlockElements::ListElements::LabeledItem
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 296, Foundation
       R23-11)
@@ -470,10 +470,10 @@ class LabeledItem(Paginateable):
     def help_entry(self, value: Optional[String]) -> None:
         """
         Set helpEntry with validation.
-        
+
         Args:
             value: The helpEntry to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -499,10 +499,10 @@ class LabeledItem(Paginateable):
     def item_contents(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set itemContents with validation.
-        
+
         Args:
             value: The itemContents to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -528,10 +528,10 @@ class LabeledItem(Paginateable):
     def item_label(self, value: "MultiLanguageOverview") -> None:
         """
         Set itemLabel with validation.
-        
+
         Args:
             value: The itemLabel to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -546,10 +546,10 @@ class LabeledItem(Paginateable):
     def getHelpEntry(self) -> String:
         """
         AUTOSAR-compliant getter for helpEntry.
-        
+
         Returns:
             The helpEntry value
-        
+
         Note:
             Delegates to help_entry property (CODING_RULE_V2_00017)
         """
@@ -558,13 +558,13 @@ class LabeledItem(Paginateable):
     def setHelpEntry(self, value: String) -> LabeledItem:
         """
         AUTOSAR-compliant setter for helpEntry with method chaining.
-        
+
         Args:
             value: The helpEntry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to help_entry property setter (gets validation automatically)
         """
@@ -574,10 +574,10 @@ class LabeledItem(Paginateable):
     def getItemContents(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for itemContents.
-        
+
         Returns:
             The itemContents value
-        
+
         Note:
             Delegates to item_contents property (CODING_RULE_V2_00017)
         """
@@ -586,13 +586,13 @@ class LabeledItem(Paginateable):
     def setItemContents(self, value: "DocumentationBlock") -> LabeledItem:
         """
         AUTOSAR-compliant setter for itemContents with method chaining.
-        
+
         Args:
             value: The itemContents to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to item_contents property setter (gets validation automatically)
         """
@@ -602,10 +602,10 @@ class LabeledItem(Paginateable):
     def getItemLabel(self) -> "MultiLanguageOverview":
         """
         AUTOSAR-compliant getter for itemLabel.
-        
+
         Returns:
             The itemLabel value
-        
+
         Note:
             Delegates to item_label property (CODING_RULE_V2_00017)
         """
@@ -614,13 +614,13 @@ class LabeledItem(Paginateable):
     def setItemLabel(self, value: "MultiLanguageOverview") -> LabeledItem:
         """
         AUTOSAR-compliant setter for itemLabel with method chaining.
-        
+
         Args:
             value: The itemLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to item_label property setter (gets validation automatically)
         """
@@ -632,13 +632,13 @@ class LabeledItem(Paginateable):
     def with_help_entry(self, value: Optional[String]) -> LabeledItem:
         """
         Set helpEntry and return self for chaining.
-        
+
         Args:
             value: The helpEntry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_help_entry("value")
         """
@@ -648,13 +648,13 @@ class LabeledItem(Paginateable):
     def with_item_contents(self, value: Optional["DocumentationBlock"]) -> LabeledItem:
         """
         Set itemContents and return self for chaining.
-        
+
         Args:
             value: The itemContents to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_item_contents("value")
         """
@@ -664,13 +664,13 @@ class LabeledItem(Paginateable):
     def with_item_label(self, value: "MultiLanguageOverview") -> LabeledItem:
         """
         Set itemLabel and return self for chaining.
-        
+
         Args:
             value: The itemLabel to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_item_label("value")
         """
@@ -684,9 +684,9 @@ class IndentSample(ARObject):
     This represents the ability to specify indentation of a labeled list by
     providing a sample content. This content can be measured by the rendering
     system in order to determine the width of indentation.
-    
+
     Package: M2::MSR::Documentation::BlockElements::ListElements::IndentSample
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 297, Foundation
       R23-11)
@@ -708,10 +708,10 @@ class IndentSample(ARObject):
     def item_label_pos(self, value: Optional[ItemLabelPosEnum]) -> None:
         """
         Set itemLabelPos with validation.
-        
+
         Args:
             value: The itemLabelPos to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -734,10 +734,10 @@ class IndentSample(ARObject):
     def l2(self, value: LOverviewParagraph) -> None:
         """
         Set l2 with validation.
-        
+
         Args:
             value: The l2 to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -752,10 +752,10 @@ class IndentSample(ARObject):
     def getItemLabelPos(self) -> ItemLabelPosEnum:
         """
         AUTOSAR-compliant getter for itemLabelPos.
-        
+
         Returns:
             The itemLabelPos value
-        
+
         Note:
             Delegates to item_label_pos property (CODING_RULE_V2_00017)
         """
@@ -764,13 +764,13 @@ class IndentSample(ARObject):
     def setItemLabelPos(self, value: ItemLabelPosEnum) -> IndentSample:
         """
         AUTOSAR-compliant setter for itemLabelPos with method chaining.
-        
+
         Args:
             value: The itemLabelPos to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to item_label_pos property setter (gets validation automatically)
         """
@@ -780,10 +780,10 @@ class IndentSample(ARObject):
     def getL2(self) -> LOverviewParagraph:
         """
         AUTOSAR-compliant getter for l2.
-        
+
         Returns:
             The l2 value
-        
+
         Note:
             Delegates to l2 property (CODING_RULE_V2_00017)
         """
@@ -792,13 +792,13 @@ class IndentSample(ARObject):
     def setL2(self, value: LOverviewParagraph) -> IndentSample:
         """
         AUTOSAR-compliant setter for l2 with method chaining.
-        
+
         Args:
             value: The l2 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to l2 property setter (gets validation automatically)
         """
@@ -810,13 +810,13 @@ class IndentSample(ARObject):
     def with_item_label_pos(self, value: Optional[ItemLabelPosEnum]) -> IndentSample:
         """
         Set itemLabelPos and return self for chaining.
-        
+
         Args:
             value: The itemLabelPos to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_item_label_pos("value")
         """
@@ -826,13 +826,13 @@ class IndentSample(ARObject):
     def with_l2(self, value: LOverviewParagraph) -> IndentSample:
         """
         Set l2 and return self for chaining.
-        
+
         Args:
             value: The l2 to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_l2("value")
         """
@@ -846,9 +846,9 @@ class DefList(Paginateable):
     This meta-class represents the ability to express a list of definitions.
     Note that a definition list might be rendered similar to a labeled list but
     has a particular semantics to denote definitions.
-    
+
     Package: M2::MSR::Documentation::BlockElements::ListElements::DefList
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 297, Foundation
       R23-11)
@@ -869,10 +869,10 @@ class DefList(Paginateable):
     def def_item(self, value: DefItem) -> None:
         """
         Set defItem with validation.
-        
+
         Args:
             value: The defItem to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -887,10 +887,10 @@ class DefList(Paginateable):
     def getDefItem(self) -> DefItem:
         """
         AUTOSAR-compliant getter for defItem.
-        
+
         Returns:
             The defItem value
-        
+
         Note:
             Delegates to def_item property (CODING_RULE_V2_00017)
         """
@@ -899,13 +899,13 @@ class DefList(Paginateable):
     def setDefItem(self, value: DefItem) -> DefList:
         """
         AUTOSAR-compliant setter for defItem with method chaining.
-        
+
         Args:
             value: The defItem to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to def_item property setter (gets validation automatically)
         """
@@ -917,13 +917,13 @@ class DefList(Paginateable):
     def with_def_item(self, value: DefItem) -> DefList:
         """
         Set defItem and return self for chaining.
-        
+
         Args:
             value: The defItem to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_def_item("value")
         """
@@ -936,9 +936,9 @@ class DefItem(Paginateable):
     """
     This represents an entry in a definition list. The defined item is specified
     using shortName and longName.
-    
+
     Package: M2::MSR::Documentation::BlockElements::ListElements::DefItem
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 298, Foundation
       R23-11)
@@ -959,10 +959,10 @@ class DefItem(Paginateable):
     def definition(self, value: "DocumentationBlock") -> None:
         """
         Set definition with validation.
-        
+
         Args:
             value: The definition to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -985,10 +985,10 @@ class DefItem(Paginateable):
     def help_entry(self, value: Optional[String]) -> None:
         """
         Set helpEntry with validation.
-        
+
         Args:
             value: The helpEntry to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -1007,10 +1007,10 @@ class DefItem(Paginateable):
     def getDef(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for def.
-        
+
         Returns:
             The definition value
-        
+
         Note:
             Delegates to definition property (CODING_RULE_V2_00017)
         """
@@ -1019,13 +1019,13 @@ class DefItem(Paginateable):
     def setDefinition(self, value: "DocumentationBlock") -> DefItem:
         """
         AUTOSAR-compliant setter for definition with method chaining.
-        
+
         Args:
             value: The definition to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to definition property setter (gets validation automatically)
         """
@@ -1035,10 +1035,10 @@ class DefItem(Paginateable):
     def getHelpEntry(self) -> String:
         """
         AUTOSAR-compliant getter for helpEntry.
-        
+
         Returns:
             The helpEntry value
-        
+
         Note:
             Delegates to help_entry property (CODING_RULE_V2_00017)
         """
@@ -1047,13 +1047,13 @@ class DefItem(Paginateable):
     def setHelpEntry(self, value: String) -> DefItem:
         """
         AUTOSAR-compliant setter for helpEntry with method chaining.
-        
+
         Args:
             value: The helpEntry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to help_entry property setter (gets validation automatically)
         """
@@ -1065,13 +1065,13 @@ class DefItem(Paginateable):
     def with_def(self, value: "DocumentationBlock") -> DefItem:
         """
         Set def and return self for chaining.
-        
+
         Args:
             value: The def to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_def("value")
         """
@@ -1081,13 +1081,13 @@ class DefItem(Paginateable):
     def with_help_entry(self, value: Optional[String]) -> DefItem:
         """
         Set helpEntry and return self for chaining.
-        
+
         Args:
             value: The helpEntry to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_help_entry("value")
         """

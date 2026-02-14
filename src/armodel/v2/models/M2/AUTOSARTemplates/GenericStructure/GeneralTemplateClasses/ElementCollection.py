@@ -2,23 +2,14 @@
 AUTOSAR Package - ElementCollection
 
 Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ElementCollection
-
-DEVATION NOTE: This file has a circular import with ARPackage.py.
-Uses TYPE_CHECKING to resolve the circular dependency.
 """
 
-from __future__ import annotations
-
 from abc import ABC
-from typing import TYPE_CHECKING, List, Optional
+from typing import List, Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-
-if TYPE_CHECKING:
-    pass
-
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     Identifier,
@@ -46,7 +37,7 @@ class AutoCollectEnum(AREnum):
     # This indicates that non standard objects ([TPS_GST_00088]) referenced (recursively) by the objects mentioned directly in the collection are also considered to be part of the collection.
     refNonStandard = "2"
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__([
             AutoCollectEnum.refAll,
             AutoCollectEnum.refNone,
@@ -83,7 +74,7 @@ class CollectableElement(Identifiable, ABC):
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 399, Foundation
       R23-11)
     """
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is CollectableElement:
             raise TypeError("CollectableElement is an abstract class.")
         super().__init__()
@@ -115,7 +106,7 @@ class Collection(CollectableElement):
     DEVIATION: Does not inherit from ARElement due to circular import with ARPackage.py.
     ARElement inheritance is omitted to avoid circular dependency (see module docstring).
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
@@ -252,7 +243,7 @@ class Collection(CollectableElement):
         """
         return self.auto_collect  # Delegates to property
 
-    def setAutoCollect(self, value: Optional[AutoCollectEnum]) -> Collection:
+    def setAutoCollect(self, value: Optional[AutoCollectEnum]) -> "Collection":
         """
         AUTOSAR-compliant setter for autoCollect with method chaining.
 
@@ -280,7 +271,7 @@ class Collection(CollectableElement):
         """
         return self.collection  # Delegates to property
 
-    def setCollection(self, value: Optional[NameToken]) -> Collection:
+    def setCollection(self, value: Optional[NameToken]) -> "Collection":
         """
         AUTOSAR-compliant setter for collection with method chaining.
 
@@ -333,7 +324,7 @@ class Collection(CollectableElement):
         """
         return self.element_role  # Delegates to property
 
-    def setElementRole(self, value: Optional[Identifier]) -> Collection:
+    def setElementRole(self, value: Optional[Identifier]) -> "Collection":
         """
         AUTOSAR-compliant setter for elementRole with method chaining.
 
@@ -375,7 +366,7 @@ class Collection(CollectableElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_auto_collect(self, value: Optional[AutoCollectEnum]) -> Collection:
+    def with_auto_collect(self, value: Optional[AutoCollectEnum]) -> "Collection":
         """
         Set autoCollect and return self for chaining.
 
@@ -391,7 +382,7 @@ class Collection(CollectableElement):
         self.auto_collect = value  # Use property setter (gets validation)
         return self
 
-    def with_collection(self, value: Optional[NameToken]) -> Collection:
+    def with_collection(self, value: Optional[NameToken]) -> "Collection":
         """
         Set collection and return self for chaining.
 
@@ -407,7 +398,7 @@ class Collection(CollectableElement):
         self.collection = value  # Use property setter (gets validation)
         return self
 
-    def with_element_role(self, value: Optional[Identifier]) -> Collection:
+    def with_element_role(self, value: Optional[Identifier]) -> "Collection":
         """
         Set elementRole and return self for chaining.
 

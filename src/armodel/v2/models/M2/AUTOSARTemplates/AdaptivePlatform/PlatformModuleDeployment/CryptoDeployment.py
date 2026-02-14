@@ -520,3 +520,20 @@ class CryptoKeySlot(Identifiable):
         """
         self.slot_type = value  # Use property setter (gets validation)
         return self
+
+
+class CryptoKeySlotContent(Identifiable):
+    """
+    This meta-class represents the restriction of allowed usage of a key stored
+    to the slot.
+
+    Tags: atp.Status=candidate
+
+    Package: M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::CryptoDeployment::CryptoKeySlotContent
+
+    Sources:
+      - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 57, Foundation R23-11)
+    """
+
+    def __init__(self):
+        super().__init__()

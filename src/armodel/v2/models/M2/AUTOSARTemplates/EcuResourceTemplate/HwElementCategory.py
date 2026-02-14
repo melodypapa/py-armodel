@@ -7,17 +7,24 @@ Package: M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory
 
 from __future__ import annotations
 
-from typing import List, Optional
-
-from armodel.v2.models.M2.AUTOSARTemplates.EcuResourceTemplate.__init__ import (
-    HwDescriptionEntity,
+from typing import (
+    TYPE_CHECKING,
+    List,
+    Optional,
 )
+
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Referrable,
+)
+
+if TYPE_CHECKING:
+    pass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
@@ -353,7 +360,7 @@ class HwAttributeValue(ARObject):
 
 
 
-class HwType(HwDescriptionEntity):
+class HwType(Referrable):
     """
     This represents the ability to describe Hardware types on an abstract level.
     The particular types of hardware are distinguished by the category. This
@@ -370,6 +377,12 @@ class HwType(HwDescriptionEntity):
     """
     def __init__(self):
         super().__init__()
+        # Note: We need to import HwDescriptionEntity at runtime and initialize its properties
+        from armodel.v2.models.M2.AUTOSARTemplates.EcuResourceTemplate.__init__ import (
+            HwDescriptionEntity,
+        )
+        # Manually initialize HwDescriptionEntity properties
+        HwDescriptionEntity.__init__(self)
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
 

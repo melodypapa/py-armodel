@@ -7,8 +7,10 @@ Package: M2::MSR::Documentation::BlockElements
 
 from __future__ import annotations
 
-from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Any, Dict, List, Optional
+from typing import (
+    TYPE_CHECKING,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -18,9 +20,21 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     String,
     UriString,
 )
-from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import (
-    MultilanguageReferrable,
-)
+
+# TYPE_CHECKING block to resolve circular import
+# Reason: Identifiable.py imports DocumentationBlock from this file using TYPE_CHECKING,
+#         and this file needs MultilanguageReferrable from Identifiable.py
+# This creates a circular dependency at import time.
+# Solution: Import MultilanguageReferrable only for type checking, not at runtime.
+if TYPE_CHECKING:
+    from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+        MultilanguageReferrable,
+    )
+    from armodel.v2.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
+        MultiLanguageOverviewParagraph,
+        MultiLanguageParagraph,
+        MultiLanguageVerbatim,
+    )
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.Figure import (
     MlFigure,
 )
@@ -35,16 +49,29 @@ from armodel.v2.models.M2.MSR.Documentation.BlockElements.RequirementsTracing im
     Traceable,
     TraceableText,
 )
+from armodel.v2.models.M2.MSR.Documentation.MsrQuery import (
+    MsrQueryP2,
+)
 
-if TYPE_CHECKING:
-    from armodel.v2.models.M2.MSR.Documentation.MsrQuery import (
-        MsrQueryP2,
-    )
+
+# Helper functions to import classes at runtime for validation
+def _get_multi_language_paragraph_class():
     from armodel.v2.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
-        MultiLanguageOverviewParagraph,
         MultiLanguageParagraph,
+    )
+    return MultiLanguageParagraph
+
+def _get_multi_language_verbatim_class():
+    from armodel.v2.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
         MultiLanguageVerbatim,
     )
+    return MultiLanguageVerbatim
+
+def _get_multi_language_overview_paragraph_class():
+    from armodel.v2.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
+        MultiLanguageOverviewParagraph,
+    )
+    return MultiLanguageOverviewParagraph
 
 
 class DocumentationBlock(ARObject):
@@ -260,7 +287,7 @@ class DocumentationBlock(ARObject):
         self._note = value
         # This is one particular paragraph.
         # atpSplitable; atpVariation.
-        self._p: Optional[MultiLanguageParagraph] = None
+        self._p: Optional["MultiLanguageParagraph"] = None
 
     @property
     def p(self) -> Optional[MultiLanguageParagraph]:
@@ -268,7 +295,7 @@ class DocumentationBlock(ARObject):
         return self._p
 
     @p.setter
-    def p(self, value: Optional[MultiLanguageParagraph]) -> None:
+    def p(self, value: Optional["MultiLanguageParagraph"]) -> None:
         """
         Set p with validation.
 
@@ -349,7 +376,7 @@ class DocumentationBlock(ARObject):
         self._trace = value
         # This represents one particular verbatim text.
         # atpVariation.
-        self._verbatim: Optional[MultiLanguageVerbatim] = None
+        self._verbatim: Optional["MultiLanguageVerbatim"] = None
 
     @property
     def verbatim(self) -> Optional[MultiLanguageVerbatim]:
@@ -357,7 +384,7 @@ class DocumentationBlock(ARObject):
         return self._verbatim
 
     @verbatim.setter
-    def verbatim(self, value: Optional[MultiLanguageVerbatim]) -> None:
+    def verbatim(self, value: Optional["MultiLanguageVerbatim"]) -> None:
         """
         Set verbatim with validation.
 
@@ -575,7 +602,7 @@ class DocumentationBlock(ARObject):
         self.note = value  # Delegates to property setter
         return self
 
-    def getP(self) -> MultiLanguageParagraph:
+    def getP(self) -> "MultiLanguageParagraph":
         """
         AUTOSAR-compliant getter for p.
 
@@ -587,7 +614,7 @@ class DocumentationBlock(ARObject):
         """
         return self.p  # Delegates to property
 
-    def setP(self, value: MultiLanguageParagraph) -> DocumentationBlock:
+    def setP(self, value: "MultiLanguageParagraph") -> DocumentationBlock:
         """
         AUTOSAR-compliant setter for p with method chaining.
 
@@ -659,7 +686,7 @@ class DocumentationBlock(ARObject):
         self.trace = value  # Delegates to property setter
         return self
 
-    def getVerbatim(self) -> MultiLanguageVerbatim:
+    def getVerbatim(self) -> "MultiLanguageVerbatim":
         """
         AUTOSAR-compliant getter for verbatim.
 
@@ -671,7 +698,7 @@ class DocumentationBlock(ARObject):
         """
         return self.verbatim  # Delegates to property
 
-    def setVerbatim(self, value: MultiLanguageVerbatim) -> DocumentationBlock:
+    def setVerbatim(self, value: "MultiLanguageVerbatim") -> DocumentationBlock:
         """
         AUTOSAR-compliant setter for verbatim with method chaining.
 
@@ -801,7 +828,7 @@ class DocumentationBlock(ARObject):
         self.note = value  # Use property setter (gets validation)
         return self
 
-    def with_p(self, value: Optional[MultiLanguageParagraph]) -> DocumentationBlock:
+    def with_p(self, value: Optional["MultiLanguageParagraph"]) -> DocumentationBlock:
         """
         Set p and return self for chaining.
 
@@ -849,7 +876,7 @@ class DocumentationBlock(ARObject):
         self.trace = value  # Use property setter (gets validation)
         return self
 
-    def with_verbatim(self, value: Optional[MultiLanguageVerbatim]) -> DocumentationBlock:
+    def with_verbatim(self, value: Optional["MultiLanguageVerbatim"]) -> DocumentationBlock:
         """
         Set verbatim and return self for chaining.
 
@@ -867,7 +894,7 @@ class DocumentationBlock(ARObject):
 
 
 
-class Caption(MultilanguageReferrable):
+class Caption(ARObject):
     """
     This meta-class represents the ability to express a caption which is a
     title, and a shortName.
@@ -880,20 +907,26 @@ class Caption(MultilanguageReferrable):
     """
     def __init__(self):
         super().__init__()
+        # Note: We need to import MultilanguageReferrable at runtime and initialize its properties
+        from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+            MultilanguageReferrable,
+        )
+        # Manually initialize MultilanguageReferrable properties
+        MultilanguageReferrable.__init__(self)
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents a general but brief (one paragraph) what the object in
                 # question is about.
         # It is only This property helps a human reader to object in question.
-        self._desc: Optional[MultiLanguageOverviewParagraph] = None
+        self._desc: Optional["MultiLanguageOverviewParagraph"] = None
 
     @property
-    def desc(self) -> Optional[MultiLanguageOverviewParagraph]:
+    def desc(self) -> Optional["MultiLanguageOverviewParagraph"]:
         """Get desc (Pythonic accessor)."""
         return self._desc
 
     @desc.setter
-    def desc(self, value: Optional[MultiLanguageOverviewParagraph]) -> None:
+    def desc(self, value: Optional["MultiLanguageOverviewParagraph"]) -> None:
         """
         Set desc with validation.
 
@@ -915,7 +948,7 @@ class Caption(MultilanguageReferrable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDesc(self) -> MultiLanguageOverviewParagraph:
+    def getDesc(self) -> "MultiLanguageOverviewParagraph":
         """
         AUTOSAR-compliant getter for desc.
 
@@ -927,7 +960,7 @@ class Caption(MultilanguageReferrable):
         """
         return self.desc  # Delegates to property
 
-    def setDesc(self, value: MultiLanguageOverviewParagraph) -> Caption:
+    def setDesc(self, value: "MultiLanguageOverviewParagraph") -> Caption:
         """
         AUTOSAR-compliant setter for desc with method chaining.
 
@@ -945,7 +978,7 @@ class Caption(MultilanguageReferrable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_desc(self, value: Optional[MultiLanguageOverviewParagraph]) -> Caption:
+    def with_desc(self, value: Optional["MultiLanguageOverviewParagraph"]) -> Caption:
         """
         Set desc and return self for chaining.
 

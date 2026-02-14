@@ -10,6 +10,9 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
 
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import (
+    TimingCondition,
+)
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import (
     Traceable,
 )
@@ -18,7 +21,7 @@ from armodel.v2.models.M2.MSR.Documentation.BlockElements.RequirementsTracing im
 class TimingConstraint(Traceable, ABC):
     """
     The abstract parent class of different timing constraints supported by the
-    Timing extension. A concrete timing constraint is used to bound the timing
+    Timing extension. A concrete timing constraint is used to bound timing
     behavior of the model elements in its scope.
 
     Package: M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::TimingConstraint
@@ -26,23 +29,23 @@ class TimingConstraint(Traceable, ABC):
     Sources:
       - AUTOSAR_CP_TPS_TimingExtensions.pdf (Page 253, Classic Platform R23-11)
     """
-    def __init__(self):
+    def __init__(self) -> None:
         if type(self) is TimingConstraint:
             raise TypeError("TimingConstraint is an abstract class.")
         super().__init__()
 
-    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # A timing condition the timing constraint depends on.
         # In it specifies the condition the timing constraint.
-        self._timingCondition: Optional["TimingCondition"] = None
+        self._timingCondition: Optional[TimingCondition] = None
 
     @property
-    def timing_condition(self) -> Optional["TimingCondition"]:
+    def timing_condition(self) -> Optional[TimingCondition]:
         """Get timingCondition (Pythonic accessor)."""
         return self._timingCondition
 
     @timing_condition.setter
-    def timing_condition(self, value: Optional["TimingCondition"]) -> None:
+    def timing_condition(self, value: Optional[TimingCondition]) -> None:
         """
         Set timingCondition with validation.
 
@@ -64,7 +67,7 @@ class TimingConstraint(Traceable, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTimingCondition(self) -> "TimingCondition":
+    def getTimingCondition(self) -> Optional[TimingCondition]:
         """
         AUTOSAR-compliant getter for timingCondition.
 
@@ -76,7 +79,7 @@ class TimingConstraint(Traceable, ABC):
         """
         return self.timing_condition  # Delegates to property
 
-    def setTimingCondition(self, value: "TimingCondition") -> TimingConstraint:
+    def setTimingCondition(self, value: Optional[TimingCondition]) -> TimingConstraint:
         """
         AUTOSAR-compliant setter for timingCondition with method chaining.
 
@@ -94,7 +97,7 @@ class TimingConstraint(Traceable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_timing_condition(self, value: Optional["TimingCondition"]) -> TimingConstraint:
+    def with_timing_condition(self, value: Optional[TimingCondition]) -> TimingConstraint:
         """
         Set timingCondition and return self for chaining.
 
@@ -112,5 +115,5 @@ class TimingConstraint(Traceable, ABC):
 
 
 __all__ = [
-    TimingConstraint,
+    "TimingConstraint",
 ]

@@ -87,6 +87,7 @@ When the user runs this skill, perform the following steps iteratively:
 #### 9. Validate Changes
 - Run `ruff check` on the modified file
 - Run `mypy` on the modified file
+- Run `python scripts/check_v2_deviation.py` to verify no wrong location violations
 - Ensure no syntax errors
 - Fix any issues manually (no scripts)
 
@@ -120,7 +121,7 @@ Before committing or proceeding to next file, ensure:
 ```
 Skill: v2-model-refactor
 Skill: v2-model-refactor --start-file=ARPackage.py
-Skill: v2-model-refactor --max-iterations=50
+Skill: v2-model-refactor --max-iterations=500
 ```
 
 ## Arguments

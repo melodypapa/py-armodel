@@ -8,21 +8,25 @@ Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::General
 from __future__ import annotations
 
 from abc import ABC
-from typing import TYPE_CHECKING, Optional
+from typing import (
+    TYPE_CHECKING,
+    Optional,
+)
 
-if TYPE_CHECKING:
-    from armodel.v2.models.M2.MSR.Documentation.BlockElements import (
-        DocumentationBlock,
-    )
-    from armodel.v2.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
-        MultilanguageLongName,
-    )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     String,
 )
+from armodel.v2.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
+    MultilanguageLongName,
+)
+
+if TYPE_CHECKING:
+    from armodel.v2.models.M2.MSR.Documentation.BlockElements import (
+        DocumentationBlock,
+    )
 
 
 class GeneralAnnotation(ARObject, ABC):
@@ -76,15 +80,15 @@ class GeneralAnnotation(ARObject, ABC):
                 f"annotation must be String or str, got {type(value).__name__}"
             )
         self._annotation = value
-        self._annotationText: Optional[DocumentationBlock] = None
+        self._annotationText: Optional["DocumentationBlock"] = None
 
     @property
-    def annotation_text(self) -> Optional[DocumentationBlock]:
+    def annotation_text(self) -> Optional["DocumentationBlock"]:
         """Get annotationText (Pythonic accessor)."""
         return self._annotationText
 
     @annotation_text.setter
-    def annotation_text(self, value: Optional[DocumentationBlock]) -> None:
+    def annotation_text(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set annotationText with validation.
 
@@ -98,7 +102,7 @@ class GeneralAnnotation(ARObject, ABC):
             self._annotationText = None
             return
 
-        if not isinstance(value, DocumentationBlock):
+        if not isinstance(value, str) and not hasattr(value, '_defList'):
             raise TypeError(
                 f"annotationText must be DocumentationBlock or None, got {type(value).__name__}"
             )
@@ -163,7 +167,7 @@ class GeneralAnnotation(ARObject, ABC):
         self.annotation = value  # Delegates to property setter
         return self
 
-    def getAnnotationText(self) -> DocumentationBlock:
+    def getAnnotationText(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for annotationText.
 
@@ -175,7 +179,7 @@ class GeneralAnnotation(ARObject, ABC):
         """
         return self.annotation_text  # Delegates to property
 
-    def setAnnotationText(self, value: DocumentationBlock) -> GeneralAnnotation:
+    def setAnnotationText(self, value: "DocumentationBlock") -> GeneralAnnotation:
         """
         AUTOSAR-compliant setter for annotationText with method chaining.
 
@@ -191,7 +195,7 @@ class GeneralAnnotation(ARObject, ABC):
         self.annotation_text = value  # Delegates to property setter
         return self
 
-    def getLabel(self) -> "MultilanguageLong":
+    def getLabel(self) -> MultilanguageLongName:
         """
         AUTOSAR-compliant getter for label.
 
@@ -203,7 +207,7 @@ class GeneralAnnotation(ARObject, ABC):
         """
         return self.label  # Delegates to property
 
-    def setLabel(self, value: "MultilanguageLong") -> GeneralAnnotation:
+    def setLabel(self, value: MultilanguageLongName) -> GeneralAnnotation:
         """
         AUTOSAR-compliant setter for label with method chaining.
 
@@ -237,7 +241,7 @@ class GeneralAnnotation(ARObject, ABC):
         self.annotation = value  # Use property setter (gets validation)
         return self
 
-    def with_annotation_text(self, value: DocumentationBlock) -> GeneralAnnotation:
+    def with_annotation_text(self, value: "DocumentationBlock") -> GeneralAnnotation:
         """
         Set annotationText and return self for chaining.
 
@@ -253,7 +257,7 @@ class GeneralAnnotation(ARObject, ABC):
         self.annotation_text = value  # Use property setter (gets validation)
         return self
 
-    def with_label(self, value: Optional["MultilanguageLong"]) -> GeneralAnnotation:
+    def with_label(self, value: Optional[MultilanguageLongName]) -> GeneralAnnotation:
         """
         Set label and return self for chaining.
 

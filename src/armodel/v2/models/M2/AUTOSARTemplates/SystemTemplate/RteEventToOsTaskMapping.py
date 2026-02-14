@@ -19,6 +19,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     AREnum,
     Integer,
     PositiveInteger,
+    TimeValue,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import (
     RTEEvent,
 )
 
@@ -41,15 +44,15 @@ class OsTaskProxy(ARElement):
         # Please note that this informative and not directly relevant for the But the
                 # attribute value can be mapped OS configuration to support configuration work
                 # a fixed set of OsTasks.
-        self._period: Optional["TimeValue"] = None
+        self._period: Optional[TimeValue] = None
 
     @property
-    def period(self) -> Optional["TimeValue"]:
+    def period(self) -> Optional[TimeValue]:
         """Get period (Pythonic accessor)."""
         return self._period
 
     @period.setter
-    def period(self, value: Optional["TimeValue"]) -> None:
+    def period(self, value: Optional[TimeValue]) -> None:
         """
         Set period with validation.
 
@@ -68,15 +71,15 @@ class OsTaskProxy(ARElement):
                 f"period must be TimeValue or None, got {type(value).__name__}"
             )
         self._period = value
-        self._preemptability: Optional["OsTaskPreemptability"] = None
+        self._preemptability: Optional[OsTaskPreemptabilityEnum] = None
 
     @property
-    def preemptability(self) -> Optional["OsTaskPreemptability"]:
+    def preemptability(self) -> Optional[OsTaskPreemptabilityEnum]:
         """Get preemptability (Pythonic accessor)."""
         return self._preemptability
 
     @preemptability.setter
-    def preemptability(self, value: Optional["OsTaskPreemptability"]) -> None:
+    def preemptability(self, value: Optional[OsTaskPreemptabilityEnum]) -> None:
         """
         Set preemptability with validation.
 
@@ -90,9 +93,9 @@ class OsTaskProxy(ARElement):
             self._preemptability = None
             return
 
-        if not isinstance(value, OsTaskPreemptability):
+        if not isinstance(value, OsTaskPreemptabilityEnum):
             raise TypeError(
-                f"preemptability must be OsTaskPreemptability or None, got {type(value).__name__}"
+                f"preemptability must be OsTaskPreemptabilityEnum or None, got {type(value).__name__}"
             )
         self._preemptability = value
         # only the relative ordering of.
@@ -126,7 +129,7 @@ class OsTaskProxy(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getPeriod(self) -> "TimeValue":
+    def getPeriod(self) -> TimeValue:
         """
         AUTOSAR-compliant getter for period.
 
@@ -138,7 +141,7 @@ class OsTaskProxy(ARElement):
         """
         return self.period  # Delegates to property
 
-    def setPeriod(self, value: "TimeValue") -> OsTaskProxy:
+    def setPeriod(self, value: TimeValue) -> OsTaskProxy:
         """
         AUTOSAR-compliant setter for period with method chaining.
 
@@ -154,7 +157,7 @@ class OsTaskProxy(ARElement):
         self.period = value  # Delegates to property setter
         return self
 
-    def getPreemptability(self) -> "OsTaskPreemptability":
+    def getPreemptability(self) -> OsTaskPreemptabilityEnum:
         """
         AUTOSAR-compliant getter for preemptability.
 
@@ -166,7 +169,7 @@ class OsTaskProxy(ARElement):
         """
         return self.preemptability  # Delegates to property
 
-    def setPreemptability(self, value: "OsTaskPreemptability") -> OsTaskProxy:
+    def setPreemptability(self, value: OsTaskPreemptabilityEnum) -> OsTaskProxy:
         """
         AUTOSAR-compliant setter for preemptability with method chaining.
 
@@ -212,7 +215,7 @@ class OsTaskProxy(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_period(self, value: Optional["TimeValue"]) -> OsTaskProxy:
+    def with_period(self, value: Optional[TimeValue]) -> OsTaskProxy:
         """
         Set period and return self for chaining.
 
@@ -228,7 +231,7 @@ class OsTaskProxy(ARElement):
         self.period = value  # Use property setter (gets validation)
         return self
 
-    def with_preemptability(self, value: Optional["OsTaskPreemptability"]) -> OsTaskProxy:
+    def with_preemptability(self, value: Optional[OsTaskPreemptabilityEnum]) -> OsTaskProxy:
         """
         Set preemptability and return self for chaining.
 
@@ -576,15 +579,15 @@ class RteEventInCompositionToOsTaskProxyMapping(Identifiable):
                 f"osTaskProxy must be OsTaskProxy or None, got {type(value).__name__}"
             )
         self._osTaskProxy = value
-        self._rteEventInstanceRef: Optional["RTEEvent"] = None
+        self._rteEventInstanceRef: Optional[RTEEvent] = None
 
     @property
-    def rte_event_instance_ref(self) -> Optional["RTEEvent"]:
+    def rte_event_instance_ref(self) -> Optional[RTEEvent]:
         """Get rteEventInstanceRef (Pythonic accessor)."""
         return self._rteEventInstanceRef
 
     @rte_event_instance_ref.setter
-    def rte_event_instance_ref(self, value: Optional["RTEEvent"]) -> None:
+    def rte_event_instance_ref(self, value: Optional[RTEEvent]) -> None:
         """
         Set rteEventInstanceRef with validation.
 
@@ -724,7 +727,7 @@ class RteEventInCompositionToOsTaskProxyMapping(Identifiable):
         self.os_task_proxy = value  # Use property setter (gets validation)
         return self
 
-    def with_rte_event_instance_ref(self, value: Optional["RTEEvent"]) -> RteEventInCompositionToOsTaskProxyMapping:
+    def with_rte_event_instance_ref(self, value: Optional[RTEEvent]) -> RteEventInCompositionToOsTaskProxyMapping:
         """
         Set rteEventInstanceRef and return self for chaining.
 
@@ -759,16 +762,16 @@ class RteEventInCompositionSeparation(Identifiable):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # the same OsTask.
         # by: RteEventInComposition.
-        self._rteEventInstanceRef: List["RTEEvent"] = []
+        self._rteEventInstanceRef: List[RTEEvent] = []
 
     @property
-    def rte_event_instance_ref(self) -> List["RTEEvent"]:
+    def rte_event_instance_ref(self) -> List[RTEEvent]:
         """Get rteEventInstanceRef (Pythonic accessor)."""
         return self._rteEventInstanceRef
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getRteEventInstanceRef(self) -> List["RTEEvent"]:
+    def getRteEventInstanceRef(self) -> List[RTEEvent]:
         """
         AUTOSAR-compliant getter for rteEventInstanceRef.
 
@@ -860,15 +863,15 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
                 f"osTaskProxy must be OsTaskProxy or None, got {type(value).__name__}"
             )
         self._osTaskProxy = value
-        self._rteEventInstanceRef: Optional["RTEEvent"] = None
+        self._rteEventInstanceRef: Optional[RTEEvent] = None
 
     @property
-    def rte_event_instance_ref(self) -> Optional["RTEEvent"]:
+    def rte_event_instance_ref(self) -> Optional[RTEEvent]:
         """Get rteEventInstanceRef (Pythonic accessor)."""
         return self._rteEventInstanceRef
 
     @rte_event_instance_ref.setter
-    def rte_event_instance_ref(self, value: Optional["RTEEvent"]) -> None:
+    def rte_event_instance_ref(self, value: Optional[RTEEvent]) -> None:
         """
         Set rteEventInstanceRef with validation.
 
@@ -1008,7 +1011,7 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
         self.os_task_proxy = value  # Use property setter (gets validation)
         return self
 
-    def with_rte_event_instance_ref(self, value: Optional["RTEEvent"]) -> RteEventInSystemToOsTaskProxyMapping:
+    def with_rte_event_instance_ref(self, value: Optional[RTEEvent]) -> RteEventInSystemToOsTaskProxyMapping:
         """
         Set rteEventInstanceRef and return self for chaining.
 
@@ -1043,16 +1046,16 @@ class RteEventInSystemSeparation(Identifiable):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # the same OsTask.
         # by: RteEventInSystem.
-        self._rteEventInstanceRef: List["RTEEvent"] = []
+        self._rteEventInstanceRef: List[RTEEvent] = []
 
     @property
-    def rte_event_instance_ref(self) -> List["RTEEvent"]:
+    def rte_event_instance_ref(self) -> List[RTEEvent]:
         """Get rteEventInstanceRef (Pythonic accessor)."""
         return self._rteEventInstanceRef
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getRteEventInstanceRef(self) -> List["RTEEvent"]:
+    def getRteEventInstanceRef(self) -> List[RTEEvent]:
         """
         AUTOSAR-compliant getter for rteEventInstanceRef.
 

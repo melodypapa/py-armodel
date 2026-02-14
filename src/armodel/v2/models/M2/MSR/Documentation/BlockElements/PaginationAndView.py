@@ -24,9 +24,9 @@ class DocumentViewSelectable(ARObject, ABC):
     """
     This meta-class represents the ability to be dedicated to a particular
     audience or document view.
-    
+
     Package: M2::MSR::Documentation::BlockElements::PaginationAndView::DocumentViewSelectable
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 340, Foundation
       R23-11)
@@ -51,10 +51,10 @@ class DocumentViewSelectable(ARObject, ABC):
     def si(self, value: NameTokens) -> None:
         """
         Set si with validation.
-        
+
         Args:
             value: The si to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -75,10 +75,10 @@ class DocumentViewSelectable(ARObject, ABC):
     def view(self, value: Optional[ViewTokens]) -> None:
         """
         Set view with validation.
-        
+
         Args:
             value: The view to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -97,10 +97,10 @@ class DocumentViewSelectable(ARObject, ABC):
     def getSi(self) -> NameTokens:
         """
         AUTOSAR-compliant getter for si.
-        
+
         Returns:
             The si value
-        
+
         Note:
             Delegates to si property (CODING_RULE_V2_00017)
         """
@@ -109,13 +109,13 @@ class DocumentViewSelectable(ARObject, ABC):
     def setSi(self, value: NameTokens) -> DocumentViewSelectable:
         """
         AUTOSAR-compliant setter for si with method chaining.
-        
+
         Args:
             value: The si to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to si property setter (gets validation automatically)
         """
@@ -125,10 +125,10 @@ class DocumentViewSelectable(ARObject, ABC):
     def getView(self) -> ViewTokens:
         """
         AUTOSAR-compliant getter for view.
-        
+
         Returns:
             The view value
-        
+
         Note:
             Delegates to view property (CODING_RULE_V2_00017)
         """
@@ -137,13 +137,13 @@ class DocumentViewSelectable(ARObject, ABC):
     def setView(self, value: ViewTokens) -> DocumentViewSelectable:
         """
         AUTOSAR-compliant setter for view with method chaining.
-        
+
         Args:
             value: The view to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to view property setter (gets validation automatically)
         """
@@ -155,13 +155,13 @@ class DocumentViewSelectable(ARObject, ABC):
     def with_si(self, value: NameTokens) -> DocumentViewSelectable:
         """
         Set si and return self for chaining.
-        
+
         Args:
             value: The si to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_si("value")
         """
@@ -171,13 +171,13 @@ class DocumentViewSelectable(ARObject, ABC):
     def with_view(self, value: Optional[ViewTokens]) -> DocumentViewSelectable:
         """
         Set view and return self for chaining.
-        
+
         Args:
             value: The view to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_view("value")
         """
@@ -190,9 +190,9 @@ class Paginateable(DocumentViewSelectable, ABC):
     """
     This meta-class represents the ability to control the pagination policy when
     creating documents.
-    
+
     Package: M2::MSR::Documentation::BlockElements::PaginationAndView::Paginateable
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 339, Foundation
       R23-11)
@@ -248,10 +248,10 @@ class Paginateable(DocumentViewSelectable, ABC):
     def keep_with(self, value: Optional[KeepWithPreviousEnum]) -> None:
         """
         Set keepWith with validation.
-        
+
         Args:
             value: The keepWith to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -270,10 +270,10 @@ class Paginateable(DocumentViewSelectable, ABC):
     def getBreak(self) -> ChapterEnumBreak:
         """
         AUTOSAR-compliant getter for break.
-        
+
         Returns:
             The break value
-        
+
         Note:
             Delegates to break property (CODING_RULE_V2_00017)
         """
@@ -282,13 +282,13 @@ class Paginateable(DocumentViewSelectable, ABC):
     def setBreak(self, value: ChapterEnumBreak) -> Paginateable:
         """
         AUTOSAR-compliant setter for break with method chaining.
-        
+
         Args:
             value: The break to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to break property setter (gets validation automatically)
         """
@@ -298,10 +298,10 @@ class Paginateable(DocumentViewSelectable, ABC):
     def getKeepWith(self) -> KeepWithPreviousEnum:
         """
         AUTOSAR-compliant getter for keepWith.
-        
+
         Returns:
             The keepWith value
-        
+
         Note:
             Delegates to keep_with property (CODING_RULE_V2_00017)
         """
@@ -310,13 +310,13 @@ class Paginateable(DocumentViewSelectable, ABC):
     def setKeepWith(self, value: KeepWithPreviousEnum) -> Paginateable:
         """
         AUTOSAR-compliant setter for keepWith with method chaining.
-        
+
         Args:
             value: The keepWith to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to keep_with property setter (gets validation automatically)
         """
@@ -328,13 +328,13 @@ class Paginateable(DocumentViewSelectable, ABC):
     def with_break(self, value: Optional[ChapterEnumBreak]) -> Paginateable:
         """
         Set break and return self for chaining.
-        
+
         Args:
             value: The break to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_break("value")
         """
@@ -344,13 +344,13 @@ class Paginateable(DocumentViewSelectable, ABC):
     def with_keep_with(self, value: Optional[KeepWithPreviousEnum]) -> Paginateable:
         """
         Set keepWith and return self for chaining.
-        
+
         Args:
             value: The keepWith to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_keep_with("value")
         """

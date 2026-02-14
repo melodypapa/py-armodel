@@ -7,7 +7,11 @@ Package: M2::MSR::Documentation::MsrQuery
 
 from __future__ import annotations
 
-from typing import List, Optional
+from typing import (
+    TYPE_CHECKING,
+    List,
+    Optional,
+)
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -16,9 +20,6 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     NameToken,
     String,
 )
-from armodel.v2.models.M2.MSR.Documentation.BlockElements import (
-    DocumentationBlock,
-)
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.PaginationAndView import (
     Paginateable,
 )
@@ -26,6 +27,11 @@ from armodel.v2.models.M2.MSR.Documentation.Chapters import (
     Chapter,
     TopicContent,
 )
+
+if TYPE_CHECKING:
+    from armodel.v2.models.M2.MSR.Documentation.BlockElements import (
+        DocumentationBlock,
+    )
 
 
 class MsrQueryP1(Paginateable):
@@ -991,12 +997,12 @@ class MsrQueryP2(ARObject):
         self._msrQueryResult: Optional[DocumentationBlock] = None
 
     @property
-    def msr_query_result(self) -> Optional[DocumentationBlock]:
+    def msr_query_result(self) -> Optional["DocumentationBlock"]:
         """Get msrQueryResult (Pythonic accessor)."""
         return self._msrQueryResult
 
     @msr_query_result.setter
-    def msr_query_result(self, value: Optional[DocumentationBlock]) -> None:
+    def msr_query_result(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set msrQueryResult with validation.
 
@@ -1043,7 +1049,7 @@ class MsrQueryP2(ARObject):
         self.msr_query_props = value  # Delegates to property setter
         return self
 
-    def getMsrQueryResult(self) -> DocumentationBlock:
+    def getMsrQueryResult(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for msrQueryResult.
 
@@ -1055,7 +1061,7 @@ class MsrQueryP2(ARObject):
         """
         return self.msr_query_result  # Delegates to property
 
-    def setMsrQueryResult(self, value: DocumentationBlock) -> MsrQueryP2:
+    def setMsrQueryResult(self, value: "DocumentationBlock") -> MsrQueryP2:
         """
         AUTOSAR-compliant setter for msrQueryResult with method chaining.
 
@@ -1089,7 +1095,7 @@ class MsrQueryP2(ARObject):
         self.msr_query_props = value  # Use property setter (gets validation)
         return self
 
-    def with_msr_query_result(self, value: Optional[DocumentationBlock]) -> MsrQueryP2:
+    def with_msr_query_result(self, value: Optional["DocumentationBlock"]) -> MsrQueryP2:
         """
         Set msrQueryResult and return self for chaining.
 

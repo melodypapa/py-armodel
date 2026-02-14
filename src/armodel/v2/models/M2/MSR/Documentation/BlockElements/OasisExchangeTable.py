@@ -7,7 +7,7 @@ Package: M2::MSR::Documentation::BlockElements::OasisExchangeTable
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, List, Optional
+from typing import List, Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -23,10 +23,56 @@ from armodel.v2.models.M2.MSR.Documentation.BlockElements.PaginationAndView impo
     Paginateable,
 )
 
-if TYPE_CHECKING:
-    from armodel.v2.models.M2.MSR.Documentation.BlockElements import (
-        Caption,
-    )
+
+class OrientEnum(AREnum):
+    """
+    Enumeration for table orientation.
+
+    Package: M2::MSR::Documentation::BlockElements::OasisExchangeTable::OrientEnum
+
+    Values:
+        LANDSCAPE: Table in landscape orientation
+        PORTRAIT: Table in portrait orientation
+    """
+    LANDSCAPE = "landscape"
+    PORTRAIT = "portrait"
+
+
+class FloatEnum(AREnum):
+    """
+    This enumerator specifies the policy how an objects floats on a page.
+
+    Package: M2::MSR::Documentation::BlockElements::OasisExchangeTable::FloatEnum
+
+    Sources:
+      - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 333, Foundation
+      R23-11)
+
+    Values:
+        FLOAT: A page formatter is allowed to float the table to optimize pagination
+        NO_FLOAT: A page formatter is not allowed to float the object to optimize pagination
+    """
+    FLOAT = "float"
+    NO_FLOAT = "noFloat"
+
+
+class PgwideEnum(AREnum):
+    """
+    This enumerator specifies, if the table shall be rendered across the entire
+    page, even if it is placed in side-head layouts.
+
+    Package: M2::MSR::Documentation::BlockElements::OasisExchangeTable::PgwideEnum
+
+    Sources:
+      - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 348, Foundation
+      R23-11)
+
+    Values:
+        NO_PGWIDE: The table shall be fit in the current text flow
+        PGWIDE: The table may use the entire page width
+    """
+    NO_PGWIDE = "noPgwide"
+    PGWIDE = "pgwide"
 
 
 class Table(Paginateable):
@@ -153,15 +199,15 @@ class Table(Paginateable):
             )
         self._helpEntry = value
         # : landscape : portrait.
-        self._orient: Optional["OrientEnum"] = None
+        self._orient: Optional[OrientEnum] = None
 
     @property
-    def orient(self) -> Optional["OrientEnum"]:
+    def orient(self) -> Optional[OrientEnum]:
         """Get orient (Pythonic accessor)."""
         return self._orient
 
     @orient.setter
-    def orient(self, value: Optional["OrientEnum"]) -> None:
+    def orient(self, value: Optional[OrientEnum]) -> None:
         """
         Set orient with validation.
 
@@ -235,15 +281,15 @@ class Table(Paginateable):
                 f"rowsep must be TableSeparatorString or None, got {type(value).__name__}"
             )
         self._rowsep = value
-        self._tableCaption: Optional["Caption"] = None
+        self._tableCaption: Optional[Caption] = None
 
     @property
-    def table_caption(self) -> Optional["Caption"]:
+    def table_caption(self) -> Optional[Caption]:
         """Get tableCaption (Pythonic accessor)."""
         return self._tableCaption
 
     @table_caption.setter
-    def table_caption(self, value: Optional["Caption"]) -> None:
+    def table_caption(self, value: Optional[Caption]) -> None:
         """
         Set tableCaption with validation.
 
@@ -257,14 +303,10 @@ class Table(Paginateable):
             self._tableCaption = None
             return
 
-        if TYPE_CHECKING:
-            from armodel.v2.models.M2.MSR.Documentation.BlockElements import (
-                Caption,
+        if not isinstance(value, Caption):
+            raise TypeError(
+                f"tableCaption must be Caption or None, got {type(value).__name__}"
             )
-            if not isinstance(value, Caption):
-                raise TypeError(
-                    f"tableCaption must be Caption or None, got {type(value).__name__}"
-                )
         self._tableCaption = value
         # Tgroup 1.
         # * aggr A table can be built of individual segments.
@@ -427,7 +469,7 @@ class Table(Paginateable):
         self.help_entry = value  # Delegates to property setter
         return self
 
-    def getOrient(self) -> "OrientEnum":
+    def getOrient(self) -> OrientEnum:
         """
         AUTOSAR-compliant getter for orient.
 
@@ -439,7 +481,7 @@ class Table(Paginateable):
         """
         return self.orient  # Delegates to property
 
-    def setOrient(self, value: "OrientEnum") -> Table:
+    def setOrient(self, value: OrientEnum) -> Table:
         """
         AUTOSAR-compliant setter for orient with method chaining.
 
@@ -511,7 +553,7 @@ class Table(Paginateable):
         self.rowsep = value  # Delegates to property setter
         return self
 
-    def getTableCaption(self) -> "Caption":
+    def getTableCaption(self) -> Caption:
         """
         AUTOSAR-compliant getter for tableCaption.
 
@@ -523,7 +565,7 @@ class Table(Paginateable):
         """
         return self.table_caption  # Delegates to property
 
-    def setTableCaption(self, value: "Caption") -> Table:
+    def setTableCaption(self, value: Caption) -> Table:
         """
         AUTOSAR-compliant setter for tableCaption with method chaining.
 
@@ -633,7 +675,7 @@ class Table(Paginateable):
         self.help_entry = value  # Use property setter (gets validation)
         return self
 
-    def with_orient(self, value: Optional["OrientEnum"]) -> Table:
+    def with_orient(self, value: Optional[OrientEnum]) -> Table:
         """
         Set orient and return self for chaining.
 
@@ -681,7 +723,7 @@ class Table(Paginateable):
         self.rowsep = value  # Use property setter (gets validation)
         return self
 
-    def with_table_caption(self, value: Optional["Caption"]) -> Table:
+    def with_table_caption(self, value: Optional[Caption]) -> Table:
         """
         Set tableCaption and return self for chaining.
 
@@ -1633,15 +1675,15 @@ class Entry(ARObject):
                 f"colsep must be TableSeparatorString or None, got {type(value).__name__}"
             )
         self._colsep = value
-        self._entryContents: "DocumentationBlock" = None
+        self._entryContents: DocumentationBlock = None
 
     @property
-    def entry_contents(self) -> "DocumentationBlock":
+    def entry_contents(self) -> DocumentationBlock:
         """Get entryContents (Pythonic accessor)."""
         return self._entryContents
 
     @entry_contents.setter
-    def entry_contents(self, value: "DocumentationBlock") -> None:
+    def entry_contents(self, value: DocumentationBlock) -> None:
         """
         Set entryContents with validation.
 
@@ -1964,7 +2006,7 @@ class Entry(ARObject):
         self.colsep = value  # Delegates to property setter
         return self
 
-    def getEntryContents(self) -> "DocumentationBlock":
+    def getEntryContents(self) -> DocumentationBlock:
         """
         AUTOSAR-compliant getter for entryContents.
 
@@ -1976,7 +2018,7 @@ class Entry(ARObject):
         """
         return self.entry_contents  # Delegates to property
 
-    def setEntryContents(self, value: "DocumentationBlock") -> Entry:
+    def setEntryContents(self, value: DocumentationBlock) -> Entry:
         """
         AUTOSAR-compliant setter for entryContents with method chaining.
 
@@ -2254,7 +2296,7 @@ class Entry(ARObject):
         self.colsep = value  # Use property setter (gets validation)
         return self
 
-    def with_entry_contents(self, value: "DocumentationBlock") -> Entry:
+    def with_entry_contents(self, value: DocumentationBlock) -> Entry:
         """
         Set entryContents and return self for chaining.
 
@@ -2842,22 +2884,6 @@ class Colspec(ARObject):
         return self
 
 
-class FloatEnum(AREnum):
-    """
-    FloatEnum enumeration
-
-This enumerator specifies the policy how an objects floats on a page. Aggregated by MultiLanguageVerbatim.float, Table.float
-
-Package: M2::MSR::Documentation::BlockElements::OasisExchangeTable
-    """
-    # This indicates that a page formatter is allowed to float the table to optimize the pagination. This is for example supported by TeX.
-    float = "0"
-
-    # This indicates that a page formatter is not allowed to float the object to optimize the pagination.
-    noFloat = "1"
-
-
-
 class FrameEnum(AREnum):
     """
     FrameEnum enumeration
@@ -2921,28 +2947,6 @@ Package: M2::MSR::Documentation::BlockElements::OasisExchangeTable
 
     # The contents of the table cell is top aligned.
     top = "2"
-
-
-
-class PgwideEnum(AREnum):
-    """
-    PgwideEnum enumeration
-
-This enumerator specifies, if the table shall be rendered across the entire page, even if it is placed in side-head layouts. Aggregated by MlFigure.pgwide, MultiLanguageVerbatim.pgwide
-
-Package: M2::MSR::Documentation::BlockElements::OasisExchangeTable
-    """
-    # This indicates that the table shall be fit in the current text flow.
-    noPgwide = "0"
-
-    # Structure Template
-    Generic = "None"
-
-    # FO R23-11
-    AUTOSAR = "None"
-
-    # This indicates that the table may use the entire page width. This is in particular important in case of so called "side-head layouts" but also if the table is in a list or in a note.
-    pgwide = "1"
 
 
 

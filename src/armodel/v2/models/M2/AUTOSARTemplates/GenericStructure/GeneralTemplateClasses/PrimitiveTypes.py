@@ -5,7 +5,6 @@ in the GenericStructure module.
 V2 Implementation:
 - Absolute imports only
 - String annotations for forward references
-- TYPE_CHECKING used for circular imports (deviates from CODING_RULE_V2_00002 due to circular dependencies)
 
 Compatible with V1 API.
 """
@@ -18,7 +17,6 @@ from abc import (
     abstractmethod,
 )
 from typing import (
-    TYPE_CHECKING,
     Any,
     List,
     Optional,

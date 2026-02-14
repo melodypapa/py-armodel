@@ -24,9 +24,9 @@ class LLongName(ARObject):
     """
     MixedContentForLongNames in one particular language. The language is denoted
     in the attribute l.
-    
+
     Package: M2::MSR::Documentation::TextModel::LanguageDataModel::LLongName
-    
+
     Sources:
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 179, Classic Platform
       R23-11)
@@ -49,10 +49,10 @@ class LLongName(ARObject):
     def blueprint_value(self, value: Optional[String]) -> None:
         """
         Set blueprintValue with validation.
-        
+
         Args:
             value: The blueprintValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -71,10 +71,10 @@ class LLongName(ARObject):
     def getBlueprintValue(self) -> String:
         """
         AUTOSAR-compliant getter for blueprintValue.
-        
+
         Returns:
             The blueprintValue value
-        
+
         Note:
             Delegates to blueprint_value property (CODING_RULE_V2_00017)
         """
@@ -83,13 +83,13 @@ class LLongName(ARObject):
     def setBlueprintValue(self, value: String) -> LLongName:
         """
         AUTOSAR-compliant setter for blueprintValue with method chaining.
-        
+
         Args:
             value: The blueprintValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to blueprint_value property setter (gets validation automatically)
         """
@@ -101,13 +101,13 @@ class LLongName(ARObject):
     def with_blueprint_value(self, value: Optional[String]) -> LLongName:
         """
         Set blueprintValue and return self for chaining.
-        
+
         Args:
             value: The blueprintValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_blueprint_value("value")
         """
@@ -121,9 +121,9 @@ class WhitespaceControlled(ARObject, ABC):
     This meta-class represents the ability to control the white-space handling
     e.g. in xml serialization. This is implemented by adding the attribute
     "space".
-    
+
     Package: M2::MSR::Documentation::TextModel::LanguageDataModel::WhitespaceControlled
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 292, Foundation
       R23-11)
@@ -147,10 +147,10 @@ class WhitespaceControlled(ARObject, ABC):
     def xml_space(self, value: XmlSpaceEnum) -> None:
         """
         Set xmlSpace with validation.
-        
+
         Args:
             value: The xmlSpace to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -165,10 +165,10 @@ class WhitespaceControlled(ARObject, ABC):
     def getXmlSpace(self) -> XmlSpaceEnum:
         """
         AUTOSAR-compliant getter for xmlSpace.
-        
+
         Returns:
             The xmlSpace value
-        
+
         Note:
             Delegates to xml_space property (CODING_RULE_V2_00017)
         """
@@ -177,13 +177,13 @@ class WhitespaceControlled(ARObject, ABC):
     def setXmlSpace(self, value: XmlSpaceEnum) -> WhitespaceControlled:
         """
         AUTOSAR-compliant setter for xmlSpace with method chaining.
-        
+
         Args:
             value: The xmlSpace to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to xml_space property setter (gets validation automatically)
         """
@@ -195,13 +195,13 @@ class WhitespaceControlled(ARObject, ABC):
     def with_xml_space(self, value: XmlSpaceEnum) -> WhitespaceControlled:
         """
         Set xmlSpace and return self for chaining.
-        
+
         Args:
             value: The xmlSpace to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_xml_space("value")
         """
@@ -214,9 +214,9 @@ class LVerbatim(ARObject):
     """
     MixedContentForVerbatim in one particular language. The language is denoted
     in the attribute l.
-    
+
     Package: M2::MSR::Documentation::TextModel::LanguageDataModel::LVerbatim
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 347, Foundation
       R23-11)
@@ -236,9 +236,9 @@ class LOverviewParagraph(ARObject):
     """
     MixedContentForOverviewParagraph in one particular language. The language is
     denoted in the attribute l.
-    
+
     Package: M2::MSR::Documentation::TextModel::LanguageDataModel::LOverviewParagraph
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 348, Foundation
       R23-11)
@@ -260,10 +260,10 @@ class LOverviewParagraph(ARObject):
     def blueprint_value(self, value: Optional[String]) -> None:
         """
         Set blueprintValue with validation.
-        
+
         Args:
             value: The blueprintValue to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -282,10 +282,10 @@ class LOverviewParagraph(ARObject):
     def getBlueprintValue(self) -> String:
         """
         AUTOSAR-compliant getter for blueprintValue.
-        
+
         Returns:
             The blueprintValue value
-        
+
         Note:
             Delegates to blueprint_value property (CODING_RULE_V2_00017)
         """
@@ -294,13 +294,13 @@ class LOverviewParagraph(ARObject):
     def setBlueprintValue(self, value: String) -> LOverviewParagraph:
         """
         AUTOSAR-compliant setter for blueprintValue with method chaining.
-        
+
         Args:
             value: The blueprintValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to blueprint_value property setter (gets validation automatically)
         """
@@ -312,13 +312,13 @@ class LOverviewParagraph(ARObject):
     def with_blueprint_value(self, value: Optional[String]) -> LOverviewParagraph:
         """
         Set blueprintValue and return self for chaining.
-        
+
         Args:
             value: The blueprintValue to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_blueprint_value("value")
         """
@@ -331,9 +331,9 @@ class LParagraph(ARObject):
     """
     This is the text for a paragraph in one particular language. The language is
     denoted in the attribute l.
-    
+
     Package: M2::MSR::Documentation::TextModel::LanguageDataModel::LParagraph
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 348, Foundation
       R23-11)
@@ -353,9 +353,9 @@ class LPlainText(ARObject):
     """
     This represents plain string in one particular language. The language is
     denoted in the attribute l.
-    
+
     Package: M2::MSR::Documentation::TextModel::LanguageDataModel::LPlainText
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 349, Foundation
       R23-11)
@@ -375,9 +375,9 @@ class LanguageSpecific(ARObject, ABC):
     """
     This meta-class represents the ability to denote a particular language for
     which an object is applicable.
-    
+
     Package: M2::MSR::Documentation::TextModel::LanguageDataModel::LanguageSpecific
-    
+
     Sources:
       - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 350, Foundation
       R23-11)
@@ -402,10 +402,10 @@ class LanguageSpecific(ARObject, ABC):
     def l(self, value: LEnum) -> None:
         """
         Set l with validation.
-        
+
         Args:
             value: The l to set
-        
+
         Raises:
             TypeError: If value type is incorrect
         """
@@ -420,10 +420,10 @@ class LanguageSpecific(ARObject, ABC):
     def getL(self) -> LEnum:
         """
         AUTOSAR-compliant getter for l.
-        
+
         Returns:
             The l value
-        
+
         Note:
             Delegates to l property (CODING_RULE_V2_00017)
         """
@@ -432,13 +432,13 @@ class LanguageSpecific(ARObject, ABC):
     def setL(self, value: LEnum) -> LanguageSpecific:
         """
         AUTOSAR-compliant setter for l with method chaining.
-        
+
         Args:
             value: The l to set
-        
+
         Returns:
             self for method chaining
-        
+
         Note:
             Delegates to l property setter (gets validation automatically)
         """
@@ -450,13 +450,13 @@ class LanguageSpecific(ARObject, ABC):
     def with_l(self, value: LEnum) -> LanguageSpecific:
         """
         Set l and return self for chaining.
-        
+
         Args:
             value: The l to set
-        
+
         Returns:
             self for method chaining
-        
+
         Example:
             >>> obj.with_l("value")
         """
