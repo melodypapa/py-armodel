@@ -21,6 +21,8 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     AREnum,
     PositiveInteger,
     RefType,
+)
+from armodel.v2.models.M2.MSR.DataDictionary.AuxillaryObjects import (
     SwAddrMethod,
 )
 

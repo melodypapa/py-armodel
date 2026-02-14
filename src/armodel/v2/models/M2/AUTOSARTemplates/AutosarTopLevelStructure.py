@@ -20,9 +20,7 @@ from armodel.v2.models.M2.MSR.AsamHdo.SpecialData import (
     Sdg,
 )
 from armodel.v2.models.M2.MSR.Documentation.BlockElements import (
-    AUTOSAR,
     DocumentationBlock,
-    FileInfoComment,
 )
 
 __all__ = [
@@ -265,7 +263,7 @@ class AUTOSAR(ARObject):
         """
         return self.admin_data  # Delegates to property
 
-    def setAdminData(self, value: AdminData) -> AUTOSAR:
+    def setAdminData(self, value: AdminData) -> "AUTOSAR":
         """
         AUTOSAR-compliant setter for adminData with method chaining.
     
@@ -293,7 +291,7 @@ class AUTOSAR(ARObject):
         """
         return self.ar_package  # Delegates to property
 
-    def getFileInfo(self) -> FileInfoComment:
+    def getFileInfo(self) -> "FileInfoComment":
         """
         AUTOSAR-compliant getter for fileInfo.
     
@@ -305,7 +303,7 @@ class AUTOSAR(ARObject):
         """
         return self.file_info  # Delegates to property
 
-    def setFileInfo(self, value: FileInfoComment) -> AUTOSAR:
+    def setFileInfo(self, value: "FileInfoComment") -> "AUTOSAR":
         """
         AUTOSAR-compliant setter for fileInfo with method chaining.
     
@@ -333,7 +331,7 @@ class AUTOSAR(ARObject):
         """
         return self.introduction  # Delegates to property
 
-    def setIntroduction(self, value: DocumentationBlock) -> AUTOSAR:
+    def setIntroduction(self, value: DocumentationBlock) -> "AUTOSAR":
         """
         AUTOSAR-compliant setter for introduction with method chaining.
     
@@ -350,7 +348,7 @@ class AUTOSAR(ARObject):
         return self
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_admin_data(self, value: Optional[AdminData]) -> AUTOSAR:
+    def with_admin_data(self, value: Optional[AdminData]) -> "AUTOSAR":
         """
         Set adminData and return self for chaining.
 
@@ -366,7 +364,7 @@ class AUTOSAR(ARObject):
         self.admin_data = value  # Use property setter (gets validation)
         return self
 
-    def with_file_info(self, value: Optional["FileInfoComment"]) -> AUTOSAR:
+    def with_file_info(self, value: Optional["FileInfoComment"]) -> "AUTOSAR":
         """
         Set fileInfo and return self for chaining.
 
@@ -382,7 +380,7 @@ class AUTOSAR(ARObject):
         self.file_info = value  # Use property setter (gets validation)
         return self
 
-    def with_introduction(self, value: Optional[DocumentationBlock]) -> AUTOSAR:
+    def with_introduction(self, value: Optional[DocumentationBlock]) -> "AUTOSAR":
         """
         Set introduction and return self for chaining.
 

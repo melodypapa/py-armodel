@@ -23,10 +23,10 @@ else:
         MultilanguageReferrable,
     )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    DateTime,
     String,
 )
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.PaginationAndView import (
-    DateTime,
     Paginateable,
 )
 

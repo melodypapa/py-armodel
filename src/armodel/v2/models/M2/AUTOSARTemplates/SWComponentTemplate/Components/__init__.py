@@ -21,8 +21,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
-    HwDescriptionEntity,
     RefType,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.EcuResourceTemplate import (
+    HwDescriptionEntity,
 )
 
 

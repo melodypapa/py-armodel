@@ -7,7 +7,7 @@ Package: M2::MSR::Documentation::BlockElements::OasisExchangeTable
 
 from __future__ import annotations
 
-from typing import List, Optional
+from typing import TYPE_CHECKING, List, Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -19,12 +19,14 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     NameToken,
     String,
 )
-from armodel.v2.models.M2.MSR.Documentation.BlockElements import (
-    Caption,
-)
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.PaginationAndView import (
     Paginateable,
 )
+
+if TYPE_CHECKING:
+    from armodel.v2.models.M2.MSR.Documentation.BlockElements import (
+        Caption,
+    )
 
 
 class Table(Paginateable):
@@ -233,15 +235,15 @@ class Table(Paginateable):
                 f"rowsep must be TableSeparatorString or None, got {type(value).__name__}"
             )
         self._rowsep = value
-        self._tableCaption: Optional[Caption] = None
+        self._tableCaption: Optional["Caption"] = None
 
     @property
-    def table_caption(self) -> Optional[Caption]:
+    def table_caption(self) -> Optional["Caption"]:
         """Get tableCaption (Pythonic accessor)."""
         return self._tableCaption
 
     @table_caption.setter
-    def table_caption(self, value: Optional[Caption]) -> None:
+    def table_caption(self, value: Optional["Caption"]) -> None:
         """
         Set tableCaption with validation.
 
@@ -255,10 +257,14 @@ class Table(Paginateable):
             self._tableCaption = None
             return
 
-        if not isinstance(value, Caption):
-            raise TypeError(
-                f"tableCaption must be Caption or None, got {type(value).__name__}"
+        if TYPE_CHECKING:
+            from armodel.v2.models.M2.MSR.Documentation.BlockElements import (
+                Caption,
             )
+            if not isinstance(value, Caption):
+                raise TypeError(
+                    f"tableCaption must be Caption or None, got {type(value).__name__}"
+                )
         self._tableCaption = value
         # Tgroup 1.
         # * aggr A table can be built of individual segments.
@@ -505,7 +511,7 @@ class Table(Paginateable):
         self.rowsep = value  # Delegates to property setter
         return self
 
-    def getTableCaption(self) -> Caption:
+    def getTableCaption(self) -> "Caption":
         """
         AUTOSAR-compliant getter for tableCaption.
 
@@ -517,7 +523,7 @@ class Table(Paginateable):
         """
         return self.table_caption  # Delegates to property
 
-    def setTableCaption(self, value: Caption) -> Table:
+    def setTableCaption(self, value: "Caption") -> Table:
         """
         AUTOSAR-compliant setter for tableCaption with method chaining.
 
@@ -675,7 +681,7 @@ class Table(Paginateable):
         self.rowsep = value  # Use property setter (gets validation)
         return self
 
-    def with_table_caption(self, value: Optional[Caption]) -> Table:
+    def with_table_caption(self, value: Optional["Caption"]) -> Table:
         """
         Set tableCaption and return self for chaining.
 
