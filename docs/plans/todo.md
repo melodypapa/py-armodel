@@ -64,5 +64,6 @@ grep -r 'import \*' src/armodel/v2/models/M2/ | wc -l
 
 ### Quality Improvements
 - [ ] Reduce MyPy errors from 6348 to <1000
-- [x] Eliminate trailing whitespace issues (completed 2026-02-14, 2,896 fixes)
 - [ ] Resolve duplicate module errors
+
+(Note: Trailing whitespace issues completed 2026-02-14, 2,896 fixes)
