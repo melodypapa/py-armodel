@@ -6,14 +6,8 @@ Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ArObjec
 Manually maintained: Extended attributes support (CODING_RULE_V2_00014)
 """
 
-from __future__ import annotations
-
 from abc import ABC
 from typing import Any, Dict, Optional
-
-from models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    DateTime,
-)
 
 
 # Manually maintained: Base class marker to prevent regeneration
@@ -136,7 +130,7 @@ class ARObject(ABC):
         """
         return self.checksum  # Delegates to property
 
-    def setChecksum(self, value: "String") -> ARObject:
+    def setChecksum(self, value: "String") -> "ARObject":
         """
         AUTOSAR-compliant setter for checksum with method chaining.
 
@@ -152,7 +146,7 @@ class ARObject(ABC):
         self.checksum = value  # Delegates to property setter
         return self
 
-    def getTimestamp(self) -> DateTime:
+    def getTimestamp(self) -> "DateTime":
         """
         AUTOSAR-compliant getter for timestamp.
 
@@ -164,7 +158,7 @@ class ARObject(ABC):
         """
         return self.timestamp  # Delegates to property
 
-    def setTimestamp(self, value: DateTime) -> ARObject:
+    def setTimestamp(self, value: "DateTime") -> "ARObject":
         """
         AUTOSAR-compliant setter for timestamp with method chaining.
 
@@ -182,7 +176,7 @@ class ARObject(ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_checksum(self, value: Optional["String"]) -> ARObject:
+    def with_checksum(self, value: Optional["String"]) -> "ARObject":
         """
         Set checksum and return self for chaining.
 
@@ -198,7 +192,7 @@ class ARObject(ABC):
         self.checksum = value  # Use property setter (gets validation)
         return self
 
-    def with_timestamp(self, value: Optional["DateTime"]) -> ARObject:
+    def with_timestamp(self, value: Optional["DateTime"]) -> "ARObject":
         """
         Set timestamp and return self for chaining.
 

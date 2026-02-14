@@ -20,12 +20,14 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     NameToken,
     String,
 )
+from armodel.v2.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import (
+    PgwideEnum,
+)
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.PaginationAndView import (
     Paginateable,
 )
 from armodel.v2.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
     LanguageSpecific,
-    PgwideEnum,
 )
 
 
