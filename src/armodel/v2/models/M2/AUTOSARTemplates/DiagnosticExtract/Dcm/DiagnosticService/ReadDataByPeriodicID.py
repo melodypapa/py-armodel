@@ -324,15 +324,15 @@ class DiagnosticPeriodicRate(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the period of the DiagnosticPeriodicRate.
-        self._period: Optional[TimeValue] = None
+        self._period: Optional["TimeValue"] = None
 
     @property
-    def period(self) -> Optional[TimeValue]:
+    def period(self) -> Optional["TimeValue"]:
         """Get period (Pythonic accessor)."""
         return self._period
 
     @period.setter
-    def period(self, value: Optional[TimeValue]) -> None:
+    def period(self, value: Optional["TimeValue"]) -> None:
         """
         Set period with validation.
 
@@ -381,7 +381,7 @@ class DiagnosticPeriodicRate(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getPeriod(self) -> TimeValue:
+    def getPeriod(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for period.
 
@@ -393,7 +393,7 @@ class DiagnosticPeriodicRate(ARObject):
         """
         return self.period  # Delegates to property
 
-    def setPeriod(self, value: TimeValue) -> DiagnosticPeriodicRate:
+    def setPeriod(self, value: "TimeValue") -> DiagnosticPeriodicRate:
         """
         AUTOSAR-compliant setter for period with method chaining.
 
@@ -439,7 +439,7 @@ class DiagnosticPeriodicRate(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_period(self, value: Optional[TimeValue]) -> DiagnosticPeriodicRate:
+    def with_period(self, value: Optional["TimeValue"]) -> DiagnosticPeriodicRate:
         """
         Set period and return self for chaining.
 

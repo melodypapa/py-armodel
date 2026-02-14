@@ -7,7 +7,7 @@ Package: M2::MSR::Documentation::BlockElements::OasisExchangeTable
 
 from __future__ import annotations
 
-from typing import List, Optional
+from typing import TYPE_CHECKING, List, Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -19,12 +19,14 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     NameToken,
     String,
 )
-from armodel.v2.models.M2.MSR.Documentation.BlockElements import (
-    Caption,
-)
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.PaginationAndView import (
     Paginateable,
 )
+
+if TYPE_CHECKING:
+    from armodel.v2.models.M2.MSR.Documentation.BlockElements import (
+        Caption,
+    )
 
 
 class Table(Paginateable):
@@ -151,15 +153,15 @@ class Table(Paginateable):
             )
         self._helpEntry = value
         # : landscape : portrait.
-        self._orient: Optional[OrientEnum] = None
+        self._orient: Optional["OrientEnum"] = None
 
     @property
-    def orient(self) -> Optional[OrientEnum]:
+    def orient(self) -> Optional["OrientEnum"]:
         """Get orient (Pythonic accessor)."""
         return self._orient
 
     @orient.setter
-    def orient(self, value: Optional[OrientEnum]) -> None:
+    def orient(self, value: Optional["OrientEnum"]) -> None:
         """
         Set orient with validation.
 
@@ -233,15 +235,15 @@ class Table(Paginateable):
                 f"rowsep must be TableSeparatorString or None, got {type(value).__name__}"
             )
         self._rowsep = value
-        self._tableCaption: Optional[Caption] = None
+        self._tableCaption: Optional["Caption"] = None
 
     @property
-    def table_caption(self) -> Optional[Caption]:
+    def table_caption(self) -> Optional["Caption"]:
         """Get tableCaption (Pythonic accessor)."""
         return self._tableCaption
 
     @table_caption.setter
-    def table_caption(self, value: Optional[Caption]) -> None:
+    def table_caption(self, value: Optional["Caption"]) -> None:
         """
         Set tableCaption with validation.
 
@@ -255,10 +257,14 @@ class Table(Paginateable):
             self._tableCaption = None
             return
 
-        if not isinstance(value, Caption):
-            raise TypeError(
-                f"tableCaption must be Caption or None, got {type(value).__name__}"
+        if TYPE_CHECKING:
+            from armodel.v2.models.M2.MSR.Documentation.BlockElements import (
+                Caption,
             )
+            if not isinstance(value, Caption):
+                raise TypeError(
+                    f"tableCaption must be Caption or None, got {type(value).__name__}"
+                )
         self._tableCaption = value
         # Tgroup 1.
         # * aggr A table can be built of individual segments.
@@ -421,7 +427,7 @@ class Table(Paginateable):
         self.help_entry = value  # Delegates to property setter
         return self
 
-    def getOrient(self) -> OrientEnum:
+    def getOrient(self) -> "OrientEnum":
         """
         AUTOSAR-compliant getter for orient.
 
@@ -433,7 +439,7 @@ class Table(Paginateable):
         """
         return self.orient  # Delegates to property
 
-    def setOrient(self, value: OrientEnum) -> Table:
+    def setOrient(self, value: "OrientEnum") -> Table:
         """
         AUTOSAR-compliant setter for orient with method chaining.
 
@@ -449,7 +455,7 @@ class Table(Paginateable):
         self.orient = value  # Delegates to property setter
         return self
 
-    def getPgwide(self) -> "NameToken":
+    def getPgwide(self) -> NameToken:
         """
         AUTOSAR-compliant getter for pgwide.
 
@@ -461,7 +467,7 @@ class Table(Paginateable):
         """
         return self.pgwide  # Delegates to property
 
-    def setPgwide(self, value: "NameToken") -> Table:
+    def setPgwide(self, value: NameToken) -> Table:
         """
         AUTOSAR-compliant setter for pgwide with method chaining.
 
@@ -505,7 +511,7 @@ class Table(Paginateable):
         self.rowsep = value  # Delegates to property setter
         return self
 
-    def getTableCaption(self) -> Caption:
+    def getTableCaption(self) -> "Caption":
         """
         AUTOSAR-compliant getter for tableCaption.
 
@@ -517,7 +523,7 @@ class Table(Paginateable):
         """
         return self.table_caption  # Delegates to property
 
-    def setTableCaption(self, value: Caption) -> Table:
+    def setTableCaption(self, value: "Caption") -> Table:
         """
         AUTOSAR-compliant setter for tableCaption with method chaining.
 
@@ -533,7 +539,7 @@ class Table(Paginateable):
         self.table_caption = value  # Delegates to property setter
         return self
 
-    def getTabstyle(self) -> "NameToken":
+    def getTabstyle(self) -> NameToken:
         """
         AUTOSAR-compliant getter for tabstyle.
 
@@ -545,7 +551,7 @@ class Table(Paginateable):
         """
         return self.tabstyle  # Delegates to property
 
-    def setTabstyle(self, value: "NameToken") -> Table:
+    def setTabstyle(self, value: NameToken) -> Table:
         """
         AUTOSAR-compliant setter for tabstyle with method chaining.
 
@@ -627,7 +633,7 @@ class Table(Paginateable):
         self.help_entry = value  # Use property setter (gets validation)
         return self
 
-    def with_orient(self, value: Optional[OrientEnum]) -> Table:
+    def with_orient(self, value: Optional["OrientEnum"]) -> Table:
         """
         Set orient and return self for chaining.
 
@@ -675,7 +681,7 @@ class Table(Paginateable):
         self.rowsep = value  # Use property setter (gets validation)
         return self
 
-    def with_table_caption(self, value: Optional[Caption]) -> Table:
+    def with_table_caption(self, value: Optional["Caption"]) -> Table:
         """
         Set tableCaption and return self for chaining.
 
@@ -1627,15 +1633,15 @@ class Entry(ARObject):
                 f"colsep must be TableSeparatorString or None, got {type(value).__name__}"
             )
         self._colsep = value
-        self._entryContents: DocumentationBlock = None
+        self._entryContents: "DocumentationBlock" = None
 
     @property
-    def entry_contents(self) -> DocumentationBlock:
+    def entry_contents(self) -> "DocumentationBlock":
         """Get entryContents (Pythonic accessor)."""
         return self._entryContents
 
     @entry_contents.setter
-    def entry_contents(self, value: DocumentationBlock) -> None:
+    def entry_contents(self, value: "DocumentationBlock") -> None:
         """
         Set entryContents with validation.
 
@@ -1958,7 +1964,7 @@ class Entry(ARObject):
         self.colsep = value  # Delegates to property setter
         return self
 
-    def getEntryContents(self) -> DocumentationBlock:
+    def getEntryContents(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for entryContents.
 
@@ -1970,7 +1976,7 @@ class Entry(ARObject):
         """
         return self.entry_contents  # Delegates to property
 
-    def setEntryContents(self, value: DocumentationBlock) -> Entry:
+    def setEntryContents(self, value: "DocumentationBlock") -> Entry:
         """
         AUTOSAR-compliant setter for entryContents with method chaining.
 
@@ -2248,7 +2254,7 @@ class Entry(ARObject):
         self.colsep = value  # Use property setter (gets validation)
         return self
 
-    def with_entry_contents(self, value: DocumentationBlock) -> Entry:
+    def with_entry_contents(self, value: "DocumentationBlock") -> Entry:
         """
         Set entryContents and return self for chaining.
 

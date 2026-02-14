@@ -25,6 +25,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     Identifier,
     NameToken,
     PositiveInteger,
+    SwServiceArg,
 )
 
 
@@ -481,7 +482,7 @@ class BswModuleEntry(ARElement):
         self.execution = value  # Delegates to property setter
         return self
 
-    def getFunction(self) -> "NameToken":
+    def getFunction(self) -> NameToken:
         """
         AUTOSAR-compliant getter for function.
         
@@ -493,7 +494,7 @@ class BswModuleEntry(ARElement):
         """
         return self.function  # Delegates to property
 
-    def setFunction(self, value: "NameToken") -> BswModuleEntry:
+    def setFunction(self, value: NameToken) -> BswModuleEntry:
         """
         AUTOSAR-compliant setter for function with method chaining.
         
@@ -565,7 +566,7 @@ class BswModuleEntry(ARElement):
         self.is_synchronous = value  # Delegates to property setter
         return self
 
-    def getReturnType(self) -> "SwServiceArg":
+    def getReturnType(self) -> SwServiceArg:
         """
         AUTOSAR-compliant getter for returnType.
         
@@ -577,7 +578,7 @@ class BswModuleEntry(ARElement):
         """
         return self.return_type  # Delegates to property
 
-    def setReturnType(self, value: "SwServiceArg") -> BswModuleEntry:
+    def setReturnType(self, value: SwServiceArg) -> BswModuleEntry:
         """
         AUTOSAR-compliant setter for returnType with method chaining.
         
@@ -593,7 +594,7 @@ class BswModuleEntry(ARElement):
         self.return_type = value  # Delegates to property setter
         return self
 
-    def getRole(self) -> "Identifier":
+    def getRole(self) -> Identifier:
         """
         AUTOSAR-compliant getter for role.
         
@@ -605,7 +606,7 @@ class BswModuleEntry(ARElement):
         """
         return self.role  # Delegates to property
 
-    def setRole(self, value: "Identifier") -> BswModuleEntry:
+    def setRole(self, value: Identifier) -> BswModuleEntry:
         """
         AUTOSAR-compliant setter for role with method chaining.
         
@@ -889,15 +890,15 @@ class BswModuleDependency(Identifiable):
         self._targetModuleId = value
         # It is an <<atpUriDef>> the reference shall be used to identify the target
                 # actually needing the description of that atpUriDef; atpVariation.
-        self._targetModule: Optional[BswModuleDescription] = None
+        self._targetModule: Optional["BswModuleDescription"] = None
 
     @property
-    def target_module(self) -> Optional[BswModuleDescription]:
+    def target_module(self) -> Optional["BswModuleDescription"]:
         """Get targetModule (Pythonic accessor)."""
         return self._targetModule
 
     @target_module.setter
-    def target_module(self, value: Optional[BswModuleDescription]) -> None:
+    def target_module(self, value: Optional["BswModuleDescription"]) -> None:
         """
         Set targetModule with validation.
         
@@ -947,7 +948,7 @@ class BswModuleDependency(Identifiable):
         self.target_module_id = value  # Delegates to property setter
         return self
 
-    def getTargetModule(self) -> BswModuleDescription:
+    def getTargetModule(self) -> "BswModuleDescription":
         """
         AUTOSAR-compliant getter for targetModule.
         
@@ -959,7 +960,7 @@ class BswModuleDependency(Identifiable):
         """
         return self.target_module  # Delegates to property
 
-    def setTargetModule(self, value: BswModuleDescription) -> BswModuleDependency:
+    def setTargetModule(self, value: "BswModuleDescription") -> BswModuleDependency:
         """
         AUTOSAR-compliant setter for targetModule with method chaining.
         
@@ -993,7 +994,7 @@ class BswModuleDependency(Identifiable):
         self.target_module_id = value  # Use property setter (gets validation)
         return self
 
-    def with_target_module(self, value: Optional[BswModuleDescription]) -> BswModuleDependency:
+    def with_target_module(self, value: Optional["BswModuleDescription"]) -> BswModuleDependency:
         """
         Set targetModule and return self for chaining.
         

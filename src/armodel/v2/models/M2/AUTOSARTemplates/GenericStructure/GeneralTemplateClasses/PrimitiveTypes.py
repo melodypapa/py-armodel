@@ -18,6 +18,7 @@ from abc import (
     abstractmethod,
 )
 from typing import (
+    TYPE_CHECKING,
     Any,
     List,
     Optional,
@@ -983,87 +984,7 @@ class RegularExpression(ARLiteral):
     def __init__(self) -> None:
         super().__init__()
 
-    def with_value(self, value):
-        """
-        Set value and return self for chaining.
-
-        Args:
-            value: The value to set
-
-        Returns:
-            self for method chaining
-
-        Example:
-            >>> obj.with_value("value")
-        """
-        self.value = value  # Use property setter (gets validation)
-        return self
-
-    def with_value(self, value):
-        """
-        Set value and return self for chaining.
-
-        Args:
-            value: The value to set
-
-        Returns:
-            self for method chaining
-
-        Example:
-            >>> obj.with_value("value")
-        """
-        self.value = value  # Use property setter (gets validation)
-        return self
-
-    def with_value(self, value):
-        """
-        Set value and return self for chaining.
-
-        Args:
-            value: The value to set
-
-        Returns:
-            self for method chaining
-
-        Example:
-            >>> obj.with_value("value")
-        """
-        self.value = value  # Use property setter (gets validation)
-        return self
-
-    def with_value(self, value):
-        """
-        Set value and return self for chaining.
-
-        Args:
-            value: The value to set
-
-        Returns:
-            self for method chaining
-
-        Example:
-            >>> obj.with_value("value")
-        """
-        self.value = value  # Use property setter (gets validation)
-        return self
-
-    def with_value(self, value):
-        """
-        Set value and return self for chaining.
-
-        Args:
-            value: The value to set
-
-        Returns:
-            self for method chaining
-
-        Example:
-            >>> obj.with_value("value")
-        """
-        self.value = value  # Use property setter (gets validation)
-        return self
-
-    def with_value(self, value):
+    def with_value(self, value: Any) -> RegularExpression:
         """
         Set value and return self for chaining.
 
@@ -1146,6 +1067,25 @@ class IntervalTypeEnum(AREnum):
             IntervalTypeEnum.CLOSED,
             IntervalTypeEnum.OPEN,
             IntervalTypeEnum.INFINITE,
+        ])
+
+
+class XmlSpaceEnum(AREnum):
+    """
+    This enumeration specifies the whitespace processing mode.
+
+    Tags:
+        * xml.xsd.customType=XML-SPACE-ENUM
+        * xml.xsd.type=string
+    """
+
+    DEFAULT = 'default'
+    PRESERVE = 'preserve'
+
+    def __init__(self) -> None:
+        super().__init__([
+            XmlSpaceEnum.DEFAULT,
+            XmlSpaceEnum.PRESERVE,
         ])
 
 

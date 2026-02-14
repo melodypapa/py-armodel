@@ -106,7 +106,7 @@ class AccessCountSet(ARObject):
         """
         return self.access_count  # Delegates to property
 
-    def getCountProfile(self) -> "NameToken":
+    def getCountProfile(self) -> NameToken:
         """
         AUTOSAR-compliant getter for countProfile.
 
@@ -118,7 +118,7 @@ class AccessCountSet(ARObject):
         """
         return self.count_profile  # Delegates to property
 
-    def setCountProfile(self, value: "NameToken") -> AccessCountSet:
+    def setCountProfile(self, value: NameToken) -> AccessCountSet:
         """
         AUTOSAR-compliant setter for countProfile with method chaining.
 

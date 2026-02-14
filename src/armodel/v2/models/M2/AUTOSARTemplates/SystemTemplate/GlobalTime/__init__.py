@@ -42,15 +42,15 @@ class GlobalTimeDomain(FibexElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Defines the minimum amount of time between two time are transmitted.
-        self._debounceTime: Optional[TimeValue] = None
+        self._debounceTime: Optional["TimeValue"] = None
 
     @property
-    def debounce_time(self) -> Optional[TimeValue]:
+    def debounce_time(self) -> Optional["TimeValue"]:
         """Get debounceTime (Pythonic accessor)."""
         return self._debounceTime
 
     @debounce_time.setter
-    def debounce_time(self, value: Optional[TimeValue]) -> None:
+    def debounce_time(self, value: Optional["TimeValue"]) -> None:
         """
         Set debounceTime with validation.
 
@@ -238,15 +238,15 @@ class GlobalTimeDomain(FibexElement):
         return self._slave
         # This attribute describes the timeout for the situation that time
         # synchronization gets lost in the scope of the time.
-        self._syncLoss: Optional[TimeValue] = None
+        self._syncLoss: Optional["TimeValue"] = None
 
     @property
-    def sync_loss(self) -> Optional[TimeValue]:
+    def sync_loss(self) -> Optional["TimeValue"]:
         """Get syncLoss (Pythonic accessor)."""
         return self._syncLoss
 
     @sync_loss.setter
-    def sync_loss(self, value: Optional[TimeValue]) -> None:
+    def sync_loss(self, value: Optional["TimeValue"]) -> None:
         """
         Set syncLoss with validation.
 
@@ -300,7 +300,7 @@ class GlobalTimeDomain(FibexElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDebounceTime(self) -> TimeValue:
+    def getDebounceTime(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for debounceTime.
 
@@ -312,7 +312,7 @@ class GlobalTimeDomain(FibexElement):
         """
         return self.debounce_time  # Delegates to property
 
-    def setDebounceTime(self, value: TimeValue) -> GlobalTimeDomain:
+    def setDebounceTime(self, value: "TimeValue") -> GlobalTimeDomain:
         """
         AUTOSAR-compliant setter for debounceTime with method chaining.
 
@@ -504,7 +504,7 @@ class GlobalTimeDomain(FibexElement):
         """
         return self.slave  # Delegates to property
 
-    def getSyncLoss(self) -> TimeValue:
+    def getSyncLoss(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for syncLoss.
 
@@ -516,7 +516,7 @@ class GlobalTimeDomain(FibexElement):
         """
         return self.sync_loss  # Delegates to property
 
-    def setSyncLoss(self, value: TimeValue) -> GlobalTimeDomain:
+    def setSyncLoss(self, value: "TimeValue") -> GlobalTimeDomain:
         """
         AUTOSAR-compliant setter for syncLoss with method chaining.
 
@@ -534,7 +534,7 @@ class GlobalTimeDomain(FibexElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_debounce_time(self, value: Optional[TimeValue]) -> GlobalTimeDomain:
+    def with_debounce_time(self, value: Optional["TimeValue"]) -> GlobalTimeDomain:
         """
         Set debounceTime and return self for chaining.
 
@@ -630,7 +630,7 @@ class GlobalTimeDomain(FibexElement):
         self.pdu_triggering = value  # Use property setter (gets validation)
         return self
 
-    def with_sync_loss(self, value: Optional[TimeValue]) -> GlobalTimeDomain:
+    def with_sync_loss(self, value: Optional["TimeValue"]) -> GlobalTimeDomain:
         """
         Set syncLoss and return self for chaining.
 
@@ -782,15 +782,15 @@ class GlobalTimeMaster(Identifiable, ABC):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The GlobalTimeMaster is bound to the Communication Connector.
-        self._communication: Optional[Communication] = None
+        self._communication: Optional["Communication"] = None
 
     @property
-    def communication(self) -> Optional[Communication]:
+    def communication(self) -> Optional["Communication"]:
         """Get communication (Pythonic accessor)."""
         return self._communication
 
     @communication.setter
-    def communication(self, value: Optional[Communication]) -> None:
+    def communication(self, value: Optional["Communication"]) -> None:
         """
         Set communication with validation.
 
@@ -840,15 +840,15 @@ class GlobalTimeMaster(Identifiable, ABC):
         self._icvSecured = value
         # Defines the minimum time between an "immediate" and the next periodic
         # message.
-        self._immediate: Optional[TimeValue] = None
+        self._immediate: Optional["TimeValue"] = None
 
     @property
-    def immediate(self) -> Optional[TimeValue]:
+    def immediate(self) -> Optional["TimeValue"]:
         """Get immediate (Pythonic accessor)."""
         return self._immediate
 
     @immediate.setter
-    def immediate(self, value: Optional[TimeValue]) -> None:
+    def immediate(self, value: Optional["TimeValue"]) -> None:
         """
         Set immediate with validation.
 
@@ -898,15 +898,15 @@ class GlobalTimeMaster(Identifiable, ABC):
         self._isSystemWide = value
         # This represents the period.
         # Unit: seconds.
-        self._syncPeriod: Optional[TimeValue] = None
+        self._syncPeriod: Optional["TimeValue"] = None
 
     @property
-    def sync_period(self) -> Optional[TimeValue]:
+    def sync_period(self) -> Optional["TimeValue"]:
         """Get syncPeriod (Pythonic accessor)."""
         return self._syncPeriod
 
     @sync_period.setter
-    def sync_period(self, value: Optional[TimeValue]) -> None:
+    def sync_period(self, value: Optional["TimeValue"]) -> None:
         """
         Set syncPeriod with validation.
 
@@ -928,7 +928,7 @@ class GlobalTimeMaster(Identifiable, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCommunication(self) -> Communication:
+    def getCommunication(self) -> "Communication":
         """
         AUTOSAR-compliant getter for communication.
 
@@ -940,7 +940,7 @@ class GlobalTimeMaster(Identifiable, ABC):
         """
         return self.communication  # Delegates to property
 
-    def setCommunication(self, value: Communication) -> GlobalTimeMaster:
+    def setCommunication(self, value: "Communication") -> GlobalTimeMaster:
         """
         AUTOSAR-compliant setter for communication with method chaining.
 
@@ -984,7 +984,7 @@ class GlobalTimeMaster(Identifiable, ABC):
         self.icv_secured = value  # Delegates to property setter
         return self
 
-    def getImmediate(self) -> TimeValue:
+    def getImmediate(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for immediate.
 
@@ -996,7 +996,7 @@ class GlobalTimeMaster(Identifiable, ABC):
         """
         return self.immediate  # Delegates to property
 
-    def setImmediate(self, value: TimeValue) -> GlobalTimeMaster:
+    def setImmediate(self, value: "TimeValue") -> GlobalTimeMaster:
         """
         AUTOSAR-compliant setter for immediate with method chaining.
 
@@ -1040,7 +1040,7 @@ class GlobalTimeMaster(Identifiable, ABC):
         self.is_system_wide = value  # Delegates to property setter
         return self
 
-    def getSyncPeriod(self) -> TimeValue:
+    def getSyncPeriod(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for syncPeriod.
 
@@ -1052,7 +1052,7 @@ class GlobalTimeMaster(Identifiable, ABC):
         """
         return self.sync_period  # Delegates to property
 
-    def setSyncPeriod(self, value: TimeValue) -> GlobalTimeMaster:
+    def setSyncPeriod(self, value: "TimeValue") -> GlobalTimeMaster:
         """
         AUTOSAR-compliant setter for syncPeriod with method chaining.
 
@@ -1070,7 +1070,7 @@ class GlobalTimeMaster(Identifiable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_communication(self, value: Optional[Communication]) -> GlobalTimeMaster:
+    def with_communication(self, value: Optional["Communication"]) -> GlobalTimeMaster:
         """
         Set communication and return self for chaining.
 
@@ -1102,7 +1102,7 @@ class GlobalTimeMaster(Identifiable, ABC):
         self.icv_secured = value  # Use property setter (gets validation)
         return self
 
-    def with_immediate(self, value: Optional[TimeValue]) -> GlobalTimeMaster:
+    def with_immediate(self, value: Optional["TimeValue"]) -> GlobalTimeMaster:
         """
         Set immediate and return self for chaining.
 
@@ -1134,7 +1134,7 @@ class GlobalTimeMaster(Identifiable, ABC):
         self.is_system_wide = value  # Use property setter (gets validation)
         return self
 
-    def with_sync_period(self, value: Optional[TimeValue]) -> GlobalTimeMaster:
+    def with_sync_period(self, value: Optional["TimeValue"]) -> GlobalTimeMaster:
         """
         Set syncPeriod and return self for chaining.
 
@@ -1168,15 +1168,15 @@ class GlobalTimeSlave(Identifiable, ABC):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The GlobalTimeSlave is bound to the Communication Connector.
-        self._communication: Optional[Communication] = None
+        self._communication: Optional["Communication"] = None
 
     @property
-    def communication(self) -> Optional[Communication]:
+    def communication(self) -> Optional["Communication"]:
         """Get communication (Pythonic accessor)."""
         return self._communication
 
     @communication.setter
-    def communication(self, value: Optional[Communication]) -> None:
+    def communication(self, value: Optional["Communication"]) -> None:
         """
         Set communication with validation.
 
@@ -1196,15 +1196,15 @@ class GlobalTimeSlave(Identifiable, ABC):
             )
         self._communication = value
         # Rx timeout for the follow-up message.
-        self._followUpTimeoutValue: Optional[TimeValue] = None
+        self._followUpTimeoutValue: Optional["TimeValue"] = None
 
     @property
-    def follow_up_timeout_value(self) -> Optional[TimeValue]:
+    def follow_up_timeout_value(self) -> Optional["TimeValue"]:
         """Get followUpTimeoutValue (Pythonic accessor)."""
         return self._followUpTimeoutValue
 
     @follow_up_timeout_value.setter
-    def follow_up_timeout_value(self, value: Optional[TimeValue]) -> None:
+    def follow_up_timeout_value(self, value: Optional["TimeValue"]) -> None:
         """
         Set followUpTimeoutValue with validation.
 
@@ -1254,15 +1254,15 @@ class GlobalTimeSlave(Identifiable, ABC):
         self._icvVerification = value
         # Defines the maximum allowed positive difference the current Local Time Base
         # value and a newly Time Base value.
-        self._timeLeapFuture: Optional[TimeValue] = None
+        self._timeLeapFuture: Optional["TimeValue"] = None
 
     @property
-    def time_leap_future(self) -> Optional[TimeValue]:
+    def time_leap_future(self) -> Optional["TimeValue"]:
         """Get timeLeapFuture (Pythonic accessor)."""
         return self._timeLeapFuture
 
     @time_leap_future.setter
-    def time_leap_future(self, value: Optional[TimeValue]) -> None:
+    def time_leap_future(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeLeapFuture with validation.
 
@@ -1313,15 +1313,15 @@ class GlobalTimeSlave(Identifiable, ABC):
         self._timeLeap = value
         # Defines the maximum allowed negative difference the current Local Time Base
         # value and a newly Time Base value.
-        self._timeLeapPast: Optional[TimeValue] = None
+        self._timeLeapPast: Optional["TimeValue"] = None
 
     @property
-    def time_leap_past(self) -> Optional[TimeValue]:
+    def time_leap_past(self) -> Optional["TimeValue"]:
         """Get timeLeapPast (Pythonic accessor)."""
         return self._timeLeapPast
 
     @time_leap_past.setter
-    def time_leap_past(self, value: Optional[TimeValue]) -> None:
+    def time_leap_past(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeLeapPast with validation.
 
@@ -1343,7 +1343,7 @@ class GlobalTimeSlave(Identifiable, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCommunication(self) -> Communication:
+    def getCommunication(self) -> "Communication":
         """
         AUTOSAR-compliant getter for communication.
 
@@ -1355,7 +1355,7 @@ class GlobalTimeSlave(Identifiable, ABC):
         """
         return self.communication  # Delegates to property
 
-    def setCommunication(self, value: Communication) -> GlobalTimeSlave:
+    def setCommunication(self, value: "Communication") -> GlobalTimeSlave:
         """
         AUTOSAR-compliant setter for communication with method chaining.
 
@@ -1371,7 +1371,7 @@ class GlobalTimeSlave(Identifiable, ABC):
         self.communication = value  # Delegates to property setter
         return self
 
-    def getFollowUpTimeoutValue(self) -> TimeValue:
+    def getFollowUpTimeoutValue(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for followUpTimeoutValue.
 
@@ -1383,7 +1383,7 @@ class GlobalTimeSlave(Identifiable, ABC):
         """
         return self.follow_up_timeout_value  # Delegates to property
 
-    def setFollowUpTimeoutValue(self, value: TimeValue) -> GlobalTimeSlave:
+    def setFollowUpTimeoutValue(self, value: "TimeValue") -> GlobalTimeSlave:
         """
         AUTOSAR-compliant setter for followUpTimeoutValue with method chaining.
 
@@ -1427,7 +1427,7 @@ class GlobalTimeSlave(Identifiable, ABC):
         self.icv_verification = value  # Delegates to property setter
         return self
 
-    def getTimeLeapFuture(self) -> TimeValue:
+    def getTimeLeapFuture(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeLeapFuture.
 
@@ -1439,7 +1439,7 @@ class GlobalTimeSlave(Identifiable, ABC):
         """
         return self.time_leap_future  # Delegates to property
 
-    def setTimeLeapFuture(self, value: TimeValue) -> GlobalTimeSlave:
+    def setTimeLeapFuture(self, value: "TimeValue") -> GlobalTimeSlave:
         """
         AUTOSAR-compliant setter for timeLeapFuture with method chaining.
 
@@ -1483,7 +1483,7 @@ class GlobalTimeSlave(Identifiable, ABC):
         self.time_leap = value  # Delegates to property setter
         return self
 
-    def getTimeLeapPast(self) -> TimeValue:
+    def getTimeLeapPast(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeLeapPast.
 
@@ -1495,7 +1495,7 @@ class GlobalTimeSlave(Identifiable, ABC):
         """
         return self.time_leap_past  # Delegates to property
 
-    def setTimeLeapPast(self, value: TimeValue) -> GlobalTimeSlave:
+    def setTimeLeapPast(self, value: "TimeValue") -> GlobalTimeSlave:
         """
         AUTOSAR-compliant setter for timeLeapPast with method chaining.
 
@@ -1513,7 +1513,7 @@ class GlobalTimeSlave(Identifiable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_communication(self, value: Optional[Communication]) -> GlobalTimeSlave:
+    def with_communication(self, value: Optional["Communication"]) -> GlobalTimeSlave:
         """
         Set communication and return self for chaining.
 
@@ -1529,7 +1529,7 @@ class GlobalTimeSlave(Identifiable, ABC):
         self.communication = value  # Use property setter (gets validation)
         return self
 
-    def with_follow_up_timeout_value(self, value: Optional[TimeValue]) -> GlobalTimeSlave:
+    def with_follow_up_timeout_value(self, value: Optional["TimeValue"]) -> GlobalTimeSlave:
         """
         Set followUpTimeoutValue and return self for chaining.
 
@@ -1561,7 +1561,7 @@ class GlobalTimeSlave(Identifiable, ABC):
         self.icv_verification = value  # Use property setter (gets validation)
         return self
 
-    def with_time_leap_future(self, value: Optional[TimeValue]) -> GlobalTimeSlave:
+    def with_time_leap_future(self, value: Optional["TimeValue"]) -> GlobalTimeSlave:
         """
         Set timeLeapFuture and return self for chaining.
 
@@ -1593,7 +1593,7 @@ class GlobalTimeSlave(Identifiable, ABC):
         self.time_leap = value  # Use property setter (gets validation)
         return self
 
-    def with_time_leap_past(self, value: Optional[TimeValue]) -> GlobalTimeSlave:
+    def with_time_leap_past(self, value: Optional["TimeValue"]) -> GlobalTimeSlave:
         """
         Set timeLeapPast and return self for chaining.
 
@@ -1626,15 +1626,15 @@ class GlobalTimeGateway(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The GlobalTimeGateway is hosted by the referenced Ecu.
-        self._host: Optional[EcuInstance] = None
+        self._host: Optional["EcuInstance"] = None
 
     @property
-    def host(self) -> Optional[EcuInstance]:
+    def host(self) -> Optional["EcuInstance"]:
         """Get host (Pythonic accessor)."""
         return self._host
 
     @host.setter
-    def host(self, value: Optional[EcuInstance]) -> None:
+    def host(self, value: Optional["EcuInstance"]) -> None:
         """
         Set host with validation.
 
@@ -1712,7 +1712,7 @@ class GlobalTimeGateway(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getHost(self) -> EcuInstance:
+    def getHost(self) -> "EcuInstance":
         """
         AUTOSAR-compliant getter for host.
 
@@ -1724,7 +1724,7 @@ class GlobalTimeGateway(Identifiable):
         """
         return self.host  # Delegates to property
 
-    def setHost(self, value: EcuInstance) -> GlobalTimeGateway:
+    def setHost(self, value: "EcuInstance") -> GlobalTimeGateway:
         """
         AUTOSAR-compliant setter for host with method chaining.
 
@@ -1798,7 +1798,7 @@ class GlobalTimeGateway(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_host(self, value: Optional[EcuInstance]) -> GlobalTimeGateway:
+    def with_host(self, value: Optional["EcuInstance"]) -> GlobalTimeGateway:
         """
         Set host and return self for chaining.
 
@@ -1865,15 +1865,15 @@ class GlobalTimeCorrectionProps(ARObject):
         # Deviations below value will be corrected by a linear reduction over a Values
                 # equal- and greater than this be corrected by immediately setting the correct
                 # rate in form of a jump.
-        self._offsetCorrection: Optional[TimeValue] = None
+        self._offsetCorrection: Optional["TimeValue"] = None
 
     @property
-    def offset_correction(self) -> Optional[TimeValue]:
+    def offset_correction(self) -> Optional["TimeValue"]:
         """Get offsetCorrection (Pythonic accessor)."""
         return self._offsetCorrection
 
     @offset_correction.setter
-    def offset_correction(self, value: Optional[TimeValue]) -> None:
+    def offset_correction(self, value: Optional["TimeValue"]) -> None:
         """
         Set offsetCorrection with validation.
 
@@ -1893,15 +1893,15 @@ class GlobalTimeCorrectionProps(ARObject):
             )
         self._offsetCorrection = value
         # Definition of the time span which is used to calculate the deviation.
-        self._rateCorrection: Optional[TimeValue] = None
+        self._rateCorrection: Optional["TimeValue"] = None
 
     @property
-    def rate_correction(self) -> Optional[TimeValue]:
+    def rate_correction(self) -> Optional["TimeValue"]:
         """Get rateCorrection (Pythonic accessor)."""
         return self._rateCorrection
 
     @rate_correction.setter
-    def rate_correction(self, value: Optional[TimeValue]) -> None:
+    def rate_correction(self, value: Optional["TimeValue"]) -> None:
         """
         Set rateCorrection with validation.
 
@@ -1952,7 +1952,7 @@ class GlobalTimeCorrectionProps(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getOffsetCorrection(self) -> TimeValue:
+    def getOffsetCorrection(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for offsetCorrection.
 
@@ -1964,7 +1964,7 @@ class GlobalTimeCorrectionProps(ARObject):
         """
         return self.offset_correction  # Delegates to property
 
-    def setOffsetCorrection(self, value: TimeValue) -> GlobalTimeCorrectionProps:
+    def setOffsetCorrection(self, value: "TimeValue") -> GlobalTimeCorrectionProps:
         """
         AUTOSAR-compliant setter for offsetCorrection with method chaining.
 
@@ -1980,7 +1980,7 @@ class GlobalTimeCorrectionProps(ARObject):
         self.offset_correction = value  # Delegates to property setter
         return self
 
-    def getRateCorrection(self) -> TimeValue:
+    def getRateCorrection(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for rateCorrection.
 
@@ -1992,7 +1992,7 @@ class GlobalTimeCorrectionProps(ARObject):
         """
         return self.rate_correction  # Delegates to property
 
-    def setRateCorrection(self, value: TimeValue) -> GlobalTimeCorrectionProps:
+    def setRateCorrection(self, value: "TimeValue") -> GlobalTimeCorrectionProps:
         """
         AUTOSAR-compliant setter for rateCorrection with method chaining.
 
@@ -2038,7 +2038,7 @@ class GlobalTimeCorrectionProps(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_offset_correction(self, value: Optional[TimeValue]) -> GlobalTimeCorrectionProps:
+    def with_offset_correction(self, value: Optional["TimeValue"]) -> GlobalTimeCorrectionProps:
         """
         Set offsetCorrection and return self for chaining.
 
@@ -2054,7 +2054,7 @@ class GlobalTimeCorrectionProps(ARObject):
         self.offset_correction = value  # Use property setter (gets validation)
         return self
 
-    def with_rate_correction(self, value: Optional[TimeValue]) -> GlobalTimeCorrectionProps:
+    def with_rate_correction(self, value: Optional["TimeValue"]) -> GlobalTimeCorrectionProps:
         """
         Set rateCorrection and return self for chaining.
 

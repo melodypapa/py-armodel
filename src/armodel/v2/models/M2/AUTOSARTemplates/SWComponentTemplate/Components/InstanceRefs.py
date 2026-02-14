@@ -485,7 +485,7 @@ class RModeInAtomicSwcInstanceRef(ARObject):
         self.context_port_prototype = value  # Delegates to property setter
         return self
 
-    def getTargetModeDeclaration(self) -> "ModeDeclaration":
+    def getTargetModeDeclaration(self) -> ModeDeclaration:
         """
         AUTOSAR-compliant getter for targetModeDeclaration.
 
@@ -497,7 +497,7 @@ class RModeInAtomicSwcInstanceRef(ARObject):
         """
         return self.target_mode_declaration  # Delegates to property
 
-    def setTargetModeDeclaration(self, value: "ModeDeclaration") -> RModeInAtomicSwcInstanceRef:
+    def setTargetModeDeclaration(self, value: ModeDeclaration) -> RModeInAtomicSwcInstanceRef:
         """
         AUTOSAR-compliant setter for targetModeDeclaration with method chaining.
 
@@ -596,15 +596,15 @@ class InnerPortGroupInCompositionInstanceRef(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Stereotypes: atpDerived xml.
         # sequenceOffset=10.
-        self._base: Optional[CompositionSw] = None
+        self._base: Optional["CompositionSw"] = None
 
     @property
-    def base(self) -> Optional[CompositionSw]:
+    def base(self) -> Optional["CompositionSw"]:
         """Get base (Pythonic accessor)."""
         return self._base
 
     @base.setter
-    def base(self, value: Optional[CompositionSw]) -> None:
+    def base(self, value: Optional["CompositionSw"]) -> None:
         """
         Set base with validation.
 
@@ -729,7 +729,7 @@ class InnerPortGroupInCompositionInstanceRef(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base(self, value: Optional[CompositionSw]) -> InnerPortGroupInCompositionInstanceRef:
+    def with_base(self, value: Optional["CompositionSw"]) -> InnerPortGroupInCompositionInstanceRef:
         """
         Set base and return self for chaining.
 

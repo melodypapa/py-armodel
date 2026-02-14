@@ -59,15 +59,15 @@ class BlueprintGenerator(ARObject):
             )
         self._expression = value
         # deriving blueprints.
-        self._introduction: Optional[DocumentationBlock] = None
+        self._introduction: Optional["DocumentationBlock"] = None
 
     @property
-    def introduction(self) -> Optional[DocumentationBlock]:
+    def introduction(self) -> Optional["DocumentationBlock"]:
         """Get introduction (Pythonic accessor)."""
         return self._introduction
 
     @introduction.setter
-    def introduction(self, value: Optional[DocumentationBlock]) -> None:
+    def introduction(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set introduction with validation.
 
@@ -117,7 +117,7 @@ class BlueprintGenerator(ARObject):
         self.expression = value  # Delegates to property setter
         return self
 
-    def getIntroduction(self) -> DocumentationBlock:
+    def getIntroduction(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for introduction.
 
@@ -129,7 +129,7 @@ class BlueprintGenerator(ARObject):
         """
         return self.introduction  # Delegates to property
 
-    def setIntroduction(self, value: DocumentationBlock) -> BlueprintGenerator:
+    def setIntroduction(self, value: "DocumentationBlock") -> BlueprintGenerator:
         """
         AUTOSAR-compliant setter for introduction with method chaining.
 
@@ -163,7 +163,7 @@ class BlueprintGenerator(ARObject):
         self.expression = value  # Use property setter (gets validation)
         return self
 
-    def with_introduction(self, value: Optional[DocumentationBlock]) -> BlueprintGenerator:
+    def with_introduction(self, value: Optional["DocumentationBlock"]) -> BlueprintGenerator:
         """
         Set introduction and return self for chaining.
 

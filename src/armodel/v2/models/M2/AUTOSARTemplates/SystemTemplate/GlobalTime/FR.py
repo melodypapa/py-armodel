@@ -35,15 +35,15 @@ class GlobalTimeFrMaster(GlobalTimeMaster):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Definition of whether or not CRC is supported.
         # This is relevant for selected bus systems.
-        self._crcSecured: Optional[GlobalTimeCrcSupport] = None
+        self._crcSecured: Optional["GlobalTimeCrcSupport"] = None
 
     @property
-    def crc_secured(self) -> Optional[GlobalTimeCrcSupport]:
+    def crc_secured(self) -> Optional["GlobalTimeCrcSupport"]:
         """Get crcSecured (Pythonic accessor)."""
         return self._crcSecured
 
     @crc_secured.setter
-    def crc_secured(self, value: Optional[GlobalTimeCrcSupport]) -> None:
+    def crc_secured(self, value: Optional["GlobalTimeCrcSupport"]) -> None:
         """
         Set crcSecured with validation.
 
@@ -65,7 +65,7 @@ class GlobalTimeFrMaster(GlobalTimeMaster):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCrcSecured(self) -> GlobalTimeCrcSupport:
+    def getCrcSecured(self) -> "GlobalTimeCrcSupport":
         """
         AUTOSAR-compliant getter for crcSecured.
 
@@ -77,7 +77,7 @@ class GlobalTimeFrMaster(GlobalTimeMaster):
         """
         return self.crc_secured  # Delegates to property
 
-    def setCrcSecured(self, value: GlobalTimeCrcSupport) -> GlobalTimeFrMaster:
+    def setCrcSecured(self, value: "GlobalTimeCrcSupport") -> GlobalTimeFrMaster:
         """
         AUTOSAR-compliant setter for crcSecured with method chaining.
 
@@ -95,7 +95,7 @@ class GlobalTimeFrMaster(GlobalTimeMaster):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_crc_secured(self, value: Optional[GlobalTimeCrcSupport]) -> GlobalTimeFrMaster:
+    def with_crc_secured(self, value: Optional["GlobalTimeCrcSupport"]) -> GlobalTimeFrMaster:
         """
         Set crcSecured and return self for chaining.
 
@@ -128,15 +128,15 @@ class GlobalTimeFrSlave(GlobalTimeSlave):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Definition of whether or not validation of the CRC is.
-        self._crcValidated: Optional[GlobalTimeCrc] = None
+        self._crcValidated: Optional["GlobalTimeCrc"] = None
 
     @property
-    def crc_validated(self) -> Optional[GlobalTimeCrc]:
+    def crc_validated(self) -> Optional["GlobalTimeCrc"]:
         """Get crcValidated (Pythonic accessor)."""
         return self._crcValidated
 
     @crc_validated.setter
-    def crc_validated(self, value: Optional[GlobalTimeCrc]) -> None:
+    def crc_validated(self, value: Optional["GlobalTimeCrc"]) -> None:
         """
         Set crcValidated with validation.
 
@@ -186,7 +186,7 @@ class GlobalTimeFrSlave(GlobalTimeSlave):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCrcValidated(self) -> GlobalTimeCrc:
+    def getCrcValidated(self) -> "GlobalTimeCrc":
         """
         AUTOSAR-compliant getter for crcValidated.
 
@@ -198,7 +198,7 @@ class GlobalTimeFrSlave(GlobalTimeSlave):
         """
         return self.crc_validated  # Delegates to property
 
-    def setCrcValidated(self, value: GlobalTimeCrc) -> GlobalTimeFrSlave:
+    def setCrcValidated(self, value: "GlobalTimeCrc") -> GlobalTimeFrSlave:
         """
         AUTOSAR-compliant setter for crcValidated with method chaining.
 
@@ -244,7 +244,7 @@ class GlobalTimeFrSlave(GlobalTimeSlave):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_crc_validated(self, value: Optional[GlobalTimeCrc]) -> GlobalTimeFrSlave:
+    def with_crc_validated(self, value: Optional["GlobalTimeCrc"]) -> GlobalTimeFrSlave:
         """
         Set crcValidated and return self for chaining.
 

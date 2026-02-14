@@ -509,7 +509,7 @@ class EthernetPhysicalChannel(PhysicalChannel):
         """
         return self.network  # Delegates to property
 
-    def getSoAdConfig(self) -> "SoAdConfig":
+    def getSoAdConfig(self) -> SoAdConfig:
         """
         AUTOSAR-compliant getter for soAdConfig.
 
@@ -521,7 +521,7 @@ class EthernetPhysicalChannel(PhysicalChannel):
         """
         return self.so_ad_config  # Delegates to property
 
-    def setSoAdConfig(self, value: "SoAdConfig") -> EthernetPhysicalChannel:
+    def setSoAdConfig(self, value: SoAdConfig) -> EthernetPhysicalChannel:
         """
         AUTOSAR-compliant setter for soAdConfig with method chaining.
 
@@ -764,7 +764,7 @@ class MacMulticastGroup(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getMacMulticast(self) -> "MacAddressString":
+    def getMacMulticast(self) -> MacAddressString:
         """
         AUTOSAR-compliant getter for macMulticast.
 
@@ -776,7 +776,7 @@ class MacMulticastGroup(Identifiable):
         """
         return self.mac_multicast  # Delegates to property
 
-    def setMacMulticast(self, value: "MacAddressString") -> MacMulticastGroup:
+    def setMacMulticast(self, value: MacAddressString) -> MacMulticastGroup:
         """
         AUTOSAR-compliant setter for macMulticast with method chaining.
 
@@ -1015,15 +1015,15 @@ class CouplingElement(FibexElement):
                 f"couplingType must be CouplingElementEnum or None, got {type(value).__name__}"
             )
         self._couplingType = value
-        self._ecuInstance: Optional[EcuInstance] = None
+        self._ecuInstance: Optional["EcuInstance"] = None
 
     @property
-    def ecu_instance(self) -> Optional[EcuInstance]:
+    def ecu_instance(self) -> Optional["EcuInstance"]:
         """Get ecuInstance (Pythonic accessor)."""
         return self._ecuInstance
 
     @ecu_instance.setter
-    def ecu_instance(self, value: Optional[EcuInstance]) -> None:
+    def ecu_instance(self, value: Optional["EcuInstance"]) -> None:
         """
         Set ecuInstance with validation.
 
@@ -1147,7 +1147,7 @@ class CouplingElement(FibexElement):
         self.coupling_type = value  # Delegates to property setter
         return self
 
-    def getEcuInstance(self) -> EcuInstance:
+    def getEcuInstance(self) -> "EcuInstance":
         """
         AUTOSAR-compliant getter for ecuInstance.
 
@@ -1159,7 +1159,7 @@ class CouplingElement(FibexElement):
         """
         return self.ecu_instance  # Delegates to property
 
-    def setEcuInstance(self, value: EcuInstance) -> CouplingElement:
+    def setEcuInstance(self, value: "EcuInstance") -> CouplingElement:
         """
         AUTOSAR-compliant setter for ecuInstance with method chaining.
 
@@ -1237,7 +1237,7 @@ class CouplingElement(FibexElement):
         self.coupling_type = value  # Use property setter (gets validation)
         return self
 
-    def with_ecu_instance(self, value: Optional[EcuInstance]) -> CouplingElement:
+    def with_ecu_instance(self, value: Optional["EcuInstance"]) -> CouplingElement:
         """
         Set ecuInstance and return self for chaining.
 
@@ -1272,15 +1272,15 @@ class CouplingPort(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Specifies the connection negotiation of the CouplingPort.
-        self._connection: Optional[EthernetConnection] = None
+        self._connection: Optional["EthernetConnection"] = None
 
     @property
-    def connection(self) -> Optional[EthernetConnection]:
+    def connection(self) -> Optional["EthernetConnection"]:
         """Get connection (Pythonic accessor)."""
         return self._connection
 
     @connection.setter
-    def connection(self, value: Optional[EthernetConnection]) -> None:
+    def connection(self, value: Optional["EthernetConnection"]) -> None:
         """
         Set connection with validation.
 
@@ -1333,15 +1333,15 @@ class CouplingPort(Identifiable):
         # is added for incoming untagged the port (ingress tagging).
         # For outgoing this identifier, the tag is removed at the untagging, depending
                 # on the Vlan.
-        self._defaultVlan: Optional[EthernetPhysical] = None
+        self._defaultVlan: Optional["EthernetPhysical"] = None
 
     @property
-    def default_vlan(self) -> Optional[EthernetPhysical]:
+    def default_vlan(self) -> Optional["EthernetPhysical"]:
         """Get defaultVlan (Pythonic accessor)."""
         return self._defaultVlan
 
     @default_vlan.setter
-    def default_vlan(self, value: Optional[EthernetPhysical]) -> None:
+    def default_vlan(self, value: Optional["EthernetPhysical"]) -> None:
         """
         Set defaultVlan with validation.
 
@@ -1360,15 +1360,15 @@ class CouplingPort(Identifiable):
                 f"defaultVlan must be EthernetPhysical or None, got {type(value).__name__}"
             )
         self._defaultVlan = value
-        self._macLayerTypeEnum: Optional[EthernetMacLayerType] = None
+        self._macLayerTypeEnum: Optional["EthernetMacLayerType"] = None
 
     @property
-    def mac_layer_type_enum(self) -> Optional[EthernetMacLayerType]:
+    def mac_layer_type_enum(self) -> Optional["EthernetMacLayerType"]:
         """Get macLayerTypeEnum (Pythonic accessor)."""
         return self._macLayerTypeEnum
 
     @mac_layer_type_enum.setter
-    def mac_layer_type_enum(self, value: Optional[EthernetMacLayerType]) -> None:
+    def mac_layer_type_enum(self, value: Optional["EthernetMacLayerType"]) -> None:
         """
         Set macLayerTypeEnum with validation.
 
@@ -1403,15 +1403,15 @@ class CouplingPort(Identifiable):
         """Get macSecProps (Pythonic accessor)."""
         return self._macSecProps
         # Specifies the physical layer type of the CouplingPort.
-        self._physicalLayer: Optional[EthernetPhysicalLayer] = None
+        self._physicalLayer: Optional["EthernetPhysicalLayer"] = None
 
     @property
-    def physical_layer(self) -> Optional[EthernetPhysicalLayer]:
+    def physical_layer(self) -> Optional["EthernetPhysicalLayer"]:
         """Get physicalLayer (Pythonic accessor)."""
         return self._physicalLayer
 
     @physical_layer.setter
-    def physical_layer(self, value: Optional[EthernetPhysicalLayer]) -> None:
+    def physical_layer(self, value: Optional["EthernetPhysicalLayer"]) -> None:
         """
         Set physicalLayer with validation.
 
@@ -1465,15 +1465,15 @@ class CouplingPort(Identifiable):
         """Get pncMapping (Pythonic accessor)."""
         return self._pncMapping
         # Defines the handling of frames at the ingress port.
-        self._receiveActivity: Optional[EthernetSwitchVlan] = None
+        self._receiveActivity: Optional["EthernetSwitchVlan"] = None
 
     @property
-    def receive_activity(self) -> Optional[EthernetSwitchVlan]:
+    def receive_activity(self) -> Optional["EthernetSwitchVlan"]:
         """Get receiveActivity (Pythonic accessor)."""
         return self._receiveActivity
 
     @receive_activity.setter
-    def receive_activity(self, value: Optional[EthernetSwitchVlan]) -> None:
+    def receive_activity(self, value: Optional["EthernetSwitchVlan"]) -> None:
         """
         Set receiveActivity with validation.
 
@@ -1504,15 +1504,15 @@ class CouplingPort(Identifiable):
         # is XOR with CoupligPort.
         # defaultVlan.
         # 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11.
-        self._vlanModifier: Optional[EthernetPhysical] = None
+        self._vlanModifier: Optional["EthernetPhysical"] = None
 
     @property
-    def vlan_modifier(self) -> Optional[EthernetPhysical]:
+    def vlan_modifier(self) -> Optional["EthernetPhysical"]:
         """Get vlanModifier (Pythonic accessor)."""
         return self._vlanModifier
 
     @vlan_modifier.setter
-    def vlan_modifier(self, value: Optional[EthernetPhysical]) -> None:
+    def vlan_modifier(self, value: Optional["EthernetPhysical"]) -> None:
         """
         Set vlanModifier with validation.
 
@@ -1531,15 +1531,15 @@ class CouplingPort(Identifiable):
                 f"vlanModifier must be EthernetPhysical or None, got {type(value).__name__}"
             )
         self._vlanModifier = value
-        self._wakeupSleep: Optional[EthernetWakeupSleep] = None
+        self._wakeupSleep: Optional["EthernetWakeupSleep"] = None
 
     @property
-    def wakeup_sleep(self) -> Optional[EthernetWakeupSleep]:
+    def wakeup_sleep(self) -> Optional["EthernetWakeupSleep"]:
         """Get wakeupSleep (Pythonic accessor)."""
         return self._wakeupSleep
 
     @wakeup_sleep.setter
-    def wakeup_sleep(self, value: Optional[EthernetWakeupSleep]) -> None:
+    def wakeup_sleep(self, value: Optional["EthernetWakeupSleep"]) -> None:
         """
         Set wakeupSleep with validation.
 
@@ -1561,7 +1561,7 @@ class CouplingPort(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getConnection(self) -> EthernetConnection:
+    def getConnection(self) -> "EthernetConnection":
         """
         AUTOSAR-compliant getter for connection.
 
@@ -1573,7 +1573,7 @@ class CouplingPort(Identifiable):
         """
         return self.connection  # Delegates to property
 
-    def setConnection(self, value: EthernetConnection) -> CouplingPort:
+    def setConnection(self, value: "EthernetConnection") -> CouplingPort:
         """
         AUTOSAR-compliant setter for connection with method chaining.
 
@@ -1617,7 +1617,7 @@ class CouplingPort(Identifiable):
         self.coupling_port = value  # Delegates to property setter
         return self
 
-    def getDefaultVlan(self) -> EthernetPhysical:
+    def getDefaultVlan(self) -> "EthernetPhysical":
         """
         AUTOSAR-compliant getter for defaultVlan.
 
@@ -1629,7 +1629,7 @@ class CouplingPort(Identifiable):
         """
         return self.default_vlan  # Delegates to property
 
-    def setDefaultVlan(self, value: EthernetPhysical) -> CouplingPort:
+    def setDefaultVlan(self, value: "EthernetPhysical") -> CouplingPort:
         """
         AUTOSAR-compliant setter for defaultVlan with method chaining.
 
@@ -1645,7 +1645,7 @@ class CouplingPort(Identifiable):
         self.default_vlan = value  # Delegates to property setter
         return self
 
-    def getMacLayerTypeEnum(self) -> EthernetMacLayerType:
+    def getMacLayerTypeEnum(self) -> "EthernetMacLayerType":
         """
         AUTOSAR-compliant getter for macLayerTypeEnum.
 
@@ -1657,7 +1657,7 @@ class CouplingPort(Identifiable):
         """
         return self.mac_layer_type_enum  # Delegates to property
 
-    def setMacLayerTypeEnum(self, value: EthernetMacLayerType) -> CouplingPort:
+    def setMacLayerTypeEnum(self, value: "EthernetMacLayerType") -> CouplingPort:
         """
         AUTOSAR-compliant setter for macLayerTypeEnum with method chaining.
 
@@ -1697,7 +1697,7 @@ class CouplingPort(Identifiable):
         """
         return self.mac_sec_props  # Delegates to property
 
-    def getPhysicalLayer(self) -> EthernetPhysicalLayer:
+    def getPhysicalLayer(self) -> "EthernetPhysicalLayer":
         """
         AUTOSAR-compliant getter for physicalLayer.
 
@@ -1709,7 +1709,7 @@ class CouplingPort(Identifiable):
         """
         return self.physical_layer  # Delegates to property
 
-    def setPhysicalLayer(self, value: EthernetPhysicalLayer) -> CouplingPort:
+    def setPhysicalLayer(self, value: "EthernetPhysicalLayer") -> CouplingPort:
         """
         AUTOSAR-compliant setter for physicalLayer with method chaining.
 
@@ -1765,7 +1765,7 @@ class CouplingPort(Identifiable):
         """
         return self.pnc_mapping  # Delegates to property
 
-    def getReceiveActivity(self) -> EthernetSwitchVlan:
+    def getReceiveActivity(self) -> "EthernetSwitchVlan":
         """
         AUTOSAR-compliant getter for receiveActivity.
 
@@ -1777,7 +1777,7 @@ class CouplingPort(Identifiable):
         """
         return self.receive_activity  # Delegates to property
 
-    def setReceiveActivity(self, value: EthernetSwitchVlan) -> CouplingPort:
+    def setReceiveActivity(self, value: "EthernetSwitchVlan") -> CouplingPort:
         """
         AUTOSAR-compliant setter for receiveActivity with method chaining.
 
@@ -1805,7 +1805,7 @@ class CouplingPort(Identifiable):
         """
         return self.vlan  # Delegates to property
 
-    def getVlanModifier(self) -> EthernetPhysical:
+    def getVlanModifier(self) -> "EthernetPhysical":
         """
         AUTOSAR-compliant getter for vlanModifier.
 
@@ -1817,7 +1817,7 @@ class CouplingPort(Identifiable):
         """
         return self.vlan_modifier  # Delegates to property
 
-    def setVlanModifier(self, value: EthernetPhysical) -> CouplingPort:
+    def setVlanModifier(self, value: "EthernetPhysical") -> CouplingPort:
         """
         AUTOSAR-compliant setter for vlanModifier with method chaining.
 
@@ -1833,7 +1833,7 @@ class CouplingPort(Identifiable):
         self.vlan_modifier = value  # Delegates to property setter
         return self
 
-    def getWakeupSleep(self) -> EthernetWakeupSleep:
+    def getWakeupSleep(self) -> "EthernetWakeupSleep":
         """
         AUTOSAR-compliant getter for wakeupSleep.
 
@@ -1845,7 +1845,7 @@ class CouplingPort(Identifiable):
         """
         return self.wakeup_sleep  # Delegates to property
 
-    def setWakeupSleep(self, value: EthernetWakeupSleep) -> CouplingPort:
+    def setWakeupSleep(self, value: "EthernetWakeupSleep") -> CouplingPort:
         """
         AUTOSAR-compliant setter for wakeupSleep with method chaining.
 
@@ -1863,7 +1863,7 @@ class CouplingPort(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_connection(self, value: Optional[EthernetConnection]) -> CouplingPort:
+    def with_connection(self, value: Optional["EthernetConnection"]) -> CouplingPort:
         """
         Set connection and return self for chaining.
 
@@ -1895,7 +1895,7 @@ class CouplingPort(Identifiable):
         self.coupling_port = value  # Use property setter (gets validation)
         return self
 
-    def with_default_vlan(self, value: Optional[EthernetPhysical]) -> CouplingPort:
+    def with_default_vlan(self, value: Optional["EthernetPhysical"]) -> CouplingPort:
         """
         Set defaultVlan and return self for chaining.
 
@@ -1911,7 +1911,7 @@ class CouplingPort(Identifiable):
         self.default_vlan = value  # Use property setter (gets validation)
         return self
 
-    def with_mac_layer_type_enum(self, value: Optional[EthernetMacLayerType]) -> CouplingPort:
+    def with_mac_layer_type_enum(self, value: Optional["EthernetMacLayerType"]) -> CouplingPort:
         """
         Set macLayerTypeEnum and return self for chaining.
 
@@ -1927,7 +1927,7 @@ class CouplingPort(Identifiable):
         self.mac_layer_type_enum = value  # Use property setter (gets validation)
         return self
 
-    def with_physical_layer(self, value: Optional[EthernetPhysicalLayer]) -> CouplingPort:
+    def with_physical_layer(self, value: Optional["EthernetPhysicalLayer"]) -> CouplingPort:
         """
         Set physicalLayer and return self for chaining.
 
@@ -1959,7 +1959,7 @@ class CouplingPort(Identifiable):
         self.plca_props = value  # Use property setter (gets validation)
         return self
 
-    def with_receive_activity(self, value: Optional[EthernetSwitchVlan]) -> CouplingPort:
+    def with_receive_activity(self, value: Optional["EthernetSwitchVlan"]) -> CouplingPort:
         """
         Set receiveActivity and return self for chaining.
 
@@ -1975,7 +1975,7 @@ class CouplingPort(Identifiable):
         self.receive_activity = value  # Use property setter (gets validation)
         return self
 
-    def with_vlan_modifier(self, value: Optional[EthernetPhysical]) -> CouplingPort:
+    def with_vlan_modifier(self, value: Optional["EthernetPhysical"]) -> CouplingPort:
         """
         Set vlanModifier and return self for chaining.
 
@@ -1991,7 +1991,7 @@ class CouplingPort(Identifiable):
         self.vlan_modifier = value  # Use property setter (gets validation)
         return self
 
-    def with_wakeup_sleep(self, value: Optional[EthernetWakeupSleep]) -> CouplingPort:
+    def with_wakeup_sleep(self, value: Optional["EthernetWakeupSleep"]) -> CouplingPort:
         """
         Set wakeupSleep and return self for chaining.
 
@@ -2089,15 +2089,15 @@ class VlanMembership(ARObject):
         self._dhcpAddress = value
         # (sentTagged) without a VLAN tag (sentUntagged) be dropped at this port
         # (notSent or VLAN not this list).
-        self._sendActivity: Optional[EthernetSwitchVlan] = None
+        self._sendActivity: Optional["EthernetSwitchVlan"] = None
 
     @property
-    def send_activity(self) -> Optional[EthernetSwitchVlan]:
+    def send_activity(self) -> Optional["EthernetSwitchVlan"]:
         """Get sendActivity (Pythonic accessor)."""
         return self._sendActivity
 
     @send_activity.setter
-    def send_activity(self, value: Optional[EthernetSwitchVlan]) -> None:
+    def send_activity(self, value: Optional["EthernetSwitchVlan"]) -> None:
         """
         Set sendActivity with validation.
 
@@ -2116,15 +2116,15 @@ class VlanMembership(ARObject):
                 f"sendActivity must be EthernetSwitchVlan or None, got {type(value).__name__}"
             )
         self._sendActivity = value
-        self._vlan: Optional[EthernetPhysical] = None
+        self._vlan: Optional["EthernetPhysical"] = None
 
     @property
-    def vlan(self) -> Optional[EthernetPhysical]:
+    def vlan(self) -> Optional["EthernetPhysical"]:
         """Get vlan (Pythonic accessor)."""
         return self._vlan
 
     @vlan.setter
-    def vlan(self, value: Optional[EthernetPhysical]) -> None:
+    def vlan(self, value: Optional["EthernetPhysical"]) -> None:
         """
         Set vlan with validation.
 
@@ -2202,7 +2202,7 @@ class VlanMembership(ARObject):
         self.dhcp_address = value  # Delegates to property setter
         return self
 
-    def getSendActivity(self) -> EthernetSwitchVlan:
+    def getSendActivity(self) -> "EthernetSwitchVlan":
         """
         AUTOSAR-compliant getter for sendActivity.
 
@@ -2214,7 +2214,7 @@ class VlanMembership(ARObject):
         """
         return self.send_activity  # Delegates to property
 
-    def setSendActivity(self, value: EthernetSwitchVlan) -> VlanMembership:
+    def setSendActivity(self, value: "EthernetSwitchVlan") -> VlanMembership:
         """
         AUTOSAR-compliant setter for sendActivity with method chaining.
 
@@ -2230,7 +2230,7 @@ class VlanMembership(ARObject):
         self.send_activity = value  # Delegates to property setter
         return self
 
-    def getVlan(self) -> EthernetPhysical:
+    def getVlan(self) -> "EthernetPhysical":
         """
         AUTOSAR-compliant getter for vlan.
 
@@ -2242,7 +2242,7 @@ class VlanMembership(ARObject):
         """
         return self.vlan  # Delegates to property
 
-    def setVlan(self, value: EthernetPhysical) -> VlanMembership:
+    def setVlan(self, value: "EthernetPhysical") -> VlanMembership:
         """
         AUTOSAR-compliant setter for vlan with method chaining.
 
@@ -2292,7 +2292,7 @@ class VlanMembership(ARObject):
         self.dhcp_address = value  # Use property setter (gets validation)
         return self
 
-    def with_send_activity(self, value: Optional[EthernetSwitchVlan]) -> VlanMembership:
+    def with_send_activity(self, value: Optional["EthernetSwitchVlan"]) -> VlanMembership:
         """
         Set sendActivity and return self for chaining.
 
@@ -2308,7 +2308,7 @@ class VlanMembership(ARObject):
         self.send_activity = value  # Use property setter (gets validation)
         return self
 
-    def with_vlan(self, value: Optional[EthernetPhysical]) -> VlanMembership:
+    def with_vlan(self, value: Optional["EthernetPhysical"]) -> VlanMembership:
         """
         Set vlan and return self for chaining.
 
@@ -2709,15 +2709,15 @@ class EthernetCommunicationController(ARObject):
         """Get couplingPort (Pythonic accessor)."""
         return self._couplingPort
         # Specifies the mac layer type of the ethernet controller.
-        self._macLayerType: Optional[EthernetMacLayerType] = None
+        self._macLayerType: Optional["EthernetMacLayerType"] = None
 
     @property
-    def mac_layer_type(self) -> Optional[EthernetMacLayerType]:
+    def mac_layer_type(self) -> Optional["EthernetMacLayerType"]:
         """Get macLayerType (Pythonic accessor)."""
         return self._macLayerType
 
     @mac_layer_type.setter
-    def mac_layer_type(self, value: Optional[EthernetMacLayerType]) -> None:
+    def mac_layer_type(self, value: Optional["EthernetMacLayerType"]) -> None:
         """
         Set macLayerType with validation.
 
@@ -2894,7 +2894,7 @@ class EthernetCommunicationController(ARObject):
         """
         return self.coupling_port  # Delegates to property
 
-    def getMacLayerType(self) -> EthernetMacLayerType:
+    def getMacLayerType(self) -> "EthernetMacLayerType":
         """
         AUTOSAR-compliant getter for macLayerType.
 
@@ -2906,7 +2906,7 @@ class EthernetCommunicationController(ARObject):
         """
         return self.mac_layer_type  # Delegates to property
 
-    def setMacLayerType(self, value: EthernetMacLayerType) -> EthernetCommunicationController:
+    def setMacLayerType(self, value: "EthernetMacLayerType") -> EthernetCommunicationController:
         """
         AUTOSAR-compliant setter for macLayerType with method chaining.
 
@@ -2922,7 +2922,7 @@ class EthernetCommunicationController(ARObject):
         self.mac_layer_type = value  # Delegates to property setter
         return self
 
-    def getMacUnicast(self) -> "MacAddressString":
+    def getMacUnicast(self) -> MacAddressString:
         """
         AUTOSAR-compliant getter for macUnicast.
 
@@ -2934,7 +2934,7 @@ class EthernetCommunicationController(ARObject):
         """
         return self.mac_unicast  # Delegates to property
 
-    def setMacUnicast(self, value: "MacAddressString") -> EthernetCommunicationController:
+    def setMacUnicast(self, value: MacAddressString) -> EthernetCommunicationController:
         """
         AUTOSAR-compliant setter for macUnicast with method chaining.
 
@@ -3052,7 +3052,7 @@ class EthernetCommunicationController(ARObject):
         self.can_xl_config = value  # Use property setter (gets validation)
         return self
 
-    def with_mac_layer_type(self, value: Optional[EthernetMacLayerType]) -> EthernetCommunicationController:
+    def with_mac_layer_type(self, value: Optional["EthernetMacLayerType"]) -> EthernetCommunicationController:
         """
         Set macLayerType and return self for chaining.
 
@@ -3583,15 +3583,15 @@ class CouplingPortDetails(ARObject):
         self._ethernetTraffic = value
                 # Time Sync.
         # 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11.
-        self._globalTime: Optional[GlobalTimeCouplingPortConfiguration] = None
+        self._globalTime: Optional["GlobalTimeCouplingPortConfiguration"] = None
 
     @property
-    def global_time(self) -> Optional[GlobalTimeCouplingPortConfiguration]:
+    def global_time(self) -> Optional["GlobalTimeCouplingPortConfiguration"]:
         """Get globalTime (Pythonic accessor)."""
         return self._globalTime
 
     @global_time.setter
-    def global_time(self, value: Optional[GlobalTimeCouplingPortConfiguration]) -> None:
+    def global_time(self, value: Optional["GlobalTimeCouplingPortConfiguration"]) -> None:
         """
         Set globalTime with validation.
 
@@ -3714,7 +3714,7 @@ class CouplingPortDetails(ARObject):
         self.ethernet_traffic = value  # Delegates to property setter
         return self
 
-    def getGlobalTime(self) -> GlobalTimeCouplingPortConfiguration:
+    def getGlobalTime(self) -> "GlobalTimeCouplingPortConfiguration":
         """
         AUTOSAR-compliant getter for globalTime.
 
@@ -3726,7 +3726,7 @@ class CouplingPortDetails(ARObject):
         """
         return self.global_time  # Delegates to property
 
-    def setGlobalTime(self, value: GlobalTimeCouplingPortConfiguration) -> CouplingPortDetails:
+    def setGlobalTime(self, value: "GlobalTimeCouplingPortConfiguration") -> CouplingPortDetails:
         """
         AUTOSAR-compliant setter for globalTime with method chaining.
 
@@ -3816,7 +3816,7 @@ class CouplingPortDetails(ARObject):
         self.ethernet_traffic = value  # Use property setter (gets validation)
         return self
 
-    def with_global_time(self, value: Optional[GlobalTimeCouplingPortConfiguration]) -> CouplingPortDetails:
+    def with_global_time(self, value: Optional["GlobalTimeCouplingPortConfiguration"]) -> CouplingPortDetails:
         """
         Set globalTime and return self for chaining.
 
@@ -5424,15 +5424,15 @@ class SwitchStreamIdentification(Identifiable):
             )
         self._filterActionBlock = value
         # forwarding process for an Ethernet frame.
-        self._filterActionDest: Optional[SwitchStreamFilterEnum] = None
+        self._filterActionDest: Optional["SwitchStreamFilterEnum"] = None
 
     @property
-    def filter_action_dest(self) -> Optional[SwitchStreamFilterEnum]:
+    def filter_action_dest(self) -> Optional["SwitchStreamFilterEnum"]:
         """Get filterActionDest (Pythonic accessor)."""
         return self._filterActionDest
 
     @filter_action_dest.setter
-    def filter_action_dest(self, value: Optional[SwitchStreamFilterEnum]) -> None:
+    def filter_action_dest(self, value: Optional["SwitchStreamFilterEnum"]) -> None:
         """
         Set filterActionDest with validation.
 
@@ -5585,7 +5585,7 @@ class SwitchStreamIdentification(Identifiable):
         self.filter_action_block = value  # Delegates to property setter
         return self
 
-    def getFilterActionDest(self) -> SwitchStreamFilterEnum:
+    def getFilterActionDest(self) -> "SwitchStreamFilterEnum":
         """
         AUTOSAR-compliant getter for filterActionDest.
 
@@ -5597,7 +5597,7 @@ class SwitchStreamIdentification(Identifiable):
         """
         return self.filter_action_dest  # Delegates to property
 
-    def setFilterActionDest(self, value: SwitchStreamFilterEnum) -> SwitchStreamIdentification:
+    def setFilterActionDest(self, value: "SwitchStreamFilterEnum") -> SwitchStreamIdentification:
         """
         AUTOSAR-compliant setter for filterActionDest with method chaining.
 
@@ -5727,7 +5727,7 @@ class SwitchStreamIdentification(Identifiable):
         self.filter_action_block = value  # Use property setter (gets validation)
         return self
 
-    def with_filter_action_dest(self, value: Optional[SwitchStreamFilterEnum]) -> SwitchStreamIdentification:
+    def with_filter_action_dest(self, value: Optional["SwitchStreamFilterEnum"]) -> SwitchStreamIdentification:
         """
         Set filterActionDest and return self for chaining.
 
@@ -5838,15 +5838,15 @@ class SwitchStreamFilterRule(Identifiable):
         self._dataLinkLayer = value
         # Tags: atp.
         # Status=candidate.
-        self._ieee1722Tp: Optional[StreamFilterIEEE1722Configuration] = None
+        self._ieee1722Tp: Optional["StreamFilterIEEE1722Configuration"] = None
 
     @property
-    def ieee1722_tp(self) -> Optional[StreamFilterIEEE1722Configuration]:
+    def ieee1722_tp(self) -> Optional["StreamFilterIEEE1722Configuration"]:
         """Get ieee1722Tp (Pythonic accessor)."""
         return self._ieee1722Tp
 
     @ieee1722_tp.setter
-    def ieee1722_tp(self, value: Optional[StreamFilterIEEE1722Configuration]) -> None:
+    def ieee1722_tp(self, value: Optional["StreamFilterIEEE1722Configuration"]) -> None:
         """
         Set ieee1722Tp with validation.
 
@@ -5924,7 +5924,7 @@ class SwitchStreamFilterRule(Identifiable):
         self.data_link_layer = value  # Delegates to property setter
         return self
 
-    def getIeee1722Tp(self) -> StreamFilterIEEE1722Configuration:
+    def getIeee1722Tp(self) -> "StreamFilterIEEE1722Configuration":
         """
         AUTOSAR-compliant getter for ieee1722Tp.
 
@@ -5936,7 +5936,7 @@ class SwitchStreamFilterRule(Identifiable):
         """
         return self.ieee1722_tp  # Delegates to property
 
-    def setIeee1722Tp(self, value: StreamFilterIEEE1722Configuration) -> SwitchStreamFilterRule:
+    def setIeee1722Tp(self, value: "StreamFilterIEEE1722Configuration") -> SwitchStreamFilterRule:
         """
         AUTOSAR-compliant setter for ieee1722Tp with method chaining.
 
@@ -5998,7 +5998,7 @@ class SwitchStreamFilterRule(Identifiable):
         self.data_link_layer = value  # Use property setter (gets validation)
         return self
 
-    def with_ieee1722_tp(self, value: Optional[StreamFilterIEEE1722Configuration]) -> SwitchStreamFilterRule:
+    def with_ieee1722_tp(self, value: Optional["StreamFilterIEEE1722Configuration"]) -> SwitchStreamFilterRule:
         """
         Set ieee1722Tp and return self for chaining.
 
@@ -6046,15 +6046,15 @@ class StreamFilterRuleDataLinkLayer(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Filter to match packets with the destination MAC address/ mask.
-        self._destinationMac: Optional[StreamFilterMACConfiguration] = None
+        self._destinationMac: Optional["StreamFilterMACConfiguration"] = None
 
     @property
-    def destination_mac(self) -> Optional[StreamFilterMACConfiguration]:
+    def destination_mac(self) -> Optional["StreamFilterMACConfiguration"]:
         """Get destinationMac (Pythonic accessor)."""
         return self._destinationMac
 
     @destination_mac.setter
-    def destination_mac(self, value: Optional[StreamFilterMACConfiguration]) -> None:
+    def destination_mac(self, value: Optional["StreamFilterMACConfiguration"]) -> None:
         """
         Set destinationMac with validation.
 
@@ -6100,15 +6100,15 @@ class StreamFilterRuleDataLinkLayer(ARObject):
                 f"etherType must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._etherType = value
-        self._sourceMac: Optional[StreamFilterMACConfiguration] = None
+        self._sourceMac: Optional["StreamFilterMACConfiguration"] = None
 
     @property
-    def source_mac(self) -> Optional[StreamFilterMACConfiguration]:
+    def source_mac(self) -> Optional["StreamFilterMACConfiguration"]:
         """Get sourceMac (Pythonic accessor)."""
         return self._sourceMac
 
     @source_mac.setter
-    def source_mac(self, value: Optional[StreamFilterMACConfiguration]) -> None:
+    def source_mac(self, value: Optional["StreamFilterMACConfiguration"]) -> None:
         """
         Set sourceMac with validation.
 
@@ -6184,7 +6184,7 @@ class StreamFilterRuleDataLinkLayer(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDestinationMac(self) -> StreamFilterMACConfiguration:
+    def getDestinationMac(self) -> "StreamFilterMACConfiguration":
         """
         AUTOSAR-compliant getter for destinationMac.
 
@@ -6196,7 +6196,7 @@ class StreamFilterRuleDataLinkLayer(ARObject):
         """
         return self.destination_mac  # Delegates to property
 
-    def setDestinationMac(self, value: StreamFilterMACConfiguration) -> StreamFilterRuleDataLinkLayer:
+    def setDestinationMac(self, value: "StreamFilterMACConfiguration") -> StreamFilterRuleDataLinkLayer:
         """
         AUTOSAR-compliant setter for destinationMac with method chaining.
 
@@ -6240,7 +6240,7 @@ class StreamFilterRuleDataLinkLayer(ARObject):
         self.ether_type = value  # Delegates to property setter
         return self
 
-    def getSourceMac(self) -> StreamFilterMACConfiguration:
+    def getSourceMac(self) -> "StreamFilterMACConfiguration":
         """
         AUTOSAR-compliant getter for sourceMac.
 
@@ -6252,7 +6252,7 @@ class StreamFilterRuleDataLinkLayer(ARObject):
         """
         return self.source_mac  # Delegates to property
 
-    def setSourceMac(self, value: StreamFilterMACConfiguration) -> StreamFilterRuleDataLinkLayer:
+    def setSourceMac(self, value: "StreamFilterMACConfiguration") -> StreamFilterRuleDataLinkLayer:
         """
         AUTOSAR-compliant setter for sourceMac with method chaining.
 
@@ -6326,7 +6326,7 @@ class StreamFilterRuleDataLinkLayer(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_destination_mac(self, value: Optional[StreamFilterMACConfiguration]) -> StreamFilterRuleDataLinkLayer:
+    def with_destination_mac(self, value: Optional["StreamFilterMACConfiguration"]) -> StreamFilterRuleDataLinkLayer:
         """
         Set destinationMac and return self for chaining.
 
@@ -6358,7 +6358,7 @@ class StreamFilterRuleDataLinkLayer(ARObject):
         self.ether_type = value  # Use property setter (gets validation)
         return self
 
-    def with_source_mac(self, value: Optional[StreamFilterMACConfiguration]) -> StreamFilterRuleDataLinkLayer:
+    def with_source_mac(self, value: Optional["StreamFilterMACConfiguration"]) -> StreamFilterRuleDataLinkLayer:
         """
         Set sourceMac and return self for chaining.
 
@@ -6454,7 +6454,7 @@ class StreamFilterMACAddress(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getMacAddress(self) -> "MacAddressString":
+    def getMacAddress(self) -> MacAddressString:
         """
         AUTOSAR-compliant getter for macAddress.
 
@@ -6466,7 +6466,7 @@ class StreamFilterMACAddress(ARObject):
         """
         return self.mac_address  # Delegates to property
 
-    def setMacAddress(self, value: "MacAddressString") -> StreamFilterMACAddress:
+    def setMacAddress(self, value: MacAddressString) -> StreamFilterMACAddress:
         """
         AUTOSAR-compliant setter for macAddress with method chaining.
 
@@ -6516,15 +6516,15 @@ class StreamFilterRuleIpTp(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Filter to match packets with the destination IPv6 address range.
-        self._destination: Optional[StreamFilterIpv6Configuration] = None
+        self._destination: Optional["StreamFilterIpv6Configuration"] = None
 
     @property
-    def destination(self) -> Optional[StreamFilterIpv6Configuration]:
+    def destination(self) -> Optional["StreamFilterIpv6Configuration"]:
         """Get destination (Pythonic accessor)."""
         return self._destination
 
     @destination.setter
-    def destination(self, value: Optional[StreamFilterIpv6Configuration]) -> None:
+    def destination(self, value: Optional["StreamFilterIpv6Configuration"]) -> None:
         """
         Set destination with validation.
 
@@ -6550,15 +6550,15 @@ class StreamFilterRuleIpTp(ARObject):
         """Get destinationPort (Pythonic accessor)."""
         return self._destinationPort
         # Filter to match packets with the source IPv6 address range.
-        self._source: Optional[StreamFilterIpv6Configuration] = None
+        self._source: Optional["StreamFilterIpv6Configuration"] = None
 
     @property
-    def source(self) -> Optional[StreamFilterIpv6Configuration]:
+    def source(self) -> Optional["StreamFilterIpv6Configuration"]:
         """Get source (Pythonic accessor)."""
         return self._source
 
     @source.setter
-    def source(self, value: Optional[StreamFilterIpv6Configuration]) -> None:
+    def source(self, value: Optional["StreamFilterIpv6Configuration"]) -> None:
         """
         Set source with validation.
 
@@ -6586,7 +6586,7 @@ class StreamFilterRuleIpTp(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDestination(self) -> StreamFilterIpv6Configuration:
+    def getDestination(self) -> "StreamFilterIpv6Configuration":
         """
         AUTOSAR-compliant getter for destination.
 
@@ -6598,7 +6598,7 @@ class StreamFilterRuleIpTp(ARObject):
         """
         return self.destination  # Delegates to property
 
-    def setDestination(self, value: StreamFilterIpv6Configuration) -> StreamFilterRuleIpTp:
+    def setDestination(self, value: "StreamFilterIpv6Configuration") -> StreamFilterRuleIpTp:
         """
         AUTOSAR-compliant setter for destination with method chaining.
 
@@ -6626,7 +6626,7 @@ class StreamFilterRuleIpTp(ARObject):
         """
         return self.destination_port  # Delegates to property
 
-    def getSource(self) -> StreamFilterIpv6Configuration:
+    def getSource(self) -> "StreamFilterIpv6Configuration":
         """
         AUTOSAR-compliant getter for source.
 
@@ -6638,7 +6638,7 @@ class StreamFilterRuleIpTp(ARObject):
         """
         return self.source  # Delegates to property
 
-    def setSource(self, value: StreamFilterIpv6Configuration) -> StreamFilterRuleIpTp:
+    def setSource(self, value: "StreamFilterIpv6Configuration") -> StreamFilterRuleIpTp:
         """
         AUTOSAR-compliant setter for source with method chaining.
 
@@ -6668,7 +6668,7 @@ class StreamFilterRuleIpTp(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_destination(self, value: Optional[StreamFilterIpv6Configuration]) -> StreamFilterRuleIpTp:
+    def with_destination(self, value: Optional["StreamFilterIpv6Configuration"]) -> StreamFilterRuleIpTp:
         """
         Set destination and return self for chaining.
 
@@ -6684,7 +6684,7 @@ class StreamFilterRuleIpTp(ARObject):
         self.destination = value  # Use property setter (gets validation)
         return self
 
-    def with_source(self, value: Optional[StreamFilterIpv6Configuration]) -> StreamFilterRuleIpTp:
+    def with_source(self, value: Optional["StreamFilterIpv6Configuration"]) -> StreamFilterRuleIpTp:
         """
         Set source and return self for chaining.
 
@@ -7067,15 +7067,15 @@ class StreamFilterIEEE1722Tp(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Filter to match IEEE1722Tp packets with the stream Id as 64bit stream id.
-        self._streamId: Optional[PositiveUnlimitedInteger] = None
+        self._streamId: Optional["PositiveUnlimitedInteger"] = None
 
     @property
-    def stream_id(self) -> Optional[PositiveUnlimitedInteger]:
+    def stream_id(self) -> Optional["PositiveUnlimitedInteger"]:
         """Get streamId (Pythonic accessor)."""
         return self._streamId
 
     @stream_id.setter
-    def stream_id(self, value: Optional[PositiveUnlimitedInteger]) -> None:
+    def stream_id(self, value: Optional["PositiveUnlimitedInteger"]) -> None:
         """
         Set streamId with validation.
 
@@ -7097,7 +7097,7 @@ class StreamFilterIEEE1722Tp(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getStreamId(self) -> PositiveUnlimitedInteger:
+    def getStreamId(self) -> "PositiveUnlimitedInteger":
         """
         AUTOSAR-compliant getter for streamId.
 
@@ -7109,7 +7109,7 @@ class StreamFilterIEEE1722Tp(ARObject):
         """
         return self.stream_id  # Delegates to property
 
-    def setStreamId(self, value: PositiveUnlimitedInteger) -> StreamFilterIEEE1722Tp:
+    def setStreamId(self, value: "PositiveUnlimitedInteger") -> StreamFilterIEEE1722Tp:
         """
         AUTOSAR-compliant setter for streamId with method chaining.
 
@@ -7127,7 +7127,7 @@ class StreamFilterIEEE1722Tp(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_stream_id(self, value: Optional[PositiveUnlimitedInteger]) -> StreamFilterIEEE1722Tp:
+    def with_stream_id(self, value: Optional["PositiveUnlimitedInteger"]) -> StreamFilterIEEE1722Tp:
         """
         Set streamId and return self for chaining.
 
@@ -7172,15 +7172,15 @@ class SwitchStreamFilterActionDestPortModification(Identifiable):
         # overwrite or extend the egress destination.
         # atp.
         # Status=candidate.
-        self._modification: Optional[SwitchStreamFilterEnum] = None
+        self._modification: Optional["SwitchStreamFilterEnum"] = None
 
     @property
-    def modification(self) -> Optional[SwitchStreamFilterEnum]:
+    def modification(self) -> Optional["SwitchStreamFilterEnum"]:
         """Get modification (Pythonic accessor)."""
         return self._modification
 
     @modification.setter
-    def modification(self, value: Optional[SwitchStreamFilterEnum]) -> None:
+    def modification(self, value: Optional["SwitchStreamFilterEnum"]) -> None:
         """
         Set modification with validation.
 
@@ -7214,7 +7214,7 @@ class SwitchStreamFilterActionDestPortModification(Identifiable):
         """
         return self.egress_port  # Delegates to property
 
-    def getModification(self) -> SwitchStreamFilterEnum:
+    def getModification(self) -> "SwitchStreamFilterEnum":
         """
         AUTOSAR-compliant getter for modification.
 
@@ -7226,7 +7226,7 @@ class SwitchStreamFilterActionDestPortModification(Identifiable):
         """
         return self.modification  # Delegates to property
 
-    def setModification(self, value: SwitchStreamFilterEnum) -> SwitchStreamFilterActionDestPortModification:
+    def setModification(self, value: "SwitchStreamFilterEnum") -> SwitchStreamFilterActionDestPortModification:
         """
         AUTOSAR-compliant setter for modification with method chaining.
 
@@ -7244,7 +7244,7 @@ class SwitchStreamFilterActionDestPortModification(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_modification(self, value: Optional[SwitchStreamFilterEnum]) -> SwitchStreamFilterActionDestPortModification:
+    def with_modification(self, value: Optional["SwitchStreamFilterEnum"]) -> SwitchStreamFilterActionDestPortModification:
         """
         Set modification and return self for chaining.
 
@@ -7334,15 +7334,15 @@ class SwitchStreamFilterEntry(Identifiable):
         self._filterPriority = value
         # atp.
         # Status=candidate.
-        self._flowMetering: Optional[SwitchFlowMeteringEnum] = None
+        self._flowMetering: Optional["SwitchFlowMeteringEnum"] = None
 
     @property
-    def flow_metering(self) -> Optional[SwitchFlowMeteringEnum]:
+    def flow_metering(self) -> Optional["SwitchFlowMeteringEnum"]:
         """Get flowMetering (Pythonic accessor)."""
         return self._flowMetering
 
     @flow_metering.setter
-    def flow_metering(self, value: Optional[SwitchFlowMeteringEnum]) -> None:
+    def flow_metering(self, value: Optional["SwitchFlowMeteringEnum"]) -> None:
         """
         Set flowMetering with validation.
 
@@ -7505,7 +7505,7 @@ class SwitchStreamFilterEntry(Identifiable):
         self.filter_priority = value  # Delegates to property setter
         return self
 
-    def getFlowMetering(self) -> SwitchFlowMeteringEnum:
+    def getFlowMetering(self) -> "SwitchFlowMeteringEnum":
         """
         AUTOSAR-compliant getter for flowMetering.
 
@@ -7517,7 +7517,7 @@ class SwitchStreamFilterEntry(Identifiable):
         """
         return self.flow_metering  # Delegates to property
 
-    def setFlowMetering(self, value: SwitchFlowMeteringEnum) -> SwitchStreamFilterEntry:
+    def setFlowMetering(self, value: "SwitchFlowMeteringEnum") -> SwitchStreamFilterEntry:
         """
         AUTOSAR-compliant setter for flowMetering with method chaining.
 
@@ -7651,7 +7651,7 @@ class SwitchStreamFilterEntry(Identifiable):
         self.filter_priority = value  # Use property setter (gets validation)
         return self
 
-    def with_flow_metering(self, value: Optional[SwitchFlowMeteringEnum]) -> SwitchStreamFilterEntry:
+    def with_flow_metering(self, value: Optional["SwitchFlowMeteringEnum"]) -> SwitchStreamFilterEntry:
         """
         Set flowMetering and return self for chaining.
 
@@ -8585,15 +8585,15 @@ class Ipv4Props(ARObject):
                 f"autoIpProps must be Ipv4AutoIpProps or None, got {type(value).__name__}"
             )
         self._autoIpProps = value
-        self._fragmentation: Optional[Ipv4FragmentationHandlingEnum] = None
+        self._fragmentation: Optional["Ipv4FragmentationHandlingEnum"] = None
 
     @property
-    def fragmentation(self) -> Optional[Ipv4FragmentationHandlingEnum]:
+    def fragmentation(self) -> Optional["Ipv4FragmentationHandlingEnum"]:
         """Get fragmentation (Pythonic accessor)."""
         return self._fragmentation
 
     @fragmentation.setter
-    def fragmentation(self, value: Optional[Ipv4FragmentationHandlingEnum]) -> None:
+    def fragmentation(self, value: Optional["Ipv4FragmentationHandlingEnum"]) -> None:
         """
         Set fragmentation with validation.
 
@@ -8671,7 +8671,7 @@ class Ipv4Props(ARObject):
         self.auto_ip_props = value  # Delegates to property setter
         return self
 
-    def getFragmentation(self) -> Ipv4FragmentationHandlingEnum:
+    def getFragmentation(self) -> "Ipv4FragmentationHandlingEnum":
         """
         AUTOSAR-compliant getter for fragmentation.
 
@@ -8683,7 +8683,7 @@ class Ipv4Props(ARObject):
         """
         return self.fragmentation  # Delegates to property
 
-    def setFragmentation(self, value: Ipv4FragmentationHandlingEnum) -> Ipv4Props:
+    def setFragmentation(self, value: "Ipv4FragmentationHandlingEnum") -> Ipv4Props:
         """
         AUTOSAR-compliant setter for fragmentation with method chaining.
 
@@ -8733,7 +8733,7 @@ class Ipv4Props(ARObject):
         self.auto_ip_props = value  # Use property setter (gets validation)
         return self
 
-    def with_fragmentation(self, value: Optional[Ipv4FragmentationHandlingEnum]) -> Ipv4Props:
+    def with_fragmentation(self, value: Optional["Ipv4FragmentationHandlingEnum"]) -> Ipv4Props:
         """
         Set fragmentation and return self for chaining.
 
@@ -9442,15 +9442,15 @@ class Ipv6Props(ARObject):
                 f"dhcpProps must be Dhcpv6Props or None, got {type(value).__name__}"
             )
         self._dhcpProps = value
-        self._fragmentation: Optional[Ipv6FragmentationHandlingEnum] = None
+        self._fragmentation: Optional["Ipv6FragmentationHandlingEnum"] = None
 
     @property
-    def fragmentation(self) -> Optional[Ipv6FragmentationHandlingEnum]:
+    def fragmentation(self) -> Optional["Ipv6FragmentationHandlingEnum"]:
         """Get fragmentation (Pythonic accessor)."""
         return self._fragmentation
 
     @fragmentation.setter
-    def fragmentation(self, value: Optional[Ipv6FragmentationHandlingEnum]) -> None:
+    def fragmentation(self, value: Optional["Ipv6FragmentationHandlingEnum"]) -> None:
         """
         Set fragmentation with validation.
 
@@ -9527,7 +9527,7 @@ class Ipv6Props(ARObject):
         self.dhcp_props = value  # Delegates to property setter
         return self
 
-    def getFragmentation(self) -> Ipv6FragmentationHandlingEnum:
+    def getFragmentation(self) -> "Ipv6FragmentationHandlingEnum":
         """
         AUTOSAR-compliant getter for fragmentation.
 
@@ -9539,7 +9539,7 @@ class Ipv6Props(ARObject):
         """
         return self.fragmentation  # Delegates to property
 
-    def setFragmentation(self, value: Ipv6FragmentationHandlingEnum) -> Ipv6Props:
+    def setFragmentation(self, value: "Ipv6FragmentationHandlingEnum") -> Ipv6Props:
         """
         AUTOSAR-compliant setter for fragmentation with method chaining.
 
@@ -9601,7 +9601,7 @@ class Ipv6Props(ARObject):
         self.dhcp_props = value  # Use property setter (gets validation)
         return self
 
-    def with_fragmentation(self, value: Optional[Ipv6FragmentationHandlingEnum]) -> Ipv6Props:
+    def with_fragmentation(self, value: Optional["Ipv6FragmentationHandlingEnum"]) -> Ipv6Props:
         """
         Set fragmentation and return self for chaining.
 
@@ -13726,15 +13726,15 @@ class ApplicationEndpoint(Identifiable):
         return self._providedService
         # This reference identifies the applicable TlsCryptoService Mapping that adds
         # the ability for TLS-based encryption enclosing ApplicationEndpoint.
-        self._tlsCrypto: Optional[TlsCryptoServiceEnum] = None
+        self._tlsCrypto: Optional["TlsCryptoServiceEnum"] = None
 
     @property
-    def tls_crypto(self) -> Optional[TlsCryptoServiceEnum]:
+    def tls_crypto(self) -> Optional["TlsCryptoServiceEnum"]:
         """Get tlsCrypto (Pythonic accessor)."""
         return self._tlsCrypto
 
     @tls_crypto.setter
-    def tls_crypto(self, value: Optional[TlsCryptoServiceEnum]) -> None:
+    def tls_crypto(self, value: Optional["TlsCryptoServiceEnum"]) -> None:
         """
         Set tlsCrypto with validation.
 
@@ -13753,15 +13753,15 @@ class ApplicationEndpoint(Identifiable):
                 f"tlsCrypto must be TlsCryptoService or None, got {type(value).__name__}"
             )
         self._tlsCrypto = value
-        self._tpConfigurationConfiguration: Optional[TransportProtocolEnum] = None
+        self._tpConfigurationConfiguration: Optional["TransportProtocolEnum"] = None
 
     @property
-    def tp_configuration_configuration(self) -> Optional[TransportProtocolEnum]:
+    def tp_configuration_configuration(self) -> Optional["TransportProtocolEnum"]:
         """Get tpConfigurationConfiguration (Pythonic accessor)."""
         return self._tpConfigurationConfiguration
 
     @tp_configuration_configuration.setter
-    def tp_configuration_configuration(self, value: Optional[TransportProtocolEnum]) -> None:
+    def tp_configuration_configuration(self, value: Optional["TransportProtocolEnum"]) -> None:
         """
         Set tpConfigurationConfiguration with validation.
 
@@ -13891,7 +13891,7 @@ class ApplicationEndpoint(Identifiable):
         """
         return self.provided_service  # Delegates to property
 
-    def getTlsCrypto(self) -> TlsCryptoServiceEnum:
+    def getTlsCrypto(self) -> "TlsCryptoServiceEnum":
         """
         AUTOSAR-compliant getter for tlsCrypto.
 
@@ -13903,7 +13903,7 @@ class ApplicationEndpoint(Identifiable):
         """
         return self.tls_crypto  # Delegates to property
 
-    def setTlsCrypto(self, value: TlsCryptoServiceEnum) -> ApplicationEndpoint:
+    def setTlsCrypto(self, value: "TlsCryptoServiceEnum") -> ApplicationEndpoint:
         """
         AUTOSAR-compliant setter for tlsCrypto with method chaining.
 
@@ -13919,7 +13919,7 @@ class ApplicationEndpoint(Identifiable):
         self.tls_crypto = value  # Delegates to property setter
         return self
 
-    def getTpConfigurationConfiguration(self) -> TransportProtocolEnum:
+    def getTpConfigurationConfiguration(self) -> "TransportProtocolEnum":
         """
         AUTOSAR-compliant getter for tpConfigurationConfiguration.
 
@@ -13931,7 +13931,7 @@ class ApplicationEndpoint(Identifiable):
         """
         return self.tp_configuration_configuration  # Delegates to property
 
-    def setTpConfigurationConfiguration(self, value: TransportProtocolEnum) -> ApplicationEndpoint:
+    def setTpConfigurationConfiguration(self, value: "TransportProtocolEnum") -> ApplicationEndpoint:
         """
         AUTOSAR-compliant setter for tpConfigurationConfiguration with method chaining.
 
@@ -13997,7 +13997,7 @@ class ApplicationEndpoint(Identifiable):
         self.priority = value  # Use property setter (gets validation)
         return self
 
-    def with_tls_crypto(self, value: Optional[TlsCryptoServiceEnum]) -> ApplicationEndpoint:
+    def with_tls_crypto(self, value: Optional["TlsCryptoServiceEnum"]) -> ApplicationEndpoint:
         """
         Set tlsCrypto and return self for chaining.
 
@@ -14013,7 +14013,7 @@ class ApplicationEndpoint(Identifiable):
         self.tls_crypto = value  # Use property setter (gets validation)
         return self
 
-    def with_tp_configuration_configuration(self, value: Optional[TransportProtocolEnum]) -> ApplicationEndpoint:
+    def with_tp_configuration_configuration(self, value: Optional["TransportProtocolEnum"]) -> ApplicationEndpoint:
         """
         Set tpConfigurationConfiguration and return self for chaining.
 
@@ -14286,15 +14286,15 @@ class NetworkEndpoint(Identifiable):
                 f"infrastructure must be InfrastructureServices or None, got {type(value).__name__}"
             )
         self._infrastructure = value
-        self._ipSecConfig: Optional[IPSecConfiguration] = None
+        self._ipSecConfig: Optional["IPSecConfiguration"] = None
 
     @property
-    def ip_sec_config(self) -> Optional[IPSecConfiguration]:
+    def ip_sec_config(self) -> Optional["IPSecConfiguration"]:
         """Get ipSecConfig (Pythonic accessor)."""
         return self._ipSecConfig
 
     @ip_sec_config.setter
-    def ip_sec_config(self, value: Optional[IPSecConfiguration]) -> None:
+    def ip_sec_config(self, value: Optional["IPSecConfiguration"]) -> None:
         """
         Set ipSecConfig with validation.
 
@@ -14408,7 +14408,7 @@ class NetworkEndpoint(Identifiable):
         self.infrastructure = value  # Delegates to property setter
         return self
 
-    def getIpSecConfig(self) -> IPSecConfiguration:
+    def getIpSecConfig(self) -> "IPSecConfiguration":
         """
         AUTOSAR-compliant getter for ipSecConfig.
 
@@ -14420,7 +14420,7 @@ class NetworkEndpoint(Identifiable):
         """
         return self.ip_sec_config  # Delegates to property
 
-    def setIpSecConfig(self, value: IPSecConfiguration) -> NetworkEndpoint:
+    def setIpSecConfig(self, value: "IPSecConfiguration") -> NetworkEndpoint:
         """
         AUTOSAR-compliant setter for ipSecConfig with method chaining.
 
@@ -14510,7 +14510,7 @@ class NetworkEndpoint(Identifiable):
         self.infrastructure = value  # Use property setter (gets validation)
         return self
 
-    def with_ip_sec_config(self, value: Optional[IPSecConfiguration]) -> NetworkEndpoint:
+    def with_ip_sec_config(self, value: Optional["IPSecConfiguration"]) -> NetworkEndpoint:
         """
         Set ipSecConfig and return self for chaining.
 
@@ -15740,15 +15740,15 @@ class CouplingPortAsynchronousTrafficShaper(Identifiable):
                 # part of.
         # atp.
         # Status=candidate.
-        self._trafficShaper: Optional[SwitchAsynchronousEnum] = None
+        self._trafficShaper: Optional["SwitchAsynchronousEnum"] = None
 
     @property
-    def traffic_shaper(self) -> Optional[SwitchAsynchronousEnum]:
+    def traffic_shaper(self) -> Optional["SwitchAsynchronousEnum"]:
         """Get trafficShaper (Pythonic accessor)."""
         return self._trafficShaper
 
     @traffic_shaper.setter
-    def traffic_shaper(self, value: Optional[SwitchAsynchronousEnum]) -> None:
+    def traffic_shaper(self, value: Optional["SwitchAsynchronousEnum"]) -> None:
         """
         Set trafficShaper with validation.
 
@@ -15826,7 +15826,7 @@ class CouplingPortAsynchronousTrafficShaper(Identifiable):
         self.committed = value  # Delegates to property setter
         return self
 
-    def getTrafficShaper(self) -> SwitchAsynchronousEnum:
+    def getTrafficShaper(self) -> "SwitchAsynchronousEnum":
         """
         AUTOSAR-compliant getter for trafficShaper.
 
@@ -15838,7 +15838,7 @@ class CouplingPortAsynchronousTrafficShaper(Identifiable):
         """
         return self.traffic_shaper  # Delegates to property
 
-    def setTrafficShaper(self, value: SwitchAsynchronousEnum) -> CouplingPortAsynchronousTrafficShaper:
+    def setTrafficShaper(self, value: "SwitchAsynchronousEnum") -> CouplingPortAsynchronousTrafficShaper:
         """
         AUTOSAR-compliant setter for trafficShaper with method chaining.
 
@@ -15888,7 +15888,7 @@ class CouplingPortAsynchronousTrafficShaper(Identifiable):
         self.committed = value  # Use property setter (gets validation)
         return self
 
-    def with_traffic_shaper(self, value: Optional[SwitchAsynchronousEnum]) -> CouplingPortAsynchronousTrafficShaper:
+    def with_traffic_shaper(self, value: Optional["SwitchAsynchronousEnum"]) -> CouplingPortAsynchronousTrafficShaper:
         """
         Set trafficShaper and return self for chaining.
 
@@ -16154,15 +16154,15 @@ class CouplingPortScheduler(CouplingPortStructuralElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Defines the schedule algorithm to be used.
-        self._portSchedulerSchedulerEnum: Optional[EthernetCouplingPortConfiguration] = None
+        self._portSchedulerSchedulerEnum: Optional["EthernetCouplingPortConfiguration"] = None
 
     @property
-    def port_scheduler_scheduler_enum(self) -> Optional[EthernetCouplingPortConfiguration]:
+    def port_scheduler_scheduler_enum(self) -> Optional["EthernetCouplingPortConfiguration"]:
         """Get portSchedulerSchedulerEnum (Pythonic accessor)."""
         return self._portSchedulerSchedulerEnum
 
     @port_scheduler_scheduler_enum.setter
-    def port_scheduler_scheduler_enum(self, value: Optional[EthernetCouplingPortConfiguration]) -> None:
+    def port_scheduler_scheduler_enum(self, value: Optional["EthernetCouplingPortConfiguration"]) -> None:
         """
         Set portSchedulerSchedulerEnum with validation.
 
@@ -16192,7 +16192,7 @@ class CouplingPortScheduler(CouplingPortStructuralElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getPortSchedulerSchedulerEnum(self) -> EthernetCouplingPortConfiguration:
+    def getPortSchedulerSchedulerEnum(self) -> "EthernetCouplingPortConfiguration":
         """
         AUTOSAR-compliant getter for portSchedulerSchedulerEnum.
 
@@ -16204,7 +16204,7 @@ class CouplingPortScheduler(CouplingPortStructuralElement):
         """
         return self.port_scheduler_scheduler_enum  # Delegates to property
 
-    def setPortSchedulerSchedulerEnum(self, value: EthernetCouplingPortConfiguration) -> CouplingPortScheduler:
+    def setPortSchedulerSchedulerEnum(self, value: "EthernetCouplingPortConfiguration") -> CouplingPortScheduler:
         """
         AUTOSAR-compliant setter for portSchedulerSchedulerEnum with method chaining.
 
@@ -16234,7 +16234,7 @@ class CouplingPortScheduler(CouplingPortStructuralElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_port_scheduler_scheduler_enum(self, value: Optional[EthernetCouplingPortConfiguration]) -> CouplingPortScheduler:
+    def with_port_scheduler_scheduler_enum(self, value: Optional["EthernetCouplingPortConfiguration"]) -> CouplingPortScheduler:
         """
         Set portSchedulerSchedulerEnum and return self for chaining.
 
@@ -16475,15 +16475,15 @@ class CouplingPortFifo(CouplingPortStructuralElement):
                 f"minimumFifo must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._minimumFifo = value
-        self._shaper: Optional[CouplingPortAbstract] = None
+        self._shaper: Optional["CouplingPortAbstract"] = None
 
     @property
-    def shaper(self) -> Optional[CouplingPortAbstract]:
+    def shaper(self) -> Optional["CouplingPortAbstract"]:
         """Get shaper (Pythonic accessor)."""
         return self._shaper
 
     @shaper.setter
-    def shaper(self, value: Optional[CouplingPortAbstract]) -> None:
+    def shaper(self, value: Optional["CouplingPortAbstract"]) -> None:
         """
         Set shaper with validation.
 
@@ -16561,7 +16561,7 @@ class CouplingPortFifo(CouplingPortStructuralElement):
         self.minimum_fifo = value  # Delegates to property setter
         return self
 
-    def getShaper(self) -> CouplingPortAbstract:
+    def getShaper(self) -> "CouplingPortAbstract":
         """
         AUTOSAR-compliant getter for shaper.
 
@@ -16573,7 +16573,7 @@ class CouplingPortFifo(CouplingPortStructuralElement):
         """
         return self.shaper  # Delegates to property
 
-    def setShaper(self, value: CouplingPortAbstract) -> CouplingPortFifo:
+    def setShaper(self, value: "CouplingPortAbstract") -> CouplingPortFifo:
         """
         AUTOSAR-compliant setter for shaper with method chaining.
 
@@ -16623,7 +16623,7 @@ class CouplingPortFifo(CouplingPortStructuralElement):
         self.minimum_fifo = value  # Use property setter (gets validation)
         return self
 
-    def with_shaper(self, value: Optional[CouplingPortAbstract]) -> CouplingPortFifo:
+    def with_shaper(self, value: Optional["CouplingPortAbstract"]) -> CouplingPortFifo:
         """
         Set shaper and return self for chaining.
 
@@ -17492,15 +17492,15 @@ class HttpTp(TransportProtocolConfiguration):
                 f"protocolVersion must be String or str or None, got {type(value).__name__}"
             )
         self._protocolVersion = value
-        self._requestMethod: Optional[RequestMethodEnum] = None
+        self._requestMethod: Optional["RequestMethodEnum"] = None
 
     @property
-    def request_method(self) -> Optional[RequestMethodEnum]:
+    def request_method(self) -> Optional["RequestMethodEnum"]:
         """Get requestMethod (Pythonic accessor)."""
         return self._requestMethod
 
     @request_method.setter
-    def request_method(self, value: Optional[RequestMethodEnum]) -> None:
+    def request_method(self, value: Optional["RequestMethodEnum"]) -> None:
         """
         Set requestMethod with validation.
 
@@ -17632,7 +17632,7 @@ class HttpTp(TransportProtocolConfiguration):
         self.protocol_version = value  # Delegates to property setter
         return self
 
-    def getRequestMethod(self) -> RequestMethodEnum:
+    def getRequestMethod(self) -> "RequestMethodEnum":
         """
         AUTOSAR-compliant getter for requestMethod.
 
@@ -17644,7 +17644,7 @@ class HttpTp(TransportProtocolConfiguration):
         """
         return self.request_method  # Delegates to property
 
-    def setRequestMethod(self, value: RequestMethodEnum) -> HttpTp:
+    def setRequestMethod(self, value: "RequestMethodEnum") -> HttpTp:
         """
         AUTOSAR-compliant setter for requestMethod with method chaining.
 
@@ -17750,7 +17750,7 @@ class HttpTp(TransportProtocolConfiguration):
         self.protocol_version = value  # Use property setter (gets validation)
         return self
 
-    def with_request_method(self, value: Optional[RequestMethodEnum]) -> HttpTp:
+    def with_request_method(self, value: Optional["RequestMethodEnum"]) -> HttpTp:
         """
         Set requestMethod and return self for chaining.
 

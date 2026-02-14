@@ -38,15 +38,15 @@ class DiagnosticCommonProps(ARObject):
                 # default-session if no communication from the authenticated client.
         # 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template
                 # R23-11.
-        self._authentication: Optional[TimeValue] = None
+        self._authentication: Optional["TimeValue"] = None
 
     @property
-    def authentication(self) -> Optional[TimeValue]:
+    def authentication(self) -> Optional["TimeValue"]:
         """Get authentication (Pythonic accessor)."""
         return self._authentication
 
     @authentication.setter
-    def authentication(self, value: Optional[TimeValue]) -> None:
+    def authentication(self, value: Optional["TimeValue"]) -> None:
         """
         Set authentication with validation.
 
@@ -77,15 +77,15 @@ class DiagnosticCommonProps(ARObject):
         return self._debounce
         # Defines the default endianness of the data belonging to a or RID which is
         # applicable if the DiagnosticData not define the endianness via the swData.
-        self._default: Optional[ByteOrderEnum] = None
+        self._default: Optional["ByteOrderEnum"] = None
 
     @property
-    def default(self) -> Optional[ByteOrderEnum]:
+    def default(self) -> Optional["ByteOrderEnum"]:
         """Get default (Pythonic accessor)."""
         return self._default
 
     @default.setter
-    def default(self, value: Optional[ByteOrderEnum]) -> None:
+    def default(self, value: Optional["ByteOrderEnum"]) -> None:
         """
         Set default with validation.
 
@@ -105,15 +105,15 @@ class DiagnosticCommonProps(ARObject):
             )
         self._default = value
         # specific order of reporting is to be maintained.
-        self._event: Optional[DiagnosticEvent] = None
+        self._event: Optional["DiagnosticEvent"] = None
 
     @property
-    def event(self) -> Optional[DiagnosticEvent]:
+    def event(self) -> Optional["DiagnosticEvent"]:
         """Get event (Pythonic accessor)."""
         return self._event
 
     @event.setter
-    def event(self, value: Optional[DiagnosticEvent]) -> None:
+    def event(self, value: Optional["DiagnosticEvent"]) -> None:
         """
         Set event with validation.
 
@@ -309,15 +309,15 @@ class DiagnosticCommonProps(ARObject):
                 f"responseOn must be Boolean or bool or None, got {type(value).__name__}"
             )
         self._responseOn = value
-        self._typeOfEvent: Optional[DiagnosticEvent] = None
+        self._typeOfEvent: Optional["DiagnosticEvent"] = None
 
     @property
-    def type_of_event(self) -> Optional[DiagnosticEvent]:
+    def type_of_event(self) -> Optional["DiagnosticEvent"]:
         """Get typeOfEvent (Pythonic accessor)."""
         return self._typeOfEvent
 
     @type_of_event.setter
-    def type_of_event(self, value: Optional[DiagnosticEvent]) -> None:
+    def type_of_event(self, value: Optional["DiagnosticEvent"]) -> None:
         """
         Set typeOfEvent with validation.
 
@@ -355,7 +355,7 @@ class DiagnosticCommonProps(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAuthentication(self) -> TimeValue:
+    def getAuthentication(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for authentication.
 
@@ -367,7 +367,7 @@ class DiagnosticCommonProps(ARObject):
         """
         return self.authentication  # Delegates to property
 
-    def setAuthentication(self, value: TimeValue) -> DiagnosticCommonProps:
+    def setAuthentication(self, value: "TimeValue") -> DiagnosticCommonProps:
         """
         AUTOSAR-compliant setter for authentication with method chaining.
 
@@ -395,7 +395,7 @@ class DiagnosticCommonProps(ARObject):
         """
         return self.debounce  # Delegates to property
 
-    def getDefault(self) -> ByteOrderEnum:
+    def getDefault(self) -> "ByteOrderEnum":
         """
         AUTOSAR-compliant getter for default.
 
@@ -407,7 +407,7 @@ class DiagnosticCommonProps(ARObject):
         """
         return self.default  # Delegates to property
 
-    def setDefault(self, value: ByteOrderEnum) -> DiagnosticCommonProps:
+    def setDefault(self, value: "ByteOrderEnum") -> DiagnosticCommonProps:
         """
         AUTOSAR-compliant setter for default with method chaining.
 
@@ -423,7 +423,7 @@ class DiagnosticCommonProps(ARObject):
         self.default = value  # Delegates to property setter
         return self
 
-    def getEvent(self) -> DiagnosticEvent:
+    def getEvent(self) -> "DiagnosticEvent":
         """
         AUTOSAR-compliant getter for event.
 
@@ -435,7 +435,7 @@ class DiagnosticCommonProps(ARObject):
         """
         return self.event  # Delegates to property
 
-    def setEvent(self, value: DiagnosticEvent) -> DiagnosticCommonProps:
+    def setEvent(self, value: "DiagnosticEvent") -> DiagnosticCommonProps:
         """
         AUTOSAR-compliant setter for event with method chaining.
 
@@ -619,7 +619,7 @@ class DiagnosticCommonProps(ARObject):
         self.response_on = value  # Delegates to property setter
         return self
 
-    def getTypeOfEvent(self) -> DiagnosticEvent:
+    def getTypeOfEvent(self) -> "DiagnosticEvent":
         """
         AUTOSAR-compliant getter for typeOfEvent.
 
@@ -631,7 +631,7 @@ class DiagnosticCommonProps(ARObject):
         """
         return self.type_of_event  # Delegates to property
 
-    def setTypeOfEvent(self, value: DiagnosticEvent) -> DiagnosticCommonProps:
+    def setTypeOfEvent(self, value: "DiagnosticEvent") -> DiagnosticCommonProps:
         """
         AUTOSAR-compliant setter for typeOfEvent with method chaining.
 
@@ -649,7 +649,7 @@ class DiagnosticCommonProps(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_authentication(self, value: Optional[TimeValue]) -> DiagnosticCommonProps:
+    def with_authentication(self, value: Optional["TimeValue"]) -> DiagnosticCommonProps:
         """
         Set authentication and return self for chaining.
 
@@ -665,7 +665,7 @@ class DiagnosticCommonProps(ARObject):
         self.authentication = value  # Use property setter (gets validation)
         return self
 
-    def with_default(self, value: Optional[ByteOrderEnum]) -> DiagnosticCommonProps:
+    def with_default(self, value: Optional["ByteOrderEnum"]) -> DiagnosticCommonProps:
         """
         Set default and return self for chaining.
 
@@ -681,7 +681,7 @@ class DiagnosticCommonProps(ARObject):
         self.default = value  # Use property setter (gets validation)
         return self
 
-    def with_event(self, value: Optional[DiagnosticEvent]) -> DiagnosticCommonProps:
+    def with_event(self, value: Optional["DiagnosticEvent"]) -> DiagnosticCommonProps:
         """
         Set event and return self for chaining.
 
@@ -793,7 +793,7 @@ class DiagnosticCommonProps(ARObject):
         self.response_on = value  # Use property setter (gets validation)
         return self
 
-    def with_type_of_event(self, value: Optional[DiagnosticEvent]) -> DiagnosticCommonProps:
+    def with_type_of_event(self, value: Optional["DiagnosticEvent"]) -> DiagnosticCommonProps:
         """
         Set typeOfEvent and return self for chaining.
 

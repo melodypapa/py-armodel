@@ -586,15 +586,15 @@ class McDataInstance(Identifiable):
         # These are the generated properties resulting from taken by the RTE generator
                 # for the actually instance.
         # Only those properties are which are needed for the measurement system.
-        self._resulting: Optional[SwDataDefProps] = None
+        self._resulting: Optional["SwDataDefProps"] = None
 
     @property
-    def resulting(self) -> Optional[SwDataDefProps]:
+    def resulting(self) -> Optional["SwDataDefProps"]:
         """Get resulting (Pythonic accessor)."""
         return self._resulting
 
     @resulting.setter
-    def resulting(self, value: Optional[SwDataDefProps]) -> None:
+    def resulting(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set resulting with validation.
 
@@ -905,7 +905,7 @@ class McDataInstance(Identifiable):
         """
         return self.mc_data  # Delegates to property
 
-    def getResulting(self) -> SwDataDefProps:
+    def getResulting(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for resulting.
 
@@ -917,7 +917,7 @@ class McDataInstance(Identifiable):
         """
         return self.resulting  # Delegates to property
 
-    def setResulting(self, value: SwDataDefProps) -> McDataInstance:
+    def setResulting(self, value: "SwDataDefProps") -> McDataInstance:
         """
         AUTOSAR-compliant setter for resulting with method chaining.
 
@@ -1139,7 +1139,7 @@ class McDataInstance(Identifiable):
         self.mc_data_access = value  # Use property setter (gets validation)
         return self
 
-    def with_resulting(self, value: Optional[SwDataDefProps]) -> McDataInstance:
+    def with_resulting(self, value: Optional["SwDataDefProps"]) -> McDataInstance:
         """
         Set resulting and return self for chaining.
 
@@ -1835,15 +1835,15 @@ class ImplementationElementInParameterInstanceRef(ARObject):
         self._context = value
         # xml.
         # sequenceOffset=30.
-        self._target: Optional[AbstractImplementation] = None
+        self._target: Optional["AbstractImplementation"] = None
 
     @property
-    def target(self) -> Optional[AbstractImplementation]:
+    def target(self) -> Optional["AbstractImplementation"]:
         """Get target (Pythonic accessor)."""
         return self._target
 
     @target.setter
-    def target(self, value: Optional[AbstractImplementation]) -> None:
+    def target(self, value: Optional["AbstractImplementation"]) -> None:
         """
         Set target with validation.
 
@@ -1893,7 +1893,7 @@ class ImplementationElementInParameterInstanceRef(ARObject):
         self.context = value  # Delegates to property setter
         return self
 
-    def getTarget(self) -> AbstractImplementation:
+    def getTarget(self) -> "AbstractImplementation":
         """
         AUTOSAR-compliant getter for target.
 
@@ -1905,7 +1905,7 @@ class ImplementationElementInParameterInstanceRef(ARObject):
         """
         return self.target  # Delegates to property
 
-    def setTarget(self, value: AbstractImplementation) -> ImplementationElementInParameterInstanceRef:
+    def setTarget(self, value: "AbstractImplementation") -> ImplementationElementInParameterInstanceRef:
         """
         AUTOSAR-compliant setter for target with method chaining.
 
@@ -1939,7 +1939,7 @@ class ImplementationElementInParameterInstanceRef(ARObject):
         self.context = value  # Use property setter (gets validation)
         return self
 
-    def with_target(self, value: Optional[AbstractImplementation]) -> ImplementationElementInParameterInstanceRef:
+    def with_target(self, value: Optional["AbstractImplementation"]) -> ImplementationElementInParameterInstanceRef:
         """
         Set target and return self for chaining.
 

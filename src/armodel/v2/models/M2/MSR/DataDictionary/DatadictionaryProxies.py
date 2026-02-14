@@ -9,6 +9,9 @@ from __future__ import annotations
 
 from typing import Optional
 
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import (
+    McDataInstance,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
@@ -60,15 +63,15 @@ class SwCalprmRefProxy(ARObject):
                 # axis etc.
         # It is not allowed to use of an McDataInstance.
         # mcDataInstance shall be originated from.
-        self._mcDataInstance: Optional["McDataInstance"] = None
+        self._mcDataInstance: Optional[McDataInstance] = None
 
     @property
-    def mc_data_instance(self) -> Optional["McDataInstance"]:
+    def mc_data_instance(self) -> Optional[McDataInstance]:
         """Get mcDataInstance (Pythonic accessor)."""
         return self._mcDataInstance
 
     @mc_data_instance.setter
-    def mc_data_instance(self, value: Optional["McDataInstance"]) -> None:
+    def mc_data_instance(self, value: Optional[McDataInstance]) -> None:
         """
         Set mcDataInstance with validation.
 
@@ -118,7 +121,7 @@ class SwCalprmRefProxy(ARObject):
         self.ar_parameter = value  # Delegates to property setter
         return self
 
-    def getMcDataInstance(self) -> "McDataInstance":
+    def getMcDataInstance(self) -> McDataInstance:
         """
         AUTOSAR-compliant getter for mcDataInstance.
 
@@ -130,7 +133,7 @@ class SwCalprmRefProxy(ARObject):
         """
         return self.mc_data_instance  # Delegates to property
 
-    def setMcDataInstance(self, value: "McDataInstance") -> SwCalprmRefProxy:
+    def setMcDataInstance(self, value: McDataInstance) -> SwCalprmRefProxy:
         """
         AUTOSAR-compliant setter for mcDataInstance with method chaining.
 
@@ -164,7 +167,7 @@ class SwCalprmRefProxy(ARObject):
         self.ar_parameter = value  # Use property setter (gets validation)
         return self
 
-    def with_mc_data_instance(self, value: Optional["McDataInstance"]) -> SwCalprmRefProxy:
+    def with_mc_data_instance(self, value: Optional[McDataInstance]) -> SwCalprmRefProxy:
         """
         Set mcDataInstance and return self for chaining.
 
@@ -224,15 +227,15 @@ class SwVariableRefProxy(ARObject):
                 # input values etc.
         # It is not allowed to outside of an McDataInstance.
         # mcDataInstance shall be originated from.
-        self._mcDataInstance: Optional["McDataInstance"] = None
+        self._mcDataInstance: Optional[McDataInstance] = None
 
     @property
-    def mc_data_instance(self) -> Optional["McDataInstance"]:
+    def mc_data_instance(self) -> Optional[McDataInstance]:
         """Get mcDataInstance (Pythonic accessor)."""
         return self._mcDataInstance
 
     @mc_data_instance.setter
-    def mc_data_instance(self, value: Optional["McDataInstance"]) -> None:
+    def mc_data_instance(self, value: Optional[McDataInstance]) -> None:
         """
         Set mcDataInstance with validation.
 
@@ -282,7 +285,7 @@ class SwVariableRefProxy(ARObject):
         self.autosar_variable = value  # Delegates to property setter
         return self
 
-    def getMcDataInstance(self) -> "McDataInstance":
+    def getMcDataInstance(self) -> McDataInstance:
         """
         AUTOSAR-compliant getter for mcDataInstance.
 
@@ -294,7 +297,7 @@ class SwVariableRefProxy(ARObject):
         """
         return self.mc_data_instance  # Delegates to property
 
-    def setMcDataInstance(self, value: "McDataInstance") -> SwVariableRefProxy:
+    def setMcDataInstance(self, value: McDataInstance) -> SwVariableRefProxy:
         """
         AUTOSAR-compliant setter for mcDataInstance with method chaining.
 
@@ -328,7 +331,7 @@ class SwVariableRefProxy(ARObject):
         self.autosar_variable = value  # Use property setter (gets validation)
         return self
 
-    def with_mc_data_instance(self, value: Optional["McDataInstance"]) -> SwVariableRefProxy:
+    def with_mc_data_instance(self, value: Optional[McDataInstance]) -> SwVariableRefProxy:
         """
         Set mcDataInstance and return self for chaining.
 

@@ -12,13 +12,20 @@ from typing import List, Optional
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
     ImplementationProps,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
+    ExecutableEntity,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AlignmentType,
     Identifier,
     PositiveInteger,
     RefType,
+)
+from armodel.v2.models.M2.MSR.DataDictionary.AuxillaryObjects import (
+    SwAddrMethod,
 )
 
 
@@ -93,10 +100,10 @@ class MemorySection(Identifiable):
         self._alignment = value
                 # different Executable different sections even if the associated Sw the same.
         # applicable to code sections only.
-        self._executableEntity: List["ExecutableEntity"] = []
+        self._executableEntity: List[ExecutableEntity] = []
 
     @property
-    def executable_entity(self) -> List["ExecutableEntity"]:
+    def executable_entity(self) -> List[ExecutableEntity]:
         """Get executableEntity (Pythonic accessor)."""
         return self._executableEntity
         # The service (in AUTOSAR: BswModuleEntry) is a way that it either resolves to
@@ -181,15 +188,15 @@ class MemorySection(Identifiable):
         # This means in data prototypes which are allocated by the RTE, software
                 # components only declare the grouping data prototypes to SwAddrMethods, and
                 # the Description of the RTE actually this association.
-        self._swAddrmethod: Optional["SwAddrMethod"] = None
+        self._swAddrmethod: Optional[SwAddrMethod] = None
 
     @property
-    def sw_addrmethod(self) -> Optional["SwAddrMethod"]:
+    def sw_addrmethod(self) -> Optional[SwAddrMethod]:
         """Get swAddrmethod (Pythonic accessor)."""
         return self._swAddrmethod
 
     @sw_addrmethod.setter
-    def sw_addrmethod(self, value: Optional["SwAddrMethod"]) -> None:
+    def sw_addrmethod(self, value: Optional[SwAddrMethod]) -> None:
         """
         Set swAddrmethod with validation.
 
@@ -302,7 +309,7 @@ class MemorySection(Identifiable):
         self.alignment = value  # Delegates to property setter
         return self
 
-    def getExecutableEntity(self) -> List["ExecutableEntity"]:
+    def getExecutableEntity(self) -> List[ExecutableEntity]:
         """
         AUTOSAR-compliant getter for executableEntity.
 
@@ -394,7 +401,7 @@ class MemorySection(Identifiable):
         """
         return self.sw_addrmethod  # Delegates to property
 
-    def setSwAddrmethod(self, value: "SwAddrMethod") -> MemorySection:
+    def setSwAddrmethod(self, value: SwAddrMethod) -> MemorySection:
         """
         AUTOSAR-compliant setter for swAddrmethod with method chaining.
 
@@ -410,7 +417,7 @@ class MemorySection(Identifiable):
         self.sw_addrmethod = value  # Delegates to property setter
         return self
 
-    def getSymbol(self) -> "Identifier":
+    def getSymbol(self) -> Identifier:
         """
         AUTOSAR-compliant getter for symbol.
 
@@ -422,7 +429,7 @@ class MemorySection(Identifiable):
         """
         return self.symbol  # Delegates to property
 
-    def setSymbol(self, value: "Identifier") -> MemorySection:
+    def setSymbol(self, value: Identifier) -> MemorySection:
         """
         AUTOSAR-compliant setter for symbol with method chaining.
 
@@ -488,7 +495,7 @@ class MemorySection(Identifiable):
         self.size = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_addrmethod(self, value: Optional["SwAddrMethod"]) -> MemorySection:
+    def with_sw_addrmethod(self, value: Optional[SwAddrMethod]) -> MemorySection:
         """
         Set swAddrmethod and return self for chaining.
 

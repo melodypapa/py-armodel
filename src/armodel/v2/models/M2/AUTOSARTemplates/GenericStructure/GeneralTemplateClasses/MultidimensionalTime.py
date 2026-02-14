@@ -13,6 +13,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     ARObject,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    CseCodeType,
     Integer,
 )
 
@@ -93,7 +94,7 @@ class MultidimensionalTime(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCseCode(self) -> "CseCodeType":
+    def getCseCode(self) -> CseCodeType:
         """
         AUTOSAR-compliant getter for cseCode.
 
@@ -105,7 +106,7 @@ class MultidimensionalTime(ARObject):
         """
         return self.cse_code  # Delegates to property
 
-    def setCseCode(self, value: "CseCodeType") -> MultidimensionalTime:
+    def setCseCode(self, value: CseCodeType) -> MultidimensionalTime:
         """
         AUTOSAR-compliant setter for cseCode with method chaining.
 

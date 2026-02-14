@@ -344,15 +344,15 @@ class DiagnosticSession(DiagnosticCommonElement):
         # This is the session value for P2ServerMax in seconds Control).
         # configuration standard is to use SI units, parameter is defined as a float
                 # value in seconds.
-        self._p2ServerMax: Optional[TimeValue] = None
+        self._p2ServerMax: Optional["TimeValue"] = None
 
     @property
-    def p2_server_max(self) -> Optional[TimeValue]:
+    def p2_server_max(self) -> Optional["TimeValue"]:
         """Get p2ServerMax (Pythonic accessor)."""
         return self._p2ServerMax
 
     @p2_server_max.setter
-    def p2_server_max(self, value: Optional[TimeValue]) -> None:
+    def p2_server_max(self, value: Optional["TimeValue"]) -> None:
         """
         Set p2ServerMax with validation.
 
@@ -374,15 +374,15 @@ class DiagnosticSession(DiagnosticCommonElement):
         # This is the session value for P2*ServerMax in seconds Session Control).
         # configuration standard is to use SI units, parameter is defined as a float
                 # value in seconds.
-        self._p2StarServer: Optional[TimeValue] = None
+        self._p2StarServer: Optional["TimeValue"] = None
 
     @property
-    def p2_star_server(self) -> Optional[TimeValue]:
+    def p2_star_server(self) -> Optional["TimeValue"]:
         """Get p2StarServer (Pythonic accessor)."""
         return self._p2StarServer
 
     @p2_star_server.setter
-    def p2_star_server(self, value: Optional[TimeValue]) -> None:
+    def p2_star_server(self, value: Optional["TimeValue"]) -> None:
         """
         Set p2StarServer with validation.
 
@@ -460,7 +460,7 @@ class DiagnosticSession(DiagnosticCommonElement):
         self.jump_to_boot = value  # Delegates to property setter
         return self
 
-    def getP2ServerMax(self) -> TimeValue:
+    def getP2ServerMax(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for p2ServerMax.
 
@@ -472,7 +472,7 @@ class DiagnosticSession(DiagnosticCommonElement):
         """
         return self.p2_server_max  # Delegates to property
 
-    def setP2ServerMax(self, value: TimeValue) -> DiagnosticSession:
+    def setP2ServerMax(self, value: "TimeValue") -> DiagnosticSession:
         """
         AUTOSAR-compliant setter for p2ServerMax with method chaining.
 
@@ -488,7 +488,7 @@ class DiagnosticSession(DiagnosticCommonElement):
         self.p2_server_max = value  # Delegates to property setter
         return self
 
-    def getP2StarServer(self) -> TimeValue:
+    def getP2StarServer(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for p2StarServer.
 
@@ -500,7 +500,7 @@ class DiagnosticSession(DiagnosticCommonElement):
         """
         return self.p2_star_server  # Delegates to property
 
-    def setP2StarServer(self, value: TimeValue) -> DiagnosticSession:
+    def setP2StarServer(self, value: "TimeValue") -> DiagnosticSession:
         """
         AUTOSAR-compliant setter for p2StarServer with method chaining.
 
@@ -550,7 +550,7 @@ class DiagnosticSession(DiagnosticCommonElement):
         self.jump_to_boot = value  # Use property setter (gets validation)
         return self
 
-    def with_p2_server_max(self, value: Optional[TimeValue]) -> DiagnosticSession:
+    def with_p2_server_max(self, value: Optional["TimeValue"]) -> DiagnosticSession:
         """
         Set p2ServerMax and return self for chaining.
 
@@ -566,7 +566,7 @@ class DiagnosticSession(DiagnosticCommonElement):
         self.p2_server_max = value  # Use property setter (gets validation)
         return self
 
-    def with_p2_star_server(self, value: Optional[TimeValue]) -> DiagnosticSession:
+    def with_p2_star_server(self, value: Optional["TimeValue"]) -> DiagnosticSession:
         """
         Set p2StarServer and return self for chaining.
 
@@ -687,15 +687,15 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
             )
         self._numFailed = value
         # This represents the delay time after a failed security Unit: second.
-        self._securityDelay: Optional[TimeValue] = None
+        self._securityDelay: Optional["TimeValue"] = None
 
     @property
-    def security_delay(self) -> Optional[TimeValue]:
+    def security_delay(self) -> Optional["TimeValue"]:
         """Get securityDelay (Pythonic accessor)."""
         return self._securityDelay
 
     @security_delay.setter
-    def security_delay(self, value: Optional[TimeValue]) -> None:
+    def security_delay(self, value: Optional["TimeValue"]) -> None:
         """
         Set securityDelay with validation.
 
@@ -830,7 +830,7 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
         self.num_failed = value  # Delegates to property setter
         return self
 
-    def getSecurityDelay(self) -> TimeValue:
+    def getSecurityDelay(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for securityDelay.
 
@@ -842,7 +842,7 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
         """
         return self.security_delay  # Delegates to property
 
-    def setSecurityDelay(self, value: TimeValue) -> DiagnosticSecurityLevel:
+    def setSecurityDelay(self, value: "TimeValue") -> DiagnosticSecurityLevel:
         """
         AUTOSAR-compliant setter for securityDelay with method chaining.
 
@@ -936,7 +936,7 @@ class DiagnosticSecurityLevel(DiagnosticCommonElement):
         self.num_failed = value  # Use property setter (gets validation)
         return self
 
-    def with_security_delay(self, value: Optional[TimeValue]) -> DiagnosticSecurityLevel:
+    def with_security_delay(self, value: Optional["TimeValue"]) -> DiagnosticSecurityLevel:
         """
         Set securityDelay and return self for chaining.
 

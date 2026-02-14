@@ -323,7 +323,7 @@ class SecurityEventContextProps(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getContextData(self) -> "SecurityEventContext":
+    def getContextData(self) -> SecurityEventContext:
         """
         AUTOSAR-compliant getter for contextData.
 
@@ -335,7 +335,7 @@ class SecurityEventContextProps(Identifiable):
         """
         return self.context_data  # Delegates to property
 
-    def setContextData(self, value: "SecurityEventContext") -> SecurityEventContextProps:
+    def setContextData(self, value: SecurityEventContext) -> SecurityEventContextProps:
         """
         AUTOSAR-compliant setter for contextData with method chaining.
 
@@ -351,7 +351,7 @@ class SecurityEventContextProps(Identifiable):
         self.context_data = value  # Delegates to property setter
         return self
 
-    def getDefault(self) -> "SecurityEventReporting":
+    def getDefault(self) -> SecurityEventReporting:
         """
         AUTOSAR-compliant getter for default.
 
@@ -363,7 +363,7 @@ class SecurityEventContextProps(Identifiable):
         """
         return self.default  # Delegates to property
 
-    def setDefault(self, value: "SecurityEventReporting") -> SecurityEventContextProps:
+    def setDefault(self, value: SecurityEventReporting) -> SecurityEventContextProps:
         """
         AUTOSAR-compliant setter for default with method chaining.
 
@@ -1134,7 +1134,7 @@ class IdsmSignatureSupportAp(ARObject):
         self.crypto_primitive = value  # Delegates to property setter
         return self
 
-    def getKeySlot(self) -> "CryptoKeySlot":
+    def getKeySlot(self) -> CryptoKeySlot:
         """
         AUTOSAR-compliant getter for keySlot.
 
@@ -1146,7 +1146,7 @@ class IdsmSignatureSupportAp(ARObject):
         """
         return self.key_slot  # Delegates to property
 
-    def setKeySlot(self, value: "CryptoKeySlot") -> IdsmSignatureSupportAp:
+    def setKeySlot(self, value: CryptoKeySlot) -> IdsmSignatureSupportAp:
         """
         AUTOSAR-compliant setter for keySlot with method chaining.
 
@@ -1273,7 +1273,7 @@ class IdsmSignatureSupportCp(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAuthentication(self) -> "CryptoServicePrimitive":
+    def getAuthentication(self) -> CryptoServicePrimitive:
         """
         AUTOSAR-compliant getter for authentication.
 
@@ -1285,7 +1285,7 @@ class IdsmSignatureSupportCp(ARObject):
         """
         return self.authentication  # Delegates to property
 
-    def setAuthentication(self, value: "CryptoServicePrimitive") -> IdsmSignatureSupportCp:
+    def setAuthentication(self, value: CryptoServicePrimitive) -> IdsmSignatureSupportCp:
         """
         AUTOSAR-compliant setter for authentication with method chaining.
 
@@ -1301,7 +1301,7 @@ class IdsmSignatureSupportCp(ARObject):
         self.authentication = value  # Delegates to property setter
         return self
 
-    def getCryptoService(self) -> "CryptoServiceKey":
+    def getCryptoService(self) -> CryptoServiceKey:
         """
         AUTOSAR-compliant getter for cryptoService.
 
@@ -1313,7 +1313,7 @@ class IdsmSignatureSupportCp(ARObject):
         """
         return self.crypto_service  # Delegates to property
 
-    def setCryptoService(self, value: "CryptoServiceKey") -> IdsmSignatureSupportCp:
+    def setCryptoService(self, value: CryptoServiceKey) -> IdsmSignatureSupportCp:
         """
         AUTOSAR-compliant setter for cryptoService with method chaining.
 
@@ -1604,7 +1604,7 @@ class SecurityEventAggregationFilter(AbstractSecurityEventFilter):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getContextData(self) -> "SecurityEventContext":
+    def getContextData(self) -> SecurityEventContext:
         """
         AUTOSAR-compliant getter for contextData.
 
@@ -1616,7 +1616,7 @@ class SecurityEventAggregationFilter(AbstractSecurityEventFilter):
         """
         return self.context_data  # Delegates to property
 
-    def setContextData(self, value: "SecurityEventContext") -> SecurityEventAggregationFilter:
+    def setContextData(self, value: SecurityEventContext) -> SecurityEventAggregationFilter:
         """
         AUTOSAR-compliant setter for contextData with method chaining.
 
@@ -1941,7 +1941,7 @@ class SecurityEventDefinition(IdsCommonElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getEventSymbol(self) -> "SymbolProps":
+    def getEventSymbol(self) -> SymbolProps:
         """
         AUTOSAR-compliant getter for eventSymbol.
 
@@ -1953,7 +1953,7 @@ class SecurityEventDefinition(IdsCommonElement):
         """
         return self.event_symbol  # Delegates to property
 
-    def setEventSymbol(self, value: "SymbolProps") -> SecurityEventDefinition:
+    def setEventSymbol(self, value: SymbolProps) -> SecurityEventDefinition:
         """
         AUTOSAR-compliant setter for eventSymbol with method chaining.
 
@@ -2162,7 +2162,7 @@ class SecurityEventFilterChain(IdsCommonElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAggregation(self) -> "SecurityEvent":
+    def getAggregation(self) -> SecurityEvent:
         """
         AUTOSAR-compliant getter for aggregation.
 
@@ -2174,7 +2174,7 @@ class SecurityEventFilterChain(IdsCommonElement):
         """
         return self.aggregation  # Delegates to property
 
-    def setAggregation(self, value: "SecurityEvent") -> SecurityEventFilterChain:
+    def setAggregation(self, value: SecurityEvent) -> SecurityEventFilterChain:
         """
         AUTOSAR-compliant setter for aggregation with method chaining.
 
@@ -2190,7 +2190,7 @@ class SecurityEventFilterChain(IdsCommonElement):
         self.aggregation = value  # Delegates to property setter
         return self
 
-    def getOneEveryN(self) -> "SecurityEventOneEvery":
+    def getOneEveryN(self) -> SecurityEventOneEvery:
         """
         AUTOSAR-compliant getter for oneEveryN.
 
@@ -2202,7 +2202,7 @@ class SecurityEventFilterChain(IdsCommonElement):
         """
         return self.one_every_n  # Delegates to property
 
-    def setOneEveryN(self, value: "SecurityEventOneEvery") -> SecurityEventFilterChain:
+    def setOneEveryN(self, value: SecurityEventOneEvery) -> SecurityEventFilterChain:
         """
         AUTOSAR-compliant setter for oneEveryN with method chaining.
 
@@ -2246,7 +2246,7 @@ class SecurityEventFilterChain(IdsCommonElement):
         self.state = value  # Delegates to property setter
         return self
 
-    def getThreshold(self) -> "SecurityEventThreshold":
+    def getThreshold(self) -> SecurityEventThreshold:
         """
         AUTOSAR-compliant getter for threshold.
 
@@ -2258,7 +2258,7 @@ class SecurityEventFilterChain(IdsCommonElement):
         """
         return self.threshold  # Delegates to property
 
-    def setThreshold(self, value: "SecurityEventThreshold") -> SecurityEventFilterChain:
+    def setThreshold(self, value: SecurityEventThreshold) -> SecurityEventFilterChain:
         """
         AUTOSAR-compliant setter for threshold with method chaining.
 
@@ -2642,7 +2642,7 @@ class IdsmInstance(IdsCommonElement):
         self.idsm_instance_id = value  # Delegates to property setter
         return self
 
-    def getIdsmModule(self) -> "IdsmModule":
+    def getIdsmModule(self) -> IdsmModule:
         """
         AUTOSAR-compliant getter for idsmModule.
 
@@ -2654,7 +2654,7 @@ class IdsmInstance(IdsCommonElement):
         """
         return self.idsm_module  # Delegates to property
 
-    def setIdsmModule(self, value: "IdsmModule") -> IdsmInstance:
+    def setIdsmModule(self, value: IdsmModule) -> IdsmInstance:
         """
         AUTOSAR-compliant setter for idsmModule with method chaining.
 
@@ -2698,7 +2698,7 @@ class IdsmInstance(IdsCommonElement):
         self.rate_limitation = value  # Delegates to property setter
         return self
 
-    def getSignature(self) -> "IdsmSignatureSupport":
+    def getSignature(self) -> IdsmSignatureSupport:
         """
         AUTOSAR-compliant getter for signature.
 
@@ -2710,7 +2710,7 @@ class IdsmInstance(IdsCommonElement):
         """
         return self.signature  # Delegates to property
 
-    def setSignature(self, value: "IdsmSignatureSupport") -> IdsmInstance:
+    def setSignature(self, value: IdsmSignatureSupport) -> IdsmInstance:
         """
         AUTOSAR-compliant setter for signature with method chaining.
 
@@ -3070,7 +3070,7 @@ class SecurityEventContextMapping(IdsMapping, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getFilterChain(self) -> "SecurityEventFilter":
+    def getFilterChain(self) -> SecurityEventFilter:
         """
         AUTOSAR-compliant getter for filterChain.
 
@@ -3082,7 +3082,7 @@ class SecurityEventContextMapping(IdsMapping, ABC):
         """
         return self.filter_chain  # Delegates to property
 
-    def setFilterChain(self, value: "SecurityEventFilter") -> SecurityEventContextMapping:
+    def setFilterChain(self, value: SecurityEventFilter) -> SecurityEventContextMapping:
         """
         AUTOSAR-compliant setter for filterChain with method chaining.
 

@@ -24,6 +24,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
     CommunicationConnector,
+    LinErrorResponse,
     PhysicalChannel,
 )
 
@@ -262,15 +263,15 @@ class LinMaster(ARObject):
         # It is not used for Spec states: "The time_base value specifies the base in
                 # the master node to generate the frame transfer time.
         # " base shall be specified AUTOSAR conform in.
-        self._timeBase: Optional[TimeValue] = None
+        self._timeBase: Optional["TimeValue"] = None
 
     @property
-    def time_base(self) -> Optional[TimeValue]:
+    def time_base(self) -> Optional["TimeValue"]:
         """Get timeBase (Pythonic accessor)."""
         return self._timeBase
 
     @time_base.setter
-    def time_base(self, value: Optional[TimeValue]) -> None:
+    def time_base(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeBase with validation.
 
@@ -293,15 +294,15 @@ class LinMaster(ARObject):
         # Spec states: "The jitter value specifies the the maximum and minimum delay
                 # base start point to the frame header sending (falling edge of BREAK signal).
         # " shall be specified AUTOSAR conform in.
-        self._timeBaseJitter: Optional[TimeValue] = None
+        self._timeBaseJitter: Optional["TimeValue"] = None
 
     @property
-    def time_base_jitter(self) -> Optional[TimeValue]:
+    def time_base_jitter(self) -> Optional["TimeValue"]:
         """Get timeBaseJitter (Pythonic accessor)."""
         return self._timeBaseJitter
 
     @time_base_jitter.setter
-    def time_base_jitter(self, value: Optional[TimeValue]) -> None:
+    def time_base_jitter(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeBaseJitter with validation.
 
@@ -335,7 +336,7 @@ class LinMaster(ARObject):
         """
         return self.lin_slave  # Delegates to property
 
-    def getTimeBase(self) -> TimeValue:
+    def getTimeBase(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeBase.
 
@@ -347,7 +348,7 @@ class LinMaster(ARObject):
         """
         return self.time_base  # Delegates to property
 
-    def setTimeBase(self, value: TimeValue) -> LinMaster:
+    def setTimeBase(self, value: "TimeValue") -> LinMaster:
         """
         AUTOSAR-compliant setter for timeBase with method chaining.
 
@@ -363,7 +364,7 @@ class LinMaster(ARObject):
         self.time_base = value  # Delegates to property setter
         return self
 
-    def getTimeBaseJitter(self) -> TimeValue:
+    def getTimeBaseJitter(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeBaseJitter.
 
@@ -375,7 +376,7 @@ class LinMaster(ARObject):
         """
         return self.time_base_jitter  # Delegates to property
 
-    def setTimeBaseJitter(self, value: TimeValue) -> LinMaster:
+    def setTimeBaseJitter(self, value: "TimeValue") -> LinMaster:
         """
         AUTOSAR-compliant setter for timeBaseJitter with method chaining.
 
@@ -393,7 +394,7 @@ class LinMaster(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_time_base(self, value: Optional[TimeValue]) -> LinMaster:
+    def with_time_base(self, value: Optional["TimeValue"]) -> LinMaster:
         """
         Set timeBase and return self for chaining.
 
@@ -409,7 +410,7 @@ class LinMaster(ARObject):
         self.time_base = value  # Use property setter (gets validation)
         return self
 
-    def with_time_base_jitter(self, value: Optional[TimeValue]) -> LinMaster:
+    def with_time_base_jitter(self, value: Optional["TimeValue"]) -> LinMaster:
         """
         Set timeBaseJitter and return self for chaining.
 
@@ -809,7 +810,7 @@ class LinSlaveConfig(ARObject):
         """
         return self.lin_configurable  # Delegates to property
 
-    def getLinError(self) -> "LinErrorResponse":
+    def getLinError(self) -> LinErrorResponse:
         """
         AUTOSAR-compliant getter for linError.
 
@@ -821,7 +822,7 @@ class LinSlaveConfig(ARObject):
         """
         return self.lin_error  # Delegates to property
 
-    def setLinError(self, value: "LinErrorResponse") -> LinSlaveConfig:
+    def setLinError(self, value: LinErrorResponse) -> LinSlaveConfig:
         """
         AUTOSAR-compliant setter for linError with method chaining.
 
@@ -1238,15 +1239,15 @@ class LinSlave(ARObject):
             )
         self._linError = value
         # Unit: seconds.
-        self._nasTimeout: Optional[TimeValue] = None
+        self._nasTimeout: Optional["TimeValue"] = None
 
     @property
-    def nas_timeout(self) -> Optional[TimeValue]:
+    def nas_timeout(self) -> Optional["TimeValue"]:
         """Get nasTimeout (Pythonic accessor)."""
         return self._nasTimeout
 
     @nas_timeout.setter
-    def nas_timeout(self, value: Optional[TimeValue]) -> None:
+    def nas_timeout(self, value: Optional["TimeValue"]) -> None:
         """
         Set nasTimeout with validation.
 
@@ -1434,7 +1435,7 @@ class LinSlave(ARObject):
         self.initial_nad = value  # Delegates to property setter
         return self
 
-    def getLinError(self) -> "LinErrorResponse":
+    def getLinError(self) -> LinErrorResponse:
         """
         AUTOSAR-compliant getter for linError.
 
@@ -1446,7 +1447,7 @@ class LinSlave(ARObject):
         """
         return self.lin_error  # Delegates to property
 
-    def setLinError(self, value: "LinErrorResponse") -> LinSlave:
+    def setLinError(self, value: LinErrorResponse) -> LinSlave:
         """
         AUTOSAR-compliant setter for linError with method chaining.
 
@@ -1462,7 +1463,7 @@ class LinSlave(ARObject):
         self.lin_error = value  # Delegates to property setter
         return self
 
-    def getNasTimeout(self) -> TimeValue:
+    def getNasTimeout(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for nasTimeout.
 
@@ -1474,7 +1475,7 @@ class LinSlave(ARObject):
         """
         return self.nas_timeout  # Delegates to property
 
-    def setNasTimeout(self, value: TimeValue) -> LinSlave:
+    def setNasTimeout(self, value: "TimeValue") -> LinSlave:
         """
         AUTOSAR-compliant setter for nasTimeout with method chaining.
 
@@ -1628,7 +1629,7 @@ class LinSlave(ARObject):
         self.lin_error = value  # Use property setter (gets validation)
         return self
 
-    def with_nas_timeout(self, value: Optional[TimeValue]) -> LinSlave:
+    def with_nas_timeout(self, value: Optional["TimeValue"]) -> LinSlave:
         """
         Set nasTimeout and return self for chaining.
 
@@ -1905,15 +1906,15 @@ class LinConfigurableFrame(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to a Frame that is processed by the slave.
-        self._frame: Optional[LinFrame] = None
+        self._frame: Optional["LinFrame"] = None
 
     @property
-    def frame(self) -> Optional[LinFrame]:
+    def frame(self) -> Optional["LinFrame"]:
         """Get frame (Pythonic accessor)."""
         return self._frame
 
     @frame.setter
-    def frame(self, value: Optional[LinFrame]) -> None:
+    def frame(self, value: Optional["LinFrame"]) -> None:
         """
         Set frame with validation.
 
@@ -1962,7 +1963,7 @@ class LinConfigurableFrame(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getFrame(self) -> LinFrame:
+    def getFrame(self) -> "LinFrame":
         """
         AUTOSAR-compliant getter for frame.
 
@@ -1974,7 +1975,7 @@ class LinConfigurableFrame(ARObject):
         """
         return self.frame  # Delegates to property
 
-    def setFrame(self, value: LinFrame) -> LinConfigurableFrame:
+    def setFrame(self, value: "LinFrame") -> LinConfigurableFrame:
         """
         AUTOSAR-compliant setter for frame with method chaining.
 
@@ -2020,7 +2021,7 @@ class LinConfigurableFrame(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_frame(self, value: Optional[LinFrame]) -> LinConfigurableFrame:
+    def with_frame(self, value: Optional["LinFrame"]) -> LinConfigurableFrame:
         """
         Set frame and return self for chaining.
 
@@ -2070,15 +2071,15 @@ class LinOrderedConfigurableFrame(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to a Frame that is processed by the slave.
-        self._frame: Optional[LinFrame] = None
+        self._frame: Optional["LinFrame"] = None
 
     @property
-    def frame(self) -> Optional[LinFrame]:
+    def frame(self) -> Optional["LinFrame"]:
         """Get frame (Pythonic accessor)."""
         return self._frame
 
     @frame.setter
-    def frame(self, value: Optional[LinFrame]) -> None:
+    def frame(self, value: Optional["LinFrame"]) -> None:
         """
         Set frame with validation.
 
@@ -2128,7 +2129,7 @@ class LinOrderedConfigurableFrame(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getFrame(self) -> LinFrame:
+    def getFrame(self) -> "LinFrame":
         """
         AUTOSAR-compliant getter for frame.
 
@@ -2140,7 +2141,7 @@ class LinOrderedConfigurableFrame(ARObject):
         """
         return self.frame  # Delegates to property
 
-    def setFrame(self, value: LinFrame) -> LinOrderedConfigurableFrame:
+    def setFrame(self, value: "LinFrame") -> LinOrderedConfigurableFrame:
         """
         AUTOSAR-compliant setter for frame with method chaining.
 
@@ -2186,7 +2187,7 @@ class LinOrderedConfigurableFrame(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_frame(self, value: Optional[LinFrame]) -> LinOrderedConfigurableFrame:
+    def with_frame(self, value: Optional["LinFrame"]) -> LinOrderedConfigurableFrame:
         """
         Set frame and return self for chaining.
 
@@ -2236,15 +2237,15 @@ class LinPhysicalChannel(PhysicalChannel):
         # This attribute shall be used to set an idle timeout period the enclosing
                 # LinPhysicalChannel.
         # 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11.
-        self._busIdleTimeout: Optional[TimeValue] = None
+        self._busIdleTimeout: Optional["TimeValue"] = None
 
     @property
-    def bus_idle_timeout(self) -> Optional[TimeValue]:
+    def bus_idle_timeout(self) -> Optional["TimeValue"]:
         """Get busIdleTimeout (Pythonic accessor)."""
         return self._busIdleTimeout
 
     @bus_idle_timeout.setter
-    def bus_idle_timeout(self, value: Optional[TimeValue]) -> None:
+    def bus_idle_timeout(self, value: Optional["TimeValue"]) -> None:
         """
         Set busIdleTimeout with validation.
 
@@ -2274,7 +2275,7 @@ class LinPhysicalChannel(PhysicalChannel):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBusIdleTimeout(self) -> TimeValue:
+    def getBusIdleTimeout(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for busIdleTimeout.
 
@@ -2286,7 +2287,7 @@ class LinPhysicalChannel(PhysicalChannel):
         """
         return self.bus_idle_timeout  # Delegates to property
 
-    def setBusIdleTimeout(self, value: TimeValue) -> LinPhysicalChannel:
+    def setBusIdleTimeout(self, value: "TimeValue") -> LinPhysicalChannel:
         """
         AUTOSAR-compliant setter for busIdleTimeout with method chaining.
 
@@ -2316,7 +2317,7 @@ class LinPhysicalChannel(PhysicalChannel):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_bus_idle_timeout(self, value: Optional[TimeValue]) -> LinPhysicalChannel:
+    def with_bus_idle_timeout(self, value: Optional["TimeValue"]) -> LinPhysicalChannel:
         """
         Set busIdleTimeout and return self for chaining.
 

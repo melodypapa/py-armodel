@@ -149,7 +149,7 @@ class ViewMap(Identifiable):
         """
         return self.first_element  # Delegates to property
 
-    def getRole(self) -> "Identifier":
+    def getRole(self) -> Identifier:
         """
         AUTOSAR-compliant getter for role.
 
@@ -161,7 +161,7 @@ class ViewMap(Identifiable):
         """
         return self.role  # Delegates to property
 
-    def setRole(self, value: "Identifier") -> ViewMap:
+    def setRole(self, value: Identifier) -> ViewMap:
         """
         AUTOSAR-compliant setter for role with method chaining.
 

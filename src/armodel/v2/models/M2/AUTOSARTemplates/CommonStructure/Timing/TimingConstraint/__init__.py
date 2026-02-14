@@ -34,15 +34,15 @@ class TimingConstraint(Traceable, ABC):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # A timing condition the timing constraint depends on.
         # In it specifies the condition the timing constraint.
-        self._timingCondition: Optional[TimingCondition] = None
+        self._timingCondition: Optional["TimingCondition"] = None
 
     @property
-    def timing_condition(self) -> Optional[TimingCondition]:
+    def timing_condition(self) -> Optional["TimingCondition"]:
         """Get timingCondition (Pythonic accessor)."""
         return self._timingCondition
 
     @timing_condition.setter
-    def timing_condition(self, value: Optional[TimingCondition]) -> None:
+    def timing_condition(self, value: Optional["TimingCondition"]) -> None:
         """
         Set timingCondition with validation.
 
@@ -64,7 +64,7 @@ class TimingConstraint(Traceable, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTimingCondition(self) -> TimingCondition:
+    def getTimingCondition(self) -> "TimingCondition":
         """
         AUTOSAR-compliant getter for timingCondition.
 
@@ -76,7 +76,7 @@ class TimingConstraint(Traceable, ABC):
         """
         return self.timing_condition  # Delegates to property
 
-    def setTimingCondition(self, value: TimingCondition) -> TimingConstraint:
+    def setTimingCondition(self, value: "TimingCondition") -> TimingConstraint:
         """
         AUTOSAR-compliant setter for timingCondition with method chaining.
 
@@ -94,7 +94,7 @@ class TimingConstraint(Traceable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_timing_condition(self, value: Optional[TimingCondition]) -> TimingConstraint:
+    def with_timing_condition(self, value: Optional["TimingCondition"]) -> TimingConstraint:
         """
         Set timingCondition and return self for chaining.
 

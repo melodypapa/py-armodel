@@ -17,6 +17,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Float,
+    Numerical,
 )
 
 
@@ -424,15 +425,15 @@ class PhysicalDimension(ARElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attribute represents the exponent of the physical current".
-        self._currentExp: Optional["Numerical"] = None
+        self._currentExp: Optional[Numerical] = None
 
     @property
-    def current_exp(self) -> Optional["Numerical"]:
+    def current_exp(self) -> Optional[Numerical]:
         """Get currentExp (Pythonic accessor)."""
         return self._currentExp
 
     @current_exp.setter
-    def current_exp(self, value: Optional["Numerical"]) -> None:
+    def current_exp(self, value: Optional[Numerical]) -> None:
         """
         Set currentExp with validation.
 
@@ -451,15 +452,15 @@ class PhysicalDimension(ARElement):
                 f"currentExp must be Numerical or None, got {type(value).__name__}"
             )
         self._currentExp = value
-        self._lengthExp: Optional["Numerical"] = None
+        self._lengthExp: Optional[Numerical] = None
 
     @property
-    def length_exp(self) -> Optional["Numerical"]:
+    def length_exp(self) -> Optional[Numerical]:
         """Get lengthExp (Pythonic accessor)."""
         return self._lengthExp
 
     @length_exp.setter
-    def length_exp(self, value: Optional["Numerical"]) -> None:
+    def length_exp(self, value: Optional[Numerical]) -> None:
         """
         Set lengthExp with validation.
 
@@ -478,15 +479,15 @@ class PhysicalDimension(ARElement):
                 f"lengthExp must be Numerical or None, got {type(value).__name__}"
             )
         self._lengthExp = value
-        self._luminous: Optional["Numerical"] = None
+        self._luminous: Optional[Numerical] = None
 
     @property
-    def luminous(self) -> Optional["Numerical"]:
+    def luminous(self) -> Optional[Numerical]:
         """Get luminous (Pythonic accessor)."""
         return self._luminous
 
     @luminous.setter
-    def luminous(self, value: Optional["Numerical"]) -> None:
+    def luminous(self, value: Optional[Numerical]) -> None:
         """
         Set luminous with validation.
 
@@ -505,15 +506,15 @@ class PhysicalDimension(ARElement):
                 f"luminous must be Numerical or None, got {type(value).__name__}"
             )
         self._luminous = value
-        self._massExp: Optional["Numerical"] = None
+        self._massExp: Optional[Numerical] = None
 
     @property
-    def mass_exp(self) -> Optional["Numerical"]:
+    def mass_exp(self) -> Optional[Numerical]:
         """Get massExp (Pythonic accessor)."""
         return self._massExp
 
     @mass_exp.setter
-    def mass_exp(self, value: Optional["Numerical"]) -> None:
+    def mass_exp(self, value: Optional[Numerical]) -> None:
         """
         Set massExp with validation.
 
@@ -532,15 +533,15 @@ class PhysicalDimension(ARElement):
                 f"massExp must be Numerical or None, got {type(value).__name__}"
             )
         self._massExp = value
-        self._molarAmount: Optional["Numerical"] = None
+        self._molarAmount: Optional[Numerical] = None
 
     @property
-    def molar_amount(self) -> Optional["Numerical"]:
+    def molar_amount(self) -> Optional[Numerical]:
         """Get molarAmount (Pythonic accessor)."""
         return self._molarAmount
 
     @molar_amount.setter
-    def molar_amount(self, value: Optional["Numerical"]) -> None:
+    def molar_amount(self, value: Optional[Numerical]) -> None:
         """
         Set molarAmount with validation.
 
@@ -559,15 +560,15 @@ class PhysicalDimension(ARElement):
                 f"molarAmount must be Numerical or None, got {type(value).__name__}"
             )
         self._molarAmount = value
-        self._temperatureExp: Optional["Numerical"] = None
+        self._temperatureExp: Optional[Numerical] = None
 
     @property
-    def temperature_exp(self) -> Optional["Numerical"]:
+    def temperature_exp(self) -> Optional[Numerical]:
         """Get temperatureExp (Pythonic accessor)."""
         return self._temperatureExp
 
     @temperature_exp.setter
-    def temperature_exp(self, value: Optional["Numerical"]) -> None:
+    def temperature_exp(self, value: Optional[Numerical]) -> None:
         """
         Set temperatureExp with validation.
 
@@ -586,15 +587,15 @@ class PhysicalDimension(ARElement):
                 f"temperatureExp must be Numerical or None, got {type(value).__name__}"
             )
         self._temperatureExp = value
-        self._timeExp: Optional["Numerical"] = None
+        self._timeExp: Optional[Numerical] = None
 
     @property
-    def time_exp(self) -> Optional["Numerical"]:
+    def time_exp(self) -> Optional[Numerical]:
         """Get timeExp (Pythonic accessor)."""
         return self._timeExp
 
     @time_exp.setter
-    def time_exp(self, value: Optional["Numerical"]) -> None:
+    def time_exp(self, value: Optional[Numerical]) -> None:
         """
         Set timeExp with validation.
 
@@ -616,7 +617,7 @@ class PhysicalDimension(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCurrentExp(self) -> "Numerical":
+    def getCurrentExp(self) -> Numerical:
         """
         AUTOSAR-compliant getter for currentExp.
 
@@ -628,7 +629,7 @@ class PhysicalDimension(ARElement):
         """
         return self.current_exp  # Delegates to property
 
-    def setCurrentExp(self, value: "Numerical") -> PhysicalDimension:
+    def setCurrentExp(self, value: Numerical) -> PhysicalDimension:
         """
         AUTOSAR-compliant setter for currentExp with method chaining.
 
@@ -644,7 +645,7 @@ class PhysicalDimension(ARElement):
         self.current_exp = value  # Delegates to property setter
         return self
 
-    def getLengthExp(self) -> "Numerical":
+    def getLengthExp(self) -> Numerical:
         """
         AUTOSAR-compliant getter for lengthExp.
 
@@ -656,7 +657,7 @@ class PhysicalDimension(ARElement):
         """
         return self.length_exp  # Delegates to property
 
-    def setLengthExp(self, value: "Numerical") -> PhysicalDimension:
+    def setLengthExp(self, value: Numerical) -> PhysicalDimension:
         """
         AUTOSAR-compliant setter for lengthExp with method chaining.
 
@@ -672,7 +673,7 @@ class PhysicalDimension(ARElement):
         self.length_exp = value  # Delegates to property setter
         return self
 
-    def getLuminous(self) -> "Numerical":
+    def getLuminous(self) -> Numerical:
         """
         AUTOSAR-compliant getter for luminous.
 
@@ -684,7 +685,7 @@ class PhysicalDimension(ARElement):
         """
         return self.luminous  # Delegates to property
 
-    def setLuminous(self, value: "Numerical") -> PhysicalDimension:
+    def setLuminous(self, value: Numerical) -> PhysicalDimension:
         """
         AUTOSAR-compliant setter for luminous with method chaining.
 
@@ -700,7 +701,7 @@ class PhysicalDimension(ARElement):
         self.luminous = value  # Delegates to property setter
         return self
 
-    def getMassExp(self) -> "Numerical":
+    def getMassExp(self) -> Numerical:
         """
         AUTOSAR-compliant getter for massExp.
 
@@ -712,7 +713,7 @@ class PhysicalDimension(ARElement):
         """
         return self.mass_exp  # Delegates to property
 
-    def setMassExp(self, value: "Numerical") -> PhysicalDimension:
+    def setMassExp(self, value: Numerical) -> PhysicalDimension:
         """
         AUTOSAR-compliant setter for massExp with method chaining.
 
@@ -728,7 +729,7 @@ class PhysicalDimension(ARElement):
         self.mass_exp = value  # Delegates to property setter
         return self
 
-    def getMolarAmount(self) -> "Numerical":
+    def getMolarAmount(self) -> Numerical:
         """
         AUTOSAR-compliant getter for molarAmount.
 
@@ -740,7 +741,7 @@ class PhysicalDimension(ARElement):
         """
         return self.molar_amount  # Delegates to property
 
-    def setMolarAmount(self, value: "Numerical") -> PhysicalDimension:
+    def setMolarAmount(self, value: Numerical) -> PhysicalDimension:
         """
         AUTOSAR-compliant setter for molarAmount with method chaining.
 
@@ -756,7 +757,7 @@ class PhysicalDimension(ARElement):
         self.molar_amount = value  # Delegates to property setter
         return self
 
-    def getTemperatureExp(self) -> "Numerical":
+    def getTemperatureExp(self) -> Numerical:
         """
         AUTOSAR-compliant getter for temperatureExp.
 
@@ -768,7 +769,7 @@ class PhysicalDimension(ARElement):
         """
         return self.temperature_exp  # Delegates to property
 
-    def setTemperatureExp(self, value: "Numerical") -> PhysicalDimension:
+    def setTemperatureExp(self, value: Numerical) -> PhysicalDimension:
         """
         AUTOSAR-compliant setter for temperatureExp with method chaining.
 
@@ -784,7 +785,7 @@ class PhysicalDimension(ARElement):
         self.temperature_exp = value  # Delegates to property setter
         return self
 
-    def getTimeExp(self) -> "Numerical":
+    def getTimeExp(self) -> Numerical:
         """
         AUTOSAR-compliant getter for timeExp.
 
@@ -796,7 +797,7 @@ class PhysicalDimension(ARElement):
         """
         return self.time_exp  # Delegates to property
 
-    def setTimeExp(self, value: "Numerical") -> PhysicalDimension:
+    def setTimeExp(self, value: Numerical) -> PhysicalDimension:
         """
         AUTOSAR-compliant setter for timeExp with method chaining.
 
@@ -814,7 +815,7 @@ class PhysicalDimension(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_current_exp(self, value: Optional["Numerical"]) -> PhysicalDimension:
+    def with_current_exp(self, value: Optional[Numerical]) -> PhysicalDimension:
         """
         Set currentExp and return self for chaining.
 
@@ -830,7 +831,7 @@ class PhysicalDimension(ARElement):
         self.current_exp = value  # Use property setter (gets validation)
         return self
 
-    def with_length_exp(self, value: Optional["Numerical"]) -> PhysicalDimension:
+    def with_length_exp(self, value: Optional[Numerical]) -> PhysicalDimension:
         """
         Set lengthExp and return self for chaining.
 
@@ -846,7 +847,7 @@ class PhysicalDimension(ARElement):
         self.length_exp = value  # Use property setter (gets validation)
         return self
 
-    def with_luminous(self, value: Optional["Numerical"]) -> PhysicalDimension:
+    def with_luminous(self, value: Optional[Numerical]) -> PhysicalDimension:
         """
         Set luminous and return self for chaining.
 
@@ -862,7 +863,7 @@ class PhysicalDimension(ARElement):
         self.luminous = value  # Use property setter (gets validation)
         return self
 
-    def with_mass_exp(self, value: Optional["Numerical"]) -> PhysicalDimension:
+    def with_mass_exp(self, value: Optional[Numerical]) -> PhysicalDimension:
         """
         Set massExp and return self for chaining.
 
@@ -878,7 +879,7 @@ class PhysicalDimension(ARElement):
         self.mass_exp = value  # Use property setter (gets validation)
         return self
 
-    def with_molar_amount(self, value: Optional["Numerical"]) -> PhysicalDimension:
+    def with_molar_amount(self, value: Optional[Numerical]) -> PhysicalDimension:
         """
         Set molarAmount and return self for chaining.
 
@@ -894,7 +895,7 @@ class PhysicalDimension(ARElement):
         self.molar_amount = value  # Use property setter (gets validation)
         return self
 
-    def with_temperature_exp(self, value: Optional["Numerical"]) -> PhysicalDimension:
+    def with_temperature_exp(self, value: Optional[Numerical]) -> PhysicalDimension:
         """
         Set temperatureExp and return self for chaining.
 
@@ -910,7 +911,7 @@ class PhysicalDimension(ARElement):
         self.temperature_exp = value  # Use property setter (gets validation)
         return self
 
-    def with_time_exp(self, value: Optional["Numerical"]) -> PhysicalDimension:
+    def with_time_exp(self, value: Optional[Numerical]) -> PhysicalDimension:
         """
         Set timeExp and return self for chaining.
 

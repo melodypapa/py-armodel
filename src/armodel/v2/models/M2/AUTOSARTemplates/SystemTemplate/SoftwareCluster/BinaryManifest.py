@@ -36,6 +36,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.SoftwareCluster.Binary
 )
 from armodel.v2.models.M2.MSR.DataDictionary.DataDefinition import (
     Address,
+    Numerical,
 )
 
 
@@ -60,15 +61,15 @@ class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
                 # Cp a design element.
         # Therefore, sense to use a reference rather than an the relation of the two
                 # meta-classes.
-        self._cpSoftware: Optional[CpSoftwareCluster] = None
+        self._cpSoftware: Optional["CpSoftwareCluster"] = None
 
     @property
-    def cp_software(self) -> Optional[CpSoftwareCluster]:
+    def cp_software(self) -> Optional["CpSoftwareCluster"]:
         """Get cpSoftware (Pythonic accessor)."""
         return self._cpSoftware
 
     @cp_software.setter
-    def cp_software(self, value: Optional[CpSoftwareCluster]) -> None:
+    def cp_software(self, value: Optional["CpSoftwareCluster"]) -> None:
         """
         Set cpSoftware with validation.
 
@@ -246,7 +247,7 @@ class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCpSoftware(self) -> CpSoftwareCluster:
+    def getCpSoftware(self) -> "CpSoftwareCluster":
         """
         AUTOSAR-compliant getter for cpSoftware.
 
@@ -258,7 +259,7 @@ class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
         """
         return self.cp_software  # Delegates to property
 
-    def setCpSoftware(self, value: CpSoftwareCluster) -> CpSoftwareClusterBinaryManifestDescriptor:
+    def setCpSoftware(self, value: "CpSoftwareCluster") -> CpSoftwareClusterBinaryManifestDescriptor:
         """
         AUTOSAR-compliant setter for cpSoftware with method chaining.
 
@@ -352,7 +353,7 @@ class CpSoftwareClusterBinaryManifestDescriptor(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_cp_software(self, value: Optional[CpSoftwareCluster]) -> CpSoftwareClusterBinaryManifestDescriptor:
+    def with_cp_software(self, value: Optional["CpSoftwareCluster"]) -> CpSoftwareClusterBinaryManifestDescriptor:
         """
         Set cpSoftware and return self for chaining.
 
@@ -1769,7 +1770,7 @@ class BinaryManifestItemNumericalValue(BinaryManifestItemValue):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getValue(self) -> "Numerical":
+    def getValue(self) -> Numerical:
         """
         AUTOSAR-compliant getter for value.
 
@@ -1781,7 +1782,7 @@ class BinaryManifestItemNumericalValue(BinaryManifestItemValue):
         """
         return self.value  # Delegates to property
 
-    def setValue(self, value: "Numerical") -> BinaryManifestItemNumericalValue:
+    def setValue(self, value: Numerical) -> BinaryManifestItemNumericalValue:
         """
         AUTOSAR-compliant setter for value with method chaining.
 

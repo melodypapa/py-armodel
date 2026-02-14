@@ -16,6 +16,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     ARLiteral,
+    NameTokens,
 )
 
 
@@ -39,15 +40,15 @@ class DocumentViewSelectable(ARObject, ABC):
         # This attribute allows to denote a semantic information used to identify
                 # documentation objects to be customizable document views.
         # It shall be agreement between the involved parties.
-        self._si: "NameTokens" = None
+        self._si: NameTokens = None
 
     @property
-    def si(self) -> "NameTokens":
+    def si(self) -> NameTokens:
         """Get si (Pythonic accessor)."""
         return self._si
 
     @si.setter
-    def si(self, value: "NameTokens") -> None:
+    def si(self, value: NameTokens) -> None:
         """
         Set si with validation.
         
@@ -93,7 +94,7 @@ class DocumentViewSelectable(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getSi(self) -> "NameTokens":
+    def getSi(self) -> NameTokens:
         """
         AUTOSAR-compliant getter for si.
         
@@ -105,7 +106,7 @@ class DocumentViewSelectable(ARObject, ABC):
         """
         return self.si  # Delegates to property
 
-    def setSi(self, value: "NameTokens") -> DocumentViewSelectable:
+    def setSi(self, value: NameTokens) -> DocumentViewSelectable:
         """
         AUTOSAR-compliant setter for si with method chaining.
         
@@ -151,7 +152,7 @@ class DocumentViewSelectable(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_si(self, value: "NameTokens") -> DocumentViewSelectable:
+    def with_si(self, value: NameTokens) -> DocumentViewSelectable:
         """
         Set si and return self for chaining.
         

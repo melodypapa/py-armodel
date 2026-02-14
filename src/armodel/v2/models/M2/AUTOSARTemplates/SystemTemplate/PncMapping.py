@@ -506,7 +506,7 @@ class PncMapping(Describable):
         """
         return self.relevant_for  # Delegates to property
 
-    def getShortLabel(self) -> "Identifier":
+    def getShortLabel(self) -> Identifier:
         """
         AUTOSAR-compliant getter for shortLabel.
 
@@ -518,7 +518,7 @@ class PncMapping(Describable):
         """
         return self.short_label  # Delegates to property
 
-    def setShortLabel(self, value: "Identifier") -> PncMapping:
+    def setShortLabel(self, value: Identifier) -> PncMapping:
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
 

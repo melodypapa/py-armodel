@@ -48,15 +48,15 @@ class ModeDeclarationGroupPrototype(Identifiable):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This allows for specifying whether or not the enclosing
         # ModeDeclarationGroupPrototype can be measured at.
-        self._swCalibration: Optional[SwCalibrationAccess] = None
+        self._swCalibration: Optional["SwCalibrationAccess"] = None
 
     @property
-    def sw_calibration(self) -> Optional[SwCalibrationAccess]:
+    def sw_calibration(self) -> Optional["SwCalibrationAccess"]:
         """Get swCalibration (Pythonic accessor)."""
         return self._swCalibration
 
     @sw_calibration.setter
-    def sw_calibration(self, value: Optional[SwCalibrationAccess]) -> None:
+    def sw_calibration(self, value: Optional["SwCalibrationAccess"]) -> None:
         """
         Set swCalibration with validation.
 
@@ -117,7 +117,7 @@ class ModeDeclarationGroupPrototype(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getSwCalibration(self) -> SwCalibrationAccess:
+    def getSwCalibration(self) -> "SwCalibrationAccess":
         """
         AUTOSAR-compliant getter for swCalibration.
 
@@ -129,7 +129,7 @@ class ModeDeclarationGroupPrototype(Identifiable):
         """
         return self.sw_calibration  # Delegates to property
 
-    def setSwCalibration(self, value: SwCalibrationAccess) -> ModeDeclarationGroupPrototype:
+    def setSwCalibration(self, value: "SwCalibrationAccess") -> ModeDeclarationGroupPrototype:
         """
         AUTOSAR-compliant setter for swCalibration with method chaining.
 
@@ -175,7 +175,7 @@ class ModeDeclarationGroupPrototype(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_sw_calibration(self, value: Optional[SwCalibrationAccess]) -> ModeDeclarationGroupPrototype:
+    def with_sw_calibration(self, value: Optional["SwCalibrationAccess"]) -> ModeDeclarationGroupPrototype:
         """
         Set swCalibration and return self for chaining.
 
@@ -1025,15 +1025,15 @@ class ModeRequestTypeMap(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This is the corresponding AbstractImplementationData Type.
         # It shall be modeled along the idea of an "unsigned type.
-        self._implementation: Optional[AbstractImplementation] = None
+        self._implementation: Optional["AbstractImplementation"] = None
 
     @property
-    def implementation(self) -> Optional[AbstractImplementation]:
+    def implementation(self) -> Optional["AbstractImplementation"]:
         """Get implementation (Pythonic accessor)."""
         return self._implementation
 
     @implementation.setter
-    def implementation(self, value: Optional[AbstractImplementation]) -> None:
+    def implementation(self, value: Optional["AbstractImplementation"]) -> None:
         """
         Set implementation with validation.
 
@@ -1078,7 +1078,7 @@ class ModeRequestTypeMap(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getImplementation(self) -> AbstractImplementation:
+    def getImplementation(self) -> "AbstractImplementation":
         """
         AUTOSAR-compliant getter for implementation.
 
@@ -1090,7 +1090,7 @@ class ModeRequestTypeMap(ARObject):
         """
         return self.implementation  # Delegates to property
 
-    def setImplementation(self, value: AbstractImplementation) -> ModeRequestTypeMap:
+    def setImplementation(self, value: "AbstractImplementation") -> ModeRequestTypeMap:
         """
         AUTOSAR-compliant setter for implementation with method chaining.
 
@@ -1136,7 +1136,7 @@ class ModeRequestTypeMap(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_implementation(self, value: Optional[AbstractImplementation]) -> ModeRequestTypeMap:
+    def with_implementation(self, value: Optional["AbstractImplementation"]) -> ModeRequestTypeMap:
         """
         Set implementation and return self for chaining.
 

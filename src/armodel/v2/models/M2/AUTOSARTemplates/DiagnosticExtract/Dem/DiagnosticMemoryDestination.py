@@ -127,15 +127,15 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
             )
         self._dtcStatus = value
         # not, and which displacement strategy is followed.
-        self._event: Optional[DiagnosticEvent] = None
+        self._event: Optional["DiagnosticEvent"] = None
 
     @property
-    def event(self) -> Optional[DiagnosticEvent]:
+    def event(self) -> Optional["DiagnosticEvent"]:
         """Get event (Pythonic accessor)."""
         return self._event
 
     @event.setter
-    def event(self, value: Optional[DiagnosticEvent]) -> None:
+    def event(self, value: Optional["DiagnosticEvent"]) -> None:
         """
         Set event with validation.
 
@@ -368,7 +368,7 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
         self.dtc_status = value  # Delegates to property setter
         return self
 
-    def getEvent(self) -> DiagnosticEvent:
+    def getEvent(self) -> "DiagnosticEvent":
         """
         AUTOSAR-compliant getter for event.
 
@@ -380,7 +380,7 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
         """
         return self.event  # Delegates to property
 
-    def setEvent(self, value: DiagnosticEvent) -> DiagnosticMemoryDestination:
+    def setEvent(self, value: "DiagnosticEvent") -> DiagnosticMemoryDestination:
         """
         AUTOSAR-compliant setter for event with method chaining.
 
@@ -558,7 +558,7 @@ class DiagnosticMemoryDestination(DiagnosticCommonElement, ABC):
         self.dtc_status = value  # Use property setter (gets validation)
         return self
 
-    def with_event(self, value: Optional[DiagnosticEvent]) -> DiagnosticMemoryDestination:
+    def with_event(self, value: Optional["DiagnosticEvent"]) -> DiagnosticMemoryDestination:
         """
         Set event and return self for chaining.
 

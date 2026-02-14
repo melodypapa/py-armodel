@@ -23,6 +23,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     AREnum,
     NameToken,
     PositiveInteger,
+    RptExecutableEntity,
+    RptPreparationEnum,
+    System,
 )
 
 
@@ -226,7 +229,7 @@ class RptImplPolicy(ARObject):
         self.rpt_enabler_impl = value  # Delegates to property setter
         return self
 
-    def getRptPreparation(self) -> "RptPreparationEnum":
+    def getRptPreparation(self) -> RptPreparationEnum:
         """
         AUTOSAR-compliant getter for rptPreparation.
 
@@ -238,7 +241,7 @@ class RptImplPolicy(ARObject):
         """
         return self.rpt_preparation  # Delegates to property
 
-    def setRptPreparation(self, value: "RptPreparationEnum") -> RptImplPolicy:
+    def setRptPreparation(self, value: RptPreparationEnum) -> RptImplPolicy:
         """
         AUTOSAR-compliant setter for rptPreparation with method chaining.
 
@@ -697,7 +700,7 @@ class RapidPrototypingScenario(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getHostSystem(self) -> "System":
+    def getHostSystem(self) -> System:
         """
         AUTOSAR-compliant getter for hostSystem.
 
@@ -709,7 +712,7 @@ class RapidPrototypingScenario(ARElement):
         """
         return self.host_system  # Delegates to property
 
-    def setHostSystem(self, value: "System") -> RapidPrototypingScenario:
+    def setHostSystem(self, value: System) -> RapidPrototypingScenario:
         """
         AUTOSAR-compliant setter for hostSystem with method chaining.
 
@@ -749,7 +752,7 @@ class RapidPrototypingScenario(ARElement):
         """
         return self.rpt_profile  # Delegates to property
 
-    def getRptSystem(self) -> "System":
+    def getRptSystem(self) -> System:
         """
         AUTOSAR-compliant getter for rptSystem.
 
@@ -761,7 +764,7 @@ class RapidPrototypingScenario(ARElement):
         """
         return self.rpt_system  # Delegates to property
 
-    def setRptSystem(self, value: "System") -> RapidPrototypingScenario:
+    def setRptSystem(self, value: System) -> RapidPrototypingScenario:
         """
         AUTOSAR-compliant setter for rptSystem with method chaining.
 
@@ -1038,7 +1041,7 @@ class RptContainer(Identifiable):
         """
         return self.rpt_container  # Delegates to property
 
-    def getRptExecutable(self) -> "RptExecutableEntity":
+    def getRptExecutable(self) -> RptExecutableEntity:
         """
         AUTOSAR-compliant getter for rptExecutable.
 
@@ -1050,7 +1053,7 @@ class RptContainer(Identifiable):
         """
         return self.rpt_executable  # Delegates to property
 
-    def setRptExecutable(self, value: "RptExecutableEntity") -> RptContainer:
+    def setRptExecutable(self, value: RptExecutableEntity) -> RptContainer:
         """
         AUTOSAR-compliant setter for rptExecutable with method chaining.
 
@@ -1236,15 +1239,15 @@ class RptHook(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attribute provides a code label which is used in the the hook.
         # For example this can be an C or the name of data definition.
-        self._codeLabel: Optional[CIdentifier] = None
+        self._codeLabel: Optional["CIdentifier"] = None
 
     @property
-    def code_label(self) -> Optional[CIdentifier]:
+    def code_label(self) -> Optional["CIdentifier"]:
         """Get codeLabel (Pythonic accessor)."""
         return self._codeLabel
 
     @code_label.setter
-    def code_label(self, value: Optional[CIdentifier]) -> None:
+    def code_label(self, value: Optional["CIdentifier"]) -> None:
         """
         Set codeLabel with validation.
 
@@ -1291,15 +1294,15 @@ class RptHook(ARObject):
                 f"mcdIdentifier must be NameToken or str or None, got {type(value).__name__}"
             )
         self._mcdIdentifier = value
-        self._rptArHook: Optional[AtpFeature] = None
+        self._rptArHook: Optional["AtpFeature"] = None
 
     @property
-    def rpt_ar_hook(self) -> Optional[AtpFeature]:
+    def rpt_ar_hook(self) -> Optional["AtpFeature"]:
         """Get rptArHook (Pythonic accessor)."""
         return self._rptArHook
 
     @rpt_ar_hook.setter
-    def rpt_ar_hook(self, value: Optional[AtpFeature]) -> None:
+    def rpt_ar_hook(self, value: Optional["AtpFeature"]) -> None:
         """
         Set rptArHook with validation.
 
@@ -1328,7 +1331,7 @@ class RptHook(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCodeLabel(self) -> CIdentifier:
+    def getCodeLabel(self) -> "CIdentifier":
         """
         AUTOSAR-compliant getter for codeLabel.
 
@@ -1340,7 +1343,7 @@ class RptHook(ARObject):
         """
         return self.code_label  # Delegates to property
 
-    def setCodeLabel(self, value: CIdentifier) -> RptHook:
+    def setCodeLabel(self, value: "CIdentifier") -> RptHook:
         """
         AUTOSAR-compliant setter for codeLabel with method chaining.
 
@@ -1356,7 +1359,7 @@ class RptHook(ARObject):
         self.code_label = value  # Delegates to property setter
         return self
 
-    def getMcdIdentifier(self) -> "NameToken":
+    def getMcdIdentifier(self) -> NameToken:
         """
         AUTOSAR-compliant getter for mcdIdentifier.
 
@@ -1368,7 +1371,7 @@ class RptHook(ARObject):
         """
         return self.mcd_identifier  # Delegates to property
 
-    def setMcdIdentifier(self, value: "NameToken") -> RptHook:
+    def setMcdIdentifier(self, value: NameToken) -> RptHook:
         """
         AUTOSAR-compliant setter for mcdIdentifier with method chaining.
 
@@ -1384,7 +1387,7 @@ class RptHook(ARObject):
         self.mcd_identifier = value  # Delegates to property setter
         return self
 
-    def getRptArHook(self) -> AtpFeature:
+    def getRptArHook(self) -> "AtpFeature":
         """
         AUTOSAR-compliant getter for rptArHook.
 
@@ -1396,7 +1399,7 @@ class RptHook(ARObject):
         """
         return self.rpt_ar_hook  # Delegates to property
 
-    def setRptArHook(self, value: AtpFeature) -> RptHook:
+    def setRptArHook(self, value: "AtpFeature") -> RptHook:
         """
         AUTOSAR-compliant setter for rptArHook with method chaining.
 
@@ -1426,7 +1429,7 @@ class RptHook(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_code_label(self, value: Optional[CIdentifier]) -> RptHook:
+    def with_code_label(self, value: Optional["CIdentifier"]) -> RptHook:
         """
         Set codeLabel and return self for chaining.
 
@@ -1458,7 +1461,7 @@ class RptHook(ARObject):
         self.mcd_identifier = value  # Use property setter (gets validation)
         return self
 
-    def with_rpt_ar_hook(self, value: Optional[AtpFeature]) -> RptHook:
+    def with_rpt_ar_hook(self, value: Optional["AtpFeature"]) -> RptHook:
         """
         Set rptArHook and return self for chaining.
 
@@ -1548,15 +1551,15 @@ class RptProfile(Identifiable):
         self._minServicePoint = value
         # This symbol is used for post-build hooking 1228 Document ID 62:
                 # AUTOSAR_CP_TPS_SoftwareComponentTemplate Template R23-11.
-        self._servicePoint: Optional[CIdentifier] = None
+        self._servicePoint: Optional["CIdentifier"] = None
 
     @property
-    def service_point(self) -> Optional[CIdentifier]:
+    def service_point(self) -> Optional["CIdentifier"]:
         """Get servicePoint (Pythonic accessor)."""
         return self._servicePoint
 
     @service_point.setter
-    def service_point(self, value: Optional[CIdentifier]) -> None:
+    def service_point(self, value: Optional["CIdentifier"]) -> None:
         """
         Set servicePoint with validation.
 
@@ -1663,7 +1666,7 @@ class RptProfile(Identifiable):
         self.min_service_point = value  # Delegates to property setter
         return self
 
-    def getServicePoint(self) -> CIdentifier:
+    def getServicePoint(self) -> "CIdentifier":
         """
         AUTOSAR-compliant getter for servicePoint.
 
@@ -1675,7 +1678,7 @@ class RptProfile(Identifiable):
         """
         return self.service_point  # Delegates to property
 
-    def setServicePoint(self, value: CIdentifier) -> RptProfile:
+    def setServicePoint(self, value: "CIdentifier") -> RptProfile:
         """
         AUTOSAR-compliant setter for servicePoint with method chaining.
 
@@ -1753,7 +1756,7 @@ class RptProfile(Identifiable):
         self.min_service_point = value  # Use property setter (gets validation)
         return self
 
-    def with_service_point(self, value: Optional[CIdentifier]) -> RptProfile:
+    def with_service_point(self, value: Optional["CIdentifier"]) -> RptProfile:
         """
         Set servicePoint and return self for chaining.
 

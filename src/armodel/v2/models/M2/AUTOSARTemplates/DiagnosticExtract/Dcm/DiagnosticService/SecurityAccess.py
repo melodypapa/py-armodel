@@ -14,6 +14,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticServi
     DiagnosticServiceInstance,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    DiagnosticSecurityLevel,
     PositiveInteger,
 )
 
@@ -91,15 +92,15 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
             )
         self._securityAccess = value
         # This delay the time after ECU boot power-on where no request is accepted.
-        self._securityDelay: Optional[TimeValue] = None
+        self._securityDelay: Optional["TimeValue"] = None
 
     @property
-    def security_delay(self) -> Optional[TimeValue]:
+    def security_delay(self) -> Optional["TimeValue"]:
         """Get securityDelay (Pythonic accessor)."""
         return self._securityDelay
 
     @security_delay.setter
-    def security_delay(self, value: Optional[TimeValue]) -> None:
+    def security_delay(self, value: Optional["TimeValue"]) -> None:
         """
         Set securityDelay with validation.
 
@@ -204,7 +205,7 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
         self.security_access = value  # Delegates to property setter
         return self
 
-    def getSecurityDelay(self) -> TimeValue:
+    def getSecurityDelay(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for securityDelay.
 
@@ -216,7 +217,7 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
         """
         return self.security_delay  # Delegates to property
 
-    def setSecurityDelay(self, value: TimeValue) -> DiagnosticSecurityAccess:
+    def setSecurityDelay(self, value: "TimeValue") -> DiagnosticSecurityAccess:
         """
         AUTOSAR-compliant setter for securityDelay with method chaining.
 
@@ -232,7 +233,7 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
         self.security_delay = value  # Delegates to property setter
         return self
 
-    def getSecurityLevel(self) -> "DiagnosticSecurityLevel":
+    def getSecurityLevel(self) -> DiagnosticSecurityLevel:
         """
         AUTOSAR-compliant getter for securityLevel.
 
@@ -244,7 +245,7 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
         """
         return self.security_level  # Delegates to property
 
-    def setSecurityLevel(self, value: "DiagnosticSecurityLevel") -> DiagnosticSecurityAccess:
+    def setSecurityLevel(self, value: DiagnosticSecurityLevel) -> DiagnosticSecurityAccess:
         """
         AUTOSAR-compliant setter for securityLevel with method chaining.
 
@@ -294,7 +295,7 @@ class DiagnosticSecurityAccess(DiagnosticServiceInstance):
         self.security_access = value  # Use property setter (gets validation)
         return self
 
-    def with_security_delay(self, value: Optional[TimeValue]) -> DiagnosticSecurityAccess:
+    def with_security_delay(self, value: Optional["TimeValue"]) -> DiagnosticSecurityAccess:
         """
         Set securityDelay and return self for chaining.
 

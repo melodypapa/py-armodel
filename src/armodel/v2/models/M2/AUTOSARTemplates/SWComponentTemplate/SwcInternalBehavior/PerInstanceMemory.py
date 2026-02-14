@@ -63,15 +63,15 @@ class PerInstanceMemory(Identifiable):
             )
         self._initValue = value
         # example, to support the RAM Block by mapping to uninitialized RAM.
-        self._swDataDef: Optional[SwDataDefProps] = None
+        self._swDataDef: Optional["SwDataDefProps"] = None
 
     @property
-    def sw_data_def(self) -> Optional[SwDataDefProps]:
+    def sw_data_def(self) -> Optional["SwDataDefProps"]:
         """Get swDataDef (Pythonic accessor)."""
         return self._swDataDef
 
     @sw_data_def.setter
-    def sw_data_def(self, value: Optional[SwDataDefProps]) -> None:
+    def sw_data_def(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set swDataDef with validation.
 
@@ -90,15 +90,15 @@ class PerInstanceMemory(Identifiable):
                 f"swDataDef must be SwDataDefProps or None, got {type(value).__name__}"
             )
         self._swDataDef = value
-        self._type: Optional[CIdentifier] = None
+        self._type: Optional["CIdentifier"] = None
 
     @property
-    def type(self) -> Optional[CIdentifier]:
+    def type(self) -> Optional["CIdentifier"]:
         """Get type (Pythonic accessor)."""
         return self._type
 
     @type.setter
-    def type(self, value: Optional[CIdentifier]) -> None:
+    def type(self, value: Optional["CIdentifier"]) -> None:
         """
         Set type with validation.
 
@@ -175,7 +175,7 @@ class PerInstanceMemory(Identifiable):
         self.init_value = value  # Delegates to property setter
         return self
 
-    def getSwDataDef(self) -> SwDataDefProps:
+    def getSwDataDef(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for swDataDef.
 
@@ -187,7 +187,7 @@ class PerInstanceMemory(Identifiable):
         """
         return self.sw_data_def  # Delegates to property
 
-    def setSwDataDef(self, value: SwDataDefProps) -> PerInstanceMemory:
+    def setSwDataDef(self, value: "SwDataDefProps") -> PerInstanceMemory:
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
 
@@ -203,7 +203,7 @@ class PerInstanceMemory(Identifiable):
         self.sw_data_def = value  # Delegates to property setter
         return self
 
-    def getType(self) -> CIdentifier:
+    def getType(self) -> "CIdentifier":
         """
         AUTOSAR-compliant getter for type.
 
@@ -215,7 +215,7 @@ class PerInstanceMemory(Identifiable):
         """
         return self.type  # Delegates to property
 
-    def setType(self, value: CIdentifier) -> PerInstanceMemory:
+    def setType(self, value: "CIdentifier") -> PerInstanceMemory:
         """
         AUTOSAR-compliant setter for type with method chaining.
 
@@ -277,7 +277,7 @@ class PerInstanceMemory(Identifiable):
         self.init_value = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_data_def(self, value: Optional[SwDataDefProps]) -> PerInstanceMemory:
+    def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> PerInstanceMemory:
         """
         Set swDataDef and return self for chaining.
 
@@ -293,7 +293,7 @@ class PerInstanceMemory(Identifiable):
         self.sw_data_def = value  # Use property setter (gets validation)
         return self
 
-    def with_type(self, value: Optional[CIdentifier]) -> PerInstanceMemory:
+    def with_type(self, value: Optional["CIdentifier"]) -> PerInstanceMemory:
         """
         Set type and return self for chaining.
 

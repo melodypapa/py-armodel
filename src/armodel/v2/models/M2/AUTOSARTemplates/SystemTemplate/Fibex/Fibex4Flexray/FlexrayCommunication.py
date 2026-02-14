@@ -17,6 +17,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     PositiveInteger,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.__init__ import (
+    CommunicationCycle,
     Frame,
     FrameTriggering,
 )
@@ -397,7 +398,7 @@ class FlexrayAbsolutelyScheduledTiming(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCommunicationCycle(self) -> "CommunicationCycle":
+    def getCommunicationCycle(self) -> CommunicationCycle:
         """
         AUTOSAR-compliant getter for communicationCycle.
 
@@ -409,7 +410,7 @@ class FlexrayAbsolutelyScheduledTiming(ARObject):
         """
         return self.communication_cycle  # Delegates to property
 
-    def setCommunicationCycle(self, value: "CommunicationCycle") -> FlexrayAbsolutelyScheduledTiming:
+    def setCommunicationCycle(self, value: CommunicationCycle) -> FlexrayAbsolutelyScheduledTiming:
         """
         AUTOSAR-compliant setter for communicationCycle with method chaining.
 

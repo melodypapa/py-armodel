@@ -86,7 +86,7 @@ class Referrable(ARObject, ABC):
         return self._shortName
 
     @short_name.setter
-    def short_name(self, value: "Identifier") -> None:
+    def short_name(self, value: Identifier) -> None:
         """
         Set shortName with validation.
 
@@ -139,7 +139,7 @@ class Referrable(ARObject, ABC):
         """
         return self.short_name  # Delegates to property
 
-    def setShortName(self, value: "Identifier") -> Referrable:
+    def setShortName(self, value: Identifier) -> Referrable:
         """
         AUTOSAR-compliant setter for shortName with method chaining.
 
@@ -157,7 +157,7 @@ class Referrable(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_short_name(self, value: "Identifier") -> Referrable:
+    def with_short_name(self, value: Identifier) -> Referrable:
         """
         Set shortName and return self for chaining.
 
@@ -248,7 +248,7 @@ class MultilanguageReferrable(Referrable, ABC):
         """
         return self.long_name  # Delegates to property
 
-    def setLongName(self, value: "MultilanguageLongName") -> MultilanguageReferrable:
+    def setLongName(self, value: MultilanguageLongName) -> MultilanguageReferrable:
         """
         AUTOSAR-compliant setter for longName with method chaining.
 
@@ -348,7 +348,7 @@ class SingleLanguageReferrable(Referrable, ABC):
         """
         return self.long_name1  # Delegates to property
 
-    def setLongName1(self, value: "SingleLanguageLongName") -> SingleLanguageReferrable:
+    def setLongName1(self, value: SingleLanguageLongName) -> SingleLanguageReferrable:
         """
         AUTOSAR-compatible setter for longName1 with method chaining.
 
@@ -410,7 +410,7 @@ class ShortNameFragment(ARObject):
         return self._fragment
 
     @fragment.setter
-    def fragment(self, value: "Identifier") -> None:
+    def fragment(self, value: Identifier) -> None:
         """
         Set fragment with validation.
 
@@ -432,7 +432,7 @@ class ShortNameFragment(ARObject):
         return self._role
 
     @role.setter
-    def role(self, value: "String") -> None:
+    def role(self, value: String) -> None:
         """
         Set role with validation.
 
@@ -462,7 +462,7 @@ class ShortNameFragment(ARObject):
         """
         return self.fragment  # Delegates to property
 
-    def setFragment(self, value: "Identifier") -> ShortNameFragment:
+    def setFragment(self, value: Identifier) -> ShortNameFragment:
         """
         AUTOSAR-compliant setter for fragment with method chaining.
 
@@ -490,7 +490,7 @@ class ShortNameFragment(ARObject):
         """
         return self.role  # Delegates to property
 
-    def setRole(self, value: "String") -> ShortNameFragment:
+    def setRole(self, value: String) -> ShortNameFragment:
         """
         AUTOSAR-compliant setter for role with method chaining.
 
@@ -508,7 +508,7 @@ class ShortNameFragment(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_fragment(self, value: "Identifier") -> ShortNameFragment:
+    def with_fragment(self, value: Identifier) -> ShortNameFragment:
         """
         Set fragment and return self for chaining.
 
@@ -524,7 +524,7 @@ class ShortNameFragment(ARObject):
         self.fragment = value  # Use property setter (gets validation)
         return self
 
-    def with_role(self, value: "String") -> ShortNameFragment:
+    def with_role(self, value: String) -> ShortNameFragment:
         """
         Set role and return self for chaining.
 

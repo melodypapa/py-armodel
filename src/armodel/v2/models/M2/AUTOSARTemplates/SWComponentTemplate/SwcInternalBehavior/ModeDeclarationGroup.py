@@ -18,6 +18,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import (
     AbstractAccessPoint,
+    ModeAccessPointIdent,
 )
 
 
@@ -114,7 +115,7 @@ class ModeAccessPoint(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getIdent(self) -> "ModeAccessPointIdent":
+    def getIdent(self) -> ModeAccessPointIdent:
         """
         AUTOSAR-compliant getter for ident.
 
@@ -126,7 +127,7 @@ class ModeAccessPoint(ARObject):
         """
         return self.ident  # Delegates to property
 
-    def setIdent(self, value: "ModeAccessPointIdent") -> ModeAccessPoint:
+    def setIdent(self, value: ModeAccessPointIdent) -> ModeAccessPoint:
         """
         AUTOSAR-compliant setter for ident with method chaining.
 
@@ -365,7 +366,7 @@ class IncludedModeDeclarationGroupSet(ARObject):
         """
         return self.mode  # Delegates to property
 
-    def getPrefix(self) -> "Identifier":
+    def getPrefix(self) -> Identifier:
         """
         AUTOSAR-compliant getter for prefix.
 
@@ -377,7 +378,7 @@ class IncludedModeDeclarationGroupSet(ARObject):
         """
         return self.prefix  # Delegates to property
 
-    def setPrefix(self, value: "Identifier") -> IncludedModeDeclarationGroupSet:
+    def setPrefix(self, value: Identifier) -> IncludedModeDeclarationGroupSet:
         """
         AUTOSAR-compliant setter for prefix with method chaining.
 

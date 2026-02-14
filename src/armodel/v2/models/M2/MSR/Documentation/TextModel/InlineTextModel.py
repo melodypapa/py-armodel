@@ -4,13 +4,30 @@ AUTOSAR Package - InlineTextModel
 Package: M2::MSR::Documentation::TextModel::InlineTextModel
 """
 
-
-from __future__ import annotations
-
 from abc import ABC
+from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
+)
+from armodel.v2.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import (
+    Traceable,
+)
+from armodel.v2.models.M2.MSR.Documentation.TextModel.InlineTextElements import (
+    Br,
+    EmphasisText,
+    IndexEntry,
+    Std,
+    Superscript,
+    Tt,
+    Xdoc,
+    Xfile,
+    Xref,
+    XrefTarget,
+)
+from armodel.v2.models.M2.MSR.Documentation.TextModel.SingleLanguageData import (
+    SlOverviewParagraph,
+    SlParagraph,
 )
 
 
@@ -34,15 +51,15 @@ class MixedContentForLongName(ARObject, ABC):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This is emphasized text.
-        self._e: "EmphasisText" = None
+        self._e: Optional[EmphasisText] = None
 
     @property
-    def e(self) -> "EmphasisText":
+    def e(self) -> Optional[EmphasisText]:
         """Get e (Pythonic accessor)."""
         return self._e
 
     @e.setter
-    def e(self, value: "EmphasisText") -> None:
+    def e(self, value: Optional[EmphasisText]) -> None:
         """
         Set e with validation.
 
@@ -52,20 +69,23 @@ class MixedContentForLongName(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._e = None
+            return
         if not isinstance(value, EmphasisText):
             raise TypeError(
                 f"e must be EmphasisText, got {type(value).__name__}"
             )
         self._e = value
-        self._ie: "IndexEntry" = None
+        self._ie: Optional[IndexEntry] = None
 
     @property
-    def ie(self) -> "IndexEntry":
+    def ie(self) -> Optional[IndexEntry]:
         """Get ie (Pythonic accessor)."""
         return self._ie
 
     @ie.setter
-    def ie(self, value: "IndexEntry") -> None:
+    def ie(self, value: Optional[IndexEntry]) -> None:
         """
         Set ie with validation.
 
@@ -75,20 +95,23 @@ class MixedContentForLongName(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._ie = None
+            return
         if not isinstance(value, IndexEntry):
             raise TypeError(
                 f"ie must be IndexEntry, got {type(value).__name__}"
             )
         self._ie = value
-        self._sub: "Superscript" = None
+        self._sub: Optional[Superscript] = None
 
     @property
-    def sub(self) -> "Superscript":
+    def sub(self) -> Optional[Superscript]:
         """Get sub (Pythonic accessor)."""
         return self._sub
 
     @sub.setter
-    def sub(self, value: "Superscript") -> None:
+    def sub(self, value: Optional[Superscript]) -> None:
         """
         Set sub with validation.
 
@@ -98,20 +121,23 @@ class MixedContentForLongName(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._sub = None
+            return
         if not isinstance(value, Superscript):
             raise TypeError(
                 f"sub must be Superscript, got {type(value).__name__}"
             )
         self._sub = value
-        self._sup: "Superscript" = None
+        self._sup: Optional[Superscript] = None
 
     @property
-    def sup(self) -> "Superscript":
+    def sup(self) -> Optional[Superscript]:
         """Get sup (Pythonic accessor)."""
         return self._sup
 
     @sup.setter
-    def sup(self, value: "Superscript") -> None:
+    def sup(self, value: Optional[Superscript]) -> None:
         """
         Set sup with validation.
 
@@ -121,20 +147,23 @@ class MixedContentForLongName(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._sup = None
+            return
         if not isinstance(value, Superscript):
             raise TypeError(
                 f"sup must be Superscript, got {type(value).__name__}"
             )
         self._sup = value
-        self._tt: "Tt" = None
+        self._tt: Optional[Tt] = None
 
     @property
-    def tt(self) -> "Tt":
+    def tt(self) -> Optional[Tt]:
         """Get tt (Pythonic accessor)."""
         return self._tt
 
     @tt.setter
-    def tt(self, value: "Tt") -> None:
+    def tt(self, value: Optional[Tt]) -> None:
         """
         Set tt with validation.
 
@@ -144,6 +173,9 @@ class MixedContentForLongName(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._tt = None
+            return
         if not isinstance(value, Tt):
             raise TypeError(
                 f"tt must be Tt, got {type(value).__name__}"
@@ -152,7 +184,7 @@ class MixedContentForLongName(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getE(self) -> "EmphasisText":
+    def getE(self) -> Optional[EmphasisText]:
         """
         AUTOSAR-compliant getter for e.
 
@@ -164,7 +196,7 @@ class MixedContentForLongName(ARObject, ABC):
         """
         return self.e  # Delegates to property
 
-    def setE(self, value: "EmphasisText") -> MixedContentForLongName:
+    def setE(self, value: Optional[EmphasisText]) -> "MixedContentForLongName":
         """
         AUTOSAR-compliant setter for e with method chaining.
 
@@ -180,7 +212,7 @@ class MixedContentForLongName(ARObject, ABC):
         self.e = value  # Delegates to property setter
         return self
 
-    def getIe(self) -> "IndexEntry":
+    def getIe(self) -> Optional[IndexEntry]:
         """
         AUTOSAR-compliant getter for ie.
 
@@ -192,7 +224,7 @@ class MixedContentForLongName(ARObject, ABC):
         """
         return self.ie  # Delegates to property
 
-    def setIe(self, value: "IndexEntry") -> MixedContentForLongName:
+    def setIe(self, value: Optional[IndexEntry]) -> "MixedContentForLongName":
         """
         AUTOSAR-compliant setter for ie with method chaining.
 
@@ -208,7 +240,7 @@ class MixedContentForLongName(ARObject, ABC):
         self.ie = value  # Delegates to property setter
         return self
 
-    def getSub(self) -> "Superscript":
+    def getSub(self) -> Optional[Superscript]:
         """
         AUTOSAR-compliant getter for sub.
 
@@ -220,7 +252,7 @@ class MixedContentForLongName(ARObject, ABC):
         """
         return self.sub  # Delegates to property
 
-    def setSub(self, value: "Superscript") -> MixedContentForLongName:
+    def setSub(self, value: Optional[Superscript]) -> "MixedContentForLongName":
         """
         AUTOSAR-compliant setter for sub with method chaining.
 
@@ -236,7 +268,7 @@ class MixedContentForLongName(ARObject, ABC):
         self.sub = value  # Delegates to property setter
         return self
 
-    def getSup(self) -> "Superscript":
+    def getSup(self) -> Optional[Superscript]:
         """
         AUTOSAR-compliant getter for sup.
 
@@ -248,7 +280,7 @@ class MixedContentForLongName(ARObject, ABC):
         """
         return self.sup  # Delegates to property
 
-    def setSup(self, value: "Superscript") -> MixedContentForLongName:
+    def setSup(self, value: Optional[Superscript]) -> "MixedContentForLongName":
         """
         AUTOSAR-compliant setter for sup with method chaining.
 
@@ -264,7 +296,7 @@ class MixedContentForLongName(ARObject, ABC):
         self.sup = value  # Delegates to property setter
         return self
 
-    def getTt(self) -> "Tt":
+    def getTt(self) -> Optional[Tt]:
         """
         AUTOSAR-compliant getter for tt.
 
@@ -276,7 +308,7 @@ class MixedContentForLongName(ARObject, ABC):
         """
         return self.tt  # Delegates to property
 
-    def setTt(self, value: "Tt") -> MixedContentForLongName:
+    def setTt(self, value: Optional[Tt]) -> "MixedContentForLongName":
         """
         AUTOSAR-compliant setter for tt with method chaining.
 
@@ -294,7 +326,7 @@ class MixedContentForLongName(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_e(self, value: "EmphasisText") -> MixedContentForLongName:
+    def with_e(self, value: Optional[EmphasisText]) -> "MixedContentForLongName":
         """
         Set e and return self for chaining.
 
@@ -310,7 +342,7 @@ class MixedContentForLongName(ARObject, ABC):
         self.e = value  # Use property setter (gets validation)
         return self
 
-    def with_ie(self, value: "IndexEntry") -> MixedContentForLongName:
+    def with_ie(self, value: Optional[IndexEntry]) -> "MixedContentForLongName":
         """
         Set ie and return self for chaining.
 
@@ -326,7 +358,7 @@ class MixedContentForLongName(ARObject, ABC):
         self.ie = value  # Use property setter (gets validation)
         return self
 
-    def with_sub(self, value: "Superscript") -> MixedContentForLongName:
+    def with_sub(self, value: Optional[Superscript]) -> "MixedContentForLongName":
         """
         Set sub and return self for chaining.
 
@@ -342,7 +374,7 @@ class MixedContentForLongName(ARObject, ABC):
         self.sub = value  # Use property setter (gets validation)
         return self
 
-    def with_sup(self, value: "Superscript") -> MixedContentForLongName:
+    def with_sup(self, value: Optional[Superscript]) -> "MixedContentForLongName":
         """
         Set sup and return self for chaining.
 
@@ -358,7 +390,7 @@ class MixedContentForLongName(ARObject, ABC):
         self.sup = value  # Use property setter (gets validation)
         return self
 
-    def with_tt(self, value: "Tt") -> MixedContentForLongName:
+    def with_tt(self, value: Optional[Tt]) -> "MixedContentForLongName":
         """
         Set tt and return self for chaining.
 
@@ -395,15 +427,15 @@ class MixedContentForParagraph(ARObject, ABC):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This element is the same as function here as in a HTML it forces a line
         # break.
-        self._br: "Br" = None
+        self._br: Optional[Br] = None
 
     @property
-    def br(self) -> "Br":
+    def br(self) -> Optional[Br]:
         """Get br (Pythonic accessor)."""
         return self._br
 
     @br.setter
-    def br(self, value: "Br") -> None:
+    def br(self, value: Optional[Br]) -> None:
         """
         Set br with validation.
 
@@ -413,20 +445,23 @@ class MixedContentForParagraph(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._br = None
+            return
         if not isinstance(value, Br):
             raise TypeError(
                 f"br must be Br, got {type(value).__name__}"
             )
         self._br = value
-        self._e: "EmphasisText" = None
+        self._e: Optional[EmphasisText] = None
 
     @property
-    def e(self) -> "EmphasisText":
+    def e(self) -> Optional[EmphasisText]:
         """Get e (Pythonic accessor)."""
         return self._e
 
     @e.setter
-    def e(self, value: "EmphasisText") -> None:
+    def e(self, value: Optional[EmphasisText]) -> None:
         """
         Set e with validation.
 
@@ -436,20 +471,23 @@ class MixedContentForParagraph(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._e = None
+            return
         if not isinstance(value, EmphasisText):
             raise TypeError(
                 f"e must be EmphasisText, got {type(value).__name__}"
             )
         self._e = value
-        self._ft: "SlParagraph" = None
+        self._ft: Optional[SlParagraph] = None
 
     @property
-    def ft(self) -> "SlParagraph":
+    def ft(self) -> Optional[SlParagraph]:
         """Get ft (Pythonic accessor)."""
         return self._ft
 
     @ft.setter
-    def ft(self, value: "SlParagraph") -> None:
+    def ft(self, value: Optional[SlParagraph]) -> None:
         """
         Set ft with validation.
 
@@ -459,20 +497,23 @@ class MixedContentForParagraph(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._ft = None
+            return
         if not isinstance(value, SlParagraph):
             raise TypeError(
                 f"ft must be SlParagraph, got {type(value).__name__}"
             )
         self._ft = value
-        self._ie: "IndexEntry" = None
+        self._ie: Optional[IndexEntry] = None
 
     @property
-    def ie(self) -> "IndexEntry":
+    def ie(self) -> Optional[IndexEntry]:
         """Get ie (Pythonic accessor)."""
         return self._ie
 
     @ie.setter
-    def ie(self, value: "IndexEntry") -> None:
+    def ie(self, value: Optional[IndexEntry]) -> None:
         """
         Set ie with validation.
 
@@ -482,20 +523,23 @@ class MixedContentForParagraph(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._ie = None
+            return
         if not isinstance(value, IndexEntry):
             raise TypeError(
                 f"ie must be IndexEntry, got {type(value).__name__}"
             )
         self._ie = value
-        self._std: "Std" = None
+        self._std: Optional[Std] = None
 
     @property
-    def std(self) -> "Std":
+    def std(self) -> Optional[Std]:
         """Get std (Pythonic accessor)."""
         return self._std
 
     @std.setter
-    def std(self, value: "Std") -> None:
+    def std(self, value: Optional[Std]) -> None:
         """
         Set std with validation.
 
@@ -505,20 +549,23 @@ class MixedContentForParagraph(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._std = None
+            return
         if not isinstance(value, Std):
             raise TypeError(
                 f"std must be Std, got {type(value).__name__}"
             )
         self._std = value
-        self._sub: "Superscript" = None
+        self._sub: Optional[Superscript] = None
 
     @property
-    def sub(self) -> "Superscript":
+    def sub(self) -> Optional[Superscript]:
         """Get sub (Pythonic accessor)."""
         return self._sub
 
     @sub.setter
-    def sub(self, value: "Superscript") -> None:
+    def sub(self, value: Optional[Superscript]) -> None:
         """
         Set sub with validation.
 
@@ -528,20 +575,23 @@ class MixedContentForParagraph(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._sub = None
+            return
         if not isinstance(value, Superscript):
             raise TypeError(
                 f"sub must be Superscript, got {type(value).__name__}"
             )
         self._sub = value
-        self._sup: "Superscript" = None
+        self._sup: Optional[Superscript] = None
 
     @property
-    def sup(self) -> "Superscript":
+    def sup(self) -> Optional[Superscript]:
         """Get sup (Pythonic accessor)."""
         return self._sup
 
     @sup.setter
-    def sup(self, value: "Superscript") -> None:
+    def sup(self, value: Optional[Superscript]) -> None:
         """
         Set sup with validation.
 
@@ -551,20 +601,23 @@ class MixedContentForParagraph(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._sup = None
+            return
         if not isinstance(value, Superscript):
             raise TypeError(
                 f"sup must be Superscript, got {type(value).__name__}"
             )
         self._sup = value
-        self._trace: "Traceable" = None
+        self._trace: Optional[Traceable] = None
 
     @property
-    def trace(self) -> "Traceable":
+    def trace(self) -> Optional[Traceable]:
         """Get trace (Pythonic accessor)."""
         return self._trace
 
     @trace.setter
-    def trace(self, value: "Traceable") -> None:
+    def trace(self, value: Optional[Traceable]) -> None:
         """
         Set trace with validation.
 
@@ -574,20 +627,23 @@ class MixedContentForParagraph(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._trace = None
+            return
         if not isinstance(value, Traceable):
             raise TypeError(
                 f"trace must be Traceable, got {type(value).__name__}"
             )
         self._trace = value
-        self._tt: "Tt" = None
+        self._tt: Optional[Tt] = None
 
     @property
-    def tt(self) -> "Tt":
+    def tt(self) -> Optional[Tt]:
         """Get tt (Pythonic accessor)."""
         return self._tt
 
     @tt.setter
-    def tt(self, value: "Tt") -> None:
+    def tt(self, value: Optional[Tt]) -> None:
         """
         Set tt with validation.
 
@@ -597,20 +653,23 @@ class MixedContentForParagraph(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._tt = None
+            return
         if not isinstance(value, Tt):
             raise TypeError(
                 f"tt must be Tt, got {type(value).__name__}"
             )
         self._tt = value
-        self._xdoc: "Xdoc" = None
+        self._xdoc: Optional[Xdoc] = None
 
     @property
-    def xdoc(self) -> "Xdoc":
+    def xdoc(self) -> Optional[Xdoc]:
         """Get xdoc (Pythonic accessor)."""
         return self._xdoc
 
     @xdoc.setter
-    def xdoc(self, value: "Xdoc") -> None:
+    def xdoc(self, value: Optional[Xdoc]) -> None:
         """
         Set xdoc with validation.
 
@@ -620,20 +679,23 @@ class MixedContentForParagraph(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._xdoc = None
+            return
         if not isinstance(value, Xdoc):
             raise TypeError(
                 f"xdoc must be Xdoc, got {type(value).__name__}"
             )
         self._xdoc = value
-        self._xfile: "Xfile" = None
+        self._xfile: Optional[Xfile] = None
 
     @property
-    def xfile(self) -> "Xfile":
+    def xfile(self) -> Optional[Xfile]:
         """Get xfile (Pythonic accessor)."""
         return self._xfile
 
     @xfile.setter
-    def xfile(self, value: "Xfile") -> None:
+    def xfile(self, value: Optional[Xfile]) -> None:
         """
         Set xfile with validation.
 
@@ -643,20 +705,23 @@ class MixedContentForParagraph(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._xfile = None
+            return
         if not isinstance(value, Xfile):
             raise TypeError(
                 f"xfile must be Xfile, got {type(value).__name__}"
             )
         self._xfile = value
-        self._xref: "Xref" = None
+        self._xref: Optional[Xref] = None
 
     @property
-    def xref(self) -> "Xref":
+    def xref(self) -> Optional[Xref]:
         """Get xref (Pythonic accessor)."""
         return self._xref
 
     @xref.setter
-    def xref(self, value: "Xref") -> None:
+    def xref(self, value: Optional[Xref]) -> None:
         """
         Set xref with validation.
 
@@ -666,20 +731,23 @@ class MixedContentForParagraph(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._xref = None
+            return
         if not isinstance(value, Xref):
             raise TypeError(
                 f"xref must be Xref, got {type(value).__name__}"
             )
         self._xref = value
-        self._xrefTarget: "XrefTarget" = None
+        self._xrefTarget: Optional[XrefTarget] = None
 
     @property
-    def xref_target(self) -> "XrefTarget":
+    def xref_target(self) -> Optional[XrefTarget]:
         """Get xrefTarget (Pythonic accessor)."""
         return self._xrefTarget
 
     @xref_target.setter
-    def xref_target(self, value: "XrefTarget") -> None:
+    def xref_target(self, value: Optional[XrefTarget]) -> None:
         """
         Set xrefTarget with validation.
 
@@ -689,6 +757,9 @@ class MixedContentForParagraph(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._xrefTarget = None
+            return
         if not isinstance(value, XrefTarget):
             raise TypeError(
                 f"xrefTarget must be XrefTarget, got {type(value).__name__}"
@@ -697,7 +768,7 @@ class MixedContentForParagraph(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBr(self) -> "Br":
+    def getBr(self) -> Optional[Br]:
         """
         AUTOSAR-compliant getter for br.
 
@@ -709,7 +780,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.br  # Delegates to property
 
-    def setBr(self, value: "Br") -> MixedContentForParagraph:
+    def setBr(self, value: Optional[Br]) -> "MixedContentForParagraph":
         """
         AUTOSAR-compliant setter for br with method chaining.
 
@@ -725,7 +796,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.br = value  # Delegates to property setter
         return self
 
-    def getE(self) -> "EmphasisText":
+    def getE(self) -> Optional[EmphasisText]:
         """
         AUTOSAR-compliant getter for e.
 
@@ -737,7 +808,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.e  # Delegates to property
 
-    def setE(self, value: "EmphasisText") -> MixedContentForParagraph:
+    def setE(self, value: Optional[EmphasisText]) -> "MixedContentForParagraph":
         """
         AUTOSAR-compliant setter for e with method chaining.
 
@@ -753,7 +824,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.e = value  # Delegates to property setter
         return self
 
-    def getFt(self) -> "SlParagraph":
+    def getFt(self) -> Optional[SlParagraph]:
         """
         AUTOSAR-compliant getter for ft.
 
@@ -765,7 +836,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.ft  # Delegates to property
 
-    def setFt(self, value: "SlParagraph") -> MixedContentForParagraph:
+    def setFt(self, value: Optional[SlParagraph]) -> "MixedContentForParagraph":
         """
         AUTOSAR-compliant setter for ft with method chaining.
 
@@ -781,7 +852,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.ft = value  # Delegates to property setter
         return self
 
-    def getIe(self) -> "IndexEntry":
+    def getIe(self) -> Optional[IndexEntry]:
         """
         AUTOSAR-compliant getter for ie.
 
@@ -793,7 +864,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.ie  # Delegates to property
 
-    def setIe(self, value: "IndexEntry") -> MixedContentForParagraph:
+    def setIe(self, value: Optional[IndexEntry]) -> "MixedContentForParagraph":
         """
         AUTOSAR-compliant setter for ie with method chaining.
 
@@ -809,7 +880,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.ie = value  # Delegates to property setter
         return self
 
-    def getStd(self) -> "Std":
+    def getStd(self) -> Optional[Std]:
         """
         AUTOSAR-compliant getter for std.
 
@@ -821,7 +892,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.std  # Delegates to property
 
-    def setStd(self, value: "Std") -> MixedContentForParagraph:
+    def setStd(self, value: Optional[Std]) -> "MixedContentForParagraph":
         """
         AUTOSAR-compliant setter for std with method chaining.
 
@@ -837,7 +908,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.std = value  # Delegates to property setter
         return self
 
-    def getSub(self) -> "Superscript":
+    def getSub(self) -> Optional[Superscript]:
         """
         AUTOSAR-compliant getter for sub.
 
@@ -849,7 +920,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.sub  # Delegates to property
 
-    def setSub(self, value: "Superscript") -> MixedContentForParagraph:
+    def setSub(self, value: Optional[Superscript]) -> "MixedContentForParagraph":
         """
         AUTOSAR-compliant setter for sub with method chaining.
 
@@ -865,7 +936,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.sub = value  # Delegates to property setter
         return self
 
-    def getSup(self) -> "Superscript":
+    def getSup(self) -> Optional[Superscript]:
         """
         AUTOSAR-compliant getter for sup.
 
@@ -877,7 +948,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.sup  # Delegates to property
 
-    def setSup(self, value: "Superscript") -> MixedContentForParagraph:
+    def setSup(self, value: Optional[Superscript]) -> "MixedContentForParagraph":
         """
         AUTOSAR-compliant setter for sup with method chaining.
 
@@ -893,7 +964,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.sup = value  # Delegates to property setter
         return self
 
-    def getTrace(self) -> "Traceable":
+    def getTrace(self) -> Optional[Traceable]:
         """
         AUTOSAR-compliant getter for trace.
 
@@ -905,7 +976,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.trace  # Delegates to property
 
-    def setTrace(self, value: "Traceable") -> MixedContentForParagraph:
+    def setTrace(self, value: Optional[Traceable]) -> "MixedContentForParagraph":
         """
         AUTOSAR-compliant setter for trace with method chaining.
 
@@ -921,7 +992,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.trace = value  # Delegates to property setter
         return self
 
-    def getTt(self) -> "Tt":
+    def getTt(self) -> Optional[Tt]:
         """
         AUTOSAR-compliant getter for tt.
 
@@ -933,7 +1004,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.tt  # Delegates to property
 
-    def setTt(self, value: "Tt") -> MixedContentForParagraph:
+    def setTt(self, value: Optional[Tt]) -> "MixedContentForParagraph":
         """
         AUTOSAR-compliant setter for tt with method chaining.
 
@@ -949,7 +1020,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.tt = value  # Delegates to property setter
         return self
 
-    def getXdoc(self) -> "Xdoc":
+    def getXdoc(self) -> Optional[Xdoc]:
         """
         AUTOSAR-compliant getter for xdoc.
 
@@ -961,7 +1032,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.xdoc  # Delegates to property
 
-    def setXdoc(self, value: "Xdoc") -> MixedContentForParagraph:
+    def setXdoc(self, value: Optional[Xdoc]) -> "MixedContentForParagraph":
         """
         AUTOSAR-compliant setter for xdoc with method chaining.
 
@@ -977,7 +1048,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.xdoc = value  # Delegates to property setter
         return self
 
-    def getXfile(self) -> "Xfile":
+    def getXfile(self) -> Optional[Xfile]:
         """
         AUTOSAR-compliant getter for xfile.
 
@@ -989,7 +1060,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.xfile  # Delegates to property
 
-    def setXfile(self, value: "Xfile") -> MixedContentForParagraph:
+    def setXfile(self, value: Optional[Xfile]) -> "MixedContentForParagraph":
         """
         AUTOSAR-compliant setter for xfile with method chaining.
 
@@ -1005,7 +1076,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.xfile = value  # Delegates to property setter
         return self
 
-    def getXref(self) -> "Xref":
+    def getXref(self) -> Optional[Xref]:
         """
         AUTOSAR-compliant getter for xref.
 
@@ -1017,7 +1088,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.xref  # Delegates to property
 
-    def setXref(self, value: "Xref") -> MixedContentForParagraph:
+    def setXref(self, value: Optional[Xref]) -> "MixedContentForParagraph":
         """
         AUTOSAR-compliant setter for xref with method chaining.
 
@@ -1033,7 +1104,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.xref = value  # Delegates to property setter
         return self
 
-    def getXrefTarget(self) -> "XrefTarget":
+    def getXrefTarget(self) -> Optional[XrefTarget]:
         """
         AUTOSAR-compliant getter for xrefTarget.
 
@@ -1045,7 +1116,7 @@ class MixedContentForParagraph(ARObject, ABC):
         """
         return self.xref_target  # Delegates to property
 
-    def setXrefTarget(self, value: "XrefTarget") -> MixedContentForParagraph:
+    def setXrefTarget(self, value: Optional[XrefTarget]) -> "MixedContentForParagraph":
         """
         AUTOSAR-compliant setter for xrefTarget with method chaining.
 
@@ -1063,7 +1134,7 @@ class MixedContentForParagraph(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_br(self, value: "Br") -> MixedContentForParagraph:
+    def with_br(self, value: Optional[Br]) -> "MixedContentForParagraph":
         """
         Set br and return self for chaining.
 
@@ -1079,7 +1150,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.br = value  # Use property setter (gets validation)
         return self
 
-    def with_e(self, value: "EmphasisText") -> MixedContentForParagraph:
+    def with_e(self, value: Optional[EmphasisText]) -> "MixedContentForParagraph":
         """
         Set e and return self for chaining.
 
@@ -1095,7 +1166,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.e = value  # Use property setter (gets validation)
         return self
 
-    def with_ft(self, value: "SlParagraph") -> MixedContentForParagraph:
+    def with_ft(self, value: Optional[SlParagraph]) -> "MixedContentForParagraph":
         """
         Set ft and return self for chaining.
 
@@ -1111,7 +1182,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.ft = value  # Use property setter (gets validation)
         return self
 
-    def with_ie(self, value: "IndexEntry") -> MixedContentForParagraph:
+    def with_ie(self, value: Optional[IndexEntry]) -> "MixedContentForParagraph":
         """
         Set ie and return self for chaining.
 
@@ -1127,7 +1198,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.ie = value  # Use property setter (gets validation)
         return self
 
-    def with_std(self, value: "Std") -> MixedContentForParagraph:
+    def with_std(self, value: Optional[Std]) -> "MixedContentForParagraph":
         """
         Set std and return self for chaining.
 
@@ -1143,7 +1214,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.std = value  # Use property setter (gets validation)
         return self
 
-    def with_sub(self, value: "Superscript") -> MixedContentForParagraph:
+    def with_sub(self, value: Optional[Superscript]) -> "MixedContentForParagraph":
         """
         Set sub and return self for chaining.
 
@@ -1159,7 +1230,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.sub = value  # Use property setter (gets validation)
         return self
 
-    def with_sup(self, value: "Superscript") -> MixedContentForParagraph:
+    def with_sup(self, value: Optional[Superscript]) -> "MixedContentForParagraph":
         """
         Set sup and return self for chaining.
 
@@ -1175,7 +1246,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.sup = value  # Use property setter (gets validation)
         return self
 
-    def with_trace(self, value: "Traceable") -> MixedContentForParagraph:
+    def with_trace(self, value: Optional[Traceable]) -> "MixedContentForParagraph":
         """
         Set trace and return self for chaining.
 
@@ -1191,7 +1262,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.trace = value  # Use property setter (gets validation)
         return self
 
-    def with_tt(self, value: "Tt") -> MixedContentForParagraph:
+    def with_tt(self, value: Optional[Tt]) -> "MixedContentForParagraph":
         """
         Set tt and return self for chaining.
 
@@ -1207,7 +1278,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.tt = value  # Use property setter (gets validation)
         return self
 
-    def with_xdoc(self, value: "Xdoc") -> MixedContentForParagraph:
+    def with_xdoc(self, value: Optional[Xdoc]) -> "MixedContentForParagraph":
         """
         Set xdoc and return self for chaining.
 
@@ -1223,7 +1294,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.xdoc = value  # Use property setter (gets validation)
         return self
 
-    def with_xfile(self, value: "Xfile") -> MixedContentForParagraph:
+    def with_xfile(self, value: Optional[Xfile]) -> "MixedContentForParagraph":
         """
         Set xfile and return self for chaining.
 
@@ -1239,7 +1310,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.xfile = value  # Use property setter (gets validation)
         return self
 
-    def with_xref(self, value: "Xref") -> MixedContentForParagraph:
+    def with_xref(self, value: Optional[Xref]) -> "MixedContentForParagraph":
         """
         Set xref and return self for chaining.
 
@@ -1255,7 +1326,7 @@ class MixedContentForParagraph(ARObject, ABC):
         self.xref = value  # Use property setter (gets validation)
         return self
 
-    def with_xref_target(self, value: "XrefTarget") -> MixedContentForParagraph:
+    def with_xref_target(self, value: Optional[XrefTarget]) -> "MixedContentForParagraph":
         """
         Set xrefTarget and return self for chaining.
 
@@ -1293,15 +1364,15 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This element is the same as function here as in a HTML it forces a line
         # break.
-        self._br: "Br" = None
+        self._br: Optional[Br] = None
 
     @property
-    def br(self) -> "Br":
+    def br(self) -> Optional[Br]:
         """Get br (Pythonic accessor)."""
         return self._br
 
     @br.setter
-    def br(self, value: "Br") -> None:
+    def br(self, value: Optional[Br]) -> None:
         """
         Set br with validation.
 
@@ -1311,20 +1382,23 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._br = None
+            return
         if not isinstance(value, Br):
             raise TypeError(
                 f"br must be Br, got {type(value).__name__}"
             )
         self._br = value
-        self._e: "EmphasisText" = None
+        self._e: Optional[EmphasisText] = None
 
     @property
-    def e(self) -> "EmphasisText":
+    def e(self) -> Optional[EmphasisText]:
         """Get e (Pythonic accessor)."""
         return self._e
 
     @e.setter
-    def e(self, value: "EmphasisText") -> None:
+    def e(self, value: Optional[EmphasisText]) -> None:
         """
         Set e with validation.
 
@@ -1334,20 +1408,23 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._e = None
+            return
         if not isinstance(value, EmphasisText):
             raise TypeError(
                 f"e must be EmphasisText, got {type(value).__name__}"
             )
         self._e = value
-        self._ft: "SlOverviewParagraph" = None
+        self._ft: Optional[SlOverviewParagraph] = None
 
     @property
-    def ft(self) -> "SlOverviewParagraph":
+    def ft(self) -> Optional[SlOverviewParagraph]:
         """Get ft (Pythonic accessor)."""
         return self._ft
 
     @ft.setter
-    def ft(self, value: "SlOverviewParagraph") -> None:
+    def ft(self, value: Optional[SlOverviewParagraph]) -> None:
         """
         Set ft with validation.
 
@@ -1357,20 +1434,23 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._ft = None
+            return
         if not isinstance(value, SlOverviewParagraph):
             raise TypeError(
                 f"ft must be SlOverviewParagraph, got {type(value).__name__}"
             )
         self._ft = value
-        self._ie: "IndexEntry" = None
+        self._ie: Optional[IndexEntry] = None
 
     @property
-    def ie(self) -> "IndexEntry":
+    def ie(self) -> Optional[IndexEntry]:
         """Get ie (Pythonic accessor)."""
         return self._ie
 
     @ie.setter
-    def ie(self, value: "IndexEntry") -> None:
+    def ie(self, value: Optional[IndexEntry]) -> None:
         """
         Set ie with validation.
 
@@ -1380,20 +1460,23 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._ie = None
+            return
         if not isinstance(value, IndexEntry):
             raise TypeError(
                 f"ie must be IndexEntry, got {type(value).__name__}"
             )
         self._ie = value
-        self._sub: "Superscript" = None
+        self._sub: Optional[Superscript] = None
 
     @property
-    def sub(self) -> "Superscript":
+    def sub(self) -> Optional[Superscript]:
         """Get sub (Pythonic accessor)."""
         return self._sub
 
     @sub.setter
-    def sub(self, value: "Superscript") -> None:
+    def sub(self, value: Optional[Superscript]) -> None:
         """
         Set sub with validation.
 
@@ -1403,20 +1486,23 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._sub = None
+            return
         if not isinstance(value, Superscript):
             raise TypeError(
                 f"sub must be Superscript, got {type(value).__name__}"
             )
         self._sub = value
-        self._sup: "Superscript" = None
+        self._sup: Optional[Superscript] = None
 
     @property
-    def sup(self) -> "Superscript":
+    def sup(self) -> Optional[Superscript]:
         """Get sup (Pythonic accessor)."""
         return self._sup
 
     @sup.setter
-    def sup(self, value: "Superscript") -> None:
+    def sup(self, value: Optional[Superscript]) -> None:
         """
         Set sup with validation.
 
@@ -1426,20 +1512,23 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._sup = None
+            return
         if not isinstance(value, Superscript):
             raise TypeError(
                 f"sup must be Superscript, got {type(value).__name__}"
             )
         self._sup = value
-        self._trace: "Traceable" = None
+        self._trace: Optional[Traceable] = None
 
     @property
-    def trace(self) -> "Traceable":
+    def trace(self) -> Optional[Traceable]:
         """Get trace (Pythonic accessor)."""
         return self._trace
 
     @trace.setter
-    def trace(self, value: "Traceable") -> None:
+    def trace(self, value: Optional[Traceable]) -> None:
         """
         Set trace with validation.
 
@@ -1449,20 +1538,23 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._trace = None
+            return
         if not isinstance(value, Traceable):
             raise TypeError(
                 f"trace must be Traceable, got {type(value).__name__}"
             )
         self._trace = value
-        self._tt: "Tt" = None
+        self._tt: Optional[Tt] = None
 
     @property
-    def tt(self) -> "Tt":
+    def tt(self) -> Optional[Tt]:
         """Get tt (Pythonic accessor)."""
         return self._tt
 
     @tt.setter
-    def tt(self, value: "Tt") -> None:
+    def tt(self, value: Optional[Tt]) -> None:
         """
         Set tt with validation.
 
@@ -1472,20 +1564,23 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._tt = None
+            return
         if not isinstance(value, Tt):
             raise TypeError(
                 f"tt must be Tt, got {type(value).__name__}"
             )
         self._tt = value
-        self._xref: "Xref" = None
+        self._xref: Optional[Xref] = None
 
     @property
-    def xref(self) -> "Xref":
+    def xref(self) -> Optional[Xref]:
         """Get xref (Pythonic accessor)."""
         return self._xref
 
     @xref.setter
-    def xref(self, value: "Xref") -> None:
+    def xref(self, value: Optional[Xref]) -> None:
         """
         Set xref with validation.
 
@@ -1495,20 +1590,23 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._xref = None
+            return
         if not isinstance(value, Xref):
             raise TypeError(
                 f"xref must be Xref, got {type(value).__name__}"
             )
         self._xref = value
-        self._xrefTarget: "XrefTarget" = None
+        self._xrefTarget: Optional[XrefTarget] = None
 
     @property
-    def xref_target(self) -> "XrefTarget":
+    def xref_target(self) -> Optional[XrefTarget]:
         """Get xrefTarget (Pythonic accessor)."""
         return self._xrefTarget
 
     @xref_target.setter
-    def xref_target(self, value: "XrefTarget") -> None:
+    def xref_target(self, value: Optional[XrefTarget]) -> None:
         """
         Set xrefTarget with validation.
 
@@ -1518,6 +1616,9 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._xrefTarget = None
+            return
         if not isinstance(value, XrefTarget):
             raise TypeError(
                 f"xrefTarget must be XrefTarget, got {type(value).__name__}"
@@ -1526,7 +1627,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBr(self) -> "Br":
+    def getBr(self) -> Optional[Br]:
         """
         AUTOSAR-compliant getter for br.
 
@@ -1538,7 +1639,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         """
         return self.br  # Delegates to property
 
-    def setBr(self, value: "Br") -> MixedContentForOverviewParagraph:
+    def setBr(self, value: Optional[Br]) -> "MixedContentForOverviewParagraph":
         """
         AUTOSAR-compliant setter for br with method chaining.
 
@@ -1554,7 +1655,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         self.br = value  # Delegates to property setter
         return self
 
-    def getE(self) -> "EmphasisText":
+    def getE(self) -> Optional[EmphasisText]:
         """
         AUTOSAR-compliant getter for e.
 
@@ -1566,7 +1667,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         """
         return self.e  # Delegates to property
 
-    def setE(self, value: "EmphasisText") -> MixedContentForOverviewParagraph:
+    def setE(self, value: Optional[EmphasisText]) -> "MixedContentForOverviewParagraph":
         """
         AUTOSAR-compliant setter for e with method chaining.
 
@@ -1582,7 +1683,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         self.e = value  # Delegates to property setter
         return self
 
-    def getFt(self) -> "SlOverviewParagraph":
+    def getFt(self) -> Optional[SlOverviewParagraph]:
         """
         AUTOSAR-compliant getter for ft.
 
@@ -1594,7 +1695,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         """
         return self.ft  # Delegates to property
 
-    def setFt(self, value: "SlOverviewParagraph") -> MixedContentForOverviewParagraph:
+    def setFt(self, value: Optional[SlOverviewParagraph]) -> "MixedContentForOverviewParagraph":
         """
         AUTOSAR-compliant setter for ft with method chaining.
 
@@ -1610,7 +1711,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         self.ft = value  # Delegates to property setter
         return self
 
-    def getIe(self) -> "IndexEntry":
+    def getIe(self) -> Optional[IndexEntry]:
         """
         AUTOSAR-compliant getter for ie.
 
@@ -1622,7 +1723,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         """
         return self.ie  # Delegates to property
 
-    def setIe(self, value: "IndexEntry") -> MixedContentForOverviewParagraph:
+    def setIe(self, value: Optional[IndexEntry]) -> "MixedContentForOverviewParagraph":
         """
         AUTOSAR-compliant setter for ie with method chaining.
 
@@ -1638,7 +1739,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         self.ie = value  # Delegates to property setter
         return self
 
-    def getSub(self) -> "Superscript":
+    def getSub(self) -> Optional[Superscript]:
         """
         AUTOSAR-compliant getter for sub.
 
@@ -1650,7 +1751,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         """
         return self.sub  # Delegates to property
 
-    def setSub(self, value: "Superscript") -> MixedContentForOverviewParagraph:
+    def setSub(self, value: Optional[Superscript]) -> "MixedContentForOverviewParagraph":
         """
         AUTOSAR-compliant setter for sub with method chaining.
 
@@ -1666,7 +1767,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         self.sub = value  # Delegates to property setter
         return self
 
-    def getSup(self) -> "Superscript":
+    def getSup(self) -> Optional[Superscript]:
         """
         AUTOSAR-compliant getter for sup.
 
@@ -1678,7 +1779,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         """
         return self.sup  # Delegates to property
 
-    def setSup(self, value: "Superscript") -> MixedContentForOverviewParagraph:
+    def setSup(self, value: Optional[Superscript]) -> "MixedContentForOverviewParagraph":
         """
         AUTOSAR-compliant setter for sup with method chaining.
 
@@ -1694,7 +1795,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         self.sup = value  # Delegates to property setter
         return self
 
-    def getTrace(self) -> "Traceable":
+    def getTrace(self) -> Optional[Traceable]:
         """
         AUTOSAR-compliant getter for trace.
 
@@ -1706,7 +1807,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         """
         return self.trace  # Delegates to property
 
-    def setTrace(self, value: "Traceable") -> MixedContentForOverviewParagraph:
+    def setTrace(self, value: Optional[Traceable]) -> "MixedContentForOverviewParagraph":
         """
         AUTOSAR-compliant setter for trace with method chaining.
 
@@ -1722,7 +1823,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         self.trace = value  # Delegates to property setter
         return self
 
-    def getTt(self) -> "Tt":
+    def getTt(self) -> Optional[Tt]:
         """
         AUTOSAR-compliant getter for tt.
 
@@ -1734,7 +1835,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         """
         return self.tt  # Delegates to property
 
-    def setTt(self, value: "Tt") -> MixedContentForOverviewParagraph:
+    def setTt(self, value: Optional[Tt]) -> "MixedContentForOverviewParagraph":
         """
         AUTOSAR-compliant setter for tt with method chaining.
 
@@ -1750,7 +1851,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         self.tt = value  # Delegates to property setter
         return self
 
-    def getXref(self) -> "Xref":
+    def getXref(self) -> Optional[Xref]:
         """
         AUTOSAR-compliant getter for xref.
 
@@ -1762,7 +1863,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         """
         return self.xref  # Delegates to property
 
-    def setXref(self, value: "Xref") -> MixedContentForOverviewParagraph:
+    def setXref(self, value: Optional[Xref]) -> "MixedContentForOverviewParagraph":
         """
         AUTOSAR-compliant setter for xref with method chaining.
 
@@ -1778,7 +1879,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         self.xref = value  # Delegates to property setter
         return self
 
-    def getXrefTarget(self) -> "XrefTarget":
+    def getXrefTarget(self) -> Optional[XrefTarget]:
         """
         AUTOSAR-compliant getter for xrefTarget.
 
@@ -1790,7 +1891,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         """
         return self.xref_target  # Delegates to property
 
-    def setXrefTarget(self, value: "XrefTarget") -> MixedContentForOverviewParagraph:
+    def setXrefTarget(self, value: Optional[XrefTarget]) -> "MixedContentForOverviewParagraph":
         """
         AUTOSAR-compliant setter for xrefTarget with method chaining.
 
@@ -1808,7 +1909,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_br(self, value: "Br") -> MixedContentForOverviewParagraph:
+    def with_br(self, value: Optional[Br]) -> "MixedContentForOverviewParagraph":
         """
         Set br and return self for chaining.
 
@@ -1824,7 +1925,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         self.br = value  # Use property setter (gets validation)
         return self
 
-    def with_e(self, value: "EmphasisText") -> MixedContentForOverviewParagraph:
+    def with_e(self, value: Optional[EmphasisText]) -> "MixedContentForOverviewParagraph":
         """
         Set e and return self for chaining.
 
@@ -1840,7 +1941,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         self.e = value  # Use property setter (gets validation)
         return self
 
-    def with_ft(self, value: "SlOverviewParagraph") -> MixedContentForOverviewParagraph:
+    def with_ft(self, value: Optional[SlOverviewParagraph]) -> "MixedContentForOverviewParagraph":
         """
         Set ft and return self for chaining.
 
@@ -1856,7 +1957,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         self.ft = value  # Use property setter (gets validation)
         return self
 
-    def with_ie(self, value: "IndexEntry") -> MixedContentForOverviewParagraph:
+    def with_ie(self, value: Optional[IndexEntry]) -> "MixedContentForOverviewParagraph":
         """
         Set ie and return self for chaining.
 
@@ -1872,7 +1973,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         self.ie = value  # Use property setter (gets validation)
         return self
 
-    def with_sub(self, value: "Superscript") -> MixedContentForOverviewParagraph:
+    def with_sub(self, value: Optional[Superscript]) -> "MixedContentForOverviewParagraph":
         """
         Set sub and return self for chaining.
 
@@ -1888,7 +1989,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         self.sub = value  # Use property setter (gets validation)
         return self
 
-    def with_sup(self, value: "Superscript") -> MixedContentForOverviewParagraph:
+    def with_sup(self, value: Optional[Superscript]) -> "MixedContentForOverviewParagraph":
         """
         Set sup and return self for chaining.
 
@@ -1904,7 +2005,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         self.sup = value  # Use property setter (gets validation)
         return self
 
-    def with_trace(self, value: "Traceable") -> MixedContentForOverviewParagraph:
+    def with_trace(self, value: Optional[Traceable]) -> "MixedContentForOverviewParagraph":
         """
         Set trace and return self for chaining.
 
@@ -1920,7 +2021,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         self.trace = value  # Use property setter (gets validation)
         return self
 
-    def with_tt(self, value: "Tt") -> MixedContentForOverviewParagraph:
+    def with_tt(self, value: Optional[Tt]) -> "MixedContentForOverviewParagraph":
         """
         Set tt and return self for chaining.
 
@@ -1936,7 +2037,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         self.tt = value  # Use property setter (gets validation)
         return self
 
-    def with_xref(self, value: "Xref") -> MixedContentForOverviewParagraph:
+    def with_xref(self, value: Optional[Xref]) -> "MixedContentForOverviewParagraph":
         """
         Set xref and return self for chaining.
 
@@ -1952,7 +2053,7 @@ class MixedContentForOverviewParagraph(ARObject, ABC):
         self.xref = value  # Use property setter (gets validation)
         return self
 
-    def with_xref_target(self, value: "XrefTarget") -> MixedContentForOverviewParagraph:
+    def with_xref_target(self, value: Optional[XrefTarget]) -> "MixedContentForOverviewParagraph":
         """
         Set xrefTarget and return self for chaining.
 
@@ -1995,15 +2096,15 @@ class MixedContentForVerbatim(ARObject, ABC):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This element is the same as function here as in a HTML it forces a line
         # break.
-        self._br: "Br" = None
+        self._br: Optional[Br] = None
 
     @property
-    def br(self) -> "Br":
+    def br(self) -> Optional[Br]:
         """Get br (Pythonic accessor)."""
         return self._br
 
     @br.setter
-    def br(self, value: "Br") -> None:
+    def br(self, value: Optional[Br]) -> None:
         """
         Set br with validation.
 
@@ -2013,6 +2114,9 @@ class MixedContentForVerbatim(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._br = None
+            return
         if not isinstance(value, Br):
             raise TypeError(
                 f"br must be Br, got {type(value).__name__}"
@@ -2020,15 +2124,15 @@ class MixedContentForVerbatim(ARObject, ABC):
         self._br = value
         # Note that in verbatim, the attribute not be considered since verbatim is
                 # always monospace font.
-        self._e: "EmphasisText" = None
+        self._e: Optional[EmphasisText] = None
 
     @property
-    def e(self) -> "EmphasisText":
+    def e(self) -> Optional[EmphasisText]:
         """Get e (Pythonic accessor)."""
         return self._e
 
     @e.setter
-    def e(self, value: "EmphasisText") -> None:
+    def e(self, value: Optional[EmphasisText]) -> None:
         """
         Set e with validation.
 
@@ -2038,6 +2142,9 @@ class MixedContentForVerbatim(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._e = None
+            return
         if not isinstance(value, EmphasisText):
             raise TypeError(
                 f"e must be EmphasisText, got {type(value).__name__}"
@@ -2045,15 +2152,15 @@ class MixedContentForVerbatim(ARObject, ABC):
         self._e = value
         # Note that it’s of the user not to take a tt that would add to the text (such
                 # as SgmlElement).
-        self._tt: "Tt" = None
+        self._tt: Optional[Tt] = None
 
     @property
-    def tt(self) -> "Tt":
+    def tt(self) -> Optional[Tt]:
         """Get tt (Pythonic accessor)."""
         return self._tt
 
     @tt.setter
-    def tt(self, value: "Tt") -> None:
+    def tt(self, value: Optional[Tt]) -> None:
         """
         Set tt with validation.
 
@@ -2063,6 +2170,9 @@ class MixedContentForVerbatim(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._tt = None
+            return
         if not isinstance(value, Tt):
             raise TypeError(
                 f"tt must be Tt, got {type(value).__name__}"
@@ -2070,15 +2180,15 @@ class MixedContentForVerbatim(ARObject, ABC):
         self._tt = value
         # The disturb the arrangement of the text.
         # It is the author to keep this under control.
-        self._xref: "Xref" = None
+        self._xref: Optional[Xref] = None
 
     @property
-    def xref(self) -> "Xref":
+    def xref(self) -> Optional[Xref]:
         """Get xref (Pythonic accessor)."""
         return self._xref
 
     @xref.setter
-    def xref(self, value: "Xref") -> None:
+    def xref(self, value: Optional[Xref]) -> None:
         """
         Set xref with validation.
 
@@ -2088,6 +2198,9 @@ class MixedContentForVerbatim(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._xref = None
+            return
         if not isinstance(value, Xref):
             raise TypeError(
                 f"xref must be Xref, got {type(value).__name__}"
@@ -2096,7 +2209,7 @@ class MixedContentForVerbatim(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBr(self) -> "Br":
+    def getBr(self) -> Optional[Br]:
         """
         AUTOSAR-compliant getter for br.
 
@@ -2108,7 +2221,7 @@ class MixedContentForVerbatim(ARObject, ABC):
         """
         return self.br  # Delegates to property
 
-    def setBr(self, value: "Br") -> MixedContentForVerbatim:
+    def setBr(self, value: Optional[Br]) -> "MixedContentForVerbatim":
         """
         AUTOSAR-compliant setter for br with method chaining.
 
@@ -2124,7 +2237,7 @@ class MixedContentForVerbatim(ARObject, ABC):
         self.br = value  # Delegates to property setter
         return self
 
-    def getE(self) -> "EmphasisText":
+    def getE(self) -> Optional[EmphasisText]:
         """
         AUTOSAR-compliant getter for e.
 
@@ -2136,7 +2249,7 @@ class MixedContentForVerbatim(ARObject, ABC):
         """
         return self.e  # Delegates to property
 
-    def setE(self, value: "EmphasisText") -> MixedContentForVerbatim:
+    def setE(self, value: Optional[EmphasisText]) -> "MixedContentForVerbatim":
         """
         AUTOSAR-compliant setter for e with method chaining.
 
@@ -2152,7 +2265,7 @@ class MixedContentForVerbatim(ARObject, ABC):
         self.e = value  # Delegates to property setter
         return self
 
-    def getTt(self) -> "Tt":
+    def getTt(self) -> Optional[Tt]:
         """
         AUTOSAR-compliant getter for tt.
 
@@ -2164,7 +2277,7 @@ class MixedContentForVerbatim(ARObject, ABC):
         """
         return self.tt  # Delegates to property
 
-    def setTt(self, value: "Tt") -> MixedContentForVerbatim:
+    def setTt(self, value: Optional[Tt]) -> "MixedContentForVerbatim":
         """
         AUTOSAR-compliant setter for tt with method chaining.
 
@@ -2180,7 +2293,7 @@ class MixedContentForVerbatim(ARObject, ABC):
         self.tt = value  # Delegates to property setter
         return self
 
-    def getXref(self) -> "Xref":
+    def getXref(self) -> Optional[Xref]:
         """
         AUTOSAR-compliant getter for xref.
 
@@ -2192,7 +2305,7 @@ class MixedContentForVerbatim(ARObject, ABC):
         """
         return self.xref  # Delegates to property
 
-    def setXref(self, value: "Xref") -> MixedContentForVerbatim:
+    def setXref(self, value: Optional[Xref]) -> "MixedContentForVerbatim":
         """
         AUTOSAR-compliant setter for xref with method chaining.
 
@@ -2210,7 +2323,7 @@ class MixedContentForVerbatim(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_br(self, value: "Br") -> MixedContentForVerbatim:
+    def with_br(self, value: Optional[Br]) -> "MixedContentForVerbatim":
         """
         Set br and return self for chaining.
 
@@ -2226,7 +2339,7 @@ class MixedContentForVerbatim(ARObject, ABC):
         self.br = value  # Use property setter (gets validation)
         return self
 
-    def with_e(self, value: "EmphasisText") -> MixedContentForVerbatim:
+    def with_e(self, value: Optional[EmphasisText]) -> "MixedContentForVerbatim":
         """
         Set e and return self for chaining.
 
@@ -2242,7 +2355,7 @@ class MixedContentForVerbatim(ARObject, ABC):
         self.e = value  # Use property setter (gets validation)
         return self
 
-    def with_tt(self, value: "Tt") -> MixedContentForVerbatim:
+    def with_tt(self, value: Optional[Tt]) -> "MixedContentForVerbatim":
         """
         Set tt and return self for chaining.
 
@@ -2258,7 +2371,7 @@ class MixedContentForVerbatim(ARObject, ABC):
         self.tt = value  # Use property setter (gets validation)
         return self
 
-    def with_xref(self, value: "Xref") -> MixedContentForVerbatim:
+    def with_xref(self, value: Optional[Xref]) -> "MixedContentForVerbatim":
         """
         Set xref and return self for chaining.
 
@@ -2320,15 +2433,15 @@ class MixedContentForUnitNames(ARObject, ABC):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This is subscript text.
-        self._sub: "Superscript" = None
+        self._sub: Optional[Superscript] = None
 
     @property
-    def sub(self) -> "Superscript":
+    def sub(self) -> Optional[Superscript]:
         """Get sub (Pythonic accessor)."""
         return self._sub
 
     @sub.setter
-    def sub(self, value: "Superscript") -> None:
+    def sub(self, value: Optional[Superscript]) -> None:
         """
         Set sub with validation.
 
@@ -2338,20 +2451,23 @@ class MixedContentForUnitNames(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._sub = None
+            return
         if not isinstance(value, Superscript):
             raise TypeError(
                 f"sub must be Superscript, got {type(value).__name__}"
             )
         self._sub = value
-        self._sup: "Superscript" = None
+        self._sup: Optional[Superscript] = None
 
     @property
-    def sup(self) -> "Superscript":
+    def sup(self) -> Optional[Superscript]:
         """Get sup (Pythonic accessor)."""
         return self._sup
 
     @sup.setter
-    def sup(self, value: "Superscript") -> None:
+    def sup(self, value: Optional[Superscript]) -> None:
         """
         Set sup with validation.
 
@@ -2361,6 +2477,9 @@ class MixedContentForUnitNames(ARObject, ABC):
         Raises:
             TypeError: If value type is incorrect
         """
+        if value is None:
+            self._sup = None
+            return
         if not isinstance(value, Superscript):
             raise TypeError(
                 f"sup must be Superscript, got {type(value).__name__}"
@@ -2369,7 +2488,7 @@ class MixedContentForUnitNames(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getSub(self) -> "Superscript":
+    def getSub(self) -> Optional[Superscript]:
         """
         AUTOSAR-compliant getter for sub.
 
@@ -2381,7 +2500,7 @@ class MixedContentForUnitNames(ARObject, ABC):
         """
         return self.sub  # Delegates to property
 
-    def setSub(self, value: "Superscript") -> MixedContentForUnitNames:
+    def setSub(self, value: Optional[Superscript]) -> "MixedContentForUnitNames":
         """
         AUTOSAR-compliant setter for sub with method chaining.
 
@@ -2397,7 +2516,7 @@ class MixedContentForUnitNames(ARObject, ABC):
         self.sub = value  # Delegates to property setter
         return self
 
-    def getSup(self) -> "Superscript":
+    def getSup(self) -> Optional[Superscript]:
         """
         AUTOSAR-compliant getter for sup.
 
@@ -2409,7 +2528,7 @@ class MixedContentForUnitNames(ARObject, ABC):
         """
         return self.sup  # Delegates to property
 
-    def setSup(self, value: "Superscript") -> MixedContentForUnitNames:
+    def setSup(self, value: Optional[Superscript]) -> "MixedContentForUnitNames":
         """
         AUTOSAR-compliant setter for sup with method chaining.
 
@@ -2427,7 +2546,7 @@ class MixedContentForUnitNames(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_sub(self, value: "Superscript") -> MixedContentForUnitNames:
+    def with_sub(self, value: Optional[Superscript]) -> "MixedContentForUnitNames":
         """
         Set sub and return self for chaining.
 
@@ -2443,7 +2562,7 @@ class MixedContentForUnitNames(ARObject, ABC):
         self.sub = value  # Use property setter (gets validation)
         return self
 
-    def with_sup(self, value: "Superscript") -> MixedContentForUnitNames:
+    def with_sup(self, value: Optional[Superscript]) -> "MixedContentForUnitNames":
         """
         Set sup and return self for chaining.
 

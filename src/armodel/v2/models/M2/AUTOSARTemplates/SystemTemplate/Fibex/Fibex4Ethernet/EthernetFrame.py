@@ -119,15 +119,15 @@ class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Defines the time when content shall be presented (in The actual absolute time
         # is creation time plus presentation time.
-        self._relative: Optional[TimeValue] = None
+        self._relative: Optional["TimeValue"] = None
 
     @property
-    def relative(self) -> Optional[TimeValue]:
+    def relative(self) -> Optional["TimeValue"]:
         """Get relative (Pythonic accessor)."""
         return self._relative
 
     @relative.setter
-    def relative(self, value: Optional[TimeValue]) -> None:
+    def relative(self, value: Optional["TimeValue"]) -> None:
         """
         Set relative with validation.
 
@@ -230,7 +230,7 @@ class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getRelative(self) -> TimeValue:
+    def getRelative(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for relative.
 
@@ -242,7 +242,7 @@ class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
         """
         return self.relative  # Delegates to property
 
-    def setRelative(self, value: TimeValue) -> Ieee1722TpEthernetFrame:
+    def setRelative(self, value: "TimeValue") -> Ieee1722TpEthernetFrame:
         """
         AUTOSAR-compliant setter for relative with method chaining.
 
@@ -344,7 +344,7 @@ class Ieee1722TpEthernetFrame(AbstractEthernetFrame):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_relative(self, value: Optional[TimeValue]) -> Ieee1722TpEthernetFrame:
+    def with_relative(self, value: Optional["TimeValue"]) -> Ieee1722TpEthernetFrame:
         """
         Set relative and return self for chaining.
 

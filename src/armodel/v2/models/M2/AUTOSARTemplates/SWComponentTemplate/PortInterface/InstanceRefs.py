@@ -13,6 +13,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     ARObject,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    DataInterface,
     RefType,
 )
 
@@ -92,15 +93,15 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
             return
 
         self._rootData = value
-        self._targetData: Optional[ApplicationComposite] = None
+        self._targetData: Optional["ApplicationComposite"] = None
 
     @property
-    def target_data(self) -> Optional[ApplicationComposite]:
+    def target_data(self) -> Optional["ApplicationComposite"]:
         """Get targetData (Pythonic accessor)."""
         return self._targetData
 
     @target_data.setter
-    def target_data(self, value: Optional[ApplicationComposite]) -> None:
+    def target_data(self, value: Optional["ApplicationComposite"]) -> None:
         """
         Set targetData with validation.
 
@@ -138,7 +139,7 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBase(self) -> "DataInterface":
+    def getBase(self) -> DataInterface:
         """
         AUTOSAR-compliant getter for base.
 
@@ -150,7 +151,7 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
         """
         return self.base  # Delegates to property
 
-    def setBase(self, value: "DataInterface") -> ApplicationCompositeElementInPortInterfaceInstanceRef:
+    def setBase(self, value: DataInterface) -> ApplicationCompositeElementInPortInterfaceInstanceRef:
         """
         AUTOSAR-compliant setter for base with method chaining.
 
@@ -206,7 +207,7 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
         self.root_data = value  # Delegates to property setter
         return self
 
-    def getTargetData(self) -> ApplicationComposite:
+    def getTargetData(self) -> "ApplicationComposite":
         """
         AUTOSAR-compliant getter for targetData.
 
@@ -218,7 +219,7 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
         """
         return self.target_data  # Delegates to property
 
-    def setTargetData(self, value: ApplicationComposite) -> ApplicationCompositeElementInPortInterfaceInstanceRef:
+    def setTargetData(self, value: "ApplicationComposite") -> ApplicationCompositeElementInPortInterfaceInstanceRef:
         """
         AUTOSAR-compliant setter for targetData with method chaining.
 
@@ -268,7 +269,7 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(ARObject):
         self.root_data = value  # Use property setter (gets validation)
         return self
 
-    def with_target_data(self, value: Optional[ApplicationComposite]) -> ApplicationCompositeElementInPortInterfaceInstanceRef:
+    def with_target_data(self, value: Optional["ApplicationComposite"]) -> ApplicationCompositeElementInPortInterfaceInstanceRef:
         """
         Set targetData and return self for chaining.
 

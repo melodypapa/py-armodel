@@ -21,8 +21,11 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
+    DiagnosticDataElement,
+    ModeDeclaration,
     PositiveInteger,
     RefType,
+    ValueSpecification,
 )
 
 
@@ -516,7 +519,7 @@ class DiagnosticEnvSwcModeElement(DiagnosticEnvModeElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getMode(self) -> "ModeDeclaration":
+    def getMode(self) -> ModeDeclaration:
         """
         AUTOSAR-compliant getter for mode.
 
@@ -528,7 +531,7 @@ class DiagnosticEnvSwcModeElement(DiagnosticEnvModeElement):
         """
         return self.mode  # Delegates to property
 
-    def setMode(self, value: "ModeDeclaration") -> DiagnosticEnvSwcModeElement:
+    def setMode(self, value: ModeDeclaration) -> DiagnosticEnvSwcModeElement:
         """
         AUTOSAR-compliant setter for mode with method chaining.
 
@@ -610,7 +613,7 @@ class DiagnosticEnvBswModeElement(DiagnosticEnvModeElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getMode(self) -> "ModeDeclaration":
+    def getMode(self) -> ModeDeclaration:
         """
         AUTOSAR-compliant getter for mode.
 
@@ -622,7 +625,7 @@ class DiagnosticEnvBswModeElement(DiagnosticEnvModeElement):
         """
         return self.mode  # Delegates to property
 
-    def setMode(self, value: "ModeDeclaration") -> DiagnosticEnvBswModeElement:
+    def setMode(self, value: ModeDeclaration) -> DiagnosticEnvBswModeElement:
         """
         AUTOSAR-compliant setter for mode with method chaining.
 
@@ -732,7 +735,7 @@ class DiagnosticEnvDataCondition(DiagnosticEnvCompareCondition):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCompareValue(self) -> "ValueSpecification":
+    def getCompareValue(self) -> ValueSpecification:
         """
         AUTOSAR-compliant getter for compareValue.
 
@@ -744,7 +747,7 @@ class DiagnosticEnvDataCondition(DiagnosticEnvCompareCondition):
         """
         return self.compare_value  # Delegates to property
 
-    def setCompareValue(self, value: "ValueSpecification") -> DiagnosticEnvDataCondition:
+    def setCompareValue(self, value: ValueSpecification) -> DiagnosticEnvDataCondition:
         """
         AUTOSAR-compliant setter for compareValue with method chaining.
 
@@ -760,7 +763,7 @@ class DiagnosticEnvDataCondition(DiagnosticEnvCompareCondition):
         self.compare_value = value  # Delegates to property setter
         return self
 
-    def getDataElement(self) -> "DiagnosticDataElement":
+    def getDataElement(self) -> DiagnosticDataElement:
         """
         AUTOSAR-compliant getter for dataElement.
 
@@ -772,7 +775,7 @@ class DiagnosticEnvDataCondition(DiagnosticEnvCompareCondition):
         """
         return self.data_element  # Delegates to property
 
-    def setDataElement(self, value: "DiagnosticDataElement") -> DiagnosticEnvDataCondition:
+    def setDataElement(self, value: DiagnosticDataElement) -> DiagnosticEnvDataCondition:
         """
         AUTOSAR-compliant setter for dataElement with method chaining.
 
@@ -894,15 +897,15 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
 
         self._dataPrototype = value
         # obtained from the application environmental condition.
-        self._swDataDef: Optional[SwDataDefProps] = None
+        self._swDataDef: Optional["SwDataDefProps"] = None
 
     @property
-    def sw_data_def(self) -> Optional[SwDataDefProps]:
+    def sw_data_def(self) -> Optional["SwDataDefProps"]:
         """Get swDataDef (Pythonic accessor)."""
         return self._swDataDef
 
     @sw_data_def.setter
-    def sw_data_def(self, value: Optional[SwDataDefProps]) -> None:
+    def sw_data_def(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set swDataDef with validation.
 
@@ -924,7 +927,7 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCompareValue(self) -> "ValueSpecification":
+    def getCompareValue(self) -> ValueSpecification:
         """
         AUTOSAR-compliant getter for compareValue.
 
@@ -936,7 +939,7 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
         """
         return self.compare_value  # Delegates to property
 
-    def setCompareValue(self, value: "ValueSpecification") -> DiagnosticEnvDataElementCondition:
+    def setCompareValue(self, value: ValueSpecification) -> DiagnosticEnvDataElementCondition:
         """
         AUTOSAR-compliant setter for compareValue with method chaining.
 
@@ -980,7 +983,7 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
         self.data_prototype = value  # Delegates to property setter
         return self
 
-    def getSwDataDef(self) -> SwDataDefProps:
+    def getSwDataDef(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for swDataDef.
 
@@ -992,7 +995,7 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
         """
         return self.sw_data_def  # Delegates to property
 
-    def setSwDataDef(self, value: SwDataDefProps) -> DiagnosticEnvDataElementCondition:
+    def setSwDataDef(self, value: "SwDataDefProps") -> DiagnosticEnvDataElementCondition:
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
 
@@ -1042,7 +1045,7 @@ class DiagnosticEnvDataElementCondition(DiagnosticEnvCompareCondition):
         self.data_prototype = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_data_def(self, value: Optional[SwDataDefProps]) -> DiagnosticEnvDataElementCondition:
+    def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> DiagnosticEnvDataElementCondition:
         """
         Set swDataDef and return self for chaining.
 

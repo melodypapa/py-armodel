@@ -5,10 +5,14 @@ Package: M2::AUTOSARTemplates::BswModuleTemplate::BswOverview::InstanceRefs
 """
 
 
-from __future__ import annotations
-
 from typing import Optional
 
+from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import (
+    BswModuleDescription,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
+    ModeDeclaration,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
@@ -26,7 +30,7 @@ class ModeInBswModuleDescriptionInstanceRef(ARObject):
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 323, Classic Platform
       R23-11)
     """
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
@@ -83,15 +87,15 @@ class ModeInBswModuleDescriptionInstanceRef(ARObject):
 
         self._contextModeGroup = value
         # sequenceOffset=30.
-        self._targetMode: Optional["ModeDeclaration"] = None
+        self._targetMode: Optional[ModeDeclaration] = None
 
     @property
-    def target_mode(self) -> Optional["ModeDeclaration"]:
+    def target_mode(self) -> Optional[ModeDeclaration]:
         """Get targetMode (Pythonic accessor)."""
         return self._targetMode
 
     @target_mode.setter
-    def target_mode(self, value: Optional["ModeDeclaration"]) -> None:
+    def target_mode(self, value: Optional[ModeDeclaration]) -> None:
         """
         Set targetMode with validation.
 
@@ -113,7 +117,7 @@ class ModeInBswModuleDescriptionInstanceRef(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBase(self) -> BswModuleDescription:
+    def getBase(self) -> Optional[BswModuleDescription]:
         """
         AUTOSAR-compliant getter for base.
 
@@ -125,7 +129,7 @@ class ModeInBswModuleDescriptionInstanceRef(ARObject):
         """
         return self.base  # Delegates to property
 
-    def setBase(self, value: BswModuleDescription) -> ModeInBswModuleDescriptionInstanceRef:
+    def setBase(self, value: BswModuleDescription) -> "ModeInBswModuleDescriptionInstanceRef":
         """
         AUTOSAR-compliant setter for base with method chaining.
 
@@ -141,7 +145,7 @@ class ModeInBswModuleDescriptionInstanceRef(ARObject):
         self.base = value  # Delegates to property setter
         return self
 
-    def getContextModeGroup(self) -> RefType:
+    def getContextModeGroup(self) -> Optional[RefType]:
         """
         AUTOSAR-compliant getter for contextModeGroup.
 
@@ -153,7 +157,7 @@ class ModeInBswModuleDescriptionInstanceRef(ARObject):
         """
         return self.context_mode_group  # Delegates to property
 
-    def setContextModeGroup(self, value: RefType) -> ModeInBswModuleDescriptionInstanceRef:
+    def setContextModeGroup(self, value: RefType) -> "ModeInBswModuleDescriptionInstanceRef":
         """
         AUTOSAR-compliant setter for contextModeGroup with method chaining.
 
@@ -169,7 +173,7 @@ class ModeInBswModuleDescriptionInstanceRef(ARObject):
         self.context_mode_group = value  # Delegates to property setter
         return self
 
-    def getTargetMode(self) -> "ModeDeclaration":
+    def getTargetMode(self) -> Optional[ModeDeclaration]:
         """
         AUTOSAR-compliant getter for targetMode.
 
@@ -181,7 +185,7 @@ class ModeInBswModuleDescriptionInstanceRef(ARObject):
         """
         return self.target_mode  # Delegates to property
 
-    def setTargetMode(self, value: "ModeDeclaration") -> ModeInBswModuleDescriptionInstanceRef:
+    def setTargetMode(self, value: ModeDeclaration) -> "ModeInBswModuleDescriptionInstanceRef":
         """
         AUTOSAR-compliant setter for targetMode with method chaining.
 
@@ -199,7 +203,7 @@ class ModeInBswModuleDescriptionInstanceRef(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base(self, value: Optional[BswModuleDescription]) -> ModeInBswModuleDescriptionInstanceRef:
+    def with_base(self, value: Optional[BswModuleDescription]) -> "ModeInBswModuleDescriptionInstanceRef":
         """
         Set base and return self for chaining.
 
@@ -215,7 +219,7 @@ class ModeInBswModuleDescriptionInstanceRef(ARObject):
         self.base = value  # Use property setter (gets validation)
         return self
 
-    def with_context_mode_group(self, value: Optional[RefType]) -> ModeInBswModuleDescriptionInstanceRef:
+    def with_context_mode_group(self, value: Optional[RefType]) -> "ModeInBswModuleDescriptionInstanceRef":
         """
         Set contextModeGroup and return self for chaining.
 
@@ -231,7 +235,7 @@ class ModeInBswModuleDescriptionInstanceRef(ARObject):
         self.context_mode_group = value  # Use property setter (gets validation)
         return self
 
-    def with_target_mode(self, value: Optional["ModeDeclaration"]) -> ModeInBswModuleDescriptionInstanceRef:
+    def with_target_mode(self, value: Optional[ModeDeclaration]) -> "ModeInBswModuleDescriptionInstanceRef":
         """
         Set targetMode and return self for chaining.
 

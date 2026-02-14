@@ -145,15 +145,15 @@ class LatencyTimingConstraint(TimingConstraint):
                 f"nominal must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._nominal = value
-        self._scope: Optional[TimingDescriptionEvent] = None
+        self._scope: Optional["TimingDescriptionEvent"] = None
 
     @property
-    def scope(self) -> Optional[TimingDescriptionEvent]:
+    def scope(self) -> Optional["TimingDescriptionEvent"]:
         """Get scope (Pythonic accessor)."""
         return self._scope
 
     @scope.setter
-    def scope(self, value: Optional[TimingDescriptionEvent]) -> None:
+    def scope(self, value: Optional["TimingDescriptionEvent"]) -> None:
         """
         Set scope with validation.
 
@@ -287,7 +287,7 @@ class LatencyTimingConstraint(TimingConstraint):
         self.nominal = value  # Delegates to property setter
         return self
 
-    def getScope(self) -> TimingDescriptionEvent:
+    def getScope(self) -> "TimingDescriptionEvent":
         """
         AUTOSAR-compliant getter for scope.
 
@@ -299,7 +299,7 @@ class LatencyTimingConstraint(TimingConstraint):
         """
         return self.scope  # Delegates to property
 
-    def setScope(self, value: TimingDescriptionEvent) -> LatencyTimingConstraint:
+    def setScope(self, value: "TimingDescriptionEvent") -> LatencyTimingConstraint:
         """
         AUTOSAR-compliant setter for scope with method chaining.
 
@@ -381,7 +381,7 @@ class LatencyTimingConstraint(TimingConstraint):
         self.nominal = value  # Use property setter (gets validation)
         return self
 
-    def with_scope(self, value: Optional[TimingDescriptionEvent]) -> LatencyTimingConstraint:
+    def with_scope(self, value: Optional["TimingDescriptionEvent"]) -> LatencyTimingConstraint:
         """
         Set scope and return self for chaining.
 

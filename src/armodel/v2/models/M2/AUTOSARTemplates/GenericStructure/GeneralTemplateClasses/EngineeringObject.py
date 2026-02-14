@@ -46,15 +46,15 @@ class EngineeringObject(ARObject, ABC):
                 # Methodology.
         # 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module
                 # Description Template R23-11.
-        self._category: "NameToken" = None
+        self._category: NameToken = None
 
     @property
-    def category(self) -> "NameToken":
+    def category(self) -> NameToken:
         """Get category (Pythonic accessor)."""
         return self._category
 
     @category.setter
-    def category(self, value: "NameToken") -> None:
+    def category(self, value: NameToken) -> None:
         """
         Set category with validation.
 
@@ -109,15 +109,15 @@ class EngineeringObject(ARObject, ABC):
         # This is the short name of the engineering object.
         # Note is modeled as NameToken and not as Identifier ASAM-CC it is also a
                 # NameToken.
-        self._shortLabel: "NameToken" = None
+        self._shortLabel: NameToken = None
 
     @property
-    def short_label(self) -> "NameToken":
+    def short_label(self) -> NameToken:
         """Get shortLabel (Pythonic accessor)."""
         return self._shortLabel
 
     @short_label.setter
-    def short_label(self, value: "NameToken") -> None:
+    def short_label(self, value: NameToken) -> None:
         """
         Set shortLabel with validation.
 
@@ -151,7 +151,7 @@ class EngineeringObject(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCategory(self) -> "NameToken":
+    def getCategory(self) -> NameToken:
         """
         AUTOSAR-compliant getter for category.
 
@@ -163,7 +163,7 @@ class EngineeringObject(ARObject, ABC):
         """
         return self.category  # Delegates to property
 
-    def setCategory(self, value: "NameToken") -> EngineeringObject:
+    def setCategory(self, value: NameToken) -> EngineeringObject:
         """
         AUTOSAR-compliant setter for category with method chaining.
 
@@ -179,7 +179,7 @@ class EngineeringObject(ARObject, ABC):
         self.category = value  # Delegates to property setter
         return self
 
-    def getDomain(self) -> "NameToken":
+    def getDomain(self) -> NameToken:
         """
         AUTOSAR-compliant getter for domain.
 
@@ -191,7 +191,7 @@ class EngineeringObject(ARObject, ABC):
         """
         return self.domain  # Delegates to property
 
-    def setDomain(self, value: "NameToken") -> EngineeringObject:
+    def setDomain(self, value: NameToken) -> EngineeringObject:
         """
         AUTOSAR-compliant setter for domain with method chaining.
 
@@ -219,7 +219,7 @@ class EngineeringObject(ARObject, ABC):
         """
         return self.revision_label  # Delegates to property
 
-    def getShortLabel(self) -> "NameToken":
+    def getShortLabel(self) -> NameToken:
         """
         AUTOSAR-compliant getter for shortLabel.
 
@@ -231,7 +231,7 @@ class EngineeringObject(ARObject, ABC):
         """
         return self.short_label  # Delegates to property
 
-    def setShortLabel(self, value: "NameToken") -> EngineeringObject:
+    def setShortLabel(self, value: NameToken) -> EngineeringObject:
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
 
@@ -249,7 +249,7 @@ class EngineeringObject(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_category(self, value: "NameToken") -> EngineeringObject:
+    def with_category(self, value: NameToken) -> EngineeringObject:
         """
         Set category and return self for chaining.
 
@@ -281,7 +281,7 @@ class EngineeringObject(ARObject, ABC):
         self.domain = value  # Use property setter (gets validation)
         return self
 
-    def with_short_label(self, value: "NameToken") -> EngineeringObject:
+    def with_short_label(self, value: NameToken) -> EngineeringObject:
         """
         Set shortLabel and return self for chaining.
 

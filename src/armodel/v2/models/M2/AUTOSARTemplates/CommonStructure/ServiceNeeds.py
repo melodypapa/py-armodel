@@ -13,6 +13,9 @@ from typing import List, Optional
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
     ImplementationProps,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dem.DiagnosticIndicator import (
+    DiagnosticIndicatorTypeEnum,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping import (
     DiagEventDebounce,
     DiagnosticClearDtc,
@@ -30,13 +33,31 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     Boolean,
+    DiagRequirementIdString,
     Identifier,
     Integer,
     NameToken,
     PositiveInteger,
     RefType,
     String,
+    TimeValue,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import (
+    RamBlockStatusControlEnum,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PerInstanceMemory import (
+    PerInstanceMemory,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import (
+    RoleBasedDataTypeAssignment,
+)
+
+# Type aliases for backward compatibility with AUTOSAR naming conventions
+RoleBasedDataType = RoleBasedDataTypeAssignment
+DiagRequirementId = DiagRequirementIdString
+
+# These enums will be defined later in this file, so we can't create aliases yet
+# They will be available as actual classes when the file is fully loaded
 
 
 class ServiceDependency(ARObject, ABC):
@@ -64,15 +85,15 @@ class ServiceDependency(ARObject, ABC):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This is the role of the assignment data type in the given context.
         # atpVariation.
-        self._assignedData: Optional["RoleBasedDataType"] = None
+        self._assignedData: Optional[RoleBasedDataType] = None
 
     @property
-    def assigned_data(self) -> Optional["RoleBasedDataType"]:
+    def assigned_data(self) -> Optional[RoleBasedDataType]:
         """Get assignedData (Pythonic accessor)."""
         return self._assignedData
 
     @assigned_data.setter
-    def assigned_data(self, value: Optional["RoleBasedDataType"]) -> None:
+    def assigned_data(self, value: Optional[RoleBasedDataType]) -> None:
         """
         Set assignedData with validation.
 
@@ -96,15 +117,15 @@ class ServiceDependency(ARObject, ABC):
         # of mode conditions (e.
         # g.
         # application and BswM) relevant Dcm.
-        self._diagnostic: Optional["ServiceDiagnostic"] = None
+        self._diagnostic: Optional[ServiceDiagnosticRelevanceEnum] = None
 
     @property
-    def diagnostic(self) -> Optional["ServiceDiagnostic"]:
+    def diagnostic(self) -> Optional[ServiceDiagnosticRelevanceEnum]:
         """Get diagnostic (Pythonic accessor)."""
         return self._diagnostic
 
     @diagnostic.setter
-    def diagnostic(self, value: Optional["ServiceDiagnostic"]) -> None:
+    def diagnostic(self, value: Optional[ServiceDiagnosticRelevanceEnum]) -> None:
         """
         Set diagnostic with validation.
 
@@ -118,9 +139,9 @@ class ServiceDependency(ARObject, ABC):
             self._diagnostic = None
             return
 
-        if not isinstance(value, ServiceDiagnostic):
+        if not isinstance(value, ServiceDiagnosticRelevanceEnum):
             raise TypeError(
-                f"diagnostic must be ServiceDiagnostic or None, got {type(value).__name__}"
+                f"diagnostic must be ServiceDiagnosticRelevanceEnum or None, got {type(value).__name__}"
             )
         self._diagnostic = value
         self._symbolicName: Optional[SymbolicNameProps] = None
@@ -249,7 +270,7 @@ class ServiceDependency(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAssignedData(self) -> "RoleBasedDataType":
+    def getAssignedData(self) -> RoleBasedDataType:
         """
         AUTOSAR-compliant getter for assignedData.
 
@@ -261,7 +282,7 @@ class ServiceDependency(ARObject, ABC):
         """
         return self.assigned_data  # Delegates to property
 
-    def setAssignedData(self, value: "RoleBasedDataType") -> ServiceDependency:
+    def setAssignedData(self, value: RoleBasedDataType) -> ServiceDependency:
         """
         AUTOSAR-compliant setter for assignedData with method chaining.
 
@@ -277,7 +298,7 @@ class ServiceDependency(ARObject, ABC):
         self.assigned_data = value  # Delegates to property setter
         return self
 
-    def getDiagnostic(self) -> "ServiceDiagnostic":
+    def getDiagnostic(self) -> ServiceDiagnosticRelevanceEnum:
         """
         AUTOSAR-compliant getter for diagnostic.
 
@@ -289,7 +310,7 @@ class ServiceDependency(ARObject, ABC):
         """
         return self.diagnostic  # Delegates to property
 
-    def setDiagnostic(self, value: "ServiceDiagnostic") -> ServiceDependency:
+    def setDiagnostic(self, value: ServiceDiagnosticRelevanceEnum) -> ServiceDependency:
         """
         AUTOSAR-compliant setter for diagnostic with method chaining.
 
@@ -335,7 +356,7 @@ class ServiceDependency(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_assigned_data(self, value: Optional["RoleBasedDataType"]) -> ServiceDependency:
+    def with_assigned_data(self, value: Optional[RoleBasedDataType]) -> ServiceDependency:
         """
         Set assignedData and return self for chaining.
 
@@ -351,7 +372,7 @@ class ServiceDependency(ARObject, ABC):
         self.assigned_data = value  # Use property setter (gets validation)
         return self
 
-    def with_diagnostic(self, value: Optional["ServiceDiagnostic"]) -> ServiceDependency:
+    def with_diagnostic(self, value: Optional[ServiceDiagnosticRelevanceEnum]) -> ServiceDependency:
         """
         Set diagnostic and return self for chaining.
 
@@ -540,7 +561,7 @@ class RoleBasedDataAssignment(ARObject):
         """
         return self.role  # Delegates to property
 
-    def setRole(self, value: "Identifier") -> RoleBasedDataAssignment:
+    def setRole(self, value: Identifier) -> RoleBasedDataAssignment:
         """
         AUTOSAR-compliant setter for role with method chaining.
 
@@ -1049,15 +1070,15 @@ class NvBlockNeeds(ServiceNeeds):
             )
         self._nRomBlocks = value
         # controlled.
-        self._ramBlockStatus: Optional["RamBlockStatusControl"] = None
+        self._ramBlockStatus: Optional[RamBlockStatusControlEnum] = None
 
     @property
-    def ram_block_status(self) -> Optional["RamBlockStatusControl"]:
+    def ram_block_status(self) -> Optional[RamBlockStatusControlEnum]:
         """Get ramBlockStatus (Pythonic accessor)."""
         return self._ramBlockStatus
 
     @ram_block_status.setter
-    def ram_block_status(self, value: Optional["RamBlockStatusControl"]) -> None:
+    def ram_block_status(self, value: Optional[RamBlockStatusControlEnum]) -> None:
         """
         Set ramBlockStatus with validation.
 
@@ -1071,9 +1092,9 @@ class NvBlockNeeds(ServiceNeeds):
             self._ramBlockStatus = None
             return
 
-        if not isinstance(value, RamBlockStatusControl):
+        if not isinstance(value, RamBlockStatusControlEnum):
             raise TypeError(
-                f"ramBlockStatus must be RamBlockStatusControl or None, got {type(value).__name__}"
+                f"ramBlockStatus must be RamBlockStatusControlEnum or None, got {type(value).__name__}"
             )
         self._ramBlockStatus = value
         # disabled) restriction 381 Document ID 89:
@@ -1505,15 +1526,15 @@ class NvBlockNeeds(ServiceNeeds):
             )
         self._writing = value
         # other blocks.
-        self._writingPriority: Optional["NvBlockNeedsWriting"] = None
+        self._writingPriority: Optional[NvBlockNeedsWritingPriorityEnum] = None
 
     @property
-    def writing_priority(self) -> Optional["NvBlockNeedsWriting"]:
+    def writing_priority(self) -> Optional[NvBlockNeedsWritingPriorityEnum]:
         """Get writingPriority (Pythonic accessor)."""
         return self._writingPriority
 
     @writing_priority.setter
-    def writing_priority(self, value: Optional["NvBlockNeedsWriting"]) -> None:
+    def writing_priority(self, value: Optional[NvBlockNeedsWritingPriorityEnum]) -> None:
         """
         Set writingPriority with validation.
 
@@ -1527,9 +1548,9 @@ class NvBlockNeeds(ServiceNeeds):
             self._writingPriority = None
             return
 
-        if not isinstance(value, NvBlockNeedsWriting):
+        if not isinstance(value, NvBlockNeedsWritingPriorityEnum):
             raise TypeError(
-                f"writingPriority must be NvBlockNeedsWriting or None, got {type(value).__name__}"
+                f"writingPriority must be NvBlockNeedsWritingPriorityEnum or None, got {type(value).__name__}"
             )
         self._writingPriority = value
 
@@ -1675,7 +1696,7 @@ class NvBlockNeeds(ServiceNeeds):
         self.n_rom_blocks = value  # Delegates to property setter
         return self
 
-    def getRamBlockStatus(self) -> "RamBlockStatusControl":
+    def getRamBlockStatus(self) -> RamBlockStatusControlEnum:
         """
         AUTOSAR-compliant getter for ramBlockStatus.
 
@@ -1687,7 +1708,7 @@ class NvBlockNeeds(ServiceNeeds):
         """
         return self.ram_block_status  # Delegates to property
 
-    def setRamBlockStatus(self, value: "RamBlockStatusControl") -> NvBlockNeeds:
+    def setRamBlockStatus(self, value: RamBlockStatusControlEnum) -> NvBlockNeeds:
         """
         AUTOSAR-compliant setter for ramBlockStatus with method chaining.
 
@@ -2123,7 +2144,7 @@ class NvBlockNeeds(ServiceNeeds):
         self.writing = value  # Delegates to property setter
         return self
 
-    def getWritingPriority(self) -> "NvBlockNeedsWriting":
+    def getWritingPriority(self) -> NvBlockNeedsWritingPriorityEnum:
         """
         AUTOSAR-compliant getter for writingPriority.
 
@@ -2135,7 +2156,7 @@ class NvBlockNeeds(ServiceNeeds):
         """
         return self.writing_priority  # Delegates to property
 
-    def setWritingPriority(self, value: "NvBlockNeedsWriting") -> NvBlockNeeds:
+    def setWritingPriority(self, value: NvBlockNeedsWritingPriorityEnum) -> NvBlockNeeds:
         """
         AUTOSAR-compliant setter for writingPriority with method chaining.
 
@@ -2233,7 +2254,7 @@ class NvBlockNeeds(ServiceNeeds):
         self.n_rom_blocks = value  # Use property setter (gets validation)
         return self
 
-    def with_ram_block_status(self, value: Optional["RamBlockStatusControl"]) -> NvBlockNeeds:
+    def with_ram_block_status(self, value: Optional[RamBlockStatusControlEnum]) -> NvBlockNeeds:
         """
         Set ramBlockStatus and return self for chaining.
 
@@ -2489,7 +2510,7 @@ class NvBlockNeeds(ServiceNeeds):
         self.writing = value  # Use property setter (gets validation)
         return self
 
-    def with_writing_priority(self, value: Optional["NvBlockNeedsWriting"]) -> NvBlockNeeds:
+    def with_writing_priority(self, value: Optional[NvBlockNeedsWritingPriorityEnum]) -> NvBlockNeeds:
         """
         Set writingPriority and return self for chaining.
 
@@ -3500,22 +3521,22 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This specifies the intended audience for the diagnostic Note that this is not
         # only for the documentation but audience specific implementation.
-        self._audience: List["DiagnosticAudience"] = []
+        self._audience: List[DiagnosticAudienceEnum] = []
 
     @property
-    def audience(self) -> List["DiagnosticAudience"]:
+    def audience(self) -> List[DiagnosticAudienceEnum]:
         """Get audience (Pythonic accessor)."""
         return self._audience
         # This denotes the requirement identifier to which the object can be linked to.
-        self._diag: Optional["DiagRequirementId"] = None
+        self._diag: Optional[DiagRequirementId] = None
 
     @property
-    def diag(self) -> Optional["DiagRequirementId"]:
+    def diag(self) -> Optional[DiagRequirementId]:
         """Get diag (Pythonic accessor)."""
         return self._diag
 
     @diag.setter
-    def diag(self, value: Optional["DiagRequirementId"]) -> None:
+    def diag(self, value: Optional[DiagRequirementId]) -> None:
         """
         Set diag with validation.
 
@@ -3567,7 +3588,7 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAudience(self) -> List["DiagnosticAudience"]:
+    def getAudience(self) -> List[DiagnosticAudienceEnum]:
         """
         AUTOSAR-compliant getter for audience.
 
@@ -3579,7 +3600,7 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
         """
         return self.audience  # Delegates to property
 
-    def getDiag(self) -> "DiagRequirementId":
+    def getDiag(self) -> DiagRequirementId:
         """
         AUTOSAR-compliant getter for diag.
 
@@ -3591,7 +3612,7 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
         """
         return self.diag  # Delegates to property
 
-    def setDiag(self, value: "DiagRequirementId") -> DiagnosticCapabilityElement:
+    def setDiag(self, value: DiagRequirementId) -> DiagnosticCapabilityElement:
         """
         AUTOSAR-compliant setter for diag with method chaining.
 
@@ -3637,7 +3658,7 @@ class DiagnosticCapabilityElement(ServiceNeeds, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_diag(self, value: Optional["DiagRequirementId"]) -> DiagnosticCapabilityElement:
+    def with_diag(self, value: Optional[DiagRequirementId]) -> DiagnosticCapabilityElement:
         """
         Set diag and return self for chaining.
 
@@ -4039,15 +4060,15 @@ class IndicatorStatusNeeds(ServiceNeeds):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Defines the type of the indicator.
-        self._typeEnum: Optional["DiagnosticIndicatorType"] = None
+        self._typeEnum: Optional[DiagnosticIndicatorTypeEnum] = None
 
     @property
-    def type_enum(self) -> Optional["DiagnosticIndicatorType"]:
+    def type_enum(self) -> Optional[DiagnosticIndicatorTypeEnum]:
         """Get typeEnum (Pythonic accessor)."""
         return self._typeEnum
 
     @type_enum.setter
-    def type_enum(self, value: Optional["DiagnosticIndicatorType"]) -> None:
+    def type_enum(self, value: Optional[DiagnosticIndicatorTypeEnum]) -> None:
         """
         Set typeEnum with validation.
 
@@ -4061,15 +4082,15 @@ class IndicatorStatusNeeds(ServiceNeeds):
             self._typeEnum = None
             return
 
-        if not isinstance(value, DiagnosticIndicatorType):
+        if not isinstance(value, DiagnosticIndicatorTypeEnum):
             raise TypeError(
-                f"typeEnum must be DiagnosticIndicatorType or None, got {type(value).__name__}"
+                f"typeEnum must be DiagnosticIndicatorTypeEnum or None, got {type(value).__name__}"
             )
         self._typeEnum = value
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTypeEnum(self) -> "DiagnosticIndicatorType":
+    def getTypeEnum(self) -> DiagnosticIndicatorTypeEnum:
         """
         AUTOSAR-compliant getter for typeEnum.
 
@@ -4081,7 +4102,7 @@ class IndicatorStatusNeeds(ServiceNeeds):
         """
         return self.type_enum  # Delegates to property
 
-    def setTypeEnum(self, value: "DiagnosticIndicatorType") -> IndicatorStatusNeeds:
+    def setTypeEnum(self, value: DiagnosticIndicatorTypeEnum) -> IndicatorStatusNeeds:
         """
         AUTOSAR-compliant setter for typeEnum with method chaining.
 
@@ -4099,7 +4120,7 @@ class IndicatorStatusNeeds(ServiceNeeds):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_type_enum(self, value: Optional["DiagnosticIndicatorType"]) -> IndicatorStatusNeeds:
+    def with_type_enum(self, value: Optional[DiagnosticIndicatorTypeEnum]) -> IndicatorStatusNeeds:
         """
         Set typeEnum and return self for chaining.
 
@@ -4137,15 +4158,15 @@ class SecureOnBoardCommunicationNeeds(ServiceNeeds):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attribute provides the ability to control the mode in which the
         # application software is notified about the result authentication attempts.
-        self._verification: Optional["VerificationStatus"] = None
+        self._verification: Optional[VerificationStatusIndicationModeEnum] = None
 
     @property
-    def verification(self) -> Optional["VerificationStatus"]:
+    def verification(self) -> Optional[VerificationStatusIndicationModeEnum]:
         """Get verification (Pythonic accessor)."""
         return self._verification
 
     @verification.setter
-    def verification(self, value: Optional["VerificationStatus"]) -> None:
+    def verification(self, value: Optional[VerificationStatusIndicationModeEnum]) -> None:
         """
         Set verification with validation.
 
@@ -4159,15 +4180,15 @@ class SecureOnBoardCommunicationNeeds(ServiceNeeds):
             self._verification = None
             return
 
-        if not isinstance(value, VerificationStatus):
+        if not isinstance(value, VerificationStatusIndicationModeEnum):
             raise TypeError(
-                f"verification must be VerificationStatus or None, got {type(value).__name__}"
+                f"verification must be VerificationStatusIndicationModeEnum or None, got {type(value).__name__}"
             )
         self._verification = value
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getVerification(self) -> "VerificationStatus":
+    def getVerification(self) -> VerificationStatusIndicationModeEnum:
         """
         AUTOSAR-compliant getter for verification.
 
@@ -4179,7 +4200,7 @@ class SecureOnBoardCommunicationNeeds(ServiceNeeds):
         """
         return self.verification  # Delegates to property
 
-    def setVerification(self, value: "VerificationStatus") -> SecureOnBoardCommunicationNeeds:
+    def setVerification(self, value: VerificationStatusIndicationModeEnum) -> SecureOnBoardCommunicationNeeds:
         """
         AUTOSAR-compliant setter for verification with method chaining.
 
@@ -4197,7 +4218,7 @@ class SecureOnBoardCommunicationNeeds(ServiceNeeds):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_verification(self, value: Optional["VerificationStatus"]) -> SecureOnBoardCommunicationNeeds:
+    def with_verification(self, value: Optional[VerificationStatusIndicationModeEnum]) -> SecureOnBoardCommunicationNeeds:
         """
         Set verification and return self for chaining.
 
@@ -5349,15 +5370,15 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
                 # within a BswModuleDependency.
         # controls whether the data can be read and whether it is to be handled
                 # read-only.
-        self._diagnosticValue: Optional["DiagnosticValueAccess"] = None
+        self._diagnosticValue: Optional[DiagnosticValueAccessEnum] = None
 
     @property
-    def diagnostic_value(self) -> Optional["DiagnosticValueAccess"]:
+    def diagnostic_value(self) -> Optional[DiagnosticValueAccessEnum]:
         """Get diagnosticValue (Pythonic accessor)."""
         return self._diagnosticValue
 
     @diagnostic_value.setter
-    def diagnostic_value(self, value: Optional["DiagnosticValueAccess"]) -> None:
+    def diagnostic_value(self, value: Optional[DiagnosticValueAccessEnum]) -> None:
         """
         Set diagnosticValue with validation.
 
@@ -5371,9 +5392,9 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
             self._diagnosticValue = None
             return
 
-        if not isinstance(value, DiagnosticValueAccess):
+        if not isinstance(value, DiagnosticValueAccessEnum):
             raise TypeError(
-                f"diagnosticValue must be DiagnosticValueAccess or None, got {type(value).__name__}"
+                f"diagnosticValue must be DiagnosticValueAccessEnum or None, got {type(value).__name__}"
             )
         self._diagnosticValue = value
                 # BswModuleDependency.
@@ -5407,15 +5428,15 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
         self._fixedLength = value
         # synchronously on a request it processes the request in background but still
         # has to issue the call again to eventually obtain of the request.
-        self._processingStyle: Optional["DiagnosticProcessing"] = None
+        self._processingStyle: Optional[DiagnosticProcessing] = None
 
     @property
-    def processing_style(self) -> Optional["DiagnosticProcessing"]:
+    def processing_style(self) -> Optional[DiagnosticProcessing]:
         """Get processingStyle (Pythonic accessor)."""
         return self._processingStyle
 
     @processing_style.setter
-    def processing_style(self, value: Optional["DiagnosticProcessing"]) -> None:
+    def processing_style(self, value: Optional[DiagnosticProcessing]) -> None:
         """
         Set processingStyle with validation.
 
@@ -5465,7 +5486,7 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
         self.data_length = value  # Delegates to property setter
         return self
 
-    def getDiagnosticValue(self) -> "DiagnosticValueAccess":
+    def getDiagnosticValue(self) -> DiagnosticValueAccessEnum:
         """
         AUTOSAR-compliant getter for diagnosticValue.
 
@@ -5477,7 +5498,7 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
         """
         return self.diagnostic_value  # Delegates to property
 
-    def setDiagnosticValue(self, value: "DiagnosticValueAccess") -> DiagnosticValueNeeds:
+    def setDiagnosticValue(self, value: DiagnosticValueAccessEnum) -> DiagnosticValueNeeds:
         """
         AUTOSAR-compliant setter for diagnosticValue with method chaining.
 
@@ -5533,7 +5554,7 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
         """
         return self.processing_style  # Delegates to property
 
-    def setProcessingStyle(self, value: "DiagnosticProcessing") -> DiagnosticValueNeeds:
+    def setProcessingStyle(self, value: DiagnosticProcessing) -> DiagnosticValueNeeds:
         """
         AUTOSAR-compliant setter for processingStyle with method chaining.
 
@@ -5567,7 +5588,7 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
         self.data_length = value  # Use property setter (gets validation)
         return self
 
-    def with_diagnostic_value(self, value: Optional["DiagnosticValueAccess"]) -> DiagnosticValueNeeds:
+    def with_diagnostic_value(self, value: Optional[DiagnosticValueAccessEnum]) -> DiagnosticValueNeeds:
         """
         Set diagnosticValue and return self for chaining.
 
@@ -5599,7 +5620,7 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
         self.fixed_length = value  # Use property setter (gets validation)
         return self
 
-    def with_processing_style(self, value: Optional["DiagnosticProcessing"]) -> DiagnosticValueNeeds:
+    def with_processing_style(self, value: Optional[DiagnosticProcessing]) -> DiagnosticValueNeeds:
         """
         Set processingStyle and return self for chaining.
 
@@ -5640,15 +5661,15 @@ class DiagnosticRoutineNeeds(DiagnosticCapabilityElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This denotes the type of diagnostic routine which is implemented by the
         # referenced server port.
-        self._diagRoutine: Optional["DiagnosticRoutineType"] = None
+        self._diagRoutine: Optional[DiagnosticRoutineTypeEnum] = None
 
     @property
-    def diag_routine(self) -> Optional["DiagnosticRoutineType"]:
+    def diag_routine(self) -> Optional[DiagnosticRoutineTypeEnum]:
         """Get diagRoutine (Pythonic accessor)."""
         return self._diagRoutine
 
     @diag_routine.setter
-    def diag_routine(self, value: Optional["DiagnosticRoutineType"]) -> None:
+    def diag_routine(self, value: Optional[DiagnosticRoutineTypeEnum]) -> None:
         """
         Set diagRoutine with validation.
 
@@ -5662,15 +5683,15 @@ class DiagnosticRoutineNeeds(DiagnosticCapabilityElement):
             self._diagRoutine = None
             return
 
-        if not isinstance(value, DiagnosticRoutineType):
+        if not isinstance(value, DiagnosticRoutineTypeEnum):
             raise TypeError(
-                f"diagRoutine must be DiagnosticRoutineType or None, got {type(value).__name__}"
+                f"diagRoutine must be DiagnosticRoutineTypeEnum or None, got {type(value).__name__}"
             )
         self._diagRoutine = value
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDiagRoutine(self) -> "DiagnosticRoutineType":
+    def getDiagRoutine(self) -> DiagnosticRoutineTypeEnum:
         """
         AUTOSAR-compliant getter for diagRoutine.
 
@@ -5682,7 +5703,7 @@ class DiagnosticRoutineNeeds(DiagnosticCapabilityElement):
         """
         return self.diag_routine  # Delegates to property
 
-    def setDiagRoutine(self, value: "DiagnosticRoutineType") -> DiagnosticRoutineNeeds:
+    def setDiagRoutine(self, value: DiagnosticRoutineTypeEnum) -> DiagnosticRoutineNeeds:
         """
         AUTOSAR-compliant setter for diagRoutine with method chaining.
 
@@ -5700,7 +5721,7 @@ class DiagnosticRoutineNeeds(DiagnosticCapabilityElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_diag_routine(self, value: Optional["DiagnosticRoutineType"]) -> DiagnosticRoutineNeeds:
+    def with_diag_routine(self, value: Optional[DiagnosticRoutineTypeEnum]) -> DiagnosticRoutineNeeds:
         """
         Set diagRoutine and return self for chaining.
 
@@ -6217,15 +6238,15 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         return self._deferringFid
         # Specifies the abstract need on the Debounce Algorithm applied by the
         # Diagnostic Event Manager.
-        self._diagEvent: Optional["DiagEventDebounce"] = None
+        self._diagEvent: Optional[DiagEventDebounce] = None
 
     @property
-    def diag_event(self) -> Optional["DiagEventDebounce"]:
+    def diag_event(self) -> Optional[DiagEventDebounce]:
         """Get diagEvent (Pythonic accessor)."""
         return self._diagEvent
 
     @diag_event.setter
-    def diag_event(self, value: Optional["DiagEventDebounce"]) -> None:
+    def diag_event(self, value: Optional[DiagEventDebounce]) -> None:
         """
         Set diagEvent with validation.
 
@@ -6369,7 +6390,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         """
         return self.diag_event  # Delegates to property
 
-    def setDiagEvent(self, value: "DiagEventDebounce") -> DiagnosticEventNeeds:
+    def setDiagEvent(self, value: DiagEventDebounce) -> DiagnosticEventNeeds:
         """
         AUTOSAR-compliant setter for diagEvent with method chaining.
 
@@ -6483,7 +6504,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_diag_event(self, value: Optional["DiagEventDebounce"]) -> DiagnosticEventNeeds:
+    def with_diag_event(self, value: Optional[DiagEventDebounce]) -> DiagnosticEventNeeds:
         """
         Set diagEvent and return self for chaining.
 
@@ -6851,15 +6872,15 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # reference to an ApplicationDataType that describes the of the data reported
         # by the software-component to.
-        self._applicationData: Optional[ApplicationDataType] = None
+        self._applicationData: Optional["ApplicationDataType"] = None
 
     @property
-    def application_data(self) -> Optional[ApplicationDataType]:
+    def application_data(self) -> Optional["ApplicationDataType"]:
         """Get applicationData (Pythonic accessor)."""
         return self._applicationData
 
     @application_data.setter
-    def application_data(self, value: Optional[ApplicationDataType]) -> None:
+    def application_data(self, value: Optional["ApplicationDataType"]) -> None:
         """
         Set applicationData with validation.
 
@@ -6932,15 +6953,15 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
                 f"unitAndScalingId must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._unitAndScalingId = value
-        self._updateKind: Optional["DiagnosticMonitor"] = None
+        self._updateKind: Optional[DiagnosticMonitor] = None
 
     @property
-    def update_kind(self) -> Optional["DiagnosticMonitor"]:
+    def update_kind(self) -> Optional[DiagnosticMonitor]:
         """Get updateKind (Pythonic accessor)."""
         return self._updateKind
 
     @update_kind.setter
-    def update_kind(self, value: Optional["DiagnosticMonitor"]) -> None:
+    def update_kind(self, value: Optional[DiagnosticMonitor]) -> None:
         """
         Set updateKind with validation.
 
@@ -6962,7 +6983,7 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getApplicationData(self) -> ApplicationDataType:
+    def getApplicationData(self) -> "ApplicationDataType":
         """
         AUTOSAR-compliant getter for applicationData.
 
@@ -6974,7 +6995,7 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
         """
         return self.application_data  # Delegates to property
 
-    def setApplicationData(self, value: ApplicationDataType) -> ObdMonitorServiceNeeds:
+    def setApplicationData(self, value: "ApplicationDataType") -> ObdMonitorServiceNeeds:
         """
         AUTOSAR-compliant setter for applicationData with method chaining.
 
@@ -7058,7 +7079,7 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
         """
         return self.update_kind  # Delegates to property
 
-    def setUpdateKind(self, value: "DiagnosticMonitor") -> ObdMonitorServiceNeeds:
+    def setUpdateKind(self, value: DiagnosticMonitor) -> ObdMonitorServiceNeeds:
         """
         AUTOSAR-compliant setter for updateKind with method chaining.
 
@@ -7076,7 +7097,7 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_application_data(self, value: Optional[ApplicationDataType]) -> ObdMonitorServiceNeeds:
+    def with_application_data(self, value: Optional["ApplicationDataType"]) -> ObdMonitorServiceNeeds:
         """
         Set applicationData and return self for chaining.
 
@@ -7124,7 +7145,7 @@ class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
         self.unit_and_scaling_id = value  # Use property setter (gets validation)
         return self
 
-    def with_update_kind(self, value: Optional["DiagnosticMonitor"]) -> ObdMonitorServiceNeeds:
+    def with_update_kind(self, value: Optional[DiagnosticMonitor]) -> ObdMonitorServiceNeeds:
         """
         Set updateKind and return self for chaining.
 
@@ -7180,15 +7201,15 @@ class DiagnosticOperationCycleNeeds(DiagnosticCapabilityElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Operation cycles types for the Dem to be supported by APIs.
-        self._operationCycle: Optional["OperationCycleType"] = None
+        self._operationCycle: Optional[OperationCycleTypeEnum] = None
 
     @property
-    def operation_cycle(self) -> Optional["OperationCycleType"]:
+    def operation_cycle(self) -> Optional[OperationCycleTypeEnum]:
         """Get operationCycle (Pythonic accessor)."""
         return self._operationCycle
 
     @operation_cycle.setter
-    def operation_cycle(self, value: Optional["OperationCycleType"]) -> None:
+    def operation_cycle(self, value: Optional[OperationCycleTypeEnum]) -> None:
         """
         Set operationCycle with validation.
 
@@ -7202,15 +7223,15 @@ class DiagnosticOperationCycleNeeds(DiagnosticCapabilityElement):
             self._operationCycle = None
             return
 
-        if not isinstance(value, OperationCycleType):
+        if not isinstance(value, OperationCycleTypeEnum):
             raise TypeError(
-                f"operationCycle must be OperationCycleType or None, got {type(value).__name__}"
+                f"operationCycle must be OperationCycleTypeEnum or None, got {type(value).__name__}"
             )
         self._operationCycle = value
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getOperationCycle(self) -> "OperationCycleType":
+    def getOperationCycle(self) -> OperationCycleTypeEnum:
         """
         AUTOSAR-compliant getter for operationCycle.
 
@@ -7222,7 +7243,7 @@ class DiagnosticOperationCycleNeeds(DiagnosticCapabilityElement):
         """
         return self.operation_cycle  # Delegates to property
 
-    def setOperationCycle(self, value: "OperationCycleType") -> DiagnosticOperationCycleNeeds:
+    def setOperationCycle(self, value: OperationCycleTypeEnum) -> DiagnosticOperationCycleNeeds:
         """
         AUTOSAR-compliant setter for operationCycle with method chaining.
 
@@ -7240,7 +7261,7 @@ class DiagnosticOperationCycleNeeds(DiagnosticCapabilityElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_operation_cycle(self, value: Optional["OperationCycleType"]) -> DiagnosticOperationCycleNeeds:
+    def with_operation_cycle(self, value: Optional[OperationCycleTypeEnum]) -> DiagnosticOperationCycleNeeds:
         """
         Set operationCycle and return self for chaining.
 
@@ -7275,15 +7296,15 @@ class DiagnosticEnableConditionNeeds(DiagnosticCapabilityElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Defines the initial status for enable or disable of of event reports of a
         # diagnostic event.
-        self._initialStatus: Optional["EventAcceptanceStatus"] = None
+        self._initialStatus: Optional[EventAcceptanceStatusEnum] = None
 
     @property
-    def initial_status(self) -> Optional["EventAcceptanceStatus"]:
+    def initial_status(self) -> Optional[EventAcceptanceStatusEnum]:
         """Get initialStatus (Pythonic accessor)."""
         return self._initialStatus
 
     @initial_status.setter
-    def initial_status(self, value: Optional["EventAcceptanceStatus"]) -> None:
+    def initial_status(self, value: Optional[EventAcceptanceStatusEnum]) -> None:
         """
         Set initialStatus with validation.
 
@@ -7297,15 +7318,15 @@ class DiagnosticEnableConditionNeeds(DiagnosticCapabilityElement):
             self._initialStatus = None
             return
 
-        if not isinstance(value, EventAcceptanceStatus):
+        if not isinstance(value, EventAcceptanceStatusEnum):
             raise TypeError(
-                f"initialStatus must be EventAcceptanceStatus or None, got {type(value).__name__}"
+                f"initialStatus must be EventAcceptanceStatusEnum or None, got {type(value).__name__}"
             )
         self._initialStatus = value
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getInitialStatus(self) -> "EventAcceptanceStatus":
+    def getInitialStatus(self) -> EventAcceptanceStatusEnum:
         """
         AUTOSAR-compliant getter for initialStatus.
 
@@ -7317,7 +7338,7 @@ class DiagnosticEnableConditionNeeds(DiagnosticCapabilityElement):
         """
         return self.initial_status  # Delegates to property
 
-    def setInitialStatus(self, value: "EventAcceptanceStatus") -> DiagnosticEnableConditionNeeds:
+    def setInitialStatus(self, value: EventAcceptanceStatusEnum) -> DiagnosticEnableConditionNeeds:
         """
         AUTOSAR-compliant setter for initialStatus with method chaining.
 
@@ -7335,7 +7356,7 @@ class DiagnosticEnableConditionNeeds(DiagnosticCapabilityElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_initial_status(self, value: Optional["EventAcceptanceStatus"]) -> DiagnosticEnableConditionNeeds:
+    def with_initial_status(self, value: Optional[EventAcceptanceStatusEnum]) -> DiagnosticEnableConditionNeeds:
         """
         Set initialStatus and return self for chaining.
 
@@ -7370,15 +7391,15 @@ class DiagnosticStorageConditionNeeds(DiagnosticCapabilityElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Defines the initial status for enable or disable of storage a diagnostic
         # event.
-        self._initialStatus: Optional["StorageConditionStatus"] = None
+        self._initialStatus: Optional[StorageConditionStatusEnum] = None
 
     @property
-    def initial_status(self) -> Optional["StorageConditionStatus"]:
+    def initial_status(self) -> Optional[StorageConditionStatusEnum]:
         """Get initialStatus (Pythonic accessor)."""
         return self._initialStatus
 
     @initial_status.setter
-    def initial_status(self, value: Optional["StorageConditionStatus"]) -> None:
+    def initial_status(self, value: Optional[StorageConditionStatusEnum]) -> None:
         """
         Set initialStatus with validation.
 
@@ -7392,15 +7413,15 @@ class DiagnosticStorageConditionNeeds(DiagnosticCapabilityElement):
             self._initialStatus = None
             return
 
-        if not isinstance(value, StorageConditionStatus):
+        if not isinstance(value, StorageConditionStatusEnum):
             raise TypeError(
-                f"initialStatus must be StorageConditionStatus or None, got {type(value).__name__}"
+                f"initialStatus must be StorageConditionStatusEnum or None, got {type(value).__name__}"
             )
         self._initialStatus = value
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getInitialStatus(self) -> "StorageConditionStatus":
+    def getInitialStatus(self) -> StorageConditionStatusEnum:
         """
         AUTOSAR-compliant getter for initialStatus.
 
@@ -7412,7 +7433,7 @@ class DiagnosticStorageConditionNeeds(DiagnosticCapabilityElement):
         """
         return self.initial_status  # Delegates to property
 
-    def setInitialStatus(self, value: "StorageConditionStatus") -> DiagnosticStorageConditionNeeds:
+    def setInitialStatus(self, value: StorageConditionStatusEnum) -> DiagnosticStorageConditionNeeds:
         """
         AUTOSAR-compliant setter for initialStatus with method chaining.
 
@@ -7430,7 +7451,7 @@ class DiagnosticStorageConditionNeeds(DiagnosticCapabilityElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_initial_status(self, value: Optional["StorageConditionStatus"]) -> DiagnosticStorageConditionNeeds:
+    def with_initial_status(self, value: Optional[StorageConditionStatusEnum]) -> DiagnosticStorageConditionNeeds:
         """
         Set initialStatus and return self for chaining.
 
@@ -7466,15 +7487,15 @@ class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):
         # This attribute determines the time when the notification the DTC operation
                 # shall be executed.
         # This attribute relevant for the configuration of the ClearDtc.
-        self._notificationTime: Optional["DiagnosticClearDtc"] = None
+        self._notificationTime: Optional[DiagnosticClearDtc] = None
 
     @property
-    def notification_time(self) -> Optional["DiagnosticClearDtc"]:
+    def notification_time(self) -> Optional[DiagnosticClearDtc]:
         """Get notificationTime (Pythonic accessor)."""
         return self._notificationTime
 
     @notification_time.setter
-    def notification_time(self, value: Optional["DiagnosticClearDtc"]) -> None:
+    def notification_time(self, value: Optional[DiagnosticClearDtc]) -> None:
         """
         Set notificationTime with validation.
 
@@ -7508,7 +7529,7 @@ class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):
         """
         return self.notification_time  # Delegates to property
 
-    def setNotificationTime(self, value: "DiagnosticClearDtc") -> DtcStatusChangeNotificationNeeds:
+    def setNotificationTime(self, value: DiagnosticClearDtc) -> DtcStatusChangeNotificationNeeds:
         """
         AUTOSAR-compliant setter for notificationTime with method chaining.
 
@@ -7526,7 +7547,7 @@ class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_notification_time(self, value: Optional["DiagnosticClearDtc"]) -> DtcStatusChangeNotificationNeeds:
+    def with_notification_time(self, value: Optional[DiagnosticClearDtc]) -> DtcStatusChangeNotificationNeeds:
         """
         Set notificationTime and return self for chaining.
 
@@ -7584,15 +7605,15 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Defines how the DEM is connected to the component or to perform the IUMPR (In
         # use monitor service.
-        self._connectionType: Optional["ObdRatioConnection"] = None
+        self._connectionType: Optional[ObdRatioConnectionKindEnum] = None
 
     @property
-    def connection_type(self) -> Optional["ObdRatioConnection"]:
+    def connection_type(self) -> Optional[ObdRatioConnectionKindEnum]:
         """Get connectionType (Pythonic accessor)."""
         return self._connectionType
 
     @connection_type.setter
-    def connection_type(self, value: Optional["ObdRatioConnection"]) -> None:
+    def connection_type(self, value: Optional[ObdRatioConnectionKindEnum]) -> None:
         """
         Set connectionType with validation.
 
@@ -7606,9 +7627,9 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
             self._connectionType = None
             return
 
-        if not isinstance(value, ObdRatioConnection):
+        if not isinstance(value, ObdRatioConnectionKindEnum):
             raise TypeError(
-                f"connectionType must be ObdRatioConnection or None, got {type(value).__name__}"
+                f"connectionType must be ObdRatioConnectionKindEnum or None, got {type(value).__name__}"
             )
         self._connectionType = value
         self._rateBasedMonitoredEvent: Optional[DiagnosticEventNeeds] = None
@@ -7670,7 +7691,7 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getConnectionType(self) -> "ObdRatioConnection":
+    def getConnectionType(self) -> ObdRatioConnectionKindEnum:
         """
         AUTOSAR-compliant getter for connectionType.
 
@@ -7682,7 +7703,7 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
         """
         return self.connection_type  # Delegates to property
 
-    def setConnectionType(self, value: "ObdRatioConnection") -> ObdRatioServiceNeeds:
+    def setConnectionType(self, value: ObdRatioConnectionKindEnum) -> ObdRatioServiceNeeds:
         """
         AUTOSAR-compliant setter for connectionType with method chaining.
 
@@ -7756,7 +7777,7 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_connection_type(self, value: Optional["ObdRatioConnection"]) -> ObdRatioServiceNeeds:
+    def with_connection_type(self, value: Optional[ObdRatioConnectionKindEnum]) -> ObdRatioServiceNeeds:
         """
         Set connectionType and return self for chaining.
 
@@ -7822,15 +7843,15 @@ class ObdRatioDenominatorNeeds(DiagnosticCapabilityElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attribute indicates the applicable denominator condition.
-        self._denominator: Optional["DiagnosticDenominator"] = None
+        self._denominator: Optional[DiagnosticDenominator] = None
 
     @property
-    def denominator(self) -> Optional["DiagnosticDenominator"]:
+    def denominator(self) -> Optional[DiagnosticDenominator]:
         """Get denominator (Pythonic accessor)."""
         return self._denominator
 
     @denominator.setter
-    def denominator(self, value: Optional["DiagnosticDenominator"]) -> None:
+    def denominator(self, value: Optional[DiagnosticDenominator]) -> None:
         """
         Set denominator with validation.
 
@@ -7864,7 +7885,7 @@ class ObdRatioDenominatorNeeds(DiagnosticCapabilityElement):
         """
         return self.denominator  # Delegates to property
 
-    def setDenominator(self, value: "DiagnosticDenominator") -> ObdRatioDenominatorNeeds:
+    def setDenominator(self, value: DiagnosticDenominator) -> ObdRatioDenominatorNeeds:
         """
         AUTOSAR-compliant setter for denominator with method chaining.
 
@@ -7882,7 +7903,7 @@ class ObdRatioDenominatorNeeds(DiagnosticCapabilityElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_denominator(self, value: Optional["DiagnosticDenominator"]) -> ObdRatioDenominatorNeeds:
+    def with_denominator(self, value: Optional[DiagnosticDenominator]) -> ObdRatioDenominatorNeeds:
         """
         Set denominator and return self for chaining.
 
@@ -8145,7 +8166,7 @@ class DoIpRoutingActivationAuthenticationNeeds(DoIpServiceNeeds):
         """
         return self.routing  # Delegates to property
 
-    def setRouting(self, value: "NameToken") -> DoIpRoutingActivationAuthenticationNeeds:
+    def setRouting(self, value: NameToken) -> DoIpRoutingActivationAuthenticationNeeds:
         """
         AUTOSAR-compliant setter for routing with method chaining.
 
@@ -8320,7 +8341,7 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
         """
         return self.routing  # Delegates to property
 
-    def setRouting(self, value: "NameToken") -> DoIpRoutingActivationConfirmationNeeds:
+    def setRouting(self, value: NameToken) -> DoIpRoutingActivationConfirmationNeeds:
         """
         AUTOSAR-compliant setter for routing with method chaining.
 

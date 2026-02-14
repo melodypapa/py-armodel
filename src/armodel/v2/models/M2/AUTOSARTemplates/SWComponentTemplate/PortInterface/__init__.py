@@ -28,6 +28,12 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
     AutosarDataPrototype,
+    DataTransformation,
+    HandleInvalidEnum,
+    ModeDeclaration,
+    Numerical,
+    ServiceProviderEnum,
+    TextValueSpecification,
 )
 
 
@@ -55,15 +61,15 @@ class ArgumentDataPrototype(AutosarDataPrototype):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attribute specifies the direction of the argument.
-        self._direction: Optional[ArgumentDirection] = None
+        self._direction: Optional["ArgumentDirection"] = None
 
     @property
-    def direction(self) -> Optional[ArgumentDirection]:
+    def direction(self) -> Optional["ArgumentDirection"]:
         """Get direction (Pythonic accessor)."""
         return self._direction
 
     @direction.setter
-    def direction(self, value: Optional[ArgumentDirection]) -> None:
+    def direction(self, value: Optional["ArgumentDirection"]) -> None:
         """
         Set direction with validation.
 
@@ -388,7 +394,7 @@ class ArgumentDataPrototype(AutosarDataPrototype):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDirection(self) -> ArgumentDirection:
+    def getDirection(self) -> "ArgumentDirection":
         """
         AUTOSAR-compliant getter for direction.
 
@@ -400,7 +406,7 @@ class ArgumentDataPrototype(AutosarDataPrototype):
         """
         return self.direction  # Delegates to property
 
-    def setDirection(self, value: ArgumentDirection) -> ArgumentDataPrototype:
+    def setDirection(self, value: "ArgumentDirection") -> ArgumentDataPrototype:
         """
         AUTOSAR-compliant setter for direction with method chaining.
 
@@ -446,7 +452,7 @@ class ArgumentDataPrototype(AutosarDataPrototype):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_direction(self, value: Optional[ArgumentDirection]) -> ArgumentDataPrototype:
+    def with_direction(self, value: Optional["ArgumentDirection"]) -> ArgumentDataPrototype:
         """
         Set direction and return self for chaining.
 
@@ -743,7 +749,7 @@ class PortInterface(ARElement, ABC):
         self.is_service = value  # Delegates to property setter
         return self
 
-    def getServiceKind(self) -> "ServiceProviderEnum":
+    def getServiceKind(self) -> ServiceProviderEnum:
         """
         AUTOSAR-compliant getter for serviceKind.
 
@@ -755,7 +761,7 @@ class PortInterface(ARElement, ABC):
         """
         return self.service_kind  # Delegates to property
 
-    def setServiceKind(self, value: "ServiceProviderEnum") -> PortInterface:
+    def setServiceKind(self, value: ServiceProviderEnum) -> PortInterface:
         """
         AUTOSAR-compliant setter for serviceKind with method chaining.
 
@@ -907,7 +913,7 @@ class InvalidationPolicy(ARObject):
         self.data_element = value  # Delegates to property setter
         return self
 
-    def getHandleInvalid(self) -> "HandleInvalidEnum":
+    def getHandleInvalid(self) -> HandleInvalidEnum:
         """
         AUTOSAR-compliant getter for handleInvalid.
 
@@ -919,7 +925,7 @@ class InvalidationPolicy(ARObject):
         """
         return self.handle_invalid  # Delegates to property
 
-    def setHandleInvalid(self, value: "HandleInvalidEnum") -> InvalidationPolicy:
+    def setHandleInvalid(self, value: HandleInvalidEnum) -> InvalidationPolicy:
         """
         AUTOSAR-compliant setter for handleInvalid with method chaining.
 
@@ -1073,7 +1079,7 @@ class MetaDataItem(ARObject):
         self.length = value  # Delegates to property setter
         return self
 
-    def getMetaDataItem(self) -> "TextValueSpecification":
+    def getMetaDataItem(self) -> TextValueSpecification:
         """
         AUTOSAR-compliant getter for metaDataItem.
 
@@ -1085,7 +1091,7 @@ class MetaDataItem(ARObject):
         """
         return self.meta_data_item  # Delegates to property
 
-    def setMetaDataItem(self, value: "TextValueSpecification") -> MetaDataItem:
+    def setMetaDataItem(self, value: TextValueSpecification) -> MetaDataItem:
         """
         AUTOSAR-compliant setter for metaDataItem with method chaining.
 
@@ -1567,7 +1573,7 @@ class DataPrototypeMapping(ARObject):
         self.first_data = value  # Delegates to property setter
         return self
 
-    def getFirstToSecond(self) -> "DataTransformation":
+    def getFirstToSecond(self) -> DataTransformation:
         """
         AUTOSAR-compliant getter for firstToSecond.
 
@@ -1579,7 +1585,7 @@ class DataPrototypeMapping(ARObject):
         """
         return self.first_to_second  # Delegates to property
 
-    def setFirstToSecond(self, value: "DataTransformation") -> DataPrototypeMapping:
+    def setFirstToSecond(self, value: DataTransformation) -> DataPrototypeMapping:
         """
         AUTOSAR-compliant setter for firstToSecond with method chaining.
 
@@ -1623,7 +1629,7 @@ class DataPrototypeMapping(ARObject):
         self.second_data = value  # Delegates to property setter
         return self
 
-    def getSecondToFirst(self) -> "DataTransformation":
+    def getSecondToFirst(self) -> DataTransformation:
         """
         AUTOSAR-compliant getter for secondToFirst.
 
@@ -1635,7 +1641,7 @@ class DataPrototypeMapping(ARObject):
         """
         return self.second_to_first  # Delegates to property
 
-    def setSecondToFirst(self, value: "DataTransformation") -> DataPrototypeMapping:
+    def setSecondToFirst(self, value: DataTransformation) -> DataPrototypeMapping:
         """
         AUTOSAR-compliant setter for secondToFirst with method chaining.
 
@@ -1926,7 +1932,7 @@ class ClientServerOperationMapping(ARObject):
         self.first_operation = value  # Delegates to property setter
         return self
 
-    def getFirstToSecond(self) -> "DataTransformation":
+    def getFirstToSecond(self) -> DataTransformation:
         """
         AUTOSAR-compliant getter for firstToSecond.
 
@@ -1938,7 +1944,7 @@ class ClientServerOperationMapping(ARObject):
         """
         return self.first_to_second  # Delegates to property
 
-    def setFirstToSecond(self, value: "DataTransformation") -> ClientServerOperationMapping:
+    def setFirstToSecond(self, value: DataTransformation) -> ClientServerOperationMapping:
         """
         AUTOSAR-compliant setter for firstToSecond with method chaining.
 
@@ -2310,7 +2316,7 @@ class ModeDeclarationMapping(Identifiable):
         """
         return self.first_mode  # Delegates to property
 
-    def getSecondMode(self) -> "ModeDeclaration":
+    def getSecondMode(self) -> ModeDeclaration:
         """
         AUTOSAR-compliant getter for secondMode.
 
@@ -2322,7 +2328,7 @@ class ModeDeclarationMapping(Identifiable):
         """
         return self.second_mode  # Delegates to property
 
-    def setSecondMode(self, value: "ModeDeclaration") -> ModeDeclarationMapping:
+    def setSecondMode(self, value: ModeDeclaration) -> ModeDeclarationMapping:
         """
         AUTOSAR-compliant setter for secondMode with method chaining.
 
@@ -2941,7 +2947,7 @@ class TextTableValuePair(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getFirstValue(self) -> "Numerical":
+    def getFirstValue(self) -> Numerical:
         """
         AUTOSAR-compliant getter for firstValue.
 
@@ -2953,7 +2959,7 @@ class TextTableValuePair(ARObject):
         """
         return self.first_value  # Delegates to property
 
-    def setFirstValue(self, value: "Numerical") -> TextTableValuePair:
+    def setFirstValue(self, value: Numerical) -> TextTableValuePair:
         """
         AUTOSAR-compliant setter for firstValue with method chaining.
 
@@ -2969,7 +2975,7 @@ class TextTableValuePair(ARObject):
         self.first_value = value  # Delegates to property setter
         return self
 
-    def getSecondValue(self) -> "Numerical":
+    def getSecondValue(self) -> Numerical:
         """
         AUTOSAR-compliant getter for secondValue.
 
@@ -2981,7 +2987,7 @@ class TextTableValuePair(ARObject):
         """
         return self.second_value  # Delegates to property
 
-    def setSecondValue(self, value: "Numerical") -> TextTableValuePair:
+    def setSecondValue(self, value: Numerical) -> TextTableValuePair:
         """
         AUTOSAR-compliant setter for secondValue with method chaining.
 
@@ -3515,15 +3521,15 @@ class ImplementationDataTypeSubElementRef(SubElementRef):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the referenced implementationDataType Element.
-        self._implementation: Optional[ArVariableIn] = None
+        self._implementation: Optional["ArVariableIn"] = None
 
     @property
-    def implementation(self) -> Optional[ArVariableIn]:
+    def implementation(self) -> Optional["ArVariableIn"]:
         """Get implementation (Pythonic accessor)."""
         return self._implementation
 
     @implementation.setter
-    def implementation(self, value: Optional[ArVariableIn]) -> None:
+    def implementation(self, value: Optional["ArVariableIn"]) -> None:
         """
         Set implementation with validation.
 
@@ -3543,15 +3549,15 @@ class ImplementationDataTypeSubElementRef(SubElementRef):
             )
         self._implementation = value
         # This represents the referenced ImplementationDataType Element.
-        self._parameter: Optional[ArParameterIn] = None
+        self._parameter: Optional["ArParameterIn"] = None
 
     @property
-    def parameter(self) -> Optional[ArParameterIn]:
+    def parameter(self) -> Optional["ArParameterIn"]:
         """Get parameter (Pythonic accessor)."""
         return self._parameter
 
     @parameter.setter
-    def parameter(self, value: Optional[ArParameterIn]) -> None:
+    def parameter(self, value: Optional["ArParameterIn"]) -> None:
         """
         Set parameter with validation.
 
@@ -3573,7 +3579,7 @@ class ImplementationDataTypeSubElementRef(SubElementRef):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getImplementation(self) -> ArVariableIn:
+    def getImplementation(self) -> "ArVariableIn":
         """
         AUTOSAR-compliant getter for implementation.
 
@@ -3585,7 +3591,7 @@ class ImplementationDataTypeSubElementRef(SubElementRef):
         """
         return self.implementation  # Delegates to property
 
-    def setImplementation(self, value: ArVariableIn) -> ImplementationDataTypeSubElementRef:
+    def setImplementation(self, value: "ArVariableIn") -> ImplementationDataTypeSubElementRef:
         """
         AUTOSAR-compliant setter for implementation with method chaining.
 
@@ -3601,7 +3607,7 @@ class ImplementationDataTypeSubElementRef(SubElementRef):
         self.implementation = value  # Delegates to property setter
         return self
 
-    def getParameter(self) -> ArParameterIn:
+    def getParameter(self) -> "ArParameterIn":
         """
         AUTOSAR-compliant getter for parameter.
 
@@ -3613,7 +3619,7 @@ class ImplementationDataTypeSubElementRef(SubElementRef):
         """
         return self.parameter  # Delegates to property
 
-    def setParameter(self, value: ArParameterIn) -> ImplementationDataTypeSubElementRef:
+    def setParameter(self, value: "ArParameterIn") -> ImplementationDataTypeSubElementRef:
         """
         AUTOSAR-compliant setter for parameter with method chaining.
 
@@ -3631,7 +3637,7 @@ class ImplementationDataTypeSubElementRef(SubElementRef):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_implementation(self, value: Optional[ArVariableIn]) -> ImplementationDataTypeSubElementRef:
+    def with_implementation(self, value: Optional["ArVariableIn"]) -> ImplementationDataTypeSubElementRef:
         """
         Set implementation and return self for chaining.
 
@@ -3647,7 +3653,7 @@ class ImplementationDataTypeSubElementRef(SubElementRef):
         self.implementation = value  # Use property setter (gets validation)
         return self
 
-    def with_parameter(self, value: Optional[ArParameterIn]) -> ImplementationDataTypeSubElementRef:
+    def with_parameter(self, value: Optional["ArParameterIn"]) -> ImplementationDataTypeSubElementRef:
         """
         Set parameter and return self for chaining.
 
@@ -3682,15 +3688,15 @@ class ApplicationCompositeDataTypeSubElementRef(SubElementRef):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # DataPrototype.
         # implemented by: ApplicationComposite.
-        self._application: Optional[ApplicationComposite] = None
+        self._application: Optional["ApplicationComposite"] = None
 
     @property
-    def application(self) -> Optional[ApplicationComposite]:
+    def application(self) -> Optional["ApplicationComposite"]:
         """Get application (Pythonic accessor)."""
         return self._application
 
     @application.setter
-    def application(self, value: Optional[ApplicationComposite]) -> None:
+    def application(self, value: Optional["ApplicationComposite"]) -> None:
         """
         Set application with validation.
 
@@ -3712,7 +3718,7 @@ class ApplicationCompositeDataTypeSubElementRef(SubElementRef):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getApplication(self) -> ApplicationComposite:
+    def getApplication(self) -> "ApplicationComposite":
         """
         AUTOSAR-compliant getter for application.
 
@@ -3724,7 +3730,7 @@ class ApplicationCompositeDataTypeSubElementRef(SubElementRef):
         """
         return self.application  # Delegates to property
 
-    def setApplication(self, value: ApplicationComposite) -> ApplicationCompositeDataTypeSubElementRef:
+    def setApplication(self, value: "ApplicationComposite") -> ApplicationCompositeDataTypeSubElementRef:
         """
         AUTOSAR-compliant setter for application with method chaining.
 
@@ -3742,7 +3748,7 @@ class ApplicationCompositeDataTypeSubElementRef(SubElementRef):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_application(self, value: Optional[ApplicationComposite]) -> ApplicationCompositeDataTypeSubElementRef:
+    def with_application(self, value: Optional["ApplicationComposite"]) -> ApplicationCompositeDataTypeSubElementRef:
         """
         Set application and return self for chaining.
 

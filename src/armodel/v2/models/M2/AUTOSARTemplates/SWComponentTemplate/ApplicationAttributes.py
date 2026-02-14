@@ -17,6 +17,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     AREnum,
     Boolean,
     Float,
+    MultidimensionalTime,
     RefType,
 )
 
@@ -351,15 +352,15 @@ class ClientServerAnnotation(GeneralAnnotation):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the ClientServerOperation that the Client to.
-        self._operation: Optional[ClientServerOperation] = None
+        self._operation: Optional["ClientServerOperation"] = None
 
     @property
-    def operation(self) -> Optional[ClientServerOperation]:
+    def operation(self) -> Optional["ClientServerOperation"]:
         """Get operation (Pythonic accessor)."""
         return self._operation
 
     @operation.setter
-    def operation(self, value: Optional[ClientServerOperation]) -> None:
+    def operation(self, value: Optional["ClientServerOperation"]) -> None:
         """
         Set operation with validation.
 
@@ -381,7 +382,7 @@ class ClientServerAnnotation(GeneralAnnotation):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getOperation(self) -> ClientServerOperation:
+    def getOperation(self) -> "ClientServerOperation":
         """
         AUTOSAR-compliant getter for operation.
 
@@ -393,7 +394,7 @@ class ClientServerAnnotation(GeneralAnnotation):
         """
         return self.operation  # Delegates to property
 
-    def setOperation(self, value: ClientServerOperation) -> ClientServerAnnotation:
+    def setOperation(self, value: "ClientServerOperation") -> ClientServerAnnotation:
         """
         AUTOSAR-compliant setter for operation with method chaining.
 
@@ -411,7 +412,7 @@ class ClientServerAnnotation(GeneralAnnotation):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_operation(self, value: Optional[ClientServerOperation]) -> ClientServerAnnotation:
+    def with_operation(self, value: Optional["ClientServerOperation"]) -> ClientServerAnnotation:
         """
         Set operation and return self for chaining.
 
@@ -663,7 +664,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAge(self) -> "MultidimensionalTime":
+    def getAge(self) -> MultidimensionalTime:
         """
         AUTOSAR-compliant getter for age.
 
@@ -675,7 +676,7 @@ class IoHwAbstractionServerAnnotation(GeneralAnnotation):
         """
         return self.age  # Delegates to property
 
-    def setAge(self, value: "MultidimensionalTime") -> IoHwAbstractionServerAnnotation:
+    def setAge(self, value: MultidimensionalTime) -> IoHwAbstractionServerAnnotation:
         """
         AUTOSAR-compliant setter for age with method chaining.
 
@@ -1545,7 +1546,7 @@ class ReceiverAnnotation(SenderReceiverAnnotation):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getSignalAge(self) -> "MultidimensionalTime":
+    def getSignalAge(self) -> MultidimensionalTime:
         """
         AUTOSAR-compliant getter for signalAge.
 
@@ -1557,7 +1558,7 @@ class ReceiverAnnotation(SenderReceiverAnnotation):
         """
         return self.signal_age  # Delegates to property
 
-    def setSignalAge(self, value: "MultidimensionalTime") -> ReceiverAnnotation:
+    def setSignalAge(self, value: MultidimensionalTime) -> ReceiverAnnotation:
         """
         AUTOSAR-compliant setter for signalAge with method chaining.
 

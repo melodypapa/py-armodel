@@ -23,6 +23,7 @@ else:
         MultilanguageReferrable,
     )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    DateTime,
     String,
 )
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.PaginationAndView import (
@@ -85,15 +86,15 @@ class StructuredReq(Paginateable):
                 f"conflicts must be DocumentationBlock or None, got {type(value).__name__}"
             )
         self._conflicts = value
-        self._date: "DateTime" = None
+        self._date: DateTime = None
 
     @property
-    def date(self) -> "DateTime":
+    def date(self) -> DateTime:
         """Get date (Pythonic accessor)."""
         return self._date
 
     @date.setter
-    def date(self, value: "DateTime") -> None:
+    def date(self, value: DateTime) -> None:
         """
         Set date with validation.
 
@@ -443,7 +444,7 @@ class StructuredReq(Paginateable):
         self.conflicts = value  # Delegates to property setter
         return self
 
-    def getDate(self) -> "DateTime":
+    def getDate(self) -> DateTime:
         """
         AUTOSAR-compliant getter for date.
 
@@ -455,7 +456,7 @@ class StructuredReq(Paginateable):
         """
         return self.date  # Delegates to property
 
-    def setDate(self, value: "DateTime") -> StructuredReq:
+    def setDate(self, value: DateTime) -> StructuredReq:
         """
         AUTOSAR-compliant setter for date with method chaining.
 
@@ -753,7 +754,7 @@ class StructuredReq(Paginateable):
         self.conflicts = value  # Use property setter (gets validation)
         return self
 
-    def with_date(self, value: "DateTime") -> StructuredReq:
+    def with_date(self, value: DateTime) -> StructuredReq:
         """
         Set date and return self for chaining.
 

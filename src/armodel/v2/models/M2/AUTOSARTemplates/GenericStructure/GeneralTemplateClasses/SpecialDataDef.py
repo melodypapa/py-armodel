@@ -24,6 +24,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     NameToken,
 )
 from armodel.v2.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import (
+    MetaClassName,
     TraceableText,
 )
 
@@ -164,7 +165,7 @@ class SdgElementWithGid(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getGid(self) -> "NameToken":
+    def getGid(self) -> NameToken:
         """
         AUTOSAR-compliant getter for gid.
 
@@ -176,7 +177,7 @@ class SdgElementWithGid(ARObject, ABC):
         """
         return self.gid  # Delegates to property
 
-    def setGid(self, value: "NameToken") -> SdgElementWithGid:
+    def setGid(self, value: NameToken) -> SdgElementWithGid:
         """
         AUTOSAR-compliant setter for gid with method chaining.
 
@@ -364,7 +365,7 @@ class SdgClass(SdgElementWithGid):
         self.caption = value  # Delegates to property setter
         return self
 
-    def getExtendsMeta(self) -> "MetaClassName":
+    def getExtendsMeta(self) -> MetaClassName:
         """
         AUTOSAR-compliant getter for extendsMeta.
 
@@ -376,7 +377,7 @@ class SdgClass(SdgElementWithGid):
         """
         return self.extends_meta  # Delegates to property
 
-    def setExtendsMeta(self, value: "MetaClassName") -> SdgClass:
+    def setExtendsMeta(self, value: MetaClassName) -> SdgClass:
         """
         AUTOSAR-compliant setter for extendsMeta with method chaining.
 
@@ -605,7 +606,7 @@ class SdgAbstractForeignReference(SdgElementWithGid, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDestMetaClass(self) -> "MetaClassName":
+    def getDestMetaClass(self) -> MetaClassName:
         """
         AUTOSAR-compliant getter for destMetaClass.
 
@@ -617,7 +618,7 @@ class SdgAbstractForeignReference(SdgElementWithGid, ABC):
         """
         return self.dest_meta_class  # Delegates to property
 
-    def setDestMetaClass(self, value: "MetaClassName") -> SdgAbstractForeignReference:
+    def setDestMetaClass(self, value: MetaClassName) -> SdgAbstractForeignReference:
         """
         AUTOSAR-compliant setter for destMetaClass with method chaining.
 

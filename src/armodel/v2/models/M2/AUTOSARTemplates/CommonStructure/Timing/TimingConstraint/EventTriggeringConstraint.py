@@ -42,15 +42,15 @@ class EventTriggeringConstraint(TimingConstraint, ABC):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The referenced timing event.
-        self._event: Optional[TimingDescriptionEvent] = None
+        self._event: Optional["TimingDescriptionEvent"] = None
 
     @property
-    def event(self) -> Optional[TimingDescriptionEvent]:
+    def event(self) -> Optional["TimingDescriptionEvent"]:
         """Get event (Pythonic accessor)."""
         return self._event
 
     @event.setter
-    def event(self, value: Optional[TimingDescriptionEvent]) -> None:
+    def event(self, value: Optional["TimingDescriptionEvent"]) -> None:
         """
         Set event with validation.
 
@@ -136,7 +136,7 @@ class EventTriggeringConstraint(TimingConstraint, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getEvent(self) -> TimingDescriptionEvent:
+    def getEvent(self) -> "TimingDescriptionEvent":
         """
         AUTOSAR-compliant getter for event.
 
@@ -148,7 +148,7 @@ class EventTriggeringConstraint(TimingConstraint, ABC):
         """
         return self.event  # Delegates to property
 
-    def setEvent(self, value: TimingDescriptionEvent) -> EventTriggeringConstraint:
+    def setEvent(self, value: "TimingDescriptionEvent") -> EventTriggeringConstraint:
         """
         AUTOSAR-compliant setter for event with method chaining.
 
@@ -166,7 +166,7 @@ class EventTriggeringConstraint(TimingConstraint, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_event(self, value: Optional[TimingDescriptionEvent]) -> EventTriggeringConstraint:
+    def with_event(self, value: Optional["TimingDescriptionEvent"]) -> EventTriggeringConstraint:
         """
         Set event and return self for chaining.
 

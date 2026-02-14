@@ -502,15 +502,15 @@ class RunnableEntityInCompositionInstanceRef(ARObject):
         # This represents the target RunnableEntity.
         # xml.
         # sequenceOffset=30.
-        self._targetRunnable: Optional[RunnableEntity] = None
+        self._targetRunnable: Optional["RunnableEntity"] = None
 
     @property
-    def target_runnable(self) -> Optional[RunnableEntity]:
+    def target_runnable(self) -> Optional["RunnableEntity"]:
         """Get targetRunnable (Pythonic accessor)."""
         return self._targetRunnable
 
     @target_runnable.setter
-    def target_runnable(self, value: Optional[RunnableEntity]) -> None:
+    def target_runnable(self, value: Optional["RunnableEntity"]) -> None:
         """
         Set targetRunnable with validation.
 
@@ -572,7 +572,7 @@ class RunnableEntityInCompositionInstanceRef(ARObject):
         """
         return self.context_sw  # Delegates to property
 
-    def getTargetRunnable(self) -> RunnableEntity:
+    def getTargetRunnable(self) -> "RunnableEntity":
         """
         AUTOSAR-compliant getter for targetRunnable.
 
@@ -584,7 +584,7 @@ class RunnableEntityInCompositionInstanceRef(ARObject):
         """
         return self.target_runnable  # Delegates to property
 
-    def setTargetRunnable(self, value: RunnableEntity) -> RunnableEntityInCompositionInstanceRef:
+    def setTargetRunnable(self, value: "RunnableEntity") -> RunnableEntityInCompositionInstanceRef:
         """
         AUTOSAR-compliant setter for targetRunnable with method chaining.
 
@@ -618,7 +618,7 @@ class RunnableEntityInCompositionInstanceRef(ARObject):
         self.base = value  # Use property setter (gets validation)
         return self
 
-    def with_target_runnable(self, value: Optional[RunnableEntity]) -> RunnableEntityInCompositionInstanceRef:
+    def with_target_runnable(self, value: Optional["RunnableEntity"]) -> RunnableEntityInCompositionInstanceRef:
         """
         Set targetRunnable and return self for chaining.
 

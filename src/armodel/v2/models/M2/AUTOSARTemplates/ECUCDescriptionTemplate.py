@@ -10,6 +10,15 @@ from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
+from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import (
+    BswImplementation,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+    EcucConfigurationVariantEnum,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import (
+    AtpFeature,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
@@ -21,8 +30,18 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
+    EcucContainerDef,
+    EcucModuleDef,
+    EcucParameterDef,
+    Numerical,
     PositiveInteger,
     RefType,
+    RevisionLabelString,
+    System,
+    VerbatimString,
+)
+from armodel.v2.models.M2.MSR.Documentation.BlockElements import (
+    DocumentationBlock,
 )
 
 
@@ -122,15 +141,15 @@ class EcucModuleConfigurationValues(ARElement):
         # g.
         # preconfigured recommendedConfiguration) then the be one of VariantPreCompile,
                 # VariantLink.
-        self._implementation: Optional["EcucConfiguration"] = None
+        self._implementation: Optional[EcucConfigurationVariantEnum] = None
 
     @property
-    def implementation(self) -> Optional["EcucConfiguration"]:
+    def implementation(self) -> Optional[EcucConfigurationVariantEnum]:
         """Get implementation (Pythonic accessor)."""
         return self._implementation
 
     @implementation.setter
-    def implementation(self, value: Optional["EcucConfiguration"]) -> None:
+    def implementation(self, value: Optional[EcucConfigurationVariantEnum]) -> None:
         """
         Set implementation with validation.
 
@@ -144,24 +163,24 @@ class EcucModuleConfigurationValues(ARElement):
             self._implementation = None
             return
 
-        if not isinstance(value, EcucConfiguration):
+        if not isinstance(value, EcucConfigurationVariantEnum):
             raise TypeError(
-                f"implementation must be EcucConfiguration or None, got {type(value).__name__}"
+                f"implementation must be EcucConfigurationVariantEnum or None, got {type(value).__name__}"
             )
         self._implementation = value
         # optional because the EcucModuleConfiguration is also used to configure the
                 # ECU map) or Application SW-Cs.
         # case the EcucModuleConfigurationValues are configure the module, the
                 # reference is mandatory to fetch module specific "common" published.
-        self._module: Optional[BswImplementation] = None
+        self._module: Optional["BswImplementation"] = None
 
     @property
-    def module(self) -> Optional[BswImplementation]:
+    def module(self) -> Optional["BswImplementation"]:
         """Get module (Pythonic accessor)."""
         return self._module
 
     @module.setter
-    def module(self, value: Optional[BswImplementation]) -> None:
+    def module(self, value: Optional["BswImplementation"]) -> None:
         """
         Set module with validation.
 
@@ -337,7 +356,7 @@ class EcucModuleConfigurationValues(ARElement):
         """
         return self.container  # Delegates to property
 
-    def getDefinition(self) -> "EcucModuleDef":
+    def getDefinition(self) -> EcucModuleDef:
         """
         AUTOSAR-compliant getter for definition.
 
@@ -349,7 +368,7 @@ class EcucModuleConfigurationValues(ARElement):
         """
         return self.definition  # Delegates to property
 
-    def setDefinition(self, value: "EcucModuleDef") -> EcucModuleConfigurationValues:
+    def setDefinition(self, value: EcucModuleDef) -> EcucModuleConfigurationValues:
         """
         AUTOSAR-compliant setter for definition with method chaining.
 
@@ -365,7 +384,7 @@ class EcucModuleConfigurationValues(ARElement):
         self.definition = value  # Delegates to property setter
         return self
 
-    def getEcucDefEdition(self) -> "RevisionLabelString":
+    def getEcucDefEdition(self) -> RevisionLabelString:
         """
         AUTOSAR-compliant getter for ecucDefEdition.
 
@@ -377,7 +396,7 @@ class EcucModuleConfigurationValues(ARElement):
         """
         return self.ecuc_def_edition  # Delegates to property
 
-    def setEcucDefEdition(self, value: "RevisionLabelString") -> EcucModuleConfigurationValues:
+    def setEcucDefEdition(self, value: RevisionLabelString) -> EcucModuleConfigurationValues:
         """
         AUTOSAR-compliant setter for ecucDefEdition with method chaining.
 
@@ -393,7 +412,7 @@ class EcucModuleConfigurationValues(ARElement):
         self.ecuc_def_edition = value  # Delegates to property setter
         return self
 
-    def getImplementation(self) -> "EcucConfiguration":
+    def getImplementation(self) -> EcucConfigurationVariantEnum:
         """
         AUTOSAR-compliant getter for implementation.
 
@@ -405,7 +424,7 @@ class EcucModuleConfigurationValues(ARElement):
         """
         return self.implementation  # Delegates to property
 
-    def setImplementation(self, value: "EcucConfiguration") -> EcucModuleConfigurationValues:
+    def setImplementation(self, value: EcucConfigurationVariantEnum) -> EcucModuleConfigurationValues:
         """
         AUTOSAR-compliant setter for implementation with method chaining.
 
@@ -511,7 +530,7 @@ class EcucModuleConfigurationValues(ARElement):
         self.ecuc_def_edition = value  # Use property setter (gets validation)
         return self
 
-    def with_implementation(self, value: Optional["EcucConfiguration"]) -> EcucModuleConfigurationValues:
+    def with_implementation(self, value: Optional[EcucConfigurationVariantEnum]) -> EcucModuleConfigurationValues:
         """
         Set implementation and return self for chaining.
 
@@ -527,7 +546,7 @@ class EcucModuleConfigurationValues(ARElement):
         self.implementation = value  # Use property setter (gets validation)
         return self
 
-    def with_module(self, value: Optional[BswImplementation]) -> EcucModuleConfigurationValues:
+    def with_module(self, value: Optional["BswImplementation"]) -> EcucModuleConfigurationValues:
         """
         Set module and return self for chaining.
 
@@ -629,7 +648,7 @@ class EcucValueCollection(ARElement):
         """
         return self.ecuc_value  # Delegates to property
 
-    def getEcuExtract(self) -> "System":
+    def getEcuExtract(self) -> System:
         """
         AUTOSAR-compliant getter for ecuExtract.
 
@@ -641,7 +660,7 @@ class EcucValueCollection(ARElement):
         """
         return self.ecu_extract  # Delegates to property
 
-    def setEcuExtract(self, value: "System") -> EcucValueCollection:
+    def setEcuExtract(self, value: System) -> EcucValueCollection:
         """
         AUTOSAR-compliant setter for ecuExtract with method chaining.
 
@@ -841,7 +860,7 @@ class EcucContainerValue(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDefinition(self) -> "EcucContainerDef":
+    def getDefinition(self) -> EcucContainerDef:
         """
         AUTOSAR-compliant getter for definition.
 
@@ -853,7 +872,7 @@ class EcucContainerValue(Identifiable):
         """
         return self.definition  # Delegates to property
 
-    def setDefinition(self, value: "EcucContainerDef") -> EcucContainerValue:
+    def setDefinition(self, value: EcucContainerDef) -> EcucContainerValue:
         """
         AUTOSAR-compliant setter for definition with method chaining.
 
@@ -1029,7 +1048,7 @@ class EcucParameterValue(EcucIndexableValue, ABC):
         """
         return self.annotation  # Delegates to property
 
-    def getDefinition(self) -> "EcucParameterDef":
+    def getDefinition(self) -> EcucParameterDef:
         """
         AUTOSAR-compliant getter for definition.
 
@@ -1041,7 +1060,7 @@ class EcucParameterValue(EcucIndexableValue, ABC):
         """
         return self.definition  # Delegates to property
 
-    def setDefinition(self, value: "EcucParameterDef") -> EcucParameterValue:
+    def setDefinition(self, value: EcucParameterDef) -> EcucParameterValue:
         """
         AUTOSAR-compliant setter for definition with method chaining.
 
@@ -1358,7 +1377,7 @@ class EcucTextualParamValue(EcucParameterValue):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getValue(self) -> "VerbatimString":
+    def getValue(self) -> VerbatimString:
         """
         AUTOSAR-compliant getter for value.
 
@@ -1370,7 +1389,7 @@ class EcucTextualParamValue(EcucParameterValue):
         """
         return self.value  # Delegates to property
 
-    def setValue(self, value: "VerbatimString") -> EcucTextualParamValue:
+    def setValue(self, value: VerbatimString) -> EcucTextualParamValue:
         """
         AUTOSAR-compliant setter for value with method chaining.
 
@@ -1453,7 +1472,7 @@ class EcucNumericalParamValue(EcucParameterValue):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getValue(self) -> "Numerical":
+    def getValue(self) -> Numerical:
         """
         AUTOSAR-compliant getter for value.
 
@@ -1465,7 +1484,7 @@ class EcucNumericalParamValue(EcucParameterValue):
         """
         return self.value  # Delegates to property
 
-    def setValue(self, value: "Numerical") -> EcucNumericalParamValue:
+    def setValue(self, value: Numerical) -> EcucNumericalParamValue:
         """
         AUTOSAR-compliant setter for value with method chaining.
 
@@ -1515,15 +1534,15 @@ class EcucAddInfoParamValue(EcucParameterValue):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Holds the content of the formated text.
-        self._value: Optional[DocumentationBlock] = None
+        self._value: Optional["DocumentationBlock"] = None
 
     @property
-    def value(self) -> Optional[DocumentationBlock]:
+    def value(self) -> Optional["DocumentationBlock"]:
         """Get value (Pythonic accessor)."""
         return self._value
 
     @value.setter
-    def value(self, value: Optional[DocumentationBlock]) -> None:
+    def value(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set value with validation.
 
@@ -1575,7 +1594,7 @@ class EcucAddInfoParamValue(EcucParameterValue):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_value(self, value: Optional[DocumentationBlock]) -> EcucAddInfoParamValue:
+    def with_value(self, value: Optional["DocumentationBlock"]) -> EcucAddInfoParamValue:
         """
         Set value and return self for chaining.
 
@@ -1699,15 +1718,15 @@ class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # by: AnyInstanceRef.
-        self._value: Optional[AtpFeature] = None
+        self._value: Optional["AtpFeature"] = None
 
     @property
-    def value(self) -> Optional[AtpFeature]:
+    def value(self) -> Optional["AtpFeature"]:
         """Get value (Pythonic accessor)."""
         return self._value
 
     @value.setter
-    def value(self, value: Optional[AtpFeature]) -> None:
+    def value(self, value: Optional["AtpFeature"]) -> None:
         """
         Set value with validation.
 
@@ -1759,7 +1778,7 @@ class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_value(self, value: Optional[AtpFeature]) -> EcucInstanceReferenceValue:
+    def with_value(self, value: Optional["AtpFeature"]) -> EcucInstanceReferenceValue:
         """
         Set value and return self for chaining.
 

@@ -69,15 +69,15 @@ class InstantiationDataDefProps(ARObject):
             return
 
         self._parameter = value
-        self._swDataDef: Optional[SwDataDefProps] = None
+        self._swDataDef: Optional["SwDataDefProps"] = None
 
     @property
-    def sw_data_def(self) -> Optional[SwDataDefProps]:
+    def sw_data_def(self) -> Optional["SwDataDefProps"]:
         """Get swDataDef (Pythonic accessor)."""
         return self._swDataDef
 
     @sw_data_def.setter
-    def sw_data_def(self, value: Optional[SwDataDefProps]) -> None:
+    def sw_data_def(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set swDataDef with validation.
 
@@ -151,7 +151,7 @@ class InstantiationDataDefProps(ARObject):
         self.parameter = value  # Delegates to property setter
         return self
 
-    def getSwDataDef(self) -> SwDataDefProps:
+    def getSwDataDef(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for swDataDef.
 
@@ -163,7 +163,7 @@ class InstantiationDataDefProps(ARObject):
         """
         return self.sw_data_def  # Delegates to property
 
-    def setSwDataDef(self, value: SwDataDefProps) -> InstantiationDataDefProps:
+    def setSwDataDef(self, value: "SwDataDefProps") -> InstantiationDataDefProps:
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
 
@@ -225,7 +225,7 @@ class InstantiationDataDefProps(ARObject):
         self.parameter = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_data_def(self, value: Optional[SwDataDefProps]) -> InstantiationDataDefProps:
+    def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> InstantiationDataDefProps:
         """
         Set swDataDef and return self for chaining.
 

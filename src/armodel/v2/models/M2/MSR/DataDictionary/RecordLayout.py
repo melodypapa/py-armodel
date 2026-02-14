@@ -21,6 +21,15 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     NameToken,
     RefType,
 )
+from armodel.v2.models.M2.MSR.AsamHdo.BaseTypes import (
+    SwBaseType,
+)
+from armodel.v2.models.M2.MSR.DataDictionary.Axis import (
+    SwGenericAxisParam,
+)
+from armodel.v2.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
+    MultiLanguageOverviewParagraph,
+)
 
 
 class SwRecordLayout(ARElement):
@@ -167,15 +176,15 @@ class SwRecordLayoutV(ARObject):
         self._baseType = value
         # which can help to identify In-depth documentation should be added to the the
         # surrounding record layout.
-        self._desc: Optional["MultiLanguageOverview"] = None
+        self._desc: Optional[MultiLanguageOverviewParagraph] = None
 
     @property
-    def desc(self) -> Optional["MultiLanguageOverview"]:
+    def desc(self) -> Optional[MultiLanguageOverviewParagraph]:
         """Get desc (Pythonic accessor)."""
         return self._desc
 
     @desc.setter
-    def desc(self, value: Optional["MultiLanguageOverview"]) -> None:
+    def desc(self, value: Optional[MultiLanguageOverviewParagraph]) -> None:
         """
         Set desc with validation.
 
@@ -189,22 +198,22 @@ class SwRecordLayoutV(ARObject):
             self._desc = None
             return
 
-        if not isinstance(value, MultiLanguageOverview):
+        if not isinstance(value, MultiLanguageOverviewParagraph):
             raise TypeError(
-                f"desc must be MultiLanguageOverview or None, got {type(value).__name__}"
+                f"desc must be MultiLanguageOverviewParagraph or None, got {type(value).__name__}"
             )
         self._desc = value
         # g.
         # code is generated from the record layout.
-        self._shortLabel: Optional["Identifier"] = None
+        self._shortLabel: Optional[Identifier] = None
 
     @property
-    def short_label(self) -> Optional["Identifier"]:
+    def short_label(self) -> Optional[Identifier]:
         """Get shortLabel (Pythonic accessor)."""
         return self._shortLabel
 
     @short_label.setter
-    def short_label(self, value: Optional["Identifier"]) -> None:
+    def short_label(self, value: Optional[Identifier]) -> None:
         """
         Set shortLabel with validation.
 
@@ -223,19 +232,21 @@ class SwRecordLayoutV(ARObject):
                 f"shortLabel must be Identifier or str or None, got {type(value).__name__}"
             )
         self._shortLabel = value
-                # definition shall be stored.
+        # definition shall be stored.
         # This value is a particular generic axis parameter type.
         # 1228 Document ID 62: AUTOSAR_CP_TPS_SoftwareComponentTemplate Template
                 # R23-11.
-        self._swGenericAxis: Optional["SwGenericAxisParam"] = None
+        self._swGenericAxis: Optional[SwGenericAxisParam] = None
 
     @property
-    def sw_generic_axis(self) -> Optional["SwGenericAxisParam"]:
+    def sw_generic_axis(self) -> Optional[SwGenericAxisParam]:
+        """Get swGenericAxis (Pythonic accessor)."""
+        return self._swGenericAxis
         """Get swGenericAxis (Pythonic accessor)."""
         return self._swGenericAxis
 
     @sw_generic_axis.setter
-    def sw_generic_axis(self, value: Optional["SwGenericAxisParam"]) -> None:
+    def sw_generic_axis(self, value: Optional[SwGenericAxisParam]) -> None:
         """
         Set swGenericAxis with validation.
 
@@ -254,17 +265,17 @@ class SwRecordLayoutV(ARObject):
                 f"swGenericAxis must be SwGenericAxisParam or None, got {type(value).__name__}"
             )
         self._swGenericAxis = value
-        # details see below.
+                # details see below.
         # The standardized values this attribute are defined in.
-        self._swRecord: Optional["NameToken"] = None
+        self._swRecord: Optional[NameToken] = None
 
     @property
-    def sw_record(self) -> Optional["NameToken"]:
+    def sw_record(self) -> Optional[NameToken]:
         """Get swRecord (Pythonic accessor)."""
         return self._swRecord
 
     @sw_record.setter
-    def sw_record(self, value: Optional["NameToken"]) -> None:
+    def sw_record(self, value: Optional[NameToken]) -> None:
         """
         Set swRecord with validation.
 
@@ -314,7 +325,7 @@ class SwRecordLayoutV(ARObject):
         self.base_type = value  # Delegates to property setter
         return self
 
-    def getDesc(self) -> "MultiLanguageOverview":
+    def getDesc(self) -> MultiLanguageOverviewParagraph:
         """
         AUTOSAR-compliant getter for desc.
 
@@ -326,7 +337,7 @@ class SwRecordLayoutV(ARObject):
         """
         return self.desc  # Delegates to property
 
-    def setDesc(self, value: "MultiLanguageOverview") -> SwRecordLayoutV:
+    def setDesc(self, value: MultiLanguageOverviewParagraph) -> SwRecordLayoutV:
         """
         AUTOSAR-compliant setter for desc with method chaining.
 
@@ -342,7 +353,7 @@ class SwRecordLayoutV(ARObject):
         self.desc = value  # Delegates to property setter
         return self
 
-    def getShortLabel(self) -> "Identifier":
+    def getShortLabel(self) -> Identifier:
         """
         AUTOSAR-compliant getter for shortLabel.
 
@@ -354,7 +365,7 @@ class SwRecordLayoutV(ARObject):
         """
         return self.short_label  # Delegates to property
 
-    def setShortLabel(self, value: "Identifier") -> SwRecordLayoutV:
+    def setShortLabel(self, value: Identifier) -> SwRecordLayoutV:
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
 
@@ -370,7 +381,7 @@ class SwRecordLayoutV(ARObject):
         self.short_label = value  # Delegates to property setter
         return self
 
-    def getSwGenericAxis(self) -> "SwGenericAxisParam":
+    def getSwGenericAxis(self) -> SwGenericAxisParam:
         """
         AUTOSAR-compliant getter for swGenericAxis.
 
@@ -382,7 +393,7 @@ class SwRecordLayoutV(ARObject):
         """
         return self.sw_generic_axis  # Delegates to property
 
-    def setSwGenericAxis(self, value: "SwGenericAxisParam") -> SwRecordLayoutV:
+    def setSwGenericAxis(self, value: SwGenericAxisParam) -> SwRecordLayoutV:
         """
         AUTOSAR-compliant setter for swGenericAxis with method chaining.
 
@@ -398,7 +409,7 @@ class SwRecordLayoutV(ARObject):
         self.sw_generic_axis = value  # Delegates to property setter
         return self
 
-    def getSwRecord(self) -> "NameToken":
+    def getSwRecord(self) -> NameToken:
         """
         AUTOSAR-compliant getter for swRecord.
 
@@ -410,7 +421,7 @@ class SwRecordLayoutV(ARObject):
         """
         return self.sw_record  # Delegates to property
 
-    def setSwRecord(self, value: "NameToken") -> SwRecordLayoutV:
+    def setSwRecord(self, value: NameToken) -> SwRecordLayoutV:
         """
         AUTOSAR-compliant setter for swRecord with method chaining.
 
@@ -444,7 +455,7 @@ class SwRecordLayoutV(ARObject):
         self.base_type = value  # Use property setter (gets validation)
         return self
 
-    def with_desc(self, value: Optional["MultiLanguageOverview"]) -> SwRecordLayoutV:
+    def with_desc(self, value: Optional[MultiLanguageOverviewParagraph]) -> SwRecordLayoutV:
         """
         Set desc and return self for chaining.
 
@@ -460,7 +471,7 @@ class SwRecordLayoutV(ARObject):
         self.desc = value  # Use property setter (gets validation)
         return self
 
-    def with_short_label(self, value: Optional["Identifier"]) -> SwRecordLayoutV:
+    def with_short_label(self, value: Optional[Identifier]) -> SwRecordLayoutV:
         """
         Set shortLabel and return self for chaining.
 
@@ -476,7 +487,7 @@ class SwRecordLayoutV(ARObject):
         self.short_label = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_generic_axis(self, value: Optional["SwGenericAxisParam"]) -> SwRecordLayoutV:
+    def with_sw_generic_axis(self, value: Optional[SwGenericAxisParam]) -> SwRecordLayoutV:
         """
         Set swGenericAxis and return self for chaining.
 
@@ -492,7 +503,7 @@ class SwRecordLayoutV(ARObject):
         self.sw_generic_axis = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_record(self, value: Optional["NameToken"]) -> SwRecordLayoutV:
+    def with_sw_record(self, value: Optional[NameToken]) -> SwRecordLayoutV:
         """
         Set swRecord and return self for chaining.
 
@@ -562,15 +573,15 @@ class SwRecordLayoutGroup(ARObject):
         self._category = value
         # which can help to identify In-depth documentation should be added to the the
         # surrounding record layout.
-        self._desc: Optional["MultiLanguageOverview"] = None
+        self._desc: Optional[MultiLanguageOverviewParagraph] = None
 
     @property
-    def desc(self) -> Optional["MultiLanguageOverview"]:
+    def desc(self) -> Optional[MultiLanguageOverviewParagraph]:
         """Get desc (Pythonic accessor)."""
         return self._desc
 
     @desc.setter
-    def desc(self, value: Optional["MultiLanguageOverview"]) -> None:
+    def desc(self, value: Optional[MultiLanguageOverviewParagraph]) -> None:
         """
         Set desc with validation.
 
@@ -584,22 +595,22 @@ class SwRecordLayoutGroup(ARObject):
             self._desc = None
             return
 
-        if not isinstance(value, MultiLanguageOverview):
+        if not isinstance(value, MultiLanguageOverviewParagraph):
             raise TypeError(
-                f"desc must be MultiLanguageOverview or None, got {type(value).__name__}"
+                f"desc must be MultiLanguageOverviewParagraph or None, got {type(value).__name__}"
             )
         self._desc = value
         # g.
         # code is generated from the record layout.
-        self._shortLabel: Optional["Identifier"] = None
+        self._shortLabel: Optional[Identifier] = None
 
     @property
-    def short_label(self) -> Optional["Identifier"]:
+    def short_label(self) -> Optional[Identifier]:
         """Get shortLabel (Pythonic accessor)."""
         return self._shortLabel
 
     @short_label.setter
-    def short_label(self, value: Optional["Identifier"]) -> None:
+    def short_label(self, value: Optional[Identifier]) -> None:
         """
         Set shortLabel with validation.
 
@@ -623,15 +634,15 @@ class SwRecordLayoutGroup(ARObject):
                 # this array.
         # axis referred to by swRecordLayoutGroup be a generic axis in which the
                 # referenced Sw aggregated.
-        self._swGenericAxis: Optional["SwGenericAxisParam"] = None
+        self._swGenericAxis: Optional[SwGenericAxisParam] = None
 
     @property
-    def sw_generic_axis(self) -> Optional["SwGenericAxisParam"]:
+    def sw_generic_axis(self) -> Optional[SwGenericAxisParam]:
         """Get swGenericAxis (Pythonic accessor)."""
         return self._swGenericAxis
 
     @sw_generic_axis.setter
-    def sw_generic_axis(self, value: Optional["SwGenericAxisParam"]) -> None:
+    def sw_generic_axis(self, value: Optional[SwGenericAxisParam]) -> None:
         """
         Set swGenericAxis with validation.
 
@@ -712,7 +723,7 @@ class SwRecordLayoutGroup(ARObject):
         self.category = value  # Delegates to property setter
         return self
 
-    def getDesc(self) -> "MultiLanguageOverview":
+    def getDesc(self) -> MultiLanguageOverviewParagraph:
         """
         AUTOSAR-compliant getter for desc.
 
@@ -724,7 +735,7 @@ class SwRecordLayoutGroup(ARObject):
         """
         return self.desc  # Delegates to property
 
-    def setDesc(self, value: "MultiLanguageOverview") -> SwRecordLayoutGroup:
+    def setDesc(self, value: MultiLanguageOverviewParagraph) -> SwRecordLayoutGroup:
         """
         AUTOSAR-compliant setter for desc with method chaining.
 
@@ -740,7 +751,7 @@ class SwRecordLayoutGroup(ARObject):
         self.desc = value  # Delegates to property setter
         return self
 
-    def getShortLabel(self) -> "Identifier":
+    def getShortLabel(self) -> Identifier:
         """
         AUTOSAR-compliant getter for shortLabel.
 
@@ -752,7 +763,7 @@ class SwRecordLayoutGroup(ARObject):
         """
         return self.short_label  # Delegates to property
 
-    def setShortLabel(self, value: "Identifier") -> SwRecordLayoutGroup:
+    def setShortLabel(self, value: Identifier) -> SwRecordLayoutGroup:
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
 
@@ -768,7 +779,7 @@ class SwRecordLayoutGroup(ARObject):
         self.short_label = value  # Delegates to property setter
         return self
 
-    def getSwGenericAxis(self) -> "SwGenericAxisParam":
+    def getSwGenericAxis(self) -> SwGenericAxisParam:
         """
         AUTOSAR-compliant getter for swGenericAxis.
 
@@ -780,7 +791,7 @@ class SwRecordLayoutGroup(ARObject):
         """
         return self.sw_generic_axis  # Delegates to property
 
-    def setSwGenericAxis(self, value: "SwGenericAxisParam") -> SwRecordLayoutGroup:
+    def setSwGenericAxis(self, value: SwGenericAxisParam) -> SwRecordLayoutGroup:
         """
         AUTOSAR-compliant setter for swGenericAxis with method chaining.
 
@@ -842,7 +853,7 @@ class SwRecordLayoutGroup(ARObject):
         self.category = value  # Use property setter (gets validation)
         return self
 
-    def with_desc(self, value: Optional["MultiLanguageOverview"]) -> SwRecordLayoutGroup:
+    def with_desc(self, value: Optional[MultiLanguageOverviewParagraph]) -> SwRecordLayoutGroup:
         """
         Set desc and return self for chaining.
 
@@ -858,7 +869,7 @@ class SwRecordLayoutGroup(ARObject):
         self.desc = value  # Use property setter (gets validation)
         return self
 
-    def with_short_label(self, value: Optional["Identifier"]) -> SwRecordLayoutGroup:
+    def with_short_label(self, value: Optional[Identifier]) -> SwRecordLayoutGroup:
         """
         Set shortLabel and return self for chaining.
 
@@ -874,7 +885,7 @@ class SwRecordLayoutGroup(ARObject):
         self.short_label = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_generic_axis(self, value: Optional["SwGenericAxisParam"]) -> SwRecordLayoutGroup:
+    def with_sw_generic_axis(self, value: Optional[SwGenericAxisParam]) -> SwRecordLayoutGroup:
         """
         Set swGenericAxis and return self for chaining.
 
@@ -1043,3 +1054,5 @@ Package: M2::MSR::DataDictionary::RecordLayout
     pass
 
 
+AsamRecordLayout = AsamRecordLayoutSemantics
+RecordLayoutIterator = RecordLayoutIteratorPoint

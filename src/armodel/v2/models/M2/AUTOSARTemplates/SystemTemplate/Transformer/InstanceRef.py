@@ -18,6 +18,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Transformer.__init__ import (
     DataPrototypeReference,
+    PortInterface,
 )
 
 
@@ -80,15 +81,15 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
                 # rootDataPrototype.
         # xml.
         # sequenceOffset=30.
-        self._target: Optional[AbstractImplementation] = None
+        self._target: Optional["AbstractImplementation"] = None
 
     @property
-    def target(self) -> Optional[AbstractImplementation]:
+    def target(self) -> Optional["AbstractImplementation"]:
         """Get target (Pythonic accessor)."""
         return self._target
 
     @target.setter
-    def target(self, value: Optional[AbstractImplementation]) -> None:
+    def target(self, value: Optional["AbstractImplementation"]) -> None:
         """
         Set target with validation.
 
@@ -214,7 +215,7 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
         self.root_data = value  # Delegates to property setter
         return self
 
-    def getTarget(self) -> AbstractImplementation:
+    def getTarget(self) -> "AbstractImplementation":
         """
         AUTOSAR-compliant getter for target.
 
@@ -226,7 +227,7 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
         """
         return self.target  # Delegates to property
 
-    def setTarget(self, value: AbstractImplementation) -> ImplementationDataTypeElementInPortInterfaceRef:
+    def setTarget(self, value: "AbstractImplementation") -> ImplementationDataTypeElementInPortInterfaceRef:
         """
         AUTOSAR-compliant setter for target with method chaining.
 
@@ -260,7 +261,7 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
         self.root_data = value  # Use property setter (gets validation)
         return self
 
-    def with_target(self, value: Optional[AbstractImplementation]) -> ImplementationDataTypeElementInPortInterfaceRef:
+    def with_target(self, value: Optional["AbstractImplementation"]) -> ImplementationDataTypeElementInPortInterfaceRef:
         """
         Set target and return self for chaining.
 
@@ -379,7 +380,7 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAbstractBase(self) -> "PortInterface":
+    def getAbstractBase(self) -> PortInterface:
         """
         AUTOSAR-compliant getter for abstractBase.
 
@@ -391,7 +392,7 @@ class DataPrototypeInPortInterfaceInstanceRef(ARObject, ABC):
         """
         return self.abstract_base  # Delegates to property
 
-    def setAbstractBase(self, value: "PortInterface") -> DataPrototypeInPortInterfaceInstanceRef:
+    def setAbstractBase(self, value: PortInterface) -> DataPrototypeInPortInterfaceInstanceRef:
         """
         AUTOSAR-compliant setter for abstractBase with method chaining.
 
@@ -787,15 +788,15 @@ class DataPrototypeInClientServerInterfaceInstanceRef(DataPrototypeInPortInterfa
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Stereotypes: atpDerived.
-        self._base: Optional[ClientServerInterface] = None
+        self._base: Optional["ClientServerInterface"] = None
 
     @property
-    def base(self) -> Optional[ClientServerInterface]:
+    def base(self) -> Optional["ClientServerInterface"]:
         """Get base (Pythonic accessor)."""
         return self._base
 
     @base.setter
-    def base(self, value: Optional[ClientServerInterface]) -> None:
+    def base(self, value: Optional["ClientServerInterface"]) -> None:
         """
         Set base with validation.
 
@@ -873,7 +874,7 @@ class DataPrototypeInClientServerInterfaceInstanceRef(DataPrototypeInPortInterfa
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBase(self) -> ClientServerInterface:
+    def getBase(self) -> "ClientServerInterface":
         """
         AUTOSAR-compliant getter for base.
 
@@ -885,7 +886,7 @@ class DataPrototypeInClientServerInterfaceInstanceRef(DataPrototypeInPortInterfa
         """
         return self.base  # Delegates to property
 
-    def setBase(self, value: ClientServerInterface) -> DataPrototypeInClientServerInterfaceInstanceRef:
+    def setBase(self, value: "ClientServerInterface") -> DataPrototypeInClientServerInterfaceInstanceRef:
         """
         AUTOSAR-compliant setter for base with method chaining.
 
@@ -971,7 +972,7 @@ class DataPrototypeInClientServerInterfaceInstanceRef(DataPrototypeInPortInterfa
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base(self, value: Optional[ClientServerInterface]) -> DataPrototypeInClientServerInterfaceInstanceRef:
+    def with_base(self, value: Optional["ClientServerInterface"]) -> DataPrototypeInClientServerInterfaceInstanceRef:
         """
         Set base and return self for chaining.
 

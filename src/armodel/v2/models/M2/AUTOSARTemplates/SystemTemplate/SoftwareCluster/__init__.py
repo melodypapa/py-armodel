@@ -470,7 +470,7 @@ class RoleBasedResourceDependency(ARObject):
         self.resource = value  # Delegates to property setter
         return self
 
-    def getRole(self) -> "Identifier":
+    def getRole(self) -> Identifier:
         """
         AUTOSAR-compliant getter for role.
 
@@ -482,7 +482,7 @@ class RoleBasedResourceDependency(ARObject):
         """
         return self.role  # Delegates to property
 
-    def setRole(self, value: "Identifier") -> RoleBasedResourceDependency:
+    def setRole(self, value: Identifier) -> RoleBasedResourceDependency:
         """
         AUTOSAR-compliant setter for role with method chaining.
 
@@ -690,15 +690,15 @@ class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to a specific ECU Instance description.
-        self._ecuInstance: Optional[EcuInstance] = None
+        self._ecuInstance: Optional["EcuInstance"] = None
 
     @property
-    def ecu_instance(self) -> Optional[EcuInstance]:
+    def ecu_instance(self) -> Optional["EcuInstance"]:
         """Get ecuInstance (Pythonic accessor)."""
         return self._ecuInstance
 
     @ecu_instance.setter
-    def ecu_instance(self, value: Optional[EcuInstance]) -> None:
+    def ecu_instance(self, value: Optional["EcuInstance"]) -> None:
         """
         Set ecuInstance with validation.
 
@@ -756,7 +756,7 @@ class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getEcuInstance(self) -> EcuInstance:
+    def getEcuInstance(self) -> "EcuInstance":
         """
         AUTOSAR-compliant getter for ecuInstance.
 
@@ -768,7 +768,7 @@ class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
         """
         return self.ecu_instance  # Delegates to property
 
-    def setEcuInstance(self, value: EcuInstance) -> CpSoftwareClusterToEcuInstanceMapping:
+    def setEcuInstance(self, value: "EcuInstance") -> CpSoftwareClusterToEcuInstanceMapping:
         """
         AUTOSAR-compliant setter for ecuInstance with method chaining.
 
@@ -826,7 +826,7 @@ class CpSoftwareClusterToEcuInstanceMapping(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_ecu_instance(self, value: Optional[EcuInstance]) -> CpSoftwareClusterToEcuInstanceMapping:
+    def with_ecu_instance(self, value: Optional["EcuInstance"]) -> CpSoftwareClusterToEcuInstanceMapping:
         """
         Set ecuInstance and return self for chaining.
 
@@ -875,15 +875,15 @@ class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # ApplicationPartition for which the mapping applies.
-        self._application: Optional[ApplicationPartition] = None
+        self._application: Optional["ApplicationPartition"] = None
 
     @property
-    def application(self) -> Optional[ApplicationPartition]:
+    def application(self) -> Optional["ApplicationPartition"]:
         """Get application (Pythonic accessor)."""
         return self._application
 
     @application.setter
-    def application(self, value: Optional[ApplicationPartition]) -> None:
+    def application(self, value: Optional["ApplicationPartition"]) -> None:
         """
         Set application with validation.
 
@@ -933,7 +933,7 @@ class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getApplication(self) -> ApplicationPartition:
+    def getApplication(self) -> "ApplicationPartition":
         """
         AUTOSAR-compliant getter for application.
 
@@ -945,7 +945,7 @@ class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
         """
         return self.application  # Delegates to property
 
-    def setApplication(self, value: ApplicationPartition) -> CpSoftwareClusterResourceToApplicationPartitionMapping:
+    def setApplication(self, value: "ApplicationPartition") -> CpSoftwareClusterResourceToApplicationPartitionMapping:
         """
         AUTOSAR-compliant setter for application with method chaining.
 
@@ -991,7 +991,7 @@ class CpSoftwareClusterResourceToApplicationPartitionMapping(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_application(self, value: Optional[ApplicationPartition]) -> CpSoftwareClusterResourceToApplicationPartitionMapping:
+    def with_application(self, value: Optional["ApplicationPartition"]) -> CpSoftwareClusterResourceToApplicationPartitionMapping:
         """
         Set application and return self for chaining.
 
@@ -1286,15 +1286,15 @@ class SystemSignalToCommunicationResourceMapping(Identifiable):
             )
         self._softwareCluster = value
         # SystemSignal to which the communication resource is.
-        self._systemSignal: Optional[SystemSignal] = None
+        self._systemSignal: Optional["SystemSignal"] = None
 
     @property
-    def system_signal(self) -> Optional[SystemSignal]:
+    def system_signal(self) -> Optional["SystemSignal"]:
         """Get systemSignal (Pythonic accessor)."""
         return self._systemSignal
 
     @system_signal.setter
-    def system_signal(self, value: Optional[SystemSignal]) -> None:
+    def system_signal(self, value: Optional["SystemSignal"]) -> None:
         """
         Set systemSignal with validation.
 
@@ -1344,7 +1344,7 @@ class SystemSignalToCommunicationResourceMapping(Identifiable):
         self.software_cluster = value  # Delegates to property setter
         return self
 
-    def getSystemSignal(self) -> SystemSignal:
+    def getSystemSignal(self) -> "SystemSignal":
         """
         AUTOSAR-compliant getter for systemSignal.
 
@@ -1356,7 +1356,7 @@ class SystemSignalToCommunicationResourceMapping(Identifiable):
         """
         return self.system_signal  # Delegates to property
 
-    def setSystemSignal(self, value: SystemSignal) -> SystemSignalToCommunicationResourceMapping:
+    def setSystemSignal(self, value: "SystemSignal") -> SystemSignalToCommunicationResourceMapping:
         """
         AUTOSAR-compliant setter for systemSignal with method chaining.
 
@@ -1390,7 +1390,7 @@ class SystemSignalToCommunicationResourceMapping(Identifiable):
         self.software_cluster = value  # Use property setter (gets validation)
         return self
 
-    def with_system_signal(self, value: Optional[SystemSignal]) -> SystemSignalToCommunicationResourceMapping:
+    def with_system_signal(self, value: Optional["SystemSignal"]) -> SystemSignalToCommunicationResourceMapping:
         """
         Set systemSignal and return self for chaining.
 

@@ -1454,15 +1454,15 @@ class EOCEventRef(EOCExecutableEntityRefAbstract):
                 f"componentCompositionInstanceRef must be SwComponent or None, got {type(value).__name__}"
             )
         self._componentCompositionInstanceRef = value
-        self._event: Optional[AbstractEvent] = None
+        self._event: Optional["AbstractEvent"] = None
 
     @property
-    def event(self) -> Optional[AbstractEvent]:
+    def event(self) -> Optional["AbstractEvent"]:
         """Get event (Pythonic accessor)."""
         return self._event
 
     @event.setter
-    def event(self, value: Optional[AbstractEvent]) -> None:
+    def event(self, value: Optional["AbstractEvent"]) -> None:
         """
         Set event with validation.
 
@@ -1546,7 +1546,7 @@ class EOCEventRef(EOCExecutableEntityRefAbstract):
         self.component_composition_instance_ref = value  # Delegates to property setter
         return self
 
-    def getEvent(self) -> AbstractEvent:
+    def getEvent(self) -> "AbstractEvent":
         """
         AUTOSAR-compliant getter for event.
 
@@ -1558,7 +1558,7 @@ class EOCEventRef(EOCExecutableEntityRefAbstract):
         """
         return self.event  # Delegates to property
 
-    def setEvent(self, value: AbstractEvent) -> EOCEventRef:
+    def setEvent(self, value: "AbstractEvent") -> EOCEventRef:
         """
         AUTOSAR-compliant setter for event with method chaining.
 
@@ -1620,7 +1620,7 @@ class EOCEventRef(EOCExecutableEntityRefAbstract):
         self.component_composition_instance_ref = value  # Use property setter (gets validation)
         return self
 
-    def with_event(self, value: Optional[AbstractEvent]) -> EOCEventRef:
+    def with_event(self, value: Optional["AbstractEvent"]) -> EOCEventRef:
         """
         Set event and return self for chaining.
 

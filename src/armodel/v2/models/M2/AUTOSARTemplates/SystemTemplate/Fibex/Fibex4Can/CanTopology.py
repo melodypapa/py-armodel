@@ -284,15 +284,15 @@ class AbstractCanCluster(ARObject, ABC):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # CAN bus off monitoring / recovery at system level.
-        self._busOffRecovery: Optional[CanClusterBusOff] = None
+        self._busOffRecovery: Optional["CanClusterBusOff"] = None
 
     @property
-    def bus_off_recovery(self) -> Optional[CanClusterBusOff]:
+    def bus_off_recovery(self) -> Optional["CanClusterBusOff"]:
         """Get busOffRecovery (Pythonic accessor)."""
         return self._busOffRecovery
 
     @bus_off_recovery.setter
-    def bus_off_recovery(self, value: Optional[CanClusterBusOff]) -> None:
+    def bus_off_recovery(self, value: Optional["CanClusterBusOff"]) -> None:
         """
         Set busOffRecovery with validation.
         
@@ -311,15 +311,15 @@ class AbstractCanCluster(ARObject, ABC):
                 f"busOffRecovery must be CanClusterBusOff or None, got {type(value).__name__}"
             )
         self._busOffRecovery = value
-        self._canFdBaudrate: Optional[PositiveUnlimitedInteger] = None
+        self._canFdBaudrate: Optional["PositiveUnlimitedInteger"] = None
 
     @property
-    def can_fd_baudrate(self) -> Optional[PositiveUnlimitedInteger]:
+    def can_fd_baudrate(self) -> Optional["PositiveUnlimitedInteger"]:
         """Get canFdBaudrate (Pythonic accessor)."""
         return self._canFdBaudrate
 
     @can_fd_baudrate.setter
-    def can_fd_baudrate(self, value: Optional[PositiveUnlimitedInteger]) -> None:
+    def can_fd_baudrate(self, value: Optional["PositiveUnlimitedInteger"]) -> None:
         """
         Set canFdBaudrate with validation.
         
@@ -338,15 +338,15 @@ class AbstractCanCluster(ARObject, ABC):
                 f"canFdBaudrate must be PositiveUnlimitedInteger or None, got {type(value).__name__}"
             )
         self._canFdBaudrate = value
-        self._canXlBaudrate: Optional[PositiveUnlimitedInteger] = None
+        self._canXlBaudrate: Optional["PositiveUnlimitedInteger"] = None
 
     @property
-    def can_xl_baudrate(self) -> Optional[PositiveUnlimitedInteger]:
+    def can_xl_baudrate(self) -> Optional["PositiveUnlimitedInteger"]:
         """Get canXlBaudrate (Pythonic accessor)."""
         return self._canXlBaudrate
 
     @can_xl_baudrate.setter
-    def can_xl_baudrate(self, value: Optional[PositiveUnlimitedInteger]) -> None:
+    def can_xl_baudrate(self, value: Optional["PositiveUnlimitedInteger"]) -> None:
         """
         Set canXlBaudrate with validation.
         
@@ -368,7 +368,7 @@ class AbstractCanCluster(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBusOffRecovery(self) -> CanClusterBusOff:
+    def getBusOffRecovery(self) -> "CanClusterBusOff":
         """
         AUTOSAR-compliant getter for busOffRecovery.
         
@@ -380,7 +380,7 @@ class AbstractCanCluster(ARObject, ABC):
         """
         return self.bus_off_recovery  # Delegates to property
 
-    def setBusOffRecovery(self, value: CanClusterBusOff) -> AbstractCanCluster:
+    def setBusOffRecovery(self, value: "CanClusterBusOff") -> AbstractCanCluster:
         """
         AUTOSAR-compliant setter for busOffRecovery with method chaining.
         
@@ -396,7 +396,7 @@ class AbstractCanCluster(ARObject, ABC):
         self.bus_off_recovery = value  # Delegates to property setter
         return self
 
-    def getCanFdBaudrate(self) -> PositiveUnlimitedInteger:
+    def getCanFdBaudrate(self) -> "PositiveUnlimitedInteger":
         """
         AUTOSAR-compliant getter for canFdBaudrate.
         
@@ -408,7 +408,7 @@ class AbstractCanCluster(ARObject, ABC):
         """
         return self.can_fd_baudrate  # Delegates to property
 
-    def setCanFdBaudrate(self, value: PositiveUnlimitedInteger) -> AbstractCanCluster:
+    def setCanFdBaudrate(self, value: "PositiveUnlimitedInteger") -> AbstractCanCluster:
         """
         AUTOSAR-compliant setter for canFdBaudrate with method chaining.
         
@@ -424,7 +424,7 @@ class AbstractCanCluster(ARObject, ABC):
         self.can_fd_baudrate = value  # Delegates to property setter
         return self
 
-    def getCanXlBaudrate(self) -> PositiveUnlimitedInteger:
+    def getCanXlBaudrate(self) -> "PositiveUnlimitedInteger":
         """
         AUTOSAR-compliant getter for canXlBaudrate.
         
@@ -436,7 +436,7 @@ class AbstractCanCluster(ARObject, ABC):
         """
         return self.can_xl_baudrate  # Delegates to property
 
-    def setCanXlBaudrate(self, value: PositiveUnlimitedInteger) -> AbstractCanCluster:
+    def setCanXlBaudrate(self, value: "PositiveUnlimitedInteger") -> AbstractCanCluster:
         """
         AUTOSAR-compliant setter for canXlBaudrate with method chaining.
         
@@ -454,7 +454,7 @@ class AbstractCanCluster(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_bus_off_recovery(self, value: Optional[CanClusterBusOff]) -> AbstractCanCluster:
+    def with_bus_off_recovery(self, value: Optional["CanClusterBusOff"]) -> AbstractCanCluster:
         """
         Set busOffRecovery and return self for chaining.
         
@@ -470,7 +470,7 @@ class AbstractCanCluster(ARObject, ABC):
         self.bus_off_recovery = value  # Use property setter (gets validation)
         return self
 
-    def with_can_fd_baudrate(self, value: Optional[PositiveUnlimitedInteger]) -> AbstractCanCluster:
+    def with_can_fd_baudrate(self, value: Optional["PositiveUnlimitedInteger"]) -> AbstractCanCluster:
         """
         Set canFdBaudrate and return self for chaining.
         
@@ -486,7 +486,7 @@ class AbstractCanCluster(ARObject, ABC):
         self.can_fd_baudrate = value  # Use property setter (gets validation)
         return self
 
-    def with_can_xl_baudrate(self, value: Optional[PositiveUnlimitedInteger]) -> AbstractCanCluster:
+    def with_can_xl_baudrate(self, value: Optional["PositiveUnlimitedInteger"]) -> AbstractCanCluster:
         """
         Set canXlBaudrate and return self for chaining.
         
@@ -570,15 +570,15 @@ class CanClusterBusOffRecovery(ARObject):
         # This attribute defines the duration of the bus-off recovery level 1 (short
                 # recovery time) in seconds.
         # 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11.
-        self._borTimeL1: Optional[TimeValue] = None
+        self._borTimeL1: Optional["TimeValue"] = None
 
     @property
-    def bor_time_l1(self) -> Optional[TimeValue]:
+    def bor_time_l1(self) -> Optional["TimeValue"]:
         """Get borTimeL1 (Pythonic accessor)."""
         return self._borTimeL1
 
     @bor_time_l1.setter
-    def bor_time_l1(self, value: Optional[TimeValue]) -> None:
+    def bor_time_l1(self, value: Optional["TimeValue"]) -> None:
         """
         Set borTimeL1 with validation.
         
@@ -599,15 +599,15 @@ class CanClusterBusOffRecovery(ARObject):
         self._borTimeL1 = value
         # This attribute defines the duration of the bus-off recovery level 2 (long
         # recovery time) in seconds.
-        self._borTimeL2: Optional[TimeValue] = None
+        self._borTimeL2: Optional["TimeValue"] = None
 
     @property
-    def bor_time_l2(self) -> Optional[TimeValue]:
+    def bor_time_l2(self) -> Optional["TimeValue"]:
         """Get borTimeL2 (Pythonic accessor)."""
         return self._borTimeL2
 
     @bor_time_l2.setter
-    def bor_time_l2(self, value: Optional[TimeValue]) -> None:
+    def bor_time_l2(self, value: Optional["TimeValue"]) -> None:
         """
         Set borTimeL2 with validation.
         
@@ -627,15 +627,15 @@ class CanClusterBusOffRecovery(ARObject):
             )
         self._borTimeL2 = value
         # This attribute defines the duration of the bus-off event in seconds.
-        self._borTimeTx: Optional[TimeValue] = None
+        self._borTimeTx: Optional["TimeValue"] = None
 
     @property
-    def bor_time_tx(self) -> Optional[TimeValue]:
+    def bor_time_tx(self) -> Optional["TimeValue"]:
         """Get borTimeTx (Pythonic accessor)."""
         return self._borTimeTx
 
     @bor_time_tx.setter
-    def bor_time_tx(self, value: Optional[TimeValue]) -> None:
+    def bor_time_tx(self, value: Optional["TimeValue"]) -> None:
         """
         Set borTimeTx with validation.
         
@@ -654,15 +654,15 @@ class CanClusterBusOffRecovery(ARObject):
                 f"borTimeTx must be TimeValue or None, got {type(value).__name__}"
             )
         self._borTimeTx = value
-        self._mainFunction: Optional[TimeValue] = None
+        self._mainFunction: Optional["TimeValue"] = None
 
     @property
-    def main_function(self) -> Optional[TimeValue]:
+    def main_function(self) -> Optional["TimeValue"]:
         """Get mainFunction (Pythonic accessor)."""
         return self._mainFunction
 
     @main_function.setter
-    def main_function(self, value: Optional[TimeValue]) -> None:
+    def main_function(self, value: Optional["TimeValue"]) -> None:
         """
         Set mainFunction with validation.
         
@@ -712,7 +712,7 @@ class CanClusterBusOffRecovery(ARObject):
         self.bor_counter_l1_to = value  # Delegates to property setter
         return self
 
-    def getBorTimeL1(self) -> TimeValue:
+    def getBorTimeL1(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for borTimeL1.
         
@@ -724,7 +724,7 @@ class CanClusterBusOffRecovery(ARObject):
         """
         return self.bor_time_l1  # Delegates to property
 
-    def setBorTimeL1(self, value: TimeValue) -> CanClusterBusOffRecovery:
+    def setBorTimeL1(self, value: "TimeValue") -> CanClusterBusOffRecovery:
         """
         AUTOSAR-compliant setter for borTimeL1 with method chaining.
         
@@ -740,7 +740,7 @@ class CanClusterBusOffRecovery(ARObject):
         self.bor_time_l1 = value  # Delegates to property setter
         return self
 
-    def getBorTimeL2(self) -> TimeValue:
+    def getBorTimeL2(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for borTimeL2.
         
@@ -752,7 +752,7 @@ class CanClusterBusOffRecovery(ARObject):
         """
         return self.bor_time_l2  # Delegates to property
 
-    def setBorTimeL2(self, value: TimeValue) -> CanClusterBusOffRecovery:
+    def setBorTimeL2(self, value: "TimeValue") -> CanClusterBusOffRecovery:
         """
         AUTOSAR-compliant setter for borTimeL2 with method chaining.
         
@@ -768,7 +768,7 @@ class CanClusterBusOffRecovery(ARObject):
         self.bor_time_l2 = value  # Delegates to property setter
         return self
 
-    def getBorTimeTx(self) -> TimeValue:
+    def getBorTimeTx(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for borTimeTx.
         
@@ -780,7 +780,7 @@ class CanClusterBusOffRecovery(ARObject):
         """
         return self.bor_time_tx  # Delegates to property
 
-    def setBorTimeTx(self, value: TimeValue) -> CanClusterBusOffRecovery:
+    def setBorTimeTx(self, value: "TimeValue") -> CanClusterBusOffRecovery:
         """
         AUTOSAR-compliant setter for borTimeTx with method chaining.
         
@@ -796,7 +796,7 @@ class CanClusterBusOffRecovery(ARObject):
         self.bor_time_tx = value  # Delegates to property setter
         return self
 
-    def getMainFunction(self) -> TimeValue:
+    def getMainFunction(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for mainFunction.
         
@@ -808,7 +808,7 @@ class CanClusterBusOffRecovery(ARObject):
         """
         return self.main_function  # Delegates to property
 
-    def setMainFunction(self, value: TimeValue) -> CanClusterBusOffRecovery:
+    def setMainFunction(self, value: "TimeValue") -> CanClusterBusOffRecovery:
         """
         AUTOSAR-compliant setter for mainFunction with method chaining.
         
@@ -842,7 +842,7 @@ class CanClusterBusOffRecovery(ARObject):
         self.bor_counter_l1_to = value  # Use property setter (gets validation)
         return self
 
-    def with_bor_time_l1(self, value: Optional[TimeValue]) -> CanClusterBusOffRecovery:
+    def with_bor_time_l1(self, value: Optional["TimeValue"]) -> CanClusterBusOffRecovery:
         """
         Set borTimeL1 and return self for chaining.
         
@@ -858,7 +858,7 @@ class CanClusterBusOffRecovery(ARObject):
         self.bor_time_l1 = value  # Use property setter (gets validation)
         return self
 
-    def with_bor_time_l2(self, value: Optional[TimeValue]) -> CanClusterBusOffRecovery:
+    def with_bor_time_l2(self, value: Optional["TimeValue"]) -> CanClusterBusOffRecovery:
         """
         Set borTimeL2 and return self for chaining.
         
@@ -874,7 +874,7 @@ class CanClusterBusOffRecovery(ARObject):
         self.bor_time_l2 = value  # Use property setter (gets validation)
         return self
 
-    def with_bor_time_tx(self, value: Optional[TimeValue]) -> CanClusterBusOffRecovery:
+    def with_bor_time_tx(self, value: Optional["TimeValue"]) -> CanClusterBusOffRecovery:
         """
         Set borTimeTx and return self for chaining.
         
@@ -890,7 +890,7 @@ class CanClusterBusOffRecovery(ARObject):
         self.bor_time_tx = value  # Use property setter (gets validation)
         return self
 
-    def with_main_function(self, value: Optional[TimeValue]) -> CanClusterBusOffRecovery:
+    def with_main_function(self, value: Optional["TimeValue"]) -> CanClusterBusOffRecovery:
         """
         Set mainFunction and return self for chaining.
         
@@ -1046,15 +1046,15 @@ class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
                 # controller.
         # If this element exists controller supports CanFD frames and the ECU take
                 # these ranges as requirements for the the CanFD controller.
-        self._canControllerFd: Optional[CanControllerFd] = None
+        self._canControllerFd: Optional["CanControllerFd"] = None
 
     @property
-    def can_controller_fd(self) -> Optional[CanControllerFd]:
+    def can_controller_fd(self) -> Optional["CanControllerFd"]:
         """Get canControllerFd (Pythonic accessor)."""
         return self._canControllerFd
 
     @can_controller_fd.setter
-    def can_controller_fd(self, value: Optional[CanControllerFd]) -> None:
+    def can_controller_fd(self, value: Optional["CanControllerFd"]) -> None:
         """
         Set canControllerFd with validation.
         
@@ -1076,15 +1076,15 @@ class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
                 # controller.
         # If this element exists controller supports CanXL frames and the ECU take
                 # these ranges as requirements for the the CanXL controller.
-        self._canControllerXl: Optional[CanControllerXl] = None
+        self._canControllerXl: Optional["CanControllerXl"] = None
 
     @property
-    def can_controller_xl(self) -> Optional[CanControllerXl]:
+    def can_controller_xl(self) -> Optional["CanControllerXl"]:
         """Get canControllerXl (Pythonic accessor)."""
         return self._canControllerXl
 
     @can_controller_xl.setter
-    def can_controller_xl(self, value: Optional[CanControllerXl]) -> None:
+    def can_controller_xl(self, value: Optional["CanControllerXl"]) -> None:
         """
         Set canControllerXl with validation.
         
@@ -1106,7 +1106,7 @@ class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCanControllerFd(self) -> CanControllerFd:
+    def getCanControllerFd(self) -> "CanControllerFd":
         """
         AUTOSAR-compliant getter for canControllerFd.
         
@@ -1118,7 +1118,7 @@ class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
         """
         return self.can_controller_fd  # Delegates to property
 
-    def setCanControllerFd(self, value: CanControllerFd) -> AbstractCanCommunicationControllerAttributes:
+    def setCanControllerFd(self, value: "CanControllerFd") -> AbstractCanCommunicationControllerAttributes:
         """
         AUTOSAR-compliant setter for canControllerFd with method chaining.
         
@@ -1134,7 +1134,7 @@ class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
         self.can_controller_fd = value  # Delegates to property setter
         return self
 
-    def getCanControllerXl(self) -> CanControllerXl:
+    def getCanControllerXl(self) -> "CanControllerXl":
         """
         AUTOSAR-compliant getter for canControllerXl.
         
@@ -1146,7 +1146,7 @@ class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
         """
         return self.can_controller_xl  # Delegates to property
 
-    def setCanControllerXl(self, value: CanControllerXl) -> AbstractCanCommunicationControllerAttributes:
+    def setCanControllerXl(self, value: "CanControllerXl") -> AbstractCanCommunicationControllerAttributes:
         """
         AUTOSAR-compliant setter for canControllerXl with method chaining.
         
@@ -1164,7 +1164,7 @@ class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_can_controller_fd(self, value: Optional[CanControllerFd]) -> AbstractCanCommunicationControllerAttributes:
+    def with_can_controller_fd(self, value: Optional["CanControllerFd"]) -> AbstractCanCommunicationControllerAttributes:
         """
         Set canControllerFd and return self for chaining.
         
@@ -1180,7 +1180,7 @@ class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
         self.can_controller_fd = value  # Use property setter (gets validation)
         return self
 
-    def with_can_controller_xl(self, value: Optional[CanControllerXl]) -> AbstractCanCommunicationControllerAttributes:
+    def with_can_controller_xl(self, value: Optional["CanControllerXl"]) -> AbstractCanCommunicationControllerAttributes:
         """
         Set canControllerXl and return self for chaining.
         
@@ -1829,15 +1829,15 @@ class CanControllerFdConfigurationRequirements(ARObject):
         self._maxSyncJump = value
         # If not specified Transceiver Delay is disabled.
         # 2090 Document ID 63: AUTOSAR_CP_TPS_SystemTemplate R23-11.
-        self._maxTrcvDelay: Optional[TimeValue] = None
+        self._maxTrcvDelay: Optional["TimeValue"] = None
 
     @property
-    def max_trcv_delay(self) -> Optional[TimeValue]:
+    def max_trcv_delay(self) -> Optional["TimeValue"]:
         """Get maxTrcvDelay (Pythonic accessor)."""
         return self._maxTrcvDelay
 
     @max_trcv_delay.setter
-    def max_trcv_delay(self, value: Optional[TimeValue]) -> None:
+    def max_trcv_delay(self, value: Optional["TimeValue"]) -> None:
         """
         Set maxTrcvDelay with validation.
         
@@ -1942,15 +1942,15 @@ class CanControllerFdConfigurationRequirements(ARObject):
             )
         self._minSyncJump = value
         # If not specified Transceiver Delay is disabled.
-        self._minTrcvDelay: Optional[TimeValue] = None
+        self._minTrcvDelay: Optional["TimeValue"] = None
 
     @property
-    def min_trcv_delay(self) -> Optional[TimeValue]:
+    def min_trcv_delay(self) -> Optional["TimeValue"]:
         """Get minTrcvDelay (Pythonic accessor)."""
         return self._minTrcvDelay
 
     @min_trcv_delay.setter
-    def min_trcv_delay(self, value: Optional[TimeValue]) -> None:
+    def min_trcv_delay(self, value: Optional["TimeValue"]) -> None:
         """
         Set minTrcvDelay with validation.
         
@@ -2113,7 +2113,7 @@ class CanControllerFdConfigurationRequirements(ARObject):
         self.max_sync_jump = value  # Delegates to property setter
         return self
 
-    def getMaxTrcvDelay(self) -> TimeValue:
+    def getMaxTrcvDelay(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for maxTrcvDelay.
         
@@ -2125,7 +2125,7 @@ class CanControllerFdConfigurationRequirements(ARObject):
         """
         return self.max_trcv_delay  # Delegates to property
 
-    def setMaxTrcvDelay(self, value: TimeValue) -> CanControllerFdConfigurationRequirements:
+    def setMaxTrcvDelay(self, value: "TimeValue") -> CanControllerFdConfigurationRequirements:
         """
         AUTOSAR-compliant setter for maxTrcvDelay with method chaining.
         
@@ -2225,7 +2225,7 @@ class CanControllerFdConfigurationRequirements(ARObject):
         self.min_sync_jump = value  # Delegates to property setter
         return self
 
-    def getMinTrcvDelay(self) -> TimeValue:
+    def getMinTrcvDelay(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for minTrcvDelay.
         
@@ -2237,7 +2237,7 @@ class CanControllerFdConfigurationRequirements(ARObject):
         """
         return self.min_trcv_delay  # Delegates to property
 
-    def setMinTrcvDelay(self, value: TimeValue) -> CanControllerFdConfigurationRequirements:
+    def setMinTrcvDelay(self, value: "TimeValue") -> CanControllerFdConfigurationRequirements:
         """
         AUTOSAR-compliant setter for minTrcvDelay with method chaining.
         
@@ -2359,7 +2359,7 @@ class CanControllerFdConfigurationRequirements(ARObject):
         self.max_sync_jump = value  # Use property setter (gets validation)
         return self
 
-    def with_max_trcv_delay(self, value: Optional[TimeValue]) -> CanControllerFdConfigurationRequirements:
+    def with_max_trcv_delay(self, value: Optional["TimeValue"]) -> CanControllerFdConfigurationRequirements:
         """
         Set maxTrcvDelay and return self for chaining.
         
@@ -2423,7 +2423,7 @@ class CanControllerFdConfigurationRequirements(ARObject):
         self.min_sync_jump = value  # Use property setter (gets validation)
         return self
 
-    def with_min_trcv_delay(self, value: Optional[TimeValue]) -> CanControllerFdConfigurationRequirements:
+    def with_min_trcv_delay(self, value: Optional["TimeValue"]) -> CanControllerFdConfigurationRequirements:
         """
         Set minTrcvDelay and return self for chaining.
         
@@ -3429,15 +3429,15 @@ class CanControllerXlConfigurationRequirements(ARObject):
             )
         self._maxSyncJump = value
         # If not specified Transceiver Delay is disabled.
-        self._maxTrcvDelay: Optional[TimeValue] = None
+        self._maxTrcvDelay: Optional["TimeValue"] = None
 
     @property
-    def max_trcv_delay(self) -> Optional[TimeValue]:
+    def max_trcv_delay(self) -> Optional["TimeValue"]:
         """Get maxTrcvDelay (Pythonic accessor)."""
         return self._maxTrcvDelay
 
     @max_trcv_delay.setter
-    def max_trcv_delay(self, value: Optional[TimeValue]) -> None:
+    def max_trcv_delay(self, value: Optional["TimeValue"]) -> None:
         """
         Set maxTrcvDelay with validation.
         
@@ -3623,15 +3623,15 @@ class CanControllerXlConfigurationRequirements(ARObject):
             )
         self._minSyncJump = value
         # If not specified Transceiver Delay is disabled.
-        self._minTrcvDelay: Optional[TimeValue] = None
+        self._minTrcvDelay: Optional["TimeValue"] = None
 
     @property
-    def min_trcv_delay(self) -> Optional[TimeValue]:
+    def min_trcv_delay(self) -> Optional["TimeValue"]:
         """Get minTrcvDelay (Pythonic accessor)."""
         return self._minTrcvDelay
 
     @min_trcv_delay.setter
-    def min_trcv_delay(self, value: Optional[TimeValue]) -> None:
+    def min_trcv_delay(self, value: Optional["TimeValue"]) -> None:
         """
         Set minTrcvDelay with validation.
         
@@ -3878,7 +3878,7 @@ class CanControllerXlConfigurationRequirements(ARObject):
         self.max_sync_jump = value  # Delegates to property setter
         return self
 
-    def getMaxTrcvDelay(self) -> TimeValue:
+    def getMaxTrcvDelay(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for maxTrcvDelay.
         
@@ -3890,7 +3890,7 @@ class CanControllerXlConfigurationRequirements(ARObject):
         """
         return self.max_trcv_delay  # Delegates to property
 
-    def setMaxTrcvDelay(self, value: TimeValue) -> CanControllerXlConfigurationRequirements:
+    def setMaxTrcvDelay(self, value: "TimeValue") -> CanControllerXlConfigurationRequirements:
         """
         AUTOSAR-compliant setter for maxTrcvDelay with method chaining.
         
@@ -4074,7 +4074,7 @@ class CanControllerXlConfigurationRequirements(ARObject):
         self.min_sync_jump = value  # Delegates to property setter
         return self
 
-    def getMinTrcvDelay(self) -> TimeValue:
+    def getMinTrcvDelay(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for minTrcvDelay.
         
@@ -4086,7 +4086,7 @@ class CanControllerXlConfigurationRequirements(ARObject):
         """
         return self.min_trcv_delay  # Delegates to property
 
-    def setMinTrcvDelay(self, value: TimeValue) -> CanControllerXlConfigurationRequirements:
+    def setMinTrcvDelay(self, value: "TimeValue") -> CanControllerXlConfigurationRequirements:
         """
         AUTOSAR-compliant setter for minTrcvDelay with method chaining.
         
@@ -4244,7 +4244,7 @@ class CanControllerXlConfigurationRequirements(ARObject):
         self.max_sync_jump = value  # Use property setter (gets validation)
         return self
 
-    def with_max_trcv_delay(self, value: Optional[TimeValue]) -> CanControllerXlConfigurationRequirements:
+    def with_max_trcv_delay(self, value: Optional["TimeValue"]) -> CanControllerXlConfigurationRequirements:
         """
         Set maxTrcvDelay and return self for chaining.
         
@@ -4356,7 +4356,7 @@ class CanControllerXlConfigurationRequirements(ARObject):
         self.min_sync_jump = value  # Use property setter (gets validation)
         return self
 
-    def with_min_trcv_delay(self, value: Optional[TimeValue]) -> CanControllerXlConfigurationRequirements:
+    def with_min_trcv_delay(self, value: Optional["TimeValue"]) -> CanControllerXlConfigurationRequirements:
         """
         Set minTrcvDelay and return self for chaining.
         
@@ -5267,15 +5267,15 @@ class CanCommunicationConnector(AbstractCanCommunicationConnector):
             )
         self._pncWakeupCan = value
         # wakeup.
-        self._pncWakeup: Optional[PositiveUnlimitedInteger] = None
+        self._pncWakeup: Optional["PositiveUnlimitedInteger"] = None
 
     @property
-    def pnc_wakeup(self) -> Optional[PositiveUnlimitedInteger]:
+    def pnc_wakeup(self) -> Optional["PositiveUnlimitedInteger"]:
         """Get pncWakeup (Pythonic accessor)."""
         return self._pncWakeup
 
     @pnc_wakeup.setter
-    def pnc_wakeup(self, value: Optional[PositiveUnlimitedInteger]) -> None:
+    def pnc_wakeup(self, value: Optional["PositiveUnlimitedInteger"]) -> None:
         """
         Set pncWakeup with validation.
         
@@ -5353,7 +5353,7 @@ class CanCommunicationConnector(AbstractCanCommunicationConnector):
         self.pnc_wakeup_can = value  # Delegates to property setter
         return self
 
-    def getPncWakeup(self) -> PositiveUnlimitedInteger:
+    def getPncWakeup(self) -> "PositiveUnlimitedInteger":
         """
         AUTOSAR-compliant getter for pncWakeup.
         
@@ -5365,7 +5365,7 @@ class CanCommunicationConnector(AbstractCanCommunicationConnector):
         """
         return self.pnc_wakeup  # Delegates to property
 
-    def setPncWakeup(self, value: PositiveUnlimitedInteger) -> CanCommunicationConnector:
+    def setPncWakeup(self, value: "PositiveUnlimitedInteger") -> CanCommunicationConnector:
         """
         AUTOSAR-compliant setter for pncWakeup with method chaining.
         
@@ -5427,7 +5427,7 @@ class CanCommunicationConnector(AbstractCanCommunicationConnector):
         self.pnc_wakeup_can = value  # Use property setter (gets validation)
         return self
 
-    def with_pnc_wakeup(self, value: Optional[PositiveUnlimitedInteger]) -> CanCommunicationConnector:
+    def with_pnc_wakeup(self, value: Optional["PositiveUnlimitedInteger"]) -> CanCommunicationConnector:
         """
         Set pncWakeup and return self for chaining.
         

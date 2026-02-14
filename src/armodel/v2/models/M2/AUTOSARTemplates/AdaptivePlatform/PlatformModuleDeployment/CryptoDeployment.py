@@ -14,6 +14,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
+    CryptoKeySlotAllowed,
+    CryptoKeySlotType,
+    CryptoObjectTypeEnum,
     PositiveInteger,
     String,
 )
@@ -296,7 +299,7 @@ class CryptoKeySlot(Identifiable):
         self.crypto_alg_id = value  # Delegates to property setter
         return self
 
-    def getCryptoObject(self) -> "CryptoObjectTypeEnum":
+    def getCryptoObject(self) -> CryptoObjectTypeEnum:
         """
         AUTOSAR-compliant getter for cryptoObject.
 
@@ -308,7 +311,7 @@ class CryptoKeySlot(Identifiable):
         """
         return self.crypto_object  # Delegates to property
 
-    def setCryptoObject(self, value: "CryptoObjectTypeEnum") -> CryptoKeySlot:
+    def setCryptoObject(self, value: CryptoObjectTypeEnum) -> CryptoKeySlot:
         """
         AUTOSAR-compliant setter for cryptoObject with method chaining.
 
@@ -324,7 +327,7 @@ class CryptoKeySlot(Identifiable):
         self.crypto_object = value  # Delegates to property setter
         return self
 
-    def getKeySlotAllowed(self) -> "CryptoKeySlotAllowed":
+    def getKeySlotAllowed(self) -> CryptoKeySlotAllowed:
         """
         AUTOSAR-compliant getter for keySlotAllowed.
 
@@ -336,7 +339,7 @@ class CryptoKeySlot(Identifiable):
         """
         return self.key_slot_allowed  # Delegates to property
 
-    def setKeySlotAllowed(self, value: "CryptoKeySlotAllowed") -> CryptoKeySlot:
+    def setKeySlotAllowed(self, value: CryptoKeySlotAllowed) -> CryptoKeySlot:
         """
         AUTOSAR-compliant setter for keySlotAllowed with method chaining.
 
@@ -392,7 +395,7 @@ class CryptoKeySlot(Identifiable):
         self.slot_capacity = value  # Delegates to property setter
         return self
 
-    def getSlotType(self) -> "CryptoKeySlotType":
+    def getSlotType(self) -> CryptoKeySlotType:
         """
         AUTOSAR-compliant getter for slotType.
 
@@ -404,7 +407,7 @@ class CryptoKeySlot(Identifiable):
         """
         return self.slot_type  # Delegates to property
 
-    def setSlotType(self, value: "CryptoKeySlotType") -> CryptoKeySlot:
+    def setSlotType(self, value: CryptoKeySlotType) -> CryptoKeySlot:
         """
         AUTOSAR-compliant setter for slotType with method chaining.
 

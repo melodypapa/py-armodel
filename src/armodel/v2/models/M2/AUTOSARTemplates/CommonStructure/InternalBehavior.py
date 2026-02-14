@@ -22,6 +22,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     PositiveInteger,
     RefType,
 )
+from armodel.v2.models.M2.MSR.DataDictionary.AuxillaryObjects import (
+    SwAddrMethod,
+)
 
 
 class InternalBehavior(Identifiable, ABC):
@@ -365,15 +368,15 @@ class ExecutableEntity(Identifiable, ABC):
         return self._exclusiveArea
         # Specifies the time in seconds by which two consecutive of an ExecutableEntity
         # are guaranteed to be.
-        self._minimumStart: Optional[TimeValue] = None
+        self._minimumStart: Optional["TimeValue"] = None
 
     @property
-    def minimum_start(self) -> Optional[TimeValue]:
+    def minimum_start(self) -> Optional["TimeValue"]:
         """Get minimumStart (Pythonic accessor)."""
         return self._minimumStart
 
     @minimum_start.setter
-    def minimum_start(self, value: Optional[TimeValue]) -> None:
+    def minimum_start(self, value: Optional["TimeValue"]) -> None:
         """
         Set minimumStart with validation.
 
@@ -499,7 +502,7 @@ class ExecutableEntity(Identifiable, ABC):
         """
         return self.exclusive_area  # Delegates to property
 
-    def getMinimumStart(self) -> TimeValue:
+    def getMinimumStart(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for minimumStart.
 
@@ -511,7 +514,7 @@ class ExecutableEntity(Identifiable, ABC):
         """
         return self.minimum_start  # Delegates to property
 
-    def setMinimumStart(self, value: TimeValue) -> ExecutableEntity:
+    def setMinimumStart(self, value: "TimeValue") -> ExecutableEntity:
         """
         AUTOSAR-compliant setter for minimumStart with method chaining.
 
@@ -567,7 +570,7 @@ class ExecutableEntity(Identifiable, ABC):
         """
         return self.runs_inside  # Delegates to property
 
-    def getSwAddrMethod(self) -> "SwAddrMethod":
+    def getSwAddrMethod(self) -> SwAddrMethod:
         """
         AUTOSAR-compliant getter for swAddrMethod.
 
@@ -579,7 +582,7 @@ class ExecutableEntity(Identifiable, ABC):
         """
         return self.sw_addr_method  # Delegates to property
 
-    def setSwAddrMethod(self, value: "SwAddrMethod") -> ExecutableEntity:
+    def setSwAddrMethod(self, value: SwAddrMethod) -> ExecutableEntity:
         """
         AUTOSAR-compliant setter for swAddrMethod with method chaining.
 
@@ -597,7 +600,7 @@ class ExecutableEntity(Identifiable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_minimum_start(self, value: Optional[TimeValue]) -> ExecutableEntity:
+    def with_minimum_start(self, value: Optional["TimeValue"]) -> ExecutableEntity:
         """
         Set minimumStart and return self for chaining.
 

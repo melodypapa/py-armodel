@@ -61,15 +61,15 @@ class DiagnosticServiceInstance(DiagnosticCommonElement, ABC):
         # This represents the collection of DiagnosticAccess Permissions that allow for
         # the execution of the referencing 719 Document ID 673:
         # AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template R23-11.
-        self._access: Optional[DiagnosticAccess] = None
+        self._access: Optional["DiagnosticAccess"] = None
 
     @property
-    def access(self) -> Optional[DiagnosticAccess]:
+    def access(self) -> Optional["DiagnosticAccess"]:
         """Get access (Pythonic accessor)."""
         return self._access
 
     @access.setter
-    def access(self, value: Optional[DiagnosticAccess]) -> None:
+    def access(self, value: Optional["DiagnosticAccess"]) -> None:
         """
         Set access with validation.
 
@@ -122,7 +122,7 @@ class DiagnosticServiceInstance(DiagnosticCommonElement, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAccess(self) -> DiagnosticAccess:
+    def getAccess(self) -> "DiagnosticAccess":
         """
         AUTOSAR-compliant getter for access.
 
@@ -134,7 +134,7 @@ class DiagnosticServiceInstance(DiagnosticCommonElement, ABC):
         """
         return self.access  # Delegates to property
 
-    def setAccess(self, value: DiagnosticAccess) -> DiagnosticServiceInstance:
+    def setAccess(self, value: "DiagnosticAccess") -> DiagnosticServiceInstance:
         """
         AUTOSAR-compliant setter for access with method chaining.
 
@@ -180,7 +180,7 @@ class DiagnosticServiceInstance(DiagnosticCommonElement, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_access(self, value: Optional[DiagnosticAccess]) -> DiagnosticServiceInstance:
+    def with_access(self, value: Optional["DiagnosticAccess"]) -> DiagnosticServiceInstance:
         """
         Set access and return self for chaining.
 

@@ -25,6 +25,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     Boolean,
+    DiagnosticIndicator,
     NameToken,
     PositiveInteger,
     RefType,
@@ -896,7 +897,7 @@ class DiagnosticConnectedIndicator(Identifiable):
         self.healing_cycle = value  # Delegates to property setter
         return self
 
-    def getIndicator(self) -> "DiagnosticIndicator":
+    def getIndicator(self) -> DiagnosticIndicator:
         """
         AUTOSAR-compliant getter for indicator.
 
@@ -908,7 +909,7 @@ class DiagnosticConnectedIndicator(Identifiable):
         """
         return self.indicator  # Delegates to property
 
-    def setIndicator(self, value: "DiagnosticIndicator") -> DiagnosticConnectedIndicator:
+    def setIndicator(self, value: DiagnosticIndicator) -> DiagnosticConnectedIndicator:
         """
         AUTOSAR-compliant setter for indicator with method chaining.
 
@@ -1344,7 +1345,7 @@ class DiagnosticIumprGroupIdentifier(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getGroupId(self) -> "NameToken":
+    def getGroupId(self) -> NameToken:
         """
         AUTOSAR-compliant getter for groupId.
 
@@ -1356,7 +1357,7 @@ class DiagnosticIumprGroupIdentifier(ARObject):
         """
         return self.group_id  # Delegates to property
 
-    def setGroupId(self, value: "NameToken") -> DiagnosticIumprGroupIdentifier:
+    def setGroupId(self, value: NameToken) -> DiagnosticIumprGroupIdentifier:
         """
         AUTOSAR-compliant setter for groupId with method chaining.
 

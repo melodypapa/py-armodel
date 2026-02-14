@@ -36,15 +36,15 @@ class DiagnosticInhibitSourceEventMapping(DiagnosticMapping):
         # This represents the reference to the diagnostic event.
         # 719 Document ID 673: AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template
                 # R23-11.
-        self._diagnosticEvent: Optional[DiagnosticEvent] = None
+        self._diagnosticEvent: Optional["DiagnosticEvent"] = None
 
     @property
-    def diagnostic_event(self) -> Optional[DiagnosticEvent]:
+    def diagnostic_event(self) -> Optional["DiagnosticEvent"]:
         """Get diagnosticEvent (Pythonic accessor)."""
         return self._diagnosticEvent
 
     @diagnostic_event.setter
-    def diagnostic_event(self, value: Optional[DiagnosticEvent]) -> None:
+    def diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> None:
         """
         Set diagnosticEvent with validation.
 
@@ -120,7 +120,7 @@ class DiagnosticInhibitSourceEventMapping(DiagnosticMapping):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDiagnosticEvent(self) -> DiagnosticEvent:
+    def getDiagnosticEvent(self) -> "DiagnosticEvent":
         """
         AUTOSAR-compliant getter for diagnosticEvent.
 
@@ -132,7 +132,7 @@ class DiagnosticInhibitSourceEventMapping(DiagnosticMapping):
         """
         return self.diagnostic_event  # Delegates to property
 
-    def setDiagnosticEvent(self, value: DiagnosticEvent) -> DiagnosticInhibitSourceEventMapping:
+    def setDiagnosticEvent(self, value: "DiagnosticEvent") -> DiagnosticInhibitSourceEventMapping:
         """
         AUTOSAR-compliant setter for diagnosticEvent with method chaining.
 
@@ -206,7 +206,7 @@ class DiagnosticInhibitSourceEventMapping(DiagnosticMapping):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_diagnostic_event(self, value: Optional[DiagnosticEvent]) -> DiagnosticInhibitSourceEventMapping:
+    def with_diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> DiagnosticInhibitSourceEventMapping:
         """
         Set diagnosticEvent and return self for chaining.
 

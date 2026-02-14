@@ -6,8 +6,6 @@ Package: M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ArObjec
 Manually maintained: Extended attributes support (CODING_RULE_V2_00014)
 """
 
-from __future__ import annotations
-
 from abc import ABC
 from typing import Any, Dict, Optional
 
@@ -73,12 +71,12 @@ class ARObject(ABC):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
 
     @property
-    def checksum(self) -> Optional[String]:
+    def checksum(self) -> Optional["String"]:
         """Get checksum (Pythonic accessor)."""
         return self._checksum
 
     @checksum.setter
-    def checksum(self, value: Optional[String]) -> None:
+    def checksum(self, value: Optional["String"]) -> None:
         """
         Set checksum with validation.
 
@@ -120,7 +118,7 @@ class ARObject(ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getChecksum(self) -> String:
+    def getChecksum(self) -> "String":
         """
         AUTOSAR-compliant getter for checksum.
 
@@ -132,7 +130,7 @@ class ARObject(ABC):
         """
         return self.checksum  # Delegates to property
 
-    def setChecksum(self, value: String) -> ARObject:
+    def setChecksum(self, value: "String") -> "ARObject":
         """
         AUTOSAR-compliant setter for checksum with method chaining.
 
@@ -160,7 +158,7 @@ class ARObject(ABC):
         """
         return self.timestamp  # Delegates to property
 
-    def setTimestamp(self, value: "DateTime") -> ARObject:
+    def setTimestamp(self, value: "DateTime") -> "ARObject":
         """
         AUTOSAR-compliant setter for timestamp with method chaining.
 
@@ -178,7 +176,7 @@ class ARObject(ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_checksum(self, value: Optional[String]) -> ARObject:
+    def with_checksum(self, value: Optional["String"]) -> "ARObject":
         """
         Set checksum and return self for chaining.
 
@@ -194,7 +192,7 @@ class ARObject(ABC):
         self.checksum = value  # Use property setter (gets validation)
         return self
 
-    def with_timestamp(self, value: Optional["DateTime"]) -> ARObject:
+    def with_timestamp(self, value: Optional["DateTime"]) -> "ARObject":
         """
         Set timestamp and return self for chaining.
 

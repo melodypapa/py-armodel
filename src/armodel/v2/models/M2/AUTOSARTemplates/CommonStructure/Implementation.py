@@ -47,15 +47,15 @@ class ImplementationProps(Referrable, ABC):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The symbol to be used as (depending on the concrete a complete replacement or
         # a prefix.
-        self._symbol: Optional[CIdentifier] = None
+        self._symbol: Optional["CIdentifier"] = None
 
     @property
-    def symbol(self) -> Optional[CIdentifier]:
+    def symbol(self) -> Optional["CIdentifier"]:
         """Get symbol (Pythonic accessor)."""
         return self._symbol
 
     @symbol.setter
-    def symbol(self, value: Optional[CIdentifier]) -> None:
+    def symbol(self, value: Optional["CIdentifier"]) -> None:
         """
         Set symbol with validation.
 
@@ -221,7 +221,7 @@ class ImplementationProps(Referrable, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getSymbol(self) -> CIdentifier:
+    def getSymbol(self) -> "CIdentifier":
         """
         AUTOSAR-compliant getter for symbol.
 
@@ -233,7 +233,7 @@ class ImplementationProps(Referrable, ABC):
         """
         return self.symbol  # Delegates to property
 
-    def setSymbol(self, value: CIdentifier) -> ImplementationProps:
+    def setSymbol(self, value: "CIdentifier") -> ImplementationProps:
         """
         AUTOSAR-compliant setter for symbol with method chaining.
 
@@ -251,7 +251,7 @@ class ImplementationProps(Referrable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_symbol(self, value: Optional[CIdentifier]) -> ImplementationProps:
+    def with_symbol(self, value: Optional["CIdentifier"]) -> ImplementationProps:
         """
         Set symbol and return self for chaining.
 
@@ -293,15 +293,15 @@ class Implementation(ARElement, ABC):
         # A manifest specifying the intended build actions for the delivered with this
                 # implementation.
         # atpVariation.
-        self._buildAction: Optional[BuildActionManifest] = None
+        self._buildAction: Optional["BuildActionManifest"] = None
 
     @property
-    def build_action(self) -> Optional[BuildActionManifest]:
+    def build_action(self) -> Optional["BuildActionManifest"]:
         """Get buildAction (Pythonic accessor)."""
         return self._buildAction
 
     @build_action.setter
-    def build_action(self, value: Optional[BuildActionManifest]) -> None:
+    def build_action(self, value: Optional["BuildActionManifest"]) -> None:
         """
         Set buildAction with validation.
 
@@ -583,7 +583,7 @@ class Implementation(ARElement, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBuildAction(self) -> BuildActionManifest:
+    def getBuildAction(self) -> "BuildActionManifest":
         """
         AUTOSAR-compliant getter for buildAction.
 
@@ -595,7 +595,7 @@ class Implementation(ARElement, ABC):
         """
         return self.build_action  # Delegates to property
 
-    def setBuildAction(self, value: BuildActionManifest) -> Implementation:
+    def setBuildAction(self, value: "BuildActionManifest") -> Implementation:
         """
         AUTOSAR-compliant setter for buildAction with method chaining.
 
@@ -893,7 +893,7 @@ class Implementation(ARElement, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_build_action(self, value: Optional[BuildActionManifest]) -> Implementation:
+    def with_build_action(self, value: Optional["BuildActionManifest"]) -> Implementation:
         """
         Set buildAction and return self for chaining.
 
@@ -1105,15 +1105,15 @@ class DependencyOnArtifact(Identifiable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The specified artifact needs to exist.
-        self._artifact: Optional[AutosarEngineeringObject] = None
+        self._artifact: Optional["AutosarEngineeringObject"] = None
 
     @property
-    def artifact(self) -> Optional[AutosarEngineeringObject]:
+    def artifact(self) -> Optional["AutosarEngineeringObject"]:
         """Get artifact (Pythonic accessor)."""
         return self._artifact
 
     @artifact.setter
-    def artifact(self, value: Optional[AutosarEngineeringObject]) -> None:
+    def artifact(self, value: Optional["AutosarEngineeringObject"]) -> None:
         """
         Set artifact with validation.
 
@@ -1141,7 +1141,7 @@ class DependencyOnArtifact(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getArtifact(self) -> AutosarEngineeringObject:
+    def getArtifact(self) -> "AutosarEngineeringObject":
         """
         AUTOSAR-compliant getter for artifact.
 
@@ -1153,7 +1153,7 @@ class DependencyOnArtifact(Identifiable):
         """
         return self.artifact  # Delegates to property
 
-    def setArtifact(self, value: AutosarEngineeringObject) -> DependencyOnArtifact:
+    def setArtifact(self, value: "AutosarEngineeringObject") -> DependencyOnArtifact:
         """
         AUTOSAR-compliant setter for artifact with method chaining.
 
@@ -1183,7 +1183,7 @@ class DependencyOnArtifact(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_artifact(self, value: Optional[AutosarEngineeringObject]) -> DependencyOnArtifact:
+    def with_artifact(self, value: Optional["AutosarEngineeringObject"]) -> DependencyOnArtifact:
         """
         Set artifact and return self for chaining.
 

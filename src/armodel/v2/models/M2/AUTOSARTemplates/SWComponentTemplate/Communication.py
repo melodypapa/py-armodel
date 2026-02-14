@@ -512,7 +512,7 @@ class TransmissionComSpecProps(ARObject):
         self.minimum_send = value  # Delegates to property setter
         return self
 
-    def getTransmission(self) -> "TransmissionMode":
+    def getTransmission(self) -> TransmissionMode:
         """
         AUTOSAR-compliant getter for transmission.
 
@@ -524,7 +524,7 @@ class TransmissionComSpecProps(ARObject):
         """
         return self.transmission  # Delegates to property
 
-    def setTransmission(self, value: "TransmissionMode") -> TransmissionComSpecProps:
+    def setTransmission(self, value: TransmissionMode) -> TransmissionComSpecProps:
         """
         AUTOSAR-compliant setter for transmission with method chaining.
 
@@ -1180,7 +1180,7 @@ class SenderComSpec(PPortComSpec, ABC):
         self.data_element = value  # Delegates to property setter
         return self
 
-    def getHandleOutOf(self) -> "HandleOutOfRange":
+    def getHandleOutOf(self) -> HandleOutOfRange:
         """
         AUTOSAR-compliant getter for handleOutOf.
 
@@ -1192,7 +1192,7 @@ class SenderComSpec(PPortComSpec, ABC):
         """
         return self.handle_out_of  # Delegates to property
 
-    def setHandleOutOf(self, value: "HandleOutOfRange") -> SenderComSpec:
+    def setHandleOutOf(self, value: HandleOutOfRange) -> SenderComSpec:
         """
         AUTOSAR-compliant setter for handleOutOf with method chaining.
 
@@ -1236,7 +1236,7 @@ class SenderComSpec(PPortComSpec, ABC):
         self.network = value  # Delegates to property setter
         return self
 
-    def getTransmission(self) -> "TransmissionComSpec":
+    def getTransmission(self) -> TransmissionComSpec:
         """
         AUTOSAR-compliant getter for transmission.
 
@@ -1248,7 +1248,7 @@ class SenderComSpec(PPortComSpec, ABC):
         """
         return self.transmission  # Delegates to property
 
-    def setTransmission(self, value: "TransmissionComSpec") -> SenderComSpec:
+    def setTransmission(self, value: TransmissionComSpec) -> SenderComSpec:
         """
         AUTOSAR-compliant setter for transmission with method chaining.
 
@@ -1752,7 +1752,7 @@ class ModeSwitchSenderComSpec(PPortComSpec):
         self.mode_group = value  # Delegates to property setter
         return self
 
-    def getModeSwitched(self) -> "ModeSwitchedAck":
+    def getModeSwitched(self) -> ModeSwitchedAck:
         """
         AUTOSAR-compliant getter for modeSwitched.
 
@@ -1764,7 +1764,7 @@ class ModeSwitchSenderComSpec(PPortComSpec):
         """
         return self.mode_switched  # Delegates to property
 
-    def setModeSwitched(self, value: "ModeSwitchedAck") -> ModeSwitchSenderComSpec:
+    def setModeSwitched(self, value: ModeSwitchedAck) -> ModeSwitchSenderComSpec:
         """
         AUTOSAR-compliant setter for modeSwitched with method chaining.
 
@@ -1949,7 +1949,7 @@ class ParameterProvideComSpec(PPortComSpec):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getInitValue(self) -> "ValueSpecification":
+    def getInitValue(self) -> ValueSpecification:
         """
         AUTOSAR-compliant getter for initValue.
 
@@ -1961,7 +1961,7 @@ class ParameterProvideComSpec(PPortComSpec):
         """
         return self.init_value  # Delegates to property
 
-    def setInitValue(self, value: "ValueSpecification") -> ParameterProvideComSpec:
+    def setInitValue(self, value: ValueSpecification) -> ParameterProvideComSpec:
         """
         AUTOSAR-compliant setter for initValue with method chaining.
 
@@ -1977,7 +1977,7 @@ class ParameterProvideComSpec(PPortComSpec):
         self.init_value = value  # Delegates to property setter
         return self
 
-    def getParameter(self) -> "ParameterData":
+    def getParameter(self) -> ParameterData:
         """
         AUTOSAR-compliant getter for parameter.
 
@@ -1989,7 +1989,7 @@ class ParameterProvideComSpec(PPortComSpec):
         """
         return self.parameter  # Delegates to property
 
-    def setParameter(self, value: "ParameterData") -> ParameterProvideComSpec:
+    def setParameter(self, value: ParameterData) -> ParameterProvideComSpec:
         """
         AUTOSAR-compliant setter for parameter with method chaining.
 
@@ -2139,7 +2139,7 @@ class NvProvideComSpec(PPortComSpec):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getRamBlockInit(self) -> "ValueSpecification":
+    def getRamBlockInit(self) -> ValueSpecification:
         """
         AUTOSAR-compliant getter for ramBlockInit.
 
@@ -2151,7 +2151,7 @@ class NvProvideComSpec(PPortComSpec):
         """
         return self.ram_block_init  # Delegates to property
 
-    def setRamBlockInit(self, value: "ValueSpecification") -> NvProvideComSpec:
+    def setRamBlockInit(self, value: ValueSpecification) -> NvProvideComSpec:
         """
         AUTOSAR-compliant setter for ramBlockInit with method chaining.
 
@@ -2167,7 +2167,7 @@ class NvProvideComSpec(PPortComSpec):
         self.ram_block_init = value  # Delegates to property setter
         return self
 
-    def getRomBlockInit(self) -> "ValueSpecification":
+    def getRomBlockInit(self) -> ValueSpecification:
         """
         AUTOSAR-compliant getter for romBlockInit.
 
@@ -2179,7 +2179,7 @@ class NvProvideComSpec(PPortComSpec):
         """
         return self.rom_block_init  # Delegates to property
 
-    def setRomBlockInit(self, value: "ValueSpecification") -> NvProvideComSpec:
+    def setRomBlockInit(self, value: ValueSpecification) -> NvProvideComSpec:
         """
         AUTOSAR-compliant setter for romBlockInit with method chaining.
 
@@ -2524,7 +2524,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
         self.data_element = value  # Delegates to property setter
         return self
 
-    def getHandleOutOf(self) -> "HandleOutOfRange":
+    def getHandleOutOf(self) -> HandleOutOfRange:
         """
         AUTOSAR-compliant getter for handleOutOf.
 
@@ -2536,7 +2536,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
         """
         return self.handle_out_of  # Delegates to property
 
-    def setHandleOutOf(self, value: "HandleOutOfRange") -> ReceiverComSpec:
+    def setHandleOutOf(self, value: HandleOutOfRange) -> ReceiverComSpec:
         """
         AUTOSAR-compliant setter for handleOutOf with method chaining.
 
@@ -3230,7 +3230,7 @@ class ParameterRequireComSpec(RPortComSpec):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getInitValue(self) -> "ValueSpecification":
+    def getInitValue(self) -> ValueSpecification:
         """
         AUTOSAR-compliant getter for initValue.
 
@@ -3242,7 +3242,7 @@ class ParameterRequireComSpec(RPortComSpec):
         """
         return self.init_value  # Delegates to property
 
-    def setInitValue(self, value: "ValueSpecification") -> ParameterRequireComSpec:
+    def setInitValue(self, value: ValueSpecification) -> ParameterRequireComSpec:
         """
         AUTOSAR-compliant setter for initValue with method chaining.
 
@@ -3258,7 +3258,7 @@ class ParameterRequireComSpec(RPortComSpec):
         self.init_value = value  # Delegates to property setter
         return self
 
-    def getParameter(self) -> "ParameterData":
+    def getParameter(self) -> ParameterData:
         """
         AUTOSAR-compliant getter for parameter.
 
@@ -3270,7 +3270,7 @@ class ParameterRequireComSpec(RPortComSpec):
         """
         return self.parameter  # Delegates to property
 
-    def setParameter(self, value: "ParameterData") -> ParameterRequireComSpec:
+    def setParameter(self, value: ParameterData) -> ParameterRequireComSpec:
         """
         AUTOSAR-compliant setter for parameter with method chaining.
 
@@ -3391,7 +3391,7 @@ class NvRequireComSpec(RPortComSpec):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getInitValue(self) -> "ValueSpecification":
+    def getInitValue(self) -> ValueSpecification:
         """
         AUTOSAR-compliant getter for initValue.
 
@@ -3403,7 +3403,7 @@ class NvRequireComSpec(RPortComSpec):
         """
         return self.init_value  # Delegates to property
 
-    def setInitValue(self, value: "ValueSpecification") -> NvRequireComSpec:
+    def setInitValue(self, value: ValueSpecification) -> NvRequireComSpec:
         """
         AUTOSAR-compliant setter for initValue with method chaining.
 
@@ -3602,7 +3602,7 @@ class NonqueuedSenderComSpec(SenderComSpec):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDataFilter(self) -> "DataFilter":
+    def getDataFilter(self) -> DataFilter:
         """
         AUTOSAR-compliant getter for dataFilter.
 
@@ -3614,7 +3614,7 @@ class NonqueuedSenderComSpec(SenderComSpec):
         """
         return self.data_filter  # Delegates to property
 
-    def setDataFilter(self, value: "DataFilter") -> NonqueuedSenderComSpec:
+    def setDataFilter(self, value: DataFilter) -> NonqueuedSenderComSpec:
         """
         AUTOSAR-compliant setter for dataFilter with method chaining.
 
@@ -3630,7 +3630,7 @@ class NonqueuedSenderComSpec(SenderComSpec):
         self.data_filter = value  # Delegates to property setter
         return self
 
-    def getInitValue(self) -> "ValueSpecification":
+    def getInitValue(self) -> ValueSpecification:
         """
         AUTOSAR-compliant getter for initValue.
 
@@ -3642,7 +3642,7 @@ class NonqueuedSenderComSpec(SenderComSpec):
         """
         return self.init_value  # Delegates to property
 
-    def setInitValue(self, value: "ValueSpecification") -> NonqueuedSenderComSpec:
+    def setInitValue(self, value: ValueSpecification) -> NonqueuedSenderComSpec:
         """
         AUTOSAR-compliant setter for initValue with method chaining.
 
@@ -3998,7 +3998,7 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
         self.enable_update = value  # Delegates to property setter
         return self
 
-    def getFilter(self) -> "DataFilter":
+    def getFilter(self) -> DataFilter:
         """
         AUTOSAR-compliant getter for filter.
 
@@ -4010,7 +4010,7 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
         """
         return self.filter  # Delegates to property
 
-    def setFilter(self, value: "DataFilter") -> NonqueuedReceiverComSpec:
+    def setFilter(self, value: DataFilter) -> NonqueuedReceiverComSpec:
         """
         AUTOSAR-compliant setter for filter with method chaining.
 
@@ -4110,7 +4110,7 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
         self.handle_timeout = value  # Delegates to property setter
         return self
 
-    def getInitValue(self) -> "ValueSpecification":
+    def getInitValue(self) -> ValueSpecification:
         """
         AUTOSAR-compliant getter for initValue.
 
@@ -4122,7 +4122,7 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
         """
         return self.init_value  # Delegates to property
 
-    def setInitValue(self, value: "ValueSpecification") -> NonqueuedReceiverComSpec:
+    def setInitValue(self, value: ValueSpecification) -> NonqueuedReceiverComSpec:
         """
         AUTOSAR-compliant setter for initValue with method chaining.
 
@@ -4138,7 +4138,7 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
         self.init_value = value  # Delegates to property setter
         return self
 
-    def getTimeout(self) -> "ValueSpecification":
+    def getTimeout(self) -> ValueSpecification:
         """
         AUTOSAR-compliant getter for timeout.
 
@@ -4150,7 +4150,7 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
         """
         return self.timeout  # Delegates to property
 
-    def setTimeout(self, value: "ValueSpecification") -> NonqueuedReceiverComSpec:
+    def setTimeout(self, value: ValueSpecification) -> NonqueuedReceiverComSpec:
         """
         AUTOSAR-compliant setter for timeout with method chaining.
 

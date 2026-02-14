@@ -17,7 +17,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     Identifiable,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ModeActivationKind,
+    ModeSwitchPoint,
     RefType,
+    VariableAccess,
 )
 
 
@@ -49,15 +52,15 @@ class RTEEvent(AbstractEvent, ABC):
         """Get disabledModeInstanceRef (Pythonic accessor)."""
         return self._disabledModeInstanceRef
         # The referenced RunnableEntity starts when the is raised.
-        self._startOnEvent: Optional[RunnableEntity] = None
+        self._startOnEvent: Optional["RunnableEntity"] = None
 
     @property
-    def start_on_event(self) -> Optional[RunnableEntity]:
+    def start_on_event(self) -> Optional["RunnableEntity"]:
         """Get startOnEvent (Pythonic accessor)."""
         return self._startOnEvent
 
     @start_on_event.setter
-    def start_on_event(self, value: Optional[RunnableEntity]) -> None:
+    def start_on_event(self, value: Optional["RunnableEntity"]) -> None:
         """
         Set startOnEvent with validation.
 
@@ -107,7 +110,7 @@ class RTEEvent(AbstractEvent, ABC):
         """
         return self.disabled_mode_instance_ref  # Delegates to property
 
-    def getStartOnEvent(self) -> RunnableEntity:
+    def getStartOnEvent(self) -> "RunnableEntity":
         """
         AUTOSAR-compliant getter for startOnEvent.
 
@@ -119,7 +122,7 @@ class RTEEvent(AbstractEvent, ABC):
         """
         return self.start_on_event  # Delegates to property
 
-    def setStartOnEvent(self, value: RunnableEntity) -> RTEEvent:
+    def setStartOnEvent(self, value: "RunnableEntity") -> RTEEvent:
         """
         AUTOSAR-compliant setter for startOnEvent with method chaining.
 
@@ -137,7 +140,7 @@ class RTEEvent(AbstractEvent, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_start_on_event(self, value: Optional[RunnableEntity]) -> RTEEvent:
+    def with_start_on_event(self, value: Optional["RunnableEntity"]) -> RTEEvent:
         """
         Set startOnEvent and return self for chaining.
 
@@ -171,15 +174,15 @@ class WaitPoint(Identifiable):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Time in seconds before the WaitPoint times out and the call returns with an
         # error indicating the.
-        self._timeout: Optional[TimeValue] = None
+        self._timeout: Optional["TimeValue"] = None
 
     @property
-    def timeout(self) -> Optional[TimeValue]:
+    def timeout(self) -> Optional["TimeValue"]:
         """Get timeout (Pythonic accessor)."""
         return self._timeout
 
     @timeout.setter
-    def timeout(self, value: Optional[TimeValue]) -> None:
+    def timeout(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeout with validation.
 
@@ -228,7 +231,7 @@ class WaitPoint(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTimeout(self) -> TimeValue:
+    def getTimeout(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeout.
 
@@ -240,7 +243,7 @@ class WaitPoint(Identifiable):
         """
         return self.timeout  # Delegates to property
 
-    def setTimeout(self, value: TimeValue) -> WaitPoint:
+    def setTimeout(self, value: "TimeValue") -> WaitPoint:
         """
         AUTOSAR-compliant setter for timeout with method chaining.
 
@@ -286,7 +289,7 @@ class WaitPoint(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_timeout(self, value: Optional[TimeValue]) -> WaitPoint:
+    def with_timeout(self, value: Optional["TimeValue"]) -> WaitPoint:
         """
         Set timeout and return self for chaining.
 
@@ -338,15 +341,15 @@ class OperationInvokedEvent(RTEEvent):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # by: POperationInAtomicSwc.
-        self._operationInstanceRef: Optional[ClientServerOperation] = None
+        self._operationInstanceRef: Optional["ClientServerOperation"] = None
 
     @property
-    def operation_instance_ref(self) -> Optional[ClientServerOperation]:
+    def operation_instance_ref(self) -> Optional["ClientServerOperation"]:
         """Get operationInstanceRef (Pythonic accessor)."""
         return self._operationInstanceRef
 
     @operation_instance_ref.setter
-    def operation_instance_ref(self, value: Optional[ClientServerOperation]) -> None:
+    def operation_instance_ref(self, value: Optional["ClientServerOperation"]) -> None:
         """
         Set operationInstanceRef with validation.
 
@@ -368,7 +371,7 @@ class OperationInvokedEvent(RTEEvent):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getOperationInstanceRef(self) -> ClientServerOperation:
+    def getOperationInstanceRef(self) -> "ClientServerOperation":
         """
         AUTOSAR-compliant getter for operationInstanceRef.
 
@@ -380,7 +383,7 @@ class OperationInvokedEvent(RTEEvent):
         """
         return self.operation_instance_ref  # Delegates to property
 
-    def setOperationInstanceRef(self, value: ClientServerOperation) -> OperationInvokedEvent:
+    def setOperationInstanceRef(self, value: "ClientServerOperation") -> OperationInvokedEvent:
         """
         AUTOSAR-compliant setter for operationInstanceRef with method chaining.
 
@@ -398,7 +401,7 @@ class OperationInvokedEvent(RTEEvent):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_operation_instance_ref(self, value: Optional[ClientServerOperation]) -> OperationInvokedEvent:
+    def with_operation_instance_ref(self, value: Optional["ClientServerOperation"]) -> OperationInvokedEvent:
         """
         Set operationInstanceRef and return self for chaining.
 
@@ -436,15 +439,15 @@ class TimingEvent(RTEEvent):
                 # RunnableEntity triggered by the relative to the periodic activation of base
                 # of this TimingEvent.
         # Unit: second.
-        self._offset: Optional[TimeValue] = None
+        self._offset: Optional["TimeValue"] = None
 
     @property
-    def offset(self) -> Optional[TimeValue]:
+    def offset(self) -> Optional["TimeValue"]:
         """Get offset (Pythonic accessor)."""
         return self._offset
 
     @offset.setter
-    def offset(self, value: Optional[TimeValue]) -> None:
+    def offset(self, value: Optional["TimeValue"]) -> None:
         """
         Set offset with validation.
 
@@ -464,15 +467,15 @@ class TimingEvent(RTEEvent):
             )
         self._offset = value
         # The value of this be greater than zero.
-        self._period: Optional[TimeValue] = None
+        self._period: Optional["TimeValue"] = None
 
     @property
-    def period(self) -> Optional[TimeValue]:
+    def period(self) -> Optional["TimeValue"]:
         """Get period (Pythonic accessor)."""
         return self._period
 
     @period.setter
-    def period(self, value: Optional[TimeValue]) -> None:
+    def period(self, value: Optional["TimeValue"]) -> None:
         """
         Set period with validation.
 
@@ -494,7 +497,7 @@ class TimingEvent(RTEEvent):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getOffset(self) -> TimeValue:
+    def getOffset(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for offset.
 
@@ -506,7 +509,7 @@ class TimingEvent(RTEEvent):
         """
         return self.offset  # Delegates to property
 
-    def setOffset(self, value: TimeValue) -> TimingEvent:
+    def setOffset(self, value: "TimeValue") -> TimingEvent:
         """
         AUTOSAR-compliant setter for offset with method chaining.
 
@@ -522,7 +525,7 @@ class TimingEvent(RTEEvent):
         self.offset = value  # Delegates to property setter
         return self
 
-    def getPeriod(self) -> TimeValue:
+    def getPeriod(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for period.
 
@@ -534,7 +537,7 @@ class TimingEvent(RTEEvent):
         """
         return self.period  # Delegates to property
 
-    def setPeriod(self, value: TimeValue) -> TimingEvent:
+    def setPeriod(self, value: "TimeValue") -> TimingEvent:
         """
         AUTOSAR-compliant setter for period with method chaining.
 
@@ -552,7 +555,7 @@ class TimingEvent(RTEEvent):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_offset(self, value: Optional[TimeValue]) -> TimingEvent:
+    def with_offset(self, value: Optional["TimeValue"]) -> TimingEvent:
         """
         Set offset and return self for chaining.
 
@@ -568,7 +571,7 @@ class TimingEvent(RTEEvent):
         self.offset = value  # Use property setter (gets validation)
         return self
 
-    def with_period(self, value: Optional[TimeValue]) -> TimingEvent:
+    def with_period(self, value: Optional["TimeValue"]) -> TimingEvent:
         """
         Set period and return self for chaining.
 
@@ -602,15 +605,15 @@ class AsynchronousServerCallReturnsEvent(RTEEvent):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The referenced AsynchronousServerCallResultPoint this
         # AsynchronousServerCallReturnsEvent when server call returns.
-        self._eventSource: Optional[AsynchronousServer] = None
+        self._eventSource: Optional["AsynchronousServer"] = None
 
     @property
-    def event_source(self) -> Optional[AsynchronousServer]:
+    def event_source(self) -> Optional["AsynchronousServer"]:
         """Get eventSource (Pythonic accessor)."""
         return self._eventSource
 
     @event_source.setter
-    def event_source(self, value: Optional[AsynchronousServer]) -> None:
+    def event_source(self, value: Optional["AsynchronousServer"]) -> None:
         """
         Set eventSource with validation.
 
@@ -632,7 +635,7 @@ class AsynchronousServerCallReturnsEvent(RTEEvent):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getEventSource(self) -> AsynchronousServer:
+    def getEventSource(self) -> "AsynchronousServer":
         """
         AUTOSAR-compliant getter for eventSource.
 
@@ -644,7 +647,7 @@ class AsynchronousServerCallReturnsEvent(RTEEvent):
         """
         return self.event_source  # Delegates to property
 
-    def setEventSource(self, value: AsynchronousServer) -> AsynchronousServerCallReturnsEvent:
+    def setEventSource(self, value: "AsynchronousServer") -> AsynchronousServerCallReturnsEvent:
         """
         AUTOSAR-compliant setter for eventSource with method chaining.
 
@@ -662,7 +665,7 @@ class AsynchronousServerCallReturnsEvent(RTEEvent):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_event_source(self, value: Optional[AsynchronousServer]) -> AsynchronousServerCallReturnsEvent:
+    def with_event_source(self, value: Optional["AsynchronousServer"]) -> AsynchronousServerCallReturnsEvent:
         """
         Set eventSource and return self for chaining.
 
@@ -727,7 +730,7 @@ class DataSendCompletedEvent(RTEEvent):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getEventSource(self) -> "VariableAccess":
+    def getEventSource(self) -> VariableAccess:
         """
         AUTOSAR-compliant getter for eventSource.
 
@@ -739,7 +742,7 @@ class DataSendCompletedEvent(RTEEvent):
         """
         return self.event_source  # Delegates to property
 
-    def setEventSource(self, value: "VariableAccess") -> DataSendCompletedEvent:
+    def setEventSource(self, value: VariableAccess) -> DataSendCompletedEvent:
         """
         AUTOSAR-compliant setter for eventSource with method chaining.
 
@@ -822,7 +825,7 @@ class DataWriteCompletedEvent(RTEEvent):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getEventSource(self) -> "VariableAccess":
+    def getEventSource(self) -> VariableAccess:
         """
         AUTOSAR-compliant getter for eventSource.
 
@@ -834,7 +837,7 @@ class DataWriteCompletedEvent(RTEEvent):
         """
         return self.event_source  # Delegates to property
 
-    def setEventSource(self, value: "VariableAccess") -> DataWriteCompletedEvent:
+    def setEventSource(self, value: VariableAccess) -> DataWriteCompletedEvent:
         """
         AUTOSAR-compliant setter for eventSource with method chaining.
 
@@ -1121,7 +1124,7 @@ class SwcModeSwitchEvent(RTEEvent):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getActivation(self) -> "ModeActivationKind":
+    def getActivation(self) -> ModeActivationKind:
         """
         AUTOSAR-compliant getter for activation.
 
@@ -1133,7 +1136,7 @@ class SwcModeSwitchEvent(RTEEvent):
         """
         return self.activation  # Delegates to property
 
-    def setActivation(self, value: "ModeActivationKind") -> SwcModeSwitchEvent:
+    def setActivation(self, value: ModeActivationKind) -> SwcModeSwitchEvent:
         """
         AUTOSAR-compliant setter for activation with method chaining.
 
@@ -1215,7 +1218,7 @@ class ModeSwitchedAckEvent(RTEEvent):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getEventSource(self) -> "ModeSwitchPoint":
+    def getEventSource(self) -> ModeSwitchPoint:
         """
         AUTOSAR-compliant getter for eventSource.
 
@@ -1227,7 +1230,7 @@ class ModeSwitchedAckEvent(RTEEvent):
         """
         return self.event_source  # Delegates to property
 
-    def setEventSource(self, value: "ModeSwitchPoint") -> ModeSwitchedAckEvent:
+    def setEventSource(self, value: ModeSwitchPoint) -> ModeSwitchedAckEvent:
         """
         AUTOSAR-compliant setter for eventSource with method chaining.
 
@@ -1485,15 +1488,15 @@ class TransformerHardErrorEvent(RTEEvent):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # raise this TransformerHardErrorEvent.
         # by: POperationInAtomicSwc.
-        self._operation: Optional[ClientServerOperation] = None
+        self._operation: Optional["ClientServerOperation"] = None
 
     @property
-    def operation(self) -> Optional[ClientServerOperation]:
+    def operation(self) -> Optional["ClientServerOperation"]:
         """Get operation (Pythonic accessor)."""
         return self._operation
 
     @operation.setter
-    def operation(self, value: Optional[ClientServerOperation]) -> None:
+    def operation(self, value: Optional["ClientServerOperation"]) -> None:
         """
         Set operation with validation.
 
@@ -1539,7 +1542,7 @@ class TransformerHardErrorEvent(RTEEvent):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getOperation(self) -> ClientServerOperation:
+    def getOperation(self) -> "ClientServerOperation":
         """
         AUTOSAR-compliant getter for operation.
 
@@ -1551,7 +1554,7 @@ class TransformerHardErrorEvent(RTEEvent):
         """
         return self.operation  # Delegates to property
 
-    def setOperation(self, value: ClientServerOperation) -> TransformerHardErrorEvent:
+    def setOperation(self, value: "ClientServerOperation") -> TransformerHardErrorEvent:
         """
         AUTOSAR-compliant setter for operation with method chaining.
 
@@ -1597,7 +1600,7 @@ class TransformerHardErrorEvent(RTEEvent):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_operation(self, value: Optional[ClientServerOperation]) -> TransformerHardErrorEvent:
+    def with_operation(self, value: Optional["ClientServerOperation"]) -> TransformerHardErrorEvent:
         """
         Set operation and return self for chaining.
 

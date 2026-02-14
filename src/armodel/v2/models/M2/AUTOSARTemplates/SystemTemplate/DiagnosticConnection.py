@@ -20,6 +20,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     Referrable,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    DoIpLogicAddress,
     RefType,
 )
 
@@ -548,7 +549,7 @@ class DoIpTpConnection(TpConnection):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDoIpSource(self) -> "DoIpLogicAddress":
+    def getDoIpSource(self) -> DoIpLogicAddress:
         """
         AUTOSAR-compliant getter for doIpSource.
 
@@ -560,7 +561,7 @@ class DoIpTpConnection(TpConnection):
         """
         return self.do_ip_source  # Delegates to property
 
-    def setDoIpSource(self, value: "DoIpLogicAddress") -> DoIpTpConnection:
+    def setDoIpSource(self, value: DoIpLogicAddress) -> DoIpTpConnection:
         """
         AUTOSAR-compliant setter for doIpSource with method chaining.
 
@@ -576,7 +577,7 @@ class DoIpTpConnection(TpConnection):
         self.do_ip_source = value  # Delegates to property setter
         return self
 
-    def getDoIpTarget(self) -> "DoIpLogicAddress":
+    def getDoIpTarget(self) -> DoIpLogicAddress:
         """
         AUTOSAR-compliant getter for doIpTarget.
 
@@ -588,7 +589,7 @@ class DoIpTpConnection(TpConnection):
         """
         return self.do_ip_target  # Delegates to property
 
-    def setDoIpTarget(self, value: "DoIpLogicAddress") -> DoIpTpConnection:
+    def setDoIpTarget(self, value: DoIpLogicAddress) -> DoIpTpConnection:
         """
         AUTOSAR-compliant setter for doIpTarget with method chaining.
 

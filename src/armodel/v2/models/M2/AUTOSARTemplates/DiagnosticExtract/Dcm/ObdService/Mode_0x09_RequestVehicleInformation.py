@@ -10,6 +10,7 @@ from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
+    DiagnosticInfoType,
     DiagnosticServiceClass,
     DiagnosticServiceInstance,
 )
@@ -60,15 +61,15 @@ class DiagnosticRequestVehicleInfo(DiagnosticServiceInstance):
         self._infoType = value
                 # for this specific concrete class.
         # among all DiagnosticRequesVehicleInfo given context.
-        self._requestVehicle: Optional[DiagnosticRequest] = None
+        self._requestVehicle: Optional["DiagnosticRequest"] = None
 
     @property
-    def request_vehicle(self) -> Optional[DiagnosticRequest]:
+    def request_vehicle(self) -> Optional["DiagnosticRequest"]:
         """Get requestVehicle (Pythonic accessor)."""
         return self._requestVehicle
 
     @request_vehicle.setter
-    def request_vehicle(self, value: Optional[DiagnosticRequest]) -> None:
+    def request_vehicle(self, value: Optional["DiagnosticRequest"]) -> None:
         """
         Set requestVehicle with validation.
 
@@ -90,7 +91,7 @@ class DiagnosticRequestVehicleInfo(DiagnosticServiceInstance):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getInfoType(self) -> "DiagnosticInfoType":
+    def getInfoType(self) -> DiagnosticInfoType:
         """
         AUTOSAR-compliant getter for infoType.
 
@@ -102,7 +103,7 @@ class DiagnosticRequestVehicleInfo(DiagnosticServiceInstance):
         """
         return self.info_type  # Delegates to property
 
-    def setInfoType(self, value: "DiagnosticInfoType") -> DiagnosticRequestVehicleInfo:
+    def setInfoType(self, value: DiagnosticInfoType) -> DiagnosticRequestVehicleInfo:
         """
         AUTOSAR-compliant setter for infoType with method chaining.
 
@@ -118,7 +119,7 @@ class DiagnosticRequestVehicleInfo(DiagnosticServiceInstance):
         self.info_type = value  # Delegates to property setter
         return self
 
-    def getRequestVehicle(self) -> DiagnosticRequest:
+    def getRequestVehicle(self) -> "DiagnosticRequest":
         """
         AUTOSAR-compliant getter for requestVehicle.
 
@@ -130,7 +131,7 @@ class DiagnosticRequestVehicleInfo(DiagnosticServiceInstance):
         """
         return self.request_vehicle  # Delegates to property
 
-    def setRequestVehicle(self, value: DiagnosticRequest) -> DiagnosticRequestVehicleInfo:
+    def setRequestVehicle(self, value: "DiagnosticRequest") -> DiagnosticRequestVehicleInfo:
         """
         AUTOSAR-compliant setter for requestVehicle with method chaining.
 
@@ -164,7 +165,7 @@ class DiagnosticRequestVehicleInfo(DiagnosticServiceInstance):
         self.info_type = value  # Use property setter (gets validation)
         return self
 
-    def with_request_vehicle(self, value: Optional[DiagnosticRequest]) -> DiagnosticRequestVehicleInfo:
+    def with_request_vehicle(self, value: Optional["DiagnosticRequest"]) -> DiagnosticRequestVehicleInfo:
         """
         Set requestVehicle and return self for chaining.
 

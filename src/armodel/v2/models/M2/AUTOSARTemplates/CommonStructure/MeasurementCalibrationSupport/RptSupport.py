@@ -765,15 +765,15 @@ class RptExecutableEntity(Identifiable):
         """Get rptWrite (Pythonic accessor)."""
         return self._rptWrite
         # The symbol describing this ExecutableEntity’s entry point.
-        self._symbol: Optional[CIdentifier] = None
+        self._symbol: Optional["CIdentifier"] = None
 
     @property
-    def symbol(self) -> Optional[CIdentifier]:
+    def symbol(self) -> Optional["CIdentifier"]:
         """Get symbol (Pythonic accessor)."""
         return self._symbol
 
     @symbol.setter
-    def symbol(self, value: Optional[CIdentifier]) -> None:
+    def symbol(self, value: Optional["CIdentifier"]) -> None:
         """
         Set symbol with validation.
 
@@ -831,7 +831,7 @@ class RptExecutableEntity(Identifiable):
         """
         return self.rpt_write  # Delegates to property
 
-    def getSymbol(self) -> CIdentifier:
+    def getSymbol(self) -> "CIdentifier":
         """
         AUTOSAR-compliant getter for symbol.
 
@@ -843,7 +843,7 @@ class RptExecutableEntity(Identifiable):
         """
         return self.symbol  # Delegates to property
 
-    def setSymbol(self, value: CIdentifier) -> RptExecutableEntity:
+    def setSymbol(self, value: "CIdentifier") -> RptExecutableEntity:
         """
         AUTOSAR-compliant setter for symbol with method chaining.
 
@@ -861,7 +861,7 @@ class RptExecutableEntity(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_symbol(self, value: Optional[CIdentifier]) -> RptExecutableEntity:
+    def with_symbol(self, value: Optional["CIdentifier"]) -> RptExecutableEntity:
         """
         Set symbol and return self for chaining.
 
@@ -1239,15 +1239,15 @@ class RptServicePoint(Identifiable):
             )
         self._serviceId = value
         # post-build hooking.
-        self._symbol: Optional[CIdentifier] = None
+        self._symbol: Optional["CIdentifier"] = None
 
     @property
-    def symbol(self) -> Optional[CIdentifier]:
+    def symbol(self) -> Optional["CIdentifier"]:
         """Get symbol (Pythonic accessor)."""
         return self._symbol
 
     @symbol.setter
-    def symbol(self, value: Optional[CIdentifier]) -> None:
+    def symbol(self, value: Optional["CIdentifier"]) -> None:
         """
         Set symbol with validation.
 
@@ -1297,7 +1297,7 @@ class RptServicePoint(Identifiable):
         self.service_id = value  # Delegates to property setter
         return self
 
-    def getSymbol(self) -> CIdentifier:
+    def getSymbol(self) -> "CIdentifier":
         """
         AUTOSAR-compliant getter for symbol.
 
@@ -1309,7 +1309,7 @@ class RptServicePoint(Identifiable):
         """
         return self.symbol  # Delegates to property
 
-    def setSymbol(self, value: CIdentifier) -> RptServicePoint:
+    def setSymbol(self, value: "CIdentifier") -> RptServicePoint:
         """
         AUTOSAR-compliant setter for symbol with method chaining.
 
@@ -1343,7 +1343,7 @@ class RptServicePoint(Identifiable):
         self.service_id = value  # Use property setter (gets validation)
         return self
 
-    def with_symbol(self, value: Optional[CIdentifier]) -> RptServicePoint:
+    def with_symbol(self, value: Optional["CIdentifier"]) -> RptServicePoint:
         """
         Set symbol and return self for chaining.
 

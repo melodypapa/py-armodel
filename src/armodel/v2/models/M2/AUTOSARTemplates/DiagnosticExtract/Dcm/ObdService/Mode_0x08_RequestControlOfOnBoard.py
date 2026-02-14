@@ -40,15 +40,15 @@ class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):
                 # for this specific concrete class.
         # Thereby, the reference represents the ability to access among all
                 # DiagnosticRequestControlOf the given context.
-        self._requestControl: Optional[DiagnosticRequest] = None
+        self._requestControl: Optional["DiagnosticRequest"] = None
 
     @property
-    def request_control(self) -> Optional[DiagnosticRequest]:
+    def request_control(self) -> Optional["DiagnosticRequest"]:
         """Get requestControl (Pythonic accessor)."""
         return self._requestControl
 
     @request_control.setter
-    def request_control(self, value: Optional[DiagnosticRequest]) -> None:
+    def request_control(self, value: Optional["DiagnosticRequest"]) -> None:
         """
         Set requestControl with validation.
 
@@ -97,7 +97,7 @@ class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getRequestControl(self) -> DiagnosticRequest:
+    def getRequestControl(self) -> "DiagnosticRequest":
         """
         AUTOSAR-compliant getter for requestControl.
 
@@ -109,7 +109,7 @@ class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):
         """
         return self.request_control  # Delegates to property
 
-    def setRequestControl(self, value: DiagnosticRequest) -> DiagnosticRequestControlOfOnBoardDevice:
+    def setRequestControl(self, value: "DiagnosticRequest") -> DiagnosticRequestControlOfOnBoardDevice:
         """
         AUTOSAR-compliant setter for requestControl with method chaining.
 
@@ -155,7 +155,7 @@ class DiagnosticRequestControlOfOnBoardDevice(DiagnosticServiceInstance):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_request_control(self, value: Optional[DiagnosticRequest]) -> DiagnosticRequestControlOfOnBoardDevice:
+    def with_request_control(self, value: Optional["DiagnosticRequest"]) -> DiagnosticRequestControlOfOnBoardDevice:
         """
         Set requestControl and return self for chaining.
 

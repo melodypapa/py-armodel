@@ -19,8 +19,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     AREnum,
     Boolean,
     Identifier,
+    NvBlockNeeds,
     PositiveInteger,
     RefType,
+    SwcModeSwitchEvent,
 )
 
 
@@ -209,15 +211,15 @@ class NvBlockDescriptor(Identifiable):
             )
         self._supportDirty = value
         # implementing a cyclic writing this block.
-        self._timingEvent: Optional[TimingEvent] = None
+        self._timingEvent: Optional["TimingEvent"] = None
 
     @property
-    def timing_event(self) -> Optional[TimingEvent]:
+    def timing_event(self) -> Optional["TimingEvent"]:
         """Get timingEvent (Pythonic accessor)."""
         return self._timingEvent
 
     @timing_event.setter
-    def timing_event(self, value: Optional[TimingEvent]) -> None:
+    def timing_event(self, value: Optional["TimingEvent"]) -> None:
         """
         Set timingEvent with validation.
 
@@ -446,7 +448,7 @@ class NvBlockDescriptor(Identifiable):
         """
         return self.nv_block_data  # Delegates to property
 
-    def getNvBlockNeeds(self) -> "NvBlockNeeds":
+    def getNvBlockNeeds(self) -> NvBlockNeeds:
         """
         AUTOSAR-compliant getter for nvBlockNeeds.
 
@@ -458,7 +460,7 @@ class NvBlockDescriptor(Identifiable):
         """
         return self.nv_block_needs  # Delegates to property
 
-    def setNvBlockNeeds(self, value: "NvBlockNeeds") -> NvBlockDescriptor:
+    def setNvBlockNeeds(self, value: NvBlockNeeds) -> NvBlockDescriptor:
         """
         AUTOSAR-compliant setter for nvBlockNeeds with method chaining.
 
@@ -558,7 +560,7 @@ class NvBlockDescriptor(Identifiable):
         self.support_dirty = value  # Delegates to property setter
         return self
 
-    def getTimingEvent(self) -> TimingEvent:
+    def getTimingEvent(self) -> "TimingEvent":
         """
         AUTOSAR-compliant getter for timingEvent.
 
@@ -570,7 +572,7 @@ class NvBlockDescriptor(Identifiable):
         """
         return self.timing_event  # Delegates to property
 
-    def setTimingEvent(self, value: TimingEvent) -> NvBlockDescriptor:
+    def setTimingEvent(self, value: "TimingEvent") -> NvBlockDescriptor:
         """
         AUTOSAR-compliant setter for timingEvent with method chaining.
 
@@ -664,7 +666,7 @@ class NvBlockDescriptor(Identifiable):
         self.support_dirty = value  # Use property setter (gets validation)
         return self
 
-    def with_timing_event(self, value: Optional[TimingEvent]) -> NvBlockDescriptor:
+    def with_timing_event(self, value: Optional["TimingEvent"]) -> NvBlockDescriptor:
         """
         Set timingEvent and return self for chaining.
 
@@ -755,7 +757,7 @@ class ModeSwitchEventTriggeredActivity(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getRole(self) -> "Identifier":
+    def getRole(self) -> Identifier:
         """
         AUTOSAR-compliant getter for role.
 
@@ -767,7 +769,7 @@ class ModeSwitchEventTriggeredActivity(ARObject):
         """
         return self.role  # Delegates to property
 
-    def setRole(self, value: "Identifier") -> ModeSwitchEventTriggeredActivity:
+    def setRole(self, value: Identifier) -> ModeSwitchEventTriggeredActivity:
         """
         AUTOSAR-compliant setter for role with method chaining.
 
@@ -783,7 +785,7 @@ class ModeSwitchEventTriggeredActivity(ARObject):
         self.role = value  # Delegates to property setter
         return self
 
-    def getSwcModeSwitch(self) -> "SwcModeSwitchEvent":
+    def getSwcModeSwitch(self) -> SwcModeSwitchEvent:
         """
         AUTOSAR-compliant getter for swcModeSwitch.
 
@@ -795,7 +797,7 @@ class ModeSwitchEventTriggeredActivity(ARObject):
         """
         return self.swc_mode_switch  # Delegates to property
 
-    def setSwcModeSwitch(self, value: "SwcModeSwitchEvent") -> ModeSwitchEventTriggeredActivity:
+    def setSwcModeSwitch(self, value: SwcModeSwitchEvent) -> ModeSwitchEventTriggeredActivity:
         """
         AUTOSAR-compliant setter for swcModeSwitch with method chaining.
 

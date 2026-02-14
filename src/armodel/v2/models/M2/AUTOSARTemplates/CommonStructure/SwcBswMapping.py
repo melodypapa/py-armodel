@@ -41,15 +41,15 @@ class SwcBswMapping(ARElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The mapped BswInternalBehavior.
-        self._bswBehavior: Optional[BswInternalBehavior] = None
+        self._bswBehavior: Optional["BswInternalBehavior"] = None
 
     @property
-    def bsw_behavior(self) -> Optional[BswInternalBehavior]:
+    def bsw_behavior(self) -> Optional["BswInternalBehavior"]:
         """Get bswBehavior (Pythonic accessor)."""
         return self._bswBehavior
 
     @bsw_behavior.setter
-    def bsw_behavior(self, value: Optional[BswInternalBehavior]) -> None:
+    def bsw_behavior(self, value: Optional["BswInternalBehavior"]) -> None:
         """
         Set bswBehavior with validation.
 
@@ -76,15 +76,15 @@ class SwcBswMapping(ARElement):
         """Get runnable (Pythonic accessor)."""
         return self._runnable
         # The mapped SwcInternalBehavior.
-        self._swcBehavior: Optional[SwcInternalBehavior] = None
+        self._swcBehavior: Optional["SwcInternalBehavior"] = None
 
     @property
-    def swc_behavior(self) -> Optional[SwcInternalBehavior]:
+    def swc_behavior(self) -> Optional["SwcInternalBehavior"]:
         """Get swcBehavior (Pythonic accessor)."""
         return self._swcBehavior
 
     @swc_behavior.setter
-    def swc_behavior(self, value: Optional[SwcInternalBehavior]) -> None:
+    def swc_behavior(self, value: Optional["SwcInternalBehavior"]) -> None:
         """
         Set swcBehavior with validation.
 
@@ -145,7 +145,7 @@ class SwcBswMapping(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBswBehavior(self) -> BswInternalBehavior:
+    def getBswBehavior(self) -> "BswInternalBehavior":
         """
         AUTOSAR-compliant getter for bswBehavior.
 
@@ -157,7 +157,7 @@ class SwcBswMapping(ARElement):
         """
         return self.bsw_behavior  # Delegates to property
 
-    def setBswBehavior(self, value: BswInternalBehavior) -> SwcBswMapping:
+    def setBswBehavior(self, value: "BswInternalBehavior") -> SwcBswMapping:
         """
         AUTOSAR-compliant setter for bswBehavior with method chaining.
 
@@ -185,7 +185,7 @@ class SwcBswMapping(ARElement):
         """
         return self.runnable  # Delegates to property
 
-    def getSwcBehavior(self) -> SwcInternalBehavior:
+    def getSwcBehavior(self) -> "SwcInternalBehavior":
         """
         AUTOSAR-compliant getter for swcBehavior.
 
@@ -197,7 +197,7 @@ class SwcBswMapping(ARElement):
         """
         return self.swc_behavior  # Delegates to property
 
-    def setSwcBehavior(self, value: SwcInternalBehavior) -> SwcBswMapping:
+    def setSwcBehavior(self, value: "SwcInternalBehavior") -> SwcBswMapping:
         """
         AUTOSAR-compliant setter for swcBehavior with method chaining.
 
@@ -227,7 +227,7 @@ class SwcBswMapping(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_bsw_behavior(self, value: Optional[BswInternalBehavior]) -> SwcBswMapping:
+    def with_bsw_behavior(self, value: Optional["BswInternalBehavior"]) -> SwcBswMapping:
         """
         Set bswBehavior and return self for chaining.
 
@@ -243,7 +243,7 @@ class SwcBswMapping(ARElement):
         self.bsw_behavior = value  # Use property setter (gets validation)
         return self
 
-    def with_swc_behavior(self, value: Optional[SwcInternalBehavior]) -> SwcBswMapping:
+    def with_swc_behavior(self, value: Optional["SwcInternalBehavior"]) -> SwcBswMapping:
         """
         Set swcBehavior and return self for chaining.
 
@@ -280,15 +280,15 @@ class SwcBswRunnableMapping(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The mapped BswModuleEntity.
-        self._bswEntity: Optional[BswModuleEntity] = None
+        self._bswEntity: Optional["BswModuleEntity"] = None
 
     @property
-    def bsw_entity(self) -> Optional[BswModuleEntity]:
+    def bsw_entity(self) -> Optional["BswModuleEntity"]:
         """Get bswEntity (Pythonic accessor)."""
         return self._bswEntity
 
     @bsw_entity.setter
-    def bsw_entity(self, value: Optional[BswModuleEntity]) -> None:
+    def bsw_entity(self, value: Optional["BswModuleEntity"]) -> None:
         """
         Set bswEntity with validation.
 
@@ -307,15 +307,15 @@ class SwcBswRunnableMapping(ARObject):
                 f"bswEntity must be BswModuleEntity or None, got {type(value).__name__}"
             )
         self._bswEntity = value
-        self._swcRunnable: Optional[RunnableEntity] = None
+        self._swcRunnable: Optional["RunnableEntity"] = None
 
     @property
-    def swc_runnable(self) -> Optional[RunnableEntity]:
+    def swc_runnable(self) -> Optional["RunnableEntity"]:
         """Get swcRunnable (Pythonic accessor)."""
         return self._swcRunnable
 
     @swc_runnable.setter
-    def swc_runnable(self, value: Optional[RunnableEntity]) -> None:
+    def swc_runnable(self, value: Optional["RunnableEntity"]) -> None:
         """
         Set swcRunnable with validation.
 
@@ -337,7 +337,7 @@ class SwcBswRunnableMapping(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBswEntity(self) -> BswModuleEntity:
+    def getBswEntity(self) -> "BswModuleEntity":
         """
         AUTOSAR-compliant getter for bswEntity.
 
@@ -349,7 +349,7 @@ class SwcBswRunnableMapping(ARObject):
         """
         return self.bsw_entity  # Delegates to property
 
-    def setBswEntity(self, value: BswModuleEntity) -> SwcBswRunnableMapping:
+    def setBswEntity(self, value: "BswModuleEntity") -> SwcBswRunnableMapping:
         """
         AUTOSAR-compliant setter for bswEntity with method chaining.
 
@@ -365,7 +365,7 @@ class SwcBswRunnableMapping(ARObject):
         self.bsw_entity = value  # Delegates to property setter
         return self
 
-    def getSwcRunnable(self) -> RunnableEntity:
+    def getSwcRunnable(self) -> "RunnableEntity":
         """
         AUTOSAR-compliant getter for swcRunnable.
 
@@ -377,7 +377,7 @@ class SwcBswRunnableMapping(ARObject):
         """
         return self.swc_runnable  # Delegates to property
 
-    def setSwcRunnable(self, value: RunnableEntity) -> SwcBswRunnableMapping:
+    def setSwcRunnable(self, value: "RunnableEntity") -> SwcBswRunnableMapping:
         """
         AUTOSAR-compliant setter for swcRunnable with method chaining.
 
@@ -395,7 +395,7 @@ class SwcBswRunnableMapping(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_bsw_entity(self, value: Optional[BswModuleEntity]) -> SwcBswRunnableMapping:
+    def with_bsw_entity(self, value: Optional["BswModuleEntity"]) -> SwcBswRunnableMapping:
         """
         Set bswEntity and return self for chaining.
 
@@ -411,7 +411,7 @@ class SwcBswRunnableMapping(ARObject):
         self.bsw_entity = value  # Use property setter (gets validation)
         return self
 
-    def with_swc_runnable(self, value: Optional[RunnableEntity]) -> SwcBswRunnableMapping:
+    def with_swc_runnable(self, value: Optional["RunnableEntity"]) -> SwcBswRunnableMapping:
         """
         Set swcRunnable and return self for chaining.
 

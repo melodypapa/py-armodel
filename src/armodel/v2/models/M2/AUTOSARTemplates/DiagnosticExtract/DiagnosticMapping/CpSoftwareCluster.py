@@ -10,7 +10,10 @@ from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.__init__ import (
+    CpSoftwareCluster,
+    DiagnosticDataElement,
     DiagnosticMapping,
+    DiagnosticRoutine,
 )
 
 
@@ -61,15 +64,15 @@ class CpSwClusterToDiagEventMapping(DiagnosticMapping):
                 f"cpSoftware must be CpSoftwareCluster or None, got {type(value).__name__}"
             )
         self._cpSoftware = value
-        self._diagnosticEvent: Optional[DiagnosticEvent] = None
+        self._diagnosticEvent: Optional["DiagnosticEvent"] = None
 
     @property
-    def diagnostic_event(self) -> Optional[DiagnosticEvent]:
+    def diagnostic_event(self) -> Optional["DiagnosticEvent"]:
         """Get diagnosticEvent (Pythonic accessor)."""
         return self._diagnosticEvent
 
     @diagnostic_event.setter
-    def diagnostic_event(self, value: Optional[DiagnosticEvent]) -> None:
+    def diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> None:
         """
         Set diagnosticEvent with validation.
 
@@ -91,7 +94,7 @@ class CpSwClusterToDiagEventMapping(DiagnosticMapping):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCpSoftware(self) -> "CpSoftwareCluster":
+    def getCpSoftware(self) -> CpSoftwareCluster:
         """
         AUTOSAR-compliant getter for cpSoftware.
 
@@ -103,7 +106,7 @@ class CpSwClusterToDiagEventMapping(DiagnosticMapping):
         """
         return self.cp_software  # Delegates to property
 
-    def setCpSoftware(self, value: "CpSoftwareCluster") -> CpSwClusterToDiagEventMapping:
+    def setCpSoftware(self, value: CpSoftwareCluster) -> CpSwClusterToDiagEventMapping:
         """
         AUTOSAR-compliant setter for cpSoftware with method chaining.
 
@@ -119,7 +122,7 @@ class CpSwClusterToDiagEventMapping(DiagnosticMapping):
         self.cp_software = value  # Delegates to property setter
         return self
 
-    def getDiagnosticEvent(self) -> DiagnosticEvent:
+    def getDiagnosticEvent(self) -> "DiagnosticEvent":
         """
         AUTOSAR-compliant getter for diagnosticEvent.
 
@@ -131,7 +134,7 @@ class CpSwClusterToDiagEventMapping(DiagnosticMapping):
         """
         return self.diagnostic_event  # Delegates to property
 
-    def setDiagnosticEvent(self, value: DiagnosticEvent) -> CpSwClusterToDiagEventMapping:
+    def setDiagnosticEvent(self, value: "DiagnosticEvent") -> CpSwClusterToDiagEventMapping:
         """
         AUTOSAR-compliant setter for diagnosticEvent with method chaining.
 
@@ -165,7 +168,7 @@ class CpSwClusterToDiagEventMapping(DiagnosticMapping):
         self.cp_software = value  # Use property setter (gets validation)
         return self
 
-    def with_diagnostic_event(self, value: Optional[DiagnosticEvent]) -> CpSwClusterToDiagEventMapping:
+    def with_diagnostic_event(self, value: Optional["DiagnosticEvent"]) -> CpSwClusterToDiagEventMapping:
         """
         Set diagnosticEvent and return self for chaining.
 
@@ -260,7 +263,7 @@ class CpSwClusterResourceToDiagDataElemMapping(DiagnosticMapping):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCpSoftware(self) -> "CpSoftwareCluster":
+    def getCpSoftware(self) -> CpSoftwareCluster:
         """
         AUTOSAR-compliant getter for cpSoftware.
 
@@ -272,7 +275,7 @@ class CpSwClusterResourceToDiagDataElemMapping(DiagnosticMapping):
         """
         return self.cp_software  # Delegates to property
 
-    def setCpSoftware(self, value: "CpSoftwareCluster") -> CpSwClusterResourceToDiagDataElemMapping:
+    def setCpSoftware(self, value: CpSoftwareCluster) -> CpSwClusterResourceToDiagDataElemMapping:
         """
         AUTOSAR-compliant setter for cpSoftware with method chaining.
 
@@ -288,7 +291,7 @@ class CpSwClusterResourceToDiagDataElemMapping(DiagnosticMapping):
         self.cp_software = value  # Delegates to property setter
         return self
 
-    def getDiagnosticData(self) -> "DiagnosticDataElement":
+    def getDiagnosticData(self) -> DiagnosticDataElement:
         """
         AUTOSAR-compliant getter for diagnosticData.
 
@@ -300,7 +303,7 @@ class CpSwClusterResourceToDiagDataElemMapping(DiagnosticMapping):
         """
         return self.diagnostic_data  # Delegates to property
 
-    def setDiagnosticData(self, value: "DiagnosticDataElement") -> CpSwClusterResourceToDiagDataElemMapping:
+    def setDiagnosticData(self, value: DiagnosticDataElement) -> CpSwClusterResourceToDiagDataElemMapping:
         """
         AUTOSAR-compliant setter for diagnosticData with method chaining.
 
@@ -429,7 +432,7 @@ class CpSwClusterToDiagRoutineSubfunctionMapping(DiagnosticMapping):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCpSoftware(self) -> "CpSoftwareCluster":
+    def getCpSoftware(self) -> CpSoftwareCluster:
         """
         AUTOSAR-compliant getter for cpSoftware.
 
@@ -441,7 +444,7 @@ class CpSwClusterToDiagRoutineSubfunctionMapping(DiagnosticMapping):
         """
         return self.cp_software  # Delegates to property
 
-    def setCpSoftware(self, value: "CpSoftwareCluster") -> CpSwClusterToDiagRoutineSubfunctionMapping:
+    def setCpSoftware(self, value: CpSoftwareCluster) -> CpSwClusterToDiagRoutineSubfunctionMapping:
         """
         AUTOSAR-compliant setter for cpSoftware with method chaining.
 
@@ -457,7 +460,7 @@ class CpSwClusterToDiagRoutineSubfunctionMapping(DiagnosticMapping):
         self.cp_software = value  # Delegates to property setter
         return self
 
-    def getRoutine(self) -> "DiagnosticRoutine":
+    def getRoutine(self) -> DiagnosticRoutine:
         """
         AUTOSAR-compliant getter for routine.
 
@@ -469,7 +472,7 @@ class CpSwClusterToDiagRoutineSubfunctionMapping(DiagnosticMapping):
         """
         return self.routine  # Delegates to property
 
-    def setRoutine(self, value: "DiagnosticRoutine") -> CpSwClusterToDiagRoutineSubfunctionMapping:
+    def setRoutine(self, value: DiagnosticRoutine) -> CpSwClusterToDiagRoutineSubfunctionMapping:
         """
         AUTOSAR-compliant setter for routine with method chaining.
 
@@ -599,7 +602,7 @@ class CpSwClusterResourceToDiagFunctionIdMapping(DiagnosticMapping):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCpSoftware(self) -> "CpSoftwareCluster":
+    def getCpSoftware(self) -> CpSoftwareCluster:
         """
         AUTOSAR-compliant getter for cpSoftware.
 
@@ -611,7 +614,7 @@ class CpSwClusterResourceToDiagFunctionIdMapping(DiagnosticMapping):
         """
         return self.cp_software  # Delegates to property
 
-    def setCpSoftware(self, value: "CpSoftwareCluster") -> CpSwClusterResourceToDiagFunctionIdMapping:
+    def setCpSoftware(self, value: CpSoftwareCluster) -> CpSwClusterResourceToDiagFunctionIdMapping:
         """
         AUTOSAR-compliant setter for cpSoftware with method chaining.
 

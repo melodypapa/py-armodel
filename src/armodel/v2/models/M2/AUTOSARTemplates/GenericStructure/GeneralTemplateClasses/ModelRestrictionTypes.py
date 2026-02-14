@@ -16,7 +16,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     Boolean,
+    Limit,
     PositiveInteger,
+    RegularExpression,
 )
 
 
@@ -193,7 +195,7 @@ class AbstractValueRestriction(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getMax(self) -> "Limit":
+    def getMax(self) -> Limit:
         """
         AUTOSAR-compliant getter for max.
 
@@ -205,7 +207,7 @@ class AbstractValueRestriction(ARObject, ABC):
         """
         return self.max  # Delegates to property
 
-    def setMax(self, value: "Limit") -> AbstractValueRestriction:
+    def setMax(self, value: Limit) -> AbstractValueRestriction:
         """
         AUTOSAR-compliant setter for max with method chaining.
 
@@ -249,7 +251,7 @@ class AbstractValueRestriction(ARObject, ABC):
         self.max_length = value  # Delegates to property setter
         return self
 
-    def getMin(self) -> "Limit":
+    def getMin(self) -> Limit:
         """
         AUTOSAR-compliant getter for min.
 
@@ -261,7 +263,7 @@ class AbstractValueRestriction(ARObject, ABC):
         """
         return self.min  # Delegates to property
 
-    def setMin(self, value: "Limit") -> AbstractValueRestriction:
+    def setMin(self, value: Limit) -> AbstractValueRestriction:
         """
         AUTOSAR-compliant setter for min with method chaining.
 
@@ -305,7 +307,7 @@ class AbstractValueRestriction(ARObject, ABC):
         self.min_length = value  # Delegates to property setter
         return self
 
-    def getPattern(self) -> "RegularExpression":
+    def getPattern(self) -> RegularExpression:
         """
         AUTOSAR-compliant getter for pattern.
 
@@ -317,7 +319,7 @@ class AbstractValueRestriction(ARObject, ABC):
         """
         return self.pattern  # Delegates to property
 
-    def setPattern(self, value: "RegularExpression") -> AbstractValueRestriction:
+    def setPattern(self, value: RegularExpression) -> AbstractValueRestriction:
         """
         AUTOSAR-compliant setter for pattern with method chaining.
 

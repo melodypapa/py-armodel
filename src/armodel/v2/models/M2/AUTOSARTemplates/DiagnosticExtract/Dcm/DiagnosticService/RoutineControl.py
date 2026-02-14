@@ -10,6 +10,7 @@ from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
+    DiagnosticRoutine,
     DiagnosticServiceClass,
     DiagnosticServiceInstance,
 )
@@ -89,7 +90,7 @@ class DiagnosticRoutineControl(DiagnosticServiceInstance):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getRoutine(self) -> "DiagnosticRoutine":
+    def getRoutine(self) -> DiagnosticRoutine:
         """
         AUTOSAR-compliant getter for routine.
 
@@ -101,7 +102,7 @@ class DiagnosticRoutineControl(DiagnosticServiceInstance):
         """
         return self.routine  # Delegates to property
 
-    def setRoutine(self, value: "DiagnosticRoutine") -> DiagnosticRoutineControl:
+    def setRoutine(self, value: DiagnosticRoutine) -> DiagnosticRoutineControl:
         """
         AUTOSAR-compliant setter for routine with method chaining.
 
@@ -117,7 +118,7 @@ class DiagnosticRoutineControl(DiagnosticServiceInstance):
         self.routine = value  # Delegates to property setter
         return self
 
-    def getRoutineControl(self) -> "DiagnosticRoutine":
+    def getRoutineControl(self) -> DiagnosticRoutine:
         """
         AUTOSAR-compliant getter for routineControl.
 
@@ -129,7 +130,7 @@ class DiagnosticRoutineControl(DiagnosticServiceInstance):
         """
         return self.routine_control  # Delegates to property
 
-    def setRoutineControl(self, value: "DiagnosticRoutine") -> DiagnosticRoutineControl:
+    def setRoutineControl(self, value: DiagnosticRoutine) -> DiagnosticRoutineControl:
         """
         AUTOSAR-compliant setter for routineControl with method chaining.
 

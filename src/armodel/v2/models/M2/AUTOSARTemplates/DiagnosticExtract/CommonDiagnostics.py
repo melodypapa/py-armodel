@@ -1915,7 +1915,7 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
         self.pid_size = value  # Delegates to property setter
         return self
 
-    def getSupportInfoByte(self) -> "DiagnosticSupportInfo":
+    def getSupportInfoByte(self) -> DiagnosticSupportInfo:
         """
         AUTOSAR-compliant getter for supportInfoByte.
 
@@ -1927,7 +1927,7 @@ class DiagnosticParameterIdentifier(DiagnosticCommonElement):
         """
         return self.support_info_byte  # Delegates to property
 
-    def setSupportInfoByte(self, value: "DiagnosticSupportInfo") -> DiagnosticParameterIdentifier:
+    def setSupportInfoByte(self, value: DiagnosticSupportInfo) -> DiagnosticParameterIdentifier:
         """
         AUTOSAR-compliant setter for supportInfoByte with method chaining.
 
@@ -2635,7 +2635,7 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
         self.represents_vin = value  # Delegates to property setter
         return self
 
-    def getSupportInfoByte(self) -> "DiagnosticSupportInfo":
+    def getSupportInfoByte(self) -> DiagnosticSupportInfo:
         """
         AUTOSAR-compliant getter for supportInfoByte.
 
@@ -2647,7 +2647,7 @@ class DiagnosticDataIdentifier(DiagnosticAbstractDataIdentifier):
         """
         return self.support_info_byte  # Delegates to property
 
-    def setSupportInfoByte(self, value: "DiagnosticSupportInfo") -> DiagnosticDataIdentifier:
+    def setSupportInfoByte(self, value: DiagnosticSupportInfo) -> DiagnosticDataIdentifier:
         """
         AUTOSAR-compliant setter for supportInfoByte with method chaining.
 

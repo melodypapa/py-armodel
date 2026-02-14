@@ -41,10 +41,12 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     CIdentifier,
     Float,
     Identifier,
+    MlFormula,
     PositiveInteger,
     RefType,
     RegularExpression,
     String,
+    Traceable,
     UnlimitedInteger,
     VerbatimString,
 )
@@ -519,7 +521,7 @@ class EcucDefinitionElement(Identifiable, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getEcucCond(self) -> "EcucCondition":
+    def getEcucCond(self) -> EcucCondition:
         """
         AUTOSAR-compliant getter for ecucCond.
 
@@ -531,7 +533,7 @@ class EcucDefinitionElement(Identifiable, ABC):
         """
         return self.ecuc_cond  # Delegates to property
 
-    def setEcucCond(self, value: "EcucCondition") -> EcucDefinitionElement:
+    def setEcucCond(self, value: EcucCondition) -> EcucDefinitionElement:
         """
         AUTOSAR-compliant setter for ecucCond with method chaining.
 
@@ -587,7 +589,7 @@ class EcucDefinitionElement(Identifiable, ABC):
         self.lower_multiplicity = value  # Delegates to property setter
         return self
 
-    def getRelatedTrace(self) -> "Traceable":
+    def getRelatedTrace(self) -> Traceable:
         """
         AUTOSAR-compliant getter for relatedTrace.
 
@@ -599,7 +601,7 @@ class EcucDefinitionElement(Identifiable, ABC):
         """
         return self.related_trace  # Delegates to property
 
-    def setRelatedTrace(self, value: "Traceable") -> EcucDefinitionElement:
+    def setRelatedTrace(self, value: Traceable) -> EcucDefinitionElement:
         """
         AUTOSAR-compliant setter for relatedTrace with method chaining.
 
@@ -830,7 +832,7 @@ class EcucAbstractConfigurationClass(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getConfigClass(self) -> "EcucConfigurationClass":
+    def getConfigClass(self) -> EcucConfigurationClass:
         """
         AUTOSAR-compliant getter for configClass.
 
@@ -842,7 +844,7 @@ class EcucAbstractConfigurationClass(ARObject, ABC):
         """
         return self.config_class  # Delegates to property
 
-    def setConfigClass(self, value: "EcucConfigurationClass") -> EcucAbstractConfigurationClass:
+    def setConfigClass(self, value: EcucConfigurationClass) -> EcucAbstractConfigurationClass:
         """
         AUTOSAR-compliant setter for configClass with method chaining.
 
@@ -858,7 +860,7 @@ class EcucAbstractConfigurationClass(ARObject, ABC):
         self.config_class = value  # Delegates to property setter
         return self
 
-    def getConfigVariant(self) -> "EcucConfiguration":
+    def getConfigVariant(self) -> EcucConfiguration:
         """
         AUTOSAR-compliant getter for configVariant.
 
@@ -870,7 +872,7 @@ class EcucAbstractConfigurationClass(ARObject, ABC):
         """
         return self.config_variant  # Delegates to property
 
-    def setConfigVariant(self, value: "EcucConfiguration") -> EcucAbstractConfigurationClass:
+    def setConfigVariant(self, value: EcucConfiguration) -> EcucAbstractConfigurationClass:
         """
         AUTOSAR-compliant setter for configVariant with method chaining.
 
@@ -1054,7 +1056,7 @@ class EcucAbstractStringParamDef(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDefaultValue(self) -> "VerbatimString":
+    def getDefaultValue(self) -> VerbatimString:
         """
         AUTOSAR-compliant getter for defaultValue.
 
@@ -1066,7 +1068,7 @@ class EcucAbstractStringParamDef(ARObject, ABC):
         """
         return self.default_value  # Delegates to property
 
-    def setDefaultValue(self, value: "VerbatimString") -> EcucAbstractStringParamDef:
+    def setDefaultValue(self, value: VerbatimString) -> EcucAbstractStringParamDef:
         """
         AUTOSAR-compliant setter for defaultValue with method chaining.
 
@@ -1138,7 +1140,7 @@ class EcucAbstractStringParamDef(ARObject, ABC):
         self.min_length = value  # Delegates to property setter
         return self
 
-    def getRegular(self) -> "RegularExpression":
+    def getRegular(self) -> RegularExpression:
         """
         AUTOSAR-compliant getter for regular.
 
@@ -1150,7 +1152,7 @@ class EcucAbstractStringParamDef(ARObject, ABC):
         """
         return self.regular  # Delegates to property
 
-    def setRegular(self, value: "RegularExpression") -> EcucAbstractStringParamDef:
+    def setRegular(self, value: RegularExpression) -> EcucAbstractStringParamDef:
         """
         AUTOSAR-compliant setter for regular with method chaining.
 
@@ -1390,7 +1392,7 @@ class EcucEnumerationLiteralDef(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getEcucCond(self) -> "EcucCondition":
+    def getEcucCond(self) -> EcucCondition:
         """
         AUTOSAR-compliant getter for ecucCond.
 
@@ -1402,7 +1404,7 @@ class EcucEnumerationLiteralDef(Identifiable):
         """
         return self.ecuc_cond  # Delegates to property
 
-    def setEcucCond(self, value: "EcucCondition") -> EcucEnumerationLiteralDef:
+    def setEcucCond(self, value: EcucCondition) -> EcucEnumerationLiteralDef:
         """
         AUTOSAR-compliant setter for ecucCond with method chaining.
 
@@ -1566,7 +1568,7 @@ class EcucDestinationUriDef(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDestinationUri(self) -> "EcucDestinationUri":
+    def getDestinationUri(self) -> EcucDestinationUri:
         """
         AUTOSAR-compliant getter for destinationUri.
 
@@ -1578,7 +1580,7 @@ class EcucDestinationUriDef(Identifiable):
         """
         return self.destination_uri  # Delegates to property
 
-    def setDestinationUri(self, value: "EcucDestinationUri") -> EcucDestinationUriDef:
+    def setDestinationUri(self, value: EcucDestinationUri) -> EcucDestinationUriDef:
         """
         AUTOSAR-compliant setter for destinationUri with method chaining.
 
@@ -1694,7 +1696,7 @@ class EcucDestinationUriPolicy(ARObject):
         """
         return self.container  # Delegates to property
 
-    def getDestinationUri(self) -> "EcucDestinationUri":
+    def getDestinationUri(self) -> EcucDestinationUri:
         """
         AUTOSAR-compliant getter for destinationUri.
 
@@ -1706,7 +1708,7 @@ class EcucDestinationUriPolicy(ARObject):
         """
         return self.destination_uri  # Delegates to property
 
-    def setDestinationUri(self, value: "EcucDestinationUri") -> EcucDestinationUriPolicy:
+    def setDestinationUri(self, value: EcucDestinationUri) -> EcucDestinationUriPolicy:
         """
         AUTOSAR-compliant setter for destinationUri with method chaining.
 
@@ -1848,7 +1850,7 @@ class EcucDerivationSpecification(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCalculation(self) -> "EcucParameter":
+    def getCalculation(self) -> EcucParameter:
         """
         AUTOSAR-compliant getter for calculation.
 
@@ -1860,7 +1862,7 @@ class EcucDerivationSpecification(ARObject):
         """
         return self.calculation  # Delegates to property
 
-    def setCalculation(self, value: "EcucParameter") -> EcucDerivationSpecification:
+    def setCalculation(self, value: EcucParameter) -> EcucDerivationSpecification:
         """
         AUTOSAR-compliant setter for calculation with method chaining.
 
@@ -1888,7 +1890,7 @@ class EcucDerivationSpecification(ARObject):
         """
         return self.ecuc_query  # Delegates to property
 
-    def getInformalFormula(self) -> "MlFormula":
+    def getInformalFormula(self) -> MlFormula:
         """
         AUTOSAR-compliant getter for informalFormula.
 
@@ -1900,7 +1902,7 @@ class EcucDerivationSpecification(ARObject):
         """
         return self.informal_formula  # Delegates to property
 
-    def setInformalFormula(self, value: "MlFormula") -> EcucDerivationSpecification:
+    def setInformalFormula(self, value: MlFormula) -> EcucDerivationSpecification:
         """
         AUTOSAR-compliant setter for informalFormula with method chaining.
 
@@ -2356,7 +2358,7 @@ class EcucConditionSpecification(ARObject):
         """
         return self.ecuc_query  # Delegates to property
 
-    def getInformalFormula(self) -> "MlFormula":
+    def getInformalFormula(self) -> MlFormula:
         """
         AUTOSAR-compliant getter for informalFormula.
 
@@ -2368,7 +2370,7 @@ class EcucConditionSpecification(ARObject):
         """
         return self.informal_formula  # Delegates to property
 
-    def setInformalFormula(self, value: "MlFormula") -> EcucConditionSpecification:
+    def setInformalFormula(self, value: MlFormula) -> EcucConditionSpecification:
         """
         AUTOSAR-compliant setter for informalFormula with method chaining.
 
@@ -3753,7 +3755,7 @@ class EcucParameterDef(EcucCommonAttributes, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDerivation(self) -> "EcucDerivation":
+    def getDerivation(self) -> EcucDerivation:
         """
         AUTOSAR-compliant getter for derivation.
 
@@ -3765,7 +3767,7 @@ class EcucParameterDef(EcucCommonAttributes, ABC):
         """
         return self.derivation  # Delegates to property
 
-    def setDerivation(self, value: "EcucDerivation") -> EcucParameterDef:
+    def setDerivation(self, value: EcucDerivation) -> EcucParameterDef:
         """
         AUTOSAR-compliant setter for derivation with method chaining.
 
@@ -4184,7 +4186,7 @@ class EcucIntegerParamDef(EcucParameterDef):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDefaultValue(self) -> "UnlimitedInteger":
+    def getDefaultValue(self) -> UnlimitedInteger:
         """
         AUTOSAR-compliant getter for defaultValue.
 
@@ -4196,7 +4198,7 @@ class EcucIntegerParamDef(EcucParameterDef):
         """
         return self.default_value  # Delegates to property
 
-    def setDefaultValue(self, value: "UnlimitedInteger") -> EcucIntegerParamDef:
+    def setDefaultValue(self, value: UnlimitedInteger) -> EcucIntegerParamDef:
         """
         AUTOSAR-compliant setter for defaultValue with method chaining.
 
@@ -4212,7 +4214,7 @@ class EcucIntegerParamDef(EcucParameterDef):
         self.default_value = value  # Delegates to property setter
         return self
 
-    def getMax(self) -> "UnlimitedInteger":
+    def getMax(self) -> UnlimitedInteger:
         """
         AUTOSAR-compliant getter for max.
 
@@ -4224,7 +4226,7 @@ class EcucIntegerParamDef(EcucParameterDef):
         """
         return self.max  # Delegates to property
 
-    def setMax(self, value: "UnlimitedInteger") -> EcucIntegerParamDef:
+    def setMax(self, value: UnlimitedInteger) -> EcucIntegerParamDef:
         """
         AUTOSAR-compliant setter for max with method chaining.
 
@@ -4240,7 +4242,7 @@ class EcucIntegerParamDef(EcucParameterDef):
         self.max = value  # Delegates to property setter
         return self
 
-    def getMin(self) -> "UnlimitedInteger":
+    def getMin(self) -> UnlimitedInteger:
         """
         AUTOSAR-compliant getter for min.
 
@@ -4252,7 +4254,7 @@ class EcucIntegerParamDef(EcucParameterDef):
         """
         return self.min  # Delegates to property
 
-    def setMin(self, value: "UnlimitedInteger") -> EcucIntegerParamDef:
+    def setMin(self, value: UnlimitedInteger) -> EcucIntegerParamDef:
         """
         AUTOSAR-compliant setter for min with method chaining.
 
@@ -4448,7 +4450,7 @@ class EcucFloatParamDef(EcucParameterDef):
         self.default_value = value  # Delegates to property setter
         return self
 
-    def getMax(self) -> "Limit":
+    def getMax(self) -> Limit:
         """
         AUTOSAR-compliant getter for max.
 
@@ -4460,7 +4462,7 @@ class EcucFloatParamDef(EcucParameterDef):
         """
         return self.max  # Delegates to property
 
-    def setMax(self, value: "Limit") -> EcucFloatParamDef:
+    def setMax(self, value: Limit) -> EcucFloatParamDef:
         """
         AUTOSAR-compliant setter for max with method chaining.
 
@@ -4476,7 +4478,7 @@ class EcucFloatParamDef(EcucParameterDef):
         self.max = value  # Delegates to property setter
         return self
 
-    def getMin(self) -> "Limit":
+    def getMin(self) -> Limit:
         """
         AUTOSAR-compliant getter for min.
 
@@ -4488,7 +4490,7 @@ class EcucFloatParamDef(EcucParameterDef):
         """
         return self.min  # Delegates to property
 
-    def setMin(self, value: "Limit") -> EcucFloatParamDef:
+    def setMin(self, value: Limit) -> EcucFloatParamDef:
         """
         AUTOSAR-compliant setter for min with method chaining.
 
@@ -4610,7 +4612,7 @@ class EcucEnumerationParamDef(EcucParameterDef):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDefaultValue(self) -> "Identifier":
+    def getDefaultValue(self) -> Identifier:
         """
         AUTOSAR-compliant getter for defaultValue.
 
@@ -4622,7 +4624,7 @@ class EcucEnumerationParamDef(EcucParameterDef):
         """
         return self.default_value  # Delegates to property
 
-    def setDefaultValue(self, value: "Identifier") -> EcucEnumerationParamDef:
+    def setDefaultValue(self, value: Identifier) -> EcucEnumerationParamDef:
         """
         AUTOSAR-compliant setter for defaultValue with method chaining.
 

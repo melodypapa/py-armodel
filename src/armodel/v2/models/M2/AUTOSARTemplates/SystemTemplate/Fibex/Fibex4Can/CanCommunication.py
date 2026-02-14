@@ -89,15 +89,15 @@ class CanFrameTriggering(FrameTriggering):
         # Additionally the format allows 29-bit identifiers and is the CAN
                 # specification 2.
         # 0 B.
-        self._canAddressing: Optional[CanAddressingMode] = None
+        self._canAddressing: Optional["CanAddressingMode"] = None
 
     @property
-    def can_addressing(self) -> Optional[CanAddressingMode]:
+    def can_addressing(self) -> Optional["CanAddressingMode"]:
         """Get canAddressing (Pythonic accessor)."""
         return self._canAddressing
 
     @can_addressing.setter
-    def can_addressing(self, value: Optional[CanAddressingMode]) -> None:
+    def can_addressing(self, value: Optional["CanAddressingMode"]) -> None:
         """
         Set canAddressing with validation.
 
@@ -116,15 +116,15 @@ class CanFrameTriggering(FrameTriggering):
                 f"canAddressing must be CanAddressingMode or None, got {type(value).__name__}"
             )
         self._canAddressing = value
-        self._canFrameRx: Optional[CanFrameRxBehavior] = None
+        self._canFrameRx: Optional["CanFrameRxBehavior"] = None
 
     @property
-    def can_frame_rx(self) -> Optional[CanFrameRxBehavior]:
+    def can_frame_rx(self) -> Optional["CanFrameRxBehavior"]:
         """Get canFrameRx (Pythonic accessor)."""
         return self._canFrameRx
 
     @can_frame_rx.setter
-    def can_frame_rx(self, value: Optional[CanFrameRxBehavior]) -> None:
+    def can_frame_rx(self, value: Optional["CanFrameRxBehavior"]) -> None:
         """
         Set canFrameRx with validation.
 
@@ -143,15 +143,15 @@ class CanFrameTriggering(FrameTriggering):
                 f"canFrameRx must be CanFrameRxBehavior or None, got {type(value).__name__}"
             )
         self._canFrameRx = value
-        self._canFrameTx: Optional[CanFrameTxBehavior] = None
+        self._canFrameTx: Optional["CanFrameTxBehavior"] = None
 
     @property
-    def can_frame_tx(self) -> Optional[CanFrameTxBehavior]:
+    def can_frame_tx(self) -> Optional["CanFrameTxBehavior"]:
         """Get canFrameTx (Pythonic accessor)."""
         return self._canFrameTx
 
     @can_frame_tx.setter
-    def can_frame_tx(self, value: Optional[CanFrameTxBehavior]) -> None:
+    def can_frame_tx(self, value: Optional["CanFrameTxBehavior"]) -> None:
         """
         Set canFrameTx with validation.
 
@@ -347,7 +347,7 @@ class CanFrameTriggering(FrameTriggering):
         """
         return self.absolutely  # Delegates to property
 
-    def getCanAddressing(self) -> CanAddressingMode:
+    def getCanAddressing(self) -> "CanAddressingMode":
         """
         AUTOSAR-compliant getter for canAddressing.
 
@@ -359,7 +359,7 @@ class CanFrameTriggering(FrameTriggering):
         """
         return self.can_addressing  # Delegates to property
 
-    def setCanAddressing(self, value: CanAddressingMode) -> CanFrameTriggering:
+    def setCanAddressing(self, value: "CanAddressingMode") -> CanFrameTriggering:
         """
         AUTOSAR-compliant setter for canAddressing with method chaining.
 
@@ -375,7 +375,7 @@ class CanFrameTriggering(FrameTriggering):
         self.can_addressing = value  # Delegates to property setter
         return self
 
-    def getCanFrameRx(self) -> CanFrameRxBehavior:
+    def getCanFrameRx(self) -> "CanFrameRxBehavior":
         """
         AUTOSAR-compliant getter for canFrameRx.
 
@@ -387,7 +387,7 @@ class CanFrameTriggering(FrameTriggering):
         """
         return self.can_frame_rx  # Delegates to property
 
-    def setCanFrameRx(self, value: CanFrameRxBehavior) -> CanFrameTriggering:
+    def setCanFrameRx(self, value: "CanFrameRxBehavior") -> CanFrameTriggering:
         """
         AUTOSAR-compliant setter for canFrameRx with method chaining.
 
@@ -403,7 +403,7 @@ class CanFrameTriggering(FrameTriggering):
         self.can_frame_rx = value  # Delegates to property setter
         return self
 
-    def getCanFrameTx(self) -> CanFrameTxBehavior:
+    def getCanFrameTx(self) -> "CanFrameTxBehavior":
         """
         AUTOSAR-compliant getter for canFrameTx.
 
@@ -415,7 +415,7 @@ class CanFrameTriggering(FrameTriggering):
         """
         return self.can_frame_tx  # Delegates to property
 
-    def setCanFrameTx(self, value: CanFrameTxBehavior) -> CanFrameTriggering:
+    def setCanFrameTx(self, value: "CanFrameTxBehavior") -> CanFrameTriggering:
         """
         AUTOSAR-compliant setter for canFrameTx with method chaining.
 
@@ -601,7 +601,7 @@ class CanFrameTriggering(FrameTriggering):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_can_addressing(self, value: Optional[CanAddressingMode]) -> CanFrameTriggering:
+    def with_can_addressing(self, value: Optional["CanAddressingMode"]) -> CanFrameTriggering:
         """
         Set canAddressing and return self for chaining.
 
@@ -617,7 +617,7 @@ class CanFrameTriggering(FrameTriggering):
         self.can_addressing = value  # Use property setter (gets validation)
         return self
 
-    def with_can_frame_rx(self, value: Optional[CanFrameRxBehavior]) -> CanFrameTriggering:
+    def with_can_frame_rx(self, value: Optional["CanFrameRxBehavior"]) -> CanFrameTriggering:
         """
         Set canFrameRx and return self for chaining.
 
@@ -633,7 +633,7 @@ class CanFrameTriggering(FrameTriggering):
         self.can_frame_rx = value  # Use property setter (gets validation)
         return self
 
-    def with_can_frame_tx(self, value: Optional[CanFrameTxBehavior]) -> CanFrameTriggering:
+    def with_can_frame_tx(self, value: Optional["CanFrameTxBehavior"]) -> CanFrameTriggering:
         """
         Set canFrameTx and return self for chaining.
 

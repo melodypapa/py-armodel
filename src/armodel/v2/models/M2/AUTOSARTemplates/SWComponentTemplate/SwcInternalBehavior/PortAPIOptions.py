@@ -16,7 +16,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     Boolean,
+    DataTransformation,
     RefType,
+    ValueSpecification,
 )
 
 
@@ -129,7 +131,7 @@ class PortDefinedArgumentValue(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getValue(self) -> "ValueSpecification":
+    def getValue(self) -> ValueSpecification:
         """
         AUTOSAR-compliant getter for value.
 
@@ -141,7 +143,7 @@ class PortDefinedArgumentValue(ARObject):
         """
         return self.value  # Delegates to property
 
-    def setValue(self, value: "ValueSpecification") -> PortDefinedArgumentValue:
+    def setValue(self, value: ValueSpecification) -> PortDefinedArgumentValue:
         """
         AUTOSAR-compliant setter for value with method chaining.
 
@@ -425,7 +427,7 @@ class PortAPIOption(ARObject):
         self.enable_take = value  # Delegates to property setter
         return self
 
-    def getErrorHandling(self) -> "DataTransformation":
+    def getErrorHandling(self) -> DataTransformation:
         """
         AUTOSAR-compliant getter for errorHandling.
 
@@ -437,7 +439,7 @@ class PortAPIOption(ARObject):
         """
         return self.error_handling  # Delegates to property
 
-    def setErrorHandling(self, value: "DataTransformation") -> PortAPIOption:
+    def setErrorHandling(self, value: DataTransformation) -> PortAPIOption:
         """
         AUTOSAR-compliant setter for errorHandling with method chaining.
 
@@ -533,7 +535,7 @@ class PortAPIOption(ARObject):
         """
         return self.supported  # Delegates to property
 
-    def getTransformer(self) -> "DataTransformation":
+    def getTransformer(self) -> DataTransformation:
         """
         AUTOSAR-compliant getter for transformer.
 
@@ -545,7 +547,7 @@ class PortAPIOption(ARObject):
         """
         return self.transformer  # Delegates to property
 
-    def setTransformer(self, value: "DataTransformation") -> PortAPIOption:
+    def setTransformer(self, value: DataTransformation) -> PortAPIOption:
         """
         AUTOSAR-compliant setter for transformer with method chaining.
 

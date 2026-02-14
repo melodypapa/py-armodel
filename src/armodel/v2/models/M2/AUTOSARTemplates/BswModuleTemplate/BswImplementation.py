@@ -9,11 +9,15 @@ from __future__ import annotations
 
 from typing import List, Optional
 
+from armodel.v2.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
+    BswInternalBehavior,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
     Implementation,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Identifier,
+    RevisionLabelString,
 )
 
 
@@ -71,15 +75,15 @@ class BswImplementation(Implementation):
         # is made as an association because follows the pattern of the SWCT ARElement
                 # cannot be splitted, but we want implementation later, the Bsw not aggregated
                 # in BswBehavior.
-        self._behavior: Optional[BswInternalBehavior] = None
+        self._behavior: Optional["BswInternalBehavior"] = None
 
     @property
-    def behavior(self) -> Optional[BswInternalBehavior]:
+    def behavior(self) -> Optional["BswInternalBehavior"]:
         """Get behavior (Pythonic accessor)."""
         return self._behavior
 
     @behavior.setter
-    def behavior(self, value: Optional[BswInternalBehavior]) -> None:
+    def behavior(self, value: Optional["BswInternalBehavior"]) -> None:
         """
         Set behavior with validation.
 
@@ -214,7 +218,7 @@ class BswImplementation(Implementation):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getArRelease(self) -> "RevisionLabelString":
+    def getArRelease(self) -> RevisionLabelString:
         """
         AUTOSAR-compliant getter for arRelease.
 
@@ -226,7 +230,7 @@ class BswImplementation(Implementation):
         """
         return self.ar_release  # Delegates to property
 
-    def setArRelease(self, value: "RevisionLabelString") -> BswImplementation:
+    def setArRelease(self, value: RevisionLabelString) -> BswImplementation:
         """
         AUTOSAR-compliant setter for arRelease with method chaining.
 
@@ -242,7 +246,7 @@ class BswImplementation(Implementation):
         self.ar_release = value  # Delegates to property setter
         return self
 
-    def getBehavior(self) -> BswInternalBehavior:
+    def getBehavior(self) -> "BswInternalBehavior":
         """
         AUTOSAR-compliant getter for behavior.
 
@@ -294,7 +298,7 @@ class BswImplementation(Implementation):
         """
         return self.recommended  # Delegates to property
 
-    def getVendorApiInfix(self) -> "Identifier":
+    def getVendorApiInfix(self) -> Identifier:
         """
         AUTOSAR-compliant getter for vendorApiInfix.
 
@@ -306,7 +310,7 @@ class BswImplementation(Implementation):
         """
         return self.vendor_api_infix  # Delegates to property
 
-    def setVendorApiInfix(self, value: "Identifier") -> BswImplementation:
+    def setVendorApiInfix(self, value: Identifier) -> BswImplementation:
         """
         AUTOSAR-compliant setter for vendorApiInfix with method chaining.
 
@@ -352,7 +356,7 @@ class BswImplementation(Implementation):
         self.ar_release = value  # Use property setter (gets validation)
         return self
 
-    def with_behavior(self, value: Optional[BswInternalBehavior]) -> BswImplementation:
+    def with_behavior(self, value: Optional["BswInternalBehavior"]) -> BswImplementation:
         """
         Set behavior and return self for chaining.
 

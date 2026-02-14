@@ -586,7 +586,7 @@ class EndToEndDescription(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCategory(self) -> "NameToken":
+    def getCategory(self) -> NameToken:
         """
         AUTOSAR-compliant getter for category.
 
@@ -598,7 +598,7 @@ class EndToEndDescription(ARObject):
         """
         return self.category  # Delegates to property
 
-    def setCategory(self, value: "NameToken") -> EndToEndDescription:
+    def setCategory(self, value: NameToken) -> EndToEndDescription:
         """
         AUTOSAR-compliant setter for category with method chaining.
 
@@ -1119,7 +1119,7 @@ class EndToEndProtectionVariablePrototype(ARObject):
         self.sender = value  # Delegates to property setter
         return self
 
-    def getShortLabel(self) -> "Identifier":
+    def getShortLabel(self) -> Identifier:
         """
         AUTOSAR-compliant getter for shortLabel.
 
@@ -1131,7 +1131,7 @@ class EndToEndProtectionVariablePrototype(ARObject):
         """
         return self.short_label  # Delegates to property
 
-    def setShortLabel(self, value: "Identifier") -> EndToEndProtectionVariablePrototype:
+    def setShortLabel(self, value: Identifier) -> EndToEndProtectionVariablePrototype:
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
 

@@ -23,6 +23,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.__i
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols.IEEE1722Tp.__init__ import (
     IEEE1722TpConnection,
+    MacAddressString,
 )
 
 
@@ -299,7 +300,7 @@ class IEEE1722TpConnection(ARElement, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDestinationMac(self) -> "MacAddressString":
+    def getDestinationMac(self) -> MacAddressString:
         """
         AUTOSAR-compliant getter for destinationMac.
 
@@ -311,7 +312,7 @@ class IEEE1722TpConnection(ARElement, ABC):
         """
         return self.destination_mac  # Delegates to property
 
-    def setDestinationMac(self, value: "MacAddressString") -> IEEE1722TpConnection:
+    def setDestinationMac(self, value: MacAddressString) -> IEEE1722TpConnection:
         """
         AUTOSAR-compliant setter for destinationMac with method chaining.
 
@@ -327,7 +328,7 @@ class IEEE1722TpConnection(ARElement, ABC):
         self.destination_mac = value  # Delegates to property setter
         return self
 
-    def getMacAddress(self) -> "MacAddressString":
+    def getMacAddress(self) -> MacAddressString:
         """
         AUTOSAR-compliant getter for macAddress.
 
@@ -339,7 +340,7 @@ class IEEE1722TpConnection(ARElement, ABC):
         """
         return self.mac_address  # Delegates to property
 
-    def setMacAddress(self, value: "MacAddressString") -> IEEE1722TpConnection:
+    def setMacAddress(self, value: MacAddressString) -> IEEE1722TpConnection:
         """
         AUTOSAR-compliant setter for macAddress with method chaining.
 
@@ -584,15 +585,15 @@ class IEEE1722TpAvConnection(IEEE1722TpConnection, ABC):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Defines the time offset that is added to the current time at in order to get
         # the "presentation time" (in content shall be presented at the.
-        self._maxTransitTime: Optional[TimeValue] = None
+        self._maxTransitTime: Optional["TimeValue"] = None
 
     @property
-    def max_transit_time(self) -> Optional[TimeValue]:
+    def max_transit_time(self) -> Optional["TimeValue"]:
         """Get maxTransitTime (Pythonic accessor)."""
         return self._maxTransitTime
 
     @max_transit_time.setter
-    def max_transit_time(self, value: Optional[TimeValue]) -> None:
+    def max_transit_time(self, value: Optional["TimeValue"]) -> None:
         """
         Set maxTransitTime with validation.
 
@@ -621,7 +622,7 @@ class IEEE1722TpAvConnection(IEEE1722TpConnection, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getMaxTransitTime(self) -> TimeValue:
+    def getMaxTransitTime(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for maxTransitTime.
 
@@ -633,7 +634,7 @@ class IEEE1722TpAvConnection(IEEE1722TpConnection, ABC):
         """
         return self.max_transit_time  # Delegates to property
 
-    def setMaxTransitTime(self, value: TimeValue) -> IEEE1722TpAvConnection:
+    def setMaxTransitTime(self, value: "TimeValue") -> IEEE1722TpAvConnection:
         """
         AUTOSAR-compliant setter for maxTransitTime with method chaining.
 
@@ -663,7 +664,7 @@ class IEEE1722TpAvConnection(IEEE1722TpConnection, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_max_transit_time(self, value: Optional[TimeValue]) -> IEEE1722TpAvConnection:
+    def with_max_transit_time(self, value: Optional["TimeValue"]) -> IEEE1722TpAvConnection:
         """
         Set maxTransitTime and return self for chaining.
 
@@ -703,15 +704,15 @@ class IEEE1722TpAcfConnection(IEEE1722TpConnection):
         return self._acfTransported
         # When this timeout expires the IEEE1722Tp ACF is triggered for sending.
         # The respective timer is the first Pdu is put into the IEEE1722Tp seconds.
-        self._collection: Optional[TimeValue] = None
+        self._collection: Optional["TimeValue"] = None
 
     @property
-    def collection(self) -> Optional[TimeValue]:
+    def collection(self) -> Optional["TimeValue"]:
         """Get collection (Pythonic accessor)."""
         return self._collection
 
     @collection.setter
-    def collection(self, value: Optional[TimeValue]) -> None:
+    def collection(self, value: Optional["TimeValue"]) -> None:
         """
         Set collection with validation.
 
@@ -775,7 +776,7 @@ class IEEE1722TpAcfConnection(IEEE1722TpConnection):
         """
         return self.acf_transported  # Delegates to property
 
-    def getCollection(self) -> TimeValue:
+    def getCollection(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for collection.
 
@@ -787,7 +788,7 @@ class IEEE1722TpAcfConnection(IEEE1722TpConnection):
         """
         return self.collection  # Delegates to property
 
-    def setCollection(self, value: TimeValue) -> IEEE1722TpAcfConnection:
+    def setCollection(self, value: "TimeValue") -> IEEE1722TpAcfConnection:
         """
         AUTOSAR-compliant setter for collection with method chaining.
 
@@ -833,7 +834,7 @@ class IEEE1722TpAcfConnection(IEEE1722TpConnection):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_collection(self, value: Optional[TimeValue]) -> IEEE1722TpAcfConnection:
+    def with_collection(self, value: Optional["TimeValue"]) -> IEEE1722TpAcfConnection:
         """
         Set collection and return self for chaining.
 
