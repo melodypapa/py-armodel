@@ -9,11 +9,31 @@ from __future__ import annotations
 
 from typing import Optional
 
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
+    NumericalOrText,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Numerical,
     RefType,
+    VerbatimString,
+)
+from armodel.v2.models.M2.MSR.AsamHdo.Units import (
+    Unit,
+)
+from armodel.v2.models.M2.MSR.DataDictionary.CalibrationParameter import (
+    CalprmAxisCategoryEnum,
+)
+from armodel.v2.models.M2.MSR.DataDictionary.RecordLayout import (
+    AxisIndexType,
+)
+from armodel.v2.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
+    MultilanguageLongName,
+)
+from armodel.v2.models.M2.MSR.Documentation.TextModel.SingleLanguageData import (
+    SingleLanguageUnitNames,
 )
 
 
@@ -114,15 +134,15 @@ class SwValueCont(ARObject):
             )
         self._unit = value
         # displayed in documents or in user interfaces.
-        self._unitDisplay: Optional["SingleLanguageUnit"] = None
+        self._unitDisplay: Optional[SingleLanguageUnitNames] = None
 
     @property
-    def unit_display(self) -> Optional["SingleLanguageUnit"]:
+    def unit_display(self) -> Optional[SingleLanguageUnitNames]:
         """Get unitDisplay (Pythonic accessor)."""
         return self._unitDisplay
 
     @unit_display.setter
-    def unit_display(self, value: Optional["SingleLanguageUnit"]) -> None:
+    def unit_display(self, value: Optional[SingleLanguageUnitNames]) -> None:
         """
         Set unitDisplay with validation.
 
@@ -136,9 +156,9 @@ class SwValueCont(ARObject):
             self._unitDisplay = None
             return
 
-        if not isinstance(value, SingleLanguageUnit):
+        if not isinstance(value, SingleLanguageUnitNames):
             raise TypeError(
-                f"unitDisplay must be SingleLanguageUnit or None, got {type(value).__name__}"
+                f"unitDisplay must be SingleLanguageUnitNames or None, got {type(value).__name__}"
             )
         self._unitDisplay = value
 
@@ -228,7 +248,7 @@ class SwValueCont(ARObject):
         self.unit = value  # Delegates to property setter
         return self
 
-    def getUnitDisplay(self) -> "SingleLanguageUnit":
+    def getUnitDisplay(self) -> SingleLanguageUnitNames:
         """
         AUTOSAR-compliant getter for unitDisplay.
 
@@ -240,7 +260,7 @@ class SwValueCont(ARObject):
         """
         return self.unit_display  # Delegates to property
 
-    def setUnitDisplay(self, value: "SingleLanguageUnit") -> SwValueCont:
+    def setUnitDisplay(self, value: SingleLanguageUnitNames) -> SwValueCont:
         """
         AUTOSAR-compliant setter for unitDisplay with method chaining.
 
@@ -306,7 +326,7 @@ class SwValueCont(ARObject):
         self.unit = value  # Use property setter (gets validation)
         return self
 
-    def with_unit_display(self, value: Optional["SingleLanguageUnit"]) -> SwValueCont:
+    def with_unit_display(self, value: Optional[SingleLanguageUnitNames]) -> SwValueCont:
         """
         Set unitDisplay and return self for chaining.
 
@@ -344,33 +364,15 @@ class SwAxisCont(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This category specifies the particular axis types: STD_AXIS (swArraysize
         # necessary).
-        self._category: Optional[CalprmAxisCategory] = None
+        self._category: Optional[CalprmAxisCategoryEnum] = None
 
     @property
-    def category(self) -> Optional[CalprmAxisCategory]:
+    def category(self) -> Optional[CalprmAxisCategoryEnum]:
         """Get category (Pythonic accessor)."""
         return self._category
 
     @category.setter
-    def category(self, value: Optional[CalprmAxisCategory]) -> None:
-        """
-        Set category with validation.
-
-        Args:
-            value: The category to set
-
-        Raises:
-            TypeError: If value type is incorrect
-        """
-        if value is None:
-            self._category = None
-            return
-
-        if not isinstance(value, CalprmAxisCategory):
-            raise TypeError(
-                f"category must be CalprmAxisCategory or None, got {type(value).__name__}"
-            )
-        self._category = value
+    def category(self, value: Optional[CalprmAxisCategoryEnum]) -> None:
                 # the dimensions.
         # They are swArraySize.
         self._swArraysize: Optional[RefType] = None
@@ -480,15 +482,15 @@ class SwAxisCont(ARObject):
             )
         self._unit = value
         # axis.
-        self._unitDisplay: Optional["SingleLanguageUnit"] = None
+        self._unitDisplay: Optional[SingleLanguageUnitNames] = None
 
     @property
-    def unit_display(self) -> Optional["SingleLanguageUnit"]:
+    def unit_display(self) -> Optional[SingleLanguageUnitNames]:
         """Get unitDisplay (Pythonic accessor)."""
         return self._unitDisplay
 
     @unit_display.setter
-    def unit_display(self, value: Optional["SingleLanguageUnit"]) -> None:
+    def unit_display(self, value: Optional[SingleLanguageUnitNames]) -> None:
         """
         Set unitDisplay with validation.
 
@@ -502,15 +504,15 @@ class SwAxisCont(ARObject):
             self._unitDisplay = None
             return
 
-        if not isinstance(value, SingleLanguageUnit):
+        if not isinstance(value, SingleLanguageUnitNames):
             raise TypeError(
-                f"unitDisplay must be SingleLanguageUnit or None, got {type(value).__name__}"
+                f"unitDisplay must be SingleLanguageUnitNames or None, got {type(value).__name__}"
             )
         self._unitDisplay = value
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCategory(self) -> CalprmAxisCategory:
+    def getCategory(self) -> CalprmAxisCategoryEnum:
         """
         AUTOSAR-compliant getter for category.
 
@@ -522,7 +524,7 @@ class SwAxisCont(ARObject):
         """
         return self.category  # Delegates to property
 
-    def setCategory(self, value: CalprmAxisCategory) -> SwAxisCont:
+    def setCategory(self, value: CalprmAxisCategoryEnum) -> SwAxisCont:
         """
         AUTOSAR-compliant setter for category with method chaining.
 
@@ -650,7 +652,7 @@ class SwAxisCont(ARObject):
         self.unit = value  # Delegates to property setter
         return self
 
-    def getUnitDisplay(self) -> "SingleLanguageUnit":
+    def getUnitDisplay(self) -> SingleLanguageUnitNames:
         """
         AUTOSAR-compliant getter for unitDisplay.
 
@@ -662,7 +664,7 @@ class SwAxisCont(ARObject):
         """
         return self.unit_display  # Delegates to property
 
-    def setUnitDisplay(self, value: "SingleLanguageUnit") -> SwAxisCont:
+    def setUnitDisplay(self, value: SingleLanguageUnitNames) -> SwAxisCont:
         """
         AUTOSAR-compliant setter for unitDisplay with method chaining.
 
@@ -680,7 +682,7 @@ class SwAxisCont(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_category(self, value: Optional[CalprmAxisCategory]) -> SwAxisCont:
+    def with_category(self, value: Optional[CalprmAxisCategoryEnum]) -> SwAxisCont:
         """
         Set category and return self for chaining.
 
@@ -760,7 +762,7 @@ class SwAxisCont(ARObject):
         self.unit = value  # Use property setter (gets validation)
         return self
 
-    def with_unit_display(self, value: Optional["SingleLanguageUnit"]) -> SwAxisCont:
+    def with_unit_display(self, value: Optional[SingleLanguageUnitNames]) -> SwAxisCont:
         """
         Set unitDisplay and return self for chaining.
 
@@ -794,15 +796,15 @@ class SwValues(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This is a non variant Value.
         # It is provided for sake of ASAM CDF.
-        self._v: Optional["Numerical"] = None
+        self._v: Optional[Numerical] = None
 
     @property
-    def v(self) -> Optional["Numerical"]:
+    def v(self) -> Optional[Numerical]:
         """Get v (Pythonic accessor)."""
         return self._v
 
     @v.setter
-    def v(self, value: Optional["Numerical"]) -> None:
+    def v(self, value: Optional[Numerical]) -> None:
         """
         Set v with validation.
 
@@ -823,15 +825,15 @@ class SwValues(ARObject):
         self._v = value
         # It is non variant for sake of compatibility to 2.
         # 0.
-        self._vf: Optional["Numerical"] = None
+        self._vf: Optional[Numerical] = None
 
     @property
-    def vf(self) -> Optional["Numerical"]:
+    def vf(self) -> Optional[Numerical]:
         """Get vf (Pythonic accessor)."""
         return self._vf
 
     @vf.setter
-    def vf(self, value: Optional["Numerical"]) -> None:
+    def vf(self, value: Optional[Numerical]) -> None:
         """
         Set vf with validation.
 
@@ -876,48 +878,27 @@ class SwValues(ARObject):
             return
 
         self._vg = value
-        # separate the values for bitfield masks in case that the semantics of
-        # DataPrototype is described by means of a the associated CompuMethod.
-        self._vt: Optional["VerbatimString"] = None
+        self._vt: Optional[VerbatimString] = None
 
     @property
-    def vt(self) -> Optional["VerbatimString"]:
+    def vt(self) -> Optional[VerbatimString]:
         """Get vt (Pythonic accessor)."""
         return self._vt
 
     @vt.setter
-    def vt(self, value: Optional["VerbatimString"]) -> None:
-        """
-        Set vt with validation.
-
-        Args:
-            value: The vt to set
-
-        Raises:
-            TypeError: If value type is incorrect
-        """
-        if value is None:
-            self._vt = None
-            return
-
-        if not isinstance(value, VerbatimString):
-            raise TypeError(
-                f"vt must be VerbatimString or None, got {type(value).__name__}"
-            )
-        self._vt = value
+    def vt(self, value: Optional[VerbatimString]) -> None:
                 # or text which existence is subject formal point of view, the aggregation
                 # needs to multiplicity 1 because SwValues is modelled with Nevertheless, the
                 # existence of optional and subject to constraints.
-        # atpVariation.
-        self._vtf: Optional["NumericalOrText"] = None
+        self._vtf: Optional[NumericalOrText] = None
 
     @property
-    def vtf(self) -> Optional["NumericalOrText"]:
+    def vtf(self) -> Optional[NumericalOrText]:
         """Get vtf (Pythonic accessor)."""
         return self._vtf
 
     @vtf.setter
-    def vtf(self, value: Optional["NumericalOrText"]) -> None:
+    def vtf(self, value: Optional[NumericalOrText]) -> None:
         """
         Set vtf with validation.
 
@@ -939,7 +920,7 @@ class SwValues(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getV(self) -> "Numerical":
+    def getV(self) -> Numerical:
         """
         AUTOSAR-compliant getter for v.
 
@@ -951,7 +932,7 @@ class SwValues(ARObject):
         """
         return self.v  # Delegates to property
 
-    def setV(self, value: "Numerical") -> SwValues:
+    def setV(self, value: Numerical) -> SwValues:
         """
         AUTOSAR-compliant setter for v with method chaining.
 
@@ -967,7 +948,7 @@ class SwValues(ARObject):
         self.v = value  # Delegates to property setter
         return self
 
-    def getVf(self) -> "Numerical":
+    def getVf(self) -> Numerical:
         """
         AUTOSAR-compliant getter for vf.
 
@@ -979,7 +960,7 @@ class SwValues(ARObject):
         """
         return self.vf  # Delegates to property
 
-    def setVf(self, value: "Numerical") -> SwValues:
+    def setVf(self, value: Numerical) -> SwValues:
         """
         AUTOSAR-compliant setter for vf with method chaining.
 
@@ -1023,7 +1004,7 @@ class SwValues(ARObject):
         self.vg = value  # Delegates to property setter
         return self
 
-    def getVt(self) -> "VerbatimString":
+    def getVt(self) -> VerbatimString:
         """
         AUTOSAR-compliant getter for vt.
 
@@ -1035,7 +1016,7 @@ class SwValues(ARObject):
         """
         return self.vt  # Delegates to property
 
-    def setVt(self, value: "VerbatimString") -> SwValues:
+    def setVt(self, value: VerbatimString) -> SwValues:
         """
         AUTOSAR-compliant setter for vt with method chaining.
 
@@ -1051,7 +1032,7 @@ class SwValues(ARObject):
         self.vt = value  # Delegates to property setter
         return self
 
-    def getVtf(self) -> "NumericalOrText":
+    def getVtf(self) -> NumericalOrText:
         """
         AUTOSAR-compliant getter for vtf.
 
@@ -1063,7 +1044,7 @@ class SwValues(ARObject):
         """
         return self.vtf  # Delegates to property
 
-    def setVtf(self, value: "NumericalOrText") -> SwValues:
+    def setVtf(self, value: NumericalOrText) -> SwValues:
         """
         AUTOSAR-compliant setter for vtf with method chaining.
 
@@ -1081,7 +1062,7 @@ class SwValues(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_v(self, value: Optional["Numerical"]) -> SwValues:
+    def with_v(self, value: Optional[Numerical]) -> SwValues:
         """
         Set v and return self for chaining.
 
@@ -1097,7 +1078,7 @@ class SwValues(ARObject):
         self.v = value  # Use property setter (gets validation)
         return self
 
-    def with_vf(self, value: Optional["Numerical"]) -> SwValues:
+    def with_vf(self, value: Optional[Numerical]) -> SwValues:
         """
         Set vf and return self for chaining.
 
@@ -1129,7 +1110,7 @@ class SwValues(ARObject):
         self.vg = value  # Use property setter (gets validation)
         return self
 
-    def with_vt(self, value: Optional["VerbatimString"]) -> SwValues:
+    def with_vt(self, value: Optional[VerbatimString]) -> SwValues:
         """
         Set vt and return self for chaining.
 
@@ -1145,7 +1126,7 @@ class SwValues(ARObject):
         self.vt = value  # Use property setter (gets validation)
         return self
 
-    def with_vtf(self, value: Optional["NumericalOrText"]) -> SwValues:
+    def with_vtf(self, value: Optional[NumericalOrText]) -> SwValues:
         """
         Set vtf and return self for chaining.
 
@@ -1181,15 +1162,15 @@ class ValueGroup(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This label allows to give the valueGroup a particular It can be used if the
         # Values are rendered as a.
-        self._label: Optional["MultilanguageLong"] = None
+        self._label: Optional[MultilanguageLongName] = None
 
     @property
-    def label(self) -> Optional["MultilanguageLong"]:
+    def label(self) -> Optional[MultilanguageLongName]:
         """Get label (Pythonic accessor)."""
         return self._label
 
     @label.setter
-    def label(self, value: Optional["MultilanguageLong"]) -> None:
+    def label(self, value: Optional[MultilanguageLongName]) -> None:
         """
         Set label with validation.
 
@@ -1203,9 +1184,9 @@ class ValueGroup(ARObject):
             self._label = None
             return
 
-        if not isinstance(value, MultilanguageLong):
+        if not isinstance(value, MultilanguageLongName):
             raise TypeError(
-                f"label must be MultilanguageLong or None, got {type(value).__name__}"
+                f"label must be MultilanguageLongName or None, got {type(value).__name__}"
             )
         self._label = value
         self._vgContents: Optional[SwValues] = None
@@ -1238,7 +1219,7 @@ class ValueGroup(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getLabel(self) -> "MultilanguageLong":
+    def getLabel(self) -> MultilanguageLongName:
         """
         AUTOSAR-compliant getter for label.
 
@@ -1250,7 +1231,7 @@ class ValueGroup(ARObject):
         """
         return self.label  # Delegates to property
 
-    def setLabel(self, value: "MultilanguageLong") -> ValueGroup:
+    def setLabel(self, value: MultilanguageLongName) -> ValueGroup:
         """
         AUTOSAR-compliant setter for label with method chaining.
 
@@ -1296,7 +1277,7 @@ class ValueGroup(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_label(self, value: Optional["MultilanguageLong"]) -> ValueGroup:
+    def with_label(self, value: Optional[MultilanguageLongName]) -> ValueGroup:
         """
         Set label and return self for chaining.
 

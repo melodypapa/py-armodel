@@ -13,10 +13,13 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     ARObject,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    DateTime,
     NameToken,
+    RevisionLabelString,
     String,
 )
 from armodel.v2.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
+    MultiLanguageOverviewParagraph,
     MultiLanguagePlainText,
 )
 
@@ -201,15 +204,15 @@ class DocRevision(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This specifies the date and time, when the object in released.
-        self._date: "DateTime" = None
+        self._date: Optional[DateTime] = None
 
     @property
-    def date(self) -> "DateTime":
+    def date(self) -> Optional[DateTime]:
         """Get date (Pythonic accessor)."""
         return self._date
 
     @date.setter
-    def date(self, value: "DateTime") -> None:
+    def date(self, value: Optional[DateTime]) -> None:
         """
         Set date with validation.
 
@@ -259,15 +262,15 @@ class DocRevision(ARObject):
         """Get modification (Pythonic accessor)."""
         return self._modification
         # This attribute represents the version number of the object.
-        self._revisionLabel: Optional["RevisionLabelString"] = None
+        self._revisionLabel: Optional[RevisionLabelString] = None
 
     @property
-    def revision_label(self) -> Optional["RevisionLabelString"]:
+    def revision_label(self) -> Optional[RevisionLabelString]:
         """Get revisionLabel (Pythonic accessor)."""
         return self._revisionLabel
 
     @revision_label.setter
-    def revision_label(self, value: Optional["RevisionLabelString"]) -> None:
+    def revision_label(self, value: Optional[RevisionLabelString]) -> None:
         """
         Set revisionLabel with validation.
 
@@ -286,15 +289,15 @@ class DocRevision(ARObject):
                 f"revisionLabel must be RevisionLabelString or None, got {type(value).__name__}"
             )
         self._revisionLabel = value
-        self._revisionLabelP1: Optional["RevisionLabelString"] = None
+        self._revisionLabelP1: Optional[RevisionLabelString] = None
 
     @property
-    def revision_label_p1(self) -> Optional["RevisionLabelString"]:
+    def revision_label_p1(self) -> Optional[RevisionLabelString]:
         """Get revisionLabelP1 (Pythonic accessor)."""
         return self._revisionLabelP1
 
     @revision_label_p1.setter
-    def revision_label_p1(self, value: Optional["RevisionLabelString"]) -> None:
+    def revision_label_p1(self, value: Optional[RevisionLabelString]) -> None:
         """
         Set revisionLabelP1 with validation.
 
@@ -316,15 +319,15 @@ class DocRevision(ARObject):
         # This attribute represents the version number of the of the object.
         # is used if the object is the result of a merge which two branches are merged
                 # in to one new.
-        self._revisionLabelP2: Optional["RevisionLabelString"] = None
+        self._revisionLabelP2: Optional[RevisionLabelString] = None
 
     @property
-    def revision_label_p2(self) -> Optional["RevisionLabelString"]:
+    def revision_label_p2(self) -> Optional[RevisionLabelString]:
         """Get revisionLabelP2 (Pythonic accessor)."""
         return self._revisionLabelP2
 
     @revision_label_p2.setter
-    def revision_label_p2(self, value: Optional["RevisionLabelString"]) -> None:
+    def revision_label_p2(self, value: Optional[RevisionLabelString]) -> None:
         """
         Set revisionLabelP2 with validation.
 
@@ -345,15 +348,15 @@ class DocRevision(ARObject):
         self._revisionLabelP2 = value
         # The attribute state represents the current state of the according to the
         # configuration management is a NameToken until possible states are.
-        self._state: Optional["NameToken"] = None
+        self._state: Optional[NameToken] = None
 
     @property
-    def state(self) -> Optional["NameToken"]:
+    def state(self) -> Optional[NameToken]:
         """Get state (Pythonic accessor)."""
         return self._state
 
     @state.setter
-    def state(self, value: Optional["NameToken"]) -> None:
+    def state(self, value: Optional[NameToken]) -> None:
         """
         Set state with validation.
 
@@ -375,7 +378,7 @@ class DocRevision(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDate(self) -> "DateTime":
+    def getDate(self) -> Optional[DateTime]:
         """
         AUTOSAR-compliant getter for date.
 
@@ -387,7 +390,7 @@ class DocRevision(ARObject):
         """
         return self.date  # Delegates to property
 
-    def setDate(self, value: "DateTime") -> DocRevision:
+    def setDate(self, value: Optional[DateTime]) -> DocRevision:
         """
         AUTOSAR-compliant setter for date with method chaining.
 
@@ -443,7 +446,7 @@ class DocRevision(ARObject):
         """
         return self.modification  # Delegates to property
 
-    def getRevisionLabel(self) -> "RevisionLabelString":
+    def getRevisionLabel(self) -> Optional[RevisionLabelString]:
         """
         AUTOSAR-compliant getter for revisionLabel.
 
@@ -455,7 +458,7 @@ class DocRevision(ARObject):
         """
         return self.revision_label  # Delegates to property
 
-    def setRevisionLabel(self, value: "RevisionLabelString") -> DocRevision:
+    def setRevisionLabel(self, value: Optional[RevisionLabelString]) -> DocRevision:
         """
         AUTOSAR-compliant setter for revisionLabel with method chaining.
 
@@ -471,7 +474,7 @@ class DocRevision(ARObject):
         self.revision_label = value  # Delegates to property setter
         return self
 
-    def getRevisionLabelP1(self) -> "RevisionLabelString":
+    def getRevisionLabelP1(self) -> Optional[RevisionLabelString]:
         """
         AUTOSAR-compliant getter for revisionLabelP1.
 
@@ -483,7 +486,7 @@ class DocRevision(ARObject):
         """
         return self.revision_label_p1  # Delegates to property
 
-    def setRevisionLabelP1(self, value: "RevisionLabelString") -> DocRevision:
+    def setRevisionLabelP1(self, value: Optional[RevisionLabelString]) -> DocRevision:
         """
         AUTOSAR-compliant setter for revisionLabelP1 with method chaining.
 
@@ -499,7 +502,7 @@ class DocRevision(ARObject):
         self.revision_label_p1 = value  # Delegates to property setter
         return self
 
-    def getRevisionLabelP2(self) -> "RevisionLabelString":
+    def getRevisionLabelP2(self) -> Optional[RevisionLabelString]:
         """
         AUTOSAR-compliant getter for revisionLabelP2.
 
@@ -511,7 +514,7 @@ class DocRevision(ARObject):
         """
         return self.revision_label_p2  # Delegates to property
 
-    def setRevisionLabelP2(self, value: "RevisionLabelString") -> DocRevision:
+    def setRevisionLabelP2(self, value: Optional[RevisionLabelString]) -> DocRevision:
         """
         AUTOSAR-compliant setter for revisionLabelP2 with method chaining.
 
@@ -527,7 +530,7 @@ class DocRevision(ARObject):
         self.revision_label_p2 = value  # Delegates to property setter
         return self
 
-    def getState(self) -> "NameToken":
+    def getState(self) -> Optional[NameToken]:
         """
         AUTOSAR-compliant getter for state.
 
@@ -539,7 +542,7 @@ class DocRevision(ARObject):
         """
         return self.state  # Delegates to property
 
-    def setState(self, value: "NameToken") -> DocRevision:
+    def setState(self, value: Optional[NameToken]) -> DocRevision:
         """
         AUTOSAR-compliant setter for state with method chaining.
 
@@ -557,7 +560,7 @@ class DocRevision(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_date(self, value: "DateTime") -> DocRevision:
+    def with_date(self, value: Optional[DateTime]) -> DocRevision:
         """
         Set date and return self for chaining.
 
@@ -589,7 +592,7 @@ class DocRevision(ARObject):
         self.issued_by = value  # Use property setter (gets validation)
         return self
 
-    def with_revision_label(self, value: Optional["RevisionLabelString"]) -> DocRevision:
+    def with_revision_label(self, value: Optional[RevisionLabelString]) -> DocRevision:
         """
         Set revisionLabel and return self for chaining.
 
@@ -605,7 +608,7 @@ class DocRevision(ARObject):
         self.revision_label = value  # Use property setter (gets validation)
         return self
 
-    def with_revision_label_p1(self, value: Optional["RevisionLabelString"]) -> DocRevision:
+    def with_revision_label_p1(self, value: Optional[RevisionLabelString]) -> DocRevision:
         """
         Set revisionLabelP1 and return self for chaining.
 
@@ -621,7 +624,7 @@ class DocRevision(ARObject):
         self.revision_label_p1 = value  # Use property setter (gets validation)
         return self
 
-    def with_revision_label_p2(self, value: Optional["RevisionLabelString"]) -> DocRevision:
+    def with_revision_label_p2(self, value: Optional[RevisionLabelString]) -> DocRevision:
         """
         Set revisionLabelP2 and return self for chaining.
 
@@ -637,7 +640,7 @@ class DocRevision(ARObject):
         self.revision_label_p2 = value  # Use property setter (gets validation)
         return self
 
-    def with_state(self, value: Optional["NameToken"]) -> DocRevision:
+    def with_state(self, value: Optional[NameToken]) -> DocRevision:
         """
         Set state and return self for chaining.
 
@@ -671,15 +674,15 @@ class Modification(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This property denotes the one particular change which performed on the
         # object.
-        self._change: "MultiLanguageOverview" = None
+        self._change: MultiLanguageOverviewParagraph = None
 
     @property
-    def change(self) -> "MultiLanguageOverview":
+    def change(self) -> MultiLanguageOverviewParagraph:
         """Get change (Pythonic accessor)."""
         return self._change
 
     @change.setter
-    def change(self, value: "MultiLanguageOverview") -> None:
+    def change(self, value: MultiLanguageOverviewParagraph) -> None:
         """
         Set change with validation.
 
@@ -689,20 +692,20 @@ class Modification(ARObject):
         Raises:
             TypeError: If value type is incorrect
         """
-        if not isinstance(value, MultiLanguageOverview):
+        if not isinstance(value, MultiLanguageOverviewParagraph):
             raise TypeError(
-                f"change must be MultiLanguageOverview, got {type(value).__name__}"
+                f"change must be MultiLanguageOverviewParagraph, got {type(value).__name__}"
             )
         self._change = value
-        self._reason: Optional["MultiLanguageOverview"] = None
+        self._reason: Optional[MultiLanguageOverviewParagraph] = None
 
     @property
-    def reason(self) -> Optional["MultiLanguageOverview"]:
+    def reason(self) -> Optional[MultiLanguageOverviewParagraph]:
         """Get reason (Pythonic accessor)."""
         return self._reason
 
     @reason.setter
-    def reason(self, value: Optional["MultiLanguageOverview"]) -> None:
+    def reason(self, value: Optional[MultiLanguageOverviewParagraph]) -> None:
         """
         Set reason with validation.
 
@@ -716,15 +719,15 @@ class Modification(ARObject):
             self._reason = None
             return
 
-        if not isinstance(value, MultiLanguageOverview):
+        if not isinstance(value, MultiLanguageOverviewParagraph):
             raise TypeError(
-                f"reason must be MultiLanguageOverview or None, got {type(value).__name__}"
+                f"reason must be MultiLanguageOverviewParagraph or None, got {type(value).__name__}"
             )
         self._reason = value
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getChange(self) -> "MultiLanguageOverview":
+    def getChange(self) -> MultiLanguageOverviewParagraph:
         """
         AUTOSAR-compliant getter for change.
 
@@ -736,7 +739,7 @@ class Modification(ARObject):
         """
         return self.change  # Delegates to property
 
-    def setChange(self, value: "MultiLanguageOverview") -> Modification:
+    def setChange(self, value: MultiLanguageOverviewParagraph) -> Modification:
         """
         AUTOSAR-compliant setter for change with method chaining.
 
@@ -752,7 +755,7 @@ class Modification(ARObject):
         self.change = value  # Delegates to property setter
         return self
 
-    def getReason(self) -> "MultiLanguageOverview":
+    def getReason(self) -> MultiLanguageOverviewParagraph:
         """
         AUTOSAR-compliant getter for reason.
 
@@ -764,7 +767,7 @@ class Modification(ARObject):
         """
         return self.reason  # Delegates to property
 
-    def setReason(self, value: "MultiLanguageOverview") -> Modification:
+    def setReason(self, value: MultiLanguageOverviewParagraph) -> Modification:
         """
         AUTOSAR-compliant setter for reason with method chaining.
 
@@ -782,7 +785,7 @@ class Modification(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_change(self, value: "MultiLanguageOverview") -> Modification:
+    def with_change(self, value: MultiLanguageOverviewParagraph) -> Modification:
         """
         Set change and return self for chaining.
 
@@ -798,7 +801,7 @@ class Modification(ARObject):
         self.change = value  # Use property setter (gets validation)
         return self
 
-    def with_reason(self, value: Optional["MultiLanguageOverview"]) -> Modification:
+    def with_reason(self, value: Optional["MultiLanguageOverviewParagraph"]) -> Modification:
         """
         Set reason and return self for chaining.
 

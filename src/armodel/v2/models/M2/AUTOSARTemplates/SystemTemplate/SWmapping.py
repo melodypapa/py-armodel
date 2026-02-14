@@ -22,8 +22,11 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     Boolean,
+    HwElement,
+    J1939NmNode,
     PositiveInteger,
     RefType,
+    ResourceConsumption,
 )
 
 
@@ -86,15 +89,15 @@ class SwcToEcuMapping(Identifiable):
                 f"controlledHw must be HwElement or None, got {type(value).__name__}"
             )
         self._controlledHw = value
-        self._ecuInstance: Optional[EcuInstance] = None
+        self._ecuInstance: Optional["EcuInstance"] = None
 
     @property
-    def ecu_instance(self) -> Optional[EcuInstance]:
+    def ecu_instance(self) -> Optional["EcuInstance"]:
         """Get ecuInstance (Pythonic accessor)."""
         return self._ecuInstance
 
     @ecu_instance.setter
-    def ecu_instance(self, value: Optional[EcuInstance]) -> None:
+    def ecu_instance(self, value: Optional["EcuInstance"]) -> None:
         """
         Set ecuInstance with validation.
 
@@ -188,7 +191,7 @@ class SwcToEcuMapping(Identifiable):
         """
         return self.component  # Delegates to property
 
-    def getControlledHw(self) -> "HwElement":
+    def getControlledHw(self) -> HwElement:
         """
         AUTOSAR-compliant getter for controlledHw.
 
@@ -200,7 +203,7 @@ class SwcToEcuMapping(Identifiable):
         """
         return self.controlled_hw  # Delegates to property
 
-    def setControlledHw(self, value: "HwElement") -> SwcToEcuMapping:
+    def setControlledHw(self, value: HwElement) -> SwcToEcuMapping:
         """
         AUTOSAR-compliant setter for controlledHw with method chaining.
 
@@ -216,7 +219,7 @@ class SwcToEcuMapping(Identifiable):
         self.controlled_hw = value  # Delegates to property setter
         return self
 
-    def getEcuInstance(self) -> EcuInstance:
+    def getEcuInstance(self) -> "EcuInstance":
         """
         AUTOSAR-compliant getter for ecuInstance.
 
@@ -228,7 +231,7 @@ class SwcToEcuMapping(Identifiable):
         """
         return self.ecu_instance  # Delegates to property
 
-    def setEcuInstance(self, value: EcuInstance) -> SwcToEcuMapping:
+    def setEcuInstance(self, value: "EcuInstance") -> SwcToEcuMapping:
         """
         AUTOSAR-compliant setter for ecuInstance with method chaining.
 
@@ -244,7 +247,7 @@ class SwcToEcuMapping(Identifiable):
         self.ecu_instance = value  # Delegates to property setter
         return self
 
-    def getProcessingUnit(self) -> "HwElement":
+    def getProcessingUnit(self) -> HwElement:
         """
         AUTOSAR-compliant getter for processingUnit.
 
@@ -256,7 +259,7 @@ class SwcToEcuMapping(Identifiable):
         """
         return self.processing_unit  # Delegates to property
 
-    def setProcessingUnit(self, value: "HwElement") -> SwcToEcuMapping:
+    def setProcessingUnit(self, value: HwElement) -> SwcToEcuMapping:
         """
         AUTOSAR-compliant setter for processingUnit with method chaining.
 
@@ -290,7 +293,7 @@ class SwcToEcuMapping(Identifiable):
         self.controlled_hw = value  # Use property setter (gets validation)
         return self
 
-    def with_ecu_instance(self, value: Optional[EcuInstance]) -> SwcToEcuMapping:
+    def with_ecu_instance(self, value: Optional["EcuInstance"]) -> SwcToEcuMapping:
         """
         Set ecuInstance and return self for chaining.
 
@@ -341,15 +344,15 @@ class SwcToImplMapping(Identifiable):
         # to be used by the specified SW This allows to achieve more precise the
                 # resource consumption that results from instance of an atomic SW component
                 # onto.
-        self._component: Optional[SwcImplementation] = None
+        self._component: Optional["SwcImplementation"] = None
 
     @property
-    def component(self) -> Optional[SwcImplementation]:
+    def component(self) -> Optional["SwcImplementation"]:
         """Get component (Pythonic accessor)."""
         return self._component
 
     @component.setter
-    def component(self, value: Optional[SwcImplementation]) -> None:
+    def component(self, value: Optional["SwcImplementation"]) -> None:
         """
         Set component with validation.
 
@@ -371,7 +374,7 @@ class SwcToImplMapping(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getComponent(self) -> SwcImplementation:
+    def getComponent(self) -> "SwcImplementation":
         """
         AUTOSAR-compliant getter for component.
 
@@ -383,7 +386,7 @@ class SwcToImplMapping(Identifiable):
         """
         return self.component  # Delegates to property
 
-    def setComponent(self, value: SwcImplementation) -> SwcToImplMapping:
+    def setComponent(self, value: "SwcImplementation") -> SwcToImplMapping:
         """
         AUTOSAR-compliant setter for component with method chaining.
 
@@ -401,7 +404,7 @@ class SwcToImplMapping(Identifiable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_component(self, value: Optional[SwcImplementation]) -> SwcToImplMapping:
+    def with_component(self, value: Optional["SwcImplementation"]) -> SwcToImplMapping:
         """
         Set component and return self for chaining.
 
@@ -842,15 +845,15 @@ class MappingConstraint(ARObject, ABC):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents introductory documentation about the.
-        self._introduction: Optional[DocumentationBlock] = None
+        self._introduction: Optional["DocumentationBlock"] = None
 
     @property
-    def introduction(self) -> Optional[DocumentationBlock]:
+    def introduction(self) -> Optional["DocumentationBlock"]:
         """Get introduction (Pythonic accessor)."""
         return self._introduction
 
     @introduction.setter
-    def introduction(self, value: Optional[DocumentationBlock]) -> None:
+    def introduction(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set introduction with validation.
 
@@ -872,7 +875,7 @@ class MappingConstraint(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getIntroduction(self) -> DocumentationBlock:
+    def getIntroduction(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for introduction.
 
@@ -884,7 +887,7 @@ class MappingConstraint(ARObject, ABC):
         """
         return self.introduction  # Delegates to property
 
-    def setIntroduction(self, value: DocumentationBlock) -> MappingConstraint:
+    def setIntroduction(self, value: "DocumentationBlock") -> MappingConstraint:
         """
         AUTOSAR-compliant setter for introduction with method chaining.
 
@@ -902,7 +905,7 @@ class MappingConstraint(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_introduction(self, value: Optional[DocumentationBlock]) -> MappingConstraint:
+    def with_introduction(self, value: Optional["DocumentationBlock"]) -> MappingConstraint:
         """
         Set introduction and return self for chaining.
 
@@ -1026,7 +1029,7 @@ class J1939ControllerApplicationToJ1939NmNodeMapping(ARObject):
         self.j1939_controller = value  # Delegates to property setter
         return self
 
-    def getJ1939NmNode(self) -> "J1939NmNode":
+    def getJ1939NmNode(self) -> J1939NmNode:
         """
         AUTOSAR-compliant getter for j1939NmNode.
 
@@ -1038,7 +1041,7 @@ class J1939ControllerApplicationToJ1939NmNodeMapping(ARObject):
         """
         return self.j1939_nm_node  # Delegates to property
 
-    def setJ1939NmNode(self, value: "J1939NmNode") -> J1939ControllerApplicationToJ1939NmNodeMapping:
+    def setJ1939NmNode(self, value: J1939NmNode) -> J1939ControllerApplicationToJ1939NmNodeMapping:
         """
         AUTOSAR-compliant setter for j1939NmNode with method chaining.
 
@@ -1296,15 +1299,15 @@ class EcuResourceEstimation(ARObject):
                 f"bswResource must be ResourceConsumption or None, got {type(value).__name__}"
             )
         self._bswResource = value
-        self._ecuInstance: Optional[EcuInstance] = None
+        self._ecuInstance: Optional["EcuInstance"] = None
 
     @property
-    def ecu_instance(self) -> Optional[EcuInstance]:
+    def ecu_instance(self) -> Optional["EcuInstance"]:
         """Get ecuInstance (Pythonic accessor)."""
         return self._ecuInstance
 
     @ecu_instance.setter
-    def ecu_instance(self, value: Optional[EcuInstance]) -> None:
+    def ecu_instance(self, value: Optional["EcuInstance"]) -> None:
         """
         Set ecuInstance with validation.
 
@@ -1323,15 +1326,15 @@ class EcuResourceEstimation(ARObject):
                 f"ecuInstance must be EcuInstance or None, got {type(value).__name__}"
             )
         self._ecuInstance = value
-        self._introduction: Optional[DocumentationBlock] = None
+        self._introduction: Optional["DocumentationBlock"] = None
 
     @property
-    def introduction(self) -> Optional[DocumentationBlock]:
+    def introduction(self) -> Optional["DocumentationBlock"]:
         """Get introduction (Pythonic accessor)."""
         return self._introduction
 
     @introduction.setter
-    def introduction(self, value: Optional[DocumentationBlock]) -> None:
+    def introduction(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set introduction with validation.
 
@@ -1390,7 +1393,7 @@ class EcuResourceEstimation(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBswResource(self) -> "ResourceConsumption":
+    def getBswResource(self) -> ResourceConsumption:
         """
         AUTOSAR-compliant getter for bswResource.
 
@@ -1402,7 +1405,7 @@ class EcuResourceEstimation(ARObject):
         """
         return self.bsw_resource  # Delegates to property
 
-    def setBswResource(self, value: "ResourceConsumption") -> EcuResourceEstimation:
+    def setBswResource(self, value: ResourceConsumption) -> EcuResourceEstimation:
         """
         AUTOSAR-compliant setter for bswResource with method chaining.
 
@@ -1418,7 +1421,7 @@ class EcuResourceEstimation(ARObject):
         self.bsw_resource = value  # Delegates to property setter
         return self
 
-    def getEcuInstance(self) -> EcuInstance:
+    def getEcuInstance(self) -> "EcuInstance":
         """
         AUTOSAR-compliant getter for ecuInstance.
 
@@ -1430,7 +1433,7 @@ class EcuResourceEstimation(ARObject):
         """
         return self.ecu_instance  # Delegates to property
 
-    def setEcuInstance(self, value: EcuInstance) -> EcuResourceEstimation:
+    def setEcuInstance(self, value: "EcuInstance") -> EcuResourceEstimation:
         """
         AUTOSAR-compliant setter for ecuInstance with method chaining.
 
@@ -1446,7 +1449,7 @@ class EcuResourceEstimation(ARObject):
         self.ecu_instance = value  # Delegates to property setter
         return self
 
-    def getIntroduction(self) -> DocumentationBlock:
+    def getIntroduction(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for introduction.
 
@@ -1458,7 +1461,7 @@ class EcuResourceEstimation(ARObject):
         """
         return self.introduction  # Delegates to property
 
-    def setIntroduction(self, value: DocumentationBlock) -> EcuResourceEstimation:
+    def setIntroduction(self, value: "DocumentationBlock") -> EcuResourceEstimation:
         """
         AUTOSAR-compliant setter for introduction with method chaining.
 
@@ -1474,7 +1477,7 @@ class EcuResourceEstimation(ARObject):
         self.introduction = value  # Delegates to property setter
         return self
 
-    def getRteResource(self) -> "ResourceConsumption":
+    def getRteResource(self) -> ResourceConsumption:
         """
         AUTOSAR-compliant getter for rteResource.
 
@@ -1486,7 +1489,7 @@ class EcuResourceEstimation(ARObject):
         """
         return self.rte_resource  # Delegates to property
 
-    def setRteResource(self, value: "ResourceConsumption") -> EcuResourceEstimation:
+    def setRteResource(self, value: ResourceConsumption) -> EcuResourceEstimation:
         """
         AUTOSAR-compliant setter for rteResource with method chaining.
 
@@ -1532,7 +1535,7 @@ class EcuResourceEstimation(ARObject):
         self.bsw_resource = value  # Use property setter (gets validation)
         return self
 
-    def with_ecu_instance(self, value: Optional[EcuInstance]) -> EcuResourceEstimation:
+    def with_ecu_instance(self, value: Optional["EcuInstance"]) -> EcuResourceEstimation:
         """
         Set ecuInstance and return self for chaining.
 
@@ -1548,7 +1551,7 @@ class EcuResourceEstimation(ARObject):
         self.ecu_instance = value  # Use property setter (gets validation)
         return self
 
-    def with_introduction(self, value: Optional[DocumentationBlock]) -> EcuResourceEstimation:
+    def with_introduction(self, value: Optional["DocumentationBlock"]) -> EcuResourceEstimation:
         """
         Set introduction and return self for chaining.
 

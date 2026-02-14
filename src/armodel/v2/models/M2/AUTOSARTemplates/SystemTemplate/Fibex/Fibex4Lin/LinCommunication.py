@@ -25,6 +25,8 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.__init__ import (
     Frame,
     FrameTriggering,
+    LinSlave,
+    LinSlaveConfigIdent,
 )
 
 
@@ -593,15 +595,15 @@ class ScheduleTableEntry(ARObject, ABC):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Relative delay between this tableEntry and the start of the the schedule
         # table in seconds.
-        self._delay: Optional[TimeValue] = None
+        self._delay: Optional["TimeValue"] = None
 
     @property
-    def delay(self) -> Optional[TimeValue]:
+    def delay(self) -> Optional["TimeValue"]:
         """Get delay (Pythonic accessor)."""
         return self._delay
 
     @delay.setter
-    def delay(self, value: Optional[TimeValue]) -> None:
+    def delay(self, value: Optional["TimeValue"]) -> None:
         """
         Set delay with validation.
 
@@ -620,15 +622,15 @@ class ScheduleTableEntry(ARObject, ABC):
                 f"delay must be TimeValue or None, got {type(value).__name__}"
             )
         self._delay = value
-        self._introduction: Optional[DocumentationBlock] = None
+        self._introduction: Optional["DocumentationBlock"] = None
 
     @property
-    def introduction(self) -> Optional[DocumentationBlock]:
+    def introduction(self) -> Optional["DocumentationBlock"]:
         """Get introduction (Pythonic accessor)."""
         return self._introduction
 
     @introduction.setter
-    def introduction(self, value: Optional[DocumentationBlock]) -> None:
+    def introduction(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set introduction with validation.
 
@@ -678,7 +680,7 @@ class ScheduleTableEntry(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDelay(self) -> TimeValue:
+    def getDelay(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for delay.
 
@@ -690,7 +692,7 @@ class ScheduleTableEntry(ARObject, ABC):
         """
         return self.delay  # Delegates to property
 
-    def setDelay(self, value: TimeValue) -> ScheduleTableEntry:
+    def setDelay(self, value: "TimeValue") -> ScheduleTableEntry:
         """
         AUTOSAR-compliant setter for delay with method chaining.
 
@@ -706,7 +708,7 @@ class ScheduleTableEntry(ARObject, ABC):
         self.delay = value  # Delegates to property setter
         return self
 
-    def getIntroduction(self) -> DocumentationBlock:
+    def getIntroduction(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for introduction.
 
@@ -718,7 +720,7 @@ class ScheduleTableEntry(ARObject, ABC):
         """
         return self.introduction  # Delegates to property
 
-    def setIntroduction(self, value: DocumentationBlock) -> ScheduleTableEntry:
+    def setIntroduction(self, value: "DocumentationBlock") -> ScheduleTableEntry:
         """
         AUTOSAR-compliant setter for introduction with method chaining.
 
@@ -764,7 +766,7 @@ class ScheduleTableEntry(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_delay(self, value: Optional[TimeValue]) -> ScheduleTableEntry:
+    def with_delay(self, value: Optional["TimeValue"]) -> ScheduleTableEntry:
         """
         Set delay and return self for chaining.
 
@@ -780,7 +782,7 @@ class ScheduleTableEntry(ARObject, ABC):
         self.delay = value  # Use property setter (gets validation)
         return self
 
-    def with_introduction(self, value: Optional[DocumentationBlock]) -> ScheduleTableEntry:
+    def with_introduction(self, value: Optional["DocumentationBlock"]) -> ScheduleTableEntry:
         """
         Set introduction and return self for chaining.
 
@@ -1370,7 +1372,7 @@ class LinConfigurationEntry(ScheduleTableEntry, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAssigned(self) -> "LinSlave":
+    def getAssigned(self) -> LinSlave:
         """
         AUTOSAR-compliant getter for assigned.
 
@@ -1382,7 +1384,7 @@ class LinConfigurationEntry(ScheduleTableEntry, ABC):
         """
         return self.assigned  # Delegates to property
 
-    def setAssigned(self, value: "LinSlave") -> LinConfigurationEntry:
+    def setAssigned(self, value: LinSlave) -> LinConfigurationEntry:
         """
         AUTOSAR-compliant setter for assigned with method chaining.
 
@@ -1398,7 +1400,7 @@ class LinConfigurationEntry(ScheduleTableEntry, ABC):
         self.assigned = value  # Delegates to property setter
         return self
 
-    def getAssignedLin(self) -> "LinSlaveConfigIdent":
+    def getAssignedLin(self) -> LinSlaveConfigIdent:
         """
         AUTOSAR-compliant getter for assignedLin.
 
@@ -1410,7 +1412,7 @@ class LinConfigurationEntry(ScheduleTableEntry, ABC):
         """
         return self.assigned_lin  # Delegates to property
 
-    def setAssignedLin(self, value: "LinSlaveConfigIdent") -> LinConfigurationEntry:
+    def setAssignedLin(self, value: LinSlaveConfigIdent) -> LinConfigurationEntry:
         """
         AUTOSAR-compliant setter for assignedLin with method chaining.
 

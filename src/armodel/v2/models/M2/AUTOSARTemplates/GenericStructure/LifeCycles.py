@@ -19,7 +19,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     Identifiable,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    DateTime,
     RefType,
+    RevisionLabelString,
 )
 
 
@@ -480,7 +482,7 @@ class LifeCyclePeriod(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getArRelease(self) -> "RevisionLabelString":
+    def getArRelease(self) -> RevisionLabelString:
         """
         AUTOSAR-compliant getter for arRelease.
 
@@ -492,7 +494,7 @@ class LifeCyclePeriod(ARObject):
         """
         return self.ar_release  # Delegates to property
 
-    def setArRelease(self, value: "RevisionLabelString") -> LifeCyclePeriod:
+    def setArRelease(self, value: RevisionLabelString) -> LifeCyclePeriod:
         """
         AUTOSAR-compliant setter for arRelease with method chaining.
 
@@ -508,7 +510,7 @@ class LifeCyclePeriod(ARObject):
         self.ar_release = value  # Delegates to property setter
         return self
 
-    def getDate(self) -> "DateTime":
+    def getDate(self) -> DateTime:
         """
         AUTOSAR-compliant getter for date.
 
@@ -520,7 +522,7 @@ class LifeCyclePeriod(ARObject):
         """
         return self.date  # Delegates to property
 
-    def setDate(self, value: "DateTime") -> LifeCyclePeriod:
+    def setDate(self, value: DateTime) -> LifeCyclePeriod:
         """
         AUTOSAR-compliant setter for date with method chaining.
 
@@ -536,7 +538,7 @@ class LifeCyclePeriod(ARObject):
         self.date = value  # Delegates to property setter
         return self
 
-    def getProductRelease(self) -> "RevisionLabelString":
+    def getProductRelease(self) -> RevisionLabelString:
         """
         AUTOSAR-compliant getter for productRelease.
 
@@ -548,7 +550,7 @@ class LifeCyclePeriod(ARObject):
         """
         return self.product_release  # Delegates to property
 
-    def setProductRelease(self, value: "RevisionLabelString") -> LifeCyclePeriod:
+    def setProductRelease(self, value: RevisionLabelString) -> LifeCyclePeriod:
         """
         AUTOSAR-compliant setter for productRelease with method chaining.
 
@@ -741,15 +743,15 @@ class LifeCycleInfo(ARObject):
             )
         self._periodEnd = value
         # semantics of useInstead.
-        self._remark: Optional[DocumentationBlock] = None
+        self._remark: Optional["DocumentationBlock"] = None
 
     @property
-    def remark(self) -> Optional[DocumentationBlock]:
+    def remark(self) -> Optional["DocumentationBlock"]:
         """Get remark (Pythonic accessor)."""
         return self._remark
 
     @remark.setter
-    def remark(self, value: Optional[DocumentationBlock]) -> None:
+    def remark(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set remark with validation.
 
@@ -891,7 +893,7 @@ class LifeCycleInfo(ARObject):
         self.period_end = value  # Delegates to property setter
         return self
 
-    def getRemark(self) -> DocumentationBlock:
+    def getRemark(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for remark.
 
@@ -903,7 +905,7 @@ class LifeCycleInfo(ARObject):
         """
         return self.remark  # Delegates to property
 
-    def setRemark(self, value: DocumentationBlock) -> LifeCycleInfo:
+    def setRemark(self, value: "DocumentationBlock") -> LifeCycleInfo:
         """
         AUTOSAR-compliant setter for remark with method chaining.
 
@@ -997,7 +999,7 @@ class LifeCycleInfo(ARObject):
         self.period_end = value  # Use property setter (gets validation)
         return self
 
-    def with_remark(self, value: Optional[DocumentationBlock]) -> LifeCycleInfo:
+    def with_remark(self, value: Optional["DocumentationBlock"]) -> LifeCycleInfo:
         """
         Set remark and return self for chaining.
 

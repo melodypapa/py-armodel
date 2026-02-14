@@ -25,6 +25,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.__init
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.__init__ import (
     InstantiationRTEEventProps,
+    PhysicalDimension,
     SwConnector,
 )
 
@@ -288,7 +289,7 @@ class CompositionSwComponentType(SwComponentType):
         """
         return self.instantiation  # Delegates to property
 
-    def getPhysical(self) -> "PhysicalDimension":
+    def getPhysical(self) -> PhysicalDimension:
         """
         AUTOSAR-compliant getter for physical.
 
@@ -300,7 +301,7 @@ class CompositionSwComponentType(SwComponentType):
         """
         return self.physical  # Delegates to property
 
-    def setPhysical(self, value: "PhysicalDimension") -> CompositionSwComponentType:
+    def setPhysical(self, value: PhysicalDimension) -> CompositionSwComponentType:
         """
         AUTOSAR-compliant setter for physical with method chaining.
 
@@ -555,15 +556,15 @@ class InstantiationRTEEventProps(ARObject, ABC):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # be refined on an instance level.
         # by: InstanceEventIn.
-        self._refinedEvent: Optional[RTEEvent] = None
+        self._refinedEvent: Optional["RTEEvent"] = None
 
     @property
-    def refined_event(self) -> Optional[RTEEvent]:
+    def refined_event(self) -> Optional["RTEEvent"]:
         """Get refinedEvent (Pythonic accessor)."""
         return self._refinedEvent
 
     @refined_event.setter
-    def refined_event(self, value: Optional[RTEEvent]) -> None:
+    def refined_event(self, value: Optional["RTEEvent"]) -> None:
         """
         Set refinedEvent with validation.
 
@@ -614,7 +615,7 @@ class InstantiationRTEEventProps(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getRefinedEvent(self) -> RTEEvent:
+    def getRefinedEvent(self) -> "RTEEvent":
         """
         AUTOSAR-compliant getter for refinedEvent.
 
@@ -626,7 +627,7 @@ class InstantiationRTEEventProps(ARObject, ABC):
         """
         return self.refined_event  # Delegates to property
 
-    def setRefinedEvent(self, value: RTEEvent) -> InstantiationRTEEventProps:
+    def setRefinedEvent(self, value: "RTEEvent") -> InstantiationRTEEventProps:
         """
         AUTOSAR-compliant setter for refinedEvent with method chaining.
 
@@ -642,7 +643,7 @@ class InstantiationRTEEventProps(ARObject, ABC):
         self.refined_event = value  # Delegates to property setter
         return self
 
-    def getShortLabel(self) -> "Identifier":
+    def getShortLabel(self) -> Identifier:
         """
         AUTOSAR-compliant getter for shortLabel.
 
@@ -654,7 +655,7 @@ class InstantiationRTEEventProps(ARObject, ABC):
         """
         return self.short_label  # Delegates to property
 
-    def setShortLabel(self, value: "Identifier") -> InstantiationRTEEventProps:
+    def setShortLabel(self, value: Identifier) -> InstantiationRTEEventProps:
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
 
@@ -672,7 +673,7 @@ class InstantiationRTEEventProps(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_refined_event(self, value: Optional[RTEEvent]) -> InstantiationRTEEventProps:
+    def with_refined_event(self, value: Optional["RTEEvent"]) -> InstantiationRTEEventProps:
         """
         Set refinedEvent and return self for chaining.
 
@@ -726,15 +727,15 @@ class AssemblySwConnector(SwConnector):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # implemented by: PPortInComposition.
-        self._providerInstanceRef: Optional[AbstractProvidedPort] = None
+        self._providerInstanceRef: Optional["AbstractProvidedPort"] = None
 
     @property
-    def provider_instance_ref(self) -> Optional[AbstractProvidedPort]:
+    def provider_instance_ref(self) -> Optional["AbstractProvidedPort"]:
         """Get providerInstanceRef (Pythonic accessor)."""
         return self._providerInstanceRef
 
     @provider_instance_ref.setter
-    def provider_instance_ref(self, value: Optional[AbstractProvidedPort]) -> None:
+    def provider_instance_ref(self, value: Optional["AbstractProvidedPort"]) -> None:
         """
         Set providerInstanceRef with validation.
 
@@ -754,15 +755,15 @@ class AssemblySwConnector(SwConnector):
             )
         self._providerInstanceRef = value
         # implemented by: RPortInComposition.
-        self._requesterInstanceRef: Optional[AbstractRequiredPort] = None
+        self._requesterInstanceRef: Optional["AbstractRequiredPort"] = None
 
     @property
-    def requester_instance_ref(self) -> Optional[AbstractRequiredPort]:
+    def requester_instance_ref(self) -> Optional["AbstractRequiredPort"]:
         """Get requesterInstanceRef (Pythonic accessor)."""
         return self._requesterInstanceRef
 
     @requester_instance_ref.setter
-    def requester_instance_ref(self, value: Optional[AbstractRequiredPort]) -> None:
+    def requester_instance_ref(self, value: Optional["AbstractRequiredPort"]) -> None:
         """
         Set requesterInstanceRef with validation.
 
@@ -784,7 +785,7 @@ class AssemblySwConnector(SwConnector):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getProviderInstanceRef(self) -> AbstractProvidedPort:
+    def getProviderInstanceRef(self) -> "AbstractProvidedPort":
         """
         AUTOSAR-compliant getter for providerInstanceRef.
 
@@ -796,7 +797,7 @@ class AssemblySwConnector(SwConnector):
         """
         return self.provider_instance_ref  # Delegates to property
 
-    def setProviderInstanceRef(self, value: AbstractProvidedPort) -> AssemblySwConnector:
+    def setProviderInstanceRef(self, value: "AbstractProvidedPort") -> AssemblySwConnector:
         """
         AUTOSAR-compliant setter for providerInstanceRef with method chaining.
 
@@ -812,7 +813,7 @@ class AssemblySwConnector(SwConnector):
         self.provider_instance_ref = value  # Delegates to property setter
         return self
 
-    def getRequesterInstanceRef(self) -> AbstractRequiredPort:
+    def getRequesterInstanceRef(self) -> "AbstractRequiredPort":
         """
         AUTOSAR-compliant getter for requesterInstanceRef.
 
@@ -824,7 +825,7 @@ class AssemblySwConnector(SwConnector):
         """
         return self.requester_instance_ref  # Delegates to property
 
-    def setRequesterInstanceRef(self, value: AbstractRequiredPort) -> AssemblySwConnector:
+    def setRequesterInstanceRef(self, value: "AbstractRequiredPort") -> AssemblySwConnector:
         """
         AUTOSAR-compliant setter for requesterInstanceRef with method chaining.
 
@@ -842,7 +843,7 @@ class AssemblySwConnector(SwConnector):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_provider_instance_ref(self, value: Optional[AbstractProvidedPort]) -> AssemblySwConnector:
+    def with_provider_instance_ref(self, value: Optional["AbstractProvidedPort"]) -> AssemblySwConnector:
         """
         Set providerInstanceRef and return self for chaining.
 
@@ -858,7 +859,7 @@ class AssemblySwConnector(SwConnector):
         self.provider_instance_ref = value  # Use property setter (gets validation)
         return self
 
-    def with_requester_instance_ref(self, value: Optional[AbstractRequiredPort]) -> AssemblySwConnector:
+    def with_requester_instance_ref(self, value: Optional["AbstractRequiredPort"]) -> AssemblySwConnector:
         """
         Set requesterInstanceRef and return self for chaining.
 
@@ -1055,15 +1056,15 @@ class PassThroughSwConnector(SwConnector):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents the provided outer delegation Port Prototype of the
         # PassThroughSwConnector.
-        self._providedOuter: Optional[AbstractProvidedPort] = None
+        self._providedOuter: Optional["AbstractProvidedPort"] = None
 
     @property
-    def provided_outer(self) -> Optional[AbstractProvidedPort]:
+    def provided_outer(self) -> Optional["AbstractProvidedPort"]:
         """Get providedOuter (Pythonic accessor)."""
         return self._providedOuter
 
     @provided_outer.setter
-    def provided_outer(self, value: Optional[AbstractProvidedPort]) -> None:
+    def provided_outer(self, value: Optional["AbstractProvidedPort"]) -> None:
         """
         Set providedOuter with validation.
 
@@ -1084,15 +1085,15 @@ class PassThroughSwConnector(SwConnector):
         self._providedOuter = value
         # This represents the required outer delegation Port Prototype of the
         # PassThroughSwConnector.
-        self._requiredOuter: Optional[AbstractRequiredPort] = None
+        self._requiredOuter: Optional["AbstractRequiredPort"] = None
 
     @property
-    def required_outer(self) -> Optional[AbstractRequiredPort]:
+    def required_outer(self) -> Optional["AbstractRequiredPort"]:
         """Get requiredOuter (Pythonic accessor)."""
         return self._requiredOuter
 
     @required_outer.setter
-    def required_outer(self, value: Optional[AbstractRequiredPort]) -> None:
+    def required_outer(self, value: Optional["AbstractRequiredPort"]) -> None:
         """
         Set requiredOuter with validation.
 
@@ -1114,7 +1115,7 @@ class PassThroughSwConnector(SwConnector):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getProvidedOuter(self) -> AbstractProvidedPort:
+    def getProvidedOuter(self) -> "AbstractProvidedPort":
         """
         AUTOSAR-compliant getter for providedOuter.
 
@@ -1126,7 +1127,7 @@ class PassThroughSwConnector(SwConnector):
         """
         return self.provided_outer  # Delegates to property
 
-    def setProvidedOuter(self, value: AbstractProvidedPort) -> PassThroughSwConnector:
+    def setProvidedOuter(self, value: "AbstractProvidedPort") -> PassThroughSwConnector:
         """
         AUTOSAR-compliant setter for providedOuter with method chaining.
 
@@ -1142,7 +1143,7 @@ class PassThroughSwConnector(SwConnector):
         self.provided_outer = value  # Delegates to property setter
         return self
 
-    def getRequiredOuter(self) -> AbstractRequiredPort:
+    def getRequiredOuter(self) -> "AbstractRequiredPort":
         """
         AUTOSAR-compliant getter for requiredOuter.
 
@@ -1154,7 +1155,7 @@ class PassThroughSwConnector(SwConnector):
         """
         return self.required_outer  # Delegates to property
 
-    def setRequiredOuter(self, value: AbstractRequiredPort) -> PassThroughSwConnector:
+    def setRequiredOuter(self, value: "AbstractRequiredPort") -> PassThroughSwConnector:
         """
         AUTOSAR-compliant setter for requiredOuter with method chaining.
 
@@ -1172,7 +1173,7 @@ class PassThroughSwConnector(SwConnector):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_provided_outer(self, value: Optional[AbstractProvidedPort]) -> PassThroughSwConnector:
+    def with_provided_outer(self, value: Optional["AbstractProvidedPort"]) -> PassThroughSwConnector:
         """
         Set providedOuter and return self for chaining.
 
@@ -1188,7 +1189,7 @@ class PassThroughSwConnector(SwConnector):
         self.provided_outer = value  # Use property setter (gets validation)
         return self
 
-    def with_required_outer(self, value: Optional[AbstractRequiredPort]) -> PassThroughSwConnector:
+    def with_required_outer(self, value: Optional["AbstractRequiredPort"]) -> PassThroughSwConnector:
         """
         Set requiredOuter and return self for chaining.
 
@@ -1223,15 +1224,15 @@ class InstantiationTimingEventProps(InstantiationRTEEventProps):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attribute represents the value of the refined.
-        self._period: Optional[TimeValue] = None
+        self._period: Optional["TimeValue"] = None
 
     @property
-    def period(self) -> Optional[TimeValue]:
+    def period(self) -> Optional["TimeValue"]:
         """Get period (Pythonic accessor)."""
         return self._period
 
     @period.setter
-    def period(self, value: Optional[TimeValue]) -> None:
+    def period(self, value: Optional["TimeValue"]) -> None:
         """
         Set period with validation.
 
@@ -1253,7 +1254,7 @@ class InstantiationTimingEventProps(InstantiationRTEEventProps):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getPeriod(self) -> TimeValue:
+    def getPeriod(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for period.
 
@@ -1265,7 +1266,7 @@ class InstantiationTimingEventProps(InstantiationRTEEventProps):
         """
         return self.period  # Delegates to property
 
-    def setPeriod(self, value: TimeValue) -> InstantiationTimingEventProps:
+    def setPeriod(self, value: "TimeValue") -> InstantiationTimingEventProps:
         """
         AUTOSAR-compliant setter for period with method chaining.
 
@@ -1283,7 +1284,7 @@ class InstantiationTimingEventProps(InstantiationRTEEventProps):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_period(self, value: Optional[TimeValue]) -> InstantiationTimingEventProps:
+    def with_period(self, value: Optional["TimeValue"]) -> InstantiationTimingEventProps:
         """
         Set period and return self for chaining.
 

@@ -26,6 +26,8 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     AREnum,
     Integer,
     NameToken,
+    Numerical,
+    SwSystemconst,
 )
 
 
@@ -50,15 +52,15 @@ class PostBuildVariantCriterion(ARElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The compuMethod specifies the possible values for the serving as an
         # enumerator.
-        self._compuMethod: CompuMethod = None
+        self._compuMethod: "CompuMethod" = None
 
     @property
-    def compu_method(self) -> CompuMethod:
+    def compu_method(self) -> "CompuMethod":
         """Get compuMethod (Pythonic accessor)."""
         return self._compuMethod
 
     @compu_method.setter
-    def compu_method(self, value: CompuMethod) -> None:
+    def compu_method(self, value: "CompuMethod") -> None:
         """
         Set compuMethod with validation.
 
@@ -204,7 +206,7 @@ class PostBuildVariantCriterion(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCompuMethod(self) -> CompuMethod:
+    def getCompuMethod(self) -> "CompuMethod":
         """
         AUTOSAR-compliant getter for compuMethod.
 
@@ -216,7 +218,7 @@ class PostBuildVariantCriterion(ARElement):
         """
         return self.compu_method  # Delegates to property
 
-    def setCompuMethod(self, value: CompuMethod) -> PostBuildVariantCriterion:
+    def setCompuMethod(self, value: "CompuMethod") -> PostBuildVariantCriterion:
         """
         AUTOSAR-compliant setter for compuMethod with method chaining.
 
@@ -234,7 +236,7 @@ class PostBuildVariantCriterion(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_compu_method(self, value: CompuMethod) -> PostBuildVariantCriterion:
+    def with_compu_method(self, value: "CompuMethod") -> PostBuildVariantCriterion:
         """
         Set compuMethod and return self for chaining.
 
@@ -607,15 +609,15 @@ class VariationPoint(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents a description that documents how the point shall be resolved
         # when deriving objects blueprint.
-        self._blueprint: Optional[DocumentationBlock] = None
+        self._blueprint: Optional["DocumentationBlock"] = None
 
     @property
-    def blueprint(self) -> Optional[DocumentationBlock]:
+    def blueprint(self) -> Optional["DocumentationBlock"]:
         """Get blueprint (Pythonic accessor)."""
         return self._blueprint
 
     @blueprint.setter
-    def blueprint(self, value: Optional[DocumentationBlock]) -> None:
+    def blueprint(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set blueprint with validation.
 
@@ -667,7 +669,7 @@ class VariationPoint(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBlueprint(self) -> DocumentationBlock:
+    def getBlueprint(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for blueprint.
 
@@ -679,7 +681,7 @@ class VariationPoint(ARObject):
         """
         return self.blueprint  # Delegates to property
 
-    def setBlueprint(self, value: DocumentationBlock) -> VariationPoint:
+    def setBlueprint(self, value: "DocumentationBlock") -> VariationPoint:
         """
         AUTOSAR-compliant setter for blueprint with method chaining.
 
@@ -725,7 +727,7 @@ class VariationPoint(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_blueprint(self, value: Optional[DocumentationBlock]) -> VariationPoint:
+    def with_blueprint(self, value: Optional["DocumentationBlock"]) -> VariationPoint:
         """
         Set blueprint and return self for chaining.
 
@@ -1152,7 +1154,7 @@ class SwSystemconstDependentFormula(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getSysc(self) -> "SwSystemconst":
+    def getSysc(self) -> SwSystemconst:
         """
         AUTOSAR-compliant getter for sysc.
 
@@ -1164,7 +1166,7 @@ class SwSystemconstDependentFormula(ARObject, ABC):
         """
         return self.sysc  # Delegates to property
 
-    def setSysc(self, value: "SwSystemconst") -> SwSystemconstDependentFormula:
+    def setSysc(self, value: SwSystemconst) -> SwSystemconstDependentFormula:
         """
         AUTOSAR-compliant setter for sysc with method chaining.
 
@@ -1180,7 +1182,7 @@ class SwSystemconstDependentFormula(ARObject, ABC):
         self.sysc = value  # Delegates to property setter
         return self
 
-    def getSyscString(self) -> "SwSystemconst":
+    def getSyscString(self) -> SwSystemconst:
         """
         AUTOSAR-compliant getter for syscString.
 
@@ -1192,7 +1194,7 @@ class SwSystemconstDependentFormula(ARObject, ABC):
         """
         return self.sysc_string  # Delegates to property
 
-    def setSyscString(self, value: "SwSystemconst") -> SwSystemconstDependentFormula:
+    def setSyscString(self, value: SwSystemconst) -> SwSystemconstDependentFormula:
         """
         AUTOSAR-compliant setter for syscString with method chaining.
 
@@ -1269,15 +1271,15 @@ class SwSystemconstValue(ARObject):
         """Get annotation (Pythonic accessor)."""
         return self._annotation
         # This is the system constant to which the value applies.
-        self._swSystemconst: "SwSystemconst" = None
+        self._swSystemconst: SwSystemconst = None
 
     @property
-    def sw_systemconst(self) -> "SwSystemconst":
+    def sw_systemconst(self) -> SwSystemconst:
         """Get swSystemconst (Pythonic accessor)."""
         return self._swSystemconst
 
     @sw_systemconst.setter
-    def sw_systemconst(self, value: "SwSystemconst") -> None:
+    def sw_systemconst(self, value: SwSystemconst) -> None:
         """
         Set swSystemconst with validation.
 
@@ -1297,15 +1299,15 @@ class SwSystemconstValue(ARObject):
         # Further restrictions may apply by of the system constant.
         # attribute defines the internal value of the Sw it is processed in the Formula
                 # Language.
-        self._value: "Numerical" = None
+        self._value: Numerical = None
 
     @property
-    def value(self) -> "Numerical":
+    def value(self) -> Numerical:
         """Get value (Pythonic accessor)."""
         return self._value
 
     @value.setter
-    def value(self, value: "Numerical") -> None:
+    def value(self, value: Numerical) -> None:
         """
         Set value with validation.
 
@@ -1335,7 +1337,7 @@ class SwSystemconstValue(ARObject):
         """
         return self.annotation  # Delegates to property
 
-    def getSwSystemconst(self) -> "SwSystemconst":
+    def getSwSystemconst(self) -> SwSystemconst:
         """
         AUTOSAR-compliant getter for swSystemconst.
 
@@ -1347,7 +1349,7 @@ class SwSystemconstValue(ARObject):
         """
         return self.sw_systemconst  # Delegates to property
 
-    def setSwSystemconst(self, value: "SwSystemconst") -> SwSystemconstValue:
+    def setSwSystemconst(self, value: SwSystemconst) -> SwSystemconstValue:
         """
         AUTOSAR-compliant setter for swSystemconst with method chaining.
 
@@ -1363,7 +1365,7 @@ class SwSystemconstValue(ARObject):
         self.sw_systemconst = value  # Delegates to property setter
         return self
 
-    def getValue(self) -> "Numerical":
+    def getValue(self) -> Numerical:
         """
         AUTOSAR-compliant getter for value.
 
@@ -1375,7 +1377,7 @@ class SwSystemconstValue(ARObject):
         """
         return self.value  # Delegates to property
 
-    def setValue(self, value: "Numerical") -> SwSystemconstValue:
+    def setValue(self, value: Numerical) -> SwSystemconstValue:
         """
         AUTOSAR-compliant setter for value with method chaining.
 
@@ -1393,7 +1395,7 @@ class SwSystemconstValue(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_sw_systemconst(self, value: "SwSystemconst") -> SwSystemconstValue:
+    def with_sw_systemconst(self, value: SwSystemconst) -> SwSystemconstValue:
         """
         Set swSystemconst and return self for chaining.
 
@@ -1409,7 +1411,7 @@ class SwSystemconstValue(ARObject):
         self.sw_systemconst = value  # Use property setter (gets validation)
         return self
 
-    def with_value(self, value: "Numerical") -> SwSystemconstValue:
+    def with_value(self, value: Numerical) -> SwSystemconstValue:
         """
         Set value and return self for chaining.
 
@@ -1443,19 +1445,19 @@ class EvaluatedVariantSet(ARElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Defines the approval status of a predefined variant.
-        # Two predefined: "APPROVED" and "REJECTED": variants are known to work.
+        # Two predefined: APPROVED and "REJECTED": variants are known to work.
         # variants are known NOT to work.
         # can be approved on a per-company basis; only "APPROVED" and "REJECTED"
                 # recognized.
-        self._approvalStatus: "NameToken" = None
+        self._approvalStatus: NameToken = None
 
     @property
-    def approval_status(self) -> "NameToken":
+    def approval_status(self) -> NameToken:
         """Get approvalStatus (Pythonic accessor)."""
         return self._approvalStatus
 
     @approval_status.setter
-    def approval_status(self, value: "NameToken") -> None:
+    def approval_status(self, value: NameToken) -> None:
         """
         Set approvalStatus with validation.
 
@@ -1481,7 +1483,7 @@ class EvaluatedVariantSet(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getApprovalStatus(self) -> "NameToken":
+    def getApprovalStatus(self) -> NameToken:
         """
         AUTOSAR-compliant getter for approvalStatus.
 
@@ -1493,7 +1495,7 @@ class EvaluatedVariantSet(ARElement):
         """
         return self.approval_status  # Delegates to property
 
-    def setApprovalStatus(self, value: "NameToken") -> EvaluatedVariantSet:
+    def setApprovalStatus(self, value: NameToken) -> EvaluatedVariantSet:
         """
         AUTOSAR-compliant setter for approvalStatus with method chaining.
 
@@ -1523,7 +1525,7 @@ class EvaluatedVariantSet(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_approval_status(self, value: "NameToken") -> EvaluatedVariantSet:
+    def with_approval_status(self, value: NameToken) -> EvaluatedVariantSet:
         """
         Set approvalStatus and return self for chaining.
 

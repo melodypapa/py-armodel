@@ -25,6 +25,7 @@ from armodel.v2.models.M2.MSR.Documentation.BlockElements.PaginationAndView impo
 )
 from armodel.v2.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
     LanguageSpecific,
+    PgwideEnum,
 )
 
 
@@ -2281,7 +2282,7 @@ class Graphic(EngineeringObject):
         self.fit = value  # Delegates to property setter
         return self
 
-    def getGenerator(self) -> "NameToken":
+    def getGenerator(self) -> NameToken:
         """
         AUTOSAR-compliant getter for generator.
         
@@ -2293,7 +2294,7 @@ class Graphic(EngineeringObject):
         """
         return self.generator  # Delegates to property
 
-    def setGenerator(self, value: "NameToken") -> Graphic:
+    def setGenerator(self, value: NameToken) -> Graphic:
         """
         AUTOSAR-compliant setter for generator with method chaining.
         
@@ -3256,7 +3257,7 @@ class Map(ARObject):
         self.class_name = value  # Delegates to property setter
         return self
 
-    def getName(self) -> "NameToken":
+    def getName(self) -> NameToken:
         """
         AUTOSAR-compliant getter for name.
         
@@ -3268,7 +3269,7 @@ class Map(ARObject):
         """
         return self.name  # Delegates to property
 
-    def setName(self, value: "NameToken") -> Map:
+    def setName(self, value: NameToken) -> Map:
         """
         AUTOSAR-compliant setter for name with method chaining.
         
@@ -3835,15 +3836,15 @@ class MlFigure(Paginateable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This element specifies the title of an illustration.
-        self._figureCaption: Optional[Caption] = None
+        self._figureCaption: Optional["Caption"] = None
 
     @property
-    def figure_caption(self) -> Optional[Caption]:
+    def figure_caption(self) -> Optional["Caption"]:
         """Get figureCaption (Pythonic accessor)."""
         return self._figureCaption
 
     @figure_caption.setter
-    def figure_caption(self, value: Optional[Caption]) -> None:
+    def figure_caption(self, value: Optional["Caption"]) -> None:
         """
         Set figureCaption with validation.
         
@@ -3866,15 +3867,15 @@ class MlFigure(Paginateable):
                 # bottom of the figure - Borders at the top and bottom of the figure - Borders
                 # all around the figure - Borders at the sides of the figure - No borders
                 # around the figure.
-        self._frame: Optional[FrameEnum] = None
+        self._frame: Optional["FrameEnum"] = None
 
     @property
-    def frame(self) -> Optional[FrameEnum]:
+    def frame(self) -> Optional["FrameEnum"]:
         """Get frame (Pythonic accessor)."""
         return self._frame
 
     @frame.setter
-    def frame(self, value: Optional[FrameEnum]) -> None:
+    def frame(self, value: Optional["FrameEnum"]) -> None:
         """
         Set frame with validation.
         
@@ -3960,15 +3961,15 @@ class MlFigure(Paginateable):
         self._pgwide = value
         # This enables to be carried out, which can even be simple devices.
         # Behavior is the same as HTML.
-        self._verbatim: Optional[MultiLanguageVerbatim] = None
+        self._verbatim: Optional["MultiLanguageVerbatim"] = None
 
     @property
-    def verbatim(self) -> Optional[MultiLanguageVerbatim]:
+    def verbatim(self) -> Optional["MultiLanguageVerbatim"]:
         """Get verbatim (Pythonic accessor)."""
         return self._verbatim
 
     @verbatim.setter
-    def verbatim(self, value: Optional[MultiLanguageVerbatim]) -> None:
+    def verbatim(self, value: Optional["MultiLanguageVerbatim"]) -> None:
         """
         Set verbatim with validation.
         
@@ -3990,7 +3991,7 @@ class MlFigure(Paginateable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getFigureCaption(self) -> Caption:
+    def getFigureCaption(self) -> "Caption":
         """
         AUTOSAR-compliant getter for figureCaption.
         
@@ -4002,7 +4003,7 @@ class MlFigure(Paginateable):
         """
         return self.figure_caption  # Delegates to property
 
-    def setFigureCaption(self, value: Caption) -> MlFigure:
+    def setFigureCaption(self, value: "Caption") -> MlFigure:
         """
         AUTOSAR-compliant setter for figureCaption with method chaining.
         
@@ -4018,7 +4019,7 @@ class MlFigure(Paginateable):
         self.figure_caption = value  # Delegates to property setter
         return self
 
-    def getFrame(self) -> FrameEnum:
+    def getFrame(self) -> "FrameEnum":
         """
         AUTOSAR-compliant getter for frame.
         
@@ -4030,7 +4031,7 @@ class MlFigure(Paginateable):
         """
         return self.frame  # Delegates to property
 
-    def setFrame(self, value: FrameEnum) -> MlFigure:
+    def setFrame(self, value: "FrameEnum") -> MlFigure:
         """
         AUTOSAR-compliant setter for frame with method chaining.
         
@@ -4086,7 +4087,7 @@ class MlFigure(Paginateable):
         """
         return self.l_graphic  # Delegates to property
 
-    def getPgwide(self) -> "PgwideEnum":
+    def getPgwide(self) -> PgwideEnum:
         """
         AUTOSAR-compliant getter for pgwide.
         
@@ -4098,7 +4099,7 @@ class MlFigure(Paginateable):
         """
         return self.pgwide  # Delegates to property
 
-    def setPgwide(self, value: "PgwideEnum") -> MlFigure:
+    def setPgwide(self, value: PgwideEnum) -> MlFigure:
         """
         AUTOSAR-compliant setter for pgwide with method chaining.
         
@@ -4114,7 +4115,7 @@ class MlFigure(Paginateable):
         self.pgwide = value  # Delegates to property setter
         return self
 
-    def getVerbatim(self) -> MultiLanguageVerbatim:
+    def getVerbatim(self) -> "MultiLanguageVerbatim":
         """
         AUTOSAR-compliant getter for verbatim.
         
@@ -4126,7 +4127,7 @@ class MlFigure(Paginateable):
         """
         return self.verbatim  # Delegates to property
 
-    def setVerbatim(self, value: MultiLanguageVerbatim) -> MlFigure:
+    def setVerbatim(self, value: "MultiLanguageVerbatim") -> MlFigure:
         """
         AUTOSAR-compliant setter for verbatim with method chaining.
         
@@ -4144,7 +4145,7 @@ class MlFigure(Paginateable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_figure_caption(self, value: Optional[Caption]) -> MlFigure:
+    def with_figure_caption(self, value: Optional["Caption"]) -> MlFigure:
         """
         Set figureCaption and return self for chaining.
         
@@ -4160,7 +4161,7 @@ class MlFigure(Paginateable):
         self.figure_caption = value  # Use property setter (gets validation)
         return self
 
-    def with_frame(self, value: Optional[FrameEnum]) -> MlFigure:
+    def with_frame(self, value: Optional["FrameEnum"]) -> MlFigure:
         """
         Set frame and return self for chaining.
         
@@ -4208,7 +4209,7 @@ class MlFigure(Paginateable):
         self.pgwide = value  # Use property setter (gets validation)
         return self
 
-    def with_verbatim(self, value: Optional[MultiLanguageVerbatim]) -> MlFigure:
+    def with_verbatim(self, value: Optional["MultiLanguageVerbatim"]) -> MlFigure:
         """
         Set verbatim and return self for chaining.
         

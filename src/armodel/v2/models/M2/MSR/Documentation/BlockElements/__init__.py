@@ -15,6 +15,8 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
+    String,
+    UriString,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Referrable import (
     MultilanguageReferrable,
@@ -960,8 +962,173 @@ class Caption(MultilanguageReferrable):
         return self
 
 
+class Url(ARObject):
+    """
+    This meta-class specifies an Uniform Resource Locator (URL).
+
+    Package: M2::MSR::Documentation::BlockElements::Url
+
+    Sources:
+      - AUTOSAR_FO_TPS_GenericStructureTemplate.pdf (Page 285, Foundation
+      R23-11)
+    """
+    def __init__(self):
+        super().__init__()
+
+    # ===== Pythonic properties (CODING_RULE_V2_00016) =====
+        # This is the url itself
+        self._value: Optional[UriString] = None
+
+    @property
+    def value(self) -> Optional[UriString]:
+        """Get value (Pythonic accessor)."""
+        return self._value
+
+    @value.setter
+    def value(self, value: Optional[UriString]) -> None:
+        """
+        Set value with validation.
+
+        Args:
+            value: The value to set
+
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._value = None
+            return
+
+        if not isinstance(value, (UriString, str)):
+            raise TypeError(
+                f"value must be UriString or str or None, got {type(value).__name__}"
+            )
+        self._value = value
+        # this denotes the mime type of the resource located by the url.
+        self._mimeType: Optional[String] = None
+
+    @property
+    def mime_type(self) -> Optional[String]:
+        """Get mimeType (Pythonic accessor)."""
+        return self._mimeType
+
+    @mime_type.setter
+    def mime_type(self, value: Optional[String]) -> None:
+        """
+        Set mimeType with validation.
+
+        Args:
+            value: The mimeType to set
+
+        Raises:
+            TypeError: If value type is incorrect
+        """
+        if value is None:
+            self._mimeType = None
+            return
+
+        if not isinstance(value, (String, str)):
+            raise TypeError(
+                f"mimeType must be String or str or None, got {type(value).__name__}"
+            )
+        self._mimeType = value
+
+    # ===== AUTOSAR-compatible methods (delegate to properties) =====
+
+    def getValue(self) -> UriString:
+        """
+        AUTOSAR-compliant getter for value.
+
+        Returns:
+            The value value
+
+        Note:
+            Delegates to value property (CODING_RULE_V2_00017)
+        """
+        return self.value  # Delegates to property
+
+    def setValue(self, value: UriString) -> Url:
+        """
+        AUTOSAR-compliant setter for value with method chaining.
+
+        Args:
+            value: The value to set
+
+        Returns:
+            self for method chaining
+
+        Note:
+            Delegates to value property setter (gets validation automatically)
+        """
+        self.value = value  # Delegates to property setter
+        return self
+
+    def getMimeType(self) -> String:
+        """
+        AUTOSAR-compliant getter for mimeType.
+
+        Returns:
+            The mimeType value
+
+        Note:
+            Delegates to mime_type property (CODING_RULE_V2_00017)
+        """
+        return self.mime_type  # Delegates to property
+
+    def setMimeType(self, value: String) -> Url:
+        """
+        AUTOSAR-compliant setter for mimeType with method chaining.
+
+        Args:
+            value: The mimeType to set
+
+        Returns:
+            self for method chaining
+
+        Note:
+            Delegates to mime_type property setter (gets validation automatically)
+        """
+        self.mime_type = value  # Delegates to property setter
+        return self
+
+    # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
+
+    def with_value(self, value: Optional[UriString]) -> Url:
+        """
+        Set value and return self for chaining.
+
+        Args:
+            value: The value to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_value("value")
+        """
+        self.value = value  # Use property setter (gets validation)
+        return self
+
+    def with_mime_type(self, value: Optional[String]) -> Url:
+        """
+        Set mimeType and return self for chaining.
+
+        Args:
+            value: The mimeType to set
+
+        Returns:
+            self for method chaining
+
+        Example:
+            >>> obj.with_mime_type("value")
+        """
+        self.mime_type = value  # Use property setter (gets validation)
+        return self
+
+
 __all__ = [
     DocumentationBlock,
     Caption,
     Traceable,
+    Url,
 ]

@@ -17,6 +17,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import (
     AbstractAccessPoint,
+    SwImplPolicyEnum,
 )
 
 
@@ -232,7 +233,7 @@ class InternalTriggeringPoint(AbstractAccessPoint):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getSwImplPolicy(self) -> "SwImplPolicyEnum":
+    def getSwImplPolicy(self) -> SwImplPolicyEnum:
         """
         AUTOSAR-compliant getter for swImplPolicy.
 
@@ -244,7 +245,7 @@ class InternalTriggeringPoint(AbstractAccessPoint):
         """
         return self.sw_impl_policy  # Delegates to property
 
-    def setSwImplPolicy(self, value: "SwImplPolicyEnum") -> InternalTriggeringPoint:
+    def setSwImplPolicy(self, value: SwImplPolicyEnum) -> InternalTriggeringPoint:
         """
         AUTOSAR-compliant setter for swImplPolicy with method chaining.
 

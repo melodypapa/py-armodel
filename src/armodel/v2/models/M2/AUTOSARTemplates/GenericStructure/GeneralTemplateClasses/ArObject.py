@@ -11,6 +11,10 @@ from __future__ import annotations
 from abc import ABC
 from typing import Any, Dict, Optional
 
+from models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    DateTime,
+)
+
 
 # Manually maintained: Base class marker to prevent regeneration
 class ARType_ManuallyMaintained:  # Marker class to prevent regeneration
@@ -73,12 +77,12 @@ class ARObject(ABC):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
 
     @property
-    def checksum(self) -> Optional[String]:
+    def checksum(self) -> Optional["String"]:
         """Get checksum (Pythonic accessor)."""
         return self._checksum
 
     @checksum.setter
-    def checksum(self, value: Optional[String]) -> None:
+    def checksum(self, value: Optional["String"]) -> None:
         """
         Set checksum with validation.
 
@@ -120,7 +124,7 @@ class ARObject(ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getChecksum(self) -> String:
+    def getChecksum(self) -> "String":
         """
         AUTOSAR-compliant getter for checksum.
 
@@ -132,7 +136,7 @@ class ARObject(ABC):
         """
         return self.checksum  # Delegates to property
 
-    def setChecksum(self, value: String) -> ARObject:
+    def setChecksum(self, value: "String") -> ARObject:
         """
         AUTOSAR-compliant setter for checksum with method chaining.
 
@@ -148,7 +152,7 @@ class ARObject(ABC):
         self.checksum = value  # Delegates to property setter
         return self
 
-    def getTimestamp(self) -> "DateTime":
+    def getTimestamp(self) -> DateTime:
         """
         AUTOSAR-compliant getter for timestamp.
 
@@ -160,7 +164,7 @@ class ARObject(ABC):
         """
         return self.timestamp  # Delegates to property
 
-    def setTimestamp(self, value: "DateTime") -> ARObject:
+    def setTimestamp(self, value: DateTime) -> ARObject:
         """
         AUTOSAR-compliant setter for timestamp with method chaining.
 
@@ -178,7 +182,7 @@ class ARObject(ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_checksum(self, value: Optional[String]) -> ARObject:
+    def with_checksum(self, value: Optional["String"]) -> ARObject:
         """
         Set checksum and return self for chaining.
 

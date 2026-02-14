@@ -19,6 +19,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Identifier,
+    NameToken,
     RefType,
 )
 
@@ -59,7 +60,7 @@ class ARPackage(CollectableElement):
         super().__init__()
         # Manually add shortName attribute for test compatibility
         # ARPackage should inherit from Identifiable but current generator doesn't support multiple inheritance
-        self._shortName: Optional[str] = None
+        self._shortName: Optional[NameToken] = None
 
         # Parent attribute for V1 compatibility
         self.parent: Optional["ARObject"] = None
@@ -71,12 +72,12 @@ class ARPackage(CollectableElement):
 
     # ===== Manually added methods for Identifiable compatibility =====
     @property
-    def shortName(self) -> Optional[str]:
+    def shortName(self) -> Optional[NameToken]:
         """Get shortName (Pythonic accessor)."""
         return self._shortName
 
     @shortName.setter
-    def shortName(self, value: Optional[str]) -> None:
+    def shortName(self, value: Optional[NameToken]) -> None:
         """Set shortName with validation."""
         self._shortName = value
 

@@ -34,15 +34,15 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Stereotypes: atpDerived xml.
         # sequenceOffset=10.
-        self._base: Optional[AtomicSwComponent] = None
+        self._base: Optional["AtomicSwComponent"] = None
 
     @property
-    def base(self) -> Optional[AtomicSwComponent]:
+    def base(self) -> Optional["AtomicSwComponent"]:
         """Get base (Pythonic accessor)."""
         return self._base
 
     @base.setter
-    def base(self, value: Optional[AtomicSwComponent]) -> None:
+    def base(self, value: Optional["AtomicSwComponent"]) -> None:
         """
         Set base with validation.
 
@@ -176,7 +176,7 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBase(self) -> AtomicSwComponent:
+    def getBase(self) -> "AtomicSwComponent":
         """
         AUTOSAR-compliant getter for base.
 
@@ -188,7 +188,7 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
         """
         return self.base  # Delegates to property
 
-    def setBase(self, value: AtomicSwComponent) -> ParameterInAtomicSWCTypeInstanceRef:
+    def setBase(self, value: "AtomicSwComponent") -> ParameterInAtomicSWCTypeInstanceRef:
         """
         AUTOSAR-compliant setter for base with method chaining.
 
@@ -302,7 +302,7 @@ class ParameterInAtomicSWCTypeInstanceRef(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base(self, value: Optional[AtomicSwComponent]) -> ParameterInAtomicSWCTypeInstanceRef:
+    def with_base(self, value: Optional["AtomicSwComponent"]) -> ParameterInAtomicSWCTypeInstanceRef:
         """
         Set base and return self for chaining.
 
@@ -383,15 +383,15 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Stereotypes: atpDerived xml.
         # sequenceOffset=10.
-        self._base: Optional[AtomicSwComponent] = None
+        self._base: Optional["AtomicSwComponent"] = None
 
     @property
-    def base(self) -> Optional[AtomicSwComponent]:
+    def base(self) -> Optional["AtomicSwComponent"]:
         """Get base (Pythonic accessor)."""
         return self._base
 
     @base.setter
-    def base(self, value: Optional[AtomicSwComponent]) -> None:
+    def base(self, value: Optional["AtomicSwComponent"]) -> None:
         """
         Set base with validation.
 
@@ -495,7 +495,7 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBase(self) -> AtomicSwComponent:
+    def getBase(self) -> "AtomicSwComponent":
         """
         AUTOSAR-compliant getter for base.
 
@@ -507,7 +507,7 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
         """
         return self.base  # Delegates to property
 
-    def setBase(self, value: AtomicSwComponent) -> VariableInAtomicSWCTypeInstanceRef:
+    def setBase(self, value: "AtomicSwComponent") -> VariableInAtomicSWCTypeInstanceRef:
         """
         AUTOSAR-compliant setter for base with method chaining.
 
@@ -621,7 +621,7 @@ class VariableInAtomicSWCTypeInstanceRef(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base(self, value: Optional[AtomicSwComponent]) -> VariableInAtomicSWCTypeInstanceRef:
+    def with_base(self, value: Optional["AtomicSwComponent"]) -> VariableInAtomicSWCTypeInstanceRef:
         """
         Set base and return self for chaining.
 

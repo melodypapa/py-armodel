@@ -16,6 +16,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     Describable,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    DataFilter,
     Integer,
     RefType,
 )
@@ -263,7 +264,7 @@ class TransmissionModeCondition(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDataFilter(self) -> "DataFilter":
+    def getDataFilter(self) -> DataFilter:
         """
         AUTOSAR-compliant getter for dataFilter.
 
@@ -275,7 +276,7 @@ class TransmissionModeCondition(ARObject):
         """
         return self.data_filter  # Delegates to property
 
-    def setDataFilter(self, value: "DataFilter") -> TransmissionModeCondition:
+    def setDataFilter(self, value: DataFilter) -> TransmissionModeCondition:
         """
         AUTOSAR-compliant setter for dataFilter with method chaining.
 
@@ -943,15 +944,15 @@ class TimeRangeType(ARObject):
                 f"toleranceTolerance must be TimeRangeType or None, got {type(value).__name__}"
             )
         self._toleranceTolerance = value
-        self._value: Optional[TimeValue] = None
+        self._value: Optional["TimeValue"] = None
 
     @property
-    def value(self) -> Optional[TimeValue]:
+    def value(self) -> Optional["TimeValue"]:
         """Get value (Pythonic accessor)."""
         return self._value
 
     @value.setter
-    def value(self, value: Optional[TimeValue]) -> None:
+    def value(self, value: Optional["TimeValue"]) -> None:
         """
         Set value with validation.
 
@@ -1001,7 +1002,7 @@ class TimeRangeType(ARObject):
         self.tolerance_tolerance = value  # Delegates to property setter
         return self
 
-    def getValue(self) -> TimeValue:
+    def getValue(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for value.
 
@@ -1013,7 +1014,7 @@ class TimeRangeType(ARObject):
         """
         return self.value  # Delegates to property
 
-    def setValue(self, value: TimeValue) -> TimeRangeType:
+    def setValue(self, value: "TimeValue") -> TimeRangeType:
         """
         AUTOSAR-compliant setter for value with method chaining.
 
@@ -1047,7 +1048,7 @@ class TimeRangeType(ARObject):
         self.tolerance_tolerance = value  # Use property setter (gets validation)
         return self
 
-    def with_value(self, value: Optional[TimeValue]) -> TimeRangeType:
+    def with_value(self, value: Optional["TimeValue"]) -> TimeRangeType:
         """
         Set value and return self for chaining.
 
@@ -1171,15 +1172,15 @@ class AbsoluteTolerance(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Maximum allowable deviation in duration (in seconds).
-        self._absolute: Optional[TimeValue] = None
+        self._absolute: Optional["TimeValue"] = None
 
     @property
-    def absolute(self) -> Optional[TimeValue]:
+    def absolute(self) -> Optional["TimeValue"]:
         """Get absolute (Pythonic accessor)."""
         return self._absolute
 
     @absolute.setter
-    def absolute(self, value: Optional[TimeValue]) -> None:
+    def absolute(self, value: Optional["TimeValue"]) -> None:
         """
         Set absolute with validation.
 
@@ -1201,7 +1202,7 @@ class AbsoluteTolerance(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAbsolute(self) -> TimeValue:
+    def getAbsolute(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for absolute.
 
@@ -1213,7 +1214,7 @@ class AbsoluteTolerance(ARObject):
         """
         return self.absolute  # Delegates to property
 
-    def setAbsolute(self, value: TimeValue) -> AbsoluteTolerance:
+    def setAbsolute(self, value: "TimeValue") -> AbsoluteTolerance:
         """
         AUTOSAR-compliant setter for absolute with method chaining.
 
@@ -1231,7 +1232,7 @@ class AbsoluteTolerance(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_absolute(self, value: Optional[TimeValue]) -> AbsoluteTolerance:
+    def with_absolute(self, value: Optional["TimeValue"]) -> AbsoluteTolerance:
         """
         Set absolute and return self for chaining.
 

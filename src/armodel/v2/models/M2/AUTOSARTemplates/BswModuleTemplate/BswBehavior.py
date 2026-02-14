@@ -70,6 +70,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.MSR.CalibrationData import (
     ParameterData,
+    ServiceNeeds,
 )
 
 
@@ -1292,7 +1293,7 @@ class BswModuleEntity(ExecutableEntity, ABC):
         """
         return self.managed_mode  # Delegates to property
 
-    def getSchedulerName(self) -> "BswSchedulerName":
+    def getSchedulerName(self) -> BswSchedulerName:
         """
         AUTOSAR-compliant getter for schedulerName.
 
@@ -1304,7 +1305,7 @@ class BswModuleEntity(ExecutableEntity, ABC):
         """
         return self.scheduler_name  # Delegates to property
 
-    def setSchedulerName(self, value: "BswSchedulerName") -> BswModuleEntity:
+    def setSchedulerName(self, value: BswSchedulerName) -> BswModuleEntity:
         """
         AUTOSAR-compliant setter for schedulerName with method chaining.
 
@@ -1613,7 +1614,7 @@ class BswExclusiveAreaPolicy(ARObject):
         self.api_principle = value  # Delegates to property setter
         return self
 
-    def getExclusiveArea(self) -> "ExclusiveArea":
+    def getExclusiveArea(self) -> ExclusiveArea:
         """
         AUTOSAR-compliant getter for exclusiveArea.
 
@@ -1625,7 +1626,7 @@ class BswExclusiveAreaPolicy(ARObject):
         """
         return self.exclusive_area  # Delegates to property
 
-    def setExclusiveArea(self, value: "ExclusiveArea") -> BswExclusiveAreaPolicy:
+    def setExclusiveArea(self, value: ExclusiveArea) -> BswExclusiveAreaPolicy:
         """
         AUTOSAR-compliant setter for exclusiveArea with method chaining.
 
@@ -1884,7 +1885,7 @@ class BswInternalTriggeringPoint(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getSwImplPolicy(self) -> "SwImplPolicyEnum":
+    def getSwImplPolicy(self) -> SwImplPolicyEnum:
         """
         AUTOSAR-compliant getter for swImplPolicy.
 
@@ -1896,7 +1897,7 @@ class BswInternalTriggeringPoint(Identifiable):
         """
         return self.sw_impl_policy  # Delegates to property
 
-    def setSwImplPolicy(self, value: "SwImplPolicyEnum") -> BswInternalTriggeringPoint:
+    def setSwImplPolicy(self, value: SwImplPolicyEnum) -> BswInternalTriggeringPoint:
         """
         AUTOSAR-compliant setter for swImplPolicy with method chaining.
 
@@ -2043,7 +2044,7 @@ class BswTriggerDirectImplementation(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCat2Isr(self) -> "Identifier":
+    def getCat2Isr(self) -> Identifier:
         """
         AUTOSAR-compliant getter for cat2Isr.
 
@@ -2055,7 +2056,7 @@ class BswTriggerDirectImplementation(ARObject):
         """
         return self.cat2_isr  # Delegates to property
 
-    def setCat2Isr(self, value: "Identifier") -> BswTriggerDirectImplementation:
+    def setCat2Isr(self, value: Identifier) -> BswTriggerDirectImplementation:
         """
         AUTOSAR-compliant setter for cat2Isr with method chaining.
 
@@ -2099,7 +2100,7 @@ class BswTriggerDirectImplementation(ARObject):
         self.mastered_trigger = value  # Delegates to property setter
         return self
 
-    def getTask(self) -> "Identifier":
+    def getTask(self) -> Identifier:
         """
         AUTOSAR-compliant getter for task.
 
@@ -2111,7 +2112,7 @@ class BswTriggerDirectImplementation(ARObject):
         """
         return self.task  # Delegates to property
 
-    def setTask(self, value: "Identifier") -> BswTriggerDirectImplementation:
+    def setTask(self, value: Identifier) -> BswTriggerDirectImplementation:
         """
         AUTOSAR-compliant setter for task with method chaining.
 
@@ -2311,7 +2312,7 @@ class BswModeSenderPolicy(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAckRequestRequest(self) -> "BswModeSwitchAck":
+    def getAckRequestRequest(self) -> BswModeSwitchAck:
         """
         AUTOSAR-compliant getter for ackRequestRequest.
 
@@ -2323,7 +2324,7 @@ class BswModeSenderPolicy(ARObject):
         """
         return self.ack_request_request  # Delegates to property
 
-    def setAckRequestRequest(self, value: "BswModeSwitchAck") -> BswModeSenderPolicy:
+    def setAckRequestRequest(self, value: BswModeSwitchAck) -> BswModeSenderPolicy:
         """
         AUTOSAR-compliant setter for ackRequestRequest with method chaining.
 
@@ -3085,7 +3086,7 @@ class BswServiceDependency(ServiceDependency):
         self.ident = value  # Delegates to property setter
         return self
 
-    def getServiceNeeds(self) -> "ServiceNeeds":
+    def getServiceNeeds(self) -> ServiceNeeds:
         """
         AUTOSAR-compliant getter for serviceNeeds.
 
@@ -3097,7 +3098,7 @@ class BswServiceDependency(ServiceDependency):
         """
         return self.service_needs  # Delegates to property
 
-    def setServiceNeeds(self, value: "ServiceNeeds") -> BswServiceDependency:
+    def setServiceNeeds(self, value: ServiceNeeds) -> BswServiceDependency:
         """
         AUTOSAR-compliant setter for serviceNeeds with method chaining.
 
@@ -3260,7 +3261,7 @@ class RoleBasedBswModuleEntryAssignment(ARObject):
         self.assigned_entry = value  # Delegates to property setter
         return self
 
-    def getRole(self) -> "Identifier":
+    def getRole(self) -> Identifier:
         """
         AUTOSAR-compliant getter for role.
 
@@ -3272,7 +3273,7 @@ class RoleBasedBswModuleEntryAssignment(ARObject):
         """
         return self.role  # Delegates to property
 
-    def setRole(self, value: "Identifier") -> RoleBasedBswModuleEntryAssignment:
+    def setRole(self, value: Identifier) -> RoleBasedBswModuleEntryAssignment:
         """
         AUTOSAR-compliant setter for role with method chaining.
 
@@ -3641,7 +3642,7 @@ class BswDirectCallPoint(BswModuleCallPoint):
         self.called_entry = value  # Delegates to property setter
         return self
 
-    def getCalledFrom(self) -> "ExclusiveAreaNesting":
+    def getCalledFrom(self) -> ExclusiveAreaNesting:
         """
         AUTOSAR-compliant getter for calledFrom.
 
@@ -3653,7 +3654,7 @@ class BswDirectCallPoint(BswModuleCallPoint):
         """
         return self.called_from  # Delegates to property
 
-    def setCalledFrom(self, value: "ExclusiveAreaNesting") -> BswDirectCallPoint:
+    def setCalledFrom(self, value: ExclusiveAreaNesting) -> BswDirectCallPoint:
         """
         AUTOSAR-compliant setter for calledFrom with method chaining.
 
@@ -3778,7 +3779,7 @@ class BswSynchronousServerCallPoint(BswModuleCallPoint):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCalledEntryEntry(self) -> "BswModuleClientServer":
+    def getCalledEntryEntry(self) -> BswModuleClientServer:
         """
         AUTOSAR-compliant getter for calledEntryEntry.
 
@@ -3790,7 +3791,7 @@ class BswSynchronousServerCallPoint(BswModuleCallPoint):
         """
         return self.called_entry_entry  # Delegates to property
 
-    def setCalledEntryEntry(self, value: "BswModuleClientServer") -> BswSynchronousServerCallPoint:
+    def setCalledEntryEntry(self, value: BswModuleClientServer) -> BswSynchronousServerCallPoint:
         """
         AUTOSAR-compliant setter for calledEntryEntry with method chaining.
 
@@ -3806,7 +3807,7 @@ class BswSynchronousServerCallPoint(BswModuleCallPoint):
         self.called_entry_entry = value  # Delegates to property setter
         return self
 
-    def getCalledFrom(self) -> "ExclusiveAreaNesting":
+    def getCalledFrom(self) -> ExclusiveAreaNesting:
         """
         AUTOSAR-compliant getter for calledFrom.
 
@@ -3818,7 +3819,7 @@ class BswSynchronousServerCallPoint(BswModuleCallPoint):
         """
         return self.called_from  # Delegates to property
 
-    def setCalledFrom(self, value: "ExclusiveAreaNesting") -> BswSynchronousServerCallPoint:
+    def setCalledFrom(self, value: ExclusiveAreaNesting) -> BswSynchronousServerCallPoint:
         """
         AUTOSAR-compliant setter for calledFrom with method chaining.
 
@@ -3915,7 +3916,7 @@ class BswAsynchronousServerCallPoint(BswModuleCallPoint):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCalledEntryEntry(self) -> "BswModuleClientServer":
+    def getCalledEntryEntry(self) -> BswModuleClientServer:
         """
         AUTOSAR-compliant getter for calledEntryEntry.
 
@@ -3927,7 +3928,7 @@ class BswAsynchronousServerCallPoint(BswModuleCallPoint):
         """
         return self.called_entry_entry  # Delegates to property
 
-    def setCalledEntryEntry(self, value: "BswModuleClientServer") -> BswAsynchronousServerCallPoint:
+    def setCalledEntryEntry(self, value: BswModuleClientServer) -> BswAsynchronousServerCallPoint:
         """
         AUTOSAR-compliant setter for calledEntryEntry with method chaining.
 
@@ -4009,7 +4010,7 @@ class BswAsynchronousServerCallResultPoint(BswModuleCallPoint):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAsynchronous(self) -> "BswAsynchronous":
+    def getAsynchronous(self) -> BswAsynchronous:
         """
         AUTOSAR-compliant getter for asynchronous.
 
@@ -4021,7 +4022,7 @@ class BswAsynchronousServerCallResultPoint(BswModuleCallPoint):
         """
         return self.asynchronous  # Delegates to property
 
-    def setAsynchronous(self, value: "BswAsynchronous") -> BswAsynchronousServerCallResultPoint:
+    def setAsynchronous(self, value: BswAsynchronous) -> BswAsynchronousServerCallResultPoint:
         """
         AUTOSAR-compliant setter for asynchronous with method chaining.
 
@@ -4146,7 +4147,7 @@ class BswOperationInvokedEvent(BswEvent):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getEntry(self) -> "BswModuleClientServer":
+    def getEntry(self) -> BswModuleClientServer:
         """
         AUTOSAR-compliant getter for entry.
 
@@ -4158,7 +4159,7 @@ class BswOperationInvokedEvent(BswEvent):
         """
         return self.entry  # Delegates to property
 
-    def setEntry(self, value: "BswModuleClientServer") -> BswOperationInvokedEvent:
+    def setEntry(self, value: BswModuleClientServer) -> BswOperationInvokedEvent:
         """
         AUTOSAR-compliant setter for entry with method chaining.
 
@@ -4663,7 +4664,7 @@ class BswModeSwitchEvent(BswScheduleEvent):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getActivation(self) -> "ModeActivationKind":
+    def getActivation(self) -> ModeActivationKind:
         """
         AUTOSAR-compliant getter for activation.
 
@@ -4675,7 +4676,7 @@ class BswModeSwitchEvent(BswScheduleEvent):
         """
         return self.activation  # Delegates to property
 
-    def setActivation(self, value: "ModeActivationKind") -> BswModeSwitchEvent:
+    def setActivation(self, value: ModeActivationKind) -> BswModeSwitchEvent:
         """
         AUTOSAR-compliant setter for activation with method chaining.
 
@@ -4942,7 +4943,7 @@ class BswAsynchronousServerCallReturnsEvent(BswScheduleEvent):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getEventSource(self) -> "BswAsynchronous":
+    def getEventSource(self) -> BswAsynchronous:
         """
         AUTOSAR-compliant getter for eventSource.
 
@@ -4954,7 +4955,7 @@ class BswAsynchronousServerCallReturnsEvent(BswScheduleEvent):
         """
         return self.event_source  # Delegates to property
 
-    def setEventSource(self, value: "BswAsynchronous") -> BswAsynchronousServerCallReturnsEvent:
+    def setEventSource(self, value: BswAsynchronous) -> BswAsynchronousServerCallReturnsEvent:
         """
         AUTOSAR-compliant setter for eventSource with method chaining.
 

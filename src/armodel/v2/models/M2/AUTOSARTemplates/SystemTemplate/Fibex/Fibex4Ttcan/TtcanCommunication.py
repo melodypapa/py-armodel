@@ -14,6 +14,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
+    CommunicationCycle,
     Integer,
     RefType,
 )
@@ -118,7 +119,7 @@ class TtcanAbsolutelyScheduledTiming(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCommunicationCycle(self) -> "CommunicationCycle":
+    def getCommunicationCycle(self) -> CommunicationCycle:
         """
         AUTOSAR-compliant getter for communicationCycle.
 
@@ -130,7 +131,7 @@ class TtcanAbsolutelyScheduledTiming(ARObject):
         """
         return self.communication_cycle  # Delegates to property
 
-    def setCommunicationCycle(self, value: "CommunicationCycle") -> TtcanAbsolutelyScheduledTiming:
+    def setCommunicationCycle(self, value: CommunicationCycle) -> TtcanAbsolutelyScheduledTiming:
         """
         AUTOSAR-compliant setter for communicationCycle with method chaining.
 

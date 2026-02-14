@@ -18,8 +18,11 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
+    ByteOrderEnum,
+    NativeDeclarationString,
     PositiveInteger,
 )
+from armodel.v2.models.M2.MSR.AsamHdo.BaseTypes import BaseTypeEncodingString
 
 
 class BaseType(ARElement, ABC):
@@ -189,15 +192,15 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
         # This specifies, how an object of the current BaseType is encoded, e.
         # g.
         # in an ECU within a message sequence.
-        self._baseType: Optional[BaseTypeEncoding] = None
+        self._baseType: Optional[BaseTypeEncodingString] = None
 
     @property
-    def base_type(self) -> Optional[BaseTypeEncoding]:
+    def base_type(self) -> Optional[BaseTypeEncodingString]:
         """Get baseType (Pythonic accessor)."""
         return self._baseType
 
     @base_type.setter
-    def base_type(self, value: Optional[BaseTypeEncoding]) -> None:
+    def base_type(self, value: Optional[BaseTypeEncodingString]) -> None:
         """
         Set baseType with validation.
 
@@ -211,9 +214,9 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
             self._baseType = None
             return
 
-        if not isinstance(value, BaseTypeEncoding):
+        if not isinstance(value, BaseTypeEncodingString):
             raise TypeError(
-                f"baseType must be BaseTypeEncoding or None, got {type(value).__name__}"
+                f"baseType must be BaseTypeEncodingString or None, got {type(value).__name__}"
             )
         self._baseType = value
         self._baseTypeSize: Optional[PositiveInteger] = None
@@ -312,15 +315,15 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
         # nativeDeclaration type is given it shall fulfill the by basetypeEncoding and
                 # baseType required to ensure the consistent handling and software components,
                 # RTE, COM and.
-        self._native: Optional["NativeDeclarationString"] = None
+        self._native: Optional[NativeDeclarationString] = None
 
     @property
-    def native(self) -> Optional["NativeDeclarationString"]:
+    def native(self) -> Optional[NativeDeclarationString]:
         """Get native (Pythonic accessor)."""
         return self._native
 
     @native.setter
-    def native(self, value: Optional["NativeDeclarationString"]) -> None:
+    def native(self, value: Optional[NativeDeclarationString]) -> None:
         """
         Set native with validation.
 
@@ -342,7 +345,7 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBaseType(self) -> BaseTypeEncoding:
+    def getBaseType(self) -> BaseTypeEncodingString:
         """
         AUTOSAR-compliant getter for baseType.
 
@@ -354,7 +357,7 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
         """
         return self.base_type  # Delegates to property
 
-    def setBaseType(self, value: BaseTypeEncoding) -> BaseTypeDirectDefinition:
+    def setBaseType(self, value: BaseTypeEncodingString) -> BaseTypeDirectDefinition:
         """
         AUTOSAR-compliant setter for baseType with method chaining.
 
@@ -454,7 +457,7 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
         self.mem_alignment = value  # Delegates to property setter
         return self
 
-    def getNative(self) -> "NativeDeclarationString":
+    def getNative(self) -> Optional[NativeDeclarationString]:
         """
         AUTOSAR-compliant getter for native.
 
@@ -466,7 +469,7 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
         """
         return self.native  # Delegates to property
 
-    def setNative(self, value: "NativeDeclarationString") -> BaseTypeDirectDefinition:
+    def setNative(self, value: Optional[NativeDeclarationString]) -> BaseTypeDirectDefinition:
         """
         AUTOSAR-compliant setter for native with method chaining.
 
@@ -484,7 +487,7 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base_type(self, value: Optional[BaseTypeEncoding]) -> BaseTypeDirectDefinition:
+    def with_base_type(self, value: Optional[BaseTypeEncodingString]) -> BaseTypeDirectDefinition:
         """
         Set baseType and return self for chaining.
 
@@ -548,7 +551,7 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
         self.mem_alignment = value  # Use property setter (gets validation)
         return self
 
-    def with_native(self, value: Optional["NativeDeclarationString"]) -> BaseTypeDirectDefinition:
+    def with_native(self, value: Optional[NativeDeclarationString]) -> BaseTypeDirectDefinition:
         """
         Set native and return self for chaining.
 

@@ -28,6 +28,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
     AbstractServiceInstance,
+    ISignal,
 )
 
 
@@ -194,7 +195,7 @@ class DdsCpISignalToDdsTopicMapping(ARObject):
         self.dds_topic = value  # Delegates to property setter
         return self
 
-    def getISignal(self) -> "ISignal":
+    def getISignal(self) -> ISignal:
         """
         AUTOSAR-compliant getter for iSignal.
 
@@ -206,7 +207,7 @@ class DdsCpISignalToDdsTopicMapping(ARObject):
         """
         return self.i_signal  # Delegates to property
 
-    def setISignal(self, value: "ISignal") -> DdsCpISignalToDdsTopicMapping:
+    def setISignal(self, value: ISignal) -> DdsCpISignalToDdsTopicMapping:
         """
         AUTOSAR-compliant setter for iSignal with method chaining.
 
@@ -4036,15 +4037,15 @@ class DdsCpProvidedServiceInstance(DdsCpServiceInstance):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The local address over which the Service is provided.
         # atpSplitable; atpVariation.
-        self._localUnicast: Optional[ApplicationEndpoint] = None
+        self._localUnicast: Optional["ApplicationEndpoint"] = None
 
     @property
-    def local_unicast(self) -> Optional[ApplicationEndpoint]:
+    def local_unicast(self) -> Optional["ApplicationEndpoint"]:
         """Get localUnicast (Pythonic accessor)."""
         return self._localUnicast
 
     @local_unicast.setter
-    def local_unicast(self, value: Optional[ApplicationEndpoint]) -> None:
+    def local_unicast(self, value: Optional["ApplicationEndpoint"]) -> None:
         """
         Set localUnicast with validation.
 
@@ -4110,7 +4111,7 @@ class DdsCpProvidedServiceInstance(DdsCpServiceInstance):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getLocalUnicast(self) -> ApplicationEndpoint:
+    def getLocalUnicast(self) -> "ApplicationEndpoint":
         """
         AUTOSAR-compliant getter for localUnicast.
 
@@ -4122,7 +4123,7 @@ class DdsCpProvidedServiceInstance(DdsCpServiceInstance):
         """
         return self.local_unicast  # Delegates to property
 
-    def setLocalUnicast(self, value: ApplicationEndpoint) -> DdsCpProvidedServiceInstance:
+    def setLocalUnicast(self, value: "ApplicationEndpoint") -> DdsCpProvidedServiceInstance:
         """
         AUTOSAR-compliant setter for localUnicast with method chaining.
 
@@ -4192,7 +4193,7 @@ class DdsCpProvidedServiceInstance(DdsCpServiceInstance):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_local_unicast(self, value: Optional[ApplicationEndpoint]) -> DdsCpProvidedServiceInstance:
+    def with_local_unicast(self, value: Optional["ApplicationEndpoint"]) -> DdsCpProvidedServiceInstance:
         """
         Set localUnicast and return self for chaining.
 
@@ -4251,15 +4252,15 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
         return self._consumedDds
         # The local address over which the Service is consumed.
         # atpSplitable; atpVariation.
-        self._localUnicast: Optional[ApplicationEndpoint] = None
+        self._localUnicast: Optional["ApplicationEndpoint"] = None
 
     @property
-    def local_unicast(self) -> Optional[ApplicationEndpoint]:
+    def local_unicast(self) -> Optional["ApplicationEndpoint"]:
         """Get localUnicast (Pythonic accessor)."""
         return self._localUnicast
 
     @local_unicast.setter
-    def local_unicast(self, value: Optional[ApplicationEndpoint]) -> None:
+    def local_unicast(self, value: Optional["ApplicationEndpoint"]) -> None:
         """
         Set localUnicast with validation.
 
@@ -4279,15 +4280,15 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
             )
         self._localUnicast = value
         # Value can be set to that represents the Minor Version of the or to ANY.
-        self._minorVersion: Optional[AnyVersionString] = None
+        self._minorVersion: Optional["AnyVersionString"] = None
 
     @property
-    def minor_version(self) -> Optional[AnyVersionString]:
+    def minor_version(self) -> Optional["AnyVersionString"]:
         """Get minorVersion (Pythonic accessor)."""
         return self._minorVersion
 
     @minor_version.setter
-    def minor_version(self, value: Optional[AnyVersionString]) -> None:
+    def minor_version(self, value: Optional["AnyVersionString"]) -> None:
         """
         Set minorVersion with validation.
 
@@ -4309,15 +4310,15 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
         # shall ONLY be used if the remote unicast the server is determined from the
                 # not at runtime.
         # atpVariation.
-        self._staticRemote: Optional[ApplicationEndpoint] = None
+        self._staticRemote: Optional["ApplicationEndpoint"] = None
 
     @property
-    def static_remote(self) -> Optional[ApplicationEndpoint]:
+    def static_remote(self) -> Optional["ApplicationEndpoint"]:
         """Get staticRemote (Pythonic accessor)."""
         return self._staticRemote
 
     @static_remote.setter
-    def static_remote(self, value: Optional[ApplicationEndpoint]) -> None:
+    def static_remote(self, value: Optional["ApplicationEndpoint"]) -> None:
         """
         Set staticRemote with validation.
 
@@ -4351,7 +4352,7 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
         """
         return self.consumed_dds  # Delegates to property
 
-    def getLocalUnicast(self) -> ApplicationEndpoint:
+    def getLocalUnicast(self) -> "ApplicationEndpoint":
         """
         AUTOSAR-compliant getter for localUnicast.
 
@@ -4363,7 +4364,7 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
         """
         return self.local_unicast  # Delegates to property
 
-    def setLocalUnicast(self, value: ApplicationEndpoint) -> DdsCpConsumedServiceInstance:
+    def setLocalUnicast(self, value: "ApplicationEndpoint") -> DdsCpConsumedServiceInstance:
         """
         AUTOSAR-compliant setter for localUnicast with method chaining.
 
@@ -4379,7 +4380,7 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
         self.local_unicast = value  # Delegates to property setter
         return self
 
-    def getMinorVersion(self) -> AnyVersionString:
+    def getMinorVersion(self) -> "AnyVersionString":
         """
         AUTOSAR-compliant getter for minorVersion.
 
@@ -4391,7 +4392,7 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
         """
         return self.minor_version  # Delegates to property
 
-    def setMinorVersion(self, value: AnyVersionString) -> DdsCpConsumedServiceInstance:
+    def setMinorVersion(self, value: "AnyVersionString") -> DdsCpConsumedServiceInstance:
         """
         AUTOSAR-compliant setter for minorVersion with method chaining.
 
@@ -4407,7 +4408,7 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
         self.minor_version = value  # Delegates to property setter
         return self
 
-    def getStaticRemote(self) -> ApplicationEndpoint:
+    def getStaticRemote(self) -> "ApplicationEndpoint":
         """
         AUTOSAR-compliant getter for staticRemote.
 
@@ -4419,7 +4420,7 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
         """
         return self.static_remote  # Delegates to property
 
-    def setStaticRemote(self, value: ApplicationEndpoint) -> DdsCpConsumedServiceInstance:
+    def setStaticRemote(self, value: "ApplicationEndpoint") -> DdsCpConsumedServiceInstance:
         """
         AUTOSAR-compliant setter for staticRemote with method chaining.
 
@@ -4437,7 +4438,7 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_local_unicast(self, value: Optional[ApplicationEndpoint]) -> DdsCpConsumedServiceInstance:
+    def with_local_unicast(self, value: Optional["ApplicationEndpoint"]) -> DdsCpConsumedServiceInstance:
         """
         Set localUnicast and return self for chaining.
 
@@ -4453,7 +4454,7 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
         self.local_unicast = value  # Use property setter (gets validation)
         return self
 
-    def with_minor_version(self, value: Optional[AnyVersionString]) -> DdsCpConsumedServiceInstance:
+    def with_minor_version(self, value: Optional["AnyVersionString"]) -> DdsCpConsumedServiceInstance:
         """
         Set minorVersion and return self for chaining.
 
@@ -4469,7 +4470,7 @@ class DdsCpConsumedServiceInstance(DdsCpServiceInstance):
         self.minor_version = value  # Use property setter (gets validation)
         return self
 
-    def with_static_remote(self, value: Optional[ApplicationEndpoint]) -> DdsCpConsumedServiceInstance:
+    def with_static_remote(self, value: Optional["ApplicationEndpoint"]) -> DdsCpConsumedServiceInstance:
         """
         Set staticRemote and return self for chaining.
 

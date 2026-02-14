@@ -21,6 +21,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
+    HwDescriptionEntity,
     RefType,
 )
 
@@ -1062,15 +1063,15 @@ class AtomicSwComponentType(SwComponentType, ABC):
                 # physical file.
         # aggregation is <<atpSplitable>>.
         # atpVariation.
-        self._internalBehavior: Optional[SwcInternalBehavior] = None
+        self._internalBehavior: Optional["SwcInternalBehavior"] = None
 
     @property
-    def internal_behavior(self) -> Optional[SwcInternalBehavior]:
+    def internal_behavior(self) -> Optional["SwcInternalBehavior"]:
         """Get internalBehavior (Pythonic accessor)."""
         return self._internalBehavior
 
     @internal_behavior.setter
-    def internal_behavior(self, value: Optional[SwcInternalBehavior]) -> None:
+    def internal_behavior(self, value: Optional["SwcInternalBehavior"]) -> None:
         """
         Set internalBehavior with validation.
 
@@ -1120,7 +1121,7 @@ class AtomicSwComponentType(SwComponentType, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getInternalBehavior(self) -> SwcInternalBehavior:
+    def getInternalBehavior(self) -> "SwcInternalBehavior":
         """
         AUTOSAR-compliant getter for internalBehavior.
 
@@ -1132,7 +1133,7 @@ class AtomicSwComponentType(SwComponentType, ABC):
         """
         return self.internal_behavior  # Delegates to property
 
-    def setInternalBehavior(self, value: SwcInternalBehavior) -> AtomicSwComponentType:
+    def setInternalBehavior(self, value: "SwcInternalBehavior") -> AtomicSwComponentType:
         """
         AUTOSAR-compliant setter for internalBehavior with method chaining.
 
@@ -1178,7 +1179,7 @@ class AtomicSwComponentType(SwComponentType, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_internal_behavior(self, value: Optional[SwcInternalBehavior]) -> AtomicSwComponentType:
+    def with_internal_behavior(self, value: Optional["SwcInternalBehavior"]) -> AtomicSwComponentType:
         """
         Set internalBehavior and return self for chaining.
 
@@ -1318,15 +1319,15 @@ class PRPortPrototype(AbstractRequiredPortPrototype):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # isOfType.
-        self._provided: Optional[PortInterface] = None
+        self._provided: Optional["PortInterface"] = None
 
     @property
-    def provided(self) -> Optional[PortInterface]:
+    def provided(self) -> Optional["PortInterface"]:
         """Get provided (Pythonic accessor)."""
         return self._provided
 
     @provided.setter
-    def provided(self, value: Optional[PortInterface]) -> None:
+    def provided(self, value: Optional["PortInterface"]) -> None:
         """
         Set provided with validation.
 
@@ -1348,7 +1349,7 @@ class PRPortPrototype(AbstractRequiredPortPrototype):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getProvided(self) -> PortInterface:
+    def getProvided(self) -> "PortInterface":
         """
         AUTOSAR-compliant getter for provided.
 
@@ -1360,7 +1361,7 @@ class PRPortPrototype(AbstractRequiredPortPrototype):
         """
         return self.provided  # Delegates to property
 
-    def setProvided(self, value: PortInterface) -> PRPortPrototype:
+    def setProvided(self, value: "PortInterface") -> PRPortPrototype:
         """
         AUTOSAR-compliant setter for provided with method chaining.
 
@@ -1378,7 +1379,7 @@ class PRPortPrototype(AbstractRequiredPortPrototype):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_provided(self, value: Optional[PortInterface]) -> PRPortPrototype:
+    def with_provided(self, value: Optional["PortInterface"]) -> PRPortPrototype:
         """
         Set provided and return self for chaining.
 
@@ -1445,15 +1446,15 @@ class RPortPrototype(AbstractRequiredPortPrototype):
             )
         self._mayBe = value
         # isOfType.
-        self._required: Optional[PortInterface] = None
+        self._required: Optional["PortInterface"] = None
 
     @property
-    def required(self) -> Optional[PortInterface]:
+    def required(self) -> Optional["PortInterface"]:
         """Get required (Pythonic accessor)."""
         return self._required
 
     @required.setter
-    def required(self, value: Optional[PortInterface]) -> None:
+    def required(self, value: Optional["PortInterface"]) -> None:
         """
         Set required with validation.
 
@@ -1503,7 +1504,7 @@ class RPortPrototype(AbstractRequiredPortPrototype):
         self.may_be = value  # Delegates to property setter
         return self
 
-    def getRequired(self) -> PortInterface:
+    def getRequired(self) -> "PortInterface":
         """
         AUTOSAR-compliant getter for required.
 
@@ -1515,7 +1516,7 @@ class RPortPrototype(AbstractRequiredPortPrototype):
         """
         return self.required  # Delegates to property
 
-    def setRequired(self, value: PortInterface) -> RPortPrototype:
+    def setRequired(self, value: "PortInterface") -> RPortPrototype:
         """
         AUTOSAR-compliant setter for required with method chaining.
 
@@ -1549,7 +1550,7 @@ class RPortPrototype(AbstractRequiredPortPrototype):
         self.may_be = value  # Use property setter (gets validation)
         return self
 
-    def with_required(self, value: Optional[PortInterface]) -> RPortPrototype:
+    def with_required(self, value: Optional["PortInterface"]) -> RPortPrototype:
         """
         Set required and return self for chaining.
 
@@ -1587,15 +1588,15 @@ class PPortPrototype(AbstractProvidedPortPrototype):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # isOfType.
-        self._provided: Optional[PortInterface] = None
+        self._provided: Optional["PortInterface"] = None
 
     @property
-    def provided(self) -> Optional[PortInterface]:
+    def provided(self) -> Optional["PortInterface"]:
         """Get provided (Pythonic accessor)."""
         return self._provided
 
     @provided.setter
-    def provided(self, value: Optional[PortInterface]) -> None:
+    def provided(self, value: Optional["PortInterface"]) -> None:
         """
         Set provided with validation.
 
@@ -1617,7 +1618,7 @@ class PPortPrototype(AbstractProvidedPortPrototype):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getProvided(self) -> PortInterface:
+    def getProvided(self) -> "PortInterface":
         """
         AUTOSAR-compliant getter for provided.
 
@@ -1629,7 +1630,7 @@ class PPortPrototype(AbstractProvidedPortPrototype):
         """
         return self.provided  # Delegates to property
 
-    def setProvided(self, value: PortInterface) -> PPortPrototype:
+    def setProvided(self, value: "PortInterface") -> PPortPrototype:
         """
         AUTOSAR-compliant setter for provided with method chaining.
 
@@ -1647,7 +1648,7 @@ class PPortPrototype(AbstractProvidedPortPrototype):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_provided(self, value: Optional[PortInterface]) -> PPortPrototype:
+    def with_provided(self, value: Optional["PortInterface"]) -> PPortPrototype:
         """
         Set provided and return self for chaining.
 
@@ -1868,7 +1869,7 @@ class SensorActuatorSwComponentType(AtomicSwComponentType):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getSensorActuator(self) -> "HwDescriptionEntity":
+    def getSensorActuator(self) -> HwDescriptionEntity:
         """
         AUTOSAR-compliant getter for sensorActuator.
 
@@ -1880,7 +1881,7 @@ class SensorActuatorSwComponentType(AtomicSwComponentType):
         """
         return self.sensor_actuator  # Delegates to property
 
-    def setSensorActuator(self, value: "HwDescriptionEntity") -> SensorActuatorSwComponentType:
+    def setSensorActuator(self, value: HwDescriptionEntity) -> SensorActuatorSwComponentType:
         """
         AUTOSAR-compliant setter for sensorActuator with method chaining.
 

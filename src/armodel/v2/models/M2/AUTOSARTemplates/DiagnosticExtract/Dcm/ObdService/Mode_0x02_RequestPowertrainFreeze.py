@@ -64,15 +64,15 @@ class DiagnosticRequestPowertrainFreezeFrameData(DiagnosticServiceInstance):
                 # for this specific concrete class.
         # Thereby, the reference represents the ability to access Data shared
                 # attributes among all DiagnosticRequestPowertrain the given context.
-        self._request: Optional[DiagnosticRequest] = None
+        self._request: Optional["DiagnosticRequest"] = None
 
     @property
-    def request(self) -> Optional[DiagnosticRequest]:
+    def request(self) -> Optional["DiagnosticRequest"]:
         """Get request (Pythonic accessor)."""
         return self._request
 
     @request.setter
-    def request(self, value: Optional[DiagnosticRequest]) -> None:
+    def request(self, value: Optional["DiagnosticRequest"]) -> None:
         """
         Set request with validation.
 
@@ -138,7 +138,7 @@ class DiagnosticRequestPowertrainFreezeFrameData(DiagnosticServiceInstance):
         self.freeze_frame_freeze_frame = value  # Delegates to property setter
         return self
 
-    def getRequest(self) -> DiagnosticRequest:
+    def getRequest(self) -> "DiagnosticRequest":
         """
         AUTOSAR-compliant getter for request.
 
@@ -150,7 +150,7 @@ class DiagnosticRequestPowertrainFreezeFrameData(DiagnosticServiceInstance):
         """
         return self.request  # Delegates to property
 
-    def setRequest(self, value: DiagnosticRequest) -> DiagnosticRequestPowertrainFreezeFrameData:
+    def setRequest(self, value: "DiagnosticRequest") -> DiagnosticRequestPowertrainFreezeFrameData:
         """
         AUTOSAR-compliant setter for request with method chaining.
 
@@ -184,7 +184,7 @@ class DiagnosticRequestPowertrainFreezeFrameData(DiagnosticServiceInstance):
         self.freeze_frame_freeze_frame = value  # Use property setter (gets validation)
         return self
 
-    def with_request(self, value: Optional[DiagnosticRequest]) -> DiagnosticRequestPowertrainFreezeFrameData:
+    def with_request(self, value: Optional["DiagnosticRequest"]) -> DiagnosticRequestPowertrainFreezeFrameData:
         """
         Set request and return self for chaining.
 

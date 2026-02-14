@@ -10,6 +10,14 @@ from __future__ import annotations
 from abc import ABC
 from typing import Optional
 
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
+    ExecutableEntity,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import (
+    HardwareConfiguration,
+    SoftwareContext,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwElement
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
@@ -37,15 +45,15 @@ class StackUsage(Identifiable, ABC):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The executable entity for which this stack usage is.
-        self._executableEntity: Optional["ExecutableEntity"] = None
+        self._executableEntity: Optional[ExecutableEntity] = None
 
     @property
-    def executable_entity(self) -> Optional["ExecutableEntity"]:
+    def executable_entity(self) -> Optional[ExecutableEntity]:
         """Get executableEntity (Pythonic accessor)."""
         return self._executableEntity
 
     @executable_entity.setter
-    def executable_entity(self, value: Optional["ExecutableEntity"]) -> None:
+    def executable_entity(self, value: Optional[ExecutableEntity]) -> None:
         """
         Set executableEntity with validation.
 
@@ -64,15 +72,15 @@ class StackUsage(Identifiable, ABC):
                 f"executableEntity must be ExecutableEntity or None, got {type(value).__name__}"
             )
         self._executableEntity = value
-        self._hardware: Optional["HardwareConfiguration"] = None
+        self._hardware: Optional[HardwareConfiguration] = None
 
     @property
-    def hardware(self) -> Optional["HardwareConfiguration"]:
+    def hardware(self) -> Optional[HardwareConfiguration]:
         """Get hardware (Pythonic accessor)."""
         return self._hardware
 
     @hardware.setter
-    def hardware(self, value: Optional["HardwareConfiguration"]) -> None:
+    def hardware(self, value: Optional[HardwareConfiguration]) -> None:
         """
         Set hardware with validation.
 
@@ -93,15 +101,15 @@ class StackUsage(Identifiable, ABC):
         self._hardware = value
         # g.
         # ECU) this is given.
-        self._hwElement: Optional["HwElement"] = None
+        self._hwElement: Optional[HwElement] = None
 
     @property
-    def hw_element(self) -> Optional["HwElement"]:
+    def hw_element(self) -> Optional[HwElement]:
         """Get hwElement (Pythonic accessor)."""
         return self._hwElement
 
     @hw_element.setter
-    def hw_element(self, value: Optional["HwElement"]) -> None:
+    def hw_element(self, value: Optional[HwElement]) -> None:
         """
         Set hwElement with validation.
 
@@ -120,15 +128,15 @@ class StackUsage(Identifiable, ABC):
                 f"hwElement must be HwElement or None, got {type(value).__name__}"
             )
         self._hwElement = value
-        self._softwareContext: Optional["SoftwareContext"] = None
+        self._softwareContext: Optional[SoftwareContext] = None
 
     @property
-    def software_context(self) -> Optional["SoftwareContext"]:
+    def software_context(self) -> Optional[SoftwareContext]:
         """Get softwareContext (Pythonic accessor)."""
         return self._softwareContext
 
     @software_context.setter
-    def software_context(self, value: Optional["SoftwareContext"]) -> None:
+    def software_context(self, value: Optional[SoftwareContext]) -> None:
         """
         Set softwareContext with validation.
 
@@ -150,7 +158,7 @@ class StackUsage(Identifiable, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getExecutableEntity(self) -> "ExecutableEntity":
+    def getExecutableEntity(self) -> ExecutableEntity:
         """
         AUTOSAR-compliant getter for executableEntity.
 
@@ -162,7 +170,7 @@ class StackUsage(Identifiable, ABC):
         """
         return self.executable_entity  # Delegates to property
 
-    def setExecutableEntity(self, value: "ExecutableEntity") -> StackUsage:
+    def setExecutableEntity(self, value: ExecutableEntity) -> StackUsage:
         """
         AUTOSAR-compliant setter for executableEntity with method chaining.
 
@@ -178,7 +186,7 @@ class StackUsage(Identifiable, ABC):
         self.executable_entity = value  # Delegates to property setter
         return self
 
-    def getHardware(self) -> "HardwareConfiguration":
+    def getHardware(self) -> HardwareConfiguration:
         """
         AUTOSAR-compliant getter for hardware.
 
@@ -190,7 +198,7 @@ class StackUsage(Identifiable, ABC):
         """
         return self.hardware  # Delegates to property
 
-    def setHardware(self, value: "HardwareConfiguration") -> StackUsage:
+    def setHardware(self, value: HardwareConfiguration) -> StackUsage:
         """
         AUTOSAR-compliant setter for hardware with method chaining.
 
@@ -206,7 +214,7 @@ class StackUsage(Identifiable, ABC):
         self.hardware = value  # Delegates to property setter
         return self
 
-    def getHwElement(self) -> "HwElement":
+    def getHwElement(self) -> HwElement:
         """
         AUTOSAR-compliant getter for hwElement.
 
@@ -218,7 +226,7 @@ class StackUsage(Identifiable, ABC):
         """
         return self.hw_element  # Delegates to property
 
-    def setHwElement(self, value: "HwElement") -> StackUsage:
+    def setHwElement(self, value: HwElement) -> StackUsage:
         """
         AUTOSAR-compliant setter for hwElement with method chaining.
 
@@ -234,7 +242,7 @@ class StackUsage(Identifiable, ABC):
         self.hw_element = value  # Delegates to property setter
         return self
 
-    def getSoftwareContext(self) -> "SoftwareContext":
+    def getSoftwareContext(self) -> SoftwareContext:
         """
         AUTOSAR-compliant getter for softwareContext.
 
@@ -246,7 +254,7 @@ class StackUsage(Identifiable, ABC):
         """
         return self.software_context  # Delegates to property
 
-    def setSoftwareContext(self, value: "SoftwareContext") -> StackUsage:
+    def setSoftwareContext(self, value: SoftwareContext) -> StackUsage:
         """
         AUTOSAR-compliant setter for softwareContext with method chaining.
 
@@ -264,7 +272,7 @@ class StackUsage(Identifiable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_executable_entity(self, value: Optional["ExecutableEntity"]) -> StackUsage:
+    def with_executable_entity(self, value: Optional[ExecutableEntity]) -> StackUsage:
         """
         Set executableEntity and return self for chaining.
 
@@ -280,7 +288,7 @@ class StackUsage(Identifiable, ABC):
         self.executable_entity = value  # Use property setter (gets validation)
         return self
 
-    def with_hardware(self, value: Optional["HardwareConfiguration"]) -> StackUsage:
+    def with_hardware(self, value: Optional[HardwareConfiguration]) -> StackUsage:
         """
         Set hardware and return self for chaining.
 
@@ -296,7 +304,7 @@ class StackUsage(Identifiable, ABC):
         self.hardware = value  # Use property setter (gets validation)
         return self
 
-    def with_hw_element(self, value: Optional["HwElement"]) -> StackUsage:
+    def with_hw_element(self, value: Optional[HwElement]) -> StackUsage:
         """
         Set hwElement and return self for chaining.
 
@@ -312,7 +320,7 @@ class StackUsage(Identifiable, ABC):
         self.hw_element = value  # Use property setter (gets validation)
         return self
 
-    def with_software_context(self, value: Optional["SoftwareContext"]) -> StackUsage:
+    def with_software_context(self, value: Optional[SoftwareContext]) -> StackUsage:
         """
         Set softwareContext and return self for chaining.
 

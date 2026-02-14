@@ -14,6 +14,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Integer,
+    ISignalIPdu,
     RefType,
 )
 
@@ -180,7 +181,7 @@ class EndToEndProtectionISignalIPdu(ARObject):
         self.i_signal_group = value  # Delegates to property setter
         return self
 
-    def getISignalIPdu(self) -> "ISignalIPdu":
+    def getISignalIPdu(self) -> ISignalIPdu:
         """
         AUTOSAR-compliant getter for iSignalIPdu.
 
@@ -192,7 +193,7 @@ class EndToEndProtectionISignalIPdu(ARObject):
         """
         return self.i_signal_i_pdu  # Delegates to property
 
-    def setISignalIPdu(self, value: "ISignalIPdu") -> EndToEndProtectionISignalIPdu:
+    def setISignalIPdu(self, value: ISignalIPdu) -> EndToEndProtectionISignalIPdu:
         """
         AUTOSAR-compliant setter for iSignalIPdu with method chaining.
 

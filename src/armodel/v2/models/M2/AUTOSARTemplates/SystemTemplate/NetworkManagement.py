@@ -460,7 +460,7 @@ class NmCluster(Identifiable, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCommunication(self) -> "CommunicationCluster":
+    def getCommunication(self) -> CommunicationCluster:
         """
         AUTOSAR-compliant getter for communication.
 
@@ -472,7 +472,7 @@ class NmCluster(Identifiable, ABC):
         """
         return self.communication  # Delegates to property
 
-    def setCommunication(self, value: "CommunicationCluster") -> NmCluster:
+    def setCommunication(self, value: CommunicationCluster) -> NmCluster:
         """
         AUTOSAR-compliant setter for communication with method chaining.
 
@@ -2029,7 +2029,7 @@ class NmNode(Identifiable, ABC):
         self.nm_coord_cluster = value  # Delegates to property setter
         return self
 
-    def getNmCoordinator(self) -> "NmCoordinatorRole":
+    def getNmCoordinator(self) -> NmCoordinatorRole:
         """
         AUTOSAR-compliant getter for nmCoordinator.
 
@@ -2041,7 +2041,7 @@ class NmNode(Identifiable, ABC):
         """
         return self.nm_coordinator  # Delegates to property
 
-    def setNmCoordinator(self, value: "NmCoordinatorRole") -> NmNode:
+    def setNmCoordinator(self, value: NmCoordinatorRole) -> NmNode:
         """
         AUTOSAR-compliant setter for nmCoordinator with method chaining.
 
@@ -4846,7 +4846,7 @@ class UdpNmCluster(NmCluster):
         self.nm_wait_bus = value  # Delegates to property setter
         return self
 
-    def getVlan(self) -> "EthernetPhysical":
+    def getVlan(self) -> EthernetPhysical:
         """
         AUTOSAR-compliant getter for vlan.
 
@@ -4858,7 +4858,7 @@ class UdpNmCluster(NmCluster):
         """
         return self.vlan  # Delegates to property
 
-    def setVlan(self, value: "EthernetPhysical") -> UdpNmCluster:
+    def setVlan(self, value: EthernetPhysical) -> UdpNmCluster:
         """
         AUTOSAR-compliant setter for vlan with method chaining.
 
@@ -5505,7 +5505,7 @@ class J1939NmNode(NmNode):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAddress(self) -> "J1939NmAddress":
+    def getAddress(self) -> J1939NmAddress:
         """
         AUTOSAR-compliant getter for address.
 
@@ -5517,7 +5517,7 @@ class J1939NmNode(NmNode):
         """
         return self.address  # Delegates to property
 
-    def setAddress(self, value: "J1939NmAddress") -> J1939NmNode:
+    def setAddress(self, value: J1939NmAddress) -> J1939NmNode:
         """
         AUTOSAR-compliant setter for address with method chaining.
 
@@ -6162,7 +6162,7 @@ class FlexrayNmClusterCoupling(NmClusterCoupling):
         """
         return self.coupled_cluster  # Delegates to property
 
-    def getNmSchedule(self) -> "FlexrayNmSchedule":
+    def getNmSchedule(self) -> FlexrayNmSchedule:
         """
         AUTOSAR-compliant getter for nmSchedule.
 
@@ -6174,7 +6174,7 @@ class FlexrayNmClusterCoupling(NmClusterCoupling):
         """
         return self.nm_schedule  # Delegates to property
 
-    def setNmSchedule(self, value: "FlexrayNmSchedule") -> FlexrayNmClusterCoupling:
+    def setNmSchedule(self, value: FlexrayNmSchedule) -> FlexrayNmClusterCoupling:
         """
         AUTOSAR-compliant setter for nmSchedule with method chaining.
 

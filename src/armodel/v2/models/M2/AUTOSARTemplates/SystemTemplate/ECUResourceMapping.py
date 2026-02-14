@@ -16,6 +16,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     Identifiable,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    HwElement,
     RefType,
 )
 
@@ -70,15 +71,15 @@ class ECUMapping(Identifiable):
                 f"ecu must be HwElement or None, got {type(value).__name__}"
             )
         self._ecu = value
-        self._ecuInstance: Optional[EcuInstance] = None
+        self._ecuInstance: Optional["EcuInstance"] = None
 
     @property
-    def ecu_instance(self) -> Optional[EcuInstance]:
+    def ecu_instance(self) -> Optional["EcuInstance"]:
         """Get ecuInstance (Pythonic accessor)."""
         return self._ecuInstance
 
     @ecu_instance.setter
-    def ecu_instance(self, value: Optional[EcuInstance]) -> None:
+    def ecu_instance(self, value: Optional["EcuInstance"]) -> None:
         """
         Set ecuInstance with validation.
 
@@ -147,7 +148,7 @@ class ECUMapping(Identifiable):
         """
         return self.comm_controller  # Delegates to property
 
-    def getEcu(self) -> "HwElement":
+    def getEcu(self) -> HwElement:
         """
         AUTOSAR-compliant getter for ecu.
 
@@ -159,7 +160,7 @@ class ECUMapping(Identifiable):
         """
         return self.ecu  # Delegates to property
 
-    def setEcu(self, value: "HwElement") -> ECUMapping:
+    def setEcu(self, value: HwElement) -> ECUMapping:
         """
         AUTOSAR-compliant setter for ecu with method chaining.
 
@@ -175,7 +176,7 @@ class ECUMapping(Identifiable):
         self.ecu = value  # Delegates to property setter
         return self
 
-    def getEcuInstance(self) -> EcuInstance:
+    def getEcuInstance(self) -> "EcuInstance":
         """
         AUTOSAR-compliant getter for ecuInstance.
 
@@ -187,7 +188,7 @@ class ECUMapping(Identifiable):
         """
         return self.ecu_instance  # Delegates to property
 
-    def setEcuInstance(self, value: EcuInstance) -> ECUMapping:
+    def setEcuInstance(self, value: "EcuInstance") -> ECUMapping:
         """
         AUTOSAR-compliant setter for ecuInstance with method chaining.
 
@@ -249,7 +250,7 @@ class ECUMapping(Identifiable):
         self.ecu = value  # Use property setter (gets validation)
         return self
 
-    def with_ecu_instance(self, value: Optional[EcuInstance]) -> ECUMapping:
+    def with_ecu_instance(self, value: Optional["EcuInstance"]) -> ECUMapping:
         """
         Set ecuInstance and return self for chaining.
 
@@ -299,15 +300,15 @@ class CommunicationControllerMapping(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to the CommunicationController in the System Template.
-        self._communication: Optional[Communication] = None
+        self._communication: Optional["Communication"] = None
 
     @property
-    def communication(self) -> Optional[Communication]:
+    def communication(self) -> Optional["Communication"]:
         """Get communication (Pythonic accessor)."""
         return self._communication
 
     @communication.setter
-    def communication(self, value: Optional[Communication]) -> None:
+    def communication(self, value: Optional["Communication"]) -> None:
         """
         Set communication with validation.
 
@@ -357,7 +358,7 @@ class CommunicationControllerMapping(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCommunication(self) -> Communication:
+    def getCommunication(self) -> "Communication":
         """
         AUTOSAR-compliant getter for communication.
 
@@ -369,7 +370,7 @@ class CommunicationControllerMapping(ARObject):
         """
         return self.communication  # Delegates to property
 
-    def setCommunication(self, value: Communication) -> CommunicationControllerMapping:
+    def setCommunication(self, value: "Communication") -> CommunicationControllerMapping:
         """
         AUTOSAR-compliant setter for communication with method chaining.
 
@@ -385,7 +386,7 @@ class CommunicationControllerMapping(ARObject):
         self.communication = value  # Delegates to property setter
         return self
 
-    def getHw(self) -> "HwElement":
+    def getHw(self) -> HwElement:
         """
         AUTOSAR-compliant getter for hw.
 
@@ -397,7 +398,7 @@ class CommunicationControllerMapping(ARObject):
         """
         return self.hw  # Delegates to property
 
-    def setHw(self, value: "HwElement") -> CommunicationControllerMapping:
+    def setHw(self, value: HwElement) -> CommunicationControllerMapping:
         """
         AUTOSAR-compliant setter for hw with method chaining.
 
@@ -415,7 +416,7 @@ class CommunicationControllerMapping(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_communication(self, value: Optional[Communication]) -> CommunicationControllerMapping:
+    def with_communication(self, value: Optional["Communication"]) -> CommunicationControllerMapping:
         """
         Set communication and return self for chaining.
 
@@ -465,15 +466,15 @@ class HwPortMapping(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to the CommunicationConnector in the System Template.
-        self._communication: Optional[Communication] = None
+        self._communication: Optional["Communication"] = None
 
     @property
-    def communication(self) -> Optional[Communication]:
+    def communication(self) -> Optional["Communication"]:
         """Get communication (Pythonic accessor)."""
         return self._communication
 
     @communication.setter
-    def communication(self, value: Optional[Communication]) -> None:
+    def communication(self, value: Optional["Communication"]) -> None:
         """
         Set communication with validation.
 
@@ -519,7 +520,7 @@ class HwPortMapping(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCommunication(self) -> Communication:
+    def getCommunication(self) -> "Communication":
         """
         AUTOSAR-compliant getter for communication.
 
@@ -531,7 +532,7 @@ class HwPortMapping(ARObject):
         """
         return self.communication  # Delegates to property
 
-    def setCommunication(self, value: Communication) -> HwPortMapping:
+    def setCommunication(self, value: "Communication") -> HwPortMapping:
         """
         AUTOSAR-compliant setter for communication with method chaining.
 
@@ -577,7 +578,7 @@ class HwPortMapping(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_communication(self, value: Optional[Communication]) -> HwPortMapping:
+    def with_communication(self, value: Optional["Communication"]) -> HwPortMapping:
         """
         Set communication and return self for chaining.
 

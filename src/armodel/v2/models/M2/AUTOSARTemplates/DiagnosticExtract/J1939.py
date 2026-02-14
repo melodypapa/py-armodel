@@ -13,6 +13,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics i
     DiagnosticCommonElement,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    J1939NmNode,
     PositiveInteger,
 )
 
@@ -350,7 +351,7 @@ class DiagnosticJ1939Node(DiagnosticCommonElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getNmNode(self) -> "J1939NmNode":
+    def getNmNode(self) -> J1939NmNode:
         """
         AUTOSAR-compliant getter for nmNode.
 
@@ -362,7 +363,7 @@ class DiagnosticJ1939Node(DiagnosticCommonElement):
         """
         return self.nm_node  # Delegates to property
 
-    def setNmNode(self, value: "J1939NmNode") -> DiagnosticJ1939Node:
+    def setNmNode(self, value: J1939NmNode) -> DiagnosticJ1939Node:
         """
         AUTOSAR-compliant setter for nmNode with method chaining.
 

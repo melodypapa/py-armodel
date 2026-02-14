@@ -10,6 +10,7 @@ from __future__ import annotations
 from typing import Optional
 
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    ConditionByFormula,
     Identifiable,
 )
 
@@ -65,15 +66,15 @@ class VariationPointProxy(Identifiable):
             )
         self._conditionAccess = value
         # implementation hint by the RTE generator.
-        self._implementation: Optional[AbstractImplementation] = None
+        self._implementation: Optional["AbstractImplementation"] = None
 
     @property
-    def implementation(self) -> Optional[AbstractImplementation]:
+    def implementation(self) -> Optional["AbstractImplementation"]:
         """Get implementation (Pythonic accessor)."""
         return self._implementation
 
     @implementation.setter
-    def implementation(self, value: Optional[AbstractImplementation]) -> None:
+    def implementation(self, value: Optional["AbstractImplementation"]) -> None:
         """
         Set implementation with validation.
 
@@ -123,7 +124,7 @@ class VariationPointProxy(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getConditionAccess(self) -> "ConditionByFormula":
+    def getConditionAccess(self) -> ConditionByFormula:
         """
         AUTOSAR-compliant getter for conditionAccess.
 
@@ -135,7 +136,7 @@ class VariationPointProxy(Identifiable):
         """
         return self.condition_access  # Delegates to property
 
-    def setConditionAccess(self, value: "ConditionByFormula") -> VariationPointProxy:
+    def setConditionAccess(self, value: ConditionByFormula) -> VariationPointProxy:
         """
         AUTOSAR-compliant setter for conditionAccess with method chaining.
 
@@ -151,7 +152,7 @@ class VariationPointProxy(Identifiable):
         self.condition_access = value  # Delegates to property setter
         return self
 
-    def getImplementation(self) -> AbstractImplementation:
+    def getImplementation(self) -> "AbstractImplementation":
         """
         AUTOSAR-compliant getter for implementation.
 
@@ -163,7 +164,7 @@ class VariationPointProxy(Identifiable):
         """
         return self.implementation  # Delegates to property
 
-    def setImplementation(self, value: AbstractImplementation) -> VariationPointProxy:
+    def setImplementation(self, value: "AbstractImplementation") -> VariationPointProxy:
         """
         AUTOSAR-compliant setter for implementation with method chaining.
 
@@ -225,7 +226,7 @@ class VariationPointProxy(Identifiable):
         self.condition_access = value  # Use property setter (gets validation)
         return self
 
-    def with_implementation(self, value: Optional[AbstractImplementation]) -> VariationPointProxy:
+    def with_implementation(self, value: Optional["AbstractImplementation"]) -> VariationPointProxy:
         """
         Set implementation and return self for chaining.
 

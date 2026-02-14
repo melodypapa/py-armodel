@@ -15,7 +15,15 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
+    DisplayFormatString,
     Float,
+    MonotonyEnum,
+)
+from armodel.v2.models.M2.MSR.DataDictionary.DataDefProperties import (
+    SwCalibrationAccessEnum,
+)
+from armodel.v2.models.M2.MSR.DataDictionary.RecordLayout import (
+    AxisIndexType,
 )
 
 
@@ -77,15 +85,15 @@ class SwCalprmAxis(ARObject):
         # This property specifies the category of a particular axis.
         # xml.
         # sequenceOffset=30.
-        self._category: Optional[CalprmAxisCategory] = None
+        self._category: Optional[CalprmAxisCategoryEnum] = None
 
     @property
-    def category(self) -> Optional[CalprmAxisCategory]:
+    def category(self) -> Optional[CalprmAxisCategoryEnum]:
         """Get category (Pythonic accessor)."""
         return self._category
 
     @category.setter
-    def category(self, value: Optional[CalprmAxisCategory]) -> None:
+    def category(self, value: Optional[CalprmAxisCategoryEnum]) -> None:
         """
         Set category with validation.
 
@@ -99,16 +107,16 @@ class SwCalprmAxis(ARObject):
             self._category = None
             return
 
-        if not isinstance(value, CalprmAxisCategory):
+        if not isinstance(value, CalprmAxisCategoryEnum):
             raise TypeError(
-                f"category must be CalprmAxisCategory or None, got {type(value).__name__}"
+                f"category must be CalprmAxisCategoryEnum or None, got {type(value).__name__}"
             )
         self._category = value
         # measurement and.
-        self._displayFormat: Optional["DisplayFormatString"] = None
+        self._displayFormat: Optional[DisplayFormatString] = None
 
     @property
-    def display_format(self) -> Optional["DisplayFormatString"]:
+    def display_format(self) -> Optional[DisplayFormatString]:
         """Get displayFormat (Pythonic accessor)."""
         return self._displayFormat
 
@@ -163,15 +171,15 @@ class SwCalprmAxis(ARObject):
         self._swAxisIndex = value
         # Tags: xml.
         # sequenceOffset=90.
-        self._swCalibration: Optional["SwCalibrationAccess"] = None
+        self._swCalibration: Optional[SwCalibrationAccessEnum] = None
 
     @property
-    def sw_calibration(self) -> Optional["SwCalibrationAccess"]:
+    def sw_calibration(self) -> Optional[SwCalibrationAccessEnum]:
         """Get swCalibration (Pythonic accessor)."""
         return self._swCalibration
 
     @sw_calibration.setter
-    def sw_calibration(self, value: Optional["SwCalibrationAccess"]) -> None:
+    def sw_calibration(self, value: Optional["SwCalibrationAccessEnum"]) -> None:
         """
         Set swCalibration with validation.
 
@@ -185,21 +193,21 @@ class SwCalprmAxis(ARObject):
             self._swCalibration = None
             return
 
-        if not isinstance(value, SwCalibrationAccess):
+        if not isinstance(value, SwCalibrationAccessEnum):
             raise TypeError(
-                f"swCalibration must be SwCalibrationAccess or None, got {type(value).__name__}"
+                f"swCalibration must be SwCalibrationAccessEnum or None, got {type(value).__name__}"
             )
         self._swCalibration = value
         # Tags:.
-        self._swCalprmAxis: Optional["SwCalprmAxisType"] = None
+        self._swCalprmAxis: Optional[SwCalprmAxisTypeProps] = None
 
     @property
-    def sw_calprm_axis(self) -> Optional["SwCalprmAxisType"]:
+    def sw_calprm_axis(self) -> Optional[SwCalprmAxisTypeProps]:
         """Get swCalprmAxis (Pythonic accessor)."""
         return self._swCalprmAxis
 
     @sw_calprm_axis.setter
-    def sw_calprm_axis(self, value: Optional["SwCalprmAxisType"]) -> None:
+    def sw_calprm_axis(self, value: Optional["SwCalprmAxisTypeProps"]) -> None:
         """
         Set swCalprmAxis with validation.
 
@@ -213,15 +221,15 @@ class SwCalprmAxis(ARObject):
             self._swCalprmAxis = None
             return
 
-        if not isinstance(value, SwCalprmAxisType):
+        if not isinstance(value, SwCalprmAxisTypeProps):
             raise TypeError(
-                f"swCalprmAxis must be SwCalprmAxisType or None, got {type(value).__name__}"
+                f"swCalprmAxis must be SwCalprmAxisTypeProps or None, got {type(value).__name__}"
             )
         self._swCalprmAxis = value
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCategory(self) -> CalprmAxisCategory:
+    def getCategory(self) -> CalprmAxisCategoryEnum:
         """
         AUTOSAR-compliant getter for category.
 
@@ -233,7 +241,7 @@ class SwCalprmAxis(ARObject):
         """
         return self.category  # Delegates to property
 
-    def setCategory(self, value: CalprmAxisCategory) -> SwCalprmAxis:
+    def setCategory(self, value: CalprmAxisCategoryEnum) -> SwCalprmAxis:
         """
         AUTOSAR-compliant setter for category with method chaining.
 
@@ -261,7 +269,7 @@ class SwCalprmAxis(ARObject):
         """
         return self.display_format  # Delegates to property
 
-    def setDisplayFormat(self, value: "DisplayFormatString") -> SwCalprmAxis:
+    def setDisplayFormat(self, value: DisplayFormatString) -> SwCalprmAxis:
         """
         AUTOSAR-compliant setter for displayFormat with method chaining.
 
@@ -305,7 +313,7 @@ class SwCalprmAxis(ARObject):
         self.sw_axis_index = value  # Delegates to property setter
         return self
 
-    def getSwCalibration(self) -> "SwCalibrationAccess":
+    def getSwCalibration(self) -> "SwCalibrationAccessEnum":
         """
         AUTOSAR-compliant getter for swCalibration.
 
@@ -317,7 +325,7 @@ class SwCalprmAxis(ARObject):
         """
         return self.sw_calibration  # Delegates to property
 
-    def setSwCalibration(self, value: "SwCalibrationAccess") -> SwCalprmAxis:
+    def setSwCalibration(self, value: SwCalibrationAccessEnum) -> SwCalprmAxis:
         """
         AUTOSAR-compliant setter for swCalibration with method chaining.
 
@@ -333,7 +341,7 @@ class SwCalprmAxis(ARObject):
         self.sw_calibration = value  # Delegates to property setter
         return self
 
-    def getSwCalprmAxis(self) -> "SwCalprmAxisType":
+    def getSwCalprmAxis(self) -> "SwCalprmAxisTypeProps":
         """
         AUTOSAR-compliant getter for swCalprmAxis.
 
@@ -345,7 +353,7 @@ class SwCalprmAxis(ARObject):
         """
         return self.sw_calprm_axis  # Delegates to property
 
-    def setSwCalprmAxis(self, value: "SwCalprmAxisType") -> SwCalprmAxis:
+    def setSwCalprmAxis(self, value: SwCalprmAxisTypeProps) -> SwCalprmAxis:
         """
         AUTOSAR-compliant setter for swCalprmAxis with method chaining.
 
@@ -363,7 +371,7 @@ class SwCalprmAxis(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_category(self, value: Optional[CalprmAxisCategory]) -> SwCalprmAxis:
+    def with_category(self, value: Optional[CalprmAxisCategoryEnum]) -> SwCalprmAxis:
         """
         Set category and return self for chaining.
 
@@ -379,7 +387,7 @@ class SwCalprmAxis(ARObject):
         self.category = value  # Use property setter (gets validation)
         return self
 
-    def with_display_format(self, value: Optional["DisplayFormatString"]) -> SwCalprmAxis:
+    def with_display_format(self, value: Optional[DisplayFormatString]) -> SwCalprmAxis:
         """
         Set displayFormat and return self for chaining.
 
@@ -411,7 +419,7 @@ class SwCalprmAxis(ARObject):
         self.sw_axis_index = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_calibration(self, value: Optional["SwCalibrationAccess"]) -> SwCalprmAxis:
+    def with_sw_calibration(self, value: Optional[SwCalibrationAccessEnum]) -> SwCalprmAxis:
         """
         Set swCalibration and return self for chaining.
 
@@ -427,7 +435,7 @@ class SwCalprmAxis(ARObject):
         self.sw_calibration = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_calprm_axis(self, value: Optional["SwCalprmAxisType"]) -> SwCalprmAxis:
+    def with_sw_calprm_axis(self, value: Optional[SwCalprmAxisTypeProps]) -> SwCalprmAxis:
         """
         Set swCalprmAxis and return self for chaining.
 
@@ -496,10 +504,10 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
         self._maxGradient = value
         # cuboid) with respect to a This information can be used by MCD verify whether
         # the monotony constraint is to prevent from changes violating the.
-        self._monotony: Optional["MonotonyEnum"] = None
+        self._monotony: Optional[MonotonyEnum] = None
 
     @property
-    def monotony(self) -> Optional["MonotonyEnum"]:
+    def monotony(self) -> Optional[MonotonyEnum]:
         """Get monotony (Pythonic accessor)."""
         return self._monotony
 
@@ -554,7 +562,7 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
         self.max_gradient = value  # Delegates to property setter
         return self
 
-    def getMonotony(self) -> "MonotonyEnum":
+    def getMonotony(self) -> MonotonyEnum:
         """
         AUTOSAR-compliant getter for monotony.
 
@@ -566,7 +574,7 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
         """
         return self.monotony  # Delegates to property
 
-    def setMonotony(self, value: "MonotonyEnum") -> SwCalprmAxisTypeProps:
+    def setMonotony(self, value: MonotonyEnum) -> SwCalprmAxisTypeProps:
         """
         AUTOSAR-compliant setter for monotony with method chaining.
 
@@ -600,7 +608,7 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
         self.max_gradient = value  # Use property setter (gets validation)
         return self
 
-    def with_monotony(self, value: Optional["MonotonyEnum"]) -> SwCalprmAxisTypeProps:
+    def with_monotony(self, value: Optional[MonotonyEnum]) -> SwCalprmAxisTypeProps:
         """
         Set monotony and return self for chaining.
 
@@ -619,7 +627,7 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
 
 class CalprmAxisCategoryEnum(AREnum):
     """
-    CalprmAxisCategoryEnum enumeration
+    CalprmAxisCategoryEnumEnum enumeration
 
 This enum specifies the possible values of the category property within SwCalprmAxis. Aggregated by RuleBasedAxisCont.category, SwAxisCont.category, SwCalprmAxis.category
 

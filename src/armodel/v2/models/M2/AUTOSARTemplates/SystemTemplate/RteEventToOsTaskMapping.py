@@ -19,6 +19,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     AREnum,
     Integer,
     PositiveInteger,
+    RTEEvent,
 )
 
 
@@ -40,15 +41,15 @@ class OsTaskProxy(ARElement):
         # Please note that this informative and not directly relevant for the But the
                 # attribute value can be mapped OS configuration to support configuration work
                 # a fixed set of OsTasks.
-        self._period: Optional[TimeValue] = None
+        self._period: Optional["TimeValue"] = None
 
     @property
-    def period(self) -> Optional[TimeValue]:
+    def period(self) -> Optional["TimeValue"]:
         """Get period (Pythonic accessor)."""
         return self._period
 
     @period.setter
-    def period(self, value: Optional[TimeValue]) -> None:
+    def period(self, value: Optional["TimeValue"]) -> None:
         """
         Set period with validation.
 
@@ -125,7 +126,7 @@ class OsTaskProxy(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getPeriod(self) -> TimeValue:
+    def getPeriod(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for period.
 
@@ -137,7 +138,7 @@ class OsTaskProxy(ARElement):
         """
         return self.period  # Delegates to property
 
-    def setPeriod(self, value: TimeValue) -> OsTaskProxy:
+    def setPeriod(self, value: "TimeValue") -> OsTaskProxy:
         """
         AUTOSAR-compliant setter for period with method chaining.
 
@@ -211,7 +212,7 @@ class OsTaskProxy(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_period(self, value: Optional[TimeValue]) -> OsTaskProxy:
+    def with_period(self, value: Optional["TimeValue"]) -> OsTaskProxy:
         """
         Set period and return self for chaining.
 
@@ -661,7 +662,7 @@ class RteEventInCompositionToOsTaskProxyMapping(Identifiable):
         self.os_task_proxy = value  # Delegates to property setter
         return self
 
-    def getRteEventInstanceRef(self) -> "RTEEvent":
+    def getRteEventInstanceRef(self) -> RTEEvent:
         """
         AUTOSAR-compliant getter for rteEventInstanceRef.
 
@@ -673,7 +674,7 @@ class RteEventInCompositionToOsTaskProxyMapping(Identifiable):
         """
         return self.rte_event_instance_ref  # Delegates to property
 
-    def setRteEventInstanceRef(self, value: "RTEEvent") -> RteEventInCompositionToOsTaskProxyMapping:
+    def setRteEventInstanceRef(self, value: RTEEvent) -> RteEventInCompositionToOsTaskProxyMapping:
         """
         AUTOSAR-compliant setter for rteEventInstanceRef with method chaining.
 
@@ -945,7 +946,7 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
         self.os_task_proxy = value  # Delegates to property setter
         return self
 
-    def getRteEventInstanceRef(self) -> "RTEEvent":
+    def getRteEventInstanceRef(self) -> RTEEvent:
         """
         AUTOSAR-compliant getter for rteEventInstanceRef.
 
@@ -957,7 +958,7 @@ class RteEventInSystemToOsTaskProxyMapping(Identifiable):
         """
         return self.rte_event_instance_ref  # Delegates to property
 
-    def setRteEventInstanceRef(self, value: "RTEEvent") -> RteEventInSystemToOsTaskProxyMapping:
+    def setRteEventInstanceRef(self, value: RTEEvent) -> RteEventInSystemToOsTaskProxyMapping:
         """
         AUTOSAR-compliant setter for rteEventInstanceRef with method chaining.
 

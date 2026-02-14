@@ -872,7 +872,7 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
         self.crc_flags = value  # Delegates to property setter
         return self
 
-    def getDestination(self) -> "MacAddressString":
+    def getDestination(self) -> MacAddressString:
         """
         AUTOSAR-compliant getter for destination.
 
@@ -884,7 +884,7 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
         """
         return self.destination  # Delegates to property
 
-    def setDestination(self, value: "MacAddressString") -> EthGlobalTimeDomainProps:
+    def setDestination(self, value: MacAddressString) -> EthGlobalTimeDomainProps:
         """
         AUTOSAR-compliant setter for destination with method chaining.
 
@@ -940,7 +940,7 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
         """
         return self.managed  # Delegates to property
 
-    def getMessage(self) -> "EthGlobalTimeMessage":
+    def getMessage(self) -> EthGlobalTimeMessage:
         """
         AUTOSAR-compliant getter for message.
 
@@ -952,7 +952,7 @@ class EthGlobalTimeDomainProps(AbstractGlobalTimeDomainProps):
         """
         return self.message  # Delegates to property
 
-    def setMessage(self, value: "EthGlobalTimeMessage") -> EthGlobalTimeDomainProps:
+    def setMessage(self, value: EthGlobalTimeMessage) -> EthGlobalTimeDomainProps:
         """
         AUTOSAR-compliant setter for message with method chaining.
 
@@ -1773,7 +1773,7 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
         self.coupling_port = value  # Delegates to property setter
         return self
 
-    def getGlobalTimePort(self) -> "GlobalTimePortRole":
+    def getGlobalTimePort(self) -> GlobalTimePortRole:
         """
         AUTOSAR-compliant getter for globalTimePort.
 
@@ -1785,7 +1785,7 @@ class EthGlobalTimeManagedCouplingPort(ARObject):
         """
         return self.global_time_port  # Delegates to property
 
-    def setGlobalTimePort(self, value: "GlobalTimePortRole") -> EthGlobalTimeManagedCouplingPort:
+    def setGlobalTimePort(self, value: GlobalTimePortRole) -> EthGlobalTimeManagedCouplingPort:
         """
         AUTOSAR-compliant setter for globalTimePort with method chaining.
 

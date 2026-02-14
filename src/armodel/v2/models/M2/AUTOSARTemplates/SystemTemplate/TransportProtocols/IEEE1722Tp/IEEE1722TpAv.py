@@ -213,7 +213,7 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
         self.base_frequency = value  # Delegates to property setter
         return self
 
-    def getCrfPullEnum(self) -> "IEEE1722TpCrfPull":
+    def getCrfPullEnum(self) -> IEEE1722TpCrfPull:
         """
         AUTOSAR-compliant getter for crfPullEnum.
 
@@ -225,7 +225,7 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
         """
         return self.crf_pull_enum  # Delegates to property
 
-    def setCrfPullEnum(self, value: "IEEE1722TpCrfPull") -> IEEE1722TpCrfConnection:
+    def setCrfPullEnum(self, value: IEEE1722TpCrfPull) -> IEEE1722TpCrfConnection:
         """
         AUTOSAR-compliant setter for crfPullEnum with method chaining.
 
@@ -241,7 +241,7 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
         self.crf_pull_enum = value  # Delegates to property setter
         return self
 
-    def getCrfTypeEnum(self) -> "IEEE1722TpCrfType":
+    def getCrfTypeEnum(self) -> IEEE1722TpCrfType:
         """
         AUTOSAR-compliant getter for crfTypeEnum.
 
@@ -253,7 +253,7 @@ class IEEE1722TpCrfConnection(IEEE1722TpAvConnection):
         """
         return self.crf_type_enum  # Delegates to property
 
-    def setCrfTypeEnum(self, value: "IEEE1722TpCrfType") -> IEEE1722TpCrfConnection:
+    def setCrfTypeEnum(self, value: IEEE1722TpCrfType) -> IEEE1722TpCrfConnection:
         """
         AUTOSAR-compliant setter for crfTypeEnum with method chaining.
 
@@ -709,7 +709,7 @@ class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAafAes3Data(self) -> "IEEE1722TpAafAes3":
+    def getAafAes3Data(self) -> IEEE1722TpAafAes3:
         """
         AUTOSAR-compliant getter for aafAes3Data.
 
@@ -721,7 +721,7 @@ class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
         """
         return self.aaf_aes3_data  # Delegates to property
 
-    def setAafAes3Data(self, value: "IEEE1722TpAafAes3") -> IEEE1722TpAafConnection:
+    def setAafAes3Data(self, value: IEEE1722TpAafAes3) -> IEEE1722TpAafConnection:
         """
         AUTOSAR-compliant setter for aafAes3Data with method chaining.
 
@@ -737,7 +737,7 @@ class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
         self.aaf_aes3_data = value  # Delegates to property setter
         return self
 
-    def getAafFormatEnum(self) -> "IEEE1722TpAafFormat":
+    def getAafFormatEnum(self) -> IEEE1722TpAafFormat:
         """
         AUTOSAR-compliant getter for aafFormatEnum.
 
@@ -749,7 +749,7 @@ class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
         """
         return self.aaf_format_enum  # Delegates to property
 
-    def setAafFormatEnum(self, value: "IEEE1722TpAafFormat") -> IEEE1722TpAafConnection:
+    def setAafFormatEnum(self, value: IEEE1722TpAafFormat) -> IEEE1722TpAafConnection:
         """
         AUTOSAR-compliant setter for aafFormatEnum with method chaining.
 
@@ -765,7 +765,7 @@ class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
         self.aaf_format_enum = value  # Delegates to property setter
         return self
 
-    def getAafNominalRate(self) -> "IEEE1722TpAaf":
+    def getAafNominalRate(self) -> IEEE1722TpAaf:
         """
         AUTOSAR-compliant getter for aafNominalRate.
 
@@ -777,7 +777,7 @@ class IEEE1722TpAafConnection(IEEE1722TpAvConnection):
         """
         return self.aaf_nominal_rate  # Delegates to property
 
-    def setAafNominalRate(self, value: "IEEE1722TpAaf") -> IEEE1722TpAafConnection:
+    def setAafNominalRate(self, value: IEEE1722TpAaf) -> IEEE1722TpAafConnection:
         """
         AUTOSAR-compliant setter for aafNominalRate with method chaining.
 
@@ -2019,7 +2019,7 @@ class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
         self.rvf_active_pixels = value  # Delegates to property setter
         return self
 
-    def getRvfColorSpace(self) -> "IEEE1722TpRvfColor":
+    def getRvfColorSpace(self) -> IEEE1722TpRvfColor:
         """
         AUTOSAR-compliant getter for rvfColorSpace.
 
@@ -2031,7 +2031,7 @@ class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
         """
         return self.rvf_color_space  # Delegates to property
 
-    def setRvfColorSpace(self, value: "IEEE1722TpRvfColor") -> IEEE1722TpRvfConnection:
+    def setRvfColorSpace(self, value: IEEE1722TpRvfColor) -> IEEE1722TpRvfConnection:
         """
         AUTOSAR-compliant setter for rvfColorSpace with method chaining.
 
@@ -2075,7 +2075,7 @@ class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
         self.rvf_event_default = value  # Delegates to property setter
         return self
 
-    def getRvfFrameRate(self) -> "IEEE1722TpRvfFrame":
+    def getRvfFrameRate(self) -> IEEE1722TpRvfFrame:
         """
         AUTOSAR-compliant getter for rvfFrameRate.
 
@@ -2087,7 +2087,7 @@ class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
         """
         return self.rvf_frame_rate  # Delegates to property
 
-    def setRvfFrameRate(self, value: "IEEE1722TpRvfFrame") -> IEEE1722TpRvfConnection:
+    def setRvfFrameRate(self, value: IEEE1722TpRvfFrame) -> IEEE1722TpRvfConnection:
         """
         AUTOSAR-compliant setter for rvfFrameRate with method chaining.
 
@@ -2131,7 +2131,7 @@ class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
         self.rvf_interlaced = value  # Delegates to property setter
         return self
 
-    def getRvfPixelDepth(self) -> "IEEE1722TpRvfPixel":
+    def getRvfPixelDepth(self) -> IEEE1722TpRvfPixel:
         """
         AUTOSAR-compliant getter for rvfPixelDepth.
 
@@ -2143,7 +2143,7 @@ class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
         """
         return self.rvf_pixel_depth  # Delegates to property
 
-    def setRvfPixelDepth(self, value: "IEEE1722TpRvfPixel") -> IEEE1722TpRvfConnection:
+    def setRvfPixelDepth(self, value: IEEE1722TpRvfPixel) -> IEEE1722TpRvfConnection:
         """
         AUTOSAR-compliant setter for rvfPixelDepth with method chaining.
 
@@ -2159,7 +2159,7 @@ class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
         self.rvf_pixel_depth = value  # Delegates to property setter
         return self
 
-    def getRvfPixelFormat(self) -> "IEEE1722TpRvfPixel":
+    def getRvfPixelFormat(self) -> IEEE1722TpRvfPixel:
         """
         AUTOSAR-compliant getter for rvfPixelFormat.
 
@@ -2171,7 +2171,7 @@ class IEEE1722TpRvfConnection(IEEE1722TpAvConnection):
         """
         return self.rvf_pixel_format  # Delegates to property
 
-    def setRvfPixelFormat(self, value: "IEEE1722TpRvfPixel") -> IEEE1722TpRvfConnection:
+    def setRvfPixelFormat(self, value: IEEE1722TpRvfPixel) -> IEEE1722TpRvfConnection:
         """
         AUTOSAR-compliant setter for rvfPixelFormat with method chaining.
 

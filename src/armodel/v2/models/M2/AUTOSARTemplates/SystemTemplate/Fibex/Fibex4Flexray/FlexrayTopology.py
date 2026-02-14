@@ -68,15 +68,15 @@ class FlexrayCluster(ARObject):
         self._actionPointOffset = value
         # gdBit = cSamplesPer gdSampleClockPeriod.
         # Unit: seconds (gdBit).
-        self._bit: Optional[TimeValue] = None
+        self._bit: Optional["TimeValue"] = None
 
     @property
-    def bit(self) -> Optional[TimeValue]:
+    def bit(self) -> Optional["TimeValue"]:
         """Get bit (Pythonic accessor)."""
         return self._bit
 
     @bit.setter
-    def bit(self, value: Optional[TimeValue]) -> None:
+    def bit(self, value: Optional["TimeValue"]) -> None:
         """
         Set bit with validation.
 
@@ -151,15 +151,15 @@ class FlexrayCluster(ARObject):
             )
         self._coldStart = value
         # Unit: seconds.
-        self._cycle: Optional[TimeValue] = None
+        self._cycle: Optional["TimeValue"] = None
 
     @property
-    def cycle(self) -> Optional[TimeValue]:
+    def cycle(self) -> Optional["TimeValue"]:
         """Get cycle (Pythonic accessor)."""
         return self._cycle
 
     @cycle.setter
-    def cycle(self, value: Optional[TimeValue]) -> None:
+    def cycle(self, value: Optional["TimeValue"]) -> None:
         """
         Set cycle with validation.
 
@@ -345,15 +345,15 @@ class FlexrayCluster(ARObject):
                 f"macroPerCycle must be Integer or int or None, got {type(value).__name__}"
             )
         self._macroPerCycle = value
-        self._macrotick: Optional[TimeValue] = None
+        self._macrotick: Optional["TimeValue"] = None
 
     @property
-    def macrotick(self) -> Optional[TimeValue]:
+    def macrotick(self) -> Optional["TimeValue"]:
         """Get macrotick (Pythonic accessor)."""
         return self._macrotick
 
     @macrotick.setter
-    def macrotick(self, value: Optional[TimeValue]) -> None:
+    def macrotick(self, value: Optional["TimeValue"]) -> None:
         """
         Set macrotick with validation.
 
@@ -654,15 +654,15 @@ class FlexrayCluster(ARObject):
             )
         self._safetyMargin = value
         # Unit: seconds.
-        self._sampleClockPeriod: Optional[TimeValue] = None
+        self._sampleClockPeriod: Optional["TimeValue"] = None
 
     @property
-    def sample_clock_period(self) -> Optional[TimeValue]:
+    def sample_clock_period(self) -> Optional["TimeValue"]:
         """Get sampleClockPeriod (Pythonic accessor)."""
         return self._sampleClockPeriod
 
     @sample_clock_period.setter
-    def sample_clock_period(self, value: Optional[TimeValue]) -> None:
+    def sample_clock_period(self, value: Optional["TimeValue"]) -> None:
         """
         Set sampleClockPeriod with validation.
 
@@ -1032,7 +1032,7 @@ class FlexrayCluster(ARObject):
         self.action_point_offset = value  # Delegates to property setter
         return self
 
-    def getBit(self) -> TimeValue:
+    def getBit(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for bit.
 
@@ -1044,7 +1044,7 @@ class FlexrayCluster(ARObject):
         """
         return self.bit  # Delegates to property
 
-    def setBit(self, value: TimeValue) -> FlexrayCluster:
+    def setBit(self, value: "TimeValue") -> FlexrayCluster:
         """
         AUTOSAR-compliant setter for bit with method chaining.
 
@@ -1116,7 +1116,7 @@ class FlexrayCluster(ARObject):
         self.cold_start = value  # Delegates to property setter
         return self
 
-    def getCycle(self) -> TimeValue:
+    def getCycle(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for cycle.
 
@@ -1128,7 +1128,7 @@ class FlexrayCluster(ARObject):
         """
         return self.cycle  # Delegates to property
 
-    def setCycle(self, value: TimeValue) -> FlexrayCluster:
+    def setCycle(self, value: "TimeValue") -> FlexrayCluster:
         """
         AUTOSAR-compliant setter for cycle with method chaining.
 
@@ -1312,7 +1312,7 @@ class FlexrayCluster(ARObject):
         self.macro_per_cycle = value  # Delegates to property setter
         return self
 
-    def getMacrotick(self) -> TimeValue:
+    def getMacrotick(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for macrotick.
 
@@ -1324,7 +1324,7 @@ class FlexrayCluster(ARObject):
         """
         return self.macrotick  # Delegates to property
 
-    def setMacrotick(self, value: TimeValue) -> FlexrayCluster:
+    def setMacrotick(self, value: "TimeValue") -> FlexrayCluster:
         """
         AUTOSAR-compliant setter for macrotick with method chaining.
 
@@ -1620,7 +1620,7 @@ class FlexrayCluster(ARObject):
         self.safety_margin = value  # Delegates to property setter
         return self
 
-    def getSampleClockPeriod(self) -> TimeValue:
+    def getSampleClockPeriod(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for sampleClockPeriod.
 
@@ -1632,7 +1632,7 @@ class FlexrayCluster(ARObject):
         """
         return self.sample_clock_period  # Delegates to property
 
-    def setSampleClockPeriod(self, value: TimeValue) -> FlexrayCluster:
+    def setSampleClockPeriod(self, value: "TimeValue") -> FlexrayCluster:
         """
         AUTOSAR-compliant setter for sampleClockPeriod with method chaining.
 
@@ -1946,7 +1946,7 @@ class FlexrayCluster(ARObject):
         self.action_point_offset = value  # Use property setter (gets validation)
         return self
 
-    def with_bit(self, value: Optional[TimeValue]) -> FlexrayCluster:
+    def with_bit(self, value: Optional["TimeValue"]) -> FlexrayCluster:
         """
         Set bit and return self for chaining.
 
@@ -1994,7 +1994,7 @@ class FlexrayCluster(ARObject):
         self.cold_start = value  # Use property setter (gets validation)
         return self
 
-    def with_cycle(self, value: Optional[TimeValue]) -> FlexrayCluster:
+    def with_cycle(self, value: Optional["TimeValue"]) -> FlexrayCluster:
         """
         Set cycle and return self for chaining.
 
@@ -2106,7 +2106,7 @@ class FlexrayCluster(ARObject):
         self.macro_per_cycle = value  # Use property setter (gets validation)
         return self
 
-    def with_macrotick(self, value: Optional[TimeValue]) -> FlexrayCluster:
+    def with_macrotick(self, value: Optional["TimeValue"]) -> FlexrayCluster:
         """
         Set macrotick and return self for chaining.
 
@@ -2282,7 +2282,7 @@ class FlexrayCluster(ARObject):
         self.safety_margin = value  # Use property setter (gets validation)
         return self
 
-    def with_sample_clock_period(self, value: Optional[TimeValue]) -> FlexrayCluster:
+    def with_sample_clock_period(self, value: Optional["TimeValue"]) -> FlexrayCluster:
         """
         Set sampleClockPeriod and return self for chaining.
 
@@ -3028,15 +3028,15 @@ class FlexrayCommunicationController(ARObject):
         self._microPerCycle = value
         # This attribute can be derived from and gdSampleClockPeriod.
         # Unit:.
-        self._microtick: Optional[TimeValue] = None
+        self._microtick: Optional["TimeValue"] = None
 
     @property
-    def microtick(self) -> Optional[TimeValue]:
+    def microtick(self) -> Optional["TimeValue"]:
         """Get microtick (Pythonic accessor)."""
         return self._microtick
 
     @microtick.setter
-    def microtick(self, value: Optional[TimeValue]) -> None:
+    def microtick(self, value: Optional["TimeValue"]) -> None:
         """
         Set microtick with validation.
 
@@ -3802,7 +3802,7 @@ class FlexrayCommunicationController(ARObject):
         self.micro_per_cycle = value  # Delegates to property setter
         return self
 
-    def getMicrotick(self) -> TimeValue:
+    def getMicrotick(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for microtick.
 
@@ -3814,7 +3814,7 @@ class FlexrayCommunicationController(ARObject):
         """
         return self.microtick  # Delegates to property
 
-    def setMicrotick(self, value: TimeValue) -> FlexrayCommunicationController:
+    def setMicrotick(self, value: "TimeValue") -> FlexrayCommunicationController:
         """
         AUTOSAR-compliant setter for microtick with method chaining.
 
@@ -4332,7 +4332,7 @@ class FlexrayCommunicationController(ARObject):
         self.micro_per_cycle = value  # Use property setter (gets validation)
         return self
 
-    def with_microtick(self, value: Optional[TimeValue]) -> FlexrayCommunicationController:
+    def with_microtick(self, value: Optional["TimeValue"]) -> FlexrayCommunicationController:
         """
         Set microtick and return self for chaining.
 

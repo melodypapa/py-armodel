@@ -19,6 +19,9 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     Boolean,
+    DiagnosticDataIdentifier,
+    DiagnosticJ1939Node,
+    DiagnosticJ1939Spn,
     NameToken,
     PositiveInteger,
 )
@@ -137,7 +140,7 @@ class EventObdReadinessGroup(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getEventObd(self) -> "NameToken":
+    def getEventObd(self) -> NameToken:
         """
         AUTOSAR-compliant getter for eventObd.
 
@@ -149,7 +152,7 @@ class EventObdReadinessGroup(ARObject):
         """
         return self.event_obd  # Delegates to property
 
-    def setEventObd(self, value: "NameToken") -> EventObdReadinessGroup:
+    def setEventObd(self, value: NameToken) -> EventObdReadinessGroup:
         """
         AUTOSAR-compliant setter for eventObd with method chaining.
 
@@ -340,15 +343,15 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to an aging algorithm in case that an aging/ the event is allowed.
-        self._aging: Optional[DiagnosticAging] = None
+        self._aging: Optional["DiagnosticAging"] = None
 
     @property
-    def aging(self) -> Optional[DiagnosticAging]:
+    def aging(self) -> Optional["DiagnosticAging"]:
         """Get aging (Pythonic accessor)."""
         return self._aging
 
     @aging.setter
-    def aging(self, value: Optional[DiagnosticAging]) -> None:
+    def aging(self, value: Optional["DiagnosticAging"]) -> None:
         """
         Set aging with validation.
 
@@ -588,7 +591,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAging(self) -> DiagnosticAging:
+    def getAging(self) -> "DiagnosticAging":
         """
         AUTOSAR-compliant getter for aging.
 
@@ -600,7 +603,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
         """
         return self.aging  # Delegates to property
 
-    def setAging(self, value: DiagnosticAging) -> DiagnosticTroubleCodeProps:
+    def setAging(self, value: "DiagnosticAging") -> DiagnosticTroubleCodeProps:
         """
         AUTOSAR-compliant setter for aging with method chaining.
 
@@ -696,7 +699,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
         self.immediate_nv = value  # Delegates to property setter
         return self
 
-    def getLegislated(self) -> "DiagnosticDataIdentifier":
+    def getLegislated(self) -> DiagnosticDataIdentifier:
         """
         AUTOSAR-compliant getter for legislated.
 
@@ -708,7 +711,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
         """
         return self.legislated  # Delegates to property
 
-    def setLegislated(self, value: "DiagnosticDataIdentifier") -> DiagnosticTroubleCodeProps:
+    def setLegislated(self, value: DiagnosticDataIdentifier) -> DiagnosticTroubleCodeProps:
         """
         AUTOSAR-compliant setter for legislated with method chaining.
 
@@ -808,7 +811,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
         self.significance = value  # Delegates to property setter
         return self
 
-    def getSnapshot(self) -> "DiagnosticDataIdentifier":
+    def getSnapshot(self) -> DiagnosticDataIdentifier:
         """
         AUTOSAR-compliant getter for snapshot.
 
@@ -820,7 +823,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
         """
         return self.snapshot  # Delegates to property
 
-    def setSnapshot(self, value: "DiagnosticDataIdentifier") -> DiagnosticTroubleCodeProps:
+    def setSnapshot(self, value: DiagnosticDataIdentifier) -> DiagnosticTroubleCodeProps:
         """
         AUTOSAR-compliant setter for snapshot with method chaining.
 
@@ -838,7 +841,7 @@ class DiagnosticTroubleCodeProps(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_aging(self, value: Optional[DiagnosticAging]) -> DiagnosticTroubleCodeProps:
+    def with_aging(self, value: Optional["DiagnosticAging"]) -> DiagnosticTroubleCodeProps:
         """
         Set aging and return self for chaining.
 
@@ -2161,7 +2164,7 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
         self.kind = value  # Delegates to property setter
         return self
 
-    def getNode(self) -> "DiagnosticJ1939Node":
+    def getNode(self) -> DiagnosticJ1939Node:
         """
         AUTOSAR-compliant getter for node.
 
@@ -2173,7 +2176,7 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
         """
         return self.node  # Delegates to property
 
-    def setNode(self, value: "DiagnosticJ1939Node") -> DiagnosticTroubleCodeJ1939:
+    def setNode(self, value: DiagnosticJ1939Node) -> DiagnosticTroubleCodeJ1939:
         """
         AUTOSAR-compliant setter for node with method chaining.
 
@@ -2189,7 +2192,7 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
         self.node = value  # Delegates to property setter
         return self
 
-    def getSpn(self) -> "DiagnosticJ1939Spn":
+    def getSpn(self) -> DiagnosticJ1939Spn:
         """
         AUTOSAR-compliant getter for spn.
 
@@ -2201,7 +2204,7 @@ class DiagnosticTroubleCodeJ1939(DiagnosticTroubleCode):
         """
         return self.spn  # Delegates to property
 
-    def setSpn(self, value: "DiagnosticJ1939Spn") -> DiagnosticTroubleCodeJ1939:
+    def setSpn(self, value: DiagnosticJ1939Spn) -> DiagnosticTroubleCodeJ1939:
         """
         AUTOSAR-compliant setter for spn with method chaining.
 

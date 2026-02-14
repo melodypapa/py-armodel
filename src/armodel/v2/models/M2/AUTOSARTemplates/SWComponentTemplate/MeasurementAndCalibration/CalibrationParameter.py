@@ -14,6 +14,8 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement,
+    FlatInstanceDescriptor,
+    ValueSpecification,
 )
 
 
@@ -180,7 +182,7 @@ class CalibrationParameterValue(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getApplInitValue(self) -> "ValueSpecification":
+    def getApplInitValue(self) -> ValueSpecification:
         """
         AUTOSAR-compliant getter for applInitValue.
 
@@ -192,7 +194,7 @@ class CalibrationParameterValue(ARObject):
         """
         return self.appl_init_value  # Delegates to property
 
-    def setApplInitValue(self, value: "ValueSpecification") -> CalibrationParameterValue:
+    def setApplInitValue(self, value: ValueSpecification) -> CalibrationParameterValue:
         """
         AUTOSAR-compliant setter for applInitValue with method chaining.
 
@@ -208,7 +210,7 @@ class CalibrationParameterValue(ARObject):
         self.appl_init_value = value  # Delegates to property setter
         return self
 
-    def getImplInitValue(self) -> "ValueSpecification":
+    def getImplInitValue(self) -> ValueSpecification:
         """
         AUTOSAR-compliant getter for implInitValue.
 
@@ -220,7 +222,7 @@ class CalibrationParameterValue(ARObject):
         """
         return self.impl_init_value  # Delegates to property
 
-    def setImplInitValue(self, value: "ValueSpecification") -> CalibrationParameterValue:
+    def setImplInitValue(self, value: ValueSpecification) -> CalibrationParameterValue:
         """
         AUTOSAR-compliant setter for implInitValue with method chaining.
 
@@ -236,7 +238,7 @@ class CalibrationParameterValue(ARObject):
         self.impl_init_value = value  # Delegates to property setter
         return self
 
-    def getInitialized(self) -> "FlatInstanceDescriptor":
+    def getInitialized(self) -> FlatInstanceDescriptor:
         """
         AUTOSAR-compliant getter for initialized.
 
@@ -248,7 +250,7 @@ class CalibrationParameterValue(ARObject):
         """
         return self.initialized  # Delegates to property
 
-    def setInitialized(self, value: "FlatInstanceDescriptor") -> CalibrationParameterValue:
+    def setInitialized(self, value: FlatInstanceDescriptor) -> CalibrationParameterValue:
         """
         AUTOSAR-compliant setter for initialized with method chaining.
 

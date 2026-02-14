@@ -816,15 +816,15 @@ class EnumerationMappingEntry(ARObject):
         # This attribute specifies the symbolic value (e.
         # g.
         # in, out) of enumeration entry.
-        self._enumerator: "NameToken" = None
+        self._enumerator: NameToken = None
 
     @property
-    def enumerator(self) -> "NameToken":
+    def enumerator(self) -> NameToken:
         """Get enumerator (Pythonic accessor)."""
         return self._enumerator
 
     @enumerator.setter
-    def enumerator(self, value: "NameToken") -> None:
+    def enumerator(self, value: NameToken) -> None:
         """
         Set enumerator with validation.
 
@@ -871,7 +871,7 @@ class EnumerationMappingEntry(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getEnumerator(self) -> "NameToken":
+    def getEnumerator(self) -> NameToken:
         """
         AUTOSAR-compliant getter for enumerator.
 
@@ -883,7 +883,7 @@ class EnumerationMappingEntry(ARObject):
         """
         return self.enumerator  # Delegates to property
 
-    def setEnumerator(self, value: "NameToken") -> EnumerationMappingEntry:
+    def setEnumerator(self, value: NameToken) -> EnumerationMappingEntry:
         """
         AUTOSAR-compliant setter for enumerator with method chaining.
 
@@ -929,7 +929,7 @@ class EnumerationMappingEntry(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_enumerator(self, value: "NameToken") -> EnumerationMappingEntry:
+    def with_enumerator(self, value: NameToken) -> EnumerationMappingEntry:
         """
         Set enumerator and return self for chaining.
 

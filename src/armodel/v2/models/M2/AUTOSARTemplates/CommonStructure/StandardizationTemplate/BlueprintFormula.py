@@ -27,15 +27,15 @@ class BlueprintFormula(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The EcucDefinitionElement serves as a argument for the.
-        self._ecuc: EcucDefinitionElement = None
+        self._ecuc: "EcucDefinitionElement" = None
 
     @property
-    def ecuc(self) -> EcucDefinitionElement:
+    def ecuc(self) -> "EcucDefinitionElement":
         """Get ecuc (Pythonic accessor)."""
         return self._ecuc
 
     @ecuc.setter
-    def ecuc(self, value: EcucDefinitionElement) -> None:
+    def ecuc(self, value: "EcucDefinitionElement") -> None:
         """
         Set ecuc with validation.
 
@@ -51,15 +51,15 @@ class BlueprintFormula(ARObject):
             )
         self._ecuc = value
         # this is same as "undefined".
-        self._verbatim: MultiLanguageVerbatim = None
+        self._verbatim: "MultiLanguageVerbatim" = None
 
     @property
-    def verbatim(self) -> MultiLanguageVerbatim:
+    def verbatim(self) -> "MultiLanguageVerbatim":
         """Get verbatim (Pythonic accessor)."""
         return self._verbatim
 
     @verbatim.setter
-    def verbatim(self, value: MultiLanguageVerbatim) -> None:
+    def verbatim(self, value: "MultiLanguageVerbatim") -> None:
         """
         Set verbatim with validation.
 
@@ -77,7 +77,7 @@ class BlueprintFormula(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getEcuc(self) -> EcucDefinitionElement:
+    def getEcuc(self) -> "EcucDefinitionElement":
         """
         AUTOSAR-compliant getter for ecuc.
 
@@ -89,7 +89,7 @@ class BlueprintFormula(ARObject):
         """
         return self.ecuc  # Delegates to property
 
-    def setEcuc(self, value: EcucDefinitionElement) -> BlueprintFormula:
+    def setEcuc(self, value: "EcucDefinitionElement") -> BlueprintFormula:
         """
         AUTOSAR-compliant setter for ecuc with method chaining.
 
@@ -105,7 +105,7 @@ class BlueprintFormula(ARObject):
         self.ecuc = value  # Delegates to property setter
         return self
 
-    def getVerbatim(self) -> MultiLanguageVerbatim:
+    def getVerbatim(self) -> "MultiLanguageVerbatim":
         """
         AUTOSAR-compliant getter for verbatim.
 
@@ -117,7 +117,7 @@ class BlueprintFormula(ARObject):
         """
         return self.verbatim  # Delegates to property
 
-    def setVerbatim(self, value: MultiLanguageVerbatim) -> BlueprintFormula:
+    def setVerbatim(self, value: "MultiLanguageVerbatim") -> BlueprintFormula:
         """
         AUTOSAR-compliant setter for verbatim with method chaining.
 
@@ -135,7 +135,7 @@ class BlueprintFormula(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_ecuc(self, value: EcucDefinitionElement) -> BlueprintFormula:
+    def with_ecuc(self, value: "EcucDefinitionElement") -> BlueprintFormula:
         """
         Set ecuc and return self for chaining.
 
@@ -151,7 +151,7 @@ class BlueprintFormula(ARObject):
         self.ecuc = value  # Use property setter (gets validation)
         return self
 
-    def with_verbatim(self, value: MultiLanguageVerbatim) -> BlueprintFormula:
+    def with_verbatim(self, value: "MultiLanguageVerbatim") -> BlueprintFormula:
         """
         Set verbatim and return self for chaining.
 

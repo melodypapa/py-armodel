@@ -177,15 +177,15 @@ class TimingConditionFormula(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This refers to an argument of an operation call.
-        self._timingArgumentArgumentInstance: Optional[AutosarOperation] = None
+        self._timingArgumentArgumentInstance: Optional["AutosarOperation"] = None
 
     @property
-    def timing_argument_argument_instance(self) -> Optional[AutosarOperation]:
+    def timing_argument_argument_instance(self) -> Optional["AutosarOperation"]:
         """Get timingArgumentArgumentInstance (Pythonic accessor)."""
         return self._timingArgumentArgumentInstance
 
     @timing_argument_argument_instance.setter
-    def timing_argument_argument_instance(self, value: Optional[AutosarOperation]) -> None:
+    def timing_argument_argument_instance(self, value: Optional["AutosarOperation"]) -> None:
         """
         Set timingArgumentArgumentInstance with validation.
 
@@ -232,15 +232,15 @@ class TimingConditionFormula(ARObject):
                 f"timingCondition must be TimingCondition or None, got {type(value).__name__}"
             )
         self._timingCondition = value
-        self._timingEvent: Optional[TimingDescriptionEvent] = None
+        self._timingEvent: Optional["TimingDescriptionEvent"] = None
 
     @property
-    def timing_event(self) -> Optional[TimingDescriptionEvent]:
+    def timing_event(self) -> Optional["TimingDescriptionEvent"]:
         """Get timingEvent (Pythonic accessor)."""
         return self._timingEvent
 
     @timing_event.setter
-    def timing_event(self, value: Optional[TimingDescriptionEvent]) -> None:
+    def timing_event(self, value: Optional["TimingDescriptionEvent"]) -> None:
         """
         Set timingEvent with validation.
 
@@ -286,15 +286,15 @@ class TimingConditionFormula(ARObject):
                 f"timingMode must be TimingModeInstance or None, got {type(value).__name__}"
             )
         self._timingMode = value
-        self._timingVariableInstance: Optional[AutosarVariable] = None
+        self._timingVariableInstance: Optional["AutosarVariable"] = None
 
     @property
-    def timing_variable_instance(self) -> Optional[AutosarVariable]:
+    def timing_variable_instance(self) -> Optional["AutosarVariable"]:
         """Get timingVariableInstance (Pythonic accessor)."""
         return self._timingVariableInstance
 
     @timing_variable_instance.setter
-    def timing_variable_instance(self, value: Optional[AutosarVariable]) -> None:
+    def timing_variable_instance(self, value: Optional["AutosarVariable"]) -> None:
         """
         Set timingVariableInstance with validation.
 
@@ -316,7 +316,7 @@ class TimingConditionFormula(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTimingArgumentArgumentInstance(self) -> AutosarOperation:
+    def getTimingArgumentArgumentInstance(self) -> "AutosarOperation":
         """
         AUTOSAR-compliant getter for timingArgumentArgumentInstance.
 
@@ -328,7 +328,7 @@ class TimingConditionFormula(ARObject):
         """
         return self.timing_argument_argument_instance  # Delegates to property
 
-    def setTimingArgumentArgumentInstance(self, value: AutosarOperation) -> TimingConditionFormula:
+    def setTimingArgumentArgumentInstance(self, value: "AutosarOperation") -> TimingConditionFormula:
         """
         AUTOSAR-compliant setter for timingArgumentArgumentInstance with method chaining.
 
@@ -372,7 +372,7 @@ class TimingConditionFormula(ARObject):
         self.timing_condition = value  # Delegates to property setter
         return self
 
-    def getTimingEvent(self) -> TimingDescriptionEvent:
+    def getTimingEvent(self) -> "TimingDescriptionEvent":
         """
         AUTOSAR-compliant getter for timingEvent.
 
@@ -384,7 +384,7 @@ class TimingConditionFormula(ARObject):
         """
         return self.timing_event  # Delegates to property
 
-    def setTimingEvent(self, value: TimingDescriptionEvent) -> TimingConditionFormula:
+    def setTimingEvent(self, value: "TimingDescriptionEvent") -> TimingConditionFormula:
         """
         AUTOSAR-compliant setter for timingEvent with method chaining.
 
@@ -428,7 +428,7 @@ class TimingConditionFormula(ARObject):
         self.timing_mode = value  # Delegates to property setter
         return self
 
-    def getTimingVariableInstance(self) -> AutosarVariable:
+    def getTimingVariableInstance(self) -> "AutosarVariable":
         """
         AUTOSAR-compliant getter for timingVariableInstance.
 
@@ -440,7 +440,7 @@ class TimingConditionFormula(ARObject):
         """
         return self.timing_variable_instance  # Delegates to property
 
-    def setTimingVariableInstance(self, value: AutosarVariable) -> TimingConditionFormula:
+    def setTimingVariableInstance(self, value: "AutosarVariable") -> TimingConditionFormula:
         """
         AUTOSAR-compliant setter for timingVariableInstance with method chaining.
 
@@ -458,7 +458,7 @@ class TimingConditionFormula(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_timing_argument_argument_instance(self, value: Optional[AutosarOperation]) -> TimingConditionFormula:
+    def with_timing_argument_argument_instance(self, value: Optional["AutosarOperation"]) -> TimingConditionFormula:
         """
         Set timingArgumentArgumentInstance and return self for chaining.
 
@@ -490,7 +490,7 @@ class TimingConditionFormula(ARObject):
         self.timing_condition = value  # Use property setter (gets validation)
         return self
 
-    def with_timing_event(self, value: Optional[TimingDescriptionEvent]) -> TimingConditionFormula:
+    def with_timing_event(self, value: Optional["TimingDescriptionEvent"]) -> TimingConditionFormula:
         """
         Set timingEvent and return self for chaining.
 
@@ -522,7 +522,7 @@ class TimingConditionFormula(ARObject):
         self.timing_mode = value  # Use property setter (gets validation)
         return self
 
-    def with_timing_variable_instance(self, value: Optional[AutosarVariable]) -> TimingConditionFormula:
+    def with_timing_variable_instance(self, value: Optional["AutosarVariable"]) -> TimingConditionFormula:
         """
         Set timingVariableInstance and return self for chaining.
 
@@ -732,15 +732,15 @@ class ModeInBswInstanceRef(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Specifies the BSW implementation that manifests the.
-        self._contextBsw: Optional[BswImplementation] = None
+        self._contextBsw: Optional["BswImplementation"] = None
 
     @property
-    def context_bsw(self) -> Optional[BswImplementation]:
+    def context_bsw(self) -> Optional["BswImplementation"]:
         """Get contextBsw (Pythonic accessor)."""
         return self._contextBsw
 
     @context_bsw.setter
-    def context_bsw(self, value: Optional[BswImplementation]) -> None:
+    def context_bsw(self, value: Optional["BswImplementation"]) -> None:
         """
         Set contextBsw with validation.
 
@@ -814,7 +814,7 @@ class ModeInBswInstanceRef(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getContextBsw(self) -> BswImplementation:
+    def getContextBsw(self) -> "BswImplementation":
         """
         AUTOSAR-compliant getter for contextBsw.
 
@@ -826,7 +826,7 @@ class ModeInBswInstanceRef(ARObject):
         """
         return self.context_bsw  # Delegates to property
 
-    def setContextBsw(self, value: BswImplementation) -> ModeInBswInstanceRef:
+    def setContextBsw(self, value: "BswImplementation") -> ModeInBswInstanceRef:
         """
         AUTOSAR-compliant setter for contextBsw with method chaining.
 
@@ -900,7 +900,7 @@ class ModeInBswInstanceRef(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_context_bsw(self, value: Optional[BswImplementation]) -> ModeInBswInstanceRef:
+    def with_context_bsw(self, value: Optional["BswImplementation"]) -> ModeInBswInstanceRef:
         """
         Set contextBsw and return self for chaining.
 

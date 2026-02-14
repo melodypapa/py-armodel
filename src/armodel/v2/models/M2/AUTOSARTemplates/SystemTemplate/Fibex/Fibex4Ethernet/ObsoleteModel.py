@@ -19,6 +19,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.__init__ import (
     FibexElement,
+    SocketAddress,
 )
 
 
@@ -253,15 +254,15 @@ class SocketConnection(Describable):
         # Defines the time in seconds which shall pass before a with Pdu collection
         # enabled shall be transmitted to layer after the first Pdu has been put into
         # the.
-        self._pduCollection: Optional[TimeValue] = None
+        self._pduCollection: Optional["TimeValue"] = None
 
     @property
-    def pdu_collection(self) -> Optional[TimeValue]:
+    def pdu_collection(self) -> Optional["TimeValue"]:
         """Get pduCollection (Pythonic accessor)."""
         return self._pduCollection
 
     @pdu_collection.setter
-    def pdu_collection(self, value: Optional[TimeValue]) -> None:
+    def pdu_collection(self, value: Optional["TimeValue"]) -> None:
         """
         Set pduCollection with validation.
 
@@ -401,7 +402,7 @@ class SocketConnection(Describable):
         self.client_ip_addr = value  # Delegates to property setter
         return self
 
-    def getClientPort(self) -> "SocketAddress":
+    def getClientPort(self) -> SocketAddress:
         """
         AUTOSAR-compliant getter for clientPort.
 
@@ -413,7 +414,7 @@ class SocketConnection(Describable):
         """
         return self.client_port  # Delegates to property
 
-    def setClientPort(self, value: "SocketAddress") -> SocketConnection:
+    def setClientPort(self, value: SocketAddress) -> SocketConnection:
         """
         AUTOSAR-compliant setter for clientPort with method chaining.
 
@@ -469,7 +470,7 @@ class SocketConnection(Describable):
         """
         return self.pdu  # Delegates to property
 
-    def getPduCollection(self) -> TimeValue:
+    def getPduCollection(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for pduCollection.
 
@@ -481,7 +482,7 @@ class SocketConnection(Describable):
         """
         return self.pdu_collection  # Delegates to property
 
-    def setPduCollection(self, value: TimeValue) -> SocketConnection:
+    def setPduCollection(self, value: "TimeValue") -> SocketConnection:
         """
         AUTOSAR-compliant setter for pduCollection with method chaining.
 
@@ -553,7 +554,7 @@ class SocketConnection(Describable):
         self.runtime_port = value  # Delegates to property setter
         return self
 
-    def getShortLabel(self) -> "Identifier":
+    def getShortLabel(self) -> Identifier:
         """
         AUTOSAR-compliant getter for shortLabel.
 
@@ -565,7 +566,7 @@ class SocketConnection(Describable):
         """
         return self.short_label  # Delegates to property
 
-    def setShortLabel(self, value: "Identifier") -> SocketConnection:
+    def setShortLabel(self, value: Identifier) -> SocketConnection:
         """
         AUTOSAR-compliant setter for shortLabel with method chaining.
 
@@ -631,7 +632,7 @@ class SocketConnection(Describable):
         self.client_port_from = value  # Use property setter (gets validation)
         return self
 
-    def with_pdu_collection(self, value: Optional[TimeValue]) -> SocketConnection:
+    def with_pdu_collection(self, value: Optional["TimeValue"]) -> SocketConnection:
         """
         Set pduCollection and return self for chaining.
 

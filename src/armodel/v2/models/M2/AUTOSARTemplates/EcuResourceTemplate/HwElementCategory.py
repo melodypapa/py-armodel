@@ -23,7 +23,11 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
+    Numerical,
+    VerbatimString,
 )
+from armodel.v2.models.M2.MSR.AsamHdo.Units import Unit
+from armodel.v2.models.M2.MSR.Documentation.Annotation import Annotation
 
 
 class HwAttributeValue(ARObject):
@@ -96,15 +100,15 @@ class HwAttributeValue(ARObject):
                 f"hwAttributeDef must be HwAttributeDef or None, got {type(value).__name__}"
             )
         self._hwAttributeDef = value
-        self._v: Optional["Numerical"] = None
+        self._v: Optional[Numerical] = None
 
     @property
-    def v(self) -> Optional["Numerical"]:
+    def v(self) -> Optional[Numerical]:
         """Get v (Pythonic accessor)."""
         return self._v
 
     @v.setter
-    def v(self, value: Optional["Numerical"]) -> None:
+    def v(self, value: Optional[Numerical]) -> None:
         """
         Set v with validation.
 
@@ -123,15 +127,15 @@ class HwAttributeValue(ARObject):
                 f"v must be Numerical or None, got {type(value).__name__}"
             )
         self._v = value
-        self._vt: Optional["VerbatimString"] = None
+        self._vt: Optional[VerbatimString] = None
 
     @property
-    def vt(self) -> Optional["VerbatimString"]:
+    def vt(self) -> Optional[VerbatimString]:
         """Get vt (Pythonic accessor)."""
         return self._vt
 
     @vt.setter
-    def vt(self, value: Optional["VerbatimString"]) -> None:
+    def vt(self, value: Optional[VerbatimString]) -> None:
         """
         Set vt with validation.
 
@@ -237,7 +241,7 @@ class HwAttributeValue(ARObject):
         """
         return self.v  # Delegates to property
 
-    def setV(self, value: "Numerical") -> HwAttributeValue:
+    def setV(self, value: Numerical) -> HwAttributeValue:
         """
         AUTOSAR-compliant setter for v with method chaining.
 
@@ -253,7 +257,7 @@ class HwAttributeValue(ARObject):
         self.v = value  # Delegates to property setter
         return self
 
-    def getVt(self) -> "VerbatimString":
+    def getVt(self) -> VerbatimString:
         """
         AUTOSAR-compliant getter for vt.
 
@@ -265,7 +269,7 @@ class HwAttributeValue(ARObject):
         """
         return self.vt  # Delegates to property
 
-    def setVt(self, value: "VerbatimString") -> HwAttributeValue:
+    def setVt(self, value: VerbatimString) -> HwAttributeValue:
         """
         AUTOSAR-compliant setter for vt with method chaining.
 
@@ -315,7 +319,7 @@ class HwAttributeValue(ARObject):
         self.hw_attribute_def = value  # Use property setter (gets validation)
         return self
 
-    def with_v(self, value: Optional["Numerical"]) -> HwAttributeValue:
+    def with_v(self, value: Optional[Numerical]) -> HwAttributeValue:
         """
         Set v and return self for chaining.
 
@@ -331,7 +335,7 @@ class HwAttributeValue(ARObject):
         self.v = value  # Use property setter (gets validation)
         return self
 
-    def with_vt(self, value: Optional["VerbatimString"]) -> HwAttributeValue:
+    def with_vt(self, value: Optional[VerbatimString]) -> HwAttributeValue:
         """
         Set vt and return self for chaining.
 

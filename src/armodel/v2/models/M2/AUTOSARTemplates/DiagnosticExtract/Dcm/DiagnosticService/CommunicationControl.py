@@ -17,6 +17,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     ARObject,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    CommunicationCluster,
     PositiveInteger,
 )
 
@@ -322,7 +323,7 @@ class DiagnosticComControlSpecificChannel(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getSpecificChannel(self) -> "CommunicationCluster":
+    def getSpecificChannel(self) -> CommunicationCluster:
         """
         AUTOSAR-compliant getter for specificChannel.
 
@@ -334,7 +335,7 @@ class DiagnosticComControlSpecificChannel(ARObject):
         """
         return self.specific_channel  # Delegates to property
 
-    def setSpecificChannel(self, value: "CommunicationCluster") -> DiagnosticComControlSpecificChannel:
+    def setSpecificChannel(self, value: CommunicationCluster) -> DiagnosticComControlSpecificChannel:
         """
         AUTOSAR-compliant setter for specificChannel with method chaining.
 

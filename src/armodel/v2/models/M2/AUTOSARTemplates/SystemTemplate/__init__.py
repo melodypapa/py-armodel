@@ -232,15 +232,15 @@ class System(ARElement):
                 # System used for a network-only use-case.
         # RootSwCompositionPrototype can vary.
         # atpVariation.
-        self._rootSoftware: Optional[RootSwComposition] = None
+        self._rootSoftware: Optional["RootSwComposition"] = None
 
     @property
-    def root_software(self) -> Optional[RootSwComposition]:
+    def root_software(self) -> Optional["RootSwComposition"]:
         """Get rootSoftware (Pythonic accessor)."""
         return self._rootSoftware
 
     @root_software.setter
-    def root_software(self, value: Optional[RootSwComposition]) -> None:
+    def root_software(self, value: Optional["RootSwComposition"]) -> None:
         """
         Set rootSoftware with validation.
 
@@ -874,7 +874,7 @@ class System(ARElement):
         self.container_i_pdu = value  # Delegates to property setter
         return self
 
-    def getEcuExtractVersion(self) -> "RevisionLabelString":
+    def getEcuExtractVersion(self) -> RevisionLabelString:
         """
         AUTOSAR-compliant getter for ecuExtractVersion.
 
@@ -886,7 +886,7 @@ class System(ARElement):
         """
         return self.ecu_extract_version  # Delegates to property
 
-    def setEcuExtractVersion(self, value: "RevisionLabelString") -> System:
+    def setEcuExtractVersion(self, value: RevisionLabelString) -> System:
         """
         AUTOSAR-compliant setter for ecuExtractVersion with method chaining.
 
@@ -1058,7 +1058,7 @@ class System(ARElement):
         """
         return self.system  # Delegates to property
 
-    def getSystemVersion(self) -> "RevisionLabelString":
+    def getSystemVersion(self) -> RevisionLabelString:
         """
         AUTOSAR-compliant getter for systemVersion.
 
@@ -1070,7 +1070,7 @@ class System(ARElement):
         """
         return self.system_version  # Delegates to property
 
-    def setSystemVersion(self, value: "RevisionLabelString") -> System:
+    def setSystemVersion(self, value: RevisionLabelString) -> System:
         """
         AUTOSAR-compliant setter for systemVersion with method chaining.
 
@@ -1152,7 +1152,7 @@ class System(ARElement):
         self.pnc_vector_offset = value  # Use property setter (gets validation)
         return self
 
-    def with_root_software(self, value: Optional[RootSwComposition]) -> System:
+    def with_root_software(self, value: Optional["RootSwComposition"]) -> System:
         """
         Set rootSoftware and return self for chaining.
 
@@ -1298,7 +1298,7 @@ class RootSwCompositionPrototype(Identifiable):
         """
         return self.calibration  # Delegates to property
 
-    def getFlatMap(self) -> "FlatMap":
+    def getFlatMap(self) -> FlatMap:
         """
         AUTOSAR-compliant getter for flatMap.
 
@@ -1310,7 +1310,7 @@ class RootSwCompositionPrototype(Identifiable):
         """
         return self.flat_map  # Delegates to property
 
-    def setFlatMap(self, value: "FlatMap") -> RootSwCompositionPrototype:
+    def setFlatMap(self, value: FlatMap) -> RootSwCompositionPrototype:
         """
         AUTOSAR-compliant setter for flatMap with method chaining.
 
@@ -1511,7 +1511,7 @@ class ClientIdDefinition(Identifiable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getClientId(self) -> "Numerical":
+    def getClientId(self) -> Numerical:
         """
         AUTOSAR-compliant getter for clientId.
 
@@ -1523,7 +1523,7 @@ class ClientIdDefinition(Identifiable):
         """
         return self.client_id  # Delegates to property
 
-    def setClientId(self, value: "Numerical") -> ClientIdDefinition:
+    def setClientId(self, value: Numerical) -> ClientIdDefinition:
         """
         AUTOSAR-compliant setter for clientId with method chaining.
 
@@ -2398,7 +2398,7 @@ class PortElementToCommunicationResourceMapping(Identifiable):
         self.client_server_instance_ref = value  # Delegates to property setter
         return self
 
-    def getCommunication(self) -> "CpSoftwareCluster":
+    def getCommunication(self) -> CpSoftwareCluster:
         """
         AUTOSAR-compliant getter for communication.
 
@@ -2410,7 +2410,7 @@ class PortElementToCommunicationResourceMapping(Identifiable):
         """
         return self.communication  # Delegates to property
 
-    def setCommunication(self, value: "CpSoftwareCluster") -> PortElementToCommunicationResourceMapping:
+    def setCommunication(self, value: CpSoftwareCluster) -> PortElementToCommunicationResourceMapping:
         """
         AUTOSAR-compliant setter for communication with method chaining.
 
@@ -2454,7 +2454,7 @@ class PortElementToCommunicationResourceMapping(Identifiable):
         self.mode = value  # Delegates to property setter
         return self
 
-    def getParameterData(self) -> "ParameterData":
+    def getParameterData(self) -> ParameterData:
         """
         AUTOSAR-compliant getter for parameterData.
 
@@ -2466,7 +2466,7 @@ class PortElementToCommunicationResourceMapping(Identifiable):
         """
         return self.parameter_data  # Delegates to property
 
-    def setParameterData(self, value: "ParameterData") -> PortElementToCommunicationResourceMapping:
+    def setParameterData(self, value: ParameterData) -> PortElementToCommunicationResourceMapping:
         """
         AUTOSAR-compliant setter for parameterData with method chaining.
 

@@ -266,15 +266,15 @@ class AutosarVariableRef(ARObject):
                 # by an ImplementationDataType.
         # 381 Document ID 89: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Module
                 # Description Template R23-11.
-        self._autosarVariable: Optional[ArVariableIn] = None
+        self._autosarVariable: Optional["ArVariableIn"] = None
 
     @property
-    def autosar_variable(self) -> Optional[ArVariableIn]:
+    def autosar_variable(self) -> Optional["ArVariableIn"]:
         """Get autosarVariable (Pythonic accessor)."""
         return self._autosarVariable
 
     @autosar_variable.setter
-    def autosar_variable(self, value: Optional[ArVariableIn]) -> None:
+    def autosar_variable(self, value: Optional["ArVariableIn"]) -> None:
         """
         Set autosarVariable with validation.
 
@@ -324,7 +324,7 @@ class AutosarVariableRef(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAutosarVariable(self) -> ArVariableIn:
+    def getAutosarVariable(self) -> "ArVariableIn":
         """
         AUTOSAR-compliant getter for autosarVariable.
 
@@ -336,7 +336,7 @@ class AutosarVariableRef(ARObject):
         """
         return self.autosar_variable  # Delegates to property
 
-    def setAutosarVariable(self, value: ArVariableIn) -> AutosarVariableRef:
+    def setAutosarVariable(self, value: "ArVariableIn") -> AutosarVariableRef:
         """
         AUTOSAR-compliant setter for autosarVariable with method chaining.
 
@@ -382,7 +382,7 @@ class AutosarVariableRef(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_autosar_variable(self, value: Optional[ArVariableIn]) -> AutosarVariableRef:
+    def with_autosar_variable(self, value: Optional["ArVariableIn"]) -> AutosarVariableRef:
         """
         Set autosarVariable and return self for chaining.
 
@@ -459,15 +459,15 @@ class ParameterAccess(AbstractAccessPoint):
         self._accessedParameter = value
         # This allows denote instance and access specific mainly input values and
         # common axis.
-        self._swDataDef: Optional[SwDataDefProps] = None
+        self._swDataDef: Optional["SwDataDefProps"] = None
 
     @property
-    def sw_data_def(self) -> Optional[SwDataDefProps]:
+    def sw_data_def(self) -> Optional["SwDataDefProps"]:
         """Get swDataDef (Pythonic accessor)."""
         return self._swDataDef
 
     @sw_data_def.setter
-    def sw_data_def(self, value: Optional[SwDataDefProps]) -> None:
+    def sw_data_def(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set swDataDef with validation.
 
@@ -517,7 +517,7 @@ class ParameterAccess(AbstractAccessPoint):
         self.accessed_parameter = value  # Delegates to property setter
         return self
 
-    def getSwDataDef(self) -> SwDataDefProps:
+    def getSwDataDef(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for swDataDef.
 
@@ -529,7 +529,7 @@ class ParameterAccess(AbstractAccessPoint):
         """
         return self.sw_data_def  # Delegates to property
 
-    def setSwDataDef(self, value: SwDataDefProps) -> ParameterAccess:
+    def setSwDataDef(self, value: "SwDataDefProps") -> ParameterAccess:
         """
         AUTOSAR-compliant setter for swDataDef with method chaining.
 
@@ -563,7 +563,7 @@ class ParameterAccess(AbstractAccessPoint):
         self.accessed_parameter = value  # Use property setter (gets validation)
         return self
 
-    def with_sw_data_def(self, value: Optional[SwDataDefProps]) -> ParameterAccess:
+    def with_sw_data_def(self, value: Optional["SwDataDefProps"]) -> ParameterAccess:
         """
         Set swDataDef and return self for chaining.
 
@@ -825,15 +825,15 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
 
         self._rootVariable = value
         # This reference points to the target ImplementationData TypeElement.
-        self._targetData: Optional[AbstractImplementation] = None
+        self._targetData: Optional["AbstractImplementation"] = None
 
     @property
-    def target_data(self) -> Optional[AbstractImplementation]:
+    def target_data(self) -> Optional["AbstractImplementation"]:
         """Get targetData (Pythonic accessor)."""
         return self._targetData
 
     @target_data.setter
-    def target_data(self, value: Optional[AbstractImplementation]) -> None:
+    def target_data(self, value: Optional["AbstractImplementation"]) -> None:
         """
         Set targetData with validation.
 
@@ -923,7 +923,7 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
         self.root_variable = value  # Delegates to property setter
         return self
 
-    def getTargetData(self) -> AbstractImplementation:
+    def getTargetData(self) -> "AbstractImplementation":
         """
         AUTOSAR-compliant getter for targetData.
 
@@ -935,7 +935,7 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
         """
         return self.target_data  # Delegates to property
 
-    def setTargetData(self, value: AbstractImplementation) -> ArVariableInImplementationDataInstanceRef:
+    def setTargetData(self, value: "AbstractImplementation") -> ArVariableInImplementationDataInstanceRef:
         """
         AUTOSAR-compliant setter for targetData with method chaining.
 
@@ -985,7 +985,7 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
         self.root_variable = value  # Use property setter (gets validation)
         return self
 
-    def with_target_data(self, value: Optional[AbstractImplementation]) -> ArVariableInImplementationDataInstanceRef:
+    def with_target_data(self, value: Optional["AbstractImplementation"]) -> ArVariableInImplementationDataInstanceRef:
         """
         Set targetData and return self for chaining.
 
@@ -1082,15 +1082,15 @@ class ArParameterInImplementationDataInstanceRef(ARObject):
             )
         self._rootParameter = value
         # This reference points to the target ImplementationData TypeElement.
-        self._targetData: Optional[AbstractImplementation] = None
+        self._targetData: Optional["AbstractImplementation"] = None
 
     @property
-    def target_data(self) -> Optional[AbstractImplementation]:
+    def target_data(self) -> Optional["AbstractImplementation"]:
         """Get targetData (Pythonic accessor)."""
         return self._targetData
 
     @target_data.setter
-    def target_data(self, value: Optional[AbstractImplementation]) -> None:
+    def target_data(self, value: Optional["AbstractImplementation"]) -> None:
         """
         Set targetData with validation.
 
@@ -1180,7 +1180,7 @@ class ArParameterInImplementationDataInstanceRef(ARObject):
         self.root_parameter = value  # Delegates to property setter
         return self
 
-    def getTargetData(self) -> AbstractImplementation:
+    def getTargetData(self) -> "AbstractImplementation":
         """
         AUTOSAR-compliant getter for targetData.
 
@@ -1192,7 +1192,7 @@ class ArParameterInImplementationDataInstanceRef(ARObject):
         """
         return self.target_data  # Delegates to property
 
-    def setTargetData(self, value: AbstractImplementation) -> ArParameterInImplementationDataInstanceRef:
+    def setTargetData(self, value: "AbstractImplementation") -> ArParameterInImplementationDataInstanceRef:
         """
         AUTOSAR-compliant setter for targetData with method chaining.
 
@@ -1242,7 +1242,7 @@ class ArParameterInImplementationDataInstanceRef(ARObject):
         self.root_parameter = value  # Use property setter (gets validation)
         return self
 
-    def with_target_data(self, value: Optional[AbstractImplementation]) -> ArParameterInImplementationDataInstanceRef:
+    def with_target_data(self, value: Optional["AbstractImplementation"]) -> ArParameterInImplementationDataInstanceRef:
         """
         Set targetData and return self for chaining.
 

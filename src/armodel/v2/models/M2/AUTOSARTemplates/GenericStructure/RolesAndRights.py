@@ -677,7 +677,7 @@ class AclRole(ARElement):
         """
         return self.ldap_url  # Delegates to property
 
-    def setLdapUrl(self, value: "UriString") -> AclRole:
+    def setLdapUrl(self, value: UriString) -> AclRole:
         """
         AUTOSAR-compliant setter for ldapUrl with method chaining.
 

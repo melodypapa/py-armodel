@@ -479,7 +479,7 @@ class FMFeature(ARElement):
         """
         return self.decomposition_decomposition  # Delegates to property
 
-    def getMaximum(self) -> "BindingTimeEnum":
+    def getMaximum(self) -> BindingTimeEnum:
         """
         AUTOSAR-compliant getter for maximum.
 
@@ -491,7 +491,7 @@ class FMFeature(ARElement):
         """
         return self.maximum  # Delegates to property
 
-    def setMaximum(self, value: "BindingTimeEnum") -> FMFeature:
+    def setMaximum(self, value: BindingTimeEnum) -> FMFeature:
         """
         AUTOSAR-compliant setter for maximum with method chaining.
 
@@ -507,7 +507,7 @@ class FMFeature(ARElement):
         self.maximum = value  # Delegates to property setter
         return self
 
-    def getMinimum(self) -> "BindingTimeEnum":
+    def getMinimum(self) -> BindingTimeEnum:
         """
         AUTOSAR-compliant getter for minimum.
 
@@ -519,7 +519,7 @@ class FMFeature(ARElement):
         """
         return self.minimum  # Delegates to property
 
-    def setMinimum(self, value: "BindingTimeEnum") -> FMFeature:
+    def setMinimum(self, value: BindingTimeEnum) -> FMFeature:
         """
         AUTOSAR-compliant setter for minimum with method chaining.
 

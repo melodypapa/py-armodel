@@ -65,15 +65,15 @@ class Note(Paginateable):
                 f"label must be MultilanguageLong or None, got {type(value).__name__}"
             )
         self._label = value
-        self._noteText: DocumentationBlock = None
+        self._noteText: "DocumentationBlock" = None
 
     @property
-    def note_text(self) -> DocumentationBlock:
+    def note_text(self) -> "DocumentationBlock":
         """Get noteText (Pythonic accessor)."""
         return self._noteText
 
     @note_text.setter
-    def note_text(self, value: DocumentationBlock) -> None:
+    def note_text(self, value: "DocumentationBlock") -> None:
         """
         Set noteText with validation.
 
@@ -147,7 +147,7 @@ class Note(Paginateable):
         self.label = value  # Delegates to property setter
         return self
 
-    def getNoteText(self) -> DocumentationBlock:
+    def getNoteText(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for noteText.
 
@@ -159,7 +159,7 @@ class Note(Paginateable):
         """
         return self.note_text  # Delegates to property
 
-    def setNoteText(self, value: DocumentationBlock) -> Note:
+    def setNoteText(self, value: "DocumentationBlock") -> Note:
         """
         AUTOSAR-compliant setter for noteText with method chaining.
 
@@ -221,7 +221,7 @@ class Note(Paginateable):
         self.label = value  # Use property setter (gets validation)
         return self
 
-    def with_note_text(self, value: DocumentationBlock) -> Note:
+    def with_note_text(self, value: "DocumentationBlock") -> Note:
         """
         Set noteText and return self for chaining.
 

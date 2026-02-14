@@ -65,15 +65,15 @@ class TtcanCluster(ARObject):
             )
         self._basicCycleLength = value
         # always the CAN bit seconds.
-        self._ntu: Optional[TimeValue] = None
+        self._ntu: Optional["TimeValue"] = None
 
     @property
-    def ntu(self) -> Optional[TimeValue]:
+    def ntu(self) -> Optional["TimeValue"]:
         """Get ntu (Pythonic accessor)."""
         return self._ntu
 
     @ntu.setter
-    def ntu(self, value: Optional[TimeValue]) -> None:
+    def ntu(self, value: Optional["TimeValue"]) -> None:
         """
         Set ntu with validation.
 
@@ -150,7 +150,7 @@ class TtcanCluster(ARObject):
         self.basic_cycle_length = value  # Delegates to property setter
         return self
 
-    def getNtu(self) -> TimeValue:
+    def getNtu(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for ntu.
 
@@ -162,7 +162,7 @@ class TtcanCluster(ARObject):
         """
         return self.ntu  # Delegates to property
 
-    def setNtu(self, value: TimeValue) -> TtcanCluster:
+    def setNtu(self, value: "TimeValue") -> TtcanCluster:
         """
         AUTOSAR-compliant setter for ntu with method chaining.
 
@@ -224,7 +224,7 @@ class TtcanCluster(ARObject):
         self.basic_cycle_length = value  # Use property setter (gets validation)
         return self
 
-    def with_ntu(self, value: Optional[TimeValue]) -> TtcanCluster:
+    def with_ntu(self, value: Optional["TimeValue"]) -> TtcanCluster:
         """
         Set ntu and return self for chaining.
 

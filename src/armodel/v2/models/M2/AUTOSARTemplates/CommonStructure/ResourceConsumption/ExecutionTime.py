@@ -10,11 +10,26 @@ from __future__ import annotations
 from abc import ABC
 from typing import List, Optional
 
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
+    ExclusiveArea,
+    ExecutableEntity,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import (
+    HardwareConfiguration,
+    SoftwareContext,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.MemorySectionUsage import (
+    MemorySection,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwElement
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import (
+    MultidimensionalTime,
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
@@ -41,15 +56,15 @@ class ExecutionTime(Identifiable, ABC):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to the ExclusiveArea this execution time is.
-        self._exclusiveArea: Optional["ExclusiveArea"] = None
+        self._exclusiveArea: Optional[ExclusiveArea] = None
 
     @property
-    def exclusive_area(self) -> Optional["ExclusiveArea"]:
+    def exclusive_area(self) -> Optional[ExclusiveArea]:
         """Get exclusiveArea (Pythonic accessor)."""
         return self._exclusiveArea
 
     @exclusive_area.setter
-    def exclusive_area(self, value: Optional["ExclusiveArea"]) -> None:
+    def exclusive_area(self, value: Optional[ExclusiveArea]) -> None:
         """
         Set exclusiveArea with validation.
 
@@ -68,15 +83,15 @@ class ExecutionTime(Identifiable, ABC):
                 f"exclusiveArea must be ExclusiveArea or None, got {type(value).__name__}"
             )
         self._exclusiveArea = value
-        self._executableEntity: Optional["ExecutableEntity"] = None
+        self._executableEntity: Optional[ExecutableEntity] = None
 
     @property
-    def executable_entity(self) -> Optional["ExecutableEntity"]:
+    def executable_entity(self) -> Optional[ExecutableEntity]:
         """Get executableEntity (Pythonic accessor)."""
         return self._executableEntity
 
     @executable_entity.setter
-    def executable_entity(self, value: Optional["ExecutableEntity"]) -> None:
+    def executable_entity(self, value: Optional[ExecutableEntity]) -> None:
         """
         Set executableEntity with validation.
 
@@ -96,15 +111,15 @@ class ExecutionTime(Identifiable, ABC):
             )
         self._executableEntity = value
         # ExecutionTime.
-        self._hardware: Optional["HardwareConfiguration"] = None
+        self._hardware: Optional[HardwareConfiguration] = None
 
     @property
-    def hardware(self) -> Optional["HardwareConfiguration"]:
+    def hardware(self) -> Optional[HardwareConfiguration]:
         """Get hardware (Pythonic accessor)."""
         return self._hardware
 
     @hardware.setter
-    def hardware(self, value: Optional["HardwareConfiguration"]) -> None:
+    def hardware(self, value: Optional[HardwareConfiguration]) -> None:
         """
         Set hardware with validation.
 
@@ -125,15 +140,15 @@ class ExecutionTime(Identifiable, ABC):
         self._hardware = value
         # g.
         # type of ECU) for which the is specified.
-        self._hwElement: Optional["HwElement"] = None
+        self._hwElement: Optional[HwElement] = None
 
     @property
-    def hw_element(self) -> Optional["HwElement"]:
+    def hw_element(self) -> Optional[HwElement]:
         """Get hwElement (Pythonic accessor)."""
         return self._hwElement
 
     @hw_element.setter
-    def hw_element(self, value: Optional["HwElement"]) -> None:
+    def hw_element(self, value: Optional[HwElement]) -> None:
         """
         Set hwElement with validation.
 
@@ -169,15 +184,15 @@ class ExecutionTime(Identifiable, ABC):
         return self._memorySection
         # Provides information on the detailed SoftwareContext provide the
         # ExecutionTime description.
-        self._softwareContext: Optional["SoftwareContext"] = None
+        self._softwareContext: Optional[SoftwareContext] = None
 
     @property
-    def software_context(self) -> Optional["SoftwareContext"]:
+    def software_context(self) -> Optional[SoftwareContext]:
         """Get softwareContext (Pythonic accessor)."""
         return self._softwareContext
 
     @software_context.setter
-    def software_context(self, value: Optional["SoftwareContext"]) -> None:
+    def software_context(self, value: Optional[SoftwareContext]) -> None:
         """
         Set softwareContext with validation.
 
@@ -397,7 +412,7 @@ class ExecutionTime(Identifiable, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_exclusive_area(self, value: Optional["ExclusiveArea"]) -> ExecutionTime:
+    def with_exclusive_area(self, value: Optional[ExclusiveArea]) -> ExecutionTime:
         """
         Set exclusiveArea and return self for chaining.
 
@@ -413,7 +428,7 @@ class ExecutionTime(Identifiable, ABC):
         self.exclusive_area = value  # Use property setter (gets validation)
         return self
 
-    def with_executable_entity(self, value: Optional["ExecutableEntity"]) -> ExecutionTime:
+    def with_executable_entity(self, value: Optional[ExecutableEntity]) -> ExecutionTime:
         """
         Set executableEntity and return self for chaining.
 
@@ -429,7 +444,7 @@ class ExecutionTime(Identifiable, ABC):
         self.executable_entity = value  # Use property setter (gets validation)
         return self
 
-    def with_hardware(self, value: Optional["HardwareConfiguration"]) -> ExecutionTime:
+    def with_hardware(self, value: Optional[HardwareConfiguration]) -> ExecutionTime:
         """
         Set hardware and return self for chaining.
 
@@ -445,7 +460,7 @@ class ExecutionTime(Identifiable, ABC):
         self.hardware = value  # Use property setter (gets validation)
         return self
 
-    def with_hw_element(self, value: Optional["HwElement"]) -> ExecutionTime:
+    def with_hw_element(self, value: Optional[HwElement]) -> ExecutionTime:
         """
         Set hwElement and return self for chaining.
 
@@ -461,7 +476,7 @@ class ExecutionTime(Identifiable, ABC):
         self.hw_element = value  # Use property setter (gets validation)
         return self
 
-    def with_software_context(self, value: Optional["SoftwareContext"]) -> ExecutionTime:
+    def with_software_context(self, value: Optional[SoftwareContext]) -> ExecutionTime:
         """
         Set softwareContext and return self for chaining.
 
@@ -495,15 +510,15 @@ class MemorySectionLocation(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to the hardware ProvidedMemorySegment.
-        self._providedMemory: Optional["HwElement"] = None
+        self._providedMemory: Optional[HwElement] = None
 
     @property
-    def provided_memory(self) -> Optional["HwElement"]:
+    def provided_memory(self) -> Optional[HwElement]:
         """Get providedMemory (Pythonic accessor)."""
         return self._providedMemory
 
     @provided_memory.setter
-    def provided_memory(self, value: Optional["HwElement"]) -> None:
+    def provided_memory(self, value: Optional[HwElement]) -> None:
         """
         Set providedMemory with validation.
 
@@ -610,7 +625,7 @@ class MemorySectionLocation(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_provided_memory(self, value: Optional["HwElement"]) -> MemorySectionLocation:
+    def with_provided_memory(self, value: Optional[HwElement]) -> MemorySectionLocation:
         """
         Set providedMemory and return self for chaining.
 
@@ -661,15 +676,15 @@ class AnalyzedExecutionTime(ExecutionTime):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The best case execution time (BCET) defines the amount of time the related
         # executable entity its execution.
-        self._bestCase: Optional["MultidimensionalTime"] = None
+        self._bestCase: Optional[MultidimensionalTime] = None
 
     @property
-    def best_case(self) -> Optional["MultidimensionalTime"]:
+    def best_case(self) -> Optional[MultidimensionalTime]:
         """Get bestCase (Pythonic accessor)."""
         return self._bestCase
 
     @best_case.setter
-    def best_case(self, value: Optional["MultidimensionalTime"]) -> None:
+    def best_case(self, value: Optional[MultidimensionalTime]) -> None:
         """
         Set bestCase with validation.
 
@@ -689,15 +704,15 @@ class AnalyzedExecutionTime(ExecutionTime):
             )
         self._bestCase = value
         # executable entity its execution.
-        self._worstCase: Optional["MultidimensionalTime"] = None
+        self._worstCase: Optional[MultidimensionalTime] = None
 
     @property
-    def worst_case(self) -> Optional["MultidimensionalTime"]:
+    def worst_case(self) -> Optional[MultidimensionalTime]:
         """Get worstCase (Pythonic accessor)."""
         return self._worstCase
 
     @worst_case.setter
-    def worst_case(self, value: Optional["MultidimensionalTime"]) -> None:
+    def worst_case(self, value: Optional[MultidimensionalTime]) -> None:
         """
         Set worstCase with validation.
 
@@ -777,7 +792,7 @@ class AnalyzedExecutionTime(ExecutionTime):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_best_case(self, value: Optional["MultidimensionalTime"]) -> AnalyzedExecutionTime:
+    def with_best_case(self, value: Optional[MultidimensionalTime]) -> AnalyzedExecutionTime:
         """
         Set bestCase and return self for chaining.
 
@@ -793,7 +808,7 @@ class AnalyzedExecutionTime(ExecutionTime):
         self.best_case = value  # Use property setter (gets validation)
         return self
 
-    def with_worst_case(self, value: Optional["MultidimensionalTime"]) -> AnalyzedExecutionTime:
+    def with_worst_case(self, value: Optional[MultidimensionalTime]) -> AnalyzedExecutionTime:
         """
         Set worstCase and return self for chaining.
 
@@ -826,15 +841,15 @@ class MeasuredExecutionTime(ExecutionTime):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The maximum measured execution time.
-        self._maximumExecutionTime: Optional["MultidimensionalTime"] = None
+        self._maximumExecutionTime: Optional[MultidimensionalTime] = None
 
     @property
-    def maximum_execution_time(self) -> Optional["MultidimensionalTime"]:
+    def maximum_execution_time(self) -> Optional[MultidimensionalTime]:
         """Get maximumExecutionTime (Pythonic accessor)."""
         return self._maximumExecutionTime
 
     @maximum_execution_time.setter
-    def maximum_execution_time(self, value: Optional["MultidimensionalTime"]) -> None:
+    def maximum_execution_time(self, value: Optional[MultidimensionalTime]) -> None:
         """
         Set maximumExecutionTime with validation.
 
@@ -853,15 +868,15 @@ class MeasuredExecutionTime(ExecutionTime):
                 f"maximumExecutionTime must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._maximumExecutionTime = value
-        self._minimumExecutionTime: Optional["MultidimensionalTime"] = None
+        self._minimumExecutionTime: Optional[MultidimensionalTime] = None
 
     @property
-    def minimum_execution_time(self) -> Optional["MultidimensionalTime"]:
+    def minimum_execution_time(self) -> Optional[MultidimensionalTime]:
         """Get minimumExecutionTime (Pythonic accessor)."""
         return self._minimumExecutionTime
 
     @minimum_execution_time.setter
-    def minimum_execution_time(self, value: Optional["MultidimensionalTime"]) -> None:
+    def minimum_execution_time(self, value: Optional[MultidimensionalTime]) -> None:
         """
         Set minimumExecutionTime with validation.
 
@@ -880,15 +895,15 @@ class MeasuredExecutionTime(ExecutionTime):
                 f"minimumExecutionTime must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._minimumExecutionTime = value
-        self._nominalExecutionTime: Optional["MultidimensionalTime"] = None
+        self._nominalExecutionTime: Optional[MultidimensionalTime] = None
 
     @property
-    def nominal_execution_time(self) -> Optional["MultidimensionalTime"]:
+    def nominal_execution_time(self) -> Optional[MultidimensionalTime]:
         """Get nominalExecutionTime (Pythonic accessor)."""
         return self._nominalExecutionTime
 
     @nominal_execution_time.setter
-    def nominal_execution_time(self, value: Optional["MultidimensionalTime"]) -> None:
+    def nominal_execution_time(self, value: Optional[MultidimensionalTime]) -> None:
         """
         Set nominalExecutionTime with validation.
 
@@ -996,7 +1011,7 @@ class MeasuredExecutionTime(ExecutionTime):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_maximum_execution_time(self, value: Optional["MultidimensionalTime"]) -> MeasuredExecutionTime:
+    def with_maximum_execution_time(self, value: Optional[MultidimensionalTime]) -> MeasuredExecutionTime:
         """
         Set maximumExecutionTime and return self for chaining.
 
@@ -1012,7 +1027,7 @@ class MeasuredExecutionTime(ExecutionTime):
         self.maximum_execution_time = value  # Use property setter (gets validation)
         return self
 
-    def with_minimum_execution_time(self, value: Optional["MultidimensionalTime"]) -> MeasuredExecutionTime:
+    def with_minimum_execution_time(self, value: Optional[MultidimensionalTime]) -> MeasuredExecutionTime:
         """
         Set minimumExecutionTime and return self for chaining.
 
@@ -1028,7 +1043,7 @@ class MeasuredExecutionTime(ExecutionTime):
         self.minimum_execution_time = value  # Use property setter (gets validation)
         return self
 
-    def with_nominal_execution_time(self, value: Optional["MultidimensionalTime"]) -> MeasuredExecutionTime:
+    def with_nominal_execution_time(self, value: Optional[MultidimensionalTime]) -> MeasuredExecutionTime:
         """
         Set nominalExecutionTime and return self for chaining.
 
@@ -1061,15 +1076,15 @@ class SimulatedExecutionTime(ExecutionTime):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The maximum simulated execution time.
-        self._maximumExecutionTime: Optional["MultidimensionalTime"] = None
+        self._maximumExecutionTime: Optional[MultidimensionalTime] = None
 
     @property
-    def maximum_execution_time(self) -> Optional["MultidimensionalTime"]:
+    def maximum_execution_time(self) -> Optional[MultidimensionalTime]:
         """Get maximumExecutionTime (Pythonic accessor)."""
         return self._maximumExecutionTime
 
     @maximum_execution_time.setter
-    def maximum_execution_time(self, value: Optional["MultidimensionalTime"]) -> None:
+    def maximum_execution_time(self, value: Optional[MultidimensionalTime]) -> None:
         """
         Set maximumExecutionTime with validation.
 
@@ -1088,15 +1103,15 @@ class SimulatedExecutionTime(ExecutionTime):
                 f"maximumExecutionTime must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._maximumExecutionTime = value
-        self._minimumExecutionTime: Optional["MultidimensionalTime"] = None
+        self._minimumExecutionTime: Optional[MultidimensionalTime] = None
 
     @property
-    def minimum_execution_time(self) -> Optional["MultidimensionalTime"]:
+    def minimum_execution_time(self) -> Optional[MultidimensionalTime]:
         """Get minimumExecutionTime (Pythonic accessor)."""
         return self._minimumExecutionTime
 
     @minimum_execution_time.setter
-    def minimum_execution_time(self, value: Optional["MultidimensionalTime"]) -> None:
+    def minimum_execution_time(self, value: Optional[MultidimensionalTime]) -> None:
         """
         Set minimumExecutionTime with validation.
 
@@ -1115,15 +1130,15 @@ class SimulatedExecutionTime(ExecutionTime):
                 f"minimumExecutionTime must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._minimumExecutionTime = value
-        self._nominalExecutionTime: Optional["MultidimensionalTime"] = None
+        self._nominalExecutionTime: Optional[MultidimensionalTime] = None
 
     @property
-    def nominal_execution_time(self) -> Optional["MultidimensionalTime"]:
+    def nominal_execution_time(self) -> Optional[MultidimensionalTime]:
         """Get nominalExecutionTime (Pythonic accessor)."""
         return self._nominalExecutionTime
 
     @nominal_execution_time.setter
-    def nominal_execution_time(self, value: Optional["MultidimensionalTime"]) -> None:
+    def nominal_execution_time(self, value: Optional[MultidimensionalTime]) -> None:
         """
         Set nominalExecutionTime with validation.
 
@@ -1231,7 +1246,7 @@ class SimulatedExecutionTime(ExecutionTime):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_maximum_execution_time(self, value: Optional["MultidimensionalTime"]) -> SimulatedExecutionTime:
+    def with_maximum_execution_time(self, value: Optional[MultidimensionalTime]) -> SimulatedExecutionTime:
         """
         Set maximumExecutionTime and return self for chaining.
 
@@ -1247,7 +1262,7 @@ class SimulatedExecutionTime(ExecutionTime):
         self.maximum_execution_time = value  # Use property setter (gets validation)
         return self
 
-    def with_minimum_execution_time(self, value: Optional["MultidimensionalTime"]) -> SimulatedExecutionTime:
+    def with_minimum_execution_time(self, value: Optional[MultidimensionalTime]) -> SimulatedExecutionTime:
         """
         Set minimumExecutionTime and return self for chaining.
 
@@ -1263,7 +1278,7 @@ class SimulatedExecutionTime(ExecutionTime):
         self.minimum_execution_time = value  # Use property setter (gets validation)
         return self
 
-    def with_nominal_execution_time(self, value: Optional["MultidimensionalTime"]) -> SimulatedExecutionTime:
+    def with_nominal_execution_time(self, value: Optional[MultidimensionalTime]) -> SimulatedExecutionTime:
         """
         Set nominalExecutionTime and return self for chaining.
 
@@ -1323,15 +1338,15 @@ class RoughEstimateOfExecutionTime(ExecutionTime):
                 f"additional must be String or str or None, got {type(value).__name__}"
             )
         self._additional = value
-        self._estimatedExecutionTime: Optional["MultidimensionalTime"] = None
+        self._estimatedExecutionTime: Optional[MultidimensionalTime] = None
 
     @property
-    def estimated_execution_time(self) -> Optional["MultidimensionalTime"]:
+    def estimated_execution_time(self) -> Optional[MultidimensionalTime]:
         """Get estimatedExecutionTime (Pythonic accessor)."""
         return self._estimatedExecutionTime
 
     @estimated_execution_time.setter
-    def estimated_execution_time(self, value: Optional["MultidimensionalTime"]) -> None:
+    def estimated_execution_time(self, value: Optional[MultidimensionalTime]) -> None:
         """
         Set estimatedExecutionTime with validation.
 
@@ -1427,7 +1442,7 @@ class RoughEstimateOfExecutionTime(ExecutionTime):
         self.additional = value  # Use property setter (gets validation)
         return self
 
-    def with_estimated_execution_time(self, value: Optional["MultidimensionalTime"]) -> RoughEstimateOfExecutionTime:
+    def with_estimated_execution_time(self, value: Optional[MultidimensionalTime]) -> RoughEstimateOfExecutionTime:
         """
         Set estimatedExecutionTime and return self for chaining.
 

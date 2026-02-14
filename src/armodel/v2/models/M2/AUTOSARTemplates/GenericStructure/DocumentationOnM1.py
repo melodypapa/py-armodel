@@ -17,6 +17,8 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
+    Identifiable,
+    PredefinedChapter,
 )
 from armodel.v2.models.M2.MSR.Documentation.Chapters import PredefinedChapter
 
@@ -107,7 +109,7 @@ class Documentation(ARElement):
         """
         return self.context  # Delegates to property
 
-    def getDocumentation(self) -> "PredefinedChapter":
+    def getDocumentation(self) -> PredefinedChapter:
         """
         AUTOSAR-compliant getter for documentation.
 
@@ -119,7 +121,7 @@ class Documentation(ARElement):
         """
         return self.documentation  # Delegates to property
 
-    def setDocumentation(self, value: "PredefinedChapter") -> Documentation:
+    def setDocumentation(self, value: PredefinedChapter) -> Documentation:
         """
         AUTOSAR-compliant setter for documentation with method chaining.
 
@@ -173,15 +175,15 @@ class DocumentationContext(MultilanguageReferrable):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # which is the context of the documentation.
         # by: AnyInstanceRef.
-        self._feature: Optional[AtpFeature] = None
+        self._feature: Optional["AtpFeature"] = None
 
     @property
-    def feature(self) -> Optional[AtpFeature]:
+    def feature(self) -> Optional["AtpFeature"]:
         """Get feature (Pythonic accessor)."""
         return self._feature
 
     @feature.setter
-    def feature(self, value: Optional[AtpFeature]) -> None:
+    def feature(self, value: Optional["AtpFeature"]) -> None:
         """
         Set feature with validation.
 
@@ -230,7 +232,7 @@ class DocumentationContext(MultilanguageReferrable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getFeature(self) -> AtpFeature:
+    def getFeature(self) -> "AtpFeature":
         """
         AUTOSAR-compliant getter for feature.
 
@@ -242,7 +244,7 @@ class DocumentationContext(MultilanguageReferrable):
         """
         return self.feature  # Delegates to property
 
-    def setFeature(self, value: AtpFeature) -> DocumentationContext:
+    def setFeature(self, value: "AtpFeature") -> DocumentationContext:
         """
         AUTOSAR-compliant setter for feature with method chaining.
 
@@ -258,7 +260,7 @@ class DocumentationContext(MultilanguageReferrable):
         self.feature = value  # Delegates to property setter
         return self
 
-    def getIdentifiable(self) -> "Identifiable":
+    def getIdentifiable(self) -> Identifiable:
         """
         AUTOSAR-compliant getter for identifiable.
 
@@ -270,7 +272,7 @@ class DocumentationContext(MultilanguageReferrable):
         """
         return self.identifiable  # Delegates to property
 
-    def setIdentifiable(self, value: "Identifiable") -> DocumentationContext:
+    def setIdentifiable(self, value: Identifiable) -> DocumentationContext:
         """
         AUTOSAR-compliant setter for identifiable with method chaining.
 
@@ -288,7 +290,7 @@ class DocumentationContext(MultilanguageReferrable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_feature(self, value: Optional[AtpFeature]) -> DocumentationContext:
+    def with_feature(self, value: Optional["AtpFeature"]) -> DocumentationContext:
         """
         Set feature and return self for chaining.
 

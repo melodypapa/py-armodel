@@ -18,6 +18,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
+    DiagnosticDataIdentifier,
     PositiveInteger,
 )
 
@@ -231,7 +232,7 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
         """
         return self.control_enable  # Delegates to property
 
-    def getDataIdentifierIdentifier(self) -> "DiagnosticDataIdentifier":
+    def getDataIdentifierIdentifier(self) -> DiagnosticDataIdentifier:
         """
         AUTOSAR-compliant getter for dataIdentifierIdentifier.
 
@@ -243,7 +244,7 @@ class DiagnosticIOControl(DiagnosticServiceInstance):
         """
         return self.data_identifier_identifier  # Delegates to property
 
-    def setDataIdentifierIdentifier(self, value: "DiagnosticDataIdentifier") -> DiagnosticIOControl:
+    def setDataIdentifierIdentifier(self, value: DiagnosticDataIdentifier) -> DiagnosticIOControl:
         """
         AUTOSAR-compliant setter for dataIdentifierIdentifier with method chaining.
 

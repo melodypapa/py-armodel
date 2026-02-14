@@ -384,7 +384,7 @@ class CryptoServiceCertificate(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAlgorithmFamily(self) -> "CryptoCertificate":
+    def getAlgorithmFamily(self) -> CryptoCertificate:
         """
         AUTOSAR-compliant getter for algorithmFamily.
 
@@ -396,7 +396,7 @@ class CryptoServiceCertificate(ARElement):
         """
         return self.algorithm_family  # Delegates to property
 
-    def setAlgorithmFamily(self, value: "CryptoCertificate") -> CryptoServiceCertificate:
+    def setAlgorithmFamily(self, value: CryptoCertificate) -> CryptoServiceCertificate:
         """
         AUTOSAR-compliant setter for algorithmFamily with method chaining.
 
@@ -412,7 +412,7 @@ class CryptoServiceCertificate(ARElement):
         self.algorithm_family = value  # Delegates to property setter
         return self
 
-    def getFormat(self) -> "CryptoCertificateFormat":
+    def getFormat(self) -> CryptoCertificateFormat:
         """
         AUTOSAR-compliant getter for format.
 
@@ -424,7 +424,7 @@ class CryptoServiceCertificate(ARElement):
         """
         return self.format  # Delegates to property
 
-    def setFormat(self, value: "CryptoCertificateFormat") -> CryptoServiceCertificate:
+    def setFormat(self, value: CryptoCertificateFormat) -> CryptoServiceCertificate:
         """
         AUTOSAR-compliant setter for format with method chaining.
 
@@ -468,7 +468,7 @@ class CryptoServiceCertificate(ARElement):
         self.maximum = value  # Delegates to property setter
         return self
 
-    def getNextHigher(self) -> "CryptoService":
+    def getNextHigher(self) -> CryptoService:
         """
         AUTOSAR-compliant getter for nextHigher.
 
@@ -480,7 +480,7 @@ class CryptoServiceCertificate(ARElement):
         """
         return self.next_higher  # Delegates to property
 
-    def setNextHigher(self, value: "CryptoService") -> CryptoServiceCertificate:
+    def setNextHigher(self, value: CryptoService) -> CryptoServiceCertificate:
         """
         AUTOSAR-compliant setter for nextHigher with method chaining.
 
@@ -1083,7 +1083,7 @@ class MacSecLocalKayProps(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDestinationMac(self) -> "MacAddressString":
+    def getDestinationMac(self) -> MacAddressString:
         """
         AUTOSAR-compliant getter for destinationMac.
 
@@ -1095,7 +1095,7 @@ class MacSecLocalKayProps(ARObject):
         """
         return self.destination_mac  # Delegates to property
 
-    def setDestinationMac(self, value: "MacAddressString") -> MacSecLocalKayProps:
+    def setDestinationMac(self, value: MacAddressString) -> MacSecLocalKayProps:
         """
         AUTOSAR-compliant setter for destinationMac with method chaining.
 
@@ -1111,7 +1111,7 @@ class MacSecLocalKayProps(ARObject):
         self.destination_mac = value  # Delegates to property setter
         return self
 
-    def getGlobalKayProps(self) -> "MacSecGlobalKay":
+    def getGlobalKayProps(self) -> MacSecGlobalKay:
         """
         AUTOSAR-compliant getter for globalKayProps.
 
@@ -1123,7 +1123,7 @@ class MacSecLocalKayProps(ARObject):
         """
         return self.global_kay_props  # Delegates to property
 
-    def setGlobalKayProps(self, value: "MacSecGlobalKay") -> MacSecLocalKayProps:
+    def setGlobalKayProps(self, value: MacSecGlobalKay) -> MacSecLocalKayProps:
         """
         AUTOSAR-compliant setter for globalKayProps with method chaining.
 
@@ -1207,7 +1207,7 @@ class MacSecLocalKayProps(ARObject):
         self.role = value  # Delegates to property setter
         return self
 
-    def getSourceMac(self) -> "MacAddressString":
+    def getSourceMac(self) -> MacAddressString:
         """
         AUTOSAR-compliant getter for sourceMac.
 
@@ -1219,7 +1219,7 @@ class MacSecLocalKayProps(ARObject):
         """
         return self.source_mac  # Delegates to property
 
-    def setSourceMac(self, value: "MacAddressString") -> MacSecLocalKayProps:
+    def setSourceMac(self, value: MacAddressString) -> MacSecLocalKayProps:
         """
         AUTOSAR-compliant setter for sourceMac with method chaining.
 
@@ -1716,7 +1716,7 @@ class MacSecKayParticipant(Identifiable):
         self.ckn = value  # Delegates to property setter
         return self
 
-    def getCryptoAlgo(self) -> "MacSecCryptoAlgo":
+    def getCryptoAlgo(self) -> MacSecCryptoAlgo:
         """
         AUTOSAR-compliant getter for cryptoAlgo.
 
@@ -1728,7 +1728,7 @@ class MacSecKayParticipant(Identifiable):
         """
         return self.crypto_algo  # Delegates to property
 
-    def setCryptoAlgo(self, value: "MacSecCryptoAlgo") -> MacSecKayParticipant:
+    def setCryptoAlgo(self, value: MacSecCryptoAlgo) -> MacSecKayParticipant:
         """
         AUTOSAR-compliant setter for cryptoAlgo with method chaining.
 
@@ -2005,7 +2005,7 @@ class MacSecCryptoAlgoConfig(ARObject):
         self.cipher_suite = value  # Delegates to property setter
         return self
 
-    def getConfidentiality(self) -> "MacSecConfidentiality":
+    def getConfidentiality(self) -> MacSecConfidentiality:
         """
         AUTOSAR-compliant getter for confidentiality.
 
@@ -2017,7 +2017,7 @@ class MacSecCryptoAlgoConfig(ARObject):
         """
         return self.confidentiality  # Delegates to property
 
-    def setConfidentiality(self, value: "MacSecConfidentiality") -> MacSecCryptoAlgoConfig:
+    def setConfidentiality(self, value: MacSecConfidentiality) -> MacSecCryptoAlgoConfig:
         """
         AUTOSAR-compliant setter for confidentiality with method chaining.
 
@@ -2674,7 +2674,7 @@ class CryptoServiceKey(ARElement):
         self.algorithm_family = value  # Delegates to property setter
         return self
 
-    def getDevelopment(self) -> "ValueSpecification":
+    def getDevelopment(self) -> ValueSpecification:
         """
         AUTOSAR-compliant getter for development.
 
@@ -2686,7 +2686,7 @@ class CryptoServiceKey(ARElement):
         """
         return self.development  # Delegates to property
 
-    def setDevelopment(self, value: "ValueSpecification") -> CryptoServiceKey:
+    def setDevelopment(self, value: ValueSpecification) -> CryptoServiceKey:
         """
         AUTOSAR-compliant setter for development with method chaining.
 
@@ -3304,7 +3304,7 @@ class TlsCryptoCipherSuite(Identifiable):
         self.authentication = value  # Delegates to property setter
         return self
 
-    def getCertificate(self) -> "CryptoService":
+    def getCertificate(self) -> CryptoService:
         """
         AUTOSAR-compliant getter for certificate.
 
@@ -3316,7 +3316,7 @@ class TlsCryptoCipherSuite(Identifiable):
         """
         return self.certificate  # Delegates to property
 
-    def setCertificate(self, value: "CryptoService") -> TlsCryptoCipherSuite:
+    def setCertificate(self, value: CryptoService) -> TlsCryptoCipherSuite:
         """
         AUTOSAR-compliant setter for certificate with method chaining.
 
@@ -3524,7 +3524,7 @@ class TlsCryptoCipherSuite(Identifiable):
         self.psk_identity = value  # Delegates to property setter
         return self
 
-    def getRemote(self) -> "CryptoService":
+    def getRemote(self) -> CryptoService:
         """
         AUTOSAR-compliant getter for remote.
 
@@ -3536,7 +3536,7 @@ class TlsCryptoCipherSuite(Identifiable):
         """
         return self.remote  # Delegates to property
 
-    def setRemote(self, value: "CryptoService") -> TlsCryptoCipherSuite:
+    def setRemote(self, value: CryptoService) -> TlsCryptoCipherSuite:
         """
         AUTOSAR-compliant setter for remote with method chaining.
 

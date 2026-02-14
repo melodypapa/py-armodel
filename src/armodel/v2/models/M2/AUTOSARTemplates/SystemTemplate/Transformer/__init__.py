@@ -2022,15 +2022,15 @@ class TransformationISignalProps(ARObject, ABC):
         # Defines whether the transformer chain of client/server coordinates an
         # autonomous error reaction the RTE or whether any error reaction is the the
         # application.
-        self._csErrorReaction: Optional[CSTransformerError] = None
+        self._csErrorReaction: Optional["CSTransformerError"] = None
 
     @property
-    def cs_error_reaction(self) -> Optional[CSTransformerError]:
+    def cs_error_reaction(self) -> Optional["CSTransformerError"]:
         """Get csErrorReaction (Pythonic accessor)."""
         return self._csErrorReaction
 
     @cs_error_reaction.setter
-    def cs_error_reaction(self, value: Optional[CSTransformerError]) -> None:
+    def cs_error_reaction(self, value: Optional["CSTransformerError"]) -> None:
         """
         Set csErrorReaction with validation.
 
@@ -2090,7 +2090,7 @@ class TransformationISignalProps(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCsErrorReaction(self) -> CSTransformerError:
+    def getCsErrorReaction(self) -> "CSTransformerError":
         """
         AUTOSAR-compliant getter for csErrorReaction.
 
@@ -2102,7 +2102,7 @@ class TransformationISignalProps(ARObject, ABC):
         """
         return self.cs_error_reaction  # Delegates to property
 
-    def setCsErrorReaction(self, value: CSTransformerError) -> TransformationISignalProps:
+    def setCsErrorReaction(self, value: "CSTransformerError") -> TransformationISignalProps:
         """
         AUTOSAR-compliant setter for csErrorReaction with method chaining.
 
@@ -2160,7 +2160,7 @@ class TransformationISignalProps(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_cs_error_reaction(self, value: Optional[CSTransformerError]) -> TransformationISignalProps:
+    def with_cs_error_reaction(self, value: Optional["CSTransformerError"]) -> TransformationISignalProps:
         """
         Set csErrorReaction and return self for chaining.
 
@@ -2933,15 +2933,15 @@ class DataPrototypeTransformationProps(ARObject):
                 # DataPrototype.
         # If a network is provided then the baseType shall be the Transformer as input
                 # for the serialization/.
-        self._network: Optional[SwDataDefProps] = None
+        self._network: Optional["SwDataDefProps"] = None
 
     @property
-    def network(self) -> Optional[SwDataDefProps]:
+    def network(self) -> Optional["SwDataDefProps"]:
         """Get network (Pythonic accessor)."""
         return self._network
 
     @network.setter
-    def network(self, value: Optional[SwDataDefProps]) -> None:
+    def network(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set network with validation.
 
@@ -3019,7 +3019,7 @@ class DataPrototypeTransformationProps(ARObject):
         self.data_prototype_in = value  # Delegates to property setter
         return self
 
-    def getNetwork(self) -> SwDataDefProps:
+    def getNetwork(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for network.
 
@@ -3031,7 +3031,7 @@ class DataPrototypeTransformationProps(ARObject):
         """
         return self.network  # Delegates to property
 
-    def setNetwork(self, value: SwDataDefProps) -> DataPrototypeTransformationProps:
+    def setNetwork(self, value: "SwDataDefProps") -> DataPrototypeTransformationProps:
         """
         AUTOSAR-compliant setter for network with method chaining.
 
@@ -3093,7 +3093,7 @@ class DataPrototypeTransformationProps(ARObject):
         self.data_prototype_in = value  # Use property setter (gets validation)
         return self
 
-    def with_network(self, value: Optional[SwDataDefProps]) -> DataPrototypeTransformationProps:
+    def with_network(self, value: Optional["SwDataDefProps"]) -> DataPrototypeTransformationProps:
         """
         Set network and return self for chaining.
 
@@ -3667,15 +3667,15 @@ class TlvDataIdDefinition(ARObject):
         self._tlvArgument = value
         # This reference associates the definition of a TLV data id with a given
         # AbstractImplementationDataTypeElement.
-        self._tlv: Optional[AbstractImplementation] = None
+        self._tlv: Optional["AbstractImplementation"] = None
 
     @property
-    def tlv(self) -> Optional[AbstractImplementation]:
+    def tlv(self) -> Optional["AbstractImplementation"]:
         """Get tlv (Pythonic accessor)."""
         return self._tlv
 
     @tlv.setter
-    def tlv(self, value: Optional[AbstractImplementation]) -> None:
+    def tlv(self, value: Optional["AbstractImplementation"]) -> None:
         """
         Set tlv with validation.
 
@@ -3696,15 +3696,15 @@ class TlvDataIdDefinition(ARObject):
         self._tlv = value
         # This reference associates the definition of a TLV data id with a given
         # ApplicationRecordElement.
-        self._tlvRecord: Optional[ApplicationRecord] = None
+        self._tlvRecord: Optional["ApplicationRecord"] = None
 
     @property
-    def tlv_record(self) -> Optional[ApplicationRecord]:
+    def tlv_record(self) -> Optional["ApplicationRecord"]:
         """Get tlvRecord (Pythonic accessor)."""
         return self._tlvRecord
 
     @tlv_record.setter
-    def tlv_record(self, value: Optional[ApplicationRecord]) -> None:
+    def tlv_record(self, value: Optional["ApplicationRecord"]) -> None:
         """
         Set tlvRecord with validation.
 
@@ -3782,7 +3782,7 @@ class TlvDataIdDefinition(ARObject):
         self.tlv_argument = value  # Delegates to property setter
         return self
 
-    def getTlv(self) -> AbstractImplementation:
+    def getTlv(self) -> "AbstractImplementation":
         """
         AUTOSAR-compliant getter for tlv.
 
@@ -3794,7 +3794,7 @@ class TlvDataIdDefinition(ARObject):
         """
         return self.tlv  # Delegates to property
 
-    def setTlv(self, value: AbstractImplementation) -> TlvDataIdDefinition:
+    def setTlv(self, value: "AbstractImplementation") -> TlvDataIdDefinition:
         """
         AUTOSAR-compliant setter for tlv with method chaining.
 
@@ -3810,7 +3810,7 @@ class TlvDataIdDefinition(ARObject):
         self.tlv = value  # Delegates to property setter
         return self
 
-    def getTlvRecord(self) -> ApplicationRecord:
+    def getTlvRecord(self) -> "ApplicationRecord":
         """
         AUTOSAR-compliant getter for tlvRecord.
 
@@ -3822,7 +3822,7 @@ class TlvDataIdDefinition(ARObject):
         """
         return self.tlv_record  # Delegates to property
 
-    def setTlvRecord(self, value: ApplicationRecord) -> TlvDataIdDefinition:
+    def setTlvRecord(self, value: "ApplicationRecord") -> TlvDataIdDefinition:
         """
         AUTOSAR-compliant setter for tlvRecord with method chaining.
 
@@ -3872,7 +3872,7 @@ class TlvDataIdDefinition(ARObject):
         self.tlv_argument = value  # Use property setter (gets validation)
         return self
 
-    def with_tlv(self, value: Optional[AbstractImplementation]) -> TlvDataIdDefinition:
+    def with_tlv(self, value: Optional["AbstractImplementation"]) -> TlvDataIdDefinition:
         """
         Set tlv and return self for chaining.
 
@@ -3888,7 +3888,7 @@ class TlvDataIdDefinition(ARObject):
         self.tlv = value  # Use property setter (gets validation)
         return self
 
-    def with_tlv_record(self, value: Optional[ApplicationRecord]) -> TlvDataIdDefinition:
+    def with_tlv_record(self, value: Optional["ApplicationRecord"]) -> TlvDataIdDefinition:
         """
         Set tlvRecord and return self for chaining.
 
@@ -4813,7 +4813,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         self.profile_behavior_behavior_enum = value  # Delegates to property setter
         return self
 
-    def getProfileName(self) -> "NameToken":
+    def getProfileName(self) -> NameToken:
         """
         AUTOSAR-compliant getter for profileName.
 
@@ -4825,7 +4825,7 @@ class EndToEndTransformationDescription(TransformationDescription):
         """
         return self.profile_name  # Delegates to property
 
-    def setProfileName(self, value: "NameToken") -> EndToEndTransformationDescription:
+    def setProfileName(self, value: NameToken) -> EndToEndTransformationDescription:
         """
         AUTOSAR-compliant setter for profileName with method chaining.
 
@@ -5311,15 +5311,15 @@ class SOMEIPTransformationDescription(TransformationDescription):
             )
         self._alignment = value
         # Defines which byte order shall be serialized by the.
-        self._byteOrder: Optional[ByteOrderEnum] = None
+        self._byteOrder: Optional["ByteOrderEnum"] = None
 
     @property
-    def byte_order(self) -> Optional[ByteOrderEnum]:
+    def byte_order(self) -> Optional["ByteOrderEnum"]:
         """Get byteOrder (Pythonic accessor)."""
         return self._byteOrder
 
     @byte_order.setter
-    def byte_order(self, value: Optional[ByteOrderEnum]) -> None:
+    def byte_order(self, value: Optional["ByteOrderEnum"]) -> None:
         """
         Set byteOrder with validation.
 
@@ -5397,7 +5397,7 @@ class SOMEIPTransformationDescription(TransformationDescription):
         self.alignment = value  # Delegates to property setter
         return self
 
-    def getByteOrder(self) -> ByteOrderEnum:
+    def getByteOrder(self) -> "ByteOrderEnum":
         """
         AUTOSAR-compliant getter for byteOrder.
 
@@ -5409,7 +5409,7 @@ class SOMEIPTransformationDescription(TransformationDescription):
         """
         return self.byte_order  # Delegates to property
 
-    def setByteOrder(self, value: ByteOrderEnum) -> SOMEIPTransformationDescription:
+    def setByteOrder(self, value: "ByteOrderEnum") -> SOMEIPTransformationDescription:
         """
         AUTOSAR-compliant setter for byteOrder with method chaining.
 
@@ -5471,7 +5471,7 @@ class SOMEIPTransformationDescription(TransformationDescription):
         self.alignment = value  # Use property setter (gets validation)
         return self
 
-    def with_byte_order(self, value: Optional[ByteOrderEnum]) -> SOMEIPTransformationDescription:
+    def with_byte_order(self, value: Optional["ByteOrderEnum"]) -> SOMEIPTransformationDescription:
         """
         Set byteOrder and return self for chaining.
 

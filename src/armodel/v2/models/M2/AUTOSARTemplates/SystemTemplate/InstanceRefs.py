@@ -30,15 +30,15 @@ class ComponentInSystemInstanceRef(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Stereotypes: atpDerived.
-        self._base: Optional[System] = None
+        self._base: Optional["System"] = None
 
     @property
-    def base(self) -> Optional[System]:
+    def base(self) -> Optional["System"]:
         """Get base (Pythonic accessor)."""
         return self._base
 
     @base.setter
-    def base(self, value: Optional[System]) -> None:
+    def base(self, value: Optional["System"]) -> None:
         """
         Set base with validation.
 
@@ -112,7 +112,7 @@ class ComponentInSystemInstanceRef(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBase(self) -> System:
+    def getBase(self) -> "System":
         """
         AUTOSAR-compliant getter for base.
 
@@ -124,7 +124,7 @@ class ComponentInSystemInstanceRef(ARObject):
         """
         return self.base  # Delegates to property
 
-    def setBase(self, value: System) -> ComponentInSystemInstanceRef:
+    def setBase(self, value: "System") -> ComponentInSystemInstanceRef:
         """
         AUTOSAR-compliant setter for base with method chaining.
 
@@ -198,7 +198,7 @@ class ComponentInSystemInstanceRef(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base(self, value: Optional[System]) -> ComponentInSystemInstanceRef:
+    def with_base(self, value: Optional["System"]) -> ComponentInSystemInstanceRef:
         """
         Set base and return self for chaining.
 
@@ -261,15 +261,15 @@ class OperationInSystemInstanceRef(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Stereotypes: atpDerived.
-        self._base: Optional[System] = None
+        self._base: Optional["System"] = None
 
     @property
-    def base(self) -> Optional[System]:
+    def base(self) -> Optional["System"]:
         """Get base (Pythonic accessor)."""
         return self._base
 
     @base.setter
-    def base(self, value: Optional[System]) -> None:
+    def base(self, value: Optional["System"]) -> None:
         """
         Set base with validation.
 
@@ -337,15 +337,15 @@ class OperationInSystemInstanceRef(ARObject):
         """
         self._contextPort = value
         # sequenceOffset=50.
-        self._targetOperation: Optional[ClientServerOperation] = None
+        self._targetOperation: Optional["ClientServerOperation"] = None
 
     @property
-    def target_operation(self) -> Optional[ClientServerOperation]:
+    def target_operation(self) -> Optional["ClientServerOperation"]:
         """Get targetOperation (Pythonic accessor)."""
         return self._targetOperation
 
     @target_operation.setter
-    def target_operation(self, value: Optional[ClientServerOperation]) -> None:
+    def target_operation(self, value: Optional["ClientServerOperation"]) -> None:
         """
         Set targetOperation with validation.
 
@@ -367,7 +367,7 @@ class OperationInSystemInstanceRef(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBase(self) -> System:
+    def getBase(self) -> "System":
         """
         AUTOSAR-compliant getter for base.
 
@@ -379,7 +379,7 @@ class OperationInSystemInstanceRef(ARObject):
         """
         return self.base  # Delegates to property
 
-    def setBase(self, value: System) -> OperationInSystemInstanceRef:
+    def setBase(self, value: "System") -> OperationInSystemInstanceRef:
         """
         AUTOSAR-compliant setter for base with method chaining.
 
@@ -451,7 +451,7 @@ class OperationInSystemInstanceRef(ARObject):
         self.context_port = value  # Delegates to property setter
         return self
 
-    def getTargetOperation(self) -> ClientServerOperation:
+    def getTargetOperation(self) -> "ClientServerOperation":
         """
         AUTOSAR-compliant getter for targetOperation.
 
@@ -463,7 +463,7 @@ class OperationInSystemInstanceRef(ARObject):
         """
         return self.target_operation  # Delegates to property
 
-    def setTargetOperation(self, value: ClientServerOperation) -> OperationInSystemInstanceRef:
+    def setTargetOperation(self, value: "ClientServerOperation") -> OperationInSystemInstanceRef:
         """
         AUTOSAR-compliant setter for targetOperation with method chaining.
 
@@ -481,7 +481,7 @@ class OperationInSystemInstanceRef(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base(self, value: Optional[System]) -> OperationInSystemInstanceRef:
+    def with_base(self, value: Optional["System"]) -> OperationInSystemInstanceRef:
         """
         Set base and return self for chaining.
 
@@ -529,7 +529,7 @@ class OperationInSystemInstanceRef(ARObject):
         self.context_port = value  # Use property setter (gets validation)
         return self
 
-    def with_target_operation(self, value: Optional[ClientServerOperation]) -> OperationInSystemInstanceRef:
+    def with_target_operation(self, value: Optional["ClientServerOperation"]) -> OperationInSystemInstanceRef:
         """
         Set targetOperation and return self for chaining.
 
@@ -560,15 +560,15 @@ class VariableDataPrototypeInSystemInstanceRef(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Stereotypes: atpDerived.
-        self._base: Optional[System] = None
+        self._base: Optional["System"] = None
 
     @property
-    def base(self) -> Optional[System]:
+    def base(self) -> Optional["System"]:
         """Get base (Pythonic accessor)."""
         return self._base
 
     @base.setter
-    def base(self, value: Optional[System]) -> None:
+    def base(self, value: Optional["System"]) -> None:
         """
         Set base with validation.
 
@@ -656,7 +656,7 @@ class VariableDataPrototypeInSystemInstanceRef(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBase(self) -> System:
+    def getBase(self) -> "System":
         """
         AUTOSAR-compliant getter for base.
 
@@ -668,7 +668,7 @@ class VariableDataPrototypeInSystemInstanceRef(ARObject):
         """
         return self.base  # Delegates to property
 
-    def setBase(self, value: System) -> VariableDataPrototypeInSystemInstanceRef:
+    def setBase(self, value: "System") -> VariableDataPrototypeInSystemInstanceRef:
         """
         AUTOSAR-compliant setter for base with method chaining.
 
@@ -770,7 +770,7 @@ class VariableDataPrototypeInSystemInstanceRef(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base(self, value: Optional[System]) -> VariableDataPrototypeInSystemInstanceRef:
+    def with_base(self, value: Optional["System"]) -> VariableDataPrototypeInSystemInstanceRef:
         """
         Set base and return self for chaining.
 
@@ -849,15 +849,15 @@ class TriggerInSystemInstanceRef(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents that base of the InstanceRef.
-        self._base: Optional[System] = None
+        self._base: Optional["System"] = None
 
     @property
-    def base(self) -> Optional[System]:
+    def base(self) -> Optional["System"]:
         """Get base (Pythonic accessor)."""
         return self._base
 
     @base.setter
-    def base(self, value: Optional[System]) -> None:
+    def base(self, value: Optional["System"]) -> None:
         """
         Set base with validation.
 
@@ -949,7 +949,7 @@ class TriggerInSystemInstanceRef(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBase(self) -> System:
+    def getBase(self) -> "System":
         """
         AUTOSAR-compliant getter for base.
 
@@ -961,7 +961,7 @@ class TriggerInSystemInstanceRef(ARObject):
         """
         return self.base  # Delegates to property
 
-    def setBase(self, value: System) -> TriggerInSystemInstanceRef:
+    def setBase(self, value: "System") -> TriggerInSystemInstanceRef:
         """
         AUTOSAR-compliant setter for base with method chaining.
 
@@ -1063,7 +1063,7 @@ class TriggerInSystemInstanceRef(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base(self, value: Optional[System]) -> TriggerInSystemInstanceRef:
+    def with_base(self, value: Optional["System"]) -> TriggerInSystemInstanceRef:
         """
         Set base and return self for chaining.
 
@@ -1142,15 +1142,15 @@ class PortGroupInSystemInstanceRef(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Stereotypes: atpDerived.
-        self._base: Optional[System] = None
+        self._base: Optional["System"] = None
 
     @property
-    def base(self) -> Optional[System]:
+    def base(self) -> Optional["System"]:
         """Get base (Pythonic accessor)."""
         return self._base
 
     @base.setter
-    def base(self, value: Optional[System]) -> None:
+    def base(self, value: Optional["System"]) -> None:
         """
         Set base with validation.
 
@@ -1220,7 +1220,7 @@ class PortGroupInSystemInstanceRef(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBase(self) -> System:
+    def getBase(self) -> "System":
         """
         AUTOSAR-compliant getter for base.
 
@@ -1232,7 +1232,7 @@ class PortGroupInSystemInstanceRef(ARObject):
         """
         return self.base  # Delegates to property
 
-    def setBase(self, value: System) -> PortGroupInSystemInstanceRef:
+    def setBase(self, value: "System") -> PortGroupInSystemInstanceRef:
         """
         AUTOSAR-compliant setter for base with method chaining.
 
@@ -1306,7 +1306,7 @@ class PortGroupInSystemInstanceRef(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base(self, value: Optional[System]) -> PortGroupInSystemInstanceRef:
+    def with_base(self, value: Optional["System"]) -> PortGroupInSystemInstanceRef:
         """
         Set base and return self for chaining.
 

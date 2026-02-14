@@ -1526,7 +1526,7 @@ class SocketAddress(Identifiable):
         """
         return self.static_socket  # Delegates to property
 
-    def getUdpChecksum(self) -> "UdpChecksum":
+    def getUdpChecksum(self) -> UdpChecksum:
         """
         AUTOSAR-compliant getter for udpChecksum.
 
@@ -1538,7 +1538,7 @@ class SocketAddress(Identifiable):
         """
         return self.udp_checksum  # Delegates to property
 
-    def setUdpChecksum(self, value: "UdpChecksum") -> SocketAddress:
+    def setUdpChecksum(self, value: UdpChecksum) -> SocketAddress:
         """
         AUTOSAR-compliant setter for udpChecksum with method chaining.
 
@@ -2644,7 +2644,7 @@ class EventHandler(Identifiable):
         """
         return self.routing_group  # Delegates to property
 
-    def getSdServerConfig(self) -> "SdServerConfig":
+    def getSdServerConfig(self) -> SdServerConfig:
         """
         AUTOSAR-compliant getter for sdServerConfig.
 
@@ -2656,7 +2656,7 @@ class EventHandler(Identifiable):
         """
         return self.sd_server_config  # Delegates to property
 
-    def setSdServerConfig(self, value: "SdServerConfig") -> EventHandler:
+    def setSdServerConfig(self, value: SdServerConfig) -> EventHandler:
         """
         AUTOSAR-compliant setter for sdServerConfig with method chaining.
 
@@ -2672,7 +2672,7 @@ class EventHandler(Identifiable):
         self.sd_server_config = value  # Delegates to property setter
         return self
 
-    def getSdServerEg(self) -> "SomeipSdServerEvent":
+    def getSdServerEg(self) -> SomeipSdServerEvent:
         """
         AUTOSAR-compliant getter for sdServerEg.
 
@@ -2684,7 +2684,7 @@ class EventHandler(Identifiable):
         """
         return self.sd_server_eg  # Delegates to property
 
-    def setSdServerEg(self, value: "SomeipSdServerEvent") -> EventHandler:
+    def setSdServerEg(self, value: SomeipSdServerEvent) -> EventHandler:
         """
         AUTOSAR-compliant setter for sdServerEg with method chaining.
 
@@ -5074,7 +5074,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         self.event_multicast = value  # Delegates to property setter
         return self
 
-    def getInstance(self) -> "AnyServiceInstanceId":
+    def getInstance(self) -> AnyServiceInstanceId:
         """
         AUTOSAR-compliant getter for instance.
 
@@ -5086,7 +5086,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         """
         return self.instance  # Delegates to property
 
-    def setInstance(self, value: "AnyServiceInstanceId") -> ConsumedServiceInstance:
+    def setInstance(self, value: AnyServiceInstanceId) -> ConsumedServiceInstance:
         """
         AUTOSAR-compliant setter for instance with method chaining.
 
@@ -5158,7 +5158,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         self.minor_version = value  # Delegates to property setter
         return self
 
-    def getProvidedService(self) -> "ProvidedService":
+    def getProvidedService(self) -> ProvidedService:
         """
         AUTOSAR-compliant getter for providedService.
 
@@ -5170,7 +5170,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         """
         return self.provided_service  # Delegates to property
 
-    def setProvidedService(self, value: "ProvidedService") -> ConsumedServiceInstance:
+    def setProvidedService(self, value: ProvidedService) -> ConsumedServiceInstance:
         """
         AUTOSAR-compliant setter for providedService with method chaining.
 
@@ -5214,7 +5214,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         self.remote_unicast = value  # Delegates to property setter
         return self
 
-    def getSdClientConfig(self) -> "SdClientConfig":
+    def getSdClientConfig(self) -> SdClientConfig:
         """
         AUTOSAR-compliant getter for sdClientConfig.
 
@@ -5226,7 +5226,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         """
         return self.sd_client_config  # Delegates to property
 
-    def setSdClientConfig(self, value: "SdClientConfig") -> ConsumedServiceInstance:
+    def setSdClientConfig(self, value: SdClientConfig) -> ConsumedServiceInstance:
         """
         AUTOSAR-compliant setter for sdClientConfig with method chaining.
 
@@ -5242,7 +5242,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         self.sd_client_config = value  # Delegates to property setter
         return self
 
-    def getSdClientTimer(self) -> "SomeipSdClientService":
+    def getSdClientTimer(self) -> SomeipSdClientService:
         """
         AUTOSAR-compliant getter for sdClientTimer.
 
@@ -5254,7 +5254,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         """
         return self.sd_client_timer  # Delegates to property
 
-    def setSdClientTimer(self, value: "SomeipSdClientService") -> ConsumedServiceInstance:
+    def setSdClientTimer(self, value: SomeipSdClientService) -> ConsumedServiceInstance:
         """
         AUTOSAR-compliant setter for sdClientTimer with method chaining.
 
@@ -5298,7 +5298,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         self.service_identifier = value  # Delegates to property setter
         return self
 
-    def getVersionDriven(self) -> "ServiceVersion":
+    def getVersionDriven(self) -> ServiceVersion:
         """
         AUTOSAR-compliant getter for versionDriven.
 
@@ -5310,7 +5310,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         """
         return self.version_driven  # Delegates to property
 
-    def setVersionDriven(self, value: "ServiceVersion") -> ConsumedServiceInstance:
+    def setVersionDriven(self, value: ServiceVersion) -> ConsumedServiceInstance:
         """
         AUTOSAR-compliant setter for versionDriven with method chaining.
 
@@ -6027,7 +6027,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         """
         return self.remote_unicast  # Delegates to property
 
-    def getSdServerConfig(self) -> "SdServerConfig":
+    def getSdServerConfig(self) -> SdServerConfig:
         """
         AUTOSAR-compliant getter for sdServerConfig.
 
@@ -6039,7 +6039,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         """
         return self.sd_server_config  # Delegates to property
 
-    def setSdServerConfig(self, value: "SdServerConfig") -> ProvidedServiceInstance:
+    def setSdServerConfig(self, value: SdServerConfig) -> ProvidedServiceInstance:
         """
         AUTOSAR-compliant setter for sdServerConfig with method chaining.
 
@@ -6055,7 +6055,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         self.sd_server_config = value  # Delegates to property setter
         return self
 
-    def getSdServerTimer(self) -> "SomeipSdServer":
+    def getSdServerTimer(self) -> SomeipSdServer:
         """
         AUTOSAR-compliant getter for sdServerTimer.
 
@@ -6067,7 +6067,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         """
         return self.sd_server_timer  # Delegates to property
 
-    def setSdServerTimer(self, value: "SomeipSdServer") -> ProvidedServiceInstance:
+    def setSdServerTimer(self, value: SomeipSdServer) -> ProvidedServiceInstance:
         """
         AUTOSAR-compliant setter for sdServerTimer with method chaining.
 

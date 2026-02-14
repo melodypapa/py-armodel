@@ -106,7 +106,7 @@ class IncludedDataTypeSet(ARObject):
         """
         return self.data_type  # Delegates to property
 
-    def getLiteralPrefix(self) -> "Identifier":
+    def getLiteralPrefix(self) -> Identifier:
         """
         AUTOSAR-compliant getter for literalPrefix.
 
@@ -118,7 +118,7 @@ class IncludedDataTypeSet(ARObject):
         """
         return self.literal_prefix  # Delegates to property
 
-    def setLiteralPrefix(self, value: "Identifier") -> IncludedDataTypeSet:
+    def setLiteralPrefix(self, value: Identifier) -> IncludedDataTypeSet:
         """
         AUTOSAR-compliant setter for literalPrefix with method chaining.
 

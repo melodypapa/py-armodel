@@ -18,6 +18,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Identifier,
     RefType,
+    ServiceNeeds,
 )
 
 
@@ -131,7 +132,7 @@ class RoleBasedDataTypeAssignment(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getRole(self) -> "Identifier":
+    def getRole(self) -> Identifier:
         """
         AUTOSAR-compliant getter for role.
 
@@ -143,7 +144,7 @@ class RoleBasedDataTypeAssignment(ARObject):
         """
         return self.role  # Delegates to property
 
-    def setRole(self, value: "Identifier") -> RoleBasedDataTypeAssignment:
+    def setRole(self, value: Identifier) -> RoleBasedDataTypeAssignment:
         """
         AUTOSAR-compliant setter for role with method chaining.
 
@@ -332,7 +333,7 @@ class RoleBasedPortAssignment(ARObject):
         self.port_prototype = value  # Delegates to property setter
         return self
 
-    def getRole(self) -> "Identifier":
+    def getRole(self) -> Identifier:
         """
         AUTOSAR-compliant getter for role.
 
@@ -344,7 +345,7 @@ class RoleBasedPortAssignment(ARObject):
         """
         return self.role  # Delegates to property
 
-    def setRole(self, value: "Identifier") -> RoleBasedPortAssignment:
+    def setRole(self, value: Identifier) -> RoleBasedPortAssignment:
         """
         AUTOSAR-compliant setter for role with method chaining.
 
@@ -541,7 +542,7 @@ class SwcServiceDependency(ServiceDependency):
         self.represented_port = value  # Delegates to property setter
         return self
 
-    def getServiceNeeds(self) -> "ServiceNeeds":
+    def getServiceNeeds(self) -> ServiceNeeds:
         """
         AUTOSAR-compliant getter for serviceNeeds.
 
@@ -553,7 +554,7 @@ class SwcServiceDependency(ServiceDependency):
         """
         return self.service_needs  # Delegates to property
 
-    def setServiceNeeds(self, value: "ServiceNeeds") -> SwcServiceDependency:
+    def setServiceNeeds(self, value: ServiceNeeds) -> SwcServiceDependency:
         """
         AUTOSAR-compliant setter for serviceNeeds with method chaining.
 

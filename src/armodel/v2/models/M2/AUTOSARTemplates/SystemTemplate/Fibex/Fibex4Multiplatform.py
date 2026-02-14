@@ -37,15 +37,15 @@ class Gateway(FibexElement):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to one ECU instance that implements the.
-        self._ecu: Optional[EcuInstance] = None
+        self._ecu: Optional["EcuInstance"] = None
 
     @property
-    def ecu(self) -> Optional[EcuInstance]:
+    def ecu(self) -> Optional["EcuInstance"]:
         """Get ecu (Pythonic accessor)."""
         return self._ecu
 
     @ecu.setter
-    def ecu(self, value: Optional[EcuInstance]) -> None:
+    def ecu(self, value: Optional["EcuInstance"]) -> None:
         """
         Set ecu with validation.
 
@@ -145,7 +145,7 @@ class Gateway(FibexElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getEcu(self) -> EcuInstance:
+    def getEcu(self) -> "EcuInstance":
         """
         AUTOSAR-compliant getter for ecu.
 
@@ -157,7 +157,7 @@ class Gateway(FibexElement):
         """
         return self.ecu  # Delegates to property
 
-    def setEcu(self, value: EcuInstance) -> Gateway:
+    def setEcu(self, value: "EcuInstance") -> Gateway:
         """
         AUTOSAR-compliant setter for ecu with method chaining.
 
@@ -211,7 +211,7 @@ class Gateway(FibexElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_ecu(self, value: Optional[EcuInstance]) -> Gateway:
+    def with_ecu(self, value: Optional["EcuInstance"]) -> Gateway:
         """
         Set ecu and return self for chaining.
 
@@ -249,15 +249,15 @@ class FrameMapping(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents introductory documentation about the.
-        self._introduction: Optional[DocumentationBlock] = None
+        self._introduction: Optional["DocumentationBlock"] = None
 
     @property
-    def introduction(self) -> Optional[DocumentationBlock]:
+    def introduction(self) -> Optional["DocumentationBlock"]:
         """Get introduction (Pythonic accessor)."""
         return self._introduction
 
     @introduction.setter
-    def introduction(self, value: Optional[DocumentationBlock]) -> None:
+    def introduction(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set introduction with validation.
 
@@ -325,7 +325,7 @@ class FrameMapping(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getIntroduction(self) -> DocumentationBlock:
+    def getIntroduction(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for introduction.
 
@@ -337,7 +337,7 @@ class FrameMapping(ARObject):
         """
         return self.introduction  # Delegates to property
 
-    def setIntroduction(self, value: DocumentationBlock) -> FrameMapping:
+    def setIntroduction(self, value: "DocumentationBlock") -> FrameMapping:
         """
         AUTOSAR-compliant setter for introduction with method chaining.
 
@@ -411,7 +411,7 @@ class FrameMapping(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_introduction(self, value: Optional[DocumentationBlock]) -> FrameMapping:
+    def with_introduction(self, value: Optional["DocumentationBlock"]) -> FrameMapping:
         """
         Set introduction and return self for chaining.
 
@@ -476,15 +476,15 @@ class IPduMapping(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents introductory documentation about the.
-        self._introduction: Optional[DocumentationBlock] = None
+        self._introduction: Optional["DocumentationBlock"] = None
 
     @property
-    def introduction(self) -> Optional[DocumentationBlock]:
+    def introduction(self) -> Optional["DocumentationBlock"]:
         """Get introduction (Pythonic accessor)."""
         return self._introduction
 
     @introduction.setter
-    def introduction(self, value: Optional[DocumentationBlock]) -> None:
+    def introduction(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set introduction with validation.
 
@@ -608,7 +608,7 @@ class IPduMapping(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getIntroduction(self) -> DocumentationBlock:
+    def getIntroduction(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for introduction.
 
@@ -620,7 +620,7 @@ class IPduMapping(ARObject):
         """
         return self.introduction  # Delegates to property
 
-    def setIntroduction(self, value: DocumentationBlock) -> IPduMapping:
+    def setIntroduction(self, value: "DocumentationBlock") -> IPduMapping:
         """
         AUTOSAR-compliant setter for introduction with method chaining.
 
@@ -750,7 +750,7 @@ class IPduMapping(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_introduction(self, value: Optional[DocumentationBlock]) -> IPduMapping:
+    def with_introduction(self, value: Optional["DocumentationBlock"]) -> IPduMapping:
         """
         Set introduction and return self for chaining.
 
@@ -1209,15 +1209,15 @@ class ISignalMapping(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This represents introductory documentation about the.
-        self._introduction: Optional[DocumentationBlock] = None
+        self._introduction: Optional["DocumentationBlock"] = None
 
     @property
-    def introduction(self) -> Optional[DocumentationBlock]:
+    def introduction(self) -> Optional["DocumentationBlock"]:
         """Get introduction (Pythonic accessor)."""
         return self._introduction
 
     @introduction.setter
-    def introduction(self, value: Optional[DocumentationBlock]) -> None:
+    def introduction(self, value: Optional["DocumentationBlock"]) -> None:
         """
         Set introduction with validation.
 
@@ -1285,7 +1285,7 @@ class ISignalMapping(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getIntroduction(self) -> DocumentationBlock:
+    def getIntroduction(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for introduction.
 
@@ -1297,7 +1297,7 @@ class ISignalMapping(ARObject):
         """
         return self.introduction  # Delegates to property
 
-    def setIntroduction(self, value: DocumentationBlock) -> ISignalMapping:
+    def setIntroduction(self, value: "DocumentationBlock") -> ISignalMapping:
         """
         AUTOSAR-compliant setter for introduction with method chaining.
 
@@ -1371,7 +1371,7 @@ class ISignalMapping(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_introduction(self, value: Optional[DocumentationBlock]) -> ISignalMapping:
+    def with_introduction(self, value: Optional["DocumentationBlock"]) -> ISignalMapping:
         """
         Set introduction and return self for chaining.
 

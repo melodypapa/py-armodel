@@ -12,6 +12,12 @@ from typing import List, Optional
 from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
     DiagnosticCommonElement,
 )
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.Dcm.DiagnosticService.CommonService import (
+    DiagnosticServiceInstance,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticCommonProps import (
+    DiagnosticCommonProps,
+)
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement,
 )
@@ -20,6 +26,12 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     Boolean,
     NameToken,
     PositiveInteger,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import (
+    DiagnosticConnection,
+)
+from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
+    EcuInstance,
 )
 
 
@@ -43,15 +55,15 @@ class DiagnosticContributionSet(ARElement):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attribute represents a collection of diagnostic properties that are
         # shared among the entire Diagnostic.
-        self._common: Optional["DiagnosticCommon"] = None
+        self._common: Optional[DiagnosticCommonProps] = None
 
     @property
-    def common(self) -> Optional["DiagnosticCommon"]:
+    def common(self) -> Optional[DiagnosticCommonProps]:
         """Get common (Pythonic accessor)."""
         return self._common
 
     @common.setter
-    def common(self, value: Optional["DiagnosticCommon"]) -> None:
+    def common(self, value: Optional[DiagnosticCommonProps]) -> None:
         """
         Set common with validation.
 
@@ -65,17 +77,17 @@ class DiagnosticContributionSet(ARElement):
             self._common = None
             return
 
-        if not isinstance(value, DiagnosticCommon):
+        if not isinstance(value, DiagnosticCommonProps):
             raise TypeError(
-                f"common must be DiagnosticCommon or None, got {type(value).__name__}"
+                f"common must be DiagnosticCommonProps or None, got {type(value).__name__}"
             )
         self._common = value
         # DiagnosticContributionSet atpVariation 719 Document ID 673:
         # AUTOSAR_CP_TPS_DiagnosticExtractTemplate Template R23-11.
-        self._element: List["DiagnosticCommon"] = []
+        self._element: List[DiagnosticCommonProps] = []
 
     @property
-    def element(self) -> List["DiagnosticCommon"]:
+    def element(self) -> List[DiagnosticCommonProps]:
         """Get element (Pythonic accessor)."""
         return self._element
         # This represents the collection of DiagnosticServiceTables considered in the
@@ -153,7 +165,7 @@ class DiagnosticContributionSet(ARElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getCommon(self) -> "DiagnosticCommon":
+    def getCommon(self) -> DiagnosticCommonProps:
         """
         AUTOSAR-compliant getter for common.
 
@@ -165,7 +177,7 @@ class DiagnosticContributionSet(ARElement):
         """
         return self.common  # Delegates to property
 
-    def setCommon(self, value: "DiagnosticCommon") -> DiagnosticContributionSet:
+    def setCommon(self, value: DiagnosticCommonProps) -> DiagnosticContributionSet:
         """
         AUTOSAR-compliant setter for common with method chaining.
 
@@ -181,7 +193,7 @@ class DiagnosticContributionSet(ARElement):
         self.common = value  # Delegates to property setter
         return self
 
-    def getElement(self) -> List["DiagnosticCommon"]:
+    def getElement(self) -> List[DiagnosticCommonProps]:
         """
         AUTOSAR-compliant getter for element.
 
@@ -207,7 +219,7 @@ class DiagnosticContributionSet(ARElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_common(self, value: Optional["DiagnosticCommon"]) -> DiagnosticContributionSet:
+    def with_common(self, value: Optional[DiagnosticCommonProps]) -> DiagnosticContributionSet:
         """
         Set common and return self for chaining.
 
@@ -242,10 +254,10 @@ class DiagnosticProtocol(DiagnosticCommonElement):
         # This represents the collection of applicable Diagnostic for this
                 # DiagnosticProtocol.
         # atpVariation.
-        self._diagnostic: List["DiagnosticConnection"] = []
+        self._diagnostic: List[DiagnosticConnection] = []
 
     @property
-    def diagnostic(self) -> List["DiagnosticConnection"]:
+    def diagnostic(self) -> List[DiagnosticConnection]:
         """Get diagnostic (Pythonic accessor)."""
         return self._diagnostic
         # This represents the priority of the diagnostic protocol in other diagnostic
@@ -279,15 +291,15 @@ class DiagnosticProtocol(DiagnosticCommonElement):
                 f"priority must be PositiveInteger or str or None, got {type(value).__name__}"
             )
         self._priority = value
-        self._protocolKind: Optional["NameToken"] = None
+        self._protocolKind: Optional[NameToken] = None
 
     @property
-    def protocol_kind(self) -> Optional["NameToken"]:
+    def protocol_kind(self) -> Optional[NameToken]:
         """Get protocolKind (Pythonic accessor)."""
         return self._protocolKind
 
     @protocol_kind.setter
-    def protocol_kind(self, value: Optional["NameToken"]) -> None:
+    def protocol_kind(self, value: Optional[NameToken]) -> None:
         """
         Set protocolKind with validation.
 
@@ -366,7 +378,7 @@ class DiagnosticProtocol(DiagnosticCommonElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDiagnostic(self) -> List["DiagnosticConnection"]:
+    def getDiagnostic(self) -> List[DiagnosticConnection]:
         """
         AUTOSAR-compliant getter for diagnostic.
 
@@ -406,7 +418,7 @@ class DiagnosticProtocol(DiagnosticCommonElement):
         self.priority = value  # Delegates to property setter
         return self
 
-    def getProtocolKind(self) -> "NameToken":
+    def getProtocolKind(self) -> NameToken:
         """
         AUTOSAR-compliant getter for protocolKind.
 
@@ -418,7 +430,7 @@ class DiagnosticProtocol(DiagnosticCommonElement):
         """
         return self.protocol_kind  # Delegates to property
 
-    def setProtocolKind(self, value: "NameToken") -> DiagnosticProtocol:
+    def setProtocolKind(self, value: NameToken) -> DiagnosticProtocol:
         """
         AUTOSAR-compliant setter for protocolKind with method chaining.
 
@@ -508,7 +520,7 @@ class DiagnosticProtocol(DiagnosticCommonElement):
         self.priority = value  # Use property setter (gets validation)
         return self
 
-    def with_protocol_kind(self, value: Optional["NameToken"]) -> DiagnosticProtocol:
+    def with_protocol_kind(self, value: Optional[NameToken]) -> DiagnosticProtocol:
         """
         Set protocolKind and return self for chaining.
 
@@ -610,15 +622,15 @@ class DiagnosticServiceTable(DiagnosticCommonElement):
                 f"ecuInstance must be EcuInstance or None, got {type(value).__name__}"
             )
         self._ecuInstance = value
-        self._protocolKind: Optional["NameToken"] = None
+        self._protocolKind: Optional[NameToken] = None
 
     @property
-    def protocol_kind(self) -> Optional["NameToken"]:
+    def protocol_kind(self) -> Optional[NameToken]:
         """Get protocolKind (Pythonic accessor)."""
         return self._protocolKind
 
     @protocol_kind.setter
-    def protocol_kind(self, value: Optional["NameToken"]) -> None:
+    def protocol_kind(self, value: Optional[NameToken]) -> None:
         """
         Set protocolKind with validation.
 
@@ -638,16 +650,16 @@ class DiagnosticServiceTable(DiagnosticCommonElement):
             )
         self._protocolKind = value
         # scope of this Diagnostic.
-        self._serviceInstance: List[DiagnosticService] = []
+        self._serviceInstance: List[DiagnosticServiceInstance] = []
 
     @property
-    def service_instance(self) -> List[DiagnosticService]:
+    def service_instance(self) -> List[DiagnosticServiceInstance]:
         """Get serviceInstance (Pythonic accessor)."""
         return self._serviceInstance
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDiagnostic(self) -> List["DiagnosticConnection"]:
+    def getDiagnostic(self) -> List[DiagnosticConnection]:
         """
         AUTOSAR-compliant getter for diagnostic.
 
@@ -687,7 +699,7 @@ class DiagnosticServiceTable(DiagnosticCommonElement):
         self.ecu_instance = value  # Delegates to property setter
         return self
 
-    def getProtocolKind(self) -> "NameToken":
+    def getProtocolKind(self) -> NameToken:
         """
         AUTOSAR-compliant getter for protocolKind.
 
@@ -699,7 +711,7 @@ class DiagnosticServiceTable(DiagnosticCommonElement):
         """
         return self.protocol_kind  # Delegates to property
 
-    def setProtocolKind(self, value: "NameToken") -> DiagnosticServiceTable:
+    def setProtocolKind(self, value: NameToken) -> DiagnosticServiceTable:
         """
         AUTOSAR-compliant setter for protocolKind with method chaining.
 
@@ -715,7 +727,7 @@ class DiagnosticServiceTable(DiagnosticCommonElement):
         self.protocol_kind = value  # Delegates to property setter
         return self
 
-    def getServiceInstance(self) -> List[DiagnosticService]:
+    def getServiceInstance(self) -> List[DiagnosticServiceInstance]:
         """
         AUTOSAR-compliant getter for serviceInstance.
 
@@ -745,7 +757,7 @@ class DiagnosticServiceTable(DiagnosticCommonElement):
         self.ecu_instance = value  # Use property setter (gets validation)
         return self
 
-    def with_protocol_kind(self, value: Optional["NameToken"]) -> DiagnosticServiceTable:
+    def with_protocol_kind(self, value: Optional[NameToken]) -> DiagnosticServiceTable:
         """
         Set protocolKind and return self for chaining.
 
@@ -791,15 +803,15 @@ class DiagnosticEcuInstanceProps(DiagnosticCommonElement):
         return self._ecuInstance
         # This attribute is used to specify the role (if applicable) in the
         # DiagnosticEcuInstance supports OBD.
-        self._obdSupport: Optional["DiagnosticObdSupport"] = None
+        self._obdSupport: Optional[DiagnosticObdSupportEnum] = None
 
     @property
-    def obd_support(self) -> Optional["DiagnosticObdSupport"]:
+    def obd_support(self) -> Optional[DiagnosticObdSupportEnum]:
         """Get obdSupport (Pythonic accessor)."""
         return self._obdSupport
 
     @obd_support.setter
-    def obd_support(self, value: Optional["DiagnosticObdSupport"]) -> None:
+    def obd_support(self, value: Optional[DiagnosticObdSupportEnum]) -> None:
         """
         Set obdSupport with validation.
 
@@ -813,9 +825,9 @@ class DiagnosticEcuInstanceProps(DiagnosticCommonElement):
             self._obdSupport = None
             return
 
-        if not isinstance(value, DiagnosticObdSupport):
+        if not isinstance(value, DiagnosticObdSupportEnum):
             raise TypeError(
-                f"obdSupport must be DiagnosticObdSupport or None, got {type(value).__name__}"
+                f"obdSupport must be DiagnosticObdSupportEnum or None, got {type(value).__name__}"
             )
         self._obdSupport = value
 
@@ -833,7 +845,7 @@ class DiagnosticEcuInstanceProps(DiagnosticCommonElement):
         """
         return self.ecu_instance  # Delegates to property
 
-    def getObdSupport(self) -> "DiagnosticObdSupport":
+    def getObdSupport(self) -> DiagnosticObdSupportEnum:
         """
         AUTOSAR-compliant getter for obdSupport.
 
@@ -845,7 +857,7 @@ class DiagnosticEcuInstanceProps(DiagnosticCommonElement):
         """
         return self.obd_support  # Delegates to property
 
-    def setObdSupport(self, value: "DiagnosticObdSupport") -> DiagnosticEcuInstanceProps:
+    def setObdSupport(self, value: DiagnosticObdSupportEnum) -> DiagnosticEcuInstanceProps:
         """
         AUTOSAR-compliant setter for obdSupport with method chaining.
 
@@ -863,7 +875,7 @@ class DiagnosticEcuInstanceProps(DiagnosticCommonElement):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_obd_support(self, value: Optional["DiagnosticObdSupport"]) -> DiagnosticEcuInstanceProps:
+    def with_obd_support(self, value: Optional[DiagnosticObdSupportEnum]) -> DiagnosticEcuInstanceProps:
         """
         Set obdSupport and return self for chaining.
 

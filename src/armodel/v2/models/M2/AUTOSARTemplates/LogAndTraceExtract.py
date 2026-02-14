@@ -23,6 +23,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     PositiveInteger,
     String,
 )
+from armodel.v2.models.M2.MSR.AsamHdo.ComputationMethod import CompuMethod
+from armodel.v2.models.M2.MSR.DataDictionary.DataDefProperties import (
+    SwDataDefProps,
+)
 
 
 class DltArgument(Identifiable):

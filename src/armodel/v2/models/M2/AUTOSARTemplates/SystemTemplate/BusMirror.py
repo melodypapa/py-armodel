@@ -391,15 +391,15 @@ class BusMirrorChannel(ARObject):
         self._busMirror = value
                 # targetChannel.
         # atpVariation.
-        self._channel: Optional[PhysicalChannel] = None
+        self._channel: Optional["PhysicalChannel"] = None
 
     @property
-    def channel(self) -> Optional[PhysicalChannel]:
+    def channel(self) -> Optional["PhysicalChannel"]:
         """Get channel (Pythonic accessor)."""
         return self._channel
 
     @channel.setter
-    def channel(self, value: Optional[PhysicalChannel]) -> None:
+    def channel(self, value: Optional["PhysicalChannel"]) -> None:
         """
         Set channel with validation.
 
@@ -449,7 +449,7 @@ class BusMirrorChannel(ARObject):
         self.bus_mirror = value  # Delegates to property setter
         return self
 
-    def getChannel(self) -> PhysicalChannel:
+    def getChannel(self) -> "PhysicalChannel":
         """
         AUTOSAR-compliant getter for channel.
 
@@ -461,7 +461,7 @@ class BusMirrorChannel(ARObject):
         """
         return self.channel  # Delegates to property
 
-    def setChannel(self, value: PhysicalChannel) -> BusMirrorChannel:
+    def setChannel(self, value: "PhysicalChannel") -> BusMirrorChannel:
         """
         AUTOSAR-compliant setter for channel with method chaining.
 
@@ -495,7 +495,7 @@ class BusMirrorChannel(ARObject):
         self.bus_mirror = value  # Use property setter (gets validation)
         return self
 
-    def with_channel(self, value: Optional[PhysicalChannel]) -> BusMirrorChannel:
+    def with_channel(self, value: Optional["PhysicalChannel"]) -> BusMirrorChannel:
         """
         Set channel and return self for chaining.
 
@@ -1309,15 +1309,15 @@ class BusMirrorChannelMappingFlexray(BusMirrorChannelMapping):
         # Time in seconds after which the collection of source into the destination
                 # frame is stopped and the sent at the latest.
         # destination frames are only sent when full or time stamp overflows.
-        self._transmission: Optional[TimeValue] = None
+        self._transmission: Optional["TimeValue"] = None
 
     @property
-    def transmission(self) -> Optional[TimeValue]:
+    def transmission(self) -> Optional["TimeValue"]:
         """Get transmission (Pythonic accessor)."""
         return self._transmission
 
     @transmission.setter
-    def transmission(self, value: Optional[TimeValue]) -> None:
+    def transmission(self, value: Optional["TimeValue"]) -> None:
         """
         Set transmission with validation.
 
@@ -1339,7 +1339,7 @@ class BusMirrorChannelMappingFlexray(BusMirrorChannelMapping):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTransmission(self) -> TimeValue:
+    def getTransmission(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for transmission.
 
@@ -1351,7 +1351,7 @@ class BusMirrorChannelMappingFlexray(BusMirrorChannelMapping):
         """
         return self.transmission  # Delegates to property
 
-    def setTransmission(self, value: TimeValue) -> BusMirrorChannelMappingFlexray:
+    def setTransmission(self, value: "TimeValue") -> BusMirrorChannelMappingFlexray:
         """
         AUTOSAR-compliant setter for transmission with method chaining.
 
@@ -1369,7 +1369,7 @@ class BusMirrorChannelMappingFlexray(BusMirrorChannelMapping):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_transmission(self, value: Optional[TimeValue]) -> BusMirrorChannelMappingFlexray:
+    def with_transmission(self, value: Optional["TimeValue"]) -> BusMirrorChannelMappingFlexray:
         """
         Set transmission and return self for chaining.
 
@@ -1404,15 +1404,15 @@ class BusMirrorChannelMappingIp(BusMirrorChannelMapping):
         # Time in seconds after which the collection of source into the destination
                 # frame is stopped and the sent at the latest.
         # destination frames are only sent when full or time stamp overflows.
-        self._transmission: Optional[TimeValue] = None
+        self._transmission: Optional["TimeValue"] = None
 
     @property
-    def transmission(self) -> Optional[TimeValue]:
+    def transmission(self) -> Optional["TimeValue"]:
         """Get transmission (Pythonic accessor)."""
         return self._transmission
 
     @transmission.setter
-    def transmission(self, value: Optional[TimeValue]) -> None:
+    def transmission(self, value: Optional["TimeValue"]) -> None:
         """
         Set transmission with validation.
 
@@ -1434,7 +1434,7 @@ class BusMirrorChannelMappingIp(BusMirrorChannelMapping):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTransmission(self) -> TimeValue:
+    def getTransmission(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for transmission.
 
@@ -1446,7 +1446,7 @@ class BusMirrorChannelMappingIp(BusMirrorChannelMapping):
         """
         return self.transmission  # Delegates to property
 
-    def setTransmission(self, value: TimeValue) -> BusMirrorChannelMappingIp:
+    def setTransmission(self, value: "TimeValue") -> BusMirrorChannelMappingIp:
         """
         AUTOSAR-compliant setter for transmission with method chaining.
 
@@ -1464,7 +1464,7 @@ class BusMirrorChannelMappingIp(BusMirrorChannelMapping):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_transmission(self, value: Optional[TimeValue]) -> BusMirrorChannelMappingIp:
+    def with_transmission(self, value: Optional["TimeValue"]) -> BusMirrorChannelMappingIp:
         """
         Set transmission and return self for chaining.
 
@@ -1499,15 +1499,15 @@ class BusMirrorChannelMappingUserDefined(BusMirrorChannelMapping):
         # Time in seconds after which the collection of source into the destination
                 # frame is stopped and the sent at the latest.
         # destination frames are only sent when full or time stamp overflows.
-        self._transmission: Optional[TimeValue] = None
+        self._transmission: Optional["TimeValue"] = None
 
     @property
-    def transmission(self) -> Optional[TimeValue]:
+    def transmission(self) -> Optional["TimeValue"]:
         """Get transmission (Pythonic accessor)."""
         return self._transmission
 
     @transmission.setter
-    def transmission(self, value: Optional[TimeValue]) -> None:
+    def transmission(self, value: Optional["TimeValue"]) -> None:
         """
         Set transmission with validation.
 
@@ -1529,7 +1529,7 @@ class BusMirrorChannelMappingUserDefined(BusMirrorChannelMapping):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getTransmission(self) -> TimeValue:
+    def getTransmission(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for transmission.
 
@@ -1541,7 +1541,7 @@ class BusMirrorChannelMappingUserDefined(BusMirrorChannelMapping):
         """
         return self.transmission  # Delegates to property
 
-    def setTransmission(self, value: TimeValue) -> BusMirrorChannelMappingUserDefined:
+    def setTransmission(self, value: "TimeValue") -> BusMirrorChannelMappingUserDefined:
         """
         AUTOSAR-compliant setter for transmission with method chaining.
 
@@ -1559,7 +1559,7 @@ class BusMirrorChannelMappingUserDefined(BusMirrorChannelMapping):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_transmission(self, value: Optional[TimeValue]) -> BusMirrorChannelMappingUserDefined:
+    def with_transmission(self, value: Optional["TimeValue"]) -> BusMirrorChannelMappingUserDefined:
         """
         Set transmission and return self for chaining.
 

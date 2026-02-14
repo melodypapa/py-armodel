@@ -16,6 +16,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     String,
+    XmlSpaceEnum,
 )
 
 
@@ -135,15 +136,15 @@ class WhitespaceControlled(ARObject, ABC):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This attribute is used to signal an intention that in that space should be
         # preserved by is defined according to xml:space as W3C.
-        self._xmlSpace: "XmlSpaceEnum" = None
+        self._xmlSpace: XmlSpaceEnum = None
 
     @property
-    def xml_space(self) -> "XmlSpaceEnum":
+    def xml_space(self) -> XmlSpaceEnum:
         """Get xmlSpace (Pythonic accessor)."""
         return self._xmlSpace
 
     @xml_space.setter
-    def xml_space(self, value: "XmlSpaceEnum") -> None:
+    def xml_space(self, value: XmlSpaceEnum) -> None:
         """
         Set xmlSpace with validation.
         
@@ -161,7 +162,7 @@ class WhitespaceControlled(ARObject, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getXmlSpace(self) -> "XmlSpaceEnum":
+    def getXmlSpace(self) -> XmlSpaceEnum:
         """
         AUTOSAR-compliant getter for xmlSpace.
         
@@ -173,7 +174,7 @@ class WhitespaceControlled(ARObject, ABC):
         """
         return self.xml_space  # Delegates to property
 
-    def setXmlSpace(self, value: "XmlSpaceEnum") -> WhitespaceControlled:
+    def setXmlSpace(self, value: XmlSpaceEnum) -> WhitespaceControlled:
         """
         AUTOSAR-compliant setter for xmlSpace with method chaining.
         
@@ -191,7 +192,7 @@ class WhitespaceControlled(ARObject, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_xml_space(self, value: "XmlSpaceEnum") -> WhitespaceControlled:
+    def with_xml_space(self, value: XmlSpaceEnum) -> WhitespaceControlled:
         """
         Set xmlSpace and return self for chaining.
         

@@ -38,15 +38,15 @@ class AsynchronousServerCallResultPoint(AbstractAccessPoint):
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # The referenced Asynchronous Server Call Point defines the asynchronous server
         # call from which the results are.
-        self._asynchronous: Optional[AsynchronousServer] = None
+        self._asynchronous: Optional["AsynchronousServer"] = None
 
     @property
-    def asynchronous(self) -> Optional[AsynchronousServer]:
+    def asynchronous(self) -> Optional["AsynchronousServer"]:
         """Get asynchronous (Pythonic accessor)."""
         return self._asynchronous
 
     @asynchronous.setter
-    def asynchronous(self, value: Optional[AsynchronousServer]) -> None:
+    def asynchronous(self, value: Optional["AsynchronousServer"]) -> None:
         """
         Set asynchronous with validation.
 
@@ -68,7 +68,7 @@ class AsynchronousServerCallResultPoint(AbstractAccessPoint):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAsynchronous(self) -> AsynchronousServer:
+    def getAsynchronous(self) -> "AsynchronousServer":
         """
         AUTOSAR-compliant getter for asynchronous.
 
@@ -80,7 +80,7 @@ class AsynchronousServerCallResultPoint(AbstractAccessPoint):
         """
         return self.asynchronous  # Delegates to property
 
-    def setAsynchronous(self, value: AsynchronousServer) -> AsynchronousServerCallResultPoint:
+    def setAsynchronous(self, value: "AsynchronousServer") -> AsynchronousServerCallResultPoint:
         """
         AUTOSAR-compliant setter for asynchronous with method chaining.
 
@@ -98,7 +98,7 @@ class AsynchronousServerCallResultPoint(AbstractAccessPoint):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_asynchronous(self, value: Optional[AsynchronousServer]) -> AsynchronousServerCallResultPoint:
+    def with_asynchronous(self, value: Optional["AsynchronousServer"]) -> AsynchronousServerCallResultPoint:
         """
         Set asynchronous and return self for chaining.
 
@@ -138,15 +138,15 @@ class ServerCallPoint(AbstractAccessPoint, ABC):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # by: ROperationInAtomicSwc.
-        self._operationInstanceRef: Optional[ClientServerOperation] = None
+        self._operationInstanceRef: Optional["ClientServerOperation"] = None
 
     @property
-    def operation_instance_ref(self) -> Optional[ClientServerOperation]:
+    def operation_instance_ref(self) -> Optional["ClientServerOperation"]:
         """Get operationInstanceRef (Pythonic accessor)."""
         return self._operationInstanceRef
 
     @operation_instance_ref.setter
-    def operation_instance_ref(self, value: Optional[ClientServerOperation]) -> None:
+    def operation_instance_ref(self, value: Optional["ClientServerOperation"]) -> None:
         """
         Set operationInstanceRef with validation.
 
@@ -166,15 +166,15 @@ class ServerCallPoint(AbstractAccessPoint, ABC):
             )
         self._operationInstanceRef = value
         # It depends on the call type asynchronous) how this is reported.
-        self._timeout: Optional[TimeValue] = None
+        self._timeout: Optional["TimeValue"] = None
 
     @property
-    def timeout(self) -> Optional[TimeValue]:
+    def timeout(self) -> Optional["TimeValue"]:
         """Get timeout (Pythonic accessor)."""
         return self._timeout
 
     @timeout.setter
-    def timeout(self, value: Optional[TimeValue]) -> None:
+    def timeout(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeout with validation.
 
@@ -196,7 +196,7 @@ class ServerCallPoint(AbstractAccessPoint, ABC):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getOperationInstanceRef(self) -> ClientServerOperation:
+    def getOperationInstanceRef(self) -> "ClientServerOperation":
         """
         AUTOSAR-compliant getter for operationInstanceRef.
 
@@ -208,7 +208,7 @@ class ServerCallPoint(AbstractAccessPoint, ABC):
         """
         return self.operation_instance_ref  # Delegates to property
 
-    def setOperationInstanceRef(self, value: ClientServerOperation) -> ServerCallPoint:
+    def setOperationInstanceRef(self, value: "ClientServerOperation") -> ServerCallPoint:
         """
         AUTOSAR-compliant setter for operationInstanceRef with method chaining.
 
@@ -224,7 +224,7 @@ class ServerCallPoint(AbstractAccessPoint, ABC):
         self.operation_instance_ref = value  # Delegates to property setter
         return self
 
-    def getTimeout(self) -> TimeValue:
+    def getTimeout(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeout.
 
@@ -236,7 +236,7 @@ class ServerCallPoint(AbstractAccessPoint, ABC):
         """
         return self.timeout  # Delegates to property
 
-    def setTimeout(self, value: TimeValue) -> ServerCallPoint:
+    def setTimeout(self, value: "TimeValue") -> ServerCallPoint:
         """
         AUTOSAR-compliant setter for timeout with method chaining.
 
@@ -254,7 +254,7 @@ class ServerCallPoint(AbstractAccessPoint, ABC):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_operation_instance_ref(self, value: Optional[ClientServerOperation]) -> ServerCallPoint:
+    def with_operation_instance_ref(self, value: Optional["ClientServerOperation"]) -> ServerCallPoint:
         """
         Set operationInstanceRef and return self for chaining.
 
@@ -270,7 +270,7 @@ class ServerCallPoint(AbstractAccessPoint, ABC):
         self.operation_instance_ref = value  # Use property setter (gets validation)
         return self
 
-    def with_timeout(self, value: Optional[TimeValue]) -> ServerCallPoint:
+    def with_timeout(self, value: Optional["TimeValue"]) -> ServerCallPoint:
         """
         Set timeout and return self for chaining.
 

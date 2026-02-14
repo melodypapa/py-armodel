@@ -151,15 +151,15 @@ class Table(Paginateable):
             )
         self._helpEntry = value
         # : landscape : portrait.
-        self._orient: Optional[OrientEnum] = None
+        self._orient: Optional["OrientEnum"] = None
 
     @property
-    def orient(self) -> Optional[OrientEnum]:
+    def orient(self) -> Optional["OrientEnum"]:
         """Get orient (Pythonic accessor)."""
         return self._orient
 
     @orient.setter
-    def orient(self, value: Optional[OrientEnum]) -> None:
+    def orient(self, value: Optional["OrientEnum"]) -> None:
         """
         Set orient with validation.
 
@@ -421,7 +421,7 @@ class Table(Paginateable):
         self.help_entry = value  # Delegates to property setter
         return self
 
-    def getOrient(self) -> OrientEnum:
+    def getOrient(self) -> "OrientEnum":
         """
         AUTOSAR-compliant getter for orient.
 
@@ -433,7 +433,7 @@ class Table(Paginateable):
         """
         return self.orient  # Delegates to property
 
-    def setOrient(self, value: OrientEnum) -> Table:
+    def setOrient(self, value: "OrientEnum") -> Table:
         """
         AUTOSAR-compliant setter for orient with method chaining.
 
@@ -449,7 +449,7 @@ class Table(Paginateable):
         self.orient = value  # Delegates to property setter
         return self
 
-    def getPgwide(self) -> "NameToken":
+    def getPgwide(self) -> NameToken:
         """
         AUTOSAR-compliant getter for pgwide.
 
@@ -461,7 +461,7 @@ class Table(Paginateable):
         """
         return self.pgwide  # Delegates to property
 
-    def setPgwide(self, value: "NameToken") -> Table:
+    def setPgwide(self, value: NameToken) -> Table:
         """
         AUTOSAR-compliant setter for pgwide with method chaining.
 
@@ -533,7 +533,7 @@ class Table(Paginateable):
         self.table_caption = value  # Delegates to property setter
         return self
 
-    def getTabstyle(self) -> "NameToken":
+    def getTabstyle(self) -> NameToken:
         """
         AUTOSAR-compliant getter for tabstyle.
 
@@ -545,7 +545,7 @@ class Table(Paginateable):
         """
         return self.tabstyle  # Delegates to property
 
-    def setTabstyle(self, value: "NameToken") -> Table:
+    def setTabstyle(self, value: NameToken) -> Table:
         """
         AUTOSAR-compliant setter for tabstyle with method chaining.
 
@@ -627,7 +627,7 @@ class Table(Paginateable):
         self.help_entry = value  # Use property setter (gets validation)
         return self
 
-    def with_orient(self, value: Optional[OrientEnum]) -> Table:
+    def with_orient(self, value: Optional["OrientEnum"]) -> Table:
         """
         Set orient and return self for chaining.
 
@@ -1627,15 +1627,15 @@ class Entry(ARObject):
                 f"colsep must be TableSeparatorString or None, got {type(value).__name__}"
             )
         self._colsep = value
-        self._entryContents: DocumentationBlock = None
+        self._entryContents: "DocumentationBlock" = None
 
     @property
-    def entry_contents(self) -> DocumentationBlock:
+    def entry_contents(self) -> "DocumentationBlock":
         """Get entryContents (Pythonic accessor)."""
         return self._entryContents
 
     @entry_contents.setter
-    def entry_contents(self, value: DocumentationBlock) -> None:
+    def entry_contents(self, value: "DocumentationBlock") -> None:
         """
         Set entryContents with validation.
 
@@ -1958,7 +1958,7 @@ class Entry(ARObject):
         self.colsep = value  # Delegates to property setter
         return self
 
-    def getEntryContents(self) -> DocumentationBlock:
+    def getEntryContents(self) -> "DocumentationBlock":
         """
         AUTOSAR-compliant getter for entryContents.
 
@@ -1970,7 +1970,7 @@ class Entry(ARObject):
         """
         return self.entry_contents  # Delegates to property
 
-    def setEntryContents(self, value: DocumentationBlock) -> Entry:
+    def setEntryContents(self, value: "DocumentationBlock") -> Entry:
         """
         AUTOSAR-compliant setter for entryContents with method chaining.
 
@@ -2248,7 +2248,7 @@ class Entry(ARObject):
         self.colsep = value  # Use property setter (gets validation)
         return self
 
-    def with_entry_contents(self, value: DocumentationBlock) -> Entry:
+    def with_entry_contents(self, value: "DocumentationBlock") -> Entry:
         """
         Set entryContents and return self for chaining.
 

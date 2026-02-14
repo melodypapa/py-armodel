@@ -19,6 +19,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 )
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
+    ExclusiveArea,
     RefType,
 )
 
@@ -220,15 +221,15 @@ class RunnableEntity(ExecutableEntity):
         return self._serverCallPoint
         # The symbol describing this RunnableEntity’s entry point.
         # considered the API of the RunnableEntity and is the RTE contract phase.
-        self._symbol: Optional[CIdentifier] = None
+        self._symbol: Optional["CIdentifier"] = None
 
     @property
-    def symbol(self) -> Optional[CIdentifier]:
+    def symbol(self) -> Optional["CIdentifier"]:
         """Get symbol (Pythonic accessor)."""
         return self._symbol
 
     @symbol.setter
-    def symbol(self, value: Optional[CIdentifier]) -> None:
+    def symbol(self, value: Optional["CIdentifier"]) -> None:
         """
         Set symbol with validation.
 
@@ -903,7 +904,7 @@ class RunnableEntity(ExecutableEntity):
         """
         return self.server_call_point  # Delegates to property
 
-    def getSymbol(self) -> CIdentifier:
+    def getSymbol(self) -> "CIdentifier":
         """
         AUTOSAR-compliant getter for symbol.
 
@@ -915,7 +916,7 @@ class RunnableEntity(ExecutableEntity):
         """
         return self.symbol  # Delegates to property
 
-    def setSymbol(self, value: CIdentifier) -> RunnableEntity:
+    def setSymbol(self, value: "CIdentifier") -> RunnableEntity:
         """
         AUTOSAR-compliant setter for symbol with method chaining.
 
@@ -973,7 +974,7 @@ class RunnableEntity(ExecutableEntity):
         self.can_be_invoked = value  # Use property setter (gets validation)
         return self
 
-    def with_symbol(self, value: Optional[CIdentifier]) -> RunnableEntity:
+    def with_symbol(self, value: Optional["CIdentifier"]) -> RunnableEntity:
         """
         Set symbol and return self for chaining.
 
@@ -1436,15 +1437,15 @@ class SwcExclusiveAreaPolicy(ARObject):
                 # the whole software component from the Rte or if the set of Enter and Exit
                 # expected per RunnableEntity.
         # The default value is.
-        self._apiPrinciple: Optional[ApiPrincipleEnum] = None
+        self._apiPrinciple: Optional["ApiPrincipleEnum"] = None
 
     @property
-    def api_principle(self) -> Optional[ApiPrincipleEnum]:
+    def api_principle(self) -> Optional["ApiPrincipleEnum"]:
         """Get apiPrinciple (Pythonic accessor)."""
         return self._apiPrinciple
 
     @api_principle.setter
-    def api_principle(self, value: Optional[ApiPrincipleEnum]) -> None:
+    def api_principle(self, value: Optional["ApiPrincipleEnum"]) -> None:
         """
         Set apiPrinciple with validation.
 
@@ -1494,7 +1495,7 @@ class SwcExclusiveAreaPolicy(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getApiPrinciple(self) -> ApiPrincipleEnum:
+    def getApiPrinciple(self) -> "ApiPrincipleEnum":
         """
         AUTOSAR-compliant getter for apiPrinciple.
 
@@ -1506,7 +1507,7 @@ class SwcExclusiveAreaPolicy(ARObject):
         """
         return self.api_principle  # Delegates to property
 
-    def setApiPrinciple(self, value: ApiPrincipleEnum) -> SwcExclusiveAreaPolicy:
+    def setApiPrinciple(self, value: "ApiPrincipleEnum") -> SwcExclusiveAreaPolicy:
         """
         AUTOSAR-compliant setter for apiPrinciple with method chaining.
 
@@ -1522,7 +1523,7 @@ class SwcExclusiveAreaPolicy(ARObject):
         self.api_principle = value  # Delegates to property setter
         return self
 
-    def getExclusiveArea(self) -> "ExclusiveArea":
+    def getExclusiveArea(self) -> ExclusiveArea:
         """
         AUTOSAR-compliant getter for exclusiveArea.
 
@@ -1534,7 +1535,7 @@ class SwcExclusiveAreaPolicy(ARObject):
         """
         return self.exclusive_area  # Delegates to property
 
-    def setExclusiveArea(self, value: "ExclusiveArea") -> SwcExclusiveAreaPolicy:
+    def setExclusiveArea(self, value: ExclusiveArea) -> SwcExclusiveAreaPolicy:
         """
         AUTOSAR-compliant setter for exclusiveArea with method chaining.
 
@@ -1552,7 +1553,7 @@ class SwcExclusiveAreaPolicy(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_api_principle(self, value: Optional[ApiPrincipleEnum]) -> SwcExclusiveAreaPolicy:
+    def with_api_principle(self, value: Optional["ApiPrincipleEnum"]) -> SwcExclusiveAreaPolicy:
         """
         Set apiPrinciple and return self for chaining.
 

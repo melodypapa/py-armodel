@@ -82,15 +82,15 @@ class AgeConstraint(TimingConstraint):
                 f"minimum must be MultidimensionalTime or None, got {type(value).__name__}"
             )
         self._minimum = value
-        self._scope: Optional[TimingDescriptionEvent] = None
+        self._scope: Optional["TimingDescriptionEvent"] = None
 
     @property
-    def scope(self) -> Optional[TimingDescriptionEvent]:
+    def scope(self) -> Optional["TimingDescriptionEvent"]:
         """Get scope (Pythonic accessor)."""
         return self._scope
 
     @scope.setter
-    def scope(self, value: Optional[TimingDescriptionEvent]) -> None:
+    def scope(self, value: Optional["TimingDescriptionEvent"]) -> None:
         """
         Set scope with validation.
 
@@ -168,7 +168,7 @@ class AgeConstraint(TimingConstraint):
         self.minimum = value  # Delegates to property setter
         return self
 
-    def getScope(self) -> TimingDescriptionEvent:
+    def getScope(self) -> "TimingDescriptionEvent":
         """
         AUTOSAR-compliant getter for scope.
 
@@ -180,7 +180,7 @@ class AgeConstraint(TimingConstraint):
         """
         return self.scope  # Delegates to property
 
-    def setScope(self, value: TimingDescriptionEvent) -> AgeConstraint:
+    def setScope(self, value: "TimingDescriptionEvent") -> AgeConstraint:
         """
         AUTOSAR-compliant setter for scope with method chaining.
 
@@ -230,7 +230,7 @@ class AgeConstraint(TimingConstraint):
         self.minimum = value  # Use property setter (gets validation)
         return self
 
-    def with_scope(self, value: Optional[TimingDescriptionEvent]) -> AgeConstraint:
+    def with_scope(self, value: Optional["TimingDescriptionEvent"]) -> AgeConstraint:
         """
         Set scope and return self for chaining.
 

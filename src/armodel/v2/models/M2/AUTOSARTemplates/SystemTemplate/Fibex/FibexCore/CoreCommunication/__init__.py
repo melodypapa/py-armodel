@@ -46,6 +46,10 @@ from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTo
 )
 from armodel.v2.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     DataTransformation,
+    DdsCpQosProfile,
+    HandleInvalidEnum,
+    UnlimitedInteger,
+    ValueSpecification,
 )
 
 
@@ -279,15 +283,15 @@ class ISignal(FibexElement):
                 # PortInterface and in the of the ComSpec.
         # that the System Description doesn’t use a Component Description (VFB View) is
                 # used to configure "ComSignalDataInvalid the Data Semantics.
-        self._network: Optional[SwDataDefProps] = None
+        self._network: Optional["SwDataDefProps"] = None
 
     @property
-    def network(self) -> Optional[SwDataDefProps]:
+    def network(self) -> Optional["SwDataDefProps"]:
         """Get network (Pythonic accessor)."""
         return self._network
 
     @network.setter
-    def network(self, value: Optional[SwDataDefProps]) -> None:
+    def network(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set network with validation.
         
@@ -583,7 +587,7 @@ class ISignal(FibexElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getData(self) -> "DataTransformation":
+    def getData(self) -> DataTransformation:
         """
         AUTOSAR-compliant getter for data.
         
@@ -595,7 +599,7 @@ class ISignal(FibexElement):
         """
         return self.data  # Delegates to property
 
-    def setData(self, value: "DataTransformation") -> ISignal:
+    def setData(self, value: DataTransformation) -> ISignal:
         """
         AUTOSAR-compliant setter for data with method chaining.
         
@@ -611,7 +615,7 @@ class ISignal(FibexElement):
         self.data = value  # Delegates to property setter
         return self
 
-    def getDataTypePolicy(self) -> "DataTypePolicyEnum":
+    def getDataTypePolicy(self) -> DataTypePolicyEnum:
         """
         AUTOSAR-compliant getter for dataTypePolicy.
         
@@ -623,7 +627,7 @@ class ISignal(FibexElement):
         """
         return self.data_type_policy  # Delegates to property
 
-    def setDataTypePolicy(self, value: "DataTypePolicyEnum") -> ISignal:
+    def setDataTypePolicy(self, value: DataTypePolicyEnum) -> ISignal:
         """
         AUTOSAR-compliant setter for dataTypePolicy with method chaining.
         
@@ -639,7 +643,7 @@ class ISignal(FibexElement):
         self.data_type_policy = value  # Delegates to property setter
         return self
 
-    def getInitValue(self) -> "ValueSpecification":
+    def getInitValue(self) -> ValueSpecification:
         """
         AUTOSAR-compliant getter for initValue.
         
@@ -651,7 +655,7 @@ class ISignal(FibexElement):
         """
         return self.init_value  # Delegates to property
 
-    def setInitValue(self, value: "ValueSpecification") -> ISignal:
+    def setInitValue(self, value: ValueSpecification) -> ISignal:
         """
         AUTOSAR-compliant setter for initValue with method chaining.
         
@@ -723,7 +727,7 @@ class ISignal(FibexElement):
         self.i_signal_type = value  # Delegates to property setter
         return self
 
-    def getLength(self) -> "UnlimitedInteger":
+    def getLength(self) -> UnlimitedInteger:
         """
         AUTOSAR-compliant getter for length.
         
@@ -735,7 +739,7 @@ class ISignal(FibexElement):
         """
         return self.length  # Delegates to property
 
-    def setLength(self, value: "UnlimitedInteger") -> ISignal:
+    def setLength(self, value: UnlimitedInteger) -> ISignal:
         """
         AUTOSAR-compliant setter for length with method chaining.
         
@@ -751,7 +755,7 @@ class ISignal(FibexElement):
         self.length = value  # Delegates to property setter
         return self
 
-    def getNetwork(self) -> SwDataDefProps:
+    def getNetwork(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for network.
         
@@ -763,7 +767,7 @@ class ISignal(FibexElement):
         """
         return self.network  # Delegates to property
 
-    def setNetwork(self, value: SwDataDefProps) -> ISignal:
+    def setNetwork(self, value: "SwDataDefProps") -> ISignal:
         """
         AUTOSAR-compliant setter for network with method chaining.
         
@@ -807,7 +811,7 @@ class ISignal(FibexElement):
         self.system_signal = value  # Delegates to property setter
         return self
 
-    def getTimeout(self) -> "ValueSpecification":
+    def getTimeout(self) -> ValueSpecification:
         """
         AUTOSAR-compliant getter for timeout.
         
@@ -819,7 +823,7 @@ class ISignal(FibexElement):
         """
         return self.timeout  # Delegates to property
 
-    def setTimeout(self, value: "ValueSpecification") -> ISignal:
+    def setTimeout(self, value: ValueSpecification) -> ISignal:
         """
         AUTOSAR-compliant setter for timeout with method chaining.
         
@@ -945,7 +949,7 @@ class ISignal(FibexElement):
         self.length = value  # Use property setter (gets validation)
         return self
 
-    def with_network(self, value: Optional[SwDataDefProps]) -> ISignal:
+    def with_network(self, value: Optional["SwDataDefProps"]) -> ISignal:
         """
         Set network and return self for chaining.
         
@@ -1209,15 +1213,15 @@ class SystemSignal(ARElement):
             )
         self._dynamicLength = value
         # Specification of the physical representation.
-        self._physicalProps: Optional[SwDataDefProps] = None
+        self._physicalProps: Optional["SwDataDefProps"] = None
 
     @property
-    def physical_props(self) -> Optional[SwDataDefProps]:
+    def physical_props(self) -> Optional["SwDataDefProps"]:
         """Get physicalProps (Pythonic accessor)."""
         return self._physicalProps
 
     @physical_props.setter
-    def physical_props(self, value: Optional[SwDataDefProps]) -> None:
+    def physical_props(self, value: Optional["SwDataDefProps"]) -> None:
         """
         Set physicalProps with validation.
         
@@ -1267,7 +1271,7 @@ class SystemSignal(ARElement):
         self.dynamic_length = value  # Delegates to property setter
         return self
 
-    def getPhysicalProps(self) -> SwDataDefProps:
+    def getPhysicalProps(self) -> "SwDataDefProps":
         """
         AUTOSAR-compliant getter for physicalProps.
         
@@ -1279,7 +1283,7 @@ class SystemSignal(ARElement):
         """
         return self.physical_props  # Delegates to property
 
-    def setPhysicalProps(self, value: SwDataDefProps) -> SystemSignal:
+    def setPhysicalProps(self, value: "SwDataDefProps") -> SystemSignal:
         """
         AUTOSAR-compliant setter for physicalProps with method chaining.
         
@@ -1313,7 +1317,7 @@ class SystemSignal(ARElement):
         self.dynamic_length = value  # Use property setter (gets validation)
         return self
 
-    def with_physical_props(self, value: Optional[SwDataDefProps]) -> SystemSignal:
+    def with_physical_props(self, value: Optional["SwDataDefProps"]) -> SystemSignal:
         """
         Set physicalProps and return self for chaining.
         
@@ -1713,7 +1717,7 @@ class Pdu(FibexElement, ABC):
         self.has_dynamic = value  # Delegates to property setter
         return self
 
-    def getLength(self) -> "UnlimitedInteger":
+    def getLength(self) -> UnlimitedInteger:
         """
         AUTOSAR-compliant getter for length.
         
@@ -1725,7 +1729,7 @@ class Pdu(FibexElement, ABC):
         """
         return self.length  # Delegates to property
 
-    def setLength(self, value: "UnlimitedInteger") -> Pdu:
+    def setLength(self, value: UnlimitedInteger) -> Pdu:
         """
         AUTOSAR-compliant setter for length with method chaining.
         
@@ -2116,7 +2120,7 @@ class ISignalGroup(FibexElement):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getComBased(self) -> "DataTransformation":
+    def getComBased(self) -> DataTransformation:
         """
         AUTOSAR-compliant getter for comBased.
         
@@ -2128,7 +2132,7 @@ class ISignalGroup(FibexElement):
         """
         return self.com_based  # Delegates to property
 
-    def setComBased(self, value: "DataTransformation") -> ISignalGroup:
+    def setComBased(self, value: DataTransformation) -> ISignalGroup:
         """
         AUTOSAR-compliant setter for comBased with method chaining.
         
@@ -2333,15 +2337,15 @@ class IPduPort(CommConnectorPort):
                 # expected timestamp for a SecuredIPdu is still deemed authentic.
         # Please this attribute is for documentation only to allow of required
                 # freshness value manager upstream mapping is defined for it.
-        self._timestampRx: Optional[TimeValue] = None
+        self._timestampRx: Optional["TimeValue"] = None
 
     @property
-    def timestamp_rx(self) -> Optional[TimeValue]:
+    def timestamp_rx(self) -> Optional["TimeValue"]:
         """Get timestampRx (Pythonic accessor)."""
         return self._timestampRx
 
     @timestamp_rx.setter
-    def timestamp_rx(self, value: Optional[TimeValue]) -> None:
+    def timestamp_rx(self, value: Optional["TimeValue"]) -> None:
         """
         Set timestampRx with validation.
         
@@ -2449,7 +2453,7 @@ class IPduPort(CommConnectorPort):
         self.rx_security = value  # Delegates to property setter
         return self
 
-    def getTimestampRx(self) -> TimeValue:
+    def getTimestampRx(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timestampRx.
         
@@ -2461,7 +2465,7 @@ class IPduPort(CommConnectorPort):
         """
         return self.timestamp_rx  # Delegates to property
 
-    def setTimestampRx(self, value: TimeValue) -> IPduPort:
+    def setTimestampRx(self, value: "TimeValue") -> IPduPort:
         """
         AUTOSAR-compliant setter for timestampRx with method chaining.
         
@@ -2539,7 +2543,7 @@ class IPduPort(CommConnectorPort):
         self.rx_security = value  # Use property setter (gets validation)
         return self
 
-    def with_timestamp_rx(self, value: Optional[TimeValue]) -> IPduPort:
+    def with_timestamp_rx(self, value: Optional["TimeValue"]) -> IPduPort:
         """
         Set timestampRx and return self for chaining.
         
@@ -2651,15 +2655,15 @@ class ISignalPort(CommConnectorPort):
         # • ISignalPort with communicationDirection = in: timeout value in seconds for
         # the reception of with communicationDirection = out: timeout value in seconds
         # for transmission.
-        self._firstTimeout: Optional[TimeValue] = None
+        self._firstTimeout: Optional["TimeValue"] = None
 
     @property
-    def first_timeout(self) -> Optional[TimeValue]:
+    def first_timeout(self) -> Optional["TimeValue"]:
         """Get firstTimeout (Pythonic accessor)."""
         return self._firstTimeout
 
     @first_timeout.setter
-    def first_timeout(self, value: Optional[TimeValue]) -> None:
+    def first_timeout(self, value: Optional["TimeValue"]) -> None:
         """
         Set firstTimeout with validation.
         
@@ -2723,15 +2727,15 @@ class ISignalPort(CommConnectorPort):
                 # the System Description doesn’t complete Software Component Description (VFB
                 # where the DataMapping is missing.
         # monitoring use cases in which the DataMapping is.
-        self._timeout: Optional[TimeValue] = None
+        self._timeout: Optional["TimeValue"] = None
 
     @property
-    def timeout(self) -> Optional[TimeValue]:
+    def timeout(self) -> Optional["TimeValue"]:
         """Get timeout (Pythonic accessor)."""
         return self._timeout
 
     @timeout.setter
-    def timeout(self, value: Optional[TimeValue]) -> None:
+    def timeout(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeout with validation.
         
@@ -2753,7 +2757,7 @@ class ISignalPort(CommConnectorPort):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDataFilter(self) -> "DataFilter":
+    def getDataFilter(self) -> DataFilter:
         """
         AUTOSAR-compliant getter for dataFilter.
         
@@ -2765,7 +2769,7 @@ class ISignalPort(CommConnectorPort):
         """
         return self.data_filter  # Delegates to property
 
-    def setDataFilter(self, value: "DataFilter") -> ISignalPort:
+    def setDataFilter(self, value: DataFilter) -> ISignalPort:
         """
         AUTOSAR-compliant setter for dataFilter with method chaining.
         
@@ -2781,7 +2785,7 @@ class ISignalPort(CommConnectorPort):
         self.data_filter = value  # Delegates to property setter
         return self
 
-    def getDdsQosProfile(self) -> "DdsCpQosProfile":
+    def getDdsQosProfile(self) -> DdsCpQosProfile:
         """
         AUTOSAR-compliant getter for ddsQosProfile.
         
@@ -2793,7 +2797,7 @@ class ISignalPort(CommConnectorPort):
         """
         return self.dds_qos_profile  # Delegates to property
 
-    def setDdsQosProfile(self, value: "DdsCpQosProfile") -> ISignalPort:
+    def setDdsQosProfile(self, value: DdsCpQosProfile) -> ISignalPort:
         """
         AUTOSAR-compliant setter for ddsQosProfile with method chaining.
         
@@ -2809,7 +2813,7 @@ class ISignalPort(CommConnectorPort):
         self.dds_qos_profile = value  # Delegates to property setter
         return self
 
-    def getFirstTimeout(self) -> TimeValue:
+    def getFirstTimeout(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for firstTimeout.
         
@@ -2821,7 +2825,7 @@ class ISignalPort(CommConnectorPort):
         """
         return self.first_timeout  # Delegates to property
 
-    def setFirstTimeout(self, value: TimeValue) -> ISignalPort:
+    def setFirstTimeout(self, value: "TimeValue") -> ISignalPort:
         """
         AUTOSAR-compliant setter for firstTimeout with method chaining.
         
@@ -2837,7 +2841,7 @@ class ISignalPort(CommConnectorPort):
         self.first_timeout = value  # Delegates to property setter
         return self
 
-    def getHandleInvalid(self) -> "HandleInvalidEnum":
+    def getHandleInvalid(self) -> HandleInvalidEnum:
         """
         AUTOSAR-compliant getter for handleInvalid.
         
@@ -2849,7 +2853,7 @@ class ISignalPort(CommConnectorPort):
         """
         return self.handle_invalid  # Delegates to property
 
-    def setHandleInvalid(self, value: "HandleInvalidEnum") -> ISignalPort:
+    def setHandleInvalid(self, value: HandleInvalidEnum) -> ISignalPort:
         """
         AUTOSAR-compliant setter for handleInvalid with method chaining.
         
@@ -2865,7 +2869,7 @@ class ISignalPort(CommConnectorPort):
         self.handle_invalid = value  # Delegates to property setter
         return self
 
-    def getTimeout(self) -> TimeValue:
+    def getTimeout(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeout.
         
@@ -2877,7 +2881,7 @@ class ISignalPort(CommConnectorPort):
         """
         return self.timeout  # Delegates to property
 
-    def setTimeout(self, value: TimeValue) -> ISignalPort:
+    def setTimeout(self, value: "TimeValue") -> ISignalPort:
         """
         AUTOSAR-compliant setter for timeout with method chaining.
         
@@ -2927,7 +2931,7 @@ class ISignalPort(CommConnectorPort):
         self.dds_qos_profile = value  # Use property setter (gets validation)
         return self
 
-    def with_first_timeout(self, value: Optional[TimeValue]) -> ISignalPort:
+    def with_first_timeout(self, value: Optional["TimeValue"]) -> ISignalPort:
         """
         Set firstTimeout and return self for chaining.
         
@@ -2959,7 +2963,7 @@ class ISignalPort(CommConnectorPort):
         self.handle_invalid = value  # Use property setter (gets validation)
         return self
 
-    def with_timeout(self, value: Optional[TimeValue]) -> ISignalPort:
+    def with_timeout(self, value: Optional["TimeValue"]) -> ISignalPort:
         """
         Set timeout and return self for chaining.
         
@@ -3508,7 +3512,7 @@ class ISignalToIPduMapping(Identifiable):
         self.packing_byte = value  # Delegates to property setter
         return self
 
-    def getStartPosition(self) -> "UnlimitedInteger":
+    def getStartPosition(self) -> UnlimitedInteger:
         """
         AUTOSAR-compliant getter for startPosition.
         
@@ -3520,7 +3524,7 @@ class ISignalToIPduMapping(Identifiable):
         """
         return self.start_position  # Delegates to property
 
-    def setStartPosition(self, value: "UnlimitedInteger") -> ISignalToIPduMapping:
+    def setStartPosition(self, value: UnlimitedInteger) -> ISignalToIPduMapping:
         """
         AUTOSAR-compliant setter for startPosition with method chaining.
         
@@ -3564,7 +3568,7 @@ class ISignalToIPduMapping(Identifiable):
         self.transfer_property = value  # Delegates to property setter
         return self
 
-    def getUpdate(self) -> "UnlimitedInteger":
+    def getUpdate(self) -> UnlimitedInteger:
         """
         AUTOSAR-compliant getter for update.
         
@@ -3576,7 +3580,7 @@ class ISignalToIPduMapping(Identifiable):
         """
         return self.update  # Delegates to property
 
-    def setUpdate(self, value: "UnlimitedInteger") -> ISignalToIPduMapping:
+    def setUpdate(self, value: UnlimitedInteger) -> ISignalToIPduMapping:
         """
         AUTOSAR-compliant setter for update with method chaining.
         
@@ -4233,15 +4237,15 @@ class IPduTiming(Describable):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Minimum Delay in seconds between successive this I-PDU, independent of the.
-        self._minimumDelay: Optional[TimeValue] = None
+        self._minimumDelay: Optional["TimeValue"] = None
 
     @property
-    def minimum_delay(self) -> Optional[TimeValue]:
+    def minimum_delay(self) -> Optional["TimeValue"]:
         """Get minimumDelay (Pythonic accessor)."""
         return self._minimumDelay
 
     @minimum_delay.setter
-    def minimum_delay(self, value: Optional[TimeValue]) -> None:
+    def minimum_delay(self, value: Optional["TimeValue"]) -> None:
         """
         Set minimumDelay with validation.
         
@@ -4295,7 +4299,7 @@ class IPduTiming(Describable):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getMinimumDelay(self) -> TimeValue:
+    def getMinimumDelay(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for minimumDelay.
         
@@ -4307,7 +4311,7 @@ class IPduTiming(Describable):
         """
         return self.minimum_delay  # Delegates to property
 
-    def setMinimumDelay(self, value: TimeValue) -> IPduTiming:
+    def setMinimumDelay(self, value: "TimeValue") -> IPduTiming:
         """
         AUTOSAR-compliant setter for minimumDelay with method chaining.
         
@@ -4353,7 +4357,7 @@ class IPduTiming(Describable):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_minimum_delay(self, value: Optional[TimeValue]) -> IPduTiming:
+    def with_minimum_delay(self, value: Optional["TimeValue"]) -> IPduTiming:
         """
         Set minimumDelay and return self for chaining.
         
@@ -4692,15 +4696,15 @@ class ContainedIPduProps(ARObject):
         # Defines a IPdu specific sender timeout which can reduce timer when this
                 # containedIPdu is put ContainerIPdu.
         # This attribute is ignored on.
-        self._timeout: Optional[TimeValue] = None
+        self._timeout: Optional["TimeValue"] = None
 
     @property
-    def timeout(self) -> Optional[TimeValue]:
+    def timeout(self) -> Optional["TimeValue"]:
         """Get timeout (Pythonic accessor)."""
         return self._timeout
 
     @timeout.setter
-    def timeout(self, value: Optional[TimeValue]) -> None:
+    def timeout(self, value: Optional["TimeValue"]) -> None:
         """
         Set timeout with validation.
         
@@ -4945,7 +4949,7 @@ class ContainedIPduProps(ARObject):
         self.priority = value  # Delegates to property setter
         return self
 
-    def getTimeout(self) -> TimeValue:
+    def getTimeout(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for timeout.
         
@@ -4957,7 +4961,7 @@ class ContainedIPduProps(ARObject):
         """
         return self.timeout  # Delegates to property
 
-    def setTimeout(self, value: TimeValue) -> ContainedIPduProps:
+    def setTimeout(self, value: "TimeValue") -> ContainedIPduProps:
         """
         AUTOSAR-compliant setter for timeout with method chaining.
         
@@ -5127,7 +5131,7 @@ class ContainedIPduProps(ARObject):
         self.priority = value  # Use property setter (gets validation)
         return self
 
-    def with_timeout(self, value: Optional[TimeValue]) -> ContainedIPduProps:
+    def with_timeout(self, value: Optional["TimeValue"]) -> ContainedIPduProps:
         """
         Set timeout and return self for chaining.
         
@@ -8018,15 +8022,15 @@ class ContainerIPdu(IPdu):
         # When this timeout expires the ContainerIPdu is sent out.
         # respective timer is started when the first Ipdu is put ContainerIPdu.
         # This attribute is ignored on.
-        self._container: Optional[TimeValue] = None
+        self._container: Optional["TimeValue"] = None
 
     @property
-    def container(self) -> Optional[TimeValue]:
+    def container(self) -> Optional["TimeValue"]:
         """Get container (Pythonic accessor)."""
         return self._container
 
     @container.setter
-    def container(self, value: Optional[TimeValue]) -> None:
+    def container(self, value: Optional["TimeValue"]) -> None:
         """
         Set container with validation.
         
@@ -8268,7 +8272,7 @@ class ContainerIPdu(IPdu):
         """
         return self.contained_pdu  # Delegates to property
 
-    def getContainer(self) -> TimeValue:
+    def getContainer(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for container.
         
@@ -8280,7 +8284,7 @@ class ContainerIPdu(IPdu):
         """
         return self.container  # Delegates to property
 
-    def setContainer(self, value: TimeValue) -> ContainerIPdu:
+    def setContainer(self, value: "TimeValue") -> ContainerIPdu:
         """
         AUTOSAR-compliant setter for container with method chaining.
         
@@ -8494,7 +8498,7 @@ class ContainerIPdu(IPdu):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_container(self, value: Optional[TimeValue]) -> ContainerIPdu:
+    def with_container(self, value: Optional["TimeValue"]) -> ContainerIPdu:
         """
         Set container and return self for chaining.
         
@@ -8644,15 +8648,15 @@ class SecuredIPdu(IPdu):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # Reference to authentication properties that are valid for this SecuredIPdu.
-        self._authentication: Optional[SecureCommunication] = None
+        self._authentication: Optional["SecureCommunication"] = None
 
     @property
-    def authentication(self) -> Optional[SecureCommunication]:
+    def authentication(self) -> Optional["SecureCommunication"]:
         """Get authentication (Pythonic accessor)."""
         return self._authentication
 
     @authentication.setter
-    def authentication(self, value: Optional[SecureCommunication]) -> None:
+    def authentication(self, value: Optional["SecureCommunication"]) -> None:
         """
         Set authentication with validation.
         
@@ -8704,15 +8708,15 @@ class SecuredIPdu(IPdu):
             )
         self._dynamic = value
         # Reference to freshness properties that are valid for this.
-        self._freshnessProps: Optional[SecureCommunication] = None
+        self._freshnessProps: Optional["SecureCommunication"] = None
 
     @property
-    def freshness_props(self) -> Optional[SecureCommunication]:
+    def freshness_props(self) -> Optional["SecureCommunication"]:
         """Get freshnessProps (Pythonic accessor)."""
         return self._freshnessProps
 
     @freshness_props.setter
-    def freshness_props(self, value: Optional[SecureCommunication]) -> None:
+    def freshness_props(self, value: Optional["SecureCommunication"]) -> None:
         """
         Set freshnessProps with validation.
         
@@ -8756,15 +8760,15 @@ class SecuredIPdu(IPdu):
 
         self._payload = value
         # Specific configuration properties for this SecuredIPdu.
-        self._secure: Optional[SecureCommunication] = None
+        self._secure: Optional["SecureCommunication"] = None
 
     @property
-    def secure(self) -> Optional[SecureCommunication]:
+    def secure(self) -> Optional["SecureCommunication"]:
         """Get secure (Pythonic accessor)."""
         return self._secure
 
     @secure.setter
-    def secure(self, value: Optional[SecureCommunication]) -> None:
+    def secure(self, value: Optional["SecureCommunication"]) -> None:
         """
         Set secure with validation.
         
@@ -8852,7 +8856,7 @@ class SecuredIPdu(IPdu):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getAuthentication(self) -> SecureCommunication:
+    def getAuthentication(self) -> "SecureCommunication":
         """
         AUTOSAR-compliant getter for authentication.
         
@@ -8864,7 +8868,7 @@ class SecuredIPdu(IPdu):
         """
         return self.authentication  # Delegates to property
 
-    def setAuthentication(self, value: SecureCommunication) -> SecuredIPdu:
+    def setAuthentication(self, value: "SecureCommunication") -> SecuredIPdu:
         """
         AUTOSAR-compliant setter for authentication with method chaining.
         
@@ -8908,7 +8912,7 @@ class SecuredIPdu(IPdu):
         self.dynamic = value  # Delegates to property setter
         return self
 
-    def getFreshnessProps(self) -> SecureCommunication:
+    def getFreshnessProps(self) -> "SecureCommunication":
         """
         AUTOSAR-compliant getter for freshnessProps.
         
@@ -8920,7 +8924,7 @@ class SecuredIPdu(IPdu):
         """
         return self.freshness_props  # Delegates to property
 
-    def setFreshnessProps(self, value: SecureCommunication) -> SecuredIPdu:
+    def setFreshnessProps(self, value: "SecureCommunication") -> SecuredIPdu:
         """
         AUTOSAR-compliant setter for freshnessProps with method chaining.
         
@@ -8964,7 +8968,7 @@ class SecuredIPdu(IPdu):
         self.payload = value  # Delegates to property setter
         return self
 
-    def getSecure(self) -> SecureCommunication:
+    def getSecure(self) -> "SecureCommunication":
         """
         AUTOSAR-compliant getter for secure.
         
@@ -8976,7 +8980,7 @@ class SecuredIPdu(IPdu):
         """
         return self.secure  # Delegates to property
 
-    def setSecure(self, value: SecureCommunication) -> SecuredIPdu:
+    def setSecure(self, value: "SecureCommunication") -> SecuredIPdu:
         """
         AUTOSAR-compliant setter for secure with method chaining.
         
@@ -9050,7 +9054,7 @@ class SecuredIPdu(IPdu):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_authentication(self, value: Optional[SecureCommunication]) -> SecuredIPdu:
+    def with_authentication(self, value: Optional["SecureCommunication"]) -> SecuredIPdu:
         """
         Set authentication and return self for chaining.
         
@@ -9082,7 +9086,7 @@ class SecuredIPdu(IPdu):
         self.dynamic = value  # Use property setter (gets validation)
         return self
 
-    def with_freshness_props(self, value: Optional[SecureCommunication]) -> SecuredIPdu:
+    def with_freshness_props(self, value: Optional["SecureCommunication"]) -> SecuredIPdu:
         """
         Set freshnessProps and return self for chaining.
         
@@ -9114,7 +9118,7 @@ class SecuredIPdu(IPdu):
         self.payload = value  # Use property setter (gets validation)
         return self
 
-    def with_secure(self, value: Optional[SecureCommunication]) -> SecuredIPdu:
+    def with_secure(self, value: Optional["SecureCommunication"]) -> SecuredIPdu:
         """
         Set secure and return self for chaining.
         

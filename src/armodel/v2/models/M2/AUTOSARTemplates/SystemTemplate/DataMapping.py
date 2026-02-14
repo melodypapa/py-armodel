@@ -168,7 +168,7 @@ class DataMapping(ARObject, ABC):
 
 class SenderRecCompositeTypeMapping(ARObject, ABC):
     """
-    Two mappings exist for the composite data types: "ArrayTypeMapping" and
+    Two mappings exist for the composite data types: ArrayTypeMapping and
     "RecordTypeMapping". In both, a primitive datatype will be mapped to a
     system signal. But it is also possible to combine the arrays and the
     records, so that an "array" could be an element of a "record" and in the
@@ -410,7 +410,7 @@ class SenderRecRecordElementMapping(ARObject):
         self.application = value  # Delegates to property setter
         return self
 
-    def getComplexType(self) -> "SenderRecComposite":
+    def getComplexType(self) -> SenderRecComposite:
         """
         AUTOSAR-compliant getter for complexType.
 
@@ -422,7 +422,7 @@ class SenderRecRecordElementMapping(ARObject):
         """
         return self.complex_type  # Delegates to property
 
-    def setComplexType(self, value: "SenderRecComposite") -> SenderRecRecordElementMapping:
+    def setComplexType(self, value: SenderRecComposite) -> SenderRecRecordElementMapping:
         """
         AUTOSAR-compliant setter for complexType with method chaining.
 
@@ -438,7 +438,7 @@ class SenderRecRecordElementMapping(ARObject):
         self.complex_type = value  # Delegates to property setter
         return self
 
-    def getImplementation(self) -> "ImplementationData":
+    def getImplementation(self) -> ImplementationData:
         """
         AUTOSAR-compliant getter for implementation.
 
@@ -450,7 +450,7 @@ class SenderRecRecordElementMapping(ARObject):
         """
         return self.implementation  # Delegates to property
 
-    def setImplementation(self, value: "ImplementationData") -> SenderRecRecordElementMapping:
+    def setImplementation(self, value: ImplementationData) -> SenderRecRecordElementMapping:
         """
         AUTOSAR-compliant setter for implementation with method chaining.
 
@@ -760,7 +760,7 @@ class SenderRecArrayElementMapping(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getComplexType(self) -> "SenderRecComposite":
+    def getComplexType(self) -> SenderRecComposite:
         """
         AUTOSAR-compliant getter for complexType.
 
@@ -772,7 +772,7 @@ class SenderRecArrayElementMapping(ARObject):
         """
         return self.complex_type  # Delegates to property
 
-    def setComplexType(self, value: "SenderRecComposite") -> SenderRecArrayElementMapping:
+    def setComplexType(self, value: SenderRecComposite) -> SenderRecArrayElementMapping:
         """
         AUTOSAR-compliant setter for complexType with method chaining.
 
@@ -1025,7 +1025,7 @@ class IndexedArrayElement(ARObject):
         self.application_array = value  # Delegates to property setter
         return self
 
-    def getImplementation(self) -> "ImplementationData":
+    def getImplementation(self) -> ImplementationData:
         """
         AUTOSAR-compliant getter for implementation.
 
@@ -1037,7 +1037,7 @@ class IndexedArrayElement(ARObject):
         """
         return self.implementation  # Delegates to property
 
-    def setImplementation(self, value: "ImplementationData") -> IndexedArrayElement:
+    def setImplementation(self, value: ImplementationData) -> IndexedArrayElement:
         """
         AUTOSAR-compliant setter for implementation with method chaining.
 
@@ -1581,7 +1581,7 @@ class SenderReceiverToSignalGroupMapping(DataMapping):
         self.signal_group = value  # Delegates to property setter
         return self
 
-    def getTypeMapping(self) -> "SenderRecComposite":
+    def getTypeMapping(self) -> SenderRecComposite:
         """
         AUTOSAR-compliant getter for typeMapping.
 
@@ -1593,7 +1593,7 @@ class SenderReceiverToSignalGroupMapping(DataMapping):
         """
         return self.type_mapping  # Delegates to property
 
-    def setTypeMapping(self, value: "SenderRecComposite") -> SenderReceiverToSignalGroupMapping:
+    def setTypeMapping(self, value: SenderRecComposite) -> SenderReceiverToSignalGroupMapping:
         """
         AUTOSAR-compliant setter for typeMapping with method chaining.
 
@@ -2051,7 +2051,7 @@ class SenderReceiverCompositeElementToSignalMapping(DataMapping):
         self.system_signal = value  # Delegates to property setter
         return self
 
-    def getTypeMapping(self) -> "SenderRecComposite":
+    def getTypeMapping(self) -> SenderRecComposite:
         """
         AUTOSAR-compliant getter for typeMapping.
 
@@ -2063,7 +2063,7 @@ class SenderReceiverCompositeElementToSignalMapping(DataMapping):
         """
         return self.type_mapping  # Delegates to property
 
-    def setTypeMapping(self, value: "SenderRecComposite") -> SenderReceiverCompositeElementToSignalMapping:
+    def setTypeMapping(self, value: SenderRecComposite) -> SenderReceiverCompositeElementToSignalMapping:
         """
         AUTOSAR-compliant setter for typeMapping with method chaining.
 

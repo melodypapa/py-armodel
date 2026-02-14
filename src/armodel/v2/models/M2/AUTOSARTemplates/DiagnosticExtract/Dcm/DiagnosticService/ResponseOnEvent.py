@@ -238,15 +238,15 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
             )
         self._maxSupported = value
         # (DID) or to detect DTC status.
-        self._responseOn: Optional[TimeValue] = None
+        self._responseOn: Optional["TimeValue"] = None
 
     @property
-    def response_on(self) -> Optional[TimeValue]:
+    def response_on(self) -> Optional["TimeValue"]:
         """Get responseOn (Pythonic accessor)."""
         return self._responseOn
 
     @response_on.setter
-    def response_on(self, value: Optional[TimeValue]) -> None:
+    def response_on(self, value: Optional["TimeValue"]) -> None:
         """
         Set responseOn with validation.
 
@@ -382,7 +382,7 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
         self.max_supported = value  # Delegates to property setter
         return self
 
-    def getResponseOn(self) -> TimeValue:
+    def getResponseOn(self) -> "TimeValue":
         """
         AUTOSAR-compliant getter for responseOn.
 
@@ -394,7 +394,7 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
         """
         return self.response_on  # Delegates to property
 
-    def setResponseOn(self, value: TimeValue) -> DiagnosticResponseOnEventClass:
+    def setResponseOn(self, value: "TimeValue") -> DiagnosticResponseOnEventClass:
         """
         AUTOSAR-compliant setter for responseOn with method chaining.
 
@@ -488,7 +488,7 @@ class DiagnosticResponseOnEventClass(DiagnosticServiceClass):
         self.max_supported = value  # Use property setter (gets validation)
         return self
 
-    def with_response_on(self, value: Optional[TimeValue]) -> DiagnosticResponseOnEventClass:
+    def with_response_on(self, value: Optional["TimeValue"]) -> DiagnosticResponseOnEventClass:
         """
         Set responseOn and return self for chaining.
 

@@ -18,6 +18,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
 from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     Boolean,
+    DltEcu,
     RefType,
     String,
 )
@@ -177,7 +178,7 @@ class DltConfig(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getDltEcu(self) -> "DltEcu":
+    def getDltEcu(self) -> DltEcu:
         """
         AUTOSAR-compliant getter for dltEcu.
 
@@ -189,7 +190,7 @@ class DltConfig(ARObject):
         """
         return self.dlt_ecu  # Delegates to property
 
-    def setDltEcu(self, value: "DltEcu") -> DltConfig:
+    def setDltEcu(self, value: DltEcu) -> DltConfig:
         """
         AUTOSAR-compliant setter for dltEcu with method chaining.
 

@@ -34,6 +34,7 @@ from armodel.v2.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClass
     VerbatimString,
 )
 from armodel.v2.models.M2.MSR.AsamHdo.SpecialData import (
+    RegularExpression,
     Sdg,
 )
 
@@ -361,15 +362,15 @@ class BuildActionIoElement(ARObject):
         # It to specialize the usage and/or the content of Such a specialization may
                 # also impose constraints on the entire substructure.
         # Identifiable.
-        self._category: "NameToken" = None
+        self._category: NameToken = None
 
     @property
-    def category(self) -> "NameToken":
+    def category(self) -> NameToken:
         """Get category (Pythonic accessor)."""
         return self._category
 
     @category.setter
-    def category(self, value: "NameToken") -> None:
+    def category(self, value: NameToken) -> None:
         """
         Set category with validation.
 
@@ -462,7 +463,7 @@ class BuildActionIoElement(ARObject):
         """
         return self.category  # Delegates to property
 
-    def setCategory(self, value: "NameToken") -> BuildActionIoElement:
+    def setCategory(self, value: NameToken) -> BuildActionIoElement:
         """
         AUTOSAR-compliant setter for category with method chaining.
 
@@ -934,15 +935,15 @@ class BuildEngineeringObject(EngineeringObject):
         # Note that an engineering object multiple representations of the same
                 # artifact.
         # can select one of the provided.
-        self._fileType: "NameToken" = None
+        self._fileType: NameToken = None
 
     @property
-    def file_type(self) -> "NameToken":
+    def file_type(self) -> NameToken:
         """Get fileType (Pythonic accessor)."""
         return self._fileType
 
     @file_type.setter
-    def file_type(self, value: "NameToken") -> None:
+    def file_type(self, value: NameToken) -> None:
         """
         Set fileType with validation.
 
@@ -958,15 +959,15 @@ class BuildEngineeringObject(EngineeringObject):
             )
         self._fileType = value
         # applied to the filetype of the objects.
-        self._fileTypePattern: "RegularExpression" = None
+        self._fileTypePattern: RegularExpression = None
 
     @property
-    def file_type_pattern(self) -> "RegularExpression":
+    def file_type_pattern(self) -> RegularExpression:
         """Get fileTypePattern (Pythonic accessor)."""
         return self._fileTypePattern
 
     @file_type_pattern.setter
-    def file_type_pattern(self, value: "RegularExpression") -> None:
+    def file_type_pattern(self, value: RegularExpression) -> None:
         """
         Set fileTypePattern with validation.
 
@@ -1026,7 +1027,7 @@ class BuildEngineeringObject(EngineeringObject):
         """
         return self.file_type  # Delegates to property
 
-    def setFileType(self, value: "NameToken") -> BuildEngineeringObject:
+    def setFileType(self, value: NameToken) -> BuildEngineeringObject:
         """
         AUTOSAR-compliant setter for fileType with method chaining.
 
@@ -1042,7 +1043,7 @@ class BuildEngineeringObject(EngineeringObject):
         self.file_type = value  # Delegates to property setter
         return self
 
-    def getFileTypePattern(self) -> "RegularExpression":
+    def getFileTypePattern(self) -> RegularExpression:
         """
         AUTOSAR-compliant getter for fileTypePattern.
 
@@ -1054,7 +1055,7 @@ class BuildEngineeringObject(EngineeringObject):
         """
         return self.file_type_pattern  # Delegates to property
 
-    def setFileTypePattern(self, value: "RegularExpression") -> BuildEngineeringObject:
+    def setFileTypePattern(self, value: RegularExpression) -> BuildEngineeringObject:
         """
         AUTOSAR-compliant setter for fileTypePattern with method chaining.
 
@@ -1116,7 +1117,7 @@ class BuildEngineeringObject(EngineeringObject):
         self.file_type = value  # Use property setter (gets validation)
         return self
 
-    def with_file_type_pattern(self, value: "RegularExpression") -> BuildEngineeringObject:
+    def with_file_type_pattern(self, value: RegularExpression) -> BuildEngineeringObject:
         """
         Set fileTypePattern and return self for chaining.
 
@@ -1168,15 +1169,15 @@ class GenericModelReference(ARObject):
 
     # ===== Pythonic properties (CODING_RULE_V2_00016) =====
         # This establishes the reference base.
-        self._base: "NameToken" = None
+        self._base: NameToken = None
 
     @property
-    def base(self) -> "NameToken":
+    def base(self) -> NameToken:
         """Get base (Pythonic accessor)."""
         return self._base
 
     @base.setter
-    def base(self, value: "NameToken") -> None:
+    def base(self, value: NameToken) -> None:
         """
         Set base with validation.
 
@@ -1193,15 +1194,15 @@ class GenericModelReference(ARObject):
         self._base = value
                 # the model element in any model.
         # Therefore we cannot have any.
-        self._dest: "NameToken" = None
+        self._dest: NameToken = None
 
     @property
-    def dest(self) -> "NameToken":
+    def dest(self) -> NameToken:
         """Get dest (Pythonic accessor)."""
         return self._dest
 
     @dest.setter
-    def dest(self, value: "NameToken") -> None:
+    def dest(self, value: NameToken) -> None:
         """
         Set dest with validation.
 
@@ -1238,7 +1239,7 @@ class GenericModelReference(ARObject):
 
     # ===== AUTOSAR-compatible methods (delegate to properties) =====
 
-    def getBase(self) -> "NameToken":
+    def getBase(self) -> NameToken:
         """
         AUTOSAR-compliant getter for base.
 
@@ -1250,7 +1251,7 @@ class GenericModelReference(ARObject):
         """
         return self.base  # Delegates to property
 
-    def setBase(self, value: "NameToken") -> GenericModelReference:
+    def setBase(self, value: NameToken) -> GenericModelReference:
         """
         AUTOSAR-compliant setter for base with method chaining.
 
@@ -1266,7 +1267,7 @@ class GenericModelReference(ARObject):
         self.base = value  # Delegates to property setter
         return self
 
-    def getDest(self) -> "NameToken":
+    def getDest(self) -> NameToken:
         """
         AUTOSAR-compliant getter for dest.
 
@@ -1278,7 +1279,7 @@ class GenericModelReference(ARObject):
         """
         return self.dest  # Delegates to property
 
-    def setDest(self, value: "NameToken") -> GenericModelReference:
+    def setDest(self, value: NameToken) -> GenericModelReference:
         """
         AUTOSAR-compliant setter for dest with method chaining.
 
@@ -1324,7 +1325,7 @@ class GenericModelReference(ARObject):
 
     # ===== Fluent with_ methods (CODING_RULE_V2_00019) =====
 
-    def with_base(self, value: "NameToken") -> GenericModelReference:
+    def with_base(self, value: NameToken) -> GenericModelReference:
         """
         Set base and return self for chaining.
 
@@ -1340,7 +1341,7 @@ class GenericModelReference(ARObject):
         self.base = value  # Use property setter (gets validation)
         return self
 
-    def with_dest(self, value: "NameToken") -> GenericModelReference:
+    def with_dest(self, value: NameToken) -> GenericModelReference:
         """
         Set dest and return self for chaining.
 
