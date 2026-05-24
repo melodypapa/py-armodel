@@ -3,6 +3,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 
 class SwAddrMethod(AtpBlueprintable):
+    """
+    Software address method defining memory allocation properties for data
+    elements, including initialization policy, section type, and memory
+    allocation keyword policy.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

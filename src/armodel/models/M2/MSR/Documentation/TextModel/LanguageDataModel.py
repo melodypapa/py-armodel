@@ -8,11 +8,18 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 
 class LEnum(ARLiteral):
+    """
+    Enumeration literal for language-specific values.
+    """
     def __init__(self):
         super().__init__()
 
 
 class LanguageSpecific(ARObject, ABC):
+    """
+    Abstract base class for language-specific content with language
+    identifier and value.
+    """
     def __init__(self):
         if type(self) is LanguageSpecific:
             raise TypeError("LanguageSpecific is an abstract class.")
@@ -38,20 +45,32 @@ class LanguageSpecific(ARObject, ABC):
 
 
 class LOverviewParagraph(LanguageSpecific):
+    """
+    Language-specific overview paragraph element.
+    """
     def __init__(self):
         super().__init__()
 
 
 class LParagraph(LanguageSpecific):
+    """
+    Language-specific paragraph element.
+    """
     def __init__(self):
         super().__init__()
 
 
 class LLongName(LanguageSpecific):
+    """
+    Language-specific long name element.
+    """
     def __init__(self):
         super().__init__()
 
 
 class LPlainText(LanguageSpecific):
+    """
+    Language-specific plain text element.
+    """
     def __init__(self):
         super().__init__()

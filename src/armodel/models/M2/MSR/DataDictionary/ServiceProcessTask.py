@@ -2,6 +2,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 
 class SwServiceArg(Identifiable):
+    """
+    Service argument with direction, array size, and data definition
+    properties.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

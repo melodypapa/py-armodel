@@ -7,6 +7,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 
 class GraphicFitEnum(AREnum):
+    """
+    Enumeration for graphic fitting modes.
+    """
     def __init__(self, enum_values):
         super().__init__([
 
@@ -14,6 +17,9 @@ class GraphicFitEnum(AREnum):
 
 
 class Graphic(EngineeringObject):
+    """
+    Graphic element with filename, dimensions, and fit properties.
+    """
     def __init__(self):
         super().__init__()
 
@@ -74,11 +80,17 @@ class Graphic(EngineeringObject):
     
 
 class Map(ARObject):
+    """
+    Image map definition for clickable regions within a graphic.
+    """
     def __init__(self):
         super().__init__()
     
 
 class LGraphic(LanguageSpecific):
+    """
+    Language-specific graphic with an associated image and optional map.
+    """
     def __init__(self):
         super().__init__()
 
@@ -112,6 +124,10 @@ class LGraphic(LanguageSpecific):
 
 
 class MlFigure(Paginateable):
+    """
+    Multi-language figure with caption, graphics, and optional verbatim
+    content.
+    """
     def __init__(self):
         super().__init__()
 

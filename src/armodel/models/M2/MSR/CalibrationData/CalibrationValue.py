@@ -4,6 +4,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical
 
 class SwValues(ARObject):
+    """
+    Collection of numerical values for calibration data.
+    """
     def __init__(self):
         super().__init__()
 
@@ -18,6 +21,10 @@ class SwValues(ARObject):
 
 
 class SwValueCont(ARObject):
+    """
+    Container for calibration values with array size, physical values,
+    and unit reference.
+    """
     def __init__(self):
         super().__init__()
 
