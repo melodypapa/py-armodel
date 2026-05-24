@@ -40,6 +40,8 @@ class AutosarVariableRef(ARObject):
         Returns:
             self for method chaining
         """
+        self.autosarVariableIRef = value
+        return self
 
     def getAutosarVariableInImplDatatype(self) -> ArVariableInImplementationDataInstanceRef:
         """Get the autosarVariableInImplDatatype attribute."""
@@ -68,3 +70,5 @@ class AutosarVariableRef(ARObject):
         Returns:
             self for method chaining
         """
+        self.localVariableRef = value
+        return self

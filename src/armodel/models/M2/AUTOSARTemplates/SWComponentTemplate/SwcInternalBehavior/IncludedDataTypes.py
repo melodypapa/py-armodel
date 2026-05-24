@@ -64,3 +64,4 @@ class IncludedDataTypeSet(ARObject):
         Returns:
             ARLiteral: The literal prefix
         """
+        return self.literal_prefix
