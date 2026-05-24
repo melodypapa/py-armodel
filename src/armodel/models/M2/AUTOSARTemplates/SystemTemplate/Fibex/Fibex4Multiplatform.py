@@ -7,6 +7,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
 
 class FrameMapping(ARObject):
+    """
+    A PduToFrameMapping defines the composition of Pdus in each frame.
+    """
+
     def __init__(self):
         super().__init__()
 
@@ -36,6 +40,11 @@ class FrameMapping(ARObject):
         return self
 
 class ISignalMapping(ARObject):
+    """
+    Arranges signals transferred by the gateway from one channel to another
+    in pairs and defines the mapping between them.
+    """
+
     def __init__(self):
         super().__init__()
 
@@ -65,6 +74,11 @@ class ISignalMapping(ARObject):
         return self
     
 class DefaultValueElement(ARObject):
+    """
+    The default value consists of a number of elements. Each element is one
+    byte long and the number of elements is specified by SduLength.
+    """
+
     def __init__(self):
         super().__init__()
 
@@ -88,6 +102,11 @@ class DefaultValueElement(ARObject):
         return self
     
 class PduMappingDefaultValue(ARObject):
+    """
+    Default value which will be distributed if no I-Pdu has been received
+    since last sending.
+    """
+
     def __init__(self):
         super().__init__()
 
@@ -102,6 +121,10 @@ class PduMappingDefaultValue(ARObject):
         return self
 
 class TargetIPduRef(ARObject):
+    """
+    Target destination of the referencing mapping.
+    """
+
     def __init__(self):
         super().__init__()
 
@@ -125,6 +148,11 @@ class TargetIPduRef(ARObject):
         return self
 
 class IPduMapping(ARObject):
+    """
+    An ISignalToIPduMapping describes the mapping of ISignals to ISignalIPdus
+    and defines the position of the ISignal within an ISignalIPdu.
+    """
+
     def __init__(self):
         super().__init__()
 
@@ -168,6 +196,10 @@ class IPduMapping(ARObject):
 
     
 class Gateway(FibexElement):
+    """
+    A gateway is an ECU that is connected to two or more clusters and
+    performs frame, Pdu, or signal mapping between them.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

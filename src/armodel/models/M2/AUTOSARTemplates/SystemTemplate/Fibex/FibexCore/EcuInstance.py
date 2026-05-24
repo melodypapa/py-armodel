@@ -8,6 +8,11 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
 from typing import List
 
 class EcuInstance(FibexElement):
+    """
+    ECUInstances are used to define the ECUs used in the topology.
+    The type of the ECU is defined by a reference to an ECU specified
+    with the ECU resource description.
+    """
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 

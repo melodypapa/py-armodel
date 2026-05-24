@@ -7,6 +7,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure impor
 
 
 class VariableDataPrototypeInSystemInstanceRef(AtpInstanceRef):
+    """
+    Instance reference to a VariableDataPrototype in the context of a
+    system model.
+    """
+
     def __init__(self):
         super().__init__()
 
@@ -53,6 +58,10 @@ class VariableDataPrototypeInSystemInstanceRef(AtpInstanceRef):
 
 
 class ComponentInSystemInstanceRef(AtpInstanceRef):
+    """
+    Instance reference to a component in the context of a system model.
+    """
+
     def __init__(self):
         super().__init__()
 
