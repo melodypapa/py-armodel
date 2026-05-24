@@ -24,6 +24,10 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import B
 
 
 class FileInfoComment(ARObject):
+    """
+    File information comment with special data groups for ARXML file
+    metadata.
+    """
     def __init__(self):
         super().__init__()
 
@@ -38,6 +42,11 @@ class FileInfoComment(ARObject):
 
 
 class AbstractAUTOSAR(CollectableElement):
+    """
+    Abstract base class for the AUTOSAR top-level model providing package
+    management, element lookup, data type conversion, and AR release
+    versioning.
+    """
     def __init__(self):
         super().__init__()
 
@@ -295,6 +304,11 @@ class AbstractAUTOSAR(CollectableElement):
 
 
 class AUTOSAR (AbstractAUTOSAR):
+    """
+    Singleton entry point for the AUTOSAR model providing global access to
+    all ARPackages, systems, components, type maps, and UUID management.
+    Use getInstance() to access the singleton.
+    """
     __instance = None
 
     @staticmethod
@@ -316,5 +330,8 @@ class AUTOSAR (AbstractAUTOSAR):
 
 
 class AUTOSARDoc(AbstractAUTOSAR):
+    """
+    AUTOSAR documentation-specific top-level model.
+    """
     def __init__(self):
         super().__init__()

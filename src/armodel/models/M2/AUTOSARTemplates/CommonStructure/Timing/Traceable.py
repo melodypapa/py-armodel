@@ -5,6 +5,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 
 class Traceable(Identifiable, ABC):
+    """
+    Abstract base class for traceable identifiable elements.
+    """
     def __init__(self, parent, short_name: str):
         if type(self) is Traceable:
             raise TypeError("Traceable is an abstract class.")
