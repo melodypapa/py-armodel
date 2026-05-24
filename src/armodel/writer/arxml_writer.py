@@ -224,6 +224,10 @@ from armodel.writer.abstract_arxml_writer import AbstractARXMLWriter
 
 
 class ARXMLWriter(AbstractARXMLWriter):
+    """
+    Main ARXML writer that serializes the AUTOSAR model back to ARXML
+    format. Dispatches element writing to type-specific write methods.
+    """
     def __init__(self, options=None) -> None:
         super().__init__(options)
 

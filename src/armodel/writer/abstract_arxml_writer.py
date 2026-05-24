@@ -14,6 +14,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 
 class AbstractARXMLWriter(ABC):
+    """
+    Abstract base class for ARXML writers providing common XML
+    serialization utilities, namespace handling, and error/warning
+    management.
+    """
 
     def __init__(self, options=None) -> None:
         if type(self) is AbstractARXMLWriter:

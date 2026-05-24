@@ -232,6 +232,11 @@ from armodel.parser.abstract_arxml_parser import AbstractARXMLParser
 
 
 class ARXMLParser(AbstractARXMLParser):
+    """
+    Main ARXML parser that loads AUTOSAR XML files into the model.
+    Parses elements by dispatching to type-specific read methods based on
+    XML tag names.
+    """
     def __init__(self, options=None) -> None:
         super().__init__(options)
 
