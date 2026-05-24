@@ -10,6 +10,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
 class PerInstanceMemory(AtpStructureElement):
+    """
+    A per-instance memory is a memory block that is allocated separately
+    for each instance of an atomic software component.
+    """
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -19,29 +24,89 @@ class PerInstanceMemory(AtpStructureElement):
         self.typeDefinition: ARLiteral = None
 
     def getInitValue(self):
+        """
+        Gets the initial value of the per-instance memory.
+
+        Returns:
+            ARLiteral: The initial value
+        """
         return self.initValue
 
     def setInitValue(self, value):
+        """
+        Sets the initial value of the per-instance memory.
+
+        Args:
+            value: The initial value to set
+
+        Returns:
+            self for method chaining
+        """
         self.initValue = value
         return self
 
     def getSwDataDefProps(self):
+        """
+        Gets the software data definition properties.
+
+        Returns:
+            SwDataDefProps: The software data definition properties
+        """
         return self.swDataDefProps
 
     def setSwDataDefProps(self, value):
+        """
+        Sets the software data definition properties.
+
+        Args:
+            value: The software data definition properties to set
+
+        Returns:
+            self for method chaining
+        """
         self.swDataDefProps = value
         return self
 
     def getType(self):
+        """
+        Gets the type of the per-instance memory.
+
+        Returns:
+            ARLiteral: The type
+        """
         return self.type
 
     def setType(self, value):
+        """
+        Sets the type of the per-instance memory.
+
+        Args:
+            value: The type to set
+
+        Returns:
+            self for method chaining
+        """
         self.type = value
         return self
 
     def getTypeDefinition(self):
+        """
+        Gets the type definition of the per-instance memory.
+
+        Returns:
+            ARLiteral: The type definition
+        """
         return self.typeDefinition
 
     def setTypeDefinition(self, value):
+        """
+        Sets the type definition of the per-instance memory.
+
+        Args:
+            value: The type definition to set
+
+        Returns:
+            self for method chaining
+        """
         self.typeDefinition = value
         return self
