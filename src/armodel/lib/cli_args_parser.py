@@ -5,6 +5,10 @@ import os
 import re
 
 class InputFileParser:
+    """
+    Parser for CLI input arguments that resolves directories, file lists,
+    and individual ARXML files.
+    """
     def __init__(self, args: List[str]) -> None:
         self._args = args
         self._filenames = []                # type: List[str]

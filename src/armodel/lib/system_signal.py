@@ -5,6 +5,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 
 class SystemSignalAnalyzer:
+    """
+    Analyzer that collects and displays system signals from the AUTOSAR
+    model.
+    """
     def __init__(self) -> None:
         self.system_signals = []      # type: List[SystemSignal]
 
