@@ -4,6 +4,11 @@
 
 **Goal:** Add Google-style docstrings to every undocumented class across py-armodel (199 classes undocumented, 75.6% current coverage).
 
+**Progress:**
+- **Commits:** `8dc6883e` — Communication.py pilot (27 classes, spec-validated, RPortComSpec bug fix)
+- **Next:** SwcInternalBehavior (12 files, 34 classes)
+- **Remaining:** ~168 classes
+
 **Architecture:** Batch-per-module processing. Each batch: read files, add docstrings to undocumented classes, run tests, commit. Follow reference pattern from `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py`.
 
 **Tech Stack:** Python 3.8+, Sphinx + Napoleon (already configured), Google-style docstrings
@@ -252,6 +257,8 @@ git commit -m "feat: add docstring coverage report generation"
 ---
 
 ### Task 2: Add Docstrings to SWComponentTemplate Module (~95 classes)
+
+> **Status:** Pilot complete. Communication.py done (27 classes). Remaining files in progress.
 
 **Files:**
 - Modify: `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py` — 21 classes
