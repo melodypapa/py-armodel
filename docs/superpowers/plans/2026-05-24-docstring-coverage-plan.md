@@ -5,27 +5,54 @@
 **Goal:** Add Google-style docstrings to every undocumented class across py-armodel (199 classes undocumented, 75.6% current coverage).
 
 **Progress:**
-- **Commits:** `8dc6883e` — Communication.py pilot (27 classes, spec-validated, RPortComSpec bug fix)
-- **Next:** SwcInternalBehavior (12 files, 34 classes)
-- **Remaining:** ~168 classes
+- **Done:** `8dc6883e` — Communication.py (27 classes + conf.py)
+- **Done:** `5405a25c` — SwcInternalBehavior (34 classes, 12 files)
+- **Done:** `1464595c` — Remaining SWComponentTemplate (~39 classes)
+- **Done:** `c08c632d` — SystemTemplate + Fibex (~18 classes)
+- **Done:** `9e59a496` — MSR modules (~39 classes)
+- **Done:** `9bac63e4` — ECUC modules (~26 classes)
+- **Done:** `599d47d6` — Remaining model files (10 classes)
+- **Done:** `c8b5c66c` — Parser/Writer/Transformer/Report (12 classes)
+- **Done:** `3d7f91c3` — Lib & Data Models (6 classes)
+- **Result:** 815/815 documented (100.0%)
 
-**Architecture:** Batch-per-module processing. Each batch: read files, add docstrings to undocumented classes, run tests, commit. Follow reference pattern from `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py`.
+**Architecture:** Batch-per-module processing. Each batch: read files, add docstrings to undocumented classes, run tests, commit. Follow pilot pattern from Communication.py.
 
-**Tech Stack:** Python 3.8+, Sphinx + Napoleon (already configured), Google-style docstrings
+**Tech Stack:** Python 3.8+, Sphinx + Napoleon + myst-parser (for .md files), Google-style docstrings, AUTOSAR CP R23-11 spec markdown
 
-**Reference Materials:** AUTOSAR spec markdown files in `autosar/markdown/` for class descriptions.
+**Reference Materials:**
+- `autosar/markdown/AUTOSAR_CP_TPS_SoftwareComponentTemplate.md` — SWComponentTemplate classes
+- `autosar/markdown/AUTOSAR_CP_TPS_SystemTemplate.md` — SystemTemplate classes
+- `autosar/markdown/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.md` — ECUC/BSW classes
+- `autosar/markdown/AUTOSAR_CP_TPS_DiagnosticExtractTemplate.md` — Diagnostic classes
+- Pilot reference: `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py`
 
 **Rules:**
 - Don't touch files/classes that already have adequate docstrings
 - Don't change code logic — only add docstrings
-- Follow ModeDeclaration.py patterns exactly
-- AUTOSAR terminology preserved exactly
-- Skip `__init__` docstring if it only calls `super().__init__()` with no custom logic
-- Skip trivial getter/setter pairs where method name is self-explanatory
+- Every class gets Google-style docstring with spec-validated Note text
+- Every getter gets `Returns:` section — spec-validated against attribute Note text in spec markdown
+- Every setter gets `Args:` + `Returns: self for method chaining` — args description spec-validated against attribute Note text
+- `addX()` / `appendX()` methods get `Args:` section describing the element being added
+- `removeX()` / `clearX()` methods get single-line description of removal behavior
+- Other public methods get single-line description; `Returns:` if non-None return
+- Skip `__init__` docstring if only `super().__init__()` with no custom params
+- Skip private/internal methods (`_method`, `__method`)
+- For existing non-standard docstrings (JavaDoc-like with Package:/Base: metadata): convert to clean Google-style, preserve spec terminology
+
+**Pilot Lessons (apply to remaining tasks):**
+1. **conf.py needed myst-parser** — Sphinx fails on `.md` files without markdown parser. Added `myst_parser` to extensions.
+2. **Sphinx coverage limited** — `make coverage` only tracks modules referenced in doc RST files via autodoc. Model modules not in doc tree won't appear. Use `sphinx-build -b html` for docstring format validation instead.
+3. **RPortComSpec bug** — Existing docstring said "provided" but AUTOSAR spec says "required". All class descriptions must be spec-validated.
+4. **Method docstrings required** — Every public method gets docstring. Getters/setters follow explicit rules. add/remove helpers get args doc. Non-None returns get `Returns:`. (per Communication.py pattern).
+5. **Spec validation process**: Search spec markdown for class Note field → extract verbatim → adapt as class docstring → search attribute notes for method docstrings.
 
 ---
 
 ## File Structure
+
+### Infrastructure (done in pilot)
+- [x] Modify: `docs/conf.py` — add `myst_parser` to Sphinx extensions for .md support
 
 ### Phase 0: Report Generation
 - **Create:** `scripts/generate_docstring_report.py` — scans all Python files, extracts class names and docstrings
@@ -258,10 +285,10 @@ git commit -m "feat: add docstring coverage report generation"
 
 ### Task 2: Add Docstrings to SWComponentTemplate Module (~95 classes)
 
-> **Status:** Pilot complete. Communication.py done (27 classes). Remaining files in progress.
+> **Status:** Communication.py pilot done (commit 8dc6883e). Remaining: SwcInternalBehavior + other files (~68 classes).
 
 **Files:**
-- Modify: `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py` — 21 classes
+- [x] Modify: `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py` — 27 classes (pilot done)
 - Modify: `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/` (12 files) — 34 classes
 - Modify: `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Datatype/DataPrototypes.py` — 7 classes
 - Modify: `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Datatype/Datatypes.py` — 8 classes
@@ -277,7 +304,7 @@ git commit -m "feat: add docstring coverage report generation"
 
 Undocumented classes per file (list to check against):
 
-Communication.py: HandleInvalidEnum, CompositeNetworkRepresentation, TransmissionAcknowledgementRequest, SenderComSpec, QueuedSenderComSpec, NonqueuedSenderComSpec, ClientComSpec, ModeSwitchReceiverComSpec, NvRequireComSpec, ParameterRequireComSpec, ReceiverComSpec, ModeSwitchedAckRequest, ModeSwitchSenderComSpec, ParameterProvideComSpec, TransformationComSpecProps, EndToEndTransformationComSpecProps, UserDefinedTransformationComSpecProps, ServerComSpec, NvProvideComSpec, NonqueuedReceiverComSpec, QueuedReceiverComSpec
+Communication.py: [x] **PILOT DONE** — all 27 classes (commit 8dc6883e)
 
 EndToEndProtection.py: EndToEndDescription, EndToEndProtectionVariablePrototype, EndToEndProtectionISignalIPdu, EndToEndProtection, EndToEndProtectionSet
 
@@ -625,25 +652,74 @@ git commit -m "docs: final docstring coverage fixes"
 
 ---
 
-## Reference Pattern
-
-File: `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py`
+## Reference Pattern (from Communication.py pilot)
 
 ```python
-class ModeDeclaration(AtpStructureElement):
+class SenderComSpec(PPortComSpec, ABC):
     """
-    Represents a mode declaration in AUTOSAR models.
-    Mode declarations define specific operational states that components can be in, with associated values.
+    Communication attributes for a sender port (PPortPrototype typed by SenderReceiverInterface).
     """
-    
-    def __init__(self, parent: ARObject, short_name: str):
+
+    def __init__(self):
+        if type(self) is SenderComSpec:
+            raise TypeError("SenderComSpec is an abstract class.")
+        super().__init__()
+        self.compositeNetworkRepresentations: List[CompositeNetworkRepresentation] = []
+        self.dataElementRef: RefType = None
+        self.networkRepresentation: SwDataDefProps = None
+        ...
+
+    def addCompositeNetworkRepresentation(self, representation: CompositeNetworkRepresentation):
         """
-        Initializes the ModeDeclaration with a parent and short name.
-        
+        Adds a composite network representation defined in the context of this SenderComSpec.
+        """
+        self.compositeNetworkRepresentations.append(representation)
+
+    def getDataElementRef(self):
+        """
+        Gets the data element these quality of service attributes apply to.
+
+        Returns:
+            RefType: The data element reference
+        """
+        return self.dataElementRef
+
+    def setDataElementRef(self, value):
+        """
+        Sets the data element these quality of service attributes apply to.
+        Only sets the value if it is not None.
+
         Args:
-            parent: The parent ARObject that contains this mode declaration
-            short_name: The unique short name of this mode declaration
+            value: The data element reference to set
+
+        Returns:
+            self for method chaining
         """
+        self.dataElementRef = value
+        return self
+```
+
+## Spec Validation Process (Pilot-Proven)
+
+For each class in a new file:
+
+1. Search spec markdown for class Note:
+   ```bash
+   grep -n "Class.*| *<ClassName>" autosar/markdown/AUTOSAR_CP_TPS_*.md | head -5
+   ```
+2. Extract the Note field value (4th column in table)
+3. Use verbatim as class docstring summary
+4. Search attribute Notes for method docstrings:
+   ```bash
+   grep -n "<ClassName>" autosar/markdown/AUTOSAR_CP_TPS_SoftwareComponentTemplate.md | grep "Note"
+   ```
+5. Fallback: derive from parent class, attributes, naming
+
+## Verification Flow (Every Task)
+
+```bash
+python scripts/run_tests.py                              # Tests must pass
+cd docs && sphinx-build -b html . _build/html 2>&1       # No docstring-related warnings
 ```
 
 ---

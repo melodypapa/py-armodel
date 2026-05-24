@@ -1,102 +1,102 @@
 # Docstring Coverage Report
 
 Generated for manual review. Flag any inaccurate docstrings for correction.
-**Overall: 637/815 documented (78.2%), 178 missing**
+**Overall: 815/815 documented (100.0%), 0 missing**
 
 
 ## data_models
 
 ### data_models/sw_connector.py
 
-- ~~SwConnectorData~~ (L1): *missing*
-- ~~DelegationSwConnectorData~~ (L5): *missing*
-- ~~AssemblySwConnectorData~~ (L15): *missing*
+- **SwConnectorData** (L1): Base data class for SW connector data with short name.
+- **DelegationSwConnectorData** (L8): Data for delegation SW connectors with inner and outer port, SWC
+- **AssemblySwConnectorData** (L22): Data for assembly SW connectors with provider/requester SWC and port
 
-> Coverage: 0/3 (0.0%)
+> Coverage: 3/3 (100.0%)
 
 ## lib
 
 ### lib/cli_args_parser.py
 
-- ~~InputFileParser~~ (L7): *missing*
+- **InputFileParser** (L7): Parser for CLI input arguments that resolves directories, file lists,
 
 ### lib/sw_component.py
 
-- ~~SwComponentAnalyzer~~ (L7): *missing*
+- **SwComponentAnalyzer** (L7): Analyzer that collects and displays software component types from the
 
 ### lib/system_signal.py
 
-- ~~SystemSignalAnalyzer~~ (L7): *missing*
+- **SystemSignalAnalyzer** (L7): Analyzer that collects and displays system signals from the AUTOSAR
 
-> Coverage: 0/3 (0.0%)
+> Coverage: 3/3 (100.0%)
 
 ## models/M2/AUTOSARTemplates
 
 ### models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py
 
-- ~~EcucValueCollection~~ (L13): *missing*
-- ~~EcucIndexableValue~~ (L35): *missing*
-- ~~EcucParameterValue~~ (L43): *missing*
-- ~~EcucAddInfoParamValue~~ (L76): *missing*
-- ~~EcucTextualParamValue~~ (L89): *missing*
-- ~~EcucNumericalParamValue~~ (L102): *missing*
-- ~~EcucAbstractReferenceValue~~ (L115): *missing*
-- ~~EcucInstanceReferenceValue~~ (L148): *missing*
-- ~~EcucReferenceValue~~ (L162): *missing*
-- ~~EcucContainerValue~~ (L176): *missing*
-- ~~EcucModuleConfigurationValues~~ (L217): *missing*
-- ~~EcucConditionSpecification~~ (L274): *missing*
-- ~~EcucConfigurationVariantEnum~~ (L283): *missing*
+- **EcucValueCollection** (L13): Collection of ECUC values with references to ECU extract.
+- **EcucIndexableValue** (L38): Abstract base class for indexable ECUC values.
+- **EcucParameterValue** (L49): Abstract base class for ECUC parameter values with annotation,
+- **EcucAddInfoParamValue** (L86): ECUC parameter value for additional info with documentation block
+- **EcucTextualParamValue** (L103): ECUC parameter value for textual string values.
+- **EcucNumericalParamValue** (L119): ECUC parameter value for numerical values.
+- **EcucAbstractReferenceValue** (L135): Abstract base class for ECUC reference values with annotation,
+- **EcucInstanceReferenceValue** (L172): ECUC reference value using an AnyInstanceRef for instance-based
+- **EcucReferenceValue** (L190): ECUC reference value using a RefType for standard references.
+- **EcucContainerValue** (L207): Container value holding parameter values, reference values, and
+- **EcucModuleConfigurationValues** (L252): ECUC module configuration values with containers, definition
+- **EcucConditionSpecification** (L313): Condition specification for ECUC definitions with condition formula
+- **EcucConfigurationVariantEnum** (L326): Enumeration for ECUC configuration variant types.
 
 ### models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
 
 - **EcucConditionSpecification** (L14): Represents an ECUC (Electronic Control Unit Configuration) condition specification
 - **EcucValidationCondition** (L38): Represents an ECUC validation condition in the AUTOSAR model.
-- ~~EcucScopeEnum~~ (L53): *missing*
-- **EcucDefinitionElement** (L58): Represents an ECUC (Electronic Control Unit Configuration) definition element
-- **EcucDestinationUriDefRefType** (L170): EcucDestinationUriDefRefType is a class that represents a reference type 
-- ~~EcucConfigurationClassEnum~~ (L186): *missing*
-- ~~EcucConfigurationVariantEnum~~ (L191): *missing*
-- **EcucAbstractConfigurationClass** (L196): Represents an abstract configuration class for ECUC (Electronic Control Unit Configuration).
-- **EcucMultiplicityConfigurationClass** (L240): EcucMultiplicityConfigurationClass is a subclass of EcucAbstractConfigurationClass.
-- **EcucContainerDef** (L257): Represents an ECUC container definition in the AUTOSAR model.
-- **EcucValueConfigurationClass** (L360): EcucValueConfigurationClass is a subclass of EcucAbstractConfigurationClass.
-- **EcucCommonAttributes** (L375): EcucCommonAttributes is an abstract base class that represents common attributes 
-- **EcucDerivationSpecification** (L481): Represents an ECUC Derivation Specification in the AUTOSAR model.
-- **EcucParameterDef** (L492): Represents an ECUC (Electronic Control Unit Configuration) parameter definition
-- **EcucBooleanParamDef** (L553): Represents a boolean parameter definition in the AUTOSAR ECUC model.
-- **EcucAbstractReferenceDef** (L578): EcucAbstractReferenceDef is an abstract class that extends EcucCommonAttributes and uses ABCMeta as its metaclass.
-- **EcucAbstractInternalReferenceDef** (L610): EcucAbstractInternalReferenceDef is an abstract class that extends EcucAbstractReferenceDef 
-- ~~EcucAbstractExternalReferenceDef~~ (L640): *missing*
-- ~~EcucSymbolicNameReferenceDef~~ (L648): *missing*
-- ~~EcucChoiceReferenceDef~~ (L663): *missing*
-- ~~EcucReferenceDef~~ (L678): *missing*
-- ~~EcucUriReferenceDef~~ (L693): *missing*
-- ~~EcucForeignReferenceDef~~ (L708): *missing*
-- ~~EcucInstanceReferenceDef~~ (L732): *missing*
-- **EcucAbstractStringParamDef** (L747): EcucAbstractStringParamDef is an abstract class that represents a string parameter definition
-- **EcucStringParamDef** (L821): Represents a specific type of ECUC parameter definition for string parameters.
-- **EcucFunctionNameDef** (L836): Represents a specific type of ECUC parameter definition for function names.
-- ~~EcucIntegerParamDef~~ (L851): *missing*
-- **EcucEnumerationLiteralDef** (L884): Represents an ECUC Enumeration Literal Definition in the AUTOSAR model.
-- **EcucEnumerationParamDef** (L927): Represents an ECUC (Electronic Control Unit Configuration) enumeration parameter definition.
-- ~~EcucFloatParamDef~~ (L972): *missing*
-- **EcucChoiceContainerDef** (L1005): Represents an ECUC choice container definition in the AUTOSAR model.
-- **EcucParamConfContainerDef** (L1032): Represents a configuration container definition in the AUTOSAR ECUC model.
-- **EcucAddInfoParamDef** (L1248): Represents an ECUC additional info parameter definition in the AUTOSAR model.
-- **EcucConditionFormula** (L1274): Represents an ECUC condition formula in the AUTOSAR model.
-- **EcucDefinitionCollection** (L1298): Represents an ECUC definition collection in the AUTOSAR model.
-- **EcucDestinationUriDef** (L1321): Represents an ECUC destination URI definition in the AUTOSAR model.
-- **EcucDestinationUriDefSet** (L1346): Represents an ECUC destination URI definition set in the AUTOSAR model.
-- **EcucDestinationUriPolicy** (L1371): Represents an ECUC destination URI policy in the AUTOSAR model.
-- **EcucLinkerSymbolDef** (L1394): Represents an ECUC linker symbol definition in the AUTOSAR model.
-- **EcucMultilineStringParamDef** (L1419): Represents an ECUC multiline string parameter definition in the AUTOSAR model.
-- **EcucParameterDerivationFormula** (L1434): Represents an ECUC parameter derivation formula in the AUTOSAR model.
-- **EcucQuery** (L1457): Represents an ECUC query in the AUTOSAR model.
-- **EcucQueryExpression** (L1480): Represents an ECUC query expression in the AUTOSAR model.
-- ~~EcucModuleDef~~ (L1503): *missing*
+- **EcucScopeEnum** (L53): Enumeration for ECUC definition scope types.
+- **EcucDefinitionElement** (L61): Represents an ECUC (Electronic Control Unit Configuration) definition element
+- **EcucDestinationUriDefRefType** (L173): EcucDestinationUriDefRefType is a class that represents a reference type 
+- **EcucConfigurationClassEnum** (L189): Enumeration for ECUC configuration class types.
+- **EcucConfigurationVariantEnum** (L197): Enumeration for ECUC configuration variant types.
+- **EcucAbstractConfigurationClass** (L205): Represents an abstract configuration class for ECUC (Electronic Control Unit Configuration).
+- **EcucMultiplicityConfigurationClass** (L249): EcucMultiplicityConfigurationClass is a subclass of EcucAbstractConfigurationClass.
+- **EcucContainerDef** (L266): Represents an ECUC container definition in the AUTOSAR model.
+- **EcucValueConfigurationClass** (L369): EcucValueConfigurationClass is a subclass of EcucAbstractConfigurationClass.
+- **EcucCommonAttributes** (L384): EcucCommonAttributes is an abstract base class that represents common attributes 
+- **EcucDerivationSpecification** (L490): Represents an ECUC Derivation Specification in the AUTOSAR model.
+- **EcucParameterDef** (L501): Represents an ECUC (Electronic Control Unit Configuration) parameter definition
+- **EcucBooleanParamDef** (L562): Represents a boolean parameter definition in the AUTOSAR ECUC model.
+- **EcucAbstractReferenceDef** (L587): EcucAbstractReferenceDef is an abstract class that extends EcucCommonAttributes and uses ABCMeta as its metaclass.
+- **EcucAbstractInternalReferenceDef** (L619): EcucAbstractInternalReferenceDef is an abstract class that extends EcucAbstractReferenceDef 
+- **EcucAbstractExternalReferenceDef** (L649): Abstract base class for ECUC external reference definitions.
+- **EcucSymbolicNameReferenceDef** (L660): ECUC reference definition using symbolic names with a destination
+- **EcucChoiceReferenceDef** (L679): ECUC reference definition for choice containers with a destination
+- **EcucReferenceDef** (L698): ECUC reference definition with a destination reference.
+- **EcucUriReferenceDef** (L716): ECUC reference definition using a URI with a destination URI
+- **EcucForeignReferenceDef** (L735): ECUC reference definition to a foreign context with destination
+- **EcucInstanceReferenceDef** (L763): ECUC reference definition for instance-based references with
+- **EcucAbstractStringParamDef** (L782): EcucAbstractStringParamDef is an abstract class that represents a string parameter definition
+- **EcucStringParamDef** (L856): Represents a specific type of ECUC parameter definition for string parameters.
+- **EcucFunctionNameDef** (L871): Represents a specific type of ECUC parameter definition for function names.
+- **EcucIntegerParamDef** (L886): ECUC integer parameter definition with default value, min, and max
+- **EcucEnumerationLiteralDef** (L923): Represents an ECUC Enumeration Literal Definition in the AUTOSAR model.
+- **EcucEnumerationParamDef** (L966): Represents an ECUC (Electronic Control Unit Configuration) enumeration parameter definition.
+- **EcucFloatParamDef** (L1011): ECUC float parameter definition with default value, min, and max
+- **EcucChoiceContainerDef** (L1048): Represents an ECUC choice container definition in the AUTOSAR model.
+- **EcucParamConfContainerDef** (L1075): Represents a configuration container definition in the AUTOSAR ECUC model.
+- **EcucAddInfoParamDef** (L1291): Represents an ECUC additional info parameter definition in the AUTOSAR model.
+- **EcucConditionFormula** (L1317): Represents an ECUC condition formula in the AUTOSAR model.
+- **EcucDefinitionCollection** (L1341): Represents an ECUC definition collection in the AUTOSAR model.
+- **EcucDestinationUriDef** (L1364): Represents an ECUC destination URI definition in the AUTOSAR model.
+- **EcucDestinationUriDefSet** (L1389): Represents an ECUC destination URI definition set in the AUTOSAR model.
+- **EcucDestinationUriPolicy** (L1414): Represents an ECUC destination URI policy in the AUTOSAR model.
+- **EcucLinkerSymbolDef** (L1437): Represents an ECUC linker symbol definition in the AUTOSAR model.
+- **EcucMultilineStringParamDef** (L1462): Represents an ECUC multiline string parameter definition in the AUTOSAR model.
+- **EcucParameterDerivationFormula** (L1477): Represents an ECUC parameter derivation formula in the AUTOSAR model.
+- **EcucQuery** (L1500): Represents an ECUC query in the AUTOSAR model.
+- **EcucQueryExpression** (L1523): Represents an ECUC query expression in the AUTOSAR model.
+- **EcucModuleDef** (L1546): ECUC module definition with API service prefix, container
 
-> Coverage: 32/58 (55.2%)
+> Coverage: 58/58 (100.0%)
 
 ## models/M2/AUTOSARTemplates/AbstractPlatform
 
@@ -309,12 +309,12 @@ Generated for manual review. Flag any inaccurate docstrings for correction.
 
 ### models/M2/AUTOSARTemplates/CommonStructure/ImplementationDataTypes.py
 
-- ~~AbstractImplementationDataTypeElement~~ (L13): *missing*
-- ~~ImplementationDataTypeElement~~ (L20): *missing*
-- ~~AbstractImplementationDataType~~ (L94): *missing*
-- **ImplementationDataType** (L102): Represents an implementation data type in AUTOSAR models.
-- **ArrayImplPolicyEnum** (L309): Enumeration for array implementation policy.
-- **ArraySizeSemanticsEnum** (L324): Enumeration for array size semantics.
+- **AbstractImplementationDataTypeElement** (L13): Abstract base class for implementation data type elements.
+- **ImplementationDataTypeElement** (L23): Element of an implementation data type defining array properties,
+- **AbstractImplementationDataType** (L101): Abstract base class for implementation data types.
+- **ImplementationDataType** (L112): Represents an implementation data type in AUTOSAR models.
+- **ArrayImplPolicyEnum** (L319): Enumeration for array implementation policy.
+- **ArraySizeSemanticsEnum** (L334): Enumeration for array size semantics.
 
 ### models/M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py
 
@@ -455,7 +455,7 @@ Generated for manual review. Flag any inaccurate docstrings for correction.
 - **Trigger** (L14): Represents a trigger in AUTOSAR models.
 - **TriggerMapping** (L84): Represents a mapping between triggers in AUTOSAR models.
 
-> Coverage: 136/139 (97.8%)
+> Coverage: 139/139 (100.0%)
 
 ## models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport
 
@@ -646,9 +646,9 @@ Generated for manual review. Flag any inaccurate docstrings for correction.
 
 ### models/M2/AUTOSARTemplates/CommonStructure/Timing/Traceable.py
 
-- ~~Traceable~~ (L7): *missing*
+- **Traceable** (L7): Abstract base class for traceable identifiable elements.
 
-> Coverage: 0/1 (0.0%)
+> Coverage: 1/1 (100.0%)
 
 ## models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingClock
 
@@ -759,13 +759,13 @@ Generated for manual review. Flag any inaccurate docstrings for correction.
 
 ### models/M2/AUTOSARTemplates/DiagnosticExtract/DiagnosticCommonElement.py
 
-- ~~DiagnosticCommonElement~~ (L7): *missing*
+- **DiagnosticCommonElement** (L7): Abstract base class for common diagnostic elements in the diagnostic
 
 ### models/M2/AUTOSARTemplates/DiagnosticExtract/DiagnosticContribution.py
 
 - **DiagnosticServiceTable** (L21): Represents a diagnostic service table in AUTOSAR diagnostic extract.
 
-> Coverage: 1/2 (50.0%)
+> Coverage: 2/2 (100.0%)
 
 ## models/M2/AUTOSARTemplates/EcuResourceTemplate
 
@@ -925,164 +925,164 @@ Generated for manual review. Flag any inaccurate docstrings for correction.
 
 ### models/M2/AUTOSARTemplates/SWComponentTemplate/EndToEndProtection.py
 
-- ~~EndToEndDescription~~ (L15): *missing*
-- ~~EndToEndProtectionVariablePrototype~~ (L102): *missing*
-- ~~EndToEndProtectionISignalIPdu~~ (L117): *missing*
-- ~~EndToEndProtection~~ (L147): *missing*
-- ~~EndToEndProtectionSet~~ (L180): *missing*
+- **EndToEndDescription** (L15): End-to-end protection profile description defining CRC, counter, and
+- **EndToEndProtectionVariablePrototype** (L257): Associates a VariableDataPrototype with sender and receiver roles
+- **EndToEndProtectionISignalIPdu** (L290): Defines to which ISignalIPdu-ISignalGroup pair an EndToEndProtection
+- **EndToEndProtection** (L370): This meta-class represents the ability to describe a particular end to
+- **EndToEndProtectionSet** (L453): This represents a container for the collection of EndToEndProtection
 
 ### models/M2/AUTOSARTemplates/SWComponentTemplate/RPTScenario.py
 
-- ~~IdentCaption~~ (L11): *missing*
-- ~~ModeAccessPointIdent~~ (L20): *missing*
+- **IdentCaption** (L11): Abstract base class for identification captions used in access points.
+- **ModeAccessPointIdent** (L23): Identification of a mode access point used to reference a specific
 
 ### models/M2/AUTOSARTemplates/SWComponentTemplate/SoftwareComponentDocumentation.py
 
-- ~~SwComponentDocumentation~~ (L9): *missing*
+- **SwComponentDocumentation** (L9): Documentation for a software component including chapters, calibration
 
 ### models/M2/AUTOSARTemplates/SWComponentTemplate/SwComponentType.py
 
-- ~~SwComponentType~~ (L15): *missing*
+- **SwComponentType** (L15): Abstract base class for all software component types in AUTOSAR.
 
 ### models/M2/AUTOSARTemplates/SWComponentTemplate/SwcImplementation.py
 
-- ~~SwcImplementation~~ (L10): *missing*
+- **SwcImplementation** (L10): Implementation of an atomic software component defining the behavior
 
-> Coverage: 27/37 (73.0%)
+> Coverage: 37/37 (100.0%)
 
 ## models/M2/AUTOSARTemplates/SWComponentTemplate/Components
 
 ### models/M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py
 
-- ~~ModeGroupInAtomicSwcInstanceRef~~ (L12): *missing*
-- ~~PModeGroupInAtomicSwcInstanceRef~~ (L46): *missing*
-- ~~RModeGroupInAtomicSWCInstanceRef~~ (L67): *missing*
-- ~~RModeInAtomicSwcInstanceRef~~ (L89): *missing*
-- ~~VariableInAtomicSwcInstanceRef~~ (L126): *missing*
-- ~~RVariableInAtomicSwcInstanceRef~~ (L137): *missing*
-- ~~InnerPortGroupInCompositionInstanceRef~~ (L158): *missing*
+- **ModeGroupInAtomicSwcInstanceRef** (L12): Abstract base class for mode group instance references within an atomic
+- **PModeGroupInAtomicSwcInstanceRef** (L51): Instance reference to a mode group in an atomic software component
+- **RModeGroupInAtomicSWCInstanceRef** (L77): Instance reference to a mode group in an atomic software component
+- **RModeInAtomicSwcInstanceRef** (L104): Instance reference to a mode declaration in an atomic software component
+- **VariableInAtomicSwcInstanceRef** (L146): Abstract base class for variable instance references within an atomic
+- **RVariableInAtomicSwcInstanceRef** (L162): Instance reference to a variable in an atomic software component
+- **InnerPortGroupInCompositionInstanceRef** (L188): Instance reference to a port group within a composition software
 
-> Coverage: 0/7 (0.0%)
+> Coverage: 7/7 (100.0%)
 
 ## models/M2/AUTOSARTemplates/SWComponentTemplate/Composition
 
 ### models/M2/AUTOSARTemplates/SWComponentTemplate/Composition/InstanceRefs.py
 
-- ~~PortInCompositionTypeInstanceRef~~ (L11): *missing*
-- ~~PPortInCompositionInstanceRef~~ (L44): *missing*
-- ~~RPortInCompositionInstanceRef~~ (L66): *missing*
-- ~~OperationInAtomicSwcInstanceRef~~ (L87): *missing*
-- ~~POperationInAtomicSwcInstanceRef~~ (L119): *missing*
-- ~~ROperationInAtomicSwcInstanceRef~~ (L141): *missing*
+- **PortInCompositionTypeInstanceRef** (L11): Abstract base class for port instance references within a composition
+- **PPortInCompositionInstanceRef** (L49): Instance reference to a PPortPrototype within a composition software
+- **RPortInCompositionInstanceRef** (L76): Instance reference to an RPortPrototype within a composition software
+- **OperationInAtomicSwcInstanceRef** (L102): Abstract base class for operation instance references within an atomic
+- **POperationInAtomicSwcInstanceRef** (L139): Instance reference to a provided operation in an atomic software
+- **ROperationInAtomicSwcInstanceRef** (L166): Instance reference to a required operation in an atomic software
 
-> Coverage: 0/6 (0.0%)
+> Coverage: 6/6 (100.0%)
 
 ## models/M2/AUTOSARTemplates/SWComponentTemplate/Datatype
 
 ### models/M2/AUTOSARTemplates/SWComponentTemplate/Datatype/DataPrototypes.py
 
-- ~~DataPrototype~~ (L16): *missing*
-- ~~AutosarDataPrototype~~ (L32): *missing*
-- ~~VariableDataPrototype~~ (L48): *missing*
-- ~~ApplicationCompositeElementDataPrototype~~ (L61): *missing*
-- ~~ApplicationArrayElement~~ (L78): *missing*
-- ~~ApplicationRecordElement~~ (L119): *missing*
-- ~~ParameterDataPrototype~~ (L134): *missing*
+- **DataPrototype** (L16): Abstract base class for all AUTOSAR data prototypes within software
+- **AutosarDataPrototype** (L52): Abstract base class for AUTOSAR data prototypes that have a type
+- **VariableDataPrototype** (L88): A data prototype that represents a variable data element with an
+- **ApplicationCompositeElementDataPrototype** (L121): Abstract base class for data prototypes that represent elements within
+- **ApplicationArrayElement** (L143): An element of an application array data type defining the array
+- **ApplicationRecordElement** (L249): An element of an application record data type defining a field within
+- **ParameterDataPrototype** (L284): A data prototype that represents a parameter data element with an
 
 ### models/M2/AUTOSARTemplates/SWComponentTemplate/Datatype/Datatypes.py
 
-- ~~AutosarDataType~~ (L19): *missing*
-- ~~ApplicationDataType~~ (L36): *missing*
-- ~~ApplicationPrimitiveDataType~~ (L44): *missing*
-- ~~ApplicationCompositeDataType~~ (L49): *missing*
-- ~~ApplicationArrayDataType~~ (L57): *missing*
-- ~~ApplicationRecordDataType~~ (L80): *missing*
-- ~~DataTypeMap~~ (L97): *missing*
-- ~~DataTypeMappingSet~~ (L118): *missing*
+- **AutosarDataType** (L19): Abstract base class for all AUTOSAR data types within the SW component
+- **ApplicationDataType** (L41): Abstract base class for all application data types.
+- **ApplicationPrimitiveDataType** (L53): An application data type that represents a primitive (non-composite)
+- **ApplicationCompositeDataType** (L63): Abstract base class for application composite data types such as
+- **ApplicationArrayDataType** (L76): An application data type representing an array with elements of the
+- **ApplicationRecordDataType** (L104): An application data type representing a record with fields of possibly
+- **DataTypeMap** (L126): Maps an application data type to an implementation data type.
+- **DataTypeMappingSet** (L151): A set of data type maps and mode request type maps that define
 
-> Coverage: 0/15 (0.0%)
+> Coverage: 15/15 (100.0%)
 
 ## models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface
 
 ### models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/InstanceRefs.py
 
-- ~~ApplicationCompositeElementInPortInterfaceInstanceRef~~ (L10): *missing*
+- **ApplicationCompositeElementInPortInterfaceInstanceRef** (L10): Instance reference to an application composite element within the
 
-> Coverage: 0/1 (0.0%)
+> Coverage: 1/1 (100.0%)
 
 ## models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior
 
 ### models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/AccessCount.py
 
-- ~~AbstractAccessPoint~~ (L11): *missing*
+- **AbstractAccessPoint** (L11): Abstract class indicating an access point from an ExecutableEntity.
 
 ### models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/AutosarVariableRef.py
 
-- ~~AutosarVariableRef~~ (L11): *missing*
+- **AutosarVariableRef** (L11): A reference to a variable used in the context of AUTOSAR software component
 
 ### models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/DataElements.py
 
-- ~~ParameterAccess~~ (L15): *missing*
-- ~~VariableAccess~~ (L37): *missing*
+- **ParameterAccess** (L15): A ParameterAccess represents the access to a parameter data prototype
+- **VariableAccess** (L72): A VariableAccess represents the access to a variable data prototype
 
 ### models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/IncludedDataTypes.py
 
-- ~~IncludedDataTypeSet~~ (L10): *missing*
+- **IncludedDataTypeSet** (L10): A set of data type references that are included in the context of
 
 ### models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/InstanceRefsUsage.py
 
-- ~~ArVariableInImplementationDataInstanceRef~~ (L12): *missing*
-- ~~VariableInAtomicSWCTypeInstanceRef~~ (L49): *missing*
-- ~~ParameterInAtomicSWCTypeInstanceRef~~ (L95): *missing*
-- ~~AutosarParameterRef~~ (L141): *missing*
+- **ArVariableInImplementationDataInstanceRef** (L12): A reference to an AUTOSAR variable in the context of an implementation
+- **VariableInAtomicSWCTypeInstanceRef** (L114): A reference to a variable data prototype in the context of an atomic
+- **ParameterInAtomicSWCTypeInstanceRef** (L240): A reference to a parameter data prototype in the context of an atomic
+- **AutosarParameterRef** (L366): A reference to an AUTOSAR parameter.
 
 ### models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/ModeDeclarationGroup.py
 
-- ~~ModeAccessPoint~~ (L14): *missing*
-- ~~ModeSwitchPoint~~ (L35): *missing*
-- ~~IncludedModeDeclarationGroupSet~~ (L49): *missing*
+- **ModeAccessPoint** (L14): A mode access point used by a runnable entity to read the current mode
+- **ModeSwitchPoint** (L70): A mode switch point used by a runnable entity to switch the mode
+- **IncludedModeDeclarationGroupSet** (L104): A set of mode declaration group references included in the scope
 
 ### models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/PerInstanceMemory.py
 
-- ~~PerInstanceMemory~~ (L12): *missing*
+- **PerInstanceMemory** (L12): A per-instance memory is a memory block that is allocated separately
 
 ### models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/PortAPIOptions.py
 
-- ~~PortDefinedArgumentValue~~ (L11): *missing*
-- ~~PortAPIOption~~ (L32): *missing*
+- **PortDefinedArgumentValue** (L11): A value defined for a port argument in the context of port API options.
+- **PortAPIOption** (L66): Port API options that define the API configuration for a specific port
 
 ### models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/RTEEvents.py
 
-- ~~RTEEvent~~ (L16): *missing*
-- ~~AsynchronousServerCallReturnsEvent~~ (L40): *missing*
-- ~~DataSendCompletedEvent~~ (L54): *missing*
-- ~~DataWriteCompletedEvent~~ (L68): *missing*
-- ~~DataReceivedEvent~~ (L82): *missing*
-- ~~SwcModeSwitchEvent~~ (L96): *missing*
-- ~~DataReceiveErrorEvent~~ (L118): *missing*
-- ~~OperationInvokedEvent~~ (L132): *missing*
-- ~~InitEvent~~ (L147): *missing*
-- ~~TimingEvent~~ (L152): *missing*
-- ~~InternalTriggerOccurredEvent~~ (L187): *missing*
-- ~~BackgroundEvent~~ (L202): *missing*
-- ~~ModeSwitchedAckEvent~~ (L207): *missing*
+- **RTEEvent** (L16): Abstract base class for all RTE-related events.
+- **AsynchronousServerCallReturnsEvent** (L74): This event is raised when an asynchronous server call is finished.
+- **DataSendCompletedEvent** (L107): This event is raised when the referenced explicit data element has been
+- **DataWriteCompletedEvent** (L141): This event is raised when an implicit write access was successful or
+- **DataReceivedEvent** (L175): This event is raised when the referenced data element is received.
+- **SwcModeSwitchEvent** (L208): This event is raised when the specified mode change occurs.
+- **DataReceiveErrorEvent** (L264): This event is raised when the Com layer detects and notifies an error
+- **OperationInvokedEvent** (L298): This event is raised when the ClientServerOperation referenced in
+- **InitEvent** (L333): This RTEEvent is used for initialization purposes, i.e. for starting and
+- **TimingEvent** (L345): This event is used to start RunnableEntities that shall be executed
+- **InternalTriggerOccurredEvent** (L415): This event is raised when the referenced InternalTriggeringPoint has
+- **BackgroundEvent** (L450): This event is used to start RunnableEntities that are supposed to be
+- **ModeSwitchedAckEvent** (L460): This event is raised when the referenced ModeSwitchPoint has been
 
 ### models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/ServerCall.py
 
-- ~~ServerCallPoint~~ (L11): *missing*
+- **ServerCallPoint** (L11): If a RunnableEntity owns a ServerCallPoint it is entitled to invoke a
 
 ### models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/ServiceMapping.py
 
-- ~~RoleBasedPortAssignment~~ (L16): *missing*
-- ~~SwcServiceDependency~~ (L38): *missing*
+- **RoleBasedPortAssignment** (L16): A role-based port assignment that links a port prototype to a specific
+- **SwcServiceDependency** (L73): A service dependency for an atomic software component that defines the
 
 ### models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/Trigger.py
 
-- ~~InternalTriggeringPoint~~ (L13): *missing*
-- ~~ExternalTriggeringPointIdent~~ (L28): *missing*
-- ~~ExternalTriggeringPoint~~ (L33): *missing*
+- **InternalTriggeringPoint** (L13): An internal triggering point that can be referenced by an
+- **ExternalTriggeringPointIdent** (L48): Identification of an external triggering point.
+- **ExternalTriggeringPoint** (L57): An external triggering point that references a trigger defined in a
 
-> Coverage: 0/34 (0.0%)
+> Coverage: 34/34 (100.0%)
 
 ## models/M2/AUTOSARTemplates/SystemTemplate
 
@@ -1114,8 +1114,8 @@ Generated for manual review. Flag any inaccurate docstrings for correction.
 
 ### models/M2/AUTOSARTemplates/SystemTemplate/InstanceRefs.py
 
-- ~~VariableDataPrototypeInSystemInstanceRef~~ (L9): *missing*
-- ~~ComponentInSystemInstanceRef~~ (L55): *missing*
+- **VariableDataPrototypeInSystemInstanceRef** (L9): Instance reference to a VariableDataPrototype in the context of a
+- **ComponentInSystemInstanceRef** (L60): Instance reference to a component in the context of a system model.
 
 ### models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py
 
@@ -1175,21 +1175,21 @@ Generated for manual review. Flag any inaccurate docstrings for correction.
 - **LinTpNode** (L635): Represents a LIN transport protocol node in the system,
 - **LinTpConfig** (L700): Represents LIN transport protocol configuration in the system,
 
-> Coverage: 57/59 (96.6%)
+> Coverage: 59/59 (100.0%)
 
 ## models/M2/AUTOSARTemplates/SystemTemplate/Fibex
 
 ### models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Multiplatform.py
 
-- ~~FrameMapping~~ (L9): *missing*
-- ~~ISignalMapping~~ (L38): *missing*
-- ~~DefaultValueElement~~ (L67): *missing*
-- ~~PduMappingDefaultValue~~ (L90): *missing*
-- ~~TargetIPduRef~~ (L104): *missing*
-- ~~IPduMapping~~ (L127): *missing*
-- ~~Gateway~~ (L170): *missing*
+- **FrameMapping** (L9): A PduToFrameMapping defines the composition of Pdus in each frame.
+- **ISignalMapping** (L42): Arranges signals transferred by the gateway from one channel to another
+- **DefaultValueElement** (L76): The default value consists of a number of elements. Each element is one
+- **PduMappingDefaultValue** (L104): Default value which will be distributed if no I-Pdu has been received
+- **TargetIPduRef** (L123): Target destination of the referencing mapping.
+- **IPduMapping** (L150): An ISignalToIPduMapping describes the mapping of ISignals to ISignalIPdus
+- **Gateway** (L198): A gateway is an ECU that is connected to two or more clusters and
 
-> Coverage: 0/7 (0.0%)
+> Coverage: 7/7 (100.0%)
 
 ## models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can
 
@@ -1387,19 +1387,19 @@ Generated for manual review. Flag any inaccurate docstrings for correction.
 
 ### models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/EcuInstance.py
 
-- ~~EcuInstance~~ (L10): *missing*
+- **EcuInstance** (L10): ECUInstances are used to define the ECUs used in the topology.
 
 ### models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/Timing.py
 
-- ~~ModeDrivenTransmissionModeCondition~~ (L7): *missing*
-- ~~TransmissionModeCondition~~ (L20): *missing*
-- ~~TimeRangeType~~ (L42): *missing*
-- ~~CyclicTiming~~ (L64): *missing*
-- ~~EventControlledTiming~~ (L86): *missing*
-- ~~TransmissionModeTiming~~ (L108): *missing*
-- ~~TransmissionModeDeclaration~~ (L129): *missing*
+- **ModeDrivenTransmissionModeCondition** (L7): The condition defined by this class evaluates to true if one of the
+- **TransmissionModeCondition** (L25): Possibility to attach a condition to each signal within an I-PDU.
+- **TimeRangeType** (L53): The timeRange can be specified with the value attribute. Optionally a
+- **CyclicTiming** (L80): Specification of a cyclic sending behavior.
+- **EventControlledTiming** (L106): Specification of an event-driven sending behavior. The PDU is sent
+- **TransmissionModeTiming** (L133): Defines the timing behavior for a transmission mode. If the COM
+- **TransmissionModeDeclaration** (L160): Defines two different TRANSMISSION MODES (True and False) for each
 
-> Coverage: 61/69 (88.4%)
+> Coverage: 69/69 (100.0%)
 
 ## models/M2/MSR/AsamHdo
 
@@ -1464,177 +1464,177 @@ Generated for manual review. Flag any inaccurate docstrings for correction.
 
 ### models/M2/MSR/CalibrationData/CalibrationValue.py
 
-- ~~SwValues~~ (L6): *missing*
-- ~~SwValueCont~~ (L20): *missing*
+- **SwValues** (L6): Collection of numerical values for calibration data.
+- **SwValueCont** (L23): Container for calibration values with array size, physical values,
 
-> Coverage: 0/2 (0.0%)
+> Coverage: 2/2 (100.0%)
 
 ## models/M2/MSR/DataDictionary
 
 ### models/M2/MSR/DataDictionary/AuxillaryObjects.py
 
-- ~~SwAddrMethod~~ (L5): *missing*
+- **SwAddrMethod** (L5): Software address method defining memory allocation properties for data
 
 ### models/M2/MSR/DataDictionary/Axis.py
 
-- ~~SwGenericAxisParam~~ (L4): *missing*
-- ~~SwAxisGeneric~~ (L25): *missing*
-- ~~SwAxisIndividual~~ (L46): *missing*
-- ~~SwAxisGrouped~~ (L116): *missing*
+- **SwGenericAxisParam** (L4): Parameters for a generic axis including type reference and value list.
+- **SwAxisGeneric** (L28): Generic axis definition with axis type reference and parameters.
+- **SwAxisIndividual** (L52): Individual axis properties extending calibration axis type with compu
+- **SwAxisGrouped** (L126): Grouped axis properties referencing a shared axis type with index and
 
 ### models/M2/MSR/DataDictionary/CalibrationParameter.py
 
-- ~~SwCalprmAxisTypeProps~~ (L5): *missing*
-- ~~SwCalprmAxis~~ (L16): *missing*
-- ~~SwCalprmAxisSet~~ (L26): *missing*
+- **SwCalprmAxisTypeProps** (L5): Abstract base class for calibration axis type properties including
+- **SwCalprmAxis** (L20): Calibration axis with category, format, access mode, and axis type
+- **SwCalprmAxisSet** (L34): Collection of SwCalprmAxis elements.
 
 ### models/M2/MSR/DataDictionary/DataDefProperties.py
 
 - **SwImplPolicyEnum** (L7): Enumeration for software implementation policy.
 - **SwDataDefPropsConditional** (L45): Patch for the time-stamp
-- ~~SwDataDefProps~~ (L53): *missing*
-- ~~SwPointerTargetProps~~ (L301): *missing*
-- ~~ValueList~~ (L331): *missing*
-- **SwTextProps** (L352): Represents software text properties in the AUTOSAR model.
+- **SwDataDefProps** (L53): Software data definition properties describing data characteristics
+- **SwPointerTargetProps** (L306): Properties for pointer targets including function pointer signature and
+- **ValueList** (L340): List of values with single value and multi-value support.
+- **SwTextProps** (L364): Represents software text properties in the AUTOSAR model.
 
 ### models/M2/MSR/DataDictionary/RecordLayout.py
 
-- ~~SwRecordLayoutV~~ (L4): *missing*
-- ~~SwRecordLayoutGroupContent~~ (L73): *missing*
-- ~~SwRecordLayoutGroup~~ (L103): *missing*
-- ~~SwRecordLayout~~ (L196): *missing*
+- **SwRecordLayoutV** (L4): Variable definition within a record layout including base type, axis,
+- **SwRecordLayoutGroupContent** (L77): Content of a record layout group referencing a sub-layout, sub-group, or
+- **SwRecordLayoutGroup** (L111): Group within a record layout defining axis, category, and indexing
+- **SwRecordLayout** (L208): Record layout element defining the structure of calibration data in
 
 ### models/M2/MSR/DataDictionary/ServiceProcessTask.py
 
-- ~~SwServiceArg~~ (L4): *missing*
+- **SwServiceArg** (L4): Service argument with direction, array size, and data definition
 
 ### models/M2/MSR/DataDictionary/SystemConstant.py
 
 - **SwSystemconst** (L10): Represents a software system constant in the AUTOSAR model.
 
-> Coverage: 4/20 (20.0%)
+> Coverage: 20/20 (100.0%)
 
 ## models/M2/MSR/Documentation
 
 ### models/M2/MSR/Documentation/Annotation.py
 
-- ~~GeneralAnnotation~~ (L7): *missing*
-- ~~Annotation~~ (L39): *missing*
+- **GeneralAnnotation** (L7): Abstract base class for annotations including origin, text, and label.
+- **Annotation** (L42): Concrete annotation with origin, text, and label for documenting
 
-> Coverage: 0/2 (0.0%)
+> Coverage: 2/2 (100.0%)
 
 ## models/M2/MSR/Documentation/BlockElements
 
 ### models/M2/MSR/Documentation/BlockElements/Figure.py
 
-- ~~GraphicFitEnum~~ (L9): *missing*
-- ~~Graphic~~ (L16): *missing*
-- ~~Map~~ (L76): *missing*
-- ~~LGraphic~~ (L81): *missing*
-- ~~MlFigure~~ (L114): *missing*
+- **GraphicFitEnum** (L9): Enumeration for graphic fitting modes.
+- **Graphic** (L19): Graphic element with filename, dimensions, and fit properties.
+- **Map** (L82): Image map definition for clickable regions within a graphic.
+- **LGraphic** (L90): Language-specific graphic with an associated image and optional map.
+- **MlFigure** (L126): Multi-language figure with caption, graphics, and optional verbatim
 
-> Coverage: 0/5 (0.0%)
+> Coverage: 5/5 (100.0%)
 
 ## models/M2/MSR/Documentation/TextModel
 
 ### models/M2/MSR/Documentation/TextModel/LanguageDataModel.py
 
-- ~~LEnum~~ (L10): *missing*
-- ~~LanguageSpecific~~ (L15): *missing*
-- ~~LOverviewParagraph~~ (L40): *missing*
-- ~~LParagraph~~ (L45): *missing*
-- ~~LLongName~~ (L50): *missing*
-- ~~LPlainText~~ (L55): *missing*
+- **LEnum** (L10): Enumeration literal for language-specific values.
+- **LanguageSpecific** (L18): Abstract base class for language-specific content with language
+- **LOverviewParagraph** (L47): Language-specific overview paragraph element.
+- **LParagraph** (L55): Language-specific paragraph element.
+- **LLongName** (L63): Language-specific long name element.
+- **LPlainText** (L71): Language-specific plain text element.
 
 ### models/M2/MSR/Documentation/TextModel/MultilanguageData.py
 
-- ~~MultiLanguageParagraph~~ (L7): *missing*
-- ~~MultiLanguageOverviewParagraph~~ (L21): *missing*
-- ~~MultilanguageLongName~~ (L35): *missing*
-- ~~MultiLanguagePlainText~~ (L48): *missing*
+- **MultiLanguageParagraph** (L7): Multi-language paragraph containing language-specific long name
+- **MultiLanguageOverviewParagraph** (L25): Multi-language overview paragraph with language-specific overview
+- **MultilanguageLongName** (L43): Multi-language long name containing language-specific long name
+- **MultiLanguagePlainText** (L60): Multi-language plain text with language-specific text entries.
 
-> Coverage: 0/10 (0.0%)
+> Coverage: 10/10 (100.0%)
 
 ## models/M2/MSR/Documentation/TextModel/BlockElements
 
 ### models/M2/MSR/Documentation/TextModel/BlockElements/ListElements.py
 
-- ~~ListEnum~~ (L6): *missing*
-- ~~Item~~ (L18): *missing*
-- **ARList** (L32): This meta-class represents the ability to express a list. The kind of list is specified in the attribute.
+- **ListEnum** (L6): Enumeration for list numbering types: number or unnumber.
+- **Item** (L21): An item within a list with content defined by itemContents.
+- **ARList** (L38): This meta-class represents the ability to express a list. The kind of list is specified in the attribute.
 
 ### models/M2/MSR/Documentation/TextModel/BlockElements/PaginationAndView.py
 
-- ~~DocumentViewSelectable~~ (L5): *missing*
-- ~~Paginateable~~ (L12): *missing*
+- **DocumentViewSelectable** (L5): Abstract base class for elements that can be selected in a document
+- **Paginateable** (L16): Abstract base class for paginated document elements with chapter
 
-> Coverage: 1/5 (20.0%)
+> Coverage: 5/5 (100.0%)
 
 ## models/utils
 
 ### models/utils/uuid_mgr.py
 
-- ~~UUIDMgr~~ (L5): *missing*
+- **UUIDMgr** (L5): Manager for UUID-based object tracking and duplicate detection in the
 
-> Coverage: 0/1 (0.0%)
+> Coverage: 1/1 (100.0%)
 
 ## parser
 
 ### parser/abstract_arxml_parser.py
 
-- ~~AbstractARXMLParser~~ (L16): *missing*
+- **AbstractARXMLParser** (L16): Abstract base class for ARXML parsers providing common XML parsing
 
 ### parser/arxml_parser.py
 
-- ~~ARXMLParser~~ (L234): *missing*
+- **ARXMLParser** (L234): Main ARXML parser that loads AUTOSAR XML files into the model.
 
 ### parser/connector_xlsx_parser.py
 
-- ~~ConnectorXls~~ (L17): *missing*
-- ~~ConnectorXlsReader~~ (L31): *missing*
+- **ConnectorXls** (L17): Constants class defining column names for connector Excel worksheets.
+- **ConnectorXlsReader** (L34): Reads connector definitions from Excel worksheets and maps them to
 
 ### parser/excel_parser.py
 
-- ~~AbstractExcelParser~~ (L5): *missing*
+- **AbstractExcelParser** (L5): Abstract base class for Excel-based parsers providing column title
 
 ### parser/file_parser.py
 
 - **FileListParser** (L9): FileListParser supports to collect the arxml files from the following rules
 
-> Coverage: 1/6 (16.7%)
+> Coverage: 6/6 (100.0%)
 
 ## report
 
 ### report/connector_xls_report.py
 
-- ~~ConnectorXlsReport~~ (L7): *missing*
+- **ConnectorXlsReport** (L7): Generates Excel reports for assembly and delegation SW connectors
 
 ### report/excel_report.py
 
-- ~~ExcelReporter~~ (L5): *missing*
+- **ExcelReporter** (L5): Base class for Excel report generation providing workbook management,
 
-> Coverage: 0/2 (0.0%)
+> Coverage: 2/2 (100.0%)
 
 ## transformer
 
 ### transformer/abstract.py
 
-- ~~AbstractTransformer~~ (L1): *missing*
+- **AbstractTransformer** (L1): Abstract base class for data transformers with lifecycle methods.
 
 ### transformer/admin_data.py
 
-- ~~AdminDataTransformer~~ (L8): *missing*
+- **AdminDataTransformer** (L8): Transformer that removes AdminData from all ARPackages and
 
-> Coverage: 0/2 (0.0%)
+> Coverage: 2/2 (100.0%)
 
 ## writer
 
 ### writer/abstract_arxml_writer.py
 
-- ~~AbstractARXMLWriter~~ (L16): *missing*
+- **AbstractARXMLWriter** (L16): Abstract base class for ARXML writers providing common XML
 
 ### writer/arxml_writer.py
 
-- ~~ARXMLWriter~~ (L226): *missing*
+- **ARXMLWriter** (L226): Main ARXML writer that serializes the AUTOSAR model back to ARXML
 
-> Coverage: 0/2 (0.0%)
+> Coverage: 2/2 (100.0%)
