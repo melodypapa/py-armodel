@@ -3,6 +3,10 @@ from openpyxl import Workbook
 import logging
 
 class ExcelReporter:
+    """
+    Base class for Excel report generation providing workbook management,
+    cell writing, and auto-width utilities.
+    """
     def __init__(self) -> None:
         self.wb = Workbook()
         self._logger = logging.getLogger()

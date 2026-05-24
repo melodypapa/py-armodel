@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 py-armodel is a Python library for parsing, manipulating, and writing AUTOSAR XML (ARXML) files. It follows the AUTOSAR standard specifications and supports versions from 4.0.3 to R24-11, with particular focus on CP R23-11 standard compliance.
 
-**Current Version**: 1.9.0
+**Current Version**: 1.9.2
 **Python Requirements**: >= 3.5 (CI tests on 3.8-3.12)
 **License**: MIT
 **Repository**: http://github.com/melodypapa/py-armodel
@@ -148,6 +148,7 @@ Or using npm scripts:
 - `npm run flake8` - Run syntax checks (E9, F63, F7, F82)
 - CI also runs complexity checks: `--max-complexity=10 --max-line-length=127`
 - Project uses 79-character line length (per PEP 8), not 127 (127 is just for CI warnings)
+- **Exclude build/ from lint** - Contains generated code
 
 ### Building
 - `python -m build` - Create source and wheel distributions
@@ -233,6 +234,19 @@ ARXMLWriter serializes the AUTOSAR model back to ARXML format, respecting the AU
 - Test methods: `test_<method_name>_<scenario>` or `test_<scenario>`
 - Use `pytest.raises(ValueError, match="pattern")` for exception testing
 
+### Pytest Markers
+Custom markers defined in `pytest.ini` for selective test execution:
+- `integration` - Integration tests (slower, requires full parse/write cycle)
+- `slow` - Slow-running tests (can be skipped with `-m "not slow"`)
+- `datatypes` - Tests related to AUTOSAR data types
+- `components` - Tests related to software components
+- `bsw` - Tests related to BSW modules
+- `system` - Tests related to system configuration
+- `blueprint` - Tests for blueprint specification files
+- `lifecycle` - Tests for lifecycle-related files
+
+Usage: `pytest -m "not integration"` or `pytest -k "datatypes"`
+
 ### Common Pitfalls
 
 **Import Errors:**
@@ -254,6 +268,11 @@ ARXMLWriter serializes the AUTOSAR model back to ARXML format, respecting the AU
 - Always maintain parent-child relationships
 - Use `addElement()` methods rather than directly appending to lists
 - Parent references are used for navigation and serialization
+
+**XML Handling:**
+- Boolean values in XML should not contain spaces (use `true` not ` true `)
+- Float scientific notation is properly handled (e.g., `1.23e-5`)
+- Integration tests validate round-trip: parse → write → re-parse → compare
 
 ## Coding Standards
 
@@ -287,6 +306,7 @@ The project follows PEP 8 coding conventions. Key conventions include:
 - Google-style docstrings for public classes and methods (when present)
 - Requirements section with requirement IDs in docstrings (when applicable)
 - All docstrings in English
+- **Docstring coverage: 100%** (815/815 classes documented, verified via `python scripts/generate_docstring_report.py`)
 
 ### Whitespace
 - No extraneous whitespace in parentheses/brackets
@@ -390,11 +410,17 @@ Tests in `tests/test_armodel/` mirror the source structure. Sample ARXML files i
 - Common test files: AUTOSAR_Datatypes.arxml, SoftwareComponents.arxml, BswM_Bswmd.arxml, CanSystem.arxml
 - Use these files for parser/writer validation
 
+**Integration Tests:**
+- 29 ARXML files validated through round-trip testing (parse → write → re-parse → compare)
+- Custom test directories can be added via `tests/integration_tests/config.yaml`
+- Run with: `python scripts/run_tests.py --integration` or `pytest tests/integration_tests/`
+- Skip integration tests: `pytest -m "not integration"`
+- See `tests/integration_tests/README.md` for detailed integration test documentation
+
 **Test Coverage Goals:**
 - Target high test coverage (current focus on increasing coverage)
 - Test both success and error paths
 - Include edge cases and boundary conditions
-- **Integration tests**: 29 ARXML files validated through round-trip testing (parse → write → re-parse → compare)
 - **Test runner script**: Use `python scripts/run_tests.py` for colored output and comprehensive summaries
 
 ## Dependencies

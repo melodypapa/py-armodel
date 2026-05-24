@@ -9,6 +9,11 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 
 
 class AutosarVariableRef(ARObject):
+    """
+    A reference to a variable used in the context of AUTOSAR software component
+    internal behavior.
+    """
+
     def __init__(self):
         super().__init__()
 
@@ -17,9 +22,24 @@ class AutosarVariableRef(ARObject):
         self.localVariableRef: 'VariableInAtomicSWCTypeInstanceRef' = None
 
     def getAutosarVariableIRef(self) -> VariableInAtomicSWCTypeInstanceRef:
+        """
+        Gets the AUTOSAR variable instance reference.
+
+        Returns:
+            VariableInAtomicSWCTypeInstanceRef: The AUTOSAR variable instance reference
+        """
         return self.autosarVariableIRef
 
     def setAutosarVariableIRef(self, value):
+        """
+        Sets the AUTOSAR variable instance reference.
+
+        Args:
+            value: The AUTOSAR variable instance reference to set
+
+        Returns:
+            self for method chaining
+        """
         self.autosarVariableIRef = value
         return self
 
@@ -32,8 +52,23 @@ class AutosarVariableRef(ARObject):
         return self
 
     def getLocalVariableRef(self):
+        """
+        Gets the local variable reference.
+
+        Returns:
+            The local variable reference
+        """
         return self.localVariableRef
 
     def setLocalVariableRef(self, value):
+        """
+        Sets the local variable reference.
+
+        Args:
+            value: The local variable reference to set
+
+        Returns:
+            self for method chaining
+        """
         self.localVariableRef = value
         return self

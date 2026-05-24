@@ -2,6 +2,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 
 class SwRecordLayoutV(ARObject):
+    """
+    Variable definition within a record layout including base type, axis,
+    and value properties.
+    """
     def __init__(self):
         super().__init__()
 
@@ -71,6 +75,10 @@ class SwRecordLayoutV(ARObject):
         return self
 
 class SwRecordLayoutGroupContent(ARObject):
+    """
+    Content of a record layout group referencing a sub-layout, sub-group, or
+    variable.
+    """
     def __init__(self):
         super().__init__()
 
@@ -101,6 +109,10 @@ class SwRecordLayoutGroupContent(ARObject):
 
 
 class SwRecordLayoutGroup(ARObject):
+    """
+    Group within a record layout defining axis, category, and indexing
+    properties.
+    """
     def __init__(self):
         super().__init__()
 
@@ -194,6 +206,10 @@ class SwRecordLayoutGroup(ARObject):
         return self
 
 class SwRecordLayout(ARElement):
+    """
+    Record layout element defining the structure of calibration data in
+    memory.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

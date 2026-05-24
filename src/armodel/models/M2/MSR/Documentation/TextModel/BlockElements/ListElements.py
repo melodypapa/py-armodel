@@ -4,6 +4,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 
 class ListEnum(AREnum):
+    """
+    Enumeration for list numbering types: number or unnumber.
+    """
 
     NUMBER = 'number'
     UNNUMBER = 'unnumber'
@@ -16,6 +19,9 @@ class ListEnum(AREnum):
 
 
 class Item(Paginateable):
+    """
+    An item within a list with content defined by itemContents.
+    """
     def __init__(self):
         super().__init__()
 

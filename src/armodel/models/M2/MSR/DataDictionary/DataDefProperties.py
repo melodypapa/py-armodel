@@ -51,6 +51,11 @@ class SwDataDefPropsConditional(ARObject):
 
 
 class SwDataDefProps(ARObject):
+    """
+    Software data definition properties describing data characteristics
+    including type references, calibration parameters, memory addressing,
+    and display properties.
+    """
     def __init__(self):
         super().__init__()
 
@@ -299,6 +304,10 @@ class SwDataDefProps(ARObject):
 
 
 class SwPointerTargetProps(ARObject):
+    """
+    Properties for pointer targets including function pointer signature and
+    target category.
+    """
     def __init__(self):
         super().__init__()
 
@@ -329,6 +338,9 @@ class SwPointerTargetProps(ARObject):
 
 
 class ValueList(ARObject):
+    """
+    List of values with single value and multi-value support.
+    """
     def __init__(self):
         super().__init__()
 

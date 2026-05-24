@@ -5,6 +5,10 @@ from armodel.models import AUTOSAR
 from armodel.models import PPortInCompositionInstanceRef, RPortInCompositionInstanceRef
 
 class ConnectorXlsReport(ExcelReporter):
+    """
+    Generates Excel reports for assembly and delegation SW connectors
+    from CompositionSwComponentType instances.
+    """
     def __init__(self) -> None:
         super().__init__()
         self.swcs = []              # type: List[CompositionSwComponentType]

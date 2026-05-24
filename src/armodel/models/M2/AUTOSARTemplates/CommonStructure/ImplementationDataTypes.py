@@ -11,6 +11,9 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import Sy
 
 
 class AbstractImplementationDataTypeElement(AtpStructureElement, ABC):
+    """
+    Abstract base class for implementation data type elements.
+    """
     def __init__(self, parent, short_name: str):
         if type(self) is AbstractImplementationDataTypeElement:
             raise TypeError("AbstractImplementationDataTypeElement is an abstract class.")
@@ -18,6 +21,10 @@ class AbstractImplementationDataTypeElement(AtpStructureElement, ABC):
 
 
 class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
+    """
+    Element of an implementation data type defining array properties,
+    optional flag, sub-elements, and data definition properties.
+    """
     ARRAY_SIZE_SEMANTICS_FIXED_SIZE = "FIXED-SIZE"
     ARRAY_SIZE_SEMANTICS_VARIABLE_SIZE = "VARIABLE_SIZE"
 
@@ -92,6 +99,9 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
 
 
 class AbstractImplementationDataType(AutosarDataType, ABC):
+    """
+    Abstract base class for implementation data types.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractImplementationDataType:
             raise TypeError("AbstractImplementationDataType is an abstract class.")

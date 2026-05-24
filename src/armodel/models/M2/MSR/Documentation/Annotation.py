@@ -5,6 +5,9 @@ from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import Mult
 from abc import ABC
 
 class GeneralAnnotation(ARObject, ABC):
+    """
+    Abstract base class for annotations including origin, text, and label.
+    """
     def __init__(self):
         if type(self) is GeneralAnnotation:
             raise TypeError("GeneralAnnotation is an abstract class.")
@@ -37,5 +40,9 @@ class GeneralAnnotation(ARObject, ABC):
 
 
 class Annotation(GeneralAnnotation):
+    """
+    Concrete annotation with origin, text, and label for documenting
+    model elements.
+    """
     def __init__(self):
         super().__init__()

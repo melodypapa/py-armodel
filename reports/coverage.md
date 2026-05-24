@@ -6,20 +6,28 @@
 
 ## Unit Test Coverage
 
-![coverage](https://img.shields.io/badge/coverage-71.6%25-yellow)
+![coverage](https://img.shields.io/badge/coverage-77.6%25-yellow)
 
 ### Summary
 
 | Metric | Covered | Valid | Percentage |
 |--------|---------|-------|------------|
-| **Lines** | 23375 | 32654 | **71.58%** |
+| **Lines** | 23365 | 30089 | **77.65%** |
 | **Branches** | 0 | 0 | **0.00%** |
 
 ### Coverage by Module
 
 | Module | Files | Line Coverage |
 |--------|-------|---------------|
-| **.venv** | 301 | 71.6% |
+| **__init__.py** | 1 | 100.0% |
+| **data_models** | 2 | 100.0% |
+| **lib** | 4 | 100.0% |
+| **transformer** | 3 | 100.0% |
+| **models** | 234 | 93.2% |
+| **parser** | 6 | 54.0% |
+| **writer** | 3 | 51.9% |
+| **cli** | 11 | 0.0% |
+| **report** | 3 | 0.0% |
 
 ### Files Needing Attention
 
@@ -37,8 +45,6 @@
 | `cli/swc_list_cli` | 0.0% | 0.0% |
 | `cli/system_signal_cli` | 0.0% | 0.0% |
 | `cli/uuid_checker_cli` | 0.0% | 0.0% |
-| `AUTOSARTemplates/AutosarTopLevelStructure` | 0.0% | 0.0% |
-| `BswModuleTemplate/BswOverview` | 0.0% | 0.0% |
 | `CommonStructure/McGroups` | 0.0% | 0.0% |
 | `CommonStructure/ModeDeclarationExtra` | 0.0% | 0.0% |
 | `MeasurementCalibrationSupport/ImplementationElementInParameterInstanceRef` | 0.0% | 0.0% |
@@ -47,16 +53,18 @@
 | `MeasurementCalibrationSupport/McFunction` | 0.0% | 0.0% |
 | `MeasurementCalibrationSupport/McParameterElementGroup` | 0.0% | 0.0% |
 | `MeasurementCalibrationSupport/McSupportData` | 0.0% | 0.0% |
+| `MeasurementCalibrationSupport/McSwEmulationMethodSupport` | 0.0% | 0.0% |
+| `MeasurementCalibrationSupport/RoleBasedMcDataAssignment` | 0.0% | 0.0% |
 
 ## Integration Test Coverage
 
-![coverage](https://img.shields.io/badge/integration-71.6%25-yellow)
+![coverage](https://img.shields.io/badge/integration-78.1%25-yellow)
 
 ### Summary
 
 | Metric | Covered | Valid | Percentage |
 |--------|---------|-------|------------|
-| **Lines** | 23375 | 32654 | **71.58%** |
+| **Lines** | 23494 | 30089 | **78.08%** |
 | **Branches** | 0 | 0 | **0.00%** |
 
 ---

@@ -14,6 +14,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 
 class AbstractARXMLParser(ABC):
+    """
+    Abstract base class for ARXML parsers providing common XML parsing
+    utilities, namespace handling, and error/warning management.
+    """
 
     def __init__(self, options=None) -> None:
         if type(self) is AbstractARXMLParser:

@@ -67,6 +67,9 @@ Temporary Items
 docs/**/M2
 docs/**/packages
 
+# Sphinx build output
+docs/_build/
+
 # Worktrees
 worktrees/
 coverage_*.xml

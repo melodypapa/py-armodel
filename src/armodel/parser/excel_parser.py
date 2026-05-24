@@ -3,6 +3,10 @@ from openpyxl.worksheet.worksheet import Worksheet
 
 import logging
 class AbstractExcelParser:
+    """
+    Abstract base class for Excel-based parsers providing column title
+    lookup and validation utilities.
+    """
     def __init__(self) -> None:
         self._logger = logging.getLogger()
 

@@ -15,6 +15,9 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import C
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 
 class ConnectorXls:
+    """
+    Constants class defining column names for connector Excel worksheets.
+    """
 
     COL_SHORT_NAME      = 'Short Name'
     COL_INNER_SW_C      = 'Inner SW-C'
@@ -29,6 +32,10 @@ class ConnectorXls:
     COL_RPORT           = "RPort"
 
 class ConnectorXlsReader(AbstractExcelParser):
+    """
+    Reads connector definitions from Excel worksheets and maps them to
+    AssemblySwConnectorData and DelegationSwConnectorData.
+    """
     def __init__(self) -> None:
         super().__init__()
 

@@ -5,6 +5,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 
 class ModeDrivenTransmissionModeCondition(ARObject):
+    """
+    The condition defined by this class evaluates to true if one of the
+    referenced modeDeclarations (OR associated) is active.
+    """
+
     def __init__(self):
         super().__init__()
 
@@ -18,6 +23,12 @@ class ModeDrivenTransmissionModeCondition(ARObject):
         return self
 
 class TransmissionModeCondition(ARObject):
+    """
+    Possibility to attach a condition to each signal within an I-PDU.
+    If at least one condition evaluates to true, TRANSMISSION MODE True
+    shall be used for this I-Pdu.
+    """
+
     def __init__(self):
         super().__init__()
 
@@ -40,6 +51,11 @@ class TransmissionModeCondition(ARObject):
 
 
 class TimeRangeType(ARObject):
+    """
+    The timeRange can be specified with the value attribute. Optionally a
+    tolerance can be defined.
+    """
+
     def __init__(self):
         super().__init__()
 
@@ -62,6 +78,10 @@ class TimeRangeType(ARObject):
 
 
 class CyclicTiming(Describable):
+    """
+    Specification of a cyclic sending behavior.
+    """
+
     def __init__(self):
         super().__init__()
 
@@ -84,6 +104,11 @@ class CyclicTiming(Describable):
 
 
 class EventControlledTiming(Describable):
+    """
+    Specification of an event-driven sending behavior. The PDU is sent
+    n (numberOfRepeat + 1) times separated by the repetitionPeriod.
+    """
+
     def __init__(self):
         super().__init__()
 
@@ -106,6 +131,12 @@ class EventControlledTiming(Describable):
 
 
 class TransmissionModeTiming(ARObject):
+    """
+    Defines the timing behavior for a transmission mode. If the COM
+    Transmission Mode is false, the timing is defined by
+    transmissionModeFalseTiming; if true, by transmissionModeTrueTiming.
+    """
+
     def __init__(self):
         super().__init__()
 
@@ -127,6 +158,11 @@ class TransmissionModeTiming(ARObject):
         return self
 
 class TransmissionModeDeclaration(ARObject):
+    """
+    Defines two different TRANSMISSION MODES (True and False) for each
+    I-PDU, selected by signal content evaluation or mode conditions.
+    """
+
     def __init__(self):
         super().__init__()
 

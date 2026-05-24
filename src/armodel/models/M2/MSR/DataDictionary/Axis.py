@@ -2,6 +2,9 @@ from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAx
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 class SwGenericAxisParam(ARObject):
+    """
+    Parameters for a generic axis including type reference and value list.
+    """
     def __init__(self):
         super().__init__()
 
@@ -23,6 +26,9 @@ class SwGenericAxisParam(ARObject):
         return self
 
 class SwAxisGeneric(ARObject):
+    """
+    Generic axis definition with axis type reference and parameters.
+    """
     def __init__(self):
         super().__init__()
 
@@ -44,6 +50,10 @@ class SwAxisGeneric(ARObject):
         return self
 
 class SwAxisIndividual(SwCalprmAxisTypeProps):
+    """
+    Individual axis properties extending calibration axis type with compu
+    method, data constraint, and variable references.
+    """
     def __init__(self):
         super().__init__()
 
@@ -114,6 +124,10 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
 
 
 class SwAxisGrouped(SwCalprmAxisTypeProps):
+    """
+    Grouped axis properties referencing a shared axis type with index and
+    calibration reference.
+    """
     def __init__(self):
         super().__init__()
 

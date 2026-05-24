@@ -5,6 +5,10 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import C
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 
 class SwComponentAnalyzer:
+    """
+    Analyzer that collects and displays software component types from the
+    AUTOSAR model.
+    """
     def __init__(self) -> None:
         self.swcs = []      # type: List[AtomicSwComponentType]
 

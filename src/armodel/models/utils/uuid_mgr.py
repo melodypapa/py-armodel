@@ -3,6 +3,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 
 class UUIDMgr:
+    """
+    Manager for UUID-based object tracking and duplicate detection in the
+    AUTOSAR model.
+    """
     def __init__(self):
         self.uuid_object_mappings = {}          # type: Dict[str, List[ARObject]]
 

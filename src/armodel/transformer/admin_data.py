@@ -6,6 +6,10 @@ from armodel.transformer.abstract import AbstractTransformer
 
 
 class AdminDataTransformer(AbstractTransformer):
+    """
+    Transformer that removes AdminData from all ARPackages and
+    Identifiable elements in the model.
+    """
     def __init__(self):
         super().__init__()
         self.logger = logging.getLogger()

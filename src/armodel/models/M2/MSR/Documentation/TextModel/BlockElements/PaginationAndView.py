@@ -3,6 +3,10 @@ from abc import ABC
 
 
 class DocumentViewSelectable(ARObject, ABC):
+    """
+    Abstract base class for elements that can be selected in a document
+    view.
+    """
     def __init__(self):
         if type(self) is DocumentViewSelectable:
             raise TypeError("DocumentViewSelectable is an abstract class.")
@@ -10,6 +14,10 @@ class DocumentViewSelectable(ARObject, ABC):
 
 
 class Paginateable(DocumentViewSelectable, ABC):
+    """
+    Abstract base class for paginated document elements with chapter
+    break and keep-with-previous properties.
+    """
     def __init__(self):
         if type(self) is Paginateable:
             raise TypeError("Paginateable is an abstract class.")

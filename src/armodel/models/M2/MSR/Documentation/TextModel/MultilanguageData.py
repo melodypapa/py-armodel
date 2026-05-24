@@ -5,6 +5,10 @@ from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLon
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import Paginateable
 
 class MultiLanguageParagraph(Paginateable):
+    """
+    Multi-language paragraph containing language-specific long name
+    entries.
+    """
     def __init__(self):
         super().__init__()
 
@@ -19,6 +23,10 @@ class MultiLanguageParagraph(Paginateable):
 
 
 class MultiLanguageOverviewParagraph(ARObject):
+    """
+    Multi-language overview paragraph with language-specific overview
+    entries.
+    """
     def __init__(self):
         super().__init__()
 
@@ -33,6 +41,10 @@ class MultiLanguageOverviewParagraph(ARObject):
 
 
 class MultilanguageLongName(ARObject):
+    """
+    Multi-language long name containing language-specific long name
+    entries.
+    """
     def __init__(self):
         super().__init__()
 
@@ -46,6 +58,9 @@ class MultilanguageLongName(ARObject):
         return self.l4
     
 class MultiLanguagePlainText(ARObject):
+    """
+    Multi-language plain text with language-specific text entries.
+    """
     def __init__(self):
         super().__init__()
 

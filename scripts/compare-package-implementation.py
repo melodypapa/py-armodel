@@ -505,7 +505,7 @@ def compare_packages(
             if enum_name in impl_enums:
                 # Enum implemented - compare literals
                 impl_info = impl_enums[enum_name]
-                required_literals = set(l['name'] for l in enum_info.get('literals', []))
+                required_literals = set(item['name'] for item in enum_info.get('literals', []))
                 impl_literals = set(impl_info['literals'])
                 
                 if required_literals == impl_literals:
@@ -545,7 +545,7 @@ def compare_packages(
             else:
                 # Enum missing
                 status = '❌ Missing'
-                required_literals = [l['name'] for l in enum_info.get('literals', [])]
+                required_literals = [item['name'] for item in enum_info.get('literals', [])]
                 enum_comparisons.append({
                     'name': enum_name,
                     'status': status,

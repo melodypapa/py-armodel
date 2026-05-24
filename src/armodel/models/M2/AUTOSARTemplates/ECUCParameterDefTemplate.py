@@ -51,6 +51,9 @@ class EcucValidationCondition(Identifiable):
 
 
 class EcucScopeEnum(AREnum):
+    """
+    Enumeration for ECUC definition scope types.
+    """
     def __init__(self):
         super().__init__([])
 
@@ -184,11 +187,17 @@ class EcucDestinationUriDefRefType(RefType):
 
 
 class EcucConfigurationClassEnum(AREnum):
+    """
+    Enumeration for ECUC configuration class types.
+    """
     def __init__(self):
         super().__init__([])
 
 
 class EcucConfigurationVariantEnum(AREnum):
+    """
+    Enumeration for ECUC configuration variant types.
+    """
     def __init__(self):
         super().__init__([])
 
@@ -638,6 +647,9 @@ class EcucAbstractInternalReferenceDef(EcucAbstractReferenceDef, ABC):
 
 
 class EcucAbstractExternalReferenceDef(EcucAbstractReferenceDef, ABC):
+    """
+    Abstract base class for ECUC external reference definitions.
+    """
     def __init__(self, parent, short_name):
         if type(self) is EcucAbstractExternalReferenceDef:
             raise TypeError("Cannot instantiate abstract class EcucAbstractExternalReferenceDef")
@@ -646,6 +658,10 @@ class EcucAbstractExternalReferenceDef(EcucAbstractReferenceDef, ABC):
 
 
 class EcucSymbolicNameReferenceDef(EcucAbstractInternalReferenceDef):
+    """
+    ECUC reference definition using symbolic names with a destination
+    reference.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -661,6 +677,10 @@ class EcucSymbolicNameReferenceDef(EcucAbstractInternalReferenceDef):
 
 
 class EcucChoiceReferenceDef(EcucAbstractInternalReferenceDef):
+    """
+    ECUC reference definition for choice containers with a destination
+    reference.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -676,6 +696,9 @@ class EcucChoiceReferenceDef(EcucAbstractInternalReferenceDef):
 
 
 class EcucReferenceDef(EcucAbstractInternalReferenceDef):
+    """
+    ECUC reference definition with a destination reference.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -691,6 +714,10 @@ class EcucReferenceDef(EcucAbstractInternalReferenceDef):
 
 
 class EcucUriReferenceDef(EcucAbstractInternalReferenceDef):
+    """
+    ECUC reference definition using a URI with a destination URI
+    reference.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -706,6 +733,10 @@ class EcucUriReferenceDef(EcucAbstractInternalReferenceDef):
 
 
 class EcucForeignReferenceDef(EcucAbstractExternalReferenceDef):
+    """
+    ECUC reference definition to a foreign context with destination
+    context and type.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -730,6 +761,10 @@ class EcucForeignReferenceDef(EcucAbstractExternalReferenceDef):
 
 
 class EcucInstanceReferenceDef(EcucAbstractExternalReferenceDef):
+    """
+    ECUC reference definition for instance-based references with
+    destination type.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -849,6 +884,10 @@ class EcucFunctionNameDef(EcucAbstractStringParamDef):
 
 
 class EcucIntegerParamDef(EcucParameterDef):
+    """
+    ECUC integer parameter definition with default value, min, and max
+    constraints.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -970,6 +1009,10 @@ class EcucEnumerationParamDef(EcucParameterDef):
 
 
 class EcucFloatParamDef(EcucParameterDef):
+    """
+    ECUC float parameter definition with default value, min, and max
+    limits.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -1501,6 +1544,10 @@ class EcucQueryExpression(ARObject):
 
 
 class EcucModuleDef(EcucDefinitionElement):
+    """
+    ECUC module definition with API service prefix, container
+    definitions, and variant support properties.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
