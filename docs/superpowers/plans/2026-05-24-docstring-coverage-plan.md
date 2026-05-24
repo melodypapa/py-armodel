@@ -2,24 +2,21 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Add Google-style docstrings to every public class and method across the py-armodel codebase, achieving 100% docstring coverage.
+**Goal:** Add Google-style docstrings to every undocumented class across py-armodel (199 classes undocumented, 75.6% current coverage).
 
-**Architecture:** Batch-per-module processing via Claude Code. Each module batch: read files, add Google-style docstrings to undocumented classes/methods, run tests, human review. Follow reference pattern from `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py`.
+**Architecture:** Batch-per-module processing. Each batch: read files, add docstrings to undocumented classes, run tests, commit. Follow reference pattern from `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py`.
 
 **Tech Stack:** Python 3.8+, Sphinx + Napoleon (already configured), Google-style docstrings
 
-**Reference Materials:** AUTOSAR spec markdown files in `autosar/markdown/` contain authoritative class descriptions and attributes:
-- `autosar/markdown/AUTOSAR_CP_TPS_SoftwareComponentTemplate.md` — SwcInternalBehavior, Ports, Events, etc.
-- `autosar/markdown/AUTOSAR_CP_TPS_SystemTemplate.md` — System signals, Fibex, ECU mapping, etc.
-- `autosar/markdown/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.md` — BswModuleDescription, BswBehavior, etc.
-- `autosar/markdown/AUTOSAR_CP_TPS_DiagnosticExtractTemplate.md` — DiagnosticExtract classes.
+**Reference Materials:** AUTOSAR spec markdown files in `autosar/markdown/` for class descriptions.
 
-When writing docstrings, consult the relevant spec file for:
-- Official class purpose/description (Section 1.4.* in spec)
-- Attribute names and descriptions (class tables with Attribute/Kind/Note columns)
-- Inheritance relationships
-
-**Task note:** When implementing each task, consult the spec file listed in the File Structure section for that module. Use the class table to get accurate attribute descriptions. Cross-reference the Python class attributes with the spec attributes to ensure completeness.
+**Rules:**
+- Don't touch files/classes that already have adequate docstrings
+- Don't change code logic — only add docstrings
+- Follow ModeDeclaration.py patterns exactly
+- AUTOSAR terminology preserved exactly
+- Skip `__init__` docstring if it only calls `super().__init__()` with no custom logic
+- Skip trivial getter/setter pairs where method name is self-explanatory
 
 ---
 
@@ -29,107 +26,66 @@ When writing docstrings, consult the relevant spec file for:
 - **Create:** `scripts/generate_docstring_report.py` — scans all Python files, extracts class names and docstrings
 - **Output:** `reports/docstring_review.md` — markdown report grouped by module
 
-### Phase 1: Models (262 classes, ~100 files)
-**CommonStructure** (27 files, ~220 classes):
-- `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Filter.py`
-- `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/FlatMap.py`
-- `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Implementation.py`
-- `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ImplementationDataTypes.py` (3 undocumented)
-- `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py`
-- `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/McGroups.py`
-- `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py` (reference)
-- `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ModeDeclarationExtra.py`
-- `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py` (93 classes, all documented)
-- `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/SwcBswMapping.py`
-- `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/TriggerDeclaration.py`
-- `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/` (15 files)
-- `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/` (4 files)
-- `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/` (11 files)
-- `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/SignalServiceTranslation/` (5 files)
-- `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/StandardizationTemplate/` (4 files)
+### Phase 1: Models (173 undocumented classes)
+**SWComponentTemplate** (95 classes undocumented):
+- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py` — 21 classes
+- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/` (12 files) — 34 classes
+- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Datatype/DataPrototypes.py` — 7 classes
+- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Datatype/Datatypes.py` — 8 classes
+- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py` — 7 classes
+- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Composition/InstanceRefs.py` — 6 classes
+- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/EndToEndProtection.py` — 5 classes
+- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/RPTScenario.py` — 2 classes
+- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SoftwareComponentDocumentation.py` — 1 class
+- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcImplementation.py` — 1 class
+- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwComponentType.py` — 1 class
+- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/InstanceRefs.py` — 1 class
 
-**SystemTemplate** (24 files, ~211 classes):
-- **Spec reference:** `autosar/markdown/AUTOSAR_CP_TPS_SystemTemplate.md` — Section 1.4 (System), class tables with attributes
-- `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/DataMapping.py`
-- `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/DiagnosticConnection.py`
-- `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/DoIp.py`
-- `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/ECUResourceMapping.py`
-- `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/` (16 files)
-- `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/InstanceRefs.py`
-- `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py`
-- `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/RteEventToOsTaskMapping.py`
-- `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/SWmapping.py`
-- `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/SecureCommunication.py`
-- `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py`
+**SystemTemplate + Fibex** (18 classes undocumented):
+- `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Multiplatform.py` — 7 classes
+- `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/Timing.py` — 7 classes
+- `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/EcuInstance.py` — 1 class
+- `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/InstanceRefs.py` — 2 classes
+- **Spec ref:** `autosar/markdown/AUTOSAR_CP_TPS_SystemTemplate.md`
 
-**SWComponentTemplate** (23 files, 100 classes, 94 undocumented):
-- **Spec reference:** `autosar/markdown/AUTOSAR_CP_TPS_SoftwareComponentTemplate.md` — Section 1.4 (Software Components), class tables with attributes
-- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py` (27 classes, 21 undocumented)
-- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwComponentType.py`
-- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcImplementation.py`
-- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/` (11 files)
-- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Datatype/` (2 files)
-- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/`
-- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/`
-- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/EndToEndProtection.py`
-- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/RPTScenario.py`
-- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SoftwareComponentDocumentation.py`
+**MSR Modules** (39 classes undocumented):
+- `src/armodel/models/M2/MSR/DataDictionary/` (6 files) — 16 classes
+- `src/armodel/models/M2/MSR/Documentation/` (6 files) — 21 classes
+- `src/armodel/models/M2/MSR/CalibrationData/CalibrationValue.py` — 2 classes
 
-**BswModuleTemplate** (16 files, 51 classes, already documented):
-- **Spec reference:** `autosar/markdown/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.md` — BswModuleDescription, BswBehavior, BswImplementation classes
-- `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py`
-- `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`
-- `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswImplementation.py`
-- `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/` (10 files)
-- `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces/` (3 files)
-- `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswOverview/` (3 files)
+**ECUC Modules** (26 classes undocumented):
+- `src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py` — 13 classes
+- `src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py` — 13 classes
 
-**GenericStructure** (11 files, 60 classes):
-- `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/AbstractStructure.py`
-- `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/` (7 files, PrimitiveTypes.py has 17 undocumented)
-- `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/LifeCycles.py` (1 undocumented)
-- `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/RolesAndRights/`
+**Remaining Model Files** (10 classes undocumented):
+- `src/armodel/models/M2/AUTOSARTemplates/AutosarTopLevelStructure/__init__.py` — 4 classes (FileInfoComment, AbstractAUTOSAR, AUTOSAR, AUTOSARDoc)
+- `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ImplementationDataTypes.py` — 3 classes
+- `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/Traceable.py` — 1 class
+- `src/armodel/models/M2/AUTOSARTemplates/DiagnosticExtract/DiagnosticCommonElement.py` — 1 class
+- **Spec ref:** `autosar/markdown/AUTOSAR_CP_TPS_DiagnosticExtractTemplate.md`
+- `src/armodel/models/utils/uuid_mgr.py` — 1 class
 
-**MSR/** (14 files, ~57 classes):
-- `src/armodel/models/M2/MSR/AsamHdo/` (6 files, all documented)
-- `src/armodel/models/M2/MSR/DataDictionary/` (6 files, 17 undocumented)
-- `src/armodel/models/M2/MSR/Documentation/` (6 files, 22 undocumented)
-- `src/armodel/models/M2/MSR/CalibrationData/` (1 file, 2 undocumented)
+### Phase 2: Parser, Writer, Transformer, Report (12 classes)
+- `src/armodel/parser/arxml_parser.py` — 1 class
+- `src/armodel/parser/abstract_arxml_parser.py` — 1 class
+- `src/armodel/parser/connector_xlsx_parser.py` — 2 classes
+- `src/armodel/parser/excel_parser.py` — 1 class
+- `src/armodel/writer/arxml_writer.py` — 1 class
+- `src/armodel/writer/abstract_arxml_writer.py` — 1 class
+- `src/armodel/transformer/abstract.py` — 1 class
+- `src/armodel/transformer/admin_data.py` — 1 class
+- `src/armodel/report/connector_xls_report.py` — 1 class
+- `src/armodel/report/excel_report.py` — 1 class
 
-**Remaining modules:**
-- **Spec reference:** `autosar/markdown/AUTOSAR_CP_TPS_DiagnosticExtractTemplate.md` — DiagnosticExtract classes
-- `src/armodel/models/M2/AUTOSARTemplates/AutosarTopLevelStructure.py`
-- `src/armodel/models/M2/AUTOSARTemplates/DiagnosticExtract/` (2 files)
-- `src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate/` (3 files)
-- `src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py` (13 undocumented)
-- `src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py` (13 undocumented)
-- **Spec reference:** `autosar/markdown/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.md` — ECUC classes
-- `src/armodel/models/M2/AUTOSARTemplates/AbstractPlatform/` (2 files)
-- `src/armodel/models/M2/AUTOSARTemplates/AdaptivePlatform/` (9 files)
+### Phase 3: Lib & Data Models (6 classes)
+- `src/armodel/lib/cli_args_parser.py` — 1 class
+- `src/armodel/lib/sw_component.py` — 1 class
+- `src/armodel/lib/system_signal.py` — 1 class
+- `src/armodel/data_models/sw_connector.py` — 3 classes
 
-### Phase 2: Parser & Writer (8 files)
-- `src/armodel/parser/arxml_parser.py` (0 documented)
-- `src/armodel/parser/abstract_arxml_parser.py`
-- `src/armodel/parser/connector_xlsx_parser.py`
-- `src/armodel/parser/excel_parser.py`
-- `src/armodel/parser/file_parser.py`
-- `src/armodel/writer/arxml_writer.py` (0 documented)
-- `src/armodel/writer/abstract_arxml_writer.py`
-
-### Phase 3: CLI & Lib (14 files)
-- `src/armodel/cli/arxml_dump_cli.py`
-- `src/armodel/cli/arxml_format_cli.py`
-- `src/armodel/cli/connector2xlsx_cli.py`
-- `src/armodel/cli/connector_update_cli.py`
-- `src/armodel/cli/file_list_cli.py`
-- `src/armodel/cli/format_xml_cli.py`
-- `src/armodel/cli/memory_section_cli.py`
-- `src/armodel/cli/swc_list_cli.py`
-- `src/armodel/cli/system_signal_cli.py`
-- `src/armodel/cli/uuid_checker_cli.py`
-- `src/armodel/lib/cli_args_parser.py`
-- `src/armodel/lib/sw_component.py`
-- `src/armodel/lib/system_signal.py`
+### CLI Module
+- **No classes exist** in CLI files (function-based scripts). Skip class docstrings.
+- If desired: add module-level docstrings only.
 
 ---
 
@@ -276,7 +232,7 @@ if __name__ == "__main__":
 python scripts/generate_docstring_report.py
 ```
 
-Expected: Report written to `reports/docstring_review.md` with ~923 classes listed.
+Expected: Report written to `reports/docstring_review.md`.
 
 - [ ] **Step 3: Verify report output**
 
@@ -295,50 +251,75 @@ git commit -m "feat: add docstring coverage report generation"
 
 ---
 
-### Task 2: Add Docstrings to CommonStructure/ServiceNeeds.py
+### Task 2: Add Docstrings to SWComponentTemplate Module (~95 classes)
 
 **Files:**
-- Modify: `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
+- Modify: `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py` — 21 classes
+- Modify: `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/` (12 files) — 34 classes
+- Modify: `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Datatype/DataPrototypes.py` — 7 classes
+- Modify: `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Datatype/Datatypes.py` — 8 classes
+- Modify: `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/InstanceRefs.py` — 7 classes
+- Modify: `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Composition/InstanceRefs.py` — 6 classes
+- Modify: `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/EndToEndProtection.py` — 5 classes
+- Modify: `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/RPTScenario.py` — 2 classes
+- Modify: `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SoftwareComponentDocumentation.py` — 1 class
+- Modify: `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcImplementation.py` — 1 class
+- Modify: `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwComponentType.py` — 1 class
+- Modify: `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/InstanceRefs.py` — 1 class
+- **Spec ref:** `autosar/markdown/AUTOSAR_CP_TPS_SoftwareComponentTemplate.md`
 
-*Note: ServiceNeeds.py has 93 classes, all documented. Verify accuracy, fix if needed.*
+Undocumented classes per file (list to check against):
 
-- [ ] **Step 1: Read file and verify docstring accuracy**
+Communication.py: HandleInvalidEnum, CompositeNetworkRepresentation, TransmissionAcknowledgementRequest, SenderComSpec, QueuedSenderComSpec, NonqueuedSenderComSpec, ClientComSpec, ModeSwitchReceiverComSpec, NvRequireComSpec, ParameterRequireComSpec, ReceiverComSpec, ModeSwitchedAckRequest, ModeSwitchSenderComSpec, ParameterProvideComSpec, TransformationComSpecProps, EndToEndTransformationComSpecProps, UserDefinedTransformationComSpecProps, ServerComSpec, NvProvideComSpec, NonqueuedReceiverComSpec, QueuedReceiverComSpec
 
-Read `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`. Check 3-5 class docstrings against actual class behavior.
+EndToEndProtection.py: EndToEndDescription, EndToEndProtectionVariablePrototype, EndToEndProtectionISignalIPdu, EndToEndProtection, EndToEndProtectionSet
 
-- [ ] **Step 2: Fix any inaccurate docstrings**
+RPTScenario.py: IdentCaption, ModeAccessPointIdent
 
-Edit file to correct any docstrings that don't match actual behavior.
+SoftwareComponentDocumentation.py: SwComponentDocumentation
 
-- [ ] **Step 3: Run tests**
+SwcImplementation.py: SwcImplementation
 
-```bash
-python scripts/run_tests.py
-```
+SwComponentType.py: SwComponentType
 
-Expected: All tests pass.
+Components/InstanceRefs.py: ModeGroupInAtomicSwcInstanceRef, PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef, RModeInAtomicSwcInstanceRef, VariableInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef, InnerPortGroupInCompositionInstanceRef
 
-- [ ] **Step 4: Commit**
+Composition/InstanceRefs.py: PortInCompositionTypeInstanceRef, PPortInCompositionInstanceRef, RPortInCompositionInstanceRef, OperationInAtomicSwcInstanceRef, POperationInAtomicSwcInstanceRef, ROperationInAtomicSwcInstanceRef
 
-```bash
-git add src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py
-git commit -m "fix: correct ServiceNeeds docstrings if needed"
-```
+Datatype/DataPrototypes.py: DataPrototype, AutosarDataPrototype, VariableDataPrototype, ApplicationCompositeElementDataPrototype, ApplicationArrayElement, ApplicationRecordElement, ParameterDataPrototype
 
----
+Datatype/Datatypes.py: AutosarDataType, ApplicationDataType, ApplicationPrimitiveDataType, ApplicationCompositeDataType, ApplicationArrayDataType, ApplicationRecordDataType, DataTypeMap, DataTypeMappingSet
 
-### Task 3: Add Docstrings to CommonStructure/PrimitiveTypes.py
+PortInterface/InstanceRefs.py: ApplicationCompositeElementInPortInterfaceInstanceRef
 
-**Files:**
-- Modify: `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py` (33 classes, 17 undocumented)
+SwcInternalBehavior/AccessCount.py: AbstractAccessPoint
 
-- [ ] **Step 1: Read the file**
+SwcInternalBehavior/AutosarVariableRef.py: AutosarVariableRef
 
-Read `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py`. Identify the 17 undocumented classes.
+SwcInternalBehavior/DataElements.py: ParameterAccess, VariableAccess
 
-- [ ] **Step 2: Add Google-style docstrings to undocumented classes**
+SwcInternalBehavior/IncludedDataTypes.py: IncludedDataTypeSet
 
-For each undocumented class, add docstring following ModeDeclaration.py pattern:
+SwcInternalBehavior/InstanceRefsUsage.py: ArVariableInImplementationDataInstanceRef, VariableInAtomicSWCTypeInstanceRef, ParameterInAtomicSWCTypeInstanceRef, AutosarParameterRef
+
+SwcInternalBehavior/ModeDeclarationGroup.py: ModeAccessPoint, ModeSwitchPoint, IncludedModeDeclarationGroupSet
+
+SwcInternalBehavior/PerInstanceMemory.py: PerInstanceMemory
+
+SwcInternalBehavior/PortAPIOptions.py: PortDefinedArgumentValue, PortAPIOption
+
+SwcInternalBehavior/RTEEvents.py: RTEEvent, AsynchronousServerCallReturnsEvent, DataSendCompletedEvent, DataWriteCompletedEvent, DataReceivedEvent, SwcModeSwitchEvent, DataReceiveErrorEvent, OperationInvokedEvent, InitEvent, TimingEvent, InternalTriggerOccurredEvent, BackgroundEvent, ModeSwitchedAckEvent
+
+SwcInternalBehavior/ServerCall.py: ServerCallPoint
+
+SwcInternalBehavior/ServiceMapping.py: RoleBasedPortAssignment, SwcServiceDependency
+
+SwcInternalBehavior/Trigger.py: InternalTriggeringPoint, ExternalTriggeringPointIdent, ExternalTriggeringPoint
+
+- [ ] **Step 1: Read files, add docstrings to undocumented classes**
+
+For each file, read it. For each undocumented class, add Google-style docstring:
+
 ```python
 class ClassName(ParentClass):
     """
@@ -348,7 +329,7 @@ class ClassName(ParentClass):
     """
 ```
 
-- [ ] **Step 3: Run tests**
+- [ ] **Step 2: Run tests**
 
 ```bash
 python scripts/run_tests.py
@@ -356,353 +337,33 @@ python scripts/run_tests.py
 
 Expected: All tests pass.
 
-- [ ] **Step 4: Commit**
-
-```bash
-git add src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py
-git commit -m "docs: add docstrings to PrimitiveTypes (17 classes)"
-```
-
----
-
-### Task 4: Add Docstrings to CommonStructure/MeasurementCalibrationSupport/
-
-**Files:**
-- Modify: `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/*.py` (11 files)
-
-- [ ] **Step 1: Check which files have undocumented classes**
-
-All 11 files have 1 class each, all documented. Verify accuracy.
-
-- [ ] **Step 2: Fix any inaccurate docstrings**
-
-Edit files to correct any docstrings that don't match actual behavior.
-
-- [ ] **Step 3: Run tests**
-
-```bash
-python scripts/run_tests.py
-```
-
-- [ ] **Step 4: Commit**
-
-```bash
-git add src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/
-git commit -m "docs: verify MeasurementCalibrationSupport docstrings"
-```
-
----
-
-### Task 5: Add Docstrings to CommonStructure/Timing/
-
-**Files:**
-- Modify: `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/**/*.py` (15 files)
-
-*Note: ExecutionOrderConstraint.py has 2 undocumented classes.*
-
-- [ ] **Step 1: Read files with undocumented classes**
-
-Read `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingConstraint/ExecutionOrderConstraint.py`.
-
-- [ ] **Step 2: Add docstrings to undocumented classes**
-
-Add Google-style docstrings to the 2 undocumented classes in ExecutionOrderConstraint.py.
-
-- [ ] **Step 3: Verify other Timing files are accurate**
-
-Spot-check 3-4 other files in Timing/ directory.
-
-- [ ] **Step 4: Run tests**
-
-```bash
-python scripts/run_tests.py
-```
-
-- [ ] **Step 5: Commit**
-
-```bash
-git add src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/
-git commit -m "docs: add docstrings to Timing module (2 classes)"
-```
-
----
-
-### Task 6: Add Docstrings to CommonStructure Remaining Files
-
-**Files:**
-- Modify: All remaining CommonStructure files (Filter.py, FlatMap.py, Implementation.py, etc.)
-
-*Note: Most already documented. Check for accuracy, fix gaps.*
-
-- [ ] **Step 1: Check ImplementationDataTypes.py for 3 undocumented classes**
-
-Read `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ImplementationDataTypes.py`. Add docstrings to 3 undocumented classes.
-
-- [ ] **Step 2: Spot-check 5-10 other files for accuracy**
-
-Read files, verify docstrings match actual class behavior.
-
-- [ ] **Step 3: Run tests**
-
-```bash
-python scripts/run_tests.py
-```
-
-- [ ] **Step 4: Commit**
-
-```bash
-git add src/armodel/models/M2/AUTOSARTemplates/CommonStructure/
-git commit -m "docs: complete CommonStructure docstring coverage"
-```
-
----
-
-### Task 7: Add Docstrings to SystemTemplate/Fibex/ (16 files)
-
-**Files:**
-- Modify: `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/**/*.py` (16 files)
-
-- [ ] **Step 1: Read all Fibex files, identify undocumented classes**
-
-Scan all 16 files. List classes missing docstrings.
-
-- [ ] **Step 2: Add docstrings to undocumented classes**
-
-For each undocumented class, add Google-style docstring.
-
-- [ ] **Step 3: Run tests**
-
-```bash
-python scripts/run_tests.py
-```
-
-- [ ] **Step 4: Commit**
-
-```bash
-git add src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/
-git commit -m "docs: add docstrings to Fibex module"
-```
-
----
-
-### Task 8: Add Docstrings to SystemTemplate Remaining (8 files)
-
-**Files:**
-- Modify: All non-Fibex SystemTemplate files
-
-- [ ] **Step 1: Read all remaining SystemTemplate files**
-
-Identify undocumented classes.
-
-- [ ] **Step 2: Add docstrings to undocumented classes**
-
-- [ ] **Step 3: Run tests**
-
-```bash
-python scripts/run_tests.py
-```
-
-- [ ] **Step 4: Commit**
-
-```bash
-git add src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/
-git commit -m "docs: complete SystemTemplate docstring coverage"
-```
-
----
-
-### Task 9: Add Docstrings to SWComponentTemplate/Communication.py
-
-**Files:**
-- Modify: `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py` (27 classes, 21 undocumented)
-
-- [ ] **Step 1: Read Communication.py**
-
-Read full file. Understand class hierarchy and relationships.
-
-- [ ] **Step 2: Add docstrings to all 21 undocumented classes**
-
-Follow ModeDeclaration.py pattern. Include class summary, Args for `__init__`, Returns for getters.
-
-- [ ] **Step 3: Run tests**
-
-```bash
-python scripts/run_tests.py
-```
-
-- [ ] **Step 4: Commit**
-
-```bash
-git add src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py
-git commit -m "docs: add docstrings to Communication module (21 classes)"
-```
-
----
-
-### Task 10: Add Docstrings to SWComponentTemplate/SwcInternalBehavior/
-
-**Files:**
-- Modify: `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/*.py` (11 files)
-
-- [ ] **Step 1: Read all SwcInternalBehavior files**
-
-Identify undocumented classes across all 11 files.
-
-- [ ] **Step 2: Add docstrings to undocumented classes**
-
-- [ ] **Step 3: Run tests**
-
-```bash
-python scripts/run_tests.py
-```
-
-- [ ] **Step 4: Commit**
-
-```bash
-git add src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/
-git commit -m "docs: add docstrings to SwcInternalBehavior module"
-```
-
----
-
-### Task 11: Add Docstrings to SWComponentTemplate Remaining
-
-**Files:**
-- Modify: Remaining SWComponentTemplate files (SwComponentType.py, SwcImplementation.py, Datatype/, etc.)
-
-- [ ] **Step 1: Read all remaining files**
-
-Identify undocumented classes.
-
-- [ ] **Step 2: Add docstrings to undocumented classes**
-
-- [ ] **Step 3: Run tests**
-
-```bash
-python scripts/run_tests.py
-```
-
-- [ ] **Step 4: Commit**
+- [ ] **Step 3: Commit**
 
 ```bash
 git add src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/
-git commit -m "docs: complete SWComponentTemplate docstring coverage"
+git commit -m "docs: add docstrings to SWComponentTemplate module (~95 classes)"
 ```
 
 ---
 
-### Task 12: Add Docstrings to BswModuleTemplate (if any gaps)
+### Task 3: Add Docstrings to SystemTemplate + Fibex Module (~18 classes)
 
 **Files:**
-- Modify: `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/**/*.py` (16 files)
+- Modify: `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Multiplatform.py` — 7 classes
+- Modify: `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/Timing.py` — 7 classes
+- Modify: `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/EcuInstance.py` — 1 class
+- Modify: `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/InstanceRefs.py` — 2 classes
+- **Spec ref:** `autosar/markdown/AUTOSAR_CP_TPS_SystemTemplate.md`
 
-*Note: All 51 classes documented. Verify accuracy only.*
+Undocumented classes:
+- Fibex4Multiplatform.py: FrameMapping, ISignalMapping, DefaultValueElement, PduMappingDefaultValue, TargetIPduRef, IPduMapping, Gateway
+- FibexCore/Timing.py: ModeDrivenTransmissionModeCondition, TransmissionModeCondition, TimeRangeType, CyclicTiming, EventControlledTiming, TransmissionModeTiming, TransmissionModeDeclaration
+- FibexCore/EcuInstance.py: EcuInstance
+- InstanceRefs.py: VariableDataPrototypeInSystemInstanceRef, ComponentInSystemInstanceRef
 
-- [ ] **Step 1: Spot-check 5-10 classes across different files**
+- [ ] **Step 1: Read all 4 files, add docstrings to undocumented classes**
 
-Verify docstrings match actual behavior.
-
-- [ ] **Step 2: Fix any inaccurate docstrings**
-
-- [ ] **Step 3: Run tests**
-
-```bash
-python scripts/run_tests.py
-```
-
-- [ ] **Step 4: Commit**
-
-```bash
-git add src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/
-git commit -m "docs: verify BswModuleTemplate docstring accuracy"
-```
-
----
-
-### Task 13: Add Docstrings to GenericStructure/
-
-**Files:**
-- Modify: `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/**/*.py` (11 files)
-
-*Note: LifeCycles.py has 1 undocumented, PrimitiveTypes.py handled in Task 3.*
-
-- [ ] **Step 1: Read LifeCycles.py, add docstring to undocumented class**
-
-- [ ] **Step 2: Verify other GenericStructure files**
-
-- [ ] **Step 3: Run tests**
-
-```bash
-python scripts/run_tests.py
-```
-
-- [ ] **Step 4: Commit**
-
-```bash
-git add src/armodel/models/M2/AUTOSARTemplates/GenericStructure/
-git commit -m "docs: complete GenericStructure docstring coverage"
-```
-
----
-
-### Task 14: Add Docstrings to MSR/DataDictionary/ (17 undocumented)
-
-**Files:**
-- Modify: `src/armodel/models/M2/MSR/DataDictionary/*.py` (6 files)
-
-- [ ] **Step 1: Read all DataDictionary files**
-
-Identify all 17 undocumented classes.
-
-- [ ] **Step 2: Add docstrings to undocumented classes**
-
-- [ ] **Step 3: Run tests**
-
-```bash
-python scripts/run_tests.py
-```
-
-- [ ] **Step 4: Commit**
-
-```bash
-git add src/armodel/models/M2/MSR/DataDictionary/
-git commit -m "docs: add docstrings to DataDictionary module"
-```
-
----
-
-### Task 15: Add Docstrings to MSR/Documentation/ (22 undocumented)
-
-**Files:**
-- Modify: `src/armodel/models/M2/MSR/Documentation/**/*.py` (6 files)
-
-- [ ] **Step 1: Read all Documentation files**
-
-Identify all 22 undocumented classes.
-
-- [ ] **Step 2: Add docstrings to undocumented classes**
-
-- [ ] **Step 3: Run tests**
-
-```bash
-python scripts/run_tests.py
-```
-
-- [ ] **Step 4: Commit**
-
-```bash
-git add src/armodel/models/M2/MSR/Documentation/
-git commit -m "docs: add docstrings to Documentation module"
-```
-
----
-
-### Task 16: Add Docstrings to MSR/CalibrationData/ (2 undocumented)
-
-**Files:**
-- Modify: `src/armodel/models/M2/MSR/CalibrationData/CalibrationValue.py`
-
-- [ ] **Step 1: Add docstrings to 2 undocumented classes**
+Follow ModeDeclaration.py pattern. Reference AUTOSAR spec for class descriptions.
 
 - [ ] **Step 2: Run tests**
 
@@ -710,155 +371,216 @@ git commit -m "docs: add docstrings to Documentation module"
 python scripts/run_tests.py
 ```
 
+Expected: All tests pass.
+
 - [ ] **Step 3: Commit**
 
 ```bash
-git add src/armodel/models/M2/MSR/CalibrationData/
-git commit -m "docs: add docstrings to CalibrationData module"
+git add src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/
+git commit -m "docs: add docstrings to SystemTemplate + Fibex module (~18 classes)"
 ```
 
 ---
 
-### Task 17: Add Docstrings to Remaining Model Modules
+### Task 4: Add Docstrings to MSR Modules (~39 classes)
 
 **Files:**
-- Modify: AutosarTopLevelStructure.py, DiagnosticExtract/, EcuResourceTemplate/, ECUCDescriptionTemplate.py, ECUCParameterDefTemplate.py, AbstractPlatform/, AdaptivePlatform/
+- Modify: `src/armodel/models/M2/MSR/DataDictionary/` (6 files) — 16 classes
+- Modify: `src/armodel/models/M2/MSR/Documentation/` (6 files) — 21 classes
+- Modify: `src/armodel/models/M2/MSR/CalibrationData/CalibrationValue.py` — 2 classes
 
-- [ ] **Step 1: Read all remaining model files**
+Undocumented classes:
 
-Identify undocumented classes.
+DataDictionary/AuxillaryObjects.py: SwAddrMethod
 
-- [ ] **Step 2: Add docstrings to undocumented classes**
+DataDictionary/Axis.py: SwGenericAxisParam, SwAxisGeneric, SwAxisIndividual, SwAxisGrouped
 
-ECUCDescriptionTemplate.py: 13 classes, all undocumented.
-ECUCParameterDefTemplate.py: 13 classes undocumented.
+DataDictionary/CalibrationParameter.py: SwCalprmAxisTypeProps, SwCalprmAxis, SwCalprmAxisSet
 
-- [ ] **Step 3: Run tests**
+DataDictionary/DataDefProperties.py: SwDataDefProps, SwPointerTargetProps, ValueList
 
-```bash
-python scripts/run_tests.py
-```
+DataDictionary/RecordLayout.py: SwRecordLayoutV, SwRecordLayoutGroupContent, SwRecordLayoutGroup, SwRecordLayout
 
-- [ ] **Step 4: Commit**
+DataDictionary/ServiceProcessTask.py: SwServiceArg
 
-```bash
-git add src/armodel/models/M2/AUTOSARTemplates/
-git commit -m "docs: complete remaining model docstring coverage"
-```
+Documentation/Annotation.py: GeneralAnnotation, Annotation
 
----
+Documentation/BlockElements/Figure.py: GraphicFitEnum, Graphic, Map, LGraphic, MlFigure
 
-### Task 18: Add Docstrings to Parser Module (5 files)
+Documentation/TextModel/LanguageDataModel.py: LEnum, LanguageSpecific, LOverviewParagraph, LParagraph, LLongName, LPlainText
 
-**Files:**
-- Modify: `src/armodel/parser/*.py` (5 files)
+Documentation/TextModel/MultilanguageData.py: MultiLanguageParagraph, MultiLanguageOverviewParagraph, MultilanguageLongName, MultiLanguagePlainText
 
-*Note: arxml_parser.py has 0 documented classes.*
+Documentation/TextModel/BlockElements/ListElements.py: ListEnum, Item
 
-- [ ] **Step 1: Read all parser files**
+Documentation/TextModel/BlockElements/PaginationAndView.py: DocumentViewSelectable, Paginateable
 
-Identify undocumented classes and methods.
+CalibrationData/CalibrationValue.py: SwValues, SwValueCont
 
-- [ ] **Step 2: Add docstrings to ARXMLParser class and methods**
+- [ ] **Step 1: Read all files, add docstrings to undocumented classes**
 
 Follow ModeDeclaration.py pattern.
 
-- [ ] **Step 3: Add docstrings to other parser files**
-
-- [ ] **Step 4: Run tests**
+- [ ] **Step 2: Run tests**
 
 ```bash
 python scripts/run_tests.py
 ```
 
-- [ ] **Step 5: Commit**
+Expected: All tests pass.
+
+- [ ] **Step 3: Commit**
 
 ```bash
-git add src/armodel/parser/
-git commit -m "docs: add docstrings to parser module"
+git add src/armodel/models/M2/MSR/
+git commit -m "docs: add docstrings to MSR modules (~39 classes)"
 ```
 
 ---
 
-### Task 19: Add Docstrings to Writer Module (3 files)
+### Task 5: Add Docstrings to ECUC Modules (26 classes)
 
 **Files:**
-- Modify: `src/armodel/writer/*.py` (3 files)
+- Modify: `src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py` — 13 classes
+- Modify: `src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py` — 13 classes
 
-- [ ] **Step 1: Read all writer files**
+Undocumented classes:
 
-Identify undocumented classes and methods.
+ECUCDescriptionTemplate.py: EcucValueCollection, EcucIndexableValue, EcucParameterValue, EcucAddInfoParamValue, EcucTextualParamValue, EcucNumericalParamValue, EcucAbstractReferenceValue, EcucInstanceReferenceValue, EcucReferenceValue, EcucContainerValue, EcucModuleConfigurationValues, EcucConditionSpecification, EcucConfigurationVariantEnum
 
-- [ ] **Step 2: Add docstrings to ARXMLWriter class and methods**
+ECUCParameterDefTemplate.py: EcucScopeEnum, EcucConfigurationClassEnum, EcucConfigurationVariantEnum, EcucAbstractExternalReferenceDef, EcucSymbolicNameReferenceDef, EcucChoiceReferenceDef, EcucReferenceDef, EcucUriReferenceDef, EcucForeignReferenceDef, EcucInstanceReferenceDef, EcucIntegerParamDef, EcucFloatParamDef, EcucModuleDef
 
-- [ ] **Step 3: Run tests**
+- [ ] **Step 1: Read both files, add docstrings to undocumented classes**
+
+ECUCDescriptionTemplate.py is 100% undocumented (13/13). ECUCParameterDefTemplate.py has 32/45 documented, 13 missing.
+
+- [ ] **Step 2: Run tests**
 
 ```bash
 python scripts/run_tests.py
 ```
 
-- [ ] **Step 4: Commit**
+Expected: All tests pass.
+
+- [ ] **Step 3: Commit**
 
 ```bash
-git add src/armodel/writer/
-git commit -m "docs: add docstrings to writer module"
+git add src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py
+git commit -m "docs: add docstrings to ECUC modules (26 classes)"
 ```
 
 ---
 
-### Task 20: Add Docstrings to CLI Module (10 files)
+### Task 6: Add Docstrings to Remaining Model Files (10 classes)
 
 **Files:**
-- Modify: `src/armodel/cli/*.py` (10 files)
+- Modify: `src/armodel/models/M2/AUTOSARTemplates/AutosarTopLevelStructure/__init__.py` — 4 classes
+- Modify: `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ImplementationDataTypes.py` — 3 classes
+- Modify: `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/Traceable.py` — 1 class
+- Modify: `src/armodel/models/M2/AUTOSARTemplates/DiagnosticExtract/DiagnosticCommonElement.py` — 1 class
+  - **Spec ref:** `autosar/markdown/AUTOSAR_CP_TPS_DiagnosticExtractTemplate.md`
+- Modify: `src/armodel/models/utils/uuid_mgr.py` — 1 class
 
-- [ ] **Step 1: Read all CLI files**
+Undocumented classes:
 
-Identify undocumented classes and methods.
+AutosarTopLevelStructure/__init__.py: FileInfoComment, AbstractAUTOSAR, AUTOSAR, AUTOSARDoc
 
-- [ ] **Step 2: Add docstrings to all CLI classes**
+ImplementationDataTypes.py: AbstractImplementationDataTypeElement, ImplementationDataTypeElement, AbstractImplementationDataType
 
-- [ ] **Step 3: Run tests**
+Traceable.py: Traceable
+
+DiagnosticCommonElement.py: DiagnosticCommonElement
+
+uuid_mgr.py: UUIDMgr
+
+- [ ] **Step 1: Read all files, add docstrings to undocumented classes**
+
+Note: AUTOSAR class in AutosarTopLevelStructure/__init__.py is the framework entry point. Docstring should describe its singleton pattern, version management, and finder methods.
+
+- [ ] **Step 2: Run tests**
 
 ```bash
 python scripts/run_tests.py
 ```
 
-- [ ] **Step 4: Commit**
+Expected: All tests pass.
+
+- [ ] **Step 3: Commit**
 
 ```bash
-git add src/armodel/cli/
-git commit -m "docs: add docstrings to CLI module"
+git add src/armodel/models/M2/AUTOSARTemplates/AutosarTopLevelStructure/__init__.py src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ImplementationDataTypes.py src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/Traceable.py src/armodel/models/M2/AUTOSARTemplates/DiagnosticExtract/DiagnosticCommonElement.py src/armodel/models/utils/uuid_mgr.py
+git commit -m "docs: add docstrings to remaining model files (10 classes)"
 ```
 
 ---
 
-### Task 21: Add Docstrings to Lib Module (3 files)
+### Task 7: Add Docstrings to Parser / Writer / Transformer / Report (12 classes)
 
 **Files:**
-- Modify: `src/armodel/lib/*.py` (3 files)
+- Modify: `src/armodel/parser/arxml_parser.py` — 1 class (ARXMLParser)
+- Modify: `src/armodel/parser/abstract_arxml_parser.py` — 1 class (AbstractARXMLParser)
+- Modify: `src/armodel/parser/connector_xlsx_parser.py` — 2 classes (ConnectorXls, ConnectorXlsReader)
+- Modify: `src/armodel/parser/excel_parser.py` — 1 class (AbstractExcelParser)
+- Modify: `src/armodel/writer/arxml_writer.py` — 1 class (ARXMLWriter)
+- Modify: `src/armodel/writer/abstract_arxml_writer.py` — 1 class (AbstractARXMLWriter)
+- Modify: `src/armodel/transformer/abstract.py` — 1 class (AbstractTransformer)
+- Modify: `src/armodel/transformer/admin_data.py` — 1 class (AdminDataTransformer)
+- Modify: `src/armodel/report/connector_xls_report.py` — 1 class (ConnectorXlsReport)
+- Modify: `src/armodel/report/excel_report.py` — 1 class (ExcelReporter)
 
-- [ ] **Step 1: Read all lib files**
+- [ ] **Step 1: Read all files, add docstrings to undocumented classes**
 
-Identify undocumented classes and methods.
+Key classes to document well:
+- ARXMLParser: Main parser, loads ARXML files. Should document parse flow, options param (warning mode).
+- AbstractARXMLParser: Base class. Document contract for subclasses.
+- ARXMLWriter: Main writer, serializes model to ARXML. Should document save flow, version requirements.
+- AbstractARXMLWriter: Base class. Document contract for subclasses.
 
-- [ ] **Step 2: Add docstrings to all lib classes**
-
-- [ ] **Step 3: Run tests**
+- [ ] **Step 2: Run tests**
 
 ```bash
 python scripts/run_tests.py
 ```
 
-- [ ] **Step 4: Commit**
+Expected: All tests pass.
+
+- [ ] **Step 3: Commit**
 
 ```bash
-git add src/armodel/lib/
-git commit -m "docs: add docstrings to lib module"
+git add src/armodel/parser/ src/armodel/writer/ src/armodel/transformer/ src/armodel/report/
+git commit -m "docs: add docstrings to parser, writer, transformer, report (12 classes)"
 ```
 
 ---
 
-### Task 22: Final Verification
+### Task 8: Add Docstrings to Lib & Data Models (6 classes)
+
+**Files:**
+- Modify: `src/armodel/lib/cli_args_parser.py` — 1 class (InputFileParser)
+- Modify: `src/armodel/lib/sw_component.py` — 1 class (SwComponentAnalyzer)
+- Modify: `src/armodel/lib/system_signal.py` — 1 class (SystemSignalAnalyzer)
+- Modify: `src/armodel/data_models/sw_connector.py` — 3 classes (SwConnectorData, DelegationSwConnectorData, AssemblySwConnectorData)
+
+- [ ] **Step 1: Read all files, add docstrings to undocumented classes**
+
+- [ ] **Step 2: Run tests**
+
+```bash
+python scripts/run_tests.py
+```
+
+Expected: All tests pass.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add src/armodel/lib/ src/armodel/data_models/
+git commit -m "docs: add docstrings to lib and data models (6 classes)"
+```
+
+---
+
+### Task 9: Final Verification
 
 **Files:**
 - Modify: None (verification only)
@@ -869,12 +591,12 @@ git commit -m "docs: add docstrings to lib module"
 python scripts/generate_docstring_report.py
 ```
 
-Expected: 923/923 documented (100% coverage).
+Expected: 815/815 documented (100% coverage).
 
 - [ ] **Step 2: Run full test suite**
 
 ```bash
-python scripts/run_tests.py --coverage
+python scripts/run_tests.py
 ```
 
 Expected: All tests pass, no regressions.
@@ -919,11 +641,11 @@ class ModeDeclaration(AtpStructureElement):
 
 ---
 
-## Rules
+## What Changed From Original Plan
 
-- Don't touch files/classes that already have adequate docstrings
-- Don't change code logic — only add docstrings
-- Follow ModeDeclaration.py patterns exactly
-- AUTOSAR terminology preserved exactly
-- Skip `__init__` docstring if it only calls `super().__init__()` with no custom logic
-- Skip trivial getter/setter pairs where method name is self-explanatory
+- **Removed 3 no-op tasks**: PrimitiveTypes.py (all documented), ExecutionOrderConstraint.py (all documented), LifeCycles.py (all documented)
+- **Fixed AutosarTopLevelStructure path**: Was `.py` (wrong), now `AutosarTopLevelStructure/__init__.py`
+- **Consolidated from 22 to 9 tasks**: Fewer agent handoffs
+- **CLI files removed**: No classes exist in CLI scripts
+- **Accurate counts**: Based on actual scan (199 undocumented, not 307)
+- **Added exact undocumented class lists**: Each task lists every class needing a docstring
