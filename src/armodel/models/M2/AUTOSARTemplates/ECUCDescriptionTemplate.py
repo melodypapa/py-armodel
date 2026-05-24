@@ -11,6 +11,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 
 class EcucValueCollection(ARElement):
+    """
+    Collection of ECUC values with references to ECU extract.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -33,6 +36,9 @@ class EcucValueCollection(ARElement):
 
 
 class EcucIndexableValue(ARObject, ABC):
+    """
+    Abstract base class for indexable ECUC values.
+    """
     def __init__(self):
         if type(self) is EcucIndexableValue:
             raise TypeError("EcucIndexableValue is an abstract class.")
@@ -41,6 +47,10 @@ class EcucIndexableValue(ARObject, ABC):
 
 
 class EcucParameterValue(EcucIndexableValue, ABC):
+    """
+    Abstract base class for ECUC parameter values with annotation,
+    definition reference, and auto value flag.
+    """
     def __init__(self):
         if type(self) is EcucParameterValue:
             raise TypeError("EcucParameterValue is an abstract class.")
@@ -74,6 +84,10 @@ class EcucParameterValue(EcucIndexableValue, ABC):
 
 
 class EcucAddInfoParamValue(EcucParameterValue):
+    """
+    ECUC parameter value for additional info with documentation block
+    content.
+    """
     def __init__(self):
         super().__init__()
 
@@ -87,6 +101,9 @@ class EcucAddInfoParamValue(EcucParameterValue):
 
 
 class EcucTextualParamValue(EcucParameterValue):
+    """
+    ECUC parameter value for textual string values.
+    """
     def __init__(self):
         super().__init__()
 
@@ -100,6 +117,9 @@ class EcucTextualParamValue(EcucParameterValue):
 
 
 class EcucNumericalParamValue(EcucParameterValue):
+    """
+    ECUC parameter value for numerical values.
+    """
     def __init__(self):
         super().__init__()
 
@@ -113,6 +133,10 @@ class EcucNumericalParamValue(EcucParameterValue):
 
 
 class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
+    """
+    Abstract base class for ECUC reference values with annotation,
+    definition reference, and auto value flag.
+    """
     def __init__(self):
         if type(self) is EcucAbstractReferenceValue:
             raise TypeError("EcucAbstractReferenceValue is an abstract class.")
@@ -146,6 +170,10 @@ class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
 
 
 class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
+    """
+    ECUC reference value using an AnyInstanceRef for instance-based
+    references.
+    """
     def __init__(self):
         super().__init__()
 
@@ -160,6 +188,9 @@ class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
 
 
 class EcucReferenceValue(EcucAbstractReferenceValue):
+    """
+    ECUC reference value using a RefType for standard references.
+    """
     def __init__(self):
         super().__init__()
 
@@ -174,6 +205,10 @@ class EcucReferenceValue(EcucAbstractReferenceValue):
 
 
 class EcucContainerValue(Identifiable, EcucIndexableValue):
+    """
+    Container value holding parameter values, reference values, and
+    sub-containers for ECUC configuration.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         Identifiable.__init__(self, parent, short_name)
 
@@ -215,6 +250,10 @@ class EcucContainerValue(Identifiable, EcucIndexableValue):
 
 
 class EcucModuleConfigurationValues(ARElement):
+    """
+    ECUC module configuration values with containers, definition
+    reference, and variant configuration properties.
+    """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -272,6 +311,10 @@ class EcucModuleConfigurationValues(ARElement):
 
 
 class EcucConditionSpecification(ARObject):
+    """
+    Condition specification for ECUC definitions with condition formula
+    and queries.
+    """
     def __init__(self):
         super().__init__()
 
@@ -281,5 +324,8 @@ class EcucConditionSpecification(ARObject):
 
 
 class EcucConfigurationVariantEnum(AREnum):
+    """
+    Enumeration for ECUC configuration variant types.
+    """
     def __init__(self):
         super().__init__([])
