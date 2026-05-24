@@ -9,6 +9,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from abc import ABC
 
 class IdentCaption(AtpStructureElement, ABC):
+    """
+    Abstract base class for identification captions used in access points.
+    """
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) == IdentCaption:
@@ -18,5 +21,10 @@ class IdentCaption(AtpStructureElement, ABC):
 
 
 class ModeAccessPointIdent(IdentCaption):
+    """
+    Identification of a mode access point used to reference a specific
+    access point within a runnable entity.
+    """
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

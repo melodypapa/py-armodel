@@ -17,6 +17,11 @@ from abc import ABC
 
 
 class AutosarDataType(AtpType, ABC):
+    """
+    Abstract base class for all AUTOSAR data types within the SW component
+    template.
+    """
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AutosarDataType:
             raise TypeError("AutosarDataType is an abstract class.")
@@ -34,6 +39,10 @@ class AutosarDataType(AtpType, ABC):
 
 
 class ApplicationDataType(AutosarDataType, ABC):
+    """
+    Abstract base class for all application data types.
+    """
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is ApplicationDataType:
             raise TypeError("ApplicationDataType is an abstract class.")
@@ -42,11 +51,21 @@ class ApplicationDataType(AutosarDataType, ABC):
 
 
 class ApplicationPrimitiveDataType(ApplicationDataType):
+    """
+    An application data type that represents a primitive (non-composite)
+    data type.
+    """
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
 
 class ApplicationCompositeDataType(ApplicationDataType, ABC):
+    """
+    Abstract base class for application composite data types such as
+    arrays and records.
+    """
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is ApplicationCompositeDataType:
             raise TypeError("ApplicationCompositeDataType is an abstract class.")
@@ -55,6 +74,11 @@ class ApplicationCompositeDataType(ApplicationDataType, ABC):
 
 
 class ApplicationArrayDataType(ApplicationCompositeDataType):
+    """
+    An application data type representing an array with elements of the
+    same type.
+    """
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -78,6 +102,11 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
 
 
 class ApplicationRecordDataType(ApplicationCompositeDataType):
+    """
+    An application data type representing a record with fields of possibly
+    different types.
+    """
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -95,6 +124,10 @@ class ApplicationRecordDataType(ApplicationCompositeDataType):
 
 
 class DataTypeMap(ARObject):
+    """
+    Maps an application data type to an implementation data type.
+    """
+
     def __init__(self):
 
         self.applicationDataTypeRef: RefType = None
@@ -116,6 +149,11 @@ class DataTypeMap(ARObject):
 
 
 class DataTypeMappingSet(AtpBlueprintable):
+    """
+    A set of data type maps and mode request type maps that define
+    mappings between application and implementation data types.
+    """
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

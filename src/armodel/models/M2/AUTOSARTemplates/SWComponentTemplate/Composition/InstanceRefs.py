@@ -9,6 +9,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 
 class PortInCompositionTypeInstanceRef(AtpInstanceRef, ABC):
+    """
+    Abstract base class for port instance references within a composition
+    software component type.
+    """
+
     def __init__(self):
         if type(self) == PortInCompositionTypeInstanceRef:
             raise TypeError("PortInCompositionTypeInstanceRef is an abstract class.")
@@ -42,6 +47,11 @@ class PortInCompositionTypeInstanceRef(AtpInstanceRef, ABC):
 
 
 class PPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
+    """
+    Instance reference to a PPortPrototype within a composition software
+    component type.
+    """
+
     def __init__(self):
         super().__init__()
 
@@ -64,6 +74,11 @@ class PPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
 
 
 class RPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
+    """
+    Instance reference to an RPortPrototype within a composition software
+    component type.
+    """
+
     def __init__(self):
         super().__init__()
 
@@ -85,6 +100,11 @@ class RPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
         return self
 
 class OperationInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
+    """
+    Abstract base class for operation instance references within an atomic
+    software component type.
+    """
+
     def __init__(self):
         if type(self) == OperationInAtomicSwcInstanceRef:
             raise TypeError("OperationInAtomicSwcInstanceRef is an abstract class.")
@@ -117,6 +137,11 @@ class OperationInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
         return self
 
 class POperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
+    """
+    Instance reference to a provided operation in an atomic software
+    component through a PPortPrototype.
+    """
+
     def __init__(self):
         super().__init__()
 
@@ -139,6 +164,11 @@ class POperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
 
 
 class ROperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
+    """
+    Instance reference to a required operation in an atomic software
+    component through an RPortPrototype.
+    """
+
     def __init__(self):
         super().__init__()
 

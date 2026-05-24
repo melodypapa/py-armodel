@@ -8,6 +8,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 
 class ApplicationCompositeElementInPortInterfaceInstanceRef(AtpInstanceRef):
+    """
+    Instance reference to an application composite element within the
+    context of a port interface.
+    """
+
     def __init__(self):
         super().__init__()
 

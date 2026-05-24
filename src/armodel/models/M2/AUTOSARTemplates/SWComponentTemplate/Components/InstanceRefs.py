@@ -10,6 +10,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure impor
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 class ModeGroupInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
+    """
+    Abstract base class for mode group instance references within an atomic
+    software component type.
+    """
+
     def __init__(self):
         
         if type(self) == ModeGroupInAtomicSwcInstanceRef:
@@ -44,6 +49,11 @@ class ModeGroupInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
 
 
 class PModeGroupInAtomicSwcInstanceRef(ModeGroupInAtomicSwcInstanceRef):
+    """
+    Instance reference to a mode group in an atomic software component
+    through a PPortPrototype.
+    """
+
     def __init__(self):
         super().__init__()
 
@@ -65,6 +75,11 @@ class PModeGroupInAtomicSwcInstanceRef(ModeGroupInAtomicSwcInstanceRef):
         return self
 
 class RModeGroupInAtomicSWCInstanceRef(ModeGroupInAtomicSwcInstanceRef):
+    """
+    Instance reference to a mode group in an atomic software component
+    through an RPortPrototype.
+    """
+
     def __init__(self):
         super().__init__()
 
@@ -87,6 +102,11 @@ class RModeGroupInAtomicSWCInstanceRef(ModeGroupInAtomicSwcInstanceRef):
 
 
 class RModeInAtomicSwcInstanceRef(AtpInstanceRef):
+    """
+    Instance reference to a mode declaration in an atomic software component
+    through an RPortPrototype.
+    """
+
     def __init__(self):
         super().__init__()
 
@@ -124,6 +144,11 @@ class RModeInAtomicSwcInstanceRef(AtpInstanceRef):
         return self
     
 class VariableInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
+    """
+    Abstract base class for variable instance references within an atomic
+    software component type.
+    """
+
     def __init__(self):
         if type(self) == VariableInAtomicSwcInstanceRef:
             raise TypeError("VariableInAtomicSwcInstanceRef is an abstract class.")
@@ -135,6 +160,11 @@ class VariableInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
         self.contextPortRef: RefType = None
 
 class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
+    """
+    Instance reference to a variable in an atomic software component
+    through an RPortPrototype.
+    """
+
     def __init__(self):
         super().__init__()
 
@@ -156,6 +186,11 @@ class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
         return self
 
 class InnerPortGroupInCompositionInstanceRef(AtpInstanceRef):
+    """
+    Instance reference to a port group within a composition software
+    component type.
+    """
+
     def __init__(self):
         super().__init__()
 
