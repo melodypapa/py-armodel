@@ -8,6 +8,9 @@ build:
     pre_build:
       - sphinx-apidoc -o docs/api src/armodel --force --separate
 
+sphinx:
+  configuration: docs/conf.py
+
 python:
   install:
     - method: pip
