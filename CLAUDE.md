@@ -166,6 +166,10 @@ Or using npm scripts:
 
 ### Common Development Tasks
 
+**Commit Conventions:**
+- Do NOT add `Co-Authored-By` lines to commit messages
+- Write concise commit messages focusing on "why" not "what"
+
 **Adding a new AUTOSAR model class:**
 1. Determine if it should be a leaf package (`.py` file) or non-leaf package (`__init__.py`)
 2. Create the file in appropriate M2 location under `src/armodel/models/M2/AUTOSARTemplates/`
