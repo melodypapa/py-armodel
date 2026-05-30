@@ -70,6 +70,10 @@ docs/**/packages
 # Sphinx build output
 docs/_build/
 
+# Auto-generated API docs (regenerate with sphinx-apidoc)
+docs/api/armodel.*.rst
+docs/api/modules.rst
+
 # Worktrees
 worktrees/
 coverage_*.xml

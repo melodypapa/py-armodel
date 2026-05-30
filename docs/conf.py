@@ -18,10 +18,11 @@ copyright = '2021-2026, melodypapa'
 author = 'melodypapa'
 
 # The full version, including alpha/beta/rc tags
-release = '1.9.0'
+from armodel import __version__
+release = __version__
 
 # The short X.Y version
-version = '1.9.0'
+version = __version__
 
 
 # -- General configuration ---------------------------------------------------
@@ -177,6 +178,12 @@ epub_exclude_files = ['search.html']
 
 
 # -- Extension configuration -------------------------------------------------
+
+# Autosummary generate stub pages
+autosummary_generate = True
+
+# Suppress autodoc import errors
+suppress_warnings = ['autodoc.import_object']
 
 # -- Options for intersphinx extension ---------------------------------------
 
