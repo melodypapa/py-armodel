@@ -1,6 +1,8 @@
 from typing import List
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String, Boolean, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String, Boolean, RefType, ARNumerical
+from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 
 
 class VariationPoint(ARObject):
@@ -138,45 +140,78 @@ class PredefinedVariant(ARObject):
         return self
 
 
-class SwSystemconstantValueSet(ARObject):
+class SwSystemconstValue(ARObject):
     """
-    Represents a system constant value set in the AUTOSAR model.
-
-    This class is used to define sets of system constant values that can be
-    used in variant handling.
-
-    Attributes:
-        constantName (String): The name of the constant.
-        constantValues (List[String]): A list of constant values.
-        constantRef (RefType): A reference to the constant definition.
+    Assigns a particular value to a system constant.
     """
+
     def __init__(self):
         super().__init__()
 
-        self.constantName: String = None
-        self.constantValues: List[String] = []
-        self.constantRef: RefType = None
+        self.annotations: List[Annotation] = []
+        self.swSystemconstRef: RefType = None
+        self.swSystemconst: RefType = None
+        self.value: ARNumerical = None
 
-    def getConstantName(self) -> String:
-        return self.constantName
+    def getAnnotations(self) -> List[Annotation]:
+        return self.annotations
 
-    def setConstantName(self, value: String):
+    def addAnnotation(self, value: Annotation):
         if value is not None:
-            self.constantName = value
+            self.annotations.append(value)
         return self
 
-    def getConstantValues(self) -> List[String]:
-        return self.constantValues
+    def getSwSystemconst(self) -> RefType:
+        return self.swSystemconstRef
 
-    def addConstantValue(self, value: String):
+    def setSwSystemconst(self, value: RefType):
+        return self.setSwSystemconstRef(value)
+
+    def getSwSystemconstRef(self) -> RefType:
+        return self.swSystemconstRef
+
+    def setSwSystemconstRef(self, value: RefType):
         if value is not None:
-            self.constantValues.append(value)
+            self.swSystemconstRef = value
+            self.swSystemconst = value
         return self
 
-    def getConstantRef(self) -> RefType:
-        return self.constantRef
+    def getValue(self) -> ARNumerical:
+        return self.value
 
-    def setConstantRef(self, value: RefType):
+    def setValue(self, value: ARNumerical):
         if value is not None:
-            self.constantRef = value
+            self.value = value
         return self
+
+
+class SwSystemconstantValueSet(Identifiable):
+    """
+        This meta-class represents the ability to specify a set of system constant values.
+        Tags: atp.recommendedPackage=SwSystemconstantValueSets
+    """
+
+    def __init__(self, parent, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.swSystemconstantValues: List[SwSystemconstValue] = []
+
+    def addSwSystemconstantValue(self, value: SwSystemconstValue):
+        """
+        Adds a system constant value to the set.
+
+        Args:
+            value (SwSystemconstValue): The system constant value to add.
+        """
+        if value is not None:
+            self.swSystemconstantValues.append(value)
+        return self
+    
+    def getSwSystemconstantValues(self) -> List['SwSystemconstValue']:
+        """
+        Returns the list of system constant values in the set.
+
+        Returns:
+            List[SwSystemconstValue]: The list of system constant values.
+        """
+        return self.swSystemconstantValues

@@ -33,6 +33,7 @@ All existing rules in this document are currently at maturity level **accept**.
 9. [Testing Standards](#testing-standards)
 10. [Logging Standards](#logging-standards)
 11. [Programming Recommendations](#programming-recommendations)
+12. [AUTOSAR Model Development Rules](#autosar-model-development-rules)
 
 ---
 
@@ -893,6 +894,70 @@ AUTOSARTemplates/CommonStructure/ImplementationDataTypes.py
 ---
 
 ## Error Handling
+
+## AUTOSAR Model Development Rules
+
+### CODING_RULE_AUTOSAR_MODEL_00001: RefType Naming
+
+**Maturity**: accept
+
+For model attributes typed as `RefType`, use a `Ref` suffix in the
+attribute and accessor names.
+
+```python
+# Correct
+self.systemSignalRef: RefType = None
+
+def getSystemSignalRef(self) -> RefType:
+    return self.systemSignalRef
+
+def setSystemSignalRef(self, value: RefType):
+    self.systemSignalRef = value
+    return self
+
+# Wrong
+self.systemSignal: RefType = None
+```
+
+### CODING_RULE_AUTOSAR_MODEL_00002: ARObject Identity Boundaries
+
+**Maturity**: accept
+
+Classes inheriting from `ARObject` must not introduce `short_name` identity.
+If a model element needs a short name, parent linkage, and package identity,
+inherit from `Identifiable` (or another suitable `Referrable`-based class)
+instead of `ARObject`.
+
+```python
+# Correct: plain value/reference object
+class SenderReceiverToSignalMapping(ARObject):
+    def __init__(self):
+        super().__init__()
+        self.systemSignalRef: RefType = None
+
+# Correct: named model element
+class SwSystemconstantValueSet(Identifiable):
+    def __init__(self, parent, short_name: str):
+        super().__init__(parent, short_name)
+```
+
+### CODING_RULE_AUTOSAR_MODEL_00003: Ref Rename Compatibility
+
+**Maturity**: accept
+
+When renaming an existing `RefType` attribute to follow the `Ref` suffix
+convention, keep backward-compatible alias methods during migration. New code
+must use the `...Ref` API.
+
+```python
+def getSwSystemconst(self) -> RefType:
+    return self.getSwSystemconstRef()
+
+def setSwSystemconst(self, value: RefType):
+    return self.setSwSystemconstRef(value)
+```
+
+---
 
 ### CODING_RULE_ERROR_00001: Validation Errors
 

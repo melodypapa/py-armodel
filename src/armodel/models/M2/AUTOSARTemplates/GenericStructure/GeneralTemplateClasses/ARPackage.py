@@ -8,12 +8,14 @@ components, interfaces, data types, and other packages.
 
 from typing import Dict, List, Optional, Any
 
+from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import SwSystemconstantValueSet
 
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SensorActuatorSwComponentType
 from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
@@ -949,6 +951,18 @@ class ARPackage(CollectableElement):
             element = EcucModuleDef(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, EcucModuleDef)
+    
+    def createSwSystemConst(self, short_name: str) -> SwSystemconst:
+        if not self.IsElementExists(short_name, SwSystemconst):
+            element = SwSystemconst(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, SwSystemconst)
+
+    def createSwSystemconstantValueSet(self, short_name: str) -> SwSystemconstantValueSet:
+        if not self.IsElementExists(short_name, SwSystemconstantValueSet):
+            element = SwSystemconstantValueSet(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, SwSystemconstantValueSet)
 
     def createPhysicalDimension(self, short_name: str) -> PhysicalDimension:
         if not self.IsElementExists(short_name, PhysicalDimension):
@@ -1263,6 +1277,12 @@ class ARPackage(CollectableElement):
     
     def getEcucModuleDefs(self) -> List[EcucModuleDef]:
         return list(sorted(filter(lambda a: isinstance(a, EcucModuleDef), self.elements), key=lambda a: a.short_name))
+    
+    def getSwSystemConsts(self) -> List[SwSystemconst]:
+        return list(sorted(filter(lambda a: isinstance(a, SwSystemconst), self.elements), key=lambda a: a.short_name))
+
+    def getSwSystemconstantValueSets(self) -> List[SwSystemconstantValueSet]:
+        return list(sorted(filter(lambda a: isinstance(a, SwSystemconstantValueSet), self.elements), key=lambda a: a.short_name))
 
     def getEcucPhysicalDimensions(self) -> List[PhysicalDimension]:
         return list(sorted(filter(lambda a: isinstance(a, PhysicalDimension), self.elements), key=lambda a: a.short_name))

@@ -10,6 +10,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName, LPlainText, LOverviewParagraph
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguagePlainText
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification, NumericalValueSpecification, ConstantReference
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
+from armodel.models.M2.MSR.Documentation.Annotation import Annotation
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import SwSystemconstValue
 
 
 class TestARXMLWriterBasicMethods:
@@ -699,3 +703,155 @@ class TestARXMLWriterValueSpecMethods:
         ref_element = spec_element.find("CONSTANT-REF")
         assert ref_element is not None
         assert ref_element.text == "/path/to/constant"
+
+
+class TestARXMLWriterSwSystemconstMethods:
+    """Tests for SwSystemconst writer behavior."""
+
+    def test_write_sw_systemconst_basic(self):
+        """Test writeSwSystemconst with only short name."""
+        writer = ARXMLWriter()
+        autosar = AUTOSAR.getInstance()
+        autosar.clear()
+
+        pkg = autosar.createARPackage("Constants")
+        system_const = pkg.createSwSystemConst("MySystemConstant")
+
+        root = ET.Element("ELEMENTS")
+        writer.writeSwSystemconst(root, system_const)
+
+        assert len(root) == 1
+        sw_systemconst = root.find("SW-SYSTEMCONST")
+        assert sw_systemconst is not None
+        short_name = sw_systemconst.find("SHORT-NAME")
+        assert short_name is not None
+        assert short_name.text == "MySystemConstant"
+        assert sw_systemconst.find("SW-DATA-DEF-PROPS") is None
+
+        autosar.clear()
+
+    def test_write_sw_systemconst_with_sw_data_def_props(self):
+        """Test writeSwSystemconst with SW-DATA-DEF-PROPS content."""
+        writer = ARXMLWriter()
+        autosar = AUTOSAR.getInstance()
+        autosar.clear()
+
+        pkg = autosar.createARPackage("Constants")
+        system_const = pkg.createSwSystemConst("EncodedValue")
+
+        props = SwDataDefProps()
+        base_type_ref = RefType()
+        base_type_ref.setDest("SW-BASE-TYPE")
+        base_type_ref.setValue("/BaseTypes/uint8")
+        compu_method_ref = RefType()
+        compu_method_ref.setDest("COMPU-METHOD")
+        compu_method_ref.setValue(
+            "/Application/CompuMethods/StatusEncoding"
+        )
+        props.setBaseTypeRef(base_type_ref)
+        props.setCompuMethodRef(compu_method_ref)
+        props.setSwCalprmAxisSet(SwCalprmAxisSet())
+        system_const.setSwDataDefProps(props)
+
+        root = ET.Element("ELEMENTS")
+        writer.writeSwSystemconst(root, system_const)
+
+        sw_systemconst = root.find("SW-SYSTEMCONST")
+        assert sw_systemconst is not None
+
+        props_element = sw_systemconst.find("SW-DATA-DEF-PROPS")
+        assert props_element is not None
+        variants = props_element.find("SW-DATA-DEF-PROPS-VARIANTS")
+        assert variants is not None
+        conditional = variants.find("SW-DATA-DEF-PROPS-CONDITIONAL")
+        assert conditional is not None
+
+        base_type = conditional.find("BASE-TYPE-REF")
+        assert base_type is not None
+        assert base_type.text == "/BaseTypes/uint8"
+        assert base_type.attrib.get("DEST") == "SW-BASE-TYPE"
+
+        compu_method = conditional.find("COMPU-METHOD-REF")
+        assert compu_method is not None
+        assert (
+            compu_method.text
+            == "/Application/CompuMethods/StatusEncoding"
+        )
+        assert compu_method.attrib.get("DEST") == "COMPU-METHOD"
+
+        autosar.clear()
+
+
+class TestARXMLWriterSwSystemconstantValueSetMethods:
+    """Tests for SwSystemconstantValueSet writer behavior."""
+
+    def test_write_sw_systemconstant_value_set_basic(self):
+        """Test writing SW-SYSTEMCONSTANT-VALUE-SET with one value."""
+        writer = ARXMLWriter()
+        autosar = AUTOSAR.getInstance()
+        autosar.clear()
+
+        pkg = autosar.createARPackage("Variants")
+        value_set = pkg.createSwSystemconstantValueSet("MyValueSet")
+
+        value = SwSystemconstValue()
+        ref = RefType()
+        ref.setDest("SW-SYSTEMCONST")
+        ref.setValue("/Constants/MySystemConstant")
+        value.setSwSystemconstRef(ref)
+
+        num = ARFloat()
+        num.setValue(42)
+        num._text = "42"
+        value.setValue(num)
+        value_set.addSwSystemconstantValue(value)
+
+        root = ET.Element("ELEMENTS")
+        writer.writeARPackageElement(root, value_set)
+
+        value_set_el = root.find("SW-SYSTEMCONSTANT-VALUE-SET")
+        assert value_set_el is not None
+        assert value_set_el.find("SHORT-NAME").text == "MyValueSet"
+
+        values_el = value_set_el.find("SW-SYSTEMCONSTANT-VALUES")
+        assert values_el is not None
+
+        value_el = values_el.find("SW-SYSTEMCONST-VALUE")
+        assert value_el is not None
+
+        ref_el = value_el.find("SW-SYSTEMCONST-REF")
+        assert ref_el is not None
+        assert ref_el.text == "/Constants/MySystemConstant"
+        assert ref_el.attrib.get("DEST") == "SW-SYSTEMCONST"
+
+        number_el = value_el.find("VALUE")
+        assert number_el is not None
+        assert number_el.text == "42"
+
+        autosar.clear()
+
+    def test_write_sw_systemconstant_value_set_with_annotation(self):
+        """Test writing ANNOTATIONS under SW-SYSTEMCONST-VALUE."""
+        writer = ARXMLWriter()
+        autosar = AUTOSAR.getInstance()
+        autosar.clear()
+
+        pkg = autosar.createARPackage("Variants")
+        value_set = pkg.createSwSystemconstantValueSet("AnnotatedValueSet")
+
+        value = SwSystemconstValue()
+        annotation = Annotation()
+        value.addAnnotation(annotation)
+        value_set.addSwSystemconstantValue(value)
+
+        root = ET.Element("ELEMENTS")
+        writer.writeARPackageElement(root, value_set)
+
+        value_el = root.find(
+            "SW-SYSTEMCONSTANT-VALUE-SET/SW-SYSTEMCONSTANT-VALUES/SW-SYSTEMCONST-VALUE"
+        )
+        assert value_el is not None
+        assert value_el.find("ANNOTATIONS") is not None
+        assert value_el.find("ANNOTATIONS/ANNOTATION") is not None
+
+        autosar.clear()

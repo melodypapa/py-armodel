@@ -23,6 +23,7 @@ from armodel.models.M2.MSR.DataDictionary.DataDefProperties import ValueList
 from armodel.models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayoutGroup
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
 from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
+from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation, GeneralAnnotation
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Graphic, LGraphic, MlFigure
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
@@ -96,6 +97,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARLiteral
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import SwSystemconstValue, SwSystemconstantValueSet
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationPrimitiveDataType, ApplicationRecordDataType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationArrayDataType, ApplicationCompositeDataType
@@ -4647,6 +4649,32 @@ class ARXMLParser(AbstractARXMLParser):
         self.readEcucModuleDefSupportedConfigVariants(element, module_def)
         self.readEcucModuleDefContainers(element, module_def)
 
+    def readSwSystemconst(self, element: ET.Element, system_const: SwSystemconst):
+        self.logger.debug("Read SwSystemconst <%s>" % system_const.getShortName())
+        self.readIdentifiable(element, system_const)
+        system_const.setSwDataDefProps(self.getSwDataDefProps(element, "SW-DATA-DEF-PROPS"))
+
+    def readSwSystemconstValue(self, element: ET.Element, value: SwSystemconstValue):
+        for annotation in self.getAnnotations(element):
+            value.addAnnotation(annotation)
+        value.setSwSystemconstRef(self.getChildElementOptionalRefType(element, "SW-SYSTEMCONST-REF"))
+        value.setValue(self.getChildElementOptionalNumericalValue(element, "VALUE"))
+
+    def readSwSystemconstantValueSetSwSystemconstantValues(self, element: ET.Element, value_set: SwSystemconstantValueSet):
+        for child_element in self.findall(element, "SW-SYSTEMCONSTANT-VALUES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SW-SYSTEMCONST-VALUE":
+                value = SwSystemconstValue()
+                self.readSwSystemconstValue(child_element, value)
+                value_set.addSwSystemconstantValue(value)
+            else:
+                self.notImplemented("Unsupported SwSystemconstValue <%s>" % tag_name)
+
+    def readSwSystemconstantValueSet(self, element: ET.Element, value_set: SwSystemconstantValueSet):
+        self.logger.debug("Read SwSystemconstantValueSet <%s>" % value_set.getShortName())
+        self.readIdentifiable(element, value_set)
+        self.readSwSystemconstantValueSetSwSystemconstantValues(element, value_set)
+
     def readCommunicationController(self, element: ET.Element, controller: CommunicationController):
         controller.setWakeUpByControllerSupported(self.getChildElementOptionalBooleanValue(element, "WAKE-UP-BY-CONTROLLER-SUPPORTED"))
 
@@ -5792,6 +5820,18 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ECUC-MODULE-DEF":
                 module_def = parent.createEcucModuleDef(self.getShortName(child_element))
                 self.readEcucModuleDef(child_element, module_def)
+            elif tag_name == "SW-SYSTEMCONST":
+                system_const = parent.createSwSystemConst(self.getShortName(child_element))
+                self.readSwSystemconst(child_element, system_const)
+            elif tag_name == "SW-SYSTEMCONSTANT-VALUE-SET":
+                value_set = parent.createSwSystemconstantValueSet(self.getShortName(child_element))
+                self.readSwSystemconstantValueSet(child_element, value_set)
+            elif tag_name == "PREDEFINED-VARIANT":
+                # TODO: Implement PREDEFINED-VARIANT
+                continue
+            elif tag_name == "NV-DATA-INTERFACE":
+                # TODO: Implement NV-DATA-INTERFACE
+                continue
             else:
                 self.notImplemented("Unsupported Element type of ARPackage <%s>" % tag_name)
 

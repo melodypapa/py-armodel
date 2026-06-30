@@ -1,13 +1,12 @@
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure import ValueSpecification
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights.AtpDefinition import (
-    AtpDefinition,
-)
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
 
-class SwSystemconst(AtpDefinition):
+class SwSystemconst(Identifiable):
     """
     Represents a software system constant in the AUTOSAR model.
 
@@ -21,12 +20,25 @@ class SwSystemconst(AtpDefinition):
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
 
-        self.value: ValueSpecification = None
+        self.swDataDefProps: SwDataDefProps = None
 
-    def getValue(self) -> ValueSpecification:
-        return self.value
+    def setSwDataDefProps(self, sw_data_def_props: SwDataDefProps):
+        """
+        Sets the software data definition properties for this system constant.
 
-    def setValue(self, value: ValueSpecification):
-        if value is not None:
-            self.value = value
+        Args:
+            sw_data_def_props (SwDataDefProps): The software data definition properties to set.
+        """
+        self.swDataDefProps = sw_data_def_props
+
         return self
+
+    def getSwDataDefProps(self) -> SwDataDefProps:
+        """
+        Returns the software data definition properties for this system constant.
+
+        Returns:
+            SwDataDefProps: The software data definition properties.
+        """
+        return self.swDataDefProps
+    
