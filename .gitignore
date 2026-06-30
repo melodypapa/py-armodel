@@ -10,7 +10,7 @@ __pycache__
 /build/
 /dist/
 /htmlcov/
-/reports/coverage.xml
+/reports/coverage.md
 
 # Testing
 pytest_html_report.html

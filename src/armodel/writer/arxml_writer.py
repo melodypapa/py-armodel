@@ -16,6 +16,7 @@ from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAx
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps, SwPointerTargetProps, ValueList
 from armodel.models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout, SwRecordLayoutGroup, SwRecordLayoutV
 from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
+from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Graphic, MlFigure
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
@@ -88,6 +89,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable, MultilanguageReferrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARLiteral, Limit
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import SwSystemconstValue, SwSystemconstantValueSet
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import CompositeNetworkRepresentation, ModeSwitchedAckRequest, NvProvideComSpec, NvRequireComSpec
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import TransformationComSpecProps, UserDefinedTransformationComSpecProps
@@ -5123,6 +5125,31 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "MODULE-DESCRIPTION-REF", values.getModuleDescriptionRef())
         self.writeEcucModuleConfigurationValuesContainers(child_element, values)
 
+    def writeSwSystemconst(self, element: ET.Element, const: SwSystemconst):
+        self.logger.debug("SwSystemConst %s" % const.getShortName())
+        child_element = ET.SubElement(element, "SW-SYSTEMCONST")
+        self.writeIdentifiable(child_element, const)
+        self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", const.getSwDataDefProps())
+
+    def writeSwSystemconstValue(self, element: ET.Element, value: SwSystemconstValue):
+        child_element = ET.SubElement(element, "SW-SYSTEMCONST-VALUE")
+        self.setAnnotations(child_element, value.getAnnotations())
+        self.setChildElementOptionalRefType(child_element, "SW-SYSTEMCONST-REF", value.getSwSystemconstRef())
+        self.setChildElementOptionalNumericalValue(child_element, "VALUE", value.getValue())
+
+    def writeSwSystemconstantValueSetSwSystemconstantValues(self, element: ET.Element, value_set: SwSystemconstantValueSet):
+        values = value_set.getSwSystemconstantValues()
+        if len(values) > 0:
+            values_element = ET.SubElement(element, "SW-SYSTEMCONSTANT-VALUES")
+            for value in values:
+                self.writeSwSystemconstValue(values_element, value)
+
+    def writeSwSystemconstantValueSet(self, element: ET.Element, value_set: SwSystemconstantValueSet):
+        self.logger.debug("SwSystemconstantValueSet %s" % value_set.getShortName())
+        child_element = ET.SubElement(element, "SW-SYSTEMCONSTANT-VALUE-SET")
+        self.writeIdentifiable(child_element, value_set)
+        self.writeSwSystemconstantValueSetSwSystemconstantValues(child_element, value_set)
+        
     def writeISignalGroupISignalRef(self, element: ET.Element, group: ISignalGroup):
         signal_refs = group.getISignalRefs()
         if len(signal_refs) > 0:
@@ -5916,6 +5943,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeEcucModuleDef(element, ar_element)
         elif isinstance(ar_element, EcucModuleConfigurationValues):
             self.writeEcucModuleConfigurationValues(element, ar_element)
+        elif isinstance(ar_element, SwSystemconst):
+            self.writeSwSystemconst(element, ar_element)
+        elif isinstance(ar_element, SwSystemconstantValueSet):
+            self.writeSwSystemconstantValueSet(element, ar_element)
         else:
             self.notImplemented("Unsupported Elements of ARPackage <%s>" % type(ar_element))
 

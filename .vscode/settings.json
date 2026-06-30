@@ -90,6 +90,8 @@
         "Switchoff",
         "SWMAKE",
         "SWSRC",
+        "Systemconst",
+        "Systemconstant",
         "TECHNOLOGYS",
         "topdown",
         "tranceiver",

@@ -507,6 +507,9 @@ class TestARPackage:
         ecuc_module_def = package.createEcucModuleDef("EcucModuleDef")
         assert ecuc_module_def.getShortName() == "EcucModuleDef"
 
+        value_set = package.createSwSystemconstantValueSet("MyValueSet")
+        assert value_set.getShortName() == "MyValueSet"
+
         phys_dimension = package.createPhysicalDimension("PhysicalDimension")
         assert phys_dimension.getShortName() == "PhysicalDimension"
 
@@ -667,6 +670,7 @@ class TestARPackage:
         assert isinstance(package.getEcucValueCollections(), list)
         assert isinstance(package.getEcucModuleConfigurationValues(), list)
         assert isinstance(package.getEcucModuleDefs(), list)
+        assert isinstance(package.getSwSystemconstantValueSets(), list)
         assert isinstance(package.getEcucPhysicalDimensions(), list)
         assert isinstance(package.getISignalGroups(), list)
         assert isinstance(package.getSystemSignals(), list)

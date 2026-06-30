@@ -7,10 +7,12 @@ from armodel.writer.abstract_arxml_writer import AbstractARXMLWriter
 from armodel.writer.arxml_writer import ARXMLWriter
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARFloat, ARLiteral, ARNumerical, DateTime, Integer, 
+    ARFloat, ARLiteral, ARNumerical, DateTime, Integer,
     RevisionLabelString, TimeValue, RefType, ARBoolean, ARPositiveInteger
 )
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
 
 
 class ConcreteARXMLWriter(AbstractARXMLWriter):
@@ -414,6 +416,59 @@ class TestARXMLWriterIntegration:
             assert 'AUTOSAR' in content
             assert 'TestPackage' in content
             assert 'TestType' in content
+        finally:
+            if os.path.exists(tmp_path):
+                os.remove(tmp_path)
+            autosar.clear()
+
+    def test_arxml_writer_write_sw_systemconst_to_file(self):
+        """Test ARXMLWriter serializes SW-SYSTEMCONST content."""
+        autosar = AUTOSAR.getInstance()
+        autosar.clear()
+
+        pkg = autosar.createARPackage("Constants")
+        system_const = pkg.createSwSystemConst("EncodedValue")
+
+        props = SwDataDefProps()
+        base_type_ref = RefType()
+        base_type_ref.setDest("SW-BASE-TYPE")
+        base_type_ref.setValue("/BaseTypes/uint8")
+        compu_method_ref = RefType()
+        compu_method_ref.setDest("COMPU-METHOD")
+        compu_method_ref.setValue(
+            "/Application/CompuMethods/StatusEncoding"
+        )
+        props.setBaseTypeRef(base_type_ref)
+        props.setCompuMethodRef(compu_method_ref)
+        props.setSwCalprmAxisSet(SwCalprmAxisSet())
+        system_const.setSwDataDefProps(props)
+
+        with tempfile.NamedTemporaryFile(
+            mode='w', delete=False, suffix='.arxml'
+        ) as tmp:
+            tmp_path = tmp.name
+
+        try:
+            writer = ARXMLWriter()
+            writer.save(tmp_path, autosar)
+
+            with open(tmp_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+
+            assert '<SW-SYSTEMCONST>' in content
+            assert '<SHORT-NAME>EncodedValue</SHORT-NAME>' in content
+            assert '<SW-DATA-DEF-PROPS>' in content
+            assert '<SW-DATA-DEF-PROPS-VARIANTS>' in content
+            assert '<SW-DATA-DEF-PROPS-CONDITIONAL>' in content
+            assert (
+                '<BASE-TYPE-REF DEST="SW-BASE-TYPE">'
+                '/BaseTypes/uint8</BASE-TYPE-REF>' in content
+            )
+            assert (
+                '<COMPU-METHOD-REF DEST="COMPU-METHOD">'
+                '/Application/CompuMethods/StatusEncoding'
+                '</COMPU-METHOD-REF>' in content
+            )
         finally:
             if os.path.exists(tmp_path):
                 os.remove(tmp_path)
