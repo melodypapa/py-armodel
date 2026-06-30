@@ -5,7 +5,6 @@ This module contains the SwComponentType base class for AUTOSAR software compone
 from abc import ABC
 from typing import List, TYPE_CHECKING
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 if TYPE_CHECKING:

@@ -16,7 +16,6 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucConfigurationVariantEnum,
     EcucAbstractConfigurationClass,
     EcucMultiplicityConfigurationClass,
-    EcucContainerDef,
     EcucValueConfigurationClass,
     EcucCommonAttributes,
     EcucDerivationSpecification,

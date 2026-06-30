@@ -1,7 +1,12 @@
 """
 This module contains tests for the Axis module in MSR.DataDictionary.
 """
-from armodel.models.M2.MSR.DataDictionary.Axis import *
+from armodel.models.M2.MSR.DataDictionary.Axis import (
+    SwAxisGeneric,
+    SwAxisGrouped,
+    SwAxisIndividual,
+    SwGenericAxisParam,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARNumerical, RefType
 
 

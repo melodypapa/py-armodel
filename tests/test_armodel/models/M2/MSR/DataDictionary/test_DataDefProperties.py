@@ -1,7 +1,13 @@
 """
 This module contains tests for the DataDefProperties module in MSR.DataDictionary.
 """
-from armodel.models.M2.MSR.DataDictionary.DataDefProperties import *
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
+    SwDataDefProps,
+    SwDataDefPropsConditional,
+    SwImplPolicyEnum,
+    SwPointerTargetProps,
+    ValueList,
+)
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, RefType, ARLiteral
@@ -13,7 +19,7 @@ class TestSwImplPolicyEnum:
     
     def test_sw_impl_policy_enum_initialization(self):
         """Test that SwImplPolicyEnum can be initialized with default values."""
-        sw_impl_policy_enum = SwImplPolicyEnum()
+        SwImplPolicyEnum()
         # Since SwImplPolicyEnum inherits from AREnum, check that it has the expected values
         assert SwImplPolicyEnum.CONST == "const"
         assert SwImplPolicyEnum.FIXED == "fixed"

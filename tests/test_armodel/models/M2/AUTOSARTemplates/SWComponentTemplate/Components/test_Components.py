@@ -4,9 +4,6 @@ This module contains tests for the Components subdirectory in SWComponentTemplat
 import pytest
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
     SymbolProps,
-    PortPrototype,
-    AbstractProvidedPortPrototype,
-    AbstractRequiredPortPrototype,
     PPortPrototype,
     RPortPrototype,
     PRPortPrototype,

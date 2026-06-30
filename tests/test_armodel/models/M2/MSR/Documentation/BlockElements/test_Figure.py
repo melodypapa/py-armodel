@@ -1,7 +1,13 @@
 """
 This module contains tests for the Figure module in MSR.Documentation.BlockElements.
 """
-from armodel.models.M2.MSR.Documentation.BlockElements.Figure import *
+from armodel.models.M2.MSR.Documentation.BlockElements.Figure import (
+    Graphic,
+    GraphicFitEnum,
+    LGraphic,
+    Map,
+    MlFigure,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
 
 

@@ -1,7 +1,11 @@
 """
 This module contains tests for the ListElements module in MSR.Documentation.TextModel.BlockElements.
 """
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import *
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import (
+    ARList,
+    Item,
+    ListEnum,
+)
 
 
 class TestListEnum:
@@ -9,7 +13,7 @@ class TestListEnum:
     
     def test_list_enum_initialization(self):
         """Test that a ListEnum object can be initialized with expected values."""
-        list_enum = ListEnum()
+        ListEnum()
         # Check that enum has expected values
         assert hasattr(ListEnum, 'NUMBER')
         assert hasattr(ListEnum, 'UNNUMBER')

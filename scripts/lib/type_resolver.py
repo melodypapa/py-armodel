@@ -7,7 +7,7 @@ This module handles type discovery and import resolution for AUTOSAR classes.
 
 import ast
 from pathlib import Path
-from typing import Dict, List, Optional, Set, Any, Tuple
+from typing import Dict, List, Optional, Set, Any
 
 
 # Global caches for type lookups

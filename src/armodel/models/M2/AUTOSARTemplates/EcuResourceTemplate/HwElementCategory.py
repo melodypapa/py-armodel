@@ -10,7 +10,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    ARElement,
     Identifiable,
 )
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import (

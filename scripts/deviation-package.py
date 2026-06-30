@@ -32,10 +32,8 @@ The deviation checker validates:
 """
 
 import ast
-import os
-import re
 from pathlib import Path
-from typing import Dict, List, Set, Tuple, Optional
+from typing import Dict, List, Set, Tuple
 
 
 def parse_requirements_md(file_path: str) -> List[Tuple[str, str]]:
@@ -232,7 +230,7 @@ def check_deviations(requirements: List[Tuple[str, str, int]], class_map: Dict[s
                     'm2_path': full_path,
                     'expected_python': expected_python_path,
                     'actual_python': actual_python_path,
-                    'notes': f'Class exists but in different location'
+                    'notes': 'Class exists but in different location'
                 })
         else:
             status = "✗ MISSING"
@@ -266,7 +264,7 @@ def find_extra_classes(requirements: List[Tuple[str, str, int]], class_map: Dict
                 'm2_path': 'Not Documented',
                 'expected_python': 'N/A',
                 'actual_python': python_path,
-                'notes': f'Class exists but not documented'
+                'notes': 'Class exists but not documented'
             })
 
     return extra_classes
@@ -339,8 +337,8 @@ def main():
     source_dir = project_root / 'src'
     output_file = project_root / 'reports' / 'deviation_package.md'
 
-    print(f"Py-ARModel Deviation Check Script")
-    print(f"=" * 50)
+    print("Py-ARModel Deviation Check Script")
+    print("=" * 50)
     print(f"Requirements file: {requirements_file}")
     print(f"Source directory: {source_dir}")
     print(f"Output file: {output_file}")

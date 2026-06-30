@@ -1,5 +1,4 @@
 import argparse
-from armodel import __version__
 import logging
 import sys
 import os.path
