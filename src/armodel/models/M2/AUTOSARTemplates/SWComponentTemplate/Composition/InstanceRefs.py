@@ -15,7 +15,7 @@ class PortInCompositionTypeInstanceRef(AtpInstanceRef, ABC):
     """
 
     def __init__(self):
-        if type(self) == PortInCompositionTypeInstanceRef:
+        if type(self) is PortInCompositionTypeInstanceRef:
             raise TypeError("PortInCompositionTypeInstanceRef is an abstract class.")
         
         super().__init__()
@@ -106,7 +106,7 @@ class OperationInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
     """
 
     def __init__(self):
-        if type(self) == OperationInAtomicSwcInstanceRef:
+        if type(self) is OperationInAtomicSwcInstanceRef:
             raise TypeError("OperationInAtomicSwcInstanceRef is an abstract class.")
         
         super().__init__()
