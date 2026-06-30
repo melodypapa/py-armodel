@@ -11,7 +11,7 @@ from typing import List
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement, AtpType, AtpBlueprintable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, ArgumentDirectionEnum, Boolean
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
@@ -53,17 +53,48 @@ class DataInterface(PortInterface, ABC):
 
 
 class NvDataInterface(DataInterface):
+    """Class NvDataInterface.
+
+    Package M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
+
+    Note: A non volatile data interface declares a number of
+    VariableDataPrototypes to be exchanged between non volatile block
+    components and atomic software components.
+
+    Tags: atp.recommendedPackage=PortInterfaces
+
+    Base ARElement, ARObject, AtpBlueprint, AtpBlueprintable,
+    AtpClassifier, AtpType, CollectableElement, DataInterface,
+    Identifiable, MultilanguageReferrable, PackageableElement,
+    PortInterface, Referrable
+
+    Attribute:
+        nvData (VariableDataPrototype, 1..*, aggr)
+        The VariableDataPrototype of this nv data interface.
+    """
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.nvDatas: List[VariableDataPrototype] = []
-
     def getNvDatas(self):
-        return self.nvDatas
+        """Get nvData VariableDataPrototype list."""
+        return list(
+            filter(
+                lambda c: isinstance(c, VariableDataPrototype),
+                self.elements,
+            )
+        )
 
-    def setNvData(self, value):
-        self.nvDatas.append(value)
-        return self
+    def createNvData(self, short_name: str) -> VariableDataPrototype:
+        """Create one nvData VariableDataPrototype and aggregate it."""
+        if not self.IsElementExists(short_name, VariableDataPrototype):
+            prototype = VariableDataPrototype(self, short_name)
+            self.addElement(prototype)
+        return self.getElement(short_name, VariableDataPrototype)
+
+    def getNvData(self, short_name: str) -> VariableDataPrototype:
+        """Get one nvData VariableDataPrototype by short name."""
+        return self.getElement(short_name, VariableDataPrototype)
 
 
 class ParameterInterface(DataInterface):

@@ -60,7 +60,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes i
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionSet
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerInterface, ModeDeclarationMappingSet, ModeSwitchInterface
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import PortInterfaceMappingSet, SenderReceiverInterface, TriggerInterface
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ParameterInterface
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import NvDataInterface, ParameterInterface
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import System
@@ -86,14 +86,14 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
 
 class ReferenceBase(ARObject):
     """
-    Represents a reference base in AUTOSAR models. Reference bases define 
+    Represents a reference base in AUTOSAR models. Reference bases define
     how elements in one package can reference elements in other packages.
     They are used to establish relationships between different AUTOSAR packages.
     """
     
     def __init__(self):
         """
-        Initializes a ReferenceBase instance with default values for 
+        Initializes a ReferenceBase instance with default values for
         package reference properties.
         """
         super().__init__()
@@ -270,8 +270,8 @@ class ReferenceBase(ARObject):
 
 class ARPackage(CollectableElement):
     """
-    Represents an AUTOSAR package, which is a container for organizing 
-    AUTOSAR model elements hierarchically. ARPackage serves as the primary 
+    Represents an AUTOSAR package, which is a container for organizing
+    AUTOSAR model elements hierarchically. ARPackage serves as the primary
     organizational unit in AUTOSAR models, allowing for grouping of related
     elements such as software components, interfaces, data types, and other packages.
     
@@ -509,7 +509,7 @@ class ARPackage(CollectableElement):
 
     def createARPackage(self, short_name: str) -> 'ARPackage':
         """
-        Creates a new sub-package with the given short name, or returns 
+        Creates a new sub-package with the given short name, or returns
         an existing package if one with the same name already exists.
         
         Args:
@@ -615,6 +615,12 @@ class ARPackage(CollectableElement):
             sr_interface = ParameterInterface(self, short_name)
             self.addElement(sr_interface)
         return self.getElement(short_name, ParameterInterface)
+
+    def createNvDataInterface(self, short_name: str) -> NvDataInterface:
+        if not self.IsElementExists(short_name, NvDataInterface):
+            nv_interface = NvDataInterface(self, short_name)
+            self.addElement(nv_interface)
+        return self.getElement(short_name, NvDataInterface)
     
     def createGenericEthernetFrame(self, short_name: str) -> GenericEthernetFrame:
         if not self.IsElementExists(short_name, GenericEthernetFrame):
@@ -859,7 +865,7 @@ class ARPackage(CollectableElement):
         Creates a new CAN Frame with the given short name,
         or returns an existing one if it already exists in this package.
         
-        CanFrame represents a CAN communication frame in AUTOSAR's 
+        CanFrame represents a CAN communication frame in AUTOSAR's
         communication modeling, used for defining CAN-based communication.
         
         Args:

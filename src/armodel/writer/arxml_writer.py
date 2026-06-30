@@ -132,7 +132,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ModeDeclarationMapping, ModeDeclarationMappingSet
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerInterfaceMapping, ClientServerOperationMapping
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerOperation, DataInterface, ModeInterfaceMapping
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import DataPrototypeMapping, ModeSwitchInterface, ParameterInterface
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import DataPrototypeMapping, ModeSwitchInterface, NvDataInterface, ParameterInterface
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import PortInterface, PortInterfaceMappingSet, SenderReceiverInterface
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import TriggerInterface, VariableAndParameterInterfaceMapping
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
@@ -2753,6 +2753,22 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "PARAMETER-INTERFACE")
         self.writeDataInterface(child_element, interface)
         self.writeSwcInternalBehaviorParameterDataPrototypes(child_element, "PARAMETERS", interface.getParameters())
+
+    def writeNvDataInterfaceNvDatas(self, element: ET.Element, interface: NvDataInterface):
+        nv_datas = interface.getNvDatas()
+        if len(nv_datas) > 0:
+            child_element = ET.SubElement(element, "NV-DATAS")
+            for nv_data in nv_datas:
+                if isinstance(nv_data, VariableDataPrototype):
+                    self.writeVariableDataPrototype(child_element, nv_data)
+                else:
+                    self.notImplemented("Unsupported NvData <%s>" % type(nv_data))
+
+    def writeNvDataInterface(self, element: ET.Element, interface: NvDataInterface):
+        self.logger.debug("Write NvDataInterface %s" % interface.getShortName())
+        child_element = ET.SubElement(element, "NV-DATA-INTERFACE")
+        self.writeDataInterface(child_element, interface)
+        self.writeNvDataInterfaceNvDatas(child_element, interface)
 
     def writeClientServerInterface(self, element: ET.Element, cs_interface: ClientServerInterface):
         self.logger.debug("writeClientServerInterface %s" % cs_interface.getShortName())
@@ -5942,6 +5958,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSystemSignal(element, ar_element)
         elif isinstance(ar_element, ParameterInterface):
             self.writeParameterInterface(element, ar_element)
+        elif isinstance(ar_element, NvDataInterface):
+            self.writeNvDataInterface(element, ar_element)
         elif isinstance(ar_element, GenericEthernetFrame):
             self.writeGenericEthernetFrame(element, ar_element)
         elif isinstance(ar_element, LifeCycleInfoSet):

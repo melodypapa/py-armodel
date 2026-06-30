@@ -52,13 +52,12 @@ class TestNvDataInterface:
         assert nv_interface.short_name == "TestNvDataInterface"
         assert nv_interface.isService is None
         assert nv_interface.serviceKind is None
-        assert nv_interface.nvDatas == []
+        assert nv_interface.getNvDatas() == []
         
         # Test nvDatas methods
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import VariableDataPrototype
-        var_data = VariableDataPrototype(ar_root, "TestVarData")
-        nv_interface.setNvData(var_data)
+        var_data = nv_interface.createNvData("TestVarData")
         assert var_data in nv_interface.getNvDatas()
+        assert nv_interface.getNvData("TestVarData") == var_data
 
 
 class TestParameterInterface:

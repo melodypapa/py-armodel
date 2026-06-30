@@ -264,6 +264,23 @@ class TestARPackage:
         same_sri = package.createSenderReceiverInterface("TestSRI")
         assert same_sri is sri
 
+    def test_create_nv_data_interface(self):
+        """
+        Test createNvDataInterface method.
+        """
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        package = ARPackage(ar_root, "TestPackage")
+
+        nv_interface = package.createNvDataInterface("TestNVDI")
+        assert nv_interface is not None
+        assert nv_interface.getShortName() == "TestNVDI"
+        assert nv_interface.getParent() == package
+
+        same_nv_interface = package.createNvDataInterface("TestNVDI")
+        assert same_nv_interface is nv_interface
+
     def test_create_implementation_data_type(self):
         """
         Test createImplementationDataType method.
@@ -377,7 +394,7 @@ class TestARPackage:
         app_prim_type = package.createApplicationPrimitiveDataType("AppPrimType")
         assert app_prim_type.getShortName() == "AppPrimType"
 
-        # Note: There's likely a bug in the original source code here - it creates ApplicationRecordDataType 
+        # Note: There's likely a bug in the original source code here - it creates ApplicationRecordDataType
         # but tries to retrieve as ApplicationPrimitiveDataType
         # Let's also test a few more
         app_rec_type = package.createApplicationRecordDataType("AppRecType")
@@ -486,8 +503,8 @@ class TestARPackage:
         gateway = package.createGateway("Gateway")
         assert gateway.getShortName() == "Gateway"
 
-        isignal = package.createISignal("ISignal")
-        assert isignal.getShortName() == "ISignal"
+        i_signal = package.createISignal("ISignal")
+        assert i_signal.getShortName() == "ISignal"
 
         system_signal = package.createSystemSignal("SystemSignal")
         assert system_signal.getShortName() == "SystemSignal"
@@ -495,8 +512,8 @@ class TestARPackage:
         system_signal_group = package.createSystemSignalGroup("SystemSignalGroup")
         assert system_signal_group.getShortName() == "SystemSignalGroup"
 
-        isignal_ipdu = package.createISignalIPdu("ISignalIPdu")
-        assert isignal_ipdu.getShortName() == "ISignalIPdu"
+        i_signal_ipdu = package.createISignalIPdu("ISignalIPdu")
+        assert i_signal_ipdu.getShortName() == "ISignalIPdu"
 
         ecuc_val_collection = package.createEcucValueCollection("EcucValueCollection")
         assert ecuc_val_collection.getShortName() == "EcucValueCollection"
@@ -516,11 +533,11 @@ class TestARPackage:
         phys_dimension = package.createPhysicalDimension("PhysicalDimension")
         assert phys_dimension.getShortName() == "PhysicalDimension"
 
-        isignal_group = package.createISignalGroup("ISignalGroup")
-        assert isignal_group.getShortName() == "ISignalGroup"
+        i_signal_group = package.createISignalGroup("ISignalGroup")
+        assert i_signal_group.getShortName() == "ISignalGroup"
 
-        isignal_ipdu_group = package.createISignalIPduGroup("ISignalIPduGroup")
-        assert isignal_ipdu_group.getShortName() == "ISignalIPduGroup"
+        i_signal_ipdu_group = package.createISignalIPduGroup("ISignalIPduGroup")
+        assert i_signal_ipdu_group.getShortName() == "ISignalIPduGroup"
 
         system = package.createSystem("System")
         assert system.getShortName() == "System"
@@ -571,8 +588,8 @@ class TestARPackage:
         soad_group = package.createSoAdRoutingGroup("SoAdRoutingGroup")
         assert soad_group.getShortName() == "SoAdRoutingGroup"
 
-        doip_tp_config = package.createDoIpTpConfig("DoIpTpConfig")
-        assert doip_tp_config.getShortName() == "DoIpTpConfig"
+        do_ip_tp_config = package.createDoIpTpConfig("DoIpTpConfig")
+        assert do_ip_tp_config.getShortName() == "DoIpTpConfig"
 
         hw_element = package.createHwElement("HwElement")
         assert hw_element.getShortName() == "HwElement"
@@ -692,10 +709,10 @@ class TestARPackage:
         assert isinstance(package.getReferenceBases(), list)
 
         # Add some elements and test that getters return them
-        app_prim_dt = package.createApplicationPrimitiveDataType("AppPrimDT")
-        impl_dt = package.createImplementationDataType("ImplDT")
-        swc = package.createApplicationSwComponentType("AppSwc")
-        sri = package.createSenderReceiverInterface("SRI")
+        package.createApplicationPrimitiveDataType("AppPrimDT")
+        package.createImplementationDataType("ImplDT")
+        package.createApplicationSwComponentType("AppSwc")
+        package.createSenderReceiverInterface("SRI")
 
         # Now test getters return the added elements
         app_prim_dts = package.getApplicationPrimitiveDataTypes()

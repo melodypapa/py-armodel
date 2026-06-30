@@ -2,9 +2,6 @@ from typing import List
 import xml.etree.ElementTree as ET
 import os
 
-
-
-
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData, DocRevision, Modification
 from armodel.models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
 from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstrRule, InternalConstrs, PhysConstrs, DataConstr
@@ -142,7 +139,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ModeDeclarationMappingSet, ModeInterfaceMapping
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerOperation, ClientServerOperationMapping
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import DataPrototypeMapping, InvalidationPolicy, ModeSwitchInterface
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ParameterInterface, PortInterface, PortInterfaceMappingSet
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import NvDataInterface, ParameterInterface, PortInterface, PortInterfaceMappingSet
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import SenderReceiverInterface, TriggerInterface, DataInterface
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import VariableAndParameterInterfaceMapping
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
@@ -2498,6 +2495,22 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read ParameterInterface <%s>" % interface.getShortName())
         self.readDataInterface(element, interface)
         self.readParameterInterfaceParameters(element, interface)
+
+    def readNvDataInterfaceNvDatas(self, element: ET.Element, nv_interface: NvDataInterface):
+        for child_element in self.findall(element, "NV-DATAS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "VARIABLE-DATA-PROTOTYPE":
+                prototype = nv_interface.createNvData(
+                    self.getShortName(child_element)
+                )
+                self.readVariableDataPrototype(child_element, prototype)
+            else:
+                self.notImplemented("Unsupported NvData <%s>" % tag_name)
+
+    def readNvDataInterface(self, element: ET.Element, nv_interface: NvDataInterface):
+        self.logger.debug("Read NvDataInterface <%s>" % nv_interface.getShortName())
+        self.readDataInterface(element, nv_interface)
+        self.readNvDataInterfaceNvDatas(element, nv_interface)
 
     def readClientServerInterface(self, element: ET.Element, cs_interface: ClientServerInterface):
         self.logger.debug("Read ClientServerInterface <%s>" % cs_interface.getShortName())
@@ -5872,8 +5885,10 @@ class ARXMLParser(AbstractARXMLParser):
                 variant = parent.createPredefinedVariant(self.getShortName(child_element))
                 self.readPredefinedVariant(child_element, variant)
             elif tag_name == "NV-DATA-INTERFACE":
-                # TODO: Implement NV-DATA-INTERFACE
-                continue
+                interface = parent.createNvDataInterface(
+                    self.getShortName(child_element)
+                )
+                self.readNvDataInterface(child_element, interface)
             else:
                 self.notImplemented("Unsupported Element type of ARPackage <%s>" % tag_name)
 

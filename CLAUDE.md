@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 py-armodel is a Python library for parsing, manipulating, and writing AUTOSAR XML (ARXML) files. It follows the AUTOSAR standard specifications and supports versions from 4.0.3 to R24-11, with particular focus on CP R23-11 standard compliance.
 
-**Current Version**: 1.9.2
+**Current Version**: 1.9.3
 **Python Requirements**: >= 3.5 (CI tests on 3.8-3.12)
 **License**: MIT
 **Repository**: http://github.com/melodypapa/py-armodel
