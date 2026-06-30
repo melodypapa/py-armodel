@@ -15,7 +15,10 @@ from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import Mult
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import SwSystemconstantValueSet
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
+    PredefinedVariant,
+    SwSystemconstantValueSet,
+)
 
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SensorActuatorSwComponentType
 from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
@@ -964,6 +967,12 @@ class ARPackage(CollectableElement):
             self.addElement(element)
         return self.getElement(short_name, SwSystemconstantValueSet)
 
+    def createPredefinedVariant(self, short_name: str) -> PredefinedVariant:
+        if not self.IsElementExists(short_name, PredefinedVariant):
+            element = PredefinedVariant(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, PredefinedVariant)
+
     def createPhysicalDimension(self, short_name: str) -> PhysicalDimension:
         if not self.IsElementExists(short_name, PhysicalDimension):
             element = PhysicalDimension(self, short_name)
@@ -1283,6 +1292,14 @@ class ARPackage(CollectableElement):
 
     def getSwSystemconstantValueSets(self) -> List[SwSystemconstantValueSet]:
         return list(sorted(filter(lambda a: isinstance(a, SwSystemconstantValueSet), self.elements), key=lambda a: a.short_name))
+
+    def getPredefinedVariants(self) -> List[PredefinedVariant]:
+        return list(
+            sorted(
+                filter(lambda a: isinstance(a, PredefinedVariant), self.elements),
+                key=lambda a: a.short_name,
+            )
+        )
 
     def getEcucPhysicalDimensions(self) -> List[PhysicalDimension]:
         return list(sorted(filter(lambda a: isinstance(a, PhysicalDimension), self.elements), key=lambda a: a.short_name))

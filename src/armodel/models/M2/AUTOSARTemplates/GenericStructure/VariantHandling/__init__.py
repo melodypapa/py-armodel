@@ -106,43 +106,76 @@ class PostBuildVariantCriterionValue(ARObject):
         return self
 
 
-class PredefinedVariant(ARObject):
+class PredefinedVariant(Identifiable):
     """
-    Represents a predefined variant in the AUTOSAR model.
+    This specifies one predefined variant.
 
-    This class is used to define predefined variants that can be selected
-    during configuration.
+    It is characterized by the union of all system constant values and
+    post-build variant criterion values aggregated within all referenced
+    system constant value sets and post-build variant criterion value sets,
+    plus the value sets of the included variants.
 
-    Attributes:
-        variantName (String): The name of the predefined variant.
-        variantDescription (String): The description of the predefined variant.
+    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling
+    Base: ARElement, ARObject, CollectableElement, Identifiable,
+        MultilanguageReferrable, PackageableElement, Referrable
+    Tags: atp.recommendedPackage=PredefinedVariants
     """
-    def __init__(self):
-        super().__init__()
 
-        self.variantName: String = None
-        self.variantDescription: String = None
+    def __init__(self, parent, short_name: str):
+        super().__init__(parent, short_name)
 
-    def getVariantName(self) -> String:
-        return self.variantName
+        self.includedVariantRefs: List[RefType] = []
+        self.postBuildVariantCriterionValueSetRefs: List[RefType] = []
+        self.swSystemconstantValueSetRefs: List[RefType] = []
 
-    def setVariantName(self, value: String):
+    def getIncludedVariantRefs(self) -> List[RefType]:
+        return self.includedVariantRefs
+
+    def addIncludedVariantRef(self, value: RefType):
         if value is not None:
-            self.variantName = value
+            self.includedVariantRefs.append(value)
         return self
 
-    def getVariantDescription(self) -> String:
-        return self.variantDescription
+    def getPostBuildVariantCriterionValueSetRefs(self) -> List[RefType]:
+        return self.postBuildVariantCriterionValueSetRefs
 
-    def setVariantDescription(self, value: String):
+    def addPostBuildVariantCriterionValueSetRef(self, value: RefType):
         if value is not None:
-            self.variantDescription = value
+            self.postBuildVariantCriterionValueSetRefs.append(value)
+        return self
+
+    def getSwSystemconstantValueSetRefs(self) -> List[RefType]:
+        return self.swSystemconstantValueSetRefs
+
+    def addSwSystemconstantValueSetRef(self, value: RefType):
+        if value is not None:
+            self.swSystemconstantValueSetRefs.append(value)
         return self
 
 
 class SwSystemconstValue(ARObject):
     """
-    Assigns a particular value to a system constant.
+    This meta-class assigns a particular value to a system constant.
+
+    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling
+    Base: ARObject
+
+    Attributes:
+        annotations (List[Annotation]):
+            Provides the ability to add information why the value is set as
+            it is.
+            Tag: xml.sequenceOffset=30
+        swSystemconstRef (RefType):
+            Reference to the system constant to which the value applies.
+            Tag: xml.sequenceOffset=10
+        value (ARNumerical):
+            The particular value of a system constant. Further restrictions
+            may apply by the definition of the system constant. This defines
+            the internal value of the SwSystemconst as processed in the
+            Formula Language.
+            Stereotype: atpVariation
+            Tags: vh.latestBindingTime=preCompileTime,
+                xml.sequenceOffset=20
     """
 
     def __init__(self):
@@ -150,7 +183,6 @@ class SwSystemconstValue(ARObject):
 
         self.annotations: List[Annotation] = []
         self.swSystemconstRef: RefType = None
-        self.swSystemconst: RefType = None
         self.value: ARNumerical = None
 
     def getAnnotations(self) -> List[Annotation]:
@@ -161,19 +193,12 @@ class SwSystemconstValue(ARObject):
             self.annotations.append(value)
         return self
 
-    def getSwSystemconst(self) -> RefType:
-        return self.swSystemconstRef
-
-    def setSwSystemconst(self, value: RefType):
-        return self.setSwSystemconstRef(value)
-
     def getSwSystemconstRef(self) -> RefType:
         return self.swSystemconstRef
 
     def setSwSystemconstRef(self, value: RefType):
         if value is not None:
             self.swSystemconstRef = value
-            self.swSystemconst = value
         return self
 
     def getValue(self) -> ARNumerical:

@@ -97,7 +97,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARLiteral
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import SwSystemconstValue, SwSystemconstantValueSet
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
+    PredefinedVariant,
+    SwSystemconstValue,
+    SwSystemconstantValueSet,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationPrimitiveDataType, ApplicationRecordDataType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationArrayDataType, ApplicationCompositeDataType
@@ -4675,6 +4679,44 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, value_set)
         self.readSwSystemconstantValueSetSwSystemconstantValues(element, value_set)
 
+    def readPredefinedVariantIncludedVariantRefs(
+        self, element: ET.Element, variant: PredefinedVariant
+    ):
+        for ref in self.getChildElementRefTypeList(
+            element,
+            "INCLUDED-VARIANT-REFS/INCLUDED-VARIANT-REF",
+        ):
+            variant.addIncludedVariantRef(ref)
+
+    def readPredefinedVariantPostBuildVariantCriterionValueSetRefs(
+        self, element: ET.Element, variant: PredefinedVariant
+    ):
+        for ref in self.getChildElementRefTypeList(
+            element,
+            "POST-BUILD-VARIANT-CRITERION-VALUE-SET-REFS/"
+            "POST-BUILD-VARIANT-CRITERION-VALUE-SET-REF",
+        ):
+            variant.addPostBuildVariantCriterionValueSetRef(ref)
+
+    def readPredefinedVariantSwSystemconstantValueSetRefs(
+        self, element: ET.Element, variant: PredefinedVariant
+    ):
+        for ref in self.getChildElementRefTypeList(
+            element,
+            "SW-SYSTEMCONSTANT-VALUE-SET-REFS/"
+            "SW-SYSTEMCONSTANT-VALUE-SET-REF",
+        ):
+            variant.addSwSystemconstantValueSetRef(ref)
+
+    def readPredefinedVariant(self, element: ET.Element, variant: PredefinedVariant):
+        self.logger.debug("Read PredefinedVariant <%s>" % variant.getShortName())
+        self.readIdentifiable(element, variant)
+        self.readPredefinedVariantIncludedVariantRefs(element, variant)
+        self.readPredefinedVariantPostBuildVariantCriterionValueSetRefs(
+            element, variant
+        )
+        self.readPredefinedVariantSwSystemconstantValueSetRefs(element, variant)
+
     def readCommunicationController(self, element: ET.Element, controller: CommunicationController):
         controller.setWakeUpByControllerSupported(self.getChildElementOptionalBooleanValue(element, "WAKE-UP-BY-CONTROLLER-SUPPORTED"))
 
@@ -5827,8 +5869,8 @@ class ARXMLParser(AbstractARXMLParser):
                 value_set = parent.createSwSystemconstantValueSet(self.getShortName(child_element))
                 self.readSwSystemconstantValueSet(child_element, value_set)
             elif tag_name == "PREDEFINED-VARIANT":
-                # TODO: Implement PREDEFINED-VARIANT
-                continue
+                variant = parent.createPredefinedVariant(self.getShortName(child_element))
+                self.readPredefinedVariant(child_element, variant)
             elif tag_name == "NV-DATA-INTERFACE":
                 # TODO: Implement NV-DATA-INTERFACE
                 continue

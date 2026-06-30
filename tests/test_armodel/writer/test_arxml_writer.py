@@ -13,7 +13,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecific
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import SwSystemconstValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
+    SwSystemconstValue,
+)
 
 
 class TestARXMLWriterBasicMethods:
@@ -853,5 +855,71 @@ class TestARXMLWriterSwSystemconstantValueSetMethods:
         assert value_el is not None
         assert value_el.find("ANNOTATIONS") is not None
         assert value_el.find("ANNOTATIONS/ANNOTATION") is not None
+
+        autosar.clear()
+
+
+class TestARXMLWriterPredefinedVariantMethods:
+    """Tests for PredefinedVariant writer behavior."""
+
+    def test_write_predefined_variant_with_refs(self):
+        """Test writing PREDEFINED-VARIANT with all reference groups."""
+        writer = ARXMLWriter()
+        autosar = AUTOSAR.getInstance()
+        autosar.clear()
+
+        pkg = autosar.createARPackage("Variants")
+        variant = pkg.createPredefinedVariant("VariantA")
+
+        included_ref = RefType()
+        included_ref.setDest("PREDEFINED-VARIANT")
+        included_ref.setValue("/Variants/BaseVariant")
+        variant.addIncludedVariantRef(included_ref)
+
+        post_build_ref = RefType()
+        post_build_ref.setDest("POST-BUILD-VARIANT-CRITERION-VALUE-SET")
+        post_build_ref.setValue("/Variants/PbCriteriaSetA")
+        variant.addPostBuildVariantCriterionValueSetRef(post_build_ref)
+
+        systemconst_ref = RefType()
+        systemconst_ref.setDest("SW-SYSTEMCONSTANT-VALUE-SET")
+        systemconst_ref.setValue("/Variants/SystemConstValuesA")
+        variant.addSwSystemconstantValueSetRef(systemconst_ref)
+
+        root = ET.Element("ELEMENTS")
+        writer.writeARPackageElement(root, variant)
+
+        variant_el = root.find("PREDEFINED-VARIANT")
+        assert variant_el is not None
+        assert variant_el.find("SHORT-NAME").text == "VariantA"
+
+        included_el = variant_el.find(
+            "INCLUDED-VARIANT-REFS/INCLUDED-VARIANT-REF"
+        )
+        assert included_el is not None
+        assert included_el.text == "/Variants/BaseVariant"
+        assert included_el.attrib.get("DEST") == "PREDEFINED-VARIANT"
+
+        post_build_el = variant_el.find(
+            "POST-BUILD-VARIANT-CRITERION-VALUE-SET-REFS/"
+            "POST-BUILD-VARIANT-CRITERION-VALUE-SET-REF"
+        )
+        assert post_build_el is not None
+        assert post_build_el.text == "/Variants/PbCriteriaSetA"
+        assert (
+            post_build_el.attrib.get("DEST") ==
+            "POST-BUILD-VARIANT-CRITERION-VALUE-SET"
+        )
+
+        systemconst_el = variant_el.find(
+            "SW-SYSTEMCONSTANT-VALUE-SET-REFS/"
+            "SW-SYSTEMCONSTANT-VALUE-SET-REF"
+        )
+        assert systemconst_el is not None
+        assert systemconst_el.text == "/Variants/SystemConstValuesA"
+        assert (
+            systemconst_el.attrib.get("DEST") ==
+            "SW-SYSTEMCONSTANT-VALUE-SET"
+        )
 
         autosar.clear()

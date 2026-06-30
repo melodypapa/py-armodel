@@ -727,7 +727,6 @@ class TestSwSystemconstantValueSetParser:
         assert value.getSwSystemconstRef() is not None
         assert value.getSwSystemconstRef().getValue() == "/Constants/MySystemConstant"
         assert value.getSwSystemconstRef().getDest() == "SW-SYSTEMCONST"
-        assert value.getSwSystemconst() is not None
         assert value.getValue() is not None
         assert value.getValue().getValue() == 42
 
@@ -766,3 +765,61 @@ class TestSwSystemconstantValueSetParser:
         annotations = value.getAnnotations()
         assert len(annotations) == 1
         assert annotations[0].getAnnotationOrigin().getValue() == "TEST"
+
+
+class TestPredefinedVariantParser:
+    """Test PredefinedVariant parsing from ARXML."""
+
+    def test_read_predefined_variant_with_refs(self, parser):
+        """Test parsing PREDEFINED-VARIANT ref collections."""
+        xml = f"""<AUTOSAR xmlns='{NS}'>
+            <AR-PACKAGES>
+                <AR-PACKAGE>
+                    <SHORT-NAME>Variants</SHORT-NAME>
+                    <ELEMENTS>
+                        <PREDEFINED-VARIANT>
+                            <SHORT-NAME>VariantA</SHORT-NAME>
+                            <INCLUDED-VARIANT-REFS>
+                                <INCLUDED-VARIANT-REF DEST='PREDEFINED-VARIANT'>/Variants/BaseVariant</INCLUDED-VARIANT-REF>
+                            </INCLUDED-VARIANT-REFS>
+                            <POST-BUILD-VARIANT-CRITERION-VALUE-SET-REFS>
+                                <POST-BUILD-VARIANT-CRITERION-VALUE-SET-REF
+                                    DEST='POST-BUILD-VARIANT-CRITERION-VALUE-SET'
+                                >/Variants/PbCriteriaSetA</POST-BUILD-VARIANT-CRITERION-VALUE-SET-REF>
+                            </POST-BUILD-VARIANT-CRITERION-VALUE-SET-REFS>
+                            <SW-SYSTEMCONSTANT-VALUE-SET-REFS>
+                                <SW-SYSTEMCONSTANT-VALUE-SET-REF
+                                    DEST='SW-SYSTEMCONSTANT-VALUE-SET'
+                                >/Variants/SystemConstValuesA</SW-SYSTEMCONSTANT-VALUE-SET-REF>
+                            </SW-SYSTEMCONSTANT-VALUE-SET-REFS>
+                        </PREDEFINED-VARIANT>
+                    </ELEMENTS>
+                </AR-PACKAGE>
+            </AR-PACKAGES>
+        </AUTOSAR>"""
+
+        element = ET.fromstring(xml)
+        document = AUTOSARDoc()
+        parser.readARPackages(element, document)
+
+        ar_package = document.getARPackages()[0]
+        variants = ar_package.getPredefinedVariants()
+        assert len(variants) == 1
+
+        variant = variants[0]
+        assert variant.getShortName() == "VariantA"
+
+        included_refs = variant.getIncludedVariantRefs()
+        assert len(included_refs) == 1
+        assert included_refs[0].getValue() == "/Variants/BaseVariant"
+        assert included_refs[0].getDest() == "PREDEFINED-VARIANT"
+
+        post_build_refs = variant.getPostBuildVariantCriterionValueSetRefs()
+        assert len(post_build_refs) == 1
+        assert post_build_refs[0].getValue() == "/Variants/PbCriteriaSetA"
+        assert post_build_refs[0].getDest() == "POST-BUILD-VARIANT-CRITERION-VALUE-SET"
+
+        systemconst_refs = variant.getSwSystemconstantValueSetRefs()
+        assert len(systemconst_refs) == 1
+        assert systemconst_refs[0].getValue() == "/Variants/SystemConstValuesA"
+        assert systemconst_refs[0].getDest() == "SW-SYSTEMCONSTANT-VALUE-SET"

@@ -89,7 +89,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable, MultilanguageReferrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARLiteral, Limit
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import SwSystemconstValue, SwSystemconstantValueSet
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
+    PredefinedVariant,
+    SwSystemconstValue,
+    SwSystemconstantValueSet,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import CompositeNetworkRepresentation, ModeSwitchedAckRequest, NvProvideComSpec, NvRequireComSpec
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import TransformationComSpecProps, UserDefinedTransformationComSpecProps
@@ -5149,6 +5153,63 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "SW-SYSTEMCONSTANT-VALUE-SET")
         self.writeIdentifiable(child_element, value_set)
         self.writeSwSystemconstantValueSetSwSystemconstantValues(child_element, value_set)
+
+    def writePredefinedVariantIncludedVariantRefs(
+        self, element: ET.Element, variant: PredefinedVariant
+    ):
+        refs = variant.getIncludedVariantRefs()
+        if len(refs) > 0:
+            refs_element = ET.SubElement(element, "INCLUDED-VARIANT-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(
+                    refs_element,
+                    "INCLUDED-VARIANT-REF",
+                    ref,
+                )
+
+    def writePredefinedVariantPostBuildVariantCriterionValueSetRefs(
+        self, element: ET.Element, variant: PredefinedVariant
+    ):
+        refs = variant.getPostBuildVariantCriterionValueSetRefs()
+        if len(refs) > 0:
+            refs_element = ET.SubElement(
+                element,
+                "POST-BUILD-VARIANT-CRITERION-VALUE-SET-REFS",
+            )
+            for ref in refs:
+                self.setChildElementOptionalRefType(
+                    refs_element,
+                    "POST-BUILD-VARIANT-CRITERION-VALUE-SET-REF",
+                    ref,
+                )
+
+    def writePredefinedVariantSwSystemconstantValueSetRefs(
+        self, element: ET.Element, variant: PredefinedVariant
+    ):
+        refs = variant.getSwSystemconstantValueSetRefs()
+        if len(refs) > 0:
+            refs_element = ET.SubElement(
+                element,
+                "SW-SYSTEMCONSTANT-VALUE-SET-REFS",
+            )
+            for ref in refs:
+                self.setChildElementOptionalRefType(
+                    refs_element,
+                    "SW-SYSTEMCONSTANT-VALUE-SET-REF",
+                    ref,
+                )
+
+    def writePredefinedVariant(
+        self, element: ET.Element, variant: PredefinedVariant
+    ):
+        self.logger.debug("PredefinedVariant %s" % variant.getShortName())
+        child_element = ET.SubElement(element, "PREDEFINED-VARIANT")
+        self.writeIdentifiable(child_element, variant)
+        self.writePredefinedVariantIncludedVariantRefs(child_element, variant)
+        self.writePredefinedVariantPostBuildVariantCriterionValueSetRefs(
+            child_element, variant
+        )
+        self.writePredefinedVariantSwSystemconstantValueSetRefs(child_element, variant)
         
     def writeISignalGroupISignalRef(self, element: ET.Element, group: ISignalGroup):
         signal_refs = group.getISignalRefs()
@@ -5947,6 +6008,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSwSystemconst(element, ar_element)
         elif isinstance(ar_element, SwSystemconstantValueSet):
             self.writeSwSystemconstantValueSet(element, ar_element)
+        elif isinstance(ar_element, PredefinedVariant):
+            self.writePredefinedVariant(element, ar_element)
         else:
             self.notImplemented("Unsupported Elements of ARPackage <%s>" % type(ar_element))
 
