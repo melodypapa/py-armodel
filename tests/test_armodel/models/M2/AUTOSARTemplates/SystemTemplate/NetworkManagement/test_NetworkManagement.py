@@ -15,7 +15,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     UdpNmEcu,
     NmEcu,
     NmConfig,
-    NmCluster,
     CanNmCluster,
     FlexrayNmCluster,
     J1939NmCluster,

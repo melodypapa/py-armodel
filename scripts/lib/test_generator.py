@@ -28,7 +28,7 @@ def generate_test_case(
     Returns:
         Generated test code
     """
-    from . import type_resolver, code_generator
+    from . import type_resolver
 
     is_abstract = class_info.get('is_abstract', False)
     attributes = class_info.get('attributes', {})

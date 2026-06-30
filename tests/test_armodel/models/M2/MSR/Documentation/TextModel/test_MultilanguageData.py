@@ -1,8 +1,17 @@
 """
 This module contains tests for the MultilanguageData module in MSR.Documentation.TextModel.
 """
-from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import *
-from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LOverviewParagraph, LLongName, LPlainText
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
+    MultiLanguageOverviewParagraph,
+    MultiLanguageParagraph,
+    MultiLanguagePlainText,
+    MultilanguageLongName,
+)
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
+    LLongName,
+    LOverviewParagraph,
+    LPlainText,
+)
 
 
 class TestMultiLanguageParagraph:
