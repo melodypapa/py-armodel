@@ -10,6 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
+    PredefinedVariant,
     SwSystemconstValue,
     SwSystemconstantValueSet,
 )
@@ -17,7 +18,6 @@ from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 
 
 def test_sw_systemconst_value_getters_setters_and_chaining():
-    parent = ARPackage(None, "ParentPkg")
     system_const_ref = RefType().setValue("/RootPkg/MyConst")
     annotation = Annotation()
     numerical_value = ARNumerical()
@@ -47,3 +47,44 @@ def test_sw_systemconstant_value_set_add_and_get_values():
 
     assert result is value_set
     assert value_set.getSwSystemconstantValues() == [value]
+
+
+def test_predefined_variant_initial_state_and_adders():
+    parent = ARPackage(None, "ParentPkg")
+    variant = PredefinedVariant(parent, "MyPredefinedVariant")
+
+    included_variant = RefType().setValue("/RootPkg/Variants/IncludedVariant")
+    post_build_value_set = RefType().setValue(
+        "/RootPkg/Criteria/PbCriterionValueSet"
+    )
+    sw_systemconstant_value_set = RefType().setValue(
+        "/RootPkg/SystemConstants/MyValueSet"
+    )
+
+    result_included = variant.addIncludedVariantRef(included_variant)
+    result_post_build = variant.addPostBuildVariantCriterionValueSetRef(
+        post_build_value_set
+    )
+    result_systemconstant = variant.addSwSystemconstantValueSetRef(
+        sw_systemconstant_value_set
+    )
+
+    assert variant.getIncludedVariantRefs() == [included_variant]
+    assert variant.getPostBuildVariantCriterionValueSetRefs() == [post_build_value_set]
+    assert variant.getSwSystemconstantValueSetRefs() == [sw_systemconstant_value_set]
+    assert result_included is variant
+    assert result_post_build is variant
+    assert result_systemconstant is variant
+
+
+def test_predefined_variant_adders_ignore_none():
+    parent = ARPackage(None, "ParentPkg")
+    variant = PredefinedVariant(parent, "MyPredefinedVariant")
+
+    variant.addIncludedVariantRef(None)
+    variant.addPostBuildVariantCriterionValueSetRef(None)
+    variant.addSwSystemconstantValueSetRef(None)
+
+    assert variant.getIncludedVariantRefs() == []
+    assert variant.getPostBuildVariantCriterionValueSetRefs() == []
+    assert variant.getSwSystemconstantValueSetRefs() == []
