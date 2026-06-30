@@ -1,0 +1,38 @@
+# Mypy Raw Error Counts by Code
+
+Run: python -m mypy src/armodel/models/M2/ --show-error-codes
+
+## Error Code Summary
+
+| Code | Count | Description |
+|------|-------|-------------|
+| Incompatible | 752 | Type incompatibility (return-value, assignment, attribute) |
+| Argument | 131 | Argument type mismatch (arg-type) |
+| Name | 44 | Name not defined (name-defined) |
+| Cannot | 27 | Cannot find module/import (import-not-found) |
+| Need | 23 | Type annotation needed (annotation-unchecked) |
+| Skipping | 14 | Skipping unanalyzed code (circular-def) |
+| Module | 11 | Module import issue |
+| Invalid | 7 | Invalid decorator/metadata syntax |
+| Item | 6 | List item type mismatch |
+| Function | 2 | Function signature mismatch |
+| Value | 1 | Value type mismatch |
+| Unsupported | 1 | Unsupported operand types |
+| Signature | 1 | Signature incompatible |
+| Missing | 1 | Missing library stub |
+
+## Most Affected Directories
+
+1. **CommonStructure/** - Timing constraints, mode declarations, resource consumption
+2. **SystemTemplate/Fibex/** - Core communication, multiplatform fibex
+3. **MSR/DataDictionary/** - System constants, record layout, units
+4. **SWComponentTemplate/** - End-to-end protection
+5. **ECUC** - Description/Parameter templates
+
+## Key Patterns
+
+1. **Filter functions** - Missing TypeGuard annotations
+2. **Optional returns** - Should be `T | None` not just `T`
+3. **List append** - Type mismatch between expected and actual element types
+4. **Assignment from None** - Optional types not properly annotated
+5. **Missing modules** - Unimplemented AUTOSAR classes (MeasurementCalibration, SignalServiceTranslation)
