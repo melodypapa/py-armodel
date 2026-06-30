@@ -152,26 +152,6 @@ class PredefinedVariant(Identifiable):
             self.swSystemconstantValueSetRefs.append(value)
         return self
 
-    def getIncludedVariants(self) -> List[RefType]:
-        return self.getIncludedVariantRefs()
-
-    def addIncludedVariant(self, value: RefType):
-        return self.addIncludedVariantRef(value)
-
-    def getPostBuildVariantCriterionValueSets(self) -> List[RefType]:
-        return self.getPostBuildVariantCriterionValueSetRefs()
-
-    def addPostBuildVariantCriterionValueSet(
-        self, value: RefType
-    ):
-        return self.addPostBuildVariantCriterionValueSetRef(value)
-
-    def getSwSystemconstantValueSets(self) -> List[RefType]:
-        return self.getSwSystemconstantValueSetRefs()
-
-    def addSwSystemconstantValueSet(self, value: RefType):
-        return self.addSwSystemconstantValueSetRef(value)
-
 
 class SwSystemconstValue(ARObject):
     """
@@ -203,7 +183,6 @@ class SwSystemconstValue(ARObject):
 
         self.annotations: List[Annotation] = []
         self.swSystemconstRef: RefType = None
-        self.swSystemconst: RefType = None
         self.value: ARNumerical = None
 
     def getAnnotations(self) -> List[Annotation]:
@@ -214,19 +193,12 @@ class SwSystemconstValue(ARObject):
             self.annotations.append(value)
         return self
 
-    def getSwSystemconst(self) -> RefType:
-        return self.swSystemconstRef
-
-    def setSwSystemconst(self, value: RefType):
-        return self.setSwSystemconstRef(value)
-
     def getSwSystemconstRef(self) -> RefType:
         return self.swSystemconstRef
 
     def setSwSystemconstRef(self, value: RefType):
         if value is not None:
             self.swSystemconstRef = value
-            self.swSystemconst = value
         return self
 
     def getValue(self) -> ARNumerical:

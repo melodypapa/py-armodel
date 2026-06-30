@@ -510,6 +510,9 @@ class TestARPackage:
         value_set = package.createSwSystemconstantValueSet("MyValueSet")
         assert value_set.getShortName() == "MyValueSet"
 
+        predefined_variant = package.createPredefinedVariant("MyPredefinedVariant")
+        assert predefined_variant.getShortName() == "MyPredefinedVariant"
+
         phys_dimension = package.createPhysicalDimension("PhysicalDimension")
         assert phys_dimension.getShortName() == "PhysicalDimension"
 
@@ -671,6 +674,7 @@ class TestARPackage:
         assert isinstance(package.getEcucModuleConfigurationValues(), list)
         assert isinstance(package.getEcucModuleDefs(), list)
         assert isinstance(package.getSwSystemconstantValueSets(), list)
+        assert isinstance(package.getPredefinedVariants(), list)
         assert isinstance(package.getEcucPhysicalDimensions(), list)
         assert isinstance(package.getISignalGroups(), list)
         assert isinstance(package.getSystemSignals(), list)

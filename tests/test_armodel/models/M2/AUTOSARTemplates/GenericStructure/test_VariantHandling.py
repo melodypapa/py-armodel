@@ -31,7 +31,6 @@ def test_sw_systemconst_value_getters_setters_and_chaining():
 
     assert value.getAnnotations() == [annotation]
     assert value.getSwSystemconstRef() == system_const_ref
-    assert value.getSwSystemconst() == system_const_ref
     assert value.getValue() == numerical_value
     assert result_annotation is value
     assert result_systemconst is value
