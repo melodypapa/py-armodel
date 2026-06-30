@@ -8,7 +8,7 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
     gradient and monotony constraints.
     """
     def __init__(self):
-        if type(self) == SwCalprmAxisTypeProps:
+        if type(self) is SwCalprmAxisTypeProps:
             raise TypeError("SwCalprmAxisTypeProps is an abstract class.")
 
         super().__init__()

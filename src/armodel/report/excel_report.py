@@ -36,7 +36,7 @@ class ExcelReporter:
     def write_cell(self, sheet, row, column, value, format = None):
         cell = sheet.cell(row = row, column=column) 
         cell.value = value
-        if (format != None):
+        if format is not None:
             if ('alignment' in format):
                 cell.alignment = format['alignment']
             if ('number_format' in format):

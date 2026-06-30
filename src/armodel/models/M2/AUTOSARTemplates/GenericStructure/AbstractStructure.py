@@ -18,7 +18,7 @@ class AtpInstanceRef(ARObject, ABC):
     """
     
     def __init__(self):
-        if type(self) == AtpInstanceRef:
+        if type(self) is AtpInstanceRef:
             raise TypeError("AtpInstanceRef is an abstract class.")
 
         super().__init__()

@@ -17,7 +17,7 @@ class ModeGroupInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
 
     def __init__(self):
         
-        if type(self) == ModeGroupInAtomicSwcInstanceRef:
+        if type(self) is ModeGroupInAtomicSwcInstanceRef:
             raise TypeError("ModeGroupInAtomicSwcInstanceRef is an abstract class.")
         
         super().__init__()
@@ -150,7 +150,7 @@ class VariableInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
     """
 
     def __init__(self):
-        if type(self) == VariableInAtomicSwcInstanceRef:
+        if type(self) is VariableInAtomicSwcInstanceRef:
             raise TypeError("VariableInAtomicSwcInstanceRef is an abstract class.")
 
         super().__init__()
