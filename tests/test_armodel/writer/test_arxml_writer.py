@@ -25,13 +25,13 @@ class TestARXMLWriterBasicMethods:
         """Test ARXMLWriter initialization"""
         writer = ARXMLWriter()
         assert writer is not None
-        assert writer.options['warning'] == False
+        assert writer.options['warning'] is False
         assert writer.options['version'] == "4.2.2"
     
     def test_initialization_with_warning_option(self):
         """Test ARXMLWriter initialization with warning option"""
         writer = ARXMLWriter(options={'warning': True})
-        assert writer.options['warning'] == True
+        assert writer.options['warning'] is True
     
     def test_set_short_name(self):
         """Test setShortName method"""
@@ -299,6 +299,33 @@ class TestARXMLWriterIntegration:
         assert elem1[0].text == "TestBaseType1"
         assert elem2[0].tag == "SHORT-NAME"
         assert elem2[0].text == "TestBaseType2"
+
+    def test_write_nv_data_interface(self):
+        """Test writing NV-DATA-INTERFACE structure."""
+        writer = ARXMLWriter()
+
+        autosar = AUTOSAR.getInstance()
+        autosar.clear()
+
+        pkg = autosar.createARPackage("TestPackage")
+        nv_interface = pkg.createNvDataInterface("NvIf")
+        nv_interface.createNvData("NvBlock")
+
+        root = ET.Element("ROOT")
+        writer.writeARPackageElement(root, nv_interface)
+
+        assert len(root) == 1
+        interface_tag = root[0]
+        assert interface_tag.tag == "NV-DATA-INTERFACE"
+
+        short_name = interface_tag.find("SHORT-NAME")
+        assert short_name is not None
+        assert short_name.text == "NvIf"
+
+        nv_datas = interface_tag.find("NV-DATAS")
+        assert nv_datas is not None
+        assert len(nv_datas) == 1
+        assert nv_datas[0].tag == "VARIABLE-DATA-PROTOTYPE"
 
 
 class TestARXMLWriterLanguageSpecificMethods:
@@ -775,10 +802,7 @@ class TestARXMLWriterSwSystemconstMethods:
 
         compu_method = conditional.find("COMPU-METHOD-REF")
         assert compu_method is not None
-        assert (
-            compu_method.text
-            == "/Application/CompuMethods/StatusEncoding"
-        )
+        assert compu_method.text == "/Application/CompuMethods/StatusEncoding"
         assert compu_method.attrib.get("DEST") == "COMPU-METHOD"
 
         autosar.clear()
@@ -906,10 +930,7 @@ class TestARXMLWriterPredefinedVariantMethods:
         )
         assert post_build_el is not None
         assert post_build_el.text == "/Variants/PbCriteriaSetA"
-        assert (
-            post_build_el.attrib.get("DEST") ==
-            "POST-BUILD-VARIANT-CRITERION-VALUE-SET"
-        )
+        assert post_build_el.attrib.get("DEST") == "POST-BUILD-VARIANT-CRITERION-VALUE-SET"
 
         systemconst_el = variant_el.find(
             "SW-SYSTEMCONSTANT-VALUE-SET-REFS/"
@@ -917,9 +938,6 @@ class TestARXMLWriterPredefinedVariantMethods:
         )
         assert systemconst_el is not None
         assert systemconst_el.text == "/Variants/SystemConstValuesA"
-        assert (
-            systemconst_el.attrib.get("DEST") ==
-            "SW-SYSTEMCONSTANT-VALUE-SET"
-        )
+        assert systemconst_el.attrib.get("DEST") == "SW-SYSTEMCONSTANT-VALUE-SET"
 
         autosar.clear()

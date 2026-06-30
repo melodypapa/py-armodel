@@ -60,6 +60,7 @@
         "NOINIT",
         "Nonqueued",
         "nsmap",
+        "NVDI",
         "occptpedsfty",
         "openpyxl",
         "Packageable",
@@ -85,6 +86,7 @@
         "sdgs",
         "sdist",
         "sheetnames",
+        "soad",
         "swcs",
         "SWHDR",
         "Switchoff",
@@ -104,7 +106,7 @@
         "--max-line-length=200"
     ],
     "flake8.args": [
-        "--max-line-length=150",
+        "--max-line-length=180",
         "--ignore=F401,W293,F403"
     ],
     "python.testing.unittestEnabled": false,

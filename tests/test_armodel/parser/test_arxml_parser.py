@@ -2,6 +2,7 @@
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSARDoc
 from armodel.parser.arxml_parser import ARXMLParser
 import xml.etree.ElementTree as ET
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import NvDataInterface
 
 
 class TestARXMLParser:
@@ -50,3 +51,44 @@ class TestARXMLParser:
         assert len(document.getARPackages()) == 2
         assert document.getARPackages()[0].getShortName() == "ApplicationTypes"
         assert document.getARPackages()[1].getShortName() == "MyPackage"
+
+    def test_read_ar_packages_nv_data_interface(self):
+        parser = ARXMLParser()
+        parser.nsmap = {"xmlns": "http://autosar.org/schema/r4.0"}
+        xml_content = """
+            <AUTOSAR xmlns="http://autosar.org/schema/r4.0"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_4-3-0.xsd">
+                <AR-PACKAGES>
+                    <AR-PACKAGE>
+                        <SHORT-NAME>PortInterfaces</SHORT-NAME>
+                        <ELEMENTS>
+                            <NV-DATA-INTERFACE>
+                                <SHORT-NAME>NvIf</SHORT-NAME>
+                                <IS-SERVICE>true</IS-SERVICE>
+                                <NV-DATAS>
+                                    <VARIABLE-DATA-PROTOTYPE>
+                                        <SHORT-NAME>NvBlock</SHORT-NAME>
+                                    </VARIABLE-DATA-PROTOTYPE>
+                                </NV-DATAS>
+                            </NV-DATA-INTERFACE>
+                        </ELEMENTS>
+                    </AR-PACKAGE>
+                </AR-PACKAGES>
+            </AUTOSAR>
+        """
+
+        element = ET.fromstring(xml_content)
+
+        document = AUTOSARDoc()
+        parser.readARPackages(element, document)
+
+        assert len(document.getARPackages()) == 1
+        ar_package = document.getARPackages()[0]
+
+        interface = ar_package.getElement("NvIf", NvDataInterface)
+        assert interface is not None
+        assert interface.getShortName() == "NvIf"
+        assert interface.getIsService().getValue() is True
+        assert len(interface.getNvDatas()) == 1
+        assert interface.getNvDatas()[0].getShortName() == "NvBlock"
