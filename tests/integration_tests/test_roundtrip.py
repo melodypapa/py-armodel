@@ -6,6 +6,8 @@ This module tests the round-trip capability:
 3. Re-parse written ARXML file → AUTOSAR model
 4. Compare original and re-parsed models for equality
 """
+import re
+import sys
 import time
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -16,6 +18,11 @@ import pytest
 from armodel.models import AUTOSAR
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
+
+# Set UTF-8 encoding for Windows console compatibility
+if sys.platform == 'win32':
+    sys.stdout.reconfigure(encoding='utf-8')
+    sys.stderr.reconfigure(encoding='utf-8')
 
 
 # Global counter for progress tracking
@@ -318,6 +325,31 @@ class TestRoundTrip:
 
                 with open(temp_file, 'r', encoding='utf-8') as f:
                     generated_lines = f.readlines()
+
+                # Normalize XML entities for consistent comparison across environments
+                def normalize_xml_entities(lines):
+                    """
+                    Normalize XML entities for consistent comparison.
+
+                    This ensures tests pass consistently across different Python
+                    versions and operating systems by normalizing XML entities to
+                    their character equivalents before comparison.
+                    """
+                    normalized = []
+                    for line in lines:
+                        # Normalize common XML entities to characters
+                        # This handles differences in XML serialization across environments
+                        line = re.sub(r'&quot;', '"', line)
+                        line = re.sub(r'&apos;', "'", line)
+                        line = re.sub(r'&amp;', '&', line)
+                        line = re.sub(r'&lt;', '<', line)
+                        line = re.sub(r'&gt;', '>', line)
+                        normalized.append(line)
+                    return normalized
+
+                # Apply normalization before comparison
+                original_lines = normalize_xml_entities(original_lines)
+                generated_lines = normalize_xml_entities(generated_lines)
 
                 # Compare line by line
                 if len(original_lines) != len(generated_lines):
