@@ -27,6 +27,7 @@ class AbstractARXMLWriter(ABC):
         self.options = {}
         self.options['warning'] = False
         self.options['version'] = "4.2.2"
+        self.options['unescape_entities'] = False
         self.logger = logging.getLogger()
         
         self._processOptions(options=options)
@@ -39,6 +40,8 @@ class AbstractARXMLWriter(ABC):
         if options:
             if 'warning' in options:
                 self.options['warning'] = options['warning']
+            if 'unescape_entities' in options:
+                self.options['unescape_entities'] = options['unescape_entities']
 
     def _raiseError(self, error_msg):
         if (self.options['warning'] is True):
@@ -131,8 +134,11 @@ class AbstractARXMLWriter(ABC):
     
     def patch_xml(self, xml: str) -> str:
         xml = re.sub(r"\<([\w-]+)\/\>", r"<\1></\1>", xml)
-        # xml = re.sub(r"<([\w-]+)\s+(\w+)=(\"[\w-]+\")\/>", r"<\1 \2=\3></\1>", xml)
-        # xml = re.sub(r"&quot;", '"', xml)
+
+        if self.options.get('unescape_entities', False):
+            xml = xml.replace("&quot;", '"')
+            xml = xml.replace("&apos;", "'")
+
         return xml
 
     def saveToFile(self, filename, root: ET.Element):

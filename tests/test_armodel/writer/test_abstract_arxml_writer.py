@@ -378,6 +378,52 @@ class TestAbstractARXMLWriter:
             if os.path.exists(tmp_path):
                 os.remove(tmp_path)
 
+    def test_patch_xml_without_unescape_entities(self):
+        """Test patch_xml without unescape_entities option (entities preserved)"""
+        writer = ConcreteARXMLWriter(options={'unescape_entities': False})
+        xml_input = '<SHORT-NAME>Test&quot;Entity&quot;</SHORT-NAME>\n'
+        result = writer.patch_xml(xml_input)
+        assert '&quot;' in result
+        assert 'Test"Entity"' not in result
+
+    def test_patch_xml_with_unescape_entities(self):
+        """Test patch_xml with unescape_entities option (entities unescaped)"""
+        writer = ConcreteARXMLWriter(options={'unescape_entities': True})
+        xml_input = '<SHORT-NAME>Test&quot;Entity&quot;</SHORT-NAME>\n'
+        result = writer.patch_xml(xml_input)
+        assert 'Test"Entity"' in result
+        # After patching, entities should be unescaped
+        assert result.count('&quot;') == 0
+
+    def test_patch_xml_unescape_both_entity_types(self):
+        """Test that both quote entity types are unescaped correctly"""
+        writer = ConcreteARXMLWriter(options={'unescape_entities': True})
+        xml_input = '<SHORT-NAME>Test&quot;Both&apos;Quotes&quot;</SHORT-NAME>\n'
+        result = writer.patch_xml(xml_input)
+        assert 'Test"Both\'Quotes"' in result
+        # Both entity types should be unescaped
+        assert '&quot;' not in result
+        assert '&apos;' not in result
+
+    def test_patch_xml_self_closing_still_works(self):
+        """Test that self-closing tag patching still works with unescape_entities"""
+        # Test with unescape_entities enabled
+        writer = ConcreteARXMLWriter(options={'unescape_entities': True})
+        xml_input = '<SHORT-NAME>Test&quot;Name&quot;</SHORT-NAME>\n<ELEMENT/>\n'
+        result = writer.patch_xml(xml_input)
+        # Self-closing tag should be expanded
+        assert '<ELEMENT></ELEMENT>' in result
+        # Entities should be unescaped
+        assert 'Test"Name"' in result
+
+    def test_patch_xml_unescape_entities_default_option(self):
+        """Test that unescape_entities defaults to False"""
+        writer = ConcreteARXMLWriter()
+        xml_input = '<SHORT-NAME>Test&quot;Entity&quot;</SHORT-NAME>\n'
+        result = writer.patch_xml(xml_input)
+        # By default, entities should NOT be unescaped
+        assert '&quot;' in result
+
 
 class TestARXMLWriterIntegration:
     """Integration tests using the actual ARXMLWriter implementation"""

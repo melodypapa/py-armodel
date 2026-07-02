@@ -329,21 +329,18 @@ class TestRoundTrip:
                 # Normalize XML entities for consistent comparison across environments
                 def normalize_xml_entities(lines):
                     """
-                    Normalize XML entities for consistent comparison.
+                    Normalize XML quote entities for consistent comparison.
 
                     This ensures tests pass consistently across different Python
-                    versions and operating systems by normalizing XML entities to
+                    versions and operating systems by normalizing quote entities to
                     their character equivalents before comparison.
                     """
                     normalized = []
                     for line in lines:
-                        # Normalize common XML entities to characters
+                        # Normalize quote entities to characters
                         # This handles differences in XML serialization across environments
                         line = re.sub(r'&quot;', '"', line)
                         line = re.sub(r'&apos;', "'", line)
-                        line = re.sub(r'&amp;', '&', line)
-                        line = re.sub(r'&lt;', '<', line)
-                        line = re.sub(r'&gt;', '>', line)
                         normalized.append(line)
                     return normalized
 
