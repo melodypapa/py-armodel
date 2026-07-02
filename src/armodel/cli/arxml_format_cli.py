@@ -53,7 +53,7 @@ def perform_format(args):
             transform = AdminDataTransformer()
             transform.remove(document)
 
-        writer = ARXMLWriter()
+        writer = ARXMLWriter(options={'unescape_entities': args.unescape_entities})
         writer.save(args.OUTPUT, document)
         
     except Exception as e:
@@ -72,6 +72,7 @@ def main():
     ap.add_argument("--log", required=False, help="Log all information to file")
     ap.add_argument("-w", "--warning", required=False, help="Skip the error and report it as warning message", action="store_true")
     ap.add_argument("--remove-admin-data", required=False, help="Remove all the AdminData", action="store_true")
+    ap.add_argument("--unescape-entities", required=False, help="Unescape XML quote entities (quot, apos) in output", action="store_true")
     ap.add_argument("INPUT", help="The path of AUTOSAR ARXML file")
     ap.add_argument("OUTPUT", help="The path of output ARXML file")
 
