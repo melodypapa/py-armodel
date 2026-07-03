@@ -11,7 +11,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import Mult
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString
 from abc import ABC
-from typing import Dict, List, Optional, TYPE_CHECKING
+from typing import Dict, List, Optional, TYPE_CHECKING, Union
 
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
@@ -399,7 +399,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         """
         return self.category
 
-    def setCategory(self, value: CategoryString | str):
+    def setCategory(self, value: Union[CategoryString, str]):
         """
         Sets the category for this identifiable element.
         If the value is a string, it will be converted to a CategoryString.
