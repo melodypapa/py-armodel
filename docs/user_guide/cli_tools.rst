@@ -48,13 +48,21 @@ Format ARXML files for better readability.
 
 .. code-block:: bash
 
-   arxml-format <input.arxml> <output.arxml>
+   arxml-format [OPTIONS] <input.arxml> <output.arxml>
 
-**Example:**
+**Options:**
+
+* ``--unescape-entities`` - Unescape XML quote entities (``&quot;`` and
+  ``&apos;``) in the formatted output. Useful for attribute values where the
+  XML serializer keeps them escaped. Disabled by default.
+* ``-h, --help`` - Show help message
+
+**Examples:**
 
 .. code-block:: bash
 
    arxml-format input.arxml formatted_output.arxml
+   arxml-format --unescape-entities input.arxml unescaped_output.arxml
 
 armodel-component
 ~~~~~~~~~~~~~~~~~
