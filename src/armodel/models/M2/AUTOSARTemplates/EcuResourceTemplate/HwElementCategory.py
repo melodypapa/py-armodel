@@ -11,6 +11,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
+    PackageableElement,
 )
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import (
     HwAttributeLiteralDef,
@@ -131,7 +132,7 @@ class HwAttributeDef(Identifiable):
         return self
 
 
-class HwCategory(AtpDefinition):
+class HwCategory(PackageableElement, AtpDefinition):
     """
     Represents a hardware category in AUTOSAR hardware descriptions.
     This class defines categories of hardware with associated attribute definitions.
@@ -145,7 +146,8 @@ class HwCategory(AtpDefinition):
             parent: The parent ARObject that contains this hardware category
             short_name: The unique short name of this hardware category
         """
-        super().__init__(parent, short_name)
+        PackageableElement.__init__(self, parent, short_name)
+        AtpDefinition.__init__(self, parent, short_name)
 
         self.hwAttributeDefs: List["HwAttributeDef"] = []
 

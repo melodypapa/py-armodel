@@ -284,7 +284,9 @@ The project follows PEP 8 coding conventions. Key conventions include:
 
 ### Code Layout
 - Indentation with 4 spaces (never tabs)
-- Maximum line length: 79 characters per PEP 8 (CI warns at 127)
+- **Maximum line length: 127 characters** (per CI configuration in `.github/workflows/python-package.yml`)
+- PEP 8 recommends 79 characters for readability, but project allows up to 127 for practical cases
+- Do NOT use backslash line continuation (`\`) for imports under 127 characters; write them on a single line instead
 - Double quotes for strings (triple double quotes for docstrings)
 - Blank lines: 2 between top-level definitions, 1 between class methods
 
