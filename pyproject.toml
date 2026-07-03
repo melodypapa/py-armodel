@@ -28,6 +28,7 @@ dependencies = [
 
 [project.optional-dependencies]
 pytest = ["pytest-cov"]
+lint = ["ruff"]
 
 [project.urls]
 Homepage = "http://github.com/melodypapa/py-armodel"

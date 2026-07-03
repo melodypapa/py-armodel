@@ -1,6 +1,6 @@
 from typing import List
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LOverviewParagraph
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LOverviewParagraph, LPlainText
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import Paginateable
 
@@ -12,7 +12,7 @@ class MultiLanguageParagraph(Paginateable):
     def __init__(self):
         super().__init__()
 
-        self.l1 = []        # type: List[LLongName]
+        self.l1: List[LLongName] = []
 
     def addL1(self, l1: LLongName):
         self.l1.append(l1)
@@ -30,7 +30,7 @@ class MultiLanguageOverviewParagraph(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.l2 = []                # type: List[str]
+        self.l2: List[LOverviewParagraph] = []
 
     def addL2(self, l2: LOverviewParagraph):
         self.l2.append(l2)
@@ -48,7 +48,7 @@ class MultilanguageLongName(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.l4 = []                            # type：List[LLongName]
+        self.l4: List[LLongName] = []
 
     def addL4(self, l4: LLongName):
         self.l4.append(l4)
@@ -64,7 +64,7 @@ class MultiLanguagePlainText(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.l10s = []                       # type: List[LPlainText]
+        self.l10s: List[LPlainText] = []
 
     def getL10s(self):
         return self.l10s

@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
@@ -22,57 +22,57 @@ class PhysicalDimension(ARElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.currentExp: ARNumerical = None
-        self.lengthExp: ARNumerical = None
-        self.luminousIntensityExp: ARNumerical = None
-        self.massExp: ARNumerical = None
-        self.molarAmountExp: ARNumerical = None
-        self.temperatureExp: ARNumerical = None
-        self.timeExp: ARNumerical = None
+        self.currentExp: Optional[ARNumerical] = None
+        self.lengthExp: Optional[ARNumerical] = None
+        self.luminousIntensityExp: Optional[ARNumerical] = None
+        self.massExp: Optional[ARNumerical] = None
+        self.molarAmountExp: Optional[ARNumerical] = None
+        self.temperatureExp: Optional[ARNumerical] = None
+        self.timeExp: Optional[ARNumerical] = None
 
-    def getCurrentExp(self) -> ARNumerical:
+    def getCurrentExp(self) -> Optional[ARNumerical]:
         return self.currentExp
 
     def setCurrentExp(self, value: ARNumerical):
         self.currentExp = value
         return self
 
-    def getLengthExp(self) -> ARNumerical:
+    def getLengthExp(self) -> Optional[ARNumerical]:
         return self.lengthExp
 
     def setLengthExp(self, value: ARNumerical):
         self.lengthExp = value
         return self
 
-    def getLuminousIntensityExp(self) -> ARNumerical:
+    def getLuminousIntensityExp(self) -> Optional[ARNumerical]:
         return self.luminousIntensityExp
 
     def setLuminousIntensityExp(self, value: ARNumerical):
         self.luminousIntensityExp = value
         return self
 
-    def getMassExp(self) -> ARNumerical:
+    def getMassExp(self) -> Optional[ARNumerical]:
         return self.massExp
 
     def setMassExp(self, value: ARNumerical):
         self.massExp = value
         return self
 
-    def getMolarAmountExp(self) -> ARNumerical:
+    def getMolarAmountExp(self) -> Optional[ARNumerical]:
         return self.molarAmountExp
 
     def setMolarAmountExp(self, value: ARNumerical):
         self.molarAmountExp = value
         return self
 
-    def getTemperatureExp(self) -> ARNumerical:
+    def getTemperatureExp(self) -> Optional[ARNumerical]:
         return self.temperatureExp
 
     def setTemperatureExp(self, value: ARNumerical):
         self.temperatureExp = value
         return self
 
-    def getTimeExp(self) -> ARNumerical:
+    def getTimeExp(self) -> Optional[ARNumerical]:
         return self.timeExp
 
     def setTimeExp(self, value: ARNumerical):
@@ -99,33 +99,33 @@ class Unit(ARElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.displayName: SingleLanguageUnitNames = None
-        self.factorSiToUnit: ARFloat = None
-        self.offsetSiToUnit: ARFloat = None
-        self.physicalDimensionRef: RefType = None
+        self.displayName: Optional[SingleLanguageUnitNames] = None
+        self.factorSiToUnit: Optional[ARFloat] = None
+        self.offsetSiToUnit: Optional[ARFloat] = None
+        self.physicalDimensionRef: Optional[RefType] = None
 
-    def getDisplayName(self) -> SingleLanguageUnitNames:
+    def getDisplayName(self) -> Optional[SingleLanguageUnitNames]:
         return self.displayName
 
     def setDisplayName(self, value: SingleLanguageUnitNames):
         self.displayName = value
         return self
 
-    def getFactorSiToUnit(self) -> ARFloat:
+    def getFactorSiToUnit(self) -> Optional[ARFloat]:
         return self.factorSiToUnit
 
     def setFactorSiToUnit(self, value: ARFloat):
         self.factorSiToUnit = value
         return self
 
-    def getOffsetSiToUnit(self) -> ARFloat:
+    def getOffsetSiToUnit(self) -> Optional[ARFloat]:
         return self.offsetSiToUnit
 
     def setOffsetSiToUnit(self, value: ARFloat):
         self.offsetSiToUnit = value
         return self
 
-    def getPhysicalDimensionRef(self) -> RefType:
+    def getPhysicalDimensionRef(self) -> Optional[RefType]:
         return self.physicalDimensionRef
 
     def setPhysicalDimensionRef(self, value: RefType):
