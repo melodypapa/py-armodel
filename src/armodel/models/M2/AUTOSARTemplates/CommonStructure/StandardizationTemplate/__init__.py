@@ -2,4 +2,4 @@
 StandardizationTemplate module for AUTOSAR M2 models.
 """
 
-from . import *
+from . import *  # noqa: F403

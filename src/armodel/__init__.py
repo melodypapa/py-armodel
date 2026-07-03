@@ -7,12 +7,12 @@ ECU software development.
 
 __version__ = "1.9.3"
 
-# Import all model classes for direct access
-from armodel.models import *
+from armodel import models as _models
 from armodel.parser import ARXMLParser, FileListParser
 from armodel.writer import ARXMLWriter
 
-# Export all model classes plus parser/writer
-import armodel.models
-_models_all = getattr(armodel.models, '__all__', [])
+for _name in getattr(_models, "__all__", []):
+    globals()[_name] = getattr(_models, _name)
+
+_models_all = getattr(_models, "__all__", [])
 __all__ = list(_models_all) + ["ARXMLParser", "FileListParser", "ARXMLWriter"]

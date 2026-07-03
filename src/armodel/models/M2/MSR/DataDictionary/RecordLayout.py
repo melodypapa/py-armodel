@@ -1,3 +1,4 @@
+from typing import Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 
@@ -213,7 +214,7 @@ class SwRecordLayout(ARElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.swRecordLayoutGroup = None                 # type: SwRecordLayoutGroup
+        self.swRecordLayoutGroup: Optional['SwRecordLayoutGroup'] = None
 
     def getSwRecordLayoutGroup(self):
         return self.swRecordLayoutGroup

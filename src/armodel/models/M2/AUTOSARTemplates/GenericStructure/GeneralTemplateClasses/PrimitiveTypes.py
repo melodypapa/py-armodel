@@ -113,7 +113,7 @@ class ARNumerical(ARType):
         return self._value
 
     @value.setter
-    def value(self, val: Optional[Union[int, float, str]]):
+    def value(self, val: Optional[Union[int, str]]):
         if isinstance(val, int):
             self._value = val
         elif isinstance(val, str):
