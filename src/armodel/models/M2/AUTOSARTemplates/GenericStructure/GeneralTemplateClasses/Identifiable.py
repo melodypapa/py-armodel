@@ -11,7 +11,10 @@ from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import Mult
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString
 from abc import ABC
-from typing import Dict, List, Optional, Any
+from typing import Dict, List, Optional, TYPE_CHECKING, Union
+
+if TYPE_CHECKING:
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 
 
 class Referrable(ARObject, ABC):
@@ -19,11 +22,11 @@ class Referrable(ARObject, ABC):
     Abstract class for elements that can be referenced by other elements in AUTOSAR models.
     This class provides basic functionality for managing short names and parent-child relationships.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is Referrable:
             raise TypeError("Referrable is an abstract class.")
-        
+
         ARObject.__init__(self)
 
         self.parent = parent
@@ -41,16 +44,16 @@ class Referrable(ARObject, ABC):
     def getShortName(self) -> str:
         """
         Gets the short name of this referrable element.
-        
+
         Returns:
             The short name of this element
         """
         return self.short_name
-    
+
     def getParent(self) -> ARObject:
         """
         Gets the parent of this referrable element.
-        
+
         Returns:
             The parent ARObject
         """
@@ -66,7 +69,7 @@ class Referrable(ARObject, ABC):
     def getFullName(self) -> str:
         """
         Gets the full name of this element, including the parent's full name.
-        
+
         Returns:
             The full name of this element
         """
@@ -78,7 +81,7 @@ class MultilanguageReferrable(Referrable, ABC):
     Abstract class for referrable elements that support multilingual text.
     This class extends Referrable with multilingual support functionality.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is MultilanguageReferrable:
             raise TypeError("MultilanguageReferrable is an abstract class.")
@@ -91,7 +94,7 @@ class MultilanguageReferrable(Referrable, ABC):
     def getLongName(self) -> Optional[MultilanguageLongName]:
         """
         Gets the long name of this multilingual referrable element.
-        
+
         Returns:
             MultilanguageLongName representing the long name, or None if not set
         """
@@ -100,10 +103,10 @@ class MultilanguageReferrable(Referrable, ABC):
     def setLongName(self, value: MultilanguageLongName):
         """
         Sets the long name of this multilingual referrable element.
-        
+
         Args:
             value: The long name to set
-            
+
         Returns:
             self for method chaining
         """
@@ -129,7 +132,7 @@ class CollectableElement(ARObject, ABC):
     def getTotalElement(self) -> int:
         """
         Gets the total number of elements in this collection.
-        
+
         Returns:
             The count of elements in the collection
         """
@@ -139,17 +142,19 @@ class CollectableElement(ARObject, ABC):
     def removeElement(self, short_name: str, type=None):
         """
         Removes an element from this collection.
-        
+
         Args:
             short_name: The short name of the element to remove
             type: The type of element to remove (optional)
         """
         if short_name not in self.element_mappings:
-            raise KeyError("Invalid key <%s> for removing element" % short_name)
+            raise KeyError(
+                "Invalid key <%s> for removing element" % short_name)
         if type is None:
             item = self.element_mappings[short_name][0]
         else:
-            item = next(filter(lambda a: isinstance(a, type), self.element_mappings[short_name]))
+            item = next(filter(lambda a: isinstance(a, type),
+                        self.element_mappings[short_name]))
         if item is not None:
             self.elements.remove(item)
             self.element_mappings[short_name].remove(item)
@@ -157,7 +162,7 @@ class CollectableElement(ARObject, ABC):
     def getElements(self) -> List[Referrable]:
         """
         Gets the list of elements in this collection.
-        
+
         Returns:
             List of Referrable instances
         """
@@ -166,10 +171,10 @@ class CollectableElement(ARObject, ABC):
     def addElement(self, element: Referrable):
         """
         Adds an element to this collection.
-        
+
         Args:
             element: The element to add
-            
+
         Returns:
             self for method chaining
         """
@@ -183,31 +188,32 @@ class CollectableElement(ARObject, ABC):
     def getElement(self, short_name: str, type=None) -> Optional[Referrable]:
         """
         Gets an element from this collection by short name and type.
-        
+
         Args:
             short_name: The short name of the element to find
             type: The type of element to find (optional)
-            
+
         Returns:
             The found Referrable instance, or None if not found
         """
         if (short_name not in self.element_mappings):
             return None
         if type is not None:
-            result = list(filter(lambda a: isinstance(a, type), self.element_mappings[short_name]))
+            result = list(filter(lambda a: isinstance(a, type),
+                          self.element_mappings[short_name]))
             if len(result) == 0:
                 return None
             return result[0]
         return self.element_mappings[short_name][0]
-    
+
     def IsElementExists(self, short_name: str, type=None) -> bool:
         """
         Checks if an element with the specified short name and type exists in this collection.
-        
+
         Args:
             short_name: The short name of the element to check
             type: The type of element to check (optional)
-            
+
         Returns:
             True if the element exists, False otherwise
         """
@@ -257,11 +263,13 @@ class Identifiable(MultilanguageReferrable, ABC):
             type: The type of element to remove (optional)
         """
         if short_name not in self.element_mappings:
-            raise KeyError("Invalid key <%s> for removing element" % short_name)
+            raise KeyError(
+                "Invalid key <%s> for removing element" % short_name)
         if type is None:
             item = self.element_mappings[short_name][0]
         else:
-            item = next(filter(lambda a: isinstance(a, type), self.element_mappings[short_name]))
+            item = next(filter(lambda a: isinstance(a, type),
+                        self.element_mappings[short_name]))
         if item is not None:
             self.elements.remove(item)
             self.element_mappings[short_name].remove(item)
@@ -306,7 +314,8 @@ class Identifiable(MultilanguageReferrable, ABC):
         if (short_name not in self.element_mappings):
             return None
         if type is not None:
-            result = list(filter(lambda a: isinstance(a, type), self.element_mappings[short_name]))
+            result = list(filter(lambda a: isinstance(a, type),
+                          self.element_mappings[short_name]))
             if len(result) == 0:
                 return None
             return result[0]
@@ -332,7 +341,7 @@ class Identifiable(MultilanguageReferrable, ABC):
     def getAdminData(self) -> Optional[AdminData]:
         """
         Gets the administrative data for this identifiable element.
-        
+
         Returns:
             AdminData instance, or None if not set
         """
@@ -342,17 +351,17 @@ class Identifiable(MultilanguageReferrable, ABC):
         """
         Sets the administrative data for this identifiable element.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The administrative data to set
-            
+
         Returns:
             self for method chaining
         """
         if value is not None:
             self.adminData = value
         return self
-    
+
     def removeAdminData(self):
         """
         Removes the administrative data for this identifiable element.
@@ -362,7 +371,7 @@ class Identifiable(MultilanguageReferrable, ABC):
     def getDesc(self) -> Optional[MultiLanguageOverviewParagraph]:
         """
         Gets the description for this identifiable element.
-        
+
         Returns:
             MultiLanguageOverviewParagraph instance, or None if not set
         """
@@ -371,10 +380,10 @@ class Identifiable(MultilanguageReferrable, ABC):
     def setDesc(self, value: MultiLanguageOverviewParagraph):
         """
         Sets the description for this identifiable element.
-        
+
         Args:
             value: The description to set
-            
+
         Returns:
             self for method chaining
         """
@@ -384,20 +393,20 @@ class Identifiable(MultilanguageReferrable, ABC):
     def getCategory(self) -> Optional[CategoryString]:
         """
         Gets the category for this identifiable element.
-        
+
         Returns:
             CategoryString instance, or None if not set
         """
         return self.category
 
-    def setCategory(self, value: Any):
+    def setCategory(self, value: Union[CategoryString, str]):
         """
         Sets the category for this identifiable element.
         If the value is a string, it will be converted to a CategoryString.
-        
+
         Args:
             value: The category to set
-            
+
         Returns:
             self for method chaining
         """
@@ -406,11 +415,11 @@ class Identifiable(MultilanguageReferrable, ABC):
         else:
             self.category = value
         return self
-    
+
     def getIntroduction(self) -> Optional[DocumentationBlock]:
         """
         Gets the introduction documentation for this identifiable element.
-        
+
         Returns:
             DocumentationBlock instance, or None if not set
         """
@@ -419,10 +428,10 @@ class Identifiable(MultilanguageReferrable, ABC):
     def setIntroduction(self, value: DocumentationBlock):
         """
         Sets the introduction documentation for this identifiable element.
-        
+
         Args:
             value: The introduction documentation to set
-            
+
         Returns:
             self for method chaining
         """
@@ -432,10 +441,10 @@ class Identifiable(MultilanguageReferrable, ABC):
     def addAnnotation(self, annotation: Annotation):
         """
         Adds an annotation to this identifiable element.
-        
+
         Args:
             annotation: The annotation to add
-            
+
         Returns:
             self for method chaining
         """
@@ -445,7 +454,7 @@ class Identifiable(MultilanguageReferrable, ABC):
     def getAnnotations(self) -> List[Annotation]:
         """
         Gets the list of annotations for this identifiable element.
-        
+
         Returns:
             List of Annotation instances
         """
@@ -463,13 +472,37 @@ class PackageableElement(Identifiable, ABC):
             raise TypeError("PackageableElement is an abstract class.")
         super().__init__(parent, short_name)
 
+        self.variationPoints: List[VariationPoint] = []
+
+    def addVariationPoint(self, variation_point: "VariationPoint"):
+        """
+        Adds a variation point to this packageable element.
+
+        Args:
+            variation_point: The VariationPoint to add
+
+        Returns:
+            self for method chaining
+        """
+        self.variationPoints.append(variation_point)
+        return self
+
+    def getVariationPoints(self) -> List["VariationPoint"]:
+        """
+        Gets the list of variation points for this packageable element.
+
+        Returns:
+            List of VariationPoint instances
+        """
+        return self.variationPoints
+
 
 class ARElement(PackageableElement, ABC):
     """
     Abstract class for AUTOSAR elements.
     This class represents the basic structure for all AUTOSAR model elements.
     """
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is ARElement:
             raise TypeError("ARElement is an abstract class.")
@@ -481,7 +514,7 @@ class Describable(ARObject, ABC):
     Abstract class for elements that can be described in AUTOSAR models.
     This class provides basic description functionality for AUTOSAR elements.
     """
-    
+
     def __init__(self):
         if type(self) is Describable:
             raise TypeError("Describable is an abstract class.")
@@ -496,7 +529,7 @@ class Describable(ARObject, ABC):
     def getDesc(self) -> Optional[MultiLanguageOverviewParagraph]:
         """
         Gets the description for this describable element.
-        
+
         Returns:
             MultiLanguageOverviewParagraph instance, or None if not set
         """
@@ -506,10 +539,10 @@ class Describable(ARObject, ABC):
         """
         Sets the description for this describable element.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The description to set
-            
+
         Returns:
             self for method chaining
         """
@@ -520,7 +553,7 @@ class Describable(ARObject, ABC):
     def getCategory(self) -> Optional[CategoryString]:
         """
         Gets the category for this describable element.
-        
+
         Returns:
             CategoryString instance, or None if not set
         """
@@ -530,10 +563,10 @@ class Describable(ARObject, ABC):
         """
         Sets the category for this describable element.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The category to set
-            
+
         Returns:
             self for method chaining
         """
@@ -544,7 +577,7 @@ class Describable(ARObject, ABC):
     def getAdminData(self) -> Optional[AdminData]:
         """
         Gets the administrative data for this describable element.
-        
+
         Returns:
             AdminData instance, or None if not set
         """
@@ -554,17 +587,17 @@ class Describable(ARObject, ABC):
         """
         Sets the administrative data for this describable element.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The administrative data to set
-            
+
         Returns:
             self for method chaining
         """
         if value is not None:
             self.adminData = value
         return self
-    
+
     def removeAdminData(self):
         """
         Removes the administrative data for this describable element.
@@ -574,7 +607,7 @@ class Describable(ARObject, ABC):
     def getIntroduction(self) -> Optional[DocumentationBlock]:
         """
         Gets the introduction documentation for this describable element.
-        
+
         Returns:
             DocumentationBlock instance, or None if not set
         """
@@ -584,16 +617,13 @@ class Describable(ARObject, ABC):
         """
         Sets the introduction documentation for this describable element.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The introduction documentation to set
-            
+
         Returns:
             self for method chaining
         """
         if value is not None:
             self.introduction = value
         return self
-
-
-    

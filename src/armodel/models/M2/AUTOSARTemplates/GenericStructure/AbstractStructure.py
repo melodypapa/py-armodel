@@ -6,7 +6,7 @@ in the GenericStructure module.
 
 from abc import ABC
 from typing import List, Optional
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, PackageableElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
@@ -94,7 +94,7 @@ class AtpInstanceRef(ARObject, ABC):
         return self
 
 
-class AtpBlueprintable(Identifiable, ABC):
+class AtpBlueprintable(PackageableElement, ABC):
     """
     Abstract base class for AUTOSAR Template (ATP) blueprintable elements.
     
@@ -117,7 +117,7 @@ class AtpBlueprintable(Identifiable, ABC):
         super().__init__(parent, short_name)
 
 
-class AtpClassifier(Identifiable, ABC):
+class AtpClassifier(PackageableElement, ABC):
     """
     Abstract base class for AUTOSAR Template (ATP) classifier elements.
     

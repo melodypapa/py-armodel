@@ -5,12 +5,35 @@ various configuration and behavior options throughout the AUTOSAR model.
 """
 
 from enum import Enum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum
+
 
 class AutoCollectEnum(Enum):
     """
     Enumeration for auto-collect settings in AUTOSAR collections.
-    This enum defines the different auto-collection behaviors that can be applied to collections.
+    This enum defines the different auto-collection behaviors that can
+    be applied to collections.
     """
     AUTO_COLLECT_OFF = "OFF"
     AUTO_COLLECT_ON = "ON"
     AUTO_COLLECT_AUTO = "AUTO"
+
+
+class BindingTimeEnum(AREnum):
+    """
+    Enumeration for binding time in AUTOSAR variant handling.
+
+    This class specifies the point in time when a variant condition
+    may be evaluated at earliest. At this point in time, all referenced
+    system constants shall have a value.
+
+    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling
+    """
+
+    def __init__(self):
+        super().__init__([
+            "codeGenerationTime",
+            "linkTime",
+            "preCompileTime",
+            "systemDesignTime"
+        ])
