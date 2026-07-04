@@ -69,7 +69,7 @@ if component is not None:
 
 ## Important Constraints
 
-- Python >= 3.5 required (CI tests 3.8-3.12)
+- Python >= 3.8 required (CI tests 3.8-3.13)
 - Duplicate UUID checking is enabled
 - Same short names can coexist across different types
 - Boolean values in XML should not contain spaces
