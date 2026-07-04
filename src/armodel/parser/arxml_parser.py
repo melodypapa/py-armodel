@@ -428,6 +428,7 @@ class ARXMLParser(AbstractARXMLParser):
             short_name = self.getShortName(child_element)
 
             # self.logger.debug("Read VariableAccesses %s" % short_name)
+            supported = True
 
             if (key == "DATA-RECEIVE-POINT-BY-ARGUMENTS"):
                 variable_access = parent.createDataReceivePointByArgument(short_name)
@@ -452,8 +453,10 @@ class ARXMLParser(AbstractARXMLParser):
                 variable_access.setAccessedVariableRef(self.getAutosarVariableRef(child_element, "ACCESSED-VARIABLE"))
             else:
                 self.notImplemented("Unsupported Variable Accesss <%s>" % key)
+                supported = False
 
-            self.readIdentifiable(child_element, variable_access)
+            if supported:
+                self.readIdentifiable(child_element, variable_access)
 
     def readBswModuleDescriptionImplementedEntryRefs(self, element: ET.Element, parent: BswModuleDescription):
         for child_element in self.findall(element, "PROVIDED-ENTRYS/BSW-MODULE-ENTRY-REF-CONDITIONAL"):
@@ -1236,13 +1239,17 @@ class ARXMLParser(AbstractARXMLParser):
             .setBehaviorRef(self.getChildElementOptionalRefType(element, "BEHAVIOR-REF")) \
             .setVendorApiInfix(self.getChildElementOptionalLiteral(element, "VENDOR-API-INFIX"))
         self.readBswImplementationVendorSpecificModuleDefRefs(element, impl)
-        AUTOSAR.getInstance().addImplementationBehaviorMap(impl.getFullName(), impl.getBehaviorRef().getValue())
+        behavior_ref = impl.getBehaviorRef()
+        if behavior_ref is not None:
+            AUTOSAR.getInstance().addImplementationBehaviorMap(impl.getFullName(), behavior_ref.getValue())
 
     def readSwcImplementation(self, element: ET.Element, impl: SwcImplementation):
         self.logger.debug("Read SwcImplementation <%s>" % impl.getShortName())
         self.readImplementation(element, impl)
         impl.setBehaviorRef(self.getChildElementOptionalRefType(element, "BEHAVIOR-REF"))
-        AUTOSAR.getInstance().addImplementationBehaviorMap(impl.getFullName(), impl.getBehaviorRef().getValue())
+        behavior_ref = impl.getBehaviorRef()
+        if behavior_ref is not None:
+            AUTOSAR.getInstance().addImplementationBehaviorMap(impl.getFullName(), behavior_ref.getValue())
 
     def readRunnableEntityDataReceivePointByArguments(self, element, parent: RunnableEntity):
         self._readVariableAccesses(element, parent, "DATA-RECEIVE-POINT-BY-ARGUMENTS")
