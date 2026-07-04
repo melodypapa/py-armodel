@@ -9,7 +9,7 @@ Getting Started
 Prerequisites
 ~~~~~~~~~~~~~
 
-* Python >= 3.5
+* Python >= 3.8
 * Git
 * Familiarity with AUTOSAR standard
 

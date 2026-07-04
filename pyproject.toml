@@ -7,7 +7,7 @@ name = "armodel"
 dynamic = ["version"]
 description = "the python arxml parser"
 readme = "README.md"
-requires-python = ">=3.5"
+requires-python = ">=3.8"
 license = {text = "MIT"}
 authors = [
     {name = "melodypapa", email = "melodypapa@outlook.com"},
@@ -27,7 +27,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-pytest = ["pytest-cov"]
+pytest = ["pytest>=7.0", "pytest-cov>=4.0", "pyyaml>=6.0"]
 lint = ["ruff"]
 
 [project.urls]
