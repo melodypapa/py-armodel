@@ -3,7 +3,7 @@ from typing import List
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable, Describable, PackageableElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, ARPositiveInteger, Boolean, ByteOrderEnum
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, PositiveInteger, RefType, ARBoolean
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, PositiveInteger, RefType, ARBoolean, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue, UnlimitedInteger
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import TransmissionModeDeclaration
@@ -1239,11 +1239,29 @@ class SecureCommunicationPropsSet(FibexElement):
 
 class UserDefinedPdu(Pdu):
     """
-    Represents a user-defined Protocol Data Unit (PDU) that allows for custom
-    communication patterns defined by the user rather than following standard PDU types.
+    Allows to describe PDU-based communication over Complex Communication Drivers.
+
+    If a new BSW module is added above the BusIf (e.g. a new Nm module) then this
+    Pdu element shall be used to describe the communication.
+
+    Requirements:
+        atp.recommendedPackage=Pdus
+
+    Attributes:
+        cddType: Optional attribute that defines the CDD (Complex Device Driver)
+            that transmits or receives the UserDefinedPdu. If several CDDs are
+            defined this attribute is used to distinguish between them.
     """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+        self.cddType: String = None
+
+    def getCddType(self):
+        return self.cddType
+
+    def setCddType(self, value):
+        self.cddType = value
+        return self
 
 
 class UserDefinedIPdu(IPdu):
@@ -1253,6 +1271,14 @@ class UserDefinedIPdu(IPdu):
     """
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+        self.cddType: ARLiteral = None
+
+    def getCddType(self):
+        return self.cddType
+
+    def setCddType(self, value):
+        self.cddType = value
+        return self
 
 
 class SecureCommunicationAuthenticationProps(Identifiable):

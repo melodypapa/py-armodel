@@ -295,8 +295,9 @@ class BswModuleEntry(AtpBlueprintable):
         Raises:
             ValueError: If the execution context is not valid
         """
-        if value.upper() not in ("HOOK", "INTERRUPT-CAT-1", "INTERRUPT-CAT-2", "TASK", "UNSPECIFIED"):
-            raise ValueError("Invalid execution context <%s> of BswModuleEntry <%s>" % (value, self.short_name))
+        if value is not None:
+            if value.upper() not in ("HOOK", "INTERRUPT-CAT-1", "INTERRUPT-CAT-2", "TASK", "UNSPECIFIED"):
+                raise ValueError("Invalid execution context <%s> of BswModuleEntry <%s>" % (value, self.short_name))
         self.executionContext = value
         return self
 
@@ -458,6 +459,9 @@ class BswModuleEntry(AtpBlueprintable):
         Raises:
             ValueError: If the implementation policy is not valid
         """
+        if value is None:
+            self.swServiceImplPolicy = None
+            return self
         if value.upper() not in ("INLINE", "INLINE-CONDITIONAL", "MACRO", "STANDARD"):
             raise ValueError("Invalid SwServiceImplPolicy <%s> of BswModuleEntry <%s>" % (value, self.short_name))
         self.swServiceImplPolicy = value
