@@ -128,3 +128,103 @@ class TestEcucContainerDefParameters:
         assert len(params) == 1
         assert params[0].getShortName() == "ConfigString"
         assert params[0].getDefaultValue() is None
+
+    def test_readEcucIntegerParamDef_with_limits(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        element = _snip(
+            """
+            <PARAMETERS>
+                <ECUC-INTEGER-PARAM-DEF>
+                    <SHORT-NAME>MaxRetries</SHORT-NAME>
+                    <DEFAULT-VALUE>10</DEFAULT-VALUE>
+                    <MAX>100</MAX>
+                    <MIN>0</MIN>
+                </ECUC-INTEGER-PARAM-DEF>
+            </PARAMETERS>
+            """,
+            root_tag="ECUC-PARAM-CONF-CONTAINER-DEF",
+        )
+        parser.readEcucContainerDefParameters(element, container)
+        params = container.getParameters()
+        assert len(params) == 1
+        assert params[0].getShortName() == "MaxRetries"
+        assert params[0].getDefaultValue().getValue() == 10
+        assert params[0].getMax().getValue() == 100
+        assert params[0].getMin().getValue() == 0
+
+    def test_readEcucIntegerParamDef_without_limits(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        element = _snip(
+            """
+            <PARAMETERS>
+                <ECUC-INTEGER-PARAM-DEF>
+                    <SHORT-NAME>Counter</SHORT-NAME>
+                </ECUC-INTEGER-PARAM-DEF>
+            </PARAMETERS>
+            """,
+            root_tag="ECUC-PARAM-CONF-CONTAINER-DEF",
+        )
+        parser.readEcucContainerDefParameters(element, container)
+        params = container.getParameters()
+        assert len(params) == 1
+        assert params[0].getShortName() == "Counter"
+        assert params[0].getDefaultValue() is None
+        assert params[0].getMax() is None
+        assert params[0].getMin() is None
+
+    def test_readEcucFloatParamDef_with_limits(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        element = _snip(
+            """
+            <PARAMETERS>
+                <ECUC-FLOAT-PARAM-DEF>
+                    <SHORT-NAME>Tolerance</SHORT-NAME>
+                    <DEFAULT-VALUE>0.5</DEFAULT-VALUE>
+                    <MAX>
+                        <VALUE>10.0</VALUE>
+                        <INTERVAL-TYPE>CLOSED</INTERVAL-TYPE>
+                    </MAX>
+                    <MIN>
+                        <VALUE>0.0</VALUE>
+                        <INTERVAL-TYPE>CLOSED</INTERVAL-TYPE>
+                    </MIN>
+                </ECUC-FLOAT-PARAM-DEF>
+            </PARAMETERS>
+            """,
+            root_tag="ECUC-PARAM-CONF-CONTAINER-DEF",
+        )
+        parser.readEcucContainerDefParameters(element, container)
+        params = container.getParameters()
+        assert len(params) == 1
+        assert params[0].getShortName() == "Tolerance"
+        assert params[0].getDefaultValue() is not None
+
+    def test_readEcucFloatParamDef_without_limits(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        element = _snip(
+            """
+            <PARAMETERS>
+                <ECUC-FLOAT-PARAM-DEF>
+                    <SHORT-NAME>Ratio</SHORT-NAME>
+                </ECUC-FLOAT-PARAM-DEF>
+            </PARAMETERS>
+            """,
+            root_tag="ECUC-PARAM-CONF-CONTAINER-DEF",
+        )
+        parser.readEcucContainerDefParameters(element, container)
+        params = container.getParameters()
+        assert len(params) == 1
+        assert params[0].getShortName() == "Ratio"
+        assert params[0].getDefaultValue() is None
