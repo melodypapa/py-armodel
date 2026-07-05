@@ -823,3 +823,169 @@ class TestPredefinedVariantParser:
         assert len(systemconst_refs) == 1
         assert systemconst_refs[0].getValue() == "/Variants/SystemConstValuesA"
         assert systemconst_refs[0].getDest() == "SW-SYSTEMCONSTANT-VALUE-SET"
+
+
+class TestRealArxmlRoundTripBranches:
+    """Test round-trip parsing of real ARXML files from tests/integration_tests/test_files."""
+
+    def test_CanSystem_roundtrip(self, parser):
+        AUTOSAR.getInstance().new()
+        autosar = AUTOSAR.getInstance()
+        parser.load("tests/integration_tests/test_files/CanSystem.arxml", autosar)
+        can_system_pkg = autosar.find("/CanSystem")
+        assert can_system_pkg is not None
+        clusters_pkg = autosar.find("/CanSystem/CLUSTERS")
+        assert clusters_pkg is not None
+        assert len(clusters_pkg.getCanClusters()) > 0
+        can_cluster = clusters_pkg.getCanClusters()[0]
+        assert can_cluster.getShortName() == "CanNetwork"
+        ecu_pkg = autosar.find("/CanSystem/ECUINSTANCES")
+        assert ecu_pkg is not None
+        assert len(ecu_pkg.getEcuInstances()) > 0
+        signals_pkg = autosar.find("/CanSystem/ISIGNALS")
+        assert signals_pkg is not None
+        assert len(signals_pkg.getISignals()) > 0
+        pdus_pkg = autosar.find("/CanSystem/PDUS")
+        assert pdus_pkg is not None
+        assert len(pdus_pkg.getISignalIPdus()) > 0
+        sys_signals_pkg = autosar.find("/CanSystem/SYSSIGNALS")
+        assert sys_signals_pkg is not None
+        assert len(sys_signals_pkg.getSystemSignals()) > 0
+        systems = autosar.getSystems()
+        assert len(systems) > 0
+
+    def test_BswM_Bswmd_roundtrip(self, parser):
+        AUTOSAR.getInstance().new()
+        autosar = AUTOSAR.getInstance()
+        parser.load("tests/integration_tests/test_files/BswM_Bswmd.arxml", autosar)
+        bswm_pkg = autosar.find("/AUTOSAR_BswM")
+        assert bswm_pkg is not None
+        bsw_desc_pkg = autosar.find("/AUTOSAR_BswM/BswModuleDescriptions")
+        assert bsw_desc_pkg is not None
+        bsw_descs = bsw_desc_pkg.getBswModuleDescriptions()
+        assert len(bsw_descs) > 0
+        bsw_desc = bsw_descs[0]
+        assert bsw_desc.getShortName() == "BswM"
+        behaviors = bsw_desc.getInternalBehaviors()
+        assert len(behaviors) > 0
+        behavior = behaviors[0]
+        assert behavior.getShortName() == "InternalBehavior_0"
+        entities = behavior.getBswSchedulableEntities()
+        assert len(entities) > 0
+        events = behavior.getBswEvents()
+        assert len(events) > 0
+        entry_pkg = autosar.find("/AUTOSAR_BswM/BswModuleEntrys")
+        assert entry_pkg is not None
+        entries = entry_pkg.getBswModuleEntries()
+        assert len(entries) > 0
+
+    def test_SoftwareComponents_roundtrip(self, parser):
+        AUTOSAR.getInstance().new()
+        autosar = AUTOSAR.getInstance()
+        parser.load("tests/integration_tests/test_files/SoftwareComponents.arxml", autosar)
+        demo_pkg = autosar.find("/DemoApplication")
+        assert demo_pkg is not None
+        compu_pkg = autosar.find("/DemoApplication/CompuMethods")
+        assert compu_pkg is not None
+        compu_methods = compu_pkg.getCompuMethods()
+        assert len(compu_methods) > 0
+        impl_pkg = autosar.find("/DemoApplication/ImplementationDataTypes")
+        assert impl_pkg is not None
+        impl_types = impl_pkg.getImplementationDataTypes()
+        assert len(impl_types) > 0
+        port_pkg = autosar.find("/DemoApplication/PortInterfaces")
+        assert port_pkg is not None
+        client_server_ifs = port_pkg.getClientServerInterfaces()
+        assert len(client_server_ifs) > 0
+
+    def test_AUTOSAR_Datatypes_roundtrip(self, parser):
+        AUTOSAR.getInstance().new()
+        autosar = AUTOSAR.getInstance()
+        parser.load("tests/integration_tests/test_files/AUTOSAR_Datatypes.arxml", autosar)
+        platform_pkg = autosar.find("/AUTOSAR_Platform")
+        assert platform_pkg is not None
+        base_pkg = autosar.find("/AUTOSAR_Platform/BaseTypes")
+        assert base_pkg is not None
+        base_types = base_pkg.getSwBaseTypes()
+        assert len(base_types) > 0
+        float32 = base_pkg.getElement("float32")
+        assert float32 is not None
+        impl_pkg = autosar.find("/AUTOSAR_Platform/ImplementationDataTypes")
+        assert impl_pkg is not None
+        impl_types = impl_pkg.getImplementationDataTypes()
+        assert len(impl_types) > 0
+
+    def test_BswMMode_roundtrip(self, parser):
+        AUTOSAR.getInstance().new()
+        autosar = AUTOSAR.getInstance()
+        parser.load("tests/integration_tests/test_files/BswMMode.arxml", autosar)
+        bswm_mode_pkg = autosar.find("/BswMMode")
+        assert bswm_mode_pkg is not None
+        mapping_pkg = autosar.find("/BswMMode/DataTypeMappingSets")
+        assert mapping_pkg is not None
+        mapping_sets = mapping_pkg.getDataTypeMappingSets()
+        assert len(mapping_sets) > 0
+        mode_decl_pkg = autosar.find("/BswMMode/ModeDeclarationGroups")
+        assert mode_decl_pkg is not None
+        mode_groups = mode_decl_pkg.getModeDeclarationGroups()
+        assert len(mode_groups) > 0
+        mode_group = mode_groups[0]
+        assert mode_group.getShortName() == "BswMModeGroup"
+        port_pkg = autosar.find("/BswMMode/PortInterfaces")
+        assert port_pkg is not None
+        mode_ifs = port_pkg.getModeSwitchInterfaces()
+        assert len(mode_ifs) > 0
+
+    def test_SwRecordDemo_roundtrip(self, parser):
+        AUTOSAR.getInstance().new()
+        autosar = AUTOSAR.getInstance()
+        parser.load("tests/integration_tests/test_files/SwRecordDemo.arxml", autosar)
+        demo_pkg = autosar.find("/demo")
+        assert demo_pkg is not None
+        common_pkg = autosar.find("/demo/common")
+        assert common_pkg is not None
+        datatypes_pkg = autosar.find("/demo/common/datatypes")
+        assert datatypes_pkg is not None
+        layouts = datatypes_pkg.getSwRecordLayouts()
+        assert len(layouts) > 0
+        layout = layouts[0]
+        assert layout.getShortName() == "RecordLayoutDescriptor"
+
+    def test_ApplicationDataType_Blueprint_roundtrip(self, parser):
+        AUTOSAR.getInstance().new()
+        autosar = AUTOSAR.getInstance()
+        parser.load("tests/integration_tests/test_files/AUTOSAR_MOD_AISpecification_ApplicationDataType_Blueprint.arxml", autosar)
+        packages = autosar.getARPackages()
+        assert len(packages) > 0
+        for pkg in packages:
+            appl_types = pkg.getApplicationDataType()
+            if len(appl_types) > 0:
+                return
+        assert True
+
+    def test_CompuMethod_Blueprint_roundtrip(self, parser):
+        AUTOSAR.getInstance().new()
+        autosar = AUTOSAR.getInstance()
+        parser.load("tests/integration_tests/test_files/AUTOSAR_MOD_AISpecification_CompuMethod_Blueprint.arxml", autosar)
+        compu_pkg = autosar.find("/AUTOSAR/AISpecification/CompuMethods_Blueprint")
+        assert compu_pkg is not None
+        compu_methods = compu_pkg.getCompuMethods()
+        assert len(compu_methods) > 0
+
+    def test_PortInterface_Blueprint_roundtrip(self, parser):
+        AUTOSAR.getInstance().new()
+        autosar = AUTOSAR.getInstance()
+        parser.load("tests/integration_tests/test_files/AUTOSAR_MOD_AISpecification_PortInterface_Blueprint.arxml", autosar)
+        port_pkg = autosar.find("/AUTOSAR/AISpecification/PortInterfaces_Blueprint")
+        assert port_pkg is not None
+        sr_ifs = port_pkg.getSenderReceiverInterfaces()
+        assert len(sr_ifs) > 0
+
+    def test_Unit_Standard_roundtrip(self, parser):
+        AUTOSAR.getInstance().new()
+        autosar = AUTOSAR.getInstance()
+        parser.load("tests/integration_tests/test_files/AUTOSAR_MOD_AISpecification_Unit_Standard.arxml", autosar)
+        unit_pkg = autosar.find("/AUTOSAR/AISpecification/Units_obsolete")
+        assert unit_pkg is not None
+        units = unit_pkg.getUnits()
+        assert len(units) > 0

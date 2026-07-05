@@ -889,3 +889,493 @@ class TestBswBehaviorOrchestratorHandlers:
             "Unsupported Data Receive Point" in r.getMessage()
             for r in caplog.records
         )
+
+
+# ==================== Group F: Misc Handlers (DataTransformation, Keyword, ModeDeclaration) ====================
+
+
+class TestDataTransformationHandlers:
+    """Exercise readDataTransformationSet, transformation technologies,
+    transformation descriptions, data transformations, and buffer properties."""
+
+    def test_readDataTransformationSet_minimal(self, parser):
+        from armodel.models import DataTransformationSet
+
+        dtf_set = DataTransformationSet(parent=_autosar_root(), short_name="dtf_set")
+        element = _snip(
+            "<SHORT-NAME>dtf_set</SHORT-NAME>",
+            root_tag="DATA-TRANSFORMATION-SET",
+        )
+        parser.readDataTransformationSet(element, dtf_set)
+        assert dtf_set.getShortName() == "dtf_set"
+        assert len(dtf_set.getDataTransformations()) == 0
+        assert len(dtf_set.getTransformationTechnologies()) == 0
+
+    def test_readDataTransformationSet_with_transformation(self, parser):
+        from armodel.models import DataTransformationSet
+
+        dtf_set = DataTransformationSet(parent=_autosar_root(), short_name="dtf_set")
+        element = _snip(
+            "<SHORT-NAME>dtf_set</SHORT-NAME>"
+            "<DATA-TRANSFORMATIONS>"
+            "<DATA-TRANSFORMATION>"
+            "<SHORT-NAME>dt1</SHORT-NAME>"
+            "<EXECUTE-DESPITE-DATA-UNAVAILABILITY>true</EXECUTE-DESPITE-DATA-UNAVAILABILITY>"
+            "</DATA-TRANSFORMATION>"
+            "</DATA-TRANSFORMATIONS>",
+            root_tag="DATA-TRANSFORMATION-SET",
+        )
+        parser.readDataTransformationSet(element, dtf_set)
+        assert len(dtf_set.getDataTransformations()) == 1
+        dt1 = dtf_set.getDataTransformations()[0]
+        assert dt1.getShortName() == "dt1"
+        assert dt1.getExecuteDespiteDataUnavailability() is not None
+
+    def test_readDataTransformation_with_transformer_chain_refs(self, parser):
+        from armodel.models import DataTransformationSet
+
+        dtf_set = DataTransformationSet(parent=_autosar_root(), short_name="dtf_set")
+        element = _snip(
+            "<SHORT-NAME>dtf_set</SHORT-NAME>"
+            "<DATA-TRANSFORMATIONS>"
+            "<DATA-TRANSFORMATION>"
+            "<SHORT-NAME>dt1</SHORT-NAME>"
+            "<TRANSFORMER-CHAIN-REFS>"
+            "<TRANSFORMER-CHAIN-REF DEST='TRANSFORMER-CHAIN'>/tc1</TRANSFORMER-CHAIN-REF>"
+            "<TRANSFORMER-CHAIN-REF DEST='TRANSFORMER-CHAIN'>/tc2</TRANSFORMER-CHAIN-REF>"
+            "</TRANSFORMER-CHAIN-REFS>"
+            "</DATA-TRANSFORMATION>"
+            "</DATA-TRANSFORMATIONS>",
+            root_tag="DATA-TRANSFORMATION-SET",
+        )
+        parser.readDataTransformationSet(element, dtf_set)
+        dt1 = dtf_set.getDataTransformations()[0]
+        assert len(dt1.getTransformerChainRefs()) == 2
+        assert dt1.getTransformerChainRefs()[0].getValue() == "/tc1"
+        assert dt1.getTransformerChainRefs()[1].getValue() == "/tc2"
+
+    def test_readDataTransformationSet_unsupported_tag_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import DataTransformationSet
+
+        dtf_set = DataTransformationSet(
+            parent=_autosar_root(), short_name="dtf_set"
+        )
+        element = _snip(
+            "<SHORT-NAME>dtf_set</SHORT-NAME>"
+            "<DATA-TRANSFORMATIONS><BAD-ELEMENT/></DATA-TRANSFORMATIONS>",
+            root_tag="DATA-TRANSFORMATION-SET",
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readDataTransformationSet(element, dtf_set)
+        assert any(
+            "Unsupported DataTransformation" in r.getMessage()
+            for r in caplog.records
+        )
+
+    def test_readTransformationTechnology_minimal(self, parser):
+        from armodel.models import DataTransformationSet
+
+        dtf_set = DataTransformationSet(parent=_autosar_root(), short_name="dtf_set")
+        element = _snip(
+            "<SHORT-NAME>dtf_set</SHORT-NAME>"
+            "<TRANSFORMATION-TECHNOLOGYS>"
+            "<TRANSFORMATION-TECHNOLOGY>"
+            "<SHORT-NAME>tech1</SHORT-NAME>"
+            "</TRANSFORMATION-TECHNOLOGY>"
+            "</TRANSFORMATION-TECHNOLOGYS>",
+            root_tag="DATA-TRANSFORMATION-SET",
+        )
+        parser.readDataTransformationSet(element, dtf_set)
+        assert len(dtf_set.getTransformationTechnologies()) == 1
+        tech = dtf_set.getTransformationTechnologies()[0]
+        assert tech.getShortName() == "tech1"
+
+    def test_readTransformationTechnology_with_properties(self, parser):
+        from armodel.models import DataTransformationSet
+
+        dtf_set = DataTransformationSet(parent=_autosar_root(), short_name="dtf_set")
+        element = _snip(
+            "<SHORT-NAME>dtf_set</SHORT-NAME>"
+            "<TRANSFORMATION-TECHNOLOGYS>"
+            "<TRANSFORMATION-TECHNOLOGY>"
+            "<SHORT-NAME>tech1</SHORT-NAME>"
+            "<NEEDS-ORIGINAL-DATA>true</NEEDS-ORIGINAL-DATA>"
+            "<PROTOCOL>E2E</PROTOCOL>"
+            "<TRANSFORMER-CLASS>safety</TRANSFORMER-CLASS>"
+            "<VERSION>1.0</VERSION>"
+            "</TRANSFORMATION-TECHNOLOGY>"
+            "</TRANSFORMATION-TECHNOLOGYS>",
+            root_tag="DATA-TRANSFORMATION-SET",
+        )
+        parser.readDataTransformationSet(element, dtf_set)
+        tech = dtf_set.getTransformationTechnologies()[0]
+        assert tech.getNeedsOriginalData() is not None
+        assert tech.getProtocol().getValue() == "E2E"
+        assert tech.getTransformerClass().getValue() == "safety"
+        assert tech.getVersion().getValue() == "1.0"
+
+    def test_readTransformationTechnology_with_buffer_properties(self, parser):
+        from armodel.models import DataTransformationSet
+
+        dtf_set = DataTransformationSet(parent=_autosar_root(), short_name="dtf_set")
+        element = _snip(
+            "<SHORT-NAME>dtf_set</SHORT-NAME>"
+            "<TRANSFORMATION-TECHNOLOGYS>"
+            "<TRANSFORMATION-TECHNOLOGY>"
+            "<SHORT-NAME>tech1</SHORT-NAME>"
+            "<BUFFER-PROPERTIES>"
+            "<HEADER-LENGTH>8</HEADER-LENGTH>"
+            "<IN-PLACE>true</IN-PLACE>"
+            "</BUFFER-PROPERTIES>"
+            "</TRANSFORMATION-TECHNOLOGY>"
+            "</TRANSFORMATION-TECHNOLOGYS>",
+            root_tag="DATA-TRANSFORMATION-SET",
+        )
+        parser.readDataTransformationSet(element, dtf_set)
+        tech = dtf_set.getTransformationTechnologies()[0]
+        assert tech.getBufferProperties() is not None
+        assert tech.getBufferProperties().getHeaderLength().getValue() == 8
+        assert tech.getBufferProperties().getInPlace() is not None
+
+    def test_readTransformationTechnology_unsupported_tag_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import DataTransformationSet
+
+        dtf_set = DataTransformationSet(
+            parent=_autosar_root(), short_name="dtf_set"
+        )
+        element = _snip(
+            "<SHORT-NAME>dtf_set</SHORT-NAME>"
+            "<TRANSFORMATION-TECHNOLOGYS><BAD-ELEMENT/></TRANSFORMATION-TECHNOLOGYS>",
+            root_tag="DATA-TRANSFORMATION-SET",
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readDataTransformationSet(element, dtf_set)
+        assert any(
+            "Unsupported TransformationTechnology" in r.getMessage()
+            for r in caplog.records
+        )
+
+    def test_readEndToEndTransformationDescription_full(self, parser):
+        from armodel.models import DataTransformationSet
+
+        dtf_set = DataTransformationSet(parent=_autosar_root(), short_name="dtf_set")
+        element = _snip(
+            "<SHORT-NAME>dtf_set</SHORT-NAME>"
+            "<TRANSFORMATION-TECHNOLOGYS>"
+            "<TRANSFORMATION-TECHNOLOGY>"
+            "<SHORT-NAME>tech1</SHORT-NAME>"
+            "<TRANSFORMATION-DESCRIPTIONS>"
+            "<END-TO-END-TRANSFORMATION-DESCRIPTION>"
+            "<DATA-ID-MODE>all16Bit</DATA-ID-MODE>"
+            "<MAX-DELTA-COUNTER>2</MAX-DELTA-COUNTER>"
+            "<MAX-ERROR-STATE-INIT>1</MAX-ERROR-STATE-INIT>"
+            "<MAX-ERROR-STATE-INVALID>2</MAX-ERROR-STATE-INVALID>"
+            "<MAX-ERROR-STATE-VALID>3</MAX-ERROR-STATE-VALID>"
+            "<MAX-NO-NEW-OR-REPEATED-DATA>2</MAX-NO-NEW-OR-REPEATED-DATA>"
+            "<MIN-OK-STATE-INIT>1</MIN-OK-STATE-INIT>"
+            "<MIN-OK-STATE-INVALID>1</MIN-OK-STATE-INVALID>"
+            "<MIN-OK-STATE-VALID>1</MIN-OK-STATE-VALID>"
+            "<PROFILE-BEHAVIOR>R4_2</PROFILE-BEHAVIOR>"
+            "<PROFILE-NAME>Profile1</PROFILE-NAME>"
+            "<SYNC-COUNTER-INIT>0</SYNC-COUNTER-INIT>"
+            "<UPPER-HEADER-BITS-TO-SHIFT>4</UPPER-HEADER-BITS-TO-SHIFT>"
+            "<WINDOW-SIZE-INIT>1</WINDOW-SIZE-INIT>"
+            "<WINDOW-SIZE-INVALID>2</WINDOW-SIZE-INVALID>"
+            "<WINDOW-SIZE-VALID>3</WINDOW-SIZE-VALID>"
+            "</END-TO-END-TRANSFORMATION-DESCRIPTION>"
+            "</TRANSFORMATION-DESCRIPTIONS>"
+            "</TRANSFORMATION-TECHNOLOGY>"
+            "</TRANSFORMATION-TECHNOLOGYS>",
+            root_tag="DATA-TRANSFORMATION-SET",
+        )
+        parser.readDataTransformationSet(element, dtf_set)
+        tech = dtf_set.getTransformationTechnologies()[0]
+        assert tech.getTransformationDescription() is not None
+        desc = tech.getTransformationDescription()
+        assert desc.getDataIdMode().getValue() == "all16Bit"
+        assert desc.getMaxDeltaCounter().getValue() == 2
+        assert desc.getProfileName().getValue() == "Profile1"
+
+    def test_readTransformationTechnology_unsupported_desc_tag_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import DataTransformationSet
+
+        dtf_set = DataTransformationSet(
+            parent=_autosar_root(), short_name="dtf_set"
+        )
+        element = _snip(
+            "<SHORT-NAME>dtf_set</SHORT-NAME>"
+            "<TRANSFORMATION-TECHNOLOGYS>"
+            "<TRANSFORMATION-TECHNOLOGY>"
+            "<SHORT-NAME>tech1</SHORT-NAME>"
+            "<TRANSFORMATION-DESCRIPTIONS><BAD-DESC/></TRANSFORMATION-DESCRIPTIONS>"
+            "</TRANSFORMATION-TECHNOLOGY>"
+            "</TRANSFORMATION-TECHNOLOGYS>",
+            root_tag="DATA-TRANSFORMATION-SET",
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readDataTransformationSet(element, dtf_set)
+        assert any(
+            "Unsupported TransformationDescription" in r.getMessage()
+            for r in caplog.records
+        )
+
+
+class TestKeywordAndCollectionHandlers:
+    """Exercise readKeywordSet/Keywords, readKeyword/Classifications,
+    readCollection + element refs."""
+
+    def test_readKeywordSet_minimal(self, parser):
+        from armodel.models import KeywordSet
+
+        ks = KeywordSet(parent=_autosar_root(), short_name="ks")
+        element = _snip(
+            "<SHORT-NAME>ks</SHORT-NAME>",
+            root_tag="KEYWORD-SET",
+        )
+        parser.readKeywordSet(element, ks)
+        assert ks.getShortName() == "ks"
+        assert len(ks.getKeywords()) == 0
+
+    def test_readKeywordSet_with_keywords(self, parser):
+        from armodel.models import KeywordSet
+
+        ks = KeywordSet(parent=_autosar_root(), short_name="ks")
+        element = _snip(
+            "<SHORT-NAME>ks</SHORT-NAME>"
+            "<KEYWORDS>"
+            "<KEYWORD>"
+            "<SHORT-NAME>kw1</SHORT-NAME>"
+            "</KEYWORD>"
+            "<KEYWORD>"
+            "<SHORT-NAME>kw2</SHORT-NAME>"
+            "</KEYWORD>"
+            "</KEYWORDS>",
+            root_tag="KEYWORD-SET",
+        )
+        parser.readKeywordSet(element, ks)
+        assert len(ks.getKeywords()) == 2
+        assert ks.getKeywords()[0].getShortName() == "kw1"
+        assert ks.getKeywords()[1].getShortName() == "kw2"
+
+    def test_readKeyword_with_abbr_name_and_classifications(self, parser):
+        from armodel.models import KeywordSet
+
+        ks = KeywordSet(parent=_autosar_root(), short_name="ks")
+        element = _snip(
+            "<SHORT-NAME>ks</SHORT-NAME>"
+            "<KEYWORDS>"
+            "<KEYWORD>"
+            "<SHORT-NAME>kw1</SHORT-NAME>"
+            "<ABBR-NAME>abbr1</ABBR-NAME>"
+            "<CLASSIFICATIONS>"
+            "<CLASSIFICATION>class1</CLASSIFICATION>"
+            "<CLASSIFICATION>class2</CLASSIFICATION>"
+            "</CLASSIFICATIONS>"
+            "</KEYWORD>"
+            "</KEYWORDS>",
+            root_tag="KEYWORD-SET",
+        )
+        parser.readKeywordSet(element, ks)
+        kw = ks.getKeywords()[0]
+        assert kw.getAbbrName().getValue() == "abbr1"
+        assert len(kw.getClassifications()) == 2
+        assert kw.getClassifications()[0].getValue() == "class1"
+        assert kw.getClassifications()[1].getValue() == "class2"
+
+    def test_readKeywordSet_unsupported_tag_warns(self, warning_parser, caplog):
+        from armodel.models import KeywordSet
+
+        ks = KeywordSet(parent=_autosar_root(), short_name="ks")
+        element = _snip(
+            "<SHORT-NAME>ks</SHORT-NAME>"
+            "<KEYWORDS><BAD-KEYWORD/></KEYWORDS>",
+            root_tag="KEYWORD-SET",
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readKeywordSet(element, ks)
+        assert any("Unsupported Keyword" in r.getMessage() for r in caplog.records)
+
+    def test_readCollection_minimal(self, parser):
+        from armodel.models import Collection
+
+        coll = Collection(parent=_autosar_root(), short_name="coll")
+        element = _snip(
+            "<SHORT-NAME>coll</SHORT-NAME>",
+            root_tag="COLLECTION",
+        )
+        parser.readCollection(element, coll)
+        assert coll.getShortName() == "coll"
+        assert coll.getAutoCollect() is None
+        assert coll.getElementRole() is None
+
+    def test_readCollection_with_properties_and_refs(self, parser):
+        from armodel.models import Collection
+
+        coll = Collection(parent=_autosar_root(), short_name="coll")
+        element = _snip(
+            "<SHORT-NAME>coll</SHORT-NAME>"
+            "<AUTO-COLLECT>auto</AUTO-COLLECT>"
+            "<ELEMENT-ROLE>role1</ELEMENT-ROLE>"
+            "<ELEMENT-REFS>"
+            "<ELEMENT-REF DEST='ELEMENT'>/e1</ELEMENT-REF>"
+            "<ELEMENT-REF DEST='ELEMENT'>/e2</ELEMENT-REF>"
+            "</ELEMENT-REFS>"
+            "<SOURCE-ELEMENT-REFS>"
+            "<SOURCE-ELEMENT-REF DEST='ELEMENT'>/s1</SOURCE-ELEMENT-REF>"
+            "</SOURCE-ELEMENT-REFS>",
+            root_tag="COLLECTION",
+        )
+        parser.readCollection(element, coll)
+        assert coll.getAutoCollect().getValue() == "auto"
+        assert coll.getElementRole().getValue() == "role1"
+        assert len(coll.getElementRefs()) == 2
+        assert coll.getElementRefs()[0].getValue() == "/e1"
+        assert coll.getElementRefs()[1].getValue() == "/e2"
+        assert len(coll.getSourceElementRefs()) == 1
+        assert coll.getSourceElementRefs()[0].getValue() == "/s1"
+
+
+class TestModeDeclarationMappingHandlers:
+    """Exercise readModeDeclarationMappingSet/Mappings,
+    readModeDeclarationMapping, first mode refs, port prototype blueprint."""
+
+    def test_readModeDeclarationMappingSet_minimal(self, parser):
+        from armodel.models import ModeDeclarationMappingSet
+
+        mms = ModeDeclarationMappingSet(parent=_autosar_root(), short_name="mms")
+        element = _snip(
+            "<SHORT-NAME>mms</SHORT-NAME>",
+            root_tag="MODE-DECLARATION-MAPPING-SET",
+        )
+        parser.readModeDeclarationMappingSet(element, mms)
+        assert mms.getShortName() == "mms"
+        assert len(mms.getModeDeclarationMappings()) == 0
+
+    def test_readModeDeclarationMappingSet_with_mapping(self, parser):
+        from armodel.models import ModeDeclarationMappingSet
+
+        mms = ModeDeclarationMappingSet(parent=_autosar_root(), short_name="mms")
+        element = _snip(
+            "<SHORT-NAME>mms</SHORT-NAME>"
+            "<MODE-DECLARATION-MAPPINGS>"
+            "<MODE-DECLARATION-MAPPING>"
+            "<SHORT-NAME>mapping1</SHORT-NAME>"
+            "</MODE-DECLARATION-MAPPING>"
+            "</MODE-DECLARATION-MAPPINGS>",
+            root_tag="MODE-DECLARATION-MAPPING-SET",
+        )
+        parser.readModeDeclarationMappingSet(element, mms)
+        assert len(mms.getModeDeclarationMappings()) == 1
+        mapping = mms.getModeDeclarationMappings()[0]
+        assert mapping.getShortName() == "mapping1"
+
+    def test_readModeDeclarationMapping_with_refs(self, parser):
+        from armodel.models import ModeDeclarationMappingSet
+
+        mms = ModeDeclarationMappingSet(parent=_autosar_root(), short_name="mms")
+        element = _snip(
+            "<SHORT-NAME>mms</SHORT-NAME>"
+            "<MODE-DECLARATION-MAPPINGS>"
+            "<MODE-DECLARATION-MAPPING>"
+            "<SHORT-NAME>mapping1</SHORT-NAME>"
+            "<FIRST-MODE-REFS>"
+            "<FIRST-MODE-REF DEST='MODE-DECLARATION'>/mode1</FIRST-MODE-REF>"
+            "<FIRST-MODE-REF DEST='MODE-DECLARATION'>/mode2</FIRST-MODE-REF>"
+            "</FIRST-MODE-REFS>"
+            "<SECOND-MODE-REF DEST='MODE-DECLARATION'>/mode3</SECOND-MODE-REF>"
+            "</MODE-DECLARATION-MAPPING>"
+            "</MODE-DECLARATION-MAPPINGS>",
+            root_tag="MODE-DECLARATION-MAPPING-SET",
+        )
+        parser.readModeDeclarationMappingSet(element, mms)
+        mapping = mms.getModeDeclarationMappings()[0]
+        assert len(mapping.getFirstModeRefs()) == 2
+        assert mapping.getFirstModeRefs()[0].getValue() == "/mode1"
+        assert mapping.getFirstModeRefs()[1].getValue() == "/mode2"
+        assert mapping.getSecondModeRef().getValue() == "/mode3"
+
+    def test_readModeDeclarationMappingSet_unsupported_tag_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import ModeDeclarationMappingSet
+
+        mms = ModeDeclarationMappingSet(parent=_autosar_root(), short_name="mms")
+        element = _snip(
+            "<SHORT-NAME>mms</SHORT-NAME>"
+            "<MODE-DECLARATION-MAPPINGS><BAD-MAPPING/></MODE-DECLARATION-MAPPINGS>",
+            root_tag="MODE-DECLARATION-MAPPING-SET",
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readModeDeclarationMappingSet(element, mms)
+        assert any(
+            "Unsupported ModeDeclarationMapping" in r.getMessage()
+            for r in caplog.records
+        )
+
+
+class TestModeDeclarationGroupPrototypeHandlers:
+    """Exercise readModeDeclarationGroupPrototype."""
+
+    def test_readModeDeclarationGroupPrototype_minimal(self, parser):
+        from armodel.models import ModeDeclarationGroupPrototype
+
+        proto = ModeDeclarationGroupPrototype(
+            parent=_autosar_root(), short_name="proto"
+        )
+        element = _snip(
+            "<SHORT-NAME>proto</SHORT-NAME>",
+            root_tag="MODE-DECLARATION-GROUP-PROTOTYPE",
+        )
+        parser.readModeDeclarationGroupPrototype(element, proto)
+        assert proto.getShortName() == "proto"
+        assert proto.getTypeTRef() is None
+
+    def test_readModeDeclarationGroupPrototype_with_type_ref(self, parser):
+        from armodel.models import ModeDeclarationGroupPrototype
+
+        proto = ModeDeclarationGroupPrototype(
+            parent=_autosar_root(), short_name="proto"
+        )
+        element = _snip(
+            "<SHORT-NAME>proto</SHORT-NAME>"
+            "<TYPE-TREF DEST='MODE-DECLARATION-GROUP'>/mdg1</TYPE-TREF>",
+            root_tag="MODE-DECLARATION-GROUP-PROTOTYPE",
+        )
+        parser.readModeDeclarationGroupPrototype(element, proto)
+        assert proto.getTypeTRef() is not None
+        assert proto.getTypeTRef().getValue() == "/mdg1"
+
+    def test_readPortPrototypeBlueprint_minimal(self, parser):
+        from armodel.models import PortPrototypeBlueprint
+
+        blueprint = PortPrototypeBlueprint(
+            parent=_autosar_root(), short_name="blueprint"
+        )
+        element = _snip(
+            "<SHORT-NAME>blueprint</SHORT-NAME>",
+            root_tag="PORT-PROTOTYPE-BLUEPRINT",
+        )
+        parser.readPortPrototypeBlueprint(element, blueprint)
+        assert blueprint.getShortName() == "blueprint"
+        assert blueprint.getInterfaceRef() is None
+
+    def test_readPortPrototypeBlueprint_with_interface_ref(self, parser):
+        from armodel.models import PortPrototypeBlueprint
+
+        blueprint = PortPrototypeBlueprint(
+            parent=_autosar_root(), short_name="blueprint"
+        )
+        element = _snip(
+            "<SHORT-NAME>blueprint</SHORT-NAME>"
+            "<INTERFACE-REF DEST='SENDER-RECEIVER-INTERFACE'>/sri1</INTERFACE-REF>",
+            root_tag="PORT-PROTOTYPE-BLUEPRINT",
+        )
+        parser.readPortPrototypeBlueprint(element, blueprint)
+        assert blueprint.getInterfaceRef() is not None
+        assert blueprint.getInterfaceRef().getValue() == "/sri1"

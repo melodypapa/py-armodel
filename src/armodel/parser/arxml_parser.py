@@ -4860,7 +4860,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readCouplingPort(self, element: ET.Element, port: CouplingPort):
         self.readIdentifiable(element, port)
         port.setCouplingPortDetails(self.getCouplingPortDetails(element, "COUPLING-PORT-DETAILS")) \
-            .setMacAddressVlanAssignments(self.getChildElementOptionalLiteral(element, "MAC-LAYER-TYPE"))
+            .setMacLayerType(self.getChildElementOptionalLiteral(element, "MAC-LAYER-TYPE"))
         self.readCouplingPortVlanMemberships(element, port)
 
     def readEthernetCommunicationControllerCouplingPorts(self, element: ET.Element, controller: EthernetCommunicationController):

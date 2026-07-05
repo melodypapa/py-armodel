@@ -440,3 +440,200 @@ class TestGetAUTOSARInfo:
         element = _snip("<X/>")
         # Should be a no-op; should not raise.
         parser.getAUTOSARInfo(element, document)
+
+
+# ==================== Additional Branch Coverage ====================
+
+
+class TestAdditionalBranchCoverage:
+    """Additional tests for uncovered branches in abstract_arxml_parser.py."""
+
+    def test_getChildElementLiteral_empty_element_returns_empty_literal(self, parser):
+        element = _snip("<NAME></NAME>")
+        literal = parser.getChildElementLiteral("X", element, "NAME")
+        assert literal is not None
+        assert literal.getValue() == ""
+
+    def test_getChildElementLiteralValueList_single_element(self, parser):
+        element = _snip("<ITEMS><ITEM>only</ITEM></ITEMS>")
+        result = parser.getChildElementLiteralValueList(element, "ITEMS/ITEM")
+        assert len(result) == 1
+        assert result[0].getValue() == "only"
+
+    def test_getChildElementOptionalLiteral_with_attributes(self, parser):
+        element = _snip('<NAME T="ts" UUID="uid">value</NAME>')
+        literal = parser.getChildElementOptionalLiteral(element, "NAME")
+        assert literal is not None
+        assert literal.timestamp == "ts"
+        assert literal.uuid == "uid"
+
+    def test_getChildElementOptionalFloatValue_with_value(self, parser):
+        element = _snip("<VAL>3.14159</VAL>")
+        f = parser.getChildElementOptionalFloatValue(element, "VAL")
+        assert f is not None
+        assert float(f.getValue()) == pytest.approx(3.14159)
+
+    def test_getChildElementOptionalFloatValue_scientific_notation(self, parser):
+        element = _snip("<VAL>1.5e-3</VAL>")
+        f = parser.getChildElementOptionalFloatValue(element, "VAL")
+        assert f is not None
+        assert float(f.getValue()) == pytest.approx(0.0015)
+
+    def test_getChildElementOptionalTimeValue_with_value(self, parser):
+        element = _snip("<T>0.5</T>")
+        t = parser.getChildElementOptionalTimeValue(element, "T")
+        assert t is not None
+
+    def test_getChildElementOptionalIntegerValue_negative(self, parser):
+        element = _snip("<V>-42</V>")
+        i = parser.getChildElementOptionalIntegerValue(element, "V")
+        assert i is not None
+        assert i.getValue() == -42
+
+    def test_getChildElementOptionalIntegerValue_hex(self, parser):
+        element = _snip("<V>0x10</V>")
+        i = parser.getChildElementOptionalIntegerValue(element, "V")
+        assert i is not None
+        assert i.getValue() == 16
+
+    def test_getChildElementOptionalBooleanValue_with_attributes(self, parser):
+        element = _snip('<B T="ts">true</B>')
+        b = parser.getChildElementOptionalBooleanValue(element, "B")
+        assert b is not None
+        assert b.timestamp == "ts"
+
+    def test_getChildElementOptionalPositiveInteger_zero(self, parser):
+        element = _snip("<V>0</V>")
+        v = parser.getChildElementOptionalPositiveInteger(element, "V")
+        assert v is not None
+        assert v.getValue() == 0
+
+    def test_getChildElementOptionalPositiveInteger_large_value(self, parser):
+        element = _snip("<V>999999</V>")
+        v = parser.getChildElementOptionalPositiveInteger(element, "V")
+        assert v is not None
+        assert v.getValue() == 999999
+
+    def test_getChildLimitElement_with_value(self, parser):
+        element = _snip("<L>100</L>")
+        limit = parser.getChildLimitElement(element, "L")
+        assert limit is not None
+        assert limit.value == "100"
+
+    def test_getChildElementRefType_with_value_only(self, parser):
+        element = _snip("<R>/path/to/ref</R>")
+        ref = parser.getChildElementRefType("X", element, "R")
+        assert ref is not None
+        assert ref.getValue() == "/path/to/ref"
+        assert ref.getDest() is None
+        assert ref.getBase() is None
+
+    def test_getChildElementOptionalRefType_minimal_attributes(self, parser):
+        element = _snip('<R DEST="TYPE">/ref</R>')
+        ref = parser.getChildElementOptionalRefType(element, "R")
+        assert ref is not None
+        assert ref.getDest() == "TYPE"
+        assert ref.getBase() is None
+
+    def test_getChildElementRefTypeList_single_element(self, parser):
+        element = _snip("<ITEMS><R DEST=\"UNIT\">/a</R></ITEMS>")
+        result = parser.getChildElementRefTypeList(element, "ITEMS/R")
+        assert len(result) == 1
+        assert result[0].getValue() == "/a"
+
+    def test_getChildElementRefTypeList_empty_result(self, parser):
+        element = _snip("<ITEMS></ITEMS>")
+        result = parser.getChildElementRefTypeList(element, "ITEMS/R")
+        assert result == []
+
+    def test_readElementOptionalAttrib_multiple_attrs(self, parser):
+        root = _snip('<X T="t1" UUID="u1" OTHER="val"/>')
+        element = parser.find(root, "X")
+        assert parser.readElementOptionalAttrib(element, "T") == "t1"
+        assert parser.readElementOptionalAttrib(element, "UUID") == "u1"
+        assert parser.readElementOptionalAttrib(element, "OTHER") == "val"
+
+    def test_convert_find_key_complex_path(self, parser):
+        key = parser.convert_find_key("AR-PACKAGES/AR-PACKAGE/ELEMENTS/ELEMENT")
+        assert "xmlns:AR-PACKAGES" in key
+        assert "xmlns:AR-PACKAGE" in key
+
+    def test_find_nested_path(self, parser):
+        element = _snip("""
+            <CONTAINER>
+                <NESTED>
+                    <ITEM>value</ITEM>
+                </NESTED>
+            </CONTAINER>
+        """)
+        item = parser.find(element, "CONTAINER/NESTED/ITEM")
+        assert item is not None
+        assert item.text == "value"
+
+    def test_findall_nested_path(self, parser):
+        element = _snip("""
+            <CONTAINER>
+                <NESTED>
+                    <ITEM>1</ITEM>
+                    <ITEM>2</ITEM>
+                </NESTED>
+            </CONTAINER>
+        """)
+        items = parser.findall(element, "CONTAINER/NESTED/ITEM")
+        assert len(items) == 2
+
+    def test_getChildElementOptionalNumericalValue_with_short_label(self, parser):
+        element = _snip('<NUM SHORT-LABEL="SL">42</NUM>')
+        result = parser.getChildElementOptionalNumericalValue(element, "NUM")
+        assert result is not None
+        assert result.shortLabel == "SL"
+        assert result.getValue() == 42.0
+
+    def test_getChildElementOptionalRevisionLabelString_valid(self, parser):
+        element = _snip("<R>4.0.0</R>")
+        v = parser.getChildElementOptionalRevisionLabelString(element, "R")
+        assert v is not None
+        assert v.getValue() == "4.0.0"
+
+    def test_getChildElementOptionalRevisionLabelString_with_build_suffix(self, parser):
+        element = _snip("<R>4.2.3;build123</R>")
+        v = parser.getChildElementOptionalRevisionLabelString(element, "R")
+        assert v is not None
+        assert v.getValue() == "4.2.3;build123"
+
+    def test_getChildElementOptionalRevisionLabelString_invalid_raises(self, parser):
+        element = _snip("<R>invalid-version</R>")
+        with pytest.raises(ValueError, match="Invalid RevisionLabelString"):
+            parser.getChildElementOptionalRevisionLabelString(element, "R")
+
+    def test_getChildElementOptionalRevisionLabelString_empty_returns_None(self, parser):
+        element = _snip("<R></R>")
+        result = parser.getChildElementOptionalRevisionLabelString(element, "R")
+        assert result is None
+
+    def test_convertStringToNumberValue_zero(self, parser):
+        assert parser._convertStringToNumberValue("0") == 0
+
+    def test_convertStringToNumberValue_large_hex(self, parser):
+        assert parser._convertStringToNumberValue("0xFFFFFFFF") == 0xFFFFFFFF
+
+    def test_readARObjectAttributes_with_both_attrs(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
+        AUTOSAR.getInstance().new()
+        AUTOSAR.getInstance().setARRelease('R23-11')
+        element = ET.fromstring(f"<ROOT xmlns='{NS}' T='timestamp' UUID='unique-id'/>")
+        obj = ARLiteral()
+        parser.readARObjectAttributes(element, obj)
+        assert obj.timestamp == "timestamp"
+        assert obj.uuid == "unique-id"
+
+    def test_getChildElementFloatValueList_empty(self, parser):
+        element = _snip("<CONTAINER></CONTAINER>")
+        result = parser.getChildElementFloatValueList(element, "CONTAINER/V")
+        assert result == []
+
+    def test_getChildElementNumericalValueList_with_values(self, parser):
+        element = _snip("<ITEMS><ITEM>10</ITEM><ITEM>20</ITEM></ITEMS>")
+        result = parser.getChildElementNumericalValueList(element, "ITEMS/ITEM")
+        assert len(result) == 2
+        assert [r.getValue() for r in result] == [10.0, 20.0]
