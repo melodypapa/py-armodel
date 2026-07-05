@@ -228,3 +228,103 @@ class TestEcucContainerDefParameters:
         assert len(params) == 1
         assert params[0].getShortName() == "Ratio"
         assert params[0].getDefaultValue() is None
+
+    def test_readEcucEnumerationParamDef_with_literals(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        element = _snip(
+            """
+            <PARAMETERS>
+                <ECUC-ENUMERATION-PARAM-DEF>
+                    <SHORT-NAME>Mode</SHORT-NAME>
+                    <DEFAULT-VALUE>STANDARD</DEFAULT-VALUE>
+                    <LITERALS>
+                        <ECUC-ENUMERATION-LITERAL-DEF>
+                            <SHORT-NAME>STANDARD</SHORT-NAME>
+                        </ECUC-ENUMERATION-LITERAL-DEF>
+                        <ECUC-ENUMERATION-LITERAL-DEF>
+                            <SHORT-NAME>ADVANCED</SHORT-NAME>
+                        </ECUC-ENUMERATION-LITERAL-DEF>
+                    </LITERALS>
+                </ECUC-ENUMERATION-PARAM-DEF>
+            </PARAMETERS>
+            """,
+            root_tag="ECUC-PARAM-CONF-CONTAINER-DEF",
+        )
+        parser.readEcucContainerDefParameters(element, container)
+        params = container.getParameters()
+        assert len(params) == 1
+        assert params[0].getShortName() == "Mode"
+        assert params[0].getDefaultValue() is not None
+        literals = params[0].getLiterals()
+        assert len(literals) == 2
+
+    def test_readEcucEnumerationParamDef_without_literals(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        element = _snip(
+            """
+            <PARAMETERS>
+                <ECUC-ENUMERATION-PARAM-DEF>
+                    <SHORT-NAME>EmptyMode</SHORT-NAME>
+                </ECUC-ENUMERATION-PARAM-DEF>
+            </PARAMETERS>
+            """,
+            root_tag="ECUC-PARAM-CONF-CONTAINER-DEF",
+        )
+        parser.readEcucContainerDefParameters(element, container)
+        params = container.getParameters()
+        assert len(params) == 1
+        assert params[0].getShortName() == "EmptyMode"
+        assert params[0].getDefaultValue() is None
+
+    def test_readEcucFunctionNameDef_with_value(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        element = _snip(
+            """
+            <PARAMETERS>
+                <ECUC-FUNCTION-NAME-DEF>
+                    <SHORT-NAME>InitFunction</SHORT-NAME>
+                    <ECUC-FUNCTION-NAME-DEF-VARIANTS>
+                        <ECUC-FUNCTION-NAME-DEF-CONDITIONAL>
+                            <DEFAULT-VALUE>Init_MyModule</DEFAULT-VALUE>
+                            <MIN-LENGTH>1</MIN-LENGTH>
+                            <MAX-LENGTH>50</MAX-LENGTH>
+                        </ECUC-FUNCTION-NAME-DEF-CONDITIONAL>
+                    </ECUC-FUNCTION-NAME-DEF-VARIANTS>
+                </ECUC-FUNCTION-NAME-DEF>
+            </PARAMETERS>
+            """,
+            root_tag="ECUC-PARAM-CONF-CONTAINER-DEF",
+        )
+        parser.readEcucContainerDefParameters(element, container)
+        params = container.getParameters()
+        assert len(params) == 1
+        assert params[0].getShortName() == "InitFunction"
+
+    def test_readEcucFunctionNameDef_without_value(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        element = _snip(
+            """
+            <PARAMETERS>
+                <ECUC-FUNCTION-NAME-DEF>
+                    <SHORT-NAME>CallbackFunc</SHORT-NAME>
+                </ECUC-FUNCTION-NAME-DEF>
+            </PARAMETERS>
+            """,
+            root_tag="ECUC-PARAM-CONF-CONTAINER-DEF",
+        )
+        parser.readEcucContainerDefParameters(element, container)
+        params = container.getParameters()
+        assert len(params) == 1
+        assert params[0].getShortName() == "CallbackFunc"
