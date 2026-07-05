@@ -328,3 +328,59 @@ class TestEcucContainerDefParameters:
         params = container.getParameters()
         assert len(params) == 1
         assert params[0].getShortName() == "CallbackFunc"
+
+    def test_readEcucContainerDefParameters_multiple_types(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        element = _snip(
+            """
+            <PARAMETERS>
+                <ECUC-BOOLEAN-PARAM-DEF>
+                    <SHORT-NAME>Enable</SHORT-NAME>
+                    <DEFAULT-VALUE>true</DEFAULT-VALUE>
+                </ECUC-BOOLEAN-PARAM-DEF>
+                <ECUC-STRING-PARAM-DEF>
+                    <SHORT-NAME>Name</SHORT-NAME>
+                    <DEFAULT-VALUE>default</DEFAULT-VALUE>
+                </ECUC-STRING-PARAM-DEF>
+                <ECUC-INTEGER-PARAM-DEF>
+                    <SHORT-NAME>Count</SHORT-NAME>
+                    <DEFAULT-VALUE>5</DEFAULT-VALUE>
+                </ECUC-INTEGER-PARAM-DEF>
+            </PARAMETERS>
+            """,
+            root_tag="ECUC-PARAM-CONF-CONTAINER-DEF",
+        )
+        parser.readEcucContainerDefParameters(element, container)
+        params = container.getParameters()
+        assert len(params) == 3
+        assert params[0].getShortName() == "Enable"
+        assert params[1].getShortName() == "Name"
+        assert params[2].getShortName() == "Count"
+
+    def test_readEcucContainerDefParameters_unsupported_type_warning(
+        self, warning_parser
+    ):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        element = _snip(
+            """
+            <PARAMETERS>
+                <ECUC-UNKNOWN-PARAM-DEF>
+                    <SHORT-NAME>Unknown</SHORT-NAME>
+                </ECUC-UNKNOWN-PARAM-DEF>
+                <ECUC-BOOLEAN-PARAM-DEF>
+                    <SHORT-NAME>Enable</SHORT-NAME>
+                </ECUC-BOOLEAN-PARAM-DEF>
+            </PARAMETERS>
+            """,
+            root_tag="ECUC-PARAM-CONF-CONTAINER-DEF",
+        )
+        warning_parser.readEcucContainerDefParameters(element, container)
+        params = container.getParameters()
+        assert len(params) == 1
+        assert params[0].getShortName() == "Enable"
