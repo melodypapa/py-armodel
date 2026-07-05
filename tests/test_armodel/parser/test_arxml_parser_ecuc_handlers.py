@@ -384,3 +384,109 @@ class TestEcucContainerDefParameters:
         params = container.getParameters()
         assert len(params) == 1
         assert params[0].getShortName() == "Enable"
+
+
+class TestEcucCommonAttributes:
+    """Tests for readEcucCommonAttributes handler."""
+
+    def test_readEcucCommonAttributes_with_multiplicity(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucBooleanParamDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        param = EcucBooleanParamDef(_autosar_root(), "ParamDef")
+        element = _snip(
+            """
+            <SHORT-NAME>ParamDef</SHORT-NAME>
+            <LOWER-MULTIPLICITY>1</LOWER-MULTIPLICITY>
+            <UPPER-MULTIPLICITY>10</UPPER-MULTIPLICITY>
+            """,
+            root_tag="ECUC-BOOLEAN-PARAM-DEF",
+        )
+        parser.readEcucCommonAttributes(element, param)
+        assert param.getLowerMultiplicity().getValue() == 1
+        assert param.getUpperMultiplicity().getValue() == 10
+
+    def test_readEcucCommonAttributes_with_origin(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucBooleanParamDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        param = EcucBooleanParamDef(_autosar_root(), "ParamDef")
+        element = _snip(
+            """
+            <SHORT-NAME>ParamDef</SHORT-NAME>
+            <ORIGIN>MANUFACTURER</ORIGIN>
+            """,
+            root_tag="ECUC-BOOLEAN-PARAM-DEF",
+        )
+        parser.readEcucCommonAttributes(element, param)
+        assert param.getOrigin() is not None
+
+    def test_readEcucCommonAttributes_with_multiplicity_config_classes(
+        self, parser
+    ):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucBooleanParamDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        param = EcucBooleanParamDef(_autosar_root(), "ParamDef")
+        element = _snip(
+            """
+            <SHORT-NAME>ParamDef</SHORT-NAME>
+            <MULTIPLICITY-CONFIG-CLASSES>
+                <ECUC-MULTIPLICITY-CONFIGURATION-CLASS>
+                    <CONFIG-CLASS>PRE-COMMIT</CONFIG-CLASS>
+                    <CONFIG-VARIANT>VARIANT-1</CONFIG-VARIANT>
+                </ECUC-MULTIPLICITY-CONFIGURATION-CLASS>
+            </MULTIPLICITY-CONFIG-CLASSES>
+            """,
+            root_tag="ECUC-BOOLEAN-PARAM-DEF",
+        )
+        parser.readEcucCommonAttributes(element, param)
+        cfg_classes = param.getMultiplicityConfigClasses()
+        assert len(cfg_classes) == 1
+        assert cfg_classes[0].getConfigClass() is not None
+        assert cfg_classes[0].getConfigVariant() is not None
+
+    def test_readEcucCommonAttributes_with_value_config_classes(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucBooleanParamDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        param = EcucBooleanParamDef(_autosar_root(), "ParamDef")
+        element = _snip(
+            """
+            <SHORT-NAME>ParamDef</SHORT-NAME>
+            <VALUE-CONFIG-CLASSES>
+                <ECUC-VALUE-CONFIGURATION-CLASS>
+                    <CONFIG-CLASS>POST-BUILD</CONFIG-CLASS>
+                    <CONFIG-VARIANT>VARIANT-2</CONFIG-VARIANT>
+                </ECUC-VALUE-CONFIGURATION-CLASS>
+            </VALUE-CONFIG-CLASSES>
+            """,
+            root_tag="ECUC-BOOLEAN-PARAM-DEF",
+        )
+        parser.readEcucCommonAttributes(element, param)
+        cfg_classes = param.getValueConfigClasses()
+        assert len(cfg_classes) == 1
+        assert cfg_classes[0].getConfigClass() is not None
+        assert cfg_classes[0].getConfigVariant() is not None
+
+    def test_readEcucCommonAttributes_with_post_build_variants(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucBooleanParamDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        param = EcucBooleanParamDef(_autosar_root(), "ParamDef")
+        element = _snip(
+            """
+            <SHORT-NAME>ParamDef</SHORT-NAME>
+            <POST-BUILD-VARIANT-MULTIPLICITY>true</POST-BUILD-VARIANT-MULTIPLICITY>
+            <POST-BUILD-VARIANT-VALUE>false</POST-BUILD-VARIANT-VALUE>
+            <REQUIRES-INDEX>true</REQUIRES-INDEX>
+            """,
+            root_tag="ECUC-BOOLEAN-PARAM-DEF",
+        )
+        parser.readEcucCommonAttributes(element, param)
+        assert param.getPostBuildVariantMultiplicity() is not None
+        assert param.getPostBuildVariantMultiplicity().getValue() == True
+        assert param.getPostBuildVariantValue() is not None
+        assert param.getPostBuildVariantValue().getValue() == False
+        assert param.getRequiresIndex() is not None
+        assert param.getRequiresIndex().getValue() == True
