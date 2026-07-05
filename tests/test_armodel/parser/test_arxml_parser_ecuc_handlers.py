@@ -490,3 +490,117 @@ class TestEcucCommonAttributes:
         assert param.getPostBuildVariantValue().getValue() == False
         assert param.getRequiresIndex() is not None
         assert param.getRequiresIndex().getValue() == True
+
+
+class TestEcucContainerDefReferences:
+    """Tests for readEcucContainerDefReferences handler."""
+
+    def test_readEcucSymbolicNameReferenceDef_with_destination(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        element = _snip(
+            """
+            <REFERENCES>
+                <ECUC-SYMBOLIC-NAME-REFERENCE-DEF>
+                    <SHORT-NAME>TargetRef</SHORT-NAME>
+                    <DESTINATION-REF DESTINATION="SomeType">/Path/To/Target</DESTINATION-REF>
+                </ECUC-SYMBOLIC-NAME-REFERENCE-DEF>
+            </REFERENCES>
+            """,
+            root_tag="ECUC-PARAM-CONF-CONTAINER-DEF",
+        )
+        parser.readEcucContainerDefReferences(element, container)
+        refs = container.getReferences()
+        assert len(refs) == 1
+        assert refs[0].getShortName() == "TargetRef"
+        assert refs[0].getDestinationRef() is not None
+
+    def test_readEcucSymbolicNameReferenceDef_without_destination(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        element = _snip(
+            """
+            <REFERENCES>
+                <ECUC-SYMBOLIC-NAME-REFERENCE-DEF>
+                    <SHORT-NAME>EmptyRef</SHORT-NAME>
+                </ECUC-SYMBOLIC-NAME-REFERENCE-DEF>
+            </REFERENCES>
+            """,
+            root_tag="ECUC-PARAM-CONF-CONTAINER-DEF",
+        )
+        parser.readEcucContainerDefReferences(element, container)
+        refs = container.getReferences()
+        assert len(refs) == 1
+        assert refs[0].getShortName() == "EmptyRef"
+        assert refs[0].getDestinationRef() is None
+
+    def test_readEcucReferenceDef_with_destination(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        element = _snip(
+            """
+            <REFERENCES>
+                <ECUC-REFERENCE-DEF>
+                    <SHORT-NAME>ComponentRef</SHORT-NAME>
+                    <DESTINATION-REF DESTINATION="SwComponentType">/Components/MyComponent</DESTINATION-REF>
+                </ECUC-REFERENCE-DEF>
+            </REFERENCES>
+            """,
+            root_tag="ECUC-PARAM-CONF-CONTAINER-DEF",
+        )
+        parser.readEcucContainerDefReferences(element, container)
+        refs = container.getReferences()
+        assert len(refs) == 1
+        assert refs[0].getShortName() == "ComponentRef"
+
+    def test_readEcucReferenceDef_without_destination(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        element = _snip(
+            """
+            <REFERENCES>
+                <ECUC-REFERENCE-DEF>
+                    <SHORT-NAME>OptionalRef</SHORT-NAME>
+                </ECUC-REFERENCE-DEF>
+            </REFERENCES>
+            """,
+            root_tag="ECUC-PARAM-CONF-CONTAINER-DEF",
+        )
+        parser.readEcucContainerDefReferences(element, container)
+        refs = container.getReferences()
+        assert len(refs) == 1
+        assert refs[0].getShortName() == "OptionalRef"
+        assert refs[0].getDestinationRef() is None
+
+    def test_readEcucContainerDefReferences_unsupported_type_warning(
+        self, warning_parser
+    ):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        element = _snip(
+            """
+            <REFERENCES>
+                <ECUC-UNKNOWN-REF-DEF>
+                    <SHORT-NAME>Unknown</SHORT-NAME>
+                </ECUC-UNKNOWN-REF-DEF>
+                <ECUC-SYMBOLIC-NAME-REFERENCE-DEF>
+                    <SHORT-NAME>ValidRef</SHORT-NAME>
+                </ECUC-SYMBOLIC-NAME-REFERENCE-DEF>
+            </REFERENCES>
+            """,
+            root_tag="ECUC-PARAM-CONF-CONTAINER-DEF",
+        )
+        warning_parser.readEcucContainerDefReferences(element, container)
+        refs = container.getReferences()
+        assert len(refs) == 1
+        assert refs[0].getShortName() == "ValidRef"
