@@ -33,3 +33,98 @@ def _snip(inner: str, root_tag: str = "ROOT") -> ET.Element:
 
 def _autosar_root():
     return AUTOSAR.getInstance()
+
+
+class TestEcucContainerDefParameters:
+    """Tests for readEcucContainerDefParameters handler."""
+
+    def test_readEcucBooleanParamDef_with_value(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        element = _snip(
+            """
+            <PARAMETERS>
+                <ECUC-BOOLEAN-PARAM-DEF>
+                    <SHORT-NAME>EnableFeature</SHORT-NAME>
+                    <DEFAULT-VALUE>true</DEFAULT-VALUE>
+                </ECUC-BOOLEAN-PARAM-DEF>
+            </PARAMETERS>
+            """,
+            root_tag="ECUC-PARAM-CONF-CONTAINER-DEF",
+        )
+        parser.readEcucContainerDefParameters(element, container)
+        params = container.getParameters()
+        assert len(params) == 1
+        assert params[0].getShortName() == "EnableFeature"
+        assert params[0].getDefaultValue() is not None
+        assert params[0].getDefaultValue().getValue() == True
+
+    def test_readEcucBooleanParamDef_without_value(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        element = _snip(
+            """
+            <PARAMETERS>
+                <ECUC-BOOLEAN-PARAM-DEF>
+                    <SHORT-NAME>EnableFeature</SHORT-NAME>
+                </ECUC-BOOLEAN-PARAM-DEF>
+            </PARAMETERS>
+            """,
+            root_tag="ECUC-PARAM-CONF-CONTAINER-DEF",
+        )
+        parser.readEcucContainerDefParameters(element, container)
+        params = container.getParameters()
+        assert len(params) == 1
+        assert params[0].getShortName() == "EnableFeature"
+        assert params[0].getDefaultValue() is None
+
+    def test_readEcucStringParamDef_with_default(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        element = _snip(
+            """
+            <PARAMETERS>
+                <ECUC-STRING-PARAM-DEF>
+                    <SHORT-NAME>ConfigString</SHORT-NAME>
+                    <DEFAULT-VALUE>default_value</DEFAULT-VALUE>
+                    <MAX-LENGTH>100</MAX-LENGTH>
+                    <MIN-LENGTH>1</MIN-LENGTH>
+                </ECUC-STRING-PARAM-DEF>
+            </PARAMETERS>
+            """,
+            root_tag="ECUC-PARAM-CONF-CONTAINER-DEF",
+        )
+        parser.readEcucContainerDefParameters(element, container)
+        params = container.getParameters()
+        assert len(params) == 1
+        assert params[0].getShortName() == "ConfigString"
+        assert params[0].getDefaultValue() is not None
+        assert params[0].getMaxLength().getValue() == 100
+        assert params[0].getMinLength().getValue() == 1
+
+    def test_readEcucStringParamDef_without_default(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        element = _snip(
+            """
+            <PARAMETERS>
+                <ECUC-STRING-PARAM-DEF>
+                    <SHORT-NAME>ConfigString</SHORT-NAME>
+                </ECUC-STRING-PARAM-DEF>
+            </PARAMETERS>
+            """,
+            root_tag="ECUC-PARAM-CONF-CONTAINER-DEF",
+        )
+        parser.readEcucContainerDefParameters(element, container)
+        params = container.getParameters()
+        assert len(params) == 1
+        assert params[0].getShortName() == "ConfigString"
+        assert params[0].getDefaultValue() is None
