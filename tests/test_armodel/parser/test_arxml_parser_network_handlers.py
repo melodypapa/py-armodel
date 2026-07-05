@@ -663,10 +663,12 @@ class TestEthernetClusterHandlers:
 
     def test_getDoIpEntity_sets_role(self, parser):
         element = _snip(
+            "<INFRASTRUCTURE-SERVICES>"
             "<DO-IP-ENTITY>"
             "<DO-IP-ENTITY-ROLE>server</DO-IP-ENTITY-ROLE>"
-            "</DO-IP-ENTITY>",
-            root_tag="INFRASTRUCTURE-SERVICES",
+            "</DO-IP-ENTITY>"
+            "</INFRASTRUCTURE-SERVICES>",
+            root_tag="ROOT",
         )
         services = parser.getInfrastructureServices(element, "INFRASTRUCTURE-SERVICES")
         assert services is not None
@@ -780,7 +782,7 @@ class TestSoAdAndSocketHandlers:
             root_tag="SOCKET-ADDRESS",
         )
         parser.readSocketAddressApplicationEndpoint(element, address)
-        assert len(address.getApplicationEndpoint()) == 1
+        assert address.getApplicationEndpoint() is not None
 
     def test_readSocketAddressMulticastConnectorRefs_adds_ref(self, parser):
         from armodel.models import SocketAddress
@@ -1031,11 +1033,13 @@ class TestSoAdAndSocketHandlers:
 
     def test_getInitialSdDelayConfig_sets_initialDelayMaxValue(self, parser):
         element = _snip(
+            "<INITIAL-FIND-BEHAVIOR>"
             "<INITIAL-DELAY-MAX-VALUE>0.1</INITIAL-DELAY-MAX-VALUE>"
             "<INITIAL-DELAY-MIN-VALUE>0.01</INITIAL-DELAY-MIN-VALUE>"
             "<INITIAL-REPETITIONS-BASE-DELAY>0.05</INITIAL-REPETITIONS-BASE-DELAY>"
-            "<INITIAL-REPETITIONS-MAX>3</INITIAL-REPETITIONS-MAX>",
-            root_tag="INITIAL-FIND-BEHAVIOR",
+            "<INITIAL-REPETITIONS-MAX>3</INITIAL-REPETITIONS-MAX>"
+            "</INITIAL-FIND-BEHAVIOR>",
+            root_tag="ROOT",
         )
         config = parser.getInitialSdDelayConfig(element, "INITIAL-FIND-BEHAVIOR")
         assert config is not None
@@ -1044,9 +1048,11 @@ class TestSoAdAndSocketHandlers:
 
     def test_getRequestResponseDelay_sets_maxValue(self, parser):
         element = _snip(
+            "<REQUEST-RESPONSE-DELAY>"
             "<MAX-VALUE>0.1</MAX-VALUE>"
-            "<MIN-VALUE>0.01</MIN-VALUE>",
-            root_tag="REQUEST-RESPONSE-DELAY",
+            "<MIN-VALUE>0.01</MIN-VALUE>"
+            "</REQUEST-RESPONSE-DELAY>",
+            root_tag="ROOT",
         )
         delay = parser.getRequestResponseDelay(element, "REQUEST-RESPONSE-DELAY")
         assert delay is not None
@@ -1266,7 +1272,7 @@ class TestFrameAndPduHandlers:
         triggering = CanFrameTriggering(parent=channel, short_name="ft")
         element = _snip(
             "<SHORT-NAME>ft</SHORT-NAME>"
-            "<IDENTIFIER><VALUE>100</VALUE></IDENTIFIER>",
+            "<IDENTIFIER>100</IDENTIFIER>",
             root_tag="CAN-FRAME-TRIGGERING",
         )
         parser.readCanFrameTriggering(element, triggering)
@@ -1436,7 +1442,7 @@ class TestFrameAndPduHandlers:
         pdu = NmPdu(parent=_autosar_root(), short_name="pdu")
         element = _snip(
             "<SHORT-NAME>pdu</SHORT-NAME>"
-            "<LENGTH><VALUE>8</VALUE></LENGTH>",
+            "<LENGTH>8</LENGTH>",
             root_tag="NM-PDU",
         )
         parser.readPdu(element, pdu)
@@ -1448,7 +1454,7 @@ class TestFrameAndPduHandlers:
         pdu = NPdu(parent=_autosar_root(), short_name="npdu")
         element = _snip(
             "<SHORT-NAME>npdu</SHORT-NAME>"
-            "<LENGTH><VALUE>8</VALUE></LENGTH>",
+            "<LENGTH>8</LENGTH>",
             root_tag="N-PDU",
         )
         parser.readNPdu(element, pdu)
@@ -1486,7 +1492,7 @@ class TestISignalAndGroupHandlers:
         signal = ISignal(parent=_autosar_root(), short_name="sig")
         element = _snip(
             "<SHORT-NAME>sig</SHORT-NAME>"
-            "<LENGTH><VALUE>8</VALUE></LENGTH>"
+            "<LENGTH>8</LENGTH>"
             "<I-SIGNAL-TYPE>signal</I-SIGNAL-TYPE>",
             root_tag="I-SIGNAL",
         )
@@ -1538,7 +1544,7 @@ class TestISignalAndGroupHandlers:
         )
         filter = parser.getDataFilter(element, "DATA-FILTER")
         assert filter is not None
-        assert filter.getDataFilterType() == "mask"
+        assert filter.getDataFilterType().getValue() == "mask"
 
     def test_getTransmissionModeTiming_sets_cyclicTiming(self, parser):
         element = _snip(
@@ -1580,14 +1586,14 @@ class TestISignalAndGroupHandlers:
         )
         timing = parser.getEventControlledTiming(element, "EVENT-CONTROLLED-TIMING")
         assert timing is not None
-        assert timing.getNumberOfRepetitions() == 5
+        assert timing.getNumberOfRepetitions().getValue() == 5
 
     def test_readISignalIPdu_sets_length(self, parser):
         from armodel.models import ISignalIPdu
         ipdu = ISignalIPdu(parent=_autosar_root(), short_name="isignalPdu")
         element = _snip(
             "<SHORT-NAME>isignalPdu</SHORT-NAME>"
-            "<LENGTH><VALUE>64</VALUE></LENGTH>",
+            "<LENGTH>64</LENGTH>",
             root_tag="I-SIGNAL-I-PDU",
         )
         parser.readISignalIPdu(element, ipdu)
@@ -1617,7 +1623,7 @@ class TestISignalAndGroupHandlers:
             root_tag="I-SIGNAL-I-PDU",
         )
         parser.readISignalIPdu(element, ipdu)
-        assert ipdu.getUnusedBitPattern() == 0
+        assert ipdu.getUnusedBitPattern().getValue() == 0
 
 
 class TestEndToEndProtectionHandlers:
@@ -1632,7 +1638,7 @@ class TestEndToEndProtectionHandlers:
         )
         desc = parser.getEndToEndDescription(element, "END-TO-END-PROFILE")
         assert desc is not None
-        assert desc.getCategory() == "CRC8"
+        assert desc.getCategory().getValue() == "CRC8"
 
     def test_getEndToEndDescription_sets_dataIdMode(self, parser):
         element = _snip(
@@ -1642,7 +1648,7 @@ class TestEndToEndProtectionHandlers:
             root_tag="ROOT",
         )
         desc = parser.getEndToEndDescription(element, "END-TO-END-PROFILE")
-        assert desc.getDataIdMode() == 1
+        assert desc.getDataIdMode().getValue() == 1
 
     def test_readEndToEndDescriptionDataIds_adds_dataId(self, parser):
         from armodel.models import EndToEndDescription
@@ -1678,7 +1684,7 @@ class TestEndToEndProtectionHandlers:
             root_tag="END-TO-END-PROTECTION-I-SIGNAL-I-PDU",
         )
         parser.readEndToEndProtectionISignalIPdu(element, ipdu)
-        assert ipdu.getDataOffset() == 8
+        assert ipdu.getDataOffset().getValue() == 8
 
     def test_readEndToEndProtectionISignalIPdu_sets_iSignalIPduRef(self, parser):
         from armodel.models import EndToEndProtectionISignalIPdu
@@ -1819,7 +1825,7 @@ class TestNmConfigHandlers:
             root_tag="CAN-NM-CLUSTER",
         )
         parser.readCanNmCluster(element, cluster)
-        assert cluster.getNmBusloadReductionActive() == True
+        assert cluster.getNmBusloadReductionActive().getValue() == True
 
     def test_readUdpNmCluster_sets_nmChannelActive(self, parser):
         from armodel.models import UdpNmCluster
@@ -1832,7 +1838,7 @@ class TestNmConfigHandlers:
             root_tag="UDP-NM-CLUSTER",
         )
         parser.readUdpNmCluster(element, cluster)
-        assert cluster.getNmChannelActive() == True
+        assert cluster.getNmChannelActive().getValue() == True
 
     def test_readNmCluster_sets_communicationClusterRef(self, parser):
         from armodel.models import CanNmCluster
@@ -1901,7 +1907,7 @@ class TestNmConfigHandlers:
         node = CanNmNode(parent=cluster, short_name="node")
         element = _snip(
             "<SHORT-NAME>node</SHORT-NAME>"
-            "<NM-NODE-ID><VALUE>1</VALUE></NM-NODE-ID>"
+            "<NM-NODE-ID>1</NM-NODE-ID>"
             "<NM-PASSIVE-MODE-ENABLED>false</NM-PASSIVE-MODE-ENABLED>",
             root_tag="CAN-NM-NODE",
         )
@@ -2071,7 +2077,7 @@ class TestCanTpAndLinTpHandlers:
             root_tag="CAN-TP-ADDRESS",
         )
         parser.readCanTpAddress(element, addr)
-        assert addr.getTpAddress() == 1
+        assert addr.getTpAddress().getValue() == 1
 
     def test_readCanTpConfigTpChannels_creates_channel(self, parser):
         from armodel.models import CanTpConfig
@@ -2101,7 +2107,7 @@ class TestCanTpAndLinTpHandlers:
             root_tag="CAN-TP-CHANNEL",
         )
         parser.readCanTpChannel(element, channel)
-        assert channel.getChannelId() == 1
+        assert channel.getChannelId().getValue() == 1
 
     def test_readCanTpConfigTpNodes_creates_node(self, parser):
         from armodel.models import CanTpConfig
@@ -2126,11 +2132,11 @@ class TestCanTpAndLinTpHandlers:
         element = _snip(
             "<SHORT-NAME>node</SHORT-NAME>"
             "<MAX-FC-WAIT>10</MAX-FC-WAIT>"
-            "<ST-MIN><VALUE>0.01</VALUE></ST-MIN>",
+            "<ST-MIN>0.01</ST-MIN>",
             root_tag="CAN-TP-NODE",
         )
         parser.readCanTpNode(element, node)
-        assert node.getMaxFcWait() == 10
+        assert node.getMaxFcWait().getValue() == 10
 
     def test_readCanTpConfigTpConnections_creates_connection(self, parser):
         from armodel.models import CanTpConfig
@@ -2157,7 +2163,7 @@ class TestCanTpAndLinTpHandlers:
             root_tag="CAN-TP-CONNECTION",
         )
         parser.readCanTpConnection(element, conn)
-        assert conn.getAddressingFormat() == "standard"
+        assert conn.getAddressingFormat().getValue() == "standard"
 
     def test_readCanTpConfigTpEcus_creates_ecu(self, parser):
         from armodel.models import CanTpConfig
@@ -2216,7 +2222,7 @@ class TestCanTpAndLinTpHandlers:
             root_tag="TP-ADDRESS",
         )
         parser.readTpAddress(element, addr)
-        assert addr.getTpAddress() == 1
+        assert addr.getTpAddress().getValue() == 1
 
     def test_readLinTpConfigTpNodes_creates_node(self, parser):
         from armodel.models import LinTpConfig
@@ -2225,7 +2231,7 @@ class TestCanTpAndLinTpHandlers:
             "<TP-NODES>"
             "<LIN-TP-NODE>"
             "<SHORT-NAME>node</SHORT-NAME>"
-            "<P-2-MAX><VALUE>0.05</VALUE></P-2-MAX>"
+            "<P-2-MAX>0.05</P-2-MAX>"
             "</LIN-TP-NODE>"
             "</TP-NODES>",
             root_tag="LIN-TP-CONFIG",
@@ -2240,8 +2246,8 @@ class TestCanTpAndLinTpHandlers:
         node = LinTpNode(parent=config, short_name="node")
         element = _snip(
             "<SHORT-NAME>node</SHORT-NAME>"
-            "<P-2-MAX><VALUE>0.05</VALUE></P-2-MAX>"
-            "<P-2-TIMING><VALUE>0.01</VALUE></P-2-TIMING>",
+            "<P-2-MAX>0.05</P-2-MAX>"
+            "<P-2-TIMING>0.01</P-2-TIMING>",
             root_tag="LIN-TP-NODE",
         )
         parser.readLinTpNode(element, node)
@@ -2252,7 +2258,7 @@ class TestCanTpAndLinTpHandlers:
         conn = LinTpConnection()
         element = _snip(
             "<IDENT><SHORT-NAME>conn</SHORT-NAME></IDENT>"
-            "<TIMEOUT-AS><VALUE>0.1</VALUE></TIMEOUT-AS>",
+            "<TIMEOUT-AS>0.1</TIMEOUT-AS>",
             root_tag="LIN-TP-CONNECTION",
         )
         parser.readLinTpConnection(element, conn)
@@ -2301,7 +2307,7 @@ class TestEcuInstanceHandlers:
             root_tag="ECU-INSTANCE",
         )
         parser.readEcuInstance(element, instance)
-        assert instance.getDiagnosticAddress() == 0x01
+        assert instance.getDiagnosticAddress().getValue() == 0x01
 
     def test_readEcuInstanceCommControllers_can(self, parser):
         from armodel.models import EcuInstance
@@ -2528,7 +2534,7 @@ class TestEcuInstanceHandlers:
             root_tag="ETHERNET-COMMUNICATION-CONNECTOR",
         )
         parser.readEthernetCommunicationConnector(element, conn)
-        assert conn.getMaximumTransmissionUnit() == 1500
+        assert conn.getMaximumTransmissionUnit().getValue() == 1500
 
     def test_readEthernetCommunicationConnectorNetworkEndpointRefs_adds_ref(
         self, parser
@@ -2624,7 +2630,7 @@ class TestEcuInstanceHandlers:
             root_tag="FRAME-PORT",
         )
         parser.readFramePort(element, port)
-        assert port.getCommunicationDirection() == "in"
+        assert port.getCommunicationDirection().getValue() == "in"
 
     def test_readIPduPort_sets_keyId(self, parser):
         from armodel.models import IPduPort
@@ -2640,7 +2646,7 @@ class TestEcuInstanceHandlers:
             root_tag="I-PDU-PORT",
         )
         parser.readIPduPort(element, port)
-        assert port.getKeyId() == 1
+        assert port.getKeyId().getValue() == 1
 
     def test_readISignalPort_sets_timeout(self, parser):
         from armodel.models import ISignalPort
@@ -2651,7 +2657,7 @@ class TestEcuInstanceHandlers:
         port = ISignalPort(parent=conn, short_name="sp")
         element = _snip(
             "<SHORT-NAME>sp</SHORT-NAME>"
-            "<TIMEOUT><VALUE>0.1</VALUE></TIMEOUT>",
+            "<TIMEOUT>0.1</TIMEOUT>",
             root_tag="I-SIGNAL-PORT",
         )
         parser.readISignalPort(element, port)
@@ -2679,7 +2685,7 @@ class TestEcuInstanceHandlers:
             root_tag="ETHERNET-COMMUNICATION-CONTROLLER-CONDITIONAL",
         )
         parser.readCommunicationController(element, ctrl)
-        assert ctrl.getWakeUpByControllerSupported() == True
+        assert ctrl.getWakeUpByControllerSupported().getValue() == True
 
     def test_readEthernetCommunicationControllerCouplingPorts_creates_port(self, parser):
         from armodel.models import EthernetCommunicationController
@@ -2710,4 +2716,4 @@ class TestEcuInstanceHandlers:
             root_tag="COUPLING-PORT",
         )
         parser.readCouplingPort(element, port)
-        assert port.getMacLayerType() == "ethernet"
+        assert port.getMacLayerType().getValue() == "ethernet"
