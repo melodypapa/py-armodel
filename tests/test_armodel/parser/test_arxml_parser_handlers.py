@@ -14,10 +14,13 @@ Coverage focus (from term-missing report on arxml_parser.py):
 
 import logging
 import xml.etree.ElementTree as ET
+from unittest.mock import MagicMock
 
 import pytest
 
 from armodel.models import AUTOSAR
+from armodel.models import ApplicationSwComponentType
+from armodel.models import CompositionSwComponentType
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -1379,3 +1382,178 @@ class TestModeDeclarationGroupPrototypeHandlers:
         parser.readPortPrototypeBlueprint(element, blueprint)
         assert blueprint.getInterfaceRef() is not None
         assert blueprint.getInterfaceRef().getValue() == "/sri1"
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestPortGroupAndComposition:
+    def test_readSwComponentTypePortGroups_unsupported_raises(
+        self, warning_parser, caplog
+    ):
+        app = ApplicationSwComponentType(
+            parent=_autosar_root(), short_name="App"
+        )
+        element = _snip(
+            "<PORT-GROUPS><BAD/></PORT-GROUPS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readSwComponentTypePortGroups(element, app)
+        assert any("Unsupported Port Group type" in r.getMessage()
+                   for r in caplog.records)
+
+    def test_readDelegationSwConnectorInnerPortIRef_unsupported_raises(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import DelegationSwConnector
+        connector = DelegationSwConnector(
+            parent=MagicMock(), short_name="Dc"
+        )
+        element = _snip(
+            "<INNER-PORT-IREF><BAD/></INNER-PORT-IREF>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readDelegationSwConnectorInnerPortIRef(
+                element, connector
+            )
+        assert any("Unsupported child element of INNER-PORT-IREF"
+                   in r.getMessage() for r in caplog.records)
+
+    def test_readCompositionSwComponentTypeComponents_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        comp = CompositionSwComponentType(
+            parent=_autosar_root(), short_name="Comp"
+        )
+        element = _snip(
+            "<COMPONENTS><BAD/></COMPONENTS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readCompositionSwComponentTypeComponents(
+                element, comp
+            )
+        assert any("Unsupported Component" in r.getMessage()
+                   for r in caplog.records)
+
+
+# ==================== InvalidationPolicies (L2423-2426, L2455) ====================
+# L2429-2434 (readInvalidationPolicys) is genuinely unreachable:
+# readInvalidationPolicys calls readIdentifiable on InvalidationPolicy,
+# but InvalidationPolicy does not implement setLongName (required by
+# MultilanguageReferrable), so it always raises AttributeError.
+
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestTimingGaps:
+    def test_readExecutionOrderConstraint_order_unsupported_raises(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import SwcTiming
+        swc_timing = SwcTiming(parent=_autosar_root(), short_name="T")
+        element = _snip(
+            "<TIMING-REQUIREMENTS>"
+            "<EXECUTION-ORDER-CONSTRAINT>"
+            "<SHORT-NAME>eoc</SHORT-NAME>"
+            "<ORDERED-ELEMENTS>"
+            "<BAD/>"
+            "</ORDERED-ELEMENTS>"
+            "</EXECUTION-ORDER-CONSTRAINT>"
+            "</TIMING-REQUIREMENTS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readTimingExtension(element, swc_timing)
+        assert any("Unsupported order element" in r.getMessage()
+                   for r in caplog.records)
+
+    def test_readTimingExtension_unsupported_requirement_raises(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import SwcTiming
+        swc_timing = SwcTiming(parent=_autosar_root(), short_name="T")
+        element = _snip(
+            "<TIMING-REQUIREMENTS>"
+            "<BAD-REQ/>"
+            "</TIMING-REQUIREMENTS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readTimingExtension(element, swc_timing)
+        assert any("Unsupported timing requirement" in r.getMessage()
+                   for r in caplog.records)
+
+
+# ==================== FrameTriggering / Flexray (L3010, L3038-3044, L3059) ====================
+
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestSwSystemconstantValueSet:
+    def test_readSwSystemconstantValueSetSwSystemconstantValues_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import SwSystemconstantValueSet
+        value_set = SwSystemconstantValueSet(
+            parent=MagicMock(), short_name="Vs"
+        )
+        element = _snip(
+            "<SW-SYSTEMCONSTANT-VALUES><BAD/></SW-SYSTEMCONSTANT-VALUES>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readSwSystemconstantValueSetSwSystemconstantValues(
+                element, value_set
+            )
+        assert any("Unsupported SwSystemconstValue" in r.getMessage()
+                   for r in caplog.records)
+
+
+# ==================== CouplingPort (L4873) ====================
+
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestLifeCycleInfoSet:
+    def test_readLifeCycleInfoSetLifeCycleInfos_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import LifeCycleInfoSet
+        info_set = LifeCycleInfoSet(
+            parent=MagicMock(), short_name="Lcs"
+        )
+        element = _snip(
+            "<LIFE-CYCLE-INFOS><BAD/></LIFE-CYCLE-INFOS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readLifeCycleInfoSetLifeCycleInfos(
+                element, info_set
+            )
+        assert any("Unsupported Life Cycle Info" in r.getMessage()
+                   for r in caplog.records)
+
+
+# ==================== FlatMap (L5567) ====================
+
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestFlatMap:
+    def test_readFlatMapInstances_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import FlatMap
+        flat_map = FlatMap(parent=MagicMock(), short_name="Fm")
+        element = _snip(
+            "<INSTANCES><BAD/></INSTANCES>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readFlatMapInstances(
+                element, flat_map
+            )
+        assert any("Unsupported Flat Map Instances" in r.getMessage()
+                   for r in caplog.records)
+
+
+# ==================== ClientServerInterfaceMapping (L5601) ====================
+

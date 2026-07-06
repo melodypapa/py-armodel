@@ -1,6 +1,9 @@
 """Tests for ECUC (ECU Configuration) parsing handlers."""
 
+import logging
 import xml.etree.ElementTree as ET
+from unittest.mock import MagicMock
+
 import pytest
 from armodel.models import AUTOSAR
 from armodel.parser.arxml_parser import ARXMLParser
@@ -604,3 +607,722 @@ class TestEcucContainerDefReferences:
         refs = container.getReferences()
         assert len(refs) == 1
         assert refs[0].getShortName() == "ValidRef"
+
+
+# ===========================================================================
+# Merged from test_arxml_parser_ecuc_values_gaps.py
+# Tests for ECUC Module Configuration Values handlers (L5127-5184).
+# ===========================================================================
+
+
+def _make_pkg():
+    return _autosar_root().createARPackage("Pkg")
+
+
+def _make_container_value(short_name="ContainerValue"):
+    from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+        EcucContainerValue,
+    )
+    pkg = _make_pkg()
+    return EcucContainerValue(pkg, short_name)
+
+
+def _make_module_configuration_values(short_name="ModuleValues"):
+    pkg = _make_pkg()
+    return pkg.createEcucModuleConfigurationValues(short_name)
+
+
+class TestGetEcucInstanceReferenceValue:
+    """Tests for getEcucInstanceReferenceValue (L5127-5131)."""
+
+    def test_with_value_iref_and_definition_ref(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            """
+            <DEFINITION-REF DEST="ECUC-REFERENCE-DEF">/Path/To/Def</DEFINITION-REF>
+            <VALUE-IREF>
+                <BASE-REF DEST="SW-COMPONENT-TYPE">/Base/Path</BASE-REF>
+                <CONTEXT-ELEMENT-REF DEST="R-PORT-PROTOTYPE">/Context/El1</CONTEXT-ELEMENT-REF>
+                <TARGET-REF DEST="VARIABLE-DATA-PROTOTYPE">/Target/Path</TARGET-REF>
+            </VALUE-IREF>
+            """,
+            root_tag="ECUC-INSTANCE-REFERENCE-VALUE",
+        )
+        value = parser.getEcucInstanceReferenceValue(element)
+        assert value is not None
+        assert value.getDefinitionRef() is not None
+        iref = value.valueRef
+        assert iref is not None
+        assert iref.getBaseRef() is not None
+        assert iref.getTargetRef() is not None
+        assert len(iref.getContextElementRefs()) == 1
+
+    def test_without_value_iref(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            """
+            <DEFINITION-REF DEST="ECUC-REFERENCE-DEF">/Path/To/Def</DEFINITION-REF>
+            """,
+            root_tag="ECUC-INSTANCE-REFERENCE-VALUE",
+        )
+        value = parser.getEcucInstanceReferenceValue(element)
+        assert value is not None
+        assert value.getDefinitionRef() is not None
+        assert value.valueRef is None
+
+    def test_with_annotations(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            """
+            <DEFINITION-REF DEST="ECUC-REFERENCE-DEF">/Path/To/Def</DEFINITION-REF>
+            <ANNOTATIONS>
+                <ANNOTATION>
+                    <LABEL>
+                        <L-4 L="EN">Note</L-4>
+                    </LABEL>
+                </ANNOTATION>
+            </ANNOTATIONS>
+            """,
+            root_tag="ECUC-INSTANCE-REFERENCE-VALUE",
+        )
+        value = parser.getEcucInstanceReferenceValue(element)
+        assert value is not None
+        assert len(value.getAnnotations()) == 1
+
+
+class TestReadEcucContainerValueReferenceValues:
+    """Tests for readEcucContainerValueReferenceValues (L5133-5141)."""
+
+    def test_reads_ecuc_reference_value(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = _make_container_value()
+        element = _snip(
+            """
+            <REFERENCE-VALUES>
+                <ECUC-REFERENCE-VALUE>
+                    <DEFINITION-REF DEST="ECUC-REFERENCE-DEF">/Path/To/RefDef</DEFINITION-REF>
+                    <VALUE-REF DEST="SOME-ELEMENT">/Path/To/Target</VALUE-REF>
+                </ECUC-REFERENCE-VALUE>
+            </REFERENCE-VALUES>
+            """,
+            root_tag="ECUC-CONTAINER-VALUE",
+        )
+        parser.readEcucContainerValueReferenceValues(element, container)
+        refs = container.getReferenceValues()
+        assert len(refs) == 1
+
+    def test_reads_ecuc_instance_reference_value(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = _make_container_value()
+        element = _snip(
+            """
+            <REFERENCE-VALUES>
+                <ECUC-INSTANCE-REFERENCE-VALUE>
+                    <DEFINITION-REF DEST="ECUC-REFERENCE-DEF">/Path/To/RefDef</DEFINITION-REF>
+                    <VALUE-IREF>
+                        <BASE-REF DEST="SW-COMPONENT-TYPE">/Base/Path</BASE-REF>
+                        <TARGET-REF DEST="VARIABLE-DATA-PROTOTYPE">/Target/Path</TARGET-REF>
+                    </VALUE-IREF>
+                </ECUC-INSTANCE-REFERENCE-VALUE>
+            </REFERENCE-VALUES>
+            """,
+            root_tag="ECUC-CONTAINER-VALUE",
+        )
+        parser.readEcucContainerValueReferenceValues(element, container)
+        refs = container.getReferenceValues()
+        assert len(refs) == 1
+
+    def test_reads_multiple_reference_values(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = _make_container_value()
+        element = _snip(
+            """
+            <REFERENCE-VALUES>
+                <ECUC-REFERENCE-VALUE>
+                    <DEFINITION-REF DEST="ECUC-REFERENCE-DEF">/Path/To/RefDef1</DEFINITION-REF>
+                    <VALUE-REF DEST="SOME-ELEMENT">/Path/To/Target1</VALUE-REF>
+                </ECUC-REFERENCE-VALUE>
+                <ECUC-INSTANCE-REFERENCE-VALUE>
+                    <DEFINITION-REF DEST="ECUC-REFERENCE-DEF">/Path/To/RefDef2</DEFINITION-REF>
+                    <VALUE-IREF>
+                        <BASE-REF DEST="SW-COMPONENT-TYPE">/Base/Path</BASE-REF>
+                        <TARGET-REF DEST="VARIABLE-DATA-PROTOTYPE">/Target/Path</TARGET-REF>
+                    </VALUE-IREF>
+                </ECUC-INSTANCE-REFERENCE-VALUE>
+            </REFERENCE-VALUES>
+            """,
+            root_tag="ECUC-CONTAINER-VALUE",
+        )
+        parser.readEcucContainerValueReferenceValues(element, container)
+        refs = container.getReferenceValues()
+        assert len(refs) == 2
+
+    def test_empty_reference_values(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = _make_container_value()
+        element = _snip(
+            """
+            <REFERENCE-VALUES>
+            </REFERENCE-VALUES>
+            """,
+            root_tag="ECUC-CONTAINER-VALUE",
+        )
+        parser.readEcucContainerValueReferenceValues(element, container)
+        assert len(container.getReferenceValues()) == 0
+
+    def test_unsupported_type_warning(self, warning_parser, caplog):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = _make_container_value()
+        element = _snip(
+            """
+            <REFERENCE-VALUES>
+                <ECUC-UNKNOWN-REF-VALUE>
+                    <SHORT-NAME>Unknown</SHORT-NAME>
+                </ECUC-UNKNOWN-REF-VALUE>
+                <ECUC-REFERENCE-VALUE>
+                    <DEFINITION-REF DEST="ECUC-REFERENCE-DEF">/Path/To/RefDef</DEFINITION-REF>
+                    <VALUE-REF DEST="SOME-ELEMENT">/Path/To/Target</VALUE-REF>
+                </ECUC-REFERENCE-VALUE>
+            </REFERENCE-VALUES>
+            """,
+            root_tag="ECUC-CONTAINER-VALUE",
+        )
+        import logging
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readEcucContainerValueReferenceValues(element, container)
+        assert any(
+            "Unsupported EcucParameterValue" in rec.getMessage()
+            for rec in caplog.records
+        )
+        assert len(container.getReferenceValues()) == 1
+
+
+class TestReadEcucContainerValue:
+    """Tests for readEcucContainerValue (L5143-5145)."""
+
+    def test_full_handler_with_all_sections(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = _make_container_value("MyContainer")
+        element = _snip(
+            """
+            <SHORT-NAME>MyContainer</SHORT-NAME>
+            <DEFINITION-REF DEST="ECUC-PARAM-CONF-CONTAINER-DEF">/Path/To/ContainerDef</DEFINITION-REF>
+            <PARAMETER-VALUES>
+                <ECUC-TEXTUAL-PARAM-VALUE>
+                    <DEFINITION-REF DEST="ECUC-STRING-PARAM-DEF">/Path/To/StringDef</DEFINITION-REF>
+                    <VALUE>hello</VALUE>
+                </ECUC-TEXTUAL-PARAM-VALUE>
+            </PARAMETER-VALUES>
+            <REFERENCE-VALUES>
+                <ECUC-REFERENCE-VALUE>
+                    <DEFINITION-REF DEST="ECUC-REFERENCE-DEF">/Path/To/RefDef</DEFINITION-REF>
+                    <VALUE-REF DEST="SOME-ELEMENT">/Path/To/Target</VALUE-REF>
+                </ECUC-REFERENCE-VALUE>
+            </REFERENCE-VALUES>
+            <SUB-CONTAINERS>
+                <ECUC-CONTAINER-VALUE>
+                    <SHORT-NAME>SubContainer</SHORT-NAME>
+                </ECUC-CONTAINER-VALUE>
+            </SUB-CONTAINERS>
+            """,
+            root_tag="ECUC-CONTAINER-VALUE",
+        )
+        parser.readEcucContainerValue(element, container)
+        assert container.getDefinitionRef() is not None
+        assert len(container.getParameterValues()) == 1
+        assert len(container.getReferenceValues()) == 1
+        assert len(container.getSubContainers()) == 1
+
+    def test_minimal_handler_only_short_name(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = _make_container_value("MinimalContainer")
+        element = _snip(
+            """
+            <SHORT-NAME>MinimalContainer</SHORT-NAME>
+            """,
+            root_tag="ECUC-CONTAINER-VALUE",
+        )
+        parser.readEcucContainerValue(element, container)
+        assert container.getDefinitionRef() is None
+        assert len(container.getParameterValues()) == 0
+        assert len(container.getReferenceValues()) == 0
+        assert len(container.getSubContainers()) == 0
+
+
+class TestReadEcucContainerValueEcucContainerValue:
+    """Tests for readEcucContainerValueEcucContainerValue (L5147-5148)."""
+
+    def test_creates_sub_container_on_parent(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        parent = _make_container_value("ParentContainer")
+        element = _snip(
+            """
+            <SHORT-NAME>ChildContainer</SHORT-NAME>
+            <DEFINITION-REF DEST="ECUC-PARAM-CONF-CONTAINER-DEF">/Path/To/ChildDef</DEFINITION-REF>
+            """,
+            root_tag="ECUC-CONTAINER-VALUE",
+        )
+        parser.readEcucContainerValueEcucContainerValue(element, parent)
+        sub_containers = parent.getSubContainers()
+        assert len(sub_containers) == 1
+        assert sub_containers[0].getShortName() == "ChildContainer"
+        assert sub_containers[0].getDefinitionRef() is not None
+
+
+class TestReadEcucContainerValueSubContainers:
+    """Tests for readEcucContainerValueSubContainers (L5150-5162)."""
+
+    def test_reads_ecuc_container_value(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        parent = _make_container_value("ParentContainer")
+        element = _snip(
+            """
+            <SUB-CONTAINERS>
+                <ECUC-CONTAINER-VALUE>
+                    <SHORT-NAME>SubContainer1</SHORT-NAME>
+                </ECUC-CONTAINER-VALUE>
+                <ECUC-CONTAINER-VALUE>
+                    <SHORT-NAME>SubContainer2</SHORT-NAME>
+                </ECUC-CONTAINER-VALUE>
+            </SUB-CONTAINERS>
+            """,
+            root_tag="ECUC-CONTAINER-VALUE",
+        )
+        parser.readEcucContainerValueSubContainers(element, parent)
+        sub_containers = parent.getSubContainers()
+        assert len(sub_containers) == 2
+        assert sub_containers[0].getShortName() == "SubContainer1"
+        assert sub_containers[1].getShortName() == "SubContainer2"
+
+    def test_empty_sub_containers(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        parent = _make_container_value("ParentContainer")
+        element = _snip(
+            """
+            <SUB-CONTAINERS>
+            </SUB-CONTAINERS>
+            """,
+            root_tag="ECUC-CONTAINER-VALUE",
+        )
+        parser.readEcucContainerValueSubContainers(element, parent)
+        assert len(parent.getSubContainers()) == 0
+
+    def test_unsupported_type_warning(self, warning_parser, caplog):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        parent = _make_container_value("ParentContainer")
+        element = _snip(
+            """
+            <SUB-CONTAINERS>
+                <ECUC-UNKNOWN-CONTAINER>
+                    <SHORT-NAME>Unknown</SHORT-NAME>
+                </ECUC-UNKNOWN-CONTAINER>
+                <ECUC-CONTAINER-VALUE>
+                    <SHORT-NAME>ValidSub</SHORT-NAME>
+                </ECUC-CONTAINER-VALUE>
+            </SUB-CONTAINERS>
+            """,
+            root_tag="ECUC-CONTAINER-VALUE",
+        )
+        import logging
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readEcucContainerValueSubContainers(element, parent)
+        assert any(
+            "Unsupported Sub Container" in rec.getMessage()
+            for rec in caplog.records
+        )
+        assert len(parent.getSubContainers()) == 1
+
+
+class TestReadEcucModuleConfigurationValuesEcucContainerValue:
+    """Tests for readEcucModuleConfigurationValuesEcucContainerValue (L5164-5170)."""
+
+    def test_creates_container_on_parent(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        values = _make_module_configuration_values("ModuleValues")
+        element = _snip(
+            """
+            <SHORT-NAME>TopContainer</SHORT-NAME>
+            <DEFINITION-REF DEST="ECUC-PARAM-CONF-CONTAINER-DEF">/Path/To/ContainerDef</DEFINITION-REF>
+            """,
+            root_tag="ECUC-CONTAINER-VALUE",
+        )
+        parser.readEcucModuleConfigurationValuesEcucContainerValue(element, values)
+        containers = values.getContainers()
+        assert len(containers) == 1
+        assert containers[0].getShortName() == "TopContainer"
+        assert containers[0].getDefinitionRef() is not None
+
+
+class TestReadEcucModuleConfigurationValuesContainers:
+    """Tests for readEcucModuleConfigurationValuesContainers (L5172-5184)."""
+
+    def test_reads_ecuc_container_value(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        values = _make_module_configuration_values("ModuleValues")
+        element = _snip(
+            """
+            <CONTAINERS>
+                <ECUC-CONTAINER-VALUE>
+                    <SHORT-NAME>Container1</SHORT-NAME>
+                </ECUC-CONTAINER-VALUE>
+                <ECUC-CONTAINER-VALUE>
+                    <SHORT-NAME>Container2</SHORT-NAME>
+                </ECUC-CONTAINER-VALUE>
+            </CONTAINERS>
+            """,
+            root_tag="ECUC-MODULE-CONFIGURATION-VALUES",
+        )
+        parser.readEcucModuleConfigurationValuesContainers(element, values)
+        containers = values.getContainers()
+        assert len(containers) == 2
+
+    def test_empty_containers(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        values = _make_module_configuration_values("ModuleValues")
+        element = _snip(
+            """
+            <CONTAINERS>
+            </CONTAINERS>
+            """,
+            root_tag="ECUC-MODULE-CONFIGURATION-VALUES",
+        )
+        parser.readEcucModuleConfigurationValuesContainers(element, values)
+        assert len(values.getContainers()) == 0
+
+    def test_unsupported_type_warning(self, warning_parser, caplog):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        values = _make_module_configuration_values("ModuleValues")
+        element = _snip(
+            """
+            <CONTAINERS>
+                <ECUC-UNKNOWN-CONTAINER>
+                    <SHORT-NAME>Unknown</SHORT-NAME>
+                </ECUC-UNKNOWN-CONTAINER>
+                <ECUC-CONTAINER-VALUE>
+                    <SHORT-NAME>ValidContainer</SHORT-NAME>
+                </ECUC-CONTAINER-VALUE>
+            </CONTAINERS>
+            """,
+            root_tag="ECUC-MODULE-CONFIGURATION-VALUES",
+        )
+        import logging
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readEcucModuleConfigurationValuesContainers(element, values)
+        assert any(
+            "Unsupported Container" in rec.getMessage()
+            for rec in caplog.records
+        )
+        assert len(values.getContainers()) == 1
+
+
+class TestReadEcucModuleConfigurationValues:
+    """Tests for readEcucModuleConfigurationValues (L5164-5184)."""
+
+    def test_full_handler_with_all_fields(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        values = _make_module_configuration_values("ModuleValues")
+        element = _snip(
+            """
+            <SHORT-NAME>ModuleValues</SHORT-NAME>
+            <DEFINITION-REF DEST="ECUC-MODULE-DEF">/Path/To/ModuleDef</DEFINITION-REF>
+            <IMPLEMENTATION-CONFIG-VARIANT>VARIANT-PRE-COMPILE</IMPLEMENTATION-CONFIG-VARIANT>
+            <MODULE-DESCRIPTION-REF DEST="ECUC-MODULE-DEF">/Path/To/ModuleDesc</MODULE-DESCRIPTION-REF>
+            <CONTAINERS>
+                <ECUC-CONTAINER-VALUE>
+                    <SHORT-NAME>TopContainer</SHORT-NAME>
+                </ECUC-CONTAINER-VALUE>
+            </CONTAINERS>
+            """,
+            root_tag="ECUC-MODULE-CONFIGURATION-VALUES",
+        )
+        parser.readEcucModuleConfigurationValues(element, values)
+        assert values.getDefinitionRef() is not None
+        assert values.getImplementationConfigVariant() is not None
+        assert values.getModuleDescriptionRef() is not None
+        assert len(values.getContainers()) == 1
+
+    def test_minimal_handler_only_short_name(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        values = _make_module_configuration_values("MinimalModule")
+        element = _snip(
+            """
+            <SHORT-NAME>MinimalModule</SHORT-NAME>
+            """,
+            root_tag="ECUC-MODULE-CONFIGURATION-VALUES",
+        )
+        parser.readEcucModuleConfigurationValues(element, values)
+        assert values.getDefinitionRef() is None
+        assert values.getImplementationConfigVariant() is None
+        assert values.getModuleDescriptionRef() is None
+        assert len(values.getContainers()) == 0
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestEcucContainerAndModuleDef:
+    def _make_module_def(self):
+        from armodel.models import EcucModuleDef
+        return EcucModuleDef(parent=_autosar_root(), short_name="Md")
+
+    def test_readEcucModuleDefSupportedConfigVariants_adds(
+        self, parser
+    ):
+        module_def = self._make_module_def()
+        element = _snip(
+            "<SUPPORTED-CONFIG-VARIANTS>"
+            "<SUPPORTED-CONFIG-VARIANT>V1</SUPPORTED-CONFIG-VARIANT>"
+            "<SUPPORTED-CONFIG-VARIANT>V2</SUPPORTED-CONFIG-VARIANT>"
+            "</SUPPORTED-CONFIG-VARIANTS>"
+        )
+        parser.readEcucModuleDefSupportedConfigVariants(
+            element, module_def
+        )
+        assert len(module_def.getSupportedConfigVariants()) == 2
+
+    def test_getEcucMultiplicityConfigurationClasses_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        element = _snip(
+            "<MULTIPLICITY-CONFIG-CLASSES><BAD/></MULTIPLICITY-CONFIG-CLASSES>"
+        )
+        with caplog.at_level(logging.ERROR):
+            result = warning_parser.getEcucMultiplicityConfigurationClasses(
+                element
+            )
+        assert result == []
+        assert any("Unsupported MultiplicityConfigClass"
+                   in r.getMessage() for r in caplog.records)
+
+    def test_readEcucContainerDef_sets_attrs(self, parser):
+        from armodel.models import EcucParamConfContainerDef
+        container = EcucParamConfContainerDef(
+            _autosar_root(), "Cd"
+        )
+        element = _snip(
+            "<MULTIPLICITY-CONFIG-CLASSES>"
+            "<ECUC-MULTIPLICITY-CONFIGURATION-CLASS>"
+            "<CONFIG-CLASS>VARIANT</CONFIG-CLASS>"
+            "<CONFIG-VARIANT>POST-BUILD</CONFIG-VARIANT>"
+            "</ECUC-MULTIPLICITY-CONFIGURATION-CLASS>"
+            "</MULTIPLICITY-CONFIG-CLASSES>"
+            "<POST-BUILD-VARIANT-MULTIPLICITY>true</POST-BUILD-VARIANT-MULTIPLICITY>"
+            "<REQUIRES-INDEX>true</REQUIRES-INDEX>"
+            "<MULTIPLE-CONFIGURATION-CONTAINER>true</MULTIPLE-CONFIGURATION-CONTAINER>"
+        )
+        parser.readEcucContainerDef(element, container)
+        assert len(container.getMultiplicityConfigClasses()) == 1
+        assert container.getPostBuildVariantMultiplicity().getValue() is True
+
+    def test_getEcucValueConfigurationClasses_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        element = _snip(
+            "<VALUE-CONFIG-CLASSES><BAD/></VALUE-CONFIG-CLASSES>"
+        )
+        with caplog.at_level(logging.ERROR):
+            result = warning_parser.getEcucValueConfigurationClasses(
+                element
+            )
+        assert result == []
+        assert any("Unsupported ValueConfigClass" in r.getMessage()
+                   for r in caplog.records)
+
+    def test_readEcucEnumerationParamDefLiterals_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import EcucEnumerationParamDef
+        param_def = EcucEnumerationParamDef(
+            _autosar_root(), "Enum"
+        )
+        element = _snip(
+            "<LITERALS><BAD/></LITERALS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readEcucEnumerationParamDefLiterals(
+                element, param_def
+            )
+        assert any("Unsupported EnumerationLiteral" in r.getMessage()
+                   for r in caplog.records)
+
+    def test_readEcucContainerDefSubContainers_creates_sub(
+        self, parser
+    ):
+        from armodel.models import EcucParamConfContainerDef
+        container = EcucParamConfContainerDef(
+            _autosar_root(), "Cd"
+        )
+        element = _snip(
+            "<SUB-CONTAINERS>"
+            "<ECUC-PARAM-CONF-CONTAINER-DEF>"
+            "<SHORT-NAME>Sub</SHORT-NAME>"
+            "</ECUC-PARAM-CONF-CONTAINER-DEF>"
+            "</SUB-CONTAINERS>"
+        )
+        parser.readEcucContainerDefSubContainers(element, container)
+        assert len(container.getSubContainers()) == 1
+
+    def test_readEcucContainerDefSubContainers_choice(self, parser):
+        from armodel.models import EcucParamConfContainerDef
+        container = EcucParamConfContainerDef(
+            _autosar_root(), "Cd"
+        )
+        element = _snip(
+            "<SUB-CONTAINERS>"
+            "<ECUC-CHOICE-CONTAINER-DEF>"
+            "<SHORT-NAME>Ch</SHORT-NAME>"
+            "</ECUC-CHOICE-CONTAINER-DEF>"
+            "</SUB-CONTAINERS>"
+        )
+        parser.readEcucContainerDefSubContainers(element, container)
+        assert len(container.getSubContainers()) == 1
+
+    def test_readEcucContainerDefSubContainers_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import EcucParamConfContainerDef
+        container = EcucParamConfContainerDef(
+            _autosar_root(), "Cd"
+        )
+        element = _snip(
+            "<SUB-CONTAINERS><BAD/></SUB-CONTAINERS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readEcucContainerDefSubContainers(
+                element, container
+            )
+        assert any("Unsupported SubContainer" in r.getMessage()
+                   for r in caplog.records)
+
+    def test_readEcucParamConfContainerDef_full(self, parser):
+        from armodel.models import EcucParamConfContainerDef
+        container = EcucParamConfContainerDef(
+            _autosar_root(), "Cd"
+        )
+        element = _snip(
+            "<SHORT-NAME>Cd</SHORT-NAME>"
+        )
+        parser.readEcucParamConfContainerDef(element, container)
+
+    def test_readEcucChoiceContainerDefChoices_creates(self, parser):
+        from armodel.models import EcucChoiceContainerDef
+        container = EcucChoiceContainerDef(
+            _autosar_root(), "Ch"
+        )
+        element = _snip(
+            "<CHOICES>"
+            "<ECUC-PARAM-CONF-CONTAINER-DEF>"
+            "<SHORT-NAME>C1</SHORT-NAME>"
+            "</ECUC-PARAM-CONF-CONTAINER-DEF>"
+            "</CHOICES>"
+        )
+        parser.readEcucChoiceContainerDefChoices(element, container)
+        assert len(container.getChoices()) == 1
+
+    def test_readEcucChoiceContainerDefChoices_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import EcucChoiceContainerDef
+        container = EcucChoiceContainerDef(
+            _autosar_root(), "Ch"
+        )
+        element = _snip(
+            "<CHOICES><BAD/></CHOICES>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readEcucChoiceContainerDefChoices(
+                element, container
+            )
+        assert any("Unsupported Choice" in r.getMessage()
+                   for r in caplog.records)
+
+    def test_readEcucChoiceContainerDef_full(self, parser):
+        from armodel.models import EcucChoiceContainerDef
+        container = EcucChoiceContainerDef(
+            _autosar_root(), "Ch"
+        )
+        element = _snip("<SHORT-NAME>Ch</SHORT-NAME>")
+        parser.readEcucChoiceContainerDef(element, container)
+
+    def test_readEcucModuleDefContainers_creates_param_conf(
+        self, parser
+    ):
+        module_def = self._make_module_def()
+        element = _snip(
+            "<CONTAINERS>"
+            "<ECUC-PARAM-CONF-CONTAINER-DEF>"
+            "<SHORT-NAME>C1</SHORT-NAME>"
+            "</ECUC-PARAM-CONF-CONTAINER-DEF>"
+            "</CONTAINERS>"
+        )
+        parser.readEcucModuleDefContainers(element, module_def)
+        assert len(module_def.getContainers()) == 1
+
+    def test_readEcucModuleDefContainers_creates_choice(self, parser):
+        module_def = self._make_module_def()
+        element = _snip(
+            "<CONTAINERS>"
+            "<ECUC-CHOICE-CONTAINER-DEF>"
+            "<SHORT-NAME>C2</SHORT-NAME>"
+            "</ECUC-CHOICE-CONTAINER-DEF>"
+            "</CONTAINERS>"
+        )
+        parser.readEcucModuleDefContainers(element, module_def)
+        assert len(module_def.getContainers()) == 1
+
+    def test_readEcucModuleDefContainers_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        module_def = self._make_module_def()
+        element = _snip(
+            "<CONTAINERS><BAD/></CONTAINERS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readEcucModuleDefContainers(
+                element, module_def
+            )
+        assert any("Unsupported Container" in r.getMessage()
+                   for r in caplog.records)
+
+
+# ==================== SwSystemconstantValueSet (L4695) ====================
+
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestEcucParameterValue:
+    def test_readEcucParameterValue_adds_annotation(self, parser):
+        from armodel.models import EcucTextualParamValue
+        param_value = EcucTextualParamValue()
+        element = _snip(
+            '<DEFINITION-REF DEST="ECUC-STRING-PARAM-DEF">/d</DEFINITION-REF>'
+            "<ANNOTATIONS>"
+            "<ANNOTATION>"
+            "<SHORT-NAME>a</SHORT-NAME>"
+            "</ANNOTATION>"
+            "</ANNOTATIONS>"
+        )
+        parser.readEcucParameterValue(element, param_value)
+        assert param_value.getDefinitionRef() is not None
+        assert len(param_value.getAnnotations()) == 1
+
+    def test_readEcucContainerValueParameterValues_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import EcucContainerValue
+        container = EcucContainerValue(
+            parent=MagicMock(), short_name="Cv"
+        )
+        element = _snip(
+            "<PARAMETER-VALUES><BAD/></PARAMETER-VALUES>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readEcucContainerValueParameterValues(
+                element, container
+            )
+        assert any("Unsupported EcucParameterValue" in r.getMessage()
+                   for r in caplog.records)
+
+
+# ==================== SystemSignalGroup (L5249) ====================
+

@@ -10,8 +10,11 @@ Focus areas (from coverage report on arxml_parser.py):
 - _readVariableAccesses branching (lines 426-457)
 """
 
+import logging
+
 import pytest
 import xml.etree.ElementTree as ET
+from unittest.mock import MagicMock
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models import (
@@ -761,3 +764,45 @@ class TestDescribableHandlers:
         assert desc.getDataIdMode() is not None
         assert desc.getMaxDeltaCounter() is not None
         assert desc.getProfileName() is not None
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestDocRevisionModificationGap:
+    def test_unsupported_modification_tag_warns(self, warning_parser, caplog):
+        from armodel.models.M2.MSR.AsamHdo.AdminData import DocRevision
+        revision = DocRevision()
+        element = _snip(
+            "<MODIFICATIONS><UNKNOWN-MOD>"
+            "<SHORT-NAME>m</SHORT-NAME>"
+            "</UNKNOWN-MOD></MODIFICATIONS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readDocRevisionModifications(element, revision)
+        assert any("Unsupported Modification" in r.getMessage()
+                   for r in caplog.records)
+
+
+# ==================== RoleBasedDataTypeAssignment / ServiceDependency (L603-615) ====================
+
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestSwDataDefProsInvalidValue:
+    def test_readInvalidValue_sets_value(self, parser):
+        from armodel.models import SwDataDefProps
+        props = SwDataDefProps()
+        element = _snip(
+            "<INVALID-VALUE>"
+            "<NUMERICAL-VALUE-SPECIFICATION>"
+            "<VALUE>42</VALUE>"
+            "</NUMERICAL-VALUE-SPECIFICATION>"
+            "</INVALID-VALUE>"
+        )
+        parser.readSwDataDefProsInvalidValue(element, props)
+        assert props.getInvalidValue() is not None
+
+
+# ==================== CompositeNetworkRepresentation (L1943, L2122) ====================
+
