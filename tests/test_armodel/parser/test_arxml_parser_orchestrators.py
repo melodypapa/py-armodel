@@ -9,10 +9,13 @@ This file tests orchestrator methods that coordinate multiple sub-handlers.
 
 import logging
 import xml.etree.ElementTree as ET
+from unittest.mock import MagicMock
 
 import pytest
 
 from armodel.models import AUTOSAR
+from armodel.models import ApplicationSwComponentType
+from armodel.models import CompositionSwComponentType
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -2038,3 +2041,1085 @@ class TestAdditionalOrchestratorCoverage:
         with caplog.at_level(logging.ERROR):
             warning_parser.readSenderReceiverInterfaceDataElements(element, sr_if)
         assert any("Unsupported" in r.getMessage() for r in caplog.records)
+
+
+# ===========================================================================
+# Merged from test_arxml_parser_swc_behavior_gaps.py
+# Tests for SwcInternalBehavior ServiceNeeds, Events, and related handlers.
+# ===========================================================================
+
+
+def _make_service_dependency():
+    """Create a SwcServiceDependency for service-needs tests."""
+    from armodel.models import ApplicationSwComponentType
+    app = ApplicationSwComponentType(parent=_autosar_root(), short_name="App")
+    behavior = app.createSwcInternalBehavior("Behavior")
+    return behavior.createSwcServiceDependency("Dep")
+
+
+def _make_swc_behavior():
+    """Create a minimal SwcInternalBehavior for event tests."""
+    from armodel.models import ApplicationSwComponentType
+    app = ApplicationSwComponentType(parent=_autosar_root(), short_name="App")
+    return app.createSwcInternalBehavior("Behavior")
+
+
+class TestSwcServiceDependencyServiceNeeds:
+    """Tests for readSwcServiceDependencyServiceNeeds branches."""
+
+    @pytest.mark.parametrize("tag", [
+        "DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS",
+        "DIAGNOSTIC-ROUTINE-NEEDS",
+        "DIAGNOSTIC-VALUE-NEEDS",
+        "DIAGNOSTIC-EVENT-NEEDS",
+        "DIAGNOSTIC-EVENT-INFO-NEEDS",
+        "CRYPTO-SERVICE-NEEDS",
+        "ECU-STATE-MGR-USER-NEEDS",
+        "DTC-STATUS-CHANGE-NOTIFICATION-NEEDS",
+        "DLT-USER-NEEDS",
+    ])
+    def test_service_needs_branches(self, parser, tag):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        dep = _make_service_dependency()
+        element = _snip(
+            f"""
+            <SERVICE-NEEDS>
+                <{tag}>
+                    <SHORT-NAME>Need</SHORT-NAME>
+                </{tag}>
+            </SERVICE-NEEDS>
+            """,
+        )
+        parser.readSwcServiceDependencyServiceNeeds(element, dep)
+        needs = dep.getServiceNeeds()
+        assert len(needs) == 1
+        assert needs[0].getShortName() == "Need"
+
+    def test_nv_block_needs_branch(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        dep = _make_service_dependency()
+        element = _snip(
+            """
+            <SERVICE-NEEDS>
+                <NV-BLOCK-NEEDS>
+                    <SHORT-NAME>NvNeed</SHORT-NAME>
+                </NV-BLOCK-NEEDS>
+            </SERVICE-NEEDS>
+            """,
+        )
+        parser.readSwcServiceDependencyServiceNeeds(element, dep)
+        needs = dep.getServiceNeeds()
+        assert len(needs) == 1
+        assert needs[0].getShortName() == "NvNeed"
+
+    def test_unknown_service_needs_warning(self, warning_parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        dep = _make_service_dependency()
+        element = _snip(
+            """
+            <SERVICE-NEEDS>
+                <UNKNOWN-NEEDS>
+                    <SHORT-NAME>Unknown</SHORT-NAME>
+                </UNKNOWN-NEEDS>
+            </SERVICE-NEEDS>
+            """,
+        )
+        warning_parser.readSwcServiceDependencyServiceNeeds(element, dep)
+        assert len(dep.getServiceNeeds()) == 0
+
+
+class TestIncludedDataTypeSets:
+    """Tests for getIncludedDataTypeSets (L778-786)."""
+
+    def test_with_data_type_refs(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            """
+            <INCLUDED-DATA-TYPE-SETS>
+                <INCLUDED-DATA-TYPE-SET>
+                    <DATA-TYPE-REFS>
+                        <DATA-TYPE-REF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/dt/Type1</DATA-TYPE-REF>
+                    </DATA-TYPE-REFS>
+                </INCLUDED-DATA-TYPE-SET>
+            </INCLUDED-DATA-TYPE-SETS>
+            """,
+        )
+        result = parser.getIncludedDataTypeSets(element)
+        assert len(result) == 1
+        assert len(result[0].getDataTypeRefs()) == 1
+
+    def test_empty_returns_empty_list(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip("")
+        result = parser.getIncludedDataTypeSets(element)
+        assert result == []
+
+
+class TestSwcInternalBehaviorEvents:
+    """Tests for readSwcInternalBehaviorEvents branches."""
+
+    @pytest.mark.parametrize("tag", [
+        "INTERNAL-TRIGGER-OCCURRED-EVENT",
+        "INIT-EVENT",
+        "ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT",
+        "MODE-SWITCHED-ACK-EVENT",
+        "BACKGROUND-EVENT",
+        "DATA-SEND-COMPLETED-EVENT",
+    ])
+    def test_event_branches(self, parser, tag):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        behavior = _make_swc_behavior()
+        element = _snip(
+            f"""
+            <EVENTS>
+                <{tag}>
+                    <SHORT-NAME>Event</SHORT-NAME>
+                </{tag}>
+            </EVENTS>
+            """,
+        )
+        parser.readSwcInternalBehaviorEvents(element, behavior)
+        event = behavior.getEvent("Event")
+        assert event is not None
+        assert event.getShortName() == "Event"
+
+    def test_unknown_event_warning(self, warning_parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        behavior = _make_swc_behavior()
+        element = _snip(
+            """
+            <EVENTS>
+                <UNKNOWN-EVENT>
+                    <SHORT-NAME>Unknown</SHORT-NAME>
+                </UNKNOWN-EVENT>
+            </EVENTS>
+            """,
+        )
+        warning_parser.readSwcInternalBehaviorEvents(element, behavior)
+
+
+class TestSwPointerTargetProps:
+    """Tests for getSwPointerTargetProps and readSwPointerTargetProps."""
+
+    def test_get_sw_pointer_target_props_with_data(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            """
+            <SW-POINTER-TARGET-PROPS>
+                <TARGET-CATEGORY>VALUE</TARGET-CATEGORY>
+            </SW-POINTER-TARGET-PROPS>
+            """,
+        )
+        result = parser.getSwPointerTargetProps(element, "SW-POINTER-TARGET-PROPS")
+        assert result is not None
+        assert result.getTargetCategory() is not None
+
+    def test_get_sw_pointer_target_props_empty(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip("")
+        result = parser.getSwPointerTargetProps(element, "SW-POINTER-TARGET-PROPS")
+        assert result is None
+
+    def test_read_sw_pointer_target_props(self, parser):
+        from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
+            SwDataDefProps,
+        )
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        parent = SwDataDefProps()
+        element = _snip(
+            """
+            <SW-POINTER-TARGET-PROPS>
+                <TARGET-CATEGORY>VALUE</TARGET-CATEGORY>
+            </SW-POINTER-TARGET-PROPS>
+            """,
+        )
+        parser.readSwPointerTargetProps(element, parent)
+        assert parent.swPointerTargetProps is not None
+        assert parent.swPointerTargetProps.getTargetCategory() is not None
+
+    def test_read_sw_pointer_target_props_empty(self, parser):
+        from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
+            SwDataDefProps,
+        )
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        parent = SwDataDefProps()
+        element = _snip("")
+        parser.readSwPointerTargetProps(element, parent)
+        assert parent.swPointerTargetProps is None
+
+
+class TestParameterInAtomicSWCTypeInstanceRef:
+    """Tests for getParameterInAtomicSWCTypeInstanceRef (L1278-1283)."""
+
+    def test_with_parameter_ref(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            """
+            <PARAMETER-IN-ATOMIC-SWC-TYPE-INSTANCE-REF>
+                <PORT-PROTOTYPE-REF DEST="P-PORT-PROTOTYPE">/pp/Port</PORT-PROTOTYPE-REF>
+                <ROOT-PARAMETER-DATA-PROTOTYPE-REF DEST="PARAMETER-DATA-PROTOTYPE">/pdp/Param</ROOT-PARAMETER-DATA-PROTOTYPE-REF>
+            </PARAMETER-IN-ATOMIC-SWC-TYPE-INSTANCE-REF>
+            """,
+        )
+        result = parser.getParameterInAtomicSWCTypeInstanceRef(
+            element, "PARAMETER-IN-ATOMIC-SWC-TYPE-INSTANCE-REF"
+        )
+        assert result is not None
+        assert result.getPortPrototypeRef() is not None
+
+    def test_without_element(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip("")
+        result = parser.getParameterInAtomicSWCTypeInstanceRef(
+            element, "PARAMETER-IN-ATOMIC-SWC-TYPE-INSTANCE-REF"
+        )
+        assert result is None
+
+
+class TestModeGroupIRef:
+    """Tests for getModeGroupIRef (L1386-1392)."""
+
+    def test_p_mode_group_iref(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            """
+            <MODE-GROUP-IREF>
+                <P-MODE-GROUP-IN-ATOMIC-SWC-INSTANCE-REF>
+                    <CONTEXT-P-PORT-REF DEST="P-PORT-PROTOTYPE">/pp/Port</CONTEXT-P-PORT-REF>
+                    <TARGET-MODE-GROUP-REF DEST="MODE-DECLARATION-GROUP-PROTOTYPE">/mdg/Group</TARGET-MODE-GROUP-REF>
+                </P-MODE-GROUP-IN-ATOMIC-SWC-INSTANCE-REF>
+            </MODE-GROUP-IREF>
+            """,
+        )
+        result = parser.getModeGroupIRef(element, "MODE-GROUP-IREF")
+        assert result is not None
+
+    def test_r_mode_group_iref(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            """
+            <MODE-GROUP-IREF>
+                <R-MODE-GROUP-IN-ATOMIC-SWC-INSTANCE-REF>
+                    <CONTEXT-R-PORT-REF DEST="R-PORT-PROTOTYPE">/rp/Port</CONTEXT-R-PORT-REF>
+                    <TARGET-MODE-GROUP-REF DEST="MODE-DECLARATION-GROUP-PROTOTYPE">/mdg/Group</TARGET-MODE-GROUP-REF>
+                </R-MODE-GROUP-IN-ATOMIC-SWC-INSTANCE-REF>
+            </MODE-GROUP-IREF>
+            """,
+        )
+        result = parser.getModeGroupIRef(element, "MODE-GROUP-IREF")
+        assert result is not None
+
+    def test_unknown_mode_group_warning(self, warning_parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            """
+            <MODE-GROUP-IREF>
+                <UNKNOWN-MODE-GROUP-REF>
+                    <SHORT-NAME>Unknown</SHORT-NAME>
+                </UNKNOWN-MODE-GROUP-REF>
+            </MODE-GROUP-IREF>
+            """,
+        )
+        result = warning_parser.getModeGroupIRef(element, "MODE-GROUP-IREF")
+        assert result is None
+
+
+# ===========================================================================
+# Merged from test_arxml_parser_system_mapping_gaps.py
+# Tests for SystemMapping and Type Mapping handlers (L5373-5421).
+# ===========================================================================
+
+
+def _make_system_mapping():
+    """Create a SystemMapping with a MagicMock parent for data-mapping tests."""
+    from unittest.mock import MagicMock
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate import SystemMapping
+    return SystemMapping(parent=MagicMock(), short_name="TestSystemMapping")
+
+
+# ==================== readSenderRecRecordElementMapping (L5373-5377) ====================
+
+
+class TestReadSenderRecRecordElementMapping:
+    """Cover readSenderRecRecordElementMapping optional ref handling."""
+
+    def test_sets_all_optional_refs_when_present(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
+            SenderRecRecordElementMapping,
+        )
+        mapping = SenderRecRecordElementMapping()
+        element = _snip("""
+            <APPLICATION-RECORD-ELEMENT-REF DEST="RECORD-ELEMENT">/App/Rec1</APPLICATION-RECORD-ELEMENT-REF>
+            <IMPLEMENTATION-RECORD-ELEMENT-REF DEST="RECORD-ELEMENT">/Impl/Rec1</IMPLEMENTATION-RECORD-ELEMENT-REF>
+            <SYSTEM-SIGNAL-REF DEST="SYSTEM-SIGNAL">/Sig/S1</SYSTEM-SIGNAL-REF>
+        """)
+        parser.readSenderRecRecordElementMapping(element, mapping)
+        assert mapping.getApplicationRecordElementRef() is not None
+        assert mapping.getApplicationRecordElementRef().getValue() == "/App/Rec1"
+        assert mapping.getImplementationRecordElementRef() is not None
+        assert mapping.getImplementationRecordElementRef().getValue() == "/Impl/Rec1"
+        assert mapping.getSystemSignalRef() is not None
+        assert mapping.getSystemSignalRef().getValue() == "/Sig/S1"
+
+    def test_keeps_refs_none_when_absent(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
+            SenderRecRecordElementMapping,
+        )
+        mapping = SenderRecRecordElementMapping()
+        element = _snip("")
+        parser.readSenderRecRecordElementMapping(element, mapping)
+        assert mapping.getApplicationRecordElementRef() is None
+        assert mapping.getImplementationRecordElementRef() is None
+        assert mapping.getSystemSignalRef() is None
+
+
+# ==================== readSenderRecArrayTypeMappingRecordElementMapping (L5379-5387) ====================
+
+
+class TestReadSenderRecArrayTypeMappingRecordElementMapping:
+    """Cover SENDER-REC-RECORD-ELEMENT-MAPPING branch and warning branch."""
+
+    def test_reads_sender_rec_record_element_mapping(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
+            SenderRecRecordElementMapping,
+            SenderRecRecordTypeMapping,
+        )
+        mapping = SenderRecRecordTypeMapping()
+        element = _snip("""
+            <RECORD-ELEMENT-MAPPINGS>
+                <SENDER-REC-RECORD-ELEMENT-MAPPING>
+                    <APPLICATION-RECORD-ELEMENT-REF DEST="RECORD-ELEMENT">/App/Rec1</APPLICATION-RECORD-ELEMENT-REF>
+                    <IMPLEMENTATION-RECORD-ELEMENT-REF DEST="RECORD-ELEMENT">/Impl/Rec1</IMPLEMENTATION-RECORD-ELEMENT-REF>
+                    <SYSTEM-SIGNAL-REF DEST="SYSTEM-SIGNAL">/Sig/S1</SYSTEM-SIGNAL-REF>
+                </SENDER-REC-RECORD-ELEMENT-MAPPING>
+            </RECORD-ELEMENT-MAPPINGS>
+        """)
+        parser.readSenderRecArrayTypeMappingRecordElementMapping(element, mapping)
+        mappings = mapping.getRecordElementMappings()
+        assert len(mappings) == 1
+        assert isinstance(mappings[0], SenderRecRecordElementMapping)
+        assert mappings[0].getSystemSignalRef().getValue() == "/Sig/S1"
+
+    def test_unsupported_record_element_mapping_raises(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
+            SenderRecRecordTypeMapping,
+        )
+        mapping = SenderRecRecordTypeMapping()
+        element = _snip("""
+            <RECORD-ELEMENT-MAPPINGS>
+                <UNKNOWN-MAPPING>
+                    <SHORT-NAME>X</SHORT-NAME>
+                </UNKNOWN-MAPPING>
+            </RECORD-ELEMENT-MAPPINGS>
+        """)
+        with pytest.raises(NotImplementedError):
+            parser.readSenderRecArrayTypeMappingRecordElementMapping(element, mapping)
+
+    def test_unsupported_record_element_mapping_logs_warning(self, warning_parser, caplog):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
+            SenderRecRecordTypeMapping,
+        )
+        mapping = SenderRecRecordTypeMapping()
+        element = _snip("""
+            <RECORD-ELEMENT-MAPPINGS>
+                <UNKNOWN-MAPPING>
+                    <SHORT-NAME>X</SHORT-NAME>
+                </UNKNOWN-MAPPING>
+            </RECORD-ELEMENT-MAPPINGS>
+        """)
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readSenderRecArrayTypeMappingRecordElementMapping(element, mapping)
+        assert any("Unsupported RecordElementMapping" in rec.getMessage() for rec in caplog.records)
+        assert mapping.getRecordElementMappings() == []
+
+    def test_empty_record_element_mappings(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
+            SenderRecRecordTypeMapping,
+        )
+        mapping = SenderRecRecordTypeMapping()
+        element = _snip("<RECORD-ELEMENT-MAPPINGS></RECORD-ELEMENT-MAPPINGS>")
+        parser.readSenderRecArrayTypeMappingRecordElementMapping(element, mapping)
+        assert mapping.getRecordElementMappings() == []
+
+
+# ==================== readSenderRecRecordTypeMapping (L5389-5391) ====================
+
+
+class TestReadSenderRecRecordTypeMapping:
+    """Cover readSenderRecRecordTypeMapping delegation."""
+
+    def test_delegates_to_composite_and_array_type_mapping(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
+            SenderRecRecordTypeMapping,
+        )
+        mapping = SenderRecRecordTypeMapping()
+        element = _snip("""
+            <RECORD-ELEMENT-MAPPINGS>
+                <SENDER-REC-RECORD-ELEMENT-MAPPING>
+                    <APPLICATION-RECORD-ELEMENT-REF DEST="RECORD-ELEMENT">/App/Rec1</APPLICATION-RECORD-ELEMENT-REF>
+                    <IMPLEMENTATION-RECORD-ELEMENT-REF DEST="RECORD-ELEMENT">/Impl/Rec1</IMPLEMENTATION-RECORD-ELEMENT-REF>
+                    <SYSTEM-SIGNAL-REF DEST="SYSTEM-SIGNAL">/Sig/S1</SYSTEM-SIGNAL-REF>
+                </SENDER-REC-RECORD-ELEMENT-MAPPING>
+                <SENDER-REC-RECORD-ELEMENT-MAPPING>
+                    <APPLICATION-RECORD-ELEMENT-REF DEST="RECORD-ELEMENT">/App/Rec2</APPLICATION-RECORD-ELEMENT-REF>
+                    <IMPLEMENTATION-RECORD-ELEMENT-REF DEST="RECORD-ELEMENT">/Impl/Rec2</IMPLEMENTATION-RECORD-ELEMENT-REF>
+                    <SYSTEM-SIGNAL-REF DEST="SYSTEM-SIGNAL">/Sig/S2</SYSTEM-SIGNAL-REF>
+                </SENDER-REC-RECORD-ELEMENT-MAPPING>
+            </RECORD-ELEMENT-MAPPINGS>
+        """)
+        parser.readSenderRecRecordTypeMapping(element, mapping)
+        mappings = mapping.getRecordElementMappings()
+        assert len(mappings) == 2
+        assert mappings[0].getSystemSignalRef().getValue() == "/Sig/S1"
+        assert mappings[1].getSystemSignalRef().getValue() == "/Sig/S2"
+
+
+# ==================== readSenderReceiverToSignalGroupMappingTypeMapping (L5393-5402) ====================
+
+
+class TestReadSenderReceiverToSignalGroupMappingTypeMapping:
+    """Cover SENDER-REC-RECORD-TYPE-MAPPING branch and warning branch."""
+
+    def test_reads_sender_rec_record_type_mapping(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
+            SenderReceiverToSignalGroupMapping,
+            SenderRecRecordTypeMapping,
+        )
+        mapping = SenderReceiverToSignalGroupMapping()
+        element = _snip("""
+            <TYPE-MAPPING>
+                <SENDER-REC-RECORD-TYPE-MAPPING>
+                    <RECORD-ELEMENT-MAPPINGS>
+                        <SENDER-REC-RECORD-ELEMENT-MAPPING>
+                            <APPLICATION-RECORD-ELEMENT-REF DEST="RECORD-ELEMENT">/App/Rec1</APPLICATION-RECORD-ELEMENT-REF>
+                            <IMPLEMENTATION-RECORD-ELEMENT-REF DEST="RECORD-ELEMENT">/Impl/Rec1</IMPLEMENTATION-RECORD-ELEMENT-REF>
+                            <SYSTEM-SIGNAL-REF DEST="SYSTEM-SIGNAL">/Sig/S1</SYSTEM-SIGNAL-REF>
+                        </SENDER-REC-RECORD-ELEMENT-MAPPING>
+                    </RECORD-ELEMENT-MAPPINGS>
+                </SENDER-REC-RECORD-TYPE-MAPPING>
+            </TYPE-MAPPING>
+        """)
+        parser.readSenderReceiverToSignalGroupMappingTypeMapping(element, mapping)
+        type_mapping = mapping.getTypeMapping()
+        assert type_mapping is not None
+        assert isinstance(type_mapping, SenderRecRecordTypeMapping)
+        assert len(type_mapping.getRecordElementMappings()) == 1
+        assert type_mapping.getRecordElementMappings()[0].getSystemSignalRef().getValue() == "/Sig/S1"
+
+    def test_unsupported_type_mapping_raises(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
+            SenderReceiverToSignalGroupMapping,
+        )
+        mapping = SenderReceiverToSignalGroupMapping()
+        element = _snip("""
+            <TYPE-MAPPING>
+                <UNKNOWN-TYPE-MAPPING>
+                    <SHORT-NAME>X</SHORT-NAME>
+                </UNKNOWN-TYPE-MAPPING>
+            </TYPE-MAPPING>
+        """)
+        with pytest.raises(NotImplementedError):
+            parser.readSenderReceiverToSignalGroupMappingTypeMapping(element, mapping)
+
+    def test_unsupported_type_mapping_logs_warning(self, warning_parser, caplog):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
+            SenderReceiverToSignalGroupMapping,
+        )
+        mapping = SenderReceiverToSignalGroupMapping()
+        element = _snip("""
+            <TYPE-MAPPING>
+                <UNKNOWN-TYPE-MAPPING>
+                    <SHORT-NAME>X</SHORT-NAME>
+                </UNKNOWN-TYPE-MAPPING>
+            </TYPE-MAPPING>
+        """)
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readSenderReceiverToSignalGroupMappingTypeMapping(element, mapping)
+        assert any("Unsupported Type Mapping" in rec.getMessage() for rec in caplog.records)
+        assert mapping.getTypeMapping() is None
+
+    def test_no_type_mapping_child_keeps_none(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
+            SenderReceiverToSignalGroupMapping,
+        )
+        mapping = SenderReceiverToSignalGroupMapping()
+        element = _snip("")
+        parser.readSenderReceiverToSignalGroupMappingTypeMapping(element, mapping)
+        assert mapping.getTypeMapping() is None
+
+
+# ==================== readSystemMappingDataMappings (L5409-5421) ====================
+
+
+class TestReadSystemMappingDataMappings:
+    """Cover SENDER-RECEIVER-TO-SIGNAL-MAPPING and SENDER-RECEIVER-TO-SIGNAL-GROUP-MAPPING branches + warning."""
+
+    def test_reads_sender_receiver_to_signal_mapping(self, parser):
+        mapping = _make_system_mapping()
+        element = _snip("""
+            <DATA-MAPPINGS>
+                <SENDER-RECEIVER-TO-SIGNAL-MAPPING>
+                    <COMMUNICATION-DIRECTION>IN</COMMUNICATION-DIRECTION>
+                    <DATA-ELEMENT-IREF>
+                        <CONTEXT-COMPOSITION-REF DEST="COMPOSITION-SW-COMPONENT-TYPE">/Cmp/Comp</CONTEXT-COMPOSITION-REF>
+                        <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/Cmp/Comp/sw1</CONTEXT-COMPONENT-REF>
+                        <CONTEXT-PORT-REF DEST="P-PORT-PROTOTYPE">/Cmp/Comp/port1</CONTEXT-PORT-REF>
+                        <TARGET-DATA-PROTOTYPE-REF DEST="VARIABLE-DATA-PROTOTYPE">/Iface/If/de1</TARGET-DATA-PROTOTYPE-REF>
+                    </DATA-ELEMENT-IREF>
+                    <SYSTEM-SIGNAL-REF DEST="SYSTEM-SIGNAL">/Sig/S1</SYSTEM-SIGNAL-REF>
+                </SENDER-RECEIVER-TO-SIGNAL-MAPPING>
+            </DATA-MAPPINGS>
+        """)
+        parser.readSystemMappingDataMappings(element, mapping)
+        data_mappings = mapping.getDataMappings()
+        assert len(data_mappings) == 1
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
+            SenderReceiverToSignalMapping,
+        )
+        assert isinstance(data_mappings[0], SenderReceiverToSignalMapping)
+        assert data_mappings[0].getSystemSignalRef().getValue() == "/Sig/S1"
+        assert data_mappings[0].getCommunicationDirection().getValue() == "IN"
+        assert data_mappings[0].getDataElementIRef() is not None
+
+    def test_reads_sender_receiver_to_signal_group_mapping(self, parser):
+        mapping = _make_system_mapping()
+        element = _snip("""
+            <DATA-MAPPINGS>
+                <SENDER-RECEIVER-TO-SIGNAL-GROUP-MAPPING>
+                    <DATA-ELEMENT-IREF>
+                        <CONTEXT-COMPOSITION-REF DEST="COMPOSITION-SW-COMPONENT-TYPE">/Cmp/Comp</CONTEXT-COMPOSITION-REF>
+                        <CONTEXT-COMPONENT-REF DEST="SW-COMPONENT-PROTOTYPE">/Cmp/Comp/sw1</CONTEXT-COMPONENT-REF>
+                        <CONTEXT-PORT-REF DEST="P-PORT-PROTOTYPE">/Cmp/Comp/port1</CONTEXT-PORT-REF>
+                        <TARGET-DATA-PROTOTYPE-REF DEST="VARIABLE-DATA-PROTOTYPE">/Iface/If/de1</TARGET-DATA-PROTOTYPE-REF>
+                    </DATA-ELEMENT-IREF>
+                    <SIGNAL-GROUP-REF DEST="SIGNAL-GROUP">/Sig/Group1</SIGNAL-GROUP-REF>
+                    <TYPE-MAPPING>
+                        <SENDER-REC-RECORD-TYPE-MAPPING>
+                            <RECORD-ELEMENT-MAPPINGS>
+                                <SENDER-REC-RECORD-ELEMENT-MAPPING>
+                                    <APPLICATION-RECORD-ELEMENT-REF DEST="RECORD-ELEMENT">/App/Rec1</APPLICATION-RECORD-ELEMENT-REF>
+                                    <IMPLEMENTATION-RECORD-ELEMENT-REF DEST="RECORD-ELEMENT">/Impl/Rec1</IMPLEMENTATION-RECORD-ELEMENT-REF>
+                                    <SYSTEM-SIGNAL-REF DEST="SYSTEM-SIGNAL">/Sig/S1</SYSTEM-SIGNAL-REF>
+                                </SENDER-REC-RECORD-ELEMENT-MAPPING>
+                            </RECORD-ELEMENT-MAPPINGS>
+                        </SENDER-REC-RECORD-TYPE-MAPPING>
+                    </TYPE-MAPPING>
+                </SENDER-RECEIVER-TO-SIGNAL-GROUP-MAPPING>
+            </DATA-MAPPINGS>
+        """)
+        parser.readSystemMappingDataMappings(element, mapping)
+        data_mappings = mapping.getDataMappings()
+        assert len(data_mappings) == 1
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
+            SenderReceiverToSignalGroupMapping,
+            SenderRecRecordTypeMapping,
+        )
+        assert isinstance(data_mappings[0], SenderReceiverToSignalGroupMapping)
+        assert data_mappings[0].getSignalGroupRef().getValue() == "/Sig/Group1"
+        assert data_mappings[0].getDataElementIRef() is not None
+        type_mapping = data_mappings[0].getTypeMapping()
+        assert type_mapping is not None
+        assert isinstance(type_mapping, SenderRecRecordTypeMapping)
+        assert len(type_mapping.getRecordElementMappings()) == 1
+
+    def test_reads_both_signal_and_signal_group_mappings(self, parser):
+        mapping = _make_system_mapping()
+        element = _snip("""
+            <DATA-MAPPINGS>
+                <SENDER-RECEIVER-TO-SIGNAL-MAPPING>
+                    <DATA-ELEMENT-IREF>
+                        <CONTEXT-COMPOSITION-REF DEST="COMPOSITION-SW-COMPONENT-TYPE">/Cmp/Comp</CONTEXT-COMPOSITION-REF>
+                    </DATA-ELEMENT-IREF>
+                    <SYSTEM-SIGNAL-REF DEST="SYSTEM-SIGNAL">/Sig/S1</SYSTEM-SIGNAL-REF>
+                </SENDER-RECEIVER-TO-SIGNAL-MAPPING>
+                <SENDER-RECEIVER-TO-SIGNAL-GROUP-MAPPING>
+                    <DATA-ELEMENT-IREF>
+                        <CONTEXT-COMPOSITION-REF DEST="COMPOSITION-SW-COMPONENT-TYPE">/Cmp/Comp</CONTEXT-COMPOSITION-REF>
+                    </DATA-ELEMENT-IREF>
+                    <SIGNAL-GROUP-REF DEST="SIGNAL-GROUP">/Sig/Group1</SIGNAL-GROUP-REF>
+                </SENDER-RECEIVER-TO-SIGNAL-GROUP-MAPPING>
+            </DATA-MAPPINGS>
+        """)
+        parser.readSystemMappingDataMappings(element, mapping)
+        data_mappings = mapping.getDataMappings()
+        assert len(data_mappings) == 2
+
+    def test_unsupported_data_mapping_raises(self, parser):
+        mapping = _make_system_mapping()
+        element = _snip("""
+            <DATA-MAPPINGS>
+                <UNKNOWN-MAPPING>
+                    <SHORT-NAME>X</SHORT-NAME>
+                </UNKNOWN-MAPPING>
+            </DATA-MAPPINGS>
+        """)
+        with pytest.raises(NotImplementedError):
+            parser.readSystemMappingDataMappings(element, mapping)
+
+    def test_unsupported_data_mapping_logs_warning(self, warning_parser, caplog):
+        mapping = _make_system_mapping()
+        element = _snip("""
+            <DATA-MAPPINGS>
+                <UNKNOWN-MAPPING>
+                    <SHORT-NAME>X</SHORT-NAME>
+                </UNKNOWN-MAPPING>
+            </DATA-MAPPINGS>
+        """)
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readSystemMappingDataMappings(element, mapping)
+        assert any("Unsupported Data Mapping" in rec.getMessage() for rec in caplog.records)
+        assert mapping.getDataMappings() == []
+
+    def test_empty_data_mappings(self, parser):
+        mapping = _make_system_mapping()
+        element = _snip("<DATA-MAPPINGS></DATA-MAPPINGS>")
+        parser.readSystemMappingDataMappings(element, mapping)
+        assert mapping.getDataMappings() == []
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestRoleBasedDataTypeAssignment:
+    def test_getRoleBasedDataTypeAssignment_with_role(self, parser):
+        element = _snip(
+            "<ROLE>MyRole</ROLE>"
+            "<USED-IMPLEMENTATION-DATA-TYPE-REF "
+            'DEST="IMPLEMENTATION-DATA-TYPE">/dt/Impl</USED-IMPLEMENTATION-DATA-TYPE-REF>',
+            root_tag="ROLE-BASED-DATA-TYPE-ASSIGNMENT",
+        )
+        result = parser.getRoleBasedDataTypeAssignment(element)
+        assert result.getRole() is not None
+        assert result.getRole().getValue() == "MyRole"
+        assert result.getUsedImplementationDataTypeRef() is not None
+        assert result.getUsedImplementationDataTypeRef().getValue() == "/dt/Impl"
+
+    def test_getRoleBasedDataTypeAssignment_empty(self, parser):
+        element = _snip("", root_tag="ROLE-BASED-DATA-TYPE-ASSIGNMENT")
+        result = parser.getRoleBasedDataTypeAssignment(element)
+        assert result.getRole() is None
+        assert result.getUsedImplementationDataTypeRef() is None
+
+    def test_readServiceDependency_with_role_based_data_type_assignment(
+        self, parser
+    ):
+        from armodel.models import SwcServiceDependency
+        dep = SwcServiceDependency(
+            parent=_autosar_root(), short_name="Dep"
+        )
+        element = _snip(
+            "<ASSIGNED-DATA-TYPES>"
+            "<ROLE-BASED-DATA-TYPE-ASSIGNMENT>"
+            "<ROLE>r</ROLE>"
+            "</ROLE-BASED-DATA-TYPE-ASSIGNMENT>"
+            "</ASSIGNED-DATA-TYPES>",
+            root_tag="SERVICE-DEPENDENCY",
+        )
+        parser.readServiceDependency(element, dep)
+        assert len(dep.getAssignedDataTypes()) == 1
+
+    def test_readServiceDependency_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import SwcServiceDependency
+        dep = SwcServiceDependency(
+            parent=_autosar_root(), short_name="Dep"
+        )
+        element = _snip(
+            "<ASSIGNED-DATA-TYPES><BAD/></ASSIGNED-DATA-TYPES>",
+            root_tag="SERVICE-DEPENDENCY",
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readServiceDependency(element, dep)
+        assert any("Unsupported assigned data type" in r.getMessage()
+                   for r in caplog.records)
+
+
+# ==================== SwcServiceDependency assigned ports/data (L623, L631, L776) ====================
+
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestSwcServiceDependencyAssigned:
+    def test_readAssignedData_unsupported_warns(self, warning_parser, caplog):
+        from armodel.models import SwcServiceDependency
+        dep = SwcServiceDependency(
+            parent=_autosar_root(), short_name="Swsd"
+        )
+        element = _snip(
+            "<ASSIGNED-DATAS><BAD/></ASSIGNED-DATAS>",
+            root_tag="SWC-SERVICE-DEPENDENCY",
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readSwcServiceDependencyAssignedData(
+                element, dep
+            )
+        assert any("Unsupported assigned data" in r.getMessage()
+                   for r in caplog.records)
+
+    def test_readAssignedPorts_unsupported_warns(self, warning_parser, caplog):
+        from armodel.models import SwcServiceDependency
+        dep = SwcServiceDependency(
+            parent=_autosar_root(), short_name="Swsd"
+        )
+        element = _snip(
+            "<ASSIGNED-PORTS><BAD/></ASSIGNED-PORTS>",
+            root_tag="SWC-SERVICE-DEPENDENCY",
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readSwcServiceDependencyAssignedPorts(
+                element, dep
+            )
+        assert any("Unsupported assigned ports" in r.getMessage()
+                   for r in caplog.records)
+
+    def test_readSwcInternalBehaviorServiceDependencies_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        app = ApplicationSwComponentType(
+            parent=_autosar_root(), short_name="App"
+        )
+        behavior = app.createSwcInternalBehavior("Beh")
+        element = _snip(
+            "<SERVICE-DEPENDENCYS><BAD/></SERVICE-DEPENDENCYS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readSwcInternalBehaviorServiceDependencies(
+                element, behavior
+            )
+        assert any("Unsupported Service Dependencies" in r.getMessage()
+                   for r in caplog.records)
+
+
+# ==================== SwcInternalBehavior IncludedModeDeclarationGroupSet (L813, L840, L845-848) ====================
+
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestSwcInternalBehaviorIncludedModeDeclaration:
+    def test_readIncludedModeDeclarationGroupSets_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        app = ApplicationSwComponentType(
+            parent=_autosar_root(), short_name="App"
+        )
+        behavior = app.createSwcInternalBehavior("Beh")
+        element = _snip(
+            "<INCLUDED-MODE-DECLARATION-GROUP-SETS><BAD/></INCLUDED-MODE-DECLARATION-GROUP-SETS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readSwcInternalBehaviorIncludedModeDeclarationGroupSets(
+                element, behavior
+            )
+        assert any("Unsupported IncludedModeDeclarationGroupSet"
+                   in r.getMessage() for r in caplog.records)
+
+    def test_readAtomicSwComponentTypeSwcInternalBehavior_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        app = ApplicationSwComponentType(
+            parent=_autosar_root(), short_name="App"
+        )
+        element = _snip(
+            "<INTERNAL-BEHAVIORS><BAD/></INTERNAL-BEHAVIORS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readAtomicSwComponentTypeSwcInternalBehavior(
+                element, app
+            )
+        assert any("Unsupported Internal Behaviors" in r.getMessage()
+                   for r in caplog.records)
+
+    def test_getIncludedModeDeclarationGroupSets_returns_groups(
+        self, parser
+    ):
+        element = _snip(
+            "<INCLUDED-MODE-DECLARATION-GROUP-SETS>"
+            "<INCLUDED-MODE-DECLARATION-GROUP-SET>"
+            "<MODE-DECLARATION-GROUP-REFS>"
+            '<MODE-DECLARATION-GROUP-REF DEST="MODE-DECLARATION-GROUP">/mdg</MODE-DECLARATION-GROUP-REF>'
+            "</MODE-DECLARATION-GROUP-REFS>"
+            "</INCLUDED-MODE-DECLARATION-GROUP-SET>"
+            "</INCLUDED-MODE-DECLARATION-GROUP-SETS>"
+        )
+        result = parser.getIncludedModeDeclarationGroupSets(element)
+        assert len(result) == 1
+
+
+# ==================== BswInternalBehavior addIncludedModeDeclarationGroupSet (L1025) ====================
+
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestRunnableEntityGaps:
+    def test_readModeSwitchPointModeGroupIRef_sets_ref(self, parser):
+        from armodel.models import ModeSwitchPoint
+        point = ModeSwitchPoint(parent=MagicMock(), short_name="Msp")
+        element = _snip(
+            "<MODE-GROUP-IREF>"
+            "<CONTEXT-IREF>"
+            '<CONTEXT-PORT-REF DEST="P-PORT-PROTOTYPE">/pp</CONTEXT-PORT-REF>'
+            "<TARGET-REF DEST='MODE-DECLARATION-GROUP-PROTOTYPE'>/t</TARGET-REF>"
+            "</CONTEXT-IREF>"
+            "<TARGET-REF DEST='MODE-DECLARATION-GROUP-PROTOTYPE'>/t</TARGET-REF>"
+            "</MODE-GROUP-IREF>"
+        )
+        parser.readModeSwitchPointModeGroupIRef(element, point)
+        assert point.getModeGroupIRef() is not None
+
+    def test_readRunnableEntityModeSwitchPoints_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        app = ApplicationSwComponentType(
+            parent=_autosar_root(), short_name="App"
+        )
+        behavior = app.createSwcInternalBehavior("Beh")
+        entity = behavior.createRunnableEntity("R")
+        element = _snip(
+            "<MODE-SWITCH-POINTS><BAD/></MODE-SWITCH-POINTS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readRunnableEntityModeSwitchPoints(
+                element, entity
+            )
+        assert any("Unsupported Mode Switch Point" in r.getMessage()
+                   for r in caplog.records)
+
+    def test_readRunnableEntityArguments_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        app = ApplicationSwComponentType(
+            parent=_autosar_root(), short_name="App"
+        )
+        behavior = app.createSwcInternalBehavior("Beh")
+        entity = behavior.createRunnableEntity("R")
+        element = _snip(
+            "<ARGUMENTS><BAD/></ARGUMENTS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readRunnableEntityArguments(element, entity)
+        assert any("Unsupported Arguments of runnable entity"
+                   in r.getMessage() for r in caplog.records)
+
+    def test_readRunnableEntityModeAccessPoints_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        app = ApplicationSwComponentType(
+            parent=_autosar_root(), short_name="App"
+        )
+        behavior = app.createSwcInternalBehavior("Beh")
+        entity = behavior.createRunnableEntity("R")
+        element = _snip(
+            "<MODE-ACCESS-POINTS><BAD/></MODE-ACCESS-POINTS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readRunnableEntityModeAccessPoints(
+                element, entity
+            )
+        assert any("Unsupported Mode Access Point" in r.getMessage()
+                   for r in caplog.records)
+
+
+# ==================== SwDataDefPros InvalidValue (L1827) ====================
+
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestGetValueSpecification:
+    def test_application_value_specification(self, parser):
+        element = _snip(
+            "<APPLICATION-VALUE-SPECIFICATION>"
+            "<SHORT-LABEL>lbl</SHORT-LABEL>"
+            "</APPLICATION-VALUE-SPECIFICATION>"
+        )
+        result = parser.getValueSpecification(
+            element, "APPLICATION-VALUE-SPECIFICATION"
+        )
+        assert result is not None
+
+    def test_record_value_specification(self, parser):
+        element = _snip(
+            "<RECORD-VALUE-SPECIFICATION>"
+            "<FIELDS/>"
+            "</RECORD-VALUE-SPECIFICATION>"
+        )
+        result = parser.getValueSpecification(
+            element, "RECORD-VALUE-SPECIFICATION"
+        )
+        assert result is not None
+
+    def test_array_value_specification(self, parser):
+        element = _snip(
+            "<ARRAY-VALUE-SPECIFICATION>"
+            "<ELEMENTS/>"
+            "</ARRAY-VALUE-SPECIFICATION>"
+        )
+        result = parser.getValueSpecification(
+            element, "ARRAY-VALUE-SPECIFICATION"
+        )
+        assert result is not None
+
+    def test_text_value_specification(self, parser):
+        element = _snip(
+            "<TEXT-VALUE-SPECIFICATION>"
+            "<VALUE>txt</VALUE>"
+            "</TEXT-VALUE-SPECIFICATION>"
+        )
+        result = parser.getValueSpecification(
+            element, "TEXT-VALUE-SPECIFICATION"
+        )
+        assert result is not None
+
+    def test_constant_reference(self, parser):
+        element = _snip(
+            '<CONSTANT-REFERENCE>'
+            '<CONSTANT-REF DEST="CONSTANT-SPECIFICATION">/c</CONSTANT-REF>'
+            '</CONSTANT-REFERENCE>'
+        )
+        result = parser.getValueSpecification(
+            element, "CONSTANT-REFERENCE"
+        )
+        assert result is not None
+
+    def test_unsupported_warns(self, warning_parser, caplog):
+        # L2697: notImplemented logs in warning mode. The subsequent
+        # return is a known bug (unbound value_spec), so we catch it.
+        element = _snip("<UNKNOWN/>")
+        with caplog.at_level(logging.ERROR):
+            with pytest.raises(UnboundLocalError):
+                warning_parser.getValueSpecification(
+                    element, "UNKNOWN"
+                )
+        assert any("Unsupported RecordValueSpecificationField"
+                   in r.getMessage() for r in caplog.records)
+
+
+# ==================== EndToEndProtections (L2835-2839) ====================
+
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestSystemMappingGaps:
+    def _make_system(self):
+        pkg = _autosar_root().createARPackage("Pkg")
+        return pkg.createSystem("Sys")
+
+    def test_readSystemMappingSwMappings_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        system = self._make_system()
+        mapping = system.createSystemMapping("Sm")
+        element = _snip(
+            "<SW-MAPPINGS><BAD/></SW-MAPPINGS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readSystemMappingSwMappings(
+                element, mapping
+            )
+        assert any("Unsupported Sw Mapping" in r.getMessage()
+                   for r in caplog.records)
+
+    def test_readSystemMappingEcuResourceMappings_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        system = self._make_system()
+        mapping = system.createSystemMapping("Sm")
+        element = _snip(
+            "<ECU-RESOURCE-MAPPINGS><BAD/></ECU-RESOURCE-MAPPINGS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readSystemMappingEcuResourceMappings(
+                element, mapping
+            )
+        assert any("Unsupported EcuResourceMapping" in r.getMessage()
+                   for r in caplog.records)
+
+    def test_readSystemMappingSwImplMappings_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        system = self._make_system()
+        mapping = system.createSystemMapping("Sm")
+        element = _snip(
+            "<SW-IMPL-MAPPINGS><BAD/></SW-IMPL-MAPPINGS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readSystemMappingSwImplMappings(
+                element, mapping
+            )
+        assert any("Unsupported SwImplMapping" in r.getMessage()
+                   for r in caplog.records)
+
+    def test_readSystemMappings_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        system = self._make_system()
+        element = _snip(
+            "<MAPPINGS><BAD/></MAPPINGS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readSystemMappings(element, system)
+        assert any("Unsupported Mapping" in r.getMessage()
+                   for r in caplog.records)
+
+
+# ==================== RootSwCompositionPrototype (L5496-5497) ====================
+
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestRootSwCompositionPrototype:
+    def test_readRootSwCompositionPrototype_duplicate_warns(
+        self, warning_parser, caplog
+    ):
+        system_pkg = _autosar_root().createARPackage("SysPkg")
+        system = system_pkg.createSystem("Sys")
+        proto = system.createRootSoftwareComposition("Root")
+        AUTOSAR.getInstance().setRootSwCompositionPrototype(proto)
+        element = _snip(
+            "<ROOT-SOFTWARE-COMPOSITIONS>"
+            "<ROOT-SW-COMPOSITION-PROTOTYPE>"
+            "<SHORT-NAME>Root2</SHORT-NAME>"
+            "</ROOT-SW-COMPOSITION-PROTOTYPE>"
+            "</ROOT-SOFTWARE-COMPOSITIONS>"
+        )
+        with caplog.at_level(logging.WARNING):
+            warning_parser.readRootSwCompositionPrototype(
+                element, system
+            )
+        assert any("has already been set" in r.getMessage()
+                   or "RootSwComposition" in r.getMessage()
+                   for r in caplog.records)
+
+
+# ==================== LifeCycleInfoSet (L5545) ====================
+
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestClientServerInterfaceMapping:
+    def test_readOperationMappings_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import ClientServerInterfaceMapping
+        mapping = ClientServerInterfaceMapping(
+            parent=MagicMock(), short_name="Csim"
+        )
+        element = _snip(
+            "<OPERATION-MAPPINGS><BAD/></OPERATION-MAPPINGS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readClientServerInterfaceMappingOperationMappings(
+                element, mapping
+            )
+        assert any("Unsupported Operation Mapping" in r.getMessage()
+                   for r in caplog.records)
+
+
+# ==================== DiagEventDebounceAlgorithm (L687-692) ====================
+

@@ -1,37 +1,17 @@
-"""Tests for EndToEndProtection handler gaps."""
-import xml.etree.ElementTree as ET
-import pytest
-from armodel.models import AUTOSAR
-from armodel.parser.arxml_parser import ARXMLParser
+"""Tests for End-to-End Protection (E2E) handler methods.
 
-NS = "http://autosar.org/schema/r4.0"
+Consolidates:
+- ``readEndToEndProtectionEndToEndProtectionISignalIPdus`` (L2814-2822)
+- ``readEndToEndProtection`` (L2824-2831)
+- ``readEndToEndProtections`` orchestrator
 
+Shared fixtures (``parser``, ``warning_parser``, ``reset_autosar``) are provided
+by ``conftest.py``; helper functions (``_snip``, ``_autosar_root``) live in
+``_helpers.py``.
+"""
+import logging
 
-@pytest.fixture(autouse=True)
-def reset_autosar():
-    AUTOSAR.getInstance().new()
-    yield
-    AUTOSAR.getInstance().new()
-
-
-@pytest.fixture
-def parser():
-    AUTOSAR.getInstance().new()
-    return ARXMLParser()
-
-
-@pytest.fixture
-def warning_parser():
-    AUTOSAR.getInstance().new()
-    return ARXMLParser(options={"warning": True})
-
-
-def _snip(inner: str, root_tag: str = "ROOT") -> ET.Element:
-    return ET.fromstring(f"<{root_tag} xmlns='{NS}'>{inner}</{root_tag}>")
-
-
-def _autosar_root():
-    return AUTOSAR.getInstance()
+from tests.test_armodel.parser._helpers import _autosar_root, _snip
 
 
 def _make_protection():
@@ -49,7 +29,6 @@ class TestReadEndToEndProtectionISignalIPdus:
     """Tests for readEndToEndProtectionEndToEndProtectionISignalIPdus (L2814-2822)."""
 
     def test_reads_isignal_ipdu_main_branch(self, parser):
-        AUTOSAR.getInstance().setARRelease("R23-11")
         protection = _make_protection()
         element = _snip(
             """
@@ -72,7 +51,6 @@ class TestReadEndToEndProtectionISignalIPdus:
         assert ipdus[0].getISignalIPduRef() is not None
 
     def test_empty_container_returns_no_ipdus(self, parser):
-        AUTOSAR.getInstance().setARRelease("R23-11")
         protection = _make_protection()
         element = _snip("")
         parser.readEndToEndProtectionEndToEndProtectionISignalIPdus(
@@ -81,7 +59,6 @@ class TestReadEndToEndProtectionISignalIPdus:
         assert len(protection.getEndToEndProtectionISignalIPdus()) == 0
 
     def test_unknown_tag_logs_warning(self, warning_parser, caplog):
-        AUTOSAR.getInstance().setARRelease("R23-11")
         protection = _make_protection()
         element = _snip(
             """
@@ -92,7 +69,6 @@ class TestReadEndToEndProtectionISignalIPdus:
             </END-TO-END-PROTECTION-I-SIGNAL-I-PDUS>
             """,
         )
-        import logging
         with caplog.at_level(logging.ERROR):
             warning_parser.readEndToEndProtectionEndToEndProtectionISignalIPdus(
                 element, protection
@@ -108,7 +84,6 @@ class TestReadEndToEndProtection:
     """Tests for readEndToEndProtection (L2824-2831)."""
 
     def test_full_handler_creates_protection_with_profile_and_ipdus(self, parser):
-        AUTOSAR.getInstance().setARRelease("R23-11")
         protection_set = _make_protection_set()
         element = _snip(
             """
@@ -146,7 +121,6 @@ class TestReadEndToEndProtection:
         assert len(protection[0].getEndToEndProtectionISignalIPdus()) == 1
 
     def test_minimal_handler_no_optional_elements(self, parser):
-        AUTOSAR.getInstance().setARRelease("R23-11")
         protection_set = _make_protection_set()
         element = _snip(
             """
@@ -163,7 +137,6 @@ class TestReadEndToEndProtection:
         assert len(protection[0].getEndToEndProtectionVariablePrototypes()) == 0
 
     def test_handler_reads_variable_prototypes(self, parser):
-        AUTOSAR.getInstance().setARRelease("R23-11")
         protection_set = _make_protection_set()
         element = _snip(
             """
@@ -184,3 +157,41 @@ class TestReadEndToEndProtection:
         assert len(protection) == 1
         prototypes = protection[0].getEndToEndProtectionVariablePrototypes()
         assert len(prototypes) == 1
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestReadEndToEndProtections:
+    def test_readEndToEndProtections_creates_protection(self, parser):
+        from armodel.models import EndToEndProtectionSet
+        pkg = _autosar_root().createARPackage("Pkg")
+        protection_set = pkg.createEndToEndProtectionSet("E2eSet")
+        element = _snip(
+            "<END-TO-END-PROTECTIONS>"
+            "<END-TO-END-PROTECTION>"
+            "<SHORT-NAME>p</SHORT-NAME>"
+            "</END-TO-END-PROTECTION>"
+            "</END-TO-END-PROTECTIONS>"
+        )
+        parser.readEndToEndProtections(element, protection_set)
+        assert len(protection_set.getEndToEndProtections()) == 1
+
+    def test_readEndToEndProtections_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import EndToEndProtectionSet
+        pkg = _autosar_root().createARPackage("Pkg")
+        protection_set = pkg.createEndToEndProtectionSet("E2eSet")
+        element = _snip(
+            "<END-TO-END-PROTECTIONS><BAD/></END-TO-END-PROTECTIONS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readEndToEndProtections(
+                element, protection_set
+            )
+        assert any("Unsupported EndToEndProtectionSet"
+                   in r.getMessage() for r in caplog.records)
+
+
+# ==================== Timing (L2982, L2997) ====================
+

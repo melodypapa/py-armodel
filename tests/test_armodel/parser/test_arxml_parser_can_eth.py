@@ -1,41 +1,25 @@
-"""Tests for CAN FD and CouplingPort handler gaps."""
+"""Tests for CAN FD, CouplingPort, and Ethernet priority handler methods.
+
+Covers:
+- ``getCanControllerFdConfiguration`` (L4743-4749)
+- ``getCanControllerFdConfigurationRequirements`` (L4751-4765)
+- ``readAbstractCanCommunicationControllerCanControllerAttributes`` (L4780-4788)
+- ``readCouplingPortDetailsCouplingPortStructuralElements`` (L4811-4821)
+- ``readCouplingPortDetailsEthernetPriorityRegenerations`` (L4827-4834)
+- ``getCouplingPortDetails`` (L4836-4844)
+- ``readVlanMembership`` (L4846-4848)
+- ``readCouplingPortVlanMemberships`` (L4850-4857)
+
+Shared fixtures (``parser``, ``warning_parser``, ``reset_autosar``) are provided
+by ``conftest.py``; helper functions (``_snip``, ``_autosar_root``) live in
+``_helpers.py``.
+"""
 import logging
-import xml.etree.ElementTree as ET
+from unittest.mock import MagicMock
+
 import pytest
-from armodel.models import AUTOSAR
-from armodel.parser.arxml_parser import ARXMLParser
 
-NS = "http://autosar.org/schema/r4.0"
-
-
-@pytest.fixture(autouse=True)
-def reset_autosar():
-    AUTOSAR.getInstance().new()
-    AUTOSAR.getInstance().setARRelease("R23-11")
-    yield
-    AUTOSAR.getInstance().new()
-
-
-@pytest.fixture
-def parser():
-    AUTOSAR.getInstance().new()
-    AUTOSAR.getInstance().setARRelease("R23-11")
-    return ARXMLParser()
-
-
-@pytest.fixture
-def warning_parser():
-    AUTOSAR.getInstance().new()
-    AUTOSAR.getInstance().setARRelease("R23-11")
-    return ARXMLParser(options={"warning": True})
-
-
-def _snip(inner: str, root_tag: str = "ROOT") -> ET.Element:
-    return ET.fromstring(f"<{root_tag} xmlns='{NS}'>{inner}</{root_tag}>")
-
-
-def _autosar_root():
-    return AUTOSAR.getInstance()
+from tests.test_armodel.parser._helpers import _autosar_root, _snip
 
 
 # ==================== CanControllerFdConfiguration ====================
@@ -407,3 +391,116 @@ class TestCouplingPortVlanMemberships:
             "Unsupported VlanMembership" in rec.getMessage()
             for rec in caplog.records
         )
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestCommunicationClusterPhysicalChannels:
+    def test_readPhysicalChannels_creates_all_channel_types(
+        self, parser
+    ):
+        from armodel.models import CanCluster, LinCluster
+        from armodel.models import EthernetCluster, FlexrayCluster
+        can_cluster = CanCluster(parent=MagicMock(), short_name="Can")
+        lin_cluster = LinCluster(parent=MagicMock(), short_name="Lin")
+        eth_cluster = EthernetCluster(parent=MagicMock(), short_name="Eth")
+        flx_cluster = FlexrayCluster(parent=MagicMock(), short_name="Flx")
+
+        can_el = _snip(
+            "<PHYSICAL-CHANNELS>"
+            "<CAN-PHYSICAL-CHANNEL><SHORT-NAME>cpc</SHORT-NAME></CAN-PHYSICAL-CHANNEL>"
+            "</PHYSICAL-CHANNELS>"
+        )
+        parser.readCommunicationClusterPhysicalChannels(can_el, can_cluster)
+        assert len(can_cluster.getPhysicalChannels()) == 1
+
+        lin_el = _snip(
+            "<PHYSICAL-CHANNELS>"
+            "<LIN-PHYSICAL-CHANNEL><SHORT-NAME>lpc</SHORT-NAME></LIN-PHYSICAL-CHANNEL>"
+            "</PHYSICAL-CHANNELS>"
+        )
+        parser.readCommunicationClusterPhysicalChannels(lin_el, lin_cluster)
+        assert len(lin_cluster.getPhysicalChannels()) == 1
+
+        eth_el = _snip(
+            "<PHYSICAL-CHANNELS>"
+            "<ETHERNET-PHYSICAL-CHANNEL><SHORT-NAME>epc</SHORT-NAME></ETHERNET-PHYSICAL-CHANNEL>"
+            "</PHYSICAL-CHANNELS>"
+        )
+        parser.readCommunicationClusterPhysicalChannels(eth_el, eth_cluster)
+        assert len(eth_cluster.getPhysicalChannels()) == 1
+
+        flx_el = _snip(
+            "<PHYSICAL-CHANNELS>"
+            "<FLEXRAY-PHYSICAL-CHANNEL><SHORT-NAME>fpc</SHORT-NAME></FLEXRAY-PHYSICAL-CHANNEL>"
+            "</PHYSICAL-CHANNELS>"
+        )
+        parser.readCommunicationClusterPhysicalChannels(flx_el, flx_cluster)
+        assert len(flx_cluster.getPhysicalChannels()) == 1
+
+
+# ==================== DiagnosticConnection / DiagnosticServiceTable (L3607, L3618) ====================
+
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestHwElementAndCategory:
+    def test_readHwElementHwPinGroups_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import HwElement
+        hw_element = HwElement(parent=MagicMock(), short_name="Hw")
+        element = _snip(
+            "<HW-PIN-GROUPS><BAD/></HW-PIN-GROUPS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readHwElementHwPinGroups(
+                element, hw_element
+            )
+        assert any("Unsupported Hw Pin Group" in r.getMessage()
+                   for r in caplog.records)
+
+    def test_readHwCategoryHwAttributeDef_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import HwCategory
+        hw_category = HwCategory(parent=MagicMock(), short_name="Hc")
+        element = _snip(
+            "<HW-ATTRIBUTE-DEFS><BAD/></HW-ATTRIBUTE-DEFS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readHwCategoryHwAttributeDef(
+                element, hw_category
+            )
+        assert any("Unsupported Hw Attribute Defs" in r.getMessage()
+                   for r in caplog.records)
+
+
+# ==================== ISignalToIPduMapping / NmPdu / SecureCommunication (L3862-3863, L3870-3875, L3899-3900) ====================
+
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestCouplingPort:
+    def test_readEthernetCommunicationControllerCouplingPorts_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import EthernetCommunicationController
+        controller = EthernetCommunicationController(
+            parent=MagicMock(), short_name="Ecc"
+        )
+        element = _snip(
+            "<COUPLING-PORTS><BAD/></COUPLING-PORTS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readEthernetCommunicationControllerCouplingPorts(
+                element, controller
+            )
+        assert any("Unsupported Coupling Port" in r.getMessage()
+                   for r in caplog.records)
+
+
+# ==================== TargetIPduRef (L5033-5034) ====================
+

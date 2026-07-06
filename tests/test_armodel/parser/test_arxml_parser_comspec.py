@@ -1,39 +1,30 @@
-"""Tests for ComSpec handler gaps."""
-import xml.etree.ElementTree as ET
+"""Tests for Communication Specification (ComSpec) handler methods.
+
+Covers:
+- ``getClientComSpec`` (L2005-2009)
+- ``getParameterRequireComSpec`` (L2011-2016)
+- ``getQueuedReceiverComSpec`` (L2025-2030)
+- ``getModeSwitchReceiverComSpec`` (L2032-2038)
+- ``getNonqueuedReceiverComSpec`` (L2040-2050)
+- ``readRequiredComSpec`` (L2052-2068)
+- ``getQueuedSenderComSpec`` (L2162-2165)
+- ``getModeSwitchedAckRequest`` (L2167-2173)
+- ``getModeSwitchSenderComSpec`` (L2175-2180)
+- ``getNvProvideComSpec`` (L2182-2188)
+- ``readProvidedComSpec`` (L2190-2204)
+
+Shared fixtures (``parser``, ``warning_parser``, ``reset_autosar``) are provided
+by ``conftest.py``; helper functions (``_snip``, ``_autosar_root``) live in
+``_helpers.py``.
+"""
 from unittest.mock import MagicMock
+import logging
+
 import pytest
+
 from armodel.models import AUTOSAR
 from armodel.models import ApplicationSwComponentType
-from armodel.parser.arxml_parser import ARXMLParser
-
-NS = "http://autosar.org/schema/r4.0"
-
-
-@pytest.fixture(autouse=True)
-def reset_autosar():
-    AUTOSAR.getInstance().new()
-    yield
-    AUTOSAR.getInstance().new()
-
-
-@pytest.fixture
-def parser():
-    AUTOSAR.getInstance().new()
-    return ARXMLParser()
-
-
-@pytest.fixture
-def warning_parser():
-    AUTOSAR.getInstance().new()
-    return ARXMLParser(options={"warning": True})
-
-
-def _snip(inner: str, root_tag: str = "ROOT") -> ET.Element:
-    return ET.fromstring(f"<{root_tag} xmlns='{NS}'>{inner}</{root_tag}>")
-
-
-def _autosar_root():
-    return AUTOSAR.getInstance()
+from tests.test_armodel.parser._helpers import _autosar_root, _snip
 
 
 def _make_r_port():
@@ -420,3 +411,164 @@ class TestReadProvidedComSpec:
         element = _snip("")
         parser.readProvidedComSpec(element, p_port)
         assert len(p_port.getProvidedComSpecs()) == 0
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestCompositeNetworkRepresentation:
+    def test_readReceiverComSpec_adds_composite_repr(self, parser):
+        from armodel.models import NonqueuedReceiverComSpec
+        com_spec = NonqueuedReceiverComSpec()
+        element = _snip(
+            "<COMPOSITE-NETWORK-REPRESENTATIONS>"
+            "<COMPOSITE-NETWORK-REPRESENTATION>"
+            "<NETWORK-REPRESENTATION>"
+            "<SW-DATA-DEF-PROPS-VARIANTS>"
+            "<SW-DATA-DEF-PROPS-CONDITIONAL/>"
+            "</SW-DATA-DEF-PROPS-VARIANTS>"
+            "</NETWORK-REPRESENTATION>"
+            "</COMPOSITE-NETWORK-REPRESENTATION>"
+            "</COMPOSITE-NETWORK-REPRESENTATIONS>"
+        )
+        parser.readReceiverComSpec(element, com_spec)
+        assert len(com_spec.getCompositeNetworkRepresentations()) == 1
+
+    def test_readSenderComSpec_adds_composite_repr(self, parser):
+        from armodel.models import NonqueuedSenderComSpec
+        com_spec = NonqueuedSenderComSpec()
+        element = _snip(
+            "<COMPOSITE-NETWORK-REPRESENTATIONS>"
+            "<COMPOSITE-NETWORK-REPRESENTATION>"
+            "<NETWORK-REPRESENTATION>"
+            "<SW-DATA-DEF-PROPS-VARIANTS>"
+            "<SW-DATA-DEF-PROPS-CONDITIONAL/>"
+            "</SW-DATA-DEF-PROPS-VARIANTS>"
+            "</NETWORK-REPRESENTATION>"
+            "</COMPOSITE-NETWORK-REPRESENTATION>"
+            "</COMPOSITE-NETWORK-REPRESENTATIONS>"
+        )
+        parser.readSenderComSpec(element, com_spec)
+        assert len(com_spec.getCompositeNetworkRepresentations()) == 1
+
+
+# ==================== RequiredComSpecs (L2058) ====================
+
+
+
+# === Migrated from remaining_gaps.py as TestReadRequiredComSpecExtras (originally TestReadRequiredComSpec) ===
+
+class TestReadRequiredComSpecExtras:
+    def test_readRequiredComSpec_client_com_spec(self, parser):
+        app = ApplicationSwComponentType(
+            parent=_autosar_root(), short_name="App"
+        )
+        port = app.createRPortPrototype("RPort")
+        element = _snip(
+            "<REQUIRED-COM-SPECS>"
+            "<CLIENT-COM-SPEC>"
+            '<OPERATION-REF DEST="CLIENT-SERVER-OPERATION">/op</OPERATION-REF>'
+            "</CLIENT-COM-SPEC>"
+            "</REQUIRED-COM-SPECS>"
+        )
+        parser.readRequiredComSpec(element, port)
+        assert len(port.getRequiredComSpecs()) == 1
+
+
+# ==================== TransformationComSpecProps (L2136, L2139, L2143-2149) ====================
+
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestTransformationComSpecProps:
+    def test_readTransformationComSpecProps_sets_attrs(self, parser):
+        from armodel.models import UserDefinedTransformationComSpecProps
+        props = UserDefinedTransformationComSpecProps()
+        element = _snip("")
+        parser.readTransformationComSpecProps(element, props)
+
+    def test_readUserDefinedTransformationComSpecProps(self, parser):
+        from armodel.models import UserDefinedTransformationComSpecProps
+        props = UserDefinedTransformationComSpecProps()
+        element = _snip("")
+        parser.readUserDefinedTransformationComSpecProps(element, props)
+
+    def test_readServerComSpecTransformationComSpecProps_adds_props(
+        self, parser
+    ):
+        from armodel.models import ServerComSpec
+        com_spec = ServerComSpec()
+        element = _snip(
+            "<TRANSFORMATION-COM-SPEC-PROPSS>"
+            "<USER-DEFINED-TRANSFORMATION-COM-SPEC-PROPS/>"
+            "</TRANSFORMATION-COM-SPEC-PROPSS>"
+        )
+        parser.readServerComSpecTransformationComSpecProps(
+            element, com_spec
+        )
+        assert len(com_spec.getTransformationComSpecProps()) == 1
+
+    def test_readServerComSpecTransformationComSpecProps_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import ServerComSpec
+        com_spec = ServerComSpec()
+        element = _snip(
+            "<TRANSFORMATION-COM-SPEC-PROPSS><BAD/></TRANSFORMATION-COM-SPEC-PROPSS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readServerComSpecTransformationComSpecProps(
+                element, com_spec
+            )
+        assert any("Unsupported TransformationComSpecProps"
+                   in r.getMessage() for r in caplog.records)
+
+
+# ==================== PortGroup / InnerPortIRef / Composition (L2231, L2345, L2370) ====================
+
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestInvalidationPolicies:
+    def test_readSenderReceiverInterfaceInvalidationPolicies_adds(
+        self, parser
+    ):
+        from armodel.models import SenderReceiverInterface
+        sr = SenderReceiverInterface(
+            parent=_autosar_root(), short_name="Sr"
+        )
+        element = _snip(
+            "<INVALIDATION-POLICYS>"
+            "<INVALIDATION-POLICY>"
+            '<DATA-ELEMENT-REF DEST="VARIABLE-DATA-PROTOTYPE">/de</DATA-ELEMENT-REF>'
+            "<HANDLE-INVALID>DISABLE</HANDLE-INVALID>"
+            "</INVALIDATION-POLICY>"
+            "</INVALIDATION-POLICYS>"
+        )
+        parser.readSenderReceiverInterfaceInvalidationPolicies(
+            element, sr
+        )
+        assert len(sr.getInvalidationPolicies()) == 1
+
+    def test_readClientServerOperationArguments_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import ClientServerInterface
+        iface = ClientServerInterface(
+            parent=_autosar_root(), short_name="Csi"
+        )
+        op = iface.createOperation("Op")
+        element = _snip(
+            "<ARGUMENTS><BAD/></ARGUMENTS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readClientServerOperationArguments(
+                element, op
+            )
+        assert any("Unsupported Argument" in r.getMessage()
+                   for r in caplog.records)
+
+
+# ==================== getValueSpecification (L2685, 2687, 2691, 2693, 2697) ====================
+

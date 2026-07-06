@@ -13,6 +13,7 @@ covers the remaining BSW surface.
 
 import logging
 import xml.etree.ElementTree as ET
+from unittest.mock import MagicMock
 
 import pytest
 
@@ -1222,3 +1223,76 @@ class TestTriggerHandlers:
         )
         parser.readTrigger(element, trigger)
         assert trigger.getShortName() == "t"
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestBswInternalBehaviorIncludedModeDeclarationGroupSet:
+    def test_readBswInternalBehavior_adds_group_set(self, parser):
+        from armodel.models import BswModuleDescription
+        desc = BswModuleDescription(
+            parent=_autosar_root(), short_name="Bsw"
+        )
+        behavior = desc.createBswInternalBehavior("Beh")
+        element = _snip(
+            "<INCLUDED-MODE-DECLARATION-GROUP-SETS>"
+            "<INCLUDED-MODE-DECLARATION-GROUP-SET>"
+            "<MODE-DECLARATION-GROUP-REFS>"
+            '<MODE-DECLARATION-GROUP-REF DEST="MODE-DECLARATION-GROUP">/mdg</MODE-DECLARATION-GROUP-REF>'
+            "</MODE-DECLARATION-GROUP-REFS>"
+            "</INCLUDED-MODE-DECLARATION-GROUP-SET>"
+            "</INCLUDED-MODE-DECLARATION-GROUP-SETS>"
+        )
+        parser.readBswInternalBehavior(element, behavior)
+        assert len(behavior.getIncludedModeDeclarationGroupSets()) == 1
+
+
+# ==================== ArtifactDescriptor / MemorySectionOptions / StackUsages (L1166, L1179-1180, L1209) ====================
+
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestCodeAndResourceConsumption:
+    def test_readArtifactDescriptor_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import Code
+        code = Code(parent=_autosar_root(), short_name="Code")
+        element = _snip(
+            "<ARTIFACT-DESCRIPTORS><BAD/></ARTIFACT-DESCRIPTORS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readArtifactDescriptor(element, code)
+        assert any("Unsupported Artifact Descriptor" in r.getMessage()
+                   for r in caplog.records)
+
+    def test_readMemorySectionOptions_adds_options(self, parser):
+        from armodel.models import MemorySection
+        section = MemorySection(parent=MagicMock(), short_name="Sec")
+        element = _snip(
+            "<OPTIONS>"
+            "<OPTION>OPT1</OPTION>"
+            "<OPTION>OPT2</OPTION>"
+            "</OPTIONS>"
+        )
+        parser.readMemorySectionOptions(element, section)
+        assert len(section.getOptions()) == 2
+
+    def test_readStackUsages_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import SwcImplementation
+        impl = SwcImplementation(parent=_autosar_root(), short_name="Impl")
+        consumption = impl.createResourceConsumption("Rc")
+        element = _snip(
+            "<STACK-USAGES><BAD/></STACK-USAGES>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readStackUsages(element, consumption)
+        assert any("Unsupported Stack Usages" in r.getMessage()
+                   for r in caplog.records)
+
+
+# ==================== RunnableEntity ModeSwitchPoints / Arguments (L1409, L1414-1416, L1429, L1437) ====================
+

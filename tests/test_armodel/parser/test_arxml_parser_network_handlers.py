@@ -5,6 +5,7 @@ import xml.etree.ElementTree as ET
 import pytest
 from armodel.models import AUTOSAR
 from armodel.parser.arxml_parser import ARXMLParser
+from unittest.mock import MagicMock
 
 NS = "http://autosar.org/schema/r4.0"
 
@@ -2717,3 +2718,659 @@ class TestEcuInstanceHandlers:
         )
         parser.readCouplingPort(element, port)
         assert port.getMacLayerType().getValue() == "ethernet"
+
+
+# ===========================================================================
+# Merged from test_arxml_parser_ecuc_values_gaps.py
+# Signal/Transformation handlers (L5186-5229) - the non-ECUC subset.
+# ===========================================================================
+
+
+def _make_pkg():
+    return _autosar_root().createARPackage("Pkg")
+
+
+def _make_physical_dimension(short_name="PhysDim"):
+    pkg = _make_pkg()
+    return pkg.createPhysicalDimension(short_name)
+
+
+def _make_isignal_group(short_name="ISignalGroup"):
+    pkg = _make_pkg()
+    return pkg.createISignalGroup(short_name)
+
+
+class TestReadPhysicalDimension:
+    """Tests for readPhysicalDimension (L5186-5196)."""
+
+    def test_with_all_exponents(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        dim = _make_physical_dimension("PhysDim")
+        element = _snip(
+            """
+            <SHORT-NAME>PhysDim</SHORT-NAME>
+            <LENGTH-EXP>1</LENGTH-EXP>
+            <LUMINOUS-INTENSITY-EXP>2</LUMINOUS-INTENSITY-EXP>
+            <MASS-EXP>3</MASS-EXP>
+            <MOLAR-AMOUNT-EXP>4</MOLAR-AMOUNT-EXP>
+            <TEMPERATURE-EXP>5</TEMPERATURE-EXP>
+            <TIME-EXP>6</TIME-EXP>
+            <CURRENT-EXP>7</CURRENT-EXP>
+            """,
+            root_tag="PHYSICAL-DIMENSION",
+        )
+        parser.readPhysicalDimension(element, dim)
+        assert dim.getLengthExp() is not None
+        assert dim.getLuminousIntensityExp() is not None
+        assert dim.getMassExp() is not None
+        assert dim.getMolarAmountExp() is not None
+        assert dim.getTemperatureExp() is not None
+        assert dim.getTimeExp() is not None
+        assert dim.getCurrentExp() is not None
+
+    def test_without_exponents(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        dim = _make_physical_dimension("EmptyDim")
+        element = _snip(
+            """
+            <SHORT-NAME>EmptyDim</SHORT-NAME>
+            """,
+            root_tag="PHYSICAL-DIMENSION",
+        )
+        parser.readPhysicalDimension(element, dim)
+        assert dim.getLengthExp() is None
+        assert dim.getLuminousIntensityExp() is None
+        assert dim.getMassExp() is None
+        assert dim.getMolarAmountExp() is None
+        assert dim.getTemperatureExp() is None
+        assert dim.getTimeExp() is None
+        assert dim.getCurrentExp() is None
+
+
+class TestReadISignalGroupISignalRef:
+    """Tests for readISignalGroupISignalRef (L5197-5199)."""
+
+    def test_reads_signal_refs(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        group = _make_isignal_group("ISignalGroup")
+        element = _snip(
+            """
+            <I-SIGNAL-REFS>
+                <I-SIGNAL-REF DEST="I-SIGNAL">/sig/Signal1</I-SIGNAL-REF>
+                <I-SIGNAL-REF DEST="I-SIGNAL">/sig/Signal2</I-SIGNAL-REF>
+            </I-SIGNAL-REFS>
+            """,
+            root_tag="I-SIGNAL-GROUP",
+        )
+        parser.readISignalGroupISignalRef(element, group)
+        refs = group.getISignalRefs()
+        assert len(refs) == 2
+
+    def test_empty_signal_refs(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        group = _make_isignal_group("ISignalGroup")
+        element = _snip(
+            """
+            <I-SIGNAL-REFS>
+            </I-SIGNAL-REFS>
+            """,
+            root_tag="I-SIGNAL-GROUP",
+        )
+        parser.readISignalGroupISignalRef(element, group)
+        assert len(group.getISignalRefs()) == 0
+
+
+class TestReadISignalGroupComBasedSignalGroupTransformation:
+    """Tests for readISignalGroupComBasedSignalGroupTransformation (L5201-5203)."""
+
+    def test_reads_transformation_refs(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        group = _make_isignal_group("ISignalGroup")
+        element = _snip(
+            """
+            <COM-BASED-SIGNAL-GROUP-TRANSFORMATIONS>
+                <DATA-TRANSFORMATION-REF-CONDITIONAL>
+                    <DATA-TRANSFORMATION-REF DEST="DATA-TRANSFORMATION">/trans/Trans1</DATA-TRANSFORMATION-REF>
+                </DATA-TRANSFORMATION-REF-CONDITIONAL>
+                <DATA-TRANSFORMATION-REF-CONDITIONAL>
+                    <DATA-TRANSFORMATION-REF DEST="DATA-TRANSFORMATION">/trans/Trans2</DATA-TRANSFORMATION-REF>
+                </DATA-TRANSFORMATION-REF-CONDITIONAL>
+            </COM-BASED-SIGNAL-GROUP-TRANSFORMATIONS>
+            """,
+            root_tag="I-SIGNAL-GROUP",
+        )
+        parser.readISignalGroupComBasedSignalGroupTransformation(element, group)
+        refs = group.getComBasedSignalGroupTransformationRefs()
+        assert len(refs) == 2
+
+    def test_empty_transformations(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        group = _make_isignal_group("ISignalGroup")
+        element = _snip(
+            """
+            <COM-BASED-SIGNAL-GROUP-TRANSFORMATIONS>
+            </COM-BASED-SIGNAL-GROUP-TRANSFORMATIONS>
+            """,
+            root_tag="I-SIGNAL-GROUP",
+        )
+        parser.readISignalGroupComBasedSignalGroupTransformation(element, group)
+        assert len(group.getComBasedSignalGroupTransformationRefs()) == 0
+
+
+class TestReadTransformationISignalProps:
+    """Tests for readTransformationISignalProps (L5205-5206)."""
+
+    def test_reads_arobject_attributes(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
+            EndToEndTransformationISignalProps,
+        )
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        props = EndToEndTransformationISignalProps()
+        element = ET.fromstring(
+            f"<END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL "
+            f"xmlns='{NS}' T='2024-01-01T00:00:00' UUID='abc-123'>"
+            f"</END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL>"
+        )
+        parser.readTransformationISignalProps(element, props)
+        assert props.timestamp == "2024-01-01T00:00:00"
+        assert props.uuid == "abc-123"
+
+    def test_without_arobject_attributes(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
+            EndToEndTransformationISignalProps,
+        )
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        props = EndToEndTransformationISignalProps()
+        element = _snip(
+            "",
+            root_tag="END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL",
+        )
+        parser.readTransformationISignalProps(element, props)
+        assert props.timestamp is None
+        assert props.uuid is None
+
+
+class TestReadEndToEndTransformationISignalPropsDataIds:
+    """Tests for readEndToEndTransformationISignalPropsDataIds (L5208-5211)."""
+
+    def test_with_data_ids(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
+            EndToEndTransformationISignalProps,
+        )
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        props = EndToEndTransformationISignalProps()
+        element = _snip(
+            """
+            <DATA-IDS>
+                <DATA-ID>1</DATA-ID>
+            </DATA-IDS>
+            """,
+            root_tag="END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL",
+        )
+        parser.readEndToEndTransformationISignalPropsDataIds(element, props)
+        data_ids = props.getDataIds()
+        assert len(data_ids) == 1
+
+    def test_without_data_ids(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
+            EndToEndTransformationISignalProps,
+        )
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        props = EndToEndTransformationISignalProps()
+        element = _snip(
+            "",
+            root_tag="END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL",
+        )
+        parser.readEndToEndTransformationISignalPropsDataIds(element, props)
+        assert len(props.getDataIds()) == 0
+
+
+class TestReadEndToEndTransformationISignalProps:
+    """Tests for readEndToEndTransformationISignalProps (L5213-5219)."""
+
+    def test_full_handler_with_all_fields(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
+            EndToEndTransformationISignalProps,
+        )
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        props = EndToEndTransformationISignalProps()
+        element = _snip(
+            """
+            <END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS>
+                <END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL>
+                    <TRANSFORMER-REF DEST="TRANSFORMATION-TECHNOLOGY">/trans/Tech1</TRANSFORMER-REF>
+                    <DATA-IDS>
+                        <DATA-ID>1</DATA-ID>
+                    </DATA-IDS>
+                    <DATA-LENGTH>64</DATA-LENGTH>
+                </END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL>
+            </END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS>
+            """,
+            root_tag="END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS",
+        )
+        parser.readEndToEndTransformationISignalProps(element, props)
+        assert props.getTransformerRef() is not None
+        assert len(props.getDataIds()) == 1
+        assert props.getDataLength() is not None
+
+    def test_without_variants_element(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
+            EndToEndTransformationISignalProps,
+        )
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        props = EndToEndTransformationISignalProps()
+        element = _snip(
+            "",
+            root_tag="END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS",
+        )
+        parser.readEndToEndTransformationISignalProps(element, props)
+        assert props.getTransformerRef() is None
+        assert len(props.getDataIds()) == 0
+        assert props.getDataLength() is None
+
+    def test_minimal_variants_only_transformer_ref(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
+            EndToEndTransformationISignalProps,
+        )
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        props = EndToEndTransformationISignalProps()
+        element = _snip(
+            """
+            <END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS>
+                <END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL>
+                    <TRANSFORMER-REF DEST="TRANSFORMATION-TECHNOLOGY">/trans/Tech1</TRANSFORMER-REF>
+                </END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL>
+            </END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS>
+            """,
+            root_tag="END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS",
+        )
+        parser.readEndToEndTransformationISignalProps(element, props)
+        assert props.getTransformerRef() is not None
+        assert len(props.getDataIds()) == 0
+        assert props.getDataLength() is None
+
+
+class TestReadISignalGroupTransformationISignalProps:
+    """Tests for readISignalGroupTransformationISignalProps (L5221-5229)."""
+
+    def test_reads_end_to_end_transformation_props(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        group = _make_isignal_group("ISignalGroup")
+        element = _snip(
+            """
+            <TRANSFORMATION-I-SIGNAL-PROPSS>
+                <END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS>
+                    <END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS>
+                        <END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL>
+                            <TRANSFORMER-REF DEST="TRANSFORMATION-TECHNOLOGY">/trans/Tech1</TRANSFORMER-REF>
+                            <DATA-IDS>
+                                <DATA-ID>1</DATA-ID>
+                            </DATA-IDS>
+                            <DATA-LENGTH>32</DATA-LENGTH>
+                        </END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL>
+                    </END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS>
+                </END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS>
+            </TRANSFORMATION-I-SIGNAL-PROPSS>
+            """,
+            root_tag="I-SIGNAL-GROUP",
+        )
+        parser.readISignalGroupTransformationISignalProps(element, group)
+        props = group.getTransformationISignalProps()
+        assert props is not None
+        assert props.getTransformerRef() is not None
+        assert len(props.getDataIds()) == 1
+        assert props.getDataLength() is not None
+
+    def test_empty_transformation_props(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        group = _make_isignal_group("ISignalGroup")
+        element = _snip(
+            """
+            <TRANSFORMATION-I-SIGNAL-PROPSS>
+            </TRANSFORMATION-I-SIGNAL-PROPSS>
+            """,
+            root_tag="I-SIGNAL-GROUP",
+        )
+        parser.readISignalGroupTransformationISignalProps(element, group)
+        assert group.getTransformationISignalProps() is None
+
+    def test_unsupported_type_warning(self, warning_parser, caplog):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        group = _make_isignal_group("ISignalGroup")
+        element = _snip(
+            """
+            <TRANSFORMATION-I-SIGNAL-PROPSS>
+                <UNKNOWN-TRANSFORMATION-PROPS>
+                    <SHORT-NAME>Unknown</SHORT-NAME>
+                </UNKNOWN-TRANSFORMATION-PROPS>
+                <END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS>
+                    <END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS>
+                        <END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL>
+                            <TRANSFORMER-REF DEST="TRANSFORMATION-TECHNOLOGY">/trans/Tech1</TRANSFORMER-REF>
+                        </END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL>
+                    </END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS>
+                </END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS>
+            </TRANSFORMATION-I-SIGNAL-PROPSS>
+            """,
+            root_tag="I-SIGNAL-GROUP",
+        )
+        import logging
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readISignalGroupTransformationISignalProps(element, group)
+        assert any(
+            "Unsupported TransformationISignalProps" in rec.getMessage()
+            for rec in caplog.records
+        )
+        props = group.getTransformationISignalProps()
+        assert props is not None
+        assert props.getTransformerRef() is not None
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestFrameAndFlexrayTriggering:
+    def test_readFrameTriggering_adds_pdu_triggering_ref(self, parser):
+        from armodel.models import CanFrameTriggering
+        triggering = CanFrameTriggering(
+            parent=MagicMock(), short_name="Cft"
+        )
+        element = _snip(
+            "<PDU-TRIGGERINGS>"
+            "<PDU-TRIGGERING-REF-CONDITIONAL>"
+            '<PDU-TRIGGERING-REF DEST="PDU-TRIGGERING">/pt</PDU-TRIGGERING-REF>'
+            "</PDU-TRIGGERING-REF-CONDITIONAL>"
+            "</PDU-TRIGGERINGS>"
+        )
+        parser.readFrameTriggering(element, triggering)
+        assert len(triggering.getPduTriggeringRefs()) == 1
+
+    def test_readFlexrayAbsolutelyScheduledTimingCommunicationCycle_cycle(
+        self, parser
+    ):
+        from armodel.models import FlexrayAbsolutelyScheduledTiming
+        timing = FlexrayAbsolutelyScheduledTiming()
+        element = _snip(
+            "<COMMUNICATION-CYCLE>"
+            "<CYCLE-REPETITION>"
+            "<BASE-CYCLE>1</BASE-CYCLE>"
+            "<CYCLE-REPETITION>CYCLE-REPETITION-1</CYCLE-REPETITION>"
+            "</CYCLE-REPETITION>"
+            "</COMMUNICATION-CYCLE>"
+        )
+        parser.readFlexrayAbsolutelyScheduledTimingCommunicationCycle(
+            element, timing
+        )
+        assert timing.getCommunicationCycle() is not None
+
+    def test_readFlexrayAbsolutelyScheduledTimingCommunicationCycle_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import FlexrayAbsolutelyScheduledTiming
+        timing = FlexrayAbsolutelyScheduledTiming()
+        element = _snip(
+            "<COMMUNICATION-CYCLE><BAD/></COMMUNICATION-CYCLE>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readFlexrayAbsolutelyScheduledTimingCommunicationCycle(
+                element, timing
+            )
+        assert any("Unsupported CommunicationCycle" in r.getMessage()
+                   for r in caplog.records)
+
+    def test_readFlexrayFrameTriggeringAbsolutelyScheduledTimings_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import FlexrayFrameTriggering
+        triggering = FlexrayFrameTriggering(
+            parent=MagicMock(), short_name="Fft"
+        )
+        element = _snip(
+            "<ABSOLUTELY-SCHEDULED-TIMINGS><BAD/></ABSOLUTELY-SCHEDULED-TIMINGS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readFlexrayFrameTriggeringAbsolutelyScheduledTimings(
+                element, triggering
+            )
+        assert any("Unsupported AbsolutelyScheduledTiming"
+                   in r.getMessage() for r in caplog.records)
+
+
+# ==================== PduTriggering / PhysicalChannel (L3084, L3112, L3121, L3148-3152) ====================
+
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestPduAndPhysicalChannel:
+    def test_readPduTriggering_adds_isignal_triggering_ref(self, parser):
+        from armodel.models import PduTriggering
+        triggering = PduTriggering(
+            parent=MagicMock(), short_name="Pt"
+        )
+        element = _snip(
+            "<I-SIGNAL-TRIGGERINGS>"
+            "<I-SIGNAL-TRIGGERING-REF-CONDITIONAL>"
+            '<I-SIGNAL-TRIGGERING-REF DEST="I-SIGNAL-TRIGGERING">/ist</I-SIGNAL-TRIGGERING-REF>'
+            "</I-SIGNAL-TRIGGERING-REF-CONDITIONAL>"
+            "</I-SIGNAL-TRIGGERINGS>"
+        )
+        parser.readPduTriggering(element, triggering)
+        assert len(triggering.getISignalTriggeringRefs()) == 1
+
+    def test_readPhysicalChannelFrameTriggerings_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import CanPhysicalChannel
+        channel = CanPhysicalChannel(
+            parent=MagicMock(), short_name="Ch"
+        )
+        element = _snip(
+            "<FRAME-TRIGGERINGS><BAD/></FRAME-TRIGGERINGS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readPhysicalChannelFrameTriggerings(
+                element, channel
+            )
+        assert any("Unsupported Frame Triggering" in r.getMessage()
+                   for r in caplog.records)
+
+    def test_readPhysicalChannelPduTriggerings_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import CanPhysicalChannel
+        channel = CanPhysicalChannel(
+            parent=MagicMock(), short_name="Ch"
+        )
+        element = _snip(
+            "<PDU-TRIGGERINGS><BAD/></PDU-TRIGGERINGS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readPhysicalChannelPduTriggerings(
+                element, channel
+            )
+        assert any("Unsupported Frame Triggering" in r.getMessage()
+                   for r in caplog.records)
+
+    def test_readPhysicalChannelISignalTriggerings_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import CanPhysicalChannel
+        channel = CanPhysicalChannel(
+            parent=MagicMock(), short_name="Ch"
+        )
+        element = _snip(
+            "<I-SIGNAL-TRIGGERINGS><BAD/></I-SIGNAL-TRIGGERINGS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readPhysicalChannelISignalTriggerings(
+                element, channel
+            )
+        assert any("Unsupported Frame Triggering" in r.getMessage()
+                   for r in caplog.records)
+
+    def test_readLinScheduleTableTableEntries_application_entry(
+        self, parser
+    ):
+        from armodel.models import LinScheduleTable
+        table = LinScheduleTable(parent=MagicMock(), short_name="St")
+        element = _snip(
+            "<TABLE-ENTRYS>"
+            "<APPLICATION-ENTRY>"
+            "<SHORT-NAME>ae</SHORT-NAME>"
+            "<DELAY>0.1</DELAY>"
+            "<POSITION-IN-TABLE>1</POSITION-IN-TABLE>"
+            '<FRAME-TRIGGERING-REF DEST="FRAME-TRIGGERING">/ft</FRAME-TRIGGERING-REF>'
+            "</APPLICATION-ENTRY>"
+            "</TABLE-ENTRYS>"
+        )
+        parser.readLinScheduleTableTableEntries(element, table)
+        assert len(table.getTableEntries()) == 1
+
+    def test_readLinScheduleTableTableEntries_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import LinScheduleTable
+        table = LinScheduleTable(parent=MagicMock(), short_name="St")
+        element = _snip(
+            "<TABLE-ENTRYS><BAD/></TABLE-ENTRYS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readLinScheduleTableTableEntries(
+                element, table
+            )
+        assert any("Unsupported Schedule Table" in r.getMessage()
+                   for r in caplog.records)
+
+
+# ==================== SocketConnection (L3239, L3250, L3264, L3277) ====================
+
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestSocketConnection:
+    def test_getSocketConnectionPdus_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        element = _snip("<PDUS><BAD/></PDUS>")
+        with caplog.at_level(logging.ERROR):
+            result = warning_parser.getSocketConnectionPdus(element)
+        assert result == []
+        assert any("Unsupported Pdu" in r.getMessage()
+                   for r in caplog.records)
+
+    def test_getSocketConnection_with_pdus(self, parser):
+        element = _snip(
+            "<CLIENT-IP-ADDR-FROM-CONNECTION-REQUEST>true</CLIENT-IP-ADDR-FROM-CONNECTION-REQUEST>"
+            "<PDUS>"
+            "<SOCKET-CONNECTION-IPDU-IDENTIFIER>"
+            "<SHORT-NAME>p</SHORT-NAME>"
+            '<TP-CONFIG-REF DEST="I-PDU-REF">/ipdu</TP-CONFIG-REF>'
+            "</SOCKET-CONNECTION-IPDU-IDENTIFIER>"
+            "</PDUS>"
+        )
+        result = parser.getSocketConnection(element)
+        assert result is not None
+        assert len(result.getPdus()) == 1
+
+    def test_readSocketConnectionBundleConnections_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import SocketConnectionBundle
+        bundle = SocketConnectionBundle(
+            parent=MagicMock(), short_name="Scb"
+        )
+        element = _snip(
+            "<BUNDLED-CONNECTIONS><BAD/></BUNDLED-CONNECTIONS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readSocketConnectionBundleConnections(
+                element, bundle
+            )
+        assert any("Unsupported Bundled Connection" in r.getMessage()
+                   for r in caplog.records)
+
+    def test_readSoAdConfigConnectionBundles_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import SoAdConfig
+        config = SoAdConfig()
+        element = _snip(
+            "<CONNECTION-BUNDLES><BAD/></CONNECTION-BUNDLES>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readSoAdConfigConnectionBundles(
+                element, config
+            )
+        assert any("Unsupported Connection Bundle" in r.getMessage()
+                   for r in caplog.records)
+
+
+# ==================== ServiceInstance (L3363-3366, L3370-3375, L3405, L3408, L3418, L3429-3434) ====================
+
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestSystemSignalGroup:
+    def test_readSystemSignalGroup_adds_refs(self, parser):
+        from armodel.models import SystemSignalGroup
+        group = SystemSignalGroup(parent=MagicMock(), short_name="Ssg")
+        element = _snip(
+            "<SYSTEM-SIGNAL-REFS>"
+            '<SYSTEM-SIGNAL-REF DEST="SYSTEM-SIGNAL">/s1</SYSTEM-SIGNAL-REF>'
+            '<SYSTEM-SIGNAL-REF DEST="SYSTEM-SIGNAL">/s2</SYSTEM-SIGNAL-REF>'
+            "</SYSTEM-SIGNAL-REFS>"
+        )
+        parser.readSystemSignalGroup(element, group)
+        assert len(group.getSystemSignalRefs()) == 2
+
+
+# ==================== ISignalIPduGroup (L5351, L5360, L5362) ====================
+
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestISignalIPduGroup:
+    def test_getISignalIPduRefs_returns_refs(self, parser):
+        element = _snip(
+            "<I-SIGNAL-I-PDUS>"
+            "<I-SIGNAL-I-PDU-REF-CONDITIONAL>"
+            '<I-SIGNAL-I-PDU-REF DEST="I-SIGNAL-I-PDU">/p1</I-SIGNAL-I-PDU-REF>'
+            "</I-SIGNAL-I-PDU-REF-CONDITIONAL>"
+            "</I-SIGNAL-I-PDUS>"
+        )
+        result = parser.getISignalIPduRefs(element)
+        assert len(result) == 1
+
+    def test_readISignalIPduGroup_adds_contained_ref(self, parser):
+        from armodel.models import ISignalIPduGroup
+        group = ISignalIPduGroup(parent=MagicMock(), short_name="Isg")
+        element = _snip(
+            '<COMMUNICATION-DIRECTION>IN</COMMUNICATION-DIRECTION>'
+            '<COMMUNICATION-MODE>SEND</COMMUNICATION-MODE>'
+            "<CONTAINED-I-SIGNAL-I-PDU-GROUP-REFS>"
+            '<CONTAINED-I-SIGNAL-I-PDU-GROUP-REF DEST="I-SIGNAL-I-PDU-GROUP">/g</CONTAINED-I-SIGNAL-I-PDU-GROUP-REF>'
+            "</CONTAINED-I-SIGNAL-I-PDU-GROUP-REFS>"
+        )
+        parser.readISignalIPduGroup(element, group)
+        assert group.getCommunicationDirection() is not None
+        assert len(group.getContainedISignalIPduGroupRefs()) == 1
+
+    def test_readISignalIPduGroup_adds_i_signal_i_pdu_ref(self, parser):
+        from armodel.models import ISignalIPduGroup
+        group = ISignalIPduGroup(parent=MagicMock(), short_name="Isg")
+        element = _snip(
+            "<I-SIGNAL-I-PDUS>"
+            "<I-SIGNAL-I-PDU-REF-CONDITIONAL>"
+            '<I-SIGNAL-I-PDU-REF DEST="I-SIGNAL-I-PDU">/p1</I-SIGNAL-I-PDU-REF>'
+            "</I-SIGNAL-I-PDU-REF-CONDITIONAL>"
+            "</I-SIGNAL-I-PDUS>"
+        )
+        parser.readISignalIPduGroup(element, group)
+        assert len(group.getISignalIPduRefs()) == 1
+
+
+# ==================== SystemMapping (L5437, L5451, L5466, L5483) ====================
+

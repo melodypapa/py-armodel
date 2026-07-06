@@ -1,41 +1,21 @@
-"""Tests for NM and LIN TP handler gaps."""
+"""Tests for Network Management (NM) and Transport Protocol (TP) handler methods.
+
+Covers:
+- ``readUdpNmEcu`` (UdpNmEcu handler)
+- ``readBusDependentNmEcus`` (bus-dependent NM ECU collection)
+- ``readLinTpConfigTpConnections`` (LIN TP connections)
+- ``readLinTpNode`` (LIN TP node properties)
+- ``readLinTpConfigTpNodes`` (LIN TP node collection)
+
+Shared fixtures (``parser``, ``warning_parser``, ``reset_autosar``) are provided
+by ``conftest.py``; helper functions (``_snip``, ``_autosar_root``) live in
+``_helpers.py``.
+"""
 import logging
-import xml.etree.ElementTree as ET
+
 import pytest
-from armodel.models import AUTOSAR
-from armodel.parser.arxml_parser import ARXMLParser
 
-NS = "http://autosar.org/schema/r4.0"
-
-
-@pytest.fixture(autouse=True)
-def reset_autosar():
-    AUTOSAR.getInstance().new()
-    AUTOSAR.getInstance().setARRelease("R23-11")
-    yield
-    AUTOSAR.getInstance().new()
-
-
-@pytest.fixture
-def parser():
-    AUTOSAR.getInstance().new()
-    AUTOSAR.getInstance().setARRelease("R23-11")
-    return ARXMLParser()
-
-
-@pytest.fixture
-def warning_parser():
-    AUTOSAR.getInstance().new()
-    AUTOSAR.getInstance().setARRelease("R23-11")
-    return ARXMLParser(options={"warning": True})
-
-
-def _snip(inner: str, root_tag: str = "ROOT") -> ET.Element:
-    return ET.fromstring(f"<{root_tag} xmlns='{NS}'>{inner}</{root_tag}>")
-
-
-def _autosar_root():
-    return AUTOSAR.getInstance()
+from tests.test_armodel.parser._helpers import _autosar_root, _snip
 
 
 class TestUdpNmEcuHandler:
@@ -356,3 +336,129 @@ class TestLinTpConfigTpNodesHandler:
         assert len(nodes) == 2
         assert nodes[0].getShortName() == "node1"
         assert nodes[1].getShortName() == "node2"
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestNmConfigGaps:
+    def test_readNmConfigNmClusterCouplings_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import NmConfig
+        config = NmConfig(parent=_autosar_root(), short_name="Nmc")
+        element = _snip(
+            "<NM-CLUSTER-COUPLINGS><BAD/></NM-CLUSTER-COUPLINGS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readNmConfigNmClusterCouplings(
+                element, config
+            )
+        assert any("Unsupported Nm Node" in r.getMessage()
+                   for r in caplog.records)
+
+    def test_readNmConfigNmIfEcus_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import NmConfig
+        config = NmConfig(parent=_autosar_root(), short_name="Nmc")
+        element = _snip(
+            "<NM-IF-ECUS><BAD/></NM-IF-ECUS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readNmConfigNmIfEcus(element, config)
+        assert any("Unsupported NmIfEcus" in r.getMessage()
+                   for r in caplog.records)
+
+
+# ==================== TpConfig (L4097, L4111, L4122, L4165, L4183, L4205) ====================
+
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestTpConfigGaps:
+    def test_readCanTpConfigTpAddresses_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import CanTpConfig
+        config = CanTpConfig(parent=_autosar_root(), short_name="Ctp")
+        element = _snip(
+            "<TP-ADDRESSS><BAD/></TP-ADDRESSS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readCanTpConfigTpAddresses(
+                element, config
+            )
+        assert any("Unsupported TpAddress" in r.getMessage()
+                   for r in caplog.records)
+
+    def test_readCanTpConfigTpChannels_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import CanTpConfig
+        config = CanTpConfig(parent=_autosar_root(), short_name="Ctp")
+        element = _snip(
+            "<TP-CHANNELS><BAD/></TP-CHANNELS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readCanTpConfigTpChannels(
+                element, config
+            )
+        assert any("Unsupported TpChannel" in r.getMessage()
+                   for r in caplog.records)
+
+    def test_readTpConnectionReceiverRefs_adds_ref(self, parser):
+        from armodel.models import CanTpConnection
+        conn = CanTpConnection()
+        element = _snip(
+            "<RECEIVER-REFS>"
+            '<RECEIVER-REF DEST="ECU-INSTANCE">/r</RECEIVER-REF>'
+            "</RECEIVER-REFS>"
+        )
+        parser.readTpConnectionReceiverRefs(element, conn)
+        assert len(conn.getReceiverRefs()) == 1
+
+    def test_readCanTpConfigTpEcus_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import CanTpConfig
+        config = CanTpConfig(parent=_autosar_root(), short_name="Ctp")
+        element = _snip(
+            "<TP-ECUS><BAD/></TP-ECUS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readCanTpConfigTpEcus(element, config)
+        assert any("Unsupported TpEcu" in r.getMessage()
+                   for r in caplog.records)
+
+    def test_readCanTpConfigTpNodes_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import CanTpConfig
+        config = CanTpConfig(parent=_autosar_root(), short_name="Ctp")
+        element = _snip(
+            "<TP-NODES><BAD/></TP-NODES>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readCanTpConfigTpNodes(element, config)
+        assert any("Unsupported TpNode" in r.getMessage()
+                   for r in caplog.records)
+
+    def test_readLinTpConfigTpAddresses_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import LinTpConfig
+        config = LinTpConfig(parent=_autosar_root(), short_name="Ltp")
+        element = _snip(
+            "<TP-ADDRESSS><BAD/></TP-ADDRESSS>"
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readLinTpConfigTpAddresses(
+                element, config
+            )
+        assert any("Unsupported TpAddress" in r.getMessage()
+                   for r in caplog.records)
+
+
+# ==================== BufferProperties (L4311-4313) ====================
+

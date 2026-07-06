@@ -1,41 +1,21 @@
-"""Tests for MultiplexedIPdu and SecureCommunication handler gaps."""
-import xml.etree.ElementTree as ET
+"""Tests for Multiplexed I-PDU, User-Defined PDU, and Secure Communication handlers.
+
+Covers:
+- MultiplexedPart / DynamicPart / StaticPart handlers
+- MultiplexedIPdu dynamic/static part orchestrators
+- UserDefinedIPdu, UserDefinedPdu, GeneralPurposePdu, GeneralPurposeIPdu handlers
+- SecureCommunicationAuthenticationProps / FreshnessProps handlers
+- SecureCommunicationPropsSet orchestrators
+- SoAdRoutingGroup handler
+
+Shared fixtures (``parser``, ``warning_parser``, ``reset_autosar``) are provided
+by ``conftest.py``; helper functions (``_snip``, ``_autosar_root``) live in
+``_helpers.py``.
+"""
 from unittest.mock import MagicMock
-import pytest
-from armodel.models import AUTOSAR
-from armodel.parser.arxml_parser import ARXMLParser
+import logging
 
-NS = "http://autosar.org/schema/r4.0"
-
-
-@pytest.fixture(autouse=True)
-def reset_autosar():
-    AUTOSAR.getInstance().new()
-    AUTOSAR.getInstance().setARRelease("R23-11")
-    yield
-    AUTOSAR.getInstance().new()
-
-
-@pytest.fixture
-def parser():
-    AUTOSAR.getInstance().new()
-    AUTOSAR.getInstance().setARRelease("R23-11")
-    return ARXMLParser()
-
-
-@pytest.fixture
-def warning_parser():
-    AUTOSAR.getInstance().new()
-    AUTOSAR.getInstance().setARRelease("R23-11")
-    return ARXMLParser(options={"warning": True})
-
-
-def _snip(inner: str, root_tag: str = "ROOT") -> ET.Element:
-    return ET.fromstring(f"<{root_tag} xmlns='{NS}'>{inner}</{root_tag}>")
-
-
-def _autosar_root():
-    return AUTOSAR.getInstance()
+from tests.test_armodel.parser._helpers import _autosar_root, _snip
 
 
 class TestMultiplexedPartHandlers:
@@ -493,114 +473,109 @@ class TestSoAdRoutingGroupHandler:
         assert group.getEventGroupControlType() is None
 
 
-class TestDoIpHandlers:
-    """Tests for DoIpLogicAddress, DoIpTpConnection, DoIpTpConfig handlers."""
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
 
-    def test_readDoIpLogicAddress_sets_address(self, parser):
-        from armodel.models import DoIpLogicAddress
-        address = DoIpLogicAddress(parent=_autosar_root(), short_name="doIpAddr")
-        element = _snip(
-            "<SHORT-NAME>doIpAddr</SHORT-NAME>"
-            "<ADDRESS>0x0E80</ADDRESS>",
-            root_tag="DO-IP-LOGIC-ADDRESS",
+class TestPduAndSecureCommunication:
+    def test_readISignalToIPduMapping_sets_refs(self, parser):
+        from armodel.models import ISignalToIPduMapping
+        mapping = ISignalToIPduMapping(
+            parent=MagicMock(), short_name="M"
         )
-        parser.readDoIpLogicAddress(element, address)
-        assert address.getShortName() == "doIpAddr"
-        assert address.getAddress() is not None
-        assert address.getAddress().getValue() == 0x0E80
-
-    def test_readDoIpLogicAddress_empty(self, parser):
-        from armodel.models import DoIpLogicAddress
-        address = DoIpLogicAddress(parent=_autosar_root(), short_name="doIpAddr")
         element = _snip(
-            "<SHORT-NAME>doIpAddr</SHORT-NAME>",
-            root_tag="DO-IP-LOGIC-ADDRESS",
+            '<I-SIGNAL-REF DEST="I-SIGNAL">/is</I-SIGNAL-REF>'
+            "<PACKING-BYTE-ORDER>MOST-SIGNIFICANT-BYTE-LAST</PACKING-BYTE-ORDER>"
+            "<START-POSITION>0</START-POSITION>"
+            "<TRANSFER-PROPERTY>TRIGGERED</TRANSFER-PROPERTY>"
         )
-        parser.readDoIpLogicAddress(element, address)
-        assert address.getAddress() is None
+        parser.readISignalToIPduMapping(element, mapping)
+        assert mapping.getISignalRef() is not None
+        assert mapping.getPackingByteOrder() is not None
 
-    def test_readDoIpTpConfigDoIpLogicAddresses_with_address(self, parser):
-        from armodel.models import DoIpTpConfig
-        config = DoIpTpConfig(parent=_autosar_root(), short_name="doIpConfig")
+    def test_readNmPduISignalToIPduMappings_creates_mapping(
+        self, parser
+    ):
+        from armodel.models import NmPdu
+        pdu = NmPdu(parent=MagicMock(), short_name="Np")
         element = _snip(
-            "<DO-IP-LOGIC-ADDRESSS>"
-            "<DO-IP-LOGIC-ADDRESS>"
-            "<SHORT-NAME>logicAddr</SHORT-NAME>"
-            "<ADDRESS>0x0E80</ADDRESS>"
-            "</DO-IP-LOGIC-ADDRESS>"
-            "</DO-IP-LOGIC-ADDRESSS>",
+            "<I-SIGNAL-TO-I-PDU-MAPPINGS>"
+            "<I-SIGNAL-TO-I-PDU-MAPPING>"
+            "<SHORT-NAME>m</SHORT-NAME>"
+            "</I-SIGNAL-TO-I-PDU-MAPPING>"
+            "</I-SIGNAL-TO-I-PDU-MAPPINGS>"
         )
-        parser.readDoIpTpConfigDoIpLogicAddresses(element, config)
-        addresses = config.getDoIpLogicAddresses()
-        assert len(addresses) == 1
-        assert addresses[0].getShortName() == "logicAddr"
-        assert addresses[0].getAddress().getValue() == 0x0E80
+        parser.readNmPduISignalToIPduMappings(element, pdu)
+        assert len(pdu.getISignalToIPduMappings()) == 1
 
-    def test_readDoIpTpConfigDoIpLogicAddresses_unknown_warning(self, warning_parser):
-        from armodel.models import DoIpTpConfig
-        config = DoIpTpConfig(parent=_autosar_root(), short_name="doIpConfig")
+    def test_readNmPduISignalToIPduMappings_unsupported_warns(
+        self, warning_parser, caplog
+    ):
+        from armodel.models import NmPdu
+        pdu = NmPdu(parent=MagicMock(), short_name="Np")
         element = _snip(
-            "<DO-IP-LOGIC-ADDRESSS>"
-            "<UNKNOWN-ADDRESS>"
-            "<SHORT-NAME>Unknown</SHORT-NAME>"
-            "</UNKNOWN-ADDRESS>"
-            "</DO-IP-LOGIC-ADDRESSS>",
+            "<I-SIGNAL-TO-I-PDU-MAPPINGS><BAD/></I-SIGNAL-TO-I-PDU-MAPPINGS>"
         )
-        warning_parser.readDoIpTpConfigDoIpLogicAddresses(element, config)
-        assert len(config.getDoIpLogicAddresses()) == 0
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readNmPduISignalToIPduMappings(element, pdu)
+        assert any("Unsupported ISignalToIPduMapping" in r.getMessage()
+                   for r in caplog.records)
 
-    def test_readDoIpTpConnection_sets_refs(self, parser):
-        from armodel.models import DoIpTpConnection
-        connection = DoIpTpConnection()
+    def test_getSecureCommunicationProps_sets_props(self, parser):
         element = _snip(
-            '<DO-IP-SOURCE-ADDRESS-REF DEST="DO-IP-LOGIC-ADDRESS">/doIp/srcAddr</DO-IP-SOURCE-ADDRESS-REF>'
-            '<DO-IP-TARGET-ADDRESS-REF DEST="DO-IP-LOGIC-ADDRESS">/doIp/tgtAddr</DO-IP-TARGET-ADDRESS-REF>'
-            '<TP-SDU-REF DEST="I-PDU">/pdus/sdu</TP-SDU-REF>',
-            root_tag="DO-IP-TP-CONNECTION",
+            "<SECURE-COMMUNICATION-PROPS>"
+            "<AUTH-DATA-FRESHNESS-LENGTH>16</AUTH-DATA-FRESHNESS-LENGTH>"
+            "<AUTH-DATA-FRESHNESS-START-POSITION>0</AUTH-DATA-FRESHNESS-START-POSITION>"
+            "<AUTH-INFO-TX-LENGTH>8</AUTH-INFO-TX-LENGTH>"
+            "</SECURE-COMMUNICATION-PROPS>"
         )
-        parser.readDoIpTpConnection(element, connection)
-        assert connection.getDoIpSourceAddressRef() is not None
-        assert connection.getDoIpSourceAddressRef().getValue() == "/doIp/srcAddr"
-        assert connection.getDoIpTargetAddressRef() is not None
-        assert connection.getDoIpTargetAddressRef().getValue() == "/doIp/tgtAddr"
-        assert connection.getTpSduRef() is not None
-        assert connection.getTpSduRef().getValue() == "/pdus/sdu"
+        result = parser.getSecureCommunicationProps(
+            element, "SECURE-COMMUNICATION-PROPS"
+        )
+        assert result is not None
+        assert result.getAuthDataFreshnessLength().getValue() == 16
 
-    def test_readDoIpTpConnection_empty(self, parser):
-        from armodel.models import DoIpTpConnection
-        connection = DoIpTpConnection()
-        element = _snip("", root_tag="DO-IP-TP-CONNECTION")
-        parser.readDoIpTpConnection(element, connection)
-        assert connection.getDoIpSourceAddressRef() is None
-        assert connection.getDoIpTargetAddressRef() is None
-        assert connection.getTpSduRef() is None
 
-    def test_readDoIpTpConfigTpConnections_with_connection(self, parser):
-        from armodel.models import DoIpTpConfig
-        config = DoIpTpConfig(parent=_autosar_root(), short_name="doIpConfig")
+# ==================== NmConfig (L3981, L4072) ====================
+
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestBufferProperties:
+    def test_readBufferPropertiesBufferComputation_sets_scale(
+        self, parser
+    ):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import BufferProperties
+        props = BufferProperties()
         element = _snip(
-            "<TP-CONNECTIONS>"
-            "<DO-IP-TP-CONNECTION>"
-            '<DO-IP-SOURCE-ADDRESS-REF DEST="DO-IP-LOGIC-ADDRESS">/doIp/src</DO-IP-SOURCE-ADDRESS-REF>'
-            '<DO-IP-TARGET-ADDRESS-REF DEST="DO-IP-LOGIC-ADDRESS">/doIp/tgt</DO-IP-TARGET-ADDRESS-REF>'
-            "</DO-IP-TP-CONNECTION>"
-            "</TP-CONNECTIONS>",
+            "<BUFFER-COMPUTATION>"
+            "<SHORT-LABEL>bc</SHORT-LABEL>"
+            "<LOWER-LIMIT>0</LOWER-LIMIT>"
+            "<UPPER-LIMIT>100</UPPER-LIMIT>"
+            "</BUFFER-COMPUTATION>"
         )
-        parser.readDoIpTpConfigTpConnections(element, config)
-        connections = config.getTpConnections()
-        assert len(connections) == 1
-        assert connections[0].getDoIpSourceAddressRef().getValue() == "/doIp/src"
-        assert connections[0].getDoIpTargetAddressRef().getValue() == "/doIp/tgt"
+        parser.readBufferPropertiesBufferComputation(element, props)
+        assert props.getBufferComputation() is not None
 
-    def test_readDoIpTpConfigTpConnections_unknown_warning(self, warning_parser):
-        from armodel.models import DoIpTpConfig
-        config = DoIpTpConfig(parent=_autosar_root(), short_name="doIpConfig")
+
+# ==================== ECUC ModuleDef / ContainerDef (L4461, L4480, L4484-4489, L4503, L4560, L4627-4667) ====================
+
+
+
+# === Migrated from test_arxml_parser_remaining_gaps.py ===
+
+class TestTargetIPduRef:
+    def test_getTargetIPduRef_with_child(self, parser):
         element = _snip(
-            "<TP-CONNECTIONS>"
-            "<UNKNOWN-CONNECTION>"
-            "<SHORT-NAME>Unknown</SHORT-NAME>"
-            "</UNKNOWN-CONNECTION>"
-            "</TP-CONNECTIONS>",
+            "<TARGET-I-PDU-REF>"
+            '<TARGET-I-PDU-REF DEST="I-PDU">/ipdu</TARGET-I-PDU-REF>'
+            "</TARGET-I-PDU-REF>"
         )
-        warning_parser.readDoIpTpConfigTpConnections(element, config)
-        assert len(config.getTpConnections()) == 0
+        result = parser.getTargetIPduRef(
+            element, "TARGET-I-PDU-REF"
+        )
+        assert result is not None
+        assert result.getTargetIPdu().getValue() == "/ipdu"
+
+
+# ==================== EcucParameterValue (L5081, L5103) ====================
+
