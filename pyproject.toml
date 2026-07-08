@@ -54,3 +54,16 @@ where = ["src"]
 
 [tool.setuptools.dynamic]
 version = {attr = "armodel.__version__"}
+
+[tool.coverage.run]
+branch = true
+source = ["armodel"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]
