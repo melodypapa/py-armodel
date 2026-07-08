@@ -167,6 +167,7 @@ def run_unit_tests(
     if run_coverage:
         cmd.extend([
             "--cov=armodel",
+            "--cov-branch",  # Enable branch coverage
             "--cov-report=term-missing",
             "--cov-report=html:htmlcov/unit",
             "--cov-report=xml:coverage_unit.xml",
@@ -242,7 +243,8 @@ def run_integration_tests(
     if run_coverage:
         cmd.extend([
             "--cov=armodel",
-            "--cov-append",
+            "--cov-branch",  # Enable branch coverage
+            # Note: Removed --cov-append to generate independent integration coverage report
             "--cov-report=term-missing",
             "--cov-report=html:htmlcov/integration",
             "--cov-report=xml:coverage_integration.xml",
