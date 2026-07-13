@@ -7,6 +7,11 @@ class SwValues(ARObject):
     """
     Collection of numerical values for calibration data.
     """
+    # SwValues method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] addV                         [x] impl  [ ] docstring  [ ] test
+    # [ ] getVs                        [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -25,6 +30,17 @@ class SwValueCont(ARObject):
     Container for calibration values with array size, physical values,
     and unit reference.
     """
+    # SwValueCont method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwArraysize               [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwArraysize               [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwValuesPhys              [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwValuesPhys              [x] impl  [ ] docstring  [ ] test
+    # [ ] getUnitRef                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setUnitRef                   [x] impl  [ ] docstring  [ ] test
+    # [ ] getUnitDisplayName           [x] impl  [ ] docstring  [ ] test
+    # [ ] setUnitDisplayName           [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 

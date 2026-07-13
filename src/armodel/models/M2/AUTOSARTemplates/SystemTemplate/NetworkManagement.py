@@ -15,6 +15,9 @@ class NmClusterCoupling(ARObject, ABC):
     defining common properties for connecting different types of
     network management clusters for coordinated network management.
     """
+    # NmClusterCoupling method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         if type(self) is NmClusterCoupling:
             raise TypeError("NmClusterCoupling is an abstract class.")
@@ -27,6 +30,15 @@ class CanNmClusterCoupling(NmClusterCoupling):
     specifying coupled cluster references and CAN-specific NM features
     like busload reduction and immediate restart capabilities.
     """
+    # CanNmClusterCoupling method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCoupledClusterRefs        [x] impl  [ ] docstring  [ ] test
+    # [ ] addCoupledClusterRef         [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmBusloadReductionEnabled [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmBusloadReductionEnabled [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmImmediateRestartEnabled [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmImmediateRestartEnabled [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -61,6 +73,13 @@ class FlexrayNmClusterCoupling(NmClusterCoupling):
     specifying coupled cluster references and FlexRay-specific NM
     schedule variant configurations.
     """
+    # FlexrayNmClusterCoupling method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCoupledClusterRefs        [x] impl  [ ] docstring  [ ] test
+    # [ ] addCoupledClusterRef         [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmScheduleVariant         [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmScheduleVariant         [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -88,6 +107,25 @@ class NmNode(Identifiable, ABC):
     common properties for different types of NM nodes including
     controller references, node IDs, and communication properties.
     """
+    # NmNode method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getControllerRef             [x] impl  [ ] docstring  [ ] test
+    # [ ] setControllerRef             [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmCoordCluster            [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmCoordCluster            [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmCoordinatorRole         [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmCoordinatorRole         [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmIfEcuRef                [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmIfEcuRef                [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmNodeId                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmNodeId                  [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmPassiveModeEnabled      [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmPassiveModeEnabled      [x] impl  [ ] docstring  [ ] test
+    # [ ] addRxNmPduRef                [x] impl  [ ] docstring  [ ] test
+    # [ ] getRxNmPduRefs               [x] impl  [ ] docstring  [ ] test
+    # [ ] addTxNmPduRefs               [x] impl  [ ] docstring  [ ] test
+    # [ ] getTxNmPduRefs               [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is NmNode:
             raise TypeError("NmNode is an abstract class.")
@@ -165,6 +203,21 @@ class CanNmNode(NmNode):
     defining CAN-specific NM properties including message
     cycle offsets, timing configurations, and range settings.
     """
+    # CanNmNode method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getAllNmMessagesKeepAwake    [x] impl  [ ] docstring  [ ] test
+    # [ ] setAllNmMessagesKeepAwake    [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmCarWakeUpFilterEnabled  [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmCarWakeUpFilterEnabled  [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmCarWakeUpRxEnabled      [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmCarWakeUpRxEnabled      [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmMsgCycleOffset          [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmMsgCycleOffset          [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmMsgReducedTime          [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmMsgReducedTime          [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmRangeConfig             [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmRangeConfig             [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -222,6 +275,9 @@ class FlexrayNmNode(NmNode):
     defining FlexRay-specific NM properties for time-triggered
     network management communication.
     """
+    # FlexrayNmNode method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -231,6 +287,9 @@ class J1939NmNode(NmNode):
     defining J1939-specific NM properties for heavy-duty
     vehicle network management communication.
     """
+    # J1939NmNode method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -240,6 +299,13 @@ class UdpNmNode(NmNode):
     defining UDP-specific NM properties including message
     timing and wake-up capabilities.
     """
+    # UdpNmNode method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getAllNmMessagesKeepAwake    [x] impl  [ ] docstring  [ ] test
+    # [ ] setAllNmMessagesKeepAwake    [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmMsgCycleOffset          [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmMsgCycleOffset          [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -268,6 +334,9 @@ class BusspecificNmEcu(ARObject, ABC):
     configurations, defining common properties for different
     types of bus-specific NM implementations.
     """
+    # BusspecificNmEcu method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         if type(self) is BusspecificNmEcu:
             raise TypeError("BusspecificNmEcu is an abstract class.")
@@ -278,6 +347,9 @@ class CanNmEcu(BusspecificNmEcu):
     Defines CAN-specific network management ECU properties,
     implementing bus-specific NM features for CAN communication.
     """
+    # CanNmEcu method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -286,6 +358,9 @@ class FlexrayNmEcu(BusspecificNmEcu):
     Defines FlexRay-specific network management ECU properties,
     implementing bus-specific NM features for FlexRay communication.
     """
+    # FlexrayNmEcu method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -294,6 +369,9 @@ class J1939NmEcu(BusspecificNmEcu):
     Defines J1939-specific network management ECU properties,
     implementing bus-specific NM features for J1939 communication.
     """
+    # J1939NmEcu method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -303,6 +381,11 @@ class UdpNmEcu(BusspecificNmEcu):
     implementing bus-specific NM features for UDP communication
     including synchronization point capabilities.
     """
+    # UdpNmEcu method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmSynchronizationPointEnabled [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmSynchronizationPointEnabled [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()     
 
@@ -323,6 +406,35 @@ class NmEcu(Identifiable):
     defining properties for NM coordination, node detection,
     and communication control across different bus types.
     """
+    # NmEcu method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getBusDependentNmEcus        [x] impl  [ ] docstring  [ ] test
+    # [ ] addBusDependentNmEcu         [x] impl  [ ] docstring  [ ] test
+    # [ ] getEcuInstanceRef            [x] impl  [ ] docstring  [ ] test
+    # [ ] setEcuInstanceRef            [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmBusSynchronizationEnabled [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmBusSynchronizationEnabled [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmComControlEnabled       [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmComControlEnabled       [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmCoordinator             [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmCoordinator             [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmCycletimeMainFunction   [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmCycletimeMainFunction   [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmNodeDetectionEnabled    [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmNodeDetectionEnabled    [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmNodeIdEnabled           [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmNodeIdEnabled           [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmPduRxIndicationEnabled  [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmPduRxIndicationEnabled  [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmRemoteSleepIndEnabled   [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmRemoteSleepIndEnabled   [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmRepeatMsgIndEnabled     [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmRepeatMsgIndEnabled     [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmStateChangeIndEnabled   [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmStateChangeIndEnabled   [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmUserDataEnabled         [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmUserDataEnabled         [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -450,6 +562,18 @@ class NmConfig(FibexElement):
     defining cluster couplings and ECU configurations for
     comprehensive network management setup.
     """
+    # NmConfig method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] createCanNmCluster           [x] impl  [ ] docstring  [ ] test
+    # [ ] createUdpNmCluster           [x] impl  [ ] docstring  [ ] test
+    # [ ] getCanNmClusters             [x] impl  [ ] docstring  [ ] test
+    # [ ] getUdpNmClusters             [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmClusters                [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmClusterCouplings        [x] impl  [ ] docstring  [ ] test
+    # [ ] addNmClusterCouplings        [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmIfEcus                  [x] impl  [ ] docstring  [ ] test
+    # [ ] createNmEcu                  [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -501,6 +625,30 @@ class NmCluster(Identifiable, ABC):
     NM clusters including communication cluster references
     and node management capabilities.
     """
+    # NmCluster method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCommunicationClusterRef   [x] impl  [ ] docstring  [ ] test
+    # [ ] setCommunicationClusterRef   [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmChannelId               [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmChannelId               [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmChannelSleepMaster      [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmChannelSleepMaster      [x] impl  [ ] docstring  [ ] test
+    # [ ] createCanNmNode              [x] impl  [ ] docstring  [ ] test
+    # [ ] readUdpNmNode                [x] impl  [ ] docstring  [ ] test
+    # [ ] getCanNmNodes                [x] impl  [ ] docstring  [ ] test
+    # [ ] getUdpNmNodes                [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmNodes                   [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmNodeDetectionEnabled    [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmNodeDetectionEnabled    [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmNodeIdEnabled           [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmNodeIdEnabled           [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmPncParticipation        [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmPncParticipation        [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmRepeatMsgIndEnabled     [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmRepeatMsgIndEnabled     [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmSynchronizingNetwork    [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmSynchronizingNetwork    [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is NmCluster:
             raise TypeError("NmCluster is an abstract class.")
@@ -601,6 +749,41 @@ class CanNmCluster(NmCluster):
     defining CAN-specific NM properties including busload
     reduction, wake-up configurations, and message timing.
     """
+    # CanNmCluster method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmBusloadReductionActive  [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmBusloadReductionActive  [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmCarWakeUpBitPosition    [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmCarWakeUpBitPosition    [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmCarWakeUpFilterNodeId   [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmCarWakeUpFilterNodeId   [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmCarWakeUpRxEnabled      [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmCarWakeUpRxEnabled      [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmCbvPosition             [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmCbvPosition             [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmChannelActive           [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmChannelActive           [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmImmediateNmCycleTime    [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmImmediateNmCycleTime    [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmImmediateNmTransmissions [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmImmediateNmTransmissions [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmMessageTimeoutTime      [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmMessageTimeoutTime      [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmMsgCycleTime            [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmMsgCycleTime            [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmNetworkTimeout          [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmNetworkTimeout          [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmNidPosition             [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmNidPosition             [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmRemoteSleepIndicationTime [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmRemoteSleepIndicationTime [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmRepeatMessageTime       [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmRepeatMessageTime       [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmUserDataLength          [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmUserDataLength          [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmWaitBusSleepTime        [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmWaitBusSleepTime        [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -739,6 +922,9 @@ class FlexrayNmCluster(NmCluster):
     defining FlexRay-specific NM properties for time-triggered
     network management in FlexRay communication networks.
     """
+    # FlexrayNmCluster method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -748,6 +934,9 @@ class J1939NmCluster(NmCluster):
     defining J1939-specific NM properties for heavy-duty vehicle
     network management communication.
     """
+    # J1939NmCluster method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -757,6 +946,13 @@ class UdpNmClusterCoupling(NmClusterCoupling):
     specifying coupled cluster references and UDP-specific NM
     immediate restart capabilities.
     """
+    # UdpNmClusterCoupling method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCoupledClusterRefs        [x] impl  [ ] docstring  [ ] test
+    # [ ] addCoupledClusterRef         [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmImmediateRestartEnabled [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmImmediateRestartEnabled [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -786,6 +982,33 @@ class UdpNmCluster(NmCluster):
     defining UDP-specific NM properties including message timing,
     CBV (Common Bit Vector) position, and VLAN references.
     """
+    # UdpNmCluster method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmCbvPosition             [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmCbvPosition             [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmChannelActive           [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmChannelActive           [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmImmediateNmCycleTime    [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmImmediateNmCycleTime    [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmImmediateNmTransmissions [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmImmediateNmTransmissions [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmMessageTimeoutTime      [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmMessageTimeoutTime      [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmMsgCycleTime            [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmMsgCycleTime            [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmNetworkTimeout          [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmNetworkTimeout          [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmNidPosition             [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmNidPosition             [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmRemoteSleepIndicationTime [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmRemoteSleepIndicationTime [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmRepeatMessageTime       [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmRepeatMessageTime       [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmWaitBusSleepTime        [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmWaitBusSleepTime        [x] impl  [ ] docstring  [ ] test
+    # [ ] getVlanRef                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setVlanRef                   [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

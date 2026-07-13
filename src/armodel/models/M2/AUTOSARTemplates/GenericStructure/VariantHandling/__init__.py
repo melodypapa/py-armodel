@@ -30,6 +30,13 @@ class PostBuildVariantCriterion(ARObject):
         criterionName (String): The name of the criterion.
         criterionValue (String): The value of the criterion.
     """
+    # PostBuildVariantCriterion method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCriterionName             [x] impl  [ ] docstring  [ ] test
+    # [ ] setCriterionName             [x] impl  [ ] docstring  [ ] test
+    # [ ] getCriterionValue            [x] impl  [ ] docstring  [ ] test
+    # [ ] setCriterionValue            [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()
@@ -63,6 +70,11 @@ class PostBuildVariantCriterionValue(ARObject):
     Attributes:
         value (String): The criterion value.
     """
+    # PostBuildVariantCriterionValue method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getValue                     [x] impl  [ ] docstring  [ ] test
+    # [ ] setValue                     [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()
@@ -92,6 +104,15 @@ class PredefinedVariant(Identifiable):
         MultilanguageReferrable, PackageableElement, Referrable
     Tags: atp.recommendedPackage=PredefinedVariants
     """
+    # PredefinedVariant method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getIncludedVariantRefs       [x] impl  [ ] docstring  [ ] test
+    # [ ] addIncludedVariantRef        [x] impl  [ ] docstring  [ ] test
+    # [ ] getPostBuildVariantCriterionValueSetRefs [x] impl  [ ] docstring  [ ] test
+    # [ ] addPostBuildVariantCriterionValueSetRef [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwSystemconstantValueSetRefs [x] impl  [ ] docstring  [ ] test
+    # [ ] addSwSystemconstantValueSetRef [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
@@ -149,6 +170,15 @@ class SwSystemconstValue(ARObject):
             Tags: vh.latestBindingTime=preCompileTime,
                 xml.sequenceOffset=20
     """
+    # SwSystemconstValue method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getAnnotations               [x] impl  [ ] docstring  [ ] test
+    # [ ] addAnnotation                [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwSystemconstRef          [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwSystemconstRef          [x] impl  [ ] docstring  [ ] test
+    # [ ] getValue                     [x] impl  [ ] docstring  [ ] test
+    # [ ] setValue                     [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()
@@ -187,6 +217,11 @@ class SwSystemconstantValueSet(Identifiable):
         This meta-class represents the ability to specify a set of system constant values.
         Tags: atp.recommendedPackage=SwSystemconstantValueSets
     """
+    # SwSystemconstantValueSet method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] addSwSystemconstantValue     [x] impl  [x] docstring  [ ] test
+    # [ ] getSwSystemconstantValues    [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
@@ -236,6 +271,13 @@ class PostBuildVariantCondition(ARObject):
         value (Integer): The particular value of the post-build variant
             criterion. (Multiplicity: 1)
     """
+    # PostBuildVariantCondition method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getMatchingCriterion         [x] impl  [x] docstring  [ ] test
+    # [ ] setMatchingCriterion         [x] impl  [x] docstring  [ ] test
+    # [ ] getValue                     [x] impl  [x] docstring  [ ] test
+    # [ ] setValue                     [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()
@@ -312,6 +354,11 @@ class ConditionByFormula(ARObject):
            time, all referenced system constants shall have a value.
            (Multiplicity: 1)
     """
+    # ConditionByFormula method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getBindingTime               [x] impl  [x] docstring  [ ] test
+    # [ ] setBindingTime               [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()
@@ -388,6 +435,23 @@ class VariationPoint(ARObject):
             is 0..1 in order to support pure postBuild variants.
             (Multiplicity: 0..1)
     """
+    # VariationPoint method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDesc                      [x] impl  [x] docstring  [ ] test
+    # [ ] setDesc                      [x] impl  [x] docstring  [ ] test
+    # [ ] getBlueprintCondition        [x] impl  [x] docstring  [ ] test
+    # [ ] setBlueprintCondition        [x] impl  [x] docstring  [ ] test
+    # [ ] getFormalBlueprintCondition  [x] impl  [x] docstring  [ ] test
+    # [ ] setFormalBlueprintCondition  [x] impl  [x] docstring  [ ] test
+    # [ ] getPostBuildVariantConditions [x] impl  [x] docstring  [ ] test
+    # [ ] addPostBuildVariantCondition [x] impl  [x] docstring  [ ] test
+    # [ ] getSdg                       [x] impl  [x] docstring  [ ] test
+    # [ ] setSdg                       [x] impl  [x] docstring  [ ] test
+    # [ ] getShortLabel                [x] impl  [x] docstring  [ ] test
+    # [ ] setShortLabel                [x] impl  [x] docstring  [ ] test
+    # [ ] getSwSyscond                 [x] impl  [x] docstring  [ ] test
+    # [ ] setSwSyscond                 [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()

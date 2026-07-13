@@ -16,6 +16,19 @@ class SwComponentType(AtpType, ABC):
     Abstract base class for all software component types in AUTOSAR.
     Provides port and port group management.
     """
+    # SwComponentType method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # [ ] getPorts                     [x] impl  [x] docstring  [ ] test
+    # [ ] createPPortPrototype         [x] impl  [x] docstring  [ ] test
+    # [ ] createRPortPrototype         [x] impl  [x] docstring  [ ] test
+    # [ ] createPRPortPrototype        [x] impl  [x] docstring  [ ] test
+    # [ ] getPPortPrototypes           [x] impl  [ ] docstring  [ ] test
+    # [ ] getRPortPrototypes           [x] impl  [ ] docstring  [ ] test
+    # [ ] getPRPortPrototypes          [x] impl  [ ] docstring  [ ] test
+    # [ ] getPortPrototypes            [x] impl  [ ] docstring  [ ] test
+    # [ ] getPortGroups                [x] impl  [x] docstring  [ ] test
+    # [ ] createPortGroup              [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is SwComponentType:

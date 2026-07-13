@@ -13,6 +13,33 @@ class SocketConnection(Describable):
     defining properties for TCP/IP communication including IP addresses,
     ports, PDU handling, and timeout configurations for network connections.
     """
+    # SocketConnection method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getAllowedIPv6ExtHeadersRef  [x] impl  [ ] docstring  [ ] test
+    # [ ] setAllowedIPv6ExtHeadersRef  [x] impl  [ ] docstring  [ ] test
+    # [ ] getAllowedTcpOptionsRef      [x] impl  [ ] docstring  [ ] test
+    # [ ] setAllowedTcpOptionsRef      [x] impl  [ ] docstring  [ ] test
+    # [ ] getClientIpAddrFromConnectionRequest [x] impl  [ ] docstring  [ ] test
+    # [ ] setClientIpAddrFromConnectionRequest [x] impl  [ ] docstring  [ ] test
+    # [ ] getClientPortRef             [x] impl  [ ] docstring  [ ] test
+    # [ ] setClientPortRef             [x] impl  [ ] docstring  [ ] test
+    # [ ] getClientPortFromConnectionRequest [x] impl  [ ] docstring  [ ] test
+    # [ ] setClientPortFromConnectionRequest [x] impl  [ ] docstring  [ ] test
+    # [ ] getPdus                      [x] impl  [ ] docstring  [ ] test
+    # [ ] addPdu                       [x] impl  [ ] docstring  [ ] test
+    # [ ] getPduSocketConnectionIpdus  [x] impl  [ ] docstring  [ ] test
+    # [ ] addPduSocketConnectionIpdu   [x] impl  [ ] docstring  [ ] test
+    # [ ] getPduCollectionMaxBufferSize [x] impl  [ ] docstring  [ ] test
+    # [ ] setPduCollectionMaxBufferSize [x] impl  [ ] docstring  [ ] test
+    # [ ] getPduCollectionTimeout      [x] impl  [ ] docstring  [ ] test
+    # [ ] setPduCollectionTimeout      [x] impl  [ ] docstring  [ ] test
+    # [ ] getRuntimeIpAddressConfiguration [x] impl  [ ] docstring  [ ] test
+    # [ ] setRuntimeIpAddressConfiguration [x] impl  [ ] docstring  [ ] test
+    # [ ] getRuntimePortConfiguration  [x] impl  [ ] docstring  [ ] test
+    # [ ] setRuntimePortConfiguration  [x] impl  [ ] docstring  [ ] test
+    # [ ] getShortLabel                [x] impl  [ ] docstring  [ ] test
+    # [ ] setShortLabel                [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -120,6 +147,23 @@ class SocketConnectionIpduIdentifier(ARObject):
     defining header IDs, timeout values, collection semantics, and references
     to PDUs and triggering mechanisms for Ethernet communication.
     """
+    # SocketConnectionIpduIdentifier method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getHeaderId                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setHeaderId                  [x] impl  [ ] docstring  [ ] test
+    # [ ] getPduCollectionPduTimeout   [x] impl  [ ] docstring  [ ] test
+    # [ ] setPduCollectionPduTimeout   [x] impl  [ ] docstring  [ ] test
+    # [ ] getPduCollectionSemantics    [x] impl  [ ] docstring  [ ] test
+    # [ ] setPduCollectionSemantics    [x] impl  [ ] docstring  [ ] test
+    # [ ] getPduCollectionTrigger      [x] impl  [ ] docstring  [ ] test
+    # [ ] setPduCollectionTrigger      [x] impl  [ ] docstring  [ ] test
+    # [ ] getPduRef                    [x] impl  [ ] docstring  [ ] test
+    # [ ] setPduRef                    [x] impl  [ ] docstring  [ ] test
+    # [ ] getPduTriggeringRef          [x] impl  [ ] docstring  [ ] test
+    # [ ] setPduTriggeringRef          [x] impl  [ ] docstring  [ ] test
+    # [ ] getRoutingGroupRefs          [x] impl  [ ] docstring  [ ] test
+    # [ ] setRoutingGroupRefs          [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -187,6 +231,23 @@ class SocketConnectionBundle(Referrable):
     Ethernet communications, including differentiated services, flow labels,
     and UDP checksum handling configurations.
     """
+    # SocketConnectionBundle method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getBundledConnections        [x] impl  [ ] docstring  [ ] test
+    # [ ] addBundledConnection         [x] impl  [ ] docstring  [ ] test
+    # [ ] getDifferentiatedServiceField [x] impl  [ ] docstring  [ ] test
+    # [ ] setDifferentiatedServiceField [x] impl  [ ] docstring  [ ] test
+    # [ ] getFlowLabel                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setFlowLabel                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getPathMtuDiscoveryEnabled   [x] impl  [ ] docstring  [ ] test
+    # [ ] setPathMtuDiscoveryEnabled   [x] impl  [ ] docstring  [ ] test
+    # [ ] getPdus                      [x] impl  [ ] docstring  [ ] test
+    # [ ] setPdus                      [x] impl  [ ] docstring  [ ] test
+    # [ ] getServerPortRef             [x] impl  [ ] docstring  [ ] test
+    # [ ] setServerPortRef             [x] impl  [ ] docstring  [ ] test
+    # [ ] getUdpChecksumHandling       [x] impl  [ ] docstring  [ ] test
+    # [ ] setUdpChecksumHandling       [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -253,6 +314,11 @@ class SoAdRoutingGroup(FibexElement):
     specifying how Ethernet communication is organized and controlled
     within the AUTOSAR communication system.
     """
+    # SoAdRoutingGroup method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getEventGroupControlType     [x] impl  [ ] docstring  [ ] test
+    # [ ] setEventGroupControlType     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

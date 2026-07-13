@@ -15,6 +15,17 @@ class StackUsage(Identifiable, ABC):
     Abstract base class for representing stack usage in AUTOSAR models.
     This class defines the basic structure for stack memory consumption tracking with hardware and software context.
     """
+    # StackUsage method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getExecutableEntityRef       [x] impl  [x] docstring  [ ] test
+    # [ ] setExecutableEntityRef       [x] impl  [x] docstring  [ ] test
+    # [ ] getHardwareConfiguration     [x] impl  [x] docstring  [ ] test
+    # [ ] setHardwareConfiguration     [x] impl  [x] docstring  [ ] test
+    # [ ] getHwElementRef              [x] impl  [x] docstring  [ ] test
+    # [ ] setHwElementRef              [x] impl  [x] docstring  [ ] test
+    # [ ] getSoftwareContext           [x] impl  [x] docstring  [ ] test
+    # [ ] setSoftwareContext           [x] impl  [x] docstring  [ ] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -132,6 +143,13 @@ class MeasuredStackUsage(StackUsage):
     Represents measured stack usage in AUTOSAR models.
     This class provides concrete measurements of stack consumption under specific conditions.
     """
+    # MeasuredStackUsage method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getAverageMemoryConsumption  [x] impl  [x] docstring  [ ] test
+    # [ ] setAverageMemoryConsumption  [x] impl  [x] docstring  [ ] test
+    # [ ] getMaximumMemoryConsumption  [x] impl  [x] docstring  [ ] test
+    # [ ] setMaximumMemoryConsumption  [x] impl  [x] docstring  [ ] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -197,6 +215,11 @@ class RoughEstimateStackUsage(StackUsage):
     Represents rough estimate stack usage in AUTOSAR models.
     This class provides estimated values for stack consumption when exact measurements are not available.
     """
+    # RoughEstimateStackUsage method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getMemoryConsumption         [x] impl  [x] docstring  [ ] test
+    # [ ] setMemoryConsumption         [x] impl  [x] docstring  [ ] test
+
     
     def __init__(self, parent, short_name):
         """
@@ -238,6 +261,11 @@ class WorstCaseStackUsage(StackUsage):
     Represents worst case stack usage in AUTOSAR models.
     This class provides the worst-case scenario analysis for stack consumption under maximum load conditions.
     """
+    # WorstCaseStackUsage method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getMemoryConsumption         [x] impl  [x] docstring  [ ] test
+    # [ ] setMemoryConsumption         [x] impl  [x] docstring  [ ] test
+
     
     def __init__(self, parent, short_name):
         """

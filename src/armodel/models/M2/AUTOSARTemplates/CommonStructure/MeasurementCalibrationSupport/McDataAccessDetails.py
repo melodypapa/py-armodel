@@ -6,6 +6,13 @@ class McDataAccessDetails(ARObject):
     Represents MC (Measurement and Calibration) data access details in AUTOSAR.
     Defines details about how MC data can be accessed.
     """
+    # McDataAccessDetails method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getAccessType                [x] impl  [x] docstring  [ ] test
+    # [ ] setAccessType                [x] impl  [x] docstring  [ ] test
+    # [ ] getAddress                   [x] impl  [x] docstring  [ ] test
+    # [ ] setAddress                   [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

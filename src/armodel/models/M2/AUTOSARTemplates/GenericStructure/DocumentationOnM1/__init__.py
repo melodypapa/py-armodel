@@ -16,6 +16,13 @@ class Documentation(ARElement):
         annotations (List[Annotation]): A list of annotations for the documentation.
         description (String): The description text.
     """
+    # Documentation method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getAnnotations               [x] impl  [ ] docstring  [ ] test
+    # [ ] addAnnotation                [x] impl  [ ] docstring  [ ] test
+    # [ ] getDescription               [x] impl  [ ] docstring  [ ] test
+    # [ ] setDescription               [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

@@ -15,6 +15,13 @@ class Trigger(AtpStructureElement):
     Represents a trigger in AUTOSAR models.
     Triggers define events that can initiate specific behaviors or actions in AUTOSAR components and systems.
     """
+    # Trigger method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getSwImplPolicy              [x] impl  [x] docstring  [x] test
+    # [x] setSwImplPolicy              [x] impl  [x] docstring  [x] test
+    # [x] getTriggerPeriod             [x] impl  [x] docstring  [x] test
+    # [x] setTriggerPeriod             [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -85,6 +92,13 @@ class TriggerMapping(ARObject):
     Represents a mapping between triggers in AUTOSAR models.
     This class defines relationships between different triggers across system boundaries or components.
     """
+    # TriggerMapping method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getFirstTriggerRef           [x] impl  [x] docstring  [x] test
+    # [x] setFirstTriggerRef           [x] impl  [x] docstring  [x] test
+    # [x] getSecondTriggerRef          [x] impl  [x] docstring  [x] test
+    # [x] setSecondTriggerRef          [x] impl  [x] docstring  [x] test
+
     
     def __init__(self):
         """

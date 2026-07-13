@@ -7,6 +7,9 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
     Abstract base class for calibration axis type properties including
     gradient and monotony constraints.
     """
+    # SwCalprmAxisTypeProps method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         if type(self) is SwCalprmAxisTypeProps:
             raise TypeError("SwCalprmAxisTypeProps is an abstract class.")
@@ -22,6 +25,9 @@ class SwCalprmAxis(ARObject):
     Calibration axis with category, format, access mode, and axis type
     properties.
     """
+    # SwCalprmAxis method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -35,6 +41,11 @@ class SwCalprmAxisSet(ARObject):
     """
     Collection of SwCalprmAxis elements.
     """
+    # SwCalprmAxisSet method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] addSwCalprmAxis              [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwCalprmAxises            [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 

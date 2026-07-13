@@ -16,6 +16,9 @@ class FibexElement(PackageableElement, ABC):
     elements defined in the FIBEX format used for exchanging communication
     data between tools.
     """
+    # FibexElement method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is FibexElement:
             raise TypeError("FibexElement is an abstract class.")
@@ -29,6 +32,17 @@ class PduToFrameMapping(Identifiable):
     specifying how PDUs are embedded within frames including byte order,
     start position, and update indication bit position.
     """
+    # PduToFrameMapping method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getPackingByteOrder          [x] impl  [ ] docstring  [ ] test
+    # [ ] setPackingByteOrder          [x] impl  [ ] docstring  [ ] test
+    # [ ] getPduRef                    [x] impl  [ ] docstring  [ ] test
+    # [ ] setPduRef                    [x] impl  [ ] docstring  [ ] test
+    # [ ] getStartPosition             [x] impl  [ ] docstring  [ ] test
+    # [ ] setStartPosition             [x] impl  [ ] docstring  [ ] test
+    # [ ] getUpdateIndicationBitPosition [x] impl  [ ] docstring  [ ] test
+    # [ ] setUpdateIndicationBitPosition [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -72,6 +86,13 @@ class Frame(FibexElement, ABC):
     defining common properties for different types of communication
     frames including frame length and PDU to frame mappings.
     """
+    # Frame method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getFrameLength               [x] impl  [ ] docstring  [ ] test
+    # [ ] setFrameLength               [x] impl  [ ] docstring  [ ] test
+    # [ ] createPduToFrameMapping      [x] impl  [ ] docstring  [ ] test
+    # [ ] getPduToFrameMappings        [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is Frame:
             raise TypeError("Frame is an abstract class.")
@@ -105,6 +126,23 @@ class ContainedIPduProps(ARObject):
     specifying collection semantics, header IDs, offset, timeout,
     trigger, and update indication bit position properties.
     """
+    # ContainedIPduProps method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCollectionSemantics       [x] impl  [ ] docstring  [ ] test
+    # [ ] setCollectionSemantics       [x] impl  [ ] docstring  [ ] test
+    # [ ] getHeaderIdLongHeader        [x] impl  [ ] docstring  [ ] test
+    # [ ] setHeaderIdLongHeader        [x] impl  [ ] docstring  [ ] test
+    # [ ] getHeaderIdShortHeader       [x] impl  [ ] docstring  [ ] test
+    # [ ] setHeaderIdShortHeader       [x] impl  [ ] docstring  [ ] test
+    # [ ] getOffset                    [x] impl  [ ] docstring  [ ] test
+    # [ ] setOffset                    [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimeout                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimeout                   [x] impl  [ ] docstring  [ ] test
+    # [ ] getTrigger                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setTrigger                   [x] impl  [ ] docstring  [ ] test
+    # [ ] getUpdateIndicationBitPosition [x] impl  [ ] docstring  [ ] test
+    # [ ] setUpdateIndicationBitPosition [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -172,6 +210,17 @@ class ISignalGroup(FibexElement):
     specifying relationships between individual signals and system-level
     signal groups with transformation properties.
     """
+    # ISignalGroup method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getComBasedSignalGroupTransformationRefs [x] impl  [ ] docstring  [ ] test
+    # [ ] addComBasedSignalGroupTransformationRef [x] impl  [ ] docstring  [ ] test
+    # [ ] getISignalRefs               [x] impl  [ ] docstring  [ ] test
+    # [ ] addISignalRef                [x] impl  [ ] docstring  [ ] test
+    # [ ] getSystemSignalGroupRef      [x] impl  [ ] docstring  [ ] test
+    # [ ] setSystemSignalGroupRef      [x] impl  [ ] docstring  [ ] test
+    # [ ] getTransformationISignalProps [x] impl  [ ] docstring  [ ] test
+    # [ ] setTransformationISignalProps [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -216,6 +265,19 @@ class ISignalIPduGroup(FibexElement):
     specifying communication direction, mode, and references to contained
     IPDU groups and individual IPDUs.
     """
+    # ISignalIPduGroup method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCommunicationDirection    [x] impl  [ ] docstring  [ ] test
+    # [ ] setCommunicationDirection    [x] impl  [ ] docstring  [ ] test
+    # [ ] getCommunicationMode         [x] impl  [ ] docstring  [ ] test
+    # [ ] setCommunicationMode         [x] impl  [ ] docstring  [ ] test
+    # [ ] getContainedISignalIPduGroupRefs [x] impl  [ ] docstring  [ ] test
+    # [ ] addContainedISignalIPduGroupRef [x] impl  [ ] docstring  [ ] test
+    # [ ] getISignalIPduRefs           [x] impl  [ ] docstring  [ ] test
+    # [ ] addISignalIPduRef            [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmPduRefs                 [x] impl  [ ] docstring  [ ] test
+    # [ ] addNmPduRef                  [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -266,6 +328,13 @@ class Pdu(FibexElement, ABC):
     Abstract base class for Protocol Data Units (PDUs) in the communication system,
     defining common properties such as dynamic length support and length specifications.
     """
+    # Pdu method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getHasDynamicLength          [x] impl  [ ] docstring  [ ] test
+    # [ ] setHasDynamicLength          [x] impl  [ ] docstring  [ ] test
+    # [ ] getLength                    [x] impl  [ ] docstring  [ ] test
+    # [ ] setLength                    [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is Pdu:
             raise TypeError("Pdu is an abstract class.")
@@ -297,6 +366,11 @@ class IPdu(Pdu, ABC):
     extending the PDU class with contained IPDU properties for
     interaction-based communication.
     """
+    # IPdu method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getContainedIPduProps        [x] impl  [ ] docstring  [ ] test
+    # [ ] setContainedIPduProps        [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is IPdu:
             raise TypeError("IPdu is an abstract class.")
@@ -320,6 +394,37 @@ class SecureCommunicationProps(ARObject):
     data freshness, integrity protection, and secured area specifications
     for protected communication channels.
     """
+    # SecureCommunicationProps method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getAuthDataFreshnessLength   [x] impl  [ ] docstring  [ ] test
+    # [ ] setAuthDataFreshnessLength   [x] impl  [ ] docstring  [ ] test
+    # [ ] getAuthDataFreshnessStartPosition [x] impl  [ ] docstring  [ ] test
+    # [ ] setAuthDataFreshnessStartPosition [x] impl  [ ] docstring  [ ] test
+    # [ ] getAuthInfoTxLength          [x] impl  [ ] docstring  [ ] test
+    # [ ] setAuthInfoTxLength          [x] impl  [ ] docstring  [ ] test
+    # [ ] getAuthenticationBuildAttempts [x] impl  [ ] docstring  [ ] test
+    # [ ] setAuthenticationBuildAttempts [x] impl  [ ] docstring  [ ] test
+    # [ ] getAuthenticationRetries     [x] impl  [ ] docstring  [ ] test
+    # [ ] setAuthenticationRetries     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataId                    [x] impl  [ ] docstring  [ ] test
+    # [ ] setDataId                    [x] impl  [ ] docstring  [ ] test
+    # [ ] getFreshnessValueId          [x] impl  [ ] docstring  [ ] test
+    # [ ] setFreshnessValueId          [x] impl  [ ] docstring  [ ] test
+    # [ ] getFreshnessValueLength      [x] impl  [ ] docstring  [ ] test
+    # [ ] setFreshnessValueLength      [x] impl  [ ] docstring  [ ] test
+    # [ ] getFreshnessValueTxLength    [x] impl  [ ] docstring  [ ] test
+    # [ ] setFreshnessValueTxLength    [x] impl  [ ] docstring  [ ] test
+    # [ ] getMessageLinkLength         [x] impl  [ ] docstring  [ ] test
+    # [ ] setMessageLinkLength         [x] impl  [ ] docstring  [ ] test
+    # [ ] getMessageLinkPosition       [x] impl  [ ] docstring  [ ] test
+    # [ ] setMessageLinkPosition       [x] impl  [ ] docstring  [ ] test
+    # [ ] getSecondaryFreshnessValueId [x] impl  [ ] docstring  [ ] test
+    # [ ] setSecondaryFreshnessValueId [x] impl  [ ] docstring  [ ] test
+    # [ ] getSecuredAreaLength         [x] impl  [ ] docstring  [ ] test
+    # [ ] setSecuredAreaLength         [x] impl  [ ] docstring  [ ] test
+    # [ ] getSecuredAreaOffset         [x] impl  [ ] docstring  [ ] test
+    # [ ] setSecuredAreaOffset         [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -457,6 +562,23 @@ class SecuredIPdu(IPdu):
     authentication, integrity protection, and other security properties
     for protected communication.
     """
+    # SecuredIPdu method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getAuthenticationPropsRef    [x] impl  [ ] docstring  [ ] test
+    # [ ] setAuthenticationPropsRef    [x] impl  [ ] docstring  [ ] test
+    # [ ] getDynamicRuntimeLengthHandling [x] impl  [ ] docstring  [ ] test
+    # [ ] setDynamicRuntimeLengthHandling [x] impl  [ ] docstring  [ ] test
+    # [ ] getFreshnessPropsRef         [x] impl  [ ] docstring  [ ] test
+    # [ ] setFreshnessPropsRef         [x] impl  [ ] docstring  [ ] test
+    # [ ] getPayloadRef                [x] impl  [ ] docstring  [ ] test
+    # [ ] setPayloadRef                [x] impl  [ ] docstring  [ ] test
+    # [ ] getSecureCommunicationProps  [x] impl  [ ] docstring  [ ] test
+    # [ ] setSecureCommunicationProps  [x] impl  [ ] docstring  [ ] test
+    # [ ] getUseAsCryptographicIPdu    [x] impl  [ ] docstring  [ ] test
+    # [ ] setUseAsCryptographicIPdu    [x] impl  [ ] docstring  [ ] test
+    # [ ] getUseSecuredPduHeader       [x] impl  [ ] docstring  [ ] test
+    # [ ] setUseSecuredPduHeader       [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -531,6 +653,21 @@ class ISignalToIPduMapping(Identifiable):
     specifying signal references, byte order, start position, transfer
     properties, and update indication bit position.
     """
+    # ISignalToIPduMapping method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getISignalRef                [x] impl  [ ] docstring  [ ] test
+    # [ ] setISignalRef                [x] impl  [ ] docstring  [ ] test
+    # [ ] getISignalGroupRef           [x] impl  [ ] docstring  [ ] test
+    # [ ] setISignalGroupRef           [x] impl  [ ] docstring  [ ] test
+    # [ ] getPackingByteOrder          [x] impl  [ ] docstring  [ ] test
+    # [ ] setPackingByteOrder          [x] impl  [ ] docstring  [ ] test
+    # [ ] getStartPosition             [x] impl  [ ] docstring  [ ] test
+    # [ ] setStartPosition             [x] impl  [ ] docstring  [ ] test
+    # [ ] getTransferProperty          [x] impl  [ ] docstring  [ ] test
+    # [ ] setTransferProperty          [x] impl  [ ] docstring  [ ] test
+    # [ ] getUpdateIndicationBitPosition [x] impl  [ ] docstring  [ ] test
+    # [ ] setUpdateIndicationBitPosition [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -590,6 +727,17 @@ class NmPdu(Pdu):
     network management communication including node monitoring,
     wake-up, and sleep state management.
     """
+    # NmPdu method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getISignalToIPduMappings     [x] impl  [ ] docstring  [ ] test
+    # [ ] createISignalToIPduMapping   [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmDataInformation         [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmDataInformation         [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmVoteInformation         [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmVoteInformation         [x] impl  [ ] docstring  [ ] test
+    # [ ] getUnusedBitPattern          [x] impl  [ ] docstring  [ ] test
+    # [ ] setUnusedBitPattern          [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -638,6 +786,9 @@ class NPdu(IPdu):
     Represents a Network Protocol Data Unit (PDU) used for network-level
     communication in the AUTOSAR communication system.
     """
+    # NPdu method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -647,6 +798,11 @@ class DcmIPdu(IPdu):
     Represents a Diagnostic Communication Management Interaction Protocol Data Unit (IPDU)
     used for diagnostic communication in the AUTOSAR system.
     """
+    # DcmIPdu method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDiagPduType               [x] impl  [ ] docstring  [ ] test
+    # [ ] setDiagPduType               [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -666,6 +822,13 @@ class IPduTiming(Describable):
     specifying minimum delay and transmission mode declaration for
     timed communication.
     """
+    # IPduTiming method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getMinimumDelay              [x] impl  [ ] docstring  [ ] test
+    # [ ] setMinimumDelay              [x] impl  [ ] docstring  [ ] test
+    # [ ] getTransmissionModeDeclaration [x] impl  [ ] docstring  [ ] test
+    # [ ] setTransmissionModeDeclaration [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -693,6 +856,15 @@ class ISignalIPdu(IPdu):
     defining timing specifications, signal-to-PDU mappings, and unused
     bit patterns for signal-based communication.
     """
+    # ISignalIPdu method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getIPduTimingSpecification   [x] impl  [ ] docstring  [ ] test
+    # [ ] setIPduTimingSpecification   [x] impl  [ ] docstring  [ ] test
+    # [ ] getISignalToPduMappings      [x] impl  [ ] docstring  [ ] test
+    # [ ] createISignalToPduMappings   [x] impl  [ ] docstring  [ ] test
+    # [ ] getUnusedBitPattern          [x] impl  [ ] docstring  [ ] test
+    # [ ] setUnusedBitPattern          [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -731,6 +903,29 @@ class ISignal(FibexElement):
     defining data transformation, signal type, initialization values,
     length, and system signal references for signal-based communication.
     """
+    # ISignal method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataTransformationRef     [x] impl  [ ] docstring  [ ] test
+    # [ ] setDataTransformationRef     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataTypePolicy            [x] impl  [ ] docstring  [ ] test
+    # [ ] setDataTypePolicy            [x] impl  [ ] docstring  [ ] test
+    # [ ] getISignalProps              [x] impl  [ ] docstring  [ ] test
+    # [ ] setISignalProps              [x] impl  [ ] docstring  [ ] test
+    # [ ] getISignalType               [x] impl  [ ] docstring  [ ] test
+    # [ ] setISignalType               [x] impl  [ ] docstring  [ ] test
+    # [ ] getInitValue                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setInitValue                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getLength                    [x] impl  [ ] docstring  [ ] test
+    # [ ] setLength                    [x] impl  [ ] docstring  [ ] test
+    # [ ] getNetworkRepresentationProps [x] impl  [ ] docstring  [ ] test
+    # [ ] setNetworkRepresentationProps [x] impl  [ ] docstring  [ ] test
+    # [ ] getSystemSignalRef           [x] impl  [ ] docstring  [ ] test
+    # [ ] setSystemSignalRef           [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimeoutSubstitutionValue  [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimeoutSubstitutionValue  [x] impl  [ ] docstring  [ ] test
+    # [ ] getTransformationISignalProps [x] impl  [ ] docstring  [ ] test
+    # [ ] addTransformationISignalProps [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -822,6 +1017,19 @@ class PduTriggering(Identifiable):
     specifying PDU references, port references, and trigger conditions
     for PDU transmission and reception.
     """
+    # PduTriggering method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getIPduRef                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setIPduRef                   [x] impl  [ ] docstring  [ ] test
+    # [ ] getIPduPortRefs              [x] impl  [ ] docstring  [ ] test
+    # [ ] addIPduPortRef               [x] impl  [ ] docstring  [ ] test
+    # [ ] getISignalTriggeringRefs     [x] impl  [ ] docstring  [ ] test
+    # [ ] addISignalTriggeringRef      [x] impl  [ ] docstring  [ ] test
+    # [ ] getSecOcCryptoMappingRef     [x] impl  [ ] docstring  [ ] test
+    # [ ] setSecOcCryptoMappingRef     [x] impl  [ ] docstring  [ ] test
+    # [ ] getTriggerIPduSendConditions [x] impl  [ ] docstring  [ ] test
+    # [ ] addTriggerIPduSendCondition  [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -874,6 +1082,15 @@ class FrameTriggering(Identifiable, ABC):
     common properties for triggering frame transmission and reception
     including frame references and port references.
     """
+    # FrameTriggering method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getFrameRef                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setFrameRef                  [x] impl  [ ] docstring  [ ] test
+    # [ ] getFramePortRefs             [x] impl  [ ] docstring  [ ] test
+    # [ ] addFramePortRef              [x] impl  [ ] docstring  [ ] test
+    # [ ] getPduTriggeringRefs         [x] impl  [ ] docstring  [ ] test
+    # [ ] addPduTriggeringRef          [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent, short_name):
         if type(self) is FrameTriggering:
             raise TypeError("FrameTriggering is an abstract class.")
@@ -912,6 +1129,13 @@ class SystemSignal(ARElement):
     dynamic length properties and physical properties for
     system-level signal communication.
     """
+    # SystemSignal method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDynamicLength             [x] impl  [ ] docstring  [ ] test
+    # [ ] setDynamicLength             [x] impl  [ ] docstring  [ ] test
+    # [ ] getPhysicalProps             [x] impl  [ ] docstring  [ ] test
+    # [ ] setPhysicalProps             [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -939,6 +1163,13 @@ class SystemSignalGroup(ARElement):
     between individual system signals and transforming signal references
     for grouped signal communication.
     """
+    # SystemSignalGroup method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getSystemSignalRefs          [x] impl  [ ] docstring  [ ] test
+    # [ ] addSystemSignalRefs          [x] impl  [ ] docstring  [ ] test
+    # [ ] getTransformingSystemSignalRef [x] impl  [ ] docstring  [ ] test
+    # [ ] setTransformingSystemSignalRef [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -966,6 +1197,15 @@ class ISignalTriggering(Identifiable):
     signal references, group references, and port references for
     signal-based communication triggering.
     """
+    # ISignalTriggering method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getISignalRef                [x] impl  [ ] docstring  [ ] test
+    # [ ] setISignalRef                [x] impl  [ ] docstring  [ ] test
+    # [ ] getISignalGroupRef           [x] impl  [ ] docstring  [ ] test
+    # [ ] setISignalGroupRef           [x] impl  [ ] docstring  [ ] test
+    # [ ] getISignalPortRefs           [x] impl  [ ] docstring  [ ] test
+    # [ ] addISignalPortRef            [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -1001,6 +1241,15 @@ class SegmentPosition(ARObject):
     specifying byte order, length, and position properties for
     segmented communication.
     """
+    # SegmentPosition method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getSegmentByteOrder          [x] impl  [ ] docstring  [ ] test
+    # [ ] setSegmentByteOrder          [x] impl  [ ] docstring  [ ] test
+    # [ ] getSegmentLength             [x] impl  [ ] docstring  [ ] test
+    # [ ] setSegmentLength             [x] impl  [ ] docstring  [ ] test
+    # [ ] getSegmentPosition           [x] impl  [ ] docstring  [ ] test
+    # [ ] setSegmentPosition           [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -1039,6 +1288,11 @@ class MultiplexedPart(ARObject, ABC):
     common properties for dynamic and static multiplexed communication
     segments including segment positions.
     """
+    # MultiplexedPart method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getSegmentPositions          [x] impl  [ ] docstring  [ ] test
+    # [ ] addSegmentPosition           [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         if type(self) is MultiplexedPart:
             raise TypeError("MultiplexedPart is an abstract class.")
@@ -1062,6 +1316,11 @@ class StaticPart(MultiplexedPart):
     Interaction Protocol Data Unit (IPDU) references for fixed
     segments in multiplexed communication.
     """
+    # StaticPart method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getIPduRef                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setIPduRef                   [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -1082,6 +1341,15 @@ class DynamicPartAlternative(ARObject):
     specifying selector field codes, initial dynamic part properties,
     and Interaction Protocol Data Unit (IPDU) references.
     """
+    # DynamicPartAlternative method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getInitialDynamicPart        [x] impl  [ ] docstring  [ ] test
+    # [ ] setInitialDynamicPart        [x] impl  [ ] docstring  [ ] test
+    # [ ] getIPduRef                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setIPduRef                   [x] impl  [ ] docstring  [ ] test
+    # [ ] getSelectorFieldCode         [x] impl  [ ] docstring  [ ] test
+    # [ ] setSelectorFieldCode         [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -1120,6 +1388,11 @@ class DynamicPart(MultiplexedPart):
     alternatives for variable segments in multiplexed communication
     based on selector field values.
     """
+    # DynamicPart method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDynamicPartAlternatives   [x] impl  [ ] docstring  [ ] test
+    # [ ] addDynamicPartAlternative    [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -1140,6 +1413,23 @@ class MultiplexedIPdu(IPdu):
     with dynamic and static parts, defining selector field properties
     and trigger modes for multiplexed communication.
     """
+    # MultiplexedIPdu method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDynamicPart               [x] impl  [ ] docstring  [ ] test
+    # [ ] setDynamicPart               [x] impl  [ ] docstring  [ ] test
+    # [ ] getSelectorFieldByteOrder    [x] impl  [ ] docstring  [ ] test
+    # [ ] setSelectorFieldByteOrder    [x] impl  [ ] docstring  [ ] test
+    # [ ] getSelectorFieldLength       [x] impl  [ ] docstring  [ ] test
+    # [ ] setSelectorFieldLength       [x] impl  [ ] docstring  [ ] test
+    # [ ] getSelectorFieldStartPosition [x] impl  [ ] docstring  [ ] test
+    # [ ] setSelectorFieldStartPosition [x] impl  [ ] docstring  [ ] test
+    # [ ] getStaticPart                [x] impl  [ ] docstring  [ ] test
+    # [ ] setStaticPart                [x] impl  [ ] docstring  [ ] test
+    # [ ] getTriggerMode               [x] impl  [ ] docstring  [ ] test
+    # [ ] setTriggerMode               [x] impl  [ ] docstring  [ ] test
+    # [ ] getUnusedBitPattern          [x] impl  [ ] docstring  [ ] test
+    # [ ] setUnusedBitPattern          [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -1213,6 +1503,9 @@ class GeneralPurposePdu(Pdu):
     Represents a general-purpose Protocol Data Unit (PDU) for flexible
     communication patterns that don't fit into specific PDU categories.
     """
+    # GeneralPurposePdu method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -1222,6 +1515,9 @@ class GeneralPurposeIPdu(IPdu):
     Represents a general-purpose Interaction Protocol Data Unit (IPDU) for flexible
     interaction-based communication patterns that don't fit into specific IPDU categories.
     """
+    # GeneralPurposeIPdu method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -1231,6 +1527,9 @@ class SecureCommunicationPropsSet(FibexElement):
     Represents a set of secure communication properties that can be grouped
     together to define common security configurations for communication channels.
     """
+    # SecureCommunicationPropsSet method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -1252,6 +1551,11 @@ class UserDefinedPdu(Pdu):
             that transmits or receives the UserDefinedPdu. If several CDDs are
             defined this attribute is used to distinguish between them.
     """
+    # UserDefinedPdu method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCddType                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setCddType                   [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
         self.cddType: String = None
@@ -1269,6 +1573,11 @@ class UserDefinedIPdu(IPdu):
     Represents a user-defined Interaction Protocol Data Unit (IPDU) that allows for custom
     interaction-based communication patterns defined by the user rather than following standard IPDU types.
     """
+    # UserDefinedIPdu method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCddType                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setCddType                   [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
         self.cddType: ARLiteral = None
@@ -1287,6 +1596,17 @@ class SecureCommunicationAuthenticationProps(Identifiable):
     including authentication build attempts, retries, and other
     authentication-related security parameters.
     """
+    # SecureCommunicationAuthenticationProps method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getAuthenticationBuildAttempts [x] impl  [ ] docstring  [ ] test
+    # [ ] setAuthenticationBuildAttempts [x] impl  [ ] docstring  [ ] test
+    # [ ] getAuthenticationRetries     [x] impl  [ ] docstring  [ ] test
+    # [ ] setAuthenticationRetries     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataId                    [x] impl  [ ] docstring  [ ] test
+    # [ ] setDataId                    [x] impl  [ ] docstring  [ ] test
+    # [ ] getSecuredComAuthenticationType [x] impl  [ ] docstring  [ ] test
+    # [ ] setSecuredComAuthenticationType [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -1334,6 +1654,23 @@ class SecureCommunicationFreshnessProps(Identifiable):
     including freshness value IDs, lengths, and other
     freshness-related security parameters to prevent replay attacks.
     """
+    # SecureCommunicationFreshnessProps method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getFreshnessValueId          [x] impl  [ ] docstring  [ ] test
+    # [ ] setFreshnessValueId          [x] impl  [ ] docstring  [ ] test
+    # [ ] getFreshnessValueLength      [x] impl  [ ] docstring  [ ] test
+    # [ ] setFreshnessValueLength      [x] impl  [ ] docstring  [ ] test
+    # [ ] getFreshnessValueTxLength    [x] impl  [ ] docstring  [ ] test
+    # [ ] setFreshnessValueTxLength    [x] impl  [ ] docstring  [ ] test
+    # [ ] getMessageLinkLength         [x] impl  [ ] docstring  [ ] test
+    # [ ] setMessageLinkLength         [x] impl  [ ] docstring  [ ] test
+    # [ ] getMessageLinkPosition       [x] impl  [ ] docstring  [ ] test
+    # [ ] setMessageLinkPosition       [x] impl  [ ] docstring  [ ] test
+    # [ ] getSecondaryFreshnessValueId [x] impl  [ ] docstring  [ ] test
+    # [ ] setSecondaryFreshnessValueId [x] impl  [ ] docstring  [ ] test
+    # [ ] getSecuredComFreshnessType   [x] impl  [ ] docstring  [ ] test
+    # [ ] setSecuredComFreshnessType   [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

@@ -7,6 +7,17 @@ class ECUMapping(Identifiable):
     and their physical ECU instances. This class maps communication controllers, hardware ports,
     and other ECU resources to specific ECU instances within the system configuration.
     """
+    # ECUMapping method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCommControllerMappings    [x] impl  [ ] docstring  [ ] test
+    # [ ] setCommControllerMappings    [x] impl  [ ] docstring  [ ] test
+    # [ ] getEcuRef                    [x] impl  [ ] docstring  [ ] test
+    # [ ] setEcuRef                    [x] impl  [ ] docstring  [ ] test
+    # [ ] getEcuInstanceRef            [x] impl  [ ] docstring  [ ] test
+    # [ ] setEcuInstanceRef            [x] impl  [ ] docstring  [ ] test
+    # [ ] getHwPortMappings            [x] impl  [ ] docstring  [ ] test
+    # [ ] setHwPortMappings            [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 

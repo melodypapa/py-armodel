@@ -26,6 +26,17 @@ class SwcToEcuMapping(Identifiable):
     in the system, defining how components are assigned to specific
     ECUs including hardware element and processing unit references.
     """
+    # SwcToEcuMapping method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getComponentIRefs            [x] impl  [ ] docstring  [ ] test
+    # [ ] addComponentIRef             [x] impl  [ ] docstring  [ ] test
+    # [ ] getControlledHwElementRef    [x] impl  [ ] docstring  [ ] test
+    # [ ] setControlledHwElementRef    [x] impl  [ ] docstring  [ ] test
+    # [ ] getEcuInstanceRef            [x] impl  [ ] docstring  [ ] test
+    # [ ] setEcuInstanceRef            [x] impl  [ ] docstring  [ ] test
+    # [ ] getProcessingUnitRef         [x] impl  [ ] docstring  [ ] test
+    # [ ] setProcessingUnitRef         [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -69,6 +80,15 @@ class ComManagementMapping(Identifiable):
     defining how communication management groups and port groups
     are mapped to physical communication channels.
     """
+    # ComManagementMapping method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getComManagementGroupRefs    [x] impl  [ ] docstring  [ ] test
+    # [ ] addComManagementGroupRef     [x] impl  [ ] docstring  [ ] test
+    # [ ] getComManagementPortGroupRefs [x] impl  [ ] docstring  [ ] test
+    # [ ] addComManagementPortGroupRef [x] impl  [ ] docstring  [ ] test
+    # [ ] getPhysicalChannelRef        [x] impl  [ ] docstring  [ ] test
+    # [ ] setPhysicalChannelRef        [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -108,6 +128,58 @@ class SystemMapping(Identifiable):
     ECU resource mappings, data mappings, and software component mappings
     for comprehensive system configuration.
     """
+    # SystemMapping method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getApplicationPartitionToEcuPartitionMappings [x] impl  [ ] docstring  [ ] test
+    # [ ] addApplicationPartitionToEcuPartitionMapping [x] impl  [ ] docstring  [ ] test
+    # [ ] getAppOsTaskProxyToEcuTaskProxyMappings [x] impl  [ ] docstring  [ ] test
+    # [ ] addAppOsTaskProxyToEcuTaskProxyMapping [x] impl  [ ] docstring  [ ] test
+    # [ ] getComManagementMappings     [x] impl  [ ] docstring  [ ] test
+    # [ ] addComManagementMapping      [x] impl  [ ] docstring  [ ] test
+    # [ ] getCryptoServiceMappings     [x] impl  [ ] docstring  [ ] test
+    # [ ] addCryptoServiceMapping      [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataMappings              [x] impl  [ ] docstring  [ ] test
+    # [ ] addDataMapping               [x] impl  [ ] docstring  [ ] test
+    # [ ] getDdsISignalToTopicMapping  [x] impl  [ ] docstring  [ ] test
+    # [ ] addDdsISignalToTopicMapping  [x] impl  [ ] docstring  [ ] test
+    # [ ] getEcuResourceMappings       [x] impl  [ ] docstring  [ ] test
+    # [ ] createECUMapping             [x] impl  [ ] docstring  [ ] test
+    # [ ] getJ1939ControllerApplicationToJ1939NmNodeMappings [x] impl  [ ] docstring  [ ] test
+    # [ ] addJ1939ControllerApplicationToJ1939NmNodeMapping [x] impl  [ ] docstring  [ ] test
+    # [ ] getMappingConstraints        [x] impl  [ ] docstring  [ ] test
+    # [ ] addMappingConstraint         [x] impl  [ ] docstring  [ ] test
+    # [ ] getPncMappings               [x] impl  [ ] docstring  [ ] test
+    # [ ] addPncMapping                [x] impl  [ ] docstring  [ ] test
+    # [ ] getPortElementToComResourceMappings [x] impl  [ ] docstring  [ ] test
+    # [ ] addPortElementToComResourceMapping [x] impl  [ ] docstring  [ ] test
+    # [ ] getResourceEstimations       [x] impl  [ ] docstring  [ ] test
+    # [ ] addResourceEstimation        [x] impl  [ ] docstring  [ ] test
+    # [ ] getResourceToApplicationPartitionMappings [x] impl  [ ] docstring  [ ] test
+    # [ ] addResourceToApplicationPartitionMapping [x] impl  [ ] docstring  [ ] test
+    # [ ] getRteEventSeparations       [x] impl  [ ] docstring  [ ] test
+    # [ ] addRteEventSeparation        [x] impl  [ ] docstring  [ ] test
+    # [ ] getRteEventToOsTaskProxyMappings [x] impl  [ ] docstring  [ ] test
+    # [ ] addRteEventToOsTaskProxyMapping [x] impl  [ ] docstring  [ ] test
+    # [ ] getSignalPathConstraints     [x] impl  [ ] docstring  [ ] test
+    # [ ] addSignalPathConstraint      [x] impl  [ ] docstring  [ ] test
+    # [ ] getSoftwareClusterToApplicationPartitionMappings [x] impl  [ ] docstring  [ ] test
+    # [ ] addSoftwareClusterToApplicationPartitionMapping [x] impl  [ ] docstring  [ ] test
+    # [ ] getSoftwareClusterToResourceMappings [x] impl  [ ] docstring  [ ] test
+    # [ ] addSoftwareClusterToResourceMapping [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwClusterMappings         [x] impl  [ ] docstring  [ ] test
+    # [ ] addSwClusterMapping          [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwcToApplicationPartitionMappings [x] impl  [ ] docstring  [ ] test
+    # [ ] addSwcToApplicationPartitionMappings [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwImplMappings            [x] impl  [ ] docstring  [ ] test
+    # [ ] createSwcToImplMapping       [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwMappings                [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwcToEcuMappings          [x] impl  [ ] docstring  [ ] test
+    # [ ] createSwcToEcuMapping        [x] impl  [ ] docstring  [ ] test
+    # [ ] getSystemSignalGroupToComResourceMappings [x] impl  [ ] docstring  [ ] test
+    # [ ] addSystemSignalGroupToComResourceMapping [x] impl  [ ] docstring  [ ] test
+    # [ ] getSystemSignalToComResourceMappings [x] impl  [ ] docstring  [ ] test
+    # [ ] addSystemSignalToComResourceMapping [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -323,6 +395,15 @@ class RootSwCompositionPrototype(AtpPrototype):
     defining references to calibration parameter value sets, flat maps,
     and software composition templates for the top-level composition.
     """
+    # RootSwCompositionPrototype method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCalibrationParameterValueSetRef [x] impl  [ ] docstring  [ ] test
+    # [ ] setCalibrationParameterValueSetRef [x] impl  [ ] docstring  [ ] test
+    # [ ] getFlatMapRef                [x] impl  [ ] docstring  [ ] test
+    # [ ] setFlatMapRef                [x] impl  [ ] docstring  [ ] test
+    # [ ] getSoftwareCompositionTRef   [x] impl  [ ] docstring  [ ] test
+    # [ ] setSoftwareCompositionTRef   [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -358,6 +439,11 @@ class J1939SharedAddressCluster(Identifiable):
     defining references to participating J1939 clusters for
     shared address management in J1939 communication.
     """
+    # J1939SharedAddressCluster method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getParticipatingJ1939ClusterRefs [x] impl  [ ] docstring  [ ] test
+    # [ ] addParticipatingJ1939ClusterRef [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -378,6 +464,36 @@ class System(AtpStructureElement):
     organizing all system-level elements including ECU extractions,
     mappings, and system configurations for complete system definition.
     """
+    # System method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getClientIdDefinitionSetRefs [x] impl  [ ] docstring  [ ] test
+    # [ ] addClientIdDefinitionSetRefs [x] impl  [ ] docstring  [ ] test
+    # [ ] getContainerIPduHeaderByteOrder [x] impl  [ ] docstring  [ ] test
+    # [ ] setContainerIPduHeaderByteOrder [x] impl  [ ] docstring  [ ] test
+    # [ ] getEcuExtractVersion         [x] impl  [ ] docstring  [ ] test
+    # [ ] setEcuExtractVersion         [x] impl  [ ] docstring  [ ] test
+    # [ ] getFibexElementRefs          [x] impl  [ ] docstring  [ ] test
+    # [ ] addFibexElementRef           [x] impl  [ ] docstring  [ ] test
+    # [ ] getInterpolationRoutineMappingSetRefs [x] impl  [ ] docstring  [ ] test
+    # [ ] addInterpolationRoutineMappingSetRefs [x] impl  [ ] docstring  [ ] test
+    # [ ] getJ1939SharedAddressClusters [x] impl  [ ] docstring  [ ] test
+    # [ ] setJ1939SharedAddressClusters [x] impl  [ ] docstring  [ ] test
+    # [ ] getMappings                  [x] impl  [ ] docstring  [ ] test
+    # [ ] getSystemMappings            [x] impl  [ ] docstring  [ ] test
+    # [ ] createSystemMapping          [x] impl  [ ] docstring  [ ] test
+    # [ ] getPncVectorLength           [x] impl  [ ] docstring  [ ] test
+    # [ ] setPncVectorLength           [x] impl  [ ] docstring  [ ] test
+    # [ ] getPncVectorOffset           [x] impl  [ ] docstring  [ ] test
+    # [ ] setPncVectorOffset           [x] impl  [ ] docstring  [ ] test
+    # [ ] getRootSoftwareComposition   [x] impl  [ ] docstring  [ ] test
+    # [ ] createRootSoftwareComposition [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwClusterRefs             [x] impl  [ ] docstring  [ ] test
+    # [ ] addSwClusterRef              [x] impl  [ ] docstring  [ ] test
+    # [ ] getSystemDocumentation       [x] impl  [ ] docstring  [ ] test
+    # [ ] setSystemDocumentation       [x] impl  [ ] docstring  [ ] test
+    # [ ] getSystemVersion             [x] impl  [ ] docstring  [ ] test
+    # [ ] setSystemVersion             [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

@@ -14,6 +14,17 @@ class EngineeringObject(ARObject, ABC):
     Abstract class for AUTOSAR engineering objects.
     This class defines the basic structure for engineering objects in AUTOSAR models.
     """
+    # EngineeringObject method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] setCategory                  [x] impl  [x] docstring  [ ] test
+    # [ ] getCategory                  [x] impl  [x] docstring  [ ] test
+    # [ ] setDomain                    [x] impl  [x] docstring  [ ] test
+    # [ ] getDomain                    [x] impl  [x] docstring  [ ] test
+    # [ ] setRevisionLabel             [x] impl  [x] docstring  [ ] test
+    # [ ] getRevisionLabel             [x] impl  [x] docstring  [ ] test
+    # [ ] setShortLabel                [x] impl  [x] docstring  [ ] test
+    # [ ] getShortLabel                [x] impl  [x] docstring  [ ] test
+
     
     def __init__(self):
         if type(self) is EngineeringObject:
@@ -125,6 +136,9 @@ class AutosarEngineeringObject(EngineeringObject):
     Represents an AUTOSAR engineering object.
     This class extends EngineeringObject with AUTOSAR-specific functionality.
     """
+    # AutosarEngineeringObject method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+
     
     def __init__(self):
         super().__init__()

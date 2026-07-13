@@ -14,6 +14,9 @@ class AutoCollectEnum(Enum):
     This enum defines the different auto-collection behaviors that can
     be applied to collections.
     """
+    # AutoCollectEnum method parity checklist:
+    # (no methods)
+
     AUTO_COLLECT_OFF = "OFF"
     AUTO_COLLECT_ON = "ON"
     AUTO_COLLECT_AUTO = "AUTO"
@@ -29,6 +32,9 @@ class BindingTimeEnum(AREnum):
 
     Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling
     """
+    # BindingTimeEnum method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__([

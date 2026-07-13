@@ -25,6 +25,9 @@ class AtpBlueprint(Identifiable, ABC):
     Attributes:
         Inherits all attributes from Identifiable including shortName and adminData.
     """
+    # AtpBlueprint method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     
     def __init__(self, parent, short_name: str):
         if type(self) is AtpBlueprint:

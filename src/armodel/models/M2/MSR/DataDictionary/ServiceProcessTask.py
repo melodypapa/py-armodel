@@ -6,6 +6,15 @@ class SwServiceArg(Identifiable):
     Service argument with direction, array size, and data definition
     properties.
     """
+    # SwServiceArg method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDirection                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setDirection                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwArraysize               [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwArraysize               [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwDataDefProps            [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwDataDefProps            [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

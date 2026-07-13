@@ -16,6 +16,13 @@ class Keyword(Identifiable):
     Represents a keyword in AUTOSAR models for standardization and classification purposes.
     Keywords can have abbreviated names and classifications for organizing and categorizing elements.
     """
+    # Keyword method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getAbbrName                  [x] impl  [x] docstring  [x] test
+    # [x] setAbbrName                  [x] impl  [x] docstring  [x] test
+    # [x] getClassifications           [x] impl  [x] docstring  [x] test
+    # [x] addClassification            [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent, short_name):
         """
@@ -86,6 +93,11 @@ class KeywordSet(AtpBlueprintable):
     Represents a set of keywords in AUTOSAR models for standardization and classification purposes.
     This class contains multiple keywords that are grouped together for organizational purposes.
     """
+    # KeywordSet method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getKeywords                  [x] impl  [x] docstring  [x] test
+    # [x] createKeyword                [x] impl  [x] docstring  [x] test
+
 
     def __init__(self, parent, short_name):
         """

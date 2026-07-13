@@ -6,6 +6,11 @@ class TimingConditionFormula(ARObject):
     Represents a timing condition formula in AUTOSAR.
     Defines a formula for evaluating timing conditions.
     """
+    # TimingConditionFormula method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getExpression                [x] impl  [x] docstring  [ ] test
+    # [ ] setExpression                [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

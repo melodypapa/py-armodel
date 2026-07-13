@@ -7,6 +7,11 @@ class SignalServiceTranslationPropsSet(ARObject):
     Represents a set of signal service translation properties in AUTOSAR.
     Defines a collection of signal service translation property sets.
     """
+    # SignalServiceTranslationPropsSet method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] addTranslationProp           [x] impl  [x] docstring  [ ] test
+    # [ ] getTranslationProps          [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

@@ -12,6 +12,73 @@ class FlexrayCommunicationController(CommunicationController):
     startup parameters, timing, and synchronization settings for
     time-triggered communication.
     """
+    # FlexrayCommunicationController method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getAcceptedStartupRange      [x] impl  [ ] docstring  [ ] test
+    # [ ] setAcceptedStartupRange      [x] impl  [ ] docstring  [ ] test
+    # [ ] getAllowHaltDueToClock       [x] impl  [ ] docstring  [ ] test
+    # [ ] setAllowHaltDueToClock       [x] impl  [ ] docstring  [ ] test
+    # [ ] getAllowPassiveToActive      [x] impl  [ ] docstring  [ ] test
+    # [ ] setAllowPassiveToActive      [x] impl  [ ] docstring  [ ] test
+    # [ ] getClusterDriftDamping       [x] impl  [ ] docstring  [ ] test
+    # [ ] setClusterDriftDamping       [x] impl  [ ] docstring  [ ] test
+    # [ ] getDecodingCorrection        [x] impl  [ ] docstring  [ ] test
+    # [ ] setDecodingCorrection        [x] impl  [ ] docstring  [ ] test
+    # [ ] getDelayCompensationA        [x] impl  [ ] docstring  [ ] test
+    # [ ] setDelayCompensationA        [x] impl  [ ] docstring  [ ] test
+    # [ ] getDelayCompensationB        [x] impl  [ ] docstring  [ ] test
+    # [ ] setDelayCompensationB        [x] impl  [ ] docstring  [ ] test
+    # [ ] getExternOffsetCorrection    [x] impl  [ ] docstring  [ ] test
+    # [ ] setExternOffsetCorrection    [x] impl  [ ] docstring  [ ] test
+    # [ ] getExternRateCorrection      [x] impl  [ ] docstring  [ ] test
+    # [ ] setExternRateCorrection      [x] impl  [ ] docstring  [ ] test
+    # [ ] getExternalSync              [x] impl  [ ] docstring  [ ] test
+    # [ ] setExternalSync              [x] impl  [ ] docstring  [ ] test
+    # [ ] getFallBackInternal          [x] impl  [ ] docstring  [ ] test
+    # [ ] setFallBackInternal          [x] impl  [ ] docstring  [ ] test
+    # [ ] getFlexrayFifos              [x] impl  [ ] docstring  [ ] test
+    # [ ] setFlexrayFifos              [x] impl  [ ] docstring  [ ] test
+    # [ ] getKeySlotID                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setKeySlotID                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getKeySlotOnlyEnabled        [x] impl  [ ] docstring  [ ] test
+    # [ ] setKeySlotOnlyEnabled        [x] impl  [ ] docstring  [ ] test
+    # [ ] getKeySlotUsedForStartUp     [x] impl  [ ] docstring  [ ] test
+    # [ ] setKeySlotUsedForStartUp     [x] impl  [ ] docstring  [ ] test
+    # [ ] getKeySlotUsedForSync        [x] impl  [ ] docstring  [ ] test
+    # [ ] setKeySlotUsedForSync        [x] impl  [ ] docstring  [ ] test
+    # [ ] getLatestTX                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setLatestTX                  [x] impl  [ ] docstring  [ ] test
+    # [ ] getListenTimeout             [x] impl  [ ] docstring  [ ] test
+    # [ ] setListenTimeout             [x] impl  [ ] docstring  [ ] test
+    # [ ] getMacroInitialOffsetA       [x] impl  [ ] docstring  [ ] test
+    # [ ] setMacroInitialOffsetA       [x] impl  [ ] docstring  [ ] test
+    # [ ] getMacroInitialOffsetB       [x] impl  [ ] docstring  [ ] test
+    # [ ] setMacroInitialOffsetB       [x] impl  [ ] docstring  [ ] test
+    # [ ] getMaximumDynamicPayloadLength [x] impl  [ ] docstring  [ ] test
+    # [ ] setMaximumDynamicPayloadLength [x] impl  [ ] docstring  [ ] test
+    # [ ] getMicroInitialOffsetA       [x] impl  [ ] docstring  [ ] test
+    # [ ] setMicroInitialOffsetA       [x] impl  [ ] docstring  [ ] test
+    # [ ] getMicroInitialOffsetB       [x] impl  [ ] docstring  [ ] test
+    # [ ] setMicroInitialOffsetB       [x] impl  [ ] docstring  [ ] test
+    # [ ] getMicroPerCycle             [x] impl  [ ] docstring  [ ] test
+    # [ ] setMicroPerCycle             [x] impl  [ ] docstring  [ ] test
+    # [ ] getMicrotickDuration         [x] impl  [ ] docstring  [ ] test
+    # [ ] setMicrotickDuration         [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmVectorEarlyUpdate       [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmVectorEarlyUpdate       [x] impl  [ ] docstring  [ ] test
+    # [ ] getOffsetCorrectionOut       [x] impl  [ ] docstring  [ ] test
+    # [ ] setOffsetCorrectionOut       [x] impl  [ ] docstring  [ ] test
+    # [ ] getRateCorrectionOut         [x] impl  [ ] docstring  [ ] test
+    # [ ] setRateCorrectionOut         [x] impl  [ ] docstring  [ ] test
+    # [ ] getSamplesPerMicrotick       [x] impl  [ ] docstring  [ ] test
+    # [ ] setSamplesPerMicrotick       [x] impl  [ ] docstring  [ ] test
+    # [ ] getSecondKeySlotId           [x] impl  [ ] docstring  [ ] test
+    # [ ] setSecondKeySlotId           [x] impl  [ ] docstring  [ ] test
+    # [ ] getTwoKeySlotMode            [x] impl  [ ] docstring  [ ] test
+    # [ ] setTwoKeySlotMode            [x] impl  [ ] docstring  [ ] test
+    # [ ] getWakeUpPattern             [x] impl  [ ] docstring  [ ] test
+    # [ ] setWakeUpPattern             [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -311,6 +378,15 @@ class FlexrayCommunicationConnector(CommunicationConnector):
     to communication channels, specifying NM (Network Management) timing
     and PNC (Partial Network Cluster) properties for FlexRay communication.
     """
+    # FlexrayCommunicationConnector method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmReadySleepTime          [x] impl  [ ] docstring  [ ] test
+    # [ ] setNmReadySleepTime          [x] impl  [ ] docstring  [ ] test
+    # [ ] getPncFilterDataMask         [x] impl  [ ] docstring  [ ] test
+    # [ ] setPncFilterDataMask         [x] impl  [ ] docstring  [ ] test
+    # [ ] getWakeUpChannel             [x] impl  [ ] docstring  [ ] test
+    # [ ] setWakeUpChannel             [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -349,6 +425,79 @@ class FlexrayCluster(CommunicationCluster):
     specifying timing parameters, slot configurations, and network
     management properties for FlexRay network communication.
     """
+    # FlexrayCluster method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getActionPointOffset         [x] impl  [ ] docstring  [ ] test
+    # [ ] setActionPointOffset         [x] impl  [ ] docstring  [ ] test
+    # [ ] getBit                       [x] impl  [ ] docstring  [ ] test
+    # [ ] setBit                       [x] impl  [ ] docstring  [ ] test
+    # [ ] getCasRxLowMax               [x] impl  [ ] docstring  [ ] test
+    # [ ] setCasRxLowMax               [x] impl  [ ] docstring  [ ] test
+    # [ ] getColdStartAttempts         [x] impl  [ ] docstring  [ ] test
+    # [ ] setColdStartAttempts         [x] impl  [ ] docstring  [ ] test
+    # [ ] getCycle                     [x] impl  [ ] docstring  [ ] test
+    # [ ] setCycle                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCycleCountMax             [x] impl  [ ] docstring  [ ] test
+    # [ ] setCycleCountMax             [x] impl  [ ] docstring  [ ] test
+    # [ ] getDetectNitError            [x] impl  [ ] docstring  [ ] test
+    # [ ] setDetectNitError            [x] impl  [ ] docstring  [ ] test
+    # [ ] getDynamicSlotIdlePhase      [x] impl  [ ] docstring  [ ] test
+    # [ ] setDynamicSlotIdlePhase      [x] impl  [ ] docstring  [ ] test
+    # [ ] getIgnoreAfterTx             [x] impl  [ ] docstring  [ ] test
+    # [ ] setIgnoreAfterTx             [x] impl  [ ] docstring  [ ] test
+    # [ ] getListenNoise               [x] impl  [ ] docstring  [ ] test
+    # [ ] setListenNoise               [x] impl  [ ] docstring  [ ] test
+    # [ ] getMacroPerCycle             [x] impl  [ ] docstring  [ ] test
+    # [ ] setMacroPerCycle             [x] impl  [ ] docstring  [ ] test
+    # [ ] getMacrotickDuration         [x] impl  [ ] docstring  [ ] test
+    # [ ] setMacrotickDuration         [x] impl  [ ] docstring  [ ] test
+    # [ ] getMaxWithoutClockCorrectionFatal [x] impl  [ ] docstring  [ ] test
+    # [ ] setMaxWithoutClockCorrectionFatal [x] impl  [ ] docstring  [ ] test
+    # [ ] getMaxWithoutClockCorrectionPassive [x] impl  [ ] docstring  [ ] test
+    # [ ] setMaxWithoutClockCorrectionPassive [x] impl  [ ] docstring  [ ] test
+    # [ ] getMinislotActionPointOffset [x] impl  [ ] docstring  [ ] test
+    # [ ] setMinislotActionPointOffset [x] impl  [ ] docstring  [ ] test
+    # [ ] getMinislotDuration          [x] impl  [ ] docstring  [ ] test
+    # [ ] setMinislotDuration          [x] impl  [ ] docstring  [ ] test
+    # [ ] getNetworkIdleTime           [x] impl  [ ] docstring  [ ] test
+    # [ ] setNetworkIdleTime           [x] impl  [ ] docstring  [ ] test
+    # [ ] getNetworkManagementVectorLength [x] impl  [ ] docstring  [ ] test
+    # [ ] setNetworkManagementVectorLength [x] impl  [ ] docstring  [ ] test
+    # [ ] getNumberOfMinislots         [x] impl  [ ] docstring  [ ] test
+    # [ ] setNumberOfMinislots         [x] impl  [ ] docstring  [ ] test
+    # [ ] getNumberOfStaticSlots       [x] impl  [ ] docstring  [ ] test
+    # [ ] setNumberOfStaticSlots       [x] impl  [ ] docstring  [ ] test
+    # [ ] getOffsetCorrectionStart     [x] impl  [ ] docstring  [ ] test
+    # [ ] setOffsetCorrectionStart     [x] impl  [ ] docstring  [ ] test
+    # [ ] getPayloadLengthStatic       [x] impl  [ ] docstring  [ ] test
+    # [ ] setPayloadLengthStatic       [x] impl  [ ] docstring  [ ] test
+    # [ ] getSafetyMargin              [x] impl  [ ] docstring  [ ] test
+    # [ ] setSafetyMargin              [x] impl  [ ] docstring  [ ] test
+    # [ ] getSampleClockPeriod         [x] impl  [ ] docstring  [ ] test
+    # [ ] setSampleClockPeriod         [x] impl  [ ] docstring  [ ] test
+    # [ ] getStaticSlotDuration        [x] impl  [ ] docstring  [ ] test
+    # [ ] setStaticSlotDuration        [x] impl  [ ] docstring  [ ] test
+    # [ ] getSymbolWindow              [x] impl  [ ] docstring  [ ] test
+    # [ ] setSymbolWindow              [x] impl  [ ] docstring  [ ] test
+    # [ ] getSymbolWindowActionPointOffset [x] impl  [ ] docstring  [ ] test
+    # [ ] setSymbolWindowActionPointOffset [x] impl  [ ] docstring  [ ] test
+    # [ ] getSyncFrameIdCountMax       [x] impl  [ ] docstring  [ ] test
+    # [ ] setSyncFrameIdCountMax       [x] impl  [ ] docstring  [ ] test
+    # [ ] getTranceiverStandbyDelay    [x] impl  [ ] docstring  [ ] test
+    # [ ] setTranceiverStandbyDelay    [x] impl  [ ] docstring  [ ] test
+    # [ ] getTransmissionStartSequenceDuration [x] impl  [ ] docstring  [ ] test
+    # [ ] setTransmissionStartSequenceDuration [x] impl  [ ] docstring  [ ] test
+    # [ ] getWakeupRxIdle              [x] impl  [ ] docstring  [ ] test
+    # [ ] setWakeupRxIdle              [x] impl  [ ] docstring  [ ] test
+    # [ ] getWakeupRxLow               [x] impl  [ ] docstring  [ ] test
+    # [ ] setWakeupRxLow               [x] impl  [ ] docstring  [ ] test
+    # [ ] getWakeupRxWindow            [x] impl  [ ] docstring  [ ] test
+    # [ ] setWakeupRxWindow            [x] impl  [ ] docstring  [ ] test
+    # [ ] getWakeupTxActive            [x] impl  [ ] docstring  [ ] test
+    # [ ] setWakeupTxActive            [x] impl  [ ] docstring  [ ] test
+    # [ ] getWakeupTxIdle              [x] impl  [ ] docstring  [ ] test
+    # [ ] setWakeupTxIdle              [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

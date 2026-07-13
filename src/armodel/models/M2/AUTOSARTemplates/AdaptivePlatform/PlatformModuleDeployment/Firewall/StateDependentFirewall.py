@@ -8,6 +8,13 @@ class StateDependentFirewall(ARObject):
     Represents a state-dependent firewall in AUTOSAR Adaptive Platform PlatformModuleDeployment.
     Defines firewall rules that depend on system states.
     """
+    # StateDependentFirewall method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] addFirewallRule              [x] impl  [x] docstring  [ ] test
+    # [ ] getFirewallRules             [x] impl  [x] docstring  [ ] test
+    # [ ] getStateRef                  [x] impl  [x] docstring  [ ] test
+    # [ ] setStateRef                  [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

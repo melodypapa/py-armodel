@@ -13,6 +13,11 @@ class SwSystemconst(Identifiable):
     Attributes:
         value (ValueSpecification): The value of the system constant.
     """
+    # SwSystemconst method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwDataDefProps            [x] impl  [x] docstring  [ ] test
+    # [ ] getSwDataDefProps            [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)

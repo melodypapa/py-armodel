@@ -12,6 +12,9 @@ class HeapUsage(Identifiable, ABC):
     Abstract base class for representing heap usage in AUTOSAR models.
     This class defines the basic structure for heap memory consumption tracking.
     """
+    # HeapUsage method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -31,6 +34,11 @@ class MeasuredHeapUsage(HeapUsage):
     """
     Represents measured heap usage in AUTOSAR.
     """
+    # MeasuredHeapUsage method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getSampleSize                [x] impl  [ ] docstring  [ ] test
+    # [ ] setSampleSize                [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()
@@ -48,6 +56,11 @@ class RoughEstimateHeapUsage(HeapUsage):
     """
     Represents rough estimate of heap usage in AUTOSAR.
     """
+    # RoughEstimateHeapUsage method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getConfidenceLevel           [x] impl  [ ] docstring  [ ] test
+    # [ ] setConfidenceLevel           [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()
@@ -65,6 +78,11 @@ class WorstCaseHeapUsage(HeapUsage):
     """
     Represents worst case heap usage in AUTOSAR.
     """
+    # WorstCaseHeapUsage method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getConfidenceLevel           [x] impl  [ ] docstring  [ ] test
+    # [ ] setConfidenceLevel           [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()

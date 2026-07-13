@@ -8,6 +8,9 @@ class BaseTypeDefinition(ARObject, ABC):
     Abstract base class for base type definitions.
     Base: ARObject
     """
+    # BaseTypeDefinition method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         if type(self) is BaseTypeDefinition:
@@ -20,6 +23,19 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
     Direct definition of a base type with encoding, size, and memory alignment specifications.
     Base: BaseTypeDefinition
     """
+    # BaseTypeDirectDefinition method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getBaseTypeEncoding          [x] impl  [ ] docstring  [ ] test
+    # [ ] setBaseTypeEncoding          [x] impl  [ ] docstring  [ ] test
+    # [ ] getBaseTypeSize              [x] impl  [ ] docstring  [ ] test
+    # [ ] setBaseTypeSize              [x] impl  [ ] docstring  [ ] test
+    # [ ] getByteOrder                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setByteOrder                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getMemAlignment              [x] impl  [ ] docstring  [ ] test
+    # [ ] setMemAlignment              [x] impl  [ ] docstring  [ ] test
+    # [ ] getNativeDeclaration         [x] impl  [ ] docstring  [ ] test
+    # [ ] setNativeDeclaration         [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -71,6 +87,11 @@ class BaseType(ARElement, ABC):
     Abstract base class for base types.
     Base: ARElement
     """
+    # BaseType method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getBaseTypeDefinition        [x] impl  [ ] docstring  [ ] test
+    # [ ] setBaseTypeDefinition        [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is BaseType:
             raise TypeError("BaseType is an abstract class.")
@@ -91,5 +112,8 @@ class SwBaseType(BaseType):
     Software base type representing primitive data types in software.
     Base: BaseType
     """
+    # SwBaseType method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

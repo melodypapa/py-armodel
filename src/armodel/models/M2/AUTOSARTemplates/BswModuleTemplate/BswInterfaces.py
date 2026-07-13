@@ -21,6 +21,9 @@ class BswEntryKindEnum(str, Enum):
     Enumeration for BSW Entry Kind values.
     Defines the types of entries that can exist in BSW modules.
     """
+    # BswEntryKindEnum method parity checklist:
+    # (no methods)
+
     # Function entry type for BSW module entries
     FUNCTION = "FUNCTION"
 
@@ -30,6 +33,9 @@ class BswCallType(str, Enum):
     Enumeration for BSW Call Type values.
     Defines how BSW module entries can be called (synchronously or asynchronously).
     """
+    # BswCallType method parity checklist:
+    # (no methods)
+
     # Synchronous call type - caller waits for completion
     SYNCHRONOUS = "SYNCHRONOUS"
     # Asynchronous call type - caller does not wait for completion
@@ -41,6 +47,9 @@ class BswExecutionContext(str, Enum):
     Enumeration for BSW Execution Context values.
     Defines where BSW module entries can execute in the system.
     """
+    # BswExecutionContext method parity checklist:
+    # (no methods)
+
     # Execution in a hook function context
     HOOK = "HOOK"
     # Execution in interrupt category 1 context (high priority)
@@ -58,6 +67,9 @@ class SwServiceImplPolicyEnum(str, Enum):
     Enumeration for SW Service Implementation Policy values.
     Defines how software service implementations should be generated in code.
     """
+    # SwServiceImplPolicyEnum method parity checklist:
+    # (no methods)
+
     # Implementation should be inlined
     INLINE = "INLINE"
     # Implementation should be inlined conditionally based on configuration
@@ -73,6 +85,15 @@ class BswModuleDependency(Identifiable):
     Represents a dependency relationship between BSW modules.
     This class defines how one BSW module depends on services from another module.
     """
+    # BswModuleDependency method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [ ] getServiceItems              [x] impl  [x] docstring  [ ] test
+    # [ ] setServiceItems              [x] impl  [x] docstring  [ ] test
+    # [ ] getTargetModuleId            [x] impl  [x] docstring  [ ] test
+    # [ ] setTargetModuleId            [x] impl  [x] docstring  [ ] test
+    # [ ] getTargetModuleRef           [x] impl  [x] docstring  [ ] test
+    # [ ] setTargetModuleRef           [x] impl  [x] docstring  [ ] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -169,6 +190,32 @@ class BswModuleEntry(AtpBlueprintable):
     Represents an entry point in a BSW module.
     This class defines how BSW module functions can be accessed and executed.
     """
+    # BswModuleEntry method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getArguments                 [x] impl  [x] docstring  [x] test
+    # [x] createArgument               [x] impl  [x] docstring  [x] test
+    # [ ] getBswEntryKind              [x] impl  [x] docstring  [ ] test
+    # [ ] setBswEntryKind              [x] impl  [x] docstring  [ ] test
+    # [ ] getCallType                  [x] impl  [x] docstring  [ ] test
+    # [ ] setCallType                  [x] impl  [x] docstring  [ ] test
+    # [ ] getExecutionContext          [x] impl  [x] docstring  [ ] test
+    # [ ] setExecutionContext          [x] impl  [x] docstring  [ ] test
+    # [ ] getFunctionPrototypeEmitter  [x] impl  [x] docstring  [ ] test
+    # [ ] setFunctionPrototypeEmitter  [x] impl  [x] docstring  [ ] test
+    # [ ] getIsReentrant               [x] impl  [x] docstring  [ ] test
+    # [ ] setIsReentrant               [x] impl  [x] docstring  [ ] test
+    # [ ] getIsSynchronous             [x] impl  [x] docstring  [ ] test
+    # [ ] setIsSynchronous             [x] impl  [x] docstring  [ ] test
+    # [x] getReturnType                [x] impl  [x] docstring  [x] test
+    # [x] createReturnType             [x] impl  [x] docstring  [x] test
+    # [ ] getRole                      [x] impl  [x] docstring  [ ] test
+    # [ ] setRole                      [x] impl  [x] docstring  [ ] test
+    # [ ] getServiceId                 [x] impl  [x] docstring  [ ] test
+    # [ ] setServiceId                 [x] impl  [x] docstring  [ ] test
+    # [ ] getSwServiceImplPolicy       [x] impl  [x] docstring  [ ] test
+    # [ ] setSwServiceImplPolicy       [x] impl  [x] docstring  [ ] test
+    # [ ] __str__                      [x] impl  [x] docstring  [ ] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -499,6 +546,15 @@ class BswModuleClientServerEntry(Referrable):
     Represents a client-server entry in a BSW module.
     This class defines how BSW modules implement client-server communication patterns.
     """
+    # BswModuleClientServerEntry method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [ ] getEncapsulatedEntryRef      [x] impl  [x] docstring  [ ] test
+    # [ ] setEncapsulatedEntryRef      [x] impl  [x] docstring  [ ] test
+    # [ ] getIsReentrant               [x] impl  [x] docstring  [ ] test
+    # [ ] setIsReentrant               [x] impl  [x] docstring  [ ] test
+    # [ ] getIsSynchronous             [x] impl  [x] docstring  [ ] test
+    # [ ] setIsSynchronous             [x] impl  [x] docstring  [ ] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """

@@ -31,6 +31,11 @@ class BswModuleCallPoint(Referrable, ABC):
     Represents a call point for a BSW module, which defines how the module can be called.
     This is an abstract base class for different types of call points.
     """
+    # BswModuleCallPoint method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getContextLimitationRefs     [x] impl  [x] docstring  [ ] test
+    # [x] addContextLimitationRef      [x] impl  [x] docstring  [x] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -76,6 +81,11 @@ class BswAsynchronousServerCallPoint(BswModuleCallPoint):
     Represents an asynchronous server call point in a BSW module.
     This call point is used when the server operation is executed asynchronously.
     """
+    # BswAsynchronousServerCallPoint method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [ ] getCalledEntryRef            [x] impl  [x] docstring  [ ] test
+    # [x] setCalledEntryRef            [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -120,6 +130,13 @@ class BswDirectCallPoint(BswModuleCallPoint):
     Represents a direct call point in a BSW module.
     This call point is used for direct synchronous calls to BSW module entries.
     """
+    # BswDirectCallPoint method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [ ] getCalledEntryRef            [x] impl  [x] docstring  [ ] test
+    # [x] setCalledEntryRef            [x] impl  [x] docstring  [x] test
+    # [ ] getCalledFromWithinExclusiveAreaRef [x] impl  [x] docstring  [ ] test
+    # [x] setCalledFromWithinExclusiveAreaRef [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -190,6 +207,13 @@ class BswSynchronousServerCallPoint(BswModuleCallPoint):
     Represents a synchronous server call point in a BSW module.
     This call point is used when the server operation is executed synchronously.
     """
+    # BswSynchronousServerCallPoint method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [ ] getCalledEntryRef            [x] impl  [x] docstring  [ ] test
+    # [x] setCalledEntryRef            [x] impl  [x] docstring  [x] test
+    # [ ] getCalledFromWithinExclusiveAreaRef [x] impl  [x] docstring  [ ] test
+    # [x] setCalledFromWithinExclusiveAreaRef [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -260,6 +284,9 @@ class BswAsynchronousServerCallResultPoint(BswModuleCallPoint):
     Represents a result point for an asynchronous server call in a BSW module.
     This defines where the result of the asynchronous call is handled.
     """
+    # BswAsynchronousServerCallResultPoint method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -280,6 +307,13 @@ class BswVariableAccess(Referrable):
     Represents access to a variable by a BSW module entity.
     This class defines how a BSW module accesses variables during execution.
     """
+    # BswVariableAccess method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [ ] getAccessedVariableRef       [x] impl  [x] docstring  [ ] test
+    # [x] setAccessedVariableRef       [x] impl  [x] docstring  [x] test
+    # [ ] getContextLimitationRefs     [x] impl  [x] docstring  [ ] test
+    # [x] addContextLimitationRef      [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -349,6 +383,9 @@ class BswDistinguishedPartition(Referrable):
     per partition, for example to behave either as a master or satellite in a multicore 
     ECU with shared BSW code.
     """
+    # BswDistinguishedPartition method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -366,6 +403,28 @@ class BswModuleEntity(ExecutableEntity, ABC):
     Abstract base class for BSW module entities.
     A BSW module entity represents an executable piece of code in a BSW module.
     """
+    # BswModuleEntity method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getAccessedModeGroupRefs     [x] impl  [x] docstring  [ ] test
+    # [ ] addAccessedModeGroupRef      [x] impl  [x] docstring  [ ] test
+    # [ ] getActivationPointRefs       [x] impl  [x] docstring  [ ] test
+    # [ ] addActivationPointRef        [x] impl  [x] docstring  [ ] test
+    # [x] getCallPoints                [x] impl  [x] docstring  [x] test
+    # [x] createBswAsynchronousServerCallPoint [x] impl  [x] docstring  [x] test
+    # [x] createBswSynchronousServerCallPoint [x] impl  [x] docstring  [x] test
+    # [x] getDataReceivePoints         [x] impl  [x] docstring  [x] test
+    # [x] createDataReceivePoint       [x] impl  [x] docstring  [x] test
+    # [x] getDataSendPoints            [x] impl  [x] docstring  [x] test
+    # [x] createDataSendPoint          [x] impl  [x] docstring  [x] test
+    # [x] getImplementedEntryRef       [x] impl  [x] docstring  [x] test
+    # [x] setImplementedEntryRef       [x] impl  [x] docstring  [x] test
+    # [x] getIssuedTriggerRefs         [x] impl  [x] docstring  [x] test
+    # [x] addIssuedTriggerRef          [x] impl  [x] docstring  [x] test
+    # [x] getManagedModeGroupRefs      [x] impl  [x] docstring  [x] test
+    # [x] addManagedModeGroupRef       [x] impl  [x] docstring  [x] test
+    # [x] getSchedulerNamePrefixRef    [x] impl  [x] docstring  [x] test
+    # [x] setSchedulerNamePrefixRef    [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -640,6 +699,9 @@ class BswCalledEntity(BswModuleEntity):
     Represents a BSW module entity that can be called by other entities.
     This is typically used for BSW service functions that can be invoked.
     """
+    # BswCalledEntity method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -657,6 +719,9 @@ class BswSchedulableEntity(BswModuleEntity):
     Represents a BSW module entity that can be scheduled for execution.
     This is typically used for BSW functions that can be scheduled by the OS.
     """
+    # BswSchedulableEntity method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -674,6 +739,9 @@ class BswInterruptCategory(AREnum):
     Enumeration for BSW interrupt categories.
     Defines whether an interrupt is a Category 1 (CAT1) or Category 2 (CAT2) interrupt.
     """
+    # BswInterruptCategory method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+
     # Category 1 interrupt - directly handled by the OS
     CAT1 = "cat1"
     # Category 2 interrupt - handled by the interrupt service routine
@@ -694,6 +762,13 @@ class BswInterruptEntity(BswModuleEntity):
     Represents an interrupt entity in a BSW module.
     This defines how interrupt service routines are handled in the BSW module.
     """
+    # BswInterruptEntity method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [ ] getInterruptCategory         [x] impl  [x] docstring  [ ] test
+    # [x] setInterruptCategory         [x] impl  [x] docstring  [x] test
+    # [ ] getInterruptSource           [x] impl  [x] docstring  [ ] test
+    # [x] setInterruptSource           [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -760,6 +835,11 @@ class BswEvent(AbstractEvent, ABC):
     Abstract base class for BSW events.
     BSW events trigger the execution of BSW module entities.
     """
+    # BswEvent method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getStartsOnEventRef          [x] impl  [x] docstring  [ ] test
+    # [ ] setStartsOnEventRef          [x] impl  [x] docstring  [ ] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -805,6 +885,11 @@ class BswOperationInvokedEvent(BswEvent):
     Represents an event that is triggered when a BSW operation is invoked.
     This event occurs when a client calls a BSW service function.
     """
+    # BswOperationInvokedEvent method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [ ] getEntryRef                  [x] impl  [x] docstring  [ ] test
+    # [x] setEntryRef                  [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -849,6 +934,9 @@ class BswScheduleEvent(BswEvent, ABC):
     Abstract base class for BSW scheduled events.
     These events are scheduled for execution at specific times or conditions.
     """
+    # BswScheduleEvent method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -869,6 +957,11 @@ class BswModeSwitchEvent(BswScheduleEvent):
     Represents an event that is triggered when a mode switch occurs.
     This event handles changes in system modes within BSW modules.
     """
+    # BswModeSwitchEvent method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [ ] getActivation                [x] impl  [x] docstring  [ ] test
+    # [x] setActivation                [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -912,6 +1005,9 @@ class BswModeSwitchedAckEvent(BswScheduleEvent):
     This event handles the acknowledgment that a mode switch has been completed or confirmed
     within BSW modules.
     """
+    # BswModeSwitchedAckEvent method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -929,6 +1025,12 @@ class BswTimingEvent(BswScheduleEvent):
     Represents a timing event in a BSW module.
     This event is triggered based on timing constraints (e.g., periodic execution).
     """
+    # BswTimingEvent method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [ ] getPeriod                    [x] impl  [x] docstring  [ ] test
+    # [x] setPeriod                    [x] impl  [x] docstring  [x] test
+    # [ ] periodMs                     [x] impl  [x] docstring  [ ] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -985,6 +1087,11 @@ class BswDataReceivedEvent(BswScheduleEvent):
     Represents an event that is triggered when data is received by a BSW module.
     This event handles data reception from other modules or communication interfaces.
     """
+    # BswDataReceivedEvent method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [ ] getDataRef                   [x] impl  [x] docstring  [ ] test
+    # [x] setDataRef                   [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -1027,6 +1134,11 @@ class BswInternalTriggerOccurredEvent(BswScheduleEvent):
     Represents an event that is triggered by an internal trigger in a BSW module.
     This event occurs when a BSW module internally generates a trigger.
     """
+    # BswInternalTriggerOccurredEvent method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [ ] getEventSourceRef            [x] impl  [x] docstring  [ ] test
+    # [x] setEventSourceRef            [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -1069,6 +1181,11 @@ class BswModeSwitchAckRequest(ARObject):
     Represents an acknowledgment request for a mode switch operation.
     This is used in BSW modules to handle mode switch acknowledgments.
     """
+    # BswModeSwitchAckRequest method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [ ] getTimeout                   [x] impl  [x] docstring  [ ] test
+    # [x] setTimeout                   [x] impl  [x] docstring  [x] test
+
     
     def __init__(self):
         """
@@ -1107,6 +1224,13 @@ class BswModeSenderPolicy(ARObject):
     Represents the policy for a BSW mode sender.
     This defines how mode changes are sent and acknowledged in BSW modules.
     """
+    # BswModeSenderPolicy method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [ ] setProvidedModeGroupRef      [x] impl  [x] docstring  [ ] test
+    # [ ] getProvidedModeGroupRef      [x] impl  [x] docstring  [ ] test
+    # [ ] setQueueLength               [x] impl  [x] docstring  [ ] test
+    # [ ] getQueueLength               [x] impl  [x] docstring  [ ] test
+
     
     def __init__(self):
         """
@@ -1179,6 +1303,9 @@ class BswBackgroundEvent(BswScheduleEvent):
     Represents a background event in a BSW module.
     This event runs in the background, typically with lower priority.
     """
+    # BswBackgroundEvent method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent, short_name):
         """
@@ -1196,6 +1323,9 @@ class BswOsTaskExecutionEvent(BswScheduleEvent):
     Represents an OS task execution event in a BSW module.
     This event is triggered when an OS task is executed.
     """
+    # BswOsTaskExecutionEvent method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent, short_name):
         """
@@ -1213,6 +1343,11 @@ class BswExternalTriggerOccurredEvent(BswScheduleEvent):
     Represents an event that is triggered by an external trigger in a BSW module.
     This event occurs when an external source generates a trigger.
     """
+    # BswExternalTriggerOccurredEvent method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [ ] getTriggerRef                [x] impl  [x] docstring  [ ] test
+    # [x] setTriggerRef                [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent, short_name):
         """
@@ -1257,6 +1392,11 @@ class BswApiOptions(ARObject, ABC):
     Abstract base class for BSW API options.
     Defines common options for BSW API implementations.
     """
+    # BswApiOptions method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getEnableTakeAddress         [x] impl  [x] docstring  [ ] test
+    # [ ] setEnableTakeAddress         [x] impl  [x] docstring  [ ] test
+
     
     def __init__(self):
         """
@@ -1301,6 +1441,11 @@ class BswDataReceptionPolicy(BswApiOptions, ABC):
     Abstract base class for BSW data reception policies.
     Defines how BSW modules receive data.
     """
+    # BswDataReceptionPolicy method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getReceivedDataRef           [x] impl  [x] docstring  [ ] test
+    # [ ] setReceivedDataRef           [x] impl  [x] docstring  [ ] test
+
     
     def __init__(self):
         """
@@ -1345,6 +1490,11 @@ class BswQueuedDataReceptionPolicy(BswDataReceptionPolicy):
     Represents a queued data reception policy in a BSW module.
     This policy handles data reception using a queue mechanism.
     """
+    # BswQueuedDataReceptionPolicy method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [ ] getQueueLength               [x] impl  [x] docstring  [ ] test
+    # [x] setQueueLength               [x] impl  [x] docstring  [x] test
+
     
     def __init__(self):
         """
@@ -1385,6 +1535,11 @@ class BswInternalTriggeringPoint(Identifiable):
     Represents an internal triggering point in a BSW module's internal behavior.
     This is used to define points from which triggers can be issued internally.
     """
+    # BswInternalTriggeringPoint method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [ ] getSwImplPolicy              [x] impl  [x] docstring  [ ] test
+    # [x] setSwImplPolicy              [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -1430,6 +1585,71 @@ class BswInternalBehavior(InternalBehavior):
     This class contains all the entities, events, policies, and other behavioral elements
     that define how a BSW module operates internally.
     """
+    # BswInternalBehavior method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [ ] getArTypedPerInstanceMemories [x] impl  [x] docstring  [ ] test
+    # [ ] setArTypedPerInstanceMemories [x] impl  [x] docstring  [ ] test
+    # [ ] getBswPerInstanceMemoryPolicies [x] impl  [x] docstring  [ ] test
+    # [ ] setBswPerInstanceMemoryPolicies [x] impl  [x] docstring  [ ] test
+    # [ ] getClientPolicies            [x] impl  [x] docstring  [ ] test
+    # [ ] setClientPolicies            [x] impl  [x] docstring  [ ] test
+    # [ ] getDistinguishedPartitions   [x] impl  [x] docstring  [ ] test
+    # [ ] setDistinguishedPartitions   [x] impl  [x] docstring  [ ] test
+    # [ ] getExclusiveAreaPolicies     [x] impl  [x] docstring  [ ] test
+    # [ ] setExclusiveAreaPolicies     [x] impl  [x] docstring  [ ] test
+    # [ ] getInternalTriggeringPoints  [x] impl  [x] docstring  [ ] test
+    # [x] createBswInternalTriggeringPoint [x] impl  [x] docstring  [x] test
+    # [ ] getInternalTriggeringPointPolicies [x] impl  [x] docstring  [ ] test
+    # [ ] setInternalTriggeringPointPolicies [x] impl  [x] docstring  [ ] test
+    # [x] getModeReceiverPolicies      [x] impl  [x] docstring  [x] test
+    # [ ] setModeSenderPolicies        [x] impl  [x] docstring  [ ] test
+    # [ ] getParameterPolicies         [x] impl  [x] docstring  [ ] test
+    # [ ] setParameterPolicies         [x] impl  [x] docstring  [ ] test
+    # [ ] getPerInstanceParameters     [x] impl  [x] docstring  [ ] test
+    # [ ] setPerInstanceParameters     [x] impl  [x] docstring  [ ] test
+    # [ ] getReceptionPolicies         [x] impl  [x] docstring  [ ] test
+    # [x] addReceptionPolicy           [x] impl  [x] docstring  [x] test
+    # [ ] getReleasedTriggerPolicies   [x] impl  [x] docstring  [ ] test
+    # [ ] setReleasedTriggerPolicies   [x] impl  [x] docstring  [ ] test
+    # [ ] getSchedulerNamePrefixes     [x] impl  [x] docstring  [ ] test
+    # [ ] setSchedulerNamePrefixes     [x] impl  [x] docstring  [ ] test
+    # [ ] getSendPolicies              [x] impl  [x] docstring  [ ] test
+    # [ ] setSendPolicies              [x] impl  [x] docstring  [ ] test
+    # [ ] getServiceDependencies       [x] impl  [x] docstring  [ ] test
+    # [ ] setServiceDependencies       [x] impl  [x] docstring  [ ] test
+    # [ ] getTriggerDirectImplementations [x] impl  [x] docstring  [ ] test
+    # [ ] setTriggerDirectImplementations [x] impl  [x] docstring  [ ] test
+    # [ ] getVariationPointProxies     [x] impl  [x] docstring  [ ] test
+    # [ ] setVariationPointProxies     [x] impl  [x] docstring  [ ] test
+    # [x] addModeSenderPolicy          [x] impl  [x] docstring  [x] test
+    # [ ] getModeSenderPolicies        [x] impl  [x] docstring  [ ] test
+    # [x] createBswCalledEntity        [x] impl  [x] docstring  [x] test
+    # [x] getBswCalledEntities         [x] impl  [x] docstring  [x] test
+    # [x] createBswSchedulableEntity   [x] impl  [x] docstring  [x] test
+    # [x] getBswSchedulableEntities    [x] impl  [x] docstring  [x] test
+    # [x] createBswInterruptEntity     [x] impl  [x] docstring  [x] test
+    # [x] getBswInterruptEntities      [x] impl  [x] docstring  [x] test
+    # [x] getBswModuleEntities         [x] impl  [x] docstring  [x] test
+    # [x] createBswModeSwitchEvent     [x] impl  [x] docstring  [x] test
+    # [x] getBswModeSwitchEvents       [x] impl  [x] docstring  [x] test
+    # [x] createBswTimingEvent         [x] impl  [x] docstring  [x] test
+    # [x] getBswTimingEvents           [x] impl  [x] docstring  [x] test
+    # [x] createBswDataReceivedEvent   [x] impl  [x] docstring  [x] test
+    # [x] getBswDataReceivedEvents     [x] impl  [x] docstring  [x] test
+    # [x] createBswInternalTriggerOccurredEvent [x] impl  [x] docstring  [x] test
+    # [x] getBswInternalTriggerOccurredEvents [x] impl  [x] docstring  [x] test
+    # [x] createBswExternalTriggerOccurredEvent [x] impl  [x] docstring  [x] test
+    # [x] getBswOperationInvokedEvents [x] impl  [x] docstring  [x] test
+    # [x] createBswOperationInvokedEvent [x] impl  [x] docstring  [x] test
+    # [x] getBswExternalTriggerOccurredEvents [x] impl  [x] docstring  [x] test
+    # [x] createBswBackgroundEvent     [x] impl  [x] docstring  [x] test
+    # [x] getBswBackgroundEvents       [x] impl  [x] docstring  [x] test
+    # [x] getBswEvents                 [x] impl  [x] docstring  [x] test
+    # [x] addIncludedModeDeclarationGroupSet [x] impl  [x] docstring  [x] test
+    # [x] getIncludedModeDeclarationGroupSets [x] impl  [x] docstring  [x] test
+    # [x] addIncludedDataTypeSet       [x] impl  [x] docstring  [x] test
+    # [x] getIncludedDataTypeSets      [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """

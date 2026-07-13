@@ -6,6 +6,15 @@ class FirewallRuleProps(ARObject):
     Represents firewall rule properties in AUTOSAR Adaptive Platform PlatformModuleDeployment.
     Defines properties for firewall rule configuration.
     """
+    # FirewallRuleProps method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getAllowAny                  [x] impl  [x] docstring  [ ] test
+    # [ ] setAllowAny                  [x] impl  [x] docstring  [ ] test
+    # [ ] getDirection                 [x] impl  [x] docstring  [ ] test
+    # [ ] setDirection                 [x] impl  [x] docstring  [ ] test
+    # [ ] getProtocol                  [x] impl  [x] docstring  [ ] test
+    # [ ] setProtocol                  [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

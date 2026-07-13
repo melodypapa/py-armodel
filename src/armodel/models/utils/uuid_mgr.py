@@ -7,6 +7,12 @@ class UUIDMgr:
     Manager for UUID-based object tracking and duplicate detection in the
     AUTOSAR model.
     """
+    # UUIDMgr method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] addObject                    [x] impl  [ ] docstring  [ ] test
+    # [ ] getObjects                   [x] impl  [ ] docstring  [ ] test
+    # [ ] getDuplicateUUIDs            [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         self.uuid_object_mappings = {}          # type: Dict[str, List[ARObject]]
 

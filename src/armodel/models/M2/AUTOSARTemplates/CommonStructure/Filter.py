@@ -13,6 +13,9 @@ class DataFilterTypeEnum(AREnum):
     Enumeration for data filter types in AUTOSAR models.
     Defines various filtering strategies for data processing in AUTOSAR systems.
     """
+    # DataFilterTypeEnum method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+
 
     # Filter condition: new value with mask differs from old value with mask
     MASKED_NEW_DIFFERS_MASKED_OLD = "maskedNewDiffersMaskedOld"
@@ -49,6 +52,23 @@ class DataFilter(ARObject):
     Represents a data filter configuration in AUTOSAR models.
     This class defines conditions and parameters for filtering data updates in AUTOSAR systems.
     """
+    # DataFilter method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getDataFilterType            [x] impl  [x] docstring  [x] test
+    # [x] setDataFilterType            [x] impl  [x] docstring  [x] test
+    # [x] getMask                      [x] impl  [x] docstring  [x] test
+    # [x] setMask                      [x] impl  [x] docstring  [x] test
+    # [x] getMax                       [x] impl  [x] docstring  [x] test
+    # [x] setMax                       [x] impl  [x] docstring  [x] test
+    # [x] getMin                       [x] impl  [x] docstring  [x] test
+    # [x] setMin                       [x] impl  [x] docstring  [x] test
+    # [x] getOffset                    [x] impl  [x] docstring  [x] test
+    # [x] setOffset                    [x] impl  [x] docstring  [x] test
+    # [x] getPeriod                    [x] impl  [x] docstring  [x] test
+    # [x] setPeriod                    [x] impl  [x] docstring  [x] test
+    # [x] getX                         [x] impl  [x] docstring  [x] test
+    # [x] setX                         [x] impl  [x] docstring  [x] test
+
     
     def __init__(self):
         """

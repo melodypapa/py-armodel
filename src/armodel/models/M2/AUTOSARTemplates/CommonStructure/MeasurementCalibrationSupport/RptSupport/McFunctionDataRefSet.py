@@ -8,6 +8,11 @@ class McFunctionDataRefSet(ARObject):
     Represents a set of MC function data references in AUTOSAR.
     Defines a collection of references to MC (Measurement and Calibration) function data.
     """
+    # McFunctionDataRefSet method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] addDataRef                   [x] impl  [x] docstring  [ ] test
+    # [ ] getDataRefs                  [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

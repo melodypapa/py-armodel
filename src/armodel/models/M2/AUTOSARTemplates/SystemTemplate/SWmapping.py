@@ -13,6 +13,13 @@ class SwcToImplMapping(Identifiable):
     defining how software component instances in the system are connected to
     their specific implementation references and instance references.
     """
+    # SwcToImplMapping method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getComponentIRefs            [x] impl  [ ] docstring  [ ] test
+    # [ ] addComponentIRef             [x] impl  [ ] docstring  [ ] test
+    # [ ] getComponentImplementationRef [x] impl  [ ] docstring  [ ] test
+    # [ ] setComponentImplementationRef [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -42,6 +49,13 @@ class ApplicationPartitionToEcuPartitionMapping(Identifiable):
     defining how application-level partitions are mapped to ECU-level
     partitions for resource allocation and execution management.
     """
+    # ApplicationPartitionToEcuPartitionMapping method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getApplicationPartitionRefs  [x] impl  [ ] docstring  [ ] test
+    # [ ] addApplicationPartitionRef   [x] impl  [ ] docstring  [ ] test
+    # [ ] getEcuPartitionRef           [x] impl  [ ] docstring  [ ] test
+    # [ ] setEcuPartitionRef           [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 

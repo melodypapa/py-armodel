@@ -7,6 +7,25 @@ class SwRecordLayoutV(ARObject):
     Variable definition within a record layout including base type, axis,
     and value properties.
     """
+    # SwRecordLayoutV method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getBaseTypeRef               [x] impl  [ ] docstring  [ ] test
+    # [ ] setBaseTypeRef               [x] impl  [ ] docstring  [ ] test
+    # [ ] getDesc                      [x] impl  [ ] docstring  [ ] test
+    # [ ] setDesc                      [x] impl  [ ] docstring  [ ] test
+    # [ ] getShortLabel                [x] impl  [ ] docstring  [ ] test
+    # [ ] setShortLabel                [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwGenericAxisParamTypeRef [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwGenericAxisParamTypeRef [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwRecordLayoutVAxis       [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwRecordLayoutVAxis       [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwRecordLayoutVFixValue   [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwRecordLayoutVFixValue   [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwRecordLayoutVIndex      [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwRecordLayoutVIndex      [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwRecordLayoutVProp       [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwRecordLayoutVProp       [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -80,6 +99,15 @@ class SwRecordLayoutGroupContent(ARObject):
     Content of a record layout group referencing a sub-layout, sub-group, or
     variable.
     """
+    # SwRecordLayoutGroupContent method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwRecordLayoutRef         [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwRecordLayoutRef         [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwRecordLayoutGroup       [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwRecordLayoutGroup       [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwRecordLayoutV           [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwRecordLayoutV           [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -114,6 +142,31 @@ class SwRecordLayoutGroup(ARObject):
     Group within a record layout defining axis, category, and indexing
     properties.
     """
+    # SwRecordLayoutGroup method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCategory                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setCategory                  [x] impl  [ ] docstring  [ ] test
+    # [ ] getDesc                      [x] impl  [ ] docstring  [ ] test
+    # [ ] setDesc                      [x] impl  [ ] docstring  [ ] test
+    # [ ] getShortLabel                [x] impl  [ ] docstring  [ ] test
+    # [ ] setShortLabel                [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwGenericAxisParamTypeRef [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwGenericAxisParamTypeRef [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwRecordLayoutComponent   [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwRecordLayoutComponent   [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwRecordLayoutGroupAxis   [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwRecordLayoutGroupAxis   [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwRecordLayoutGroupContentType [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwRecordLayoutGroupContentType [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwRecordLayoutGroupFrom   [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwRecordLayoutGroupFrom   [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwRecordLayoutGroupIndex  [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwRecordLayoutGroupIndex  [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwRecordLayoutGroupStep   [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwRecordLayoutGroupStep   [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwRecordLayoutGroupTo     [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwRecordLayoutGroupTo     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -211,6 +264,11 @@ class SwRecordLayout(ARElement):
     Record layout element defining the structure of calibration data in
     memory.
     """
+    # SwRecordLayout method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwRecordLayoutGroup       [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwRecordLayoutGroup       [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

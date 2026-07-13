@@ -7,6 +7,13 @@ class TimingCondition(ARObject):
     Represents a timing condition in AUTOSAR timing specifications.
     Defines conditions that affect timing behavior.
     """
+    # TimingCondition method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getConditionFormula          [x] impl  [x] docstring  [ ] test
+    # [ ] setConditionFormula          [x] impl  [x] docstring  [ ] test
+    # [ ] addModeInstance              [x] impl  [x] docstring  [ ] test
+    # [ ] getModeInstances             [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

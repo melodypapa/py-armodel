@@ -10,6 +10,15 @@ class FrameMapping(ARObject):
     """
     A PduToFrameMapping defines the composition of Pdus in each frame.
     """
+    # FrameMapping method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getIntroduction              [x] impl  [ ] docstring  [ ] test
+    # [ ] setIntroduction              [x] impl  [ ] docstring  [ ] test
+    # [ ] getSourceFrameRef            [x] impl  [ ] docstring  [ ] test
+    # [ ] setSourceFrameRef            [x] impl  [ ] docstring  [ ] test
+    # [ ] getTargetFrameRef            [x] impl  [ ] docstring  [ ] test
+    # [ ] setTargetFrameRef            [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()
@@ -44,6 +53,15 @@ class ISignalMapping(ARObject):
     Arranges signals transferred by the gateway from one channel to another
     in pairs and defines the mapping between them.
     """
+    # ISignalMapping method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getIntroduction              [x] impl  [ ] docstring  [ ] test
+    # [ ] setIntroduction              [x] impl  [ ] docstring  [ ] test
+    # [ ] getSourceSignalRef           [x] impl  [ ] docstring  [ ] test
+    # [ ] setSourceSignalRef           [x] impl  [ ] docstring  [ ] test
+    # [ ] getTargetSignalRef           [x] impl  [ ] docstring  [ ] test
+    # [ ] setTargetSignalRef           [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()
@@ -78,6 +96,13 @@ class DefaultValueElement(ARObject):
     The default value consists of a number of elements. Each element is one
     byte long and the number of elements is specified by SduLength.
     """
+    # DefaultValueElement method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getElementByteValue          [x] impl  [ ] docstring  [ ] test
+    # [ ] setElementByteValue          [x] impl  [ ] docstring  [ ] test
+    # [ ] getElementPosition           [x] impl  [ ] docstring  [ ] test
+    # [ ] setElementPosition           [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()
@@ -106,6 +131,11 @@ class PduMappingDefaultValue(ARObject):
     Default value which will be distributed if no I-Pdu has been received
     since last sending.
     """
+    # PduMappingDefaultValue method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDefaultValueElements      [x] impl  [ ] docstring  [ ] test
+    # [ ] addDefaultValueElements      [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()
@@ -124,6 +154,13 @@ class TargetIPduRef(ARObject):
     """
     Target destination of the referencing mapping.
     """
+    # TargetIPduRef method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDefaultValue              [x] impl  [ ] docstring  [ ] test
+    # [ ] setDefaultValue              [x] impl  [ ] docstring  [ ] test
+    # [ ] getTargetIPdu                [x] impl  [ ] docstring  [ ] test
+    # [ ] setTargetIPdu                [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()
@@ -152,6 +189,17 @@ class IPduMapping(ARObject):
     An ISignalToIPduMapping describes the mapping of ISignals to ISignalIPdus
     and defines the position of the ISignal within an ISignalIPdu.
     """
+    # IPduMapping method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getIntroduction              [x] impl  [ ] docstring  [ ] test
+    # [ ] setIntroduction              [x] impl  [ ] docstring  [ ] test
+    # [ ] getPdurTpChunkSize           [x] impl  [ ] docstring  [ ] test
+    # [ ] setPdurTpChunkSize           [x] impl  [ ] docstring  [ ] test
+    # [ ] getSourceIpduRef             [x] impl  [ ] docstring  [ ] test
+    # [ ] setSourceIpduRef             [x] impl  [ ] docstring  [ ] test
+    # [ ] getTargetIPdu                [x] impl  [ ] docstring  [ ] test
+    # [ ] setTargetIPdu                [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()
@@ -200,6 +248,17 @@ class Gateway(FibexElement):
     A gateway is an ECU that is connected to two or more clusters and
     performs frame, Pdu, or signal mapping between them.
     """
+    # Gateway method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getEcuRef                    [x] impl  [ ] docstring  [ ] test
+    # [ ] setEcuRef                    [x] impl  [ ] docstring  [ ] test
+    # [ ] getFrameMappings             [x] impl  [ ] docstring  [ ] test
+    # [ ] addFrameMapping              [x] impl  [ ] docstring  [ ] test
+    # [ ] getIPduMappings              [x] impl  [ ] docstring  [ ] test
+    # [ ] addIPduMapping               [x] impl  [ ] docstring  [ ] test
+    # [ ] getSignalMappings            [x] impl  [ ] docstring  [ ] test
+    # [ ] addSignalMapping             [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

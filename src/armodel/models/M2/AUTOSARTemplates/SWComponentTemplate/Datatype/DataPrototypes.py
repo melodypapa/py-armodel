@@ -18,6 +18,11 @@ class DataPrototype(AtpPrototype, ABC):
     Abstract base class for all AUTOSAR data prototypes within software
     components.
     """
+    # DataPrototype method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwDataDefProps            [x] impl  [x] docstring  [ ] test
+    # [ ] setSwDataDefProps            [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent:ARObject, short_name: str):
         if type(self) is DataPrototype:
@@ -54,6 +59,11 @@ class AutosarDataPrototype(DataPrototype, ABC):
     Abstract base class for AUTOSAR data prototypes that have a type
     reference (typeTRef).
     """
+    # AutosarDataPrototype method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getTypeTRef                  [x] impl  [x] docstring  [ ] test
+    # [ ] setTypeTRef                  [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent:ARObject, short_name: str):
         if type(self) is AutosarDataPrototype:
@@ -90,6 +100,11 @@ class VariableDataPrototype(AutosarDataPrototype):
     A data prototype that represents a variable data element with an
     initial value.
     """
+    # VariableDataPrototype method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getInitValue                 [x] impl  [x] docstring  [ ] test
+    # [ ] setInitValue                 [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent:ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -123,6 +138,11 @@ class ApplicationCompositeElementDataPrototype(DataPrototype, ABC):
     Abstract base class for data prototypes that represent elements within
     an application composite data type.
     """
+    # ApplicationCompositeElementDataPrototype method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getTypeTRef                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setTypeTRef                  [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self, parent:ARObject, short_name: str):
         if type(self) is ApplicationCompositeElementDataPrototype:
@@ -145,6 +165,17 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     An element of an application array data type defining the array
     element properties including size handling and index data type.
     """
+    # ApplicationArrayElement method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getArraySizeHandling         [x] impl  [x] docstring  [ ] test
+    # [ ] setArraySizeHandling         [x] impl  [x] docstring  [ ] test
+    # [ ] getArraySizeSemantics        [x] impl  [x] docstring  [ ] test
+    # [ ] setArraySizeSemantics        [x] impl  [x] docstring  [ ] test
+    # [ ] getIndexDataTypeRef          [x] impl  [x] docstring  [ ] test
+    # [ ] setIndexDataTypeRef          [x] impl  [x] docstring  [ ] test
+    # [ ] getMaxNumberOfElements       [x] impl  [x] docstring  [ ] test
+    # [ ] setMaxNumberOfElements       [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -251,6 +282,11 @@ class ApplicationRecordElement(ApplicationCompositeElementDataPrototype):
     An element of an application record data type defining a field within
     the record structure.
     """
+    # ApplicationRecordElement method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getIsOptional                [x] impl  [x] docstring  [ ] test
+    # [ ] setIsOptional                [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent:ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -286,6 +322,11 @@ class ParameterDataPrototype(AutosarDataPrototype):
     A data prototype that represents a parameter data element with an
     initial value.
     """
+    # ParameterDataPrototype method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getInitValue                 [x] impl  [x] docstring  [ ] test
+    # [ ] setInitValue                 [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

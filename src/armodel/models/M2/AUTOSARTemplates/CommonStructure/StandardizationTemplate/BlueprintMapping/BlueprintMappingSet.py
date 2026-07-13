@@ -7,6 +7,11 @@ class BlueprintMappingSet(ARObject):
     Represents a set of blueprint mappings in AUTOSAR.
     Defines a collection of blueprint mappings.
     """
+    # BlueprintMappingSet method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] addMapping                   [x] impl  [x] docstring  [ ] test
+    # [ ] getMappings                  [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

@@ -9,6 +9,11 @@ class MultiLanguageParagraph(Paginateable):
     Multi-language paragraph containing language-specific long name
     entries.
     """
+    # MultiLanguageParagraph method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] addL1                        [x] impl  [ ] docstring  [ ] test
+    # [ ] getL1s                       [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -27,6 +32,11 @@ class MultiLanguageOverviewParagraph(ARObject):
     Multi-language overview paragraph with language-specific overview
     entries.
     """
+    # MultiLanguageOverviewParagraph method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] addL2                        [x] impl  [ ] docstring  [ ] test
+    # [ ] getL2s                       [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -45,6 +55,11 @@ class MultilanguageLongName(ARObject):
     Multi-language long name containing language-specific long name
     entries.
     """
+    # MultilanguageLongName method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] addL4                        [x] impl  [ ] docstring  [ ] test
+    # [ ] getL4s                       [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -61,6 +76,11 @@ class MultiLanguagePlainText(ARObject):
     """
     Multi-language plain text with language-specific text entries.
     """
+    # MultiLanguagePlainText method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getL10s                      [x] impl  [ ] docstring  [ ] test
+    # [ ] addL10                       [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 

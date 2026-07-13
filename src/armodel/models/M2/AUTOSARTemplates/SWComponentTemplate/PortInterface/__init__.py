@@ -22,6 +22,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 
 class PortInterface(AtpType, ABC):
+    # PortInterface method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getIsService                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setIsService                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getServiceKind               [x] impl  [ ] docstring  [ ] test
+    # [ ] setServiceKind               [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is PortInterface:
             raise TypeError("PortInterface is an abstract class.")
@@ -46,6 +53,9 @@ class PortInterface(AtpType, ABC):
 
 
 class DataInterface(PortInterface, ABC):
+    # DataInterface method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is DataInterface:
             raise TypeError("DataInterface is an abstract class.")
@@ -72,6 +82,12 @@ class NvDataInterface(DataInterface):
         nvData (VariableDataPrototype, 1..*, aggr)
         The VariableDataPrototype of this nv data interface.
     """
+    # NvDataInterface method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getNvDatas                   [x] impl  [x] docstring  [ ] test
+    # [ ] createNvData                 [x] impl  [x] docstring  [ ] test
+    # [ ] getNvData                    [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -98,6 +114,11 @@ class NvDataInterface(DataInterface):
 
 
 class ParameterInterface(DataInterface):
+    # ParameterInterface method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getParameters                [x] impl  [ ] docstring  [ ] test
+    # [ ] createParameterDataPrototype [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -114,6 +135,13 @@ class ParameterInterface(DataInterface):
 
 
 class InvalidationPolicy(ARObject):
+    # InvalidationPolicy method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataElementRef            [x] impl  [ ] docstring  [ ] test
+    # [ ] setDataElementRef            [x] impl  [ ] docstring  [ ] test
+    # [ ] getHandleInvalid             [x] impl  [ ] docstring  [ ] test
+    # [ ] setHandleInvalid             [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -136,6 +164,13 @@ class InvalidationPolicy(ARObject):
 
 
 class MetaDataItem(ARObject):
+    # MetaDataItem method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getLength                    [x] impl  [ ] docstring  [ ] test
+    # [ ] setLength                    [x] impl  [ ] docstring  [ ] test
+    # [ ] getMetaDataItemType          [x] impl  [ ] docstring  [ ] test
+    # [ ] setMetaDataItemType          [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -158,6 +193,13 @@ class MetaDataItem(ARObject):
 
 
 class MetaDataItemSet(ARObject):
+    # MetaDataItemSet method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataElementRefs           [x] impl  [ ] docstring  [ ] test
+    # [ ] addDataElementRef            [x] impl  [ ] docstring  [ ] test
+    # [ ] getMetaDataItems             [x] impl  [ ] docstring  [ ] test
+    # [ ] addMetaDataItem              [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -180,6 +222,18 @@ class MetaDataItemSet(ARObject):
 
 
 class SenderReceiverInterface(DataInterface):
+    # SenderReceiverInterface method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getInvalidationPolicies      [x] impl  [ ] docstring  [ ] test
+    # [ ] addInvalidationPolicy        [x] impl  [ ] docstring  [ ] test
+    # [ ] getMetaDataItemSets          [x] impl  [ ] docstring  [ ] test
+    # [ ] addMetaDataItemSet           [x] impl  [ ] docstring  [ ] test
+    # [ ] createDataElement            [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataElements              [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataElement               [x] impl  [ ] docstring  [ ] test
+    # [ ] createInvalidationPolicy     [x] impl  [ ] docstring  [ ] test
+    # [ ] getInvalidationPolicys       [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -222,6 +276,13 @@ class SenderReceiverInterface(DataInterface):
 
 
 class ArgumentDataPrototype(AutosarDataPrototype):
+    # ArgumentDataPrototype method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDirection                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setDirection                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getServerArgumentImplPolicy  [x] impl  [ ] docstring  [ ] test
+    # [ ] setServerArgumentImplPolicy  [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -246,6 +307,9 @@ class ArgumentDataPrototype(AutosarDataPrototype):
 
 
 class ApplicationError(Identifiable):
+    # ApplicationError method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -274,6 +338,13 @@ class ClientServerOperation(AtpStructureElement):
         getPossbileErrorRefs        get the possible errors
 
     """
+    # ClientServerOperation method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getArguments                 [x] impl  [ ] docstring  [ ] test
+    # [ ] createArgumentDataPrototype  [x] impl  [ ] docstring  [ ] test
+    # [ ] getPossibleErrorRefs         [x] impl  [ ] docstring  [ ] test
+    # [ ] addPossibleErrorRef          [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -314,6 +385,13 @@ class ClientServerInterface(PortInterface):
         getPossibleErrors           get all Application error(s) of this ClientServerInterface
 
     """
+    # ClientServerInterface method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] createOperation              [x] impl  [ ] docstring  [ ] test
+    # [ ] createApplicationError       [x] impl  [ ] docstring  [ ] test
+    # [ ] getOperations                [x] impl  [ ] docstring  [ ] test
+    # [ ] getPossibleErrors            [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -337,6 +415,9 @@ class ClientServerInterface(PortInterface):
 
 
 class TriggerInterface(PortInterface):
+    # TriggerInterface method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -344,6 +425,11 @@ class TriggerInterface(PortInterface):
 
 
 class ModeSwitchInterface(PortInterface):
+    # ModeSwitchInterface method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] createModeGroup              [x] impl  [ ] docstring  [ ] test
+    # [ ] getModeGroups                [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -360,6 +446,9 @@ class ModeSwitchInterface(PortInterface):
 
 
 class PortInterfaceMapping(AtpBlueprintable, ABC):
+    # PortInterfaceMapping method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is PortInterfaceMapping:
             raise TypeError("PortInterfaceMapping is an abstract class.")
@@ -367,6 +456,13 @@ class PortInterfaceMapping(AtpBlueprintable, ABC):
 
 
 class ClientServerApplicationErrorMapping(ARObject):
+    # ClientServerApplicationErrorMapping method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getFirstApplicationErrorRef  [x] impl  [ ] docstring  [ ] test
+    # [ ] setFirstApplicationErrorRef  [x] impl  [ ] docstring  [ ] test
+    # [ ] getSecondApplicationErrorRef [x] impl  [ ] docstring  [ ] test
+    # [ ] setSecondApplicationErrorRef [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -389,6 +485,17 @@ class ClientServerApplicationErrorMapping(ARObject):
 
 
 class ClientServerOperationMapping(ARObject):
+    # ClientServerOperationMapping method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getArgumentMappings          [x] impl  [ ] docstring  [ ] test
+    # [ ] addArgumentMapping           [x] impl  [ ] docstring  [ ] test
+    # [ ] getFirstOperationRef         [x] impl  [ ] docstring  [ ] test
+    # [ ] setFirstOperationRef         [x] impl  [ ] docstring  [ ] test
+    # [ ] getFirstToSecondDataTransformationRef [x] impl  [ ] docstring  [ ] test
+    # [ ] setFirstToSecondDataTransformationRef [x] impl  [ ] docstring  [ ] test
+    # [ ] getSecondOperationRef        [x] impl  [ ] docstring  [ ] test
+    # [ ] setSecondOperationRef        [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
         
@@ -427,6 +534,21 @@ class ClientServerOperationMapping(ARObject):
     
 
 class DataPrototypeMapping(ARObject):
+    # DataPrototypeMapping method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getFirstDataPrototypeRef     [x] impl  [ ] docstring  [ ] test
+    # [ ] setFirstDataPrototypeRef     [x] impl  [ ] docstring  [ ] test
+    # [ ] getFirstToSecondDataTransformationRef [x] impl  [ ] docstring  [ ] test
+    # [ ] setFirstToSecondDataTransformationRef [x] impl  [ ] docstring  [ ] test
+    # [ ] getSecondDataPrototypeRef    [x] impl  [ ] docstring  [ ] test
+    # [ ] setSecondDataPrototypeRef    [x] impl  [ ] docstring  [ ] test
+    # [ ] getSecondToFirstDataTransformationRef [x] impl  [ ] docstring  [ ] test
+    # [ ] setSecondToFirstDataTransformationRef [x] impl  [ ] docstring  [ ] test
+    # [ ] getSubElementMappings        [x] impl  [ ] docstring  [ ] test
+    # [ ] setSubElementMappings        [x] impl  [ ] docstring  [ ] test
+    # [ ] getTextTableMappings         [x] impl  [ ] docstring  [ ] test
+    # [ ] setTextTableMappings         [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -481,6 +603,13 @@ class DataPrototypeMapping(ARObject):
 
 
 class ClientServerInterfaceMapping(PortInterfaceMapping):
+    # ClientServerInterfaceMapping method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getErrorMappings             [x] impl  [ ] docstring  [ ] test
+    # [ ] addErrorMapping              [x] impl  [ ] docstring  [ ] test
+    # [ ] getOperationMappings         [x] impl  [ ] docstring  [ ] test
+    # [ ] addOperationMapping          [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -505,6 +634,11 @@ class ClientServerInterfaceMapping(PortInterfaceMapping):
 
 
 class VariableAndParameterInterfaceMapping(PortInterfaceMapping):
+    # VariableAndParameterInterfaceMapping method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataMappings              [x] impl  [ ] docstring  [ ] test
+    # [ ] addDataMapping               [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -519,6 +653,11 @@ class VariableAndParameterInterfaceMapping(PortInterfaceMapping):
 
 
 class ModeInterfaceMapping(PortInterfaceMapping):
+    # ModeInterfaceMapping method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getModeMapping               [x] impl  [ ] docstring  [ ] test
+    # [ ] setModeMapping               [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
         
@@ -534,6 +673,11 @@ class ModeInterfaceMapping(PortInterfaceMapping):
 
 
 class TriggerInterfaceMapping(PortInterfaceMapping):
+    # TriggerInterfaceMapping method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getTriggerMapping            [x] impl  [ ] docstring  [ ] test
+    # [ ] setTriggerMapping            [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -549,6 +693,13 @@ class TriggerInterfaceMapping(PortInterfaceMapping):
 
 
 class ModeDeclarationMapping(AtpStructureElement):
+    # ModeDeclarationMapping method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getFirstModeRefs             [x] impl  [ ] docstring  [ ] test
+    # [ ] addFirstModeRef              [x] impl  [ ] docstring  [ ] test
+    # [ ] getSecondModeRef             [x] impl  [ ] docstring  [ ] test
+    # [ ] setSecondModeRef             [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -573,6 +724,11 @@ class ModeDeclarationMapping(AtpStructureElement):
 
 
 class ModeDeclarationMappingSet(AtpType):
+    # ModeDeclarationMappingSet method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getModeDeclarationMappings   [x] impl  [ ] docstring  [ ] test
+    # [ ] createModeDeclarationMapping [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -590,6 +746,14 @@ class ModeDeclarationMappingSet(AtpType):
 
 
 class PortInterfaceMappingSet(AtpBlueprintable):
+    # PortInterfaceMappingSet method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getPortInterfaceMappings     [x] impl  [ ] docstring  [ ] test
+    # [ ] createVariableAndParameterInterfaceMapping [x] impl  [ ] docstring  [ ] test
+    # [ ] createClientServerInterfaceMapping [x] impl  [ ] docstring  [ ] test
+    # [ ] createModeInterfaceMapping   [x] impl  [ ] docstring  [ ] test
+    # [ ] createTriggerInterfaceMapping [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -628,6 +792,19 @@ class PortInterfaceMappingSet(AtpBlueprintable):
 
 
 class TextTableMapping(ARObject):
+    # TextTableMapping method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getBitfieldTextTableMaskFirst [x] impl  [ ] docstring  [ ] test
+    # [ ] setBitfieldTextTableMaskFirst [x] impl  [ ] docstring  [ ] test
+    # [ ] getBitfieldTextTableMaskSecond [x] impl  [ ] docstring  [ ] test
+    # [ ] setBitfieldTextTableMaskSecond [x] impl  [ ] docstring  [ ] test
+    # [ ] getIdenticalMapping          [x] impl  [ ] docstring  [ ] test
+    # [ ] setIdenticalMapping          [x] impl  [ ] docstring  [ ] test
+    # [ ] getMappingDirection          [x] impl  [ ] docstring  [ ] test
+    # [ ] setMappingDirection          [x] impl  [ ] docstring  [ ] test
+    # [ ] getValuePairs                [x] impl  [ ] docstring  [ ] test
+    # [ ] setValuePairs                [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 

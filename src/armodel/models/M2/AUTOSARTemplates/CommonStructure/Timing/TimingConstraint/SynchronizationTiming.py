@@ -20,6 +20,9 @@ class SynchronizationTypeEnum(AREnum):
     """
     Enumeration for synchronization types.
     """
+    # SynchronizationTypeEnum method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     HARD_SYNCHRONIZATION = "hard-synchronization"
     SOFT_SYNCHRONIZATION = "soft-synchronization"
@@ -37,6 +40,9 @@ class EventOccurrenceKindEnum(AREnum):
     """
     Enumeration for event occurrence kinds.
     """
+    # EventOccurrenceKindEnum method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     START = "start"
     END = "end"
@@ -56,6 +62,13 @@ class SynchronizationTimingConstraint(TimingConstraint):
     This constraint defines timing requirements for synchronization between
     AUTOSAR elements.
     """
+    # SynchronizationTimingConstraint method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getSynchronizationType       [x] impl  [x] docstring  [ ] test
+    # [ ] setSynchronizationType       [x] impl  [x] docstring  [ ] test
+    # [ ] getEventOccurrenceKind       [x] impl  [x] docstring  [ ] test
+    # [ ] setEventOccurrenceKind       [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent, short_name: str):
         """

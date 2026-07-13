@@ -8,6 +8,13 @@ class RptSwPrototypingAccess(ARObject):
     Represents RPT software prototyping access in AUTOSAR.
     Defines access controls for software prototyping through RPT.
     """
+    # RptSwPrototypingAccess method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getPortRef                   [x] impl  [x] docstring  [ ] test
+    # [ ] setPortRef                   [x] impl  [x] docstring  [ ] test
+    # [ ] getRptAccess                 [x] impl  [x] docstring  [ ] test
+    # [ ] setRptAccess                 [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

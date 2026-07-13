@@ -29,6 +29,9 @@ class EventTriggeringConstraint(TimingConstraint, ABC):
     This class cannot be instantiated directly and serves as the base for
     concrete event triggering constraint implementations.
     """
+    # EventTriggeringConstraint method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self, parent, short_name: str):
         if type(self) is EventTriggeringConstraint:
@@ -42,6 +45,11 @@ class PeriodicEventTriggering(EventTriggeringConstraint):
     Specifies periodic event triggering requirements.
     This constraint defines the period for periodic event triggering.
     """
+    # PeriodicEventTriggering method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getPeriod                    [x] impl  [ ] docstring  [ ] test
+    # [ ] setPeriod                    [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self, parent, short_name: str):
         """
@@ -69,6 +77,11 @@ class SporadicEventTriggering(EventTriggeringConstraint):
     Specifies sporadic event triggering requirements.
     This constraint defines the minimum inter-arrival time for sporadic events.
     """
+    # SporadicEventTriggering method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getMinInterArrivalTime       [x] impl  [ ] docstring  [ ] test
+    # [ ] setMinInterArrivalTime       [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self, parent, short_name: str):
         """
@@ -96,6 +109,9 @@ class ArbitraryEventTriggering(EventTriggeringConstraint):
     Specifies arbitrary event triggering requirements.
     This constraint allows for arbitrary event triggering patterns.
     """
+    # ArbitraryEventTriggering method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent, short_name: str):
         """
@@ -113,6 +129,13 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
     Specifies burst pattern event triggering requirements.
     This constraint defines burst pattern parameters for event triggering.
     """
+    # BurstPatternEventTriggering method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getBurstSize                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setBurstSize                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getBurstInterval             [x] impl  [ ] docstring  [ ] test
+    # [ ] setBurstInterval             [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self, parent, short_name: str):
         """
@@ -149,6 +172,9 @@ class ConcretePatternEventTriggering(EventTriggeringConstraint):
     Specifies concrete pattern event triggering requirements.
     This constraint defines a concrete pattern for event triggering.
     """
+    # ConcretePatternEventTriggering method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent, short_name: str):
         """
@@ -167,6 +193,15 @@ class ConfidenceInterval(ARObject):
     This class defines the confidence interval with a confidence level
     and interval bounds.
     """
+    # ConfidenceInterval method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getConfidenceLevel           [x] impl  [ ] docstring  [ ] test
+    # [ ] setConfidenceLevel           [x] impl  [ ] docstring  [ ] test
+    # [ ] getLowerBound                [x] impl  [ ] docstring  [ ] test
+    # [ ] setLowerBound                [x] impl  [ ] docstring  [ ] test
+    # [ ] getUpperBound                [x] impl  [ ] docstring  [ ] test
+    # [ ] setUpperBound                [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         """

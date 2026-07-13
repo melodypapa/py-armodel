@@ -7,6 +7,11 @@ class RptExecutionContext(ARObject):
     Represents an RPT execution context in AUTOSAR.
     Defines the execution context for RPT functionality.
     """
+    # RptExecutionContext method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getContextRef                [x] impl  [x] docstring  [ ] test
+    # [ ] setContextRef                [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

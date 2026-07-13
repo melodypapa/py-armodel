@@ -19,6 +19,9 @@ class ReentrancyLevelEnum(Enum):
     Enumeration for reentrancy levels in AUTOSAR executable entities.
     Defines whether an executable entity can be executed concurrently from multiple contexts.
     """
+    # ReentrancyLevelEnum method parity checklist:
+    # (no methods)
+
     # Enum value for multicore reentrant executable entities
     ENUM_MULTICORE_REENTRANT = "multicoreReentrant"
     # Enum value for non-reentrant executable entities
@@ -33,6 +36,9 @@ class ExclusiveArea(Identifiable):
     Exclusive areas define critical sections that must not be executed concurrently,
     typically used for protecting shared resources in multithreaded environments.
     """
+    # ExclusiveArea method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -51,6 +57,20 @@ class ExecutableEntity(Identifiable, ABC):
     Executable entities represent pieces of executable code that can be triggered by events
     and may have specific execution requirements like exclusive areas or reentrancy levels.
     """
+    # ExecutableEntity method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [x] getActivationReasons         [x] impl  [x] docstring  [x] test
+    # [x] addActivationReason          [x] impl  [x] docstring  [x] test
+    # [x] getMinimumStartInterval      [x] impl  [x] docstring  [x] test
+    # [x] setMinimumStartInterval      [x] impl  [x] docstring  [x] test
+    # [x] getReentrancyLevel           [x] impl  [x] docstring  [x] test
+    # [x] setReentrancyLevel           [x] impl  [x] docstring  [x] test
+    # [x] getSwAddrMethodRef           [x] impl  [x] docstring  [x] test
+    # [x] setSwAddrMethodRef           [x] impl  [x] docstring  [x] test
+    # [ ] minimumStartIntervalMs       [x] impl  [x] docstring  [ ] test
+    # [x] addCanEnterExclusiveAreaRef  [x] impl  [x] docstring  [x] test
+    # [x] getCanEnterExclusiveAreaRefs [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -206,6 +226,17 @@ class InternalBehavior(AtpStructureElement, ABC):
     Internal behavior defines the internal structure of software components or BSW modules,
     including executable entities, memory areas, and data type mappings.
     """
+    # InternalBehavior method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [x] createConstantMemory         [x] impl  [x] docstring  [x] test
+    # [x] getConstantMemories          [x] impl  [x] docstring  [x] test
+    # [x] addDataTypeMappingRef        [x] impl  [x] docstring  [x] test
+    # [x] getDataTypeMappingRefs       [x] impl  [x] docstring  [x] test
+    # [x] createExclusiveArea          [x] impl  [x] docstring  [x] test
+    # [x] getExclusiveAreas            [x] impl  [x] docstring  [x] test
+    # [x] getStaticMemories            [x] impl  [x] docstring  [x] test
+    # [x] createStaticMemory           [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -333,6 +364,11 @@ class AbstractEvent(Identifiable, ABC):
     Abstract events define the base structure for events that can trigger executable entities.
     They may have activation reason representations that define why the event occurred.
     """
+    # AbstractEvent method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [x] getActivationReasonRepresentationRef [x] impl  [x] docstring  [x] test
+    # [x] setActivationReasonRepresentationRef [x] impl  [x] docstring  [x] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -378,6 +414,9 @@ class ApiPrincipleEnum(AREnum):
     """
     Enumeration for API principle.
     """
+    # ApiPrincipleEnum method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     CALLEE = "callee"
     CALLER = "caller"
@@ -394,6 +433,11 @@ class ExclusiveAreaNestingOrder(ARObject):
     Represents exclusive area nesting order in AUTOSAR.
     This class defines the nesting order for exclusive areas.
     """
+    # ExclusiveAreaNestingOrder method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getOrder                     [x] impl  [ ] docstring  [ ] test
+    # [ ] setOrder                     [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         """
@@ -414,6 +458,11 @@ class ExecutableEntityActivationReason(ARObject):
     """
     Represents the reason for executable entity activation in AUTOSAR.
     """
+    # ExecutableEntityActivationReason method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getReason                    [x] impl  [ ] docstring  [ ] test
+    # [ ] setReason                    [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         """

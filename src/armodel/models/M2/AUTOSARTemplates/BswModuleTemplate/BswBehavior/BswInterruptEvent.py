@@ -10,6 +10,9 @@ class BswInterruptEvent(BswEvent):
     Represents a BSW interrupt event in AUTOSAR.
     This event occurs when an interrupt is triggered.
     """
+    # BswInterruptEvent method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

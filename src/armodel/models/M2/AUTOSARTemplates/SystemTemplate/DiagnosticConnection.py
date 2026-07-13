@@ -12,6 +12,19 @@ class DiagnosticConnection(ARElement):
     functional requests, physical requests, and responses within the diagnostic communication
     infrastructure of the system.
     """
+    # DiagnosticConnection method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getFunctionalRequestRefs     [x] impl  [ ] docstring  [ ] test
+    # [ ] addFunctionalRequestRef      [x] impl  [ ] docstring  [ ] test
+    # [ ] getPeriodicResponseUudtRefs  [x] impl  [ ] docstring  [ ] test
+    # [ ] addPeriodicResponseUudtRef   [x] impl  [ ] docstring  [ ] test
+    # [ ] getPhysicalRequestRef        [x] impl  [ ] docstring  [ ] test
+    # [ ] setPhysicalRequestRef        [x] impl  [ ] docstring  [ ] test
+    # [ ] getResponseRef               [x] impl  [ ] docstring  [ ] test
+    # [ ] setResponseRef               [x] impl  [ ] docstring  [ ] test
+    # [ ] getResponseOnEventRef        [x] impl  [ ] docstring  [ ] test
+    # [ ] setResponseOnEventRef        [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 

@@ -12,6 +12,15 @@ class SwcImplementation(Implementation):
     Implementation of an atomic software component defining the behavior
     reference, per-instance memory sizes, and required RTE vendor.
     """
+    # SwcImplementation method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getBehaviorRef               [x] impl  [x] docstring  [ ] test
+    # [ ] setBehaviorRef               [x] impl  [x] docstring  [ ] test
+    # [ ] getPerInstanceMemorySizes    [x] impl  [x] docstring  [ ] test
+    # [ ] addPerInstanceMemorySize     [x] impl  [x] docstring  [ ] test
+    # [ ] getRequiredRTEVendor         [x] impl  [x] docstring  [ ] test
+    # [ ] setRequiredRTEVendor         [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)

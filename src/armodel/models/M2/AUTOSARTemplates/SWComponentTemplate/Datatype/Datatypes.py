@@ -20,6 +20,11 @@ class AutosarDataType(AtpType, ABC):
     Abstract base class for all AUTOSAR data types within the SW component
     template.
     """
+    # AutosarDataType method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwDataDefProps            [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwDataDefProps            [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AutosarDataType:
@@ -41,6 +46,9 @@ class ApplicationDataType(AutosarDataType, ABC):
     """
     Abstract base class for all application data types.
     """
+    # ApplicationDataType method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is ApplicationDataType:
@@ -54,6 +62,9 @@ class ApplicationPrimitiveDataType(ApplicationDataType):
     An application data type that represents a primitive (non-composite)
     data type.
     """
+    # ApplicationPrimitiveDataType method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -64,6 +75,9 @@ class ApplicationCompositeDataType(ApplicationDataType, ABC):
     Abstract base class for application composite data types such as
     arrays and records.
     """
+    # ApplicationCompositeDataType method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is ApplicationCompositeDataType:
@@ -77,6 +91,12 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
     An application data type representing an array with elements of the
     same type.
     """
+    # ApplicationArrayDataType method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDynamicArraySizeProfile   [x] impl  [ ] docstring  [ ] test
+    # [ ] setDynamicArraySizeProfile   [x] impl  [ ] docstring  [ ] test
+    # [ ] createApplicationArrayElement [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -105,6 +125,11 @@ class ApplicationRecordDataType(ApplicationCompositeDataType):
     An application data type representing a record with fields of possibly
     different types.
     """
+    # ApplicationRecordDataType method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] createApplicationRecordElement [x] impl  [ ] docstring  [ ] test
+    # [ ] getApplicationRecordElements [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -126,6 +151,13 @@ class DataTypeMap(ARObject):
     """
     Maps an application data type to an implementation data type.
     """
+    # DataTypeMap method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getApplicationDataTypeRef    [x] impl  [ ] docstring  [ ] test
+    # [ ] setApplicationDataTypeRef    [x] impl  [ ] docstring  [ ] test
+    # [ ] getImplementationDataTypeRef [x] impl  [ ] docstring  [ ] test
+    # [ ] setImplementationDataTypeRef [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
 
@@ -152,6 +184,13 @@ class DataTypeMappingSet(AtpBlueprintable):
     A set of data type maps and mode request type maps that define
     mappings between application and implementation data types.
     """
+    # DataTypeMappingSet method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] addDataTypeMap               [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataTypeMaps              [x] impl  [ ] docstring  [ ] test
+    # [ ] addModeRequestTypeMap        [x] impl  [ ] docstring  [ ] test
+    # [ ] getModeRequestTypeMaps       [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

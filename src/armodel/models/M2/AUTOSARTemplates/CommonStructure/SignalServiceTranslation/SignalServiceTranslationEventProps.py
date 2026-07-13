@@ -6,6 +6,11 @@ class SignalServiceTranslationEventProps(ARObject):
     Represents signal service translation event properties in AUTOSAR.
     Defines properties for signal service translation events.
     """
+    # SignalServiceTranslationEventProps method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getEventRef                  [x] impl  [x] docstring  [ ] test
+    # [ ] setEventRef                  [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

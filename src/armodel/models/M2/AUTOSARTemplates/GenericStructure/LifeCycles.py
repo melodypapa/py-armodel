@@ -17,6 +17,15 @@ class LifeCyclePeriod(ARObject):
         This meta class represents the ability to specify a point of time within a specified period, e.g. the starting
         or end point, in which a specific life cycle state is valid/applies to.
     '''
+    # LifeCyclePeriod method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # [x] getArReleaseVersion          [x] impl  [x] docstring  [x] test
+    # [x] setArReleaseVersion          [x] impl  [x] docstring  [x] test
+    # [x] getDate                      [x] impl  [x] docstring  [x] test
+    # [x] setDate                      [x] impl  [x] docstring  [x] test
+    # [x] getProductRelease            [x] impl  [x] docstring  [x] test
+    # [x] setProductRelease            [x] impl  [x] docstring  [x] test
+
     
     def __init__(self):
         super().__init__()
@@ -103,6 +112,21 @@ class LifeCycleInfo(ARObject):
     Represents life cycle information in AUTOSAR models.
     This class defines information about the life cycle of AUTOSAR elements.
     """
+    # LifeCycleInfo method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # [x] getLcObjectRef               [x] impl  [x] docstring  [x] test
+    # [x] setLcObjectRef               [x] impl  [x] docstring  [x] test
+    # [x] getLcStateRef                [x] impl  [x] docstring  [x] test
+    # [x] setLcStateRef                [x] impl  [x] docstring  [x] test
+    # [x] getPeriodBegin               [x] impl  [x] docstring  [x] test
+    # [x] setPeriodBegin               [x] impl  [x] docstring  [x] test
+    # [x] getPeriodEnd                 [x] impl  [x] docstring  [x] test
+    # [x] setPeriodEnd                 [x] impl  [x] docstring  [x] test
+    # [x] getRemark                    [x] impl  [x] docstring  [x] test
+    # [x] setRemark                    [x] impl  [x] docstring  [x] test
+    # [x] getUseInsteadRefs            [x] impl  [x] docstring  [x] test
+    # [x] addUseInsteadRef             [x] impl  [x] docstring  [x] test
+
     
     def __init__(self):
         super().__init__()
@@ -264,6 +288,19 @@ class LifeCycleInfoSet(ARElement):
     Represents a set of life cycle information in AUTOSAR models.
     This class organizes and manages multiple life cycle information entries.
     """
+    # LifeCycleInfoSet method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # [x] getDefaultLcStateRef         [x] impl  [x] docstring  [x] test
+    # [x] setDefaultLcStateRef         [x] impl  [x] docstring  [x] test
+    # [x] getDefaultPeriodBegin        [x] impl  [x] docstring  [x] test
+    # [x] setDefaultPeriodBegin        [x] impl  [x] docstring  [x] test
+    # [x] getDefaultPeriodEnd          [x] impl  [x] docstring  [x] test
+    # [x] setDefaultPeriodEnd          [x] impl  [x] docstring  [x] test
+    # [x] getLifeCycleInfos            [x] impl  [x] docstring  [x] test
+    # [x] addLifeCycleInfo             [x] impl  [x] docstring  [x] test
+    # [x] getUsedLifeCycleStateDefinitionGroupRef [x] impl  [x] docstring  [x] test
+    # [x] setUsedLifeCycleStateDefinitionGroupRef [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)

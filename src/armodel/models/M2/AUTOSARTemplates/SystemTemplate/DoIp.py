@@ -13,6 +13,9 @@ class AbstractDoIpLogicAddressProps(Identifiable, ABC):
     This class defines the common properties for DoIP address configurations,
     serving as the foundation for specific DoIP address types in the system.
     """
+    # AbstractDoIpLogicAddressProps method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractDoIpLogicAddressProps:
             raise TypeError("AbstractDoIpLogicAddressProps is an abstract class.")
@@ -25,6 +28,9 @@ class DoIpLogicTargetAddressProps(AbstractDoIpLogicAddressProps):
     specifying how diagnostic messages should be addressed to target ECUs
     in the IP-based diagnostic communication system.
     """
+    # DoIpLogicTargetAddressProps method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -34,6 +40,11 @@ class DoIpLogicTesterAddressProps(AbstractDoIpLogicAddressProps):
     specifying how diagnostic tools and testers are addressed in the IP-based
     diagnostic communication system, including routing activation references.
     """
+    # DoIpLogicTesterAddressProps method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDoIpTesterRoutingActivationRef [x] impl  [ ] docstring  [ ] test
+    # [ ] setDoIpTesterRoutingActivationRef [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 

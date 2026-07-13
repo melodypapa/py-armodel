@@ -18,6 +18,23 @@ class PhysicalDimension(ARElement):
     Represents a physical dimension with exponents for SI base units.
     Base: ARElement
     """
+    # PhysicalDimension method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCurrentExp                [x] impl  [ ] docstring  [ ] test
+    # [ ] setCurrentExp                [x] impl  [ ] docstring  [ ] test
+    # [ ] getLengthExp                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setLengthExp                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getLuminousIntensityExp      [x] impl  [ ] docstring  [ ] test
+    # [ ] setLuminousIntensityExp      [x] impl  [ ] docstring  [ ] test
+    # [ ] getMassExp                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setMassExp                   [x] impl  [ ] docstring  [ ] test
+    # [ ] getMolarAmountExp            [x] impl  [ ] docstring  [ ] test
+    # [ ] setMolarAmountExp            [x] impl  [ ] docstring  [ ] test
+    # [ ] getTemperatureExp            [x] impl  [ ] docstring  [ ] test
+    # [ ] setTemperatureExp            [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimeExp                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimeExp                   [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -85,6 +102,9 @@ class SingleLanguageUnitNames(ARLiteral):
     Represents single language unit names.
     Base: ARLiteral
     """
+    # SingleLanguageUnitNames method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self) -> None:
         super().__init__()
@@ -95,6 +115,17 @@ class Unit(ARElement):
     Represents a unit with display name, conversion factor, and physical dimension reference.
     Base: ARElement
     """
+    # Unit method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDisplayName               [x] impl  [ ] docstring  [ ] test
+    # [ ] setDisplayName               [x] impl  [ ] docstring  [ ] test
+    # [ ] getFactorSiToUnit            [x] impl  [ ] docstring  [ ] test
+    # [ ] setFactorSiToUnit            [x] impl  [ ] docstring  [ ] test
+    # [ ] getOffsetSiToUnit            [x] impl  [ ] docstring  [ ] test
+    # [ ] setOffsetSiToUnit            [x] impl  [ ] docstring  [ ] test
+    # [ ] getPhysicalDimensionRef      [x] impl  [ ] docstring  [ ] test
+    # [ ] setPhysicalDimensionRef      [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -144,6 +175,11 @@ class UnitGroup(ARElement):
         short_name (str): The short name of the unit group.
         units (List[Unit]): A list of units in the group.
     """
+    # UnitGroup method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getUnits                     [x] impl  [ ] docstring  [ ] test
+    # [ ] addUnit                      [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

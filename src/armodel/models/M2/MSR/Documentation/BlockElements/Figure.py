@@ -10,6 +10,9 @@ class GraphicFitEnum(AREnum):
     """
     Enumeration for graphic fitting modes.
     """
+    # GraphicFitEnum method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, enum_values):
         super().__init__([
 
@@ -20,6 +23,21 @@ class Graphic(EngineeringObject):
     """
     Graphic element with filename, dimensions, and fit properties.
     """
+    # Graphic method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getEditfit                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setEditfit                   [x] impl  [ ] docstring  [ ] test
+    # [ ] getEditHeight                [x] impl  [ ] docstring  [ ] test
+    # [ ] setEditHeight                [x] impl  [ ] docstring  [ ] test
+    # [ ] getEditscale                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setEditscale                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getEditWidth                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setEditWidth                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getFilename                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setFilename                  [x] impl  [ ] docstring  [ ] test
+    # [ ] getFit                       [x] impl  [ ] docstring  [ ] test
+    # [ ] setFit                       [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -83,6 +101,9 @@ class Map(ARObject):
     """
     Image map definition for clickable regions within a graphic.
     """
+    # Map method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
     
@@ -91,6 +112,15 @@ class LGraphic(LanguageSpecific):
     """
     Language-specific graphic with an associated image and optional map.
     """
+    # LGraphic method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getL                         [x] impl  [ ] docstring  [ ] test
+    # [ ] setL                         [x] impl  [ ] docstring  [ ] test
+    # [ ] getGraphic                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setGraphic                   [x] impl  [ ] docstring  [ ] test
+    # [ ] getMap                       [x] impl  [ ] docstring  [ ] test
+    # [ ] setMap                       [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -128,6 +158,19 @@ class MlFigure(Paginateable):
     Multi-language figure with caption, graphics, and optional verbatim
     content.
     """
+    # MlFigure method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getFigureCaption             [x] impl  [ ] docstring  [ ] test
+    # [ ] setFigureCaption             [x] impl  [ ] docstring  [ ] test
+    # [ ] getHelpEntry                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setHelpEntry                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getLGraphics                 [x] impl  [ ] docstring  [ ] test
+    # [ ] addLGraphics                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getPgwide                    [x] impl  [ ] docstring  [ ] test
+    # [ ] setPgwide                    [x] impl  [ ] docstring  [ ] test
+    # [ ] getVerbatim                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setVerbatim                  [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 

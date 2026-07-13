@@ -12,6 +12,9 @@ class IdentCaption(AtpStructureElement, ABC):
     """
     Abstract base class for identification captions used in access points.
     """
+    # IdentCaption method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is IdentCaption:
@@ -25,6 +28,9 @@ class ModeAccessPointIdent(IdentCaption):
     Identification of a mode access point used to reference a specific
     access point within a runnable entity.
     """
+    # ModeAccessPointIdent method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

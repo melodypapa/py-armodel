@@ -11,6 +11,13 @@ class RoleBasedBswModuleEntryAssignment(ARObject):
     Represents a role-based BSW module entry assignment in AUTOSAR.
     This class defines how BSW module entries are assigned based on their role.
     """
+    # RoleBasedBswModuleEntryAssignment method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getRole                      [x] impl  [ ] docstring  [ ] test
+    # [ ] setRole                      [x] impl  [ ] docstring  [ ] test
+    # [ ] getUsedModuleEntryRef        [x] impl  [ ] docstring  [ ] test
+    # [ ] setUsedModuleEntryRef        [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         """

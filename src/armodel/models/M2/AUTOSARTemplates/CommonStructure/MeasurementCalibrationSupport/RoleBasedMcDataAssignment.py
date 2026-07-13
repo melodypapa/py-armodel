@@ -7,6 +7,13 @@ class RoleBasedMcDataAssignment(ARObject):
     Represents a role-based MC (Measurement and Calibration) data assignment in AUTOSAR.
     Defines assignment of MC data based on roles.
     """
+    # RoleBasedMcDataAssignment method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getDataRef                   [x] impl  [x] docstring  [ ] test
+    # [ ] setDataRef                   [x] impl  [x] docstring  [ ] test
+    # [ ] getRole                      [x] impl  [x] docstring  [ ] test
+    # [ ] setRole                      [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

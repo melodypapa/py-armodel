@@ -20,6 +20,11 @@ class AgeConstraint(TimingConstraint):
     This constraint ensures that data is consumed within a specified time
     window after its creation, maintaining data freshness.
     """
+    # AgeConstraint method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getAge                       [x] impl  [x] docstring  [ ] test
+    # [ ] setAge                       [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent, short_name: str):
         """

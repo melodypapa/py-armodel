@@ -17,6 +17,9 @@ class ModeActivationKind(str, Enum):
     Enumeration for mode activation kind values.
     Defines the kind of mode switch condition used for activation of an event.
     """
+    # ModeActivationKind method parity checklist:
+    # (no methods)
+
     # On entering the referred mode
     ON_ENTRY = "onEntry"
     # On exiting the referred mode
@@ -30,6 +33,15 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
     Represents a mapping between mode declaration group prototypes in AUTOSAR models.
     This class defines relationships between different mode declaration group prototypes across system boundaries.
     """
+    # ModeDeclarationGroupPrototypeMapping method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getFirstModeGroupRef         [x] impl  [x] docstring  [x] test
+    # [x] setFirstModeGroupRef         [x] impl  [x] docstring  [x] test
+    # [x] getModeDeclarationMappingSetRef [x] impl  [x] docstring  [x] test
+    # [x] setModeDeclarationMappingSetRef [x] impl  [x] docstring  [x] test
+    # [x] getSecondModeGroupRef        [x] impl  [x] docstring  [x] test
+    # [x] setSecondModeGroupRef        [x] impl  [x] docstring  [x] test
+
     
     def __init__(self):
         """
@@ -122,6 +134,11 @@ class ModeDeclaration(AtpStructureElement):
     Represents a mode declaration in AUTOSAR models.
     Mode declarations define specific operational states that components can be in, with associated values.
     """
+    # ModeDeclaration method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] setValue                     [x] impl  [x] docstring  [x] test
+    # [x] getValue                     [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -165,6 +182,13 @@ class ModeRequestTypeMap(ARObject):
     Represents a mapping between mode requests and implementation data types in AUTOSAR models.
     This class defines how mode requests are mapped to specific implementation data types.
     """
+    # ModeRequestTypeMap method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getImplementationDataTypeRef [x] impl  [x] docstring  [x] test
+    # [x] setImplementationDataTypeRef [x] impl  [x] docstring  [x] test
+    # [x] getModeGroupRef              [x] impl  [x] docstring  [x] test
+    # [x] setModeGroupRef              [x] impl  [x] docstring  [x] test
+
     
     def __init__(self):
         """
@@ -229,6 +253,15 @@ class ModeDeclarationGroup(AtpType):
     Represents a mode declaration group in AUTOSAR models.
     Mode declaration groups define collections of related mode declarations and their initial state.
     """
+    # ModeDeclarationGroup method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] createModeDeclaration        [x] impl  [x] docstring  [x] test
+    # [x] getModeDeclarations          [x] impl  [x] docstring  [x] test
+    # [x] setInitialModeRef            [x] impl  [x] docstring  [x] test
+    # [x] getInitialModeRef            [x] impl  [x] docstring  [x] test
+    # [x] setOnTransitionValue         [x] impl  [x] docstring  [x] test
+    # [x] getOnTransitionValue         [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -333,6 +366,15 @@ class ModeDeclarationGroupPrototype(AtpPrototype):
     Represents a mode declaration group prototype in AUTOSAR models.
     The ModeDeclarationGroupPrototype specifies a set of Modes (ModeDeclarationGroup) which is provided or required in the given context.
     """
+    # ModeDeclarationGroupPrototype method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [ ] sw_calibration_access        [x] impl  [x] docstring  [ ] test
+    # [ ] sw_calibration_access        [x] impl  [x] docstring  [ ] test
+    # [ ] getSwCalibrationAccess       [x] impl  [x] docstring  [ ] test
+    # [x] setSwCalibrationAccess       [x] impl  [x] docstring  [x] test
+    # [x] getTypeTRef                  [x] impl  [x] docstring  [x] test
+    # [x] setTypeTRef                  [x] impl  [x] docstring  [x] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         """

@@ -18,6 +18,19 @@ class FlatInstanceDescriptor(Identifiable):
     Represents a flat instance descriptor in AUTOSAR models.
     This class describes a single instance in a flattened instance hierarchy, typically used for code generation.
     """
+    # FlatInstanceDescriptor method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getEcuExtractReferenceIRef   [x] impl  [x] docstring  [x] test
+    # [x] setEcuExtractReferenceIRef   [x] impl  [x] docstring  [x] test
+    # [x] getRole                      [x] impl  [x] docstring  [x] test
+    # [x] setRole                      [x] impl  [x] docstring  [x] test
+    # [x] getRtePluginProps            [x] impl  [x] docstring  [x] test
+    # [x] setRtePluginProps            [x] impl  [x] docstring  [x] test
+    # [x] getSwDataDefProps            [x] impl  [x] docstring  [x] test
+    # [x] setSwDataDefProps            [x] impl  [x] docstring  [x] test
+    # [x] getUpstreamReferenceIRef     [x] impl  [x] docstring  [x] test
+    # [x] setUpstreamReferenceIRef     [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -156,6 +169,11 @@ class FlatMap(AtpBlueprintable):
     Represents a flat map in AUTOSAR models.
     This class contains a collection of flat instance descriptors that define a flattened view of instance hierarchies.
     """
+    # FlatMap method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getInstances                 [x] impl  [x] docstring  [x] test
+    # [x] createFlatInstanceDescriptor [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -201,6 +219,13 @@ class AliasNameAssignment(ARObject):
     Represents an alias name assignment in AUTOSAR.
     This class defines how aliases are assigned to elements.
     """
+    # AliasNameAssignment method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getAliasName                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setAliasName                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getElementRef                [x] impl  [ ] docstring  [ ] test
+    # [ ] setElementRef                [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         """
@@ -229,6 +254,11 @@ class AliasNameSet(ARObject):
     """
     Represents a set of alias name assignments.
     """
+    # AliasNameSet method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] addAlias                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getAliases                   [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         """
@@ -249,6 +279,13 @@ class RtePluginProps(ARObject):
     Represents RTE plugin properties in AUTOSAR.
     This class defines properties for RTE plugins.
     """
+    # RtePluginProps method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getPluginName                [x] impl  [ ] docstring  [ ] test
+    # [ ] setPluginName                [x] impl  [ ] docstring  [ ] test
+    # [ ] getPluginVersion             [x] impl  [ ] docstring  [ ] test
+    # [ ] setPluginVersion             [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         """

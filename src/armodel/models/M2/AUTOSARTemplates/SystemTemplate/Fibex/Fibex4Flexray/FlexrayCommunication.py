@@ -12,6 +12,9 @@ class FlexrayFrame(Frame):
     defines the structure and characteristics of FlexRay messages in the
     communication system.
     """
+    # FlexrayFrame method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -22,6 +25,13 @@ class FlexrayAbsolutelyScheduledTiming(ARObject):
     specifying communication cycles and slot IDs for time-triggered
     communication in FlexRay networks.
     """
+    # FlexrayAbsolutelyScheduledTiming method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCommunicationCycle        [x] impl  [ ] docstring  [ ] test
+    # [ ] setCommunicationCycle        [x] impl  [ ] docstring  [ ] test
+    # [ ] getSlotID                    [x] impl  [ ] docstring  [ ] test
+    # [ ] setSlotID                    [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -51,6 +61,17 @@ class FlexrayFrameTriggering(FrameTriggering):
     FlexRay frames are transmitted or received on the network, including timing,
     message IDs, and payload properties.
     """
+    # FlexrayFrameTriggering method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getAbsolutelyScheduledTimings [x] impl  [ ] docstring  [ ] test
+    # [ ] addAbsolutelyScheduledTiming [x] impl  [ ] docstring  [ ] test
+    # [ ] getAllowDynamicLSduLength    [x] impl  [ ] docstring  [ ] test
+    # [ ] setAllowDynamicLSduLength    [x] impl  [ ] docstring  [ ] test
+    # [ ] getMessageId                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setMessageId                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getPayloadPreambleIndicator  [x] impl  [ ] docstring  [ ] test
+    # [ ] setPayloadPreambleIndicator  [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

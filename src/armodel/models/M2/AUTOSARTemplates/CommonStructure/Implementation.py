@@ -18,6 +18,11 @@ class ImplementationProps(Referrable, ABC):
     Abstract base class for implementation properties in AUTOSAR models.
     This class serves as a base for defining properties of implementations such as symbols and identifiers.
     """
+    # ImplementationProps method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [x] getSymbol                    [x] impl  [x] docstring  [x] test
+    # [x] setSymbol                    [x] impl  [x] docstring  [x] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -64,6 +69,11 @@ class Code(Identifiable):
     Represents code descriptor in AUTOSAR models.
     This class contains information about code artifacts and their properties used in implementations.
     """
+    # Code method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] addArtifactDescriptor        [x] impl  [x] docstring  [x] test
+    # [ ] getArtifactDescriptors       [x] impl  [x] docstring  [ ] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -114,6 +124,17 @@ class Compiler(Identifiable):
     Represents a compiler in AUTOSAR models.
     This class contains information about compiler configuration used in implementations.
     """
+    # Compiler method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getName                      [x] impl  [x] docstring  [x] test
+    # [x] setName                      [x] impl  [x] docstring  [x] test
+    # [x] getOptions                   [x] impl  [x] docstring  [x] test
+    # [x] setOptions                   [x] impl  [x] docstring  [x] test
+    # [x] getVendor                    [x] impl  [x] docstring  [x] test
+    # [x] setVendor                    [x] impl  [x] docstring  [x] test
+    # [x] getVersion                   [x] impl  [x] docstring  [x] test
+    # [x] setVersion                   [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -228,6 +249,13 @@ class DependencyOnArtifact(Identifiable):
     Represents a dependency on an artifact in AUTOSAR models.
     This class defines dependencies on artifacts required by implementations such as compilers, linkers, etc.
     """
+    # DependencyOnArtifact method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getArtifactDescriptor        [x] impl  [x] docstring  [x] test
+    # [x] setArtifactDescriptor        [x] impl  [x] docstring  [x] test
+    # [x] getUsage                     [x] impl  [x] docstring  [x] test
+    # [x] setUsage                     [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -294,6 +322,39 @@ class Implementation(ARElement, ABC):
     Abstract base class for implementations in AUTOSAR models.
     This class serves as a base for defining software implementations including code, compilers, dependencies, and resource consumption information.
     """
+    # Implementation method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [x] getBuildActionManifestRef    [x] impl  [x] docstring  [x] test
+    # [x] setBuildActionManifestRef    [x] impl  [x] docstring  [x] test
+    # [ ] getCodeDescriptors           [x] impl  [x] docstring  [ ] test
+    # [x] createCodeDescriptor         [x] impl  [x] docstring  [x] test
+    # [x] getCompilers                 [x] impl  [x] docstring  [x] test
+    # [x] setCompilers                 [x] impl  [x] docstring  [x] test
+    # [x] getGeneratedArtifacts        [x] impl  [x] docstring  [x] test
+    # [x] setGeneratedArtifacts        [x] impl  [x] docstring  [x] test
+    # [x] getHwElementRefs             [x] impl  [x] docstring  [x] test
+    # [x] setHwElementRefs             [x] impl  [x] docstring  [x] test
+    # [x] getLinkers                   [x] impl  [x] docstring  [x] test
+    # [x] setLinkers                   [x] impl  [x] docstring  [x] test
+    # [x] getMcSupport                 [x] impl  [x] docstring  [x] test
+    # [x] setMcSupport                 [x] impl  [x] docstring  [x] test
+    # [x] getProgrammingLanguage       [x] impl  [x] docstring  [x] test
+    # [x] setProgrammingLanguage       [x] impl  [x] docstring  [x] test
+    # [x] getRequiredArtifacts         [x] impl  [x] docstring  [x] test
+    # [x] setRequiredArtifacts         [x] impl  [x] docstring  [x] test
+    # [x] getRequiredGeneratorTools    [x] impl  [x] docstring  [x] test
+    # [x] setRequiredGeneratorTools    [x] impl  [x] docstring  [x] test
+    # [x] getResourceConsumption       [x] impl  [x] docstring  [x] test
+    # [x] createResourceConsumption    [x] impl  [x] docstring  [x] test
+    # [x] getSwcBswMappingRef          [x] impl  [x] docstring  [x] test
+    # [x] setSwcBswMappingRef          [x] impl  [x] docstring  [x] test
+    # [x] getSwVersion                 [x] impl  [x] docstring  [x] test
+    # [x] setSwVersion                 [x] impl  [x] docstring  [x] test
+    # [x] getUsedCodeGenerator         [x] impl  [x] docstring  [x] test
+    # [x] setUsedCodeGenerator         [x] impl  [x] docstring  [x] test
+    # [x] getVendorId                  [x] impl  [x] docstring  [x] test
+    # [x] setVendorId                  [x] impl  [x] docstring  [x] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -697,6 +758,9 @@ class DependencyUsageEnum(AREnum):
     """
     Enumeration for dependency usage.
     """
+    # DependencyUsageEnum method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     OPTIONAL = "optional"
     REQUIRED = "required"
@@ -713,6 +777,13 @@ class Linker(ARObject):
     Represents a linker configuration in AUTOSAR.
     This class defines linker settings for implementation.
     """
+    # Linker method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getLinkerName                [x] impl  [ ] docstring  [ ] test
+    # [ ] setLinkerName                [x] impl  [ ] docstring  [ ] test
+    # [ ] getLinkerOptions             [x] impl  [ ] docstring  [ ] test
+    # [ ] setLinkerOptions             [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         """
@@ -741,6 +812,9 @@ class ProgramminglanguageEnum(AREnum):
     """
     Enumeration for programming languages.
     """
+    # ProgramminglanguageEnum method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     C = "C"
     CPP = "C++"

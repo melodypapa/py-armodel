@@ -8,6 +8,13 @@ class RptExecutableEntityEvent(ARObject):
     Represents an RPT executable entity event in AUTOSAR.
     Defines an event associated with an RPT executable entity.
     """
+    # RptExecutableEntityEvent method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getEventRef                  [x] impl  [x] docstring  [ ] test
+    # [ ] setEventRef                  [x] impl  [x] docstring  [ ] test
+    # [ ] getRptAccess                 [x] impl  [x] docstring  [ ] test
+    # [ ] setRptAccess                 [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

@@ -7,6 +7,13 @@ class TimingModeInstance(ARObject):
     Represents a timing mode instance in AUTOSAR.
     Defines a mode instance used in timing specifications.
     """
+    # TimingModeInstance method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getModeRef                   [x] impl  [x] docstring  [ ] test
+    # [ ] setModeRef                   [x] impl  [x] docstring  [ ] test
+    # [ ] getModeValue                 [x] impl  [x] docstring  [ ] test
+    # [ ] setModeValue                 [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

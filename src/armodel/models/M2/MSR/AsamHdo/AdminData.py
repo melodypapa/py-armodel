@@ -11,6 +11,13 @@ class Modification(ARObject):
     Base: ARObject
     Aggregated by: DocRevision.modifications
     """
+    # Modification method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getChange                    [x] impl  [ ] docstring  [ ] test
+    # [ ] setChange                    [x] impl  [ ] docstring  [ ] test
+    # [ ] getReason                    [x] impl  [ ] docstring  [ ] test
+    # [ ] setReason                    [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -40,6 +47,23 @@ class DocRevision(ARObject):
     Base: ARObject
     Aggregated by: AdminData.DocRevisions
     """
+    # DocRevision method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDate                      [x] impl  [ ] docstring  [ ] test
+    # [ ] setDate                      [x] impl  [ ] docstring  [ ] test
+    # [ ] getIssuedBy                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setIssuedBy                  [x] impl  [ ] docstring  [ ] test
+    # [ ] getModifications             [x] impl  [ ] docstring  [ ] test
+    # [ ] addModification              [x] impl  [ ] docstring  [ ] test
+    # [ ] getRevisionLabel             [x] impl  [ ] docstring  [ ] test
+    # [ ] setRevisionLabel             [x] impl  [ ] docstring  [ ] test
+    # [ ] getRevisionLabelP1           [x] impl  [ ] docstring  [ ] test
+    # [ ] setRevisionLabelP1           [x] impl  [ ] docstring  [ ] test
+    # [ ] getRevisionLabelP2           [x] impl  [ ] docstring  [ ] test
+    # [ ] setRevisionLabelP2           [x] impl  [ ] docstring  [ ] test
+    # [ ] getState                     [x] impl  [ ] docstring  [ ] test
+    # [ ] setState                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -113,6 +137,17 @@ class AdminData(ARObject):
     Container for administrative data including document revisions and language settings.
     Base: ARObject
     """
+    # AdminData method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDocRevisions              [x] impl  [ ] docstring  [ ] test
+    # [ ] addDocRevision               [x] impl  [ ] docstring  [ ] test
+    # [ ] getLanguage                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setLanguage                  [x] impl  [ ] docstring  [ ] test
+    # [ ] getSdgs                      [x] impl  [ ] docstring  [ ] test
+    # [ ] addSdg                       [x] impl  [ ] docstring  [ ] test
+    # [ ] getUsedLanguages             [x] impl  [ ] docstring  [ ] test
+    # [ ] setUsedLanguages             [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 

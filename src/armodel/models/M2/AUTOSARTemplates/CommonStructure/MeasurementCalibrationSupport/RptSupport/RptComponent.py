@@ -6,6 +6,13 @@ class RptComponent(ARObject):
     Represents an RPT (Read-Protect-Transform) component in AUTOSAR.
     Defines a component that supports read-protect-transform functionality.
     """
+    # RptComponent method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getComponentRef              [x] impl  [x] docstring  [ ] test
+    # [ ] setComponentRef              [x] impl  [x] docstring  [ ] test
+    # [ ] getPortRef                   [x] impl  [x] docstring  [ ] test
+    # [ ] setPortRef                   [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

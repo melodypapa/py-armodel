@@ -12,6 +12,13 @@ class PortDefinedArgumentValue(ARObject):
     """
     A value defined for a port argument in the context of port API options.
     """
+    # PortDefinedArgumentValue method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getValue                     [x] impl  [x] docstring  [ ] test
+    # [ ] setValue                     [x] impl  [x] docstring  [ ] test
+    # [ ] getValueTypeTRef             [x] impl  [x] docstring  [ ] test
+    # [ ] setValueTypeTRef             [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()
@@ -68,6 +75,23 @@ class PortAPIOption(ARObject):
     Port API options that define the API configuration for a specific port
     of an atomic software component.
     """
+    # PortAPIOption method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getEnableTakeAddress         [x] impl  [x] docstring  [ ] test
+    # [ ] setEnableTakeAddress         [x] impl  [x] docstring  [ ] test
+    # [ ] getErrorHandling             [x] impl  [x] docstring  [ ] test
+    # [ ] setErrorHandling             [x] impl  [x] docstring  [ ] test
+    # [ ] getIndirectAPI               [x] impl  [x] docstring  [ ] test
+    # [ ] setIndirectAPI               [x] impl  [x] docstring  [ ] test
+    # [ ] getPortRef                   [x] impl  [x] docstring  [ ] test
+    # [ ] setPortRef                   [x] impl  [x] docstring  [ ] test
+    # [ ] getPortArgValues             [x] impl  [x] docstring  [ ] test
+    # [ ] addPortArgValue              [x] impl  [x] docstring  [ ] test
+    # [ ] getSupportedFeatures         [x] impl  [x] docstring  [ ] test
+    # [ ] addSupportedFeature          [x] impl  [x] docstring  [ ] test
+    # [ ] getTransformerStatusForwarding [x] impl  [x] docstring  [ ] test
+    # [ ] setTransformerStatusForwarding [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()

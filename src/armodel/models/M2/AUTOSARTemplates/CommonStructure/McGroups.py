@@ -10,6 +10,13 @@ class McGroup(ARObject):
     Represents a measurement and calibration group in AUTOSAR.
     This class defines a group of MC elements.
     """
+    # McGroup method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getGroupName                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setGroupName                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getGroupId                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setGroupId                   [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         """
@@ -38,6 +45,11 @@ class McGroupDataRefSet(ARObject):
     """
     Represents a set of MC group data references.
     """
+    # McGroupDataRefSet method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] addDataRef                   [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataRefs                  [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         """

@@ -7,6 +7,13 @@ class TDLETZoneClock(ARObject):
     Represents a TDLET zone clock in AUTOSAR timing specifications.
     Defines a clock for TDLET (Time Domain LET) zones.
     """
+    # TDLETZoneClock method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getClockRef                  [x] impl  [x] docstring  [ ] test
+    # [ ] setClockRef                  [x] impl  [x] docstring  [ ] test
+    # [ ] getZoneRef                   [x] impl  [x] docstring  [ ] test
+    # [ ] setZoneRef                   [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

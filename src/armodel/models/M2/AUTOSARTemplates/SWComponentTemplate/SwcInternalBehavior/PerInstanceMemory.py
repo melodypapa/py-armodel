@@ -13,6 +13,17 @@ class PerInstanceMemory(AtpStructureElement):
     A per-instance memory is a memory block that is allocated separately
     for each instance of an atomic software component.
     """
+    # PerInstanceMemory method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getInitValue                 [x] impl  [x] docstring  [ ] test
+    # [ ] setInitValue                 [x] impl  [x] docstring  [ ] test
+    # [ ] getSwDataDefProps            [x] impl  [x] docstring  [ ] test
+    # [ ] setSwDataDefProps            [x] impl  [x] docstring  [ ] test
+    # [ ] getType                      [x] impl  [x] docstring  [ ] test
+    # [ ] setType                      [x] impl  [x] docstring  [ ] test
+    # [ ] getTypeDefinition            [x] impl  [x] docstring  [ ] test
+    # [ ] setTypeDefinition            [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

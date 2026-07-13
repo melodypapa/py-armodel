@@ -13,6 +13,9 @@ class CryptoServiceMapping(Identifiable, ABC):
     common properties for different types of cryptographic
     service mappings in the AUTOSAR system.
     """
+    # CryptoServiceMapping method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self, parent, short_name):
         if type(self) is CryptoServiceMapping:
@@ -26,6 +29,15 @@ class SecOcCryptoServiceMapping(CryptoServiceMapping):
     defining authentication, key, and queue references for secure
     communication between ECUs.
     """
+    # SecOcCryptoServiceMapping method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getAuthenticationRef         [x] impl  [ ] docstring  [ ] test
+    # [ ] setAuthenticationRef         [x] impl  [ ] docstring  [ ] test
+    # [ ] getCryptoServiceKeyRef       [x] impl  [ ] docstring  [ ] test
+    # [ ] setCryptoServiceKeyRef       [x] impl  [ ] docstring  [ ] test
+    # [ ] getCryptoServiceQueueRef     [x] impl  [ ] docstring  [ ] test
+    # [ ] setCryptoServiceQueueRef     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -64,6 +76,17 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
     defining key exchange references, cipher suites, and authentication
     settings for TLS-secured communication.
     """
+    # TlsCryptoServiceMapping method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getKeyExchangeRef            [x] impl  [ ] docstring  [ ] test
+    # [ ] setKeyExchangeRef            [x] impl  [ ] docstring  [ ] test
+    # [ ] getTlsCipherSuites           [x] impl  [ ] docstring  [ ] test
+    # [ ] addTlsCipherSuite            [x] impl  [ ] docstring  [ ] test
+    # [ ] getUseClientAuthenticationRequest [x] impl  [ ] docstring  [ ] test
+    # [ ] setUseClientAuthenticationRequest [x] impl  [ ] docstring  [ ] test
+    # [ ] getUseSecurityExtensionRecordSizeLimit [x] impl  [ ] docstring  [ ] test
+    # [ ] setUseSecurityExtensionRecordSizeLimit [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 

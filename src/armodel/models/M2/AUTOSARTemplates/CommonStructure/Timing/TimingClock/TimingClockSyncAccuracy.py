@@ -6,6 +6,13 @@ class TimingClockSyncAccuracy(ARObject):
     Represents timing clock synchronization accuracy in AUTOSAR.
     Defines the accuracy of clock synchronization.
     """
+    # TimingClockSyncAccuracy method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getAccuracy                  [x] impl  [x] docstring  [ ] test
+    # [ ] setAccuracy                  [x] impl  [x] docstring  [ ] test
+    # [ ] getUnit                      [x] impl  [x] docstring  [ ] test
+    # [ ] setUnit                      [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

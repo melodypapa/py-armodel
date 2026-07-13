@@ -22,6 +22,38 @@ class BswModuleDescription(AtpStructureElement):
     In case it describes a BSW module, the short name of this element equals the name of the BSW module.
     This is the root element for describing BSW module structure, interfaces, and behavior.
     """
+    # BswModuleDescription method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [ ] getBswModuleDependencies     [x] impl  [x] docstring  [ ] test
+    # [ ] setBswModuleDependencies     [x] impl  [x] docstring  [ ] test
+    # [ ] getBswModuleDocumentation    [x] impl  [x] docstring  [ ] test
+    # [ ] setBswModuleDocumentation    [x] impl  [x] docstring  [ ] test
+    # [ ] getExpectedEntryRefs         [x] impl  [x] docstring  [ ] test
+    # [ ] setExpectedEntryRefs         [x] impl  [x] docstring  [ ] test
+    # [x] getImplementedEntryRefs      [x] impl  [x] docstring  [x] test
+    # [x] addImplementedEntryRef       [x] impl  [x] docstring  [x] test
+    # [ ] getInternalBehaviors         [x] impl  [x] docstring  [ ] test
+    # [ ] setInternalBehaviors         [x] impl  [x] docstring  [ ] test
+    # [x] createBswInternalBehavior    [x] impl  [x] docstring  [x] test
+    # [ ] getModuleId                  [x] impl  [x] docstring  [ ] test
+    # [ ] setModuleId                  [x] impl  [x] docstring  [ ] test
+    # [x] getProvidedClientServerEntries [x] impl  [x] docstring  [x] test
+    # [x] createProvidedClientServerEntry [x] impl  [x] docstring  [x] test
+    # [x] getProvidedDatas             [x] impl  [x] docstring  [x] test
+    # [x] createProvidedData           [x] impl  [x] docstring  [x] test
+    # [x] getProvidedModeGroups        [x] impl  [x] docstring  [x] test
+    # [x] createProvidedModeGroup      [x] impl  [x] docstring  [x] test
+    # [x] getReleasedTriggers          [x] impl  [x] docstring  [x] test
+    # [x] createReleasedTrigger        [x] impl  [x] docstring  [x] test
+    # [x] getRequiredClientServerEntries [x] impl  [x] docstring  [x] test
+    # [x] createRequiredClientServerEntry [x] impl  [x] docstring  [x] test
+    # [x] getRequiredDatas             [x] impl  [x] docstring  [x] test
+    # [x] createRequiredData           [x] impl  [x] docstring  [x] test
+    # [x] getRequiredModeGroups        [x] impl  [x] docstring  [x] test
+    # [x] createRequiredModeGroup      [x] impl  [x] docstring  [x] test
+    # [x] getRequiredTriggers          [x] impl  [x] docstring  [x] test
+    # [x] createRequiredTrigger        [x] impl  [x] docstring  [x] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         """

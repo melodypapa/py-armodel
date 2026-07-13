@@ -11,6 +11,15 @@ class HardwareConfiguration(ARObject):
     Represents hardware configuration information in AUTOSAR models.
     This class defines specific hardware properties that may affect resource consumption.
     """
+    # HardwareConfiguration method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [ ] getAdditionalInformation     [x] impl  [x] docstring  [ ] test
+    # [ ] setAdditionalInformation     [x] impl  [x] docstring  [ ] test
+    # [ ] getProcessorMode             [x] impl  [x] docstring  [ ] test
+    # [ ] setProcessorMode             [x] impl  [x] docstring  [ ] test
+    # [ ] getProcessorSpeed            [x] impl  [x] docstring  [ ] test
+    # [ ] setProcessorSpeed            [x] impl  [x] docstring  [ ] test
+
     
     def __init__(self):
         """
