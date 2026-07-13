@@ -8,6 +8,15 @@ class GeneralAnnotation(ARObject, ABC):
     """
     Abstract base class for annotations including origin, text, and label.
     """
+    # GeneralAnnotation method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getAnnotationOrigin          [x] impl  [ ] docstring  [ ] test
+    # [ ] setAnnotationOrigin          [x] impl  [ ] docstring  [ ] test
+    # [ ] getAnnotationText            [x] impl  [ ] docstring  [ ] test
+    # [ ] setAnnotationText            [x] impl  [ ] docstring  [ ] test
+    # [ ] getLabel                     [x] impl  [ ] docstring  [ ] test
+    # [ ] setLabel                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         if type(self) is GeneralAnnotation:
             raise TypeError("GeneralAnnotation is an abstract class.")
@@ -44,5 +53,8 @@ class Annotation(GeneralAnnotation):
     Concrete annotation with origin, text, and label for documenting
     model elements.
     """
+    # Annotation method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()

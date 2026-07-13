@@ -10,6 +10,11 @@ class AnalyzedExecutionTime(ARObject):
     """
     Represents analyzed execution time in AUTOSAR.
     """
+    # AnalyzedExecutionTime method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getExecutionTime             [x] impl  [ ] docstring  [ ] test
+    # [ ] setExecutionTime             [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()
@@ -27,6 +32,11 @@ class ExecutionTime(ARObject):
     """
     Represents execution time in AUTOSAR.
     """
+    # ExecutionTime method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getExecutionTime             [x] impl  [ ] docstring  [ ] test
+    # [ ] setExecutionTime             [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()
@@ -44,6 +54,13 @@ class MeasuredExecutionTime(ARObject):
     """
     Represents measured execution time in AUTOSAR.
     """
+    # MeasuredExecutionTime method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getExecutionTime             [x] impl  [ ] docstring  [ ] test
+    # [ ] setExecutionTime             [x] impl  [ ] docstring  [ ] test
+    # [ ] getSampleSize                [x] impl  [ ] docstring  [ ] test
+    # [ ] setSampleSize                [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()
@@ -69,6 +86,11 @@ class MemorySectionLocation(ARObject):
     """
     Represents memory section location in AUTOSAR.
     """
+    # MemorySectionLocation method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getSectionName               [x] impl  [ ] docstring  [ ] test
+    # [ ] setSectionName               [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()
@@ -86,6 +108,13 @@ class RoughEstimateOfExecutionTime(ARObject):
     """
     Represents rough estimate of execution time in AUTOSAR.
     """
+    # RoughEstimateOfExecutionTime method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getExecutionTime             [x] impl  [ ] docstring  [ ] test
+    # [ ] setExecutionTime             [x] impl  [ ] docstring  [ ] test
+    # [ ] getConfidenceLevel           [x] impl  [ ] docstring  [ ] test
+    # [ ] setConfidenceLevel           [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()
@@ -111,6 +140,13 @@ class SimulatedExecutionTime(ARObject):
     """
     Represents simulated execution time in AUTOSAR.
     """
+    # SimulatedExecutionTime method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getExecutionTime             [x] impl  [ ] docstring  [ ] test
+    # [ ] setExecutionTime             [x] impl  [ ] docstring  [ ] test
+    # [ ] getSimulationModel           [x] impl  [ ] docstring  [ ] test
+    # [ ] setSimulationModel           [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()

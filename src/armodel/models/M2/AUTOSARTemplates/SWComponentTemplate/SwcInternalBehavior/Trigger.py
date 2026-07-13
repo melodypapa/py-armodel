@@ -15,6 +15,11 @@ class InternalTriggeringPoint(AbstractAccessPoint):
     An internal triggering point that can be referenced by an
     InternalTriggerOccurredEvent.
     """
+    # InternalTriggeringPoint method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwImplPolicy              [x] impl  [x] docstring  [ ] test
+    # [ ] setSwImplPolicy              [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -49,6 +54,9 @@ class ExternalTriggeringPointIdent(IdentCaption):
     """
     Identification of an external triggering point.
     """
+    # ExternalTriggeringPointIdent method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
@@ -59,6 +67,13 @@ class ExternalTriggeringPoint(ARObject):
     An external triggering point that references a trigger defined in a
     TriggerInterface.
     """
+    # ExternalTriggeringPoint method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getIdent                     [x] impl  [x] docstring  [ ] test
+    # [ ] setIdent                     [x] impl  [x] docstring  [ ] test
+    # [ ] getTrigger                   [x] impl  [x] docstring  [ ] test
+    # [ ] setTrigger                   [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()

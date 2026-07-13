@@ -13,6 +13,15 @@ class AutosarVariableRef(ARObject):
     A reference to a variable used in the context of AUTOSAR software component
     internal behavior.
     """
+    # AutosarVariableRef method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getAutosarVariableIRef       [x] impl  [x] docstring  [ ] test
+    # [ ] setAutosarVariableIRef       [x] impl  [x] docstring  [ ] test
+    # [ ] getAutosarVariableInImplDatatype [x] impl  [x] docstring  [ ] test
+    # [ ] setAutosarVariableInImplDatatype [x] impl  [ ] docstring  [ ] test
+    # [ ] getLocalVariableRef          [x] impl  [x] docstring  [ ] test
+    # [ ] setLocalVariableRef          [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()

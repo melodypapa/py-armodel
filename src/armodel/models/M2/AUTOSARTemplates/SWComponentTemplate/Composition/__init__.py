@@ -12,6 +12,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 
 class SwComponentPrototype(AtpPrototype):
+    # SwComponentPrototype method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getTypeTRef                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setTypeTRef                  [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -26,6 +31,11 @@ class SwComponentPrototype(AtpPrototype):
 
 
 class SwConnector(AtpStructureElement, ABC):
+    # SwConnector method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # [ ] getMappingRef                [x] impl  [ ] docstring  [ ] test
+    # [ ] setMappingRef                [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is SwConnector:
             raise TypeError("SwConnector is an abstract class.")
@@ -42,6 +52,13 @@ class SwConnector(AtpStructureElement, ABC):
 
 
 class AssemblySwConnector(SwConnector):
+    # AssemblySwConnector method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getProviderIRef              [x] impl  [ ] docstring  [ ] test
+    # [ ] setProviderIRef              [x] impl  [ ] docstring  [ ] test
+    # [ ] getRequesterIRef             [x] impl  [ ] docstring  [ ] test
+    # [ ] setRequesterIRef             [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -64,6 +81,13 @@ class AssemblySwConnector(SwConnector):
 
 
 class DelegationSwConnector(SwConnector):
+    # DelegationSwConnector method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getInnerPortIRref            [x] impl  [ ] docstring  [ ] test
+    # [ ] setInnerPortIRref            [x] impl  [ ] docstring  [ ] test
+    # [ ] getOuterPortRef              [x] impl  [ ] docstring  [ ] test
+    # [ ] setOuterPortRef              [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
         
@@ -86,6 +110,13 @@ class DelegationSwConnector(SwConnector):
 
 
 class PassThroughSwConnector(SwConnector):
+    # PassThroughSwConnector method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getProvidedOuterPortRef      [x] impl  [ ] docstring  [ ] test
+    # [ ] setProvidedOuterPortRef      [x] impl  [ ] docstring  [ ] test
+    # [ ] getRequiredOuterPortRef      [x] impl  [ ] docstring  [ ] test
+    # [ ] setRequiredOuterPortRef      [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -108,6 +139,20 @@ class PassThroughSwConnector(SwConnector):
 
 
 class CompositionSwComponentType(SwComponentType):
+    # CompositionSwComponentType method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] removeAllAssemblySwConnector [x] impl  [ ] docstring  [ ] test
+    # [ ] removeAllDelegationSwConnector [x] impl  [ ] docstring  [ ] test
+    # [ ] createAssemblySwConnector    [x] impl  [ ] docstring  [ ] test
+    # [ ] createDelegationSwConnector  [x] impl  [ ] docstring  [ ] test
+    # [ ] getAssemblySwConnectors      [x] impl  [ ] docstring  [ ] test
+    # [ ] getDelegationSwConnectors    [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwConnectors              [x] impl  [ ] docstring  [ ] test
+    # [ ] createSwComponentPrototype   [x] impl  [ ] docstring  [ ] test
+    # [ ] getComponents                [x] impl  [ ] docstring  [ ] test
+    # [ ] addDataTypeMapping           [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataTypeMappings          [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

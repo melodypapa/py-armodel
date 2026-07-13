@@ -13,6 +13,9 @@ class AbstractImplementationDataTypeElement(AtpStructureElement, ABC):
     """
     Abstract base class for implementation data type elements.
     """
+    # AbstractImplementationDataTypeElement method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent, short_name: str):
         if type(self) is AbstractImplementationDataTypeElement:
             raise TypeError("AbstractImplementationDataTypeElement is an abstract class.")
@@ -24,6 +27,23 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
     Element of an implementation data type defining array properties,
     optional flag, sub-elements, and data definition properties.
     """
+    # ImplementationDataTypeElement method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # [ ] getArrayImplPolicy           [x] impl  [ ] docstring  [x] test
+    # [ ] setArrayImplPolicy           [x] impl  [ ] docstring  [x] test
+    # [ ] getArraySize                 [x] impl  [ ] docstring  [x] test
+    # [ ] setArraySize                 [x] impl  [ ] docstring  [x] test
+    # [ ] getArraySizeHandling         [x] impl  [ ] docstring  [x] test
+    # [ ] setArraySizeHandling         [x] impl  [ ] docstring  [x] test
+    # [ ] getArraySizeSemantics        [x] impl  [ ] docstring  [x] test
+    # [ ] setArraySizeSemantics        [x] impl  [ ] docstring  [x] test
+    # [ ] getIsOptional                [x] impl  [ ] docstring  [x] test
+    # [ ] setIsOptional                [x] impl  [ ] docstring  [x] test
+    # [ ] getSwDataDefProps            [x] impl  [ ] docstring  [x] test
+    # [ ] setSwDataDefProps            [x] impl  [ ] docstring  [x] test
+    # [ ] createImplementationDataTypeElement [x] impl  [ ] docstring  [x] test
+    # [ ] getSubElements               [x] impl  [ ] docstring  [x] test
+
     ARRAY_SIZE_SEMANTICS_FIXED_SIZE = "FIXED-SIZE"
     ARRAY_SIZE_SEMANTICS_VARIABLE_SIZE = "VARIABLE_SIZE"
 
@@ -101,6 +121,9 @@ class AbstractImplementationDataType(AutosarDataType, ABC):
     """
     Abstract base class for implementation data types.
     """
+    # AbstractImplementationDataType method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractImplementationDataType:
             raise TypeError("AbstractImplementationDataType is an abstract class.")
@@ -113,6 +136,23 @@ class ImplementationDataType(AbstractImplementationDataType):
     Represents an implementation data type in AUTOSAR models.
     This class defines how data types are implemented in code, including arrays, structures, and data references.
     """
+    # ImplementationDataType method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getDynamicArraySizeProfile   [x] impl  [x] docstring  [x] test
+    # [x] setDynamicArraySizeProfile   [x] impl  [x] docstring  [x] test
+    # [x] getIsStructWithOptionalElement [x] impl  [x] docstring  [x] test
+    # [x] setIsStructWithOptionalElement [x] impl  [x] docstring  [x] test
+    # [x] createImplementationDataTypeElement [x] impl  [x] docstring  [x] test
+    # [x] getSubElements               [x] impl  [x] docstring  [x] test
+    # [x] getArrayElementType          [x] impl  [x] docstring  [x] test
+    # [x] setArrayElementType          [x] impl  [x] docstring  [x] test
+    # [x] setTypeEmitter               [x] impl  [x] docstring  [x] test
+    # [x] getTypeEmitter               [x] impl  [x] docstring  [x] test
+    # [x] setStructElementType         [x] impl  [x] docstring  [x] test
+    # [x] getStructElementType         [x] impl  [x] docstring  [x] test
+    # [x] createSymbolProps            [x] impl  [x] docstring  [x] test
+    # [x] getSymbolProps               [x] impl  [x] docstring  [x] test
+
 
     # Category constant for type reference implementation data types
     CATEGORY_TYPE_REFERENCE = "TYPE_REFERENCE"
@@ -319,6 +359,9 @@ class ArrayImplPolicyEnum(AREnum):
     """
     Enumeration for array implementation policy.
     """
+    # ArrayImplPolicyEnum method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     DYNAMIC = "dynamic"
     STATIC = "static"
@@ -334,6 +377,9 @@ class ArraySizeSemanticsEnum(AREnum):
     """
     Enumeration for array size semantics.
     """
+    # ArraySizeSemanticsEnum method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     FIXED_SIZE = "fixed-size"
     VARIABLE_SIZE = "variable-size"

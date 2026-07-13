@@ -19,6 +19,11 @@ class OffsetTimingConstraint(TimingConstraint):
     This constraint defines a time offset relative to a reference event
     or time base.
     """
+    # OffsetTimingConstraint method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getOffset                    [x] impl  [x] docstring  [ ] test
+    # [ ] setOffset                    [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent, short_name: str):
         """

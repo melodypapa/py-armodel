@@ -14,6 +14,9 @@ class CryptoKeySlotContent(Identifiable):
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 57, Foundation R23-11)
     """
+    # CryptoKeySlotContent method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

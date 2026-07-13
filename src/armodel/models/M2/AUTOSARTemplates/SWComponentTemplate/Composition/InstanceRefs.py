@@ -13,6 +13,15 @@ class PortInCompositionTypeInstanceRef(AtpInstanceRef, ABC):
     Abstract base class for port instance references within a composition
     software component type.
     """
+    # PortInCompositionTypeInstanceRef method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getAbstractContextComponentRef [x] impl  [ ] docstring  [ ] test
+    # [ ] setAbstractContextComponentRef [x] impl  [ ] docstring  [ ] test
+    # [ ] getBaseRef                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setBaseRef                   [x] impl  [ ] docstring  [ ] test
+    # [ ] getTargetPortRef             [x] impl  [ ] docstring  [ ] test
+    # [ ] setTargetPortRef             [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         if type(self) is PortInCompositionTypeInstanceRef:
@@ -51,6 +60,13 @@ class PPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
     Instance reference to a PPortPrototype within a composition software
     component type.
     """
+    # PPortInCompositionInstanceRef method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getContextComponentRef       [x] impl  [ ] docstring  [ ] test
+    # [ ] setContextComponentRef       [x] impl  [ ] docstring  [ ] test
+    # [ ] getTargetPPortRef            [x] impl  [ ] docstring  [ ] test
+    # [ ] setTargetPPortRef            [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()
@@ -78,6 +94,13 @@ class RPortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
     Instance reference to an RPortPrototype within a composition software
     component type.
     """
+    # RPortInCompositionInstanceRef method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getContextComponentRef       [x] impl  [ ] docstring  [ ] test
+    # [ ] setContextComponentRef       [x] impl  [ ] docstring  [ ] test
+    # [ ] getTargetRPortRef            [x] impl  [ ] docstring  [ ] test
+    # [ ] setTargetRPortRef            [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()
@@ -104,6 +127,15 @@ class OperationInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
     Abstract base class for operation instance references within an atomic
     software component type.
     """
+    # OperationInAtomicSwcInstanceRef method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getBaseRef                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setBaseRef                   [x] impl  [ ] docstring  [ ] test
+    # [ ] getContextPortRef            [x] impl  [ ] docstring  [ ] test
+    # [ ] setContextPortRef            [x] impl  [ ] docstring  [ ] test
+    # [ ] getTargetOperationRef        [x] impl  [ ] docstring  [ ] test
+    # [ ] setTargetOperationRef        [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         if type(self) is OperationInAtomicSwcInstanceRef:
@@ -141,6 +173,13 @@ class POperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
     Instance reference to a provided operation in an atomic software
     component through a PPortPrototype.
     """
+    # POperationInAtomicSwcInstanceRef method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getContextPPortRef           [x] impl  [ ] docstring  [ ] test
+    # [ ] setContextPPortRef           [x] impl  [ ] docstring  [ ] test
+    # [ ] getTargetProvidedOperationRef [x] impl  [ ] docstring  [ ] test
+    # [ ] setTargetProvidedOperationRef [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()
@@ -168,6 +207,13 @@ class ROperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
     Instance reference to a required operation in an atomic software
     component through an RPortPrototype.
     """
+    # ROperationInAtomicSwcInstanceRef method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getContextRPortRef           [x] impl  [ ] docstring  [ ] test
+    # [ ] setContextRPortRef           [x] impl  [ ] docstring  [ ] test
+    # [ ] getTargetRequiredOperationRef [x] impl  [ ] docstring  [ ] test
+    # [ ] setTargetRequiredOperationRef [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()

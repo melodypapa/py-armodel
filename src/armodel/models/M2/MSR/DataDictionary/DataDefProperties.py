@@ -26,6 +26,9 @@ class SwImplPolicyEnum(AREnum):
         This is applicable for all kinds of data elements. For variable data prototypes the 'last is best'
         semantics applies. For parameter there is no specific implementation directive.
     """
+    # SwImplPolicyEnum method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     CONST = "const"
     FIXED = "fixed"
     MEASUREMENT_POINT = "measurementPoint"
@@ -46,6 +49,9 @@ class SwDataDefPropsConditional(ARObject):
     '''
     Patch for the time-stamp
     '''
+    # SwDataDefPropsConditional method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -56,6 +62,69 @@ class SwDataDefProps(ARObject):
     including type references, calibration parameters, memory addressing,
     and display properties.
     """
+    # SwDataDefProps method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getAdditionalNativeTypeQualifier [x] impl  [ ] docstring  [ ] test
+    # [ ] setAdditionalNativeTypeQualifier [x] impl  [ ] docstring  [ ] test
+    # [ ] getAnnotations               [x] impl  [ ] docstring  [ ] test
+    # [ ] addAnnotation                [x] impl  [ ] docstring  [ ] test
+    # [ ] getBaseTypeRef               [x] impl  [ ] docstring  [ ] test
+    # [ ] setBaseTypeRef               [x] impl  [ ] docstring  [ ] test
+    # [ ] getCompuMethodRef            [x] impl  [ ] docstring  [ ] test
+    # [ ] setCompuMethodRef            [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataConstrRef             [x] impl  [ ] docstring  [ ] test
+    # [ ] setDataConstrRef             [x] impl  [ ] docstring  [ ] test
+    # [ ] getDisplayFormat             [x] impl  [ ] docstring  [ ] test
+    # [ ] setDisplayFormat             [x] impl  [ ] docstring  [ ] test
+    # [ ] getDisplayPresentation       [x] impl  [ ] docstring  [ ] test
+    # [ ] setDisplayPresentation       [x] impl  [ ] docstring  [ ] test
+    # [ ] getImplementationDataTypeRef [x] impl  [ ] docstring  [ ] test
+    # [ ] setImplementationDataTypeRef [x] impl  [ ] docstring  [ ] test
+    # [ ] getInvalidValue              [x] impl  [ ] docstring  [ ] test
+    # [ ] setInvalidValue              [x] impl  [ ] docstring  [ ] test
+    # [ ] getStepSize                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setStepSize                  [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwAddrMethodRef           [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwAddrMethodRef           [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwAlignment               [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwAlignment               [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwBitRepresentation       [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwBitRepresentation       [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwCalibrationAccess       [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwCalibrationAccess       [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwCalprmAxisSet           [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwCalprmAxisSet           [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwComparisonVariables     [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwComparisonVariables     [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwDataDependency          [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwDataDependency          [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwHostVariable            [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwHostVariable            [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwImplPolicy              [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwImplPolicy              [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwIntendedResolution      [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwIntendedResolution      [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwInterpolationMethod     [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwInterpolationMethod     [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwIsVirtual               [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwIsVirtual               [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwPointerTargetProps      [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwPointerTargetProps      [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwRecordLayoutRef         [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwRecordLayoutRef         [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwRefreshTiming           [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwRefreshTiming           [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwTextProps               [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwTextProps               [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwValueBlockSize          [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwValueBlockSize          [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwValueBlockSizeMults     [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwValueBlockSizeMults     [x] impl  [ ] docstring  [ ] test
+    # [ ] getUnitRef                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setUnitRef                   [x] impl  [ ] docstring  [ ] test
+    # [ ] getValueAxisDataTypeRef      [x] impl  [ ] docstring  [ ] test
+    # [ ] setValueAxisDataTypeRef      [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -308,6 +377,15 @@ class SwPointerTargetProps(ARObject):
     Properties for pointer targets including function pointer signature and
     target category.
     """
+    # SwPointerTargetProps method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getFunctionPointerSignatureRef [x] impl  [ ] docstring  [ ] test
+    # [ ] setFunctionPointerSignatureRef [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwDataDefProps            [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwDataDefProps            [x] impl  [ ] docstring  [ ] test
+    # [ ] getTargetCategory            [x] impl  [ ] docstring  [ ] test
+    # [ ] setTargetCategory            [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -341,6 +419,13 @@ class ValueList(ARObject):
     """
     List of values with single value and multi-value support.
     """
+    # ValueList method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getV                         [x] impl  [ ] docstring  [ ] test
+    # [ ] setV                         [x] impl  [ ] docstring  [ ] test
+    # [ ] addVf                        [x] impl  [ ] docstring  [ ] test
+    # [ ] getVfs                       [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -372,6 +457,13 @@ class SwTextProps(ARObject):
         encoding (ARLiteral): The encoding of the text.
         format (ARLiteral): The format of the text.
     """
+    # SwTextProps method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getEncoding                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setEncoding                  [x] impl  [ ] docstring  [ ] test
+    # [ ] getFormat                    [x] impl  [ ] docstring  [ ] test
+    # [ ] setFormat                    [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 

@@ -8,6 +8,13 @@ class RptServicePoint(ARObject):
     Represents an RPT service point in AUTOSAR.
     Defines a service point that supports read-protect-transform functionality.
     """
+    # RptServicePoint method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getOperationRef              [x] impl  [x] docstring  [ ] test
+    # [ ] setOperationRef              [x] impl  [x] docstring  [ ] test
+    # [ ] getRptAccess                 [x] impl  [x] docstring  [ ] test
+    # [ ] setRptAccess                 [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

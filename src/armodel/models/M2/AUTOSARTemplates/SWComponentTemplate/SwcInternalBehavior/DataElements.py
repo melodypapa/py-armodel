@@ -16,6 +16,13 @@ class ParameterAccess(AbstractAccessPoint):
     A ParameterAccess represents the access to a parameter data prototype
     within the internal behavior of an atomic software component.
     """
+    # ParameterAccess method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getAccessedParameter         [x] impl  [x] docstring  [ ] test
+    # [ ] setAccessedParameter         [x] impl  [x] docstring  [ ] test
+    # [ ] getSwDataDefProps            [x] impl  [x] docstring  [ ] test
+    # [ ] setSwDataDefProps            [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -73,6 +80,13 @@ class VariableAccess(AbstractAccessPoint):
     A VariableAccess represents the access to a variable data prototype
     within the internal behavior of an atomic software component.
     """
+    # VariableAccess method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getAccessedVariableRef       [x] impl  [x] docstring  [ ] test
+    # [ ] setAccessedVariableRef       [x] impl  [x] docstring  [ ] test
+    # [ ] getScope                     [x] impl  [x] docstring  [ ] test
+    # [ ] setScope                     [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name):
         super().__init__(parent, short_name)

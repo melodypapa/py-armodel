@@ -6,6 +6,9 @@ class SignalServiceTranslationControlEnum(Enum):
     Enumeration for signal service translation control types in AUTOSAR.
     Defines different control modes for signal service translation.
     """
+    # SignalServiceTranslationControlEnum method parity checklist:
+    # (no methods)
+
 
     ENUM_AUTOMATIC = "automatic"
     ENUM_MANUAL = "manual"

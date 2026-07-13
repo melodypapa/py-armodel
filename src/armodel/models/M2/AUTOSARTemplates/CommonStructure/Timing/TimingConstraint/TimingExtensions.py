@@ -24,6 +24,11 @@ class TimingExtension(ARElement):
     This class cannot be instantiated directly and provides common functionality
     for timing extension implementations such as software component timing specifications.
     """
+    # TimingExtension method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [x] createExecutionOrderConstraint [x] impl  [x] docstring  [x] test
+    # [ ] getTimingRequirements        [x] impl  [x] docstring  [ ] test
+
     __metaclass__ = ABC
 
     def __init__(self, parent: ARObject, short_name: str):
@@ -66,5 +71,8 @@ class SwcTiming(TimingExtension):
     for AUTOSAR software components. This class extends TimingExtension to
     provide component-specific timing functionality.
     """
+    # SwcTiming method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

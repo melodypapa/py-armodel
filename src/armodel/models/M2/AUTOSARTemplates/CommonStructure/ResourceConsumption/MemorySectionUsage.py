@@ -13,6 +13,23 @@ class MemorySection(Identifiable):
     Represents a memory section in AUTOSAR models.
     This class defines memory section properties including alignment, size, and addressing methods.
     """
+    # MemorySection method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [ ] getAlignment                 [x] impl  [x] docstring  [ ] test
+    # [ ] setAlignment                 [x] impl  [x] docstring  [ ] test
+    # [ ] getMemClassSymbol            [x] impl  [x] docstring  [ ] test
+    # [ ] setMemClassSymbol            [x] impl  [x] docstring  [ ] test
+    # [ ] getSize                      [x] impl  [x] docstring  [ ] test
+    # [ ] setSize                      [x] impl  [x] docstring  [ ] test
+    # [ ] getSwAddrMethodRef           [x] impl  [x] docstring  [ ] test
+    # [ ] setSwAddrMethodRef           [x] impl  [x] docstring  [ ] test
+    # [ ] getSymbol                    [x] impl  [x] docstring  [ ] test
+    # [ ] setSymbol                    [x] impl  [x] docstring  [ ] test
+    # [ ] alignment                    [x] impl  [x] docstring  [ ] test
+    # [ ] alignment                    [x] impl  [x] docstring  [ ] test
+    # [x] addOption                    [x] impl  [x] docstring  [x] test
+    # [ ] getOptions                   [x] impl  [x] docstring  [ ] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -208,6 +225,11 @@ class SectionNamePrefix(ARObject):
     Represents a section name prefix in AUTOSAR memory section usage.
     Defines a prefix for memory section names.
     """
+    # SectionNamePrefix method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getPrefix                    [x] impl  [x] docstring  [ ] test
+    # [ ] setPrefix                    [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

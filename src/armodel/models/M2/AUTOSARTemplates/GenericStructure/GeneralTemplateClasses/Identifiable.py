@@ -22,6 +22,15 @@ class Referrable(ARObject, ABC):
     Abstract class for elements that can be referenced by other elements in AUTOSAR models.
     This class provides basic functionality for managing short names and parent-child relationships.
     """
+    # Referrable method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] shortName                    [x] impl  [x] docstring  [ ] test
+    # [ ] shortName                    [x] impl  [ ] docstring  [ ] test
+    # [x] getShortName                 [x] impl  [x] docstring  [x] test
+    # [x] getParent                    [x] impl  [x] docstring  [x] test
+    # [ ] full_name                    [x] impl  [x] docstring  [ ] test
+    # [ ] getFullName                  [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is Referrable:
@@ -81,6 +90,11 @@ class MultilanguageReferrable(Referrable, ABC):
     Abstract class for referrable elements that support multilingual text.
     This class extends Referrable with multilingual support functionality.
     """
+    # MultilanguageReferrable method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getLongName                  [x] impl  [x] docstring  [ ] test
+    # [ ] setLongName                  [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is MultilanguageReferrable:
@@ -119,6 +133,15 @@ class CollectableElement(ARObject, ABC):
     Abstract class for elements that can collect other referrable elements.
     This class provides functionality for managing collections of elements with lookup capabilities.
     """
+    # CollectableElement method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [x] getTotalElement              [x] impl  [x] docstring  [x] test
+    # [x] removeElement                [x] impl  [x] docstring  [x] test
+    # [ ] getElements                  [x] impl  [x] docstring  [ ] test
+    # [ ] addElement                   [x] impl  [x] docstring  [ ] test
+    # [ ] getElement                   [x] impl  [x] docstring  [ ] test
+    # [x] IsElementExists              [x] impl  [x] docstring  [x] test
+
 
     def __init__(self):
         if type(self) is CollectableElement:
@@ -229,6 +252,26 @@ class Identifiable(MultilanguageReferrable, ABC):
     Abstract class for identifiable elements in AUTOSAR models.
     This class combines multilingual referrable functionality with element collection capabilities.
     """
+    # Identifiable method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getTotalElement              [x] impl  [x] docstring  [ ] test
+    # [ ] removeElement                [x] impl  [x] docstring  [ ] test
+    # [ ] getElements                  [x] impl  [x] docstring  [ ] test
+    # [ ] addElement                   [x] impl  [x] docstring  [ ] test
+    # [ ] getElement                   [x] impl  [x] docstring  [ ] test
+    # [ ] IsElementExists              [x] impl  [x] docstring  [ ] test
+    # [ ] getAdminData                 [x] impl  [x] docstring  [ ] test
+    # [ ] setAdminData                 [x] impl  [x] docstring  [ ] test
+    # [x] removeAdminData              [x] impl  [x] docstring  [x] test
+    # [ ] getDesc                      [x] impl  [x] docstring  [ ] test
+    # [ ] setDesc                      [x] impl  [x] docstring  [ ] test
+    # [ ] getCategory                  [x] impl  [x] docstring  [ ] test
+    # [ ] setCategory                  [x] impl  [x] docstring  [ ] test
+    # [ ] getIntroduction              [x] impl  [x] docstring  [ ] test
+    # [ ] setIntroduction              [x] impl  [x] docstring  [ ] test
+    # [ ] addAnnotation                [x] impl  [x] docstring  [ ] test
+    # [ ] getAnnotations               [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is Identifiable:
@@ -466,6 +509,11 @@ class PackageableElement(Identifiable, ABC):
     Abstract class for elements that can be packaged in AUTOSAR models.
     This class extends Identifiable with packaging functionality.
     """
+    # PackageableElement method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] addVariationPoint            [x] impl  [x] docstring  [ ] test
+    # [ ] getVariationPoints           [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is PackageableElement:
@@ -502,6 +550,9 @@ class ARElement(PackageableElement, ABC):
     Abstract class for AUTOSAR elements.
     This class represents the basic structure for all AUTOSAR model elements.
     """
+    # ARElement method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is ARElement:
@@ -514,6 +565,18 @@ class Describable(ARObject, ABC):
     Abstract class for elements that can be described in AUTOSAR models.
     This class provides basic description functionality for AUTOSAR elements.
     """
+    # Describable method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDesc                      [x] impl  [x] docstring  [ ] test
+    # [ ] setDesc                      [x] impl  [x] docstring  [ ] test
+    # [ ] getCategory                  [x] impl  [x] docstring  [ ] test
+    # [ ] setCategory                  [x] impl  [x] docstring  [ ] test
+    # [ ] getAdminData                 [x] impl  [x] docstring  [ ] test
+    # [ ] setAdminData                 [x] impl  [x] docstring  [ ] test
+    # [ ] removeAdminData              [x] impl  [x] docstring  [ ] test
+    # [ ] getIntroduction              [x] impl  [x] docstring  [ ] test
+    # [ ] setIntroduction              [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         if type(self) is Describable:

@@ -15,6 +15,21 @@ class BswImplementation(Implementation):
     This class defines the implementation details of a BSW module, including version information,
     behavior references, configuration options, and vendor-specific definitions.
     """
+    # BswImplementation method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [ ] getArReleaseVersion          [x] impl  [x] docstring  [ ] test
+    # [ ] setArReleaseVersion          [x] impl  [x] docstring  [ ] test
+    # [ ] getBehaviorRef               [x] impl  [x] docstring  [ ] test
+    # [ ] setBehaviorRef               [x] impl  [x] docstring  [ ] test
+    # [x] getPreconfiguredConfigurationRefs [x] impl  [x] docstring  [x] test
+    # [x] addPreconfiguredConfigurationRef [x] impl  [x] docstring  [x] test
+    # [x] getRecommendedConfigurationRefs [x] impl  [x] docstring  [x] test
+    # [x] addRecommendedConfigurationRef [x] impl  [x] docstring  [x] test
+    # [ ] getVendorApiInfix            [x] impl  [x] docstring  [ ] test
+    # [ ] setVendorApiInfix            [x] impl  [x] docstring  [ ] test
+    # [x] getVendorSpecificModuleDefRefs [x] impl  [x] docstring  [x] test
+    # [x] addVendorSpecificModuleDefRef [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent: ARObject, short_name: str) -> None:
         """

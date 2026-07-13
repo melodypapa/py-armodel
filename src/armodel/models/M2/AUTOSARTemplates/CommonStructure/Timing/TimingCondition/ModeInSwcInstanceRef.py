@@ -6,6 +6,9 @@ class ModeInSwcInstanceRef(RefType):
     Represents a reference to a mode in a SWC instance.
     Used for referencing modes within software component instances.
     """
+    # ModeInSwcInstanceRef method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

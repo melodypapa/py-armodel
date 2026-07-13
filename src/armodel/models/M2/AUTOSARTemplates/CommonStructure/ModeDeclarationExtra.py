@@ -11,6 +11,13 @@ class ModeTransition(ARObject):
     Represents a mode transition in AUTOSAR.
     This class defines transitions between different mode declarations.
     """
+    # ModeTransition method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getSourceModeRef             [x] impl  [ ] docstring  [ ] test
+    # [ ] setSourceModeRef             [x] impl  [ ] docstring  [ ] test
+    # [ ] getTargetModeRef             [x] impl  [ ] docstring  [ ] test
+    # [ ] setTargetModeRef             [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         """
@@ -40,6 +47,11 @@ class ModeErrorBehavior(ARObject):
     Represents mode error behavior in AUTOSAR.
     This class defines the behavior when a mode error occurs.
     """
+    # ModeErrorBehavior method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getErrorPolicy               [x] impl  [ ] docstring  [ ] test
+    # [ ] setErrorPolicy               [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         """
@@ -60,6 +72,9 @@ class ModeErrorReactionPolicyEnum(AREnum):
     """
     Enumeration for mode error reaction policy.
     """
+    # ModeErrorReactionPolicyEnum method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     KEEP_MODE = "keep-mode"
     TRANSITION_TO_DEFAULT_MODE = "transition-to-default-mode"

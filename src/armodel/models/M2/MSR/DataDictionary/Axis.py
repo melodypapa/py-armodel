@@ -5,6 +5,13 @@ class SwGenericAxisParam(ARObject):
     """
     Parameters for a generic axis including type reference and value list.
     """
+    # SwGenericAxisParam method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwGenericAxisParamTypeRef [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwGenericAxisParamTypeRef [x] impl  [ ] docstring  [ ] test
+    # [ ] getVfs                       [x] impl  [ ] docstring  [ ] test
+    # [ ] addVf                        [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -29,6 +36,13 @@ class SwAxisGeneric(ARObject):
     """
     Generic axis definition with axis type reference and parameters.
     """
+    # SwAxisGeneric method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwAxisTypeRef             [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwAxisTypeRef             [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwGenericAxisParams       [x] impl  [ ] docstring  [ ] test
+    # [ ] addSwGenericAxisParam        [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -54,6 +68,25 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
     Individual axis properties extending calibration axis type with compu
     method, data constraint, and variable references.
     """
+    # SwAxisIndividual method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCompuMethodRef            [x] impl  [ ] docstring  [ ] test
+    # [ ] setCompuMethodRef            [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataConstrRef             [x] impl  [ ] docstring  [ ] test
+    # [ ] setDataConstrRef             [x] impl  [ ] docstring  [ ] test
+    # [ ] getInputVariableTypeRef      [x] impl  [ ] docstring  [ ] test
+    # [ ] setInputVariableTypeRef      [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwAxisGeneric             [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwAxisGeneric             [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwMaxAxisPoints           [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwMaxAxisPoints           [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwMinAxisPoints           [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwMinAxisPoints           [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwVariableRefs            [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwVariableRefs            [x] impl  [ ] docstring  [ ] test
+    # [ ] getUnitRef                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setUnitRef                   [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -128,6 +161,15 @@ class SwAxisGrouped(SwCalprmAxisTypeProps):
     Grouped axis properties referencing a shared axis type with index and
     calibration reference.
     """
+    # SwAxisGrouped method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getSharedAxisTypeRef         [x] impl  [ ] docstring  [ ] test
+    # [ ] setSharedAxisTypeRef         [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwAxisIndex               [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwAxisIndex               [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwCalprmRef               [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwCalprmRef               [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 

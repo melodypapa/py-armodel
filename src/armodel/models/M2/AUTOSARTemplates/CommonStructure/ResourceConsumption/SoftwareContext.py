@@ -11,6 +11,13 @@ class SoftwareContext(ARObject):
     Represents software execution context information in AUTOSAR models.
     This class defines the input conditions and execution state for resource consumption analysis.
     """
+    # SoftwareContext method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [ ] getInput                     [x] impl  [x] docstring  [ ] test
+    # [ ] setInput                     [x] impl  [x] docstring  [ ] test
+    # [ ] getState                     [x] impl  [x] docstring  [ ] test
+    # [ ] setState                     [x] impl  [x] docstring  [ ] test
+
     
     def __init__(self):
         """

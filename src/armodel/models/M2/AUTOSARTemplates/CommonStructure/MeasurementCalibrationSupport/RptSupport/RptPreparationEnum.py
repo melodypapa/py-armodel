@@ -6,6 +6,9 @@ class RptPreparationEnum(Enum):
     Enumeration for RPT preparation types in AUTOSAR.
     Defines different preparation modes for RPT functionality.
     """
+    # RptPreparationEnum method parity checklist:
+    # (no methods)
+
 
     ENUM_PREPARED = "prepared"
     ENUM_UNPREPARED = "unprepared"

@@ -7,6 +7,17 @@ class SwAddrMethod(AtpBlueprintable):
     elements, including initialization policy, section type, and memory
     allocation keyword policy.
     """
+    # SwAddrMethod method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getMemoryAllocationKeywordPolicy [x] impl  [ ] docstring  [ ] test
+    # [ ] setMemoryAllocationKeywordPolicy [x] impl  [ ] docstring  [ ] test
+    # [ ] getOptions                   [x] impl  [ ] docstring  [ ] test
+    # [ ] addOption                    [x] impl  [ ] docstring  [ ] test
+    # [ ] getSectionInitializationPolicy [x] impl  [ ] docstring  [ ] test
+    # [ ] setSectionInitializationPolicy [x] impl  [ ] docstring  [ ] test
+    # [ ] getSectionType               [x] impl  [ ] docstring  [ ] test
+    # [ ] setSectionType               [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

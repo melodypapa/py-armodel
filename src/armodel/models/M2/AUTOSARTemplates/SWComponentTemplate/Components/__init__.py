@@ -28,11 +28,33 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import
 
 
 class SymbolProps(ImplementationProps):
+    # SymbolProps method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
 
 class PortPrototype(AtpPrototype, ABC):
+    # PortPrototype method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getClientServerAnnotations   [x] impl  [ ] docstring  [ ] test
+    # [ ] addClientServerAnnotation    [x] impl  [ ] docstring  [ ] test
+    # [ ] getDelegatedPortAnnotation   [x] impl  [ ] docstring  [ ] test
+    # [ ] setDelegatedPortAnnotation   [x] impl  [ ] docstring  [ ] test
+    # [ ] getIoHwAbstractionServerAnnotations [x] impl  [ ] docstring  [ ] test
+    # [ ] addIoHwAbstractionServerAnnotation [x] impl  [ ] docstring  [ ] test
+    # [ ] getModePortAnnotations       [x] impl  [ ] docstring  [ ] test
+    # [ ] addModePortAnnotation        [x] impl  [ ] docstring  [ ] test
+    # [ ] getNvDataPortAnnotations     [x] impl  [ ] docstring  [ ] test
+    # [ ] addNvDataPortAnnotation      [x] impl  [ ] docstring  [ ] test
+    # [ ] getParameterPortAnnotations  [x] impl  [ ] docstring  [ ] test
+    # [ ] addParameterPortAnnotation   [x] impl  [ ] docstring  [ ] test
+    # [ ] getSenderReceiverAnnotations [x] impl  [ ] docstring  [ ] test
+    # [ ] addSenderReceiverAnnotation  [x] impl  [ ] docstring  [ ] test
+    # [ ] getTriggerPortAnnotations    [x] impl  [ ] docstring  [ ] test
+    # [ ] addTriggerPortAnnotation     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is PortPrototype:
             raise TypeError("PortPrototype is an abstract class.")
@@ -105,6 +127,13 @@ class PortPrototype(AtpPrototype, ABC):
 
 
 class AbstractProvidedPortPrototype(PortPrototype):
+    # AbstractProvidedPortPrototype method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] _validateRPortComSpec        [x] impl  [ ] docstring  [ ] test
+    # [ ] addProvidedComSpec           [x] impl  [ ] docstring  [ ] test
+    # [ ] getProvidedComSpecs          [x] impl  [ ] docstring  [ ] test
+    # [ ] getNonqueuedSenderComSpecs   [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractProvidedPortPrototype:
             raise TypeError("AbstractProvidedPortPrototype is an abstract class.")
@@ -141,6 +170,14 @@ class AbstractProvidedPortPrototype(PortPrototype):
 
 
 class AbstractRequiredPortPrototype(PortPrototype):
+    # AbstractRequiredPortPrototype method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] _validateRPortComSpec        [x] impl  [ ] docstring  [ ] test
+    # [ ] addRequiredComSpec           [x] impl  [ ] docstring  [ ] test
+    # [ ] getRequiredComSpecs          [x] impl  [ ] docstring  [ ] test
+    # [ ] getClientComSpecs            [x] impl  [ ] docstring  [ ] test
+    # [ ] getNonqueuedReceiverComSpecs [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractRequiredPortPrototype:
             raise TypeError("AbstractRequiredPortPrototype is an abstract class.")
@@ -183,6 +220,11 @@ class AbstractRequiredPortPrototype(PortPrototype):
 
 
 class PPortPrototype(AbstractProvidedPortPrototype):
+    # PPortPrototype method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getProvidedInterfaceTRef     [x] impl  [ ] docstring  [ ] test
+    # [ ] setProvidedInterfaceTRef     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -197,6 +239,13 @@ class PPortPrototype(AbstractProvidedPortPrototype):
 
 
 class RPortPrototype(AbstractRequiredPortPrototype):
+    # RPortPrototype method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getMayBeUnconnected          [x] impl  [ ] docstring  [ ] test
+    # [ ] setMayBeUnconnected          [x] impl  [ ] docstring  [ ] test
+    # [ ] getRequiredInterfaceTRef     [x] impl  [ ] docstring  [ ] test
+    # [ ] setRequiredInterfaceTRef     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -219,6 +268,15 @@ class RPortPrototype(AbstractRequiredPortPrototype):
     
 
 class PRPortPrototype(PortPrototype):
+    # PRPortPrototype method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getProvidedComSpecs          [x] impl  [ ] docstring  [ ] test
+    # [ ] addProvidedComSpec           [x] impl  [ ] docstring  [ ] test
+    # [ ] getRequiredComSpecs          [x] impl  [ ] docstring  [ ] test
+    # [ ] addRequiredComSpec           [x] impl  [ ] docstring  [ ] test
+    # [ ] getProvidedRequiredInterface [x] impl  [ ] docstring  [ ] test
+    # [ ] setProvidedRequiredInterface [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -249,6 +307,13 @@ class PRPortPrototype(PortPrototype):
 
 
 class PortGroup(AtpStructureElement):
+    # PortGroup method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] addInnerGroupIRef            [x] impl  [ ] docstring  [ ] test
+    # [ ] getInnerGroupIRefs           [x] impl  [ ] docstring  [ ] test
+    # [ ] addOuterPortRef              [x] impl  [ ] docstring  [ ] test
+    # [ ] getOuterPortRefs             [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -269,6 +334,13 @@ class PortGroup(AtpStructureElement):
 
 
 class AtomicSwComponentType(SwComponentType, ABC):
+    # AtomicSwComponentType method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # [ ] getInternalBehavior          [x] impl  [ ] docstring  [ ] test
+    # [ ] createSwcInternalBehavior    [x] impl  [ ] docstring  [ ] test
+    # [ ] getSymbolProps               [x] impl  [ ] docstring  [ ] test
+    # [ ] setSymbolProps               [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -301,6 +373,11 @@ class AtomicSwComponentType(SwComponentType, ABC):
 
 
 class EcuAbstractionSwComponentType(AtomicSwComponentType):
+    # EcuAbstractionSwComponentType method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getHardwareElementRefs       [x] impl  [ ] docstring  [ ] test
+    # [ ] addHardwareElementRefs       [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -316,11 +393,19 @@ class EcuAbstractionSwComponentType(AtomicSwComponentType):
 
 
 class ApplicationSwComponentType(AtomicSwComponentType):
+    # ApplicationSwComponentType method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
 
 class ComplexDeviceDriverSwComponentType(AtomicSwComponentType):
+    # ComplexDeviceDriverSwComponentType method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getHardwareElementRefs       [x] impl  [ ] docstring  [ ] test
+    # [ ] addHardwareElementRefs       [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -336,6 +421,13 @@ class ComplexDeviceDriverSwComponentType(AtomicSwComponentType):
 
 
 class NvBlockSwComponentType(AtomicSwComponentType):
+    # NvBlockSwComponentType method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getBulkNvDataDescriptors     [x] impl  [ ] docstring  [ ] test
+    # [ ] addBulkNvDataDescriptor      [x] impl  [ ] docstring  [ ] test
+    # [ ] getNvBlockDescriptors        [x] impl  [ ] docstring  [ ] test
+    # [ ] setNvBlockDescriptor         [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -360,15 +452,24 @@ class NvBlockSwComponentType(AtomicSwComponentType):
 
 
 class SensorActuatorSwComponentType(AtomicSwComponentType):
+    # SensorActuatorSwComponentType method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
 
 class ServiceProxySwComponentType(AtomicSwComponentType):
+    # ServiceProxySwComponentType method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
 
 class ServiceSwComponentType(AtomicSwComponentType):
+    # ServiceSwComponentType method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

@@ -20,6 +20,15 @@ class HwDescriptionEntity(ARElement):
     Abstract base class for hardware description entities in AUTOSAR.
     This class defines common properties for hardware elements including attribute values and type references.
     """
+    # HwDescriptionEntity method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getHwAttributeValues         [x] impl  [x] docstring  [ ] test
+    # [ ] setHwAttributeValues         [x] impl  [x] docstring  [ ] test
+    # [ ] getHwCategoryRefs            [x] impl  [x] docstring  [ ] test
+    # [ ] addHwCategoryRef             [x] impl  [x] docstring  [ ] test
+    # [ ] getHwTypeRef                 [x] impl  [x] docstring  [ ] test
+    # [ ] setHwTypeRef                 [x] impl  [x] docstring  [ ] test
+
     
     def __init__(self, parent, short_name: str):
         """
@@ -113,6 +122,15 @@ class HwPin(HwDescriptionEntity):
     Represents a hardware pin in AUTOSAR hardware descriptions.
     This class defines the properties of individual hardware pins including function names and pin numbers.
     """
+    # HwPin method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getFunctionName              [x] impl  [x] docstring  [ ] test
+    # [ ] setFunctionName              [x] impl  [x] docstring  [ ] test
+    # [ ] getPackagingPinName          [x] impl  [x] docstring  [ ] test
+    # [ ] setPackagingPinName          [x] impl  [x] docstring  [ ] test
+    # [ ] getPinNumber                 [x] impl  [x] docstring  [ ] test
+    # [ ] setPinNumber                 [x] impl  [x] docstring  [ ] test
+
     
     def __init__(self, parent, short_name: str):
         """
@@ -206,6 +224,13 @@ class HwPinGroupContent(ARObject):
     Represents the content of a hardware pin group in AUTOSAR.
     This class links individual pins and pin groups together to form complex pin structures.
     """
+    # HwPinGroupContent method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getHwPin                     [x] impl  [x] docstring  [ ] test
+    # [ ] createHwPin                  [x] impl  [x] docstring  [ ] test
+    # [ ] getHwPinGroup                [x] impl  [x] docstring  [ ] test
+    # [ ] setHwPinGroup                [x] impl  [x] docstring  [ ] test
+
     
     def __init__(self):
         """
@@ -269,6 +294,11 @@ class HwPinGroup(HwDescriptionEntity):
     Represents a group of hardware pins in AUTOSAR hardware descriptions.
     This class defines collections of related hardware pins with associated content.
     """
+    # HwPinGroup method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getHwPinGroupContent         [x] impl  [x] docstring  [ ] test
+    # [ ] setHwPinGroupContent         [x] impl  [x] docstring  [ ] test
+
     
     def __init__(self, parent, short_name: str):
         """
@@ -312,6 +342,15 @@ class HwElement(HwDescriptionEntity):
     Represents a hardware element in AUTOSAR hardware descriptions.
     This class defines complete hardware components with connections, pin groups, and nested elements.
     """
+    # HwElement method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getHwElementConnections      [x] impl  [x] docstring  [ ] test
+    # [ ] setHwElementConnections      [x] impl  [x] docstring  [ ] test
+    # [ ] getHwPinGroups               [x] impl  [x] docstring  [ ] test
+    # [ ] createHwPinGroup             [x] impl  [x] docstring  [ ] test
+    # [ ] getNestedElementRefs         [x] impl  [x] docstring  [ ] test
+    # [ ] setNestedElementRefs         [x] impl  [x] docstring  [ ] test
+
     
     def __init__(self, parent, short_name: str):
         """

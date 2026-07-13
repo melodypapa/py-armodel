@@ -16,6 +16,13 @@ class RTEEvent(AtpStructureElement, ABC):
     """
     Abstract base class for all RTE-related events.
     """
+    # RTEEvent method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDisabledModeIRefs         [x] impl  [x] docstring  [ ] test
+    # [ ] addDisabledModeIRef          [x] impl  [x] docstring  [ ] test
+    # [ ] getStartOnEventRef           [x] impl  [x] docstring  [ ] test
+    # [ ] setStartOnEventRef           [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is RTEEvent:
@@ -74,6 +81,11 @@ class AsynchronousServerCallReturnsEvent(RTEEvent):
     """
     This event is raised when an asynchronous server call is finished.
     """
+    # AsynchronousServerCallReturnsEvent method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getEventSourceRef            [x] impl  [x] docstring  [ ] test
+    # [ ] setEventSourceRef            [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -108,6 +120,11 @@ class DataSendCompletedEvent(RTEEvent):
     This event is raised when the referenced explicit data element has been
     sent or an error occurred.
     """
+    # DataSendCompletedEvent method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getEventSourceRef            [x] impl  [x] docstring  [ ] test
+    # [ ] setEventSourceRef            [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -142,6 +159,11 @@ class DataWriteCompletedEvent(RTEEvent):
     This event is raised when an implicit write access was successful or
     an error occurred.
     """
+    # DataWriteCompletedEvent method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getEventSourceRef            [x] impl  [x] docstring  [ ] test
+    # [ ] setEventSourceRef            [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -175,6 +197,11 @@ class DataReceivedEvent(RTEEvent):
     """
     This event is raised when the referenced data element is received.
     """
+    # DataReceivedEvent method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataIRef                  [x] impl  [x] docstring  [ ] test
+    # [ ] setDataIRef                  [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -208,6 +235,13 @@ class SwcModeSwitchEvent(RTEEvent):
     """
     This event is raised when the specified mode change occurs.
     """
+    # SwcModeSwitchEvent method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getActivation                [x] impl  [x] docstring  [ ] test
+    # [ ] setActivation                [x] impl  [x] docstring  [ ] test
+    # [ ] getModeIRefs                 [x] impl  [x] docstring  [ ] test
+    # [ ] addModeIRef                  [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -265,6 +299,11 @@ class DataReceiveErrorEvent(RTEEvent):
     This event is raised when the Com layer detects and notifies an error
     concerning the reception of the referenced VariableDataPrototype.
     """
+    # DataReceiveErrorEvent method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataIRef                  [x] impl  [x] docstring  [ ] test
+    # [ ] setDataIRef                  [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -299,6 +338,11 @@ class OperationInvokedEvent(RTEEvent):
     This event is raised when the ClientServerOperation referenced in
     OperationInvokedEvent.operation shall be invoked.
     """
+    # OperationInvokedEvent method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getOperationIRef             [x] impl  [x] docstring  [ ] test
+    # [ ] setOperationIRef             [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -336,6 +380,9 @@ class InitEvent(RTEEvent):
     referenced by this InitEvent are executed before the 'regular'
     RunnableEntities are executed for the first time.
     """
+    # InitEvent method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -346,6 +393,14 @@ class TimingEvent(RTEEvent):
     This event is used to start RunnableEntities that shall be executed
     periodically.
     """
+    # TimingEvent method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] periodMs                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getOffset                    [x] impl  [x] docstring  [ ] test
+    # [ ] setOffset                    [x] impl  [x] docstring  [ ] test
+    # [ ] getPeriod                    [x] impl  [x] docstring  [ ] test
+    # [ ] setPeriod                    [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -416,6 +471,11 @@ class InternalTriggerOccurredEvent(RTEEvent):
     This event is raised when the referenced InternalTriggeringPoint has
     occurred.
     """
+    # InternalTriggerOccurredEvent method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getEventSourceRef            [x] impl  [x] docstring  [ ] test
+    # [ ] setEventSourceRef            [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -451,6 +511,9 @@ class BackgroundEvent(RTEEvent):
     This event is used to start RunnableEntities that are supposed to be
     executed in the background.
     """
+    # BackgroundEvent method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -461,6 +524,11 @@ class ModeSwitchedAckEvent(RTEEvent):
     This event is raised when the referenced ModeSwitchPoint has been
     processed or an error occurred.
     """
+    # ModeSwitchedAckEvent method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getEventSourceRef            [x] impl  [x] docstring  [ ] test
+    # [ ] setEventSourceRef            [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

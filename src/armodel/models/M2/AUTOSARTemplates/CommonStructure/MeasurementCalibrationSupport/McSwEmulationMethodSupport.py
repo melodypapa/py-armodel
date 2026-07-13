@@ -6,6 +6,11 @@ class McSwEmulationMethodSupport(ARObject):
     Represents MC (Measurement and Calibration) software emulation method support in AUTOSAR.
     Defines support for software emulation methods in measurement and calibration.
     """
+    # McSwEmulationMethodSupport method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getEmulationMethodName       [x] impl  [x] docstring  [ ] test
+    # [ ] setEmulationMethodName       [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

@@ -13,6 +13,9 @@ class CompuContent(ARObject, ABC):
     Abstract base class for computation content.
     Base: ARObject
     """
+    # CompuContent method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         if type(self) is CompuContent:
             raise TypeError("CompuContent is an abstract class.")
@@ -26,6 +29,11 @@ class CompuConst(ARObject):
     Base            : ARObject
     Aggregated by   : Compu.compuDefaultValue, CompuScale.compuInverseValue, CompuScaleConstantContents.compuCons
     """
+    # CompuConst method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCompuConstContentType     [x] impl  [ ] docstring  [ ] test
+    # [ ] setCompuConstContentType     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -43,6 +51,13 @@ class Compu(ARObject):
     Base class for computation methods.
     Base: ARObject
     """
+    # Compu method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCompuContent              [x] impl  [ ] docstring  [ ] test
+    # [ ] setCompuContent              [x] impl  [ ] docstring  [ ] test
+    # [ ] getCompuDefaultValue         [x] impl  [ ] docstring  [ ] test
+    # [ ] setCompuDefaultValue         [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -71,6 +86,9 @@ class CompuConstContent(ARObject, ABC):
     Subclasses      : CompuConstFormulaContent, CompuConstNumericContent, CompuConstTextContent
     Aggregated by   : CompuConst.compuConstContentType
     """
+    # CompuConstContent method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         if type(self) is CompuConstContent:
             raise TypeError("CompuConstContent is an abstract class.")
@@ -84,6 +102,11 @@ class CompuConstTextContent(CompuConstContent):
     Base:           ARObject, CompuConstContent
     Aggregated by:  CompuConst.compuConstContentType
     """
+    # CompuConstTextContent method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getVt                        [x] impl  [ ] docstring  [ ] test
+    # [ ] setVt                        [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -101,6 +124,11 @@ class CompuConstNumericContent(CompuConstContent):
     This meta-class represents the numeric content of a scale.
     Base: ARObject, CompuConstContent
     """
+    # CompuConstNumericContent method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getV                         [x] impl  [ ] docstring  [ ] test
+    # [ ] setV                         [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -118,6 +146,11 @@ class CompuConstFormulaContent(CompuConstContent):
     This meta-class represents the formula content of a scale.
     Base: ARObject, CompuConstContent
     """
+    # CompuConstFormulaContent method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getVf                        [x] impl  [ ] docstring  [ ] test
+    # [ ] setVf                        [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -138,6 +171,9 @@ class CompuScaleContents(ARObject, ABC):
     Abstract base class for computation scale contents.
     Base: ARObject
     """
+    # CompuScaleContents method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         if type(self) is CompuScaleContents:
             raise TypeError("CompuScaleContents is an abstract class.")
@@ -150,6 +186,11 @@ class CompuScaleConstantContents(CompuScaleContents):
     Represents constant contents of a computation scale.
     Base: CompuScaleContents
     """
+    # CompuScaleConstantContents method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCompuConst                [x] impl  [ ] docstring  [ ] test
+    # [ ] setCompuConst                [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -168,6 +209,13 @@ class CompuRationalCoeffs(ARObject):
     Base            : ARObject
     Aggregated by   : CompuScaleRationalFormula.compuRationalCoeffs
     """
+    # CompuRationalCoeffs method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCompuDenominator          [x] impl  [ ] docstring  [ ] test
+    # [ ] setCompuDenominator          [x] impl  [ ] docstring  [ ] test
+    # [ ] getCompuNumerator            [x] impl  [ ] docstring  [ ] test
+    # [ ] setCompuNumerator            [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -193,6 +241,11 @@ class CompuScaleRationalFormula(CompuScaleContents):
     This meta-class represents the fact that the computation in this scale is represented as rational term.
     Base: CompuScaleContents
     """
+    # CompuScaleRationalFormula method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCompuRationalCoeffs       [x] impl  [ ] docstring  [ ] test
+    # [ ] setCompuRationalCoeffs       [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -211,6 +264,11 @@ class CompuNominatorDenominator(ARObject):
     Base          : ARObject
     Aggregated by : CompuRationalCoeffs.compuDenominator, CompuRationalCoeffs.compuNumerator
     """
+    # CompuNominatorDenominator method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] add_v                        [x] impl  [ ] docstring  [ ] test
+    # [ ] get_vs                       [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -228,6 +286,27 @@ class CompuScale(ARObject):
     Represents a single scale in a computation method with limits and content.
     Base: ARObject
     """
+    # CompuScale method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getA2lDisplayText            [x] impl  [ ] docstring  [ ] test
+    # [ ] setA2lDisplayText            [x] impl  [ ] docstring  [ ] test
+    # [ ] getCompuInverseValue         [x] impl  [ ] docstring  [ ] test
+    # [ ] setCompuInverseValue         [x] impl  [ ] docstring  [ ] test
+    # [ ] getCompuScaleContents        [x] impl  [ ] docstring  [ ] test
+    # [ ] setCompuScaleContents        [x] impl  [ ] docstring  [ ] test
+    # [ ] getDesc                      [x] impl  [ ] docstring  [ ] test
+    # [ ] setDesc                      [x] impl  [ ] docstring  [ ] test
+    # [ ] getLowerLimit                [x] impl  [ ] docstring  [ ] test
+    # [ ] setLowerLimit                [x] impl  [ ] docstring  [ ] test
+    # [ ] getMask                      [x] impl  [ ] docstring  [ ] test
+    # [ ] setMask                      [x] impl  [ ] docstring  [ ] test
+    # [ ] getShortLabel                [x] impl  [ ] docstring  [ ] test
+    # [ ] setShortLabel                [x] impl  [ ] docstring  [ ] test
+    # [ ] getSymbol                    [x] impl  [ ] docstring  [ ] test
+    # [ ] setSymbol                    [x] impl  [ ] docstring  [ ] test
+    # [ ] getUpperLimit                [x] impl  [ ] docstring  [ ] test
+    # [ ] setUpperLimit                [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -310,6 +389,11 @@ class CompuScales(CompuContent):
     Container for multiple computation scales.
     Base: CompuContent
     """
+    # CompuScales method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] addCompuScale                [x] impl  [ ] docstring  [ ] test
+    # [ ] getCompuScales               [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -327,6 +411,17 @@ class CompuMethod(AtpBlueprintable):
     Represents a computation method for converting between internal and physical values.
     Base: AtpBlueprintable
     """
+    # CompuMethod method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCompuInternalToPhys       [x] impl  [ ] docstring  [ ] test
+    # [ ] setCompuInternalToPhys       [x] impl  [ ] docstring  [ ] test
+    # [ ] getCompuPhysToInternal       [x] impl  [ ] docstring  [ ] test
+    # [ ] setCompuPhysToInternal       [x] impl  [ ] docstring  [ ] test
+    # [ ] getDisplayFormat             [x] impl  [ ] docstring  [ ] test
+    # [ ] setDisplayFormat             [x] impl  [ ] docstring  [ ] test
+    # [ ] getUnitRef                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setUnitRef                   [x] impl  [ ] docstring  [ ] test
+
     CATEGORY_TEXTTABLE = "TEXTTABLE"
 
     def __init__(self, parent: ARObject, short_name: str):

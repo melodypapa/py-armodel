@@ -28,6 +28,11 @@ class FileInfoComment(ARObject):
     File information comment with special data groups for ARXML file
     metadata.
     """
+    # FileInfoComment method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getSdgs                      [x] impl  [ ] docstring  [x] test
+    # [ ] setSdgs                      [x] impl  [ ] docstring  [x] test
+
     def __init__(self):
         super().__init__()
 
@@ -47,6 +52,48 @@ class AbstractAUTOSAR(CollectableElement):
     management, element lookup, data type conversion, and AR release
     versioning.
     """
+    # AbstractAUTOSAR method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getAdminData                 [x] impl  [ ] docstring  [x] test
+    # [ ] setAdminData                 [x] impl  [ ] docstring  [x] test
+    # [ ] removeAdminData              [x] impl  [ ] docstring  [x] test
+    # [ ] getFileInfoComment           [x] impl  [ ] docstring  [x] test
+    # [ ] setFileInfoComment           [x] impl  [ ] docstring  [x] test
+    # [ ] getIntroduction              [x] impl  [ ] docstring  [x] test
+    # [ ] setIntroduction              [x] impl  [ ] docstring  [x] test
+    # [ ] reload                       [ ] impl  [ ] docstring  [x] test
+    # [ ] full_name                    [x] impl  [ ] docstring  [ ] test
+    # [ ] clear                        [x] impl  [ ] docstring  [x] test
+    # [ ] getElement                   [x] impl  [ ] docstring  [ ] test
+    # [ ] getARPackages                [x] impl  [ ] docstring  [x] test
+    # [ ] createARPackage              [x] impl  [ ] docstring  [ ] test
+    # [ ] find                         [x] impl  [ ] docstring  [ ] test
+    # [ ] getDestType                  [x] impl  [ ] docstring  [ ] test
+    # [ ] findAtomicSwComponentType    [x] impl  [ ] docstring  [x] test
+    # [ ] findSystemSignal             [x] impl  [ ] docstring  [x] test
+    # [ ] findSystemSignalGroup        [x] impl  [ ] docstring  [x] test
+    # [ ] findPort                     [x] impl  [ ] docstring  [x] test
+    # [ ] findVariableDataPrototype    [x] impl  [ ] docstring  [x] test
+    # [ ] findImplementationDataType   [x] impl  [ ] docstring  [x] test
+    # [ ] getDataType                  [x] impl  [ ] docstring  [ ] test
+    # [ ] addDataTypeMap               [x] impl  [ ] docstring  [x] test
+    # [ ] convertToImplementationDataType [x] impl  [ ] docstring  [x] test
+    # [ ] convertToApplicationDataType [x] impl  [ ] docstring  [x] test
+    # [ ] getRootSwCompositionPrototype [x] impl  [ ] docstring  [x] test
+    # [ ] setRootSwCompositionPrototype [x] impl  [ ] docstring  [x] test
+    # [ ] addImplementationBehaviorMap [x] impl  [ ] docstring  [x] test
+    # [ ] getBehavior                  [x] impl  [ ] docstring  [ ] test
+    # [ ] getImplementation            [x] impl  [ ] docstring  [ ] test
+    # [ ] addSystem                    [x] impl  [ ] docstring  [x] test
+    # [ ] getSystems                   [x] impl  [ ] docstring  [x] test
+    # [ ] getCompositionSwComponentTypes [x] impl  [ ] docstring  [x] test
+    # [ ] getCompositionSwComponentType [x] impl  [ ] docstring  [x] test
+    # [ ] addCompositionSwComponentType [x] impl  [ ] docstring  [x] test
+    # [ ] getARObjectByUUID            [x] impl  [ ] docstring  [x] test
+    # [ ] addARObject                  [x] impl  [ ] docstring  [x] test
+    # [ ] getDuplicateUUIDs            [x] impl  [ ] docstring  [x] test
+    # [ ] setARRelease                 [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -309,6 +356,11 @@ class AUTOSAR (AbstractAUTOSAR):
     all ARPackages, systems, components, type maps, and UUID management.
     Use getInstance() to access the singleton.
     """
+    # AUTOSAR method parity checklist:
+    # [ ] getInstance                  [x] impl  [ ] docstring  [ ] test
+    # [ ] new                          [x] impl  [ ] docstring  [ ] test
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     __instance = None
 
     @staticmethod
@@ -333,5 +385,8 @@ class AUTOSARDoc(AbstractAUTOSAR):
     """
     AUTOSAR documentation-specific top-level model.
     """
+    # AUTOSARDoc method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()

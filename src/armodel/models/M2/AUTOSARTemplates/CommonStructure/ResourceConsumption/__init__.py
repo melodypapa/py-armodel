@@ -17,6 +17,16 @@ class ResourceConsumption(Identifiable):
     This class aggregates various types of resource consumption including memory sections,
     stack usage, heap usage, execution times, and other resource metrics.
     """
+    # ResourceConsumption method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] createMemorySection          [x] impl  [x] docstring  [x] test
+    # [x] getMemorySections            [x] impl  [x] docstring  [x] test
+    # [x] getMemorySection             [x] impl  [x] docstring  [x] test
+    # [x] createMeasuredStackUsage     [x] impl  [x] docstring  [x] test
+    # [x] createRoughEstimateStackUsage [x] impl  [x] docstring  [x] test
+    # [x] createWorstCaseStackUsage    [x] impl  [x] docstring  [x] test
+    # [x] getStackUsages               [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """

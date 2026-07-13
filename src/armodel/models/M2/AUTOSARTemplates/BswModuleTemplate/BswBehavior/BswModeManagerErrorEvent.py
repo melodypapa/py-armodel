@@ -10,6 +10,9 @@ class BswModeManagerErrorEvent(BswEvent):
     Represents a BSW mode manager error event in AUTOSAR.
     This event occurs when a mode manager error is detected.
     """
+    # BswModeManagerErrorEvent method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

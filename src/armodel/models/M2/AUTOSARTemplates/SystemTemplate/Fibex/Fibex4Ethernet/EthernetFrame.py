@@ -13,6 +13,9 @@ class AbstractEthernetFrame(Frame, ABC):
     and behavior. This class serves as the foundation for concrete
     Ethernet frame implementations.
     """
+    # AbstractEthernetFrame method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractEthernetFrame:
             raise TypeError("AbstractEthernetFrame is an abstract class.")
@@ -26,5 +29,8 @@ class GenericEthernetFrame(AbstractEthernetFrame):
     implementing the basic structure and properties for standard
     Ethernet communication frames.
     """
+    # GenericEthernetFrame method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

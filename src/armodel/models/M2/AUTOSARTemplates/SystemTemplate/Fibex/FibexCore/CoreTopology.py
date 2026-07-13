@@ -20,6 +20,9 @@ class CommunicationCycle(ARObject, ABC):
     properties for different types of communication timing cycles
     in the AUTOSAR communication system.
     """
+    # CommunicationCycle method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         if type(self) is CommunicationCycle:
@@ -32,6 +35,11 @@ class CycleCounter(CommunicationCycle):
     Defines a counter for communication cycles, specifying the
     count value for cycle tracking in timed communication systems.
     """
+    # CycleCounter method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCycleCounter              [x] impl  [ ] docstring  [ ] test
+    # [ ] setCycleCounter              [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -52,6 +60,9 @@ class CycleRepetitionType(AREnum):
     scheduling, specifying how communication cycles are repeated
     over time.
     """
+    # CycleRepetitionType method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__([])
 
@@ -62,6 +73,13 @@ class CycleRepetition(CommunicationCycle):
     specifying base cycle and repetition pattern for cyclic
     communication scheduling.
     """
+    # CycleRepetition method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getBaseCycle                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setBaseCycle                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getCycleRepetition           [x] impl  [ ] docstring  [ ] test
+    # [ ] setCycleRepetition           [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -92,6 +110,21 @@ class PhysicalChannel (Identifiable, ABC):
     communication media including connector references and
     frame triggering mechanisms.
     """
+    # PhysicalChannel method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCommConnectorRefs         [x] impl  [ ] docstring  [ ] test
+    # [ ] addCommConnectorRef          [x] impl  [ ] docstring  [ ] test
+    # [ ] getFrameTriggerings          [x] impl  [ ] docstring  [ ] test
+    # [ ] createCanFrameTriggering     [x] impl  [ ] docstring  [ ] test
+    # [ ] createLinFrameTriggering     [x] impl  [ ] docstring  [ ] test
+    # [ ] createFlexrayFrameTriggering [x] impl  [ ] docstring  [ ] test
+    # [ ] getISignalTriggerings        [x] impl  [ ] docstring  [ ] test
+    # [ ] createISignalTriggering      [x] impl  [ ] docstring  [ ] test
+    # [ ] getManagedPhysicalChannelRefs [x] impl  [ ] docstring  [ ] test
+    # [ ] addManagedPhysicalChannelRef [x] impl  [ ] docstring  [ ] test
+    # [ ] getPduTriggerings            [x] impl  [ ] docstring  [ ] test
+    # [ ] createPduTriggering          [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is PhysicalChannel:
             raise TypeError("PhysicalChannel is an abstract class.")
@@ -165,6 +198,9 @@ class AbstractCanPhysicalChannel(PhysicalChannel, ABC):
     common properties for CAN-specific physical communication
     channels in the AUTOSAR system.
     """
+    # AbstractCanPhysicalChannel method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent, short_name):
         if type(self) is AbstractCanPhysicalChannel:
             raise TypeError("AbstractCanPhysicalChannel is an abstract class.")
@@ -178,6 +214,9 @@ class CanPhysicalChannel(AbstractCanPhysicalChannel):
     implementing specific properties for CAN bus communication
     including frame triggering and connector management.
     """
+    # CanPhysicalChannel method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -188,6 +227,13 @@ class LinPhysicalChannel(PhysicalChannel):
     defining LIN-specific properties including bus idle timeout
     and schedule tables for LIN network communication.
     """
+    # LinPhysicalChannel method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getBusIdleTimeoutPeriod      [x] impl  [ ] docstring  [ ] test
+    # [ ] setBusIdleTimeoutPeriod      [x] impl  [ ] docstring  [ ] test
+    # [ ] getScheduleTables            [x] impl  [ ] docstring  [ ] test
+    # [ ] createLinScheduleTable       [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -219,6 +265,11 @@ class VlanConfig(Identifiable):
     specifying VLAN identifiers for network segmentation
     and traffic management in Ethernet communication.
     """
+    # VlanConfig method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getVlanIdentifier            [x] impl  [ ] docstring  [ ] test
+    # [ ] setVlanIdentifier            [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -239,6 +290,15 @@ class EthernetPhysicalChannel(PhysicalChannel):
     defining Ethernet-specific properties including network endpoints,
     Socket Adaptor (SoAd) configuration, and VLAN settings.
     """
+    # EthernetPhysicalChannel method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getNetworkEndpoints          [x] impl  [ ] docstring  [ ] test
+    # [ ] createNetworkEndPoint        [x] impl  [ ] docstring  [ ] test
+    # [ ] getSoAdConfig                [x] impl  [ ] docstring  [ ] test
+    # [ ] setSoAdConfig                [x] impl  [ ] docstring  [ ] test
+    # [ ] getVlan                      [x] impl  [ ] docstring  [ ] test
+    # [ ] createVlanConfig             [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -280,6 +340,9 @@ class FlexrayChannelName(AREnum):
     specifying the available channel designations
     in FlexRay communication systems.
     """
+    # FlexrayChannelName method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     CHANNEL_A = "channelA"
     channel_B = "channelB"
 
@@ -296,6 +359,11 @@ class FlexrayPhysicalChannel(PhysicalChannel):
     defining FlexRay-specific properties including channel name
     designation for dual-channel FlexRay communication.
     """
+    # FlexrayPhysicalChannel method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getChannelName               [x] impl  [ ] docstring  [ ] test
+    # [ ] setChannelName               [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -317,6 +385,23 @@ class CommunicationCluster(FibexElement, ABC):
     networks including baud rate, protocol specifications,
     and physical channel management.
     """
+    # CommunicationCluster method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getBaudrate                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setBaudrate                  [x] impl  [ ] docstring  [ ] test
+    # [ ] getPhysicalChannels          [x] impl  [ ] docstring  [ ] test
+    # [ ] getCanPhysicalChannels       [x] impl  [ ] docstring  [ ] test
+    # [ ] getLinPhysicalChannels       [x] impl  [ ] docstring  [ ] test
+    # [ ] getEthernetPhysicalChannels  [x] impl  [ ] docstring  [ ] test
+    # [ ] createCanPhysicalChannel     [x] impl  [ ] docstring  [ ] test
+    # [ ] createLinPhysicalChannel     [x] impl  [ ] docstring  [ ] test
+    # [ ] createEthernetPhysicalChannel [x] impl  [ ] docstring  [ ] test
+    # [ ] createFlexrayPhysicalChannel [x] impl  [ ] docstring  [ ] test
+    # [ ] getProtocolName              [x] impl  [ ] docstring  [ ] test
+    # [ ] setProtocolName              [x] impl  [ ] docstring  [ ] test
+    # [ ] getProtocolVersion           [x] impl  [ ] docstring  [ ] test
+    # [ ] setProtocolVersion           [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CommunicationCluster:
             raise TypeError("CommunicationCluster is an abstract class.")
@@ -396,6 +481,19 @@ class CanClusterBusOffRecovery(ARObject):
     specifying timing and counter configurations for
     CAN controller recovery after bus off conditions.
     """
+    # CanClusterBusOffRecovery method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getBorCounterL1ToL2          [x] impl  [ ] docstring  [ ] test
+    # [ ] setBorCounterL1ToL2          [x] impl  [ ] docstring  [ ] test
+    # [ ] getBorTimeL1                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setBorTimeL1                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getBorTimeL2                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setBorTimeL2                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getBorTimeTxEnsured          [x] impl  [ ] docstring  [ ] test
+    # [ ] setBorTimeTxEnsured          [x] impl  [ ] docstring  [ ] test
+    # [ ] getMainFunctionPeriod        [x] impl  [ ] docstring  [ ] test
+    # [ ] setMainFunctionPeriod        [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -452,6 +550,17 @@ class AbstractCanCluster(CommunicationCluster, ABC):
     clusters with CAN-specific properties including FD and XL
     baud rates and speed configurations.
     """
+    # AbstractCanCluster method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getBusOffRecovery            [x] impl  [ ] docstring  [ ] test
+    # [ ] setBusOffRecovery            [x] impl  [ ] docstring  [ ] test
+    # [ ] getCanFdBaudrate             [x] impl  [ ] docstring  [ ] test
+    # [ ] setCanFdBaudrate             [x] impl  [ ] docstring  [ ] test
+    # [ ] getCanXlBaudrate             [x] impl  [ ] docstring  [ ] test
+    # [ ] setCanXlBaudrate             [x] impl  [ ] docstring  [ ] test
+    # [ ] getSpeed                     [x] impl  [ ] docstring  [ ] test
+    # [ ] setSpeed                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractCanCluster:
             raise TypeError("AbstractCanCluster is an abstract class.")
@@ -498,6 +607,9 @@ class CanCluster(AbstractCanCluster):
     implementing specific properties for CAN network
     communication including timing and error recovery.
     """
+    # CanCluster method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -508,6 +620,9 @@ class LinCluster(CommunicationCluster):
     implementing specific properties for LIN network
     communication including scheduling and timing management.
     """
+    # LinCluster method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -518,6 +633,11 @@ class CommunicationController(Identifiable, ABC):
     defining common properties for different types of
     communication hardware controllers in the system.
     """
+    # CommunicationController method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getWakeUpByControllerSupported [x] impl  [ ] docstring  [ ] test
+    # [ ] setWakeUpByControllerSupported [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CommunicationController:
             raise TypeError("CommunicationController is an abstract class.")
@@ -540,6 +660,9 @@ class PncGatewayTypeEnum(AREnum):
     gateways, specifying the gateway behavior in partial
     network communication management.
     """
+    # PncGatewayTypeEnum method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     ENUM_ACTIVE = "active"
     ENUM_NONE = "none"
     ENUM_PASSIVE = "passive"
@@ -557,6 +680,9 @@ class CommunicationDirectionType(AREnum):
     Enumeration defining communication direction types,
     specifying whether communication is inbound or outbound.
     """
+    # CommunicationDirectionType method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     ENUM_IN = "in"
     ENUM_OUT = "out"
 
@@ -573,6 +699,11 @@ class CommConnectorPort(Identifiable, ABC):
     defining common properties for different types of
     communication ports including direction and processing.
     """
+    # CommConnectorPort method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCommunicationDirection    [x] impl  [ ] docstring  [ ] test
+    # [ ] setCommunicationDirection    [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CommConnectorPort:
             raise TypeError("CommConnectorPort is an abstract class.")
@@ -595,6 +726,9 @@ class FramePort(CommConnectorPort):
     Represents a frame port for communication connectors,
     handling frame-based communication at the connector level.
     """
+    # FramePort method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -604,6 +738,9 @@ class IPduSignalProcessingEnum(Enum):
     Enumeration defining types of IPDU signal processing,
     specifying whether signal processing is deferred or immediate.
     """
+    # IPduSignalProcessingEnum method parity checklist:
+    # (no methods)
+
     ENUM_DEFERRED = "deferred"
     ENUM_IMMEDIATE = "immediate"
 
@@ -614,6 +751,19 @@ class IPduPort(CommConnectorPort):
     handling Interaction Protocol Data Unit communication
     with specific processing and security properties.
     """
+    # IPduPort method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getIPduSignalProcessing      [x] impl  [ ] docstring  [ ] test
+    # [ ] setIPduSignalProcessing      [x] impl  [ ] docstring  [ ] test
+    # [ ] getKeyId                     [x] impl  [ ] docstring  [ ] test
+    # [ ] setKeyId                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getRxSecurityVerification    [x] impl  [ ] docstring  [ ] test
+    # [ ] setRxSecurityVerification    [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimestampRxAcceptanceWindow [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimestampRxAcceptanceWindow [x] impl  [ ] docstring  [ ] test
+    # [ ] getUseAuthDataFreshness      [x] impl  [ ] docstring  [ ] test
+    # [ ] setUseAuthDataFreshness      [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
         
@@ -670,6 +820,19 @@ class ISignalPort(CommConnectorPort):
     handling interaction signal communication with filtering,
     timeout, and validity handling properties.
     """
+    # ISignalPort method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataFilter                [x] impl  [ ] docstring  [ ] test
+    # [ ] setDataFilter                [x] impl  [ ] docstring  [ ] test
+    # [ ] getDdsQosProfileRef          [x] impl  [ ] docstring  [ ] test
+    # [ ] setDdsQosProfileRef          [x] impl  [ ] docstring  [ ] test
+    # [ ] getFirstTimeout              [x] impl  [ ] docstring  [ ] test
+    # [ ] setFirstTimeout              [x] impl  [ ] docstring  [ ] test
+    # [ ] getHandleInvalid             [x] impl  [ ] docstring  [ ] test
+    # [ ] setHandleInvalid             [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimeout                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimeout                   [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
         
@@ -727,6 +890,23 @@ class CommunicationConnector(Identifiable, ABC):
     controllers to communication channels and managing
     port instances and gateway types.
     """
+    # CommunicationConnector method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCommControllerRef         [x] impl  [ ] docstring  [ ] test
+    # [ ] setCommControllerRef         [x] impl  [ ] docstring  [ ] test
+    # [ ] getCreateEcuWakeupSource     [x] impl  [ ] docstring  [ ] test
+    # [ ] setCreateEcuWakeupSource     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDynamicPncToChannelMappingEnabled [x] impl  [ ] docstring  [ ] test
+    # [ ] setDynamicPncToChannelMappingEnabled [x] impl  [ ] docstring  [ ] test
+    # [ ] getEcuCommPortInstances      [x] impl  [ ] docstring  [ ] test
+    # [ ] createFramePort              [x] impl  [ ] docstring  [ ] test
+    # [ ] createIPduPort               [x] impl  [ ] docstring  [ ] test
+    # [ ] createISignalPort            [x] impl  [ ] docstring  [ ] test
+    # [ ] getPncFilterArrayMasks       [x] impl  [ ] docstring  [ ] test
+    # [ ] addPncFilterArrayMask        [x] impl  [ ] docstring  [ ] test
+    # [ ] getPncGatewayType            [x] impl  [ ] docstring  [ ] test
+    # [ ] setPncGatewayType            [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CommunicationConnector:
             raise TypeError("CommunicationConnector is an abstract class.")

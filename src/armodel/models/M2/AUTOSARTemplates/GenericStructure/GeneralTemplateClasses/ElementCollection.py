@@ -16,6 +16,23 @@ class Collection(ARElement):
     Represents a collection of elements in AUTOSAR models.
     This class defines the structure for organizing and managing collections of AUTOSAR elements.
     """
+    # Collection method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # [x] getAutoCollect               [x] impl  [x] docstring  [x] test
+    # [x] setAutoCollect               [x] impl  [x] docstring  [x] test
+    # [x] getCollectedInstances        [x] impl  [x] docstring  [x] test
+    # [x] setCollectedInstances        [x] impl  [x] docstring  [x] test
+    # [x] getCollectionSemantics       [x] impl  [x] docstring  [x] test
+    # [x] setCollectionSemantics       [x] impl  [x] docstring  [x] test
+    # [x] getElementRefs               [x] impl  [x] docstring  [x] test
+    # [x] addElementRef                [x] impl  [x] docstring  [x] test
+    # [x] getElementRole               [x] impl  [x] docstring  [x] test
+    # [x] setElementRole               [x] impl  [x] docstring  [x] test
+    # [x] getSourceElementRefs         [x] impl  [x] docstring  [x] test
+    # [x] addSourceElementRef          [x] impl  [x] docstring  [x] test
+    # [x] getSourceInstances           [x] impl  [x] docstring  [x] test
+    # [x] setSourceInstances           [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)

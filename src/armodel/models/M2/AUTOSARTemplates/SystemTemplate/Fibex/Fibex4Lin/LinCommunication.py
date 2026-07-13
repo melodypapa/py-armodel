@@ -13,6 +13,9 @@ class LinFrame(Frame, ABC):
     with LIN-specific properties and behavior. This class serves as the
     foundation for concrete LIN frame implementations.
     """
+    # LinFrame method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is LinFrame:
             raise TypeError("LinFrame is an abstract class.")
@@ -25,6 +28,9 @@ class LinUnconditionalFrame(LinFrame):
     defining the structure and properties for LIN messages that
     are transmitted without conditional logic.
     """
+    # LinUnconditionalFrame method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -34,6 +40,13 @@ class LinFrameTriggering(FrameTriggering):
     LIN frames are transmitted or received on the network, including
     identifier and checksum properties.
     """
+    # LinFrameTriggering method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getIdentifier                [x] impl  [ ] docstring  [ ] test
+    # [ ] setIdentifier                [x] impl  [ ] docstring  [ ] test
+    # [ ] getLinChecksum               [x] impl  [ ] docstring  [ ] test
+    # [ ] setLinChecksum               [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -61,6 +74,9 @@ class ResumePosition(AREnum):
     Enumeration defining possible resume positions for LIN schedule tables,
     specifying where execution should continue after an interruption.
     """
+    # ResumePosition method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     CONTINUE_AT_IT_POSITION = "continueAtItPosition"
     START_FROM_BEGINNING = "startFromBeginning"
 
@@ -76,6 +92,15 @@ class ScheduleTableEntry(ARObject, ABC):
     properties for different types of entries in LIN schedule tables
     including timing, position, and documentation properties.
     """
+    # ScheduleTableEntry method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDelay                     [x] impl  [ ] docstring  [ ] test
+    # [ ] setDelay                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getIntroduction              [x] impl  [ ] docstring  [ ] test
+    # [ ] setIntroduction              [x] impl  [ ] docstring  [ ] test
+    # [ ] getPositionInTable           [x] impl  [ ] docstring  [ ] test
+    # [ ] setPositionInTable           [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         
         if type(self) is ScheduleTableEntry:
@@ -117,6 +142,11 @@ class ApplicationEntry(ScheduleTableEntry):
     specifying frame triggering references for application-level
     communication entries in the schedule.
     """
+    # ApplicationEntry method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getFrameTriggeringRef        [x] impl  [ ] docstring  [ ] test
+    # [ ] setFrameTriggeringRef        [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -136,6 +166,9 @@ class FreeFormatEntry(ScheduleTableEntry, ABC):
     allowing for flexible schedule entries without specific
     frame triggering references.
     """
+    # FreeFormatEntry method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         if type(self) is FreeFormatEntry:
@@ -147,6 +180,9 @@ class LinConfigurationEntry(ScheduleTableEntry, ABC):
     Abstract base class for LIN configuration entries in schedule tables,
     defining common properties for configuration-related schedule entries.
     """
+    # LinConfigurationEntry method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
 
         if type(self) is LinConfigurationEntry:
@@ -161,6 +197,15 @@ class LinScheduleTable(Identifiable):
     of LIN frame transmissions, including resume position, run mode,
     and table entries for scheduled communication.
     """
+    # LinScheduleTable method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getResumePosition            [x] impl  [ ] docstring  [ ] test
+    # [ ] setResumePosition            [x] impl  [ ] docstring  [ ] test
+    # [ ] getRunMode                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setRunMode                   [x] impl  [ ] docstring  [ ] test
+    # [ ] getTableEntries              [x] impl  [ ] docstring  [ ] test
+    # [ ] addTableEntry                [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 

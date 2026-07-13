@@ -20,6 +20,11 @@ class SynchronizationPointConstraint(TimingConstraint):
     This constraint defines synchronization requirements between distributed
     AUTOSAR elements.
     """
+    # SynchronizationPointConstraint method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getSynchronizationPoint      [x] impl  [x] docstring  [ ] test
+    # [ ] setSynchronizationPoint      [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent, short_name: str):
         """

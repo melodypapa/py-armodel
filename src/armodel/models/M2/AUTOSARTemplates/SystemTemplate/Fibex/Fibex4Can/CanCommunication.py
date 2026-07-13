@@ -11,6 +11,13 @@ class RxIdentifierRange(ARObject):
     This class specifies the lower and upper bounds of CAN message IDs that should
     be accepted by a CAN controller or communication endpoint.
     """
+    # RxIdentifierRange method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getLowerCanId                [x] impl  [ ] docstring  [ ] test
+    # [ ] setLowerCanId                [x] impl  [ ] docstring  [ ] test
+    # [ ] getUpperCanId                [x] impl  [ ] docstring  [ ] test
+    # [ ] setUpperCanId                [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -37,6 +44,9 @@ class CanFrame(Frame):
     with CAN-specific properties and behavior. This class defines the structure
     and characteristics of CAN messages in the communication system.
     """
+    # CanFrame method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -46,6 +56,31 @@ class CanFrameTriggering(FrameTriggering):
     CAN frames are transmitted or received on the network, including timing,
     addressing modes, and frame behavior properties.
     """
+    # CanFrameTriggering method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getAbsolutelyScheduledTimings [x] impl  [ ] docstring  [ ] test
+    # [ ] setAbsolutelyScheduledTimings [x] impl  [ ] docstring  [ ] test
+    # [ ] getCanAddressingMode         [x] impl  [ ] docstring  [ ] test
+    # [ ] setCanAddressingMode         [x] impl  [ ] docstring  [ ] test
+    # [ ] getCanFdFrameSupport         [x] impl  [ ] docstring  [ ] test
+    # [ ] setCanFdFrameSupport         [x] impl  [ ] docstring  [ ] test
+    # [ ] getCanFrameRxBehavior        [x] impl  [ ] docstring  [ ] test
+    # [ ] setCanFrameRxBehavior        [x] impl  [ ] docstring  [ ] test
+    # [ ] getCanFrameTxBehavior        [x] impl  [ ] docstring  [ ] test
+    # [ ] setCanFrameTxBehavior        [x] impl  [ ] docstring  [ ] test
+    # [ ] getCanXlFrameTriggeringProps [x] impl  [ ] docstring  [ ] test
+    # [ ] setCanXlFrameTriggeringProps [x] impl  [ ] docstring  [ ] test
+    # [ ] getIdentifier                [x] impl  [ ] docstring  [ ] test
+    # [ ] setIdentifier                [x] impl  [ ] docstring  [ ] test
+    # [ ] getJ1939requestable          [x] impl  [ ] docstring  [ ] test
+    # [ ] setJ1939requestable          [x] impl  [ ] docstring  [ ] test
+    # [ ] getRxIdentifierRange         [x] impl  [ ] docstring  [ ] test
+    # [ ] setRxIdentifierRange         [x] impl  [ ] docstring  [ ] test
+    # [ ] getRxMask                    [x] impl  [ ] docstring  [ ] test
+    # [ ] setRxMask                    [x] impl  [ ] docstring  [ ] test
+    # [ ] getTxMask                    [x] impl  [ ] docstring  [ ] test
+    # [ ] setTxMask                    [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 

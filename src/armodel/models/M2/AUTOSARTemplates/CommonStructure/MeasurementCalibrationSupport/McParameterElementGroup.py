@@ -8,6 +8,11 @@ class McParameterElementGroup(ARObject):
     Represents an MC (Measurement and Calibration) parameter element group in AUTOSAR.
     Defines a group of parameter elements for measurement and calibration purposes.
     """
+    # McParameterElementGroup method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] addParameterRef              [x] impl  [x] docstring  [ ] test
+    # [ ] getParameterRefs             [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

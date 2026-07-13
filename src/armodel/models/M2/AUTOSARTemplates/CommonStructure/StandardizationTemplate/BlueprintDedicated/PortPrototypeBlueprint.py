@@ -25,6 +25,13 @@ class PortPrototypeBlueprintInitValue(ARObject):
     This class defines the initial value and associated data prototype reference
     for a specific port prototype blueprint element.
     """
+    # PortPrototypeBlueprintInitValue method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # [x] getDataPrototypeRef          [x] impl  [x] docstring  [x] test
+    # [x] setDataPrototypeRef          [x] impl  [x] docstring  [x] test
+    # [x] getValue                     [x] impl  [x] docstring  [x] test
+    # [x] setValue                     [x] impl  [x] docstring  [x] test
+
     def __init__(self):
         super().__init__()
 
@@ -84,6 +91,17 @@ class PortPrototypeBlueprint(AtpStructureElement):
     This class provides a template for defining port prototypes that can be reused
     across different software components, helping to standardize port configurations.
     """
+    # PortPrototypeBlueprint method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # [x] getInitValues                [x] impl  [x] docstring  [x] test
+    # [x] setInitValues                [x] impl  [x] docstring  [x] test
+    # [x] getInterfaceRef              [x] impl  [x] docstring  [x] test
+    # [x] setInterfaceRef              [x] impl  [x] docstring  [x] test
+    # [x] getProvidedComSpecs          [x] impl  [x] docstring  [x] test
+    # [x] setProvidedComSpecs          [x] impl  [x] docstring  [x] test
+    # [x] getRequiredComSpecs          [x] impl  [x] docstring  [x] test
+    # [x] setRequiredComSpecs          [x] impl  [x] docstring  [x] test
+
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 

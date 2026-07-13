@@ -26,6 +26,18 @@ class ApplicationInterface(PortInterface):
       - AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf (Page 28, Foundation
       R23-11)
     """
+    # ApplicationInterface method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # [ ] getAttributes                [x] impl  [ ] docstring  [ ] test
+    # [ ] setAttributes                [x] impl  [ ] docstring  [ ] test
+    # [x] addAttribute                 [x] impl  [x] docstring  [x] test
+    # [ ] getCommands                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setCommands                  [x] impl  [ ] docstring  [ ] test
+    # [x] addCommand                   [x] impl  [x] docstring  [x] test
+    # [ ] getIndications               [x] impl  [ ] docstring  [ ] test
+    # [ ] setIndications               [x] impl  [ ] docstring  [ ] test
+    # [x] addIndication                [x] impl  [x] docstring  [x] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

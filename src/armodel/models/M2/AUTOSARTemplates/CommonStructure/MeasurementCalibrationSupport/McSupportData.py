@@ -8,6 +8,13 @@ class McSupportData(ARObject):
     Represents MC (Measurement and Calibration) support data in AUTOSAR.
     Defines data structures for supporting measurement and calibration functionality.
     """
+    # McSupportData method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] addDataInstance              [x] impl  [x] docstring  [ ] test
+    # [ ] getDataInstances             [x] impl  [x] docstring  [ ] test
+    # [ ] addFunction                  [x] impl  [x] docstring  [ ] test
+    # [ ] getFunctions                 [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

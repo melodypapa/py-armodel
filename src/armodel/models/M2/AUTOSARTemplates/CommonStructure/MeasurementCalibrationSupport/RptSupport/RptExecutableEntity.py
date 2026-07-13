@@ -8,6 +8,13 @@ class RptExecutableEntity(ARObject):
     Represents an RPT executable entity in AUTOSAR.
     Defines an executable entity that supports read-protect-transform functionality.
     """
+    # RptExecutableEntity method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getExecutableEntityRef       [x] impl  [x] docstring  [ ] test
+    # [ ] setExecutableEntityRef       [x] impl  [x] docstring  [ ] test
+    # [ ] getRptAccess                 [x] impl  [x] docstring  [ ] test
+    # [ ] setRptAccess                 [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

@@ -16,6 +16,13 @@ class ModeAccessPoint(ARObject):
     A mode access point used by a runnable entity to read the current mode
     of a mode declaration group.
     """
+    # ModeAccessPoint method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getIdent                     [x] impl  [x] docstring  [ ] test
+    # [ ] setIdent                     [x] impl  [x] docstring  [ ] test
+    # [ ] getModeGroupIRef             [x] impl  [x] docstring  [ ] test
+    # [ ] setModeGroupIRef             [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()
@@ -72,6 +79,11 @@ class ModeSwitchPoint(AbstractAccessPoint):
     A mode switch point used by a runnable entity to switch the mode
     of a mode declaration group.
     """
+    # ModeSwitchPoint method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getModeGroupIRef             [x] impl  [x] docstring  [ ] test
+    # [ ] setModeGroupIRef             [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -106,6 +118,13 @@ class IncludedModeDeclarationGroupSet(ARObject):
     A set of mode declaration group references included in the scope
     of a software component internal behavior.
     """
+    # IncludedModeDeclarationGroupSet method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] addModeDeclarationGroupRef   [x] impl  [x] docstring  [ ] test
+    # [ ] getModeDeclarationGroupRefs  [x] impl  [x] docstring  [ ] test
+    # [ ] setPrefix                    [x] impl  [x] docstring  [ ] test
+    # [ ] getPrefix                    [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()

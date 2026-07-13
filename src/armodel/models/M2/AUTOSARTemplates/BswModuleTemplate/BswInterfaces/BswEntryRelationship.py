@@ -10,6 +10,11 @@ class BswEntryRelationship(ARObject):
     Represents a BSW entry relationship in AUTOSAR.
     This class defines relationships between BSW entries.
     """
+    # BswEntryRelationship method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getRelationType              [x] impl  [ ] docstring  [ ] test
+    # [ ] setRelationType              [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         """

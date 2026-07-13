@@ -29,6 +29,9 @@ class AtpDefinition(Identifiable, ABC):
         Inherits all attributes from Identifiable including shortName, adminData,
         longName, category, and reference management capabilities.
     """
+    # AtpDefinition method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self, parent, short_name: str):
         if type(self) is AtpDefinition:

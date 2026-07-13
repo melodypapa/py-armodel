@@ -12,6 +12,10 @@ class ARObject(ABC):
     Abstract base class for all AUTOSAR objects.
     This class provides the basic structure and functionality for all AUTOSAR objects.
     """
+    # ARObject method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [x] getTagName                   [x] impl  [x] docstring  [x] test
+
 
     def __init__(self):
         if type(self) is ARObject:

@@ -11,6 +11,11 @@ class BswAsynchronousServerCallReturnsEvent(BswEvent):
     Represents a BSW asynchronous server call returns event in AUTOSAR.
     This event occurs when an asynchronous server call returns.
     """
+    # BswAsynchronousServerCallReturnsEvent method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getServerCallPointRef        [x] impl  [ ] docstring  [ ] test
+    # [ ] setServerCallPointRef        [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         """

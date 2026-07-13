@@ -9,6 +9,9 @@ class DataLimitKindEnum(AREnum):
     """
     Enumeration for data limit kinds in AUTOSAR.
     """
+    # DataLimitKindEnum method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     UNLIMITED = "unlimited"
     LIMITED = "limited"
@@ -24,6 +27,9 @@ class FilterDebouncingEnum(AREnum):
     """
     Enumeration for filter debouncing in AUTOSAR.
     """
+    # FilterDebouncingEnum method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     FILTER = "filter"
     DEBOUNCE = "debounce"
@@ -41,6 +47,9 @@ class ProcessingKindEnum(AREnum):
     """
     Enumeration for processing kinds in AUTOSAR.
     """
+    # ProcessingKindEnum method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     EVENT_TRIGGERED = "event-triggered"
     PERIODIC = "periodic"
@@ -58,6 +67,9 @@ class PulseTestEnum(AREnum):
     """
     Enumeration for pulse test in AUTOSAR.
     """
+    # PulseTestEnum method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     PULSE = "pulse"
     TEST = "test"
@@ -75,6 +87,9 @@ class SignalFanEnum(AREnum):
     """
     Enumeration for signal fan in AUTOSAR.
     """
+    # SignalFanEnum method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     IN = "in"
     OUT = "out"

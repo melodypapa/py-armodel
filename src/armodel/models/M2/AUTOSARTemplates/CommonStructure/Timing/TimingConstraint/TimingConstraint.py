@@ -26,6 +26,11 @@ class TimingConstraint(Traceable, ABC):
     This class cannot be instantiated directly and serves as the base for concrete
     timing constraint implementations such as execution order constraints.
     """
+    # TimingConstraint method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] timingConditionRef           [x] impl  [x] docstring  [ ] test
+    # [ ] timingConditionRef           [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is TimingConstraint:

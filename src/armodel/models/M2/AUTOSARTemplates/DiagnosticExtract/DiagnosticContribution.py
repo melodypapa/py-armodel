@@ -21,6 +21,17 @@ class DiagnosticServiceTable(DiagnosticCommonElement):
     This class defines the relationship between diagnostic connections,
     service instances, and ECU instances for specific protocols.
     """
+    # DiagnosticServiceTable method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getDiagnosticConnectionRefs  [x] impl  [x] docstring  [x] test
+    # [x] addDiagnosticConnectionRef   [x] impl  [x] docstring  [x] test
+    # [x] getDiagnosticServiceInstanceRefs [x] impl  [x] docstring  [x] test
+    # [x] addDiagnosticServiceInstanceRef [x] impl  [x] docstring  [x] test
+    # [x] getEcuInstanceRef            [x] impl  [x] docstring  [x] test
+    # [x] setEcuInstanceRef            [x] impl  [x] docstring  [x] test
+    # [x] getProtocolKind              [x] impl  [x] docstring  [x] test
+    # [x] setProtocolKind              [x] impl  [x] docstring  [x] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         """

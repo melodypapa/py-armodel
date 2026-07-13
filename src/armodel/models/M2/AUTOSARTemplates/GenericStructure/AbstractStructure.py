@@ -16,6 +16,15 @@ class AtpInstanceRef(ARObject, ABC):
     Abstract class for AUTOSAR Template Parameter (ATP) instance references.
     This class defines the structure for referencing ATP instances.
     """
+    # AtpInstanceRef method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getAtpBaseRef                [x] impl  [x] docstring  [ ] test
+    # [ ] setAtpBaseRef                [x] impl  [x] docstring  [ ] test
+    # [x] getAtpContextElementRefs     [x] impl  [x] docstring  [x] test
+    # [x] addAtpContextElementRef      [x] impl  [x] docstring  [x] test
+    # [ ] getAtpTargetRef              [x] impl  [x] docstring  [ ] test
+    # [ ] setAtpTargetRef              [x] impl  [x] docstring  [ ] test
+
     
     def __init__(self):
         if type(self) is AtpInstanceRef:
@@ -110,6 +119,9 @@ class AtpBlueprintable(PackageableElement, ABC):
         Concrete implementations include BswModuleEntry, CompuMethod, DataConstr,
         and other blueprintable AUTOSAR elements.
     """
+    # AtpBlueprintable method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AtpBlueprintable:
@@ -133,6 +145,9 @@ class AtpClassifier(PackageableElement, ABC):
         of various AUTOSAR type definitions like AutosarDataType, PortInterface,
         and SwComponentType.
     """
+    # AtpClassifier method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AtpClassifier:
@@ -162,6 +177,9 @@ class AtpFeature(Identifiable, ABC):
     Attributes:
         Inherits all attributes from Identifiable including shortName and adminData.
     """
+    # AtpFeature method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AtpFeature:
@@ -188,6 +206,9 @@ class AtpType(AtpClassifier, ABC):
         - PortInterface (including ClientServerInterface, SenderReceiverInterface, etc.)
         - SwComponentType (including AtomicSwComponentType, CompositionSwComponentType, etc.)
     """
+    # AtpType method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AtpType:
@@ -217,6 +238,9 @@ class AtpPrototype(AtpBlueprintable, ABC):
         - RootSwCompositionPrototype
         - SwComponentPrototype
     """
+    # AtpPrototype method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AtpPrototype:
@@ -259,6 +283,9 @@ class AtpStructureElement(AtpBlueprintable, ABC):
         - System
         - Trigger
     """
+    # AtpStructureElement method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AtpStructureElement:
@@ -286,6 +313,9 @@ class AtpBlueprintMapping(ARObject, ABC):
     Attributes:
         Inherits all attributes from ARObject including uuid and adminData.
     """
+    # AtpBlueprintMapping method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     
     def __init__(self):
         if type(self) is AtpBlueprintMapping:

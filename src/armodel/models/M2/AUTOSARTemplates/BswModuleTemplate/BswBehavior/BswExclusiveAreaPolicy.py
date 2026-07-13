@@ -9,6 +9,9 @@ class BswExclusiveAreaPolicy(AREnum):
     """
     Enumeration for BSW exclusive area policy.
     """
+    # BswExclusiveAreaPolicy method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     NONE = "none"
     INTERNAL = "internal"

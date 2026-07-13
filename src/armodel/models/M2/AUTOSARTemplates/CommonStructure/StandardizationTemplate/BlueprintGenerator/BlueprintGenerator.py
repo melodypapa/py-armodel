@@ -6,6 +6,11 @@ class BlueprintGenerator(ARObject):
     Represents a blueprint generator in AUTOSAR.
     Defines a generator for creating blueprints from templates.
     """
+    # BlueprintGenerator method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getGeneratorName             [x] impl  [x] docstring  [ ] test
+    # [ ] setGeneratorName             [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

@@ -18,6 +18,13 @@ class RoleBasedPortAssignment(ARObject):
     A role-based port assignment that links a port prototype to a specific
     role within a service dependency.
     """
+    # RoleBasedPortAssignment method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getPortPrototypeRef          [x] impl  [x] docstring  [ ] test
+    # [ ] setPortPrototypeRef          [x] impl  [x] docstring  [ ] test
+    # [ ] getRole                      [x] impl  [x] docstring  [ ] test
+    # [ ] setRole                      [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()
@@ -75,6 +82,34 @@ class SwcServiceDependency(ServiceDependency):
     A service dependency for an atomic software component that defines the
     required services and their assignments.
     """
+    # SwcServiceDependency method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] AddAssignedData              [x] impl  [x] docstring  [ ] test
+    # [ ] getAssignedData              [x] impl  [x] docstring  [ ] test
+    # [ ] AddAssignedPort              [x] impl  [x] docstring  [ ] test
+    # [ ] getAssignedPorts             [x] impl  [x] docstring  [ ] test
+    # [ ] createNvBlockNeeds           [x] impl  [x] docstring  [ ] test
+    # [ ] createDiagnosticCommunicationManagerNeeds [x] impl  [x] docstring  [ ] test
+    # [ ] createDiagnosticRoutineNeeds [x] impl  [x] docstring  [ ] test
+    # [ ] createDiagnosticValueNeeds   [x] impl  [x] docstring  [ ] test
+    # [ ] createDiagnosticEventNeeds   [x] impl  [x] docstring  [ ] test
+    # [ ] createDiagnosticEventInfoNeeds [x] impl  [x] docstring  [ ] test
+    # [ ] createCryptoServiceNeeds     [x] impl  [x] docstring  [ ] test
+    # [ ] createEcuStateMgrUserNeeds   [x] impl  [x] docstring  [ ] test
+    # [ ] createDtcStatusChangeNotificationNeeds [x] impl  [x] docstring  [ ] test
+    # [ ] createDltUserNeeds           [x] impl  [x] docstring  [ ] test
+    # [ ] getNvBlockNeeds              [x] impl  [x] docstring  [ ] test
+    # [ ] getDiagnosticCommunicationManagerNeeds [x] impl  [x] docstring  [ ] test
+    # [ ] getDiagnosticRoutineNeeds    [x] impl  [x] docstring  [ ] test
+    # [ ] getDiagnosticValueNeeds      [x] impl  [x] docstring  [ ] test
+    # [ ] getDiagnosticEventNeeds      [x] impl  [x] docstring  [ ] test
+    # [ ] getDiagnosticEventInfoNeeds  [x] impl  [x] docstring  [ ] test
+    # [ ] getCryptoServiceNeeds        [x] impl  [x] docstring  [ ] test
+    # [ ] getEcuStateMgrUserNeeds      [x] impl  [x] docstring  [ ] test
+    # [ ] getDtcStatusChangeNotificationNeeds [x] impl  [x] docstring  [ ] test
+    # [ ] getDltUserNeeds              [x] impl  [x] docstring  [ ] test
+    # [ ] getServiceNeeds              [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

@@ -9,6 +9,13 @@ class Sd(ARObject):
     Represents special data with a global identifier and value.
     Base: ARObject
     """
+    # Sd method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getGID                       [x] impl  [ ] docstring  [ ] test
+    # [ ] setGID                       [x] impl  [ ] docstring  [ ] test
+    # [ ] getValue                     [x] impl  [ ] docstring  [ ] test
+    # [ ] setValue                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -34,6 +41,11 @@ class SdgCaption(MultilanguageReferrable):
     Represents a caption for special data groups with multilingual description.
     Base: MultilanguageReferrable
     """
+    # SdgCaption method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDesc                      [x] impl  [ ] docstring  [ ] test
+    # [ ] setDesc                      [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -53,6 +65,19 @@ class Sdg(ARObject):
     Represents a special data group containing special data items and references.
     Base: ARObject
     """
+    # Sdg method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getGID                       [x] impl  [ ] docstring  [ ] test
+    # [ ] setGID                       [x] impl  [ ] docstring  [ ] test
+    # [ ] addSd                        [x] impl  [ ] docstring  [ ] test
+    # [ ] getSds                       [x] impl  [ ] docstring  [ ] test
+    # [ ] getSdgCaption                [x] impl  [ ] docstring  [ ] test
+    # [ ] createSdgCaption             [x] impl  [ ] docstring  [ ] test
+    # [ ] getSdgContentsTypes          [x] impl  [ ] docstring  [ ] test
+    # [ ] addSdgContentsType           [x] impl  [ ] docstring  [ ] test
+    # [ ] getSdxRefs                   [x] impl  [ ] docstring  [ ] test
+    # [ ] addSdxRef                    [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 

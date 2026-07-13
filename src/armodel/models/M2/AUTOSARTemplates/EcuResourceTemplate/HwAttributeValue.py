@@ -15,6 +15,13 @@ class HwAttributeValue(ARObject):
     Represents a hardware attribute value in AUTOSAR hardware descriptions.
     This class defines the actual values assigned to hardware attributes in the model.
     """
+    # HwAttributeValue method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getHwAttributeDefRef         [x] impl  [x] docstring  [ ] test
+    # [ ] setHwAttributeDefRef         [x] impl  [x] docstring  [ ] test
+    # [ ] getValue                     [x] impl  [x] docstring  [ ] test
+    # [ ] setValue                     [x] impl  [x] docstring  [ ] test
+
     
     def __init__(self):
         """
@@ -79,6 +86,11 @@ class HwAttributeLiteralDef(Identifiable):
     Represents a hardware attribute literal definition in AUTOSAR hardware descriptions.
     This class defines the possible literal values for an enumerated hardware attribute.
     """
+    # HwAttributeLiteralDef method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getValue                     [x] impl  [x] docstring  [ ] test
+    # [ ] setValue                     [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent, short_name: str):
         """

@@ -6,6 +6,11 @@ class SignalServiceTranslationElementProps(ARObject):
     Represents signal service translation element properties in AUTOSAR.
     Defines properties for signal service translation elements.
     """
+    # SignalServiceTranslationElementProps method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getElementRef                [x] impl  [x] docstring  [ ] test
+    # [ ] setElementRef                [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

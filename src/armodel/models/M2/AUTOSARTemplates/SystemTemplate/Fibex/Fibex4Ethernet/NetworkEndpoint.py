@@ -13,6 +13,9 @@ class NetworkEndpointAddress(ARObject, ABC):
     common properties and behavior for different types of network
     addresses (IPv4, IPv6, etc.) used in AUTOSAR communication.
     """
+    # NetworkEndpointAddress method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         if type(self) is NetworkEndpointAddress:
             raise TypeError("NetworkEndpointAddress is an abstract class.")
@@ -25,6 +28,25 @@ class Ipv4Configuration(NetworkEndpointAddress):
     including IP addresses, network masks, DNS server addresses, and
     TTL settings for IPv4 communication.
     """
+    # Ipv4Configuration method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getAssignmentPriority        [x] impl  [ ] docstring  [ ] test
+    # [ ] setAssignmentPriority        [x] impl  [ ] docstring  [ ] test
+    # [ ] getDefaultGateway            [x] impl  [ ] docstring  [ ] test
+    # [ ] setDefaultGateway            [x] impl  [ ] docstring  [ ] test
+    # [ ] getDnsServerAddresses        [x] impl  [ ] docstring  [ ] test
+    # [ ] addDnsServerAddress          [x] impl  [ ] docstring  [ ] test
+    # [ ] getIpAddressKeepBehavior     [x] impl  [ ] docstring  [ ] test
+    # [ ] setIpAddressKeepBehavior     [x] impl  [ ] docstring  [ ] test
+    # [ ] getIpv4Address               [x] impl  [ ] docstring  [ ] test
+    # [ ] setIpv4Address               [x] impl  [ ] docstring  [ ] test
+    # [ ] getIpv4AddressSource         [x] impl  [ ] docstring  [ ] test
+    # [ ] setIpv4AddressSource         [x] impl  [ ] docstring  [ ] test
+    # [ ] getNetworkMask               [x] impl  [ ] docstring  [ ] test
+    # [ ] setNetworkMask               [x] impl  [ ] docstring  [ ] test
+    # [ ] getTtl                       [x] impl  [ ] docstring  [ ] test
+    # [ ] setTtl                       [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -99,6 +121,27 @@ class Ipv6Configuration(NetworkEndpointAddress):
     including IPv6 addresses, default router, DNS server addresses,
     and IPv6-specific communication parameters.
     """
+    # Ipv6Configuration method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getAssignmentPriority        [x] impl  [ ] docstring  [ ] test
+    # [ ] setAssignmentPriority        [x] impl  [ ] docstring  [ ] test
+    # [ ] getDefaultRouter             [x] impl  [ ] docstring  [ ] test
+    # [ ] setDefaultRouter             [x] impl  [ ] docstring  [ ] test
+    # [ ] getDnsServerAddresses        [x] impl  [ ] docstring  [ ] test
+    # [ ] setDnsServerAddresses        [x] impl  [ ] docstring  [ ] test
+    # [ ] getEnableAnycast             [x] impl  [ ] docstring  [ ] test
+    # [ ] setEnableAnycast             [x] impl  [ ] docstring  [ ] test
+    # [ ] getHopCount                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setHopCount                  [x] impl  [ ] docstring  [ ] test
+    # [ ] getIpAddressKeepBehavior     [x] impl  [ ] docstring  [ ] test
+    # [ ] setIpAddressKeepBehavior     [x] impl  [ ] docstring  [ ] test
+    # [ ] getIpAddressPrefixLength     [x] impl  [ ] docstring  [ ] test
+    # [ ] setIpAddressPrefixLength     [x] impl  [ ] docstring  [ ] test
+    # [ ] getIpv6Address               [x] impl  [ ] docstring  [ ] test
+    # [ ] setIpv6Address               [x] impl  [ ] docstring  [ ] test
+    # [ ] getIpv6AddressSource         [x] impl  [ ] docstring  [ ] test
+    # [ ] setIpv6AddressSource         [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -181,6 +224,11 @@ class DoIpEntity(ARObject):
     specifying the role and behavior of DoIP-enabled devices in
     the network for diagnostic communication purposes.
     """
+    # DoIpEntity method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDoIpEntityRole            [x] impl  [ ] docstring  [ ] test
+    # [ ] setDoIpEntityRole            [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -200,6 +248,13 @@ class TimeSyncClientConfiguration(ARObject):
     ordered master relationships and time synchronization
     technology settings for network time coordination.
     """
+    # TimeSyncClientConfiguration method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getOrderedMasters            [x] impl  [ ] docstring  [ ] test
+    # [ ] addOrderedMaster             [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimeSyncTechnology        [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimeSyncTechnology        [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -229,6 +284,17 @@ class TimeSyncServerConfiguration(Referrable):
     priority, synchronization intervals, and time synchronization
     identifiers for network time coordination services.
     """
+    # TimeSyncServerConfiguration method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getPriority                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setPriority                  [x] impl  [ ] docstring  [ ] test
+    # [ ] getSyncInterval              [x] impl  [ ] docstring  [ ] test
+    # [ ] setSyncInterval              [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimeSyncServerIdentifier  [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimeSyncServerIdentifier  [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimeSyncTechnology        [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimeSyncTechnology        [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -276,6 +342,13 @@ class TimeSynchronization(ARObject):
     including both client and server configurations for coordinated
     timing across the AUTOSAR system network.
     """
+    # TimeSynchronization method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimeSyncClient            [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimeSyncClient            [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimeSyncServer            [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimeSyncServer            [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -305,6 +378,13 @@ class InfrastructureServices(ARObject):
     including DoIP capabilities and time synchronization services
     for network management and coordination.
     """
+    # InfrastructureServices method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDoIpEntity                [x] impl  [ ] docstring  [ ] test
+    # [ ] setDoIpEntity                [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimeSynchronization       [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimeSynchronization       [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -331,6 +411,19 @@ class NetworkEndpoint(Identifiable):
     IP configuration, infrastructure services, and network address
     properties for communication nodes in the network.
     """
+    # NetworkEndpoint method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getFullyQualifiedDomainName  [x] impl  [ ] docstring  [ ] test
+    # [ ] setFullyQualifiedDomainName  [x] impl  [ ] docstring  [ ] test
+    # [ ] getInfrastructureServices    [x] impl  [ ] docstring  [ ] test
+    # [ ] setInfrastructureServices    [x] impl  [ ] docstring  [ ] test
+    # [ ] getIpSecConfig               [x] impl  [ ] docstring  [ ] test
+    # [ ] setIpSecConfig               [x] impl  [ ] docstring  [ ] test
+    # [ ] getNetworkEndpointAddresses  [x] impl  [ ] docstring  [ ] test
+    # [ ] addNetworkEndpointAddress    [x] impl  [ ] docstring  [ ] test
+    # [ ] getPriority                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setPriority                  [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

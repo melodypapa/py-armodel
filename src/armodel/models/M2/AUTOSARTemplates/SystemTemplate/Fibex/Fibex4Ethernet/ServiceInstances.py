@@ -16,6 +16,9 @@ class TransportProtocolConfiguration(ARObject, ABC):
     transport protocols (TCP, UDP, etc.) used in service-oriented
     communication.
     """
+    # TransportProtocolConfiguration method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         if type(self) is TransportProtocolConfiguration:
             raise TypeError("TransportProtocolConfiguration is an abstract class.")
@@ -28,6 +31,13 @@ class GenericTp(TransportProtocolConfiguration):
     including address and technology specifications for custom
     transport protocol implementations.
     """
+    # GenericTp method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getTpAddress                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setTpAddress                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getTpTechnology              [x] impl  [ ] docstring  [ ] test
+    # [ ] setTpTechnology              [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -55,6 +65,9 @@ class TcpUdpConfig(TransportProtocolConfiguration, ABC):
     defining common properties for both connection-oriented and
     connectionless transport protocols.
     """
+    # TcpUdpConfig method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         if type(self) is TcpUdpConfig:
             raise TypeError("TcpUdpConfig is an abstract class.")
@@ -67,6 +80,13 @@ class TpPort(ARObject):
     port number and dynamic assignment capabilities for network
     communication endpoints.
     """
+    # TpPort method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDynamicallyAssigned       [x] impl  [ ] docstring  [ ] test
+    # [ ] setDynamicallyAssigned       [x] impl  [ ] docstring  [ ] test
+    # [ ] getPortNumber                [x] impl  [ ] docstring  [ ] test
+    # [ ] setPortNumber                [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -94,6 +114,11 @@ class UdpTp(TcpUdpConfig):
     specifying UDP-specific port configuration for unreliable but fast
     datagram-based communication services.
     """
+    # UdpTp method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getUdpTpPort                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setUdpTpPort                 [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -113,6 +138,25 @@ class TcpTp(TcpUdpConfig):
     specifying TCP-specific properties such as keep-alive settings, retransmission
     timeouts, and flow control parameters for reliable connection-oriented communication.
     """
+    # TcpTp method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getKeepAliveInterval         [x] impl  [ ] docstring  [ ] test
+    # [ ] setKeepAliveInterval         [x] impl  [ ] docstring  [ ] test
+    # [ ] getKeepAliveProbesMax        [x] impl  [ ] docstring  [ ] test
+    # [ ] setKeepAliveProbesMax        [x] impl  [ ] docstring  [ ] test
+    # [ ] getKeepAlives                [x] impl  [ ] docstring  [ ] test
+    # [ ] setKeepAlives                [x] impl  [ ] docstring  [ ] test
+    # [ ] getKeepAliveTime             [x] impl  [ ] docstring  [ ] test
+    # [ ] setKeepAliveTime             [x] impl  [ ] docstring  [ ] test
+    # [ ] getNaglesAlgorithm           [x] impl  [ ] docstring  [ ] test
+    # [ ] setNaglesAlgorithm           [x] impl  [ ] docstring  [ ] test
+    # [ ] getReceiveWindowMin          [x] impl  [ ] docstring  [ ] test
+    # [ ] setReceiveWindowMin          [x] impl  [ ] docstring  [ ] test
+    # [ ] getTcpRetransmissionTimeout  [x] impl  [ ] docstring  [ ] test
+    # [ ] setTcpRetransmissionTimeout  [x] impl  [ ] docstring  [ ] test
+    # [ ] getTcpTpPort                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setTcpTpPort                 [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -187,6 +231,17 @@ class AbstractServiceInstance(Identifiable, ABC):
     for both consumed and provided services in the AUTOSAR service-oriented
     architecture.
     """
+    # AbstractServiceInstance method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCapabilityRecords         [x] impl  [ ] docstring  [ ] test
+    # [ ] addCapabilityRecord          [x] impl  [ ] docstring  [ ] test
+    # [ ] getMajorVersion              [x] impl  [ ] docstring  [ ] test
+    # [ ] setMajorVersion              [x] impl  [ ] docstring  [ ] test
+    # [ ] getMethodActivationRoutingGroup [x] impl  [ ] docstring  [ ] test
+    # [ ] setMethodActivationRoutingGroup [x] impl  [ ] docstring  [ ] test
+    # [ ] getRoutingGroupRefs          [x] impl  [ ] docstring  [ ] test
+    # [ ] addRoutingGroupRef           [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractServiceInstance:
             raise TypeError("AbstractServiceInstance is an abstract class.")
@@ -236,6 +291,27 @@ class ConsumedEventGroup(Identifiable):
     specifying how events are consumed by service clients including
     application endpoint references and event group identifiers.
     """
+    # ConsumedEventGroup method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getApplicationEndpointRef    [x] impl  [ ] docstring  [ ] test
+    # [ ] setApplicationEndpointRef    [x] impl  [ ] docstring  [ ] test
+    # [ ] getAutoRequire               [x] impl  [ ] docstring  [ ] test
+    # [ ] setAutoRequire               [x] impl  [ ] docstring  [ ] test
+    # [ ] getEventGroupIdentifier      [x] impl  [ ] docstring  [ ] test
+    # [ ] setEventGroupIdentifier      [x] impl  [ ] docstring  [ ] test
+    # [ ] getEventMulticastAddressRefs [x] impl  [ ] docstring  [ ] test
+    # [ ] addEventMulticastAddressRef  [x] impl  [ ] docstring  [ ] test
+    # [ ] getPduActivationRoutingGroups [x] impl  [ ] docstring  [ ] test
+    # [ ] setPduActivationRoutingGroups [x] impl  [ ] docstring  [ ] test
+    # [ ] getPriority                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setPriority                  [x] impl  [ ] docstring  [ ] test
+    # [ ] getRoutingGroupRefs          [x] impl  [ ] docstring  [ ] test
+    # [ ] addRoutingGroupRef           [x] impl  [ ] docstring  [ ] test
+    # [ ] getSdClientConfig            [x] impl  [ ] docstring  [ ] test
+    # [ ] setSdClientConfig            [x] impl  [ ] docstring  [ ] test
+    # [ ] getSdClientTimerConfigRef    [x] impl  [ ] docstring  [ ] test
+    # [ ] setSdClientTimerConfigRef    [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -328,6 +404,37 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     architecture, defining how services are consumed by clients including
     provider references, service identifiers, and client configuration.
     """
+    # ConsumedServiceInstance method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getAllowedServiceProviderRefs [x] impl  [ ] docstring  [ ] test
+    # [ ] setAllowedServiceProviderRefs [x] impl  [ ] docstring  [ ] test
+    # [ ] getAutoRequire               [x] impl  [ ] docstring  [ ] test
+    # [ ] setAutoRequire               [x] impl  [ ] docstring  [ ] test
+    # [ ] getBlocklistedVersions       [x] impl  [ ] docstring  [ ] test
+    # [ ] setBlocklistedVersions       [x] impl  [ ] docstring  [ ] test
+    # [ ] getConsumedEventGroups       [x] impl  [ ] docstring  [ ] test
+    # [ ] createConsumedEventGroup     [x] impl  [ ] docstring  [ ] test
+    # [ ] getEventMulticastSubscriptionAddressRef [x] impl  [ ] docstring  [ ] test
+    # [ ] setEventMulticastSubscriptionAddressRef [x] impl  [ ] docstring  [ ] test
+    # [ ] getInstanceIdentifier        [x] impl  [ ] docstring  [ ] test
+    # [ ] setInstanceIdentifier        [x] impl  [ ] docstring  [ ] test
+    # [ ] getLocalUnicastAddressRefs   [x] impl  [ ] docstring  [ ] test
+    # [ ] setLocalUnicastAddressRefs   [x] impl  [ ] docstring  [ ] test
+    # [ ] getMinorVersion              [x] impl  [ ] docstring  [ ] test
+    # [ ] setMinorVersion              [x] impl  [ ] docstring  [ ] test
+    # [ ] getProvidedServiceInstanceRef [x] impl  [ ] docstring  [ ] test
+    # [ ] setProvidedServiceInstanceRef [x] impl  [ ] docstring  [ ] test
+    # [ ] getRemoteUnicastAddressRefs  [x] impl  [ ] docstring  [ ] test
+    # [ ] setRemoteUnicastAddressRefs  [x] impl  [ ] docstring  [ ] test
+    # [ ] getSdClientConfig            [x] impl  [ ] docstring  [ ] test
+    # [ ] setSdClientConfig            [x] impl  [ ] docstring  [ ] test
+    # [ ] getSdClientTimerConfigRef    [x] impl  [ ] docstring  [ ] test
+    # [ ] setSdClientTimerConfigRef    [x] impl  [ ] docstring  [ ] test
+    # [ ] getServiceIdentifier         [x] impl  [ ] docstring  [ ] test
+    # [ ] setServiceIdentifier         [x] impl  [ ] docstring  [ ] test
+    # [ ] getVersionDrivenFindBehavior [x] impl  [ ] docstring  [ ] test
+    # [ ] setVersionDrivenFindBehavior [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -466,6 +573,17 @@ class InitialSdDelayConfig(ARObject):
     operations, defining the timing behavior for initial service
     discovery attempts and repetitions.
     """
+    # InitialSdDelayConfig method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getInitialDelayMaxValue      [x] impl  [ ] docstring  [ ] test
+    # [ ] setInitialDelayMaxValue      [x] impl  [ ] docstring  [ ] test
+    # [ ] getInitialDelayMinValue      [x] impl  [ ] docstring  [ ] test
+    # [ ] setInitialDelayMinValue      [x] impl  [ ] docstring  [ ] test
+    # [ ] getInitialRepetitionsBaseDelay [x] impl  [ ] docstring  [ ] test
+    # [ ] setInitialRepetitionsBaseDelay [x] impl  [ ] docstring  [ ] test
+    # [ ] getInitialRepetitionsMax     [x] impl  [ ] docstring  [ ] test
+    # [ ] setInitialRepetitionsMax     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -513,6 +631,23 @@ class SdServerConfig(ARObject):
     service advertisement behavior, timing parameters, and version
     information for service providers in the network.
     """
+    # SdServerConfig method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCapabilityRecords         [x] impl  [ ] docstring  [ ] test
+    # [ ] setCapabilityRecords         [x] impl  [ ] docstring  [ ] test
+    # [ ] getInitialOfferBehavior      [x] impl  [ ] docstring  [ ] test
+    # [ ] setInitialOfferBehavior      [x] impl  [ ] docstring  [ ] test
+    # [ ] getOfferCyclicDelay          [x] impl  [ ] docstring  [ ] test
+    # [ ] setOfferCyclicDelay          [x] impl  [ ] docstring  [ ] test
+    # [ ] getRequestResponseDelay      [x] impl  [ ] docstring  [ ] test
+    # [ ] setRequestResponseDelay      [x] impl  [ ] docstring  [ ] test
+    # [ ] getServerServiceMajorVersion [x] impl  [ ] docstring  [ ] test
+    # [ ] setServerServiceMajorVersion [x] impl  [ ] docstring  [ ] test
+    # [ ] getServerServiceMinorVersion [x] impl  [ ] docstring  [ ] test
+    # [ ] setServerServiceMinorVersion [x] impl  [ ] docstring  [ ] test
+    # [ ] getTtl                       [x] impl  [ ] docstring  [ ] test
+    # [ ] setTtl                       [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -587,6 +722,19 @@ class EventHandler(Identifiable):
     specifying how events are processed by service providers including
     application endpoint references and service discovery configuration.
     """
+    # EventHandler method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getApplicationEndpointRef    [x] impl  [ ] docstring  [ ] test
+    # [ ] setApplicationEndpointRef    [x] impl  [ ] docstring  [ ] test
+    # [ ] getConsumedEventGroupRefs    [x] impl  [ ] docstring  [ ] test
+    # [ ] addConsumedEventGroupRef     [x] impl  [ ] docstring  [ ] test
+    # [ ] getMulticastThreshold        [x] impl  [ ] docstring  [ ] test
+    # [ ] setMulticastThreshold        [x] impl  [ ] docstring  [ ] test
+    # [ ] getRoutingGroupRefs          [x] impl  [ ] docstring  [ ] test
+    # [ ] addRoutingGroupRef           [x] impl  [ ] docstring  [ ] test
+    # [ ] getSdServerConfig            [x] impl  [ ] docstring  [ ] test
+    # [ ] setSdServerConfig            [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -643,6 +791,19 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     architecture, defining how services are provided to clients including
     service identifiers, instance identifiers, and server configuration.
     """
+    # ProvidedServiceInstance method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getEventHandlers             [x] impl  [ ] docstring  [ ] test
+    # [ ] createEventHandler           [x] impl  [ ] docstring  [ ] test
+    # [ ] getInstanceIdentifier        [x] impl  [ ] docstring  [ ] test
+    # [ ] setInstanceIdentifier        [x] impl  [ ] docstring  [ ] test
+    # [ ] getPriority                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setPriority                  [x] impl  [ ] docstring  [ ] test
+    # [ ] getSdServerConfig            [x] impl  [ ] docstring  [ ] test
+    # [ ] setSdServerConfig            [x] impl  [ ] docstring  [ ] test
+    # [ ] getServiceIdentifier         [x] impl  [ ] docstring  [ ] test
+    # [ ] setServiceIdentifier         [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -701,6 +862,23 @@ class ApplicationEndpoint(Identifiable):
     specifying the interface between applications and the service
     infrastructure including network endpoint references and service instances.
     """
+    # ApplicationEndpoint method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getConsumedServiceInstances  [x] impl  [ ] docstring  [ ] test
+    # [ ] createConsumedServiceInstance [x] impl  [ ] docstring  [ ] test
+    # [ ] getMaxNumberOfConnections    [x] impl  [ ] docstring  [ ] test
+    # [ ] setMaxNumberOfConnections    [x] impl  [ ] docstring  [ ] test
+    # [ ] getNetworkEndpointRef        [x] impl  [ ] docstring  [ ] test
+    # [ ] setNetworkEndpointRef        [x] impl  [ ] docstring  [ ] test
+    # [ ] getPriority                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setPriority                  [x] impl  [ ] docstring  [ ] test
+    # [ ] getProvidedServiceInstances  [x] impl  [ ] docstring  [ ] test
+    # [ ] createProvidedServiceInstance [x] impl  [ ] docstring  [ ] test
+    # [ ] getTlsCryptoMappingRef       [x] impl  [ ] docstring  [ ] test
+    # [ ] setTlsCryptoMappingRef       [x] impl  [ ] docstring  [ ] test
+    # [ ] getTpConfiguration           [x] impl  [ ] docstring  [ ] test
+    # [ ] setTpConfiguration           [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -773,6 +951,35 @@ class SocketAddress(Identifiable):
     port addresses, connection properties, and socket configuration
     for TCP/IP communication endpoints.
     """
+    # SocketAddress method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getAllowedIPv6ExtHeadersRef  [x] impl  [ ] docstring  [ ] test
+    # [ ] setAllowedIPv6ExtHeadersRef  [x] impl  [ ] docstring  [ ] test
+    # [ ] getAllowedTcpOptionsRef      [x] impl  [ ] docstring  [ ] test
+    # [ ] setAllowedTcpOptionsRef      [x] impl  [ ] docstring  [ ] test
+    # [ ] getApplicationEndpoint       [x] impl  [ ] docstring  [ ] test
+    # [ ] createApplicationEndpoint    [x] impl  [ ] docstring  [ ] test
+    # [ ] getConnectorRef              [x] impl  [ ] docstring  [ ] test
+    # [ ] setConnectorRef              [x] impl  [ ] docstring  [ ] test
+    # [ ] getDifferentiatedServiceField [x] impl  [ ] docstring  [ ] test
+    # [ ] setDifferentiatedServiceField [x] impl  [ ] docstring  [ ] test
+    # [ ] getFlowLabel                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setFlowLabel                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getMulticastConnectorRefs    [x] impl  [ ] docstring  [ ] test
+    # [ ] addMulticastConnectorRef     [x] impl  [ ] docstring  [ ] test
+    # [ ] getPathMtuDiscoveryEnabled   [x] impl  [ ] docstring  [ ] test
+    # [ ] setPathMtuDiscoveryEnabled   [x] impl  [ ] docstring  [ ] test
+    # [ ] getPduCollectionMaxBufferSize [x] impl  [ ] docstring  [ ] test
+    # [ ] setPduCollectionMaxBufferSize [x] impl  [ ] docstring  [ ] test
+    # [ ] getPduCollectionTimeout      [x] impl  [ ] docstring  [ ] test
+    # [ ] setPduCollectionTimeout      [x] impl  [ ] docstring  [ ] test
+    # [ ] getPortAddress               [x] impl  [ ] docstring  [ ] test
+    # [ ] setPortAddress               [x] impl  [ ] docstring  [ ] test
+    # [ ] getStaticSocketConnections   [x] impl  [ ] docstring  [ ] test
+    # [ ] addStaticSocketConnection    [x] impl  [ ] docstring  [ ] test
+    # [ ] getUdpChecksumHandling       [x] impl  [ ] docstring  [ ] test
+    # [ ] setUdpChecksumHandling       [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -888,6 +1095,16 @@ class SoAdConfig(ARObject):
     connections, connection bundles, and socket address configurations
     for TCP/IP communication management in AUTOSAR systems.
     """
+    # SoAdConfig method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getConnections               [x] impl  [ ] docstring  [ ] test
+    # [ ] setConnections               [x] impl  [ ] docstring  [ ] test
+    # [ ] getConnectionBundles         [x] impl  [ ] docstring  [ ] test
+    # [ ] createSocketConnectionBundle [x] impl  [ ] docstring  [ ] test
+    # [ ] setConnectionBundles         [x] impl  [ ] docstring  [ ] test
+    # [ ] getSocketAddresses           [x] impl  [ ] docstring  [ ] test
+    # [ ] createSocketAddress          [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 

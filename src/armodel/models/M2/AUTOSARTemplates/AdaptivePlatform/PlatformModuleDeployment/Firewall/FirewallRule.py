@@ -8,6 +8,13 @@ class FirewallRule(ARObject):
     Represents a firewall rule in AUTOSAR Adaptive Platform PlatformModuleDeployment.
     Defines rules for firewall configuration in adaptive platform modules.
     """
+    # FirewallRule method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] addDestRef                   [x] impl  [x] docstring  [ ] test
+    # [ ] getDestRefs                  [x] impl  [x] docstring  [ ] test
+    # [ ] addSrcRef                    [x] impl  [x] docstring  [ ] test
+    # [ ] getSrcRefs                   [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

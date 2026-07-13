@@ -8,6 +8,13 @@ class McDataInstance(ARObject):
     Represents an MC (Measurement and Calibration) data instance in AUTOSAR.
     Defines an instance of MC data that can be accessed or modified.
     """
+    # McDataInstance method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] addDataAccessDetail          [x] impl  [x] docstring  [ ] test
+    # [ ] getDataAccessDetails         [x] impl  [x] docstring  [ ] test
+    # [ ] getDataRef                   [x] impl  [x] docstring  [ ] test
+    # [ ] setDataRef                   [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

@@ -11,6 +11,19 @@ class VariableDataPrototypeInSystemInstanceRef(AtpInstanceRef):
     Instance reference to a VariableDataPrototype in the context of a
     system model.
     """
+    # VariableDataPrototypeInSystemInstanceRef method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getBaseRef                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setBaseRef                   [x] impl  [ ] docstring  [ ] test
+    # [ ] getContextComponentRefs      [x] impl  [ ] docstring  [ ] test
+    # [ ] addContextComponentRef       [x] impl  [ ] docstring  [ ] test
+    # [ ] getContextCompositionRef     [x] impl  [ ] docstring  [ ] test
+    # [ ] setContextCompositionRef     [x] impl  [ ] docstring  [ ] test
+    # [ ] getContextPortRef            [x] impl  [ ] docstring  [ ] test
+    # [ ] setContextPortRef            [x] impl  [ ] docstring  [ ] test
+    # [ ] getTargetDataPrototypeRef    [x] impl  [ ] docstring  [ ] test
+    # [ ] setTargetDataPrototypeRef    [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()
@@ -61,6 +74,17 @@ class ComponentInSystemInstanceRef(AtpInstanceRef):
     """
     Instance reference to a component in the context of a system model.
     """
+    # ComponentInSystemInstanceRef method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getBaseRef                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setBaseRef                   [x] impl  [ ] docstring  [ ] test
+    # [ ] getContextComponentRefs      [x] impl  [ ] docstring  [ ] test
+    # [ ] addContextComponentRef       [x] impl  [ ] docstring  [ ] test
+    # [ ] getContextCompositionRef     [x] impl  [ ] docstring  [ ] test
+    # [ ] setContextCompositionRef     [x] impl  [ ] docstring  [ ] test
+    # [ ] getTargetComponentRef        [x] impl  [ ] docstring  [ ] test
+    # [ ] setTargetComponentRef        [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()

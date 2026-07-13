@@ -14,6 +14,14 @@ class ARType(ABC):
     Abstract base class for all AUTOSAR types.
     This class provides the basic structure for all AUTOSAR type definitions.
     """
+    # ARType method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # [ ] value                        [x] impl  [x] docstring  [ ] test
+    # [ ] value                        [x] impl  [ ] docstring  [ ] test
+    # [ ] getValue                     [x] impl  [x] docstring  [ ] test
+    # [ ] setValue                     [x] impl  [x] docstring  [ ] test
+    # [x] getText                      [x] impl  [x] docstring  [x] test
+
     
     def __init__(self) -> None:
         self.timestamp: Optional[str] = None
@@ -68,6 +76,16 @@ class ARNumerical(ARType):
     Base class for numerical AUTOSAR types.
     This class provides functionality for numerical values in AUTOSAR models.
     """
+    # ARNumerical method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # [x] _convertStringToNumberValue  [x] impl  [x] docstring  [x] test
+    # [ ] value                        [x] impl  [x] docstring  [ ] test
+    # [ ] value                        [x] impl  [ ] docstring  [ ] test
+    # [ ] __str__                      [x] impl  [ ] docstring  [ ] test
+    # [ ] getValue                     [x] impl  [x] docstring  [ ] test
+    # [ ] setShortLabel                [x] impl  [x] docstring  [ ] test
+    # [ ] getShortLabel                [x] impl  [x] docstring  [ ] test
+
     
     def __init__(self) -> None:
         super().__init__()
@@ -167,6 +185,12 @@ class ARFloat(ARNumerical):
     Base class for floating-point AUTOSAR types.
     This class provides functionality for floating-point values in AUTOSAR models.
     """
+    # ARFloat method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # [ ] value                        [x] impl  [x] docstring  [ ] test
+    # [ ] value                        [x] impl  [ ] docstring  [ ] test
+    # [ ] __str__                      [x] impl  [ ] docstring  [ ] test
+
     
     def __init__(self) -> None:
         super().__init__()
@@ -204,6 +228,9 @@ class Float(ARFloat):
             * xml.xsd.customType=FLOAT
             * xml.xsd.type=double
     '''
+    # Float method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+
     def __init__(self):
         super().__init__()
 
@@ -216,6 +243,9 @@ class TimeValue(ARFloat):
             * xml.xsd.customType=TIME-VALUE
             * xml.xsd.type=double
     '''
+    # TimeValue method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+
 
     def __init__(self):
         super().__init__()
@@ -226,6 +256,13 @@ class ARLiteral(ARType):
     Base class for literal AUTOSAR types.
     This class provides functionality for literal values in AUTOSAR models.
     """
+    # ARLiteral method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # [ ] value                        [x] impl  [x] docstring  [ ] test
+    # [ ] value                        [x] impl  [ ] docstring  [ ] test
+    # [ ] __str__                      [x] impl  [ ] docstring  [ ] test
+    # [ ] upper                        [x] impl  [x] docstring  [ ] test
+
     
     def __init__(self) -> None:
         super().__init__()
@@ -262,6 +299,12 @@ class AREnum(ARLiteral):
     Base class for enumeration AUTOSAR types.
     This class provides functionality for enumeration values in AUTOSAR models.
     """
+    # AREnum method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # [ ] getEnumValues                [x] impl  [x] docstring  [ ] test
+    # [x] setEnumValues                [x] impl  [x] docstring  [x] test
+    # [x] validateEnumValue            [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, enum_values: List[str]):
         super().__init__()
@@ -310,6 +353,9 @@ class String(ARLiteral):
     Represents a string AUTOSAR type.
     This class provides functionality for string values in AUTOSAR models.
     """
+    # String method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+
     
     def __init__(self):
         super().__init__()
@@ -319,6 +365,9 @@ class ReferrableSubtypesEnum(ARLiteral):
     """
     Represents an enum for referrable subtypes in AUTOSAR models.
     """
+    # ReferrableSubtypesEnum method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+
     
     def __init__(self):
         super().__init__()
@@ -329,6 +378,11 @@ class ARPositiveInteger(ARNumerical):
     Base class for positive integer AUTOSAR types.
     This class provides functionality for positive integer values in AUTOSAR models.
     """
+    # ARPositiveInteger method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # [ ] value                        [x] impl  [x] docstring  [ ] test
+    # [ ] value                        [x] impl  [ ] docstring  [ ] test
+
     
     def __init__(self) -> None:
         super().__init__()
@@ -356,6 +410,14 @@ class ARBoolean(ARType):
     Base class for boolean AUTOSAR types.
     This class provides functionality for boolean values in AUTOSAR models.
     """
+    # ARBoolean method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # [x] _convertNumberToBoolean      [x] impl  [x] docstring  [x] test
+    # [x] _convertStringToBoolean      [x] impl  [x] docstring  [x] test
+    # [ ] value                        [x] impl  [x] docstring  [ ] test
+    # [ ] value                        [x] impl  [ ] docstring  [ ] test
+    # [ ] __str__                      [x] impl  [ ] docstring  [ ] test
+
     
     def __init__(self) -> None:
         super().__init__()
@@ -435,6 +497,9 @@ class NameToken(ARLiteral):
             * xml.xsd.customType=NMTOKEN-STRING
             * xml.xsd.type=NMTOKEN
     '''
+    # NameToken method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+
     def __init__(self):
         super().__init__()
 
@@ -450,6 +515,9 @@ class PositiveInteger(ARPositiveInteger):
             * xml.xsd.type=string
         \n
     '''
+    # PositiveInteger method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+
     def __init__(self):
         super().__init__()
 
@@ -463,6 +531,9 @@ class PositiveUnlimitedInteger(ARPositiveInteger):
             * xml.xsd.pattern=0|[\+]?[1-9][0-9]*|0[xX][0-9a-fA-F]+|0[bB][0-1]+|0[0-7]+
             * xml.xsd.type=string
     '''
+    # PositiveUnlimitedInteger method parity checklist:
+    # (no methods)
+
 
 
 class Integer(ARNumerical):
@@ -477,6 +548,9 @@ class Integer(ARNumerical):
             * xml.xsd.pattern=0|[\+\-]?[1-9][0-9]*|0[xX][0-9a-fA-F]+|0[bB][0-1]+|0[0-7]+
             * xml.xsd.type=string
     '''
+    # Integer method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -493,6 +567,9 @@ class UnlimitedInteger(Integer):
             * xml.xsd.pattern=0|[\+\-]?[1-9][0-9]*|0[xX][0-9a-fA-F]+|0[bB][0-1]+|0[0-7]+
             * xml.xsd.type=string
     '''
+    # UnlimitedInteger method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -507,6 +584,9 @@ class Boolean(ARBoolean):
             * xml.xsd.pattern=0|1|true|false
             * xml.xsd.type=string
     '''
+    # Boolean method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -524,6 +604,9 @@ class Identifier(ARLiteral):
             * xml.xsd.pattern=[a-zA-Z][a-zA-Z0-9_]*
             * xml.xsd.type=string
     '''
+    # Identifier method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -537,6 +620,13 @@ class CIdentifier(ARLiteral):
             * xml.xsd.pattern=[a-zA-Z_][a-zA-Z0-9_]*
             * xml.xsd.type=string
     '''
+    # CIdentifier method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # [ ] getBlueprintValue            [x] impl  [x] docstring  [ ] test
+    # [ ] setBlueprintValue            [x] impl  [x] docstring  [ ] test
+    # [ ] getNamePattern               [x] impl  [x] docstring  [ ] test
+    # [ ] setNamePattern               [x] impl  [x] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -600,6 +690,9 @@ class RevisionLabelString(ARLiteral):
             * 4.0.0_vendor specific;13
             * 4.0.0;12
     '''
+    # RevisionLabelString method parity checklist:
+    # (no methods)
+
 
     
 class Limit(ARObject):
@@ -607,6 +700,13 @@ class Limit(ARObject):
     Represents a limit in AUTOSAR models.
     This class defines limits with interval type and value.
     """
+    # Limit method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # [ ] getIntervalType              [x] impl  [x] docstring  [ ] test
+    # [ ] setIntervalType              [x] impl  [x] docstring  [ ] test
+    # [ ] getValue                     [x] impl  [x] docstring  [ ] test
+    # [ ] setValue                     [x] impl  [x] docstring  [ ] test
+
     
     def __init__(self):
         super().__init__()
@@ -664,6 +764,16 @@ class RefType(ARObject):
     Represents a reference type in AUTOSAR models.
     This class defines references with base, destination and value properties.
     """
+    # RefType method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # [ ] getBase                      [x] impl  [x] docstring  [ ] test
+    # [ ] setBase                      [x] impl  [x] docstring  [ ] test
+    # [ ] getDest                      [x] impl  [x] docstring  [ ] test
+    # [ ] setDest                      [x] impl  [x] docstring  [ ] test
+    # [ ] getValue                     [x] impl  [x] docstring  [ ] test
+    # [ ] setValue                     [x] impl  [x] docstring  [ ] test
+    # [x] getShortValue                [x] impl  [x] docstring  [x] test
+
     
     def __init__(self):
         super().__init__()
@@ -761,6 +871,9 @@ class TRefType(RefType):
     Represents a typed reference type in AUTOSAR models.
     This class extends RefType with additional type-specific functionality.
     """
+    # TRefType method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+
     
     def __init__(self):
         super().__init__()
@@ -775,6 +888,9 @@ class DiagRequirementIdString(ARLiteral):
             * xml.xsd.pattern=[0-9a-zA-Z_\-]+                           # noqa W605
             * xml.xsd.type=string
     '''
+    # DiagRequirementIdString method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -784,6 +900,9 @@ class ArgumentDirectionEnum(AREnum):
     Enumeration for argument direction in AUTOSAR models.
     Defines the direction of arguments in function interfaces.
     """
+    # ArgumentDirectionEnum method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+
     IN = "in"
     INOUT = "inout"
     OUT = "out"
@@ -805,6 +924,9 @@ class Ip4AddressString(ARLiteral):
             * xml.xsd.pattern=(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|ANY        # noqa E501
             * xml.xsd.type=string
     '''
+    # Ip4AddressString method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -820,6 +942,9 @@ class Ip6AddressString(ARLiteral):
             * xml.xsd.pattern=[0-9A-Fa-f]{1,4}(:[0-9A-Fa-f]{1,4}){7,7}|ANY
             * xml.xsd.type=string
     '''
+    # Ip6AddressString method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -834,6 +959,9 @@ class MacAddressString(ARLiteral):
             * xml.xsd.pattern=([0-9a-fA-F]{2}:){5}[0-9a-fA-F]{2}
             * xml.xsd.type=string
     '''
+    # MacAddressString method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -849,6 +977,9 @@ class CategoryString(ARLiteral):
             * xml.xsd.pattern=[a-zA-Z][a-zA-Z0-9_]*
             * xml.xsd.type=string
         '''
+    # CategoryString method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -857,6 +988,9 @@ class ByteOrderEnum(AREnum):
     """
     Enumeration for byte order in AUTOSAR models.
     """
+    # ByteOrderEnum method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+
     
     def __init__(self):
         super().__init__([])
@@ -878,6 +1012,9 @@ class DateTime(ARLiteral):
             xml.xsd.pattern=([0-9]{4}-[0-9]{2}-[0-9]{2})(T[0-9]{2}:[0-9]{2}:[0-9]{2}(Z|([+\-][0-9]{2}:[0-9]{2})))?
             xml.xsd.type=string
     '''
+    # DateTime method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -887,6 +1024,9 @@ class VerbatimString(ARLiteral):
     Represents a verbatim string in AUTOSAR models.
     This class is used for strings that should be preserved exactly as written.
     """
+    # VerbatimString method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     
     def __init__(self):
         super().__init__()
@@ -897,6 +1037,9 @@ class RegularExpression(ARLiteral):
     Represents a regular expression in AUTOSAR models.
     This class is used for storing and handling regular expression patterns.
     """
+    # RegularExpression method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     
     def __init__(self):
         super().__init__()

@@ -6,6 +6,13 @@ class TimingClock(ARObject):
     Represents a timing clock in AUTOSAR timing specifications.
     Defines a clock used for timing analysis and synchronization.
     """
+    # TimingClock method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getClockName                 [x] impl  [x] docstring  [ ] test
+    # [ ] setClockName                 [x] impl  [x] docstring  [ ] test
+    # [ ] getClockType                 [x] impl  [x] docstring  [ ] test
+    # [ ] setClockType                 [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

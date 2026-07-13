@@ -10,6 +10,11 @@ class LinCommunicationController(CommunicationController, ABC):
     defining properties for LIN network communication including
     protocol version specifications.
     """
+    # LinCommunicationController method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getProtocolVersion           [x] impl  [ ] docstring  [ ] test
+    # [ ] setProtocolVersion           [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is LinCommunicationController:
@@ -32,6 +37,15 @@ class LinMaster(LinCommunicationController):
     slave configurations, time base settings, and timing jitter
     properties for LIN master communication management.
     """
+    # LinMaster method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getLinSlaves                 [x] impl  [ ] docstring  [ ] test
+    # [ ] addLinSlaves                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimeBase                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimeBase                  [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimeBaseJitter            [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimeBaseJitter            [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -69,6 +83,17 @@ class LinCommunicationConnector(CommunicationConnector):
     to communication channels, specifying initial NAD (Node Address),
     configurable frames, and schedule change properties for LIN communication.
     """
+    # LinCommunicationConnector method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getInitialNad                [x] impl  [ ] docstring  [ ] test
+    # [ ] setInitialNad                [x] impl  [ ] docstring  [ ] test
+    # [ ] getLinConfigurableFrames     [x] impl  [ ] docstring  [ ] test
+    # [ ] addLinConfigurableFrame      [x] impl  [ ] docstring  [ ] test
+    # [ ] getLinOrderedConfigurableFrames [x] impl  [ ] docstring  [ ] test
+    # [ ] addLinOrderedConfigurableFrame [x] impl  [ ] docstring  [ ] test
+    # [ ] getScheduleChangeNextTimeBase [x] impl  [ ] docstring  [ ] test
+    # [ ] setScheduleChangeNextTimeBase [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

@@ -17,6 +17,13 @@ class SwcBswRunnableMapping(ARObject):
     Abstraction). The mapping can be used by a tool to find relevant information on the
     behavior, e.g. whether the bswEntity shall be running in interrupt context.
     """
+    # SwcBswRunnableMapping method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getBswEntityRef              [x] impl  [x] docstring  [x] test
+    # [x] setBswEntityRef              [x] impl  [x] docstring  [x] test
+    # [x] getSwcRunnableRef            [x] impl  [x] docstring  [x] test
+    # [x] setSwcRunnableRef            [x] impl  [x] docstring  [x] test
+
     
     def __init__(self):
         """
@@ -80,6 +87,19 @@ class SwcBswMapping(AtpStructureElement):
     Represents SWC-BSW mapping in AUTOSAR models.
     This class defines mappings between software component (SWC) behavior and basic software (BSW) behavior.
     """
+    # SwcBswMapping method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getBswBehaviorRef            [x] impl  [x] docstring  [x] test
+    # [x] setBswBehaviorRef            [x] impl  [x] docstring  [x] test
+    # [x] getRunnableMappings          [x] impl  [x] docstring  [x] test
+    # [x] addRunnableMapping           [x] impl  [x] docstring  [x] test
+    # [x] getSwcBehaviorRef            [x] impl  [x] docstring  [x] test
+    # [x] setSwcBehaviorRef            [x] impl  [x] docstring  [x] test
+    # [x] getSynchronizedModeGroups    [x] impl  [x] docstring  [x] test
+    # [x] setSynchronizedModeGroups    [x] impl  [x] docstring  [x] test
+    # [x] getSynchronizedTriggers      [x] impl  [x] docstring  [x] test
+    # [x] setSynchronizedTriggers      [x] impl  [x] docstring  [x] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -222,6 +242,11 @@ class SwcBswSynchronizedModeGroupPrototype(ARObject):
     Represents a SWC-BSW synchronized mode group prototype in AUTOSAR.
     Defines a synchronized mode group prototype for SWC-BSW mapping.
     """
+    # SwcBswSynchronizedModeGroupPrototype method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getModeGroupRef              [x] impl  [x] docstring  [ ] test
+    # [ ] setModeGroupRef              [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """
@@ -258,6 +283,11 @@ class SwcBswSynchronizedTrigger(ARObject):
     Represents a SWC-BSW synchronized trigger in AUTOSAR.
     Defines a synchronized trigger for SWC-BSW mapping.
     """
+    # SwcBswSynchronizedTrigger method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getTriggerRef                [x] impl  [x] docstring  [ ] test
+    # [ ] setTriggerRef                [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

@@ -7,6 +7,9 @@ class ListEnum(AREnum):
     """
     Enumeration for list numbering types: number or unnumber.
     """
+    # ListEnum method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     NUMBER = 'number'
     UNNUMBER = 'unnumber'
@@ -22,6 +25,11 @@ class Item(Paginateable):
     """
     An item within a list with content defined by itemContents.
     """
+    # Item method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getItemContents              [x] impl  [ ] docstring  [ ] test
+    # [ ] setItemContents              [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -40,6 +48,13 @@ class ARList(Paginateable):
         This meta-class represents the ability to express a list. The kind of list is specified in the attribute.
         In AUTOSAR standard class name shall be List, but it is conflict with Python List and renamed to ARList
     '''
+    # ARList method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getItems                     [x] impl  [ ] docstring  [ ] test
+    # [ ] addItem                      [x] impl  [ ] docstring  [ ] test
+    # [ ] getType                      [x] impl  [ ] docstring  [ ] test
+    # [ ] setType                      [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 

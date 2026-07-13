@@ -14,6 +14,13 @@ class ServerCallPoint(AbstractAccessPoint, ABC):
     particular ClientServerOperation of a specific RPortPrototype of the
     corresponding AtomicSwComponentType.
     """
+    # ServerCallPoint method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getOperationIRef             [x] impl  [x] docstring  [ ] test
+    # [ ] setOperationIRef             [x] impl  [x] docstring  [ ] test
+    # [ ] getTimeout                   [x] impl  [x] docstring  [ ] test
+    # [ ] setTimeout                   [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is ServerCallPoint:

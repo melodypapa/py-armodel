@@ -15,6 +15,23 @@ class CanControllerFdConfiguration(ARObject):
     including timing settings, padding values, and bit rate switching properties
     required for CAN FD communication.
     """
+    # CanControllerFdConfiguration method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getPaddingValue              [x] impl  [ ] docstring  [ ] test
+    # [ ] setPaddingValue              [x] impl  [ ] docstring  [ ] test
+    # [ ] getPropSeg                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setPropSeg                   [x] impl  [ ] docstring  [ ] test
+    # [ ] getSspOffset                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setSspOffset                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getSyncJumpWidth             [x] impl  [ ] docstring  [ ] test
+    # [ ] setSyncJumpWidth             [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimeSeg1                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimeSeg1                  [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimeSeg2                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimeSeg2                  [x] impl  [ ] docstring  [ ] test
+    # [ ] getTxBitRateSwitch           [x] impl  [ ] docstring  [ ] test
+    # [ ] setTxBitRateSwitch           [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -89,6 +106,29 @@ class CanControllerFdConfigurationRequirements(ARObject):
     the acceptable ranges and constraints for timing, bit rate, and other
     CAN FD communication properties.
     """
+    # CanControllerFdConfigurationRequirements method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getMaxNumberOfTimeQuantaPerBit [x] impl  [ ] docstring  [ ] test
+    # [ ] setMaxNumberOfTimeQuantaPerBit [x] impl  [ ] docstring  [ ] test
+    # [ ] getMaxSamplePoint            [x] impl  [ ] docstring  [ ] test
+    # [ ] setMaxSamplePoint            [x] impl  [ ] docstring  [ ] test
+    # [ ] getMaxSyncJumpWidth          [x] impl  [ ] docstring  [ ] test
+    # [ ] setMaxSyncJumpWidth          [x] impl  [ ] docstring  [ ] test
+    # [ ] getMaxTrcvDelayCompensationOffset [x] impl  [ ] docstring  [ ] test
+    # [ ] setMaxTrcvDelayCompensationOffset [x] impl  [ ] docstring  [ ] test
+    # [ ] getMinNumberOfTimeQuantaPerBit [x] impl  [ ] docstring  [ ] test
+    # [ ] setMinNumberOfTimeQuantaPerBit [x] impl  [ ] docstring  [ ] test
+    # [ ] getMinSamplePoint            [x] impl  [ ] docstring  [ ] test
+    # [ ] setMinSamplePoint            [x] impl  [ ] docstring  [ ] test
+    # [ ] getMinSyncJumpWidth          [x] impl  [ ] docstring  [ ] test
+    # [ ] setMinSyncJumpWidth          [x] impl  [ ] docstring  [ ] test
+    # [ ] getMinTrcvDelayCompensationOffset [x] impl  [ ] docstring  [ ] test
+    # [ ] setMinTrcvDelayCompensationOffset [x] impl  [ ] docstring  [ ] test
+    # [ ] getPaddingValue              [x] impl  [ ] docstring  [ ] test
+    # [ ] setPaddingValue              [x] impl  [ ] docstring  [ ] test
+    # [ ] getTxBitRateSwitch           [x] impl  [ ] docstring  [ ] test
+    # [ ] setTxBitRateSwitch           [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -190,6 +230,37 @@ class CanControllerXlConfiguration(ARObject):
     including timing settings, payload length configurations, and other
     CAN XL communication properties.
     """
+    # CanControllerXlConfiguration method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getArbitrationPhaseSeg1      [x] impl  [ ] docstring  [ ] test
+    # [ ] setArbitrationPhaseSeg1      [x] impl  [ ] docstring  [ ] test
+    # [ ] getArbitrationPhaseSeg2      [x] impl  [ ] docstring  [ ] test
+    # [ ] setArbitrationPhaseSeg2      [x] impl  [ ] docstring  [ ] test
+    # [ ] getArbitrationSJW            [x] impl  [ ] docstring  [ ] test
+    # [ ] setArbitrationSJW            [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataPhaseSeg1             [x] impl  [ ] docstring  [ ] test
+    # [ ] setDataPhaseSeg1             [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataPhaseSeg2             [x] impl  [ ] docstring  [ ] test
+    # [ ] setDataPhaseSeg2             [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataSJW                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setDataSJW                   [x] impl  [ ] docstring  [ ] test
+    # [ ] getMinArbitrationBitTime     [x] impl  [ ] docstring  [ ] test
+    # [ ] setMinArbitrationBitTime     [x] impl  [ ] docstring  [ ] test
+    # [ ] getMinDataBitTime            [x] impl  [ ] docstring  [ ] test
+    # [ ] setMinDataBitTime            [x] impl  [ ] docstring  [ ] test
+    # [ ] getPaddingValue              [x] impl  [ ] docstring  [ ] test
+    # [ ] setPaddingValue              [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimeSeg1Arbitration       [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimeSeg1Arbitration       [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimeSeg1Data              [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimeSeg1Data              [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimeSeg2Arbitration       [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimeSeg2Arbitration       [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimeSeg2Data              [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimeSeg2Data              [x] impl  [ ] docstring  [ ] test
+    # [ ] getXlBitRateSwitch           [x] impl  [ ] docstring  [ ] test
+    # [ ] setXlBitRateSwitch           [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -327,6 +398,29 @@ class CanControllerXlConfigurationRequirements(ARObject):
     the acceptable ranges and constraints for timing, bit rate, and other
     CAN XL communication properties.
     """
+    # CanControllerXlConfigurationRequirements method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getMaxNumberOfTimeQuantaPerBit [x] impl  [ ] docstring  [ ] test
+    # [ ] setMaxNumberOfTimeQuantaPerBit [x] impl  [ ] docstring  [ ] test
+    # [ ] getMaxSamplePoint            [x] impl  [ ] docstring  [ ] test
+    # [ ] setMaxSamplePoint            [x] impl  [ ] docstring  [ ] test
+    # [ ] getMaxSyncJumpWidth          [x] impl  [ ] docstring  [ ] test
+    # [ ] setMaxSyncJumpWidth          [x] impl  [ ] docstring  [ ] test
+    # [ ] getMaxTrcvDelayCompensationOffset [x] impl  [ ] docstring  [ ] test
+    # [ ] setMaxTrcvDelayCompensationOffset [x] impl  [ ] docstring  [ ] test
+    # [ ] getMinNumberOfTimeQuantaPerBit [x] impl  [ ] docstring  [ ] test
+    # [ ] setMinNumberOfTimeQuantaPerBit [x] impl  [ ] docstring  [ ] test
+    # [ ] getMinSamplePoint            [x] impl  [ ] docstring  [ ] test
+    # [ ] setMinSamplePoint            [x] impl  [ ] docstring  [ ] test
+    # [ ] getMinSyncJumpWidth          [x] impl  [ ] docstring  [ ] test
+    # [ ] setMinSyncJumpWidth          [x] impl  [ ] docstring  [ ] test
+    # [ ] getMinTrcvDelayCompensationOffset [x] impl  [ ] docstring  [ ] test
+    # [ ] setMinTrcvDelayCompensationOffset [x] impl  [ ] docstring  [ ] test
+    # [ ] getPaddingValue              [x] impl  [ ] docstring  [ ] test
+    # [ ] setPaddingValue              [x] impl  [ ] docstring  [ ] test
+    # [ ] getXlBitRateSwitch           [x] impl  [ ] docstring  [ ] test
+    # [ ] setXlBitRateSwitch           [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -428,6 +522,17 @@ class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
     providing a common foundation for both FD and XL configuration
     properties of CAN controllers.
     """
+    # AbstractCanCommunicationControllerAttributes method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCanControllerFdAttributes [x] impl  [ ] docstring  [ ] test
+    # [ ] setCanControllerFdAttributes [x] impl  [ ] docstring  [ ] test
+    # [ ] getCanControllerFdRequirements [x] impl  [ ] docstring  [ ] test
+    # [ ] setCanControllerFdRequirements [x] impl  [ ] docstring  [ ] test
+    # [ ] getCanControllerXlAttributes [x] impl  [ ] docstring  [ ] test
+    # [ ] setCanControllerXlAttributes [x] impl  [ ] docstring  [ ] test
+    # [ ] getCanControllerXlRequirements [x] impl  [ ] docstring  [ ] test
+    # [ ] setCanControllerXlRequirements [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         if type(self) is AbstractCanCommunicationControllerAttributes:
             raise TypeError("AbstractCanCommunicationControllerAttributes is an abstract class.")
@@ -474,6 +579,21 @@ class CanControllerConfigurationRequirements(AbstractCanCommunicationControllerA
     the timing and communication parameters that must be supported
     by the CAN communication hardware.
     """
+    # CanControllerConfigurationRequirements method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getMaxNumberOfTimeQuantaPerBit [x] impl  [ ] docstring  [ ] test
+    # [ ] setMaxNumberOfTimeQuantaPerBit [x] impl  [ ] docstring  [ ] test
+    # [ ] getMaxSamplePoint            [x] impl  [ ] docstring  [ ] test
+    # [ ] setMaxSamplePoint            [x] impl  [ ] docstring  [ ] test
+    # [ ] getMaxSyncJumpWidth          [x] impl  [ ] docstring  [ ] test
+    # [ ] setMaxSyncJumpWidth          [x] impl  [ ] docstring  [ ] test
+    # [ ] getMinNumberOfTimeQuantaPerBit [x] impl  [ ] docstring  [ ] test
+    # [ ] setMinNumberOfTimeQuantaPerBit [x] impl  [ ] docstring  [ ] test
+    # [ ] getMinSamplePoint            [x] impl  [ ] docstring  [ ] test
+    # [ ] setMinSamplePoint            [x] impl  [ ] docstring  [ ] test
+    # [ ] getMinSyncJumpWidth          [x] impl  [ ] docstring  [ ] test
+    # [ ] setMinSyncJumpWidth          [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -533,6 +653,11 @@ class AbstractCanCommunicationController(CommunicationController, ABC):
     the common properties and behavior for CAN network interfaces
     in the AUTOSAR communication system.
     """
+    # AbstractCanCommunicationController method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCanControllerAttributes   [x] impl  [ ] docstring  [ ] test
+    # [ ] setCanControllerAttributes   [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractCanCommunicationController:
             raise TypeError("AbstractCanCommunicationController is an abstract class.")
@@ -555,6 +680,9 @@ class CanCommunicationController(AbstractCanCommunicationController):
     the specific properties and behavior for CAN network communication
     hardware interfaces.
     """
+    # CanCommunicationController method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -565,6 +693,9 @@ class AbstractCanCommunicationConnector(CommunicationConnector, ABC):
     the foundation for connecting CAN controllers to communication
     channels and network segments.
     """
+    # AbstractCanCommunicationConnector method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractCanCommunicationConnector:
             raise TypeError("AbstractCanCommunicationConnector is an abstract class.")
@@ -578,6 +709,19 @@ class CanCommunicationConnector(AbstractCanCommunicationConnector):
     to communication channels, enabling network connectivity and defining
     power state management properties for CAN communication.
     """
+    # CanCommunicationConnector method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getPncWakeupCanId            [x] impl  [ ] docstring  [ ] test
+    # [ ] setPncWakeupCanId            [x] impl  [ ] docstring  [ ] test
+    # [ ] getPncWakeupCanIdExtended    [x] impl  [ ] docstring  [ ] test
+    # [ ] setPncWakeupCanIdExtended    [x] impl  [ ] docstring  [ ] test
+    # [ ] getPncWakeupCanIdMask        [x] impl  [ ] docstring  [ ] test
+    # [ ] setPncWakeupCanIdMask        [x] impl  [ ] docstring  [ ] test
+    # [ ] getPncWakeupDataMask         [x] impl  [ ] docstring  [ ] test
+    # [ ] setPncWakeupDataMask         [x] impl  [ ] docstring  [ ] test
+    # [ ] getPncWakeupDlc              [x] impl  [ ] docstring  [ ] test
+    # [ ] setPncWakeupDlc              [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

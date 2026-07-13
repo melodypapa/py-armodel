@@ -90,6 +90,23 @@ class ReferenceBase(ARObject):
     how elements in one package can reference elements in other packages.
     They are used to establish relationships between different AUTOSAR packages.
     """
+    # ReferenceBase method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [ ] getGlobalElements            [x] impl  [x] docstring  [ ] test
+    # [ ] addGlobalElement             [x] impl  [x] docstring  [ ] test
+    # [ ] getGlobalInPackageRefs       [x] impl  [x] docstring  [ ] test
+    # [ ] addGlobalInPackageRef        [x] impl  [x] docstring  [ ] test
+    # [ ] getIsDefault                 [x] impl  [x] docstring  [ ] test
+    # [ ] setIsDefault                 [x] impl  [x] docstring  [ ] test
+    # [ ] getIsGlobal                  [x] impl  [x] docstring  [ ] test
+    # [ ] setIsGlobal                  [x] impl  [x] docstring  [ ] test
+    # [ ] getBaseIsThisPackage         [x] impl  [x] docstring  [ ] test
+    # [ ] setBaseIsThisPackage         [x] impl  [x] docstring  [ ] test
+    # [ ] getPackageRef                [x] impl  [x] docstring  [ ] test
+    # [ ] setPackageRef                [x] impl  [x] docstring  [ ] test
+    # [ ] getShortLabel                [x] impl  [x] docstring  [ ] test
+    # [ ] setShortLabel                [x] impl  [x] docstring  [ ] test
+
     
     def __init__(self):
         """
@@ -278,6 +295,180 @@ class ARPackage(CollectableElement):
     ARPackages form a tree-like structure where each package can contain
     sub-packages as well as various AUTOSAR elements.
     """
+    # ARPackage method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [ ] shortName                    [x] impl  [x] docstring  [ ] test
+    # [ ] shortName                    [x] impl  [ ] docstring  [ ] test
+    # [ ] getShortName                 [x] impl  [x] docstring  [ ] test
+    # [ ] getParent                    [x] impl  [x] docstring  [ ] test
+    # [ ] full_name                    [x] impl  [x] docstring  [ ] test
+    # [ ] getFullName                  [x] impl  [x] docstring  [ ] test
+    # [ ] getLongName                  [x] impl  [x] docstring  [ ] test
+    # [ ] setLongName                  [x] impl  [x] docstring  [ ] test
+    # [ ] getAdminData                 [x] impl  [x] docstring  [ ] test
+    # [ ] setAdminData                 [x] impl  [x] docstring  [ ] test
+    # [ ] removeAdminData              [x] impl  [x] docstring  [ ] test
+    # [ ] getDesc                      [x] impl  [x] docstring  [ ] test
+    # [ ] setDesc                      [x] impl  [x] docstring  [ ] test
+    # [ ] getCategory                  [x] impl  [x] docstring  [ ] test
+    # [ ] setCategory                  [x] impl  [x] docstring  [ ] test
+    # [ ] getIntroduction              [x] impl  [x] docstring  [ ] test
+    # [ ] setIntroduction              [x] impl  [x] docstring  [ ] test
+    # [ ] addAnnotation                [x] impl  [x] docstring  [ ] test
+    # [ ] getAnnotations               [x] impl  [x] docstring  [ ] test
+    # [x] getARPackages                [x] impl  [x] docstring  [x] test
+    # [x] createARPackage              [x] impl  [x] docstring  [x] test
+    # [x] getElement                   [x] impl  [x] docstring  [x] test
+    # [ ] createEcuAbstractionSwComponentType [x] impl  [ ] docstring  [ ] test
+    # [x] createApplicationSwComponentType [x] impl  [x] docstring  [x] test
+    # [ ] createComplexDeviceDriverSwComponentType [x] impl  [ ] docstring  [ ] test
+    # [ ] createServiceSwComponentType [x] impl  [ ] docstring  [ ] test
+    # [ ] createSensorActuatorSwComponentType [x] impl  [ ] docstring  [ ] test
+    # [ ] createCompositionSwComponentType [x] impl  [ ] docstring  [ ] test
+    # [x] createSenderReceiverInterface [x] impl  [x] docstring  [x] test
+    # [ ] createParameterInterface     [x] impl  [ ] docstring  [ ] test
+    # [ ] createNvDataInterface        [x] impl  [ ] docstring  [x] test
+    # [ ] createGenericEthernetFrame   [x] impl  [ ] docstring  [ ] test
+    # [ ] createLifeCycleInfoSet       [x] impl  [ ] docstring  [ ] test
+    # [ ] createClientServerInterface  [x] impl  [ ] docstring  [ ] test
+    # [ ] createApplicationPrimitiveDataType [x] impl  [ ] docstring  [ ] test
+    # [ ] createApplicationRecordDataType [x] impl  [ ] docstring  [ ] test
+    # [x] createImplementationDataType [x] impl  [x] docstring  [x] test
+    # [ ] createSwBaseType             [x] impl  [ ] docstring  [ ] test
+    # [ ] createDataTypeMappingSet     [x] impl  [ ] docstring  [ ] test
+    # [ ] createCompuMethod            [x] impl  [ ] docstring  [ ] test
+    # [x] createBswModuleDescription   [x] impl  [x] docstring  [x] test
+    # [ ] createBswModuleEntry         [x] impl  [ ] docstring  [ ] test
+    # [ ] createBswImplementation      [x] impl  [ ] docstring  [ ] test
+    # [ ] createSwcImplementation      [x] impl  [ ] docstring  [ ] test
+    # [ ] createSwcBswMapping          [x] impl  [ ] docstring  [ ] test
+    # [ ] createConstantSpecification  [x] impl  [ ] docstring  [ ] test
+    # [ ] createDataConstr             [x] impl  [ ] docstring  [ ] test
+    # [ ] createUnit                   [x] impl  [ ] docstring  [ ] test
+    # [ ] createEndToEndProtectionSet  [x] impl  [ ] docstring  [ ] test
+    # [ ] createApplicationArrayDataType [x] impl  [ ] docstring  [ ] test
+    # [ ] createSwRecordLayout         [x] impl  [ ] docstring  [ ] test
+    # [ ] createSwAddrMethod           [x] impl  [ ] docstring  [ ] test
+    # [ ] createTriggerInterface       [x] impl  [ ] docstring  [ ] test
+    # [ ] createModeDeclarationGroup   [x] impl  [ ] docstring  [ ] test
+    # [ ] createModeSwitchInterface    [x] impl  [ ] docstring  [ ] test
+    # [ ] createSwcTiming              [x] impl  [ ] docstring  [ ] test
+    # [ ] createLinCluster             [x] impl  [ ] docstring  [ ] test
+    # [ ] createCanCluster             [x] impl  [ ] docstring  [ ] test
+    # [ ] createLinUnconditionalFrame  [x] impl  [ ] docstring  [ ] test
+    # [ ] createNmPdu                  [x] impl  [ ] docstring  [ ] test
+    # [ ] createNPdu                   [x] impl  [ ] docstring  [ ] test
+    # [ ] createDcmIPdu                [x] impl  [ ] docstring  [ ] test
+    # [ ] createSecuredIPdu            [x] impl  [ ] docstring  [ ] test
+    # [ ] createNmConfig               [x] impl  [ ] docstring  [ ] test
+    # [ ] createCanTpConfig            [x] impl  [ ] docstring  [ ] test
+    # [ ] createLinTpConfig            [x] impl  [ ] docstring  [ ] test
+    # [ ] createCanFrame               [x] impl  [x] docstring  [ ] test
+    # [ ] createEcuInstance            [x] impl  [x] docstring  [ ] test
+    # [ ] createGateway                [x] impl  [ ] docstring  [ ] test
+    # [ ] createISignal                [x] impl  [ ] docstring  [ ] test
+    # [ ] createSystemSignal           [x] impl  [x] docstring  [ ] test
+    # [ ] createSystemSignalGroup      [x] impl  [ ] docstring  [ ] test
+    # [ ] createISignalIPdu            [x] impl  [ ] docstring  [ ] test
+    # [ ] createEcucValueCollection    [x] impl  [ ] docstring  [ ] test
+    # [ ] createEcucModuleConfigurationValues [x] impl  [ ] docstring  [ ] test
+    # [ ] createEcucModuleDef          [x] impl  [ ] docstring  [ ] test
+    # [ ] createSwSystemConst          [x] impl  [ ] docstring  [ ] test
+    # [ ] createSwSystemconstantValueSet [x] impl  [ ] docstring  [ ] test
+    # [ ] createPredefinedVariant      [x] impl  [ ] docstring  [ ] test
+    # [ ] createPhysicalDimension      [x] impl  [ ] docstring  [ ] test
+    # [ ] createISignalGroup           [x] impl  [ ] docstring  [ ] test
+    # [ ] createISignalIPduGroup       [x] impl  [ ] docstring  [ ] test
+    # [ ] createSystem                 [x] impl  [ ] docstring  [ ] test
+    # [ ] createFlatMap                [x] impl  [ ] docstring  [ ] test
+    # [ ] createPortInterfaceMappingSet [x] impl  [ ] docstring  [ ] test
+    # [ ] createEthernetCluster        [x] impl  [ ] docstring  [ ] test
+    # [ ] createDiagnosticConnection   [x] impl  [ ] docstring  [ ] test
+    # [ ] createDiagnosticServiceTable [x] impl  [x] docstring  [ ] test
+    # [ ] createMultiplexedIPdu        [x] impl  [ ] docstring  [ ] test
+    # [ ] createUserDefinedIPdu        [x] impl  [ ] docstring  [ ] test
+    # [ ] createUserDefinedPdu         [x] impl  [ ] docstring  [ ] test
+    # [ ] createGeneralPurposeIPdu     [x] impl  [ ] docstring  [ ] test
+    # [ ] createGeneralPurposePdu      [x] impl  [ ] docstring  [ ] test
+    # [ ] createSecureCommunicationPropsSet [x] impl  [ ] docstring  [ ] test
+    # [ ] createSoAdRoutingGroup       [x] impl  [ ] docstring  [ ] test
+    # [ ] createDoIpTpConfig           [x] impl  [ ] docstring  [ ] test
+    # [ ] createHwElement              [x] impl  [ ] docstring  [ ] test
+    # [ ] createHwCategory             [x] impl  [ ] docstring  [ ] test
+    # [ ] createHwType                 [x] impl  [ ] docstring  [ ] test
+    # [ ] createFlexrayFrame           [x] impl  [ ] docstring  [ ] test
+    # [ ] createFlexrayCluster         [x] impl  [ ] docstring  [ ] test
+    # [ ] createDataTransformationSet  [x] impl  [ ] docstring  [ ] test
+    # [ ] createCollection             [x] impl  [ ] docstring  [ ] test
+    # [ ] createKeywordSet             [x] impl  [ ] docstring  [ ] test
+    # [ ] createPortPrototypeBlueprint [x] impl  [ ] docstring  [ ] test
+    # [ ] createModeDeclarationMappingSet [x] impl  [ ] docstring  [ ] test
+    # [ ] getApplicationPrimitiveDataTypes [x] impl  [ ] docstring  [ ] test
+    # [ ] getApplicationDataType       [x] impl  [ ] docstring  [ ] test
+    # [ ] getImplementationDataTypes   [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwBaseTypes               [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwComponentTypes          [x] impl  [ ] docstring  [ ] test
+    # [ ] getSensorActuatorSwComponentType [x] impl  [ ] docstring  [ ] test
+    # [ ] getAtomicSwComponentTypes    [x] impl  [ ] docstring  [ ] test
+    # [ ] getCompositionSwComponentTypes [x] impl  [ ] docstring  [ ] test
+    # [ ] getComplexDeviceDriverSwComponentTypes [x] impl  [ ] docstring  [ ] test
+    # [ ] getSenderReceiverInterfaces  [x] impl  [ ] docstring  [ ] test
+    # [ ] getParameterInterfaces       [x] impl  [ ] docstring  [ ] test
+    # [ ] getClientServerInterfaces    [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataTypeMappingSets       [x] impl  [ ] docstring  [ ] test
+    # [ ] getCompuMethods              [x] impl  [ ] docstring  [ ] test
+    # [ ] getBswModuleDescriptions     [x] impl  [ ] docstring  [ ] test
+    # [ ] getBswModuleEntries          [x] impl  [ ] docstring  [ ] test
+    # [ ] getBswImplementations        [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwcImplementations        [x] impl  [ ] docstring  [ ] test
+    # [ ] getImplementations           [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwcBswMappings            [x] impl  [ ] docstring  [ ] test
+    # [ ] getConstantSpecifications    [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataConstrs               [x] impl  [ ] docstring  [ ] test
+    # [ ] getUnits                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getApplicationArrayDataTypes [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwRecordLayouts           [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwAddrMethods             [x] impl  [ ] docstring  [ ] test
+    # [ ] getTriggerInterfaces         [x] impl  [ ] docstring  [ ] test
+    # [ ] getModeDeclarationGroups     [x] impl  [ ] docstring  [ ] test
+    # [ ] getModeSwitchInterfaces      [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwcTimings                [x] impl  [ ] docstring  [ ] test
+    # [ ] getLinClusters               [x] impl  [ ] docstring  [ ] test
+    # [ ] getCanClusters               [x] impl  [ ] docstring  [ ] test
+    # [ ] getLinUnconditionalFrames    [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmPdus                    [x] impl  [ ] docstring  [ ] test
+    # [ ] getNPdus                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDcmIPdus                  [x] impl  [ ] docstring  [ ] test
+    # [ ] getSecuredIPdus              [x] impl  [ ] docstring  [ ] test
+    # [ ] getNmConfigs                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getCanTpConfigs              [x] impl  [ ] docstring  [ ] test
+    # [ ] getCanFrames                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getEcuInstances              [x] impl  [ ] docstring  [ ] test
+    # [ ] getGateways                  [x] impl  [ ] docstring  [ ] test
+    # [ ] getISignals                  [x] impl  [ ] docstring  [ ] test
+    # [ ] getEcucValueCollections      [x] impl  [ ] docstring  [ ] test
+    # [ ] getEcucModuleConfigurationValues [x] impl  [ ] docstring  [ ] test
+    # [ ] getEcucModuleDefs            [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwSystemConsts            [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwSystemconstantValueSets [x] impl  [ ] docstring  [ ] test
+    # [ ] getPredefinedVariants        [x] impl  [ ] docstring  [ ] test
+    # [ ] getEcucPhysicalDimensions    [x] impl  [ ] docstring  [ ] test
+    # [ ] getISignalGroups             [x] impl  [ ] docstring  [ ] test
+    # [ ] getSystemSignals             [x] impl  [ ] docstring  [ ] test
+    # [ ] getSystemSignalGroups        [x] impl  [ ] docstring  [ ] test
+    # [ ] getISignalIPdus              [x] impl  [ ] docstring  [ ] test
+    # [ ] getSystems                   [x] impl  [ ] docstring  [ ] test
+    # [ ] getHwElements                [x] impl  [ ] docstring  [ ] test
+    # [ ] getHwCategories              [x] impl  [ ] docstring  [ ] test
+    # [ ] getFlexrayFrames             [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataTransformationSets    [x] impl  [ ] docstring  [ ] test
+    # [ ] getCollections               [x] impl  [ ] docstring  [ ] test
+    # [ ] getKeywordSets               [x] impl  [ ] docstring  [ ] test
+    # [ ] getPortPrototypeBlueprints   [x] impl  [ ] docstring  [ ] test
+    # [ ] getModeDeclarationMappingSets [x] impl  [ ] docstring  [ ] test
+    # [ ] getReferenceBases            [x] impl  [ ] docstring  [x] test
+    # [ ] addReferenceBase             [x] impl  [ ] docstring  [x] test
+
     
     def __init__(self, parent: ARObject, short_name: str):
         """

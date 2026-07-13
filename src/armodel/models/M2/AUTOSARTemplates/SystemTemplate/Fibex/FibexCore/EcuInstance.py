@@ -13,6 +13,69 @@ class EcuInstance(FibexElement):
     The type of the ECU is defined by a reference to an ECU specified
     with the ECU resource description.
     """
+    # EcuInstance method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getAssociatedComIPduGroupRefs [x] impl  [ ] docstring  [ ] test
+    # [ ] addAssociatedComIPduGroupRef [x] impl  [ ] docstring  [ ] test
+    # [ ] getAssociatedConsumedProvidedServiceInstanceGroupRefs [x] impl  [ ] docstring  [ ] test
+    # [ ] addAssociatedConsumedProvidedServiceInstanceGroupRef [x] impl  [ ] docstring  [ ] test
+    # [ ] getAssociatedPdurIPduGroupRefs [x] impl  [ ] docstring  [ ] test
+    # [ ] addAssociatedPdurIPduGroupRef [x] impl  [ ] docstring  [ ] test
+    # [ ] getChannelSynchronousWakeup  [x] impl  [ ] docstring  [ ] test
+    # [ ] setChannelSynchronousWakeup  [x] impl  [ ] docstring  [ ] test
+    # [ ] getClientIdRange             [x] impl  [ ] docstring  [ ] test
+    # [ ] setClientIdRange             [x] impl  [ ] docstring  [ ] test
+    # [ ] getComConfigurationGwTimeBase [x] impl  [ ] docstring  [ ] test
+    # [ ] setComConfigurationGwTimeBase [x] impl  [ ] docstring  [ ] test
+    # [ ] getComConfigurationRxTimeBase [x] impl  [ ] docstring  [ ] test
+    # [ ] setComConfigurationRxTimeBase [x] impl  [ ] docstring  [ ] test
+    # [ ] getComConfigurationTxTimeBase [x] impl  [ ] docstring  [ ] test
+    # [ ] setComConfigurationTxTimeBase [x] impl  [ ] docstring  [ ] test
+    # [ ] getComEnableMDTForCyclicTransmission [x] impl  [ ] docstring  [ ] test
+    # [ ] setComEnableMDTForCyclicTransmission [x] impl  [ ] docstring  [ ] test
+    # [ ] getCommControllers           [x] impl  [ ] docstring  [ ] test
+    # [ ] createCanCommunicationController [x] impl  [ ] docstring  [ ] test
+    # [ ] createEthernetCommunicationController [x] impl  [ ] docstring  [ ] test
+    # [ ] createLinMaster              [x] impl  [ ] docstring  [ ] test
+    # [ ] createFlexrayCommunicationController [x] impl  [ ] docstring  [ ] test
+    # [ ] getConnectors                [x] impl  [ ] docstring  [ ] test
+    # [ ] createCanCommunicationConnector [x] impl  [ ] docstring  [ ] test
+    # [ ] createEthernetCommunicationConnector [x] impl  [ ] docstring  [ ] test
+    # [ ] createLinCommunicationConnector [x] impl  [ ] docstring  [ ] test
+    # [ ] createFlexrayCommunicationConnector [x] impl  [ ] docstring  [ ] test
+    # [ ] getDiagnosticAddress         [x] impl  [ ] docstring  [ ] test
+    # [ ] setDiagnosticAddress         [x] impl  [ ] docstring  [ ] test
+    # [ ] getDltConfig                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setDltConfig                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getDoIpConfig                [x] impl  [ ] docstring  [ ] test
+    # [ ] setDoIpConfig                [x] impl  [ ] docstring  [ ] test
+    # [ ] getEcuTaskProxyRefs          [x] impl  [ ] docstring  [ ] test
+    # [ ] setEcuTaskProxyRefs          [x] impl  [ ] docstring  [ ] test
+    # [ ] getEthSwitchPortGroupDerivation [x] impl  [ ] docstring  [ ] test
+    # [ ] setEthSwitchPortGroupDerivation [x] impl  [ ] docstring  [ ] test
+    # [ ] getFirewallRuleRef           [x] impl  [ ] docstring  [ ] test
+    # [ ] setFirewallRuleRef           [x] impl  [ ] docstring  [ ] test
+    # [ ] getPartitions                [x] impl  [ ] docstring  [ ] test
+    # [ ] addPartition                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getPncNmRequest              [x] impl  [ ] docstring  [ ] test
+    # [ ] setPncNmRequest              [x] impl  [ ] docstring  [ ] test
+    # [ ] getPncPrepareSleepTimer      [x] impl  [ ] docstring  [ ] test
+    # [ ] setPncPrepareSleepTimer      [x] impl  [ ] docstring  [ ] test
+    # [ ] getPncSynchronousWakeup      [x] impl  [ ] docstring  [ ] test
+    # [ ] setPncSynchronousWakeup      [x] impl  [ ] docstring  [ ] test
+    # [ ] getPnResetTime               [x] impl  [ ] docstring  [ ] test
+    # [ ] setPnResetTime               [x] impl  [ ] docstring  [ ] test
+    # [ ] getSleepModeSupported        [x] impl  [ ] docstring  [ ] test
+    # [ ] setSleepModeSupported        [x] impl  [ ] docstring  [ ] test
+    # [ ] getTcpIpIcmpPropsRef         [x] impl  [ ] docstring  [ ] test
+    # [ ] setTcpIpIcmpPropsRef         [x] impl  [ ] docstring  [ ] test
+    # [ ] getTcpIpPropsRef             [x] impl  [ ] docstring  [ ] test
+    # [ ] setTcpIpPropsRef             [x] impl  [ ] docstring  [ ] test
+    # [ ] getV2xSupported              [x] impl  [ ] docstring  [ ] test
+    # [ ] setV2xSupported              [x] impl  [ ] docstring  [ ] test
+    # [ ] getWakeUpOverBusSupported    [x] impl  [ ] docstring  [ ] test
+    # [ ] setWakeUpOverBusSupported    [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 

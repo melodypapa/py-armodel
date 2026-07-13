@@ -20,6 +20,9 @@ class LatencyConstraintTypeEnum(AREnum):
     """
     Enumeration for latency constraint types.
     """
+    # LatencyConstraintTypeEnum method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     RESPONSE_TIME = "response-time"
     REACTION_TIME = "reaction-time"
@@ -39,6 +42,13 @@ class LatencyTimingConstraint(TimingConstraint):
     This constraint defines the maximum allowed time between an event
     occurrence and a response.
     """
+    # LatencyTimingConstraint method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getLatencyType               [x] impl  [x] docstring  [ ] test
+    # [ ] setLatencyType               [x] impl  [x] docstring  [ ] test
+    # [ ] getLatency                   [x] impl  [x] docstring  [ ] test
+    # [ ] setLatency                   [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent, short_name: str):
         """

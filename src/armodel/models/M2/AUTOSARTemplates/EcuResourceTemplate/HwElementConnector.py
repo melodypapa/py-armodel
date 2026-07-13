@@ -14,6 +14,13 @@ class HwElementConnector(Describable):
     Represents a connection between hardware elements in AUTOSAR hardware descriptions.
     This class defines the connections that can exist between different hardware elements in the model.
     """
+    # HwElementConnector method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getHwElementRef              [x] impl  [x] docstring  [ ] test
+    # [ ] setHwElementRef              [x] impl  [x] docstring  [ ] test
+    # [ ] getHwPinRef                  [x] impl  [x] docstring  [ ] test
+    # [ ] setHwPinRef                  [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

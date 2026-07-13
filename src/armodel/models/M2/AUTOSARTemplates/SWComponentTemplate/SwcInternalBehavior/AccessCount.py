@@ -12,6 +12,11 @@ class AbstractAccessPoint(AtpStructureElement, ABC):
     """
     Abstract class indicating an access point from an ExecutableEntity.
     """
+    # AbstractAccessPoint method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getReturnValueProvision      [x] impl  [x] docstring  [ ] test
+    # [ ] setReturnValueProvision      [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractAccessPoint:

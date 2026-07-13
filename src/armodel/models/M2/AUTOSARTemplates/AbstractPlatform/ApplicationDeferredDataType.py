@@ -16,6 +16,9 @@ class ApplicationDeferredDataType(ApplicationDataType):
       - AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf (Page 37, Foundation
       R23-11)
     """
+    # ApplicationDeferredDataType method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

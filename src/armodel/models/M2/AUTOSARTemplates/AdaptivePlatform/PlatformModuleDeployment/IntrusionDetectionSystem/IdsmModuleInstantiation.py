@@ -14,6 +14,9 @@ class IdsmModuleInstantiation(IdsPlatformInstantiation):
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 63, Foundation R23-11)
     """
+    # IdsmModuleInstantiation method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

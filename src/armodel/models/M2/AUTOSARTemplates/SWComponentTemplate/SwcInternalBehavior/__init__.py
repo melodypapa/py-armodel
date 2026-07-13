@@ -31,6 +31,11 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import 
 
 
 class RunnableEntityArgument(ARObject):
+    # RunnableEntityArgument method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getSymbol                    [x] impl  [ ] docstring  [ ] test
+    # [ ] setSymbol                    [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -45,6 +50,11 @@ class RunnableEntityArgument(ARObject):
 
 
 class AsynchronousServerCallResultPoint(AbstractAccessPoint):
+    # AsynchronousServerCallResultPoint method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getAsynchronousServerCallPointRef [x] impl  [ ] docstring  [ ] test
+    # [ ] setAsynchronousServerCallPointRef [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -59,11 +69,19 @@ class AsynchronousServerCallResultPoint(AbstractAccessPoint):
 
 
 class AsynchronousServerCallPoint(ServerCallPoint):
+    # AsynchronousServerCallPoint method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
 
 class SynchronousServerCallPoint(ServerCallPoint):
+    # SynchronousServerCallPoint method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCalledFromWithinExclusiveAreaRef [x] impl  [ ] docstring  [ ] test
+    # [ ] setCalledFromWithinExclusiveAreaRef [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -78,6 +96,45 @@ class SynchronousServerCallPoint(ServerCallPoint):
 
 
 class RunnableEntity(ExecutableEntity):
+    # RunnableEntity method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] _createVariableAccess        [x] impl  [ ] docstring  [ ] test
+    # [ ] getArguments                 [x] impl  [ ] docstring  [ ] test
+    # [ ] addArgument                  [x] impl  [ ] docstring  [ ] test
+    # [ ] getCanBeInvokedConcurrently  [x] impl  [ ] docstring  [ ] test
+    # [ ] setCanBeInvokedConcurrently  [x] impl  [ ] docstring  [ ] test
+    # [ ] createDataReadAccess         [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataReadAccesses          [x] impl  [ ] docstring  [ ] test
+    # [ ] createDataWriteAccess        [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataWriteAccesses         [x] impl  [ ] docstring  [ ] test
+    # [ ] createDataReceivePointByArgument [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataReceivePointByArguments [x] impl  [ ] docstring  [ ] test
+    # [ ] createDataReceivePointByValue [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataReceivePointByValues  [x] impl  [ ] docstring  [ ] test
+    # [ ] createDataSendPoint          [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataSendPoints            [x] impl  [ ] docstring  [ ] test
+    # [ ] createReadLocalVariable      [x] impl  [ ] docstring  [ ] test
+    # [ ] getReadLocalVariables        [x] impl  [ ] docstring  [ ] test
+    # [ ] createWrittenLocalVariable   [x] impl  [ ] docstring  [ ] test
+    # [ ] getWrittenLocalVariables     [x] impl  [ ] docstring  [ ] test
+    # [ ] getParameterAccesses         [x] impl  [ ] docstring  [ ] test
+    # [ ] createParameterAccess        [x] impl  [ ] docstring  [ ] test
+    # [ ] createSynchronousServerCallPoint [x] impl  [ ] docstring  [ ] test
+    # [ ] createAsynchronousServerCallPoint [x] impl  [ ] docstring  [ ] test
+    # [ ] createAsynchronousServerCallResultPoint [x] impl  [ ] docstring  [ ] test
+    # [ ] getSynchronousServerCallPoint [x] impl  [ ] docstring  [ ] test
+    # [ ] getAsynchronousServerCallPoint [x] impl  [ ] docstring  [ ] test
+    # [ ] getAsynchronousServerCallResultPoints [x] impl  [ ] docstring  [ ] test
+    # [ ] getServerCallPoints          [x] impl  [ ] docstring  [ ] test
+    # [ ] createInternalTriggeringPoint [x] impl  [ ] docstring  [ ] test
+    # [ ] getInternalTriggeringPoints  [x] impl  [ ] docstring  [ ] test
+    # [ ] getModeAccessPoints          [x] impl  [ ] docstring  [ ] test
+    # [ ] addModeAccessPoint           [x] impl  [ ] docstring  [ ] test
+    # [ ] getModeSwitchPoints          [x] impl  [ ] docstring  [ ] test
+    # [ ] createModeSwitchPoint        [x] impl  [ ] docstring  [ ] test
+    # [ ] getSymbol                    [x] impl  [ ] docstring  [ ] test
+    # [ ] setSymbol                    [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -242,6 +299,58 @@ class RunnableEntity(ExecutableEntity):
 
 
 class SwcInternalBehavior(InternalBehavior):
+    # SwcInternalBehavior method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getArTypedPerInstanceMemories [x] impl  [ ] docstring  [ ] test
+    # [ ] createArTypedPerInstanceMemory [x] impl  [ ] docstring  [ ] test
+    # [ ] getExplicitInterRunnableVariables [x] impl  [ ] docstring  [ ] test
+    # [ ] createExplicitInterRunnableVariable [x] impl  [ ] docstring  [ ] test
+    # [ ] getHandleTerminationAndRestart [x] impl  [ ] docstring  [ ] test
+    # [ ] setHandleTerminationAndRestart [x] impl  [ ] docstring  [ ] test
+    # [ ] getImplicitInterRunnableVariables [x] impl  [ ] docstring  [ ] test
+    # [ ] getPerInstanceMemories       [x] impl  [ ] docstring  [ ] test
+    # [ ] getPerInstanceParameters     [x] impl  [ ] docstring  [ ] test
+    # [ ] addPortAPIOption             [x] impl  [ ] docstring  [ ] test
+    # [ ] getPortAPIOptions            [x] impl  [ ] docstring  [ ] test
+    # [ ] addIncludedDataTypeSet       [x] impl  [ ] docstring  [ ] test
+    # [ ] getIncludedDataTypeSets      [x] impl  [ ] docstring  [ ] test
+    # [ ] getIncludedModeDeclarationGroupSets [x] impl  [ ] docstring  [ ] test
+    # [ ] addIncludedModeDeclarationGroupSet [x] impl  [ ] docstring  [ ] test
+    # [ ] createOperationInvokedEvent  [x] impl  [ ] docstring  [ ] test
+    # [ ] createTimingEvent            [x] impl  [ ] docstring  [ ] test
+    # [ ] createInitEvent              [x] impl  [ ] docstring  [ ] test
+    # [ ] createAsynchronousServerCallReturnsEvent [x] impl  [ ] docstring  [ ] test
+    # [ ] createDataReceivedEvent      [x] impl  [ ] docstring  [ ] test
+    # [ ] createSwcModeSwitchEvent     [x] impl  [ ] docstring  [ ] test
+    # [ ] createInternalTriggerOccurredEvent [x] impl  [ ] docstring  [ ] test
+    # [ ] createSwcServiceDependency   [x] impl  [ ] docstring  [ ] test
+    # [ ] createModeSwitchedAckEvent   [x] impl  [ ] docstring  [ ] test
+    # [ ] createBackgroundEvent        [x] impl  [ ] docstring  [ ] test
+    # [ ] createDataSendCompletedEvent [x] impl  [ ] docstring  [ ] test
+    # [ ] getRteEvents                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getOperationInvokedEvents    [x] impl  [ ] docstring  [ ] test
+    # [ ] getInitEvents                [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimingEvents              [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataReceivedEvents        [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwcModeSwitchEvents       [x] impl  [ ] docstring  [ ] test
+    # [ ] getInternalTriggerOccurredEvents [x] impl  [ ] docstring  [ ] test
+    # [ ] getModeSwitchedAckEvents     [x] impl  [ ] docstring  [ ] test
+    # [ ] getBackgroundEvents          [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataSendCompletedEvents   [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwcServiceDependencies    [x] impl  [ ] docstring  [ ] test
+    # [ ] getEvent                     [x] impl  [x] docstring  [ ] test
+    # [ ] createImplicitInterRunnableVariable [x] impl  [ ] docstring  [ ] test
+    # [ ] createPerInstanceMemory      [x] impl  [ ] docstring  [ ] test
+    # [ ] createPerInstanceParameter   [x] impl  [ ] docstring  [ ] test
+    # [ ] getVariableDataPrototypes    [x] impl  [ ] docstring  [ ] test
+    # [ ] createRunnableEntity         [x] impl  [ ] docstring  [ ] test
+    # [ ] getRunnableEntities          [x] impl  [ ] docstring  [ ] test
+    # [ ] getRunnableEntity            [x] impl  [ ] docstring  [ ] test
+    # [ ] getSharedParameters          [x] impl  [ ] docstring  [ ] test
+    # [ ] createSharedParameter        [x] impl  [ ] docstring  [ ] test
+    # [ ] getSupportsMultipleInstantiation [x] impl  [ ] docstring  [ ] test
+    # [ ] setSupportsMultipleInstantiation [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

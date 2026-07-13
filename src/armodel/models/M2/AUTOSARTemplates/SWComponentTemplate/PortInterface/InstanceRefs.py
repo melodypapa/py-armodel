@@ -12,6 +12,17 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(AtpInstanceRef):
     Instance reference to an application composite element within the
     context of a port interface.
     """
+    # ApplicationCompositeElementInPortInterfaceInstanceRef method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getBaseRef                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setBaseRef                   [x] impl  [ ] docstring  [ ] test
+    # [ ] getContextDataPrototypeRef   [x] impl  [ ] docstring  [ ] test
+    # [ ] setContextDataPrototypeRef   [x] impl  [ ] docstring  [ ] test
+    # [ ] getRootDataPrototypeRef      [x] impl  [ ] docstring  [ ] test
+    # [ ] setRootDataPrototypeRef      [x] impl  [ ] docstring  [ ] test
+    # [ ] getTargetDataPrototypeRef    [x] impl  [ ] docstring  [ ] test
+    # [ ] setTargetDataPrototypeRef    [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()

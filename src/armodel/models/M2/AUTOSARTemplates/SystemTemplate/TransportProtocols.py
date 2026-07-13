@@ -16,6 +16,11 @@ class TpConfig(FibexElement, ABC):
     defining common properties for different types of transport
     protocol implementations including communication cluster references.
     """
+    # TpConfig method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCommunicationClusterRef   [x] impl  [ ] docstring  [ ] test
+    # [ ] setCommunicationClusterRef   [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is TpConfig:
             raise TypeError("TpConfig is an abstract class.")
@@ -38,6 +43,13 @@ class CanTpAddress(Identifiable):
     defining the transport address and address extension values
     for CAN communication endpoints.
     """
+    # CanTpAddress method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getTpAddress                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setTpAddress                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getTpAddressExtensionValue   [x] impl  [ ] docstring  [ ] test
+    # [ ] setTpAddressExtensionValue   [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -65,6 +77,13 @@ class CanTpChannel(Identifiable):
     Represents a CAN transport protocol channel in the system,
     defining the channel ID and channel mode for CAN TP communication.
     """
+    # CanTpChannel method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getChannelId                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setChannelId                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getChannelMode               [x] impl  [ ] docstring  [ ] test
+    # [ ] setChannelMode               [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -93,6 +112,9 @@ class TpConnectionIdent(Referrable):
     providing a referenceable identifier for transport protocol
     connections in the communication system.
     """
+    # TpConnectionIdent method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)    
 
@@ -102,6 +124,11 @@ class TpConnection(ARObject, ABC):
     defining common properties for different types of transport
     protocol connections including connection identification.
     """
+    # TpConnection method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getIdent                     [x] impl  [ ] docstring  [ ] test
+    # [ ] createTpConnectionIdent      [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         if type(self) is TpConnection:
             raise TypeError("TpConnection is an abstract class.")
@@ -124,6 +151,41 @@ class CanTpConnection(TpConnection):
     defining addressing format, cancellation settings, channel
     configuration, and timing parameters for CAN TP communication.
     """
+    # CanTpConnection method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getAddressingFormat          [x] impl  [ ] docstring  [ ] test
+    # [ ] setAddressingFormat          [x] impl  [ ] docstring  [ ] test
+    # [ ] getCancellation              [x] impl  [ ] docstring  [ ] test
+    # [ ] setCancellation              [x] impl  [ ] docstring  [ ] test
+    # [ ] getCanTpChannelRef           [x] impl  [ ] docstring  [ ] test
+    # [ ] setCanTpChannelRef           [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataPduRef                [x] impl  [ ] docstring  [ ] test
+    # [ ] setDataPduRef                [x] impl  [ ] docstring  [ ] test
+    # [ ] getFlowControlPduRef         [x] impl  [ ] docstring  [ ] test
+    # [ ] setFlowControlPduRef         [x] impl  [ ] docstring  [ ] test
+    # [ ] getMaxBlockSize              [x] impl  [ ] docstring  [ ] test
+    # [ ] setMaxBlockSize              [x] impl  [ ] docstring  [ ] test
+    # [ ] getMulticastRef              [x] impl  [ ] docstring  [ ] test
+    # [ ] setMulticastRef              [x] impl  [ ] docstring  [ ] test
+    # [ ] getPaddingActivation         [x] impl  [ ] docstring  [ ] test
+    # [ ] setPaddingActivation         [x] impl  [ ] docstring  [ ] test
+    # [ ] getReceiverRefs              [x] impl  [ ] docstring  [ ] test
+    # [ ] addReceiverRef               [x] impl  [ ] docstring  [ ] test
+    # [ ] getTaType                    [x] impl  [ ] docstring  [ ] test
+    # [ ] setTaType                    [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimeoutBr                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimeoutBr                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimeoutBs                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimeoutBs                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimeoutCr                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimeoutCr                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimeoutCs                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimeoutCs                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getTpSduRef                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setTpSduRef                  [x] impl  [ ] docstring  [ ] test
+    # [ ] getTransmitterRef            [x] impl  [ ] docstring  [ ] test
+    # [ ] setTransmitterRef            [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -278,6 +340,13 @@ class CanTpEcu(ARObject):
     defining cycle time for the main function and ECU instance
     references for CAN TP communication management.
     """
+    # CanTpEcu method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCycleTimeMainFunction     [x] impl  [ ] docstring  [ ] test
+    # [ ] setCycleTimeMainFunction     [x] impl  [ ] docstring  [ ] test
+    # [ ] getEcuInstanceRef            [x] impl  [ ] docstring  [ ] test
+    # [ ] setEcuInstanceRef            [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -306,6 +375,21 @@ class CanTpNode(Identifiable):
     defining connector references, timing parameters, and
     address references for CAN TP node configuration.
     """
+    # CanTpNode method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getConnectorRef              [x] impl  [ ] docstring  [ ] test
+    # [ ] setConnectorRef              [x] impl  [ ] docstring  [ ] test
+    # [ ] getMaxFcWait                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setMaxFcWait                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getStMin                     [x] impl  [ ] docstring  [ ] test
+    # [ ] setStMin                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimeoutAr                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimeoutAr                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimeoutAs                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimeoutAs                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getTpAddressRef              [x] impl  [ ] docstring  [ ] test
+    # [ ] setTpAddressRef              [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -372,6 +456,19 @@ class CanTpConfig(TpConfig):
     organizing addresses, channels, connections, ECUs, and nodes
     for comprehensive CAN TP communication setup.
     """
+    # CanTpConfig method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getTpAddresses               [x] impl  [ ] docstring  [ ] test
+    # [ ] createCanTpAddress           [x] impl  [ ] docstring  [ ] test
+    # [ ] getTpChannels                [x] impl  [ ] docstring  [ ] test
+    # [ ] createCanTpChannel           [x] impl  [ ] docstring  [ ] test
+    # [ ] getTpConnections             [x] impl  [ ] docstring  [ ] test
+    # [ ] addTpConnection              [x] impl  [ ] docstring  [ ] test
+    # [ ] getTpEcus                    [x] impl  [ ] docstring  [ ] test
+    # [ ] addTpEcu                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getTpNodes                   [x] impl  [ ] docstring  [ ] test
+    # [ ] createCanTpNode              [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -433,6 +530,13 @@ class DoIpLogicAddress(Identifiable):
     defining the address value and logic address properties for
     DoIP communication endpoints.
     """
+    # DoIpLogicAddress method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getAddress                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setAddress                   [x] impl  [ ] docstring  [ ] test
+    # [ ] getDoIpLogicAddressProps     [x] impl  [ ] docstring  [ ] test
+    # [ ] setDoIpLogicAddressProps     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -461,6 +565,15 @@ class DoIpTpConnection(TpConnection):
     defining source and target address references and SDU
     references for DoIP communication.
     """
+    # DoIpTpConnection method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDoIpSourceAddressRef      [x] impl  [ ] docstring  [ ] test
+    # [ ] setDoIpSourceAddressRef      [x] impl  [ ] docstring  [ ] test
+    # [ ] getDoIpTargetAddressRef      [x] impl  [ ] docstring  [ ] test
+    # [ ] setDoIpTargetAddressRef      [x] impl  [ ] docstring  [ ] test
+    # [ ] getTpSduRef                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setTpSduRef                  [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -499,6 +612,13 @@ class DoIpTpConfig(TpConfig):
     organizing logic addresses and connections for comprehensive
     DoIP communication setup.
     """
+    # DoIpTpConfig method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDoIpLogicAddresses        [x] impl  [ ] docstring  [ ] test
+    # [ ] createDoIpLogicAddress       [x] impl  [ ] docstring  [ ] test
+    # [ ] getTpConnections             [x] impl  [ ] docstring  [ ] test
+    # [ ] addTpConnection              [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -528,6 +648,11 @@ class TpAddress(Identifiable):
     Represents a generic transport protocol address in the system,
     defining the transport address value for communication endpoints.
     """
+    # TpAddress method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getTpAddress                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setTpAddress                 [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
@@ -547,6 +672,27 @@ class LinTpConnection(TpConnection):
     defining PDU references, timeout parameters, and transmitter/
     receiver configurations for LIN TP communication.
     """
+    # LinTpConnection method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataPduRef                [x] impl  [ ] docstring  [ ] test
+    # [ ] setDataPduRef                [x] impl  [ ] docstring  [ ] test
+    # [ ] getFlowControlRef            [x] impl  [ ] docstring  [ ] test
+    # [ ] setFlowControlRef            [x] impl  [ ] docstring  [ ] test
+    # [ ] getLinTpNSduRef              [x] impl  [ ] docstring  [ ] test
+    # [ ] setLinTpNSduRef              [x] impl  [ ] docstring  [ ] test
+    # [ ] getMulticastRef              [x] impl  [ ] docstring  [ ] test
+    # [ ] setMulticastRef              [x] impl  [ ] docstring  [ ] test
+    # [ ] getReceiverRefs              [x] impl  [ ] docstring  [ ] test
+    # [ ] addReceiverRef               [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimeoutAs                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimeoutAs                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimeoutCr                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimeoutCr                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimeoutCs                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimeoutCs                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getTransmitterRef            [x] impl  [ ] docstring  [ ] test
+    # [ ] setTransmitterRef            [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -638,6 +784,21 @@ class LinTpNode(Identifiable):
     defining connector references, response pending settings,
     and timing parameters for LIN TP node configuration.
     """
+    # LinTpNode method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getConnectorRef              [x] impl  [ ] docstring  [ ] test
+    # [ ] setConnectorRef              [x] impl  [ ] docstring  [ ] test
+    # [ ] getDropNotRequestedNad       [x] impl  [ ] docstring  [ ] test
+    # [ ] setDropNotRequestedNad       [x] impl  [ ] docstring  [ ] test
+    # [ ] getMaxNumberOfRespPendingFrames [x] impl  [ ] docstring  [ ] test
+    # [ ] setMaxNumberOfRespPendingFrames [x] impl  [ ] docstring  [ ] test
+    # [ ] getP2Max                     [x] impl  [ ] docstring  [ ] test
+    # [ ] setP2Max                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getP2Timing                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setP2Timing                  [x] impl  [ ] docstring  [ ] test
+    # [ ] getTpAddressRef              [x] impl  [ ] docstring  [ ] test
+    # [ ] setTpAddressRef              [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -703,6 +864,15 @@ class LinTpConfig(TpConfig):
     organizing addresses, connections, and nodes for comprehensive
     LIN TP communication setup.
     """
+    # LinTpConfig method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getTpAddresses               [x] impl  [ ] docstring  [ ] test
+    # [ ] createTpAddress              [x] impl  [ ] docstring  [ ] test
+    # [ ] getTpConnections             [x] impl  [ ] docstring  [ ] test
+    # [ ] addTpConnection              [x] impl  [ ] docstring  [ ] test
+    # [ ] getTpNodes                   [x] impl  [ ] docstring  [ ] test
+    # [ ] createLinTpNode              [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 

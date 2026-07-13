@@ -12,6 +12,11 @@ class MlFormula(ARObject):
     Attributes:
         formula (String): The MathML formula expression.
     """
+    # MlFormula method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getFormula                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setFormula                   [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 

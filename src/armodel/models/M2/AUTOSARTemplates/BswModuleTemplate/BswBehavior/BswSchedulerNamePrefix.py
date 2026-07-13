@@ -10,6 +10,11 @@ class BswSchedulerNamePrefix(ARObject):
     Represents a BSW scheduler name prefix in AUTOSAR.
     This class defines the prefix used for scheduler names.
     """
+    # BswSchedulerNamePrefix method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getPrefix                    [x] impl  [ ] docstring  [ ] test
+    # [ ] setPrefix                    [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         """

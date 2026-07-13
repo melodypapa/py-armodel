@@ -14,6 +14,17 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
     A reference to an AUTOSAR variable in the context of an implementation
     data type instance.
     """
+    # ArVariableInImplementationDataInstanceRef method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getContextDataPrototypeRefs  [x] impl  [x] docstring  [ ] test
+    # [ ] setContextDataPrototypeRefs  [x] impl  [x] docstring  [ ] test
+    # [ ] getPortPrototypeRef          [x] impl  [x] docstring  [ ] test
+    # [ ] setPortPrototypeRef          [x] impl  [x] docstring  [ ] test
+    # [ ] getRootVariableDataPrototypeRef [x] impl  [x] docstring  [ ] test
+    # [ ] setRootVariableDataPrototypeRef [x] impl  [x] docstring  [ ] test
+    # [ ] getTargetDataPrototypeRef    [x] impl  [x] docstring  [ ] test
+    # [ ] setTargetDataPrototypeRef    [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()
@@ -116,6 +127,19 @@ class VariableInAtomicSWCTypeInstanceRef(AtpInstanceRef):
     A reference to a variable data prototype in the context of an atomic
     software component type instance.
     """
+    # VariableInAtomicSWCTypeInstanceRef method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getBaseRef                   [x] impl  [x] docstring  [ ] test
+    # [ ] setBaseRef                   [x] impl  [x] docstring  [ ] test
+    # [ ] getContextDataPrototypeRefs  [x] impl  [x] docstring  [ ] test
+    # [ ] addContextDataPrototypeRef   [x] impl  [x] docstring  [ ] test
+    # [ ] getPortPrototypeRef          [x] impl  [x] docstring  [ ] test
+    # [ ] setPortPrototypeRef          [x] impl  [x] docstring  [ ] test
+    # [ ] getRootVariableDataPrototypeRef [x] impl  [x] docstring  [ ] test
+    # [ ] setRootVariableDataPrototypeRef [x] impl  [x] docstring  [ ] test
+    # [ ] getTargetDataPrototypeRef    [x] impl  [x] docstring  [ ] test
+    # [ ] setTargetDataPrototypeRef    [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()
@@ -242,6 +266,19 @@ class ParameterInAtomicSWCTypeInstanceRef(AtpInstanceRef):
     A reference to a parameter data prototype in the context of an atomic
     software component type instance.
     """
+    # ParameterInAtomicSWCTypeInstanceRef method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getBaseRef                   [x] impl  [x] docstring  [ ] test
+    # [ ] setBaseRef                   [x] impl  [x] docstring  [ ] test
+    # [ ] getContextDataPrototypeRef   [x] impl  [x] docstring  [ ] test
+    # [ ] setContextDataPrototypeRef   [x] impl  [x] docstring  [ ] test
+    # [ ] getPortPrototypeRef          [x] impl  [x] docstring  [ ] test
+    # [ ] setPortPrototypeRef          [x] impl  [x] docstring  [ ] test
+    # [ ] getRootParameterDataPrototypeRef [x] impl  [x] docstring  [ ] test
+    # [ ] setRootParameterDataPrototypeRef [x] impl  [x] docstring  [ ] test
+    # [ ] getTargetDataPrototypeRef    [x] impl  [x] docstring  [ ] test
+    # [ ] setTargetDataPrototypeRef    [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()
@@ -367,6 +404,13 @@ class AutosarParameterRef(ARObject):
     """
     A reference to an AUTOSAR parameter.
     """
+    # AutosarParameterRef method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getAutosarParameterIRef      [x] impl  [x] docstring  [ ] test
+    # [ ] setAutosarParameterIRef      [x] impl  [x] docstring  [ ] test
+    # [ ] getLocalParameterRef         [x] impl  [x] docstring  [ ] test
+    # [ ] setLocalParameterRef         [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         super().__init__()

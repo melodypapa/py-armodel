@@ -8,6 +8,13 @@ class McFunction(ARObject):
     Represents an MC (Measurement and Calibration) function in AUTOSAR.
     Defines a function that can be used for measurement and calibration purposes.
     """
+    # McFunction method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] addDataRef                   [x] impl  [x] docstring  [ ] test
+    # [ ] getDataRefs                  [x] impl  [x] docstring  [ ] test
+    # [ ] getFunctionName              [x] impl  [x] docstring  [ ] test
+    # [ ] setFunctionName              [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """

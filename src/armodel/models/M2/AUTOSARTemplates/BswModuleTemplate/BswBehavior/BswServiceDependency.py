@@ -11,6 +11,11 @@ class BswServiceDependency(ARObject):
     Represents a BSW service dependency in AUTOSAR.
     This class defines dependencies between BSW services.
     """
+    # BswServiceDependency method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getRequiredServiceRef        [x] impl  [ ] docstring  [ ] test
+    # [ ] setRequiredServiceRef        [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self):
         """

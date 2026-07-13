@@ -6,6 +6,31 @@ from typing import List
 
 
 class DocumentationBlock(ARObject):
+    # DocumentationBlock method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDefList                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setDefList                   [x] impl  [ ] docstring  [ ] test
+    # [ ] getFigures                   [x] impl  [ ] docstring  [ ] test
+    # [ ] addFigure                    [x] impl  [ ] docstring  [ ] test
+    # [ ] getFormula                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setFormula                   [x] impl  [ ] docstring  [ ] test
+    # [ ] getLabeledList               [x] impl  [ ] docstring  [ ] test
+    # [ ] setLabeledList               [x] impl  [ ] docstring  [ ] test
+    # [ ] getLists                     [x] impl  [ ] docstring  [ ] test
+    # [ ] addList                      [x] impl  [ ] docstring  [ ] test
+    # [ ] getMsrQueryP2                [x] impl  [ ] docstring  [ ] test
+    # [ ] setMsrQueryP2                [x] impl  [ ] docstring  [ ] test
+    # [ ] getNote                      [x] impl  [ ] docstring  [ ] test
+    # [ ] setNote                      [x] impl  [ ] docstring  [ ] test
+    # [ ] getPs                        [x] impl  [ ] docstring  [ ] test
+    # [ ] addP                         [x] impl  [ ] docstring  [ ] test
+    # [ ] getStructuredReq             [x] impl  [ ] docstring  [ ] test
+    # [ ] setStructuredReq             [x] impl  [ ] docstring  [ ] test
+    # [ ] getTrace                     [x] impl  [ ] docstring  [ ] test
+    # [ ] setTrace                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getVerbatim                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setVerbatim                  [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 

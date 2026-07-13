@@ -9,6 +9,9 @@ class BswEntryRelationshipEnum(AREnum):
     """
     Enumeration for BSW entry relationship types.
     """
+    # BswEntryRelationshipEnum method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
 
     READS = "reads"
     WRITES = "writes"

@@ -22,6 +22,15 @@ class PlatformModuleEthernetEndpointConfiguration(ARElement):
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 65, Foundation R23-11)
     """
+    # PlatformModuleEthernetEndpointConfiguration method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # [ ] getCommunications            [x] impl  [ ] docstring  [ ] test
+    # [ ] setCommunications            [x] impl  [ ] docstring  [ ] test
+    # [ ] getIpv4MulticastIps          [x] impl  [ ] docstring  [ ] test
+    # [ ] setIpv4MulticastIps          [x] impl  [ ] docstring  [ ] test
+    # [ ] getIpv6MulticastIps          [x] impl  [ ] docstring  [ ] test
+    # [ ] setIpv6MulticastIps          [x] impl  [ ] docstring  [ ] test
+
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

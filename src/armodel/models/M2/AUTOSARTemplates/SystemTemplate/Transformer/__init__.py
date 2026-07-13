@@ -17,6 +17,9 @@ class DataTransformationKindEnum(AREnum):
     specifying the kind of transformation to be applied
     to data elements in the communication system.
     """
+    # DataTransformationKindEnum method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__([])
 
@@ -27,6 +30,15 @@ class DataTransformation(Identifiable):
     the type of transformation, execution behavior, and
     references to transformation chains for data processing.
     """
+    # DataTransformation method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataTransformationKind    [x] impl  [ ] docstring  [ ] test
+    # [ ] setDataTransformationKind    [x] impl  [ ] docstring  [ ] test
+    # [ ] getExecuteDespiteDataUnavailability [x] impl  [ ] docstring  [ ] test
+    # [ ] setExecuteDespiteDataUnavailability [x] impl  [ ] docstring  [ ] test
+    # [ ] getTransformerChainRefs      [x] impl  [ ] docstring  [ ] test
+    # [ ] addTransformerChainRef       [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -65,6 +77,15 @@ class BufferProperties(ARObject):
     specifying computation scales, header lengths, and in-place
     processing capabilities for buffer management.
     """
+    # BufferProperties method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getBufferComputation         [x] impl  [ ] docstring  [ ] test
+    # [ ] setBufferComputation         [x] impl  [ ] docstring  [ ] test
+    # [ ] getHeaderLength              [x] impl  [ ] docstring  [ ] test
+    # [ ] setHeaderLength              [x] impl  [ ] docstring  [ ] test
+    # [ ] getInPlace                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setInPlace                   [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -103,6 +124,9 @@ class TransformationDescription(Describable, ABC):
     defining common properties for different types of
     data transformation descriptions in the system.
     """
+    # TransformationDescription method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         if type(self) is TransformationDescription:
             raise TypeError("TransformationDescription is an abstract class.")
@@ -110,6 +134,9 @@ class TransformationDescription(Describable, ABC):
 
 
 class DataIdModeEnum(AREnum):
+
+    # DataIdModeEnum method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
     ALL_16_BIT = "all16Bit"
     ALTERNATING_8_BIT = "alternating8Bit"
@@ -127,6 +154,9 @@ class DataIdModeEnum(AREnum):
 
 class EndToEndProfileBehaviorEnum(AREnum):
 
+    # EndToEndProfileBehaviorEnum method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     PRE_R4_2 = "PRE_R4_2"
     R4_2 = "R4_2"
 
@@ -143,6 +173,53 @@ class EndToEndTransformationDescription(TransformationDescription):
     specifying counter offsets, CRC calculations, data ID modes,
     and profile behavior for safe data transmission.
     """
+    # EndToEndTransformationDescription method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getClearFromValidToInvalid   [x] impl  [ ] docstring  [ ] test
+    # [ ] setClearFromValidToInvalid   [x] impl  [ ] docstring  [ ] test
+    # [ ] getCounterOffset             [x] impl  [ ] docstring  [ ] test
+    # [ ] setCounterOffset             [x] impl  [ ] docstring  [ ] test
+    # [ ] getCrcOffset                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setCrcOffset                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataIdMode                [x] impl  [ ] docstring  [ ] test
+    # [ ] setDataIdMode                [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataIdNibbleOffset        [x] impl  [ ] docstring  [ ] test
+    # [ ] setDataIdNibbleOffset        [x] impl  [ ] docstring  [ ] test
+    # [ ] getE2eProfileCompatibilityPropsRef [x] impl  [ ] docstring  [ ] test
+    # [ ] setE2eProfileCompatibilityPropsRef [x] impl  [ ] docstring  [ ] test
+    # [ ] getMaxDeltaCounter           [x] impl  [ ] docstring  [ ] test
+    # [ ] setMaxDeltaCounter           [x] impl  [ ] docstring  [ ] test
+    # [ ] getMaxErrorStateInit         [x] impl  [ ] docstring  [ ] test
+    # [ ] setMaxErrorStateInit         [x] impl  [ ] docstring  [ ] test
+    # [ ] getMaxErrorStateInvalid      [x] impl  [ ] docstring  [ ] test
+    # [ ] setMaxErrorStateInvalid      [x] impl  [ ] docstring  [ ] test
+    # [ ] getMaxErrorStateValid        [x] impl  [ ] docstring  [ ] test
+    # [ ] setMaxErrorStateValid        [x] impl  [ ] docstring  [ ] test
+    # [ ] getMaxNoNewOrRepeatedData    [x] impl  [ ] docstring  [ ] test
+    # [ ] setMaxNoNewOrRepeatedData    [x] impl  [ ] docstring  [ ] test
+    # [ ] getMinOkStateInit            [x] impl  [ ] docstring  [ ] test
+    # [ ] setMinOkStateInit            [x] impl  [ ] docstring  [ ] test
+    # [ ] getMinOkStateInvalid         [x] impl  [ ] docstring  [ ] test
+    # [ ] setMinOkStateInvalid         [x] impl  [ ] docstring  [ ] test
+    # [ ] getMinOkStateValid           [x] impl  [ ] docstring  [ ] test
+    # [ ] setMinOkStateValid           [x] impl  [ ] docstring  [ ] test
+    # [ ] getOffset                    [x] impl  [ ] docstring  [ ] test
+    # [ ] setOffset                    [x] impl  [ ] docstring  [ ] test
+    # [ ] getProfileBehavior           [x] impl  [ ] docstring  [ ] test
+    # [ ] setProfileBehavior           [x] impl  [ ] docstring  [ ] test
+    # [ ] getProfileName               [x] impl  [ ] docstring  [ ] test
+    # [ ] setProfileName               [x] impl  [ ] docstring  [ ] test
+    # [ ] getSyncCounterInit           [x] impl  [ ] docstring  [ ] test
+    # [ ] setSyncCounterInit           [x] impl  [ ] docstring  [ ] test
+    # [ ] getUpperHeaderBitsToShift    [x] impl  [ ] docstring  [ ] test
+    # [ ] setUpperHeaderBitsToShift    [x] impl  [ ] docstring  [ ] test
+    # [ ] getWindowSizeInit            [x] impl  [ ] docstring  [ ] test
+    # [ ] setWindowSizeInit            [x] impl  [ ] docstring  [ ] test
+    # [ ] getWindowSizeInvalid         [x] impl  [ ] docstring  [ ] test
+    # [ ] setWindowSizeInvalid         [x] impl  [ ] docstring  [ ] test
+    # [ ] getWindowSizeValid           [x] impl  [ ] docstring  [ ] test
+    # [ ] setWindowSizeValid           [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 
@@ -348,6 +425,9 @@ class EndToEndTransformationDescription(TransformationDescription):
 
 class TransformerClassEnum(AREnum):
     
+    # TransformerClassEnum method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
     CUSTOM = "custom"
     SAFETY = "safety"
     SECURITY = "security"
@@ -368,6 +448,23 @@ class TransformationTechnology(Identifiable):
     defining buffer properties, state management, protocol
     specifications, and transformer class for data transformation.
     """
+    # TransformationTechnology method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getBufferProperties          [x] impl  [ ] docstring  [ ] test
+    # [ ] setBufferProperties          [x] impl  [ ] docstring  [ ] test
+    # [ ] getHasInternalState          [x] impl  [ ] docstring  [ ] test
+    # [ ] setHasInternalState          [x] impl  [ ] docstring  [ ] test
+    # [ ] getNeedsOriginalData         [x] impl  [ ] docstring  [ ] test
+    # [ ] setNeedsOriginalData         [x] impl  [ ] docstring  [ ] test
+    # [ ] getProtocol                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setProtocol                  [x] impl  [ ] docstring  [ ] test
+    # [ ] getTransformationDescription [x] impl  [ ] docstring  [ ] test
+    # [ ] setTransformationDescription [x] impl  [ ] docstring  [ ] test
+    # [ ] getTransformerClass          [x] impl  [ ] docstring  [ ] test
+    # [ ] setTransformerClass          [x] impl  [ ] docstring  [ ] test
+    # [ ] getVersion                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setVersion                   [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -442,6 +539,13 @@ class DataTransformationSet(ARElement):
     organizing multiple data transformations and transformation
     technologies for comprehensive data processing configurations.
     """
+    # DataTransformationSet method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataTransformations       [x] impl  [ ] docstring  [ ] test
+    # [ ] createDataTransformation     [x] impl  [ ] docstring  [ ] test
+    # [ ] getTransformationTechnologies [x] impl  [ ] docstring  [ ] test
+    # [ ] createTransformationTechnology [x] impl  [ ] docstring  [ ] test
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
@@ -475,6 +579,17 @@ class TransformationISignalProps(Describable, ABC):
     defining common properties for signal transformation including
     error reactions, data prototype properties, and transformer references.
     """
+    # TransformationISignalProps method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCsErrorReaction           [x] impl  [ ] docstring  [ ] test
+    # [ ] setCsErrorReaction           [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataPrototypeTransformationProps [x] impl  [ ] docstring  [ ] test
+    # [ ] setDataPrototypeTransformationProps [x] impl  [ ] docstring  [ ] test
+    # [ ] getIdent                     [x] impl  [ ] docstring  [ ] test
+    # [ ] setIdent                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getTransformerRef            [x] impl  [ ] docstring  [ ] test
+    # [ ] setTransformerRef            [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         if type(self) is TransformationISignalProps:
             raise TypeError("TransformationISignalProps is an abstract class.")
@@ -524,6 +639,19 @@ class EndToEndTransformationISignalProps(TransformationISignalProps):
     specifying data IDs, length constraints, and source identifiers
     for protected signal transmission.
     """
+    # EndToEndTransformationISignalProps method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataIds                   [x] impl  [ ] docstring  [ ] test
+    # [ ] addDataId                    [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataLength                [x] impl  [ ] docstring  [ ] test
+    # [ ] setDataLength                [x] impl  [ ] docstring  [ ] test
+    # [ ] getMaxDataLength             [x] impl  [ ] docstring  [ ] test
+    # [ ] setMaxDataLength             [x] impl  [ ] docstring  [ ] test
+    # [ ] getMinDataLength             [x] impl  [ ] docstring  [ ] test
+    # [ ] setMinDataLength             [x] impl  [ ] docstring  [ ] test
+    # [ ] getSourceId                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setSourceId                  [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 

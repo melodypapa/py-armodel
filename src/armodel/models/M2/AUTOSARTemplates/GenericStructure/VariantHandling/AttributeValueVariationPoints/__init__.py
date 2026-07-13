@@ -13,6 +13,13 @@ class NumericalValueVariationPoint(ARObject):
         defaultValue (Float): The default value.
         variantValue (Float): The variant value.
     """
+    # NumericalValueVariationPoint method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDefaultValue              [x] impl  [ ] docstring  [ ] test
+    # [ ] setDefaultValue              [x] impl  [ ] docstring  [ ] test
+    # [ ] getVariantValue              [x] impl  [ ] docstring  [ ] test
+    # [ ] setVariantValue              [x] impl  [ ] docstring  [ ] test
+
     def __init__(self):
         super().__init__()
 

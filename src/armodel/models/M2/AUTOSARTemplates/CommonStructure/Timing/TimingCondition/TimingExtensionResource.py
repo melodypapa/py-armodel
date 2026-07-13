@@ -6,6 +6,13 @@ class TimingExtensionResource(ARObject):
     Represents a timing extension resource in AUTOSAR.
     Defines resources used for timing extensions.
     """
+    # TimingExtensionResource method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getResourceName              [x] impl  [x] docstring  [ ] test
+    # [ ] setResourceName              [x] impl  [x] docstring  [ ] test
+    # [ ] getResourceType              [x] impl  [x] docstring  [ ] test
+    # [ ] setResourceType              [x] impl  [x] docstring  [ ] test
+
 
     def __init__(self):
         """
