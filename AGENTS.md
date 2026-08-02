@@ -2,24 +2,18 @@
 
 ## Build, Lint, Test Commands
 
-**Run tests:**
-- `python scripts/run_tests.py` - Recommended (colored output, summary)
-- `python scripts/run_tests.py --unit` - Unit tests only
-- `python scripts/run_tests.py --integration` - Integration tests only
-- `python scripts/run_tests.py --coverage` - With coverage reports
-- `pytest tests/test_armodel/parser/test_arxml_parser.py` - Specific file
-- `pytest tests/test_armodel/parser/test_arxml_parser.py::TestClass::test_method` - Specific method
-- Or npm shortcuts: `npm run pytest`, `npm run pytest-cov`
+**Tests (recommended):** `python scripts/run_tests.py` — colored output, summary, auto-installs pyyaml
+- `--unit` / `--integration` / `--coverage` / `--verbose`
+- Subset with `-k "datatypes"` or `pytest -k "not integration"`
+- Integration tests: round-trip parse → write → re-parse → compare (29 ARXML files)
+- Custom test dirs via `tests/integration_tests/config.yaml`
 
-**Lint:**
-- `npm run flake8` - Syntax checks only (E9, F63, F7, F82)
-- CI also runs: `flake8 . --exit-zero --max-complexity=10 --max-line-length=127` (warnings)
-- **Exclude build/ from lint** - Contains generated code
+**Lint:** `npm run flake8` — syntax checks only (E9, F63, F7, F82)
+- CI also runs: `--max-complexity=10 --max-line-length=127` (warnings, exit-zero)
+- **Exclude `build/`** from lint (generated code)
 
-**Build:**
-- `python -m build` - Full distribution
-- `python -m build --sdist` - Source only
-- `python -m build --wheel` - Wheel only
+**Build:** `python -m build` (requires `pip install build`)
+**Dev install:** `pip install -e .`
 
 ## Critical: AUTOSAR Version MUST Be Set
 
@@ -31,46 +25,49 @@ parser.load('file.arxml', document)
 writer.save('output.arxml', document)
 ```
 
-## Architecture Quirks
+## Architecture
 
-- Source: `src/armodel/`, Tests: `tests/` (mirrors structure)
-- `AUTOSAR` singleton: Use `getInstance()` / `new()` to reset
-- Model classes use wildcard exports in `__init__.py`
-- Abstract base classes use `ABC` from `abc` module (not `ABCMeta`)
-
-## Testing Gotchas
-
-- Integration tests require `pyyaml` (auto-installed by test runner)
-- Integration tests use `AUTOSAR.getInstance().new()` to reset singleton between tests
-- Custom ARXML files can be added via `tests/integration_tests/config.yaml`
-- Integration tests run round-trip validation: parse → write → re-parse → compare
+- Source: `src/armodel/` (src layout). Tests: `tests/test_armodel/` mirrors source structure
+- `AUTOSAR` singleton: `getInstance()` / `new()` to reset
+- Model classes use wildcard exports in `__init__.py` — when adding a class, add `from .my_class import *` to parent `__init__.py`
+- Use `ABC` from `abc` module (not `ABCMeta`)
+- Current version: 1.9.3, Python >= 3.8 (CI tests 3.8–3.13)
+- Dependencies: `colorama`, `openpyxl`, `lxml` (runtime)
 
 ## Code Style
 
-- Max line length: 79 (CI warns at 127)
-- Classes: `PascalCase`, Methods: `camelCase` (AUTOSAR standard), Constants: `UPPER_CASE`
 - **Do NOT add comments** unless asked
-- Method chaining: setters return `self`
+- Max line length: 79 (CI warns at 127). 4-space indent, double quotes
+- Classes: `PascalCase`. AUTOSAR methods: `camelCase`. Constants: `UPPER_CASE`
+- Setters return `self` (method chaining)
+- Type annotations: Python 3.10+ union syntax (`str | None` not `Optional[str]`)
 
-## Parser Options
-
-```python
-ARXMLParser(options={"warning": True})  # Warnings instead of exceptions
-```
-
-## Finding Elements
+## Parser & Model Gotchas
 
 ```python
-# findXXX() returns None if not found (no exceptions)
-component = autosar.findAtomicSwComponentType('MyComponent')
-if component is not None:
-    behavior = autosar.getBehavior(component)
+parser = ARXMLParser(options={"warning": True})  # warnings instead of exceptions
 ```
 
-## Important Constraints
-
-- Python >= 3.8 required (CI tests 3.8-3.13)
+- `findXXX()` returns `None` if not found (no exceptions)
+- Same short names can coexist across *different* types
 - Duplicate UUID checking is enabled
-- Same short names can coexist across different types
-- Boolean values in XML should not contain spaces
-- Float scientific notation is properly handled
+- Boolean values in XML: no spaces (`true` not ` true `)
+- Float scientific notation is handled (`1.23e-5`)
+- Bi-directional parent-child references — use `addElement()` to maintain them
+
+## CLI Tools (console_scripts)
+
+`arxml-dump`, `arxml-format`, `armodel-component`, `connector2xlsx`, `connector-update`, `armodel-system-signal`, `armodel-memory-section`, `armodel-file-list`, `armodel-uuid-checker`, `format-xml`
+
+## Pytest Markers (defined in pytest.ini)
+
+`integration`, `slow`, `datatypes`, `components`, `bsw`, `system`, `blueprint`, `lifecycle`
+
+## Slash Commands (for Claude Code)
+
+`.claude/commands/` — `/test`, `/quality`, `/gh-workflow`, `/merge-pr`, `/req`
+
+## Key References
+
+- `CLAUDE.md` — comprehensive project guidance (this file is the condensed agent reference)
+- `docs/development/coding_rules.md` — detailed coding standards
