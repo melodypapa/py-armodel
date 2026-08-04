@@ -11,6 +11,8 @@
 **Lint:** `npm run flake8` — syntax checks only (E9, F63, F7, F82)
 - CI also runs: `--max-complexity=10 --max-line-length=127` (warnings, exit-zero)
 - **Exclude `build/`** from lint (generated code)
+- **Black formatter:** `npm run black` — formats code with 200 character line length
+- **Black check:** `npm run black-check` — checks code formatting without modifying files
 
 **Build:** `python -m build` (requires `pip install build`)
 **Dev install:** `pip install -e .`
