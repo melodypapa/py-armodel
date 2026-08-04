@@ -7,12 +7,14 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.Flexr
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinMaster
 from typing import List
 
+
 class EcuInstance(FibexElement):
     """
     ECUInstances are used to define the ECUs used in the topology.
     The type of the ECU is defined by a reference to an ECU specified
     with the ECU resource description.
     """
+
     # EcuInstance method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getAssociatedComIPduGroupRefs [x] impl  [ ] docstring  [ ] test
@@ -171,59 +173,59 @@ class EcuInstance(FibexElement):
         return self
 
     def getCommControllers(self):
-        return list(sorted(filter(lambda a: isinstance(a, CommunicationController), self.elements), key= lambda o:o.short_name))
+        return list(sorted(filter(lambda a: isinstance(a, CommunicationController), self.elements), key=lambda o: o.short_name))
 
     def createCanCommunicationController(self, short_name: str) -> CanCommunicationController:
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             controller = CanCommunicationController(self, short_name)
             self.addElement(controller)
         return self.getElement(short_name)
-    
+
     def createEthernetCommunicationController(self, short_name: str) -> EthernetCommunicationController:
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             controller = EthernetCommunicationController(self, short_name)
             self.addElement(controller)
         return self.getElement(short_name)
-    
+
     def createLinMaster(self, short_name: str) -> LinMaster:
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             controller = LinMaster(self, short_name)
             self.addElement(controller)
         return self.getElement(short_name)
-    
+
     def createFlexrayCommunicationController(self, short_name: str) -> FlexrayCommunicationController:
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             controller = FlexrayCommunicationController(self, short_name)
             self.addElement(controller)
         return self.getElement(short_name)
 
     def getConnectors(self):
-        return list(sorted(filter(lambda a: isinstance(a, CommunicationConnector), self.elements), key= lambda o:o.short_name))
+        return list(sorted(filter(lambda a: isinstance(a, CommunicationConnector), self.elements), key=lambda o: o.short_name))
 
     def createCanCommunicationConnector(self, short_name: str) -> CanCommunicationConnector:
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             connector = CanCommunicationConnector(self, short_name)
             self.addElement(connector)
         return self.getElement(short_name)
-    
+
     def createEthernetCommunicationConnector(self, short_name: str) -> EthernetCommunicationConnector:
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             connector = EthernetCommunicationConnector(self, short_name)
             self.addElement(connector)
         return self.getElement(short_name)
-    
+
     def createLinCommunicationConnector(self, short_name: str) -> LinCommunicationConnector:
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             connector = LinCommunicationConnector(self, short_name)
             self.addElement(connector)
         return self.getElement(short_name)
-    
+
     def createFlexrayCommunicationConnector(self, short_name: str) -> FlexrayCommunicationConnector:
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             connector = FlexrayCommunicationConnector(self, short_name)
             self.addElement(connector)
         return self.getElement(short_name)
-    
+
     def getDiagnosticAddress(self):
         return self.diagnosticAddress
 

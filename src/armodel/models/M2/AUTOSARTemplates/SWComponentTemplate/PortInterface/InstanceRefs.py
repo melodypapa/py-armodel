@@ -7,11 +7,13 @@ elements within port interfaces and compositions.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 
+
 class ApplicationCompositeElementInPortInterfaceInstanceRef(AtpInstanceRef):
     """
     Instance reference to an application composite element within the
     context of a port interface.
     """
+
     # ApplicationCompositeElementInPortInterfaceInstanceRef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getBaseRef                   [x] impl  [ ] docstring  [ ] test
@@ -22,7 +24,6 @@ class ApplicationCompositeElementInPortInterfaceInstanceRef(AtpInstanceRef):
     # [ ] setRootDataPrototypeRef      [x] impl  [ ] docstring  [ ] test
     # [ ] getTargetDataPrototypeRef    [x] impl  [ ] docstring  [ ] test
     # [ ] setTargetDataPrototypeRef    [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()

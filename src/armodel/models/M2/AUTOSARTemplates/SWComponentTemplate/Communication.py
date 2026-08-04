@@ -22,9 +22,9 @@ class HandleInvalidEnum(AREnum):
     """
     Strategies of handling the reception of invalidValue.
     """
+
     # HandleInvalidEnum method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
 
     DONT_INVALIDATE = "dontInvalidate"
     EXTERNAL_REPLACEMENT = "externalReplacement"
@@ -32,12 +32,7 @@ class HandleInvalidEnum(AREnum):
     REPLACE = "replace"
 
     def __init__(self):
-        super().__init__((
-            HandleInvalidEnum.DONT_INVALIDATE,
-            HandleInvalidEnum.EXTERNAL_REPLACEMENT,
-            HandleInvalidEnum.KEEP,
-            HandleInvalidEnum.REPLACE
-        ))
+        super().__init__((HandleInvalidEnum.DONT_INVALIDATE, HandleInvalidEnum.EXTERNAL_REPLACEMENT, HandleInvalidEnum.KEEP, HandleInvalidEnum.REPLACE))
 
 
 class PPortComSpec(ARObject, ABC):
@@ -46,9 +41,9 @@ class PPortComSpec(ARObject, ABC):
     that are valid for all kinds of provide ports, independent of client-server or
     sender-receiver communication patterns.
     """
+
     # PPortComSpec method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         if type(self) is PPortComSpec:
@@ -62,9 +57,9 @@ class RPortComSpec(ARObject, ABC):
     that are valid for all kinds of require ports, independent of client-server or
     sender-receiver communication patterns.
     """
+
     # RPortComSpec method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         if type(self) is RPortComSpec:
@@ -78,13 +73,13 @@ class CompositeNetworkRepresentation(ARObject):
     This meta-class is used to define the network representation of leaf elements
     of composite application data types.
     """
+
     # CompositeNetworkRepresentation method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getLeafElementIRef           [x] impl  [x] docstring  [ ] test
     # [ ] setLeafElementIRef           [x] impl  [x] docstring  [ ] test
     # [ ] getNetworkRepresentation     [x] impl  [x] docstring  [ ] test
     # [ ] setNetworkRepresentation     [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -144,11 +139,11 @@ class TransmissionAcknowledgementRequest(ARObject):
     Requests transmission acknowledgement that data has been sent successfully.
     Success/failure is reported via a SendPoint of a RunnableEntity.
     """
+
     # TransmissionAcknowledgementRequest method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getTimeout                   [x] impl  [x] docstring  [ ] test
     # [ ] setTimeout                   [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -184,6 +179,7 @@ class SenderComSpec(PPortComSpec, ABC):
     """
     Communication attributes for a sender port (PPortPrototype typed by SenderReceiverInterface).
     """
+
     # SenderComSpec method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] addCompositeNetworkRepresentation [x] impl  [x] docstring  [ ] test
@@ -198,7 +194,6 @@ class SenderComSpec(PPortComSpec, ABC):
     # [ ] setTransmissionAcknowledge   [x] impl  [x] docstring  [ ] test
     # [ ] getUsesEndToEndProtection    [x] impl  [x] docstring  [ ] test
     # [ ] setUsesEndToEndProtection    [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self):
         if type(self) is SenderComSpec:
@@ -353,9 +348,9 @@ class QueuedSenderComSpec(SenderComSpec):
     Communication attributes specific to distribution of events (PPortPrototype,
     SenderReceiverInterface and dataElement carries an 'event').
     """
+
     # QueuedSenderComSpec method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -365,11 +360,11 @@ class NonqueuedSenderComSpec(SenderComSpec):
     """
     Communication attributes for non-queued sender/receiver communication (sender side).
     """
+
     # NonqueuedSenderComSpec method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getInitValue                 [x] impl  [x] docstring  [ ] test
     # [ ] setInitValue                 [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -406,11 +401,11 @@ class ClientComSpec(RPortComSpec):
     """
     Client-specific communication attributes (RPortPrototype typed by ClientServerInterface).
     """
+
     # ClientComSpec method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getOperationRef              [x] impl  [x] docstring  [ ] test
     # [ ] setOperationRef              [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -445,6 +440,7 @@ class ModeSwitchReceiverComSpec(RPortComSpec):
     """
     Communication attributes of RPortPrototypes with respect to mode communication.
     """
+
     # ModeSwitchReceiverComSpec method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getEnhancedModeApi           [x] impl  [x] docstring  [ ] test
@@ -453,7 +449,6 @@ class ModeSwitchReceiverComSpec(RPortComSpec):
     # [ ] setModeGroupRef              [x] impl  [x] docstring  [ ] test
     # [ ] getSupportsAsynchronousModeSwitch [x] impl  [x] docstring  [ ] test
     # [ ] setSupportsAsynchronousModeSwitch [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -537,13 +532,13 @@ class NvRequireComSpec(RPortComSpec):
     Communication attributes of RPortPrototypes with respect to Nv data communication
     on the required side.
     """
+
     # NvRequireComSpec method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getInitValue                 [x] impl  [x] docstring  [ ] test
     # [ ] setInitValue                 [x] impl  [x] docstring  [ ] test
     # [ ] getVariableRef               [x] impl  [x] docstring  [ ] test
     # [ ] setVariableRef               [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -605,13 +600,13 @@ class ParameterRequireComSpec(RPortComSpec):
     \"Communication\" specification that applies to parameters on the required side
     of a connection.
     """
+
     # ParameterRequireComSpec method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getInitValue                 [x] impl  [x] docstring  [ ] test
     # [ ] setInitValue                 [x] impl  [x] docstring  [ ] test
     # [ ] getParameterRef              [x] impl  [x] docstring  [ ] test
     # [ ] setParameterRef              [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -670,6 +665,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
     """
     Receiver-specific communication attributes (RPortPrototype typed by SenderReceiverInterface).
     """
+
     # ReceiverComSpec method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getDataElementRef            [x] impl  [x] docstring  [ ] test
@@ -689,20 +685,19 @@ class ReceiverComSpec(RPortComSpec, ABC):
     # [ ] addCompositeNetworkRepresentation [x] impl  [x] docstring  [ ] test
     # [ ] getCompositeNetworkRepresentations [x] impl  [x] docstring  [ ] test
 
-
     def __init__(self):
         if type(self) is ReceiverComSpec:
             raise TypeError("ReceiverComSpec is an abstract class.")
         super().__init__()
 
-        self.compositeNetworkRepresentations = []                            # type: List[CompositeNetworkRepresentation]
-        self.dataElementRef = None                                           # type: RefType
-        self.networkRepresentation = None                                    # type: SwDataDefProps
-        self.handleOutOfRange = None                                         # type: HandleOutOfRangeEnum
-        self.handleOutOfRangeStatus = None                                   # type: HandleOutOfRangeStatusEnum
-        self.maxDeltaCounterInit = None                                      # type: PositiveInteger
-        self.maxNoNewOrRepeatedData = None                                   # type: PositiveInteger
-        self.usesEndToEndProtection = None                                   # type: ARBoolean
+        self.compositeNetworkRepresentations = []  # type: List[CompositeNetworkRepresentation]
+        self.dataElementRef = None  # type: RefType
+        self.networkRepresentation = None  # type: SwDataDefProps
+        self.handleOutOfRange = None  # type: HandleOutOfRangeEnum
+        self.handleOutOfRangeStatus = None  # type: HandleOutOfRangeStatusEnum
+        self.maxDeltaCounterInit = None  # type: PositiveInteger
+        self.maxNoNewOrRepeatedData = None  # type: PositiveInteger
+        self.usesEndToEndProtection = None  # type: ARBoolean
 
     def getDataElementRef(self):
         """
@@ -910,11 +905,11 @@ class ModeSwitchedAckRequest(ARObject):
     """
     Requests acknowledgements that a mode switch has been proceeded successfully.
     """
+
     # ModeSwitchedAckRequest method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getTimeout                   [x] impl  [x] docstring  [ ] test
     # [ ] setTimeout                   [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -950,6 +945,7 @@ class ModeSwitchSenderComSpec(PPortComSpec):
     """
     Communication attributes of PPortPrototypes with respect to mode communication.
     """
+
     # ModeSwitchSenderComSpec method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getEnhancedModeApi           [x] impl  [x] docstring  [ ] test
@@ -960,7 +956,6 @@ class ModeSwitchSenderComSpec(PPortComSpec):
     # [ ] setModeSwitchedAck           [x] impl  [x] docstring  [ ] test
     # [ ] getQueueLength               [x] impl  [x] docstring  [ ] test
     # [ ] setQueueLength               [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -1068,9 +1063,9 @@ class ParameterProvideComSpec(PPortComSpec):
     \"Communication\" specification that applies to parameters on the provided side
     of a connection.
     """
+
     # ParameterProvideComSpec method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -1081,9 +1076,9 @@ class TransformationComSpecProps(Describable, ABC):
     TransformationComSpecProps holds all the attributes for transformers that are
     port specific.
     """
+
     # TransformationComSpecProps method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         if type(self) is TransformationComSpecProps:
@@ -1097,6 +1092,7 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     The class EndToEndTransformationComSpecProps specifies port specific configuration
     properties for EndToEnd transformer attributes.
     """
+
     # EndToEndTransformationComSpecProps method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getClearFromValidToInvalid   [x] impl  [x] docstring  [ ] test
@@ -1131,7 +1127,6 @@ class EndToEndTransformationComSpecProps(TransformationComSpecProps):
     # [ ] setWindowSizeInvalid         [x] impl  [x] docstring  [ ] test
     # [ ] getWindowSizeValid           [x] impl  [x] docstring  [ ] test
     # [ ] setWindowSizeValid           [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -1580,9 +1575,9 @@ class UserDefinedTransformationComSpecProps(TransformationComSpecProps):
     The UserDefinedTransformationComSpecProps is used to specify port specific
     configuration properties for custom transformers.
     """
+
     # UserDefinedTransformationComSpecProps method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -1592,6 +1587,7 @@ class ServerComSpec(PPortComSpec):
     """
     Communication attributes for a server port (PPortPrototype and ClientServerInterface).
     """
+
     # ServerComSpec method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getOperationRef              [x] impl  [x] docstring  [ ] test
@@ -1600,7 +1596,6 @@ class ServerComSpec(PPortComSpec):
     # [ ] setQueueLength               [x] impl  [x] docstring  [ ] test
     # [ ] getTransformationComSpecProps [x] impl  [x] docstring  [ ] test
     # [ ] addTransformationComSpecProps [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -1688,6 +1683,7 @@ class NvProvideComSpec(PPortComSpec):
     Communication attributes of PPortPrototypes with respect to Nv data communication
     on the provided side.
     """
+
     # NvProvideComSpec method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getRamBlockInitValue         [x] impl  [x] docstring  [ ] test
@@ -1696,7 +1692,6 @@ class NvProvideComSpec(PPortComSpec):
     # [ ] setRomBlockInitValue         [x] impl  [x] docstring  [ ] test
     # [ ] getVariableRef               [x] impl  [x] docstring  [ ] test
     # [ ] setVariableRef               [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -1782,6 +1777,7 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     """
     Communication attributes specific to non-queued receiving.
     """
+
     # NonqueuedReceiverComSpec method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getAliveTimeout              [x] impl  [x] docstring  [ ] test
@@ -1800,7 +1796,6 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
     # [ ] setInitValue                 [x] impl  [x] docstring  [ ] test
     # [ ] getTimeoutSubstitution       [x] impl  [x] docstring  [ ] test
     # [ ] setTimeoutSubstitution       [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -2014,11 +2009,11 @@ class QueuedReceiverComSpec(ReceiverComSpec):
     """
     Communication attributes specific to queued receiving.
     """
+
     # QueuedReceiverComSpec method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getQueueLength               [x] impl  [x] docstring  [ ] test
     # [ ] setQueueLength               [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -2053,9 +2048,9 @@ class HandleOutOfRangeEnum(AREnum):
     """
     Enumeration for handle out of range behavior.
     """
+
     # HandleOutOfRangeEnum method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
 
     KEEP_OLD_VALUE = "keep-old-value"
     REPLACE_WITH_DEFAULT = "replace-with-default"
@@ -2063,59 +2058,65 @@ class HandleOutOfRangeEnum(AREnum):
     INVALIDATE = "invalidate"
 
     def __init__(self):
-        super().__init__((
-            HandleOutOfRangeEnum.KEEP_OLD_VALUE,
-            HandleOutOfRangeEnum.REPLACE_WITH_DEFAULT,
-            HandleOutOfRangeEnum.REPLACE_WITH_LIMIT,
-            HandleOutOfRangeEnum.INVALIDATE,
-        ))
+        super().__init__(
+            (
+                HandleOutOfRangeEnum.KEEP_OLD_VALUE,
+                HandleOutOfRangeEnum.REPLACE_WITH_DEFAULT,
+                HandleOutOfRangeEnum.REPLACE_WITH_LIMIT,
+                HandleOutOfRangeEnum.INVALIDATE,
+            )
+        )
 
 
 class HandleOutOfRangeStatusEnum(AREnum):
     """
     Enumeration for handle out of range status.
     """
+
     # HandleOutOfRangeStatusEnum method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
 
     SET_STATUS = "set-status"
     DO_NOT_SET_STATUS = "do-not-set-status"
 
     def __init__(self):
-        super().__init__((
-            HandleOutOfRangeStatusEnum.SET_STATUS,
-            HandleOutOfRangeStatusEnum.DO_NOT_SET_STATUS,
-        ))
+        super().__init__(
+            (
+                HandleOutOfRangeStatusEnum.SET_STATUS,
+                HandleOutOfRangeStatusEnum.DO_NOT_SET_STATUS,
+            )
+        )
 
 
 class HandleTimeoutEnum(AREnum):
     """
     Enumeration for handle timeout behavior.
     """
+
     # HandleTimeoutEnum method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
 
     KEEP_OLD_VALUE = "keep-old-value"
     REPLACE_WITH_DEFAULT = "replace-with-default"
     INVALIDATE = "invalidate"
 
     def __init__(self):
-        super().__init__((
-            HandleTimeoutEnum.KEEP_OLD_VALUE,
-            HandleTimeoutEnum.REPLACE_WITH_DEFAULT,
-            HandleTimeoutEnum.INVALIDATE,
-        ))
+        super().__init__(
+            (
+                HandleTimeoutEnum.KEEP_OLD_VALUE,
+                HandleTimeoutEnum.REPLACE_WITH_DEFAULT,
+                HandleTimeoutEnum.INVALIDATE,
+            )
+        )
 
 
 class TransmissionModeDefinitionEnum(AREnum):
     """
     Enumeration for transmission mode definition.
     """
+
     # TransmissionModeDefinitionEnum method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
 
     PERIODIC = "periodic"
     ON_CHANGE = "on-change"
@@ -2123,9 +2124,11 @@ class TransmissionModeDefinitionEnum(AREnum):
     MIXED = "mixed"
 
     def __init__(self):
-        super().__init__((
-            TransmissionModeDefinitionEnum.PERIODIC,
-            TransmissionModeDefinitionEnum.ON_CHANGE,
-            TransmissionModeDefinitionEnum.DIRECT,
-            TransmissionModeDefinitionEnum.MIXED,
-        ))
+        super().__init__(
+            (
+                TransmissionModeDefinitionEnum.PERIODIC,
+                TransmissionModeDefinitionEnum.ON_CHANGE,
+                TransmissionModeDefinitionEnum.DIRECT,
+                TransmissionModeDefinitionEnum.MIXED,
+            )
+        )

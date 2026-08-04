@@ -17,6 +17,7 @@ class DataTransformationKindEnum(AREnum):
     specifying the kind of transformation to be applied
     to data elements in the communication system.
     """
+
     # DataTransformationKindEnum method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
@@ -30,6 +31,7 @@ class DataTransformation(Identifiable):
     the type of transformation, execution behavior, and
     references to transformation chains for data processing.
     """
+
     # DataTransformation method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getDataTransformationKind    [x] impl  [ ] docstring  [ ] test
@@ -69,7 +71,7 @@ class DataTransformation(Identifiable):
         if value is not None:
             self.transformerChainRefs.append(value)
         return self
-    
+
 
 class BufferProperties(ARObject):
     """
@@ -77,6 +79,7 @@ class BufferProperties(ARObject):
     specifying computation scales, header lengths, and in-place
     processing capabilities for buffer management.
     """
+
     # BufferProperties method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getBufferComputation         [x] impl  [ ] docstring  [ ] test
@@ -116,14 +119,15 @@ class BufferProperties(ARObject):
         if value is not None:
             self.inPlace = value
         return self
-    
-    
+
+
 class TransformationDescription(Describable, ABC):
     """
     Abstract base class for transformation descriptions,
     defining common properties for different types of
     data transformation descriptions in the system.
     """
+
     # TransformationDescription method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
@@ -144,12 +148,7 @@ class DataIdModeEnum(AREnum):
     LOWER_8_BIT = "lower8Bit"
 
     def __init__(self):
-        super().__init__([
-            DataIdModeEnum.ALL_16_BIT,
-            DataIdModeEnum.ALTERNATING_8_BIT,
-            DataIdModeEnum.LOWER_12_BIT,
-            DataIdModeEnum.LOWER_8_BIT
-        ])
+        super().__init__([DataIdModeEnum.ALL_16_BIT, DataIdModeEnum.ALTERNATING_8_BIT, DataIdModeEnum.LOWER_12_BIT, DataIdModeEnum.LOWER_8_BIT])
 
 
 class EndToEndProfileBehaviorEnum(AREnum):
@@ -161,10 +160,7 @@ class EndToEndProfileBehaviorEnum(AREnum):
     R4_2 = "R4_2"
 
     def __init__(self):
-        super().__init__([
-            EndToEndProfileBehaviorEnum.PRE_R4_2,
-            EndToEndProfileBehaviorEnum.R4_2
-        ])
+        super().__init__([EndToEndProfileBehaviorEnum.PRE_R4_2, EndToEndProfileBehaviorEnum.R4_2])
 
 
 class EndToEndTransformationDescription(TransformationDescription):
@@ -173,6 +169,7 @@ class EndToEndTransformationDescription(TransformationDescription):
     specifying counter offsets, CRC calculations, data ID modes,
     and profile behavior for safe data transmission.
     """
+
     # EndToEndTransformationDescription method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getClearFromValidToInvalid   [x] impl  [ ] docstring  [ ] test
@@ -424,7 +421,7 @@ class EndToEndTransformationDescription(TransformationDescription):
 
 
 class TransformerClassEnum(AREnum):
-    
+
     # TransformerClassEnum method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
@@ -434,12 +431,7 @@ class TransformerClassEnum(AREnum):
     SERIALIZER = "serializer"
 
     def __init__(self):
-        super().__init__([
-            TransformerClassEnum.CUSTOM,
-            TransformerClassEnum.SAFETY,
-            TransformerClassEnum.SECURITY,
-            TransformerClassEnum.SERIALIZER
-        ])
+        super().__init__([TransformerClassEnum.CUSTOM, TransformerClassEnum.SAFETY, TransformerClassEnum.SECURITY, TransformerClassEnum.SERIALIZER])
 
 
 class TransformationTechnology(Identifiable):
@@ -448,6 +440,7 @@ class TransformationTechnology(Identifiable):
     defining buffer properties, state management, protocol
     specifications, and transformer class for data transformation.
     """
+
     # TransformationTechnology method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getBufferProperties          [x] impl  [ ] docstring  [ ] test
@@ -539,6 +532,7 @@ class DataTransformationSet(ARElement):
     organizing multiple data transformations and transformation
     technologies for comprehensive data processing configurations.
     """
+
     # DataTransformationSet method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getDataTransformations       [x] impl  [ ] docstring  [ ] test
@@ -556,7 +550,7 @@ class DataTransformationSet(ARElement):
         return self.dataTransformations
 
     def createDataTransformation(self, short_name: str) -> DataTransformation:
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             dfs = DataTransformation(self, short_name)
             self.addElement(dfs)
             self.dataTransformations.append(dfs)
@@ -566,7 +560,7 @@ class DataTransformationSet(ARElement):
         return self.transformationTechnologies
 
     def createTransformationTechnology(self, short_name: str) -> TransformationTechnology:
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             tech = TransformationTechnology(self, short_name)
             self.addElement(tech)
             self.transformationTechnologies.append(tech)
@@ -579,6 +573,7 @@ class TransformationISignalProps(Describable, ABC):
     defining common properties for signal transformation including
     error reactions, data prototype properties, and transformer references.
     """
+
     # TransformationISignalProps method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getCsErrorReaction           [x] impl  [ ] docstring  [ ] test
@@ -639,6 +634,7 @@ class EndToEndTransformationISignalProps(TransformationISignalProps):
     specifying data IDs, length constraints, and source identifiers
     for protected signal transmission.
     """
+
     # EndToEndTransformationISignalProps method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getDataIds                   [x] impl  [ ] docstring  [ ] test

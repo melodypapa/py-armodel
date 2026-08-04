@@ -4,11 +4,13 @@ from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LOve
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import Paginateable
 
+
 class MultiLanguageParagraph(Paginateable):
     """
     Multi-language paragraph containing language-specific long name
     entries.
     """
+
     # MultiLanguageParagraph method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] addL1                        [x] impl  [ ] docstring  [ ] test
@@ -32,6 +34,7 @@ class MultiLanguageOverviewParagraph(ARObject):
     Multi-language overview paragraph with language-specific overview
     entries.
     """
+
     # MultiLanguageOverviewParagraph method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] addL2                        [x] impl  [ ] docstring  [ ] test
@@ -55,6 +58,7 @@ class MultilanguageLongName(ARObject):
     Multi-language long name containing language-specific long name
     entries.
     """
+
     # MultilanguageLongName method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] addL4                        [x] impl  [ ] docstring  [ ] test
@@ -71,11 +75,13 @@ class MultilanguageLongName(ARObject):
 
     def getL4s(self) -> List[LLongName]:
         return self.l4
-    
+
+
 class MultiLanguagePlainText(ARObject):
     """
     Multi-language plain text with language-specific text entries.
     """
+
     # MultiLanguagePlainText method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getL10s                      [x] impl  [ ] docstring  [ ] test

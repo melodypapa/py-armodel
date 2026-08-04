@@ -139,16 +139,14 @@ class AbstractProvidedPortPrototype(PortPrototype):
             raise TypeError("AbstractProvidedPortPrototype is an abstract class.")
         super().__init__(parent, short_name)
 
-        self.providedComSpecs = []                  # type: List[PPortComSpec]
+        self.providedComSpecs = []  # type: List[PPortComSpec]
 
     def _validateRPortComSpec(self, com_spec: PPortComSpec):
         if isinstance(com_spec, NonqueuedSenderComSpec):
             if com_spec.dataElementRef is None:
-                raise ValueError(
-                    "operation of NonqueuedSenderComSpec is invalid")
+                raise ValueError("operation of NonqueuedSenderComSpec is invalid")
             if com_spec.dataElementRef.dest != "VARIABLE-DATA-PROTOTYPE":
-                raise ValueError(
-                    "Invalid operation dest of NonqueuedSenderComSpec")
+                raise ValueError("Invalid operation dest of NonqueuedSenderComSpec")
         elif isinstance(com_spec, ServerComSpec):
             pass
         elif isinstance(com_spec, QueuedSenderComSpec):
@@ -183,10 +181,10 @@ class AbstractRequiredPortPrototype(PortPrototype):
             raise TypeError("AbstractRequiredPortPrototype is an abstract class.")
         super().__init__(parent, short_name)
 
-        self.requiredComSpecs = []                          # type: List[RPortComSpec]
+        self.requiredComSpecs = []  # type: List[RPortComSpec]
 
     def _validateRPortComSpec(self, com_spec: RPortComSpec):
-        if (isinstance(com_spec, ClientComSpec)):
+        if isinstance(com_spec, ClientComSpec):
             if com_spec.getOperationRef() is not None:
                 if com_spec.getOperationRef().getDest() != "CLIENT-SERVER-OPERATION":
                     raise ValueError("Invalid operation dest of ClientComSpec.")
@@ -228,7 +226,7 @@ class PPortPrototype(AbstractProvidedPortPrototype):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.providedInterfaceTRef = None           # type: TRefType
+        self.providedInterfaceTRef = None  # type: TRefType
 
     def getProvidedInterfaceTRef(self):
         return self.providedInterfaceTRef
@@ -249,8 +247,8 @@ class RPortPrototype(AbstractRequiredPortPrototype):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.mayBeUnconnected = None                # type: ARBoolean
-        self.requiredInterfaceTRef = None           # type: TRefType
+        self.mayBeUnconnected = None  # type: ARBoolean
+        self.requiredInterfaceTRef = None  # type: TRefType
 
     def getMayBeUnconnected(self):
         return self.mayBeUnconnected
@@ -265,7 +263,7 @@ class RPortPrototype(AbstractRequiredPortPrototype):
     def setRequiredInterfaceTRef(self, value):
         self.requiredInterfaceTRef = value
         return self
-    
+
 
 class PRPortPrototype(PortPrototype):
     # PRPortPrototype method parity checklist:
@@ -280,9 +278,9 @@ class PRPortPrototype(PortPrototype):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.providedComSpecs = []                          # type: List[PPortComSpec]
-        self.requiredComSpecs = []                          # type: List[RPortComSpec]
-        self.providedRequiredInterface = None               # type: TRefType
+        self.providedComSpecs = []  # type: List[PPortComSpec]
+        self.requiredComSpecs = []  # type: List[RPortComSpec]
+        self.providedRequiredInterface = None  # type: TRefType
 
     def getProvidedComSpecs(self):
         return self.providedComSpecs
@@ -317,15 +315,15 @@ class PortGroup(AtpStructureElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self._inner_group_iref = []    # type: List[InnerPortGroupInCompositionInstanceRef]
-        self._outer_port_ref = []      # type: List[RefType]
+        self._inner_group_iref = []  # type: List[InnerPortGroupInCompositionInstanceRef]
+        self._outer_port_ref = []  # type: List[RefType]
 
     def addInnerGroupIRef(self, iref: InnerPortGroupInCompositionInstanceRef):
         self._inner_group_iref.append(iref)
 
     def getInnerGroupIRefs(self) -> List[InnerPortGroupInCompositionInstanceRef]:
         return self._inner_group_iref
-    
+
     def addOuterPortRef(self, ref: RefType):
         self._outer_port_ref.append(ref)
 
@@ -351,7 +349,7 @@ class AtomicSwComponentType(SwComponentType, ABC):
         return self.internalBehavior
 
     def createSwcInternalBehavior(self, short_name) -> SwcInternalBehavior:
-        if (not self.IsElementExists(short_name, SwcInternalBehavior)):
+        if not self.IsElementExists(short_name, SwcInternalBehavior):
             behavior = SwcInternalBehavior(self, short_name)
             self.addElement(behavior)
             self.internalBehavior = behavior
@@ -365,11 +363,11 @@ class AtomicSwComponentType(SwComponentType, ABC):
             self.symbolProps = value
         return self
 
-    '''
+    """
     @property
     def internal_behavior(self) -> SwcInternalBehavior:
         return next(filter(lambda e: isinstance(e, SwcInternalBehavior), self.elements))
-    '''
+    """
 
 
 class EcuAbstractionSwComponentType(AtomicSwComponentType):
@@ -381,7 +379,7 @@ class EcuAbstractionSwComponentType(AtomicSwComponentType):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.hardwareElementRefs = []                                   # List[RefType]
+        self.hardwareElementRefs = []  # List[RefType]
 
     def getHardwareElementRefs(self):
         return self.hardwareElementRefs
@@ -409,7 +407,7 @@ class ComplexDeviceDriverSwComponentType(AtomicSwComponentType):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.hardwareElementRefs = []                                   # List[RefType]
+        self.hardwareElementRefs = []  # List[RefType]
 
     def getHardwareElementRefs(self):
         return self.hardwareElementRefs
@@ -431,8 +429,8 @@ class NvBlockSwComponentType(AtomicSwComponentType):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.bulkNvDataDescriptors = []                                 # type: List[BulkNvDataDescriptor]
-        self.nvBlockDescriptors = []                                    # type: List[NvBlockDescriptor]
+        self.bulkNvDataDescriptors = []  # type: List[BulkNvDataDescriptor]
+        self.nvBlockDescriptors = []  # type: List[NvBlockDescriptor]
 
     def getBulkNvDataDescriptors(self):
         return self.bulkNvDataDescriptors

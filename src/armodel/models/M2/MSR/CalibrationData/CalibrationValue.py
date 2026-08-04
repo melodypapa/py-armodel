@@ -3,10 +3,12 @@ from typing import List
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical
 
+
 class SwValues(ARObject):
     """
     Collection of numerical values for calibration data.
     """
+
     # SwValues method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] addV                         [x] impl  [ ] docstring  [ ] test
@@ -15,8 +17,8 @@ class SwValues(ARObject):
     def __init__(self):
         super().__init__()
 
-        self._v = []                    # type: List[ARNumerical]
-        self.vt = None                  # type: float
+        self._v = []  # type: List[ARNumerical]
+        self.vt = None  # type: float
 
     def addV(self, v: ARNumerical):
         self._v.append(v)
@@ -30,6 +32,7 @@ class SwValueCont(ARObject):
     Container for calibration values with array size, physical values,
     and unit reference.
     """
+
     # SwValueCont method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getSwArraysize               [x] impl  [ ] docstring  [ ] test
@@ -44,10 +47,10 @@ class SwValueCont(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.swArraysize = None             # type: ValueList
-        self.swValuesPhys = None            # type: SwValues
-        self.unitRef = None                 # type: RefType
-        self.unitDisplayName = None         # type: SingleLanguageUnitNames
+        self.swArraysize = None  # type: ValueList
+        self.swValuesPhys = None  # type: SwValues
+        self.unitRef = None  # type: RefType
+        self.unitDisplayName = None  # type: SingleLanguageUnitNames
 
     def getSwArraysize(self):
         return self.swArraysize

@@ -26,6 +26,7 @@ class SwcToEcuMapping(Identifiable):
     in the system, defining how components are assigned to specific
     ECUs including hardware element and processing unit references.
     """
+
     # SwcToEcuMapping method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getComponentIRefs            [x] impl  [ ] docstring  [ ] test
@@ -80,6 +81,7 @@ class ComManagementMapping(Identifiable):
     defining how communication management groups and port groups
     are mapped to physical communication channels.
     """
+
     # ComManagementMapping method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getComManagementGroupRefs    [x] impl  [ ] docstring  [ ] test
@@ -128,6 +130,7 @@ class SystemMapping(Identifiable):
     ECU resource mappings, data mappings, and software component mappings
     for comprehensive system configuration.
     """
+
     # SystemMapping method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getApplicationPartitionToEcuPartitionMappings [x] impl  [ ] docstring  [ ] test
@@ -363,7 +366,7 @@ class SystemMapping(Identifiable):
 
     def getSwMappings(self):
         return self.swMappings
-    
+
     def getSwcToEcuMappings(self) -> List[SwcToEcuMapping]:
         return list(sorted(filter(lambda a: isinstance(a, SwcToEcuMapping), self.elements), key=lambda o: o.short_name))
 
@@ -395,6 +398,7 @@ class RootSwCompositionPrototype(AtpPrototype):
     defining references to calibration parameter value sets, flat maps,
     and software composition templates for the top-level composition.
     """
+
     # RootSwCompositionPrototype method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getCalibrationParameterValueSetRef [x] impl  [ ] docstring  [ ] test
@@ -439,6 +443,7 @@ class J1939SharedAddressCluster(Identifiable):
     defining references to participating J1939 clusters for
     shared address management in J1939 communication.
     """
+
     # J1939SharedAddressCluster method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getParticipatingJ1939ClusterRefs [x] impl  [ ] docstring  [ ] test
@@ -464,6 +469,7 @@ class System(AtpStructureElement):
     organizing all system-level elements including ECU extractions,
     mappings, and system configurations for complete system definition.
     """
+
     # System method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getClientIdDefinitionSetRefs [x] impl  [ ] docstring  [ ] test
@@ -557,7 +563,7 @@ class System(AtpStructureElement):
 
     def getMappings(self) -> List[SystemMapping]:
         return list(sorted(filter(lambda a: isinstance(a, SystemMapping), self.elements), key=lambda o: o.short_name))
-    
+
     def getSystemMappings(self) -> List[SystemMapping]:
         return list(sorted(filter(lambda a: isinstance(a, SystemMapping), self.elements), key=lambda o: o.short_name))
 
@@ -566,7 +572,7 @@ class System(AtpStructureElement):
             mapping = SystemMapping(self, short_name)
             self.addElement(mapping)
         return self.getElement(short_name, SystemMapping)
-    
+
     def getPncVectorLength(self):
         return self.pncVectorLength
 

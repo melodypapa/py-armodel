@@ -4,10 +4,4 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation.SignalServiceTranslationProps import SignalServiceTranslationProps
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation.SignalServiceTranslationPropsSet import SignalServiceTranslationPropsSet
 
-__all__ = [
-    'SignalServiceTranslationControlEnum',
-    'SignalServiceTranslationElementProps',
-    'SignalServiceTranslationEventProps',
-    'SignalServiceTranslationProps',
-    'SignalServiceTranslationPropsSet'
-]
+__all__ = ["SignalServiceTranslationControlEnum", "SignalServiceTranslationElementProps", "SignalServiceTranslationEventProps", "SignalServiceTranslationProps", "SignalServiceTranslationPropsSet"]

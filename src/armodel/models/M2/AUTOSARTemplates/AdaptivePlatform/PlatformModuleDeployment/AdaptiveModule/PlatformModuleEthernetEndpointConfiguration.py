@@ -22,6 +22,7 @@ class PlatformModuleEthernetEndpointConfiguration(ARElement):
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 65, Foundation R23-11)
     """
+
     # PlatformModuleEthernetEndpointConfiguration method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
     # [ ] getCommunications            [x] impl  [ ] docstring  [ ] test
@@ -30,7 +31,6 @@ class PlatformModuleEthernetEndpointConfiguration(ARElement):
     # [ ] setIpv4MulticastIps          [x] impl  [ ] docstring  [ ] test
     # [ ] getIpv6MulticastIps          [x] impl  [ ] docstring  [ ] test
     # [ ] setIpv6MulticastIps          [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -47,26 +47,20 @@ class PlatformModuleEthernetEndpointConfiguration(ARElement):
     def getCommunications(self) -> Any:
         return self.communications
 
-    def setCommunications(
-        self, value: Any
-    ) -> "PlatformModuleEthernetEndpointConfiguration":
+    def setCommunications(self, value: Any) -> "PlatformModuleEthernetEndpointConfiguration":
         self.communications = value
         return self
 
     def getIpv4MulticastIps(self) -> Ip4AddressString:
         return self.ipv4MulticastIps
 
-    def setIpv4MulticastIps(
-        self, value: Ip4AddressString
-    ) -> "PlatformModuleEthernetEndpointConfiguration":
+    def setIpv4MulticastIps(self, value: Ip4AddressString) -> "PlatformModuleEthernetEndpointConfiguration":
         self.ipv4MulticastIps = value
         return self
 
     def getIpv6MulticastIps(self) -> Ip6AddressString:
         return self.ipv6MulticastIps
 
-    def setIpv6MulticastIps(
-        self, value: Ip6AddressString
-    ) -> "PlatformModuleEthernetEndpointConfiguration":
+    def setIpv6MulticastIps(self, value: Ip6AddressString) -> "PlatformModuleEthernetEndpointConfiguration":
         self.ipv6MulticastIps = value
         return self

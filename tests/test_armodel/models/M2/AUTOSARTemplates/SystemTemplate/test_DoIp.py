@@ -1,10 +1,6 @@
 import pytest
 
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIp import (
-    AbstractDoIpLogicAddressProps,
-    DoIpLogicTargetAddressProps,
-    DoIpLogicTesterAddressProps
-)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIp import AbstractDoIpLogicAddressProps, DoIpLogicTargetAddressProps, DoIpLogicTesterAddressProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
@@ -16,7 +12,7 @@ class MockParent(ARObject):
 
 class Test_DoIp:
     """Test cases for DoIP-related classes."""
-    
+
     def test_AbstractDoIpLogicAddressProps(self):
         """Test AbstractDoIpLogicAddressProps abstract class instantiation."""
         parent = MockParent()
@@ -30,7 +26,7 @@ class Test_DoIp:
 
         assert isinstance(props, Identifiable)
         assert isinstance(props, AbstractDoIpLogicAddressProps)
-        
+
         # Test default values
         assert props.getShortName() == "test_target_addr"
 
@@ -41,10 +37,10 @@ class Test_DoIp:
 
         assert isinstance(props, Identifiable)
         assert isinstance(props, AbstractDoIpLogicAddressProps)
-        
+
         # Test default values
         assert props.getDoIpTesterRoutingActivationRef() is None
-        
+
         # Test setter/getter
         mock_ref = "mock_ref"
         props.setDoIpTesterRoutingActivationRef(mock_ref)

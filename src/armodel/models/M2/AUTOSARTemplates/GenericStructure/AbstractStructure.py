@@ -1,4 +1,3 @@
-
 """
 This module contains abstract structure classes for AUTOSAR models
 in the GenericStructure module.
@@ -16,6 +15,7 @@ class AtpInstanceRef(ARObject, ABC):
     Abstract class for AUTOSAR Template Parameter (ATP) instance references.
     This class defines the structure for referencing ATP instances.
     """
+
     # AtpInstanceRef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getAtpBaseRef                [x] impl  [x] docstring  [ ] test
@@ -25,7 +25,6 @@ class AtpInstanceRef(ARObject, ABC):
     # [ ] getAtpTargetRef              [x] impl  [x] docstring  [ ] test
     # [ ] setAtpTargetRef              [x] impl  [x] docstring  [ ] test
 
-    
     def __init__(self):
         if type(self) is AtpInstanceRef:
             raise TypeError("AtpInstanceRef is an abstract class.")
@@ -39,7 +38,7 @@ class AtpInstanceRef(ARObject, ABC):
     def getAtpBaseRef(self) -> Optional[RefType]:
         """
         Gets the ATP base reference.
-        
+
         Returns:
             RefType representing the base reference, or None if not set
         """
@@ -48,10 +47,10 @@ class AtpInstanceRef(ARObject, ABC):
     def setAtpBaseRef(self, value: RefType):
         """
         Sets the ATP base reference.
-        
+
         Args:
             value: The base reference to set
-            
+
         Returns:
             self for method chaining
         """
@@ -61,7 +60,7 @@ class AtpInstanceRef(ARObject, ABC):
     def getAtpContextElementRefs(self) -> List[RefType]:
         """
         Gets the list of ATP context element references.
-        
+
         Returns:
             List of RefType instances representing context element references
         """
@@ -70,10 +69,10 @@ class AtpInstanceRef(ARObject, ABC):
     def addAtpContextElementRef(self, value: RefType):
         """
         Adds an ATP context element reference.
-        
+
         Args:
             value: The context element reference to add
-            
+
         Returns:
             self for method chaining
         """
@@ -83,7 +82,7 @@ class AtpInstanceRef(ARObject, ABC):
     def getAtpTargetRef(self) -> Optional[RefType]:
         """
         Gets the ATP target reference.
-        
+
         Returns:
             RefType representing the target reference, or None if not set
         """
@@ -92,10 +91,10 @@ class AtpInstanceRef(ARObject, ABC):
     def setAtpTargetRef(self, value: RefType):
         """
         Sets the ATP target reference.
-        
+
         Args:
             value: The target reference to set
-            
+
         Returns:
             self for method chaining
         """
@@ -106,23 +105,23 @@ class AtpInstanceRef(ARObject, ABC):
 class AtpBlueprintable(PackageableElement, ABC):
     """
     Abstract base class for AUTOSAR Template (ATP) blueprintable elements.
-    
+
     AtpBlueprintable represents elements that can be used as blueprints in the AUTOSAR
     template system. These elements provide reusable definitions that can be instantiated
     or referenced in the model.
-    
+
     This class extends Identifiable with blueprint-specific functionality for managing
     template-based elements in AUTOSAR models.
-    
+
     Note:
         This is an abstract class and cannot be instantiated directly.
         Concrete implementations include BswModuleEntry, CompuMethod, DataConstr,
         and other blueprintable AUTOSAR elements.
     """
+
     # AtpBlueprintable method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
-    
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AtpBlueprintable:
             raise TypeError("AtpBlueprintable is an abstract class.")
@@ -132,23 +131,23 @@ class AtpBlueprintable(PackageableElement, ABC):
 class AtpClassifier(PackageableElement, ABC):
     """
     Abstract base class for AUTOSAR Template (ATP) classifier elements.
-    
+
     AtpClassifier represents elements that classify or categorize other elements
     in the AUTOSAR system. It serves as a base for type definitions and classifiers
     that provide structural organization to AUTOSAR models.
-    
+
     This class extends Identifiable with classifier-specific functionality.
-    
+
     Note:
         This is an abstract class and cannot be instantiated directly.
         AtpClassifier is the parent of AtpType, which in turn is the parent
         of various AUTOSAR type definitions like AutosarDataType, PortInterface,
         and SwComponentType.
     """
+
     # AtpClassifier method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
-    
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AtpClassifier:
             raise TypeError("AtpClassifier is an abstract class.")
@@ -158,14 +157,14 @@ class AtpClassifier(PackageableElement, ABC):
 class AtpFeature(Identifiable, ABC):
     """
     Abstract base class for AUTOSAR Template (ATP) feature elements.
-    
+
     AtpFeature represents feature elements in the AUTOSAR system. Features
     are abstract capabilities or characteristics that can be associated with
     AUTOSAR elements to describe their functionality or properties.
-    
+
     This class extends Identifiable with feature-specific functionality for
     managing feature-based elements.
-    
+
     Note:
         This is an abstract class and cannot be instantiated directly.
         AtpFeature is the parent of various AUTOSAR feature elements:
@@ -173,14 +172,14 @@ class AtpFeature(Identifiable, ABC):
           DataPrototype, ModeDeclarationGroupPrototype, PortPrototype, etc.)
         - AtpStructureElement (including AbstractAccessPoint, BswModuleDescription,
           ClientServerOperation, InternalBehavior, RTEEvent, SwConnector, etc.)
-    
+
     Attributes:
         Inherits all attributes from Identifiable including shortName and adminData.
     """
+
     # AtpFeature method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
-    
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AtpFeature:
             raise TypeError("AtpFeature is an abstract class.")
@@ -190,13 +189,13 @@ class AtpFeature(Identifiable, ABC):
 class AtpType(AtpClassifier, ABC):
     """
     Abstract base class for AUTOSAR Template (ATP) type elements.
-    
+
     AtpType represents type definitions in the AUTOSAR system. It provides
     the foundation for all AUTOSAR type classifications including data types,
     port interfaces, and component types.
-    
+
     This class extends AtpClassifier with type-specific functionality.
-    
+
     Note:
         This is an abstract class and cannot be instantiated directly.
         AtpType is the parent of various AUTOSAR type definitions:
@@ -206,10 +205,10 @@ class AtpType(AtpClassifier, ABC):
         - PortInterface (including ClientServerInterface, SenderReceiverInterface, etc.)
         - SwComponentType (including AtomicSwComponentType, CompositionSwComponentType, etc.)
     """
+
     # AtpType method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
-    
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AtpType:
             raise TypeError("AtpType is an abstract class.")
@@ -219,14 +218,14 @@ class AtpType(AtpClassifier, ABC):
 class AtpPrototype(AtpBlueprintable, ABC):
     """
     Abstract base class for AUTOSAR Template (ATP) prototype elements.
-    
+
     AtpPrototype represents prototype elements in the AUTOSAR system. Prototypes
     are instantiable elements that can be used to create instances or references
     in AUTOSAR models. They serve as templates for creating specific occurrences
     of elements.
-    
+
     This class extends AtpBlueprintable with prototype-specific functionality.
-    
+
     Note:
         This is an abstract class and cannot be instantiated directly.
         AtpPrototype is the parent of various AUTOSAR prototype definitions:
@@ -238,10 +237,10 @@ class AtpPrototype(AtpBlueprintable, ABC):
         - RootSwCompositionPrototype
         - SwComponentPrototype
     """
+
     # AtpPrototype method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
-    
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AtpPrototype:
             raise TypeError("AtpPrototype is an abstract class.")
@@ -257,7 +256,7 @@ class AtpStructureElement(AtpBlueprintable, ABC):
     AUTOSAR models, including behaviors, operations, and other structural components.
 
     This class extends AtpBlueprintable with structure-specific functionality.
-    
+
     Note:
         This is an abstract class and cannot be instantiated directly.
         AtpStructureElement is the parent of various AUTOSAR structural elements:
@@ -283,10 +282,10 @@ class AtpStructureElement(AtpBlueprintable, ABC):
         - System
         - Trigger
     """
+
     # AtpStructureElement method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
 
-    
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AtpStructureElement:
             raise TypeError("AtpStructureElement is an abstract class.")
@@ -296,27 +295,27 @@ class AtpStructureElement(AtpBlueprintable, ABC):
 class AtpBlueprintMapping(ARObject, ABC):
     """
     Abstract base class for AUTOSAR Template (ATP) blueprint mapping elements.
-    
+
     AtpBlueprintMapping represents mapping elements in the AUTOSAR system that
     define relationships between blueprints and their implementations or instances.
     Mappings provide the mechanism to connect abstract blueprint definitions
     with concrete implementations.
-    
+
     This class extends ARObject with mapping-specific functionality for managing
     blueprint mapping relationships.
-    
+
     Note:
         This is an abstract class and cannot be instantiated directly.
         AtpBlueprintMapping is the parent of various AUTOSAR mapping elements:
         - BlueprintMapping (generic blueprint to implementation mapping)
-    
+
     Attributes:
         Inherits all attributes from ARObject including uuid and adminData.
     """
+
     # AtpBlueprintMapping method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
-    
     def __init__(self):
         if type(self) is AtpBlueprintMapping:
             raise TypeError("AtpBlueprintMapping is an abstract class.")

@@ -23,13 +23,13 @@ class AbstractARXMLWriter(ABC):
     def __init__(self, options=None) -> None:
         if type(self) is AbstractARXMLWriter:
             raise TypeError("AbstractARXMLWriter is an abstract class.")
-        
+
         self.options = {}
-        self.options['warning'] = False
-        self.options['version'] = "4.2.2"
-        self.options['unescape_entities'] = False
+        self.options["warning"] = False
+        self.options["version"] = "4.2.2"
+        self.options["unescape_entities"] = False
         self.logger = logging.getLogger()
-        
+
         self._processOptions(options=options)
 
         self.nsmap = {
@@ -38,44 +38,44 @@ class AbstractARXMLWriter(ABC):
 
     def _processOptions(self, options):
         if options:
-            if 'warning' in options:
-                self.options['warning'] = options['warning']
-            if 'unescape_entities' in options:
-                self.options['unescape_entities'] = options['unescape_entities']
+            if "warning" in options:
+                self.options["warning"] = options["warning"]
+            if "unescape_entities" in options:
+                self.options["unescape_entities"] = options["unescape_entities"]
 
     def _raiseError(self, error_msg):
-        if (self.options['warning'] is True):
+        if self.options["warning"] is True:
             self.logger.error(Fore.RED + error_msg + Fore.WHITE)
         else:
             raise ValueError(error_msg)
-        
+
     def notImplemented(self, error_msg):
-        if (self.options['warning'] is True):
+        if self.options["warning"] is True:
             self.logger.error(Fore.RED + error_msg + Fore.WHITE)
         else:
             raise NotImplementedError(error_msg)
-        
+
     def writeARObjectAttributes(self, element: ET.Element, ar_obj: ARObject):
         if ar_obj.timestamp is not None:
             # self.logger.debug("Timestamp: %s" % ar_obj.timestamp)
-            element.attrib['T'] = ar_obj.timestamp
+            element.attrib["T"] = ar_obj.timestamp
         if ar_obj.uuid is not None:
             # self.logger.debug("UUID: %s" % ar_obj.uuid)
-            element.attrib['UUID'] = ar_obj.uuid
+            element.attrib["UUID"] = ar_obj.uuid
 
-    '''
+    """
     def setChildElementOptionalValue(self, element: ET.Element, key: str, value: str):
         if value is not None:
             child_element = ET.SubElement(element, key)
             child_element.text = value
-    '''
+    """
 
-    '''
+    """
     def setChildElementOptionalNumberValue(self, element: ET.Element, key: str, value: str):
         if value is not None:
             child_element = ET.SubElement(element, key)
             child_element.text = str(value)
-    '''
+    """
 
     def setChildElementOptionalNumericalValue(self, element: ET.Element, key: str, numerical: ARNumerical):
         if numerical is not None:
@@ -90,7 +90,7 @@ class AbstractARXMLWriter(ABC):
 
     def setChildElementOptionalPositiveInteger(self, element: ET.Element, key: str, value: Integer):
         self.setChildElementOptionalNumericalValue(element, key, value)
-    
+
     def setChildElementOptionalRevisionLabelString(self, element: ET.Element, key: str, literal: RevisionLabelString):
         self.setChildElementOptionalLiteral(element, key, literal)
 
@@ -102,10 +102,10 @@ class AbstractARXMLWriter(ABC):
             child_tag = ET.SubElement(parent, child_tag_name)
             base = ref.getBase()
             if base is not None:
-                child_tag.attrib['BASE'] = base
+                child_tag.attrib["BASE"] = base
             dest = ref.getDest()
             if dest is not None:
-                child_tag.attrib['DEST'] = dest
+                child_tag.attrib["DEST"] = dest
             if ref.value is not None:
                 child_tag.text = ref.value
 
@@ -131,11 +131,11 @@ class AbstractARXMLWriter(ABC):
             self.writeARObjectAttributes(child_element, value)
             child_element.text = value.getText()
         return element
-    
+
     def patch_xml(self, xml: str) -> str:
         xml = re.sub(r"\<([\w-]+)\/\>", r"<\1></\1>", xml)
 
-        if self.options.get('unescape_entities', False):
+        if self.options.get("unescape_entities", False):
             xml = xml.replace("&quot;", '"')
             xml = xml.replace("&apos;", "'")
 
@@ -146,12 +146,12 @@ class AbstractARXMLWriter(ABC):
             xml = ET.tostring(root, encoding="UTF-8", short_empty_elements=False)
         else:
             xml = ET.tostring(root, encoding="UTF-8", xml_declaration=True, short_empty_elements=False)
-        
+
         dom = minidom.parseString(xml.decode())
         xml = dom.toprettyxml(indent="  ", encoding="UTF-8")
 
         text = self.patch_xml(xml.decode())
-    
+
         with open(filename, "w", encoding="utf-8") as f_out:
             # f_out.write(xml.decode())
             f_out.write(text)

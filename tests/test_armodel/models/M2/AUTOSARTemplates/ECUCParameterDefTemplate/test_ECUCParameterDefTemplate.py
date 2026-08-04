@@ -38,21 +38,21 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucEnumerationParamDef,
     EcucFloatParamDef,
     EcucChoiceContainerDef,
-    EcucParamConfContainerDef
+    EcucParamConfContainerDef,
 )
 
 
 class TestEcucConditionSpecification:
     """
     Test class for EcucConditionSpecification functionality.
-    This class contains test methods for validating the behavior of 
+    This class contains test methods for validating the behavior of
     the EcucConditionSpecification class, including its initialization.
     """
-    
+
     def test_initialization(self):
         """
         Test EcucConditionSpecification class initialization.
-        Verifies that the EcucConditionSpecification can be properly instantiated 
+        Verifies that the EcucConditionSpecification can be properly instantiated
         and that it inherits from ARObject.
         """
         condition_spec = EcucConditionSpecification()
@@ -63,10 +63,10 @@ class TestEcucConditionSpecification:
 class TestEcucValidationCondition:
     """
     Test class for EcucValidationCondition functionality.
-    This class contains test methods for validating the behavior of 
+    This class contains test methods for validating the behavior of
     the EcucValidationCondition class, including its initialization.
     """
-    
+
     def test_initialization(self):
         """
         Test EcucValidationCondition class initialization.
@@ -85,10 +85,10 @@ class TestEcucValidationCondition:
 class TestEcucScopeEnum:
     """
     Test class for EcucScopeEnum functionality.
-    This class contains test methods for validating the behavior of 
+    This class contains test methods for validating the behavior of
     the EcucScopeEnum class, including its initialization.
     """
-    
+
     def test_initialization(self):
         """
         Test EcucScopeEnum class initialization.
@@ -98,7 +98,7 @@ class TestEcucScopeEnum:
         scope_enum = EcucScopeEnum()
 
         assert scope_enum is not None
-        assert hasattr(scope_enum, 'enumValues')
+        assert hasattr(scope_enum, "enumValues")
         assert scope_enum.enumValues == []
 
 
@@ -114,6 +114,7 @@ class TestEcucDefinitionElement:
         Test that EcucDefinitionElement is abstract and cannot be instantiated directly.
         """
         import pytest
+
         document = AUTOSAR.getInstance()
         parent = document.createARPackage("TestPackage")
 
@@ -188,6 +189,7 @@ class TestEcucDefinitionElement:
         Verifies that setting None values doesn't change the stored values.
         """
         import pytest
+
         document = AUTOSAR.getInstance()
         parent = document.createARPackage("TestPackage")
 
@@ -199,10 +201,10 @@ class TestEcucDefinitionElement:
 class TestEcucDestinationUriDefRefType:
     """
     Test class for EcucDestinationUriDefRefType functionality.
-    This class contains test methods for validating the behavior of 
+    This class contains test methods for validating the behavior of
     the EcucDestinationUriDefRefType class, including its initialization.
     """
-    
+
     def test_initialization(self):
         """
         Test EcucDestinationUriDefRefType class initialization.
@@ -217,10 +219,10 @@ class TestEcucDestinationUriDefRefType:
 class TestEcucConfigurationClassEnum:
     """
     Test class for EcucConfigurationClassEnum functionality.
-    This class contains test methods for validating the behavior of 
+    This class contains test methods for validating the behavior of
     the EcucConfigurationClassEnum class, including its initialization.
     """
-    
+
     def test_initialization(self):
         """
         Test EcucConfigurationClassEnum class initialization.
@@ -236,10 +238,10 @@ class TestEcucConfigurationClassEnum:
 class TestEcucConfigurationVariantEnum:
     """
     Test class for EcucConfigurationVariantEnum functionality.
-    This class contains test methods for validating the behavior of 
+    This class contains test methods for validating the behavior of
     the EcucConfigurationVariantEnum class, including its initialization.
     """
-    
+
     def test_initialization(self):
         """
         Test EcucConfigurationVariantEnum class initialization.
@@ -255,7 +257,7 @@ class TestEcucConfigurationVariantEnum:
 class TestEcucAbstractConfigurationClass:
     """
     Test class for EcucAbstractConfigurationClass functionality.
-    This class contains test methods for validating the behavior of 
+    This class contains test methods for validating the behavior of
     the EcucAbstractConfigurationClass class, including that it is abstract.
     """
 
@@ -264,6 +266,7 @@ class TestEcucAbstractConfigurationClass:
         Test that EcucAbstractConfigurationClass is abstract and cannot be instantiated directly.
         """
         import pytest
+
         with pytest.raises(TypeError, match="EcucAbstractConfigurationClass is an abstract class"):
             EcucAbstractConfigurationClass()
 
@@ -309,10 +312,10 @@ class TestEcucAbstractConfigurationClass:
 class TestEcucMultiplicityConfigurationClass:
     """
     Test class for EcucMultiplicityConfigurationClass functionality.
-    This class contains test methods for validating the behavior of 
+    This class contains test methods for validating the behavior of
     the EcucMultiplicityConfigurationClass class, including its initialization.
     """
-    
+
     def test_initialization(self):
         """
         Test EcucMultiplicityConfigurationClass class initialization.
@@ -329,10 +332,10 @@ class TestEcucMultiplicityConfigurationClass:
 class TestEcucContainerDef:
     """
     Test class for EcucContainerDef functionality.
-    This class contains test methods for validating the behavior of 
+    This class contains test methods for validating the behavior of
     the EcucContainerDef class, including its initialization and methods.
     """
-    
+
     def test_initialization(self):
         """
         Test EcucContainerDef subclass initialization.
@@ -399,10 +402,10 @@ class TestEcucContainerDef:
 class TestEcucValueConfigurationClass:
     """
     Test class for EcucValueConfigurationClass functionality.
-    This class contains test methods for validating the behavior of 
+    This class contains test methods for validating the behavior of
     the EcucValueConfigurationClass class, including its initialization.
     """
-    
+
     def test_initialization(self):
         """
         Test EcucValueConfigurationClass class initialization.
@@ -422,7 +425,7 @@ class TestEcucCommonAttributes:
     This class tests the abstract class behavior and verifies that attempting to
     instantiate it directly raises a TypeError.
     """
-    
+
     def test_abstract_instantiation_raises_error(self):
         """
         Test that EcucCommonAttributes cannot be directly instantiated.
@@ -430,7 +433,7 @@ class TestEcucCommonAttributes:
         """
         document = AUTOSAR.getInstance()
         parent = document.createARPackage("TestPackage")
-        
+
         with pytest.raises(TypeError, match="Cannot instantiate abstract class EcucCommonAttributes"):
             EcucCommonAttributes(parent, "TestCommonAttributes")
 
@@ -438,6 +441,7 @@ class TestEcucCommonAttributes:
         """
         Test that a subclass of EcucCommonAttributes can be instantiated.
         """
+
         # Since we don't have a concrete subclass in the same file, we'll test by subclassing
         class ConcreteCommonAttributes(EcucCommonAttributes):
             def __init__(self, parent, short_name):
@@ -460,6 +464,7 @@ class TestEcucCommonAttributes:
         """
         Test EcucCommonAttributes subclass setter and getter methods.
         """
+
         class ConcreteCommonAttributes(EcucCommonAttributes):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
@@ -498,7 +503,7 @@ class TestEcucCommonAttributes:
         value_config = EcucValueConfigurationClass()
         result = concrete.addValueConfigClass(value_config)
         assert result == concrete
-        # Note: There's an issue in the source code - getValueConfigClasses returns EcucValueConfigurationClass 
+        # Note: There's an issue in the source code - getValueConfigClasses returns EcucValueConfigurationClass
         # instead of List[EcucValueConfigurationClass], so I'll test adding to the list
         assert value_config in concrete.getValueConfigClasses()
 
@@ -506,10 +511,10 @@ class TestEcucCommonAttributes:
 class TestEcucDerivationSpecification:
     """
     Test class for EcucDerivationSpecification functionality.
-    This class contains test methods for validating the behavior of 
+    This class contains test methods for validating the behavior of
     the EcucDerivationSpecification class, including its initialization.
     """
-    
+
     def test_initialization(self):
         """
         Test EcucDerivationSpecification class initialization.
@@ -580,10 +585,10 @@ class TestEcucParameterDef:
 class TestEcucBooleanParamDef:
     """
     Test class for EcucBooleanParamDef functionality.
-    This class contains test methods for validating the behavior of 
+    This class contains test methods for validating the behavior of
     the EcucBooleanParamDef class, including its initialization and methods.
     """
-    
+
     def test_initialization(self):
         """
         Test EcucBooleanParamDef class initialization.
@@ -618,7 +623,7 @@ class TestEcucAbstractReferenceDef:
     This class tests the abstract class behavior and verifies that attempting to
     instantiate it directly raises a TypeError.
     """
-    
+
     def test_abstract_instantiation_raises_error(self):
         """
         Test that EcucAbstractReferenceDef cannot be directly instantiated.
@@ -626,7 +631,7 @@ class TestEcucAbstractReferenceDef:
         """
         document = AUTOSAR.getInstance()
         parent = document.createARPackage("TestPackage")
-        
+
         with pytest.raises(TypeError, match="Cannot instantiate abstract class EcucAbstractReferenceDef"):
             EcucAbstractReferenceDef(parent, "TestAbstractRefDef")
 
@@ -634,6 +639,7 @@ class TestEcucAbstractReferenceDef:
         """
         Test that a subclass of EcucAbstractReferenceDef can be instantiated.
         """
+
         class ConcreteAbstractReferenceDef(EcucAbstractReferenceDef):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
@@ -651,6 +657,7 @@ class TestEcucAbstractReferenceDef:
         Test EcucAbstractReferenceDef setter methods.
         Verifies that setter methods work correctly and return self for method chaining.
         """
+
         class ConcreteAbstractReferenceDef(EcucAbstractReferenceDef):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
@@ -670,7 +677,7 @@ class TestEcucAbstractInternalReferenceDef:
     This class tests the abstract class behavior and verifies that attempting to
     instantiate it directly raises a TypeError.
     """
-    
+
     def test_abstract_instantiation_raises_error(self):
         """
         Test that EcucAbstractInternalReferenceDef cannot be directly instantiated.
@@ -678,7 +685,7 @@ class TestEcucAbstractInternalReferenceDef:
         """
         document = AUTOSAR.getInstance()
         parent = document.createARPackage("TestPackage")
-        
+
         with pytest.raises(TypeError, match="Cannot instantiate abstract class EcucAbstractInternalReferenceDef"):
             EcucAbstractInternalReferenceDef(parent, "TestAbstractInternalRefDef")
 
@@ -686,6 +693,7 @@ class TestEcucAbstractInternalReferenceDef:
         """
         Test that a subclass of EcucAbstractInternalReferenceDef can be instantiated.
         """
+
         class ConcreteAbstractInternalReferenceDef(EcucAbstractInternalReferenceDef):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
@@ -704,6 +712,7 @@ class TestEcucAbstractInternalReferenceDef:
         Test EcucAbstractInternalReferenceDef setter methods.
         Verifies that setter methods work correctly and return self for method chaining.
         """
+
         class ConcreteAbstractInternalReferenceDef(EcucAbstractInternalReferenceDef):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
@@ -723,7 +732,7 @@ class TestEcucAbstractExternalReferenceDef:
     This class tests the abstract class behavior and verifies that attempting to
     instantiate it directly raises a TypeError.
     """
-    
+
     def test_abstract_instantiation_raises_error(self):
         """
         Test that EcucAbstractExternalReferenceDef cannot be directly instantiated.
@@ -731,7 +740,7 @@ class TestEcucAbstractExternalReferenceDef:
         """
         document = AUTOSAR.getInstance()
         parent = document.createARPackage("TestPackage")
-        
+
         with pytest.raises(TypeError, match="Cannot instantiate abstract class EcucAbstractExternalReferenceDef"):
             EcucAbstractExternalReferenceDef(parent, "TestAbstractExternalRefDef")
 
@@ -739,10 +748,10 @@ class TestEcucAbstractExternalReferenceDef:
 class TestEcucSymbolicNameReferenceDef:
     """
     Test class for EcucSymbolicNameReferenceDef functionality.
-    This class contains test methods for validating the behavior of 
+    This class contains test methods for validating the behavior of
     the EcucSymbolicNameReferenceDef class, including its initialization and methods.
     """
-    
+
     def test_initialization(self):
         """
         Test EcucSymbolicNameReferenceDef class initialization.
@@ -774,10 +783,10 @@ class TestEcucSymbolicNameReferenceDef:
 class TestEcucChoiceReferenceDef:
     """
     Test class for EcucChoiceReferenceDef functionality.
-    This class contains test methods for validating the behavior of 
+    This class contains test methods for validating the behavior of
     the EcucChoiceReferenceDef class, including its initialization and methods.
     """
-    
+
     def test_initialization(self):
         """
         Test EcucChoiceReferenceDef class initialization.
@@ -809,10 +818,10 @@ class TestEcucChoiceReferenceDef:
 class TestEcucReferenceDef:
     """
     Test class for EcucReferenceDef functionality.
-    This class contains test methods for validating the behavior of 
+    This class contains test methods for validating the behavior of
     the EcucReferenceDef class, including its initialization and methods.
     """
-    
+
     def test_initialization(self):
         """
         Test EcucReferenceDef class initialization.
@@ -844,10 +853,10 @@ class TestEcucReferenceDef:
 class TestEcucUriReferenceDef:
     """
     Test class for EcucUriReferenceDef functionality.
-    This class contains test methods for validating the behavior of 
+    This class contains test methods for validating the behavior of
     the EcucUriReferenceDef class, including its initialization and methods.
     """
-    
+
     def test_initialization(self):
         """
         Test EcucUriReferenceDef class initialization.
@@ -879,10 +888,10 @@ class TestEcucUriReferenceDef:
 class TestEcucForeignReferenceDef:
     """
     Test class for EcucForeignReferenceDef functionality.
-    This class contains test methods for validating the behavior of 
+    This class contains test methods for validating the behavior of
     the EcucForeignReferenceDef class, including its initialization and methods.
     """
-    
+
     def test_initialization(self):
         """
         Test EcucForeignReferenceDef class initialization.
@@ -920,10 +929,10 @@ class TestEcucForeignReferenceDef:
 class TestEcucInstanceReferenceDef:
     """
     Test class for EcucInstanceReferenceDef functionality.
-    This class contains test methods for validating the behavior of 
+    This class contains test methods for validating the behavior of
     the EcucInstanceReferenceDef class, including its initialization and methods.
     """
-    
+
     def test_initialization(self):
         """
         Test EcucInstanceReferenceDef class initialization.
@@ -957,7 +966,7 @@ class TestEcucAbstractStringParamDef:
     This class tests the abstract class behavior and verifies that attempting to
     instantiate it directly raises a TypeError.
     """
-    
+
     def test_abstract_instantiation_raises_error(self):
         """
         Test that EcucAbstractStringParamDef cannot be directly instantiated.
@@ -965,7 +974,7 @@ class TestEcucAbstractStringParamDef:
         """
         document = AUTOSAR.getInstance()
         parent = document.createARPackage("TestPackage")
-        
+
         with pytest.raises(TypeError, match="Cannot instantiate abstract class EcucAbstractStringParamDef"):
             EcucAbstractStringParamDef(parent, "TestAbstractStringParamDef")
 
@@ -973,10 +982,10 @@ class TestEcucAbstractStringParamDef:
 class TestEcucStringParamDef:
     """
     Test class for EcucStringParamDef functionality.
-    This class contains test methods for validating the behavior of 
+    This class contains test methods for validating the behavior of
     the EcucStringParamDef class, including its initialization and methods.
     """
-    
+
     def test_initialization(self):
         """
         Test EcucStringParamDef class initialization.
@@ -1026,10 +1035,10 @@ class TestEcucStringParamDef:
 class TestEcucFunctionNameDef:
     """
     Test class for EcucFunctionNameDef functionality.
-    This class contains test methods for validating the behavior of 
+    This class contains test methods for validating the behavior of
     the EcucFunctionNameDef class, including its initialization and methods.
     """
-    
+
     def test_initialization(self):
         """
         Test EcucFunctionNameDef class initialization.
@@ -1050,10 +1059,10 @@ class TestEcucFunctionNameDef:
 class TestEcucIntegerParamDef:
     """
     Test class for EcucIntegerParamDef functionality.
-    This class contains test methods for validating the behavior of 
+    This class contains test methods for validating the behavior of
     the EcucIntegerParamDef class, including its initialization and methods.
     """
-    
+
     def test_initialization(self):
         """
         Test EcucIntegerParamDef class initialization.
@@ -1097,10 +1106,10 @@ class TestEcucIntegerParamDef:
 class TestEcucEnumerationLiteralDef:
     """
     Test class for EcucEnumerationLiteralDef functionality.
-    This class contains test methods for validating the behavior of 
+    This class contains test methods for validating the behavior of
     the EcucEnumerationLiteralDef class, including its initialization.
     """
-    
+
     def test_initialization(self):
         """
         Test EcucEnumerationLiteralDef class initialization.
@@ -1138,10 +1147,10 @@ class TestEcucEnumerationLiteralDef:
 class TestEcucEnumerationParamDef:
     """
     Test class for EcucEnumerationParamDef functionality.
-    This class contains test methods for validating the behavior of 
+    This class contains test methods for validating the behavior of
     the EcucEnumerationParamDef class, including its initialization and methods.
     """
-    
+
     def test_initialization(self):
         """
         Test EcucEnumerationParamDef class initialization.
@@ -1181,7 +1190,7 @@ class TestEcucEnumerationParamDef:
         literal = enum_param_def.createLiteral("TestLiteral")
         assert literal is not None
         assert literal.getShortName() == "TestLiteral"
-        
+
         literals = enum_param_def.getLiterals()
         assert len(literals) == 1
         assert literals[0] == literal
@@ -1317,10 +1326,10 @@ class TestEcucChoiceContainerDef:
 class TestEcucParamConfContainerDef:
     """
     Test class for EcucParamConfContainerDef functionality.
-    This class contains test methods for validating the behavior of 
+    This class contains test methods for validating the behavior of
     the EcucParamConfContainerDef class, including its initialization and methods.
     """
-    
+
     def test_initialization(self):
         """
         Test EcucParamConfContainerDef class initialization.

@@ -12,7 +12,6 @@ from armodel import AUTOSAR
 class TestIdsPlatformInstantiation:
     """Test cases for IdsPlatformInstantiation class."""
 
-
     def test_abstract_class_cannot_be_instantiated(self):
         """Test that IdsPlatformInstantiation is abstract and cannot be instantiated directly."""
         document = AUTOSAR.getInstance()
@@ -21,4 +20,3 @@ class TestIdsPlatformInstantiation:
         with pytest.raises(TypeError) as err:
             obj = IdsPlatformInstantiation(ar_root, "test_idsplatforminstantiation")
         assert str(err.value) == "IdsPlatformInstantiation is an abstract class."
-

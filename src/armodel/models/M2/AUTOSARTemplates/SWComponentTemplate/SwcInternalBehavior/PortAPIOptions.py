@@ -8,10 +8,12 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, RefType, TRefType
 from typing import List
 
+
 class PortDefinedArgumentValue(ARObject):
     """
     A value defined for a port argument in the context of port API options.
     """
+
     # PortDefinedArgumentValue method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getValue                     [x] impl  [x] docstring  [ ] test
@@ -19,12 +21,11 @@ class PortDefinedArgumentValue(ARObject):
     # [ ] getValueTypeTRef             [x] impl  [x] docstring  [ ] test
     # [ ] setValueTypeTRef             [x] impl  [x] docstring  [ ] test
 
-
     def __init__(self):
         super().__init__()
 
-        self.value: 'ValueSpecification' = None
-        self.valueTypeTRef: 'TRefType' = None
+        self.value: "ValueSpecification" = None
+        self.valueTypeTRef: "TRefType" = None
 
     def getValue(self):
         """
@@ -70,11 +71,13 @@ class PortDefinedArgumentValue(ARObject):
         self.valueTypeTRef = value
         return self
 
+
 class PortAPIOption(ARObject):
     """
     Port API options that define the API configuration for a specific port
     of an atomic software component.
     """
+
     # PortAPIOption method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getEnableTakeAddress         [x] impl  [x] docstring  [ ] test
@@ -92,7 +95,6 @@ class PortAPIOption(ARObject):
     # [ ] getTransformerStatusForwarding [x] impl  [x] docstring  [ ] test
     # [ ] setTransformerStatusForwarding [x] impl  [x] docstring  [ ] test
 
-
     def __init__(self):
         super().__init__()
 
@@ -100,7 +102,7 @@ class PortAPIOption(ARObject):
         self.errorHandling = None
         self.indirectAPI: ARBoolean = None
         self.portRef: RefType = None
-        self.portArgValues: List['PortDefinedArgumentValue'] = []
+        self.portArgValues: List["PortDefinedArgumentValue"] = []
         self.supportedFeatures = []
         self.transformerStatusForwarding = None
 

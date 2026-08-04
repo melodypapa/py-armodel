@@ -12,6 +12,7 @@ class MacMulticastGroup(Identifiable):
     defining multicast addresses that can be used for group-based
     communication in the network topology.
     """
+
     # MacMulticastGroup method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getMacMulticastAddress       [x] impl  [ ] docstring  [ ] test
@@ -20,7 +21,7 @@ class MacMulticastGroup(Identifiable):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.macMulticastAddress = None                                     # type: MacAddressString
+        self.macMulticastAddress = None  # type: MacAddressString
 
     def getMacMulticastAddress(self):
         return self.macMulticastAddress
@@ -37,6 +38,7 @@ class EthernetCluster(CommunicationCluster):
     specifying properties for Ethernet network communication including
     coupling ports, startup timing, and multicast group configurations.
     """
+
     # EthernetCluster method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getCouplingPorts             [x] impl  [ ] docstring  [ ] test
@@ -50,11 +52,11 @@ class EthernetCluster(CommunicationCluster):
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-        
-        self.couplingPorts = []                                             # type: List[CouplingPortConnection]
-        self.couplingPortStartupActiveTime = None                           # type: TimeValue
-        self.couplingPortSwitchoffDelay = None                              # type: TimeValue
-        self.macMulticastGroups = []                                        # type: List[MacMulticastGroup]
+
+        self.couplingPorts = []  # type: List[CouplingPortConnection]
+        self.couplingPortStartupActiveTime = None  # type: TimeValue
+        self.couplingPortSwitchoffDelay = None  # type: TimeValue
+        self.macMulticastGroups = []  # type: List[MacMulticastGroup]
 
     def getCouplingPorts(self):
         return self.couplingPorts
@@ -84,12 +86,12 @@ class EthernetCluster(CommunicationCluster):
         return self.macMulticastGroups
 
     def createMacMulticastGroup(self, short_name: str) -> MacMulticastGroup:
-        if (short_name not in self.elements):
+        if short_name not in self.elements:
             group = MacMulticastGroup(self, short_name)
             self.addElement(group)
             self.macMulticastGroups.append(group)
         return self.getElement(short_name)
-    
+
 
 class CouplingPortStructuralElement(Identifiable, ABC):
     """
@@ -97,15 +99,16 @@ class CouplingPortStructuralElement(Identifiable, ABC):
     switches and bridges, defining common properties and behavior for
     various types of coupling port components.
     """
+
     # CouplingPortStructuralElement method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CouplingPortStructuralElement:
             raise TypeError("CouplingPortStructuralElement is an abstract class.")
-        
+
         super().__init__(parent, short_name)
-        
+
 
 class CouplingPortFifo(CouplingPortStructuralElement):
     """
@@ -113,6 +116,7 @@ class CouplingPortFifo(CouplingPortStructuralElement):
     Ethernet switches, specifying traffic class assignments, minimum
     buffer lengths, and preemption support properties.
     """
+
     # CouplingPortFifo method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getAssignedTrafficClasses    [x] impl  [ ] docstring  [ ] test
@@ -127,10 +131,10 @@ class CouplingPortFifo(CouplingPortStructuralElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.assignedTrafficClasses = []                            # type: List[PositiveInteger]
-        self.minimumFifoLength = None                               # type: PositiveInteger
-        self.shaper = None                                          # type: CouplingPortAbstractShaper
-        self.trafficClassPreemptionSupport = None                   # type: EthernetCouplingPortPreemptionEnum
+        self.assignedTrafficClasses = []  # type: List[PositiveInteger]
+        self.minimumFifoLength = None  # type: PositiveInteger
+        self.shaper = None  # type: CouplingPortAbstractShaper
+        self.trafficClassPreemptionSupport = None  # type: EthernetCouplingPortPreemptionEnum
 
     def getAssignedTrafficClasses(self):
         return self.assignedTrafficClasses
@@ -171,6 +175,7 @@ class CouplingPortScheduler(CouplingPortStructuralElement):
     specifying scheduling algorithms and predecessor relationships
     for managing traffic flow through the coupling ports.
     """
+
     # CouplingPortScheduler method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getPortScheduler             [x] impl  [ ] docstring  [ ] test
@@ -181,8 +186,8 @@ class CouplingPortScheduler(CouplingPortStructuralElement):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.portScheduler = None                                   # type: EthernetCouplingPortSchedulerEnum
-        self.predecessorRefs = []                                   # type: List[RefType]
+        self.portScheduler = None  # type: EthernetCouplingPortSchedulerEnum
+        self.predecessorRefs = []  # type: List[RefType]
 
     def getPortScheduler(self):
         return self.portScheduler
@@ -207,6 +212,7 @@ class EthernetPriorityRegeneration(Referrable):
     specifying how ingress priorities are mapped to regenerated
     priorities for traffic management in the network.
     """
+
     # EthernetPriorityRegeneration method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getIngressPriority           [x] impl  [ ] docstring  [ ] test
@@ -217,8 +223,8 @@ class EthernetPriorityRegeneration(Referrable):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.ingressPriority = None                                 # type: PositiveInteger
-        self.regeneratedPriority = None                             # type: PositiveInteger
+        self.ingressPriority = None  # type: PositiveInteger
+        self.regeneratedPriority = None  # type: PositiveInteger
 
     def getIngressPriority(self):
         return self.ingressPriority
@@ -243,6 +249,7 @@ class CouplingPortDetails(ARObject):
     in Ethernet switches, including traffic class assignments, frame
     preemption support, and VLAN translation tables.
     """
+
     # CouplingPortDetails method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getCouplingPortStructuralElements [x] impl  [ ] docstring  [ ] test
@@ -269,15 +276,15 @@ class CouplingPortDetails(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.couplingPortStructuralElements = []                    # type: List[CouplingPortStructuralElement]
-        self.defaultTrafficClass = None                             # type: PositiveInteger
-        self.ethernetPriorityRegenerations = []                     # type: List[EthernetPriorityRegeneration]
-        self.ethernetTrafficClassAssignments = []                   # type: List[CouplingPortTrafficClassAssignment]
-        self.framePreemptionSupport = None                          # type: Boolean
-        self.globalTimeProps = None                                 # type: GlobalTimeCouplingPortProps
-        self.lastEgressSchedulerRef = None                          # type: RefType
-        self.ratePolicies = []                                      # type: List[CouplingPortRatePolicy]
-        self.vlanTranslationTables = []                             # type: List[EthernetVlanTranslationTable]
+        self.couplingPortStructuralElements = []  # type: List[CouplingPortStructuralElement]
+        self.defaultTrafficClass = None  # type: PositiveInteger
+        self.ethernetPriorityRegenerations = []  # type: List[EthernetPriorityRegeneration]
+        self.ethernetTrafficClassAssignments = []  # type: List[CouplingPortTrafficClassAssignment]
+        self.framePreemptionSupport = None  # type: Boolean
+        self.globalTimeProps = None  # type: GlobalTimeCouplingPortProps
+        self.lastEgressSchedulerRef = None  # type: RefType
+        self.ratePolicies = []  # type: List[CouplingPortRatePolicy]
+        self.vlanTranslationTables = []  # type: List[EthernetVlanTranslationTable]
 
     def getCouplingPortStructuralElements(self):
         return self.couplingPortStructuralElements
@@ -286,12 +293,12 @@ class CouplingPortDetails(ARObject):
         fifo = CouplingPortFifo(self, short_name)
         self.couplingPortStructuralElements.append(fifo)
         return fifo
-    
+
     def createCouplingPortScheduler(self, short_name: str) -> CouplingPortScheduler:
         scheduler = CouplingPortScheduler(self, short_name)
         self.couplingPortStructuralElements.append(scheduler)
         return scheduler
-    
+
     def createEthernetPriorityRegeneration(self, short_name: str) -> EthernetPriorityRegeneration:
         regeneration = EthernetPriorityRegeneration(self, short_name)
         self.ethernetPriorityRegenerations.append(regeneration)
@@ -368,6 +375,7 @@ class VlanMembership(ARObject):
     specifying default priorities, DHCP configurations, and VLAN
     tagging behaviors for Ethernet communication.
     """
+
     # VlanMembership method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getDefaultPriority           [x] impl  [ ] docstring  [ ] test
@@ -382,10 +390,10 @@ class VlanMembership(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.defaultPriority = None                                 # type: PositiveInteger        
-        self.dhcpAddressAssignment = None                           # type: DhcpServerConfiguration
-        self.sendActivity = None                                    # type: EthernetSwitchVlanEgressTaggingEnum
-        self.vlanRef = None                                         # type: RefType
+        self.defaultPriority = None  # type: PositiveInteger
+        self.dhcpAddressAssignment = None  # type: DhcpServerConfiguration
+        self.sendActivity = None  # type: EthernetSwitchVlanEgressTaggingEnum
+        self.vlanRef = None  # type: RefType
 
     def getDefaultPriority(self):
         return self.defaultPriority
@@ -426,6 +434,7 @@ class CouplingPort(Identifiable):
     specifying connection negotiation behavior, MAC layer type,
     physical layer type, and VLAN membership configurations.
     """
+
     # CouplingPort method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getConnectionNegotiationBehavior [x] impl  [ ] docstring  [ ] test
@@ -460,20 +469,20 @@ class CouplingPort(Identifiable):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.connectionNegotiationBehavior = None                   # type: EthernetConnectionNegotiationEnum
-        self.couplingPortDetails = None                             # type: CouplingPortDetails
-        self.couplingPortRole = None                                # type: CouplingPortRoleEnum
-        self.defaultVlanRef = None                                  # type: RefType
-        self.macAddressVlanAssignments = []                         # type: List[MacAddressVlanMembership]
-        self.macLayerType = None                                    # type: EthernetMacLayerTypeEnum
-        self.macMulticastAddressRefs = []                           # type: List[RefType]
-        self.macSecProps = []                                       # type: List[MacSecProps]
-        self.physicalLayerType = None                               # type: EthernetPhysicalLayerTypeEnum
-        self.plcaProps = None                                       # type: PlcaProps
-        self.pncMappingRefs = []                                    # type: List[RefType]
-        self.receiveActivity = None                                 # type: EthernetSwitchVlanIngressTagEnum
-        self.vlanMemberships = []                                   # type: List[VlanMembership]
-        self.wakeupSleepOnDatalineConfigRef = None                  # type: RefType
+        self.connectionNegotiationBehavior = None  # type: EthernetConnectionNegotiationEnum
+        self.couplingPortDetails = None  # type: CouplingPortDetails
+        self.couplingPortRole = None  # type: CouplingPortRoleEnum
+        self.defaultVlanRef = None  # type: RefType
+        self.macAddressVlanAssignments = []  # type: List[MacAddressVlanMembership]
+        self.macLayerType = None  # type: EthernetMacLayerTypeEnum
+        self.macMulticastAddressRefs = []  # type: List[RefType]
+        self.macSecProps = []  # type: List[MacSecProps]
+        self.physicalLayerType = None  # type: EthernetPhysicalLayerTypeEnum
+        self.plcaProps = None  # type: PlcaProps
+        self.pncMappingRefs = []  # type: List[RefType]
+        self.receiveActivity = None  # type: EthernetSwitchVlanIngressTagEnum
+        self.vlanMemberships = []  # type: List[VlanMembership]
+        self.wakeupSleepOnDatalineConfigRef = None  # type: RefType
 
     def getConnectionNegotiationBehavior(self):
         return self.connectionNegotiationBehavior
@@ -594,6 +603,7 @@ class EthernetCommunicationController(CommunicationController):
     defining properties for MAC configuration, coupling ports,
     and communication buffer management for Ethernet networking.
     """
+
     # EthernetCommunicationController method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getCanXlConfigRef            [x] impl  [ ] docstring  [ ] test
@@ -616,14 +626,14 @@ class EthernetCommunicationController(CommunicationController):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.canXlConfigRef = None                          # type: RefType
-        self.couplingPorts = []                             # type: List[CouplingPort]
-        self.macLayerType = None                            # type: EthernetMacLayerTypeEnum
-        self.macUnicastAddress = None                       # type: MacAddressString
-        self.maximumReceiveBufferLength = None              # type: Integer
-        self.maximumTransmitBufferLength = None             # type: Integer
-        self.slaveActAsPassiveCommunicationSlave = None     # type: Boolean
-        self.slaveQualifiedUnexpectedLinkDownTime = None    # type: TimeValue
+        self.canXlConfigRef = None  # type: RefType
+        self.couplingPorts = []  # type: List[CouplingPort]
+        self.macLayerType = None  # type: EthernetMacLayerTypeEnum
+        self.macUnicastAddress = None  # type: MacAddressString
+        self.maximumReceiveBufferLength = None  # type: Integer
+        self.maximumTransmitBufferLength = None  # type: Integer
+        self.slaveActAsPassiveCommunicationSlave = None  # type: Boolean
+        self.slaveQualifiedUnexpectedLinkDownTime = None  # type: TimeValue
 
     def getCanXlConfigRef(self):
         return self.canXlConfigRef
@@ -636,7 +646,7 @@ class EthernetCommunicationController(CommunicationController):
         return self.couplingPorts
 
     def createCouplingPort(self, short_name: str) -> CouplingPort:
-        if (short_name not in self.elements):
+        if short_name not in self.elements:
             group = CouplingPort(self, short_name)
             self.addElement(group)
             self.couplingPorts.append(group)
@@ -691,6 +701,7 @@ class EthernetCommunicationConnector(CommunicationConnector):
     controllers to communication channels, specifying MTU settings,
     network endpoint references, and path MTU configuration properties.
     """
+
     # EthernetCommunicationConnector method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getEthIpPropsRef             [x] impl  [ ] docstring  [ ] test
@@ -709,12 +720,12 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.ethIpPropsRef = None                               # type: RefType
-        self.maximumTransmissionUnit = None                     # type: PositiveInteger
-        self.neighborCacheSize = None                           # type: PositiveInteger
-        self.networkEndpointRefs = []                           # type: List[RefType]       ## 4.3.1 Version
-        self.pathMtuEnabled = None                              # type: Boolean
-        self.pathMtuTimeout = None                              # type: TimeValue
+        self.ethIpPropsRef = None  # type: RefType
+        self.maximumTransmissionUnit = None  # type: PositiveInteger
+        self.neighborCacheSize = None  # type: PositiveInteger
+        self.networkEndpointRefs = []  # type: List[RefType]       ## 4.3.1 Version
+        self.pathMtuEnabled = None  # type: Boolean
+        self.pathMtuTimeout = None  # type: TimeValue
 
     def getEthIpPropsRef(self):
         return self.ethIpPropsRef
@@ -736,7 +747,7 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def setNeighborCacheSize(self, value):
         self.neighborCacheSize = value
         return self
-    
+
     def getNetworkEndpointRefs(self):
         return self.networkEndpointRefs
 
@@ -758,7 +769,7 @@ class EthernetCommunicationConnector(CommunicationConnector):
     def setPathMtuTimeout(self, value):
         self.pathMtuTimeout = value
         return self
-    
+
 
 class RequestResponseDelay(ARObject):
     """
@@ -766,6 +777,7 @@ class RequestResponseDelay(ARObject):
     patterns in service-oriented architectures, specifying minimum
     and maximum acceptable response times.
     """
+
     # RequestResponseDelay method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getMaxValue                  [x] impl  [ ] docstring  [ ] test
@@ -776,8 +788,8 @@ class RequestResponseDelay(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.maxValue = None                                        # type: TimeValue
-        self.minValue = None                                        # type: TimeValue
+        self.maxValue = None  # type: TimeValue
+        self.minValue = None  # type: TimeValue
 
     def getMaxValue(self):
         return self.maxValue
@@ -802,6 +814,7 @@ class InitialSdDelayConfig(ARObject):
     communication, defining minimum and maximum delay values and
     repetition timing for service announcements and requests.
     """
+
     # InitialSdDelayConfig method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getInitialDelayMaxValue      [x] impl  [ ] docstring  [ ] test
@@ -816,10 +829,10 @@ class InitialSdDelayConfig(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.initialDelayMaxValue = None                            # type: TimeValue
-        self.initialDelayMinValue = None                            # type: TimeValue
-        self.initialRepetitionsBaseDelay = None                     # type: TimeValue
-        self.initialRepetitionsMax = None                           # type: PositiveInteger
+        self.initialDelayMaxValue = None  # type: TimeValue
+        self.initialDelayMinValue = None  # type: TimeValue
+        self.initialRepetitionsBaseDelay = None  # type: TimeValue
+        self.initialRepetitionsMax = None  # type: PositiveInteger
 
     def getInitialDelayMaxValue(self):
         return self.initialDelayMaxValue
@@ -853,13 +866,14 @@ class InitialSdDelayConfig(ARObject):
             self.initialRepetitionsMax = value
         return self
 
-    
+
 class SdClientConfig(ARObject):
     """
     Configures Service Discovery (SD) client properties, including
     service version requirements, delay configurations, and TTL settings
     for service discovery communication in the network.
     """
+
     # SdClientConfig method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getClientServiceMajorVersion [x] impl  [ ] docstring  [ ] test
@@ -876,12 +890,12 @@ class SdClientConfig(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.capabilityRecord = None                                # type: TagWithOptionalValue
-        self.clientServiceMajorVersion = None                       # type: PositiveInteger
-        self.clientServiceMinorVersion = None                       # type: PositiveInteger
-        self.initialFindBehavior = None                             # type: InitialSdDelayConfig
-        self.requestResponseDelay = None                            # type: RequestResponseDelay
-        self.ttl = None                                             # type: PositiveInteger
+        self.capabilityRecord = None  # type: TagWithOptionalValue
+        self.clientServiceMajorVersion = None  # type: PositiveInteger
+        self.clientServiceMinorVersion = None  # type: PositiveInteger
+        self.initialFindBehavior = None  # type: InitialSdDelayConfig
+        self.requestResponseDelay = None  # type: RequestResponseDelay
+        self.ttl = None  # type: PositiveInteger
 
     def getClientServiceMajorVersion(self):
         return self.clientServiceMajorVersion

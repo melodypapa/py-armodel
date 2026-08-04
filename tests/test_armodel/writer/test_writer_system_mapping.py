@@ -1,4 +1,5 @@
 """Tests for writer System, Mapping, FlatMap, and Gateway handlers."""
+
 import xml.etree.cElementTree as ET
 import pytest
 
@@ -223,9 +224,7 @@ class TestWriterSenderRecRecordElementMapping:
     def test_full(self, writer):
         mapping = SenderRecRecordElementMapping()
         mapping.setApplicationRecordElementRef(_ref("/a", "APPLICATION-RECORD-ELEMENT"))
-        mapping.setImplementationRecordElementRef(
-            _ref("/i", "IMPLEMENTATION-RECORD-ELEMENT")
-        )
+        mapping.setImplementationRecordElementRef(_ref("/i", "IMPLEMENTATION-RECORD-ELEMENT"))
         mapping.setSystemSignalRef(_ref("/ss", "SYSTEM-SIGNAL"))
         parent = _parent()
         writer.writeSenderRecRecordElementMapping(parent, mapping)
@@ -422,9 +421,7 @@ class TestWriterSwcToImplMapping:
     def test_full(self, writer):
         sm = _make_system_mapping()
         mapping = sm.createSwcToImplMapping("SwcImpl")
-        mapping.setComponentImplementationRef(
-            _ref("/ci", "SWC-IMPLEMENTATION")
-        )
+        mapping.setComponentImplementationRef(_ref("/ci", "SWC-IMPLEMENTATION"))
         mapping.addComponentIRef(_component_iref())
         parent = _parent()
         writer.writeSwcToImplMapping(parent, mapping)

@@ -1,3 +1,3 @@
 from .PlatformModuleEthernetEndpointConfiguration import PlatformModuleEthernetEndpointConfiguration
 
-__all__ = ['PlatformModuleEthernetEndpointConfiguration']
+__all__ = ["PlatformModuleEthernetEndpointConfiguration"]

@@ -4,14 +4,16 @@ from armodel.report.excel_report import ExcelReporter
 from armodel.models import AUTOSAR
 from armodel.models import PPortInCompositionInstanceRef, RPortInCompositionInstanceRef
 
+
 class ConnectorXlsReport(ExcelReporter):
     """
     Generates Excel reports for assembly and delegation SW connectors
     from CompositionSwComponentType instances.
     """
+
     def __init__(self) -> None:
         super().__init__()
-        self.swcs = []              # type: List[CompositionSwComponentType]
+        self.swcs = []  # type: List[CompositionSwComponentType]
 
     def _parse_pkg(self, parent: ARPackage):
         for pkg in parent.getARPackages():
@@ -23,7 +25,7 @@ class ConnectorXlsReport(ExcelReporter):
         for pkg in document.getARPackages():
             self._parse_pkg(pkg)
 
-    def _write_assembly_sw_connection(self, swc: CompositionSwComponentType, index = 0):
+    def _write_assembly_sw_connection(self, swc: CompositionSwComponentType, index=0):
         sheet = self.wb.create_sheet("%s - AC" % swc.short_name, index)
         title_row = ["Short Name", "Provide SW-C", "PPort", "Request SW-C", "RPort"]
         self.write_title_row(sheet, title_row)
@@ -40,7 +42,7 @@ class ConnectorXlsReport(ExcelReporter):
 
         self.auto_width(sheet)
 
-    def _write_delegation_sw_connection(self, swc: CompositionSwComponentType, index = 0):
+    def _write_delegation_sw_connection(self, swc: CompositionSwComponentType, index=0):
         sheet = self.wb.create_sheet("%s - DC" % swc.short_name, index)
         title_row = ["Short Name", "Inner SW-C", "Inner PPort", "Outer PPort", "Inner RPort", "Outer RPort"]
         self.write_title_row(sheet, title_row)
@@ -70,9 +72,9 @@ class ConnectorXlsReport(ExcelReporter):
 
     def write(self, filename: str):
         swc_list = filter(lambda o: isinstance(o, CompositionSwComponentType), self.swcs)
-        
+
         idx = 1
-        for swc in sorted(swc_list, key = lambda o: o.short_name):
+        for swc in sorted(swc_list, key=lambda o: o.short_name):
             self._logger.info("CompositionSwComponentType %s" % swc.short_name)
             self._write_assembly_sw_connection(swc, idx)
             self._write_delegation_sw_connection(swc, idx + 1)

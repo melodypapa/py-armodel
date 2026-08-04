@@ -26,6 +26,7 @@ class TestEngineeringObject:
         """
         Test get/set methods for category.
         """
+
         # Create a concrete subclass for testing
         class ConcreteEngineeringObject(EngineeringObject):
             def __init__(self):
@@ -46,6 +47,7 @@ class TestEngineeringObject:
         """
         Test setCategory method with string input (should convert to ARLiteral).
         """
+
         # Create a concrete subclass for testing
         class ConcreteEngineeringObject(EngineeringObject):
             def __init__(self):
@@ -64,6 +66,7 @@ class TestEngineeringObject:
         """
         Test get/set methods for domain.
         """
+
         # Create a concrete subclass for testing
         class ConcreteEngineeringObject(EngineeringObject):
             def __init__(self):
@@ -84,6 +87,7 @@ class TestEngineeringObject:
         """
         Test get/set methods for revision label.
         """
+
         # Create a concrete subclass for testing
         class ConcreteEngineeringObject(EngineeringObject):
             def __init__(self):
@@ -104,6 +108,7 @@ class TestEngineeringObject:
         """
         Test get/set methods for short label.
         """
+
         # Create a concrete subclass for testing
         class ConcreteEngineeringObject(EngineeringObject):
             def __init__(self):

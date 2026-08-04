@@ -1,4 +1,3 @@
-
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSARDoc
 from armodel.parser.arxml_parser import ARXMLParser
 import xml.etree.ElementTree as ET
@@ -8,14 +7,14 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
 class TestARXMLParser:
     def test_convert_find_key(self):
         parser = ARXMLParser()
-        assert (parser.convert_find_key("ELEMENTS") == "xmlns:ELEMENTS")
-        assert (parser.convert_find_key("ELEMENTS/*") == "xmlns:ELEMENTS/*")
-        assert (parser.convert_find_key("./ELEMENTS") == "./xmlns:ELEMENTS")
-        assert (parser.convert_find_key("./ELEMENTS/*") == "./xmlns:ELEMENTS/*")
-        assert (parser.convert_find_key("A/B") == "xmlns:A/xmlns:B")
-        assert (parser.convert_find_key("A/B/*") == "xmlns:A/xmlns:B/*")
-        assert (parser.convert_find_key("./A/B") == "./xmlns:A/xmlns:B")
-        assert (parser.convert_find_key("./A/B/*") == "./xmlns:A/xmlns:B/*")
+        assert parser.convert_find_key("ELEMENTS") == "xmlns:ELEMENTS"
+        assert parser.convert_find_key("ELEMENTS/*") == "xmlns:ELEMENTS/*"
+        assert parser.convert_find_key("./ELEMENTS") == "./xmlns:ELEMENTS"
+        assert parser.convert_find_key("./ELEMENTS/*") == "./xmlns:ELEMENTS/*"
+        assert parser.convert_find_key("A/B") == "xmlns:A/xmlns:B"
+        assert parser.convert_find_key("A/B/*") == "xmlns:A/xmlns:B/*"
+        assert parser.convert_find_key("./A/B") == "./xmlns:A/xmlns:B"
+        assert parser.convert_find_key("./A/B/*") == "./xmlns:A/xmlns:B/*"
 
     def test_read_ar_packages(self):
         parser = ARXMLParser()
@@ -41,7 +40,7 @@ class TestARXMLParser:
                     </AR-PACKAGE>
                 </AR-PACKAGES>
             </AUTOSAR>
-        """ # noqa E501
+        """  # noqa E501
 
         # prepare the XML content
         element = ET.fromstring(xml_content)

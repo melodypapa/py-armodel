@@ -8,12 +8,12 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSu
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RoleBasedMcDataAssignment import RoleBasedMcDataAssignment
 
 __all__ = [
-    'ImplementationElementInParameterInstanceRef',
-    'McDataAccessDetails',
-    'McDataInstance',
-    'McFunction',
-    'McParameterElementGroup',
-    'McSupportData',
-    'McSwEmulationMethodSupport',
-    'RoleBasedMcDataAssignment'
+    "ImplementationElementInParameterInstanceRef",
+    "McDataAccessDetails",
+    "McDataInstance",
+    "McFunction",
+    "McParameterElementGroup",
+    "McSupportData",
+    "McSwEmulationMethodSupport",
+    "RoleBasedMcDataAssignment",
 ]

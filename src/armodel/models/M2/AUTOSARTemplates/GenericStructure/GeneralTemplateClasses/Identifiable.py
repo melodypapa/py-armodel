@@ -22,6 +22,7 @@ class Referrable(ARObject, ABC):
     Abstract class for elements that can be referenced by other elements in AUTOSAR models.
     This class provides basic functionality for managing short names and parent-child relationships.
     """
+
     # Referrable method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] shortName                    [x] impl  [x] docstring  [ ] test
@@ -30,7 +31,6 @@ class Referrable(ARObject, ABC):
     # [x] getParent                    [x] impl  [x] docstring  [x] test
     # [ ] full_name                    [x] impl  [x] docstring  [ ] test
     # [ ] getFullName                  [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is Referrable:
@@ -90,11 +90,11 @@ class MultilanguageReferrable(Referrable, ABC):
     Abstract class for referrable elements that support multilingual text.
     This class extends Referrable with multilingual support functionality.
     """
+
     # MultilanguageReferrable method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getLongName                  [x] impl  [x] docstring  [ ] test
     # [ ] setLongName                  [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is MultilanguageReferrable:
@@ -133,6 +133,7 @@ class CollectableElement(ARObject, ABC):
     Abstract class for elements that can collect other referrable elements.
     This class provides functionality for managing collections of elements with lookup capabilities.
     """
+
     # CollectableElement method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [x] getTotalElement              [x] impl  [x] docstring  [x] test
@@ -141,7 +142,6 @@ class CollectableElement(ARObject, ABC):
     # [ ] addElement                   [x] impl  [x] docstring  [ ] test
     # [ ] getElement                   [x] impl  [x] docstring  [ ] test
     # [x] IsElementExists              [x] impl  [x] docstring  [x] test
-
 
     def __init__(self):
         if type(self) is CollectableElement:
@@ -171,13 +171,11 @@ class CollectableElement(ARObject, ABC):
             type: The type of element to remove (optional)
         """
         if short_name not in self.element_mappings:
-            raise KeyError(
-                "Invalid key <%s> for removing element" % short_name)
+            raise KeyError("Invalid key <%s> for removing element" % short_name)
         if type is None:
             item = self.element_mappings[short_name][0]
         else:
-            item = next(filter(lambda a: isinstance(a, type),
-                        self.element_mappings[short_name]))
+            item = next(filter(lambda a: isinstance(a, type), self.element_mappings[short_name]))
         if item is not None:
             self.elements.remove(item)
             self.element_mappings[short_name].remove(item)
@@ -219,11 +217,10 @@ class CollectableElement(ARObject, ABC):
         Returns:
             The found Referrable instance, or None if not found
         """
-        if (short_name not in self.element_mappings):
+        if short_name not in self.element_mappings:
             return None
         if type is not None:
-            result = list(filter(lambda a: isinstance(a, type),
-                          self.element_mappings[short_name]))
+            result = list(filter(lambda a: isinstance(a, type), self.element_mappings[short_name]))
             if len(result) == 0:
                 return None
             return result[0]
@@ -252,6 +249,7 @@ class Identifiable(MultilanguageReferrable, ABC):
     Abstract class for identifiable elements in AUTOSAR models.
     This class combines multilingual referrable functionality with element collection capabilities.
     """
+
     # Identifiable method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getTotalElement              [x] impl  [x] docstring  [ ] test
@@ -271,7 +269,6 @@ class Identifiable(MultilanguageReferrable, ABC):
     # [ ] setIntroduction              [x] impl  [x] docstring  [ ] test
     # [ ] addAnnotation                [x] impl  [x] docstring  [ ] test
     # [ ] getAnnotations               [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is Identifiable:
@@ -306,13 +303,11 @@ class Identifiable(MultilanguageReferrable, ABC):
             type: The type of element to remove (optional)
         """
         if short_name not in self.element_mappings:
-            raise KeyError(
-                "Invalid key <%s> for removing element" % short_name)
+            raise KeyError("Invalid key <%s> for removing element" % short_name)
         if type is None:
             item = self.element_mappings[short_name][0]
         else:
-            item = next(filter(lambda a: isinstance(a, type),
-                        self.element_mappings[short_name]))
+            item = next(filter(lambda a: isinstance(a, type), self.element_mappings[short_name]))
         if item is not None:
             self.elements.remove(item)
             self.element_mappings[short_name].remove(item)
@@ -354,11 +349,10 @@ class Identifiable(MultilanguageReferrable, ABC):
         Returns:
             The found Referrable instance, or None if not found
         """
-        if (short_name not in self.element_mappings):
+        if short_name not in self.element_mappings:
             return None
         if type is not None:
-            result = list(filter(lambda a: isinstance(a, type),
-                          self.element_mappings[short_name]))
+            result = list(filter(lambda a: isinstance(a, type), self.element_mappings[short_name]))
             if len(result) == 0:
                 return None
             return result[0]
@@ -509,11 +503,11 @@ class PackageableElement(Identifiable, ABC):
     Abstract class for elements that can be packaged in AUTOSAR models.
     This class extends Identifiable with packaging functionality.
     """
+
     # PackageableElement method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] addVariationPoint            [x] impl  [x] docstring  [ ] test
     # [ ] getVariationPoints           [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is PackageableElement:
@@ -550,9 +544,9 @@ class ARElement(PackageableElement, ABC):
     Abstract class for AUTOSAR elements.
     This class represents the basic structure for all AUTOSAR model elements.
     """
+
     # ARElement method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is ARElement:
@@ -565,6 +559,7 @@ class Describable(ARObject, ABC):
     Abstract class for elements that can be described in AUTOSAR models.
     This class provides basic description functionality for AUTOSAR elements.
     """
+
     # Describable method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getDesc                      [x] impl  [x] docstring  [ ] test
@@ -576,7 +571,6 @@ class Describable(ARObject, ABC):
     # [ ] removeAdminData              [x] impl  [x] docstring  [ ] test
     # [ ] getIntroduction              [x] impl  [x] docstring  [ ] test
     # [ ] setIntroduction              [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self):
         if type(self) is Describable:

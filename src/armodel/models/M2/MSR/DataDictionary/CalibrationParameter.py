@@ -2,11 +2,13 @@ from typing import List
 from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
+
 class SwCalprmAxisTypeProps(ARObject, ABC):
     """
     Abstract base class for calibration axis type properties including
     gradient and monotony constraints.
     """
+
     # SwCalprmAxisTypeProps method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
@@ -16,8 +18,8 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
 
         super().__init__()
 
-        self.maxGradient = None         # type: ARFloat
-        self.monotony = None            # type: MonotonyEnum
+        self.maxGradient = None  # type: ARFloat
+        self.monotony = None  # type: MonotonyEnum
 
 
 class SwCalprmAxis(ARObject):
@@ -25,22 +27,25 @@ class SwCalprmAxis(ARObject):
     Calibration axis with category, format, access mode, and axis type
     properties.
     """
+
     # SwCalprmAxis method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
     def __init__(self):
         super().__init__()
 
-        self.category = None                        # type: CalprmAxisCategoryEnum
-        self.displayFormat = None                   # type: DisplayFormatString
-        self.sw_axis_index = None                   # type: AxisIndexType   
-        self.swCalibrationAccess = None             # type: SwCalibrationAccessEnum
-        self.sw_calprm_axis_type_props = None       # type: SwCalprmAxisTypeProps
+        self.category = None  # type: CalprmAxisCategoryEnum
+        self.displayFormat = None  # type: DisplayFormatString
+        self.sw_axis_index = None  # type: AxisIndexType
+        self.swCalibrationAccess = None  # type: SwCalibrationAccessEnum
+        self.sw_calprm_axis_type_props = None  # type: SwCalprmAxisTypeProps
+
 
 class SwCalprmAxisSet(ARObject):
     """
     Collection of SwCalprmAxis elements.
     """
+
     # SwCalprmAxisSet method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] addSwCalprmAxis              [x] impl  [ ] docstring  [ ] test
@@ -49,7 +54,7 @@ class SwCalprmAxisSet(ARObject):
     def __init__(self):
         super().__init__()
 
-        self._swCalprmAxis = []          # type: List[SwCalprmAxis]
+        self._swCalprmAxis = []  # type: List[SwCalprmAxis]
 
     def addSwCalprmAxis(self, axis: SwCalprmAxis):
         self._swCalprmAxis.append(axis)

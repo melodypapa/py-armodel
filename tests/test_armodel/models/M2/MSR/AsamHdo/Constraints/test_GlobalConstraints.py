@@ -1,6 +1,7 @@
 """
 This module contains tests for the GlobalConstraints module in MSR.AsamHdo.Constraints.
 """
+
 from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import (
     DataConstr,
     DataConstrRule,
@@ -12,7 +13,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 class TestInternalConstrs:
     """Test class for InternalConstrs class."""
-    
+
     def test_internal_constrs_initialization(self):
         """Test that an InternalConstrs object can be initialized with default values."""
         internal_constrs = InternalConstrs()
@@ -22,7 +23,7 @@ class TestInternalConstrs:
 
 class TestPhysConstrs:
     """Test class for PhysConstrs class."""
-    
+
     def test_phys_constrs_initialization(self):
         """Test that a PhysConstrs object can be initialized with default values."""
         phys_constrs = PhysConstrs()
@@ -33,7 +34,7 @@ class TestPhysConstrs:
 
 class TestDataConstrRule:
     """Test class for DataConstrRule class."""
-    
+
     def test_data_constr_rule_initialization(self):
         """Test that a DataConstrRule object can be initialized with default values."""
         data_constr_rule = DataConstrRule()
@@ -44,19 +45,19 @@ class TestDataConstrRule:
 
 class TestDataConstr:
     """Test class for DataConstr class."""
-    
+
     def test_data_constr_initialization(self):
         """Test that a DataConstr object can be initialized with default values."""
         parent_obj = ARPackage(None, "parent_test")  # Using ARPackage as a concrete ARObject subclass
         data_constr = DataConstr(parent_obj, "test_name")
         assert data_constr.data_constr_rule == []
-    
+
     def test_data_constr_rule_methods(self):
         """Test adding and getting data constraint rules."""
         parent_obj = ARPackage(None, "parent_test")  # Using ARPackage as a concrete ARObject subclass
         data_constr = DataConstr(parent_obj, "test_name")
         rule = DataConstrRule()
-        
+
         # Test addDataConstrRule and getDataConstrRules
         data_constr.addDataConstrRule(rule)
         rules = data_constr.getDataConstrRules()

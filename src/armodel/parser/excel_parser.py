@@ -2,15 +2,18 @@ from typing import Dict
 from openpyxl.worksheet.worksheet import Worksheet
 
 import logging
+
+
 class AbstractExcelParser:
     """
     Abstract base class for Excel-based parsers providing column title
     lookup and validation utilities.
     """
+
     def __init__(self) -> None:
         self._logger = logging.getLogger()
 
-    def getColumnTitles(self, sheet: Worksheet, title_row:int, column_list: Dict[str, int]):
+    def getColumnTitles(self, sheet: Worksheet, title_row: int, column_list: Dict[str, int]):
         for column in range(1, sheet.max_column + 1):
             value = sheet.cell(title_row, column).value
             if value in column_list:

@@ -4,7 +4,15 @@ in the AUTOSAR GenericStructure module.
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable, MultilanguageReferrable, CollectableElement, Identifiable, PackageableElement, ARElement, Describable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Referrable,
+    MultilanguageReferrable,
+    CollectableElement,
+    Identifiable,
+    PackageableElement,
+    ARElement,
+    Describable,
+)
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
@@ -34,11 +42,11 @@ class TestReferrable:
         """
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         class ConcreteReferrable(Referrable):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         obj = ConcreteReferrable(ar_root, "TestName")
         assert obj.getShortName() == "TestName"
 
@@ -48,14 +56,14 @@ class TestReferrable:
         """
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         class ConcreteReferrable(Referrable):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         obj = ConcreteReferrable(ar_root, "TestName")
         assert obj.shortName == "TestName"
-        
+
         obj.shortName = "NewName"
         assert obj.shortName == "NewName"
         assert obj.getShortName() == "NewName"
@@ -66,11 +74,11 @@ class TestReferrable:
         """
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         class ConcreteReferrable(Referrable):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         obj = ConcreteReferrable(ar_root, "TestName")
         assert obj.getParent() == ar_root
 
@@ -80,11 +88,11 @@ class TestReferrable:
         """
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         class ConcreteReferrable(Referrable):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         obj = ConcreteReferrable(ar_root, "TestName")
         # The full name should be parent's full name + / + short name
         # The parent (ar_root) full name starts with /, so result is /AUTOSAR/TestName
@@ -115,16 +123,16 @@ class TestMultilanguageReferrable:
         """
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         class ConcreteMultilanguageReferrable(MultilanguageReferrable):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         obj = ConcreteMultilanguageReferrable(ar_root, "TestName")
-        
+
         # Initially should be None
         assert obj.getLongName() is None
-        
+
         # Set a long name
         long_name = MultiLanguageOverviewParagraph()
         obj.setLongName(long_name)
@@ -150,21 +158,22 @@ class TestCollectableElement:
         """
         Test getTotalElement method.
         """
-        
+
         class ConcreteCollectableElement(CollectableElement):
             def __init__(self):
                 super().__init__()
-        
+
         obj = ConcreteCollectableElement()
         assert obj.getTotalElement() == 0
-        
+
         # Add an element
         class MockReferrable:
             def __init__(self, short_name):
                 self.short_name = short_name
+
             def getShortName(self):
                 return self.short_name
-        
+
         mock_element = MockReferrable("TestElement")
         obj.addElement(mock_element)
         assert obj.getTotalElement() == 1
@@ -173,26 +182,27 @@ class TestCollectableElement:
         """
         Test addElement and getElements methods.
         """
-        
+
         class ConcreteCollectableElement(CollectableElement):
             def __init__(self):
                 super().__init__()
-        
+
         obj = ConcreteCollectableElement()
-        
+
         # Initially should be empty
         assert obj.getElements() == []
-        
+
         # Add an element
         class MockReferrable:
             def __init__(self, short_name):
                 self.short_name = short_name
+
             def getShortName(self):
                 return self.short_name
-        
+
         mock_element = MockReferrable("TestElement")
         obj.addElement(mock_element)
-        
+
         elements = obj.getElements()
         assert len(elements) == 1
         assert elements[0] == mock_element
@@ -201,31 +211,31 @@ class TestCollectableElement:
         """
         Test getElement method with type parameter to cover missing lines.
         """
-        
+
         class ConcreteCollectableElement(CollectableElement):
             def __init__(self):
                 super().__init__()
-        
+
         obj = ConcreteCollectableElement()
-        
+
         # Add an element - use a proper Referrable implementation
         class ConcreteReferrable(Referrable):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         mock_element = ConcreteReferrable(ar_root, "TestElement")
         obj.addElement(mock_element)
-        
+
         # Test getting element with specific type
         result = obj.getElement("TestElement", type=ConcreteReferrable)
         assert result == mock_element
-        
+
         # Test getting element with wrong type (should return None)
         result = obj.getElement("TestElement", type=str)  # Wrong type
         assert result is None
-        
+
         # Test getting non-existent element with type
         result = obj.getElement("NonExistent", type=ConcreteReferrable)
         assert result is None
@@ -234,23 +244,23 @@ class TestCollectableElement:
         """
         Test getElement method when no elements match the specified type to cover missing line.
         """
-        
+
         class ConcreteCollectableElement(CollectableElement):
             def __init__(self):
                 super().__init__()
-        
+
         obj = ConcreteCollectableElement()
-        
+
         # Add an element of one type
         class ConcreteReferrable(Referrable):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         mock_element = ConcreteReferrable(ar_root, "TestElement")
         obj.addElement(mock_element)
-        
+
         # Try to get element with different type (should return None)
         result = obj.getElement("TestElement", type=str)  # Wrong type
         assert result is None
@@ -259,26 +269,26 @@ class TestCollectableElement:
         """
         Test getElement method with manually added elements to ensure filter returns empty list.
         """
-        
+
         class ConcreteCollectableElement(CollectableElement):
             def __init__(self):
                 super().__init__()
-        
+
         obj = ConcreteCollectableElement()
-        
+
         # Manually add elements to test the filter with no matches
         class TypeA:
             def getShortName(self):
                 return "TestElement"
-        
+
         class TypeB:
             def getShortName(self):
                 return "TestElement"
-        
+
         # Add elements with same name but different types to element_mappings
         obj.element_mappings["TestElement"] = [TypeA()]
         obj.elements = [TypeA()]
-        
+
         # Try to get element with typeB (should return None, triggering the len(result) == 0 path)
         result = obj.getElement("TestElement", type=TypeB)
         assert result is None
@@ -287,29 +297,29 @@ class TestCollectableElement:
         """
         Test IsElementExists method with type parameter to cover missing lines.
         """
-        
+
         class ConcreteCollectableElement(CollectableElement):
             def __init__(self):
                 super().__init__()
-        
+
         obj = ConcreteCollectableElement()
-        
+
         # Initially should return False
         assert obj.IsElementExists("NonExistent", type=str) is False
-        
+
         # Add an element
         class ConcreteReferrable(Referrable):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         mock_element = ConcreteReferrable(ar_root, "TestElement")
         obj.addElement(mock_element)
-        
+
         # Should return True for correct type
         assert obj.IsElementExists("TestElement", type=ConcreteReferrable) is True
-        
+
         # Should return False for incorrect type
         assert obj.IsElementExists("TestElement", type=str) is False
 
@@ -317,23 +327,23 @@ class TestCollectableElement:
         """
         Test removeElement method with type parameter to cover missing lines.
         """
-        
+
         class ConcreteCollectableElement(CollectableElement):
             def __init__(self):
                 super().__init__()
-        
+
         obj = ConcreteCollectableElement()
-        
+
         # Add an element
         class ConcreteReferrable(Referrable):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         mock_element = ConcreteReferrable(ar_root, "TestElement")
         obj.addElement(mock_element)
-        
+
         # Call removeElement with type specified to exercise the code path
         # First, add another element with the same name (this would typically not be done in practice
         # but is needed to test the type filtering code)
@@ -352,13 +362,13 @@ class TestCollectableElement:
         """
         Test the KeyError path in removeElement method.
         """
-        
+
         class ConcreteCollectableElement(CollectableElement):
             def __init__(self):
                 super().__init__()
-        
+
         obj = ConcreteCollectableElement()
-        
+
         # Try to remove non-existent element to trigger KeyError
         try:
             obj.removeElement("NonExistentElement")
@@ -370,23 +380,23 @@ class TestCollectableElement:
         """
         Test getElement method with default type=None to cover line 201.
         """
-        
+
         class ConcreteCollectableElement(CollectableElement):
             def __init__(self):
                 super().__init__()
-        
+
         obj = ConcreteCollectableElement()
-        
+
         # Add an element
         class ConcreteReferrable(Referrable):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         mock_element = ConcreteReferrable(ar_root, "TestElement")
         obj.addElement(mock_element)
-        
+
         # Get element with default type=None (should return the element)
         result = obj.getElement("TestElement")  # type defaults to None
         assert result == mock_element
@@ -397,11 +407,11 @@ class TestCollectableElement:
         """
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         class ConcreteARElement(ARElement):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         # This should trigger the super().__init__(parent, short_name) call in ARElement
         obj = ConcreteARElement(ar_root, "TestARElement")
         assert obj.getShortName() == "TestARElement"
@@ -411,10 +421,11 @@ class TestCollectableElement:
         """
         Test Describable initialization to cover line 384 in super().__init__ call.
         """
+
         class ConcreteDescribable(Describable):
             def __init__(self):
                 super().__init__()
-        
+
         # This should trigger the super().__init__() call in Describable
         obj = ConcreteDescribable()
         assert obj is not None
@@ -425,20 +436,21 @@ class TestCollectableElement:
         """
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         class ConcreteIdentifiable(Identifiable):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         obj = ConcreteIdentifiable(ar_root, "TestName")
-        
+
         # Test with string value (if not already tested thoroughly)
         obj.setCategory("TestCategory")
         # The string case calls CategoryString().setValue(value)
-        
+
         # Test with object value (the else branch at line 372 - wait, that's not right)
         # Actually for the else branch in setCategory method of Identifiable class
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString
+
         category_obj = CategoryString().setValue("ObjectCategory")
         obj.setCategory(category_obj)  # This should go to the else branch
         assert obj.getCategory() is category_obj
@@ -447,26 +459,27 @@ class TestCollectableElement:
         """
         Test IsElementExists method.
         """
-        
+
         class ConcreteCollectableElement(CollectableElement):
             def __init__(self):
                 super().__init__()
-        
+
         obj = ConcreteCollectableElement()
-        
+
         # Initially should return False
         assert obj.IsElementExists("NonExistent") is False
-        
+
         # Add an element
         class MockReferrable:
             def __init__(self, short_name):
                 self.short_name = short_name
+
             def getShortName(self):
                 return self.short_name
-        
+
         mock_element = MockReferrable("TestElement")
         obj.addElement(mock_element)
-        
+
         # Should return True
         assert obj.IsElementExists("TestElement") is True
         assert obj.IsElementExists("NonExistent") is False
@@ -475,30 +488,30 @@ class TestCollectableElement:
         """
         Test removeElement method.
         """
-        
+
         class ConcreteCollectableElement(CollectableElement):
             def __init__(self):
                 super().__init__()
-        
+
         obj = ConcreteCollectableElement()
-        
+
         # Add an element - use a proper Referrable implementation
         class ConcreteReferrable(Referrable):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         mock_element = ConcreteReferrable(ar_root, "TestElement")
         obj.addElement(mock_element)
-        
+
         # Verify element exists
         assert obj.IsElementExists("TestElement") is True
         assert obj.getTotalElement() == 1
-        
+
         # Remove the element
         obj.removeElement("TestElement")
-        
+
         # Note: There appears to be a bug in the source code where the key remains in element_mappings
         # even after all elements are removed, so IsElementExists still returns True
         # Let's just check that the total element count is 0
@@ -528,16 +541,16 @@ class TestIdentifiable:
         """
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         class ConcreteIdentifiable(Identifiable):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         obj = ConcreteIdentifiable(ar_root, "TestName")
-        
+
         # Initially should be None
         assert obj.getAdminData() is None
-        
+
         # Set admin data
         admin_data = AdminData()
         obj.setAdminData(admin_data)
@@ -549,18 +562,18 @@ class TestIdentifiable:
         """
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         class ConcreteIdentifiable(Identifiable):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         obj = ConcreteIdentifiable(ar_root, "TestName")
-        
+
         # Set admin data
         admin_data = AdminData()
         obj.setAdminData(admin_data)
         assert obj.getAdminData() is admin_data
-        
+
         # Remove admin data
         obj.removeAdminData()
         assert obj.getAdminData() is None
@@ -571,16 +584,16 @@ class TestIdentifiable:
         """
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         class ConcreteIdentifiable(Identifiable):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         obj = ConcreteIdentifiable(ar_root, "TestName")
-        
+
         # Initially should be None
         assert obj.getDesc() is None
-        
+
         # Set description
         desc = MultiLanguageOverviewParagraph()
         obj.setDesc(desc)
@@ -592,16 +605,16 @@ class TestIdentifiable:
         """
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         class ConcreteIdentifiable(Identifiable):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         obj = ConcreteIdentifiable(ar_root, "TestName")
-        
+
         # Initially should be None
         assert obj.getIntroduction() is None
-        
+
         # Set introduction
         intro = DocumentationBlock()
         obj.setIntroduction(intro)
@@ -613,20 +626,20 @@ class TestIdentifiable:
         """
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         class ConcreteIdentifiable(Identifiable):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         obj = ConcreteIdentifiable(ar_root, "TestName")
-        
+
         # Initially should be empty
         assert obj.getAnnotations() == []
-        
+
         # Add an annotation
         annotation = Annotation()
         obj.addAnnotation(annotation)
-        
+
         annotations = obj.getAnnotations()
         assert len(annotations) == 1
         assert annotations[0] is annotation
@@ -637,24 +650,25 @@ class TestIdentifiable:
         """
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         class ConcreteIdentifiable(Identifiable):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         obj = ConcreteIdentifiable(ar_root, "TestName")
-        
+
         # Initially should be None
         assert obj.getCategory() is None
-        
+
         # Set category as string (should be converted)
         obj.setCategory("TestCategory")
         category = obj.getCategory()
         assert category is not None
         assert category.getValue() == "TestCategory"
-        
+
         # Set category as object
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString
+
         category_obj = CategoryString().setValue("NewCategory")
         obj.setCategory(category_obj)
         assert obj.getCategory() is category_obj
@@ -715,15 +729,16 @@ class TestDescribable:
         """
         Test getDesc and setDesc methods for Describable.
         """
+
         class ConcreteDescribable(Describable):
             def __init__(self):
                 super().__init__()
-        
+
         obj = ConcreteDescribable()
-        
+
         # Initially should be None
         assert obj.getDesc() is None
-        
+
         # Set description
         desc = MultiLanguageOverviewParagraph()
         obj.setDesc(desc)
@@ -733,15 +748,16 @@ class TestDescribable:
         """
         Test getAdminData and setAdminData methods for Describable.
         """
+
         class ConcreteDescribable(Describable):
             def __init__(self):
                 super().__init__()
-        
+
         obj = ConcreteDescribable()
-        
+
         # Initially should be None
         assert obj.getAdminData() is None
-        
+
         # Set admin data
         admin_data = AdminData()
         obj.setAdminData(admin_data)
@@ -751,17 +767,18 @@ class TestDescribable:
         """
         Test removeAdminData method for Describable.
         """
+
         class ConcreteDescribable(Describable):
             def __init__(self):
                 super().__init__()
-        
+
         obj = ConcreteDescribable()
-        
+
         # Set admin data
         admin_data = AdminData()
         obj.setAdminData(admin_data)
         assert obj.getAdminData() is admin_data
-        
+
         # Remove admin data
         obj.removeAdminData()
         assert obj.getAdminData() is None
@@ -770,24 +787,26 @@ class TestDescribable:
         """
         Test getCategory and setCategory methods in Describable class to cover lines 435, 448-450.
         """
+
         class ConcreteDescribable(Describable):
             def __init__(self):
                 super().__init__()
-        
+
         obj = ConcreteDescribable()
-        
+
         # Test initial value is None (covers line 435)
         assert obj.getCategory() is None
-        
+
         # Test setCategory with a value (covers lines 448, 449, 450)
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString
+
         category = CategoryString().setValue("TestDescribableCategory")
         result = obj.setCategory(category)  # Should return self (line 450)
         assert result is obj  # Verify method chaining
-        
+
         # Verify the category was set (covers line 435 again)
         assert obj.getCategory() is category
-        
+
         # Test setCategory with None to test the if condition path
         obj2 = ConcreteDescribable()
         result2 = obj2.setCategory(None)  # Should still return self
@@ -798,15 +817,16 @@ class TestDescribable:
         """
         Test getIntroduction and setIntroduction methods for Describable.
         """
+
         class ConcreteDescribable(Describable):
             def __init__(self):
                 super().__init__()
-        
+
         obj = ConcreteDescribable()
-        
+
         # Initially should be None
         assert obj.getIntroduction() is None
-        
+
         # Set introduction
         intro = DocumentationBlock()
         obj.setIntroduction(intro)

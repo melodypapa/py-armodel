@@ -17,6 +17,7 @@ class EndToEndDescription(ARObject):
     End-to-end protection profile description defining CRC, counter, and
     data ID configuration for data integrity protection.
     """
+
     # EndToEndDescription method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getCategory                  [x] impl  [x] docstring  [ ] test
@@ -39,7 +40,6 @@ class EndToEndDescription(ARObject):
     # [ ] setMaxNoNewOrRepeatedData    [x] impl  [x] docstring  [ ] test
     # [ ] getSyncCounterInit           [x] impl  [x] docstring  [ ] test
     # [ ] setSyncCounterInit           [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -282,11 +282,11 @@ class EndToEndProtectionVariablePrototype(ARObject):
     Associates a VariableDataPrototype with sender and receiver roles
     for end-to-end data protection.
     """
+
     # EndToEndProtectionVariablePrototype method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] addReceiverIref              [x] impl  [x] docstring  [ ] test
     # [ ] getReceiverIrefs             [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -320,6 +320,7 @@ class EndToEndProtectionISignalIPdu(ARObject):
     Defines to which ISignalIPdu-ISignalGroup pair an EndToEndProtection
     applies.
     """
+
     # EndToEndProtectionISignalIPdu method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getDataOffset                [x] impl  [x] docstring  [ ] test
@@ -328,7 +329,6 @@ class EndToEndProtectionISignalIPdu(ARObject):
     # [ ] setISignalGroupRef           [x] impl  [x] docstring  [ ] test
     # [ ] getISignalIPduRef            [x] impl  [x] docstring  [ ] test
     # [ ] setISignalIPduRef            [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -409,6 +409,7 @@ class EndToEndProtection(Identifiable):
     This meta-class represents the ability to describe a particular end to
     end protection.
     """
+
     # EndToEndProtection method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getEndToEndProfile           [x] impl  [x] docstring  [ ] test
@@ -417,7 +418,6 @@ class EndToEndProtection(Identifiable):
     # [ ] addEndToEndProtectionISignalIPdu [x] impl  [x] docstring  [ ] test
     # [ ] getEndToEndProtectionVariablePrototypes [x] impl  [x] docstring  [ ] test
     # [ ] addEndToEndProtectionVariablePrototype [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -501,11 +501,11 @@ class EndToEndProtectionSet(ARElement):
     This represents a container for the collection of EndToEndProtection
     information.
     """
+
     # EndToEndProtectionSet method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] createEndToEndProtection     [x] impl  [x] docstring  [ ] test
     # [ ] getEndToEndProtections       [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

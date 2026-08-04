@@ -7,11 +7,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, String
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
 
+
 class SwcImplementation(Implementation):
     """
     Implementation of an atomic software component defining the behavior
     reference, per-instance memory sizes, and required RTE vendor.
     """
+
     # SwcImplementation method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getBehaviorRef               [x] impl  [x] docstring  [ ] test
@@ -20,7 +22,6 @@ class SwcImplementation(Implementation):
     # [ ] addPerInstanceMemorySize     [x] impl  [x] docstring  [ ] test
     # [ ] getRequiredRTEVendor         [x] impl  [x] docstring  [ ] test
     # [ ] setRequiredRTEVendor         [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self, parent: ARObject, short_name: str) -> None:
         super().__init__(parent, short_name)

@@ -1,4 +1,5 @@
 """Tests for writer Ethernet/CAN controller and EcuInstance methods."""
+
 import xml.etree.cElementTree as ET
 import pytest
 
@@ -137,9 +138,7 @@ class TestWriterMacMulticastGroup:
 class TestWriterEthernetClusterMacMulticastGroups:
     def test_with_groups(self, writer):
         cluster = _make_ethernet_cluster()
-        cluster.createMacMulticastGroup("g1").setMacMulticastAddress(
-            _literal("addr1")
-        )
+        cluster.createMacMulticastGroup("g1").setMacMulticastAddress(_literal("addr1"))
         parent = _parent()
         writer.writeEthernetClusterMacMulticastGroups(parent, cluster)
         assert parent[0].tag == "MAC-MULTICAST-GROUPS"
@@ -159,9 +158,7 @@ class TestWriterEthernetCluster:
         parent = _parent()
         writer.writeEthernetCluster(parent, cluster)
         assert parent[0].tag == "ETHERNET-CLUSTER"
-        cond = parent[0].find(
-            "ETHERNET-CLUSTER-VARIANTS/ETHERNET-CLUSTER-CONDITIONAL"
-        )
+        cond = parent[0].find("ETHERNET-CLUSTER-VARIANTS/ETHERNET-CLUSTER-CONDITIONAL")
         assert cond is not None
         assert cond.find("MAC-MULTICAST-GROUPS") is not None
 
@@ -234,9 +231,7 @@ class TestWriterCommunicationConnectorEcuCommPortInstances:
         connector.createIPduPort("ipp")
         connector.createISignalPort("isp")
         parent = _parent()
-        writer.writeCommunicationConnectorEcuCommPortInstances(
-            parent, connector
-        )
+        writer.writeCommunicationConnectorEcuCommPortInstances(parent, connector)
         assert parent[0].tag == "ECU-COMM-PORT-INSTANCES"
         tags = {c.tag for c in parent[0]}
         assert "FRAME-PORT" in tags
@@ -246,9 +241,7 @@ class TestWriterCommunicationConnectorEcuCommPortInstances:
     def test_empty(self, writer):
         connector = _make_can_communication_connector()
         parent = _parent()
-        writer.writeCommunicationConnectorEcuCommPortInstances(
-            parent, connector
-        )
+        writer.writeCommunicationConnectorEcuCommPortInstances(parent, connector)
         assert len(parent) == 0
 
 
@@ -266,16 +259,12 @@ class TestWriterSetCanControllerFdConfiguration:
         config = CanControllerFdConfiguration()
         config.setTxBitRateSwitch(_bool(True))
         parent = _parent()
-        writer.setCanControllerFdConfiguration(
-            parent, "CAN-CONTROLLER-FD-CONFIGURATION", config
-        )
+        writer.setCanControllerFdConfiguration(parent, "CAN-CONTROLLER-FD-CONFIGURATION", config)
         assert len(parent) == 0
 
     def test_none(self, writer):
         parent = _parent()
-        writer.setCanControllerFdConfiguration(
-            parent, "CAN-CONTROLLER-FD-CONFIGURATION", None
-        )
+        writer.setCanControllerFdConfiguration(parent, "CAN-CONTROLLER-FD-CONFIGURATION", None)
         assert len(parent) == 0
 
 
@@ -292,9 +281,7 @@ class TestWriterSetCanControllerFdConfigurationRequirements:
         req.setMinTrcvDelayCompensationOffset(_time(0.0005))
         req.setTxBitRateSwitch(_bool(True))
         parent = _parent()
-        writer.setCanControllerFdConfigurationRequirements(
-            parent, "CAN-CONTROLLER-FD-REQUIREMENTS", req
-        )
+        writer.setCanControllerFdConfigurationRequirements(parent, "CAN-CONTROLLER-FD-REQUIREMENTS", req)
         assert parent[0].tag == "CAN-CONTROLLER-FD-REQUIREMENTS"
         assert parent[0].find("MAX-NUMBER-OF-TIME-QUANTA-PER-BIT") is not None
         assert parent[0].find("MAX-SAMPLE-POINT") is not None
@@ -308,9 +295,7 @@ class TestWriterSetCanControllerFdConfigurationRequirements:
 
     def test_none(self, writer):
         parent = _parent()
-        writer.setCanControllerFdConfigurationRequirements(
-            parent, "CAN-CONTROLLER-FD-REQUIREMENTS", None
-        )
+        writer.setCanControllerFdConfigurationRequirements(parent, "CAN-CONTROLLER-FD-REQUIREMENTS", None)
         assert len(parent) == 0
 
 
@@ -335,9 +320,7 @@ class TestWriterCanControllerConfigurationRequirements:
         req.setMinNumberOfTimeQuantaPerBit(_int(16))
         req.setMinSamplePoint(_float(0.5))
         req.setMinSyncJumpWidth(_float(0.1))
-        req.setCanControllerFdRequirements(
-            CanControllerFdConfigurationRequirements()
-        )
+        req.setCanControllerFdRequirements(CanControllerFdConfigurationRequirements())
         parent = _parent()
         writer.writeCanControllerConfigurationRequirements(parent, req)
         assert parent[0].tag == "CAN-CONTROLLER-CONFIGURATION-REQUIREMENTS"
@@ -359,20 +342,14 @@ class TestWriterAbstractCanCommunicationControllerCanControllerAttributes:
         req.setMaxSamplePoint(_float(0.8))
         controller.setCanControllerAttributes(req)
         parent = _parent()
-        writer.writeAbstractCanCommunicationControllerCanControllerAttributes(
-            parent, controller
-        )
+        writer.writeAbstractCanCommunicationControllerCanControllerAttributes(parent, controller)
         assert parent[0].tag == "CAN-CONTROLLER-ATTRIBUTES"
-        assert parent[0].find(
-            "CAN-CONTROLLER-CONFIGURATION-REQUIREMENTS"
-        ) is not None
+        assert parent[0].find("CAN-CONTROLLER-CONFIGURATION-REQUIREMENTS") is not None
 
     def test_no_attributes(self, writer):
         controller = _make_can_communication_controller()
         parent = _parent()
-        writer.writeAbstractCanCommunicationControllerCanControllerAttributes(
-            parent, controller
-        )
+        writer.writeAbstractCanCommunicationControllerCanControllerAttributes(parent, controller)
         assert len(parent) == 0
 
 
@@ -397,10 +374,7 @@ class TestWriterCanCommunicationController:
         parent = _parent()
         writer.writeCanCommunicationController(parent, controller)
         assert parent[0].tag == "CAN-COMMUNICATION-CONTROLLER"
-        cond = parent[0].find(
-            "CAN-COMMUNICATION-CONTROLLER-VARIANTS"
-            "/CAN-COMMUNICATION-CONTROLLER-CONDITIONAL"
-        )
+        cond = parent[0].find("CAN-COMMUNICATION-CONTROLLER-VARIANTS" "/CAN-COMMUNICATION-CONTROLLER-CONDITIONAL")
         assert cond is not None
         assert cond.find("WAKE-UP-BY-CONTROLLER-SUPPORTED") is not None
         assert cond.find("CAN-CONTROLLER-ATTRIBUTES") is not None
@@ -411,9 +385,7 @@ class TestWriterCouplingPortSchedulerCouplingPortStructuralElement:
         details = CouplingPortDetails()
         fifo = details.createCouplingPortFifo("fifo")
         parent = _parent()
-        writer.writeCouplingPortSchedulerCouplingPortStructuralElement(
-            parent, fifo
-        )
+        writer.writeCouplingPortSchedulerCouplingPortStructuralElement(parent, fifo)
         assert parent.find("SHORT-NAME") is not None
         assert parent.find("SHORT-NAME").text == "fifo"
 
@@ -455,9 +427,7 @@ class TestWriterCouplingPortDetailsStructuralElements:
         details.createCouplingPortFifo("fifo")
         details.createCouplingPortScheduler("sched")
         parent = _parent()
-        writer.writeCouplingPortDetailsCouplingPortStructuralElements(
-            parent, details
-        )
+        writer.writeCouplingPortDetailsCouplingPortStructuralElements(parent, details)
         assert parent[0].tag == "COUPLING-PORT-STRUCTURAL-ELEMENTS"
         tags = {c.tag for c in parent[0]}
         assert "COUPLING-PORT-FIFO" in tags
@@ -466,9 +436,7 @@ class TestWriterCouplingPortDetailsStructuralElements:
     def test_empty(self, writer):
         details = CouplingPortDetails()
         parent = _parent()
-        writer.writeCouplingPortDetailsCouplingPortStructuralElements(
-            parent, details
-        )
+        writer.writeCouplingPortDetailsCouplingPortStructuralElements(parent, details)
         assert len(parent) == 0
 
 
@@ -495,18 +463,14 @@ class TestWriterCouplingPortDetailsEthernetPriorityRegenerations:
         details = CouplingPortDetails()
         details.createEthernetPriorityRegeneration("r1")
         parent = _parent()
-        writer.writeCouplingPortDetailsEthernetPriorityRegenerations(
-            parent, details
-        )
+        writer.writeCouplingPortDetailsEthernetPriorityRegenerations(parent, details)
         assert parent[0].tag == "ETHERNET-PRIORITY-REGENERATIONS"
         assert parent[0].find("ETHERNET-PRIORITY-REGENERATION") is not None
 
     def test_empty(self, writer):
         details = CouplingPortDetails()
         parent = _parent()
-        writer.writeCouplingPortDetailsEthernetPriorityRegenerations(
-            parent, details
-        )
+        writer.writeCouplingPortDetailsEthernetPriorityRegenerations(parent, details)
         assert len(parent) == 0
 
 
@@ -515,13 +479,9 @@ class TestWriterSetCouplingPortDetails:
         details = CouplingPortDetails()
         details.createCouplingPortFifo("fifo")
         details.createEthernetPriorityRegeneration("r1")
-        details.setLastEgressSchedulerRef(
-            _ref("/les", "COUPLING-PORT-SCHEDULER")
-        )
+        details.setLastEgressSchedulerRef(_ref("/les", "COUPLING-PORT-SCHEDULER"))
         parent = _parent()
-        writer.setCouplingPortDetails(
-            parent, "COUPLING-PORT-DETAILS", details
-        )
+        writer.setCouplingPortDetails(parent, "COUPLING-PORT-DETAILS", details)
         assert parent[0].tag == "COUPLING-PORT-DETAILS"
         assert parent[0].find("COUPLING-PORT-STRUCTURAL-ELEMENTS") is not None
         assert parent[0].find("ETHERNET-PRIORITY-REGENERATIONS") is not None
@@ -529,9 +489,7 @@ class TestWriterSetCouplingPortDetails:
 
     def test_none(self, writer):
         parent = _parent()
-        writer.setCouplingPortDetails(
-            parent, "COUPLING-PORT-DETAILS", None
-        )
+        writer.setCouplingPortDetails(parent, "COUPLING-PORT-DETAILS", None)
         assert len(parent) == 0
 
 
@@ -592,18 +550,14 @@ class TestWriterEthernetCommunicationControllerCouplingPorts:
         controller = _make_ethernet_communication_controller()
         controller.createCouplingPort("cp1")
         parent = _parent()
-        writer.writeEthernetCommunicationControllerCouplingPorts(
-            parent, controller
-        )
+        writer.writeEthernetCommunicationControllerCouplingPorts(parent, controller)
         assert parent[0].tag == "COUPLING-PORTS"
         assert parent[0].find("COUPLING-PORT") is not None
 
     def test_empty(self, writer):
         controller = _make_ethernet_communication_controller()
         parent = _parent()
-        writer.writeEthernetCommunicationControllerCouplingPorts(
-            parent, controller
-        )
+        writer.writeEthernetCommunicationControllerCouplingPorts(parent, controller)
         assert len(parent) == 0
 
 
@@ -615,10 +569,7 @@ class TestWriterEthernetCommunicationController:
         parent = _parent()
         writer.writeEthernetCommunicationController(parent, controller)
         assert parent[0].tag == "ETHERNET-COMMUNICATION-CONTROLLER"
-        cond = parent[0].find(
-            "ETHERNET-COMMUNICATION-CONTROLLER-VARIANTS"
-            "/ETHERNET-COMMUNICATION-CONTROLLER-CONDITIONAL"
-        )
+        cond = parent[0].find("ETHERNET-COMMUNICATION-CONTROLLER-VARIANTS" "/ETHERNET-COMMUNICATION-CONTROLLER-CONDITIONAL")
         assert cond is not None
         assert cond.find("WAKE-UP-BY-CONTROLLER-SUPPORTED") is not None
         assert cond.find("COUPLING-PORTS") is not None
@@ -651,9 +602,7 @@ class TestWriterCommunicationConnector:
     def test_full(self, writer):
         instance = _make_ecu_instance()
         connector = instance.createCanCommunicationConnector("cc")
-        connector.setCommControllerRef(
-            _ref("/ctrl", "CAN-COMMUNICATION-CONTROLLER")
-        )
+        connector.setCommControllerRef(_ref("/ctrl", "CAN-COMMUNICATION-CONTROLLER"))
         connector.setPncGatewayType(_literal("active"))
         connector.createFramePort("fp")
         parent = _parent()
@@ -667,9 +616,7 @@ class TestWriterCanCommunicationConnector:
     def test_can_connector(self, writer):
         instance = _make_ecu_instance()
         connector = instance.createCanCommunicationConnector("cc")
-        connector.setCommControllerRef(
-            _ref("/ctrl", "CAN-COMMUNICATION-CONTROLLER")
-        )
+        connector.setCommControllerRef(_ref("/ctrl", "CAN-COMMUNICATION-CONTROLLER"))
         parent = _parent()
         writer.writeCanCommunicationConnector(parent, connector)
         assert parent.find("COMM-CONTROLLER-REF") is not None
@@ -679,13 +626,9 @@ class TestWriterEthernetCommunicationConnector:
     def test_full(self, writer):
         instance = _make_ecu_instance()
         connector = instance.createEthernetCommunicationConnector("ec")
-        connector.setCommControllerRef(
-            _ref("/ctrl", "ETHERNET-COMMUNICATION-CONTROLLER")
-        )
+        connector.setCommControllerRef(_ref("/ctrl", "ETHERNET-COMMUNICATION-CONTROLLER"))
         connector.setMaximumTransmissionUnit(_posint(1500))
-        connector.addNetworkEndpointRef(
-            _ref("/ne", "NETWORK-ENDPOINT")
-        )
+        connector.addNetworkEndpointRef(_ref("/ne", "NETWORK-ENDPOINT"))
         parent = _parent()
         writer.writeEthernetCommunicationConnector(parent, connector)
         assert parent.find("COMM-CONTROLLER-REF") is not None
@@ -697,16 +640,10 @@ class TestWriterEthernetCommunicationConnectorNetworkEndpointRefs:
     def test_with_refs(self, writer):
         instance = _make_ecu_instance()
         connector = instance.createEthernetCommunicationConnector("ec")
-        connector.addNetworkEndpointRef(
-            _ref("/ne1", "NETWORK-ENDPOINT")
-        )
-        connector.addNetworkEndpointRef(
-            _ref("/ne2", "NETWORK-ENDPOINT")
-        )
+        connector.addNetworkEndpointRef(_ref("/ne1", "NETWORK-ENDPOINT"))
+        connector.addNetworkEndpointRef(_ref("/ne2", "NETWORK-ENDPOINT"))
         parent = _parent()
-        writer.writeEthernetCommunicationConnectorNetworkEndpointRefs(
-            parent, connector
-        )
+        writer.writeEthernetCommunicationConnectorNetworkEndpointRefs(parent, connector)
         assert parent[0].tag == "NETWORK-ENDPOINT-REFS"
         refs = parent[0].findall("NETWORK-ENDPOINT-REF")
         assert len(refs) == 2
@@ -715,9 +652,7 @@ class TestWriterEthernetCommunicationConnectorNetworkEndpointRefs:
         instance = _make_ecu_instance()
         connector = instance.createEthernetCommunicationConnector("ec")
         parent = _parent()
-        writer.writeEthernetCommunicationConnectorNetworkEndpointRefs(
-            parent, connector
-        )
+        writer.writeEthernetCommunicationConnectorNetworkEndpointRefs(parent, connector)
         assert len(parent) == 0
 
 
@@ -735,9 +670,7 @@ class TestWriterFlexrayCommunicationConnector:
     def test_flexray_connector(self, writer):
         instance = _make_ecu_instance()
         connector = instance.createFlexrayCommunicationConnector("fc")
-        connector.setCommControllerRef(
-            _ref("/ctrl", "FLEXRAY-COMMUNICATION-CONTROLLER")
-        )
+        connector.setCommControllerRef(_ref("/ctrl", "FLEXRAY-COMMUNICATION-CONTROLLER"))
         parent = _parent()
         writer.writeFlexrayCommunicationConnector(parent, connector)
         assert parent.find("COMM-CONTROLLER-REF") is not None
@@ -769,12 +702,8 @@ class TestWriterEcuInstanceConnectors:
 class TestWriterEcuInstanceAssociatedComIPduGroupRefs:
     def test_with_refs(self, writer):
         instance = _make_ecu_instance()
-        instance.addAssociatedComIPduGroupRef(
-            _ref("/g1", "I-SIGNAL-I-PDU-GROUP")
-        )
-        instance.addAssociatedComIPduGroupRef(
-            _ref("/g2", "I-SIGNAL-I-PDU-GROUP")
-        )
+        instance.addAssociatedComIPduGroupRef(_ref("/g1", "I-SIGNAL-I-PDU-GROUP"))
+        instance.addAssociatedComIPduGroupRef(_ref("/g2", "I-SIGNAL-I-PDU-GROUP"))
         parent = _parent()
         writer.writeEcuInstanceAssociatedComIPduGroupRefs(parent, instance)
         assert parent[0].tag == "ASSOCIATED-COM-I-PDU-GROUP-REFS"
@@ -791,9 +720,7 @@ class TestWriterEcuInstanceAssociatedComIPduGroupRefs:
 class TestWriterEcuInstance:
     def test_full(self, writer):
         instance = _make_ecu_instance()
-        instance.addAssociatedComIPduGroupRef(
-            _ref("/g", "I-SIGNAL-I-PDU-GROUP")
-        )
+        instance.addAssociatedComIPduGroupRef(_ref("/g", "I-SIGNAL-I-PDU-GROUP"))
         instance.setComConfigurationGwTimeBase(_time(0.1))
         instance.setComConfigurationRxTimeBase(_time(0.2))
         instance.setComConfigurationTxTimeBase(_time(0.3))
@@ -811,9 +738,7 @@ class TestWriterEcuInstance:
         assert ei.find("COM-CONFIGURATION-GW-TIME-BASE") is not None
         assert ei.find("COM-CONFIGURATION-RX-TIME-BASE") is not None
         assert ei.find("COM-CONFIGURATION-TX-TIME-BASE") is not None
-        assert ei.find(
-            "COM-ENABLE-MDT-FOR-CYCLIC-TRANSMISSION"
-        ) is not None
+        assert ei.find("COM-ENABLE-MDT-FOR-CYCLIC-TRANSMISSION") is not None
         assert ei.find("COMM-CONTROLLERS") is not None
         assert ei.find("CONNECTORS") is not None
         assert ei.find("DIAGNOSTIC-ADDRESS") is not None

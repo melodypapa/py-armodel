@@ -16,6 +16,7 @@ class Documentation(ARElement):
         annotations (List[Annotation]): A list of annotations for the documentation.
         description (String): The description text.
     """
+
     # Documentation method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getAnnotations               [x] impl  [ ] docstring  [ ] test

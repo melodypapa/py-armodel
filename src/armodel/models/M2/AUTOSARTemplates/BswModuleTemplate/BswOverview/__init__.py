@@ -22,6 +22,7 @@ class BswModuleDescription(AtpStructureElement):
     In case it describes a BSW module, the short name of this element equals the name of the BSW module.
     This is the root element for describing BSW module structure, interfaces, and behavior.
     """
+
     # BswModuleDescription method parity checklist:
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] getBswModuleDependencies     [x] impl  [x] docstring  [x] test
@@ -53,7 +54,6 @@ class BswModuleDescription(AtpStructureElement):
     # [x] createRequiredModeGroup      [x] impl  [x] docstring  [x] test
     # [x] getRequiredTriggers          [x] impl  [x] docstring  [x] test
     # [x] createRequiredTrigger        [x] impl  [x] docstring  [x] test
-
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -277,7 +277,7 @@ class BswModuleDescription(AtpStructureElement):
         Returns:
             The created BswInternalBehavior instance
         """
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             behavior = BswInternalBehavior(self, short_name)
             self.addElement(behavior)
             self.internalBehaviors.append(behavior)
@@ -331,7 +331,7 @@ class BswModuleDescription(AtpStructureElement):
         Returns:
             The created BswModuleClientServerEntry instance
         """
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             entry = BswModuleClientServerEntry(self, short_name)
             self.addElement(entry)
             self.providedClientServerEntries.append(entry)
@@ -360,7 +360,7 @@ class BswModuleDescription(AtpStructureElement):
         Returns:
             The created VariableDataPrototype instance
         """
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             prototype = VariableDataPrototype(self, short_name)
             self.addElement(prototype)
             self.providedDatas.append(prototype)
@@ -388,7 +388,7 @@ class BswModuleDescription(AtpStructureElement):
         Returns:
             The created ModeDeclarationGroupPrototype instance
         """
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             prototype = ModeDeclarationGroupPrototype(self, short_name)
             self.addElement(prototype)
             self.providedModeGroups.append(prototype)
@@ -416,7 +416,7 @@ class BswModuleDescription(AtpStructureElement):
         Returns:
             The created Trigger instance
         """
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             trigger = Trigger(self, short_name)
             self.addElement(trigger)
             self.releasedTriggers.append(trigger)
@@ -444,7 +444,7 @@ class BswModuleDescription(AtpStructureElement):
         Returns:
             The created BswModuleClientServerEntry instance
         """
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             entry = BswModuleClientServerEntry(self, short_name)
             self.addElement(entry)
             self.requiredClientServerEntries.append(entry)
@@ -473,7 +473,7 @@ class BswModuleDescription(AtpStructureElement):
         Returns:
             The created VariableDataPrototype instance
         """
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             prototype = VariableDataPrototype(self, short_name)
             self.addElement(prototype)
             self.requiredDatas.append(prototype)
@@ -501,7 +501,7 @@ class BswModuleDescription(AtpStructureElement):
         Returns:
             The created ModeDeclarationGroupPrototype instance
         """
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             prototype = ModeDeclarationGroupPrototype(self, short_name)
             self.addElement(prototype)
             self.requiredModeGroups.append(prototype)
@@ -529,7 +529,7 @@ class BswModuleDescription(AtpStructureElement):
         Returns:
             The created Trigger instance
         """
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             trigger = Trigger(self, short_name)
             self.addElement(trigger)
             self.requiredTriggers.append(trigger)

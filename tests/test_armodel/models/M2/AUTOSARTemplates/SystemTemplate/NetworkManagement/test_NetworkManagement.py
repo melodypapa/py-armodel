@@ -19,7 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     FlexrayNmCluster,
     J1939NmCluster,
     UdpNmClusterCoupling,
-    UdpNmCluster
+    UdpNmCluster,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 

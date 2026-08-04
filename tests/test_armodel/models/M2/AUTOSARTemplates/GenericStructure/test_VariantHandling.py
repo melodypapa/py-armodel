@@ -62,20 +62,12 @@ def test_predefined_variant_initial_state_and_adders():
     variant = PredefinedVariant(parent, "MyPredefinedVariant")
 
     included_variant = RefType().setValue("/RootPkg/Variants/IncludedVariant")
-    post_build_value_set = RefType().setValue(
-        "/RootPkg/Criteria/PbCriterionValueSet"
-    )
-    sw_systemconstant_value_set = RefType().setValue(
-        "/RootPkg/SystemConstants/MyValueSet"
-    )
+    post_build_value_set = RefType().setValue("/RootPkg/Criteria/PbCriterionValueSet")
+    sw_systemconstant_value_set = RefType().setValue("/RootPkg/SystemConstants/MyValueSet")
 
     result_included = variant.addIncludedVariantRef(included_variant)
-    result_post_build = variant.addPostBuildVariantCriterionValueSetRef(
-        post_build_value_set
-    )
-    result_systemconstant = variant.addSwSystemconstantValueSetRef(
-        sw_systemconstant_value_set
-    )
+    result_post_build = variant.addPostBuildVariantCriterionValueSetRef(post_build_value_set)
+    result_systemconstant = variant.addSwSystemconstantValueSetRef(sw_systemconstant_value_set)
 
     assert variant.getIncludedVariantRefs() == [included_variant]
     assert variant.getPostBuildVariantCriterionValueSetRefs() == [post_build_value_set]
@@ -122,10 +114,10 @@ def test_binding_time_enum_validate_enum_value():
 
 def test_post_build_variant_condition_getters_and_setters():
     from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer
-    
+
     criterion = PostBuildVariantCriterion()
     criterion.setCriterionName("MyCriterion")
-    
+
     value = Integer()
     value.setValue(42)
 
@@ -139,7 +131,7 @@ def test_post_build_variant_condition_getters_and_setters():
 
 def test_post_build_variant_condition_method_chaining():
     from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer
-    
+
     criterion = PostBuildVariantCriterion()
     criterion.setCriterionName("MyCriterion")
 
@@ -194,7 +186,7 @@ def test_condition_by_formula_none_values():
 
 def test_variation_point_short_label():
     from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier
-    
+
     variation_point = VariationPoint()
     label = Identifier()
     label.setValue("VP_Label_01")
@@ -207,9 +199,9 @@ def test_variation_point_short_label():
 
 def test_variation_point_add_post_build_conditions():
     from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer
-    
+
     variation_point = VariationPoint()
-    
+
     criterion1 = PostBuildVariantCriterion()
     criterion1.setCriterionName("Criterion1")
     value1 = Integer()
@@ -237,7 +229,7 @@ def test_variation_point_add_post_build_conditions():
 
 def test_variation_point_method_chaining():
     from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier
-    
+
     variation_point = VariationPoint()
     binding_time = BindingTimeEnum()
     binding_time.setValue("preCompileTime")
@@ -247,11 +239,7 @@ def test_variation_point_method_chaining():
     label = Identifier()
     label.setValue("VP_Test")
 
-    result = (
-        variation_point
-        .setShortLabel(label)
-        .setSwSyscond(sys_condition)
-    )
+    result = variation_point.setShortLabel(label).setSwSyscond(sys_condition)
 
     assert result is variation_point
     assert variation_point.getShortLabel() == label

@@ -13,6 +13,7 @@ class AbstractImplementationDataTypeElement(AtpStructureElement, ABC):
     """
     Abstract base class for implementation data type elements.
     """
+
     # AbstractImplementationDataTypeElement method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
@@ -27,6 +28,7 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
     Element of an implementation data type defining array properties,
     optional flag, sub-elements, and data definition properties.
     """
+
     # ImplementationDataTypeElement method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
     # [ ] getArrayImplPolicy           [x] impl  [ ] docstring  [x] test
@@ -107,7 +109,7 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
         return self
 
     def createImplementationDataTypeElement(self, short_name: str) -> "ImplementationDataTypeElement":
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             type_element = ImplementationDataTypeElement(self, short_name)
             self.addElement(type_element)
             self.subElements.append(type_element)
@@ -121,6 +123,7 @@ class AbstractImplementationDataType(AutosarDataType, ABC):
     """
     Abstract base class for implementation data types.
     """
+
     # AbstractImplementationDataType method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
@@ -136,6 +139,7 @@ class ImplementationDataType(AbstractImplementationDataType):
     Represents an implementation data type in AUTOSAR models.
     This class defines how data types are implemented in code, including arrays, structures, and data references.
     """
+
     # ImplementationDataType method parity checklist:
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] getDynamicArraySizeProfile   [x] impl  [x] docstring  [x] test
@@ -152,7 +156,6 @@ class ImplementationDataType(AbstractImplementationDataType):
     # [x] getStructElementType         [x] impl  [x] docstring  [x] test
     # [x] createSymbolProps            [x] impl  [x] docstring  [x] test
     # [x] getSymbolProps               [x] impl  [x] docstring  [x] test
-
 
     # Category constant for type reference implementation data types
     CATEGORY_TYPE_REFERENCE = "TYPE_REFERENCE"
@@ -180,7 +183,7 @@ class ImplementationDataType(AbstractImplementationDataType):
         # Flag indicating if this structure contains optional elements
         self.isStructWithOptionalElement: Boolean = None
         # List of sub-elements in this implementation data type
-        self.subElements: List['ImplementationDataTypeElement'] = []
+        self.subElements: List["ImplementationDataTypeElement"] = []
         # Symbol properties for this implementation data type
         self.symbolProps: SymbolProps = None
         # Type emitter for code generation
@@ -232,7 +235,7 @@ class ImplementationDataType(AbstractImplementationDataType):
         self.isStructWithOptionalElement = value
         return self
 
-    def createImplementationDataTypeElement(self, short_name: str) -> 'ImplementationDataTypeElement':
+    def createImplementationDataTypeElement(self, short_name: str) -> "ImplementationDataTypeElement":
         """
         Creates and adds an ImplementationDataTypeElement to this implementation data type's sub-elements.
 
@@ -248,7 +251,7 @@ class ImplementationDataType(AbstractImplementationDataType):
             self.subElements.append(type_element)
         return self.getElement(short_name)
 
-    def getSubElements(self) -> List['ImplementationDataTypeElement']:
+    def getSubElements(self) -> List["ImplementationDataTypeElement"]:
         """
         Gets the list of sub-elements in this implementation data type.
 
@@ -265,7 +268,7 @@ class ImplementationDataType(AbstractImplementationDataType):
         Returns:
             str: The array element type
         """
-        return getattr(self, '_array_type', None)
+        return getattr(self, "_array_type", None)
 
     def setArrayElementType(self, type: str):
         """
@@ -327,7 +330,7 @@ class ImplementationDataType(AbstractImplementationDataType):
         Returns:
             str: The structure element type
         """
-        return getattr(self, '_struct_type', None)
+        return getattr(self, "_struct_type", None)
 
     def createSymbolProps(self, short_name: str) -> SymbolProps:
         """
@@ -359,33 +362,37 @@ class ArrayImplPolicyEnum(AREnum):
     """
     Enumeration for array implementation policy.
     """
+
     # ArrayImplPolicyEnum method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
 
     DYNAMIC = "dynamic"
     STATIC = "static"
 
     def __init__(self):
-        super().__init__((
-            ArrayImplPolicyEnum.DYNAMIC,
-            ArrayImplPolicyEnum.STATIC,
-        ))
+        super().__init__(
+            (
+                ArrayImplPolicyEnum.DYNAMIC,
+                ArrayImplPolicyEnum.STATIC,
+            )
+        )
 
 
 class ArraySizeSemanticsEnum(AREnum):
     """
     Enumeration for array size semantics.
     """
+
     # ArraySizeSemanticsEnum method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
 
     FIXED_SIZE = "fixed-size"
     VARIABLE_SIZE = "variable-size"
 
     def __init__(self):
-        super().__init__((
-            ArraySizeSemanticsEnum.FIXED_SIZE,
-            ArraySizeSemanticsEnum.VARIABLE_SIZE,
-        ))
+        super().__init__(
+            (
+                ArraySizeSemanticsEnum.FIXED_SIZE,
+                ArraySizeSemanticsEnum.VARIABLE_SIZE,
+            )
+        )

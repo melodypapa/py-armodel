@@ -82,12 +82,12 @@ class NvDataInterface(DataInterface):
         nvData (VariableDataPrototype, 1..*, aggr)
         The VariableDataPrototype of this nv data interface.
     """
+
     # NvDataInterface method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getNvDatas                   [x] impl  [x] docstring  [ ] test
     # [ ] createNvData                 [x] impl  [x] docstring  [ ] test
     # [ ] getNvData                    [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -255,7 +255,7 @@ class SenderReceiverInterface(DataInterface):
         return self
 
     def createDataElement(self, short_name) -> VariableDataPrototype:
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             data_element = VariableDataPrototype(self, short_name)
             self.addElement(data_element)
         return self.getElement(short_name, VariableDataPrototype)
@@ -265,12 +265,12 @@ class SenderReceiverInterface(DataInterface):
 
     def getDataElement(self, short_name) -> VariableDataPrototype:
         return self.getElement(short_name, VariableDataPrototype)
-    
+
     def createInvalidationPolicy(self) -> InvalidationPolicy:
         policy = InvalidationPolicy()
         self.invalidationPolicies.append(policy)
         return policy
-    
+
     def getInvalidationPolicys(self) -> List[InvalidationPolicy]:
         return list(filter(lambda c: isinstance(c, InvalidationPolicy), self.invalidationPolicies))
 
@@ -318,26 +318,27 @@ class ApplicationError(Identifiable):
 
 class ClientServerOperation(AtpStructureElement):
     """
-        An operation declared within the scope of a client/server interface.
-        Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
-        Base: ARObject, AtpClassifier , AtpBlueprintable, AtpStructureElement, Identifiable, MultilanguageReferrable, Referrable
+    An operation declared within the scope of a client/server interface.
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
+    Base: ARObject, AtpClassifier , AtpBlueprintable, AtpStructureElement, Identifiable, MultilanguageReferrable, Referrable
 
-        Attributes:
-        -----------
-        _argument: ArgumentDataPrototype (optional)
-            An argument of this ClientServerOperation
+    Attributes:
+    -----------
+    _argument: ArgumentDataPrototype (optional)
+        An argument of this ClientServerOperation
 
-        _possibleError: RefType -> ApplicationError (optional)
-            Possible errors that may by raised by the referring operation
+    _possibleError: RefType -> ApplicationError (optional)
+        Possible errors that may by raised by the referring operation
 
-        Methods:
-        --------
-        addArgumentDataPrototype    add the argument
-        getArgumentDataPrototypes   get the arguments
-        addPossibleErrorRef         add the possible error
-        getPossbileErrorRefs        get the possible errors
+    Methods:
+    --------
+    addArgumentDataPrototype    add the argument
+    getArgumentDataPrototypes   get the arguments
+    addPossibleErrorRef         add the possible error
+    getPossbileErrorRefs        get the possible errors
 
     """
+
     # ClientServerOperation method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getArguments                 [x] impl  [ ] docstring  [ ] test
@@ -372,19 +373,20 @@ class ClientServerOperation(AtpStructureElement):
 
 class ClientServerInterface(PortInterface):
     """
-        A client/server interface declares a number of operations that can be invoked on a server by a client.
-        Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
-        Base: ARElement, ARObject, AtpBlueprint, AtpBlueprintable, AtpClassifier , AtpType, CollectableElement, Identifiable, MultilanguageReferrable,
-              PackageableElement, PortInterface, Referrable
+    A client/server interface declares a number of operations that can be invoked on a server by a client.
+    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
+    Base: ARElement, ARObject, AtpBlueprint, AtpBlueprintable, AtpClassifier , AtpType, CollectableElement, Identifiable, MultilanguageReferrable,
+          PackageableElement, PortInterface, Referrable
 
-        Methods:
-        --------
-        createOperation             create ClientServerOperation(s) of this ClientServerInterface.
-        createApplicationError      create Application errors that are defined as part of this interface
-        getOperations               get all ClientServerOperation(s) of this ClientServerInterface
-        getPossibleErrors           get all Application error(s) of this ClientServerInterface
+    Methods:
+    --------
+    createOperation             create ClientServerOperation(s) of this ClientServerInterface.
+    createApplicationError      create Application errors that are defined as part of this interface
+    getOperations               get all ClientServerOperation(s) of this ClientServerInterface
+    getPossibleErrors           get all Application error(s) of this ClientServerInterface
 
     """
+
     # ClientServerInterface method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] createOperation              [x] impl  [ ] docstring  [ ] test
@@ -396,13 +398,13 @@ class ClientServerInterface(PortInterface):
         super().__init__(parent, short_name)
 
     def createOperation(self, short_name: str) -> ClientServerOperation:
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             operation = ClientServerOperation(self, short_name)
             self.addElement(operation)
         return self.getElement(short_name, ClientServerOperation)
 
     def createApplicationError(self, short_name: str) -> ApplicationError:
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             error = ApplicationError(self, short_name)
             self.addElement(error)
         return self.getElement(short_name, ApplicationError)
@@ -440,7 +442,7 @@ class ModeSwitchInterface(PortInterface):
             prototype = ModeDeclarationGroupPrototype(self, short_name)
             self.addElement(prototype)
         return self.getElement(short_name, ModeDeclarationGroupPrototype)
-    
+
     def getModeGroups(self) -> List[ModeDeclarationGroupPrototype]:
         return list(sorted(filter(lambda c: isinstance(c, ModeDeclarationGroupPrototype), self.elements), key=lambda o: o.short_name))
 
@@ -498,8 +500,8 @@ class ClientServerOperationMapping(ARObject):
 
     def __init__(self):
         super().__init__()
-        
-        self.argumentMappings: List['DataPrototypeMapping'] = []
+
+        self.argumentMappings: List["DataPrototypeMapping"] = []
         self.firstOperationRef: RefType = None
         self.firstToSecondDataTransformationRef: RefType = None
         self.secondOperationRef: RefType = None
@@ -531,7 +533,7 @@ class ClientServerOperationMapping(ARObject):
     def setSecondOperationRef(self, value):
         self.secondOperationRef = value
         return self
-    
+
 
 class DataPrototypeMapping(ARObject):
     # DataPrototypeMapping method parity checklist:
@@ -557,7 +559,7 @@ class DataPrototypeMapping(ARObject):
         self.secondDataPrototypeRef: RefType = None
         self.secondToFirstDataTransformationRef: RefType = None
         self.subElementMappings = []
-        self.textTableMappings: List['TextTableMapping'] = []
+        self.textTableMappings: List["TextTableMapping"] = []
 
     def getFirstDataPrototypeRef(self):
         return self.firstDataPrototypeRef
@@ -613,8 +615,8 @@ class ClientServerInterfaceMapping(PortInterfaceMapping):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.errorMappings: List['ClientServerApplicationErrorMapping'] = []
-        self.operationMappings: List['ClientServerOperationMapping'] = []
+        self.errorMappings: List["ClientServerApplicationErrorMapping"] = []
+        self.operationMappings: List["ClientServerOperationMapping"] = []
 
     def getErrorMappings(self):
         return self.errorMappings
@@ -642,7 +644,7 @@ class VariableAndParameterInterfaceMapping(PortInterfaceMapping):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.dataMappings: List['DataPrototypeMapping'] = []
+        self.dataMappings: List["DataPrototypeMapping"] = []
 
     def getDataMappings(self):
         return self.dataMappings
@@ -660,8 +662,8 @@ class ModeInterfaceMapping(PortInterfaceMapping):
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-        
-        self.modeMapping: 'ModeDeclarationGroupPrototypeMapping' = None
+
+        self.modeMapping: "ModeDeclarationGroupPrototypeMapping" = None
 
     def getModeMapping(self):
         return self.modeMapping
@@ -709,7 +711,7 @@ class ModeDeclarationMapping(AtpStructureElement):
     def getFirstModeRefs(self) -> List[RefType]:
         return self.firstModeRefs
 
-    def addFirstModeRef(self, value: 'RefType'):
+    def addFirstModeRef(self, value: "RefType"):
         if value is not None:
             self.firstModeRefs.append(value)
         return self
@@ -738,7 +740,7 @@ class ModeDeclarationMappingSet(AtpType):
         return self.modeDeclarationMappings
 
     def createModeDeclarationMapping(self, short_name: str) -> ModeDeclarationMapping:
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             mapping = ModeDeclarationMapping(self, short_name)
             self.addElement(mapping)
             self.modeDeclarationMappings.append(mapping)
@@ -757,34 +759,34 @@ class PortInterfaceMappingSet(AtpBlueprintable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.portInterfaceMappings = []                 # type: List[PortInterfaceMapping]
+        self.portInterfaceMappings = []  # type: List[PortInterfaceMapping]
 
     def getPortInterfaceMappings(self):
         return self.portInterfaceMappings
 
     def createVariableAndParameterInterfaceMapping(self, short_name: str):
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             mapping = VariableAndParameterInterfaceMapping(self, short_name)
             self.addElement(mapping)
             self.portInterfaceMappings.append(mapping)
         return self.getElement(short_name)
-    
+
     def createClientServerInterfaceMapping(self, short_name: str):
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             mapping = ClientServerInterfaceMapping(self, short_name)
             self.addElement(mapping)
             self.portInterfaceMappings.append(mapping)
         return self.getElement(short_name)
-    
+
     def createModeInterfaceMapping(self, short_name: str):
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             mapping = ModeInterfaceMapping(self, short_name)
             self.addElement(mapping)
             self.portInterfaceMappings.append(mapping)
         return self.getElement(short_name)
-    
+
     def createTriggerInterfaceMapping(self, short_name: str):
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             mapping = TriggerInterfaceMapping(self, short_name)
             self.addElement(mapping)
             self.portInterfaceMappings.append(mapping)

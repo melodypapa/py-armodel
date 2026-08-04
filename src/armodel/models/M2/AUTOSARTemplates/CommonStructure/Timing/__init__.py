@@ -6,11 +6,4 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import EOCExecutableEntityRefAbstract, EOCExecutableEntityRef, ExecutionOrderConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import TimingExtension, SwcTiming
 
-__all__ = [
-    'TimingConstraint',
-    'EOCExecutableEntityRefAbstract', 
-    'EOCExecutableEntityRef', 
-    'ExecutionOrderConstraint',
-    'TimingExtension', 
-    'SwcTiming'
-]
+__all__ = ["TimingConstraint", "EOCExecutableEntityRefAbstract", "EOCExecutableEntityRef", "ExecutionOrderConstraint", "TimingExtension", "SwcTiming"]

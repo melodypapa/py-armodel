@@ -9,11 +9,11 @@ from armodel.transformer.abstract import AbstractTransformer
 class TestAbstractTransformer:
     """
     Test class for AbstractTransformer functionality.
-    This class contains test methods for validating the behavior of 
-    the AbstractTransformer base class, including its initialization 
+    This class contains test methods for validating the behavior of
+    the AbstractTransformer base class, including its initialization
     and method implementations.
     """
-    
+
     def test_initialization(self):
         """
         Test AbstractTransformer class initialization.

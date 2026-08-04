@@ -18,6 +18,7 @@ class FlatInstanceDescriptor(Identifiable):
     Represents a flat instance descriptor in AUTOSAR models.
     This class describes a single instance in a flattened instance hierarchy, typically used for code generation.
     """
+
     # FlatInstanceDescriptor method parity checklist:
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] getEcuExtractReferenceIRef   [x] impl  [x] docstring  [x] test
@@ -31,32 +32,31 @@ class FlatInstanceDescriptor(Identifiable):
     # [x] getUpstreamReferenceIRef     [x] impl  [x] docstring  [x] test
     # [x] setUpstreamReferenceIRef     [x] impl  [x] docstring  [x] test
 
-    
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the FlatInstanceDescriptor with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this instance descriptor
             short_name: The unique short name of this instance descriptor
         """
         super().__init__(parent, short_name)
-        
+
         # Instance reference to ECU extract reference
-        self.ecuExtractReferenceIRef: AnyInstanceRef = None                     
+        self.ecuExtractReferenceIRef: AnyInstanceRef = None
         # Role identifier for this instance descriptor
-        self.role: Identifier = None                                        
+        self.role: Identifier = None
         # RTE plugin properties for this instance (forward reference)
-        self.rtePluginProps = None                              
+        self.rtePluginProps = None
         # Software data definition properties for this instance
-        self.swDataDefProps: SwDataDefProps = None                              
+        self.swDataDefProps: SwDataDefProps = None
         # Upstream instance reference for this instance descriptor
-        self.upstreamReferenceIRef: AnyInstanceRef = None                       
+        self.upstreamReferenceIRef: AnyInstanceRef = None
 
     def getEcuExtractReferenceIRef(self):
         """
         Gets the instance reference to ECU extract reference.
-        
+
         Returns:
             AnyInstanceRef: The ECU extract reference instance reference
         """
@@ -65,10 +65,10 @@ class FlatInstanceDescriptor(Identifiable):
     def setEcuExtractReferenceIRef(self, value):
         """
         Sets the instance reference to ECU extract reference.
-        
+
         Args:
             value: The ECU extract reference instance reference to set
-            
+
         Returns:
             self for method chaining
         """
@@ -78,7 +78,7 @@ class FlatInstanceDescriptor(Identifiable):
     def getRole(self):
         """
         Gets the role identifier for this instance descriptor.
-        
+
         Returns:
             Identifier: The role identifier
         """
@@ -87,10 +87,10 @@ class FlatInstanceDescriptor(Identifiable):
     def setRole(self, value):
         """
         Sets the role identifier for this instance descriptor.
-        
+
         Args:
             value: The role identifier to set
-            
+
         Returns:
             self for method chaining
         """
@@ -100,7 +100,7 @@ class FlatInstanceDescriptor(Identifiable):
     def getRtePluginProps(self):
         """
         Gets the RTE plugin properties for this instance.
-        
+
         Returns:
             RtePluginProps: The RTE plugin properties
         """
@@ -109,10 +109,10 @@ class FlatInstanceDescriptor(Identifiable):
     def setRtePluginProps(self, value):
         """
         Sets the RTE plugin properties for this instance.
-        
+
         Args:
             value: The RTE plugin properties to set
-            
+
         Returns:
             self for method chaining
         """
@@ -122,7 +122,7 @@ class FlatInstanceDescriptor(Identifiable):
     def getSwDataDefProps(self):
         """
         Gets the software data definition properties for this instance.
-        
+
         Returns:
             SwDataDefProps: The software data definition properties
         """
@@ -131,10 +131,10 @@ class FlatInstanceDescriptor(Identifiable):
     def setSwDataDefProps(self, value):
         """
         Sets the software data definition properties for this instance.
-        
+
         Args:
             value: The software data definition properties to set
-            
+
         Returns:
             self for method chaining
         """
@@ -144,7 +144,7 @@ class FlatInstanceDescriptor(Identifiable):
     def getUpstreamReferenceIRef(self):
         """
         Gets the upstream instance reference for this instance descriptor.
-        
+
         Returns:
             AnyInstanceRef: The upstream reference instance reference
         """
@@ -153,10 +153,10 @@ class FlatInstanceDescriptor(Identifiable):
     def setUpstreamReferenceIRef(self, value):
         """
         Sets the upstream instance reference for this instance descriptor.
-        
+
         Args:
             value: The upstream reference instance reference to set
-            
+
         Returns:
             self for method chaining
         """
@@ -169,16 +169,16 @@ class FlatMap(AtpBlueprintable):
     Represents a flat map in AUTOSAR models.
     This class contains a collection of flat instance descriptors that define a flattened view of instance hierarchies.
     """
+
     # FlatMap method parity checklist:
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] getInstances                 [x] impl  [x] docstring  [x] test
     # [x] createFlatInstanceDescriptor [x] impl  [x] docstring  [x] test
 
-    
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the FlatMap with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this flat map
             short_name: The unique short name of this flat map
@@ -186,12 +186,12 @@ class FlatMap(AtpBlueprintable):
         super().__init__(parent, short_name)
 
         # List of flat instance descriptors in this flat map
-        self.instances: List['FlatInstanceDescriptor'] = []
+        self.instances: List["FlatInstanceDescriptor"] = []
 
     def getInstances(self):
         """
         Gets all flat instance descriptors from the elements list, sorted by short name.
-        
+
         Returns:
             List of FlatInstanceDescriptor instances sorted by short name
         """
@@ -200,14 +200,14 @@ class FlatMap(AtpBlueprintable):
     def createFlatInstanceDescriptor(self, short_name: str):
         """
         Creates and adds a FlatInstanceDescriptor to this flat map.
-        
+
         Args:
             short_name: The short name for the new instance descriptor
-            
+
         Returns:
             The created FlatInstanceDescriptor instance
         """
-        if (short_name not in self.elements):
+        if short_name not in self.elements:
             element = FlatInstanceDescriptor(self, short_name)
             self.addElement(element)
             self.instances.append(element)
@@ -219,13 +219,13 @@ class AliasNameAssignment(ARObject):
     Represents an alias name assignment in AUTOSAR.
     This class defines how aliases are assigned to elements.
     """
+
     # AliasNameAssignment method parity checklist:
     # [ ] __init__                     [x] impl  [x] docstring  [ ] test
     # [ ] getAliasName                 [x] impl  [ ] docstring  [ ] test
     # [ ] setAliasName                 [x] impl  [ ] docstring  [ ] test
     # [ ] getElementRef                [x] impl  [ ] docstring  [ ] test
     # [ ] setElementRef                [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         """
@@ -254,11 +254,11 @@ class AliasNameSet(ARObject):
     """
     Represents a set of alias name assignments.
     """
+
     # AliasNameSet method parity checklist:
     # [ ] __init__                     [x] impl  [x] docstring  [ ] test
     # [ ] addAlias                     [x] impl  [ ] docstring  [ ] test
     # [ ] getAliases                   [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         """
@@ -279,13 +279,13 @@ class RtePluginProps(ARObject):
     Represents RTE plugin properties in AUTOSAR.
     This class defines properties for RTE plugins.
     """
+
     # RtePluginProps method parity checklist:
     # [ ] __init__                     [x] impl  [x] docstring  [ ] test
     # [ ] getPluginName                [x] impl  [ ] docstring  [ ] test
     # [ ] setPluginName                [x] impl  [ ] docstring  [ ] test
     # [ ] getPluginVersion             [x] impl  [ ] docstring  [ ] test
     # [ ] setPluginVersion             [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         """

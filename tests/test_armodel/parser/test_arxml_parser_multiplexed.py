@@ -12,6 +12,7 @@ Shared fixtures (``parser``, ``warning_parser``, ``reset_autosar``) are provided
 by ``conftest.py``; helper functions (``_snip``, ``_autosar_root``) live in
 ``_helpers.py``.
 """
+
 from unittest.mock import MagicMock
 import logging
 
@@ -23,6 +24,7 @@ class TestMultiplexedPartHandlers:
 
     def test_readMultiplexedPartSegmentPositions_with_segment(self, parser):
         from armodel.models import DynamicPart
+
         part = DynamicPart()
         element = _snip(
             "<SEGMENT-POSITIONS>"
@@ -42,6 +44,7 @@ class TestMultiplexedPartHandlers:
 
     def test_readMultiplexedPartSegmentPositions_empty(self, parser):
         from armodel.models import DynamicPart
+
         part = DynamicPart()
         element = _snip("")
         parser.readMultiplexedPartSegmentPositions(element, part)
@@ -49,37 +52,30 @@ class TestMultiplexedPartHandlers:
 
     def test_readMultiplexedPartSegmentPositions_unknown_warning(self, warning_parser):
         from armodel.models import DynamicPart
+
         part = DynamicPart()
         element = _snip(
-            "<SEGMENT-POSITIONS>"
-            "<UNKNOWN-SEGMENT>"
-            "<SHORT-NAME>Unknown</SHORT-NAME>"
-            "</UNKNOWN-SEGMENT>"
-            "</SEGMENT-POSITIONS>",
+            "<SEGMENT-POSITIONS>" "<UNKNOWN-SEGMENT>" "<SHORT-NAME>Unknown</SHORT-NAME>" "</UNKNOWN-SEGMENT>" "</SEGMENT-POSITIONS>",
         )
         warning_parser.readMultiplexedPartSegmentPositions(element, part)
         assert len(part.getSegmentPositions()) == 0
 
     def test_readMultiplexedPart_delegates(self, parser):
         from armodel.models import DynamicPart
+
         part = DynamicPart()
         element = _snip(
-            "<SEGMENT-POSITIONS>"
-            "<SEGMENT-POSITION>"
-            "<SEGMENT-LENGTH>4</SEGMENT-LENGTH>"
-            "</SEGMENT-POSITION>"
-            "</SEGMENT-POSITIONS>",
+            "<SEGMENT-POSITIONS>" "<SEGMENT-POSITION>" "<SEGMENT-LENGTH>4</SEGMENT-LENGTH>" "</SEGMENT-POSITION>" "</SEGMENT-POSITIONS>",
         )
         parser.readMultiplexedPart(element, part)
         assert len(part.getSegmentPositions()) == 1
 
     def test_readDynamicPartAlternative_sets_fields(self, parser):
         from armodel.models import DynamicPartAlternative
+
         alternative = DynamicPartAlternative()
         element = _snip(
-            '<I-PDU-REF DEST="I-PDU">/pdus/DynAlt</I-PDU-REF>'
-            '<INITIAL-DYNAMIC-PART>true</INITIAL-DYNAMIC-PART>'
-            '<SELECTOR-FIELD-CODE>1</SELECTOR-FIELD-CODE>',
+            '<I-PDU-REF DEST="I-PDU">/pdus/DynAlt</I-PDU-REF>' "<INITIAL-DYNAMIC-PART>true</INITIAL-DYNAMIC-PART>" "<SELECTOR-FIELD-CODE>1</SELECTOR-FIELD-CODE>",
         )
         parser.readDynamicPartAlternative(element, alternative)
         assert alternative.getIPduRef() is not None
@@ -91,6 +87,7 @@ class TestMultiplexedPartHandlers:
 
     def test_readDynamicPartAlternative_empty(self, parser):
         from armodel.models import DynamicPartAlternative
+
         alternative = DynamicPartAlternative()
         element = _snip("")
         parser.readDynamicPartAlternative(element, alternative)
@@ -100,12 +97,13 @@ class TestMultiplexedPartHandlers:
 
     def test_readDynamicPartDynamicPartAlternatives_with_alternative(self, parser):
         from armodel.models import DynamicPart
+
         part = DynamicPart()
         element = _snip(
             "<DYNAMIC-PART-ALTERNATIVES>"
             "<DYNAMIC-PART-ALTERNATIVE>"
             '<I-PDU-REF DEST="I-PDU">/pdus/A1</I-PDU-REF>'
-            '<SELECTOR-FIELD-CODE>2</SELECTOR-FIELD-CODE>'
+            "<SELECTOR-FIELD-CODE>2</SELECTOR-FIELD-CODE>"
             "</DYNAMIC-PART-ALTERNATIVE>"
             "</DYNAMIC-PART-ALTERNATIVES>",
         )
@@ -116,19 +114,17 @@ class TestMultiplexedPartHandlers:
 
     def test_readDynamicPartDynamicPartAlternatives_unknown_warning(self, warning_parser):
         from armodel.models import DynamicPart
+
         part = DynamicPart()
         element = _snip(
-            "<DYNAMIC-PART-ALTERNATIVES>"
-            "<UNKNOWN-ALT>"
-            "<SHORT-NAME>Unknown</SHORT-NAME>"
-            "</UNKNOWN-ALT>"
-            "</DYNAMIC-PART-ALTERNATIVES>",
+            "<DYNAMIC-PART-ALTERNATIVES>" "<UNKNOWN-ALT>" "<SHORT-NAME>Unknown</SHORT-NAME>" "</UNKNOWN-ALT>" "</DYNAMIC-PART-ALTERNATIVES>",
         )
         warning_parser.readDynamicPartDynamicPartAlternatives(element, part)
         assert len(part.getDynamicPartAlternatives()) == 0
 
     def test_readDynamicPart_delegates(self, parser):
         from armodel.models import DynamicPart
+
         part = DynamicPart()
         element = _snip(
             "<SEGMENT-POSITIONS>"
@@ -138,7 +134,7 @@ class TestMultiplexedPartHandlers:
             "</SEGMENT-POSITIONS>"
             "<DYNAMIC-PART-ALTERNATIVES>"
             "<DYNAMIC-PART-ALTERNATIVE>"
-            '<SELECTOR-FIELD-CODE>1</SELECTOR-FIELD-CODE>'
+            "<SELECTOR-FIELD-CODE>1</SELECTOR-FIELD-CODE>"
             "</DYNAMIC-PART-ALTERNATIVE>"
             "</DYNAMIC-PART-ALTERNATIVES>",
         )
@@ -148,14 +144,10 @@ class TestMultiplexedPartHandlers:
 
     def test_readStaticPart_sets_fields(self, parser):
         from armodel.models import StaticPart
+
         part = StaticPart()
         element = _snip(
-            "<SEGMENT-POSITIONS>"
-            "<SEGMENT-POSITION>"
-            "<SEGMENT-LENGTH>8</SEGMENT-LENGTH>"
-            "</SEGMENT-POSITION>"
-            "</SEGMENT-POSITIONS>"
-            '<I-PDU-REF DEST="I-PDU">/pdus/Static</I-PDU-REF>',
+            "<SEGMENT-POSITIONS>" "<SEGMENT-POSITION>" "<SEGMENT-LENGTH>8</SEGMENT-LENGTH>" "</SEGMENT-POSITION>" "</SEGMENT-POSITIONS>" '<I-PDU-REF DEST="I-PDU">/pdus/Static</I-PDU-REF>',
         )
         parser.readStaticPart(element, part)
         assert len(part.getSegmentPositions()) == 1
@@ -168,13 +160,14 @@ class TestMultiplexedIPduHandlers:
 
     def test_readMultiplexedIPduDynamicParts_with_part(self, parser):
         from armodel.models import MultiplexedIPdu
+
         ipdu = MultiplexedIPdu(parent=_autosar_root(), short_name="muxIPdu")
         element = _snip(
             "<DYNAMIC-PARTS>"
             "<DYNAMIC-PART>"
             "<DYNAMIC-PART-ALTERNATIVES>"
             "<DYNAMIC-PART-ALTERNATIVE>"
-            '<SELECTOR-FIELD-CODE>1</SELECTOR-FIELD-CODE>'
+            "<SELECTOR-FIELD-CODE>1</SELECTOR-FIELD-CODE>"
             "</DYNAMIC-PART-ALTERNATIVE>"
             "</DYNAMIC-PART-ALTERNATIVES>"
             "</DYNAMIC-PART>"
@@ -186,26 +179,20 @@ class TestMultiplexedIPduHandlers:
 
     def test_readMultiplexedIPduDynamicParts_unknown_warning(self, warning_parser):
         from armodel.models import MultiplexedIPdu
+
         ipdu = MultiplexedIPdu(parent=_autosar_root(), short_name="muxIPdu")
         element = _snip(
-            "<DYNAMIC-PARTS>"
-            "<UNKNOWN-PART>"
-            "<SHORT-NAME>Unknown</SHORT-NAME>"
-            "</UNKNOWN-PART>"
-            "</DYNAMIC-PARTS>",
+            "<DYNAMIC-PARTS>" "<UNKNOWN-PART>" "<SHORT-NAME>Unknown</SHORT-NAME>" "</UNKNOWN-PART>" "</DYNAMIC-PARTS>",
         )
         warning_parser.readMultiplexedIPduDynamicParts(element, ipdu)
         assert ipdu.getDynamicPart() is None
 
     def test_readMultiplexedIPduStaticParts_with_part(self, parser):
         from armodel.models import MultiplexedIPdu
+
         ipdu = MultiplexedIPdu(parent=_autosar_root(), short_name="muxIPdu")
         element = _snip(
-            "<STATIC-PARTS>"
-            "<STATIC-PART>"
-            '<I-PDU-REF DEST="I-PDU">/pdus/Static</I-PDU-REF>'
-            "</STATIC-PART>"
-            "</STATIC-PARTS>",
+            "<STATIC-PARTS>" "<STATIC-PART>" '<I-PDU-REF DEST="I-PDU">/pdus/Static</I-PDU-REF>' "</STATIC-PART>" "</STATIC-PARTS>",
         )
         parser.readMultiplexedIPduStaticParts(element, ipdu)
         assert ipdu.getStaticPart() is not None
@@ -213,19 +200,17 @@ class TestMultiplexedIPduHandlers:
 
     def test_readMultiplexedIPduStaticParts_unknown_warning(self, warning_parser):
         from armodel.models import MultiplexedIPdu
+
         ipdu = MultiplexedIPdu(parent=_autosar_root(), short_name="muxIPdu")
         element = _snip(
-            "<STATIC-PARTS>"
-            "<UNKNOWN-PART>"
-            "<SHORT-NAME>Unknown</SHORT-NAME>"
-            "</UNKNOWN-PART>"
-            "</STATIC-PARTS>",
+            "<STATIC-PARTS>" "<UNKNOWN-PART>" "<SHORT-NAME>Unknown</SHORT-NAME>" "</UNKNOWN-PART>" "</STATIC-PARTS>",
         )
         warning_parser.readMultiplexedIPduStaticParts(element, ipdu)
         assert ipdu.getStaticPart() is None
 
     def test_readMultiplexedIPdu_full(self, parser):
         from armodel.models import MultiplexedIPdu
+
         ipdu = MultiplexedIPdu(parent=_autosar_root(), short_name="muxIPdu")
         element = _snip(
             "<SHORT-NAME>muxIPdu</SHORT-NAME>"
@@ -233,7 +218,7 @@ class TestMultiplexedIPduHandlers:
             "<DYNAMIC-PART>"
             "<DYNAMIC-PART-ALTERNATIVES>"
             "<DYNAMIC-PART-ALTERNATIVE>"
-            '<SELECTOR-FIELD-CODE>1</SELECTOR-FIELD-CODE>'
+            "<SELECTOR-FIELD-CODE>1</SELECTOR-FIELD-CODE>"
             "</DYNAMIC-PART-ALTERNATIVE>"
             "</DYNAMIC-PART-ALTERNATIVES>"
             "</DYNAMIC-PART>"
@@ -266,10 +251,10 @@ class TestUserDefinedAndGeneralPurposePduHandlers:
 
     def test_readUserDefinedIPdu_sets_cddType(self, parser):
         from armodel.models import UserDefinedIPdu
+
         ipdu = UserDefinedIPdu(parent=_autosar_root(), short_name="udIPdu")
         element = _snip(
-            "<SHORT-NAME>udIPdu</SHORT-NAME>"
-            "<CDD-TYPE>MyCdd</CDD-TYPE>",
+            "<SHORT-NAME>udIPdu</SHORT-NAME>" "<CDD-TYPE>MyCdd</CDD-TYPE>",
             root_tag="USER-DEFINED-I-PDU",
         )
         parser.readUserDefinedIPdu(element, ipdu)
@@ -279,6 +264,7 @@ class TestUserDefinedAndGeneralPurposePduHandlers:
 
     def test_readUserDefinedIPdu_empty(self, parser):
         from armodel.models import UserDefinedIPdu
+
         ipdu = UserDefinedIPdu(parent=_autosar_root(), short_name="udIPdu")
         element = _snip(
             "<SHORT-NAME>udIPdu</SHORT-NAME>",
@@ -289,10 +275,10 @@ class TestUserDefinedAndGeneralPurposePduHandlers:
 
     def test_readUserDefinedPdu_sets_cddType(self, parser):
         from armodel.models import UserDefinedPdu
+
         pdu = UserDefinedPdu(parent=_autosar_root(), short_name="udPdu")
         element = _snip(
-            "<SHORT-NAME>udPdu</SHORT-NAME>"
-            "<CDD-TYPE>MyCdd</CDD-TYPE>",
+            "<SHORT-NAME>udPdu</SHORT-NAME>" "<CDD-TYPE>MyCdd</CDD-TYPE>",
             root_tag="USER-DEFINED-PDU",
         )
         parser.readUserDefinedPdu(element, pdu)
@@ -302,6 +288,7 @@ class TestUserDefinedAndGeneralPurposePduHandlers:
 
     def test_readUserDefinedPdu_empty(self, parser):
         from armodel.models import UserDefinedPdu
+
         pdu = UserDefinedPdu(parent=_autosar_root(), short_name="udPdu")
         element = _snip(
             "<SHORT-NAME>udPdu</SHORT-NAME>",
@@ -312,6 +299,7 @@ class TestUserDefinedAndGeneralPurposePduHandlers:
 
     def test_readGeneralPurposePdu_minimal(self, parser):
         from armodel.models import GeneralPurposePdu
+
         pdu = GeneralPurposePdu(parent=_autosar_root(), short_name="gpPdu")
         element = _snip(
             "<SHORT-NAME>gpPdu</SHORT-NAME>",
@@ -322,6 +310,7 @@ class TestUserDefinedAndGeneralPurposePduHandlers:
 
     def test_readGeneralPurposeIPdu_minimal(self, parser):
         from armodel.models import GeneralPurposeIPdu
+
         ipdu = GeneralPurposeIPdu(parent=_autosar_root(), short_name="gpIPdu")
         element = _snip(
             "<SHORT-NAME>gpIPdu</SHORT-NAME>",
@@ -337,9 +326,7 @@ class TestSecureCommunicationHandlers:
     def test_readSecureCommunicationAuthenticationProps_with_mock(self, parser):
         props = MagicMock()
         element = _snip(
-            "<SHORT-NAME>authProps</SHORT-NAME>"
-            "<AUTH-ALGORITHM>AES-128</AUTH-ALGORITHM>"
-            "<AUTH-INFO-TX-LENGTH>16</AUTH-INFO-TX-LENGTH>",
+            "<SHORT-NAME>authProps</SHORT-NAME>" "<AUTH-ALGORITHM>AES-128</AUTH-ALGORITHM>" "<AUTH-INFO-TX-LENGTH>16</AUTH-INFO-TX-LENGTH>",
             root_tag="SECURE-COMMUNICATION-AUTHENTICATION-PROPS",
         )
         parser.readSecureCommunicationAuthenticationProps(element, props)
@@ -372,23 +359,19 @@ class TestSecureCommunicationHandlers:
 
     def test_readSecureCommunicationPropsSetAuthenticationProps_unknown_warning(self, warning_parser):
         from armodel.models import SecureCommunicationPropsSet
+
         props_set = SecureCommunicationPropsSet(parent=_autosar_root(), short_name="propsSet")
         element = _snip(
-            "<AUTHENTICATION-PROPSS>"
-            "<UNKNOWN-AUTH-PROPS>"
-            "<SHORT-NAME>Unknown</SHORT-NAME>"
-            "</UNKNOWN-AUTH-PROPS>"
-            "</AUTHENTICATION-PROPSS>",
+            "<AUTHENTICATION-PROPSS>" "<UNKNOWN-AUTH-PROPS>" "<SHORT-NAME>Unknown</SHORT-NAME>" "</UNKNOWN-AUTH-PROPS>" "</AUTHENTICATION-PROPSS>",
         )
         warning_parser.readSecureCommunicationPropsSetAuthenticationProps(element, props_set)
 
     def test_readSecureCommunicationFreshnessProps_sets_fields(self, parser):
         from armodel.models import SecureCommunicationFreshnessProps
+
         props = SecureCommunicationFreshnessProps(parent=_autosar_root(), short_name="freshProps")
         element = _snip(
-            "<SHORT-NAME>freshProps</SHORT-NAME>"
-            "<FRESHNESS-VALUE-LENGTH>16</FRESHNESS-VALUE-LENGTH>"
-            "<FRESHNESS-VALUE-TX-LENGTH>8</FRESHNESS-VALUE-TX-LENGTH>",
+            "<SHORT-NAME>freshProps</SHORT-NAME>" "<FRESHNESS-VALUE-LENGTH>16</FRESHNESS-VALUE-LENGTH>" "<FRESHNESS-VALUE-TX-LENGTH>8</FRESHNESS-VALUE-TX-LENGTH>",
             root_tag="SECURE-COMMUNICATION-FRESHNESS-PROPS",
         )
         parser.readSecureCommunicationFreshnessProps(element, props)
@@ -400,6 +383,7 @@ class TestSecureCommunicationHandlers:
 
     def test_readSecureCommunicationFreshnessProps_empty(self, parser):
         from armodel.models import SecureCommunicationFreshnessProps
+
         props = SecureCommunicationFreshnessProps(parent=_autosar_root(), short_name="freshProps")
         element = _snip(
             "<SHORT-NAME>freshProps</SHORT-NAME>",
@@ -425,18 +409,16 @@ class TestSecureCommunicationHandlers:
 
     def test_readSecureCommunicationPropsSetFreshnessProps_unknown_warning(self, warning_parser):
         from armodel.models import SecureCommunicationPropsSet
+
         props_set = SecureCommunicationPropsSet(parent=_autosar_root(), short_name="propsSet")
         element = _snip(
-            "<FRESHNESS-PROPSS>"
-            "<UNKNOWN-FRESH-PROPS>"
-            "<SHORT-NAME>Unknown</SHORT-NAME>"
-            "</UNKNOWN-FRESH-PROPS>"
-            "</FRESHNESS-PROPSS>",
+            "<FRESHNESS-PROPSS>" "<UNKNOWN-FRESH-PROPS>" "<SHORT-NAME>Unknown</SHORT-NAME>" "</UNKNOWN-FRESH-PROPS>" "</FRESHNESS-PROPSS>",
         )
         warning_parser.readSecureCommunicationPropsSetFreshnessProps(element, props_set)
 
     def test_readSecureCommunicationPropsSet_minimal(self, parser):
         from armodel.models import SecureCommunicationPropsSet
+
         props_set = SecureCommunicationPropsSet(parent=_autosar_root(), short_name="propsSet")
         element = _snip(
             "<SHORT-NAME>propsSet</SHORT-NAME>",
@@ -451,10 +433,10 @@ class TestSoAdRoutingGroupHandler:
 
     def test_readSoAdRoutingGroup_sets_eventGroupControlType(self, parser):
         from armodel.models import SoAdRoutingGroup
+
         group = SoAdRoutingGroup(parent=_autosar_root(), short_name="routeGroup")
         element = _snip(
-            "<SHORT-NAME>routeGroup</SHORT-NAME>"
-            "<EVENT-GROUP-CONTROL-TYPE>POSITIVE</EVENT-GROUP-CONTROL-TYPE>",
+            "<SHORT-NAME>routeGroup</SHORT-NAME>" "<EVENT-GROUP-CONTROL-TYPE>POSITIVE</EVENT-GROUP-CONTROL-TYPE>",
             root_tag="SO-AD-ROUTING-GROUP",
         )
         parser.readSoAdRoutingGroup(element, group)
@@ -464,6 +446,7 @@ class TestSoAdRoutingGroupHandler:
 
     def test_readSoAdRoutingGroup_empty(self, parser):
         from armodel.models import SoAdRoutingGroup
+
         group = SoAdRoutingGroup(parent=_autosar_root(), short_name="routeGroup")
         element = _snip(
             "<SHORT-NAME>routeGroup</SHORT-NAME>",
@@ -475,12 +458,12 @@ class TestSoAdRoutingGroupHandler:
 
 # === Migrated from test_arxml_parser_remaining_gaps.py ===
 
+
 class TestPduAndSecureCommunication:
     def test_readISignalToIPduMapping_sets_refs(self, parser):
         from armodel.models import ISignalToIPduMapping
-        mapping = ISignalToIPduMapping(
-            parent=MagicMock(), short_name="M"
-        )
+
+        mapping = ISignalToIPduMapping(parent=MagicMock(), short_name="M")
         element = _snip(
             '<I-SIGNAL-REF DEST="I-SIGNAL">/is</I-SIGNAL-REF>'
             "<PACKING-BYTE-ORDER>MOST-SIGNIFICANT-BYTE-LAST</PACKING-BYTE-ORDER>"
@@ -491,33 +474,22 @@ class TestPduAndSecureCommunication:
         assert mapping.getISignalRef() is not None
         assert mapping.getPackingByteOrder() is not None
 
-    def test_readNmPduISignalToIPduMappings_creates_mapping(
-        self, parser
-    ):
+    def test_readNmPduISignalToIPduMappings_creates_mapping(self, parser):
         from armodel.models import NmPdu
+
         pdu = NmPdu(parent=MagicMock(), short_name="Np")
-        element = _snip(
-            "<I-SIGNAL-TO-I-PDU-MAPPINGS>"
-            "<I-SIGNAL-TO-I-PDU-MAPPING>"
-            "<SHORT-NAME>m</SHORT-NAME>"
-            "</I-SIGNAL-TO-I-PDU-MAPPING>"
-            "</I-SIGNAL-TO-I-PDU-MAPPINGS>"
-        )
+        element = _snip("<I-SIGNAL-TO-I-PDU-MAPPINGS>" "<I-SIGNAL-TO-I-PDU-MAPPING>" "<SHORT-NAME>m</SHORT-NAME>" "</I-SIGNAL-TO-I-PDU-MAPPING>" "</I-SIGNAL-TO-I-PDU-MAPPINGS>")
         parser.readNmPduISignalToIPduMappings(element, pdu)
         assert len(pdu.getISignalToIPduMappings()) == 1
 
-    def test_readNmPduISignalToIPduMappings_unsupported_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readNmPduISignalToIPduMappings_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import NmPdu
+
         pdu = NmPdu(parent=MagicMock(), short_name="Np")
-        element = _snip(
-            "<I-SIGNAL-TO-I-PDU-MAPPINGS><BAD/></I-SIGNAL-TO-I-PDU-MAPPINGS>"
-        )
+        element = _snip("<I-SIGNAL-TO-I-PDU-MAPPINGS><BAD/></I-SIGNAL-TO-I-PDU-MAPPINGS>")
         with caplog.at_level(logging.ERROR):
             warning_parser.readNmPduISignalToIPduMappings(element, pdu)
-        assert any("Unsupported ISignalToIPduMapping" in r.getMessage()
-                   for r in caplog.records)
+        assert any("Unsupported ISignalToIPduMapping" in r.getMessage() for r in caplog.records)
 
     def test_getSecureCommunicationProps_sets_props(self, parser):
         element = _snip(
@@ -527,9 +499,7 @@ class TestPduAndSecureCommunication:
             "<AUTH-INFO-TX-LENGTH>8</AUTH-INFO-TX-LENGTH>"
             "</SECURE-COMMUNICATION-PROPS>"
         )
-        result = parser.getSecureCommunicationProps(
-            element, "SECURE-COMMUNICATION-PROPS"
-        )
+        result = parser.getSecureCommunicationProps(element, "SECURE-COMMUNICATION-PROPS")
         assert result is not None
         assert result.getAuthDataFreshnessLength().getValue() == 16
 
@@ -537,22 +507,15 @@ class TestPduAndSecureCommunication:
 # ==================== NmConfig (L3981, L4072) ====================
 
 
-
 # === Migrated from test_arxml_parser_remaining_gaps.py ===
 
+
 class TestBufferProperties:
-    def test_readBufferPropertiesBufferComputation_sets_scale(
-        self, parser
-    ):
+    def test_readBufferPropertiesBufferComputation_sets_scale(self, parser):
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import BufferProperties
+
         props = BufferProperties()
-        element = _snip(
-            "<BUFFER-COMPUTATION>"
-            "<SHORT-LABEL>bc</SHORT-LABEL>"
-            "<LOWER-LIMIT>0</LOWER-LIMIT>"
-            "<UPPER-LIMIT>100</UPPER-LIMIT>"
-            "</BUFFER-COMPUTATION>"
-        )
+        element = _snip("<BUFFER-COMPUTATION>" "<SHORT-LABEL>bc</SHORT-LABEL>" "<LOWER-LIMIT>0</LOWER-LIMIT>" "<UPPER-LIMIT>100</UPPER-LIMIT>" "</BUFFER-COMPUTATION>")
         parser.readBufferPropertiesBufferComputation(element, props)
         assert props.getBufferComputation() is not None
 
@@ -560,22 +523,15 @@ class TestBufferProperties:
 # ==================== ECUC ModuleDef / ContainerDef (L4461, L4480, L4484-4489, L4503, L4560, L4627-4667) ====================
 
 
-
 # === Migrated from test_arxml_parser_remaining_gaps.py ===
+
 
 class TestTargetIPduRef:
     def test_getTargetIPduRef_with_child(self, parser):
-        element = _snip(
-            "<TARGET-I-PDU-REF>"
-            '<TARGET-I-PDU-REF DEST="I-PDU">/ipdu</TARGET-I-PDU-REF>'
-            "</TARGET-I-PDU-REF>"
-        )
-        result = parser.getTargetIPduRef(
-            element, "TARGET-I-PDU-REF"
-        )
+        element = _snip("<TARGET-I-PDU-REF>" '<TARGET-I-PDU-REF DEST="I-PDU">/ipdu</TARGET-I-PDU-REF>' "</TARGET-I-PDU-REF>")
+        result = parser.getTargetIPduRef(element, "TARGET-I-PDU-REF")
         assert result is not None
         assert result.getTargetIPdu().getValue() == "/ipdu"
 
 
 # ==================== EcucParameterValue (L5081, L5103) ====================
-

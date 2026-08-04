@@ -1,11 +1,4 @@
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate import (
-    SwcToEcuMapping,
-    ComManagementMapping,
-    SystemMapping,
-    RootSwCompositionPrototype,
-    J1939SharedAddressCluster,
-    System
-)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate import SwcToEcuMapping, ComManagementMapping, SystemMapping, RootSwCompositionPrototype, J1939SharedAddressCluster, System
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 

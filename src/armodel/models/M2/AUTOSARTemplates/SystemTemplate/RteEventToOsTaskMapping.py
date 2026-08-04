@@ -11,6 +11,7 @@ class AppOsTaskProxyToEcuTaskProxyMapping(Identifiable):
     in the Runtime Environment (RTE), defining how application-level tasks are
     connected to ECU-level tasks for real-time execution coordination.
     """
+
     # AppOsTaskProxyToEcuTaskProxyMapping method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getAppTaskProxyRef           [x] impl  [ ] docstring  [ ] test

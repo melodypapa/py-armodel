@@ -1,11 +1,13 @@
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 
+
 class SwServiceArg(Identifiable):
     """
     Service argument with direction, array size, and data definition
     properties.
     """
+
     # SwServiceArg method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getDirection                 [x] impl  [ ] docstring  [ ] test
@@ -18,9 +20,9 @@ class SwServiceArg(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.direction = None                   # type: ArgumentDirectionEnum
-        self.swArraysize = None                 # type: ValueList
-        self.swDataDefProps = None              # type: SwDataDefProps
+        self.direction = None  # type: ArgumentDirectionEnum
+        self.swArraysize = None  # type: ValueList
+        self.swDataDefProps = None  # type: SwDataDefProps
 
     def getDirection(self):
         return self.direction

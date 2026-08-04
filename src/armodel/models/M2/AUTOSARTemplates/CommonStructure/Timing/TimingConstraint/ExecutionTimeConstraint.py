@@ -20,20 +20,22 @@ class ExecutionTimeTypeEnum(AREnum):
     """
     Enumeration for execution time constraint types.
     """
+
     # ExecutionTimeTypeEnum method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
 
     BEST_CASE = "best-case"
     WORST_CASE = "worst-case"
     AVERAGE_CASE = "average-case"
 
     def __init__(self):
-        super().__init__((
-            ExecutionTimeTypeEnum.BEST_CASE,
-            ExecutionTimeTypeEnum.WORST_CASE,
-            ExecutionTimeTypeEnum.AVERAGE_CASE,
-        ))
+        super().__init__(
+            (
+                ExecutionTimeTypeEnum.BEST_CASE,
+                ExecutionTimeTypeEnum.WORST_CASE,
+                ExecutionTimeTypeEnum.AVERAGE_CASE,
+            )
+        )
 
 
 class ExecutionTimeConstraint(TimingConstraint):
@@ -42,13 +44,13 @@ class ExecutionTimeConstraint(TimingConstraint):
     This constraint defines timing limits for the execution of entities
     such as runnables, operations, or other executable entities.
     """
+
     # ExecutionTimeConstraint method parity checklist:
     # [ ] __init__                     [x] impl  [x] docstring  [ ] test
     # [ ] getExecutionType             [x] impl  [x] docstring  [ ] test
     # [ ] setExecutionType             [x] impl  [x] docstring  [ ] test
     # [ ] getExecutionTime             [x] impl  [x] docstring  [ ] test
     # [ ] setExecutionTime             [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self, parent, short_name: str):
         """

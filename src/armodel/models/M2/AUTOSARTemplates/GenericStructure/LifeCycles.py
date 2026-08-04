@@ -13,10 +13,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 
 class LifeCyclePeriod(ARObject):
-    '''
-        This meta class represents the ability to specify a point of time within a specified period, e.g. the starting
-        or end point, in which a specific life cycle state is valid/applies to.
-    '''
+    """
+    This meta class represents the ability to specify a point of time within a specified period, e.g. the starting
+    or end point, in which a specific life cycle state is valid/applies to.
+    """
+
     # LifeCyclePeriod method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
     # [x] getArReleaseVersion          [x] impl  [x] docstring  [x] test
@@ -26,7 +27,6 @@ class LifeCyclePeriod(ARObject):
     # [x] getProductRelease            [x] impl  [x] docstring  [x] test
     # [x] setProductRelease            [x] impl  [x] docstring  [x] test
 
-    
     def __init__(self):
         super().__init__()
 
@@ -37,7 +37,7 @@ class LifeCyclePeriod(ARObject):
     def getArReleaseVersion(self) -> Optional[RevisionLabelString]:
         """
         Gets the AUTOSAR release version for this life cycle period.
-        
+
         Returns:
             RevisionLabelString representing the AUTOSAR release version, or None if not set
         """
@@ -47,10 +47,10 @@ class LifeCyclePeriod(ARObject):
         """
         Sets the AUTOSAR release version for this life cycle period.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The AUTOSAR release version to set
-            
+
         Returns:
             self for method chaining
         """
@@ -61,7 +61,7 @@ class LifeCyclePeriod(ARObject):
     def getDate(self) -> Optional[datetime]:
         """
         Gets the date for this life cycle period.
-        
+
         Returns:
             datetime object representing the date, or None if not set
         """
@@ -71,10 +71,10 @@ class LifeCyclePeriod(ARObject):
         """
         Sets the date for this life cycle period.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The date to set
-            
+
         Returns:
             self for method chaining
         """
@@ -85,7 +85,7 @@ class LifeCyclePeriod(ARObject):
     def getProductRelease(self) -> Optional[RevisionLabelString]:
         """
         Gets the product release for this life cycle period.
-        
+
         Returns:
             RevisionLabelString representing the product release, or None if not set
         """
@@ -95,10 +95,10 @@ class LifeCyclePeriod(ARObject):
         """
         Sets the product release for this life cycle period.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The product release to set
-            
+
         Returns:
             self for method chaining
         """
@@ -112,6 +112,7 @@ class LifeCycleInfo(ARObject):
     Represents life cycle information in AUTOSAR models.
     This class defines information about the life cycle of AUTOSAR elements.
     """
+
     # LifeCycleInfo method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
     # [x] getLcObjectRef               [x] impl  [x] docstring  [x] test
@@ -127,7 +128,6 @@ class LifeCycleInfo(ARObject):
     # [x] getUseInsteadRefs            [x] impl  [x] docstring  [x] test
     # [x] addUseInsteadRef             [x] impl  [x] docstring  [x] test
 
-    
     def __init__(self):
         super().__init__()
 
@@ -141,7 +141,7 @@ class LifeCycleInfo(ARObject):
     def getLcObjectRef(self) -> Optional[RefType]:
         """
         Gets the life cycle object reference.
-        
+
         Returns:
             RefType representing the life cycle object reference, or None if not set
         """
@@ -151,10 +151,10 @@ class LifeCycleInfo(ARObject):
         """
         Sets the life cycle object reference.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The life cycle object reference to set
-            
+
         Returns:
             self for method chaining
         """
@@ -165,7 +165,7 @@ class LifeCycleInfo(ARObject):
     def getLcStateRef(self) -> Optional[RefType]:
         """
         Gets the life cycle state reference.
-        
+
         Returns:
             RefType representing the life cycle state reference, or None if not set
         """
@@ -175,10 +175,10 @@ class LifeCycleInfo(ARObject):
         """
         Sets the life cycle state reference.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The life cycle state reference to set
-            
+
         Returns:
             self for method chaining
         """
@@ -189,7 +189,7 @@ class LifeCycleInfo(ARObject):
     def getPeriodBegin(self) -> Optional[LifeCyclePeriod]:
         """
         Gets the beginning period of the life cycle.
-        
+
         Returns:
             LifeCyclePeriod representing the beginning period, or None if not set
         """
@@ -199,10 +199,10 @@ class LifeCycleInfo(ARObject):
         """
         Sets the beginning period of the life cycle.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The beginning period to set
-            
+
         Returns:
             self for method chaining
         """
@@ -213,7 +213,7 @@ class LifeCycleInfo(ARObject):
     def getPeriodEnd(self) -> Optional[LifeCyclePeriod]:
         """
         Gets the ending period of the life cycle.
-        
+
         Returns:
             LifeCyclePeriod representing the ending period, or None if not set
         """
@@ -223,10 +223,10 @@ class LifeCycleInfo(ARObject):
         """
         Sets the ending period of the life cycle.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The ending period to set
-            
+
         Returns:
             self for method chaining
         """
@@ -237,7 +237,7 @@ class LifeCycleInfo(ARObject):
     def getRemark(self) -> Optional[DocumentationBlock]:
         """
         Gets the remark documentation for this life cycle information.
-        
+
         Returns:
             DocumentationBlock instance, or None if not set
         """
@@ -247,10 +247,10 @@ class LifeCycleInfo(ARObject):
         """
         Sets the remark documentation for this life cycle information.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The remark documentation to set
-            
+
         Returns:
             self for method chaining
         """
@@ -261,7 +261,7 @@ class LifeCycleInfo(ARObject):
     def getUseInsteadRefs(self) -> List[RefType]:
         """
         Gets the list of "use instead" references.
-        
+
         Returns:
             List of RefType instances
         """
@@ -271,10 +271,10 @@ class LifeCycleInfo(ARObject):
         """
         Adds a "use instead" reference.
         Only adds the value if it is not None.
-        
+
         Args:
             value: The "use instead" reference to add
-            
+
         Returns:
             self for method chaining
         """
@@ -288,6 +288,7 @@ class LifeCycleInfoSet(ARElement):
     Represents a set of life cycle information in AUTOSAR models.
     This class organizes and manages multiple life cycle information entries.
     """
+
     # LifeCycleInfoSet method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
     # [x] getDefaultLcStateRef         [x] impl  [x] docstring  [x] test
@@ -301,7 +302,6 @@ class LifeCycleInfoSet(ARElement):
     # [x] getUsedLifeCycleStateDefinitionGroupRef [x] impl  [x] docstring  [x] test
     # [x] setUsedLifeCycleStateDefinitionGroupRef [x] impl  [x] docstring  [x] test
 
-    
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
 
@@ -314,7 +314,7 @@ class LifeCycleInfoSet(ARElement):
     def getDefaultLcStateRef(self) -> Optional[RefType]:
         """
         Gets the default life cycle state reference.
-        
+
         Returns:
             RefType representing the default life cycle state reference, or None if not set
         """
@@ -324,10 +324,10 @@ class LifeCycleInfoSet(ARElement):
         """
         Sets the default life cycle state reference.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The default life cycle state reference to set
-            
+
         Returns:
             self for method chaining
         """
@@ -338,7 +338,7 @@ class LifeCycleInfoSet(ARElement):
     def getDefaultPeriodBegin(self) -> Optional[LifeCyclePeriod]:
         """
         Gets the default beginning period.
-        
+
         Returns:
             LifeCyclePeriod representing the default beginning period, or None if not set
         """
@@ -348,10 +348,10 @@ class LifeCycleInfoSet(ARElement):
         """
         Sets the default beginning period.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The default beginning period to set
-            
+
         Returns:
             self for method chaining
         """
@@ -362,7 +362,7 @@ class LifeCycleInfoSet(ARElement):
     def getDefaultPeriodEnd(self) -> Optional[LifeCyclePeriod]:
         """
         Gets the default ending period.
-        
+
         Returns:
             LifeCyclePeriod representing the default ending period, or None if not set
         """
@@ -372,10 +372,10 @@ class LifeCycleInfoSet(ARElement):
         """
         Sets the default ending period.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The default ending period to set
-            
+
         Returns:
             self for method chaining
         """
@@ -386,7 +386,7 @@ class LifeCycleInfoSet(ARElement):
     def getLifeCycleInfos(self) -> List[LifeCycleInfo]:
         """
         Gets the list of life cycle information entries.
-        
+
         Returns:
             List of LifeCycleInfo instances
         """
@@ -396,10 +396,10 @@ class LifeCycleInfoSet(ARElement):
         """
         Adds a life cycle information entry.
         Only adds the value if it is not None.
-        
+
         Args:
             value: The life cycle information entry to add
-            
+
         Returns:
             self for method chaining
         """
@@ -410,7 +410,7 @@ class LifeCycleInfoSet(ARElement):
     def getUsedLifeCycleStateDefinitionGroupRef(self) -> Optional[RefType]:
         """
         Gets the reference to used life cycle state definition group.
-        
+
         Returns:
             RefType representing the reference to used life cycle state definition group, or None if not set
         """
@@ -420,10 +420,10 @@ class LifeCycleInfoSet(ARElement):
         """
         Sets the reference to used life cycle state definition group.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The reference to used life cycle state definition group to set
-            
+
         Returns:
             self for method chaining
         """

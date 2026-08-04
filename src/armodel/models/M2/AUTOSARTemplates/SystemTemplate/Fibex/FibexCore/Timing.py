@@ -4,16 +4,17 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 
+
 class ModeDrivenTransmissionModeCondition(ARObject):
     """
     The condition defined by this class evaluates to true if one of the
     referenced modeDeclarations (OR associated) is active.
     """
+
     # ModeDrivenTransmissionModeCondition method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getModeDeclarationRef        [x] impl  [ ] docstring  [ ] test
     # [ ] setModeDeclarationRef        [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -27,19 +28,20 @@ class ModeDrivenTransmissionModeCondition(ARObject):
         self.modeDeclarationRef = value
         return self
 
+
 class TransmissionModeCondition(ARObject):
     """
     Possibility to attach a condition to each signal within an I-PDU.
     If at least one condition evaluates to true, TRANSMISSION MODE True
     shall be used for this I-Pdu.
     """
+
     # TransmissionModeCondition method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getDataFilter                [x] impl  [ ] docstring  [ ] test
     # [ ] setDataFilter                [x] impl  [ ] docstring  [ ] test
     # [ ] getISignalInIPduRef          [x] impl  [ ] docstring  [ ] test
     # [ ] setISignalInIPduRef          [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -67,13 +69,13 @@ class TimeRangeType(ARObject):
     The timeRange can be specified with the value attribute. Optionally a
     tolerance can be defined.
     """
+
     # TimeRangeType method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getTolerance                 [x] impl  [ ] docstring  [ ] test
     # [ ] setTolerance                 [x] impl  [ ] docstring  [ ] test
     # [ ] getValue                     [x] impl  [ ] docstring  [ ] test
     # [ ] setValue                     [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -100,13 +102,13 @@ class CyclicTiming(Describable):
     """
     Specification of a cyclic sending behavior.
     """
+
     # CyclicTiming method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getTimeOffset                [x] impl  [ ] docstring  [ ] test
     # [ ] setTimeOffset                [x] impl  [ ] docstring  [ ] test
     # [ ] getTimePeriod                [x] impl  [ ] docstring  [ ] test
     # [ ] setTimePeriod                [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -134,13 +136,13 @@ class EventControlledTiming(Describable):
     Specification of an event-driven sending behavior. The PDU is sent
     n (numberOfRepeat + 1) times separated by the repetitionPeriod.
     """
+
     # EventControlledTiming method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getNumberOfRepetitions       [x] impl  [ ] docstring  [ ] test
     # [ ] setNumberOfRepetitions       [x] impl  [ ] docstring  [ ] test
     # [ ] getRepetitionPeriod          [x] impl  [ ] docstring  [ ] test
     # [ ] setRepetitionPeriod          [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -169,13 +171,13 @@ class TransmissionModeTiming(ARObject):
     Transmission Mode is false, the timing is defined by
     transmissionModeFalseTiming; if true, by transmissionModeTrueTiming.
     """
+
     # TransmissionModeTiming method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getCyclicTiming              [x] impl  [ ] docstring  [ ] test
     # [ ] setCyclicTiming              [x] impl  [ ] docstring  [ ] test
     # [ ] getEventControlledTiming     [x] impl  [ ] docstring  [ ] test
     # [ ] setEventControlledTiming     [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -197,11 +199,13 @@ class TransmissionModeTiming(ARObject):
         self.eventControlledTiming = value
         return self
 
+
 class TransmissionModeDeclaration(ARObject):
     """
     Defines two different TRANSMISSION MODES (True and False) for each
     I-PDU, selected by signal content evaluation or mode conditions.
     """
+
     # TransmissionModeDeclaration method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getModeDrivenFalseConditions [x] impl  [ ] docstring  [ ] test
@@ -214,7 +218,6 @@ class TransmissionModeDeclaration(ARObject):
     # [ ] setTransmissionModeFalseTiming [x] impl  [ ] docstring  [ ] test
     # [ ] getTransmissionModeTrueTiming [x] impl  [ ] docstring  [ ] test
     # [ ] setTransmissionModeTrueTiming [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()

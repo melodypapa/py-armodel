@@ -9,17 +9,19 @@ class BswExclusiveAreaPolicy(AREnum):
     """
     Enumeration for BSW exclusive area policy.
     """
+
     # BswExclusiveAreaPolicy method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
 
     NONE = "none"
     INTERNAL = "internal"
     EXTERNAL = "external"
 
     def __init__(self):
-        super().__init__((
-            BswExclusiveAreaPolicy.NONE,
-            BswExclusiveAreaPolicy.INTERNAL,
-            BswExclusiveAreaPolicy.EXTERNAL,
-        ))
+        super().__init__(
+            (
+                BswExclusiveAreaPolicy.NONE,
+                BswExclusiveAreaPolicy.INTERNAL,
+                BswExclusiveAreaPolicy.EXTERNAL,
+            )
+        )

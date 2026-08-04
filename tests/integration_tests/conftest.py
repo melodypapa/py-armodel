@@ -1,4 +1,5 @@
 """Pytest fixtures for integration tests."""
+
 from pathlib import Path
 from typing import Dict, Generator, List, Tuple
 
@@ -31,15 +32,10 @@ def load_config() -> Dict:
         return {"additional_directories": [], "exclude_patterns": []}
 
     with open(config_path, "r") as f:
-        return yaml.safe_load(f) or {"additional_directories": [],
-                                      "exclude_patterns": []}
+        return yaml.safe_load(f) or {"additional_directories": [], "exclude_patterns": []}
 
 
-def collect_arxml_files(
-    directory: Path,
-    recursive: bool = False,
-    exclude_patterns: List[str] = None
-) -> List[Path]:
+def collect_arxml_files(directory: Path, recursive: bool = False, exclude_patterns: List[str] = None) -> List[Path]:
     """Collect ARXML files from a directory.
 
     Args:
@@ -133,11 +129,7 @@ def arxml_files() -> List[Tuple[Path, str]]:
         category = dir_config.get("category", "additional")
         recursive = dir_config.get("recursive", False)
 
-        files = collect_arxml_files(
-            dir_path,
-            recursive=recursive,
-            exclude_patterns=config.get("exclude_patterns", [])
-        )
+        files = collect_arxml_files(dir_path, recursive=recursive, exclude_patterns=config.get("exclude_patterns", []))
 
         for file_path in files:
             result.append((file_path, category))

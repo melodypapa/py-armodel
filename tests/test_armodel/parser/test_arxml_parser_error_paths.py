@@ -328,9 +328,7 @@ class TestRefTypeGetters:
         assert parser.getChildElementOptionalRefType(element, "ABSENT") is None
 
     def test_getChildElementOptionalRefType_with_base_and_dest(self, parser):
-        element = _snip(
-            '<R BASE="b" DEST="UNIT">/pkg/u</R>'
-        )
+        element = _snip('<R BASE="b" DEST="UNIT">/pkg/u</R>')
         ref = parser.getChildElementOptionalRefType(element, "R")
         assert ref is not None
         assert ref.getBase() == "b"
@@ -348,12 +346,7 @@ class TestRefTypeGetters:
         assert parser.getChildElementRefTypeList(element, "ITEM") == []
 
     def test_getChildElementRefTypeList_multiple(self, parser):
-        element = _snip(
-            "<ITEMS>"
-            "<R DEST=\"UNIT\">/a</R>"
-            "<R DEST=\"UNIT\">/b</R>"
-            "</ITEMS>"
-        )
+        element = _snip("<ITEMS>" '<R DEST="UNIT">/a</R>' '<R DEST="UNIT">/b</R>' "</ITEMS>")
         result = parser.getChildElementRefTypeList(element, "ITEMS/R")
         assert len(result) == 2
         assert [r.getValue() for r in result] == ["/a", "/b"]
@@ -424,12 +417,7 @@ class TestGetAUTOSARInfo:
         from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSARDoc
 
         document = AUTOSARDoc()
-        element = ET.fromstring(
-            f"<AUTOSAR xmlns='{NS}' "
-            f"xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' "
-            f"xsi:schemaLocation='http://autosar.org/schema/r4.0 AUTOSAR.xsd'>"
-            f"</AUTOSAR>"
-        )
+        element = ET.fromstring(f"<AUTOSAR xmlns='{NS}' " f"xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' " f"xsi:schemaLocation='http://autosar.org/schema/r4.0 AUTOSAR.xsd'>" f"</AUTOSAR>")
         parser.getAUTOSARInfo(element, document)
         assert document.schema_location.startswith("http://autosar.org/schema/r4.0")
 
@@ -536,7 +524,7 @@ class TestAdditionalBranchCoverage:
         assert ref.getBase() is None
 
     def test_getChildElementRefTypeList_single_element(self, parser):
-        element = _snip("<ITEMS><R DEST=\"UNIT\">/a</R></ITEMS>")
+        element = _snip('<ITEMS><R DEST="UNIT">/a</R></ITEMS>')
         result = parser.getChildElementRefTypeList(element, "ITEMS/R")
         assert len(result) == 1
         assert result[0].getValue() == "/a"
@@ -559,26 +547,30 @@ class TestAdditionalBranchCoverage:
         assert "xmlns:AR-PACKAGE" in key
 
     def test_find_nested_path(self, parser):
-        element = _snip("""
+        element = _snip(
+            """
             <CONTAINER>
                 <NESTED>
                     <ITEM>value</ITEM>
                 </NESTED>
             </CONTAINER>
-        """)
+        """
+        )
         item = parser.find(element, "CONTAINER/NESTED/ITEM")
         assert item is not None
         assert item.text == "value"
 
     def test_findall_nested_path(self, parser):
-        element = _snip("""
+        element = _snip(
+            """
             <CONTAINER>
                 <NESTED>
                     <ITEM>1</ITEM>
                     <ITEM>2</ITEM>
                 </NESTED>
             </CONTAINER>
-        """)
+        """
+        )
         items = parser.findall(element, "CONTAINER/NESTED/ITEM")
         assert len(items) == 2
 
@@ -619,8 +611,9 @@ class TestAdditionalBranchCoverage:
 
     def test_readARObjectAttributes_with_both_attrs(self, parser):
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
+
         AUTOSAR.getInstance().new()
-        AUTOSAR.getInstance().setARRelease('R23-11')
+        AUTOSAR.getInstance().setARRelease("R23-11")
         element = ET.fromstring(f"<ROOT xmlns='{NS}' T='timestamp' UUID='unique-id'/>")
         obj = ARLiteral()
         parser.readARObjectAttributes(element, obj)

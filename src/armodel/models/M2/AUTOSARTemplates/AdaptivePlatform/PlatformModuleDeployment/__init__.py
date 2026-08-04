@@ -15,11 +15,11 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
 )
 
 __all__ = [
-    'PlatformModuleEthernetEndpointConfiguration',
-    'CryptoKeySlot',
-    'FirewallRule',
-    'FirewallRuleProps',
-    'StateDependentFirewall',
-    'IdsPlatformInstantiation',
-    'IdsmModuleInstantiation',
+    "PlatformModuleEthernetEndpointConfiguration",
+    "CryptoKeySlot",
+    "FirewallRule",
+    "FirewallRuleProps",
+    "StateDependentFirewall",
+    "IdsPlatformInstantiation",
+    "IdsmModuleInstantiation",
 ]

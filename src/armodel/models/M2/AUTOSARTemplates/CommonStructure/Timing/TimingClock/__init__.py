@@ -2,4 +2,4 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TDLETZoneClock im
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock import TimingClock
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClockSyncAccuracy import TimingClockSyncAccuracy
 
-__all__ = ['TDLETZoneClock', 'TimingClock', 'TimingClockSyncAccuracy']
+__all__ = ["TDLETZoneClock", "TimingClock", "TimingClockSyncAccuracy"]

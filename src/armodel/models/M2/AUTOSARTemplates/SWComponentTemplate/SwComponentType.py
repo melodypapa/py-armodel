@@ -16,6 +16,7 @@ class SwComponentType(AtpType, ABC):
     Abstract base class for all software component types in AUTOSAR.
     Provides port and port group management.
     """
+
     # SwComponentType method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
     # [ ] getPorts                     [x] impl  [x] docstring  [ ] test
@@ -28,7 +29,6 @@ class SwComponentType(AtpType, ABC):
     # [ ] getPortPrototypes            [x] impl  [ ] docstring  [ ] test
     # [ ] getPortGroups                [x] impl  [x] docstring  [ ] test
     # [ ] createPortGroup              [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is SwComponentType:
@@ -59,6 +59,7 @@ class SwComponentType(AtpType, ABC):
         """
         # Import here to avoid circular dependency
         from ....M2.AUTOSARTemplates.SWComponentTemplate.Components import PPortPrototype
+
         prototype = PPortPrototype(self, short_name)
         self.addElement(prototype)
         self.ports.append(prototype)
@@ -76,6 +77,7 @@ class SwComponentType(AtpType, ABC):
         """
         # Import here to avoid circular dependency
         from ....M2.AUTOSARTemplates.SWComponentTemplate.Components import RPortPrototype
+
         prototype = RPortPrototype(self, short_name)
         self.addElement(prototype)
         self.ports.append(prototype)
@@ -93,28 +95,33 @@ class SwComponentType(AtpType, ABC):
         """
         # Import here to avoid circular dependency
         from ....M2.AUTOSARTemplates.SWComponentTemplate.Components import PRPortPrototype
+
         prototype = PRPortPrototype(self, short_name)
         self.addElement(prototype)
         self.ports.append(prototype)
         return prototype
 
-    def getPPortPrototypes(self) -> List['PPortPrototype']:
+    def getPPortPrototypes(self) -> List["PPortPrototype"]:
         from ....M2.AUTOSARTemplates.SWComponentTemplate.Components import PPortPrototype
+
         return list(sorted(filter(lambda c: isinstance(c, PPortPrototype), self.ports), key=lambda o: o.short_name))
 
-    def getRPortPrototypes(self) -> List['RPortPrototype']:
+    def getRPortPrototypes(self) -> List["RPortPrototype"]:
         from ....M2.AUTOSARTemplates.SWComponentTemplate.Components import RPortPrototype
+
         return list(sorted(filter(lambda c: isinstance(c, RPortPrototype), self.ports), key=lambda o: o.short_name))
 
-    def getPRPortPrototypes(self) -> List['PRPortPrototype']:
+    def getPRPortPrototypes(self) -> List["PRPortPrototype"]:
         from ....M2.AUTOSARTemplates.SWComponentTemplate.Components import PRPortPrototype
+
         return list(sorted(filter(lambda c: isinstance(c, PRPortPrototype), self.ports), key=lambda o: o.short_name))
 
-    def getPortPrototypes(self) -> List['PortPrototype']:
+    def getPortPrototypes(self) -> List["PortPrototype"]:
         from ....M2.AUTOSARTemplates.SWComponentTemplate.Components import PortPrototype
+
         return list(sorted(filter(lambda c: isinstance(c, PortPrototype), self.ports), key=lambda o: o.short_name))
 
-    def getPortGroups(self) -> List['PortGroup']:
+    def getPortGroups(self) -> List["PortGroup"]:
         """
         Gets the list of port groups.
 
@@ -135,6 +142,7 @@ class SwComponentType(AtpType, ABC):
         """
         # Import here to avoid circular dependency
         from ....M2.AUTOSARTemplates.SWComponentTemplate.Components import PortGroup
+
         port_group = PortGroup(self, short_name)
         self.addElement(port_group)
         self.portGroups.append(port_group)

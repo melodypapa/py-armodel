@@ -2,11 +2,13 @@ from typing import Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 
+
 class SwRecordLayoutV(ARObject):
     """
     Variable definition within a record layout including base type, axis,
     and value properties.
     """
+
     # SwRecordLayoutV method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getBaseTypeRef               [x] impl  [ ] docstring  [ ] test
@@ -29,14 +31,14 @@ class SwRecordLayoutV(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.baseTypeRef = None                         # type: RefType
-        self.desc = None                                # type: MultiLanguageOverviewParagraph
-        self.shortLabel = None                          # type: ARLiteral
-        self.swGenericAxisParamTypeRef = None           # type: RefType
-        self.swRecordLayoutVAxis = None                 # type: ARNumerical
-        self.swRecordLayoutVFixValue = None             # type: ARNumerical
-        self.swRecordLayoutVIndex = None                # type: ARLiteral
-        self.swRecordLayoutVProp = None                 # type: ARLiteral
+        self.baseTypeRef = None  # type: RefType
+        self.desc = None  # type: MultiLanguageOverviewParagraph
+        self.shortLabel = None  # type: ARLiteral
+        self.swGenericAxisParamTypeRef = None  # type: RefType
+        self.swRecordLayoutVAxis = None  # type: ARNumerical
+        self.swRecordLayoutVFixValue = None  # type: ARNumerical
+        self.swRecordLayoutVIndex = None  # type: ARLiteral
+        self.swRecordLayoutVProp = None  # type: ARLiteral
 
     def getBaseTypeRef(self):
         return self.baseTypeRef
@@ -94,11 +96,13 @@ class SwRecordLayoutV(ARObject):
         self.swRecordLayoutVProp = value
         return self
 
+
 class SwRecordLayoutGroupContent(ARObject):
     """
     Content of a record layout group referencing a sub-layout, sub-group, or
     variable.
     """
+
     # SwRecordLayoutGroupContent method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getSwRecordLayoutRef         [x] impl  [ ] docstring  [ ] test
@@ -111,9 +115,9 @@ class SwRecordLayoutGroupContent(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.swRecordLayoutRef = None                   # type: RefType
-        self.swRecordLayoutGroup = None                 # type: SwRecordLayoutGroup
-        self.swRecordLayoutV = None                     # type: SwRecordLayoutV
+        self.swRecordLayoutRef = None  # type: RefType
+        self.swRecordLayoutGroup = None  # type: SwRecordLayoutGroup
+        self.swRecordLayoutV = None  # type: SwRecordLayoutV
 
     def getSwRecordLayoutRef(self):
         return self.swRecordLayoutRef
@@ -142,6 +146,7 @@ class SwRecordLayoutGroup(ARObject):
     Group within a record layout defining axis, category, and indexing
     properties.
     """
+
     # SwRecordLayoutGroup method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getCategory                  [x] impl  [ ] docstring  [ ] test
@@ -170,17 +175,17 @@ class SwRecordLayoutGroup(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.category = None                            # type: ARLiteral
-        self.desc = None                                # type: MultiLanguageOverviewParagraph
-        self.shortLabel = None                          # type: ARLiteral
-        self.swGenericAxisParamTypeRef = None           # type: RefType
-        self.swRecordLayoutComponent = None             # type: ARLiteral
-        self.swRecordLayoutGroupAxis = None             # type: AxisIndexType
-        self.swRecordLayoutGroupContentType = None      # type: SwRecordLayoutGroupContent
-        self.swRecordLayoutGroupFrom = None             # type: ARLiteral
-        self.swRecordLayoutGroupIndex = None            # type: ARLiteral
-        self.swRecordLayoutGroupStep = None             # type: Integer
-        self.swRecordLayoutGroupTo = None               # type: ARLiteral 
+        self.category = None  # type: ARLiteral
+        self.desc = None  # type: MultiLanguageOverviewParagraph
+        self.shortLabel = None  # type: ARLiteral
+        self.swGenericAxisParamTypeRef = None  # type: RefType
+        self.swRecordLayoutComponent = None  # type: ARLiteral
+        self.swRecordLayoutGroupAxis = None  # type: AxisIndexType
+        self.swRecordLayoutGroupContentType = None  # type: SwRecordLayoutGroupContent
+        self.swRecordLayoutGroupFrom = None  # type: ARLiteral
+        self.swRecordLayoutGroupIndex = None  # type: ARLiteral
+        self.swRecordLayoutGroupStep = None  # type: Integer
+        self.swRecordLayoutGroupTo = None  # type: ARLiteral
 
     def getCategory(self):
         return self.category
@@ -259,11 +264,13 @@ class SwRecordLayoutGroup(ARObject):
         self.swRecordLayoutGroupTo = value
         return self
 
+
 class SwRecordLayout(ARElement):
     """
     Record layout element defining the structure of calibration data in
     memory.
     """
+
     # SwRecordLayout method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getSwRecordLayoutGroup       [x] impl  [ ] docstring  [ ] test
@@ -272,7 +279,7 @@ class SwRecordLayout(ARElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.swRecordLayoutGroup: Optional['SwRecordLayoutGroup'] = None
+        self.swRecordLayoutGroup: Optional["SwRecordLayoutGroup"] = None
 
     def getSwRecordLayoutGroup(self):
         return self.swRecordLayoutGroup

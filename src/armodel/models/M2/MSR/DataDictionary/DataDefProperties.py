@@ -26,6 +26,7 @@ class SwImplPolicyEnum(AREnum):
         This is applicable for all kinds of data elements. For variable data prototypes the 'last is best'
         semantics applies. For parameter there is no specific implementation directive.
     """
+
     # SwImplPolicyEnum method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
@@ -36,19 +37,14 @@ class SwImplPolicyEnum(AREnum):
     STANDARD = "standard"
 
     def __init__(self):
-        super().__init__([
-            SwImplPolicyEnum.CONST,
-            SwImplPolicyEnum.FIXED,
-            SwImplPolicyEnum.MEASUREMENT_POINT,
-            SwImplPolicyEnum.QUEUED,
-            SwImplPolicyEnum.STANDARD
-        ])
+        super().__init__([SwImplPolicyEnum.CONST, SwImplPolicyEnum.FIXED, SwImplPolicyEnum.MEASUREMENT_POINT, SwImplPolicyEnum.QUEUED, SwImplPolicyEnum.STANDARD])
 
 
 class SwDataDefPropsConditional(ARObject):
-    '''
+    """
     Patch for the time-stamp
-    '''
+    """
+
     # SwDataDefPropsConditional method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
@@ -62,6 +58,7 @@ class SwDataDefProps(ARObject):
     including type references, calibration parameters, memory addressing,
     and display properties.
     """
+
     # SwDataDefProps method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getAdditionalNativeTypeQualifier [x] impl  [ ] docstring  [ ] test
@@ -129,37 +126,37 @@ class SwDataDefProps(ARObject):
         super().__init__()
 
         self.additionalNativeTypeQualifier = None
-        self.annotations = []                               # type: List[Annotation]
-        self.baseTypeRef = None                             # type: RefType
-        self.compuMethodRef = None                          # type: RefType
-        self.dataConstrRef = None                           # type: RefType
-        self.displayFormat = None                           # type: ARLiteral
-        self.displayPresentation = None                     # type: ARLiteral
-        self.implementationDataTypeRef = None               # type: RefType
-        self.invalidValue = None                            # type: ValueSpecification
-        self.stepSize = None                                # type: ARFloat
-        self.swAddrMethodRef = None                         # type: RefType
-        self.swAlignment = None                             # type: ARLiteral
-        self.swBitRepresentation = None                     # type: ARLiteral
-        self.swCalibrationAccess = None                     # type: ARLiteral
-        self.swCalprmAxisSet = None                         # type: SwCalprmAxisSet
+        self.annotations = []  # type: List[Annotation]
+        self.baseTypeRef = None  # type: RefType
+        self.compuMethodRef = None  # type: RefType
+        self.dataConstrRef = None  # type: RefType
+        self.displayFormat = None  # type: ARLiteral
+        self.displayPresentation = None  # type: ARLiteral
+        self.implementationDataTypeRef = None  # type: RefType
+        self.invalidValue = None  # type: ValueSpecification
+        self.stepSize = None  # type: ARFloat
+        self.swAddrMethodRef = None  # type: RefType
+        self.swAlignment = None  # type: ARLiteral
+        self.swBitRepresentation = None  # type: ARLiteral
+        self.swCalibrationAccess = None  # type: ARLiteral
+        self.swCalprmAxisSet = None  # type: SwCalprmAxisSet
         self.swComparisonVariables = []
         self.swDataDependency = None
         self.swHostVariable = None
-        self.swImplPolicy = None                            # type: ARLiteral
+        self.swImplPolicy = None  # type: ARLiteral
         self.swIntendedResolution = None
         self.swInterpolationMethod = None
         self.swIsVirtual = None
-        self.swPointerTargetProps = None                    # type: SwPointerTargetProps
-        self.swRecordLayoutRef = None                       # type: RefType
+        self.swPointerTargetProps = None  # type: SwPointerTargetProps
+        self.swRecordLayoutRef = None  # type: RefType
         self.swRefreshTiming = None
         self.swTextProps = None
         self.swValueBlockSize = None
         self.swValueBlockSizeMults = []
-        self.unitRef = None                                 # type: RefType
-        self.valueAxisDataTypeRef = None                    # type: RefType
+        self.unitRef = None  # type: RefType
+        self.valueAxisDataTypeRef = None  # type: RefType
 
-        self.conditional = SwDataDefPropsConditional()      # type: SwDataDefPropsConditional
+        self.conditional = SwDataDefPropsConditional()  # type: SwDataDefPropsConditional
 
     def getAdditionalNativeTypeQualifier(self):
         return self.additionalNativeTypeQualifier
@@ -167,10 +164,10 @@ class SwDataDefProps(ARObject):
     def setAdditionalNativeTypeQualifier(self, value):
         self.additionalNativeTypeQualifier = value
         return self
-    
+
     def getAnnotations(self) -> List[Annotation]:
         return self.annotations
-    
+
     def addAnnotation(self, annotation: Annotation):
         self.annotations.append(annotation)
         return self
@@ -377,6 +374,7 @@ class SwPointerTargetProps(ARObject):
     Properties for pointer targets including function pointer signature and
     target category.
     """
+
     # SwPointerTargetProps method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getFunctionPointerSignatureRef [x] impl  [ ] docstring  [ ] test
@@ -389,9 +387,9 @@ class SwPointerTargetProps(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.functionPointerSignatureRef = None             # type: RefType
-        self.swDataDefProps = None                          # type: SwDataDefProps
-        self.targetCategory = None                          # type: ARLiteral
+        self.functionPointerSignatureRef = None  # type: RefType
+        self.swDataDefProps = None  # type: SwDataDefProps
+        self.targetCategory = None  # type: ARLiteral
 
     def getFunctionPointerSignatureRef(self):
         return self.functionPointerSignatureRef
@@ -419,6 +417,7 @@ class ValueList(ARObject):
     """
     List of values with single value and multi-value support.
     """
+
     # ValueList method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getV                         [x] impl  [ ] docstring  [ ] test
@@ -429,8 +428,8 @@ class ValueList(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.v = None                                       # type: ARFloat
-        self._vf = []                                       # type: List[ARLiteral]
+        self.v = None  # type: ARFloat
+        self._vf = []  # type: List[ARLiteral]
 
     def getV(self):
         return self.v
@@ -457,6 +456,7 @@ class SwTextProps(ARObject):
         encoding (ARLiteral): The encoding of the text.
         format (ARLiteral): The format of the text.
     """
+
     # SwTextProps method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getEncoding                  [x] impl  [ ] docstring  [ ] test

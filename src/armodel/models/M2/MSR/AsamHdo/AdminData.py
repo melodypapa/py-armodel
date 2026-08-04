@@ -11,6 +11,7 @@ class Modification(ARObject):
     Base: ARObject
     Aggregated by: DocRevision.modifications
     """
+
     # Modification method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getChange                    [x] impl  [ ] docstring  [ ] test
@@ -47,6 +48,7 @@ class DocRevision(ARObject):
     Base: ARObject
     Aggregated by: AdminData.DocRevisions
     """
+
     # DocRevision method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getDate                      [x] impl  [ ] docstring  [ ] test
@@ -137,6 +139,7 @@ class AdminData(ARObject):
     Container for administrative data including document revisions and language settings.
     Base: ARObject
     """
+
     # AdminData method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getDocRevisions              [x] impl  [ ] docstring  [ ] test

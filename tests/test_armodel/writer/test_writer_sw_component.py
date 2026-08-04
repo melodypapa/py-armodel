@@ -1,25 +1,44 @@
 """Tests for writer SW component and communication handlers."""
+
 import xml.etree.cElementTree as ET
 import pytest
 from armodel.writer.arxml_writer import ARXMLWriter
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
-    ClientComSpec, CompositeNetworkRepresentation, ModeSwitchedAckRequest,
-    ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec,
-    NonqueuedReceiverComSpec, NonqueuedSenderComSpec, NvProvideComSpec,
-    NvRequireComSpec, PPortComSpec, ParameterRequireComSpec,
-    QueuedReceiverComSpec, QueuedSenderComSpec, RPortComSpec, ServerComSpec,
-    TransmissionAcknowledgementRequest, UserDefinedTransformationComSpecProps,
+    ClientComSpec,
+    CompositeNetworkRepresentation,
+    ModeSwitchedAckRequest,
+    ModeSwitchReceiverComSpec,
+    ModeSwitchSenderComSpec,
+    NonqueuedReceiverComSpec,
+    NonqueuedSenderComSpec,
+    NvProvideComSpec,
+    NvRequireComSpec,
+    PPortComSpec,
+    ParameterRequireComSpec,
+    QueuedReceiverComSpec,
+    QueuedSenderComSpec,
+    RPortComSpec,
+    ServerComSpec,
+    TransmissionAcknowledgementRequest,
+    UserDefinedTransformationComSpecProps,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
-    PortGroup, PPortPrototype, PRPortPrototype, RPortPrototype,
+    PortGroup,
+    PPortPrototype,
+    PRPortPrototype,
+    RPortPrototype,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
-    AssemblySwConnector, CompositionSwComponentType, DelegationSwConnector,
-    PassThroughSwConnector, SwComponentPrototype,
+    AssemblySwConnector,
+    CompositionSwComponentType,
+    DelegationSwConnector,
+    PassThroughSwConnector,
+    SwComponentPrototype,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import (  # noqa: E501
-    PPortInCompositionInstanceRef, PortInCompositionTypeInstanceRef,
+    PPortInCompositionInstanceRef,
+    PortInCompositionTypeInstanceRef,
     RPortInCompositionInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (  # noqa: E501
@@ -29,24 +48,36 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.Instan
     ApplicationCompositeElementInPortInterfaceInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
-    ApplicationValueSpecification, ArrayValueSpecification,
-    ConstantReference, NumericalValueSpecification,
-    RecordValueSpecification, TextValueSpecification,
+    ApplicationValueSpecification,
+    ArrayValueSpecification,
+    ConstantReference,
+    NumericalValueSpecification,
+    RecordValueSpecification,
+    TextValueSpecification,
     ValueSpecification,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import (
-    SwValueCont, SwValues,
+    SwValueCont,
+    SwValues,
 )
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
-    SwDataDefProps, ValueList,
+    SwDataDefProps,
+    ValueList,
 )
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import (
     SwCalprmAxisSet,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
-    ARBoolean, ARFloat, ARLiteral, ARPositiveInteger, ARNumerical,
-    PositiveInteger, RefType, TRefType, TimeValue,
+    ARBoolean,
+    ARFloat,
+    ARLiteral,
+    ARPositiveInteger,
+    ARNumerical,
+    PositiveInteger,
+    RefType,
+    TRefType,
+    TimeValue,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
     TransformationComSpecProps,
@@ -136,8 +167,7 @@ class _FakePortInCompositionInstanceRef(PortInCompositionTypeInstanceRef):
 class TestWriteTransmissionAcknowledgement:
     def test_none_acknowledge(self, writer):
         parent = _parent()
-        writer.writeTransmissionAcknowledgementRequest(
-            parent, None)
+        writer.writeTransmissionAcknowledgementRequest(parent, None)
         assert len(parent) == 0
 
     def test_acknowledge_without_timeout(self, writer):
@@ -166,8 +196,7 @@ class TestWriteSenderComSpec:
         props.setSwCalprmAxisSet(SwCalprmAxisSet())
         com_spec.setNetworkRepresentation(props)
         com_spec.setHandleOutOfRange(_literal("keep"))
-        com_spec.setTransmissionAcknowledge(
-            TransmissionAcknowledgementRequest())
+        com_spec.setTransmissionAcknowledge(TransmissionAcknowledgementRequest())
         com_spec.setUsesEndToEndProtection(_boolean(False))
         parent = _parent()
         writer.writeSenderComSpec(parent, com_spec)
@@ -224,24 +253,19 @@ class TestWriteTransformationComSpec:
         prop = UserDefinedTransformationComSpecProps()
         writer.writeUserDefinedTransformationComSpecProps(parent, prop)
         assert len(parent) == 1
-        assert parent[0].tag == (
-            "USER-DEFINED-TRANSFORMATION-COM-SPEC-PROPS")
+        assert parent[0].tag == ("USER-DEFINED-TRANSFORMATION-COM-SPEC-PROPS")
 
-    def test_write_server_comspec_transformation_props_empty(
-            self, writer):
+    def test_write_server_comspec_transformation_props_empty(self, writer):
         parent = _parent()
         com_spec = ServerComSpec()
-        writer.writeServerComSpecTransformationComSpecProps(
-            parent, com_spec)
+        writer.writeServerComSpecTransformationComSpecProps(parent, com_spec)
         assert len(parent) == 0
 
     def test_write_server_comspec_transformation_props(self, writer):
         parent = _parent()
         com_spec = ServerComSpec()
-        com_spec.addTransformationComSpecProps(
-            UserDefinedTransformationComSpecProps())
-        writer.writeServerComSpecTransformationComSpecProps(
-            parent, com_spec)
+        com_spec.addTransformationComSpecProps(UserDefinedTransformationComSpecProps())
+        writer.writeServerComSpecTransformationComSpecProps(parent, com_spec)
         assert parent[0].tag == "TRANSFORMATION-COM-SPEC-PROPSS"
 
 
@@ -250,8 +274,7 @@ class TestWriteServerComSpec:
         com_spec = ServerComSpec()
         com_spec.setOperationRef(_ref(dest="CLIENT-SERVER-OPERATION"))
         com_spec.setQueueLength(_positive_int(3))
-        com_spec.addTransformationComSpecProps(
-            UserDefinedTransformationComSpecProps())
+        com_spec.addTransformationComSpecProps(UserDefinedTransformationComSpecProps())
         parent = _parent()
         writer.writeServerComSpec(parent, com_spec)
         assert parent[0].tag == "SERVER-COM-SPEC"
@@ -369,8 +392,7 @@ class TestWriteCompositeNetworkRepresentation:
 
     def test_set_app_composite_iref_none(self, writer):
         parent = _parent()
-        writer.setApplicationCompositeElementInPortInterfaceInstanceRef(
-            parent, "LEAF-ELEMENT-IREF", None)
+        writer.setApplicationCompositeElementInPortInterfaceInstanceRef(parent, "LEAF-ELEMENT-IREF", None)
         assert len(parent) == 0
 
     def test_set_app_composite_iref(self, writer):
@@ -378,8 +400,7 @@ class TestWriteCompositeNetworkRepresentation:
         iref = ApplicationCompositeElementInPortInterfaceInstanceRef()
         iref.root_data_prototype_ref = _ref()
         iref.target_data_prototype_ref = _ref()
-        writer.setApplicationCompositeElementInPortInterfaceInstanceRef(
-            parent, "LEAF-ELEMENT-IREF", iref)
+        writer.setApplicationCompositeElementInPortInterfaceInstanceRef(parent, "LEAF-ELEMENT-IREF", iref)
         assert parent[0].tag == "LEAF-ELEMENT-IREF"
         assert parent[0].find("ROOT-DATA-PROTOTYPE-REF") is not None
         assert parent[0].find("TARGET-DATA-PROTOTYPE-REF") is not None
@@ -409,8 +430,7 @@ class TestWriteReceiverComSpec:
 
     def test_write_receiver_comspec_with_composite_repr(self, writer):
         com_spec = NonqueuedReceiverComSpec()
-        com_spec.addCompositeNetworkRepresentation(
-            CompositeNetworkRepresentation())
+        com_spec.addCompositeNetworkRepresentation(CompositeNetworkRepresentation())
         parent = _parent()
         writer.writeReceiverComSpec(parent, com_spec)
         assert parent.find("COMPOSITE-NETWORK-REPRESENTATIONS") is not None
@@ -456,8 +476,7 @@ class TestWriteClientParameterNvComSpec:
     def test_write_parameter_require_comspec(self, writer):
         com_spec = ParameterRequireComSpec()
         com_spec.setInitValue(TextValueSpecification())
-        com_spec.setParameterRef(
-            _ref(dest="PARAMETER-DATA-PROTOTYPE"))
+        com_spec.setParameterRef(_ref(dest="PARAMETER-DATA-PROTOTYPE"))
         parent = _parent()
         writer.writeParameterRequireComSpec(parent, com_spec)
         assert parent[0].tag == "PARAMETER-REQUIRE-COM-SPEC"
@@ -486,8 +505,7 @@ class TestWriteModeSwitchReceiverComSpec:
         assert parent[0].tag == "MODE-SWITCH-RECEIVER-COM-SPEC"
         assert parent[0].find("ENHANCED-MODE-API") is not None
         assert parent[0].find("MODE-GROUP-REF") is not None
-        assert parent[0].find(
-            "SUPPORTS-ASYNCHRONOUS-MODE-SWITCH") is not None
+        assert parent[0].find("SUPPORTS-ASYNCHRONOUS-MODE-SWITCH") is not None
 
 
 class TestWriteRPortComSpec:
@@ -672,8 +690,7 @@ class TestWritePortGroup:
         parent = _parent()
         writer.writePortGroupOuterPortRefs(parent, pg)
         assert parent[0].tag == "OUTER-PORTS"
-        assert parent[0].find(
-            "PORT-PROTOTYPE-REF-CONDITIONAL") is not None
+        assert parent[0].find("PORT-PROTOTYPE-REF-CONDITIONAL") is not None
 
     def test_write_port_group(self, writer):
         comp = self._comp()
@@ -753,8 +770,7 @@ class TestWriteCompositionSwComponentType:
         parent = _parent()
         writer.writeCompositionSwComponentTypeComponents(parent, comp)
         assert parent.find("COMPONENTS") is not None
-        assert parent.find("COMPONENTS").find(
-            "SW-COMPONENT-PROTOTYPE") is not None
+        assert parent.find("COMPONENTS").find("SW-COMPONENT-PROTOTYPE") is not None
 
     def test_write_assembly_sw_connector(self, writer):
         comp = self._comp()
@@ -794,9 +810,7 @@ class TestWriteCompositionSwComponentType:
         writer.writeDelegationSwConnector(parent, conn)
         assert parent[0].tag == "DELEGATION-SW-CONNECTOR"
         assert parent[0].find("INNER-PORT-IREF") is not None
-        assert parent[0].find(
-            "INNER-PORT-IREF").find(
-                "P-PORT-IN-COMPOSITION-INSTANCE-REF") is not None
+        assert parent[0].find("INNER-PORT-IREF").find("P-PORT-IN-COMPOSITION-INSTANCE-REF") is not None
         assert parent[0].find("OUTER-PORT-REF") is not None
 
     def test_write_delegation_sw_connector_r_port(self, writer):
@@ -808,9 +822,7 @@ class TestWriteCompositionSwComponentType:
         conn.setInnerPortIRref(inner)
         parent = _parent()
         writer.writeDelegationSwConnector(parent, conn)
-        assert parent[0].find(
-            "INNER-PORT-IREF").find(
-                "R-PORT-IN-COMPOSITION-INSTANCE-REF") is not None
+        assert parent[0].find("INNER-PORT-IREF").find("R-PORT-IN-COMPOSITION-INSTANCE-REF") is not None
 
     def test_write_delegation_sw_connector_no_inner(self, writer):
         comp = self._comp()
@@ -850,20 +862,16 @@ class TestWriteCompositionSwComponentType:
     def test_write_data_type_mapping_empty(self, writer):
         comp = self._comp()
         parent = _parent()
-        writer.writeCompositionSwComponentTypeDataTypeMappingSet(
-            parent, comp)
+        writer.writeCompositionSwComponentTypeDataTypeMappingSet(parent, comp)
         assert parent.find("DATA-TYPE-MAPPING-REFS") is None
 
     def test_write_data_type_mapping(self, writer):
         comp = self._comp()
         comp.addDataTypeMapping(_ref(dest="DATA-TYPE-MAPPING-SET"))
         parent = _parent()
-        writer.writeCompositionSwComponentTypeDataTypeMappingSet(
-            parent, comp)
+        writer.writeCompositionSwComponentTypeDataTypeMappingSet(parent, comp)
         assert parent.find("DATA-TYPE-MAPPING-REFS") is not None
-        assert parent.find(
-            "DATA-TYPE-MAPPING-REFS").find(
-                "DATA-TYPE-MAPPING-REF") is not None
+        assert parent.find("DATA-TYPE-MAPPING-REFS").find("DATA-TYPE-MAPPING-REF") is not None
 
     def test_write_composition_sw_component_type(self, writer):
         comp = self._comp()
@@ -968,8 +976,7 @@ class TestSetValueSpecifications:
         spec.addElement(NumericalValueSpecification())
         parent = _parent()
         writer.writeArrayValueSpecification(parent, spec)
-        assert parent[0].find("ELEMENTS").find(
-            "NUMERICAL-VALUE-SPECIFICATION") is not None
+        assert parent[0].find("ELEMENTS").find("NUMERICAL-VALUE-SPECIFICATION") is not None
 
     def test_write_array_value_specification_application(self, writer):
         spec = ArrayValueSpecification()
@@ -978,16 +985,14 @@ class TestSetValueSpecifications:
         spec.addElement(app)
         parent = _parent()
         writer.writeArrayValueSpecification(parent, spec)
-        assert parent[0].find("ELEMENTS").find(
-            "APPLICATION-VALUE-SPECIFICATION") is not None
+        assert parent[0].find("ELEMENTS").find("APPLICATION-VALUE-SPECIFICATION") is not None
 
     def test_write_array_value_specification_text(self, writer):
         spec = ArrayValueSpecification()
         spec.addElement(TextValueSpecification())
         parent = _parent()
         writer.writeArrayValueSpecification(parent, spec)
-        assert parent[0].find("ELEMENTS").find(
-            "TEXT-VALUE-SPECIFICATION") is not None
+        assert parent[0].find("ELEMENTS").find("TEXT-VALUE-SPECIFICATION") is not None
 
     def test_write_array_value_specification_nested_array(self, writer):
         spec = ArrayValueSpecification()
@@ -1002,8 +1007,7 @@ class TestSetValueSpecifications:
         spec.addElement(RecordValueSpecification())
         parent = _parent()
         writer.writeArrayValueSpecification(parent, spec)
-        assert parent[0].find("ELEMENTS").find(
-            "RECORD-VALUE-SPECIFICATION") is not None
+        assert parent[0].find("ELEMENTS").find("RECORD-VALUE-SPECIFICATION") is not None
 
     def test_write_array_value_specification_unsupported_warning(self):
         writer = ARXMLWriter(options={"warning": True})
@@ -1027,8 +1031,7 @@ class TestSetValueSpecifications:
         parent = _parent()
         writer.setChildValueSpecification(parent, "INIT-VALUE", spec)
         assert parent[0].tag == "INIT-VALUE"
-        assert parent[0].find(
-            "APPLICATION-VALUE-SPECIFICATION") is not None
+        assert parent[0].find("APPLICATION-VALUE-SPECIFICATION") is not None
 
     def test_set_child_value_specification_constant(self, writer):
         spec = ConstantReference()
@@ -1058,20 +1061,17 @@ class TestSetValueSpecifications:
     def test_set_child_value_specification_unsupported_warning(self):
         writer = ARXMLWriter(options={"warning": True})
         parent = _parent()
-        writer.setChildValueSpecification(
-            parent, "INIT-VALUE", _FakeValueSpecification())
+        writer.setChildValueSpecification(parent, "INIT-VALUE", _FakeValueSpecification())
         assert parent[0].tag == "INIT-VALUE"
 
 
 class TestWriteErrorBranches:
-    def test_write_server_comspec_transformation_props_unsupported_warning(
-            self):
+    def test_write_server_comspec_transformation_props_unsupported_warning(self):
         writer = ARXMLWriter(options={"warning": True})
         com_spec = ServerComSpec()
         com_spec.addTransformationComSpecProps(_FakeTransformationComSpecProps())
         parent = _parent()
-        writer.writeServerComSpecTransformationComSpecProps(
-            parent, com_spec)
+        writer.writeServerComSpecTransformationComSpecProps(parent, com_spec)
         assert parent[0].tag == "TRANSFORMATION-COM-SPEC-PROPSS"
 
     def test_write_p_port_comspec_unsupported_warning(self):

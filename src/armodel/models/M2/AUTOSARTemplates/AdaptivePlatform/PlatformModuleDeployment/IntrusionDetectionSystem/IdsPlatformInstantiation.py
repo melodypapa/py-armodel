@@ -16,6 +16,7 @@ class IdsPlatformInstantiation(Identifiable, ABC):
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 63, Foundation R23-11)
     """
+
     # IdsPlatformInstantiation method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getNetworks                  [x] impl  [ ] docstring  [ ] test
@@ -23,7 +24,6 @@ class IdsPlatformInstantiation(Identifiable, ABC):
     # [ ] addNetwork                   [x] impl  [x] docstring  [ ] test
     # [ ] getTimeBases                 [x] impl  [ ] docstring  [ ] test
     # [ ] setTimeBases                 [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is IdsPlatformInstantiation:

@@ -363,9 +363,7 @@ class TestEcucContainerDefParameters:
         assert params[1].getShortName() == "Name"
         assert params[2].getShortName() == "Count"
 
-    def test_readEcucContainerDefParameters_unsupported_type_warning(
-        self, warning_parser
-    ):
+    def test_readEcucContainerDefParameters_unsupported_type_warning(self, warning_parser):
         from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
 
         AUTOSAR.getInstance().setARRelease("R23-11")
@@ -424,9 +422,7 @@ class TestEcucCommonAttributes:
         parser.readEcucCommonAttributes(element, param)
         assert param.getOrigin() is not None
 
-    def test_readEcucCommonAttributes_with_multiplicity_config_classes(
-        self, parser
-    ):
+    def test_readEcucCommonAttributes_with_multiplicity_config_classes(self, parser):
         from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucBooleanParamDef
 
         AUTOSAR.getInstance().setARRelease("R23-11")
@@ -583,9 +579,7 @@ class TestEcucContainerDefReferences:
         assert refs[0].getShortName() == "OptionalRef"
         assert refs[0].getDestinationRef() is None
 
-    def test_readEcucContainerDefReferences_unsupported_type_warning(
-        self, warning_parser
-    ):
+    def test_readEcucContainerDefReferences_unsupported_type_warning(self, warning_parser):
         from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
 
         AUTOSAR.getInstance().setARRelease("R23-11")
@@ -623,6 +617,7 @@ def _make_container_value(short_name="ContainerValue"):
     from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
         EcucContainerValue,
     )
+
     pkg = _make_pkg()
     return EcucContainerValue(pkg, short_name)
 
@@ -788,12 +783,10 @@ class TestReadEcucContainerValueReferenceValues:
             root_tag="ECUC-CONTAINER-VALUE",
         )
         import logging
+
         with caplog.at_level(logging.ERROR):
             warning_parser.readEcucContainerValueReferenceValues(element, container)
-        assert any(
-            "Unsupported EcucParameterValue" in rec.getMessage()
-            for rec in caplog.records
-        )
+        assert any("Unsupported EcucParameterValue" in rec.getMessage() for rec in caplog.records)
         assert len(container.getReferenceValues()) == 1
 
 
@@ -924,12 +917,10 @@ class TestReadEcucContainerValueSubContainers:
             root_tag="ECUC-CONTAINER-VALUE",
         )
         import logging
+
         with caplog.at_level(logging.ERROR):
             warning_parser.readEcucContainerValueSubContainers(element, parent)
-        assert any(
-            "Unsupported Sub Container" in rec.getMessage()
-            for rec in caplog.records
-        )
+        assert any("Unsupported Sub Container" in rec.getMessage() for rec in caplog.records)
         assert len(parent.getSubContainers()) == 1
 
 
@@ -1006,12 +997,10 @@ class TestReadEcucModuleConfigurationValuesContainers:
             root_tag="ECUC-MODULE-CONFIGURATION-VALUES",
         )
         import logging
+
         with caplog.at_level(logging.ERROR):
             warning_parser.readEcucModuleConfigurationValuesContainers(element, values)
-        assert any(
-            "Unsupported Container" in rec.getMessage()
-            for rec in caplog.records
-        )
+        assert any("Unsupported Container" in rec.getMessage() for rec in caplog.records)
         assert len(values.getContainers()) == 1
 
 
@@ -1059,45 +1048,32 @@ class TestReadEcucModuleConfigurationValues:
 
 # === Migrated from test_arxml_parser_remaining_gaps.py ===
 
+
 class TestEcucContainerAndModuleDef:
     def _make_module_def(self):
         from armodel.models import EcucModuleDef
+
         return EcucModuleDef(parent=_autosar_root(), short_name="Md")
 
-    def test_readEcucModuleDefSupportedConfigVariants_adds(
-        self, parser
-    ):
+    def test_readEcucModuleDefSupportedConfigVariants_adds(self, parser):
         module_def = self._make_module_def()
         element = _snip(
-            "<SUPPORTED-CONFIG-VARIANTS>"
-            "<SUPPORTED-CONFIG-VARIANT>V1</SUPPORTED-CONFIG-VARIANT>"
-            "<SUPPORTED-CONFIG-VARIANT>V2</SUPPORTED-CONFIG-VARIANT>"
-            "</SUPPORTED-CONFIG-VARIANTS>"
+            "<SUPPORTED-CONFIG-VARIANTS>" "<SUPPORTED-CONFIG-VARIANT>V1</SUPPORTED-CONFIG-VARIANT>" "<SUPPORTED-CONFIG-VARIANT>V2</SUPPORTED-CONFIG-VARIANT>" "</SUPPORTED-CONFIG-VARIANTS>"
         )
-        parser.readEcucModuleDefSupportedConfigVariants(
-            element, module_def
-        )
+        parser.readEcucModuleDefSupportedConfigVariants(element, module_def)
         assert len(module_def.getSupportedConfigVariants()) == 2
 
-    def test_getEcucMultiplicityConfigurationClasses_unsupported_warns(
-        self, warning_parser, caplog
-    ):
-        element = _snip(
-            "<MULTIPLICITY-CONFIG-CLASSES><BAD/></MULTIPLICITY-CONFIG-CLASSES>"
-        )
+    def test_getEcucMultiplicityConfigurationClasses_unsupported_warns(self, warning_parser, caplog):
+        element = _snip("<MULTIPLICITY-CONFIG-CLASSES><BAD/></MULTIPLICITY-CONFIG-CLASSES>")
         with caplog.at_level(logging.ERROR):
-            result = warning_parser.getEcucMultiplicityConfigurationClasses(
-                element
-            )
+            result = warning_parser.getEcucMultiplicityConfigurationClasses(element)
         assert result == []
-        assert any("Unsupported MultiplicityConfigClass"
-                   in r.getMessage() for r in caplog.records)
+        assert any("Unsupported MultiplicityConfigClass" in r.getMessage() for r in caplog.records)
 
     def test_readEcucContainerDef_sets_attrs(self, parser):
         from armodel.models import EcucParamConfContainerDef
-        container = EcucParamConfContainerDef(
-            _autosar_root(), "Cd"
-        )
+
+        container = EcucParamConfContainerDef(_autosar_root(), "Cd")
         element = _snip(
             "<MULTIPLICITY-CONFIG-CLASSES>"
             "<ECUC-MULTIPLICITY-CONFIGURATION-CLASS>"
@@ -1113,216 +1089,122 @@ class TestEcucContainerAndModuleDef:
         assert len(container.getMultiplicityConfigClasses()) == 1
         assert container.getPostBuildVariantMultiplicity().getValue() is True
 
-    def test_getEcucValueConfigurationClasses_unsupported_warns(
-        self, warning_parser, caplog
-    ):
-        element = _snip(
-            "<VALUE-CONFIG-CLASSES><BAD/></VALUE-CONFIG-CLASSES>"
-        )
+    def test_getEcucValueConfigurationClasses_unsupported_warns(self, warning_parser, caplog):
+        element = _snip("<VALUE-CONFIG-CLASSES><BAD/></VALUE-CONFIG-CLASSES>")
         with caplog.at_level(logging.ERROR):
-            result = warning_parser.getEcucValueConfigurationClasses(
-                element
-            )
+            result = warning_parser.getEcucValueConfigurationClasses(element)
         assert result == []
-        assert any("Unsupported ValueConfigClass" in r.getMessage()
-                   for r in caplog.records)
+        assert any("Unsupported ValueConfigClass" in r.getMessage() for r in caplog.records)
 
-    def test_readEcucEnumerationParamDefLiterals_unsupported_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readEcucEnumerationParamDefLiterals_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import EcucEnumerationParamDef
-        param_def = EcucEnumerationParamDef(
-            _autosar_root(), "Enum"
-        )
-        element = _snip(
-            "<LITERALS><BAD/></LITERALS>"
-        )
-        with caplog.at_level(logging.ERROR):
-            warning_parser.readEcucEnumerationParamDefLiterals(
-                element, param_def
-            )
-        assert any("Unsupported EnumerationLiteral" in r.getMessage()
-                   for r in caplog.records)
 
-    def test_readEcucContainerDefSubContainers_creates_sub(
-        self, parser
-    ):
+        param_def = EcucEnumerationParamDef(_autosar_root(), "Enum")
+        element = _snip("<LITERALS><BAD/></LITERALS>")
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readEcucEnumerationParamDefLiterals(element, param_def)
+        assert any("Unsupported EnumerationLiteral" in r.getMessage() for r in caplog.records)
+
+    def test_readEcucContainerDefSubContainers_creates_sub(self, parser):
         from armodel.models import EcucParamConfContainerDef
-        container = EcucParamConfContainerDef(
-            _autosar_root(), "Cd"
-        )
-        element = _snip(
-            "<SUB-CONTAINERS>"
-            "<ECUC-PARAM-CONF-CONTAINER-DEF>"
-            "<SHORT-NAME>Sub</SHORT-NAME>"
-            "</ECUC-PARAM-CONF-CONTAINER-DEF>"
-            "</SUB-CONTAINERS>"
-        )
+
+        container = EcucParamConfContainerDef(_autosar_root(), "Cd")
+        element = _snip("<SUB-CONTAINERS>" "<ECUC-PARAM-CONF-CONTAINER-DEF>" "<SHORT-NAME>Sub</SHORT-NAME>" "</ECUC-PARAM-CONF-CONTAINER-DEF>" "</SUB-CONTAINERS>")
         parser.readEcucContainerDefSubContainers(element, container)
         assert len(container.getSubContainers()) == 1
 
     def test_readEcucContainerDefSubContainers_choice(self, parser):
         from armodel.models import EcucParamConfContainerDef
-        container = EcucParamConfContainerDef(
-            _autosar_root(), "Cd"
-        )
-        element = _snip(
-            "<SUB-CONTAINERS>"
-            "<ECUC-CHOICE-CONTAINER-DEF>"
-            "<SHORT-NAME>Ch</SHORT-NAME>"
-            "</ECUC-CHOICE-CONTAINER-DEF>"
-            "</SUB-CONTAINERS>"
-        )
+
+        container = EcucParamConfContainerDef(_autosar_root(), "Cd")
+        element = _snip("<SUB-CONTAINERS>" "<ECUC-CHOICE-CONTAINER-DEF>" "<SHORT-NAME>Ch</SHORT-NAME>" "</ECUC-CHOICE-CONTAINER-DEF>" "</SUB-CONTAINERS>")
         parser.readEcucContainerDefSubContainers(element, container)
         assert len(container.getSubContainers()) == 1
 
-    def test_readEcucContainerDefSubContainers_unsupported_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readEcucContainerDefSubContainers_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import EcucParamConfContainerDef
-        container = EcucParamConfContainerDef(
-            _autosar_root(), "Cd"
-        )
-        element = _snip(
-            "<SUB-CONTAINERS><BAD/></SUB-CONTAINERS>"
-        )
+
+        container = EcucParamConfContainerDef(_autosar_root(), "Cd")
+        element = _snip("<SUB-CONTAINERS><BAD/></SUB-CONTAINERS>")
         with caplog.at_level(logging.ERROR):
-            warning_parser.readEcucContainerDefSubContainers(
-                element, container
-            )
-        assert any("Unsupported SubContainer" in r.getMessage()
-                   for r in caplog.records)
+            warning_parser.readEcucContainerDefSubContainers(element, container)
+        assert any("Unsupported SubContainer" in r.getMessage() for r in caplog.records)
 
     def test_readEcucParamConfContainerDef_full(self, parser):
         from armodel.models import EcucParamConfContainerDef
-        container = EcucParamConfContainerDef(
-            _autosar_root(), "Cd"
-        )
-        element = _snip(
-            "<SHORT-NAME>Cd</SHORT-NAME>"
-        )
+
+        container = EcucParamConfContainerDef(_autosar_root(), "Cd")
+        element = _snip("<SHORT-NAME>Cd</SHORT-NAME>")
         parser.readEcucParamConfContainerDef(element, container)
 
     def test_readEcucChoiceContainerDefChoices_creates(self, parser):
         from armodel.models import EcucChoiceContainerDef
-        container = EcucChoiceContainerDef(
-            _autosar_root(), "Ch"
-        )
-        element = _snip(
-            "<CHOICES>"
-            "<ECUC-PARAM-CONF-CONTAINER-DEF>"
-            "<SHORT-NAME>C1</SHORT-NAME>"
-            "</ECUC-PARAM-CONF-CONTAINER-DEF>"
-            "</CHOICES>"
-        )
+
+        container = EcucChoiceContainerDef(_autosar_root(), "Ch")
+        element = _snip("<CHOICES>" "<ECUC-PARAM-CONF-CONTAINER-DEF>" "<SHORT-NAME>C1</SHORT-NAME>" "</ECUC-PARAM-CONF-CONTAINER-DEF>" "</CHOICES>")
         parser.readEcucChoiceContainerDefChoices(element, container)
         assert len(container.getChoices()) == 1
 
-    def test_readEcucChoiceContainerDefChoices_unsupported_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readEcucChoiceContainerDefChoices_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import EcucChoiceContainerDef
-        container = EcucChoiceContainerDef(
-            _autosar_root(), "Ch"
-        )
-        element = _snip(
-            "<CHOICES><BAD/></CHOICES>"
-        )
+
+        container = EcucChoiceContainerDef(_autosar_root(), "Ch")
+        element = _snip("<CHOICES><BAD/></CHOICES>")
         with caplog.at_level(logging.ERROR):
-            warning_parser.readEcucChoiceContainerDefChoices(
-                element, container
-            )
-        assert any("Unsupported Choice" in r.getMessage()
-                   for r in caplog.records)
+            warning_parser.readEcucChoiceContainerDefChoices(element, container)
+        assert any("Unsupported Choice" in r.getMessage() for r in caplog.records)
 
     def test_readEcucChoiceContainerDef_full(self, parser):
         from armodel.models import EcucChoiceContainerDef
-        container = EcucChoiceContainerDef(
-            _autosar_root(), "Ch"
-        )
+
+        container = EcucChoiceContainerDef(_autosar_root(), "Ch")
         element = _snip("<SHORT-NAME>Ch</SHORT-NAME>")
         parser.readEcucChoiceContainerDef(element, container)
 
-    def test_readEcucModuleDefContainers_creates_param_conf(
-        self, parser
-    ):
+    def test_readEcucModuleDefContainers_creates_param_conf(self, parser):
         module_def = self._make_module_def()
-        element = _snip(
-            "<CONTAINERS>"
-            "<ECUC-PARAM-CONF-CONTAINER-DEF>"
-            "<SHORT-NAME>C1</SHORT-NAME>"
-            "</ECUC-PARAM-CONF-CONTAINER-DEF>"
-            "</CONTAINERS>"
-        )
+        element = _snip("<CONTAINERS>" "<ECUC-PARAM-CONF-CONTAINER-DEF>" "<SHORT-NAME>C1</SHORT-NAME>" "</ECUC-PARAM-CONF-CONTAINER-DEF>" "</CONTAINERS>")
         parser.readEcucModuleDefContainers(element, module_def)
         assert len(module_def.getContainers()) == 1
 
     def test_readEcucModuleDefContainers_creates_choice(self, parser):
         module_def = self._make_module_def()
-        element = _snip(
-            "<CONTAINERS>"
-            "<ECUC-CHOICE-CONTAINER-DEF>"
-            "<SHORT-NAME>C2</SHORT-NAME>"
-            "</ECUC-CHOICE-CONTAINER-DEF>"
-            "</CONTAINERS>"
-        )
+        element = _snip("<CONTAINERS>" "<ECUC-CHOICE-CONTAINER-DEF>" "<SHORT-NAME>C2</SHORT-NAME>" "</ECUC-CHOICE-CONTAINER-DEF>" "</CONTAINERS>")
         parser.readEcucModuleDefContainers(element, module_def)
         assert len(module_def.getContainers()) == 1
 
-    def test_readEcucModuleDefContainers_unsupported_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readEcucModuleDefContainers_unsupported_warns(self, warning_parser, caplog):
         module_def = self._make_module_def()
-        element = _snip(
-            "<CONTAINERS><BAD/></CONTAINERS>"
-        )
+        element = _snip("<CONTAINERS><BAD/></CONTAINERS>")
         with caplog.at_level(logging.ERROR):
-            warning_parser.readEcucModuleDefContainers(
-                element, module_def
-            )
-        assert any("Unsupported Container" in r.getMessage()
-                   for r in caplog.records)
+            warning_parser.readEcucModuleDefContainers(element, module_def)
+        assert any("Unsupported Container" in r.getMessage() for r in caplog.records)
 
 
 # ==================== SwSystemconstantValueSet (L4695) ====================
 
 
-
 # === Migrated from test_arxml_parser_remaining_gaps.py ===
+
 
 class TestEcucParameterValue:
     def test_readEcucParameterValue_adds_annotation(self, parser):
         from armodel.models import EcucTextualParamValue
+
         param_value = EcucTextualParamValue()
-        element = _snip(
-            '<DEFINITION-REF DEST="ECUC-STRING-PARAM-DEF">/d</DEFINITION-REF>'
-            "<ANNOTATIONS>"
-            "<ANNOTATION>"
-            "<SHORT-NAME>a</SHORT-NAME>"
-            "</ANNOTATION>"
-            "</ANNOTATIONS>"
-        )
+        element = _snip('<DEFINITION-REF DEST="ECUC-STRING-PARAM-DEF">/d</DEFINITION-REF>' "<ANNOTATIONS>" "<ANNOTATION>" "<SHORT-NAME>a</SHORT-NAME>" "</ANNOTATION>" "</ANNOTATIONS>")
         parser.readEcucParameterValue(element, param_value)
         assert param_value.getDefinitionRef() is not None
         assert len(param_value.getAnnotations()) == 1
 
-    def test_readEcucContainerValueParameterValues_unsupported_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readEcucContainerValueParameterValues_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import EcucContainerValue
-        container = EcucContainerValue(
-            parent=MagicMock(), short_name="Cv"
-        )
-        element = _snip(
-            "<PARAMETER-VALUES><BAD/></PARAMETER-VALUES>"
-        )
+
+        container = EcucContainerValue(parent=MagicMock(), short_name="Cv")
+        element = _snip("<PARAMETER-VALUES><BAD/></PARAMETER-VALUES>")
         with caplog.at_level(logging.ERROR):
-            warning_parser.readEcucContainerValueParameterValues(
-                element, container
-            )
-        assert any("Unsupported EcucParameterValue" in r.getMessage()
-                   for r in caplog.records)
+            warning_parser.readEcucContainerValueParameterValues(element, container)
+        assert any("Unsupported EcucParameterValue" in r.getMessage() for r in caplog.records)
 
 
 # ==================== SystemSignalGroup (L5249) ====================
-

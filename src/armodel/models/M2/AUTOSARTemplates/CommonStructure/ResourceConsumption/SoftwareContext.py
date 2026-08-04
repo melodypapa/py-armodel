@@ -6,11 +6,13 @@ software execution context information in AUTOSAR resource consumption models.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
+
 class SoftwareContext(ARObject):
     """
     Represents software execution context information in AUTOSAR models.
     This class defines the input conditions and execution state for resource consumption analysis.
     """
+
     # SoftwareContext method parity checklist:
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [ ] getInput                     [x] impl  [x] docstring  [ ] test
@@ -18,7 +20,6 @@ class SoftwareContext(ARObject):
     # [ ] getState                     [x] impl  [x] docstring  [ ] test
     # [ ] setState                     [x] impl  [x] docstring  [ ] test
 
-    
     def __init__(self):
         """
         Initializes the SoftwareContext with default values.
@@ -26,14 +27,14 @@ class SoftwareContext(ARObject):
         super().__init__()
 
         # Input information for this software context
-        self.input: String = None                       
+        self.input: String = None
         # Execution state for this software context
-        self.state: String = None                       
+        self.state: String = None
 
     def getInput(self):
         """
         Gets the input information for this software context.
-        
+
         Returns:
             String: Input information
         """
@@ -42,10 +43,10 @@ class SoftwareContext(ARObject):
     def setInput(self, value):
         """
         Sets the input information for this software context.
-        
+
         Args:
             value: The input information to set
-            
+
         Returns:
             self for method chaining
         """
@@ -55,7 +56,7 @@ class SoftwareContext(ARObject):
     def getState(self):
         """
         Gets the execution state for this software context.
-        
+
         Returns:
             String: Execution state
         """
@@ -64,10 +65,10 @@ class SoftwareContext(ARObject):
     def setState(self, value):
         """
         Sets the execution state for this software context.
-        
+
         Args:
             value: The execution state to set
-            
+
         Returns:
             self for method chaining
         """

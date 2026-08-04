@@ -90,6 +90,7 @@ class ReferenceBase(ARObject):
     how elements in one package can reference elements in other packages.
     They are used to establish relationships between different AUTOSAR packages.
     """
+
     # ReferenceBase method parity checklist:
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [ ] getGlobalElements            [x] impl  [x] docstring  [ ] test
@@ -107,7 +108,6 @@ class ReferenceBase(ARObject):
     # [ ] getShortLabel                [x] impl  [x] docstring  [ ] test
     # [ ] setShortLabel                [x] impl  [x] docstring  [ ] test
 
-    
     def __init__(self):
         """
         Initializes a ReferenceBase instance with default values for
@@ -133,19 +133,19 @@ class ReferenceBase(ARObject):
     def getGlobalElements(self) -> List[ReferrableSubtypesEnum]:
         """
         Returns the list of global elements that can be referenced.
-        
+
         Returns:
             List of global elements that can be referenced
         """
         return self.globalElements
 
-    def addGlobalElement(self, value: ReferrableSubtypesEnum) -> 'ReferenceBase':
+    def addGlobalElement(self, value: ReferrableSubtypesEnum) -> "ReferenceBase":
         """
         Adds a global element to the list of referenceable elements.
-        
+
         Args:
             value: The element to add to the list of global elements
-            
+
         Returns:
             Reference to this ReferenceBase instance (for method chaining)
         """
@@ -155,19 +155,19 @@ class ReferenceBase(ARObject):
     def getGlobalInPackageRefs(self) -> List[RefType]:
         """
         Returns the list of global references within the package.
-        
+
         Returns:
             List of global references within the package
         """
         return self.globalInPackageRefs
 
-    def addGlobalInPackageRef(self, value: RefType) -> 'ReferenceBase':
+    def addGlobalInPackageRef(self, value: RefType) -> "ReferenceBase":
         """
         Adds a global reference to the package.
-        
+
         Args:
             value: The reference to add to the list of global in-package references
-            
+
         Returns:
             Reference to this ReferenceBase instance (for method chaining)
         """
@@ -177,63 +177,63 @@ class ReferenceBase(ARObject):
     def getIsDefault(self) -> Optional[Boolean]:
         """
         Returns whether this reference base is the default.
-        
+
         Returns:
             Boolean indicating if this is the default reference base (or None)
         """
         return self.isDefault
 
-    def setIsDefault(self, value: Boolean) -> 'ReferenceBase':
+    def setIsDefault(self, value: Boolean) -> "ReferenceBase":
         """
         Sets whether this reference base is the default.
-        
+
         Args:
             value: Boolean indicating if this should be the default reference base
-            
+
         Returns:
             Reference to this ReferenceBase instance (for method chaining)
         """
         self.isDefault = value
         return self
-    
+
     def getIsGlobal(self) -> Optional[Boolean]:
         """
         Returns whether this reference base is global.
-        
+
         Returns:
             Boolean indicating if this is a global reference base (or None)
         """
         return self.isGlobal
 
-    def setIsGlobal(self, value: Boolean) -> 'ReferenceBase':
+    def setIsGlobal(self, value: Boolean) -> "ReferenceBase":
         """
         Sets whether this reference base is global.
-        
+
         Args:
             value: Boolean indicating if this should be a global reference base
-            
+
         Returns:
             Reference to this ReferenceBase instance (for method chaining)
         """
         self.isGlobal = value
         return self
-    
+
     def getBaseIsThisPackage(self) -> Optional[Boolean]:
         """
         Returns whether this reference base belongs to the current package.
-        
+
         Returns:
             Boolean indicating if this reference base belongs to the current package (or None)
         """
         return self.BaseIsThisPackage
 
-    def setBaseIsThisPackage(self, value: Boolean) -> 'ReferenceBase':
+    def setBaseIsThisPackage(self, value: Boolean) -> "ReferenceBase":
         """
         Sets whether this reference base belongs to the current package.
-        
+
         Args:
             value: Boolean indicating if this reference base belongs to the current package
-            
+
         Returns:
             Reference to this ReferenceBase instance (for method chaining)
         """
@@ -243,19 +243,19 @@ class ReferenceBase(ARObject):
     def getPackageRef(self) -> Optional[List[RefType]]:
         """
         Returns the list of package references.
-        
+
         Returns:
             List of package references (or None)
         """
         return self.packageRef
 
-    def setPackageRef(self, value: List[RefType]) -> 'ReferenceBase':
+    def setPackageRef(self, value: List[RefType]) -> "ReferenceBase":
         """
         Sets the list of package references.
-        
+
         Args:
             value: List of package references to set
-            
+
         Returns:
             Reference to this ReferenceBase instance (for method chaining)
         """
@@ -265,19 +265,19 @@ class ReferenceBase(ARObject):
     def getShortLabel(self) -> Optional[Identifier]:
         """
         Returns the short label for this reference base.
-        
+
         Returns:
             Short label identifier (or None)
         """
         return self.shortLabel
 
-    def setShortLabel(self, value: Identifier) -> 'ReferenceBase':
+    def setShortLabel(self, value: Identifier) -> "ReferenceBase":
         """
         Sets the short label for this reference base.
-        
+
         Args:
             value: The identifier to use as the short label
-            
+
         Returns:
             Reference to this ReferenceBase instance (for method chaining)
         """
@@ -291,10 +291,11 @@ class ARPackage(CollectableElement):
     AUTOSAR model elements hierarchically. ARPackage serves as the primary
     organizational unit in AUTOSAR models, allowing for grouping of related
     elements such as software components, interfaces, data types, and other packages.
-    
+
     ARPackages form a tree-like structure where each package can contain
     sub-packages as well as various AUTOSAR elements.
     """
+
     # ARPackage method parity checklist:
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [ ] shortName                    [x] impl  [x] docstring  [ ] test
@@ -469,11 +470,10 @@ class ARPackage(CollectableElement):
     # [ ] getReferenceBases            [x] impl  [ ] docstring  [x] test
     # [ ] addReferenceBase             [x] impl  [ ] docstring  [x] test
 
-    
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes an ARPackage instance with the specified parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this package
             short_name: The unique identifier for this package within its parent
@@ -496,7 +496,7 @@ class ARPackage(CollectableElement):
         self.desc: Optional[MultiLanguageOverviewParagraph] = None
 
         # Dictionary mapping short names to sub-packages
-        self.arPackages: Dict[str, 'ARPackage'] = {}
+        self.arPackages: Dict[str, "ARPackage"] = {}
         # List of reference bases for this package
         self.referenceBases: List[ReferenceBase] = []
 
@@ -512,16 +512,16 @@ class ARPackage(CollectableElement):
     def getShortName(self) -> str:
         """
         Gets the short name of this ARPackage.
-        
+
         Returns:
             The short name of this ARPackage
         """
         return self.short_name
-    
+
     def getParent(self) -> ARObject:
         """
         Gets the parent of this ARPackage.
-        
+
         Returns:
             The parent ARObject
         """
@@ -537,7 +537,7 @@ class ARPackage(CollectableElement):
     def getFullName(self) -> str:
         """
         Gets the full name of this ARPackage, including the parent's full name.
-        
+
         Returns:
             The full name of this ARPackage
         """
@@ -546,19 +546,19 @@ class ARPackage(CollectableElement):
     def getLongName(self) -> Optional[MultilanguageLongName]:
         """
         Gets the long name of this ARPackage.
-        
+
         Returns:
             MultilanguageLongName representing the long name, or None if not set
         """
         return self.longName
 
-    def setLongName(self, value: MultilanguageLongName) -> 'ARPackage':
+    def setLongName(self, value: MultilanguageLongName) -> "ARPackage":
         """
         Sets the long name of this ARPackage.
-        
+
         Args:
             value: The long name to set
-            
+
         Returns:
             self for method chaining
         """
@@ -568,27 +568,27 @@ class ARPackage(CollectableElement):
     def getAdminData(self) -> Optional[AdminData]:
         """
         Gets the administrative data for this ARPackage.
-        
+
         Returns:
             AdminData instance, or None if not set
         """
         return self.adminData
 
-    def setAdminData(self, value: AdminData) -> 'ARPackage':
+    def setAdminData(self, value: AdminData) -> "ARPackage":
         """
         Sets the administrative data for this ARPackage.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The administrative data to set
-            
+
         Returns:
             self for method chaining
         """
         if value is not None:
             self.adminData = value
         return self
-    
+
     def removeAdminData(self) -> None:
         """
         Removes the administrative data for this ARPackage.
@@ -598,19 +598,19 @@ class ARPackage(CollectableElement):
     def getDesc(self) -> Optional[MultiLanguageOverviewParagraph]:
         """
         Gets the description for this ARPackage.
-        
+
         Returns:
             MultiLanguageOverviewParagraph instance, or None if not set
         """
         return self.desc
 
-    def setDesc(self, value: MultiLanguageOverviewParagraph) -> 'ARPackage':
+    def setDesc(self, value: MultiLanguageOverviewParagraph) -> "ARPackage":
         """
         Sets the description for this ARPackage.
-        
+
         Args:
             value: The description to set
-            
+
         Returns:
             self for method chaining
         """
@@ -620,20 +620,20 @@ class ARPackage(CollectableElement):
     def getCategory(self) -> Optional[CategoryString]:
         """
         Gets the category for this ARPackage.
-        
+
         Returns:
             CategoryString instance, or None if not set
         """
         return self.category
 
-    def setCategory(self, value: Any) -> 'ARPackage':
+    def setCategory(self, value: Any) -> "ARPackage":
         """
         Sets the category for this ARPackage.
         If the value is a string, it will be converted to a CategoryString.
-        
+
         Args:
             value: The category to set
-            
+
         Returns:
             self for method chaining
         """
@@ -642,36 +642,36 @@ class ARPackage(CollectableElement):
         else:
             self.category = value
         return self
-    
+
     def getIntroduction(self) -> Optional[DocumentationBlock]:
         """
         Gets the introduction documentation for this ARPackage.
-        
+
         Returns:
             DocumentationBlock instance, or None if not set
         """
         return self.introduction
 
-    def setIntroduction(self, value: DocumentationBlock) -> 'ARPackage':
+    def setIntroduction(self, value: DocumentationBlock) -> "ARPackage":
         """
         Sets the introduction documentation for this ARPackage.
-        
+
         Args:
             value: The introduction documentation to set
-            
+
         Returns:
             self for method chaining
         """
         self.introduction = value
         return self
 
-    def addAnnotation(self, annotation: Annotation) -> 'ARPackage':
+    def addAnnotation(self, annotation: Annotation) -> "ARPackage":
         """
         Adds an annotation to this ARPackage.
-        
+
         Args:
             annotation: The annotation to add
-            
+
         Returns:
             self for method chaining
         """
@@ -681,31 +681,31 @@ class ARPackage(CollectableElement):
     def getAnnotations(self) -> List[Annotation]:
         """
         Gets the list of annotations for this ARPackage.
-        
+
         Returns:
             List of Annotation instances
         """
         return self.annotations
 
-    def getARPackages(self) -> List['ARPackage']:
+    def getARPackages(self) -> List["ARPackage"]:
         """
         Returns a list of all sub-packages contained in this ARPackage,
         sorted by their short names.
-        
+
         Returns:
             List of ARPackage instances sorted by short name
         """
         return list(sorted(self.arPackages.values(), key=lambda a: a.short_name))
         # return list(filter(lambda e: isinstance(e, ARPackage), self.elements))
 
-    def createARPackage(self, short_name: str) -> 'ARPackage':
+    def createARPackage(self, short_name: str) -> "ARPackage":
         """
         Creates a new sub-package with the given short name, or returns
         an existing package if one with the same name already exists.
-        
+
         Args:
             short_name: The short name for the new sub-package
-            
+
         Returns:
             The newly created or existing ARPackage instance
         """
@@ -718,11 +718,11 @@ class ARPackage(CollectableElement):
         """
         Retrieves an element by its short name, optionally filtered by type.
         This method searches for both sub-packages and other elements in this package.
-        
+
         Args:
             short_name: The short name of the element to retrieve
             type: Optional type filter for the element to retrieve
-            
+
         Returns:
             The element with the specified name and type, or None if not found
         """
@@ -741,14 +741,14 @@ class ARPackage(CollectableElement):
         """
         Creates a new Application Software Component Type with the given short name,
         or returns an existing one if it already exists in this package.
-        
+
         ApplicationSwComponentType represents a software component that implements
         application-specific functionality, typically containing runnables and
         communication interfaces.
-        
+
         Args:
             short_name: The short name for the new ApplicationSwComponentType
-            
+
         Returns:
             The newly created or existing ApplicationSwComponentType instance
         """
@@ -785,14 +785,14 @@ class ARPackage(CollectableElement):
         """
         Creates a new Sender-Receiver Interface with the given short name,
         or returns an existing one if it already exists in this package.
-        
+
         SenderReceiverInterface is a communication interface type in AUTOSAR
         that enables data exchange between software components through
         sender and receiver ports.
-        
+
         Args:
             short_name: The short name for the new SenderReceiverInterface
-            
+
         Returns:
             The newly created or existing SenderReceiverInterface instance
         """
@@ -812,19 +812,19 @@ class ARPackage(CollectableElement):
             nv_interface = NvDataInterface(self, short_name)
             self.addElement(nv_interface)
         return self.getElement(short_name, NvDataInterface)
-    
+
     def createGenericEthernetFrame(self, short_name: str) -> GenericEthernetFrame:
         if not self.IsElementExists(short_name, GenericEthernetFrame):
             frame = GenericEthernetFrame(self, short_name)
             self.addElement(frame)
         return self.getElement(short_name, GenericEthernetFrame)
-    
+
     def createLifeCycleInfoSet(self, short_name: str) -> LifeCycleInfoSet:
         if not self.IsElementExists(short_name, LifeCycleInfoSet):
             set = LifeCycleInfoSet(self, short_name)
             self.addElement(set)
         return self.getElement(short_name, LifeCycleInfoSet)
-    
+
     def createClientServerInterface(self, short_name: str) -> ClientServerInterface:
         if not self.IsElementExists(short_name, ClientServerInterface):
             cs_interface = ClientServerInterface(self, short_name)
@@ -847,14 +847,14 @@ class ARPackage(CollectableElement):
         """
         Creates a new Implementation Data Type with the given short name,
         or returns an existing one if it already exists in this package.
-        
+
         ImplementationDataType represents data types used in the implementation
         layer of AUTOSAR, typically describing how application data types
         are mapped to implementation-specific types.
-        
+
         Args:
             short_name: The short name for the new ImplementationDataType
-            
+
         Returns:
             The newly created or existing ImplementationDataType instance
         """
@@ -876,7 +876,7 @@ class ARPackage(CollectableElement):
         return self.getElement(short_name, DataTypeMappingSet)
 
     def createCompuMethod(self, short_name: str) -> CompuMethod:
-        if (not self.IsElementExists(short_name, CompuMethod)):
+        if not self.IsElementExists(short_name, CompuMethod):
             compu_method = CompuMethod(self, short_name)
             self.addElement(compu_method)
         return self.getElement(short_name, CompuMethod)
@@ -885,14 +885,14 @@ class ARPackage(CollectableElement):
         """
         Creates a new Basic Software Module Description with the given short name,
         or returns an existing one if it already exists in this package.
-        
+
         BswModuleDescription represents the description of a basic software
         module in AUTOSAR, containing information about its functionality,
         interfaces, and configuration.
-        
+
         Args:
             short_name: The short name for the new BswModuleDescription
-            
+
         Returns:
             The newly created or existing BswModuleDescription instance
         """
@@ -1044,7 +1044,7 @@ class ARPackage(CollectableElement):
             element = CanTpConfig(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, CanTpConfig)
-    
+
     def createLinTpConfig(self, short_name: str) -> LinTpConfig:
         if not self.IsElementExists(short_name, LinTpConfig):
             element = LinTpConfig(self, short_name)
@@ -1055,13 +1055,13 @@ class ARPackage(CollectableElement):
         """
         Creates a new CAN Frame with the given short name,
         or returns an existing one if it already exists in this package.
-        
+
         CanFrame represents a CAN communication frame in AUTOSAR's
         communication modeling, used for defining CAN-based communication.
-        
+
         Args:
             short_name: The short name for the new CanFrame
-            
+
         Returns:
             The newly created or existing CanFrame instance
         """
@@ -1074,14 +1074,14 @@ class ARPackage(CollectableElement):
         """
         Creates a new ECU Instance with the given short name,
         or returns an existing one if it already exists in this package.
-        
+
         EcuInstance represents an Electronic Control Unit in AUTOSAR's
         system modeling, containing information about the hardware and
         software configuration of the ECU.
-        
+
         Args:
             short_name: The short name for the new EcuInstance
-            
+
         Returns:
             The newly created or existing EcuInstance instance
         """
@@ -1106,14 +1106,14 @@ class ARPackage(CollectableElement):
         """
         Creates a new System Signal with the given short name,
         or returns an existing one if it already exists in this package.
-        
+
         SystemSignal represents signals at the system level in AUTOSAR,
         typically used for communication between ECUs or for external
         interfaces.
-        
+
         Args:
             short_name: The short name for the new SystemSignal
-            
+
         Returns:
             The newly created or existing SystemSignal instance
         """
@@ -1145,13 +1145,13 @@ class ARPackage(CollectableElement):
             element = EcucModuleConfigurationValues(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, EcucModuleConfigurationValues)
-    
+
     def createEcucModuleDef(self, short_name: str) -> EcucModuleDef:
         if not self.IsElementExists(short_name, EcucModuleDef):
             element = EcucModuleDef(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, EcucModuleDef)
-    
+
     def createSwSystemConst(self, short_name: str) -> SwSystemconst:
         if not self.IsElementExists(short_name, SwSystemconst):
             element = SwSystemconst(self, short_name)
@@ -1193,43 +1193,43 @@ class ARPackage(CollectableElement):
             element = System(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, System)
-    
+
     def createFlatMap(self, short_name: str) -> FlatMap:
         if not self.IsElementExists(short_name, FlatMap):
             map = FlatMap(self, short_name)
             self.addElement(map)
         return self.getElement(short_name, FlatMap)
-    
+
     def createPortInterfaceMappingSet(self, short_name: str) -> PortInterfaceMappingSet:
         if not self.IsElementExists(short_name, PortInterfaceMappingSet):
             map_set = PortInterfaceMappingSet(self, short_name)
             self.addElement(map_set)
         return self.getElement(short_name, PortInterfaceMappingSet)
-    
+
     def createEthernetCluster(self, short_name: str) -> EthernetCluster:
         if not self.IsElementExists(short_name, EthernetCluster):
             cluster = EthernetCluster(self, short_name)
             self.addElement(cluster)
         return self.getElement(short_name, EthernetCluster)
-    
+
     def createDiagnosticConnection(self, short_name: str) -> DiagnosticConnection:
         if not self.IsElementExists(short_name, DiagnosticConnection):
             connection = DiagnosticConnection(self, short_name)
             self.addElement(connection)
         return self.getElement(short_name, DiagnosticConnection)
-    
+
     def createDiagnosticServiceTable(self, short_name: str) -> DiagnosticServiceTable:
         """
         Creates a new Diagnostic Service Table with the given short name,
         or returns an existing one if it already exists in this package.
-        
+
         DiagnosticServiceTable represents a collection of diagnostic services
         defined in the diagnostic extract template of AUTOSAR, used for
         specifying diagnostic functionality.
-        
+
         Args:
             short_name: The short name for the new DiagnosticServiceTable
-            
+
         Returns:
             The newly created or existing DiagnosticServiceTable instance
         """
@@ -1237,109 +1237,109 @@ class ARPackage(CollectableElement):
             table = DiagnosticServiceTable(self, short_name)
             self.addElement(table)
         return self.getElement(short_name, DiagnosticServiceTable)
-    
+
     def createMultiplexedIPdu(self, short_name: str) -> MultiplexedIPdu:
         if not self.IsElementExists(short_name, MultiplexedIPdu):
             ipdu = MultiplexedIPdu(self, short_name)
             self.addElement(ipdu)
         return self.getElement(short_name, MultiplexedIPdu)
-    
+
     def createUserDefinedIPdu(self, short_name: str) -> UserDefinedIPdu:
         if not self.IsElementExists(short_name, UserDefinedIPdu):
             ipdu = UserDefinedIPdu(self, short_name)
             self.addElement(ipdu)
         return self.getElement(short_name, UserDefinedIPdu)
-    
+
     def createUserDefinedPdu(self, short_name: str) -> UserDefinedPdu:
         if not self.IsElementExists(short_name, UserDefinedPdu):
             pdu = UserDefinedPdu(self, short_name)
             self.addElement(pdu)
         return self.getElement(short_name, UserDefinedPdu)
-    
+
     def createGeneralPurposeIPdu(self, short_name: str) -> GeneralPurposeIPdu:
         if not self.IsElementExists(short_name, GeneralPurposeIPdu):
             i_pdu = GeneralPurposeIPdu(self, short_name)
             self.addElement(i_pdu)
         return self.getElement(short_name, GeneralPurposeIPdu)
-    
+
     def createGeneralPurposePdu(self, short_name: str) -> GeneralPurposePdu:
         if not self.IsElementExists(short_name, GeneralPurposePdu):
             pdu = GeneralPurposePdu(self, short_name)
             self.addElement(pdu)
         return self.getElement(short_name, GeneralPurposePdu)
-    
+
     def createSecureCommunicationPropsSet(self, short_name: str) -> SecureCommunicationPropsSet:
         if not self.IsElementExists(short_name, SecureCommunicationPropsSet):
             props_set = SecureCommunicationPropsSet(self, short_name)
             self.addElement(props_set)
         return self.getElement(short_name, SecureCommunicationPropsSet)
-    
+
     def createSoAdRoutingGroup(self, short_name: str) -> SoAdRoutingGroup:
         if not self.IsElementExists(short_name, SoAdRoutingGroup):
             group = SoAdRoutingGroup(self, short_name)
             self.addElement(group)
         return self.getElement(short_name, SoAdRoutingGroup)
-    
+
     def createDoIpTpConfig(self, short_name: str) -> DoIpTpConfig:
         if not self.IsElementExists(short_name, DoIpTpConfig):
             tp_config = DoIpTpConfig(self, short_name)
             self.addElement(tp_config)
         return self.getElement(short_name, DoIpTpConfig)
-    
+
     def createHwElement(self, short_name: str) -> HwElement:
         if not self.IsElementExists(short_name, HwElement):
             hw_element = HwElement(self, short_name)
             self.addElement(hw_element)
         return self.getElement(short_name, HwElement)
-    
+
     def createHwCategory(self, short_name: str) -> HwCategory:
         if not self.IsElementExists(short_name, HwCategory):
             hw_category = HwCategory(self, short_name)
             self.addElement(hw_category)
         return self.getElement(short_name, HwCategory)
-    
+
     def createHwType(self, short_name: str) -> HwType:
         if not self.IsElementExists(short_name, HwType):
             hw_category = HwType(self, short_name)
             self.addElement(hw_category)
         return self.getElement(short_name, HwType)
-    
+
     def createFlexrayFrame(self, short_name: str) -> FlexrayFrame:
         if not self.IsElementExists(short_name, FlexrayFrame):
             frame = FlexrayFrame(self, short_name)
             self.addElement(frame)
         return self.getElement(short_name, FlexrayFrame)
-    
+
     def createFlexrayCluster(self, short_name: str) -> FlexrayCluster:
         if not self.IsElementExists(short_name, FlexrayCluster):
             frame = FlexrayCluster(self, short_name)
             self.addElement(frame)
         return self.getElement(short_name, FlexrayCluster)
-    
+
     def createDataTransformationSet(self, short_name: str) -> DataTransformationSet:
         if not self.IsElementExists(short_name, DataTransformationSet):
             transform_set = DataTransformationSet(self, short_name)
             self.addElement(transform_set)
         return self.getElement(short_name, DataTransformationSet)
-    
+
     def createCollection(self, short_name: str) -> Collection:
         if not self.IsElementExists(short_name, Collection):
             collection = Collection(self, short_name)
             self.addElement(collection)
         return self.getElement(short_name, Collection)
-    
+
     def createKeywordSet(self, short_name: str) -> KeywordSet:
         if not self.IsElementExists(short_name, KeywordSet):
             keyword_set = KeywordSet(self, short_name)
             self.addElement(keyword_set)
         return self.getElement(short_name, KeywordSet)
-    
+
     def createPortPrototypeBlueprint(self, short_name: str) -> PortPrototypeBlueprint:
         if not self.IsElementExists(short_name, PortPrototypeBlueprint):
             keyword_set = PortPrototypeBlueprint(self, short_name)
             self.addElement(keyword_set)
         return self.getElement(short_name, PortPrototypeBlueprint)
-    
+
     def createModeDeclarationMappingSet(self, short_name: str) -> ModeDeclarationMappingSet:
         if not self.IsElementExists(short_name, ModeDeclarationMappingSet):
             mapping_set = ModeDeclarationMappingSet(self, short_name)
@@ -1480,10 +1480,10 @@ class ARPackage(CollectableElement):
 
     def getEcucModuleConfigurationValues(self) -> List[EcucModuleConfigurationValues]:
         return list(sorted(filter(lambda a: isinstance(a, EcucModuleConfigurationValues), self.elements), key=lambda a: a.short_name))
-    
+
     def getEcucModuleDefs(self) -> List[EcucModuleDef]:
         return list(sorted(filter(lambda a: isinstance(a, EcucModuleDef), self.elements), key=lambda a: a.short_name))
-    
+
     def getSwSystemConsts(self) -> List[SwSystemconst]:
         return list(sorted(filter(lambda a: isinstance(a, SwSystemconst), self.elements), key=lambda a: a.short_name))
 
@@ -1515,31 +1515,31 @@ class ARPackage(CollectableElement):
 
     def getSystems(self) -> List[System]:
         return list(sorted(filter(lambda a: isinstance(a, System), self.elements), key=lambda a: a.short_name))
-    
+
     def getHwElements(self) -> List[HwElement]:
         return list(sorted(filter(lambda a: isinstance(a, HwElement), self.elements), key=lambda a: a.short_name))
-    
+
     def getHwCategories(self) -> List[HwCategory]:
         return list(sorted(filter(lambda a: isinstance(a, HwCategory), self.elements), key=lambda a: a.short_name))
-    
+
     def getFlexrayFrames(self) -> List[FlexrayFrame]:
         return list(sorted(filter(lambda a: isinstance(a, FlexrayFrame), self.elements), key=lambda a: a.short_name))
-    
+
     def getDataTransformationSets(self) -> List[DataTransformationSet]:
         return list(sorted(filter(lambda a: isinstance(a, DataTransformationSet), self.elements), key=lambda a: a.short_name))
-    
+
     def getCollections(self) -> List[Collection]:
         return list(sorted(filter(lambda a: isinstance(a, Collection), self.elements), key=lambda a: a.short_name))
-    
+
     def getKeywordSets(self) -> List[KeywordSet]:
         return list(sorted(filter(lambda a: isinstance(a, KeywordSet), self.elements), key=lambda a: a.short_name))
-    
+
     def getPortPrototypeBlueprints(self) -> List[PortPrototypeBlueprint]:
         return list(sorted(filter(lambda a: isinstance(a, PortPrototypeBlueprint), self.elements), key=lambda a: a.short_name))
-    
+
     def getModeDeclarationMappingSets(self) -> List[ModeDeclarationMappingSet]:
         return list(sorted(filter(lambda a: isinstance(a, ModeDeclarationMappingSet), self.elements), key=lambda a: a.short_name))
-    
+
     def getReferenceBases(self):
         return self.referenceBases
 

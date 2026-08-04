@@ -4,9 +4,7 @@ Tests cover all classes and methods in the ServerCall.py file to achieve 100% te
 """
 
 import pytest
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import (
-    ServerCallPoint
-)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 
 
@@ -47,6 +45,7 @@ class TestServerCallPoint:
         assert call_point.getOperationIRef() is None
 
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import ROperationInAtomicSwcInstanceRef
+
         operation_ref = ROperationInAtomicSwcInstanceRef()
         call_point.setOperationIRef(operation_ref)
         assert call_point.getOperationIRef() == operation_ref

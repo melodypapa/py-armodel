@@ -24,7 +24,7 @@ NS = "http://autosar.org/schema/r4.0"
 def reset_autosar():
     """Reset AUTOSAR singleton before each test."""
     AUTOSAR.getInstance().new()
-    AUTOSAR.getInstance().setARRelease('R23-11')
+    AUTOSAR.getInstance().setARRelease("R23-11")
     yield
     AUTOSAR.getInstance().new()
 
@@ -33,7 +33,7 @@ def reset_autosar():
 def parser():
     """Create ARXML parser instance."""
     AUTOSAR.getInstance().new()
-    AUTOSAR.getInstance().setARRelease('R23-11')
+    AUTOSAR.getInstance().setARRelease("R23-11")
     return ARXMLParser()
 
 
@@ -41,7 +41,7 @@ def parser():
 def warning_parser():
     """Parser configured in warning mode (logs instead of raising)."""
     AUTOSAR.getInstance().new()
-    AUTOSAR.getInstance().setARRelease('R23-11')
+    AUTOSAR.getInstance().setARRelease("R23-11")
     return ARXMLParser(options={"warning": True})
 
 
@@ -59,17 +59,19 @@ class TestWarningModeFallbackBranches:
     def test_unsupported_provided_mode_group_logs_warning(self, warning_parser, caplog):
         """Test unsupported ProvidedModeGroup logs warning."""
         AUTOSAR.getInstance().new()
-        AUTOSAR.getInstance().setARRelease('R23-11')
+        AUTOSAR.getInstance().setARRelease("R23-11")
         doc = AUTOSAR.getInstance()
         pkg = doc.createARPackage("Pkg")
         bsw = pkg.createBswModuleDescription("Bsw")
-        element = _snip("""
+        element = _snip(
+            """
             <PROVIDED-MODE-GROUPS>
                 <UNKNOWN-MODE-GROUP>
                     <SHORT-NAME>MG</SHORT-NAME>
                 </UNKNOWN-MODE-GROUP>
             </PROVIDED-MODE-GROUPS>
-        """)
+        """
+        )
         with caplog.at_level(logging.ERROR):
             warning_parser.readBswModuleDescriptionProvidedModeGroups(element, bsw)
         assert any("Unsupported ProvidedModeGroup" in rec.getMessage() for rec in caplog.records)
@@ -77,17 +79,19 @@ class TestWarningModeFallbackBranches:
     def test_unsupported_required_mode_group_logs_warning(self, warning_parser, caplog):
         """Test unsupported RequiredModeGroup logs warning."""
         AUTOSAR.getInstance().new()
-        AUTOSAR.getInstance().setARRelease('R23-11')
+        AUTOSAR.getInstance().setARRelease("R23-11")
         doc = AUTOSAR.getInstance()
         pkg = doc.createARPackage("Pkg")
         bsw = pkg.createBswModuleDescription("Bsw")
-        element = _snip("""
+        element = _snip(
+            """
             <REQUIRED-MODE-GROUPS>
                 <UNKNOWN-MODE-GROUP>
                     <SHORT-NAME>MG</SHORT-NAME>
                 </UNKNOWN-MODE-GROUP>
             </REQUIRED-MODE-GROUPS>
-        """)
+        """
+        )
         with caplog.at_level(logging.ERROR):
             warning_parser.readBswModuleDescriptionRequiredModeGroups(element, bsw)
         assert any("Unsupported RequiredModeGroup" in rec.getMessage() for rec in caplog.records)
@@ -95,17 +99,19 @@ class TestWarningModeFallbackBranches:
     def test_unsupported_data_receive_point_logs_warning(self, warning_parser, caplog):
         """Test unsupported Data Element logs warning."""
         AUTOSAR.getInstance().new()
-        AUTOSAR.getInstance().setARRelease('R23-11')
+        AUTOSAR.getInstance().setARRelease("R23-11")
         doc = AUTOSAR.getInstance()
         pkg = doc.createARPackage("Pkg")
         iface = pkg.createSenderReceiverInterface("SRInterface")
-        element = _snip("""
+        element = _snip(
+            """
             <DATA-ELEMENTS>
                 <UNKNOWN-POINT>
                     <SHORT-NAME>DP</SHORT-NAME>
                 </UNKNOWN-POINT>
             </DATA-ELEMENTS>
-        """)
+        """
+        )
         with caplog.at_level(logging.ERROR):
             warning_parser.readSenderReceiverInterfaceDataElements(element, iface)
         assert any("Unsupported Data Element" in rec.getMessage() for rec in caplog.records)
@@ -113,18 +119,20 @@ class TestWarningModeFallbackBranches:
     def test_unsupported_runnables_logs_warning(self, warning_parser, caplog):
         """Test unsupported Runnables logs warning."""
         AUTOSAR.getInstance().new()
-        AUTOSAR.getInstance().setARRelease('R23-11')
+        AUTOSAR.getInstance().setARRelease("R23-11")
         doc = AUTOSAR.getInstance()
         pkg = doc.createARPackage("Pkg")
         swc = pkg.createApplicationSwComponentType("Swc")
         behavior = swc.createSwcInternalBehavior("Behavior")
-        element = _snip("""
+        element = _snip(
+            """
             <RUNNABLES>
                 <UNKNOWN-RUNNABLE>
                     <SHORT-NAME>Run</SHORT-NAME>
                 </UNKNOWN-RUNNABLE>
             </RUNNABLES>
-        """)
+        """
+        )
         with caplog.at_level(logging.ERROR):
             warning_parser.readSwcInternalBehavior(element, behavior)
         assert any("Unsupported Runnables" in rec.getMessage() for rec in caplog.records)
@@ -132,18 +140,20 @@ class TestWarningModeFallbackBranches:
     def test_unsupported_swc_internal_behavior_event_logs_warning(self, warning_parser, caplog):
         """Test unsupported SwcInternalBehavior Event logs warning."""
         AUTOSAR.getInstance().new()
-        AUTOSAR.getInstance().setARRelease('R23-11')
+        AUTOSAR.getInstance().setARRelease("R23-11")
         doc = AUTOSAR.getInstance()
         pkg = doc.createARPackage("Pkg")
         swc = pkg.createApplicationSwComponentType("Swc")
         behavior = swc.createSwcInternalBehavior("Behavior")
-        element = _snip("""
+        element = _snip(
+            """
             <EVENTS>
                 <UNKNOWN-EVENT>
                     <SHORT-NAME>Evt</SHORT-NAME>
                 </UNKNOWN-EVENT>
             </EVENTS>
-        """)
+        """
+        )
         with caplog.at_level(logging.ERROR):
             warning_parser.readSwcInternalBehavior(element, behavior)
         assert any("Unsupported SwcInternalBehavior Event" in rec.getMessage() for rec in caplog.records)
@@ -151,17 +161,19 @@ class TestWarningModeFallbackBranches:
     def test_unsupported_port_prototype_logs_warning(self, warning_parser, caplog):
         """Test unsupported Port Prototype logs warning."""
         AUTOSAR.getInstance().new()
-        AUTOSAR.getInstance().setARRelease('R23-11')
+        AUTOSAR.getInstance().setARRelease("R23-11")
         doc = AUTOSAR.getInstance()
         pkg = doc.createARPackage("Pkg")
         swc = pkg.createApplicationSwComponentType("Swc")
-        element = _snip("""
+        element = _snip(
+            """
             <PORTS>
                 <UNKNOWN-PORT>
                     <SHORT-NAME>Port</SHORT-NAME>
                 </UNKNOWN-PORT>
             </PORTS>
-        """)
+        """
+        )
         with caplog.at_level(logging.ERROR):
             warning_parser.readSwComponentTypePorts(element, swc)
         assert any("Unsupported Port Prototype" in rec.getMessage() for rec in caplog.records)
@@ -169,17 +181,19 @@ class TestWarningModeFallbackBranches:
     def test_unsupported_operation_logs_warning(self, warning_parser, caplog):
         """Test unsupported Operation logs warning."""
         AUTOSAR.getInstance().new()
-        AUTOSAR.getInstance().setARRelease('R23-11')
+        AUTOSAR.getInstance().setARRelease("R23-11")
         doc = AUTOSAR.getInstance()
         pkg = doc.createARPackage("Pkg")
         iface = pkg.createClientServerInterface("CSInterface")
-        element = _snip("""
+        element = _snip(
+            """
             <OPERATIONS>
                 <UNKNOWN-OPERATION>
                     <SHORT-NAME>Op</SHORT-NAME>
                 </UNKNOWN-OPERATION>
             </OPERATIONS>
-        """)
+        """
+        )
         with caplog.at_level(logging.ERROR):
             warning_parser.readClientServerInterface(element, iface)
         assert any("Unsupported Operation" in rec.getMessage() for rec in caplog.records)
@@ -187,17 +201,19 @@ class TestWarningModeFallbackBranches:
     def test_unsupported_parameter_logs_warning(self, warning_parser, caplog):
         """Test unsupported Parameter logs warning."""
         AUTOSAR.getInstance().new()
-        AUTOSAR.getInstance().setARRelease('R23-11')
+        AUTOSAR.getInstance().setARRelease("R23-11")
         doc = AUTOSAR.getInstance()
         pkg = doc.createARPackage("Pkg")
         iface = pkg.createParameterInterface("ParamInterface")
-        element = _snip("""
+        element = _snip(
+            """
             <PARAMETERS>
                 <UNKNOWN-PARAMETER>
                     <SHORT-NAME>Param</SHORT-NAME>
                 </UNKNOWN-PARAMETER>
             </PARAMETERS>
-        """)
+        """
+        )
         with caplog.at_level(logging.ERROR):
             warning_parser.readParameterInterface(element, iface)
         assert any("Unsupported Parameter" in rec.getMessage() for rec in caplog.records)
@@ -205,17 +221,19 @@ class TestWarningModeFallbackBranches:
     def test_unsupported_nvdata_logs_warning(self, warning_parser, caplog):
         """Test unsupported NvData logs warning."""
         AUTOSAR.getInstance().new()
-        AUTOSAR.getInstance().setARRelease('R23-11')
+        AUTOSAR.getInstance().setARRelease("R23-11")
         doc = AUTOSAR.getInstance()
         pkg = doc.createARPackage("Pkg")
         iface = pkg.createNvDataInterface("NVInterface")
-        element = _snip("""
+        element = _snip(
+            """
             <NV-DATAS>
                 <UNKNOWN-NV-DATA>
                     <SHORT-NAME>NV</SHORT-NAME>
                 </UNKNOWN-NV-DATA>
             </NV-DATAS>
-        """)
+        """
+        )
         with caplog.at_level(logging.ERROR):
             warning_parser.readNvDataInterface(element, iface)
         assert any("Unsupported NvData" in rec.getMessage() for rec in caplog.records)
@@ -223,17 +241,19 @@ class TestWarningModeFallbackBranches:
     def test_unsupported_application_record_element_logs_warning(self, warning_parser, caplog):
         """Test unsupported ApplicationRecordDataType Element logs warning."""
         AUTOSAR.getInstance().new()
-        AUTOSAR.getInstance().setARRelease('R23-11')
+        AUTOSAR.getInstance().setARRelease("R23-11")
         doc = AUTOSAR.getInstance()
         pkg = doc.createARPackage("Pkg")
         data_type = pkg.createApplicationRecordDataType("RecordType")
-        element = _snip("""
+        element = _snip(
+            """
             <ELEMENTS>
                 <UNKNOWN-ELEMENT>
                     <SHORT-NAME>Elem</SHORT-NAME>
                 </UNKNOWN-ELEMENT>
             </ELEMENTS>
-        """)
+        """
+        )
         with caplog.at_level(logging.ERROR):
             warning_parser.readApplicationRecordDataTypeElements(element, data_type)
         assert any("Unsupported ApplicationRecordDataType Element" in rec.getMessage() for rec in caplog.records)
@@ -241,17 +261,19 @@ class TestWarningModeFallbackBranches:
     def test_unsupported_implementation_data_type_subelement_logs_warning(self, warning_parser, caplog):
         """Test unsupported ImplementationDataType SubElement logs warning."""
         AUTOSAR.getInstance().new()
-        AUTOSAR.getInstance().setARRelease('R23-11')
+        AUTOSAR.getInstance().setARRelease("R23-11")
         doc = AUTOSAR.getInstance()
         pkg = doc.createARPackage("Pkg")
         data_type = pkg.createImplementationDataType("ImplType")
-        element = _snip("""
+        element = _snip(
+            """
             <SUB-ELEMENTS>
                 <UNKNOWN-SUB-ELEMENT>
                     <SHORT-NAME>Sub</SHORT-NAME>
                 </UNKNOWN-SUB-ELEMENT>
             </SUB-ELEMENTS>
-        """)
+        """
+        )
         with caplog.at_level(logging.ERROR):
             warning_parser.readImplementationDataTypeSubElements(element, data_type)
         assert any("Unsupported ImplementationDataType SubElement" in rec.getMessage() for rec in caplog.records)
@@ -262,14 +284,14 @@ class TestRaiseErrorWarningMode:
 
     def test_raise_error_invalid_arxml_file_logs_warning(self, warning_parser, caplog):
         """Test invalid ARXML file logs warning instead of raising."""
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.arxml', delete=False) as f:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".arxml", delete=False) as f:
             f.write("<?xml version='1.0'?>\n<NOT-AUTOSAR></NOT-AUTOSAR>")
             f.flush()
             temp_path = f.name
 
         try:
             AUTOSAR.getInstance().new()
-            AUTOSAR.getInstance().setARRelease('R23-11')
+            AUTOSAR.getInstance().setARRelease("R23-11")
             with caplog.at_level(logging.ERROR):
                 warning_parser.load(temp_path, AUTOSAR.getInstance())
             assert any("Invalid ARXML file" in rec.getMessage() for rec in caplog.records)
@@ -305,11 +327,13 @@ class TestOptionalGetterDefensivePaths:
 
     def test_getSwPointerTargetProps_present_returns_props(self, parser):
         """Test getSwPointerTargetProps returns props when element present."""
-        element = _snip("""
+        element = _snip(
+            """
             <SW-POINTER-TARGET-PROPS>
                 <TARGET-CATEGORY>DATA</TARGET-CATEGORY>
             </SW-POINTER-TARGET-PROPS>
-        """)
+        """
+        )
         result = parser.getSwPointerTargetProps(element, "SW-POINTER-TARGET-PROPS")
         assert result is not None
         assert result.targetCategory is not None
@@ -322,18 +346,21 @@ class TestOptionalGetterDefensivePaths:
 
     def test_getSwDataDefProps_no_conditional_returns_None(self, parser):
         """Test getSwDataDefProps returns None when conditional missing."""
-        element = _snip("""
+        element = _snip(
+            """
             <SW-DATA-DEF-PROPS>
                 <SW-DATA-DEF-PROPS-VARIANTS>
                 </SW-DATA-DEF-PROPS-VARIANTS>
             </SW-DATA-DEF-PROPS>
-        """)
+        """
+        )
         result = parser.getSwDataDefProps(element, "SW-DATA-DEF-PROPS")
         assert result is None
 
     def test_getSwDataDefProps_present_returns_props(self, parser):
         """Test getSwDataDefProps returns props when properly formed."""
-        element = _snip("""
+        element = _snip(
+            """
             <SW-DATA-DEF-PROPS>
                 <SW-DATA-DEF-PROPS-VARIANTS>
                     <SW-DATA-DEF-PROPS-CONDITIONAL>
@@ -341,7 +368,8 @@ class TestOptionalGetterDefensivePaths:
                     </SW-DATA-DEF-PROPS-CONDITIONAL>
                 </SW-DATA-DEF-PROPS-VARIANTS>
             </SW-DATA-DEF-PROPS>
-        """)
+        """
+        )
         result = parser.getSwDataDefProps(element, "SW-DATA-DEF-PROPS")
         assert result is not None
         assert result.baseTypeRef is not None
@@ -353,12 +381,14 @@ class TestOptionalGetterDefensivePaths:
 
     def test_getVariableInAtomicSWCTypeInstanceRef_present(self, parser):
         """Test getVariableInAtomicSWCTypeInstanceRef with element."""
-        element = _snip("""
+        element = _snip(
+            """
             <AUTOSAR-VARIABLE-IREF>
                 <PORT-PROTOTYPE-REF>/Port</PORT-PROTOTYPE-REF>
                 <TARGET-DATA-PROTOTYPE-REF>/Data</TARGET-DATA-PROTOTYPE-REF>
             </AUTOSAR-VARIABLE-IREF>
-        """)
+        """
+        )
         result = parser.getVariableInAtomicSWCTypeInstanceRef(element)
         assert result is not None
 
@@ -369,12 +399,14 @@ class TestOptionalGetterDefensivePaths:
 
     def test_getComponentInSystemInstanceRef_present(self, parser):
         """Test getComponentInSystemInstanceRef with element."""
-        element = _snip("""
+        element = _snip(
+            """
             <COMPONENT-IREF>
                 <BASE-REF>/Base</BASE-REF>
                 <TARGET-COMPONENT-REF>/Target</TARGET-COMPONENT-REF>
             </COMPONENT-IREF>
-        """)
+        """
+        )
         result = parser.getComponentInSystemInstanceRef(element)
         assert result is not None
 
@@ -386,14 +418,16 @@ class TestOptionalGetterDefensivePaths:
 
     def test_getAutosarVariableRef_present(self, parser):
         """Test getAutosarVariableRef with element."""
-        element = _snip("""
+        element = _snip(
+            """
             <ACCESSED-VARIABLE>
                 <AUTOSAR-VARIABLE-IREF>
                     <PORT-PROTOTYPE-REF>/Port</PORT-PROTOTYPE-REF>
                     <TARGET-DATA-PROTOTYPE-REF>/Data</TARGET-DATA-PROTOTYPE-REF>
                 </AUTOSAR-VARIABLE-IREF>
             </ACCESSED-VARIABLE>
-        """)
+        """
+        )
         result = parser.getAutosarVariableRef(element, "ACCESSED-VARIABLE")
         assert result is not None
 
@@ -405,11 +439,13 @@ class TestOptionalGetterDefensivePaths:
 
     def test_getMultiLanguageParagraphs_present(self, parser):
         """Test getMultiLanguageParagraphs with elements."""
-        element = _snip("""
+        element = _snip(
+            """
             <P>
                 <L-1 L="EN">Text</L-1>
             </P>
-        """)
+        """
+        )
         result = parser.getMultiLanguageParagraphs(element, "P")
         assert len(result) == 1
 
@@ -421,12 +457,14 @@ class TestOptionalGetterDefensivePaths:
 
     def test_getLParagraphs_present(self, parser):
         """Test getLParagraphs with elements."""
-        element = _snip("""
+        element = _snip(
+            """
             <CONTAINER>
                 <L-1 L="EN">Text</L-1>
                 <L-1 L="DE">Text</L-1>
             </CONTAINER>
-        """)
+        """
+        )
         result = parser.getLParagraphs(element, "CONTAINER/L-1")
         assert len(result) == 2
 
@@ -438,12 +476,14 @@ class TestOptionalGetterDefensivePaths:
 
     def test_getSwValues_present(self, parser):
         """Test getSwValues with element."""
-        element = _snip("""
+        element = _snip(
+            """
             <SW-VALUES>
                 <V>1.0</V>
                 <V>2.0</V>
             </SW-VALUES>
-        """)
+        """
+        )
         result = parser.getSwValues(element, "SW-VALUES")
         assert result is not None
 
@@ -455,11 +495,13 @@ class TestOptionalGetterDefensivePaths:
 
     def test_getValueList_present(self, parser):
         """Test getValueList with element."""
-        element = _snip("""
+        element = _snip(
+            """
             <VALUE-LIST>
                 <V>1.0</V>
             </VALUE-LIST>
-        """)
+        """
+        )
         result = parser.getValueList(element, "VALUE-LIST")
         assert result is not None
 
@@ -471,12 +513,14 @@ class TestOptionalGetterDefensivePaths:
 
     def test_getApplicationCompositeElementInPortInterfaceInstanceRef_present(self, parser):
         """Test getApplicationCompositeElementInPortInterfaceInstanceRef with element."""
-        element = _snip("""
+        element = _snip(
+            """
             <LEAF-ELEMENT-IREF>
                 <ROOT-DATA-PROTOTYPE-REF>/Root</ROOT-DATA-PROTOTYPE-REF>
                 <TARGET-DATA-PROTOTYPE-REF>/Target</TARGET-DATA-PROTOTYPE-REF>
             </LEAF-ELEMENT-IREF>
-        """)
+        """
+        )
         result = parser.getApplicationCompositeElementInPortInterfaceInstanceRef(element, "LEAF-ELEMENT-IREF")
         assert result is not None
 
@@ -557,18 +601,20 @@ class TestRaiseWarningFallbacks:
     def test_readRootSwCompositionPrototype_value_error_to_warning(self, warning_parser, caplog):
         """Test readRootSwCompositionPrototype ValueError→raiseWarning path."""
         AUTOSAR.getInstance().new()
-        AUTOSAR.getInstance().setARRelease('R23-11')
+        AUTOSAR.getInstance().setARRelease("R23-11")
         doc = AUTOSAR.getInstance()
         pkg = doc.createARPackage("Pkg")
         system = pkg.createSystem("System")
 
-        element = _snip("""
+        element = _snip(
+            """
             <ROOT-SOFTWARE-COMPOSITIONS>
                 <ROOT-SW-COMPOSITION-PROTOTYPE>
                     <SHORT-NAME>Root1</SHORT-NAME>
                 </ROOT-SW-COMPOSITION-PROTOTYPE>
             </ROOT-SOFTWARE-COMPOSITIONS>
-        """)
+        """
+        )
 
         with caplog.at_level(logging.WARNING):
             warning_parser.readRootSwCompositionPrototype(element, system)
@@ -582,14 +628,14 @@ class TestLoadAndDispatchBoundaries:
 
     def test_load_invalid_arxml_raises_in_raise_mode(self, parser):
         """Test load() raises on invalid ARXML in raise mode."""
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.arxml', delete=False) as f:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".arxml", delete=False) as f:
             f.write("<?xml version='1.0'?>\n<NOT-AUTOSAR></NOT-AUTOSAR>")
             f.flush()
             temp_path = f.name
 
         try:
             AUTOSAR.getInstance().new()
-            AUTOSAR.getInstance().setARRelease('R23-11')
+            AUTOSAR.getInstance().setARRelease("R23-11")
             with pytest.raises(ValueError, match="Invalid ARXML file"):
                 parser.load(temp_path, AUTOSAR.getInstance())
         finally:
@@ -597,21 +643,23 @@ class TestLoadAndDispatchBoundaries:
 
     def test_load_valid_minimal_arxml(self, parser):
         """Test load() with valid minimal ARXML document."""
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.arxml', delete=False) as f:
-            f.write(f"""<?xml version='1.0'?>
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".arxml", delete=False) as f:
+            f.write(
+                f"""<?xml version='1.0'?>
 <AUTOSAR xmlns='{NS}'>
     <AR-PACKAGES>
         <AR-PACKAGE>
             <SHORT-NAME>TestPkg</SHORT-NAME>
         </AR-PACKAGE>
     </AR-PACKAGES>
-</AUTOSAR>""")
+</AUTOSAR>"""
+            )
             f.flush()
             temp_path = f.name
 
         try:
             AUTOSAR.getInstance().new()
-            AUTOSAR.getInstance().setARRelease('R23-11')
+            AUTOSAR.getInstance().setARRelease("R23-11")
             document = AUTOSAR.getInstance()
             parser.load(temp_path, document)
             pkgs = document.getARPackages()
@@ -627,18 +675,20 @@ class TestLoadAndDispatchBoundaries:
 
     def test_load_empty_ar_packages(self, parser):
         """Test load() with empty AR-PACKAGES element."""
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.arxml', delete=False) as f:
-            f.write(f"""<?xml version='1.0'?>
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".arxml", delete=False) as f:
+            f.write(
+                f"""<?xml version='1.0'?>
 <AUTOSAR xmlns='{NS}'>
     <AR-PACKAGES>
     </AR-PACKAGES>
-</AUTOSAR>""")
+</AUTOSAR>"""
+            )
             f.flush()
             temp_path = f.name
 
         try:
             AUTOSAR.getInstance().new()
-            AUTOSAR.getInstance().setARRelease('R23-11')
+            AUTOSAR.getInstance().setARRelease("R23-11")
             document = AUTOSAR.getInstance()
             parser.load(temp_path, document)
         finally:
@@ -646,16 +696,18 @@ class TestLoadAndDispatchBoundaries:
 
     def test_load_no_ar_packages(self, parser):
         """Test load() with no AR-PACKAGES element."""
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.arxml', delete=False) as f:
-            f.write(f"""<?xml version='1.0'?>
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".arxml", delete=False) as f:
+            f.write(
+                f"""<?xml version='1.0'?>
 <AUTOSAR xmlns='{NS}'>
-</AUTOSAR>""")
+</AUTOSAR>"""
+            )
             f.flush()
             temp_path = f.name
 
         try:
             AUTOSAR.getInstance().new()
-            AUTOSAR.getInstance().setARRelease('R23-11')
+            AUTOSAR.getInstance().setARRelease("R23-11")
             document = AUTOSAR.getInstance()
             parser.load(temp_path, document)
         finally:
@@ -663,8 +715,9 @@ class TestLoadAndDispatchBoundaries:
 
     def test_load_with_reference_bases(self, parser):
         """Test load() with REFERENCE-BASES element."""
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.arxml', delete=False) as f:
-            f.write(f"""<?xml version='1.0'?>
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".arxml", delete=False) as f:
+            f.write(
+                f"""<?xml version='1.0'?>
 <AUTOSAR xmlns='{NS}'>
     <AR-PACKAGES>
         <AR-PACKAGE>
@@ -677,13 +730,14 @@ class TestLoadAndDispatchBoundaries:
             </REFERENCE-BASES>
         </AR-PACKAGE>
     </AR-PACKAGES>
-</AUTOSAR>""")
+</AUTOSAR>"""
+            )
             f.flush()
             temp_path = f.name
 
         try:
             AUTOSAR.getInstance().new()
-            AUTOSAR.getInstance().setARRelease('R23-11')
+            AUTOSAR.getInstance().setARRelease("R23-11")
             document = AUTOSAR.getInstance()
             parser.load(temp_path, document)
             pkgs = document.getARPackages()
@@ -693,8 +747,9 @@ class TestLoadAndDispatchBoundaries:
 
     def test_load_with_admin_data(self, parser):
         """Test load() with ADMIN-DATA element."""
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.arxml', delete=False) as f:
-            f.write(f"""<?xml version='1.0'?>
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".arxml", delete=False) as f:
+            f.write(
+                f"""<?xml version='1.0'?>
 <AUTOSAR xmlns='{NS}'>
     <ADMIN-DATA>
         <DOC-REVISIONS>
@@ -708,13 +763,14 @@ class TestLoadAndDispatchBoundaries:
             <SHORT-NAME>TestPkg</SHORT-NAME>
         </AR-PACKAGE>
     </AR-PACKAGES>
-</AUTOSAR>""")
+</AUTOSAR>"""
+            )
             f.flush()
             temp_path = f.name
 
         try:
             AUTOSAR.getInstance().new()
-            AUTOSAR.getInstance().setARRelease('R23-11')
+            AUTOSAR.getInstance().setARRelease("R23-11")
             document = AUTOSAR.getInstance()
             parser.load(temp_path, document)
             assert document.adminData is not None
@@ -724,7 +780,7 @@ class TestLoadAndDispatchBoundaries:
     def test_readARPackages_empty_packages(self, parser):
         """Test readARPackages with no packages."""
         AUTOSAR.getInstance().new()
-        AUTOSAR.getInstance().setARRelease('R23-11')
+        AUTOSAR.getInstance().setARRelease("R23-11")
         document = AUTOSAR.getInstance()
         element = ET.fromstring(f"<AUTOSAR xmlns='{NS}'></AUTOSAR>")
         parser.readARPackages(element, document)
@@ -732,15 +788,17 @@ class TestLoadAndDispatchBoundaries:
     def test_readARPackage_orchestrator(self, parser):
         """Test readARPackage orchestrator method."""
         AUTOSAR.getInstance().new()
-        AUTOSAR.getInstance().setARRelease('R23-11')
+        AUTOSAR.getInstance().setARRelease("R23-11")
         doc = AUTOSAR.getInstance()
         parent_pkg = doc.createARPackage("Parent")
 
-        element = _snip("""
+        element = _snip(
+            """
             <AR-PACKAGE>
                 <SHORT-NAME>Child</SHORT-NAME>
             </AR-PACKAGE>
-        """)
+        """
+        )
 
         child_pkg = parent_pkg.createARPackage("Child")
         parser.readARPackage(element, child_pkg)
@@ -775,11 +833,13 @@ class TestAdditionalErrorBranches:
 
     def test_find_with_wildcard(self, parser):
         """Test find method with wildcard."""
-        element = _snip("""
+        element = _snip(
+            """
             <CONTAINER>
                 <CHILD>Value</CHILD>
             </CONTAINER>
-        """)
+        """
+        )
         child = parser.find(element, "CONTAINER/*")
         assert child is not None
 
@@ -791,13 +851,15 @@ class TestAdditionalErrorBranches:
 
     def test_findall_multiple_elements(self, parser):
         """Test findall returns multiple elements."""
-        element = _snip("""
+        element = _snip(
+            """
             <CONTAINER>
                 <ITEM>1</ITEM>
                 <ITEM>2</ITEM>
                 <ITEM>3</ITEM>
             </CONTAINER>
-        """)
+        """
+        )
         result = parser.findall(element, "CONTAINER/ITEM")
         assert len(result) == 3
 

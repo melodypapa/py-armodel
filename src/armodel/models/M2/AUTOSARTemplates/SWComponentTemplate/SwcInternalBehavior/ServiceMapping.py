@@ -18,6 +18,7 @@ class RoleBasedPortAssignment(ARObject):
     A role-based port assignment that links a port prototype to a specific
     role within a service dependency.
     """
+
     # RoleBasedPortAssignment method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getPortPrototypeRef          [x] impl  [x] docstring  [ ] test
@@ -25,12 +26,11 @@ class RoleBasedPortAssignment(ARObject):
     # [ ] getRole                      [x] impl  [x] docstring  [ ] test
     # [ ] setRole                      [x] impl  [x] docstring  [ ] test
 
-
     def __init__(self):
         super().__init__()
 
-        self.portPrototypeRef: 'RefType' = None
-        self.role: 'Identifier' = None
+        self.portPrototypeRef: "RefType" = None
+        self.role: "Identifier" = None
 
     def getPortPrototypeRef(self):
         """
@@ -82,6 +82,7 @@ class SwcServiceDependency(ServiceDependency):
     A service dependency for an atomic software component that defines the
     required services and their assignments.
     """
+
     # SwcServiceDependency method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] AddAssignedData              [x] impl  [x] docstring  [ ] test
@@ -110,12 +111,11 @@ class SwcServiceDependency(ServiceDependency):
     # [ ] getDltUserNeeds              [x] impl  [x] docstring  [ ] test
     # [ ] getServiceNeeds              [x] impl  [x] docstring  [ ] test
 
-
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self._assigned_data: List['RoleBasedDataAssignment'] = []
-        self._assigned_ports: List['RoleBasedPortAssignment'] = []
+        self._assigned_data: List["RoleBasedDataAssignment"] = []
+        self._assigned_ports: List["RoleBasedPortAssignment"] = []
 
     def AddAssignedData(self, data: RoleBasedDataAssignment):
         """
@@ -163,7 +163,7 @@ class SwcServiceDependency(ServiceDependency):
         Returns:
             NvBlockNeeds: The created or existing needs element
         """
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             needs = NvBlockNeeds(self, short_name)
             self.addElement(needs)
         return self.getElement(short_name)
@@ -179,7 +179,7 @@ class SwcServiceDependency(ServiceDependency):
             DiagnosticCommunicationManagerNeeds: The created or existing needs
                 element
         """
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             needs = DiagnosticCommunicationManagerNeeds(self, short_name)
             self.addElement(needs)
         return self.getElement(short_name)
@@ -194,7 +194,7 @@ class SwcServiceDependency(ServiceDependency):
         Returns:
             DiagnosticRoutineNeeds: The created or existing needs element
         """
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             needs = DiagnosticRoutineNeeds(self, short_name)
             self.addElement(needs)
         return self.getElement(short_name)
@@ -209,7 +209,7 @@ class SwcServiceDependency(ServiceDependency):
         Returns:
             DiagnosticValueNeeds: The created or existing needs element
         """
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             needs = DiagnosticValueNeeds(self, short_name)
             self.addElement(needs)
         return self.getElement(short_name)
@@ -224,7 +224,7 @@ class SwcServiceDependency(ServiceDependency):
         Returns:
             DiagnosticEventNeeds: The created or existing needs element
         """
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             needs = DiagnosticEventNeeds(self, short_name)
             self.addElement(needs)
         return self.getElement(short_name)
@@ -239,7 +239,7 @@ class SwcServiceDependency(ServiceDependency):
         Returns:
             DiagnosticEventInfoNeeds: The created or existing needs element
         """
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             needs = DiagnosticEventInfoNeeds(self, short_name)
             self.addElement(needs)
         return self.getElement(short_name)
@@ -254,7 +254,7 @@ class SwcServiceDependency(ServiceDependency):
         Returns:
             CryptoServiceNeeds: The created or existing needs element
         """
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             needs = CryptoServiceNeeds(self, short_name)
             self.addElement(needs)
         return self.getElement(short_name)
@@ -269,7 +269,7 @@ class SwcServiceDependency(ServiceDependency):
         Returns:
             EcuStateMgrUserNeeds: The created or existing needs element
         """
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             needs = EcuStateMgrUserNeeds(self, short_name)
             self.addElement(needs)
         return self.getElement(short_name)
@@ -285,7 +285,7 @@ class SwcServiceDependency(ServiceDependency):
             DtcStatusChangeNotificationNeeds: The created or existing needs
                 element
         """
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             needs = DtcStatusChangeNotificationNeeds(self, short_name)
             self.addElement(needs)
         return self.getElement(short_name)
@@ -300,7 +300,7 @@ class SwcServiceDependency(ServiceDependency):
         Returns:
             DltUserNeeds: The created or existing needs element
         """
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             needs = DltUserNeeds(self, short_name)
             self.addElement(needs)
         return self.getElement(short_name)

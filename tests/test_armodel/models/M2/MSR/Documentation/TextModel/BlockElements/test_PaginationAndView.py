@@ -1,6 +1,7 @@
 """
 This module contains tests for the PaginationAndView module in MSR.Documentation.TextModel.BlockElements.
 """
+
 import pytest
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import (
     DocumentViewSelectable,
@@ -10,7 +11,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndVi
 
 class TestDocumentViewSelectable:
     """Test class for DocumentViewSelectable class."""
-    
+
     def test_document_view_selectable_initialization(self):
         """Test that DocumentViewSelectable is abstract and cannot be instantiated directly."""
         # Test that DocumentViewSelectable cannot be instantiated directly
@@ -32,6 +33,7 @@ class TestPaginateable:
 
     def test_paginateable_subclass_can_be_instantiated(self):
         """Test that a concrete subclass of Paginateable can be instantiated."""
+
         # Create a simple concrete subclass for testing
         class ConcretePaginatable(Paginateable):
             def __init__(self):
@@ -44,6 +46,7 @@ class TestPaginateable:
 
     def test_paginateable_break_methods(self):
         """Test the chapterBreak getter and setter."""
+
         # Create a concrete subclass for testing
         class ConcretePaginatable(Paginateable):
             def __init__(self):
@@ -58,6 +61,7 @@ class TestPaginateable:
 
     def test_paginateable_keep_with_previous_methods(self):
         """Test the keepWithPrevious getter and setter."""
+
         # Create a concrete subclass for testing
         class ConcretePaginatable(Paginateable):
             def __init__(self):

@@ -20,6 +20,7 @@ class ModeInBswModuleDescriptionInstanceRef(ARObject):
       - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 323, Classic Platform
       R23-11)
     """
+
     # ModeInBswModuleDescriptionInstanceRef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
     # [ ] getBases                     [x] impl  [ ] docstring  [ ] test
@@ -28,7 +29,6 @@ class ModeInBswModuleDescriptionInstanceRef(ARObject):
     # [ ] setContextModes              [x] impl  [ ] docstring  [ ] test
     # [ ] getTargetModes               [x] impl  [ ] docstring  [ ] test
     # [ ] setTargetModes               [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -45,26 +45,20 @@ class ModeInBswModuleDescriptionInstanceRef(ARObject):
     def getBases(self) -> BswModuleDescription:
         return self.bases
 
-    def setBases(
-        self, value: BswModuleDescription
-    ) -> "ModeInBswModuleDescriptionInstanceRef":
+    def setBases(self, value: BswModuleDescription) -> "ModeInBswModuleDescriptionInstanceRef":
         self.bases = value
         return self
 
     def getContextModes(self) -> RefType:
         return self.contextModes
 
-    def setContextModes(
-        self, value: RefType
-    ) -> "ModeInBswModuleDescriptionInstanceRef":
+    def setContextModes(self, value: RefType) -> "ModeInBswModuleDescriptionInstanceRef":
         self.contextModes = value
         return self
 
     def getTargetModes(self) -> ModeDeclaration:
         return self.targetModes
 
-    def setTargetModes(
-        self, value: ModeDeclaration
-    ) -> "ModeInBswModuleDescriptionInstanceRef":
+    def setTargetModes(self, value: ModeDeclaration) -> "ModeInBswModuleDescriptionInstanceRef":
         self.targetModes = value
         return self

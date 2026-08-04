@@ -1,4 +1,3 @@
-
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter, DataFilterTypeEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import UnlimitedInteger, PositiveInteger
 
@@ -23,15 +22,7 @@ class TestDataFilterTypeEnum:
         """Test that all enum values are in the list"""
         enum_obj = DataFilterTypeEnum()
         values = enum_obj.getEnumValues()
-        expected_values = [
-            "maskedNewDiffersMaskedOld",
-            "maskedNewDiffersX",
-            "maskedNewEqualsX",
-            "never",
-            "newIsOutside",
-            "newIsWithin",
-            "oneEveryN"
-        ]
+        expected_values = ["maskedNewDiffersMaskedOld", "maskedNewDiffersX", "maskedNewEqualsX", "never", "newIsOutside", "newIsWithin", "oneEveryN"]
         assert set(values) == set(expected_values)
 
 
@@ -191,7 +182,7 @@ class TestDataFilter:
     def test_all_properties(self):
         """Test setting all properties"""
         data_filter = DataFilter()
-        
+
         # Create test values
         filter_type = DataFilterTypeEnum()
         mask = UnlimitedInteger().setValue(16)
@@ -200,7 +191,7 @@ class TestDataFilter:
         offset = PositiveInteger().setValue(3)
         period = PositiveInteger().setValue(5)
         x_val = UnlimitedInteger().setValue(99)
-        
+
         # Set all properties
         data_filter.setDataFilterType(filter_type)
         data_filter.setMask(mask)
@@ -209,7 +200,7 @@ class TestDataFilter:
         data_filter.setOffset(offset)
         data_filter.setPeriod(period)
         data_filter.setX(x_val)
-        
+
         # Verify all properties
         assert data_filter.getDataFilterType() == filter_type
         assert data_filter.getMask() == mask

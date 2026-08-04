@@ -11,11 +11,13 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceR
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
+
 class ModeAccessPoint(ARObject):
     """
     A mode access point used by a runnable entity to read the current mode
     of a mode declaration group.
     """
+
     # ModeAccessPoint method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getIdent                     [x] impl  [x] docstring  [ ] test
@@ -23,12 +25,11 @@ class ModeAccessPoint(ARObject):
     # [ ] getModeGroupIRef             [x] impl  [x] docstring  [ ] test
     # [ ] setModeGroupIRef             [x] impl  [x] docstring  [ ] test
 
-
     def __init__(self):
         super().__init__()
 
-        self.ident: 'ModeAccessPointIdent' = None
-        self.modeGroupIRef: 'RModeGroupInAtomicSWCInstanceRef' = None
+        self.ident: "ModeAccessPointIdent" = None
+        self.modeGroupIRef: "RModeGroupInAtomicSWCInstanceRef" = None
 
     def getIdent(self):
         """
@@ -74,21 +75,22 @@ class ModeAccessPoint(ARObject):
         self.modeGroupIRef = value
         return self
 
+
 class ModeSwitchPoint(AbstractAccessPoint):
     """
     A mode switch point used by a runnable entity to switch the mode
     of a mode declaration group.
     """
+
     # ModeSwitchPoint method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getModeGroupIRef             [x] impl  [x] docstring  [ ] test
     # [ ] setModeGroupIRef             [x] impl  [x] docstring  [ ] test
 
-
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.modeGroupIRef: 'PModeGroupInAtomicSwcInstanceRef' = None
+        self.modeGroupIRef: "PModeGroupInAtomicSwcInstanceRef" = None
 
     def getModeGroupIRef(self):
         """
@@ -118,6 +120,7 @@ class IncludedModeDeclarationGroupSet(ARObject):
     A set of mode declaration group references included in the scope
     of a software component internal behavior.
     """
+
     # IncludedModeDeclarationGroupSet method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] addModeDeclarationGroupRef   [x] impl  [x] docstring  [ ] test
@@ -125,12 +128,11 @@ class IncludedModeDeclarationGroupSet(ARObject):
     # [ ] setPrefix                    [x] impl  [x] docstring  [ ] test
     # [ ] getPrefix                    [x] impl  [x] docstring  [ ] test
 
-
     def __init__(self):
         super().__init__()
 
-        self.mode_declaration_group_refs: List['RefType'] = []
-        self.prefix: 'Identifier' = None
+        self.mode_declaration_group_refs: List["RefType"] = []
+        self.prefix: "Identifier" = None
 
     def addModeDeclarationGroupRef(self, ref: RefType):
         """

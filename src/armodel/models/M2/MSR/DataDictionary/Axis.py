@@ -1,10 +1,12 @@
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisTypeProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
+
 class SwGenericAxisParam(ARObject):
     """
     Parameters for a generic axis including type reference and value list.
     """
+
     # SwGenericAxisParam method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getSwGenericAxisParamTypeRef [x] impl  [ ] docstring  [ ] test
@@ -15,8 +17,8 @@ class SwGenericAxisParam(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.swGenericAxisParamTypeRef = None           # type: RefType
-        self.vfs = []                                   # type: List[ARFloat]
+        self.swGenericAxisParamTypeRef = None  # type: RefType
+        self.vfs = []  # type: List[ARFloat]
 
     def getSwGenericAxisParamTypeRef(self):
         return self.swGenericAxisParamTypeRef
@@ -32,10 +34,12 @@ class SwGenericAxisParam(ARObject):
         self.vfs.append(value)
         return self
 
+
 class SwAxisGeneric(ARObject):
     """
     Generic axis definition with axis type reference and parameters.
     """
+
     # SwAxisGeneric method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getSwAxisTypeRef             [x] impl  [ ] docstring  [ ] test
@@ -46,8 +50,8 @@ class SwAxisGeneric(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.swAxisTypeRef = None                   # type: RefType
-        self.swGenericAxisParams = []               # type: List[SwGenericAxisParam]
+        self.swAxisTypeRef = None  # type: RefType
+        self.swGenericAxisParams = []  # type: List[SwGenericAxisParam]
 
     def getSwAxisTypeRef(self):
         return self.swAxisTypeRef
@@ -63,11 +67,13 @@ class SwAxisGeneric(ARObject):
         self.swGenericAxisParams.append(value)
         return self
 
+
 class SwAxisIndividual(SwCalprmAxisTypeProps):
     """
     Individual axis properties extending calibration axis type with compu
     method, data constraint, and variable references.
     """
+
     # SwAxisIndividual method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getCompuMethodRef            [x] impl  [ ] docstring  [ ] test
@@ -90,14 +96,14 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
     def __init__(self):
         super().__init__()
 
-        self.compuMethodRef = None              # type: RefType
-        self.dataConstrRef = None               # type: RefType
-        self.inputVariableTypeRef = None        # type: RefType
-        self.swAxisGeneric = None               # type: SwAxisGeneric
-        self.swMaxAxisPoints = None             # type: ARNumerical
-        self.swMinAxisPoints = None             # type: ARNumerical
-        self.swVariableRefs = []                # type: List
-        self.unitRef = None                     # type: RefType
+        self.compuMethodRef = None  # type: RefType
+        self.dataConstrRef = None  # type: RefType
+        self.inputVariableTypeRef = None  # type: RefType
+        self.swAxisGeneric = None  # type: SwAxisGeneric
+        self.swMaxAxisPoints = None  # type: ARNumerical
+        self.swMinAxisPoints = None  # type: ARNumerical
+        self.swVariableRefs = []  # type: List
+        self.unitRef = None  # type: RefType
 
     def getCompuMethodRef(self):
         return self.compuMethodRef
@@ -161,6 +167,7 @@ class SwAxisGrouped(SwCalprmAxisTypeProps):
     Grouped axis properties referencing a shared axis type with index and
     calibration reference.
     """
+
     # SwAxisGrouped method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getSharedAxisTypeRef         [x] impl  [ ] docstring  [ ] test
@@ -173,9 +180,9 @@ class SwAxisGrouped(SwCalprmAxisTypeProps):
     def __init__(self):
         super().__init__()
 
-        self.sharedAxisTypeRef = None           # type: RefType
-        self.swAxisIndex = None                 # type: ARNumerical
-        self.swCalprmRef = None                 # type: RefType
+        self.sharedAxisTypeRef = None  # type: RefType
+        self.swAxisIndex = None  # type: ARNumerical
+        self.swCalprmRef = None  # type: RefType
 
     def getSharedAxisTypeRef(self):
         return self.sharedAxisTypeRef

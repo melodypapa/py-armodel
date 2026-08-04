@@ -16,6 +16,7 @@ class ParameterAccess(AbstractAccessPoint):
     A ParameterAccess represents the access to a parameter data prototype
     within the internal behavior of an atomic software component.
     """
+
     # ParameterAccess method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getAccessedParameter         [x] impl  [x] docstring  [ ] test
@@ -23,12 +24,11 @@ class ParameterAccess(AbstractAccessPoint):
     # [ ] getSwDataDefProps            [x] impl  [x] docstring  [ ] test
     # [ ] setSwDataDefProps            [x] impl  [x] docstring  [ ] test
 
-
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.accessedParameter: 'AutosarParameterRef' = None
-        self.swDataDefProps: 'SwDataDefProps' = None
+        self.accessedParameter: "AutosarParameterRef" = None
+        self.swDataDefProps: "SwDataDefProps" = None
 
     def getAccessedParameter(self):
         """
@@ -80,6 +80,7 @@ class VariableAccess(AbstractAccessPoint):
     A VariableAccess represents the access to a variable data prototype
     within the internal behavior of an atomic software component.
     """
+
     # VariableAccess method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getAccessedVariableRef       [x] impl  [x] docstring  [ ] test
@@ -87,14 +88,13 @@ class VariableAccess(AbstractAccessPoint):
     # [ ] getScope                     [x] impl  [x] docstring  [ ] test
     # [ ] setScope                     [x] impl  [x] docstring  [ ] test
 
-
     def __init__(self, parent: ARObject, short_name):
         super().__init__(parent, short_name)
 
-        self.accessedVariableRef: 'AutosarVariableRef' = None
+        self.accessedVariableRef: "AutosarVariableRef" = None
         self.scope: ARLiteral = None
 
-    def getAccessedVariableRef(self) -> 'AutosarVariableRef':
+    def getAccessedVariableRef(self) -> "AutosarVariableRef":
         """
         Gets the accessed variable reference.
 
@@ -103,7 +103,7 @@ class VariableAccess(AbstractAccessPoint):
         """
         return self.accessedVariableRef
 
-    def setAccessedVariableRef(self, value: 'AutosarVariableRef'):
+    def setAccessedVariableRef(self, value: "AutosarVariableRef"):
         """
         Sets the accessed variable reference.
 

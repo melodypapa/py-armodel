@@ -9,15 +9,17 @@ class BswTriggerDirectImplementation(AREnum):
     """
     Enumeration for BSW trigger direct implementation.
     """
+
     # BswTriggerDirectImplementation method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
 
     NOT_ALLOWED = "not-allowed"
     ALLOWED = "allowed"
 
     def __init__(self):
-        super().__init__((
-            BswTriggerDirectImplementation.NOT_ALLOWED,
-            BswTriggerDirectImplementation.ALLOWED,
-        ))
+        super().__init__(
+            (
+                BswTriggerDirectImplementation.NOT_ALLOWED,
+                BswTriggerDirectImplementation.ALLOWED,
+            )
+        )

@@ -1,4 +1,5 @@
 """Tests for writer implementation, E2E, and port interface handlers."""
+
 import xml.etree.cElementTree as ET
 from unittest.mock import MagicMock
 import pytest
@@ -33,7 +34,10 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (  # 
     VariableDataPrototypeInSystemInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
-    ARBoolean, ARLiteral, PositiveInteger, RefType,
+    ARBoolean,
+    ARLiteral,
+    PositiveInteger,
+    RefType,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import (  # noqa: E501
     AutosarEngineeringObject,
@@ -400,9 +404,7 @@ class TestSetEndToEndDescription:
 class TestSetVariableDataPrototypeInSystemInstanceRef:
     def test_set_variable_ref_none(self, writer):
         parent = _parent()
-        writer.setVariableDataPrototypeInSystemInstanceRef(
-            parent, "KEY", None
-        )
+        writer.setVariableDataPrototypeInSystemInstanceRef(parent, "KEY", None)
         assert len(parent) == 0
 
     def test_set_variable_ref_with_value(self, writer):
@@ -412,9 +414,7 @@ class TestSetVariableDataPrototypeInSystemInstanceRef:
         iref.setContextPortRef(_make_ref("P-PORT-PROTOTYPE", "/port"))
         iref.setTargetDataPrototypeRef(_make_ref("VARIABLE-DATA-PROTOTYPE", "/t"))  # noqa: E501
         parent = _parent()
-        writer.setVariableDataPrototypeInSystemInstanceRef(
-            parent, "SENDER-IREF", iref
-        )
+        writer.setVariableDataPrototypeInSystemInstanceRef(parent, "SENDER-IREF", iref)
         assert len(parent) == 1
         ref_tag = parent[0]
         assert ref_tag.tag == "SENDER-IREF"
@@ -458,9 +458,7 @@ class TestWriteEndToEndProtectionVariablePrototypes:
         set_ = pkg.createEndToEndProtectionSet("Set")
         prot = set_.createEndToEndProtection("P")
         parent = _parent()
-        writer.writeEndToEndProtectionEndToEndProtectionVariablePrototypes(
-            parent, prot
-        )
+        writer.writeEndToEndProtectionEndToEndProtectionVariablePrototypes(parent, prot)
         assert len(parent) == 0
 
     def test_write_e2e_prototypes_with_prototype(self, writer):
@@ -472,9 +470,7 @@ class TestWriteEndToEndProtectionVariablePrototypes:
         prototype.senderIRef = VariableDataPrototypeInSystemInstanceRef()
         prot.addEndToEndProtectionVariablePrototype(prototype)
         parent = _parent()
-        writer.writeEndToEndProtectionEndToEndProtectionVariablePrototypes(
-            parent, prot
-        )
+        writer.writeEndToEndProtectionEndToEndProtectionVariablePrototypes(parent, prot)
         assert len(parent) == 1
         assert parent[0].tag == "END-TO-END-PROTECTION-VARIABLE-PROTOTYPES"
 
@@ -486,9 +482,7 @@ class TestWriteEndToEndProtectionVariablePrototypes:
         prot = set_.createEndToEndProtection("P")
         prot.addEndToEndProtectionVariablePrototype("bad")
         parent = _parent()
-        w.writeEndToEndProtectionEndToEndProtectionVariablePrototypes(
-            parent, prot
-        )
+        w.writeEndToEndProtectionEndToEndProtectionVariablePrototypes(parent, prot)
         assert len(parent) == 1
 
 
@@ -520,9 +514,7 @@ class TestWriteEndToEndProtectionISignalIPdus:
         set_ = pkg.createEndToEndProtectionSet("Set")
         prot = set_.createEndToEndProtection("P")
         parent = _parent()
-        writer.writeEndToEndProtectionEndToEndProtectionISignalIPdus(
-            parent, prot
-        )
+        writer.writeEndToEndProtectionEndToEndProtectionISignalIPdus(parent, prot)
         assert len(parent) == 0
 
     def test_write_e2e_ipdus_with_ipdu(self, writer):
@@ -534,9 +526,7 @@ class TestWriteEndToEndProtectionISignalIPdus:
         ipdu.setDataOffset(_make_positive_int("4"))
         prot.addEndToEndProtectionISignalIPdu(ipdu)
         parent = _parent()
-        writer.writeEndToEndProtectionEndToEndProtectionISignalIPdus(
-            parent, prot
-        )
+        writer.writeEndToEndProtectionEndToEndProtectionISignalIPdus(parent, prot)
         assert len(parent) == 1
         assert parent[0].tag == "END-TO-END-PROTECTION-I-SIGNAL-I-PDUS"
 
@@ -548,9 +538,7 @@ class TestWriteEndToEndProtectionISignalIPdus:
         prot = set_.createEndToEndProtection("P")
         prot.addEndToEndProtectionISignalIPdu("bad")
         parent = _parent()
-        w.writeEndToEndProtectionEndToEndProtectionISignalIPdus(
-            parent, prot
-        )
+        w.writeEndToEndProtectionEndToEndProtectionISignalIPdus(parent, prot)
         assert len(parent) == 1
 
 

@@ -10,6 +10,7 @@ files already depended on the R23-11 schema being active.
 
 Helper functions (``_snip``, ``_autosar_root``) live in ``_helpers.py``.
 """
+
 import pytest
 
 from armodel.models import AUTOSAR

@@ -4,14 +4,16 @@ import logging
 import os
 import re
 
+
 class InputFileParser:
     """
     Parser for CLI input arguments that resolves directories, file lists,
     and individual ARXML files.
     """
+
     def __init__(self, args: List[str]) -> None:
         self._args = args
-        self._filenames = []                # type: List[str]
+        self._filenames = []  # type: List[str]
         self._logger = logging.getLogger()
 
     def _parse_file_list(self, file):
@@ -20,9 +22,9 @@ class InputFileParser:
                 self._filenames.append(line.strip())
 
     def _parse_dir_files(self, dir_name):
-        for (root, _, files) in os.walk(dir_name, topdown=False):
+        for root, _, files in os.walk(dir_name, topdown=False):
             for file in files:
-                m = re.match(r'.*\.arxml$', file, re.I)
+                m = re.match(r".*\.arxml$", file, re.I)
 
                 if m:
                     self._filenames.append(os.path.join(root, file))

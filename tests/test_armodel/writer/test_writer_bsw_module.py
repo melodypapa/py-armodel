@@ -1,4 +1,5 @@
 """Tests for writer BSW module template handlers."""
+
 import xml.etree.cElementTree as ET
 import pytest
 from unittest.mock import MagicMock
@@ -126,9 +127,7 @@ class TestWriterBswImplementedEntryRefs:
 class TestWriterBswModuleDescriptionModeGroups:
     def test_provided_mode_groups(self, writer):
         desc = _make_desc()
-        desc.createProvidedModeGroup("pmg").setTypeTRef(
-            _ref("/t", "MODE-DECLARATION-GROUP")
-        )
+        desc.createProvidedModeGroup("pmg").setTypeTRef(_ref("/t", "MODE-DECLARATION-GROUP"))
         parent = _parent()
         writer.writeBswModuleDescriptionProvidedModeGroups(parent, desc)
         assert parent[0].tag == "PROVIDED-MODE-GROUPS"
@@ -142,9 +141,7 @@ class TestWriterBswModuleDescriptionModeGroups:
 
     def test_required_mode_groups(self, writer):
         desc = _make_desc()
-        desc.createRequiredModeGroup("rmg").setTypeTRef(
-            _ref("/t", "MODE-DECLARATION-GROUP")
-        )
+        desc.createRequiredModeGroup("rmg").setTypeTRef(_ref("/t", "MODE-DECLARATION-GROUP"))
         parent = _parent()
         writer.writeBswModuleDescriptionRequiredModeGroups(parent, desc)
         assert parent[0].tag == "REQUIRED-MODE-GROUPS"
@@ -193,15 +190,11 @@ class TestWriterBswModuleEntityFamily:
     def test_managed_mode_groups(self, writer):
         behavior = _make_behavior()
         entity = behavior.createBswSchedulableEntity("ent")
-        entity.addManagedModeGroupRef(
-            _ref("/mg1", "MODE-DECLARATION-GROUP-PROTOTYPE")
-        )
+        entity.addManagedModeGroupRef(_ref("/mg1", "MODE-DECLARATION-GROUP-PROTOTYPE"))
         parent = _parent()
         writer.writeBswModuleEntityManagedModeGroups(parent, entity)
         assert parent[0].tag == "MANAGED-MODE-GROUPS"
-        cond = parent[0].find(
-            "MODE-DECLARATION-GROUP-PROTOTYPE-REF-CONDITIONAL"
-        )
+        cond = parent[0].find("MODE-DECLARATION-GROUP-PROTOTYPE-REF-CONDITIONAL")
         assert cond is not None
 
     def test_managed_mode_groups_empty(self, writer):
@@ -214,9 +207,7 @@ class TestWriterBswModuleEntityFamily:
     def test_bsw_variable_access_with_data(self, writer):
         behavior = _make_behavior()
         access = BswVariableAccess(behavior, "va")
-        access.setAccessedVariableRef(
-            _ref("/v", "VARIABLE-DATA-PROTOTYPE")
-        )
+        access.setAccessedVariableRef(_ref("/v", "VARIABLE-DATA-PROTOTYPE"))
         parent = _parent()
         writer.writeBswVariableAccess(parent, access)
         assert parent[0].tag == "BSW-VARIABLE-ACCESS"
@@ -255,15 +246,11 @@ class TestWriterBswModuleEntityFamily:
     def test_activation_point_refs(self, writer):
         behavior = _make_behavior()
         entity = behavior.createBswSchedulableEntity("ent")
-        entity.addActivationPointRef(
-            _ref("/ap", "BSW-INTERNAL-TRIGGERING-POINT")
-        )
+        entity.addActivationPointRef(_ref("/ap", "BSW-INTERNAL-TRIGGERING-POINT"))
         parent = _parent()
         writer.writeBswModuleEntityActivationPointRefs(parent, entity)
         assert parent[0].tag == "ACTIVATION-POINTS"
-        cond = parent[0].find(
-            "BSW-INTERNAL-TRIGGERING-POINT-REF-CONDITIONAL"
-        )
+        cond = parent[0].find("BSW-INTERNAL-TRIGGERING-POINT-REF-CONDITIONAL")
         assert cond is not None
 
 
@@ -291,12 +278,8 @@ class TestWriterBswModuleCallPoints:
     def test_entity_call_points_async_and_sync(self, writer):
         behavior = _make_behavior()
         entity = behavior.createBswSchedulableEntity("ent")
-        entity.createBswAsynchronousServerCallPoint("acp").setCalledEntryRef(
-            _ref("/e1", "BSW-MODULE-ENTRY")
-        )
-        entity.createBswSynchronousServerCallPoint("scp").setCalledEntryRef(
-            _ref("/e2", "BSW-MODULE-ENTRY")
-        )
+        entity.createBswAsynchronousServerCallPoint("acp").setCalledEntryRef(_ref("/e1", "BSW-MODULE-ENTRY"))
+        entity.createBswSynchronousServerCallPoint("scp").setCalledEntryRef(_ref("/e2", "BSW-MODULE-ENTRY"))
         parent = _parent()
         writer.writeBswModuleEntityCallPoints(parent, entity)
         assert parent[0].tag == "CALL-POINTS"
@@ -361,17 +344,11 @@ class TestWriterBswInternalBehaviorEntities:
         behavior = _make_behavior()
         entity = behavior.createBswSchedulableEntity("ent")
         entity.setImplementedEntryRef(_ref("/e", "BSW-MODULE-ENTRY"))
-        entity.addActivationPointRef(
-            _ref("/ap", "BSW-INTERNAL-TRIGGERING-POINT")
-        )
-        entity.createBswSynchronousServerCallPoint("scp").setCalledEntryRef(
-            _ref("/ce", "BSW-MODULE-ENTRY")
-        )
+        entity.addActivationPointRef(_ref("/ap", "BSW-INTERNAL-TRIGGERING-POINT"))
+        entity.createBswSynchronousServerCallPoint("scp").setCalledEntryRef(_ref("/ce", "BSW-MODULE-ENTRY"))
         entity.createDataSendPoint("dsp")
         entity.createDataReceivePoint("drp")
-        entity.addManagedModeGroupRef(
-            _ref("/mg", "MODE-DECLARATION-GROUP-PROTOTYPE")
-        )
+        entity.addManagedModeGroupRef(_ref("/mg", "MODE-DECLARATION-GROUP-PROTOTYPE"))
         entity.addIssuedTriggerRef(_ref("/t", "TRIGGER"))
         parent = _parent()
         writer.writeBswModuleEntity(parent, entity)
@@ -404,9 +381,7 @@ class TestWriterBswEvents:
     def test_internal_trigger_occurred_event(self, writer):
         behavior = _make_behavior()
         event = behavior.createBswInternalTriggerOccurredEvent("ito")
-        event.setEventSourceRef(
-            _ref("/src", "BSW-INTERNAL-TRIGGERING-POINT")
-        )
+        event.setEventSourceRef(_ref("/src", "BSW-INTERNAL-TRIGGERING-POINT"))
         parent = _parent()
         writer.writeBswInternalTriggerOccurredEvent(parent, event)
         assert parent[0].tag == "BSW-INTERNAL-TRIGGER-OCCURRED-EVENT"
@@ -468,9 +443,7 @@ class TestWriterBswEvents:
 class TestWriterBswModeSenderPolicy:
     def test_set_bsw_mode_sender_policy(self, writer):
         policy = BswModeSenderPolicy()
-        policy.setProvidedModeGroupRef(
-            _ref("/mg", "MODE-DECLARATION-GROUP-PROTOTYPE")
-        )
+        policy.setProvidedModeGroupRef(_ref("/mg", "MODE-DECLARATION-GROUP-PROTOTYPE"))
         policy.setQueueLength(5)
         parent = _parent()
         writer.setBswModeSenderPolicy(parent, policy)
@@ -481,9 +454,7 @@ class TestWriterBswModeSenderPolicy:
     def test_behavior_mode_sender_policy(self, writer):
         behavior = _make_behavior()
         policy = BswModeSenderPolicy()
-        policy.setProvidedModeGroupRef(
-            _ref("/mg", "MODE-DECLARATION-GROUP-PROTOTYPE")
-        )
+        policy.setProvidedModeGroupRef(_ref("/mg", "MODE-DECLARATION-GROUP-PROTOTYPE"))
         behavior.addModeSenderPolicy(policy)
         parent = _parent()
         writer.writeBswInternalBehaviorModeSenderPolicy(parent, behavior)
@@ -499,15 +470,11 @@ class TestWriterBswModeSenderPolicy:
     def test_included_mode_declaration_group_sets(self, writer):
         behavior = _make_behavior()
         group_set = IncludedModeDeclarationGroupSet()
-        group_set.addModeDeclarationGroupRef(
-            _ref("/g", "MODE-DECLARATION-GROUP")
-        )
+        group_set.addModeDeclarationGroupRef(_ref("/g", "MODE-DECLARATION-GROUP"))
         group_set.setPrefix(_literal("px"))
         behavior.addIncludedModeDeclarationGroupSet(group_set)
         parent = _parent()
-        writer.writeBswInternalBehaviorIncludedModeDeclarationGroupSets(
-            parent, behavior
-        )
+        writer.writeBswInternalBehaviorIncludedModeDeclarationGroupSets(parent, behavior)
         assert parent[0].tag == "INCLUDED-MODE-DECLARATION-GROUP-SETS"
         gs = parent[0].find("INCLUDED-MODE-DECLARATION-GROUP-SET")
         assert gs is not None
@@ -516,9 +483,7 @@ class TestWriterBswModeSenderPolicy:
     def test_included_mode_declaration_group_sets_empty(self, writer):
         behavior = _make_behavior()
         parent = _parent()
-        writer.writeBswInternalBehaviorIncludedModeDeclarationGroupSets(
-            parent, behavior
-        )
+        writer.writeBswInternalBehaviorIncludedModeDeclarationGroupSets(parent, behavior)
         assert len(parent) == 0
 
 
@@ -701,36 +666,28 @@ class TestWriterBswModuleClientServerEntries:
         desc = _make_desc()
         desc.createProvidedClientServerEntry("cs1")
         parent = _parent()
-        writer.writeBswModuleDescriptionProvidedClientServerEntries(
-            parent, desc
-        )
+        writer.writeBswModuleDescriptionProvidedClientServerEntries(parent, desc)
         assert parent[0].tag == "PROVIDED-CLIENT-SERVER-ENTRYS"
         assert parent[0].find("BSW-MODULE-CLIENT-SERVER-ENTRY") is not None
 
     def test_provided_client_server_entries_empty(self, writer):
         desc = _make_desc()
         parent = _parent()
-        writer.writeBswModuleDescriptionProvidedClientServerEntries(
-            parent, desc
-        )
+        writer.writeBswModuleDescriptionProvidedClientServerEntries(parent, desc)
         assert len(parent) == 0
 
     def test_required_client_server_entries(self, writer):
         desc = _make_desc()
         desc.createRequiredClientServerEntry("cs1")
         parent = _parent()
-        writer.writeBswModuleDescriptionRequiredClientServerEntries(
-            parent, desc
-        )
+        writer.writeBswModuleDescriptionRequiredClientServerEntries(parent, desc)
         assert parent[0].tag == "REQUIRED-CLIENT-SERVER-ENTRYS"
         assert parent[0].find("BSW-MODULE-CLIENT-SERVER-ENTRY") is not None
 
     def test_required_client_server_entries_empty(self, writer):
         desc = _make_desc()
         parent = _parent()
-        writer.writeBswModuleDescriptionRequiredClientServerEntries(
-            parent, desc
-        )
+        writer.writeBswModuleDescriptionRequiredClientServerEntries(parent, desc)
         assert len(parent) == 0
 
     def test_writeBswModuleDescription_full(self, writer):

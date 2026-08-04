@@ -26,12 +26,13 @@ class TestARObject:
         """
         Test that a concrete implementation of ARObject can be instantiated and initializes properties correctly.
         """
+
         class ConcreteARObject(ARObject):
             def __init__(self):
                 super().__init__()  # This should work since type(self) is not ARObject
 
         obj = ConcreteARObject()
-        
+
         # Properties should be initialized to None (or appropriate defaults)
         assert obj.parent is None
         assert obj.checksum is None
@@ -42,33 +43,34 @@ class TestARObject:
         """
         Test getTagName method functionality.
         """
+
         class ConcreteARObject(ARObject):
             def __init__(self):
                 super().__init__()
 
         obj = ConcreteARObject()
-        
+
         # Test with a tag that has a namespace
         tag_with_ns = "{http://www.example.com/ns}elementName"
         nsmap = {"xmlns": "http://www.example.com/ns"}
-        
+
         result = obj.getTagName(tag_with_ns, nsmap)
         assert result == "elementName"
-        
+
         # Test with different namespace
         tag_with_ns2 = "{http://another.com/schema}testTag"
         nsmap2 = {"xmlns": "http://another.com/schema"}
-        
+
         result2 = obj.getTagName(tag_with_ns2, nsmap2)
         assert result2 == "testTag"
-        
+
         # Test with tag that doesn't match namespace (should still work with replace)
         tag_with_ns3 = "{http://different.com/ns}otherTag"
         nsmap3 = {"xmlns": "http://different.com/ns"}
-        
+
         result3 = obj.getTagName(tag_with_ns3, nsmap3)
         assert result3 == "otherTag"
-        
+
         # Test with tag that has no namespace prefix (edge case)
         tag_no_ns = "simpleTag"
         result4 = obj.getTagName(tag_no_ns, nsmap)

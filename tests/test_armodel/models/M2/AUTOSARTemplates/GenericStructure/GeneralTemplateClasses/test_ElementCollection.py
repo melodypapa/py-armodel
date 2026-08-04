@@ -61,6 +61,7 @@ class TestCollection:
         # Note: AutoCollectEnum is not defined in the source code, so using a mock
         class MockAutoCollectEnum:
             pass
+
         auto_collect_setting = MockAutoCollectEnum()
 
         # Set the auto-collect setting
@@ -79,6 +80,7 @@ class TestCollection:
         # Set initial value
         class MockAutoCollectEnum:
             pass
+
         initial_setting = MockAutoCollectEnum()
         collection.setAutoCollect(initial_setting)
         assert collection.getAutoCollect() == initial_setting

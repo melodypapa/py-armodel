@@ -17,13 +17,14 @@ class TestTimingConstraint:
         """Test timingConditionRef property"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
+
         # Create a concrete subclass for testing
         class ConcreteTimingConstraint(TimingConstraint):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         constraint = ConcreteTimingConstraint(ar_root, "TestTimingConstraint")
-        
+
         # Test property setter and getter
         test_ref = RefType().setValue("TestRef")
         constraint.timingConditionRef = test_ref

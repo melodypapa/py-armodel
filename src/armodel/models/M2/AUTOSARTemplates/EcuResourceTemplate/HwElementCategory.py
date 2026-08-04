@@ -27,9 +27,9 @@ class HwType(HwDescriptionEntity):
     Represents a hardware type in AUTOSAR hardware descriptions.
     This class defines the basic structure for hardware types.
     """
+
     # HwType method parity checklist:
     # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self, parent, short_name: str):
         """
@@ -47,6 +47,7 @@ class HwAttributeDef(Identifiable):
     Represents a hardware attribute definition in AUTOSAR hardware descriptions.
     This class defines the attributes that can be assigned to hardware elements.
     """
+
     # HwAttributeDef method parity checklist:
     # [ ] __init__                     [x] impl  [x] docstring  [ ] test
     # [ ] getHwAttributeLiterals       [x] impl  [x] docstring  [ ] test
@@ -55,7 +56,6 @@ class HwAttributeDef(Identifiable):
     # [ ] setIsRequired                [x] impl  [x] docstring  [ ] test
     # [ ] getUnitRef                   [x] impl  [x] docstring  [ ] test
     # [ ] setUnitRef                   [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self, parent, short_name: str):
         """
@@ -149,11 +149,11 @@ class HwCategory(PackageableElement, AtpDefinition):
     Represents a hardware category in AUTOSAR hardware descriptions.
     This class defines categories of hardware with associated attribute definitions.
     """
+
     # HwCategory method parity checklist:
     # [ ] __init__                     [x] impl  [x] docstring  [ ] test
     # [ ] getHwAttributeDefs           [x] impl  [x] docstring  [ ] test
     # [ ] createHwAttributeDef         [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self, parent, short_name: str):
         """

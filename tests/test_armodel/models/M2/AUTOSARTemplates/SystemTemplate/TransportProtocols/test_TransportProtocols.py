@@ -15,7 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     TpAddress,
     LinTpConnection,
     LinTpNode,
-    LinTpConfig
+    LinTpConfig,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 

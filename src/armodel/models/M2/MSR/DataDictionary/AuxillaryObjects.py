@@ -1,12 +1,14 @@
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpBlueprintable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
+
 class SwAddrMethod(AtpBlueprintable):
     """
     Software address method defining memory allocation properties for data
     elements, including initialization policy, section type, and memory
     allocation keyword policy.
     """
+
     # SwAddrMethod method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getMemoryAllocationKeywordPolicy [x] impl  [ ] docstring  [ ] test
@@ -21,10 +23,10 @@ class SwAddrMethod(AtpBlueprintable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.memoryAllocationKeywordPolicy = None   # type: ARLiteral
-        self.options = []                            # type: List[ARLiteral]
-        self.sectionInitializationPolicy = None     # type: ARLiteral
-        self.sectionType = None                     # type: ARLiteral
+        self.memoryAllocationKeywordPolicy = None  # type: ARLiteral
+        self.options = []  # type: List[ARLiteral]
+        self.sectionInitializationPolicy = None  # type: ARLiteral
+        self.sectionType = None  # type: ARLiteral
 
     def getMemoryAllocationKeywordPolicy(self):
         return self.memoryAllocationKeywordPolicy

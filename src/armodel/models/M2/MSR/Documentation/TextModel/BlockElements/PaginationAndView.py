@@ -7,6 +7,7 @@ class DocumentViewSelectable(ARObject, ABC):
     Abstract base class for elements that can be selected in a document
     view.
     """
+
     # DocumentViewSelectable method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
@@ -21,6 +22,7 @@ class Paginateable(DocumentViewSelectable, ABC):
     Abstract base class for paginated document elements with chapter
     break and keep-with-previous properties.
     """
+
     # Paginateable method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getBreak                     [x] impl  [ ] docstring  [ ] test
@@ -33,8 +35,8 @@ class Paginateable(DocumentViewSelectable, ABC):
             raise TypeError("Paginateable is an abstract class.")
         super().__init__()
 
-        self.chapterBreak = None                                # type: ChapterEnumBreak
-        self.keepWithPrevious = None                            # type: KeepWithPreviousEnum
+        self.chapterBreak = None  # type: ChapterEnumBreak
+        self.keepWithPrevious = None  # type: KeepWithPreviousEnum
 
     def getBreak(self):
         return self.chapterBreak

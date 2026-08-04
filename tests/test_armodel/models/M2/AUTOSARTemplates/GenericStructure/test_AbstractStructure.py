@@ -28,6 +28,7 @@ class TestAtpInstanceRef:
         """
         Test get/set methods for ATP base reference.
         """
+
         # Create a concrete subclass for testing
         class ConcreteAtpInstanceRef(AtpInstanceRef):
             def __init__(self):
@@ -48,6 +49,7 @@ class TestAtpInstanceRef:
         """
         Test getAtpContextElementRefs method returns empty list by default.
         """
+
         # Create a concrete subclass for testing
         class ConcreteAtpInstanceRef(AtpInstanceRef):
             def __init__(self):
@@ -64,6 +66,7 @@ class TestAtpInstanceRef:
         """
         Test addAtpContextElementRef method adds references correctly.
         """
+
         # Create a concrete subclass for testing
         class ConcreteAtpInstanceRef(AtpInstanceRef):
             def __init__(self):
@@ -88,6 +91,7 @@ class TestAtpInstanceRef:
         """
         Test get/set methods for ATP target reference.
         """
+
         # Create a concrete subclass for testing
         class ConcreteAtpInstanceRef(AtpInstanceRef):
             def __init__(self):
@@ -235,11 +239,11 @@ class TestAtpStructureElement:
         # Test that a concrete implementation of AtpStructureElement works
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         class ConcreteAtpStructureElement(AtpStructureElement):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         element = ConcreteAtpStructureElement(ar_root, "test_element")
         assert isinstance(element, AtpStructureElement)
         assert element.getShortName() == "test_element"
@@ -269,14 +273,14 @@ class TestAtpType:
         This test covers the super().__init__(parent, short_name) call in AtpType.
         """
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
-        
+
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-        
+
         class ConcreteAtpType(AtpType):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         obj = ConcreteAtpType(ar_root, "ConcreteAtpType")
         assert obj is not None
         assert obj.getShortName() == "ConcreteAtpType"

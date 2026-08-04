@@ -27,6 +27,7 @@ class CryptoKeySlot(Identifiable):
     Sources:
       - AUTOSAR_FO_TPS_SecurityExtractTemplate.pdf (Page 57, Foundation R23-11)
     """
+
     # CryptoKeySlot method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
     # [ ] getAllocateShadows           [x] impl  [ ] docstring  [ ] test
@@ -44,7 +45,6 @@ class CryptoKeySlot(Identifiable):
     # [ ] setSlotCapacitys             [x] impl  [ ] docstring  [ ] test
     # [ ] getSlotTypes                 [x] impl  [ ] docstring  [ ] test
     # [ ] setSlotTypes                 [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

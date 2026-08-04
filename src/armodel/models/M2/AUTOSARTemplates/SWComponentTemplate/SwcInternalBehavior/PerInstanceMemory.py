@@ -8,11 +8,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
+
 class PerInstanceMemory(AtpStructureElement):
     """
     A per-instance memory is a memory block that is allocated separately
     for each instance of an atomic software component.
     """
+
     # PerInstanceMemory method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getInitValue                 [x] impl  [x] docstring  [ ] test
@@ -24,12 +26,11 @@ class PerInstanceMemory(AtpStructureElement):
     # [ ] getTypeDefinition            [x] impl  [x] docstring  [ ] test
     # [ ] setTypeDefinition            [x] impl  [x] docstring  [ ] test
 
-
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         self.initValue: ARLiteral = None
-        self.swDataDefProps: 'SwDataDefProps' = None
+        self.swDataDefProps: "SwDataDefProps" = None
         self.type: ARLiteral = None
         self.typeDefinition: ARLiteral = None
 

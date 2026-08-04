@@ -24,11 +24,11 @@ class ValueSpecification(ARObject, ABC):
     ConstantReference, NotAvailableValueSpecification, NumericalValueSpecification, ReferenceValueSpecification,
     and TextValueSpecification.
     """
+
     # ValueSpecification method parity checklist:
     # [ ] __init__                     [x] impl  [x] docstring  [ ] test
     # [x] getShortLabel                [x] impl  [x] docstring  [x] test
     # [x] setShortLabel                [x] impl  [x] docstring  [x] test
-
 
     def __init__(self):
         """
@@ -73,9 +73,9 @@ class CompositeValueSpecification(ValueSpecification, ABC):
     This class serves as a base for value specifications that contain multiple elements or components.
     Subclasses include ArrayValueSpecification and RecordValueSpecification.
     """
+
     # CompositeValueSpecification method parity checklist:
     # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self):
         """
@@ -94,9 +94,9 @@ class CompositeRuleBasedValueArgument(ARObject, ABC):
     This class serves as the base for specialized value specifications that handle complex data types.
     Subclasses include ApplicationRuleBasedValueSpecification and ApplicationValueSpecification.
     """
+
     # CompositeRuleBasedValueArgument method parity checklist:
     # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self):
         """
@@ -116,6 +116,7 @@ class ApplicationValueSpecification(CompositeRuleBasedValueArgument, ValueSpecif
     SW-INSTANCE in ASAM CDF 2.0.
     Base classes: ARObject, CompositeRuleBasedValueArgument, ValueSpecification
     """
+
     # ApplicationValueSpecification method parity checklist:
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] getCategory                  [x] impl  [x] docstring  [x] test
@@ -124,7 +125,6 @@ class ApplicationValueSpecification(CompositeRuleBasedValueArgument, ValueSpecif
     # [x] setSwAxisCont                [x] impl  [x] docstring  [x] test
     # [x] getSwValueCont               [x] impl  [x] docstring  [x] test
     # [x] setSwValueCont               [x] impl  [x] docstring  [x] test
-
 
     def __init__(self):
         """
@@ -216,11 +216,11 @@ class RecordValueSpecification(CompositeValueSpecification):
     This class contains multiple field value specifications that make up a record structure.
     Base classes: ARObject, CompositeValueSpecification, ValueSpecification
     """
+
     # RecordValueSpecification method parity checklist:
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] addField                     [x] impl  [x] docstring  [x] test
     # [x] getFields                    [x] impl  [x] docstring  [x] test
-
 
     def __init__(self):
         """
@@ -255,11 +255,11 @@ class TextValueSpecification(ValueSpecification):
     Represents a text value specification in AUTOSAR models.
     This class contains a literal text value for initializing data objects.
     """
+
     # TextValueSpecification method parity checklist:
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] getValue                     [x] impl  [x] docstring  [x] test
     # [x] setValue                     [x] impl  [x] docstring  [x] test
-
 
     def __init__(self):
         """
@@ -299,11 +299,11 @@ class NumericalValueSpecification(ValueSpecification):
     Represents a numerical value specification in AUTOSAR models.
     This class contains a numerical value for initializing data objects.
     """
+
     # NumericalValueSpecification method parity checklist:
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] getValue                     [x] impl  [x] docstring  [x] test
     # [x] setValue                     [x] impl  [x] docstring  [x] test
-
 
     def __init__(self):
         """
@@ -344,13 +344,13 @@ class ArrayValueSpecification(ValueSpecification):
     Represents an array value specification in AUTOSAR models.
     This class contains multiple element value specifications that make up an array structure.
     """
+
     # ArrayValueSpecification method parity checklist:
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] getIntendedPartialInitializationCount [x] impl  [x] docstring  [x] test
     # [x] setIntendedPartialInitializationCount [x] impl  [x] docstring  [x] test
     # [x] addElement                   [x] impl  [x] docstring  [x] test
     # [x] getElements                  [x] impl  [x] docstring  [x] test
-
 
     def __init__(self):
         """
@@ -410,11 +410,11 @@ class ConstantSpecification(ARElement):
     Represents a constant specification in AUTOSAR models.
     This class contains a value specification for defining constants in AUTOSAR systems.
     """
+
     # ConstantSpecification method parity checklist:
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] getValueSpec                 [x] impl  [x] docstring  [x] test
     # [x] setValueSpec                 [x] impl  [x] docstring  [x] test
-
 
     def __init__(self, parent, short_name):
         """
@@ -458,11 +458,11 @@ class ConstantReference(ValueSpecification):
     Represents a constant reference in AUTOSAR models.
     This class contains a reference to a constant for use in value specifications.
     """
+
     # ConstantReference method parity checklist:
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] getConstantRef               [x] impl  [x] docstring  [x] test
     # [x] setConstantRef               [x] impl  [x] docstring  [x] test
-
 
     def __init__(self):
         """
@@ -496,14 +496,15 @@ class ConstantReference(ValueSpecification):
         self.constantRef = value
         return self
 
+
 class AbstractRuleBasedValueSpecification(ValueSpecification, ABC):
     """
     Abstract base class for rule-based value specifications.
     This class serves as the base for specifications that use rules to determine values.
     """
+
     # AbstractRuleBasedValueSpecification method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         if type(self) is AbstractRuleBasedValueSpecification:
@@ -515,11 +516,11 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
     """
     Represents application-specific rule-based value specifications.
     """
+
     # ApplicationRuleBasedValueSpecification method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getCategory                  [x] impl  [ ] docstring  [ ] test
     # [ ] setCategory                  [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -537,11 +538,11 @@ class CompositeRuleBasedValueSpecification(CompositeValueSpecification):
     """
     Represents composite rule-based value specifications.
     """
+
     # CompositeRuleBasedValueSpecification method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] addRuleArgument              [x] impl  [ ] docstring  [ ] test
     # [ ] getRuleArguments             [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -558,13 +559,13 @@ class ConstantSpecificationMapping(ARObject):
     """
     Represents a mapping between constant specifications.
     """
+
     # ConstantSpecificationMapping method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getSourceRef                 [x] impl  [ ] docstring  [ ] test
     # [ ] setSourceRef                 [x] impl  [ ] docstring  [ ] test
     # [ ] getTargetRef                 [x] impl  [ ] docstring  [ ] test
     # [ ] setTargetRef                 [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -590,11 +591,11 @@ class ConstantSpecificationMappingSet(ARObject):
     """
     Represents a set of constant specification mappings.
     """
+
     # ConstantSpecificationMappingSet method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] addMapping                   [x] impl  [ ] docstring  [ ] test
     # [ ] getMappings                  [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -611,11 +612,11 @@ class NotAvailableValueSpecification(ValueSpecification):
     """
     Represents a value specification that indicates a value is not available.
     """
+
     # NotAvailableValueSpecification method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getReason                    [x] impl  [ ] docstring  [ ] test
     # [ ] setReason                    [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -633,13 +634,13 @@ class NumericalOrText(ARObject):
     """
     Represents a value that can be either numerical or text.
     """
+
     # NumericalOrText method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getNumericalValue            [x] impl  [ ] docstring  [ ] test
     # [ ] setNumericalValue            [x] impl  [ ] docstring  [ ] test
     # [ ] getTextValue                 [x] impl  [ ] docstring  [ ] test
     # [ ] setTextValue                 [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -665,11 +666,11 @@ class NumericalRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
     """
     Represents numerical rule-based value specifications.
     """
+
     # NumericalRuleBasedValueSpecification method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getExpression                [x] impl  [ ] docstring  [ ] test
     # [ ] setExpression                [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -687,11 +688,11 @@ class ReferenceValueSpecification(ValueSpecification):
     """
     Represents a reference to another value specification.
     """
+
     # ReferenceValueSpecification method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getValueSpecRef              [x] impl  [ ] docstring  [ ] test
     # [ ] setValueSpecRef              [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -709,11 +710,11 @@ class RuleArguments(ARObject):
     """
     Represents arguments for rule-based value specifications.
     """
+
     # RuleArguments method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] addArgument                  [x] impl  [ ] docstring  [ ] test
     # [ ] getArguments                 [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -730,11 +731,11 @@ class RuleBasedAxisCont(ARObject):
     """
     Represents rule-based axis content.
     """
+
     # RuleBasedAxisCont method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getAxisId                    [x] impl  [ ] docstring  [ ] test
     # [ ] setAxisId                    [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -752,11 +753,11 @@ class RuleBasedValueCont(ARObject):
     """
     Represents rule-based value content.
     """
+
     # RuleBasedValueCont method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getValue                     [x] impl  [ ] docstring  [ ] test
     # [ ] setValue                     [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -774,11 +775,11 @@ class RuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
     """
     Represents general rule-based value specifications.
     """
+
     # RuleBasedValueSpecification method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getRule                      [x] impl  [ ] docstring  [ ] test
     # [ ] setRule                      [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()

@@ -9,6 +9,7 @@ Shared fixtures (``parser``, ``warning_parser``, ``reset_autosar``) are provided
 by ``conftest.py``; helper functions (``_snip``, ``_autosar_root``) live in
 ``_helpers.py``.
 """
+
 import logging
 
 from tests.test_armodel.parser._helpers import _autosar_root, _snip
@@ -41,9 +42,7 @@ class TestReadEndToEndProtectionISignalIPdus:
             </END-TO-END-PROTECTION-I-SIGNAL-I-PDUS>
             """,
         )
-        parser.readEndToEndProtectionEndToEndProtectionISignalIPdus(
-            element, protection
-        )
+        parser.readEndToEndProtectionEndToEndProtectionISignalIPdus(element, protection)
         ipdus = protection.getEndToEndProtectionISignalIPdus()
         assert len(ipdus) == 1
         assert ipdus[0].getDataOffset().getValue() == 8
@@ -53,9 +52,7 @@ class TestReadEndToEndProtectionISignalIPdus:
     def test_empty_container_returns_no_ipdus(self, parser):
         protection = _make_protection()
         element = _snip("")
-        parser.readEndToEndProtectionEndToEndProtectionISignalIPdus(
-            element, protection
-        )
+        parser.readEndToEndProtectionEndToEndProtectionISignalIPdus(element, protection)
         assert len(protection.getEndToEndProtectionISignalIPdus()) == 0
 
     def test_unknown_tag_logs_warning(self, warning_parser, caplog):
@@ -70,13 +67,8 @@ class TestReadEndToEndProtectionISignalIPdus:
             """,
         )
         with caplog.at_level(logging.ERROR):
-            warning_parser.readEndToEndProtectionEndToEndProtectionISignalIPdus(
-                element, protection
-            )
-        assert any(
-            "Unsupported EndToEndProtectionISignalIPdu" in rec.getMessage()
-            for rec in caplog.records
-        )
+            warning_parser.readEndToEndProtectionEndToEndProtectionISignalIPdus(element, protection)
+        assert any("Unsupported EndToEndProtectionISignalIPdu" in rec.getMessage() for rec in caplog.records)
         assert len(protection.getEndToEndProtectionISignalIPdus()) == 0
 
 
@@ -161,37 +153,26 @@ class TestReadEndToEndProtection:
 
 # === Migrated from test_arxml_parser_remaining_gaps.py ===
 
+
 class TestReadEndToEndProtections:
     def test_readEndToEndProtections_creates_protection(self, parser):
         from armodel.models import EndToEndProtectionSet
+
         pkg = _autosar_root().createARPackage("Pkg")
         protection_set = pkg.createEndToEndProtectionSet("E2eSet")
-        element = _snip(
-            "<END-TO-END-PROTECTIONS>"
-            "<END-TO-END-PROTECTION>"
-            "<SHORT-NAME>p</SHORT-NAME>"
-            "</END-TO-END-PROTECTION>"
-            "</END-TO-END-PROTECTIONS>"
-        )
+        element = _snip("<END-TO-END-PROTECTIONS>" "<END-TO-END-PROTECTION>" "<SHORT-NAME>p</SHORT-NAME>" "</END-TO-END-PROTECTION>" "</END-TO-END-PROTECTIONS>")
         parser.readEndToEndProtections(element, protection_set)
         assert len(protection_set.getEndToEndProtections()) == 1
 
-    def test_readEndToEndProtections_unsupported_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readEndToEndProtections_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import EndToEndProtectionSet
+
         pkg = _autosar_root().createARPackage("Pkg")
         protection_set = pkg.createEndToEndProtectionSet("E2eSet")
-        element = _snip(
-            "<END-TO-END-PROTECTIONS><BAD/></END-TO-END-PROTECTIONS>"
-        )
+        element = _snip("<END-TO-END-PROTECTIONS><BAD/></END-TO-END-PROTECTIONS>")
         with caplog.at_level(logging.ERROR):
-            warning_parser.readEndToEndProtections(
-                element, protection_set
-            )
-        assert any("Unsupported EndToEndProtectionSet"
-                   in r.getMessage() for r in caplog.records)
+            warning_parser.readEndToEndProtections(element, protection_set)
+        assert any("Unsupported EndToEndProtectionSet" in r.getMessage() for r in caplog.records)
 
 
 # ==================== Timing (L2982, L2997) ====================
-

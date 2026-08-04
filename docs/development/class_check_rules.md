@@ -58,7 +58,14 @@ Check:
       `[]`), `0..1` → optional single `T` (default `None`). A spec-`*` attribute
       held as a single value is a deviation and must be fixed
       (`modeTransition` was a single field; fixed to
-      `modeTransitions: List[ModeTransition]`).
+       `modeTransitions: List[ModeTransition]`).
+- [ ] Ref/TRef suffix naming: when the spec table's Kind column is `ref` or
+      `tref`, include the suffix in the Python field and method names. The spec
+      table Attribute column determines the base name, Kind determines the suffix.
+      Example: Attribute `enteredMode`, Kind `ref` → Python field
+      `enteredModeRef: RefType`, getter `getEnteredModeRef()`. The suffix makes
+      reference semantics explicit in Python names and aligns with parser
+      conventions.
 - [ ] Choose `createXXX` vs `setXXX` from the aggregated child's spec `Base`:
       if the child type is an `Identifiable` (its spec `Base` lists
       `Identifiable`, i.e. it has a short name), expose a
@@ -112,6 +119,11 @@ All function parameters and return values must have type hints (Python
 3.8-compatible syntax — use `typing.List` / `typing.Optional`, never `X | None`
 or `list[...]` unless `from __future__ import annotations` is present).
 
+**IMPORTANT**: The project requires **Python >= 3.8** (see `pyproject.toml`), but
+the `|` union syntax was introduced in Python 3.10. Always use `Optional[T]` from
+the `typing` module, not `T | None`. AGENTS.md line 43 incorrectly recommends
+3.10+ syntax — **ignore that and use `Optional` for compatibility**.
+
 | Method kind  | Signature                                                    |
 |--------------|--------------------------------------------------------------|
 | list getter  | `def getFoos(self) -> List[Foo]:`                            |
@@ -130,6 +142,7 @@ Check:
 - [ ] `Optional` / `List` are imported from `typing`.
 - [ ] `__init__` attribute fields are annotated too (`self.foo: Type = None`),
       matching the getter/setter type.
+- [ ] **Use `Optional[T]` for Python 3.8+ compatibility, never `T | None`**.
 
 Example:
 ```python
@@ -193,18 +206,32 @@ Inline comments and docstrings must reflect the PDF spec wording, not loose
 paraphrase.
 
 - [ ] Each attribute in `__init__` has an inline `#` comment based on the PDF
-      table note for that attribute.
+      table note for that attribute. The comment should include the key semantic
+      information from the spec (e.g., "Indicates an entry which is required",
+      "The mode that is entered by this transition", "AUTOSAR identifier of
+      the target module").
 - [ ] The class docstring reflects the PDF class note (the element's purpose).
-- [ ] Getter/setter docstrings summarize the PDF note (e.g. mention
-      "Replacement of outgoingCallback / requiredEntry", "can be called from
-      another partition or core", "connected ... via the configuration of the
-      BSW Scheduler").
+- [ ] Getter/setter docstrings summarize the PDF note and semantic meaning,
+      not just "Gets/sets the value". They should mention what the attribute
+      represents in AUTOSAR (e.g. mention "Replacement of outgoingCallback / 
+      requiredEntry", "can be called from another partition or core", "connected
+      ... via the configuration of the BSW Scheduler", or "error mode in case
+      of error"). Docstrings connect spec semantics to code intent.
 
-Example:
+Example from spec PDF:
 ```python
 # Indicates an entry which is required by this module.
 # Replacement of outgoingCallback / requiredEntry.
 self.expectedEntryRefs: List[RefType] = []
+```
+
+Example from BswModuleDependency (spec note: "AUTOSAR identifier of the target
+module of which the dependencies are defined. This information is optional,
+because the target module may also be identified by targetModuleRef"):
+```python
+# AUTOSAR identifier of the target module; optional as target may be
+# identified by targetModuleRef instead.
+self.targetModuleId: Optional[PositiveInteger] = None
 ```
 
 ---
@@ -237,10 +264,15 @@ Every method on the class must have test coverage in the mirrored test file
 - [ ] `test_initialization` asserts all attributes have correct default values
       (`None` / `[]`).
 - [ ] Getter/setter pairs share a combined test (`test_get_set_*`) that checks:
-      setter returns `self`, value round-trips, and setting `None` is a no-op.
-      (On `BswModuleEntry` these `None` no-op assertions were missing and were
-      added for every get/set pair.)
-- [ ] `add*` methods test appending and the `None` no-op.
+      (1) setter returns `self` for method chaining, (2) value round-trips
+      (getter returns the set value), (3) setting `None` is a no-op (existing
+      value is preserved). The None no-op test is critical: verify that after
+      `setter(value)` followed by `setter(None)`, the getter still returns the
+      original value. (On `BswModuleEntry` these `None` no-op assertions were
+      missing and were added for every get/set pair; this pattern applies to
+      all classes.)
+- [ ] `add*` methods test appending, the return value (`self`), and the `None`
+      no-op (setting None does not append).
 - [ ] Every `create*` factory has a test asserting the short name and that the
       element is appended to the corresponding list.
 - [ ] Plain getters have a default-value test.
@@ -286,23 +318,29 @@ assert not untested, f"methods without test coverage: {untested}"
 **Maturity**: accept
 
 The class must be defined in the module that matches the `Package` row of its
-spec table.
+spec table. There is exactly one module file per spec package, and all classes
+in that spec package must be defined in that single module.
 
 Check:
 - [ ] The spec table's `Package` row (e.g. `M2::AUTOSARTemplates::CommonStructure::ModeDeclaration`)
-      maps 1:1 to the module under `src/armodel/models/`: strip the leading `M2::`
-      and replace `::` with `/`. The last segment names the module file
-      (`...::ModeDeclaration` → `ModeDeclaration.py`).
-- [ ] A package-style module (a class that owns a whole spec sub-package) lives in
-      `<package>/__init__.py` (`BswOverview` → `BswModuleTemplate/BswOverview/__init__.py`).
-- [ ] A spec package may split its classes across sibling files as long as they
-      stay under the matching directory (`ModeTransition` and `ModeErrorBehavior`
-      share spec package `...::CommonStructure::ModeDeclaration` but live in
-      `ModeDeclarationExtra.py` next to `ModeDeclaration.py`).
+      maps 1:1 to a module under `src/armodel/models/`: strip the leading `M2::`
+      and replace `::` with `/`. The last segment names the module file or
+      package directory (`...::ModeDeclaration` → `ModeDeclaration.py` or
+      `ModeDeclaration/__init__.py`).
+- [ ] If the module is a file (`ModeDeclaration.py`), all classes in that spec
+      package (e.g., `ModeDeclaration`, `ModeTransition`, `ModeErrorBehavior`)
+      must be defined in that single file.
+- [ ] If the module is a directory/package (`BswOverview/__init__.py`), all
+      classes in that spec package must be defined in the `__init__.py` file
+      (or imported and re-exported from `__init__.py` if split into submodules).
+- [ ] Do **not** create sibling files like `ModeDeclarationExtra.py` to house
+      classes that belong in `ModeDeclaration.py` — consolidate all classes
+      for a spec package in one place.
 - [ ] Classes are **not** placed under a spec package different from their own.
 
 Verification: read the `Package` row from the class's spec table and compare it
-with the module path under `src/armodel/models/`.
+with the module path under `src/armodel/models/`. Verify all classes for that
+spec package are in the same module file.
 
 Examples:
 
@@ -311,7 +349,224 @@ Examples:
 | `BswModuleDescription` | `M2::AUTOSARTemplates::BswModuleTemplate::BswOverview` | `BswModuleTemplate/BswOverview/__init__.py` |
 | `BswModuleEntry` | `M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces` | `BswModuleTemplate/BswInterfaces.py` |
 | `ModeDeclarationGroup` | `M2::AUTOSARTemplates::CommonStructure::ModeDeclaration` | `CommonStructure/ModeDeclaration.py` |
-| `ModeTransition` | `M2::AUTOSARTemplates::CommonStructure::ModeDeclaration` | `CommonStructure/ModeDeclarationExtra.py` |
+| `ModeDeclaration` | `M2::AUTOSARTemplates::CommonStructure::ModeDeclaration` | `CommonStructure/ModeDeclaration.py` |
+| `ModeTransition` | `M2::AUTOSARTemplates::CommonStructure::ModeDeclaration` | `CommonStructure/ModeDeclaration.py` |
+| `ModeErrorBehavior` | `M2::AUTOSARTemplates::CommonStructure::ModeDeclaration` | `CommonStructure/ModeDeclaration.py` |
+
+---
+
+## Rule 9: Attribute Spacing in Classes
+
+**Maturity**: accept
+
+Each member (attribute or method) in a class must be separated by exactly one
+blank line. This improves readability and clearly delineates separate logical
+units within the class.
+
+Check:
+- [ ] Every attribute in `__init__` has a blank line before and after its
+      comment + assignment block.
+- [ ] Every method is preceded by a blank line (except the first method
+      immediately after `__init__`).
+- [ ] Every method is followed by a blank line before the next method.
+- [ ] No consecutive blank lines (only single blanks between members).
+
+Example:
+```python
+class Example(ARObject):
+    def __init__(self):
+        super().__init__()
+        # First attribute comment
+        self.field1: Type1 = None
+
+        # Second attribute comment
+        self.field2: Type2 = None
+
+    def getField1(self) -> Optional[Type1]:
+        """Gets field1."""
+        return self.field1
+
+    def setField1(self, value: Optional[Type1]) -> "Example":
+        """Sets field1."""
+        if value is not None:
+            self.field1 = value
+        return self
+```
+
+---
+
+## Rule 10: Method Signature Formatting
+
+**Maturity**: accept
+
+Each method definition and all of its parameters must fit on the same logical
+line. When a method signature exceeds 79 characters, break it across multiple
+physical lines in a way that keeps the entire signature conceptually unified.
+
+Do NOT split method definitions by placing some parameters on the method line
+and others on subsequent lines inside the method body. All parameters and return
+type must be part of the method signature, not rearranged or moved to comments.
+
+Check:
+- [ ] Method `def` keyword starts the signature.
+- [ ] All parameters are declared in the signature (between parentheses).
+- [ ] Return type annotation is part of the signature (on the same logical line
+      via `->` notation).
+- [ ] When the signature exceeds 79 characters, break it across multiple
+      physical lines using Python's implicit line continuation within
+      parentheses:
+      ```python
+      def methodName(
+              self,
+              param1: Type1,
+              param2: Type2) -> ReturnType:
+      ```
+- [ ] The method body begins on a new line after the `:`.
+
+Example (correct):
+```python
+def setBswEntryRelationshipType(
+        self,
+        value: Optional[BswEntryRelationshipEnum]
+) -> "BswEntryRelationship":
+    """Sets the type of relationship."""
+    if value is not None:
+        self.bswEntryRelationshipType = value
+    return self
+```
+
+Example (incorrect):
+```python
+# DON'T do this:
+def setBswEntryRelationshipType(self, value):
+    # Type information moved to comment, not in signature
+    # value: Optional[BswEntryRelationshipEnum]
+    if value is not None:
+        self.bswEntryRelationshipType = value
+    return self
+```
+
+---
+
+## Rule 11: Enum Types Must Inherit from AREnum
+
+**Maturity**: accept
+
+All enumeration classes in the AUTOSAR model must inherit from `AREnum`, not
+from Python's built-in `Enum` or `str` (or other) mixins. This ensures
+consistency across the codebase and allows for unified enum handling in the
+parser and writer.
+
+Check:
+- [ ] Every enum class in the module inherits from `AREnum` (not `Enum`,
+      `str` + `Enum`, `IntEnum`, etc.).
+- [ ] The import statement includes `AREnum` from
+      `armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes`.
+- [ ] The enum body contains enum members with string values (e.g.,
+      `MEMBER_NAME = "member_value"`).
+
+Example (correct):
+```python
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum
+
+class MyEnum(AREnum):
+    """Enumeration for something."""
+    # MyEnum method parity checklist:
+    # (no methods)
+
+    MEMBER_ONE = "member_one"
+    MEMBER_TWO = "member_two"
+```
+
+Example (incorrect):
+```python
+# DON'T do this:
+from enum import Enum
+
+class MyEnum(str, Enum):
+    """Enumeration for something."""
+    MEMBER_ONE = "member_one"
+    MEMBER_TWO = "member_two"
+```
+
+Rationale: Using `AREnum` provides a standardized enum base class that
+integrates with the AUTOSAR model's type system. Custom enum behavior (if
+needed) can be added to `AREnum` and automatically inherited by all enums in
+the model. See `BswEntryRelationshipEnum` as an example of the correct pattern.
+
+---
+
+## Rule 12: Enum Specification Alignment and Docstring Sync
+
+**Maturity**: accept
+
+Every enumeration class must have its member list and documentation synced with
+the AUTOSAR PDF specification. Enums are easy to implement incorrectly because
+the spec table may be sparse, incomplete, or the enum may have been created with
+placeholder/assumed values that do not match the spec.
+
+Check:
+- [ ] Locate the enum's specification table in the AUTOSAR PDF markdown.
+      Search by enum class name (e.g., search for `BswEntryRelationshipEnum` or
+      the table number if known).
+- [ ] Verify the enum members: every literal row in the spec table must have a
+      corresponding Python enum member. There must be **no extra members** (not
+      in spec) and **no missing members** (in spec but not in code).
+- [ ] Enum member naming: convert the spec literal to Python UPPER_CASE naming.
+      Example: spec literal `derivedFrom` → Python member `DERIVED_FROM`.
+- [ ] Enum member value: the string value must **exactly match** the spec literal
+      value. Example: `DERIVED_FROM = "derivedFrom"` (not `"derived_from"` or
+      variations).
+- [ ] Class docstring: summarize the spec table's "Note" row (the enum's purpose
+      and scope).
+- [ ] Enum member documentation: each member must have an inline comment that
+      cites the spec literal's description (not paraphrased, use the PDF wording).
+      Include Tags information (e.g., `atp.EnumerationLiteralIndex=0`) to document
+      the spec's ordering.
+- [ ] Sync with PDF on every review: when updating an enum, always check the
+      PDF spec table first. Do not assume previous implementations are correct.
+
+Example from AUTOSAR Table 4.20 (BswEntryRelationshipEnum):
+
+| Literal       | Description |
+|---------------|-------------|
+| derivedFrom   | Describes that the BswModuleEntry referenced as "to" needs to have the same signature as the "abstract" BswModuleEntry referenced as "from". Tags: atp.EnumerationLiteralIndex=0 |
+
+**Correct implementation** (matches spec):
+```python
+class BswEntryRelationshipEnum(AREnum):
+    """
+    Enumeration for BSW entry relationship types.
+    Defines the type of relationship between two BswModuleEntrys.
+    """
+    # BswEntryRelationshipEnum method parity checklist:
+    # (no methods)
+
+    # Describes that the BswModuleEntry referenced as "to" needs to have
+    # the same signature as the "abstract" BswModuleEntry referenced as
+    # "from". Tags: atp.EnumerationLiteralIndex=0
+    DERIVED_FROM = "derivedFrom"
+```
+
+**Incorrect implementation** (had members NOT in spec):
+```python
+class BswEntryRelationshipEnum(AREnum):
+    # WRONG: These are not in AUTOSAR Table 4.20
+    READS = "reads"          # NOT in PDF spec
+    WRITES = "writes"        # NOT in PDF spec
+    CALLS = "calls"          # NOT in PDF spec
+    TRIGGERS = "triggers"    # NOT in PDF spec
+```
+
+Verification: search the AUTOSAR markdown (`autosar/markdown/*.md`) for the enum's
+spec table. Compare the literal rows (Literal column) 1:1 with the enum members
+defined in Python code. Use `grep` or `rg` to find the table:
+```bash
+grep -A 10 "^Table.*: <EnumName>" autosar/markdown/AUTOSAR*.md
+```
+
+If there is a mismatch (extra members, missing members, wrong values, or missing
+docstrings), correct the enum implementation and update all corresponding tests.
 
 ---
 
@@ -319,8 +574,9 @@ Examples:
 
 1. Pick a class (`ClassName`) and locate its source, mirrored test file, and
    PDF spec table.
-2. Work through Rules 1-8, ticking each check box. Fix the class, its checklist,
-   comments, type hints, or tests as needed.
+2. Work through Rules 1-12, ticking each check box. Fix the class, its checklist,
+   comments, type hints, tests, spacing, method signatures, enum types, and
+   enum specifications as needed.
 3. If a rule does not fit the class cleanly, or you encounter something the
    rules do not cover, **record the feedback** (what, where, why) and update
    this document so the rules stay accurate for future classes.
@@ -337,8 +593,208 @@ Examples:
   - `ModeDeclarationGroup`
     (`src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py`)
   - `ModeTransition`
-    (`src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ModeDeclarationExtra.py`)
+    (`src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py`)
+  - `ModeErrorBehavior`
+    (`src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py`)
 - Spec sources: `autosar/markdown/*.md` (PDF-derived class tables)
 - XSD ground truth: `autosar-pdf/examples/xsd/AUTOSAR_00052.xsd`
 - Deviation tracker: `docs/method_deviation_by_class.md`
 - General coding standards: `docs/development/coding_rules.md`
+
+## General Patterns from Class Reviews
+
+The following patterns emerge from reviewing classes against the rules. These
+apply to all future classes.
+
+### Python Version vs. Type Hint Syntax (CRITICAL)
+
+**ISSUE FOUND**: AGENTS.md line 43 states "Type annotations: Python 3.10+ union
+syntax (`str | None` not `Optional[str]`)" but `pyproject.toml` specifies
+`requires-python = ">=3.8"`. The union operator `|` was introduced in Python
+3.10, so it cannot be used.
+
+**RESOLUTION**: Always use `Optional[T]` from `typing`, never `T | None`, to
+maintain Python 3.8 compatibility. This applies to all classes under review,
+regardless of what AGENTS.md says.
+
+### Spec Attribute Mapping: Kind Column is Critical
+
+The PDF spec table has separate columns: Attribute, Type, Mult, Kind, Note.
+The **Kind column determines naming and type handling**:
+
+- **Kind `ref`**: attribute becomes `<name>Ref: RefType`, with getter
+  `get<Name>Ref()` and setter `set<Name>Ref(value: RefType)`.
+  Example: spec Attribute `enteredMode`, Kind `ref` → Python `enteredModeRef: RefType`.
+- **Kind `tref`**: attribute becomes `<name>TRef: TRefType`, with analogous getters/setters.
+  Example: spec Attribute `typeReference`, Kind `tref` → Python `typeReferenceTRef: TRefType`.
+- **Kind `attr`**: attribute name as-is, type from the Type column. No special naming suffix.
+  Example: spec Attribute `errorPolicy`, Kind `attr` → Python `errorPolicy: str`.
+
+Misaligning the Kind column naming is a Rule 1 violation that breaks parser/writer contracts.
+
+### Consistency Across Accessors and Checklist
+
+Once a field name is chosen (e.g., `defaultModeRef`), all accessors and checklist
+entries must use that exact name:
+- Field: `defaultModeRef`
+- Getter: `getDefaultModeRef()`
+- Setter: `setDefaultModeRef()`
+- Checklist: `[x] getDefaultModeRef`, `[x] setDefaultModeRef`
+- Tests: `test_get_set_default_mode_ref()`, `test_get_set_default_mode_ref_none()`
+
+Automated set-based checklist validation catches checklist ↔ implementation mismatches,
+but cannot verify checklist ↔ test correspondence. Manual inspection after
+refactoring is essential.
+
+### Docstrings Connect Spec to Intent
+
+Attribute comments and getter/setter docstrings should cite spec semantics, not just
+technical description:
+- **Attribute comment**: the spec note for that attribute, bridging to Python.
+  Example: `# The mode that is entered by this transition.`
+- **Getter docstring**: what the attribute represents and its purpose.
+  Example: `Gets the mode that is entered by this transition.`
+- **Setter docstring**: include the no-op behavior and method chaining return.
+  Example: `Sets the entered mode. Only sets if value is not None. Returns self for chaining.`
+
+"Gets/sets the value" is not sufficient. Readers should understand AUTOSAR semantics from docstrings.
+
+### None No-Op is Universal and Critical
+
+Every setter and add method must follow:
+```python
+def setSomething(self, value: T) -> "ClassName":
+    if value is not None:
+        self.something = value
+    return self
+```
+
+This pattern is critical because:
+1. **Parser safety**: parser helpers return `None` for missing XML elements.
+2. **No overwriting**: setting None must not overwrite an existing value.
+3. **Consistency**: all classes apply this pattern uniformly.
+
+Tests must verify this explicitly: after `setter(value)`, then `setter(None)`,
+the getter must still return the original value.
+
+## Implementation Notes
+
+**Ref/TRef Suffix Convention (from ModeTransition)**
+
+When a spec attribute has Kind `ref` or `tref`, include the suffix in the Python
+field and method names. Example: spec Attribute `enteredMode`, Kind `ref` →
+Python field `enteredModeRef: RefType`, getter `getEnteredModeRef()`. This makes
+the reference semantics explicit and is consistent across the codebase (e.g.,
+`BswModuleEntry`'s `expectedEntryRefs`, `implementedEntryRefs`).
+
+## Feedback from BswEntryRelationship Review
+
+When reviewing and updating `BswEntryRelationship` and `BswEntryRelationshipSet`
+classes per the above rules, the following observations emerged:
+
+### 1. Non-Identifiable ARObject Classes
+
+**ISSUE**: `BswEntryRelationship` inherits from `ARObject` (not `Identifiable`), so
+it has no `short_name` and no `__init__` parent/short_name parameters. The class
+should follow the simpler `ARObject` pattern: `__init__` with no parameters,
+and all fields initialized to default values (None / []).
+
+**RESOLUTION**: Classes inheriting from `ARObject` do not require parent/short_name
+parameters in their `__init__`. Examples:
+- `BswEntryRelationship(ARObject)` → `__init__(self)` with no parent/short_name
+- `BswEntryRelationshipSet(Identifiable)` → `__init__(self, parent, short_name)`
+
+When implementing a class, check its spec `Base` column:
+- If it lists `Identifiable`, use `Identifiable` as the parent class and
+  accept parent/short_name in `__init__`.
+- If it lists only `ARObject` (or other non-Identifiable bases), inherit from
+  `ARObject` and initialize only the instance fields in `__init__` without
+  parent/short_name.
+
+### 2. String Enum Instantiation in Tests
+
+**ISSUE**: When testing classes with string enum types (e.g., `BswEntryRelationshipEnum`),
+tests must use enum member values, not call the enum constructor.
+
+**INCORRECT**:
+```python
+enum_value = BswEntryRelationshipEnum()  # TypeError: missing 1 required positional argument
+```
+
+**CORRECT**:
+```python
+enum_value = BswEntryRelationshipEnum.DERIVED_FROM  # Use enum member
+```
+
+This applies to all Python `Enum` subclasses. Tests should reference enum literals
+like `EnumClass.MEMBER_NAME` rather than attempting to instantiate the enum
+itself. Reference implementations use this pattern throughout (e.g.,
+`BswCallType.SYNCHRONOUS`, `BswExecutionContext.TASK`).
+
+**SPECIFICATION SYNC**: `BswEntryRelationshipEnum` contains only one literal per
+AUTOSAR Table 4.20: `DERIVED_FROM = "derivedFrom"`. This describes that the
+BswModuleEntry referenced as "to" needs to have the same signature as the
+"abstract" BswModuleEntry referenced as "from".
+
+### 3. Module Structure: Single File for Spec Package
+
+**OBSERVATION**: When a spec package contains multiple classes (e.g.,
+`M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces`), they must all reside
+in a single Python module. In this project, that means:
+- Either a single file: `BswInterfaces.py` containing `BswEntryRelationship`,
+  `BswEntryRelationshipEnum`, and `BswEntryRelationshipSet`.
+- Or a package (directory) with `__init__.py` that imports and re-exports all
+  classes from submodules.
+
+**CORRECTION MADE**: Originally, the three classes were split across separate files
+in a `BswInterfaces/` directory. Per Rule 8, they were consolidated into the
+single `BswInterfaces.py` module file (which already existed and contained
+`BswModuleDependency`, `BswModuleEntry`, and `BswModuleClientServerEntry`).
+This ensures all classes for the spec package are in one place and improves
+maintainability and import clarity.
+
+### 4. Docstring Length and Line Breaks
+
+**OBSERVATION**: When a method's return type annotation (especially
+`Optional[BswEntryRelationshipEnum]`) causes a line to exceed 79 characters,
+break the type hint across multiple lines within the method signature:
+
+```python
+def setBswEntryRelationshipType(
+        self,
+        value: Optional[BswEntryRelationshipEnum]
+) -> "BswEntryRelationship":
+```
+
+This keeps the line length within the 79-character limit and maintains readability.
+Multi-line method signatures are preferred over long parameter lines.
+
+### 5. Implementation of New Rules (9, 10, 11)
+
+**NEW RULES ADDED**: Three new rules have been formally adopted for class
+consistency:
+
+- **Rule 9 (Attribute Spacing)**: Every member (attribute or method) must be
+  separated by exactly one blank line. This applies within `__init__` for
+  attributes and between methods.
+
+- **Rule 10 (Method Signature Formatting)**: Method definitions and their
+  parameters must be on the same logical line. Multi-line signatures are
+  acceptable when the signature exceeds 79 characters, but the entire
+  method signature (parameters + return type) stays within the method
+  definition block.
+
+- **Rule 11 (Enum Type Inheritance)**: All enumeration classes must inherit
+  from `AREnum` (not from Python's built-in `Enum`, `str` + `Enum`, etc.).
+  This ensures consistent enum handling across the AUTOSAR model.
+
+**Implementation in BswEntryRelationshipEnum**:
+- Changed from `class BswEntryRelationshipEnum(str, Enum)` to
+  `class BswEntryRelationshipEnum(AREnum)`.
+- Synced enum members with AUTOSAR PDF Table 4.20: now contains only
+  `DERIVED_FROM = "derivedFrom"` (previously had READS, WRITES, CALLS, TRIGGERS
+  which were not in the spec).
+- Added spec-based inline comment documenting the literal's meaning per AUTOSAR.
+- Added blank lines between enum members per Rule 9.
+- Verified that the enum member access pattern (`EnumClass.MEMBER_NAME`)
+  works correctly with `AREnum`.

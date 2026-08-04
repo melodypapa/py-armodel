@@ -12,16 +12,16 @@ class ARObject(ABC):
     Abstract base class for all AUTOSAR objects.
     This class provides the basic structure and functionality for all AUTOSAR objects.
     """
+
     # ARObject method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [x] getTagName                   [x] impl  [x] docstring  [x] test
-
 
     def __init__(self):
         if type(self) is ARObject:
             raise TypeError("ARObject is an abstract class.")
 
-        self.parent: Optional['ARObject'] = None
+        self.parent: Optional["ARObject"] = None
         self.checksum: Optional[str] = None
 
         self.timestamp: Optional[str] = None
@@ -30,11 +30,11 @@ class ARObject(ABC):
     def getTagName(self, tag: str, nsmap: Dict) -> str:
         """
         Gets the tag name without namespace prefix.
-        
+
         Args:
             tag: The full tag name with namespace prefix
             nsmap: The namespace map dictionary
-            
+
         Returns:
             The tag name without namespace prefix
         """

@@ -1,8 +1,4 @@
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import (
-    FlexrayCommunicationController,
-    FlexrayCommunicationConnector,
-    FlexrayCluster
-)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCommunicationController, FlexrayCommunicationConnector, FlexrayCluster
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationController, CommunicationConnector, CommunicationCluster
 
@@ -26,7 +22,7 @@ class TestFlexrayTopology:
         """
         parent = MockParent()
         controller = FlexrayCommunicationController(parent, "TestController")
-        
+
         assert controller.getShortName() == "TestController"
         assert isinstance(controller, CommunicationController)
         assert controller.getAcceptedStartupRange() is None
@@ -268,7 +264,7 @@ class TestFlexrayTopology:
         """
         parent = MockParent()
         connector = FlexrayCommunicationConnector(parent, "TestConnector")
-        
+
         assert connector.getShortName() == "TestConnector"
         assert isinstance(connector, CommunicationConnector)
         assert connector.getNmReadySleepTime() is None
@@ -304,7 +300,7 @@ class TestFlexrayTopology:
         """
         parent = MockParent()
         cluster = FlexrayCluster(parent, "TestCluster")
-        
+
         assert cluster.getShortName() == "TestCluster"
         assert isinstance(cluster, CommunicationCluster)
         assert cluster.getActionPointOffset() is None

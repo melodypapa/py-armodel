@@ -5,12 +5,14 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARPositiveInteger
 
+
 class RxIdentifierRange(ARObject):
     """
     Defines a range of CAN identifiers used for receive filtering in CAN communication.
     This class specifies the lower and upper bounds of CAN message IDs that should
     be accepted by a CAN controller or communication endpoint.
     """
+
     # RxIdentifierRange method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getLowerCanId                [x] impl  [ ] docstring  [ ] test
@@ -38,17 +40,20 @@ class RxIdentifierRange(ARObject):
         self.upperCanId = value
         return self
 
+
 class CanFrame(Frame):
     """
     Represents a CAN frame in the AUTOSAR system, extending the generic Frame class
     with CAN-specific properties and behavior. This class defines the structure
     and characteristics of CAN messages in the communication system.
     """
+
     # CanFrame method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
 
 class CanFrameTriggering(FrameTriggering):
     """
@@ -56,6 +61,7 @@ class CanFrameTriggering(FrameTriggering):
     CAN frames are transmitted or received on the network, including timing,
     addressing modes, and frame behavior properties.
     """
+
     # CanFrameTriggering method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getAbsolutelyScheduledTimings [x] impl  [ ] docstring  [ ] test
@@ -84,7 +90,7 @@ class CanFrameTriggering(FrameTriggering):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.absolutelyScheduledTimings = []                    
+        self.absolutelyScheduledTimings = []
         self.canAddressingMode = None
         self.canFdFrameSupport = None
         self.canFrameRxBehavior = None
@@ -109,7 +115,7 @@ class CanFrameTriggering(FrameTriggering):
     def setCanAddressingMode(self, value):
         self.canAddressingMode = value
         return self
-    
+
     def getCanFdFrameSupport(self):
         return self.canFdFrameSupport
 

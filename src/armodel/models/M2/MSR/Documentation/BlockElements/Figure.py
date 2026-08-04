@@ -1,4 +1,3 @@
-
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import Paginateable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -10,19 +9,19 @@ class GraphicFitEnum(AREnum):
     """
     Enumeration for graphic fitting modes.
     """
+
     # GraphicFitEnum method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
     def __init__(self, enum_values):
-        super().__init__([
-
-        ])
+        super().__init__([])
 
 
 class Graphic(EngineeringObject):
     """
     Graphic element with filename, dimensions, and fit properties.
     """
+
     # Graphic method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getEditfit                   [x] impl  [ ] docstring  [ ] test
@@ -41,12 +40,12 @@ class Graphic(EngineeringObject):
     def __init__(self):
         super().__init__()
 
-        self.editfit = None                                     # type: GraphicFitEnum
-        self.editHeight = None                                  # type: String
-        self.editscale = None                                   # type: String
-        self.editWidth = None                                   # type: String
-        self.filename = None                                    # type: String
-        self.fit = None                                         # type: GraphicFitEnum
+        self.editfit = None  # type: GraphicFitEnum
+        self.editHeight = None  # type: String
+        self.editscale = None  # type: String
+        self.editWidth = None  # type: String
+        self.filename = None  # type: String
+        self.fit = None  # type: GraphicFitEnum
 
     def getEditfit(self):
         return self.editfit
@@ -95,23 +94,25 @@ class Graphic(EngineeringObject):
         if value is not None:
             self.fit = value
         return self
-    
+
 
 class Map(ARObject):
     """
     Image map definition for clickable regions within a graphic.
     """
+
     # Map method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
     def __init__(self):
         super().__init__()
-    
+
 
 class LGraphic(LanguageSpecific):
     """
     Language-specific graphic with an associated image and optional map.
     """
+
     # LGraphic method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getL                         [x] impl  [ ] docstring  [ ] test
@@ -124,16 +125,16 @@ class LGraphic(LanguageSpecific):
     def __init__(self):
         super().__init__()
 
-        self.l = None                                           # type: str                         # noqa E741
-        self.graphic = None                                     # type: Graphic
-        self.map = None                                         # type: Map
+        self.l = None  # type: str                         # noqa E741
+        self.graphic = None  # type: Graphic
+        self.map = None  # type: Map
 
     def getL(self):
         return self.l
 
     def setL(self, value):
         if value is not None:
-            self.l = value                                                                          # noqa E741
+            self.l = value  # noqa E741
         return self
 
     def getGraphic(self):
@@ -158,6 +159,7 @@ class MlFigure(Paginateable):
     Multi-language figure with caption, graphics, and optional verbatim
     content.
     """
+
     # MlFigure method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getFigureCaption             [x] impl  [ ] docstring  [ ] test
@@ -174,11 +176,11 @@ class MlFigure(Paginateable):
     def __init__(self):
         super().__init__()
 
-        self.figureCaption = None                               # type: Caption
-        self.helpEntry = None                                   # type: String
-        self.lGraphics = []                                     # type: List[LGraphic]
-        self.pgwide = None                                      # type: PgwideEnum
-        self.verbatim = None                                    # type: MultiLanguageVerbatim
+        self.figureCaption = None  # type: Caption
+        self.helpEntry = None  # type: String
+        self.lGraphics = []  # type: List[LGraphic]
+        self.pgwide = None  # type: PgwideEnum
+        self.verbatim = None  # type: MultiLanguageVerbatim
 
     def getFigureCaption(self):
         return self.figureCaption

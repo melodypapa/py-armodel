@@ -4,10 +4,12 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
 from abc import ABC
 
+
 class GeneralAnnotation(ARObject, ABC):
     """
     Abstract base class for annotations including origin, text, and label.
     """
+
     # GeneralAnnotation method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getAnnotationOrigin          [x] impl  [ ] docstring  [ ] test
@@ -22,9 +24,9 @@ class GeneralAnnotation(ARObject, ABC):
             raise TypeError("GeneralAnnotation is an abstract class.")
 
         super().__init__()
-        self.annotationOrigin = None        # type: ARLiteral
-        self.annotationText = None          # type: DocumentationBlock
-        self.label = None                   # type: MultilanguageLongName
+        self.annotationOrigin = None  # type: ARLiteral
+        self.annotationText = None  # type: DocumentationBlock
+        self.label = None  # type: MultilanguageLongName
 
     def getAnnotationOrigin(self) -> ARLiteral:
         return self.annotationOrigin
@@ -45,7 +47,7 @@ class GeneralAnnotation(ARObject, ABC):
 
     def setLabel(self, value: MultilanguageLongName):
         self.label = value
-        return  self
+        return self
 
 
 class Annotation(GeneralAnnotation):
@@ -53,6 +55,7 @@ class Annotation(GeneralAnnotation):
     Concrete annotation with origin, text, and label for documenting
     model elements.
     """
+
     # Annotation method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 

@@ -3,16 +3,18 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import AutosarDataPrototype
 from typing import Optional
 
+
 class Field(AutosarDataPrototype):
     """
     This meta-class represents the ability to define a piece of data that can be
     accessed with read and/or write semantics. It is also possible to generate a
     notification if the value of the data changes.
-    
+
     Sources:
       - AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf (Page 45, Foundation
       R23-11)
     """
+
     # Field method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
     # [ ] getHasGetter                 [x] impl  [ ] docstring  [x] test
@@ -35,27 +37,20 @@ class Field(AutosarDataPrototype):
     def getHasGetter(self) -> Boolean:
         return self.hasGetter
 
-
     def setHasGetter(self, value: Boolean) -> "Field":
         self.hasGetter = value
         return self
 
-
     def getHasNotifier(self) -> Boolean:
         return self.hasNotifier
-
 
     def setHasNotifier(self, value: Boolean) -> "Field":
         self.hasNotifier = value
         return self
 
-
     def getHasSetter(self) -> Boolean:
         return self.hasSetter
-
 
     def setHasSetter(self, value: Boolean) -> "Field":
         self.hasSetter = value
         return self
-
-

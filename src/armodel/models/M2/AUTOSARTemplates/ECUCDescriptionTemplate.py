@@ -14,6 +14,7 @@ class EcucValueCollection(ARElement):
     """
     Collection of ECUC values with references to ECU extract.
     """
+
     # EcucValueCollection method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getEcucValueRefs             [x] impl  [ ] docstring  [ ] test
@@ -46,6 +47,7 @@ class EcucIndexableValue(ARObject, ABC):
     """
     Abstract base class for indexable ECUC values.
     """
+
     # EcucIndexableValue method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
@@ -61,6 +63,7 @@ class EcucParameterValue(EcucIndexableValue, ABC):
     Abstract base class for ECUC parameter values with annotation,
     definition reference, and auto value flag.
     """
+
     # EcucParameterValue method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getAnnotations               [x] impl  [ ] docstring  [ ] test
@@ -76,9 +79,9 @@ class EcucParameterValue(EcucIndexableValue, ABC):
 
         super().__init__()
 
-        self.annotations = []                       # type: List[Annotation]
-        self.definitionRef = None                   # type: RefType
-        self.isAutoValue = None                     # type: ARBoolean
+        self.annotations = []  # type: List[Annotation]
+        self.definitionRef = None  # type: RefType
+        self.isAutoValue = None  # type: ARBoolean
 
     def getAnnotations(self) -> List[Annotation]:
         return self.annotations
@@ -107,6 +110,7 @@ class EcucAddInfoParamValue(EcucParameterValue):
     ECUC parameter value for additional info with documentation block
     content.
     """
+
     # EcucAddInfoParamValue method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getValue                     [x] impl  [ ] docstring  [ ] test
@@ -115,7 +119,7 @@ class EcucAddInfoParamValue(EcucParameterValue):
     def __init__(self):
         super().__init__()
 
-        self.value = None                           # type: DocumentationBlock
+        self.value = None  # type: DocumentationBlock
 
     def getValue(self) -> DocumentationBlock:
         return self.value
@@ -128,6 +132,7 @@ class EcucTextualParamValue(EcucParameterValue):
     """
     ECUC parameter value for textual string values.
     """
+
     # EcucTextualParamValue method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getValue                     [x] impl  [ ] docstring  [ ] test
@@ -136,7 +141,7 @@ class EcucTextualParamValue(EcucParameterValue):
     def __init__(self):
         super().__init__()
 
-        self.value = None                           # type: ARLiteral
+        self.value = None  # type: ARLiteral
 
     def getValue(self) -> ARLiteral:
         return self.value
@@ -149,6 +154,7 @@ class EcucNumericalParamValue(EcucParameterValue):
     """
     ECUC parameter value for numerical values.
     """
+
     # EcucNumericalParamValue method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getValue                     [x] impl  [ ] docstring  [ ] test
@@ -157,7 +163,7 @@ class EcucNumericalParamValue(EcucParameterValue):
     def __init__(self):
         super().__init__()
 
-        self.value = None                           # type: ARNumerical
+        self.value = None  # type: ARNumerical
 
     def getValue(self) -> ARNumerical:
         return self.value
@@ -171,6 +177,7 @@ class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
     Abstract base class for ECUC reference values with annotation,
     definition reference, and auto value flag.
     """
+
     # EcucAbstractReferenceValue method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getAnnotations               [x] impl  [ ] docstring  [ ] test
@@ -186,9 +193,9 @@ class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
 
         super().__init__()
 
-        self.annotations = []                       # type: List[Annotation]
-        self.definitionRef = None                   # type: RefType
-        self.isAutoValue = None                     # type: ARBoolean
+        self.annotations = []  # type: List[Annotation]
+        self.definitionRef = None  # type: RefType
+        self.isAutoValue = None  # type: ARBoolean
 
     def getAnnotations(self) -> List[Annotation]:
         return self.annotations
@@ -217,6 +224,7 @@ class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
     ECUC reference value using an AnyInstanceRef for instance-based
     references.
     """
+
     # EcucInstanceReferenceValue method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getValueIRef                 [x] impl  [ ] docstring  [ ] test
@@ -225,7 +233,7 @@ class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
     def __init__(self):
         super().__init__()
 
-        self.valueIRef = None        # type: AnyInstanceRef
+        self.valueIRef = None  # type: AnyInstanceRef
 
     def getValueIRef(self) -> AnyInstanceRef:
         return self.valueRef
@@ -239,6 +247,7 @@ class EcucReferenceValue(EcucAbstractReferenceValue):
     """
     ECUC reference value using a RefType for standard references.
     """
+
     # EcucReferenceValue method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getValueRef                  [x] impl  [ ] docstring  [ ] test
@@ -247,7 +256,7 @@ class EcucReferenceValue(EcucAbstractReferenceValue):
     def __init__(self):
         super().__init__()
 
-        self.valueRef = None        # type: RefType
+        self.valueRef = None  # type: RefType
 
     def getValueRef(self) -> RefType:
         return self.valueRef
@@ -262,6 +271,7 @@ class EcucContainerValue(Identifiable, EcucIndexableValue):
     Container value holding parameter values, reference values, and
     sub-containers for ECUC configuration.
     """
+
     # EcucContainerValue method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getDefinitionRef             [x] impl  [ ] docstring  [ ] test
@@ -276,10 +286,10 @@ class EcucContainerValue(Identifiable, EcucIndexableValue):
     def __init__(self, parent: ARObject, short_name: str):
         Identifiable.__init__(self, parent, short_name)
 
-        self.definitionRef = None                   # type: RefType
-        self.parameterValues = []                   # type: List[EcucParameterValue]
-        self.referenceValues = []                   # type: List[EcucAbstractReferenceValue]
-        self.subContainers = []                     # type: List[EcucContainerValue]
+        self.definitionRef = None  # type: RefType
+        self.parameterValues = []  # type: List[EcucParameterValue]
+        self.referenceValues = []  # type: List[EcucAbstractReferenceValue]
+        self.subContainers = []  # type: List[EcucContainerValue]
 
     def getDefinitionRef(self) -> RefType:
         return self.definitionRef
@@ -318,6 +328,7 @@ class EcucModuleConfigurationValues(ARElement):
     ECUC module configuration values with containers, definition
     reference, and variant configuration properties.
     """
+
     # EcucModuleConfigurationValues method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] createContainer              [x] impl  [ ] docstring  [ ] test
@@ -336,12 +347,12 @@ class EcucModuleConfigurationValues(ARElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.containers = []                        # type: List[EcucContainerValue]
-        self.definitionRef = None                   # type: RefType
-        self.ecucDefEdition = None                  # type: ARLiteral
-        self.implementationConfigVariant = None     # type: ARLiteral
-        self.moduleDescriptionRef = None            # type: RefType
-        self.postBuildVariantUsed = None            # type: ARBoolean
+        self.containers = []  # type: List[EcucContainerValue]
+        self.definitionRef = None  # type: RefType
+        self.ecucDefEdition = None  # type: ARLiteral
+        self.implementationConfigVariant = None  # type: ARLiteral
+        self.moduleDescriptionRef = None  # type: RefType
+        self.postBuildVariantUsed = None  # type: ARBoolean
 
     def createContainer(self, short_name: str) -> EcucContainerValue:
         if not self.IsElementExists(short_name):
@@ -394,6 +405,7 @@ class EcucConditionSpecification(ARObject):
     Condition specification for ECUC definitions with condition formula
     and queries.
     """
+
     # EcucConditionSpecification method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
 
@@ -409,6 +421,7 @@ class EcucConfigurationVariantEnum(AREnum):
     """
     Enumeration for ECUC configuration variant types.
     """
+
     # EcucConfigurationVariantEnum method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
 

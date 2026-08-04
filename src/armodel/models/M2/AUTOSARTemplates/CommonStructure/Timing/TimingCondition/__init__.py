@@ -5,11 +5,4 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConditionFo
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensionResource import TimingExtensionResource
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingModeInstance import TimingModeInstance
 
-__all__ = [
-    'ModeInBswInstanceRef',
-    'ModeInSwcInstanceRef',
-    'TimingCondition',
-    'TimingConditionFormula',
-    'TimingExtensionResource',
-    'TimingModeInstance'
-]
+__all__ = ["ModeInBswInstanceRef", "ModeInSwcInstanceRef", "TimingCondition", "TimingConditionFormula", "TimingExtensionResource", "TimingModeInstance"]

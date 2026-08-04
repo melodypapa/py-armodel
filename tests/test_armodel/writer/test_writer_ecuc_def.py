@@ -1,4 +1,5 @@
 """Tests for writer ECUC parameter definition handlers."""
+
 import xml.etree.cElementTree as ET
 import pytest
 
@@ -206,18 +207,12 @@ class TestWriterEcucCommonAttributes:
     def test_full(self, writer):
         container = _make_container()
         param = container.createEcucBooleanParamDef("P")
-        param.addMultiplicityConfigClass(
-            EcucMultiplicityConfigurationClass().setConfigClass(
-                _literal("mc")
-            )
-        )
+        param.addMultiplicityConfigClass(EcucMultiplicityConfigurationClass().setConfigClass(_literal("mc")))
         param.setOrigin(_literal("org"))
         param.setPostBuildVariantMultiplicity(_bool(True))
         param.setPostBuildVariantValue(_bool(False))
         param.setRequiresIndex(_bool(True))
-        param.addValueConfigClass(
-            EcucValueConfigurationClass().setConfigVariant(_literal("vc"))
-        )
+        param.addValueConfigClass(EcucValueConfigurationClass().setConfigVariant(_literal("vc")))
         parent = _parent()
         writer.writeEcucCommonAttributes(parent, param)
         assert parent.find("MULTIPLICITY-CONFIG-CLASSES") is not None
@@ -458,11 +453,7 @@ class TestWriterEcucContainerDefParameters:
 class TestWriterEcucContainerDef:
     def test_full(self, writer):
         container = _make_container()
-        container.addMultiplicityConfigClass(
-            EcucMultiplicityConfigurationClass().setConfigClass(
-                _literal("mc")
-            )
-        )
+        container.addMultiplicityConfigClass(EcucMultiplicityConfigurationClass().setConfigClass(_literal("mc")))
         container.setPostBuildVariantMultiplicity(_bool(True))
         container.setRequiresIndex(_bool(False))
         container.setMultipleConfigurationContainer(_bool(True))
@@ -471,9 +462,7 @@ class TestWriterEcucContainerDef:
         assert parent.find("MULTIPLICITY-CONFIG-CLASSES") is not None
         assert parent.find("POST-BUILD-VARIANT-MULTIPLICITY").text == "true"
         assert parent.find("REQUIRES-INDEX").text == "false"
-        assert (
-            parent.find("MULTIPLE-CONFIGURATION-CONTAINER").text == "true"
-        )
+        assert parent.find("MULTIPLE-CONFIGURATION-CONTAINER").text == "true"
 
     def test_minimal(self, writer):
         container = _make_container()
@@ -668,9 +657,7 @@ class TestWriterEcucModuleDef:
         writer.writeEcucModuleDef(parent, module)
         assert parent[0].tag == "ECUC-MODULE-DEF"
         assert parent[0].find("SHORT-NAME").text == "Mod"
-        assert (
-            parent[0].find("POST-BUILD-VARIANT-SUPPORT").text == "true"
-        )
+        assert parent[0].find("POST-BUILD-VARIANT-SUPPORT").text == "true"
         assert parent[0].find("SUPPORTED-CONFIG-VARIANTS") is not None
         assert parent[0].find("CONTAINERS") is not None
 

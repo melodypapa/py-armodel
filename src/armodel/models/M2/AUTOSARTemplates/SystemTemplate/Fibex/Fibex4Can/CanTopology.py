@@ -15,6 +15,7 @@ class CanControllerFdConfiguration(ARObject):
     including timing settings, padding values, and bit rate switching properties
     required for CAN FD communication.
     """
+
     # CanControllerFdConfiguration method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getPaddingValue              [x] impl  [ ] docstring  [ ] test
@@ -106,6 +107,7 @@ class CanControllerFdConfigurationRequirements(ARObject):
     the acceptable ranges and constraints for timing, bit rate, and other
     CAN FD communication properties.
     """
+
     # CanControllerFdConfigurationRequirements method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getMaxNumberOfTimeQuantaPerBit [x] impl  [ ] docstring  [ ] test
@@ -230,6 +232,7 @@ class CanControllerXlConfiguration(ARObject):
     including timing settings, payload length configurations, and other
     CAN XL communication properties.
     """
+
     # CanControllerXlConfiguration method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getArbitrationPhaseSeg1      [x] impl  [ ] docstring  [ ] test
@@ -398,6 +401,7 @@ class CanControllerXlConfigurationRequirements(ARObject):
     the acceptable ranges and constraints for timing, bit rate, and other
     CAN XL communication properties.
     """
+
     # CanControllerXlConfigurationRequirements method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getMaxNumberOfTimeQuantaPerBit [x] impl  [ ] docstring  [ ] test
@@ -522,6 +526,7 @@ class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
     providing a common foundation for both FD and XL configuration
     properties of CAN controllers.
     """
+
     # AbstractCanCommunicationControllerAttributes method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getCanControllerFdAttributes [x] impl  [ ] docstring  [ ] test
@@ -536,7 +541,7 @@ class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
     def __init__(self):
         if type(self) is AbstractCanCommunicationControllerAttributes:
             raise TypeError("AbstractCanCommunicationControllerAttributes is an abstract class.")
-        
+
         super().__init__()
 
         self.canControllerFdAttributes: CanControllerFdConfiguration = None
@@ -579,6 +584,7 @@ class CanControllerConfigurationRequirements(AbstractCanCommunicationControllerA
     the timing and communication parameters that must be supported
     by the CAN communication hardware.
     """
+
     # CanControllerConfigurationRequirements method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getMaxNumberOfTimeQuantaPerBit [x] impl  [ ] docstring  [ ] test
@@ -653,6 +659,7 @@ class AbstractCanCommunicationController(CommunicationController, ABC):
     the common properties and behavior for CAN network interfaces
     in the AUTOSAR communication system.
     """
+
     # AbstractCanCommunicationController method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getCanControllerAttributes   [x] impl  [ ] docstring  [ ] test
@@ -661,7 +668,7 @@ class AbstractCanCommunicationController(CommunicationController, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractCanCommunicationController:
             raise TypeError("AbstractCanCommunicationController is an abstract class.")
-        
+
         super().__init__(parent, short_name)
 
         self.canControllerAttributes: AbstractCanCommunicationControllerAttributes = None
@@ -680,6 +687,7 @@ class CanCommunicationController(AbstractCanCommunicationController):
     the specific properties and behavior for CAN network communication
     hardware interfaces.
     """
+
     # CanCommunicationController method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
@@ -693,13 +701,14 @@ class AbstractCanCommunicationConnector(CommunicationConnector, ABC):
     the foundation for connecting CAN controllers to communication
     channels and network segments.
     """
+
     # AbstractCanCommunicationConnector method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractCanCommunicationConnector:
             raise TypeError("AbstractCanCommunicationConnector is an abstract class.")
-        
+
         super().__init__(parent, short_name)
 
 
@@ -709,6 +718,7 @@ class CanCommunicationConnector(AbstractCanCommunicationConnector):
     to communication channels, enabling network connectivity and defining
     power state management properties for CAN communication.
     """
+
     # CanCommunicationConnector method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getPncWakeupCanId            [x] impl  [ ] docstring  [ ] test

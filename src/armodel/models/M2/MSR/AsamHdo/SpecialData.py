@@ -4,11 +4,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from typing import List
 
+
 class Sd(ARObject):
     """
     Represents special data with a global identifier and value.
     Base: ARObject
     """
+
     # Sd method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getGID                       [x] impl  [ ] docstring  [ ] test
@@ -36,11 +38,13 @@ class Sd(ARObject):
         self.value = value
         return self
 
+
 class SdgCaption(MultilanguageReferrable):
     """
     Represents a caption for special data groups with multilingual description.
     Base: MultilanguageReferrable
     """
+
     # SdgCaption method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getDesc                      [x] impl  [ ] docstring  [ ] test
@@ -65,6 +69,7 @@ class Sdg(ARObject):
     Represents a special data group containing special data items and references.
     Base: ARObject
     """
+
     # Sdg method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getGID                       [x] impl  [ ] docstring  [ ] test
@@ -109,10 +114,10 @@ class Sdg(ARObject):
         self.sdgCaption = caption
         return caption
 
-    def getSdgContentsTypes(self) -> List['Sdg']:
+    def getSdgContentsTypes(self) -> List["Sdg"]:
         return self.sdgContentsTypes
 
-    def addSdgContentsType(self, sdg: 'Sdg'):
+    def addSdgContentsType(self, sdg: "Sdg"):
         self.sdgContentsTypes.append(sdg)
 
     def getSdxRefs(self) -> List[RefType]:

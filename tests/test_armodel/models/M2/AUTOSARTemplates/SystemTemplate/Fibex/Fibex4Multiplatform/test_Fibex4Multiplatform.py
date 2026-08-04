@@ -1,12 +1,4 @@
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import (
-    FrameMapping,
-    ISignalMapping,
-    DefaultValueElement,
-    PduMappingDefaultValue,
-    TargetIPduRef,
-    IPduMapping,
-    Gateway
-)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import FrameMapping, ISignalMapping, DefaultValueElement, PduMappingDefaultValue, TargetIPduRef, IPduMapping, Gateway
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
@@ -103,7 +95,7 @@ class TestFibex4Multiplatform:
         default_val_elem.setElementByteValue(255)
         assert default_val_elem.getElementByteValue() == 255
         assert default_val_elem == default_val_elem.setElementByteValue(255)
-        
+
         default_val_elem.setElementPosition(1)
         assert default_val_elem.getElementPosition() == 1
         assert default_val_elem == default_val_elem.setElementPosition(1)
@@ -166,7 +158,7 @@ class TestFibex4Multiplatform:
         assert result == pdu_default
         # Since value is None, defaultValueElements should remain as the original empty list
         assert pdu_default.getDefaultValueElements() == []
-        
+
         # Test with non-empty list, then try to set to None
         elem = DefaultValueElement()
         pdu_default.addDefaultValueElements([elem])
@@ -201,7 +193,7 @@ class TestFibex4Multiplatform:
         target_ipdu.setDefaultValue(default_val)
         assert target_ipdu.getDefaultValue() == default_val
         assert target_ipdu == target_ipdu.setDefaultValue(default_val)
-        
+
         target_ipdu.setTargetIPdu("target_ipdu_ref")
         assert target_ipdu.getTargetIPdu() == "target_ipdu_ref"
         assert target_ipdu == target_ipdu.setTargetIPdu("target_ipdu_ref")
@@ -260,7 +252,7 @@ class TestFibex4Multiplatform:
         ipdu_mapping.setPdurTpChunkSize(64)
         assert ipdu_mapping.getPdurTpChunkSize() == 64
         assert ipdu_mapping == ipdu_mapping.setPdurTpChunkSize(64)
-        
+
         ipdu_mapping.setSourceIpduRef("source_ipdu_ref")
         assert ipdu_mapping.getSourceIpduRef() == "source_ipdu_ref"
         assert ipdu_mapping == ipdu_mapping.setSourceIpduRef("source_ipdu_ref")
