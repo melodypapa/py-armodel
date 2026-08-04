@@ -8,7 +8,7 @@ from abc import ABC
 from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue, RefType, AREnum
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype
 
@@ -547,29 +547,59 @@ class ApiPrincipleEnum(AREnum):
         )
 
 
-class ExclusiveAreaNestingOrder(ARObject):
+class ExclusiveAreaNestingOrder(Referrable):
     """
-    Represents exclusive area nesting order in AUTOSAR.
-    This class defines the nesting order for exclusive areas.
+    This meta-class represents the ability to define a nesting order of
+    ExclusiveAreas. A nesting order (that may occur in the executable code) is
+    formally defined to be able to analyze the resource locking behavior.
     """
 
     # ExclusiveAreaNestingOrder method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getOrder                     [x] impl  [ ] docstring  [ ] test
-    # [ ] setOrder                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.19, p.84
+    # [x] __init__                [x] impl  [x] docstring  [x] test
+    # [x] getExclusiveAreaRefs    [x] impl  [x] docstring  [x] test
+    # [x] addExclusiveAreaRef     [x] impl  [x] docstring  [x] test
 
-    def __init__(self):
+    def __init__(self, parent: ARObject, short_name: str):
         """
-        Initializes the ExclusiveAreaNestingOrder with default values.
+        Initializes the ExclusiveAreaNestingOrder with a parent and short name.
+
+        Args:
+            parent: The parent ARObject that contains this nesting order
+            short_name: The unique short name of this nesting order
         """
-        super().__init__()
-        self.order: int = None
+        super().__init__(parent, short_name)
 
-    def getOrder(self):
-        return self.order
+        # This represents a specific scenario of how Exclusive Areas can be
+        # used in terms of the nesting order. Spec attribute "exclusiveArea"
+        # (ref, *, ordered).
+        self.exclusiveAreaRefs: List[RefType] = []
 
-    def setOrder(self, value):
-        self.order = value
+    def getExclusiveAreaRefs(self) -> List[RefType]:
+        """
+        Gets the ordered references to ExclusiveAreas describing a specific
+        scenario of how exclusive areas can be used in terms of the nesting
+        order.
+
+        Returns:
+            List of RefType instances
+        """
+        return self.exclusiveAreaRefs
+
+    def addExclusiveAreaRef(self, value: RefType) -> "ExclusiveAreaNestingOrder":
+        """
+        Adds an ordered reference to an ExclusiveArea describing a specific
+        scenario of how exclusive areas can be used in terms of the nesting
+        order.
+
+        Args:
+            value: The exclusive area reference to add
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.exclusiveAreaRefs.append(value)
         return self
 
 

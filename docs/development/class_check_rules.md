@@ -36,6 +36,17 @@ Check:
       `NONE/INTERNAL/EXTERNAL` members that appear nowhere in Table 5.17; the
       spec defines it as a class with `apiPrinciple` and `exclusiveArea`
       attributes.)
+- [ ] Base-class alignment: the spec table's `Base` column determines the
+      Python base class and therefore the constructor signature. When `Base`
+      lists `Referrable` (or `Identifiable`, which extends `Referrable`) the
+      Python class must inherit from `Referrable`/`Identifiable` and its
+      constructor must take `(self, parent, short_name)` — a class whose spec
+      `Base` is `ARObject, Referrable` but which inherits only from `ARObject`
+      and defines `__init__(self)` is misaligned. (`ExclusiveAreaNestingOrder`
+      inherited from `ARObject` with `__init__(self)` while Table 5.19 lists
+      `Base = ARObject, Referrable`; it was realigned to inherit `Referrable`
+      and take `(self, parent, short_name)`.) The `Base` column is also what
+      drives the `createXXX` vs `setXXX` choice in the bullet below.
 - [ ] The PDF spec is the source of truth for multiplicity. When the XSD
       disagrees with the PDF, follow the PDF (example: `bswModuleDocumentation`
       is `0..1` in the PDF but `many` in the XSD — the PDF wins).
@@ -62,6 +73,18 @@ Check:
       accessors — a field without a getter/setter is a gap
       (`ModeDeclarationGroup.modeManagerErrorBehavior` / `modeUserErrorBehavior`
       had fields but no accessors; pairs were added).
+- [ ] No fabricated attributes: the reverse of attribute-level completeness —
+      every field in the class must trace back to a spec attribute. A class can
+      be checklist-complete (every method `[x] impl/docstring/test`) yet carry a
+      field with a full accessor pair that appears **nowhere** in the spec table.
+      Such a field is fabricated and must be **removed**, not merely recorded as
+      a deviation — a deviation records an intentional spec/code gap, not
+      invented API. The method parity checklist (Rule 2) cannot detect this on
+      its own because it only verifies that listed methods exist; it does not
+      verify that each field maps to the spec. (`ExclusiveAreaNestingOrder.order`
+      (`int`, with `getOrder`/`setOrder`) had no counterpart in Table 5.19 and
+      was deleted during realignment.) Cross-check the `__init__` field list
+      against the spec `Attribute` rows and account for every field.
 - [ ] Multiplicity maps to the Python representation: `*` → `List[T]` (default
       `[]`), `0..1` → optional single `T` (default `None`). A spec-`*` attribute
       held as a single value is a deviation and must be fixed
@@ -147,6 +170,12 @@ them set-wise (see the script in Rule 7). **Additionally**, a row marked `[x] te
 must correspond to a real test: verify each method name appears in the mirrored
 test file. A stale `[ ] test` was found on `BswModuleEntry` for 19 methods that
 already had tests — the set-based class check alone does not catch this.
+
+The checklist is method-only: it verifies that listed methods exist and are
+tested, but it cannot detect a *fabricated attribute* — a field with accessors
+that appears nowhere in the spec (see the "No fabricated attributes" check in
+Rule 1). A 100 %-checked-off class can still carry invented API, so Rule 1's
+field-to-spec cross-check is the gate, not the checklist.
 
 ---
 

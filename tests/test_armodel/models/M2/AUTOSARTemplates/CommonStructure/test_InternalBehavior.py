@@ -1,7 +1,15 @@
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ReentrancyLevelEnum, ApiPrincipleEnum, ExclusiveArea, ExecutableEntity, InternalBehavior, AbstractEvent
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
+    ReentrancyLevelEnum,
+    ApiPrincipleEnum,
+    ExclusiveArea,
+    ExclusiveAreaNestingOrder,
+    ExecutableEntity,
+    InternalBehavior,
+    AbstractEvent,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue, RefType
 
 
@@ -638,3 +646,55 @@ class TestAbstractEvent:
         result = abstract_event.setActivationReasonRepresentationRef(None)
         assert result is abstract_event  # Method chaining
         assert abstract_event.getActivationReasonRepresentationRef() is None
+
+
+class TestExclusiveAreaNestingOrder:
+    def test_initialization(self):
+        """Test ExclusiveAreaNestingOrder initialization with parent and short name."""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        nesting_order = ExclusiveAreaNestingOrder(ar_root, "TestNestingOrder")
+
+        assert nesting_order is not None
+        assert nesting_order.getShortName() == "TestNestingOrder"
+        assert nesting_order.getParent() is ar_root
+        assert nesting_order.exclusiveAreaRefs == []
+
+    def test_get_exclusive_area_refs(self):
+        """Test getExclusiveAreaRefs returns an empty list initially."""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        nesting_order = ExclusiveAreaNestingOrder(ar_root, "TestNestingOrder")
+
+        assert nesting_order.getExclusiveAreaRefs() == []
+
+    def test_add_exclusive_area_ref(self):
+        """Test addExclusiveAreaRef adds refs preserving order and returns self."""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        nesting_order = ExclusiveAreaNestingOrder(ar_root, "TestNestingOrder")
+
+        ref1 = RefType().setValue("ExclusiveArea1")
+        ref2 = RefType().setValue("ExclusiveArea2")
+
+        result = nesting_order.addExclusiveAreaRef(ref1)
+        assert result is nesting_order  # Method chaining
+        nesting_order.addExclusiveAreaRef(ref2)
+
+        refs = nesting_order.getExclusiveAreaRefs()
+        assert len(refs) == 2
+        assert refs[0] == ref1
+        assert refs[1] == ref2
+
+    def test_add_exclusive_area_ref_none(self):
+        """Test addExclusiveAreaRef with None value is a no-op."""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        nesting_order = ExclusiveAreaNestingOrder(ar_root, "TestNestingOrder")
+
+        ref1 = RefType().setValue("ExclusiveArea1")
+        nesting_order.addExclusiveAreaRef(ref1)
+
+        result = nesting_order.addExclusiveAreaRef(None)
+        assert result is nesting_order  # Method chaining
+        assert len(nesting_order.getExclusiveAreaRefs()) == 1
