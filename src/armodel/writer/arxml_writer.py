@@ -36,6 +36,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import Bsw
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswQueuedDataReceptionPolicy, BswSchedulableEntity, BswScheduleEvent
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswTimingEvent, BswVariableAccess, BswInternalTriggeringPoint
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import ModeInBswModuleDescriptionInstanceRef
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleClientServerEntry, BswModuleEntry
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference
@@ -1208,6 +1209,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF", iref.getContextModeDeclarationGroupPrototypeRef())  # noqa E501
         self.setChildElementOptionalRefType(child_element, "TARGET-MODE-DECLARATION-REF", iref.getTargetModeDeclarationRef())
 
+    def setModeInBswModuleDescriptionInstanceRef(self, element: ET.Element, key: str, iref: ModeInBswModuleDescriptionInstanceRef):
+        child_element = ET.SubElement(element, key)
+        self.writeARObjectAttributes(child_element, iref)
+        self.setChildElementOptionalRefType(child_element, "CONTEXT-MODE-DECLARATION-GROUP-REF", iref.getContextModeDeclarationGroupRef())
+        self.setChildElementOptionalRefType(child_element, "TARGET-MODE-REF", iref.getTargetModeRef())
+
     def setPOperationInAtomicSwcInstanceRef(self, element: ET.Element, key: str, iref: POperationInAtomicSwcInstanceRef):
         if iref is not None:
             child_element = ET.SubElement(element, key)
@@ -2311,7 +2318,17 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeBswEvent(self, element: ET.Element, event: BswEvent):
         self.writeIdentifiable(element, event)
-        self.setChildElementOptionalRefType(element, "STARTS-ON-EVENT-REF", event.startsOnEventRef)
+        context_limitations = event.getContextLimitationRefs()
+        if len(context_limitations) > 0:
+            child_element = ET.SubElement(element, "CONTEXT-LIMITATION-REFS")
+            for ref in context_limitations:
+                self.setChildElementOptionalRefType(child_element, "CONTEXT-LIMITATION-REF", ref)
+        disabled_modes = event.getDisabledInModeIRefs()
+        if len(disabled_modes) > 0:
+            child_element = ET.SubElement(element, "DISABLED-IN-MODE-IREFS")
+            for iref in disabled_modes:
+                self.setModeInBswModuleDescriptionInstanceRef(child_element, "DISABLED-IN-MODE-IREF", iref)
+        self.setChildElementOptionalRefType(element, "STARTS-ON-EVENT-REF", event.getStartsOnEventRef())
 
     def writeBswScheduleEvent(self, element: ET.Element, event: BswScheduleEvent):
         self.writeBswEvent(element, event)
