@@ -242,13 +242,15 @@ self.targetModuleId: Optional[PositiveInteger] = None
 
 - [ ] A blank line separates each attribute block (comment + assignment) in
       `__init__`.
-- [ ] Lines are at most 79 characters (docstrings 72).
+- [ ] Code is formatted with Black at `line-length = 200` (per `pyproject.toml`,
+      enforced by `npm run black-check`). The older 79-character limit is
+      obsolete and must not be applied by hand.
 - [ ] No trailing whitespace on blank lines (`W293`) or after code (`W291`),
       and at most one blank line between definitions (`E303`).
-      (`W291`/`W293`/`E303` are not part of the enforced CI set
-      `E9/F63/F7/F82` plus line length, so violations are warnings only and are
-      tracked as a separate cleanup, but new or edited code must not introduce
-      them.)
+      (CI flake8 enforces only the syntax set `E9/F63/F7/F82`; line length (127)
+      and style codes like `W291`/`W293`/`E303` run exit-zero, so violations are
+      warnings only and are tracked as a separate cleanup, but new or edited code
+      must not introduce them.)
 - [ ] No comments are added unless they carry spec information (per AGENTS.md,
       comments are only written when asked).
 
@@ -400,8 +402,9 @@ class Example(ARObject):
 **Maturity**: accept
 
 Each method definition and all of its parameters must fit on the same logical
-line. When a method signature exceeds 79 characters, break it across multiple
-physical lines in a way that keeps the entire signature conceptually unified.
+line. Black (repo `line-length = 200`, enforced by `npm run black-check`)
+collapses a signature onto a single physical line whenever it fits within 200
+characters, so do **not** hand-break a signature that fits.
 
 Do NOT split method definitions by placing some parameters on the method line
 and others on subsequent lines inside the method body. All parameters and return
@@ -412,23 +415,19 @@ Check:
 - [ ] All parameters are declared in the signature (between parentheses).
 - [ ] Return type annotation is part of the signature (on the same logical line
       via `->` notation).
-- [ ] When the signature exceeds 79 characters, break it across multiple
-      physical lines using Python's implicit line continuation within
-      parentheses:
-      ```python
-      def methodName(
-              self,
-              param1: Type1,
-              param2: Type2) -> ReturnType:
-      ```
+- [ ] `npm run black-check` passes for the file — signatures that fit within
+      200 characters are on one line, not hand-broken.
 - [ ] The method body begins on a new line after the `:`.
+
+Note: a trailing comma after the last parameter is Black's "magic trailing
+comma" — it forces the exploded (one parameter per line) form even when the
+signature would fit in 200 characters. Only keep a hand-multi-line signature
+(and its trailing comma) when it genuinely exceeds 200 characters; otherwise
+remove the trailing comma and let Black collapse it.
 
 Example (correct):
 ```python
-def setBswEntryRelationshipType(
-        self,
-        value: Optional[BswEntryRelationshipEnum]
-) -> "BswEntryRelationship":
+def setBswEntryRelationshipType(self, value: Optional[BswEntryRelationshipEnum]) -> "BswEntryRelationship":
     """Sets the type of relationship."""
     if value is not None:
         self.bswEntryRelationshipType = value
@@ -757,21 +756,21 @@ single `BswInterfaces.py` module file (which already existed and contained
 This ensures all classes for the spec package are in one place and improves
 maintainability and import clarity.
 
-### 4. Docstring Length and Line Breaks
+### 4. Method Signature Length and Line Breaks
 
-**OBSERVATION**: When a method's return type annotation (especially
-`Optional[BswEntryRelationshipEnum]`) causes a line to exceed 79 characters,
-break the type hint across multiple lines within the method signature:
+**OBSERVATION**: Method signatures are formatted by Black at
+`line-length = 200` (`pyproject.toml`), enforced via `npm run black-check`.
+Black collapses any signature that fits within 200 characters onto a single
+line, so signatures must NOT be hand-broken when they fit:
 
 ```python
-def setBswEntryRelationshipType(
-        self,
-        value: Optional[BswEntryRelationshipEnum]
-) -> "BswEntryRelationship":
+def setBswEntryRelationshipType(self, value: Optional[BswEntryRelationshipEnum]) -> "BswEntryRelationship":
 ```
 
-This keeps the line length within the 79-character limit and maintains readability.
-Multi-line method signatures are preferred over long parameter lines.
+Hand-breaking a short signature (or leaving a trailing comma) makes
+`black-check` fail. Only signatures that exceed 200 characters are split, and
+Black does that automatically (one parameter per line). This supersedes the
+older 79-character line guidance.
 
 ### 5. Implementation of New Rules (9, 10, 11)
 
@@ -783,10 +782,10 @@ consistency:
   attributes and between methods.
 
 - **Rule 10 (Method Signature Formatting)**: Method definitions and their
-  parameters must be on the same logical line. Multi-line signatures are
-  acceptable when the signature exceeds 79 characters, but the entire
-  method signature (parameters + return type) stays within the method
-  definition block.
+  parameters must be on the same logical line. Black (line-length 200) collapses
+  signatures that fit onto one line and splits only those exceeding 200
+  characters; the entire method signature (parameters + return type) stays
+  within the method definition block.
 
 - **Rule 11 (Enum Type Inheritance)**: All enumeration classes must inherit
   from `AREnum` (not from Python's built-in `Enum`, `str` + `Enum`, etc.).

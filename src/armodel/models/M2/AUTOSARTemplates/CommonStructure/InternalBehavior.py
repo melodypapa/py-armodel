@@ -150,9 +150,7 @@ class ExecutableEntity(Identifiable, ABC):
         """
         return self.activationReasons
 
-    def addActivationReason(
-            self, value: "ExecutableEntityActivationReason"
-    ) -> "ExecutableEntity":
+    def addActivationReason(self, value: "ExecutableEntityActivationReason") -> "ExecutableEntity":
         """
         Adds an activation reason to this executable entity.
 
@@ -176,9 +174,7 @@ class ExecutableEntity(Identifiable, ABC):
         """
         return self.canEnterRefs
 
-    def addCanEnterRef(
-            self,
-            value: RefType) -> "ExecutableEntity":
+    def addCanEnterRef(self, value: RefType) -> "ExecutableEntity":
         """
         Adds a reference to an exclusive area that this executable entity can
         enter/leave through explicit API calls.
@@ -203,9 +199,7 @@ class ExecutableEntity(Identifiable, ABC):
         """
         return self.exclusiveAreaNestingOrderRefs
 
-    def addExclusiveAreaNestingOrderRef(
-            self,
-            value: RefType) -> "ExecutableEntity":
+    def addExclusiveAreaNestingOrderRef(self, value: RefType) -> "ExecutableEntity":
         """
         Adds a reference to an ExclusiveAreaNestingOrder recognized by this
         executable entity.
@@ -230,8 +224,7 @@ class ExecutableEntity(Identifiable, ABC):
         """
         return self.minimumStartInterval
 
-    def setMinimumStartInterval(
-            self, value: Optional[TimeValue]) -> "ExecutableEntity":
+    def setMinimumStartInterval(self, value: Optional[TimeValue]) -> "ExecutableEntity":
         """
         Sets the time in seconds by which two consecutive starts of an
         executable entity are guaranteed to be separated.
@@ -268,10 +261,7 @@ class ExecutableEntity(Identifiable, ABC):
         """
         return self.reentrancyLevel
 
-    def setReentrancyLevel(
-            self,
-            value: Optional[ReentrancyLevelEnum]
-    ) -> "ExecutableEntity":
+    def setReentrancyLevel(self, value: Optional[ReentrancyLevelEnum]) -> "ExecutableEntity":
         """
         Sets the reentrancy level of this executable entity.
         Only sets the value if it is not None.
@@ -296,9 +286,7 @@ class ExecutableEntity(Identifiable, ABC):
         """
         return self.runsInsideRefs
 
-    def addRunsInsideRef(
-            self,
-            value: RefType) -> "ExecutableEntity":
+    def addRunsInsideRef(self, value: RefType) -> "ExecutableEntity":
         """
         Adds a reference to an exclusive area that this executable entity runs
         completely inside.
