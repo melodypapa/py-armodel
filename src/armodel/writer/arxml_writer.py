@@ -2179,8 +2179,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported ProvidedModeGroup <%s>" % type(mode_group))
 
-    def writeCanEnterExclusiveAreaRefs(self, element: ET.Element, entity: ExecutableEntity):
-        refs = entity.getCanEnterExclusiveAreaRefs()
+    def writeCanEnterRefs(self, element: ET.Element, entity: ExecutableEntity):
+        refs = entity.getCanEnterRefs()
         if len(refs) > 0:
             child_element = ET.SubElement(element, "CAN-ENTER-EXCLUSIVE-AREA-REFS")
             for ref in refs:
@@ -2188,8 +2188,8 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeExecutableEntity(self, element: ET.Element, entity: ExecutableEntity):
         self.writeIdentifiable(element, entity)
-        self.writeCanEnterExclusiveAreaRefs(element, entity)
-        self.setChildElementOptionalFloatValue(element, "MINIMUM-START-INTERVAL", entity.getMinimumStartInterval())
+        self.writeCanEnterRefs(element, entity)
+        self.setChildElementOptionalTimeValue(element, "MINIMUM-START-INTERVAL", entity.getMinimumStartInterval())
         self.setChildElementOptionalRefType(element, "SW-ADDR-METHOD-REF", entity.getSwAddrMethodRef())
 
     def writeBswModuleEntityManagedModeGroups(self, element: ET.Element, entity: BswModuleEntity):

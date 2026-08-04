@@ -110,10 +110,7 @@ kind `TRef` is correctly implemented by `typeTRef`. `variationPoint`/
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `canEnter` | `Ref (ExclusiveArea)` | — | missing |
-| — *(missing)* | `—` | `exclusiveAreaNestingOrderRefs` | `Ref (ExclusiveAreaNestingOrder)` | Refs | missing |
-| — *(missing)* | `—` | `runsInside` | `Ref (ExclusiveArea)` | — | missing |
-| — *(missing)* | `—` | `runsInsideExclusiveAreaRefs` | `Ref (ExclusiveArea)` | Refs | missing |
+| — *(no deviation)* | — | — | — | — | `canEnter`/`exclusiveAreaNestingOrderRefs`/`runsInside` now present (were missing) as `canEnterRefs`/`exclusiveAreaNestingOrderRefs`/`runsInsideRefs`; `runsInsideExclusiveAreaRefs` maps to `runsInsideRefs`. `minimumStartIntervalMs` is an added convenience property (ms from the `TimeValue` `minimumStartInterval`, mirroring `BswEvent.periodMs`). |
 
 ## `BswExclusiveAreaPolicy`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 82

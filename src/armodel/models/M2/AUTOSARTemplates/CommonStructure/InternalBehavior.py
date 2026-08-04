@@ -5,30 +5,47 @@ exclusive areas, and event handling mechanisms within AUTOSAR components and BSW
 """
 
 from abc import ABC
-from enum import Enum
-from typing import List
+from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, RefType, AREnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue, RefType, AREnum
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype
 
 
-class ReentrancyLevelEnum(Enum):
+class ReentrancyLevelEnum(AREnum):
     """
-    Enumeration for reentrancy levels in AUTOSAR executable entities.
-    Defines whether an executable entity can be executed concurrently from multiple contexts.
+    Specifies if and in which kinds of environments an entity is reentrant.
     """
 
     # ReentrancyLevelEnum method parity checklist:
-    # (no methods)
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.5, p.73
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
 
-    # Enum value for multicore reentrant executable entities
-    ENUM_MULTICORE_REENTRANT = "multicoreReentrant"
-    # Enum value for non-reentrant executable entities
-    ENUM_NON_REENTRANT = "nonReentrant"
-    # Enum value for single core reentrant executable entities
-    ENUM_SINGLE_CORE_REENTRANT = "singleCoreReentrant"
+    # Unlimited concurrent execution of this entity is possible, including
+    # preemption and parallel execution on multi core systems.
+    # Tags: atp.EnumerationLiteralIndex=0
+    MULTICORE_REENTRANT = "multicoreReentrant"
+
+    # Concurrent execution of this entity is not possible.
+    # Tags: atp.EnumerationLiteralIndex=1
+    NON_REENTRANT = "nonReentrant"
+
+    # Pseudo-concurrent execution (i.e. preemption) of this entity is possible
+    # on single core systems. Tags: atp.EnumerationLiteralIndex=2
+    SINGLE_CORE_REENTRANT = "singleCoreReentrant"
+
+    def __init__(self):
+        """
+        Initializes the ReentrancyLevelEnum with valid values.
+        """
+        super().__init__(
+            (
+                ReentrancyLevelEnum.MULTICORE_REENTRANT,
+                ReentrancyLevelEnum.NON_REENTRANT,
+                ReentrancyLevelEnum.SINGLE_CORE_REENTRANT,
+            )
+        )
 
 
 class ExclusiveArea(Identifiable):
@@ -54,24 +71,30 @@ class ExclusiveArea(Identifiable):
 
 class ExecutableEntity(Identifiable, ABC):
     """
-    Abstract base class for executable entities in AUTOSAR models.
-    Executable entities represent pieces of executable code that can be triggered by events
-    and may have specific execution requirements like exclusive areas or reentrancy levels.
+    Abstraction of executable code.
+    Executable entities represent pieces of executable code that can be
+    triggered by events and may have specific execution requirements like
+    exclusive areas or reentrancy levels.
     """
 
     # ExecutableEntity method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [x] getActivationReasons         [x] impl  [x] docstring  [x] test
-    # [x] addActivationReason          [x] impl  [x] docstring  [x] test
-    # [x] getMinimumStartInterval      [x] impl  [x] docstring  [x] test
-    # [x] setMinimumStartInterval      [x] impl  [x] docstring  [x] test
-    # [x] getReentrancyLevel           [x] impl  [x] docstring  [x] test
-    # [x] setReentrancyLevel           [x] impl  [x] docstring  [x] test
-    # [x] getSwAddrMethodRef           [x] impl  [x] docstring  [x] test
-    # [x] setSwAddrMethodRef           [x] impl  [x] docstring  [x] test
-    # [ ] minimumStartIntervalMs       [x] impl  [x] docstring  [ ] test
-    # [x] addCanEnterExclusiveAreaRef  [x] impl  [x] docstring  [x] test
-    # [x] getCanEnterExclusiveAreaRefs [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.3, p.70
+    # [x] __init__                         [x] impl  [x] docstring  [x] test
+    # [x] getActivationReasons             [x] impl  [x] docstring  [x] test
+    # [x] addActivationReason              [x] impl  [x] docstring  [x] test
+    # [x] getCanEnterRefs                 [x] impl  [x] docstring  [x] test
+    # [x] addCanEnterRef                  [x] impl  [x] docstring  [x] test
+    # [x] getExclusiveAreaNestingOrderRefs [x] impl  [x] docstring  [x] test
+    # [x] addExclusiveAreaNestingOrderRef  [x] impl  [x] docstring  [x] test
+    # [x] getMinimumStartInterval          [x] impl  [x] docstring  [x] test
+    # [x] setMinimumStartInterval          [x] impl  [x] docstring  [x] test
+    # [x] minimumStartIntervalMs           [x] impl  [x] docstring  [x] test
+    # [x] getReentrancyLevel               [x] impl  [x] docstring  [x] test
+    # [x] setReentrancyLevel               [x] impl  [x] docstring  [x] test
+    # [x] getRunsInsideRefs                [x] impl  [x] docstring  [x] test
+    # [x] addRunsInsideRef                 [x] impl  [x] docstring  [x] test
+    # [x] getSwAddrMethodRef               [x] impl  [x] docstring  [x] test
+    # [x] setSwAddrMethodRef               [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -87,27 +110,49 @@ class ExecutableEntity(Identifiable, ABC):
 
         super().__init__(parent, short_name)
 
-        # List of activation reasons for this executable entity
-        self.activationReasons: List = []
-        # List of references to exclusive areas this entity can enter
-        self.canEnterExclusiveAreaRefs: List[RefType] = []
-        # Minimum interval between consecutive starts of this entity (in seconds)
-        self.minimumStartInterval: ARFloat = None
-        # Reentrancy level of this executable entity
-        self.reentrancyLevel: ReentrancyLevelEnum = None
-        # Reference to the software address method for this entity
-        self.swAddrMethodRef: RefType = None
+        # If at least one activation reason is provided the RTE resp. BSW
+        # Scheduler provides means to read the activation vector of this
+        # executable entity execution.
+        self.activationReasons: List["ExecutableEntityActivationReason"] = []
 
-    def getActivationReasons(self):
+        # The executable entity can enter/leave the referenced exclusive area
+        # through explicit API calls.
+        self.canEnterRefs: List[RefType] = []
+
+        # The set of ExclusiveAreaNestingOrders recognized by this
+        # ExecutableEntity.
+        self.exclusiveAreaNestingOrderRefs: List[RefType] = []
+
+        # Specifies the time in seconds by which two consecutive starts of an
+        # ExecutableEntity are guaranteed to be separated.
+        self.minimumStartInterval: Optional[TimeValue] = None
+
+        # The reentrancy level of this ExecutableEntity.
+        self.reentrancyLevel: Optional[ReentrancyLevelEnum] = None
+
+        # The executable entity runs completely inside the referenced exclusive
+        # area.
+        self.runsInsideRefs: List[RefType] = []
+
+        # Addressing method related to this code entity; several code entities
+        # sharing the same SwAddrMethod shall be located in the same memory
+        # without specifying the memory section itself.
+        self.swAddrMethodRef: Optional[RefType] = None
+
+    def getActivationReasons(self) -> List["ExecutableEntityActivationReason"]:
         """
-        Gets the list of activation reasons for this executable entity.
+        Gets the activation reasons of this executable entity; if at least one
+        activation reason is provided the RTE resp. BSW Scheduler provides
+        means to read the activation vector of this entity execution.
 
         Returns:
             List of ExecutableEntityActivationReason instances
         """
         return self.activationReasons
 
-    def addActivationReason(self, value):
+    def addActivationReason(
+            self, value: "ExecutableEntityActivationReason"
+    ) -> "ExecutableEntity":
         """
         Adds an activation reason to this executable entity.
 
@@ -117,21 +162,79 @@ class ExecutableEntity(Identifiable, ABC):
         Returns:
             self for method chaining
         """
-        self.activationReasons.append(value)
+        if value is not None:
+            self.activationReasons.append(value)
         return self
 
-    def getMinimumStartInterval(self):
+    def getCanEnterRefs(self) -> List[RefType]:
         """
-        Gets the minimum interval between consecutive starts of this entity (in seconds).
+        Gets the references to exclusive areas that this executable entity can
+        enter/leave through explicit API calls.
 
         Returns:
-            ARFloat: The minimum start interval
+            List of RefType instances
+        """
+        return self.canEnterRefs
+
+    def addCanEnterRef(
+            self,
+            value: RefType) -> "ExecutableEntity":
+        """
+        Adds a reference to an exclusive area that this executable entity can
+        enter/leave through explicit API calls.
+
+        Args:
+            value: The exclusive area reference to add
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.canEnterRefs.append(value)
+        return self
+
+    def getExclusiveAreaNestingOrderRefs(self) -> List[RefType]:
+        """
+        Gets the set of ExclusiveAreaNestingOrders recognized by this
+        executable entity.
+
+        Returns:
+            List of RefType instances
+        """
+        return self.exclusiveAreaNestingOrderRefs
+
+    def addExclusiveAreaNestingOrderRef(
+            self,
+            value: RefType) -> "ExecutableEntity":
+        """
+        Adds a reference to an ExclusiveAreaNestingOrder recognized by this
+        executable entity.
+
+        Args:
+            value: The ExclusiveAreaNestingOrder reference to add
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.exclusiveAreaNestingOrderRefs.append(value)
+        return self
+
+    def getMinimumStartInterval(self) -> Optional[TimeValue]:
+        """
+        Gets the time in seconds by which two consecutive starts of an
+        executable entity are guaranteed to be separated.
+
+        Returns:
+            TimeValue: The minimum start interval
         """
         return self.minimumStartInterval
 
-    def setMinimumStartInterval(self, value):
+    def setMinimumStartInterval(
+            self, value: Optional[TimeValue]) -> "ExecutableEntity":
         """
-        Sets the minimum interval between consecutive starts of this entity (in seconds).
+        Sets the time in seconds by which two consecutive starts of an
+        executable entity are guaranteed to be separated.
         Only sets the value if it is not None.
 
         Args:
@@ -140,10 +243,23 @@ class ExecutableEntity(Identifiable, ABC):
         Returns:
             self for method chaining
         """
-        self.minimumStartInterval = value
+        if value is not None:
+            self.minimumStartInterval = value
         return self
 
-    def getReentrancyLevel(self):
+    @property
+    def minimumStartIntervalMs(self) -> Optional[int]:
+        """
+        Gets the minimum start interval in milliseconds (from seconds).
+
+        Returns:
+            int: The minimum start interval in milliseconds, or None if not set
+        """
+        if self.minimumStartInterval is not None:
+            return int(self.minimumStartInterval.getValue() * 1000)
+        return None
+
+    def getReentrancyLevel(self) -> Optional[ReentrancyLevelEnum]:
         """
         Gets the reentrancy level of this executable entity.
 
@@ -152,7 +268,10 @@ class ExecutableEntity(Identifiable, ABC):
         """
         return self.reentrancyLevel
 
-    def setReentrancyLevel(self, value):
+    def setReentrancyLevel(
+            self,
+            value: Optional[ReentrancyLevelEnum]
+    ) -> "ExecutableEntity":
         """
         Sets the reentrancy level of this executable entity.
         Only sets the value if it is not None.
@@ -163,21 +282,51 @@ class ExecutableEntity(Identifiable, ABC):
         Returns:
             self for method chaining
         """
-        self.reentrancyLevel = value
+        if value is not None:
+            self.reentrancyLevel = value
         return self
 
-    def getSwAddrMethodRef(self):
+    def getRunsInsideRefs(self) -> List[RefType]:
         """
-        Gets the reference to the software address method for this entity.
+        Gets the references to exclusive areas that this executable entity runs
+        completely inside.
+
+        Returns:
+            List of RefType instances
+        """
+        return self.runsInsideRefs
+
+    def addRunsInsideRef(
+            self,
+            value: RefType) -> "ExecutableEntity":
+        """
+        Adds a reference to an exclusive area that this executable entity runs
+        completely inside.
+
+        Args:
+            value: The exclusive area reference to add
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.runsInsideRefs.append(value)
+        return self
+
+    def getSwAddrMethodRef(self) -> Optional[RefType]:
+        """
+        Gets the addressing method related to this code entity; several code
+        entities sharing the same SwAddrMethod shall be located in the same
+        memory without specifying the memory section itself.
 
         Returns:
             RefType: The software address method reference
         """
         return self.swAddrMethodRef
 
-    def setSwAddrMethodRef(self, value):
+    def setSwAddrMethodRef(self, value: Optional[RefType]) -> "ExecutableEntity":
         """
-        Sets the reference to the software address method for this entity.
+        Sets the addressing method related to this code entity.
         Only sets the value if it is not None.
 
         Args:
@@ -186,39 +335,9 @@ class ExecutableEntity(Identifiable, ABC):
         Returns:
             self for method chaining
         """
-        self.swAddrMethodRef = value
+        if value is not None:
+            self.swAddrMethodRef = value
         return self
-
-    @property
-    def minimumStartIntervalMs(self) -> int:
-        """
-        Gets the minimum start interval in milliseconds (converted from seconds).
-        This is a computed property that converts the minimum start interval from seconds to milliseconds.
-
-        Returns:
-            int: The minimum start interval in milliseconds, or None if not set
-        """
-        if self.minimumStartInterval is not None:
-            return int(self.minimumStartInterval.getValue() * 1000)
-        return None
-
-    def addCanEnterExclusiveAreaRef(self, ref: RefType):
-        """
-        Adds a reference to an exclusive area that this entity can enter.
-
-        Args:
-            ref: The reference to the exclusive area
-        """
-        self.canEnterExclusiveAreaRefs.append(ref)
-
-    def getCanEnterExclusiveAreaRefs(self):
-        """
-        Gets the list of references to exclusive areas this entity can enter.
-
-        Returns:
-            List of RefType instances
-        """
-        return self.canEnterExclusiveAreaRefs
 
 
 class InternalBehavior(AtpStructureElement, ABC):

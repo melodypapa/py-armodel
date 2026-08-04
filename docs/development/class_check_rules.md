@@ -596,6 +596,10 @@ docstrings), correct the enum implementation and update all corresponding tests.
     (`src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py`)
   - `ModeErrorBehavior`
     (`src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py`)
+  - `ExecutableEntity` — Table 5.3, p.70
+    (`src/armodel/models/M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py`)
+  - `ReentrancyLevelEnum` — Table 5.5, p.73
+    (`src/armodel/models/M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py`)
 - Spec sources: `autosar/markdown/*.md` (PDF-derived class tables)
 - XSD ground truth: `autosar-pdf/examples/xsd/AUTOSAR_00052.xsd`
 - Deviation tracker: `docs/method_deviation_by_class.md`

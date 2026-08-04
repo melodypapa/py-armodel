@@ -485,15 +485,15 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported RequiredModeGroup <%s>" % tag_name)
 
-    def readCanEnterExclusiveAreaRefs(self, element: ET.Element, entity: ExecutableEntity):
+    def readCanEnterRefs(self, element: ET.Element, entity: ExecutableEntity):
         for ref in self.getChildElementRefTypeList(element, "CAN-ENTER-EXCLUSIVE-AREA-REFS/CAN-ENTER-EXCLUSIVE-AREA-REF"):
-            entity.addCanEnterExclusiveAreaRef(ref)
+            entity.addCanEnterRef(ref)
 
     def readExecutableEntity(self, element: ET.Element, entity: ExecutableEntity):
         # self.logger.debug("Read ExecutableEntity %s" % entity.getShortName())
         self.readIdentifiable(element, entity)
-        self.readCanEnterExclusiveAreaRefs(element, entity)
-        entity.setMinimumStartInterval(self.getChildElementOptionalFloatValue(element, "MINIMUM-START-INTERVAL")).setSwAddrMethodRef(self.getChildElementOptionalRefType(element, "SW-ADDR-METHOD-REF"))
+        self.readCanEnterRefs(element, entity)
+        entity.setMinimumStartInterval(self.getChildElementOptionalTimeValue(element, "MINIMUM-START-INTERVAL")).setSwAddrMethodRef(self.getChildElementOptionalRefType(element, "SW-ADDR-METHOD-REF"))
 
     def readBswModuleEntityManagedModeGroups(self, element: ET.Element, entity: BswModuleEntity):
         for child_element in self.findall(element, "MANAGED-MODE-GROUPS/MODE-DECLARATION-GROUP-PROTOTYPE-REF-CONDITIONAL"):
