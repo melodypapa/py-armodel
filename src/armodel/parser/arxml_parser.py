@@ -43,6 +43,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import Bsw
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleClientServerEntry, BswModuleEntry
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import ModeInBswModuleDescriptionInstanceRef
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantSpecification, NumericalValueSpecification, RecordValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification, ValueSpecification
@@ -502,7 +503,11 @@ class ARXMLParser(AbstractARXMLParser):
                 entity.addManagedModeGroupRef(ref_type)
 
     def readBswEvent(self, element: ET.Element, event: BswScheduleEvent):
-        event.startsOnEventRef = self.getChildElementOptionalRefType(element, "STARTS-ON-EVENT-REF")
+        for ref in self.getChildElementRefTypeList(element, "CONTEXT-LIMITATION-REFS/CONTEXT-LIMITATION-REF"):
+            event.addContextLimitationRef(ref)
+        for child_element in self.findall(element, "DISABLED-IN-MODE-IREFS/DISABLED-IN-MODE-IREF"):
+            event.addDisabledInModeIRef(self.getModeInBswModuleDescriptionInstanceRef(child_element))
+        event.setStartsOnEventRef(self.getChildElementOptionalRefType(element, "STARTS-ON-EVENT-REF"))
 
     def readBswScheduleEvent(self, element, event: BswScheduleEvent):
         self.readBswEvent(element, event)
@@ -1483,6 +1488,13 @@ class ARXMLParser(AbstractARXMLParser):
             self.getChildElementOptionalRefType(element, "CONTEXT-PORT-REF")
         ).setContextModeDeclarationGroupPrototypeRef(self.getChildElementOptionalRefType(element, "CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF")).setTargetModeDeclarationRef(
             self.getChildElementOptionalRefType(element, "TARGET-MODE-DECLARATION-REF")
+        )  # NOQA E501
+        return instance_ref
+
+    def getModeInBswModuleDescriptionInstanceRef(self, element: ET.Element) -> ModeInBswModuleDescriptionInstanceRef:
+        instance_ref = ModeInBswModuleDescriptionInstanceRef()
+        instance_ref.setContextModeDeclarationGroupRef(self.getChildElementOptionalRefType(element, "CONTEXT-MODE-DECLARATION-GROUP-REF")).setTargetModeRef(
+            self.getChildElementOptionalRefType(element, "TARGET-MODE-REF")
         )  # NOQA E501
         return instance_ref
 

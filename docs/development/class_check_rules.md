@@ -45,8 +45,12 @@ Check:
       and defines `__init__(self)` is misaligned. (`ExclusiveAreaNestingOrder`
       inherited from `ARObject` with `__init__(self)` while Table 5.19 lists
       `Base = ARObject, Referrable`; it was realigned to inherit `Referrable`
-      and take `(self, parent, short_name)`.) The `Base` column is also what
-      drives the `createXXX` vs `setXXX` choice in the bullet below.
+      and take `(self, parent, short_name)`.) The `Base` column may also name a
+      concrete abstract base the class must inherit rather than plain `ARObject` —
+      e.g. `AtpInstanceRef` (`ModeInBswModuleDescriptionInstanceRef` has
+      `Base = ARObject, AtpInstanceRef` and inherits `AtpInstanceRef`). The
+      `Base` column is also what drives the `createXXX` vs `setXXX` choice in
+      the bullet below.
 - [ ] The PDF spec is the source of truth for multiplicity. When the XSD
       disagrees with the PDF, follow the PDF (example: `bswModuleDocumentation`
       is `0..1` in the PDF but `many` in the XSD — the PDF wins).
@@ -97,13 +101,29 @@ Check:
       ref (or vice versa) is a symptom of a multiplicity mismatch
       (`getSchedulerNamePrefixRef` said "list of scheduler name prefix
       references" for a single ref).
-- [ ] Ref/TRef suffix naming: when the spec table's Kind column is `ref` or
-      `tref`, include the suffix in the Python field and method names. The spec
-      table Attribute column determines the base name, Kind determines the suffix.
-      Example: Attribute `enteredMode`, Kind `ref` → Python field
-      `enteredModeRef: RefType`, getter `getEnteredModeRef()`. The suffix makes
-      reference semantics explicit in Python names and aligns with parser
-      conventions.
+- [ ] Ref/TRef/IRef suffix naming: when the spec table's Kind column is `ref`,
+      `tref`, or `iref`, include the corresponding suffix in the Python field
+      and method names. The spec table Attribute column determines the base
+      name, Kind determines the suffix: `ref` → `Ref`/`Refs`, `tref` → `TRef`,
+      `iref` → `IRef`/`IRefs`. Example: Attribute `enteredMode`, Kind `ref` →
+      Python field `enteredModeRef: RefType`, getter `getEnteredModeRef()`.
+      Attribute `disabledInMode`, Kind `iref` (Table 5.22) → Python field
+      `disabledInModeIRefs: List[ModeInBswModuleDescriptionInstanceRef]`,
+      getter `getDisabledInModeIRefs()`. The suffix makes reference semantics
+      explicit in Python names and aligns with parser conventions. An `iref`
+      Kind means the attribute is an instance reference — its element type is a
+      `<name>InstanceRef` class (e.g. `ModeInBswModuleDescriptionInstanceRef`),
+      and the list type annotation is that class, **not** `RefType`.
+      Within the `<name>InstanceRef` class itself, its *inner* attributes are
+      ordinary Kind `ref` rows (the sub-elements of the instance ref, e.g.
+      `contextModeDeclarationGroup`, `targetMode`) and therefore map to
+      `Optional[RefType]` with the plain `Ref` suffix — do **not** annotate them
+      as the `<name>InstanceRef` class or hold object references
+      (`ModeInBswModuleDescriptionInstanceRef` originally held
+      `bases`/`targetModes` as object references and `contextModes` as a
+      non-optional `RefType`; all three were aligned to
+      `baseRef`/`contextModeDeclarationGroupRef`/`targetModeRef`:
+      `Optional[RefType]`).
 - [ ] Choose `createXXX` vs `setXXX` from the aggregated child's spec `Base`:
       if the child type has a short name (its spec `Base` lists `Referrable`
       or `Identifiable` — `Identifiable` extends `Referrable`, so the
@@ -125,7 +145,24 @@ Check:
       writer handling is silently dropped on round-trip
       (`BswModuleEntity.schedulerNamePrefixRef` had accessors but no
       `SCHEDULER-NAME-PREFIX-REF` read/write; parser and writer support were
-      added).
+      added). **Exception:** an attribute marked `Stereotypes: atpDerived` is a
+      *derived* attribute — it is computed from its context and has **no** XML
+      element, so it has no parser/writer element and is exempt from this
+      requirement. It still maps to a field + accessor pair (Rule 1's
+      attribute-level completeness) and is recorded as `atpDerived` in the
+      deviation tracker (`ModeInBswModuleDescriptionInstanceRef.baseRef` is
+      `atpDerived`, while `contextModeDeclarationGroupRef`/`targetModeRef` are
+      normal `ref` attributes with parser/writer coverage).
+- [ ] When a field's type lives in a **different spec package** that imports
+      back into the current module, import the type under `TYPE_CHECKING` and
+      annotate fields/getters with a string forward reference (`"ClassName"`);
+      the parser and writer may import it directly because they sit below the
+      model classes in the import graph and cannot create a cycle
+      (`BswEvent.disabledInModeIRefs` types
+      `ModeInBswModuleDescriptionInstanceRef` from
+      `BswModuleTemplate/BswOverview/InstanceRefs/`, which is aggregated by
+      `BswModuleDescription` — a package that itself imports `BswBehavior`, so
+      `BswBehavior.py` must use `TYPE_CHECKING` to avoid the circular import).
 - [ ] Intentional deviations are recorded in `docs/method_deviation_by_class.md`
       with the reason (e.g. "PDF-only", "deprecated, not implemented").
 
@@ -409,9 +446,27 @@ Check:
 - [ ] If the module is a file (`ModeDeclaration.py`), all classes in that spec
       package (e.g., `ModeDeclaration`, `ModeTransition`, `ModeErrorBehavior`)
       must be defined in that single file.
-- [ ] If the module is a directory/package (`BswOverview/__init__.py`), all
-      classes in that spec package must be defined in the `__init__.py` file
-      (or imported and re-exported from `__init__.py` if split into submodules).
+- [ ] Package **name match** (the last segment is the package, not the class):
+      the `Package` row names the spec package and the class is its *direct
+      member* — the class name comes from the table's `Class` header, **not from
+      the package path**. Do **not** place the class in a sub-module/sub-package
+      whose tail is the class name, because that makes the class name look like a
+      package and mismatches the `Package` row. Example: `ModeInBswModuleDescriptionInstanceRef`'s
+      `Package` row is
+      `M2::AUTOSARTemplates::BswModuleTemplate::BswOverview::InstanceRefs`, so the
+      class is a member of `InstanceRefs` — putting it in
+      `InstanceRefs/ModeInBswModuleDescriptionInstanceRef.py` is a package-name
+      mismatch, because that path implies package
+      `...::BswOverview::InstanceRefs::ModeInBswModuleDescriptionInstanceRef`.
+      The class must be defined **directly** in `InstanceRefs/__init__.py`.
+- [ ] If the module is a directory/package (`BswOverview/__init__.py`), the spec
+      package's classes are defined in that `__init__.py` file (or imported and
+      re-exported from `__init__.py` if split into submodules). Prefer defining
+      classes **directly** in `__init__.py`; only split into per-class submodules
+      when the spec package grows large enough that splitting clearly aids
+      maintainability — a sparse package (one or a few classes) must not add an
+      extra `__init__.py` re-export hop for each class — and a sub-module name
+      must never reuse the class name (see package-name-match above).
 - [ ] Do **not** create sibling files like `ModeDeclarationExtra.py` to house
       classes that belong in `ModeDeclaration.py` — consolidate all classes
       for a spec package in one place.
@@ -424,6 +479,13 @@ Check:
       shadowed by the `BswBehavior.py` module — importing it raised
       `ModuleNotFoundError`; it was migrated into `BswBehavior.py`.)
 - [ ] Classes are **not** placed under a spec package different from their own.
+- [ ] Import statements **match** the package location: every consumer imports the
+      class from the package that defines it — `from ...<Args>.<Package> import
+      <ClassName>` when the class lives in a package's `__init__.py`, and never
+      from a class-named sub-module (`from ...<Package>.<ClassName> import ...`),
+      which would imply a non-existent sub-package. After relocating a class,
+      audit every import site (parser, writer, `__init__.py` re-exports, tests)
+      so no stale class-named sub-module import remains.
 
 Verification: read the `Package` row from the class's spec table and compare it
 with the module path under `src/armodel/models/`. Verify all classes for that
@@ -439,6 +501,7 @@ Examples:
 | `ModeDeclaration` | `M2::AUTOSARTemplates::CommonStructure::ModeDeclaration` | `CommonStructure/ModeDeclaration.py` |
 | `ModeTransition` | `M2::AUTOSARTemplates::CommonStructure::ModeDeclaration` | `CommonStructure/ModeDeclaration.py` |
 | `ModeErrorBehavior` | `M2::AUTOSARTemplates::CommonStructure::ModeDeclaration` | `CommonStructure/ModeDeclaration.py` |
+| `ModeInBswModuleDescriptionInstanceRef` | `M2::AUTOSARTemplates::BswModuleTemplate::BswOverview::InstanceRefs` | `BswModuleTemplate/BswOverview/InstanceRefs/__init__.py` |
 
 ---
 
@@ -690,6 +753,10 @@ docstrings), correct the enum implementation and update all corresponding tests.
     (`src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`)
   - `ApiPrincipleEnum` — Table 5.18, p.83
     (`src/armodel/models/M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py`)
+  - `BswEvent` — Table 5.22, p.87
+    (`src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`)
+  - `ModeInBswModuleDescriptionInstanceRef` — Table C.37, p.323
+    (`src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswOverview/InstanceRefs/__init__.py`)
 - Spec sources: `autosar/markdown/*.md` (PDF-derived class tables)
 - XSD ground truth: `autosar-pdf/examples/xsd/AUTOSAR_00052.xsd`
 - Deviation tracker: `docs/method_deviation_by_class.md`
@@ -1044,3 +1111,195 @@ previous implementation — always verify the enum members against the PDF table
 parser/writer support exists yet, so there is no round-trip surface for the
 class. Parser/writer coverage (Rule 1) will be added together with the
 aggregation in a follow-up task.
+
+## Feedback from BswEvent Review
+
+When reviewing and updating `BswEvent` (Table 5.22,
+`src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`)
+per the above rules, the following observations emerged:
+
+### 1. `iref` Kind Attributes Use `<name>IRef(s)` Naming and a `*InstanceRef` Element Type
+
+**ISSUE**: Table 5.22 has three Kind `ref`/`iref` attributes:
+`contextLimitation` (`*`, ref → `BswDistinguishedPartition`),
+`disabledInMode` (`*`, iref → `ModeInBswModuleDescriptionInstanceRef`),
+`startsOnEvent` (`0..1`, ref → `BswModuleEntity`). The existing model had only
+`startsOnEventRef`; `contextLimitationRefs` and `disabledInModeIRefs` were
+missing entirely (also flagged in `docs/method_deviation_by_class.md`).
+
+**RESOLUTION**: Added `contextLimitationRefs: List[RefType]` and
+`disabledInModeIRefs: List[ModeInBswModuleDescriptionInstanceRef]`. Note that
+the two attributes, though both `*` multiplicity, use **different element
+types**: a plain `ref` becomes `List[RefType]`, while an `iref` becomes
+`List[<name>InstanceRef>` (the `*In*InstanceRef` class for that target type).
+Do not model an `iref` attribute as `List[RefType]` — the parser must build
+the structured `*InstanceRef` object from its two inner refs
+(`CONTEXT-MODE-DECLARATION-GROUP-REF` / `TARGET-MODE-REF`), and the writer
+must serialize it back into the same sub-elements. Rule 1's suffix-naming
+check was extended to cover the `iref` Kind.
+
+### 2. Instance Ref Types in Another Spec Package Need `TYPE_CHECKING` in the Model
+
+**ISSUE**: `ModeInBswModuleDescriptionInstanceRef` lives in
+`BswModuleTemplate/BswOverview/InstanceRefs/` and is aggregated by
+`BswModuleDescription`, whose package (`BswOverview/__init__.py`) imports
+`BswBehavior.py`. A direct `from ...BswOverview.InstanceRefs import
+ModeInBswModuleDescriptionInstanceRef` in `BswBehavior.py` creates a circular
+import at module load time.
+
+**RESOLUTION**: Import the type under `if TYPE_CHECKING:` and annotate the
+field and getter with a string forward reference
+(`List["ModeInBswModuleDescriptionInstanceRef"]`). The parser and writer
+import it directly — they are below the model classes in the import graph, so
+no cycle occurs there. Rule 1 now documents this pattern: model modules that
+type against a `*InstanceRef` (or any type aggregated by a sibling package)
+must use `TYPE_CHECKING`, while parser/writer imports stay eager.
+
+### 3. `startsOnEventRef` Multiplicity Was Fine but Annotation Was Not `Optional`
+
+**ISSUE**: `startsOnEvent` is `0..1`, so the field
+`startsOnEventRef: RefType = None` had the right default but the wrong
+annotation — a single ref held as `RefType` (non-optional) with a `None`
+default is internally inconsistent, and the getter lacked a return type hint.
+
+**RESOLUTION**: Aligned to `startsOnEventRef: Optional[RefType] = None` with
+`getStartsOnEventRef() -> Optional[RefType]` and a typed, chainable
+`setStartsOnEventRef(value: RefType) -> "BswEvent"`. This is the same
+multiplicity/annotation discipline as Rule 1's single-value bullet, applied
+at the annotation level.
+
+### 4. Parser/Writer Needed a Structured-Iref Helper Pair
+
+**ISSUE**: `disabledInModeIRefs` is a list of *structured* instance refs, so
+the parser cannot use the plain `getChildElementOptionalRefType` helper and the
+writer cannot use `setChildElementOptionalRefType` — each
+`DISABLED-IN-MODE-IREF` element has two sub-elements that must be read/written
+together.
+
+**RESOLUTION**: Added `getModeInBswModuleDescriptionInstanceRef(element)` to
+the parser (mirrors the existing `getRModeInAtomicSwcInstanceRef`) and
+`setModeInBswModuleDescriptionInstanceRef(element, key, iref)` to the writer
+(mirrors `setRModeInAtomicSwcInstanceRef`). The `*InstanceRef` accessor pair
+pattern generalizes: when an attribute's element type is a `*InstanceRef`
+class, implement a dedicated read/write helper rather than forcing the generic
+ref helpers.
+
+### 5. Round-Trip Verification for New Fields
+
+**OBSERVATION**: Because `BswEvent` is abstract, the new fields were verified
+through a concrete subclass (`BswOperationInvokedEvent`) in a full
+parse → write → re-parse round trip: set
+`addContextLimitationRef` / `addDisabledInModeIRef` / `setStartsOnEventRef`
+on a `BswTimingEvent`, save, reload, and assert the three values come back.
+This is the practical test that Rule 1's "parser and writer coverage" check
+is meant to guarantee, and it belongs in the manual verification workflow for
+any class that gains attributes.
+
+### 6. Getter Return Types Were Missing on Pre-Existing Accessors
+
+**ISSUE**: The original `getStartsOnEventRef` had no return type hint
+(`def getStartsOnEventRef(self):`), and the setter overwrote the field
+unconditionally instead of following the `None` no-op pattern.
+
+**RESOLUTION**: Added `-> Optional[RefType]` to the getter, a type hint to the
+setter, and converted the setter to the `None` no-op (Rule 4). When a review
+touches an existing accessor for a Rule 1 fix, bring it fully up to Rule 3/4
+compliance in the same pass — do not leave half-typed accessors behind.
+
+## Feedback from ModeInBswModuleDescriptionInstanceRef Review
+
+When reviewing and updating `ModeInBswModuleDescriptionInstanceRef` (Table C.37,
+`src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswOverview/InstanceRefs/__init__.py`)
+per the above rules, the following observations emerged:
+
+### 1. Inner Attributes of a `*InstanceRef` Class Are Plain `ref`s
+
+**ISSUE**: The outer attribute that *uses* this class (`BswEvent.disabledInMode`)
+is Kind `iref` and is typed as `List[ModeInBswModuleDescriptionInstanceRef]`. But
+the `ModeInBswModuleDescriptionInstanceRef` class's own attributes (the
+sub-elements the parser reads: `base`, `contextModeDeclarationGroup`,
+`targetMode`) are each Kind `ref`, `0..1`. The original model held them as
+object references (`bases: Optional[BswModuleDescription]`,
+`targetModes: Optional[ModeDeclaration]`) and one non-optional `RefType`
+(`contextModes: RefType = None`).
+
+**RESOLUTION**: The inner attributes of a `*InstanceRef` class always map to
+`Optional[RefType]` with the plain `Ref` suffix (the sub-element keys in the
+parser/writer, e.g. `getChildElementOptionalRefType(element,
+"CONTEXT-MODE-DECLARATION-GROUP-REF")`), since the parser's reference helpers
+return `RefType`. Do **not** annotate them with the `<name>InstanceRef` class
+or hold resolved object references. The same correction applies to any
+`*InstanceRef` class that mirrors this pattern e.g. `RModeInAtomicSwcInstanceRef`,
+whose `baseRef`/`contextPortRef`/etc. are likewise `RefType`.
+
+### 2. Spec `Base` Can Name `AtpInstanceRef`, Not Just `ARObject`
+
+**ISSUE**: Table C.37 lists `Base = ARObject, AtpInstanceRef`, but the class
+inherited only from `ARObject`. Inheriting the wrong base silently accepted the
+`ARObject`-style layout even though the spec's concrete abstract base is
+`AtpInstanceRef` (the shared base of all instance-reference classes). The
+Rule 1 base-class guidance only covered `Referrable`/`Identifiable`/`ARObject`.
+
+**RESOLUTION**: Generalized Rule 1's base-class bullet: when the spec `Base`
+column names a concrete abstract base (such as `AtpInstanceRef`), inherit it
+rather than falling back to bare `ARObject`. This matches the sibling
+`RModeInAtomicSwcInstanceRef(AtpInstanceRef)`. `AtpInstanceRef` is abstract, so
+the concrete subclass defines its own attrs and its checksum/`__init__` wiring
+stays unchanged.
+
+### 3. `atpDerived` Attributes Are Exempt from Parser/Writer Coverage
+
+**ISSUE**: Rule 1 requires every implemented attribute to be covered by both
+parser and writer. `base` is `atpDerived` (`Stereotypes: atpDerived`,
+`xml.sequenceOffset=10`) — a derived attribute with **no** XML element in the
+element group (only `CONTEXT-MODE-DECLARATION-GROUP-REF` and `TARGET-MODE-REF`
+exist in the XSD), so it cannot and must not have parser/writer handling.
+
+**RESOLUTION**: Generalized Rule 1's parser/writer bullet to exempt
+`atpDerived` attributes: they still map to a field + accessor (attribute-level
+completeness) but are recorded as `atpDerived` in the deviation tracker rather
+than `ok`/`missing`, since their value is derived and never serialized.
+
+### 4. `Ref` Suffix Appends to the Whole CamelCase Attribute Name
+
+**ISSUE**: The original names `contextModes`/`targetModes`/`bases` diverged from
+the spec attribute names (`contextModeDeclarationGroup`, `targetMode`, `base`)
+and dropped the `Ref` suffix, which also broke matching against the parser/writer
+sub-element keys (`CONTEXT-MODE-DECLARATION-GROUP-REF` / `TARGET-MODE-REF`).
+
+**RESOLUTION**: For a Kind `ref` attribute, the `Ref` suffix is appended to the
+full camelCase spec attribute name:
+`contextModeDeclarationGroup` → `contextModeDeclarationGroupRef`,
+`targetMode` → `targetModeRef`, `base` → `baseRef`; getters/setters
+`getBaseRef`/`setBaseRef`, `getContextModeDeclarationGroupRef`/`setContextModeDeclarationGroupRef`,
+`getTargetModeRef`/`setTargetModeRef`. This 1:1 maps to the parser/writer
+sub-element keys, keeping the instance-ref element keys and model accessors
+aligned. Multi-word Kind `ref` attributes must not be collapsed or reordered.
+
+### 5. Package Name Mismatch: `InstanceRefs/ModeInBswModuleDescriptionInstanceRef.py` Implied a Non-Existent Sub-Package
+
+**ISSUE**: The class was placed in `InstanceRefs/ModeInBswModuleDescriptionInstanceRef.py`.
+The spec `Package` row is
+`M2::AUTOSARTemplates::BswModuleTemplate::BswOverview::InstanceRefs`, where the
+class name is the table's `Class` header — a direct member of the `InstanceRefs`
+package, **not** a nested package. The sub-module filename made the class name the
+tail of the module path, so it falsely implied the spec package were
+`...::InstanceRefs::ModeInBswModuleDescriptionInstanceRef`. That is a **package
+name mismatch** (Rule 8): the Python layout did not reflect the spec `Package`
+row, and it also added a pointless `__init__.py` re-export hop for a package that
+holds a single class.
+
+**RESOLUTION**: The accurate rule is *package-name-match*, not merely "move to
+`__init__.py`". Because the class is a direct member of `InstanceRefs`, it must be
+defined directly in `InstanceRefs/__init__.py`; the sub-module
+`ModeInBswModuleDescriptionInstanceRef.py` was deleted. Every import must match
+this package location and import the class from the package — `from ...InstanceRefs
+import ModeInBswModuleDescriptionInstanceRef` — never from a class-named sub-module
+(`from ...InstanceRefs.ModeInBswModuleDescriptionInstanceRef import ...`), which
+would imply a non-existent sub-package and now raises `ModuleNotFoundError`.
+The parser/writer and package `__init__.py` imports already used the package form;
+the mirrored test file's import was updated from the sub-module form to the package
+form. Generalizing: never let the class name become the final segment of the module
+path when the spec `Package` row ends at a package that *contains* the class — define
+the class as a direct member of that package's `__init__.py` and import it from the
+package, not from a class-named sub-module.

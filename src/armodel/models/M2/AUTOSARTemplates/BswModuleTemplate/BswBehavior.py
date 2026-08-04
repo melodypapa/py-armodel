@@ -10,7 +10,10 @@ These classes are used to model:
 """
 
 from abc import ABC
-from typing import List, Optional
+from typing import List, Optional, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import ModeInBswModuleDescriptionInstanceRef
 
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import AbstractEvent, ApiPrincipleEnum, ExecutableEntity, InternalBehavior
@@ -871,14 +874,21 @@ class BswInterruptEntity(BswModuleEntity):
 
 class BswEvent(AbstractEvent, ABC):
     """
-    Abstract base class for BSW events.
-    BSW events trigger the execution of BSW module entities.
+    Base class of various kinds of events which are used to trigger a
+    BswModuleEntity of this BSW module or cluster. The event is local to the
+    BSW module or cluster. The short name of the meta-class instance is
+    intended as an input to configure the required API of the BSW Scheduler.
     """
 
     # BswEvent method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getStartsOnEventRef          [x] impl  [x] docstring  [ ] test
-    # [ ] setStartsOnEventRef          [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.22, p.87
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getContextLimitationRefs     [x] impl  [x] docstring  [x] test
+    # [x] addContextLimitationRef      [x] impl  [x] docstring  [x] test
+    # [x] getDisabledInModeIRefs       [x] impl  [x] docstring  [x] test
+    # [x] addDisabledInModeIRef        [x] impl  [x] docstring  [x] test
+    # [x] getStartsOnEventRef          [x] impl  [x] docstring  [x] test
+    # [x] setStartsOnEventRef          [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -893,29 +903,86 @@ class BswEvent(AbstractEvent, ABC):
             raise TypeError("BswEvent is an abstract class.")
         super().__init__(parent, short_name)
 
-        # Reference to the event that starts this event
-        self.startsOnEventRef: RefType = None
+        # The existence of this reference indicates that the usage of the
+        # event is limited to the context of the referred BswDistinguishedPartitions.
+        self.contextLimitationRefs: List[RefType] = []
 
-    def getStartsOnEventRef(self):
+        # The modes, in which this event is disabled.
+        self.disabledInModeIRefs: List["ModeInBswModuleDescriptionInstanceRef"] = []
+
+        # The entity which is started by the event.
+        self.startsOnEventRef: Optional[RefType] = None
+
+    def getContextLimitationRefs(self) -> List[RefType]:
         """
-        Gets the reference to the event that starts this event.
+        Gets the context limitation references. The existence of a reference
+        indicates that the usage of the event is limited to the context of the
+        referred BswDistinguishedPartitions.
 
         Returns:
-            Reference to the starting event
+            The list of context limitation references
         """
-        return self.startsOnEventRef
+        return self.contextLimitationRefs
 
-    def setStartsOnEventRef(self, value):
+    def addContextLimitationRef(self, value: RefType) -> "BswEvent":
         """
-        Sets the reference to the event that starts this event.
+        Adds a context limitation reference. Only adds if value is not None.
 
         Args:
-            value: The starting event reference to set
+            value: The context limitation reference to add
 
         Returns:
             self for method chaining
         """
-        self.startsOnEventRef = value
+        if value is not None:
+            self.contextLimitationRefs.append(value)
+        return self
+
+    def getDisabledInModeIRefs(self) -> List["ModeInBswModuleDescriptionInstanceRef"]:
+        """
+        Gets the modes in which this event is disabled.
+
+        Returns:
+            The list of disabled-in-mode instance references
+        """
+        return self.disabledInModeIRefs
+
+    def addDisabledInModeIRef(self, value: "ModeInBswModuleDescriptionInstanceRef") -> "BswEvent":
+        """
+        Adds a mode in which this event is disabled. Only adds if value is not None.
+
+        Args:
+            value: The disabled-in-mode instance reference to add
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.disabledInModeIRefs.append(value)
+        return self
+
+    def getStartsOnEventRef(self) -> Optional[RefType]:
+        """
+        Gets the entity which is started by the event.
+
+        Returns:
+            The start-on-event reference
+        """
+        return self.startsOnEventRef
+
+    def setStartsOnEventRef(self, value: RefType) -> "BswEvent":
+        """
+        Sets the entity which is started by the event.
+        Only sets if value is not None.
+
+        Args:
+            value: The start-on-event reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.startsOnEventRef = value
         return self
 
 

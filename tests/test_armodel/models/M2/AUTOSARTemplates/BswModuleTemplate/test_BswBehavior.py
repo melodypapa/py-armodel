@@ -38,6 +38,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswInternalTriggeringPoint,
     BswInternalBehavior,
 )
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import ModeInBswModuleDescriptionInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARFloat, ARNumerical, PositiveInteger, TimeValue
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ApiPrincipleEnum
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
@@ -535,6 +536,17 @@ class TestBswEvent:
             BswEvent(ar_root, "BswEvent")
         assert str(err.value) == "BswEvent is an abstract class."
 
+    def test_concrete_subclass_initialization(self):
+        """Test that BswEvent.__init__ defaults are inherited by a concrete subclass."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = BswOperationInvokedEvent(ar_root, "test_event")
+
+        assert event.short_name == "test_event"
+        assert event.getContextLimitationRefs() == []
+        assert event.getDisabledInModeIRefs() == []
+        assert event.getStartsOnEventRef() is None
+
     def test_get_set_starts_on_event_ref(self):
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
@@ -545,6 +557,43 @@ class TestBswEvent:
 
         assert result == event
         assert event.getStartsOnEventRef() == ref
+
+        # Setting None should not change the value
+        result = event.setStartsOnEventRef(None)
+        assert result == event
+        assert event.getStartsOnEventRef() == ref
+
+    def test_add_context_limitation_ref(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = BswOperationInvokedEvent(ar_root, "test_event")
+
+        ref = RefType()
+        result = event.addContextLimitationRef(ref)
+
+        assert result == event
+        assert event.getContextLimitationRefs() == [ref]
+
+        # Setting None should not append
+        result = event.addContextLimitationRef(None)
+        assert result == event
+        assert event.getContextLimitationRefs() == [ref]
+
+    def test_add_disabled_in_mode_iref(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = BswOperationInvokedEvent(ar_root, "test_event")
+
+        iref = ModeInBswModuleDescriptionInstanceRef()
+        result = event.addDisabledInModeIRef(iref)
+
+        assert result == event
+        assert event.getDisabledInModeIRefs() == [iref]
+
+        # Setting None should not append
+        result = event.addDisabledInModeIRef(None)
+        assert result == event
+        assert event.getDisabledInModeIRefs() == [iref]
 
 
 class TestBswOperationInvokedEvent:
