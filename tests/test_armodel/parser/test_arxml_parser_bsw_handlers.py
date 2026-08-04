@@ -441,10 +441,10 @@ class TestBswModuleEntryHandlers:
 
 
 class TestExecutableEntityAndInternalBehaviorHandlers:
-    """Exercise readCanEnterExclusiveAreaRefs, readExecutableEntity,
+    """Exercise readCanEnterRefs, readExecutableEntity,
     readInternalBehavior*, and readDataTypeMappingRefs."""
 
-    def test_readCanEnterExclusiveAreaRefs_adds_refs(self, parser):
+    def test_readCanEnterRefs_adds_refs(self, parser):
         from armodel.models import BswModuleDescription
 
         desc = BswModuleDescription(parent=_autosar_root(), short_name="bswm")
@@ -454,8 +454,8 @@ class TestExecutableEntityAndInternalBehaviorHandlers:
             "<CAN-ENTER-EXCLUSIVE-AREA-REFS>" "<CAN-ENTER-EXCLUSIVE-AREA-REF DEST='EXCLUSIVE-AREA'>/a1</CAN-ENTER-EXCLUSIVE-AREA-REF>" "</CAN-ENTER-EXCLUSIVE-AREA-REFS>",
             root_tag="ENTITY",
         )
-        parser.readCanEnterExclusiveAreaRefs(element, entity)
-        assert len(entity.getCanEnterExclusiveAreaRefs()) == 1
+        parser.readCanEnterRefs(element, entity)
+        assert len(entity.getCanEnterRefs()) == 1
 
     def test_readExecutableEntity_sets_attrs(self, parser):
         from armodel.models import BswCalledEntity

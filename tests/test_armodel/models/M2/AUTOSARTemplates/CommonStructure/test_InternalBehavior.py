@@ -1,21 +1,59 @@
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ReentrancyLevelEnum, ExclusiveArea, ExecutableEntity, InternalBehavior, AbstractEvent
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, RefType
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
+    ReentrancyLevelEnum,
+    ApiPrincipleEnum,
+    ExclusiveArea,
+    ExclusiveAreaNestingOrder,
+    ExecutableEntity,
+    InternalBehavior,
+    AbstractEvent,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue, RefType
 
 
 class TestReentrancyLevelEnum:
+    def test_initialization(self):
+        """Test ReentrancyLevelEnum initialization"""
+        reentrancy_level = ReentrancyLevelEnum()
+        assert reentrancy_level.MULTICORE_REENTRANT == "multicoreReentrant"
+        assert reentrancy_level.NON_REENTRANT == "nonReentrant"
+        assert reentrancy_level.SINGLE_CORE_REENTRANT == "singleCoreReentrant"
+        assert "multicoreReentrant" in reentrancy_level.getEnumValues()
+        assert "nonReentrant" in reentrancy_level.getEnumValues()
+        assert "singleCoreReentrant" in reentrancy_level.getEnumValues()
+
     def test_enum_values(self):
         """Test ReentrancyLevelEnum values"""
-        assert ReentrancyLevelEnum.ENUM_MULTICORE_REENTRANT.value == "multicoreReentrant"
-        assert ReentrancyLevelEnum.ENUM_NON_REENTRANT.value == "nonReentrant"
-        assert ReentrancyLevelEnum.ENUM_SINGLE_CORE_REENTRANT.value == "singleCoreReentrant"
+        assert ReentrancyLevelEnum.MULTICORE_REENTRANT == "multicoreReentrant"
+        assert ReentrancyLevelEnum.NON_REENTRANT == "nonReentrant"
+        assert ReentrancyLevelEnum.SINGLE_CORE_REENTRANT == "singleCoreReentrant"
 
     def test_enum_usage(self):
         """Test using ReentrancyLevelEnum values"""
-        reentrant_level = ReentrancyLevelEnum.ENUM_MULTICORE_REENTRANT
-        assert reentrant_level.value == "multicoreReentrant"
+        reentrant_level = ReentrancyLevelEnum.MULTICORE_REENTRANT
+        assert reentrant_level == "multicoreReentrant"
+
+
+class TestApiPrincipleEnum:
+    def test_initialization(self):
+        """Test ApiPrincipleEnum initialization"""
+        api_principle = ApiPrincipleEnum()
+        assert api_principle.COMMON == "common"
+        assert api_principle.PER_EXECUTABLE == "perExecutable"
+        assert "common" in api_principle.getEnumValues()
+        assert "perExecutable" in api_principle.getEnumValues()
+
+    def test_enum_values(self):
+        """Test ApiPrincipleEnum values"""
+        assert ApiPrincipleEnum.COMMON == "common"
+        assert ApiPrincipleEnum.PER_EXECUTABLE == "perExecutable"
+
+    def test_enum_usage(self):
+        """Test using ApiPrincipleEnum values"""
+        api_principle = ApiPrincipleEnum.COMMON
+        assert api_principle == "common"
 
 
 class TestExclusiveArea:
@@ -50,9 +88,11 @@ class TestExecutableEntity:
         assert exec_entity is not None
         assert exec_entity.getShortName() == "TestExecutableEntity"
         assert exec_entity.activationReasons == []
-        assert exec_entity.canEnterExclusiveAreaRefs == []
+        assert exec_entity.canEnterRefs == []
+        assert exec_entity.exclusiveAreaNestingOrderRefs == []
         assert exec_entity.minimumStartInterval is None
         assert exec_entity.reentrancyLevel is None
+        assert exec_entity.runsInsideRefs == []
         assert exec_entity.swAddrMethodRef is None
 
     def test_get_activation_reasons(self):
@@ -89,6 +129,98 @@ class TestExecutableEntity:
         assert len(exec_entity.getActivationReasons()) == 1
         assert exec_entity.getActivationReasons()[0] == reason
 
+    def test_add_activation_reason_none(self):
+        """Test addActivationReason with None value is a no-op"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        class ConcreteExecutableEntity(ExecutableEntity):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        exec_entity = ConcreteExecutableEntity(ar_root, "TestExecutableEntity")
+        result = exec_entity.addActivationReason(None)
+        assert result is exec_entity  # Method chaining
+        assert exec_entity.getActivationReasons() == []
+
+    def test_get_exclusive_area_nesting_order_refs(self):
+        """Test getExclusiveAreaNestingOrderRefs method"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        class ConcreteExecutableEntity(ExecutableEntity):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        exec_entity = ConcreteExecutableEntity(ar_root, "TestExecutableEntity")
+        assert exec_entity.getExclusiveAreaNestingOrderRefs() == []
+
+    def test_add_exclusive_area_nesting_order_ref(self):
+        """Test addExclusiveAreaNestingOrderRef method"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        class ConcreteExecutableEntity(ExecutableEntity):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        exec_entity = ConcreteExecutableEntity(ar_root, "TestExecutableEntity")
+
+        ref1 = RefType().setValue("NestingOrder1")
+        ref2 = RefType().setValue("NestingOrder2")
+
+        result = exec_entity.addExclusiveAreaNestingOrderRef(ref1)
+        assert result is exec_entity  # Method chaining
+        exec_entity.addExclusiveAreaNestingOrderRef(ref2)
+
+        refs = exec_entity.getExclusiveAreaNestingOrderRefs()
+        assert len(refs) == 2
+        assert refs[0] == ref1
+        assert refs[1] == ref2
+
+        # None is a no-op
+        exec_entity.addExclusiveAreaNestingOrderRef(None)
+        assert len(exec_entity.getExclusiveAreaNestingOrderRefs()) == 2
+
+    def test_get_runs_inside_exclusive_area_refs(self):
+        """Test getRunsInsideRefs method"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        class ConcreteExecutableEntity(ExecutableEntity):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        exec_entity = ConcreteExecutableEntity(ar_root, "TestExecutableEntity")
+        assert exec_entity.getRunsInsideRefs() == []
+
+    def test_add_runs_inside_exclusive_area_ref(self):
+        """Test addRunsInsideRef method"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        class ConcreteExecutableEntity(ExecutableEntity):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        exec_entity = ConcreteExecutableEntity(ar_root, "TestExecutableEntity")
+
+        ref1 = RefType().setValue("ExclusiveArea1")
+        ref2 = RefType().setValue("ExclusiveArea2")
+
+        result = exec_entity.addRunsInsideRef(ref1)
+        assert result is exec_entity  # Method chaining
+        exec_entity.addRunsInsideRef(ref2)
+
+        refs = exec_entity.getRunsInsideRefs()
+        assert len(refs) == 2
+        assert refs[0] == ref1
+        assert refs[1] == ref2
+
+        # None is a no-op
+        exec_entity.addRunsInsideRef(None)
+        assert len(exec_entity.getRunsInsideRefs()) == 2
+
     def test_get_minimum_start_interval(self):
         """Test getMinimumStartInterval method"""
         parent = AUTOSAR.getInstance()
@@ -111,7 +243,7 @@ class TestExecutableEntity:
                 super().__init__(parent, short_name)
 
         exec_entity = ConcreteExecutableEntity(ar_root, "TestExecutableEntity")
-        test_value = ARFloat().setValue(0.001)  # 1ms
+        test_value = TimeValue().setValue(0.001)  # 1ms
         result = exec_entity.setMinimumStartInterval(test_value)
         assert result is exec_entity  # Method chaining
         assert exec_entity.getMinimumStartInterval() == test_value
@@ -152,8 +284,24 @@ class TestExecutableEntity:
                 super().__init__(parent, short_name)
 
         exec_entity = ConcreteExecutableEntity(ar_root, "TestExecutableEntity")
-        test_value = ReentrancyLevelEnum.ENUM_MULTICORE_REENTRANT
+        test_value = ReentrancyLevelEnum.MULTICORE_REENTRANT
         result = exec_entity.setReentrancyLevel(test_value)
+        assert result is exec_entity  # Method chaining
+        assert exec_entity.getReentrancyLevel() == test_value
+
+    def test_set_reentrancy_level_none(self):
+        """Test setReentrancyLevel with None value is a no-op"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        class ConcreteExecutableEntity(ExecutableEntity):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        exec_entity = ConcreteExecutableEntity(ar_root, "TestExecutableEntity")
+        test_value = ReentrancyLevelEnum.NON_REENTRANT
+        exec_entity.setReentrancyLevel(test_value)
+        result = exec_entity.setReentrancyLevel(None)
         assert result is exec_entity  # Method chaining
         assert exec_entity.getReentrancyLevel() == test_value
 
@@ -184,6 +332,22 @@ class TestExecutableEntity:
         assert result is exec_entity  # Method chaining
         assert exec_entity.getSwAddrMethodRef() == test_value
 
+    def test_set_sw_addr_method_ref_none(self):
+        """Test setSwAddrMethodRef with None value is a no-op"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        class ConcreteExecutableEntity(ExecutableEntity):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        exec_entity = ConcreteExecutableEntity(ar_root, "TestExecutableEntity")
+        test_value = RefType().setValue("AddrMethodRef")
+        exec_entity.setSwAddrMethodRef(test_value)
+        result = exec_entity.setSwAddrMethodRef(None)
+        assert result is exec_entity  # Method chaining
+        assert exec_entity.getSwAddrMethodRef() == test_value
+
     def test_minimum_start_interval_ms_property(self):
         """Test minimumStartIntervalMs property"""
         parent = AUTOSAR.getInstance()
@@ -199,12 +363,12 @@ class TestExecutableEntity:
         assert exec_entity.minimumStartIntervalMs is None
 
         # Test with minimum start interval set
-        interval = ARFloat().setValue(0.002)  # 0.002 seconds = 2ms
+        interval = TimeValue().setValue(0.002)  # 0.002 seconds = 2ms
         exec_entity.setMinimumStartInterval(interval)
         assert exec_entity.minimumStartIntervalMs == 2
 
     def test_add_can_enter_exclusive_area_ref(self):
-        """Test addCanEnterExclusiveAreaRef method"""
+        """Test addCanEnterRef method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
 
@@ -217,16 +381,21 @@ class TestExecutableEntity:
         ref1 = RefType().setValue("ExclusiveArea1")
         ref2 = RefType().setValue("ExclusiveArea2")
 
-        exec_entity.addCanEnterExclusiveAreaRef(ref1)
-        exec_entity.addCanEnterExclusiveAreaRef(ref2)
+        result = exec_entity.addCanEnterRef(ref1)
+        assert result is exec_entity  # Method chaining
+        exec_entity.addCanEnterRef(ref2)
 
-        refs = exec_entity.getCanEnterExclusiveAreaRefs()
+        refs = exec_entity.getCanEnterRefs()
         assert len(refs) == 2
         assert refs[0] == ref1
         assert refs[1] == ref2
 
+        # None is a no-op
+        exec_entity.addCanEnterRef(None)
+        assert len(exec_entity.getCanEnterRefs()) == 2
+
     def test_get_can_enter_exclusive_area_refs(self):
-        """Test getCanEnterExclusiveAreaRefs method"""
+        """Test getCanEnterRefs method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
 
@@ -235,7 +404,7 @@ class TestExecutableEntity:
                 super().__init__(parent, short_name)
 
         exec_entity = ConcreteExecutableEntity(ar_root, "TestExecutableEntity")
-        refs = exec_entity.getCanEnterExclusiveAreaRefs()
+        refs = exec_entity.getCanEnterRefs()
         assert refs == []
 
 
@@ -477,3 +646,55 @@ class TestAbstractEvent:
         result = abstract_event.setActivationReasonRepresentationRef(None)
         assert result is abstract_event  # Method chaining
         assert abstract_event.getActivationReasonRepresentationRef() is None
+
+
+class TestExclusiveAreaNestingOrder:
+    def test_initialization(self):
+        """Test ExclusiveAreaNestingOrder initialization with parent and short name."""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        nesting_order = ExclusiveAreaNestingOrder(ar_root, "TestNestingOrder")
+
+        assert nesting_order is not None
+        assert nesting_order.getShortName() == "TestNestingOrder"
+        assert nesting_order.getParent() is ar_root
+        assert nesting_order.exclusiveAreaRefs == []
+
+    def test_get_exclusive_area_refs(self):
+        """Test getExclusiveAreaRefs returns an empty list initially."""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        nesting_order = ExclusiveAreaNestingOrder(ar_root, "TestNestingOrder")
+
+        assert nesting_order.getExclusiveAreaRefs() == []
+
+    def test_add_exclusive_area_ref(self):
+        """Test addExclusiveAreaRef adds refs preserving order and returns self."""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        nesting_order = ExclusiveAreaNestingOrder(ar_root, "TestNestingOrder")
+
+        ref1 = RefType().setValue("ExclusiveArea1")
+        ref2 = RefType().setValue("ExclusiveArea2")
+
+        result = nesting_order.addExclusiveAreaRef(ref1)
+        assert result is nesting_order  # Method chaining
+        nesting_order.addExclusiveAreaRef(ref2)
+
+        refs = nesting_order.getExclusiveAreaRefs()
+        assert len(refs) == 2
+        assert refs[0] == ref1
+        assert refs[1] == ref2
+
+    def test_add_exclusive_area_ref_none(self):
+        """Test addExclusiveAreaRef with None value is a no-op."""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        nesting_order = ExclusiveAreaNestingOrder(ar_root, "TestNestingOrder")
+
+        ref1 = RefType().setValue("ExclusiveArea1")
+        nesting_order.addExclusiveAreaRef(ref1)
+
+        result = nesting_order.addExclusiveAreaRef(None)
+        assert result is nesting_order  # Method chaining
+        assert len(nesting_order.getExclusiveAreaRefs()) == 1

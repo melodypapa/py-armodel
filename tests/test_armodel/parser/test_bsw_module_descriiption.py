@@ -87,9 +87,9 @@ class TestBswMD:
         assert entity.short_name == "BswM_MainFunction"
         assert entity.minimumStartInterval is not None
         assert entity.minimumStartIntervalMs is not None
-        assert len(entity.getCanEnterExclusiveAreaRefs()) == 1
-        assert entity.getCanEnterExclusiveAreaRefs()[0].getDest() == "EXCLUSIVE-AREA"
-        assert entity.getCanEnterExclusiveAreaRefs()[0].getValue() == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0/SCHM_BSWM_EXCLUSIVE_AREA"  # noqa E501
+        assert len(entity.getCanEnterRefs()) == 1
+        assert entity.getCanEnterRefs()[0].getDest() == "EXCLUSIVE-AREA"
+        assert entity.getCanEnterRefs()[0].getValue() == "/AUTOSAR_BswM/BswModuleDescriptions/BswM/InternalBehavior_0/SCHM_BSWM_EXCLUSIVE_AREA"  # noqa E501
         assert entity.implementedEntryRef.getDest() == "BSW-MODULE-ENTRY"
         assert entity.implementedEntryRef.getValue() == "/AUTOSAR_BswM/BswModuleEntrys/BswM_MainFunction"
 

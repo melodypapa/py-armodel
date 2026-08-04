@@ -158,10 +158,10 @@ class TestWriterExecutableEntity:
     def test_can_enter_exclusive_area_refs_with_refs(self, writer):
         behavior = _make_behavior()
         entity = behavior.createBswSchedulableEntity("ent")
-        entity.addCanEnterExclusiveAreaRef(_ref("/ea1", "EXCLUSIVE-AREA"))
-        entity.addCanEnterExclusiveAreaRef(_ref("/ea2", "EXCLUSIVE-AREA"))
+        entity.addCanEnterRef(_ref("/ea1", "EXCLUSIVE-AREA"))
+        entity.addCanEnterRef(_ref("/ea2", "EXCLUSIVE-AREA"))
         parent = _parent()
-        writer.writeCanEnterExclusiveAreaRefs(parent, entity)
+        writer.writeCanEnterRefs(parent, entity)
         assert parent[0].tag == "CAN-ENTER-EXCLUSIVE-AREA-REFS"
         refs = parent[0].findall("CAN-ENTER-EXCLUSIVE-AREA-REF")
         assert len(refs) == 2
@@ -170,13 +170,13 @@ class TestWriterExecutableEntity:
         behavior = _make_behavior()
         entity = behavior.createBswSchedulableEntity("ent")
         parent = _parent()
-        writer.writeCanEnterExclusiveAreaRefs(parent, entity)
+        writer.writeCanEnterRefs(parent, entity)
         assert len(parent) == 0
 
     def test_writeExecutableEntity_full(self, writer):
         behavior = _make_behavior()
         entity = behavior.createBswSchedulableEntity("ent")
-        entity.addCanEnterExclusiveAreaRef(_ref("/ea", "EXCLUSIVE-AREA"))
+        entity.addCanEnterRef(_ref("/ea", "EXCLUSIVE-AREA"))
         entity.setMinimumStartInterval(_time(0.1))
         entity.setSwAddrMethodRef(_ref("/am", "SW-ADDR-METHOD"))
         parent = _parent()

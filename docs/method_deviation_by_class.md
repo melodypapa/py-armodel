@@ -110,10 +110,7 @@ kind `TRef` is correctly implemented by `typeTRef`. `variationPoint`/
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `canEnter` | `Ref (ExclusiveArea)` | — | missing |
-| — *(missing)* | `—` | `exclusiveAreaNestingOrderRefs` | `Ref (ExclusiveAreaNestingOrder)` | Refs | missing |
-| — *(missing)* | `—` | `runsInside` | `Ref (ExclusiveArea)` | — | missing |
-| — *(missing)* | `—` | `runsInsideExclusiveAreaRefs` | `Ref (ExclusiveArea)` | Refs | missing |
+| — *(no deviation)* | — | — | — | — | `canEnter`/`exclusiveAreaNestingOrderRefs`/`runsInside` now present (were missing) as `canEnterRefs`/`exclusiveAreaNestingOrderRefs`/`runsInsideRefs`; `runsInsideExclusiveAreaRefs` maps to `runsInsideRefs`. `minimumStartIntervalMs` is an added convenience property (ms from the `TimeValue` `minimumStartInterval`, mirroring `BswEvent.periodMs`). |
 
 ## `BswExclusiveAreaPolicy`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 82
@@ -127,12 +124,19 @@ kind `TRef` is correctly implemented by `typeTRef`. `variationPoint`/
 
 ## `ExclusiveAreaNestingOrder`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 84
+- **Spec table:** Table 5.19, p.84 — Base `ARObject, Referrable`; single attribute `exclusiveArea` (ordered, `*`, ref).
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::InternalBehavior`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `exclusiveAreaRefs` | `Ref (ExclusiveArea)` | Refs | missing |
+| `exclusiveAreaRefs` | `List[RefType]` | `exclusiveArea` | `Ref (ExclusiveArea)` | ref | partial: field + accessors exist, not yet wired in parser/writer |
+| *(removed)* | `int` (was `order`) | — *(not in spec)* | — | — | removed: fabricated attribute `order` with `getOrder`/`setOrder` had no spec counterpart; deleted during realignment |
+| *(base)* | `Referrable` (was `ARObject`) | `Base` | `ARObject, Referrable` | — | base: aligned Python base from `ARObject` to `Referrable` per spec `Base`; constructor changed from `__init__(self)` to `__init__(self, parent, short_name)` |
+
+`InternalBehavior.exclusiveAreaNestingOrders` is declared as a bare `List` with no
+factory (`createExclusiveAreaNestingOrder`) and is never populated by the parser —
+the aggregation is itself a partial implementation and remains to be wired.
 
 ## `BswEvent`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 87

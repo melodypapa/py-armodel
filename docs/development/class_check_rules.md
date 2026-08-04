@@ -28,6 +28,25 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
 Check:
 - [ ] Every attribute in the class exists in the class's spec table (find the
       table by searching the AUTOSAR PDF markdown for the class name).
+- [ ] The class is the right kind of element: when the spec table header is
+      `Class` and its `Attribute` column has rows, the Python class must be a
+      model class with fields/accessors — **not** an enum. Enums correspond to
+      spec tables headed `Enumeration` with `Literal` rows only.
+      (`BswExclusiveAreaPolicy` was modeled as `AREnum` with
+      `NONE/INTERNAL/EXTERNAL` members that appear nowhere in Table 5.17; the
+      spec defines it as a class with `apiPrinciple` and `exclusiveArea`
+      attributes.)
+- [ ] Base-class alignment: the spec table's `Base` column determines the
+      Python base class and therefore the constructor signature. When `Base`
+      lists `Referrable` (or `Identifiable`, which extends `Referrable`) the
+      Python class must inherit from `Referrable`/`Identifiable` and its
+      constructor must take `(self, parent, short_name)` — a class whose spec
+      `Base` is `ARObject, Referrable` but which inherits only from `ARObject`
+      and defines `__init__(self)` is misaligned. (`ExclusiveAreaNestingOrder`
+      inherited from `ARObject` with `__init__(self)` while Table 5.19 lists
+      `Base = ARObject, Referrable`; it was realigned to inherit `Referrable`
+      and take `(self, parent, short_name)`.) The `Base` column is also what
+      drives the `createXXX` vs `setXXX` choice in the bullet below.
 - [ ] The PDF spec is the source of truth for multiplicity. When the XSD
       disagrees with the PDF, follow the PDF (example: `bswModuleDocumentation`
       is `0..1` in the PDF but `many` in the XSD — the PDF wins).
@@ -54,11 +73,30 @@ Check:
       accessors — a field without a getter/setter is a gap
       (`ModeDeclarationGroup.modeManagerErrorBehavior` / `modeUserErrorBehavior`
       had fields but no accessors; pairs were added).
+- [ ] No fabricated attributes: the reverse of attribute-level completeness —
+      every field in the class must trace back to a spec attribute. A class can
+      be checklist-complete (every method `[x] impl/docstring/test`) yet carry a
+      field with a full accessor pair that appears **nowhere** in the spec table.
+      Such a field is fabricated and must be **removed**, not merely recorded as
+      a deviation — a deviation records an intentional spec/code gap, not
+      invented API. The method parity checklist (Rule 2) cannot detect this on
+      its own because it only verifies that listed methods exist; it does not
+      verify that each field maps to the spec. (`ExclusiveAreaNestingOrder.order`
+      (`int`, with `getOrder`/`setOrder`) had no counterpart in Table 5.19 and
+      was deleted during realignment.) Cross-check the `__init__` field list
+      against the spec `Attribute` rows and account for every field.
 - [ ] Multiplicity maps to the Python representation: `*` → `List[T]` (default
       `[]`), `0..1` → optional single `T` (default `None`). A spec-`*` attribute
       held as a single value is a deviation and must be fixed
       (`modeTransition` was a single field; fixed to
-       `modeTransitions: List[ModeTransition]`).
+       `modeTransitions: List[ModeTransition]`). The reverse is equally a
+      deviation: a spec-`0..1` attribute held as a `List`
+      (`BswModuleEntity.schedulerNamePrefixRef` was `List[RefType] = None`
+      while the spec/XSD say a single `0..1` ref). Getter/setter docstrings
+      must match the chosen representation — "list of ..." wording on a single
+      ref (or vice versa) is a symptom of a multiplicity mismatch
+      (`getSchedulerNamePrefixRef` said "list of scheduler name prefix
+      references" for a single ref).
 - [ ] Ref/TRef suffix naming: when the spec table's Kind column is `ref` or
       `tref`, include the suffix in the Python field and method names. The spec
       table Attribute column determines the base name, Kind determines the suffix.
@@ -67,13 +105,27 @@ Check:
       reference semantics explicit in Python names and aligns with parser
       conventions.
 - [ ] Choose `createXXX` vs `setXXX` from the aggregated child's spec `Base`:
-      if the child type is an `Identifiable` (its spec `Base` lists
-      `Identifiable`, i.e. it has a short name), expose a
-      `createXXX(short_name)` factory. If the child is a plain non-Identifiable
-      object (e.g. `ModeErrorBehavior`, spec `Base` is only `ARObject`), expose
+      if the child type has a short name (its spec `Base` lists `Referrable`
+      or `Identifiable` — `Identifiable` extends `Referrable`, so the
+      meaningful test is `Referrable`), expose a `createXXX(short_name)`
+      factory. If the child is a plain non-Identifiable object with no short
+      name (e.g. `ModeErrorBehavior`, spec `Base` is only `ARObject`), expose
       a plain `setXXX` setter — do not invent a factory for a child that has no
-      short name (`ModeTransition` is `Identifiable` per Table 4.12, so
-      `createModeTransition(short_name)` is used).
+      short name. The earlier wording "if the child type is an `Identifiable`"
+      was too narrow: `BswModuleCallPoint` has spec `Base`
+      `ARObject, Referrable` (not `Identifiable`) but still carries a short
+      name, and `BswModuleEntity` correctly uses
+      `createBswAsynchronousServerCallPoint(short_name)` /
+      `createBswSynchronousServerCallPoint(short_name)` factories for it
+      (the parser's `readBswModuleEntityCallPoints` depends on them).
+      `ModeTransition` is `Identifiable` per Table 4.12, so
+      `createModeTransition(short_name)` is used.
+- [ ] Every implemented attribute must be covered by **both** the parser and
+      the writer. A spec attribute with a field and accessors but no parser or
+      writer handling is silently dropped on round-trip
+      (`BswModuleEntity.schedulerNamePrefixRef` had accessors but no
+      `SCHEDULER-NAME-PREFIX-REF` read/write; parser and writer support were
+      added).
 - [ ] Intentional deviations are recorded in `docs/method_deviation_by_class.md`
       with the reason (e.g. "PDF-only", "deprecated, not implemented").
 
@@ -88,10 +140,16 @@ any deviation against the parser/writer code before recording it.
 **Maturity**: accept
 
 A comment block at the top of the class lists every method with three columns:
-`impl`, `docstring`, `test`. Each column must be marked `[x]`.
+`impl`, `docstring`, `test`. Each column must be marked `[x]`. The first line
+after the checklist title must cite the AUTOSAR PDF spec table the class is
+aligned against: `# Spec: <PDF file>.pdf, Table <X.Y>, p.<page>` (page from
+the PDF itself, e.g. p.72 = Table 5.4 in the 381-page R23-11 PDF). This makes
+Rule 1 traceable — every later check refers back to the spec source named in
+the class comment.
 
 ```python
 # ClassName method parity checklist:
+# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.4, p.72
 # [x] __init__                     [x] impl  [x] docstring  [x] test
 # [x] getFoos                      [x] impl  [x] docstring  [x] test
 # [x] setFoos                      [x] impl  [x] docstring  [x] test
@@ -102,12 +160,22 @@ Check:
 - [ ] The checklist covers every method defined on the class, 1:1 (no missing,
       no extra).
 - [ ] Every row is fully `[x]` — no stale `[ ]` entries.
+- [ ] The `# Spec:` line names the correct PDF, table number, and page for the
+      class (cross-check against the actual PDF; e.g. `ExecutableEntity` is
+      `Table 5.3, p.70`, `BswModuleEntity` is `Table 5.4, p.72`,
+      `ReentrancyLevelEnum` is `Table 5.5, p.73`).
 
 Verification: extract the checklist names and the class method names and compare
 them set-wise (see the script in Rule 7). **Additionally**, a row marked `[x] test`
 must correspond to a real test: verify each method name appears in the mirrored
 test file. A stale `[ ] test` was found on `BswModuleEntry` for 19 methods that
 already had tests — the set-based class check alone does not catch this.
+
+The checklist is method-only: it verifies that listed methods exist and are
+tested, but it cannot detect a *fabricated attribute* — a field with accessors
+that appears nowhere in the spec (see the "No fabricated attributes" check in
+Rule 1). A 100 %-checked-off class can still carry invented API, so Rule 1's
+field-to-spec cross-check is the gate, not the checklist.
 
 ---
 
@@ -242,13 +310,15 @@ self.targetModuleId: Optional[PositiveInteger] = None
 
 - [ ] A blank line separates each attribute block (comment + assignment) in
       `__init__`.
-- [ ] Lines are at most 79 characters (docstrings 72).
+- [ ] Code is formatted with Black at `line-length = 200` (per `pyproject.toml`,
+      enforced by `npm run black-check`). The older 79-character limit is
+      obsolete and must not be applied by hand.
 - [ ] No trailing whitespace on blank lines (`W293`) or after code (`W291`),
       and at most one blank line between definitions (`E303`).
-      (`W291`/`W293`/`E303` are not part of the enforced CI set
-      `E9/F63/F7/F82` plus line length, so violations are warnings only and are
-      tracked as a separate cleanup, but new or edited code must not introduce
-      them.)
+      (CI flake8 enforces only the syntax set `E9/F63/F7/F82`; line length (127)
+      and style codes like `W291`/`W293`/`E303` run exit-zero, so violations are
+      warnings only and are tracked as a separate cleanup, but new or edited code
+      must not introduce them.)
 - [ ] No comments are added unless they carry spec information (per AGENTS.md,
       comments are only written when asked).
 
@@ -263,6 +333,15 @@ Every method on the class must have test coverage in the mirrored test file
 
 - [ ] `test_initialization` asserts all attributes have correct default values
       (`None` / `[]`).
+- [ ] Abstract classes cannot be instantiated directly, so test their
+      `__init__` defaults through a concrete subclass
+      (`ExecutableEntity`, `BswModuleEntity`). The reference pattern is
+      `test_concrete_subclass_initialization`: instantiate a known concrete
+      subclass (or a local subclass defined in the test) and assert every
+      default set by the abstract `__init__`. Include the literal `__init__`
+      in the test (docstring or a local subclass `def __init__`) so the
+      checklist's `[x] test` for `__init__` stays verifiable by the
+      set-based check.
 - [ ] Getter/setter pairs share a combined test (`test_get_set_*`) that checks:
       (1) setter returns `self` for method chaining, (2) value round-trips
       (getter returns the set value), (3) setting `None` is a no-op (existing
@@ -336,6 +415,14 @@ Check:
 - [ ] Do **not** create sibling files like `ModeDeclarationExtra.py` to house
       classes that belong in `ModeDeclaration.py` — consolidate all classes
       for a spec package in one place.
+- [ ] The module path must not be shadowed by a same-named sibling directory:
+      when the spec `Package` maps to `X.py` but a directory `X/` also exists
+      (without `__init__.py`), the module file wins in the import system and
+      classes placed only in `X/*.py` are unreachable dead code. Define the
+      classes in `X.py`, or make `X/` a real package with an `__init__.py`.
+      (`BswExclusiveAreaPolicy` lived in `BswBehavior/BswExclusiveAreaPolicy.py`,
+      shadowed by the `BswBehavior.py` module — importing it raised
+      `ModuleNotFoundError`; it was migrated into `BswBehavior.py`.)
 - [ ] Classes are **not** placed under a spec package different from their own.
 
 Verification: read the `Package` row from the class's spec table and compare it
@@ -400,8 +487,9 @@ class Example(ARObject):
 **Maturity**: accept
 
 Each method definition and all of its parameters must fit on the same logical
-line. When a method signature exceeds 79 characters, break it across multiple
-physical lines in a way that keeps the entire signature conceptually unified.
+line. Black (repo `line-length = 200`, enforced by `npm run black-check`)
+collapses a signature onto a single physical line whenever it fits within 200
+characters, so do **not** hand-break a signature that fits.
 
 Do NOT split method definitions by placing some parameters on the method line
 and others on subsequent lines inside the method body. All parameters and return
@@ -412,23 +500,19 @@ Check:
 - [ ] All parameters are declared in the signature (between parentheses).
 - [ ] Return type annotation is part of the signature (on the same logical line
       via `->` notation).
-- [ ] When the signature exceeds 79 characters, break it across multiple
-      physical lines using Python's implicit line continuation within
-      parentheses:
-      ```python
-      def methodName(
-              self,
-              param1: Type1,
-              param2: Type2) -> ReturnType:
-      ```
+- [ ] `npm run black-check` passes for the file — signatures that fit within
+      200 characters are on one line, not hand-broken.
 - [ ] The method body begins on a new line after the `:`.
+
+Note: a trailing comma after the last parameter is Black's "magic trailing
+comma" — it forces the exploded (one parameter per line) form even when the
+signature would fit in 200 characters. Only keep a hand-multi-line signature
+(and its trailing comma) when it genuinely exceeds 200 characters; otherwise
+remove the trailing comma and let Black collapse it.
 
 Example (correct):
 ```python
-def setBswEntryRelationshipType(
-        self,
-        value: Optional[BswEntryRelationshipEnum]
-) -> "BswEntryRelationship":
+def setBswEntryRelationshipType(self, value: Optional[BswEntryRelationshipEnum]) -> "BswEntryRelationship":
     """Sets the type of relationship."""
     if value is not None:
         self.bswEntryRelationshipType = value
@@ -596,6 +680,16 @@ docstrings), correct the enum implementation and update all corresponding tests.
     (`src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py`)
   - `ModeErrorBehavior`
     (`src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py`)
+  - `ExecutableEntity` — Table 5.3, p.70
+    (`src/armodel/models/M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py`)
+  - `BswModuleEntity` — Table 5.4, p.72
+    (`src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`)
+  - `ReentrancyLevelEnum` — Table 5.5, p.73
+    (`src/armodel/models/M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py`)
+  - `BswExclusiveAreaPolicy` — Table 5.17, p.83
+    (`src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`)
+  - `ApiPrincipleEnum` — Table 5.18, p.83
+    (`src/armodel/models/M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py`)
 - Spec sources: `autosar/markdown/*.md` (PDF-derived class tables)
 - XSD ground truth: `autosar-pdf/examples/xsd/AUTOSAR_00052.xsd`
 - Deviation tracker: `docs/method_deviation_by_class.md`
@@ -753,21 +847,21 @@ single `BswInterfaces.py` module file (which already existed and contained
 This ensures all classes for the spec package are in one place and improves
 maintainability and import clarity.
 
-### 4. Docstring Length and Line Breaks
+### 4. Method Signature Length and Line Breaks
 
-**OBSERVATION**: When a method's return type annotation (especially
-`Optional[BswEntryRelationshipEnum]`) causes a line to exceed 79 characters,
-break the type hint across multiple lines within the method signature:
+**OBSERVATION**: Method signatures are formatted by Black at
+`line-length = 200` (`pyproject.toml`), enforced via `npm run black-check`.
+Black collapses any signature that fits within 200 characters onto a single
+line, so signatures must NOT be hand-broken when they fit:
 
 ```python
-def setBswEntryRelationshipType(
-        self,
-        value: Optional[BswEntryRelationshipEnum]
-) -> "BswEntryRelationship":
+def setBswEntryRelationshipType(self, value: Optional[BswEntryRelationshipEnum]) -> "BswEntryRelationship":
 ```
 
-This keeps the line length within the 79-character limit and maintains readability.
-Multi-line method signatures are preferred over long parameter lines.
+Hand-breaking a short signature (or leaving a trailing comma) makes
+`black-check` fail. Only signatures that exceed 200 characters are split, and
+Black does that automatically (one parameter per line). This supersedes the
+older 79-character line guidance.
 
 ### 5. Implementation of New Rules (9, 10, 11)
 
@@ -779,10 +873,10 @@ consistency:
   attributes and between methods.
 
 - **Rule 10 (Method Signature Formatting)**: Method definitions and their
-  parameters must be on the same logical line. Multi-line signatures are
-  acceptable when the signature exceeds 79 characters, but the entire
-  method signature (parameters + return type) stays within the method
-  definition block.
+  parameters must be on the same logical line. Black (line-length 200) collapses
+  signatures that fit onto one line and splits only those exceeding 200
+  characters; the entire method signature (parameters + return type) stays
+  within the method definition block.
 
 - **Rule 11 (Enum Type Inheritance)**: All enumeration classes must inherit
   from `AREnum` (not from Python's built-in `Enum`, `str` + `Enum`, etc.).
@@ -798,3 +892,155 @@ consistency:
 - Added blank lines between enum members per Rule 9.
 - Verified that the enum member access pattern (`EnumClass.MEMBER_NAME`)
   works correctly with `AREnum`.
+
+## Feedback from BswModuleEntity Review
+
+When reviewing and updating `BswModuleEntity` (Table 5.4,
+`src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`)
+per the above rules, the following observations emerged:
+
+### 1. Spec `0..1` ref Held as a List (Multiplicity Reversal)
+
+**ISSUE**: `schedulerNamePrefixRef` was typed `List[RefType] = None`. The spec
+Table 5.4 says `schedulerNamePrefix` is `0..1` Kind `ref`, and the XSD declares
+`SCHEDULER-NAME-PREFIX-REF` with `maxOccurs="1"`. A `List` defaulting to `None`
+is neither a valid list (default should be `[]`) nor a valid single ref
+(default should be `None`). The existing tests already treated it as a single
+`RefType`, so only the field annotation and the getter/setter docstrings
+("list of scheduler name prefix references") were wrong.
+
+**RESOLUTION**: Changed to `schedulerNamePrefixRef: Optional[RefType] = None`
+and aligned the getter/setter signatures and docstrings. Rule 1 now explicitly
+covers the reverse multiplicity deviation (spec `0..1` held as a list) and
+notes that getter/setter docstring wording ("list of ...") is a symptom of a
+multiplicity mismatch.
+
+### 2. Missing Parser/Writer Support = Silent Round-Trip Loss
+
+**ISSUE**: `schedulerNamePrefixRef` had a field and accessors, but neither the
+parser nor the writer handled `SCHEDULER-NAME-PREFIX-REF`. Any value set in
+the model would be silently dropped when writing to ARXML, and never restored
+when parsing.
+
+**RESOLUTION**: Added `entity.setSchedulerNamePrefixRef(
+self.getChildElementOptionalRefType(element, "SCHEDULER-NAME-PREFIX-REF"))`
+to `readBswModuleEntity` and `self.setChildElementOptionalRefType(
+element, "SCHEDULER-NAME-PREFIX-REF", entity.getSchedulerNamePrefixRef())`
+to `writeBswModuleEntity`. Rule 1 now requires both parser and writer coverage
+for every implemented attribute.
+
+### 3. `createXXX` Factories for Referrable (Non-Identifiable) Children
+
+**ISSUE**: Rule 1's `createXXX` vs `setXXX` guidance only mentioned
+`Identifiable` children. `BswModuleCallPoint` has spec `Base`
+`ARObject, Referrable` — it is **not** `Identifiable` — yet it carries a
+short name and `BswModuleEntity` correctly exposes
+`createBswAsynchronousServerCallPoint(short_name)` and
+`createBswSynchronousServerCallPoint(short_name)` factories (the parser's
+`readBswModuleEntityCallPoints` relies on them).
+
+**RESOLUTION**: Generalized the rule: any aggregated child whose spec `Base`
+lists `Referrable` or `Identifiable` (i.e. the child has a short name) may use
+a `createXXX(short_name)` factory; only plain `ARObject` children without a
+short name (e.g. `ModeErrorBehavior`) use plain `setXXX`.
+
+### 4. Testing an Abstract Class's `__init__`
+
+**ISSUE**: `BswModuleEntity` is abstract and cannot be instantiated, so
+`__init__` had no direct test and the checklist row stayed `[ ] test`.
+
+**RESOLUTION**: Added `test_concrete_subclass_initialization` that instantiates
+`BswCalledEntity` (a concrete subclass) and asserts every default set by
+`BswModuleEntity.__init__` (all lists `[]`, all single refs `None`). The
+docstring mentions `__init__` so the set-based checklist check can verify the
+`[x] test` marker. Rule 7 now documents this abstract-class testing pattern
+(`ExecutableEntity` already followed it).
+
+### 5. Spec Reference Line in the Class Comment
+
+**ISSUE**: The checklist comment block did not name the PDF spec table the
+class is aligned against, so the alignment was not traceable from the source
+file alone.
+
+**RESOLUTION**: Added `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf,
+Table 5.4, p.72` as the first line of the checklist block, following the
+pattern already used by `ExecutableEntity` (`Table 5.3, p.70`) and
+`ReentrancyLevelEnum` (`Table 5.5, p.73`). The page number was verified by
+extracting the actual PDF text (`pypdf`): Table 5.3 is on p.70, the
+`BswModuleEntity` class header on p.71, and the full Table 5.4 attribute table
+on p.72. Rule 2 now requires the `# Spec:` line and names these three
+reference classes as examples.
+
+## Feedback from BswExclusiveAreaPolicy Review
+
+When reviewing and updating `BswExclusiveAreaPolicy` (Table 5.17) and the
+related `ApiPrincipleEnum` (Table 5.18) per the above rules, the following
+observations emerged:
+
+### 1. A Spec Class Must Not Be Modeled as an Enum
+
+**ISSUE**: `BswExclusiveAreaPolicy` was implemented as `AREnum` with members
+`NONE = "none"`, `INTERNAL = "internal"`, `EXTERNAL = "external"`. Table 5.17
+defines it as a **class** (Base: `ARObject, BswApiOptions`) with attribute rows
+`apiPrinciple` (ApiPrincipleEnum, `0..1`, attr) and `exclusiveArea`
+(ExclusiveArea, `0..1`, ref). The three enum members appear nowhere in the
+spec — they were placeholder values.
+
+**RESOLUTION**: Rewrote `BswExclusiveAreaPolicy` as a concrete subclass of
+`BswApiOptions` with `apiPrinciple: Optional[ApiPrincipleEnum]` and
+`exclusiveAreaRef: Optional[RefType]` fields plus accessor pairs. Rule 1 now
+states the general test: a spec table headed `Class` with populated
+`Attribute` rows means a model class with fields/accessors; only tables headed
+`Enumeration` with `Literal` rows become enums.
+
+### 2. Same-Named Module File vs Directory = Dead Code
+
+**ISSUE**: The class lived in `BswBehavior/BswExclusiveAreaPolicy.py`, a
+directory without `__init__.py`. Because the sibling `BswBehavior.py` module
+exists, Python resolves `BswBehavior` to the module file and the directory
+classes are unreachable — importing the "full path" raised
+`ModuleNotFoundError: 'BswBehavior' is not a package`. The 9 classes in
+`BswBehavior/` were effectively dead code.
+
+**RESOLUTION**: Per Rule 8 (exactly one module per spec package), the class was
+migrated into `BswBehavior.py`, the duplicate file deleted, and the class
+removed from the name-collision list in `test_model_imports.py` (it is now
+importable from `armodel` directly). Rule 8 now calls out module-vs-directory
+shadowing explicitly: when the spec `Package` maps to `X.py` but a `X/`
+directory also exists without `__init__.py`, classes in the directory are
+unreachable and must live in the module file.
+
+### 3. Spec Default Value vs Model `None` Default
+
+**ISSUE**: The Table 5.17 note for `apiPrinciple` states "The default value is
+'common'", and the XSD declares `minOccurs="0"` for `API-PRINCIPLE`. The model
+convention (Rule 1) maps `0..1` attributes to `Optional[T] = None`, so the
+field is initialized to `None` and the spec default is preserved in the
+attribute comment rather than enforced in `__init__`.
+
+**OBSERVATION**: If an attribute's spec default must be observable in the
+model (e.g. the writer should emit it when unset), initialize the field to the
+spec default (e.g. `ApiPrincipleEnum.COMMON`) and record the choice — do not
+silently drop the spec note.
+
+### 4. Related Enum Had Placeholder Members
+
+**ISSUE**: `ApiPrincipleEnum` (Table 5.18) contained `CALLEE = "callee"` and
+`CALLER = "caller"` — not in the spec. The spec literals are `common`
+(`atp.EnumerationLiteralIndex=0`) and `perExecutable`
+(`atp.EnumerationLiteralIndex=1`).
+
+**RESOLUTION**: Corrected to `COMMON = "common"` / `PER_EXECUTABLE =
+"perExecutable"` with spec-based inline comments and Tags, added the `# Spec:`
+line, and added tests. This is the second time a placeholder enum was found
+(see `BswEntryRelationshipEnum`), confirming Rule 12's guidance: never trust a
+previous implementation — always verify the enum members against the PDF table.
+
+### 5. Aggregation Not Yet Implemented
+
+**OBSERVATION**: Table 5.17 says `BswExclusiveAreaPolicy` is aggregated by
+`BswInternalBehavior.exclusiveAreaPolicy`, and the XSD references
+`EXCLUSIVE-AREA-POLICY` elements there. Neither the aggregation nor the
+parser/writer support exists yet, so there is no round-trip surface for the
+class. Parser/writer coverage (Rule 1) will be added together with the
+aggregation in a follow-up task.
