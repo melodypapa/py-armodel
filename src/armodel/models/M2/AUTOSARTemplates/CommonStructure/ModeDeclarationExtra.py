@@ -2,43 +2,87 @@
 This module defines additional mode declaration classes in AUTOSAR.
 """
 
+from typing import Optional
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, AREnum
 
 
-class ModeTransition(ARObject):
+class ModeTransition(AtpStructureElement):
     """
-    Represents a mode transition in AUTOSAR.
-    This class defines transitions between different mode declarations.
+    This meta-class represents the ability to describe possible ModeTransitions in
+    the context of a ModeDeclarationGroup.
     """
     # ModeTransition method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getSourceModeRef             [x] impl  [ ] docstring  [ ] test
-    # [ ] setSourceModeRef             [x] impl  [ ] docstring  [ ] test
-    # [ ] getTargetModeRef             [x] impl  [ ] docstring  [ ] test
-    # [ ] setTargetModeRef             [x] impl  [ ] docstring  [ ] test
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getEnteredModeRef            [x] impl  [x] docstring  [x] test
+    # [x] setEnteredModeRef            [x] impl  [x] docstring  [x] test
+    # [x] getExitedModeRef             [x] impl  [x] docstring  [x] test
+    # [x] setExitedModeRef             [x] impl  [x] docstring  [x] test
 
-
-    def __init__(self):
+    def __init__(self, parent: ARObject, short_name: str):
         """
-        Initializes the ModeTransition with default values.
+        Initializes the ModeTransition with a parent and short name.
+
+        Args:
+            parent: The parent ARObject that contains this mode transition
+            short_name: The unique short name of this mode transition
         """
-        super().__init__()
-        self.sourceModeRef: RefType = None
-        self.targetModeRef: RefType = None
+        super().__init__(parent, short_name)
 
-    def getSourceModeRef(self):
-        return self.sourceModeRef
+        # This represents the entered mode of the ModeTransition.
+        self.enteredModeRef: RefType = None
 
-    def setSourceModeRef(self, value):
-        self.sourceModeRef = value
+        # This represents the exited mode of the ModeTransition.
+        self.exitedModeRef: RefType = None
+
+    def getEnteredModeRef(self) -> Optional[RefType]:
+        """
+        Gets the mode that is entered by this transition.
+
+        Returns:
+            Optional[RefType]: The entered mode reference
+        """
+        return self.enteredModeRef
+
+    def setEnteredModeRef(self, value: RefType) -> 'ModeTransition':
+        """
+        Sets the mode that is entered by this transition.
+        Only sets the value if it is not None.
+
+        Args:
+            value: The entered mode reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.enteredModeRef = value
         return self
 
-    def getTargetModeRef(self):
-        return self.targetModeRef
+    def getExitedModeRef(self) -> Optional[RefType]:
+        """
+        Gets the mode that is exited by this transition.
 
-    def setTargetModeRef(self, value):
-        self.targetModeRef = value
+        Returns:
+            Optional[RefType]: The exited mode reference
+        """
+        return self.exitedModeRef
+
+    def setExitedModeRef(self, value: RefType) -> 'ModeTransition':
+        """
+        Sets the mode that is exited by this transition.
+        Only sets the value if it is not None.
+
+        Args:
+            value: The exited mode reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.exitedModeRef = value
         return self
 
 

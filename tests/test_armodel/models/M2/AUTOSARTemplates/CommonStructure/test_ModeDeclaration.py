@@ -2,6 +2,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototypeMapping, ModeDeclaration, ModeRequestTypeMap, ModeDeclarationGroup, ModeDeclarationGroupPrototype
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclarationExtra import ModeErrorBehavior, ModeTransition
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType, TRefType
 
 
@@ -191,7 +192,7 @@ class TestModeDeclarationGroup:
         assert mode_group.initialModeRef is None
         assert mode_group.modeDeclarations == []
         assert mode_group.modeManagerErrorBehavior is None
-        assert mode_group.modeTransition is None
+        assert mode_group.modeTransitions == []
         assert mode_group.modeUserErrorBehavior is None
         assert mode_group.onTransitionValue is None
 
@@ -267,6 +268,192 @@ class TestModeDeclarationGroup:
         ar_root = parent.createARPackage("AUTOSAR")
         mode_group = ModeDeclarationGroup(ar_root, "TestModeGroup")
         assert mode_group.getOnTransitionValue() is None
+
+    def test_set_initial_mode_ref_none(self):
+        """Test setInitialModeRef with None value (no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        mode_group = ModeDeclarationGroup(ar_root, "TestModeGroup")
+
+        mode_group.setInitialModeRef(RefType().setValue("InitialModeRef"))
+        result = mode_group.setInitialModeRef(None)
+        assert result is mode_group  # Method chaining
+        assert mode_group.getInitialModeRef() is not None
+
+    def test_set_on_transition_value_none(self):
+        """Test setOnTransitionValue with None value"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        mode_group = ModeDeclarationGroup(ar_root, "TestModeGroup")
+
+        mode_group.setOnTransitionValue(42)
+        result = mode_group.setOnTransitionValue(None)
+        assert result is mode_group  # Method chaining
+        assert mode_group.getOnTransitionValue() is None
+
+    def test_create_mode_transition(self):
+        """Test createModeTransition method"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        mode_group = ModeDeclarationGroup(ar_root, "TestModeGroup")
+
+        transition = mode_group.createModeTransition("Transition1")
+        assert transition is not None
+        assert isinstance(transition, ModeTransition)
+        assert transition.getShortName() == "Transition1"
+        assert transition.getParent() is mode_group
+        assert transition in mode_group.getModeTransitions()
+
+    def test_create_mode_transition_duplicate(self):
+        """Test createModeTransition returns existing instance for duplicate short name"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        mode_group = ModeDeclarationGroup(ar_root, "TestModeGroup")
+
+        first = mode_group.createModeTransition("Transition1")
+        second = mode_group.createModeTransition("Transition1")
+        assert second is first
+        assert len(mode_group.getModeTransitions()) == 1
+
+    def test_get_mode_transitions_empty(self):
+        """Test getModeTransitions method with empty list"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        mode_group = ModeDeclarationGroup(ar_root, "TestModeGroup")
+        assert mode_group.getModeTransitions() == []
+
+    def test_get_mode_manager_error_behavior(self):
+        """Test getModeManagerErrorBehavior method"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        mode_group = ModeDeclarationGroup(ar_root, "TestModeGroup")
+        assert mode_group.getModeManagerErrorBehavior() is None
+
+    def test_set_mode_manager_error_behavior(self):
+        """Test setModeManagerErrorBehavior method"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        mode_group = ModeDeclarationGroup(ar_root, "TestModeGroup")
+
+        error_behavior = ModeErrorBehavior().setErrorPolicy("keep-mode")
+        result = mode_group.setModeManagerErrorBehavior(error_behavior)
+        assert result is mode_group  # Method chaining
+        assert mode_group.getModeManagerErrorBehavior() == error_behavior
+
+    def test_set_mode_manager_error_behavior_none(self):
+        """Test setModeManagerErrorBehavior with None value (no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        mode_group = ModeDeclarationGroup(ar_root, "TestModeGroup")
+
+        error_behavior = ModeErrorBehavior().setErrorPolicy("keep-mode")
+        mode_group.setModeManagerErrorBehavior(error_behavior)
+        result = mode_group.setModeManagerErrorBehavior(None)
+        assert result is mode_group  # Method chaining
+        assert mode_group.getModeManagerErrorBehavior() is error_behavior
+
+    def test_get_mode_user_error_behavior(self):
+        """Test getModeUserErrorBehavior method"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        mode_group = ModeDeclarationGroup(ar_root, "TestModeGroup")
+        assert mode_group.getModeUserErrorBehavior() is None
+
+    def test_set_mode_user_error_behavior(self):
+        """Test setModeUserErrorBehavior method"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        mode_group = ModeDeclarationGroup(ar_root, "TestModeGroup")
+
+        error_behavior = ModeErrorBehavior().setErrorPolicy("transition-to-safe-mode")
+        result = mode_group.setModeUserErrorBehavior(error_behavior)
+        assert result is mode_group  # Method chaining
+        assert mode_group.getModeUserErrorBehavior() == error_behavior
+
+    def test_set_mode_user_error_behavior_none(self):
+        """Test setModeUserErrorBehavior with None value (no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        mode_group = ModeDeclarationGroup(ar_root, "TestModeGroup")
+
+        error_behavior = ModeErrorBehavior().setErrorPolicy("transition-to-safe-mode")
+        mode_group.setModeUserErrorBehavior(error_behavior)
+        result = mode_group.setModeUserErrorBehavior(None)
+        assert result is mode_group  # Method chaining
+        assert mode_group.getModeUserErrorBehavior() is error_behavior
+
+
+class TestModeTransition:
+    def test_initialization(self):
+        """Test ModeTransition initialization"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        transition = ModeTransition(ar_root, "TestTransition")
+
+        assert transition is not None
+        assert transition.getShortName() == "TestTransition"
+        assert transition.enteredModeRef is None
+        assert transition.exitedModeRef is None
+
+    def test_get_entered_mode_ref(self):
+        """Test getEnteredModeRef method"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        transition = ModeTransition(ar_root, "TestTransition")
+        assert transition.getEnteredModeRef() is None
+
+    def test_set_entered_mode_ref(self):
+        """Test setEnteredModeRef method"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        transition = ModeTransition(ar_root, "TestTransition")
+
+        test_value = RefType().setValue("EnteredModeRef")
+        result = transition.setEnteredModeRef(test_value)
+        assert result is transition  # Method chaining
+        assert transition.getEnteredModeRef() == test_value
+
+    def test_set_entered_mode_ref_none(self):
+        """Test setEnteredModeRef with None value (no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        transition = ModeTransition(ar_root, "TestTransition")
+
+        test_value = RefType().setValue("EnteredModeRef")
+        transition.setEnteredModeRef(test_value)
+        result = transition.setEnteredModeRef(None)
+        assert result is transition  # Method chaining
+        assert transition.getEnteredModeRef() is test_value
+
+    def test_get_exited_mode_ref(self):
+        """Test getExitedModeRef method"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        transition = ModeTransition(ar_root, "TestTransition")
+        assert transition.getExitedModeRef() is None
+
+    def test_set_exited_mode_ref(self):
+        """Test setExitedModeRef method"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        transition = ModeTransition(ar_root, "TestTransition")
+
+        test_value = RefType().setValue("ExitedModeRef")
+        result = transition.setExitedModeRef(test_value)
+        assert result is transition  # Method chaining
+        assert transition.getExitedModeRef() == test_value
+
+    def test_set_exited_mode_ref_none(self):
+        """Test setExitedModeRef with None value (no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        transition = ModeTransition(ar_root, "TestTransition")
+
+        test_value = RefType().setValue("ExitedModeRef")
+        transition.setExitedModeRef(test_value)
+        result = transition.setExitedModeRef(None)
+        assert result is transition  # Method chaining
+        assert transition.getExitedModeRef() is test_value
 
 
 class TestModeDeclarationGroupPrototype:

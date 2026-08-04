@@ -185,6 +185,11 @@ class TestBswModuleEntry:
         
         assert result == entry
         assert entry.getBswEntryKind() == BswEntryKindEnum.FUNCTION
+        
+        # Test setting None (should not change value)
+        result = entry.setBswEntryKind(None)
+        assert result == entry
+        assert entry.getBswEntryKind() == BswEntryKindEnum.FUNCTION  # Should remain unchanged
     
     def test_get_set_call_type(self):
         """Test getter and setter for call type."""
@@ -196,6 +201,11 @@ class TestBswModuleEntry:
         
         assert result == entry
         assert entry.getCallType() == BswCallType.SYNCHRONOUS
+        
+        # Test setting None (should not change value)
+        result = entry.setCallType(None)
+        assert result == entry
+        assert entry.getCallType() == BswCallType.SYNCHRONOUS  # Should remain unchanged
     
     def test_get_set_execution_context(self):
         """Test getter and setter for execution context."""
@@ -207,6 +217,11 @@ class TestBswModuleEntry:
         
         assert result == entry
         assert entry.getExecutionContext() == "TASK"
+        
+        # Test setting None (should not change value)
+        result = entry.setExecutionContext(None)
+        assert result == entry
+        assert entry.getExecutionContext() == "TASK"  # Should remain unchanged
     
     def test_set_execution_context_invalid(self):
         """Test setting invalid execution context raises ValueError."""
@@ -230,6 +245,11 @@ class TestBswModuleEntry:
         
         assert result == entry
         assert entry.getFunctionPrototypeEmitter() == emitter
+        
+        # Test setting None (should not change value)
+        result = entry.setFunctionPrototypeEmitter(None)
+        assert result == entry
+        assert entry.getFunctionPrototypeEmitter() == emitter  # Should remain unchanged
     
     def test_get_set_is_reentrant(self):
         """Test getter and setter for is reentrant flag."""
@@ -241,6 +261,11 @@ class TestBswModuleEntry:
         
         assert result == entry
         assert entry.getIsReentrant() is True
+        
+        # Test setting None (should not change value)
+        result = entry.setIsReentrant(None)
+        assert result == entry
+        assert entry.getIsReentrant() is True  # Should remain unchanged
     
     def test_get_set_is_synchronous(self):
         """Test getter and setter for is synchronous flag."""
@@ -252,6 +277,11 @@ class TestBswModuleEntry:
         
         assert result == entry
         assert entry.getIsSynchronous() is True
+        
+        # Test setting None (should not change value)
+        result = entry.setIsSynchronous(None)
+        assert result == entry
+        assert entry.getIsSynchronous() is True  # Should remain unchanged
     
     def test_get_return_type(self):
         """Test getter for return type."""
@@ -284,6 +314,11 @@ class TestBswModuleEntry:
         
         assert result == entry
         assert entry.getRole() == role
+        
+        # Test setting None (should not change value)
+        result = entry.setRole(None)
+        assert result == entry
+        assert entry.getRole() == role  # Should remain unchanged
     
     def test_get_set_service_id(self):
         """Test getter and setter for service ID."""
@@ -297,6 +332,11 @@ class TestBswModuleEntry:
         
         assert result == entry
         assert entry.getServiceId() == service_id
+        
+        # Test setting None (should not change value)
+        result = entry.setServiceId(None)
+        assert result == entry
+        assert entry.getServiceId() == service_id  # Should remain unchanged
     
     def test_get_set_sw_service_impl_policy(self):
         """Test getter and setter for SW service implementation policy."""
@@ -308,6 +348,11 @@ class TestBswModuleEntry:
         
         assert result == entry
         assert entry.getSwServiceImplPolicy() == SwServiceImplPolicyEnum.STANDARD
+        
+        # Test setting None (should not change value)
+        result = entry.setSwServiceImplPolicy(None)
+        assert result == entry
+        assert entry.getSwServiceImplPolicy() == SwServiceImplPolicyEnum.STANDARD  # Should remain unchanged
     
     def test_set_sw_service_impl_policy_invalid(self):
         """Test setting invalid SW service implementation policy raises ValueError."""

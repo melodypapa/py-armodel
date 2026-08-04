@@ -4,12 +4,13 @@ in the CommonStructure module. Mode declarations define different operational st
 that software components or BSW modules can be in, along with transitions between states.
 """
 
-from typing import List
+from typing import List, Optional
 from enum import Enum
 
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclarationExtra import ModeTransition, ModeErrorBehavior
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype, AtpType, AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, PositiveInteger, RefType, TRefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType, TRefType
 
 
 class ModeActivationKind(str, Enum):
@@ -250,8 +251,7 @@ class ModeRequestTypeMap(ARObject):
 
 class ModeDeclarationGroup(AtpType):
     """
-    Represents a mode declaration group in AUTOSAR models.
-    Mode declaration groups define collections of related mode declarations and their initial state.
+    A collection of Mode Declarations. Also, the initial mode is explicitly identified.
     """
     # ModeDeclarationGroup method parity checklist:
     # [x] __init__                     [x] impl  [x] docstring  [x] test
@@ -261,38 +261,54 @@ class ModeDeclarationGroup(AtpType):
     # [x] getInitialModeRef            [x] impl  [x] docstring  [x] test
     # [x] setOnTransitionValue         [x] impl  [x] docstring  [x] test
     # [x] getOnTransitionValue         [x] impl  [x] docstring  [x] test
+    # [x] createModeTransition         [x] impl  [x] docstring  [x] test
+    # [x] getModeTransitions           [x] impl  [x] docstring  [x] test
+    # [x] getModeManagerErrorBehavior  [x] impl  [x] docstring  [x] test
+    # [x] setModeManagerErrorBehavior  [x] impl  [x] docstring  [x] test
+    # [x] getModeUserErrorBehavior     [x] impl  [x] docstring  [x] test
+    # [x] setModeUserErrorBehavior     [x] impl  [x] docstring  [x] test
 
-    
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the ModeDeclarationGroup with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this mode declaration group
             short_name: The unique short name of this mode declaration group
         """
         super().__init__(parent, short_name)
 
-        # Reference to the initial mode of this group
-        self.initialModeRef: RefType = None                          
-        # List of mode declarations in this group
-        self.modeDeclarations: List['ModeDeclaration'] = []                          
-        # Error behavior for the mode manager
-        self.modeManagerErrorBehavior = None                
-        # Mode transition behavior for this group
-        self.modeTransition = None                          
-        # Error behavior for the mode user
-        self.modeUserErrorBehavior = None                   
-        # Value used on mode transitions
-        self.onTransitionValue: PositiveInteger = None                       
+        # The initial mode of the ModeDeclarationGroup. This mode is active before any
+        # mode switches occurred.
+        self.initialModeRef: RefType = None
+
+        # The ModeDeclarations collected in this ModeDeclarationGroup.
+        self.modeDeclarations: List['ModeDeclaration'] = []
+
+        # This represents the ability to define the error behavior expected by the mode
+        # manager in case of errors on the mode user side (e.g. terminated mode user).
+        self.modeManagerErrorBehavior: ModeErrorBehavior = None
+
+        # This represents the available ModeTransitions of the ModeDeclarationGroup.
+        self.modeTransitions: List[ModeTransition] = []
+
+        # This represents the definition of the error behavior expected by the mode
+        # user in case of errors on the mode manager side (e.g. terminated mode
+        # manager).
+        self.modeUserErrorBehavior: ModeErrorBehavior = None
+
+        # The value of this attribute shall be taken into account by the RTE generator
+        # for programmatically representing a value used for the transition between two
+        # statuses.
+        self.onTransitionValue: ARNumerical = None
 
     def createModeDeclaration(self, short_name: str) -> 'ModeDeclaration':
         """
         Creates and adds a ModeDeclaration to this mode declaration group.
-        
+
         Args:
             short_name: The short name for the new mode declaration
-            
+
         Returns:
             The created ModeDeclaration instance
         """
@@ -304,43 +320,44 @@ class ModeDeclarationGroup(AtpType):
     def getModeDeclarations(self) -> List['ModeDeclaration']:
         """
         Gets all mode declarations from the elements list, sorted by short name.
-        
+
         Returns:
             List of ModeDeclaration instances sorted by short name
         """
         return list(sorted(filter(lambda a: isinstance(a, ModeDeclaration), self.elements), key=lambda o: o.short_name))
 
-    def setInitialModeRef(self, ref: RefType):
+    def setInitialModeRef(self, ref: RefType) -> 'ModeDeclarationGroup':
         """
         Sets the reference to the initial mode of this group.
         Only sets the value if it is not None.
-        
+
         Args:
             ref: The initial mode reference to set
-            
+
         Returns:
             self for method chaining
         """
-        self.initialModeRef = ref
+        if ref is not None:
+            self.initialModeRef = ref
         return self
 
-    def getInitialModeRef(self) -> RefType:
+    def getInitialModeRef(self) -> Optional[RefType]:
         """
         Gets the reference to the initial mode of this group.
-        
+
         Returns:
-            RefType: The initial mode reference
+            Optional[RefType]: The initial mode reference
         """
         return self.initialModeRef
 
-    def setOnTransitionValue(self, value):
+    def setOnTransitionValue(self, value: ARNumerical) -> 'ModeDeclarationGroup':
         """
         Sets the value used on mode transitions.
         If value is an integer, creates an ARNumerical instance with that value.
-        
+
         Args:
             value: The value to set for transitions
-            
+
         Returns:
             self for method chaining
         """
@@ -351,14 +368,91 @@ class ModeDeclarationGroup(AtpType):
         self.onTransitionValue = value
         return self
 
-    def getOnTransitionValue(self) -> ARNumerical:
+    def getOnTransitionValue(self) -> Optional[ARNumerical]:
         """
         Gets the value used on mode transitions.
-        
+
         Returns:
-            ARNumerical: The transition value
+            Optional[ARNumerical]: The transition value
         """
         return self.onTransitionValue
+
+    def createModeTransition(self, short_name: str) -> ModeTransition:
+        """
+        Creates and adds a ModeTransition to this mode declaration group.
+
+        Args:
+            short_name: The short name for the new mode transition
+
+        Returns:
+            The created ModeTransition instance
+        """
+        if not self.IsElementExists(short_name):
+            spec = ModeTransition(self, short_name)
+            self.addElement(spec)
+            self.modeTransitions.append(spec)
+        return self.getElement(short_name, ModeTransition)
+
+    def getModeTransitions(self) -> List[ModeTransition]:
+        """
+        Gets all mode transitions of this mode declaration group.
+
+        Returns:
+            List of ModeTransition instances
+        """
+        return self.modeTransitions
+
+    def getModeManagerErrorBehavior(self) -> Optional[ModeErrorBehavior]:
+        """
+        Gets the error behavior expected by the mode manager in case of errors on the
+        mode user side (e.g. terminated mode user).
+
+        Returns:
+            Optional[ModeErrorBehavior]: The mode manager error behavior
+        """
+        return self.modeManagerErrorBehavior
+
+    def setModeManagerErrorBehavior(self, value: ModeErrorBehavior) -> 'ModeDeclarationGroup':
+        """
+        Sets the error behavior expected by the mode manager in case of errors on the
+        mode user side (e.g. terminated mode user).
+        Only sets the value if it is not None.
+
+        Args:
+            value: The mode manager error behavior to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.modeManagerErrorBehavior = value
+        return self
+
+    def getModeUserErrorBehavior(self) -> Optional[ModeErrorBehavior]:
+        """
+        Gets the error behavior expected by the mode user in case of errors on the mode
+        manager side (e.g. terminated mode manager).
+
+        Returns:
+            Optional[ModeErrorBehavior]: The mode user error behavior
+        """
+        return self.modeUserErrorBehavior
+
+    def setModeUserErrorBehavior(self, value: ModeErrorBehavior) -> 'ModeDeclarationGroup':
+        """
+        Sets the error behavior expected by the mode user in case of errors on the mode
+        manager side (e.g. terminated mode manager).
+        Only sets the value if it is not None.
+
+        Args:
+            value: The mode user error behavior to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.modeUserErrorBehavior = value
+        return self
 
 
 class ModeDeclarationGroupPrototype(AtpPrototype):
