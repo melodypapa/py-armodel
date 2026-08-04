@@ -10,7 +10,7 @@ These classes are used to model:
 """
 
 from abc import ABC
-from typing import List
+from typing import List, Optional
 
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import AbstractEvent, ExecutableEntity, InternalBehavior
@@ -400,16 +400,18 @@ class BswDistinguishedPartition(Referrable):
 
 class BswModuleEntity(ExecutableEntity, ABC):
     """
-    Abstract base class for BSW module entities.
-    A BSW module entity represents an executable piece of code in a BSW module.
+    Specifies the smallest code fragment which can be described for a BSW
+    module or cluster within AUTOSAR. It is the abstract base class for
+    BswCalledEntity, BswInterruptEntity, and BswSchedulableEntity.
     """
 
     # BswModuleEntity method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getAccessedModeGroupRefs     [x] impl  [x] docstring  [ ] test
-    # [ ] addAccessedModeGroupRef      [x] impl  [x] docstring  [ ] test
-    # [ ] getActivationPointRefs       [x] impl  [x] docstring  [ ] test
-    # [ ] addActivationPointRef        [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.4, p.72
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getAccessedModeGroupRefs     [x] impl  [x] docstring  [x] test
+    # [x] addAccessedModeGroupRef      [x] impl  [x] docstring  [x] test
+    # [x] getActivationPointRefs       [x] impl  [x] docstring  [x] test
+    # [x] addActivationPointRef        [x] impl  [x] docstring  [x] test
     # [x] getCallPoints                [x] impl  [x] docstring  [x] test
     # [x] createBswAsynchronousServerCallPoint [x] impl  [x] docstring  [x] test
     # [x] createBswSynchronousServerCallPoint [x] impl  [x] docstring  [x] test
@@ -439,38 +441,55 @@ class BswModuleEntity(ExecutableEntity, ABC):
             raise TypeError("BswModuleEntity is an abstract class.")
         super().__init__(parent, short_name)
 
-        # List of mode group references that this entity accesses
+        # A mode group which is accessed via API call by this entity. It shall
+        # be a ModeDeclarationGroupPrototype required by this module or cluster.
         self.accessedModeGroupRefs: List[RefType] = []
-        # List of activation point references for this entity
-        self.activationPointRefs: List[RefType] = []
-        # List of call points associated with this entity
-        self.callPoints: List[BswModuleCallPoint] = []
-        # List of variable access points for data reception
-        self.dataReceivePoints: List[BswVariableAccess] = []
-        # List of variable access points for data sending
-        self.dataSendPoints: List[BswVariableAccess] = []
-        # Reference to the entry implemented by this entity
-        self.implementedEntryRef: RefType = None
-        # List of trigger references issued by this entity
-        self.issuedTriggerRefs: List[RefType] = []
-        # List of mode group references managed by this entity
-        self.managedModeGroupRefs: List[RefType] = []
-        # List of scheduler name prefix references
-        self.schedulerNamePrefixRef: List[RefType] = None
 
-    def getAccessedModeGroupRefs(self):
+        # Activation point used by the module entity to activate one or more
+        # internal triggers.
+        self.activationPointRefs: List[RefType] = []
+
+        # A call point used in the code of this entity.
+        self.callPoints: List[BswModuleCallPoint] = []
+
+        # The data is received via the BSW Scheduler.
+        self.dataReceivePoints: List[BswVariableAccess] = []
+
+        # The data is sent via the BSW Scheduler.
+        self.dataSendPoints: List[BswVariableAccess] = []
+
+        # The entry which is implemented by this module entity.
+        self.implementedEntryRef: Optional[RefType] = None
+
+        # A trigger issued by this entity via BSW Scheduler API call. It shall
+        # be a BswTrigger released (i.e. owned) by this module or cluster.
+        self.issuedTriggerRefs: List[RefType] = []
+
+        # A mode group which is managed by this entity. It shall be a
+        # ModeDeclarationGroupPrototype provided by this module or cluster.
+        self.managedModeGroupRefs: List[RefType] = []
+
+        # A prefix to be used in generated names for the BswModuleScheduler in
+        # the context of this BswModuleEntity, for example entry point
+        # prototypes, macros for dealing with exclusive areas, header file
+        # names.
+        self.schedulerNamePrefixRef: Optional[RefType] = None
+
+    def getAccessedModeGroupRefs(self) -> List[RefType]:
         """
-        Gets the list of mode group references that this entity accesses.
+        Gets the mode groups which are accessed via API call by this entity;
+        they shall be ModeDeclarationGroupPrototypes required by this module
+        or cluster.
 
         Returns:
-            List of mode group references
+            List of RefType instances
         """
         return self.accessedModeGroupRefs
 
-    def addAccessedModeGroupRef(self, value):
+    def addAccessedModeGroupRef(self, value: RefType) -> "BswModuleEntity":
         """
-        Adds a mode group reference to the list of accessed mode groups.
-        Only adds the value if it is not None.
+        Adds a mode group accessed via API call by this entity. Only adds the
+        value if it is not None.
 
         Args:
             value: The mode group reference to add
@@ -482,19 +501,20 @@ class BswModuleEntity(ExecutableEntity, ABC):
             self.accessedModeGroupRefs.append(value)
         return self
 
-    def getActivationPointRefs(self):
+    def getActivationPointRefs(self) -> List[RefType]:
         """
-        Gets the list of activation point references for this entity.
+        Gets the activation points used by the module entity to activate one
+        or more internal triggers.
 
         Returns:
-            List of activation point references
+            List of RefType instances
         """
         return self.activationPointRefs
 
-    def addActivationPointRef(self, value):
+    def addActivationPointRef(self, value: RefType) -> "BswModuleEntity":
         """
-        Adds an activation point reference to the list of activation points.
-        Only adds the value if it is not None.
+        Adds an activation point used to activate one or more internal
+        triggers. Only adds the value if it is not None.
 
         Args:
             value: The activation point reference to add
@@ -506,18 +526,20 @@ class BswModuleEntity(ExecutableEntity, ABC):
             self.activationPointRefs.append(value)
         return self
 
-    def getCallPoints(self):
+    def getCallPoints(self) -> List[BswModuleCallPoint]:
         """
-        Gets the list of call points associated with this entity.
+        Gets the call points used in the code of this entity.
 
         Returns:
-            List of call points
+            List of BswModuleCallPoint instances
         """
         return self.callPoints
 
-    def createBswAsynchronousServerCallPoint(self, short_name):
+    def createBswAsynchronousServerCallPoint(self, short_name: str) -> BswAsynchronousServerCallPoint:
         """
-        Creates and adds a BswAsynchronousServerCallPoint to this entity.
+        Creates and adds a BswAsynchronousServerCallPoint to the call points
+        used in the code of this entity. Returns the existing call point if the
+        short name is already present.
 
         Args:
             short_name: The short name for the new call point
@@ -529,11 +551,13 @@ class BswModuleEntity(ExecutableEntity, ABC):
             access = BswAsynchronousServerCallPoint(self, short_name)
             self.addElement(access)
             self.callPoints.append(access)
-        return self.getElement(short_name)
+        return self.getElement(short_name, BswAsynchronousServerCallPoint)
 
-    def createBswSynchronousServerCallPoint(self, short_name):
+    def createBswSynchronousServerCallPoint(self, short_name: str) -> BswSynchronousServerCallPoint:
         """
-        Creates and adds a BswSynchronousServerCallPoint to this entity.
+        Creates and adds a BswSynchronousServerCallPoint to the call points
+        used in the code of this entity. Returns the existing call point if the
+        short name is already present.
 
         Args:
             short_name: The short name for the new call point
@@ -545,20 +569,23 @@ class BswModuleEntity(ExecutableEntity, ABC):
             access = BswSynchronousServerCallPoint(self, short_name)
             self.addElement(access)
             self.callPoints.append(access)
-        return self.getElement(short_name)
+        return self.getElement(short_name, BswSynchronousServerCallPoint)
 
-    def getDataReceivePoints(self):
+    def getDataReceivePoints(self) -> List[BswVariableAccess]:
         """
-        Gets the list of variable access points for data reception.
+        Gets the variable accesses through which data is received via the BSW
+        Scheduler.
 
         Returns:
-            List of data receive points
+            List of BswVariableAccess instances
         """
         return self.dataReceivePoints
 
     def createDataReceivePoint(self, short_name: str) -> BswVariableAccess:
         """
-        Creates and adds a BswVariableAccess for data reception to this entity.
+        Creates and adds a BswVariableAccess through which data is received via
+        the BSW Scheduler. Returns the existing access if the short name is
+        already present.
 
         Args:
             short_name: The short name for the new data receive point
@@ -572,18 +599,21 @@ class BswModuleEntity(ExecutableEntity, ABC):
             self.dataReceivePoints.append(access)
         return self.getElement(short_name, BswVariableAccess)
 
-    def getDataSendPoints(self):
+    def getDataSendPoints(self) -> List[BswVariableAccess]:
         """
-        Gets the list of variable access points for data sending.
+        Gets the variable accesses through which data is sent via the BSW
+        Scheduler.
 
         Returns:
-            List of data send points
+            List of BswVariableAccess instances
         """
         return self.dataSendPoints
 
     def createDataSendPoint(self, short_name: str) -> BswVariableAccess:
         """
-        Creates and adds a BswVariableAccess for data sending to this entity.
+        Creates and adds a BswVariableAccess through which data is sent via the
+        BSW Scheduler. Returns the existing access if the short name is already
+        present.
 
         Args:
             short_name: The short name for the new data send point
@@ -597,22 +627,22 @@ class BswModuleEntity(ExecutableEntity, ABC):
             self.dataSendPoints.append(access)
         return self.getElement(short_name, BswVariableAccess)
 
-    def getImplementedEntryRef(self):
+    def getImplementedEntryRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the entry implemented by this entity.
+        Gets the entry which is implemented by this module entity.
 
         Returns:
-            Reference to the implemented entry
+            RefType: The implemented entry reference, or None if not set
         """
         return self.implementedEntryRef
 
-    def setImplementedEntryRef(self, value):
+    def setImplementedEntryRef(self, value: Optional[RefType]) -> "BswModuleEntity":
         """
-        Sets the reference to the entry implemented by this entity.
-        Only sets the value if it is not None.
+        Sets the entry which is implemented by this module entity. Only sets
+        the value if it is not None.
 
         Args:
-            value: The entry reference to set
+            value: The implemented entry reference to set
 
         Returns:
             self for method chaining
@@ -621,19 +651,21 @@ class BswModuleEntity(ExecutableEntity, ABC):
             self.implementedEntryRef = value
         return self
 
-    def getIssuedTriggerRefs(self):
+    def getIssuedTriggerRefs(self) -> List[RefType]:
         """
-        Gets the list of trigger references issued by this entity.
+        Gets the triggers issued by this entity via BSW Scheduler API call;
+        they shall be BswTriggers released (i.e. owned) by this module or
+        cluster.
 
         Returns:
-            List of issued trigger references
+            List of RefType instances
         """
         return self.issuedTriggerRefs
 
-    def addIssuedTriggerRef(self, value):
+    def addIssuedTriggerRef(self, value: RefType) -> "BswModuleEntity":
         """
-        Adds a trigger reference to the list of issued triggers.
-        Only adds the value if it is not None.
+        Adds a trigger issued by this entity via BSW Scheduler API call. Only
+        adds the value if it is not None.
 
         Args:
             value: The trigger reference to add
@@ -645,19 +677,20 @@ class BswModuleEntity(ExecutableEntity, ABC):
             self.issuedTriggerRefs.append(value)
         return self
 
-    def getManagedModeGroupRefs(self):
+    def getManagedModeGroupRefs(self) -> List[RefType]:
         """
-        Gets the list of mode group references managed by this entity.
+        Gets the mode groups which are managed by this entity; they shall be
+        ModeDeclarationGroupPrototypes provided by this module or cluster.
 
         Returns:
-            List of managed mode group references
+            List of RefType instances
         """
         return self.managedModeGroupRefs
 
-    def addManagedModeGroupRef(self, value):
+    def addManagedModeGroupRef(self, value: RefType) -> "BswModuleEntity":
         """
-        Adds a mode group reference to the list of managed mode groups.
-        Only adds the value if it is not None.
+        Adds a mode group managed by this entity. Only adds the value if it is
+        not None.
 
         Args:
             value: The mode group reference to add
@@ -669,22 +702,25 @@ class BswModuleEntity(ExecutableEntity, ABC):
             self.managedModeGroupRefs.append(value)
         return self
 
-    def getSchedulerNamePrefixRef(self):
+    def getSchedulerNamePrefixRef(self) -> Optional[RefType]:
         """
-        Gets the list of scheduler name prefix references.
+        Gets the prefix to be used in generated names for the BswModuleScheduler
+        in the context of this BswModuleEntity, for example entry point
+        prototypes, macros for dealing with exclusive areas, header file names.
 
         Returns:
-            List of scheduler name prefix references
+            RefType: The scheduler name prefix reference, or None if not set
         """
         return self.schedulerNamePrefixRef
 
-    def setSchedulerNamePrefixRef(self, value):
+    def setSchedulerNamePrefixRef(self, value: Optional[RefType]) -> "BswModuleEntity":
         """
-        Sets the list of scheduler name prefix references.
-        Only sets the value if it is not None.
+        Sets the prefix to be used in generated names for the BswModuleScheduler
+        in the context of this BswModuleEntity. Only sets the value if it is
+        not None.
 
         Args:
-            value: The scheduler name prefix references to set
+            value: The scheduler name prefix reference to set
 
         Returns:
             self for method chaining

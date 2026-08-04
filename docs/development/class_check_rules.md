@@ -58,7 +58,14 @@ Check:
       `[]`), `0..1` → optional single `T` (default `None`). A spec-`*` attribute
       held as a single value is a deviation and must be fixed
       (`modeTransition` was a single field; fixed to
-       `modeTransitions: List[ModeTransition]`).
+       `modeTransitions: List[ModeTransition]`). The reverse is equally a
+      deviation: a spec-`0..1` attribute held as a `List`
+      (`BswModuleEntity.schedulerNamePrefixRef` was `List[RefType] = None`
+      while the spec/XSD say a single `0..1` ref). Getter/setter docstrings
+      must match the chosen representation — "list of ..." wording on a single
+      ref (or vice versa) is a symptom of a multiplicity mismatch
+      (`getSchedulerNamePrefixRef` said "list of scheduler name prefix
+      references" for a single ref).
 - [ ] Ref/TRef suffix naming: when the spec table's Kind column is `ref` or
       `tref`, include the suffix in the Python field and method names. The spec
       table Attribute column determines the base name, Kind determines the suffix.
@@ -67,13 +74,27 @@ Check:
       reference semantics explicit in Python names and aligns with parser
       conventions.
 - [ ] Choose `createXXX` vs `setXXX` from the aggregated child's spec `Base`:
-      if the child type is an `Identifiable` (its spec `Base` lists
-      `Identifiable`, i.e. it has a short name), expose a
-      `createXXX(short_name)` factory. If the child is a plain non-Identifiable
-      object (e.g. `ModeErrorBehavior`, spec `Base` is only `ARObject`), expose
+      if the child type has a short name (its spec `Base` lists `Referrable`
+      or `Identifiable` — `Identifiable` extends `Referrable`, so the
+      meaningful test is `Referrable`), expose a `createXXX(short_name)`
+      factory. If the child is a plain non-Identifiable object with no short
+      name (e.g. `ModeErrorBehavior`, spec `Base` is only `ARObject`), expose
       a plain `setXXX` setter — do not invent a factory for a child that has no
-      short name (`ModeTransition` is `Identifiable` per Table 4.12, so
-      `createModeTransition(short_name)` is used).
+      short name. The earlier wording "if the child type is an `Identifiable`"
+      was too narrow: `BswModuleCallPoint` has spec `Base`
+      `ARObject, Referrable` (not `Identifiable`) but still carries a short
+      name, and `BswModuleEntity` correctly uses
+      `createBswAsynchronousServerCallPoint(short_name)` /
+      `createBswSynchronousServerCallPoint(short_name)` factories for it
+      (the parser's `readBswModuleEntityCallPoints` depends on them).
+      `ModeTransition` is `Identifiable` per Table 4.12, so
+      `createModeTransition(short_name)` is used.
+- [ ] Every implemented attribute must be covered by **both** the parser and
+      the writer. A spec attribute with a field and accessors but no parser or
+      writer handling is silently dropped on round-trip
+      (`BswModuleEntity.schedulerNamePrefixRef` had accessors but no
+      `SCHEDULER-NAME-PREFIX-REF` read/write; parser and writer support were
+      added).
 - [ ] Intentional deviations are recorded in `docs/method_deviation_by_class.md`
       with the reason (e.g. "PDF-only", "deprecated, not implemented").
 
@@ -88,10 +109,16 @@ any deviation against the parser/writer code before recording it.
 **Maturity**: accept
 
 A comment block at the top of the class lists every method with three columns:
-`impl`, `docstring`, `test`. Each column must be marked `[x]`.
+`impl`, `docstring`, `test`. Each column must be marked `[x]`. The first line
+after the checklist title must cite the AUTOSAR PDF spec table the class is
+aligned against: `# Spec: <PDF file>.pdf, Table <X.Y>, p.<page>` (page from
+the PDF itself, e.g. p.72 = Table 5.4 in the 381-page R23-11 PDF). This makes
+Rule 1 traceable — every later check refers back to the spec source named in
+the class comment.
 
 ```python
 # ClassName method parity checklist:
+# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.4, p.72
 # [x] __init__                     [x] impl  [x] docstring  [x] test
 # [x] getFoos                      [x] impl  [x] docstring  [x] test
 # [x] setFoos                      [x] impl  [x] docstring  [x] test
@@ -102,6 +129,10 @@ Check:
 - [ ] The checklist covers every method defined on the class, 1:1 (no missing,
       no extra).
 - [ ] Every row is fully `[x]` — no stale `[ ]` entries.
+- [ ] The `# Spec:` line names the correct PDF, table number, and page for the
+      class (cross-check against the actual PDF; e.g. `ExecutableEntity` is
+      `Table 5.3, p.70`, `BswModuleEntity` is `Table 5.4, p.72`,
+      `ReentrancyLevelEnum` is `Table 5.5, p.73`).
 
 Verification: extract the checklist names and the class method names and compare
 them set-wise (see the script in Rule 7). **Additionally**, a row marked `[x] test`
@@ -265,6 +296,15 @@ Every method on the class must have test coverage in the mirrored test file
 
 - [ ] `test_initialization` asserts all attributes have correct default values
       (`None` / `[]`).
+- [ ] Abstract classes cannot be instantiated directly, so test their
+      `__init__` defaults through a concrete subclass
+      (`ExecutableEntity`, `BswModuleEntity`). The reference pattern is
+      `test_concrete_subclass_initialization`: instantiate a known concrete
+      subclass (or a local subclass defined in the test) and assert every
+      default set by the abstract `__init__`. Include the literal `__init__`
+      in the test (docstring or a local subclass `def __init__`) so the
+      checklist's `[x] test` for `__init__` stays verifiable by the
+      set-based check.
 - [ ] Getter/setter pairs share a combined test (`test_get_set_*`) that checks:
       (1) setter returns `self` for method chaining, (2) value round-trips
       (getter returns the set value), (3) setting `None` is a no-op (existing
@@ -597,6 +637,8 @@ docstrings), correct the enum implementation and update all corresponding tests.
     (`src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py`)
   - `ExecutableEntity` — Table 5.3, p.70
     (`src/armodel/models/M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py`)
+  - `BswModuleEntity` — Table 5.4, p.72
+    (`src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`)
   - `ReentrancyLevelEnum` — Table 5.5, p.73
     (`src/armodel/models/M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py`)
 - Spec sources: `autosar/markdown/*.md` (PDF-derived class tables)
@@ -801,3 +843,81 @@ consistency:
 - Added blank lines between enum members per Rule 9.
 - Verified that the enum member access pattern (`EnumClass.MEMBER_NAME`)
   works correctly with `AREnum`.
+
+## Feedback from BswModuleEntity Review
+
+When reviewing and updating `BswModuleEntity` (Table 5.4,
+`src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`)
+per the above rules, the following observations emerged:
+
+### 1. Spec `0..1` ref Held as a List (Multiplicity Reversal)
+
+**ISSUE**: `schedulerNamePrefixRef` was typed `List[RefType] = None`. The spec
+Table 5.4 says `schedulerNamePrefix` is `0..1` Kind `ref`, and the XSD declares
+`SCHEDULER-NAME-PREFIX-REF` with `maxOccurs="1"`. A `List` defaulting to `None`
+is neither a valid list (default should be `[]`) nor a valid single ref
+(default should be `None`). The existing tests already treated it as a single
+`RefType`, so only the field annotation and the getter/setter docstrings
+("list of scheduler name prefix references") were wrong.
+
+**RESOLUTION**: Changed to `schedulerNamePrefixRef: Optional[RefType] = None`
+and aligned the getter/setter signatures and docstrings. Rule 1 now explicitly
+covers the reverse multiplicity deviation (spec `0..1` held as a list) and
+notes that getter/setter docstring wording ("list of ...") is a symptom of a
+multiplicity mismatch.
+
+### 2. Missing Parser/Writer Support = Silent Round-Trip Loss
+
+**ISSUE**: `schedulerNamePrefixRef` had a field and accessors, but neither the
+parser nor the writer handled `SCHEDULER-NAME-PREFIX-REF`. Any value set in
+the model would be silently dropped when writing to ARXML, and never restored
+when parsing.
+
+**RESOLUTION**: Added `entity.setSchedulerNamePrefixRef(
+self.getChildElementOptionalRefType(element, "SCHEDULER-NAME-PREFIX-REF"))`
+to `readBswModuleEntity` and `self.setChildElementOptionalRefType(
+element, "SCHEDULER-NAME-PREFIX-REF", entity.getSchedulerNamePrefixRef())`
+to `writeBswModuleEntity`. Rule 1 now requires both parser and writer coverage
+for every implemented attribute.
+
+### 3. `createXXX` Factories for Referrable (Non-Identifiable) Children
+
+**ISSUE**: Rule 1's `createXXX` vs `setXXX` guidance only mentioned
+`Identifiable` children. `BswModuleCallPoint` has spec `Base`
+`ARObject, Referrable` — it is **not** `Identifiable` — yet it carries a
+short name and `BswModuleEntity` correctly exposes
+`createBswAsynchronousServerCallPoint(short_name)` and
+`createBswSynchronousServerCallPoint(short_name)` factories (the parser's
+`readBswModuleEntityCallPoints` relies on them).
+
+**RESOLUTION**: Generalized the rule: any aggregated child whose spec `Base`
+lists `Referrable` or `Identifiable` (i.e. the child has a short name) may use
+a `createXXX(short_name)` factory; only plain `ARObject` children without a
+short name (e.g. `ModeErrorBehavior`) use plain `setXXX`.
+
+### 4. Testing an Abstract Class's `__init__`
+
+**ISSUE**: `BswModuleEntity` is abstract and cannot be instantiated, so
+`__init__` had no direct test and the checklist row stayed `[ ] test`.
+
+**RESOLUTION**: Added `test_concrete_subclass_initialization` that instantiates
+`BswCalledEntity` (a concrete subclass) and asserts every default set by
+`BswModuleEntity.__init__` (all lists `[]`, all single refs `None`). The
+docstring mentions `__init__` so the set-based checklist check can verify the
+`[x] test` marker. Rule 7 now documents this abstract-class testing pattern
+(`ExecutableEntity` already followed it).
+
+### 5. Spec Reference Line in the Class Comment
+
+**ISSUE**: The checklist comment block did not name the PDF spec table the
+class is aligned against, so the alignment was not traceable from the source
+file alone.
+
+**RESOLUTION**: Added `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf,
+Table 5.4, p.72` as the first line of the checklist block, following the
+pattern already used by `ExecutableEntity` (`Table 5.3, p.70`) and
+`ReentrancyLevelEnum` (`Table 5.5, p.73`). The page number was verified by
+extracting the actual PDF text (`pypdf`): Table 5.3 is on p.70, the
+`BswModuleEntity` class header on p.71, and the full Table 5.4 attribute table
+on p.72. Rule 2 now requires the `# Spec:` line and names these three
+reference classes as examples.

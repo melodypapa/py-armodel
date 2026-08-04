@@ -916,6 +916,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readBswModuleEntityDataReceiverPoints(element, entity)
         self.readBswModuleEntityDataSendPoints(element, entity)
         entity.setImplementedEntryRef(self.getChildElementRefType(entity.getShortName(), element, "IMPLEMENTED-ENTRY-REF"))
+        entity.setSchedulerNamePrefixRef(self.getChildElementOptionalRefType(element, "SCHEDULER-NAME-PREFIX-REF"))
         self.readBswModuleEntityManagedModeGroups(element, entity)
         self.readBswModuleEntityIssuedTriggerRefs(element, entity)
 

@@ -2274,6 +2274,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeBswModuleEntityDataSendPoints(element, entity)
         self.writeBswModuleEntityDataReceivePoints(element, entity)
         self.setChildElementOptionalRefType(element, "IMPLEMENTED-ENTRY-REF", entity.implementedEntryRef)
+        self.setChildElementOptionalRefType(element, "SCHEDULER-NAME-PREFIX-REF", entity.getSchedulerNamePrefixRef())
         self.writeBswModuleEntityManagedModeGroups(element, entity)
         self.writeBswModuleEntityIssuedTriggerRefs(element, entity)
 

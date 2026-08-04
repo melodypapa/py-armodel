@@ -256,6 +256,22 @@ class TestBswModuleEntity:
             BswModuleEntity(ar_root, "BswModuleEntity")
         assert str(err.value) == "BswModuleEntity is an abstract class."
 
+    def test_concrete_subclass_initialization(self):
+        """Test that BswModuleEntity.__init__ defaults are applied to concrete subclasses."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        entity = BswCalledEntity(ar_root, "test_entity")
+
+        assert entity.getAccessedModeGroupRefs() == []
+        assert entity.getActivationPointRefs() == []
+        assert entity.getCallPoints() == []
+        assert entity.getDataReceivePoints() == []
+        assert entity.getDataSendPoints() == []
+        assert entity.getImplementedEntryRef() is None
+        assert entity.getIssuedTriggerRefs() == []
+        assert entity.getManagedModeGroupRefs() == []
+        assert entity.getSchedulerNamePrefixRef() is None
+
     def test_get_set_accessed_mode_group_refs(self):
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
@@ -431,6 +447,11 @@ class TestBswModuleEntity:
 
         assert result == entity
         assert entity.getSchedulerNamePrefixRef() == ref
+
+        # Setting None should not change the value (based on implementation)
+        result = entity.setSchedulerNamePrefixRef(None)
+        assert result == entity
+        assert entity.getSchedulerNamePrefixRef() == ref  # Value should remain unchanged
 
 
 class TestBswCalledEntity:
