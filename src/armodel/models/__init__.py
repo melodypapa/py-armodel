@@ -153,7 +153,7 @@ from armodel.models.utils import *  # noqa: F403
 from armodel.models.utils.uuid_mgr import *  # noqa: F403
 
 # NOTE: Some classes in subdirectories with name collisions cannot be directly imported:
-# - BswBehavior/*.py files (9 classes)
+# - BswBehavior/*.py files (8 classes)
 # - BswInterfaces/*.py files (3 classes)
 # - BswOverview/InstanceRefs/*.py files (1 class)
 # These are accessible via their full import paths, e.g.:

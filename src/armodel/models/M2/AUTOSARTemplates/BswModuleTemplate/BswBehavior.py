@@ -13,7 +13,7 @@ from abc import ABC
 from typing import List, Optional
 
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import AbstractEvent, ExecutableEntity, InternalBehavior
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import AbstractEvent, ApiPrincipleEnum, ExecutableEntity, InternalBehavior
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, AREnum, ARFloat, ARNumerical, Boolean
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, String, TimeValue
@@ -1472,6 +1472,83 @@ class BswApiOptions(ARObject, ABC):
         """
         if value is not None:
             self.enableTakeAddress = value
+        return self
+
+
+class BswExclusiveAreaPolicy(BswApiOptions):
+    """
+    The ExclusiveArea for which the BSW Scheduler uses this policy.
+    """
+
+    # BswExclusiveAreaPolicy method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.17, p.83
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getApiPrinciple              [x] impl  [x] docstring  [x] test
+    # [x] setApiPrinciple              [x] impl  [x] docstring  [x] test
+    # [x] getExclusiveAreaRef          [x] impl  [x] docstring  [x] test
+    # [x] setExclusiveAreaRef          [x] impl  [x] docstring  [x] test
+
+    def __init__(self):
+        """
+        Initializes the BswExclusiveAreaPolicy with default values.
+        """
+        super().__init__()
+
+        # Specifies for this ExclusiveArea if either one common set of Enter
+        # and Exit APIs for the whole BSW module is requested from the SchM or
+        # if the set of Enter and Exit APIs is expected per BswModuleEntity.
+        # The default value is "common".
+        self.apiPrinciple: Optional[ApiPrincipleEnum] = None
+
+        # The ExclusiveArea for which the BSW Scheduler uses this policy.
+        self.exclusiveAreaRef: Optional[RefType] = None
+
+    def getApiPrinciple(self) -> Optional[ApiPrincipleEnum]:
+        """
+        Gets the API principle for this ExclusiveArea.
+
+        Returns:
+            The API principle (common or per-executable) for this policy
+        """
+        return self.apiPrinciple
+
+    def setApiPrinciple(self, value: Optional[ApiPrincipleEnum]) -> "BswExclusiveAreaPolicy":
+        """
+        Sets the API principle for this ExclusiveArea.
+        Only sets the value if it is not None.
+
+        Args:
+            value: The API principle to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.apiPrinciple = value
+        return self
+
+    def getExclusiveAreaRef(self) -> Optional[RefType]:
+        """
+        Gets the ExclusiveArea for which the BSW Scheduler uses this policy.
+
+        Returns:
+            The referenced ExclusiveArea
+        """
+        return self.exclusiveAreaRef
+
+    def setExclusiveAreaRef(self, value: Optional[RefType]) -> "BswExclusiveAreaPolicy":
+        """
+        Sets the ExclusiveArea for which the BSW Scheduler uses this policy.
+        Only sets the value if it is not None.
+
+        Args:
+            value: The ExclusiveArea reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.exclusiveAreaRef = value
         return self
 
 

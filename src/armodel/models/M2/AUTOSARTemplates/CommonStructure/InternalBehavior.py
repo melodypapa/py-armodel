@@ -520,20 +520,29 @@ class AbstractEvent(Identifiable, ABC):
 
 class ApiPrincipleEnum(AREnum):
     """
-    Enumeration for API principle.
+    Represents the ability to control the granularity of API generation.
     """
 
     # ApiPrincipleEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.18, p.83
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
 
-    CALLEE = "callee"
-    CALLER = "caller"
+    # The Rte or SchM API is provided for the whole software component / BSW
+    # Module. Tags: atp.EnumerationLiteralIndex=0
+    COMMON = "common"
+
+    # The Rte or SchM API is provided for a specific ExecutableEntity of a
+    # software component / BSW Module. Tags: atp.EnumerationLiteralIndex=1
+    PER_EXECUTABLE = "perExecutable"
 
     def __init__(self):
+        """
+        Initializes the ApiPrincipleEnum with valid values.
+        """
         super().__init__(
             (
-                ApiPrincipleEnum.CALLEE,
-                ApiPrincipleEnum.CALLER,
+                ApiPrincipleEnum.COMMON,
+                ApiPrincipleEnum.PER_EXECUTABLE,
             )
         )
 

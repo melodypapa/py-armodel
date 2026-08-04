@@ -1,7 +1,7 @@
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ReentrancyLevelEnum, ExclusiveArea, ExecutableEntity, InternalBehavior, AbstractEvent
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ReentrancyLevelEnum, ApiPrincipleEnum, ExclusiveArea, ExecutableEntity, InternalBehavior, AbstractEvent
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue, RefType
 
 
@@ -26,6 +26,26 @@ class TestReentrancyLevelEnum:
         """Test using ReentrancyLevelEnum values"""
         reentrant_level = ReentrancyLevelEnum.MULTICORE_REENTRANT
         assert reentrant_level == "multicoreReentrant"
+
+
+class TestApiPrincipleEnum:
+    def test_initialization(self):
+        """Test ApiPrincipleEnum initialization"""
+        api_principle = ApiPrincipleEnum()
+        assert api_principle.COMMON == "common"
+        assert api_principle.PER_EXECUTABLE == "perExecutable"
+        assert "common" in api_principle.getEnumValues()
+        assert "perExecutable" in api_principle.getEnumValues()
+
+    def test_enum_values(self):
+        """Test ApiPrincipleEnum values"""
+        assert ApiPrincipleEnum.COMMON == "common"
+        assert ApiPrincipleEnum.PER_EXECUTABLE == "perExecutable"
+
+    def test_enum_usage(self):
+        """Test using ApiPrincipleEnum values"""
+        api_principle = ApiPrincipleEnum.COMMON
+        assert api_principle == "common"
 
 
 class TestExclusiveArea:

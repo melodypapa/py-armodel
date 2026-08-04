@@ -28,6 +28,14 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
 Check:
 - [ ] Every attribute in the class exists in the class's spec table (find the
       table by searching the AUTOSAR PDF markdown for the class name).
+- [ ] The class is the right kind of element: when the spec table header is
+      `Class` and its `Attribute` column has rows, the Python class must be a
+      model class with fields/accessors — **not** an enum. Enums correspond to
+      spec tables headed `Enumeration` with `Literal` rows only.
+      (`BswExclusiveAreaPolicy` was modeled as `AREnum` with
+      `NONE/INTERNAL/EXTERNAL` members that appear nowhere in Table 5.17; the
+      spec defines it as a class with `apiPrinciple` and `exclusiveArea`
+      attributes.)
 - [ ] The PDF spec is the source of truth for multiplicity. When the XSD
       disagrees with the PDF, follow the PDF (example: `bswModuleDocumentation`
       is `0..1` in the PDF but `many` in the XSD — the PDF wins).
@@ -378,6 +386,14 @@ Check:
 - [ ] Do **not** create sibling files like `ModeDeclarationExtra.py` to house
       classes that belong in `ModeDeclaration.py` — consolidate all classes
       for a spec package in one place.
+- [ ] The module path must not be shadowed by a same-named sibling directory:
+      when the spec `Package` maps to `X.py` but a directory `X/` also exists
+      (without `__init__.py`), the module file wins in the import system and
+      classes placed only in `X/*.py` are unreachable dead code. Define the
+      classes in `X.py`, or make `X/` a real package with an `__init__.py`.
+      (`BswExclusiveAreaPolicy` lived in `BswBehavior/BswExclusiveAreaPolicy.py`,
+      shadowed by the `BswBehavior.py` module — importing it raised
+      `ModuleNotFoundError`; it was migrated into `BswBehavior.py`.)
 - [ ] Classes are **not** placed under a spec package different from their own.
 
 Verification: read the `Package` row from the class's spec table and compare it
@@ -640,6 +656,10 @@ docstrings), correct the enum implementation and update all corresponding tests.
   - `BswModuleEntity` — Table 5.4, p.72
     (`src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`)
   - `ReentrancyLevelEnum` — Table 5.5, p.73
+    (`src/armodel/models/M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py`)
+  - `BswExclusiveAreaPolicy` — Table 5.17, p.83
+    (`src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`)
+  - `ApiPrincipleEnum` — Table 5.18, p.83
     (`src/armodel/models/M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py`)
 - Spec sources: `autosar/markdown/*.md` (PDF-derived class tables)
 - XSD ground truth: `autosar-pdf/examples/xsd/AUTOSAR_00052.xsd`
@@ -921,3 +941,77 @@ extracting the actual PDF text (`pypdf`): Table 5.3 is on p.70, the
 `BswModuleEntity` class header on p.71, and the full Table 5.4 attribute table
 on p.72. Rule 2 now requires the `# Spec:` line and names these three
 reference classes as examples.
+
+## Feedback from BswExclusiveAreaPolicy Review
+
+When reviewing and updating `BswExclusiveAreaPolicy` (Table 5.17) and the
+related `ApiPrincipleEnum` (Table 5.18) per the above rules, the following
+observations emerged:
+
+### 1. A Spec Class Must Not Be Modeled as an Enum
+
+**ISSUE**: `BswExclusiveAreaPolicy` was implemented as `AREnum` with members
+`NONE = "none"`, `INTERNAL = "internal"`, `EXTERNAL = "external"`. Table 5.17
+defines it as a **class** (Base: `ARObject, BswApiOptions`) with attribute rows
+`apiPrinciple` (ApiPrincipleEnum, `0..1`, attr) and `exclusiveArea`
+(ExclusiveArea, `0..1`, ref). The three enum members appear nowhere in the
+spec — they were placeholder values.
+
+**RESOLUTION**: Rewrote `BswExclusiveAreaPolicy` as a concrete subclass of
+`BswApiOptions` with `apiPrinciple: Optional[ApiPrincipleEnum]` and
+`exclusiveAreaRef: Optional[RefType]` fields plus accessor pairs. Rule 1 now
+states the general test: a spec table headed `Class` with populated
+`Attribute` rows means a model class with fields/accessors; only tables headed
+`Enumeration` with `Literal` rows become enums.
+
+### 2. Same-Named Module File vs Directory = Dead Code
+
+**ISSUE**: The class lived in `BswBehavior/BswExclusiveAreaPolicy.py`, a
+directory without `__init__.py`. Because the sibling `BswBehavior.py` module
+exists, Python resolves `BswBehavior` to the module file and the directory
+classes are unreachable — importing the "full path" raised
+`ModuleNotFoundError: 'BswBehavior' is not a package`. The 9 classes in
+`BswBehavior/` were effectively dead code.
+
+**RESOLUTION**: Per Rule 8 (exactly one module per spec package), the class was
+migrated into `BswBehavior.py`, the duplicate file deleted, and the class
+removed from the name-collision list in `test_model_imports.py` (it is now
+importable from `armodel` directly). Rule 8 now calls out module-vs-directory
+shadowing explicitly: when the spec `Package` maps to `X.py` but a `X/`
+directory also exists without `__init__.py`, classes in the directory are
+unreachable and must live in the module file.
+
+### 3. Spec Default Value vs Model `None` Default
+
+**ISSUE**: The Table 5.17 note for `apiPrinciple` states "The default value is
+'common'", and the XSD declares `minOccurs="0"` for `API-PRINCIPLE`. The model
+convention (Rule 1) maps `0..1` attributes to `Optional[T] = None`, so the
+field is initialized to `None` and the spec default is preserved in the
+attribute comment rather than enforced in `__init__`.
+
+**OBSERVATION**: If an attribute's spec default must be observable in the
+model (e.g. the writer should emit it when unset), initialize the field to the
+spec default (e.g. `ApiPrincipleEnum.COMMON`) and record the choice — do not
+silently drop the spec note.
+
+### 4. Related Enum Had Placeholder Members
+
+**ISSUE**: `ApiPrincipleEnum` (Table 5.18) contained `CALLEE = "callee"` and
+`CALLER = "caller"` — not in the spec. The spec literals are `common`
+(`atp.EnumerationLiteralIndex=0`) and `perExecutable`
+(`atp.EnumerationLiteralIndex=1`).
+
+**RESOLUTION**: Corrected to `COMMON = "common"` / `PER_EXECUTABLE =
+"perExecutable"` with spec-based inline comments and Tags, added the `# Spec:`
+line, and added tests. This is the second time a placeholder enum was found
+(see `BswEntryRelationshipEnum`), confirming Rule 12's guidance: never trust a
+previous implementation — always verify the enum members against the PDF table.
+
+### 5. Aggregation Not Yet Implemented
+
+**OBSERVATION**: Table 5.17 says `BswExclusiveAreaPolicy` is aggregated by
+`BswInternalBehavior.exclusiveAreaPolicy`, and the XSD references
+`EXCLUSIVE-AREA-POLICY` elements there. Neither the aggregation nor the
+parser/writer support exists yet, so there is no round-trip surface for the
+class. Parser/writer coverage (Rule 1) will be added together with the
+aggregation in a follow-up task.

@@ -32,12 +32,14 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswOsTaskExecutionEvent,
     BswExternalTriggerOccurredEvent,
     BswApiOptions,
+    BswExclusiveAreaPolicy,
     BswDataReceptionPolicy,
     BswQueuedDataReceptionPolicy,
     BswInternalTriggeringPoint,
     BswInternalBehavior,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARFloat, ARNumerical, PositiveInteger, TimeValue
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ApiPrincipleEnum
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
 from armodel import AUTOSAR
 
@@ -836,6 +838,41 @@ class TestBswApiOptions:
         assert result == policy
         # Since the setter only updates if value is not None, it should still be True
         assert policy.getEnableTakeAddress() is True
+
+
+class TestBswExclusiveAreaPolicy:
+    """Test cases for BswExclusiveAreaPolicy class - BSW exclusive area policy."""
+
+    def test_initialization(self):
+        policy = BswExclusiveAreaPolicy()
+        assert policy.getEnableTakeAddress() is None
+        assert policy.getApiPrinciple() is None
+        assert policy.getExclusiveAreaRef() is None
+
+    def test_get_set_api_principle(self):
+        policy = BswExclusiveAreaPolicy()
+
+        result = policy.setApiPrinciple(ApiPrincipleEnum.COMMON)
+        assert result == policy
+        assert policy.getApiPrinciple() == ApiPrincipleEnum.COMMON
+
+        # Setting None is a no-op: the existing value is preserved
+        result = policy.setApiPrinciple(None)
+        assert result == policy
+        assert policy.getApiPrinciple() == ApiPrincipleEnum.COMMON
+
+    def test_get_set_exclusive_area_ref(self):
+        policy = BswExclusiveAreaPolicy()
+        ref = RefType()
+
+        result = policy.setExclusiveAreaRef(ref)
+        assert result == policy
+        assert policy.getExclusiveAreaRef() == ref
+
+        # Setting None is a no-op: the existing value is preserved
+        result = policy.setExclusiveAreaRef(None)
+        assert result == policy
+        assert policy.getExclusiveAreaRef() == ref
 
 
 class TestBswDataReceptionPolicy:
