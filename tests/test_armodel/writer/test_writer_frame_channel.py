@@ -1,46 +1,77 @@
 """Tests for writer frame triggering and physical channel handlers."""
+
 import xml.etree.cElementTree as ET
 from unittest.mock import MagicMock
 import pytest
 from armodel.writer.arxml_writer import ARXMLWriter
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (  # noqa: E501
-    CanFrameTriggering, RxIdentifierRange,
+    CanFrameTriggering,
+    RxIdentifierRange,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import (  # noqa: E501
-    ApplicationEntry, LinFrameTriggering, LinScheduleTable,
+    ApplicationEntry,
+    LinFrameTriggering,
+    LinScheduleTable,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import (  # noqa: E501
-    FlexrayAbsolutelyScheduledTiming, FlexrayFrameTriggering,
+    FlexrayAbsolutelyScheduledTiming,
+    FlexrayFrameTriggering,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import (  # noqa: E501
     FlexrayCluster,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (  # noqa: E501
-    ISignalTriggering, PduTriggering,
+    ISignalTriggering,
+    PduTriggering,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (  # noqa: E501
-    CanCluster, CanClusterBusOffRecovery, CanPhysicalChannel,
-    CycleRepetition, EthernetPhysicalChannel, FlexrayPhysicalChannel,
-    LinCluster, LinPhysicalChannel,
+    CanCluster,
+    CanClusterBusOffRecovery,
+    CanPhysicalChannel,
+    CycleRepetition,
+    EthernetPhysicalChannel,
+    FlexrayPhysicalChannel,
+    LinCluster,
+    LinPhysicalChannel,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import (  # noqa: E501
-    SocketConnection, SocketConnectionBundle,
+    SocketConnection,
+    SocketConnectionBundle,
     SocketConnectionIpduIdentifier,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (  # noqa: E501
-    InitialSdDelayConfig, RequestResponseDelay, SdClientConfig,
+    InitialSdDelayConfig,
+    RequestResponseDelay,
+    SdClientConfig,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import (  # noqa: E501
-    DoIpEntity, InfrastructureServices, Ipv6Configuration, NetworkEndpoint,
+    DoIpEntity,
+    InfrastructureServices,
+    Ipv6Configuration,
+    NetworkEndpoint,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (  # noqa: E501
-    ApplicationEndpoint, ConsumedEventGroup, ConsumedServiceInstance,
-    EventHandler, GenericTp, ProvidedServiceInstance, SdServerConfig,
-    SoAdConfig, SocketAddress, TcpTp, TpPort, UdpTp,
+    ApplicationEndpoint,
+    ConsumedEventGroup,
+    ConsumedServiceInstance,
+    EventHandler,
+    GenericTp,
+    ProvidedServiceInstance,
+    SdServerConfig,
+    SoAdConfig,
+    SocketAddress,
+    TcpTp,
+    TpPort,
+    UdpTp,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
-    ARBoolean, ARLiteral, Integer, PositiveInteger, RefType, TimeValue,
+    ARBoolean,
+    ARLiteral,
+    Integer,
+    PositiveInteger,
+    RefType,
+    TimeValue,
 )
 
 
@@ -129,9 +160,7 @@ class TestWriteFrameTriggering:
         assert parent.find("FRAME-REF") is not None
         trigs = parent.find("PDU-TRIGGERINGS")
         assert trigs is not None
-        assert (
-            len(trigs.findall("PDU-TRIGGERING-REF-CONDITIONAL")) == 1
-        )
+        assert len(trigs.findall("PDU-TRIGGERING-REF-CONDITIONAL")) == 1
 
 
 class TestWriteCanFrameTriggering:
@@ -204,9 +233,7 @@ class TestWriteFlexrayAbsolutelyScheduledTiming:
     def test_write_comm_cycle_no_cycle(self, writer):
         timing = FlexrayAbsolutelyScheduledTiming()
         parent = _parent()
-        writer.writeFlexrayAbsolutelyScheduledTimingCommunicationCycle(
-            parent, timing
-        )
+        writer.writeFlexrayAbsolutelyScheduledTimingCommunicationCycle(parent, timing)
         assert len(parent) == 0
 
     def test_write_comm_cycle_with_repetition(self, writer):
@@ -215,9 +242,7 @@ class TestWriteFlexrayAbsolutelyScheduledTiming:
         cycle.setBaseCycle(_integer("1"))
         timing.setCommunicationCycle(cycle)
         parent = _parent()
-        writer.writeFlexrayAbsolutelyScheduledTimingCommunicationCycle(
-            parent, timing
-        )
+        writer.writeFlexrayAbsolutelyScheduledTimingCommunicationCycle(parent, timing)
         cc = parent.find("COMMUNICATION-CYCLE")
         assert cc is not None
         assert cc.find("CYCLE-REPETITION") is not None
@@ -227,9 +252,7 @@ class TestWriteFlexrayAbsolutelyScheduledTiming:
         timing = FlexrayAbsolutelyScheduledTiming()
         timing.setCommunicationCycle("not_a_cycle")
         parent = _parent()
-        w.writeFlexrayAbsolutelyScheduledTimingCommunicationCycle(
-            parent, timing
-        )
+        w.writeFlexrayAbsolutelyScheduledTimingCommunicationCycle(parent, timing)
         assert len(parent) == 1
 
     def test_write_flexray_abs_scheduled_timing_none(self, writer):
@@ -264,9 +287,7 @@ class TestWriteFlexrayFrameTriggering:
         pkg = _pkg()
         ft = FlexrayFrameTriggering(pkg, "FlFt")
         parent = _parent()
-        writer.writeFlexrayFrameTriggeringAbsolutelyScheduledTimings(
-            parent, ft
-        )
+        writer.writeFlexrayFrameTriggeringAbsolutelyScheduledTimings(parent, ft)
         assert len(parent) == 0
 
     def test_write_flexray_ft_abs_timings_warns(self):
@@ -275,9 +296,7 @@ class TestWriteFlexrayFrameTriggering:
         ft = FlexrayFrameTriggering(pkg, "FlFt")
         ft.addAbsolutelyScheduledTiming("not_a_timing")
         parent = _parent()
-        w.writeFlexrayFrameTriggeringAbsolutelyScheduledTimings(
-            parent, ft
-        )
+        w.writeFlexrayFrameTriggeringAbsolutelyScheduledTimings(parent, ft)
         assert len(parent) == 1
 
     def test_write_flexray_ft_full(self, writer):
@@ -297,9 +316,7 @@ class TestWriteFlexrayFrameTriggering:
         assert timings is not None
         assert fft.find("ALLOW-DYNAMIC-L-SDU-LENGTH").text == "true"
         assert fft.find("MESSAGE-ID").text == "42"
-        assert (
-            fft.find("PAYLOAD-PREAMBLE-INDICATOR").text == "false"
-        )
+        assert fft.find("PAYLOAD-PREAMBLE-INDICATOR").text == "false"
 
 
 class TestWriteISignalTriggering:
@@ -353,10 +370,7 @@ class TestWritePduTriggering:
         assert ptt.find("I-PDU-REF") is not None
         trigs = ptt.find("I-SIGNAL-TRIGGERINGS")
         assert trigs is not None
-        assert (
-            len(trigs.findall("I-SIGNAL-TRIGGERING-REF-CONDITIONAL"))
-            == 1
-        )
+        assert len(trigs.findall("I-SIGNAL-TRIGGERING-REF-CONDITIONAL")) == 1
 
 
 class TestWritePhysicalChannelHelpers:
@@ -375,10 +389,7 @@ class TestWritePhysicalChannelHelpers:
         writer.writePhysicalChannelCommConnectorRefs(parent, ch)
         conns = parent.find("COMM-CONNECTORS")
         assert conns is not None
-        assert (
-            len(conns.findall("COMMUNICATION-CONNECTOR-REF-CONDITIONAL"))
-            == 1
-        )
+        assert len(conns.findall("COMMUNICATION-CONNECTOR-REF-CONDITIONAL")) == 1
 
     def test_write_pc_frame_triggerings_warns(self):
         w = _warning_writer()
@@ -406,16 +417,12 @@ class TestWritePhysicalChannelHelpers:
         writer.writePhysicalChannelFrameTriggerings(parent, ch)
         trig = parent.find("FRAME-TRIGGERINGS")
         assert trig is not None
-        assert (
-            trig.find("FLEXRAY-FRAME-TRIGGERING") is not None
-        )
+        assert trig.find("FLEXRAY-FRAME-TRIGGERING") is not None
 
     def test_write_pc_isignal_triggerings_warns_branch(self):
         w = _warning_writer()
         ch = MagicMock()
-        ch.getISignalTriggerings.return_value = [
-            "not_isignal_triggering"
-        ]
+        ch.getISignalTriggerings.return_value = ["not_isignal_triggering"]
         parent = _parent()
         w.writePhysicalChannelISignalTriggerings(parent, ch)
         assert parent.find("I-SIGNAL-TRIGGERINGS") is not None
@@ -603,9 +610,7 @@ class TestWriteNetworkEndPoint:
         cfg = Ipv6Configuration()
         cfg.setIpv6Address(_literal("::2"))
         parent = _parent()
-        writer.writeNetworkEndPointNetworkEndPointAddresses(
-            parent, [cfg]
-        )
+        writer.writeNetworkEndPointNetworkEndPointAddresses(parent, [cfg])
         addrs = parent.find("NETWORK-ENDPOINT-ADDRESSES")
         assert addrs is not None
         assert addrs.find("IPV-6-CONFIGURATION") is not None
@@ -613,9 +618,7 @@ class TestWriteNetworkEndPoint:
     def test_write_network_end_point_addresses_warns(self):
         w = _warning_writer()
         parent = _parent()
-        w.writeNetworkEndPointNetworkEndPointAddresses(
-            parent, ["not_an_address"]
-        )
+        w.writeNetworkEndPointNetworkEndPointAddresses(parent, ["not_an_address"])
         assert len(parent) == 1
 
     def test_set_do_ip_entity_none(self, writer):
@@ -634,9 +637,7 @@ class TestWriteNetworkEndPoint:
 
     def test_set_infrastructure_services_none(self, writer):
         parent = _parent()
-        writer.setInfrastructureServices(
-            parent, "INFRASTRUCTURE-SERVICES", None
-        )
+        writer.setInfrastructureServices(parent, "INFRASTRUCTURE-SERVICES", None)
         assert len(parent) == 0
 
     def test_set_infrastructure_services_full(self, writer):
@@ -645,9 +646,7 @@ class TestWriteNetworkEndPoint:
         entity.setDoIpEntityRole(_literal("NODE"))
         svc.setDoIpEntity(entity)
         parent = _parent()
-        writer.setInfrastructureServices(
-            parent, "INFRASTRUCTURE-SERVICES", svc
-        )
+        writer.setInfrastructureServices(parent, "INFRASTRUCTURE-SERVICES", svc)
         tag = parent.find("INFRASTRUCTURE-SERVICES")
         assert tag is not None
         assert tag.find("DO-IP-ENTITY") is not None
@@ -747,26 +746,14 @@ class TestWriteSocketConnection:
         writer.setSocketConnection(parent, conn)
         sc = parent.find("SOCKET-CONNECTION")
         assert sc is not None
-        assert (
-            sc.find(
-                "CLIENT-IP-ADDR-FROM-CONNECTION-REQUEST"
-            ).text == "true"
-        )
-        assert (
-            sc.find("CLIENT-PORT-FROM-CONNECTION-REQUEST").text
-            == "false"
-        )
+        assert sc.find("CLIENT-IP-ADDR-FROM-CONNECTION-REQUEST").text == "true"
+        assert sc.find("CLIENT-PORT-FROM-CONNECTION-REQUEST").text == "false"
         assert sc.find("CLIENT-PORT-REF") is not None
         assert sc.find("PDUS") is not None
         assert sc.find("PDU-COLLECTION-MAX-BUFFER-SIZE").text == "1024"
         assert sc.find("PDU-COLLECTION-TIMEOUT").text == "0.5"
-        assert (
-            sc.find("RUNTIME-IP-ADDRESS-CONFIGURATION").text
-            == "DYNAMIC"
-        )
-        assert (
-            sc.find("RUNTIME-PORT-CONFIGURATION").text == "DYNAMIC"
-        )
+        assert sc.find("RUNTIME-IP-ADDRESS-CONFIGURATION").text == "DYNAMIC"
+        assert sc.find("RUNTIME-PORT-CONFIGURATION").text == "DYNAMIC"
         assert sc.find("SHORT-LABEL").text == "lbl"
 
 
@@ -906,9 +893,7 @@ class TestWriteTransportProtocols:
 
     def test_write_tp_configuration_none(self, writer):
         parent = _parent()
-        result = writer.writeTransportProtocolConfiguration(
-            parent, None
-        )
+        result = writer.writeTransportProtocolConfiguration(parent, None)
         assert result is None
         assert len(parent) == 0
 
@@ -971,9 +956,7 @@ class TestWriteConsumedEventGroup:
         rrd.setMaxValue(_time("1.0"))
         rrd.setMinValue(_time("0.1"))
         parent = _parent()
-        writer.setRequestResponseDelay(
-            parent, "REQUEST-RESPONSE-DELAY", rrd
-        )
+        writer.setRequestResponseDelay(parent, "REQUEST-RESPONSE-DELAY", rrd)
         tag = parent.find("REQUEST-RESPONSE-DELAY")
         assert tag is not None
         assert tag.find("MAX-VALUE").text == "1.0"
@@ -991,16 +974,12 @@ class TestWriteConsumedEventGroup:
         cfg.setInitialRepetitionsBaseDelay(_time("0.2"))
         cfg.setInitialRepetitionsMax(_pos_int("3"))
         parent = _parent()
-        writer.setInitialSdDelayConfig(
-            parent, "INITIAL-FIND-BEHAVIOR", cfg
-        )
+        writer.setInitialSdDelayConfig(parent, "INITIAL-FIND-BEHAVIOR", cfg)
         tag = parent.find("INITIAL-FIND-BEHAVIOR")
         assert tag is not None
         assert tag.find("INITIAL-DELAY-MAX-VALUE").text == "1.5"
         assert tag.find("INITIAL-DELAY-MIN-VALUE").text == "0.5"
-        assert (
-            tag.find("INITIAL-REPETITIONS-BASE-DELAY").text == "0.2"
-        )
+        assert tag.find("INITIAL-REPETITIONS-BASE-DELAY").text == "0.2"
         assert tag.find("INITIAL-REPETITIONS-MAX").text == "3"
 
     def test_set_sd_client_config_none(self, writer):
@@ -1037,9 +1016,7 @@ class TestWriteConsumedEventGroup:
     def test_write_consumed_event_group_full(self, writer):
         pkg = _pkg()
         group = ConsumedEventGroup(pkg, "Group")
-        group.setApplicationEndpointRef(
-            _ref("APPLICATION-ENDPOINT", "/ae")
-        )
+        group.setApplicationEndpointRef(_ref("APPLICATION-ENDPOINT", "/ae"))
         group.setEventGroupIdentifier(_pos_int("7"))
         group.addRoutingGroupRef(_ref("ROUTING-GROUP", "/rg"))
         cfg = SdClientConfig()
@@ -1060,9 +1037,7 @@ class TestWriteConsumedServiceInstance:
         pkg = _pkg()
         inst = ConsumedServiceInstance(pkg, "Csi")
         parent = _parent()
-        writer.writeConsumedServiceInstanceConsumedEventGroups(
-            parent, inst
-        )
+        writer.writeConsumedServiceInstanceConsumedEventGroups(parent, inst)
         assert len(parent) == 0
 
     def test_write_csi_consumed_event_groups_warns(self):
@@ -1079,9 +1054,7 @@ class TestWriteConsumedServiceInstance:
         inst = ConsumedServiceInstance(pkg, "Csi")
         inst.createConsumedEventGroup("Group")
         parent = _parent()
-        writer.writeConsumedServiceInstanceConsumedEventGroups(
-            parent, inst
-        )
+        writer.writeConsumedServiceInstanceConsumedEventGroups(parent, inst)
         groups = parent.find("CONSUMED-EVENT-GROUPS")
         assert groups is not None
         assert groups.find("CONSUMED-EVENT-GROUP") is not None
@@ -1095,9 +1068,7 @@ class TestWriteConsumedServiceInstance:
         pkg = _pkg()
         inst = ConsumedServiceInstance(pkg, "Csi")
         inst.createConsumedEventGroup("Group")
-        inst.setProvidedServiceInstanceRef(
-            _ref("PROVIDED-SERVICE-INSTANCE", "/psi")
-        )
+        inst.setProvidedServiceInstanceRef(_ref("PROVIDED-SERVICE-INSTANCE", "/psi"))
         cfg = SdClientConfig()
         cfg.setTtl(_pos_int("30"))
         inst.setSdClientConfig(cfg)
@@ -1115,9 +1086,7 @@ class TestWriteSocketAddressAppEndpointConsumedServiceInstances:
         pkg = _pkg()
         ep = ApplicationEndpoint(pkg, "Ep")
         parent = _parent()
-        writer.writeSocketAddressApplicationEndpointConsumedServiceInstances(  # noqa: E501
-            parent, ep
-        )
+        writer.writeSocketAddressApplicationEndpointConsumedServiceInstances(parent, ep)  # noqa: E501
         assert len(parent) == 0
 
     def test_write_warns(self):
@@ -1126,9 +1095,7 @@ class TestWriteSocketAddressAppEndpointConsumedServiceInstances:
         ep = ApplicationEndpoint(pkg, "Ep")
         ep.consumedServiceInstances.append("not_a_csi")
         parent = _parent()
-        w.writeSocketAddressApplicationEndpointConsumedServiceInstances(  # noqa: E501
-            parent, ep
-        )
+        w.writeSocketAddressApplicationEndpointConsumedServiceInstances(parent, ep)  # noqa: E501
         assert len(parent) == 1
 
     def test_write_with_instance(self, writer):
@@ -1136,9 +1103,7 @@ class TestWriteSocketAddressAppEndpointConsumedServiceInstances:
         ep = ApplicationEndpoint(pkg, "Ep")
         ep.createConsumedServiceInstance("Csi")
         parent = _parent()
-        writer.writeSocketAddressApplicationEndpointConsumedServiceInstances(  # noqa: E501
-            parent, ep
-        )
+        writer.writeSocketAddressApplicationEndpointConsumedServiceInstances(parent, ep)  # noqa: E501
         tag = parent.find("CONSUMED-SERVICE-INSTANCES")
         assert tag is not None
         assert tag.find("CONSUMED-SERVICE-INSTANCE") is not None
@@ -1181,12 +1146,8 @@ class TestWriteEventHandler:
     def test_write_event_handler_full(self, writer):
         pkg = _pkg()
         handler = EventHandler(pkg, "Handler")
-        handler.setApplicationEndpointRef(
-            _ref("APPLICATION-ENDPOINT", "/ae")
-        )
-        handler.addConsumedEventGroupRef(
-            _ref("CONSUMED-EVENT-GROUP", "/ceg")
-        )
+        handler.setApplicationEndpointRef(_ref("APPLICATION-ENDPOINT", "/ae"))
+        handler.addConsumedEventGroupRef(_ref("CONSUMED-EVENT-GROUP", "/ceg"))
         handler.setMulticastThreshold(_pos_int("5"))
         handler.addRoutingGroupRef(_ref("ROUTING-GROUP", "/rg"))
         cfg = SdServerConfig()
@@ -1199,9 +1160,7 @@ class TestWriteEventHandler:
         assert eh.find("APPLICATION-ENDPOINT-REF") is not None
         refs = eh.find("CONSUMED-EVENT-GROUP-REFS")
         assert refs is not None
-        assert (
-            len(refs.findall("CONSUMED-EVENT-GROUP-REF")) == 1
-        )
+        assert len(refs.findall("CONSUMED-EVENT-GROUP-REF")) == 1
         assert eh.find("MULTICAST-THRESHOLD").text == "5"
         rrefs = eh.find("ROUTING-GROUP-REFS")
         assert rrefs is not None
@@ -1261,9 +1220,7 @@ class TestWriteEventHandler:
         pkg = _pkg()
         ep = ApplicationEndpoint(pkg, "Ep")
         parent = _parent()
-        writer.writeSocketAddressApplicationEndpointProvidedServiceInstance(  # noqa: E501
-            parent, ep
-        )
+        writer.writeSocketAddressApplicationEndpointProvidedServiceInstance(parent, ep)  # noqa: E501
         assert len(parent) == 0
 
     def test_write_sa_app_endpoint_psi_warns(self):
@@ -1272,9 +1229,7 @@ class TestWriteEventHandler:
         ep = ApplicationEndpoint(pkg, "Ep")
         ep.providedServiceInstances.append("not_a_psi")
         parent = _parent()
-        w.writeSocketAddressApplicationEndpointProvidedServiceInstance(  # noqa: E501
-            parent, ep
-        )
+        w.writeSocketAddressApplicationEndpointProvidedServiceInstance(parent, ep)  # noqa: E501
         assert len(parent) == 1
 
     def test_write_sa_app_endpoint_psi(self, writer):
@@ -1282,9 +1237,7 @@ class TestWriteEventHandler:
         ep = ApplicationEndpoint(pkg, "Ep")
         ep.createProvidedServiceInstance("Psi")
         parent = _parent()
-        writer.writeSocketAddressApplicationEndpointProvidedServiceInstance(  # noqa: E501
-            parent, ep
-        )
+        writer.writeSocketAddressApplicationEndpointProvidedServiceInstance(parent, ep)  # noqa: E501
         tag = parent.find("PROVIDED-SERVICE-INSTANCES")
         assert tag is not None
         assert tag.find("PROVIDED-SERVICE-INSTANCE") is not None
@@ -1458,18 +1411,12 @@ class TestWriteCommunicationCluster:
         w.writeCommunicationClusterPhysicalChannels(parent, cluster)
         assert len(parent) == 0
 
-    def test_write_comm_cluster_physical_channels_warns_branch(
-        self
-    ):
+    def test_write_comm_cluster_physical_channels_warns_branch(self):
         w = _warning_writer()
         cluster = MagicMock()
-        cluster.getPhysicalChannels.return_value = [
-            "not_a_channel"
-        ]
+        cluster.getPhysicalChannels.return_value = ["not_a_channel"]
         parent = _parent()
-        w.writeCommunicationClusterPhysicalChannels(
-            parent, cluster
-        )
+        w.writeCommunicationClusterPhysicalChannels(parent, cluster)
         assert parent.find("PHYSICAL-CHANNELS") is not None
 
     def test_write_comm_cluster_physical_channels_all_types(self, writer):
@@ -1485,12 +1432,8 @@ class TestWriteCommunicationCluster:
         assert channels is not None
         assert len(channels.findall("CAN-PHYSICAL-CHANNEL")) == 1
         assert len(channels.findall("LIN-PHYSICAL-CHANNEL")) == 1
-        assert (
-            len(channels.findall("ETHERNET-PHYSICAL-CHANNEL")) == 1
-        )
-        assert (
-            len(channels.findall("FLEXRAY-PHYSICAL-CHANNEL")) == 1
-        )
+        assert len(channels.findall("ETHERNET-PHYSICAL-CHANNEL")) == 1
+        assert len(channels.findall("FLEXRAY-PHYSICAL-CHANNEL")) == 1
 
     def test_write_communication_cluster(self, writer):
         pkg = _pkg()
@@ -1510,9 +1453,7 @@ class TestWriteCommunicationCluster:
 class TestWriteAbstractCanCluster:
     def test_set_can_cluster_bus_off_recovery_none(self, writer):
         parent = _parent()
-        writer.setCanClusterBusOffRecovery(
-            parent, "BUS-OFF-RECOVERY", None
-        )
+        writer.setCanClusterBusOffRecovery(parent, "BUS-OFF-RECOVERY", None)
         assert len(parent) == 0
 
     def test_set_can_cluster_bus_off_recovery_full(self, writer):
@@ -1521,9 +1462,7 @@ class TestWriteAbstractCanCluster:
         rec.setBorTimeL1(_time("0.1"))
         rec.setBorTimeL2(_time("0.2"))
         parent = _parent()
-        writer.setCanClusterBusOffRecovery(
-            parent, "BUS-OFF-RECOVERY", rec
-        )
+        writer.setCanClusterBusOffRecovery(parent, "BUS-OFF-RECOVERY", rec)
         tag = parent.find("BUS-OFF-RECOVERY")
         assert tag is not None
         assert tag.find("BOR-COUNTER-L-1-TO-L-2").text == "8"
@@ -1626,18 +1565,12 @@ class TestWriteFlexrayCluster:
         cluster.setListenNoise(_pos_int("3"))
         cluster.setMacroPerCycle(_pos_int("36"))
         cluster.setMacrotickDuration(_time("0.001"))
-        cluster.setMaxWithoutClockCorrectionFatal(
-            _pos_int("2")
-        )
-        cluster.setMaxWithoutClockCorrectionPassive(
-            _pos_int("3")
-        )
+        cluster.setMaxWithoutClockCorrectionFatal(_pos_int("2"))
+        cluster.setMaxWithoutClockCorrectionPassive(_pos_int("3"))
         cluster.setMinislotActionPointOffset(_pos_int("1"))
         cluster.setMinislotDuration(_pos_int("10"))
         cluster.setNetworkIdleTime(_pos_int("20"))
-        cluster.setNetworkManagementVectorLength(
-            _pos_int("12")
-        )
+        cluster.setNetworkManagementVectorLength(_pos_int("12"))
         cluster.setNumberOfMinislots(_pos_int("790"))
         cluster.setNumberOfStaticSlots(_pos_int("70"))
         cluster.setOffsetCorrectionStart(_pos_int("2"))
@@ -1646,9 +1579,7 @@ class TestWriteFlexrayCluster:
         cluster.setSampleClockPeriod(_time("0.05"))
         cluster.setStaticSlotDuration(_pos_int("100"))
         cluster.setSyncFrameIdCountMax(_pos_int("15"))
-        cluster.setTransmissionStartSequenceDuration(
-            _pos_int("4")
-        )
+        cluster.setTransmissionStartSequenceDuration(_pos_int("4"))
         cluster.setWakeupRxIdle(_pos_int("60"))
         cluster.setWakeupRxLow(_pos_int("180"))
         cluster.setWakeupRxWindow(_pos_int("300"))
@@ -1662,90 +1593,33 @@ class TestWriteFlexrayCluster:
         assert variants is not None
         cond = variants.find("FLEXRAY-CLUSTER-CONDITIONAL")
         assert cond is not None
-        assert (
-            cond.find("ACTION-POINT-OFFSET").text == "1"
-        )
+        assert cond.find("ACTION-POINT-OFFSET").text == "1"
         assert cond.find("BIT").text == "0.1"
         assert cond.find("CAS-RX-LOW-MAX").text == "10"
-        assert (
-            cond.find("COLD-START-ATTEMPTS").text == "8"
-        )
+        assert cond.find("COLD-START-ATTEMPTS").text == "8"
         assert cond.find("CYCLE").text == "0.005"
         assert cond.find("CYCLE-COUNT-MAX").text == "64"
-        assert (
-            cond.find("DETECT-NIT-ERROR").text == "true"
-        )
-        assert (
-            cond.find("DYNAMIC-SLOT-IDLE-PHASE").text
-            == "2"
-        )
+        assert cond.find("DETECT-NIT-ERROR").text == "true"
+        assert cond.find("DYNAMIC-SLOT-IDLE-PHASE").text == "2"
         assert cond.find("IGNORE-AFTER-TX").text == "5"
         assert cond.find("LISTEN-NOISE").text == "3"
         assert cond.find("MACRO-PER-CYCLE").text == "36"
-        assert (
-            cond.find("MACROTICK-DURATION").text == "0.001"
-        )
-        assert (
-            cond.find(
-                "MAX-WITHOUT-CLOCK-CORRECTION-FATAL"
-            ).text
-            == "2"
-        )
-        assert (
-            cond.find(
-                "MAX-WITHOUT-CLOCK-CORRECTION-PASSIVE"
-            ).text
-            == "3"
-        )
-        assert (
-            cond.find(
-                "MINISLOT-ACTION-POINT-OFFSET"
-            ).text
-            == "1"
-        )
-        assert (
-            cond.find("MINISLOT-DURATION").text == "10"
-        )
-        assert (
-            cond.find("NETWORK-IDLE-TIME").text == "20"
-        )
-        assert (
-            cond.find(
-                "NETWORK-MANAGEMENT-VECTOR-LENGTH"
-            ).text
-            == "12"
-        )
-        assert (
-            cond.find("NUMBER-OF-MINISLOTS").text == "790"
-        )
-        assert (
-            cond.find("NUMBER-OF-STATIC-SLOTS").text
-            == "70"
-        )
-        assert (
-            cond.find("OFFSET-CORRECTION-START").text
-            == "2"
-        )
-        assert (
-            cond.find("PAYLOAD-LENGTH-STATIC").text == "16"
-        )
+        assert cond.find("MACROTICK-DURATION").text == "0.001"
+        assert cond.find("MAX-WITHOUT-CLOCK-CORRECTION-FATAL").text == "2"
+        assert cond.find("MAX-WITHOUT-CLOCK-CORRECTION-PASSIVE").text == "3"
+        assert cond.find("MINISLOT-ACTION-POINT-OFFSET").text == "1"
+        assert cond.find("MINISLOT-DURATION").text == "10"
+        assert cond.find("NETWORK-IDLE-TIME").text == "20"
+        assert cond.find("NETWORK-MANAGEMENT-VECTOR-LENGTH").text == "12"
+        assert cond.find("NUMBER-OF-MINISLOTS").text == "790"
+        assert cond.find("NUMBER-OF-STATIC-SLOTS").text == "70"
+        assert cond.find("OFFSET-CORRECTION-START").text == "2"
+        assert cond.find("PAYLOAD-LENGTH-STATIC").text == "16"
         assert cond.find("SAFETY-MARGIN").text == "2"
-        assert (
-            cond.find("SAMPLE-CLOCK-PERIOD").text == "0.05"
-        )
-        assert (
-            cond.find("STATIC-SLOT-DURATION").text == "100"
-        )
-        assert (
-            cond.find("SYNC-FRAME-ID-COUNT-MAX").text
-            == "15"
-        )
-        assert (
-            cond.find(
-                "TRANSMISSION-START-SEQUENCE-DURATION"
-            ).text
-            == "4"
-        )
+        assert cond.find("SAMPLE-CLOCK-PERIOD").text == "0.05"
+        assert cond.find("STATIC-SLOT-DURATION").text == "100"
+        assert cond.find("SYNC-FRAME-ID-COUNT-MAX").text == "15"
+        assert cond.find("TRANSMISSION-START-SEQUENCE-DURATION").text == "4"
         assert cond.find("WAKEUP-RX-IDLE").text == "60"
         assert cond.find("WAKEUP-RX-LOW").text == "180"
         assert cond.find("WAKEUP-RX-WINDOW").text == "300"

@@ -2,17 +2,19 @@ from openpyxl import Workbook
 
 import logging
 
+
 class ExcelReporter:
     """
     Base class for Excel report generation providing workbook management,
     cell writing, and auto-width utilities.
     """
+
     def __init__(self) -> None:
         self.wb = Workbook()
         self._logger = logging.getLogger()
-    
+
     def write_revision(self):
-        sheet = self.wb['Sheet']
+        sheet = self.wb["Sheet"]
         sheet.title = "History"
 
         title_rows = ["When", "Who", "Version", "History"]
@@ -33,14 +35,14 @@ class ExcelReporter:
             cell = sheet.cell(row=1, column=idx + 1)
             cell.value = title_row[idx]
 
-    def write_cell(self, sheet, row, column, value, format = None):
-        cell = sheet.cell(row = row, column=column) 
+    def write_cell(self, sheet, row, column, value, format=None):
+        cell = sheet.cell(row=row, column=column)
         cell.value = value
         if format is not None:
-            if ('alignment' in format):
-                cell.alignment = format['alignment']
-            if ('number_format' in format):
-                cell.number_format = format['number_format']
+            if "alignment" in format:
+                cell.alignment = format["alignment"]
+            if "number_format" in format:
+                cell.number_format = format["number_format"]
 
     def save(self, name: str):
         self.wb.save(name)

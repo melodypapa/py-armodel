@@ -1,4 +1,3 @@
-
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -10,7 +9,7 @@ class TestTrigger:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         trigger = Trigger(ar_root, "TestTrigger")
-        
+
         assert trigger is not None
         assert trigger.getShortName() == "TestTrigger"
         assert trigger.swImplPolicy is None
@@ -28,9 +27,11 @@ class TestTrigger:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         trigger = Trigger(ar_root, "TestTrigger")
+
         # Create mock SwImplPolicyEnum value for testing
         class MockSwImplPolicy:
             pass
+
         test_value = MockSwImplPolicy()
         result = trigger.setSwImplPolicy(test_value)
         assert result is trigger
@@ -57,9 +58,11 @@ class TestTrigger:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         trigger = Trigger(ar_root, "TestTrigger")
+
         # Create mock MultidimensionalTime value for testing
         class MockMultidimensionalTime:
             pass
+
         test_value = MockMultidimensionalTime()
         result = trigger.setTriggerPeriod(test_value)
         assert result is trigger
@@ -79,18 +82,19 @@ class TestTrigger:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         trigger = Trigger(ar_root, "TestTrigger")
-        
+
         class MockSwImplPolicy:
             pass
+
         class MockMultidimensionalTime:
             pass
-        
+
         sw_policy = MockSwImplPolicy()
         period = MockMultidimensionalTime()
-        
+
         trigger.setSwImplPolicy(sw_policy)
         trigger.setTriggerPeriod(period)
-        
+
         assert trigger.getSwImplPolicy() == sw_policy
         assert trigger.getTriggerPeriod() == period
 
@@ -99,7 +103,7 @@ class TestTriggerMapping:
     def test_initialization(self):
         """Test TriggerMapping initialization"""
         mapping = TriggerMapping()
-        
+
         assert mapping is not None
         assert mapping.firstTriggerRef is None
         assert mapping.secondTriggerRef is None
@@ -147,12 +151,12 @@ class TestTriggerMapping:
     def test_all_properties(self):
         """Test setting all properties"""
         mapping = TriggerMapping()
-        
+
         ref1 = RefType().setValue("FirstTriggerRef")
         ref2 = RefType().setValue("SecondTriggerRef")
-        
+
         mapping.setFirstTriggerRef(ref1)
         mapping.setSecondTriggerRef(ref2)
-        
+
         assert mapping.getFirstTriggerRef() == ref1
         assert mapping.getSecondTriggerRef() == ref2

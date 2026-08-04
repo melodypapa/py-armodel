@@ -9,7 +9,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommun
     ApplicationEntry,
     FreeFormatEntry,
     LinConfigurationEntry,
-    LinScheduleTable
+    LinScheduleTable,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -23,7 +23,7 @@ class MockParent(ARObject):
 
 class Test_Fibex4LinCommunication:
     """Test cases for Fibex4Lin Communication classes."""
-    
+
     def test_LinFrame(self):
         """Test LinFrame abstract class instantiation."""
         parent = MockParent()
@@ -44,11 +44,11 @@ class Test_Fibex4LinCommunication:
         triggering = LinFrameTriggering(parent, "test_lin_frame_triggering")
 
         assert isinstance(triggering, FrameTriggering)
-        
+
         # Test default values
         assert triggering.getIdentifier() is None
         assert triggering.getLinChecksum() is None
-        
+
         # Test setter/getter methods with method chaining
         result = triggering.setIdentifier(60)
         assert triggering.getIdentifier() == 60
@@ -85,13 +85,13 @@ class Test_Fibex4LinCommunication:
         entry = ApplicationEntry()
 
         assert isinstance(entry, ScheduleTableEntry)
-        
+
         # Test default values
         assert entry.getFrameTriggeringRef() is None
         assert entry.getDelay() is None
         assert entry.getIntroduction() is None
         assert entry.getPositionInTable() is None
-        
+
         # Test setter/getter methods with method chaining
         result = entry.setFrameTriggeringRef("triggering_ref")
         assert entry.getFrameTriggeringRef() == "triggering_ref"
@@ -144,7 +144,7 @@ class Test_Fibex4LinCommunication:
         entry = ConcreteFreeFormatEntry()
 
         assert isinstance(entry, ScheduleTableEntry)
-        
+
         # Test inherited setter/getter methods with method chaining
         result = entry.setDelay("5ms")
         assert entry.getDelay() == "5ms"
@@ -179,17 +179,17 @@ class Test_Fibex4LinCommunication:
         table = LinScheduleTable(parent, "test_lin_schedule_table")
 
         assert isinstance(table, Identifiable)
-        
+
         # Test default values
         assert table.getResumePosition() is None
         assert table.getRunMode() is None
         assert table.getTableEntries() == []
-        
+
         # Test setter/getter methods with method chaining
         result = table.setResumePosition(ResumePosition.START_FROM_BEGINNING)
         assert table.getResumePosition() == ResumePosition.START_FROM_BEGINNING
         assert result == table  # Test method chaining
-        
+
         # Test setting None value to ensure we cover the 'if value is not None' condition
         # This should not change the value since the condition prevents setting None
         result = table.setResumePosition(None)
@@ -217,17 +217,13 @@ class Test_Fibex4LinCommunication:
         assert result == table  # Test method chaining
 
 
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import (
-    LinCommunicationController,
-    LinMaster,
-    LinCommunicationConnector
-)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationController, LinMaster, LinCommunicationConnector
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationController, CommunicationConnector
 
 
 class Test_Fibex4LinTopology:
     """Test cases for Fibex4Lin Topology classes."""
-    
+
     def test_LinCommunicationController(self):
         """Test LinCommunicationController class functionality."""
         parent = MockParent()
@@ -254,12 +250,12 @@ class Test_Fibex4LinTopology:
         master = LinMaster(parent, "test_lin_master")
 
         assert isinstance(master, LinCommunicationController)
-        
+
         # Test default values
         assert master.getLinSlaves() == []
         assert master.getTimeBase() is None
         assert master.getTimeBaseJitter() is None
-        
+
         # Test setter/getter methods with method chaining
         result = master.setTimeBase("100ms")
         assert master.getTimeBase() == "100ms"
@@ -289,13 +285,13 @@ class Test_Fibex4LinTopology:
         connector = LinCommunicationConnector(parent, "test_lin_comm_connector")
 
         assert isinstance(connector, CommunicationConnector)
-        
+
         # Test default values
         assert connector.getInitialNad() is None
         assert connector.getLinConfigurableFrames() == []
         assert connector.getLinOrderedConfigurableFrames() == []
         assert connector.getScheduleChangeNextTimeBase() is None
-        
+
         # Test setter/getter methods with method chaining
         result = connector.setInitialNad(10)
         assert connector.getInitialNad() == 10
@@ -337,4 +333,3 @@ class Test_Fibex4LinTopology:
         entry = ConcreteLinConfigurationEntry()
         assert entry is not None
         # The super().__init__() call is now covered
-

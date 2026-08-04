@@ -69,10 +69,7 @@ class TestSwcInternalBehaviorOrchestrator:
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
         element = _snip(
-            "<SHORT-NAME>bh</SHORT-NAME>"
-            "<EVENTS>"
-            "<TIMING-EVENT><SHORT-NAME>te</SHORT-NAME><PERIOD>0.1</PERIOD></TIMING-EVENT>"
-            "</EVENTS>",
+            "<SHORT-NAME>bh</SHORT-NAME>" "<EVENTS>" "<TIMING-EVENT><SHORT-NAME>te</SHORT-NAME><PERIOD>0.1</PERIOD></TIMING-EVENT>" "</EVENTS>",
             root_tag="SWC-INTERNAL-BEHAVIOR",
         )
         parser.readSwcInternalBehavior(element, behavior)
@@ -84,10 +81,7 @@ class TestSwcInternalBehaviorOrchestrator:
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
         element = _snip(
-            "<SHORT-NAME>bh</SHORT-NAME>"
-            "<RUNNABLES>"
-            "<RUNNABLE-ENTITY><SHORT-NAME>run1</SHORT-NAME><SYMBOL>Run1</SYMBOL></RUNNABLE-ENTITY>"
-            "</RUNNABLES>",
+            "<SHORT-NAME>bh</SHORT-NAME>" "<RUNNABLES>" "<RUNNABLE-ENTITY><SHORT-NAME>run1</SHORT-NAME><SYMBOL>Run1</SYMBOL></RUNNABLE-ENTITY>" "</RUNNABLES>",
             root_tag="SWC-INTERNAL-BEHAVIOR",
         )
         parser.readSwcInternalBehavior(element, behavior)
@@ -99,10 +93,7 @@ class TestSwcInternalBehaviorOrchestrator:
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
         element = _snip(
-            "<SHORT-NAME>bh</SHORT-NAME>"
-            "<PER-INSTANCE-MEMORYS>"
-            "<PER-INSTANCE-MEMORY><SHORT-NAME>mem1</SHORT-NAME><TYPE>uint8</TYPE></PER-INSTANCE-MEMORY>"
-            "</PER-INSTANCE-MEMORYS>",
+            "<SHORT-NAME>bh</SHORT-NAME>" "<PER-INSTANCE-MEMORYS>" "<PER-INSTANCE-MEMORY><SHORT-NAME>mem1</SHORT-NAME><TYPE>uint8</TYPE></PER-INSTANCE-MEMORY>" "</PER-INSTANCE-MEMORYS>",
             root_tag="SWC-INTERNAL-BEHAVIOR",
         )
         parser.readSwcInternalBehavior(element, behavior)
@@ -147,10 +138,7 @@ class TestSwcInternalBehaviorOrchestrator:
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
         element = _snip(
-            "<SHORT-NAME>bh</SHORT-NAME>"
-            "<SERVICE-DEPENDENCYS>"
-            "<SWC-SERVICE-DEPENDENCY><SHORT-NAME>dep1</SHORT-NAME></SWC-SERVICE-DEPENDENCY>"
-            "</SERVICE-DEPENDENCYS>",
+            "<SHORT-NAME>bh</SHORT-NAME>" "<SERVICE-DEPENDENCYS>" "<SWC-SERVICE-DEPENDENCY><SHORT-NAME>dep1</SHORT-NAME></SWC-SERVICE-DEPENDENCY>" "</SERVICE-DEPENDENCYS>",
             root_tag="SWC-INTERNAL-BEHAVIOR",
         )
         parser.readSwcInternalBehavior(element, behavior)
@@ -162,10 +150,7 @@ class TestSwcInternalBehaviorOrchestrator:
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
         element = _snip(
-            "<SHORT-NAME>bh</SHORT-NAME>"
-            "<SHARED-PARAMETERS>"
-            "<PARAMETER-DATA-PROTOTYPE><SHORT-NAME>param1</SHORT-NAME></PARAMETER-DATA-PROTOTYPE>"
-            "</SHARED-PARAMETERS>",
+            "<SHORT-NAME>bh</SHORT-NAME>" "<SHARED-PARAMETERS>" "<PARAMETER-DATA-PROTOTYPE><SHORT-NAME>param1</SHORT-NAME></PARAMETER-DATA-PROTOTYPE>" "</SHARED-PARAMETERS>",
             root_tag="SWC-INTERNAL-BEHAVIOR",
         )
         parser.readSwcInternalBehavior(element, behavior)
@@ -197,9 +182,7 @@ class TestSwcInternalBehaviorOrchestrator:
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
         element = _snip(
-            "<AR-TYPED-PER-INSTANCE-MEMORYS>"
-            "<VARIABLE-DATA-PROTOTYPE><SHORT-NAME>mem</SHORT-NAME></VARIABLE-DATA-PROTOTYPE>"
-            "</AR-TYPED-PER-INSTANCE-MEMORYS>",
+            "<AR-TYPED-PER-INSTANCE-MEMORYS>" "<VARIABLE-DATA-PROTOTYPE><SHORT-NAME>mem</SHORT-NAME></VARIABLE-DATA-PROTOTYPE>" "</AR-TYPED-PER-INSTANCE-MEMORYS>",
             root_tag="SWC-INTERNAL-BEHAVIOR",
         )
         parser.readSwcInternalBehaviorArTypedPerInstanceMemories(element, behavior)
@@ -211,8 +194,7 @@ class TestSwcInternalBehaviorOrchestrator:
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
         element = _snip(
-            "<SHORT-NAME>bh</SHORT-NAME>"
-            "<HANDLE-TERMINATION-AND-RESTART>support</HANDLE-TERMINATION-AND-RESTART>",
+            "<SHORT-NAME>bh</SHORT-NAME>" "<HANDLE-TERMINATION-AND-RESTART>support</HANDLE-TERMINATION-AND-RESTART>",
             root_tag="SWC-INTERNAL-BEHAVIOR",
         )
         parser.readSwcInternalBehavior(element, behavior)
@@ -224,8 +206,7 @@ class TestSwcInternalBehaviorOrchestrator:
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
         element = _snip(
-            "<SHORT-NAME>bh</SHORT-NAME>"
-            "<SUPPORTS-MULTIPLE-INSTANTIATION>true</SUPPORTS-MULTIPLE-INSTANTIATION>",
+            "<SHORT-NAME>bh</SHORT-NAME>" "<SUPPORTS-MULTIPLE-INSTANTIATION>true</SUPPORTS-MULTIPLE-INSTANTIATION>",
             root_tag="SWC-INTERNAL-BEHAVIOR",
         )
         parser.readSwcInternalBehavior(element, behavior)
@@ -287,8 +268,7 @@ class TestServiceNeedsHandlers:
         behavior = swc.createSwcInternalBehavior("bh")
         dependency = behavior.createSwcServiceDependency("dep")
         element = _snip(
-            "<SHORT-NAME>diagNeeds</SHORT-NAME>"
-            "<SERVICE-REQUEST-CALLBACK-TYPE>callback</SERVICE-REQUEST-CALLBACK-TYPE>",
+            "<SHORT-NAME>diagNeeds</SHORT-NAME>" "<SERVICE-REQUEST-CALLBACK-TYPE>callback</SERVICE-REQUEST-CALLBACK-TYPE>",
             root_tag="DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS",
         )
         needs = dependency.createDiagnosticCommunicationManagerNeeds("diagNeeds")
@@ -302,9 +282,7 @@ class TestServiceNeedsHandlers:
         behavior = swc.createSwcInternalBehavior("bh")
         dependency = behavior.createSwcServiceDependency("dep")
         element = _snip(
-            "<SHORT-NAME>routineNeeds</SHORT-NAME>"
-            "<DIAG-ROUTINE-TYPE>routine</DIAG-ROUTINE-TYPE>"
-            "<RID-NUMBER>0x0100</RID-NUMBER>",
+            "<SHORT-NAME>routineNeeds</SHORT-NAME>" "<DIAG-ROUTINE-TYPE>routine</DIAG-ROUTINE-TYPE>" "<RID-NUMBER>0x0100</RID-NUMBER>",
             root_tag="DIAGNOSTIC-ROUTINE-NEEDS",
         )
         needs = dependency.createDiagnosticRoutineNeeds("routineNeeds")
@@ -318,10 +296,7 @@ class TestServiceNeedsHandlers:
         behavior = swc.createSwcInternalBehavior("bh")
         dependency = behavior.createSwcServiceDependency("dep")
         element = _snip(
-            "<SHORT-NAME>valueNeeds</SHORT-NAME>"
-            "<DATA-LENGTH>8</DATA-LENGTH>"
-            "<DIAGNOSTIC-VALUE-ACCESS>read</DIAGNOSTIC-VALUE-ACCESS>"
-            "<DID-NUMBER>0xF190</DID-NUMBER>",
+            "<SHORT-NAME>valueNeeds</SHORT-NAME>" "<DATA-LENGTH>8</DATA-LENGTH>" "<DIAGNOSTIC-VALUE-ACCESS>read</DIAGNOSTIC-VALUE-ACCESS>" "<DID-NUMBER>0xF190</DID-NUMBER>",
             root_tag="DIAGNOSTIC-VALUE-NEEDS",
         )
         needs = dependency.createDiagnosticValueNeeds("valueNeeds")
@@ -335,9 +310,7 @@ class TestServiceNeedsHandlers:
         behavior = swc.createSwcInternalBehavior("bh")
         dependency = behavior.createSwcServiceDependency("dep")
         element = _snip(
-            "<SHORT-NAME>eventNeeds</SHORT-NAME>"
-            "<DTC-KIND>kind</DTC-KIND>"
-            "<UDS-DTC-NUMBER>0x1234</UDS-DTC-NUMBER>",
+            "<SHORT-NAME>eventNeeds</SHORT-NAME>" "<DTC-KIND>kind</DTC-KIND>" "<UDS-DTC-NUMBER>0x1234</UDS-DTC-NUMBER>",
             root_tag="DIAGNOSTIC-EVENT-NEEDS",
         )
         needs = dependency.createDiagnosticEventNeeds("eventNeeds")
@@ -351,9 +324,7 @@ class TestServiceNeedsHandlers:
         behavior = swc.createSwcInternalBehavior("bh")
         dependency = behavior.createSwcServiceDependency("dep")
         element = _snip(
-            "<SHORT-NAME>eventInfoNeeds</SHORT-NAME>"
-            "<DTC-KIND>kind</DTC-KIND>"
-            "<UDS-DTC-NUMBER>0x5678</UDS-DTC-NUMBER>",
+            "<SHORT-NAME>eventInfoNeeds</SHORT-NAME>" "<DTC-KIND>kind</DTC-KIND>" "<UDS-DTC-NUMBER>0x5678</UDS-DTC-NUMBER>",
             root_tag="DIAGNOSTIC-EVENT-INFO-NEEDS",
         )
         needs = dependency.createDiagnosticEventInfoNeeds("eventInfoNeeds")
@@ -367,8 +338,7 @@ class TestServiceNeedsHandlers:
         behavior = swc.createSwcInternalBehavior("bh")
         dependency = behavior.createSwcServiceDependency("dep")
         element = _snip(
-            "<SHORT-NAME>cryptoNeeds</SHORT-NAME>"
-            "<MAXIMUM-KEY-LENGTH>256</MAXIMUM-KEY-LENGTH>",
+            "<SHORT-NAME>cryptoNeeds</SHORT-NAME>" "<MAXIMUM-KEY-LENGTH>256</MAXIMUM-KEY-LENGTH>",
             root_tag="CRYPTO-SERVICE-NEEDS",
         )
         needs = dependency.createCryptoServiceNeeds("cryptoNeeds")
@@ -393,8 +363,7 @@ class TestServiceNeedsHandlers:
         behavior = swc.createSwcInternalBehavior("bh")
         dependency = behavior.createSwcServiceDependency("dep")
         element = _snip(
-            "<SHORT-NAME>dtcNeeds</SHORT-NAME>"
-            "<DTC-FORMAT-TYPE>format</DTC-FORMAT-TYPE>",
+            "<SHORT-NAME>dtcNeeds</SHORT-NAME>" "<DTC-FORMAT-TYPE>format</DTC-FORMAT-TYPE>",
             root_tag="DTC-STATUS-CHANGE-NOTIFICATION-NEEDS",
         )
         needs = dependency.createDtcStatusChangeNotificationNeeds("dtcNeeds")
@@ -448,10 +417,7 @@ class TestRunnableEntityOrchestrator:
         behavior = swc.createSwcInternalBehavior("bh")
         runnable = behavior.createRunnableEntity("run")
         element = _snip(
-            "<SHORT-NAME>run</SHORT-NAME>"
-            "<DATA-RECEIVE-POINT-BY-ARGUMENTS>"
-            "<VARIABLE-ACCESS><SHORT-NAME>rp</SHORT-NAME></VARIABLE-ACCESS>"
-            "</DATA-RECEIVE-POINT-BY-ARGUMENTS>",
+            "<SHORT-NAME>run</SHORT-NAME>" "<DATA-RECEIVE-POINT-BY-ARGUMENTS>" "<VARIABLE-ACCESS><SHORT-NAME>rp</SHORT-NAME></VARIABLE-ACCESS>" "</DATA-RECEIVE-POINT-BY-ARGUMENTS>",
             root_tag="RUNNABLE-ENTITY",
         )
         parser.readRunnableEntity(element, runnable)
@@ -464,10 +430,7 @@ class TestRunnableEntityOrchestrator:
         behavior = swc.createSwcInternalBehavior("bh")
         runnable = behavior.createRunnableEntity("run")
         element = _snip(
-            "<SHORT-NAME>run</SHORT-NAME>"
-            "<DATA-RECEIVE-POINT-BY-VALUES>"
-            "<VARIABLE-ACCESS><SHORT-NAME>rpv</SHORT-NAME></VARIABLE-ACCESS>"
-            "</DATA-RECEIVE-POINT-BY-VALUES>",
+            "<SHORT-NAME>run</SHORT-NAME>" "<DATA-RECEIVE-POINT-BY-VALUES>" "<VARIABLE-ACCESS><SHORT-NAME>rpv</SHORT-NAME></VARIABLE-ACCESS>" "</DATA-RECEIVE-POINT-BY-VALUES>",
             root_tag="RUNNABLE-ENTITY",
         )
         parser.readRunnableEntity(element, runnable)
@@ -480,10 +443,7 @@ class TestRunnableEntityOrchestrator:
         behavior = swc.createSwcInternalBehavior("bh")
         runnable = behavior.createRunnableEntity("run")
         element = _snip(
-            "<SHORT-NAME>run</SHORT-NAME>"
-            "<DATA-READ-ACCESSS>"
-            "<VARIABLE-ACCESS><SHORT-NAME>ra</SHORT-NAME></VARIABLE-ACCESS>"
-            "</DATA-READ-ACCESSS>",
+            "<SHORT-NAME>run</SHORT-NAME>" "<DATA-READ-ACCESSS>" "<VARIABLE-ACCESS><SHORT-NAME>ra</SHORT-NAME></VARIABLE-ACCESS>" "</DATA-READ-ACCESSS>",
             root_tag="RUNNABLE-ENTITY",
         )
         parser.readRunnableEntity(element, runnable)
@@ -496,10 +456,7 @@ class TestRunnableEntityOrchestrator:
         behavior = swc.createSwcInternalBehavior("bh")
         runnable = behavior.createRunnableEntity("run")
         element = _snip(
-            "<SHORT-NAME>run</SHORT-NAME>"
-            "<DATA-WRITE-ACCESSS>"
-            "<VARIABLE-ACCESS><SHORT-NAME>wa</SHORT-NAME></VARIABLE-ACCESS>"
-            "</DATA-WRITE-ACCESSS>",
+            "<SHORT-NAME>run</SHORT-NAME>" "<DATA-WRITE-ACCESSS>" "<VARIABLE-ACCESS><SHORT-NAME>wa</SHORT-NAME></VARIABLE-ACCESS>" "</DATA-WRITE-ACCESSS>",
             root_tag="RUNNABLE-ENTITY",
         )
         parser.readRunnableEntity(element, runnable)
@@ -512,10 +469,7 @@ class TestRunnableEntityOrchestrator:
         behavior = swc.createSwcInternalBehavior("bh")
         runnable = behavior.createRunnableEntity("run")
         element = _snip(
-            "<SHORT-NAME>run</SHORT-NAME>"
-            "<DATA-SEND-POINTS>"
-            "<VARIABLE-ACCESS><SHORT-NAME>sp</SHORT-NAME></VARIABLE-ACCESS>"
-            "</DATA-SEND-POINTS>",
+            "<SHORT-NAME>run</SHORT-NAME>" "<DATA-SEND-POINTS>" "<VARIABLE-ACCESS><SHORT-NAME>sp</SHORT-NAME></VARIABLE-ACCESS>" "</DATA-SEND-POINTS>",
             root_tag="RUNNABLE-ENTITY",
         )
         parser.readRunnableEntity(element, runnable)
@@ -528,10 +482,7 @@ class TestRunnableEntityOrchestrator:
         behavior = swc.createSwcInternalBehavior("bh")
         runnable = behavior.createRunnableEntity("run")
         element = _snip(
-            "<SHORT-NAME>run</SHORT-NAME>"
-            "<WRITTEN-LOCAL-VARIABLES>"
-            "<VARIABLE-ACCESS><SHORT-NAME>wlv</SHORT-NAME></VARIABLE-ACCESS>"
-            "</WRITTEN-LOCAL-VARIABLES>",
+            "<SHORT-NAME>run</SHORT-NAME>" "<WRITTEN-LOCAL-VARIABLES>" "<VARIABLE-ACCESS><SHORT-NAME>wlv</SHORT-NAME></VARIABLE-ACCESS>" "</WRITTEN-LOCAL-VARIABLES>",
             root_tag="RUNNABLE-ENTITY",
         )
         parser.readRunnableEntity(element, runnable)
@@ -544,10 +495,7 @@ class TestRunnableEntityOrchestrator:
         behavior = swc.createSwcInternalBehavior("bh")
         runnable = behavior.createRunnableEntity("run")
         element = _snip(
-            "<SHORT-NAME>run</SHORT-NAME>"
-            "<READ-LOCAL-VARIABLES>"
-            "<VARIABLE-ACCESS><SHORT-NAME>rlv</SHORT-NAME></VARIABLE-ACCESS>"
-            "</READ-LOCAL-VARIABLES>",
+            "<SHORT-NAME>run</SHORT-NAME>" "<READ-LOCAL-VARIABLES>" "<VARIABLE-ACCESS><SHORT-NAME>rlv</SHORT-NAME></VARIABLE-ACCESS>" "</READ-LOCAL-VARIABLES>",
             root_tag="RUNNABLE-ENTITY",
         )
         parser.readRunnableEntity(element, runnable)
@@ -598,10 +546,7 @@ class TestRunnableEntityOrchestrator:
         behavior = swc.createSwcInternalBehavior("bh")
         runnable = behavior.createRunnableEntity("run")
         element = _snip(
-            "<SHORT-NAME>run</SHORT-NAME>"
-            "<INTERNAL-TRIGGERING-POINTS>"
-            "<INTERNAL-TRIGGERING-POINT><SHORT-NAME>itp</SHORT-NAME></INTERNAL-TRIGGERING-POINT>"
-            "</INTERNAL-TRIGGERING-POINTS>",
+            "<SHORT-NAME>run</SHORT-NAME>" "<INTERNAL-TRIGGERING-POINTS>" "<INTERNAL-TRIGGERING-POINT><SHORT-NAME>itp</SHORT-NAME></INTERNAL-TRIGGERING-POINT>" "</INTERNAL-TRIGGERING-POINTS>",
             root_tag="RUNNABLE-ENTITY",
         )
         parser.readRunnableEntity(element, runnable)
@@ -614,10 +559,7 @@ class TestRunnableEntityOrchestrator:
         behavior = swc.createSwcInternalBehavior("bh")
         runnable = behavior.createRunnableEntity("run")
         element = _snip(
-            "<SHORT-NAME>run</SHORT-NAME>"
-            "<MODE-ACCESS-POINTS>"
-            "<MODE-ACCESS-POINT></MODE-ACCESS-POINT>"
-            "</MODE-ACCESS-POINTS>",
+            "<SHORT-NAME>run</SHORT-NAME>" "<MODE-ACCESS-POINTS>" "<MODE-ACCESS-POINT></MODE-ACCESS-POINT>" "</MODE-ACCESS-POINTS>",
             root_tag="RUNNABLE-ENTITY",
         )
         parser.readRunnableEntity(element, runnable)
@@ -630,10 +572,7 @@ class TestRunnableEntityOrchestrator:
         behavior = swc.createSwcInternalBehavior("bh")
         runnable = behavior.createRunnableEntity("run")
         element = _snip(
-            "<SHORT-NAME>run</SHORT-NAME>"
-            "<MODE-SWITCH-POINTS>"
-            "<MODE-SWITCH-POINT><SHORT-NAME>msp</SHORT-NAME></MODE-SWITCH-POINT>"
-            "</MODE-SWITCH-POINTS>",
+            "<SHORT-NAME>run</SHORT-NAME>" "<MODE-SWITCH-POINTS>" "<MODE-SWITCH-POINT><SHORT-NAME>msp</SHORT-NAME></MODE-SWITCH-POINT>" "</MODE-SWITCH-POINTS>",
             root_tag="RUNNABLE-ENTITY",
         )
         parser.readRunnableEntity(element, runnable)
@@ -646,10 +585,7 @@ class TestRunnableEntityOrchestrator:
         behavior = swc.createSwcInternalBehavior("bh")
         runnable = behavior.createRunnableEntity("run")
         element = _snip(
-            "<SHORT-NAME>run</SHORT-NAME>"
-            "<PARAMETER-ACCESSS>"
-            "<PARAMETER-ACCESS><SHORT-NAME>pa</SHORT-NAME></PARAMETER-ACCESS>"
-            "</PARAMETER-ACCESSS>",
+            "<SHORT-NAME>run</SHORT-NAME>" "<PARAMETER-ACCESSS>" "<PARAMETER-ACCESS><SHORT-NAME>pa</SHORT-NAME></PARAMETER-ACCESS>" "</PARAMETER-ACCESSS>",
             root_tag="RUNNABLE-ENTITY",
         )
         parser.readRunnableEntity(element, runnable)
@@ -662,10 +598,7 @@ class TestRunnableEntityOrchestrator:
         behavior = swc.createSwcInternalBehavior("bh")
         runnable = behavior.createRunnableEntity("run")
         element = _snip(
-            "<SHORT-NAME>run</SHORT-NAME>"
-            "<ARGUMENTS>"
-            "<RUNNABLE-ENTITY-ARGUMENT><SYMBOL>arg1</SYMBOL></RUNNABLE-ENTITY-ARGUMENT>"
-            "</ARGUMENTS>",
+            "<SHORT-NAME>run</SHORT-NAME>" "<ARGUMENTS>" "<RUNNABLE-ENTITY-ARGUMENT><SYMBOL>arg1</SYMBOL></RUNNABLE-ENTITY-ARGUMENT>" "</ARGUMENTS>",
             root_tag="RUNNABLE-ENTITY",
         )
         parser.readRunnableEntity(element, runnable)
@@ -696,8 +629,7 @@ class TestRunnableEntityOrchestrator:
         behavior = swc.createSwcInternalBehavior("bh")
         runnable = behavior.createRunnableEntity("run")
         element = _snip(
-            "<SHORT-NAME>run</SHORT-NAME>"
-            "<CAN-BE-INVOKED-CONCURRENTLY>true</CAN-BE-INVOKED-CONCURRENTLY>",
+            "<SHORT-NAME>run</SHORT-NAME>" "<CAN-BE-INVOKED-CONCURRENTLY>true</CAN-BE-INVOKED-CONCURRENTLY>",
             root_tag="RUNNABLE-ENTITY",
         )
         parser.readRunnableEntity(element, runnable)
@@ -717,9 +649,7 @@ class TestRteEventHandlers:
         behavior = swc.createSwcInternalBehavior("bh")
         event = behavior.createTimingEvent("te")
         element = _snip(
-            "<SHORT-NAME>te</SHORT-NAME>"
-            "<PERIOD>0.1</PERIOD>"
-            "<OFFSET>0.05</OFFSET>",
+            "<SHORT-NAME>te</SHORT-NAME>" "<PERIOD>0.1</PERIOD>" "<OFFSET>0.05</OFFSET>",
             root_tag="TIMING-EVENT",
         )
         parser.readTimingEvent(element, event)
@@ -786,8 +716,7 @@ class TestRteEventHandlers:
         behavior = swc.createSwcInternalBehavior("bh")
         event = behavior.createInternalTriggerOccurredEvent("ito")
         element = _snip(
-            "<SHORT-NAME>ito</SHORT-NAME>"
-            "<EVENT-SOURCE-REF DEST='INTERNAL-TRIGGERING-POINT'>/itp</EVENT-SOURCE-REF>",
+            "<SHORT-NAME>ito</SHORT-NAME>" "<EVENT-SOURCE-REF DEST='INTERNAL-TRIGGERING-POINT'>/itp</EVENT-SOURCE-REF>",
             root_tag="INTERNAL-TRIGGER-OCCURRED-EVENT",
         )
         parser.readInternalTriggerOccurredEvent(element, event)
@@ -810,8 +739,7 @@ class TestRteEventHandlers:
         behavior = swc.createSwcInternalBehavior("bh")
         event = behavior.createAsynchronousServerCallReturnsEvent("ascr")
         element = _snip(
-            "<SHORT-NAME>ascr</SHORT-NAME>"
-            "<EVENT-SOURCE-REF DEST='ASYNCHRONOUS-SERVER-CALL-POINT'>/acp</EVENT-SOURCE-REF>",
+            "<SHORT-NAME>ascr</SHORT-NAME>" "<EVENT-SOURCE-REF DEST='ASYNCHRONOUS-SERVER-CALL-POINT'>/acp</EVENT-SOURCE-REF>",
             root_tag="ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT",
         )
         parser.readAsynchronousServerCallReturnsEvent(element, event)
@@ -824,8 +752,7 @@ class TestRteEventHandlers:
         behavior = swc.createSwcInternalBehavior("bh")
         event = behavior.createModeSwitchedAckEvent("msa")
         element = _snip(
-            "<SHORT-NAME>msa</SHORT-NAME>"
-            "<EVENT-SOURCE-REF DEST='MODE-SWITCH-POINT'>/msp</EVENT-SOURCE-REF>",
+            "<SHORT-NAME>msa</SHORT-NAME>" "<EVENT-SOURCE-REF DEST='MODE-SWITCH-POINT'>/msp</EVENT-SOURCE-REF>",
             root_tag="MODE-SWITCHED-ACK-EVENT",
         )
         parser.readModeSwitchedAckEvent(element, event)
@@ -848,8 +775,7 @@ class TestRteEventHandlers:
         behavior = swc.createSwcInternalBehavior("bh")
         event = behavior.createDataSendCompletedEvent("dsc")
         element = _snip(
-            "<SHORT-NAME>dsc</SHORT-NAME>"
-            "<EVENT-SOURCE-REF DEST='DATA-SEND-POINT'>/dsp</EVENT-SOURCE-REF>",
+            "<SHORT-NAME>dsc</SHORT-NAME>" "<EVENT-SOURCE-REF DEST='DATA-SEND-POINT'>/dsp</EVENT-SOURCE-REF>",
             root_tag="DATA-SEND-COMPLETED-EVENT",
         )
         parser.readDataSendCompletedEvent(element, event)
@@ -867,9 +793,7 @@ class TestSwComponentTypeDeepHandlers:
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         element = _snip(
-            "<PORT-GROUPS>"
-            "<PORT-GROUP><SHORT-NAME>pg</SHORT-NAME></PORT-GROUP>"
-            "</PORT-GROUPS>",
+            "<PORT-GROUPS>" "<PORT-GROUP><SHORT-NAME>pg</SHORT-NAME></PORT-GROUP>" "</PORT-GROUPS>",
             root_tag="APPLICATION-SW-COMPONENT-TYPE",
         )
         parser.readSwComponentTypePortGroups(element, swc)
@@ -881,11 +805,7 @@ class TestSwComponentTypeDeepHandlers:
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         port_group = swc.createPortGroup("pg")
         element = _snip(
-            "<INNER-GROUP-IREFS>"
-            "<INNER-GROUP-IREF>"
-            "<TARGET-REF DEST='PORT-GROUP'>/pg2</TARGET-REF>"
-            "</INNER-GROUP-IREF>"
-            "</INNER-GROUP-IREFS>",
+            "<INNER-GROUP-IREFS>" "<INNER-GROUP-IREF>" "<TARGET-REF DEST='PORT-GROUP'>/pg2</TARGET-REF>" "</INNER-GROUP-IREF>" "</INNER-GROUP-IREFS>",
             root_tag="PORT-GROUP",
         )
         parser.readPortGroupInnerGroupIRefs(element, port_group)
@@ -897,11 +817,7 @@ class TestSwComponentTypeDeepHandlers:
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         port_group = swc.createPortGroup("pg")
         element = _snip(
-            "<OUTER-PORTS>"
-            "<PORT-PROTOTYPE-REF-CONDITIONAL>"
-            "<PORT-PROTOTYPE-REF DEST='P-PORT-PROTOTYPE'>/port</PORT-PROTOTYPE-REF>"
-            "</PORT-PROTOTYPE-REF-CONDITIONAL>"
-            "</OUTER-PORTS>",
+            "<OUTER-PORTS>" "<PORT-PROTOTYPE-REF-CONDITIONAL>" "<PORT-PROTOTYPE-REF DEST='P-PORT-PROTOTYPE'>/port</PORT-PROTOTYPE-REF>" "</PORT-PROTOTYPE-REF-CONDITIONAL>" "</OUTER-PORTS>",
             root_tag="PORT-GROUP",
         )
         parser.readPortGroupOuterPortRefs(element, port_group)
@@ -946,9 +862,7 @@ class TestSwComponentTypeDeepHandlers:
 
         comp = CompositionSwComponentType(parent=_autosar_root(), short_name="comp")
         element = _snip(
-            "<COMPONENTS>"
-            "<SW-COMPONENT-PROTOTYPE><SHORT-NAME>proto</SHORT-NAME></SW-COMPONENT-PROTOTYPE>"
-            "</COMPONENTS>",
+            "<COMPONENTS>" "<SW-COMPONENT-PROTOTYPE><SHORT-NAME>proto</SHORT-NAME></SW-COMPONENT-PROTOTYPE>" "</COMPONENTS>",
             root_tag="COMPOSITION-SW-COMPONENT-TYPE",
         )
         parser.readCompositionSwComponentTypeComponents(element, comp)
@@ -959,9 +873,7 @@ class TestSwComponentTypeDeepHandlers:
 
         comp = CompositionSwComponentType(parent=_autosar_root(), short_name="comp")
         element = _snip(
-            "<CONNECTORS>"
-            "<ASSEMBLY-SW-CONNECTOR><SHORT-NAME>conn</SHORT-NAME></ASSEMBLY-SW-CONNECTOR>"
-            "</CONNECTORS>",
+            "<CONNECTORS>" "<ASSEMBLY-SW-CONNECTOR><SHORT-NAME>conn</SHORT-NAME></ASSEMBLY-SW-CONNECTOR>" "</CONNECTORS>",
             root_tag="COMPOSITION-SW-COMPONENT-TYPE",
         )
         parser.readCompositionSwComponentTypeSwConnectors(element, comp)
@@ -1015,8 +927,7 @@ class TestSwComponentTypeDeepHandlers:
         comp = CompositionSwComponentType(parent=_autosar_root(), short_name="comp")
         proto = comp.createSwComponentPrototype("proto")
         element = _snip(
-            "<SHORT-NAME>proto</SHORT-NAME>"
-            "<TYPE-TREF DEST='APPLICATION-SW-COMPONENT-TYPE'>/swc</TYPE-TREF>",
+            "<SHORT-NAME>proto</SHORT-NAME>" "<TYPE-TREF DEST='APPLICATION-SW-COMPONENT-TYPE'>/swc</TYPE-TREF>",
             root_tag="SW-COMPONENT-PROTOTYPE",
         )
         parser.readSwComponentPrototype(element, proto)
@@ -1034,11 +945,7 @@ class TestPortInterfaceHandlers:
 
         sr_if = SenderReceiverInterface(parent=_autosar_root(), short_name="sr_if")
         element = _snip(
-            "<SHORT-NAME>sr_if</SHORT-NAME>"
-            "<IS-SERVICE>true</IS-SERVICE>"
-            "<DATA-ELEMENTS>"
-            "<VARIABLE-DATA-PROTOTYPE><SHORT-NAME>data</SHORT-NAME></VARIABLE-DATA-PROTOTYPE>"
-            "</DATA-ELEMENTS>",
+            "<SHORT-NAME>sr_if</SHORT-NAME>" "<IS-SERVICE>true</IS-SERVICE>" "<DATA-ELEMENTS>" "<VARIABLE-DATA-PROTOTYPE><SHORT-NAME>data</SHORT-NAME></VARIABLE-DATA-PROTOTYPE>" "</DATA-ELEMENTS>",
             root_tag="SENDER-RECEIVER-INTERFACE",
         )
         parser.readSenderReceiverInterface(element, sr_if)
@@ -1068,10 +975,7 @@ class TestPortInterfaceHandlers:
 
         param_if = ParameterInterface(parent=_autosar_root(), short_name="param_if")
         element = _snip(
-            "<SHORT-NAME>param_if</SHORT-NAME>"
-            "<PARAMETERS>"
-            "<PARAMETER-DATA-PROTOTYPE><SHORT-NAME>param</SHORT-NAME></PARAMETER-DATA-PROTOTYPE>"
-            "</PARAMETERS>",
+            "<SHORT-NAME>param_if</SHORT-NAME>" "<PARAMETERS>" "<PARAMETER-DATA-PROTOTYPE><SHORT-NAME>param</SHORT-NAME></PARAMETER-DATA-PROTOTYPE>" "</PARAMETERS>",
             root_tag="PARAMETER-INTERFACE",
         )
         parser.readParameterInterface(element, param_if)
@@ -1082,10 +986,7 @@ class TestPortInterfaceHandlers:
 
         nv_if = NvDataInterface(parent=_autosar_root(), short_name="nv_if")
         element = _snip(
-            "<SHORT-NAME>nv_if</SHORT-NAME>"
-            "<NV-DATAS>"
-            "<VARIABLE-DATA-PROTOTYPE><SHORT-NAME>nvdata</SHORT-NAME></VARIABLE-DATA-PROTOTYPE>"
-            "</NV-DATAS>",
+            "<SHORT-NAME>nv_if</SHORT-NAME>" "<NV-DATAS>" "<VARIABLE-DATA-PROTOTYPE><SHORT-NAME>nvdata</SHORT-NAME></VARIABLE-DATA-PROTOTYPE>" "</NV-DATAS>",
             root_tag="NV-DATA-INTERFACE",
         )
         parser.readNvDataInterface(element, nv_if)
@@ -1096,11 +997,7 @@ class TestPortInterfaceHandlers:
 
         mode_if = ModeSwitchInterface(parent=_autosar_root(), short_name="mode_if")
         element = _snip(
-            "<SHORT-NAME>mode_if</SHORT-NAME>"
-            "<MODE-GROUP>"
-            "<SHORT-NAME>mg</SHORT-NAME>"
-            "<TYPE-TREF DEST='MODE-DECLARATION-GROUP'>/mg</TYPE-TREF>"
-            "</MODE-GROUP>",
+            "<SHORT-NAME>mode_if</SHORT-NAME>" "<MODE-GROUP>" "<SHORT-NAME>mg</SHORT-NAME>" "<TYPE-TREF DEST='MODE-DECLARATION-GROUP'>/mg</TYPE-TREF>" "</MODE-GROUP>",
             root_tag="MODE-SWITCH-INTERFACE",
         )
         parser.readModeSwitchInterface(element, mode_if)
@@ -1112,10 +1009,7 @@ class TestPortInterfaceHandlers:
         cs_if = ClientServerInterface(parent=_autosar_root(), short_name="cs_if")
         op = cs_if.createOperation("op")
         element = _snip(
-            "<SHORT-NAME>op</SHORT-NAME>"
-            "<ARGUMENTS>"
-            "<ARGUMENT-DATA-PROTOTYPE><SHORT-NAME>arg</SHORT-NAME><DIRECTION>IN</DIRECTION></ARGUMENT-DATA-PROTOTYPE>"
-            "</ARGUMENTS>",
+            "<SHORT-NAME>op</SHORT-NAME>" "<ARGUMENTS>" "<ARGUMENT-DATA-PROTOTYPE><SHORT-NAME>arg</SHORT-NAME><DIRECTION>IN</DIRECTION></ARGUMENT-DATA-PROTOTYPE>" "</ARGUMENTS>",
             root_tag="CLIENT-SERVER-OPERATION",
         )
         parser.readClientServerOperation(element, op)
@@ -1128,9 +1022,7 @@ class TestPortInterfaceHandlers:
         op = cs_if.createOperation("op")
         arg = op.createArgumentDataPrototype("arg")
         element = _snip(
-            "<SHORT-NAME>arg</SHORT-NAME>"
-            "<DIRECTION>IN</DIRECTION>"
-            "<SERVER-ARGUMENT-IMPL-POLICY>use</SERVER-ARGUMENT-IMPL-POLICY>",
+            "<SHORT-NAME>arg</SHORT-NAME>" "<DIRECTION>IN</DIRECTION>" "<SERVER-ARGUMENT-IMPL-POLICY>use</SERVER-ARGUMENT-IMPL-POLICY>",
             root_tag="ARGUMENT-DATA-PROTOTYPE",
         )
         parser.readArgumentDataPrototype(element, arg)
@@ -1190,10 +1082,7 @@ class TestDataTypeAndCompuHandlers:
 
         unit = Unit(parent=_autosar_root(), short_name="unit")
         element = _snip(
-            "<SHORT-NAME>unit</SHORT-NAME>"
-            "<DISPLAY-NAME>m/s</DISPLAY-NAME>"
-            "<FACTOR-SI-TO-UNIT>1.0</FACTOR-SI-TO-UNIT>"
-            "<OFFSET-SI-TO-UNIT>0.0</OFFSET-SI-TO-UNIT>",
+            "<SHORT-NAME>unit</SHORT-NAME>" "<DISPLAY-NAME>m/s</DISPLAY-NAME>" "<FACTOR-SI-TO-UNIT>1.0</FACTOR-SI-TO-UNIT>" "<OFFSET-SI-TO-UNIT>0.0</OFFSET-SI-TO-UNIT>",
             root_tag="UNIT",
         )
         parser.readUnit(element, unit)
@@ -1204,10 +1093,7 @@ class TestDataTypeAndCompuHandlers:
 
         base_type = SwBaseType(parent=_autosar_root(), short_name="bt")
         element = _snip(
-            "<SHORT-NAME>bt</SHORT-NAME>"
-            "<BASE-TYPE-SIZE>32</BASE-TYPE-SIZE>"
-            "<BASE-TYPE-ENCODING>UNSIGNED</BASE-TYPE-ENCODING>"
-            "<BYTE-ORDER>LITTLE-ENDIAN</BYTE-ORDER>",
+            "<SHORT-NAME>bt</SHORT-NAME>" "<BASE-TYPE-SIZE>32</BASE-TYPE-SIZE>" "<BASE-TYPE-ENCODING>UNSIGNED</BASE-TYPE-ENCODING>" "<BYTE-ORDER>LITTLE-ENDIAN</BYTE-ORDER>",
             root_tag="SW-BASE-TYPE",
         )
         parser.readSwBaseType(element, base_type)
@@ -1236,10 +1122,7 @@ class TestDataTypeAndCompuHandlers:
 
         data_type = ApplicationRecordDataType(parent=_autosar_root(), short_name="ardt")
         element = _snip(
-            "<SHORT-NAME>ardt</SHORT-NAME>"
-            "<ELEMENTS>"
-            "<APPLICATION-RECORD-ELEMENT><SHORT-NAME>elem</SHORT-NAME></APPLICATION-RECORD-ELEMENT>"
-            "</ELEMENTS>",
+            "<SHORT-NAME>ardt</SHORT-NAME>" "<ELEMENTS>" "<APPLICATION-RECORD-ELEMENT><SHORT-NAME>elem</SHORT-NAME></APPLICATION-RECORD-ELEMENT>" "</ELEMENTS>",
             root_tag="APPLICATION-RECORD-DATA-TYPE",
         )
         parser.readApplicationRecordDataType(element, data_type)
@@ -1265,11 +1148,7 @@ class TestDataTypeAndCompuHandlers:
 
         layout = SwRecordLayout(parent=_autosar_root(), short_name="srl")
         element = _snip(
-            "<SHORT-NAME>srl</SHORT-NAME>"
-            "<SW-RECORD-LAYOUT-GROUP>"
-            "<SHORT-LABEL>group</SHORT-LABEL>"
-            "<CATEGORY>cat</CATEGORY>"
-            "</SW-RECORD-LAYOUT-GROUP>",
+            "<SHORT-NAME>srl</SHORT-NAME>" "<SW-RECORD-LAYOUT-GROUP>" "<SHORT-LABEL>group</SHORT-LABEL>" "<CATEGORY>cat</CATEGORY>" "</SW-RECORD-LAYOUT-GROUP>",
             root_tag="SW-RECORD-LAYOUT",
         )
         parser.readSwRecordLayout(element, layout)
@@ -1316,8 +1195,7 @@ class TestValueSpecificationHandlers:
 
     def test_getNumericalValueSpecification_full(self, parser):
         element = _snip(
-            "<SHORT-LABEL>nvs</SHORT-LABEL>"
-            "<VALUE>42</VALUE>",
+            "<SHORT-LABEL>nvs</SHORT-LABEL>" "<VALUE>42</VALUE>",
             root_tag="NUMERICAL-VALUE-SPECIFICATION",
         )
         spec = parser.getNumericalValueSpecification(element)
@@ -1325,8 +1203,7 @@ class TestValueSpecificationHandlers:
 
     def test_getTextValueSpecification_full(self, parser):
         element = _snip(
-            "<SHORT-LABEL>tvs</SHORT-LABEL>"
-            "<VALUE>text</VALUE>",
+            "<SHORT-LABEL>tvs</SHORT-LABEL>" "<VALUE>text</VALUE>",
             root_tag="TEXT-VALUE-SPECIFICATION",
         )
         spec = parser.getTextValueSpecification(element)
@@ -1346,8 +1223,7 @@ class TestValueSpecificationHandlers:
 
     def test_getConstantReference_full(self, parser):
         element = _snip(
-            "<SHORT-LABEL>cr</SHORT-LABEL>"
-            "<CONSTANT-REF DEST='CONSTANT-SPECIFICATION'>/const</CONSTANT-REF>",
+            "<SHORT-LABEL>cr</SHORT-LABEL>" "<CONSTANT-REF DEST='CONSTANT-SPECIFICATION'>/const</CONSTANT-REF>",
             root_tag="CONSTANT-REFERENCE",
         )
         spec = parser.getConstantReference(element)
@@ -1355,10 +1231,7 @@ class TestValueSpecificationHandlers:
 
     def test_getRecordValueSpecification_full(self, parser):
         element = _snip(
-            "<SHORT-LABEL>rvs</SHORT-LABEL>"
-            "<FIELDS>"
-            "<NUMERICAL-VALUE-SPECIFICATION><SHORT-LABEL>f1</SHORT-LABEL><VALUE>1</VALUE></NUMERICAL-VALUE-SPECIFICATION>"
-            "</FIELDS>",
+            "<SHORT-LABEL>rvs</SHORT-LABEL>" "<FIELDS>" "<NUMERICAL-VALUE-SPECIFICATION><SHORT-LABEL>f1</SHORT-LABEL><VALUE>1</VALUE></NUMERICAL-VALUE-SPECIFICATION>" "</FIELDS>",
             root_tag="RECORD-VALUE-SPECIFICATION",
         )
         spec = parser.getRecordValueSpecification(element)
@@ -1449,9 +1322,7 @@ class TestSystemAndMappingHandlers:
         mapping = system.createSystemMapping("sm")
         ecu_mapping = mapping.createECUMapping("ecuMap")
         element = _snip(
-            "<SHORT-NAME>ecuMap</SHORT-NAME>"
-            "<ECU-INSTANCE-REF DEST='ECU-INSTANCE'>/ecuInst</ECU-INSTANCE-REF>"
-            "<ECU-REF DEST='ECU'>/ecu</ECU-REF>",
+            "<SHORT-NAME>ecuMap</SHORT-NAME>" "<ECU-INSTANCE-REF DEST='ECU-INSTANCE'>/ecuInst</ECU-INSTANCE-REF>" "<ECU-REF DEST='ECU'>/ecu</ECU-REF>",
             root_tag="ECU-MAPPING",
         )
         parser.readEcuMapping(element, ecu_mapping)
@@ -1576,8 +1447,7 @@ class TestEcucDefAndValueHandlers:
 
     def test_getEcucNumericalParamValue_full(self, parser):
         element = _snip(
-            "<DEFINITION-REF DEST='ECUC-INTEGER-PARAM-DEF'>/def</DEFINITION-REF>"
-            "<VALUE>100</VALUE>",
+            "<DEFINITION-REF DEST='ECUC-INTEGER-PARAM-DEF'>/def</DEFINITION-REF>" "<VALUE>100</VALUE>",
             root_tag="ECUC-NUMERICAL-PARAM-VALUE",
         )
         param = parser.getEcucNumericalParamValue(element)
@@ -1585,8 +1455,7 @@ class TestEcucDefAndValueHandlers:
 
     def test_getEcucTextualParamValue_full(self, parser):
         element = _snip(
-            "<DEFINITION-REF DEST='ECUC-STRING-PARAM-DEF'>/def</DEFINITION-REF>"
-            "<VALUE>text</VALUE>",
+            "<DEFINITION-REF DEST='ECUC-STRING-PARAM-DEF'>/def</DEFINITION-REF>" "<VALUE>text</VALUE>",
             root_tag="ECUC-TEXTUAL-PARAM-VALUE",
         )
         param = parser.getEcucTextualParamValue(element)
@@ -1594,8 +1463,7 @@ class TestEcucDefAndValueHandlers:
 
     def test_getEcucReferenceValue_full(self, parser):
         element = _snip(
-            "<DEFINITION-REF DEST='ECUC-REFERENCE-DEF'>/def</DEFINITION-REF>"
-            "<VALUE-REF DEST='ECUC-CONTAINER-VALUE'>/ref</VALUE-REF>",
+            "<DEFINITION-REF DEST='ECUC-REFERENCE-DEF'>/def</DEFINITION-REF>" "<VALUE-REF DEST='ECUC-CONTAINER-VALUE'>/ref</VALUE-REF>",
             root_tag="ECUC-REFERENCE-VALUE",
         )
         ref = parser.getEcucReferenceValue(element)
@@ -1648,10 +1516,7 @@ class TestLifeCycleAndVariantHandlers:
 
         flat_map = FlatMap(parent=_autosar_root(), short_name="fm")
         element = _snip(
-            "<SHORT-NAME>fm</SHORT-NAME>"
-            "<INSTANCES>"
-            "<FLAT-INSTANCE-DESCRIPTOR><SHORT-NAME>fid</SHORT-NAME></FLAT-INSTANCE-DESCRIPTOR>"
-            "</INSTANCES>",
+            "<SHORT-NAME>fm</SHORT-NAME>" "<INSTANCES>" "<FLAT-INSTANCE-DESCRIPTOR><SHORT-NAME>fid</SHORT-NAME></FLAT-INSTANCE-DESCRIPTOR>" "</INSTANCES>",
             root_tag="FLAT-MAP",
         )
         parser.readFlatMap(element, flat_map)
@@ -2052,6 +1917,7 @@ class TestAdditionalOrchestratorCoverage:
 def _make_service_dependency():
     """Create a SwcServiceDependency for service-needs tests."""
     from armodel.models import ApplicationSwComponentType
+
     app = ApplicationSwComponentType(parent=_autosar_root(), short_name="App")
     behavior = app.createSwcInternalBehavior("Behavior")
     return behavior.createSwcServiceDependency("Dep")
@@ -2060,6 +1926,7 @@ def _make_service_dependency():
 def _make_swc_behavior():
     """Create a minimal SwcInternalBehavior for event tests."""
     from armodel.models import ApplicationSwComponentType
+
     app = ApplicationSwComponentType(parent=_autosar_root(), short_name="App")
     return app.createSwcInternalBehavior("Behavior")
 
@@ -2067,17 +1934,20 @@ def _make_swc_behavior():
 class TestSwcServiceDependencyServiceNeeds:
     """Tests for readSwcServiceDependencyServiceNeeds branches."""
 
-    @pytest.mark.parametrize("tag", [
-        "DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS",
-        "DIAGNOSTIC-ROUTINE-NEEDS",
-        "DIAGNOSTIC-VALUE-NEEDS",
-        "DIAGNOSTIC-EVENT-NEEDS",
-        "DIAGNOSTIC-EVENT-INFO-NEEDS",
-        "CRYPTO-SERVICE-NEEDS",
-        "ECU-STATE-MGR-USER-NEEDS",
-        "DTC-STATUS-CHANGE-NOTIFICATION-NEEDS",
-        "DLT-USER-NEEDS",
-    ])
+    @pytest.mark.parametrize(
+        "tag",
+        [
+            "DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS",
+            "DIAGNOSTIC-ROUTINE-NEEDS",
+            "DIAGNOSTIC-VALUE-NEEDS",
+            "DIAGNOSTIC-EVENT-NEEDS",
+            "DIAGNOSTIC-EVENT-INFO-NEEDS",
+            "CRYPTO-SERVICE-NEEDS",
+            "ECU-STATE-MGR-USER-NEEDS",
+            "DTC-STATUS-CHANGE-NOTIFICATION-NEEDS",
+            "DLT-USER-NEEDS",
+        ],
+    )
     def test_service_needs_branches(self, parser, tag):
         AUTOSAR.getInstance().setARRelease("R23-11")
         dep = _make_service_dependency()
@@ -2158,14 +2028,17 @@ class TestIncludedDataTypeSets:
 class TestSwcInternalBehaviorEvents:
     """Tests for readSwcInternalBehaviorEvents branches."""
 
-    @pytest.mark.parametrize("tag", [
-        "INTERNAL-TRIGGER-OCCURRED-EVENT",
-        "INIT-EVENT",
-        "ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT",
-        "MODE-SWITCHED-ACK-EVENT",
-        "BACKGROUND-EVENT",
-        "DATA-SEND-COMPLETED-EVENT",
-    ])
+    @pytest.mark.parametrize(
+        "tag",
+        [
+            "INTERNAL-TRIGGER-OCCURRED-EVENT",
+            "INIT-EVENT",
+            "ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT",
+            "MODE-SWITCHED-ACK-EVENT",
+            "BACKGROUND-EVENT",
+            "DATA-SEND-COMPLETED-EVENT",
+        ],
+    )
     def test_event_branches(self, parser, tag):
         AUTOSAR.getInstance().setARRelease("R23-11")
         behavior = _make_swc_behavior()
@@ -2224,6 +2097,7 @@ class TestSwPointerTargetProps:
         from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
             SwDataDefProps,
         )
+
         AUTOSAR.getInstance().setARRelease("R23-11")
         parent = SwDataDefProps()
         element = _snip(
@@ -2241,6 +2115,7 @@ class TestSwPointerTargetProps:
         from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
             SwDataDefProps,
         )
+
         AUTOSAR.getInstance().setARRelease("R23-11")
         parent = SwDataDefProps()
         element = _snip("")
@@ -2261,18 +2136,14 @@ class TestParameterInAtomicSWCTypeInstanceRef:
             </PARAMETER-IN-ATOMIC-SWC-TYPE-INSTANCE-REF>
             """,
         )
-        result = parser.getParameterInAtomicSWCTypeInstanceRef(
-            element, "PARAMETER-IN-ATOMIC-SWC-TYPE-INSTANCE-REF"
-        )
+        result = parser.getParameterInAtomicSWCTypeInstanceRef(element, "PARAMETER-IN-ATOMIC-SWC-TYPE-INSTANCE-REF")
         assert result is not None
         assert result.getPortPrototypeRef() is not None
 
     def test_without_element(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")
         element = _snip("")
-        result = parser.getParameterInAtomicSWCTypeInstanceRef(
-            element, "PARAMETER-IN-ATOMIC-SWC-TYPE-INSTANCE-REF"
-        )
+        result = parser.getParameterInAtomicSWCTypeInstanceRef(element, "PARAMETER-IN-ATOMIC-SWC-TYPE-INSTANCE-REF")
         assert result is None
 
 
@@ -2334,6 +2205,7 @@ def _make_system_mapping():
     """Create a SystemMapping with a MagicMock parent for data-mapping tests."""
     from unittest.mock import MagicMock
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate import SystemMapping
+
     return SystemMapping(parent=MagicMock(), short_name="TestSystemMapping")
 
 
@@ -2347,12 +2219,15 @@ class TestReadSenderRecRecordElementMapping:
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
             SenderRecRecordElementMapping,
         )
+
         mapping = SenderRecRecordElementMapping()
-        element = _snip("""
+        element = _snip(
+            """
             <APPLICATION-RECORD-ELEMENT-REF DEST="RECORD-ELEMENT">/App/Rec1</APPLICATION-RECORD-ELEMENT-REF>
             <IMPLEMENTATION-RECORD-ELEMENT-REF DEST="RECORD-ELEMENT">/Impl/Rec1</IMPLEMENTATION-RECORD-ELEMENT-REF>
             <SYSTEM-SIGNAL-REF DEST="SYSTEM-SIGNAL">/Sig/S1</SYSTEM-SIGNAL-REF>
-        """)
+        """
+        )
         parser.readSenderRecRecordElementMapping(element, mapping)
         assert mapping.getApplicationRecordElementRef() is not None
         assert mapping.getApplicationRecordElementRef().getValue() == "/App/Rec1"
@@ -2365,6 +2240,7 @@ class TestReadSenderRecRecordElementMapping:
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
             SenderRecRecordElementMapping,
         )
+
         mapping = SenderRecRecordElementMapping()
         element = _snip("")
         parser.readSenderRecRecordElementMapping(element, mapping)
@@ -2384,8 +2260,10 @@ class TestReadSenderRecArrayTypeMappingRecordElementMapping:
             SenderRecRecordElementMapping,
             SenderRecRecordTypeMapping,
         )
+
         mapping = SenderRecRecordTypeMapping()
-        element = _snip("""
+        element = _snip(
+            """
             <RECORD-ELEMENT-MAPPINGS>
                 <SENDER-REC-RECORD-ELEMENT-MAPPING>
                     <APPLICATION-RECORD-ELEMENT-REF DEST="RECORD-ELEMENT">/App/Rec1</APPLICATION-RECORD-ELEMENT-REF>
@@ -2393,7 +2271,8 @@ class TestReadSenderRecArrayTypeMappingRecordElementMapping:
                     <SYSTEM-SIGNAL-REF DEST="SYSTEM-SIGNAL">/Sig/S1</SYSTEM-SIGNAL-REF>
                 </SENDER-REC-RECORD-ELEMENT-MAPPING>
             </RECORD-ELEMENT-MAPPINGS>
-        """)
+        """
+        )
         parser.readSenderRecArrayTypeMappingRecordElementMapping(element, mapping)
         mappings = mapping.getRecordElementMappings()
         assert len(mappings) == 1
@@ -2404,14 +2283,17 @@ class TestReadSenderRecArrayTypeMappingRecordElementMapping:
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
             SenderRecRecordTypeMapping,
         )
+
         mapping = SenderRecRecordTypeMapping()
-        element = _snip("""
+        element = _snip(
+            """
             <RECORD-ELEMENT-MAPPINGS>
                 <UNKNOWN-MAPPING>
                     <SHORT-NAME>X</SHORT-NAME>
                 </UNKNOWN-MAPPING>
             </RECORD-ELEMENT-MAPPINGS>
-        """)
+        """
+        )
         with pytest.raises(NotImplementedError):
             parser.readSenderRecArrayTypeMappingRecordElementMapping(element, mapping)
 
@@ -2419,14 +2301,17 @@ class TestReadSenderRecArrayTypeMappingRecordElementMapping:
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
             SenderRecRecordTypeMapping,
         )
+
         mapping = SenderRecRecordTypeMapping()
-        element = _snip("""
+        element = _snip(
+            """
             <RECORD-ELEMENT-MAPPINGS>
                 <UNKNOWN-MAPPING>
                     <SHORT-NAME>X</SHORT-NAME>
                 </UNKNOWN-MAPPING>
             </RECORD-ELEMENT-MAPPINGS>
-        """)
+        """
+        )
         with caplog.at_level(logging.ERROR):
             warning_parser.readSenderRecArrayTypeMappingRecordElementMapping(element, mapping)
         assert any("Unsupported RecordElementMapping" in rec.getMessage() for rec in caplog.records)
@@ -2436,6 +2321,7 @@ class TestReadSenderRecArrayTypeMappingRecordElementMapping:
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
             SenderRecRecordTypeMapping,
         )
+
         mapping = SenderRecRecordTypeMapping()
         element = _snip("<RECORD-ELEMENT-MAPPINGS></RECORD-ELEMENT-MAPPINGS>")
         parser.readSenderRecArrayTypeMappingRecordElementMapping(element, mapping)
@@ -2452,8 +2338,10 @@ class TestReadSenderRecRecordTypeMapping:
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
             SenderRecRecordTypeMapping,
         )
+
         mapping = SenderRecRecordTypeMapping()
-        element = _snip("""
+        element = _snip(
+            """
             <RECORD-ELEMENT-MAPPINGS>
                 <SENDER-REC-RECORD-ELEMENT-MAPPING>
                     <APPLICATION-RECORD-ELEMENT-REF DEST="RECORD-ELEMENT">/App/Rec1</APPLICATION-RECORD-ELEMENT-REF>
@@ -2466,7 +2354,8 @@ class TestReadSenderRecRecordTypeMapping:
                     <SYSTEM-SIGNAL-REF DEST="SYSTEM-SIGNAL">/Sig/S2</SYSTEM-SIGNAL-REF>
                 </SENDER-REC-RECORD-ELEMENT-MAPPING>
             </RECORD-ELEMENT-MAPPINGS>
-        """)
+        """
+        )
         parser.readSenderRecRecordTypeMapping(element, mapping)
         mappings = mapping.getRecordElementMappings()
         assert len(mappings) == 2
@@ -2485,8 +2374,10 @@ class TestReadSenderReceiverToSignalGroupMappingTypeMapping:
             SenderReceiverToSignalGroupMapping,
             SenderRecRecordTypeMapping,
         )
+
         mapping = SenderReceiverToSignalGroupMapping()
-        element = _snip("""
+        element = _snip(
+            """
             <TYPE-MAPPING>
                 <SENDER-REC-RECORD-TYPE-MAPPING>
                     <RECORD-ELEMENT-MAPPINGS>
@@ -2498,7 +2389,8 @@ class TestReadSenderReceiverToSignalGroupMappingTypeMapping:
                     </RECORD-ELEMENT-MAPPINGS>
                 </SENDER-REC-RECORD-TYPE-MAPPING>
             </TYPE-MAPPING>
-        """)
+        """
+        )
         parser.readSenderReceiverToSignalGroupMappingTypeMapping(element, mapping)
         type_mapping = mapping.getTypeMapping()
         assert type_mapping is not None
@@ -2510,14 +2402,17 @@ class TestReadSenderReceiverToSignalGroupMappingTypeMapping:
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
             SenderReceiverToSignalGroupMapping,
         )
+
         mapping = SenderReceiverToSignalGroupMapping()
-        element = _snip("""
+        element = _snip(
+            """
             <TYPE-MAPPING>
                 <UNKNOWN-TYPE-MAPPING>
                     <SHORT-NAME>X</SHORT-NAME>
                 </UNKNOWN-TYPE-MAPPING>
             </TYPE-MAPPING>
-        """)
+        """
+        )
         with pytest.raises(NotImplementedError):
             parser.readSenderReceiverToSignalGroupMappingTypeMapping(element, mapping)
 
@@ -2525,14 +2420,17 @@ class TestReadSenderReceiverToSignalGroupMappingTypeMapping:
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
             SenderReceiverToSignalGroupMapping,
         )
+
         mapping = SenderReceiverToSignalGroupMapping()
-        element = _snip("""
+        element = _snip(
+            """
             <TYPE-MAPPING>
                 <UNKNOWN-TYPE-MAPPING>
                     <SHORT-NAME>X</SHORT-NAME>
                 </UNKNOWN-TYPE-MAPPING>
             </TYPE-MAPPING>
-        """)
+        """
+        )
         with caplog.at_level(logging.ERROR):
             warning_parser.readSenderReceiverToSignalGroupMappingTypeMapping(element, mapping)
         assert any("Unsupported Type Mapping" in rec.getMessage() for rec in caplog.records)
@@ -2542,6 +2440,7 @@ class TestReadSenderReceiverToSignalGroupMappingTypeMapping:
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
             SenderReceiverToSignalGroupMapping,
         )
+
         mapping = SenderReceiverToSignalGroupMapping()
         element = _snip("")
         parser.readSenderReceiverToSignalGroupMappingTypeMapping(element, mapping)
@@ -2556,7 +2455,8 @@ class TestReadSystemMappingDataMappings:
 
     def test_reads_sender_receiver_to_signal_mapping(self, parser):
         mapping = _make_system_mapping()
-        element = _snip("""
+        element = _snip(
+            """
             <DATA-MAPPINGS>
                 <SENDER-RECEIVER-TO-SIGNAL-MAPPING>
                     <COMMUNICATION-DIRECTION>IN</COMMUNICATION-DIRECTION>
@@ -2569,13 +2469,15 @@ class TestReadSystemMappingDataMappings:
                     <SYSTEM-SIGNAL-REF DEST="SYSTEM-SIGNAL">/Sig/S1</SYSTEM-SIGNAL-REF>
                 </SENDER-RECEIVER-TO-SIGNAL-MAPPING>
             </DATA-MAPPINGS>
-        """)
+        """
+        )
         parser.readSystemMappingDataMappings(element, mapping)
         data_mappings = mapping.getDataMappings()
         assert len(data_mappings) == 1
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
             SenderReceiverToSignalMapping,
         )
+
         assert isinstance(data_mappings[0], SenderReceiverToSignalMapping)
         assert data_mappings[0].getSystemSignalRef().getValue() == "/Sig/S1"
         assert data_mappings[0].getCommunicationDirection().getValue() == "IN"
@@ -2583,7 +2485,8 @@ class TestReadSystemMappingDataMappings:
 
     def test_reads_sender_receiver_to_signal_group_mapping(self, parser):
         mapping = _make_system_mapping()
-        element = _snip("""
+        element = _snip(
+            """
             <DATA-MAPPINGS>
                 <SENDER-RECEIVER-TO-SIGNAL-GROUP-MAPPING>
                     <DATA-ELEMENT-IREF>
@@ -2606,7 +2509,8 @@ class TestReadSystemMappingDataMappings:
                     </TYPE-MAPPING>
                 </SENDER-RECEIVER-TO-SIGNAL-GROUP-MAPPING>
             </DATA-MAPPINGS>
-        """)
+        """
+        )
         parser.readSystemMappingDataMappings(element, mapping)
         data_mappings = mapping.getDataMappings()
         assert len(data_mappings) == 1
@@ -2614,6 +2518,7 @@ class TestReadSystemMappingDataMappings:
             SenderReceiverToSignalGroupMapping,
             SenderRecRecordTypeMapping,
         )
+
         assert isinstance(data_mappings[0], SenderReceiverToSignalGroupMapping)
         assert data_mappings[0].getSignalGroupRef().getValue() == "/Sig/Group1"
         assert data_mappings[0].getDataElementIRef() is not None
@@ -2624,7 +2529,8 @@ class TestReadSystemMappingDataMappings:
 
     def test_reads_both_signal_and_signal_group_mappings(self, parser):
         mapping = _make_system_mapping()
-        element = _snip("""
+        element = _snip(
+            """
             <DATA-MAPPINGS>
                 <SENDER-RECEIVER-TO-SIGNAL-MAPPING>
                     <DATA-ELEMENT-IREF>
@@ -2639,32 +2545,37 @@ class TestReadSystemMappingDataMappings:
                     <SIGNAL-GROUP-REF DEST="SIGNAL-GROUP">/Sig/Group1</SIGNAL-GROUP-REF>
                 </SENDER-RECEIVER-TO-SIGNAL-GROUP-MAPPING>
             </DATA-MAPPINGS>
-        """)
+        """
+        )
         parser.readSystemMappingDataMappings(element, mapping)
         data_mappings = mapping.getDataMappings()
         assert len(data_mappings) == 2
 
     def test_unsupported_data_mapping_raises(self, parser):
         mapping = _make_system_mapping()
-        element = _snip("""
+        element = _snip(
+            """
             <DATA-MAPPINGS>
                 <UNKNOWN-MAPPING>
                     <SHORT-NAME>X</SHORT-NAME>
                 </UNKNOWN-MAPPING>
             </DATA-MAPPINGS>
-        """)
+        """
+        )
         with pytest.raises(NotImplementedError):
             parser.readSystemMappingDataMappings(element, mapping)
 
     def test_unsupported_data_mapping_logs_warning(self, warning_parser, caplog):
         mapping = _make_system_mapping()
-        element = _snip("""
+        element = _snip(
+            """
             <DATA-MAPPINGS>
                 <UNKNOWN-MAPPING>
                     <SHORT-NAME>X</SHORT-NAME>
                 </UNKNOWN-MAPPING>
             </DATA-MAPPINGS>
-        """)
+        """
+        )
         with caplog.at_level(logging.ERROR):
             warning_parser.readSystemMappingDataMappings(element, mapping)
         assert any("Unsupported Data Mapping" in rec.getMessage() for rec in caplog.records)
@@ -2679,12 +2590,11 @@ class TestReadSystemMappingDataMappings:
 
 # === Migrated from test_arxml_parser_remaining_gaps.py ===
 
+
 class TestRoleBasedDataTypeAssignment:
     def test_getRoleBasedDataTypeAssignment_with_role(self, parser):
         element = _snip(
-            "<ROLE>MyRole</ROLE>"
-            "<USED-IMPLEMENTATION-DATA-TYPE-REF "
-            'DEST="IMPLEMENTATION-DATA-TYPE">/dt/Impl</USED-IMPLEMENTATION-DATA-TYPE-REF>',
+            "<ROLE>MyRole</ROLE>" "<USED-IMPLEMENTATION-DATA-TYPE-REF " 'DEST="IMPLEMENTATION-DATA-TYPE">/dt/Impl</USED-IMPLEMENTATION-DATA-TYPE-REF>',
             root_tag="ROLE-BASED-DATA-TYPE-ASSIGNMENT",
         )
         result = parser.getRoleBasedDataTypeAssignment(element)
@@ -2699,141 +2609,93 @@ class TestRoleBasedDataTypeAssignment:
         assert result.getRole() is None
         assert result.getUsedImplementationDataTypeRef() is None
 
-    def test_readServiceDependency_with_role_based_data_type_assignment(
-        self, parser
-    ):
+    def test_readServiceDependency_with_role_based_data_type_assignment(self, parser):
         from armodel.models import SwcServiceDependency
-        dep = SwcServiceDependency(
-            parent=_autosar_root(), short_name="Dep"
-        )
+
+        dep = SwcServiceDependency(parent=_autosar_root(), short_name="Dep")
         element = _snip(
-            "<ASSIGNED-DATA-TYPES>"
-            "<ROLE-BASED-DATA-TYPE-ASSIGNMENT>"
-            "<ROLE>r</ROLE>"
-            "</ROLE-BASED-DATA-TYPE-ASSIGNMENT>"
-            "</ASSIGNED-DATA-TYPES>",
+            "<ASSIGNED-DATA-TYPES>" "<ROLE-BASED-DATA-TYPE-ASSIGNMENT>" "<ROLE>r</ROLE>" "</ROLE-BASED-DATA-TYPE-ASSIGNMENT>" "</ASSIGNED-DATA-TYPES>",
             root_tag="SERVICE-DEPENDENCY",
         )
         parser.readServiceDependency(element, dep)
         assert len(dep.getAssignedDataTypes()) == 1
 
-    def test_readServiceDependency_unsupported_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readServiceDependency_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import SwcServiceDependency
-        dep = SwcServiceDependency(
-            parent=_autosar_root(), short_name="Dep"
-        )
+
+        dep = SwcServiceDependency(parent=_autosar_root(), short_name="Dep")
         element = _snip(
             "<ASSIGNED-DATA-TYPES><BAD/></ASSIGNED-DATA-TYPES>",
             root_tag="SERVICE-DEPENDENCY",
         )
         with caplog.at_level(logging.ERROR):
             warning_parser.readServiceDependency(element, dep)
-        assert any("Unsupported assigned data type" in r.getMessage()
-                   for r in caplog.records)
+        assert any("Unsupported assigned data type" in r.getMessage() for r in caplog.records)
 
 
 # ==================== SwcServiceDependency assigned ports/data (L623, L631, L776) ====================
 
 
-
 # === Migrated from test_arxml_parser_remaining_gaps.py ===
+
 
 class TestSwcServiceDependencyAssigned:
     def test_readAssignedData_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import SwcServiceDependency
-        dep = SwcServiceDependency(
-            parent=_autosar_root(), short_name="Swsd"
-        )
+
+        dep = SwcServiceDependency(parent=_autosar_root(), short_name="Swsd")
         element = _snip(
             "<ASSIGNED-DATAS><BAD/></ASSIGNED-DATAS>",
             root_tag="SWC-SERVICE-DEPENDENCY",
         )
         with caplog.at_level(logging.ERROR):
-            warning_parser.readSwcServiceDependencyAssignedData(
-                element, dep
-            )
-        assert any("Unsupported assigned data" in r.getMessage()
-                   for r in caplog.records)
+            warning_parser.readSwcServiceDependencyAssignedData(element, dep)
+        assert any("Unsupported assigned data" in r.getMessage() for r in caplog.records)
 
     def test_readAssignedPorts_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import SwcServiceDependency
-        dep = SwcServiceDependency(
-            parent=_autosar_root(), short_name="Swsd"
-        )
+
+        dep = SwcServiceDependency(parent=_autosar_root(), short_name="Swsd")
         element = _snip(
             "<ASSIGNED-PORTS><BAD/></ASSIGNED-PORTS>",
             root_tag="SWC-SERVICE-DEPENDENCY",
         )
         with caplog.at_level(logging.ERROR):
-            warning_parser.readSwcServiceDependencyAssignedPorts(
-                element, dep
-            )
-        assert any("Unsupported assigned ports" in r.getMessage()
-                   for r in caplog.records)
+            warning_parser.readSwcServiceDependencyAssignedPorts(element, dep)
+        assert any("Unsupported assigned ports" in r.getMessage() for r in caplog.records)
 
-    def test_readSwcInternalBehaviorServiceDependencies_unsupported_warns(
-        self, warning_parser, caplog
-    ):
-        app = ApplicationSwComponentType(
-            parent=_autosar_root(), short_name="App"
-        )
+    def test_readSwcInternalBehaviorServiceDependencies_unsupported_warns(self, warning_parser, caplog):
+        app = ApplicationSwComponentType(parent=_autosar_root(), short_name="App")
         behavior = app.createSwcInternalBehavior("Beh")
-        element = _snip(
-            "<SERVICE-DEPENDENCYS><BAD/></SERVICE-DEPENDENCYS>"
-        )
+        element = _snip("<SERVICE-DEPENDENCYS><BAD/></SERVICE-DEPENDENCYS>")
         with caplog.at_level(logging.ERROR):
-            warning_parser.readSwcInternalBehaviorServiceDependencies(
-                element, behavior
-            )
-        assert any("Unsupported Service Dependencies" in r.getMessage()
-                   for r in caplog.records)
+            warning_parser.readSwcInternalBehaviorServiceDependencies(element, behavior)
+        assert any("Unsupported Service Dependencies" in r.getMessage() for r in caplog.records)
 
 
 # ==================== SwcInternalBehavior IncludedModeDeclarationGroupSet (L813, L840, L845-848) ====================
 
 
-
 # === Migrated from test_arxml_parser_remaining_gaps.py ===
 
+
 class TestSwcInternalBehaviorIncludedModeDeclaration:
-    def test_readIncludedModeDeclarationGroupSets_unsupported_warns(
-        self, warning_parser, caplog
-    ):
-        app = ApplicationSwComponentType(
-            parent=_autosar_root(), short_name="App"
-        )
+    def test_readIncludedModeDeclarationGroupSets_unsupported_warns(self, warning_parser, caplog):
+        app = ApplicationSwComponentType(parent=_autosar_root(), short_name="App")
         behavior = app.createSwcInternalBehavior("Beh")
-        element = _snip(
-            "<INCLUDED-MODE-DECLARATION-GROUP-SETS><BAD/></INCLUDED-MODE-DECLARATION-GROUP-SETS>"
-        )
+        element = _snip("<INCLUDED-MODE-DECLARATION-GROUP-SETS><BAD/></INCLUDED-MODE-DECLARATION-GROUP-SETS>")
         with caplog.at_level(logging.ERROR):
-            warning_parser.readSwcInternalBehaviorIncludedModeDeclarationGroupSets(
-                element, behavior
-            )
-        assert any("Unsupported IncludedModeDeclarationGroupSet"
-                   in r.getMessage() for r in caplog.records)
+            warning_parser.readSwcInternalBehaviorIncludedModeDeclarationGroupSets(element, behavior)
+        assert any("Unsupported IncludedModeDeclarationGroupSet" in r.getMessage() for r in caplog.records)
 
-    def test_readAtomicSwComponentTypeSwcInternalBehavior_unsupported_warns(
-        self, warning_parser, caplog
-    ):
-        app = ApplicationSwComponentType(
-            parent=_autosar_root(), short_name="App"
-        )
-        element = _snip(
-            "<INTERNAL-BEHAVIORS><BAD/></INTERNAL-BEHAVIORS>"
-        )
+    def test_readAtomicSwComponentTypeSwcInternalBehavior_unsupported_warns(self, warning_parser, caplog):
+        app = ApplicationSwComponentType(parent=_autosar_root(), short_name="App")
+        element = _snip("<INTERNAL-BEHAVIORS><BAD/></INTERNAL-BEHAVIORS>")
         with caplog.at_level(logging.ERROR):
-            warning_parser.readAtomicSwComponentTypeSwcInternalBehavior(
-                element, app
-            )
-        assert any("Unsupported Internal Behaviors" in r.getMessage()
-                   for r in caplog.records)
+            warning_parser.readAtomicSwComponentTypeSwcInternalBehavior(element, app)
+        assert any("Unsupported Internal Behaviors" in r.getMessage() for r in caplog.records)
 
-    def test_getIncludedModeDeclarationGroupSets_returns_groups(
-        self, parser
-    ):
+    def test_getIncludedModeDeclarationGroupSets_returns_groups(self, parser):
         element = _snip(
             "<INCLUDED-MODE-DECLARATION-GROUP-SETS>"
             "<INCLUDED-MODE-DECLARATION-GROUP-SET>"
@@ -2850,12 +2712,13 @@ class TestSwcInternalBehaviorIncludedModeDeclaration:
 # ==================== BswInternalBehavior addIncludedModeDeclarationGroupSet (L1025) ====================
 
 
-
 # === Migrated from test_arxml_parser_remaining_gaps.py ===
+
 
 class TestRunnableEntityGaps:
     def test_readModeSwitchPointModeGroupIRef_sets_ref(self, parser):
         from armodel.models import ModeSwitchPoint
+
         point = ModeSwitchPoint(parent=MagicMock(), short_name="Msp")
         element = _snip(
             "<MODE-GROUP-IREF>"
@@ -2869,119 +2732,64 @@ class TestRunnableEntityGaps:
         parser.readModeSwitchPointModeGroupIRef(element, point)
         assert point.getModeGroupIRef() is not None
 
-    def test_readRunnableEntityModeSwitchPoints_unsupported_warns(
-        self, warning_parser, caplog
-    ):
-        app = ApplicationSwComponentType(
-            parent=_autosar_root(), short_name="App"
-        )
+    def test_readRunnableEntityModeSwitchPoints_unsupported_warns(self, warning_parser, caplog):
+        app = ApplicationSwComponentType(parent=_autosar_root(), short_name="App")
         behavior = app.createSwcInternalBehavior("Beh")
         entity = behavior.createRunnableEntity("R")
-        element = _snip(
-            "<MODE-SWITCH-POINTS><BAD/></MODE-SWITCH-POINTS>"
-        )
+        element = _snip("<MODE-SWITCH-POINTS><BAD/></MODE-SWITCH-POINTS>")
         with caplog.at_level(logging.ERROR):
-            warning_parser.readRunnableEntityModeSwitchPoints(
-                element, entity
-            )
-        assert any("Unsupported Mode Switch Point" in r.getMessage()
-                   for r in caplog.records)
+            warning_parser.readRunnableEntityModeSwitchPoints(element, entity)
+        assert any("Unsupported Mode Switch Point" in r.getMessage() for r in caplog.records)
 
-    def test_readRunnableEntityArguments_unsupported_warns(
-        self, warning_parser, caplog
-    ):
-        app = ApplicationSwComponentType(
-            parent=_autosar_root(), short_name="App"
-        )
+    def test_readRunnableEntityArguments_unsupported_warns(self, warning_parser, caplog):
+        app = ApplicationSwComponentType(parent=_autosar_root(), short_name="App")
         behavior = app.createSwcInternalBehavior("Beh")
         entity = behavior.createRunnableEntity("R")
-        element = _snip(
-            "<ARGUMENTS><BAD/></ARGUMENTS>"
-        )
+        element = _snip("<ARGUMENTS><BAD/></ARGUMENTS>")
         with caplog.at_level(logging.ERROR):
             warning_parser.readRunnableEntityArguments(element, entity)
-        assert any("Unsupported Arguments of runnable entity"
-                   in r.getMessage() for r in caplog.records)
+        assert any("Unsupported Arguments of runnable entity" in r.getMessage() for r in caplog.records)
 
-    def test_readRunnableEntityModeAccessPoints_unsupported_warns(
-        self, warning_parser, caplog
-    ):
-        app = ApplicationSwComponentType(
-            parent=_autosar_root(), short_name="App"
-        )
+    def test_readRunnableEntityModeAccessPoints_unsupported_warns(self, warning_parser, caplog):
+        app = ApplicationSwComponentType(parent=_autosar_root(), short_name="App")
         behavior = app.createSwcInternalBehavior("Beh")
         entity = behavior.createRunnableEntity("R")
-        element = _snip(
-            "<MODE-ACCESS-POINTS><BAD/></MODE-ACCESS-POINTS>"
-        )
+        element = _snip("<MODE-ACCESS-POINTS><BAD/></MODE-ACCESS-POINTS>")
         with caplog.at_level(logging.ERROR):
-            warning_parser.readRunnableEntityModeAccessPoints(
-                element, entity
-            )
-        assert any("Unsupported Mode Access Point" in r.getMessage()
-                   for r in caplog.records)
+            warning_parser.readRunnableEntityModeAccessPoints(element, entity)
+        assert any("Unsupported Mode Access Point" in r.getMessage() for r in caplog.records)
 
 
 # ==================== SwDataDefPros InvalidValue (L1827) ====================
 
 
-
 # === Migrated from test_arxml_parser_remaining_gaps.py ===
+
 
 class TestGetValueSpecification:
     def test_application_value_specification(self, parser):
-        element = _snip(
-            "<APPLICATION-VALUE-SPECIFICATION>"
-            "<SHORT-LABEL>lbl</SHORT-LABEL>"
-            "</APPLICATION-VALUE-SPECIFICATION>"
-        )
-        result = parser.getValueSpecification(
-            element, "APPLICATION-VALUE-SPECIFICATION"
-        )
+        element = _snip("<APPLICATION-VALUE-SPECIFICATION>" "<SHORT-LABEL>lbl</SHORT-LABEL>" "</APPLICATION-VALUE-SPECIFICATION>")
+        result = parser.getValueSpecification(element, "APPLICATION-VALUE-SPECIFICATION")
         assert result is not None
 
     def test_record_value_specification(self, parser):
-        element = _snip(
-            "<RECORD-VALUE-SPECIFICATION>"
-            "<FIELDS/>"
-            "</RECORD-VALUE-SPECIFICATION>"
-        )
-        result = parser.getValueSpecification(
-            element, "RECORD-VALUE-SPECIFICATION"
-        )
+        element = _snip("<RECORD-VALUE-SPECIFICATION>" "<FIELDS/>" "</RECORD-VALUE-SPECIFICATION>")
+        result = parser.getValueSpecification(element, "RECORD-VALUE-SPECIFICATION")
         assert result is not None
 
     def test_array_value_specification(self, parser):
-        element = _snip(
-            "<ARRAY-VALUE-SPECIFICATION>"
-            "<ELEMENTS/>"
-            "</ARRAY-VALUE-SPECIFICATION>"
-        )
-        result = parser.getValueSpecification(
-            element, "ARRAY-VALUE-SPECIFICATION"
-        )
+        element = _snip("<ARRAY-VALUE-SPECIFICATION>" "<ELEMENTS/>" "</ARRAY-VALUE-SPECIFICATION>")
+        result = parser.getValueSpecification(element, "ARRAY-VALUE-SPECIFICATION")
         assert result is not None
 
     def test_text_value_specification(self, parser):
-        element = _snip(
-            "<TEXT-VALUE-SPECIFICATION>"
-            "<VALUE>txt</VALUE>"
-            "</TEXT-VALUE-SPECIFICATION>"
-        )
-        result = parser.getValueSpecification(
-            element, "TEXT-VALUE-SPECIFICATION"
-        )
+        element = _snip("<TEXT-VALUE-SPECIFICATION>" "<VALUE>txt</VALUE>" "</TEXT-VALUE-SPECIFICATION>")
+        result = parser.getValueSpecification(element, "TEXT-VALUE-SPECIFICATION")
         assert result is not None
 
     def test_constant_reference(self, parser):
-        element = _snip(
-            '<CONSTANT-REFERENCE>'
-            '<CONSTANT-REF DEST="CONSTANT-SPECIFICATION">/c</CONSTANT-REF>'
-            '</CONSTANT-REFERENCE>'
-        )
-        result = parser.getValueSpecification(
-            element, "CONSTANT-REFERENCE"
-        )
+        element = _snip("<CONSTANT-REFERENCE>" '<CONSTANT-REF DEST="CONSTANT-SPECIFICATION">/c</CONSTANT-REF>' "</CONSTANT-REFERENCE>")
+        result = parser.getValueSpecification(element, "CONSTANT-REFERENCE")
         assert result is not None
 
     def test_unsupported_warns(self, warning_parser, caplog):
@@ -2990,136 +2798,86 @@ class TestGetValueSpecification:
         element = _snip("<UNKNOWN/>")
         with caplog.at_level(logging.ERROR):
             with pytest.raises(UnboundLocalError):
-                warning_parser.getValueSpecification(
-                    element, "UNKNOWN"
-                )
-        assert any("Unsupported RecordValueSpecificationField"
-                   in r.getMessage() for r in caplog.records)
+                warning_parser.getValueSpecification(element, "UNKNOWN")
+        assert any("Unsupported RecordValueSpecificationField" in r.getMessage() for r in caplog.records)
 
 
 # ==================== EndToEndProtections (L2835-2839) ====================
 
 
-
 # === Migrated from test_arxml_parser_remaining_gaps.py ===
+
 
 class TestSystemMappingGaps:
     def _make_system(self):
         pkg = _autosar_root().createARPackage("Pkg")
         return pkg.createSystem("Sys")
 
-    def test_readSystemMappingSwMappings_unsupported_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readSystemMappingSwMappings_unsupported_warns(self, warning_parser, caplog):
         system = self._make_system()
         mapping = system.createSystemMapping("Sm")
-        element = _snip(
-            "<SW-MAPPINGS><BAD/></SW-MAPPINGS>"
-        )
+        element = _snip("<SW-MAPPINGS><BAD/></SW-MAPPINGS>")
         with caplog.at_level(logging.ERROR):
-            warning_parser.readSystemMappingSwMappings(
-                element, mapping
-            )
-        assert any("Unsupported Sw Mapping" in r.getMessage()
-                   for r in caplog.records)
+            warning_parser.readSystemMappingSwMappings(element, mapping)
+        assert any("Unsupported Sw Mapping" in r.getMessage() for r in caplog.records)
 
-    def test_readSystemMappingEcuResourceMappings_unsupported_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readSystemMappingEcuResourceMappings_unsupported_warns(self, warning_parser, caplog):
         system = self._make_system()
         mapping = system.createSystemMapping("Sm")
-        element = _snip(
-            "<ECU-RESOURCE-MAPPINGS><BAD/></ECU-RESOURCE-MAPPINGS>"
-        )
+        element = _snip("<ECU-RESOURCE-MAPPINGS><BAD/></ECU-RESOURCE-MAPPINGS>")
         with caplog.at_level(logging.ERROR):
-            warning_parser.readSystemMappingEcuResourceMappings(
-                element, mapping
-            )
-        assert any("Unsupported EcuResourceMapping" in r.getMessage()
-                   for r in caplog.records)
+            warning_parser.readSystemMappingEcuResourceMappings(element, mapping)
+        assert any("Unsupported EcuResourceMapping" in r.getMessage() for r in caplog.records)
 
-    def test_readSystemMappingSwImplMappings_unsupported_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readSystemMappingSwImplMappings_unsupported_warns(self, warning_parser, caplog):
         system = self._make_system()
         mapping = system.createSystemMapping("Sm")
-        element = _snip(
-            "<SW-IMPL-MAPPINGS><BAD/></SW-IMPL-MAPPINGS>"
-        )
+        element = _snip("<SW-IMPL-MAPPINGS><BAD/></SW-IMPL-MAPPINGS>")
         with caplog.at_level(logging.ERROR):
-            warning_parser.readSystemMappingSwImplMappings(
-                element, mapping
-            )
-        assert any("Unsupported SwImplMapping" in r.getMessage()
-                   for r in caplog.records)
+            warning_parser.readSystemMappingSwImplMappings(element, mapping)
+        assert any("Unsupported SwImplMapping" in r.getMessage() for r in caplog.records)
 
-    def test_readSystemMappings_unsupported_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readSystemMappings_unsupported_warns(self, warning_parser, caplog):
         system = self._make_system()
-        element = _snip(
-            "<MAPPINGS><BAD/></MAPPINGS>"
-        )
+        element = _snip("<MAPPINGS><BAD/></MAPPINGS>")
         with caplog.at_level(logging.ERROR):
             warning_parser.readSystemMappings(element, system)
-        assert any("Unsupported Mapping" in r.getMessage()
-                   for r in caplog.records)
+        assert any("Unsupported Mapping" in r.getMessage() for r in caplog.records)
 
 
 # ==================== RootSwCompositionPrototype (L5496-5497) ====================
 
 
-
 # === Migrated from test_arxml_parser_remaining_gaps.py ===
 
+
 class TestRootSwCompositionPrototype:
-    def test_readRootSwCompositionPrototype_duplicate_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readRootSwCompositionPrototype_duplicate_warns(self, warning_parser, caplog):
         system_pkg = _autosar_root().createARPackage("SysPkg")
         system = system_pkg.createSystem("Sys")
         proto = system.createRootSoftwareComposition("Root")
         AUTOSAR.getInstance().setRootSwCompositionPrototype(proto)
-        element = _snip(
-            "<ROOT-SOFTWARE-COMPOSITIONS>"
-            "<ROOT-SW-COMPOSITION-PROTOTYPE>"
-            "<SHORT-NAME>Root2</SHORT-NAME>"
-            "</ROOT-SW-COMPOSITION-PROTOTYPE>"
-            "</ROOT-SOFTWARE-COMPOSITIONS>"
-        )
+        element = _snip("<ROOT-SOFTWARE-COMPOSITIONS>" "<ROOT-SW-COMPOSITION-PROTOTYPE>" "<SHORT-NAME>Root2</SHORT-NAME>" "</ROOT-SW-COMPOSITION-PROTOTYPE>" "</ROOT-SOFTWARE-COMPOSITIONS>")
         with caplog.at_level(logging.WARNING):
-            warning_parser.readRootSwCompositionPrototype(
-                element, system
-            )
-        assert any("has already been set" in r.getMessage()
-                   or "RootSwComposition" in r.getMessage()
-                   for r in caplog.records)
+            warning_parser.readRootSwCompositionPrototype(element, system)
+        assert any("has already been set" in r.getMessage() or "RootSwComposition" in r.getMessage() for r in caplog.records)
 
 
 # ==================== LifeCycleInfoSet (L5545) ====================
 
 
-
 # === Migrated from test_arxml_parser_remaining_gaps.py ===
 
+
 class TestClientServerInterfaceMapping:
-    def test_readOperationMappings_unsupported_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readOperationMappings_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import ClientServerInterfaceMapping
-        mapping = ClientServerInterfaceMapping(
-            parent=MagicMock(), short_name="Csim"
-        )
-        element = _snip(
-            "<OPERATION-MAPPINGS><BAD/></OPERATION-MAPPINGS>"
-        )
+
+        mapping = ClientServerInterfaceMapping(parent=MagicMock(), short_name="Csim")
+        element = _snip("<OPERATION-MAPPINGS><BAD/></OPERATION-MAPPINGS>")
         with caplog.at_level(logging.ERROR):
-            warning_parser.readClientServerInterfaceMappingOperationMappings(
-                element, mapping
-            )
-        assert any("Unsupported Operation Mapping" in r.getMessage()
-                   for r in caplog.records)
+            warning_parser.readClientServerInterfaceMappingOperationMappings(element, mapping)
+        assert any("Unsupported Operation Mapping" in r.getMessage() for r in caplog.records)
 
 
 # ==================== DiagEventDebounceAlgorithm (L687-692) ====================
-

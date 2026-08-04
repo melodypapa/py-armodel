@@ -76,9 +76,7 @@ class TestBswModuleDescriptionHandlers:
 
         desc = BswModuleDescription(parent=_autosar_root(), short_name="bswm")
         element = _snip(
-            "<PROVIDED-ENTRYS>"
-            "<BSW-MODULE-ENTRY-REF-CONDITIONAL></BSW-MODULE-ENTRY-REF-CONDITIONAL>"
-            "</PROVIDED-ENTRYS>",
+            "<PROVIDED-ENTRYS>" "<BSW-MODULE-ENTRY-REF-CONDITIONAL></BSW-MODULE-ENTRY-REF-CONDITIONAL>" "</PROVIDED-ENTRYS>",
             root_tag="BSW-MODULE-DESCRIPTION",
         )
         parser.readBswModuleDescriptionImplementedEntryRefs(element, desc)
@@ -87,12 +85,9 @@ class TestBswModuleDescriptionHandlers:
     def test_readModeDeclarationGroupPrototype_sets_type_tref(self, parser):
         from armodel.models import ModeDeclarationGroupPrototype
 
-        proto = ModeDeclarationGroupPrototype(
-            parent=_autosar_root(), short_name="mg"
-        )
+        proto = ModeDeclarationGroupPrototype(parent=_autosar_root(), short_name="mg")
         element = _snip(
-            "<SHORT-NAME>mg</SHORT-NAME>"
-            "<TYPE-TREF DEST='MODE-DECLARATION-GROUP'>/tg</TYPE-TREF>",
+            "<SHORT-NAME>mg</SHORT-NAME>" "<TYPE-TREF DEST='MODE-DECLARATION-GROUP'>/tg</TYPE-TREF>",
             root_tag="MODE-DECLARATION-GROUP-PROTOTYPE",
         )
         parser.readModeDeclarationGroupPrototype(element, proto)
@@ -103,9 +98,7 @@ class TestBswModuleDescriptionHandlers:
 
         desc = BswModuleDescription(parent=_autosar_root(), short_name="bswm")
         element = _snip(
-            "<PROVIDED-MODE-GROUPS>"
-            "<MODE-DECLARATION-GROUP-PROTOTYPE><SHORT-NAME>pmg</SHORT-NAME></MODE-DECLARATION-GROUP-PROTOTYPE>"
-            "</PROVIDED-MODE-GROUPS>",
+            "<PROVIDED-MODE-GROUPS>" "<MODE-DECLARATION-GROUP-PROTOTYPE><SHORT-NAME>pmg</SHORT-NAME></MODE-DECLARATION-GROUP-PROTOTYPE>" "</PROVIDED-MODE-GROUPS>",
             root_tag="BSW-MODULE-DESCRIPTION",
         )
         parser.readBswModuleDescriptionProvidedModeGroups(element, desc)
@@ -128,9 +121,7 @@ class TestBswModuleDescriptionHandlers:
 
         desc = BswModuleDescription(parent=_autosar_root(), short_name="bswm")
         element = _snip(
-            "<REQUIRED-MODE-GROUPS>"
-            "<MODE-DECLARATION-GROUP-PROTOTYPE><SHORT-NAME>rmg</SHORT-NAME></MODE-DECLARATION-GROUP-PROTOTYPE>"
-            "</REQUIRED-MODE-GROUPS>",
+            "<REQUIRED-MODE-GROUPS>" "<MODE-DECLARATION-GROUP-PROTOTYPE><SHORT-NAME>rmg</SHORT-NAME></MODE-DECLARATION-GROUP-PROTOTYPE>" "</REQUIRED-MODE-GROUPS>",
             root_tag="BSW-MODULE-DESCRIPTION",
         )
         parser.readBswModuleDescriptionRequiredModeGroups(element, desc)
@@ -153,9 +144,7 @@ class TestBswModuleDescriptionHandlers:
 
         desc = BswModuleDescription(parent=_autosar_root(), short_name="bswm")
         element = _snip(
-            "<RELEASED-TRIGGERS>"
-            "<TRIGGER><SHORT-NAME>rt</SHORT-NAME></TRIGGER>"
-            "</RELEASED-TRIGGERS>",
+            "<RELEASED-TRIGGERS>" "<TRIGGER><SHORT-NAME>rt</SHORT-NAME></TRIGGER>" "</RELEASED-TRIGGERS>",
             root_tag="BSW-MODULE-DESCRIPTION",
         )
         parser.readBswModuleDescriptionReleasedTriggers(element, desc)
@@ -178,9 +167,7 @@ class TestBswModuleDescriptionHandlers:
 
         desc = BswModuleDescription(parent=_autosar_root(), short_name="bswm")
         element = _snip(
-            "<REQUIRED-TRIGGERS>"
-            "<TRIGGER><SHORT-NAME>qt</SHORT-NAME></TRIGGER>"
-            "</REQUIRED-TRIGGERS>",
+            "<REQUIRED-TRIGGERS>" "<TRIGGER><SHORT-NAME>qt</SHORT-NAME></TRIGGER>" "</REQUIRED-TRIGGERS>",
             root_tag="BSW-MODULE-DESCRIPTION",
         )
         parser.readBswModuleDescriptionRequiredTriggers(element, desc)
@@ -203,9 +190,7 @@ class TestBswModuleDescriptionHandlers:
 
         desc = BswModuleDescription(parent=_autosar_root(), short_name="bswm")
         element = _snip(
-            "<PROVIDED-DATAS>"
-            "<VARIABLE-DATA-PROTOTYPE><SHORT-NAME>pd</SHORT-NAME></VARIABLE-DATA-PROTOTYPE>"
-            "</PROVIDED-DATAS>",
+            "<PROVIDED-DATAS>" "<VARIABLE-DATA-PROTOTYPE><SHORT-NAME>pd</SHORT-NAME></VARIABLE-DATA-PROTOTYPE>" "</PROVIDED-DATAS>",
             root_tag="BSW-MODULE-DESCRIPTION",
         )
         parser.readBswModuleDescriptionProvidedDatas(element, desc)
@@ -228,9 +213,7 @@ class TestBswModuleDescriptionHandlers:
 
         desc = BswModuleDescription(parent=_autosar_root(), short_name="bswm")
         element = _snip(
-            "<REQUIRED-DATAS>"
-            "<VARIABLE-DATA-PROTOTYPE><SHORT-NAME>rd</SHORT-NAME></VARIABLE-DATA-PROTOTYPE>"
-            "</REQUIRED-DATAS>",
+            "<REQUIRED-DATAS>" "<VARIABLE-DATA-PROTOTYPE><SHORT-NAME>rd</SHORT-NAME></VARIABLE-DATA-PROTOTYPE>" "</REQUIRED-DATAS>",
             root_tag="BSW-MODULE-DESCRIPTION",
         )
         parser.readBswModuleDescriptionRequiredDatas(element, desc)
@@ -253,9 +236,7 @@ class TestBswModuleDescriptionHandlers:
 
         desc = BswModuleDescription(parent=_autosar_root(), short_name="bswm")
         element = _snip(
-            "<PROVIDED-CLIENT-SERVER-ENTRYS>"
-            "<BSW-MODULE-CLIENT-SERVER-ENTRY><SHORT-NAME>pce</SHORT-NAME></BSW-MODULE-CLIENT-SERVER-ENTRY>"
-            "</PROVIDED-CLIENT-SERVER-ENTRYS>",
+            "<PROVIDED-CLIENT-SERVER-ENTRYS>" "<BSW-MODULE-CLIENT-SERVER-ENTRY><SHORT-NAME>pce</SHORT-NAME></BSW-MODULE-CLIENT-SERVER-ENTRY>" "</PROVIDED-CLIENT-SERVER-ENTRYS>",
             root_tag="BSW-MODULE-DESCRIPTION",
         )
         parser.readBswModuleDescriptionProvidedClientServerEntries(element, desc)
@@ -278,9 +259,7 @@ class TestBswModuleDescriptionHandlers:
 
         desc = BswModuleDescription(parent=_autosar_root(), short_name="bswm")
         element = _snip(
-            "<REQUIRED-CLIENT-SERVER-ENTRYS>"
-            "<BSW-MODULE-CLIENT-SERVER-ENTRY><SHORT-NAME>rce</SHORT-NAME></BSW-MODULE-CLIENT-SERVER-ENTRY>"
-            "</REQUIRED-CLIENT-SERVER-ENTRYS>",
+            "<REQUIRED-CLIENT-SERVER-ENTRYS>" "<BSW-MODULE-CLIENT-SERVER-ENTRY><SHORT-NAME>rce</SHORT-NAME></BSW-MODULE-CLIENT-SERVER-ENTRY>" "</REQUIRED-CLIENT-SERVER-ENTRYS>",
             root_tag="BSW-MODULE-DESCRIPTION",
         )
         parser.readBswModuleDescriptionRequiredClientServerEntries(element, desc)
@@ -303,10 +282,7 @@ class TestBswModuleDescriptionHandlers:
 
         entry = BswModuleClientServerEntry(parent=_autosar_root(), short_name="ce")
         element = _snip(
-            "<SHORT-NAME>ce</SHORT-NAME>"
-            "<ENCAPSULATED-ENTRY-REF DEST='BSW-MODULE-ENTRY'>/ee</ENCAPSULATED-ENTRY-REF>"
-            "<IS-REENTRANT>true</IS-REENTRANT>"
-            "<IS-SYNCHRONOUS>false</IS-SYNCHRONOUS>",
+            "<SHORT-NAME>ce</SHORT-NAME>" "<ENCAPSULATED-ENTRY-REF DEST='BSW-MODULE-ENTRY'>/ee</ENCAPSULATED-ENTRY-REF>" "<IS-REENTRANT>true</IS-REENTRANT>" "<IS-SYNCHRONOUS>false</IS-SYNCHRONOUS>",
             root_tag="BSW-MODULE-CLIENT-SERVER-ENTRY",
         )
         parser.readBswModuleClientServerEntry(element, entry)
@@ -319,8 +295,7 @@ class TestBswModuleDescriptionHandlers:
 
         desc = BswModuleDescription(parent=_autosar_root(), short_name="bswm")
         element = _snip(
-            "<SHORT-NAME>bswm</SHORT-NAME>"
-            "<MODULE-ID>1</MODULE-ID>",
+            "<SHORT-NAME>bswm</SHORT-NAME>" "<MODULE-ID>1</MODULE-ID>",
             root_tag="BSW-MODULE-DESCRIPTION",
         )
         warning_parser.readBswModuleDescription(element, desc)
@@ -353,11 +328,7 @@ class TestBswModuleDescriptionHandlers:
 
         desc = BswModuleDescription(parent=_autosar_root(), short_name="bswm")
         element = _snip(
-            "<INTERNAL-BEHAVIORS>"
-            "<BSW-INTERNAL-BEHAVIOR>"
-            "<SHORT-NAME>bh</SHORT-NAME>"
-            "</BSW-INTERNAL-BEHAVIOR>"
-            "</INTERNAL-BEHAVIORS>",
+            "<INTERNAL-BEHAVIORS>" "<BSW-INTERNAL-BEHAVIOR>" "<SHORT-NAME>bh</SHORT-NAME>" "</BSW-INTERNAL-BEHAVIOR>" "</INTERNAL-BEHAVIORS>",
             root_tag="BSW-MODULE-DESCRIPTION",
         )
         parser.readBswModuleDescriptionBswInternalBehaviors(element, desc)
@@ -387,8 +358,7 @@ class TestBswModuleEntryHandlers:
 
         arg = SwServiceArg(parent=_autosar_root(), short_name="arg")
         element = _snip(
-            "<SHORT-NAME>arg</SHORT-NAME>"
-            "<DIRECTION>IN</DIRECTION>",
+            "<SHORT-NAME>arg</SHORT-NAME>" "<DIRECTION>IN</DIRECTION>",
             root_tag="SW-SERVICE-ARG",
         )
         parser.readSwServiceArg(element, arg)
@@ -399,9 +369,7 @@ class TestBswModuleEntryHandlers:
 
         entry = BswModuleEntry(parent=_autosar_root(), short_name="ent")
         element = _snip(
-            "<ARGUMENTS>"
-            "<SW-SERVICE-ARG><SHORT-NAME>a1</SHORT-NAME></SW-SERVICE-ARG>"
-            "</ARGUMENTS>",
+            "<ARGUMENTS>" "<SW-SERVICE-ARG><SHORT-NAME>a1</SHORT-NAME></SW-SERVICE-ARG>" "</ARGUMENTS>",
             root_tag="BSW-MODULE-ENTRY",
         )
         parser.readBswModuleEntryArguments(element, entry)
@@ -483,9 +451,7 @@ class TestExecutableEntityAndInternalBehaviorHandlers:
         behavior = desc.createBswInternalBehavior("bh")
         entity = behavior.createBswCalledEntity("e")
         element = _snip(
-            "<CAN-ENTER-EXCLUSIVE-AREA-REFS>"
-            "<CAN-ENTER-EXCLUSIVE-AREA-REF DEST='EXCLUSIVE-AREA'>/a1</CAN-ENTER-EXCLUSIVE-AREA-REF>"
-            "</CAN-ENTER-EXCLUSIVE-AREA-REFS>",
+            "<CAN-ENTER-EXCLUSIVE-AREA-REFS>" "<CAN-ENTER-EXCLUSIVE-AREA-REF DEST='EXCLUSIVE-AREA'>/a1</CAN-ENTER-EXCLUSIVE-AREA-REF>" "</CAN-ENTER-EXCLUSIVE-AREA-REFS>",
             root_tag="ENTITY",
         )
         parser.readCanEnterExclusiveAreaRefs(element, entity)
@@ -496,9 +462,7 @@ class TestExecutableEntityAndInternalBehaviorHandlers:
 
         entity = BswCalledEntity(parent=_autosar_root(), short_name="e")
         element = _snip(
-            "<SHORT-NAME>e</SHORT-NAME>"
-            "<MINIMUM-START-INTERVAL>0.5</MINIMUM-START-INTERVAL>"
-            "<SW-ADDR-METHOD-REF DEST='SW-ADDR-METHOD'>/m</SW-ADDR-METHOD-REF>",
+            "<SHORT-NAME>e</SHORT-NAME>" "<MINIMUM-START-INTERVAL>0.5</MINIMUM-START-INTERVAL>" "<SW-ADDR-METHOD-REF DEST='SW-ADDR-METHOD'>/m</SW-ADDR-METHOD-REF>",
             root_tag="ENTITY",
         )
         parser.readExecutableEntity(element, entity)
@@ -510,9 +474,7 @@ class TestExecutableEntityAndInternalBehaviorHandlers:
 
         behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
         element = _snip(
-            "<DATA-TYPE-MAPPING-REFS>"
-            "<DATA-TYPE-MAPPING-REF DEST='DATA-TYPE-MAPPING-SET'>/m1</DATA-TYPE-MAPPING-REF>"
-            "</DATA-TYPE-MAPPING-REFS>",
+            "<DATA-TYPE-MAPPING-REFS>" "<DATA-TYPE-MAPPING-REF DEST='DATA-TYPE-MAPPING-SET'>/m1</DATA-TYPE-MAPPING-REF>" "</DATA-TYPE-MAPPING-REFS>",
             root_tag="BH",
         )
         parser.readDataTypeMappingRefs(element, behavior)
@@ -531,9 +493,7 @@ class TestExecutableEntityAndInternalBehaviorHandlers:
 
         behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
         element = _snip(
-            "<CONSTANT-MEMORYS>"
-            "<PARAMETER-DATA-PROTOTYPE><SHORT-NAME>cm</SHORT-NAME></PARAMETER-DATA-PROTOTYPE>"
-            "</CONSTANT-MEMORYS>",
+            "<CONSTANT-MEMORYS>" "<PARAMETER-DATA-PROTOTYPE><SHORT-NAME>cm</SHORT-NAME></PARAMETER-DATA-PROTOTYPE>" "</CONSTANT-MEMORYS>",
             root_tag="BH",
         )
         parser.readInternalBehaviorConstantMemories(element, behavior)
@@ -556,9 +516,7 @@ class TestExecutableEntityAndInternalBehaviorHandlers:
 
         behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
         element = _snip(
-            "<STATIC-MEMORYS>"
-            "<VARIABLE-DATA-PROTOTYPE><SHORT-NAME>sm</SHORT-NAME></VARIABLE-DATA-PROTOTYPE>"
-            "</STATIC-MEMORYS>",
+            "<STATIC-MEMORYS>" "<VARIABLE-DATA-PROTOTYPE><SHORT-NAME>sm</SHORT-NAME></VARIABLE-DATA-PROTOTYPE>" "</STATIC-MEMORYS>",
             root_tag="BH",
         )
         parser.readInternalBehaviorStaticMemories(element, behavior)
@@ -624,9 +582,7 @@ class TestBswModuleEntityHandlers:
         behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
         entity = behavior.createBswSchedulableEntity("e")
         element = _snip(
-            "<MANAGED-MODE-GROUPS>"
-            "<MODE-DECLARATION-GROUP-PROTOTYPE-REF-CONDITIONAL></MODE-DECLARATION-GROUP-PROTOTYPE-REF-CONDITIONAL>"
-            "</MANAGED-MODE-GROUPS>",
+            "<MANAGED-MODE-GROUPS>" "<MODE-DECLARATION-GROUP-PROTOTYPE-REF-CONDITIONAL></MODE-DECLARATION-GROUP-PROTOTYPE-REF-CONDITIONAL>" "</MANAGED-MODE-GROUPS>",
             root_tag="ENTITY",
         )
         parser.readBswModuleEntityManagedModeGroups(element, entity)
@@ -638,11 +594,7 @@ class TestBswModuleEntityHandlers:
         behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
         entity = behavior.createBswSchedulableEntity("e")
         element = _snip(
-            "<ISSUED-TRIGGERS>"
-            "<TRIGGER-REF-CONDITIONAL>"
-            "<TRIGGER-REF DEST='TRIGGER'>/t1</TRIGGER-REF>"
-            "</TRIGGER-REF-CONDITIONAL>"
-            "</ISSUED-TRIGGERS>",
+            "<ISSUED-TRIGGERS>" "<TRIGGER-REF-CONDITIONAL>" "<TRIGGER-REF DEST='TRIGGER'>/t1</TRIGGER-REF>" "</TRIGGER-REF-CONDITIONAL>" "</ISSUED-TRIGGERS>",
             root_tag="ENTITY",
         )
         parser.readBswModuleEntityIssuedTriggerRefs(element, entity)
@@ -680,8 +632,7 @@ class TestBswModuleEntityHandlers:
 
         point = BswAsynchronousServerCallPoint(parent=_autosar_root(), short_name="cp")
         element = _snip(
-            "<SHORT-NAME>cp</SHORT-NAME>"
-            "<CALLED-ENTRY-REF DEST='BSW-MODULE-ENTRY'>/ent</CALLED-ENTRY-REF>",
+            "<SHORT-NAME>cp</SHORT-NAME>" "<CALLED-ENTRY-REF DEST='BSW-MODULE-ENTRY'>/ent</CALLED-ENTRY-REF>",
             root_tag="BSW-ASYNCHRONOUS-SERVER-CALL-POINT",
         )
         parser.readBswAsynchronousServerCallPoint(element, point)
@@ -692,8 +643,7 @@ class TestBswModuleEntityHandlers:
 
         point = BswSynchronousServerCallPoint(parent=_autosar_root(), short_name="cp")
         element = _snip(
-            "<SHORT-NAME>cp</SHORT-NAME>"
-            "<CALLED-ENTRY-REF DEST='BSW-MODULE-ENTRY'>/ent</CALLED-ENTRY-REF>",
+            "<SHORT-NAME>cp</SHORT-NAME>" "<CALLED-ENTRY-REF DEST='BSW-MODULE-ENTRY'>/ent</CALLED-ENTRY-REF>",
             root_tag="BSW-SYNCHRONOUS-SERVER-CALL-POINT",
         )
         parser.readBswSynchronousServerCallPoint(element, point)
@@ -705,9 +655,7 @@ class TestBswModuleEntityHandlers:
         behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
         entity = behavior.createBswSchedulableEntity("e")
         element = _snip(
-            "<CALL-POINTS>"
-            "<BSW-ASYNCHRONOUS-SERVER-CALL-POINT><SHORT-NAME>acp</SHORT-NAME></BSW-ASYNCHRONOUS-SERVER-CALL-POINT>"
-            "</CALL-POINTS>",
+            "<CALL-POINTS>" "<BSW-ASYNCHRONOUS-SERVER-CALL-POINT><SHORT-NAME>acp</SHORT-NAME></BSW-ASYNCHRONOUS-SERVER-CALL-POINT>" "</CALL-POINTS>",
             root_tag="ENTITY",
         )
         parser.readBswModuleEntityCallPoints(element, entity)
@@ -719,9 +667,7 @@ class TestBswModuleEntityHandlers:
         behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
         entity = behavior.createBswSchedulableEntity("e")
         element = _snip(
-            "<CALL-POINTS>"
-            "<BSW-SYNCHRONOUS-SERVER-CALL-POINT><SHORT-NAME>scp</SHORT-NAME></BSW-SYNCHRONOUS-SERVER-CALL-POINT>"
-            "</CALL-POINTS>",
+            "<CALL-POINTS>" "<BSW-SYNCHRONOUS-SERVER-CALL-POINT><SHORT-NAME>scp</SHORT-NAME></BSW-SYNCHRONOUS-SERVER-CALL-POINT>" "</CALL-POINTS>",
             root_tag="ENTITY",
         )
         parser.readBswModuleEntityCallPoints(element, entity)
@@ -783,8 +729,7 @@ class TestBswEntityDispatch:
         behavior = desc.createBswInternalBehavior("bh")
         entity = behavior.createBswCalledEntity("ce")
         element = _snip(
-            "<SHORT-NAME>ce</SHORT-NAME>"
-            "<IMPLEMENTED-ENTRY-REF DEST='BSW-MODULE-ENTRY'>/ent</IMPLEMENTED-ENTRY-REF>",
+            "<SHORT-NAME>ce</SHORT-NAME>" "<IMPLEMENTED-ENTRY-REF DEST='BSW-MODULE-ENTRY'>/ent</IMPLEMENTED-ENTRY-REF>",
             root_tag="BSW-CALLED-ENTITY",
         )
         parser.readBswCalledEntity(element, entity)
@@ -797,8 +742,7 @@ class TestBswEntityDispatch:
         behavior = desc.createBswInternalBehavior("bh")
         entity = behavior.createBswSchedulableEntity("se")
         element = _snip(
-            "<SHORT-NAME>se</SHORT-NAME>"
-            "<IMPLEMENTED-ENTRY-REF DEST='BSW-MODULE-ENTRY'>/ent</IMPLEMENTED-ENTRY-REF>",
+            "<SHORT-NAME>se</SHORT-NAME>" "<IMPLEMENTED-ENTRY-REF DEST='BSW-MODULE-ENTRY'>/ent</IMPLEMENTED-ENTRY-REF>",
             root_tag="BSW-SCHEDULABLE-ENTITY",
         )
         parser.readBswSchedulableEntity(element, entity)
@@ -881,8 +825,7 @@ class TestBswInternalBehaviorEventsDetailed:
 
         event = BswModeSwitchEvent(parent=_autosar_root(), short_name="ev")
         element = _snip(
-            "<SHORT-NAME>ev</SHORT-NAME>"
-            "<STARTS-ON-EVENT-REF DEST='X'>/p</STARTS-ON-EVENT-REF>",
+            "<SHORT-NAME>ev</SHORT-NAME>" "<STARTS-ON-EVENT-REF DEST='X'>/p</STARTS-ON-EVENT-REF>",
             root_tag="BSW-MODE-SWITCH-EVENT",
         )
         parser.readBswModeSwitchEvent(element, event)
@@ -893,8 +836,7 @@ class TestBswInternalBehaviorEventsDetailed:
 
         event = BswTimingEvent(parent=_autosar_root(), short_name="ev")
         element = _snip(
-            "<SHORT-NAME>ev</SHORT-NAME>"
-            "<PERIOD>0.1</PERIOD>",
+            "<SHORT-NAME>ev</SHORT-NAME>" "<PERIOD>0.1</PERIOD>",
             root_tag="BSW-TIMING-EVENT",
         )
         parser.readBswTimingEvent(element, event)
@@ -915,8 +857,7 @@ class TestBswInternalBehaviorEventsDetailed:
 
         event = BswDataReceivedEvent(parent=_autosar_root(), short_name="ev")
         element = _snip(
-            "<SHORT-NAME>ev</SHORT-NAME>"
-            "<DATA-REF DEST='VARIABLE-DATA-PROTOTYPE'>/d</DATA-REF>",
+            "<SHORT-NAME>ev</SHORT-NAME>" "<DATA-REF DEST='VARIABLE-DATA-PROTOTYPE'>/d</DATA-REF>",
             root_tag="BSW-DATA-RECEIVED-EVENT",
         )
         parser.readBswDataReceivedEvent(element, event)
@@ -927,8 +868,7 @@ class TestBswInternalBehaviorEventsDetailed:
 
         event = BswInternalTriggerOccurredEvent(parent=_autosar_root(), short_name="ev")
         element = _snip(
-            "<SHORT-NAME>ev</SHORT-NAME>"
-            "<EVENT-SOURCE-REF DEST='BSW-INTERNAL-TRIGGERING-POINT'>/s</EVENT-SOURCE-REF>",
+            "<SHORT-NAME>ev</SHORT-NAME>" "<EVENT-SOURCE-REF DEST='BSW-INTERNAL-TRIGGERING-POINT'>/s</EVENT-SOURCE-REF>",
             root_tag="BSW-INTERNAL-TRIGGER-OCCURRED-EVENT",
         )
         parser.readBswInternalTriggerOccurredEvent(element, event)
@@ -939,8 +879,7 @@ class TestBswInternalBehaviorEventsDetailed:
 
         event = BswBackgroundEvent(parent=_autosar_root(), short_name="ev")
         element = _snip(
-            "<SHORT-NAME>ev</SHORT-NAME>"
-            "<STARTS-ON-EVENT-REF DEST='X'>/p</STARTS-ON-EVENT-REF>",
+            "<SHORT-NAME>ev</SHORT-NAME>" "<STARTS-ON-EVENT-REF DEST='X'>/p</STARTS-ON-EVENT-REF>",
             root_tag="BSW-BACKGROUND-EVENT",
         )
         parser.readBswBackgroundEvent(element, event)
@@ -951,8 +890,7 @@ class TestBswInternalBehaviorEventsDetailed:
 
         event = BswExternalTriggerOccurredEvent(parent=_autosar_root(), short_name="ev")
         element = _snip(
-            "<SHORT-NAME>ev</SHORT-NAME>"
-            "<TRIGGER-REF DEST='TRIGGER'>/t</TRIGGER-REF>",
+            "<SHORT-NAME>ev</SHORT-NAME>" "<TRIGGER-REF DEST='TRIGGER'>/t</TRIGGER-REF>",
             root_tag="BSW-EXTERNAL-TRIGGER-OCCURRED-EVENT",
         )
         parser.readBswExternalTriggerOccurredEvent(element, event)
@@ -963,8 +901,7 @@ class TestBswInternalBehaviorEventsDetailed:
 
         event = BswOperationInvokedEvent(parent=_autosar_root(), short_name="ev")
         element = _snip(
-            "<SHORT-NAME>ev</SHORT-NAME>"
-            "<ENTRY-REF DEST='BSW-MODULE-CLIENT-SERVER-ENTRY'>/e</ENTRY-REF>",
+            "<SHORT-NAME>ev</SHORT-NAME>" "<ENTRY-REF DEST='BSW-MODULE-CLIENT-SERVER-ENTRY'>/e</ENTRY-REF>",
             root_tag="BSW-OPERATION-INVOKED-EVENT",
         )
         parser.readBswOperationInvokedEvent(element, event)
@@ -1020,8 +957,7 @@ class TestBswReceptionAndApiOptions:
         from armodel.models import BswModeSenderPolicy
 
         element = _snip(
-            "<PROVIDED-MODE-GROUP-REF DEST='MODE-DECLARATION-GROUP-PROTOTYPE'>/mg</PROVIDED-MODE-GROUP-REF>"
-            "<QUEUE-LENGTH>3</QUEUE-LENGTH>",
+            "<PROVIDED-MODE-GROUP-REF DEST='MODE-DECLARATION-GROUP-PROTOTYPE'>/mg</PROVIDED-MODE-GROUP-REF>" "<QUEUE-LENGTH>3</QUEUE-LENGTH>",
             root_tag="BSW-MODE-SENDER-POLICY",
         )
         policy = parser.getBswModeSenderPolicy(element)
@@ -1097,8 +1033,7 @@ class TestBswReceptionAndApiOptions:
 
         policy = BswQueuedDataReceptionPolicy()
         element = _snip(
-            "<RECEIVED-DATA-REF DEST='VARIABLE-DATA-PROTOTYPE'>/d</RECEIVED-DATA-REF>"
-            "<QUEUE-LENGTH>5</QUEUE-LENGTH>",
+            "<RECEIVED-DATA-REF DEST='VARIABLE-DATA-PROTOTYPE'>/d</RECEIVED-DATA-REF>" "<QUEUE-LENGTH>5</QUEUE-LENGTH>",
             root_tag="P",
         )
         parser.readBswQueuedDataReceptionPolicy(element, policy)
@@ -1109,11 +1044,7 @@ class TestBswReceptionAndApiOptions:
 
         behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
         element = _snip(
-            "<RECEPTION-POLICYS>"
-            "<BSW-QUEUED-DATA-RECEPTION-POLICY>"
-            "<QUEUE-LENGTH>1</QUEUE-LENGTH>"
-            "</BSW-QUEUED-DATA-RECEPTION-POLICY>"
-            "</RECEPTION-POLICYS>",
+            "<RECEPTION-POLICYS>" "<BSW-QUEUED-DATA-RECEPTION-POLICY>" "<QUEUE-LENGTH>1</QUEUE-LENGTH>" "</BSW-QUEUED-DATA-RECEPTION-POLICY>" "</RECEPTION-POLICYS>",
             root_tag="BH",
         )
         parser.readBswInternalBehaviorReceptionPolicies(element, behavior)
@@ -1158,9 +1089,7 @@ class TestBswInternalBehaviorOrchestrator:
         desc = BswModuleDescription(parent=_autosar_root(), short_name="bswm")
         behavior = desc.createBswInternalBehavior("bh")
         element = _snip(
-            "<INTERNAL-TRIGGERING-POINTS>"
-            "<BSW-INTERNAL-TRIGGERING-POINT><SHORT-NAME>tp</SHORT-NAME></BSW-INTERNAL-TRIGGERING-POINT>"
-            "</INTERNAL-TRIGGERING-POINTS>",
+            "<INTERNAL-TRIGGERING-POINTS>" "<BSW-INTERNAL-TRIGGERING-POINT><SHORT-NAME>tp</SHORT-NAME></BSW-INTERNAL-TRIGGERING-POINT>" "</INTERNAL-TRIGGERING-POINTS>",
             root_tag="BH",
         )
         parser.readBswInternalBehaviorInternalTriggeringPoints(element, behavior)
@@ -1227,12 +1156,12 @@ class TestTriggerHandlers:
 
 # === Migrated from test_arxml_parser_remaining_gaps.py ===
 
+
 class TestBswInternalBehaviorIncludedModeDeclarationGroupSet:
     def test_readBswInternalBehavior_adds_group_set(self, parser):
         from armodel.models import BswModuleDescription
-        desc = BswModuleDescription(
-            parent=_autosar_root(), short_name="Bsw"
-        )
+
+        desc = BswModuleDescription(parent=_autosar_root(), short_name="Bsw")
         behavior = desc.createBswInternalBehavior("Beh")
         element = _snip(
             "<INCLUDED-MODE-DECLARATION-GROUP-SETS>"
@@ -1250,49 +1179,36 @@ class TestBswInternalBehaviorIncludedModeDeclarationGroupSet:
 # ==================== ArtifactDescriptor / MemorySectionOptions / StackUsages (L1166, L1179-1180, L1209) ====================
 
 
-
 # === Migrated from test_arxml_parser_remaining_gaps.py ===
 
+
 class TestCodeAndResourceConsumption:
-    def test_readArtifactDescriptor_unsupported_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readArtifactDescriptor_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import Code
+
         code = Code(parent=_autosar_root(), short_name="Code")
-        element = _snip(
-            "<ARTIFACT-DESCRIPTORS><BAD/></ARTIFACT-DESCRIPTORS>"
-        )
+        element = _snip("<ARTIFACT-DESCRIPTORS><BAD/></ARTIFACT-DESCRIPTORS>")
         with caplog.at_level(logging.ERROR):
             warning_parser.readArtifactDescriptor(element, code)
-        assert any("Unsupported Artifact Descriptor" in r.getMessage()
-                   for r in caplog.records)
+        assert any("Unsupported Artifact Descriptor" in r.getMessage() for r in caplog.records)
 
     def test_readMemorySectionOptions_adds_options(self, parser):
         from armodel.models import MemorySection
+
         section = MemorySection(parent=MagicMock(), short_name="Sec")
-        element = _snip(
-            "<OPTIONS>"
-            "<OPTION>OPT1</OPTION>"
-            "<OPTION>OPT2</OPTION>"
-            "</OPTIONS>"
-        )
+        element = _snip("<OPTIONS>" "<OPTION>OPT1</OPTION>" "<OPTION>OPT2</OPTION>" "</OPTIONS>")
         parser.readMemorySectionOptions(element, section)
         assert len(section.getOptions()) == 2
 
-    def test_readStackUsages_unsupported_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readStackUsages_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import SwcImplementation
+
         impl = SwcImplementation(parent=_autosar_root(), short_name="Impl")
         consumption = impl.createResourceConsumption("Rc")
-        element = _snip(
-            "<STACK-USAGES><BAD/></STACK-USAGES>"
-        )
+        element = _snip("<STACK-USAGES><BAD/></STACK-USAGES>")
         with caplog.at_level(logging.ERROR):
             warning_parser.readStackUsages(element, consumption)
-        assert any("Unsupported Stack Usages" in r.getMessage()
-                   for r in caplog.records)
+        assert any("Unsupported Stack Usages" in r.getMessage() for r in caplog.records)
 
 
 # ==================== RunnableEntity ModeSwitchPoints / Arguments (L1409, L1414-1416, L1429, L1437) ====================
-

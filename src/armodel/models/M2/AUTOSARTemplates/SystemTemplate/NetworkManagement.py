@@ -9,20 +9,23 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Boolean, Integer, PositiveInteger, RefType, ARBoolean, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 
+
 class NmClusterCoupling(ARObject, ABC):
     """
     Abstract base class for network management cluster coupling,
     defining common properties for connecting different types of
     network management clusters for coordinated network management.
     """
+
     # NmClusterCoupling method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
     def __init__(self):
         if type(self) is NmClusterCoupling:
             raise TypeError("NmClusterCoupling is an abstract class.")
-        
+
         super().__init__()
+
 
 class CanNmClusterCoupling(NmClusterCoupling):
     """
@@ -30,6 +33,7 @@ class CanNmClusterCoupling(NmClusterCoupling):
     specifying coupled cluster references and CAN-specific NM features
     like busload reduction and immediate restart capabilities.
     """
+
     # CanNmClusterCoupling method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getCoupledClusterRefs        [x] impl  [ ] docstring  [ ] test
@@ -67,12 +71,14 @@ class CanNmClusterCoupling(NmClusterCoupling):
         self.nmImmediateRestartEnabled = value
         return self
 
+
 class FlexrayNmClusterCoupling(NmClusterCoupling):
     """
     Defines coupling properties for FlexRay network management clusters,
     specifying coupled cluster references and FlexRay-specific NM
     schedule variant configurations.
     """
+
     # FlexrayNmClusterCoupling method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getCoupledClusterRefs        [x] impl  [ ] docstring  [ ] test
@@ -99,7 +105,7 @@ class FlexrayNmClusterCoupling(NmClusterCoupling):
     def setNmScheduleVariant(self, value):
         self.nmScheduleVariant = value
         return self
-    
+
 
 class NmNode(Identifiable, ABC):
     """
@@ -107,6 +113,7 @@ class NmNode(Identifiable, ABC):
     common properties for different types of NM nodes including
     controller references, node IDs, and communication properties.
     """
+
     # NmNode method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getControllerRef             [x] impl  [ ] docstring  [ ] test
@@ -129,7 +136,7 @@ class NmNode(Identifiable, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is NmNode:
             raise TypeError("NmNode is an abstract class.")
-        
+
         super().__init__(parent, short_name)
 
         self.controllerRef: RefType = None
@@ -197,12 +204,14 @@ class NmNode(Identifiable, ABC):
     def getTxNmPduRefs(self) -> List[RefType]:
         return self.TxNmPduRefs
 
+
 class CanNmNode(NmNode):
     """
     Represents a CAN network management node in the system,
     defining CAN-specific NM properties including message
     cycle offsets, timing configurations, and range settings.
     """
+
     # CanNmNode method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getAllNmMessagesKeepAwake    [x] impl  [ ] docstring  [ ] test
@@ -262,12 +271,13 @@ class CanNmNode(NmNode):
     def setNmMsgReducedTime(self, value):
         self.nmMsgReducedTime = value
         return self
-    
+
     def getNmRangeConfig(self) -> RxIdentifierRange:
         return self.nmRangeConfig
 
     def setNmRangeConfig(self, value: RxIdentifierRange):
         self.nmRangeConfig = value
+
 
 class FlexrayNmNode(NmNode):
     """
@@ -275,11 +285,13 @@ class FlexrayNmNode(NmNode):
     defining FlexRay-specific NM properties for time-triggered
     network management communication.
     """
+
     # FlexrayNmNode method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
 
 class J1939NmNode(NmNode):
     """
@@ -287,11 +299,13 @@ class J1939NmNode(NmNode):
     defining J1939-specific NM properties for heavy-duty
     vehicle network management communication.
     """
+
     # J1939NmNode method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
 
 class UdpNmNode(NmNode):
     """
@@ -299,6 +313,7 @@ class UdpNmNode(NmNode):
     defining UDP-specific NM properties including message
     timing and wake-up capabilities.
     """
+
     # UdpNmNode method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getAllNmMessagesKeepAwake    [x] impl  [ ] docstring  [ ] test
@@ -328,12 +343,14 @@ class UdpNmNode(NmNode):
             self.nmMsgCycleOffset = value
         return self
 
+
 class BusspecificNmEcu(ARObject, ABC):
     """
     Abstract base class for bus-specific network management ECU
     configurations, defining common properties for different
     types of bus-specific NM implementations.
     """
+
     # BusspecificNmEcu method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
@@ -342,38 +359,45 @@ class BusspecificNmEcu(ARObject, ABC):
             raise TypeError("BusspecificNmEcu is an abstract class.")
         super().__init__()
 
+
 class CanNmEcu(BusspecificNmEcu):
     """
     Defines CAN-specific network management ECU properties,
     implementing bus-specific NM features for CAN communication.
     """
+
     # CanNmEcu method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
     def __init__(self):
         super().__init__()
 
+
 class FlexrayNmEcu(BusspecificNmEcu):
     """
     Defines FlexRay-specific network management ECU properties,
     implementing bus-specific NM features for FlexRay communication.
     """
+
     # FlexrayNmEcu method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
     def __init__(self):
         super().__init__()
 
+
 class J1939NmEcu(BusspecificNmEcu):
     """
     Defines J1939-specific network management ECU properties,
     implementing bus-specific NM features for J1939 communication.
     """
+
     # J1939NmEcu method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
     def __init__(self):
         super().__init__()
+
 
 class UdpNmEcu(BusspecificNmEcu):
     """
@@ -381,13 +405,14 @@ class UdpNmEcu(BusspecificNmEcu):
     implementing bus-specific NM features for UDP communication
     including synchronization point capabilities.
     """
+
     # UdpNmEcu method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getNmSynchronizationPointEnabled [x] impl  [ ] docstring  [ ] test
     # [ ] setNmSynchronizationPointEnabled [x] impl  [ ] docstring  [ ] test
 
     def __init__(self):
-        super().__init__()     
+        super().__init__()
 
         self.nmSynchronizationPointEnabled: Boolean = None
 
@@ -406,6 +431,7 @@ class NmEcu(Identifiable):
     defining properties for NM coordination, node detection,
     and communication control across different bus types.
     """
+
     # NmEcu method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getBusDependentNmEcus        [x] impl  [ ] docstring  [ ] test
@@ -499,7 +525,7 @@ class NmEcu(Identifiable):
         if value is not None:
             self.nmCycletimeMainFunction = value
         return self
-    
+
     def getNmNodeDetectionEnabled(self):
         return self.nmNodeDetectionEnabled
 
@@ -531,7 +557,7 @@ class NmEcu(Identifiable):
         if value is not None:
             self.nmRemoteSleepIndEnabled = value
         return self
-    
+
     def getNmRepeatMsgIndEnabled(self):
         return self.nmRepeatMsgIndEnabled
 
@@ -554,7 +580,8 @@ class NmEcu(Identifiable):
     def setNmUserDataEnabled(self, value):
         if value is not None:
             self.nmUserDataEnabled = value
-        return self   
+        return self
+
 
 class NmConfig(FibexElement):
     """
@@ -562,6 +589,7 @@ class NmConfig(FibexElement):
     defining cluster couplings and ECU configurations for
     comprehensive network management setup.
     """
+
     # NmConfig method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] createCanNmCluster           [x] impl  [ ] docstring  [ ] test
@@ -580,27 +608,27 @@ class NmConfig(FibexElement):
         self.nmClusterCouplings: List[NmClusterCoupling] = []
         self.nmIfEcus: List[NmEcu] = []
 
-    def createCanNmCluster(self, short_name: str):          # type: (str) -> CanNmCluster
-        if (short_name not in self.elements):
+    def createCanNmCluster(self, short_name: str):  # type: (str) -> CanNmCluster
+        if short_name not in self.elements:
             cluster = CanNmCluster(self, short_name)
             self.addElement(cluster)
         return self.getElement(short_name)
-    
-    def createUdpNmCluster(self, short_name: str):          # type: (str) -> UdpNmCluster
-        if (short_name not in self.elements):
+
+    def createUdpNmCluster(self, short_name: str):  # type: (str) -> UdpNmCluster
+        if short_name not in self.elements:
             cluster = UdpNmCluster(self, short_name)
             self.addElement(cluster)
         return self.getElement(short_name)
 
-    def getCanNmClusters(self):                             # type: () -> List[CanNmCluster]
-        return list(sorted(filter(lambda a: isinstance(a, CanNmCluster), self.elements), key= lambda o:o.short_name))
-    
-    def getUdpNmClusters(self):                             # type: () -> List[UdpNmCluster]
-        return list(sorted(filter(lambda a: isinstance(a, UdpNmCluster), self.elements), key= lambda o:o.short_name))
-    
-    def getNmClusters(self):                                # type: () -> List[NmCluster]
-        return list(sorted(filter(lambda a: isinstance(a, NmCluster), self.elements), key= lambda o:o.short_name))
-    
+    def getCanNmClusters(self):  # type: () -> List[CanNmCluster]
+        return list(sorted(filter(lambda a: isinstance(a, CanNmCluster), self.elements), key=lambda o: o.short_name))
+
+    def getUdpNmClusters(self):  # type: () -> List[UdpNmCluster]
+        return list(sorted(filter(lambda a: isinstance(a, UdpNmCluster), self.elements), key=lambda o: o.short_name))
+
+    def getNmClusters(self):  # type: () -> List[NmCluster]
+        return list(sorted(filter(lambda a: isinstance(a, NmCluster), self.elements), key=lambda o: o.short_name))
+
     def getNmClusterCouplings(self):
         return self.nmClusterCouplings
 
@@ -612,12 +640,13 @@ class NmConfig(FibexElement):
         return self.nmIfEcus
 
     def createNmEcu(self, short_name: str) -> NmEcu:
-        if (short_name not in self.elements):
+        if short_name not in self.elements:
             cluster = NmEcu(self, short_name)
             self.addElement(cluster)
             self.nmIfEcus.append(cluster)
         return self.getElement(short_name)
-    
+
+
 class NmCluster(Identifiable, ABC):
     """
     Abstract base class for network management clusters,
@@ -625,6 +654,7 @@ class NmCluster(Identifiable, ABC):
     NM clusters including communication cluster references
     and node management capabilities.
     """
+
     # NmCluster method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getCommunicationClusterRef   [x] impl  [ ] docstring  [ ] test
@@ -654,10 +684,10 @@ class NmCluster(Identifiable, ABC):
             raise TypeError("NmCluster is an abstract class.")
         super().__init__(parent, short_name)
 
-        self.communicationClusterRef = None                              # type: RefType
+        self.communicationClusterRef = None  # type: RefType
         self.nmChannelId = None
         self.nmChannelSleepMaster = None
-        self.nmNodes = []                                                 # type: List[NmNode]
+        self.nmNodes = []  # type: List[NmNode]
         self.nmNodeDetectionEnabled = None
         self.nmNodeIdEnabled = None
         self.nmPncParticipation = None
@@ -686,27 +716,27 @@ class NmCluster(Identifiable, ABC):
         return self
 
     def createCanNmNode(self, short_name: str) -> CanNmNode:
-        if (short_name not in self.elements):
+        if short_name not in self.elements:
             node = CanNmNode(self, short_name)
             self.addElement(node)
             self.nmNodes.append(node)
         return self.getElement(short_name)
-    
+
     def readUdpNmNode(self, short_name: str) -> UdpNmNode:
-        if (short_name not in self.elements):
+        if short_name not in self.elements:
             node = UdpNmNode(self, short_name)
             self.addElement(node)
             self.nmNodes.append(node)
         return self.getElement(short_name)
-    
+
     def getCanNmNodes(self) -> List[CanNmNode]:
-        return list(sorted(filter(lambda a: isinstance(a, CanNmNode), self.elements), key= lambda o:o.short_name))
-    
+        return list(sorted(filter(lambda a: isinstance(a, CanNmNode), self.elements), key=lambda o: o.short_name))
+
     def getUdpNmNodes(self) -> List[UdpNmNode]:
-        return list(sorted(filter(lambda a: isinstance(a, UdpNmNode), self.elements), key= lambda o:o.short_name))
-    
+        return list(sorted(filter(lambda a: isinstance(a, UdpNmNode), self.elements), key=lambda o: o.short_name))
+
     def getNmNodes(self) -> List[NmNode]:
-        return list(sorted(filter(lambda a: isinstance(a, NmNode), self.elements), key= lambda o:o.short_name))
+        return list(sorted(filter(lambda a: isinstance(a, NmNode), self.elements), key=lambda o: o.short_name))
 
     def getNmNodeDetectionEnabled(self):
         return self.nmNodeDetectionEnabled
@@ -743,12 +773,14 @@ class NmCluster(Identifiable, ABC):
         self._nmSynchronizingNetwork = value
         return self
 
+
 class CanNmCluster(NmCluster):
     """
     Represents a CAN network management cluster in the system,
     defining CAN-specific NM properties including busload
     reduction, wake-up configurations, and message timing.
     """
+
     # CanNmCluster method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getNmBusloadReductionActive  [x] impl  [ ] docstring  [ ] test
@@ -824,7 +856,7 @@ class CanNmCluster(NmCluster):
     def setNmCarWakeUpFilterNodeId(self, value):
         self.nmCarWakeUpFilterNodeId = value
         return self
-    
+
     def getNmCarWakeUpRxEnabled(self):
         return self.nmCarWakeUpRxEnabled
 
@@ -838,7 +870,7 @@ class CanNmCluster(NmCluster):
     def setNmCbvPosition(self, value):
         self.nmCbvPosition = value
         return self
-    
+
     def getNmChannelActive(self):
         return self.nmChannelActive
 
@@ -901,7 +933,7 @@ class CanNmCluster(NmCluster):
     def setNmRepeatMessageTime(self, value):
         self.nmRepeatMessageTime = value
         return self
-    
+
     def getNmUserDataLength(self):
         return self.nmUserDataLength
 
@@ -916,17 +948,20 @@ class CanNmCluster(NmCluster):
         self.nmWaitBusSleepTime = value
         return self
 
+
 class FlexrayNmCluster(NmCluster):
     """
     Represents a FlexRay network management cluster in the system,
     defining FlexRay-specific NM properties for time-triggered
     network management in FlexRay communication networks.
     """
+
     # FlexrayNmCluster method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
 
 class J1939NmCluster(NmCluster):
     """
@@ -934,11 +969,13 @@ class J1939NmCluster(NmCluster):
     defining J1939-specific NM properties for heavy-duty vehicle
     network management communication.
     """
+
     # J1939NmCluster method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
 
 class UdpNmClusterCoupling(NmClusterCoupling):
     """
@@ -946,6 +983,7 @@ class UdpNmClusterCoupling(NmClusterCoupling):
     specifying coupled cluster references and UDP-specific NM
     immediate restart capabilities.
     """
+
     # UdpNmClusterCoupling method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getCoupledClusterRefs        [x] impl  [ ] docstring  [ ] test
@@ -982,6 +1020,7 @@ class UdpNmCluster(NmCluster):
     defining UDP-specific NM properties including message timing,
     CBV (Common Bit Vector) position, and VLAN references.
     """
+
     # UdpNmCluster method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getNmCbvPosition             [x] impl  [ ] docstring  [ ] test
@@ -1032,7 +1071,7 @@ class UdpNmCluster(NmCluster):
         if value is not None:
             self.nmCbvPosition = value
         return self
-    
+
     def getNmChannelActive(self):
         return self.nmChannelActive
 
@@ -1040,7 +1079,6 @@ class UdpNmCluster(NmCluster):
         if value is not None:
             self.nmChannelActive = value
         return self
-
 
     def getNmImmediateNmCycleTime(self):
         return self.nmImmediateNmCycleTime

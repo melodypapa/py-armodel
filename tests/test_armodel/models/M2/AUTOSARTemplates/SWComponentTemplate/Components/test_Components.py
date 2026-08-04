@@ -1,6 +1,7 @@
 """
 This module contains tests for the Components subdirectory in SWComponentTemplate.
 """
+
 import pytest
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
     SymbolProps,
@@ -16,32 +17,35 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
     NvBlockSwComponentType,
     SensorActuatorSwComponentType,
     ServiceProxySwComponentType,
-    ServiceSwComponentType
+    ServiceSwComponentType,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
-    CompositionSwComponentType
-)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
-    PPortComSpec, RPortComSpec, NonqueuedSenderComSpec, ServerComSpec, 
-    QueuedSenderComSpec, ModeSwitchSenderComSpec, ClientComSpec,
-    NonqueuedReceiverComSpec, QueuedReceiverComSpec, ModeSwitchReceiverComSpec,
-    ParameterRequireComSpec
+    PPortComSpec,
+    RPortComSpec,
+    NonqueuedSenderComSpec,
+    ServerComSpec,
+    QueuedSenderComSpec,
+    ModeSwitchSenderComSpec,
+    ClientComSpec,
+    NonqueuedReceiverComSpec,
+    QueuedReceiverComSpec,
+    ModeSwitchReceiverComSpec,
+    ParameterRequireComSpec,
 )
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    TRefType, ARBoolean, RefType
-)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType, ARBoolean, RefType
 
 
 class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
     """Test class for Components module classes."""
-    
+
     def test_SymbolProps(self):
         """Test SymbolProps class."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         symbol_props = SymbolProps(ar_root, "TestSymbol")
-        
+
         assert symbol_props.parent == ar_root
         assert symbol_props.short_name == "TestSymbol"
 
@@ -149,9 +153,9 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         p_port = PPortPrototype(ar_root, "TestPPort")
-        
+
         assert p_port.providedInterfaceTRef is None
-        
+
         # Test setter and getter
         tref = TRefType()
         p_port.setProvidedInterfaceTRef(tref)
@@ -162,16 +166,16 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         r_port = RPortPrototype(ar_root, "TestRPort")
-        
+
         assert r_port.mayBeUnconnected is None
         assert r_port.requiredInterfaceTRef is None
-        
+
         # Test setters and getters
         ar_bool = ARBoolean()
         ar_bool.setValue(True)
         r_port.setMayBeUnconnected(ar_bool)
         assert r_port.getMayBeUnconnected().getValue() is True
-        
+
         tref = TRefType()
         r_port.setRequiredInterfaceTRef(tref)
         assert r_port.getRequiredInterfaceTRef() == tref
@@ -189,6 +193,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         # Test adding com specs
         # Use concrete implementations instead of abstract class
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import QueuedSenderComSpec, ClientComSpec
+
         provided_spec = QueuedSenderComSpec()
         pr_port.addProvidedComSpec(provided_spec)
         assert provided_spec in pr_port.getProvidedComSpecs()
@@ -210,16 +215,17 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         port_group = PortGroup(ar_root, "TestPortGroup")
-        
+
         assert port_group._inner_group_iref == []
         assert port_group._outer_port_ref == []
-        
+
         # Test adding inner group IRefs
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef
+
         iref = InnerPortGroupInCompositionInstanceRef()
         port_group.addInnerGroupIRef(iref)
         assert iref in port_group.getInnerGroupIRefs()
-        
+
         # Test adding outer port refs
         ref = RefType()
         port_group.addOuterPortRef(ref)
@@ -228,14 +234,15 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
     def test_SwComponentType_abstract(self):
         """Test that SwComponentType is abstract."""
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        
+
         # Create a concrete subclass to test the abstract class
         class TestSwComponentType(SwComponentType):
             def __init__(self, parent: ARObject, short_name: str):
                 super().__init__(parent, short_name)
-        
+
         test_component = TestSwComponentType(ar_root, "TestSwComponent")
         assert test_component is not None
         assert test_component.short_name == "TestSwComponent"
@@ -244,14 +251,15 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
     def test_AtomicSwComponentType_abstract(self):
         """Test that AtomicSwComponentType is abstract."""
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        
+
         # Create a concrete subclass to test the abstract class
         class TestAtomicSwComponentType(AtomicSwComponentType):
             def __init__(self, parent: ARObject, short_name: str):
                 super().__init__(parent, short_name)
-        
+
         test_component = TestAtomicSwComponentType(ar_root, "TestAtomicSwComponent")
         assert test_component is not None
         assert test_component.short_name == "TestAtomicSwComponent"
@@ -263,7 +271,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         app_sw_component = ApplicationSwComponentType(ar_root, "TestAppSwComponent")
-        
+
         assert app_sw_component.internalBehavior is None
         assert app_sw_component.symbolProps is None
 
@@ -272,7 +280,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         ecu_sw_component = EcuAbstractionSwComponentType(ar_root, "TestEcuAbstractionSwComponent")
-        
+
         assert ecu_sw_component.hardwareElementRefs == []
 
     def test_ComplexDeviceDriverSwComponentType(self):
@@ -280,7 +288,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         driver_sw_component = ComplexDeviceDriverSwComponentType(ar_root, "TestComplexDeviceDriverSwComponent")
-        
+
         assert driver_sw_component.hardwareElementRefs == []
 
     def test_NvBlockSwComponentType(self):
@@ -288,7 +296,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         nv_sw_component = NvBlockSwComponentType(ar_root, "TestNvBlockSwComponent")
-        
+
         assert nv_sw_component.bulkNvDataDescriptors == []
         assert nv_sw_component.nvBlockDescriptors == []
 
@@ -297,7 +305,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         sensor_sw_component = SensorActuatorSwComponentType(ar_root, "TestSensorActuatorSwComponent")
-        
+
         # Just check instantiation
         assert sensor_sw_component is not None
 
@@ -306,7 +314,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         service_proxy_sw_component = ServiceProxySwComponentType(ar_root, "TestServiceProxySwComponent")
-        
+
         # Just check instantiation
         assert service_proxy_sw_component is not None
 
@@ -315,7 +323,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         service_sw_component = ServiceSwComponentType(ar_root, "TestServiceSwComponent")
-        
+
         # Just check instantiation
         assert service_sw_component is not None
 
@@ -324,12 +332,12 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         composition_sw_component = CompositionSwComponentType(ar_root, "TestCompositionSwComponent")
-        
+
         assert composition_sw_component.components == []
         assert composition_sw_component.constantValueMappingRefs == []
         assert composition_sw_component.dataTypeMappingRefs == []
         assert composition_sw_component.instantiationRTEEventProps == []
-        
+
         # Test creating and getting components
         component = composition_sw_component.createSwComponentPrototype("Component1")
         assert component is not None
@@ -377,6 +385,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         class UnsupportedComSpec(PPortComSpec):
             def __init__(self):
                 super().__init__()
+
         unsupported_spec = UnsupportedComSpec()
         with pytest.raises(ValueError) as exc_info:
             provided_port._validateRPortComSpec(unsupported_spec)
@@ -422,6 +431,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         class UnsupportedRPortComSpec(RPortComSpec):
             def __init__(self):
                 super().__init__()
+
         unsupported_spec = UnsupportedRPortComSpec()
         with pytest.raises(ValueError) as exc_info:
             required_port._validateRPortComSpec(unsupported_spec)
@@ -632,6 +642,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
 
         # Test port group methods
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef
+
         iref = InnerPortGroupInCompositionInstanceRef()
         port_group.addInnerGroupIRef(iref)
         assert iref in port_group.getInnerGroupIRefs()

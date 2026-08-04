@@ -10,11 +10,11 @@ class LinCommunicationController(CommunicationController, ABC):
     defining properties for LIN network communication including
     protocol version specifications.
     """
+
     # LinCommunicationController method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getProtocolVersion           [x] impl  [ ] docstring  [ ] test
     # [ ] setProtocolVersion           [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is LinCommunicationController:
@@ -31,12 +31,14 @@ class LinCommunicationController(CommunicationController, ABC):
             self.protocolVersion = value
         return self
 
+
 class LinMaster(LinCommunicationController):
     """
     Defines a LIN master node in the network topology, specifying
     slave configurations, time base settings, and timing jitter
     properties for LIN master communication management.
     """
+
     # LinMaster method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getLinSlaves                 [x] impl  [ ] docstring  [ ] test
@@ -77,12 +79,14 @@ class LinMaster(LinCommunicationController):
             self.timeBaseJitter = value
         return self
 
+
 class LinCommunicationConnector(CommunicationConnector):
     """
     Defines a LIN communication connector that links LIN controllers
     to communication channels, specifying initial NAD (Node Address),
     configurable frames, and schedule change properties for LIN communication.
     """
+
     # LinCommunicationConnector method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getInitialNad                [x] impl  [ ] docstring  [ ] test

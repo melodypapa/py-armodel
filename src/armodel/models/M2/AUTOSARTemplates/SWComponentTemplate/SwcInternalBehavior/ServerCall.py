@@ -8,12 +8,14 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import ROperationInAtomicSwcInstanceRef
 
+
 class ServerCallPoint(AbstractAccessPoint, ABC):
     """
     If a RunnableEntity owns a ServerCallPoint it is entitled to invoke a
     particular ClientServerOperation of a specific RPortPrototype of the
     corresponding AtomicSwComponentType.
     """
+
     # ServerCallPoint method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getOperationIRef             [x] impl  [x] docstring  [ ] test
@@ -21,13 +23,12 @@ class ServerCallPoint(AbstractAccessPoint, ABC):
     # [ ] getTimeout                   [x] impl  [x] docstring  [ ] test
     # [ ] setTimeout                   [x] impl  [x] docstring  [ ] test
 
-
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is ServerCallPoint:
             raise TypeError("ServerCallPoint is an abstract class.")
         super().__init__(parent, short_name)
 
-        self.operationIRef: 'ROperationInAtomicSwcInstanceRef' = None
+        self.operationIRef: "ROperationInAtomicSwcInstanceRef" = None
         self.timeout: float = None
 
     def getOperationIRef(self):

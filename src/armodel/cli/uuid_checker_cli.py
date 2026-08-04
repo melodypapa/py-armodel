@@ -12,14 +12,14 @@ from armodel.lib.cli_args_parser import InputFileParser
 
 def perform_uuid_duplicate_check(args):
     logger = logging.getLogger()
-    
-    formatter = logging.Formatter('[%(levelname)s] : %(message)s')
+
+    formatter = logging.Formatter("[%(levelname)s] : %(message)s")
 
     stdout_handler = logging.StreamHandler(sys.stderr)
     stdout_handler.setFormatter(formatter)
 
     base_path = os.path.dirname(args.OUTPUT)
-    log_file = os.path.join(base_path, 'uuid_check.log')
+    log_file = os.path.join(base_path, "uuid_check.log")
 
     if os.path.exists(log_file):
         os.remove(log_file)
@@ -43,8 +43,8 @@ def perform_uuid_duplicate_check(args):
     try:
         options = {}
         if args.warning:
-            options['warning'] = True
-            
+            options["warning"] = True
+
         inputs = []
         inputs.append(args.INPUT)
         parser = InputFileParser(inputs)
@@ -56,7 +56,7 @@ def perform_uuid_duplicate_check(args):
         for filename in filenames:
             parser.load(filename, document)
 
-        with open(args.OUTPUT, 'w') as f_out:
+        with open(args.OUTPUT, "w") as f_out:
             logger.info("Writing the duplicate UUIDs to <%s>", args.OUTPUT)
             for uuid in document.getDuplicateUUIDs():
                 ar_objects = document.getARObjectByUUID(uuid)
@@ -67,7 +67,7 @@ def perform_uuid_duplicate_check(args):
                             f_out.write("  - %s (%s)\n" % (ar_object.getFullName(), type(ar_object).__name__))
                         else:
                             raise NotImplementedError("Unsupported type <%s>" % type(ar_object))
-        
+
     except Exception as e:
         logger.error(e)
         if args.verbose:
@@ -82,7 +82,7 @@ def main():
     ap.add_argument("-v", "--verbose", required=False, help="Print debug information", action="store_true")
     ap.add_argument("--log", required=False, help="Log all information to file")
     ap.add_argument("-w", "--warning", required=False, help="Skip the error and report it as warning message", action="store_true")
-    
+
     ap.add_argument("INPUT", help="The path of AUTOSAR ARXML file")
     ap.add_argument("OUTPUT", help="The path of output ARXML file")
 

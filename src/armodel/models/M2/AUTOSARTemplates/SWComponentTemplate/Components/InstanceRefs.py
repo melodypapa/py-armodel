@@ -9,11 +9,13 @@ from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
+
 class ModeGroupInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
     """
     Abstract base class for mode group instance references within an atomic
     software component type.
     """
+
     # ModeGroupInAtomicSwcInstanceRef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getBaseRef                   [x] impl  [ ] docstring  [ ] test
@@ -23,12 +25,11 @@ class ModeGroupInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
     # [ ] getTargetRef                 [x] impl  [ ] docstring  [ ] test
     # [ ] setTargetRef                 [x] impl  [ ] docstring  [ ] test
 
-
     def __init__(self):
-        
+
         if type(self) is ModeGroupInAtomicSwcInstanceRef:
             raise TypeError("ModeGroupInAtomicSwcInstanceRef is an abstract class.")
-        
+
         super().__init__()
 
         self.baseRef: RefType = None
@@ -62,13 +63,13 @@ class PModeGroupInAtomicSwcInstanceRef(ModeGroupInAtomicSwcInstanceRef):
     Instance reference to a mode group in an atomic software component
     through a PPortPrototype.
     """
+
     # PModeGroupInAtomicSwcInstanceRef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getContextPPortRef           [x] impl  [ ] docstring  [ ] test
     # [ ] setContextPPortRef           [x] impl  [ ] docstring  [ ] test
     # [ ] getTargetModeGroupRef        [x] impl  [ ] docstring  [ ] test
     # [ ] setTargetModeGroupRef        [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -90,18 +91,19 @@ class PModeGroupInAtomicSwcInstanceRef(ModeGroupInAtomicSwcInstanceRef):
         self.targetModeGroupRef = value
         return self
 
+
 class RModeGroupInAtomicSWCInstanceRef(ModeGroupInAtomicSwcInstanceRef):
     """
     Instance reference to a mode group in an atomic software component
     through an RPortPrototype.
     """
+
     # RModeGroupInAtomicSWCInstanceRef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getContextRPortRef           [x] impl  [ ] docstring  [ ] test
     # [ ] setContextRPortRef           [x] impl  [ ] docstring  [ ] test
     # [ ] getTargetModeGroupRef        [x] impl  [ ] docstring  [ ] test
     # [ ] setTargetModeGroupRef        [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -129,6 +131,7 @@ class RModeInAtomicSwcInstanceRef(AtpInstanceRef):
     Instance reference to a mode declaration in an atomic software component
     through an RPortPrototype.
     """
+
     # RModeInAtomicSwcInstanceRef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getBaseRef                   [x] impl  [ ] docstring  [ ] test
@@ -139,7 +142,6 @@ class RModeInAtomicSwcInstanceRef(AtpInstanceRef):
     # [ ] setContextPortRef            [x] impl  [ ] docstring  [ ] test
     # [ ] getTargetModeDeclarationRef  [x] impl  [ ] docstring  [ ] test
     # [ ] setTargetModeDeclarationRef  [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -176,15 +178,16 @@ class RModeInAtomicSwcInstanceRef(AtpInstanceRef):
     def setTargetModeDeclarationRef(self, value):
         self.targetModeDeclarationRef = value
         return self
-    
+
+
 class VariableInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
     """
     Abstract base class for variable instance references within an atomic
     software component type.
     """
+
     # VariableInAtomicSwcInstanceRef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         if type(self) is VariableInAtomicSwcInstanceRef:
@@ -196,18 +199,19 @@ class VariableInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
         self.baseRef: RefType = None
         self.contextPortRef: RefType = None
 
+
 class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
     """
     Instance reference to a variable in an atomic software component
     through an RPortPrototype.
     """
+
     # RVariableInAtomicSwcInstanceRef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getContextRPortRef           [x] impl  [ ] docstring  [ ] test
     # [ ] setContextRPortRef           [x] impl  [ ] docstring  [ ] test
     # [ ] getTargetDataElementRef      [x] impl  [ ] docstring  [ ] test
     # [ ] setTargetDataElementRef      [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -229,11 +233,13 @@ class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
         self.targetDataElementRef = value
         return self
 
+
 class InnerPortGroupInCompositionInstanceRef(AtpInstanceRef):
     """
     Instance reference to a port group within a composition software
     component type.
     """
+
     # InnerPortGroupInCompositionInstanceRef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getBaseRef                   [x] impl  [ ] docstring  [ ] test
@@ -242,7 +248,6 @@ class InnerPortGroupInCompositionInstanceRef(AtpInstanceRef):
     # [ ] addContextRefs               [x] impl  [ ] docstring  [ ] test
     # [ ] getTargetRef                 [x] impl  [ ] docstring  [ ] test
     # [ ] setTargetRef                 [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -271,4 +276,3 @@ class InnerPortGroupInCompositionInstanceRef(AtpInstanceRef):
     def setTargetRef(self, value):
         self.targetRef = value
         return self
-

@@ -5,6 +5,7 @@ from typing import List
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 
+
 class DiagnosticConnection(ARElement):
     """
     Represents a diagnostic connection in the AUTOSAR system, defining the relationship
@@ -12,6 +13,7 @@ class DiagnosticConnection(ARElement):
     functional requests, physical requests, and responses within the diagnostic communication
     infrastructure of the system.
     """
+
     # DiagnosticConnection method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getFunctionalRequestRefs     [x] impl  [ ] docstring  [ ] test

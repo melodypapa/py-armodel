@@ -3,14 +3,15 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, ByteOrderEnum
 
+
 class BaseTypeDefinition(ARObject, ABC):
     """
     Abstract base class for base type definitions.
     Base: ARObject
     """
+
     # BaseTypeDefinition method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         if type(self) is BaseTypeDefinition:
@@ -23,6 +24,7 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
     Direct definition of a base type with encoding, size, and memory alignment specifications.
     Base: BaseTypeDefinition
     """
+
     # BaseTypeDirectDefinition method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getBaseTypeEncoding          [x] impl  [ ] docstring  [ ] test
@@ -81,12 +83,12 @@ class BaseTypeDirectDefinition(BaseTypeDefinition):
         return self
 
 
-
 class BaseType(ARElement, ABC):
     """
     Abstract base class for base types.
     Base: ARElement
     """
+
     # BaseType method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getBaseTypeDefinition        [x] impl  [ ] docstring  [ ] test
@@ -107,11 +109,13 @@ class BaseType(ARElement, ABC):
         self.baseTypeDefinition = value
         return self
 
+
 class SwBaseType(BaseType):
     """
     Software base type representing primitive data types in software.
     Base: BaseType
     """
+
     # SwBaseType method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 

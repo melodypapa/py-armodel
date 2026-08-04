@@ -10,7 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     AbstractCanCommunicationController,
     CanCommunicationController,
     AbstractCanCommunicationConnector,
-    CanCommunicationConnector
+    CanCommunicationConnector,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -18,19 +18,20 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 class MockParent(ARObject):
     """Mock parent class to allow instantiation of classes that require a parent ARObject."""
+
     def __init__(self):
         super().__init__()
 
 
 class Test_Fibex4CanTopology:
     """Test cases for Fibex4Can Topology classes."""
-    
+
     def test_CanControllerFdConfiguration(self):
         """Test CanControllerFdConfiguration class functionality."""
         config = CanControllerFdConfiguration()
 
         assert isinstance(config, ARObject)
-        
+
         # Test default values
         assert config.getPaddingValue() is None
         assert config.getPropSeg() is None
@@ -96,7 +97,7 @@ class Test_Fibex4CanTopology:
         reqs = CanControllerFdConfigurationRequirements()
 
         assert isinstance(reqs, ARObject)
-        
+
         # Test default values
         assert reqs.getMaxNumberOfTimeQuantaPerBit() is None
         assert reqs.getMaxSamplePoint() is None
@@ -499,7 +500,7 @@ class Test_Fibex4CanTopology:
         connector = CanCommunicationConnector(parent, "test_can_comm_connector")
 
         assert isinstance(connector, CommunicationConnector)
-        
+
         # Test default values
         assert connector.getPncWakeupCanId() is None
         assert connector.getPncWakeupCanIdExtended() is None

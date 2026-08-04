@@ -6,9 +6,9 @@ class ModeInBswInstanceRef(RefType):
     Represents a reference to a mode in a BSW instance.
     Used for referencing modes within BSW module instances.
     """
+
     # ModeInBswInstanceRef method parity checklist:
     # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self):
         """

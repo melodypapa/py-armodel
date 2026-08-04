@@ -93,7 +93,7 @@ class TestImplementationDataTypeParser:
                     </AR-PACKAGE>
                 </AR-PACKAGES>
             </AUTOSAR>
-        """ # noqa E501
+        """  # noqa E501
 
         # prepare the XML content
         element = ET.fromstring(xml_content)
@@ -184,7 +184,7 @@ class TestImplementationDataTypeParser:
                     </AR-PACKAGE>
                 </AR-PACKAGES>
             </AUTOSAR>
-        """ # noqa E501
+        """  # noqa E501
 
         # prepare the XML content
         element = ET.fromstring(xml_content)
@@ -226,7 +226,7 @@ class TestImplementationDataTypeParser:
         assert sub_element1.getArraySizeHandling() is None
         assert sub_element1.getIsOptional() is None
         assert sub_element1.getSwDataDefProps().getCompuMethodRef() is None
-        
+
         # assert the second sub element
         sub_element2 = data_type.getSubElements()[1]
         assert sub_element2.getShortName() == "Payload"
@@ -243,4 +243,3 @@ class TestImplementationDataTypeParser:
         assert sub_element2.getArraySizeHandling() is None
         assert sub_element2.getIsOptional() is None
         assert sub_element2.getSwDataDefProps().getCompuMethodRef() is None
-        

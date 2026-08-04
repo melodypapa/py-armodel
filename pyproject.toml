@@ -28,7 +28,7 @@ dependencies = [
 
 [project.optional-dependencies]
 pytest = ["pytest>=7.0", "pytest-cov>=4.0", "pyyaml>=6.0"]
-lint = ["ruff"]
+lint = ["ruff", "black"]
 
 [project.urls]
 Homepage = "http://github.com/melodypapa/py-armodel"
@@ -67,3 +67,22 @@ exclude_lines = [
     "if __name__ == .__main__.:",
     "if TYPE_CHECKING:",
 ]
+
+[tool.black]
+line-length = 200
+target-version = ["py38"]
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+  | htmlcov
+)/
+'''

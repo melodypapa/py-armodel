@@ -13,6 +13,7 @@ class SwcToImplMapping(Identifiable):
     defining how software component instances in the system are connected to
     their specific implementation references and instance references.
     """
+
     # SwcToImplMapping method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getComponentIRefs            [x] impl  [ ] docstring  [ ] test
@@ -49,6 +50,7 @@ class ApplicationPartitionToEcuPartitionMapping(Identifiable):
     defining how application-level partitions are mapped to ECU-level
     partitions for resource allocation and execution management.
     """
+
     # ApplicationPartitionToEcuPartitionMapping method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getApplicationPartitionRefs  [x] impl  [ ] docstring  [ ] test

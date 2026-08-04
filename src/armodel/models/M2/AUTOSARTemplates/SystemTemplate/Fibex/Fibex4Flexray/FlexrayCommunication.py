@@ -12,6 +12,7 @@ class FlexrayFrame(Frame):
     defines the structure and characteristics of FlexRay messages in the
     communication system.
     """
+
     # FlexrayFrame method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
@@ -25,6 +26,7 @@ class FlexrayAbsolutelyScheduledTiming(ARObject):
     specifying communication cycles and slot IDs for time-triggered
     communication in FlexRay networks.
     """
+
     # FlexrayAbsolutelyScheduledTiming method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getCommunicationCycle        [x] impl  [ ] docstring  [ ] test
@@ -61,6 +63,7 @@ class FlexrayFrameTriggering(FrameTriggering):
     FlexRay frames are transmitted or received on the network, including timing,
     message IDs, and payload properties.
     """
+
     # FlexrayFrameTriggering method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getAbsolutelyScheduledTimings [x] impl  [ ] docstring  [ ] test

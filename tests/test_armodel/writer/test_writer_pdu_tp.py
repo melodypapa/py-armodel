@@ -1,4 +1,5 @@
 """Tests for writer PDU and transport protocol handlers."""
+
 import xml.etree.cElementTree as ET
 from unittest.mock import MagicMock
 import pytest
@@ -115,8 +116,7 @@ class TestWriteISignalToIPduMapping:
         assert child.tag == "I-SIGNAL-TO-I-PDU-MAPPING"
         assert child.find("SHORT-NAME").text == "Map"
         assert child.find("I-SIGNAL-REF").text == "/sigs/s"
-        assert child.find("PACKING-BYTE-ORDER").text == \
-            "MOST-SIGNIFICANT-BYTE-LAST"
+        assert child.find("PACKING-BYTE-ORDER").text == "MOST-SIGNIFICANT-BYTE-LAST"
         assert child.find("START-POSITION").text == "0"
         assert child.find("TRANSFER-PROPERTY").text == "TRIGGERED"
 

@@ -20,7 +20,7 @@ class SwComponentPrototype(AtpPrototype):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.typeTRef = None                       # type: RefType
+        self.typeTRef = None  # type: RefType
 
     def getTypeTRef(self) -> RefType:
         return self.typeTRef
@@ -90,7 +90,7 @@ class DelegationSwConnector(SwConnector):
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-        
+
         self.innerPortIRref: PortInCompositionTypeInstanceRef = None
         self.outerPortRef: RefType = None
 
@@ -156,10 +156,10 @@ class CompositionSwComponentType(SwComponentType):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.components = []                                    # type: List[SwComponentPrototype]
-        self.constantValueMappingRefs = []                      # type: List[RefType]
-        self.dataTypeMappingRefs = []                           # type: List[RefType]
-        self.instantiationRTEEventProps = []                    # type: List[InstantiationRTEEventProps]
+        self.components = []  # type: List[SwComponentPrototype]
+        self.constantValueMappingRefs = []  # type: List[RefType]
+        self.dataTypeMappingRefs = []  # type: List[RefType]
+        self.instantiationRTEEventProps = []  # type: List[InstantiationRTEEventProps]
 
     def removeAllAssemblySwConnector(self):
         for sw_connector in self.getAssemblySwConnectors():

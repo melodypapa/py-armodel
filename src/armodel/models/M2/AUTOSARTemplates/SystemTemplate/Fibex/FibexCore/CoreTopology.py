@@ -20,9 +20,9 @@ class CommunicationCycle(ARObject, ABC):
     properties for different types of communication timing cycles
     in the AUTOSAR communication system.
     """
+
     # CommunicationCycle method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         if type(self) is CommunicationCycle:
@@ -35,6 +35,7 @@ class CycleCounter(CommunicationCycle):
     Defines a counter for communication cycles, specifying the
     count value for cycle tracking in timed communication systems.
     """
+
     # CycleCounter method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getCycleCounter              [x] impl  [ ] docstring  [ ] test
@@ -60,6 +61,7 @@ class CycleRepetitionType(AREnum):
     scheduling, specifying how communication cycles are repeated
     over time.
     """
+
     # CycleRepetitionType method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
@@ -73,6 +75,7 @@ class CycleRepetition(CommunicationCycle):
     specifying base cycle and repetition pattern for cyclic
     communication scheduling.
     """
+
     # CycleRepetition method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getBaseCycle                 [x] impl  [ ] docstring  [ ] test
@@ -103,13 +106,14 @@ class CycleRepetition(CommunicationCycle):
         return self
 
 
-class PhysicalChannel (Identifiable, ABC):
+class PhysicalChannel(Identifiable, ABC):
     """
     Abstract base class for physical communication channels,
     defining common properties for different types of physical
     communication media including connector references and
     frame triggering mechanisms.
     """
+
     # PhysicalChannel method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getCommConnectorRefs         [x] impl  [ ] docstring  [ ] test
@@ -128,7 +132,7 @@ class PhysicalChannel (Identifiable, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is PhysicalChannel:
             raise TypeError("PhysicalChannel is an abstract class.")
-        
+
         super().__init__(parent, short_name)
 
         self.commConnectorRefs: List[RefType] = []
@@ -146,21 +150,21 @@ class PhysicalChannel (Identifiable, ABC):
         return list(sorted(filter(lambda a: isinstance(a, FrameTriggering), self.elements), key=lambda o: o.getShortName()))
 
     def createCanFrameTriggering(self, short_name: str) -> CanFrameTriggering:
-        if (short_name not in self.elements):
+        if short_name not in self.elements:
             triggering = CanFrameTriggering(self, short_name)
             self.addElement(triggering)
             self.frameTriggerings.append(triggering)
         return self.getElement(short_name)
-    
+
     def createLinFrameTriggering(self, short_name: str) -> LinFrameTriggering:
-        if (short_name not in self.elements):
+        if short_name not in self.elements:
             triggering = LinFrameTriggering(self, short_name)
             self.addElement(triggering)
             self.frameTriggerings.append(triggering)
         return self.getElement(short_name)
-    
+
     def createFlexrayFrameTriggering(self, short_name: str) -> FlexrayFrameTriggering:
-        if (short_name not in self.elements):
+        if short_name not in self.elements:
             triggering = FlexrayFrameTriggering(self, short_name)
             self.addElement(triggering)
             self.frameTriggerings.append(triggering)
@@ -170,7 +174,7 @@ class PhysicalChannel (Identifiable, ABC):
         return list(sorted(filter(lambda a: isinstance(a, ISignalTriggering), self.elements), key=lambda o: o.getShortName()))
 
     def createISignalTriggering(self, short_name: str):
-        if (short_name not in self.elements):
+        if short_name not in self.elements:
             triggering = ISignalTriggering(self, short_name)
             self.addElement(triggering)
         return self.getElement(short_name)
@@ -181,12 +185,12 @@ class PhysicalChannel (Identifiable, ABC):
     def addManagedPhysicalChannelRef(self, value):
         self.managedPhysicalChannelRefs.append(value)
         return self
-    
+
     def getPduTriggerings(self) -> List[PduTriggering]:
         return list(sorted(filter(lambda a: isinstance(a, PduTriggering), self.elements), key=lambda o: o.getShortName()))
 
     def createPduTriggering(self, short_name: str):
-        if (short_name not in self.elements):
+        if short_name not in self.elements:
             triggering = PduTriggering(self, short_name)
             self.addElement(triggering)
         return self.getElement(short_name)
@@ -198,13 +202,14 @@ class AbstractCanPhysicalChannel(PhysicalChannel, ABC):
     common properties for CAN-specific physical communication
     channels in the AUTOSAR system.
     """
+
     # AbstractCanPhysicalChannel method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
     def __init__(self, parent, short_name):
         if type(self) is AbstractCanPhysicalChannel:
             raise TypeError("AbstractCanPhysicalChannel is an abstract class.")
-         
+
         super().__init__(parent, short_name)
 
 
@@ -214,6 +219,7 @@ class CanPhysicalChannel(AbstractCanPhysicalChannel):
     implementing specific properties for CAN bus communication
     including frame triggering and connector management.
     """
+
     # CanPhysicalChannel method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
@@ -227,6 +233,7 @@ class LinPhysicalChannel(PhysicalChannel):
     defining LIN-specific properties including bus idle timeout
     and schedule tables for LIN network communication.
     """
+
     # LinPhysicalChannel method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getBusIdleTimeoutPeriod      [x] impl  [ ] docstring  [ ] test
@@ -252,7 +259,7 @@ class LinPhysicalChannel(PhysicalChannel):
         return self.scheduleTables
 
     def createLinScheduleTable(self, short_name: str) -> LinScheduleTable:
-        if (short_name not in self.elements):
+        if short_name not in self.elements:
             end_point = LinScheduleTable(self, short_name)
             self.addElement(end_point)
             self.scheduleTables.append(end_point)
@@ -265,6 +272,7 @@ class VlanConfig(Identifiable):
     specifying VLAN identifiers for network segmentation
     and traffic management in Ethernet communication.
     """
+
     # VlanConfig method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getVlanIdentifier            [x] impl  [ ] docstring  [ ] test
@@ -290,6 +298,7 @@ class EthernetPhysicalChannel(PhysicalChannel):
     defining Ethernet-specific properties including network endpoints,
     Socket Adaptor (SoAd) configuration, and VLAN settings.
     """
+
     # EthernetPhysicalChannel method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getNetworkEndpoints          [x] impl  [ ] docstring  [ ] test
@@ -310,7 +319,7 @@ class EthernetPhysicalChannel(PhysicalChannel):
         return self.networkEndpoints
 
     def createNetworkEndPoint(self, short_name: str) -> NetworkEndpoint:
-        if (short_name not in self.elements):
+        if short_name not in self.elements:
             end_point = NetworkEndpoint(self, short_name)
             self.addElement(end_point)
             self.networkEndpoints.append(end_point)
@@ -327,7 +336,7 @@ class EthernetPhysicalChannel(PhysicalChannel):
         return self.vlan
 
     def createVlanConfig(self, short_name: str) -> VlanConfig:
-        if (short_name not in self.elements):
+        if short_name not in self.elements:
             config = VlanConfig(self, short_name)
             self.vlan = config
             self.addElement(config)
@@ -340,6 +349,7 @@ class FlexrayChannelName(AREnum):
     specifying the available channel designations
     in FlexRay communication systems.
     """
+
     # FlexrayChannelName method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
@@ -347,10 +357,7 @@ class FlexrayChannelName(AREnum):
     channel_B = "channelB"
 
     def __init__(self):
-        super().__init__([
-            FlexrayChannelName.CHANNEL_A,
-            FlexrayChannelName.channel_B
-        ])
+        super().__init__([FlexrayChannelName.CHANNEL_A, FlexrayChannelName.channel_B])
 
 
 class FlexrayPhysicalChannel(PhysicalChannel):
@@ -359,6 +366,7 @@ class FlexrayPhysicalChannel(PhysicalChannel):
     defining FlexRay-specific properties including channel name
     designation for dual-channel FlexRay communication.
     """
+
     # FlexrayPhysicalChannel method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getChannelName               [x] impl  [ ] docstring  [ ] test
@@ -367,7 +375,7 @@ class FlexrayPhysicalChannel(PhysicalChannel):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.channelName = None                                     # type: FlexrayChannelName
+        self.channelName = None  # type: FlexrayChannelName
 
     def getChannelName(self):
         return self.channelName
@@ -385,6 +393,7 @@ class CommunicationCluster(FibexElement, ABC):
     networks including baud rate, protocol specifications,
     and physical channel management.
     """
+
     # CommunicationCluster method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getBaudrate                  [x] impl  [ ] docstring  [ ] test
@@ -405,13 +414,13 @@ class CommunicationCluster(FibexElement, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CommunicationCluster:
             raise TypeError("CommunicationCluster is an abstract class.")
-        
+
         super().__init__(parent, short_name)
 
-        self.baudrate = None                    # type: ARFloat
+        self.baudrate = None  # type: ARFloat
         self.physicalChannel: List[PhysicalChannel] = []
-        self.protocolName = None                # type: ARLiteral
-        self.protocolVersion = None             # type: ARLiteral
+        self.protocolName = None  # type: ARLiteral
+        self.protocolVersion = None  # type: ARLiteral
 
     def getBaudrate(self):
         return self.baudrate
@@ -422,39 +431,39 @@ class CommunicationCluster(FibexElement, ABC):
 
     def getPhysicalChannels(self) -> List[PhysicalChannel]:
         return list(sorted(filter(lambda a: isinstance(a, PhysicalChannel), self.elements), key=lambda o: o.getShortName()))
-    
+
     def getCanPhysicalChannels(self) -> List[CanPhysicalChannel]:
         return list(sorted(filter(lambda a: isinstance(a, CanPhysicalChannel), self.elements), key=lambda o: o.getShortName()))
-    
+
     def getLinPhysicalChannels(self) -> List[LinPhysicalChannel]:
         return list(sorted(filter(lambda a: isinstance(a, LinPhysicalChannel), self.elements), key=lambda o: o.getShortName()))
-    
+
     def getEthernetPhysicalChannels(self) -> List[EthernetPhysicalChannel]:
         return list(sorted(filter(lambda a: isinstance(a, EthernetPhysicalChannel), self.elements), key=lambda o: o.getShortName()))
-    
+
     def createCanPhysicalChannel(self, short_name: str):
-        if (short_name not in self.elements):
+        if short_name not in self.elements:
             channel = CanPhysicalChannel(self, short_name)
             self.addElement(channel)
             self.physicalChannel.append(channel)
         return self.getElement(short_name)
-    
+
     def createLinPhysicalChannel(self, short_name: str):
-        if (short_name not in self.elements):
+        if short_name not in self.elements:
             channel = LinPhysicalChannel(self, short_name)
             self.addElement(channel)
             self.physicalChannel.append(channel)
         return self.getElement(short_name)
-    
+
     def createEthernetPhysicalChannel(self, short_name: str):
-        if (short_name not in self.elements):
+        if short_name not in self.elements:
             channel = EthernetPhysicalChannel(self, short_name)
             self.addElement(channel)
             self.physicalChannel.append(channel)
         return self.getElement(short_name)
-    
+
     def createFlexrayPhysicalChannel(self, short_name: str):
-        if (short_name not in self.elements):
+        if short_name not in self.elements:
             channel = FlexrayPhysicalChannel(self, short_name)
             self.addElement(channel)
             self.physicalChannel.append(channel)
@@ -481,6 +490,7 @@ class CanClusterBusOffRecovery(ARObject):
     specifying timing and counter configurations for
     CAN controller recovery after bus off conditions.
     """
+
     # CanClusterBusOffRecovery method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getBorCounterL1ToL2          [x] impl  [ ] docstring  [ ] test
@@ -550,6 +560,7 @@ class AbstractCanCluster(CommunicationCluster, ABC):
     clusters with CAN-specific properties including FD and XL
     baud rates and speed configurations.
     """
+
     # AbstractCanCluster method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getBusOffRecovery            [x] impl  [ ] docstring  [ ] test
@@ -564,7 +575,7 @@ class AbstractCanCluster(CommunicationCluster, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractCanCluster:
             raise TypeError("AbstractCanCluster is an abstract class.")
-        
+
         super().__init__(parent, short_name)
 
         self.busOffRecovery: CanClusterBusOffRecovery = None
@@ -607,6 +618,7 @@ class CanCluster(AbstractCanCluster):
     implementing specific properties for CAN network
     communication including timing and error recovery.
     """
+
     # CanCluster method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
@@ -620,6 +632,7 @@ class LinCluster(CommunicationCluster):
     implementing specific properties for LIN network
     communication including scheduling and timing management.
     """
+
     # LinCluster method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
@@ -633,6 +646,7 @@ class CommunicationController(Identifiable, ABC):
     defining common properties for different types of
     communication hardware controllers in the system.
     """
+
     # CommunicationController method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getWakeUpByControllerSupported [x] impl  [ ] docstring  [ ] test
@@ -641,7 +655,7 @@ class CommunicationController(Identifiable, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CommunicationController:
             raise TypeError("CommunicationController is an abstract class.")
-        
+
         super().__init__(parent, short_name)
 
         self.wakeUpByControllerSupported: Boolean = None
@@ -660,6 +674,7 @@ class PncGatewayTypeEnum(AREnum):
     gateways, specifying the gateway behavior in partial
     network communication management.
     """
+
     # PncGatewayTypeEnum method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
@@ -668,11 +683,7 @@ class PncGatewayTypeEnum(AREnum):
     ENUM_PASSIVE = "passive"
 
     def __init__(self):
-        super().__init__([
-            PncGatewayTypeEnum.ENUM_ACTIVE,
-            PncGatewayTypeEnum.ENUM_NONE,
-            PncGatewayTypeEnum.ENUM_PASSIVE
-        ])
+        super().__init__([PncGatewayTypeEnum.ENUM_ACTIVE, PncGatewayTypeEnum.ENUM_NONE, PncGatewayTypeEnum.ENUM_PASSIVE])
 
 
 class CommunicationDirectionType(AREnum):
@@ -680,6 +691,7 @@ class CommunicationDirectionType(AREnum):
     Enumeration defining communication direction types,
     specifying whether communication is inbound or outbound.
     """
+
     # CommunicationDirectionType method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
@@ -687,10 +699,7 @@ class CommunicationDirectionType(AREnum):
     ENUM_OUT = "out"
 
     def __init__(self):
-        super().__init__([
-            CommunicationDirectionType.ENUM_IN,
-            CommunicationDirectionType.ENUM_OUT
-        ])
+        super().__init__([CommunicationDirectionType.ENUM_IN, CommunicationDirectionType.ENUM_OUT])
 
 
 class CommConnectorPort(Identifiable, ABC):
@@ -699,6 +708,7 @@ class CommConnectorPort(Identifiable, ABC):
     defining common properties for different types of
     communication ports including direction and processing.
     """
+
     # CommConnectorPort method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getCommunicationDirection    [x] impl  [ ] docstring  [ ] test
@@ -707,9 +717,9 @@ class CommConnectorPort(Identifiable, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CommConnectorPort:
             raise TypeError("CommConnectorPort is an abstract class.")
-        
+
         super().__init__(parent, short_name)
-        
+
         self.communicationDirection: CommunicationDirectionType = None
 
     def getCommunicationDirection(self):
@@ -726,6 +736,7 @@ class FramePort(CommConnectorPort):
     Represents a frame port for communication connectors,
     handling frame-based communication at the connector level.
     """
+
     # FramePort method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
@@ -738,6 +749,7 @@ class IPduSignalProcessingEnum(Enum):
     Enumeration defining types of IPDU signal processing,
     specifying whether signal processing is deferred or immediate.
     """
+
     # IPduSignalProcessingEnum method parity checklist:
     # (no methods)
 
@@ -751,6 +763,7 @@ class IPduPort(CommConnectorPort):
     handling Interaction Protocol Data Unit communication
     with specific processing and security properties.
     """
+
     # IPduPort method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getIPduSignalProcessing      [x] impl  [ ] docstring  [ ] test
@@ -766,7 +779,7 @@ class IPduPort(CommConnectorPort):
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-        
+
         self.iPduSignalProcessing: IPduSignalProcessingEnum = None
         self.keyId: PositiveInteger = None
         self.rxSecurityVerification: Boolean = None
@@ -820,6 +833,7 @@ class ISignalPort(CommConnectorPort):
     handling interaction signal communication with filtering,
     timeout, and validity handling properties.
     """
+
     # ISignalPort method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getDataFilter                [x] impl  [ ] docstring  [ ] test
@@ -835,7 +849,7 @@ class ISignalPort(CommConnectorPort):
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-        
+
         self.dataFilter: DataFilter = None
         self.ddsQosProfileRef: RefType = None
         self.firstTimeout: TimeValue = None
@@ -890,6 +904,7 @@ class CommunicationConnector(Identifiable, ABC):
     controllers to communication channels and managing
     port instances and gateway types.
     """
+
     # CommunicationConnector method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getCommControllerRef         [x] impl  [ ] docstring  [ ] test
@@ -910,7 +925,7 @@ class CommunicationConnector(Identifiable, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CommunicationConnector:
             raise TypeError("CommunicationConnector is an abstract class.")
-        
+
         super().__init__(parent, short_name)
 
         self.commControllerRef: RefType = None
@@ -957,7 +972,7 @@ class CommunicationConnector(Identifiable, ABC):
             self.addElement(port)
             self.ecuCommPortInstances.append(port)
         return self.getElement(short_name)
-    
+
     def createISignalPort(self, short_name) -> ISignalPort:
         if short_name not in self.elements:
             port = ISignalPort(self, short_name)

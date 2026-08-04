@@ -1,4 +1,5 @@
 """Tests for writer PDU, SecureCommunication, SoAd, and DoIp handlers."""
+
 import xml.etree.cElementTree as ET
 from unittest.mock import MagicMock
 import pytest
@@ -424,9 +425,7 @@ class TestWriteSecureCommunicationPropsSetAuthenticationProps:
         props_set = MagicMock()
         props_set.getAuthenticationProps.return_value = []
         parent = _parent()
-        writer.writeSecureCommunicationPropsSetAuthenticationProps(
-            parent, props_set
-        )
+        writer.writeSecureCommunicationPropsSetAuthenticationProps(parent, props_set)
         assert len(parent) == 0
 
     def test_with_props(self, writer):
@@ -439,9 +438,7 @@ class TestWriteSecureCommunicationPropsSetAuthenticationProps:
         props.getAuthInfoTxLength = MagicMock(return_value=tx_len)
         props_set.getAuthenticationProps.return_value = [props]
         parent = _parent()
-        writer.writeSecureCommunicationPropsSetAuthenticationProps(
-            parent, props_set
-        )
+        writer.writeSecureCommunicationPropsSetAuthenticationProps(parent, props_set)
         props_elem = parent.find("AUTHENTICATION-PROPSS")
         assert props_elem is not None
         auth_props = props_elem.find("SECURE-COMMUNICATION-AUTHENTICATION-PROPS")
@@ -605,9 +602,7 @@ class TestWriteDoIpTpConfig:
     def test_full(self, writer):
         pkg = _pkg()
         config = DoIpTpConfig(pkg, "doipConfig")
-        config.setCommunicationClusterRef(
-            _ref("ETHERNET-CLUSTER", "/cluster")
-        )
+        config.setCommunicationClusterRef(_ref("ETHERNET-CLUSTER", "/cluster"))
         addr = config.createDoIpLogicAddress("addr")
         addr.setAddress(_int("0xE00"))
         conn = DoIpTpConnection()

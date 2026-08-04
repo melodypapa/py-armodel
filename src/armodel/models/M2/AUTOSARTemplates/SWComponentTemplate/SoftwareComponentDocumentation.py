@@ -11,6 +11,7 @@ class SwComponentDocumentation(ARObject):
     Documentation for a software component including chapters, calibration
     notes, diagnostics notes, feature descriptions, and test descriptions.
     """
+
     # SwComponentDocumentation method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getChapters                  [x] impl  [x] docstring  [ ] test
@@ -29,7 +30,6 @@ class SwComponentDocumentation(ARObject):
     # [ ] setSwMaintenanceNotes        [x] impl  [x] docstring  [ ] test
     # [ ] getSwTestDesc                [x] impl  [x] docstring  [ ] test
     # [ ] setSwTestDesc                [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()

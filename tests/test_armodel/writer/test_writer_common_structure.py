@@ -1,28 +1,41 @@
 """Tests for writer common structure and documentation handlers."""
+
 import xml.etree.cElementTree as ET
 import pytest
 from armodel.writer.arxml_writer import ARXMLWriter
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg, Sd, SdgCaption
 from armodel.models.M2.MSR.AsamHdo.AdminData import (
-    AdminData, DocRevision, Modification,
+    AdminData,
+    DocRevision,
+    Modification,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
-    Limit, RefType, ARLiteral, RevisionLabelString, DateTime,
+    Limit,
+    RefType,
+    ARLiteral,
+    RevisionLabelString,
+    DateTime,
 )
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
-    LLongName, LPlainText, LOverviewParagraph,
+    LLongName,
+    LPlainText,
+    LOverviewParagraph,
 )
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
-    MultilanguageLongName, MultiLanguageOverviewParagraph,
-    MultiLanguagePlainText, MultiLanguageParagraph,
+    MultilanguageLongName,
+    MultiLanguageOverviewParagraph,
+    MultiLanguagePlainText,
+    MultiLanguageParagraph,
 )
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import (
     DocumentationBlock,
 )
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import (
-    MlFigure, Graphic, LGraphic,
+    MlFigure,
+    Graphic,
+    LGraphic,
 )
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import (  # noqa: E501
     ARList,
@@ -31,13 +44,15 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Collection,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import (  # noqa: E501
-    Keyword, KeywordSet,
+    Keyword,
+    KeywordSet,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import (  # noqa: E501
     PortPrototypeBlueprint,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
-    ModeDeclarationMapping, ModeDeclarationMappingSet,
+    ModeDeclarationMapping,
+    ModeDeclarationMappingSet,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (  # noqa: E501
     Describable,
@@ -60,7 +75,7 @@ def writer():
 @pytest.fixture
 def warning_writer():
     AUTOSAR.getInstance().new()
-    return ARXMLWriter(options={'warning': True})
+    return ARXMLWriter(options={"warning": True})
 
 
 def _parent():
@@ -97,7 +112,7 @@ class TestWriteSds:
         assert len(parent) == 1
         assert parent[0].tag == "SD"
         assert parent[0].text == "val"
-        assert parent[0].attrib['GID'] == "g1"
+        assert parent[0].attrib["GID"] == "g1"
 
     def test_multiple_sds(self, writer):
         parent = _parent()
@@ -120,7 +135,7 @@ class TestWriteSds:
         sd.gid = None
         sdg.addSd(sd)
         writer.writeSds(parent, sdg)
-        assert 'GID' not in parent[0].attrib
+        assert "GID" not in parent[0].attrib
 
 
 class TestWriteSdgCaption:
@@ -154,7 +169,7 @@ class TestWriteSdgSdxRefs:
         assert len(parent) == 1
         assert parent[0].tag == "SDX-REF"
         assert parent[0].text == "/path"
-        assert parent[0].attrib['DEST'] == "ELEMENT"
+        assert parent[0].attrib["DEST"] == "ELEMENT"
 
     def test_without_refs(self, writer):
         parent = _parent()
@@ -173,7 +188,7 @@ class TestSetSdg:
         sdg.addSd(sd)
         writer.setSdg(parent, sdg)
         assert parent[0].tag == "SDG"
-        assert parent[0].attrib['GID'] == "gid1"
+        assert parent[0].attrib["GID"] == "gid1"
         sd_tag = parent[0].find("SD")
         assert sd_tag is not None
         assert sd_tag.text == "v"
@@ -188,7 +203,7 @@ class TestSetSdg:
         sdg = Sdg()
         sdg.gid = ""
         writer.setSdg(parent, sdg)
-        assert 'GID' not in parent[0].attrib
+        assert "GID" not in parent[0].attrib
 
     def test_nested_sdg_contents(self, writer):
         parent = _parent()
@@ -202,7 +217,7 @@ class TestSetSdg:
         assert outer.tag == "SDG"
         inner_tag = outer.find("SDG")
         assert inner_tag is not None
-        assert inner_tag.attrib['GID'] == "inner"
+        assert inner_tag.attrib["GID"] == "inner"
 
     def test_sdg_with_caption_and_sdx(self, writer):
         parent = _parent()
@@ -255,7 +270,7 @@ class TestSetLanguageSpecific:
         writer.setLanguageSpecific(parent, "L-4", item)
         assert parent[0].tag == "L-4"
         assert parent[0].text == "Hello"
-        assert parent[0].attrib['L'] == "en"
+        assert parent[0].attrib["L"] == "en"
 
     def test_without_l_attribute(self, writer):
         parent = _parent()
@@ -263,7 +278,7 @@ class TestSetLanguageSpecific:
         item.l = None
         item.value = "Hi"
         writer.setLanguageSpecific(parent, "L-4", item)
-        assert 'L' not in parent[0].attrib
+        assert "L" not in parent[0].attrib
 
 
 class TestSetLLongName:
@@ -498,7 +513,7 @@ class TestWriteLParagraphs:
         para.addL1(l1)
         writer.writeLParagraphs(parent, para)
         assert parent[0].tag == "L-1"
-        assert parent[0].attrib['L'] == "en"
+        assert parent[0].attrib["L"] == "en"
         assert parent[0].text == "Text"
 
     def test_without_l(self, writer):
@@ -510,7 +525,7 @@ class TestWriteLParagraphs:
         para.addL1(l1)
         writer.writeLParagraphs(parent, para)
         assert parent[0].tag == "L-1"
-        assert 'L' not in parent[0].attrib
+        assert "L" not in parent[0].attrib
 
     def test_empty(self, writer):
         parent = _parent()
@@ -545,13 +560,13 @@ class TestSetListElement:
         lst.setType("number")
         writer.setListElement(parent, "LIST", lst)
         assert parent[0].tag == "LIST"
-        assert parent[0].attrib['TYPE'] == "number"
+        assert parent[0].attrib["TYPE"] == "number"
 
     def test_without_type(self, writer):
         parent = _parent()
         lst = ARList()
         writer.setListElement(parent, "LIST", lst)
-        assert 'TYPE' not in parent[0].attrib
+        assert "TYPE" not in parent[0].attrib
 
     def test_none(self, writer):
         parent = _parent()
@@ -581,13 +596,13 @@ class TestSetGraphic:
         g.setFilename("img.png")
         writer.setGraphic(parent, "GRAPHIC", g)
         assert parent[0].tag == "GRAPHIC"
-        assert parent[0].attrib['FILENAME'] == "img.png"
+        assert parent[0].attrib["FILENAME"] == "img.png"
 
     def test_without_filename(self, writer):
         parent = _parent()
         g = Graphic()
         writer.setGraphic(parent, "GRAPHIC", g)
-        assert 'FILENAME' not in parent[0].attrib
+        assert "FILENAME" not in parent[0].attrib
 
     def test_none(self, writer):
         parent = _parent()
@@ -607,9 +622,9 @@ class TestWriteMlFigureLGraphics:
         fig.addLGraphics(lg)
         writer.writeMlFigureLGraphics(parent, fig)
         assert parent[0].tag == "L-GRAPHIC"
-        assert parent[0].attrib['L'] == "en"
+        assert parent[0].attrib["L"] == "en"
         assert parent[0][0].tag == "GRAPHIC"
-        assert parent[0][0].attrib['FILENAME'] == "f.png"
+        assert parent[0][0].attrib["FILENAME"] == "f.png"
 
     def test_without_l(self, writer):
         parent = _parent()
@@ -618,7 +633,7 @@ class TestWriteMlFigureLGraphics:
         lg.setL(None)
         fig.addLGraphics(lg)
         writer.writeMlFigureLGraphics(parent, fig)
-        assert 'L' not in parent[0].attrib
+        assert "L" not in parent[0].attrib
 
     def test_empty(self, writer):
         parent = _parent()
@@ -935,24 +950,21 @@ class TestWriteModeDeclarationMappingSetMappings:
         m = ModeDeclarationMapping(_autosar(), "M")
         m.secondModeRef = None
         ms.modeDeclarationMappings.append(m)
-        writer.writeModeDeclarationMappingSetModeDeclarationMappings(
-            parent, ms)
+        writer.writeModeDeclarationMappingSetModeDeclarationMappings(parent, ms)
         assert parent[0].tag == "MODE-DECLARATION-MAPPINGS"
         assert parent[0][0].tag == "MODE-DECLARATION-MAPPING"
 
     def test_empty(self, writer):
         parent = _parent()
         ms = ModeDeclarationMappingSet(_autosar(), "MS")
-        writer.writeModeDeclarationMappingSetModeDeclarationMappings(
-            parent, ms)
+        writer.writeModeDeclarationMappingSetModeDeclarationMappings(parent, ms)
         assert len(parent) == 0
 
     def test_unsupported_type(self, warning_writer):
         parent = _parent()
         ms = ModeDeclarationMappingSet(_autosar(), "MS")
         ms.modeDeclarationMappings.append("not_a_mapping")
-        warning_writer.writeModeDeclarationMappingSetModeDeclarationMappings(
-            parent, ms)
+        warning_writer.writeModeDeclarationMappingSetModeDeclarationMappings(parent, ms)
         assert parent[0].tag == "MODE-DECLARATION-MAPPINGS"
 
 
@@ -980,4 +992,4 @@ class TestWriteDescribable:
         desc = ConcreteDescribable()
         desc.timestamp = "2024-01-01T00:00:00"
         writer.writeDescribable(parent, desc)
-        assert parent.attrib['T'] == "2024-01-01T00:00:00"
+        assert parent.attrib["T"] == "2024-01-01T00:00:00"

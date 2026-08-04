@@ -1,4 +1,3 @@
-
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance import EcuInstance
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -15,14 +14,14 @@ class MockParent(ARObject):
 
 class Test_FibexCoreEcuInstance:
     """Test cases for FibexCore EcuInstance class."""
-    
+
     def test_EcuInstance(self):
         """Test EcuInstance class functionality."""
         parent = MockParent()
         ecu = EcuInstance(parent, "test_ecu_instance")
 
         assert isinstance(ecu, FibexElement)
-        
+
         # Test default values
         assert ecu.getAssociatedComIPduGroupRefs() == []
         assert ecu.getAssociatedConsumedProvidedServiceInstanceGroupRefs() == []
@@ -56,7 +55,7 @@ class Test_FibexCoreEcuInstance:
         """Test EcuInstance setter methods with None values and method chaining."""
         parent = MockParent()
         ecu = EcuInstance(parent, "test_ecu_instance")
-        
+
         # Test setter/getter methods with method chaining - with None values
         # Note: Most setters will set the value to None, but setDiagnosticAddress doesn't change value when None is passed
         assert ecu == ecu.setChannelSynchronousWakeup(None)
@@ -129,7 +128,7 @@ class Test_FibexCoreEcuInstance:
         """Test EcuInstance setter methods with actual values and method chaining."""
         parent = MockParent()
         ecu = EcuInstance(parent, "test_ecu_instance")
-        
+
         # Test setter/getter methods with method chaining - with actual values
         ecu.setChannelSynchronousWakeup(True)
         assert ecu.getChannelSynchronousWakeup() is True
@@ -219,7 +218,7 @@ class Test_FibexCoreEcuInstance:
         """Test EcuInstance add methods with method chaining."""
         parent = MockParent()
         ecu = EcuInstance(parent, "test_ecu_instance")
-        
+
         # Test addAssociatedComIPduGroupRef with method chaining
         ecu.addAssociatedComIPduGroupRef("com_ipdu_ref")
         assert "com_ipdu_ref" in ecu.getAssociatedComIPduGroupRefs()
@@ -248,7 +247,7 @@ class Test_FibexCoreEcuInstance:
         """Test EcuInstance create methods for communication controllers and connectors."""
         parent = MockParent()
         ecu = EcuInstance(parent, "test_ecu_instance")
-        
+
         # Test createCanCommunicationController
         controller = ecu.createCanCommunicationController("can_controller_1")
         assert isinstance(controller, CanCommunicationController)

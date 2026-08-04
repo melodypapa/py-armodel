@@ -17,6 +17,7 @@ Shared fixtures (``parser``, ``warning_parser``, ``reset_autosar``) are provided
 by ``conftest.py``; helper functions (``_snip``, ``_autosar_root``) live in
 ``_helpers.py``.
 """
+
 from unittest.mock import MagicMock
 import logging
 
@@ -174,10 +175,13 @@ class TestGetNonqueuedReceiverComSpec:
 class TestReadRequiredComSpec:
     """Tests for readRequiredComSpec (L2052-2068)."""
 
-    @pytest.mark.parametrize("tag", [
-        "MODE-SWITCH-RECEIVER-COM-SPEC",
-        "PARAMETER-REQUIRE-COM-SPEC",
-    ])
+    @pytest.mark.parametrize(
+        "tag",
+        [
+            "MODE-SWITCH-RECEIVER-COM-SPEC",
+            "PARAMETER-REQUIRE-COM-SPEC",
+        ],
+    )
     def test_branches(self, parser, tag):
         AUTOSAR.getInstance().setARRelease("R23-11")
         r_port = _make_r_port()
@@ -346,10 +350,13 @@ class TestGetNvProvideComSpec:
 class TestReadProvidedComSpec:
     """Tests for readProvidedComSpec (L2190-2204)."""
 
-    @pytest.mark.parametrize("tag", [
-        "QUEUED-SENDER-COM-SPEC",
-        "MODE-SWITCH-SENDER-COM-SPEC",
-    ])
+    @pytest.mark.parametrize(
+        "tag",
+        [
+            "QUEUED-SENDER-COM-SPEC",
+            "MODE-SWITCH-SENDER-COM-SPEC",
+        ],
+    )
     def test_branches(self, parser, tag):
         AUTOSAR.getInstance().setARRelease("R23-11")
         p_port = _make_p_port()
@@ -415,9 +422,11 @@ class TestReadProvidedComSpec:
 
 # === Migrated from test_arxml_parser_remaining_gaps.py ===
 
+
 class TestCompositeNetworkRepresentation:
     def test_readReceiverComSpec_adds_composite_repr(self, parser):
         from armodel.models import NonqueuedReceiverComSpec
+
         com_spec = NonqueuedReceiverComSpec()
         element = _snip(
             "<COMPOSITE-NETWORK-REPRESENTATIONS>"
@@ -435,6 +444,7 @@ class TestCompositeNetworkRepresentation:
 
     def test_readSenderComSpec_adds_composite_repr(self, parser):
         from armodel.models import NonqueuedSenderComSpec
+
         com_spec = NonqueuedSenderComSpec()
         element = _snip(
             "<COMPOSITE-NETWORK-REPRESENTATIONS>"
@@ -454,22 +464,14 @@ class TestCompositeNetworkRepresentation:
 # ==================== RequiredComSpecs (L2058) ====================
 
 
-
 # === Migrated from remaining_gaps.py as TestReadRequiredComSpecExtras (originally TestReadRequiredComSpec) ===
+
 
 class TestReadRequiredComSpecExtras:
     def test_readRequiredComSpec_client_com_spec(self, parser):
-        app = ApplicationSwComponentType(
-            parent=_autosar_root(), short_name="App"
-        )
+        app = ApplicationSwComponentType(parent=_autosar_root(), short_name="App")
         port = app.createRPortPrototype("RPort")
-        element = _snip(
-            "<REQUIRED-COM-SPECS>"
-            "<CLIENT-COM-SPEC>"
-            '<OPERATION-REF DEST="CLIENT-SERVER-OPERATION">/op</OPERATION-REF>'
-            "</CLIENT-COM-SPEC>"
-            "</REQUIRED-COM-SPECS>"
-        )
+        element = _snip("<REQUIRED-COM-SPECS>" "<CLIENT-COM-SPEC>" '<OPERATION-REF DEST="CLIENT-SERVER-OPERATION">/op</OPERATION-REF>' "</CLIENT-COM-SPEC>" "</REQUIRED-COM-SPECS>")
         parser.readRequiredComSpec(element, port)
         assert len(port.getRequiredComSpecs()) == 1
 
@@ -477,67 +479,53 @@ class TestReadRequiredComSpecExtras:
 # ==================== TransformationComSpecProps (L2136, L2139, L2143-2149) ====================
 
 
-
 # === Migrated from test_arxml_parser_remaining_gaps.py ===
+
 
 class TestTransformationComSpecProps:
     def test_readTransformationComSpecProps_sets_attrs(self, parser):
         from armodel.models import UserDefinedTransformationComSpecProps
+
         props = UserDefinedTransformationComSpecProps()
         element = _snip("")
         parser.readTransformationComSpecProps(element, props)
 
     def test_readUserDefinedTransformationComSpecProps(self, parser):
         from armodel.models import UserDefinedTransformationComSpecProps
+
         props = UserDefinedTransformationComSpecProps()
         element = _snip("")
         parser.readUserDefinedTransformationComSpecProps(element, props)
 
-    def test_readServerComSpecTransformationComSpecProps_adds_props(
-        self, parser
-    ):
+    def test_readServerComSpecTransformationComSpecProps_adds_props(self, parser):
         from armodel.models import ServerComSpec
+
         com_spec = ServerComSpec()
-        element = _snip(
-            "<TRANSFORMATION-COM-SPEC-PROPSS>"
-            "<USER-DEFINED-TRANSFORMATION-COM-SPEC-PROPS/>"
-            "</TRANSFORMATION-COM-SPEC-PROPSS>"
-        )
-        parser.readServerComSpecTransformationComSpecProps(
-            element, com_spec
-        )
+        element = _snip("<TRANSFORMATION-COM-SPEC-PROPSS>" "<USER-DEFINED-TRANSFORMATION-COM-SPEC-PROPS/>" "</TRANSFORMATION-COM-SPEC-PROPSS>")
+        parser.readServerComSpecTransformationComSpecProps(element, com_spec)
         assert len(com_spec.getTransformationComSpecProps()) == 1
 
-    def test_readServerComSpecTransformationComSpecProps_unsupported_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readServerComSpecTransformationComSpecProps_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import ServerComSpec
+
         com_spec = ServerComSpec()
-        element = _snip(
-            "<TRANSFORMATION-COM-SPEC-PROPSS><BAD/></TRANSFORMATION-COM-SPEC-PROPSS>"
-        )
+        element = _snip("<TRANSFORMATION-COM-SPEC-PROPSS><BAD/></TRANSFORMATION-COM-SPEC-PROPSS>")
         with caplog.at_level(logging.ERROR):
-            warning_parser.readServerComSpecTransformationComSpecProps(
-                element, com_spec
-            )
-        assert any("Unsupported TransformationComSpecProps"
-                   in r.getMessage() for r in caplog.records)
+            warning_parser.readServerComSpecTransformationComSpecProps(element, com_spec)
+        assert any("Unsupported TransformationComSpecProps" in r.getMessage() for r in caplog.records)
 
 
 # ==================== PortGroup / InnerPortIRef / Composition (L2231, L2345, L2370) ====================
 
 
-
 # === Migrated from test_arxml_parser_remaining_gaps.py ===
 
+
 class TestInvalidationPolicies:
-    def test_readSenderReceiverInterfaceInvalidationPolicies_adds(
-        self, parser
-    ):
+    def test_readSenderReceiverInterfaceInvalidationPolicies_adds(self, parser):
         from armodel.models import SenderReceiverInterface
-        sr = SenderReceiverInterface(
-            parent=_autosar_root(), short_name="Sr"
-        )
+
+        sr = SenderReceiverInterface(parent=_autosar_root(), short_name="Sr")
         element = _snip(
             "<INVALIDATION-POLICYS>"
             "<INVALIDATION-POLICY>"
@@ -546,29 +534,18 @@ class TestInvalidationPolicies:
             "</INVALIDATION-POLICY>"
             "</INVALIDATION-POLICYS>"
         )
-        parser.readSenderReceiverInterfaceInvalidationPolicies(
-            element, sr
-        )
+        parser.readSenderReceiverInterfaceInvalidationPolicies(element, sr)
         assert len(sr.getInvalidationPolicies()) == 1
 
-    def test_readClientServerOperationArguments_unsupported_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readClientServerOperationArguments_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import ClientServerInterface
-        iface = ClientServerInterface(
-            parent=_autosar_root(), short_name="Csi"
-        )
+
+        iface = ClientServerInterface(parent=_autosar_root(), short_name="Csi")
         op = iface.createOperation("Op")
-        element = _snip(
-            "<ARGUMENTS><BAD/></ARGUMENTS>"
-        )
+        element = _snip("<ARGUMENTS><BAD/></ARGUMENTS>")
         with caplog.at_level(logging.ERROR):
-            warning_parser.readClientServerOperationArguments(
-                element, op
-            )
-        assert any("Unsupported Argument" in r.getMessage()
-                   for r in caplog.records)
+            warning_parser.readClientServerOperationArguments(element, op)
+        assert any("Unsupported Argument" in r.getMessage() for r in caplog.records)
 
 
 # ==================== getValueSpecification (L2685, 2687, 2691, 2693, 2697) ====================
-

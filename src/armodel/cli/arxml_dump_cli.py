@@ -16,22 +16,22 @@ from armodel.parser import ARXMLParser
 
 
 def show_variable_access(indent: int, variable_access: VariableAccess):
-    if (variable_access.getAccessedVariableRef() is not None):
+    if variable_access.getAccessedVariableRef() is not None:
         accessed_variable_ref = variable_access.getAccessedVariableRef()
-        if (accessed_variable_ref.getAutosarVariableInImplDatatype() is not None):
+        if accessed_variable_ref.getAutosarVariableInImplDatatype() is not None:
             autosar_variable_in_impl_datatype = accessed_variable_ref.getAutosarVariableInImplDatatype()
             print("%s: %s" % (" " * indent, autosar_variable_in_impl_datatype.getPortPrototypeRef().getValue()))
             print("%s: %s" % (" " * indent, autosar_variable_in_impl_datatype.getTargetDataPrototypeRef().getValue()))
 
 
 def show_port(indent: int, port_prototype: PortPrototype):
-    if (isinstance(port_prototype, RPortPrototype)):
+    if isinstance(port_prototype, RPortPrototype):
         print("%s-RPort: %s (%s)" % (" " * indent, port_prototype.short_name, port_prototype.getRequiredInterfaceTRef().getValue()))
         for client_com_spec in port_prototype.getClientComSpecs():
             print("%s    : %s (ClientComSpec)" % (" " * (indent + 2), client_com_spec.getOperationRef().getValue()))
         for com_spec in port_prototype.getNonqueuedReceiverComSpecs():
             print("%s    : %s (NonqueuedReceiverComSpec)" % (" " * (indent + 2), com_spec.getDataElementRef().getValue()))
-    elif (isinstance(port_prototype, PPortPrototype)):
+    elif isinstance(port_prototype, PPortPrototype):
         print("%s-PPort: %s (%s)" % (" " * indent, port_prototype.short_name, port_prototype.getProvidedInterfaceTRef().getValue()))
         for com_spec in port_prototype.getNonqueuedSenderComSpecs():
             print("%s    : %s (NonqueuedSenderComSpec)" % (" " * (indent + 2), com_spec.getDataElementRef().getValue()))
@@ -42,12 +42,12 @@ def show_port(indent: int, port_prototype: PortPrototype):
 def show_type(indent: int, data_type: ImplementationDataType):
     print("%s-Implementation Type: %s (%s)" % (" " * indent, data_type.short_name, data_type.parent.full_name))
     print("%s                    : %s" % (" " * indent, data_type.getCategory()))
-    if (data_type.getSwDataDefProps() is not None):
-        if (data_type.getSwDataDefProps().getBaseTypeRef() is not None):
+    if data_type.getSwDataDefProps() is not None:
+        if data_type.getSwDataDefProps().getBaseTypeRef() is not None:
             base_type_ref = data_type.getSwDataDefProps().getBaseTypeRef()
             print("%s                    : %s (%s)" % (" " * indent, base_type_ref.getValue(), base_type_ref.getDest()))
-            
-        if (data_type.getSwDataDefProps().getImplementationDataTypeRef() is not None):
+
+        if data_type.getSwDataDefProps().getImplementationDataTypeRef() is not None:
             implementation_data_type_ref = data_type.getSwDataDefProps().getImplementationDataTypeRef()
             print("%s                    : %s (%s)" % (" " * indent, implementation_data_type_ref.getValue(), implementation_data_type_ref.getDest()))
 
@@ -72,7 +72,7 @@ def show_behavior(indent: int, behavior: SwcInternalBehavior):
             show_variable_access(indent + 9, variable_access)
         for server_call_point in runnable.getServerCallPoints():
             print("%s-scp : %s" % (" " * (indent + 4), variable_access.short_name))
-            if (server_call_point.operation_iref is not None):
+            if server_call_point.operation_iref is not None:
                 print("%s: %s" % (" " * (indent + 9), server_call_point.getOperationIRef().getContextRPortRef().getValue()))
                 print("%s: %s" % (" " * (indent + 9), server_call_point.getOperationIRef().getTargetRequiredOperationRef().getValue()))
     for event in behavior.getOperationInvokedEvents():
@@ -135,7 +135,7 @@ def show_bsw_module_description(indent: int, description: BswModuleDescription):
 
 def show_ar_package(indent: int, ar_package: ARPackage):
     print("%s-%s (Pkg)" % (" " * indent, ar_package.short_name))
-     
+
     for sub_package in ar_package.getARPackages():
         show_ar_package(indent + 2, sub_package)
     # for data_type in ar_package.getImplementationDataTypes():
@@ -152,7 +152,7 @@ def show_ar_package(indent: int, ar_package: ARPackage):
         show_ar_package(indent + 2, child_pkg)
     for bsw_module_description in ar_package.getBswModuleDescriptions():
         show_bsw_module_description(indent + 2, bsw_module_description)
-    
+
 
 def _usage():
     print("Dump all the arxml data to screen")
@@ -170,8 +170,8 @@ def cli_main():
         print(str(err))  # will print something like "option -a not recognized"
         _usage()
 
-    logging.basicConfig(format='[%(levelname)s] : %(message)s', level=logging.DEBUG)
-    
+    logging.basicConfig(format="[%(levelname)s] : %(message)s", level=logging.DEBUG)
+
     arxml_files = []
     for o, arg in opts:
         if o in ("--arxml"):
@@ -181,12 +181,12 @@ def cli_main():
         else:
             assert False, "unhandled option"
 
-    if (len(arxml_files) == 0):
+    if len(arxml_files) == 0:
         _usage()
 
     document = AUTOSAR().getInstance()
     parser = ARXMLParser()
-    
+
     for arxml_file in arxml_files:
         parser.load(arxml_file, document)
 

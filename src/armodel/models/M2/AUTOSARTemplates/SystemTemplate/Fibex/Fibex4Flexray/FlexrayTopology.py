@@ -12,6 +12,7 @@ class FlexrayCommunicationController(CommunicationController):
     startup parameters, timing, and synchronization settings for
     time-triggered communication.
     """
+
     # FlexrayCommunicationController method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getAcceptedStartupRange      [x] impl  [ ] docstring  [ ] test
@@ -378,6 +379,7 @@ class FlexrayCommunicationConnector(CommunicationConnector):
     to communication channels, specifying NM (Network Management) timing
     and PNC (Partial Network Cluster) properties for FlexRay communication.
     """
+
     # FlexrayCommunicationConnector method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getNmReadySleepTime          [x] impl  [ ] docstring  [ ] test
@@ -425,6 +427,7 @@ class FlexrayCluster(CommunicationCluster):
     specifying timing parameters, slot configurations, and network
     management properties for FlexRay network communication.
     """
+
     # FlexrayCluster method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getActionPointOffset         [x] impl  [ ] docstring  [ ] test
@@ -501,41 +504,41 @@ class FlexrayCluster(CommunicationCluster):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.actionPointOffset = None                       # type: Integer
-        self.bit = None                                     # type: TimeValue
-        self.casRxLowMax = None                             # type: Integer
-        self.coldStartAttempts = None                       # type: Integer
-        self.cycle = None                                   # type: TimeValue
-        self.cycleCountMax = None                           # type: Integer
-        self.detectNitError = None                          # type: Boolean
-        self.dynamicSlotIdlePhase = None                    # type: Integer
-        self.ignoreAfterTx = None                           # type: Integer
-        self.listenNoise = None                             # type: Integer
-        self.macroPerCycle = None                           # type: Integer
-        self.macrotickDuration = None                       # type: TimeValue
-        self.maxWithoutClockCorrectionFatal = None          # type: Integer
-        self.maxWithoutClockCorrectionPassive = None        # type: Integer
-        self.minislotActionPointOffset = None               # type: Integer
-        self.minislotDuration = None                        # type: Integer
-        self.networkIdleTime = None                         # type: Integer
-        self.networkManagementVectorLength = None           # type: Integer
-        self.numberOfMinislots = None                       # type: Integer
-        self.numberOfStaticSlots = None                     # type: Integer
-        self.offsetCorrectionStart = None                   # type: Integer
-        self.payloadLengthStatic = None                     # type: Integer
-        self.safetyMargin = None                            # type: Integer
-        self.sampleClockPeriod = None                       # type: TimeValue
-        self.staticSlotDuration = None                      # type: Integer
-        self.symbolWindow = None                            # type: Integer
-        self.symbolWindowActionPointOffset = None           # type: Integer
-        self.syncFrameIdCountMax = None                     # type: Integer
-        self.tranceiverStandbyDelay = None                  # type: Float
-        self.transmissionStartSequenceDuration = None       # type: Integer
-        self.wakeupRxIdle = None                            # type: Integer
-        self.wakeupRxLow = None                             # type: Integer
-        self.wakeupRxWindow = None                          # type: Integer
-        self.wakeupTxActive = None                          # type: Integer
-        self.wakeupTxIdle = None                            # type: Integer
+        self.actionPointOffset = None  # type: Integer
+        self.bit = None  # type: TimeValue
+        self.casRxLowMax = None  # type: Integer
+        self.coldStartAttempts = None  # type: Integer
+        self.cycle = None  # type: TimeValue
+        self.cycleCountMax = None  # type: Integer
+        self.detectNitError = None  # type: Boolean
+        self.dynamicSlotIdlePhase = None  # type: Integer
+        self.ignoreAfterTx = None  # type: Integer
+        self.listenNoise = None  # type: Integer
+        self.macroPerCycle = None  # type: Integer
+        self.macrotickDuration = None  # type: TimeValue
+        self.maxWithoutClockCorrectionFatal = None  # type: Integer
+        self.maxWithoutClockCorrectionPassive = None  # type: Integer
+        self.minislotActionPointOffset = None  # type: Integer
+        self.minislotDuration = None  # type: Integer
+        self.networkIdleTime = None  # type: Integer
+        self.networkManagementVectorLength = None  # type: Integer
+        self.numberOfMinislots = None  # type: Integer
+        self.numberOfStaticSlots = None  # type: Integer
+        self.offsetCorrectionStart = None  # type: Integer
+        self.payloadLengthStatic = None  # type: Integer
+        self.safetyMargin = None  # type: Integer
+        self.sampleClockPeriod = None  # type: TimeValue
+        self.staticSlotDuration = None  # type: Integer
+        self.symbolWindow = None  # type: Integer
+        self.symbolWindowActionPointOffset = None  # type: Integer
+        self.syncFrameIdCountMax = None  # type: Integer
+        self.tranceiverStandbyDelay = None  # type: Float
+        self.transmissionStartSequenceDuration = None  # type: Integer
+        self.wakeupRxIdle = None  # type: Integer
+        self.wakeupRxLow = None  # type: Integer
+        self.wakeupRxWindow = None  # type: Integer
+        self.wakeupTxActive = None  # type: Integer
+        self.wakeupTxIdle = None  # type: Integer
 
     def getActionPointOffset(self):
         return self.actionPointOffset

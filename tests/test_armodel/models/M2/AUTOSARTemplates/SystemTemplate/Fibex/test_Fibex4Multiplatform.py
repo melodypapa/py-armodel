@@ -1,13 +1,4 @@
-
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import (
-    FrameMapping,
-    ISignalMapping,
-    DefaultValueElement,
-    PduMappingDefaultValue,
-    TargetIPduRef,
-    IPduMapping,
-    Gateway
-)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import FrameMapping, ISignalMapping, DefaultValueElement, PduMappingDefaultValue, TargetIPduRef, IPduMapping, Gateway
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
@@ -19,18 +10,18 @@ class MockParent(ARObject):
 
 class Test_Fibex4Multiplatform:
     """Test cases for Fibex4Multiplatform classes."""
-    
+
     def test_FrameMapping(self):
         """Test FrameMapping class functionality."""
         mapping = FrameMapping()
 
         assert isinstance(mapping, ARObject)
-        
+
         # Test default values
         assert mapping.getIntroduction() is None
         assert mapping.getSourceFrameRef() is None
         assert mapping.getTargetFrameRef() is None
-        
+
         # Test setter/getter methods
         mapping.setIntroduction("Introduction text")
         assert mapping.getIntroduction() == "Introduction text"
@@ -40,7 +31,7 @@ class Test_Fibex4Multiplatform:
         mapping = ISignalMapping()
 
         assert isinstance(mapping, ARObject)
-        
+
         # Test default values
         assert mapping.getIntroduction() is None
         assert mapping.getSourceSignalRef() is None
@@ -51,7 +42,7 @@ class Test_Fibex4Multiplatform:
         element = DefaultValueElement()
 
         assert isinstance(element, ARObject)
-        
+
         # Test default values
         assert element.getElementByteValue() is None
         assert element.getElementPosition() is None
@@ -61,7 +52,7 @@ class Test_Fibex4Multiplatform:
         default_value = PduMappingDefaultValue()
 
         assert isinstance(default_value, ARObject)
-        
+
         # Test default values
         assert default_value.getDefaultValueElements() == []
 
@@ -70,7 +61,7 @@ class Test_Fibex4Multiplatform:
         ref = TargetIPduRef()
 
         assert isinstance(ref, ARObject)
-        
+
         # Test default values
         assert ref.getDefaultValue() is None
         assert ref.getTargetIPdu() is None
@@ -80,7 +71,7 @@ class Test_Fibex4Multiplatform:
         mapping = IPduMapping()
 
         assert isinstance(mapping, ARObject)
-        
+
         # Test default values
         assert mapping.getIntroduction() is None
         assert mapping.getPdurTpChunkSize() is None
@@ -93,7 +84,7 @@ class Test_Fibex4Multiplatform:
         gateway = Gateway(parent, "test_gateway")
 
         assert isinstance(gateway, FibexElement)
-        
+
         # Test default values
         assert gateway.getEcuRef() is None
         assert gateway.getFrameMappings() == []

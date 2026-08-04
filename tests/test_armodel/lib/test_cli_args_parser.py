@@ -28,9 +28,9 @@ class TestInputFileParser:
         parser = InputFileParser([])
 
         assert parser is not None
-        assert hasattr(parser, '_args')
-        assert hasattr(parser, '_filenames')
-        assert hasattr(parser, '_logger')
+        assert hasattr(parser, "_args")
+        assert hasattr(parser, "_filenames")
+        assert hasattr(parser, "_logger")
         assert parser._args == []
         assert parser._filenames == []
 
@@ -39,7 +39,7 @@ class TestInputFileParser:
         Test InputFileParser initialization with args.
         Verifies that the parser properly stores the provided args.
         """
-        args = ['file1.arxml', 'file2.arxml']
+        args = ["file1.arxml", "file2.arxml"]
         parser = InputFileParser(args)
 
         assert parser._args == args
@@ -63,8 +63,8 @@ class TestInputFileParser:
         tmpdir = tempfile.mkdtemp()
         try:
             # Create test files
-            file1 = Path(tmpdir) / 'test1.arxml'
-            file2 = Path(tmpdir) / 'test2.arxml'
+            file1 = Path(tmpdir) / "test1.arxml"
+            file2 = Path(tmpdir) / "test2.arxml"
             file1.touch()
             file2.touch()
 
@@ -77,6 +77,7 @@ class TestInputFileParser:
         finally:
             # Cleanup
             import shutil
+
             shutil.rmtree(tmpdir, ignore_errors=True)
 
     def test_parse_with_file_list(self):
@@ -88,20 +89,20 @@ class TestInputFileParser:
         tmpdir = tempfile.mkdtemp()
         try:
             # Create a list file
-            list_file = Path(tmpdir) / 'filelist.txt'
-            file1_path = (Path(tmpdir) / 'test1.arxml')
-            file2_path = (Path(tmpdir) / 'test2.arxml')
+            list_file = Path(tmpdir) / "filelist.txt"
+            file1_path = Path(tmpdir) / "test1.arxml"
+            file2_path = Path(tmpdir) / "test2.arxml"
             file1_path.touch()
             file2_path.touch()
 
-            with open(list_file, 'w') as f:
-                f.write(str(file1_path) + '\n')
-                f.write(str(file2_path) + '\n')
-                f.write('  # comment line  \n')  # This should be included as-is (not stripped as comment)
-                f.write('\n')  # Empty line
-                f.write(str(Path(tmpdir) / 'test3.arxml') + '\n')
+            with open(list_file, "w") as f:
+                f.write(str(file1_path) + "\n")
+                f.write(str(file2_path) + "\n")
+                f.write("  # comment line  \n")  # This should be included as-is (not stripped as comment)
+                f.write("\n")  # Empty line
+                f.write(str(Path(tmpdir) / "test3.arxml") + "\n")
 
-            parser = InputFileParser(['@' + str(list_file)])
+            parser = InputFileParser(["@" + str(list_file)])
             result = parser.parse()
 
             # Should have 5 entries: 2 existing files, comment line, empty line, 1 non-existent file path
@@ -114,11 +115,12 @@ class TestInputFileParser:
             assert len(result) == 5
             assert str(file1_path) in result
             assert str(file2_path) in result
-            assert '# comment line' in result
-            assert '' in result
+            assert "# comment line" in result
+            assert "" in result
         finally:
             # Cleanup
             import shutil
+
             shutil.rmtree(tmpdir, ignore_errors=True)
 
     def test_parse_with_directory(self):
@@ -129,13 +131,13 @@ class TestInputFileParser:
         tmpdir = tempfile.mkdtemp()
         try:
             # Create directory structure with .arxml files
-            subdir = Path(tmpdir) / 'subdir'
+            subdir = Path(tmpdir) / "subdir"
             subdir.mkdir()
 
-            file1 = Path(tmpdir) / 'test1.arxml'
-            file2 = Path(tmpdir) / 'test2.ARXML'  # Test case insensitivity
-            file3 = subdir / 'test3.arxml'
-            file4 = subdir / 'test4.txt'  # Non-.arxml file
+            file1 = Path(tmpdir) / "test1.arxml"
+            file2 = Path(tmpdir) / "test2.ARXML"  # Test case insensitivity
+            file3 = subdir / "test3.arxml"
+            file4 = subdir / "test4.txt"  # Non-.arxml file
             file1.touch()
             file2.touch()
             file3.touch()
@@ -153,6 +155,7 @@ class TestInputFileParser:
         finally:
             # Cleanup
             import shutil
+
             shutil.rmtree(tmpdir, ignore_errors=True)
 
     def test_parse_with_mixed_inputs(self):
@@ -163,23 +166,23 @@ class TestInputFileParser:
         tmpdir = tempfile.mkdtemp()
         try:
             # Create files and directories
-            dir1 = Path(tmpdir) / 'dir1'
+            dir1 = Path(tmpdir) / "dir1"
             dir1.mkdir()
 
-            file1 = Path(tmpdir) / 'file1.arxml'
-            file2 = dir1 / 'file2.arxml'
+            file1 = Path(tmpdir) / "file1.arxml"
+            file2 = dir1 / "file2.arxml"
             file1.touch()
             file2.touch()
 
             # Create list file
-            list_file = Path(tmpdir) / 'list.txt'
-            file3 = Path(tmpdir) / 'file3.arxml'
+            list_file = Path(tmpdir) / "list.txt"
+            file3 = Path(tmpdir) / "file3.arxml"
             file3.touch()
 
-            with open(list_file, 'w') as f:
-                f.write(str(file3) + '\n')
+            with open(list_file, "w") as f:
+                f.write(str(file3) + "\n")
 
-            parser = InputFileParser([str(file1), str(dir1), '@' + str(list_file)])
+            parser = InputFileParser([str(file1), str(dir1), "@" + str(list_file)])
             result = parser.parse()
 
             # Should have file1, file2 (from dir), and file3 (from list)
@@ -190,6 +193,7 @@ class TestInputFileParser:
         finally:
             # Cleanup
             import shutil
+
             shutil.rmtree(tmpdir, ignore_errors=True)
 
     def test_parse_preserves_order(self):
@@ -199,9 +203,9 @@ class TestInputFileParser:
         """
         tmpdir = tempfile.mkdtemp()
         try:
-            file1 = Path(tmpdir) / 'b.arxml'
-            file2 = Path(tmpdir) / 'a.arxml'
-            file3 = Path(tmpdir) / 'c.arxml'
+            file1 = Path(tmpdir) / "b.arxml"
+            file2 = Path(tmpdir) / "a.arxml"
+            file3 = Path(tmpdir) / "c.arxml"
             file1.touch()
             file2.touch()
             file3.touch()
@@ -213,6 +217,7 @@ class TestInputFileParser:
         finally:
             # Cleanup
             import shutil
+
             shutil.rmtree(tmpdir, ignore_errors=True)
 
     def test_parse_with_nonexistent_file(self):
@@ -221,10 +226,10 @@ class TestInputFileParser:
         Verifies that the method still adds non-existent file paths to the list.
         The parser doesn't check if files exist, it just processes the paths.
         """
-        parser = InputFileParser(['nonexistent.arxml'])
+        parser = InputFileParser(["nonexistent.arxml"])
         result = parser.parse()
 
-        assert result == ['nonexistent.arxml']
+        assert result == ["nonexistent.arxml"]
 
     def test_parse_with_deeply_nested_directory(self):
         """
@@ -234,12 +239,12 @@ class TestInputFileParser:
         tmpdir = tempfile.mkdtemp()
         try:
             # Create deeply nested structure
-            level1 = Path(tmpdir) / 'level1'
-            level2 = level1 / 'level2'
-            level3 = level2 / 'level3'
+            level1 = Path(tmpdir) / "level1"
+            level2 = level1 / "level2"
+            level3 = level2 / "level3"
             level3.mkdir(parents=True)
 
-            file1 = level3 / 'deep.arxml'
+            file1 = level3 / "deep.arxml"
             file1.touch()
 
             parser = InputFileParser([tmpdir])
@@ -250,6 +255,7 @@ class TestInputFileParser:
         finally:
             # Cleanup
             import shutil
+
             shutil.rmtree(tmpdir, ignore_errors=True)
 
     def test_parse_with_empty_directory(self):
@@ -266,6 +272,7 @@ class TestInputFileParser:
         finally:
             # Cleanup
             import shutil
+
             shutil.rmtree(tmpdir, ignore_errors=True)
 
     def test_parse_with_symlinks(self):
@@ -277,10 +284,10 @@ class TestInputFileParser:
         tmpdir = tempfile.mkdtemp()
         try:
             # Create a file and a symlink to it
-            file1 = Path(tmpdir) / 'original.arxml'
+            file1 = Path(tmpdir) / "original.arxml"
             file1.touch()
 
-            link = Path(tmpdir) / 'link.arxml'
+            link = Path(tmpdir) / "link.arxml"
             try:
                 link.symlink_to(file1)
             except (OSError, NotImplementedError):
@@ -295,6 +302,7 @@ class TestInputFileParser:
         finally:
             # Cleanup
             import shutil
+
             shutil.rmtree(tmpdir, ignore_errors=True)
 
     def test_parse_with_directory_and_non_arxml_files(self):
@@ -305,10 +313,10 @@ class TestInputFileParser:
         tmpdir = tempfile.mkdtemp()
         try:
             # Create various file types
-            arxml_file1 = Path(tmpdir) / 'test.arxml'
-            txt_file = Path(tmpdir) / 'test.txt'
-            xml_file = Path(tmpdir) / 'test.xml'
-            arxml_file2 = Path(tmpdir) / 'data.ARXML'  # Different base name for case-insensitive test
+            arxml_file1 = Path(tmpdir) / "test.arxml"
+            txt_file = Path(tmpdir) / "test.txt"
+            xml_file = Path(tmpdir) / "test.xml"
+            arxml_file2 = Path(tmpdir) / "data.ARXML"  # Different base name for case-insensitive test
 
             arxml_file1.touch()
             txt_file.touch()
@@ -327,6 +335,7 @@ class TestInputFileParser:
         finally:
             # Cleanup
             import shutil
+
             shutil.rmtree(tmpdir, ignore_errors=True)
 
     def test_logger_initialization(self):
@@ -337,9 +346,9 @@ class TestInputFileParser:
         parser = InputFileParser([])
 
         assert parser._logger is not None
-        assert hasattr(parser._logger, 'debug')
+        assert hasattr(parser._logger, "debug")
 
-    @patch('logging.getLogger')
+    @patch("logging.getLogger")
     def test_logger_debug_called_for_list_file(self, mock_get_logger):
         """
         Test that debug logging is called when parsing a list file.
@@ -351,24 +360,25 @@ class TestInputFileParser:
         tmpdir = tempfile.mkdtemp()
         try:
             # Create list file
-            list_file = Path(tmpdir) / 'filelist.txt'
-            arxml_file = Path(tmpdir) / 'test.arxml'
+            list_file = Path(tmpdir) / "filelist.txt"
+            arxml_file = Path(tmpdir) / "test.arxml"
             arxml_file.touch()
 
-            with open(list_file, 'w') as f:
-                f.write(str(arxml_file) + '\n')
+            with open(list_file, "w") as f:
+                f.write(str(arxml_file) + "\n")
 
-            parser = InputFileParser(['@' + str(list_file)])
+            parser = InputFileParser(["@" + str(list_file)])
             parser.parse()
 
             # Verify debug was called
             assert mock_logger.debug.called
             # Get the actual call
             call_args = mock_logger.debug.call_args[0][0]
-            assert '@' in call_args or 'filelist.txt' in call_args or list_file.name in call_args
+            assert "@" in call_args or "filelist.txt" in call_args or list_file.name in call_args
         finally:
             # Cleanup
             import shutil
+
             shutil.rmtree(tmpdir, ignore_errors=True)
 
     def test_multiple_parse_calls(self):
@@ -379,8 +389,8 @@ class TestInputFileParser:
         """
         tmpdir = tempfile.mkdtemp()
         try:
-            file1 = Path(tmpdir) / 'file1.arxml'
-            file2 = Path(tmpdir) / 'file2.arxml'
+            file1 = Path(tmpdir) / "file1.arxml"
+            file2 = Path(tmpdir) / "file2.arxml"
             file1.touch()
             file2.touch()
 
@@ -401,6 +411,7 @@ class TestInputFileParser:
         finally:
             # Cleanup
             import shutil
+
             shutil.rmtree(tmpdir, ignore_errors=True)
 
     def test_parse_with_absolute_paths(self):
@@ -410,7 +421,7 @@ class TestInputFileParser:
         """
         tmpdir = tempfile.mkdtemp()
         try:
-            file1 = Path(tmpdir) / 'test.arxml'
+            file1 = Path(tmpdir) / "test.arxml"
             file1.touch()
 
             # Use absolute path
@@ -423,6 +434,7 @@ class TestInputFileParser:
         finally:
             # Cleanup
             import shutil
+
             shutil.rmtree(tmpdir, ignore_errors=True)
 
     def test_parse_with_relative_paths(self):
@@ -436,17 +448,18 @@ class TestInputFileParser:
         try:
             os.chdir(tmpdir)
 
-            file1 = Path('test.arxml')
+            file1 = Path("test.arxml")
             file1.touch()
 
-            parser = InputFileParser(['test.arxml'])
+            parser = InputFileParser(["test.arxml"])
             result = parser.parse()
 
-            assert result == ['test.arxml']
+            assert result == ["test.arxml"]
         finally:
             os.chdir(old_cwd)
             # Cleanup
             import shutil
+
             shutil.rmtree(tmpdir, ignore_errors=True)
 
     def test_filenames_list_state_during_parsing(self):
@@ -456,8 +469,8 @@ class TestInputFileParser:
         """
         tmpdir = tempfile.mkdtemp()
         try:
-            file1 = Path(tmpdir) / 'file1.arxml'
-            file2 = Path(tmpdir) / 'file2.arxml'
+            file1 = Path(tmpdir) / "file1.arxml"
+            file2 = Path(tmpdir) / "file2.arxml"
             file1.touch()
             file2.touch()
 
@@ -473,6 +486,7 @@ class TestInputFileParser:
         finally:
             # Cleanup
             import shutil
+
             shutil.rmtree(tmpdir, ignore_errors=True)
 
     def test_parse_with_windows_paths(self):
@@ -481,16 +495,16 @@ class TestInputFileParser:
         Verifies that Windows paths are handled correctly.
         """
         # This test is mainly for Windows systems
-        if os.name != 'nt':
+        if os.name != "nt":
             return  # Skip on non-Windows systems
 
         tmpdir = tempfile.mkdtemp()
         try:
-            file1 = Path(tmpdir) / 'test.arxml'
+            file1 = Path(tmpdir) / "test.arxml"
             file1.touch()
 
             # Windows path with backslashes
-            windows_path = str(file1).replace('/', '\\')
+            windows_path = str(file1).replace("/", "\\")
             parser = InputFileParser([windows_path])
             result = parser.parse()
 
@@ -499,6 +513,7 @@ class TestInputFileParser:
         finally:
             # Cleanup
             import shutil
+
             shutil.rmtree(tmpdir, ignore_errors=True)
 
     def test_parse_file_list_with_empty_lines(self):
@@ -508,17 +523,17 @@ class TestInputFileParser:
         """
         tmpdir = tempfile.mkdtemp()
         try:
-            list_file = Path(tmpdir) / 'filelist.txt'
-            file1 = Path(tmpdir) / 'file1.arxml'
+            list_file = Path(tmpdir) / "filelist.txt"
+            file1 = Path(tmpdir) / "file1.arxml"
             file1.touch()
 
-            with open(list_file, 'w') as f:
-                f.write(str(file1) + '\n')
-                f.write('\n')  # Empty line
-                f.write('   \n')  # Whitespace only line
-                f.write(str(Path(tmpdir) / 'file2.arxml') + '\n')
+            with open(list_file, "w") as f:
+                f.write(str(file1) + "\n")
+                f.write("\n")  # Empty line
+                f.write("   \n")  # Whitespace only line
+                f.write(str(Path(tmpdir) / "file2.arxml") + "\n")
 
-            parser = InputFileParser(['@' + str(list_file)])
+            parser = InputFileParser(["@" + str(list_file)])
             result = parser.parse()
 
             # Empty lines after strip become empty strings
@@ -526,10 +541,11 @@ class TestInputFileParser:
             assert len(result) == 4
             assert str(file1) in result
             # Empty strings should be present
-            assert '' in result
+            assert "" in result
             # Count empty strings - there should be 2 from the blank lines
-            assert result.count('') >= 2
+            assert result.count("") >= 2
         finally:
             # Cleanup
             import shutil
+
             shutil.rmtree(tmpdir, ignore_errors=True)

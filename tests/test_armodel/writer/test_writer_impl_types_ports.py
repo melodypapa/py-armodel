@@ -1,4 +1,5 @@
 """Tests for writer implementation types, port interfaces, and mappings."""
+
 import xml.etree.cElementTree as ET
 from unittest.mock import MagicMock
 import pytest
@@ -161,9 +162,7 @@ class TestSwcBswMappingWriter:
         writer.writeSwcBswRunnableMappings(parent, mapping)
         assert len(parent) == 0
 
-    def test_write_swc_bsw_runnable_mappings_unsupported(
-        self, warning_writer
-    ):
+    def test_write_swc_bsw_runnable_mappings_unsupported(self, warning_writer):
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("Pkg")
         mapping = pkg.createSwcBswMapping("Map")
@@ -267,14 +266,10 @@ class TestEngineeringObjectWriter:
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("Pkg")
         impl = pkg.createBswImplementation("BswImpl")
-        impl.addVendorSpecificModuleDefRef(
-            _make_ref("/Vend/Mod", "BSW-MODULE-DEF")
-        )
+        impl.addVendorSpecificModuleDefRef(_make_ref("/Vend/Mod", "BSW-MODULE-DEF"))
 
         parent = _parent()
-        writer.writeBswImplementationVendorSpecificModuleDefRefs(
-            parent, impl
-        )
+        writer.writeBswImplementationVendorSpecificModuleDefRefs(parent, impl)
 
         assert len(parent) == 1
         assert parent[0].tag == "VENDOR-SPECIFIC-MODULE-DEF-REFS"
@@ -288,9 +283,7 @@ class TestEngineeringObjectWriter:
         impl = pkg.createBswImplementation("BswImpl")
 
         parent = _parent()
-        writer.writeBswImplementationVendorSpecificModuleDefRefs(
-            parent, impl
-        )
+        writer.writeBswImplementationVendorSpecificModuleDefRefs(parent, impl)
         assert len(parent) == 0
 
     def test_write_bsw_implementation(self, writer):
@@ -302,9 +295,7 @@ class TestEngineeringObjectWriter:
         impl.setArReleaseVersion(version)
         impl.setBehaviorRef(_make_ref("/Beh", "BSW"))
         impl.setVendorApiInfix(_make_literal("Api"))
-        impl.addVendorSpecificModuleDefRef(
-            _make_ref("/Vend/Mod", "BSW-MODULE-DEF")
-        )
+        impl.addVendorSpecificModuleDefRef(_make_ref("/Vend/Mod", "BSW-MODULE-DEF"))
         impl.swVersion = None
         impl.vendorId = None
 
@@ -318,9 +309,7 @@ class TestEngineeringObjectWriter:
         assert child.find("AR-RELEASE-VERSION").text == "R23-11"
         assert child.find("BEHAVIOR-REF").text == "/Beh"
         assert child.find("VENDOR-API-INFIX").text == "Api"
-        assert child.find(
-            "VENDOR-SPECIFIC-MODULE-DEF-REFS"
-        ) is not None
+        assert child.find("VENDOR-SPECIFIC-MODULE-DEF-REFS") is not None
 
 
 class TestImplementationDataTypeWriter:
@@ -332,9 +321,7 @@ class TestImplementationDataTypeWriter:
         elem = ImplementationDataTypeElement(pkg, "Elem")
 
         parent = _parent()
-        writer.writeAbstractImplementationDataTypeElement(
-            parent, elem
-        )
+        writer.writeAbstractImplementationDataTypeElement(parent, elem)
         assert parent.find("SHORT-NAME").text == "Elem"
 
     def test_write_impl_data_type_element_sub_elements(self, writer):
@@ -344,40 +331,30 @@ class TestImplementationDataTypeWriter:
         parent_elem.createImplementationDataTypeElement("Child")
 
         parent = _parent()
-        writer.writeImplementationDataTypeElementSubElements(
-            parent, parent_elem
-        )
+        writer.writeImplementationDataTypeElementSubElements(parent, parent_elem)
 
         assert len(parent) == 1
         assert parent[0].tag == "SUB-ELEMENTS"
         assert len(parent[0]) == 1
         assert parent[0][0].tag == "IMPLEMENTATION-DATA-TYPE-ELEMENT"
 
-    def test_write_impl_data_type_element_sub_elements_empty(
-        self, writer
-    ):
+    def test_write_impl_data_type_element_sub_elements_empty(self, writer):
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("Pkg")
         parent_elem = ImplementationDataTypeElement(pkg, "Parent")
 
         parent = _parent()
-        writer.writeImplementationDataTypeElementSubElements(
-            parent, parent_elem
-        )
+        writer.writeImplementationDataTypeElementSubElements(parent, parent_elem)
         assert len(parent) == 0
 
-    def test_write_impl_data_type_element_sub_elements_unsupported(
-        self, warning_writer
-    ):
+    def test_write_impl_data_type_element_sub_elements_unsupported(self, warning_writer):
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("Pkg")
         parent_elem = ImplementationDataTypeElement(pkg, "Parent")
         parent_elem.subElements.append("not-an-element")
 
         parent = _parent()
-        warning_writer.writeImplementationDataTypeElementSubElements(
-            parent, parent_elem
-        )
+        warning_writer.writeImplementationDataTypeElementSubElements(parent, parent_elem)
         assert parent[0].tag == "SUB-ELEMENTS"
         assert len(parent[0]) == 0
 
@@ -409,9 +386,7 @@ class TestImplementationDataTypeWriter:
         data_type.createImplementationDataTypeElement("Sub")
 
         parent = _parent()
-        writer.writeImplementationDataTypeSubElements(
-            parent, data_type
-        )
+        writer.writeImplementationDataTypeSubElements(parent, data_type)
 
         assert len(parent) == 1
         assert parent[0].tag == "SUB-ELEMENTS"
@@ -424,23 +399,17 @@ class TestImplementationDataTypeWriter:
         data_type = pkg.createImplementationDataType("ImplType")
 
         parent = _parent()
-        writer.writeImplementationDataTypeSubElements(
-            parent, data_type
-        )
+        writer.writeImplementationDataTypeSubElements(parent, data_type)
         assert len(parent) == 0
 
-    def test_write_impl_data_type_sub_elements_unsupported(
-        self, warning_writer
-    ):
+    def test_write_impl_data_type_sub_elements_unsupported(self, warning_writer):
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("Pkg")
         data_type = pkg.createImplementationDataType("ImplType")
         data_type.subElements.append("not-an-element")
 
         parent = _parent()
-        warning_writer.writeImplementationDataTypeSubElements(
-            parent, data_type
-        )
+        warning_writer.writeImplementationDataTypeSubElements(parent, data_type)
         assert parent[0].tag == "SUB-ELEMENTS"
         assert len(parent[0]) == 0
 
@@ -485,9 +454,7 @@ class TestImplementationDataTypeWriter:
         props.setSymbol(_make_literal("sym"))
 
         parent = _parent()
-        writer.writeImplementationDataTypeSymbolProps(
-            parent, data_type
-        )
+        writer.writeImplementationDataTypeSymbolProps(parent, data_type)
 
         assert len(parent) == 1
         assert parent[0].tag == "SYMBOL-PROPS"
@@ -498,9 +465,7 @@ class TestImplementationDataTypeWriter:
         data_type = pkg.createImplementationDataType("ImplType")
 
         parent = _parent()
-        writer.writeImplementationDataTypeSymbolProps(
-            parent, data_type
-        )
+        writer.writeImplementationDataTypeSymbolProps(parent, data_type)
         assert len(parent) == 0
 
     def test_write_implementation_data_type(self, writer):
@@ -520,9 +485,7 @@ class TestImplementationDataTypeWriter:
         child = parent[0]
         assert child.tag == "IMPLEMENTATION-DATA-TYPE"
         assert child.find("SHORT-NAME").text == "ImplType"
-        assert child.find(
-            "DYNAMIC-ARRAY-SIZE-PROFILE"
-        ).text == "prof"
+        assert child.find("DYNAMIC-ARRAY-SIZE-PROFILE").text == "prof"
         assert child.find("TYPE-EMITTER").text == "Emitter"
         assert child.find("SYMBOL-PROPS") is not None
         assert child.find("SUB-ELEMENTS") is not None
@@ -548,9 +511,7 @@ class TestClientServerOperationWriter:
         assert child.tag == "ARGUMENT-DATA-PROTOTYPE"
         assert child.find("SHORT-NAME").text == "Arg"
         assert child.find("DIRECTION").text == "IN"
-        assert child.find(
-            "SERVER-ARGUMENT-IMPL-POLICY"
-        ).text == "policy"
+        assert child.find("SERVER-ARGUMENT-IMPL-POLICY").text == "policy"
 
     def test_write_cs_operation_arguments(self, writer):
         autosar = AUTOSAR.getInstance()
@@ -577,9 +538,7 @@ class TestClientServerOperationWriter:
         writer.writeClientServerOperationArguments(parent, op)
         assert len(parent) == 0
 
-    def test_write_cs_operation_arguments_unsupported(
-        self, warning_writer
-    ):
+    def test_write_cs_operation_arguments_unsupported(self, warning_writer):
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("Pkg")
         cs_if = pkg.createClientServerInterface("CsIf")
@@ -607,9 +566,7 @@ class TestClientServerOperationWriter:
         assert ref is not None
         assert ref.text == "/Err"
 
-    def test_write_cs_operation_possible_error_refs_empty(
-        self, writer
-    ):
+    def test_write_cs_operation_possible_error_refs_empty(self, writer):
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("Pkg")
         cs_if = pkg.createClientServerInterface("CsIf")
@@ -660,16 +617,12 @@ class TestClientServerOperationWriter:
         writer.writeClientServerInterfaceOperations(parent, cs_if)
         assert len(parent) == 0
 
-    def test_write_cs_interface_operations_unsupported(
-        self, warning_writer
-    ):
+    def test_write_cs_interface_operations_unsupported(self, warning_writer):
         mock_if = MagicMock()
         mock_if.getOperations.return_value = ["not-an-op"]
 
         parent = _parent()
-        warning_writer.writeClientServerInterfaceOperations(
-            parent, mock_if
-        )
+        warning_writer.writeClientServerInterfaceOperations(parent, mock_if)
         assert parent[0].tag == "OPERATIONS"
         assert len(parent[0]) == 0
 
@@ -795,9 +748,7 @@ class TestPortInterfaceWriter:
         writer.writeNvDataInterfaceNvDatas(parent, nv_if)
         assert len(parent) == 0
 
-    def test_write_nv_data_interface_nv_datas_unsupported(
-        self, warning_writer
-    ):
+    def test_write_nv_data_interface_nv_datas_unsupported(self, warning_writer):
         mock_if = MagicMock()
         mock_if.getNvDatas.return_value = ["not-a-nvdata"]
 
@@ -886,9 +837,7 @@ class TestSwComponentWriter:
         assert child.find("SHORT-NAME").text == "Elem"
         assert child.find("ARRAY-SIZE-HANDLING").text == "handling"
         assert child.find("ARRAY-SIZE-SEMANTICS").text == "semantics"
-        assert child.find(
-            "MAX-NUMBER-OF-ELEMENTS"
-        ).text == "8"
+        assert child.find("MAX-NUMBER-OF-ELEMENTS").text == "8"
 
     def test_set_application_array_element_none(self, writer):
         parent = _parent()
@@ -899,9 +848,7 @@ class TestSwComponentWriter:
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("Pkg")
         array_type = pkg.createApplicationArrayDataType("ArrType")
-        array_type.setDynamicArraySizeProfile(
-            _make_literal("profile")
-        )
+        array_type.setDynamicArraySizeProfile(_make_literal("profile"))
         array_type.createApplicationArrayElement("Elem")
 
         parent = _parent()
@@ -911,9 +858,7 @@ class TestSwComponentWriter:
         child = parent[0]
         assert child.tag == "APPLICATION-ARRAY-DATA-TYPE"
         assert child.find("SHORT-NAME").text == "ArrType"
-        assert child.find(
-            "DYNAMIC-ARRAY-SIZE-PROFILE"
-        ).text == "profile"
+        assert child.find("DYNAMIC-ARRAY-SIZE-PROFILE").text == "profile"
         assert child.find("ELEMENT") is not None
 
 
@@ -954,41 +899,25 @@ class TestSwRecordLayoutWriter:
         group.swRecordLayoutGroupFrom = _make_literal("from")
         group.swRecordLayoutGroupTo = _make_literal("to")
         group.swRecordLayoutGroupStep = _make_float(3, "3")
-        group.swRecordLayoutGroupContentType = (
-            SwRecordLayoutGroupContent()
-        )
+        group.swRecordLayoutGroupContentType = SwRecordLayoutGroupContent()
 
         parent = _parent()
-        writer.setSwRecordLayoutGroup(
-            parent, "SW-RECORD-LAYOUT-GROUP", group
-        )
+        writer.setSwRecordLayoutGroup(parent, "SW-RECORD-LAYOUT-GROUP", group)
 
         assert len(parent) == 1
         child = parent[0]
         assert child.tag == "SW-RECORD-LAYOUT-GROUP"
         assert child.find("SHORT-LABEL").text == "lbl"
         assert child.find("CATEGORY").text == "cat"
-        assert child.find(
-            "SW-RECORD-LAYOUT-GROUP-AXIS"
-        ).text == "2"
-        assert child.find(
-            "SW-RECORD-LAYOUT-GROUP-INDEX"
-        ).text == "idx"
-        assert child.find(
-            "SW-RECORD-LAYOUT-GROUP-FROM"
-        ).text == "from"
-        assert child.find(
-            "SW-RECORD-LAYOUT-GROUP-TO"
-        ).text == "to"
-        assert child.find(
-            "SW-RECORD-LAYOUT-GROUP-STEP"
-        ).text == "3"
+        assert child.find("SW-RECORD-LAYOUT-GROUP-AXIS").text == "2"
+        assert child.find("SW-RECORD-LAYOUT-GROUP-INDEX").text == "idx"
+        assert child.find("SW-RECORD-LAYOUT-GROUP-FROM").text == "from"
+        assert child.find("SW-RECORD-LAYOUT-GROUP-TO").text == "to"
+        assert child.find("SW-RECORD-LAYOUT-GROUP-STEP").text == "3"
 
     def test_set_sw_record_layout_group_none(self, writer):
         parent = _parent()
-        writer.setSwRecordLayoutGroup(
-            parent, "SW-RECORD-LAYOUT-GROUP", None
-        )
+        writer.setSwRecordLayoutGroup(parent, "SW-RECORD-LAYOUT-GROUP", None)
         assert len(parent) == 0
 
     def test_write_sw_record_layout_group_content_type(self, writer):
@@ -996,9 +925,7 @@ class TestSwRecordLayoutWriter:
         content = SwRecordLayoutGroupContent()
         sub_group = SwRecordLayoutGroup()
         sub_group.setShortLabel(_make_literal("sub"))
-        sub_group.swRecordLayoutGroupContentType = (
-            SwRecordLayoutGroupContent()
-        )
+        sub_group.swRecordLayoutGroupContentType = SwRecordLayoutGroupContent()
         content.setSwRecordLayoutGroup(sub_group)
         layout_v = SwRecordLayoutV()
         layout_v.setShortLabel(_make_literal("v"))
@@ -1006,9 +933,7 @@ class TestSwRecordLayoutWriter:
         group.swRecordLayoutGroupContentType = content
 
         parent = _parent()
-        writer.writeSwRecordLayoutGroupSwRecordLayoutGroupContentType(
-            parent, group
-        )
+        writer.writeSwRecordLayoutGroupSwRecordLayoutGroupContentType(parent, group)
 
         assert parent.find("SW-RECORD-LAYOUT-GROUP") is not None
         assert parent.find("SW-RECORD-LAYOUT-V") is not None
@@ -1019,9 +944,7 @@ class TestSwRecordLayoutWriter:
         layout = pkg.createSwRecordLayout("Layout")
         group = SwRecordLayoutGroup()
         group.setShortLabel(_make_literal("grp"))
-        group.swRecordLayoutGroupContentType = (
-            SwRecordLayoutGroupContent()
-        )
+        group.swRecordLayoutGroupContentType = SwRecordLayoutGroupContent()
         layout.setSwRecordLayoutGroup(group)
 
         parent = _parent()
@@ -1037,9 +960,7 @@ class TestSwRecordLayoutWriter:
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("Pkg")
         method = pkg.createSwAddrMethod("Method")
-        method.setMemoryAllocationKeywordPolicy(
-            _make_literal("policy")
-        )
+        method.setMemoryAllocationKeywordPolicy(_make_literal("policy"))
         method.addOption(_make_literal("opt1"))
         method.addOption(_make_literal("opt2"))
         method.setSectionInitializationPolicy(_make_literal("init"))
@@ -1052,15 +973,11 @@ class TestSwRecordLayoutWriter:
         child = parent[0]
         assert child.tag == "SW-ADDR-METHOD"
         assert child.find("SHORT-NAME").text == "Method"
-        assert child.find(
-            "MEMORY-ALLOCATION-KEYWORD-POLICY"
-        ).text == "policy"
+        assert child.find("MEMORY-ALLOCATION-KEYWORD-POLICY").text == "policy"
         options = child.find("OPTIONS")
         assert options is not None
         assert len(options) == 2
-        assert child.find(
-            "SECTION-INITIALIZATION-POLICY"
-        ).text == "init"
+        assert child.find("SECTION-INITIALIZATION-POLICY").text == "init"
         assert child.find("SECTION-TYPE").text == "section"
 
     def test_write_sw_addr_method_no_options(self, writer):
@@ -1108,12 +1025,8 @@ class TestDataTypeMappingWriter:
         data_map = DataTypeMap()
         data_map.timestamp = None
         data_map.uuid = None
-        data_map.setApplicationDataTypeRef(
-            _make_ref("/App", "APPLICATION-DATA-TYPE")
-        )
-        data_map.setImplementationDataTypeRef(
-            _make_ref("/Impl", "IMPLEMENTATION-DATA-TYPE")
-        )
+        data_map.setApplicationDataTypeRef(_make_ref("/App", "APPLICATION-DATA-TYPE"))
+        data_map.setImplementationDataTypeRef(_make_ref("/Impl", "IMPLEMENTATION-DATA-TYPE"))
         mapping_set.addDataTypeMap(data_map)
 
         parent = _parent()
@@ -1124,12 +1037,8 @@ class TestDataTypeMappingWriter:
         assert len(parent[0]) == 1
         dt_map = parent[0][0]
         assert dt_map.tag == "DATA-TYPE-MAP"
-        assert dt_map.find(
-            "APPLICATION-DATA-TYPE-REF"
-        ).text == "/App"
-        assert dt_map.find(
-            "IMPLEMENTATION-DATA-TYPE-REF"
-        ).text == "/Impl"
+        assert dt_map.find("APPLICATION-DATA-TYPE-REF").text == "/App"
+        assert dt_map.find("IMPLEMENTATION-DATA-TYPE-REF").text == "/Impl"
 
     def test_write_data_type_maps_empty(self, writer):
         autosar = AUTOSAR.getInstance()
@@ -1145,12 +1054,8 @@ class TestDataTypeMappingWriter:
         pkg = autosar.createARPackage("Pkg")
         mapping_set = pkg.createDataTypeMappingSet("MapSet")
         mode_map = ModeRequestTypeMap()
-        mode_map.setImplementationDataTypeRef(
-            _make_ref("/Impl", "IMPLEMENTATION-DATA-TYPE")
-        )
-        mode_map.setModeGroupRef(
-            _make_ref("/Mode", "MODE-DECLARATION-GROUP")
-        )
+        mode_map.setImplementationDataTypeRef(_make_ref("/Impl", "IMPLEMENTATION-DATA-TYPE"))
+        mode_map.setModeGroupRef(_make_ref("/Mode", "MODE-DECLARATION-GROUP"))
         mapping_set.addModeRequestTypeMap(mode_map)
 
         parent = _parent()
@@ -1161,9 +1066,7 @@ class TestDataTypeMappingWriter:
         assert len(parent[0]) == 1
         mr_map = parent[0][0]
         assert mr_map.tag == "MODE-REQUEST-TYPE-MAP"
-        assert mr_map.find(
-            "IMPLEMENTATION-DATA-TYPE-REF"
-        ).text == "/Impl"
+        assert mr_map.find("IMPLEMENTATION-DATA-TYPE-REF").text == "/Impl"
         assert mr_map.find("MODE-GROUP-REF").text == "/Mode"
 
     def test_write_mode_request_type_maps_empty(self, writer):
@@ -1182,9 +1085,7 @@ class TestDataTypeMappingWriter:
         data_map = DataTypeMap()
         data_map.timestamp = None
         data_map.uuid = None
-        data_map.setApplicationDataTypeRef(
-            _make_ref("/App", "APPLICATION-DATA-TYPE")
-        )
+        data_map.setApplicationDataTypeRef(_make_ref("/App", "APPLICATION-DATA-TYPE"))
         mapping_set.addDataTypeMap(data_map)
         mode_map = ModeRequestTypeMap()
         mapping_set.addModeRequestTypeMap(mode_map)
@@ -1230,9 +1131,7 @@ class TestModeDeclarationWriter:
         assert parent[0].tag == "MODE-DECLARATION"
         assert parent[0].find("VALUE") is None
 
-    def test_write_mode_declaration_group_mode_declaration(
-        self, writer
-    ):
+    def test_write_mode_declaration_group_mode_declaration(self, writer):
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("Pkg")
         group = pkg.createModeDeclarationGroup("Group")
@@ -1247,9 +1146,7 @@ class TestModeDeclarationWriter:
         assert len(parent[0]) == 2
         assert parent[0][0].tag == "MODE-DECLARATION"
 
-    def test_write_mode_declaration_group_mode_declaration_empty(
-        self, writer
-    ):
+    def test_write_mode_declaration_group_mode_declaration_empty(self, writer):
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("Pkg")
         group = pkg.createModeDeclarationGroup("Group")
@@ -1262,9 +1159,7 @@ class TestModeDeclarationWriter:
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("Pkg")
         group = pkg.createModeDeclarationGroup("Group")
-        group.setInitialModeRef(
-            _make_ref("/Init", "MODE-DECLARATION")
-        )
+        group.setInitialModeRef(_make_ref("/Init", "MODE-DECLARATION"))
         group.createModeDeclaration("Mode")
         group.setOnTransitionValue(_make_float(5, "5"))
 
@@ -1284,9 +1179,7 @@ class TestModeDeclarationWriter:
         pkg = autosar.createARPackage("Pkg")
         mode_if = pkg.createModeSwitchInterface("ModeIf")
         mode_group = mode_if.createModeGroup("ModeGroup")
-        mode_group.type_tref = _make_ref(
-            "/ModeGrp", "MODE-DECLARATION-GROUP"
-        )
+        mode_group.type_tref = _make_ref("/ModeGrp", "MODE-DECLARATION-GROUP")
 
         parent = _parent()
         writer.writeModeSwitchInterfaceModeGroup(parent, mode_if)
@@ -1297,9 +1190,7 @@ class TestModeDeclarationWriter:
         assert child.find("SHORT-NAME").text == "ModeGroup"
         assert child.find("TYPE-TREF").text == "/ModeGrp"
 
-    def test_write_mode_switch_interface_mode_group_empty(
-        self, writer
-    ):
+    def test_write_mode_switch_interface_mode_group_empty(self, writer):
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("Pkg")
         mode_if = pkg.createModeSwitchInterface("ModeIf")
@@ -1328,9 +1219,7 @@ class TestModeDeclarationWriter:
 class TestTimingWriter:
     """Tests for timing and execution order constraint writers."""
 
-    def test_set_eoc_executable_entity_ref_successor_refs(
-        self, writer
-    ):
+    def test_set_eoc_executable_entity_ref_successor_refs(self, writer):
         refs = [
             _make_ref("/Succ1", "RUNNABLE-ENTITY"),
             _make_ref("/Succ2", "RUNNABLE-ENTITY"),
@@ -1345,9 +1234,7 @@ class TestTimingWriter:
         assert parent[0][0].tag == "SUCCESSOR-REF"
         assert parent[0][0].text == "/Succ1"
 
-    def test_set_eoc_executable_entity_ref_successor_refs_empty(
-        self, writer
-    ):
+    def test_set_eoc_executable_entity_ref_successor_refs_empty(self, writer):
         parent = _parent()
         writer.setEOCExecutableEntityRefSuccessorRefs(parent, [])
         assert len(parent) == 0
@@ -1358,9 +1245,7 @@ class TestTimingWriter:
         timing = pkg.createSwcTiming("Timing")
         constraint = timing.createExecutionOrderConstraint("Eoc")
         entity_ref = constraint.createEOCExecutableEntityRef("Entity")
-        entity_ref.addSuccessorRef(
-            _make_ref("/Succ", "RUNNABLE-ENTITY")
-        )
+        entity_ref.addSuccessorRef(_make_ref("/Succ", "RUNNABLE-ENTITY"))
 
         parent = _parent()
         writer.writeEOCExecutableEntityRef(parent, entity_ref)
@@ -1371,9 +1256,7 @@ class TestTimingWriter:
         assert child.find("SHORT-NAME").text == "Entity"
         assert child.find("SUCCESSOR-REFS") is not None
 
-    def test_write_execution_order_constraint_ordered_element(
-        self, writer
-    ):
+    def test_write_execution_order_constraint_ordered_element(self, writer):
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("Pkg")
         timing = pkg.createSwcTiming("Timing")
@@ -1381,9 +1264,7 @@ class TestTimingWriter:
         constraint.createEOCExecutableEntityRef("Entity")
 
         parent = _parent()
-        writer.writeExecutionOrderConstraintOrderedElement(
-            parent, constraint
-        )
+        writer.writeExecutionOrderConstraintOrderedElement(parent, constraint)
 
         assert len(parent) == 1
         assert parent[0].tag == "ORDERED-ELEMENTS"
@@ -1397,14 +1278,10 @@ class TestTimingWriter:
         constraint = timing.createExecutionOrderConstraint("Eoc")
 
         parent = _parent()
-        writer.writeExecutionOrderConstraintOrderedElement(
-            parent, constraint
-        )
+        writer.writeExecutionOrderConstraintOrderedElement(parent, constraint)
         assert len(parent) == 0
 
-    def test_write_eoc_ordered_element_unsupported(
-        self, warning_writer
-    ):
+    def test_write_eoc_ordered_element_unsupported(self, warning_writer):
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("Pkg")
         timing = pkg.createSwcTiming("Timing")
@@ -1412,9 +1289,7 @@ class TestTimingWriter:
         constraint.ordered_elements.append("not-an-entity")
 
         parent = _parent()
-        warning_writer.writeExecutionOrderConstraintOrderedElement(
-            parent, constraint
-        )
+        warning_writer.writeExecutionOrderConstraintOrderedElement(parent, constraint)
         assert parent[0].tag == "ORDERED-ELEMENTS"
         assert len(parent[0]) == 0
 
@@ -1457,9 +1332,7 @@ class TestTimingWriter:
         writer.writeTimingRequirements(parent, timing)
         assert len(parent) == 0
 
-    def test_write_timing_requirements_unsupported(
-        self, warning_writer
-    ):
+    def test_write_timing_requirements_unsupported(self, warning_writer):
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("Pkg")
         timing = pkg.createSwcTiming("Timing")

@@ -1,3 +1,3 @@
 from .ModeInBswModuleDescriptionInstanceRef import ModeInBswModuleDescriptionInstanceRef
 
-__all__ = ['ModeInBswModuleDescriptionInstanceRef']
+__all__ = ["ModeInBswModuleDescriptionInstanceRef"]

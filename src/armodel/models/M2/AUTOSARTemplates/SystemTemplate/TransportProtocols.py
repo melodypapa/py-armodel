@@ -10,12 +10,14 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
+
 class TpConfig(FibexElement, ABC):
     """
     Abstract base class for transport protocol configurations,
     defining common properties for different types of transport
     protocol implementations including communication cluster references.
     """
+
     # TpConfig method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getCommunicationClusterRef   [x] impl  [ ] docstring  [ ] test
@@ -24,7 +26,7 @@ class TpConfig(FibexElement, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is TpConfig:
             raise TypeError("TpConfig is an abstract class.")
-        
+
         super().__init__(parent, short_name)
 
         self.communicationClusterRef: RefType = None
@@ -36,13 +38,15 @@ class TpConfig(FibexElement, ABC):
         if value is not None:
             self.communicationClusterRef = value
         return self
-    
+
+
 class CanTpAddress(Identifiable):
     """
     Represents a CAN transport protocol address in the system,
     defining the transport address and address extension values
     for CAN communication endpoints.
     """
+
     # CanTpAddress method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getTpAddress                 [x] impl  [ ] docstring  [ ] test
@@ -71,12 +75,14 @@ class CanTpAddress(Identifiable):
         if value is not None:
             self.tpAddressExtensionValue = value
         return self
-    
+
+
 class CanTpChannel(Identifiable):
     """
     Represents a CAN transport protocol channel in the system,
     defining the channel ID and channel mode for CAN TP communication.
     """
+
     # CanTpChannel method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getChannelId                 [x] impl  [ ] docstring  [ ] test
@@ -106,17 +112,20 @@ class CanTpChannel(Identifiable):
             self.channelMode = value
         return self
 
+
 class TpConnectionIdent(Referrable):
     """
     Represents a transport protocol connection identifier,
     providing a referenceable identifier for transport protocol
     connections in the communication system.
     """
+
     # TpConnectionIdent method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
     def __init__(self, parent, short_name):
-        super().__init__(parent, short_name)    
+        super().__init__(parent, short_name)
+
 
 class TpConnection(ARObject, ABC):
     """
@@ -124,6 +133,7 @@ class TpConnection(ARObject, ABC):
     defining common properties for different types of transport
     protocol connections including connection identification.
     """
+
     # TpConnection method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getIdent                     [x] impl  [ ] docstring  [ ] test
@@ -132,7 +142,7 @@ class TpConnection(ARObject, ABC):
     def __init__(self):
         if type(self) is TpConnection:
             raise TypeError("TpConnection is an abstract class.")
-        
+
         super().__init__()
 
         self.ident: TpConnectionIdent = None
@@ -145,12 +155,14 @@ class TpConnection(ARObject, ABC):
         self.ident = ident
         return ident
 
+
 class CanTpConnection(TpConnection):
     """
     Represents a CAN transport protocol connection in the system,
     defining addressing format, cancellation settings, channel
     configuration, and timing parameters for CAN TP communication.
     """
+
     # CanTpConnection method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getAddressingFormat          [x] impl  [ ] docstring  [ ] test
@@ -275,7 +287,7 @@ class CanTpConnection(TpConnection):
 
     def addReceiverRef(self, value):
         if value is not None:
-            self.receiverRefs.append(value) 
+            self.receiverRefs.append(value)
         return self
 
     def getTaType(self):
@@ -334,12 +346,14 @@ class CanTpConnection(TpConnection):
             self.transmitterRef = value
         return self
 
+
 class CanTpEcu(ARObject):
     """
     Represents a CAN transport protocol ECU configuration,
     defining cycle time for the main function and ECU instance
     references for CAN TP communication management.
     """
+
     # CanTpEcu method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getCycleTimeMainFunction     [x] impl  [ ] docstring  [ ] test
@@ -368,13 +382,15 @@ class CanTpEcu(ARObject):
         if value is not None:
             self.ecuInstanceRef = value
         return self
-    
+
+
 class CanTpNode(Identifiable):
     """
     Represents a CAN transport protocol node in the system,
     defining connector references, timing parameters, and
     address references for CAN TP node configuration.
     """
+
     # CanTpNode method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getConnectorRef              [x] impl  [ ] docstring  [ ] test
@@ -431,7 +447,7 @@ class CanTpNode(Identifiable):
         if value is not None:
             self.timeoutAr = value
         return self
-    
+
     def getTimeoutAs(self):
         return self.timeoutAs
 
@@ -439,7 +455,7 @@ class CanTpNode(Identifiable):
         if value is not None:
             self.timeoutAs = value
         return self
-    
+
     def getTpAddressRef(self):
         return self.tpAddressRef
 
@@ -449,13 +465,13 @@ class CanTpNode(Identifiable):
         return self
 
 
-
 class CanTpConfig(TpConfig):
     """
     Represents CAN transport protocol configuration in the system,
     organizing addresses, channels, connections, ECUs, and nodes
     for comprehensive CAN TP communication setup.
     """
+
     # CanTpConfig method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getTpAddresses               [x] impl  [ ] docstring  [ ] test
@@ -474,7 +490,7 @@ class CanTpConfig(TpConfig):
 
         self.tpAddresses: List[CanTpAddress] = []
         self.tpChannels: List[CanTpChannel] = []
-        self.tpConnections:List[CanTpConnection] = []
+        self.tpConnections: List[CanTpConnection] = []
         self.tpEcus: List[CanTpEcu] = []
         self.tpNodes: List[CanTpNode] = []
 
@@ -482,7 +498,7 @@ class CanTpConfig(TpConfig):
         return self.tpAddresses
 
     def createCanTpAddress(self, short_name: str):
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             address = CanTpAddress(self, short_name)
             self.addElement(address)
             self.tpAddresses.append(address)
@@ -492,7 +508,7 @@ class CanTpConfig(TpConfig):
         return self.tpChannels
 
     def createCanTpChannel(self, short_name: str):
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             address = CanTpChannel(self, short_name)
             self.addElement(address)
             self.tpChannels.append(address)
@@ -500,7 +516,7 @@ class CanTpConfig(TpConfig):
 
     def getTpConnections(self):
         return self.tpConnections
-    
+
     def addTpConnection(self, value):
         if value is not None:
             self.tpConnections.append(value)
@@ -518,18 +534,20 @@ class CanTpConfig(TpConfig):
         return self.tpNodes
 
     def createCanTpNode(self, short_name: str):
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             address = CanTpNode(self, short_name)
             self.addElement(address)
             self.tpNodes.append(address)
         return self.getElement(short_name)
-    
+
+
 class DoIpLogicAddress(Identifiable):
     """
     Represents a DoIP (Diagnostics over IP) logic address in the system,
     defining the address value and logic address properties for
     DoIP communication endpoints.
     """
+
     # DoIpLogicAddress method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getAddress                   [x] impl  [ ] docstring  [ ] test
@@ -559,12 +577,14 @@ class DoIpLogicAddress(Identifiable):
             self.doIpLogicAddressProps = value
         return self
 
+
 class DoIpTpConnection(TpConnection):
     """
     Represents a DoIP transport protocol connection in the system,
     defining source and target address references and SDU
     references for DoIP communication.
     """
+
     # DoIpTpConnection method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getDoIpSourceAddressRef      [x] impl  [ ] docstring  [ ] test
@@ -612,6 +632,7 @@ class DoIpTpConfig(TpConfig):
     organizing logic addresses and connections for comprehensive
     DoIP communication setup.
     """
+
     # DoIpTpConfig method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getDoIpLogicAddresses        [x] impl  [ ] docstring  [ ] test
@@ -629,7 +650,7 @@ class DoIpTpConfig(TpConfig):
         return self.doIpLogicAddresses
 
     def createDoIpLogicAddress(self, short_name: str):
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             address = DoIpLogicAddress(self, short_name)
             self.addElement(address)
             self.doIpLogicAddresses.append(address)
@@ -642,12 +663,14 @@ class DoIpTpConfig(TpConfig):
         if value is not None:
             self.tpConnections.append(value)
         return self
-        
+
+
 class TpAddress(Identifiable):
     """
     Represents a generic transport protocol address in the system,
     defining the transport address value for communication endpoints.
     """
+
     # TpAddress method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getTpAddress                 [x] impl  [ ] docstring  [ ] test
@@ -665,13 +688,15 @@ class TpAddress(Identifiable):
         if value is not None:
             self.tpAddress = value
         return self
-    
+
+
 class LinTpConnection(TpConnection):
     """
     Represents a LIN transport protocol connection in the system,
     defining PDU references, timeout parameters, and transmitter/
     receiver configurations for LIN TP communication.
     """
+
     # LinTpConnection method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getDataPduRef                [x] impl  [ ] docstring  [ ] test
@@ -778,12 +803,14 @@ class LinTpConnection(TpConnection):
             self.transmitterRef = value
         return self
 
+
 class LinTpNode(Identifiable):
     """
     Represents a LIN transport protocol node in the system,
     defining connector references, response pending settings,
     and timing parameters for LIN TP node configuration.
     """
+
     # LinTpNode method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getConnectorRef              [x] impl  [ ] docstring  [ ] test
@@ -857,13 +884,14 @@ class LinTpNode(Identifiable):
             self.tpAddressRef = value
         return self
 
- 
+
 class LinTpConfig(TpConfig):
     """
     Represents LIN transport protocol configuration in the system,
     organizing addresses, connections, and nodes for comprehensive
     LIN TP communication setup.
     """
+
     # LinTpConfig method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getTpAddresses               [x] impl  [ ] docstring  [ ] test
@@ -884,7 +912,7 @@ class LinTpConfig(TpConfig):
         return self.tpAddresses
 
     def createTpAddress(self, short_name: str):
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             address = TpAddress(self, short_name)
             self.addElement(address)
             self.tpAddresses.append(address)
@@ -900,9 +928,9 @@ class LinTpConfig(TpConfig):
 
     def getTpNodes(self):
         return self.tpNodes
-    
+
     def createLinTpNode(self, short_name: str):
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             address = LinTpNode(self, short_name)
             self.addElement(address)
             self.tpNodes.append(address)

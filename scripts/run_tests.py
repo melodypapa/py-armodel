@@ -26,22 +26,23 @@ from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
 # Set UTF-8 encoding for Windows console compatibility
-if sys.platform == 'win32':
-    sys.stdout.reconfigure(encoding='utf-8')
-    sys.stderr.reconfigure(encoding='utf-8')
+if sys.platform == "win32":
+    sys.stdout.reconfigure(encoding="utf-8")
+    sys.stderr.reconfigure(encoding="utf-8")
 
 
 class Colors:
     """ANSI color codes for terminal output."""
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKCYAN = '\033[96m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
+
+    HEADER = "\033[95m"
+    OKBLUE = "\033[94m"
+    OKCYAN = "\033[96m"
+    OKGREEN = "\033[92m"
+    WARNING = "\033[93m"
+    FAIL = "\033[91m"
+    ENDC = "\033[0m"
+    BOLD = "\033[1m"
+    UNDERLINE = "\033[4m"
 
 
 def print_header(text: str) -> None:
@@ -76,26 +77,19 @@ def check_and_install_pyyaml() -> None:
     """Check if pyyaml is installed, install it if not."""
     try:
         import importlib.util
-        importlib.util.find_spec('yaml')
+
+        importlib.util.find_spec("yaml")
     except (ImportError, ModuleNotFoundError):
         print_warning("pyyaml not found, installing...")
         try:
-            subprocess.run(
-                [sys.executable, "-m", "pip", "install", "pyyaml"],
-                check=True,
-                capture_output=True
-            )
+            subprocess.run([sys.executable, "-m", "pip", "install", "pyyaml"], check=True, capture_output=True)
             print_success("pyyaml installed successfully")
         except subprocess.CalledProcessError as e:
             print_error(f"Failed to install pyyaml: {e}")
             sys.exit(1)
 
 
-def run_command(
-    cmd: List[str],
-    description: str,
-    verbose: bool = False
-) -> Tuple[bool, str]:
+def run_command(cmd: List[str], description: str, verbose: bool = False) -> Tuple[bool, str]:
     """
     Run a command and return success status and output.
 
@@ -112,17 +106,9 @@ def run_command(
     try:
         if verbose:
             print()
-            result = subprocess.run(
-                cmd,
-                capture_output=False,
-                text=True
-            )
+            result = subprocess.run(cmd, capture_output=False, text=True)
         else:
-            result = subprocess.run(
-                cmd,
-                capture_output=True,
-                text=True
-            )
+            result = subprocess.run(cmd, capture_output=True, text=True)
 
         if result.returncode == 0:
             print_success("OK")
@@ -138,11 +124,7 @@ def run_command(
         return False, str(e)
 
 
-def run_unit_tests(
-    args: argparse.Namespace,
-    pytest_args: List[str],
-    run_coverage: bool = True
-) -> Tuple[bool, int, int, int]:
+def run_unit_tests(args: argparse.Namespace, pytest_args: List[str], run_coverage: bool = True) -> Tuple[bool, int, int, int]:
     """
     Run unit tests (tests/test_armodel/).
 
@@ -157,7 +139,9 @@ def run_unit_tests(
     print_section("Running Unit Tests")
 
     cmd = [
-        sys.executable, "-m", "pytest",
+        sys.executable,
+        "-m",
+        "pytest",
         "tests/test_armodel/",
         "-v" if args.verbose else "-q",
         "--tb=short" if not args.verbose else "--tb=long",
@@ -165,41 +149,39 @@ def run_unit_tests(
 
     # Add coverage if requested (default is True)
     if run_coverage:
-        cmd.extend([
-            "--cov=armodel",
-            "--cov-branch",  # Enable branch coverage
-            "--cov-report=term-missing",
-            "--cov-report=html:htmlcov/unit",
-            "--cov-report=xml:coverage_unit.xml",
-        ])
+        cmd.extend(
+            [
+                "--cov=armodel",
+                "--cov-branch",  # Enable branch coverage
+                "--cov-report=term-missing",
+                "--cov-report=html:htmlcov/unit",
+                "--cov-report=xml:coverage_unit.xml",
+            ]
+        )
 
     cmd.extend(pytest_args)
 
-    success, output = run_command(
-        cmd,
-        "Unit tests",
-        args.verbose
-    )
+    success, output = run_command(cmd, "Unit tests", args.verbose)
 
     # Parse results from output
     passed = failed = skipped = 0
     if success and output:
         # Try to parse pytest summary
-        for line in output.split('\n'):
-            if ' passed' in line:
+        for line in output.split("\n"):
+            if " passed" in line:
                 parts = line.split()
                 for i, part in enumerate(parts):
-                    if part == 'passed':
+                    if part == "passed":
                         try:
                             passed = int(parts[i - 1])
                         except (ValueError, IndexError):
                             pass
-                    elif part == 'failed':
+                    elif part == "failed":
                         try:
                             failed = int(parts[i - 1])
                         except (ValueError, IndexError):
                             pass
-                    elif part == 'skipped':
+                    elif part == "skipped":
                         try:
                             skipped = int(parts[i - 1])
                         except (ValueError, IndexError):
@@ -213,11 +195,7 @@ def run_unit_tests(
     return success, passed, failed, skipped
 
 
-def run_integration_tests(
-    args: argparse.Namespace,
-    pytest_args: List[str],
-    run_coverage: bool = True
-) -> Tuple[bool, int, int, int]:
+def run_integration_tests(args: argparse.Namespace, pytest_args: List[str], run_coverage: bool = True) -> Tuple[bool, int, int, int]:
     """
     Run integration tests (tests/integration_tests/).
 
@@ -232,7 +210,9 @@ def run_integration_tests(
     print_section("Running Integration Tests")
 
     cmd = [
-        sys.executable, "-m", "pytest",
+        sys.executable,
+        "-m",
+        "pytest",
         "tests/integration_tests/",
         "-v",  # Always verbose for integration tests (show progress)
         "-s",  # Show print output (progress indicators)
@@ -241,42 +221,40 @@ def run_integration_tests(
 
     # Add coverage if requested (default is True)
     if run_coverage:
-        cmd.extend([
-            "--cov=armodel",
-            "--cov-branch",  # Enable branch coverage
-            # Note: Removed --cov-append to generate independent integration coverage report
-            "--cov-report=term-missing",
-            "--cov-report=html:htmlcov/integration",
-            "--cov-report=xml:coverage_integration.xml",
-        ])
+        cmd.extend(
+            [
+                "--cov=armodel",
+                "--cov-branch",  # Enable branch coverage
+                # Note: Removed --cov-append to generate independent integration coverage report
+                "--cov-report=term-missing",
+                "--cov-report=html:htmlcov/integration",
+                "--cov-report=xml:coverage_integration.xml",
+            ]
+        )
 
     cmd.extend(pytest_args)
 
-    success, output = run_command(
-        cmd,
-        "Integration tests",
-        args.verbose or True  # Always show output for integration tests
-    )
+    success, output = run_command(cmd, "Integration tests", args.verbose or True)  # Always show output for integration tests
 
     # Parse results from output
     passed = failed = skipped = 0
     if success and output:
         # Try to parse pytest summary
-        for line in output.split('\n'):
-            if ' passed' in line:
+        for line in output.split("\n"):
+            if " passed" in line:
                 parts = line.split()
                 for i, part in enumerate(parts):
-                    if part == 'passed':
+                    if part == "passed":
                         try:
                             passed = int(parts[i - 1])
                         except (ValueError, IndexError):
                             pass
-                    elif part == 'failed':
+                    elif part == "failed":
                         try:
                             failed = int(parts[i - 1])
                         except (ValueError, IndexError):
                             pass
-                    elif part == 'skipped':
+                    elif part == "skipped":
                         try:
                             skipped = int(parts[i - 1])
                         except (ValueError, IndexError):
@@ -325,69 +303,63 @@ def parse_coverage_xml(xml_path: Path) -> Optional[Dict]:
         root = tree.getroot()
 
         # The root element is <coverage>, not a child
-        if root.tag != 'coverage':
+        if root.tag != "coverage":
             print_warning(f"Unexpected root element: {root.tag}")
             return None
 
         # Extract overall coverage from root element
         overall = {
-            'line_rate': float(root.get('line-rate', 0)),
-            'branch_rate': float(root.get('branch-rate', 0)),
-            'lines_covered': int(root.get('lines-covered', 0)),
-            'lines_valid': int(root.get('lines-valid', 0)),
-            'branches_covered': int(root.get('branches-covered', 0)),
-            'branches_valid': int(root.get('branches-valid', 0)),
+            "line_rate": float(root.get("line-rate", 0)),
+            "branch_rate": float(root.get("branch-rate", 0)),
+            "lines_covered": int(root.get("lines-covered", 0)),
+            "lines_valid": int(root.get("lines-valid", 0)),
+            "branches_covered": int(root.get("branches-covered", 0)),
+            "branches_valid": int(root.get("branches-valid", 0)),
         }
 
         # Extract per-package and per-file coverage
         # Find all packages and extract class coverage
         classes_data = []
 
-        for package in root.findall('.//package'):
+        for package in root.findall(".//package"):
             # Find all classes in this package
-            for classes_elem in package.findall('.//classes'):
-                for cls in classes_elem.findall('class'):
-                    class_name = cls.get('name', '')
-                    filename = cls.get('filename', '')
-                    line_rate = float(cls.get('line-rate', 0))
-                    branch_rate = float(cls.get('branch-rate', 0))
+            for classes_elem in package.findall(".//classes"):
+                for cls in classes_elem.findall("class"):
+                    class_name = cls.get("name", "")
+                    filename = cls.get("filename", "")
+                    line_rate = float(cls.get("line-rate", 0))
+                    branch_rate = float(cls.get("branch-rate", 0))
 
                     # Count actual lines from <lines> elements
-                    lines_elem = cls.find('lines')
+                    lines_elem = cls.find("lines")
                     lines_valid = 0
                     lines_covered = 0
 
                     if lines_elem is not None:
-                        for line in lines_elem.findall('line'):
+                        for line in lines_elem.findall("line"):
                             lines_valid += 1
-                            hits = int(line.get('hits', 0))
+                            hits = int(line.get("hits", 0))
                             if hits > 0:
                                 lines_covered += 1
 
                     class_data = {
-                        'name': class_name,
-                        'filename': filename,
-                        'line_rate': line_rate,
-                        'branch_rate': branch_rate,
-                        'lines_covered': lines_covered,
-                        'lines_valid': lines_valid,
+                        "name": class_name,
+                        "filename": filename,
+                        "line_rate": line_rate,
+                        "branch_rate": branch_rate,
+                        "lines_covered": lines_covered,
+                        "lines_valid": lines_valid,
                     }
                     classes_data.append(class_data)
 
-        return {
-            'overall': overall,
-            'classes': classes_data
-        }
+        return {"overall": overall, "classes": classes_data}
 
     except Exception as e:
         print_warning(f"Failed to parse coverage XML: {e}")
         return None
 
 
-def generate_coverage_markdown(
-    unit_coverage: Optional[Dict] = None,
-    integration_coverage: Optional[Dict] = None
-) -> None:
+def generate_coverage_markdown(unit_coverage: Optional[Dict] = None, integration_coverage: Optional[Dict] = None) -> None:
     """
     Generate a markdown coverage report.
 
@@ -398,7 +370,7 @@ def generate_coverage_markdown(
     report_path = Path("reports/coverage.md")
 
     try:
-        with open(report_path, 'w') as f:
+        with open(report_path, "w") as f:
             f.write("# Test Coverage Report\n\n")
             f.write("> Generated by `scripts/run_tests.py` (coverage is enabled by default)\n\n")
             f.write("---\n\n")
@@ -407,9 +379,9 @@ def generate_coverage_markdown(
             if unit_coverage:
                 f.write("## Unit Test Coverage\n\n")
 
-                overall = unit_coverage['overall']
-                line_pct = overall['line_rate'] * 100
-                branch_pct = overall['branch_rate'] * 100
+                overall = unit_coverage["overall"]
+                line_pct = overall["line_rate"] * 100
+                branch_pct = overall["branch_rate"] * 100
 
                 # Badge
                 badge_color = "brightgreen" if line_pct >= 80 else "yellow" if line_pct >= 50 else "red"
@@ -422,32 +394,32 @@ def generate_coverage_markdown(
                 f.write(f"| **Branches** | {overall['branches_covered']} | {overall['branches_valid']} | **{branch_pct:.2f}%** |\n\n")
 
                 # Coverage by module
-                if unit_coverage['classes']:
+                if unit_coverage["classes"]:
                     f.write("### Coverage by Module\n\n")
 
                     # Group by module (using subdirectory for better granularity)
                     modules: Dict[str, List[Dict]] = {}
-                    for cls in unit_coverage['classes']:
+                    for cls in unit_coverage["classes"]:
                         # Extract module path from filename like "src/armodel/cli/arxml_dump_cli.py"
-                        filename = cls.get('filename', '')
+                        filename = cls.get("filename", "")
                         if filename:
-                            parts = filename.split('/')
+                            parts = filename.split("/")
                             # Get meaningful module name from path
                             # e.g., "src/armodel/cli/..." -> "cli"
                             # e.g., "src/armodel/models/..." -> "models"
                             # e.g., "src/armodel/lib/..." -> "lib"
-                            if len(parts) > 2 and parts[0] == 'src' and parts[1] == 'armodel':
+                            if len(parts) > 2 and parts[0] == "src" and parts[1] == "armodel":
                                 # Use the third part (subdirectory) as module name
-                                module = parts[2] if len(parts) > 2 else 'armodel'
-                            elif len(parts) > 1 and parts[0] == 'src':
+                                module = parts[2] if len(parts) > 2 else "armodel"
+                            elif len(parts) > 1 and parts[0] == "src":
                                 # Fallback to second part
-                                module = parts[1] if len(parts) > 1 else 'other'
+                                module = parts[1] if len(parts) > 1 else "other"
                             else:
-                                module = parts[0] if parts else 'other'
+                                module = parts[0] if parts else "other"
                         else:
                             # Fallback to using class name
-                            name = cls.get('name', '')
-                            module = name.split('.')[0] if '.' in name else 'other'
+                            name = cls.get("name", "")
+                            module = name.split(".")[0] if "." in name else "other"
 
                         if module not in modules:
                             modules[module] = []
@@ -459,8 +431,8 @@ def generate_coverage_markdown(
                     # Sort by coverage percentage (descending)
                     module_stats = []
                     for module_name, files in modules.items():
-                        total_lines = sum(c['lines_valid'] for c in files)
-                        covered_lines = sum(c['lines_covered'] for c in files)
+                        total_lines = sum(c["lines_valid"] for c in files)
+                        covered_lines = sum(c["lines_covered"] for c in files)
                         if total_lines > 0:
                             coverage_pct = (covered_lines / total_lines) * 100
                         else:
@@ -479,32 +451,32 @@ def generate_coverage_markdown(
                     f.write("### Files Needing Attention\n\n")
                     f.write("> Files with less than 80% coverage\n\n")
 
-                    low_coverage_files = [c for c in unit_coverage['classes'] if c['line_rate'] < 0.8]
-                    low_coverage_files.sort(key=lambda x: x['line_rate'])
+                    low_coverage_files = [c for c in unit_coverage["classes"] if c["line_rate"] < 0.8]
+                    low_coverage_files.sort(key=lambda x: x["line_rate"])
 
                     if low_coverage_files:
                         f.write("| File | Line Coverage | Branch Coverage |\n")
                         f.write("|------|---------------|-----------------|\n")
 
                         for cls in low_coverage_files[:20]:  # Limit to top 20
-                            line_pct = cls['line_rate'] * 100
-                            branch_pct = cls['branch_rate'] * 100
+                            line_pct = cls["line_rate"] * 100
+                            branch_pct = cls["branch_rate"] * 100
 
                             # Extract readable name from filename
                             # filename is like "src/armodel/cli/arxml_dump_cli.py"
-                            filename = cls.get('filename', '')
+                            filename = cls.get("filename", "")
                             if filename:
                                 # Remove .py extension and get the last two parts for context
-                                parts = filename.replace('.py', '').split('/')
+                                parts = filename.replace(".py", "").split("/")
                                 if len(parts) >= 2:
                                     # Get the last two parts for context (e.g., "cli/arxml_dump_cli")
-                                    short_name = '/'.join(parts[-2:])
+                                    short_name = "/".join(parts[-2:])
                                 else:
-                                    short_name = parts[-1] if parts else cls.get('name', 'unknown')
+                                    short_name = parts[-1] if parts else cls.get("name", "unknown")
                             else:
                                 # Fallback to using the name attribute
-                                name = cls.get('name', 'unknown')
-                                short_name = name.replace('.py', '') if name.endswith('.py') else name
+                                name = cls.get("name", "unknown")
+                                short_name = name.replace(".py", "") if name.endswith(".py") else name
 
                             f.write(f"| `{short_name}` | {line_pct:.1f}% | {branch_pct:.1f}% |\n")
                     else:
@@ -516,9 +488,9 @@ def generate_coverage_markdown(
             if integration_coverage:
                 f.write("## Integration Test Coverage\n\n")
 
-                overall = integration_coverage['overall']
-                line_pct = overall['line_rate'] * 100
-                branch_pct = overall['branch_rate'] * 100
+                overall = integration_coverage["overall"]
+                line_pct = overall["line_rate"] * 100
+                branch_pct = overall["branch_rate"] * 100
 
                 # Badge
                 badge_color = "brightgreen" if line_pct >= 80 else "yellow" if line_pct >= 50 else "red"
@@ -544,12 +516,7 @@ def generate_coverage_markdown(
         print_warning(f"Failed to generate markdown report: {e}")
 
 
-def print_summary(
-    unit_results: Tuple[bool, int, int, int],
-    integration_results: Tuple[bool, int, int, int],
-    run_unit: bool,
-    run_integration: bool
-) -> None:
+def print_summary(unit_results: Tuple[bool, int, int, int], integration_results: Tuple[bool, int, int, int], run_unit: bool, run_integration: bool) -> None:
     """Print final test summary."""
     print_header("TEST SUMMARY")
 
@@ -587,7 +554,7 @@ def print_summary(
         print(f"  Total Failed:  {Colors.FAIL if total_failed > 0 else ''}{total_failed}{Colors.ENDC}")
         print(f"  Total Skipped: {Colors.WARNING if total_skipped > 0 else ''}{total_skipped}{Colors.ENDC}")
 
-        overall_success = (total_failed == 0)
+        overall_success = total_failed == 0
         status_color = Colors.OKGREEN if overall_success else Colors.FAIL
         status_text = "ALL TESTS PASSED" if overall_success else "SOME TESTS FAILED"
         print(f"\n  {Colors.BOLD}{status_color}{status_text}{Colors.ENDC}")
@@ -608,38 +575,18 @@ Examples:
   %(prog)s --no-coverage       Run without coverage reports
   %(prog)s --verbose          Verbose output
   %(prog)s -k "test_parser"    Run specific tests
-        """
+        """,
     )
 
-    parser.add_argument(
-        "--unit",
-        action="store_true",
-        help="Run only unit tests"
-    )
+    parser.add_argument("--unit", action="store_true", help="Run only unit tests")
 
-    parser.add_argument(
-        "--integration",
-        action="store_true",
-        help="Run only integration tests"
-    )
+    parser.add_argument("--integration", action="store_true", help="Run only integration tests")
 
-    parser.add_argument(
-        "--no-coverage",
-        action="store_true",
-        help="Disable coverage reports (coverage is enabled by default)"
-    )
+    parser.add_argument("--no-coverage", action="store_true", help="Disable coverage reports (coverage is enabled by default)")
 
-    parser.add_argument(
-        "--verbose", "-v",
-        action="store_true",
-        help="Verbose output"
-    )
+    parser.add_argument("--verbose", "-v", action="store_true", help="Verbose output")
 
-    parser.add_argument(
-        "pytest_args",
-        nargs="*",
-        help="Additional arguments to pass to pytest"
-    )
+    parser.add_argument("pytest_args", nargs="*", help="Additional arguments to pass to pytest")
 
     return parser.parse_args()
 
@@ -701,12 +648,7 @@ def main() -> int:
                 generate_coverage_markdown(unit_coverage, integration_coverage)
 
         # Print summary
-        print_summary(
-            unit_results,
-            integration_results,
-            run_unit,
-            run_integration
-        )
+        print_summary(unit_results, integration_results, run_unit, run_integration)
 
         # Return exit code
         unit_success = unit_results[0] if run_unit else True
@@ -722,5 +664,5 @@ def main() -> int:
         return 1
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main())

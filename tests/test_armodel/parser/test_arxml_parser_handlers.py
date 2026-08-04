@@ -151,9 +151,7 @@ class TestPortInterfaceAndCompuHandlers:
             "<COMPU-NUMERATOR><V>1</V><V>2</V><V>3</V></COMPU-NUMERATOR>",
             root_tag="PARENT",
         )
-        parser.readCompuNominatorDenominator(
-            element, "COMPU-NUMERATOR", cnd
-        )
+        parser.readCompuNominatorDenominator(element, "COMPU-NUMERATOR", cnd)
         assert len(cnd.get_vs()) == 3
 
     def test_readCompuNominatorDenominator_empty(self, parser):
@@ -169,10 +167,7 @@ class TestPortInterfaceAndCompuHandlers:
 
         scale = CompuScale()
         element = _snip(
-            "<COMPU-RATIONAL-COEFFS>"
-            "<COMPU-DENOMINATOR><V>1</V></COMPU-DENOMINATOR>"
-            "<COMPU-NUMERATOR><V>2</V><V>3</V></COMPU-NUMERATOR>"
-            "</COMPU-RATIONAL-COEFFS>",
+            "<COMPU-RATIONAL-COEFFS>" "<COMPU-DENOMINATOR><V>1</V></COMPU-DENOMINATOR>" "<COMPU-NUMERATOR><V>2</V><V>3</V></COMPU-NUMERATOR>" "</COMPU-RATIONAL-COEFFS>",
             root_tag="SCALE",
         )
         parser.readCompuRationCoeffs(element, scale)
@@ -229,9 +224,7 @@ class TestAdminDataAndReferrableHandlers:
 
         obj = BswVariableAccess(parent=_autosar_root(), short_name="va")
         element = _snip("", root_tag="ELEM")
-        elem = ET.fromstring(
-            f"<ELEM xmlns='{NS}' UUID='abc' T='2024-01-01T00:00:00'/>"
-        )
+        elem = ET.fromstring(f"<ELEM xmlns='{NS}' UUID='abc' T='2024-01-01T00:00:00'/>")
         parser.readReferrable(elem, obj)
         assert obj.uuid == "abc"
         assert obj.timestamp == "2024-01-01T00:00:00"
@@ -254,10 +247,7 @@ class TestAdminDataAndReferrableHandlers:
 
         obj = Unit(parent=_autosar_root(), short_name="u")
         element = _snip(
-            "<CATEGORY>CAT_A</CATEGORY>"
-            "<DESC><L-2 L='EN'>desc</L-2></DESC>"
-            "<INTRODUCTION><L-1>intro</L-1></INTRODUCTION>"
-            "<ADMIN-DATA><LANGUAGE>EN</LANGUAGE></ADMIN-DATA>",
+            "<CATEGORY>CAT_A</CATEGORY>" "<DESC><L-2 L='EN'>desc</L-2></DESC>" "<INTRODUCTION><L-1>intro</L-1></INTRODUCTION>" "<ADMIN-DATA><LANGUAGE>EN</LANGUAGE></ADMIN-DATA>",
             root_tag="ELEM",
         )
         parser.readIdentifiable(element, obj)
@@ -271,12 +261,7 @@ class TestAdminDataAndReferrableHandlers:
 
         obj = Unit(parent=_autosar_root(), short_name="u")
         element = _snip(
-            "<ANNOTATIONS>"
-            "<ANNOTATION>"
-            "<LABEL><L-4>note</L-4></LABEL>"
-            "<TEXT><L-1>body</L-1></TEXT>"
-            "</ANNOTATION>"
-            "</ANNOTATIONS>",
+            "<ANNOTATIONS>" "<ANNOTATION>" "<LABEL><L-4>note</L-4></LABEL>" "<TEXT><L-1>body</L-1></TEXT>" "</ANNOTATION>" "</ANNOTATIONS>",
             root_tag="ELEM",
         )
         parser.readIdentifiable(element, obj)
@@ -292,10 +277,7 @@ class TestAdminDataAndReferrableHandlers:
 
     def test_getMultilanguageLongName_multiple_L4(self, parser):
         element = _snip(
-            "<LONG-NAME>"
-            "<L-4 L='EN'>a</L-4>"
-            "<L-4 L='DE'>b</L-4>"
-            "</LONG-NAME>",
+            "<LONG-NAME>" "<L-4 L='EN'>a</L-4>" "<L-4 L='DE'>b</L-4>" "</LONG-NAME>",
             root_tag="PARENT",
         )
         long_name = parser.getMultilanguageLongName(element, "LONG-NAME")
@@ -324,9 +306,7 @@ class TestAdminDataAndReferrableHandlers:
             "</AUTOSAR-VARIABLE-IREF>",
             root_tag="PARENT",
         )
-        iref = parser.getVariableInAtomicSWCTypeInstanceRef(
-            parser.find(element, "AUTOSAR-VARIABLE-IREF")
-        )
+        iref = parser.getVariableInAtomicSWCTypeInstanceRef(parser.find(element, "AUTOSAR-VARIABLE-IREF"))
         assert iref is not None
         assert iref.getPortPrototypeRef().getValue() == "/p1"
         assert iref.getTargetDataPrototypeRef().getValue() == "/td1"
@@ -343,9 +323,7 @@ class TestAdminDataAndReferrableHandlers:
             "</COMPONENT-IREF>",
             root_tag="PARENT",
         )
-        iref = parser.getComponentInSystemInstanceRef(
-            parser.find(element, "COMPONENT-IREF")
-        )
+        iref = parser.getComponentInSystemInstanceRef(parser.find(element, "COMPONENT-IREF"))
         assert iref is not None
         assert iref.getBaseRef().getValue() == "/b"
         assert iref.getContextCompositionRef().getValue() == "/c"
@@ -413,9 +391,7 @@ class TestDataTypeAndValueSpecHandlers:
         from armodel.models import ImplementationDataType
 
         idt = ImplementationDataType(parent=_autosar_root(), short_name="idt")
-        element = _snip(
-            "<SHORT-NAME>idt</SHORT-NAME>", root_tag="IMPLEMENTATION-DATA-TYPE"
-        )
+        element = _snip("<SHORT-NAME>idt</SHORT-NAME>", root_tag="IMPLEMENTATION-DATA-TYPE")
         parser.readImplementationDataType(element, idt)
         assert idt.getDynamicArraySizeProfile() is None
         assert idt.getTypeEmitter() is None
@@ -425,9 +401,7 @@ class TestDataTypeAndValueSpecHandlers:
 
         idt = ImplementationDataType(parent=_autosar_root(), short_name="idt")
         element = _snip(
-            "<SHORT-NAME>idt</SHORT-NAME>"
-            "<DYNAMIC-ARRAY-SIZE-PROFILE>VAR</DYNAMIC-ARRAY-SIZE-PROFILE>"
-            "<TYPE-EMITTER>HAL</TYPE-EMITTER>",
+            "<SHORT-NAME>idt</SHORT-NAME>" "<DYNAMIC-ARRAY-SIZE-PROFILE>VAR</DYNAMIC-ARRAY-SIZE-PROFILE>" "<TYPE-EMITTER>HAL</TYPE-EMITTER>",
             root_tag="IMPLEMENTATION-DATA-TYPE",
         )
         parser.readImplementationDataType(element, idt)
@@ -439,19 +413,14 @@ class TestDataTypeAndValueSpecHandlers:
 
         idt = ImplementationDataType(parent=_autosar_root(), short_name="idt")
         element = _snip(
-            "<SHORT-NAME>idt</SHORT-NAME>"
-            "<SYMBOL-PROPS>"
-            "<SHORT-NAME>sp</SHORT-NAME>"
-            "</SYMBOL-PROPS>",
+            "<SHORT-NAME>idt</SHORT-NAME>" "<SYMBOL-PROPS>" "<SHORT-NAME>sp</SHORT-NAME>" "</SYMBOL-PROPS>",
             root_tag="IMPLEMENTATION-DATA-TYPE",
         )
         parser.readImplementationDataType(element, idt)
         # Symbol props are stored on the data type; verify at least no exception.
         assert idt.getShortName() == "idt"
 
-    def test_readImplementationDataTypeSubElements_unsupported_tag_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readImplementationDataTypeSubElements_unsupported_tag_warns(self, warning_parser, caplog):
         from armodel.models import ImplementationDataType
 
         idt = ImplementationDataType(parent=_autosar_root(), short_name="idt")
@@ -461,18 +430,11 @@ class TestDataTypeAndValueSpecHandlers:
         )
         with caplog.at_level(logging.ERROR):
             warning_parser.readImplementationDataTypeSubElements(element, idt)
-        assert any(
-            "Unsupported ImplementationDataType SubElement" in r.getMessage()
-            for r in caplog.records
-        )
+        assert any("Unsupported ImplementationDataType SubElement" in r.getMessage() for r in caplog.records)
 
     def test_getSwValues_with_V_and_VT(self, parser):
         element = _snip(
-            "<SW-VALUES-PHYS>"
-            "<V>1.0</V>"
-            "<V>2.0</V>"
-            "<VT>label</VT>"
-            "</SW-VALUES-PHYS>",
+            "<SW-VALUES-PHYS>" "<V>1.0</V>" "<V>2.0</V>" "<VT>label</VT>" "</SW-VALUES-PHYS>",
             root_tag="PARENT",
         )
         sw_values = parser.getSwValues(element, "SW-VALUES-PHYS")
@@ -485,9 +447,7 @@ class TestDataTypeAndValueSpecHandlers:
         assert parser.getSwValues(element, "SW-VALUES-PHYS") is None
 
     def test_getValueList_present(self, parser):
-        element = _snip(
-            "<SW-ARRAYSIZE><V>4</V></SW-ARRAYSIZE>", root_tag="PARENT"
-        )
+        element = _snip("<SW-ARRAYSIZE><V>4</V></SW-ARRAYSIZE>", root_tag="PARENT")
         value_list = parser.getValueList(element, "SW-ARRAYSIZE")
         assert value_list is not None
         # ValueList stores a single V (ARFloat).
@@ -500,11 +460,7 @@ class TestDataTypeAndValueSpecHandlers:
 
     def test_getSwValueCont_full(self, parser):
         element = _snip(
-            "<SW-VALUE-CONT>"
-            "<UNIT-REF DEST='UNIT'>/u</UNIT-REF>"
-            "<SW-ARRAYSIZE><V>2</V></SW-ARRAYSIZE>"
-            "<SW-VALUES-PHYS><V>1.0</V></SW-VALUES-PHYS>"
-            "</SW-VALUE-CONT>",
+            "<SW-VALUE-CONT>" "<UNIT-REF DEST='UNIT'>/u</UNIT-REF>" "<SW-ARRAYSIZE><V>2</V></SW-ARRAYSIZE>" "<SW-VALUES-PHYS><V>1.0</V></SW-VALUES-PHYS>" "</SW-VALUE-CONT>",
             root_tag="PARENT",
         )
         cont = parser.getSwValueCont(element)
@@ -524,11 +480,7 @@ class TestDataTypeAndValueSpecHandlers:
         value_spec = ApplicationValueSpecification()
         value_spec.short_name = "vs"  # required by readValueSpecification path
         element = _snip(
-            "<SHORT-NAME>vs</SHORT-NAME>"
-            "<CATEGORY>CAT</CATEGORY>"
-            "<SW-VALUE-CONT>"
-            "<UNIT-REF DEST='UNIT'>/u</UNIT-REF>"
-            "</SW-VALUE-CONT>",
+            "<SHORT-NAME>vs</SHORT-NAME>" "<CATEGORY>CAT</CATEGORY>" "<SW-VALUE-CONT>" "<UNIT-REF DEST='UNIT'>/u</UNIT-REF>" "</SW-VALUE-CONT>",
             root_tag="APPLICATION-VALUE-SPECIFICATION",
         )
         parser.readApplicationValueSpecification(element, value_spec)
@@ -540,12 +492,7 @@ class TestDataTypeAndValueSpecHandlers:
         from armodel.models import NumericalValueSpecification
 
         element = _snip(
-            "<INIT-VALUE>"
-            "<NUMERICAL-VALUE-SPECIFICATION>"
-            "<SHORT-NAME>n</SHORT-NAME>"
-            "<VALUE>42</VALUE>"
-            "</NUMERICAL-VALUE-SPECIFICATION>"
-            "</INIT-VALUE>",
+            "<INIT-VALUE>" "<NUMERICAL-VALUE-SPECIFICATION>" "<SHORT-NAME>n</SHORT-NAME>" "<VALUE>42</VALUE>" "</NUMERICAL-VALUE-SPECIFICATION>" "</INIT-VALUE>",
             root_tag="PARENT",
         )
         value_spec = parser.getChildValueSpecification(element, "INIT-VALUE")
@@ -573,9 +520,7 @@ class TestSwComponentAndConnectorHandlers:
 
     def test_readSwComponentTypePorts_creates_PPort(self, parser, composition):
         element = _snip(
-            "<PORTS>"
-            "<P-PORT-PROTOTYPE><SHORT-NAME>pp1</SHORT-NAME></P-PORT-PROTOTYPE>"
-            "</PORTS>",
+            "<PORTS>" "<P-PORT-PROTOTYPE><SHORT-NAME>pp1</SHORT-NAME></P-PORT-PROTOTYPE>" "</PORTS>",
             root_tag="COMP",
         )
         parser.readSwComponentTypePorts(element, composition)
@@ -583,9 +528,7 @@ class TestSwComponentAndConnectorHandlers:
 
     def test_readSwComponentTypePorts_creates_RPort(self, parser, composition):
         element = _snip(
-            "<PORTS>"
-            "<R-PORT-PROTOTYPE><SHORT-NAME>rp1</SHORT-NAME></R-PORT-PROTOTYPE>"
-            "</PORTS>",
+            "<PORTS>" "<R-PORT-PROTOTYPE><SHORT-NAME>rp1</SHORT-NAME></R-PORT-PROTOTYPE>" "</PORTS>",
             root_tag="COMP",
         )
         parser.readSwComponentTypePorts(element, composition)
@@ -593,40 +536,28 @@ class TestSwComponentAndConnectorHandlers:
 
     def test_readSwComponentTypePorts_creates_PRPort(self, parser, composition):
         element = _snip(
-            "<PORTS>"
-            "<PR-PORT-PROTOTYPE><SHORT-NAME>prp1</SHORT-NAME></PR-PORT-PROTOTYPE>"
-            "</PORTS>",
+            "<PORTS>" "<PR-PORT-PROTOTYPE><SHORT-NAME>prp1</SHORT-NAME></PR-PORT-PROTOTYPE>" "</PORTS>",
             root_tag="COMP",
         )
         parser.readSwComponentTypePorts(element, composition)
         assert len(composition.getPRPortPrototypes()) == 1
 
-    def test_readSwComponentTypePorts_unsupported_tag_warns(
-        self, warning_parser, composition, caplog
-    ):
-        element = _snip(
-            "<PORTS><BAD-PORT/></PORTS>", root_tag="COMP"
-        )
+    def test_readSwComponentTypePorts_unsupported_tag_warns(self, warning_parser, composition, caplog):
+        element = _snip("<PORTS><BAD-PORT/></PORTS>", root_tag="COMP")
         with caplog.at_level(logging.ERROR):
             warning_parser.readSwComponentTypePorts(element, composition)
-        assert any(
-            "Unsupported Port Prototype" in r.getMessage()
-            for r in caplog.records
-        )
+        assert any("Unsupported Port Prototype" in r.getMessage() for r in caplog.records)
 
     def test_readSwComponentPrototype_sets_typeTRef(self, parser, composition):
         prototype = composition.createSwComponentPrototype("cp1")
         element = _snip(
-            "<SHORT-NAME>cp1</SHORT-NAME>"
-            "<TYPE-TREF DEST='COMPOSITION-SW-COMPONENT-TYPE'>/t</TYPE-TREF>",
+            "<SHORT-NAME>cp1</SHORT-NAME>" "<TYPE-TREF DEST='COMPOSITION-SW-COMPONENT-TYPE'>/t</TYPE-TREF>",
             root_tag="SW-COMPONENT-PROTOTYPE",
         )
         parser.readSwComponentPrototype(element, prototype)
         assert prototype.getTypeTRef().getValue() == "/t"
 
-    def test_readAssemblySwConnector_with_provider_and_requester(
-        self, parser, composition
-    ):
+    def test_readAssemblySwConnector_with_provider_and_requester(self, parser, composition):
         connector = composition.createAssemblySwConnector("a1")
         element = _snip(
             "<SHORT-NAME>a1</SHORT-NAME>"
@@ -648,9 +579,7 @@ class TestSwComponentAndConnectorHandlers:
 
     def test_readAssemblySwConnector_without_IRefs(self, parser, composition):
         connector = composition.createAssemblySwConnector("a2")
-        element = _snip(
-            "<SHORT-NAME>a2</SHORT-NAME>", root_tag="ASSEMBLY-SW-CONNECTOR"
-        )
+        element = _snip("<SHORT-NAME>a2</SHORT-NAME>", root_tag="ASSEMBLY-SW-CONNECTOR")
         parser.readAssemblySwConnector(element, connector)
         assert connector.getProviderIRef() is None
         assert connector.getRequesterIRef() is None
@@ -658,16 +587,13 @@ class TestSwComponentAndConnectorHandlers:
     def test_readSwConnector_sets_mappingRef(self, parser, composition):
         connector = composition.createAssemblySwConnector("a3")
         element = _snip(
-            "<SHORT-NAME>a3</SHORT-NAME>"
-            "<MAPPING-REF DEST='X'>/m</MAPPING-REF>",
+            "<SHORT-NAME>a3</SHORT-NAME>" "<MAPPING-REF DEST='X'>/m</MAPPING-REF>",
             root_tag="ASSEMBLY-SW-CONNECTOR",
         )
         parser.readAssemblySwConnector(element, connector)
         assert connector.getMappingRef().getValue() == "/m"
 
-    def test_readDelegationSwConnector_inner_RPort_IRef(
-        self, parser, composition
-    ):
+    def test_readDelegationSwConnector_inner_RPort_IRef(self, parser, composition):
         connector = composition.createDelegationSwConnector("d1")
         element = _snip(
             "<SHORT-NAME>d1</SHORT-NAME>"
@@ -684,9 +610,7 @@ class TestSwComponentAndConnectorHandlers:
         assert connector.getInnerPortIRref() is not None
         assert connector.getOuterPortRef().getValue() == "/op"
 
-    def test_readDelegationSwConnector_inner_PPort_IRef(
-        self, parser, composition
-    ):
+    def test_readDelegationSwConnector_inner_PPort_IRef(self, parser, composition):
         connector = composition.createDelegationSwConnector("d2")
         element = _snip(
             "<SHORT-NAME>d2</SHORT-NAME>"
@@ -723,23 +647,14 @@ class TestSwComponentAndConnectorHandlers:
         # OUTER-PORT-REF was absent; should remain None.
         assert connector.getOuterPortRef() is None
 
-    def test_readDelegationSwConnector_both_missing_warns(
-        self, warning_parser, composition, caplog
-    ):
+    def test_readDelegationSwConnector_both_missing_warns(self, warning_parser, composition, caplog):
         connector = composition.createDelegationSwConnector("d4")
-        element = _snip(
-            "<SHORT-NAME>d4</SHORT-NAME>", root_tag="DELEGATION-SW-CONNECTOR"
-        )
+        element = _snip("<SHORT-NAME>d4</SHORT-NAME>", root_tag="DELEGATION-SW-CONNECTOR")
         with caplog.at_level(logging.ERROR):
             warning_parser.readDelegationSwConnector(element, connector)
-        assert any(
-            "Invalid PortPrototype of DELEGATION-SW-CONNECTOR" in r.getMessage()
-            for r in caplog.records
-        )
+        assert any("Invalid PortPrototype of DELEGATION-SW-CONNECTOR" in r.getMessage() for r in caplog.records)
 
-    def test_readCompositionSwComponentTypeDataTypeMappingSet_adds_refs(
-        self, parser, composition
-    ):
+    def test_readCompositionSwComponentTypeDataTypeMappingSet_adds_refs(self, parser, composition):
         element = _snip(
             "<DATA-TYPE-MAPPING-REFS>"
             "<DATA-TYPE-MAPPING-REF DEST='DATA-TYPE-MAPPING-SET'>/dtm1</DATA-TYPE-MAPPING-REF>"
@@ -750,9 +665,7 @@ class TestSwComponentAndConnectorHandlers:
         parser.readCompositionSwComponentTypeDataTypeMappingSet(element, composition)
         assert len(composition.getDataTypeMappings()) == 2
 
-    def test_readCompositionSwComponentTypeDataTypeMappingSet_missing_no_op(
-        self, parser, composition
-    ):
+    def test_readCompositionSwComponentTypeDataTypeMappingSet_missing_no_op(self, parser, composition):
         element = _snip("<X/>")
         parser.readCompositionSwComponentTypeDataTypeMappingSet(element, composition)
         assert len(composition.getDataTypeMappings()) == 0
@@ -786,9 +699,7 @@ class TestBswBehaviorOrchestratorHandlers:
 
         app = ApplicationSwComponentType(parent=_autosar_root(), short_name="a")
         behavior = app.createSwcInternalBehavior("ib")
-        element = _snip(
-            "<SHORT-NAME>ib</SHORT-NAME>", root_tag="SWC-INTERNAL-BEHAVIOR"
-        )
+        element = _snip("<SHORT-NAME>ib</SHORT-NAME>", root_tag="SWC-INTERNAL-BEHAVIOR")
         warning_parser.readSwcInternalBehavior(element, behavior)
         # The two end-of-method optional fields should be None with empty body.
         assert behavior.getHandleTerminationAndRestart() is None
@@ -800,9 +711,7 @@ class TestBswBehaviorOrchestratorHandlers:
         app = ApplicationSwComponentType(parent=_autosar_root(), short_name="a")
         behavior = app.createSwcInternalBehavior("ib")
         element = _snip(
-            "<SHORT-NAME>ib</SHORT-NAME>"
-            "<HANDLE-TERMINATION-AND-RESTART>YES</HANDLE-TERMINATION-AND-RESTART>"
-            "<SUPPORTS-MULTIPLE-INSTANTIATION>true</SUPPORTS-MULTIPLE-INSTANTIATION>",
+            "<SHORT-NAME>ib</SHORT-NAME>" "<HANDLE-TERMINATION-AND-RESTART>YES</HANDLE-TERMINATION-AND-RESTART>" "<SUPPORTS-MULTIPLE-INSTANTIATION>true</SUPPORTS-MULTIPLE-INSTANTIATION>",
             root_tag="SWC-INTERNAL-BEHAVIOR",
         )
         warning_parser.readSwcInternalBehavior(element, behavior)
@@ -814,8 +723,7 @@ class TestBswBehaviorOrchestratorHandlers:
 
         access = BswVariableAccess(parent=_autosar_root(), short_name="va")
         element = _snip(
-            "<SHORT-NAME>va</SHORT-NAME>"
-            "<ACCESSED-VARIABLE-REF DEST='VARIABLE-DATA-PROTOTYPE'>/v</ACCESSED-VARIABLE-REF>",
+            "<SHORT-NAME>va</SHORT-NAME>" "<ACCESSED-VARIABLE-REF DEST='VARIABLE-DATA-PROTOTYPE'>/v</ACCESSED-VARIABLE-REF>",
             root_tag="BSW-VARIABLE-ACCESS",
         )
         parser.readBswVariableAccess(element, access)
@@ -825,9 +733,7 @@ class TestBswBehaviorOrchestratorHandlers:
         from armodel.models import BswVariableAccess
 
         access = BswVariableAccess(parent=_autosar_root(), short_name="va")
-        element = _snip(
-            "<SHORT-NAME>va</SHORT-NAME>", root_tag="BSW-VARIABLE-ACCESS"
-        )
+        element = _snip("<SHORT-NAME>va</SHORT-NAME>", root_tag="BSW-VARIABLE-ACCESS")
         parser.readBswVariableAccess(element, access)
         assert access.getAccessedVariableRef() is None
 
@@ -837,30 +743,21 @@ class TestBswBehaviorOrchestratorHandlers:
         behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bib")
         entity = behavior.createBswSchedulableEntity("e1")
         element = _snip(
-            "<DATA-SEND-POINTS>"
-            "<BSW-VARIABLE-ACCESS><SHORT-NAME>s1</SHORT-NAME></BSW-VARIABLE-ACCESS>"
-            "</DATA-SEND-POINTS>",
+            "<DATA-SEND-POINTS>" "<BSW-VARIABLE-ACCESS><SHORT-NAME>s1</SHORT-NAME></BSW-VARIABLE-ACCESS>" "</DATA-SEND-POINTS>",
             root_tag="ENTITY",
         )
         parser.readBswModuleEntityDataSendPoints(element, entity)
         assert len(entity.getDataSendPoints()) == 1
 
-    def test_readBswModuleEntityDataSendPoints_unsupported_tag_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readBswModuleEntityDataSendPoints_unsupported_tag_warns(self, warning_parser, caplog):
         from armodel.models import BswInternalBehavior
 
         behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bib")
         entity = behavior.createBswSchedulableEntity("e1")
-        element = _snip(
-            "<DATA-SEND-POINTS><BAD/></DATA-SEND-POINTS>", root_tag="ENTITY"
-        )
+        element = _snip("<DATA-SEND-POINTS><BAD/></DATA-SEND-POINTS>", root_tag="ENTITY")
         with caplog.at_level(logging.ERROR):
             warning_parser.readBswModuleEntityDataSendPoints(element, entity)
-        assert any(
-            "Unsupported Data Send Point" in r.getMessage()
-            for r in caplog.records
-        )
+        assert any("Unsupported Data Send Point" in r.getMessage() for r in caplog.records)
 
     def test_readBswModuleEntityDataReceiverPoints_creates_point(self, parser):
         from armodel.models import BswInternalBehavior
@@ -868,30 +765,21 @@ class TestBswBehaviorOrchestratorHandlers:
         behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bib")
         entity = behavior.createBswSchedulableEntity("e1")
         element = _snip(
-            "<DATA-RECEIVE-POINTS>"
-            "<BSW-VARIABLE-ACCESS><SHORT-NAME>r1</SHORT-NAME></BSW-VARIABLE-ACCESS>"
-            "</DATA-RECEIVE-POINTS>",
+            "<DATA-RECEIVE-POINTS>" "<BSW-VARIABLE-ACCESS><SHORT-NAME>r1</SHORT-NAME></BSW-VARIABLE-ACCESS>" "</DATA-RECEIVE-POINTS>",
             root_tag="ENTITY",
         )
         parser.readBswModuleEntityDataReceiverPoints(element, entity)
         assert len(entity.getDataReceivePoints()) == 1
 
-    def test_readBswModuleEntityDataReceiverPoints_unsupported_tag_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readBswModuleEntityDataReceiverPoints_unsupported_tag_warns(self, warning_parser, caplog):
         from armodel.models import BswInternalBehavior
 
         behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bib")
         entity = behavior.createBswSchedulableEntity("e1")
-        element = _snip(
-            "<DATA-RECEIVE-POINTS><BAD/></DATA-RECEIVE-POINTS>", root_tag="ENTITY"
-        )
+        element = _snip("<DATA-RECEIVE-POINTS><BAD/></DATA-RECEIVE-POINTS>", root_tag="ENTITY")
         with caplog.at_level(logging.ERROR):
             warning_parser.readBswModuleEntityDataReceiverPoints(element, entity)
-        assert any(
-            "Unsupported Data Receive Point" in r.getMessage()
-            for r in caplog.records
-        )
+        assert any("Unsupported Data Receive Point" in r.getMessage() for r in caplog.records)
 
 
 # ==================== Group F: Misc Handlers (DataTransformation, Keyword, ModeDeclaration) ====================
@@ -957,25 +845,17 @@ class TestDataTransformationHandlers:
         assert dt1.getTransformerChainRefs()[0].getValue() == "/tc1"
         assert dt1.getTransformerChainRefs()[1].getValue() == "/tc2"
 
-    def test_readDataTransformationSet_unsupported_tag_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readDataTransformationSet_unsupported_tag_warns(self, warning_parser, caplog):
         from armodel.models import DataTransformationSet
 
-        dtf_set = DataTransformationSet(
-            parent=_autosar_root(), short_name="dtf_set"
-        )
+        dtf_set = DataTransformationSet(parent=_autosar_root(), short_name="dtf_set")
         element = _snip(
-            "<SHORT-NAME>dtf_set</SHORT-NAME>"
-            "<DATA-TRANSFORMATIONS><BAD-ELEMENT/></DATA-TRANSFORMATIONS>",
+            "<SHORT-NAME>dtf_set</SHORT-NAME>" "<DATA-TRANSFORMATIONS><BAD-ELEMENT/></DATA-TRANSFORMATIONS>",
             root_tag="DATA-TRANSFORMATION-SET",
         )
         with caplog.at_level(logging.ERROR):
             warning_parser.readDataTransformationSet(element, dtf_set)
-        assert any(
-            "Unsupported DataTransformation" in r.getMessage()
-            for r in caplog.records
-        )
+        assert any("Unsupported DataTransformation" in r.getMessage() for r in caplog.records)
 
     def test_readTransformationTechnology_minimal(self, parser):
         from armodel.models import DataTransformationSet
@@ -1042,25 +922,17 @@ class TestDataTransformationHandlers:
         assert tech.getBufferProperties().getHeaderLength().getValue() == 8
         assert tech.getBufferProperties().getInPlace() is not None
 
-    def test_readTransformationTechnology_unsupported_tag_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readTransformationTechnology_unsupported_tag_warns(self, warning_parser, caplog):
         from armodel.models import DataTransformationSet
 
-        dtf_set = DataTransformationSet(
-            parent=_autosar_root(), short_name="dtf_set"
-        )
+        dtf_set = DataTransformationSet(parent=_autosar_root(), short_name="dtf_set")
         element = _snip(
-            "<SHORT-NAME>dtf_set</SHORT-NAME>"
-            "<TRANSFORMATION-TECHNOLOGYS><BAD-ELEMENT/></TRANSFORMATION-TECHNOLOGYS>",
+            "<SHORT-NAME>dtf_set</SHORT-NAME>" "<TRANSFORMATION-TECHNOLOGYS><BAD-ELEMENT/></TRANSFORMATION-TECHNOLOGYS>",
             root_tag="DATA-TRANSFORMATION-SET",
         )
         with caplog.at_level(logging.ERROR):
             warning_parser.readDataTransformationSet(element, dtf_set)
-        assert any(
-            "Unsupported TransformationTechnology" in r.getMessage()
-            for r in caplog.records
-        )
+        assert any("Unsupported TransformationTechnology" in r.getMessage() for r in caplog.records)
 
     def test_readEndToEndTransformationDescription_full(self, parser):
         from armodel.models import DataTransformationSet
@@ -1103,14 +975,10 @@ class TestDataTransformationHandlers:
         assert desc.getMaxDeltaCounter().getValue() == 2
         assert desc.getProfileName().getValue() == "Profile1"
 
-    def test_readTransformationTechnology_unsupported_desc_tag_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readTransformationTechnology_unsupported_desc_tag_warns(self, warning_parser, caplog):
         from armodel.models import DataTransformationSet
 
-        dtf_set = DataTransformationSet(
-            parent=_autosar_root(), short_name="dtf_set"
-        )
+        dtf_set = DataTransformationSet(parent=_autosar_root(), short_name="dtf_set")
         element = _snip(
             "<SHORT-NAME>dtf_set</SHORT-NAME>"
             "<TRANSFORMATION-TECHNOLOGYS>"
@@ -1123,10 +991,7 @@ class TestDataTransformationHandlers:
         )
         with caplog.at_level(logging.ERROR):
             warning_parser.readDataTransformationSet(element, dtf_set)
-        assert any(
-            "Unsupported TransformationDescription" in r.getMessage()
-            for r in caplog.records
-        )
+        assert any("Unsupported TransformationDescription" in r.getMessage() for r in caplog.records)
 
 
 class TestKeywordAndCollectionHandlers:
@@ -1150,15 +1015,7 @@ class TestKeywordAndCollectionHandlers:
 
         ks = KeywordSet(parent=_autosar_root(), short_name="ks")
         element = _snip(
-            "<SHORT-NAME>ks</SHORT-NAME>"
-            "<KEYWORDS>"
-            "<KEYWORD>"
-            "<SHORT-NAME>kw1</SHORT-NAME>"
-            "</KEYWORD>"
-            "<KEYWORD>"
-            "<SHORT-NAME>kw2</SHORT-NAME>"
-            "</KEYWORD>"
-            "</KEYWORDS>",
+            "<SHORT-NAME>ks</SHORT-NAME>" "<KEYWORDS>" "<KEYWORD>" "<SHORT-NAME>kw1</SHORT-NAME>" "</KEYWORD>" "<KEYWORD>" "<SHORT-NAME>kw2</SHORT-NAME>" "</KEYWORD>" "</KEYWORDS>",
             root_tag="KEYWORD-SET",
         )
         parser.readKeywordSet(element, ks)
@@ -1196,8 +1053,7 @@ class TestKeywordAndCollectionHandlers:
 
         ks = KeywordSet(parent=_autosar_root(), short_name="ks")
         element = _snip(
-            "<SHORT-NAME>ks</SHORT-NAME>"
-            "<KEYWORDS><BAD-KEYWORD/></KEYWORDS>",
+            "<SHORT-NAME>ks</SHORT-NAME>" "<KEYWORDS><BAD-KEYWORD/></KEYWORDS>",
             root_tag="KEYWORD-SET",
         )
         with caplog.at_level(logging.ERROR):
@@ -1265,12 +1121,7 @@ class TestModeDeclarationMappingHandlers:
 
         mms = ModeDeclarationMappingSet(parent=_autosar_root(), short_name="mms")
         element = _snip(
-            "<SHORT-NAME>mms</SHORT-NAME>"
-            "<MODE-DECLARATION-MAPPINGS>"
-            "<MODE-DECLARATION-MAPPING>"
-            "<SHORT-NAME>mapping1</SHORT-NAME>"
-            "</MODE-DECLARATION-MAPPING>"
-            "</MODE-DECLARATION-MAPPINGS>",
+            "<SHORT-NAME>mms</SHORT-NAME>" "<MODE-DECLARATION-MAPPINGS>" "<MODE-DECLARATION-MAPPING>" "<SHORT-NAME>mapping1</SHORT-NAME>" "</MODE-DECLARATION-MAPPING>" "</MODE-DECLARATION-MAPPINGS>",
             root_tag="MODE-DECLARATION-MAPPING-SET",
         )
         parser.readModeDeclarationMappingSet(element, mms)
@@ -1303,23 +1154,17 @@ class TestModeDeclarationMappingHandlers:
         assert mapping.getFirstModeRefs()[1].getValue() == "/mode2"
         assert mapping.getSecondModeRef().getValue() == "/mode3"
 
-    def test_readModeDeclarationMappingSet_unsupported_tag_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readModeDeclarationMappingSet_unsupported_tag_warns(self, warning_parser, caplog):
         from armodel.models import ModeDeclarationMappingSet
 
         mms = ModeDeclarationMappingSet(parent=_autosar_root(), short_name="mms")
         element = _snip(
-            "<SHORT-NAME>mms</SHORT-NAME>"
-            "<MODE-DECLARATION-MAPPINGS><BAD-MAPPING/></MODE-DECLARATION-MAPPINGS>",
+            "<SHORT-NAME>mms</SHORT-NAME>" "<MODE-DECLARATION-MAPPINGS><BAD-MAPPING/></MODE-DECLARATION-MAPPINGS>",
             root_tag="MODE-DECLARATION-MAPPING-SET",
         )
         with caplog.at_level(logging.ERROR):
             warning_parser.readModeDeclarationMappingSet(element, mms)
-        assert any(
-            "Unsupported ModeDeclarationMapping" in r.getMessage()
-            for r in caplog.records
-        )
+        assert any("Unsupported ModeDeclarationMapping" in r.getMessage() for r in caplog.records)
 
 
 class TestModeDeclarationGroupPrototypeHandlers:
@@ -1328,9 +1173,7 @@ class TestModeDeclarationGroupPrototypeHandlers:
     def test_readModeDeclarationGroupPrototype_minimal(self, parser):
         from armodel.models import ModeDeclarationGroupPrototype
 
-        proto = ModeDeclarationGroupPrototype(
-            parent=_autosar_root(), short_name="proto"
-        )
+        proto = ModeDeclarationGroupPrototype(parent=_autosar_root(), short_name="proto")
         element = _snip(
             "<SHORT-NAME>proto</SHORT-NAME>",
             root_tag="MODE-DECLARATION-GROUP-PROTOTYPE",
@@ -1342,12 +1185,9 @@ class TestModeDeclarationGroupPrototypeHandlers:
     def test_readModeDeclarationGroupPrototype_with_type_ref(self, parser):
         from armodel.models import ModeDeclarationGroupPrototype
 
-        proto = ModeDeclarationGroupPrototype(
-            parent=_autosar_root(), short_name="proto"
-        )
+        proto = ModeDeclarationGroupPrototype(parent=_autosar_root(), short_name="proto")
         element = _snip(
-            "<SHORT-NAME>proto</SHORT-NAME>"
-            "<TYPE-TREF DEST='MODE-DECLARATION-GROUP'>/mdg1</TYPE-TREF>",
+            "<SHORT-NAME>proto</SHORT-NAME>" "<TYPE-TREF DEST='MODE-DECLARATION-GROUP'>/mdg1</TYPE-TREF>",
             root_tag="MODE-DECLARATION-GROUP-PROTOTYPE",
         )
         parser.readModeDeclarationGroupPrototype(element, proto)
@@ -1357,9 +1197,7 @@ class TestModeDeclarationGroupPrototypeHandlers:
     def test_readPortPrototypeBlueprint_minimal(self, parser):
         from armodel.models import PortPrototypeBlueprint
 
-        blueprint = PortPrototypeBlueprint(
-            parent=_autosar_root(), short_name="blueprint"
-        )
+        blueprint = PortPrototypeBlueprint(parent=_autosar_root(), short_name="blueprint")
         element = _snip(
             "<SHORT-NAME>blueprint</SHORT-NAME>",
             root_tag="PORT-PROTOTYPE-BLUEPRINT",
@@ -1371,12 +1209,9 @@ class TestModeDeclarationGroupPrototypeHandlers:
     def test_readPortPrototypeBlueprint_with_interface_ref(self, parser):
         from armodel.models import PortPrototypeBlueprint
 
-        blueprint = PortPrototypeBlueprint(
-            parent=_autosar_root(), short_name="blueprint"
-        )
+        blueprint = PortPrototypeBlueprint(parent=_autosar_root(), short_name="blueprint")
         element = _snip(
-            "<SHORT-NAME>blueprint</SHORT-NAME>"
-            "<INTERFACE-REF DEST='SENDER-RECEIVER-INTERFACE'>/sri1</INTERFACE-REF>",
+            "<SHORT-NAME>blueprint</SHORT-NAME>" "<INTERFACE-REF DEST='SENDER-RECEIVER-INTERFACE'>/sri1</INTERFACE-REF>",
             root_tag="PORT-PROTOTYPE-BLUEPRINT",
         )
         parser.readPortPrototypeBlueprint(element, blueprint)
@@ -1386,53 +1221,30 @@ class TestModeDeclarationGroupPrototypeHandlers:
 
 # === Migrated from test_arxml_parser_remaining_gaps.py ===
 
+
 class TestPortGroupAndComposition:
-    def test_readSwComponentTypePortGroups_unsupported_raises(
-        self, warning_parser, caplog
-    ):
-        app = ApplicationSwComponentType(
-            parent=_autosar_root(), short_name="App"
-        )
-        element = _snip(
-            "<PORT-GROUPS><BAD/></PORT-GROUPS>"
-        )
+    def test_readSwComponentTypePortGroups_unsupported_raises(self, warning_parser, caplog):
+        app = ApplicationSwComponentType(parent=_autosar_root(), short_name="App")
+        element = _snip("<PORT-GROUPS><BAD/></PORT-GROUPS>")
         with caplog.at_level(logging.ERROR):
             warning_parser.readSwComponentTypePortGroups(element, app)
-        assert any("Unsupported Port Group type" in r.getMessage()
-                   for r in caplog.records)
+        assert any("Unsupported Port Group type" in r.getMessage() for r in caplog.records)
 
-    def test_readDelegationSwConnectorInnerPortIRef_unsupported_raises(
-        self, warning_parser, caplog
-    ):
+    def test_readDelegationSwConnectorInnerPortIRef_unsupported_raises(self, warning_parser, caplog):
         from armodel.models import DelegationSwConnector
-        connector = DelegationSwConnector(
-            parent=MagicMock(), short_name="Dc"
-        )
-        element = _snip(
-            "<INNER-PORT-IREF><BAD/></INNER-PORT-IREF>"
-        )
-        with caplog.at_level(logging.ERROR):
-            warning_parser.readDelegationSwConnectorInnerPortIRef(
-                element, connector
-            )
-        assert any("Unsupported child element of INNER-PORT-IREF"
-                   in r.getMessage() for r in caplog.records)
 
-    def test_readCompositionSwComponentTypeComponents_unsupported_warns(
-        self, warning_parser, caplog
-    ):
-        comp = CompositionSwComponentType(
-            parent=_autosar_root(), short_name="Comp"
-        )
-        element = _snip(
-            "<COMPONENTS><BAD/></COMPONENTS>"
-        )
+        connector = DelegationSwConnector(parent=MagicMock(), short_name="Dc")
+        element = _snip("<INNER-PORT-IREF><BAD/></INNER-PORT-IREF>")
         with caplog.at_level(logging.ERROR):
-            warning_parser.readCompositionSwComponentTypeComponents(
-                element, comp
-            )
-        assert any("Unsupported Component" in r.getMessage()
-                   for r in caplog.records)
+            warning_parser.readDelegationSwConnectorInnerPortIRef(element, connector)
+        assert any("Unsupported child element of INNER-PORT-IREF" in r.getMessage() for r in caplog.records)
+
+    def test_readCompositionSwComponentTypeComponents_unsupported_warns(self, warning_parser, caplog):
+        comp = CompositionSwComponentType(parent=_autosar_root(), short_name="Comp")
+        element = _snip("<COMPONENTS><BAD/></COMPONENTS>")
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readCompositionSwComponentTypeComponents(element, comp)
+        assert any("Unsupported Component" in r.getMessage() for r in caplog.records)
 
 
 # ==================== InvalidationPolicies (L2423-2426, L2455) ====================
@@ -1442,14 +1254,13 @@ class TestPortGroupAndComposition:
 # MultilanguageReferrable), so it always raises AttributeError.
 
 
-
 # === Migrated from test_arxml_parser_remaining_gaps.py ===
 
+
 class TestTimingGaps:
-    def test_readExecutionOrderConstraint_order_unsupported_raises(
-        self, warning_parser, caplog
-    ):
+    def test_readExecutionOrderConstraint_order_unsupported_raises(self, warning_parser, caplog):
         from armodel.models import SwcTiming
+
         swc_timing = SwcTiming(parent=_autosar_root(), short_name="T")
         element = _snip(
             "<TIMING-REQUIREMENTS>"
@@ -1463,97 +1274,67 @@ class TestTimingGaps:
         )
         with caplog.at_level(logging.ERROR):
             warning_parser.readTimingExtension(element, swc_timing)
-        assert any("Unsupported order element" in r.getMessage()
-                   for r in caplog.records)
+        assert any("Unsupported order element" in r.getMessage() for r in caplog.records)
 
-    def test_readTimingExtension_unsupported_requirement_raises(
-        self, warning_parser, caplog
-    ):
+    def test_readTimingExtension_unsupported_requirement_raises(self, warning_parser, caplog):
         from armodel.models import SwcTiming
+
         swc_timing = SwcTiming(parent=_autosar_root(), short_name="T")
-        element = _snip(
-            "<TIMING-REQUIREMENTS>"
-            "<BAD-REQ/>"
-            "</TIMING-REQUIREMENTS>"
-        )
+        element = _snip("<TIMING-REQUIREMENTS>" "<BAD-REQ/>" "</TIMING-REQUIREMENTS>")
         with caplog.at_level(logging.ERROR):
             warning_parser.readTimingExtension(element, swc_timing)
-        assert any("Unsupported timing requirement" in r.getMessage()
-                   for r in caplog.records)
+        assert any("Unsupported timing requirement" in r.getMessage() for r in caplog.records)
 
 
 # ==================== FrameTriggering / Flexray (L3010, L3038-3044, L3059) ====================
 
 
-
 # === Migrated from test_arxml_parser_remaining_gaps.py ===
 
+
 class TestSwSystemconstantValueSet:
-    def test_readSwSystemconstantValueSetSwSystemconstantValues_unsupported_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readSwSystemconstantValueSetSwSystemconstantValues_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import SwSystemconstantValueSet
-        value_set = SwSystemconstantValueSet(
-            parent=MagicMock(), short_name="Vs"
-        )
-        element = _snip(
-            "<SW-SYSTEMCONSTANT-VALUES><BAD/></SW-SYSTEMCONSTANT-VALUES>"
-        )
+
+        value_set = SwSystemconstantValueSet(parent=MagicMock(), short_name="Vs")
+        element = _snip("<SW-SYSTEMCONSTANT-VALUES><BAD/></SW-SYSTEMCONSTANT-VALUES>")
         with caplog.at_level(logging.ERROR):
-            warning_parser.readSwSystemconstantValueSetSwSystemconstantValues(
-                element, value_set
-            )
-        assert any("Unsupported SwSystemconstValue" in r.getMessage()
-                   for r in caplog.records)
+            warning_parser.readSwSystemconstantValueSetSwSystemconstantValues(element, value_set)
+        assert any("Unsupported SwSystemconstValue" in r.getMessage() for r in caplog.records)
 
 
 # ==================== CouplingPort (L4873) ====================
 
 
-
 # === Migrated from test_arxml_parser_remaining_gaps.py ===
 
+
 class TestLifeCycleInfoSet:
-    def test_readLifeCycleInfoSetLifeCycleInfos_unsupported_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readLifeCycleInfoSetLifeCycleInfos_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import LifeCycleInfoSet
-        info_set = LifeCycleInfoSet(
-            parent=MagicMock(), short_name="Lcs"
-        )
-        element = _snip(
-            "<LIFE-CYCLE-INFOS><BAD/></LIFE-CYCLE-INFOS>"
-        )
+
+        info_set = LifeCycleInfoSet(parent=MagicMock(), short_name="Lcs")
+        element = _snip("<LIFE-CYCLE-INFOS><BAD/></LIFE-CYCLE-INFOS>")
         with caplog.at_level(logging.ERROR):
-            warning_parser.readLifeCycleInfoSetLifeCycleInfos(
-                element, info_set
-            )
-        assert any("Unsupported Life Cycle Info" in r.getMessage()
-                   for r in caplog.records)
+            warning_parser.readLifeCycleInfoSetLifeCycleInfos(element, info_set)
+        assert any("Unsupported Life Cycle Info" in r.getMessage() for r in caplog.records)
 
 
 # ==================== FlatMap (L5567) ====================
 
 
-
 # === Migrated from test_arxml_parser_remaining_gaps.py ===
 
+
 class TestFlatMap:
-    def test_readFlatMapInstances_unsupported_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readFlatMapInstances_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import FlatMap
+
         flat_map = FlatMap(parent=MagicMock(), short_name="Fm")
-        element = _snip(
-            "<INSTANCES><BAD/></INSTANCES>"
-        )
+        element = _snip("<INSTANCES><BAD/></INSTANCES>")
         with caplog.at_level(logging.ERROR):
-            warning_parser.readFlatMapInstances(
-                element, flat_map
-            )
-        assert any("Unsupported Flat Map Instances" in r.getMessage()
-                   for r in caplog.records)
+            warning_parser.readFlatMapInstances(element, flat_map)
+        assert any("Unsupported Flat Map Instances" in r.getMessage() for r in caplog.records)
 
 
 # ==================== ClientServerInterfaceMapping (L5601) ====================
-

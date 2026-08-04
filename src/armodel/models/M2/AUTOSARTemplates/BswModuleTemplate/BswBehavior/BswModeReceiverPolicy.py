@@ -9,17 +9,19 @@ class BswModeReceiverPolicy(AREnum):
     """
     Enumeration for BSW mode receiver policy.
     """
+
     # BswModeReceiverPolicy method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
 
     NONE = "none"
     IMMEDIATE = "immediate"
     DEFERRED = "deferred"
 
     def __init__(self):
-        super().__init__((
-            BswModeReceiverPolicy.NONE,
-            BswModeReceiverPolicy.IMMEDIATE,
-            BswModeReceiverPolicy.DEFERRED,
-        ))
+        super().__init__(
+            (
+                BswModeReceiverPolicy.NONE,
+                BswModeReceiverPolicy.IMMEDIATE,
+                BswModeReceiverPolicy.DEFERRED,
+            )
+        )

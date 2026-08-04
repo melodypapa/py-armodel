@@ -1,4 +1,5 @@
 """Tests for writer signal, lifecycle and diagnostic handlers."""
+
 import xml.etree.cElementTree as ET
 import pytest
 
@@ -141,16 +142,10 @@ class TestWriterISignalGroupISignalRef:
 class TestWriterISignalGroupComBasedSignalGroupTransformation:
     def test_with_refs(self, writer):
         group = _make_isignal_group()
-        group.addComBasedSignalGroupTransformationRef(
-            _ref("/dt1", "DATA-TRANSFORMATION")
-        )
-        group.addComBasedSignalGroupTransformationRef(
-            _ref("/dt2", "DATA-TRANSFORMATION")
-        )
+        group.addComBasedSignalGroupTransformationRef(_ref("/dt1", "DATA-TRANSFORMATION"))
+        group.addComBasedSignalGroupTransformationRef(_ref("/dt2", "DATA-TRANSFORMATION"))
         parent = _parent()
-        writer.writeISignalGroupComBasedSignalGroupTransformation(
-            parent, group
-        )
+        writer.writeISignalGroupComBasedSignalGroupTransformation(parent, group)
         assert parent[0].tag == "COM-BASED-SIGNAL-GROUP-TRANSFORMATIONS"
         cond = parent[0].find("DATA-TRANSFORMATION-REF-CONDITIONAL")
         assert cond is not None
@@ -160,9 +155,7 @@ class TestWriterISignalGroupComBasedSignalGroupTransformation:
     def test_empty(self, writer):
         group = _make_isignal_group()
         parent = _parent()
-        writer.writeISignalGroupComBasedSignalGroupTransformation(
-            parent, group
-        )
+        writer.writeISignalGroupComBasedSignalGroupTransformation(parent, group)
         assert len(parent) == 0
 
 
@@ -201,13 +194,9 @@ class TestWriterEndToEndTransformationISignalProps:
         parent = _parent()
         writer.writeEndToEndTransformationISignalProps(parent, props)
         assert parent[0].tag == "END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS"
-        variants = parent[0].find(
-            "END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS"
-        )
+        variants = parent[0].find("END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS")
         assert variants is not None
-        cond = variants.find(
-            "END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL"
-        )
+        cond = variants.find("END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL")
         assert cond is not None
         assert cond.find("TRANSFORMER-REF") is not None
         assert cond.find("DATA-IDS") is not None
@@ -228,9 +217,7 @@ class TestWriterISignalGroupTransformationISignalProps:
         parent = _parent()
         writer.writeISignalGroupTransformationISignalProps(parent, group)
         assert parent[0].tag == "TRANSFORMATION-I-SIGNAL-PROPSS"
-        assert parent[0].find(
-            "END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS"
-        ) is not None
+        assert parent[0].find("END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS") is not None
 
     def test_none(self, writer):
         group = _make_isignal_group()
@@ -250,9 +237,7 @@ class TestWriterISignalGroupTransformationISignalProps:
         parent = _parent()
         warn_writer.writeISignalGroupTransformationISignalProps(parent, group)
         assert parent[0].tag == "TRANSFORMATION-I-SIGNAL-PROPSS"
-        assert parent[0].find(
-            "END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS"
-        ) is None
+        assert parent[0].find("END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS") is None
         assert "Unsupported TransformationISignalProps" in caplog.text
 
 
@@ -260,12 +245,8 @@ class TestWriterISignalGroup:
     def test_full(self, writer):
         group = _make_isignal_group()
         group.addISignalRef(_ref("/s1", "I-SIGNAL"))
-        group.addComBasedSignalGroupTransformationRef(
-            _ref("/dt", "DATA-TRANSFORMATION")
-        )
-        group.setSystemSignalGroupRef(
-            _ref("/ssg", "SYSTEM-SIGNAL-GROUP")
-        )
+        group.addComBasedSignalGroupTransformationRef(_ref("/dt", "DATA-TRANSFORMATION"))
+        group.setSystemSignalGroupRef(_ref("/ssg", "SYSTEM-SIGNAL-GROUP"))
         props = EndToEndTransformationISignalProps()
         props.setTransformerRef(_ref("/tr", "TRANSFORMATION-PROPS"))
         props.addDataId(_posint(5))
@@ -287,9 +268,7 @@ class TestWriterISignalIPduGroup:
         group = _make_isignal_ipdu_group()
         group.setCommunicationDirection(_literal("OUT"))
         group.setCommunicationMode(_literal("PERIODIC"))
-        group.addContainedISignalIPduGroupRef(
-            _ref("/g", "I-SIGNAL-I-PDU-GROUP")
-        )
+        group.addContainedISignalIPduGroupRef(_ref("/g", "I-SIGNAL-I-PDU-GROUP"))
         group.addISignalIPduRef(_ref("/p", "I-SIGNAL-I-PDU"))
         parent = _parent()
         writer.writeISignalIPduGroup(parent, group)
@@ -430,15 +409,11 @@ class TestWriterLifeCycleInfoSetLifeCycleInfos:
 class TestWriterLifeCycleInfoSet:
     def test_full(self, writer):
         info_set = _make_life_cycle_info_set()
-        info_set.setDefaultLcStateRef(
-            _ref("/dstate", "LIFE-CYCLE-STATE-DEFINITION")
-        )
+        info_set.setDefaultLcStateRef(_ref("/dstate", "LIFE-CYCLE-STATE-DEFINITION"))
         info = LifeCycleInfo()
         info.setLcObjectRef(_ref("/obj", "REFERRABLE"))
         info_set.addLifeCycleInfo(info)
-        info_set.setUsedLifeCycleStateDefinitionGroupRef(
-            _ref("/grp", "LIFE-CYCLE-STATE-DEFINITION-GROUP")
-        )
+        info_set.setUsedLifeCycleStateDefinitionGroupRef(_ref("/grp", "LIFE-CYCLE-STATE-DEFINITION-GROUP"))
         parent = _parent()
         writer.writeLifeCycleInfoSet(parent, info_set)
         elem = parent.find("LIFE-CYCLE-INFO-SET")
@@ -446,9 +421,7 @@ class TestWriterLifeCycleInfoSet:
         assert elem.find("SHORT-NAME") is not None
         assert elem.find("DEFAULT-LC-STATE-REF") is not None
         assert elem.find("LIFE-CYCLE-INFOS") is not None
-        assert elem.find(
-            "USED-LIFE-CYCLE-STATE-DEFINITION-GROUP-REF"
-        ) is not None
+        assert elem.find("USED-LIFE-CYCLE-STATE-DEFINITION-GROUP-REF") is not None
 
     def test_none(self, writer):
         parent = _parent()
@@ -496,9 +469,7 @@ class TestWriterDiagnosticServiceTableDiagnosticConnectionRefs:
         table.addDiagnosticConnectionRef(_ref("/c1", "DIAGNOSTIC-CONNECTION"))
         table.addDiagnosticConnectionRef(_ref("/c2", "DIAGNOSTIC-CONNECTION"))
         parent = _parent()
-        writer.writeDiagnosticServiceTableDiagnosticConnectionRefs(
-            parent, table
-        )
+        writer.writeDiagnosticServiceTableDiagnosticConnectionRefs(parent, table)
         assert parent[0].tag == "DIAGNOSTIC-CONNECTIONS"
         conds = parent[0].findall("DIAGNOSTIC-CONNECTION-REF-CONDITIONAL")
         assert len(conds) == 2
@@ -506,18 +477,14 @@ class TestWriterDiagnosticServiceTableDiagnosticConnectionRefs:
     def test_empty(self, writer):
         table = _make_diagnostic_service_table()
         parent = _parent()
-        writer.writeDiagnosticServiceTableDiagnosticConnectionRefs(
-            parent, table
-        )
+        writer.writeDiagnosticServiceTableDiagnosticConnectionRefs(parent, table)
         assert len(parent) == 0
 
 
 class TestWriterDiagnosticServiceTable:
     def test_full(self, writer):
         table = _make_diagnostic_service_table()
-        table.addDiagnosticConnectionRef(
-            _ref("/c", "DIAGNOSTIC-CONNECTION")
-        )
+        table.addDiagnosticConnectionRef(_ref("/c", "DIAGNOSTIC-CONNECTION"))
         table.setEcuInstanceRef(_ref("/ecu", "ECU-INSTANCE"))
         parent = _parent()
         writer.writeDiagnosticServiceTable(parent, table)

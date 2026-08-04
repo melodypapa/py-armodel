@@ -14,9 +14,7 @@ from armodel.models.M2.MSR.Documentation.BlockElements.Formula import (
     MlFormula,
 )
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import (
-    BindingTimeEnum
-)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum
 
 
 class PostBuildVariantCriterion(ARObject):
@@ -30,13 +28,13 @@ class PostBuildVariantCriterion(ARObject):
         criterionName (String): The name of the criterion.
         criterionValue (String): The value of the criterion.
     """
+
     # PostBuildVariantCriterion method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getCriterionName             [x] impl  [ ] docstring  [ ] test
     # [ ] setCriterionName             [x] impl  [ ] docstring  [ ] test
     # [ ] getCriterionValue            [x] impl  [ ] docstring  [ ] test
     # [ ] setCriterionValue            [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -70,11 +68,11 @@ class PostBuildVariantCriterionValue(ARObject):
     Attributes:
         value (String): The criterion value.
     """
+
     # PostBuildVariantCriterionValue method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getValue                     [x] impl  [ ] docstring  [ ] test
     # [ ] setValue                     [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -104,6 +102,7 @@ class PredefinedVariant(Identifiable):
         MultilanguageReferrable, PackageableElement, Referrable
     Tags: atp.recommendedPackage=PredefinedVariants
     """
+
     # PredefinedVariant method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getIncludedVariantRefs       [x] impl  [ ] docstring  [ ] test
@@ -112,7 +111,6 @@ class PredefinedVariant(Identifiable):
     # [ ] addPostBuildVariantCriterionValueSetRef [x] impl  [ ] docstring  [ ] test
     # [ ] getSwSystemconstantValueSetRefs [x] impl  [ ] docstring  [ ] test
     # [ ] addSwSystemconstantValueSetRef [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
@@ -170,6 +168,7 @@ class SwSystemconstValue(ARObject):
             Tags: vh.latestBindingTime=preCompileTime,
                 xml.sequenceOffset=20
     """
+
     # SwSystemconstValue method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getAnnotations               [x] impl  [ ] docstring  [ ] test
@@ -178,7 +177,6 @@ class SwSystemconstValue(ARObject):
     # [ ] setSwSystemconstRef          [x] impl  [ ] docstring  [ ] test
     # [ ] getValue                     [x] impl  [ ] docstring  [ ] test
     # [ ] setValue                     [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -214,14 +212,14 @@ class SwSystemconstValue(ARObject):
 
 class SwSystemconstantValueSet(Identifiable):
     """
-        This meta-class represents the ability to specify a set of system constant values.
-        Tags: atp.recommendedPackage=SwSystemconstantValueSets
+    This meta-class represents the ability to specify a set of system constant values.
+    Tags: atp.recommendedPackage=SwSystemconstantValueSets
     """
+
     # SwSystemconstantValueSet method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] addSwSystemconstantValue     [x] impl  [x] docstring  [ ] test
     # [ ] getSwSystemconstantValues    [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
@@ -271,13 +269,13 @@ class PostBuildVariantCondition(ARObject):
         value (Integer): The particular value of the post-build variant
             criterion. (Multiplicity: 1)
     """
+
     # PostBuildVariantCondition method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getMatchingCriterion         [x] impl  [x] docstring  [ ] test
     # [ ] setMatchingCriterion         [x] impl  [x] docstring  [ ] test
     # [ ] getValue                     [x] impl  [x] docstring  [ ] test
     # [ ] setValue                     [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -294,9 +292,7 @@ class PostBuildVariantCondition(ARObject):
         """
         return self.matchingCriterion
 
-    def setMatchingCriterion(
-        self, value: PostBuildVariantCriterion
-    ) -> "PostBuildVariantCondition":
+    def setMatchingCriterion(self, value: PostBuildVariantCriterion) -> "PostBuildVariantCondition":
         """
         Sets the matching criterion for this condition.
 
@@ -354,11 +350,11 @@ class ConditionByFormula(ARObject):
            time, all referenced system constants shall have a value.
            (Multiplicity: 1)
     """
+
     # ConditionByFormula method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getBindingTime               [x] impl  [x] docstring  [ ] test
     # [ ] setBindingTime               [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -374,9 +370,7 @@ class ConditionByFormula(ARObject):
         """
         return self.bindingTime
 
-    def setBindingTime(
-        self, value: "BindingTimeEnum"
-    ) -> "ConditionByFormula":
+    def setBindingTime(self, value: "BindingTimeEnum") -> "ConditionByFormula":
         """
         Sets the binding time for this condition.
 
@@ -435,6 +429,7 @@ class VariationPoint(ARObject):
             is 0..1 in order to support pure postBuild variants.
             (Multiplicity: 0..1)
     """
+
     # VariationPoint method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getDesc                      [x] impl  [x] docstring  [ ] test
@@ -451,7 +446,6 @@ class VariationPoint(ARObject):
     # [ ] setShortLabel                [x] impl  [x] docstring  [ ] test
     # [ ] getSwSyscond                 [x] impl  [x] docstring  [ ] test
     # [ ] setSwSyscond                 [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()
@@ -473,9 +467,7 @@ class VariationPoint(ARObject):
         """
         return self.desc
 
-    def setDesc(
-        self, value: MultiLanguageOverviewParagraph
-    ) -> "VariationPoint":
+    def setDesc(self, value: MultiLanguageOverviewParagraph) -> "VariationPoint":
         """
         Sets the description of this variation point.
 
@@ -499,9 +491,7 @@ class VariationPoint(ARObject):
         """
         return self.blueprintCondition
 
-    def setBlueprintCondition(
-        self, value: DocumentationBlock
-    ) -> "VariationPoint":
+    def setBlueprintCondition(self, value: DocumentationBlock) -> "VariationPoint":
         """
         Sets the blueprint condition documentation for this variation
         point.
@@ -525,9 +515,7 @@ class VariationPoint(ARObject):
         """
         return self.formalBlueprintCondition
 
-    def setFormalBlueprintCondition(
-        self, value: MlFormula
-    ) -> "VariationPoint":
+    def setFormalBlueprintCondition(self, value: MlFormula) -> "VariationPoint":
         """
         Sets the formal blueprint condition for this variation point.
 
@@ -541,9 +529,7 @@ class VariationPoint(ARObject):
             self.formalBlueprintCondition = value
         return self
 
-    def getPostBuildVariantConditions(
-        self
-    ) -> List["PostBuildVariantCondition"]:
+    def getPostBuildVariantConditions(self) -> List["PostBuildVariantCondition"]:
         """
         Gets the post-build variant conditions for this variation point.
 
@@ -552,9 +538,7 @@ class VariationPoint(ARObject):
         """
         return self.postBuildVariantConditions
 
-    def addPostBuildVariantCondition(
-        self, value: "PostBuildVariantCondition"
-    ) -> "VariationPoint":
+    def addPostBuildVariantCondition(self, value: "PostBuildVariantCondition") -> "VariationPoint":
         """
         Adds a post-build variant condition to this variation point.
 

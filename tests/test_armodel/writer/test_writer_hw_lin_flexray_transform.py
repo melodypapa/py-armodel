@@ -1,4 +1,5 @@
 """Tests for writer HW, Lin, Flexray, and transformation handlers."""
+
 import xml.etree.cElementTree as ET
 import pytest
 
@@ -339,9 +340,7 @@ class TestWriterTransmissionModeConditions:
         filter2.setDataFilterType(_literal("never"))
         cond2.setDataFilter(filter2)
         parent = _parent()
-        writer.setTransmissionModeConditions(
-            parent, "TRANSMISSION-MODE-CONDITIONS", [cond1, cond2]
-        )
+        writer.setTransmissionModeConditions(parent, "TRANSMISSION-MODE-CONDITIONS", [cond1, cond2])
         assert parent[0].tag == "TRANSMISSION-MODE-CONDITIONS"
         conditions = parent[0].findall("TRANSMISSION-MODE-CONDITION")
         assert len(conditions) == 2
@@ -350,9 +349,7 @@ class TestWriterTransmissionModeConditions:
 
     def test_setTransmissionModeConditions_empty(self, writer):
         parent = _parent()
-        writer.setTransmissionModeConditions(
-            parent, "TRANSMISSION-MODE-CONDITIONS", []
-        )
+        writer.setTransmissionModeConditions(parent, "TRANSMISSION-MODE-CONDITIONS", [])
         assert len(parent) == 0
 
 
@@ -464,9 +461,7 @@ class TestWriterTransmissionModeDeclaration:
         true_timing.setCyclicTiming(true_cyclic)
         decl.setTransmissionModeTrueTiming(true_timing)
         parent = _parent()
-        writer.setTransmissionModeDeclaration(
-            parent, "TRANSMISSION-MODE-DECLARATION", decl
-        )
+        writer.setTransmissionModeDeclaration(parent, "TRANSMISSION-MODE-DECLARATION", decl)
         assert parent[0].tag == "TRANSMISSION-MODE-DECLARATION"
         assert parent[0].find("TRANSMISSION-MODE-CONDITIONS") is not None
         assert parent[0].find("TRANSMISSION-MODE-FALSE-TIMING") is not None
@@ -474,9 +469,7 @@ class TestWriterTransmissionModeDeclaration:
 
     def test_setTransmissionModeDeclaration_none(self, writer):
         parent = _parent()
-        writer.setTransmissionModeDeclaration(
-            parent, "TRANSMISSION-MODE-DECLARATION", None
-        )
+        writer.setTransmissionModeDeclaration(parent, "TRANSMISSION-MODE-DECLARATION", None)
         assert len(parent) == 0
 
 
@@ -571,9 +564,7 @@ class TestWriterFlexrayCommunicationController:
         parent = _parent()
         writer.writeFlexrayCommunicationController(parent, controller)
         assert parent[0].tag == "FLEXRAY-COMMUNICATION-CONTROLLER"
-        cond = parent[0].find("FLEXRAY-COMMUNICATION-CONTROLLER-VARIANTS").find(
-            "FLEXRAY-COMMUNICATION-CONTROLLER-CONDITIONAL"
-        )
+        cond = parent[0].find("FLEXRAY-COMMUNICATION-CONTROLLER-VARIANTS").find("FLEXRAY-COMMUNICATION-CONTROLLER-CONDITIONAL")
         assert cond.find("ACCEPTED-STARTUP-RANGE") is not None
         assert cond.find("ALLOW-HALT-DUE-TO-CLOCK") is not None
         assert cond.find("ALLOW-PASSIVE-TO-ACTIVE") is not None
@@ -662,9 +653,7 @@ class TestWriterDataTransformationSet:
         writer.writeDataTransformationSetDataTransformations(parent, dtf_set)
         assert len(parent) == 0
 
-    def test_writeDataTransformationSetTransformationTechnologies_with_techs(
-        self, writer
-    ):
+    def test_writeDataTransformationSetTransformationTechnologies_with_techs(self, writer):
         pkg = _make_pkg()
         dtf_set = DataTransformationSet(pkg, "DtfSet")
         dtf_set.createTransformationTechnology("Tech1")
@@ -708,6 +697,7 @@ class TestWriterBufferProperties:
             CompuConst,
             CompuConstTextContent,
         )
+
         computation = CompuScale()
         computation.setShortLabel(_literal("scale"))
         contents = CompuScaleConstantContents()
@@ -802,9 +792,7 @@ class TestWriterTransformationDescription:
 
 
 class TestWriterTransformationTechnology:
-    def test_writeTransformationTechnologyTransformationDescriptions_with_e2e(
-        self, writer
-    ):
+    def test_writeTransformationTechnologyTransformationDescriptions_with_e2e(self, writer):
         pkg = _make_pkg()
         dtf_set = DataTransformationSet(pkg, "DtfSet")
         tech = dtf_set.createTransformationTechnology("Tech")

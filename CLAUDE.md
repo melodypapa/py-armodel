@@ -146,9 +146,12 @@ Or using npm scripts:
 
 ### Linting
 - `npm run flake8` - Run syntax checks (E9, F63, F7, F82)
+- `npm run black-check` - Check code formatting with Black (200 character line length)
+- `npm run black` - Format code with Black (200 character line length)
 - CI also runs complexity checks: `--max-complexity=10 --max-line-length=127`
 - Project uses 79-character line length (per PEP 8), not 127 (127 is just for CI warnings)
 - **Exclude build/ from lint** - Contains generated code
+- Black formatter configured with 200 character maximum line length
 
 ### Building
 - `python -m build` - Create source and wheel distributions
@@ -432,7 +435,7 @@ Tests in `tests/test_armodel/` mirror the source structure. Sample ARXML files i
 ## Dependencies
 
 **Runtime:** colorama, openpyxl, lxml
-**Development:** pytest, pytest-cov, flake8, sphinx
+**Development:** pytest, pytest-cov, flake8, black, sphinx
 
 ## Key AUTOSAR API Methods
 

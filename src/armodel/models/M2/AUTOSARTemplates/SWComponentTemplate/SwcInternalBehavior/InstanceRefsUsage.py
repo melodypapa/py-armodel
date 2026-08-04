@@ -9,11 +9,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 
+
 class ArVariableInImplementationDataInstanceRef(ARObject):
     """
     A reference to an AUTOSAR variable in the context of an implementation
     data type instance.
     """
+
     # ArVariableInImplementationDataInstanceRef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getContextDataPrototypeRefs  [x] impl  [x] docstring  [ ] test
@@ -25,14 +27,13 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
     # [ ] getTargetDataPrototypeRef    [x] impl  [x] docstring  [ ] test
     # [ ] setTargetDataPrototypeRef    [x] impl  [x] docstring  [ ] test
 
-
     def __init__(self):
         super().__init__()
 
-        self.contextDataPrototypeRefs: List['RefType'] = []
-        self.portPrototypeRef: 'RefType' = None
-        self.rootVariableDataPrototypeRef: 'RefType' = None
-        self.targetDataPrototypeRef: 'RefType' = None
+        self.contextDataPrototypeRefs: List["RefType"] = []
+        self.portPrototypeRef: "RefType" = None
+        self.rootVariableDataPrototypeRef: "RefType" = None
+        self.targetDataPrototypeRef: "RefType" = None
 
     def getContextDataPrototypeRefs(self):
         """
@@ -122,11 +123,13 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
         self.targetDataPrototypeRef = value
         return self
 
+
 class VariableInAtomicSWCTypeInstanceRef(AtpInstanceRef):
     """
     A reference to a variable data prototype in the context of an atomic
     software component type instance.
     """
+
     # VariableInAtomicSWCTypeInstanceRef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getBaseRef                   [x] impl  [x] docstring  [ ] test
@@ -140,15 +143,14 @@ class VariableInAtomicSWCTypeInstanceRef(AtpInstanceRef):
     # [ ] getTargetDataPrototypeRef    [x] impl  [x] docstring  [ ] test
     # [ ] setTargetDataPrototypeRef    [x] impl  [x] docstring  [ ] test
 
-
     def __init__(self):
         super().__init__()
 
-        self.baseRef: 'RefType' = None
-        self.contextDataPrototypeRefs: List['RefType'] = []
-        self.portPrototypeRef: 'RefType' = None
-        self.rootVariableDataPrototypeRef: 'RefType' = None
-        self.targetDataPrototypeRef: 'RefType' = None
+        self.baseRef: "RefType" = None
+        self.contextDataPrototypeRefs: List["RefType"] = []
+        self.portPrototypeRef: "RefType" = None
+        self.rootVariableDataPrototypeRef: "RefType" = None
+        self.targetDataPrototypeRef: "RefType" = None
 
     def getBaseRef(self):
         """
@@ -259,13 +261,14 @@ class VariableInAtomicSWCTypeInstanceRef(AtpInstanceRef):
         """
         self.targetDataPrototypeRef = value
         return self
-    
+
 
 class ParameterInAtomicSWCTypeInstanceRef(AtpInstanceRef):
     """
     A reference to a parameter data prototype in the context of an atomic
     software component type instance.
     """
+
     # ParameterInAtomicSWCTypeInstanceRef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getBaseRef                   [x] impl  [x] docstring  [ ] test
@@ -279,15 +282,14 @@ class ParameterInAtomicSWCTypeInstanceRef(AtpInstanceRef):
     # [ ] getTargetDataPrototypeRef    [x] impl  [x] docstring  [ ] test
     # [ ] setTargetDataPrototypeRef    [x] impl  [x] docstring  [ ] test
 
-
     def __init__(self):
         super().__init__()
 
-        self.baseRef: 'RefType' = None
-        self.contextDataPrototypeRef: 'RefType' = None
-        self.portPrototypeRef: 'RefType' = None
-        self.rootParameterDataPrototypeRef: 'RefType' = None
-        self.targetDataPrototypeRef: 'RefType' = None
+        self.baseRef: "RefType" = None
+        self.contextDataPrototypeRef: "RefType" = None
+        self.portPrototypeRef: "RefType" = None
+        self.rootParameterDataPrototypeRef: "RefType" = None
+        self.targetDataPrototypeRef: "RefType" = None
 
     def getBaseRef(self):
         """
@@ -404,6 +406,7 @@ class AutosarParameterRef(ARObject):
     """
     A reference to an AUTOSAR parameter.
     """
+
     # AutosarParameterRef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getAutosarParameterIRef      [x] impl  [x] docstring  [ ] test
@@ -411,12 +414,11 @@ class AutosarParameterRef(ARObject):
     # [ ] getLocalParameterRef         [x] impl  [x] docstring  [ ] test
     # [ ] setLocalParameterRef         [x] impl  [x] docstring  [ ] test
 
-
     def __init__(self):
         super().__init__()
 
-        self.autosarParameterIRef: 'ParameterInAtomicSWCTypeInstanceRef' = None
-        self.localParameterRef: 'RefType' = None
+        self.autosarParameterIRef: "ParameterInAtomicSWCTypeInstanceRef" = None
+        self.localParameterRef: "RefType" = None
 
     def getAutosarParameterIRef(self):
         """

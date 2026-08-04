@@ -7,12 +7,14 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Referrable
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
 
+
 class SocketConnection(Describable):
     """
     Represents a socket connection in the Ethernet communication system,
     defining properties for TCP/IP communication including IP addresses,
     ports, PDU handling, and timeout configurations for network connections.
     """
+
     # SocketConnection method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getAllowedIPv6ExtHeadersRef  [x] impl  [ ] docstring  [ ] test
@@ -69,7 +71,7 @@ class SocketConnection(Describable):
     def setAllowedTcpOptionsRef(self, value):
         self.allowedTcpOptionsRef = value
         return self
-    
+
     def getClientIpAddrFromConnectionRequest(self):
         return self.clientIpAddrFromConnectionRequest
 
@@ -90,7 +92,7 @@ class SocketConnection(Describable):
     def setClientPortFromConnectionRequest(self, value):
         self.clientPortFromConnectionRequest = value
         return self
-    
+
     def getPdus(self):
         return self.pdus
 
@@ -147,6 +149,7 @@ class SocketConnectionIpduIdentifier(ARObject):
     defining header IDs, timeout values, collection semantics, and references
     to PDUs and triggering mechanisms for Ethernet communication.
     """
+
     # SocketConnectionIpduIdentifier method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getHeaderId                  [x] impl  [ ] docstring  [ ] test
@@ -174,7 +177,6 @@ class SocketConnectionIpduIdentifier(ARObject):
         self.PduRef: RefType = None
         self.pduTriggeringRef: RefType = None
         self.routingGroupRefs: List[RefType] = []
-
 
     def getHeaderId(self):
         return self.headerId
@@ -225,12 +227,14 @@ class SocketConnectionIpduIdentifier(ARObject):
         self.routingGroupRefs = value
         return self
 
+
 class SocketConnectionBundle(Referrable):
     """
     Groups multiple socket connections into a bundle for managing related
     Ethernet communications, including differentiated services, flow labels,
     and UDP checksum handling configurations.
     """
+
     # SocketConnectionBundle method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getBundledConnections        [x] impl  [ ] docstring  [ ] test
@@ -257,7 +261,7 @@ class SocketConnectionBundle(Referrable):
         self.pathMtuDiscoveryEnabled: Boolean = None
         self.pdus: List[SocketConnectionIpduIdentifier] = []
         self.serverPortRef: RefType = None
-        self.udpChecksumHandling = None                                                           # type: UdpChecksumCalculationEnum
+        self.udpChecksumHandling = None  # type: UdpChecksumCalculationEnum
 
     def getBundledConnections(self):
         return self.bundledConnections
@@ -308,12 +312,14 @@ class SocketConnectionBundle(Referrable):
         self.udpChecksumHandling = value
         return self
 
+
 class SoAdRoutingGroup(FibexElement):
     """
     Defines a routing group for the Socket Adaptor (SoAd) module,
     specifying how Ethernet communication is organized and controlled
     within the AUTOSAR communication system.
     """
+
     # SoAdRoutingGroup method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getEventGroupControlType     [x] impl  [ ] docstring  [ ] test
@@ -322,7 +328,7 @@ class SoAdRoutingGroup(FibexElement):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.eventGroupControlType = None     # type: EventGroupControlTypeEnum
+        self.eventGroupControlType = None  # type: EventGroupControlTypeEnum
 
     def getEventGroupControlType(self):
         return self.eventGroupControlType

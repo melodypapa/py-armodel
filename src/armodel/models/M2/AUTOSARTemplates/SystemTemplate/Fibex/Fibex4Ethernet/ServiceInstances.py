@@ -9,6 +9,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnectionBundle
 
+
 class TransportProtocolConfiguration(ARObject, ABC):
     """
     Abstract base class for transport protocol configurations,
@@ -16,14 +17,16 @@ class TransportProtocolConfiguration(ARObject, ABC):
     transport protocols (TCP, UDP, etc.) used in service-oriented
     communication.
     """
+
     # TransportProtocolConfiguration method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
     def __init__(self):
         if type(self) is TransportProtocolConfiguration:
             raise TypeError("TransportProtocolConfiguration is an abstract class.")
-        
+
         super().__init__()
+
 
 class GenericTp(TransportProtocolConfiguration):
     """
@@ -31,6 +34,7 @@ class GenericTp(TransportProtocolConfiguration):
     including address and technology specifications for custom
     transport protocol implementations.
     """
+
     # GenericTp method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getTpAddress                 [x] impl  [ ] docstring  [ ] test
@@ -65,14 +69,16 @@ class TcpUdpConfig(TransportProtocolConfiguration, ABC):
     defining common properties for both connection-oriented and
     connectionless transport protocols.
     """
+
     # TcpUdpConfig method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
     def __init__(self):
         if type(self) is TcpUdpConfig:
             raise TypeError("TcpUdpConfig is an abstract class.")
-        
+
         super().__init__()
+
 
 class TpPort(ARObject):
     """
@@ -80,6 +86,7 @@ class TpPort(ARObject):
     port number and dynamic assignment capabilities for network
     communication endpoints.
     """
+
     # TpPort method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getDynamicallyAssigned       [x] impl  [ ] docstring  [ ] test
@@ -114,6 +121,7 @@ class UdpTp(TcpUdpConfig):
     specifying UDP-specific port configuration for unreliable but fast
     datagram-based communication services.
     """
+
     # UdpTp method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getUdpTpPort                 [x] impl  [ ] docstring  [ ] test
@@ -138,6 +146,7 @@ class TcpTp(TcpUdpConfig):
     specifying TCP-specific properties such as keep-alive settings, retransmission
     timeouts, and flow control parameters for reliable connection-oriented communication.
     """
+
     # TcpTp method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getKeepAliveInterval         [x] impl  [ ] docstring  [ ] test
@@ -224,13 +233,15 @@ class TcpTp(TcpUdpConfig):
     def setTcpTpPort(self, value):
         self.tcpTpPort = value
         return self
-    
+
+
 class AbstractServiceInstance(Identifiable, ABC):
     """
     Abstract base class for service instances, defining common properties
     for both consumed and provided services in the AUTOSAR service-oriented
     architecture.
     """
+
     # AbstractServiceInstance method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getCapabilityRecords         [x] impl  [ ] docstring  [ ] test
@@ -248,10 +259,10 @@ class AbstractServiceInstance(Identifiable, ABC):
 
         super().__init__(parent, short_name)
 
-        self.capabilityRecords = []                                     # type: List[TagWithOptionalValue]
-        self.majorVersion = None                                        # type: PositiveInteger
-        self.methodActivationRoutingGroup = None                        # type: PduActivationRoutingGroup
-        self.routingGroupRefs = []                                      # type: List[RefType]
+        self.capabilityRecords = []  # type: List[TagWithOptionalValue]
+        self.majorVersion = None  # type: PositiveInteger
+        self.methodActivationRoutingGroup = None  # type: PduActivationRoutingGroup
+        self.routingGroupRefs = []  # type: List[RefType]
 
     def getCapabilityRecords(self):
         return self.capabilityRecords
@@ -284,13 +295,15 @@ class AbstractServiceInstance(Identifiable, ABC):
         if value is not None:
             self.routingGroupRefs.append(value)
         return self
-    
+
+
 class ConsumedEventGroup(Identifiable):
     """
     Defines a consumed event group for service-oriented communication,
     specifying how events are consumed by service clients including
     application endpoint references and event group identifiers.
     """
+
     # ConsumedEventGroup method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getApplicationEndpointRef    [x] impl  [ ] docstring  [ ] test
@@ -404,6 +417,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
     architecture, defining how services are consumed by clients including
     provider references, service identifiers, and client configuration.
     """
+
     # ConsumedServiceInstance method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getAllowedServiceProviderRefs [x] impl  [ ] docstring  [ ] test
@@ -451,7 +465,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         self.sdClientConfig = None
         self.sdClientTimerConfigRef: RefType = None
         self.serviceIdentifier: PositiveInteger = None
-        self.versionDrivenFindBehavior = None     
+        self.versionDrivenFindBehavior = None
 
     def getAllowedServiceProviderRefs(self):
         return self.allowedServiceProviderRefs
@@ -566,13 +580,15 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         if value is not None:
             self.versionDrivenFindBehavior = value
         return self
-    
+
+
 class InitialSdDelayConfig(ARObject):
     """
     Configures initial delay parameters for Service Discovery (SD)
     operations, defining the timing behavior for initial service
     discovery attempts and repetitions.
     """
+
     # InitialSdDelayConfig method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getInitialDelayMaxValue      [x] impl  [ ] docstring  [ ] test
@@ -624,13 +640,14 @@ class InitialSdDelayConfig(ARObject):
             self.initialRepetitionsMax = value
         return self
 
-    
+
 class SdServerConfig(ARObject):
     """
     Configures Service Discovery (SD) server properties, specifying
     service advertisement behavior, timing parameters, and version
     information for service providers in the network.
     """
+
     # SdServerConfig method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getCapabilityRecords         [x] impl  [ ] docstring  [ ] test
@@ -651,13 +668,13 @@ class SdServerConfig(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.capabilityRecords = []                                     # type: List[TagWithOptionalValue]
-        self.initialOfferBehavior = None                                # type: InitialSdDelayConfig
-        self.offerCyclicDelay = None                                    # type: TimeValue
-        self.requestResponseDelay = None                                # type: RequestResponseDelay
-        self.serverServiceMajorVersion = None                           # type: PositiveInteger
-        self.serverServiceMinorVersion = None                           # type: PositiveInteger
-        self.ttl = None                                                 # type: PositiveInteger
+        self.capabilityRecords = []  # type: List[TagWithOptionalValue]
+        self.initialOfferBehavior = None  # type: InitialSdDelayConfig
+        self.offerCyclicDelay = None  # type: TimeValue
+        self.requestResponseDelay = None  # type: RequestResponseDelay
+        self.serverServiceMajorVersion = None  # type: PositiveInteger
+        self.serverServiceMinorVersion = None  # type: PositiveInteger
+        self.ttl = None  # type: PositiveInteger
 
     def getCapabilityRecords(self):
         return self.capabilityRecords
@@ -715,13 +732,14 @@ class SdServerConfig(ARObject):
             self.ttl = value
         return self
 
-    
+
 class EventHandler(Identifiable):
     """
     Defines an event handler for service-oriented communication,
     specifying how events are processed by service providers including
     application endpoint references and service discovery configuration.
     """
+
     # EventHandler method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getApplicationEndpointRef    [x] impl  [ ] docstring  [ ] test
@@ -791,6 +809,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     architecture, defining how services are provided to clients including
     service identifiers, instance identifiers, and server configuration.
     """
+
     # ProvidedServiceInstance method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getEventHandlers             [x] impl  [ ] docstring  [ ] test
@@ -816,7 +835,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
     def getEventHandlers(self):
         return self.eventHandlers
 
-    def createEventHandler(self, short_name:str) -> EventHandler:
+    def createEventHandler(self, short_name: str) -> EventHandler:
         if short_name not in self.elements:
             instance = EventHandler(self, short_name)
             self.addElement(instance)
@@ -862,6 +881,7 @@ class ApplicationEndpoint(Identifiable):
     specifying the interface between applications and the service
     infrastructure including network endpoint references and service instances.
     """
+
     # ApplicationEndpoint method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getConsumedServiceInstances  [x] impl  [ ] docstring  [ ] test
@@ -893,7 +913,7 @@ class ApplicationEndpoint(Identifiable):
     def getConsumedServiceInstances(self):
         return self.consumedServiceInstances
 
-    def createConsumedServiceInstance(self, short_name:str) -> ConsumedServiceInstance:
+    def createConsumedServiceInstance(self, short_name: str) -> ConsumedServiceInstance:
         if short_name not in self.elements:
             instance = ConsumedServiceInstance(self, short_name)
             self.addElement(instance)
@@ -924,13 +944,13 @@ class ApplicationEndpoint(Identifiable):
     def getProvidedServiceInstances(self):
         return self.providedServiceInstances
 
-    def createProvidedServiceInstance(self, short_name:str) -> ProvidedServiceInstance:
+    def createProvidedServiceInstance(self, short_name: str) -> ProvidedServiceInstance:
         if short_name not in self.elements:
             instance = ProvidedServiceInstance(self, short_name)
             self.addElement(instance)
             self.providedServiceInstances.append(instance)
         return self.getElement(short_name)
-    
+
     def getTlsCryptoMappingRef(self):
         return self.tlsCryptoMappingRef
 
@@ -945,12 +965,14 @@ class ApplicationEndpoint(Identifiable):
         self.tpConfiguration = value
         return self
 
+
 class SocketAddress(Identifiable):
     """
     Defines a socket address for network communication, specifying
     port addresses, connection properties, and socket configuration
     for TCP/IP communication endpoints.
     """
+
     # SocketAddress method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getAllowedIPv6ExtHeadersRef  [x] impl  [ ] docstring  [ ] test
@@ -1014,7 +1036,7 @@ class SocketAddress(Identifiable):
     def getApplicationEndpoint(self):
         return self.applicationEndpoint
 
-    def createApplicationEndpoint(self, short_name:str) -> ApplicationEndpoint:
+    def createApplicationEndpoint(self, short_name: str) -> ApplicationEndpoint:
         end_point = ApplicationEndpoint(self, short_name)
         self.applicationEndpoint = end_point
         return end_point
@@ -1067,7 +1089,7 @@ class SocketAddress(Identifiable):
     def setPduCollectionTimeout(self, value):
         self.pduCollectionTimeout = value
         return self
-    
+
     def getPortAddress(self):
         return self.portAddress
 
@@ -1089,12 +1111,14 @@ class SocketAddress(Identifiable):
         self.udpChecksumHandling = value
         return self
 
+
 class SoAdConfig(ARObject):
     """
     Defines Socket Adaptor (SoAd) configuration, specifying socket
     connections, connection bundles, and socket address configurations
     for TCP/IP communication management in AUTOSAR systems.
     """
+
     # SoAdConfig method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getConnections               [x] impl  [ ] docstring  [ ] test
@@ -1108,9 +1132,9 @@ class SoAdConfig(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.connections = []                                                   # type: List[SocketConnection]
-        self.connectionBundles = []                                             # type: List[SocketConnectionBundle]
-        self.socketAddresses = []                                               # type: List[SocketAddress]
+        self.connections = []  # type: List[SocketConnection]
+        self.connectionBundles = []  # type: List[SocketConnectionBundle]
+        self.socketAddresses = []  # type: List[SocketAddress]
 
     def getConnections(self):
         return self.connections
@@ -1121,8 +1145,8 @@ class SoAdConfig(ARObject):
 
     def getConnectionBundles(self):
         return self.connectionBundles
-    
-    def createSocketConnectionBundle(self, short_name:str) -> SocketConnectionBundle:
+
+    def createSocketConnectionBundle(self, short_name: str) -> SocketConnectionBundle:
         bundle = SocketConnectionBundle(self, short_name)
         self.connectionBundles.append(bundle)
         return bundle
@@ -1134,7 +1158,7 @@ class SoAdConfig(ARObject):
     def getSocketAddresses(self):
         return self.socketAddresses
 
-    def createSocketAddress(self, short_name:str) -> SocketAddress:
+    def createSocketAddress(self, short_name: str) -> SocketAddress:
         address = SocketAddress(self, short_name)
         self.socketAddresses.append(address)
         return address

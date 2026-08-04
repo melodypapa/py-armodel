@@ -25,4 +25,4 @@ class TestSystemTemplate:
         output_file.parent.mkdir(parents=True, exist_ok=True)
         writer.save(str(output_file), document)
 
-        assert (filecmp.cmp(str(test_file), str(output_file), shallow=False) is True)
+        assert filecmp.cmp(str(test_file), str(output_file), shallow=False) is True

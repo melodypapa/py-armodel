@@ -38,8 +38,8 @@ class TestRteEVent:
                 </SWC-INTERNAL-BEHAVIOR>
               </INTERNAL-BEHAVIORS>
             </APPLICATION-SW-COMPONENT-TYPE>
-        """ # noqa E501
-        
+        """  # noqa E501
+
         # prepare the XML content
         element = ET.fromstring(xml_content)
         document = AUTOSARDoc()
@@ -107,8 +107,8 @@ class TestRteEVent:
                 </SWC-INTERNAL-BEHAVIOR>
               </INTERNAL-BEHAVIORS>
             </APPLICATION-SW-COMPONENT-TYPE>
-        """ # noqa E501
-        
+        """  # noqa E501
+
         # prepare the XML content
         element = ET.fromstring(xml_content)
         document = AUTOSARDoc()

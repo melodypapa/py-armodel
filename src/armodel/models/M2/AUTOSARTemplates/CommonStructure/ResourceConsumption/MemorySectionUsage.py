@@ -8,11 +8,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, RefType
 from typing import List
 
+
 class MemorySection(Identifiable):
     """
     Represents a memory section in AUTOSAR models.
     This class defines memory section properties including alignment, size, and addressing methods.
     """
+
     # MemorySection method parity checklist:
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [ ] getAlignment                 [x] impl  [x] docstring  [ ] test
@@ -30,11 +32,10 @@ class MemorySection(Identifiable):
     # [x] addOption                    [x] impl  [x] docstring  [x] test
     # [ ] getOptions                   [x] impl  [x] docstring  [ ] test
 
-    
     def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the MemorySection with a parent and short name.
-        
+
         Args:
             parent: The parent ARObject that contains this memory section
             short_name: The unique short name of this memory section
@@ -42,22 +43,22 @@ class MemorySection(Identifiable):
         super().__init__(parent, short_name)
 
         # Private alignment value for this memory section
-        self._alignment: ARLiteral = None              
+        self._alignment: ARLiteral = None
         # Memory class symbol for this memory section
-        self.memClassSymbol: ARLiteral = None          
+        self.memClassSymbol: ARLiteral = None
         # Size of this memory section
         self.size = None
         # List of options for this memory section
-        self.options: List[ARLiteral] = []                   
+        self.options: List[ARLiteral] = []
         # Reference to the software address method for this memory section
-        self.swAddrMethodRef: RefType = None         
+        self.swAddrMethodRef: RefType = None
         # Symbol name for this memory section
-        self.symbol: ARLiteral = None                  
+        self.symbol: ARLiteral = None
 
     def getAlignment(self):
         """
         Gets the alignment value for this memory section through the property getter.
-        
+
         Returns:
             ARLiteral: Alignment value
         """
@@ -66,20 +67,20 @@ class MemorySection(Identifiable):
     def setAlignment(self, value):
         """
         Sets the alignment value for this memory section through the property setter.
-        
+
         Args:
             value: The alignment value to set
-            
+
         Returns:
             self for method chaining
         """
         self.alignment = value
         return self
-    
+
     def getMemClassSymbol(self):
         """
         Gets the memory class symbol for this memory section.
-        
+
         Returns:
             ARLiteral: Memory class symbol
         """
@@ -88,10 +89,10 @@ class MemorySection(Identifiable):
     def setMemClassSymbol(self, value):
         """
         Sets the memory class symbol for this memory section.
-        
+
         Args:
             value: The memory class symbol to set
-            
+
         Returns:
             self for method chaining
         """
@@ -101,7 +102,7 @@ class MemorySection(Identifiable):
     def getSize(self):
         """
         Gets the size of this memory section.
-        
+
         Returns:
             Size value of the memory section
         """
@@ -110,10 +111,10 @@ class MemorySection(Identifiable):
     def setSize(self, value):
         """
         Sets the size of this memory section.
-        
+
         Args:
             value: The size value to set
-            
+
         Returns:
             self for method chaining
         """
@@ -123,7 +124,7 @@ class MemorySection(Identifiable):
     def getSwAddrMethodRef(self):
         """
         Gets the reference to the software address method for this memory section.
-        
+
         Returns:
             RefType: Reference to the software address method
         """
@@ -132,10 +133,10 @@ class MemorySection(Identifiable):
     def setSwAddrMethodRef(self, value):
         """
         Sets the reference to the software address method for this memory section.
-        
+
         Args:
             value: The reference to the software address method to set
-            
+
         Returns:
             self for method chaining
         """
@@ -145,7 +146,7 @@ class MemorySection(Identifiable):
     def getSymbol(self):
         """
         Gets the symbol name for this memory section.
-        
+
         Returns:
             ARLiteral: Symbol name
         """
@@ -154,10 +155,10 @@ class MemorySection(Identifiable):
     def setSymbol(self, value):
         """
         Sets the symbol name for this memory section.
-        
+
         Args:
             value: The symbol name to set
-            
+
         Returns:
             self for method chaining
         """
@@ -168,7 +169,7 @@ class MemorySection(Identifiable):
     def alignment(self) -> ARLiteral:
         """
         Gets the alignment value for this memory section.
-        
+
         Returns:
             ARLiteral: Alignment value
         """
@@ -179,11 +180,11 @@ class MemorySection(Identifiable):
         """
         Sets the alignment value for this memory section with validation.
         Note: The validation code is commented out but kept for reference.
-        
+
         Args:
             value: The alignment value to set
         """
-        r'''
+        r"""
         if value is not None and value.getValue() != "":
             match = False
             if value.getValue() in ("UNKNOWN", "UNSPECIFIED", "BOOLEAN", "PTR"):
@@ -197,14 +198,14 @@ class MemorySection(Identifiable):
 
             if not match:
                 raise ValueError("Invalid alignment <%s> of memory section <%s>" % (value, self.getShortName()))
-        '''
+        """
         if value is not None:
             self._alignment = value
 
     def addOption(self, option: ARLiteral):
         """
         Adds an option to the list of options for this memory section.
-        
+
         Args:
             option: The option to add
         """
@@ -213,7 +214,7 @@ class MemorySection(Identifiable):
     def getOptions(self) -> List[ARLiteral]:
         """
         Gets the list of options for this memory section.
-        
+
         Returns:
             List of ARLiteral options
         """
@@ -225,11 +226,11 @@ class SectionNamePrefix(ARObject):
     Represents a section name prefix in AUTOSAR memory section usage.
     Defines a prefix for memory section names.
     """
+
     # SectionNamePrefix method parity checklist:
     # [ ] __init__                     [x] impl  [x] docstring  [ ] test
     # [ ] getPrefix                    [x] impl  [x] docstring  [ ] test
     # [ ] setPrefix                    [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self):
         """

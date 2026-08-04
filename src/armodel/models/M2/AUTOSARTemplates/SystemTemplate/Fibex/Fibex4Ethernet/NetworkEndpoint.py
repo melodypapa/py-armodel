@@ -7,27 +7,31 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Ip4AddressString, Ip6AddressString, PositiveInteger, String, TimeValue
 
+
 class NetworkEndpointAddress(ARObject, ABC):
     """
     Abstract base class for network endpoint addresses, defining the
     common properties and behavior for different types of network
     addresses (IPv4, IPv6, etc.) used in AUTOSAR communication.
     """
+
     # NetworkEndpointAddress method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
     def __init__(self):
         if type(self) is NetworkEndpointAddress:
             raise TypeError("NetworkEndpointAddress is an abstract class.")
-        
+
         super().__init__()
-        
+
+
 class Ipv4Configuration(NetworkEndpointAddress):
     """
     Defines IPv4 network configuration properties for a network endpoint,
     including IP addresses, network masks, DNS server addresses, and
     TTL settings for IPv4 communication.
     """
+
     # Ipv4Configuration method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getAssignmentPriority        [x] impl  [ ] docstring  [ ] test
@@ -114,13 +118,15 @@ class Ipv4Configuration(NetworkEndpointAddress):
     def setTtl(self, value):
         self.ttl = value
         return self
-    
+
+
 class Ipv6Configuration(NetworkEndpointAddress):
     """
     Defines IPv6 network configuration properties for a network endpoint,
     including IPv6 addresses, default router, DNS server addresses,
     and IPv6-specific communication parameters.
     """
+
     # Ipv6Configuration method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getAssignmentPriority        [x] impl  [ ] docstring  [ ] test
@@ -217,13 +223,15 @@ class Ipv6Configuration(NetworkEndpointAddress):
     def setIpv6AddressSource(self, value):
         self.ipv6AddressSource = value
         return self
-    
+
+
 class DoIpEntity(ARObject):
     """
     Defines properties for a DoIP (Diagnostics over IP) entity,
     specifying the role and behavior of DoIP-enabled devices in
     the network for diagnostic communication purposes.
     """
+
     # DoIpEntity method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getDoIpEntityRole            [x] impl  [ ] docstring  [ ] test
@@ -232,7 +240,7 @@ class DoIpEntity(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.doIpEntityRole = None                                  # type: DoIpEntityRoleEnum
+        self.doIpEntityRole = None  # type: DoIpEntityRoleEnum
 
     def getDoIpEntityRole(self):
         return self.doIpEntityRole
@@ -241,13 +249,15 @@ class DoIpEntity(ARObject):
         if value is not None:
             self.doIpEntityRole = value
         return self
-    
+
+
 class TimeSyncClientConfiguration(ARObject):
     """
     Configures time synchronization client properties, defining
     ordered master relationships and time synchronization
     technology settings for network time coordination.
     """
+
     # TimeSyncClientConfiguration method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getOrderedMasters            [x] impl  [ ] docstring  [ ] test
@@ -259,7 +269,7 @@ class TimeSyncClientConfiguration(ARObject):
         super().__init__()
 
         self.orderedMasters = []
-        self.timeSyncTechnology = None                              # type: TimeSyncTechnologyEnum
+        self.timeSyncTechnology = None  # type: TimeSyncTechnologyEnum
 
     def getOrderedMasters(self):
         return self.orderedMasters
@@ -284,6 +294,7 @@ class TimeSyncServerConfiguration(Referrable):
     priority, synchronization intervals, and time synchronization
     identifiers for network time coordination services.
     """
+
     # TimeSyncServerConfiguration method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getPriority                  [x] impl  [ ] docstring  [ ] test
@@ -301,7 +312,7 @@ class TimeSyncServerConfiguration(Referrable):
         self.priority: PositiveInteger = None
         self.syncInterval: TimeValue = None
         self.timeSyncServerIdentifier: String = None
-        self.timeSyncTechnology = None                              # type: TimeSyncTechnologyEnum
+        self.timeSyncTechnology = None  # type: TimeSyncTechnologyEnum
 
     def getPriority(self):
         return self.priority
@@ -335,13 +346,14 @@ class TimeSyncServerConfiguration(Referrable):
             self.timeSyncTechnology = value
         return self
 
-    
+
 class TimeSynchronization(ARObject):
     """
     Defines time synchronization configuration for network entities,
     including both client and server configurations for coordinated
     timing across the AUTOSAR system network.
     """
+
     # TimeSynchronization method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getTimeSyncClient            [x] impl  [ ] docstring  [ ] test
@@ -378,6 +390,7 @@ class InfrastructureServices(ARObject):
     including DoIP capabilities and time synchronization services
     for network management and coordination.
     """
+
     # InfrastructureServices method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getDoIpEntity                [x] impl  [ ] docstring  [ ] test
@@ -405,12 +418,14 @@ class InfrastructureServices(ARObject):
         self.timeSynchronization = value
         return self
 
+
 class NetworkEndpoint(Identifiable):
     """
     Represents a network endpoint in the AUTOSAR system, defining
     IP configuration, infrastructure services, and network address
     properties for communication nodes in the network.
     """
+
     # NetworkEndpoint method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getFullyQualifiedDomainName  [x] impl  [ ] docstring  [ ] test

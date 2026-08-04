@@ -1,4 +1,5 @@
 """Tests for writer ECUC values and variant handling methods."""
+
 import xml.etree.cElementTree as ET
 import pytest
 
@@ -100,18 +101,12 @@ def _make_systemconst():
 class TestWriterEcucValueCollectionEcucValues:
     def test_with_refs(self, writer):
         collection = _make_collection()
-        collection.addEcucValueRef(
-            _ref("/v1", "ECUC-MODULE-CONFIGURATION-VALUES")
-        )
-        collection.addEcucValueRef(
-            _ref("/v2", "ECUC-MODULE-CONFIGURATION-VALUES")
-        )
+        collection.addEcucValueRef(_ref("/v1", "ECUC-MODULE-CONFIGURATION-VALUES"))
+        collection.addEcucValueRef(_ref("/v2", "ECUC-MODULE-CONFIGURATION-VALUES"))
         parent = _parent()
         writer.writeEcucValueCollectionEcucValues(parent, collection)
         assert parent[0].tag == "ECUC-VALUES"
-        conds = parent[0].findall(
-            "ECUC-MODULE-CONFIGURATION-VALUES-REF-CONDITIONAL"
-        )
+        conds = parent[0].findall("ECUC-MODULE-CONFIGURATION-VALUES-REF-CONDITIONAL")
         assert len(conds) == 2
         ref_el = conds[0].find("ECUC-MODULE-CONFIGURATION-VALUES-REF")
         assert ref_el is not None
@@ -127,9 +122,7 @@ class TestWriterEcucValueCollection:
     def test_full(self, writer):
         collection = _make_collection()
         collection.setEcuExtractRef(_ref("/ee", "ECU-EXTRACT"))
-        collection.addEcucValueRef(
-            _ref("/v", "ECUC-MODULE-CONFIGURATION-VALUES")
-        )
+        collection.addEcucValueRef(_ref("/v", "ECUC-MODULE-CONFIGURATION-VALUES"))
         parent = _parent()
         writer.writeEcucValueCollection(parent, collection)
         assert parent[0].tag == "ECUC-VALUE-COLLECTION"
@@ -284,9 +277,7 @@ class TestWriterEcucContainerValueReferenceValues:
 class TestWriterEcucContainValue:
     def test_full(self, writer):
         container = _make_container()
-        container.setDefinitionRef(
-            _ref("/d", "ECUC-PARAM-CONF-CONTAINER-DEF")
-        )
+        container.setDefinitionRef(_ref("/d", "ECUC-PARAM-CONF-CONTAINER-DEF"))
         textual = EcucTextualParamValue()
         textual.setValue(_literal("txt"))
         container.addParameterValue(textual)
@@ -417,9 +408,7 @@ class TestWriterSwSystemconstantValueSetSwSystemconstantValues:
         v2.setValue(_numerical(2))
         value_set.addSwSystemconstantValue(v2)
         parent = _parent()
-        writer.writeSwSystemconstantValueSetSwSystemconstantValues(
-            parent, value_set
-        )
+        writer.writeSwSystemconstantValueSetSwSystemconstantValues(parent, value_set)
         assert parent[0].tag == "SW-SYSTEMCONSTANT-VALUES"
         values = parent[0].findall("SW-SYSTEMCONST-VALUE")
         assert len(values) == 2
@@ -427,9 +416,7 @@ class TestWriterSwSystemconstantValueSetSwSystemconstantValues:
     def test_empty(self, writer):
         value_set = _make_value_set()
         parent = _parent()
-        writer.writeSwSystemconstantValueSetSwSystemconstantValues(
-            parent, value_set
-        )
+        writer.writeSwSystemconstantValueSetSwSystemconstantValues(parent, value_set)
         assert len(parent) == 0
 
 
@@ -457,12 +444,8 @@ class TestWriterSwSystemconstantValueSet:
 class TestWriterPredefinedVariantIncludedVariantRefs:
     def test_with_refs(self, writer):
         variant = _make_variant()
-        variant.addIncludedVariantRef(
-            _ref("/v1", "PREDEFINED-VARIANT")
-        )
-        variant.addIncludedVariantRef(
-            _ref("/v2", "PREDEFINED-VARIANT")
-        )
+        variant.addIncludedVariantRef(_ref("/v1", "PREDEFINED-VARIANT"))
+        variant.addIncludedVariantRef(_ref("/v2", "PREDEFINED-VARIANT"))
         parent = _parent()
         writer.writePredefinedVariantIncludedVariantRefs(parent, variant)
         assert parent[0].tag == "INCLUDED-VARIANT-REFS"
@@ -479,46 +462,28 @@ class TestWriterPredefinedVariantIncludedVariantRefs:
 class TestWriterPredefinedVariantPostBuildVariantCriterionValueSetRefs:
     def test_with_refs(self, writer):
         variant = _make_variant()
-        variant.addPostBuildVariantCriterionValueSetRef(
-            _ref("/pb1", "POST-BUILD-VARIANT-CRITERION-VALUE-SET")
-        )
-        variant.addPostBuildVariantCriterionValueSetRef(
-            _ref("/pb2", "POST-BUILD-VARIANT-CRITERION-VALUE-SET")
-        )
+        variant.addPostBuildVariantCriterionValueSetRef(_ref("/pb1", "POST-BUILD-VARIANT-CRITERION-VALUE-SET"))
+        variant.addPostBuildVariantCriterionValueSetRef(_ref("/pb2", "POST-BUILD-VARIANT-CRITERION-VALUE-SET"))
         parent = _parent()
-        writer.writePredefinedVariantPostBuildVariantCriterionValueSetRefs(
-            parent, variant
-        )
-        assert parent[0].tag == (
-            "POST-BUILD-VARIANT-CRITERION-VALUE-SET-REFS"
-        )
-        refs = parent[0].findall(
-            "POST-BUILD-VARIANT-CRITERION-VALUE-SET-REF"
-        )
+        writer.writePredefinedVariantPostBuildVariantCriterionValueSetRefs(parent, variant)
+        assert parent[0].tag == ("POST-BUILD-VARIANT-CRITERION-VALUE-SET-REFS")
+        refs = parent[0].findall("POST-BUILD-VARIANT-CRITERION-VALUE-SET-REF")
         assert len(refs) == 2
 
     def test_empty(self, writer):
         variant = _make_variant()
         parent = _parent()
-        writer.writePredefinedVariantPostBuildVariantCriterionValueSetRefs(
-            parent, variant
-        )
+        writer.writePredefinedVariantPostBuildVariantCriterionValueSetRefs(parent, variant)
         assert len(parent) == 0
 
 
 class TestWriterPredefinedVariantSwSystemconstantValueSetRefs:
     def test_with_refs(self, writer):
         variant = _make_variant()
-        variant.addSwSystemconstantValueSetRef(
-            _ref("/sv1", "SW-SYSTEMCONSTANT-VALUE-SET")
-        )
-        variant.addSwSystemconstantValueSetRef(
-            _ref("/sv2", "SW-SYSTEMCONSTANT-VALUE-SET")
-        )
+        variant.addSwSystemconstantValueSetRef(_ref("/sv1", "SW-SYSTEMCONSTANT-VALUE-SET"))
+        variant.addSwSystemconstantValueSetRef(_ref("/sv2", "SW-SYSTEMCONSTANT-VALUE-SET"))
         parent = _parent()
-        writer.writePredefinedVariantSwSystemconstantValueSetRefs(
-            parent, variant
-        )
+        writer.writePredefinedVariantSwSystemconstantValueSetRefs(parent, variant)
         assert parent[0].tag == "SW-SYSTEMCONSTANT-VALUE-SET-REFS"
         refs = parent[0].findall("SW-SYSTEMCONSTANT-VALUE-SET-REF")
         assert len(refs) == 2
@@ -526,35 +491,23 @@ class TestWriterPredefinedVariantSwSystemconstantValueSetRefs:
     def test_empty(self, writer):
         variant = _make_variant()
         parent = _parent()
-        writer.writePredefinedVariantSwSystemconstantValueSetRefs(
-            parent, variant
-        )
+        writer.writePredefinedVariantSwSystemconstantValueSetRefs(parent, variant)
         assert len(parent) == 0
 
 
 class TestWriterPredefinedVariant:
     def test_full(self, writer):
         variant = _make_variant()
-        variant.addIncludedVariantRef(
-            _ref("/iv", "PREDEFINED-VARIANT")
-        )
-        variant.addPostBuildVariantCriterionValueSetRef(
-            _ref("/pb", "POST-BUILD-VARIANT-CRITERION-VALUE-SET")
-        )
-        variant.addSwSystemconstantValueSetRef(
-            _ref("/sv", "SW-SYSTEMCONSTANT-VALUE-SET")
-        )
+        variant.addIncludedVariantRef(_ref("/iv", "PREDEFINED-VARIANT"))
+        variant.addPostBuildVariantCriterionValueSetRef(_ref("/pb", "POST-BUILD-VARIANT-CRITERION-VALUE-SET"))
+        variant.addSwSystemconstantValueSetRef(_ref("/sv", "SW-SYSTEMCONSTANT-VALUE-SET"))
         parent = _parent()
         writer.writePredefinedVariant(parent, variant)
         assert parent[0].tag == "PREDEFINED-VARIANT"
         assert parent[0].find("SHORT-NAME").text == "pv"
         assert parent[0].find("INCLUDED-VARIANT-REFS") is not None
-        assert parent[0].find(
-            "POST-BUILD-VARIANT-CRITERION-VALUE-SET-REFS"
-        ) is not None
-        assert parent[0].find(
-            "SW-SYSTEMCONSTANT-VALUE-SET-REFS"
-        ) is not None
+        assert parent[0].find("POST-BUILD-VARIANT-CRITERION-VALUE-SET-REFS") is not None
+        assert parent[0].find("SW-SYSTEMCONSTANT-VALUE-SET-REFS") is not None
 
     def test_minimal(self, writer):
         variant = _make_variant()
@@ -563,9 +516,5 @@ class TestWriterPredefinedVariant:
         assert parent[0].tag == "PREDEFINED-VARIANT"
         assert parent[0].find("SHORT-NAME").text == "pv"
         assert parent[0].find("INCLUDED-VARIANT-REFS") is None
-        assert parent[0].find(
-            "POST-BUILD-VARIANT-CRITERION-VALUE-SET-REFS"
-        ) is None
-        assert parent[0].find(
-            "SW-SYSTEMCONSTANT-VALUE-SET-REFS"
-        ) is None
+        assert parent[0].find("POST-BUILD-VARIANT-CRITERION-VALUE-SET-REFS") is None
+        assert parent[0].find("SW-SYSTEMCONSTANT-VALUE-SET-REFS") is None

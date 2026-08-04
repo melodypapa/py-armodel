@@ -1,12 +1,20 @@
 """Tests for writer network management handlers."""
+
 import xml.etree.cElementTree as ET
 import pytest
 from armodel.writer.arxml_writer import ARXMLWriter
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
-    ARBoolean, ARFloat, ARLiteral, ARNumerical, ARPositiveInteger,
-    Integer, PositiveInteger, RefType, TimeValue,
+    ARBoolean,
+    ARFloat,
+    ARLiteral,
+    ARNumerical,
+    ARPositiveInteger,
+    Integer,
+    PositiveInteger,
+    RefType,
+    TimeValue,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import (  # noqa: E501
     LinUnconditionalFrame,
@@ -15,8 +23,15 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommun
     RxIdentifierRange,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (  # noqa: E501
-    CanNmCluster, CanNmClusterCoupling, CanNmNode, NmConfig, NmEcu,
-    UdpNmCluster, UdpNmClusterCoupling, UdpNmEcu, UdpNmNode,
+    CanNmCluster,
+    CanNmClusterCoupling,
+    CanNmNode,
+    NmConfig,
+    NmEcu,
+    UdpNmCluster,
+    UdpNmClusterCoupling,
+    UdpNmEcu,
+    UdpNmNode,
 )
 
 
@@ -428,8 +443,7 @@ class TestWriteUdpNmEcu:
         parent = _parent()
         writer.writeUdpNmEcu(parent, ecu)
         assert parent.find("UDP-NM-ECU") is not None
-        assert parent.find("UDP-NM-ECU").find(
-            "NM-SYNCHRONIZATION-POINT-ENABLED") is not None
+        assert parent.find("UDP-NM-ECU").find("NM-SYNCHRONIZATION-POINT-ENABLED") is not None
 
 
 class TestWriteBusDependentNmEcus:

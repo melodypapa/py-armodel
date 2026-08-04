@@ -26,7 +26,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
     IPduSignalProcessingEnum,
     IPduPort,
     ISignalPort,
-    CommunicationConnector
+    CommunicationConnector,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -44,13 +44,13 @@ class MockParent(ARObject):
 
 class Test_FibexCoreTopology:
     """Test cases for FibexCore Topology classes."""
-    
+
     def test_CommunicationCycle(self):
         """Test CommunicationCycle abstract class functionality."""
         # Test that CommunicationCycle cannot be instantiated directly
         with pytest.raises(TypeError, match="CommunicationCycle is an abstract class"):
             CommunicationCycle()
-        
+
         # Test that a concrete subclass can be instantiated
         cycle = CycleCounter()
         assert isinstance(cycle, ARObject)
@@ -61,10 +61,10 @@ class Test_FibexCoreTopology:
         counter = CycleCounter()
 
         assert isinstance(counter, CommunicationCycle)
-        
+
         # Test default values
         assert counter.getCycleCounter() is None
-        
+
         # Test setter/getter methods with method chaining - with None
         assert counter == counter.setCycleCounter(None)  # Test method chaining with None
         assert counter.getCycleCounter() is None  # Should remain None
@@ -84,7 +84,7 @@ class Test_FibexCoreTopology:
         repetition = CycleRepetition()
 
         assert isinstance(repetition, CommunicationCycle)
-        
+
         # Test default values
         assert repetition.getBaseCycle() is None
         assert repetition.getCycleRepetition() is None
@@ -131,7 +131,7 @@ class Test_FibexCoreTopology:
         channel = LinPhysicalChannel(parent, "test_lin_physical_channel")
 
         assert isinstance(channel, PhysicalChannel)
-        
+
         # Test default values
         assert channel.getBusIdleTimeoutPeriod() is None
         assert channel.getScheduleTables() == []
@@ -157,10 +157,10 @@ class Test_FibexCoreTopology:
         config = VlanConfig(parent, "test_vlan_config")
 
         assert isinstance(config, Identifiable)
-        
+
         # Test default values
         assert config.getVlanIdentifier() is None
-        
+
         # Test setter/getter methods with method chaining - with None
         assert config == config.setVlanIdentifier(None)  # Test method chaining with None
         assert config.getVlanIdentifier() is None  # Should remain None
@@ -235,7 +235,7 @@ class Test_FibexCoreTopology:
         recovery = CanClusterBusOffRecovery()
 
         assert isinstance(recovery, ARObject)
-        
+
         # Test default values
         assert recovery.getBorCounterL1ToL2() is None
         assert recovery.getBorTimeL1() is None
@@ -391,13 +391,14 @@ class Test_FibexCoreTopology:
     def test_IPduSignalProcessingEnum(self):
         """Test IPduSignalProcessingEnum enum functionality."""
         # Check that both enum values exist
-        assert hasattr(IPduSignalProcessingEnum, 'ENUM_DEFERRED')
-        assert hasattr(IPduSignalProcessingEnum, 'ENUM_IMMEDIATE')
+        assert hasattr(IPduSignalProcessingEnum, "ENUM_DEFERRED")
+        assert hasattr(IPduSignalProcessingEnum, "ENUM_IMMEDIATE")
         assert IPduSignalProcessingEnum.ENUM_DEFERRED.value == "deferred"
         assert IPduSignalProcessingEnum.ENUM_IMMEDIATE.value == "immediate"
 
     def test_CommunicationController_methods(self):
         """Test CommunicationController concrete implementation methods."""
+
         class ConcreteCommunicationController(CommunicationController):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
@@ -530,6 +531,7 @@ class Test_FibexCoreTopology:
 
     def test_PhysicalChannel_methods(self):
         """Test PhysicalChannel concrete implementation methods."""
+
         class ConcretePhysicalChannel(PhysicalChannel):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
@@ -580,6 +582,7 @@ class Test_FibexCoreTopology:
 
     def test_CommunicationCluster_methods(self):
         """Test CommunicationCluster concrete implementation methods."""
+
         class ConcreteCommunicationCluster(CommunicationCluster):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
@@ -628,6 +631,7 @@ class Test_FibexCoreTopology:
 
     def test_CommunicationConnector_methods(self):
         """Test CommunicationConnector concrete implementation methods."""
+
         class ConcreteCommunicationConnector(CommunicationConnector):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)

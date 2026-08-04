@@ -8,6 +8,7 @@ class Traceable(Identifiable, ABC):
     """
     Abstract base class for traceable identifiable elements.
     """
+
     # Traceable method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 

@@ -567,6 +567,7 @@ class TestUnsupportedElement:
 
     def test_unsupported_tag_logs_in_warning_mode(self, parser, caplog):
         import logging
+
         parent = _make_parent()
         with caplog.at_level(logging.ERROR):
             _dispatch(parser, parent, _snip("TOTALLY-UNKNOWN-TAG", "U1"))
@@ -582,6 +583,7 @@ class TestLoadAndReadARPackages:
         bad = tmp_path / "bad.arxml"
         bad.write_text(f"<NOT-AUTOSAR xmlns='{NS}'></NOT-AUTOSAR>", encoding="utf-8")
         from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSARDoc
+
         document = AUTOSARDoc()
         with pytest.raises(ValueError, match="Invalid ARXML file"):
             strict_parser.load(str(bad), document)
@@ -589,6 +591,7 @@ class TestLoadAndReadARPackages:
     def test_readARPackages_unknown_child_tag_raises(self, strict_parser):
         # Manually invoke readARPackages with an unexpected child.
         import xml.etree.ElementTree as ET
+
         xml = f"<ROOT xmlns='{NS}'><AR-PACKAGES><TOTALLY-UNKNOWN/></AR-PACKAGES></ROOT>"
         root = ET.fromstring(xml)
         parent = _make_parent()
@@ -598,6 +601,7 @@ class TestLoadAndReadARPackages:
     def test_readARPackages_unknown_child_tag_warns(self, parser, caplog):
         import logging
         import xml.etree.ElementTree as ET
+
         xml = f"<ROOT xmlns='{NS}'><AR-PACKAGES><TOTALLY-UNKNOWN/></AR-PACKAGES></ROOT>"
         root = ET.fromstring(xml)
         parent = _make_parent()

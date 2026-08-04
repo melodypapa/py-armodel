@@ -11,6 +11,7 @@ class RptSupportData(ARObject):
     Represents RPT support data in AUTOSAR.
     Defines data structures for supporting read-protect-transform functionality.
     """
+
     # RptSupportData method parity checklist:
     # [ ] __init__                     [x] impl  [x] docstring  [ ] test
     # [ ] addRptComponent              [x] impl  [x] docstring  [ ] test
@@ -21,7 +22,6 @@ class RptSupportData(ARObject):
     # [ ] setRptExecutionControl       [x] impl  [x] docstring  [ ] test
     # [ ] getRptPreparation            [x] impl  [x] docstring  [ ] test
     # [ ] setRptPreparation            [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self):
         """

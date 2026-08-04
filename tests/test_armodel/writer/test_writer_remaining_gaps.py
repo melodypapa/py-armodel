@@ -1,4 +1,5 @@
 """Tests for writer remaining coverage gaps - dispatch else branches."""
+
 import xml.etree.ElementTree as ET
 import pytest
 from unittest.mock import MagicMock
@@ -12,7 +13,7 @@ class TestWriterDispatchElseBranches:
 
     def setup_method(self):
         AUTOSAR.getInstance().new()
-        self.writer = ARXMLWriter(options={'warning': True})
+        self.writer = ARXMLWriter(options={"warning": True})
 
     def test_timing_event_disabled_mode_irefs_empty(self):
         pkg = AUTOSAR.getInstance().createARPackage("Pkg")

@@ -14,13 +14,13 @@ class HwElementConnector(Describable):
     Represents a connection between hardware elements in AUTOSAR hardware descriptions.
     This class defines the connections that can exist between different hardware elements in the model.
     """
+
     # HwElementConnector method parity checklist:
     # [ ] __init__                     [x] impl  [x] docstring  [ ] test
     # [ ] getHwElementRef              [x] impl  [x] docstring  [ ] test
     # [ ] setHwElementRef              [x] impl  [x] docstring  [ ] test
     # [ ] getHwPinRef                  [x] impl  [x] docstring  [ ] test
     # [ ] setHwPinRef                  [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self):
         """
@@ -34,7 +34,7 @@ class HwElementConnector(Describable):
     def getHwElementRef(self) -> Optional[RefType]:
         """
         Gets the reference to the connected hardware element.
-        
+
         Returns:
             RefType representing the hardware element reference, or None if not set
         """
@@ -44,10 +44,10 @@ class HwElementConnector(Describable):
         """
         Sets the reference to the connected hardware element.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The hardware element reference to set
-            
+
         Returns:
             self for method chaining
         """
@@ -58,7 +58,7 @@ class HwElementConnector(Describable):
     def getHwPinRef(self) -> Optional[RefType]:
         """
         Gets the reference to the connected hardware pin.
-        
+
         Returns:
             RefType representing the hardware pin reference, or None if not set
         """
@@ -68,10 +68,10 @@ class HwElementConnector(Describable):
         """
         Sets the reference to the connected hardware pin.
         Only sets the value if it is not None.
-        
+
         Args:
             value: The hardware pin reference to set
-            
+
         Returns:
             self for method chaining
         """

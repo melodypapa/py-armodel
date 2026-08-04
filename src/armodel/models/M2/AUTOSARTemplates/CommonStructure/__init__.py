@@ -15,6 +15,12 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
     ConstantReference,
 )
 
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
+    ModeTransition,
+    ModeErrorBehavior,
+    ModeErrorReactionPolicyEnum,
+)
+
 __all__ = [
     "ValueSpecification",
     "CompositeValueSpecification",
@@ -26,4 +32,7 @@ __all__ = [
     "ArrayValueSpecification",
     "ConstantSpecification",
     "ConstantReference",
+    "ModeTransition",
+    "ModeErrorBehavior",
+    "ModeErrorReactionPolicyEnum",
 ]

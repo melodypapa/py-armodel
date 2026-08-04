@@ -3,6 +3,7 @@
 Importable utilities used across the per-topic parser test modules.
 Fixtures live in ``conftest.py``; this module hosts plain functions only.
 """
+
 import xml.etree.ElementTree as ET
 
 from armodel.models import AUTOSAR

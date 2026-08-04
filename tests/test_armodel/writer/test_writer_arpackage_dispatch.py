@@ -1,4 +1,5 @@
 """Tests for writer ARPackage dispatch and top-level methods."""
+
 import xml.etree.cElementTree as ET
 import pytest
 import tempfile
@@ -297,20 +298,14 @@ ELEMENTS_WITH_SPECIAL_SETUP = {
 
 
 class TestWriteARPackageElementDispatch:
-    @pytest.mark.parametrize(
-        "element_type,expected_tag", ELEMENT_TYPES_AND_TAGS
-    )
-    def test_dispatch_creates_correct_xml_tag(
-        self, writer, element_type, expected_tag
-    ):
+    @pytest.mark.parametrize("element_type,expected_tag", ELEMENT_TYPES_AND_TAGS)
+    def test_dispatch_creates_correct_xml_tag(self, writer, element_type, expected_tag):
         pkg = _pkg()
         create_method = f"create{element_type}"
         if hasattr(pkg, create_method):
             element = getattr(pkg, create_method)("Elem")
         else:
-            raise AttributeError(
-                f"ARPackage has no method {create_method}"
-            )
+            raise AttributeError(f"ARPackage has no method {create_method}")
         if element_type in ELEMENTS_WITH_SPECIAL_SETUP:
             ELEMENTS_WITH_SPECIAL_SETUP[element_type](element)
         parent = _parent()
@@ -513,14 +508,12 @@ class TestSave:
         return None
 
     def test_save_creates_file(self, writer):
-        AUTOSAR.getInstance().setARRelease('R23-11')
+        AUTOSAR.getInstance().setARRelease("R23-11")
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("TestPkg")
         pkg.createSwBaseType("MyBaseType")
         pkg.createApplicationPrimitiveDataType("MyDataType")
-        with tempfile.NamedTemporaryFile(
-            suffix=".arxml", delete=False
-        ) as tmp:
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
             tmp_path = tmp.name
         try:
             writer.save(tmp_path, autosar)
@@ -542,14 +535,12 @@ class TestSave:
                 os.unlink(tmp_path)
 
     def test_save_with_nested_packages(self, writer):
-        AUTOSAR.getInstance().setARRelease('R23-11')
+        AUTOSAR.getInstance().setARRelease("R23-11")
         autosar = AUTOSAR.getInstance()
         pkg1 = autosar.createARPackage("RootPkg")
         pkg2 = pkg1.createARPackage("SubPkg")
         pkg2.createSwBaseType("NestedType")
-        with tempfile.NamedTemporaryFile(
-            suffix=".arxml", delete=False
-        ) as tmp:
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
             tmp_path = tmp.name
         try:
             writer.save(tmp_path, autosar)
@@ -569,14 +560,12 @@ class TestSave:
                 os.unlink(tmp_path)
 
     def test_save_with_schema_location(self, writer):
-        AUTOSAR.getInstance().setARRelease('R23-11')
+        AUTOSAR.getInstance().setARRelease("R23-11")
         autosar = AUTOSAR.getInstance()
         autosar.schema_location = "http://autosar.org/schema/r4.0 custom.xsd"
         pkg = autosar.createARPackage("Pkg")
         pkg.createSwBaseType("Base")
-        with tempfile.NamedTemporaryFile(
-            suffix=".arxml", delete=False
-        ) as tmp:
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
             tmp_path = tmp.name
         try:
             writer.save(tmp_path, autosar)
@@ -594,7 +583,7 @@ class TestSave:
                 os.unlink(tmp_path)
 
     def test_save_with_multiple_element_types(self, writer):
-        AUTOSAR.getInstance().setARRelease('R23-11')
+        AUTOSAR.getInstance().setARRelease("R23-11")
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("MixedPkg")
         pkg.createSwBaseType("BaseType")
@@ -609,9 +598,7 @@ class TestSave:
         pkg.createBswModuleDescription("BswDesc")
         pkg.createEndToEndProtectionSet("E2ESet")
         pkg.createDataTypeMappingSet("DataTypeMap")
-        with tempfile.NamedTemporaryFile(
-            suffix=".arxml", delete=False
-        ) as tmp:
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
             tmp_path = tmp.name
         try:
             writer.save(tmp_path, autosar)

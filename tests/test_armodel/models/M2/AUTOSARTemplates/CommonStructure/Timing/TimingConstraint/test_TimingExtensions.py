@@ -17,14 +17,15 @@ class TestTimingExtension:
         """Test createExecutionOrderConstraint method for concrete subclass"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
+
         # Create a concrete subclass for testing
         class ConcreteTimingExtension(TimingExtension):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
-        
+
         extension = ConcreteTimingExtension(ar_root, "TestTimingExtension")
         constraint = extension.createExecutionOrderConstraint("TestConstraint")
-        
+
         assert isinstance(constraint, ExecutionOrderConstraint)
         assert constraint.getShortName() == "TestConstraint"
         assert constraint in extension.getTimingRequirements()
@@ -37,7 +38,7 @@ class TestSwcTiming:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         swc_timing = SwcTiming(ar_root, "TestSwcTiming")
-        
+
         assert swc_timing is not None
         assert swc_timing.getShortName() == "TestSwcTiming"
         assert swc_timing.timing_requirements == []
@@ -47,7 +48,7 @@ class TestSwcTiming:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         swc_timing = SwcTiming(ar_root, "TestSwcTiming")
-        
+
         constraint = swc_timing.createExecutionOrderConstraint("TestConstraint")
         assert isinstance(constraint, ExecutionOrderConstraint)
         assert constraint.getShortName() == "TestConstraint"
@@ -59,7 +60,7 @@ class TestSwcTiming:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         swc_timing = SwcTiming(ar_root, "TestSwcTiming")
-        
+
         requirements = swc_timing.getTimingRequirements()
         assert requirements == []
         assert isinstance(requirements, list)

@@ -28,6 +28,7 @@ class FileInfoComment(ARObject):
     File information comment with special data groups for ARXML file
     metadata.
     """
+
     # FileInfoComment method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getSdgs                      [x] impl  [ ] docstring  [x] test
@@ -36,7 +37,7 @@ class FileInfoComment(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.sdgs = []                                      # type: List[Sdg]
+        self.sdgs = []  # type: List[Sdg]
 
     def getSdgs(self):
         return self.sdgs
@@ -52,6 +53,7 @@ class AbstractAUTOSAR(CollectableElement):
     management, element lookup, data type conversion, and AR release
     versioning.
     """
+
     # AbstractAUTOSAR method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getAdminData                 [x] impl  [ ] docstring  [x] test
@@ -157,23 +159,23 @@ class AbstractAUTOSAR(CollectableElement):
         self._appl_impl_type_maps = {}
         self._impl_appl_type_maps = {}
 
-        self._behavior_impl_maps = {}                       # type: Dict[str, str]
-        self._impl_behavior_maps = {}                       # type: Dict[str, str]
+        self._behavior_impl_maps = {}  # type: Dict[str, str]
+        self._impl_behavior_maps = {}  # type: Dict[str, str]
 
         self.uuid_mgr = UUIDMgr()
 
-        self.systems = {}                                   # type: Dict[str, System]
-        self.compositionSwComponentTypes = {}               # type: Dict[str, CompositionSwComponentType]
+        self.systems = {}  # type: Dict[str, System]
+        self.compositionSwComponentTypes = {}  # type: Dict[str, CompositionSwComponentType]
 
-        self.rootSwCompositionPrototype = None              # type: RootSwCompositionPrototype
+        self.rootSwCompositionPrototype = None  # type: RootSwCompositionPrototype
 
-        self.adminData = None                               # type: AdminData
-        self.arPackages = {}                                # type: Dict[str, ARPackage]
-        self.fileInfoComment = None                         # type: FileInfoComment
-        self.introduction = None                            # type: DocumentationBlock
+        self.adminData = None  # type: AdminData
+        self.arPackages = {}  # type: Dict[str, ARPackage]
+        self.fileInfoComment = None  # type: FileInfoComment
+        self.introduction = None  # type: DocumentationBlock
 
     def getElement(self, short_name: str) -> Referrable:
-        if (short_name in self.arPackages):
+        if short_name in self.arPackages:
             return self.arPackages[short_name]
         return CollectableElement.getElement(self, short_name)
 
@@ -181,7 +183,7 @@ class AbstractAUTOSAR(CollectableElement):
         return list(sorted(self.arPackages.values(), key=lambda a: a.short_name))
 
     def createARPackage(self, short_name: str) -> ARPackage:
-        if (short_name not in self.arPackages):
+        if short_name not in self.arPackages:
             ar_package = ARPackage(self, short_name)
             self.arPackages[short_name] = ar_package
         return self.arPackages[short_name]
@@ -197,10 +199,10 @@ class AbstractAUTOSAR(CollectableElement):
         short_name_list = referred_name.split("/")
         element = AUTOSAR.getInstance()
         for short_name in short_name_list:
-            if (short_name == ""):
+            if short_name == "":
                 continue
             element = element.getElement(short_name)
-            if (element is None):
+            if element is None:
                 return element
 
         # validate the dest
@@ -254,12 +256,12 @@ class AbstractAUTOSAR(CollectableElement):
         return self.find(referred)
 
     def getDataType(self, data_type: ImplementationDataType) -> ImplementationDataType:
-        if (isinstance(data_type, ImplementationDataType) or isinstance(data_type, SwBaseType)):
-            if (data_type.category == ImplementationDataType.CATEGORY_TYPE_REFERENCE):
+        if isinstance(data_type, ImplementationDataType) or isinstance(data_type, SwBaseType):
+            if data_type.category == ImplementationDataType.CATEGORY_TYPE_REFERENCE:
                 referred_type = self.find(data_type.swDataDefProps.implementationDataTypeRef.value)
                 return self.getDataType(referred_type)
-            if (data_type.category == ImplementationDataType.CATEGORY_DATA_REFERENCE):
-                if (data_type.swDataDefProps.swPointerTargetProps.getTargetCategory() == "VALUE"):
+            if data_type.category == ImplementationDataType.CATEGORY_DATA_REFERENCE:
+                if data_type.swDataDefProps.swPointerTargetProps.getTargetCategory() == "VALUE":
                     referred_type = self.find(data_type.swDataDefProps.swPointerTargetProps.getSwDataDefProps().getBaseTypeRef())
                     return self.getDataType(referred_type)
             return data_type
@@ -273,13 +275,13 @@ class AbstractAUTOSAR(CollectableElement):
         self._impl_appl_type_maps[data_type_map.implementationDataTypeRef.value] = data_type_map.applicationDataTypeRef.value
 
     def convertToImplementationDataType(self, appl_data_type: str) -> ImplementationDataType:
-        if (appl_data_type not in self._appl_impl_type_maps.keys()):
+        if appl_data_type not in self._appl_impl_type_maps.keys():
             raise IndexError("Invalid application data type <%s>" % appl_data_type)
 
         return self.find(self._appl_impl_type_maps[appl_data_type])
 
     def convertToApplicationDataType(self, impl_data_type: str) -> ApplicationDataType:
-        if (impl_data_type not in self._impl_appl_type_maps.keys()):
+        if impl_data_type not in self._impl_appl_type_maps.keys():
             raise IndexError("Invalid Implementation data type <%s>" % impl_data_type)
 
         return self.find(self._impl_appl_type_maps[impl_data_type])
@@ -291,8 +293,7 @@ class AbstractAUTOSAR(CollectableElement):
         if value is not None:
             if self.rootSwCompositionPrototype is not None:
                 if value.getShortName() != self.rootSwCompositionPrototype.getShortName():
-                    raise ValueError("RootSwCompositionPrototype already set to <%s>, cannot set to <%s>."
-                                     % (self.rootSwCompositionPrototype.getShortName(), value.getShortName()))
+                    raise ValueError("RootSwCompositionPrototype already set to <%s>, cannot set to <%s>." % (self.rootSwCompositionPrototype.getShortName(), value.getShortName()))
             else:
                 self.rootSwCompositionPrototype = value
         return self
@@ -350,12 +351,13 @@ class AbstractAUTOSAR(CollectableElement):
         return self
 
 
-class AUTOSAR (AbstractAUTOSAR):
+class AUTOSAR(AbstractAUTOSAR):
     """
     Singleton entry point for the AUTOSAR model providing global access to
     all ARPackages, systems, components, type maps, and UUID management.
     Use getInstance() to access the singleton.
     """
+
     # AUTOSAR method parity checklist:
     # [ ] getInstance                  [x] impl  [ ] docstring  [ ] test
     # [ ] new                          [x] impl  [ ] docstring  [ ] test
@@ -365,7 +367,7 @@ class AUTOSAR (AbstractAUTOSAR):
 
     @staticmethod
     def getInstance():
-        if (AUTOSAR.__instance is None):
+        if AUTOSAR.__instance is None:
             AUTOSAR()
         return AUTOSAR.__instance
 
@@ -373,7 +375,7 @@ class AUTOSAR (AbstractAUTOSAR):
         self.clear()
 
     def __init__(self):
-        if (AUTOSAR.__instance is not None):
+        if AUTOSAR.__instance is not None:
             raise Exception("The AUTOSAR is singleton!")
 
         AUTOSAR.__instance = self
@@ -385,6 +387,7 @@ class AUTOSARDoc(AbstractAUTOSAR):
     """
     AUTOSAR documentation-specific top-level model.
     """
+
     # AUTOSARDoc method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 

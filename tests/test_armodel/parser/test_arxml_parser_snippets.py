@@ -145,9 +145,7 @@ class TestElementGetters:
 
     def test_getChildElementOptionalLiteral_empty(self, parser):
         """Test getChildElementOptionalLiteral with empty element."""
-        element = ET.fromstring(
-            f"<ELEMENT xmlns='{NS}'><TEST-LITERAL></TEST-LITERAL></ELEMENT>"
-        )
+        element = ET.fromstring(f"<ELEMENT xmlns='{NS}'><TEST-LITERAL></TEST-LITERAL></ELEMENT>")
         result = parser.getChildElementOptionalLiteral(element, "TEST-LITERAL")
         assert result is not None
         assert result._value == ""
@@ -179,9 +177,7 @@ class TestElementGetters:
             <BASE-TYPE-SIZE>32</BASE-TYPE-SIZE>
         </ELEMENT>"""
         )
-        result = parser.getChildElementOptionalNumericalValue(
-            element, "BASE-TYPE-SIZE"
-        )
+        result = parser.getChildElementOptionalNumericalValue(element, "BASE-TYPE-SIZE")
         assert result is not None
         assert result._value == 32.0
 
@@ -199,9 +195,7 @@ class TestElementGetters:
     def test_getChildElementOptionalNumericalValue_missing(self, parser):
         """Test getChildElementOptionalNumericalValue with missing element."""
         element = ET.fromstring(f"<ELEMENT xmlns='{NS}'/>")
-        result = parser.getChildElementOptionalNumericalValue(
-            element, "NONEXISTENT"
-        )
+        result = parser.getChildElementOptionalNumericalValue(element, "NONEXISTENT")
         assert result is None
 
     def test_getChildElementOptionalFloatValue(self, parser):
@@ -319,9 +313,7 @@ class TestReadMethods:
 
     def test_getAdminData_missing(self, parser):
         """Test getAdminData with missing ADMIN-DATA."""
-        element = ET.fromstring(
-            f"<AUTOSAR xmlns='{NS}'><AR-PACKAGES></AR-PACKAGES></AUTOSAR>"
-        )
+        element = ET.fromstring(f"<AUTOSAR xmlns='{NS}'><AR-PACKAGES></AR-PACKAGES></AUTOSAR>")
         admin_data = parser.getAdminData(element, "ADMIN-DATA")
         assert admin_data is None
 
@@ -646,7 +638,7 @@ class TestSwSystemconstParser:
         ar_package = document.getARPackages()[0]
         system_const = ar_package.getSwSystemConsts()[0]
         assert system_const.getShortName() == "EncodedValue"
-        
+
         sw_data_def_props = system_const.getSwDataDefProps()
         assert sw_data_def_props is not None
         assert sw_data_def_props.getCompuMethodRef() is not None
@@ -679,7 +671,7 @@ class TestSwSystemconstParser:
         ar_package = document.getARPackages()[0]
         system_const = ar_package.getSwSystemConsts()[0]
         assert system_const.getShortName() == "SimpleValue"
-        
+
         sw_data_def_props = system_const.getSwDataDefProps()
         assert sw_data_def_props is not None
         assert sw_data_def_props.getBaseTypeRef() is None

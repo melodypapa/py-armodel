@@ -7,9 +7,9 @@ class Test_PortPrototype:
     def test_PPortComSpec(self):
         with pytest.raises(TypeError) as err:
             PPortComSpec()
-        assert (str(err.value) == "PPortComSpec is an abstract class.")
+        assert str(err.value) == "PPortComSpec is an abstract class."
 
     def test_RPortComSpec(self):
         with pytest.raises(TypeError) as err:
             RPortComSpec()
-        assert (str(err.value) == "RPortComSpec is an abstract class.")
+        assert str(err.value) == "RPortComSpec is an abstract class."

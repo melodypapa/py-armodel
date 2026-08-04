@@ -84,6 +84,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import *  # noqa: F403
+
 # Additional MSR imports
 from armodel.models.M2.MSR.CalibrationData import *  # noqa: F403
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import *  # noqa: F403
@@ -97,6 +98,7 @@ from armodel.models.M2.MSR.DataDictionary.SystemConstant import *  # noqa: F403
 from armodel.models.M2.MSR.Documentation.BlockElements import *  # noqa: F403
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import *  # noqa: F403
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import *  # noqa: F403
+
 # Additional CommonStructure imports
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HardwareConfiguration import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.SoftwareContext import *  # noqa: F403
@@ -105,14 +107,18 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.Traceable import *  # noqa: F403
+
 # Additional DiagnosticExtract imports
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticCommonElement import *  # noqa: F403
+
 # ECUCParameterDefTemplate
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import *  # noqa: F403
+
 # Additional EcuResourceTemplate imports
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementConnector import *  # noqa: F403
+
 # GenericStructure imports
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import *  # noqa: F403
@@ -125,6 +131,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights.AtpDefinition import *  # noqa: F403
+
 # Additional SWComponentTemplate imports
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import *  # noqa: F403
@@ -137,8 +144,10 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDoc
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AutosarVariableRef import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import *  # noqa: F403
+
 # Additional SystemTemplate imports
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import *  # noqa: F403
+
 # utils
 from armodel.models.utils import *  # noqa: F403
 from armodel.models.utils.uuid_mgr import *  # noqa: F403
@@ -152,4 +161,4 @@ from armodel.models.utils.uuid_mgr import *  # noqa: F403
 
 # Define __all__ to enable re-export of wildcard imports
 # This collects all public names (not starting with _) for re-export
-__all__ = [name for name in globals() if not name.startswith('_')]
+__all__ = [name for name in globals() if not name.startswith("_")]

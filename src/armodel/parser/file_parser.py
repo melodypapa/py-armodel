@@ -7,30 +7,31 @@ from colorama import Fore
 
 
 class FileListParser:
-    '''
-        FileListParser supports to collect the arxml files from the following rules
-         
-    '''
+    """
+    FileListParser supports to collect the arxml files from the following rules
+
+    """
+
     def __init__(self) -> None:
         self.file_list = []
         self.logger = logging.getLogger()
 
     def get_file_list(self) -> List[str]:
         return self.file_list
-    
+
     def parse_text_file(self, file):
         try:
             with open(file) as f_in:
                 for line in f_in:
-                    if not line.startswith('#'):
+                    if not line.startswith("#"):
                         self.file_list.append(line.strip())
         except IOError:
             self.logger.error(Fore.RED + "No such file or directory: %s" % os.path.realpath(file) + Fore.WHITE)
 
     def parse_dir_files(self, dir_name):
-        for (root, _, files) in os.walk(dir_name, topdown=False):
+        for root, _, files in os.walk(dir_name, topdown=False):
             for file in files:
-                m = re.match(r'.*\.arxml$', file, re.I)
+                m = re.match(r".*\.arxml$", file, re.I)
                 if m:
                     self.file_list.append(os.path.join(root, file))
 

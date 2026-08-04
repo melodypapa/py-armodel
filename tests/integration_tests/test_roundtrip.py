@@ -6,6 +6,7 @@ This module tests the round-trip capability:
 3. Re-parse written ARXML file → AUTOSAR model
 4. Compare original and re-parsed models for equality
 """
+
 import re
 import sys
 import time
@@ -20,9 +21,9 @@ from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
 # Set UTF-8 encoding for Windows console compatibility
-if sys.platform == 'win32':
-    sys.stdout.reconfigure(encoding='utf-8')
-    sys.stderr.reconfigure(encoding='utf-8')
+if sys.platform == "win32":
+    sys.stdout.reconfigure(encoding="utf-8")
+    sys.stderr.reconfigure(encoding="utf-8")
 
 
 # Global counter for progress tracking
@@ -39,11 +40,7 @@ KNOWN_ISSUES: Dict[str, Dict[str, str]] = {
 }
 
 
-def detect_autosar_version(
-    file_path: Path,
-    xsd_mapping: Dict[str, str],
-    default_version: str
-) -> str:
+def detect_autosar_version(file_path: Path, xsd_mapping: Dict[str, str], default_version: str) -> str:
     """Detect AUTOSAR version from ARXML file's schema location.
 
     Args:
@@ -59,10 +56,7 @@ def detect_autosar_version(
         root = tree.getroot()
 
         # Check schemaLocation attribute
-        schema_loc = root.attrib.get(
-            "{http://www.w3.org/2001/XMLSchema-instance}schemaLocation",
-            ""
-        )
+        schema_loc = root.attrib.get("{http://www.w3.org/2001/XMLSchema-instance}schemaLocation", "")
 
         if schema_loc:
             # Extract XSD filename from schema location
@@ -78,12 +72,7 @@ def detect_autosar_version(
         return default_version
 
 
-def assert_models_equal(
-    original: Any,
-    reparsed: Any,
-    path: str = "",
-    ignored_attrs: Optional[List[str]] = None
-) -> None:
+def assert_models_equal(original: Any, reparsed: Any, path: str = "", ignored_attrs: Optional[List[str]] = None) -> None:
     """Recursively compare two AUTOSAR model objects for equality.
 
     Args:
@@ -99,37 +88,20 @@ def assert_models_equal(
 
     # Check type
     if type(original) is not type(reparsed):
-        raise AssertionError(
-            f"Type mismatch at {path}:\n"
-            f"  Expected: {type(original).__name__}\n"
-            f"  Got: {type(reparsed).__name__}"
-        )
+        raise AssertionError(f"Type mismatch at {path}:\n" f"  Expected: {type(original).__name__}\n" f"  Got: {type(reparsed).__name__}")
 
     # If it's a basic type, compare directly
     if isinstance(original, (str, int, float, bool)) or original is None:
         if original != reparsed:
-            raise AssertionError(
-                f"Value mismatch at {path}:\n"
-                f"  Expected: {original}\n"
-                f"  Got: {reparsed}"
-            )
+            raise AssertionError(f"Value mismatch at {path}:\n" f"  Expected: {original}\n" f"  Got: {reparsed}")
         return
 
     # If it's a list, compare elements
     if isinstance(original, list):
         if len(original) != len(reparsed):
-            raise AssertionError(
-                f"List length mismatch at {path}:\n"
-                f"  Expected: {len(original)} elements\n"
-                f"  Got: {len(reparsed)} elements"
-            )
+            raise AssertionError(f"List length mismatch at {path}:\n" f"  Expected: {len(original)} elements\n" f"  Got: {len(reparsed)} elements")
         for i, (orig_item, reparsed_item) in enumerate(zip(original, reparsed)):
-            assert_models_equal(
-                orig_item,
-                reparsed_item,
-                f"{path}[{i}]",
-                ignored_attrs
-            )
+            assert_models_equal(orig_item, reparsed_item, f"{path}[{i}]", ignored_attrs)
         return
 
     # If it's an AUTOSAR object, compare attributes
@@ -153,11 +125,7 @@ def assert_models_equal(
             if orig_value is None and reparsed_value is None:
                 continue
             if orig_value is None or reparsed_value is None:
-                raise AssertionError(
-                    f"Attribute mismatch at {new_path}:\n"
-                    f"  Expected: {orig_value}\n"
-                    f"  Got: {reparsed_value}"
-                )
+                raise AssertionError(f"Attribute mismatch at {new_path}:\n" f"  Expected: {orig_value}\n" f"  Got: {reparsed_value}")
 
             # Recursively compare
             assert_models_equal(orig_value, reparsed_value, new_path, ignored_attrs)
@@ -168,14 +136,7 @@ class TestRoundTrip:
 
     @pytest.mark.integration
     @pytest.mark.slow
-    def test_roundtrip_all_files(
-        self,
-        arxml_files: List[Tuple[Path, str]],
-        autosar_reset: Any,
-        temp_file: Path,
-        xsd_to_version_mapping: Dict[str, str],
-        default_ar_version: str
-    ) -> None:
+    def test_roundtrip_all_files(self, arxml_files: List[Tuple[Path, str]], autosar_reset: Any, temp_file: Path, xsd_to_version_mapping: Dict[str, str], default_ar_version: str) -> None:
         """Test round-trip parsing and writing for all ARXML files.
 
         This test iterates through all discovered ARXML files and
@@ -197,11 +158,7 @@ class TestRoundTrip:
         print("=" * 80)
 
         start_time = time.time()
-        results = {
-            "passed": [],
-            "failed": [],
-            "skipped": []
-        }
+        results = {"passed": [], "failed": [], "skipped": []}
 
         for file_path, category in arxml_files:
             _test_counter += 1
@@ -221,11 +178,7 @@ class TestRoundTrip:
                 continue
 
             # Detect AUTOSAR version from file
-            version = detect_autosar_version(
-                file_path,
-                xsd_to_version_mapping,
-                default_ar_version
-            )
+            version = detect_autosar_version(file_path, xsd_to_version_mapping, default_ar_version)
             print(f"  AUTOSAR Version: {version}")
 
             # Step 1: Parse original file
@@ -249,6 +202,7 @@ class TestRoundTrip:
 
             # Capture the state of original document for comparison
             import copy
+
             original_packages = copy.deepcopy(original_doc.getARPackages())
 
             # Step 2: Write to temporary file
@@ -295,16 +249,9 @@ class TestRoundTrip:
                 reparsed_packages = reparsed_doc.getARPackages()
 
                 if len(original_packages) != len(reparsed_packages):
-                    raise AssertionError(
-                        f"Package count mismatch: "
-                        f"{len(original_packages)} vs {len(reparsed_packages)}"
-                    )
+                    raise AssertionError(f"Package count mismatch: " f"{len(original_packages)} vs {len(reparsed_packages)}")
 
-                assert_models_equal(
-                    original_packages,
-                    reparsed_packages,
-                    path=f"RoundTrip({file_path.name})"
-                )
+                assert_models_equal(original_packages, reparsed_packages, path=f"RoundTrip({file_path.name})")
                 step_time = time.time() - step_start
                 print(f"✓ ({step_time:.2f}s)")
             except AssertionError as e:
@@ -320,10 +267,10 @@ class TestRoundTrip:
 
             try:
                 # Read both files as text for line-by-line comparison
-                with open(file_path, 'r', encoding='utf-8') as f:
+                with open(file_path, "r", encoding="utf-8") as f:
                     original_lines = f.readlines()
 
-                with open(temp_file, 'r', encoding='utf-8') as f:
+                with open(temp_file, "r", encoding="utf-8") as f:
                     generated_lines = f.readlines()
 
                 # Normalize XML entities for consistent comparison across environments
@@ -339,8 +286,8 @@ class TestRoundTrip:
                     for line in lines:
                         # Normalize quote entities to characters
                         # This handles differences in XML serialization across environments
-                        line = re.sub(r'&quot;', '"', line)
-                        line = re.sub(r'&apos;', "'", line)
+                        line = re.sub(r"&quot;", '"', line)
+                        line = re.sub(r"&apos;", "'", line)
                         normalized.append(line)
                     return normalized
 
@@ -350,11 +297,7 @@ class TestRoundTrip:
 
                 # Compare line by line
                 if len(original_lines) != len(generated_lines):
-                    raise AssertionError(
-                        f"File length mismatch:\n"
-                        f"  Original: {len(original_lines)} lines\n"
-                        f"  Generated: {len(generated_lines)} lines"
-                    )
+                    raise AssertionError(f"File length mismatch:\n" f"  Original: {len(original_lines)} lines\n" f"  Generated: {len(generated_lines)} lines")
 
                 # Find first differing line
                 for i, (orig_line, gen_line) in enumerate(zip(original_lines, generated_lines)):
@@ -375,10 +318,7 @@ class TestRoundTrip:
                                 diff_context.append(f"{prefix}Generated line {line_num}: {gen}")
 
                         raise AssertionError(
-                            f"File content mismatch at line {i + 1}:\n"
-                            f"  Original: {orig_line.rstrip()}\n"
-                            f"  Generated: {gen_line.rstrip()}\n"
-                            f"  Context:\n" + "\n".join(diff_context)
+                            f"File content mismatch at line {i + 1}:\n" f"  Original: {orig_line.rstrip()}\n" f"  Generated: {gen_line.rstrip()}\n" f"  Context:\n" + "\n".join(diff_context)
                         )
 
                 step_time = time.time() - step_start
@@ -402,22 +342,19 @@ class TestRoundTrip:
         print(f"Failed: {len(results['failed'])}/{_total_tests}")
         print(f"Skipped: {len(results['skipped'])}/{_total_tests}")
 
-        if results['failed']:
+        if results["failed"]:
             print("\nFailed files:")
-            for name, step, error in results['failed']:
+            for name, step, error in results["failed"]:
                 print(f"  - {name} ({step})")
 
-        if results['skipped']:
+        if results["skipped"]:
             print("\nSkipped files:")
-            for name in results['skipped']:
+            for name in results["skipped"]:
                 print(f"  - {name}")
 
         print("=" * 80 + "\n")
 
         # Fail test if there were any failures
-        if results['failed']:
-            failed_count = len(results['failed'])
-            pytest.fail(
-                f"\n{failed_count} file(s) failed round-trip testing. "
-                f"See above for details."
-            )
+        if results["failed"]:
+            failed_count = len(results["failed"])
+            pytest.fail(f"\n{failed_count} file(s) failed round-trip testing. " f"See above for details.")

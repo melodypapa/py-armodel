@@ -11,6 +11,7 @@ Shared fixtures (``parser``, ``warning_parser``, ``reset_autosar``) are provided
 by ``conftest.py``; helper functions (``_snip``, ``_autosar_root``) live in
 ``_helpers.py``.
 """
+
 import logging
 
 import pytest
@@ -21,6 +22,7 @@ from tests.test_armodel.parser._helpers import _autosar_root, _snip
 class TestUdpNmEcuHandler:
     def test_readUdpNmEcu_sets_nmSynchronizationPointEnabled(self, parser):
         from armodel.models import UdpNmEcu
+
         ecu = UdpNmEcu()
         element = _snip(
             "<NM-SYNCHRONIZATION-POINT-ENABLED>true</NM-SYNCHRONIZATION-POINT-ENABLED>",
@@ -32,6 +34,7 @@ class TestUdpNmEcuHandler:
 
     def test_readUdpNmEcu_without_synchronizationPointEnabled(self, parser):
         from armodel.models import UdpNmEcu
+
         ecu = UdpNmEcu()
         element = _snip("", root_tag="UDP-NM-ECU")
         parser.readUdpNmEcu(element, ecu)
@@ -42,14 +45,11 @@ class TestBusDependentNmEcusHandler:
     def test_readBusDependentNmEcus_creates_udpNmEcu(self, parser):
         from armodel.models import NmEcu
         from armodel.models import NmConfig
+
         config = NmConfig(parent=_autosar_root(), short_name="nmConfig")
         nm_ecu = NmEcu(parent=config, short_name="ecu")
         element = _snip(
-            "<BUS-DEPENDENT-NM-ECUS>"
-            "<UDP-NM-ECU>"
-            "<NM-SYNCHRONIZATION-POINT-ENABLED>true</NM-SYNCHRONIZATION-POINT-ENABLED>"
-            "</UDP-NM-ECU>"
-            "</BUS-DEPENDENT-NM-ECUS>",
+            "<BUS-DEPENDENT-NM-ECUS>" "<UDP-NM-ECU>" "<NM-SYNCHRONIZATION-POINT-ENABLED>true</NM-SYNCHRONIZATION-POINT-ENABLED>" "</UDP-NM-ECU>" "</BUS-DEPENDENT-NM-ECUS>",
             root_tag="NM-ECU",
         )
         parser.readBusDependentNmEcus(element, nm_ecu)
@@ -58,11 +58,10 @@ class TestBusDependentNmEcusHandler:
         assert dependents[0].getNmSynchronizationPointEnabled() is not None
         assert dependents[0].getNmSynchronizationPointEnabled().getValue() is True
 
-    def test_readBusDependentNmEcus_unsupported_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readBusDependentNmEcus_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import NmEcu
         from armodel.models import NmConfig
+
         config = NmConfig(parent=_autosar_root(), short_name="nmConfig")
         nm_ecu = NmEcu(parent=config, short_name="ecu")
         element = _snip(
@@ -71,15 +70,13 @@ class TestBusDependentNmEcusHandler:
         )
         with caplog.at_level(logging.ERROR):
             warning_parser.readBusDependentNmEcus(element, nm_ecu)
-        assert any(
-            "Unsupported BusDependentNmEcu" in r.getMessage()
-            for r in caplog.records
-        )
+        assert any("Unsupported BusDependentNmEcu" in r.getMessage() for r in caplog.records)
         assert len(nm_ecu.getBusDependentNmEcus()) == 0
 
     def test_readBusDependentNmEcus_unsupported_raises(self, parser):
         from armodel.models import NmEcu
         from armodel.models import NmConfig
+
         config = NmConfig(parent=_autosar_root(), short_name="nmConfig")
         nm_ecu = NmEcu(parent=config, short_name="ecu")
         element = _snip(
@@ -93,14 +90,10 @@ class TestBusDependentNmEcusHandler:
 class TestLinTpConfigTpConnectionsHandler:
     def test_readLinTpConfigTpConnections_creates_connection(self, parser):
         from armodel.models import LinTpConfig
+
         config = LinTpConfig(parent=_autosar_root(), short_name="linTp")
         element = _snip(
-            "<TP-CONNECTIONS>"
-            "<LIN-TP-CONNECTION>"
-            "<IDENT><SHORT-NAME>conn</SHORT-NAME></IDENT>"
-            "<TIMEOUT-AS>0.1</TIMEOUT-AS>"
-            "</LIN-TP-CONNECTION>"
-            "</TP-CONNECTIONS>",
+            "<TP-CONNECTIONS>" "<LIN-TP-CONNECTION>" "<IDENT><SHORT-NAME>conn</SHORT-NAME></IDENT>" "<TIMEOUT-AS>0.1</TIMEOUT-AS>" "</LIN-TP-CONNECTION>" "</TP-CONNECTIONS>",
             root_tag="LIN-TP-CONFIG",
         )
         parser.readLinTpConfigTpConnections(element, config)
@@ -109,10 +102,9 @@ class TestLinTpConfigTpConnectionsHandler:
         assert connections[0].getTimeoutAs() is not None
         assert connections[0].getTimeoutAs().getValue() == 0.1
 
-    def test_readLinTpConfigTpConnections_unsupported_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readLinTpConfigTpConnections_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import LinTpConfig
+
         config = LinTpConfig(parent=_autosar_root(), short_name="linTp")
         element = _snip(
             "<TP-CONNECTIONS><BAD/></TP-CONNECTIONS>",
@@ -120,14 +112,12 @@ class TestLinTpConfigTpConnectionsHandler:
         )
         with caplog.at_level(logging.ERROR):
             warning_parser.readLinTpConfigTpConnections(element, config)
-        assert any(
-            "Unsupported TpConnection" in r.getMessage()
-            for r in caplog.records
-        )
+        assert any("Unsupported TpConnection" in r.getMessage() for r in caplog.records)
         assert len(config.getTpConnections()) == 0
 
     def test_readLinTpConfigTpConnections_unsupported_raises(self, parser):
         from armodel.models import LinTpConfig
+
         config = LinTpConfig(parent=_autosar_root(), short_name="linTp")
         element = _snip(
             "<TP-CONNECTIONS><BAD/></TP-CONNECTIONS>",
@@ -138,6 +128,7 @@ class TestLinTpConfigTpConnectionsHandler:
 
     def test_readLinTpConfigTpConnections_empty(self, parser):
         from armodel.models import LinTpConfig
+
         config = LinTpConfig(parent=_autosar_root(), short_name="linTp")
         element = _snip(
             "<TP-CONNECTIONS></TP-CONNECTIONS>",
@@ -151,11 +142,11 @@ class TestLinTpNodeHandler:
     def test_readLinTpNode_sets_connectorRef(self, parser):
         from armodel.models import LinTpNode
         from armodel.models import LinTpConfig
+
         config = LinTpConfig(parent=_autosar_root(), short_name="linTp")
         node = LinTpNode(parent=config, short_name="node")
         element = _snip(
-            "<SHORT-NAME>node</SHORT-NAME>"
-            "<CONNECTOR-REF DEST='COMMUNICATION-CONNECTOR'>/conn</CONNECTOR-REF>",
+            "<SHORT-NAME>node</SHORT-NAME>" "<CONNECTOR-REF DEST='COMMUNICATION-CONNECTOR'>/conn</CONNECTOR-REF>",
             root_tag="LIN-TP-NODE",
         )
         parser.readLinTpNode(element, node)
@@ -165,11 +156,11 @@ class TestLinTpNodeHandler:
     def test_readLinTpNode_sets_dropNotRequestedNad(self, parser):
         from armodel.models import LinTpNode
         from armodel.models import LinTpConfig
+
         config = LinTpConfig(parent=_autosar_root(), short_name="linTp")
         node = LinTpNode(parent=config, short_name="node")
         element = _snip(
-            "<SHORT-NAME>node</SHORT-NAME>"
-            "<DROP-NOT-REQUESTED-NAD>true</DROP-NOT-REQUESTED-NAD>",
+            "<SHORT-NAME>node</SHORT-NAME>" "<DROP-NOT-REQUESTED-NAD>true</DROP-NOT-REQUESTED-NAD>",
             root_tag="LIN-TP-NODE",
         )
         parser.readLinTpNode(element, node)
@@ -179,11 +170,11 @@ class TestLinTpNodeHandler:
     def test_readLinTpNode_sets_p2Max(self, parser):
         from armodel.models import LinTpNode
         from armodel.models import LinTpConfig
+
         config = LinTpConfig(parent=_autosar_root(), short_name="linTp")
         node = LinTpNode(parent=config, short_name="node")
         element = _snip(
-            "<SHORT-NAME>node</SHORT-NAME>"
-            "<P-2-MAX>0.05</P-2-MAX>",
+            "<SHORT-NAME>node</SHORT-NAME>" "<P-2-MAX>0.05</P-2-MAX>",
             root_tag="LIN-TP-NODE",
         )
         parser.readLinTpNode(element, node)
@@ -193,11 +184,11 @@ class TestLinTpNodeHandler:
     def test_readLinTpNode_sets_p2Timing(self, parser):
         from armodel.models import LinTpNode
         from armodel.models import LinTpConfig
+
         config = LinTpConfig(parent=_autosar_root(), short_name="linTp")
         node = LinTpNode(parent=config, short_name="node")
         element = _snip(
-            "<SHORT-NAME>node</SHORT-NAME>"
-            "<P-2-TIMING>0.01</P-2-TIMING>",
+            "<SHORT-NAME>node</SHORT-NAME>" "<P-2-TIMING>0.01</P-2-TIMING>",
             root_tag="LIN-TP-NODE",
         )
         parser.readLinTpNode(element, node)
@@ -207,11 +198,11 @@ class TestLinTpNodeHandler:
     def test_readLinTpNode_sets_tpAddressRef(self, parser):
         from armodel.models import LinTpNode
         from armodel.models import LinTpConfig
+
         config = LinTpConfig(parent=_autosar_root(), short_name="linTp")
         node = LinTpNode(parent=config, short_name="node")
         element = _snip(
-            "<SHORT-NAME>node</SHORT-NAME>"
-            "<TP-ADDRESS-REF DEST='TP-ADDRESS'>/addr</TP-ADDRESS-REF>",
+            "<SHORT-NAME>node</SHORT-NAME>" "<TP-ADDRESS-REF DEST='TP-ADDRESS'>/addr</TP-ADDRESS-REF>",
             root_tag="LIN-TP-NODE",
         )
         parser.readLinTpNode(element, node)
@@ -221,6 +212,7 @@ class TestLinTpNodeHandler:
     def test_readLinTpNode_sets_all_properties(self, parser):
         from armodel.models import LinTpNode
         from armodel.models import LinTpConfig
+
         config = LinTpConfig(parent=_autosar_root(), short_name="linTp")
         node = LinTpNode(parent=config, short_name="node")
         element = _snip(
@@ -243,6 +235,7 @@ class TestLinTpNodeHandler:
     def test_readLinTpNode_without_optional_fields(self, parser):
         from armodel.models import LinTpNode
         from armodel.models import LinTpConfig
+
         config = LinTpConfig(parent=_autosar_root(), short_name="linTp")
         node = LinTpNode(parent=config, short_name="node")
         element = _snip(
@@ -261,14 +254,10 @@ class TestLinTpNodeHandler:
 class TestLinTpConfigTpNodesHandler:
     def test_readLinTpConfigTpNodes_creates_node(self, parser):
         from armodel.models import LinTpConfig
+
         config = LinTpConfig(parent=_autosar_root(), short_name="linTp")
         element = _snip(
-            "<TP-NODES>"
-            "<LIN-TP-NODE>"
-            "<SHORT-NAME>node</SHORT-NAME>"
-            "<P-2-MAX>0.05</P-2-MAX>"
-            "</LIN-TP-NODE>"
-            "</TP-NODES>",
+            "<TP-NODES>" "<LIN-TP-NODE>" "<SHORT-NAME>node</SHORT-NAME>" "<P-2-MAX>0.05</P-2-MAX>" "</LIN-TP-NODE>" "</TP-NODES>",
             root_tag="LIN-TP-CONFIG",
         )
         parser.readLinTpConfigTpNodes(element, config)
@@ -278,10 +267,9 @@ class TestLinTpConfigTpNodesHandler:
         assert nodes[0].getP2Max() is not None
         assert nodes[0].getP2Max().getValue() == 0.05
 
-    def test_readLinTpConfigTpNodes_unsupported_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readLinTpConfigTpNodes_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import LinTpConfig
+
         config = LinTpConfig(parent=_autosar_root(), short_name="linTp")
         element = _snip(
             "<TP-NODES><BAD/></TP-NODES>",
@@ -289,14 +277,12 @@ class TestLinTpConfigTpNodesHandler:
         )
         with caplog.at_level(logging.ERROR):
             warning_parser.readLinTpConfigTpNodes(element, config)
-        assert any(
-            "Unsupported TpNode" in r.getMessage()
-            for r in caplog.records
-        )
+        assert any("Unsupported TpNode" in r.getMessage() for r in caplog.records)
         assert len(config.getTpNodes()) == 0
 
     def test_readLinTpConfigTpNodes_unsupported_raises(self, parser):
         from armodel.models import LinTpConfig
+
         config = LinTpConfig(parent=_autosar_root(), short_name="linTp")
         element = _snip(
             "<TP-NODES><BAD/></TP-NODES>",
@@ -307,6 +293,7 @@ class TestLinTpConfigTpNodesHandler:
 
     def test_readLinTpConfigTpNodes_empty(self, parser):
         from armodel.models import LinTpConfig
+
         config = LinTpConfig(parent=_autosar_root(), short_name="linTp")
         element = _snip(
             "<TP-NODES></TP-NODES>",
@@ -317,6 +304,7 @@ class TestLinTpConfigTpNodesHandler:
 
     def test_readLinTpConfigTpNodes_multiple_nodes(self, parser):
         from armodel.models import LinTpConfig
+
         config = LinTpConfig(parent=_autosar_root(), short_name="linTp")
         element = _snip(
             "<TP-NODES>"
@@ -340,125 +328,86 @@ class TestLinTpConfigTpNodesHandler:
 
 # === Migrated from test_arxml_parser_remaining_gaps.py ===
 
-class TestNmConfigGaps:
-    def test_readNmConfigNmClusterCouplings_unsupported_warns(
-        self, warning_parser, caplog
-    ):
-        from armodel.models import NmConfig
-        config = NmConfig(parent=_autosar_root(), short_name="Nmc")
-        element = _snip(
-            "<NM-CLUSTER-COUPLINGS><BAD/></NM-CLUSTER-COUPLINGS>"
-        )
-        with caplog.at_level(logging.ERROR):
-            warning_parser.readNmConfigNmClusterCouplings(
-                element, config
-            )
-        assert any("Unsupported Nm Node" in r.getMessage()
-                   for r in caplog.records)
 
-    def test_readNmConfigNmIfEcus_unsupported_warns(
-        self, warning_parser, caplog
-    ):
+class TestNmConfigGaps:
+    def test_readNmConfigNmClusterCouplings_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import NmConfig
+
         config = NmConfig(parent=_autosar_root(), short_name="Nmc")
-        element = _snip(
-            "<NM-IF-ECUS><BAD/></NM-IF-ECUS>"
-        )
+        element = _snip("<NM-CLUSTER-COUPLINGS><BAD/></NM-CLUSTER-COUPLINGS>")
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readNmConfigNmClusterCouplings(element, config)
+        assert any("Unsupported Nm Node" in r.getMessage() for r in caplog.records)
+
+    def test_readNmConfigNmIfEcus_unsupported_warns(self, warning_parser, caplog):
+        from armodel.models import NmConfig
+
+        config = NmConfig(parent=_autosar_root(), short_name="Nmc")
+        element = _snip("<NM-IF-ECUS><BAD/></NM-IF-ECUS>")
         with caplog.at_level(logging.ERROR):
             warning_parser.readNmConfigNmIfEcus(element, config)
-        assert any("Unsupported NmIfEcus" in r.getMessage()
-                   for r in caplog.records)
+        assert any("Unsupported NmIfEcus" in r.getMessage() for r in caplog.records)
 
 
 # ==================== TpConfig (L4097, L4111, L4122, L4165, L4183, L4205) ====================
 
 
-
 # === Migrated from test_arxml_parser_remaining_gaps.py ===
 
-class TestTpConfigGaps:
-    def test_readCanTpConfigTpAddresses_unsupported_warns(
-        self, warning_parser, caplog
-    ):
-        from armodel.models import CanTpConfig
-        config = CanTpConfig(parent=_autosar_root(), short_name="Ctp")
-        element = _snip(
-            "<TP-ADDRESSS><BAD/></TP-ADDRESSS>"
-        )
-        with caplog.at_level(logging.ERROR):
-            warning_parser.readCanTpConfigTpAddresses(
-                element, config
-            )
-        assert any("Unsupported TpAddress" in r.getMessage()
-                   for r in caplog.records)
 
-    def test_readCanTpConfigTpChannels_unsupported_warns(
-        self, warning_parser, caplog
-    ):
+class TestTpConfigGaps:
+    def test_readCanTpConfigTpAddresses_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import CanTpConfig
+
         config = CanTpConfig(parent=_autosar_root(), short_name="Ctp")
-        element = _snip(
-            "<TP-CHANNELS><BAD/></TP-CHANNELS>"
-        )
+        element = _snip("<TP-ADDRESSS><BAD/></TP-ADDRESSS>")
         with caplog.at_level(logging.ERROR):
-            warning_parser.readCanTpConfigTpChannels(
-                element, config
-            )
-        assert any("Unsupported TpChannel" in r.getMessage()
-                   for r in caplog.records)
+            warning_parser.readCanTpConfigTpAddresses(element, config)
+        assert any("Unsupported TpAddress" in r.getMessage() for r in caplog.records)
+
+    def test_readCanTpConfigTpChannels_unsupported_warns(self, warning_parser, caplog):
+        from armodel.models import CanTpConfig
+
+        config = CanTpConfig(parent=_autosar_root(), short_name="Ctp")
+        element = _snip("<TP-CHANNELS><BAD/></TP-CHANNELS>")
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readCanTpConfigTpChannels(element, config)
+        assert any("Unsupported TpChannel" in r.getMessage() for r in caplog.records)
 
     def test_readTpConnectionReceiverRefs_adds_ref(self, parser):
         from armodel.models import CanTpConnection
+
         conn = CanTpConnection()
-        element = _snip(
-            "<RECEIVER-REFS>"
-            '<RECEIVER-REF DEST="ECU-INSTANCE">/r</RECEIVER-REF>'
-            "</RECEIVER-REFS>"
-        )
+        element = _snip("<RECEIVER-REFS>" '<RECEIVER-REF DEST="ECU-INSTANCE">/r</RECEIVER-REF>' "</RECEIVER-REFS>")
         parser.readTpConnectionReceiverRefs(element, conn)
         assert len(conn.getReceiverRefs()) == 1
 
-    def test_readCanTpConfigTpEcus_unsupported_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readCanTpConfigTpEcus_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import CanTpConfig
+
         config = CanTpConfig(parent=_autosar_root(), short_name="Ctp")
-        element = _snip(
-            "<TP-ECUS><BAD/></TP-ECUS>"
-        )
+        element = _snip("<TP-ECUS><BAD/></TP-ECUS>")
         with caplog.at_level(logging.ERROR):
             warning_parser.readCanTpConfigTpEcus(element, config)
-        assert any("Unsupported TpEcu" in r.getMessage()
-                   for r in caplog.records)
+        assert any("Unsupported TpEcu" in r.getMessage() for r in caplog.records)
 
-    def test_readCanTpConfigTpNodes_unsupported_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readCanTpConfigTpNodes_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import CanTpConfig
+
         config = CanTpConfig(parent=_autosar_root(), short_name="Ctp")
-        element = _snip(
-            "<TP-NODES><BAD/></TP-NODES>"
-        )
+        element = _snip("<TP-NODES><BAD/></TP-NODES>")
         with caplog.at_level(logging.ERROR):
             warning_parser.readCanTpConfigTpNodes(element, config)
-        assert any("Unsupported TpNode" in r.getMessage()
-                   for r in caplog.records)
+        assert any("Unsupported TpNode" in r.getMessage() for r in caplog.records)
 
-    def test_readLinTpConfigTpAddresses_unsupported_warns(
-        self, warning_parser, caplog
-    ):
+    def test_readLinTpConfigTpAddresses_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import LinTpConfig
+
         config = LinTpConfig(parent=_autosar_root(), short_name="Ltp")
-        element = _snip(
-            "<TP-ADDRESSS><BAD/></TP-ADDRESSS>"
-        )
+        element = _snip("<TP-ADDRESSS><BAD/></TP-ADDRESSS>")
         with caplog.at_level(logging.ERROR):
-            warning_parser.readLinTpConfigTpAddresses(
-                element, config
-            )
-        assert any("Unsupported TpAddress" in r.getMessage()
-                   for r in caplog.records)
+            warning_parser.readLinTpConfigTpAddresses(element, config)
+        assert any("Unsupported TpAddress" in r.getMessage() for r in caplog.records)
 
 
 # ==================== BufferProperties (L4311-4313) ====================
-

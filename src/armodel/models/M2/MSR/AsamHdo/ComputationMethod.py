@@ -8,11 +8,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Limit
 
+
 class CompuContent(ARObject, ABC):
     """
     Abstract base class for computation content.
     Base: ARObject
     """
+
     # CompuContent method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
@@ -29,6 +31,7 @@ class CompuConst(ARObject):
     Base            : ARObject
     Aggregated by   : Compu.compuDefaultValue, CompuScale.compuInverseValue, CompuScaleConstantContents.compuCons
     """
+
     # CompuConst method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getCompuConstContentType     [x] impl  [ ] docstring  [ ] test
@@ -37,20 +40,22 @@ class CompuConst(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.compuConstContentType: 'CompuConstContent' = None
+        self.compuConstContentType: "CompuConstContent" = None
 
-    def getCompuConstContentType(self) -> 'CompuConstContent':
+    def getCompuConstContentType(self) -> "CompuConstContent":
         return self.compuConstContentType
 
-    def setCompuConstContentType(self, value: 'CompuConstContent'):
+    def setCompuConstContentType(self, value: "CompuConstContent"):
         self.compuConstContentType = value
         return self
+
 
 class Compu(ARObject):
     """
     Base class for computation methods.
     Base: ARObject
     """
+
     # Compu method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getCompuContent              [x] impl  [ ] docstring  [ ] test
@@ -86,6 +91,7 @@ class CompuConstContent(ARObject, ABC):
     Subclasses      : CompuConstFormulaContent, CompuConstNumericContent, CompuConstTextContent
     Aggregated by   : CompuConst.compuConstContentType
     """
+
     # CompuConstContent method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
@@ -102,6 +108,7 @@ class CompuConstTextContent(CompuConstContent):
     Base:           ARObject, CompuConstContent
     Aggregated by:  CompuConst.compuConstContentType
     """
+
     # CompuConstTextContent method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getVt                        [x] impl  [ ] docstring  [ ] test
@@ -119,11 +126,13 @@ class CompuConstTextContent(CompuConstContent):
         self.vt = value
         return self
 
+
 class CompuConstNumericContent(CompuConstContent):
     """
     This meta-class represents the numeric content of a scale.
     Base: ARObject, CompuConstContent
     """
+
     # CompuConstNumericContent method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getV                         [x] impl  [ ] docstring  [ ] test
@@ -141,11 +150,13 @@ class CompuConstNumericContent(CompuConstContent):
         self.v = value
         return self
 
+
 class CompuConstFormulaContent(CompuConstContent):
     """
     This meta-class represents the formula content of a scale.
     Base: ARObject, CompuConstContent
     """
+
     # CompuConstFormulaContent method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getVf                        [x] impl  [ ] docstring  [ ] test
@@ -164,13 +175,12 @@ class CompuConstFormulaContent(CompuConstContent):
         return self
 
 
-
-
 class CompuScaleContents(ARObject, ABC):
     """
     Abstract base class for computation scale contents.
     Base: ARObject
     """
+
     # CompuScaleContents method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
@@ -186,6 +196,7 @@ class CompuScaleConstantContents(CompuScaleContents):
     Represents constant contents of a computation scale.
     Base: CompuScaleContents
     """
+
     # CompuScaleConstantContents method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getCompuConst                [x] impl  [ ] docstring  [ ] test
@@ -203,12 +214,14 @@ class CompuScaleConstantContents(CompuScaleContents):
         self.compuConst = value
         return self
 
+
 class CompuRationalCoeffs(ARObject):
     """
     This meta-class represents the ability to express a rational function by specifying the coefficients of nominator and denominator.
     Base            : ARObject
     Aggregated by   : CompuScaleRationalFormula.compuRationalCoeffs
     """
+
     # CompuRationalCoeffs method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getCompuDenominator          [x] impl  [ ] docstring  [ ] test
@@ -219,28 +232,30 @@ class CompuRationalCoeffs(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.compuDenominator: 'CompuNominatorDenominator' = None
-        self.compuNumerator: 'CompuNominatorDenominator' = None
+        self.compuDenominator: "CompuNominatorDenominator" = None
+        self.compuNumerator: "CompuNominatorDenominator" = None
 
-    def getCompuDenominator(self) -> 'CompuNominatorDenominator':
+    def getCompuDenominator(self) -> "CompuNominatorDenominator":
         return self.compuDenominator
 
-    def setCompuDenominator(self, value: 'CompuNominatorDenominator'):
+    def setCompuDenominator(self, value: "CompuNominatorDenominator"):
         self.compuDenominator = value
         return self
 
-    def getCompuNumerator(self) -> 'CompuNominatorDenominator':
+    def getCompuNumerator(self) -> "CompuNominatorDenominator":
         return self.compuNumerator
 
-    def setCompuNumerator(self, value: 'CompuNominatorDenominator'):
+    def setCompuNumerator(self, value: "CompuNominatorDenominator"):
         self.compuNumerator = value
         return self
+
 
 class CompuScaleRationalFormula(CompuScaleContents):
     """
     This meta-class represents the fact that the computation in this scale is represented as rational term.
     Base: CompuScaleContents
     """
+
     # CompuScaleRationalFormula method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getCompuRationalCoeffs       [x] impl  [ ] docstring  [ ] test
@@ -258,12 +273,14 @@ class CompuScaleRationalFormula(CompuScaleContents):
         self.compuRationalCoeffs = value
         return self
 
+
 class CompuNominatorDenominator(ARObject):
     """
     This class represents the ability to express a polynomial either as Nominator or as Denominator.
     Base          : ARObject
     Aggregated by : CompuRationalCoeffs.compuDenominator, CompuRationalCoeffs.compuNumerator
     """
+
     # CompuNominatorDenominator method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] add_v                        [x] impl  [ ] docstring  [ ] test
@@ -286,6 +303,7 @@ class CompuScale(ARObject):
     Represents a single scale in a computation method with limits and content.
     Base: ARObject
     """
+
     # CompuScale method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getA2lDisplayText            [x] impl  [ ] docstring  [ ] test
@@ -384,11 +402,13 @@ class CompuScale(ARObject):
         self.upperLimit = value
         return self
 
+
 class CompuScales(CompuContent):
     """
     Container for multiple computation scales.
     Base: CompuContent
     """
+
     # CompuScales method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] addCompuScale                [x] impl  [ ] docstring  [ ] test
@@ -411,6 +431,7 @@ class CompuMethod(AtpBlueprintable):
     Represents a computation method for converting between internal and physical values.
     Base: AtpBlueprintable
     """
+
     # CompuMethod method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getCompuInternalToPhys       [x] impl  [ ] docstring  [ ] test

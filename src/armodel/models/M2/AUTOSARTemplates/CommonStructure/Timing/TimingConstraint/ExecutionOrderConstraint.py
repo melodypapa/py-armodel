@@ -24,9 +24,9 @@ class EOCExecutableEntityRefAbstract(Identifiable, ABC):
     Abstract base class for execution order constraint executable entity references.
     This class cannot be instantiated directly and serves as the base for concrete implementations.
     """
+
     # EOCExecutableEntityRefAbstract method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is EOCExecutableEntityRefAbstract:
@@ -40,6 +40,7 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
     Concrete implementation of executable entity reference for execution order constraints.
     Represents a specific runnable or executable entity in an execution order constraint.
     """
+
     # EOCExecutableEntityRef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
     # [x] addSuccessorRef              [x] impl  [x] docstring  [x] test
@@ -53,7 +54,7 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
     def addSuccessorRef(self, ref: RefType):
         """
         Adds a reference to a successor executable entity.
-        
+
         Args:
             ref: Reference to the successor entity
         """
@@ -62,7 +63,7 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
     def getSuccessorRefs(self) -> List[RefType]:
         """
         Returns the list of successor references for this entity.
-        
+
         Returns:
             List of successor entity references
         """
@@ -75,6 +76,7 @@ class ExecutionOrderConstraint(TimingConstraint):
     This constraint specifies the order in which runnables or other executable entities
     should be executed within a software component.
     """
+
     # ExecutionOrderConstraint method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
     # [x] createEOCExecutableEntityRef [x] impl  [x] docstring  [x] test
@@ -85,13 +87,13 @@ class ExecutionOrderConstraint(TimingConstraint):
 
         self.ordered_elements: List[EOCExecutableEntityRefAbstract] = []
 
-    def createEOCExecutableEntityRef(self, short_name: str)-> EOCExecutableEntityRef:
+    def createEOCExecutableEntityRef(self, short_name: str) -> EOCExecutableEntityRef:
         """
         Creates a new executable entity reference with the specified short name.
-        
+
         Args:
             short_name: Short name for the new entity reference
-            
+
         Returns:
             The created EOCExecutableEntityRef instance
         """
@@ -104,7 +106,7 @@ class ExecutionOrderConstraint(TimingConstraint):
     def getOrderedElements(self) -> List[EOCExecutableEntityRefAbstract]:
         """
         Returns the list of ordered executable entity references.
-        
+
         Returns:
             List of ordered executable entity references
         """
@@ -116,11 +118,11 @@ class EOCEventRef(ARObject):
     Represents an event reference in execution order constraints.
     Defines a reference to an event used in execution order specifications.
     """
+
     # EOCEventRef method parity checklist:
     # [ ] __init__                     [x] impl  [x] docstring  [ ] test
     # [ ] getEventRef                  [x] impl  [x] docstring  [ ] test
     # [ ] setEventRef                  [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self):
         """
@@ -157,11 +159,11 @@ class EOCExecutableEntityRefGroup(ARObject):
     Represents a group of executable entity references in execution order constraints.
     Defines a collection of executable entity references that can be ordered as a group.
     """
+
     # EOCExecutableEntityRefGroup method parity checklist:
     # [ ] __init__                     [x] impl  [x] docstring  [ ] test
     # [ ] addEntityRef                 [x] impl  [x] docstring  [ ] test
     # [ ] getEntityRefs                [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self):
         """
@@ -198,9 +200,9 @@ class ExecutionOrderConstraintTypeEnum:
     Enumeration for execution order constraint types in AUTOSAR.
     Defines different types of execution order constraints.
     """
+
     # ExecutionOrderConstraintTypeEnum method parity checklist:
     # (no methods)
-
 
     ENUM_BEFORE = "before"
     ENUM_AFTER = "after"
@@ -213,9 +215,9 @@ class LetDataExchangeParadigmEnum:
     Enumeration for LET (Logical Execution Time) data exchange paradigms in AUTOSAR.
     Defines different paradigms for data exchange in LET timing.
     """
+
     # LetDataExchangeParadigmEnum method parity checklist:
     # (no methods)
-
 
     ENUM_BUFFERED = "buffered"
     ENUM_UNBUFFERED = "unbuffered"

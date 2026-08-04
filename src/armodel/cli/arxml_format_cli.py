@@ -12,14 +12,14 @@ from armodel.writer import ARXMLWriter
 
 def perform_format(args):
     logger = logging.getLogger()
-    
-    formatter = logging.Formatter('[%(levelname)s] : %(message)s')
+
+    formatter = logging.Formatter("[%(levelname)s] : %(message)s")
 
     stdout_handler = logging.StreamHandler(sys.stderr)
     stdout_handler.setFormatter(formatter)
 
     base_path = os.path.dirname(args.OUTPUT)
-    log_file = os.path.join(base_path, 'arxml_format.log')
+    log_file = os.path.join(base_path, "arxml_format.log")
 
     if os.path.exists(log_file):
         os.remove(log_file)
@@ -43,7 +43,7 @@ def perform_format(args):
     try:
         options = {}
         if args.warning:
-            options['warning'] = True
+            options["warning"] = True
 
         document = AUTOSAR().getInstance()
         parser = ARXMLParser(options)
@@ -53,9 +53,9 @@ def perform_format(args):
             transform = AdminDataTransformer()
             transform.remove(document)
 
-        writer = ARXMLWriter(options={'unescape_entities': args.unescape_entities})
+        writer = ARXMLWriter(options={"unescape_entities": args.unescape_entities})
         writer.save(args.OUTPUT, document)
-        
+
     except Exception as e:
         # print(e)
         logger.error(e)

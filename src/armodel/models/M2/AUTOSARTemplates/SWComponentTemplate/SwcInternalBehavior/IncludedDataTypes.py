@@ -7,11 +7,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, RefType
 from typing import List
 
+
 class IncludedDataTypeSet(ARObject):
     """
     A set of data type references that are included in the context of
     a software component internal behavior.
     """
+
     # IncludedDataTypeSet method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] addDataTypeRef               [x] impl  [x] docstring  [ ] test
@@ -20,12 +22,11 @@ class IncludedDataTypeSet(ARObject):
     # [ ] literalPrefix                [x] impl  [x] docstring  [ ] test
     # [ ] getLiteralPrefix             [x] impl  [x] docstring  [ ] test
 
-
     def __init__(self):
         super().__init__()
 
-        self.data_type_refs = []            # type: List[RefType]
-        self.literal_prefix = None          # type: ARLiteral
+        self.data_type_refs = []  # type: List[RefType]
+        self.literal_prefix = None  # type: ARLiteral
 
     def addDataTypeRef(self, ref_type: RefType):
         """

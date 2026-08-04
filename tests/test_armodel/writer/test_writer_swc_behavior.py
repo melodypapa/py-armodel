@@ -1,4 +1,5 @@
 """Tests for writer SWC internal behavior handlers."""
+
 import xml.etree.cElementTree as ET
 import pytest
 from unittest.mock import MagicMock
@@ -225,9 +226,7 @@ class TestWriterRteEvents:
     def test_writeAsynchronousServerCallReturnsEvent(self, writer):
         behavior = _make_behavior()
         event = behavior.createAsynchronousServerCallReturnsEvent("ascr")
-        event.getActivationReasonRepresentationRef = MagicMock(
-            return_value=_ref("/acp", "ASYNCHRONOUS-SERVER-CALL-POINT")
-        )
+        event.getActivationReasonRepresentationRef = MagicMock(return_value=_ref("/acp", "ASYNCHRONOUS-SERVER-CALL-POINT"))
         parent = _parent()
         writer.writeAsynchronousServerCallReturnsEvent(parent, event)
         evt = parent[0]
@@ -793,17 +792,13 @@ class TestWriterParameterAndPortApi:
         behavior.createPerInstanceParameter("pp1")
         behavior.createPerInstanceParameter("pp2")
         parent = _parent()
-        writer.writeSwcInternalBehaviorParameterDataPrototypes(
-            parent, "PER-INSTANCE-PARAMETERS", behavior.getPerInstanceParameters()
-        )
+        writer.writeSwcInternalBehaviorParameterDataPrototypes(parent, "PER-INSTANCE-PARAMETERS", behavior.getPerInstanceParameters())
         assert parent[0].tag == "PER-INSTANCE-PARAMETERS"
         assert len(parent[0]) == 2
 
     def test_writeSwcInternalBehaviorParameterDataPrototypes_empty(self, writer):
         parent = _parent()
-        writer.writeSwcInternalBehaviorParameterDataPrototypes(
-            parent, "PER-INSTANCE-PARAMETERS", []
-        )
+        writer.writeSwcInternalBehaviorParameterDataPrototypes(parent, "PER-INSTANCE-PARAMETERS", [])
         assert len(parent) == 0
 
     def test_writePortDefinedArgumentValues(self, writer):
@@ -1358,6 +1353,7 @@ class TestWriterModeAccessPointHelpers:
 class TestWriterComponentInSystemInstanceRef:
     def test_setComponentInSystemInstanceRef(self, writer):
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef  # noqa E501
+
         ref = ComponentInSystemInstanceRef()
         ref.setBaseRef(_ref("/base"))
         ref.setContextCompositionRef(_ref("/cc"))

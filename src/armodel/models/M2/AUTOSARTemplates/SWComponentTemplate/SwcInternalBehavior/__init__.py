@@ -39,7 +39,7 @@ class RunnableEntityArgument(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.symbol = None                                      # type: ARLiteral
+        self.symbol = None  # type: ARLiteral
 
     def getSymbol(self):
         return self.symbol
@@ -58,7 +58,7 @@ class AsynchronousServerCallResultPoint(AbstractAccessPoint):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.asynchronousServerCallPointRef = None              # type: RefType
+        self.asynchronousServerCallPointRef = None  # type: RefType
 
     def getAsynchronousServerCallPointRef(self):
         return self.asynchronousServerCallPointRef
@@ -85,7 +85,7 @@ class SynchronousServerCallPoint(ServerCallPoint):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.calledFromWithinExclusiveAreaRef = None            # type: RefType
+        self.calledFromWithinExclusiveAreaRef = None  # type: RefType
 
     def getCalledFromWithinExclusiveAreaRef(self):
         return self.calledFromWithinExclusiveAreaRef
@@ -154,7 +154,7 @@ class RunnableEntity(ExecutableEntity):
         self.readLocalVariables: List[VariableAccess] = []
         self.serverCallPoints: List[ServerCallPoint] = []
         self.symbol: ARLiteral = None
-        self.waitPoints = {}            # type: Dict[str, WaitPoint]
+        self.waitPoints = {}  # type: Dict[str, WaitPoint]
         self.writtenLocalVariables: List[VariableAccess] = []
 
     def _createVariableAccess(self, short_name, variable_accesses: List[VariableAccess]):
@@ -232,7 +232,7 @@ class RunnableEntity(ExecutableEntity):
         return self.getElement(short_name)
 
     def createSynchronousServerCallPoint(self, short_name: str) -> SynchronousServerCallPoint:
-        if (short_name not in self.serverCallPoints):
+        if short_name not in self.serverCallPoints:
             point = SynchronousServerCallPoint(self, short_name)
             self.addElement(point)
         return self.getElement(short_name)
@@ -240,7 +240,7 @@ class RunnableEntity(ExecutableEntity):
         # return self.serverCallPoints[short_name]
 
     def createAsynchronousServerCallPoint(self, short_name: str) -> AsynchronousServerCallPoint:
-        if (short_name not in self.serverCallPoints):
+        if short_name not in self.serverCallPoints:
             point = AsynchronousServerCallPoint(self, short_name)
             self.addElement(point)
         return self.getElement(short_name, AsynchronousServerCallPoint)
@@ -248,7 +248,7 @@ class RunnableEntity(ExecutableEntity):
         # return self.serverCallPoints[short_name]
 
     def createAsynchronousServerCallResultPoint(self, short_name: str) -> AsynchronousServerCallResultPoint:
-        if (short_name not in self.serverCallPoints):
+        if short_name not in self.serverCallPoints:
             point = AsynchronousServerCallResultPoint(self, short_name)
             self.addElement(point)
         return self.getElement(short_name)
@@ -260,7 +260,7 @@ class RunnableEntity(ExecutableEntity):
         return list(sorted(filter(lambda a: isinstance(a, AsynchronousServerCallPoint), self.elements), key=lambda o: o.getShortName()))
 
     def getAsynchronousServerCallResultPoints(self) -> List[AsynchronousServerCallResultPoint]:
-        return list(sorted(filter(lambda a: isinstance(a, AsynchronousServerCallResultPoint), self.elements), key=lambda o: o.getShortName())) # noqa E501
+        return list(sorted(filter(lambda a: isinstance(a, AsynchronousServerCallResultPoint), self.elements), key=lambda o: o.getShortName()))  # noqa E501
 
     def getServerCallPoints(self) -> List[ServerCallPoint]:
         return list(sorted(filter(lambda a: isinstance(a, ServerCallPoint), self.elements), key=lambda o: o.getShortName()))
@@ -354,23 +354,23 @@ class SwcInternalBehavior(InternalBehavior):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.arTypedPerInstanceMemories = []                        # type: List[VariableDataPrototype]
-        self.events = []                                            # type: List[RTEEvent]
-        self.exclusiveAreaPolicies = []                             # type: List[SwcExclusiveAreaPolicy]
-        self.explicitInterRunnableVariables = []                    # type: List[VariableDataPrototype]
-        self.handleTerminationAndRestart = None                     # type: str
-        self.implicitInterRunnableVariables = []                    # type: List[VariableDataPrototype]
-        self.includedDataTypeSets = []                              # type: List[IncludedDataTypeSet]
-        self.includedModeDeclarationGroupSets = []                  # type: List[IncludedModeDeclarationGroupSet]
-        self.instantiationDataDefProps = []                         # type: List[InstantiationDataDefProps]
-        self.perInstanceMemories = []                               # type: List[PerInstanceMemory]
-        self.perInstanceParameters = []                             # type: List[ParameterDataPrototype]
-        self.portAPIOptions = []                                    # type: List[PortAPIOption]
-        self.runnables = []                                         # type: List[RunnableEntity]
-        self.serviceDependencies = []                               # type: List[SwcServiceDependency]
-        self.sharedParameters = []                                  # type: List[ParameterDataPrototype]
-        self.supportsMultipleInstantiation = None                   # type: Boolean
-        self.variationPointProxies = []                             # type: List[VariationPointProxy]
+        self.arTypedPerInstanceMemories = []  # type: List[VariableDataPrototype]
+        self.events = []  # type: List[RTEEvent]
+        self.exclusiveAreaPolicies = []  # type: List[SwcExclusiveAreaPolicy]
+        self.explicitInterRunnableVariables = []  # type: List[VariableDataPrototype]
+        self.handleTerminationAndRestart = None  # type: str
+        self.implicitInterRunnableVariables = []  # type: List[VariableDataPrototype]
+        self.includedDataTypeSets = []  # type: List[IncludedDataTypeSet]
+        self.includedModeDeclarationGroupSets = []  # type: List[IncludedModeDeclarationGroupSet]
+        self.instantiationDataDefProps = []  # type: List[InstantiationDataDefProps]
+        self.perInstanceMemories = []  # type: List[PerInstanceMemory]
+        self.perInstanceParameters = []  # type: List[ParameterDataPrototype]
+        self.portAPIOptions = []  # type: List[PortAPIOption]
+        self.runnables = []  # type: List[RunnableEntity]
+        self.serviceDependencies = []  # type: List[SwcServiceDependency]
+        self.sharedParameters = []  # type: List[ParameterDataPrototype]
+        self.supportsMultipleInstantiation = None  # type: Boolean
+        self.variationPointProxies = []  # type: List[VariationPointProxy]
 
     def getArTypedPerInstanceMemories(self) -> List[VariableDataPrototype]:
         return self.arTypedPerInstanceMemories
@@ -487,7 +487,7 @@ class SwcInternalBehavior(InternalBehavior):
             event = BackgroundEvent(self, short_name)
             self.addElement(event)
         return self.getElement(short_name, BackgroundEvent)
-    
+
     def createDataSendCompletedEvent(self, short_name: str) -> DataSendCompletedEvent:
         if not self.IsElementExists(short_name):
             event = DataSendCompletedEvent(self, short_name)
@@ -520,7 +520,7 @@ class SwcInternalBehavior(InternalBehavior):
 
     def getBackgroundEvents(self) -> List[BackgroundEvent]:
         return sorted(filter(lambda c: isinstance(c, BackgroundEvent), self.elements), key=lambda e: e.short_name)
-    
+
     def getDataSendCompletedEvents(self) -> List[DataSendCompletedEvent]:
         return sorted(filter(lambda c: isinstance(c, DataSendCompletedEvent), self.elements), key=lambda e: e.short_name)
 
@@ -528,12 +528,12 @@ class SwcInternalBehavior(InternalBehavior):
         return sorted(filter(lambda c: isinstance(c, SwcServiceDependency), self.elements), key=lambda e: e.short_name)
 
     def getEvent(self, short_name: str) -> RTEEvent:
-        '''
+        """
         if (not isinstance(self.elements[short_name], RTEEvent)):
             raise ValueError("Invalid Event Type <%s> of <%s>" %
                              type(self.elements[short_name]), short_name)
         return self.elements[short_name]'
-        '''
+        """
         return self.getElement(short_name, RTEEvent)
 
     def createImplicitInterRunnableVariable(self, short_name: str) -> VariableDataPrototype:

@@ -164,21 +164,14 @@ class TestModelImports:
         discovered_classes = discover_model_classes()
 
         # Remove known name collision classes and intentionally unexported modules
-        testable_classes = (
-            discovered_classes
-            - KNOWN_NAME_COLLISION_CLASSES
-            - INTENTIONALLY_UNEXPORTED_MODULES
-        )
+        testable_classes = discovered_classes - KNOWN_NAME_COLLISION_CLASSES - INTENTIONALLY_UNEXPORTED_MODULES
 
         # Track any missing imports
         missing_imports = []
 
         for class_name in sorted(testable_classes):
             try:
-                assert hasattr(armodel, class_name), (
-                    f"Class '{class_name}' cannot be imported from armodel. "
-                    f"Ensure it's properly exported via wildcard imports."
-                )
+                assert hasattr(armodel, class_name), f"Class '{class_name}' cannot be imported from armodel. " f"Ensure it's properly exported via wildcard imports."
             except AssertionError:
                 missing_imports.append(class_name)
 
@@ -192,7 +185,4 @@ class TestModelImports:
             )
 
         # Sanity check - ensure we're testing something
-        assert len(testable_classes) > 100, (
-            f"Test discovered only {len(testable_classes)} classes, "
-            "which seems unexpectedly low. Check discovery logic."
-        )
+        assert len(testable_classes) > 100, f"Test discovered only {len(testable_classes)} classes, " "which seems unexpectedly low. Check discovery logic."

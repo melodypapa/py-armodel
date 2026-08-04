@@ -13,6 +13,7 @@ class AnyInstanceRef(AtpInstanceRef):
     Represents a generic instance reference in AUTOSAR models.
     This class defines the structure for referencing any type of instance.
     """
+
     # AnyInstanceRef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
     # [ ] getBaseRef                   [x] impl  [x] docstring  [ ] test
@@ -21,7 +22,6 @@ class AnyInstanceRef(AtpInstanceRef):
     # [x] addContextElementRef         [x] impl  [x] docstring  [x] test
     # [ ] getTargetRef                 [x] impl  [x] docstring  [ ] test
     # [ ] setTargetRef                 [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self):
         super().__init__()

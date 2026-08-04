@@ -9,6 +9,7 @@ class DiagnosticCommonElement(ARElement, ABC):
     Abstract base class for common diagnostic elements in the diagnostic
     extract template.
     """
+
     # DiagnosticCommonElement method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 

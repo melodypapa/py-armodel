@@ -11,6 +11,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 # class EcucConditionFormula(FormulaExpression)
 
+
 class EcucConditionSpecification(ARObject):
     """
     Represents an ECUC (Electronic Control Unit Configuration) condition specification
@@ -21,6 +22,7 @@ class EcucConditionSpecification(ARObject):
         conditionFormula (EcucConditionFormula): Represents the formula or expression
             that defines the condition.
     """
+
     # EcucConditionSpecification method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
     # [ ] getConditionFormula          [x] impl  [ ] docstring  [ ] test
@@ -44,13 +46,14 @@ class EcucValidationCondition(Identifiable):
     """
     Represents an ECUC validation condition in the AUTOSAR model.
 
-    This class is used to define a validation condition for an ECUC parameter 
+    This class is used to define a validation condition for an ECUC parameter
     within the AUTOSAR framework. It inherits from the `Identifiable` class.
 
     Attributes:
         parent (ARObject): The parent ARObject to which this validation condition belongs.
         short_name (str): A short name identifier for the validation condition.
     """
+
     # EcucValidationCondition method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
 
@@ -62,6 +65,7 @@ class EcucScopeEnum(AREnum):
     """
     Enumeration for ECUC definition scope types.
     """
+
     # EcucScopeEnum method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
 
@@ -111,6 +115,7 @@ class EcucDefinitionElement(Identifiable, ABC):
         setUpperMultiplicityInfinite(value: Boolean):
             Sets whether the upper multiplicity is infinite.
     """
+
     # EcucDefinitionElement method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
     # [ ] getEcucCond                  [x] impl  [ ] docstring  [ ] test
@@ -200,16 +205,17 @@ class EcucDefinitionElement(Identifiable, ABC):
 
 class EcucDestinationUriDefRefType(RefType):
     """
-    EcucDestinationUriDefRefType is a class that represents a reference type 
+    EcucDestinationUriDefRefType is a class that represents a reference type
     specific to ECUC Destination URI definitions.
 
-    This class inherits from the `RefType` base class and is used to define 
+    This class inherits from the `RefType` base class and is used to define
     references to ECUC Destination URI definitions in the AUTOSAR model.
 
     Methods:
-        __init__(): Initializes an instance of EcucDestinationUriDefRefType 
+        __init__(): Initializes an instance of EcucDestinationUriDefRefType
         by invoking the constructor of the parent `RefType` class.
     """
+
     # EcucDestinationUriDefRefType method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
 
@@ -221,6 +227,7 @@ class EcucConfigurationClassEnum(AREnum):
     """
     Enumeration for ECUC configuration class types.
     """
+
     # EcucConfigurationClassEnum method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
 
@@ -232,6 +239,7 @@ class EcucConfigurationVariantEnum(AREnum):
     """
     Enumeration for ECUC configuration variant types.
     """
+
     # EcucConfigurationVariantEnum method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
 
@@ -258,6 +266,7 @@ class EcucAbstractConfigurationClass(ARObject, ABC):
             Sets the configuration variant to the specified value.
             Returns the instance for method chaining.
     """
+
     # EcucAbstractConfigurationClass method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getConfigClass               [x] impl  [ ] docstring  [ ] test
@@ -303,6 +312,7 @@ class EcucMultiplicityConfigurationClass(EcucAbstractConfigurationClass):
         __init__(): Initializes an instance of EcucMultiplicityConfigurationClass
         and invokes the constructor of the parent class.
     """
+
     # EcucMultiplicityConfigurationClass method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
 
@@ -352,6 +362,7 @@ class EcucContainerDef(EcucDefinitionElement, ABC):
         setMultipleConfigurationContainer(value: Boolean):
             Sets whether the container supports multiple configurations.
     """
+
     # EcucContainerDef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
     # [ ] getDestinationUriRef         [x] impl  [ ] docstring  [ ] test
@@ -427,7 +438,7 @@ class EcucContainerDef(EcucDefinitionElement, ABC):
             self.multipleConfigurationContainer = value
         return self
 
-    
+
 class EcucValueConfigurationClass(EcucAbstractConfigurationClass):
     """
     EcucValueConfigurationClass is a subclass of EcucAbstractConfigurationClass.
@@ -439,6 +450,7 @@ class EcucValueConfigurationClass(EcucAbstractConfigurationClass):
         __init__(): Initializes an instance of EcucValueConfigurationClass by invoking the constructor
                     of its superclass, EcucAbstractConfigurationClass.
     """
+
     # EcucValueConfigurationClass method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
 
@@ -448,21 +460,21 @@ class EcucValueConfigurationClass(EcucAbstractConfigurationClass):
 
 class EcucCommonAttributes(EcucDefinitionElement, ABC):
     """
-    EcucCommonAttributes is an abstract base class that represents common attributes 
-    for ECUC (Electronic Control Unit Configuration) definition elements. This class 
+    EcucCommonAttributes is an abstract base class that represents common attributes
+    for ECUC (Electronic Control Unit Configuration) definition elements. This class
     cannot be instantiated directly and must be subclassed.
     Attributes:
-        multiplicityConfigClasses (List[EcucMultiplicityConfigurationClass]): 
+        multiplicityConfigClasses (List[EcucMultiplicityConfigurationClass]):
             A list of multiplicity configuration classes associated with the ECUC element.
-        origin (String): 
+        origin (String):
             The origin of the ECUC element.
-        postBuildVariantMultiplicity (Boolean): 
+        postBuildVariantMultiplicity (Boolean):
             Indicates whether the ECUC element supports post-build variant multiplicity.
-        postBuildVariantValue (Boolean): 
+        postBuildVariantValue (Boolean):
             Indicates whether the ECUC element supports post-build variant values.
-        requiresIndex (Boolean): 
+        requiresIndex (Boolean):
             Specifies whether the ECUC element requires an index.
-        valueConfigClasses (List[EcucValueConfigurationClass]): 
+        valueConfigClasses (List[EcucValueConfigurationClass]):
             A list of value configuration classes associated with the ECUC element.
     Methods:
         getMultiplicityConfigClasses() -> List[EcucMultiplicityConfigurationClass]:
@@ -490,6 +502,7 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
         addValueConfigClass(value: EcucValueConfigurationClass):
             Adds a value configuration class to the list.
     """
+
     # EcucCommonAttributes method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getMultiplicityConfigClasses [x] impl  [ ] docstring  [ ] test
@@ -574,6 +587,7 @@ class EcucDerivationSpecification(ARObject):
     This class is a specialization of the ARObject base class and is used to define
     derivation specifications for ECUC parameters in the AUTOSAR standard.
     """
+
     # EcucDerivationSpecification method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
 
@@ -607,6 +621,7 @@ class EcucParameterDef(EcucCommonAttributes, ABC):
             Sets the automatic configuration status of the parameter.
             Returns the current instance for method chaining.
     """
+
     # EcucParameterDef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getDerivation                [x] impl  [ ] docstring  [ ] test
@@ -615,7 +630,6 @@ class EcucParameterDef(EcucCommonAttributes, ABC):
     # [ ] setSymbolicNameValue         [x] impl  [ ] docstring  [ ] test
     # [ ] getWithAuto                  [x] impl  [ ] docstring  [ ] test
     # [ ] setWithAuto                  [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is EcucParameterDef:
@@ -662,6 +676,7 @@ class EcucBooleanParamDef(EcucParameterDef):
         parent (ARObject): The parent object in the AUTOSAR model hierarchy.
         short_name (str): The short name of the ECUC boolean parameter definition.
     """
+
     # EcucBooleanParamDef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
     # [ ] getDefaultValue              [x] impl  [ ] docstring  [ ] test
@@ -674,7 +689,7 @@ class EcucBooleanParamDef(EcucParameterDef):
 
     def getDefaultValue(self) -> Boolean:
         return self.defaultValue
-    
+
     def setDefaultValue(self, value: Boolean):
         if value is not None:
             self.defaultValue = value
@@ -696,6 +711,7 @@ class EcucAbstractReferenceDef(EcucCommonAttributes, ABC):
     Raises:
         TypeError: If an attempt is made to instantiate this abstract class directly.
     """
+
     # EcucAbstractReferenceDef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getWithAuto                  [x] impl  [ ] docstring  [ ] test
@@ -720,18 +736,19 @@ class EcucAbstractReferenceDef(EcucCommonAttributes, ABC):
 
 class EcucAbstractInternalReferenceDef(EcucAbstractReferenceDef, ABC):
     """
-    EcucAbstractInternalReferenceDef is an abstract class that extends EcucAbstractReferenceDef 
+    EcucAbstractInternalReferenceDef is an abstract class that extends EcucAbstractReferenceDef
     and uses ABCMeta as its metaclass. This class cannot be instantiated directly.
     Attributes:
-        requiresSymbolicNameValue (Boolean): A boolean attribute that indicates whether 
+        requiresSymbolicNameValue (Boolean): A boolean attribute that indicates whether
             a symbolic name value is required. Defaults to None.
     Methods:
         getRequiresSymbolicNameValue() -> Boolean:
             Returns the value of the requiresSymbolicNameValue attribute.
         setRequiresSymbolicNameValue(value: Boolean):
-            Sets the value of the requiresSymbolicNameValue attribute if the provided value 
+            Sets the value of the requiresSymbolicNameValue attribute if the provided value
             is not None. Returns the instance of the class.
     """
+
     # EcucAbstractInternalReferenceDef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getRequiresSymbolicNameValue [x] impl  [ ] docstring  [ ] test
@@ -757,13 +774,14 @@ class EcucAbstractExternalReferenceDef(EcucAbstractReferenceDef, ABC):
     """
     Abstract base class for ECUC external reference definitions.
     """
+
     # EcucAbstractExternalReferenceDef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
     def __init__(self, parent, short_name):
         if type(self) is EcucAbstractExternalReferenceDef:
             raise TypeError("Cannot instantiate abstract class EcucAbstractExternalReferenceDef")
-        
+
         super().__init__(parent, short_name)
 
 
@@ -772,6 +790,7 @@ class EcucSymbolicNameReferenceDef(EcucAbstractInternalReferenceDef):
     ECUC reference definition using symbolic names with a destination
     reference.
     """
+
     # EcucSymbolicNameReferenceDef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
     # [ ] getDestinationRef            [x] impl  [ ] docstring  [ ] test
@@ -796,6 +815,7 @@ class EcucChoiceReferenceDef(EcucAbstractInternalReferenceDef):
     ECUC reference definition for choice containers with a destination
     reference.
     """
+
     # EcucChoiceReferenceDef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
     # [ ] getDestinationRef            [x] impl  [ ] docstring  [ ] test
@@ -819,6 +839,7 @@ class EcucReferenceDef(EcucAbstractInternalReferenceDef):
     """
     ECUC reference definition with a destination reference.
     """
+
     # EcucReferenceDef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
     # [ ] getDestinationRef            [x] impl  [ ] docstring  [ ] test
@@ -843,6 +864,7 @@ class EcucUriReferenceDef(EcucAbstractInternalReferenceDef):
     ECUC reference definition using a URI with a destination URI
     reference.
     """
+
     # EcucUriReferenceDef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
     # [ ] getDestinationUriRef         [x] impl  [ ] docstring  [ ] test
@@ -867,6 +889,7 @@ class EcucForeignReferenceDef(EcucAbstractExternalReferenceDef):
     ECUC reference definition to a foreign context with destination
     context and type.
     """
+
     # EcucForeignReferenceDef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
     # [ ] getDestinationContext        [x] impl  [ ] docstring  [ ] test
@@ -902,6 +925,7 @@ class EcucInstanceReferenceDef(EcucAbstractExternalReferenceDef):
     ECUC reference definition for instance-based references with
     destination type.
     """
+
     # EcucInstanceReferenceDef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
     # [ ] getDestinationType           [x] impl  [ ] docstring  [ ] test
@@ -951,6 +975,7 @@ class EcucAbstractStringParamDef(EcucParameterDef, ABC):
     Raises:
         TypeError: If an attempt is made to instantiate the abstract class directly.
     """
+
     # EcucAbstractStringParamDef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getDefaultValue              [x] impl  [ ] docstring  [ ] test
@@ -965,7 +990,7 @@ class EcucAbstractStringParamDef(EcucParameterDef, ABC):
     def __init__(self, parent, short_name):
         if type(self) is EcucAbstractStringParamDef:
             raise TypeError("Cannot instantiate abstract class EcucAbstractStringParamDef")
-        
+
         super().__init__(parent, short_name)
 
         self.defaultValue: VerbatimString = None
@@ -1017,6 +1042,7 @@ class EcucStringParamDef(EcucAbstractStringParamDef):
         parent (ARObject): The parent object in the AUTOSAR model hierarchy.
         short_name (str): The short name of the ECUC string parameter definition.
     """
+
     # EcucStringParamDef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
 
@@ -1035,6 +1061,7 @@ class EcucFunctionNameDef(EcucAbstractStringParamDef):
         parent (ARObject): The parent object in the AUTOSAR hierarchy.
         short_name (str): The short name of the ECUC parameter definition.
     """
+
     # EcucFunctionNameDef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
 
@@ -1047,6 +1074,7 @@ class EcucIntegerParamDef(EcucParameterDef):
     ECUC integer parameter definition with default value, min, and max
     constraints.
     """
+
     # EcucIntegerParamDef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
     # [ ] getDefaultValue              [x] impl  [ ] docstring  [ ] test
@@ -1091,7 +1119,7 @@ class EcucIntegerParamDef(EcucParameterDef):
 class EcucEnumerationLiteralDef(Identifiable):
     """
     Represents an ECUC Enumeration Literal Definition in the AUTOSAR model.
-    This class is used to define enumeration literals for ECUC parameters, 
+    This class is used to define enumeration literals for ECUC parameters,
     including their associated condition specifications and origin information.
     Attributes:
         ecucCond (EcucConditionSpecification): The condition specification associated with the enumeration literal.
@@ -1108,6 +1136,7 @@ class EcucEnumerationLiteralDef(Identifiable):
             Sets the origin information for the enumeration literal.
             Returns the current instance for method chaining.
     """
+
     # EcucEnumerationLiteralDef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
     # [ ] getEcucCond                  [x] impl  [ ] docstring  [ ] test
@@ -1158,6 +1187,7 @@ class EcucEnumerationParamDef(EcucParameterDef):
             Creates a new enumeration literal with the specified short name if it does not already exist.
             Adds the literal to the list of literals and returns it.
     """
+
     # EcucEnumerationParamDef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
     # [ ] getDefaultValue              [x] impl  [ ] docstring  [ ] test
@@ -1195,6 +1225,7 @@ class EcucFloatParamDef(EcucParameterDef):
     ECUC float parameter definition with default value, min, and max
     limits.
     """
+
     # EcucFloatParamDef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
     # [ ] getDefaultValue              [x] impl  [ ] docstring  [ ] test
@@ -1247,6 +1278,7 @@ class EcucChoiceContainerDef(EcucContainerDef):
         parent (ARObject): The parent object in the AUTOSAR model hierarchy.
         short_name (str): The short name of the ECUC choice container definition.
     """
+
     # EcucChoiceContainerDef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
     # [ ] getChoices                   [x] impl  [ ] docstring  [x] test
@@ -1274,6 +1306,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
     This class is used to define a container that can hold parameters, references,
     and sub-containers as part of the AUTOSAR ECUC configuration.
     """
+
     # EcucParamConfContainerDef method parity checklist:
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [ ] getParameters                [x] impl  [x] docstring  [ ] test
@@ -1289,7 +1322,6 @@ class EcucParamConfContainerDef(EcucContainerDef):
     # [ ] getSubContainers             [x] impl  [x] docstring  [ ] test
     # [ ] createEcucChoiceContainerDef [x] impl  [x] docstring  [ ] test
     # [ ] createEcucParamConfContainerDef [x] impl  [x] docstring  [ ] test
-
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -1332,7 +1364,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.addElement(param)
             self.parameters.append(param)
         return self.getElement(short_name)
-    
+
     def createEcucStringParamDef(self, short_name: str) -> EcucStringParamDef:
         """
         Creates an ECUC string parameter definition with the given short name.
@@ -1349,7 +1381,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.addElement(param)
             self.parameters.append(param)
         return self.getElement(short_name)
-    
+
     def createEcucIntegerParamDef(self, short_name: str) -> EcucIntegerParamDef:
         """
         Creates an ECUC integer parameter definition with the given short name.
@@ -1366,7 +1398,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.addElement(param)
             self.parameters.append(param)
         return self.getElement(short_name)
-    
+
     def createEcucFloatParamDef(self, short_name: str) -> EcucFloatParamDef:
         """
         Creates an ECUC float parameter definition with the given short name.
@@ -1383,7 +1415,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.addElement(param)
             self.parameters.append(param)
         return self.getElement(short_name)
-    
+
     def createEcucEnumerationParamDef(self, short_name: str) -> EcucEnumerationParamDef:
         """
         Creates an ECUC enumeration parameter definition with the given short name.
@@ -1400,7 +1432,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.addElement(param)
             self.parameters.append(param)
         return self.getElement(short_name)
-    
+
     def createEcucFunctionNameDef(self, short_name: str) -> EcucFunctionNameDef:
         """
         Creates a new ECUC function name definition and adds it to the container.
@@ -1416,7 +1448,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.addElement(ref)
             self.parameters.append(ref)
         return self.getElement(short_name)
-    
+
     def getReferences(self) -> List[EcucAbstractReferenceDef]:
         """
         Retrieves the list of ECUC abstract reference definitions.
@@ -1425,7 +1457,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             List[EcucAbstractReferenceDef]: A list of ECUC abstract reference definitions.
         """
         return self.references
-    
+
     def createEcucSymbolicNameReferenceDef(self, short_name: str) -> EcucSymbolicNameReferenceDef:
         """
         Creates a new ECUC symbolic name reference definition and adds it to the container.
@@ -1441,7 +1473,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.addElement(ref)
             self.references.append(ref)
         return self.getElement(short_name)
-    
+
     def createEcucReferenceDef(self, short_name: str) -> EcucReferenceDef:
         """
         Creates a new ECUC reference definition and adds it to the container.
@@ -1457,7 +1489,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.addElement(ref)
             self.references.append(ref)
         return self.getElement(short_name)
-    
+
     def getSubContainers(self) -> List[EcucContainerDef]:
         """
         Retrieves the list of ECUC container definitions.
@@ -1466,7 +1498,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
             List[EcucContainerDef]: A list of ECUC container definitions.
         """
         return self.subContainers
-    
+
     def createEcucChoiceContainerDef(self, short_name: str) -> EcucChoiceContainerDef:
         """
         Creates a new ECUC choice container definition and adds it to the container.
@@ -1482,8 +1514,8 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.addElement(container)
             self.subContainers.append(container)
         return self.getElement(short_name)
-    
-    def createEcucParamConfContainerDef(self, short_name: str) -> 'EcucParamConfContainerDef':
+
+    def createEcucParamConfContainerDef(self, short_name: str) -> "EcucParamConfContainerDef":
         """
         Creates a new ECUC parameter configuration container definition and adds it to the container.
 
@@ -1512,6 +1544,7 @@ class EcucAddInfoParamDef(EcucParameterDef):
         short_name (str): The short name of the ECUC additional info parameter definition.
         defaultValue (VerbatimString): The default value of the additional info parameter.
     """
+
     # EcucAddInfoParamDef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getDefaultValue              [x] impl  [ ] docstring  [ ] test
@@ -1541,6 +1574,7 @@ class EcucConditionFormula(ARObject):
     Attributes:
         formula (String): The formula expression.
     """
+
     # EcucConditionFormula method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getFormula                   [x] impl  [ ] docstring  [ ] test
@@ -1569,6 +1603,7 @@ class EcucDefinitionCollection(AtpBlueprintable):
     Attributes:
         definitions (List[EcucDefinitionElement]): A list of ECUC definition elements.
     """
+
     # EcucDefinitionCollection method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getDefinitions               [x] impl  [ ] docstring  [ ] test
@@ -1599,6 +1634,7 @@ class EcucDestinationUriDef(Identifiable):
         short_name (str): The short name of the ECUC destination URI definition.
         destinationUri (String): The destination URI.
     """
+
     # EcucDestinationUriDef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getDestinationUri            [x] impl  [ ] docstring  [ ] test
@@ -1629,6 +1665,7 @@ class EcucDestinationUriDefSet(AtpBlueprintable):
         short_name (str): The short name of the ECUC destination URI definition set.
         destinationUriDefs (List[EcucDestinationUriDef]): A list of ECUC destination URI definitions.
     """
+
     # EcucDestinationUriDefSet method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getDestinationUriDefs        [x] impl  [ ] docstring  [ ] test
@@ -1657,6 +1694,7 @@ class EcucDestinationUriPolicy(ARObject):
     Attributes:
         policy (String): The policy definition.
     """
+
     # EcucDestinationUriPolicy method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getPolicy                    [x] impl  [ ] docstring  [ ] test
@@ -1687,6 +1725,7 @@ class EcucLinkerSymbolDef(EcucAbstractStringParamDef):
         short_name (str): The short name of the ECUC linker symbol definition.
         linkerSymbol (CIdentifier): The linker symbol.
     """
+
     # EcucLinkerSymbolDef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getLinkerSymbol              [x] impl  [ ] docstring  [ ] test
@@ -1717,6 +1756,7 @@ class EcucMultilineStringParamDef(EcucAbstractStringParamDef):
         parent (ARObject): The parent object in the AUTOSAR model hierarchy.
         short_name (str): The short name of the ECUC multiline string parameter definition.
     """
+
     # EcucMultilineStringParamDef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
@@ -1733,6 +1773,7 @@ class EcucParameterDerivationFormula(ARObject):
     Attributes:
         formula (String): The derivation formula.
     """
+
     # EcucParameterDerivationFormula method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getFormula                   [x] impl  [ ] docstring  [ ] test
@@ -1761,6 +1802,7 @@ class EcucQuery(Identifiable):
     Attributes:
         queryExpression (EcucQueryExpression): The query expression.
     """
+
     # EcucQuery method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getQueryExpression           [x] impl  [ ] docstring  [ ] test
@@ -1789,6 +1831,7 @@ class EcucQueryExpression(ARObject):
     Attributes:
         expression (String): The query expression.
     """
+
     # EcucQueryExpression method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getExpression                [x] impl  [ ] docstring  [ ] test
@@ -1813,6 +1856,7 @@ class EcucModuleDef(EcucDefinitionElement):
     ECUC module definition with API service prefix, container
     definitions, and variant support properties.
     """
+
     # EcucModuleDef method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getApiServicePrefix          [x] impl  [ ] docstring  [ ] test
@@ -1847,15 +1891,15 @@ class EcucModuleDef(EcucDefinitionElement):
     def getContainers(self) -> List[EcucContainerDef]:
         return self.containers
 
-    def createEcucParamConfContainerDef(self, short_name: str) -> 'EcucParamConfContainerDef':
-        if (not self.IsElementExists(short_name)):
+    def createEcucParamConfContainerDef(self, short_name: str) -> "EcucParamConfContainerDef":
+        if not self.IsElementExists(short_name):
             container_def = EcucParamConfContainerDef(self, short_name)
             self.addElement(container_def)
             self.containers.append(container_def)
         return self.getElement(short_name)
 
     def createEcucChoiceContainerDef(self, short_name: str) -> EcucChoiceContainerDef:
-        if (not self.IsElementExists(short_name)):
+        if not self.IsElementExists(short_name):
             container_def = EcucChoiceContainerDef(self, short_name)
             self.addElement(container_def)
             self.containers.append(container_def)
@@ -1884,4 +1928,3 @@ class EcucModuleDef(EcucDefinitionElement):
         if value is not None:
             self.supportedConfigVariants.append(value)
         return self
-

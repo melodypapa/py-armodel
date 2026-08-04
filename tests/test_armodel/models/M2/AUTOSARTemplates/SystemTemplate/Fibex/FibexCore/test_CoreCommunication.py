@@ -35,7 +35,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     UserDefinedPdu,
     UserDefinedIPdu,
     SecureCommunicationAuthenticationProps,
-    SecureCommunicationFreshnessProps
+    SecureCommunicationFreshnessProps,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, ARElement, Describable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -48,7 +48,7 @@ class MockParent(ARObject):
 
 class Test_FibexCoreCommunication:
     """Test cases for FibexCore Communication classes."""
-    
+
     def test_FibexElement(self):
         """Test FibexElement abstract class instantiation."""
         parent = MockParent()
@@ -61,13 +61,13 @@ class Test_FibexCoreCommunication:
         mapping = PduToFrameMapping(parent, "test_pdu_to_frame_mapping")
 
         assert isinstance(mapping, Identifiable)
-        
+
         # Test default values
         assert mapping.getPackingByteOrder() is None
         assert mapping.getPduRef() is None
         assert mapping.getStartPosition() is None
         assert mapping.getUpdateIndicationBitPosition() is None
-        
+
         # Test setter/getter methods
         mapping.setPackingByteOrder("MOST_SIGNIFICANT_BYTE_FIRST")
         assert mapping.getPackingByteOrder() == "MOST_SIGNIFICANT_BYTE_FIRST"
@@ -94,6 +94,7 @@ class Test_FibexCoreCommunication:
 
     def test_Frame_methods(self):
         """Test Frame abstract class methods."""
+
         class ConcreteFrame(Frame):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
@@ -124,7 +125,7 @@ class Test_FibexCoreCommunication:
         props = ContainedIPduProps()
 
         assert isinstance(props, ARObject)
-        
+
         # Test default values
         assert props.getCollectionSemantics() is None
         assert props.getHeaderIdLongHeader() is None
@@ -169,7 +170,7 @@ class Test_FibexCoreCommunication:
         group = ISignalGroup(parent, "test_isignal_group")
 
         assert isinstance(group, FibexElement)
-        
+
         # Test default values
         assert group.getComBasedSignalGroupTransformationRefs() == []
         assert group.getISignalRefs() == []
@@ -203,7 +204,7 @@ class Test_FibexCoreCommunication:
         group = ISignalIPduGroup(parent, "test_isignal_ipdu_group")
 
         assert isinstance(group, FibexElement)
-        
+
         # Test default values
         assert group.getCommunicationDirection() is None
         assert group.getCommunicationMode() is None
@@ -243,6 +244,7 @@ class Test_FibexCoreCommunication:
 
     def test_Pdu_methods(self):
         """Test Pdu class methods."""
+
         class ConcretePdu(Pdu):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
@@ -275,6 +277,7 @@ class Test_FibexCoreCommunication:
 
     def test_IPdu_methods(self):
         """Test IPdu class methods."""
+
         class ConcreteIPdu(IPdu):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
@@ -300,7 +303,7 @@ class Test_FibexCoreCommunication:
         props = SecureCommunicationProps()
 
         assert isinstance(props, ARObject)
-        
+
         # Test default values
         assert props.getAuthDataFreshnessLength() is None
         assert props.getAuthDataFreshnessStartPosition() is None
@@ -429,7 +432,7 @@ class Test_FibexCoreCommunication:
         mapping = ISignalToIPduMapping(parent, "test_isignal_to_ipdu_mapping")
 
         assert isinstance(mapping, Identifiable)
-        
+
         # Test default values
         assert mapping.getISignalRef() is None
         assert mapping.getISignalGroupRef() is None
@@ -685,6 +688,7 @@ class Test_FibexCoreCommunication:
 
     def test_FrameTriggering_methods(self):
         """Test FrameTriggering concrete implementation."""
+
         class ConcreteFrameTriggering(FrameTriggering):
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
@@ -815,10 +819,11 @@ class Test_FibexCoreCommunication:
 
     def test_MultiplexedPart_methods(self):
         """Test MultiplexedPart subclass methods."""
+
         class ConcreteMultiplexedPart(MultiplexedPart):
             def __init__(self):
                 super().__init__()
-        
+
         part = ConcreteMultiplexedPart()
         # Test default values
         assert part.getSegmentPositions() == []

@@ -13,9 +13,9 @@ class CryptoServiceMapping(Identifiable, ABC):
     common properties for different types of cryptographic
     service mappings in the AUTOSAR system.
     """
+
     # CryptoServiceMapping method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
 
     def __init__(self, parent, short_name):
         if type(self) is CryptoServiceMapping:
@@ -29,6 +29,7 @@ class SecOcCryptoServiceMapping(CryptoServiceMapping):
     defining authentication, key, and queue references for secure
     communication between ECUs.
     """
+
     # SecOcCryptoServiceMapping method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getAuthenticationRef         [x] impl  [ ] docstring  [ ] test
@@ -76,6 +77,7 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
     defining key exchange references, cipher suites, and authentication
     settings for TLS-secured communication.
     """
+
     # TlsCryptoServiceMapping method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getKeyExchangeRef            [x] impl  [ ] docstring  [ ] test

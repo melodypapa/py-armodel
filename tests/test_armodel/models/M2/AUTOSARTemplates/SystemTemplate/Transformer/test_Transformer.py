@@ -11,7 +11,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     TransformationTechnology,
     DataTransformationSet,
     TransformationISignalProps,
-    EndToEndTransformationISignalProps
+    EndToEndTransformationISignalProps,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, ARElement, Describable
@@ -78,10 +78,10 @@ class TestTransformer:
 
         # Test that it's properly initialized
         assert enum is not None
-        assert hasattr(enum, 'ALL_16_BIT')
-        assert hasattr(enum, 'ALTERNATING_8_BIT')
-        assert hasattr(enum, 'LOWER_12_BIT')
-        assert hasattr(enum, 'LOWER_8_BIT')
+        assert hasattr(enum, "ALL_16_BIT")
+        assert hasattr(enum, "ALTERNATING_8_BIT")
+        assert hasattr(enum, "LOWER_12_BIT")
+        assert hasattr(enum, "LOWER_8_BIT")
 
     def test_data_transformation(self):
         """
@@ -91,12 +91,12 @@ class TestTransformer:
         transformation = DataTransformation(parent, "test_transformation")
 
         assert isinstance(transformation, Identifiable)
-        
+
         # Test default values
         assert transformation.getDataTransformationKind() is None
         assert transformation.getExecuteDespiteDataUnavailability() is None
         assert transformation.getTransformerChainRefs() == []
-        
+
         # Test setter/getter methods with method chaining - with None values
         assert transformation == transformation.setDataTransformationKind(None)
         assert transformation.getDataTransformationKind() is None
@@ -109,11 +109,11 @@ class TestTransformer:
         transformation.setDataTransformationKind(mock_kind)
         assert transformation.getDataTransformationKind() == mock_kind
         assert transformation == transformation.setDataTransformationKind(mock_kind)
-        
+
         transformation.setExecuteDespiteDataUnavailability(True)
         assert transformation.getExecuteDespiteDataUnavailability() is True
         assert transformation == transformation.setExecuteDespiteDataUnavailability(True)
-        
+
         # Test addTransformerChainRef with method chaining
         transformation.addTransformerChainRef("chain_ref")
         assert transformation.getTransformerChainRefs() == ["chain_ref"]
@@ -137,7 +137,7 @@ class TestTransformer:
         data_set = DataTransformationSet(parent, "test_data_set")
 
         assert isinstance(data_set, ARElement)
-        
+
         # Test default values
         assert data_set.getDataTransformations() == []
         assert data_set.getTransformationTechnologies() == []
@@ -159,8 +159,8 @@ class TestTransformer:
 
         # Test that it's properly initialized
         assert enum is not None
-        assert hasattr(enum, 'PRE_R4_2')
-        assert hasattr(enum, 'R4_2')
+        assert hasattr(enum, "PRE_R4_2")
+        assert hasattr(enum, "R4_2")
 
     def test_end_to_end_transformation_description(self):
         """
@@ -169,7 +169,7 @@ class TestTransformer:
         description = EndToEndTransformationDescription()
 
         assert isinstance(description, Describable)
-        
+
         # Test default values
         assert description.getClearFromValidToInvalid() is None
         assert description.getCounterOffset() is None
@@ -265,7 +265,7 @@ class TestTransformer:
         description.setCounterOffset(5)
         assert description.getCounterOffset() == 5
         assert description == description.setCounterOffset(5)
-        
+
         description.setClearFromValidToInvalid(True)
         assert description.getClearFromValidToInvalid() is True
         assert description == description.setClearFromValidToInvalid(True)
@@ -365,7 +365,7 @@ class TestTransformer:
         technology = TransformationTechnology(parent, "test_technology")
 
         assert isinstance(technology, Identifiable)
-        
+
         # Test default values
         assert technology.getBufferProperties() is None
         assert technology.getHasInternalState() is None
@@ -402,11 +402,11 @@ class TestTransformer:
         technology.setBufferProperties(mock_buffer)
         assert technology.getBufferProperties() == mock_buffer
         assert technology == technology.setBufferProperties(mock_buffer)
-        
+
         technology.setHasInternalState(True)
         assert technology.getHasInternalState() is True
         assert technology == technology.setHasInternalState(True)
-        
+
         technology.setProtocol("e2e")
         assert technology.getProtocol() == "e2e"
         assert technology == technology.setProtocol("e2e")
@@ -436,15 +436,16 @@ class TestTransformer:
 
         # Test that it's properly initialized
         assert enum is not None
-        assert hasattr(enum, 'CUSTOM')
-        assert hasattr(enum, 'SAFETY')
-        assert hasattr(enum, 'SECURITY')
-        assert hasattr(enum, 'SERIALIZER')
+        assert hasattr(enum, "CUSTOM")
+        assert hasattr(enum, "SAFETY")
+        assert hasattr(enum, "SECURITY")
+        assert hasattr(enum, "SERIALIZER")
 
     def test_transformation_isignal_props_abstract(self):
         """
         Test TransformationISignalProps abstract class functionality.
         """
+
         class ConcreteTransformationISignalProps(TransformationISignalProps):
             def __init__(self):
                 super().__init__()

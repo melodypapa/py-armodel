@@ -34,17 +34,17 @@ class DocumentationBlock(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.defList = None                         # type: DefList
-        self.figures = []                           # type: List[MlFigure]
-        self.formula = None                         # type：MlFormula
-        self.labeledList = None                     # type: LabeledList
-        self.lists = []                             # type: List[ARList]
-        self.msrQueryP2 = None                      # type: MsrQueryP2
-        self.note = None                            # type: Note
-        self.ps = []                                # type: List[MultiLanguageParagraph]
-        self.structuredReq = None                   # type: StructuredReq
-        self.trace = None                           # type: TraceableText
-        self.verbatim = None                        # type: MultiLanguageVerbatim
+        self.defList = None  # type: DefList
+        self.figures = []  # type: List[MlFigure]
+        self.formula = None  # type：MlFormula
+        self.labeledList = None  # type: LabeledList
+        self.lists = []  # type: List[ARList]
+        self.msrQueryP2 = None  # type: MsrQueryP2
+        self.note = None  # type: Note
+        self.ps = []  # type: List[MultiLanguageParagraph]
+        self.structuredReq = None  # type: StructuredReq
+        self.trace = None  # type: TraceableText
+        self.verbatim = None  # type: MultiLanguageVerbatim
 
     def getDefList(self):
         return self.defList
@@ -59,7 +59,7 @@ class DocumentationBlock(ARObject):
 
     def addFigure(self, value):
         if value is not None:
-            self.figures.append(value)  
+            self.figures.append(value)
         return self
 
     def getFormula(self):
