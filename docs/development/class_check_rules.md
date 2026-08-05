@@ -157,8 +157,21 @@ Check:
       (`ModeInBswModuleDescriptionInstanceRef` originally held
       `bases`/`targetModes` as object references and `contextModes` as a
       non-optional `RefType`; all three were aligned to
-      `baseRef`/`contextModeDeclarationGroupRef`/`targetModeRef`:
-      `Optional[RefType]`).
+       `baseRef`/`contextModeDeclarationGroupRef`/`targetModeRef`:
+       `Optional[RefType]`).
+- [ ] The **base name** of an attribute field comes **verbatim** from the spec
+      table's `Attribute` column; the Kind suffix is appended to that exact
+      base, never to a paraphrased or semantically-equivalent rename. A
+      plausible-sounding name is still a Rule 1 violation when it does not
+      match the spec Attribute (the old `BswAsynchronousServerCallReturnsEvent`
+      modeled spec `eventSource` (Kind `ref`) as `serverCallPointRef` — a
+      semantic paraphrase — while the spec-mandated name is `eventSourceRef`).
+      The set-based checklist (Rule 2) cannot catch a wrong-but-consistent
+      name: field, getter, setter, and checklist all agreed on
+      `serverCallPointRef`, so the checklist was internally consistent while
+      the API was misnamed relative to the spec. Only the field-to-spec
+      cross-check against the `Attribute` column catches this, so it applies to
+      **every** field, not just to missing/extra ones.
 - [ ] Choose `createXXX` vs `setXXX` from the aggregated child's spec `Base`:
       if the child type has a short name (its spec `Base` lists `Referrable`
       or `Identifiable` — `Identifiable` extends `Referrable`, so the
@@ -191,14 +204,21 @@ Check:
       read/write method (`BswModeSwitchEvent` was unreadable-and-unwritable
       because `writeBswInternalBehaviorEvents` had no `isinstance` branch for it;
       the branch was added alongside `writeBswModeSwitchEvent`). Concretely,
-      adding a concrete subtype touches **four** places: (a) the subtype class
+      adding a concrete subtype touches **five** places: (a) the subtype class
       itself, (b) the aggregator that owns the instances — it must expose a
       `createXxx(short_name)` factory and a `getXxxs()` getter, and both rows
       must be added to the aggregator's method-parity checklist
       (`BswInternalBehavior.createBswModeManagerErrorEvent` /
       `getBswModeManagerErrorEvents` were added when `BswModeManagerErrorEvent`
       was added; without the factory the parser's tag-name branch has nothing
-      to instantiate), (c) the parser dispatch, and (d) the writer dispatch.
+      to instantiate), (c) the parser dispatch, (d) the writer dispatch, and
+      (e) the parser **and** writer dispatch *tests* — the
+      `test_readBswInternalBehaviorEvents_dispatches_all_types` /
+      `test_dispatches_all_event_types`-style tests that assert every subtype is
+      routed must gain the new subtype, otherwise a branch exists that no test
+      exercises and a later refactor can silently break the dispatch without
+      failing CI (`BswModeSwitchedAckEvent` was added to both dispatch tests
+      when its branches were added).
       **Exception:** an
       attribute marked `Stereotypes: atpDerived` is a
       *derived* attribute — it is computed from its context and has **no** XML
@@ -305,6 +325,13 @@ Check:
 - [ ] `Optional` / `List` are imported from `typing`.
 - [ ] `__init__` attribute fields are annotated too (`self.foo: Type = None`),
       matching the getter/setter type.
+- [ ] A field that defaults to `None` and maps to a spec `0..1` attribute must
+      be annotated `Optional[T]` — never a non-optional `T` initialized to
+      `None`. A bare `self.xxxRef: RefType = None` contradicts its own getter's
+      `Optional[RefType]` return and is an internal inconsistency
+      (`BswAsynchronousServerCallReturnsEvent.serverCallPointRef` was declared
+      `RefType = None`). Optionality is expressed in the annotation, not just
+      by the `None` default.
 - [ ] **Use `Optional[T]` for Python 3.8+ compatibility, never `T | None`**.
 
 Example:
@@ -373,6 +400,14 @@ paraphrase.
       information from the spec (e.g., "Indicates an entry which is required",
       "The mode that is entered by this transition", "AUTOSAR identifier of
       the target module").
+- [ ] Constraint rows are spec material for the comment just like the attribute
+      note: when the PDF's `constr_*` rows impose a constraint on the attribute,
+      include the constraint wording in the inline comment and cite its id
+      (`BswTimingEvent.period` carries the `constr_4043` "shall be greater than
+      0" requirement; `BswModeManagerErrorEvent.modeGroupRef` carries the
+      `constr_10286` existence requirement). Class-level `constr_*` rows belong
+      in the class docstring alongside the note (`BswModeManagerErrorEvent` is
+      subject to `constr_4081`, which appears in its docstring).
 - [ ] The class docstring reflects the PDF class note (the element's purpose).
 - [ ] Getter/setter docstrings summarize the PDF note and semantic meaning,
       not just "Gets/sets the value". They should mention what the attribute
@@ -545,7 +580,15 @@ Check:
       docstring, so the class becomes importable from `armodel` and stays
       covered by the import test. A class listed in `KNOWN_NAME_COLLISION_CLASSES`
       is a live signal that it may live in a shadowed directory and deserves a
-      Rule 8 review.
+      Rule 8 review. A shadowed class is **dead code** even though report scans
+      still find it (e.g. `reports/method_parity_review.md` analyzed the old
+      shadowed `BswAsynchronousServerCallReturnsEvent`), so a clean rule review
+      of the class is not enough — the class must be relocated to the real
+      module. After relocating, audit **every** reference to the old shadowed
+      path, not just live imports: stale `# from ...BswBehavior.<ClassName>...`
+      comments in `src/armodel/models/__init__.py`, the source path in
+      `docs/development/method_deviation_by_class.md`, and any docs/reports that
+      name the old path.
 - [ ] Classes are **not** placed under a spec package different from their own.
 - [ ] Import statements **match** the package location: every consumer imports the
       class from the package that defines it — `from ...<Args>.<Package> import
@@ -829,6 +872,10 @@ docstrings), correct the enum implementation and update all corresponding tests.
     (`src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`)
   - `BswModeManagerErrorEvent` — Table 5.33, p.95
     (`src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`)
+  - `BswModeSwitchedAckEvent` — Table 5.32, p.95
+    (`src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`)
+  - `BswAsynchronousServerCallReturnsEvent` — Table 5.36, p.98
+    (`src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`)
   - `BswTimingEvent` — Table 5.25, p.89
     (`src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`)
 - Spec sources: `autosar/markdown/*.md` (PDF-derived class tables)
@@ -921,6 +968,78 @@ field and method names. Example: spec Attribute `enteredMode`, Kind `ref` →
 Python field `enteredModeRef: RefType`, getter `getEnteredModeRef()`. This makes
 the reference semantics explicit and is consistent across the codebase (e.g.,
 `BswModuleEntry`'s `expectedEntryRefs`, `implementedEntryRefs`).
+
+## Feedback from BswAsynchronousServerCallReturnsEvent Review
+
+When reviewing and updating `BswAsynchronousServerCallReturnsEvent` per the above
+rules, the following observations emerged. They generalize the rules to any
+concrete subtype of an abstract base (event/entity) living in a shadowed or
+mislocated module.
+
+### 1. Field Base Name Comes Verbatim from the Spec Attribute Column
+
+**ISSUE**: The old class modeled spec `eventSource` (Kind `ref`) as
+`serverCallPointRef` — a semantically plausible paraphrase, not the spec name.
+The field, getter, setter, and checklist all agreed, so the set-based checklist
+passed while the API was misnamed relative to Table 5.36.
+
+**RESOLUTION**: Take the field base name **verbatim** from the spec `Attribute`
+column and append only the Kind suffix: `eventSource` → `eventSourceRef`. Do not
+"improve" the name based on the type (`serverCallPoint` was the referenced
+class's role, not the attribute's name). Rule 1's verbatim-base-name bullet now
+captures this; the checklist cannot, because it only checks internal
+consistency.
+
+### 2. Dead Code in a Shadowed Directory is Still Reviewed
+
+**ISSUE**: The class lived in `BswBehavior/BswAsynchronousServerCallReturnsEvent.py`,
+a non-package directory shadowed by the `BswBehavior.py` module. The class was
+unreachable dead code, yet report scans (e.g. `reports/method_parity_review.md`,
+`reports/deviation_package.md`, `reports/deviation_class_hierarchy_mismatches.md`)
+still analyzed it — so the class could "look aligned" while never being loadable.
+
+**RESOLUTION**: A shadowed class is a Rule 8 problem first. Relocate it into the
+real module (`BswBehavior.py`) before (or while) applying Rules 1-7. Migrating it
+touched five places: the class, the `BswInternalBehavior` aggregator
+(`createBswAsynchronousServerCallReturnsEvent` / `getBswAsynchronousServerCallReturnsEvents`),
+the parser dispatch + handler, the writer dispatch + handler, and both dispatch
+tests. After relocation, update `KNOWN_NAME_COLLISION_CLASSES` counts in
+`test_model_imports.py`, stale `# from ...` comments in `models/__init__.py`, and
+the source path in `docs/development/method_deviation_by_class.md`.
+
+### 3. Schedule-Event Subtype Parent Mismatch
+
+**ISSUE**: The class inherited from `BswEvent`, but Table 5.36's `Base` chain is
+`ARObject, AbstractEvent, BswEvent, BswScheduleEvent, Identifiable,
+MultilanguageReferrable, Referrable` — the most-derived model class is
+`BswScheduleEvent`, the direct parent shared with the sibling schedule events.
+The deviation report `deviation_class_hierarchy_mismatches.md` flagged
+`expected BswScheduleEvent, got BswEvent`.
+
+**RESOLUTION**: Follow the "most-derived model class as direct parent" bullet of
+Rule 1. All `BswScheduleEvent` subtypes also take `(parent, short_name)` in
+`__init__`, so the class signature changed from `__init__(self)` to
+`__init__(self, parent, short_name)`.
+
+### 4. Multiplicity 0..1 Must Be `Optional[T] = None`
+
+**ISSUE**: `eventSource` is `0..1`, but the old field was declared
+`self.serverCallPointRef: RefType = None` — non-optional annotation with a
+`None` default.
+
+**RESOLUTION**: `0..1` → `Optional[RefType] = None`; the getter returns
+`Optional[RefType]`. Rule 3 now has an explicit check for a field defaulting to
+`None` that is annotated non-optional.
+
+### 5. Spec Wording for Comments and Docstrings
+
+The spec note — "This is the 'callback' event for asynchronous
+Client-Server-Communication via the BSW Scheduler which is thrown after
+completion of the asynchronous Client-Server call. Its eventSource specifies the
+call point to be used for retrieving the result." — is now the class docstring.
+The attribute comment carries the constr_10288 existence requirement and the
+getter/setter docstrings describe "the call point to be used for retrieving the
+result", per Rule 5.
 
 ## Feedback from BswEntryRelationship Review
 
@@ -1540,8 +1659,88 @@ PDF in `autosar/`), attribute comment from the spec note, getter/setter pair wit
 the `None` no-op, tests for initialization/get-set/None-no-op/chaining, parser
 (`readBswModeManagerErrorEvent` + dispatch), writer (`writeBswModeManagerErrorEvent`
 + dispatch), and the deviation tracker entry flipping from `missing` to `ok`. The
-minimal case confirms the rules are complete for single-ref event subtypes; no
-generalization was required beyond items 1-3.
+minimal case confirms the core rules (spec/base/multiplicity/naming/
+parser/writer/checklist) are complete for single-ref event subtypes; the only
+generalization the class surfaced was constraint-text in comments (item 5).
+
+### 5. Constraint Rows Are Spec Material for Comments — Rule 5 Generalized
+
+**ISSUE**: Table 5.33 carries two constraints for `BswModeManagerErrorEvent`:
+`constr_10286` ("the reference in the role modeGroup shall exist at the time
+when the configuration of the BSW module is finished") applies to the
+`modeGroup` attribute, and `constr_4081` ("the ModeDeclarationGroupPrototype
+used by BswModeManagerErrorEvent shall be referred as
+BswModuleDescription.providedModeGroup by the same module") applies to the
+class as a whole. Neither appeared in the class. The `BswTimingEvent` review
+had already observed that constraint text is spec material — its `period`
+comment carries the `constr_4043` "shall be greater than 0" wording — but that
+observation was recorded only in the feedback section, **not promoted into Rule
+5**, so a class checked against Rule 5 alone would still omit its constraints.
+
+**RESOLUTION**: Generalized Rule 5: the inline attribute comment must include
+the attribute's `constr_*` constraint wording (citing the id), and class-level
+`constr_*` rows belong in the class docstring alongside the note.
+`BswModeManagerErrorEvent` now carries `constr_10286` on `modeGroupRef` and
+`constr_4081` in its class docstring. Item 4's "no new rule needed" conclusion
+was narrowed: the minimal single-ref class *did* surface one generalization,
+though every other rule held without change.
+
+## Feedback from BswModeSwitchedAckEvent Review
+
+When reviewing and updating `BswModeSwitchedAckEvent` (Table 5.32,
+`src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`)
+per the above rules, the following observations emerged:
+
+### 1. Dispatch Tests Are a Fifth Touch Point When Adding a Subtype
+
+**ISSUE**: Rule 1's polymorphic-dispatch bullet enumerated four touch points
+(subtype, aggregator factory/getter + checklist, parser dispatch, writer
+dispatch), but adding `BswModeSwitchedAckEvent` also required extending the
+dispatch *tests*: the parser's
+`test_readBswInternalBehaviorEvents_dispatches_all_types` and the writer's
+`test_dispatches_all_event_types` assert that every event subtype is routed.
+Without extending them, the two new branches would exist with no test exercising
+them, so a later refactor could silently drop the event from the dispatch without
+failing CI. The `BswModeSwitchEvent` review had extended the writer dispatch test
+and mentioned it in passing, but the four-point list in the rule itself did not
+include tests.
+
+**RESOLUTION**: Generalized Rule 1 to **five** touch points: (e) extend the
+parser and writer "dispatches all types" tests with the new subtype.
+`BswModeSwitchedAckEvent` was added to both dispatch tests alongside its
+branches.
+
+### 2. A Sibling with the Identical Shape Is Aligned by Symmetry from the Aligned Class
+
+**ISSUE**: `BswModeSwitchedAckEvent` is the second minimal single-ref event
+subtype — identical `Base` chain (ending at `BswScheduleEvent`), identical single
+`0..1` Kind `ref` attribute (`modeGroup`), identical aggregator
+(`BswInternalBehavior`). Unlike `BswModeManagerErrorEvent`, it was an empty
+shell: no `modeGroupRef` field, no accessors, no parser/writer support, no
+aggregator factory/getter, and a checklist whose `__init__` row was stale
+(`[ ] impl/docstring/test` although all three existed). The aligned
+`BswModeManagerErrorEvent` in the same file was the exact template for every
+touch point.
+
+**RESOLUTION**: Ported the aligned sibling's shape — the same class docstring
+(Table 5.32 note + `constr_4026`), the same attribute comment (Table 5.32 note +
+`constr_10285`), the same accessor pair, the same aggregator factory/getter, and
+the same parser/writer methods with the sibling's tag
+(`BSW-MODE-SWITCHED-ACK-EVENT`) and element keys (`MODE-GROUP-REF`). When the
+class under check is a sibling of an already-aligned class, the aligned sibling
+is the review template: verify each rule against it, then port the touch points
+and adapt tag names/keys. Rule 2's stale-`[ ]` case was also confirmed — the
+`__init__` row was marked `[ ]` despite being fully implemented; the set-based
+check catches missing rows but not stale markers, so the manual `[x]` pass must
+still be done per class.
+
+### 3. The Constraint-Text Rule Applied Cleanly to a Second Class
+
+**OBSERVATION**: Rule 5's constraint-text bullet (from the `BswModeManagerErrorEvent`
+review) applied without friction: Table 5.32's `constr_10285` (attribute) and
+`constr_4026` (class) went into the attribute comment and class docstring exactly
+as the sibling's did. The second application confirms the generalization rather
+than a one-off; no further Rule 5 change was needed.
 
 ## Feedback from BswTimingEvent Review
 

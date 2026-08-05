@@ -1058,6 +1058,61 @@ class BswScheduleEvent(BswEvent, ABC):
         super().__init__(parent, short_name)
 
 
+class BswAsynchronousServerCallReturnsEvent(BswScheduleEvent):
+    """
+    This is the "callback" event for asynchronous Client-Server-Communication
+    via the BSW Scheduler which is thrown after completion of the asynchronous
+    Client-Server call. Its eventSource specifies the call point to be used
+    for retrieving the result.
+    """
+
+    # BswAsynchronousServerCallReturnsEvent method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.36, p.98
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getEventSourceRef            [x] impl  [x] docstring  [x] test
+    # [x] setEventSourceRef            [x] impl  [x] docstring  [x] test
+
+    def __init__(self, parent: ARObject, short_name: str):
+        """
+        Initializes the BswAsynchronousServerCallReturnsEvent with a parent and short name.
+
+        Args:
+            parent: The parent ARObject that contains this event
+            short_name: The unique short name of this event
+        """
+        super().__init__(parent, short_name)
+
+        # The call point to be used for retrieving the result. The reference
+        # in the role eventSource shall exist at the time when the
+        # configuration of the BSW module is finished (constr_10288).
+        self.eventSourceRef: Optional[RefType] = None
+
+    def getEventSourceRef(self) -> Optional[RefType]:
+        """
+        Gets the call point to be used for retrieving the result of the
+        asynchronous Client-Server call.
+
+        Returns:
+            The event source reference
+        """
+        return self.eventSourceRef
+
+    def setEventSourceRef(self, value: RefType) -> "BswAsynchronousServerCallReturnsEvent":
+        """
+        Sets the call point to be used for retrieving the result.
+        Only sets if value is not None.
+
+        Args:
+            value: The event source reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.eventSourceRef = value
+        return self
+
+
 class BswModeSwitchEvent(BswScheduleEvent):
     """
     An event which is triggered when a mode switch occurs. The mode switch
@@ -1143,13 +1198,18 @@ class BswModeSwitchEvent(BswScheduleEvent):
 
 class BswModeSwitchedAckEvent(BswScheduleEvent):
     """
-    Represents an event that is triggered when a mode switch acknowledgment occurs.
-    This event handles the acknowledgment that a mode switch has been completed or confirmed
-    within BSW modules.
+    The event is raised after a switch of the referenced mode group has been
+    acknowledged or an error occurs. The referenced mode group shall be
+    provided by this module. The ModeDeclarationGroupPrototype used by this
+    event shall be referred as BswModuleDescription.providedModeGroup by the
+    same module (constr_4026).
     """
 
     # BswModeSwitchedAckEvent method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.32, p.95
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getModeGroupRef              [x] impl  [x] docstring  [x] test
+    # [x] setModeGroupRef              [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -1161,12 +1221,45 @@ class BswModeSwitchedAckEvent(BswScheduleEvent):
         """
         super().__init__(parent, short_name)
 
+        # A mode group provided by this module. The acknowledgement of a
+        # switch of this group raises this event. The reference in the role
+        # modeGroup shall exist at the time when the configuration of the BSW
+        # module is finished (constr_10285).
+        self.modeGroupRef: Optional[RefType] = None
+
+    def getModeGroupRef(self) -> Optional[RefType]:
+        """
+        Gets the mode group provided by this module. The acknowledgement of a
+        switch of this group raises this event.
+
+        Returns:
+            The mode group reference
+        """
+        return self.modeGroupRef
+
+    def setModeGroupRef(self, value: RefType) -> "BswModeSwitchedAckEvent":
+        """
+        Sets the mode group provided by this module. Only sets if value is
+        not None.
+
+        Args:
+            value: The mode group reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.modeGroupRef = value
+        return self
+
 
 class BswModeManagerErrorEvent(BswScheduleEvent):
     """
     This represents the ability to react on errors occurring during mode
     handling. The event can be used to start a BswModuleEntity after an error
-    has been announced by the mode manager.
+    has been announced by the mode manager. The ModeDeclarationGroupPrototype
+    used by this event shall be referred as BswModuleDescription.providedModeGroup
+    by the same module (constr_4081).
     """
 
     # BswModeManagerErrorEvent method parity checklist:
@@ -1186,7 +1279,9 @@ class BswModeManagerErrorEvent(BswScheduleEvent):
         super().__init__(parent, short_name)
 
         # This represents the ModeDeclarationGroupPrototype for which the
-        # error behavior of the mode manager applies.
+        # error behavior of the mode manager applies. The reference in the
+        # role modeGroup shall exist at the time when the configuration of
+        # the BSW module is finished (constr_10286).
         self.modeGroupRef: Optional[RefType] = None
 
     def getModeGroupRef(self) -> Optional[RefType]:
@@ -1922,6 +2017,10 @@ class BswInternalBehavior(InternalBehavior):
     # [x] getBswBackgroundEvents       [x] impl  [x] docstring  [x] test
     # [x] createBswModeManagerErrorEvent [x] impl  [x] docstring  [x] test
     # [x] getBswModeManagerErrorEvents [x] impl  [x] docstring  [x] test
+    # [x] createBswModeSwitchedAckEvent [x] impl  [x] docstring  [x] test
+    # [x] getBswModeSwitchedAckEvents [x] impl  [x] docstring  [x] test
+    # [x] createBswAsynchronousServerCallReturnsEvent [x] impl  [x] docstring  [x] test
+    # [x] getBswAsynchronousServerCallReturnsEvents [x] impl  [x] docstring  [x] test
     # [x] getBswEvents                 [x] impl  [x] docstring  [x] test
     # [x] addIncludedModeDeclarationGroupSet [x] impl  [x] docstring  [x] test
     # [x] getIncludedModeDeclarationGroupSets [x] impl  [x] docstring  [x] test
@@ -2697,6 +2796,56 @@ class BswInternalBehavior(InternalBehavior):
             List of BswModeManagerErrorEvent instances
         """
         return list(filter(lambda a: isinstance(a, BswModeManagerErrorEvent), self.elements))
+
+    def createBswModeSwitchedAckEvent(self, short_name: str) -> BswModeSwitchedAckEvent:
+        """
+        Creates and adds a BswModeSwitchedAckEvent to this internal behavior.
+
+        Args:
+            short_name: The short name for the new mode switched ack event
+
+        Returns:
+            The created BswModeSwitchedAckEvent instance
+        """
+        if not self.IsElementExists(short_name):
+            event = BswModeSwitchedAckEvent(self, short_name)
+            self.addElement(event)
+            self.events.append(event)
+        return self.getElement(short_name)
+
+    def getBswModeSwitchedAckEvents(self) -> List[BswModeSwitchedAckEvent]:
+        """
+        Gets all BswModeSwitchedAckEvent instances from the elements list.
+
+        Returns:
+            List of BswModeSwitchedAckEvent instances
+        """
+        return list(filter(lambda a: isinstance(a, BswModeSwitchedAckEvent), self.elements))
+
+    def createBswAsynchronousServerCallReturnsEvent(self, short_name: str) -> BswAsynchronousServerCallReturnsEvent:
+        """
+        Creates and adds a BswAsynchronousServerCallReturnsEvent to this internal behavior.
+
+        Args:
+            short_name: The short name for the new asynchronous server call returns event
+
+        Returns:
+            The created BswAsynchronousServerCallReturnsEvent instance
+        """
+        if not self.IsElementExists(short_name):
+            event = BswAsynchronousServerCallReturnsEvent(self, short_name)
+            self.addElement(event)
+            self.events.append(event)
+        return self.getElement(short_name)
+
+    def getBswAsynchronousServerCallReturnsEvents(self) -> List[BswAsynchronousServerCallReturnsEvent]:
+        """
+        Gets all BswAsynchronousServerCallReturnsEvent instances from the elements list.
+
+        Returns:
+            List of BswAsynchronousServerCallReturnsEvent instances
+        """
+        return list(filter(lambda a: isinstance(a, BswAsynchronousServerCallReturnsEvent), self.elements))
 
     def getBswEvents(self) -> List[BswEvent]:
         """

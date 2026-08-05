@@ -24,6 +24,8 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswScheduleEvent,
     BswModeSwitchEvent,
     BswModeManagerErrorEvent,
+    BswModeSwitchedAckEvent,
+    BswAsynchronousServerCallReturnsEvent,
     BswTimingEvent,
     BswDataReceivedEvent,
     BswInternalTriggerOccurredEvent,
@@ -763,6 +765,104 @@ class TestBswModeManagerErrorEvent:
         assert event.getModeGroupRef() == ref
 
 
+class TestBswModeSwitchedAckEvent:
+    """Test cases for BswModeSwitchedAckEvent class - represents a mode switched acknowledgement event in a BSW module."""
+
+    def test_initialization(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = BswModeSwitchedAckEvent(ar_root, "test_mode_switched_ack_event")
+
+        assert event.short_name == "test_mode_switched_ack_event"
+        assert event.getModeGroupRef() is None
+
+    def test_get_set_mode_group_ref(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = BswModeSwitchedAckEvent(ar_root, "test_mode_switched_ack_event")
+
+        ref = RefType()
+        ref.setValue("/MG/ModeDeclarationGroupPrototype")
+        ref.setDest("MODE-DECLARATION-GROUP-PROTOTYPE")
+        result = event.setModeGroupRef(ref)
+
+        assert result == event
+        assert event.getModeGroupRef() == ref
+
+    def test_set_mode_group_ref_none_is_noop(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = BswModeSwitchedAckEvent(ar_root, "test_mode_switched_ack_event")
+
+        ref = RefType()
+        ref.setValue("/MG/ModeDeclarationGroupPrototype")
+        event.setModeGroupRef(ref)
+        event.setModeGroupRef(None)
+
+        assert event.getModeGroupRef() == ref
+
+    def test_method_chaining(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = BswModeSwitchedAckEvent(ar_root, "test_mode_switched_ack_event")
+
+        ref = RefType()
+        ref.setValue("/MG/ModeDeclarationGroupPrototype")
+        result = event.setModeGroupRef(ref)
+
+        assert result is event
+        assert event.getModeGroupRef() == ref
+
+
+class TestBswAsynchronousServerCallReturnsEvent:
+    """Test cases for BswAsynchronousServerCallReturnsEvent class - represents the callback event for asynchronous Client-Server communication."""
+
+    def test_initialization(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = BswAsynchronousServerCallReturnsEvent(ar_root, "test_async_server_call_returns_event")
+
+        assert event.short_name == "test_async_server_call_returns_event"
+        assert event.getEventSourceRef() is None
+
+    def test_get_set_event_source_ref(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = BswAsynchronousServerCallReturnsEvent(ar_root, "test_async_server_call_returns_event")
+
+        ref = RefType()
+        ref.setValue("/CP/BswAsynchronousServerCallResultPoint")
+        ref.setDest("BSW-ASYNCHRONOUS-SERVER-CALL-RESULT-POINT")
+        result = event.setEventSourceRef(ref)
+
+        assert result == event
+        assert event.getEventSourceRef() == ref
+
+    def test_set_event_source_ref_none_is_noop(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = BswAsynchronousServerCallReturnsEvent(ar_root, "test_async_server_call_returns_event")
+
+        ref = RefType()
+        ref.setValue("/CP/BswAsynchronousServerCallResultPoint")
+        event.setEventSourceRef(ref)
+        event.setEventSourceRef(None)
+
+        assert event.getEventSourceRef() == ref
+
+    def test_method_chaining(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = BswAsynchronousServerCallReturnsEvent(ar_root, "test_async_server_call_returns_event")
+
+        ref = RefType()
+        ref.setValue("/CP/BswAsynchronousServerCallResultPoint")
+        result = event.setEventSourceRef(ref)
+
+        assert result is event
+        assert event.getEventSourceRef() == ref
+
+
 class TestBswTimingEvent:
     """Test cases for BswTimingEvent class - represents a timing event in a BSW module."""
 
@@ -1398,6 +1498,48 @@ class TestBswInternalBehavior:
         mode_manager_error_events = behavior.getBswModeManagerErrorEvents()
         assert len(mode_manager_error_events) == 1
         assert mode_manager_error_events[0] == event
+
+    def test_create_bsw_mode_switched_ack_event(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        behavior = BswInternalBehavior(ar_root, "test_internal_behavior")
+
+        event = behavior.createBswModeSwitchedAckEvent("test_mode_switched_ack_event")
+
+        assert event.short_name == "test_mode_switched_ack_event"
+        assert len(behavior.getBswModeSwitchedAckEvents()) == 1
+
+    def test_get_bsw_mode_switched_ack_events(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        behavior = BswInternalBehavior(ar_root, "test_internal_behavior")
+
+        event = behavior.createBswModeSwitchedAckEvent("test_mode_switched_ack_event")
+
+        mode_switched_ack_events = behavior.getBswModeSwitchedAckEvents()
+        assert len(mode_switched_ack_events) == 1
+        assert mode_switched_ack_events[0] == event
+
+    def test_create_bsw_asynchronous_server_call_returns_event(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        behavior = BswInternalBehavior(ar_root, "test_internal_behavior")
+
+        event = behavior.createBswAsynchronousServerCallReturnsEvent("test_async_server_call_returns_event")
+
+        assert event.short_name == "test_async_server_call_returns_event"
+        assert len(behavior.getBswAsynchronousServerCallReturnsEvents()) == 1
+
+    def test_get_bsw_asynchronous_server_call_returns_events(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        behavior = BswInternalBehavior(ar_root, "test_internal_behavior")
+
+        event = behavior.createBswAsynchronousServerCallReturnsEvent("test_async_server_call_returns_event")
+
+        async_events = behavior.getBswAsynchronousServerCallReturnsEvents()
+        assert len(async_events) == 1
+        assert async_events[0] == event
 
     def test_create_bsw_timing_event(self):
         document = AUTOSAR.getInstance()

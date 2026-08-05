@@ -436,6 +436,24 @@ class TestWriterBswEvents:
         assert parent[0].tag == "BSW-MODE-MANAGER-ERROR-EVENT"
         assert parent[0].find("MODE-GROUP-REF") is not None
 
+    def test_mode_switched_ack_event(self, writer):
+        behavior = _make_behavior()
+        event = behavior.createBswModeSwitchedAckEvent("msae")
+        event.setModeGroupRef(_ref("/mg", "MODE-DECLARATION-GROUP-PROTOTYPE"))
+        parent = _parent()
+        writer.writeBswModeSwitchedAckEvent(parent, event)
+        assert parent[0].tag == "BSW-MODE-SWITCHED-ACK-EVENT"
+        assert parent[0].find("MODE-GROUP-REF") is not None
+
+    def test_asynchronous_server_call_returns_event(self, writer):
+        behavior = _make_behavior()
+        event = behavior.createBswAsynchronousServerCallReturnsEvent("ascr")
+        event.setEventSourceRef(_ref("/cp", "BSW-ASYNCHRONOUS-SERVER-CALL-RESULT-POINT"))
+        parent = _parent()
+        writer.writeBswAsynchronousServerCallReturnsEvent(parent, event)
+        assert parent[0].tag == "BSW-ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT"
+        assert parent[0].find("EVENT-SOURCE-REF") is not None
+
     def test_dispatches_all_event_types(self, writer):
         behavior = _make_behavior()
         behavior.createBswTimingEvent("te").setPeriod(_time(0.1))
@@ -446,6 +464,8 @@ class TestWriterBswEvents:
         behavior.createBswOperationInvokedEvent("oie")
         behavior.createBswModeSwitchEvent("mse")
         behavior.createBswModeManagerErrorEvent("mmee")
+        behavior.createBswModeSwitchedAckEvent("msae")
+        behavior.createBswAsynchronousServerCallReturnsEvent("ascr")
         parent = _parent()
         writer.writeBswInternalBehaviorEvents(parent, behavior)
         assert parent[0].tag == "EVENTS"
@@ -458,6 +478,8 @@ class TestWriterBswEvents:
         assert "BSW-OPERATION-INVOKED-EVENT" in tags
         assert "BSW-MODE-SWITCH-EVENT" in tags
         assert "BSW-MODE-MANAGER-ERROR-EVENT" in tags
+        assert "BSW-MODE-SWITCHED-ACK-EVENT" in tags
+        assert "BSW-ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT" in tags
 
     def test_events_empty(self, writer):
         behavior = _make_behavior()

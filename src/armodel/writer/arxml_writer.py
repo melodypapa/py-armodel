@@ -27,10 +27,16 @@ from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import Mult
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswApiOptions, BswAsynchronousServerCallPoint, BswBackgroundEvent
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswApiOptions, BswAsynchronousServerCallPoint, BswAsynchronousServerCallReturnsEvent, BswBackgroundEvent
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswSynchronousServerCallPoint
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswCalledEntity, BswDataReceivedEvent, BswModuleCallPoint
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalTriggerOccurredEvent, BswOperationInvokedEvent, BswModeManagerErrorEvent, BswModeSwitchEvent
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
+    BswInternalTriggerOccurredEvent,
+    BswOperationInvokedEvent,
+    BswModeManagerErrorEvent,
+    BswModeSwitchEvent,
+    BswModeSwitchedAckEvent,
+)
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswDataReceptionPolicy, BswEvent, BswExternalTriggerOccurredEvent
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalBehavior, BswInterruptEntity, BswModeSenderPolicy, BswModuleEntity
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswQueuedDataReceptionPolicy, BswSchedulableEntity, BswScheduleEvent
@@ -2387,6 +2393,18 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeBswScheduleEvent(child_element, event)
         self.setChildElementOptionalRefType(child_element, "MODE-GROUP-REF", event.getModeGroupRef())
 
+    def writeBswModeSwitchedAckEvent(self, element: ET.Element, event: BswModeSwitchedAckEvent):
+        self.logger.debug("Write BswModeSwitchedAckEvent <%s>" % event.getShortName())
+        child_element = ET.SubElement(element, "BSW-MODE-SWITCHED-ACK-EVENT")
+        self.writeBswScheduleEvent(child_element, event)
+        self.setChildElementOptionalRefType(child_element, "MODE-GROUP-REF", event.getModeGroupRef())
+
+    def writeBswAsynchronousServerCallReturnsEvent(self, element: ET.Element, event: BswAsynchronousServerCallReturnsEvent):
+        self.logger.debug("Write BswAsynchronousServerCallReturnsEvent <%s>" % event.getShortName())
+        child_element = ET.SubElement(element, "BSW-ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT")
+        self.writeBswScheduleEvent(child_element, event)
+        self.setChildElementOptionalRefType(child_element, "EVENT-SOURCE-REF", event.getEventSourceRef())
+
     def writeBswInternalBehaviorEvents(self, element: ET.Element, parent: BswInternalBehavior):
         events = parent.getBswEvents()
         if len(events) > 0:
@@ -2408,6 +2426,10 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeBswModeSwitchEvent(child_element, event)
                 elif isinstance(event, BswModeManagerErrorEvent):
                     self.writeBswModeManagerErrorEvent(child_element, event)
+                elif isinstance(event, BswModeSwitchedAckEvent):
+                    self.writeBswModeSwitchedAckEvent(child_element, event)
+                elif isinstance(event, BswAsynchronousServerCallReturnsEvent):
+                    self.writeBswAsynchronousServerCallReturnsEvent(child_element, event)
                 else:
                     self.notImplemented("Unsupported BswModuleEntity <%s>" % type(event))
 

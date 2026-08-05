@@ -938,6 +938,28 @@ class TestBswInternalBehaviorEventsDetailed:
         parser.readBswModeManagerErrorEvent(element, event)
         assert event.getModeGroupRef().getValue() == "/mg"
 
+    def test_readBswModeSwitchedAckEvent_sets_mode_group_ref(self, parser):
+        from armodel.models import BswModeSwitchedAckEvent
+
+        event = BswModeSwitchedAckEvent(parent=_autosar_root(), short_name="ev")
+        element = _snip(
+            "<SHORT-NAME>ev</SHORT-NAME>" "<MODE-GROUP-REF DEST='MODE-DECLARATION-GROUP-PROTOTYPE'>/mg</MODE-GROUP-REF>",
+            root_tag="BSW-MODE-SWITCHED-ACK-EVENT",
+        )
+        parser.readBswModeSwitchedAckEvent(element, event)
+        assert event.getModeGroupRef().getValue() == "/mg"
+
+    def test_readBswAsynchronousServerCallReturnsEvent_sets_event_source_ref(self, parser):
+        from armodel.models import BswAsynchronousServerCallReturnsEvent
+
+        event = BswAsynchronousServerCallReturnsEvent(parent=_autosar_root(), short_name="ev")
+        element = _snip(
+            "<SHORT-NAME>ev</SHORT-NAME>" "<EVENT-SOURCE-REF DEST='BSW-ASYNCHRONOUS-SERVER-CALL-RESULT-POINT'>/cp</EVENT-SOURCE-REF>",
+            root_tag="BSW-ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT",
+        )
+        parser.readBswAsynchronousServerCallReturnsEvent(element, event)
+        assert event.getEventSourceRef().getValue() == "/cp"
+
     def test_readBswInternalBehaviorEvents_dispatches_all_types(self, parser):
         from armodel.models import BswModuleDescription
 
@@ -953,6 +975,8 @@ class TestBswInternalBehaviorEventsDetailed:
             "<BSW-EXTERNAL-TRIGGER-OCCURRED-EVENT><SHORT-NAME>e6</SHORT-NAME></BSW-EXTERNAL-TRIGGER-OCCURRED-EVENT>"
             "<BSW-OPERATION-INVOKED-EVENT><SHORT-NAME>e7</SHORT-NAME></BSW-OPERATION-INVOKED-EVENT>"
             "<BSW-MODE-MANAGER-ERROR-EVENT><SHORT-NAME>e8</SHORT-NAME></BSW-MODE-MANAGER-ERROR-EVENT>"
+            "<BSW-MODE-SWITCHED-ACK-EVENT><SHORT-NAME>e9</SHORT-NAME></BSW-MODE-SWITCHED-ACK-EVENT>"
+            "<BSW-ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT><SHORT-NAME>e10</SHORT-NAME></BSW-ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT>"
             "</EVENTS>",
             root_tag="BH",
         )
@@ -965,6 +989,8 @@ class TestBswInternalBehaviorEventsDetailed:
         assert len(behavior.getBswExternalTriggerOccurredEvents()) == 1
         assert len(behavior.getBswOperationInvokedEvents()) == 1
         assert len(behavior.getBswModeManagerErrorEvents()) == 1
+        assert len(behavior.getBswModeSwitchedAckEvents()) == 1
+        assert len(behavior.getBswAsynchronousServerCallReturnsEvents()) == 1
 
     def test_readBswInternalBehaviorEvents_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import BswInternalBehavior
