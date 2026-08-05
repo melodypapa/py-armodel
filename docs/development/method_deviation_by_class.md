@@ -266,18 +266,13 @@ the aggregation is itself a partial implementation and remains to be wired.
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `buildActionManifestRef` | `—` | `buildActionManifest` | `BuildActionManifestRefConditional` | — | type (spec many vs py single) |
-| `resourceConsumption` | `—` | `resourceConsumption` | `ResourceConsumption` | — | type (spec one vs py list) |
-| `swVersion` | `—` | `swVersion` | `RevisionLabelString` | — | type (spec one vs py list) |
 
 ## `DependencyOnArtifact`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 131
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::Implementation`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Implementation.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `usage` | `—` | `usage` | `DependencyUsageEnum` | — | type (spec many vs py single) |
+No deviations (multiplicity/type resolved to spec).
 
 ## `EngineeringObject`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 132
@@ -293,10 +288,7 @@ the aggregation is itself a partial implementation and remains to be wired.
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::Implementation`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Implementation.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `vendor` | `String` | — | missing |
-| — *(missing)* | `—` | `version` | `String` | — | missing |
+No deviations (vendor/version implemented per spec).
 
 ## `ResourceConsumption`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 137

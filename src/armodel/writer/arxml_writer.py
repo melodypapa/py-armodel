@@ -50,7 +50,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantSpecifica
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification, ValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, Implementation, ImplementationProps
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, Implementation, ImplementationProps, Compiler, Linker, DependencyOnArtifact
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import AbstractImplementationDataTypeElement, ImplementationDataType
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataTypeElement
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity
@@ -1974,6 +1974,14 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "CODE")
         self.writeIdentifiable(child_element, code_desc)
         self.writeArtifactDescriptor(child_element, code_desc)
+        self.writeCodeCallbackHeaderRefs(child_element, code_desc)
+
+    def writeCodeCallbackHeaderRefs(self, element: ET.Element, code_desc: Code):
+        refs = code_desc.getCallbackHeaderRefs()
+        if len(refs) > 0:
+            child_element = ET.SubElement(element, "CALLBACK-HEADER-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(child_element, "CALLBACK-HEADER-REF", ref)
 
     def writeCodeDescriptors(self, element: ET.Element, impl: Implementation):
         descs = impl.getCodeDescriptors()
@@ -2034,24 +2042,92 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeImplementation(self, element: ET.Element, impl: Implementation):
         self.writeIdentifiable(element, impl)
+        self.writeImplementationBuildActionManifests(element, impl)
         self.writeCodeDescriptors(element, impl)
+        self.writeCompilers(element, impl)
+        self.writeDependencyOnArtifacts(element, impl, "GENERATED-ARTIFACTS", impl.getGeneratedArtifacts())
+        self.writeImplementationHwElementRefs(element, impl)
+        self.writeLinkers(element, impl)
         self.setChildElementOptionalLiteral(element, "PROGRAMMING-LANGUAGE", impl.getProgrammingLanguage())
+        self.writeDependencyOnArtifacts(element, impl, "REQUIRED-ARTIFACTS", impl.getRequiredArtifacts())
+        self.writeDependencyOnArtifacts(element, impl, "REQUIRED-GENERATOR-TOOLS", impl.getRequiredGeneratorTools())
         self.setResourceConsumption(element, impl.getResourceConsumption())
-        sw_versions = impl.getSwVersion()
-        if isinstance(sw_versions, list):
-            for version in sw_versions:
-                self.setChildElementOptionalLiteral(element, "SW-VERSION", version)
-        else:
-            self.setChildElementOptionalLiteral(element, "SW-VERSION", sw_versions)
+        self.setChildElementOptionalLiteral(element, "SW-VERSION", impl.getSwVersion())
         self.setChildElementOptionalRefType(element, "SWC-BSW-MAPPING-REF", impl.getSwcBswMappingRef())
         self.setChildElementOptionalLiteral(element, "USED-CODE-GENERATOR", impl.getUsedCodeGenerator())
-        vendor_id = impl.getVendorId()
-        if isinstance(vendor_id, int):
-            if vendor_id is not None:
-                child_element = ET.SubElement(element, "VENDOR-ID")
-                child_element.text = str(vendor_id)
-        else:
-            self.setChildElementOptionalNumericalValue(element, "VENDOR-ID", vendor_id)
+        self.setChildElementOptionalPositiveInteger(element, "VENDOR-ID", impl.getVendorId())
+
+    def writeImplementationBuildActionManifests(self, element: ET.Element, impl: Implementation):
+        ref = impl.getBuildActionManifestRef()
+        if ref is not None:
+            child_element = ET.SubElement(element, "BUILD-ACTION-MANIFESTS")
+            ref_cond = ET.SubElement(child_element, "BUILD-ACTION-MANIFEST-REF-CONDITIONAL")
+            self.setChildElementOptionalRefType(ref_cond, "BUILD-ACTION-MANIFEST-REF", ref)
+
+    def writeCompilers(self, element: ET.Element, impl: Implementation):
+        compilers = impl.getCompilers()
+        if len(compilers) > 0:
+            child_element = ET.SubElement(element, "COMPILERS")
+            for compiler in compilers:
+                if isinstance(compiler, Compiler):
+                    self.writeCompiler(child_element, compiler)
+                else:
+                    self.notImplemented("Unsupported Compiler <%s>" % type(compiler))
+
+    def writeCompiler(self, element: ET.Element, compiler: Compiler):
+        child_element = ET.SubElement(element, "COMPILER")
+        self.writeIdentifiable(child_element, compiler)
+        self.setChildElementOptionalLiteral(child_element, "NAME", compiler.getName())
+        self.setChildElementOptionalLiteral(child_element, "OPTIONS", compiler.getOptions())
+        self.setChildElementOptionalLiteral(child_element, "VENDOR", compiler.getVendor())
+        self.setChildElementOptionalLiteral(child_element, "VERSION", compiler.getVersion())
+
+    def writeLinkers(self, element: ET.Element, impl: Implementation):
+        linkers = impl.getLinkers()
+        if len(linkers) > 0:
+            child_element = ET.SubElement(element, "LINKERS")
+            for linker in linkers:
+                if isinstance(linker, Linker):
+                    self.writeLinker(child_element, linker)
+                else:
+                    self.notImplemented("Unsupported Linker <%s>" % type(linker))
+
+    def writeLinker(self, element: ET.Element, linker: Linker):
+        child_element = ET.SubElement(element, "LINKER")
+        self.writeIdentifiable(child_element, linker)
+        self.setChildElementOptionalLiteral(child_element, "NAME", linker.getName())
+        self.setChildElementOptionalLiteral(child_element, "OPTIONS", linker.getOptions())
+        self.setChildElementOptionalLiteral(child_element, "VENDOR", linker.getVendor())
+        self.setChildElementOptionalLiteral(child_element, "VERSION", linker.getVersion())
+
+    def writeDependencyOnArtifacts(self, element: ET.Element, impl: Implementation, key: str, dependencies: List[DependencyOnArtifact]):
+        if len(dependencies) > 0:
+            child_element = ET.SubElement(element, key)
+            for dependency in dependencies:
+                if isinstance(dependency, DependencyOnArtifact):
+                    self.writeDependencyOnArtifact(child_element, dependency)
+                else:
+                    self.notImplemented("Unsupported DependencyOnArtifact <%s>" % type(dependency))
+
+    def writeDependencyOnArtifact(self, element: ET.Element, dependency: DependencyOnArtifact):
+        child_element = ET.SubElement(element, "DEPENDENCY-ON-ARTIFACT")
+        self.writeIdentifiable(child_element, dependency)
+        descriptor = dependency.getArtifactDescriptor()
+        if descriptor is not None:
+            descriptor_element = ET.SubElement(child_element, "ARTIFACT-DESCRIPTOR")
+            self.writeAutosarEngineeringObject(descriptor_element, descriptor)
+        usages = dependency.getUsages()
+        if len(usages) > 0:
+            usages_element = ET.SubElement(child_element, "USAGES")
+            for usage in usages:
+                self.setChildElementOptionalLiteral(usages_element, "USAGE", usage)
+
+    def writeImplementationHwElementRefs(self, element: ET.Element, impl: Implementation):
+        refs = impl.getHwElementRefs()
+        if len(refs) > 0:
+            child_element = ET.SubElement(element, "HW-ELEMENT-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(child_element, "HW-ELEMENT-REF", ref)
 
     def writeSwcImplementation(self, element: ET.Element, impl: SwcImplementation):
         self.logger.debug("writeSwcImplementation %s" % impl.getShortName())

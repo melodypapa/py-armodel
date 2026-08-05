@@ -411,6 +411,20 @@ Check:
 - [ ] Enum member value: the string value must **exactly match** the spec literal
       value. Example: `DERIVED_FROM = "derivedFrom"` (not `"derived_from"` or
       variations).
+- [ ] **Member value vs. XML serialization form.** The Python member value is the
+      spec literal read from the table header's `mmt.qualifiedName` tag — it is
+      the camelCase form shared by the unified naming schemes of multiple
+      releases (e.g. `DependencyUsageEnum.BUILD = "build"`). The **XSD**,
+      however, serializes enum literals in **UPPERCASE** (e.g. the schema value
+      for `DEPENDENCY-USAGE-ENUM` is `BUILD`, and for `PROGRAMMINGLANGUAGE-ENUM`
+      it is `C`). These two forms are not interchangeable for tests: a *model
+      round-trip* carries the member value verbatim and is lossless either way,
+      but an **XSD-valid** fragment (e.g. a fixture fed to an XSD validator, or a
+      reference document) must always use the **UPPERCASE serialized** literal,
+      not the camelCase member value — otherwise the schema rejects it. Do not
+      "fix" the member value to UPPERCASE to satisfy the schema: keep the member
+      matching the spec's `mmt.qualifiedName`, and write the UPPERCASE form only
+      in test XML fixtures and fragments.
 - [ ] Class docstring: summarize the spec table's "Note" row (the enum's purpose
       and scope).
 - [ ] Enum member documentation: each member must have an inline comment that

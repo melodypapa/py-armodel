@@ -1,8 +1,8 @@
 """
 Test suite for BswModuleDescription class in armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.
 
-This module tests the BSW (Basic Software) module description class which serves as the root element 
-for describing a single BSW module or BSW cluster. It includes functionality for managing BSW 
+This module tests the BSW (Basic Software) module description class which serves as the root element
+for describing a single BSW module or BSW cluster. It includes functionality for managing BSW
 dependencies, documentation, entry references, internal behaviors, and various other BSW-specific elements.
 """
 

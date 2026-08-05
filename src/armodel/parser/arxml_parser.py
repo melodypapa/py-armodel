@@ -49,7 +49,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantSpecifica
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification, ValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps, Code
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps, Code, Compiler, Linker, DependencyOnArtifact, DependencyUsageEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity, InternalBehavior
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroup, ModeDeclarationGroupPrototypeMapping
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeRequestTypeMap, ModeDeclarationGroupPrototype
@@ -1220,6 +1220,51 @@ class ARXMLParser(AbstractARXMLParser):
             code_desc = impl.createCodeDescriptor(short_name)
             self.readIdentifiable(child_element, code_desc)
             self.readArtifactDescriptor(child_element, code_desc)
+            self.readCallbackHeaderRefs(child_element, code_desc)
+
+    def readCallbackHeaderRefs(self, element: ET.Element, code_desc: Code):
+        child_element = self.find(element, "CALLBACK-HEADER-REFS")
+        if child_element is not None:
+            for ref in self.getChildElementRefTypeList(child_element, "CALLBACK-HEADER-REF"):
+                code_desc.addCallbackHeaderRef(ref)
+
+    def readCompiler(self, element: ET.Element, impl: Implementation):
+        child_element = self.find(element, "COMPILERS")
+        if child_element is not None:
+            for compiler_element in self.findall(child_element, "COMPILER"):
+                compiler = impl.createCompiler(self.getShortName(compiler_element))
+                self.readIdentifiable(compiler_element, compiler)
+                compiler.setName(self.getChildElementOptionalLiteral(compiler_element, "NAME"))
+                compiler.setOptions(self.getChildElementOptionalLiteral(compiler_element, "OPTIONS"))
+                compiler.setVendor(self.getChildElementOptionalLiteral(compiler_element, "VENDOR"))
+                compiler.setVersion(self.getChildElementOptionalLiteral(compiler_element, "VERSION"))
+
+    def readLinker(self, element: ET.Element, impl: Implementation):
+        child_element = self.find(element, "LINKERS")
+        if child_element is not None:
+            for linker in self.findall(child_element, "LINKER"):
+                linker_obj = impl.createLinker(self.getShortName(linker))
+                self.readIdentifiable(linker, linker_obj)
+                linker_obj.setName(self.getChildElementOptionalLiteral(linker, "NAME"))
+                linker_obj.setOptions(self.getChildElementOptionalLiteral(linker, "OPTIONS"))
+                linker_obj.setVendor(self.getChildElementOptionalLiteral(linker, "VENDOR"))
+                linker_obj.setVersion(self.getChildElementOptionalLiteral(linker, "VERSION"))
+
+    def readDependencyOnArtifact(self, element: ET.Element, impl: Implementation, key: str, create):
+        child_element = self.find(element, key)
+        if child_element is not None:
+            for dependency_element in self.findall(child_element, "DEPENDENCY-ON-ARTIFACT"):
+                dependency = create(self.getShortName(dependency_element))
+                self.readIdentifiable(dependency_element, dependency)
+                descriptor_element = self.find(dependency_element, "ARTIFACT-DESCRIPTOR")
+                if descriptor_element is not None:
+                    dependency.setArtifactDescriptor(self.getAutosarEngineeringObject(descriptor_element))
+                usages_element = self.find(dependency_element, "USAGES")
+                if usages_element is not None:
+                    for usage_element in self.findall(usages_element, "USAGE"):
+                        usage = DependencyUsageEnum()
+                        usage.setValue(usage_element.text)
+                        dependency.addUsage(usage)
 
     def readMemorySectionOptions(self, element: ET.Element, section: MemorySection):
         child_element = self.find(element, "OPTIONS")
@@ -1268,9 +1313,28 @@ class ARXMLParser(AbstractARXMLParser):
         self.readCodeDescriptor(element, impl)
         impl.setProgrammingLanguage(self.getChildElementOptionalLiteral(element, "PROGRAMMING-LANGUAGE"))
         self.readResourceConsumption(element, impl)
-        impl.setSwVersion(self.getChildElementOptionalLiteral(element, "SW-VERSION")).setSwcBswMappingRef(self.getChildElementOptionalRefType(element, "SWC-BSW-MAPPING-REF")).setUsedCodeGenerator(
+        self.readBuildActionManifests(element, impl)
+        self.readCompiler(element, impl)
+        self.readLinker(element, impl)
+        self.readDependencyOnArtifact(element, impl, "GENERATED-ARTIFACTS", impl.createGeneratedArtifact)
+        self.readDependencyOnArtifact(element, impl, "REQUIRED-ARTIFACTS", impl.createRequiredArtifact)
+        self.readDependencyOnArtifact(element, impl, "REQUIRED-GENERATOR-TOOLS", impl.createRequiredGeneratorTool)
+        for ref in self.getChildElementRefTypeList(element, "HW-ELEMENT-REFS/HW-ELEMENT-REF"):
+            impl.addHwElementRef(ref)
+        impl.setBuildActionManifestRef(self.getChildElementOptionalRefType(element, "BUILD-ACTION-MANIFESTS/BUILD-ACTION-MANIFEST-REF-CONDITIONAL/BUILD-ACTION-MANIFEST-REF")).setSwVersion(
+            self.getChildElementOptionalLiteral(element, "SW-VERSION")
+        ).setSwcBswMappingRef(self.getChildElementOptionalRefType(element, "SWC-BSW-MAPPING-REF")).setUsedCodeGenerator(
             self.getChildElementOptionalLiteral(element, "USED-CODE-GENERATOR")
-        ).setVendorId(self.getChildElementOptionalNumericalValue(element, "VENDOR-ID"))
+        ).setVendorId(
+            self.getChildElementOptionalPositiveInteger(element, "VENDOR-ID")
+        )
+
+    def readBuildActionManifests(self, element: ET.Element, impl: Implementation):
+        child_element = self.find(element, "BUILD-ACTION-MANIFESTS")
+        if child_element is not None:
+            ref = self.getChildElementOptionalRefType(child_element, "BUILD-ACTION-MANIFEST-REF-CONDITIONAL/BUILD-ACTION-MANIFEST-REF")
+            if ref is not None:
+                impl.setBuildActionManifestRef(ref)
 
     def readBswImplementationVendorSpecificModuleDefRefs(self, element: ET.Element, impl: BswImplementation):
         child_element = self.find(element, "VENDOR-SPECIFIC-MODULE-DEF-REFS")
