@@ -203,10 +203,10 @@ the aggregation is itself a partial implementation and remains to be wired.
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `ackRequest` | `BswModeSwitchAckRequest` | — | missing |
-| — *(missing)* | `—` | `enhancedModeApi` | `Boolean` | — | missing |
-| — *(missing)* | `—` | `providedModeGroupRef` | `Ref (ModeDeclarationGroupPrototype)` | Ref | missing |
-| — *(missing)* | `—` | `queueLength` | `PositiveInteger` | — | missing |
+| `ackRequest` | `Optional[BswModeSwitchAckRequest]` | `ackRequest` | `BswModeSwitchAckRequest` | aggr | ok |
+| `enhancedModeApi` | `Optional[Boolean]` | `enhancedModeApi` | `Boolean` | attr | ok |
+| `providedModeGroupRef` | `Optional[RefType]` | `providedModeGroup` | `Ref (ModeDeclarationGroupPrototype)` | ref | ok |
+| `queueLength` | `Optional[PositiveInteger]` | `queueLength` | `PositiveInteger` | attr | ok |
 
 ## `BswTriggerDirectImplementation`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 102

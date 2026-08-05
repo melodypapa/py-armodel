@@ -18,7 +18,7 @@ if TYPE_CHECKING:
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import AbstractEvent, ApiPrincipleEnum, ExecutableEntity, InternalBehavior
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, AREnum, ARFloat, ARNumerical, Boolean
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARFloat, ARNumerical, Boolean
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, String, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -1514,81 +1514,144 @@ class BswModeSwitchAckRequest(ARObject):
 
 class BswModeSenderPolicy(ARObject):
     """
-    Represents the policy for a BSW mode sender.
-    This defines how mode changes are sent and acknowledged in BSW modules.
+    Specifies the details for the sending of a mode switch for the referred
+    mode group.
     """
 
     # BswModeSenderPolicy method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.39, p.102
     # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] setProvidedModeGroupRef      [x] impl  [x] docstring  [ ] test
-    # [ ] getProvidedModeGroupRef      [x] impl  [x] docstring  [ ] test
-    # [ ] setQueueLength               [x] impl  [x] docstring  [ ] test
-    # [ ] getQueueLength               [x] impl  [x] docstring  [ ] test
+    # [x] getAckRequest                [x] impl  [x] docstring  [x] test
+    # [x] setAckRequest                [x] impl  [x] docstring  [x] test
+    # [x] getEnhancedModeApi           [x] impl  [x] docstring  [x] test
+    # [x] setEnhancedModeApi           [x] impl  [x] docstring  [x] test
+    # [x] getProvidedModeGroupRef      [x] impl  [x] docstring  [x] test
+    # [x] setProvidedModeGroupRef      [x] impl  [x] docstring  [x] test
+    # [x] getQueueLength               [x] impl  [x] docstring  [x] test
+    # [x] setQueueLength               [x] impl  [x] docstring  [x] test
 
     def __init__(self):
         """
-        Initializes the BswModeSenderPolicy.
+        Initializes the BswModeSenderPolicy with default values.
         """
         super().__init__()
 
-        # Acknowledgment request configuration for mode switch
-        self.ack_request: BswModeSwitchAckRequest = None
-        # Flag indicating if enhanced mode API is used
-        self.enhanced_mode_api: ARBoolean = None
-        # Reference to the provided mode group
-        self._provided_mode_group_ref: RefType = None
-        # Queue length for mode switch operations
-        self._queue_length: ARNumerical = None
+        # Request for acknowledgement.
+        self.ackRequest: Optional[BswModeSwitchAckRequest] = None
 
-    def setProvidedModeGroupRef(self, ref: RefType):
+        # This controls the creation of the enhanced mode API that returns
+        # information about the previous mode and the next mode. If set to TRUE
+        # the enhanced mode API is supposed to be generated. For more details
+        # please refer to the SWS_RTE.
+        self.enhancedModeApi: Optional[Boolean] = None
+
+        # The provided mode group for which the policy is specified. The
+        # reference in the role providedModeGroup shall exist at the time when
+        # the configuration of the BSW module is finished (constr_10291).
+        self.providedModeGroupRef: Optional[RefType] = None
+
+        # Length of call queue on the sender side. The queue is implemented by
+        # the RTE resp. BswScheduler. The value shall be greater or equal to 0.
+        # Setting the value of queueLength to 0 implies non-queued
+        # communication. The attribute queueLength shall exist at the time when
+        # the configuration of the BSW module is finished (constr_10292).
+        self.queueLength: Optional[PositiveInteger] = None
+
+    def getAckRequest(self) -> Optional[BswModeSwitchAckRequest]:
         """
-        Sets the reference to the provided mode group.
+        Gets the request for acknowledgement.
+
+        Returns:
+            The acknowledgement request
+        """
+        return self.ackRequest
+
+    def setAckRequest(self, value: BswModeSwitchAckRequest) -> "BswModeSenderPolicy":
+        """
+        Sets the request for acknowledgement. Only sets if value is not None.
 
         Args:
-            ref: The mode group reference to set
+            value: The acknowledgement request to set
 
         Returns:
             self for method chaining
         """
-        self._provided_mode_group_ref = ref
+        if value is not None:
+            self.ackRequest = value
         return self
 
-    def getProvidedModeGroupRef(self) -> RefType:
+    def getEnhancedModeApi(self) -> Optional[Boolean]:
         """
-        Gets the reference to the provided mode group.
+        Gets the flag that controls the creation of the enhanced mode API that
+        returns information about the previous mode and the next mode.
 
         Returns:
-            Reference to the provided mode group
+            The enhanced mode API flag
         """
-        return self._provided_mode_group_ref
+        return self.enhancedModeApi
 
-    def setQueueLength(self, length: any):
+    def setEnhancedModeApi(self, value: Boolean) -> "BswModeSenderPolicy":
         """
-        Sets the queue length for mode switch operations.
-        Can accept either ARNumerical or integer values.
+        Sets the flag that controls the creation of the enhanced mode API.
+        Only sets if value is not None.
 
         Args:
-            length: The queue length value (ARNumerical or int)
+            value: The enhanced mode API flag to set
 
         Returns:
             self for method chaining
         """
-        if isinstance(length, ARNumerical):
-            self._queue_length = length
-        elif isinstance(length, int):
-            self._queue_length = ARNumerical()
-            self._queue_length.setValue(length)
-        else:
-            raise ValueError("Unsupported type <%s>" % type(length))
+        if value is not None:
+            self.enhancedModeApi = value
+        return self
 
-    def getQueueLength(self) -> ARNumerical:
+    def getProvidedModeGroupRef(self) -> Optional[RefType]:
         """
-        Gets the queue length for mode switch operations.
+        Gets the provided mode group for which the policy is specified.
 
         Returns:
-            ARNumerical representing the queue length
+            The provided mode group reference
         """
-        return self._queue_length
+        return self.providedModeGroupRef
+
+    def setProvidedModeGroupRef(self, value: RefType) -> "BswModeSenderPolicy":
+        """
+        Sets the provided mode group for which the policy is specified. Only
+        sets if value is not None.
+
+        Args:
+            value: The provided mode group reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.providedModeGroupRef = value
+        return self
+
+    def getQueueLength(self) -> Optional[PositiveInteger]:
+        """
+        Gets the length of the call queue on the sender side.
+
+        Returns:
+            The queue length
+        """
+        return self.queueLength
+
+    def setQueueLength(self, value: PositiveInteger) -> "BswModeSenderPolicy":
+        """
+        Sets the length of the call queue on the sender side. Only sets if
+        value is not None.
+
+        Args:
+            value: The queue length to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.queueLength = value
+        return self
 
 
 class BswBackgroundEvent(BswScheduleEvent):

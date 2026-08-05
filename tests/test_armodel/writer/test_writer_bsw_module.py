@@ -11,6 +11,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import (
 )
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswModeSenderPolicy,
+    BswModeSwitchAckRequest,
     BswQueuedDataReceptionPolicy,
     BswVariableAccess,
     BswModeManagerErrorEvent,
@@ -492,12 +493,18 @@ class TestWriterBswModeSenderPolicy:
     def test_set_bsw_mode_sender_policy(self, writer):
         policy = BswModeSenderPolicy()
         policy.setProvidedModeGroupRef(_ref("/mg", "MODE-DECLARATION-GROUP-PROTOTYPE"))
-        policy.setQueueLength(5)
+        policy.setQueueLength(_posint(5))
+        policy.setEnhancedModeApi(_bool(True))
+        ack = BswModeSwitchAckRequest()
+        ack.setTimeout(_time(5.0))
+        policy.setAckRequest(ack)
         parent = _parent()
         writer.setBswModeSenderPolicy(parent, policy)
         assert parent[0].tag == "BSW-MODE-SENDER-POLICY"
         assert parent[0].find("PROVIDED-MODE-GROUP-REF") is not None
         assert parent[0].find("QUEUE-LENGTH") is not None
+        assert parent[0].find("ENHANCED-MODE-API") is not None
+        assert parent[0].find("ACK-REQUEST") is not None
 
     def test_behavior_mode_sender_policy(self, writer):
         behavior = _make_behavior()

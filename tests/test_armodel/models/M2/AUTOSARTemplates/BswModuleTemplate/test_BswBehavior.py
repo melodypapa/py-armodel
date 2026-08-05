@@ -983,15 +983,51 @@ class TestBswModeSwitchAckRequest:
 
 
 class TestBswModeSenderPolicy:
-    """Test cases for BswModeSenderPolicy class - represents a mode sender policy in a BSW module."""
+    """Test cases for BswModeSenderPolicy class - specifies the details for the sending of a mode switch for the referred mode group."""
 
     def test_initialization(self):
         policy = BswModeSenderPolicy()
 
+        assert policy.getAckRequest() is None
+        assert policy.getEnhancedModeApi() is None
         assert policy.getProvidedModeGroupRef() is None
         assert policy.getQueueLength() is None
 
-    def test_set_get_provided_mode_group_ref(self):
+    def test_get_set_ack_request(self):
+        policy = BswModeSenderPolicy()
+
+        request = BswModeSwitchAckRequest()
+        result = policy.setAckRequest(request)
+
+        assert result == policy
+        assert policy.getAckRequest() == request
+
+    def test_set_ack_request_none_is_noop(self):
+        policy = BswModeSenderPolicy()
+
+        request = BswModeSwitchAckRequest()
+        policy.setAckRequest(request)
+        policy.setAckRequest(None)
+
+        assert policy.getAckRequest() == request
+
+    def test_get_set_enhanced_mode_api(self):
+        policy = BswModeSenderPolicy()
+
+        result = policy.setEnhancedModeApi(True)
+
+        assert result == policy
+        assert policy.getEnhancedModeApi() is True
+
+    def test_set_enhanced_mode_api_none_is_noop(self):
+        policy = BswModeSenderPolicy()
+
+        policy.setEnhancedModeApi(True)
+        policy.setEnhancedModeApi(None)
+
+        assert policy.getEnhancedModeApi() is True
+
+    def test_get_set_provided_mode_group_ref(self):
         policy = BswModeSenderPolicy()
 
         ref = RefType()
@@ -1000,32 +1036,34 @@ class TestBswModeSenderPolicy:
         assert result == policy
         assert policy.getProvidedModeGroupRef() == ref
 
-    def test_set_get_queue_length_with_numerical(self):
+    def test_set_provided_mode_group_ref_none_is_noop(self):
+        policy = BswModeSenderPolicy()
+
+        ref = RefType()
+        policy.setProvidedModeGroupRef(ref)
+        policy.setProvidedModeGroupRef(None)
+
+        assert policy.getProvidedModeGroupRef() == ref
+
+    def test_get_set_queue_length(self):
         policy = BswModeSenderPolicy()
 
         length = ARNumerical()
         length.setValue(10)
         result = policy.setQueueLength(length)
 
-        assert result is None  # setQueueLength doesn't return self
+        assert result == policy
         assert policy.getQueueLength() == length
 
-    def test_set_get_queue_length_with_int(self):
+    def test_set_queue_length_none_is_noop(self):
         policy = BswModeSenderPolicy()
 
-        result = policy.setQueueLength(5)
+        length = ARNumerical()
+        length.setValue(10)
+        policy.setQueueLength(length)
+        policy.setQueueLength(None)
 
-        assert result is None  # setQueueLength doesn't return self
-        queue_length = policy.getQueueLength()
-        assert isinstance(queue_length, ARNumerical)
-        assert queue_length.getValue() == 5
-
-    def test_set_queue_length_with_invalid_type(self):
-        policy = BswModeSenderPolicy()
-
-        with pytest.raises(ValueError) as err:
-            policy.setQueueLength("invalid")
-        assert "Unsupported type" in str(err.value)
+        assert policy.getQueueLength() == length
 
 
 class TestBswBackgroundEvent:

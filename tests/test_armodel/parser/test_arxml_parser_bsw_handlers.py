@@ -1016,11 +1016,17 @@ class TestBswReceptionAndApiOptions:
         from armodel.models import BswModeSenderPolicy
 
         element = _snip(
-            "<PROVIDED-MODE-GROUP-REF DEST='MODE-DECLARATION-GROUP-PROTOTYPE'>/mg</PROVIDED-MODE-GROUP-REF>" "<QUEUE-LENGTH>3</QUEUE-LENGTH>",
+            "<ACK-REQUEST><TIMEOUT>2.5</TIMEOUT></ACK-REQUEST>"
+            "<ENHANCED-MODE-API>true</ENHANCED-MODE-API>"
+            "<PROVIDED-MODE-GROUP-REF DEST='MODE-DECLARATION-GROUP-PROTOTYPE'>/mg</PROVIDED-MODE-GROUP-REF>"
+            "<QUEUE-LENGTH>3</QUEUE-LENGTH>",
             root_tag="BSW-MODE-SENDER-POLICY",
         )
         policy = parser.getBswModeSenderPolicy(element)
         assert isinstance(policy, BswModeSenderPolicy)
+        assert policy.getAckRequest() is not None
+        assert policy.getAckRequest().getTimeout().getValue() == 2.5
+        assert policy.getEnhancedModeApi().value is True
         assert policy.getProvidedModeGroupRef().getValue() == "/mg"
         assert policy.getQueueLength().getValue() == 3
 

@@ -38,7 +38,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswModeSwitchedAckEvent,
 )
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswDataReceptionPolicy, BswEvent, BswExternalTriggerOccurredEvent
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalBehavior, BswInterruptEntity, BswModeSenderPolicy, BswModuleEntity
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalBehavior, BswInterruptEntity, BswModeSenderPolicy, BswModeSwitchAckRequest, BswModuleEntity
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswQueuedDataReceptionPolicy, BswSchedulableEntity, BswScheduleEvent
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswTimingEvent, BswVariableAccess, BswInternalTriggeringPoint
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
@@ -2435,8 +2435,15 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def setBswModeSenderPolicy(self, element: ET.Element, policy: BswModeSenderPolicy):
         child_element = ET.SubElement(element, "BSW-MODE-SENDER-POLICY")
+        self.setBswModeSwitchAckRequest(child_element, "ACK-REQUEST", policy.getAckRequest())
+        self.setChildElementOptionalBooleanValue(child_element, "ENHANCED-MODE-API", policy.getEnhancedModeApi())
         self.setChildElementOptionalRefType(child_element, "PROVIDED-MODE-GROUP-REF", policy.getProvidedModeGroupRef())
-        self.setChildElementOptionalNumericalValue(child_element, "QUEUE-LENGTH", policy.getQueueLength())
+        self.setChildElementOptionalPositiveInteger(child_element, "QUEUE-LENGTH", policy.getQueueLength())
+
+    def setBswModeSwitchAckRequest(self, element: ET.Element, key: str, request: BswModeSwitchAckRequest):
+        if request is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalTimeValue(child_element, "TIMEOUT", request.getTimeout())
 
     def writeBswInternalBehaviorModeSenderPolicy(self, element: ET.Element, parent: BswInternalBehavior):
         policies = parent.getModeSenderPolicies()
