@@ -248,7 +248,7 @@ the aggregation is itself a partial implementation and remains to be wired.
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | `bswTriggerRef` | `Optional[RefType]` | `bswTriggerRef` | `Ref (Trigger)` | Ref | — |
-| `swcTriggerIRef` | `Optional[RefType]` | `swcTriggerIRef` | `PTriggerInAtomicSwcTypeInstanceRef` | IRef | type (spec PTriggerInAtomicSwcTypeInstanceRef not yet implemented; using RefType as placeholder) |
+| `swcTriggerIRef` | `Optional[PTriggerInAtomicSwcTypeInstanceRef]` | `swcTriggerIRef` | `PTriggerInAtomicSwcTypeInstanceRef` | IRef | — |
 
 ## `BswImplementation`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 120

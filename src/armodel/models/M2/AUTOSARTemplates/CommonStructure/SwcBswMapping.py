@@ -10,7 +10,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 if TYPE_CHECKING:
-    from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import PModeGroupInAtomicSwcInstanceRef
+    from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (
+        PModeGroupInAtomicSwcInstanceRef,
+        PTriggerInAtomicSwcTypeInstanceRef,
+    )
 
 
 class SwcBswRunnableMapping(ARObject):
@@ -103,8 +106,10 @@ class SwcBswMapping(AtpStructureElement):
     # [x] setSwcBehaviorRef            [x] impl  [x] docstring  [x] test
     # [x] getSynchronizedModeGroups    [x] impl  [x] docstring  [x] test
     # [x] setSynchronizedModeGroups    [x] impl  [x] docstring  [x] test
+    # [x] addSynchronizedModeGroup     [x] impl  [x] docstring  [x] test
     # [x] getSynchronizedTriggers      [x] impl  [x] docstring  [x] test
     # [x] setSynchronizedTriggers      [x] impl  [x] docstring  [x] test
+    # [x] addSynchronizedTrigger       [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -218,6 +223,21 @@ class SwcBswMapping(AtpStructureElement):
         self.synchronizedModeGroups = value
         return self
 
+    def addSynchronizedModeGroup(self, value) -> "SwcBswMapping":
+        """
+        Adds a synchronized mode group to this mapping.
+        Only sets the value if it is not None.
+
+        Args:
+            value: The synchronized mode group to add
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.synchronizedModeGroups.append(value)
+        return self
+
     def getSynchronizedTriggers(self):
         """
         Gets the list of synchronized triggers in this mapping.
@@ -239,6 +259,21 @@ class SwcBswMapping(AtpStructureElement):
             self for method chaining
         """
         self.synchronizedTriggers = value
+        return self
+
+    def addSynchronizedTrigger(self, value) -> "SwcBswMapping":
+        """
+        Adds a synchronized trigger to this mapping.
+        Only sets the value if it is not None.
+
+        Args:
+            value: The synchronized trigger to add
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.synchronizedTriggers.append(value)
         return self
 
 
@@ -322,7 +357,7 @@ class SwcBswSynchronizedTrigger(ARObject):
     """
 
     # SwcBswSynchronizedTrigger method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.49, p.162
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.49, p.111
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] getBswTriggerRef             [x] impl  [x] docstring  [x] test
     # [x] setBswTriggerRef             [x] impl  [x] docstring  [x] test
@@ -338,12 +373,15 @@ class SwcBswSynchronizedTrigger(ARObject):
         # The BSW Trigger. Referenced BSW trigger shall exist at configuration time (constr_10300).
         self.bswTriggerRef: Optional[RefType] = None
 
-        # The SWC Trigger provided by a particular port. Referenced SWC trigger shall exist at configuration time (constr_10301).
-        self.swcTriggerIRef: Optional[RefType] = None
+        # The SWC Trigger provided by a particular port. InstanceRef implemented by: PTriggerInAtomicSwcTypeInstanceRef.
+        # The referenced SWC trigger shall exist at configuration time (constr_10301).
+        self.swcTriggerIRef: "PTriggerInAtomicSwcTypeInstanceRef" = None
 
     def getBswTriggerRef(self) -> Optional[RefType]:
         """
-        Gets the BSW trigger reference.
+        Gets the reference to the BSW Trigger that is synchronized with the SWC Trigger
+        of a component via this mapping. The referenced BSW Trigger shall exist at the
+        time the BSW module configuration is finished (constr_10300).
 
         Returns:
             Optional[RefType]: The BSW trigger reference
@@ -352,8 +390,10 @@ class SwcBswSynchronizedTrigger(ARObject):
 
     def setBswTriggerRef(self, value: Optional[RefType]) -> "SwcBswSynchronizedTrigger":
         """
-        Sets the BSW trigger reference.
-        Only sets the value if it is not None.
+        Sets the reference to the BSW Trigger that is synchronized with the SWC Trigger
+        of a component via this mapping. The referenced BSW Trigger shall exist at the
+        time the BSW module configuration is finished (constr_10300).
+        Only sets the value if it is not None, and returns self for method chaining.
 
         Args:
             value: The BSW trigger reference to set
@@ -365,19 +405,25 @@ class SwcBswSynchronizedTrigger(ARObject):
             self.bswTriggerRef = value
         return self
 
-    def getSwcTriggerIRef(self) -> Optional[RefType]:
+    def getSwcTriggerIRef(self) -> Optional["PTriggerInAtomicSwcTypeInstanceRef"]:
         """
-        Gets the SWC trigger instance reference.
+        Gets the instance reference to the SWC Trigger provided by a particular port
+        that is synchronized with the BSW Trigger via this mapping. InstanceRef is
+        implemented by PTriggerInAtomicSwcTypeInstanceRef. The referenced SWC Trigger
+        shall exist at the time the BSW module configuration is finished (constr_10301).
 
         Returns:
-            Optional[RefType]: The SWC trigger instance reference
+            Optional[PTriggerInAtomicSwcTypeInstanceRef]: The SWC trigger instance reference
         """
         return self.swcTriggerIRef
 
-    def setSwcTriggerIRef(self, value: Optional[RefType]) -> "SwcBswSynchronizedTrigger":
+    def setSwcTriggerIRef(self, value: Optional["PTriggerInAtomicSwcTypeInstanceRef"]) -> "SwcBswSynchronizedTrigger":
         """
-        Sets the SWC trigger instance reference.
-        Only sets the value if it is not None.
+        Sets the instance reference to the SWC Trigger provided by a particular port
+        that is synchronized with the BSW Trigger via this mapping. InstanceRef is
+        implemented by PTriggerInAtomicSwcTypeInstanceRef. The referenced SWC Trigger
+        shall exist at the time the BSW module configuration is finished (constr_10301).
+        Only sets the value if it is not None, and returns self for method chaining.
 
         Args:
             value: The SWC trigger instance reference to set

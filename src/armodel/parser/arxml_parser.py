@@ -56,7 +56,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import M
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.MemorySectionUsage import MemorySection
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import RoughEstimateStackUsage, StackUsage
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagEventDebounceMonitorInternal, DltUserNeeds, ServiceNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement, DtcStatusChangeNotificationNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCommunicationManagerNeeds, DiagnosticEventInfoNeeds
@@ -128,6 +128,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import At
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import ModeGroupInAtomicSwcInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import PModeGroupInAtomicSwcInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import PTriggerInAtomicSwcTypeInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RModeGroupInAtomicSWCInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RModeInAtomicSwcInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RVariableInAtomicSwcInstanceRef
@@ -1426,6 +1427,9 @@ class ARXMLParser(AbstractARXMLParser):
         self.readModeGroupInAtomicSwcInstanceRef(element, instance_ref)
         instance_ref.setContextPPortRef(self.getChildElementOptionalRefType(element, "CONTEXT-P-PORT-REF")).setTargetModeGroupRef(self.getChildElementOptionalRefType(element, "TARGET-MODE-GROUP-REF"))
 
+    def readPTriggerInAtomicSwcTypeInstanceRef(self, element: ET.Element, instance_ref: PTriggerInAtomicSwcTypeInstanceRef):
+        instance_ref.setContextPPortRef(self.getChildElementOptionalRefType(element, "CONTEXT-P-PORT-REF")).setTargetTriggerRef(self.getChildElementOptionalRefType(element, "TARGET-TRIGGER-REF"))
+
     def getModeGroupIRef(self, element: ET.Element, key: str) -> ModeGroupInAtomicSwcInstanceRef:
         instance_ref = None
         for child_element in self.findall(element, "%s/*" % key):
@@ -2689,11 +2693,41 @@ class ARXMLParser(AbstractARXMLParser):
             mapping.setBswEntityRef(self.getChildElementOptionalRefType(child_element, "BSW-ENTITY-REF")).setSwcRunnableRef(self.getChildElementOptionalRefType(child_element, "SWC-RUNNABLE-REF"))
             parent.addRunnableMapping(mapping)
 
+    def readSwcBswSynchronizedModeGroupPrototype(self, element: ET.Element) -> SwcBswSynchronizedModeGroupPrototype:
+        mode_group = SwcBswSynchronizedModeGroupPrototype()
+        mode_group.setBswModeGroupRef(self.getChildElementOptionalRefType(element, "BSW-MODE-GROUP-REF"))
+        child_element = self.find(element, "SWC-MODE-GROUP-IREF")
+        if child_element is not None:
+            instance_ref = PModeGroupInAtomicSwcInstanceRef()
+            self.readPModeGroupInAtomicSWCInstanceRef(child_element, instance_ref)
+            mode_group.setSwcModeGroupIRef(instance_ref)
+        return mode_group
+
+    def readSwcBswSynchronizedTrigger(self, element: ET.Element) -> SwcBswSynchronizedTrigger:
+        trigger = SwcBswSynchronizedTrigger()
+        trigger.setBswTriggerRef(self.getChildElementOptionalRefType(element, "BSW-TRIGGER-REF"))
+        child_element = self.find(element, "SWC-TRIGGER-IREF")
+        if child_element is not None:
+            instance_ref = PTriggerInAtomicSwcTypeInstanceRef()
+            self.readPTriggerInAtomicSwcTypeInstanceRef(child_element, instance_ref)
+            trigger.setSwcTriggerIRef(instance_ref)
+        return trigger
+
+    def readSwcBswMappingSwcBswSynchronizedModeGroups(self, element: ET.Element, parent: SwcBswMapping):
+        for child_element in self.findall(element, "SYNCHRONIZED-MODE-GROUPS/SWC-BSW-SYNCHRONIZED-MODE-GROUP-PROTOTYPE"):
+            parent.addSynchronizedModeGroup(self.readSwcBswSynchronizedModeGroupPrototype(child_element))
+
+    def readSwcBswMappingSwcBswSynchronizedTriggers(self, element: ET.Element, parent: SwcBswMapping):
+        for child_element in self.findall(element, "SYNCHRONIZED-TRIGGERS/SWC-BSW-SYNCHRONIZED-TRIGGER"):
+            parent.addSynchronizedTrigger(self.readSwcBswSynchronizedTrigger(child_element))
+
     def readSwcBswMapping(self, element: ET.Element, mapping: SwcBswMapping):
         self.logger.debug("Read SwcBswMapping <%s>" % mapping.getShortName())
         self.readIdentifiable(element, mapping)
         mapping.setBswBehaviorRef(self.getChildElementOptionalRefType(element, "BSW-BEHAVIOR-REF"))
         self.readSwcBswMappingSwcBswRunnableMappings(element, mapping)
+        self.readSwcBswMappingSwcBswSynchronizedModeGroups(element, mapping)
+        self.readSwcBswMappingSwcBswSynchronizedTriggers(element, mapping)
         mapping.setSwcBehaviorRef(self.getChildElementOptionalRefType(element, "SWC-BEHAVIOR-REF"))
 
     def readValueSpecification(self, element: ET.Element, value_spec: ValueSpecification):

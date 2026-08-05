@@ -1,1 +1,1 @@
-Let us update the `BswModeReceiverPolicy` class follow `docs\development\class_check_rules.md` and collect the change feedback and update `docs\development\class_check_rules.md` to make rule more general
+Let us update the `SwcBswSynchronizedTrigger` class follow `docs\development\class_check_rules.md` and collect the change feedback and update `docs\development\class_check_rules.md` to make rule more general

@@ -1639,12 +1639,42 @@ class TestImplementationsHandlers:
             "<BSW-ENTITY-REF DEST='BSW-SCHEDULABLE-ENTITY'>/bswEnt</BSW-ENTITY-REF>"
             "<SWC-RUNNABLE-REF DEST='RUNNABLE-ENTITY'>/swcRun</SWC-RUNNABLE-REF>"
             "</SWC-BSW-RUNNABLE-MAPPING>"
-            "</RUNNABLE-MAPPINGS>",
+            "</RUNNABLE-MAPPINGS>"
+            "<SYNCHRONIZED-MODE-GROUPS>"
+            "<SWC-BSW-SYNCHRONIZED-MODE-GROUP-PROTOTYPE>"
+            "<BSW-MODE-GROUP-REF DEST='MODE-DECLARATION-GROUP-PROTOTYPE'>/bswMg</BSW-MODE-GROUP-REF>"
+            "<SWC-MODE-GROUP-IREF>"
+            "<CONTEXT-P-PORT-REF DEST='P-PORT-PROTOTYPE'>/ctxPPort</CONTEXT-P-PORT-REF>"
+            "<TARGET-MODE-GROUP-REF DEST='MODE-DECLARATION-GROUP-PROTOTYPE'>/tgtMg</TARGET-MODE-GROUP-REF>"
+            "</SWC-MODE-GROUP-IREF>"
+            "</SWC-BSW-SYNCHRONIZED-MODE-GROUP-PROTOTYPE>"
+            "</SYNCHRONIZED-MODE-GROUPS>"
+            "<SYNCHRONIZED-TRIGGERS>"
+            "<SWC-BSW-SYNCHRONIZED-TRIGGER>"
+            "<BSW-TRIGGER-REF DEST='TRIGGER'>/bswTrg</BSW-TRIGGER-REF>"
+            "<SWC-TRIGGER-IREF>"
+            "<CONTEXT-P-PORT-REF DEST='P-PORT-PROTOTYPE'>/ctxTPort</CONTEXT-P-PORT-REF>"
+            "<TARGET-TRIGGER-REF DEST='TRIGGER'>/tgtTrg</TARGET-TRIGGER-REF>"
+            "</SWC-TRIGGER-IREF>"
+            "</SWC-BSW-SYNCHRONIZED-TRIGGER>"
+            "</SYNCHRONIZED-TRIGGERS>",
             root_tag="SWC-BSW-MAPPING",
         )
         parser.readSwcBswMapping(element, mapping)
         assert mapping.getBswBehaviorRef().getValue() == "/bswBh"
         assert mapping.getSwcBehaviorRef().getValue() == "/swcBh"
+        assert len(mapping.getSynchronizedModeGroups()) == 1
+        mode_group = mapping.getSynchronizedModeGroups()[0]
+        assert mode_group.getBswModeGroupRef().getValue() == "/bswMg"
+        assert mode_group.getSwcModeGroupIRef() is not None
+        assert mode_group.getSwcModeGroupIRef().getContextPPortRef().getValue() == "/ctxPPort"
+        assert mode_group.getSwcModeGroupIRef().getTargetModeGroupRef().getValue() == "/tgtMg"
+        assert len(mapping.getSynchronizedTriggers()) == 1
+        trigger = mapping.getSynchronizedTriggers()[0]
+        assert trigger.getBswTriggerRef().getValue() == "/bswTrg"
+        assert trigger.getSwcTriggerIRef() is not None
+        assert trigger.getSwcTriggerIRef().getContextPPortRef().getValue() == "/ctxTPort"
+        assert trigger.getSwcTriggerIRef().getTargetTriggerRef().getValue() == "/tgtTrg"
 
 
 # ==================== Timing and Execution Order Handlers ====================

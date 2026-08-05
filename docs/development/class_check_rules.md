@@ -171,18 +171,24 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       An `iref` Kind means the attribute is an instance reference — its
       element type is a `<name>InstanceRef` class, and the list type
       annotation is that class, **not** `RefType`.
-- [ ] When the spec table specifies `iref` Kind and the corresponding
-      `<name>InstanceRef` class does not yet exist in the codebase, use
-      `RefType` as a temporary placeholder type annotation and forward-reference
-      the not-yet-defined instance ref class in the docstring. Document this
-      deviation in `docs/method_deviation_by_class.md` with reason
-      "instance ref class not yet implemented". For example, if the spec
-      references `PTriggerInAtomicSwcTypeInstanceRef` but it is not defined,
-      use `self.swcTriggerIRef: Optional[RefType] = None` and cite the
-      deferred instance-ref implementation in the deviation tracker. When the
-      instance ref class is implemented later, update the type annotation to
-      use the actual `<name>InstanceRef` class (with `TYPE_CHECKING` import if
-      needed to avoid cycles).
+- [ ] An `iref` attribute's element type is a concrete `<name>InstanceRef`
+      class. When that class — or the abstract `<name>InstanceRef` parent
+      listed in its `Base` column (e.g. `TriggerInAtomicSwcInstanceRef`) —
+      does **not** exist in the codebase, **implement it first** per Rule 1.10
+      instead of deferring: create the abstract parent and the concrete
+      subclass from their own spec tables, mirroring the sibling
+      `<name>InstanceRef` classes (same abstract parent, same
+      base/context/target inner-attribute shape), and give them parser/writer
+      coverage. Rule 1.10 applies to **every** referenced class, of which
+      `<name>InstanceRef` types are one case. Only when the iref's model is
+      genuinely out of scope is a `RefType` placeholder allowed; it must then
+      forward-reference the not-yet-defined instance ref class in the inline
+      comment and in the getter/setter docstrings, and be recorded in
+      `docs/method_deviation_by_class.md` as "instance ref class not yet
+      implemented". When the class is implemented, switch the field/getter/
+      setter annotation to the concrete `<name>InstanceRef` type (with a
+      `TYPE_CHECKING` import if needed to avoid cycles) and clear the
+      deviation.
 - [ ] Within a `<name>InstanceRef` class itself, its *inner* attributes are
       ordinary Kind `ref` rows (the sub-elements of the instance ref) and
       therefore map to `Optional[RefType]` with the plain `Ref` suffix — do
@@ -238,6 +244,31 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       must gain the new subtype, otherwise a branch exists that no test
       exercises and a later refactor can silently break the dispatch without
       failing CI.
+- [ ] A concrete `<name>InstanceRef` subclass is a polymorphic type like any
+      other subtype: it needs a parser `readXxx`/`getXxxIRef` dispatch branch
+      and a matching writer `writeXxx`/`setXxxIRef` branch, plus dispatch-test
+      coverage — the five-place pattern above applies even though the iref is
+      attribute-typed rather than aggregated. Inner attributes marked
+      `Stereotypes: atpAbstract` in the abstract `<name>InstanceRef` parent are
+      declared there but concretized by the subclasses (a differently-named,
+      concretely-typed attribute, e.g. `contextPort` →
+      `contextPPort`/`contextRPort`), so only the subclass's concrete attribute
+      carries the XML element; `atpDerived` inner attributes (e.g. `base`)
+      have no XML element and are exempt (see the exception below).
+- [ ] **Typed vs polymorphic iref serialization shape.** When the spec/XSD
+      types an iref attribute as a *fixed* concrete `<name>InstanceRef` class
+      (the XSD element's `type` is that class, e.g.
+      `SwcBswSynchronizedTrigger.swcTrigger` → `SWC-TRIGGER-IREF` of type
+      `P-TRIGGER-IN-ATOMIC-SWC-TYPE-INSTANCE-REF`), the attribute-named
+      element *is* the iref: parser and writer read/write its inner refs
+      **directly under** that element (flat), mirroring
+      `setVariableInAtomicSWCTypeInstanceRef`. Do **not** emit a nested
+      `<P-...-INSTANCE-REF>` wrapper element. That nested shape is only for
+      *polymorphic* irefs — a choice of subtype elements such as
+      `MODE-GROUP-IREF`'s `P-MODE-GROUP...`/`R-MODE-GROUP...`, which dispatch
+      on the child tag. Mixing the two shapes silently drops the inner refs on
+      round-trip, because the reader looks for inner refs directly under the
+      iref element.
 - [ ] **Exception:** an attribute marked `Stereotypes: atpDerived` is a
       *derived* attribute — it is computed from its context and has **no**
       XML element, so it has no parser/writer element and is exempt from this
@@ -265,6 +296,28 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
 - [ ] Intentional deviations are recorded in `docs/method_deviation_by_class.md`
       with the reason (e.g. "PDF-only", "deprecated, not implemented",
       "atpDerived", "added convenience property").
+
+### 1.10 Missing referenced classes must be implemented first
+
+- [ ] The class under check may reference other model classes in its spec
+      table: a `ref`/`tref`/`iref` attribute's target or `<name>InstanceRef`
+      element type, an aggregated child type, a `Base`-column parent/sibling,
+      a shared spec enum, an attribute's primitive container type, etc. When
+      any such type is declared in the spec but does **not** exist in the
+      codebase, **implement it first** per these rules instead of deferring or
+      substituting a placeholder — create the missing class from its own spec
+      table, mirroring its siblings and its abstract parent if the `Base`
+      column lists one, give it a method-parity checklist, tests, and
+      parser/writer coverage, and only then type the referencing attribute
+      against it. This applies to **every** kind of referenced class, not only
+      `<name>InstanceRef` types (see the `iref` specifics in Rule 1.5).
+- [ ] A placeholder substitute (e.g. `RefType` where the spec names a concrete
+      class) is allowed only as a last resort when the missing class's model is
+      genuinely out of scope; it must then be recorded in
+      `docs/method_deviation_by_class.md` (reason "class not yet implemented"),
+      forward-reference the real class in the inline comment and docstrings,
+      and be switched to the real class (with a `TYPE_CHECKING` import if
+      needed to avoid cycles) once it is implemented, clearing the deviation.
 
 Verification: cross-check each attribute (name, multiplicity, **type**)
 against the PDF table and the corresponding XSD in
@@ -674,6 +727,15 @@ Check:
 - [ ] Every row is fully `[x]` — no stale `[ ]` entries. A row can look
       incomplete even when the method/docstring/test all already exist —
       always double-check by reading the class, not just the checklist text.
+- [ ] A row is crossed (`[x]`) **only** when all three of its obligations are
+      complete and verified — the implementation, the docstring, and the unit
+      test. A method that is implemented but whose docstring or test is not
+      yet done stays `[ ]` ("impl done, docstring/test pending"). Never cross
+      an item speculatively in anticipation of work that has not finished:
+      the checklist reflects the *current* verified state, and it is updated
+      only when the last outstanding obligation is actually done and the test
+      passes. This keeps a partially-implemented class visibly incomplete
+      instead of falsely appearing complete.
 - [ ] The `# Spec:` line names the correct PDF, table number, and page for the
       class (cross-check against the actual PDF).
 
@@ -684,6 +746,12 @@ Check:
 - Table number must be in format `X.Y` (e.g., `5.38`, not `5-38` or `538`).
 - Page number is from the PDF's own page counter, not document section
   numbers.
+- Adjacent tables that appear on the same or consecutive pages (e.g. an
+  abstract class and its subclasses) are easy to confuse with one another or
+  with the section's start page — verify each class's **own** `Table X.Y`
+  page independently against the PDF's printed page counter, and never reuse a
+  neighboring class's already-checked value. Cross-check against the page in
+  `docs/method_deviation_by_class.md`, which may already be correct.
 - Different AUTOSAR release PDFs may have different page numbers; verify
   you're reading the correct release.
 
@@ -728,7 +796,10 @@ paraphrase.
       purpose).
 - [ ] Getter/setter docstrings summarize the PDF note and semantic meaning,
       not just "Gets/sets the value". They should mention what the attribute
-      represents in AUTOSAR. Docstrings connect spec semantics to code
+      represents in AUTOSAR, cite the applicable `constr_*` id, and for `iref`
+      attributes name the implementing `<name>InstanceRef` class (so the
+      concrete iref type is discoverable in the code, not only in the
+      deviation tracker). Docstrings connect spec semantics to code
       intent; setter docstrings should also mention the no-op behavior and
       the chainable return.
 

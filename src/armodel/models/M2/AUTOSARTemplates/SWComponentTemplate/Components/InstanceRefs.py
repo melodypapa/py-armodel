@@ -6,6 +6,7 @@ and data elements in instance contexts.
 """
 
 from abc import ABC
+from typing import Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
@@ -177,6 +178,201 @@ class RModeInAtomicSwcInstanceRef(AtpInstanceRef):
 
     def setTargetModeDeclarationRef(self, value):
         self.targetModeDeclarationRef = value
+        return self
+
+
+class TriggerInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
+    """
+    Abstract base class for instance references to a Trigger in an atomic
+    software component type, referencing the trigger through a port of the
+    atomic SWC (concretized by PTriggerInAtomicSwcTypeInstanceRef and
+    RTriggerInAtomicSwcInstanceRef).
+    """
+
+    # TriggerInAtomicSwcInstanceRef method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.5, p.944
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getBaseRef                   [x] impl  [x] docstring  [x] test
+    # [x] setBaseRef                   [x] impl  [x] docstring  [x] test
+    # [x] getContextPortRef            [x] impl  [x] docstring  [x] test
+    # [x] setContextPortRef            [x] impl  [x] docstring  [x] test
+    # [x] getTargetRef                 [x] impl  [x] docstring  [x] test
+    # [x] setTargetRef                 [x] impl  [x] docstring  [x] test
+
+    def __init__(self):
+        """
+        Initializes the TriggerInAtomicSwcInstanceRef with default values.
+        """
+        if type(self) is TriggerInAtomicSwcInstanceRef:
+            raise TypeError("TriggerInAtomicSwcInstanceRef is an abstract class.")
+
+        super().__init__()
+
+        # The AtomicSwComponentType in which the referenced Trigger lives.
+        # Stereotypes: atpDerived (derived attribute, no XML element).
+        self.baseRef: Optional[RefType] = None
+
+        # The context port through which the referenced Trigger is reached.
+        # Stereotypes: atpAbstract (concretized by the subclasses' contextPPort/contextRPort).
+        self.contextPortRef: Optional[RefType] = None
+
+        # The Trigger that is referenced through the context port.
+        # Stereotypes: atpAbstract (concretized by the subclasses' targetTrigger).
+        self.targetRef: Optional[RefType] = None
+
+    def getBaseRef(self) -> Optional[RefType]:
+        """
+        Gets the reference to the AtomicSwComponentType in which the referenced
+        Trigger lives. Derived attribute (atpDerived), so it has no XML element.
+
+        Returns:
+            Optional[RefType]: The atomic SWC reference
+        """
+        return self.baseRef
+
+    def setBaseRef(self, value: Optional[RefType]) -> "TriggerInAtomicSwcInstanceRef":
+        """
+        Sets the reference to the AtomicSwComponentType in which the referenced
+        Trigger lives. Only sets the value if it is not None, and returns self
+        for method chaining.
+
+        Args:
+            value: The atomic SWC reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.baseRef = value
+        return self
+
+    def getContextPortRef(self) -> Optional[RefType]:
+        """
+        Gets the context port through which the referenced Trigger is reached.
+        Abstract attribute (atpAbstract), concretized by the subclasses.
+
+        Returns:
+            Optional[RefType]: The context port reference
+        """
+        return self.contextPortRef
+
+    def setContextPortRef(self, value: Optional[RefType]) -> "TriggerInAtomicSwcInstanceRef":
+        """
+        Sets the context port through which the referenced Trigger is reached.
+        Only sets the value if it is not None, and returns self for method
+        chaining.
+
+        Args:
+            value: The context port reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.contextPortRef = value
+        return self
+
+    def getTargetRef(self) -> Optional[RefType]:
+        """
+        Gets the Trigger that is referenced through the context port. Abstract
+        attribute (atpAbstract), concretized by the subclasses' targetTrigger.
+
+        Returns:
+            Optional[RefType]: The target trigger reference
+        """
+        return self.targetRef
+
+    def setTargetRef(self, value: Optional[RefType]) -> "TriggerInAtomicSwcInstanceRef":
+        """
+        Sets the Trigger that is referenced through the context port. Only sets
+        the value if it is not None, and returns self for method chaining.
+
+        Args:
+            value: The target trigger reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.targetRef = value
+        return self
+
+
+class PTriggerInAtomicSwcTypeInstanceRef(TriggerInAtomicSwcInstanceRef):
+    """
+    Instance reference to a Trigger in an atomic software component type
+    through a provided port (PPortPrototype), used e.g. by
+    SwcBswSynchronizedTrigger.swcTrigger.
+    """
+
+    # PTriggerInAtomicSwcTypeInstanceRef method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.7, p.946
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getContextPPortRef           [x] impl  [x] docstring  [x] test
+    # [x] setContextPPortRef           [x] impl  [x] docstring  [x] test
+    # [x] getTargetTriggerRef          [x] impl  [x] docstring  [x] test
+    # [x] setTargetTriggerRef          [x] impl  [x] docstring  [x] test
+
+    def __init__(self):
+        """
+        Initializes the PTriggerInAtomicSwcTypeInstanceRef with default values.
+        """
+        super().__init__()
+
+        # The provided port (PPortPrototype) through which the Trigger is referenced.
+        self.contextPPortRef: Optional[RefType] = None
+
+        # The Trigger that is referenced through the provided port.
+        self.targetTriggerRef: Optional[RefType] = None
+
+    def getContextPPortRef(self) -> Optional[RefType]:
+        """
+        Gets the provided port (PPortPrototype) through which the referenced
+        Trigger is reached.
+
+        Returns:
+            Optional[RefType]: The provided port reference
+        """
+        return self.contextPPortRef
+
+    def setContextPPortRef(self, value: Optional[RefType]) -> "PTriggerInAtomicSwcTypeInstanceRef":
+        """
+        Sets the provided port (PPortPrototype) through which the referenced
+        Trigger is reached. Only sets the value if it is not None, and returns
+        self for method chaining.
+
+        Args:
+            value: The provided port reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.contextPPortRef = value
+        return self
+
+    def getTargetTriggerRef(self) -> Optional[RefType]:
+        """
+        Gets the Trigger that is referenced through the provided port.
+
+        Returns:
+            Optional[RefType]: The target trigger reference
+        """
+        return self.targetTriggerRef
+
+    def setTargetTriggerRef(self, value: Optional[RefType]) -> "PTriggerInAtomicSwcTypeInstanceRef":
+        """
+        Sets the Trigger that is referenced through the provided port. Only
+        sets the value if it is not None, and returns self for method chaining.
+
+        Args:
+            value: The target trigger reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.targetTriggerRef = value
         return self
 
 
