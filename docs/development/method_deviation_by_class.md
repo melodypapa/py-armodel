@@ -237,8 +237,8 @@ the aggregation is itself a partial implementation and remains to be wired.
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `bswModeGroupRef` | `Ref (ModeDeclarationGroupPrototype)` | Ref | missing |
-| — *(missing)* | `—` | `swcModeGroupIRef` | `PModeGroupInAtomicSwcInstanceRef` | IRef | missing |
+| `bswModeGroupRef` | `Optional[RefType]` | `bswModeGroupRef` | `Ref (ModeDeclarationGroupPrototype)` | Ref | — |
+| `swcModeGroupIRef` | `Optional[PModeGroupInAtomicSwcInstanceRef]` | `swcModeGroupIRef` | `PModeGroupInAtomicSwcInstanceRef` | IRef | — |
 
 ## `SwcBswSynchronizedTrigger`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 111
@@ -247,8 +247,8 @@ the aggregation is itself a partial implementation and remains to be wired.
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `bswTriggerRef` | `Ref (Trigger)` | Ref | missing |
-| — *(missing)* | `—` | `swcTriggerIRef` | `PTriggerInAtomicSwcTypeInstanceRef` | IRef | missing |
+| `bswTriggerRef` | `Optional[RefType]` | `bswTriggerRef` | `Ref (Trigger)` | Ref | — |
+| `swcTriggerIRef` | `Optional[RefType]` | `swcTriggerIRef` | `PTriggerInAtomicSwcTypeInstanceRef` | IRef | type (spec PTriggerInAtomicSwcTypeInstanceRef not yet implemented; using RefType as placeholder) |
 
 ## `BswImplementation`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 120

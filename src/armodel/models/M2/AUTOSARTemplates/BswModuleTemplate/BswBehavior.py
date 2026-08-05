@@ -1674,7 +1674,7 @@ class BswModeReceiverPolicy(ARObject):
         Initializes BswModeReceiverPolicy with default values.
         """
         super().__init__()
-        
+
         # Controls the creation of the enhanced mode API that returns information about the previous mode and the next mode.
         self.enhancedModeApi: Optional[Boolean] = None
 

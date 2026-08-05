@@ -171,6 +171,18 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       An `iref` Kind means the attribute is an instance reference — its
       element type is a `<name>InstanceRef` class, and the list type
       annotation is that class, **not** `RefType`.
+- [ ] When the spec table specifies `iref` Kind and the corresponding
+      `<name>InstanceRef` class does not yet exist in the codebase, use
+      `RefType` as a temporary placeholder type annotation and forward-reference
+      the not-yet-defined instance ref class in the docstring. Document this
+      deviation in `docs/method_deviation_by_class.md` with reason
+      "instance ref class not yet implemented". For example, if the spec
+      references `PTriggerInAtomicSwcTypeInstanceRef` but it is not defined,
+      use `self.swcTriggerIRef: Optional[RefType] = None` and cite the
+      deferred instance-ref implementation in the deviation tracker. When the
+      instance ref class is implemented later, update the type annotation to
+      use the actual `<name>InstanceRef` class (with `TYPE_CHECKING` import if
+      needed to avoid cycles).
 - [ ] Within a `<name>InstanceRef` class itself, its *inner* attributes are
       ordinary Kind `ref` rows (the sub-elements of the instance ref) and
       therefore map to `Optional[RefType]` with the plain `Ref` suffix — do
