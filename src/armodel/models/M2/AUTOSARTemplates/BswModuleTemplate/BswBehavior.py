@@ -1162,17 +1162,71 @@ class BswModeSwitchedAckEvent(BswScheduleEvent):
         super().__init__(parent, short_name)
 
 
+class BswModeManagerErrorEvent(BswScheduleEvent):
+    """
+    This represents the ability to react on errors occurring during mode
+    handling. The event can be used to start a BswModuleEntity after an error
+    has been announced by the mode manager.
+    """
+
+    # BswModeManagerErrorEvent method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.33, p.95
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getModeGroupRef              [x] impl  [x] docstring  [x] test
+    # [x] setModeGroupRef              [x] impl  [x] docstring  [x] test
+
+    def __init__(self, parent: ARObject, short_name: str):
+        """
+        Initializes the BswModeManagerErrorEvent with a parent and short name.
+
+        Args:
+            parent: The parent ARObject that contains this event
+            short_name: The unique short name of this event
+        """
+        super().__init__(parent, short_name)
+
+        # This represents the ModeDeclarationGroupPrototype for which the
+        # error behavior of the mode manager applies.
+        self.modeGroupRef: Optional[RefType] = None
+
+    def getModeGroupRef(self) -> Optional[RefType]:
+        """
+        Gets the ModeDeclarationGroupPrototype for which the error behavior
+        of the mode manager applies.
+
+        Returns:
+            The mode group reference
+        """
+        return self.modeGroupRef
+
+    def setModeGroupRef(self, value: RefType) -> "BswModeManagerErrorEvent":
+        """
+        Sets the ModeDeclarationGroupPrototype for which the error behavior
+        of the mode manager applies. Only sets if value is not None.
+
+        Args:
+            value: The mode group reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.modeGroupRef = value
+        return self
+
+
 class BswTimingEvent(BswScheduleEvent):
     """
-    Represents a timing event in a BSW module.
-    This event is triggered based on timing constraints (e.g., periodic execution).
+    A recurring BswEvent driven by a time period. The event is triggered by
+    the BswScheduler via the OS timer at the configured period.
     """
 
     # BswTimingEvent method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.25, p.89
     # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getPeriod                    [x] impl  [x] docstring  [ ] test
+    # [x] getPeriod                    [x] impl  [x] docstring  [x] test
     # [x] setPeriod                    [x] impl  [x] docstring  [x] test
-    # [ ] periodMs                     [x] impl  [x] docstring  [ ] test
+    # [x] periodMs                     [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -1184,22 +1238,24 @@ class BswTimingEvent(BswScheduleEvent):
         """
         super().__init__(parent, short_name)
 
-        # Period of the timing event (how often it occurs)
-        self.period: TimeValue = None
+        # Requirement for the time period (in seconds) by which this event is
+        # triggered. Shall be greater than 0.
+        self.period: Optional[TimeValue] = None
 
-    def getPeriod(self):
+    def getPeriod(self) -> Optional[TimeValue]:
         """
-        Gets the period of this timing event.
+        Gets the requirement for the time period (in seconds) by which this
+        event is triggered.
 
         Returns:
-            TimeValue representing the period
+            The period as a TimeValue, or None if not set
         """
         return self.period
 
-    def setPeriod(self, value):
+    def setPeriod(self, value: TimeValue) -> "BswTimingEvent":
         """
-        Sets the period of this timing event.
-        Only sets the value if it's not None or if the current period is None.
+        Sets the time period (in seconds) by which this event is triggered.
+        Only sets if value is not None.
 
         Args:
             value: The period to set
@@ -1207,17 +1263,17 @@ class BswTimingEvent(BswScheduleEvent):
         Returns:
             self for method chaining
         """
-        if not (value is None and self.period is not None):
+        if value is not None:
             self.period = value
         return self
 
     @property
-    def periodMs(self) -> int:
+    def periodMs(self) -> Optional[int]:
         """
         Gets the period of this timing event in milliseconds.
 
         Returns:
-            Integer representing the period in milliseconds, or None if period is not set
+            The period in milliseconds, or None if the period is not set
         """
         if self.period is not None:
             return int(self.period.value * 1000)
@@ -1864,6 +1920,8 @@ class BswInternalBehavior(InternalBehavior):
     # [x] getBswExternalTriggerOccurredEvents [x] impl  [x] docstring  [x] test
     # [x] createBswBackgroundEvent     [x] impl  [x] docstring  [x] test
     # [x] getBswBackgroundEvents       [x] impl  [x] docstring  [x] test
+    # [x] createBswModeManagerErrorEvent [x] impl  [x] docstring  [x] test
+    # [x] getBswModeManagerErrorEvents [x] impl  [x] docstring  [x] test
     # [x] getBswEvents                 [x] impl  [x] docstring  [x] test
     # [x] addIncludedModeDeclarationGroupSet [x] impl  [x] docstring  [x] test
     # [x] getIncludedModeDeclarationGroupSets [x] impl  [x] docstring  [x] test
@@ -2614,6 +2672,31 @@ class BswInternalBehavior(InternalBehavior):
             List of BswBackgroundEvent instances
         """
         return list(filter(lambda a: isinstance(a, BswBackgroundEvent), self.elements))
+
+    def createBswModeManagerErrorEvent(self, short_name: str) -> BswModeManagerErrorEvent:
+        """
+        Creates and adds a BswModeManagerErrorEvent to this internal behavior.
+
+        Args:
+            short_name: The short name for the new mode manager error event
+
+        Returns:
+            The created BswModeManagerErrorEvent instance
+        """
+        if not self.IsElementExists(short_name):
+            event = BswModeManagerErrorEvent(self, short_name)
+            self.addElement(event)
+            self.events.append(event)
+        return self.getElement(short_name)
+
+    def getBswModeManagerErrorEvents(self) -> List[BswModeManagerErrorEvent]:
+        """
+        Gets all BswModeManagerErrorEvent instances from the elements list.
+
+        Returns:
+            List of BswModeManagerErrorEvent instances
+        """
+        return list(filter(lambda a: isinstance(a, BswModeManagerErrorEvent), self.elements))
 
     def getBswEvents(self) -> List[BswEvent]:
         """

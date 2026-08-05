@@ -37,7 +37,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import Bsw
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswCalledEntity, BswDataReceivedEvent, BswModuleCallPoint
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalTriggeringPoint, BswOperationInvokedEvent
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswDataReceptionPolicy, BswExternalTriggerOccurredEvent, BswInternalBehavior
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalTriggerOccurredEvent, BswInterruptEntity, BswModeSwitchEvent
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalTriggerOccurredEvent, BswInterruptEntity, BswModeManagerErrorEvent, BswModeSwitchEvent
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModuleEntity, BswQueuedDataReceptionPolicy, BswSchedulableEntity
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswScheduleEvent, BswModeSenderPolicy, BswTimingEvent, BswVariableAccess
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleClientServerEntry, BswModuleEntry
@@ -520,6 +520,12 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "MODE-IREFS/MODE-IREF"):
             event.addModeIRef(self.getModeInBswModuleDescriptionInstanceRef(child_element))
 
+    def readBswModeManagerErrorEvent(self, element: ET.Element, event: BswModeManagerErrorEvent):
+        # self.logger.debug("Read BswModeManagerErrorEvent <%s>" % event.getShortName())
+        # Read the Inherit BswScheduleEvent
+        self.readBswScheduleEvent(element, event)
+        event.setModeGroupRef(self.getChildElementOptionalRefType(element, "MODE-GROUP-REF"))
+
     def readBswTimingEvent(self, element: ET.Element, event: BswTimingEvent):
         self.logger.debug("Read BswTimingEvent <%s>" % event.getShortName())
         # Read the Inherit BswScheduleEvent
@@ -973,6 +979,9 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "BSW-MODE-SWITCH-EVENT":
                 event = behavior.createBswModeSwitchEvent(self.getShortName(child_element))
                 self.readBswModeSwitchEvent(child_element, event)
+            elif tag_name == "BSW-MODE-MANAGER-ERROR-EVENT":
+                event = behavior.createBswModeManagerErrorEvent(self.getShortName(child_element))
+                self.readBswModeManagerErrorEvent(child_element, event)
             elif tag_name == "BSW-TIMING-EVENT":
                 event = behavior.createBswTimingEvent(self.getShortName(child_element))
                 self.readBswTimingEvent(child_element, event)

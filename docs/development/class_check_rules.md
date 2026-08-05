@@ -51,6 +51,19 @@ Check:
       `Base = ARObject, AtpInstanceRef` and inherits `AtpInstanceRef`). The
       `Base` column is also what drives the `createXXX` vs `setXXX` choice in
       the bullet below.
+- [ ] The `Base` column usually lists the *entire* inheritance chain, ending in
+      the model classes the class belongs to (e.g. Table 5.33 lists
+      `ARObject, AbstractEvent, BswEvent, BswScheduleEvent, Identifiable,
+      MultilanguageReferrable, Referrable`). The class must inherit the
+      **most-derived** model class in that chain as its direct parent — never a
+      more general ancestor. `BswModeManagerErrorEvent` was defined as
+      `BswEvent` although its `Base` chain ends at `BswScheduleEvent`, the same
+      direct parent as the siblings `BswModeSwitchEvent` / `BswModeSwitchedAckEvent`;
+      it was realigned to `BswScheduleEvent`. When the `Base` column lists a
+      sibling/mid-hierarchy model class (an abstract base shared by several
+      concrete classes), choose it over the ancestor it extends. The
+      auto-generated `reports/deviation_class_hierarchy_mismatches.md` flags
+      this kind of parent mismatch for review.
 - [ ] The PDF spec is the source of truth for multiplicity. When the XSD
       disagrees with the PDF, follow the PDF (example: `bswModuleDocumentation`
       is `0..1` in the PDF but `many` in the XSD — the PDF wins).
@@ -89,6 +102,22 @@ Check:
       (`int`, with `getOrder`/`setOrder`) had no counterpart in Table 5.19 and
       was deleted during realignment.) Cross-check the `__init__` field list
       against the spec `Attribute` rows and account for every field.
+- [ ] This bullet targets **stored** fields (backing storage + accessor pair).
+      A **read-only derived convenience property** — a `@property` computed from
+      a spec attribute, with no backing field of its own and no setter (e.g.
+      `BswTimingEvent.periodMs`, which derives milliseconds from the spec
+      `period` `TimeValue`) — is not fabricated API and is **kept**, provided it
+      (a) gets a method-parity checklist row like any other member, (b) is
+      tested, and (c) is recorded in the deviation tracker as an "added
+      convenience property" (mirrors the `atpDerived` handling: derived, no XML
+      element, no parser/writer coverage). The precedent is
+      `ExecutableEntity.minimumStartIntervalMs`. Do **not** delete a convenience
+      property that real consumers (CLI, parser tests) rely on just because it
+      is absent from the spec table — removing it is a breaking change;
+      recording it is the aligned action. (`BswTimingEvent.periodMs` was
+      half-aligned — `[ ] test`, annotated `-> int` although it returns `None` —
+      and was brought to full compliance (test added, `Optional[int]`) and
+      recorded rather than removed.)
 - [ ] Multiplicity maps to the Python representation: `*` → `List[T]` (default
       `[]`), `0..1` → optional single `T` (default `None`). A spec-`*` attribute
       held as a single value is a deviation and must be fixed
@@ -161,7 +190,16 @@ Check:
       requires updating the dispatch function as well as writing the dedicated
       read/write method (`BswModeSwitchEvent` was unreadable-and-unwritable
       because `writeBswInternalBehaviorEvents` had no `isinstance` branch for it;
-      the branch was added alongside `writeBswModeSwitchEvent`). **Exception:** an
+      the branch was added alongside `writeBswModeSwitchEvent`). Concretely,
+      adding a concrete subtype touches **four** places: (a) the subtype class
+      itself, (b) the aggregator that owns the instances — it must expose a
+      `createXxx(short_name)` factory and a `getXxxs()` getter, and both rows
+      must be added to the aggregator's method-parity checklist
+      (`BswInternalBehavior.createBswModeManagerErrorEvent` /
+      `getBswModeManagerErrorEvents` were added when `BswModeManagerErrorEvent`
+      was added; without the factory the parser's tag-name branch has nothing
+      to instantiate), (c) the parser dispatch, and (d) the writer dispatch.
+      **Exception:** an
       attribute marked `Stereotypes: atpDerived` is a
       *derived* attribute — it is computed from its context and has **no** XML
       element, so it has no parser/writer element and is exempt from this
@@ -212,7 +250,10 @@ the class comment.
 
 Check:
 - [ ] The checklist covers every method defined on the class, 1:1 (no missing,
-      no extra).
+      no extra). A `@property` member counts as a method here: it is an
+      `ast.FunctionDef` in the class body, so it needs a checklist row (`[x]
+      impl/docstring/test`) and a test just like a normal method
+      (`BswTimingEvent.periodMs`).
 - [ ] Every row is fully `[x]` — no stale `[ ]` entries.
 - [ ] The `# Spec:` line names the correct PDF, table number, and page for the
       class (cross-check against the actual PDF; e.g. `ExecutableEntity` is
@@ -494,7 +535,17 @@ Check:
       classes in `X.py`, or make `X/` a real package with an `__init__.py`.
       (`BswExclusiveAreaPolicy` lived in `BswBehavior/BswExclusiveAreaPolicy.py`,
       shadowed by the `BswBehavior.py` module — importing it raised
-      `ModuleNotFoundError`; it was migrated into `BswBehavior.py`.)
+      `ModuleNotFoundError`; it was migrated into `BswBehavior.py`.) This
+      shadowing can hide a **whole family** of classes at once: `BswBehavior/`
+      held 8 classes (including `BswModeManagerErrorEvent`) that were all
+      unreachable, and each must be migrated out one at a time. When migrating a
+      class out of a shadowed directory, update
+      `tests/test_armodel/test_model_imports.py`: remove the class name from
+      `KNOWN_NAME_COLLISION_CLASSES` **and** adjust the count in that module's
+      docstring, so the class becomes importable from `armodel` and stays
+      covered by the import test. A class listed in `KNOWN_NAME_COLLISION_CLASSES`
+      is a live signal that it may live in a shadowed directory and deserves a
+      Rule 8 review.
 - [ ] Classes are **not** placed under a spec package different from their own.
 - [ ] Import statements **match** the package location: every consumer imports the
       class from the package that defines it — `from ...<Args>.<Package> import
@@ -775,6 +826,10 @@ docstrings), correct the enum implementation and update all corresponding tests.
   - `ModeInBswModuleDescriptionInstanceRef` — Table C.37, p.323
     (`src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswOverview/InstanceRefs/__init__.py`)
   - `BswModeSwitchEvent` — Table 5.31, p.94
+    (`src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`)
+  - `BswModeManagerErrorEvent` — Table 5.33, p.95
+    (`src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`)
+  - `BswTimingEvent` — Table 5.25, p.89
     (`src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`)
 - Spec sources: `autosar/markdown/*.md` (PDF-derived class tables)
 - XSD ground truth: `autosar-pdf/examples/xsd/AUTOSAR_00052.xsd`
@@ -1418,3 +1473,127 @@ to be exercised (the aligned `ReentrancyLevelEnum` has a
 and their membership in `getEnumValues()`. A shared enum's tests live in the
 mirrored `CommonStructure` test file (`tests/.../CommonStructure/test_ModeDeclaration.py`),
 not in the BSW test file, matching where the enum is defined.
+
+## Feedback from BswModeManagerErrorEvent Review
+
+When reviewing and updating `BswModeManagerErrorEvent` (Table 5.33,
+`src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`)
+per the above rules, the following observations emerged:
+
+### 1. The `Base` Column Lists the Full Chain — Inherit the Most-Derived Model Class
+
+**ISSUE**: The class was defined as `BswEvent` with `__init__(self)` in the
+shadowed `BswBehavior/BswModeManagerErrorEvent.py` submodule. Table 5.33 lists
+`Base = ARObject, AbstractEvent, BswEvent, BswScheduleEvent, Identifiable,
+MultilanguageReferrable, Referrable` — a full inheritance chain ending at
+`BswScheduleEvent`, the same direct parent used by the sibling events
+(`BswModeSwitchEvent` and `BswModeSwitchedAckEvent`). Picking `BswEvent` (a more
+general ancestor) instead of `BswScheduleEvent` was wrong; the auto-generated
+`reports/deviation_class_hierarchy_mismatches.md` flagged it as a parent mismatch.
+
+**RESOLUTION**: Realigned to `BswScheduleEvent` with `__init__(self, parent,
+short_name)`. Rule 1's base-class bullet now states the general test: when the
+`Base` column lists the entire chain, inherit the **most-derived** model class in
+that chain as the direct parent, never a more general ancestor.
+
+### 2. Adding a Concrete Subtype Touches Four Places, Including the Aggregator
+
+**ISSUE**: Rule 1's polymorphic-dispatch guidance covered the parser/writer
+dispatch functions, but adding `BswModeManagerErrorEvent` also required the
+aggregator `BswInternalBehavior` to expose a factory and getter
+(`createBswModeManagerErrorEvent` / `getBswModeManagerErrorEvents`). Without the
+factory, the parser's `BSW-MODE-MANAGER-ERROR-EVENT` tag-name branch would have
+had nothing to call, and the aggregator's own method-parity checklist had to gain
+the two rows or the set-based check would fail.
+
+**RESOLUTION**: Added the factory/getter pair to `BswInternalBehavior` and its
+checklist, plus the parser tag-name branch and the writer `isinstance` branch.
+Rule 1's polymorphic-dispatch bullet now enumerates the four touch points:
+subtype class, aggregator factory + getter (+ aggregator checklist), parser
+dispatch, and writer dispatch.
+
+### 3. A Whole Spec Package Can Be Shadowed — Update the Import Test When Migrating
+
+**ISSUE**: The `BswBehavior/` directory (no `__init__.py`) held 8 classes,
+including `BswModeManagerErrorEvent.py`, all unreachable because the sibling
+`BswBehavior.py` module shadows the directory. This is the same Rule 8
+module-vs-directory shadowing previously seen with `BswExclusiveAreaPolicy`, but
+at the scale of a whole family of classes. The class was also tracked in
+`tests/test_armodel/test_model_imports.py`'s `KNOWN_NAME_COLLISION_CLASSES`,
+which silently kept it excluded from the import test.
+
+**RESOLUTION**: Migrated the class into `BswBehavior.py` (the spec package
+`M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`), deleted the dead
+submodule, and removed the class from `KNOWN_NAME_COLLISION_CLASSES` (also
+lowering the docstring's class count from 8 to 7). Rule 8 now documents that a
+class listed in `KNOWN_NAME_COLLISION_CLASSES` is a signal it may live in a
+shadowed directory, and that migration requires updating both the collision set
+and its count in the module docstring.
+
+### 4. A Minimal Single-`ref` Class Exercises the Rules Cleanly — No New Rule Needed
+
+**OBSERVATION**: `BswModeManagerErrorEvent` is the minimal case: one `0..1`
+Kind `ref` attribute (`modeGroup` → `modeGroupRef: Optional[RefType] = None`),
+no enums, no lists, no bounded multiplicity. Every existing rule applied
+without friction: the `# Spec: Table 5.33, p.95` line (page verified against the
+PDF in `autosar/`), attribute comment from the spec note, getter/setter pair with
+the `None` no-op, tests for initialization/get-set/None-no-op/chaining, parser
+(`readBswModeManagerErrorEvent` + dispatch), writer (`writeBswModeManagerErrorEvent`
++ dispatch), and the deviation tracker entry flipping from `missing` to `ok`. The
+minimal case confirms the rules are complete for single-ref event subtypes; no
+generalization was required beyond items 1-3.
+
+## Feedback from BswTimingEvent Review
+
+When reviewing and updating `BswTimingEvent` (Table 5.25,
+`src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`)
+per the above rules, the following observations emerged:
+
+### 1. A Derived Convenience Property Is Not a Fabricated Attribute
+
+**ISSUE**: `BswTimingEvent.periodMs` is a read-only `@property` that computes
+milliseconds from the spec `period` `TimeValue`. It appears **nowhere** in
+Table 5.25, so a literal reading of Rule 1's "No fabricated attributes" bullet
+would demand its removal. But it is not a fabricated *stored* field — it has no
+backing storage and no setter; it is derived API. And it is not dead: the CLI
+(`arxml_dump_cli.py`) and a parser test consume it. The class also carried
+half-aligned state: the checklist row was `[ ] test`, the return annotation was
+`-> int` even though the property returns `None`, and the setter was a
+convoluted `if not (value is None and self.period is not None):` instead of the
+uniform `None` no-op.
+
+**RESOLUTION**: Kept `periodMs` and brought it to full compliance — added a
+`test_period_ms`, changed the annotation to `Optional[int]`, marked the checklist
+row `[x]`, and recorded it in the deviation tracker as an "added convenience
+property" (the same treatment `ExecutableEntity.minimumStartIntervalMs` already
+received). Rule 1's fabricated-attributes bullet now distinguishes **stored
+fabricated fields** (remove) from **read-only derived convenience properties**
+(keep, checklist + test + record as deviation), so future classes with a
+ms-from-TimeValue helper are handled consistently instead of being deleted as
+"invented API". The convoluted setter was simplified to the uniform
+`if value is not None:` (Rule 4) and typed accessors added (Rule 3).
+
+### 2. A `@property` Is a Checklist Member Like Any Method
+
+**ISSUE**: `periodMs` was in the checklist but half-unmarked, and it is easy to
+assume properties are exempt from the method-parity checklist because they are
+not `def getXxx` accessors.
+
+**RESOLUTION**: Rule 2 now states that a `@property` is an `ast.FunctionDef` in
+the class body, so it needs a checklist row and a test exactly like a normal
+method — the Rule 7 set-based check already treats it that way.
+
+### 3. The `Base`-Chain and `# Spec:` Rules Held Without Friction
+
+**OBSERVATION**: `BswTimingEvent` already inherited the correct most-derived
+`Base` class (`BswScheduleEvent`) per the Rule 1 chain bullet, and the only
+missing Rule 2 item was the `# Spec:` line (`Table 5.25, p.89`, page verified
+against the PDF). The attribute comment now carries the Table 5.25 note ("time
+period in seconds") plus the `constr_4043` constraint ("shall be greater than
+0") — constraint text in the PDF is spec material for the comment just like the
+attribute note. Parser (`readBswTimingEvent`), writer (`writeBswTimingEvent`)
+and both dispatch branches were already present; no round-trip gap was found.
+This is the simplest aligned class so far: one `attr` Kind attribute, no refs,
+no lists, no enums — and it confirmed that an existing consumer of a
+convenience property (the CLI's stale `period_ms` reference) must be audited
+when the property is kept or removed.

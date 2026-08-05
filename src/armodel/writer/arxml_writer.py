@@ -30,7 +30,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswApiOptions, BswAsynchronousServerCallPoint, BswBackgroundEvent
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswSynchronousServerCallPoint
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswCalledEntity, BswDataReceivedEvent, BswModuleCallPoint
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalTriggerOccurredEvent, BswOperationInvokedEvent, BswModeSwitchEvent
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalTriggerOccurredEvent, BswOperationInvokedEvent, BswModeManagerErrorEvent, BswModeSwitchEvent
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswDataReceptionPolicy, BswEvent, BswExternalTriggerOccurredEvent
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalBehavior, BswInterruptEntity, BswModeSenderPolicy, BswModuleEntity
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswQueuedDataReceptionPolicy, BswSchedulableEntity, BswScheduleEvent
@@ -2381,6 +2381,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             for iref in irefs:
                 self.setModeInBswModuleDescriptionInstanceRef(mode_irefs_tag, "MODE-IREF", iref)
 
+    def writeBswModeManagerErrorEvent(self, element: ET.Element, event: BswModeManagerErrorEvent):
+        self.logger.debug("Write BswModeManagerErrorEvent <%s>" % event.getShortName())
+        child_element = ET.SubElement(element, "BSW-MODE-MANAGER-ERROR-EVENT")
+        self.writeBswScheduleEvent(child_element, event)
+        self.setChildElementOptionalRefType(child_element, "MODE-GROUP-REF", event.getModeGroupRef())
+
     def writeBswInternalBehaviorEvents(self, element: ET.Element, parent: BswInternalBehavior):
         events = parent.getBswEvents()
         if len(events) > 0:
@@ -2400,6 +2406,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeBswOperationInvokedEvent(child_element, event)
                 elif isinstance(event, BswModeSwitchEvent):
                     self.writeBswModeSwitchEvent(child_element, event)
+                elif isinstance(event, BswModeManagerErrorEvent):
+                    self.writeBswModeManagerErrorEvent(child_element, event)
                 else:
                     self.notImplemented("Unsupported BswModuleEntity <%s>" % type(event))
 

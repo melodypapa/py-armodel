@@ -927,6 +927,17 @@ class TestBswInternalBehaviorEventsDetailed:
         parser.readBswOperationInvokedEvent(element, event)
         assert event.getEntryRef().getValue() == "/e"
 
+    def test_readBswModeManagerErrorEvent_sets_mode_group_ref(self, parser):
+        from armodel.models import BswModeManagerErrorEvent
+
+        event = BswModeManagerErrorEvent(parent=_autosar_root(), short_name="ev")
+        element = _snip(
+            "<SHORT-NAME>ev</SHORT-NAME>" "<MODE-GROUP-REF DEST='MODE-DECLARATION-GROUP-PROTOTYPE'>/mg</MODE-GROUP-REF>",
+            root_tag="BSW-MODE-MANAGER-ERROR-EVENT",
+        )
+        parser.readBswModeManagerErrorEvent(element, event)
+        assert event.getModeGroupRef().getValue() == "/mg"
+
     def test_readBswInternalBehaviorEvents_dispatches_all_types(self, parser):
         from armodel.models import BswModuleDescription
 
@@ -941,6 +952,7 @@ class TestBswInternalBehaviorEventsDetailed:
             "<BSW-BACKGROUND-EVENT><SHORT-NAME>e5</SHORT-NAME></BSW-BACKGROUND-EVENT>"
             "<BSW-EXTERNAL-TRIGGER-OCCURRED-EVENT><SHORT-NAME>e6</SHORT-NAME></BSW-EXTERNAL-TRIGGER-OCCURRED-EVENT>"
             "<BSW-OPERATION-INVOKED-EVENT><SHORT-NAME>e7</SHORT-NAME></BSW-OPERATION-INVOKED-EVENT>"
+            "<BSW-MODE-MANAGER-ERROR-EVENT><SHORT-NAME>e8</SHORT-NAME></BSW-MODE-MANAGER-ERROR-EVENT>"
             "</EVENTS>",
             root_tag="BH",
         )
@@ -952,6 +964,7 @@ class TestBswInternalBehaviorEventsDetailed:
         assert len(behavior.getBswBackgroundEvents()) == 1
         assert len(behavior.getBswExternalTriggerOccurredEvents()) == 1
         assert len(behavior.getBswOperationInvokedEvents()) == 1
+        assert len(behavior.getBswModeManagerErrorEvents()) == 1
 
     def test_readBswInternalBehaviorEvents_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import BswInternalBehavior

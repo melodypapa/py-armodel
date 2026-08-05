@@ -23,6 +23,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswOperationInvokedEvent,
     BswScheduleEvent,
     BswModeSwitchEvent,
+    BswModeManagerErrorEvent,
     BswTimingEvent,
     BswDataReceivedEvent,
     BswInternalTriggerOccurredEvent,
@@ -713,6 +714,55 @@ class TestBswModeSwitchEvent:
         assert event.getModeIRefs() == [iref]
 
 
+class TestBswModeManagerErrorEvent:
+    """Test cases for BswModeManagerErrorEvent class - represents a mode manager error event in a BSW module."""
+
+    def test_initialization(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = BswModeManagerErrorEvent(ar_root, "test_mode_manager_error_event")
+
+        assert event.short_name == "test_mode_manager_error_event"
+        assert event.getModeGroupRef() is None
+
+    def test_get_set_mode_group_ref(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = BswModeManagerErrorEvent(ar_root, "test_mode_manager_error_event")
+
+        ref = RefType()
+        ref.setValue("/MG/ModeDeclarationGroupPrototype")
+        ref.setDest("MODE-DECLARATION-GROUP-PROTOTYPE")
+        result = event.setModeGroupRef(ref)
+
+        assert result == event
+        assert event.getModeGroupRef() == ref
+
+    def test_set_mode_group_ref_none_is_noop(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = BswModeManagerErrorEvent(ar_root, "test_mode_manager_error_event")
+
+        ref = RefType()
+        ref.setValue("/MG/ModeDeclarationGroupPrototype")
+        event.setModeGroupRef(ref)
+        event.setModeGroupRef(None)
+
+        assert event.getModeGroupRef() == ref
+
+    def test_method_chaining(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = BswModeManagerErrorEvent(ar_root, "test_mode_manager_error_event")
+
+        ref = RefType()
+        ref.setValue("/MG/ModeDeclarationGroupPrototype")
+        result = event.setModeGroupRef(ref)
+
+        assert result is event
+        assert event.getModeGroupRef() == ref
+
+
 class TestBswTimingEvent:
     """Test cases for BswTimingEvent class - represents a timing event in a BSW module."""
 
@@ -752,6 +802,19 @@ class TestBswTimingEvent:
         result = event.setPeriod(None)
         assert result == event
         assert event.getPeriod() == initial_period  # Should remain unchanged
+
+    def test_period_ms(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = BswTimingEvent(ar_root, "test_timing_event")
+
+        assert event.periodMs is None
+
+        period = TimeValue()
+        period.value = 2.5
+        event.setPeriod(period)
+
+        assert event.periodMs == 2500  # 2.5 * 1000
 
 
 class TestBswDataReceivedEvent:
@@ -1314,6 +1377,27 @@ class TestBswInternalBehavior:
         mode_switch_events = behavior.getBswModeSwitchEvents()
         assert len(mode_switch_events) == 1
         assert mode_switch_events[0] == event
+
+    def test_create_bsw_mode_manager_error_event(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        behavior = BswInternalBehavior(ar_root, "test_internal_behavior")
+
+        event = behavior.createBswModeManagerErrorEvent("test_mode_manager_error_event")
+
+        assert event.short_name == "test_mode_manager_error_event"
+        assert len(behavior.getBswModeManagerErrorEvents()) == 1
+
+    def test_get_bsw_mode_manager_error_events(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        behavior = BswInternalBehavior(ar_root, "test_internal_behavior")
+
+        event = behavior.createBswModeManagerErrorEvent("test_mode_manager_error_event")
+
+        mode_manager_error_events = behavior.getBswModeManagerErrorEvents()
+        assert len(mode_manager_error_events) == 1
+        assert mode_manager_error_events[0] == event
 
     def test_create_bsw_timing_event(self):
         document = AUTOSAR.getInstance()
