@@ -45,27 +45,31 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
 ### 1.1 Attribute existence and kind of element
 
 - [ ] Every attribute in the class exists in the class's spec table (find the
-      table by searching the AUTOSAR PDF markdown for the class name).
+       table by searching the AUTOSAR PDF markdown for the class name).
 - [ ] The class is the right kind of element: when the spec table header is
-      `Class` and its `Attribute` column has rows, the Python class must be a
-      model class with fields/accessors — **not** an enum. Enums correspond to
-      spec tables headed `Enumeration` with `Literal` rows only. (A class
-      mistakenly modeled as an `AREnum` with a handful of ad-hoc members that
-      appear nowhere in its spec table is a Rule 1 violation; the spec table
-      defines it as a class with real attributes instead.)
+       `Class` and its `Attribute` column has rows, the Python class must be a
+       model class with fields/accessors — **not** an enum. Enums correspond to
+       spec tables headed `Enumeration` with `Literal` rows only. (A class
+       mistakenly modeled as an `AREnum` with a handful of ad-hoc members that
+       appear nowhere in its spec table is a Rule 1 violation; the spec table
+       defines it as a class with real attributes instead.) **This occurs when a
+       placeholder enum implementation from an earlier development stage is not
+       synchronized with the spec table it should represent. Always verify the
+       spec table structure (Class vs. Enumeration header) before assuming the
+       current implementation is correct.**
 - [ ] Distinguishing enums from classes: check the table header **and** column
-      structure, not the package name or domain assumptions.
-      1. Header `Enumeration` + `Literal` column → enum → use `AREnum` with
-         members.
-      2. Header `Class` + `Attribute`/`Type`/`Mult`/`Kind`/`Note` columns →
-         regular class → use `ARObject` (or its appropriate base) with
-         field/accessor pairs.
-      3. The `Base` column alone does **not** determine enum vs. class — a
-         class whose `Base` is just `ARObject` can still be a class, not an
-         enum, if the table shows attribute columns.
-      Searching the PDF for "Enumeration" + the class name finds enums
-      quickly; searching for "Table" + the class name finds class tables.
-      Cross-reference both.
+       structure, not the package name or domain assumptions.
+       1. Header `Enumeration` + `Literal` column → enum → use `AREnum` with
+          members.
+       2. Header `Class` + `Attribute`/`Type`/`Mult`/`Kind`/`Note` columns →
+          regular class → use `ARObject` (or its appropriate base) with
+          field/accessor pairs.
+       3. The `Base` column alone does **not** determine enum vs. class — a
+          class whose `Base` is just `ARObject` can still be a class, not an
+          enum, if the table shows attribute columns.
+       Searching the PDF for "Enumeration" + the class name finds enums
+       quickly; searching for "Table" + the class name finds class tables.
+       Cross-reference both.
 
 ### 1.2 Base class and inheritance chain
 

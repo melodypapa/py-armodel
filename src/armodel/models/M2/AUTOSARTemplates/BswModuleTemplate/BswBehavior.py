@@ -1654,6 +1654,96 @@ class BswModeSenderPolicy(ARObject):
         return self
 
 
+class BswModeReceiverPolicy(ARObject):
+    """
+    Specifies the details for the reception of a mode switch for the referred mode group.
+    """
+
+    # BswModeReceiverPolicy method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.41, p.162
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getEnhancedModeApi           [x] impl  [x] docstring  [x] test
+    # [x] setEnhancedModeApi           [x] impl  [x] docstring  [x] test
+    # [x] getRequiredModeGroupRef      [x] impl  [x] docstring  [x] test
+    # [x] setRequiredModeGroupRef      [x] impl  [x] docstring  [x] test
+    # [x] getSupportsAsynchronousModeSwitch  [x] impl  [x] docstring  [x] test
+    # [x] setSupportsAsynchronousModeSwitch  [x] impl  [x] docstring  [x] test
+
+    def __init__(self):
+        """
+        Initializes BswModeReceiverPolicy with default values.
+        """
+        super().__init__()
+        
+        # Controls the creation of the enhanced mode API that returns information about the previous mode and the next mode.
+        self.enhancedModeApi: Optional[Boolean] = None
+
+        # The required mode group for which the policy is specified. The
+        # reference in the role requiredModeGroup shall exist at the time when
+        # the configuration of the BSW module is finished (constr_10294).
+        self.requiredModeGroupRef: Optional[RefType] = None
+
+        # Specifies whether the module can handle the reception of an asynchronous mode switch (true) or not (false).
+        # This attribute shall exist at the time when the configuration of the BSW module is finished (constr_10295).
+        self.supportsAsynchronousModeSwitch: Optional[Boolean] = None
+
+    def getEnhancedModeApi(self) -> Optional[Boolean]:
+        """
+        Gets the enhanced mode API flag.
+        Controls the creation of the enhanced mode API that returns information about the previous and next mode.
+        Returns None if not set.
+        """
+        return self.enhancedModeApi
+
+    def setEnhancedModeApi(self, value: Optional[Boolean]) -> "BswModeReceiverPolicy":
+        """
+        Sets the enhanced mode API flag.
+        Controls the creation of the enhanced mode API that returns information about the previous and next mode.
+        Setting None is a no-op and preserves the existing value.
+        Returns self for method chaining.
+        """
+        if value is not None:
+            self.enhancedModeApi = value
+        return self
+
+    def getRequiredModeGroupRef(self) -> Optional[RefType]:
+        """
+        Gets the required mode group reference.
+        Returns the reference to the mode group for which the policy is specified, or None if not set.
+        """
+        return self.requiredModeGroupRef
+
+    def setRequiredModeGroupRef(self, value: Optional[RefType]) -> "BswModeReceiverPolicy":
+        """
+        Sets the required mode group reference.
+        The required mode group for which the policy is specified.
+        Setting None is a no-op and preserves the existing value.
+        Returns self for method chaining.
+        """
+        if value is not None:
+            self.requiredModeGroupRef = value
+        return self
+
+    def getSupportsAsynchronousModeSwitch(self) -> Optional[Boolean]:
+        """
+        Gets the asynchronous mode switch support flag.
+        Specifies whether the module can handle the reception of an asynchronous mode switch.
+        Returns None if not set.
+        """
+        return self.supportsAsynchronousModeSwitch
+
+    def setSupportsAsynchronousModeSwitch(self, value: Optional[Boolean]) -> "BswModeReceiverPolicy":
+        """
+        Sets the asynchronous mode switch support flag.
+        Specifies whether the module can handle the reception of an asynchronous mode switch (true) or not (false).
+        Setting None is a no-op and preserves the existing value.
+        Returns self for method chaining.
+        """
+        if value is not None:
+            self.supportsAsynchronousModeSwitch = value
+        return self
+
+
 class BswBackgroundEvent(BswScheduleEvent):
     """
     Represents a background event in a BSW module.
