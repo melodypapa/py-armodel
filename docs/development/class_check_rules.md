@@ -104,7 +104,17 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
 
 ### 1.3 Attribute-level completeness
 
-- [ ] Deprecated attributes that the PDF has replaced are **not** added.
+- [ ] Deprecated attributes that the PDF has replaced are **not** added. An attribute
+       that is absent from the PDF `Attribute` column but present in the XSD with an
+       `atp.Status="removed"` tag (e.g. `BswImplementation.debugInfo`) is
+       deprecated/removed: it maps to **no** field, and the deviation tracker row
+       records the reason `"deprecated (atp.Status=removed), not implemented"`
+       instead of a bare `"missing"`. This is distinct from the `atpDerived`
+       exception in Rule 1.7 — `atp.Status="removed"` means the attribute was
+       deleted upstream (do **not** model it), whereas `atpDerived` means the
+       attribute is derived in the model (model it with a field, no XML element).
+       To tell them apart, inspect the XSD element's appinfo tags for
+       `atp.Status="removed"` vs the `atpDerived` stereotype.
 - [ ] Type deviations are recorded as well, not only missing/extra attributes
       (e.g. a PDF `PositiveInteger` attribute that the parser produces as
       `ARNumerical` via `getChildElementOptionalNumericalValue` — the model
@@ -226,6 +236,13 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
 - [ ] Every implemented attribute must be covered by **both** the parser and
       the writer. A spec attribute with a field and accessors but no parser
       or writer handling is silently dropped on round-trip.
+      The method-parity checklist (Rule 2) is **blind to this**: it tracks only
+      method existence, so a fully `[x]` checklist says nothing about whether
+      the attribute is serialized. (e.g. `BswImplementation.preconfiguredConfiguration`
+      had a complete field + accessor pair + `[x]` checklist rows yet no XML
+      read/write at all.) Verify coverage separately by grepping the parser and
+      writer for the XML element tag of every field — a field whose accessor
+      methods are present and tested is *not* evidence that any code serializes it.
 - [ ] This extends to **polymorphic dispatch**: a class that is a concrete
       subtype of an abstract base (event, entity, policy, etc.) may have a
       dedicated `readXxx`/`writeXxx` method yet still be silently dropped if
@@ -479,6 +496,17 @@ Check:
       package-name mismatch, because that path implies package
       `...::SomeGroup::ClassName`. The class must be defined **directly** in
       `SomeGroup/__init__.py`.
+- [ ] **Element-type packages whose tail equals the class name are the correct,
+      aligned case, not the anti-pattern.** When the `Package` row's last
+      segment *is* the class itself (e.g. `BswImplementation` →
+      `M2::AUTOSARTemplates::BswModuleTemplate::BswImplementation` → module
+      file `BswImplementation.py`), the class is the package's direct member
+      and is defined directly in that `ClassName.py` module. This is common for
+      root element types and needs no sub-package. The package-name-match
+      anti-pattern above applies only when the package tail (`SomeGroup`)
+      differs from the class (`ClassName`) and the class is wrongly nested as
+      `SomeGroup/ClassName.py` — do not conflate the two, and do not move a
+      class out of a class-named element-type module.
 - [ ] If the module is a directory/package (`SomeGroup/__init__.py`), the spec
       package's classes are defined in that `__init__.py` file (or imported
       and re-exported from `__init__.py` if split into submodules). Prefer
@@ -913,8 +941,16 @@ Every method on the class must have test coverage in the mirrored test file
 - [ ] When a class gains new attributes covered by parser/writer support,
       verify the round trip end-to-end (set values → save → reload → assert
       the values come back) in addition to the unit-level get/set tests; this
-      is the practical test that Rule 1.7's "parser and writer coverage"
-      check is meant to guarantee.
+      is the practical test that Rule 1.7's "parser and writer coverage" check
+      is meant to guarantee. Run the full round trip **even when the class's
+      own methods look complete**: the write path also serializes the
+      *inherited base-class* fields, and a base-class deviation can crash or
+      silently drop the whole element (e.g. `Implementation.swVersion` typed
+      as a `List` but written through a scalar literal writer, and
+      `vendorId` defaulting to a raw `int` while the numerical writer expects
+      an `ARNumerical`) — such failures surface only in the end-to-end round
+      trip, never in the class's own unit tests. A minimal robustness fix in
+      the base writer is a legitimate part of aligning the subclass.
 
 Verification (run in the repo root; replace the paths for the class under
 check):

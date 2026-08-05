@@ -1278,12 +1278,26 @@ class ARXMLParser(AbstractARXMLParser):
             for ref in self.getChildElementRefTypeList(child_element, "VENDOR-SPECIFIC-MODULE-DEF-REF"):
                 impl.addVendorSpecificModuleDefRef(ref)
 
+    def readBswImplementationPreconfiguredConfigurationRefs(self, element: ET.Element, impl: BswImplementation):
+        child_element = self.find(element, "PRECONFIGURED-CONFIGURATION-REFS")
+        if child_element is not None:
+            for ref in self.getChildElementRefTypeList(child_element, "PRECONFIGURED-CONFIGURATION-REF"):
+                impl.addPreconfiguredConfigurationRef(ref)
+
+    def readBswImplementationRecommendedConfigurationRefs(self, element: ET.Element, impl: BswImplementation):
+        child_element = self.find(element, "RECOMMENDED-CONFIGURATION-REFS")
+        if child_element is not None:
+            for ref in self.getChildElementRefTypeList(child_element, "RECOMMENDED-CONFIGURATION-REF"):
+                impl.addRecommendedConfigurationRef(ref)
+
     def readBswImplementation(self, element: ET.Element, impl: BswImplementation):
         self.logger.debug("Read BswImplementation <%s>" % impl.getShortName())
         self.readImplementation(element, impl)
         impl.setArReleaseVersion(self.getChildElementOptionalLiteral(element, "AR-RELEASE-VERSION")).setBehaviorRef(self.getChildElementOptionalRefType(element, "BEHAVIOR-REF")).setVendorApiInfix(
             self.getChildElementOptionalLiteral(element, "VENDOR-API-INFIX")
         )
+        self.readBswImplementationPreconfiguredConfigurationRefs(element, impl)
+        self.readBswImplementationRecommendedConfigurationRefs(element, impl)
         self.readBswImplementationVendorSpecificModuleDefRefs(element, impl)
         behavior_ref = impl.getBehaviorRef()
         if behavior_ref is not None:

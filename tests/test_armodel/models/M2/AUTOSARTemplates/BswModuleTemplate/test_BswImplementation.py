@@ -2,13 +2,17 @@
 Test suite for BswImplementation class in armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation.
 
 This module tests the BSW (Basic Software) implementation class which extends the base Implementation class.
-It includes functionality for managing BSW-specific implementation properties like release version, 
+It includes functionality for managing BSW-specific implementation properties like release version,
 behavior references, configuration references, and vendor-specific information.
 """
 
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, RevisionLabelString, Identifier
 from armodel import AUTOSAR
+from armodel.parser.arxml_parser import ARXMLParser
+from armodel.writer.arxml_writer import ARXMLWriter
+import os
+import tempfile
 
 
 class TestBswImplementation:
@@ -41,6 +45,9 @@ class TestBswImplementation:
         assert result == impl
         assert impl.getArReleaseVersion() == version
 
+        impl.setArReleaseVersion(None)
+        assert impl.getArReleaseVersion() == version
+
     def test_get_set_behavior_ref(self):
         """Test getter and setter for behavior reference."""
         document = AUTOSAR.getInstance()
@@ -52,6 +59,9 @@ class TestBswImplementation:
         result = impl.setBehaviorRef(ref)
 
         assert result == impl
+        assert impl.getBehaviorRef() == ref
+
+        impl.setBehaviorRef(None)
         assert impl.getBehaviorRef() == ref
 
     def test_get_preconfigured_configuration_refs(self):
@@ -75,6 +85,9 @@ class TestBswImplementation:
         assert result == impl
         assert impl.getPreconfiguredConfigurationRefs() == [ref]
 
+        impl.addPreconfiguredConfigurationRef(None)
+        assert impl.getPreconfiguredConfigurationRefs() == [ref]
+
     def test_get_recommended_configuration_refs(self):
         """Test getter for recommended configuration references."""
         document = AUTOSAR.getInstance()
@@ -96,6 +109,9 @@ class TestBswImplementation:
         assert result == impl
         assert impl.getRecommendedConfigurationRefs() == [ref]
 
+        impl.addRecommendedConfigurationRef(None)
+        assert impl.getRecommendedConfigurationRefs() == [ref]
+
     def test_get_set_vendor_api_infix(self):
         """Test getter and setter for vendor API infix."""
         document = AUTOSAR.getInstance()
@@ -107,6 +123,9 @@ class TestBswImplementation:
         result = impl.setVendorApiInfix(infix)
 
         assert result == impl
+        assert impl.getVendorApiInfix() == infix
+
+        impl.setVendorApiInfix(None)
         assert impl.getVendorApiInfix() == infix
 
     def test_get_vendor_specific_module_def_refs(self):
@@ -129,3 +148,47 @@ class TestBswImplementation:
 
         assert result == impl
         assert impl.getVendorSpecificModuleDefRefs() == [ref]
+
+        impl.addVendorSpecificModuleDefRef(None)
+        assert impl.getVendorSpecificModuleDefRefs() == [ref]
+
+    def test_round_trip(self):
+        """Test full parse -> write -> re-parse round trip of all BswImplementation attributes."""
+
+        def make_ref(value):
+            ref = RefType()
+            ref.setValue(value)
+            return ref
+
+        version = RevisionLabelString()
+        version.setValue("4.3.0")
+        infix = Identifier()
+        infix.setValue("infix")
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        impl = ar_root.createBswImplementation("test_bsw_implementation")
+        impl.setArReleaseVersion(version).setBehaviorRef(make_ref("/Behavior")).setVendorApiInfix(infix)
+        impl.addPreconfiguredConfigurationRef(make_ref("/preconfigured"))
+        impl.addRecommendedConfigurationRef(make_ref("/recommended"))
+        impl.addVendorSpecificModuleDefRef(make_ref("/vendor"))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            impl_2 = document_2.getARPackages()[0].getBswImplementations()[0]
+
+            assert impl_2.getArReleaseVersion().getValue() == "4.3.0"
+            assert impl_2.getBehaviorRef().getValue() == "/Behavior"
+            assert impl_2.getPreconfiguredConfigurationRefs()[0].getValue() == "/preconfigured"
+            assert impl_2.getRecommendedConfigurationRefs()[0].getValue() == "/recommended"
+            assert impl_2.getVendorSpecificModuleDefRefs()[0].getValue() == "/vendor"
+            assert impl_2.getVendorApiInfix().getValue() == "infix"
+        finally:
+            os.remove(file_path)

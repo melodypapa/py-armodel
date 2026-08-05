@@ -2037,10 +2037,21 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeCodeDescriptors(element, impl)
         self.setChildElementOptionalLiteral(element, "PROGRAMMING-LANGUAGE", impl.getProgrammingLanguage())
         self.setResourceConsumption(element, impl.getResourceConsumption())
-        self.setChildElementOptionalLiteral(element, "SW-VERSION", impl.getSwVersion())
+        sw_versions = impl.getSwVersion()
+        if isinstance(sw_versions, list):
+            for version in sw_versions:
+                self.setChildElementOptionalLiteral(element, "SW-VERSION", version)
+        else:
+            self.setChildElementOptionalLiteral(element, "SW-VERSION", sw_versions)
         self.setChildElementOptionalRefType(element, "SWC-BSW-MAPPING-REF", impl.getSwcBswMappingRef())
         self.setChildElementOptionalLiteral(element, "USED-CODE-GENERATOR", impl.getUsedCodeGenerator())
-        self.setChildElementOptionalNumericalValue(element, "VENDOR-ID", impl.getVendorId())
+        vendor_id = impl.getVendorId()
+        if isinstance(vendor_id, int):
+            if vendor_id is not None:
+                child_element = ET.SubElement(element, "VENDOR-ID")
+                child_element.text = str(vendor_id)
+        else:
+            self.setChildElementOptionalNumericalValue(element, "VENDOR-ID", vendor_id)
 
     def writeSwcImplementation(self, element: ET.Element, impl: SwcImplementation):
         self.logger.debug("writeSwcImplementation %s" % impl.getShortName())
@@ -2736,6 +2747,22 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for ref in refs:
                     self.setChildElementOptionalRefType(child_element, "VENDOR-SPECIFIC-MODULE-DEF-REF", ref)
 
+    def writeBswImplementationPreconfiguredConfigurationRefs(self, element: ET.Element, parent: BswImplementation):
+        refs = parent.getPreconfiguredConfigurationRefs()
+        if len(refs) > 0:
+            child_element = ET.SubElement(element, "PRECONFIGURED-CONFIGURATION-REFS")
+            if child_element is not None:
+                for ref in refs:
+                    self.setChildElementOptionalRefType(child_element, "PRECONFIGURED-CONFIGURATION-REF", ref)
+
+    def writeBswImplementationRecommendedConfigurationRefs(self, element: ET.Element, parent: BswImplementation):
+        refs = parent.getRecommendedConfigurationRefs()
+        if len(refs) > 0:
+            child_element = ET.SubElement(element, "RECOMMENDED-CONFIGURATION-REFS")
+            if child_element is not None:
+                for ref in refs:
+                    self.setChildElementOptionalRefType(child_element, "RECOMMENDED-CONFIGURATION-REF", ref)
+
     def writeBswImplementation(self, element: ET.Element, impl: BswImplementation):
         self.logger.debug("writeBswModuleDescription %s" % impl.getShortName())
         child_element = ET.SubElement(element, "BSW-IMPLEMENTATION")
@@ -2743,6 +2770,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(child_element, "AR-RELEASE-VERSION", impl.getArReleaseVersion())
         self.setChildElementOptionalRefType(child_element, "BEHAVIOR-REF", impl.getBehaviorRef())
         self.setChildElementOptionalLiteral(child_element, "VENDOR-API-INFIX", impl.getVendorApiInfix())
+        self.writeBswImplementationPreconfiguredConfigurationRefs(child_element, impl)
+        self.writeBswImplementationRecommendedConfigurationRefs(child_element, impl)
         self.writeBswImplementationVendorSpecificModuleDefRefs(child_element, impl)
 
     def writeAbstractImplementationDataTypeElement(self, element: ET.Element, impl_data_type_element: AbstractImplementationDataTypeElement):

@@ -257,7 +257,7 @@ the aggregation is itself a partial implementation and remains to be wired.
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `debugInfo` | `Ref (EcucModuleConfigurationValues)` | — | missing |
+| — *(missing)* | `—` | `debugInfo` | `Ref (EcucModuleConfigurationValues)` | — | deprecated (`atp.Status=removed`), not implemented |
 
 ## `Implementation`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 126
