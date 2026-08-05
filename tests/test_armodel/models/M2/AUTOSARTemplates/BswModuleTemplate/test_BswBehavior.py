@@ -41,6 +41,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import ModeInBswModuleDescriptionInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARFloat, ARNumerical, PositiveInteger, TimeValue
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ApiPrincipleEnum
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeActivationKind
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
 from armodel import AUTOSAR
 
@@ -645,17 +646,71 @@ class TestBswModeSwitchEvent:
 
         assert event.short_name == "test_mode_switch_event"
         assert event.getActivation() is None
+        assert event.getModeIRefs() == []
 
     def test_set_activation(self):
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         event = BswModeSwitchEvent(ar_root, "test_mode_switch_event")
 
-        activation = "test_activation"
+        activation = ModeActivationKind.ON_ENTRY
         result = event.setActivation(activation)
 
         assert result == event
         assert event.getActivation() == activation
+
+    def test_set_activation_none_is_noop(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = BswModeSwitchEvent(ar_root, "test_mode_switch_event")
+
+        event.setActivation(ModeActivationKind.ON_EXIT)
+        event.setActivation(None)
+
+        assert event.getActivation() == ModeActivationKind.ON_EXIT
+
+    def test_add_mode_iref(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = BswModeSwitchEvent(ar_root, "test_mode_switch_event")
+
+        iref = ModeInBswModuleDescriptionInstanceRef()
+        result = event.addModeIRef(iref)
+
+        assert result == event
+        assert event.getModeIRefs() == [iref]
+
+    def test_add_mode_iref_none_is_noop(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = BswModeSwitchEvent(ar_root, "test_mode_switch_event")
+
+        event.addModeIRef(None)
+
+        assert event.getModeIRefs() == []
+
+    def test_add_multiple_mode_irefs(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = BswModeSwitchEvent(ar_root, "test_mode_switch_event")
+
+        iref1 = ModeInBswModuleDescriptionInstanceRef()
+        iref2 = ModeInBswModuleDescriptionInstanceRef()
+        event.addModeIRef(iref1).addModeIRef(iref2)
+
+        assert event.getModeIRefs() == [iref1, iref2]
+
+    def test_method_chaining(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = BswModeSwitchEvent(ar_root, "test_mode_switch_event")
+
+        iref = ModeInBswModuleDescriptionInstanceRef()
+        result = event.setActivation(ModeActivationKind.ON_TRANSITION).addModeIRef(iref)
+
+        assert result is event
+        assert event.getActivation() == ModeActivationKind.ON_TRANSITION
+        assert event.getModeIRefs() == [iref]
 
 
 class TestBswTimingEvent:

@@ -516,6 +516,9 @@ class ARXMLParser(AbstractARXMLParser):
         # self.logger.debug("Read BswModeSwitchEvent <%s>" % event.getShortName())
         # Read the Inherit BswScheduleEvent
         self.readBswScheduleEvent(element, event)
+        event.setActivation(self.getChildElementOptionalLiteral(element, "ACTIVATION"))
+        for child_element in self.findall(element, "MODE-IREFS/MODE-IREF"):
+            event.addModeIRef(self.getModeInBswModuleDescriptionInstanceRef(child_element))
 
     def readBswTimingEvent(self, element: ET.Element, event: BswTimingEvent):
         self.logger.debug("Read BswTimingEvent <%s>" % event.getShortName())

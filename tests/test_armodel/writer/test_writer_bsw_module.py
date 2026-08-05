@@ -13,6 +13,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswModeSenderPolicy,
     BswQueuedDataReceptionPolicy,
     BswVariableAccess,
+    BswModeSwitchEvent,
 )
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import (
     BswModuleClientServerEntry,
@@ -414,6 +415,17 @@ class TestWriterBswEvents:
         assert parent[0].tag == "BSW-OPERATION-INVOKED-EVENT"
         assert parent[0].find("ENTRY-REF") is not None
 
+    def test_mode_switch_event(self, writer):
+        behavior = _make_behavior()
+        event = behavior.createBswModeSwitchEvent("mse")
+        activation = ARLiteral()
+        activation.setValue("onTransition")
+        event.setActivation(activation)
+        parent = _parent()
+        writer.writeBswModeSwitchEvent(parent, event)
+        assert parent[0].tag == "BSW-MODE-SWITCH-EVENT"
+        assert parent[0].find("ACTIVATION").text == "onTransition"
+
     def test_dispatches_all_event_types(self, writer):
         behavior = _make_behavior()
         behavior.createBswTimingEvent("te").setPeriod(_time(0.1))
@@ -422,6 +434,7 @@ class TestWriterBswEvents:
         behavior.createBswExternalTriggerOccurredEvent("eto")
         behavior.createBswDataReceivedEvent("dre")
         behavior.createBswOperationInvokedEvent("oie")
+        behavior.createBswModeSwitchEvent("mse")
         parent = _parent()
         writer.writeBswInternalBehaviorEvents(parent, behavior)
         assert parent[0].tag == "EVENTS"
@@ -432,6 +445,7 @@ class TestWriterBswEvents:
         assert "BSW-EXTERNAL-TRIGGER-OCCURRED-EVENT" in tags
         assert "BSW-DATA-RECEIVED-EVENT" in tags
         assert "BSW-OPERATION-INVOKED-EVENT" in tags
+        assert "BSW-MODE-SWITCH-EVENT" in tags
 
     def test_events_empty(self, writer):
         behavior = _make_behavior()

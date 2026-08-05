@@ -831,6 +831,26 @@ class TestBswInternalBehaviorEventsDetailed:
         parser.readBswModeSwitchEvent(element, event)
         assert event.startsOnEventRef.getValue() == "/p"
 
+    def test_readBswModeSwitchEvent_activation_and_modes(self, parser):
+        from armodel.models import BswModeSwitchEvent
+
+        event = BswModeSwitchEvent(parent=_autosar_root(), short_name="ev")
+        element = _snip(
+            "<SHORT-NAME>ev</SHORT-NAME>"
+            "<ACTIVATION>onTransition</ACTIVATION>"
+            "<MODE-IREFS>"
+            "<MODE-IREF>"
+            "<CONTEXT-MODE-DECLARATION-GROUP-REF DEST='MODE-DECLARATION-GROUP-PROTOTYPE'>/a</CONTEXT-MODE-DECLARATION-GROUP-REF>"
+            "<TARGET-MODE-REF DEST='MODE-DECLARATION'>/b</TARGET-MODE-REF>"
+            "</MODE-IREF>"
+            "</MODE-IREFS>",
+            root_tag="BSW-MODE-SWITCH-EVENT",
+        )
+        parser.readBswModeSwitchEvent(element, event)
+        assert event.getActivation().getText() == "onTransition"
+        assert len(event.getModeIRefs()) == 1
+        assert event.getModeIRefs()[0].getTargetModeRef().getValue() == "/b"
+
     def test_readBswTimingEvent_sets_period(self, parser):
         from armodel.models import BswTimingEvent
 

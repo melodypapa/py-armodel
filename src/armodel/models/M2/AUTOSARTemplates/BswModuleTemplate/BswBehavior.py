@@ -1060,14 +1060,21 @@ class BswScheduleEvent(BswEvent, ABC):
 
 class BswModeSwitchEvent(BswScheduleEvent):
     """
-    Represents an event that is triggered when a mode switch occurs.
-    This event handles changes in system modes within BSW modules.
+    An event which is triggered when a mode switch occurs. The mode switch
+    condition (on entering, on leaving or on transition between two modes) is
+    specified by the activation attribute. On transitions the two modes
+    referred to by the mode references must be different modes belonging to the
+    same ModeDeclarationGroup instance; the order of the references defines the
+    direction of the transition. Otherwise exactly one mode must be referred to.
     """
 
     # BswModeSwitchEvent method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.31, p.94
     # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getActivation                [x] impl  [x] docstring  [ ] test
+    # [x] getActivation                [x] impl  [x] docstring  [x] test
     # [x] setActivation                [x] impl  [x] docstring  [x] test
+    # [x] getModeIRefs                 [x] impl  [x] docstring  [x] test
+    # [x] addModeIRef                  [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -1080,20 +1087,24 @@ class BswModeSwitchEvent(BswScheduleEvent):
         super().__init__(parent, short_name)
 
         # Activation information for this mode switch event
-        self.activation: ModeActivationKind = None
+        self.activation: Optional[ModeActivationKind] = None
 
-    def getActivation(self):
+        # The modes, which are relevant for this mode switch event.
+        self.modeIRefs: List["ModeInBswModuleDescriptionInstanceRef"] = []
+
+    def getActivation(self) -> Optional[ModeActivationKind]:
         """
         Gets the activation information for this mode switch event.
 
         Returns:
-            Activation information
+            The activation information
         """
         return self.activation
 
-    def setActivation(self, value):
+    def setActivation(self, value: ModeActivationKind) -> "BswModeSwitchEvent":
         """
         Sets the activation information for this mode switch event.
+        Only sets if value is not None.
 
         Args:
             value: The activation information to set
@@ -1101,7 +1112,32 @@ class BswModeSwitchEvent(BswScheduleEvent):
         Returns:
             self for method chaining
         """
-        self.activation = value
+        if value is not None:
+            self.activation = value
+        return self
+
+    def getModeIRefs(self) -> List["ModeInBswModuleDescriptionInstanceRef"]:
+        """
+        Gets the modes which are relevant for this mode switch event.
+
+        Returns:
+            The list of mode instance references
+        """
+        return self.modeIRefs
+
+    def addModeIRef(self, value: "ModeInBswModuleDescriptionInstanceRef") -> "BswModeSwitchEvent":
+        """
+        Adds a mode which is relevant for this mode switch event.
+        Only adds if value is not None.
+
+        Args:
+            value: The mode instance reference to add
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.modeIRefs.append(value)
         return self
 
 

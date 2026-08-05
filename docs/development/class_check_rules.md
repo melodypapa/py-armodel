@@ -96,7 +96,13 @@ Check:
        `modeTransitions: List[ModeTransition]`). The reverse is equally a
       deviation: a spec-`0..1` attribute held as a `List`
       (`BswModuleEntity.schedulerNamePrefixRef` was `List[RefType] = None`
-      while the spec/XSD say a single `0..1` ref). Getter/setter docstrings
+      while the spec/XSD say a single `0..1` ref). A **bounded ordered**
+      multiplicity such as `0..2` (upper bound > 1 but not `*`) still maps to
+      `List[T]` (default `[]`) with the usual `getXxxs`/`addXxx` accessors —
+      the upper bound is not enforced in the model
+      (`BswModeSwitchEvent.mode` is `ordered, 0..2` → `modeIRefs:
+      List[ModeInBswModuleDescriptionInstanceRef]`; order is preserved by
+      insertion order in `addModeIRef`). Getter/setter docstrings
       must match the chosen representation — "list of ..." wording on a single
       ref (or vice versa) is a symptom of a multiplicity mismatch
       (`getSchedulerNamePrefixRef` said "list of scheduler name prefix
@@ -145,7 +151,18 @@ Check:
       writer handling is silently dropped on round-trip
       (`BswModuleEntity.schedulerNamePrefixRef` had accessors but no
       `SCHEDULER-NAME-PREFIX-REF` read/write; parser and writer support were
-      added). **Exception:** an attribute marked `Stereotypes: atpDerived` is a
+      added). This extends to **polymorphic dispatch**: a class that is a
+      concrete subtype of an abstract base (e.g. an event or entity) may have a
+      dedicated `readXxx`/`writeXxx` method yet still be silently dropped if the
+      *dispatch* function (`readBswInternalBehaviorEvents` /
+      `writeBswInternalBehaviorEvents`-style `if isinstance(...)` / tag-name
+      chains) has no branch for it — the `else: self.notImplemented(...)` / `self.
+      notImplemented(...)` fallback only logs. Adding a subtype therefore
+      requires updating the dispatch function as well as writing the dedicated
+      read/write method (`BswModeSwitchEvent` was unreadable-and-unwritable
+      because `writeBswInternalBehaviorEvents` had no `isinstance` branch for it;
+      the branch was added alongside `writeBswModeSwitchEvent`). **Exception:** an
+      attribute marked `Stereotypes: atpDerived` is a
       *derived* attribute — it is computed from its context and has **no** XML
       element, so it has no parser/writer element and is exempt from this
       requirement. It still maps to a field + accessor pair (Rule 1's
@@ -757,6 +774,8 @@ docstrings), correct the enum implementation and update all corresponding tests.
     (`src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`)
   - `ModeInBswModuleDescriptionInstanceRef` — Table C.37, p.323
     (`src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswOverview/InstanceRefs/__init__.py`)
+  - `BswModeSwitchEvent` — Table 5.31, p.94
+    (`src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`)
 - Spec sources: `autosar/markdown/*.md` (PDF-derived class tables)
 - XSD ground truth: `autosar-pdf/examples/xsd/AUTOSAR_00052.xsd`
 - Deviation tracker: `docs/method_deviation_by_class.md`
@@ -1303,3 +1322,99 @@ form. Generalizing: never let the class name become the final segment of the mod
 path when the spec `Package` row ends at a package that *contains* the class — define
 the class as a direct member of that package's `__init__.py` and import it from the
 package, not from a class-named sub-module.
+
+## Feedback from BswModeSwitchEvent Review
+
+When reviewing and updating `BswModeSwitchEvent` (Table 5.31,
+`src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`) and the
+related shared enum `ModeActivationKind` (Table 5.34) per the above rules, the
+following observations emerged:
+
+### 1. An Enum Shared by Two Templates Lives in `CommonStructure`, Not the BSW Module
+
+**ISSUE**: `ModeActivationKind` (spec Table 5.34, used as the type of
+`BswModeSwitchEvent.activation` **and** `SwcModeSwitchEvent.activation`) was
+defined in `CommonStructure/ModeDeclaration.py` as `class ModeActivationKind(str,
+Enum)` — it violated Rule 11 (must inherit `AREnum`). Rule 11's guidance assumes
+the enum lives next to the class that uses it, but `ModeActivationKind` is shared
+across two spec packages (`BswModuleTemplate::BswBehavior` and
+`SWComponentTemplate::SwcInternalBehavior::RTEEvents`), so it cannot live in
+either consuming package without cross-template coupling.
+
+**RESOLUTION**: A spec enum that is the *attribute type* of classes in **more than
+one** spec package is defined once in the `CommonStructure` package
+(`CommonStructure/ModeDeclaration.py` for `ModeActivationKind`), and each
+consuming template class imports it directly (no `TYPE_CHECKING` needed because
+`CommonStructure` sits below the template packages in the import graph — it does
+not import the templates). Rule 11 now covers shared enums: Rule 8's
+"package location" applies to the enum's own spec table's `Package` row; when an
+enum is referenced from multiple templates its home is `CommonStructure`, and the
+`# Spec:` line names the table that *defines the enum* (Table 5.34, p.96), which
+may be in a different PDF page/table than the class that uses it.
+
+### 2. Bounded Multiplicity `0..N` (e.g. `0..2`) Still Maps to a `List` + `add`
+
+**ISSUE**: Table 5.31 lists `mode` with multiplicity `0..2`, `ordered`. The
+multiplicity bullet in Rule 1 covered only `*` → `List` and `0..1` → optional
+single, so it was unclear whether a bounded `0..2` should be a fixed-size tuple,
+two separate fields, or a list.
+
+**RESOLUTION**: Any multiplicity with an upper bound > 1 (`0..N`, not just `*`)
+maps to `List[T]` (default `[]`) with the usual `getXxxs` / `addXxx` accessors.
+The upper bound is *not* enforced in the model — it is a schema constraint only
+(`mode` → `modeIRefs: List[ModeInBswModuleDescriptionInstanceRef]`). `ordered`
+means insertion order is preserved (matters for `onTransition`, where the order of
+the two modes defines the transition direction), so `add` appends and the parser
+reads in document order. Rule 1's multiplicity bullet now names the bounded-`0..N`
+case explicitly.
+
+### 3. Polymorphic Dispatch Must Be Updated Alongside a New Subtype
+
+**ISSUE**: `BswModeSwitchEvent` had a dedicated `readBswModeSwitchEvent` parser
+method and factory, and the parser's `readBswInternalBehaviorEvents` tag-name
+dispatch already handled `BSW-MODE-SWITCH-EVENT`, but the **writer** had no
+`writeBswModeSwitchEvent` method and — critically — `writeBswInternalBehaviorEvents`
+had no `isinstance(event, BswModeSwitchEvent)` branch, so the event fell into the
+`else: self.notImplemented(...)` fallback and was **silently dropped** on write.
+This is a round-trip loss that Rule 1's parser/writer bullet only partially covers:
+the bullet checks each *attribute* has a read/write, but a subtype can pass that
+check (its attributes are read/written in the dedicated method) while the
+*dispatch* that routes the whole subtype is missing.
+
+**RESOLUTION**: Rule 1's parser/writer bullet now extends to polymorphic dispatch:
+when a class is a concrete subtype of an abstract base (event, entity, policy,
+etc.), adding it requires (a) a dedicated `readXxx`/`writeXxx` method, **and**
+(b) a branch in the parent's dispatch function (`readBswInternalBehaviorEvents` /
+`writeBswInternalBehaviorEvents`). A `notImplemented(...)` / `notImplemented(...)`
+fallback is a warning at best and must not be relied on as "handled". The
+existing writer test `test_dispatches_all_event_types` was extended with a
+`BswModeSwitchEvent` to lock in the dispatch coverage.
+
+### 4. `attr` Kind `0..1` Holds a Literal: Same `set` + `Optional` Pattern as `ref`
+
+**ISSUE**: `activation` (Kind `attr`, Type `ModeActivationKind`, `0..1`) was
+declared `activation: ModeActivationKind = None` — the annotation omitted
+`Optional`, matching the `startsOnEventRef` bug class from the BswEvent review.
+
+**RESOLUTION**: A Kind `attr` single attribute maps to `Optional[T] = None` with
+`getActivation() -> Optional[T]` / `setActivation(value: T)` just like a `ref`;
+the parser stores the literal produced by `getChildElementOptionalLiteral` and the
+writer emits it via `setChildElementOptionalLiteral` (`value.getText()`), so the
+field, getter, setter, parser and writer all agree on `ModeActivationKind` (which
+is an `AREnum`, itself an `ARLiteral`). When the attribute is used with the shared
+enum from CommonStructure, the model import is a plain import (no `TYPE_CHECKING`),
+but the string forward reference in annotations is still used for the `iref`
+`ModeInBswModuleDescriptionInstanceRef` type.
+
+### 5. Sub-Type Testing of a Shared Enum
+
+**ISSUE**: `ModeActivationKind` had no unit tests at all, and the enum's `__init__`
+passes the valid-value tuple to `super().__init__((...))`, which Rule 12 requires
+to be exercised (the aligned `ReentrancyLevelEnum` has a
+`test_initialization` that asserts every literal and `getEnumValues()`).
+
+**RESOLUTION**: Added `TestModeActivationKind` mirroring `TestReentrancyLevelEnum`:
+`test_initialization` asserts the three literals (`ON_ENTRY`/`ON_EXIT`/`ON_TRANSITION`)
+and their membership in `getEnumValues()`. A shared enum's tests live in the
+mirrored `CommonStructure` test file (`tests/.../CommonStructure/test_ModeDeclaration.py`),
+not in the BSW test file, matching where the enum is defined.

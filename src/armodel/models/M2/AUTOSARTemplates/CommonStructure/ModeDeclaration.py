@@ -5,28 +5,43 @@ that software components or BSW modules can be in, along with transitions betwee
 """
 
 from typing import List, Optional
-from enum import Enum
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype, AtpType, AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType, TRefType, AREnum
 
 
-class ModeActivationKind(str, Enum):
+class ModeActivationKind(AREnum):
     """
-    Enumeration for mode activation kind values.
-    Defines the kind of mode switch condition used for activation of an event.
+    Kind of mode switch condition used for activation of an event,
+    as further described for each enumeration field.
     """
 
     # ModeActivationKind method parity checklist:
-    # (no methods)
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.34, p.96
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
 
-    # On entering the referred mode
+    # On entering the referred mode. Tags: atp.EnumerationLiteralIndex=0
     ON_ENTRY = "onEntry"
-    # On exiting the referred mode
+
+    # On exiting the referred mode. Tags: atp.EnumerationLiteralIndex=1
     ON_EXIT = "onExit"
-    # On transition of the 1st referred mode to the 2nd referred mode
+
+    # On transition of the 1st referred mode to the 2nd referred mode.
+    # Tags: atp.EnumerationLiteralIndex=2
     ON_TRANSITION = "onTransition"
+
+    def __init__(self):
+        """
+        Initializes the ModeActivationKind with valid values.
+        """
+        super().__init__(
+            (
+                ModeActivationKind.ON_ENTRY,
+                ModeActivationKind.ON_EXIT,
+                ModeActivationKind.ON_TRANSITION,
+            )
+        )
 
 
 class ModeDeclarationGroupPrototypeMapping(ARObject):
