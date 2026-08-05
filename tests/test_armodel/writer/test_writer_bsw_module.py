@@ -11,8 +11,11 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import (
 )
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswModeSenderPolicy,
+    BswModeSwitchAckRequest,
     BswQueuedDataReceptionPolicy,
     BswVariableAccess,
+    BswModeManagerErrorEvent,
+    BswModeSwitchEvent,
 )
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import (
     BswModuleClientServerEntry,
@@ -414,6 +417,44 @@ class TestWriterBswEvents:
         assert parent[0].tag == "BSW-OPERATION-INVOKED-EVENT"
         assert parent[0].find("ENTRY-REF") is not None
 
+    def test_mode_switch_event(self, writer):
+        behavior = _make_behavior()
+        event = behavior.createBswModeSwitchEvent("mse")
+        activation = ARLiteral()
+        activation.setValue("onTransition")
+        event.setActivation(activation)
+        parent = _parent()
+        writer.writeBswModeSwitchEvent(parent, event)
+        assert parent[0].tag == "BSW-MODE-SWITCH-EVENT"
+        assert parent[0].find("ACTIVATION").text == "onTransition"
+
+    def test_mode_manager_error_event(self, writer):
+        behavior = _make_behavior()
+        event = behavior.createBswModeManagerErrorEvent("mmee")
+        event.setModeGroupRef(_ref("/mg", "MODE-DECLARATION-GROUP-PROTOTYPE"))
+        parent = _parent()
+        writer.writeBswModeManagerErrorEvent(parent, event)
+        assert parent[0].tag == "BSW-MODE-MANAGER-ERROR-EVENT"
+        assert parent[0].find("MODE-GROUP-REF") is not None
+
+    def test_mode_switched_ack_event(self, writer):
+        behavior = _make_behavior()
+        event = behavior.createBswModeSwitchedAckEvent("msae")
+        event.setModeGroupRef(_ref("/mg", "MODE-DECLARATION-GROUP-PROTOTYPE"))
+        parent = _parent()
+        writer.writeBswModeSwitchedAckEvent(parent, event)
+        assert parent[0].tag == "BSW-MODE-SWITCHED-ACK-EVENT"
+        assert parent[0].find("MODE-GROUP-REF") is not None
+
+    def test_asynchronous_server_call_returns_event(self, writer):
+        behavior = _make_behavior()
+        event = behavior.createBswAsynchronousServerCallReturnsEvent("ascr")
+        event.setEventSourceRef(_ref("/cp", "BSW-ASYNCHRONOUS-SERVER-CALL-RESULT-POINT"))
+        parent = _parent()
+        writer.writeBswAsynchronousServerCallReturnsEvent(parent, event)
+        assert parent[0].tag == "BSW-ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT"
+        assert parent[0].find("EVENT-SOURCE-REF") is not None
+
     def test_dispatches_all_event_types(self, writer):
         behavior = _make_behavior()
         behavior.createBswTimingEvent("te").setPeriod(_time(0.1))
@@ -422,6 +463,10 @@ class TestWriterBswEvents:
         behavior.createBswExternalTriggerOccurredEvent("eto")
         behavior.createBswDataReceivedEvent("dre")
         behavior.createBswOperationInvokedEvent("oie")
+        behavior.createBswModeSwitchEvent("mse")
+        behavior.createBswModeManagerErrorEvent("mmee")
+        behavior.createBswModeSwitchedAckEvent("msae")
+        behavior.createBswAsynchronousServerCallReturnsEvent("ascr")
         parent = _parent()
         writer.writeBswInternalBehaviorEvents(parent, behavior)
         assert parent[0].tag == "EVENTS"
@@ -432,6 +477,10 @@ class TestWriterBswEvents:
         assert "BSW-EXTERNAL-TRIGGER-OCCURRED-EVENT" in tags
         assert "BSW-DATA-RECEIVED-EVENT" in tags
         assert "BSW-OPERATION-INVOKED-EVENT" in tags
+        assert "BSW-MODE-SWITCH-EVENT" in tags
+        assert "BSW-MODE-MANAGER-ERROR-EVENT" in tags
+        assert "BSW-MODE-SWITCHED-ACK-EVENT" in tags
+        assert "BSW-ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT" in tags
 
     def test_events_empty(self, writer):
         behavior = _make_behavior()
@@ -444,12 +493,18 @@ class TestWriterBswModeSenderPolicy:
     def test_set_bsw_mode_sender_policy(self, writer):
         policy = BswModeSenderPolicy()
         policy.setProvidedModeGroupRef(_ref("/mg", "MODE-DECLARATION-GROUP-PROTOTYPE"))
-        policy.setQueueLength(5)
+        policy.setQueueLength(_posint(5))
+        policy.setEnhancedModeApi(_bool(True))
+        ack = BswModeSwitchAckRequest()
+        ack.setTimeout(_time(5.0))
+        policy.setAckRequest(ack)
         parent = _parent()
         writer.setBswModeSenderPolicy(parent, policy)
         assert parent[0].tag == "BSW-MODE-SENDER-POLICY"
         assert parent[0].find("PROVIDED-MODE-GROUP-REF") is not None
         assert parent[0].find("QUEUE-LENGTH") is not None
+        assert parent[0].find("ENHANCED-MODE-API") is not None
+        assert parent[0].find("ACK-REQUEST") is not None
 
     def test_behavior_mode_sender_policy(self, writer):
         behavior = _make_behavior()

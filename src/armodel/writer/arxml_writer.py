@@ -27,12 +27,18 @@ from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import Mult
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswApiOptions, BswAsynchronousServerCallPoint, BswBackgroundEvent
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswApiOptions, BswAsynchronousServerCallPoint, BswAsynchronousServerCallReturnsEvent, BswBackgroundEvent
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswSynchronousServerCallPoint
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswCalledEntity, BswDataReceivedEvent, BswModuleCallPoint
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalTriggerOccurredEvent, BswOperationInvokedEvent
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
+    BswInternalTriggerOccurredEvent,
+    BswOperationInvokedEvent,
+    BswModeManagerErrorEvent,
+    BswModeSwitchEvent,
+    BswModeSwitchedAckEvent,
+)
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswDataReceptionPolicy, BswEvent, BswExternalTriggerOccurredEvent
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalBehavior, BswInterruptEntity, BswModeSenderPolicy, BswModuleEntity
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalBehavior, BswInterruptEntity, BswModeSenderPolicy, BswModeSwitchAckRequest, BswModuleEntity
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswQueuedDataReceptionPolicy, BswSchedulableEntity, BswScheduleEvent
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswTimingEvent, BswVariableAccess, BswInternalTriggeringPoint
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
@@ -2370,6 +2376,35 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeBswEvent(child_element, event)
         self.setChildElementOptionalRefType(child_element, "ENTRY-REF", event.getEntryRef())
 
+    def writeBswModeSwitchEvent(self, element: ET.Element, event: BswModeSwitchEvent):
+        self.logger.debug("Write BswModeSwitchEvent <%s>" % event.getShortName())
+        child_element = ET.SubElement(element, "BSW-MODE-SWITCH-EVENT")
+        self.writeBswScheduleEvent(child_element, event)
+        self.setChildElementOptionalLiteral(child_element, "ACTIVATION", event.getActivation())
+        irefs = event.getModeIRefs()
+        if len(irefs) > 0:
+            mode_irefs_tag = ET.SubElement(child_element, "MODE-IREFS")
+            for iref in irefs:
+                self.setModeInBswModuleDescriptionInstanceRef(mode_irefs_tag, "MODE-IREF", iref)
+
+    def writeBswModeManagerErrorEvent(self, element: ET.Element, event: BswModeManagerErrorEvent):
+        self.logger.debug("Write BswModeManagerErrorEvent <%s>" % event.getShortName())
+        child_element = ET.SubElement(element, "BSW-MODE-MANAGER-ERROR-EVENT")
+        self.writeBswScheduleEvent(child_element, event)
+        self.setChildElementOptionalRefType(child_element, "MODE-GROUP-REF", event.getModeGroupRef())
+
+    def writeBswModeSwitchedAckEvent(self, element: ET.Element, event: BswModeSwitchedAckEvent):
+        self.logger.debug("Write BswModeSwitchedAckEvent <%s>" % event.getShortName())
+        child_element = ET.SubElement(element, "BSW-MODE-SWITCHED-ACK-EVENT")
+        self.writeBswScheduleEvent(child_element, event)
+        self.setChildElementOptionalRefType(child_element, "MODE-GROUP-REF", event.getModeGroupRef())
+
+    def writeBswAsynchronousServerCallReturnsEvent(self, element: ET.Element, event: BswAsynchronousServerCallReturnsEvent):
+        self.logger.debug("Write BswAsynchronousServerCallReturnsEvent <%s>" % event.getShortName())
+        child_element = ET.SubElement(element, "BSW-ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT")
+        self.writeBswScheduleEvent(child_element, event)
+        self.setChildElementOptionalRefType(child_element, "EVENT-SOURCE-REF", event.getEventSourceRef())
+
     def writeBswInternalBehaviorEvents(self, element: ET.Element, parent: BswInternalBehavior):
         events = parent.getBswEvents()
         if len(events) > 0:
@@ -2387,13 +2422,28 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeBswDataReceivedEvent(child_element, event)
                 elif isinstance(event, BswOperationInvokedEvent):
                     self.writeBswOperationInvokedEvent(child_element, event)
+                elif isinstance(event, BswModeSwitchEvent):
+                    self.writeBswModeSwitchEvent(child_element, event)
+                elif isinstance(event, BswModeManagerErrorEvent):
+                    self.writeBswModeManagerErrorEvent(child_element, event)
+                elif isinstance(event, BswModeSwitchedAckEvent):
+                    self.writeBswModeSwitchedAckEvent(child_element, event)
+                elif isinstance(event, BswAsynchronousServerCallReturnsEvent):
+                    self.writeBswAsynchronousServerCallReturnsEvent(child_element, event)
                 else:
                     self.notImplemented("Unsupported BswModuleEntity <%s>" % type(event))
 
     def setBswModeSenderPolicy(self, element: ET.Element, policy: BswModeSenderPolicy):
         child_element = ET.SubElement(element, "BSW-MODE-SENDER-POLICY")
+        self.setBswModeSwitchAckRequest(child_element, "ACK-REQUEST", policy.getAckRequest())
+        self.setChildElementOptionalBooleanValue(child_element, "ENHANCED-MODE-API", policy.getEnhancedModeApi())
         self.setChildElementOptionalRefType(child_element, "PROVIDED-MODE-GROUP-REF", policy.getProvidedModeGroupRef())
-        self.setChildElementOptionalNumericalValue(child_element, "QUEUE-LENGTH", policy.getQueueLength())
+        self.setChildElementOptionalPositiveInteger(child_element, "QUEUE-LENGTH", policy.getQueueLength())
+
+    def setBswModeSwitchAckRequest(self, element: ET.Element, key: str, request: BswModeSwitchAckRequest):
+        if request is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalTimeValue(child_element, "TIMEOUT", request.getTimeout())
 
     def writeBswInternalBehaviorModeSenderPolicy(self, element: ET.Element, parent: BswInternalBehavior):
         policies = parent.getModeSenderPolicies()

@@ -3,8 +3,8 @@
 ## Build, Lint, Test Commands
 
 **Tests (recommended):** `python scripts/run_tests.py` — colored output, summary, auto-installs pyyaml
-- `--unit` / `--integration` / `--coverage` / `--verbose`
-- Subset with `-k "datatypes"` or `pytest -k "not integration"`
+- `--unit` / `--integration` / `--no-coverage` / `--verbose` (coverage is ON by default; there is no `--coverage` flag)
+- Subset with `python scripts/run_tests.py -k "datatypes"` or `pytest -k "not integration"` (`-k` is a positional passthrough)
 - Integration tests: round-trip parse → write → re-parse → compare (29 ARXML files)
 - Custom test dirs via `tests/integration_tests/config.yaml`
 
@@ -39,10 +39,10 @@ writer.save('output.arxml', document)
 ## Code Style
 
 - **Do NOT add comments** unless asked
-- Max line length: 79 (CI warns at 127). 4-space indent, double quotes
+- Line length: `coding_rules.md` says 79, but Black formats to 200 (`pyproject.toml` `[tool.black]`) — run `npm run black`; flake8 only warns at 127 (exit-zero). 4-space indent, double quotes
 - Classes: `PascalCase`. AUTOSAR methods: `camelCase`. Constants: `UPPER_CASE`
 - Setters return `self` (method chaining)
-- Type annotations: Python 3.10+ union syntax (`str | None` not `Optional[str]`)
+- Type annotations: Python 3.8-compatible — `typing.Optional[T]` / `typing.List[T]`, NEVER `T | None` or `list[...]` (project requires Python >= 3.8)
 
 ## Parser & Model Gotchas
 
@@ -73,3 +73,4 @@ parser = ARXMLParser(options={"warning": True})  # warnings instead of exception
 
 - `CLAUDE.md` — comprehensive project guidance (this file is the condensed agent reference)
 - `docs/development/coding_rules.md` — detailed coding standards
+- `docs/development/class_check_rules.md` — 12 rules for aligning model classes with the AUTOSAR PDF spec (method parity checklists, spec-based docstrings, `Optional`/`List` hints, setter chaining). Recent work = aligning model classes to these rules.

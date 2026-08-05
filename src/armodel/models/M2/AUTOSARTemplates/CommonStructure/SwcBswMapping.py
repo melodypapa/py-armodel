@@ -4,10 +4,13 @@ in the CommonStructure module. SWC-BSW mapping defines relationships between
 software component entities and basic software module entities for integration purposes.
 """
 
-from typing import List
+from typing import List, Optional, TYPE_CHECKING
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+
+if TYPE_CHECKING:
+    from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import PModeGroupInAtomicSwcInstanceRef
 
 
 class SwcBswRunnableMapping(ARObject):
@@ -241,81 +244,147 @@ class SwcBswMapping(AtpStructureElement):
 
 class SwcBswSynchronizedModeGroupPrototype(ARObject):
     """
-    Represents a SWC-BSW synchronized mode group prototype in AUTOSAR.
-    Defines a synchronized mode group prototype for SWC-BSW mapping.
+    Synchronizes a mode group provided by a component via a port with a mode group provided by a BSW module or cluster.
     """
 
     # SwcBswSynchronizedModeGroupPrototype method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getModeGroupRef              [x] impl  [x] docstring  [ ] test
-    # [ ] setModeGroupRef              [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.48, p.162
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getBswModeGroupRef           [x] impl  [x] docstring  [x] test
+    # [x] setBswModeGroupRef           [x] impl  [x] docstring  [x] test
+    # [x] getSwcModeGroupIRef          [x] impl  [x] docstring  [x] test
+    # [x] setSwcModeGroupIRef          [x] impl  [x] docstring  [x] test
 
     def __init__(self):
         """
         Initializes the SwcBswSynchronizedModeGroupPrototype with default values.
         """
         super().__init__()
-        self.modeGroupRef: RefType = None
 
-    def getModeGroupRef(self) -> RefType:
+        # The BSW mode group prototype. Referenced BSW mode group prototype shall exist at configuration time (constr_10336).
+        self.bswModeGroupRef: Optional[RefType] = None
+
+        # The SWC mode group prototype provided by a particular port. Referenced SWC mode group shall exist at configuration time (constr_10337).
+        self.swcModeGroupIRef: Optional["PModeGroupInAtomicSwcInstanceRef"] = None
+
+    def getBswModeGroupRef(self) -> Optional[RefType]:
         """
-        Gets the mode group reference.
+        Gets the BSW mode group prototype reference.
 
         Returns:
-            Reference to the mode group
+            Optional[RefType]: The BSW mode group prototype reference
         """
-        return self.modeGroupRef
+        return self.bswModeGroupRef
 
-    def setModeGroupRef(self, value: RefType):
+    def setBswModeGroupRef(self, value: Optional[RefType]) -> "SwcBswSynchronizedModeGroupPrototype":
         """
-        Sets the mode group reference.
+        Sets the BSW mode group prototype reference.
+        Only sets the value if it is not None.
 
         Args:
-            value: The mode group reference to set
+            value: The BSW mode group prototype reference to set
 
         Returns:
             self for method chaining
         """
-        self.modeGroupRef = value
+        if value is not None:
+            self.bswModeGroupRef = value
+        return self
+
+    def getSwcModeGroupIRef(self) -> Optional["PModeGroupInAtomicSwcInstanceRef"]:
+        """
+        Gets the SWC mode group instance reference.
+
+        Returns:
+            Optional[PModeGroupInAtomicSwcInstanceRef]: The SWC mode group instance reference
+        """
+        return self.swcModeGroupIRef
+
+    def setSwcModeGroupIRef(self, value: Optional["PModeGroupInAtomicSwcInstanceRef"]) -> "SwcBswSynchronizedModeGroupPrototype":
+        """
+        Sets the SWC mode group instance reference.
+        Only sets the value if it is not None.
+
+        Args:
+            value: The SWC mode group instance reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.swcModeGroupIRef = value
         return self
 
 
 class SwcBswSynchronizedTrigger(ARObject):
     """
-    Represents a SWC-BSW synchronized trigger in AUTOSAR.
-    Defines a synchronized trigger for SWC-BSW mapping.
+    Synchronizes a Trigger provided by a component via a port with a Trigger provided by a BSW module or cluster.
     """
 
     # SwcBswSynchronizedTrigger method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getTriggerRef                [x] impl  [x] docstring  [ ] test
-    # [ ] setTriggerRef                [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.49, p.162
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getBswTriggerRef             [x] impl  [x] docstring  [x] test
+    # [x] setBswTriggerRef             [x] impl  [x] docstring  [x] test
+    # [x] getSwcTriggerIRef            [x] impl  [x] docstring  [x] test
+    # [x] setSwcTriggerIRef            [x] impl  [x] docstring  [x] test
 
     def __init__(self):
         """
         Initializes the SwcBswSynchronizedTrigger with default values.
         """
         super().__init__()
-        self.triggerRef: RefType = None
 
-    def getTriggerRef(self) -> RefType:
+        # The BSW Trigger. Referenced BSW trigger shall exist at configuration time (constr_10300).
+        self.bswTriggerRef: Optional[RefType] = None
+
+        # The SWC Trigger provided by a particular port. Referenced SWC trigger shall exist at configuration time (constr_10301).
+        self.swcTriggerIRef: Optional[RefType] = None
+
+    def getBswTriggerRef(self) -> Optional[RefType]:
         """
-        Gets the trigger reference.
+        Gets the BSW trigger reference.
 
         Returns:
-            Reference to the trigger
+            Optional[RefType]: The BSW trigger reference
         """
-        return self.triggerRef
+        return self.bswTriggerRef
 
-    def setTriggerRef(self, value: RefType):
+    def setBswTriggerRef(self, value: Optional[RefType]) -> "SwcBswSynchronizedTrigger":
         """
-        Sets the trigger reference.
+        Sets the BSW trigger reference.
+        Only sets the value if it is not None.
 
         Args:
-            value: The trigger reference to set
+            value: The BSW trigger reference to set
 
         Returns:
             self for method chaining
         """
-        self.triggerRef = value
+        if value is not None:
+            self.bswTriggerRef = value
+        return self
+
+    def getSwcTriggerIRef(self) -> Optional[RefType]:
+        """
+        Gets the SWC trigger instance reference.
+
+        Returns:
+            Optional[RefType]: The SWC trigger instance reference
+        """
+        return self.swcTriggerIRef
+
+    def setSwcTriggerIRef(self, value: Optional[RefType]) -> "SwcBswSynchronizedTrigger":
+        """
+        Sets the SWC trigger instance reference.
+        Only sets the value if it is not None.
+
+        Args:
+            value: The SWC trigger instance reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.swcTriggerIRef = value
         return self

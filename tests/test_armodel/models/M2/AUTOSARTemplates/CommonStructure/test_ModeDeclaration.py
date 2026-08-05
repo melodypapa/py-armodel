@@ -9,6 +9,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
     ModeDeclarationGroupPrototype,
     ModeErrorBehavior,
     ModeTransition,
+    ModeActivationKind,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType, TRefType
 
@@ -619,3 +620,29 @@ class TestModeErrorBehavior:
         assert result is error_behavior
         assert error_behavior.getDefaultModeRef() == test_ref
         assert error_behavior.getErrorReactionPolicy() == test_policy
+
+
+class TestModeActivationKind:
+    def test_initialization(self):
+        """Test ModeActivationKind initialization"""
+        activation_kind = ModeActivationKind()
+        assert activation_kind.ON_ENTRY == "onEntry"
+        assert activation_kind.ON_EXIT == "onExit"
+        assert activation_kind.ON_TRANSITION == "onTransition"
+        assert "onEntry" in activation_kind.getEnumValues()
+        assert "onExit" in activation_kind.getEnumValues()
+        assert "onTransition" in activation_kind.getEnumValues()
+
+    def test_enum_values(self):
+        """Test ModeActivationKind literal values"""
+        assert ModeActivationKind.ON_ENTRY == "onEntry"
+        assert ModeActivationKind.ON_EXIT == "onExit"
+        assert ModeActivationKind.ON_TRANSITION == "onTransition"
+
+    def test_valid_values(self):
+        """Test ModeActivationKind valid values in __init__"""
+        enum = ModeActivationKind()
+        valid_values = [ModeActivationKind.ON_ENTRY, ModeActivationKind.ON_EXIT, ModeActivationKind.ON_TRANSITION]
+        for value in valid_values:
+            enum.setValue(value)
+            assert enum.getText() == value

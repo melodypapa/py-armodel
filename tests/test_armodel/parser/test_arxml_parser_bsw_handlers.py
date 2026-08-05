@@ -831,6 +831,26 @@ class TestBswInternalBehaviorEventsDetailed:
         parser.readBswModeSwitchEvent(element, event)
         assert event.startsOnEventRef.getValue() == "/p"
 
+    def test_readBswModeSwitchEvent_activation_and_modes(self, parser):
+        from armodel.models import BswModeSwitchEvent
+
+        event = BswModeSwitchEvent(parent=_autosar_root(), short_name="ev")
+        element = _snip(
+            "<SHORT-NAME>ev</SHORT-NAME>"
+            "<ACTIVATION>onTransition</ACTIVATION>"
+            "<MODE-IREFS>"
+            "<MODE-IREF>"
+            "<CONTEXT-MODE-DECLARATION-GROUP-REF DEST='MODE-DECLARATION-GROUP-PROTOTYPE'>/a</CONTEXT-MODE-DECLARATION-GROUP-REF>"
+            "<TARGET-MODE-REF DEST='MODE-DECLARATION'>/b</TARGET-MODE-REF>"
+            "</MODE-IREF>"
+            "</MODE-IREFS>",
+            root_tag="BSW-MODE-SWITCH-EVENT",
+        )
+        parser.readBswModeSwitchEvent(element, event)
+        assert event.getActivation().getText() == "onTransition"
+        assert len(event.getModeIRefs()) == 1
+        assert event.getModeIRefs()[0].getTargetModeRef().getValue() == "/b"
+
     def test_readBswTimingEvent_sets_period(self, parser):
         from armodel.models import BswTimingEvent
 
@@ -907,6 +927,39 @@ class TestBswInternalBehaviorEventsDetailed:
         parser.readBswOperationInvokedEvent(element, event)
         assert event.getEntryRef().getValue() == "/e"
 
+    def test_readBswModeManagerErrorEvent_sets_mode_group_ref(self, parser):
+        from armodel.models import BswModeManagerErrorEvent
+
+        event = BswModeManagerErrorEvent(parent=_autosar_root(), short_name="ev")
+        element = _snip(
+            "<SHORT-NAME>ev</SHORT-NAME>" "<MODE-GROUP-REF DEST='MODE-DECLARATION-GROUP-PROTOTYPE'>/mg</MODE-GROUP-REF>",
+            root_tag="BSW-MODE-MANAGER-ERROR-EVENT",
+        )
+        parser.readBswModeManagerErrorEvent(element, event)
+        assert event.getModeGroupRef().getValue() == "/mg"
+
+    def test_readBswModeSwitchedAckEvent_sets_mode_group_ref(self, parser):
+        from armodel.models import BswModeSwitchedAckEvent
+
+        event = BswModeSwitchedAckEvent(parent=_autosar_root(), short_name="ev")
+        element = _snip(
+            "<SHORT-NAME>ev</SHORT-NAME>" "<MODE-GROUP-REF DEST='MODE-DECLARATION-GROUP-PROTOTYPE'>/mg</MODE-GROUP-REF>",
+            root_tag="BSW-MODE-SWITCHED-ACK-EVENT",
+        )
+        parser.readBswModeSwitchedAckEvent(element, event)
+        assert event.getModeGroupRef().getValue() == "/mg"
+
+    def test_readBswAsynchronousServerCallReturnsEvent_sets_event_source_ref(self, parser):
+        from armodel.models import BswAsynchronousServerCallReturnsEvent
+
+        event = BswAsynchronousServerCallReturnsEvent(parent=_autosar_root(), short_name="ev")
+        element = _snip(
+            "<SHORT-NAME>ev</SHORT-NAME>" "<EVENT-SOURCE-REF DEST='BSW-ASYNCHRONOUS-SERVER-CALL-RESULT-POINT'>/cp</EVENT-SOURCE-REF>",
+            root_tag="BSW-ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT",
+        )
+        parser.readBswAsynchronousServerCallReturnsEvent(element, event)
+        assert event.getEventSourceRef().getValue() == "/cp"
+
     def test_readBswInternalBehaviorEvents_dispatches_all_types(self, parser):
         from armodel.models import BswModuleDescription
 
@@ -921,6 +974,9 @@ class TestBswInternalBehaviorEventsDetailed:
             "<BSW-BACKGROUND-EVENT><SHORT-NAME>e5</SHORT-NAME></BSW-BACKGROUND-EVENT>"
             "<BSW-EXTERNAL-TRIGGER-OCCURRED-EVENT><SHORT-NAME>e6</SHORT-NAME></BSW-EXTERNAL-TRIGGER-OCCURRED-EVENT>"
             "<BSW-OPERATION-INVOKED-EVENT><SHORT-NAME>e7</SHORT-NAME></BSW-OPERATION-INVOKED-EVENT>"
+            "<BSW-MODE-MANAGER-ERROR-EVENT><SHORT-NAME>e8</SHORT-NAME></BSW-MODE-MANAGER-ERROR-EVENT>"
+            "<BSW-MODE-SWITCHED-ACK-EVENT><SHORT-NAME>e9</SHORT-NAME></BSW-MODE-SWITCHED-ACK-EVENT>"
+            "<BSW-ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT><SHORT-NAME>e10</SHORT-NAME></BSW-ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT>"
             "</EVENTS>",
             root_tag="BH",
         )
@@ -932,6 +988,9 @@ class TestBswInternalBehaviorEventsDetailed:
         assert len(behavior.getBswBackgroundEvents()) == 1
         assert len(behavior.getBswExternalTriggerOccurredEvents()) == 1
         assert len(behavior.getBswOperationInvokedEvents()) == 1
+        assert len(behavior.getBswModeManagerErrorEvents()) == 1
+        assert len(behavior.getBswModeSwitchedAckEvents()) == 1
+        assert len(behavior.getBswAsynchronousServerCallReturnsEvents()) == 1
 
     def test_readBswInternalBehaviorEvents_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import BswInternalBehavior
@@ -957,11 +1016,17 @@ class TestBswReceptionAndApiOptions:
         from armodel.models import BswModeSenderPolicy
 
         element = _snip(
-            "<PROVIDED-MODE-GROUP-REF DEST='MODE-DECLARATION-GROUP-PROTOTYPE'>/mg</PROVIDED-MODE-GROUP-REF>" "<QUEUE-LENGTH>3</QUEUE-LENGTH>",
+            "<ACK-REQUEST><TIMEOUT>2.5</TIMEOUT></ACK-REQUEST>"
+            "<ENHANCED-MODE-API>true</ENHANCED-MODE-API>"
+            "<PROVIDED-MODE-GROUP-REF DEST='MODE-DECLARATION-GROUP-PROTOTYPE'>/mg</PROVIDED-MODE-GROUP-REF>"
+            "<QUEUE-LENGTH>3</QUEUE-LENGTH>",
             root_tag="BSW-MODE-SENDER-POLICY",
         )
         policy = parser.getBswModeSenderPolicy(element)
         assert isinstance(policy, BswModeSenderPolicy)
+        assert policy.getAckRequest() is not None
+        assert policy.getAckRequest().getTimeout().getValue() == 2.5
+        assert policy.getEnhancedModeApi().value is True
         assert policy.getProvidedModeGroupRef().getValue() == "/mg"
         assert policy.getQueueLength().getValue() == 3
 

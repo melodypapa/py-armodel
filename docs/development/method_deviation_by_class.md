@@ -149,6 +149,16 @@ the aggregation is itself a partial implementation and remains to be wired.
 | `disabledInModeIRefs` | `List[ModeInBswModuleDescriptionInstanceRef]` | `disabledInMode` | `Ref (ModeInBswModuleDescriptionInstanceRef)` | IRefs | ok |
 | `startsOnEventRef` | `Optional[RefType]` | `startsOnEvent` | `Ref (BswModuleEntity)` | Ref | ok |
 
+## `BswTimingEvent`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 89
+- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `period` | `Optional[TimeValue]` | `period` | `TimeValue` | Attr | ok |
+| `periodMs` | `Optional[int]` (property) | — *(not in spec)* | — | — | added convenience property (ms from the `TimeValue` `period`, mirroring `ExecutableEntity.minimumStartIntervalMs`) |
+
 ## `BswModeSwitchEvent`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 94
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
@@ -156,16 +166,17 @@ the aggregation is itself a partial implementation and remains to be wired.
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `mode` | `ModeInBswModuleDescriptionInstanceRef` | — | missing |
+| `activation` | `Optional[ModeActivationKind]` | `activation` | `ModeActivationKind` | Attr | ok |
+| `modeIRefs` | `List[ModeInBswModuleDescriptionInstanceRef]` | `mode` | `ModeInBswModuleDescriptionInstanceRef` | IRefs | ok |
 
 ## `BswModeManagerErrorEvent`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 95
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/BswModeManagerErrorEvent.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `modeGroupRef` | `Ref (ModeDeclarationGroupPrototype)` | Ref | missing |
+| `modeGroupRef` | `Optional[RefType]` | `modeGroup` | `Ref (ModeDeclarationGroupPrototype)` | Ref | ok |
 
 ## `BswModeSwitchedAckEvent`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 95
@@ -174,16 +185,16 @@ the aggregation is itself a partial implementation and remains to be wired.
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `modeGroupRef` | `Ref (ModeDeclarationGroupPrototype)` | Ref | missing |
+| `modeGroupRef` | `Optional[RefType]` | `modeGroup` | `Ref (ModeDeclarationGroupPrototype)` | Ref | ok |
 
 ## `BswAsynchronousServerCallReturnsEvent`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 98
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/BswAsynchronousServerCallReturnsEvent.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `eventSourceRef` | `Ref (BswAsynchronousServerCallResultPoint)` | Ref | missing |
+| `eventSourceRef` | `Optional[RefType]` | `eventSource` | `Ref (BswAsynchronousServerCallResultPoint)` | Ref | ok |
 
 ## `BswModeSenderPolicy`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 102
@@ -192,10 +203,10 @@ the aggregation is itself a partial implementation and remains to be wired.
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `ackRequest` | `BswModeSwitchAckRequest` | — | missing |
-| — *(missing)* | `—` | `enhancedModeApi` | `Boolean` | — | missing |
-| — *(missing)* | `—` | `providedModeGroupRef` | `Ref (ModeDeclarationGroupPrototype)` | Ref | missing |
-| — *(missing)* | `—` | `queueLength` | `PositiveInteger` | — | missing |
+| `ackRequest` | `Optional[BswModeSwitchAckRequest]` | `ackRequest` | `BswModeSwitchAckRequest` | aggr | ok |
+| `enhancedModeApi` | `Optional[Boolean]` | `enhancedModeApi` | `Boolean` | attr | ok |
+| `providedModeGroupRef` | `Optional[RefType]` | `providedModeGroup` | `Ref (ModeDeclarationGroupPrototype)` | ref | ok |
+| `queueLength` | `Optional[PositiveInteger]` | `queueLength` | `PositiveInteger` | attr | ok |
 
 ## `BswTriggerDirectImplementation`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 102
@@ -226,8 +237,8 @@ the aggregation is itself a partial implementation and remains to be wired.
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `bswModeGroupRef` | `Ref (ModeDeclarationGroupPrototype)` | Ref | missing |
-| — *(missing)* | `—` | `swcModeGroupIRef` | `PModeGroupInAtomicSwcInstanceRef` | IRef | missing |
+| `bswModeGroupRef` | `Optional[RefType]` | `bswModeGroupRef` | `Ref (ModeDeclarationGroupPrototype)` | Ref | — |
+| `swcModeGroupIRef` | `Optional[PModeGroupInAtomicSwcInstanceRef]` | `swcModeGroupIRef` | `PModeGroupInAtomicSwcInstanceRef` | IRef | — |
 
 ## `SwcBswSynchronizedTrigger`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 111
@@ -236,8 +247,8 @@ the aggregation is itself a partial implementation and remains to be wired.
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `bswTriggerRef` | `Ref (Trigger)` | Ref | missing |
-| — *(missing)* | `—` | `swcTriggerIRef` | `PTriggerInAtomicSwcTypeInstanceRef` | IRef | missing |
+| `bswTriggerRef` | `Optional[RefType]` | `bswTriggerRef` | `Ref (Trigger)` | Ref | — |
+| `swcTriggerIRef` | `Optional[RefType]` | `swcTriggerIRef` | `PTriggerInAtomicSwcTypeInstanceRef` | IRef | type (spec PTriggerInAtomicSwcTypeInstanceRef not yet implemented; using RefType as placeholder) |
 
 ## `BswImplementation`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 120

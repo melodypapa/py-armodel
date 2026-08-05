@@ -18,8 +18,8 @@ if TYPE_CHECKING:
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import AbstractEvent, ApiPrincipleEnum, ExecutableEntity, InternalBehavior
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, AREnum, ARFloat, ARNumerical, Boolean
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, String, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARFloat, ARNumerical, Boolean
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, String, TimeValue, Identifier
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
@@ -1058,16 +1058,78 @@ class BswScheduleEvent(BswEvent, ABC):
         super().__init__(parent, short_name)
 
 
+class BswAsynchronousServerCallReturnsEvent(BswScheduleEvent):
+    """
+    This is the "callback" event for asynchronous Client-Server-Communication
+    via the BSW Scheduler which is thrown after completion of the asynchronous
+    Client-Server call. Its eventSource specifies the call point to be used
+    for retrieving the result.
+    """
+
+    # BswAsynchronousServerCallReturnsEvent method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.36, p.98
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getEventSourceRef            [x] impl  [x] docstring  [x] test
+    # [x] setEventSourceRef            [x] impl  [x] docstring  [x] test
+
+    def __init__(self, parent: ARObject, short_name: str):
+        """
+        Initializes the BswAsynchronousServerCallReturnsEvent with a parent and short name.
+
+        Args:
+            parent: The parent ARObject that contains this event
+            short_name: The unique short name of this event
+        """
+        super().__init__(parent, short_name)
+
+        # The call point to be used for retrieving the result. The reference
+        # in the role eventSource shall exist at the time when the
+        # configuration of the BSW module is finished (constr_10288).
+        self.eventSourceRef: Optional[RefType] = None
+
+    def getEventSourceRef(self) -> Optional[RefType]:
+        """
+        Gets the call point to be used for retrieving the result of the
+        asynchronous Client-Server call.
+
+        Returns:
+            The event source reference
+        """
+        return self.eventSourceRef
+
+    def setEventSourceRef(self, value: RefType) -> "BswAsynchronousServerCallReturnsEvent":
+        """
+        Sets the call point to be used for retrieving the result.
+        Only sets if value is not None.
+
+        Args:
+            value: The event source reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.eventSourceRef = value
+        return self
+
+
 class BswModeSwitchEvent(BswScheduleEvent):
     """
-    Represents an event that is triggered when a mode switch occurs.
-    This event handles changes in system modes within BSW modules.
+    An event which is triggered when a mode switch occurs. The mode switch
+    condition (on entering, on leaving or on transition between two modes) is
+    specified by the activation attribute. On transitions the two modes
+    referred to by the mode references must be different modes belonging to the
+    same ModeDeclarationGroup instance; the order of the references defines the
+    direction of the transition. Otherwise exactly one mode must be referred to.
     """
 
     # BswModeSwitchEvent method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.31, p.94
     # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getActivation                [x] impl  [x] docstring  [ ] test
+    # [x] getActivation                [x] impl  [x] docstring  [x] test
     # [x] setActivation                [x] impl  [x] docstring  [x] test
+    # [x] getModeIRefs                 [x] impl  [x] docstring  [x] test
+    # [x] addModeIRef                  [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -1080,20 +1142,24 @@ class BswModeSwitchEvent(BswScheduleEvent):
         super().__init__(parent, short_name)
 
         # Activation information for this mode switch event
-        self.activation: ModeActivationKind = None
+        self.activation: Optional[ModeActivationKind] = None
 
-    def getActivation(self):
+        # The modes, which are relevant for this mode switch event.
+        self.modeIRefs: List["ModeInBswModuleDescriptionInstanceRef"] = []
+
+    def getActivation(self) -> Optional[ModeActivationKind]:
         """
         Gets the activation information for this mode switch event.
 
         Returns:
-            Activation information
+            The activation information
         """
         return self.activation
 
-    def setActivation(self, value):
+    def setActivation(self, value: ModeActivationKind) -> "BswModeSwitchEvent":
         """
         Sets the activation information for this mode switch event.
+        Only sets if value is not None.
 
         Args:
             value: The activation information to set
@@ -1101,19 +1167,49 @@ class BswModeSwitchEvent(BswScheduleEvent):
         Returns:
             self for method chaining
         """
-        self.activation = value
+        if value is not None:
+            self.activation = value
+        return self
+
+    def getModeIRefs(self) -> List["ModeInBswModuleDescriptionInstanceRef"]:
+        """
+        Gets the modes which are relevant for this mode switch event.
+
+        Returns:
+            The list of mode instance references
+        """
+        return self.modeIRefs
+
+    def addModeIRef(self, value: "ModeInBswModuleDescriptionInstanceRef") -> "BswModeSwitchEvent":
+        """
+        Adds a mode which is relevant for this mode switch event.
+        Only adds if value is not None.
+
+        Args:
+            value: The mode instance reference to add
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.modeIRefs.append(value)
         return self
 
 
 class BswModeSwitchedAckEvent(BswScheduleEvent):
     """
-    Represents an event that is triggered when a mode switch acknowledgment occurs.
-    This event handles the acknowledgment that a mode switch has been completed or confirmed
-    within BSW modules.
+    The event is raised after a switch of the referenced mode group has been
+    acknowledged or an error occurs. The referenced mode group shall be
+    provided by this module. The ModeDeclarationGroupPrototype used by this
+    event shall be referred as BswModuleDescription.providedModeGroup by the
+    same module (constr_4026).
     """
 
     # BswModeSwitchedAckEvent method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.32, p.95
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getModeGroupRef              [x] impl  [x] docstring  [x] test
+    # [x] setModeGroupRef              [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -1125,18 +1221,107 @@ class BswModeSwitchedAckEvent(BswScheduleEvent):
         """
         super().__init__(parent, short_name)
 
+        # A mode group provided by this module. The acknowledgement of a
+        # switch of this group raises this event. The reference in the role
+        # modeGroup shall exist at the time when the configuration of the BSW
+        # module is finished (constr_10285).
+        self.modeGroupRef: Optional[RefType] = None
+
+    def getModeGroupRef(self) -> Optional[RefType]:
+        """
+        Gets the mode group provided by this module. The acknowledgement of a
+        switch of this group raises this event.
+
+        Returns:
+            The mode group reference
+        """
+        return self.modeGroupRef
+
+    def setModeGroupRef(self, value: RefType) -> "BswModeSwitchedAckEvent":
+        """
+        Sets the mode group provided by this module. Only sets if value is
+        not None.
+
+        Args:
+            value: The mode group reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.modeGroupRef = value
+        return self
+
+
+class BswModeManagerErrorEvent(BswScheduleEvent):
+    """
+    This represents the ability to react on errors occurring during mode
+    handling. The event can be used to start a BswModuleEntity after an error
+    has been announced by the mode manager. The ModeDeclarationGroupPrototype
+    used by this event shall be referred as BswModuleDescription.providedModeGroup
+    by the same module (constr_4081).
+    """
+
+    # BswModeManagerErrorEvent method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.33, p.95
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getModeGroupRef              [x] impl  [x] docstring  [x] test
+    # [x] setModeGroupRef              [x] impl  [x] docstring  [x] test
+
+    def __init__(self, parent: ARObject, short_name: str):
+        """
+        Initializes the BswModeManagerErrorEvent with a parent and short name.
+
+        Args:
+            parent: The parent ARObject that contains this event
+            short_name: The unique short name of this event
+        """
+        super().__init__(parent, short_name)
+
+        # This represents the ModeDeclarationGroupPrototype for which the
+        # error behavior of the mode manager applies. The reference in the
+        # role modeGroup shall exist at the time when the configuration of
+        # the BSW module is finished (constr_10286).
+        self.modeGroupRef: Optional[RefType] = None
+
+    def getModeGroupRef(self) -> Optional[RefType]:
+        """
+        Gets the ModeDeclarationGroupPrototype for which the error behavior
+        of the mode manager applies.
+
+        Returns:
+            The mode group reference
+        """
+        return self.modeGroupRef
+
+    def setModeGroupRef(self, value: RefType) -> "BswModeManagerErrorEvent":
+        """
+        Sets the ModeDeclarationGroupPrototype for which the error behavior
+        of the mode manager applies. Only sets if value is not None.
+
+        Args:
+            value: The mode group reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.modeGroupRef = value
+        return self
+
 
 class BswTimingEvent(BswScheduleEvent):
     """
-    Represents a timing event in a BSW module.
-    This event is triggered based on timing constraints (e.g., periodic execution).
+    A recurring BswEvent driven by a time period. The event is triggered by
+    the BswScheduler via the OS timer at the configured period.
     """
 
     # BswTimingEvent method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.25, p.89
     # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getPeriod                    [x] impl  [x] docstring  [ ] test
+    # [x] getPeriod                    [x] impl  [x] docstring  [x] test
     # [x] setPeriod                    [x] impl  [x] docstring  [x] test
-    # [ ] periodMs                     [x] impl  [x] docstring  [ ] test
+    # [x] periodMs                     [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -1148,22 +1333,24 @@ class BswTimingEvent(BswScheduleEvent):
         """
         super().__init__(parent, short_name)
 
-        # Period of the timing event (how often it occurs)
-        self.period: TimeValue = None
+        # Requirement for the time period (in seconds) by which this event is
+        # triggered. Shall be greater than 0.
+        self.period: Optional[TimeValue] = None
 
-    def getPeriod(self):
+    def getPeriod(self) -> Optional[TimeValue]:
         """
-        Gets the period of this timing event.
+        Gets the requirement for the time period (in seconds) by which this
+        event is triggered.
 
         Returns:
-            TimeValue representing the period
+            The period as a TimeValue, or None if not set
         """
         return self.period
 
-    def setPeriod(self, value):
+    def setPeriod(self, value: TimeValue) -> "BswTimingEvent":
         """
-        Sets the period of this timing event.
-        Only sets the value if it's not None or if the current period is None.
+        Sets the time period (in seconds) by which this event is triggered.
+        Only sets if value is not None.
 
         Args:
             value: The period to set
@@ -1171,17 +1358,17 @@ class BswTimingEvent(BswScheduleEvent):
         Returns:
             self for method chaining
         """
-        if not (value is None and self.period is not None):
+        if value is not None:
             self.period = value
         return self
 
     @property
-    def periodMs(self) -> int:
+    def periodMs(self) -> Optional[int]:
         """
         Gets the period of this timing event in milliseconds.
 
         Returns:
-            Integer representing the period in milliseconds, or None if period is not set
+            The period in milliseconds, or None if the period is not set
         """
         if self.period is not None:
             return int(self.period.value * 1000)
@@ -1327,81 +1514,234 @@ class BswModeSwitchAckRequest(ARObject):
 
 class BswModeSenderPolicy(ARObject):
     """
-    Represents the policy for a BSW mode sender.
-    This defines how mode changes are sent and acknowledged in BSW modules.
+    Specifies the details for the sending of a mode switch for the referred
+    mode group.
     """
 
     # BswModeSenderPolicy method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.39, p.102
     # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] setProvidedModeGroupRef      [x] impl  [x] docstring  [ ] test
-    # [ ] getProvidedModeGroupRef      [x] impl  [x] docstring  [ ] test
-    # [ ] setQueueLength               [x] impl  [x] docstring  [ ] test
-    # [ ] getQueueLength               [x] impl  [x] docstring  [ ] test
+    # [x] getAckRequest                [x] impl  [x] docstring  [x] test
+    # [x] setAckRequest                [x] impl  [x] docstring  [x] test
+    # [x] getEnhancedModeApi           [x] impl  [x] docstring  [x] test
+    # [x] setEnhancedModeApi           [x] impl  [x] docstring  [x] test
+    # [x] getProvidedModeGroupRef      [x] impl  [x] docstring  [x] test
+    # [x] setProvidedModeGroupRef      [x] impl  [x] docstring  [x] test
+    # [x] getQueueLength               [x] impl  [x] docstring  [x] test
+    # [x] setQueueLength               [x] impl  [x] docstring  [x] test
 
     def __init__(self):
         """
-        Initializes the BswModeSenderPolicy.
+        Initializes the BswModeSenderPolicy with default values.
         """
         super().__init__()
 
-        # Acknowledgment request configuration for mode switch
-        self.ack_request: BswModeSwitchAckRequest = None
-        # Flag indicating if enhanced mode API is used
-        self.enhanced_mode_api: ARBoolean = None
-        # Reference to the provided mode group
-        self._provided_mode_group_ref: RefType = None
-        # Queue length for mode switch operations
-        self._queue_length: ARNumerical = None
+        # Request for acknowledgement.
+        self.ackRequest: Optional[BswModeSwitchAckRequest] = None
 
-    def setProvidedModeGroupRef(self, ref: RefType):
+        # This controls the creation of the enhanced mode API that returns
+        # information about the previous mode and the next mode. If set to TRUE
+        # the enhanced mode API is supposed to be generated. For more details
+        # please refer to the SWS_RTE.
+        self.enhancedModeApi: Optional[Boolean] = None
+
+        # The provided mode group for which the policy is specified. The
+        # reference in the role providedModeGroup shall exist at the time when
+        # the configuration of the BSW module is finished (constr_10291).
+        self.providedModeGroupRef: Optional[RefType] = None
+
+        # Length of call queue on the sender side. The queue is implemented by
+        # the RTE resp. BswScheduler. The value shall be greater or equal to 0.
+        # Setting the value of queueLength to 0 implies non-queued
+        # communication. The attribute queueLength shall exist at the time when
+        # the configuration of the BSW module is finished (constr_10292).
+        self.queueLength: Optional[PositiveInteger] = None
+
+    def getAckRequest(self) -> Optional[BswModeSwitchAckRequest]:
         """
-        Sets the reference to the provided mode group.
+        Gets the request for acknowledgement.
+
+        Returns:
+            The acknowledgement request
+        """
+        return self.ackRequest
+
+    def setAckRequest(self, value: BswModeSwitchAckRequest) -> "BswModeSenderPolicy":
+        """
+        Sets the request for acknowledgement. Only sets if value is not None.
 
         Args:
-            ref: The mode group reference to set
+            value: The acknowledgement request to set
 
         Returns:
             self for method chaining
         """
-        self._provided_mode_group_ref = ref
+        if value is not None:
+            self.ackRequest = value
         return self
 
-    def getProvidedModeGroupRef(self) -> RefType:
+    def getEnhancedModeApi(self) -> Optional[Boolean]:
         """
-        Gets the reference to the provided mode group.
+        Gets the flag that controls the creation of the enhanced mode API that
+        returns information about the previous mode and the next mode.
 
         Returns:
-            Reference to the provided mode group
+            The enhanced mode API flag
         """
-        return self._provided_mode_group_ref
+        return self.enhancedModeApi
 
-    def setQueueLength(self, length: any):
+    def setEnhancedModeApi(self, value: Boolean) -> "BswModeSenderPolicy":
         """
-        Sets the queue length for mode switch operations.
-        Can accept either ARNumerical or integer values.
+        Sets the flag that controls the creation of the enhanced mode API.
+        Only sets if value is not None.
 
         Args:
-            length: The queue length value (ARNumerical or int)
+            value: The enhanced mode API flag to set
 
         Returns:
             self for method chaining
         """
-        if isinstance(length, ARNumerical):
-            self._queue_length = length
-        elif isinstance(length, int):
-            self._queue_length = ARNumerical()
-            self._queue_length.setValue(length)
-        else:
-            raise ValueError("Unsupported type <%s>" % type(length))
+        if value is not None:
+            self.enhancedModeApi = value
+        return self
 
-    def getQueueLength(self) -> ARNumerical:
+    def getProvidedModeGroupRef(self) -> Optional[RefType]:
         """
-        Gets the queue length for mode switch operations.
+        Gets the provided mode group for which the policy is specified.
 
         Returns:
-            ARNumerical representing the queue length
+            The provided mode group reference
         """
-        return self._queue_length
+        return self.providedModeGroupRef
+
+    def setProvidedModeGroupRef(self, value: RefType) -> "BswModeSenderPolicy":
+        """
+        Sets the provided mode group for which the policy is specified. Only
+        sets if value is not None.
+
+        Args:
+            value: The provided mode group reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.providedModeGroupRef = value
+        return self
+
+    def getQueueLength(self) -> Optional[PositiveInteger]:
+        """
+        Gets the length of the call queue on the sender side.
+
+        Returns:
+            The queue length
+        """
+        return self.queueLength
+
+    def setQueueLength(self, value: PositiveInteger) -> "BswModeSenderPolicy":
+        """
+        Sets the length of the call queue on the sender side. Only sets if
+        value is not None.
+
+        Args:
+            value: The queue length to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.queueLength = value
+        return self
+
+
+class BswModeReceiverPolicy(ARObject):
+    """
+    Specifies the details for the reception of a mode switch for the referred mode group.
+    """
+
+    # BswModeReceiverPolicy method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.41, p.162
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getEnhancedModeApi           [x] impl  [x] docstring  [x] test
+    # [x] setEnhancedModeApi           [x] impl  [x] docstring  [x] test
+    # [x] getRequiredModeGroupRef      [x] impl  [x] docstring  [x] test
+    # [x] setRequiredModeGroupRef      [x] impl  [x] docstring  [x] test
+    # [x] getSupportsAsynchronousModeSwitch  [x] impl  [x] docstring  [x] test
+    # [x] setSupportsAsynchronousModeSwitch  [x] impl  [x] docstring  [x] test
+
+    def __init__(self):
+        """
+        Initializes BswModeReceiverPolicy with default values.
+        """
+        super().__init__()
+
+        # Controls the creation of the enhanced mode API that returns information about the previous mode and the next mode.
+        self.enhancedModeApi: Optional[Boolean] = None
+
+        # The required mode group for which the policy is specified. The
+        # reference in the role requiredModeGroup shall exist at the time when
+        # the configuration of the BSW module is finished (constr_10294).
+        self.requiredModeGroupRef: Optional[RefType] = None
+
+        # Specifies whether the module can handle the reception of an asynchronous mode switch (true) or not (false).
+        # This attribute shall exist at the time when the configuration of the BSW module is finished (constr_10295).
+        self.supportsAsynchronousModeSwitch: Optional[Boolean] = None
+
+    def getEnhancedModeApi(self) -> Optional[Boolean]:
+        """
+        Gets the enhanced mode API flag.
+        Controls the creation of the enhanced mode API that returns information about the previous and next mode.
+        Returns None if not set.
+        """
+        return self.enhancedModeApi
+
+    def setEnhancedModeApi(self, value: Optional[Boolean]) -> "BswModeReceiverPolicy":
+        """
+        Sets the enhanced mode API flag.
+        Controls the creation of the enhanced mode API that returns information about the previous and next mode.
+        Setting None is a no-op and preserves the existing value.
+        Returns self for method chaining.
+        """
+        if value is not None:
+            self.enhancedModeApi = value
+        return self
+
+    def getRequiredModeGroupRef(self) -> Optional[RefType]:
+        """
+        Gets the required mode group reference.
+        Returns the reference to the mode group for which the policy is specified, or None if not set.
+        """
+        return self.requiredModeGroupRef
+
+    def setRequiredModeGroupRef(self, value: Optional[RefType]) -> "BswModeReceiverPolicy":
+        """
+        Sets the required mode group reference.
+        The required mode group for which the policy is specified.
+        Setting None is a no-op and preserves the existing value.
+        Returns self for method chaining.
+        """
+        if value is not None:
+            self.requiredModeGroupRef = value
+        return self
+
+    def getSupportsAsynchronousModeSwitch(self) -> Optional[Boolean]:
+        """
+        Gets the asynchronous mode switch support flag.
+        Specifies whether the module can handle the reception of an asynchronous mode switch.
+        Returns None if not set.
+        """
+        return self.supportsAsynchronousModeSwitch
+
+    def setSupportsAsynchronousModeSwitch(self, value: Optional[Boolean]) -> "BswModeReceiverPolicy":
+        """
+        Sets the asynchronous mode switch support flag.
+        Specifies whether the module can handle the reception of an asynchronous mode switch (true) or not (false).
+        Setting None is a no-op and preserves the existing value.
+        Returns self for method chaining.
+        """
+        if value is not None:
+            self.supportsAsynchronousModeSwitch = value
+        return self
 
 
 class BswBackgroundEvent(BswScheduleEvent):
@@ -1828,6 +2168,12 @@ class BswInternalBehavior(InternalBehavior):
     # [x] getBswExternalTriggerOccurredEvents [x] impl  [x] docstring  [x] test
     # [x] createBswBackgroundEvent     [x] impl  [x] docstring  [x] test
     # [x] getBswBackgroundEvents       [x] impl  [x] docstring  [x] test
+    # [x] createBswModeManagerErrorEvent [x] impl  [x] docstring  [x] test
+    # [x] getBswModeManagerErrorEvents [x] impl  [x] docstring  [x] test
+    # [x] createBswModeSwitchedAckEvent [x] impl  [x] docstring  [x] test
+    # [x] getBswModeSwitchedAckEvents [x] impl  [x] docstring  [x] test
+    # [x] createBswAsynchronousServerCallReturnsEvent [x] impl  [x] docstring  [x] test
+    # [x] getBswAsynchronousServerCallReturnsEvents [x] impl  [x] docstring  [x] test
     # [x] getBswEvents                 [x] impl  [x] docstring  [x] test
     # [x] addIncludedModeDeclarationGroupSet [x] impl  [x] docstring  [x] test
     # [x] getIncludedModeDeclarationGroupSets [x] impl  [x] docstring  [x] test
@@ -2579,6 +2925,81 @@ class BswInternalBehavior(InternalBehavior):
         """
         return list(filter(lambda a: isinstance(a, BswBackgroundEvent), self.elements))
 
+    def createBswModeManagerErrorEvent(self, short_name: str) -> BswModeManagerErrorEvent:
+        """
+        Creates and adds a BswModeManagerErrorEvent to this internal behavior.
+
+        Args:
+            short_name: The short name for the new mode manager error event
+
+        Returns:
+            The created BswModeManagerErrorEvent instance
+        """
+        if not self.IsElementExists(short_name):
+            event = BswModeManagerErrorEvent(self, short_name)
+            self.addElement(event)
+            self.events.append(event)
+        return self.getElement(short_name)
+
+    def getBswModeManagerErrorEvents(self) -> List[BswModeManagerErrorEvent]:
+        """
+        Gets all BswModeManagerErrorEvent instances from the elements list.
+
+        Returns:
+            List of BswModeManagerErrorEvent instances
+        """
+        return list(filter(lambda a: isinstance(a, BswModeManagerErrorEvent), self.elements))
+
+    def createBswModeSwitchedAckEvent(self, short_name: str) -> BswModeSwitchedAckEvent:
+        """
+        Creates and adds a BswModeSwitchedAckEvent to this internal behavior.
+
+        Args:
+            short_name: The short name for the new mode switched ack event
+
+        Returns:
+            The created BswModeSwitchedAckEvent instance
+        """
+        if not self.IsElementExists(short_name):
+            event = BswModeSwitchedAckEvent(self, short_name)
+            self.addElement(event)
+            self.events.append(event)
+        return self.getElement(short_name)
+
+    def getBswModeSwitchedAckEvents(self) -> List[BswModeSwitchedAckEvent]:
+        """
+        Gets all BswModeSwitchedAckEvent instances from the elements list.
+
+        Returns:
+            List of BswModeSwitchedAckEvent instances
+        """
+        return list(filter(lambda a: isinstance(a, BswModeSwitchedAckEvent), self.elements))
+
+    def createBswAsynchronousServerCallReturnsEvent(self, short_name: str) -> BswAsynchronousServerCallReturnsEvent:
+        """
+        Creates and adds a BswAsynchronousServerCallReturnsEvent to this internal behavior.
+
+        Args:
+            short_name: The short name for the new asynchronous server call returns event
+
+        Returns:
+            The created BswAsynchronousServerCallReturnsEvent instance
+        """
+        if not self.IsElementExists(short_name):
+            event = BswAsynchronousServerCallReturnsEvent(self, short_name)
+            self.addElement(event)
+            self.events.append(event)
+        return self.getElement(short_name)
+
+    def getBswAsynchronousServerCallReturnsEvents(self) -> List[BswAsynchronousServerCallReturnsEvent]:
+        """
+        Gets all BswAsynchronousServerCallReturnsEvent instances from the elements list.
+
+        Returns:
+            List of BswAsynchronousServerCallReturnsEvent instances
+        """
+        return list(filter(lambda a: isinstance(a, BswAsynchronousServerCallReturnsEvent), self.elements))
+
     def getBswEvents(self) -> List[BswEvent]:
         """
         Gets all BswEvent instances from the elements list.
@@ -2623,3 +3044,97 @@ class BswInternalBehavior(InternalBehavior):
             List of IncludedDataTypeSet instances
         """
         return self.includedDataTypeSets
+
+
+class BswTriggerDirectImplementation(ARObject):
+    """
+    Specifies a released trigger to be directly implemented via OS calls, for example in a Complex Driver module.
+    Constraints: constr_10290 (masteredTrigger reference shall exist) and constr_4105 (only one of task or cat2Isr).
+    """
+
+    # BswTriggerDirectImplementation method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.38, p.99
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getCat2Isr                   [x] impl  [x] docstring  [x] test
+    # [x] setCat2Isr                   [x] impl  [x] docstring  [x] test
+    # [x] getMasteredTriggerRef        [x] impl  [x] docstring  [x] test
+    # [x] setMasteredTriggerRef        [x] impl  [x] docstring  [x] test
+    # [x] getTask                      [x] impl  [x] docstring  [x] test
+    # [x] setTask                      [x] impl  [x] docstring  [x] test
+
+    def __init__(self):
+        """
+        Initialize BswTriggerDirectImplementation with default values.
+        """
+        super().__init__()
+
+        # The name of the OS category 2 ISR, which is controlled by the referred trigger.
+        # This means, that the module manages the category 2 ISR (e.g. according hardware
+        # initialization and enabling of ISR). Instead of calling an RTE / SchM API to
+        # raise the appropriate events in components or modules receiving the trigger,
+        # this ISR directly schedules the triggered ExecutableEntitys. The ISR name is
+        # required by the integrator to map the Bsw Events and RTEEvents to this ISR.
+        # Constraint: constr_4105 (only one of task or cat2Isr).
+        self.cat2Isr: Optional[Identifier] = None
+
+        # The trigger which is directly mastered by this module. There may be several
+        # different BswTriggerDirect Implementations mastering the same Trigger. This may
+        # be required e.g. due to memory partitioning.
+        # Constraint: constr_10290 (masteredTrigger reference shall exist).
+        self.masteredTriggerRef: Optional[RefType] = None
+
+        # The name of the OS task, which is controlled by the referred trigger. This means,
+        # that the module uses the trigger condition to directly activate an OS task instead
+        # of calling an API of the BswScheduler. The task name is required by the RTE
+        # generator resp. BswScheduler to raise the appropriate events in components or
+        # modules receiving the trigger.
+        # Constraint: constr_4105 (only one of task or cat2Isr).
+        self.task: Optional[Identifier] = None
+
+    def getCat2Isr(self) -> Optional[Identifier]:
+        """
+        Gets the name of the OS category 2 ISR controlled by the referred trigger.
+        Returns the ISR name or None if not set.
+        """
+        return self.cat2Isr
+
+    def setCat2Isr(self, value: Optional[Identifier]) -> "BswTriggerDirectImplementation":
+        """
+        Sets the name of the OS category 2 ISR. Only sets if value is not None.
+        Returns self for method chaining.
+        """
+        if value is not None:
+            self.cat2Isr = value
+        return self
+
+    def getMasteredTriggerRef(self) -> Optional[RefType]:
+        """
+        Gets the reference to the trigger which is directly mastered by this module.
+        Returns the trigger reference or None if not set.
+        """
+        return self.masteredTriggerRef
+
+    def setMasteredTriggerRef(self, value: Optional[RefType]) -> "BswTriggerDirectImplementation":
+        """
+        Sets the trigger reference. Only sets if value is not None.
+        Returns self for method chaining.
+        """
+        if value is not None:
+            self.masteredTriggerRef = value
+        return self
+
+    def getTask(self) -> Optional[Identifier]:
+        """
+        Gets the name of the OS task controlled by the referred trigger.
+        Returns the task name or None if not set.
+        """
+        return self.task
+
+    def setTask(self, value: Optional[Identifier]) -> "BswTriggerDirectImplementation":
+        """
+        Sets the name of the OS task. Only sets if value is not None.
+        Returns self for method chaining.
+        """
+        if value is not None:
+            self.task = value
+        return self

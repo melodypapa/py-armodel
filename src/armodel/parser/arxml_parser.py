@@ -32,14 +32,14 @@ from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndVi
 
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswApiOptions, BswAsynchronousServerCallPoint, BswBackgroundEvent
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswApiOptions, BswAsynchronousServerCallPoint, BswAsynchronousServerCallReturnsEvent, BswBackgroundEvent
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswSynchronousServerCallPoint
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswCalledEntity, BswDataReceivedEvent, BswModuleCallPoint
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalTriggeringPoint, BswOperationInvokedEvent
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswDataReceptionPolicy, BswExternalTriggerOccurredEvent, BswInternalBehavior
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalTriggerOccurredEvent, BswInterruptEntity, BswModeSwitchEvent
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalTriggerOccurredEvent, BswInterruptEntity, BswModeManagerErrorEvent, BswModeSwitchEvent, BswModeSwitchedAckEvent
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModuleEntity, BswQueuedDataReceptionPolicy, BswSchedulableEntity
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswScheduleEvent, BswModeSenderPolicy, BswTimingEvent, BswVariableAccess
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswScheduleEvent, BswModeSenderPolicy, BswModeSwitchAckRequest, BswTimingEvent, BswVariableAccess
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleClientServerEntry, BswModuleEntry
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
@@ -516,6 +516,23 @@ class ARXMLParser(AbstractARXMLParser):
         # self.logger.debug("Read BswModeSwitchEvent <%s>" % event.getShortName())
         # Read the Inherit BswScheduleEvent
         self.readBswScheduleEvent(element, event)
+        event.setActivation(self.getChildElementOptionalLiteral(element, "ACTIVATION"))
+        for child_element in self.findall(element, "MODE-IREFS/MODE-IREF"):
+            event.addModeIRef(self.getModeInBswModuleDescriptionInstanceRef(child_element))
+
+    def readBswModeManagerErrorEvent(self, element: ET.Element, event: BswModeManagerErrorEvent):
+        # self.logger.debug("Read BswModeManagerErrorEvent <%s>" % event.getShortName())
+        # Read the Inherit BswScheduleEvent
+        self.readBswScheduleEvent(element, event)
+        event.setModeGroupRef(self.getChildElementOptionalRefType(element, "MODE-GROUP-REF"))
+
+    def readBswModeSwitchedAckEvent(self, element: ET.Element, event: BswModeSwitchedAckEvent):
+        self.readBswScheduleEvent(element, event)
+        event.setModeGroupRef(self.getChildElementOptionalRefType(element, "MODE-GROUP-REF"))
+
+    def readBswAsynchronousServerCallReturnsEvent(self, element: ET.Element, event: BswAsynchronousServerCallReturnsEvent):
+        self.readBswScheduleEvent(element, event)
+        event.setEventSourceRef(self.getChildElementOptionalRefType(element, "EVENT-SOURCE-REF"))
 
     def readBswTimingEvent(self, element: ET.Element, event: BswTimingEvent):
         self.logger.debug("Read BswTimingEvent <%s>" % event.getShortName())
@@ -541,9 +558,19 @@ class ARXMLParser(AbstractARXMLParser):
 
     def getBswModeSenderPolicy(self, element: ET.Element) -> BswModeSenderPolicy:
         policy = BswModeSenderPolicy()
+        policy.setAckRequest(self.getBswModeSwitchAckRequest(element, "ACK-REQUEST"))
+        policy.setEnhancedModeApi(self.getChildElementOptionalBooleanValue(element, "ENHANCED-MODE-API"))
         policy.setProvidedModeGroupRef(self.getChildElementOptionalRefType(element, "PROVIDED-MODE-GROUP-REF"))
-        policy.setQueueLength(self.getChildElementOptionalNumericalValue(element, "QUEUE-LENGTH"))
+        policy.setQueueLength(self.getChildElementOptionalPositiveInteger(element, "QUEUE-LENGTH"))
         return policy
+
+    def getBswModeSwitchAckRequest(self, element: ET.Element, key: str) -> BswModeSwitchAckRequest:
+        request = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            request = BswModeSwitchAckRequest()
+            request.setTimeout(self.getChildElementOptionalTimeValue(child_element, "TIMEOUT"))
+        return request
 
     def readBswInternalBehaviorModeSenderPolicy(self, element: ET.Element, parent: BswInternalBehavior):
         for child_element in self.findall(element, "MODE-SENDER-POLICYS/*"):
@@ -970,6 +997,12 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "BSW-MODE-SWITCH-EVENT":
                 event = behavior.createBswModeSwitchEvent(self.getShortName(child_element))
                 self.readBswModeSwitchEvent(child_element, event)
+            elif tag_name == "BSW-MODE-MANAGER-ERROR-EVENT":
+                event = behavior.createBswModeManagerErrorEvent(self.getShortName(child_element))
+                self.readBswModeManagerErrorEvent(child_element, event)
+            elif tag_name == "BSW-MODE-SWITCHED-ACK-EVENT":
+                event = behavior.createBswModeSwitchedAckEvent(self.getShortName(child_element))
+                self.readBswModeSwitchedAckEvent(child_element, event)
             elif tag_name == "BSW-TIMING-EVENT":
                 event = behavior.createBswTimingEvent(self.getShortName(child_element))
                 self.readBswTimingEvent(child_element, event)
@@ -988,6 +1021,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "BSW-OPERATION-INVOKED-EVENT":
                 event = behavior.createBswOperationInvokedEvent(self.getShortName(child_element))
                 self.readBswOperationInvokedEvent(child_element, event)
+            elif tag_name == "BSW-ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT":
+                event = behavior.createBswAsynchronousServerCallReturnsEvent(self.getShortName(child_element))
+                self.readBswAsynchronousServerCallReturnsEvent(child_element, event)
             else:
                 self.notImplemented("Unsupported BswModuleEntity <%s>" % tag_name)
 
