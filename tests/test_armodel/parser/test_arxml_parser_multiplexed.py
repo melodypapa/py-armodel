@@ -331,7 +331,7 @@ class TestSecureCommunicationHandlers:
         )
         parser.readSecureCommunicationAuthenticationProps(element, props)
         assert props.setAuthAlgorithm.called
-        assert props.setAuthAlgorithm.return_value.setAuthInfoTxLength.called
+        assert props.setAuthInfoTxLength.called
 
     def test_readSecureCommunicationAuthenticationProps_empty_with_mock(self, parser):
         props = MagicMock()
@@ -341,7 +341,7 @@ class TestSecureCommunicationHandlers:
         )
         parser.readSecureCommunicationAuthenticationProps(element, props)
         assert props.setAuthAlgorithm.called
-        assert props.setAuthAlgorithm.return_value.setAuthInfoTxLength.called
+        assert props.setAuthInfoTxLength.called
 
     def test_readSecureCommunicationPropsSetAuthenticationProps_with_props(self, parser):
         props_set = MagicMock()
