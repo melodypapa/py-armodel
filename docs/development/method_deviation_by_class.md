@@ -381,14 +381,14 @@ No deviations.
 ## `HardwareConfiguration`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 161
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/__init__.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/HardwareConfiguration.py`
 
 No deviations.
 
 ## `SoftwareContext`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 163
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/__init__.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/SoftwareContext.py`
 
 No deviations.
 
