@@ -17,8 +17,8 @@ if TYPE_CHECKING:
 
 class StackUsage(Identifiable, ABC):
     """
-    Abstract base class for representing stack usage in AUTOSAR models.
-    This class defines the basic structure for stack memory consumption tracking with hardware and software context.
+    Describes the stack memory usage of a software.
+    This abstract base class defines stack memory consumption tracking with hardware and software context.
     """
 
     # StackUsage method parity checklist:
@@ -47,21 +47,21 @@ class StackUsage(Identifiable, ABC):
 
         super().__init__(parent, short_name)
 
-        # Reference to the executable entity for which stack usage is measured
+        # The executable entity for which this stack usage is described.
         self.executableEntityRef: Optional[RefType] = None
 
-        # Hardware configuration associated with this stack usage
+        # Contains information about the hardware context this stack usage is describing.
         self.hardwareConfiguration: Optional[HardwareConfiguration] = None
 
-        # Reference to hardware element for this stack usage
+        # Specifies for which hardware element (e.g. ECU) this stack usage is given.
         self.hwElementRef: Optional[RefType] = None
 
-        # Software context for this stack usage
+        # Contains details about the software context this stack usage is provided for.
         self.softwareContext: Optional[SoftwareContext] = None
 
     def getExecutableEntityRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the executable entity for which stack usage is measured.
+        Gets the reference to the executable entity for which this stack usage is described.
 
         Returns:
             RefType: Reference to the executable entity
@@ -70,7 +70,7 @@ class StackUsage(Identifiable, ABC):
 
     def setExecutableEntityRef(self, value: Optional[RefType]) -> "StackUsage":
         """
-        Sets the reference to the executable entity for which stack usage is measured.
+        Sets the reference to the executable entity for which this stack usage is described.
         A None value is a no-op and does not overwrite an existing reference.
 
         Args:
@@ -86,6 +86,7 @@ class StackUsage(Identifiable, ABC):
     def getHardwareConfiguration(self) -> Optional[HardwareConfiguration]:
         """
         Gets the hardware configuration associated with this stack usage.
+        Contains information about the hardware context this stack usage is describing.
 
         Returns:
             HardwareConfiguration: Hardware configuration object
@@ -95,6 +96,7 @@ class StackUsage(Identifiable, ABC):
     def setHardwareConfiguration(self, value: Optional[HardwareConfiguration]) -> "StackUsage":
         """
         Sets the hardware configuration associated with this stack usage.
+        Contains information about the hardware context this stack usage is describing.
         A None value is a no-op and does not overwrite an existing configuration.
 
         Args:
@@ -109,7 +111,7 @@ class StackUsage(Identifiable, ABC):
 
     def getHwElementRef(self) -> Optional[RefType]:
         """
-        Gets the reference to hardware element for this stack usage.
+        Gets the reference to the hardware element (e.g. ECU) for which this stack usage is given.
 
         Returns:
             RefType: Reference to hardware element
@@ -118,7 +120,7 @@ class StackUsage(Identifiable, ABC):
 
     def setHwElementRef(self, value: Optional[RefType]) -> "StackUsage":
         """
-        Sets the reference to hardware element for this stack usage.
+        Sets the reference to the hardware element (e.g. ECU) for which this stack usage is given.
         A None value is a no-op and does not overwrite an existing reference.
 
         Args:
@@ -133,7 +135,7 @@ class StackUsage(Identifiable, ABC):
 
     def getSoftwareContext(self) -> Optional[SoftwareContext]:
         """
-        Gets the software context for this stack usage.
+        Gets the software context details for which this stack usage is provided.
 
         Returns:
             SoftwareContext: Software context object
@@ -142,7 +144,7 @@ class StackUsage(Identifiable, ABC):
 
     def setSoftwareContext(self, value: Optional[SoftwareContext]) -> "StackUsage":
         """
-        Sets the software context for this stack usage.
+        Sets the software context details for which this stack usage is provided.
         A None value is a no-op and does not overwrite an existing context.
 
         Args:
@@ -158,7 +160,7 @@ class StackUsage(Identifiable, ABC):
 
 class MeasuredStackUsage(StackUsage):
     """
-    Represents measured stack usage in AUTOSAR models.
+    The stack usage has been measured.
     This class provides concrete measurements of stack consumption under specific conditions.
     """
 
@@ -184,16 +186,16 @@ class MeasuredStackUsage(StackUsage):
         """
         super().__init__(parent, short_name)
 
-        # Average memory consumption measured for this stack usage
+        # The average stack usage measured. Unit: byte.
         self.averageMemoryConsumption: Optional[PositiveInteger] = None
 
-        # Maximum memory consumption measured for this stack usage
+        # The maximum stack usage measured. Unit: byte.
         self.maximumMemoryConsumption: Optional[PositiveInteger] = None
 
-        # Minimum memory consumption measured for this stack usage
+        # The minimum stack usage measured. Unit: byte.
         self.minimumMemoryConsumption: Optional[PositiveInteger] = None
 
-        # Description of the test pattern used to acquire the measured values
+        # The test pattern used to acquire the measured values.
         self.testPattern: Optional[String] = None
 
     def getAverageMemoryConsumption(self) -> Optional[PositiveInteger]:
@@ -208,6 +210,7 @@ class MeasuredStackUsage(StackUsage):
     def setAverageMemoryConsumption(self, value: Optional[PositiveInteger]) -> "MeasuredStackUsage":
         """
         Sets the average memory consumption measured for this stack usage.
+        A None value is a no-op and does not overwrite an existing value.
 
         Args:
             value: The average memory consumption value to set
@@ -215,7 +218,8 @@ class MeasuredStackUsage(StackUsage):
         Returns:
             self for method chaining
         """
-        self.averageMemoryConsumption = value
+        if value is not None:
+            self.averageMemoryConsumption = value
         return self
 
     def getMaximumMemoryConsumption(self) -> Optional[PositiveInteger]:
@@ -230,6 +234,7 @@ class MeasuredStackUsage(StackUsage):
     def setMaximumMemoryConsumption(self, value: Optional[PositiveInteger]) -> "MeasuredStackUsage":
         """
         Sets the maximum memory consumption measured for this stack usage.
+        A None value is a no-op and does not overwrite an existing value.
 
         Args:
             value: The maximum memory consumption value to set
@@ -237,7 +242,8 @@ class MeasuredStackUsage(StackUsage):
         Returns:
             self for method chaining
         """
-        self.maximumMemoryConsumption = value
+        if value is not None:
+            self.maximumMemoryConsumption = value
         return self
 
     def getMinimumMemoryConsumption(self) -> Optional[PositiveInteger]:
@@ -252,6 +258,7 @@ class MeasuredStackUsage(StackUsage):
     def setMinimumMemoryConsumption(self, value: Optional[PositiveInteger]) -> "MeasuredStackUsage":
         """
         Sets the minimum memory consumption measured for this stack usage.
+        A None value is a no-op and does not overwrite an existing value.
 
         Args:
             value: The minimum memory consumption value to set
@@ -259,7 +266,8 @@ class MeasuredStackUsage(StackUsage):
         Returns:
             self for method chaining
         """
-        self.minimumMemoryConsumption = value
+        if value is not None:
+            self.minimumMemoryConsumption = value
         return self
 
     def getTestPattern(self) -> Optional[String]:
@@ -274,6 +282,7 @@ class MeasuredStackUsage(StackUsage):
     def setTestPattern(self, value: Optional[String]) -> "MeasuredStackUsage":
         """
         Sets the description of the test pattern used to acquire the measured values.
+        A None value is a no-op and does not overwrite an existing value.
 
         Args:
             value: The test pattern description to set
@@ -281,13 +290,14 @@ class MeasuredStackUsage(StackUsage):
         Returns:
             self for method chaining
         """
-        self.testPattern = value
+        if value is not None:
+            self.testPattern = value
         return self
 
 
 class RoughEstimateStackUsage(StackUsage):
     """
-    Represents rough estimate stack usage in AUTOSAR models.
+    Rough estimation of the stack usage.
     This class provides estimated values for stack consumption when exact measurements are not available.
     """
 
@@ -307,35 +317,37 @@ class RoughEstimateStackUsage(StackUsage):
         """
         super().__init__(parent, short_name)
 
-        # Estimated memory consumption for this stack usage
+        # Rough estimate of the stack usage. Unit: byte.
         self.memoryConsumption: Optional[PositiveInteger] = None
 
     def getMemoryConsumption(self) -> Optional[PositiveInteger]:
         """
-        Gets the estimated memory consumption for this stack usage.
+        Gets the rough estimate of the stack usage.
 
         Returns:
-            PositiveInteger: Estimated memory consumption value
+            PositiveInteger: Rough estimate of the stack usage value (Unit: byte)
         """
         return self.memoryConsumption
 
     def setMemoryConsumption(self, value: Optional[PositiveInteger]) -> "RoughEstimateStackUsage":
         """
-        Sets the estimated memory consumption for this stack usage.
+        Sets the rough estimate of the stack usage.
+        A None value is a no-op and does not overwrite an existing value.
 
         Args:
-            value: The estimated memory consumption value to set
+            value: The rough estimate of the stack usage value to set (Unit: byte)
 
         Returns:
             self for method chaining
         """
-        self.memoryConsumption = value
+        if value is not None:
+            self.memoryConsumption = value
         return self
 
 
 class WorstCaseStackUsage(StackUsage):
     """
-    Represents worst case stack usage in AUTOSAR models.
+    Provides a formal worst case stack usage.
     This class provides the worst-case scenario analysis for stack consumption under maximum load conditions.
     """
 
@@ -355,27 +367,29 @@ class WorstCaseStackUsage(StackUsage):
         """
         super().__init__(parent, short_name)
 
-        # Memory consumption in worst case scenario for this stack usage
+        # Worst case stack consumption. Unit: byte.
         self.memoryConsumption: Optional[PositiveInteger] = None
 
     def getMemoryConsumption(self) -> Optional[PositiveInteger]:
         """
-        Gets the memory consumption in worst case scenario for this stack usage.
+        Gets the worst case stack consumption.
 
         Returns:
-            PositiveInteger: Worst case memory consumption value
+            PositiveInteger: Worst case stack consumption value (Unit: byte)
         """
         return self.memoryConsumption
 
     def setMemoryConsumption(self, value: Optional[PositiveInteger]) -> "WorstCaseStackUsage":
         """
-        Sets the memory consumption in worst case scenario for this stack usage.
+        Sets the worst case stack consumption.
+        A None value is a no-op and does not overwrite an existing value.
 
         Args:
-            value: The worst case memory consumption value to set
+            value: The worst case stack consumption value to set (Unit: byte)
 
         Returns:
             self for method chaining
         """
-        self.memoryConsumption = value
+        if value is not None:
+            self.memoryConsumption = value
         return self

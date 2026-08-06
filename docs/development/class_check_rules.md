@@ -32,6 +32,12 @@ number for traceability across docs/tooling that may cite it (e.g.
 4. Run the Rule 7 verification commands and the set-based script (Rule 2/7)
    before declaring the class complete.
 
+**No separate planning phase:** a request of the form "update `ClassName`
+(or a rule) following this document, collect the change feedback, and update
+this document to make the rule more general" is executed directly — this
+document **is** the plan. Do not brainstorm or write a separate plan
+document first; go straight to step 1 above.
+
 ---
 
 # Section 1: Spec Alignment (Rules 1, 11, 12)
@@ -865,6 +871,58 @@ Tests must verify this explicitly: after `setter(value)`, then `setter(None)`,
 the getter must still return the original value. The same holds for
 `addXxx(value)` followed by `addXxx(None)` (nothing appended).
 
+### Rule 4.1: Abstract Base + Concrete Subclass Uniformity
+
+When a class hierarchy consists of an abstract base class and one or more
+concrete subclasses (e.g., `StackUsage` → `MeasuredStackUsage`,
+`RoughEstimateStackUsage`, `WorstCaseStackUsage`), **all setters across the
+entire hierarchy must follow the same `if value is not None:` guard pattern**.
+A concrete subclass setter cannot break the guard that the abstract base
+establishes — mixing guarded base setters with unguarded subclass setters
+introduces a silent inconsistency where some setters preserve existing values
+when `None` is passed, while others overwrite them.
+
+Check:
+- [ ] **Every** setter in the concrete subclass guards with `if value is not None:`
+      (or inherits a guarded setter from the base).
+- [ ] When testing the concrete subclass, verify that setting `None` on
+      inherited base setters and subclass-specific setters both no-op. Use a
+      combined base-properties test (see Rule 7) to exercise all setters from
+      the base as well as the subclass's own setters, followed by `setter(None)`
+      assertions for the whole set. This ensures the guard is actually present
+      and working, not merely declared in the signature.
+- [ ] A property setter (a `@property` decorated `def foobar(self, value):
+      self.foo = value`) is a setter too and must guard — treat it the same way.
+
+Example (correct hierarchy):
+```python
+class StackUsage(Identifiable, ABC):
+    def setHwElementRef(self, value: Optional[RefType]) -> "StackUsage":
+        if value is not None:  # Guard present
+            self.hwElementRef = value
+        return self
+
+class MeasuredStackUsage(StackUsage):
+    def setAverageMemoryConsumption(self, value: Optional[PositiveInteger]) -> "MeasuredStackUsage":
+        if value is not None:  # Guard present — consistent with base
+            self.averageMemoryConsumption = value
+        return self
+```
+
+Example (wrong — inconsistent hierarchy):
+```python
+class StackUsage(Identifiable, ABC):
+    def setHwElementRef(self, value: Optional[RefType]) -> "StackUsage":
+        if value is not None:  # Guard present
+            self.hwElementRef = value
+        return self
+
+class MeasuredStackUsage(StackUsage):
+    def setAverageMemoryConsumption(self, value: Optional[PositiveInteger]) -> "MeasuredStackUsage":
+        self.averageMemoryConsumption = value  # WRONG: no guard
+        return self
+```
+
 Note: this rule is not uniformly applied across the codebase yet. When a class
 under check violates it, align the class to the no-op behavior as part of the
 check — this includes **every** setter of the class, its abstract bases, and
@@ -1028,6 +1086,11 @@ paraphrase.
       deviation tracker). Docstrings connect spec semantics to code
       intent; setter docstrings should also mention the no-op behavior and
       the chainable return.
+      **When a setter is guarded (`if value is not None:`), the docstring
+      must explicitly state**: "A None value is a no-op and does not
+      overwrite an existing [attribute]."
+      This documents the guard behavior so consumers understand that setting
+      `None` is safe and intentional, not a bug.
 
 Example from a spec PDF:
 ```python
@@ -1217,6 +1280,120 @@ assert checklist == methods, f"checklist mismatch: {checklist ^ methods}"
 untested = [m for m in methods if m != "__init__" and m not in test_src]
 assert not untested, f"methods without test coverage: {untested}"
 ```
+
+---
+
+# Section 8: Docstring Specification Synchronization (Rule 13)
+
+## Rule 13: Docstring Synchronization with AUTOSAR Specification
+
+**Maturity**: accept
+
+Class docstrings and attribute/method docstrings must remain synchronized with
+the AUTOSAR PDF specification source. When the AUTOSAR version is upgraded,
+stale docstrings become silent documentation drift — docstrings that no longer
+match the spec but the code still compiles and tests still pass. This rule
+defines how to detect and prevent that drift.
+
+### 13.1 Docstring Versioning
+
+- [ ] The class's method parity checklist includes an AUTOSAR version marker
+      indicating which AUTOSAR release the spec docstrings were verified against.
+      Add a comment line immediately after the `# Spec:` line:
+      ```python
+      # HeapUsage method parity checklist:
+      # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.13, p.152
+      # Spec verified: R23-11
+      ```
+      Use the format `R<YY>-<MM>` (e.g., `R23-11` for November 2023 release,
+      `R24-11` for November 2024). This marker makes it discoverable which
+      classes need review after an AUTOSAR upgrade.
+
+### 13.2 Drift Detection on AUTOSAR Upgrade
+
+When the AUTOSAR specification version is upgraded in the repository:
+
+1. **Identify affected classes**: search the codebase for the old version marker
+   (e.g., `# Spec verified: R23-11`) using:
+   ```bash
+   grep -r "Spec verified: R23-11" src/armodel/models/
+   ```
+
+2. **For each affected class**, perform these steps:
+   - [ ] Open the class source file in an editor.
+   - [ ] Locate the corresponding spec table in the new AUTOSAR PDF markdown
+         (search `autosar/markdown/AUTOSAR_CP_TPS_*.md` for the table name).
+   - [ ] Read the spec table's `Note` row (the class purpose/definition).
+   - [ ] Compare the `Note` text verbatim with the class docstring (first line
+         after `"""`).
+   - [ ] If different: update the class docstring to match the new PDF `Note`
+         exactly (use the PDF wording verbatim, not paraphrased).
+   - [ ] For each attribute, compare the PDF table's `Note` column entry with
+         the inline comment in `__init__` (the line after `self.attributeName`).
+   - [ ] If different: update the inline comment to match the new PDF `Note`.
+   - [ ] For each getter/setter, compare the PDF `Note` and applicable
+         constraints (`constr_*` rows) with the docstring.
+   - [ ] If different: update the docstring.
+   - [ ] Update the version marker to the new release:
+         ```python
+         # Spec verified: R24-11
+         ```
+   - [ ] Run tests to ensure no functional breakage (the docstring-only
+         changes should not affect behavior).
+   - [ ] Create a commit with message:
+         ```
+         Updated <ClassName> docstrings for AUTOSAR R24-11
+         
+         Spec table notes:
+         - Class note: "..."
+         - attribute1: "..."
+         Verified against autosar/markdown/AUTOSAR_CP_TPS_*.md
+         ```
+
+### 13.3 During Class Alignment (Initial Synchronization)
+
+When aligning a class to the rules for the first time:
+
+- [ ] Verify **every** class docstring against the PDF `Note` field in its
+      spec table (the source is always the PDF, not loose paraphrase).
+- [ ] Use `autosar/markdown/AUTOSAR_CP_TPS_*.md` as the reference source
+      (markdown extracted from the PDF).
+- [ ] When writing docstrings, copy the PDF `Note` text verbatim; do not
+      paraphrase or abbreviate.
+- [ ] Add the version marker to indicate the baseline:
+      ```python
+      # Spec verified: R23-11
+      ```
+      This signals to future developers that docstrings were aligned to a
+      specific AUTOSAR release and may need review if the spec version changes.
+
+### 13.4 Rationale
+
+Docstring drift is a **silent bug**:
+- Code compiles and tests pass even when docstrings are outdated.
+- Developers reading the code assume docstrings are current (a reasonable
+  assumption).
+- Stale docstrings mislead API consumers and maintainers.
+- Unlike code bugs, drift is discovered only by manual inspection or explicit
+  verification (there is no automatic synchronization between PDF and code).
+
+The version marker and upgrade checklist provide explicit reminders and a
+structured process to catch and fix drift at the natural point when AUTOSAR
+is upgraded, rather than silently accumulating outdated documentation.
+
+### 13.5 No Automatic Enforcement
+
+There is currently **no CI check** that validates docstrings against the PDF
+or detects version skew. This rule relies on:
+- Developers' awareness of the synchronization requirement.
+- The version marker as a visible signal in the code.
+- Manual verification during AUTOSAR upgrades (triggered by the grep search
+  above).
+- Code review to catch docstring mismatches during PR review.
+
+If automatic tooling is added in the future (e.g., a docstring validator that
+parsels the PDF markdown and compares against Python docstrings), this rule
+will be updated to incorporate it.
 
 ---
 
