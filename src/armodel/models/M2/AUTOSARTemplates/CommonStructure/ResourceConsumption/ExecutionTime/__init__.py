@@ -24,6 +24,7 @@ class ExecutionTime(Identifiable, ABC):
 
     # ExecutionTime method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.17, p.159
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] getExclusiveAreaRef          [x] impl  [x] docstring  [x] test
     # [x] setExclusiveAreaRef          [x] impl  [x] docstring  [x] test
@@ -265,6 +266,7 @@ class MemorySectionLocation(ARObject):
 
     # MemorySectionLocation method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.19, p.162
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] getProvidedMemoryRef         [x] impl  [x] docstring  [x] test
     # [x] setProvidedMemoryRef         [x] impl  [x] docstring  [x] test
@@ -277,10 +279,14 @@ class MemorySectionLocation(ARObject):
         """
         super().__init__()
 
-        # Reference to the hardware ProvidedMemorySegment.
+        # Reference to the hardware ProvidedMemorySegment. [constr_10318] The reference
+        # in the role providedMemory shall exist at the time when the configuration of
+        # the BSW module is finished.
         self.providedMemoryRef: Optional[RefType] = None
 
-        # Reference to the MemorySection which is mapped on a certain hardware memory segment.
+        # Reference to the MemorySection which is mapped on a certain hardware memory
+        # segment. [constr_10319] The reference in the role softwareMemorySection shall
+        # exist at the time when the configuration of the BSW module is finished.
         self.softwareMemorySectionRef: Optional[RefType] = None
 
     def getProvidedMemoryRef(self) -> Optional[RefType]:
@@ -334,10 +340,13 @@ class AnalyzedExecutionTime(ExecutionTime):
     """
     AnalyzedExecutionTime provides an analytic method for specifying the best and
     worst case execution time.
+    [constr_4031] The attribute values of AnalyzedExecutionTime shall fulfill:
+    bestCaseExecutionTime <= worstCaseExecutionTime.
     """
 
     # AnalyzedExecutionTime method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.21, p.164
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] getBestCaseExecutionTime     [x] impl  [x] docstring  [x] test
     # [x] setBestCaseExecutionTime     [x] impl  [x] docstring  [x] test
@@ -354,10 +363,16 @@ class AnalyzedExecutionTime(ExecutionTime):
         """
         super().__init__(parent, short_name)
 
-        # The best case execution time (BCET).
+        # The best case execution time (BCET) defines the minimum amount of time the
+        # related executable entity requires for its execution. [constr_10323] The
+        # attribute shall exist at the time when the configuration of the BSW module is
+        # finished.
         self.bestCaseExecutionTime: Optional[MultidimensionalTime] = None
 
-        # The worst case execution time (WCET).
+        # The worst case execution time (WCET) defines the maximum amount of time the
+        # related executable entity requires for its execution. [constr_10324] The
+        # attribute shall exist at the time when the configuration of the BSW module is
+        # finished.
         self.worstCaseExecutionTime: Optional[MultidimensionalTime] = None
 
     def getBestCaseExecutionTime(self) -> Optional[MultidimensionalTime]:
@@ -410,10 +425,13 @@ class AnalyzedExecutionTime(ExecutionTime):
 class MeasuredExecutionTime(ExecutionTime):
     """
     Specifies the ExecutionTime which has been gathered using measurement means.
+    [constr_4032] The attribute values of MeasuredExecutionTime shall fulfill:
+    minimumExecutionTime <= nominalExecutionTime <= maximumExecutionTime.
     """
 
     # MeasuredExecutionTime method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.23, p.166
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] getMaximumExecutionTime      [x] impl  [x] docstring  [x] test
     # [x] setMaximumExecutionTime      [x] impl  [x] docstring  [x] test
@@ -432,13 +450,16 @@ class MeasuredExecutionTime(ExecutionTime):
         """
         super().__init__(parent, short_name)
 
-        # The maximum measured execution time.
+        # The maximum measured execution time. [constr_10325] The attribute shall exist
+        # at the time when the configuration of the BSW module is finished.
         self.maximumExecutionTime: Optional[MultidimensionalTime] = None
 
-        # The minimum measured execution time.
+        # The minimum measured execution time. [constr_10326] The attribute shall exist
+        # at the time when the configuration of the BSW module is finished.
         self.minimumExecutionTime: Optional[MultidimensionalTime] = None
 
-        # The nominal measured execution time.
+        # The nominal measured execution time. [constr_10327] The attribute shall exist
+        # at the time when the configuration of the BSW module is finished.
         self.nominalExecutionTime: Optional[MultidimensionalTime] = None
 
     def getMaximumExecutionTime(self) -> Optional[MultidimensionalTime]:
@@ -514,10 +535,13 @@ class MeasuredExecutionTime(ExecutionTime):
 class SimulatedExecutionTime(ExecutionTime):
     """
     Specifies the ExecutionTime which has been gathered using simulation means.
+    [constr_4033] The attribute values of SimulatedExecutionTime shall fulfill:
+    minimumExecutionTime <= nominalExecutionTime <= maximumExecutionTime.
     """
 
     # SimulatedExecutionTime method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.24, p.167
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] getMaximumExecutionTime      [x] impl  [x] docstring  [x] test
     # [x] setMaximumExecutionTime      [x] impl  [x] docstring  [x] test
@@ -536,13 +560,16 @@ class SimulatedExecutionTime(ExecutionTime):
         """
         super().__init__(parent, short_name)
 
-        # The maximum simulated execution time.
+        # The maximum simulated execution time. [constr_10331] The attribute shall exist
+        # at the time when the configuration of the BSW module is finished.
         self.maximumExecutionTime: Optional[MultidimensionalTime] = None
 
-        # The minimum simulated execution time.
+        # The minimum simulated execution time. [constr_10332] The attribute shall exist
+        # at the time when the configuration of the BSW module is finished.
         self.minimumExecutionTime: Optional[MultidimensionalTime] = None
 
-        # The nominal simulated execution time.
+        # The nominal simulated execution time. [constr_10333] The attribute shall exist
+        # at the time when the configuration of the BSW module is finished.
         self.nominalExecutionTime: Optional[MultidimensionalTime] = None
 
     def getMaximumExecutionTime(self) -> Optional[MultidimensionalTime]:
@@ -622,6 +649,7 @@ class RoughEstimateOfExecutionTime(ExecutionTime):
 
     # RoughEstimateOfExecutionTime method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.25, p.167
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] getAdditionalInformation     [x] impl  [x] docstring  [x] test
     # [x] setAdditionalInformation     [x] impl  [x] docstring  [x] test
@@ -638,10 +666,13 @@ class RoughEstimateOfExecutionTime(ExecutionTime):
         """
         super().__init__(parent, short_name)
 
-        # Provides description on the rough estimate of the ExecutionTime.
+        # Provides description on the rough estimate of the ExecutionTime. [constr_10334]
+        # The attribute shall exist at the time when the configuration of the BSW module
+        # is finished.
         self.additionalInformation: Optional[String] = None
 
-        # The estimated execution time.
+        # The estimated execution time. [constr_10335] The attribute shall exist at the
+        # time when the configuration of the BSW module is finished.
         self.estimatedExecutionTime: Optional[MultidimensionalTime] = None
 
     def getAdditionalInformation(self) -> Optional[String]:

@@ -3,9 +3,8 @@ This module contains tests for the MultidimensionalTime class in
 GenericStructure.GeneralTemplateClasses.
 """
 
-import pytest
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CseCodeType, Integer
 
 
 class TestMultidimensionalTime:
@@ -19,7 +18,7 @@ class TestMultidimensionalTime:
     def test_cse_code_setter_getter(self):
         """Test cseCode setter and getter."""
         mdt = MultidimensionalTime()
-        code = String().setValue("CSE_1")
+        code = CseCodeType().setValue("100")
         result = mdt.setCseCode(code)
         assert result is mdt
         assert mdt.getCseCode() == code
@@ -35,8 +34,26 @@ class TestMultidimensionalTime:
     def test_all_properties(self):
         """Test setting all properties."""
         mdt = MultidimensionalTime()
-        code = String().setValue("CSE_2")
+        code = CseCodeType().setValue("0")
         factor = Integer().setValue(500)
         mdt.setCseCode(code).setCseCodeFactor(factor)
         assert mdt.getCseCode() == code
+        assert mdt.getCseCodeFactor() == factor
+
+    def test_set_cse_code_none_noop(self):
+        """Test setCseCode(None) is a no-op."""
+        mdt = MultidimensionalTime()
+        code = CseCodeType().setValue("100")
+        mdt.setCseCode(code)
+        result = mdt.setCseCode(None)
+        assert result is mdt
+        assert mdt.getCseCode() == code
+
+    def test_set_cse_code_factor_none_noop(self):
+        """Test setCseCodeFactor(None) is a no-op."""
+        mdt = MultidimensionalTime()
+        factor = Integer().setValue(1000)
+        mdt.setCseCodeFactor(factor)
+        result = mdt.setCseCodeFactor(None)
+        assert result is mdt
         assert mdt.getCseCodeFactor() == factor

@@ -411,9 +411,7 @@ No deviations.
 - **Package:** `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/MultidimensionalTime.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `cseCode` | `String` | `cseCode` | `CseCodeType` | attr | type deviation: PDF enum `CseCodeType` not modeled; parser/writer produce `String` |
+No deviations.
 
 ## `AnalyzedExecutionTime`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 164

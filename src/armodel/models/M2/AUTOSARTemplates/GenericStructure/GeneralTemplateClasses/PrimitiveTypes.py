@@ -381,6 +381,24 @@ class AlignmentType(ARLiteral):
         super().__init__()
 
 
+class CseCodeType(ARLiteral):
+    """
+    This primitive represents an ASAM CSE (Codes for Scaling Units) based on the
+    definition in the ASAM-MCD-2MC-ASAP2 specification. The particular semantics
+    is specified in [TPS_GST_00354].
+
+    Tags:
+        * xml.xsd.customType=CSE-CODE-TYPE-STRING
+        * xml.xsd.type=unsignedInt
+    """
+
+    # CseCodeType method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+
+    def __init__(self):
+        super().__init__()
+
+
 class ReferrableSubtypesEnum(ARLiteral):
     """
     Represents an enum for referrable subtypes in AUTOSAR models.

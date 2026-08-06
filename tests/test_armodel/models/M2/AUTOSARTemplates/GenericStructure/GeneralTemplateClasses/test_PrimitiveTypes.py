@@ -13,6 +13,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AREnum,
     String,
     AlignmentType,
+    CseCodeType,
     ReferrableSubtypesEnum,
     ARPositiveInteger,
     ARBoolean,
@@ -381,6 +382,32 @@ class TestAlignmentType:
 
         alignment_unspecified = AlignmentType().setValue("UNSPECIFIED")
         assert alignment_unspecified.getValue() == "UNSPECIFIED"
+
+
+class TestCseCodeType:
+    """
+    Test class for CseCodeType functionality.
+    """
+
+    def test_initialization(self):
+        """
+        Test CseCodeType initialization.
+        """
+        cse = CseCodeType()
+
+        # Verify basic properties
+        assert cse is not None
+        assert cse._value is None
+
+    def test_set_value(self):
+        """
+        Test CseCodeType value assignment.
+        """
+        cse = CseCodeType().setValue("100")
+        assert cse.getValue() == "100"
+
+        cse_zero = CseCodeType().setValue("0")
+        assert cse_zero.getValue() == "0"
 
 
 class TestReferrableSubtypesEnum:

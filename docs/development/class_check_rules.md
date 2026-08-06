@@ -422,6 +422,27 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       referencing attribute against it. This applies to **every** kind of
       referenced class, not only `<name>InstanceRef` types (see the `iref`
       specifics in Rule 1.5).
+- [ ] A missing **primitive** has its own spec table in the AUTOSAR markdown,
+      formatted `Primitive <Name>` (e.g. Table 4.15 `CseCodeType`), **not** a
+      `Class`/`Enumeration` table — verify the referenced type's actual kind
+      from that table before implementing or recording a deviation (a prior
+      row that read "PDF enum `CseCodeType` not modeled" mislabeled a
+      primitive as an enum, which hid the fact that Rule 1.10 applied). The
+      primitive's `Primitive` table may live in a **different** PDF/table than
+      the class that uses it (e.g. `MultidimensionalTime.cseCode` — defined in
+      the BSWModuleDescriptionTemplate PDF Table 8.22 — uses `CseCodeType`,
+      whose `Primitive` table is in the SoftwareComponentTemplate PDF Table
+      4.15); search the markdown for `Primitive <Name>` across PDFs, not just
+      in the consuming class's own document. Implement the primitive as an
+      `ARLiteral` subclass mirroring its siblings (`AlignmentType`, `String`),
+      copy the `Primitive` table's `Note` verbatim plus its `Tags:`
+      (`xml.xsd.customType=...`, `xml.xsd.type=...`) into the docstring, add a
+      mirrored primitive test, re-type the referencing attribute against it,
+      and **clear** the type-deviation row in the deviation tracker once the
+      parser/writer already carry the element (the generic
+      `getChildElementOptionalLiteral` / `setChildElementOptionalLiteral`
+      helpers suffice when the element's lexical form is textual, matching the
+      `AlignmentType` precedent).
 - [ ] A placeholder substitute (e.g. `RefType` where the spec names a concrete
       class) is allowed only as a last resort when the missing class's model is
       genuinely out of scope; it must then be recorded in
@@ -762,6 +783,19 @@ Check:
       Optionality is expressed in the annotation, not just by the `None`
       default. This applies equally to Kind `attr` single-valued attributes
       (e.g. an enum-typed field) as it does to Kind `ref`.
+- [ ] **No looser-union coercion setters.** A setter parameter must be exactly
+      the field/primitive type — never `Optional[Union[String, str]]` or
+      `Optional[Union[Integer, int]]` that converts a bare `str`/`int` into the
+      typed primitive via an `isinstance` branch. The parser and writer already
+      produce the typed primitive, so the coercion is dead convenience API that
+      (a) is an internal type mismatch — field, getter, and setter no longer
+      agree (Rule 1.3) — and (b) silently breaks the Rule 4 no-op contract:
+      `setCseCode(None)` falls through the `isinstance(value, str)` branch into
+      the else branch and **overwrites** the existing value with `None`. Type
+      the setter `value: Optional[T]` and guard with the uniform
+      `if value is not None:`. Callers (including tests) must construct the
+      typed primitive — `CseCodeType().setValue("100")`, `Integer().setValue(2)`
+      — not pass a bare `str`/`int`.
 
 Example:
 ```python
@@ -1062,11 +1096,23 @@ paraphrase.
 
 - [ ] Each attribute in `__init__` has an inline `#` comment based on the PDF
       table note for that attribute. The comment should include the key
-      semantic information from the spec.
+      semantic information from the spec. Quote the **semantic sentence** of
+      the `Note` column (verbatim or near-verbatim); do **not** paste the
+      `Stereotypes:`/`Tags:` tail of the note (e.g.
+      `Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=...`) — that
+      tail is tooling metadata already captured in the markdown and adds no
+      semantics to the comment. Example: `AccessCountSet.accessCount`'s note
+      "Count value for a AbstractAccessPoint. Stereotypes: ..." is quoted in
+      the inline comment as "Count value for a AbstractAccessPoint."
 - [ ] Constraint rows are spec material for the comment just like the
       attribute note: when the PDF's `constr_*` rows impose a constraint on
       the attribute, include the constraint wording in the inline comment and
-      cite its id. Class-level `constr_*` rows belong in the class docstring
+      cite its id. The full constraint wording is typically rendered as a
+      `[constr_NNNNN]` paragraph **immediately after the class's own table**
+      (in addition to any consolidated constraint index elsewhere in the PDF)
+      — e.g. `AccessCountSet`'s Table 4.22 is followed by `constr_10270`
+      constraining `countProfile`. Grep both the table neighborhood and the
+      constraint index when collecting constraint material for a class. Class-level `constr_*` rows belong in the class docstring
       alongside the note — **including constraints on inherited
       attributes**: a constraint may target an attribute the subclass does
       not declare itself (e.g. `constr_4103` constrains
@@ -1228,6 +1274,13 @@ Every method on the class must have test coverage in the mirrored test file
       value is preserved). The None no-op test is critical: verify that after
       `setter(value)` followed by `setter(None)`, the getter still returns the
       original value.
+- [ ] Tests construct typed primitive values (`CseCodeType().setValue("100")`,
+      `Integer().setValue(2)`), never a bare `str`/`int` passed to a setter —
+      a test relying on a setter's `str`/`int` coercion (e.g.
+      `MultidimensionalTime().setCseCode("cse").setCseCodeFactor(2)`) depends on
+      exactly the looser-union behavior Rule 3 forbids, so aligning the class
+      breaks such a test; update the call site to the typed primitive at the
+      same time.
 - [ ] `add*` methods test appending, the return value (`self`), and the `None`
       no-op (setting None does not append).
 - [ ] Every `create*` factory has a test asserting the short name and that the
@@ -1279,6 +1332,9 @@ methods = {n.name for n in cls.body if isinstance(n, (ast.FunctionDef, ast.Async
 assert checklist == methods, f"checklist mismatch: {checklist ^ methods}"
 untested = [m for m in methods if m != "__init__" and m not in test_src]
 assert not untested, f"methods without test coverage: {untested}"
+# Rule 13.1: the class must carry the spec-version marker (a fully-[x]
+# checklist can still miss it, so check it explicitly)
+assert re.search(r"# Spec verified: R\d\d-\d\d", src), "missing # Spec verified marker (Rule 13.1)"
 ```
 
 ---
@@ -1308,6 +1364,12 @@ defines how to detect and prevent that drift.
       Use the format `R<YY>-<MM>` (e.g., `R23-11` for November 2023 release,
       `R24-11` for November 2024). This marker makes it discoverable which
       classes need review after an AUTOSAR upgrade.
+- [ ] Verify the marker during **every** alignment pass, not only when a class
+      is first implemented. A class aligned before this rule existed can carry
+      a fully-`[x]` checklist and a correct `# Spec:` line yet still lack the
+      marker — the Rule 2/7 set-based script does not check for it, so extend
+      that script with an explicit `assert re.search(r"# Spec verified:
+      R\d\d-\d\d", src)` (see Rule 7) to catch it mechanically.
 
 ### 13.2 Drift Detection on AUTOSAR Upgrade
 
@@ -1356,6 +1418,16 @@ When aligning a class to the rules for the first time:
 
 - [ ] Verify **every** class docstring against the PDF `Note` field in its
       spec table (the source is always the PDF, not loose paraphrase).
+- [ ] **Terse cross-reference PDF notes.** Some PDF `Note` rows carry only a
+      cross-reference (e.g. `MultidimensionalTime` Table 8.22's note reads
+      `Specifies a time value based on [20] see [TPS_GST_00354]`) while the
+      actual semantic description lives in the XSD complexType documentation
+      (`This is used to specify a multidimensional time value based on ASAM CSE
+      codes...`). Still **lead the class docstring with the PDF `Note` verbatim**
+      (the `[n]` bibliography marker included) and append the XSD complexType
+      documentation text as an elaboration paragraph — it is also verbatim spec
+      wording, so it satisfies Rule 5 — but never silently substitute the XSD
+      text for the PDF `Note`, and never invent prose to "expand" a terse note.
 - [ ] Use `autosar/markdown/AUTOSAR_CP_TPS_*.md` as the reference source
       (markdown extracted from the PDF).
 - [ ] When writing docstrings, copy the PDF `Note` text verbatim; do not

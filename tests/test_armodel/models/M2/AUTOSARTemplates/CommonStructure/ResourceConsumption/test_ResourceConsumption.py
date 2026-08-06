@@ -18,6 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AlignmentType,
     ARLiteral,
     CIdentifier,
+    CseCodeType,
     Identifier,
     Integer,
     NameToken,
@@ -734,8 +735,8 @@ class TestExecutionTime:
         """Test AnalyzedExecutionTime properties"""
         parent = AUTOSAR.getInstance()
         et = AnalyzedExecutionTime(parent, "TestET")
-        best = MultidimensionalTime().setCseCode("cse").setCseCodeFactor(2)
-        worst = MultidimensionalTime().setCseCode("cse").setCseCodeFactor(4)
+        best = MultidimensionalTime().setCseCode(CseCodeType().setValue("cse")).setCseCodeFactor(Integer().setValue(2))
+        worst = MultidimensionalTime().setCseCode(CseCodeType().setValue("cse")).setCseCodeFactor(Integer().setValue(4))
         result = et.setBestCaseExecutionTime(best).setWorstCaseExecutionTime(worst)
         assert result is et
         assert et.getBestCaseExecutionTime() == best
@@ -745,9 +746,9 @@ class TestExecutionTime:
         """Test MeasuredExecutionTime properties"""
         parent = AUTOSAR.getInstance()
         et = MeasuredExecutionTime(parent, "TestET")
-        mx = MultidimensionalTime().setCseCode("cse").setCseCodeFactor(9)
-        mn = MultidimensionalTime().setCseCode("cse").setCseCodeFactor(1)
-        nom = MultidimensionalTime().setCseCode("cse").setCseCodeFactor(5)
+        mx = MultidimensionalTime().setCseCode(CseCodeType().setValue("cse")).setCseCodeFactor(Integer().setValue(9))
+        mn = MultidimensionalTime().setCseCode(CseCodeType().setValue("cse")).setCseCodeFactor(Integer().setValue(1))
+        nom = MultidimensionalTime().setCseCode(CseCodeType().setValue("cse")).setCseCodeFactor(Integer().setValue(5))
         result = et.setMaximumExecutionTime(mx).setMinimumExecutionTime(mn).setNominalExecutionTime(nom)
         assert result is et
         assert et.getMaximumExecutionTime() == mx
@@ -758,7 +759,7 @@ class TestExecutionTime:
         """Test SimulatedExecutionTime properties"""
         parent = AUTOSAR.getInstance()
         et = SimulatedExecutionTime(parent, "TestET")
-        mx = MultidimensionalTime().setCseCode("cse").setCseCodeFactor(9)
+        mx = MultidimensionalTime().setCseCode(CseCodeType().setValue("cse")).setCseCodeFactor(Integer().setValue(9))
         result = et.setMaximumExecutionTime(mx)
         assert result is et
         assert et.getMaximumExecutionTime() == mx
@@ -770,7 +771,7 @@ class TestExecutionTime:
         parent = AUTOSAR.getInstance()
         et = RoughEstimateOfExecutionTime(parent, "TestET")
         info = String().setValue("rough guess")
-        est = MultidimensionalTime().setCseCode("cse").setCseCodeFactor(3)
+        est = MultidimensionalTime().setCseCode(CseCodeType().setValue("cse")).setCseCodeFactor(Integer().setValue(3))
         result = et.setAdditionalInformation(info).setEstimatedExecutionTime(est)
         assert result is et
         assert et.getAdditionalInformation() == info
@@ -964,12 +965,12 @@ class TestResourceConsumptionRoundTrip:
         resource.addAccessCountSet(acs)
         acs.setCountProfile(NameToken().setValue("PROFILE"))
         count = AccessCount()
-        count.setAccessPoint(make_ref("/ap")).setValue(PositiveInteger().setValue("3"))
+        count.setAccessPointRef(make_ref("/ap")).setValue(PositiveInteger().setValue("3"))
         acs.addAccessCount(count)
 
         et = resource.createAnalyzedExecutionTime("ET")
         et.setExclusiveAreaRef(make_ref("/ea")).setExecutableEntityRef(make_ref("/ee")).setHwElementRef(make_ref("/hw"))
-        et.setBestCaseExecutionTime(MultidimensionalTime().setCseCode("cse").setCseCodeFactor(Integer().setValue("1000")))
+        et.setBestCaseExecutionTime(MultidimensionalTime().setCseCode(CseCodeType().setValue("cse")).setCseCodeFactor(Integer().setValue("1000")))
         location = MemorySectionLocation()
         location.setProvidedMemoryRef(make_ref("/pm")).setSoftwareMemorySectionRef(make_ref("/sm"))
         et.addMemorySectionLocation(location)
@@ -1024,7 +1025,7 @@ class TestResourceConsumptionRoundTrip:
 
             acs_2 = resource_2.getAccessCountSets()[0]
             assert acs_2.getCountProfile().getValue() == "PROFILE"
-            assert acs_2.getAccessCounts()[0].getAccessPoint().getValue() == "/ap"
+            assert acs_2.getAccessCounts()[0].getAccessPointRef().getValue() == "/ap"
             assert acs_2.getAccessCounts()[0].getValue().getValue() == 3
 
             prefix_2 = resource_2.getSectionNamePrefixes()[0]

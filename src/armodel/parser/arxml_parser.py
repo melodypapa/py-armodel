@@ -1458,7 +1458,7 @@ class ARXMLParser(AbstractARXMLParser):
             access_count_set.setCountProfile(self.getChildElementOptionalLiteral(child_element, "COUNT-PROFILE"))
             for count_element in self.findall(child_element, "ACCESS-COUNTS/ACCESS-COUNT"):
                 count = AccessCount()
-                count.setAccessPoint(self.getChildElementOptionalRefType(count_element, "ACCESS-POINT-REF")).setValue(self.getChildElementOptionalPositiveInteger(count_element, "VALUE"))
+                count.setAccessPointRef(self.getChildElementOptionalRefType(count_element, "ACCESS-POINT-REF")).setValue(self.getChildElementOptionalPositiveInteger(count_element, "VALUE"))
                 access_count_set.addAccessCount(count)
 
     def readStackUsage(self, element: ET.Element, usage: StackUsage):
