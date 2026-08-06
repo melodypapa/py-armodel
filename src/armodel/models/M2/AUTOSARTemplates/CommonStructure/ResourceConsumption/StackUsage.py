@@ -3,12 +3,16 @@ This module contains classes for representing stack usage in AUTOSAR resource co
 It includes abstract base classes and concrete implementations for different types of stack usage analysis.
 """
 
+from __future__ import annotations
+
 from abc import ABC
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import SoftwareContext
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HardwareConfiguration import HardwareConfiguration
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import HardwareConfiguration, SoftwareContext
 
 
 class StackUsage(Identifiable, ABC):
@@ -18,15 +22,16 @@ class StackUsage(Identifiable, ABC):
     """
 
     # StackUsage method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getExecutableEntityRef       [x] impl  [x] docstring  [ ] test
-    # [ ] setExecutableEntityRef       [x] impl  [x] docstring  [ ] test
-    # [ ] getHardwareConfiguration     [x] impl  [x] docstring  [ ] test
-    # [ ] setHardwareConfiguration     [x] impl  [x] docstring  [ ] test
-    # [ ] getHwElementRef              [x] impl  [x] docstring  [ ] test
-    # [ ] setHwElementRef              [x] impl  [x] docstring  [ ] test
-    # [ ] getSoftwareContext           [x] impl  [x] docstring  [ ] test
-    # [ ] setSoftwareContext           [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.9, p.149
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getExecutableEntityRef       [x] impl  [x] docstring  [x] test
+    # [x] setExecutableEntityRef       [x] impl  [x] docstring  [x] test
+    # [x] getHardwareConfiguration     [x] impl  [x] docstring  [x] test
+    # [x] setHardwareConfiguration     [x] impl  [x] docstring  [x] test
+    # [x] getHwElementRef              [x] impl  [x] docstring  [x] test
+    # [x] setHwElementRef              [x] impl  [x] docstring  [x] test
+    # [x] getSoftwareContext           [x] impl  [x] docstring  [x] test
+    # [x] setSoftwareContext           [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -43,15 +48,18 @@ class StackUsage(Identifiable, ABC):
         super().__init__(parent, short_name)
 
         # Reference to the executable entity for which stack usage is measured
-        self.executableEntityRef: RefType = None
-        # Hardware configuration associated with this stack usage
-        self.hardwareConfiguration: HardwareConfiguration = None
-        # Reference to hardware element for this stack usage
-        self.hwElementRef: RefType = None
-        # Software context for this stack usage
-        self.softwareContext: SoftwareContext = None
+        self.executableEntityRef: Optional[RefType] = None
 
-    def getExecutableEntityRef(self):
+        # Hardware configuration associated with this stack usage
+        self.hardwareConfiguration: Optional[HardwareConfiguration] = None
+
+        # Reference to hardware element for this stack usage
+        self.hwElementRef: Optional[RefType] = None
+
+        # Software context for this stack usage
+        self.softwareContext: Optional[SoftwareContext] = None
+
+    def getExecutableEntityRef(self) -> Optional[RefType]:
         """
         Gets the reference to the executable entity for which stack usage is measured.
 
@@ -60,9 +68,10 @@ class StackUsage(Identifiable, ABC):
         """
         return self.executableEntityRef
 
-    def setExecutableEntityRef(self, value):
+    def setExecutableEntityRef(self, value: Optional[RefType]) -> "StackUsage":
         """
         Sets the reference to the executable entity for which stack usage is measured.
+        A None value is a no-op and does not overwrite an existing reference.
 
         Args:
             value: The executable entity reference to set
@@ -70,10 +79,11 @@ class StackUsage(Identifiable, ABC):
         Returns:
             self for method chaining
         """
-        self.executableEntityRef = value
+        if value is not None:
+            self.executableEntityRef = value
         return self
 
-    def getHardwareConfiguration(self):
+    def getHardwareConfiguration(self) -> Optional[HardwareConfiguration]:
         """
         Gets the hardware configuration associated with this stack usage.
 
@@ -82,9 +92,10 @@ class StackUsage(Identifiable, ABC):
         """
         return self.hardwareConfiguration
 
-    def setHardwareConfiguration(self, value):
+    def setHardwareConfiguration(self, value: Optional[HardwareConfiguration]) -> "StackUsage":
         """
         Sets the hardware configuration associated with this stack usage.
+        A None value is a no-op and does not overwrite an existing configuration.
 
         Args:
             value: The hardware configuration to set
@@ -92,10 +103,11 @@ class StackUsage(Identifiable, ABC):
         Returns:
             self for method chaining
         """
-        self.hardwareConfiguration = value
+        if value is not None:
+            self.hardwareConfiguration = value
         return self
 
-    def getHwElementRef(self):
+    def getHwElementRef(self) -> Optional[RefType]:
         """
         Gets the reference to hardware element for this stack usage.
 
@@ -104,9 +116,10 @@ class StackUsage(Identifiable, ABC):
         """
         return self.hwElementRef
 
-    def setHwElementRef(self, value):
+    def setHwElementRef(self, value: Optional[RefType]) -> "StackUsage":
         """
         Sets the reference to hardware element for this stack usage.
+        A None value is a no-op and does not overwrite an existing reference.
 
         Args:
             value: The hardware element reference to set
@@ -114,10 +127,11 @@ class StackUsage(Identifiable, ABC):
         Returns:
             self for method chaining
         """
-        self.hwElementRef = value
+        if value is not None:
+            self.hwElementRef = value
         return self
 
-    def getSoftwareContext(self):
+    def getSoftwareContext(self) -> Optional[SoftwareContext]:
         """
         Gets the software context for this stack usage.
 
@@ -126,9 +140,10 @@ class StackUsage(Identifiable, ABC):
         """
         return self.softwareContext
 
-    def setSoftwareContext(self, value):
+    def setSoftwareContext(self, value: Optional[SoftwareContext]) -> "StackUsage":
         """
         Sets the software context for this stack usage.
+        A None value is a no-op and does not overwrite an existing context.
 
         Args:
             value: The software context to set
@@ -136,7 +151,8 @@ class StackUsage(Identifiable, ABC):
         Returns:
             self for method chaining
         """
-        self.softwareContext = value
+        if value is not None:
+            self.softwareContext = value
         return self
 
 
@@ -147,11 +163,16 @@ class MeasuredStackUsage(StackUsage):
     """
 
     # MeasuredStackUsage method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getAverageMemoryConsumption  [x] impl  [x] docstring  [ ] test
-    # [ ] setAverageMemoryConsumption  [x] impl  [x] docstring  [ ] test
-    # [ ] getMaximumMemoryConsumption  [x] impl  [x] docstring  [ ] test
-    # [ ] setMaximumMemoryConsumption  [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.11, p.150
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getAverageMemoryConsumption  [x] impl  [x] docstring  [x] test
+    # [x] setAverageMemoryConsumption  [x] impl  [x] docstring  [x] test
+    # [x] getMaximumMemoryConsumption  [x] impl  [x] docstring  [x] test
+    # [x] setMaximumMemoryConsumption  [x] impl  [x] docstring  [x] test
+    # [x] getMinimumMemoryConsumption  [x] impl  [x] docstring  [x] test
+    # [x] setMinimumMemoryConsumption  [x] impl  [x] docstring  [x] test
+    # [x] getTestPattern               [x] impl  [x] docstring  [x] test
+    # [x] setTestPattern               [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -164,11 +185,18 @@ class MeasuredStackUsage(StackUsage):
         super().__init__(parent, short_name)
 
         # Average memory consumption measured for this stack usage
-        self.averageMemoryConsumption: PositiveInteger = None
-        # Maximum memory consumption measured for this stack usage
-        self.maximumMemoryConsumption: PositiveInteger = None
+        self.averageMemoryConsumption: Optional[PositiveInteger] = None
 
-    def getAverageMemoryConsumption(self):
+        # Maximum memory consumption measured for this stack usage
+        self.maximumMemoryConsumption: Optional[PositiveInteger] = None
+
+        # Minimum memory consumption measured for this stack usage
+        self.minimumMemoryConsumption: Optional[PositiveInteger] = None
+
+        # Description of the test pattern used to acquire the measured values
+        self.testPattern: Optional[String] = None
+
+    def getAverageMemoryConsumption(self) -> Optional[PositiveInteger]:
         """
         Gets the average memory consumption measured for this stack usage.
 
@@ -177,7 +205,7 @@ class MeasuredStackUsage(StackUsage):
         """
         return self.averageMemoryConsumption
 
-    def setAverageMemoryConsumption(self, value):
+    def setAverageMemoryConsumption(self, value: Optional[PositiveInteger]) -> "MeasuredStackUsage":
         """
         Sets the average memory consumption measured for this stack usage.
 
@@ -190,7 +218,7 @@ class MeasuredStackUsage(StackUsage):
         self.averageMemoryConsumption = value
         return self
 
-    def getMaximumMemoryConsumption(self):
+    def getMaximumMemoryConsumption(self) -> Optional[PositiveInteger]:
         """
         Gets the maximum memory consumption measured for this stack usage.
 
@@ -199,7 +227,7 @@ class MeasuredStackUsage(StackUsage):
         """
         return self.maximumMemoryConsumption
 
-    def setMaximumMemoryConsumption(self, value):
+    def setMaximumMemoryConsumption(self, value: Optional[PositiveInteger]) -> "MeasuredStackUsage":
         """
         Sets the maximum memory consumption measured for this stack usage.
 
@@ -212,6 +240,50 @@ class MeasuredStackUsage(StackUsage):
         self.maximumMemoryConsumption = value
         return self
 
+    def getMinimumMemoryConsumption(self) -> Optional[PositiveInteger]:
+        """
+        Gets the minimum memory consumption measured for this stack usage.
+
+        Returns:
+            PositiveInteger: Minimum memory consumption value
+        """
+        return self.minimumMemoryConsumption
+
+    def setMinimumMemoryConsumption(self, value: Optional[PositiveInteger]) -> "MeasuredStackUsage":
+        """
+        Sets the minimum memory consumption measured for this stack usage.
+
+        Args:
+            value: The minimum memory consumption value to set
+
+        Returns:
+            self for method chaining
+        """
+        self.minimumMemoryConsumption = value
+        return self
+
+    def getTestPattern(self) -> Optional[String]:
+        """
+        Gets the description of the test pattern used to acquire the measured values.
+
+        Returns:
+            String: Test pattern description
+        """
+        return self.testPattern
+
+    def setTestPattern(self, value: Optional[String]) -> "MeasuredStackUsage":
+        """
+        Sets the description of the test pattern used to acquire the measured values.
+
+        Args:
+            value: The test pattern description to set
+
+        Returns:
+            self for method chaining
+        """
+        self.testPattern = value
+        return self
+
 
 class RoughEstimateStackUsage(StackUsage):
     """
@@ -220,11 +292,12 @@ class RoughEstimateStackUsage(StackUsage):
     """
 
     # RoughEstimateStackUsage method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getMemoryConsumption         [x] impl  [x] docstring  [ ] test
-    # [ ] setMemoryConsumption         [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.12, p.151
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getMemoryConsumption         [x] impl  [x] docstring  [x] test
+    # [x] setMemoryConsumption         [x] impl  [x] docstring  [x] test
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the RoughEstimateStackUsage with a parent and short name.
 
@@ -235,9 +308,9 @@ class RoughEstimateStackUsage(StackUsage):
         super().__init__(parent, short_name)
 
         # Estimated memory consumption for this stack usage
-        self.memoryConsumption: PositiveInteger = None
+        self.memoryConsumption: Optional[PositiveInteger] = None
 
-    def getMemoryConsumption(self):
+    def getMemoryConsumption(self) -> Optional[PositiveInteger]:
         """
         Gets the estimated memory consumption for this stack usage.
 
@@ -246,7 +319,7 @@ class RoughEstimateStackUsage(StackUsage):
         """
         return self.memoryConsumption
 
-    def setMemoryConsumption(self, value):
+    def setMemoryConsumption(self, value: Optional[PositiveInteger]) -> "RoughEstimateStackUsage":
         """
         Sets the estimated memory consumption for this stack usage.
 
@@ -267,11 +340,12 @@ class WorstCaseStackUsage(StackUsage):
     """
 
     # WorstCaseStackUsage method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getMemoryConsumption         [x] impl  [x] docstring  [ ] test
-    # [ ] setMemoryConsumption         [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.10, p.150
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getMemoryConsumption         [x] impl  [x] docstring  [x] test
+    # [x] setMemoryConsumption         [x] impl  [x] docstring  [x] test
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the WorstCaseStackUsage with a parent and short name.
 
@@ -282,9 +356,9 @@ class WorstCaseStackUsage(StackUsage):
         super().__init__(parent, short_name)
 
         # Memory consumption in worst case scenario for this stack usage
-        self.memoryConsumption: PositiveInteger = None
+        self.memoryConsumption: Optional[PositiveInteger] = None
 
-    def getMemoryConsumption(self):
+    def getMemoryConsumption(self) -> Optional[PositiveInteger]:
         """
         Gets the memory consumption in worst case scenario for this stack usage.
 
@@ -293,7 +367,7 @@ class WorstCaseStackUsage(StackUsage):
         """
         return self.memoryConsumption
 
-    def setMemoryConsumption(self, value):
+    def setMemoryConsumption(self, value: Optional[PositiveInteger]) -> "WorstCaseStackUsage":
         """
         Sets the memory consumption in worst case scenario for this stack usage.
 

@@ -12,6 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARLiteral,
     AREnum,
     String,
+    AlignmentType,
     ReferrableSubtypesEnum,
     ARPositiveInteger,
     ARBoolean,
@@ -354,6 +355,32 @@ class TestString:
         # Verify basic properties
         assert string_val is not None
         assert string_val._value is None
+
+
+class TestAlignmentType:
+    """
+    Test class for AlignmentType functionality.
+    """
+
+    def test_initialization(self):
+        """
+        Test AlignmentType initialization.
+        """
+        alignment = AlignmentType()
+
+        # Verify basic properties
+        assert alignment is not None
+        assert alignment._value is None
+
+    def test_set_value(self):
+        """
+        Test AlignmentType value assignment.
+        """
+        alignment = AlignmentType().setValue("8")
+        assert alignment.getValue() == "8"
+
+        alignment_unspecified = AlignmentType().setValue("UNSPECIFIED")
+        assert alignment_unspecified.getValue() == "UNSPECIFIED"
 
 
 class TestReferrableSubtypesEnum:

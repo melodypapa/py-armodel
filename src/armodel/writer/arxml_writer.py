@@ -57,7 +57,11 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import InternalBehavior
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclaration, ModeDeclarationGroup, ModeDeclarationGroupPrototype
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import RoughEstimateStackUsage, StackUsage
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.ExecutionTime import AnalyzedExecutionTime, MeasuredExecutionTime, RoughEstimateOfExecutionTime, SimulatedExecutionTime
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HeapUsage import MeasuredHeapUsage, RoughEstimateHeapUsage, WorstCaseHeapUsage
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.MemorySectionUsage import MemorySection, SectionNamePrefix
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import MeasuredStackUsage, RoughEstimateStackUsage, StackUsage, WorstCaseStackUsage
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagEventDebounceMonitorInternal, DltUserNeeds, ServiceNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement, DtcStatusChangeNotificationNeeds
@@ -1999,6 +2003,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             for option in options:
                 self.setChildElementOptionalLiteral(child_element, "OPTION", option)
 
+    def writeMemorySectionExecutableEntityRefs(self, element: ET.Element, memory_section: MemorySection):
+        refs = memory_section.getExecutableEntityRefs()
+        if len(refs) > 0:
+            refs_element = ET.SubElement(element, "EXECUTABLE-ENTITY-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_element, "EXECUTABLE-ENTITY-REF", ref)
+
     def writeMemorySections(self, element: ET.Element, consumption: ResourceConsumption):
         memory_sections = consumption.getMemorySections()
         if len(memory_sections) > 0:
@@ -2007,20 +2018,180 @@ class ARXMLWriter(AbstractARXMLWriter):
                 child_element = ET.SubElement(sections_tag, "MEMORY-SECTION")
                 self.writeIdentifiable(child_element, memory_section)
                 self.setChildElementOptionalLiteral(child_element, "ALIGNMENT", memory_section.getAlignment())
+                self.writeMemorySectionExecutableEntityRefs(child_element, memory_section)
                 self.setChildElementOptionalLiteral(child_element, "MEM-CLASS-SYMBOL", memory_section.getMemClassSymbol())
                 self.setMemorySectionOptions(child_element, memory_section.getOptions())
-                self.setChildElementOptionalNumericalValue(child_element, "SIZE", memory_section.getSize())
+                self.setChildElementOptionalRefType(child_element, "PREFIX-REF", memory_section.getPrefixRef())
+                self.setChildElementOptionalPositiveInteger(child_element, "SIZE", memory_section.getSize())
                 self.setChildElementOptionalRefType(child_element, "SW-ADDRMETHOD-REF", memory_section.getSwAddrMethodRef())
                 self.setChildElementOptionalLiteral(child_element, "SYMBOL", memory_section.getSymbol())
                 self.logger.debug("Write MemorySection %s" % memory_section.getShortName())
 
+    def setMultidimensionalTime(self, element: ET.Element, key: str, value: MultidimensionalTime):
+        if value is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalLiteral(child_element, "CSE-CODE", value.getCseCode())
+            self.setChildElementOptionalIntegerValue(child_element, "CSE-CODE-FACTOR", value.getCseCodeFactor())
+
+    def setHardwareConfiguration(self, element: ET.Element, config):
+        if config is not None:
+            child_element = ET.SubElement(element, "HARDWARE-CONFIGURATION")
+            self.setChildElementOptionalLiteral(child_element, "ADDITIONAL-INFORMATION", config.getAdditionalInformation())
+            self.setChildElementOptionalLiteral(child_element, "PROCESSOR-MODE", config.getProcessorMode())
+            self.setChildElementOptionalLiteral(child_element, "PROCESSOR-SPEED", config.getProcessorSpeed())
+
+    def setSoftwareContext(self, element: ET.Element, context):
+        if context is not None:
+            child_element = ET.SubElement(element, "SOFTWARE-CONTEXT")
+            self.setChildElementOptionalLiteral(child_element, "INPUT", context.getInput())
+            self.setChildElementOptionalLiteral(child_element, "STATE", context.getState())
+
+    def writeExecutionTime(self, element: ET.Element, execution_time):
+        self.writeIdentifiable(element, execution_time)
+        self.setChildElementOptionalRefType(element, "EXCLUSIVE-AREA-REF", execution_time.getExclusiveAreaRef())
+        self.setChildElementOptionalRefType(element, "EXECUTABLE-ENTITY-REF", execution_time.getExecutableEntityRef())
+        self.setHardwareConfiguration(element, execution_time.getHardwareConfiguration())
+        self.setChildElementOptionalRefType(element, "HW-ELEMENT-REF", execution_time.getHwElementRef())
+        included_library_refs = execution_time.getIncludedLibraryRefs()
+        if len(included_library_refs) > 0:
+            refs_element = ET.SubElement(element, "INCLUDED-LIBRARY-REFS")
+            for ref in included_library_refs:
+                self.setChildElementOptionalRefType(refs_element, "INCLUDED-LIBRARY-REF", ref)
+        memory_section_locations = execution_time.getMemorySectionLocations()
+        if len(memory_section_locations) > 0:
+            locations_element = ET.SubElement(element, "MEMORY-SECTION-LOCATIONS")
+            for location in memory_section_locations:
+                location_element = ET.SubElement(locations_element, "MEMORY-SECTION-LOCATION")
+                self.setChildElementOptionalRefType(location_element, "PROVIDED-MEMORY-REF", location.getProvidedMemoryRef())
+                self.setChildElementOptionalRefType(location_element, "SOFTWARE-MEMORY-SECTION-REF", location.getSoftwareMemorySectionRef())
+        self.setSoftwareContext(element, execution_time.getSoftwareContext())
+
+    def writeAnalyzedExecutionTime(self, element: ET.Element, execution_time: AnalyzedExecutionTime):
+        child_element = ET.SubElement(element, "ANALYZED-EXECUTION-TIME")
+        self.writeExecutionTime(child_element, execution_time)
+        self.setMultidimensionalTime(child_element, "BEST-CASE-EXECUTION-TIME", execution_time.getBestCaseExecutionTime())
+        self.setMultidimensionalTime(child_element, "WORST-CASE-EXECUTION-TIME", execution_time.getWorstCaseExecutionTime())
+
+    def writeMeasuredExecutionTime(self, element: ET.Element, execution_time: MeasuredExecutionTime):
+        child_element = ET.SubElement(element, "MEASURED-EXECUTION-TIME")
+        self.writeExecutionTime(child_element, execution_time)
+        self.setMultidimensionalTime(child_element, "MAXIMUM-EXECUTION-TIME", execution_time.getMaximumExecutionTime())
+        self.setMultidimensionalTime(child_element, "MINIMUM-EXECUTION-TIME", execution_time.getMinimumExecutionTime())
+        self.setMultidimensionalTime(child_element, "NOMINAL-EXECUTION-TIME", execution_time.getNominalExecutionTime())
+
+    def writeSimulatedExecutionTime(self, element: ET.Element, execution_time: SimulatedExecutionTime):
+        child_element = ET.SubElement(element, "SIMULATED-EXECUTION-TIME")
+        self.writeExecutionTime(child_element, execution_time)
+        self.setMultidimensionalTime(child_element, "MAXIMUM-EXECUTION-TIME", execution_time.getMaximumExecutionTime())
+        self.setMultidimensionalTime(child_element, "MINIMUM-EXECUTION-TIME", execution_time.getMinimumExecutionTime())
+        self.setMultidimensionalTime(child_element, "NOMINAL-EXECUTION-TIME", execution_time.getNominalExecutionTime())
+
+    def writeRoughEstimateOfExecutionTime(self, element: ET.Element, execution_time: RoughEstimateOfExecutionTime):
+        child_element = ET.SubElement(element, "ROUGH-ESTIMATE-OF-EXECUTION-TIME")
+        self.writeExecutionTime(child_element, execution_time)
+        self.setChildElementOptionalLiteral(child_element, "ADDITIONAL-INFORMATION", execution_time.getAdditionalInformation())
+        self.setMultidimensionalTime(child_element, "ESTIMATED-EXECUTION-TIME", execution_time.getEstimatedExecutionTime())
+
+    def writeExecutionTimes(self, element: ET.Element, execution_times: List):
+        if len(execution_times) > 0:
+            child_element = ET.SubElement(element, "EXECUTION-TIMES")
+            for execution_time in execution_times:
+                if isinstance(execution_time, AnalyzedExecutionTime):
+                    self.writeAnalyzedExecutionTime(child_element, execution_time)
+                elif isinstance(execution_time, MeasuredExecutionTime):
+                    self.writeMeasuredExecutionTime(child_element, execution_time)
+                elif isinstance(execution_time, RoughEstimateOfExecutionTime):
+                    self.writeRoughEstimateOfExecutionTime(child_element, execution_time)
+                elif isinstance(execution_time, SimulatedExecutionTime):
+                    self.writeSimulatedExecutionTime(child_element, execution_time)
+                else:
+                    self.notImplemented("Unsupported Execution Time: <%s>" % type(execution_time))
+
+    def writeHeapUsage(self, element: ET.Element, usage):
+        self.writeIdentifiable(element, usage)
+        self.setHardwareConfiguration(element, usage.getHardwareConfiguration())
+        self.setChildElementOptionalRefType(element, "HW-ELEMENT-REF", usage.getHwElementRef())
+        self.setSoftwareContext(element, usage.getSoftwareContext())
+
+    def writeMeasuredHeapUsage(self, element: ET.Element, usage: MeasuredHeapUsage):
+        child_element = ET.SubElement(element, "MEASURED-HEAP-USAGE")
+        self.writeHeapUsage(child_element, usage)
+        self.setChildElementOptionalPositiveInteger(child_element, "AVERAGE-MEMORY-CONSUMPTION", usage.getAverageMemoryConsumption())
+        self.setChildElementOptionalPositiveInteger(child_element, "MAXIMUM-MEMORY-CONSUMPTION", usage.getMaximumMemoryConsumption())
+        self.setChildElementOptionalPositiveInteger(child_element, "MINIMUM-MEMORY-CONSUMPTION", usage.getMinimumMemoryConsumption())
+        self.setChildElementOptionalLiteral(child_element, "TEST-PATTERN", usage.getTestPattern())
+
+    def writeRoughEstimateHeapUsage(self, element: ET.Element, usage: RoughEstimateHeapUsage):
+        child_element = ET.SubElement(element, "ROUGH-ESTIMATE-HEAP-USAGE")
+        self.writeHeapUsage(child_element, usage)
+        self.setChildElementOptionalPositiveInteger(child_element, "MEMORY-CONSUMPTION", usage.getMemoryConsumption())
+
+    def writeWorstCaseHeapUsage(self, element: ET.Element, usage: WorstCaseHeapUsage):
+        child_element = ET.SubElement(element, "WORST-CASE-HEAP-USAGE")
+        self.writeHeapUsage(child_element, usage)
+        self.setChildElementOptionalPositiveInteger(child_element, "MEMORY-CONSUMPTION", usage.getMemoryConsumption())
+
+    def writeHeapUsages(self, element: ET.Element, usages: List):
+        if len(usages) > 0:
+            child_element = ET.SubElement(element, "HEAP-USAGES")
+            for usage in usages:
+                if isinstance(usage, MeasuredHeapUsage):
+                    self.writeMeasuredHeapUsage(child_element, usage)
+                elif isinstance(usage, RoughEstimateHeapUsage):
+                    self.writeRoughEstimateHeapUsage(child_element, usage)
+                elif isinstance(usage, WorstCaseHeapUsage):
+                    self.writeWorstCaseHeapUsage(child_element, usage)
+                else:
+                    self.notImplemented("Unsupported Heap Usage: <%s>" % type(usage))
+
+    def writeSectionNamePrefixes(self, element: ET.Element, prefixes: List[SectionNamePrefix]):
+        if len(prefixes) > 0:
+            child_element = ET.SubElement(element, "SECTION-NAME-PREFIXS")
+            for prefix in prefixes:
+                prefix_element = ET.SubElement(child_element, "SECTION-NAME-PREFIX")
+                self.writeReferrable(prefix_element, prefix)
+                self.setChildElementOptionalRefType(prefix_element, "IMPLEMENTED-IN-REF", prefix.getImplementedInRef())
+
+    def writeAccessCountSets(self, element: ET.Element, access_count_sets: List):
+        if len(access_count_sets) > 0:
+            child_element = ET.SubElement(element, "ACCESS-COUNT-SETS")
+            for access_count_set in access_count_sets:
+                access_count_set_element = ET.SubElement(child_element, "ACCESS-COUNT-SET")
+                self.setChildElementOptionalLiteral(access_count_set_element, "COUNT-PROFILE", access_count_set.getCountProfile())
+                access_counts = access_count_set.getAccessCounts()
+                if len(access_counts) > 0:
+                    counts_element = ET.SubElement(access_count_set_element, "ACCESS-COUNTS")
+                    for count in access_counts:
+                        count_element = ET.SubElement(counts_element, "ACCESS-COUNT")
+                        self.setChildElementOptionalRefType(count_element, "ACCESS-POINT-REF", count.getAccessPoint())
+                        self.setChildElementOptionalPositiveInteger(count_element, "VALUE", count.getValue())
+
     def setStackUsage(self, element: ET.Element, usage: StackUsage):
         self.logger.debug("Write StackUsage %s" % usage.getShortName())
         self.writeIdentifiable(element, usage)
+        self.setChildElementOptionalRefType(element, "EXECUTABLE-ENTITY-REF", usage.getExecutableEntityRef())
+        self.setHardwareConfiguration(element, usage.getHardwareConfiguration())
+        self.setChildElementOptionalRefType(element, "HW-ELEMENT-REF", usage.getHwElementRef())
+        self.setSoftwareContext(element, usage.getSoftwareContext())
 
     def setRoughEstimateStackUsage(self, element: ET.Element, usage: RoughEstimateStackUsage):
         if usage is not None:
             child_element = ET.SubElement(element, "ROUGH-ESTIMATE-STACK-USAGE")
+            self.setStackUsage(child_element, usage)
+            self.setChildElementOptionalPositiveInteger(child_element, "MEMORY-CONSUMPTION", usage.getMemoryConsumption())
+
+    def setMeasuredStackUsage(self, element: ET.Element, usage: MeasuredStackUsage):
+        if usage is not None:
+            child_element = ET.SubElement(element, "MEASURED-STACK-USAGE")
+            self.setStackUsage(child_element, usage)
+            self.setChildElementOptionalPositiveInteger(child_element, "AVERAGE-MEMORY-CONSUMPTION", usage.getAverageMemoryConsumption())
+            self.setChildElementOptionalPositiveInteger(child_element, "MAXIMUM-MEMORY-CONSUMPTION", usage.getMaximumMemoryConsumption())
+            self.setChildElementOptionalPositiveInteger(child_element, "MINIMUM-MEMORY-CONSUMPTION", usage.getMinimumMemoryConsumption())
+            self.setChildElementOptionalLiteral(child_element, "TEST-PATTERN", usage.getTestPattern())
+
+    def setWorstCaseStackUsage(self, element: ET.Element, usage: WorstCaseStackUsage):
+        if usage is not None:
+            child_element = ET.SubElement(element, "WORST-CASE-STACK-USAGE")
             self.setStackUsage(child_element, usage)
             self.setChildElementOptionalPositiveInteger(child_element, "MEMORY-CONSUMPTION", usage.getMemoryConsumption())
 
@@ -2030,6 +2201,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             for usage in usages:
                 if isinstance(usage, RoughEstimateStackUsage):
                     self.setRoughEstimateStackUsage(child_element, usage)
+                elif isinstance(usage, MeasuredStackUsage):
+                    self.setMeasuredStackUsage(child_element, usage)
+                elif isinstance(usage, WorstCaseStackUsage):
+                    self.setWorstCaseStackUsage(child_element, usage)
                 else:
                     self.notImplemented("Unsupported Stack Usages: <%s>" % type(usage))
 
@@ -2037,7 +2212,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         if consumption is not None:
             child_element = ET.SubElement(element, "RESOURCE-CONSUMPTION")
             self.writeIdentifiable(child_element, consumption)
+            self.writeAccessCountSets(child_element, consumption.getAccessCountSets())
+            self.writeExecutionTimes(child_element, consumption.getExecutionTimes())
+            self.writeHeapUsages(child_element, consumption.getHeapUsages())
             self.writeMemorySections(child_element, consumption)
+            self.writeSectionNamePrefixes(child_element, consumption.getSectionNamePrefixes())
             self.writeStackUsages(child_element, consumption.getStackUsages())
 
     def writeImplementation(self, element: ET.Element, impl: Implementation):

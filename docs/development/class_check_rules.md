@@ -115,12 +115,27 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
        attribute is derived in the model (model it with a field, no XML element).
        To tell them apart, inspect the XSD element's appinfo tags for
        `atp.Status="removed"` vs the `atpDerived` stereotype.
-- [ ] Type deviations are recorded as well, not only missing/extra attributes
-      (e.g. a PDF `PositiveInteger` attribute that the parser produces as
-      `ARNumerical` via `getChildElementOptionalNumericalValue` — the model
-      field must match the parser's actual type, and the deviation is
-      recorded). Changing a type requires coordinated parser and writer
-      changes.
+- [ ] **The PDF is the source of truth for the attribute type.** When the
+      parser/writer use a looser type than the PDF, do **not** accept the
+      loose type and record a deviation — first upgrade the parser and writer
+      to the spec-typed helper so the model carries the PDF type. Example:
+      `MemorySection.size` is a PDF `PositiveInteger` and the XSD element
+      `SIZE` is `AR:POSITIVE-INTEGER`, so the parser must use
+      `getChildElementOptionalPositiveInteger` (not the generic
+      `getChildElementOptionalNumericalValue`), the writer
+      `setChildElementOptionalPositiveInteger`, and the
+      field/getter/setter are typed `Optional[PositiveInteger]` — no
+      deviation at all. Only when the XML representation genuinely forces a
+      different model type (e.g. a PDF enum type that is not modeled, so the
+      element is carried as `String`) is a type deviation recorded, with the
+      reason naming the forced difference. Changing a type requires
+      coordinated parser and writer changes.
+- [ ] **No untyped accessor pairs.** A `getXxx`/`setXxx` pair with no
+      annotations at all (`def getSize(self):` / `def setSize(self, value):`)
+      is a Rule 3 violation even if the field is annotated — every getter
+      return and every setter parameter must carry the concrete type (e.g.
+      `getSize() -> Optional[PositiveInteger]`,
+      `setSize(value: Optional[PositiveInteger])`).
 - [ ] Field annotation, getter return, setter parameter, parser, and writer
       must all agree on the same type. A field annotated differently from its
       own accessors is an internal inconsistency, not a clean deviation —
@@ -141,6 +156,31 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       exist; it does not verify that each field maps to the spec.
       Cross-check the `__init__` field list against the spec `Attribute` rows
       and account for every field.
+- [ ] **PDF-table omission vs. fabricated API.** An attribute that is absent
+      from the class's PDF `Attribute` column but **present in the XSD with a
+      real documentation block** (no `atp.Status="removed"`) is *not*
+      fabricated — it is a rendering gap in the PDF table (e.g.
+      `MemorySection.memClassSymbol`, present as `MEM-CLASS-SYMBOL` in the XSD
+      but missing from Table 8.2's attribute rendering). It is **kept** with
+      its accessor pair and parser/writer coverage, and recorded in the
+      deviation tracker as `"present in XSD, absent from PDF table
+      rendering; kept with parser/writer coverage"` — never deleted just
+      because the table omits it. The *fabricated* case remains: a field with
+      **no spec basis anywhere** (not in the PDF, not in the XSD) is removed.
+      Before deciding, grep the XSD for the element tag: presence with
+      documentation ⇒ omission (keep, record); absence everywhere ⇒ invented
+      API (remove).
+- [ ] **Cross-table aggregation.** A class may aggregate attributes whose
+      definition lives in **another class's spec table**, discoverable via
+      that table's `Aggregated by` row (e.g. `ResourceConsumption`'s Table
+      8.1 lists five attributes, but `accessCountSet` — defined in the
+      `AccessCountSet` table 4.22 whose `Aggregated by` row reads
+      `ResourceConsumption.accessCountSet` — still belongs to
+      `ResourceConsumption`). These attributes are spec attributes of the
+      aggregator exactly like its own table rows: same field + accessor
+      requirements, same parser/writer coverage, same `# Spec:` citation of
+      the class's **own** table (the referenced table is named in a
+      deviation-tracker note, not in the class checklist).
 - [ ] **Exception — read-only derived convenience properties.** A `@property`
       computed from a spec attribute, with no backing field of its own and no
       setter (e.g. a millisecond value derived from a spec `TimeValue`), is
@@ -238,6 +278,24 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       "is the child `Identifiable`" — a child whose `Base` is
       `ARObject, Referrable` (but not `Identifiable`) still carries a short
       name and still uses a `createXXX(short_name)` factory.
+- [ ] The child's **multiplicity** selects the exact accessor shape for
+      non-Identifiable children (`Base` is only `ARObject`):
+      1. multiplicity `0..1` → `setXxx(value)` + `getXxx()` (the plain setter
+         above);
+      2. multiplicity `*` → the ordinary **list accessors** `addXxx(value)`
+         (append the passed instance, `None` no-op per Rule 4) +
+         `getXxxs()` — the exact same shape as a `*` `ref`/`attr` list (e.g.
+         `AccessCountSet.addAccessCount(value)`, `addMemorySectionLocation`,
+         `addAccessCountSet`). Do **not** invent a `createXxx(short_name)`
+         factory (the child has no short name, so there is nothing to
+         duplicate-check against) **and** do **not** invent a no-arg
+         `createXxx()` factory that creates-and-appends internally: the
+         parser instantiates the child itself and hands it to `addXxx`, so a
+         no-arg factory duplicates what `addXxx` plus the parser's
+         instantiation already does. The `createXXX(short_name)` factory —
+         with its duplicate-by-short-name return behavior (Rule 4) — exists
+         **only** for children whose `Base` lists `Referrable`/
+         `Identifiable`.
 
 ### 1.7 Parser and writer coverage
 
@@ -343,15 +401,21 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
 - [ ] The class under check may reference other model classes in its spec
       table: a `ref`/`tref`/`iref` attribute's target or `<name>InstanceRef`
       element type, an aggregated child type, a `Base`-column parent/sibling,
-      a shared spec enum, an attribute's primitive container type, etc. When
-      any such type is declared in the spec but does **not** exist in the
-      codebase, **implement it first** per these rules instead of deferring or
-      substituting a placeholder — create the missing class from its own spec
-      table, mirroring its siblings and its abstract parent if the `Base`
-      column lists one, give it a method-parity checklist, tests, and
-      parser/writer coverage, and only then type the referencing attribute
-      against it. This applies to **every** kind of referenced class, not only
-      `<name>InstanceRef` types (see the `iref` specifics in Rule 1.5).
+      a shared spec enum, an attribute's primitive container type, a
+      **primitive type** (e.g. `MemorySection.alignment` is a PDF
+      `AlignmentType` primitive — when no such class exists in
+      `PrimitiveTypes.py`, add it as an `ARLiteral` subclass mirroring
+      `String`/`NameToken`/`CIdentifier`, with the PDF note and
+      `xml.xsd.pattern`/`xml.xsd.type` tags in its docstring, and type the
+      attribute with it) etc. When any such type is declared in the spec but
+      does **not** exist in the codebase, **implement it first** per these
+      rules instead of deferring or substituting a placeholder — create the
+      missing class from its own spec table, mirroring its siblings and its
+      abstract parent if the `Base` column lists one, give it a method-parity
+      checklist, tests, and parser/writer coverage, and only then type the
+      referencing attribute against it. This applies to **every** kind of
+      referenced class, not only `<name>InstanceRef` types (see the `iref`
+      specifics in Rule 1.5).
 - [ ] A placeholder substitute (e.g. `RefType` where the spec names a concrete
       class) is allowed only as a last resort when the missing class's model is
       genuinely out of scope; it must then be recorded in
@@ -569,6 +633,19 @@ Check:
       differs from the class (`ClassName`) and the class is wrongly nested as
       `SomeGroup/ClassName.py` — do not conflate the two, and do not move a
       class out of a class-named element-type module.
+- [ ] **Classes sharing the parent package tail.** When several classes' `Package`
+      rows end in the same tail (e.g. `HardwareConfiguration`, `SoftwareContext`,
+      and `ResourceConsumption` all have `Package` =
+      `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption`), they are
+      **all** direct members of that package's `__init__.py`. Do not give each
+      its own `<ClassName>.py` submodule even though *other* class-named modules
+      sit in the same directory (`HeapUsage.py`, `StackUsage.py`, …) — those
+      modules belong to their own separate spec packages
+      (`...::HeapUsage`, `...::StackUsage`) and are the element-type case, not
+      a precedent for adding a class-named module. When the `__init__.py` also
+      imports those sibling submodules and they import the package-level
+      classes back, define the package-level classes **before** the submodule
+      import statements in `__init__.py` to break the cycle.
 - [ ] If the module is a directory/package (`SomeGroup/__init__.py`), the spec
       package's classes are defined in that `__init__.py` file (or imported
       and re-exported from `__init__.py` if split into submodules). Prefer
@@ -666,6 +743,12 @@ Check:
 - [ ] `Optional` / `List` are imported from `typing`.
 - [ ] `__init__` attribute fields are annotated too (`self.foo: Type = None`),
       matching the getter/setter type.
+- [ ] **No untyped accessor pairs.** A `getXxx`/`setXxx` pair with **no
+      annotations at all** (`def getSize(self):` / `def setSize(self, value):`)
+      is a Rule 3 violation even if the field itself is annotated — every
+      getter return and every setter parameter must carry the concrete type
+      (e.g. `MemorySection.size` → `getSize() -> Optional[PositiveInteger]`
+      and `setSize(value: Optional[PositiveInteger])`).
 - [ ] A field that defaults to `None` and maps to a spec `0..1` attribute must
       be annotated `Optional[T]` — never a non-optional `T` initialized to
       `None`. A bare `self.fooRef: RefType = None` contradicts its own
@@ -757,7 +840,8 @@ def setSomeEnumValue(self, value):
       corresponding list otherwise.
 - [ ] `create*` factories are only used for children that are
       `Referrable`/`Identifiable` per their spec `Base`; non-Identifiable
-      children use `setXXX` instead (see Rule 1.6).
+      children use `setXXX` (multiplicity `0..1`) or `addXxx(value)`
+      (multiplicity `*`) instead — never a no-arg factory (see Rule 1.6).
 
 Every setter and add method follows the uniform pattern:
 ```python
@@ -778,11 +862,16 @@ This pattern is critical because:
 3. **Consistency**: all classes apply this pattern uniformly.
 
 Tests must verify this explicitly: after `setter(value)`, then `setter(None)`,
-the getter must still return the original value.
+the getter must still return the original value. The same holds for
+`addXxx(value)` followed by `addXxx(None)` (nothing appended).
 
 Note: this rule is not uniformly applied across the codebase yet. When a class
 under check violates it, align the class to the no-op behavior as part of the
-check.
+check — this includes **every** setter of the class, its abstract bases, and
+its package siblings (e.g. `StackUsage`/`HeapUsage`/`ExecutionTime` all had
+unguarded setters while their aggregated siblings were already guarded), and
+property setters that back a field (a `@property` setter is a setter too and
+must no-op on `None`).
 
 ---
 
@@ -813,10 +902,18 @@ Check:
       no extra). A `@property` member counts as a method here: it is an
       `ast.FunctionDef` in the class body, so it needs a checklist row (`[x]
       impl/docstring/test`) and a test just like a normal method — it is not
-      exempt just because it is not a `def getXxx` accessor.
+      exempt just because it is not a `def getXxx` accessor. A field backed by
+      a property therefore produces **three** rows: `getXxx`, the property
+      name itself, and `setXxx` (e.g. `MemorySection` lists `getAlignment`,
+      `alignment`, `setAlignment`).
 - [ ] Every row is fully `[x]` — no stale `[ ]` entries. A row can look
       incomplete even when the method/docstring/test all already exist —
       always double-check by reading the class, not just the checklist text.
+      A `[ ] test` row whose method already has a test in the mirrored test
+      file is stale and must be crossed (e.g. `StackUsage`'s abstract base
+      accessors were tested via a concrete subclass, but the rows stayed
+      `[ ]`). Grep the class body for `# [ ]` during every review — the
+      set-based script alone does not flag them.
 - [ ] A row is crossed (`[x]`) **only** when all three of its obligations are
       complete and verified — the implementation, the docstring, and the unit
       test. A method that is implemented but whose docstring or test is not
@@ -842,8 +939,16 @@ Check:
   <Name>` (or `Enumeration <Name>` for enums) heading in the PDF markdown —
   not necessarily the caption's page. Long tables can split across pages, with
   the caption on the page *after* the header row (e.g. Table 8.1
-  `Implementation`: header row p.619, caption p.621); always cite the header
-  row's page so the reader lands on the class definition.
+  `Implementation`: header row p.619, caption p.621); the header row and the
+  caption can also be on the **same** page with the table *ending* on the
+  caption page (e.g. `ResourceConsumption` Table 8.1: header row p.137,
+  caption p.138; `MemorySection` Table 8.2: header p.143, caption p.144;
+  `ExecutionTime` Table 8.17: header p.159, caption p.160;
+  `MultidimensionalTime` Table 8.22: header p.164, caption p.165;
+  `RoughEstimateOfExecutionTime` Table 8.25: header p.167, caption p.168) —
+  in **both** layouts always cite the header row's page so the reader lands
+  on the class definition. Verify the header page directly in the PDF
+  (search for the `Class <Name>` heading), do not assume the caption page.
 - Adjacent tables that appear on the same or consecutive pages (e.g. an
   abstract class and its subclasses) are easy to confuse with one another or
   with the section's start page — verify each class's **own** `Table X.Y`
@@ -879,11 +984,14 @@ field-to-spec cross-check is the gate, not the checklist.
 **Field-to-spec cross-check procedure** (systematic, per field):
 1. Strip any suffix (`Ref`, `TRef`, `IRef`, `s` for plurals).
 2. Search the spec table's `Attribute` column for the **base name** (without
-   suffix).
+   suffix). Also check the `Aggregated by` rows of other spec tables — a
+   field may be defined there (cross-table aggregation, see Rule 1.3).
 3. If found → field is spec-aligned; continue.
-4. If **not found** → field is fabricated. **Remove it** (unless it's a
-   documented read-only derived convenience property with tests, recorded in
-   the deviation tracker — see Rule 1.3).
+4. If **not found** → check the XSD for the XML element tag: if present with a
+   documentation block, the PDF table omits it — keep and record the
+   deviation (see Rule 1.3). Otherwise the field is fabricated. **Remove it**
+   (unless it's a documented read-only derived convenience property with
+   tests, recorded in the deviation tracker — see Rule 1.3).
 
 ---
 
@@ -901,7 +1009,15 @@ paraphrase.
       attribute note: when the PDF's `constr_*` rows impose a constraint on
       the attribute, include the constraint wording in the inline comment and
       cite its id. Class-level `constr_*` rows belong in the class docstring
-      alongside the note.
+      alongside the note — **including constraints on inherited
+      attributes**: a constraint may target an attribute the subclass does
+      not declare itself (e.g. `constr_4103` constrains
+      `SectionNamePrefix.symbol`, which is inherited from
+      `ImplementationProps`, and therefore belongs in the
+      `SectionNamePrefix` class docstring, not in the parent's). Conversely,
+      an attribute-level `constr_*` (e.g. `constr_4072` on
+      `SectionNamePrefix.implementedIn`) is cited in the `__init__` inline
+      comment **and** in the getter/setter docstrings.
 - [ ] The class docstring reflects the PDF class note (the element's
       purpose).
 - [ ] Getter/setter docstrings summarize the PDF note and semantic meaning,
@@ -936,6 +1052,18 @@ self.targetModuleId: Optional[PositiveInteger] = None
 
 **Maturity**: accept
 
+- [ ] All imports are at the beginning of the file (module docstring first,
+      then `from __future__` if any, then imports, then code — PEP 8 E402).
+      Mid-file imports are **not** used to work around circular imports; the
+      cycle is broken properly instead: modules that only reference another
+      module's classes in type annotations import them under `TYPE_CHECKING`
+      and add `from __future__ import annotations`; a module that needs the
+      other class at runtime (instantiation) uses a function-local import
+      inside the method that instantiates (e.g. `Implementation` keeps no
+      module-level `ResourceConsumption` import — annotations are
+      `TYPE_CHECKING`, and `createResourceConsumption` imports it locally;
+      the `ResourceConsumption` package submodules likewise import
+      `HardwareConfiguration`/`SoftwareContext` under `TYPE_CHECKING`).
 - [ ] A blank line separates each attribute block (comment + assignment) in
       `__init__`.
 - [ ] Code is formatted with Black at `line-length = 200` (per `pyproject.toml`,
@@ -1022,6 +1150,15 @@ Every method on the class must have test coverage in the mirrored test file
       `__init__` in the test (docstring or a local subclass `def __init__`)
       so the checklist's `[x] test` for `__init__` stays verifiable by the
       set-based check.
+- [ ] **Abstract base accessors** are tested through a concrete subclass in
+      one combined base-properties test (`test_<name>_base_properties`):
+      instantiate a concrete subclass, exercise every getter/setter the base
+      declares, assert chaining + round-trip, and finish with the None no-op
+      assertions for the whole set (e.g. `StackUsage`/`HeapUsage`/
+      `ExecutionTime` base accessors via `MeasuredStackUsage`/
+      `MeasuredHeapUsage`/`AnalyzedExecutionTime`). This is what crosses the
+      abstract class's checklist rows — a base whose accessor rows stay
+      `[ ]` while such a test exists is a stale checklist.
 - [ ] Getter/setter pairs share a combined test (`test_get_set_*`) that checks:
       (1) setter returns `self` for method chaining, (2) value round-trips
       (getter returns the set value), (3) setting `None` is a no-op (existing

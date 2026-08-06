@@ -1252,12 +1252,7 @@ class TestEngineeringObjectHandler:
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
 
         obj = AutosarEngineeringObject()
-        element = _snip(
-            "<SHORT-LABEL>label</SHORT-LABEL>"
-            "<CATEGORY>cat</CATEGORY>"
-            "<DOMAIN>domain</DOMAIN>"
-            "<REVISION-LABELS><REVISION-LABEL>1.0.0</REVISION-LABEL></REVISION-LABELS>"
-        )
+        element = _snip("<SHORT-LABEL>label</SHORT-LABEL>" "<CATEGORY>cat</CATEGORY>" "<DOMAIN>domain</DOMAIN>" "<REVISION-LABELS><REVISION-LABEL>1.0.0</REVISION-LABEL></REVISION-LABELS>")
         parser.readEngineeringObject(element, obj)
         assert obj.getShortLabel().getText() == "label"
         assert obj.getCategory().getText() == "cat"

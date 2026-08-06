@@ -300,9 +300,11 @@ No deviations (vendor/version implemented per spec).
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `memoryUsage` | `MemoryUsage` | — | missing |
+No deviations — all Table 8.1 attributes (`executionTime`, `heapUsage`, `memorySection`,
+`sectionNamePrefix`, `stackUsage`) are implemented with parser/writer coverage. The
+`accessCountSet` aggregation (defined in Table 4.22, `AccessCountSet`) is implemented
+as well. The previously recorded `memoryUsage` member is **not** part of the R23-11
+Table 8.1 and has been dropped.
 
 ## `MemorySection`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 143
@@ -311,135 +313,149 @@ No deviations (vendor/version implemented per spec).
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `executableEntityRefs` | `Ref (ExecutableEntity)` | Refs | missing |
-| — *(missing)* | `—` | `prefixRef` | `Ref (SectionNamePrefix)` | Ref | missing |
+| `memClassSymbol` | `CIdentifier` | — | — | attr | present in XSD (`MEM-CLASS-SYMBOL`), absent from the PDF Table 8.2 attribute rendering; kept with parser/writer coverage |
 
 ## `SectionNamePrefix`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 147
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::MemorySectionUsage`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/MemorySectionUsage.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `implementedInRef` | `Ref (DependencyOnArtifact)` | Ref | missing |
+No deviations.
+
+## `StackUsage`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 149
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/StackUsage.py`
+
+No deviations (abstract base; tested through concrete subclasses).
+
+## `WorstCaseStackUsage`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 150
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/StackUsage.py`
+
+No deviations.
 
 ## `MeasuredStackUsage`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 150
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/StackUsage.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `minimumMemoryConsumption` | `PositiveInteger` | — | missing |
-| — *(missing)* | `—` | `testPattern` | `String` | — | missing |
+No deviations.
+
+## `RoughEstimateStackUsage`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 151
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::StackUsage`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/StackUsage.py`
+
+No deviations.
 
 ## `HeapUsage`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 152
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::HeapUsage`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/HeapUsage.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `hardwareConfiguration` | `HardwareConfiguration` | — | missing |
-| — *(missing)* | `—` | `hwElementRef` | `Ref (HwElement)` | Ref | missing |
-| — *(missing)* | `—` | `softwareContext` | `SoftwareContext` | — | missing |
-
-## `MeasuredHeapUsage`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 152
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::HeapUsage`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/HeapUsage.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `averageMemoryConsumption` | `PositiveInteger` | — | missing |
-| — *(missing)* | `—` | `maximumMemoryConsumption` | `PositiveInteger` | — | missing |
-| — *(missing)* | `—` | `minimumMemoryConsumption` | `PositiveInteger` | — | missing |
-| — *(missing)* | `—` | `testPattern` | `String` | — | missing |
+No deviations (abstract base; tested through concrete subclasses).
 
 ## `WorstCaseHeapUsage`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 152
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::HeapUsage`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/HeapUsage.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `memoryConsumption` | `PositiveInteger` | — | missing |
+No deviations.
+
+## `MeasuredHeapUsage`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 152
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::HeapUsage`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/HeapUsage.py`
+
+No deviations.
 
 ## `RoughEstimateHeapUsage`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 153
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::HeapUsage`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/HeapUsage.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `memoryConsumption` | `PositiveInteger` | — | missing |
+No deviations.
+
+## `HardwareConfiguration`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 161
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/__init__.py`
+
+No deviations.
+
+## `SoftwareContext`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 163
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/__init__.py`
+
+No deviations.
 
 ## `ExecutionTime`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 159
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/ExecutionTime/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `exclusiveAreaRef` | `Ref (ExclusiveArea)` | Ref | missing |
-| — *(missing)* | `—` | `executableEntityRef` | `Ref (ExecutableEntity)` | Ref | missing |
-| — *(missing)* | `—` | `hardwareConfiguration` | `HardwareConfiguration` | — | missing |
-| — *(missing)* | `—` | `hwElementRef` | `Ref (HwElement)` | Ref | missing |
-| — *(missing)* | `—` | `includedLibraryRefs` | `Ref (DependencyOnArtifact)` | Refs | missing |
-| — *(missing)* | `—` | `memorySectionLocation` | `MemorySectionLocation` | — | missing |
-| — *(missing)* | `—` | `softwareContext` | `SoftwareContext` | — | missing |
+No deviations (abstract base; tested through concrete subclasses).
 
 ## `MemorySectionLocation`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 162
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/ExecutionTime/__init__.py`
 
+No deviations.
+
+## `MultidimensionalTime`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 164
+- **Package:** `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/MultidimensionalTime.py`
+
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `providedMemoryRef` | `Ref (HwElement)` | Ref | missing |
-| — *(missing)* | `—` | `softwareMemorySectionRef` | `Ref (MemorySection)` | Ref | missing |
+| `cseCode` | `String` | `cseCode` | `CseCodeType` | attr | type deviation: PDF enum `CseCodeType` not modeled; parser/writer produce `String` |
 
 ## `AnalyzedExecutionTime`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 164
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/ExecutionTime/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `bestCaseExecutionTime` | `MultidimensionalTime` | — | missing |
-| — *(missing)* | `—` | `worstCaseExecutionTime` | `MultidimensionalTime` | — | missing |
+No deviations.
 
 ## `MeasuredExecutionTime`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 166
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/ExecutionTime/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `maximumExecutionTime` | `MultidimensionalTime` | — | missing |
-| — *(missing)* | `—` | `minimumExecutionTime` | `MultidimensionalTime` | — | missing |
-| — *(missing)* | `—` | `nominalExecutionTime` | `MultidimensionalTime` | — | missing |
-
-## `RoughEstimateOfExecutionTime`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 167
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/ExecutionTime/__init__.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `additionalInformation` | `String` | — | missing |
-| — *(missing)* | `—` | `estimatedExecutionTime` | `MultidimensionalTime` | — | missing |
+No deviations.
 
 ## `SimulatedExecutionTime`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 167
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/ExecutionTime/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `maximumExecutionTime` | `MultidimensionalTime` | — | missing |
-| — *(missing)* | `—` | `minimumExecutionTime` | `MultidimensionalTime` | — | missing |
-| — *(missing)* | `—` | `nominalExecutionTime` | `MultidimensionalTime` | — | missing |
+No deviations.
+
+## `RoughEstimateOfExecutionTime`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 167
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption::ExecutionTime`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/ExecutionTime/__init__.py`
+
+No deviations.
+
+## `AccessCount`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 57
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::AccessCount`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/AccessCount.py`
+
+No deviations.
+
+## `AccessCountSet`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 57
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::AccessCount`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/AccessCount.py`
+
+No deviations — `accessCountSet` is aggregated by `ResourceConsumption` (see Table 4.22 "Aggregated by" row).
 
 ## `McSupportData`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 172

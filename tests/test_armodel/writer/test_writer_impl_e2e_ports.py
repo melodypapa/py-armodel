@@ -36,6 +36,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (  # 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
     ARBoolean,
     ARLiteral,
+    AlignmentType,
+    CIdentifier,
+    Identifier,
     PositiveInteger,
     RefType,
 )
@@ -176,8 +179,8 @@ class TestSetMemorySectionOptions:
 
     def test_set_memory_section_options_with_values(self, writer):
         section = MemorySection(None, "Sec")
-        section.addOption(_make_literal("OPT1"))
-        section.addOption(_make_literal("OPT2"))
+        section.addOption(Identifier().setValue("OPT1"))
+        section.addOption(Identifier().setValue("OPT2"))
         parent = _parent()
         writer.setMemorySectionOptions(parent, section.getOptions())
         assert len(parent) == 1
@@ -201,12 +204,12 @@ class TestWriteMemorySections:
         pkg = autosar.createARPackage("Pkg")
         consumption = ResourceConsumption(pkg, "RC")
         section = consumption.createMemorySection("Mem")
-        section.setAlignment(_make_literal("UNKNOWN"))
-        section.setMemClassSymbol(_make_literal("SYM"))
-        section.addOption(_make_literal("OPT"))
+        section.setAlignment(AlignmentType().setValue("UNKNOWN"))
+        section.setMemClassSymbol(CIdentifier().setValue("SYM"))
+        section.addOption(Identifier().setValue("OPT"))
         section.setSize(_make_positive_int("128"))
         section.setSwAddrMethodRef(_make_ref("SW-ADDR-METHOD", "/Addr"))
-        section.setSymbol(_make_literal("Sym"))
+        section.setSymbol(Identifier().setValue("Sym"))
         parent = _parent()
         writer.writeMemorySections(parent, consumption)
         assert len(parent) == 1
