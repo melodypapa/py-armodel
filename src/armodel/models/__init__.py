@@ -30,6 +30,8 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import * 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.ExecutionTime import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HeapUsage import *  # noqa: F403

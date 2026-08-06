@@ -458,15 +458,14 @@ No deviations — `accessCountSet` is aggregated by `ResourceConsumption` (see T
 ## `McSupportData`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 172
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/McSupportData.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `emulationSupport` | `McSwEmulationMethodSupport` | — | missing |
-| — *(missing)* | `—` | `mcParameterInstance` | `Ref (?)` | — | missing |
-| — *(missing)* | `—` | `mcVariableInstance` | `Ref (SwSystemconstantValueSet)` | — | missing |
-| — *(missing)* | `—` | `measurableSystemConstantValuesRefs` | `Ref (SwSystemconstantValueSet)` | Refs | missing |
-| — *(missing)* | `—` | `rptSupportData` | `RptSupportData` | — | missing |
+No deviations — all Table 9.1 attributes (`emulationSupport` via `addEmulationSupport`, `mcParameterInstance`/`mcVariableInstance` via `createMcParameterInstance`/`createMcVariableInstance`, `measurableSystemConstantValues` refs, `rptSupportData`) are implemented with parser/writer coverage (`readMcSupportData`/`writeMcSupportData` hooked into `readImplementation`/`writeImplementation`).
+
+Note:
+- `McDataInstance` is fully aligned (Table 9.4 + XSD additions) and serialized with its inner attributes (`readMcDataInstance`/`writeMcDataInstance`).
+- The RptSupport children (`McSwEmulationMethodSupport` excluded) are aligned and serialized recursively under `RPT-SUPPORT-DATA`.
+- `McSwEmulationMethodSupport` is still a placeholder pending its own alignment pass — parser/writer emit the item element without inner content.
 
 ## `AliasNameSet`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 174
@@ -491,27 +490,14 @@ No deviations — `accessCountSet` is aggregated by `ResourceConsumption` (see T
 ## `McDataInstance`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 177
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/McDataInstance.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `arraySize` | `PositiveInteger` | — | missing |
-| — *(missing)* | `—` | `displayIdentifier` | `McdIdentifier` | — | missing |
-| — *(missing)* | `—` | `flatMapEntryRef` | `Ref (FlatInstanceDescriptor)` | Ref | missing |
-| — *(missing)* | `—` | `instanceInMemory` | `ImplementationElementInParameterInstanceRef` | — | missing |
-| — *(missing)* | `—` | `mcDataAccessDetails` | `McDataAccessDetails` | — | missing |
-| — *(missing)* | `—` | `mcDataAssignment` | `RoleBasedMcDataAssignment` | — | missing |
-| — *(missing)* | `—` | `resultingProperties` | `SwDataDefProps` | — | missing |
-| — *(missing)* | `—` | `resultingRptSwPrototypingAccess` | `RptSwPrototypingAccess` | — | missing |
-| — *(missing)* | `—` | `role` | `Identifier` | — | missing |
-| — *(missing)* | `—` | `rptImplPolicy` | `RptImplPolicy` | — | missing |
-| — *(missing)* | `—` | `subElement` | `McDataInstance` | — | missing |
-| — *(missing)* | `—` | `symbol` | `SymbolString` | — | missing |
+No deviations — all Table 9.4 attributes (`role`, `rptImplPolicy`, `subElement`, `symbol`) plus the XSD-only attributes the PDF table omits (`arraySize`, `displayIdentifier`, `flatMapEntryRef`, `instanceInMemory`, `mcDataAccessDetails`, `mcDataAssignment`, `resultingProperties`, `resultingRptSwPrototypingAccess`) are implemented with parser/writer coverage (`readMcDataInstance`/`writeMcDataInstance`). Note: `instanceInMemory` is typed as the concrete `ImplementationElementInParameterInstanceRef` (a `RefType` subclass) and serialized flat as a ref; the child classes it aggregates (`McDataAccessDetails`, `RoleBasedMcDataAssignment`, `SwDataDefProps`, `RptSwPrototypingAccess`) are carried with their own coverage where aligned and by identity where not.
 
 ## `McSwEmulationMethodSupport`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 180
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/McSwEmulationMethodSupport.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
@@ -523,7 +509,7 @@ No deviations — `accessCountSet` is aggregated by `ResourceConsumption` (see T
 ## `McParameterElementGroup`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 181
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/McParameterElementGroup.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
@@ -533,7 +519,7 @@ No deviations — `accessCountSet` is aggregated by `ResourceConsumption` (see T
 ## `ImplementationElementInParameterInstanceRef`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 184
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/ImplementationElementInParameterInstanceRef.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
@@ -543,7 +529,7 @@ No deviations — `accessCountSet` is aggregated by `ResourceConsumption` (see T
 ## `McFunction`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 186
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/McFunction.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
@@ -558,7 +544,7 @@ No deviations — `accessCountSet` is aggregated by `ResourceConsumption` (see T
 ## `McFunctionDataRefSet`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 187
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/McFunctionDataRefSet.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/__init__.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
@@ -588,7 +574,7 @@ No deviations — `accessCountSet` is aggregated by `ResourceConsumption` (see T
 ## `McDataAccessDetails`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 195
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/McDataAccessDetails.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
@@ -598,71 +584,44 @@ No deviations — `accessCountSet` is aggregated by `ResourceConsumption` (see T
 ## `RptSupportData`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 198
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptSupportData.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `executionContext` | `RptExecutionContext` | — | missing |
-| — *(missing)* | `—` | `rptServicePoint` | `RptServicePoint` | — | missing |
+No deviations — all Table 9.13 attributes (`executionContext`, `rptComponent`, `rptServicePoint`) implemented via `createXXX(short_name)` factories (all three children are `Identifiable`) with parser/writer coverage (`readRptSupportData`/`writeRptSupportData`).
 
 ## `RptComponent`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 199
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptComponent.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `mcDataAssignment` | `RoleBasedMcDataAssignment` | — | missing |
-| — *(missing)* | `—` | `rpImplPolicy` | `RptImplPolicy` | — | missing |
-| — *(missing)* | `—` | `rptExecutableEntity` | `RptExecutableEntity` | — | missing |
+No deviations — all Table 9.15 attributes (`mcDataAssignment`, `rpImplPolicy`, `rptExecutableEntity`) implemented with parser/writer coverage (`readRptComponent`/`writeRptComponent`).
 
 ## `RptSwPrototypingAccess`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 199
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptSwPrototypingAccess.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `rptHookAccess` | `RptAccessEnum` | — | missing |
-| — *(missing)* | `—` | `rptReadAccess` | `RptAccessEnum` | — | missing |
-| — *(missing)* | `—` | `rptWriteAccess` | `RptAccessEnum` | — | missing |
+No deviations — all Table 9.14 attributes (`rptHookAccess`, `rptReadAccess`, `rptWriteAccess`) implemented with parser/writer coverage (`readRptSwPrototypingAccess`/`writeRptSwPrototypingAccess`).
 
 ## `RptExecutableEntity`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 200
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptExecutableEntity.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `rptExecutableEntityEvent` | `RptExecutableEntityEvent` | — | missing |
-| — *(missing)* | `—` | `rptRead` | `RoleBasedMcDataAssignment` | — | missing |
-| — *(missing)* | `—` | `rptWrite` | `RoleBasedMcDataAssignment` | — | missing |
-| — *(missing)* | `—` | `symbol` | `CIdentifier` | — | missing |
+No deviations — all Table 9.16 attributes (`rptExecutableEntityEvent`, `rptRead`, `rptWrite`, `symbol`) implemented with parser/writer coverage (`readRptExecutableEntity`/`writeRptExecutableEntity`).
 
 ## `RptExecutableEntityEvent`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 201
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptExecutableEntityEvent.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `executionContextRefs` | `Ref (RptExecutionContext)` | Refs | missing |
-| — *(missing)* | `—` | `mcDataAssignment` | `RoleBasedMcDataAssignment` | — | missing |
-| — *(missing)* | `—` | `rptEventId` | `PositiveInteger` | — | missing |
-| — *(missing)* | `—` | `rptExecutableEntityProperties` | `RptExecutableEntityProperties` | — | missing |
-| — *(missing)* | `—` | `rptImplPolicy` | `RptImplPolicy` | — | missing |
-| — *(missing)* | `—` | `rptServicePointPostRefs` | `Ref (RptServicePoint)` | Refs | missing |
-| — *(missing)* | `—` | `rptServicePointPreRefs` | `Ref (RptServicePoint)` | Refs | missing |
+No deviations — all Table 9.17 attributes (`executionContextRefs`, `mcDataAssignment`, `rptEventId`, `rptExecutableEntityProperties`, `rptImplPolicy`, `rptServicePointPostRefs`, `rptServicePointPreRefs`) implemented with parser/writer coverage (`readRptExecutableEntityEvent`/`writeRptExecutableEntityEvent`).
 
 ## `RptServicePoint`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 206
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/RptServicePoint.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `serviceId` | `PositiveInteger` | — | missing |
-| — *(missing)* | `—` | `symbol` | `CIdentifier` | — | missing |
+No deviations — all Table 9.26 attributes (`serviceId`, `symbol`) implemented with parser/writer coverage (`readRptServicePoint`/`writeRptServicePoint`).
 
 ## `BswServiceDependency`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 225
@@ -902,7 +861,7 @@ No deviations — `accessCountSet` is aggregated by `ResourceConsumption` (see T
 ## `RoleBasedMcDataAssignment`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 329
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RoleBasedMcDataAssignment.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|

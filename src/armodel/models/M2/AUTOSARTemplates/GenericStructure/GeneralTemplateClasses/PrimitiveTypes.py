@@ -1091,3 +1091,39 @@ class RegularExpression(ARLiteral):
 
     def __init__(self):
         super().__init__()
+
+
+class SymbolString(ARLiteral):
+    """
+    This meta-class has the ability to contain a string plus an additional namePattern. Please note that this meta-class has only been introduced to fix an issue with the backwards compatibility between R4.0.3 and R4.1.1 in the context of McDataInstance.
+
+    Tags:
+        * xml.xsd.customType=SYMBOL-STRING
+        * xml.xsd.type=string
+    """
+
+    # SymbolString method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+
+    def __init__(self):
+        super().__init__()
+
+
+class McdIdentifier(ARLiteral):
+    """
+    This primitive denotes a name used for measurement and calibration systems and shall follow the restrictions for an ASAM ASAP2 ident. For detailed syntax see the xsd.pattern. The size limitations are not captured.
+
+    McdIdentifiers are random names which may contain characters A through Z, a through z, underscore (_), numerals 0 through 9, points ('.') and brackets ( '[',']' ).
+    However, the following limitations apply: the first character must be a letter or an underscore, brackets must occur in pairs at the end of a partial string and must contain a number or an alpha-numerical string (description of the index of an array element).
+
+    Tags:
+        * xml.xsd.customType=MCD-IDENTIFIER
+        * xml.xsd.pattern=[a-zA-Z_][a-zA-Z0-9_]*(\\[([a-zA-Z_][a-zA-Z0-9_]*|[0-9]+)\\])*(\\.[a-zA-Z_][a-zA-Z0-9_]*(\\[([a-zA-Z_][a-zA-Z0-9_]*|[0-9]+)\\])*)*
+        * xml.xsd.type=string
+    """
+
+    # McdIdentifier method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+
+    def __init__(self):
+        super().__init__()
