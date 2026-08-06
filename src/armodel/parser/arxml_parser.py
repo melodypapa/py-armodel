@@ -47,6 +47,16 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRe
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantSpecification, NumericalValueSpecification, RecordValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification, ValueSpecification
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import McDataAccessDetails, McDataInstance, McSupportData, McSwEmulationMethodSupport, RoleBasedMcDataAssignment
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport import (
+    RptComponent,
+    RptExecutableEntity,
+    RptExecutableEntityEvent,
+    RptServicePoint,
+    RptSupportData,
+    RptSwPrototypingAccess,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import RptExecutableEntityProperties, RptImplPolicy
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps, Code, Compiler, Linker, DependencyOnArtifact, DependencyUsageEnum
@@ -1537,6 +1547,141 @@ class ARXMLParser(AbstractARXMLParser):
         ).setVendorId(
             self.getChildElementOptionalPositiveInteger(element, "VENDOR-ID")
         )
+        mc_support_element = self.find(element, "MC-SUPPORT")
+        if mc_support_element is not None:
+            support = McSupportData()
+            self.readMcSupportData(mc_support_element, support)
+            impl.setMcSupport(support)
+
+    def readMcSupportData(self, element: ET.Element, support: McSupportData):
+        for child_element in self.findall(element, "EMULATION-SUPPORTS/MC-SW-EMULATION-METHOD-SUPPORT"):
+            support.addEmulationSupport(McSwEmulationMethodSupport())
+        for child_element in self.findall(element, "MC-PARAMETER-INSTANCES/MC-DATA-INSTANCE"):
+            instance = support.createMcParameterInstance(self.getShortName(child_element))
+            self.readMcDataInstance(child_element, instance)
+        for child_element in self.findall(element, "MC-VARIABLE-INSTANCES/MC-DATA-INSTANCE"):
+            instance = support.createMcVariableInstance(self.getShortName(child_element))
+            self.readMcDataInstance(child_element, instance)
+        for ref in self.getChildElementRefTypeList(element, "MEASURABLE-SYSTEM-CONSTANT-VALUES-REFS/MEASURABLE-SYSTEM-CONSTANT-VALUES-REF"):
+            support.addMeasurableSystemConstantValuesRef(ref)
+        rpt_support_data_element = self.find(element, "RPT-SUPPORT-DATA")
+        if rpt_support_data_element is not None:
+            rpt_support_data = RptSupportData()
+            self.readRptSupportData(rpt_support_data_element, rpt_support_data)
+            support.setRptSupportData(rpt_support_data)
+
+    def readMcDataInstance(self, element: ET.Element, instance: McDataInstance):
+        instance.setArraySize(self.getChildElementOptionalPositiveInteger(element, "ARRAY-SIZE")).setDisplayIdentifier(
+            self.getChildElementOptionalLiteral(element, "DISPLAY-IDENTIFIER")
+        ).setFlatMapEntryRef(self.getChildElementOptionalRefType(element, "FLAT-MAP-ENTRY-REF")).setInstanceInMemory(self.getChildElementOptionalRefType(element, "INSTANCE-IN-MEMORY")).setRole(
+            self.getChildElementOptionalLiteral(element, "ROLE")
+        ).setSymbol(
+            self.getChildElementOptionalLiteral(element, "SYMBOL")
+        )
+        if self.find(element, "MC-DATA-ACCESS-DETAILS") is not None:
+            instance.setMcDataAccessDetails(McDataAccessDetails())
+        if self.find(element, "RESULTING-PROPERTIES") is not None:
+            instance.setResultingProperties(SwDataDefProps())
+        rpt_sw_prototyping_access_element = self.find(element, "RESULTING-RPT-SW-PROTOTYPING-ACCESS")
+        if rpt_sw_prototyping_access_element is not None:
+            access = RptSwPrototypingAccess()
+            self.readRptSwPrototypingAccess(rpt_sw_prototyping_access_element, access)
+            instance.setResultingRptSwPrototypingAccess(access)
+        rpt_impl_policy_element = self.find(element, "RPT-IMPL-POLICY")
+        if rpt_impl_policy_element is not None:
+            policy = RptImplPolicy()
+            self.readRptImplPolicy(rpt_impl_policy_element, policy)
+            instance.setRptImplPolicy(policy)
+        for assignment_element in self.findall(element, "MC-DATA-ASSIGNMENTS/ROLE-BASED-MC-DATA-ASSIGNMENT"):
+            assignment = RoleBasedMcDataAssignment()
+            self.readRoleBasedMcDataAssignment(assignment_element, assignment)
+            instance.addMcDataAssignment(assignment)
+        for sub_element in self.findall(element, "SUB-ELEMENTS/MC-DATA-INSTANCE"):
+            self.readMcDataInstance(sub_element, instance.createSubElement(self.getShortName(sub_element)))
+
+    def readRoleBasedMcDataAssignment(self, element: ET.Element, assignment: RoleBasedMcDataAssignment):
+        assignment.setExecutionContextRef(self.getChildElementOptionalRefType(element, "EXECUTION-CONTEXT-REF")).setMcDataInstanceRef(
+            self.getChildElementOptionalRefType(element, "MC-DATA-INSTANCE-REF")
+        ).setRole(self.getChildElementOptionalLiteral(element, "ROLE"))
+
+    def readRptSwPrototypingAccess(self, element: ET.Element, access: RptSwPrototypingAccess):
+        access.setRptHookAccess(self.getChildElementOptionalLiteral(element, "RPT-HOOK-ACCESS")).setRptReadAccess(self.getChildElementOptionalLiteral(element, "RPT-READ-ACCESS")).setRptWriteAccess(
+            self.getChildElementOptionalLiteral(element, "RPT-WRITE-ACCESS")
+        )
+
+    def readRptImplPolicy(self, element: ET.Element, policy: RptImplPolicy):
+        policy.setRptEnablerImplType(self.getChildElementOptionalLiteral(element, "RPT-ENABLER-IMPL-TYPE")).setRptPreparationLevel(
+            self.getChildElementOptionalLiteral(element, "RPT-PREPARATION-LEVEL")
+        )
+
+    def readRptExecutableEntityProperties(self, element: ET.Element, properties: RptExecutableEntityProperties):
+        properties.setMaxRptEventId(self.getChildElementOptionalPositiveInteger(element, "MAX-RPT-EVENT-ID")).setMinRptEventId(
+            self.getChildElementOptionalPositiveInteger(element, "MIN-RPT-EVENT-ID")
+        ).setRptExecutionControl(self.getChildElementOptionalLiteral(element, "RPT-EXECUTION-CONTROL")).setRptServicePoint(self.getChildElementOptionalLiteral(element, "RPT-SERVICE-POINT"))
+
+    def readRptServicePoint(self, element: ET.Element, service_point: RptServicePoint):
+        service_point.setServiceId(self.getChildElementOptionalPositiveInteger(element, "SERVICE-ID")).setSymbol(self.getChildElementOptionalLiteral(element, "SYMBOL"))
+
+    def readRptExecutableEntityEvent(self, element: ET.Element, event: RptExecutableEntityEvent):
+        for ref in self.getChildElementRefTypeList(element, "EXECUTION-CONTEXT-REFS/EXECUTION-CONTEXT-REF"):
+            event.addExecutionContextRef(ref)
+        for assignment_element in self.findall(element, "MC-DATA-ASSIGNMENTS/ROLE-BASED-MC-DATA-ASSIGNMENT"):
+            assignment = RoleBasedMcDataAssignment()
+            self.readRoleBasedMcDataAssignment(assignment_element, assignment)
+            event.addMcDataAssignment(assignment)
+        event.setRptEventId(self.getChildElementOptionalPositiveInteger(element, "RPT-EVENT-ID"))
+        rpt_executable_entity_properties_element = self.find(element, "RPT-EXECUTABLE-ENTITY-PROPERTIES")
+        if rpt_executable_entity_properties_element is not None:
+            properties = RptExecutableEntityProperties()
+            self.readRptExecutableEntityProperties(rpt_executable_entity_properties_element, properties)
+            event.setRptExecutableEntityProperties(properties)
+        rpt_impl_policy_element = self.find(element, "RPT-IMPL-POLICY")
+        if rpt_impl_policy_element is not None:
+            policy = RptImplPolicy()
+            self.readRptImplPolicy(rpt_impl_policy_element, policy)
+            event.setRptImplPolicy(policy)
+        for ref in self.getChildElementRefTypeList(element, "RPT-SERVICE-POINT-POST-REFS/RPT-SERVICE-POINT-POST-REF"):
+            event.addRptServicePointPostRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "RPT-SERVICE-POINT-PRE-REFS/RPT-SERVICE-POINT-PRE-REF"):
+            event.addRptServicePointPreRef(ref)
+
+    def readRptExecutableEntity(self, element: ET.Element, entity: RptExecutableEntity):
+        for event_element in self.findall(element, "RPT-EXECUTABLE-ENTITY-EVENTS/RPT-EXECUTABLE-ENTITY-EVENT"):
+            event = entity.createRptExecutableEntityEvent(self.getShortName(event_element))
+            self.readRptExecutableEntityEvent(event_element, event)
+        for assignment_element in self.findall(element, "RPT-READS/ROLE-BASED-MC-DATA-ASSIGNMENT"):
+            assignment = RoleBasedMcDataAssignment()
+            self.readRoleBasedMcDataAssignment(assignment_element, assignment)
+            entity.addRptRead(assignment)
+        for assignment_element in self.findall(element, "RPT-WRITES/ROLE-BASED-MC-DATA-ASSIGNMENT"):
+            assignment = RoleBasedMcDataAssignment()
+            self.readRoleBasedMcDataAssignment(assignment_element, assignment)
+            entity.addRptWrite(assignment)
+        entity.setSymbol(self.getChildElementOptionalLiteral(element, "SYMBOL"))
+
+    def readRptComponent(self, element: ET.Element, component: RptComponent):
+        for assignment_element in self.findall(element, "MC-DATA-ASSIGNMENTS/ROLE-BASED-MC-DATA-ASSIGNMENT"):
+            assignment = RoleBasedMcDataAssignment()
+            self.readRoleBasedMcDataAssignment(assignment_element, assignment)
+            component.addMcDataAssignment(assignment)
+        rp_impl_policy_element = self.find(element, "RP-IMPL-POLICY")
+        if rp_impl_policy_element is not None:
+            policy = RptImplPolicy()
+            self.readRptImplPolicy(rp_impl_policy_element, policy)
+            component.setRpImplPolicy(policy)
+        for entity_element in self.findall(element, "RPT-EXECUTABLE-ENTITYS/RPT-EXECUTABLE-ENTITY"):
+            entity = component.createRptExecutableEntity(self.getShortName(entity_element))
+            self.readRptExecutableEntity(entity_element, entity)
+
+    def readRptSupportData(self, element: ET.Element, rpt_support_data: RptSupportData):
+        for context_element in self.findall(element, "EXECUTION-CONTEXTS/RPT-EXECUTION-CONTEXT"):
+            rpt_support_data.createExecutionContext(self.getShortName(context_element))
+        for component_element in self.findall(element, "RPT-COMPONENTS/RPT-COMPONENT"):
+            component = rpt_support_data.createRptComponent(self.getShortName(component_element))
+            self.readRptComponent(component_element, component)
+        for service_point_element in self.findall(element, "RPT-SERVICE-POINTS/RPT-SERVICE-POINT"):
+            service_point = rpt_support_data.createRptServicePoint(self.getShortName(service_point_element))
+            self.readRptServicePoint(service_point_element, service_point)
 
     def readBuildActionManifests(self, element: ET.Element, impl: Implementation):
         child_element = self.find(element, "BUILD-ACTION-MANIFESTS")

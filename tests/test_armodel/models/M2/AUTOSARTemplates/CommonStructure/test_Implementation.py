@@ -11,7 +11,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
     Linker,
     ProgramminglanguageEnum,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.McSupportData import McSupportData
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import McSupportData
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, ARLiteral, RefType, String, CIdentifier
 

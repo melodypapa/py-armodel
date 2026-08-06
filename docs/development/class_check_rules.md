@@ -171,7 +171,16 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       its accessor pair and parser/writer coverage, and recorded in the
       deviation tracker as `"present in XSD, absent from PDF table
       rendering; kept with parser/writer coverage"` — never deleted just
-      because the table omits it. The *fabricated* case remains: a field with
+      because the table omits it. A class whose **whole table is a partial
+      rendering** is handled identically: `McDataInstance`'s PDF Table 9.4
+      lists only 4 of its 12 attributes (`role`, `rptImplPolicy`,
+      `subElement`, `symbol`); the other 8 (`arraySize`,
+      `displayIdentifier`, `flatMapEntryRef`, `instanceInMemory`,
+      `mcDataAccessDetails`, `mcDataAssignment`, `resultingProperties`,
+      `resultingRptSwPrototypingAccess`) come from the XSD `MC-DATA-INSTANCE`
+      group and are implemented with the same field + accessor + parser/writer
+      obligations, following the XSD attribute order when the partial PDF rows
+      give no order. The *fabricated* case remains: a field with
       **no spec basis anywhere** (not in the PDF, not in the XSD) is removed.
       Before deciding, grep the XSD for the element tag: presence with
       documentation ⇒ omission (keep, record); absence everywhere ⇒ invented
@@ -271,6 +280,11 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       — only the field-to-spec cross-check against the `Attribute` column
       catches this, and it applies to **every** field, not just missing/extra
       ones.
+      An already-plural base keeps its plural form when the `Ref`/`Refs`
+      suffix is appended: spec `measurableSystemConstantValues` (Kind `ref`, `*`)
+      → field `measurableSystemConstantValuesRefs` with
+      `addMeasurableSystemConstantValuesRef`/`getMeasurableSystemConstantValuesRefs` —
+      the doubled trailing `s` is the correct suffix append, not a typo.
 
 ### 1.6 `createXXX` vs `setXXX`
 
@@ -378,7 +392,29 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       `EngineeringObject.revisionLabels`; the typed revision-label helper
       `getChildElementOptionalRevisionLabelString` validates the
       `[0-9]+\.[0-9]+\.[0-9]+…` format, so prefer it over a raw literal for
-      `RevisionLabelString` items.)
+      `RevisionLabelString` items.) The same wrapper pattern applies when the
+      item type is an **aggregated object**, not a literal: the wrapper is
+      still a pure container with no model counterpart, but the per-item
+      element tag is **XSD-driven and may be the aggregated type's element
+      name, not the attribute singular** — e.g. `McSupportData.emulationSupport`
+      `*` → `<EMULATION-SUPPORTS><MC-SW-EMULATION-METHOD-SUPPORT>…`, while
+      `mcParameterInstance`/`mcVariableInstance` `*` → `<MC-PARAMETER-INSTANCES>`/
+      `<MC-VARIABLE-INSTANCES>` wrappers each containing `<MC-DATA-INSTANCE>`
+      (the type `McDataInstance`). A ref wrapper's item tag *is* the attribute
+      base plus `-REF` (`MEASURABLE-SYSTEM-CONSTANT-VALUES-REFS/MEASURABLE-SYSTEM-CONSTANT-VALUES-REF`).
+      Read the item tag from the XSD `choice`/element declaration — do not
+      derive it from the attribute name or the type name by rule of thumb.
+      Parser: iterate `self.findall(element, "WRAPPER/ITEM")` and build each
+      item object via the aggregator's `addXxx`/`createXxx`. Writer: create
+      the wrapper only when the list is non-empty and emit one item element
+      per entry. When an aggregated child is itself not yet aligned to its
+      own spec table, still parse/emit the item element **by identity only**
+      (the `SHORT-NAME` for `Identifiable` children; an empty element for
+      plain `ARObject` children) rather than serializing placeholder fields —
+      this keeps the XML schema-valid and the round-trip lossless at the
+      aggregator level, and is recorded in the deviation tracker pending the
+      child's own pass (e.g. `McSupportData`'s `McSwEmulationMethodSupport`
+      and `RptSupportData` children).
 
 ### 1.8 Cross-package types
 
@@ -575,9 +611,19 @@ Check:
       — placeholder/assumed member sets recur often enough that "trust but
       verify" is not sufficient; always re-derive the member list from the
       table.
-- [ ] Tests reference enum literals like `MyEnum.MEMBER_NAME`, never attempt to
-      instantiate the enum class directly (`MyEnum()` raises a `TypeError`
-      because `AREnum.__init__` expects the valid-value tuple).
+- [ ] Tests reference enum literals like `MyEnum.MEMBER_NAME` (a plain `str`
+      equal to the spec literal) for comparison and reading. To **set** an
+      enum-typed attribute, construct an enum **instance** —
+      `MyEnum().setValue(MyEnum.MEMBER_NAME)` — never pass the bare member to a
+      setter: `setRptHookAccess(RptAccessEnum.ENABLED)` stores a `str` in the
+      model and crashes the writer, which expects an `ARLiteral`/`AREnum`
+      instance (`writeARObjectAttributes` reads `.timestamp`). To assert a
+      round-tripped enum value use `.getValue() == "memberName"`, because the
+      parser returns a generic `ARLiteral`, not a `MyEnum` instance.
+      An aligned enum defines its own `__init__(self)` that passes the
+      valid-value tuple to `AREnum`, so `MyEnum()` **is** instantiable;
+      `MyEnum()` raises a `TypeError` only for an enum without that custom
+      `__init__` (where `AREnum.__init__` expects the tuple).
 
 Example from a spec table (`Literal` column):
 
@@ -669,7 +715,24 @@ Check:
       sit in the same directory (`HeapUsage.py`, `StackUsage.py`, …) — those
       modules belong to their own separate spec packages
       (`...::HeapUsage`, `...::StackUsage`) and are the element-type case, not
-      a precedent for adding a class-named module. When the `__init__.py` also
+      a precedent for adding a class-named module. This also applies when the
+      class-named submodules **already exist from an earlier placeholder
+      stage** — a group package (`...::MeasurementCalibrationSupport`,
+      `...::RptSupport`) whose classes were each filed as
+      `MeasurementCalibrationSupport/McSupportData.py`,
+      `RptSupport/RptSupportData.py`, … must be consolidated into the package
+      `__init__.py` (all 8 `...::MeasurementCalibrationSupport` classes in
+      `MeasurementCalibrationSupport/__init__.py`, all 12 `...::RptSupport`
+      classes in `RptSupport/__init__.py`), and every consumer import rewritten
+      from the submodule path to the package path. When the consolidated
+      `__init__.py` needs classes from a *sibling* package that would import it
+      back (e.g. `RptSupport` needs `RoleBasedMcDataAssignment` from its
+      parent, the parent needs `RptSupportData`/`RptSwPrototypingAccess` from
+      `RptSupport`, and `RPTScenario` needs `RptSupport`'s enums), break the
+      cycle with `from __future__ import annotations` + `TYPE_CHECKING`
+      imports for every cross-package name that is used only in annotations
+      (Rule 6) — the parser/writer keep runtime imports because they sit below
+      the model graph. When the `__init__.py` also
       imports those sibling submodules and they import the package-level
       classes back, define the package-level classes **before** the submodule
       import statements in `__init__.py` to break the cycle.
@@ -715,6 +778,32 @@ Check:
       non-existent sub-package. After relocating a class, audit every import
       site (parser, writer, `__init__.py` re-exports, tests) so no stale
       class-named sub-module import remains.
+- [ ] **Latent broken imports surface when an aggregator starts importing its
+      child package.** Aligning an aggregator that aggregates/refs classes in
+      a sibling subpackage pulls that subpackage into the import graph for
+      the first time; never-imported sibling modules can then fail with stale
+      package paths (e.g. `RptSupport/RptExecutableEntity.py` imported
+      `...MeasurementCalibrationSupport.RptAccessEnum` while the module lives
+      at `...MeasurementCalibrationSupport.RptSupport.RptAccessEnum`). Such a
+      module is dead code that passes lint and coverage scans until something
+      imports it, so after adding any cross-package import run the full
+      import + test suite, not just the class's own mirrored test.
+- [ ] **Top-level export chain (`src/armodel/models/__init__.py`).** A class is
+      "correctly placed" only when it is also reachable from `armodel` via the
+      wildcard export chain. When a class in an aligned package is **not**
+      importable as `armodel.<ClassName>` (check with
+      `hasattr(armodel, "<ClassName>")`), either the package is missing from
+      `models/__init__.py` (e.g. `MeasurementCalibrationSupport` and its
+      `RptSupport` subpackage had no `import *` lines while every other
+      `CommonStructure` subpackage did) or the class is still listed in
+      `INTENTIONALLY_UNEXPORTED_MODULES` in `tests/test_armodel/test_model_imports.py`.
+      Aligned classes must be **removed** from that exclusion set (it is for
+      "incomplete/experimental" classes only) and the package's `import *`
+      lines added to `models/__init__.py` — follow the per-subpackage pattern
+      already used for `ResourceConsumption.HeapUsage` etc. Run
+      `test_model_imports.py` after the change; a name that collides at top
+      level goes into `KNOWN_NAME_COLLISION_CLASSES`, not
+      `INTENTIONALLY_UNEXPORTED_MODULES`.
 
 **Practical shadowing checklist:**
 
@@ -756,9 +845,13 @@ operators in type hints.
 |--------------|--------------------------------------------------------------|
 | list getter  | `def getFoos(self) -> List[Foo]:`                            |
 | single getter| `def getFoo(self) -> Foo:` or `def getFoo(self) -> Optional[Foo]:` |
-| setter       | `def setFoo(self, value: Foo) -> "ClassName":`               |
-| add          | `def addFoo(self, value: Foo) -> "ClassName":`               |
+| setter       | `def setFoo(self, value: Optional[Foo]) -> "ClassName":`      |
+| add          | `def addFoo(self, value: Optional[Foo]) -> "ClassName":`      |
 | create       | `def createFoo(self, short_name: str) -> Foo:`               |
+
+The `setFoo`/`addFoo` `value` parameter is `Optional[Foo]` because `None` is a
+no-op per Rule 4 — aligned classes consistently annotate it so (e.g.
+`MemorySection.setAlignment(value: Optional[AlignmentType])`, `addExecutableEntityRef(value: Optional[RefType])`).
 
 Check:
 - [ ] Getters for collections return `List[T]`.
@@ -877,7 +970,20 @@ def setSomeEnumValue(self, value):
       when unset — they return `None` / `[]`).
 - [ ] `create*` factories return the existing element when a short name already
       exists (no duplicate creation), and append the new element to the
-      corresponding list otherwise.
+      corresponding list otherwise. In an `Identifiable`-based aggregator the
+      existing-element check uses the `elements` registry
+      (`if not self.IsElementExists(short_name)` / `self.getElement(short_name)`);
+      in a **plain `ARObject` aggregator** (no `elements` registry, e.g.
+      `McSupportData`) the check scans the owning field list directly —
+      `for instance in self.foos: if instance.short_name == short_name: return instance` —
+      and the factory appends to that same list and returns the new instance.
+      Exposing a `createXxx(short_name)` factory also **forces the aggregated
+      child to be constructible as `Child(self, short_name)`**: a placeholder
+      child that still declares `__init__(self)` and inherits only `ARObject`
+      must be realigned to its spec `Base` (e.g. `McDataInstance` →
+      `Identifiable` with `__init__(self, parent, short_name)`) at least far
+      enough for the factory to build it; the remainder of the child's own
+      alignment is tracked separately in the deviation tracker.
 - [ ] `create*` factories are only used for children that are
       `Referrable`/`Identifiable` per their spec `Base`; non-Identifiable
       children use `setXXX` (multiplicity `0..1`) or `addXxx(value)`
@@ -1280,7 +1386,12 @@ Every method on the class must have test coverage in the mirrored test file
       `MultidimensionalTime().setCseCode("cse").setCseCodeFactor(2)`) depends on
       exactly the looser-union behavior Rule 3 forbids, so aligning the class
       breaks such a test; update the call site to the typed primitive at the
-      same time.
+      same time. For **numerical** primitives pass the value as a **string**:
+      `PositiveInteger().setValue("4")`, not `setValue(4)` — the writer
+      serializes `ARNumerical._text`, which is populated only when the value is
+      assigned as a string (int assignment leaves `_text` `None` and the
+      element round-trips as `<ELEMENT></ELEMENT>`, dropping the value on
+      re-parse). Round-trip assertions then read `getValue() == 4` (an `int`).
 - [ ] `add*` methods test appending, the return value (`self`), and the `None`
       no-op (setting None does not append).
 - [ ] Every `create*` factory has a test asserting the short name and that the
