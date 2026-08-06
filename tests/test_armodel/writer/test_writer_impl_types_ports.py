@@ -284,12 +284,18 @@ class TestEngineeringObjectWriter:
         obj = AutosarEngineeringObject()
         obj.setShortLabel(_make_literal("label"))
         obj.setCategory(_make_literal("cat"))
+        obj.setDomain(_make_literal("domain"))
+        revision_label = RevisionLabelString()
+        revision_label.setValue("1.0.0")
+        obj.addRevisionLabel(revision_label)
 
         parent = _parent()
         writer.writeEngineeringObject(parent, obj)
 
         assert parent.find("SHORT-LABEL").text == "label"
         assert parent.find("CATEGORY").text == "cat"
+        assert parent.find("DOMAIN").text == "domain"
+        assert parent.find("REVISION-LABELS/REVISION-LABEL").text == "1.0.0"
 
     def test_write_engineering_object_no_fields(self, writer):
         obj = AutosarEngineeringObject()
@@ -297,6 +303,8 @@ class TestEngineeringObjectWriter:
         writer.writeEngineeringObject(parent, obj)
         assert parent.find("SHORT-LABEL") is None
         assert parent.find("CATEGORY") is None
+        assert parent.find("DOMAIN") is None
+        assert parent.find("REVISION-LABELS") is None
 
     def test_write_autosar_engineering_object(self, writer):
         obj = AutosarEngineeringObject()

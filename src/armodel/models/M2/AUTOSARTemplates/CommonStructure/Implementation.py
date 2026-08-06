@@ -20,17 +20,21 @@ class DependencyUsageEnum(AREnum):
     """
 
     # DependencyUsageEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 7.4
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 7.4, p.132
     # [x] __init__                     [x] impl  [x] docstring  [ ] test
 
     # The object referred by the dependency is required during the build process. atp.EnumerationLiteralIndex=0
     BUILD = "build"
+
     # The object referred by the dependency is required during code generation. atp.EnumerationLiteralIndex=1
     CODEGENERATION = "codegeneration"
+
     # The object referred by the dependency is required during compilation. atp.EnumerationLiteralIndex=2
     COMPILE = "compile"
+
     # The object referred by the dependency is required at execution time. atp.EnumerationLiteralIndex=3
     EXECUTE = "execute"
+
     # The object referred by the dependency is required during linking. atp.EnumerationLiteralIndex=4
     LINK = "link"
 
@@ -52,13 +56,15 @@ class ProgramminglanguageEnum(AREnum):
     """
 
     # ProgramminglanguageEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 8.2
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 8.2, p.621
     # [x] __init__                     [x] impl  [x] docstring  [ ] test
 
     # C language. atp.EnumerationLiteralIndex=0
     C = "c"
+
     # C++ language. atp.EnumerationLiteralIndex=1
     CPP = "cpp"
+
     # Java language. atp.EnumerationLiteralIndex=2
     JAVA = "java"
 
@@ -79,7 +85,7 @@ class ImplementationProps(Referrable, ABC):
     """
 
     # ImplementationProps method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.20
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.20, p.287
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] getSymbol                    [x] impl  [x] docstring  [x] test
     # [x] setSymbol                    [x] impl  [x] docstring  [x] test
@@ -137,7 +143,7 @@ class Code(Identifiable):
     """
 
     # Code method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 8.5
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 8.5, p.622
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] addArtifactDescriptor        [x] impl  [x] docstring  [x] test
     # [x] getArtifactDescriptors       [x] impl  [x] docstring  [x] test
@@ -156,6 +162,7 @@ class Code(Identifiable):
 
         # Refers to the artifact belonging to this code descriptor.
         self.artifactDescriptors: List[AutosarEngineeringObject] = []
+
         # Describes in which header files the function declarations of callback functions
         # are provided to a service module, so it can include the appropriate header files.
         self.callbackHeaderRefs: List[RefType] = []
@@ -226,7 +233,7 @@ class Compiler(Identifiable):
     """
 
     # Compiler method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 8.3
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 8.3, p.621
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] getName                      [x] impl  [x] docstring  [x] test
     # [x] setName                      [x] impl  [x] docstring  [x] test
@@ -249,10 +256,13 @@ class Compiler(Identifiable):
 
         # Compiler name (like gcc).
         self.name: Optional[String] = None
+
         # Specifies the compiler options.
         self.options: Optional[String] = None
+
         # Vendor of compiler.
         self.vendor: Optional[String] = None
+
         # Exact version of compiler executable.
         self.version: Optional[String] = None
 
@@ -359,7 +369,7 @@ class DependencyOnArtifact(Identifiable):
     """
 
     # DependencyOnArtifact method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.91
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.91, p.413
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] getArtifactDescriptor        [x] impl  [x] docstring  [x] test
     # [x] setArtifactDescriptor        [x] impl  [x] docstring  [x] test
@@ -378,6 +388,7 @@ class DependencyOnArtifact(Identifiable):
 
         # The specified artifact needs to exist.
         self.artifactDescriptor: Optional[AutosarEngineeringObject] = None
+
         # Specification for which process step(s) this dependency is required.
         self.usages: List[DependencyUsageEnum] = []
 
@@ -437,7 +448,7 @@ class Linker(Identifiable):
     """
 
     # Linker method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 8.4
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 8.4, p.622
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] getName                      [x] impl  [x] docstring  [x] test
     # [x] setName                      [x] impl  [x] docstring  [x] test
@@ -460,10 +471,13 @@ class Linker(Identifiable):
 
         # Linker name.
         self.name: Optional[String] = None
+
         # Specifies the linker options.
         self.options: Optional[String] = None
+
         # Vendor of linker.
         self.vendor: Optional[String] = None
+
         # Exact version of linker executable.
         self.version: Optional[String] = None
 
@@ -571,7 +585,7 @@ class Implementation(ARElement, ABC):
     """
 
     # Implementation method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 8.1
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 8.1, p.619
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] getBuildActionManifestRef    [x] impl  [x] docstring  [x] test
     # [x] setBuildActionManifestRef    [x] impl  [x] docstring  [x] test
@@ -621,38 +635,52 @@ class Implementation(ARElement, ABC):
         # A manifest specifying the intended build actions for the software delivered with
         # this implementation.
         self.buildActionManifestRef: Optional[RefType] = None
+
         # Specifies the provided implementation code. [constr_1968]
         self.codeDescriptors: List[Code] = []
+
         # Specifies the compiler for which this implementation has been released.
         self.compilers: List[Compiler] = []
+
         # Relates to an artifact that will be generated during the integration of this
         # Implementation by an associated generator tool.
         self.generatedArtifacts: List[DependencyOnArtifact] = []
+
         # The hardware elements (e.g. the processor) required for this implementation.
         self.hwElementRefs: List[RefType] = []
+
         # Specifies the linker for which this implementation has been released.
         self.linkers: List[Linker] = []
+
         # The measurement & calibration support data belonging to this implementation.
         self.mcSupport: Optional[McSupportData] = None
+
         # Programming language the implementation was created in.
         self.programmingLanguage: Optional[ProgramminglanguageEnum] = None
+
         # Specifies that this Implementation depends on the existence of another artifact
         # (e.g. a library).
         self.requiredArtifacts: List[DependencyOnArtifact] = []
+
         # Relates this Implementation to a generator tool in order to generate additional
         # artifacts during integration.
         self.requiredGeneratorTools: List[DependencyOnArtifact] = []
+
         # All static and dynamic resources for each implementation are described within the
         # ResourceConsumption class.
         self.resourceConsumption: Optional[ResourceConsumption] = None
+
         # Allows a mapping between an SWC and a BSW behavior to be attached to an
         # implementation description.
         self.swcBswMappingRef: Optional[RefType] = None
+
         # Software version of this implementation. The numbering contains three levels
         # (like major, minor, patch), its values are vendor specific. [constr_1966]
         self.swVersion: Optional[RevisionLabelString] = None
+
         # Optional: code generator used.
         self.usedCodeGenerator: Optional[String] = None
+
         # Vendor ID of this Implementation according to the AUTOSAR vendor list. [constr_1967]
         self.vendorId: Optional[PositiveInteger] = None
 

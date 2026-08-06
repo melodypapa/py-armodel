@@ -1964,10 +1964,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             artifact_descs_tag = ET.SubElement(element, "ARTIFACT-DESCRIPTORS")
             for artifact_desc in artifact_descriptors:
                 artifact_desc_tag = ET.SubElement(artifact_descs_tag, "AUTOSAR-ENGINEERING-OBJECT")
-                self.logger.debug("writeArtifactDescriptor %s", artifact_desc.short_label)
+                self.logger.debug("writeArtifactDescriptor %s", artifact_desc.getShortLabel())
                 self.writeARObjectAttributes(artifact_desc_tag, artifact_desc)
-                self.setChildElementOptionalLiteral(artifact_desc_tag, "SHORT-LABEL", artifact_desc.short_label)
-                self.setChildElementOptionalLiteral(artifact_desc_tag, "CATEGORY", artifact_desc.category)
+                self.setChildElementOptionalLiteral(artifact_desc_tag, "SHORT-LABEL", artifact_desc.getShortLabel())
+                self.setChildElementOptionalLiteral(artifact_desc_tag, "CATEGORY", artifact_desc.getCategory())
 
     def writeCode(self, element: ET.SubElement, code_desc: Code):
         # self.logger.debug("Write Code %s" % code_desc.getShortName())
@@ -2797,11 +2797,17 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeEngineeringObject(self, element: ET.Element, engineering_obj: EngineeringObject):
         self.writeARObjectAttributes(element, engineering_obj)
-        self.setChildElementOptionalLiteral(element, "SHORT-LABEL", engineering_obj.short_label)
-        self.setChildElementOptionalLiteral(element, "CATEGORY", engineering_obj.category)
+        self.setChildElementOptionalLiteral(element, "SHORT-LABEL", engineering_obj.getShortLabel())
+        self.setChildElementOptionalLiteral(element, "CATEGORY", engineering_obj.getCategory())
+        self.setChildElementOptionalLiteral(element, "DOMAIN", engineering_obj.getDomain())
+        revision_labels = engineering_obj.getRevisionLabels()
+        if len(revision_labels) > 0:
+            revision_labels_element = ET.SubElement(element, "REVISION-LABELS")
+            for revision_label in revision_labels:
+                self.setChildElementOptionalRevisionLabelString(revision_labels_element, "REVISION-LABEL", revision_label)
 
     def writeAutosarEngineeringObject(self, element: ET.Element, obj: AutosarEngineeringObject):
-        # self.logger.debug("write ArtifactDescriptor %s", obj.short_label)
+        # self.logger.debug("write ArtifactDescriptor %s", obj.getShortLabel())
         child_element = ET.SubElement(element, "AUTOSAR-ENGINEERING-OBJECT")
         self.writeEngineeringObject(child_element, obj)
 

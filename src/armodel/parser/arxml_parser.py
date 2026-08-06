@@ -1198,11 +1198,14 @@ class ARXMLParser(AbstractARXMLParser):
     def readEngineeringObject(self, element: ET.Element, engineering_obj: EngineeringObject):
         self.readARObjectAttributes(element, engineering_obj)
         engineering_obj.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL")).setCategory(self.getChildElementOptionalLiteral(element, "CATEGORY"))
+        engineering_obj.setDomain(self.getChildElementOptionalLiteral(element, "DOMAIN"))
+        for child_element in self.findall(element, "REVISION-LABELS/REVISION-LABEL"):
+            engineering_obj.addRevisionLabel(self.getChildElementOptionalRevisionLabelString(child_element, "."))
 
     def getAutosarEngineeringObject(self, element: ET.Element) -> AutosarEngineeringObject:
         obj = AutosarEngineeringObject()
         self.readEngineeringObject(element, obj)
-        # self.logger.debug("Get AutosarEngineeringObject %s", obj.short_label)
+        # self.logger.debug("Get AutosarEngineeringObject %s", obj.shortLabel)
         return obj
 
     def readArtifactDescriptor(self, element: ET.Element, code_desc: Code):

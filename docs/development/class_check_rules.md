@@ -163,6 +163,14 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       not `*`) still maps to `List[T]` (default `[]`) with the usual
       `getXxxs`/`addXxx` accessors — the upper bound is not enforced in the
       model; order is preserved by insertion order in `addXxx`.
+- [ ] A spec-`*` member whose *name is singular* still maps to a **plural**
+      Python list field and plural accessors (`addXxx`/`getXxxs`): the spec
+      column says `revisionLabel` but its multiplicity is `*`, so the field is
+      `revisionLabels: List[RevisionLabelString] = []` with
+      `addRevisionLabel()`/`getRevisionLabels()` — do **not** model a single
+      `revisionLabel` value or a singular `setRevisionLabel` setter. The
+      per-item element name (e.g. `REVISION-LABEL`) is the singular form; the
+      pluralization lives only in Python naming.
 - [ ] Getter/setter docstrings must match the chosen representation — "list
       of ..." wording on a single ref (or vice versa) is a symptom of a
       multiplicity mismatch.
@@ -291,6 +299,22 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       XML element, so it has no parser/writer element and is exempt from this
       requirement. It still maps to a field + accessor pair (attribute-level
       completeness) and is recorded as `atpDerived` in the deviation tracker.
+- [ ] **Wrapper-element lists.** When a spec-`*` attribute's items live inside
+      a *wrapper* element (e.g. `revisionLabel` `*` → XML
+      `<REVISION-LABELS><REVISION-LABEL>…</REVISION-LABEL></REVISION-LABELS>`),
+      the wrapper is pure container with no model counterpart: the field is
+      the flat list (`revisionLabels`) and there is **no** `revisionLabels`
+      element attribute in `__init__` for the wrapper. Parser: iterate
+      `self.findall(element, "REVISION-LABELS/REVISION-LABEL")` and build each
+      item (via `getChildElementOptionalRevisionLabelString(child, ".")` or a
+      literal-list helper), calling `addXxx` per item. Writer: create the
+      wrapper `ET.SubElement(element, "REVISION-LABELS")` only when the list is
+      non-empty, then emit each item as a child. Guard both sides so an empty
+      list round-trips to **no** wrapper element at all. (Engineered in
+      `EngineeringObject.revisionLabels`; the typed revision-label helper
+      `getChildElementOptionalRevisionLabelString` validates the
+      `[0-9]+\.[0-9]+\.[0-9]+…` format, so prefer it over a raw literal for
+      `RevisionLabelString` items.)
 
 ### 1.8 Cross-package types
 
@@ -336,6 +360,27 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       and be switched to the real class (with a `TYPE_CHECKING` import if
       needed to avoid cycles) once it is implemented, clearing the deviation.
 
+### 1.11 Member order follows the PDF
+
+- [ ] Members are declared in the **same order as the spec table's attribute
+      rows** — i.e. ascending `xml.sequenceOffset` (the PDF's `Tags:
+      xml.sequenceOffset=NN` value). The order of the `__init__` fields, the
+      order of the getter/setter/adder methods, and the order of the method
+      parity checklist rows (Rule 2) must all follow the spec table row order,
+      **not** alphabetical or file-of-creation order. A class whose accessors
+      are ordered by name or by refactor history rather than by the spec is
+      misaligned. (Example: `EngineeringObject` attributes are
+      `shortLabel`(offset 10), `category`(20), `revisionLabel`(30),
+      `domain`(40), so the accessors and checklist list them in exactly that
+      sequence.)
+- [ ] Within one attribute, the accessor pair order is `getXxx` then
+      `setXxx` (or `addXxx`/`getXxxs` for list attributes) — getter before
+      setter for each attribute, mirroring the sibling classes that are already
+      aligned (e.g. `Compiler` lists `getName`/`setName`, `getOptions`/
+      `setOptions`, ...). The getter-first pairing is uniform across aligned
+      classes; only the *attribute* sequence varies, and that sequence comes
+      from the PDF.
+
 Verification: cross-check each attribute (name, multiplicity, **type**)
 against the PDF table and the corresponding XSD in
 `autosar-pdf/examples/xsd/`. Confirm any deviation against the parser/writer
@@ -369,7 +414,10 @@ class MyEnum(AREnum):
     # MyEnum method parity checklist:
     # (no methods)
 
+    # Literal one comment
     MEMBER_ONE = "member_one"
+
+    # Literal two comment
     MEMBER_TWO = "member_two"
 ```
 
@@ -786,14 +834,34 @@ Check:
 - The PDF filename must match exactly (check the actual PDF file name in the
   repo).
 - Table number must be in format `X.Y` (e.g., `5.38`, not `5-38` or `538`).
-- Page number is from the PDF's own page counter, not document section
-  numbers.
+- The page number must **always** be present — a `# Spec:` line without
+  `p.<page>` is a violation. Page number is from the PDF's own printed page
+  counter (the `X of NNNN` footer), not document section numbers or markdown
+  line numbers.
+- Cite the page where the table's **header row** first appears — the `Class
+  <Name>` (or `Enumeration <Name>` for enums) heading in the PDF markdown —
+  not necessarily the caption's page. Long tables can split across pages, with
+  the caption on the page *after* the header row (e.g. Table 8.1
+  `Implementation`: header row p.619, caption p.621); always cite the header
+  row's page so the reader lands on the class definition.
 - Adjacent tables that appear on the same or consecutive pages (e.g. an
   abstract class and its subclasses) are easy to confuse with one another or
   with the section's start page — verify each class's **own** `Table X.Y`
   page independently against the PDF's printed page counter, and never reuse a
   neighboring class's already-checked value. Cross-check against the page in
   `docs/method_deviation_by_class.md`, which may already be correct.
+- **Abstract base + concrete subclass sharing one page.** When the spec page
+  holds *two* tables on the same page — an abstract base (e.g.
+  `EngineeringObject`, Table 7.6, p.132) and a concrete subclass
+  (`AutosarEngineeringObject`, Table 7.5, p.132) whose table has **no** own
+  attribute rows — both classes still get their **own** `# Spec:` line with
+  their **own** table number/page, and the concrete subclass declares no
+  fields of its own (the base carries the attributes). The concrete subclass's
+  checklist lists only `__init__` (plus any methods it actually adds); do not
+  copy the base's accessor rows into the subclass checklist, since a concrete
+  subclass inheriting all accessors from the abstract base defines no methods
+  of its own. The set-based script (Rule 7) then passes with a one-row
+  checklist because the subclass body contains only `__init__`.
 - Different AUTOSAR release PDFs may have different page numbers; verify
   you're reading the correct release.
 
@@ -886,13 +954,15 @@ self.targetModuleId: Optional[PositiveInteger] = None
 
 **Maturity**: accept
 
-Each member (attribute or method) in a class must be separated by exactly one
-blank line. This improves readability and clearly delineates separate logical
-units within the class.
+Each member (attribute, enum literal, or method) in a class must be separated
+by exactly one blank line. This improves readability and clearly delineates
+separate logical units within the class.
 
 Check:
 - [ ] Every attribute in `__init__` has a blank line before and after its
       comment + assignment block.
+- [ ] Every enum literal block (inline comment + `NAME = "value"`) is
+      separated from the next by exactly one blank line.
 - [ ] Every method is preceded by a blank line (except the first method
       immediately after `__init__`).
 - [ ] Every method is followed by a blank line before the next method.
@@ -918,6 +988,17 @@ class Example(ARObject):
         if value is not None:
             self.field1 = value
         return self
+```
+
+Example (enum):
+```python
+class MyEnum(AREnum):
+    # Literal one comment
+    MEMBER_ONE = "member_one"
+
+    # Literal two comment
+    MEMBER_TWO = "member_two"
+```
 ```
 
 ---
