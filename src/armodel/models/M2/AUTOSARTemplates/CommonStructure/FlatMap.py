@@ -4,13 +4,14 @@ in the CommonStructure module. Flat maps are used to describe instance
 hierarchies in a flat manner, typically used for code generation purposes.
 """
 
-from typing import List
+from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpBlueprintable
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
 
 
 class FlatInstanceDescriptor(Identifiable):
@@ -216,62 +217,188 @@ class FlatMap(AtpBlueprintable):
 
 class AliasNameAssignment(ARObject):
     """
-    Represents an alias name assignment in AUTOSAR.
-    This class defines how aliases are assigned to elements.
+    This meta-class represents the ability to associate an alternative name to a flat representations or an Identifiable. The usage of this name is defined outside of AUTOSAR. For example this name can be used by MCD tools or as a name for component instances in the ECU extract. Note that flatInstance and identifiable are mutually exclusive.
+
+    [constr_10363] Existence of attribute AliasNameAssignment.shortLabel: For each AliasNameAssignment, the attribute shortLabel shall exist at the time when the configuration of the BSW module is finished.
     """
 
     # AliasNameAssignment method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getAliasName                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setAliasName                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getElementRef                [x] impl  [ ] docstring  [ ] test
-    # [ ] setElementRef                [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.3, p.175
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getFlatInstanceRef           [x] impl  [x] docstring  [x] test
+    # [x] setFlatInstanceRef           [x] impl  [x] docstring  [x] test
+    # [x] getIdentifiableRef           [x] impl  [x] docstring  [x] test
+    # [x] setIdentifiableRef           [x] impl  [x] docstring  [x] test
+    # [x] getLabel                     [x] impl  [x] docstring  [x] test
+    # [x] setLabel                     [x] impl  [x] docstring  [x] test
+    # [x] getShortLabel                [x] impl  [x] docstring  [x] test
+    # [x] setShortLabel                [x] impl  [x] docstring  [x] test
 
     def __init__(self):
-        """
-        Initializes the AliasNameAssignment with default values.
-        """
         super().__init__()
-        self.aliasName: str = None
-        self.elementRef: AnyInstanceRef = None
 
-    def getAliasName(self):
-        return self.aliasName
+        # Assignment of a unique name to a flat representation.
+        self.flatInstanceRef: Optional[RefType] = None
+        # Assignment of a unique name to an Identifiable.
+        self.identifiableRef: Optional[RefType] = None
+        # This represents an "Alias LongName".
+        self.label: Optional[MultilanguageLongName] = None
+        # This attribute represents the alias name. It is modeled as string because the alias name is used outside of AUTOSAR and therefore no naming conventions can be applied within AUTOSAR.
+        self.shortLabel: Optional[String] = None
 
-    def setAliasName(self, value):
-        self.aliasName = value
+    def getFlatInstanceRef(self) -> Optional[RefType]:
+        """
+        Gets the reference assigning a unique name to a flat representation (DEST: FlatInstanceDescriptor subtypes). Mutually exclusive with identifiableRef.
+
+        Returns:
+            RefType instance, or None if not set
+        """
+        return self.flatInstanceRef
+
+    def setFlatInstanceRef(self, value: Optional[RefType]) -> "AliasNameAssignment":
+        """
+        Sets the reference assigning a unique name to a flat representation (DEST: FlatInstanceDescriptor subtypes). Mutually exclusive with identifiableRef.
+
+        A None value is a no-op and does not overwrite an existing flatInstanceRef.
+
+        Args:
+            value: The RefType instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.flatInstanceRef = value
         return self
 
-    def getElementRef(self):
-        return self.elementRef
+    def getIdentifiableRef(self) -> Optional[RefType]:
+        """
+        Gets the reference assigning a unique name to an Identifiable (DEST: Identifiable subtypes). Mutually exclusive with flatInstanceRef.
 
-    def setElementRef(self, value):
-        self.elementRef = value
+        Returns:
+            RefType instance, or None if not set
+        """
+        return self.identifiableRef
+
+    def setIdentifiableRef(self, value: Optional[RefType]) -> "AliasNameAssignment":
+        """
+        Sets the reference assigning a unique name to an Identifiable (DEST: Identifiable subtypes). Mutually exclusive with flatInstanceRef.
+
+        A None value is a no-op and does not overwrite an existing identifiableRef.
+
+        Args:
+            value: The RefType instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.identifiableRef = value
+        return self
+
+    def getLabel(self) -> Optional[MultilanguageLongName]:
+        """
+        Gets the "Alias LongName" (multi-language long name).
+
+        Returns:
+            MultilanguageLongName instance, or None if not set
+        """
+        return self.label
+
+    def setLabel(self, value: Optional[MultilanguageLongName]) -> "AliasNameAssignment":
+        """
+        Sets the "Alias LongName" (multi-language long name).
+
+        A None value is a no-op and does not overwrite an existing label.
+
+        Args:
+            value: The MultilanguageLongName instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.label = value
+        return self
+
+    def getShortLabel(self) -> Optional[String]:
+        """
+        Gets the alias name (modeled as String because it is used outside of AUTOSAR).
+
+        Returns:
+            String instance holding the alias name, or None if not set
+        """
+        return self.shortLabel
+
+    def setShortLabel(self, value: Optional[String]) -> "AliasNameAssignment":
+        """
+        Sets the alias name (modeled as String because it is used outside of AUTOSAR). [constr_10363] shortLabel shall exist at the time when the configuration of the BSW module is finished.
+
+        A None value is a no-op and does not overwrite an existing shortLabel.
+
+        Args:
+            value: The String instance holding the alias name to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.shortLabel = value
         return self
 
 
-class AliasNameSet(ARObject):
+class AliasNameSet(ARElement):
     """
-    Represents a set of alias name assignments.
+    This meta-class represents a set of AliasNames. The AliasNameSet can for example be an input to the A2L-Generator.
+
+    [constr_10362] Existence of attribute AliasNameSet.aliasName: For each AliasNameSet, the attribute aliasName shall exist at least once at the time when the configuration of the BSW module is finished.
     """
 
     # AliasNameSet method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] addAlias                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getAliases                   [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.2, p.174
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] addAliasName                 [x] impl  [x] docstring  [x] test
+    # [x] getAliasNames                [x] impl  [x] docstring  [x] test
 
-    def __init__(self):
+    def __init__(self, parent: ARObject, short_name: str):
         """
-        Initializes the AliasNameSet with default values.
+        Initializes the AliasNameSet with a parent and short name.
+
+        Args:
+            parent: The parent ARObject that contains this alias name set
+            short_name: The unique short name of this alias name set
         """
-        super().__init__()
-        self.aliases = []
+        super().__init__(parent, short_name)
 
-    def addAlias(self, alias):
-        self.aliases.append(alias)
+        # AliasNames contained in the AliasNameSet.
+        self.aliasNames: List[AliasNameAssignment] = []
 
-    def getAliases(self):
-        return self.aliases
+    def addAliasName(self, value: Optional[AliasNameAssignment]) -> "AliasNameSet":
+        """
+        Appends an AliasNameAssignment to this set.
+
+        A None value is a no-op and does not append to the list.
+
+        Args:
+            value: The AliasNameAssignment to add
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.aliasNames.append(value)
+        return self
+
+    def getAliasNames(self) -> List[AliasNameAssignment]:
+        """
+        Gets the AliasNameAssignments contained in this set.
+
+        Returns:
+            List of AliasNameAssignment instances (empty by default)
+        """
+        return self.aliasNames
 
 
 class RtePluginProps(ARObject):

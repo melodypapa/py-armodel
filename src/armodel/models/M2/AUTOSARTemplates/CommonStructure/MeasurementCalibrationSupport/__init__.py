@@ -84,100 +84,347 @@ class McDataAccessDetails(ARObject):
 
 class McParameterElementGroup(ARObject):
     """
-    Represents an MC (Measurement and Calibration) parameter element group in AUTOSAR.
-    Defines a group of parameter elements for measurement and calibration purposes.
+    Denotes a group of calibration parameters which are handled by the RTE as one data structure.
     """
 
     # McParameterElementGroup method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] addParameterRef              [x] impl  [x] docstring  [ ] test
-    # [ ] getParameterRefs             [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.6, p.181
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getRamLocationRef            [x] impl  [x] docstring  [x] test
+    # [x] setRamLocationRef            [x] impl  [x] docstring  [x] test
+    # [x] getRomLocationRef            [x] impl  [x] docstring  [x] test
+    # [x] setRomLocationRef            [x] impl  [x] docstring  [x] test
+    # [x] getShortLabel                [x] impl  [x] docstring  [x] test
+    # [x] setShortLabel                [x] impl  [x] docstring  [x] test
 
     def __init__(self):
         """
         Initializes the McParameterElementGroup with default values.
         """
         super().__init__()
-        self.parameterRefs: List[RefType] = []
 
-    def addParameterRef(self, ref: RefType):
+        # Refers to the RAM location of this parameter group. To be used for the init-RAM method. [constr_10342] For each McParameterElementGroup, the reference in the role ramLocation shall exist at the time when the configuration of the BSW module is finished.
+        self.ramLocationRef: Optional[RefType] = None
+
+        # Refers to the ROM location of this parameter group. To be used for the init-RAM method. [constr_10343] For each McParameterElementGroup, the reference in the role romLocation shall exist at the time when the configuration of the BSW module is finished.
+        self.romLocationRef: Optional[RefType] = None
+
+        # Assigns a name to this element. [constr_10344] For each McParameterElementGroup, the attribute shortLabel shall exist at the time when the configuration of the BSW module is finished. Tags: xml.sequenceOffset=-100
+        self.shortLabel: Optional[Identifier] = None
+
+    def getRamLocationRef(self) -> Optional[RefType]:
         """
-        Adds a parameter reference to this MC parameter element group.
+        Gets the reference to the RAM location of this parameter group. To be used for the init-RAM method.
+
+        Returns:
+            RefType referencing the VariableDataPrototype holding the RAM location, or None if not set
+        """
+        return self.ramLocationRef
+
+    def setRamLocationRef(self, value: Optional[RefType]) -> "McParameterElementGroup":
+        """
+        Sets the reference to the RAM location of this parameter group. To be used for the init-RAM method.
+        A None value is a no-op and does not overwrite an existing reference.
 
         Args:
-            ref: The parameter reference to add
+            value: The RAM location reference to set
 
         Returns:
             self for method chaining
         """
-        self.parameterRefs.append(ref)
+        if value is not None:
+            self.ramLocationRef = value
         return self
 
-    def getParameterRefs(self) -> List[RefType]:
+    def getRomLocationRef(self) -> Optional[RefType]:
         """
-        Gets the list of parameter references.
+        Gets the reference to the ROM location of this parameter group. To be used for the init-RAM method.
 
         Returns:
-            List of parameter references
+            RefType referencing the ParameterDataPrototype holding the ROM location, or None if not set
         """
-        return self.parameterRefs
+        return self.romLocationRef
+
+    def setRomLocationRef(self, value: Optional[RefType]) -> "McParameterElementGroup":
+        """
+        Sets the reference to the ROM location of this parameter group. To be used for the init-RAM method.
+        A None value is a no-op and does not overwrite an existing reference.
+
+        Args:
+            value: The ROM location reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.romLocationRef = value
+        return self
+
+    def getShortLabel(self) -> Optional[Identifier]:
+        """
+        Gets the name assigned to this element.
+
+        Returns:
+            Identifier representing the short label, or None if not set
+        """
+        return self.shortLabel
+
+    def setShortLabel(self, value: Optional[Identifier]) -> "McParameterElementGroup":
+        """
+        Sets the name assigned to this element.
+        A None value is a no-op and does not overwrite an existing short label.
+
+        Args:
+            value: The short label identifier to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.shortLabel = value
+        return self
 
 
 class McSwEmulationMethodSupport(ARObject):
     """
-    Represents MC (Measurement and Calibration) software emulation method support in AUTOSAR.
-    Defines support for software emulation methods in measurement and calibration.
+    This denotes the method used by the RTE to handle the calibration data. It is published by the RTE generator and can be used e.g. to generate the corresponding emulation method in a Complex Driver. According to the actual method given by the category attribute, not all attributes are always needed: • double pointered method: only baseReference is mandatory • single pointered method: only referenceTable is mandatory • initRam method: only elementGroup(s) are mandatory Note: For single/double pointered method the group locations are implicitly accessed via the reference table and their location can be found from the initial values in the M1 model of the respective pointers. Therefore, the description of elementGroups is not needed in these cases. Likewise, for double pointered method the reference table description can be accessed via the M1 model under baseReference.
     """
 
     # McSwEmulationMethodSupport method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getEmulationMethodName       [x] impl  [x] docstring  [ ] test
-    # [ ] setEmulationMethodName       [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.5, p.180
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getBaseReferenceRef          [x] impl  [x] docstring  [x] test
+    # [x] setBaseReferenceRef          [x] impl  [x] docstring  [x] test
+    # [x] getCategory                  [x] impl  [x] docstring  [x] test
+    # [x] setCategory                  [x] impl  [x] docstring  [x] test
+    # [x] addElementGroup              [x] impl  [x] docstring  [x] test
+    # [x] getElementGroups             [x] impl  [x] docstring  [x] test
+    # [x] getReferenceTableRef         [x] impl  [x] docstring  [x] test
+    # [x] setReferenceTableRef         [x] impl  [x] docstring  [x] test
+    # [x] getShortLabel                [x] impl  [x] docstring  [x] test
+    # [x] setShortLabel                [x] impl  [x] docstring  [x] test
 
     def __init__(self):
         """
         Initializes the McSwEmulationMethodSupport with default values.
         """
         super().__init__()
-        self.emulationMethodName: str = None
 
-    def getEmulationMethodName(self) -> str:
+        # Refers to the base pointer in case of the double-pointered method.
+        self.baseReferenceRef: Optional[RefType] = None
+
+        # Identifies the actual method. The possible names shall correspond to the symbols of the ECU configuration parameter for the calibration method of the RTE, and can include vendor specific methods. [constr_10340] For each McSwEmulationMethodSupport, the attribute category shall exist at the time when the configuration of the BSW module is finished. Tags: xml.sequenceOffset=-90
+        self.category: Optional[Identifier] = None
+
+        # Denotes the grouping of calibration parameters in the actual RTE code. Depending on the category, this information maybe required to set up the emulation code.
+        self.elementGroups: List[McParameterElementGroup] = []
+
+        # Refers to the pointer table in case of the single-pointered method.
+        self.referenceTableRef: Optional[RefType] = None
+
+        # Assigns a name to this element. [constr_10341] For each McSwEmulationMethodSupport, the attribute shortLabel shall exist at the time when the configuration of the BSW module is finished. Tags: xml.sequenceOffset=-100
+        self.shortLabel: Optional[Identifier] = None
+
+    def getBaseReferenceRef(self) -> Optional[RefType]:
         """
-        Gets the emulation method name.
+        Gets the reference to the base pointer in case of the double-pointered method.
 
         Returns:
-            String representing the emulation method name
+            RefType referencing the VariableDataPrototype used as base pointer, or None if not set
         """
-        return self.emulationMethodName
+        return self.baseReferenceRef
 
-    def setEmulationMethodName(self, value: str):
+    def setBaseReferenceRef(self, value: Optional[RefType]) -> "McSwEmulationMethodSupport":
         """
-        Sets the emulation method name.
+        Sets the reference to the base pointer in case of the double-pointered method.
+        A None value is a no-op and does not overwrite an existing reference.
 
         Args:
-            value: String value to set
+            value: The base reference to set
 
         Returns:
             self for method chaining
         """
-        self.emulationMethodName = value
+        if value is not None:
+            self.baseReferenceRef = value
+        return self
+
+    def getCategory(self) -> Optional[Identifier]:
+        """
+        Gets the category identifying the actual method. The possible names shall correspond to the symbols of the ECU configuration parameter for the calibration method of the RTE, and can include vendor specific methods.
+
+        Returns:
+            Identifier representing the category, or None if not set
+        """
+        return self.category
+
+    def setCategory(self, value: Optional[Identifier]) -> "McSwEmulationMethodSupport":
+        """
+        Sets the category identifying the actual method. The possible names shall correspond to the symbols of the ECU configuration parameter for the calibration method of the RTE, and can include vendor specific methods.
+        A None value is a no-op and does not overwrite an existing category.
+
+        Args:
+            value: The category identifier to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.category = value
+        return self
+
+    def addElementGroup(self, value: Optional[McParameterElementGroup]) -> "McSwEmulationMethodSupport":
+        """
+        Adds a grouping of calibration parameters in the actual RTE code. Depending on the category, this information maybe required to set up the emulation code.
+        A None value is a no-op and does not append anything.
+
+        Args:
+            value: The McParameterElementGroup to add
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.elementGroups.append(value)
+        return self
+
+    def getElementGroups(self) -> List[McParameterElementGroup]:
+        """
+        Gets the groupings of calibration parameters in the actual RTE code aggregated by this emulation method support.
+
+        Returns:
+            List of McParameterElementGroup instances
+        """
+        return self.elementGroups
+
+    def getReferenceTableRef(self) -> Optional[RefType]:
+        """
+        Gets the reference to the pointer table in case of the single-pointered method.
+
+        Returns:
+            RefType referencing the VariableDataPrototype used as pointer table, or None if not set
+        """
+        return self.referenceTableRef
+
+    def setReferenceTableRef(self, value: Optional[RefType]) -> "McSwEmulationMethodSupport":
+        """
+        Sets the reference to the pointer table in case of the single-pointered method.
+        A None value is a no-op and does not overwrite an existing reference.
+
+        Args:
+            value: The reference table reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.referenceTableRef = value
+        return self
+
+    def getShortLabel(self) -> Optional[Identifier]:
+        """
+        Gets the name assigned to this element.
+
+        Returns:
+            Identifier representing the short label, or None if not set
+        """
+        return self.shortLabel
+
+    def setShortLabel(self, value: Optional[Identifier]) -> "McSwEmulationMethodSupport":
+        """
+        Sets the name assigned to this element.
+        A None value is a no-op and does not overwrite an existing short label.
+
+        Args:
+            value: The short label identifier to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.shortLabel = value
         return self
 
 
-class ImplementationElementInParameterInstanceRef(RefType):
+class ImplementationElementInParameterInstanceRef(ARObject):
     """
-    Represents a reference to an implementation element in a parameter instance.
-    Used for referencing implementation elements within parameter instances in AUTOSAR models.
+    Describes a reference to a particular ImplementationDataTypeElement instance in the context of a given ParameterDataPrototype. Thus it refers to a particular element in the implementation description of a software data structure. Use Case: The RTE generator publishes its generated structure of calibration parameters in its BSW module description using the "constantMemory" role of ParameterDataPrototypes. Each ParameterDataPrototype describes a group of single calibration parameters. In order to point to these single parameters, this "instance ref" is needed. Note that this class follows the pattern of an InstanceRef but is not implemented based on the abstract classes because the ImplementationDataType isn't either, especially because ImplementationDataTypeElement isn't derived from AtpPrototype.
+    [constr_4034] Target and context of MC emulation reference: Within one ImplementationElementInParameterInstanceRef, the target shall refer to a subelement of the ParameterDataPrototype which is referred as context.
+    [constr_4061] Completeness of MC emulation reference: If an McDataInstance in the role of a subElement of another McDataInstance specifies an instanceInMemory, then the containing McDataInstance shall also specify an instanceInMemory. The target of the latter (i.e. upper level) instanceInMemory shall be identical (including array index, if defined) to the context of the first (i.e. lower level) instanceInMemory.
     """
 
     # ImplementationElementInParameterInstanceRef method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.7, p.184
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getContextRef                [x] impl  [x] docstring  [x] test
+    # [x] setContextRef                [x] impl  [x] docstring  [x] test
+    # [x] getTargetRef                 [x] impl  [x] docstring  [x] test
+    # [x] setTargetRef                 [x] impl  [x] docstring  [x] test
 
     def __init__(self):
         """
         Initializes the ImplementationElementInParameterInstanceRef with default values.
         """
         super().__init__()
+
+        # The context for the referred element. [constr_10345] For each ImplementationElementInParameterInstanceRef, the reference in the role context shall exist at the time when the configuration of the BSW module is finished. Tags: xml.sequenceOffset=20
+        self.contextRef: Optional[RefType] = None
+
+        # The referred data element. [constr_10346] For each ImplementationElementInParameterInstanceRef, the reference in the role target shall exist at the time when the configuration of the BSW module is finished. Tags: xml.sequenceOffset=30
+        self.targetRef: Optional[RefType] = None
+
+    def getContextRef(self) -> Optional[RefType]:
+        """
+        Gets the reference to the ParameterDataPrototype providing the context for the referred element.
+        [constr_10345] For each ImplementationElementInParameterInstanceRef, the reference in the role context shall exist at the time when the configuration of the BSW module is finished.
+
+        Returns:
+            RefType referencing the context ParameterDataPrototype, or None if not set
+        """
+        return self.contextRef
+
+    def setContextRef(self, value: Optional[RefType]) -> "ImplementationElementInParameterInstanceRef":
+        """
+        Sets the reference to the ParameterDataPrototype providing the context for the referred element.
+        A None value is a no-op and does not overwrite an existing reference.
+
+        Args:
+            value: The context reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.contextRef = value
+        return self
+
+    def getTargetRef(self) -> Optional[RefType]:
+        """
+        Gets the reference to the referred AbstractImplementationDataTypeElement. [constr_4034] The target shall refer to a subelement of the ParameterDataPrototype which is referred as context.
+        [constr_10346] For each ImplementationElementInParameterInstanceRef, the reference in the role target shall exist at the time when the configuration of the BSW module is finished.
+
+        Returns:
+            RefType referencing the target data element, or None if not set
+        """
+        return self.targetRef
+
+    def setTargetRef(self, value: Optional[RefType]) -> "ImplementationElementInParameterInstanceRef":
+        """
+        Sets the reference to the referred AbstractImplementationDataTypeElement.
+        A None value is a no-op and does not overwrite an existing reference.
+
+        Args:
+            value: The target reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.targetRef = value
+        return self
 
 
 class McFunction(ARObject):
@@ -358,31 +605,31 @@ class McDataInstance(Identifiable):
     # McDataInstance method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.4, p.177
     # Spec verified: R23-11
-    # [x] __init__                        [x] impl  [x] docstring  [x] test
-    # [x] getArraySize                    [x] impl  [x] docstring  [x] test
-    # [x] setArraySize                    [x] impl  [x] docstring  [x] test
-    # [x] getDisplayIdentifier            [x] impl  [x] docstring  [x] test
-    # [x] setDisplayIdentifier            [x] impl  [x] docstring  [x] test
-    # [x] getFlatMapEntryRef              [x] impl  [x] docstring  [x] test
-    # [x] setFlatMapEntryRef              [x] impl  [x] docstring  [x] test
-    # [x] getInstanceInMemory             [x] impl  [x] docstring  [x] test
-    # [x] setInstanceInMemory             [x] impl  [x] docstring  [x] test
-    # [x] getMcDataAccessDetails          [x] impl  [x] docstring  [x] test
-    # [x] setMcDataAccessDetails          [x] impl  [x] docstring  [x] test
-    # [x] addMcDataAssignment             [x] impl  [x] docstring  [x] test
-    # [x] getMcDataAssignments            [x] impl  [x] docstring  [x] test
-    # [x] getResultingProperties          [x] impl  [x] docstring  [x] test
-    # [x] setResultingProperties          [x] impl  [x] docstring  [x] test
-    # [x] getResultingRptSwPrototypingAccess [x] impl [x] docstring  [x] test
-    # [x] setResultingRptSwPrototypingAccess [x] impl [x] docstring  [x] test
-    # [x] getRole                         [x] impl  [x] docstring  [x] test
-    # [x] setRole                         [x] impl  [x] docstring  [x] test
-    # [x] getRptImplPolicy                [x] impl  [x] docstring  [x] test
-    # [x] setRptImplPolicy                [x] impl  [x] docstring  [x] test
-    # [x] createSubElement                [x] impl  [x] docstring  [x] test
-    # [x] getSubElements                  [x] impl  [x] docstring  [x] test
-    # [x] getSymbol                       [x] impl  [x] docstring  [x] test
-    # [x] setSymbol                       [x] impl  [x] docstring  [x] test
+    # [x] __init__                            [x] impl  [x] docstring  [x] test
+    # [x] getArraySize                        [x] impl  [x] docstring  [x] test
+    # [x] setArraySize                        [x] impl  [x] docstring  [x] test
+    # [x] getDisplayIdentifier                [x] impl  [x] docstring  [x] test
+    # [x] setDisplayIdentifier                [x] impl  [x] docstring  [x] test
+    # [x] getFlatMapEntryRef                  [x] impl  [x] docstring  [x] test
+    # [x] setFlatMapEntryRef                  [x] impl  [x] docstring  [x] test
+    # [x] getInstanceInMemory                 [x] impl  [x] docstring  [x] test
+    # [x] setInstanceInMemory                 [x] impl  [x] docstring  [x] test
+    # [x] getMcDataAccessDetails              [x] impl  [x] docstring  [x] test
+    # [x] setMcDataAccessDetails              [x] impl  [x] docstring  [x] test
+    # [x] addMcDataAssignment                 [x] impl  [x] docstring  [x] test
+    # [x] getMcDataAssignments                [x] impl  [x] docstring  [x] test
+    # [x] getResultingProperties              [x] impl  [x] docstring  [x] test
+    # [x] setResultingProperties              [x] impl  [x] docstring  [x] test
+    # [x] getResultingRptSwPrototypingAccess  [x] impl  [x] docstring  [x] test
+    # [x] setResultingRptSwPrototypingAccess  [x] impl  [x] docstring  [x] test
+    # [x] getRole                             [x] impl  [x] docstring  [x] test
+    # [x] setRole                             [x] impl  [x] docstring  [x] test
+    # [x] getRptImplPolicy                    [x] impl  [x] docstring  [x] test
+    # [x] setRptImplPolicy                    [x] impl  [x] docstring  [x] test
+    # [x] createSubElement                    [x] impl  [x] docstring  [x] test
+    # [x] getSubElements                      [x] impl  [x] docstring  [x] test
+    # [x] getSymbol                           [x] impl  [x] docstring  [x] test
+    # [x] setSymbol                           [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -394,28 +641,28 @@ class McDataInstance(Identifiable):
         """
         super().__init__(parent, short_name)
 
-        # Array size, if this McDataInstance represents an array.
+        # The existence of this attribute turns the data instance into an array of data. The attribute determines the size of the array in terms of number of elements.
         self.arraySize: Optional[PositiveInteger] = None
 
-        # Optional identifier to be used by an MCD system to identify this data instance.
+        # An optional attribute to be used to set the ASAM ASAP2 DISPLAY_IDENTIFIER attribute.
         self.displayIdentifier: Optional[McdIdentifier] = None
 
-        # Reference to the FlatInstanceDescriptor the data instance is linked to.
+        # Reference to the corresponding entry in the ECU Flat Map. This allows to trace back to the original specification of the generated data instance. This link shall be added by the RTE generator mainly for documentation purposes.
         self.flatMapEntryRef: Optional[RefType] = None
 
-        # Reference to the implementation element in parameter instance representing the data instance in memory.
+        # Reference to the corresponding data instance in the description of calibration data structures published by the RTE generator. This is used to support emulation methods inside the ECU, it is not required for A2L generation.
         self.instanceInMemory: Optional[ImplementationElementInParameterInstanceRef] = None
 
-        # Details of the access to the data instance.
+        # Refers to "upstream" information on how the RTE uses this data instance. Use Case: Rapid Prototyping
         self.mcDataAccessDetails: Optional[McDataAccessDetails] = None
 
-        # Role-based assignments of MC data to this data instance.
+        # An assignment between McDataInstances. This supports the indication of related McDataElement implementing the of "RP global buffer", "RP global measurement buffer", "RP enabler flag".
         self.mcDataAssignments: List[RoleBasedMcDataAssignment] = []
 
-        # Resulting properties of the data instance.
+        # These are the generated properties resulting from decisions taken by the RTE generator for the actually implemented data instance. Only those properties are relevant here, which are needed for the measurement and calibration system.
         self.resultingProperties: Optional[SwDataDefProps] = None
 
-        # Resulting rapid prototyping access of the data instance.
+        # Describes the implemented accessibility of data and modes by the rapid prototyping tooling.
         self.resultingRptSwPrototypingAccess: Optional[RptSwPrototypingAccess] = None
 
         # An optional attribute to be used for additional information on the role of this data instance, for example in the context of rapid prototyping.
@@ -432,7 +679,7 @@ class McDataInstance(Identifiable):
 
     def getArraySize(self) -> Optional[PositiveInteger]:
         """
-        Gets the array size of this data instance.
+        Gets the array size. The existence of this attribute turns the data instance into an array of data; the value determines the size of the array in terms of number of elements.
 
         Returns:
             PositiveInteger representing the array size, or None if not set
@@ -441,8 +688,8 @@ class McDataInstance(Identifiable):
 
     def setArraySize(self, value: Optional[PositiveInteger]) -> "McDataInstance":
         """
-        Sets the array size of this data instance.
-        A None value is a no-op and does not overwrite an existing size.
+        Sets the array size. The existence of this attribute turns the data instance into an array of data; the value determines the size of the array in terms of number of elements.
+        A None value is a no-op and does not overwrite an existing arraySize.
 
         Args:
             value: The array size to set
@@ -456,17 +703,17 @@ class McDataInstance(Identifiable):
 
     def getDisplayIdentifier(self) -> Optional[McdIdentifier]:
         """
-        Gets the optional identifier to be used by an MCD system to identify this data instance.
+        Gets the optional ASAM ASAP2 DISPLAY_IDENTIFIER attribute.
 
         Returns:
-            McdIdentifier to be used by the MCD system, or None if not set
+            McdIdentifier used to set the ASAM ASAP2 DISPLAY_IDENTIFIER attribute, or None if not set
         """
         return self.displayIdentifier
 
     def setDisplayIdentifier(self, value: Optional[McdIdentifier]) -> "McDataInstance":
         """
-        Sets the optional identifier to be used by an MCD system to identify this data instance.
-        A None value is a no-op and does not overwrite an existing identifier.
+        Sets the optional ASAM ASAP2 DISPLAY_IDENTIFIER attribute.
+        A None value is a no-op and does not overwrite an existing displayIdentifier.
 
         Args:
             value: The McdIdentifier to set
@@ -480,7 +727,7 @@ class McDataInstance(Identifiable):
 
     def getFlatMapEntryRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the FlatInstanceDescriptor the data instance is linked to.
+        Gets the reference to the corresponding entry in the ECU Flat Map, allowing to trace back to the original specification of the generated data instance. This link shall be added by the RTE generator mainly for documentation purposes.
 
         Returns:
             RefType referencing the flat map entry, or None if not set
@@ -489,8 +736,8 @@ class McDataInstance(Identifiable):
 
     def setFlatMapEntryRef(self, value: Optional[RefType]) -> "McDataInstance":
         """
-        Sets the reference to the FlatInstanceDescriptor the data instance is linked to.
-        A None value is a no-op and does not overwrite an existing reference.
+        Sets the reference to the corresponding entry in the ECU Flat Map, allowing to trace back to the original specification of the generated data instance. This link shall be added by the RTE generator mainly for documentation purposes.
+        A None value is a no-op and does not overwrite an existing flatMapEntryRef.
 
         Args:
             value: The flat map entry reference to set
@@ -504,7 +751,7 @@ class McDataInstance(Identifiable):
 
     def getInstanceInMemory(self) -> Optional[ImplementationElementInParameterInstanceRef]:
         """
-        Gets the reference to the implementation element in parameter instance representing the data instance in memory.
+        Gets the reference to the corresponding data instance in the description of calibration data structures published by the RTE generator. This is used to support emulation methods inside the ECU, it is not required for A2L generation.
 
         Returns:
             ImplementationElementInParameterInstanceRef referencing the data instance in memory, or None if not set
@@ -513,8 +760,8 @@ class McDataInstance(Identifiable):
 
     def setInstanceInMemory(self, value: Optional[ImplementationElementInParameterInstanceRef]) -> "McDataInstance":
         """
-        Sets the reference to the implementation element in parameter instance representing the data instance in memory.
-        A None value is a no-op and does not overwrite an existing reference.
+        Sets the reference to the corresponding data instance in the description of calibration data structures published by the RTE generator. This is used to support emulation methods inside the ECU, it is not required for A2L generation.
+        A None value is a no-op and does not overwrite an existing instanceInMemory.
 
         Args:
             value: The instance in memory reference to set
@@ -528,7 +775,7 @@ class McDataInstance(Identifiable):
 
     def getMcDataAccessDetails(self) -> Optional[McDataAccessDetails]:
         """
-        Gets the details of the access to the data instance.
+        Gets the upstream information on how the RTE uses this data instance (use case: Rapid Prototyping).
 
         Returns:
             McDataAccessDetails instance, or None if not set
@@ -537,8 +784,8 @@ class McDataInstance(Identifiable):
 
     def setMcDataAccessDetails(self, value: Optional[McDataAccessDetails]) -> "McDataInstance":
         """
-        Sets the details of the access to the data instance.
-        A None value is a no-op and does not overwrite existing access details.
+        Sets the upstream information on how the RTE uses this data instance (use case: Rapid Prototyping).
+        A None value is a no-op and does not overwrite an existing mcDataAccessDetails.
 
         Args:
             value: The McDataAccessDetails to set
@@ -552,7 +799,7 @@ class McDataInstance(Identifiable):
 
     def addMcDataAssignment(self, value: Optional[RoleBasedMcDataAssignment]) -> "McDataInstance":
         """
-        Adds a role-based MC data assignment to this data instance.
+        Adds an assignment between McDataInstances. This supports the indication of related McDataElement implementing of "RP global buffer", "RP global measurement buffer", "RP enabler flag".
         A None value is a no-op and does not append anything.
 
         Args:
@@ -567,7 +814,7 @@ class McDataInstance(Identifiable):
 
     def getMcDataAssignments(self) -> List[RoleBasedMcDataAssignment]:
         """
-        Gets the role-based MC data assignments aggregated by this data instance.
+        Gets the assignments between McDataInstances aggregated by this data instance.
 
         Returns:
             List of RoleBasedMcDataAssignment instances
@@ -576,7 +823,7 @@ class McDataInstance(Identifiable):
 
     def getResultingProperties(self) -> Optional[SwDataDefProps]:
         """
-        Gets the resulting properties of the data instance.
+        Gets the generated properties resulting from decisions taken by the RTE generator for the actually implemented data instance. Only those properties are relevant here, which are needed for the measurement and calibration system.
 
         Returns:
             SwDataDefProps instance, or None if not set
@@ -585,8 +832,8 @@ class McDataInstance(Identifiable):
 
     def setResultingProperties(self, value: Optional[SwDataDefProps]) -> "McDataInstance":
         """
-        Sets the resulting properties of the data instance.
-        A None value is a no-op and does not overwrite existing properties.
+        Sets the generated properties resulting from decisions taken by the RTE generator for the actually implemented data instance. Only those properties are relevant here, which are needed for the measurement and calibration system.
+        A None value is a no-op and does not overwrite an existing resultingProperties.
 
         Args:
             value: The SwDataDefProps to set
@@ -600,7 +847,7 @@ class McDataInstance(Identifiable):
 
     def getResultingRptSwPrototypingAccess(self) -> Optional[RptSwPrototypingAccess]:
         """
-        Gets the resulting rapid prototyping access of the data instance.
+        Gets the implemented accessibility of data and modes by the rapid prototyping tooling.
 
         Returns:
             RptSwPrototypingAccess instance, or None if not set
@@ -609,8 +856,8 @@ class McDataInstance(Identifiable):
 
     def setResultingRptSwPrototypingAccess(self, value: Optional[RptSwPrototypingAccess]) -> "McDataInstance":
         """
-        Sets the resulting rapid prototyping access of the data instance.
-        A None value is a no-op and does not overwrite existing access.
+        Sets the implemented accessibility of data and modes by the rapid prototyping tooling.
+        A None value is a no-op and does not overwrite an existing resultingRptSwPrototypingAccess.
 
         Args:
             value: The RptSwPrototypingAccess to set
