@@ -27,16 +27,16 @@ class TestAccessCount:
         """Test AccessCount initialization."""
         count = AccessCount()
         assert count is not None
-        assert count.getAccessPoint() is None
+        assert count.getAccessPointRef() is None
         assert count.getValue() is None
 
     def test_access_point_setter_getter(self):
         """Test accessPoint setter and getter."""
         count = AccessCount()
         ref = RefType().setValue("/AccessPoint")
-        result = count.setAccessPoint(ref)
+        result = count.setAccessPointRef(ref)
         assert result is count
-        assert count.getAccessPoint() == ref
+        assert count.getAccessPointRef() == ref
 
     def test_value_setter_getter(self):
         """Test value setter and getter."""
@@ -50,9 +50,9 @@ class TestAccessCount:
         """Test accessPoint setter with None is a no-op."""
         count = AccessCount()
         ref = RefType().setValue("/AccessPoint")
-        count.setAccessPoint(ref)
-        count.setAccessPoint(None)
-        assert count.getAccessPoint() == ref
+        count.setAccessPointRef(ref)
+        count.setAccessPointRef(None)
+        assert count.getAccessPointRef() == ref
 
     def test_value_setter_none_noop(self):
         """Test value setter with None is a no-op."""
@@ -67,8 +67,8 @@ class TestAccessCount:
         count = AccessCount()
         ref = RefType().setValue("/AccessPoint")
         value = PositiveInteger().setValue(7)
-        count.setAccessPoint(ref).setValue(value)
-        assert count.getAccessPoint() == ref
+        count.setAccessPointRef(ref).setValue(value)
+        assert count.getAccessPointRef() == ref
         assert count.getValue() == value
 
 

@@ -2163,7 +2163,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     counts_element = ET.SubElement(access_count_set_element, "ACCESS-COUNTS")
                     for count in access_counts:
                         count_element = ET.SubElement(counts_element, "ACCESS-COUNT")
-                        self.setChildElementOptionalRefType(count_element, "ACCESS-POINT-REF", count.getAccessPoint())
+                        self.setChildElementOptionalRefType(count_element, "ACCESS-POINT-REF", count.getAccessPointRef())
                         self.setChildElementOptionalPositiveInteger(count_element, "VALUE", count.getValue())
 
     def setStackUsage(self, element: ET.Element, usage: StackUsage):
