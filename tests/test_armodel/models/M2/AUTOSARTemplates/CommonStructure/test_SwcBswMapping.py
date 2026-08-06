@@ -1,6 +1,7 @@
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswRunnableMapping, SwcBswMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import PTriggerInAtomicSwcTypeInstanceRef
 
 
 class TestSwcBswRunnableMapping:
@@ -155,6 +156,28 @@ class TestSwcBswMapping:
         assert result is swc_bsw_mapping
         assert swc_bsw_mapping.getSynchronizedTriggers() == test_triggers
 
+    def test_add_synchronized_mode_group(self):
+        """Test addSynchronizedModeGroup method"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        swc_bsw_mapping = SwcBswMapping(ar_root, "TestSwcBswMapping")
+        mode_group = SwcBswSynchronizedModeGroupPrototype()
+        result = swc_bsw_mapping.addSynchronizedModeGroup(mode_group)
+        assert result is swc_bsw_mapping
+        assert len(swc_bsw_mapping.getSynchronizedModeGroups()) == 1
+        assert swc_bsw_mapping.getSynchronizedModeGroups()[0] == mode_group
+
+    def test_add_synchronized_trigger(self):
+        """Test addSynchronizedTrigger method"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        swc_bsw_mapping = SwcBswMapping(ar_root, "TestSwcBswMapping")
+        trigger = SwcBswSynchronizedTrigger()
+        result = swc_bsw_mapping.addSynchronizedTrigger(trigger)
+        assert result is swc_bsw_mapping
+        assert len(swc_bsw_mapping.getSynchronizedTriggers()) == 1
+        assert swc_bsw_mapping.getSynchronizedTriggers()[0] == trigger
+
 
 class TestSwcBswSynchronizedModeGroupPrototype:
     def test_initialization(self):
@@ -271,7 +294,7 @@ class TestSwcBswSynchronizedTrigger:
     def test_set_swc_trigger_iref(self):
         """Test setSwcTriggerIRef method"""
         trigger = SwcBswSynchronizedTrigger()
-        test_value = RefType().setValue("SwcTriggerRef")
+        test_value = PTriggerInAtomicSwcTypeInstanceRef()
         result = trigger.setSwcTriggerIRef(test_value)
         assert result is trigger
         assert trigger.getSwcTriggerIRef() == test_value
@@ -279,7 +302,7 @@ class TestSwcBswSynchronizedTrigger:
     def test_set_swc_trigger_iref_none_is_noop(self):
         """Test setSwcTriggerIRef with None is a no-op"""
         trigger = SwcBswSynchronizedTrigger()
-        initial_value = RefType().setValue("SwcTriggerRef")
+        initial_value = PTriggerInAtomicSwcTypeInstanceRef()
         trigger.setSwcTriggerIRef(initial_value)
         trigger.setSwcTriggerIRef(None)
         assert trigger.getSwcTriggerIRef() == initial_value
@@ -289,7 +312,7 @@ class TestSwcBswSynchronizedTrigger:
         trigger = SwcBswSynchronizedTrigger()
 
         bsw_ref = RefType().setValue("BswTriggerRef")
-        swc_ref = RefType().setValue("SwcTriggerRef")
+        swc_ref = PTriggerInAtomicSwcTypeInstanceRef()
 
         trigger.setBswTriggerRef(bsw_ref)
         trigger.setSwcTriggerIRef(swc_ref)
@@ -302,7 +325,7 @@ class TestSwcBswSynchronizedTrigger:
         trigger = SwcBswSynchronizedTrigger()
 
         bsw_ref = RefType().setValue("BswTriggerRef")
-        swc_ref = RefType().setValue("SwcTriggerRef")
+        swc_ref = PTriggerInAtomicSwcTypeInstanceRef()
 
         result = trigger.setBswTriggerRef(bsw_ref).setSwcTriggerIRef(swc_ref)
         assert result is trigger

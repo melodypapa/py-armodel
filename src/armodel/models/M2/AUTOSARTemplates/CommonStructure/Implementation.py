@@ -4,27 +4,97 @@ in the CommonStructure module. Implementation classes define software implementa
 including code descriptors, compilers, dependencies, and resource consumption information.
 """
 
+from __future__ import annotations
+
 from abc import ABC
-from typing import List
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
+from typing import TYPE_CHECKING, List, Optional
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.McSupportData import McSupportData
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable, ARElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, ARLiteral, String, RevisionLabelString, AREnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, String, RevisionLabelString, AREnum, CIdentifier
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+if TYPE_CHECKING:
+    from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
+
+
+class DependencyUsageEnum(AREnum):
+    """
+    Enumeration describing the process steps a dependency is valid in.
+    """
+
+    # DependencyUsageEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 7.4, p.132
+    # [x] __init__                     [x] impl  [x] docstring  [ ] test
+
+    # The object referred by the dependency is required during the build process. atp.EnumerationLiteralIndex=0
+    BUILD = "build"
+
+    # The object referred by the dependency is required during code generation. atp.EnumerationLiteralIndex=1
+    CODEGENERATION = "codegeneration"
+
+    # The object referred by the dependency is required during compilation. atp.EnumerationLiteralIndex=2
+    COMPILE = "compile"
+
+    # The object referred by the dependency is required at execution time. atp.EnumerationLiteralIndex=3
+    EXECUTE = "execute"
+
+    # The object referred by the dependency is required during linking. atp.EnumerationLiteralIndex=4
+    LINK = "link"
+
+    def __init__(self):
+        super().__init__(
+            (
+                DependencyUsageEnum.BUILD,
+                DependencyUsageEnum.CODEGENERATION,
+                DependencyUsageEnum.COMPILE,
+                DependencyUsageEnum.EXECUTE,
+                DependencyUsageEnum.LINK,
+            )
+        )
+
+
+class ProgramminglanguageEnum(AREnum):
+    """
+    Programming language the implementation was created in.
+    """
+
+    # ProgramminglanguageEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 8.2, p.621
+    # [x] __init__                     [x] impl  [x] docstring  [ ] test
+
+    # C language. atp.EnumerationLiteralIndex=0
+    C = "c"
+
+    # C++ language. atp.EnumerationLiteralIndex=1
+    CPP = "cpp"
+
+    # Java language. atp.EnumerationLiteralIndex=2
+    JAVA = "java"
+
+    def __init__(self):
+        super().__init__(
+            (
+                ProgramminglanguageEnum.C,
+                ProgramminglanguageEnum.CPP,
+                ProgramminglanguageEnum.JAVA,
+            )
+        )
 
 
 class ImplementationProps(Referrable, ABC):
     """
-    Abstract base class for implementation properties in AUTOSAR models.
-    This class serves as a base for defining properties of implementations such as symbols and identifiers.
+    Define a symbol to be used as (depending on the concrete case) either a complete
+    replacement or a prefix when generating code artifacts.
     """
 
     # ImplementationProps method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.20, p.287
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] getSymbol                    [x] impl  [x] docstring  [x] test
     # [x] setSymbol                    [x] impl  [x] docstring  [x] test
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the ImplementationProps with a parent and short name.
         Raises TypeError if this abstract class is instantiated directly.
@@ -38,21 +108,25 @@ class ImplementationProps(Referrable, ABC):
 
         super().__init__(parent, short_name)
 
-        # Symbol associated with this implementation properties
-        self.symbol: ARLiteral = None
+        # The symbol to be used as (depending on the concrete case) either a complete
+        # replacement or a prefix. [constr_1909]
+        self.symbol: Optional[CIdentifier] = None
 
-    def getSymbol(self):
+    def getSymbol(self) -> Optional[CIdentifier]:
         """
-        Gets the symbol associated with this implementation properties.
+        Gets the symbol to be used as (depending on the concrete case) either a complete
+        replacement or a prefix when generating code artifacts. [constr_1909]
 
         Returns:
-            ARLiteral: The symbol
+            CIdentifier representing the symbol
         """
         return self.symbol
 
-    def setSymbol(self, value):
+    def setSymbol(self, value: Optional[CIdentifier]) -> "ImplementationProps":
         """
-        Sets the symbol associated with this implementation properties.
+        Sets the symbol to be used as (depending on the concrete case) either a complete
+        replacement or a prefix when generating code artifacts. A None value is a no-op
+        and does not overwrite an existing symbol. [constr_1909]
 
         Args:
             value: The symbol to set
@@ -60,22 +134,27 @@ class ImplementationProps(Referrable, ABC):
         Returns:
             self for method chaining
         """
-        self.symbol = value
+        if value is not None:
+            self.symbol = value
         return self
 
 
 class Code(Identifiable):
     """
     Represents code descriptor in AUTOSAR models.
-    This class contains information about code artifacts and their properties used in implementations.
+    A generic code descriptor; the type of the code (source or object) is defined via the
+    category attribute of the associated engineering object.
     """
 
     # Code method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 8.5, p.622
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] addArtifactDescriptor        [x] impl  [x] docstring  [x] test
-    # [ ] getArtifactDescriptors       [x] impl  [x] docstring  [ ] test
+    # [x] getArtifactDescriptors       [x] impl  [x] docstring  [x] test
+    # [x] getCallbackHeaderRefs        [x] impl  [x] docstring  [x] test
+    # [x] addCallbackHeaderRef         [x] impl  [x] docstring  [x] test
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the Code with a parent and short name.
 
@@ -85,14 +164,17 @@ class Code(Identifiable):
         """
         super().__init__(parent, short_name)
 
-        # List of artifact descriptors for this code
+        # Refers to the artifact belonging to this code descriptor.
         self.artifactDescriptors: List[AutosarEngineeringObject] = []
-        # List of callback header references for this code
+
+        # Describes in which header files the function declarations of callback functions
+        # are provided to a service module, so it can include the appropriate header files.
         self.callbackHeaderRefs: List[RefType] = []
 
-    def addArtifactDescriptor(self, desc: AutosarEngineeringObject):
+    def addArtifactDescriptor(self, desc: Optional[AutosarEngineeringObject]) -> "Code":
         """
         Adds an artifact descriptor to this code descriptor.
+        A None value is a no-op and is not appended. [TPS_BSWMDT_04040]
 
         Args:
             desc: The artifact descriptor to add
@@ -100,12 +182,15 @@ class Code(Identifiable):
         Returns:
             self for method chaining
         """
-        self.artifactDescriptors.append(desc)
+        if desc is not None:
+            self.artifactDescriptors.append(desc)
         return self
 
     def getArtifactDescriptors(self, category: str = "") -> List[AutosarEngineeringObject]:
         """
         Gets the list of artifact descriptors, optionally filtered by category.
+        For each codeDescriptor all relevant artifacts are referenced through
+        artifactDescriptor. [TPS_BSWMDT_04040]
 
         Args:
             category: Optional category to filter descriptors by (returns all if empty)
@@ -118,14 +203,41 @@ class Code(Identifiable):
         else:
             return list(filter(lambda a: a.getCategory().getText() == category, self.artifactDescriptors))
 
+    def getCallbackHeaderRefs(self) -> List[RefType]:
+        """
+        Gets the list of references to the header files that declare the callback functions
+        of this code descriptor.
+
+        Returns:
+            List of RefType to the callback header files
+        """
+        return self.callbackHeaderRefs
+
+    def addCallbackHeaderRef(self, value: Optional[RefType]) -> "Code":
+        """
+        Adds a reference to a header file that declares callback functions of this code
+        descriptor. A None value is a no-op and is not appended.
+
+        Args:
+            value: The callback header reference to add
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.callbackHeaderRefs.append(value)
+        return self
+
 
 class Compiler(Identifiable):
     """
-    Represents a compiler in AUTOSAR models.
-    This class contains information about compiler configuration used in implementations.
+    Specifies the compiler attributes. In case of source code this specifies requirements
+    how the compiler shall be invoked. In case of object code this documents the used
+    compiler settings.
     """
 
     # Compiler method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 8.3, p.621
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] getName                      [x] impl  [x] docstring  [x] test
     # [x] setName                      [x] impl  [x] docstring  [x] test
@@ -136,7 +248,7 @@ class Compiler(Identifiable):
     # [x] getVersion                   [x] impl  [x] docstring  [x] test
     # [x] setVersion                   [x] impl  [x] docstring  [x] test
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the Compiler with a parent and short name.
 
@@ -146,27 +258,31 @@ class Compiler(Identifiable):
         """
         super().__init__(parent, short_name)
 
-        # Name of the compiler
-        self.name: String = None
-        # Options used with the compiler
-        self.options: String = None
-        # Vendor information for the compiler
-        self.vendor: String = None
-        # Version of the compiler
-        self.version: String = None
+        # Compiler name (like gcc).
+        self.name: Optional[String] = None
 
-    def getName(self):
+        # Specifies the compiler options.
+        self.options: Optional[String] = None
+
+        # Vendor of compiler.
+        self.vendor: Optional[String] = None
+
+        # Exact version of compiler executable.
+        self.version: Optional[String] = None
+
+    def getName(self) -> Optional[String]:
         """
-        Gets the name of the compiler.
+        Gets the compiler name (like gcc).
 
         Returns:
             String: The compiler name
         """
         return self.name
 
-    def setName(self, value):
+    def setName(self, value: Optional[String]) -> "Compiler":
         """
-        Sets the name of the compiler.
+        Sets the compiler name (like gcc). A None value is a no-op and does not overwrite
+        an existing name.
 
         Args:
             value: The compiler name to set
@@ -174,21 +290,23 @@ class Compiler(Identifiable):
         Returns:
             self for method chaining
         """
-        self.name = value
+        if value is not None:
+            self.name = value
         return self
 
-    def getOptions(self):
+    def getOptions(self) -> Optional[String]:
         """
-        Gets the options used with the compiler.
+        Gets the compiler options.
 
         Returns:
             String: The compiler options
         """
         return self.options
 
-    def setOptions(self, value):
+    def setOptions(self, value: Optional[String]) -> "Compiler":
         """
-        Sets the options used with the compiler.
+        Sets the compiler options. A None value is a no-op and does not overwrite the
+        existing options.
 
         Args:
             value: The compiler options to set
@@ -196,21 +314,23 @@ class Compiler(Identifiable):
         Returns:
             self for method chaining
         """
-        self.options = value
+        if value is not None:
+            self.options = value
         return self
 
-    def getVendor(self):
+    def getVendor(self) -> Optional[String]:
         """
-        Gets the vendor information for the compiler.
+        Gets the vendor of the compiler.
 
         Returns:
             String: The compiler vendor
         """
         return self.vendor
 
-    def setVendor(self, value):
+    def setVendor(self, value: Optional[String]) -> "Compiler":
         """
-        Sets the vendor information for the compiler.
+        Sets the vendor of the compiler. A None value is a no-op and does not overwrite the
+        existing vendor.
 
         Args:
             value: The compiler vendor to set
@@ -218,21 +338,23 @@ class Compiler(Identifiable):
         Returns:
             self for method chaining
         """
-        self.vendor = value
+        if value is not None:
+            self.vendor = value
         return self
 
-    def getVersion(self):
+    def getVersion(self) -> Optional[String]:
         """
-        Gets the version of the compiler.
+        Gets the exact version of the compiler executable.
 
         Returns:
             String: The compiler version
         """
         return self.version
 
-    def setVersion(self, value):
+    def setVersion(self, value: Optional[String]) -> "Compiler":
         """
-        Sets the version of the compiler.
+        Sets the exact version of the compiler executable. A None value is a no-op and does
+        not overwrite the existing version.
 
         Args:
             value: The compiler version to set
@@ -240,24 +362,25 @@ class Compiler(Identifiable):
         Returns:
             self for method chaining
         """
-        self.version = value
+        if value is not None:
+            self.version = value
         return self
 
 
 class DependencyOnArtifact(Identifiable):
     """
-    Represents a dependency on an artifact in AUTOSAR models.
-    This class defines dependencies on artifacts required by implementations such as compilers, linkers, etc.
+    Represents a dependency on the existence of another artifact, e.g. a library.
     """
 
     # DependencyOnArtifact method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.91, p.413
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] getArtifactDescriptor        [x] impl  [x] docstring  [x] test
     # [x] setArtifactDescriptor        [x] impl  [x] docstring  [x] test
-    # [x] getUsage                     [x] impl  [x] docstring  [x] test
-    # [x] setUsage                     [x] impl  [x] docstring  [x] test
+    # [x] getUsages                    [x] impl  [x] docstring  [x] test
+    # [x] addUsage                     [x] impl  [x] docstring  [x] test
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the DependencyOnArtifact with a parent and short name.
 
@@ -267,23 +390,25 @@ class DependencyOnArtifact(Identifiable):
         """
         super().__init__(parent, short_name)
 
-        # Artifact descriptor that this dependency references
-        self.artifactDescriptor: AutosarEngineeringObject = None
-        # Usage type of this dependency
-        self.usage = None
+        # The specified artifact needs to exist.
+        self.artifactDescriptor: Optional[AutosarEngineeringObject] = None
 
-    def getArtifactDescriptor(self):
+        # Specification for which process step(s) this dependency is required.
+        self.usages: List[DependencyUsageEnum] = []
+
+    def getArtifactDescriptor(self) -> Optional[AutosarEngineeringObject]:
         """
-        Gets the artifact descriptor that this dependency references.
+        Gets the artifact that needs to exist for this dependency.
 
         Returns:
             AutosarEngineeringObject: The artifact descriptor
         """
         return self.artifactDescriptor
 
-    def setArtifactDescriptor(self, value):
+    def setArtifactDescriptor(self, value: Optional[AutosarEngineeringObject]) -> "DependencyOnArtifact":
         """
-        Sets the artifact descriptor that this dependency references.
+        Sets the artifact that needs to exist for this dependency. A None value is a no-op
+        and does not overwrite the existing artifact.
 
         Args:
             value: The artifact descriptor to set
@@ -291,60 +416,201 @@ class DependencyOnArtifact(Identifiable):
         Returns:
             self for method chaining
         """
-        self.artifactDescriptor = value
+        if value is not None:
+            self.artifactDescriptor = value
         return self
 
-    def getUsage(self):
+    def getUsages(self) -> List[DependencyUsageEnum]:
         """
-        Gets the usage type of this dependency.
+        Gets the list of process steps for which this dependency is required.
+        [constr_10304]
 
         Returns:
-            DependencyUsageEnum: The usage type
+            List of DependencyUsageEnum for the process steps
         """
-        return self.usage
+        return self.usages
 
-    def setUsage(self, value):
+    def addUsage(self, value: Optional[DependencyUsageEnum]) -> "DependencyOnArtifact":
         """
-        Sets the usage type of this dependency.
+        Adds a process step for which this dependency is required. A None value is a no-op
+        and is not appended. [constr_10304]
 
         Args:
-            value: The usage type to set
+            value: The process step to add
 
         Returns:
             self for method chaining
         """
-        self.usage = value
+        if value is not None:
+            self.usages.append(value)
+        return self
+
+
+class Linker(Identifiable):
+    """
+    Specifies the linker attributes used to describe how the linker shall be invoked.
+    """
+
+    # Linker method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 8.4, p.622
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getName                      [x] impl  [x] docstring  [x] test
+    # [x] setName                      [x] impl  [x] docstring  [x] test
+    # [x] getOptions                   [x] impl  [x] docstring  [x] test
+    # [x] setOptions                   [x] impl  [x] docstring  [x] test
+    # [x] getVendor                    [x] impl  [x] docstring  [x] test
+    # [x] setVendor                    [x] impl  [x] docstring  [x] test
+    # [x] getVersion                   [x] impl  [x] docstring  [x] test
+    # [x] setVersion                   [x] impl  [x] docstring  [x] test
+
+    def __init__(self, parent: ARObject, short_name: str) -> None:
+        """
+        Initializes the Linker with a parent and short name.
+
+        Args:
+            parent: The parent ARObject that contains this linker
+            short_name: The unique short name of this linker
+        """
+        super().__init__(parent, short_name)
+
+        # Linker name.
+        self.name: Optional[String] = None
+
+        # Specifies the linker options.
+        self.options: Optional[String] = None
+
+        # Vendor of linker.
+        self.vendor: Optional[String] = None
+
+        # Exact version of linker executable.
+        self.version: Optional[String] = None
+
+    def getName(self) -> Optional[String]:
+        """
+        Gets the linker name.
+
+        Returns:
+            String: The linker name
+        """
+        return self.name
+
+    def setName(self, value: Optional[String]) -> "Linker":
+        """
+        Sets the linker name. A None value is a no-op and does not overwrite an existing
+        name.
+
+        Args:
+            value: The linker name to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.name = value
+        return self
+
+    def getOptions(self) -> Optional[String]:
+        """
+        Gets the linker options.
+
+        Returns:
+            String: The linker options
+        """
+        return self.options
+
+    def setOptions(self, value: Optional[String]) -> "Linker":
+        """
+        Sets the linker options. A None value is a no-op and does not overwrite the
+        existing options.
+
+        Args:
+            value: The linker options to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.options = value
+        return self
+
+    def getVendor(self) -> Optional[String]:
+        """
+        Gets the vendor of the linker.
+
+        Returns:
+            String: The linker vendor
+        """
+        return self.vendor
+
+    def setVendor(self, value: Optional[String]) -> "Linker":
+        """
+        Sets the vendor of the linker. A None value is a no-op and does not overwrite the
+        existing vendor.
+
+        Args:
+            value: The linker vendor to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.vendor = value
+        return self
+
+    def getVersion(self) -> Optional[String]:
+        """
+        Gets the exact version of the linker executable.
+
+        Returns:
+            String: The linker version
+        """
+        return self.version
+
+    def setVersion(self, value: Optional[String]) -> "Linker":
+        """
+        Sets the exact version of the linker executable. A None value is a no-op and does
+        not overwrite the existing version.
+
+        Args:
+            value: The linker version to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.version = value
         return self
 
 
 class Implementation(ARElement, ABC):
     """
     Abstract base class for implementations in AUTOSAR models.
-    This class serves as a base for defining software implementations including code, compilers, dependencies, and resource consumption information.
+    Description of an implementation of a single software component or module.
     """
 
     # Implementation method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 8.1, p.619
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] getBuildActionManifestRef    [x] impl  [x] docstring  [x] test
     # [x] setBuildActionManifestRef    [x] impl  [x] docstring  [x] test
-    # [ ] getCodeDescriptors           [x] impl  [x] docstring  [ ] test
+    # [x] getCodeDescriptors           [x] impl  [x] docstring  [x] test
     # [x] createCodeDescriptor         [x] impl  [x] docstring  [x] test
     # [x] getCompilers                 [x] impl  [x] docstring  [x] test
-    # [x] setCompilers                 [x] impl  [x] docstring  [x] test
+    # [x] createCompiler               [x] impl  [x] docstring  [x] test
     # [x] getGeneratedArtifacts        [x] impl  [x] docstring  [x] test
-    # [x] setGeneratedArtifacts        [x] impl  [x] docstring  [x] test
+    # [x] createGeneratedArtifact      [x] impl  [x] docstring  [x] test
     # [x] getHwElementRefs             [x] impl  [x] docstring  [x] test
-    # [x] setHwElementRefs             [x] impl  [x] docstring  [x] test
+    # [x] addHwElementRef              [x] impl  [x] docstring  [x] test
     # [x] getLinkers                   [x] impl  [x] docstring  [x] test
-    # [x] setLinkers                   [x] impl  [x] docstring  [x] test
+    # [x] createLinker                 [x] impl  [x] docstring  [x] test
     # [x] getMcSupport                 [x] impl  [x] docstring  [x] test
     # [x] setMcSupport                 [x] impl  [x] docstring  [x] test
     # [x] getProgrammingLanguage       [x] impl  [x] docstring  [x] test
     # [x] setProgrammingLanguage       [x] impl  [x] docstring  [x] test
     # [x] getRequiredArtifacts         [x] impl  [x] docstring  [x] test
-    # [x] setRequiredArtifacts         [x] impl  [x] docstring  [x] test
+    # [x] createRequiredArtifact       [x] impl  [x] docstring  [x] test
     # [x] getRequiredGeneratorTools    [x] impl  [x] docstring  [x] test
-    # [x] setRequiredGeneratorTools    [x] impl  [x] docstring  [x] test
+    # [x] createRequiredGeneratorTool  [x] impl  [x] docstring  [x] test
     # [x] getResourceConsumption       [x] impl  [x] docstring  [x] test
     # [x] createResourceConsumption    [x] impl  [x] docstring  [x] test
     # [x] getSwcBswMappingRef          [x] impl  [x] docstring  [x] test
@@ -356,7 +622,7 @@ class Implementation(ARElement, ABC):
     # [x] getVendorId                  [x] impl  [x] docstring  [x] test
     # [x] setVendorId                  [x] impl  [x] docstring  [x] test
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self, parent: ARObject, short_name: str) -> None:
         """
         Initializes the Implementation with a parent and short name.
         Raises TypeError if this abstract class is instantiated directly.
@@ -370,49 +636,73 @@ class Implementation(ARElement, ABC):
 
         super().__init__(parent, short_name)
 
-        # Reference to the build action manifest for this implementation
-        self.buildActionManifestRef: RefType = None
-        # List of code descriptors for this implementation
-        self.codeDescriptors: List["Code"] = []
-        # List of compilers used in this implementation
-        self.compilers: List["Compiler"] = []
-        # List of generated artifacts for this implementation
-        self.generatedArtifacts: List["DependencyOnArtifact"] = []
-        # List of hardware element references for this implementation
-        self.hwElementRefs: List[RefType] = []
-        # List of linkers used in this implementation
-        self.linkers: List = []
-        # Microcontroller support information for this implementation
-        self.mcSupport = None
-        # Programming language used in this implementation
-        self.programmingLanguage = None
-        # List of required artifacts for this implementation
-        self.requiredArtifacts: List["DependencyOnArtifact"] = []
-        # List of required generator tools for this implementation
-        self.requiredGeneratorTools: List["DependencyOnArtifact"] = []
-        # Resource consumption information for this implementation
-        self.resourceConsumption: ResourceConsumption = None
-        # Reference to software component/BSW mapping for this implementation
-        self.swcBswMappingRef: RefType = None
-        # Software version information for this implementation
-        self.swVersion: List[RevisionLabelString] = []
-        # Code generator used for this implementation
-        self.usedCodeGenerator: String = None
-        # Vendor ID for this implementation
-        self.vendorId: PositiveInteger = 0
+        # A manifest specifying the intended build actions for the software delivered with
+        # this implementation.
+        self.buildActionManifestRef: Optional[RefType] = None
 
-    def getBuildActionManifestRef(self):
+        # Specifies the provided implementation code. [constr_1968]
+        self.codeDescriptors: List[Code] = []
+
+        # Specifies the compiler for which this implementation has been released.
+        self.compilers: List[Compiler] = []
+
+        # Relates to an artifact that will be generated during the integration of this
+        # Implementation by an associated generator tool.
+        self.generatedArtifacts: List[DependencyOnArtifact] = []
+
+        # The hardware elements (e.g. the processor) required for this implementation.
+        self.hwElementRefs: List[RefType] = []
+
+        # Specifies the linker for which this implementation has been released.
+        self.linkers: List[Linker] = []
+
+        # The measurement & calibration support data belonging to this implementation.
+        self.mcSupport: Optional[McSupportData] = None
+
+        # Programming language the implementation was created in.
+        self.programmingLanguage: Optional[ProgramminglanguageEnum] = None
+
+        # Specifies that this Implementation depends on the existence of another artifact
+        # (e.g. a library).
+        self.requiredArtifacts: List[DependencyOnArtifact] = []
+
+        # Relates this Implementation to a generator tool in order to generate additional
+        # artifacts during integration.
+        self.requiredGeneratorTools: List[DependencyOnArtifact] = []
+
+        # All static and dynamic resources for each implementation are described within the
+        # ResourceConsumption class.
+        self.resourceConsumption: Optional[ResourceConsumption] = None
+
+        # Allows a mapping between an SWC and a BSW behavior to be attached to an
+        # implementation description.
+        self.swcBswMappingRef: Optional[RefType] = None
+
+        # Software version of this implementation. The numbering contains three levels
+        # (like major, minor, patch), its values are vendor specific. [constr_1966]
+        self.swVersion: Optional[RevisionLabelString] = None
+
+        # Optional: code generator used.
+        self.usedCodeGenerator: Optional[String] = None
+
+        # Vendor ID of this Implementation according to the AUTOSAR vendor list. [constr_1967]
+        self.vendorId: Optional[PositiveInteger] = None
+
+    def getBuildActionManifestRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the build action manifest for this implementation.
+        Gets the reference to the manifest specifying the intended build actions for the
+        software delivered with this implementation.
 
         Returns:
             RefType: The build action manifest reference
         """
         return self.buildActionManifestRef
 
-    def setBuildActionManifestRef(self, value):
+    def setBuildActionManifestRef(self, value: Optional[RefType]) -> "Implementation":
         """
-        Sets the reference to the build action manifest for this implementation.
+        Sets the reference to the manifest specifying the intended build actions for the
+        software delivered with this implementation. A None value is a no-op and does not
+        overwrite an existing reference.
 
         Args:
             value: The build action manifest reference to set
@@ -420,10 +710,11 @@ class Implementation(ARElement, ABC):
         Returns:
             self for method chaining
         """
-        self.buildActionManifestRef = value
+        if value is not None:
+            self.buildActionManifestRef = value
         return self
 
-    def getCodeDescriptors(self) -> List["Code"]:
+    def getCodeDescriptors(self) -> List[Code]:
         """
         Gets all code descriptors from the elements list in this implementation.
 
@@ -432,7 +723,7 @@ class Implementation(ARElement, ABC):
         """
         return list(filter(lambda a: isinstance(a, Code), self.elements))
 
-    def createCodeDescriptor(self, short_name: str) -> "Code":
+    def createCodeDescriptor(self, short_name: str) -> Code:
         """
         Creates and adds a Code descriptor to this implementation.
 
@@ -448,133 +739,144 @@ class Implementation(ARElement, ABC):
             self.codeDescriptors.append(code_descriptor)
         return self.getElement(short_name)
 
-    def getCompilers(self):
+    def getCompilers(self) -> List[Compiler]:
         """
-        Gets the list of compilers used in this implementation.
+        Gets the list of compilers for which this implementation has been released.
 
         Returns:
             List of Compiler instances
         """
         return self.compilers
 
-    def setCompilers(self, value):
+    def createCompiler(self, short_name: str) -> Compiler:
         """
-        Sets the list of compilers used in this implementation.
-        Only sets the value if it is not None.
+        Creates and adds a Compiler to this implementation.
 
         Args:
-            value: The list of compilers to set
+            short_name: The short name for the new compiler
 
         Returns:
-            self for method chaining
+            The created Compiler instance
         """
-        self.compilers = value
-        return self
+        if short_name not in self.elements:
+            compiler = Compiler(self, short_name)
+            self.addElement(compiler)
+            self.compilers.append(compiler)
+        return self.getElement(short_name)
 
-    def getGeneratedArtifacts(self):
+    def getGeneratedArtifacts(self) -> List[DependencyOnArtifact]:
         """
-        Gets the list of generated artifacts for this implementation.
+        Gets the list of artifacts that will be generated during the integration of this
+        Implementation by an associated generator tool.
 
         Returns:
             List of DependencyOnArtifact instances
         """
         return self.generatedArtifacts
 
-    def setGeneratedArtifacts(self, value):
+    def createGeneratedArtifact(self, short_name: str) -> DependencyOnArtifact:
         """
-        Sets the list of generated artifacts for this implementation.
-        Only sets the value if it is not None.
+        Creates and adds a generated artifact to this implementation.
 
         Args:
-            value: The list of generated artifacts to set
+            short_name: The short name for the new generated artifact
 
         Returns:
-            self for method chaining
+            The created DependencyOnArtifact instance
         """
-        self.generatedArtifacts = value
-        return self
+        if short_name not in self.elements:
+            artifact = DependencyOnArtifact(self, short_name)
+            self.addElement(artifact)
+            self.generatedArtifacts.append(artifact)
+        return self.getElement(short_name)
 
-    def getHwElementRefs(self):
+    def getHwElementRefs(self) -> List[RefType]:
         """
-        Gets the list of hardware element references for this implementation.
+        Gets the list of references to the hardware elements (e.g. the processor) required
+        for this implementation.
 
         Returns:
             List of RefType instances
         """
         return self.hwElementRefs
 
-    def setHwElementRefs(self, value):
+    def addHwElementRef(self, value: Optional[RefType]) -> "Implementation":
         """
-        Sets the list of hardware element references for this implementation.
-        Only sets the value if it is not None.
+        Adds a reference to a hardware element (e.g. the processor) required for this
+        implementation. A None value is a no-op and is not appended.
 
         Args:
-            value: The list of hardware element references to set
+            value: The hardware element reference to add
 
         Returns:
             self for method chaining
         """
-        self.hwElementRefs = value
+        if value is not None:
+            self.hwElementRefs.append(value)
         return self
 
-    def getLinkers(self):
+    def getLinkers(self) -> List[Linker]:
         """
-        Gets the list of linkers used in this implementation.
+        Gets the list of linkers for which this implementation has been released.
 
         Returns:
             List of Linker instances
         """
         return self.linkers
 
-    def setLinkers(self, value):
+    def createLinker(self, short_name: str) -> Linker:
         """
-        Sets the list of linkers used in this implementation.
-        Only sets the value if it is not None.
+        Creates and adds a Linker to this implementation.
 
         Args:
-            value: The list of linkers to set
+            short_name: The short name for the new linker
 
         Returns:
-            self for method chaining
+            The created Linker instance
         """
-        self.linkers = value
-        return self
+        if short_name not in self.elements:
+            linker = Linker(self, short_name)
+            self.addElement(linker)
+            self.linkers.append(linker)
+        return self.getElement(short_name)
 
-    def getMcSupport(self):
+    def getMcSupport(self) -> Optional[McSupportData]:
         """
-        Gets the microcontroller support information for this implementation.
+        Gets the measurement & calibration support data belonging to this implementation.
 
         Returns:
-            Microcontroller support information
+            McSupportData: The microcontroller support information
         """
         return self.mcSupport
 
-    def setMcSupport(self, value):
+    def setMcSupport(self, value: Optional[McSupportData]) -> "Implementation":
         """
-        Sets the microcontroller support information for this implementation.
+        Sets the measurement & calibration support data belonging to this implementation.
+        A None value is a no-op and does not overwrite the existing value.
 
         Args:
-            value: The microcontroller support information to set
+            value: The measurement & calibration support data to set
 
         Returns:
             self for method chaining
         """
-        self.mcSupport = value
+        if value is not None:
+            self.mcSupport = value
         return self
 
-    def getProgrammingLanguage(self):
+    def getProgrammingLanguage(self) -> Optional[ProgramminglanguageEnum]:
         """
-        Gets the programming language used in this implementation.
+        Gets the programming language in which the implementation was created in.
 
         Returns:
             ProgramminglanguageEnum: The programming language
         """
         return self.programmingLanguage
 
-    def setProgrammingLanguage(self, value):
+    def setProgrammingLanguage(self, value: Optional[ProgramminglanguageEnum]) -> "Implementation":
         """
-        Sets the programming language used in this implementation.
-        Only sets the value if it is not None.
+        Sets the programming language in which the implementation was created in.
+        A None value is a no-op and does not overwrite the existing value.
 
         Args:
             value: The programming language to set
@@ -582,58 +884,65 @@ class Implementation(ARElement, ABC):
         Returns:
             self for method chaining
         """
-        self.programmingLanguage = value
+        if value is not None:
+            self.programmingLanguage = value
         return self
 
-    def getRequiredArtifacts(self):
+    def getRequiredArtifacts(self) -> List[DependencyOnArtifact]:
         """
-        Gets the list of required artifacts for this implementation.
+        Gets the list of artifacts this implementation depends on (e.g. a library).
 
         Returns:
             List of DependencyOnArtifact instances
         """
         return self.requiredArtifacts
 
-    def setRequiredArtifacts(self, value):
+    def createRequiredArtifact(self, short_name: str) -> DependencyOnArtifact:
         """
-        Sets the list of required artifacts for this implementation.
-        Only sets the value if it is not None.
+        Creates and adds a required artifact to this implementation.
 
         Args:
-            value: The list of required artifacts to set
+            short_name: The short name for the new required artifact
 
         Returns:
-            self for method chaining
+            The created DependencyOnArtifact instance
         """
-        self.requiredArtifacts = value
-        return self
+        if short_name not in self.elements:
+            artifact = DependencyOnArtifact(self, short_name)
+            self.addElement(artifact)
+            self.requiredArtifacts.append(artifact)
+        return self.getElement(short_name)
 
-    def getRequiredGeneratorTools(self):
+    def getRequiredGeneratorTools(self) -> List[DependencyOnArtifact]:
         """
-        Gets the list of required generator tools for this implementation.
+        Gets the list of generator tools that generate additional artifacts during
+        integration of this implementation.
 
         Returns:
             List of DependencyOnArtifact instances
         """
         return self.requiredGeneratorTools
 
-    def setRequiredGeneratorTools(self, value):
+    def createRequiredGeneratorTool(self, short_name: str) -> DependencyOnArtifact:
         """
-        Sets the list of required generator tools for this implementation.
-        Only sets the value if it is not None.
+        Creates and adds a required generator tool to this implementation.
 
         Args:
-            value: The list of required generator tools to set
+            short_name: The short name for the new required generator tool
 
         Returns:
-            self for method chaining
+            The created DependencyOnArtifact instance
         """
-        self.requiredGeneratorTools = value
-        return self
+        if short_name not in self.elements:
+            tool = DependencyOnArtifact(self, short_name)
+            self.addElement(tool)
+            self.requiredGeneratorTools.append(tool)
+        return self.getElement(short_name)
 
-    def getResourceConsumption(self):
+    def getResourceConsumption(self) -> Optional[ResourceConsumption]:
         """
-        Gets the resource consumption information for this implementation.
+        Gets all static and dynamic resources for each implementation as described within
+        the ResourceConsumption class.
 
         Returns:
             ResourceConsumption: The resource consumption information
@@ -650,25 +959,28 @@ class Implementation(ARElement, ABC):
         Returns:
             The created ResourceConsumption instance
         """
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
+
         if short_name not in self.elements:
             consumption = ResourceConsumption(self, short_name)
             self.addElement(consumption)
             self.resourceConsumption = consumption
         return self.getElement(short_name)
 
-    def getSwcBswMappingRef(self):
+    def getSwcBswMappingRef(self) -> Optional[RefType]:
         """
-        Gets the reference to software component/BSW mapping for this implementation.
+        Gets the reference to the mapping between an SWC and a BSW behavior attached to an
+        implementation description.
 
         Returns:
             RefType: The SWC/BSW mapping reference
         """
         return self.swcBswMappingRef
 
-    def setSwcBswMappingRef(self, value):
+    def setSwcBswMappingRef(self, value: Optional[RefType]) -> "Implementation":
         """
-        Sets the reference to software component/BSW mapping for this implementation.
-        Only sets the value if it is not None.
+        Sets the reference to the mapping between an SWC and a BSW behavior. A None value
+        is a no-op and does not overwrite the existing reference.
 
         Args:
             value: The SWC/BSW mapping reference to set
@@ -676,45 +988,49 @@ class Implementation(ARElement, ABC):
         Returns:
             self for method chaining
         """
-        self.swcBswMappingRef = value
+        if value is not None:
+            self.swcBswMappingRef = value
         return self
 
-    def getSwVersion(self):
+    def getSwVersion(self) -> Optional[RevisionLabelString]:
         """
-        Gets the software version information for this implementation.
+        Gets the software version of this implementation. The numbering contains three
+        levels (like major, minor, patch), its values are vendor specific. [constr_1966]
 
         Returns:
             RevisionLabelString: The software version information
         """
         return self.swVersion
 
-    def setSwVersion(self, value):
+    def setSwVersion(self, value: Optional[RevisionLabelString]) -> "Implementation":
         """
-        Sets the software version information for this implementation.
-        Only sets the value if it is not None.
+        Sets the software version of this implementation. The numbering contains three
+        levels (like major, minor, patch), its values are vendor specific.
+        A None value is a no-op and does not overwrite the existing version. [constr_1966]
 
         Args:
-            value: The software version information to set
+            value: The software version to set
 
         Returns:
             self for method chaining
         """
-        self.swVersion = value
+        if value is not None:
+            self.swVersion = value
         return self
 
-    def getUsedCodeGenerator(self):
+    def getUsedCodeGenerator(self) -> Optional[String]:
         """
-        Gets the code generator used for this implementation.
+        Gets the optional code generator used for this implementation.
 
         Returns:
             String: The used code generator
         """
         return self.usedCodeGenerator
 
-    def setUsedCodeGenerator(self, value):
+    def setUsedCodeGenerator(self, value: Optional[String]) -> "Implementation":
         """
-        Sets the code generator used for this implementation.
-        Only sets the value if it is not None.
+        Sets the optional code generator used for this implementation. A None value is a
+        no-op and does not overwrite the existing value.
 
         Args:
             value: The used code generator to set
@@ -722,22 +1038,24 @@ class Implementation(ARElement, ABC):
         Returns:
             self for method chaining
         """
-        self.usedCodeGenerator = value
+        if value is not None:
+            self.usedCodeGenerator = value
         return self
 
-    def getVendorId(self):
+    def getVendorId(self) -> Optional[PositiveInteger]:
         """
-        Gets the vendor ID for this implementation.
+        Gets the vendor ID of this Implementation according to the AUTOSAR vendor list.
+        [constr_1967]
 
         Returns:
             PositiveInteger: The vendor ID
         """
         return self.vendorId
 
-    def setVendorId(self, value):
+    def setVendorId(self, value: Optional[PositiveInteger]) -> "Implementation":
         """
-        Sets the vendor ID for this implementation.
-        Only sets the value if it is not None.
+        Sets the vendor ID of this Implementation according to the AUTOSAR vendor list.
+        A None value is a no-op and does not overwrite the existing vendor ID. [constr_1967]
 
         Args:
             value: The vendor ID to set
@@ -745,85 +1063,6 @@ class Implementation(ARElement, ABC):
         Returns:
             self for method chaining
         """
-        self.vendorId = value
+        if value is not None:
+            self.vendorId = value
         return self
-
-
-class DependencyUsageEnum(AREnum):
-    """
-    Enumeration for dependency usage.
-    """
-
-    # DependencyUsageEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
-    OPTIONAL = "optional"
-    REQUIRED = "required"
-
-    def __init__(self):
-        super().__init__(
-            (
-                DependencyUsageEnum.OPTIONAL,
-                DependencyUsageEnum.REQUIRED,
-            )
-        )
-
-
-class Linker(ARObject):
-    """
-    Represents a linker configuration in AUTOSAR.
-    This class defines linker settings for implementation.
-    """
-
-    # Linker method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getLinkerName                [x] impl  [ ] docstring  [ ] test
-    # [ ] setLinkerName                [x] impl  [ ] docstring  [ ] test
-    # [ ] getLinkerOptions             [x] impl  [ ] docstring  [ ] test
-    # [ ] setLinkerOptions             [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self):
-        """
-        Initializes the Linker with default values.
-        """
-        super().__init__()
-        self.linkerName: str = None
-        self.linkerOptions: str = None
-
-    def getLinkerName(self):
-        return self.linkerName
-
-    def setLinkerName(self, value):
-        self.linkerName = value
-        return self
-
-    def getLinkerOptions(self):
-        return self.linkerOptions
-
-    def setLinkerOptions(self, value):
-        self.linkerOptions = value
-        return self
-
-
-class ProgramminglanguageEnum(AREnum):
-    """
-    Enumeration for programming languages.
-    """
-
-    # ProgramminglanguageEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
-    C = "C"
-    CPP = "C++"
-    JAVA = "Java"
-    PYTHON = "Python"
-
-    def __init__(self):
-        super().__init__(
-            (
-                ProgramminglanguageEnum.C,
-                ProgramminglanguageEnum.CPP,
-                ProgramminglanguageEnum.JAVA,
-                ProgramminglanguageEnum.PYTHON,
-            )
-        )

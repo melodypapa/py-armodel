@@ -1,8 +1,8 @@
 """
 Test suite for BSW (Basic Software) interface classes in armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces.
 
-This module tests BSW interface classes including BswModuleDependency, BswModuleEntry, 
-and BswModuleClientServerEntry. These classes represent BSW-specific interface elements 
+This module tests BSW interface classes including BswModuleDependency, BswModuleEntry,
+and BswModuleClientServerEntry. These classes represent BSW-specific interface elements
 that define dependencies, module entries, and client-server relationships in the AUTOSAR architecture.
 """
 

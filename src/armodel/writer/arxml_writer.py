@@ -50,15 +50,19 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantSpecifica
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification, ValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, Implementation, ImplementationProps
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, Implementation, ImplementationProps, Compiler, Linker, DependencyOnArtifact
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import AbstractImplementationDataTypeElement, ImplementationDataType
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataTypeElement
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import InternalBehavior
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclaration, ModeDeclarationGroup, ModeDeclarationGroupPrototype
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import RoughEstimateStackUsage, StackUsage
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.ExecutionTime import AnalyzedExecutionTime, MeasuredExecutionTime, RoughEstimateOfExecutionTime, SimulatedExecutionTime
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HeapUsage import MeasuredHeapUsage, RoughEstimateHeapUsage, WorstCaseHeapUsage
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.MemorySectionUsage import MemorySection, SectionNamePrefix
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import MeasuredStackUsage, RoughEstimateStackUsage, StackUsage, WorstCaseStackUsage
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagEventDebounceMonitorInternal, DltUserNeeds, ServiceNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement, DtcStatusChangeNotificationNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCommunicationManagerNeeds, DiagnosticEventInfoNeeds
@@ -119,6 +123,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import Se
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import ModeGroupInAtomicSwcInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import PModeGroupInAtomicSwcInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import PTriggerInAtomicSwcTypeInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RModeGroupInAtomicSWCInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RModeInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import AssemblySwConnector, DelegationSwConnector, SwComponentPrototype, SwConnector
@@ -1510,6 +1515,19 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(child_element, "CONTEXT-P-PORT-REF", instance_ref.getContextPPortRef())
             self.setChildElementOptionalRefType(child_element, "TARGET-MODE-GROUP-REF", instance_ref.getTargetModeGroupRef())
 
+    def writePTriggerInAtomicSwcTypeInstanceRef(self, element: ET.Element, key: str, instance_ref: PTriggerInAtomicSwcTypeInstanceRef):
+        if instance_ref is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-P-PORT-REF", instance_ref.getContextPPortRef())
+            self.setChildElementOptionalRefType(child_element, "TARGET-TRIGGER-REF", instance_ref.getTargetTriggerRef())
+
+    def setPModeGroupInAtomicSwcInstanceRef(self, element: ET.Element, key: str, instance_ref: PModeGroupInAtomicSwcInstanceRef):
+        if instance_ref is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeModeGroupInAtomicSwcInstanceRef(child_element, instance_ref)
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-P-PORT-REF", instance_ref.getContextPPortRef())
+            self.setChildElementOptionalRefType(child_element, "TARGET-MODE-GROUP-REF", instance_ref.getTargetModeGroupRef())
+
     def setModeGroupIRef(self, element: ET.Element, key: str, instance_ref: ModeGroupInAtomicSwcInstanceRef):
         if instance_ref is not None:
             child_element = ET.SubElement(element, key)
@@ -1950,16 +1968,24 @@ class ARXMLWriter(AbstractARXMLWriter):
             artifact_descs_tag = ET.SubElement(element, "ARTIFACT-DESCRIPTORS")
             for artifact_desc in artifact_descriptors:
                 artifact_desc_tag = ET.SubElement(artifact_descs_tag, "AUTOSAR-ENGINEERING-OBJECT")
-                self.logger.debug("writeArtifactDescriptor %s", artifact_desc.short_label)
+                self.logger.debug("writeArtifactDescriptor %s", artifact_desc.getShortLabel())
                 self.writeARObjectAttributes(artifact_desc_tag, artifact_desc)
-                self.setChildElementOptionalLiteral(artifact_desc_tag, "SHORT-LABEL", artifact_desc.short_label)
-                self.setChildElementOptionalLiteral(artifact_desc_tag, "CATEGORY", artifact_desc.category)
+                self.setChildElementOptionalLiteral(artifact_desc_tag, "SHORT-LABEL", artifact_desc.getShortLabel())
+                self.setChildElementOptionalLiteral(artifact_desc_tag, "CATEGORY", artifact_desc.getCategory())
 
     def writeCode(self, element: ET.SubElement, code_desc: Code):
         # self.logger.debug("Write Code %s" % code_desc.getShortName())
         child_element = ET.SubElement(element, "CODE")
         self.writeIdentifiable(child_element, code_desc)
         self.writeArtifactDescriptor(child_element, code_desc)
+        self.writeCodeCallbackHeaderRefs(child_element, code_desc)
+
+    def writeCodeCallbackHeaderRefs(self, element: ET.Element, code_desc: Code):
+        refs = code_desc.getCallbackHeaderRefs()
+        if len(refs) > 0:
+            child_element = ET.SubElement(element, "CALLBACK-HEADER-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(child_element, "CALLBACK-HEADER-REF", ref)
 
     def writeCodeDescriptors(self, element: ET.Element, impl: Implementation):
         descs = impl.getCodeDescriptors()
@@ -1977,6 +2003,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             for option in options:
                 self.setChildElementOptionalLiteral(child_element, "OPTION", option)
 
+    def writeMemorySectionExecutableEntityRefs(self, element: ET.Element, memory_section: MemorySection):
+        refs = memory_section.getExecutableEntityRefs()
+        if len(refs) > 0:
+            refs_element = ET.SubElement(element, "EXECUTABLE-ENTITY-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_element, "EXECUTABLE-ENTITY-REF", ref)
+
     def writeMemorySections(self, element: ET.Element, consumption: ResourceConsumption):
         memory_sections = consumption.getMemorySections()
         if len(memory_sections) > 0:
@@ -1985,20 +2018,180 @@ class ARXMLWriter(AbstractARXMLWriter):
                 child_element = ET.SubElement(sections_tag, "MEMORY-SECTION")
                 self.writeIdentifiable(child_element, memory_section)
                 self.setChildElementOptionalLiteral(child_element, "ALIGNMENT", memory_section.getAlignment())
+                self.writeMemorySectionExecutableEntityRefs(child_element, memory_section)
                 self.setChildElementOptionalLiteral(child_element, "MEM-CLASS-SYMBOL", memory_section.getMemClassSymbol())
                 self.setMemorySectionOptions(child_element, memory_section.getOptions())
-                self.setChildElementOptionalNumericalValue(child_element, "SIZE", memory_section.getSize())
+                self.setChildElementOptionalRefType(child_element, "PREFIX-REF", memory_section.getPrefixRef())
+                self.setChildElementOptionalPositiveInteger(child_element, "SIZE", memory_section.getSize())
                 self.setChildElementOptionalRefType(child_element, "SW-ADDRMETHOD-REF", memory_section.getSwAddrMethodRef())
                 self.setChildElementOptionalLiteral(child_element, "SYMBOL", memory_section.getSymbol())
                 self.logger.debug("Write MemorySection %s" % memory_section.getShortName())
 
+    def setMultidimensionalTime(self, element: ET.Element, key: str, value: MultidimensionalTime):
+        if value is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalLiteral(child_element, "CSE-CODE", value.getCseCode())
+            self.setChildElementOptionalIntegerValue(child_element, "CSE-CODE-FACTOR", value.getCseCodeFactor())
+
+    def setHardwareConfiguration(self, element: ET.Element, config):
+        if config is not None:
+            child_element = ET.SubElement(element, "HARDWARE-CONFIGURATION")
+            self.setChildElementOptionalLiteral(child_element, "ADDITIONAL-INFORMATION", config.getAdditionalInformation())
+            self.setChildElementOptionalLiteral(child_element, "PROCESSOR-MODE", config.getProcessorMode())
+            self.setChildElementOptionalLiteral(child_element, "PROCESSOR-SPEED", config.getProcessorSpeed())
+
+    def setSoftwareContext(self, element: ET.Element, context):
+        if context is not None:
+            child_element = ET.SubElement(element, "SOFTWARE-CONTEXT")
+            self.setChildElementOptionalLiteral(child_element, "INPUT", context.getInput())
+            self.setChildElementOptionalLiteral(child_element, "STATE", context.getState())
+
+    def writeExecutionTime(self, element: ET.Element, execution_time):
+        self.writeIdentifiable(element, execution_time)
+        self.setChildElementOptionalRefType(element, "EXCLUSIVE-AREA-REF", execution_time.getExclusiveAreaRef())
+        self.setChildElementOptionalRefType(element, "EXECUTABLE-ENTITY-REF", execution_time.getExecutableEntityRef())
+        self.setHardwareConfiguration(element, execution_time.getHardwareConfiguration())
+        self.setChildElementOptionalRefType(element, "HW-ELEMENT-REF", execution_time.getHwElementRef())
+        included_library_refs = execution_time.getIncludedLibraryRefs()
+        if len(included_library_refs) > 0:
+            refs_element = ET.SubElement(element, "INCLUDED-LIBRARY-REFS")
+            for ref in included_library_refs:
+                self.setChildElementOptionalRefType(refs_element, "INCLUDED-LIBRARY-REF", ref)
+        memory_section_locations = execution_time.getMemorySectionLocations()
+        if len(memory_section_locations) > 0:
+            locations_element = ET.SubElement(element, "MEMORY-SECTION-LOCATIONS")
+            for location in memory_section_locations:
+                location_element = ET.SubElement(locations_element, "MEMORY-SECTION-LOCATION")
+                self.setChildElementOptionalRefType(location_element, "PROVIDED-MEMORY-REF", location.getProvidedMemoryRef())
+                self.setChildElementOptionalRefType(location_element, "SOFTWARE-MEMORY-SECTION-REF", location.getSoftwareMemorySectionRef())
+        self.setSoftwareContext(element, execution_time.getSoftwareContext())
+
+    def writeAnalyzedExecutionTime(self, element: ET.Element, execution_time: AnalyzedExecutionTime):
+        child_element = ET.SubElement(element, "ANALYZED-EXECUTION-TIME")
+        self.writeExecutionTime(child_element, execution_time)
+        self.setMultidimensionalTime(child_element, "BEST-CASE-EXECUTION-TIME", execution_time.getBestCaseExecutionTime())
+        self.setMultidimensionalTime(child_element, "WORST-CASE-EXECUTION-TIME", execution_time.getWorstCaseExecutionTime())
+
+    def writeMeasuredExecutionTime(self, element: ET.Element, execution_time: MeasuredExecutionTime):
+        child_element = ET.SubElement(element, "MEASURED-EXECUTION-TIME")
+        self.writeExecutionTime(child_element, execution_time)
+        self.setMultidimensionalTime(child_element, "MAXIMUM-EXECUTION-TIME", execution_time.getMaximumExecutionTime())
+        self.setMultidimensionalTime(child_element, "MINIMUM-EXECUTION-TIME", execution_time.getMinimumExecutionTime())
+        self.setMultidimensionalTime(child_element, "NOMINAL-EXECUTION-TIME", execution_time.getNominalExecutionTime())
+
+    def writeSimulatedExecutionTime(self, element: ET.Element, execution_time: SimulatedExecutionTime):
+        child_element = ET.SubElement(element, "SIMULATED-EXECUTION-TIME")
+        self.writeExecutionTime(child_element, execution_time)
+        self.setMultidimensionalTime(child_element, "MAXIMUM-EXECUTION-TIME", execution_time.getMaximumExecutionTime())
+        self.setMultidimensionalTime(child_element, "MINIMUM-EXECUTION-TIME", execution_time.getMinimumExecutionTime())
+        self.setMultidimensionalTime(child_element, "NOMINAL-EXECUTION-TIME", execution_time.getNominalExecutionTime())
+
+    def writeRoughEstimateOfExecutionTime(self, element: ET.Element, execution_time: RoughEstimateOfExecutionTime):
+        child_element = ET.SubElement(element, "ROUGH-ESTIMATE-OF-EXECUTION-TIME")
+        self.writeExecutionTime(child_element, execution_time)
+        self.setChildElementOptionalLiteral(child_element, "ADDITIONAL-INFORMATION", execution_time.getAdditionalInformation())
+        self.setMultidimensionalTime(child_element, "ESTIMATED-EXECUTION-TIME", execution_time.getEstimatedExecutionTime())
+
+    def writeExecutionTimes(self, element: ET.Element, execution_times: List):
+        if len(execution_times) > 0:
+            child_element = ET.SubElement(element, "EXECUTION-TIMES")
+            for execution_time in execution_times:
+                if isinstance(execution_time, AnalyzedExecutionTime):
+                    self.writeAnalyzedExecutionTime(child_element, execution_time)
+                elif isinstance(execution_time, MeasuredExecutionTime):
+                    self.writeMeasuredExecutionTime(child_element, execution_time)
+                elif isinstance(execution_time, RoughEstimateOfExecutionTime):
+                    self.writeRoughEstimateOfExecutionTime(child_element, execution_time)
+                elif isinstance(execution_time, SimulatedExecutionTime):
+                    self.writeSimulatedExecutionTime(child_element, execution_time)
+                else:
+                    self.notImplemented("Unsupported Execution Time: <%s>" % type(execution_time))
+
+    def writeHeapUsage(self, element: ET.Element, usage):
+        self.writeIdentifiable(element, usage)
+        self.setHardwareConfiguration(element, usage.getHardwareConfiguration())
+        self.setChildElementOptionalRefType(element, "HW-ELEMENT-REF", usage.getHwElementRef())
+        self.setSoftwareContext(element, usage.getSoftwareContext())
+
+    def writeMeasuredHeapUsage(self, element: ET.Element, usage: MeasuredHeapUsage):
+        child_element = ET.SubElement(element, "MEASURED-HEAP-USAGE")
+        self.writeHeapUsage(child_element, usage)
+        self.setChildElementOptionalPositiveInteger(child_element, "AVERAGE-MEMORY-CONSUMPTION", usage.getAverageMemoryConsumption())
+        self.setChildElementOptionalPositiveInteger(child_element, "MAXIMUM-MEMORY-CONSUMPTION", usage.getMaximumMemoryConsumption())
+        self.setChildElementOptionalPositiveInteger(child_element, "MINIMUM-MEMORY-CONSUMPTION", usage.getMinimumMemoryConsumption())
+        self.setChildElementOptionalLiteral(child_element, "TEST-PATTERN", usage.getTestPattern())
+
+    def writeRoughEstimateHeapUsage(self, element: ET.Element, usage: RoughEstimateHeapUsage):
+        child_element = ET.SubElement(element, "ROUGH-ESTIMATE-HEAP-USAGE")
+        self.writeHeapUsage(child_element, usage)
+        self.setChildElementOptionalPositiveInteger(child_element, "MEMORY-CONSUMPTION", usage.getMemoryConsumption())
+
+    def writeWorstCaseHeapUsage(self, element: ET.Element, usage: WorstCaseHeapUsage):
+        child_element = ET.SubElement(element, "WORST-CASE-HEAP-USAGE")
+        self.writeHeapUsage(child_element, usage)
+        self.setChildElementOptionalPositiveInteger(child_element, "MEMORY-CONSUMPTION", usage.getMemoryConsumption())
+
+    def writeHeapUsages(self, element: ET.Element, usages: List):
+        if len(usages) > 0:
+            child_element = ET.SubElement(element, "HEAP-USAGES")
+            for usage in usages:
+                if isinstance(usage, MeasuredHeapUsage):
+                    self.writeMeasuredHeapUsage(child_element, usage)
+                elif isinstance(usage, RoughEstimateHeapUsage):
+                    self.writeRoughEstimateHeapUsage(child_element, usage)
+                elif isinstance(usage, WorstCaseHeapUsage):
+                    self.writeWorstCaseHeapUsage(child_element, usage)
+                else:
+                    self.notImplemented("Unsupported Heap Usage: <%s>" % type(usage))
+
+    def writeSectionNamePrefixes(self, element: ET.Element, prefixes: List[SectionNamePrefix]):
+        if len(prefixes) > 0:
+            child_element = ET.SubElement(element, "SECTION-NAME-PREFIXS")
+            for prefix in prefixes:
+                prefix_element = ET.SubElement(child_element, "SECTION-NAME-PREFIX")
+                self.writeReferrable(prefix_element, prefix)
+                self.setChildElementOptionalRefType(prefix_element, "IMPLEMENTED-IN-REF", prefix.getImplementedInRef())
+
+    def writeAccessCountSets(self, element: ET.Element, access_count_sets: List):
+        if len(access_count_sets) > 0:
+            child_element = ET.SubElement(element, "ACCESS-COUNT-SETS")
+            for access_count_set in access_count_sets:
+                access_count_set_element = ET.SubElement(child_element, "ACCESS-COUNT-SET")
+                self.setChildElementOptionalLiteral(access_count_set_element, "COUNT-PROFILE", access_count_set.getCountProfile())
+                access_counts = access_count_set.getAccessCounts()
+                if len(access_counts) > 0:
+                    counts_element = ET.SubElement(access_count_set_element, "ACCESS-COUNTS")
+                    for count in access_counts:
+                        count_element = ET.SubElement(counts_element, "ACCESS-COUNT")
+                        self.setChildElementOptionalRefType(count_element, "ACCESS-POINT-REF", count.getAccessPoint())
+                        self.setChildElementOptionalPositiveInteger(count_element, "VALUE", count.getValue())
+
     def setStackUsage(self, element: ET.Element, usage: StackUsage):
         self.logger.debug("Write StackUsage %s" % usage.getShortName())
         self.writeIdentifiable(element, usage)
+        self.setChildElementOptionalRefType(element, "EXECUTABLE-ENTITY-REF", usage.getExecutableEntityRef())
+        self.setHardwareConfiguration(element, usage.getHardwareConfiguration())
+        self.setChildElementOptionalRefType(element, "HW-ELEMENT-REF", usage.getHwElementRef())
+        self.setSoftwareContext(element, usage.getSoftwareContext())
 
     def setRoughEstimateStackUsage(self, element: ET.Element, usage: RoughEstimateStackUsage):
         if usage is not None:
             child_element = ET.SubElement(element, "ROUGH-ESTIMATE-STACK-USAGE")
+            self.setStackUsage(child_element, usage)
+            self.setChildElementOptionalPositiveInteger(child_element, "MEMORY-CONSUMPTION", usage.getMemoryConsumption())
+
+    def setMeasuredStackUsage(self, element: ET.Element, usage: MeasuredStackUsage):
+        if usage is not None:
+            child_element = ET.SubElement(element, "MEASURED-STACK-USAGE")
+            self.setStackUsage(child_element, usage)
+            self.setChildElementOptionalPositiveInteger(child_element, "AVERAGE-MEMORY-CONSUMPTION", usage.getAverageMemoryConsumption())
+            self.setChildElementOptionalPositiveInteger(child_element, "MAXIMUM-MEMORY-CONSUMPTION", usage.getMaximumMemoryConsumption())
+            self.setChildElementOptionalPositiveInteger(child_element, "MINIMUM-MEMORY-CONSUMPTION", usage.getMinimumMemoryConsumption())
+            self.setChildElementOptionalLiteral(child_element, "TEST-PATTERN", usage.getTestPattern())
+
+    def setWorstCaseStackUsage(self, element: ET.Element, usage: WorstCaseStackUsage):
+        if usage is not None:
+            child_element = ET.SubElement(element, "WORST-CASE-STACK-USAGE")
             self.setStackUsage(child_element, usage)
             self.setChildElementOptionalPositiveInteger(child_element, "MEMORY-CONSUMPTION", usage.getMemoryConsumption())
 
@@ -2008,6 +2201,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             for usage in usages:
                 if isinstance(usage, RoughEstimateStackUsage):
                     self.setRoughEstimateStackUsage(child_element, usage)
+                elif isinstance(usage, MeasuredStackUsage):
+                    self.setMeasuredStackUsage(child_element, usage)
+                elif isinstance(usage, WorstCaseStackUsage):
+                    self.setWorstCaseStackUsage(child_element, usage)
                 else:
                     self.notImplemented("Unsupported Stack Usages: <%s>" % type(usage))
 
@@ -2015,18 +2212,101 @@ class ARXMLWriter(AbstractARXMLWriter):
         if consumption is not None:
             child_element = ET.SubElement(element, "RESOURCE-CONSUMPTION")
             self.writeIdentifiable(child_element, consumption)
+            self.writeAccessCountSets(child_element, consumption.getAccessCountSets())
+            self.writeExecutionTimes(child_element, consumption.getExecutionTimes())
+            self.writeHeapUsages(child_element, consumption.getHeapUsages())
             self.writeMemorySections(child_element, consumption)
+            self.writeSectionNamePrefixes(child_element, consumption.getSectionNamePrefixes())
             self.writeStackUsages(child_element, consumption.getStackUsages())
 
     def writeImplementation(self, element: ET.Element, impl: Implementation):
         self.writeIdentifiable(element, impl)
+        self.writeImplementationBuildActionManifests(element, impl)
         self.writeCodeDescriptors(element, impl)
+        self.writeCompilers(element, impl)
+        self.writeDependencyOnArtifacts(element, impl, "GENERATED-ARTIFACTS", impl.getGeneratedArtifacts())
+        self.writeImplementationHwElementRefs(element, impl)
+        self.writeLinkers(element, impl)
         self.setChildElementOptionalLiteral(element, "PROGRAMMING-LANGUAGE", impl.getProgrammingLanguage())
+        self.writeDependencyOnArtifacts(element, impl, "REQUIRED-ARTIFACTS", impl.getRequiredArtifacts())
+        self.writeDependencyOnArtifacts(element, impl, "REQUIRED-GENERATOR-TOOLS", impl.getRequiredGeneratorTools())
         self.setResourceConsumption(element, impl.getResourceConsumption())
         self.setChildElementOptionalLiteral(element, "SW-VERSION", impl.getSwVersion())
         self.setChildElementOptionalRefType(element, "SWC-BSW-MAPPING-REF", impl.getSwcBswMappingRef())
         self.setChildElementOptionalLiteral(element, "USED-CODE-GENERATOR", impl.getUsedCodeGenerator())
-        self.setChildElementOptionalNumericalValue(element, "VENDOR-ID", impl.getVendorId())
+        self.setChildElementOptionalPositiveInteger(element, "VENDOR-ID", impl.getVendorId())
+
+    def writeImplementationBuildActionManifests(self, element: ET.Element, impl: Implementation):
+        ref = impl.getBuildActionManifestRef()
+        if ref is not None:
+            child_element = ET.SubElement(element, "BUILD-ACTION-MANIFESTS")
+            ref_cond = ET.SubElement(child_element, "BUILD-ACTION-MANIFEST-REF-CONDITIONAL")
+            self.setChildElementOptionalRefType(ref_cond, "BUILD-ACTION-MANIFEST-REF", ref)
+
+    def writeCompilers(self, element: ET.Element, impl: Implementation):
+        compilers = impl.getCompilers()
+        if len(compilers) > 0:
+            child_element = ET.SubElement(element, "COMPILERS")
+            for compiler in compilers:
+                if isinstance(compiler, Compiler):
+                    self.writeCompiler(child_element, compiler)
+                else:
+                    self.notImplemented("Unsupported Compiler <%s>" % type(compiler))
+
+    def writeCompiler(self, element: ET.Element, compiler: Compiler):
+        child_element = ET.SubElement(element, "COMPILER")
+        self.writeIdentifiable(child_element, compiler)
+        self.setChildElementOptionalLiteral(child_element, "NAME", compiler.getName())
+        self.setChildElementOptionalLiteral(child_element, "OPTIONS", compiler.getOptions())
+        self.setChildElementOptionalLiteral(child_element, "VENDOR", compiler.getVendor())
+        self.setChildElementOptionalLiteral(child_element, "VERSION", compiler.getVersion())
+
+    def writeLinkers(self, element: ET.Element, impl: Implementation):
+        linkers = impl.getLinkers()
+        if len(linkers) > 0:
+            child_element = ET.SubElement(element, "LINKERS")
+            for linker in linkers:
+                if isinstance(linker, Linker):
+                    self.writeLinker(child_element, linker)
+                else:
+                    self.notImplemented("Unsupported Linker <%s>" % type(linker))
+
+    def writeLinker(self, element: ET.Element, linker: Linker):
+        child_element = ET.SubElement(element, "LINKER")
+        self.writeIdentifiable(child_element, linker)
+        self.setChildElementOptionalLiteral(child_element, "NAME", linker.getName())
+        self.setChildElementOptionalLiteral(child_element, "OPTIONS", linker.getOptions())
+        self.setChildElementOptionalLiteral(child_element, "VENDOR", linker.getVendor())
+        self.setChildElementOptionalLiteral(child_element, "VERSION", linker.getVersion())
+
+    def writeDependencyOnArtifacts(self, element: ET.Element, impl: Implementation, key: str, dependencies: List[DependencyOnArtifact]):
+        if len(dependencies) > 0:
+            child_element = ET.SubElement(element, key)
+            for dependency in dependencies:
+                if isinstance(dependency, DependencyOnArtifact):
+                    self.writeDependencyOnArtifact(child_element, dependency)
+                else:
+                    self.notImplemented("Unsupported DependencyOnArtifact <%s>" % type(dependency))
+
+    def writeDependencyOnArtifact(self, element: ET.Element, dependency: DependencyOnArtifact):
+        child_element = ET.SubElement(element, "DEPENDENCY-ON-ARTIFACT")
+        self.writeIdentifiable(child_element, dependency)
+        descriptor = dependency.getArtifactDescriptor()
+        if descriptor is not None:
+            descriptor_element = ET.SubElement(child_element, "ARTIFACT-DESCRIPTOR")
+            self.writeAutosarEngineeringObject(descriptor_element, descriptor)
+        usages = dependency.getUsages()
+        if len(usages) > 0:
+            usages_element = ET.SubElement(child_element, "USAGES")
+            for usage in usages:
+                self.setChildElementOptionalLiteral(usages_element, "USAGE", usage)
+
+    def writeImplementationHwElementRefs(self, element: ET.Element, impl: Implementation):
+        refs = impl.getHwElementRefs()
+        if len(refs) > 0:
+            child_element = ET.SubElement(element, "HW-ELEMENT-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(child_element, "HW-ELEMENT-REF", ref)
 
     def writeSwcImplementation(self, element: ET.Element, impl: SwcImplementation):
         self.logger.debug("writeSwcImplementation %s" % impl.getShortName())
@@ -2654,21 +2934,59 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported Runnable Mapping <%s>" % type(mapping))
 
+    def writeSwcBswSynchronizedModeGroupPrototype(self, element: ET.Element, mode_group: SwcBswSynchronizedModeGroupPrototype):
+        child_element = ET.SubElement(element, "SWC-BSW-SYNCHRONIZED-MODE-GROUP-PROTOTYPE")
+        self.setChildElementOptionalRefType(child_element, "BSW-MODE-GROUP-REF", mode_group.getBswModeGroupRef())
+        self.setPModeGroupInAtomicSwcInstanceRef(child_element, "SWC-MODE-GROUP-IREF", mode_group.getSwcModeGroupIRef())
+
+    def writeSwcBswSynchronizedModeGroups(self, element: ET.Element, parent: SwcBswMapping):
+        mode_groups = parent.getSynchronizedModeGroups()
+        if len(mode_groups) > 0:
+            child_element = ET.SubElement(element, "SYNCHRONIZED-MODE-GROUPS")
+            for mode_group in mode_groups:
+                if isinstance(mode_group, SwcBswSynchronizedModeGroupPrototype):
+                    self.writeSwcBswSynchronizedModeGroupPrototype(child_element, mode_group)
+                else:
+                    self.notImplemented("Unsupported Synchronized Mode Group <%s>" % type(mode_group))
+
+    def writeSwcBswSynchronizedTrigger(self, element: ET.Element, trigger: SwcBswSynchronizedTrigger):
+        child_element = ET.SubElement(element, "SWC-BSW-SYNCHRONIZED-TRIGGER")
+        self.setChildElementOptionalRefType(child_element, "BSW-TRIGGER-REF", trigger.getBswTriggerRef())
+        self.writePTriggerInAtomicSwcTypeInstanceRef(child_element, "SWC-TRIGGER-IREF", trigger.getSwcTriggerIRef())
+
+    def writeSwcBswSynchronizedTriggers(self, element: ET.Element, parent: SwcBswMapping):
+        triggers = parent.getSynchronizedTriggers()
+        if len(triggers) > 0:
+            child_element = ET.SubElement(element, "SYNCHRONIZED-TRIGGERS")
+            for trigger in triggers:
+                if isinstance(trigger, SwcBswSynchronizedTrigger):
+                    self.writeSwcBswSynchronizedTrigger(child_element, trigger)
+                else:
+                    self.notImplemented("Unsupported Synchronized Trigger <%s>" % type(trigger))
+
     def writeSwcBswMapping(self, element: ET.Element, mapping: SwcBswMapping):
         self.logger.debug("writeBswModuleDescription %s" % mapping.getShortName())
         child_element = ET.SubElement(element, "SWC-BSW-MAPPING")
         self.writeIdentifiable(child_element, mapping)
         self.setChildElementOptionalRefType(child_element, "BSW-BEHAVIOR-REF", mapping.getBswBehaviorRef())
         self.writeSwcBswRunnableMappings(child_element, mapping)
+        self.writeSwcBswSynchronizedModeGroups(child_element, mapping)
+        self.writeSwcBswSynchronizedTriggers(child_element, mapping)
         self.setChildElementOptionalRefType(child_element, "SWC-BEHAVIOR-REF", mapping.getSwcBehaviorRef())
 
     def writeEngineeringObject(self, element: ET.Element, engineering_obj: EngineeringObject):
         self.writeARObjectAttributes(element, engineering_obj)
-        self.setChildElementOptionalLiteral(element, "SHORT-LABEL", engineering_obj.short_label)
-        self.setChildElementOptionalLiteral(element, "CATEGORY", engineering_obj.category)
+        self.setChildElementOptionalLiteral(element, "SHORT-LABEL", engineering_obj.getShortLabel())
+        self.setChildElementOptionalLiteral(element, "CATEGORY", engineering_obj.getCategory())
+        self.setChildElementOptionalLiteral(element, "DOMAIN", engineering_obj.getDomain())
+        revision_labels = engineering_obj.getRevisionLabels()
+        if len(revision_labels) > 0:
+            revision_labels_element = ET.SubElement(element, "REVISION-LABELS")
+            for revision_label in revision_labels:
+                self.setChildElementOptionalRevisionLabelString(revision_labels_element, "REVISION-LABEL", revision_label)
 
     def writeAutosarEngineeringObject(self, element: ET.Element, obj: AutosarEngineeringObject):
-        # self.logger.debug("write ArtifactDescriptor %s", obj.short_label)
+        # self.logger.debug("write ArtifactDescriptor %s", obj.getShortLabel())
         child_element = ET.SubElement(element, "AUTOSAR-ENGINEERING-OBJECT")
         self.writeEngineeringObject(child_element, obj)
 
@@ -2690,6 +3008,22 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for ref in refs:
                     self.setChildElementOptionalRefType(child_element, "VENDOR-SPECIFIC-MODULE-DEF-REF", ref)
 
+    def writeBswImplementationPreconfiguredConfigurationRefs(self, element: ET.Element, parent: BswImplementation):
+        refs = parent.getPreconfiguredConfigurationRefs()
+        if len(refs) > 0:
+            child_element = ET.SubElement(element, "PRECONFIGURED-CONFIGURATION-REFS")
+            if child_element is not None:
+                for ref in refs:
+                    self.setChildElementOptionalRefType(child_element, "PRECONFIGURED-CONFIGURATION-REF", ref)
+
+    def writeBswImplementationRecommendedConfigurationRefs(self, element: ET.Element, parent: BswImplementation):
+        refs = parent.getRecommendedConfigurationRefs()
+        if len(refs) > 0:
+            child_element = ET.SubElement(element, "RECOMMENDED-CONFIGURATION-REFS")
+            if child_element is not None:
+                for ref in refs:
+                    self.setChildElementOptionalRefType(child_element, "RECOMMENDED-CONFIGURATION-REF", ref)
+
     def writeBswImplementation(self, element: ET.Element, impl: BswImplementation):
         self.logger.debug("writeBswModuleDescription %s" % impl.getShortName())
         child_element = ET.SubElement(element, "BSW-IMPLEMENTATION")
@@ -2697,6 +3031,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(child_element, "AR-RELEASE-VERSION", impl.getArReleaseVersion())
         self.setChildElementOptionalRefType(child_element, "BEHAVIOR-REF", impl.getBehaviorRef())
         self.setChildElementOptionalLiteral(child_element, "VENDOR-API-INFIX", impl.getVendorApiInfix())
+        self.writeBswImplementationPreconfiguredConfigurationRefs(child_element, impl)
+        self.writeBswImplementationRecommendedConfigurationRefs(child_element, impl)
         self.writeBswImplementationVendorSpecificModuleDefRefs(child_element, impl)
 
     def writeAbstractImplementationDataTypeElement(self, element: ET.Element, impl_data_type_element: AbstractImplementationDataTypeElement):

@@ -1,9 +1,19 @@
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps, Code, Compiler, DependencyOnArtifact, Implementation
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
+    ImplementationProps,
+    Code,
+    Compiler,
+    DependencyOnArtifact,
+    Implementation,
+    DependencyUsageEnum,
+    Linker,
+    ProgramminglanguageEnum,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.McSupportData import McSupportData
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, ARLiteral, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, ARLiteral, RefType, String, CIdentifier
 
 
 class TestImplementationProps:
@@ -50,7 +60,7 @@ class TestImplementationProps:
                 super().__init__(parent, short_name)
 
         impl_props = ConcreteImplementationProps(ar_root, "TestImplementationProps")
-        test_value = ARLiteral().setValue("test_symbol")
+        test_value = CIdentifier().setValue("test_symbol")
         result = impl_props.setSymbol(test_value)
         assert result is impl_props  # Method chaining
         assert impl_props.getSymbol() == test_value
@@ -123,6 +133,34 @@ class TestCode:
         bsw_descriptors = code.getArtifactDescriptors("BSW")
         assert len(bsw_descriptors) == 1
         assert bsw_descriptors[0] == desc2
+
+    def test_get_callback_header_refs(self):
+        """Test getCallbackHeaderRefs method"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        code = Code(ar_root, "TestCode")
+        assert code.getCallbackHeaderRefs() == []
+
+    def test_add_callback_header_ref(self):
+        """Test addCallbackHeaderRef method"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        code = Code(ar_root, "TestCode")
+
+        ref1 = RefType().setValue("/Foo/Callback.h")
+        ref2 = RefType().setValue("/Foo/Other.h")
+        result = code.addCallbackHeaderRef(ref1).addCallbackHeaderRef(ref2)
+        assert result is code  # Method chaining
+        assert code.getCallbackHeaderRefs() == [ref1, ref2]
+
+    def test_add_callback_header_ref_none(self):
+        """Test addCallbackHeaderRef with None value (no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        code = Code(ar_root, "TestCode")
+        result = code.addCallbackHeaderRef(None)
+        assert result is code  # Method chaining
+        assert code.getCallbackHeaderRefs() == []
 
 
 class TestCompiler:
@@ -239,7 +277,7 @@ class TestDependencyOnArtifact:
         assert dependency is not None
         assert dependency.getShortName() == "TestDependency"
         assert dependency.artifactDescriptor is None
-        assert dependency.usage is None
+        assert dependency.usages == []
 
     def test_get_artifact_descriptor(self):
         """Test getArtifactDescriptor method"""
@@ -258,27 +296,33 @@ class TestDependencyOnArtifact:
         assert result is dependency  # Method chaining
         assert dependency.getArtifactDescriptor() == test_value
 
-    def test_get_usage(self):
-        """Test getUsage method"""
+    def test_get_usages(self):
+        """Test getUsages method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         dependency = DependencyOnArtifact(ar_root, "TestDependency")
-        assert dependency.getUsage() is None
+        assert dependency.getUsages() == []
 
-    def test_set_usage(self):
-        """Test setUsage method"""
+    def test_add_usage(self):
+        """Test addUsage method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         dependency = DependencyOnArtifact(ar_root, "TestDependency")
 
-        # Create a mock usage enum for testing
-        class MockUsageEnum:
-            pass
-
-        test_value = MockUsageEnum()
-        result = dependency.setUsage(test_value)
+        test_value = DependencyUsageEnum().setValue(DependencyUsageEnum.BUILD)
+        result = dependency.addUsage(test_value)
         assert result is dependency  # Method chaining
-        assert dependency.getUsage() == test_value
+        assert dependency.getUsages() == [test_value]
+
+    def test_add_usage_none(self):
+        """Test addUsage with None value (no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        dependency = DependencyOnArtifact(ar_root, "TestDependency")
+
+        result = dependency.addUsage(None)
+        assert result is dependency  # Method chaining
+        assert dependency.getUsages() == []
 
 
 class TestImplementation:
@@ -313,9 +357,9 @@ class TestImplementation:
         assert impl.requiredGeneratorTools == []
         assert impl.resourceConsumption is None
         assert impl.swcBswMappingRef is None
-        assert impl.swVersion == []
+        assert impl.swVersion is None
         assert impl.usedCodeGenerator is None
-        assert impl.vendorId == 0
+        assert impl.vendorId is None
 
     def test_get_build_action_manifest_ref(self):
         """Test getBuildActionManifestRef method"""
@@ -387,8 +431,8 @@ class TestImplementation:
         impl = ConcreteImplementation(ar_root, "TestImplementation")
         assert impl.getCompilers() == []
 
-    def test_set_compilers(self):
-        """Test setCompilers method"""
+    def test_create_compiler(self):
+        """Test createCompiler method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
 
@@ -397,26 +441,12 @@ class TestImplementation:
                 super().__init__(parent, short_name)
 
         impl = ConcreteImplementation(ar_root, "TestImplementation")
-        compiler1 = Compiler(ar_root, "Compiler1")
-        compiler2 = Compiler(ar_root, "Compiler2")
-        test_value = [compiler1, compiler2]
-        result = impl.setCompilers(test_value)
-        assert result is impl  # Method chaining
-        assert impl.getCompilers() == test_value
+        compiler = impl.createCompiler("Compiler1")
 
-    def test_set_compilers_none(self):
-        """Test setCompilers with None value"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-
-        class ConcreteImplementation(Implementation):
-            def __init__(self, parent, short_name):
-                super().__init__(parent, short_name)
-
-        impl = ConcreteImplementation(ar_root, "TestImplementation")
-        result = impl.setCompilers(None)
-        assert result is impl  # Method chaining
-        assert impl.getCompilers() is None
+        assert compiler is not None
+        assert compiler.getShortName() == "Compiler1"
+        assert len(impl.compilers) == 1
+        assert impl.compilers[0] == compiler
 
     def test_get_generated_artifacts(self):
         """Test getGeneratedArtifacts method"""
@@ -430,8 +460,8 @@ class TestImplementation:
         impl = ConcreteImplementation(ar_root, "TestImplementation")
         assert impl.getGeneratedArtifacts() == []
 
-    def test_set_generated_artifacts(self):
-        """Test setGeneratedArtifacts method"""
+    def test_create_generated_artifact(self):
+        """Test createGeneratedArtifact method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
 
@@ -440,12 +470,12 @@ class TestImplementation:
                 super().__init__(parent, short_name)
 
         impl = ConcreteImplementation(ar_root, "TestImplementation")
-        artifact1 = DependencyOnArtifact(ar_root, "Artifact1")
-        artifact2 = DependencyOnArtifact(ar_root, "Artifact2")
-        test_value = [artifact1, artifact2]
-        result = impl.setGeneratedArtifacts(test_value)
-        assert result is impl  # Method chaining
-        assert impl.getGeneratedArtifacts() == test_value
+        artifact = impl.createGeneratedArtifact("Artifact1")
+
+        assert artifact is not None
+        assert artifact.getShortName() == "Artifact1"
+        assert len(impl.generatedArtifacts) == 1
+        assert impl.generatedArtifacts[0] == artifact
 
     def test_get_hw_element_refs(self):
         """Test getHwElementRefs method"""
@@ -459,8 +489,8 @@ class TestImplementation:
         impl = ConcreteImplementation(ar_root, "TestImplementation")
         assert impl.getHwElementRefs() == []
 
-    def test_set_hw_element_refs(self):
-        """Test setHwElementRefs method"""
+    def test_add_hw_element_ref(self):
+        """Test addHwElementRef method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
 
@@ -471,10 +501,23 @@ class TestImplementation:
         impl = ConcreteImplementation(ar_root, "TestImplementation")
         ref1 = RefType().setValue("HwElement1")
         ref2 = RefType().setValue("HwElement2")
-        test_value = [ref1, ref2]
-        result = impl.setHwElementRefs(test_value)
+        result = impl.addHwElementRef(ref1).addHwElementRef(ref2)
         assert result is impl  # Method chaining
-        assert impl.getHwElementRefs() == test_value
+        assert impl.getHwElementRefs() == [ref1, ref2]
+
+    def test_add_hw_element_ref_none(self):
+        """Test addHwElementRef with None value (no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        class ConcreteImplementation(Implementation):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        impl = ConcreteImplementation(ar_root, "TestImplementation")
+        result = impl.addHwElementRef(None)
+        assert result is impl  # Method chaining
+        assert impl.getHwElementRefs() == []
 
     def test_get_linkers(self):
         """Test getLinkers method"""
@@ -488,8 +531,8 @@ class TestImplementation:
         impl = ConcreteImplementation(ar_root, "TestImplementation")
         assert impl.getLinkers() == []
 
-    def test_set_linkers(self):
-        """Test setLinkers method"""
+    def test_create_linker(self):
+        """Test createLinker method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
 
@@ -498,19 +541,12 @@ class TestImplementation:
                 super().__init__(parent, short_name)
 
         impl = ConcreteImplementation(ar_root, "TestImplementation")
+        linker = impl.createLinker("Linker1")
 
-        # Create a mock linker for testing (since Linker class is not defined in the file)
-        class MockLinker:
-            def __init__(self, parent, short_name):
-                self.parent = parent
-                self.short_name = short_name
-
-        linker1 = MockLinker(ar_root, "Linker1")
-        linker2 = MockLinker(ar_root, "Linker2")
-        test_value = [linker1, linker2]
-        result = impl.setLinkers(test_value)
-        assert result is impl  # Method chaining
-        assert impl.getLinkers() == test_value
+        assert linker is not None
+        assert linker.getShortName() == "Linker1"
+        assert len(impl.linkers) == 1
+        assert impl.linkers[0] == linker
 
     def test_get_mc_support(self):
         """Test getMcSupport method"""
@@ -534,10 +570,24 @@ class TestImplementation:
                 super().__init__(parent, short_name)
 
         impl = ConcreteImplementation(ar_root, "TestImplementation")
-        test_value = "Microcontroller Support Info"
+        test_value = McSupportData()
         result = impl.setMcSupport(test_value)
         assert result is impl  # Method chaining
         assert impl.getMcSupport() == test_value
+
+    def test_set_mc_support_none(self):
+        """Test setMcSupport with None value (no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        class ConcreteImplementation(Implementation):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        impl = ConcreteImplementation(ar_root, "TestImplementation")
+        result = impl.setMcSupport(None)
+        assert result is impl  # Method chaining
+        assert impl.getMcSupport() is None
 
     def test_get_programming_language(self):
         """Test getProgrammingLanguage method"""
@@ -562,11 +612,7 @@ class TestImplementation:
 
         impl = ConcreteImplementation(ar_root, "TestImplementation")
 
-        # Create a mock programming language enum for testing
-        class MockProgrammingLanguageEnum:
-            pass
-
-        test_value = MockProgrammingLanguageEnum()
+        test_value = ProgramminglanguageEnum().setValue(ProgramminglanguageEnum.C)
         result = impl.setProgrammingLanguage(test_value)
         assert result is impl  # Method chaining
         assert impl.getProgrammingLanguage() == test_value
@@ -597,8 +643,8 @@ class TestImplementation:
         impl = ConcreteImplementation(ar_root, "TestImplementation")
         assert impl.getRequiredArtifacts() == []
 
-    def test_set_required_artifacts(self):
-        """Test setRequiredArtifacts method"""
+    def test_create_required_artifact(self):
+        """Test createRequiredArtifact method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
 
@@ -607,12 +653,12 @@ class TestImplementation:
                 super().__init__(parent, short_name)
 
         impl = ConcreteImplementation(ar_root, "TestImplementation")
-        artifact1 = DependencyOnArtifact(ar_root, "Artifact1")
-        artifact2 = DependencyOnArtifact(ar_root, "Artifact2")
-        test_value = [artifact1, artifact2]
-        result = impl.setRequiredArtifacts(test_value)
-        assert result is impl  # Method chaining
-        assert impl.getRequiredArtifacts() == test_value
+        artifact = impl.createRequiredArtifact("Artifact1")
+
+        assert artifact is not None
+        assert artifact.getShortName() == "Artifact1"
+        assert len(impl.requiredArtifacts) == 1
+        assert impl.requiredArtifacts[0] == artifact
 
     def test_get_required_generator_tools(self):
         """Test getRequiredGeneratorTools method"""
@@ -626,8 +672,8 @@ class TestImplementation:
         impl = ConcreteImplementation(ar_root, "TestImplementation")
         assert impl.getRequiredGeneratorTools() == []
 
-    def test_set_required_generator_tools(self):
-        """Test setRequiredGeneratorTools method"""
+    def test_create_required_generator_tool(self):
+        """Test createRequiredGeneratorTool method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
 
@@ -636,12 +682,12 @@ class TestImplementation:
                 super().__init__(parent, short_name)
 
         impl = ConcreteImplementation(ar_root, "TestImplementation")
-        artifact1 = DependencyOnArtifact(ar_root, "Tool1")
-        artifact2 = DependencyOnArtifact(ar_root, "Tool2")
-        test_value = [artifact1, artifact2]
-        result = impl.setRequiredGeneratorTools(test_value)
-        assert result is impl  # Method chaining
-        assert impl.getRequiredGeneratorTools() == test_value
+        artifact = impl.createRequiredGeneratorTool("Tool1")
+
+        assert artifact is not None
+        assert artifact.getShortName() == "Tool1"
+        assert len(impl.requiredGeneratorTools) == 1
+        assert impl.requiredGeneratorTools[0] == artifact
 
     def test_get_resource_consumption(self):
         """Test getResourceConsumption method"""
@@ -708,7 +754,7 @@ class TestImplementation:
                 super().__init__(parent, short_name)
 
         impl = ConcreteImplementation(ar_root, "TestImplementation")
-        assert impl.getSwVersion() == []
+        assert impl.getSwVersion() is None
 
     def test_set_sw_version(self):
         """Test setSwVersion method"""
@@ -720,9 +766,24 @@ class TestImplementation:
                 super().__init__(parent, short_name)
 
         impl = ConcreteImplementation(ar_root, "TestImplementation")
-        # Create a mock version string for testing
-        test_value = ["1.0.0", "1.0.1"]
+        test_value = ARLiteral().setValue("1.0.0")
         result = impl.setSwVersion(test_value)
+        assert result is impl  # Method chaining
+        assert impl.getSwVersion() == test_value
+
+    def test_set_sw_version_none(self):
+        """Test setSwVersion with None value (no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        class ConcreteImplementation(Implementation):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        impl = ConcreteImplementation(ar_root, "TestImplementation")
+        test_value = ARLiteral().setValue("1.0.0")
+        impl.setSwVersion(test_value)
+        result = impl.setSwVersion(None)
         assert result is impl  # Method chaining
         assert impl.getSwVersion() == test_value
 
@@ -763,7 +824,7 @@ class TestImplementation:
                 super().__init__(parent, short_name)
 
         impl = ConcreteImplementation(ar_root, "TestImplementation")
-        assert impl.getVendorId() == 0
+        assert impl.getVendorId() is None
 
     def test_set_vendor_id(self):
         """Test setVendorId method"""
@@ -779,3 +840,151 @@ class TestImplementation:
         result = impl.setVendorId(test_value)
         assert result is impl  # Method chaining
         assert impl.getVendorId() == test_value
+
+    def test_set_vendor_id_none(self):
+        """Test setVendorId with None value (no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        class ConcreteImplementation(Implementation):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        impl = ConcreteImplementation(ar_root, "TestImplementation")
+        test_value = PositiveInteger().setValue(12345)
+        impl.setVendorId(test_value)
+        result = impl.setVendorId(None)
+        assert result is impl  # Method chaining
+        assert impl.getVendorId() == test_value
+
+
+class TestLinker:
+    def test_initialization(self):
+        """Test Linker initialization"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        linker = Linker(ar_root, "TestLinker")
+
+        assert linker is not None
+        assert linker.getShortName() == "TestLinker"
+        assert linker.name is None
+        assert linker.options is None
+        assert linker.vendor is None
+        assert linker.version is None
+
+    def test_get_name(self):
+        """Test getName method"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        linker = Linker(ar_root, "TestLinker")
+        assert linker.getName() is None
+
+    def test_set_name(self):
+        """Test setName method"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        linker = Linker(ar_root, "TestLinker")
+        test_value = String().setValue("GCC")
+        result = linker.setName(test_value)
+        assert result is linker  # Method chaining
+        assert linker.getName() == test_value
+
+    def test_get_options(self):
+        """Test getOptions method"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        linker = Linker(ar_root, "TestLinker")
+        assert linker.getOptions() is None
+
+    def test_set_options(self):
+        """Test setOptions method"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        linker = Linker(ar_root, "TestLinker")
+        test_value = String().setValue("-Wl,--gc-sections")
+        result = linker.setOptions(test_value)
+        assert result is linker  # Method chaining
+        assert linker.getOptions() == test_value
+
+    def test_get_vendor(self):
+        """Test getVendor method"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        linker = Linker(ar_root, "TestLinker")
+        assert linker.getVendor() is None
+
+    def test_set_vendor(self):
+        """Test setVendor method"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        linker = Linker(ar_root, "TestLinker")
+        test_value = String().setValue("GNU")
+        result = linker.setVendor(test_value)
+        assert result is linker  # Method chaining
+        assert linker.getVendor() == test_value
+
+    def test_get_version(self):
+        """Test getVersion method"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        linker = Linker(ar_root, "TestLinker")
+        assert linker.getVersion() is None
+
+    def test_set_version(self):
+        """Test setVersion method"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        linker = Linker(ar_root, "TestLinker")
+        test_value = String().setValue("11.2.0")
+        result = linker.setVersion(test_value)
+        assert result is linker  # Method chaining
+        assert linker.getVersion() == test_value
+
+    def test_all_properties(self):
+        """Test setting all properties"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        linker = Linker(ar_root, "TestLinker")
+
+        name = String().setValue("GCC")
+        options = String().setValue("-Wl,--gc-sections")
+        vendor = String().setValue("GNU")
+        version = String().setValue("11.2.0")
+
+        linker.setName(name)
+        linker.setOptions(options)
+        linker.setVendor(vendor)
+        linker.setVersion(version)
+
+        assert linker.getName() == name
+        assert linker.getOptions() == options
+        assert linker.getVendor() == vendor
+        assert linker.getVersion() == version
+
+
+class TestDependencyUsageEnum:
+    def test_literals(self):
+        """Test DependencyUsageEnum literal values per AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Table 7.4"""
+        assert DependencyUsageEnum.BUILD == "build"
+        assert DependencyUsageEnum.CODEGENERATION == "codegeneration"
+        assert DependencyUsageEnum.COMPILE == "compile"
+        assert DependencyUsageEnum.EXECUTE == "execute"
+        assert DependencyUsageEnum.LINK == "link"
+
+    def test_enum_values(self):
+        """Test the valid enum value set"""
+        enum = DependencyUsageEnum()
+        assert set(enum.getEnumValues()) == {"build", "codegeneration", "compile", "execute", "link"}
+
+
+class TestProgramminglanguageEnum:
+    def test_literals(self):
+        """Test ProgramminglanguageEnum literal values per AUTOSAR_CP_TPS_SoftwareComponentTemplate Table 8.2"""
+        assert ProgramminglanguageEnum.C == "c"
+        assert ProgramminglanguageEnum.CPP == "cpp"
+        assert ProgramminglanguageEnum.JAVA == "java"
+
+    def test_enum_values(self):
+        """Test the valid enum value set"""
+        enum = ProgramminglanguageEnum()
+        assert set(enum.getEnumValues()) == {"c", "cpp", "java"}

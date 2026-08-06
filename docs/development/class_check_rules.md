@@ -104,13 +104,38 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
 
 ### 1.3 Attribute-level completeness
 
-- [ ] Deprecated attributes that the PDF has replaced are **not** added.
-- [ ] Type deviations are recorded as well, not only missing/extra attributes
-      (e.g. a PDF `PositiveInteger` attribute that the parser produces as
-      `ARNumerical` via `getChildElementOptionalNumericalValue` — the model
-      field must match the parser's actual type, and the deviation is
-      recorded). Changing a type requires coordinated parser and writer
-      changes.
+- [ ] Deprecated attributes that the PDF has replaced are **not** added. An attribute
+       that is absent from the PDF `Attribute` column but present in the XSD with an
+       `atp.Status="removed"` tag (e.g. `BswImplementation.debugInfo`) is
+       deprecated/removed: it maps to **no** field, and the deviation tracker row
+       records the reason `"deprecated (atp.Status=removed), not implemented"`
+       instead of a bare `"missing"`. This is distinct from the `atpDerived`
+       exception in Rule 1.7 — `atp.Status="removed"` means the attribute was
+       deleted upstream (do **not** model it), whereas `atpDerived` means the
+       attribute is derived in the model (model it with a field, no XML element).
+       To tell them apart, inspect the XSD element's appinfo tags for
+       `atp.Status="removed"` vs the `atpDerived` stereotype.
+- [ ] **The PDF is the source of truth for the attribute type.** When the
+      parser/writer use a looser type than the PDF, do **not** accept the
+      loose type and record a deviation — first upgrade the parser and writer
+      to the spec-typed helper so the model carries the PDF type. Example:
+      `MemorySection.size` is a PDF `PositiveInteger` and the XSD element
+      `SIZE` is `AR:POSITIVE-INTEGER`, so the parser must use
+      `getChildElementOptionalPositiveInteger` (not the generic
+      `getChildElementOptionalNumericalValue`), the writer
+      `setChildElementOptionalPositiveInteger`, and the
+      field/getter/setter are typed `Optional[PositiveInteger]` — no
+      deviation at all. Only when the XML representation genuinely forces a
+      different model type (e.g. a PDF enum type that is not modeled, so the
+      element is carried as `String`) is a type deviation recorded, with the
+      reason naming the forced difference. Changing a type requires
+      coordinated parser and writer changes.
+- [ ] **No untyped accessor pairs.** A `getXxx`/`setXxx` pair with no
+      annotations at all (`def getSize(self):` / `def setSize(self, value):`)
+      is a Rule 3 violation even if the field is annotated — every getter
+      return and every setter parameter must carry the concrete type (e.g.
+      `getSize() -> Optional[PositiveInteger]`,
+      `setSize(value: Optional[PositiveInteger])`).
 - [ ] Field annotation, getter return, setter parameter, parser, and writer
       must all agree on the same type. A field annotated differently from its
       own accessors is an internal inconsistency, not a clean deviation —
@@ -131,6 +156,31 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       exist; it does not verify that each field maps to the spec.
       Cross-check the `__init__` field list against the spec `Attribute` rows
       and account for every field.
+- [ ] **PDF-table omission vs. fabricated API.** An attribute that is absent
+      from the class's PDF `Attribute` column but **present in the XSD with a
+      real documentation block** (no `atp.Status="removed"`) is *not*
+      fabricated — it is a rendering gap in the PDF table (e.g.
+      `MemorySection.memClassSymbol`, present as `MEM-CLASS-SYMBOL` in the XSD
+      but missing from Table 8.2's attribute rendering). It is **kept** with
+      its accessor pair and parser/writer coverage, and recorded in the
+      deviation tracker as `"present in XSD, absent from PDF table
+      rendering; kept with parser/writer coverage"` — never deleted just
+      because the table omits it. The *fabricated* case remains: a field with
+      **no spec basis anywhere** (not in the PDF, not in the XSD) is removed.
+      Before deciding, grep the XSD for the element tag: presence with
+      documentation ⇒ omission (keep, record); absence everywhere ⇒ invented
+      API (remove).
+- [ ] **Cross-table aggregation.** A class may aggregate attributes whose
+      definition lives in **another class's spec table**, discoverable via
+      that table's `Aggregated by` row (e.g. `ResourceConsumption`'s Table
+      8.1 lists five attributes, but `accessCountSet` — defined in the
+      `AccessCountSet` table 4.22 whose `Aggregated by` row reads
+      `ResourceConsumption.accessCountSet` — still belongs to
+      `ResourceConsumption`). These attributes are spec attributes of the
+      aggregator exactly like its own table rows: same field + accessor
+      requirements, same parser/writer coverage, same `# Spec:` citation of
+      the class's **own** table (the referenced table is named in a
+      deviation-tracker note, not in the class checklist).
 - [ ] **Exception — read-only derived convenience properties.** A `@property`
       computed from a spec attribute, with no backing field of its own and no
       setter (e.g. a millisecond value derived from a spec `TimeValue`), is
@@ -153,6 +203,14 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       not `*`) still maps to `List[T]` (default `[]`) with the usual
       `getXxxs`/`addXxx` accessors — the upper bound is not enforced in the
       model; order is preserved by insertion order in `addXxx`.
+- [ ] A spec-`*` member whose *name is singular* still maps to a **plural**
+      Python list field and plural accessors (`addXxx`/`getXxxs`): the spec
+      column says `revisionLabel` but its multiplicity is `*`, so the field is
+      `revisionLabels: List[RevisionLabelString] = []` with
+      `addRevisionLabel()`/`getRevisionLabels()` — do **not** model a single
+      `revisionLabel` value or a singular `setRevisionLabel` setter. The
+      per-item element name (e.g. `REVISION-LABEL`) is the singular form; the
+      pluralization lives only in Python naming.
 - [ ] Getter/setter docstrings must match the chosen representation — "list
       of ..." wording on a single ref (or vice versa) is a symptom of a
       multiplicity mismatch.
@@ -171,18 +229,24 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       An `iref` Kind means the attribute is an instance reference — its
       element type is a `<name>InstanceRef` class, and the list type
       annotation is that class, **not** `RefType`.
-- [ ] When the spec table specifies `iref` Kind and the corresponding
-      `<name>InstanceRef` class does not yet exist in the codebase, use
-      `RefType` as a temporary placeholder type annotation and forward-reference
-      the not-yet-defined instance ref class in the docstring. Document this
-      deviation in `docs/method_deviation_by_class.md` with reason
-      "instance ref class not yet implemented". For example, if the spec
-      references `PTriggerInAtomicSwcTypeInstanceRef` but it is not defined,
-      use `self.swcTriggerIRef: Optional[RefType] = None` and cite the
-      deferred instance-ref implementation in the deviation tracker. When the
-      instance ref class is implemented later, update the type annotation to
-      use the actual `<name>InstanceRef` class (with `TYPE_CHECKING` import if
-      needed to avoid cycles).
+- [ ] An `iref` attribute's element type is a concrete `<name>InstanceRef`
+      class. When that class — or the abstract `<name>InstanceRef` parent
+      listed in its `Base` column (e.g. `TriggerInAtomicSwcInstanceRef`) —
+      does **not** exist in the codebase, **implement it first** per Rule 1.10
+      instead of deferring: create the abstract parent and the concrete
+      subclass from their own spec tables, mirroring the sibling
+      `<name>InstanceRef` classes (same abstract parent, same
+      base/context/target inner-attribute shape), and give them parser/writer
+      coverage. Rule 1.10 applies to **every** referenced class, of which
+      `<name>InstanceRef` types are one case. Only when the iref's model is
+      genuinely out of scope is a `RefType` placeholder allowed; it must then
+      forward-reference the not-yet-defined instance ref class in the inline
+      comment and in the getter/setter docstrings, and be recorded in
+      `docs/method_deviation_by_class.md` as "instance ref class not yet
+      implemented". When the class is implemented, switch the field/getter/
+      setter annotation to the concrete `<name>InstanceRef` type (with a
+      `TYPE_CHECKING` import if needed to avoid cycles) and clear the
+      deviation.
 - [ ] Within a `<name>InstanceRef` class itself, its *inner* attributes are
       ordinary Kind `ref` rows (the sub-elements of the instance ref) and
       therefore map to `Optional[RefType]` with the plain `Ref` suffix — do
@@ -214,12 +278,37 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       "is the child `Identifiable`" — a child whose `Base` is
       `ARObject, Referrable` (but not `Identifiable`) still carries a short
       name and still uses a `createXXX(short_name)` factory.
+- [ ] The child's **multiplicity** selects the exact accessor shape for
+      non-Identifiable children (`Base` is only `ARObject`):
+      1. multiplicity `0..1` → `setXxx(value)` + `getXxx()` (the plain setter
+         above);
+      2. multiplicity `*` → the ordinary **list accessors** `addXxx(value)`
+         (append the passed instance, `None` no-op per Rule 4) +
+         `getXxxs()` — the exact same shape as a `*` `ref`/`attr` list (e.g.
+         `AccessCountSet.addAccessCount(value)`, `addMemorySectionLocation`,
+         `addAccessCountSet`). Do **not** invent a `createXxx(short_name)`
+         factory (the child has no short name, so there is nothing to
+         duplicate-check against) **and** do **not** invent a no-arg
+         `createXxx()` factory that creates-and-appends internally: the
+         parser instantiates the child itself and hands it to `addXxx`, so a
+         no-arg factory duplicates what `addXxx` plus the parser's
+         instantiation already does. The `createXXX(short_name)` factory —
+         with its duplicate-by-short-name return behavior (Rule 4) — exists
+         **only** for children whose `Base` lists `Referrable`/
+         `Identifiable`.
 
 ### 1.7 Parser and writer coverage
 
 - [ ] Every implemented attribute must be covered by **both** the parser and
       the writer. A spec attribute with a field and accessors but no parser
       or writer handling is silently dropped on round-trip.
+      The method-parity checklist (Rule 2) is **blind to this**: it tracks only
+      method existence, so a fully `[x]` checklist says nothing about whether
+      the attribute is serialized. (e.g. `BswImplementation.preconfiguredConfiguration`
+      had a complete field + accessor pair + `[x]` checklist rows yet no XML
+      read/write at all.) Verify coverage separately by grepping the parser and
+      writer for the XML element tag of every field — a field whose accessor
+      methods are present and tested is *not* evidence that any code serializes it.
 - [ ] This extends to **polymorphic dispatch**: a class that is a concrete
       subtype of an abstract base (event, entity, policy, etc.) may have a
       dedicated `readXxx`/`writeXxx` method yet still be silently dropped if
@@ -238,11 +327,52 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       must gain the new subtype, otherwise a branch exists that no test
       exercises and a later refactor can silently break the dispatch without
       failing CI.
+- [ ] A concrete `<name>InstanceRef` subclass is a polymorphic type like any
+      other subtype: it needs a parser `readXxx`/`getXxxIRef` dispatch branch
+      and a matching writer `writeXxx`/`setXxxIRef` branch, plus dispatch-test
+      coverage — the five-place pattern above applies even though the iref is
+      attribute-typed rather than aggregated. Inner attributes marked
+      `Stereotypes: atpAbstract` in the abstract `<name>InstanceRef` parent are
+      declared there but concretized by the subclasses (a differently-named,
+      concretely-typed attribute, e.g. `contextPort` →
+      `contextPPort`/`contextRPort`), so only the subclass's concrete attribute
+      carries the XML element; `atpDerived` inner attributes (e.g. `base`)
+      have no XML element and are exempt (see the exception below).
+- [ ] **Typed vs polymorphic iref serialization shape.** When the spec/XSD
+      types an iref attribute as a *fixed* concrete `<name>InstanceRef` class
+      (the XSD element's `type` is that class, e.g.
+      `SwcBswSynchronizedTrigger.swcTrigger` → `SWC-TRIGGER-IREF` of type
+      `P-TRIGGER-IN-ATOMIC-SWC-TYPE-INSTANCE-REF`), the attribute-named
+      element *is* the iref: parser and writer read/write its inner refs
+      **directly under** that element (flat), mirroring
+      `setVariableInAtomicSWCTypeInstanceRef`. Do **not** emit a nested
+      `<P-...-INSTANCE-REF>` wrapper element. That nested shape is only for
+      *polymorphic* irefs — a choice of subtype elements such as
+      `MODE-GROUP-IREF`'s `P-MODE-GROUP...`/`R-MODE-GROUP...`, which dispatch
+      on the child tag. Mixing the two shapes silently drops the inner refs on
+      round-trip, because the reader looks for inner refs directly under the
+      iref element.
 - [ ] **Exception:** an attribute marked `Stereotypes: atpDerived` is a
       *derived* attribute — it is computed from its context and has **no**
       XML element, so it has no parser/writer element and is exempt from this
       requirement. It still maps to a field + accessor pair (attribute-level
       completeness) and is recorded as `atpDerived` in the deviation tracker.
+- [ ] **Wrapper-element lists.** When a spec-`*` attribute's items live inside
+      a *wrapper* element (e.g. `revisionLabel` `*` → XML
+      `<REVISION-LABELS><REVISION-LABEL>…</REVISION-LABEL></REVISION-LABELS>`),
+      the wrapper is pure container with no model counterpart: the field is
+      the flat list (`revisionLabels`) and there is **no** `revisionLabels`
+      element attribute in `__init__` for the wrapper. Parser: iterate
+      `self.findall(element, "REVISION-LABELS/REVISION-LABEL")` and build each
+      item (via `getChildElementOptionalRevisionLabelString(child, ".")` or a
+      literal-list helper), calling `addXxx` per item. Writer: create the
+      wrapper `ET.SubElement(element, "REVISION-LABELS")` only when the list is
+      non-empty, then emit each item as a child. Guard both sides so an empty
+      list round-trips to **no** wrapper element at all. (Engineered in
+      `EngineeringObject.revisionLabels`; the typed revision-label helper
+      `getChildElementOptionalRevisionLabelString` validates the
+      `[0-9]+\.[0-9]+\.[0-9]+…` format, so prefer it over a raw literal for
+      `RevisionLabelString` items.)
 
 ### 1.8 Cross-package types
 
@@ -265,6 +395,55 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
 - [ ] Intentional deviations are recorded in `docs/method_deviation_by_class.md`
       with the reason (e.g. "PDF-only", "deprecated, not implemented",
       "atpDerived", "added convenience property").
+
+### 1.10 Missing referenced classes must be implemented first
+
+- [ ] The class under check may reference other model classes in its spec
+      table: a `ref`/`tref`/`iref` attribute's target or `<name>InstanceRef`
+      element type, an aggregated child type, a `Base`-column parent/sibling,
+      a shared spec enum, an attribute's primitive container type, a
+      **primitive type** (e.g. `MemorySection.alignment` is a PDF
+      `AlignmentType` primitive — when no such class exists in
+      `PrimitiveTypes.py`, add it as an `ARLiteral` subclass mirroring
+      `String`/`NameToken`/`CIdentifier`, with the PDF note and
+      `xml.xsd.pattern`/`xml.xsd.type` tags in its docstring, and type the
+      attribute with it) etc. When any such type is declared in the spec but
+      does **not** exist in the codebase, **implement it first** per these
+      rules instead of deferring or substituting a placeholder — create the
+      missing class from its own spec table, mirroring its siblings and its
+      abstract parent if the `Base` column lists one, give it a method-parity
+      checklist, tests, and parser/writer coverage, and only then type the
+      referencing attribute against it. This applies to **every** kind of
+      referenced class, not only `<name>InstanceRef` types (see the `iref`
+      specifics in Rule 1.5).
+- [ ] A placeholder substitute (e.g. `RefType` where the spec names a concrete
+      class) is allowed only as a last resort when the missing class's model is
+      genuinely out of scope; it must then be recorded in
+      `docs/method_deviation_by_class.md` (reason "class not yet implemented"),
+      forward-reference the real class in the inline comment and docstrings,
+      and be switched to the real class (with a `TYPE_CHECKING` import if
+      needed to avoid cycles) once it is implemented, clearing the deviation.
+
+### 1.11 Member order follows the PDF
+
+- [ ] Members are declared in the **same order as the spec table's attribute
+      rows** — i.e. ascending `xml.sequenceOffset` (the PDF's `Tags:
+      xml.sequenceOffset=NN` value). The order of the `__init__` fields, the
+      order of the getter/setter/adder methods, and the order of the method
+      parity checklist rows (Rule 2) must all follow the spec table row order,
+      **not** alphabetical or file-of-creation order. A class whose accessors
+      are ordered by name or by refactor history rather than by the spec is
+      misaligned. (Example: `EngineeringObject` attributes are
+      `shortLabel`(offset 10), `category`(20), `revisionLabel`(30),
+      `domain`(40), so the accessors and checklist list them in exactly that
+      sequence.)
+- [ ] Within one attribute, the accessor pair order is `getXxx` then
+      `setXxx` (or `addXxx`/`getXxxs` for list attributes) — getter before
+      setter for each attribute, mirroring the sibling classes that are already
+      aligned (e.g. `Compiler` lists `getName`/`setName`, `getOptions`/
+      `setOptions`, ...). The getter-first pairing is uniform across aligned
+      classes; only the *attribute* sequence varies, and that sequence comes
+      from the PDF.
 
 Verification: cross-check each attribute (name, multiplicity, **type**)
 against the PDF table and the corresponding XSD in
@@ -299,7 +478,10 @@ class MyEnum(AREnum):
     # MyEnum method parity checklist:
     # (no methods)
 
+    # Literal one comment
     MEMBER_ONE = "member_one"
+
+    # Literal two comment
     MEMBER_TWO = "member_two"
 ```
 
@@ -341,6 +523,20 @@ Check:
 - [ ] Enum member value: the string value must **exactly match** the spec literal
       value. Example: `DERIVED_FROM = "derivedFrom"` (not `"derived_from"` or
       variations).
+- [ ] **Member value vs. XML serialization form.** The Python member value is the
+      spec literal read from the table header's `mmt.qualifiedName` tag — it is
+      the camelCase form shared by the unified naming schemes of multiple
+      releases (e.g. `DependencyUsageEnum.BUILD = "build"`). The **XSD**,
+      however, serializes enum literals in **UPPERCASE** (e.g. the schema value
+      for `DEPENDENCY-USAGE-ENUM` is `BUILD`, and for `PROGRAMMINGLANGUAGE-ENUM`
+      it is `C`). These two forms are not interchangeable for tests: a *model
+      round-trip* carries the member value verbatim and is lossless either way,
+      but an **XSD-valid** fragment (e.g. a fixture fed to an XSD validator, or a
+      reference document) must always use the **UPPERCASE serialized** literal,
+      not the camelCase member value — otherwise the schema rejects it. Do not
+      "fix" the member value to UPPERCASE to satisfy the schema: keep the member
+      matching the spec's `mmt.qualifiedName`, and write the UPPERCASE form only
+      in test XML fixtures and fragments.
 - [ ] Class docstring: summarize the spec table's "Note" row (the enum's purpose
       and scope).
 - [ ] Enum member documentation: each member must have an inline comment that
@@ -426,6 +622,30 @@ Check:
       package-name mismatch, because that path implies package
       `...::SomeGroup::ClassName`. The class must be defined **directly** in
       `SomeGroup/__init__.py`.
+- [ ] **Element-type packages whose tail equals the class name are the correct,
+      aligned case, not the anti-pattern.** When the `Package` row's last
+      segment *is* the class itself (e.g. `BswImplementation` →
+      `M2::AUTOSARTemplates::BswModuleTemplate::BswImplementation` → module
+      file `BswImplementation.py`), the class is the package's direct member
+      and is defined directly in that `ClassName.py` module. This is common for
+      root element types and needs no sub-package. The package-name-match
+      anti-pattern above applies only when the package tail (`SomeGroup`)
+      differs from the class (`ClassName`) and the class is wrongly nested as
+      `SomeGroup/ClassName.py` — do not conflate the two, and do not move a
+      class out of a class-named element-type module.
+- [ ] **Classes sharing the parent package tail.** When several classes' `Package`
+      rows end in the same tail (e.g. `HardwareConfiguration`, `SoftwareContext`,
+      and `ResourceConsumption` all have `Package` =
+      `M2::AUTOSARTemplates::CommonStructure::ResourceConsumption`), they are
+      **all** direct members of that package's `__init__.py`. Do not give each
+      its own `<ClassName>.py` submodule even though *other* class-named modules
+      sit in the same directory (`HeapUsage.py`, `StackUsage.py`, …) — those
+      modules belong to their own separate spec packages
+      (`...::HeapUsage`, `...::StackUsage`) and are the element-type case, not
+      a precedent for adding a class-named module. When the `__init__.py` also
+      imports those sibling submodules and they import the package-level
+      classes back, define the package-level classes **before** the submodule
+      import statements in `__init__.py` to break the cycle.
 - [ ] If the module is a directory/package (`SomeGroup/__init__.py`), the spec
       package's classes are defined in that `__init__.py` file (or imported
       and re-exported from `__init__.py` if split into submodules). Prefer
@@ -523,6 +743,12 @@ Check:
 - [ ] `Optional` / `List` are imported from `typing`.
 - [ ] `__init__` attribute fields are annotated too (`self.foo: Type = None`),
       matching the getter/setter type.
+- [ ] **No untyped accessor pairs.** A `getXxx`/`setXxx` pair with **no
+      annotations at all** (`def getSize(self):` / `def setSize(self, value):`)
+      is a Rule 3 violation even if the field itself is annotated — every
+      getter return and every setter parameter must carry the concrete type
+      (e.g. `MemorySection.size` → `getSize() -> Optional[PositiveInteger]`
+      and `setSize(value: Optional[PositiveInteger])`).
 - [ ] A field that defaults to `None` and maps to a spec `0..1` attribute must
       be annotated `Optional[T]` — never a non-optional `T` initialized to
       `None`. A bare `self.fooRef: RefType = None` contradicts its own
@@ -614,7 +840,8 @@ def setSomeEnumValue(self, value):
       corresponding list otherwise.
 - [ ] `create*` factories are only used for children that are
       `Referrable`/`Identifiable` per their spec `Base`; non-Identifiable
-      children use `setXXX` instead (see Rule 1.6).
+      children use `setXXX` (multiplicity `0..1`) or `addXxx(value)`
+      (multiplicity `*`) instead — never a no-arg factory (see Rule 1.6).
 
 Every setter and add method follows the uniform pattern:
 ```python
@@ -635,11 +862,16 @@ This pattern is critical because:
 3. **Consistency**: all classes apply this pattern uniformly.
 
 Tests must verify this explicitly: after `setter(value)`, then `setter(None)`,
-the getter must still return the original value.
+the getter must still return the original value. The same holds for
+`addXxx(value)` followed by `addXxx(None)` (nothing appended).
 
 Note: this rule is not uniformly applied across the codebase yet. When a class
 under check violates it, align the class to the no-op behavior as part of the
-check.
+check — this includes **every** setter of the class, its abstract bases, and
+its package siblings (e.g. `StackUsage`/`HeapUsage`/`ExecutionTime` all had
+unguarded setters while their aggregated siblings were already guarded), and
+property setters that back a field (a `@property` setter is a setter too and
+must no-op on `None`).
 
 ---
 
@@ -670,10 +902,27 @@ Check:
       no extra). A `@property` member counts as a method here: it is an
       `ast.FunctionDef` in the class body, so it needs a checklist row (`[x]
       impl/docstring/test`) and a test just like a normal method — it is not
-      exempt just because it is not a `def getXxx` accessor.
+      exempt just because it is not a `def getXxx` accessor. A field backed by
+      a property therefore produces **three** rows: `getXxx`, the property
+      name itself, and `setXxx` (e.g. `MemorySection` lists `getAlignment`,
+      `alignment`, `setAlignment`).
 - [ ] Every row is fully `[x]` — no stale `[ ]` entries. A row can look
       incomplete even when the method/docstring/test all already exist —
       always double-check by reading the class, not just the checklist text.
+      A `[ ] test` row whose method already has a test in the mirrored test
+      file is stale and must be crossed (e.g. `StackUsage`'s abstract base
+      accessors were tested via a concrete subclass, but the rows stayed
+      `[ ]`). Grep the class body for `# [ ]` during every review — the
+      set-based script alone does not flag them.
+- [ ] A row is crossed (`[x]`) **only** when all three of its obligations are
+      complete and verified — the implementation, the docstring, and the unit
+      test. A method that is implemented but whose docstring or test is not
+      yet done stays `[ ]` ("impl done, docstring/test pending"). Never cross
+      an item speculatively in anticipation of work that has not finished:
+      the checklist reflects the *current* verified state, and it is updated
+      only when the last outstanding obligation is actually done and the test
+      passes. This keeps a partially-implemented class visibly incomplete
+      instead of falsely appearing complete.
 - [ ] The `# Spec:` line names the correct PDF, table number, and page for the
       class (cross-check against the actual PDF).
 
@@ -682,8 +931,42 @@ Check:
 - The PDF filename must match exactly (check the actual PDF file name in the
   repo).
 - Table number must be in format `X.Y` (e.g., `5.38`, not `5-38` or `538`).
-- Page number is from the PDF's own page counter, not document section
-  numbers.
+- The page number must **always** be present — a `# Spec:` line without
+  `p.<page>` is a violation. Page number is from the PDF's own printed page
+  counter (the `X of NNNN` footer), not document section numbers or markdown
+  line numbers.
+- Cite the page where the table's **header row** first appears — the `Class
+  <Name>` (or `Enumeration <Name>` for enums) heading in the PDF markdown —
+  not necessarily the caption's page. Long tables can split across pages, with
+  the caption on the page *after* the header row (e.g. Table 8.1
+  `Implementation`: header row p.619, caption p.621); the header row and the
+  caption can also be on the **same** page with the table *ending* on the
+  caption page (e.g. `ResourceConsumption` Table 8.1: header row p.137,
+  caption p.138; `MemorySection` Table 8.2: header p.143, caption p.144;
+  `ExecutionTime` Table 8.17: header p.159, caption p.160;
+  `MultidimensionalTime` Table 8.22: header p.164, caption p.165;
+  `RoughEstimateOfExecutionTime` Table 8.25: header p.167, caption p.168) —
+  in **both** layouts always cite the header row's page so the reader lands
+  on the class definition. Verify the header page directly in the PDF
+  (search for the `Class <Name>` heading), do not assume the caption page.
+- Adjacent tables that appear on the same or consecutive pages (e.g. an
+  abstract class and its subclasses) are easy to confuse with one another or
+  with the section's start page — verify each class's **own** `Table X.Y`
+  page independently against the PDF's printed page counter, and never reuse a
+  neighboring class's already-checked value. Cross-check against the page in
+  `docs/method_deviation_by_class.md`, which may already be correct.
+- **Abstract base + concrete subclass sharing one page.** When the spec page
+  holds *two* tables on the same page — an abstract base (e.g.
+  `EngineeringObject`, Table 7.6, p.132) and a concrete subclass
+  (`AutosarEngineeringObject`, Table 7.5, p.132) whose table has **no** own
+  attribute rows — both classes still get their **own** `# Spec:` line with
+  their **own** table number/page, and the concrete subclass declares no
+  fields of its own (the base carries the attributes). The concrete subclass's
+  checklist lists only `__init__` (plus any methods it actually adds); do not
+  copy the base's accessor rows into the subclass checklist, since a concrete
+  subclass inheriting all accessors from the abstract base defines no methods
+  of its own. The set-based script (Rule 7) then passes with a one-row
+  checklist because the subclass body contains only `__init__`.
 - Different AUTOSAR release PDFs may have different page numbers; verify
   you're reading the correct release.
 
@@ -701,11 +984,14 @@ field-to-spec cross-check is the gate, not the checklist.
 **Field-to-spec cross-check procedure** (systematic, per field):
 1. Strip any suffix (`Ref`, `TRef`, `IRef`, `s` for plurals).
 2. Search the spec table's `Attribute` column for the **base name** (without
-   suffix).
+   suffix). Also check the `Aggregated by` rows of other spec tables — a
+   field may be defined there (cross-table aggregation, see Rule 1.3).
 3. If found → field is spec-aligned; continue.
-4. If **not found** → field is fabricated. **Remove it** (unless it's a
-   documented read-only derived convenience property with tests, recorded in
-   the deviation tracker — see Rule 1.3).
+4. If **not found** → check the XSD for the XML element tag: if present with a
+   documentation block, the PDF table omits it — keep and record the
+   deviation (see Rule 1.3). Otherwise the field is fabricated. **Remove it**
+   (unless it's a documented read-only derived convenience property with
+   tests, recorded in the deviation tracker — see Rule 1.3).
 
 ---
 
@@ -723,12 +1009,23 @@ paraphrase.
       attribute note: when the PDF's `constr_*` rows impose a constraint on
       the attribute, include the constraint wording in the inline comment and
       cite its id. Class-level `constr_*` rows belong in the class docstring
-      alongside the note.
+      alongside the note — **including constraints on inherited
+      attributes**: a constraint may target an attribute the subclass does
+      not declare itself (e.g. `constr_4103` constrains
+      `SectionNamePrefix.symbol`, which is inherited from
+      `ImplementationProps`, and therefore belongs in the
+      `SectionNamePrefix` class docstring, not in the parent's). Conversely,
+      an attribute-level `constr_*` (e.g. `constr_4072` on
+      `SectionNamePrefix.implementedIn`) is cited in the `__init__` inline
+      comment **and** in the getter/setter docstrings.
 - [ ] The class docstring reflects the PDF class note (the element's
       purpose).
 - [ ] Getter/setter docstrings summarize the PDF note and semantic meaning,
       not just "Gets/sets the value". They should mention what the attribute
-      represents in AUTOSAR. Docstrings connect spec semantics to code
+      represents in AUTOSAR, cite the applicable `constr_*` id, and for `iref`
+      attributes name the implementing `<name>InstanceRef` class (so the
+      concrete iref type is discoverable in the code, not only in the
+      deviation tracker). Docstrings connect spec semantics to code
       intent; setter docstrings should also mention the no-op behavior and
       the chainable return.
 
@@ -755,6 +1052,18 @@ self.targetModuleId: Optional[PositiveInteger] = None
 
 **Maturity**: accept
 
+- [ ] All imports are at the beginning of the file (module docstring first,
+      then `from __future__` if any, then imports, then code — PEP 8 E402).
+      Mid-file imports are **not** used to work around circular imports; the
+      cycle is broken properly instead: modules that only reference another
+      module's classes in type annotations import them under `TYPE_CHECKING`
+      and add `from __future__ import annotations`; a module that needs the
+      other class at runtime (instantiation) uses a function-local import
+      inside the method that instantiates (e.g. `Implementation` keeps no
+      module-level `ResourceConsumption` import — annotations are
+      `TYPE_CHECKING`, and `createResourceConsumption` imports it locally;
+      the `ResourceConsumption` package submodules likewise import
+      `HardwareConfiguration`/`SoftwareContext` under `TYPE_CHECKING`).
 - [ ] A blank line separates each attribute block (comment + assignment) in
       `__init__`.
 - [ ] Code is formatted with Black at `line-length = 200` (per `pyproject.toml`,
@@ -773,13 +1082,15 @@ self.targetModuleId: Optional[PositiveInteger] = None
 
 **Maturity**: accept
 
-Each member (attribute or method) in a class must be separated by exactly one
-blank line. This improves readability and clearly delineates separate logical
-units within the class.
+Each member (attribute, enum literal, or method) in a class must be separated
+by exactly one blank line. This improves readability and clearly delineates
+separate logical units within the class.
 
 Check:
 - [ ] Every attribute in `__init__` has a blank line before and after its
       comment + assignment block.
+- [ ] Every enum literal block (inline comment + `NAME = "value"`) is
+      separated from the next by exactly one blank line.
 - [ ] Every method is preceded by a blank line (except the first method
       immediately after `__init__`).
 - [ ] Every method is followed by a blank line before the next method.
@@ -807,6 +1118,17 @@ class Example(ARObject):
         return self
 ```
 
+Example (enum):
+```python
+class MyEnum(AREnum):
+    # Literal one comment
+    MEMBER_ONE = "member_one"
+
+    # Literal two comment
+    MEMBER_TWO = "member_two"
+```
+```
+
 ---
 
 # Section 7: Tests (Rule 7)
@@ -828,6 +1150,15 @@ Every method on the class must have test coverage in the mirrored test file
       `__init__` in the test (docstring or a local subclass `def __init__`)
       so the checklist's `[x] test` for `__init__` stays verifiable by the
       set-based check.
+- [ ] **Abstract base accessors** are tested through a concrete subclass in
+      one combined base-properties test (`test_<name>_base_properties`):
+      instantiate a concrete subclass, exercise every getter/setter the base
+      declares, assert chaining + round-trip, and finish with the None no-op
+      assertions for the whole set (e.g. `StackUsage`/`HeapUsage`/
+      `ExecutionTime` base accessors via `MeasuredStackUsage`/
+      `MeasuredHeapUsage`/`AnalyzedExecutionTime`). This is what crosses the
+      abstract class's checklist rows — a base whose accessor rows stay
+      `[ ]` while such a test exists is a stale checklist.
 - [ ] Getter/setter pairs share a combined test (`test_get_set_*`) that checks:
       (1) setter returns `self` for method chaining, (2) value round-trips
       (getter returns the set value), (3) setting `None` is a no-op (existing
@@ -842,8 +1173,16 @@ Every method on the class must have test coverage in the mirrored test file
 - [ ] When a class gains new attributes covered by parser/writer support,
       verify the round trip end-to-end (set values → save → reload → assert
       the values come back) in addition to the unit-level get/set tests; this
-      is the practical test that Rule 1.7's "parser and writer coverage"
-      check is meant to guarantee.
+      is the practical test that Rule 1.7's "parser and writer coverage" check
+      is meant to guarantee. Run the full round trip **even when the class's
+      own methods look complete**: the write path also serializes the
+      *inherited base-class* fields, and a base-class deviation can crash or
+      silently drop the whole element (e.g. `Implementation.swVersion` typed
+      as a `List` but written through a scalar literal writer, and
+      `vendorId` defaulting to a raw `int` while the numerical writer expects
+      an `ARNumerical`) — such failures surface only in the end-to-end round
+      trip, never in the class's own unit tests. A minimal robustness fix in
+      the base writer is a legitimate part of aligning the subclass.
 
 Verification (run in the repo root; replace the paths for the class under
 check):

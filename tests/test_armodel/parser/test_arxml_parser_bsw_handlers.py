@@ -1247,6 +1247,29 @@ class TestBswInternalBehaviorIncludedModeDeclarationGroupSet:
 # === Migrated from test_arxml_parser_remaining_gaps.py ===
 
 
+class TestEngineeringObjectHandler:
+    def test_read_engineering_object(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
+
+        obj = AutosarEngineeringObject()
+        element = _snip("<SHORT-LABEL>label</SHORT-LABEL>" "<CATEGORY>cat</CATEGORY>" "<DOMAIN>domain</DOMAIN>" "<REVISION-LABELS><REVISION-LABEL>1.0.0</REVISION-LABEL></REVISION-LABELS>")
+        parser.readEngineeringObject(element, obj)
+        assert obj.getShortLabel().getText() == "label"
+        assert obj.getCategory().getText() == "cat"
+        assert obj.getDomain().getText() == "domain"
+        assert obj.getRevisionLabels()[0].getText() == "1.0.0"
+
+    def test_read_engineering_object_optional_fields_missing(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
+
+        obj = AutosarEngineeringObject()
+        parser.readEngineeringObject(_snip(""), obj)
+        assert obj.getShortLabel() is None
+        assert obj.getCategory() is None
+        assert obj.getDomain() is None
+        assert obj.getRevisionLabels() == []
+
+
 class TestCodeAndResourceConsumption:
     def test_readArtifactDescriptor_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import Code

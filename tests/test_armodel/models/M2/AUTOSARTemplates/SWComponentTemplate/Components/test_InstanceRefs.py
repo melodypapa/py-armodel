@@ -9,6 +9,8 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceR
     PModeGroupInAtomicSwcInstanceRef,
     RModeGroupInAtomicSWCInstanceRef,
     RModeInAtomicSwcInstanceRef,
+    TriggerInAtomicSwcInstanceRef,
+    PTriggerInAtomicSwcTypeInstanceRef,
     VariableInAtomicSwcInstanceRef,
     RVariableInAtomicSwcInstanceRef,
     InnerPortGroupInCompositionInstanceRef,
@@ -148,6 +150,79 @@ class TestRModeInAtomicSwcInstanceRef:
         target_mode_decl_ref.setValue("/Target/ModeDecl")
         instance_ref.setTargetModeDeclarationRef(target_mode_decl_ref)
         assert instance_ref.getTargetModeDeclarationRef() == target_mode_decl_ref
+
+
+class TestTriggerInAtomicSwcInstanceRef:
+    """Test class for TriggerInAtomicSwcInstanceRef abstract class."""
+
+    def test_trigger_in_atomic_swc_instance_ref_abstract(self):
+        """Test that TriggerInAtomicSwcInstanceRef is an abstract class."""
+        with pytest.raises(TypeError):
+            TriggerInAtomicSwcInstanceRef()
+
+    def test_concrete_subclass_initialization(self):
+        """Test __init__ defaults of the abstract class through a concrete subclass."""
+        instance_ref = PTriggerInAtomicSwcTypeInstanceRef()
+
+        assert instance_ref.baseRef is None
+        assert instance_ref.contextPortRef is None
+        assert instance_ref.targetRef is None
+
+
+class TestPTriggerInAtomicSwcTypeInstanceRef:
+    """Test class for PTriggerInAtomicSwcTypeInstanceRef class."""
+
+    def test_p_trigger_in_atomic_swc_type_instance_ref_initialization(self):
+        """Test PTriggerInAtomicSwcTypeInstanceRef initialization and methods."""
+        instance_ref = PTriggerInAtomicSwcTypeInstanceRef()
+
+        assert instance_ref.contextPPortRef is None
+        assert instance_ref.targetTriggerRef is None
+
+        # Test baseRef methods (inherited from TriggerInAtomicSwcInstanceRef)
+        base_ref = RefType()
+        base_ref.setValue("/Base/Ref")
+        result = instance_ref.setBaseRef(base_ref)
+        assert result is instance_ref
+        assert instance_ref.getBaseRef() == base_ref
+
+        # Test contextPortRef methods (inherited from TriggerInAtomicSwcInstanceRef)
+        context_port_ref = RefType()
+        context_port_ref.setValue("/Context/Port")
+        instance_ref.setContextPortRef(context_port_ref)
+        assert instance_ref.getContextPortRef() == context_port_ref
+
+        # Test targetRef methods (inherited from TriggerInAtomicSwcInstanceRef)
+        target_ref = RefType()
+        target_ref.setValue("/Target/Ref")
+        instance_ref.setTargetRef(target_ref)
+        assert instance_ref.getTargetRef() == target_ref
+
+        # Test contextPPortRef methods
+        context_p_port_ref = RefType()
+        context_p_port_ref.setValue("/Context/P/Port")
+        instance_ref.setContextPPortRef(context_p_port_ref)
+        assert instance_ref.getContextPPortRef() == context_p_port_ref
+
+        # Test targetTriggerRef methods
+        target_trigger_ref = RefType()
+        target_trigger_ref.setValue("/Target/Trigger")
+        instance_ref.setTargetTriggerRef(target_trigger_ref)
+        assert instance_ref.getTargetTriggerRef() == target_trigger_ref
+
+    def test_set_none_is_noop(self):
+        """Test that setters are no-ops when the value is None."""
+        instance_ref = PTriggerInAtomicSwcTypeInstanceRef()
+
+        context_ref = RefType().setValue("/Context/P/Port")
+        instance_ref.setContextPPortRef(context_ref)
+        instance_ref.setContextPPortRef(None)
+        assert instance_ref.getContextPPortRef() == context_ref
+
+        trigger_ref = RefType().setValue("/Target/Trigger")
+        instance_ref.setTargetTriggerRef(trigger_ref)
+        instance_ref.setTargetTriggerRef(None)
+        assert instance_ref.getTargetTriggerRef() == trigger_ref
 
 
 class TestVariableInAtomicSwcInstanceRef:

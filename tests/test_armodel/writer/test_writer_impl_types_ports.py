@@ -18,6 +18,12 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import (
     SwcBswMapping,
     SwcBswRunnableMapping,
+    SwcBswSynchronizedModeGroupPrototype,
+    SwcBswSynchronizedTrigger,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (
+    PTriggerInAtomicSwcTypeInstanceRef,
+    PModeGroupInAtomicSwcInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
     Code,
@@ -193,6 +199,83 @@ class TestSwcBswMappingWriter:
         assert child.find("SWC-BEHAVIOR-REF").text == "/Swc/Beh"
         assert child.find("RUNNABLE-MAPPINGS") is not None
 
+    def test_write_swc_bsw_synchronized_mode_groups(self, writer):
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Pkg")
+        mapping = pkg.createSwcBswMapping("Map")
+        mode_group = SwcBswSynchronizedModeGroupPrototype()
+        mode_group.setBswModeGroupRef(_make_ref("/Bsw/ModeGroup", "BSW"))
+        mode_iref = PModeGroupInAtomicSwcInstanceRef()
+        mode_iref.setContextPPortRef(_make_ref("/Swc/PPort", "P"))
+        mode_iref.setTargetModeGroupRef(_make_ref("/Swc/ModeGroup", "SWC"))
+        mode_group.setSwcModeGroupIRef(mode_iref)
+        mapping.addSynchronizedModeGroup(mode_group)
+
+        parent = _parent()
+        writer.writeSwcBswSynchronizedModeGroups(parent, mapping)
+
+        assert len(parent) == 1
+        groups = parent[0]
+        assert groups.tag == "SYNCHRONIZED-MODE-GROUPS"
+        prototype = groups[0]
+        assert prototype.tag == "SWC-BSW-SYNCHRONIZED-MODE-GROUP-PROTOTYPE"
+        assert prototype.find("BSW-MODE-GROUP-REF").text == "/Bsw/ModeGroup"
+        iref = prototype.find("SWC-MODE-GROUP-IREF")
+        assert iref is not None
+        assert iref.find("CONTEXT-P-PORT-REF").text == "/Swc/PPort"
+        assert iref.find("TARGET-MODE-GROUP-REF").text == "/Swc/ModeGroup"
+
+    def test_write_swc_bsw_synchronized_triggers(self, writer):
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Pkg")
+        mapping = pkg.createSwcBswMapping("Map")
+        trigger = SwcBswSynchronizedTrigger()
+        trigger.setBswTriggerRef(_make_ref("/Bsw/Trigger", "BSW"))
+        trigger_iref = PTriggerInAtomicSwcTypeInstanceRef()
+        trigger_iref.setContextPPortRef(_make_ref("/Swc/PPort", "P"))
+        trigger_iref.setTargetTriggerRef(_make_ref("/Swc/Trigger", "SWC"))
+        trigger.setSwcTriggerIRef(trigger_iref)
+        mapping.addSynchronizedTrigger(trigger)
+
+        parent = _parent()
+        writer.writeSwcBswSynchronizedTriggers(parent, mapping)
+
+        assert len(parent) == 1
+        triggers = parent[0]
+        assert triggers.tag == "SYNCHRONIZED-TRIGGERS"
+        sync_trigger = triggers[0]
+        assert sync_trigger.tag == "SWC-BSW-SYNCHRONIZED-TRIGGER"
+        assert sync_trigger.find("BSW-TRIGGER-REF").text == "/Bsw/Trigger"
+        iref = sync_trigger.find("SWC-TRIGGER-IREF")
+        assert iref is not None
+        assert iref.find("CONTEXT-P-PORT-REF").text == "/Swc/PPort"
+        assert iref.find("TARGET-TRIGGER-REF").text == "/Swc/Trigger"
+
+    def test_write_swc_bsw_mapping_with_synchronizations(self, writer):
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Pkg")
+        mapping = pkg.createSwcBswMapping("SwcBswMap")
+        mapping.addSynchronizedModeGroup(SwcBswSynchronizedModeGroupPrototype())
+        mapping.addSynchronizedTrigger(SwcBswSynchronizedTrigger())
+
+        parent = _parent()
+        writer.writeSwcBswMapping(parent, mapping)
+
+        child = parent[0]
+        assert child.tag == "SWC-BSW-MAPPING"
+        assert child.find("SYNCHRONIZED-MODE-GROUPS") is not None
+        assert child.find("SYNCHRONIZED-TRIGGERS") is not None
+
+    def test_write_swc_bsw_synchronized_groups_empty(self, writer):
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Pkg")
+        mapping = pkg.createSwcBswMapping("Map")
+
+        parent = _parent()
+        writer.writeSwcBswSynchronizedModeGroups(parent, mapping)
+        writer.writeSwcBswSynchronizedTriggers(parent, mapping)
+        assert len(parent) == 0
+
 
 class TestEngineeringObjectWriter:
     """Tests for engineering object and BSW implementation writers."""
@@ -201,12 +284,18 @@ class TestEngineeringObjectWriter:
         obj = AutosarEngineeringObject()
         obj.setShortLabel(_make_literal("label"))
         obj.setCategory(_make_literal("cat"))
+        obj.setDomain(_make_literal("domain"))
+        revision_label = RevisionLabelString()
+        revision_label.setValue("1.0.0")
+        obj.addRevisionLabel(revision_label)
 
         parent = _parent()
         writer.writeEngineeringObject(parent, obj)
 
         assert parent.find("SHORT-LABEL").text == "label"
         assert parent.find("CATEGORY").text == "cat"
+        assert parent.find("DOMAIN").text == "domain"
+        assert parent.find("REVISION-LABELS/REVISION-LABEL").text == "1.0.0"
 
     def test_write_engineering_object_no_fields(self, writer):
         obj = AutosarEngineeringObject()
@@ -214,6 +303,8 @@ class TestEngineeringObjectWriter:
         writer.writeEngineeringObject(parent, obj)
         assert parent.find("SHORT-LABEL") is None
         assert parent.find("CATEGORY") is None
+        assert parent.find("DOMAIN") is None
+        assert parent.find("REVISION-LABELS") is None
 
     def test_write_autosar_engineering_object(self, writer):
         obj = AutosarEngineeringObject()

@@ -31,6 +31,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.ExecutionTime import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HeapUsage import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.MemorySectionUsage import *  # noqa: F403
@@ -100,8 +101,6 @@ from armodel.models.M2.MSR.Documentation.BlockElements.Figure import *  # noqa: 
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import *  # noqa: F403
 
 # Additional CommonStructure imports
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HardwareConfiguration import *  # noqa: F403
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.SoftwareContext import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure.AtpBlueprint import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import *  # noqa: F403
