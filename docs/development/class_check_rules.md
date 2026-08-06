@@ -1580,6 +1580,93 @@ will be updated to incorporate it.
 
 ---
 
+# Section 9: Parser and Writer Source Style (Rule 14)
+
+## Rule 14: No Chained Method Calls in Parser/Writer Source
+
+**Maturity**: accept
+
+Rule 4 makes every setter/adder/creator return `self` so that chaining
+(`obj.setA(...).setB(...)`) *is possible*. That capability exists for
+external/consumer convenience and for the model's own internal use; the
+**parser and writer source code must not use it**. Each `set`/`create`/`add`
+call is written as its own statement on the receiver.
+
+Check:
+- [ ] In `src/armodel/parser/arxml_parser.py` and
+      `src/armodel/writer/arxml_writer.py` (and the abstract bases / sibling
+      parsers under `src/armodel/parser/`), no statement chains two or more
+      `set`/`create`/`add` calls on one receiver. `obj.setA(x).setB(y)` is a
+      violation, as is a multi-line chain that wraps an argument across lines
+      and continues with another call on the closing parenthesis (a line whose
+      next non-whitespace token after `)` is `.set...`). The split point is any
+      top-level `.` that follows a completed call, and each such call must
+      become its own statement.
+- [ ] A chain that begins with a factory returning a shared object is also
+      split, by binding the shared object to a local first. The recurring case
+      is the AUTOSAR document — `AUTOSAR.getInstance().addXxx(...)` becomes
+      ```python
+      document = AUTOSAR.getInstance()
+      document.addXxx(...)
+      ```
+      Verify the chosen local name (the convention is `document`) does not
+      shadow an existing name in the same scope before introducing it.
+- [ ] Getter/attribute chains used as **values inside an expression** are
+      **not** covered by this rule and are left as-is. These are read-only
+      sub-expressions, not statement-level mutator chains, e.g.
+      `"...%s" % (event.getPeriod().getValue(), ...)`,
+      `ref.getDest()`, `connector.getOuterPortRef().getValue()`. The rule
+      targets only the statement-position `set`/`create`/`add` idiom.
+
+Why (before/after):
+
+Before — one long chain, hard to read and step through:
+```python
+range.setLowerCanId(
+    self.getChildElementOptionalNumericalValue(child_element, "LOWER-CAN-ID")
+).setUpperCanId(self.getChildElementOptionalNumericalValue(child_element, "UPPER-CAN-ID"))
+```
+
+After — one mutation per statement:
+```python
+range.setLowerCanId(self.getChildElementOptionalNumericalValue(child_element, "LOWER-CAN-ID"))
+range.setUpperCanId(self.getChildElementOptionalNumericalValue(child_element, "UPPER-CAN-ID"))
+```
+
+Rationale:
+1. **Readability and review**: one mutation per line makes each XML element →
+   field mapping self-evident; reviewers and diff readers see one logical
+   change per line instead of a run-on expression.
+2. **Debuggability**: one statement per setter means a breakpoint or stack
+   trace points directly at the exact call, and stepping is line-by-line
+   rather than into the middle of a chain.
+3. **Editability**: reordering, commenting out, or inserting a field does not
+   require rewrapping or re-indenting a long chain.
+4. **Decouples tests from the chain shape**: mock-based parser tests assert
+   each setter on the receiver independently (`props.setX.called` and
+   `props.setY.called`), never `props.setX().setY.called`. A test that asserts
+   the chained form (`props.setAuthAlgorithm.return_value.setAuthInfoTxLength.called`)
+   is coupled to the chain and breaks the moment setters are called as
+   separate statements — such tests must assert the flat form instead.
+
+Verification:
+- Grep the parser and writer for the chain pattern (must return nothing):
+  ```bash
+  grep -nE '(^|[^.a-zA-Z_])([a-zA-Z_][a-zA-Z0-9_]*)\.(set|create|add)[A-Z][a-zA-Z0-9_]*\([^)]*\)\.(set|create|add)' \
+      src/armodel/parser/arxml_parser.py src/armodel/writer/arxml_writer.py
+  ```
+- Grep for the document-factory chain (must return nothing):
+  ```bash
+  grep -nE 'AUTOSAR\.getInstance\(\)\.' \
+      src/armodel/parser/arxml_parser.py src/armodel/writer/arxml_writer.py
+  ```
+- After any parser/writer edit, run `npm run black-check` and the full suite
+  (`python scripts/run_tests.py`). Enforcing this rule is a purely mechanical,
+  behavior-preserving refactor: round-trip parse → write → re-parse must still
+  match for every integration fixture (29 ARXML files).
+
+---
+
 ## Reference
 
 - Spec sources: `autosar/markdown/*.md` (PDF-derived class tables)
