@@ -91,6 +91,21 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       `ARObject, AtpInstanceRef` must inherit `AtpInstanceRef`, matching its
       sibling instance-ref classes). The `Base` column also drives the
       `createXXX` vs `setXXX` choice (see 1.6 below).
+- [ ] **"`InstanceRef`"-named classes are not automatically refs.** A class
+      whose *name* ends in `InstanceRef` and whose attributes are the
+      `context`/`target` ref pair still takes its base from the spec `Base`
+      column — the name and shape do **not** justify a `RefType` or
+      `AtpInstanceRef` base. The spec note may explicitly state that the
+      class "follows the pattern of an InstanceRef but is not implemented
+      based on the abstract classes" (e.g. `ImplementationElementInParameterInstanceRef`,
+      Table 9.7, because `ImplementationDataTypeElement` isn't derived from
+      `AtpPrototype`); such a class inherits plain `ARObject` and its
+      `context`/`target` Kind-`ref` attributes map to `Optional[RefType]`
+      fields with the `Ref` suffix. A wrongly-inherited `RefType` base (a) is
+      flagged by `reports/deviation_class_hierarchy_mismatches.md` (expected
+      `ARObject`, got `RefType`) and (b) forces the parser/writer into the
+      flat-ref serialization shape for what is actually a typed iref
+      (Rule 1.7) — silently dropping the inner refs on round-trip.
 - [ ] Classes that inherit only from `ARObject` (no `Referrable`/`Identifiable`
       in `Base`) take no `parent`/`short_name` parameters: `__init__(self)`
       with all fields defaulted to `None`/`[]`. Check the spec `Base` column
@@ -161,7 +176,42 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       detect this on its own because it only verifies that listed methods
       exist; it does not verify that each field maps to the spec.
       Cross-check the `__init__` field list against the spec `Attribute` rows
-      and account for every field.
+      and account for every field. Two fabrication shapes recur that the
+      plain "field appears nowhere in the spec" framing under-describes, and
+      both are resolved by **removing** the fabricated field(s) and creating
+      the spec-aligned replacement(s), not by recording a deviation: (a)
+      **N:1 collapse** — a single generic fabricated field stands in for
+      *several* distinct spec attributes (e.g. `AliasNameAssignment.elementRef`
+      of type `AnyInstanceRef` collapsed the two mutually-exclusive spec refs
+      `identifiable` (Ref→Identifiable) and `flatInstance`
+      (Ref→FlatInstanceDescriptor) into one generic instance-ref); the fix is
+      N spec-aligned fields, each with its own concrete type and, for refs,
+      the proper DEST-typed `RefType` + `Ref` suffix — never one generic
+      field. (b) **Shadowing rename** — a field whose *name is invented* but
+      shadows a real spec attribute semantically (e.g. `aliasName` (a bare
+      `str`) shadowed spec `shortLabel` (a `String` primitive), both meaning
+      "the alias name"); there is no spec attribute with the invented name,
+      so this is fabrication, not a naming deviation (Rule 1.5), and the fix
+      is to rename to the spec name **and** re-type to the spec primitive
+      (`str` → `String`) in one step. (c) **Whole-class stub** — *every*
+      field is fabricated, so the class models none of its spec attributes:
+      one or two loosely-typed generic fields (`someName: str`,
+      `someRefs: List[RefType]`) with a complete accessor pair and a
+      plausible-sounding docstring, which together make the class look
+      implemented while the entire spec table is unrepresented. Shapes (a)
+      and (b) still leave *some* spec attribute modeled, so a spot check
+      finds real fields; a stub has none, and reviewing "does this field
+      look right?" per field never fires because each individual field is
+      internally consistent. The fix is a full rewrite from the spec table —
+      remove all fabricated fields, add one field + accessor pair per spec
+      attribute — not an incremental patch.
+      **Cheap detector for shape (c):** a class with **no `# Spec:` line and
+      no `# Spec verified:` marker** (Rules 2, 13.1) has never been through a
+      field-to-spec pass, so treat its *entire* field set as unverified
+      rather than assuming the fields are right and only the marker is
+      missing. A pre-rules checklist whose rows are all `[ ]` is the same
+      signal. Conversely, do not read a fully-`[x]` checklist as evidence of
+      field correctness — the checklist is method-only (Rule 2).
 - [ ] **PDF-table omission vs. fabricated API.** An attribute that is absent
       from the class's PDF `Attribute` column but **present in the XSD with a
       real documentation block** (no `atp.Status="removed"`) is *not*
@@ -285,6 +335,22 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       → field `measurableSystemConstantValuesRefs` with
       `addMeasurableSystemConstantValuesRef`/`getMeasurableSystemConstantValuesRefs` —
       the doubled trailing `s` is the correct suffix append, not a typo.
+- [ ] **A name mismatch is fixed by renaming, not recorded as a `naming`
+      deviation.** A field/accessor whose base name does not match the spec
+      `Attribute` column (e.g. spec `aliasName` modeled as `alias`/`aliases`,
+      or `targetRef` modeled as `target`) is always fixable — unlike a type
+      or multiplicity deviation that the XML representation can force, a name
+      has no such constraint. Recording such a mismatch as a `naming`
+      deviation row in `docs/method_deviation_by_class.md` and leaving it
+      there indefinitely is an anti-pattern that mirrors the "fabricated
+      attribute recorded instead of removed" smell (Rule 1.3): it documents a
+      bug rather than fixing it. The aligned action is to **rename** the
+      field and its accessors (and the checklist rows) to the spec base name,
+      update every consumer, and **remove** the `naming` deviation row — do
+      not leave a stale `naming` row once the name is corrected. A surviving
+      `naming` row in the tracker is itself a signal that the field-to-spec
+      cross-check has not actually been performed; treat it as a to-fix, not
+      as an accepted gap.
 
 ### 1.6 `createXXX` vs `setXXX`
 
@@ -371,7 +437,21 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       `MODE-GROUP-IREF`'s `P-MODE-GROUP...`/`R-MODE-GROUP...`, which dispatch
       on the child tag. Mixing the two shapes silently drops the inner refs on
       round-trip, because the reader looks for inner refs directly under the
-      iref element.
+      iref element. A third, sneakier shape is to treat the typed iref as a
+      **plain ref**: because the iref class name ends in `InstanceRef`, it may
+      inherit `RefType` and be serialized with the flat-ref helpers
+      (`getChildElementOptionalRefType`/`setChildElementOptionalRefType`),
+      which read/write the attribute-named element as a ref (its text
+      content) and never touch the inner refs — they vanish on round-trip
+      while the iref element itself survives and the model still carries the
+      iref object, so a unit-level get/set test passes. The parser must
+      construct the iref class and read the inner refs directly under the
+      attribute-named element, and the writer must emit them there
+      (`McDataInstance.instanceInMemory` → `<INSTANCE-IN-MEMORY><CONTEXT-REF>…</CONTEXT-REF><TARGET-REF>…</TARGET-REF></INSTANCE-IN-MEMORY>` —
+      no nested `<IMPLEMENTATION-ELEMENT-IN-PARAMETER-INSTANCE-REF>` wrapper,
+      no flat text). Check the XSD element's `type` attribute to tell a typed
+      iref from a plain `REF` element (which has `simpleContent` + `DEST`
+      instead of a class `type`); the base-class fix is Rule 1.2.
 - [ ] **Exception:** an attribute marked `Stereotypes: atpDerived` is a
       *derived* attribute — it is computed from its context and has **no**
       XML element, so it has no parser/writer element and is exempt from this
@@ -413,8 +493,45 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       plain `ARObject` children) rather than serializing placeholder fields —
       this keeps the XML schema-valid and the round-trip lossless at the
       aggregator level, and is recorded in the deviation tracker pending the
-      child's own pass (e.g. `McSupportData`'s `McSwEmulationMethodSupport`
-      and `RptSupportData` children).
+      child's own pass.
+- [ ] **Identity-only child serialization is a debt to be repaid by the
+      child's own pass.** The identity-only shape above is deliberately
+      lossy for everything except the item's existence, and for a plain
+      `ARObject` child it degenerates to an **empty element**: the parser
+      constructs a bare instance and ignores the element's contents, and the
+      writer emits an item element with no children. Round-trip tests then
+      pass while asserting only `len(getXxxs()) == n`, so nothing fails when
+      the child's real attributes are dropped. When the child's own alignment
+      pass lands, that placeholder must be replaced **in the same change** by
+      a real `readXxx`/`writeXxx` pair for the child, wired in from the
+      aggregator's loop — an aligned model whose aggregator still emits the
+      empty element is a Rule 1.7 violation, not a completed pass. Verify by
+      grepping the aggregator's loop for a bare `ET.SubElement(wrapper,
+      "ITEM")` with no following `self.writeXxx(...)`, and for a parser loop
+      whose body constructs the child but never reads from `child_element`
+      (a loop variable that is bound and never used is the tell — flake8's
+      `F841`-adjacent smell that the linter does not flag for `for` targets).
+      Extend the aggregator's existing round-trip test to assert the child's
+      *field values*, not just the list length, so the lossy shape cannot
+      return unnoticed.
+- [ ] **Aggregator serialization sequenced after the child's alignment.**
+      The bullet above covers an aggregator that is *already* wired into a
+      parser/writer dispatch and merely emits its not-yet-aligned child by
+      identity. The harder case is an aggregator with **zero existing
+      serialization** — no `readXxx`/`writeXxx`, no dispatch branch — whose
+      *only* aggregated child type is itself not yet aligned (e.g.
+      `AliasNameSet` aggregates a single `aliasName` of type
+      `AliasNameAssignment`, which still carries fabricated attributes and is
+      missing its spec attributes). Fully serializing the aggregator now
+      would persist the child's wrong shape, so the aggregator's parser/writer
+      coverage (and its dispatch wiring into the owning `ARPackage.element`
+      reader/writer) is **sequenced after** the child's own alignment pass
+      (Rule 1.10) and recorded as *pending* in the deviation tracker — not
+      skipped and not implemented against a placeholder child. Align the
+      aggregator's **model** fully in the meantime (base class, field,
+      accessors, tests, docstrings — every rule except 1.7); only the
+      serialization is deferred, and the tracker row names the blocking child
+      so the sequencing is explicit.
 
 ### 1.8 Cross-package types
 
@@ -455,9 +572,22 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       missing class from its own spec table, mirroring its siblings and its
       abstract parent if the `Base` column lists one, give it a method-parity
       checklist, tests, and parser/writer coverage, and only then type the
-      referencing attribute against it. This applies to **every** kind of
+      referencing attribute against it.       This applies to **every** kind of
       referenced class, not only `<name>InstanceRef` types (see the `iref`
       specifics in Rule 1.5).
+- [ ] **A referenced class that *exists* but is a stub counts as missing.**
+      This rule's trigger is not "the name resolves" but "the class models
+      its spec table". A referenced type that imports cleanly yet carries
+      only fabricated fields (Rule 1.3 shape (c)) gives the referencing
+      attribute a correct *type* and a worthless *shape*, so aligning the
+      referencing class against it produces a class that is aligned on paper
+      and still round-trips nothing. Before typing an attribute against an
+      existing class, check that class for a `# Spec:` line and a
+      `# Spec verified:` marker; if either is absent, align it first in the
+      same pass — the aggregated child's alignment is **in scope**, not a
+      follow-up. This keeps the pass self-contained: aligning a parent whose
+      child is a stub otherwise immediately re-opens as the Rule 1.7
+      identity-only debt above.
 - [ ] A missing **primitive** has its own spec table in the AUTOSAR markdown,
       formatted `Primitive <Name>` (e.g. Table 4.15 `CseCodeType`), **not** a
       `Class`/`Enumeration` table — verify the referenced type's actual kind
@@ -490,16 +620,44 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
 ### 1.11 Member order follows the PDF
 
 - [ ] Members are declared in the **same order as the spec table's attribute
-      rows** — i.e. ascending `xml.sequenceOffset` (the PDF's `Tags:
-      xml.sequenceOffset=NN` value). The order of the `__init__` fields, the
-      order of the getter/setter/adder methods, and the order of the method
-      parity checklist rows (Rule 2) must all follow the spec table row order,
-      **not** alphabetical or file-of-creation order. A class whose accessors
-      are ordered by name or by refactor history rather than by the spec is
-      misaligned. (Example: `EngineeringObject` attributes are
-      `shortLabel`(offset 10), `category`(20), `revisionLabel`(30),
-      `domain`(40), so the accessors and checklist list them in exactly that
-      sequence.)
+      rows are displayed in the PDF** — the order you read top-to-bottom when
+      you open the table. The order of the `__init__` fields, the order of
+      the getter/setter/adder methods, and the order of the method parity
+      checklist rows (Rule 2) must all follow that displayed row order, **not**
+      alphabetical-by-Python-name or file-of-creation order. A class whose
+      accessors are ordered by name or by refactor history rather than by the
+      spec is misaligned.
+      The `Tags: xml.sequenceOffset=NN` value is only a **secondary signal**:
+      it usually *agrees* with the displayed row order (most tables are
+      rendered in ascending-offset order, e.g. `EngineeringObject` shows
+      `shortLabel`(10), `category`(20), `revisionLabel`(30), `domain`(40) and
+      the accessors/checklist follow exactly that sequence). But the two can
+      **diverge**: some PDF tables are rendered alphabetically (or otherwise)
+      so the displayed rows are *not* in ascending-offset order. In that case
+      the **displayed row order wins** — it is literally "the order in the
+      PDF". Do **not** reorder by `sequenceOffset` when the table prints
+      otherwise. (Counter-example: `AliasNameAssignment` Table 9.3 prints its
+      rows `flatInstance`/`identifiable`/`label`/`shortLabel` even though their
+      offsets are 60/50/20/10; the aligned class therefore declares
+      `flatInstanceRef`, `identifiableRef`, `label`, `shortLabel` in that
+      order — the reverse of ascending offset.) Always read the actual
+      PDF/markdown row order; never assume it from the offset values. Note
+      that this is purely a **Python source-ordering** convention (fields,
+      methods, checklist); the parser/writer still emit XML elements in the
+      XSD's `sequenceOffset` order regardless of how the model members are
+      declared.
+      Because the two orders diverge routinely, **write them down separately**
+      when they do: the PDF row order drives the Python member sequence, and
+      the XSD element sequence (`sequenceOffset` ascending, negatives first)
+      drives the order of `setChildElementXxx` / `getChildElementXxx` calls in
+      `writeXxx`/`readXxx`. A common divergence is an alphabetically-rendered
+      table whose `shortLabel`/`category` rows print *last* while their
+      offsets (`-100`/`-90`) put them *first* in the XML — writing the
+      parser/writer in the class's member order then emits elements out of
+      XSD sequence, which a round-trip test through this library will not
+      catch (the reader is order-insensitive) but a schema validator will.
+      Derive the serialization order from the XSD group, never from the PDF
+      table or the Python member order.
 - [ ] Within one attribute, the accessor pair order is `getXxx` then
       `setXxx` (or `addXxx`/`getXxxs` for list attributes) — getter before
       setter for each attribute, mirroring the sibling classes that are already
@@ -1190,6 +1348,18 @@ field-to-spec cross-check is the gate, not the checklist.
    deviation (see Rule 1.3). Otherwise the field is fabricated. **Remove it**
    (unless it's a documented read-only derived convenience property with
    tests, recorded in the deviation tracker — see Rule 1.3).
+5. **Run the cross-check in both directions.** The procedure above walks
+   each *model field* (code → spec) to catch fabricated fields. A deviation
+   tracker that was built only by walking *spec → code* (producing only
+   `missing` rows) is **not** evidence of completeness: fabricated fields
+   can coexist with `missing` rows for the very spec attributes they shadow
+   (e.g. `AliasNameAssignment`'s tracker held three `missing` rows for
+   `flatInstanceRef`/`identifiableRef`/`label` while the fabricated
+   `elementRef`/`aliasName` that masked them had no row at all — the code→spec
+   pass had never been run). Always perform the code → spec pass; when a
+   `missing` spec attribute has a suspiciously-similar fabricated field,
+   that fabricated field is its stand-in and the removal + replacement happen
+   together, clearing the `missing` row.
 
 ---
 
@@ -1243,6 +1413,26 @@ paraphrase.
       overwrite an existing [attribute]."
       This documents the guard behavior so consumers understand that setting
       `None` is safe and intentional, not a bug.
+- [ ] **Verify every docstring against the PDF/XSD note explicitly — this rule
+      has no mechanical check.** The set-based Rule 2/7 script verifies only
+      that the checklist == methods, that every method is tested, and that the
+      `# Spec verified` marker is present; it says nothing about whether the
+      `#` inline comments or the getter/setter docstrings actually match the
+      spec wording. A class can pass Rule 2/7 and the version marker, and even
+      be labeled "fully aligned" in `docs/method_deviation_by_class.md`, yet
+      carry docstrings that are loose paraphrases or — worse — *semantically
+      wrong* rewrites of the PDF note (e.g. `McDataInstance.displayIdentifier`'s
+      PDF note "An optional attribute to be used to set the ASAM ASAP2
+      DISPLAY_IDENTIFIER attribute" had been rewritten as "Optional identifier
+      to be used by an MCD system to identify this data instance", which states
+      a different purpose; 8 of `McDataInstance`'s 12 attributes were paraphrased
+      this way while the class passed every other check). Docstring drift is
+      invisible to every automated check in this document, so for **each**
+      attribute open the PDF/markdown `Note` (or the matching XSD
+      `<xsd:documentation>` block, which carries the same verbatim text) and
+      diff it against the inline comment and the getter/setter docstrings; quote
+      the semantic sentence verbatim. Do not trust the class's prior "aligned"
+      status or the tracker note — re-derive from the PDF.
 
 Example from a spec PDF:
 ```python
@@ -1410,6 +1600,23 @@ Every method on the class must have test coverage in the mirrored test file
       an `ARNumerical`) — such failures surface only in the end-to-end round
       trip, never in the class's own unit tests. A minimal robustness fix in
       the base writer is a legitimate part of aligning the subclass.
+- [ ] A round-trip test asserts the **field values** that came back, not just
+      that an object was reconstructed. `len(getXxxs()) == 1` /
+      `getXxx() is not None` pass unchanged against a writer that emits an
+      empty element and a parser that ignores its contents (the Rule 1.7
+      identity-only shape), so such assertions cannot detect a lossy
+      round trip — assert each attribute's value explicitly, including the
+      attributes of aggregated children one level down.
+- [ ] A class with a **wrapper-element list** (Rule 1.7) needs a second
+      round-trip case for the *empty* list: assert the serialized file
+      contains no wrapper tag at all and that re-parsing yields `[]`. The
+      populated case alone cannot catch a writer that emits an empty
+      `<WRAPPER/>`, because both shapes re-parse to the same model. Assert on
+      the written file's text for the wrapper tag's absence, since the
+      re-parsed model looks identical either way. Pair this with the
+      `None`-valued optional attributes in the same case (they must be absent
+      from the XML and `None` after re-parse) so the "nothing set" shape is
+      covered end-to-end.
 
 Verification (run in the repo root; replace the paths for the class under
 check):

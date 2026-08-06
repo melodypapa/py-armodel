@@ -1,7 +1,8 @@
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import AliasNameAssignment, AliasNameSet, FlatInstanceDescriptor, FlatMap
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType, String
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
 
 
 class TestFlatInstanceDescriptor:
@@ -133,6 +134,107 @@ class TestFlatInstanceDescriptor:
         assert flat_instance.getRole() == role
         assert flat_instance.getSwDataDefProps() == sw_data_def
         assert flat_instance.getUpstreamReferenceIRef() == ecu_ref
+
+
+class TestAliasNameAssignment:
+    def test_initialization(self):
+        """Test AliasNameAssignment initialization"""
+        assignment = AliasNameAssignment()
+
+        assert assignment.shortLabel is None
+        assert assignment.label is None
+        assert assignment.identifiableRef is None
+        assert assignment.flatInstanceRef is None
+
+    def test_get_set_short_label(self):
+        """Test getShortLabel/setShortLabel (chaining, round-trip, None no-op)"""
+        assignment = AliasNameAssignment()
+
+        value = String().setValue("aliasName")
+        result = assignment.setShortLabel(value)
+        assert result is assignment  # Method chaining
+        assert assignment.getShortLabel() == value
+
+        assignment.setShortLabel(None)  # No-op
+        assert assignment.getShortLabel() == value
+
+    def test_get_set_label(self):
+        """Test getLabel/setLabel (chaining, round-trip, None no-op)"""
+        assignment = AliasNameAssignment()
+
+        value = MultilanguageLongName()
+        result = assignment.setLabel(value)
+        assert result is assignment  # Method chaining
+        assert assignment.getLabel() == value
+
+        assignment.setLabel(None)  # No-op
+        assert assignment.getLabel() == value
+
+    def test_get_set_identifiable_ref(self):
+        """Test getIdentifiableRef/setIdentifiableRef (chaining, round-trip, None no-op)"""
+        assignment = AliasNameAssignment()
+
+        value = RefType().setValue("/IdentifiableRef")
+        result = assignment.setIdentifiableRef(value)
+        assert result is assignment  # Method chaining
+        assert assignment.getIdentifiableRef() == value
+
+        assignment.setIdentifiableRef(None)  # No-op
+        assert assignment.getIdentifiableRef() == value
+
+    def test_get_set_flat_instance_ref(self):
+        """Test getFlatInstanceRef/setFlatInstanceRef (chaining, round-trip, None no-op)"""
+        assignment = AliasNameAssignment()
+
+        value = RefType().setValue("/FlatInstanceRef")
+        result = assignment.setFlatInstanceRef(value)
+        assert result is assignment  # Method chaining
+        assert assignment.getFlatInstanceRef() == value
+
+        assignment.setFlatInstanceRef(None)  # No-op
+        assert assignment.getFlatInstanceRef() == value
+
+
+class TestAliasNameSet:
+    def test_initialization(self):
+        """Test AliasNameSet initialization"""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        alias_set = AliasNameSet(ar_root, "TestAliasNameSet")
+
+        assert alias_set is not None
+        assert alias_set.getShortName() == "TestAliasNameSet"
+        assert alias_set.getAliasNames() == []
+
+    def test_add_alias_name(self):
+        """Test addAliasName method"""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        alias_set = AliasNameSet(ar_root, "TestAliasNameSet")
+
+        assignment = AliasNameAssignment()
+        result = alias_set.addAliasName(assignment)
+        assert result is alias_set  # Method chaining
+        assert len(alias_set.getAliasNames()) == 1
+        assert alias_set.getAliasNames()[0] == assignment
+
+    def test_add_alias_name_none_noop(self):
+        """Test that addAliasName(None) is a no-op"""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        alias_set = AliasNameSet(ar_root, "TestAliasNameSet")
+
+        alias_set.addAliasName(AliasNameAssignment())
+        alias_set.addAliasName(None)  # Should not append
+        assert len(alias_set.getAliasNames()) == 1
+
+    def test_get_alias_names_empty(self):
+        """Test getAliasNames returns empty list by default"""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        alias_set = AliasNameSet(ar_root, "TestAliasNameSet")
+
+        assert alias_set.getAliasNames() == []
 
 
 class TestFlatMap:

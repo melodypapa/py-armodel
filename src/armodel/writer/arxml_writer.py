@@ -48,7 +48,13 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import B
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantSpecification, NumericalValueSpecification, RecordValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification, ValueSpecification
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import McDataInstance, McSupportData, RoleBasedMcDataAssignment
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import (
+    McDataInstance,
+    McParameterElementGroup,
+    McSupportData,
+    McSwEmulationMethodSupport,
+    RoleBasedMcDataAssignment,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport import (
     RptComponent,
     RptExecutableEntity,
@@ -2254,7 +2260,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if len(emulation_supports) > 0:
             supports_element = ET.SubElement(child_element, "EMULATION-SUPPORTS")
             for emulation_support in emulation_supports:
-                ET.SubElement(supports_element, "MC-SW-EMULATION-METHOD-SUPPORT")
+                self.writeMcSwEmulationMethodSupport(ET.SubElement(supports_element, "MC-SW-EMULATION-METHOD-SUPPORT"), emulation_support)
         mc_parameter_instances = support.getMcParameterInstances()
         if len(mc_parameter_instances) > 0:
             instances_element = ET.SubElement(child_element, "MC-PARAMETER-INSTANCES")
@@ -2274,12 +2280,32 @@ class ARXMLWriter(AbstractARXMLWriter):
         if rpt_support_data is not None:
             self.writeRptSupportData(child_element, rpt_support_data)
 
+    def writeMcSwEmulationMethodSupport(self, element: ET.Element, support: McSwEmulationMethodSupport):
+        self.setChildElementOptionalLiteral(element, "SHORT-LABEL", support.getShortLabel())
+        self.setChildElementOptionalLiteral(element, "CATEGORY", support.getCategory())
+        self.setChildElementOptionalRefType(element, "BASE-REFERENCE-REF", support.getBaseReferenceRef())
+        element_groups = support.getElementGroups()
+        if len(element_groups) > 0:
+            groups_element = ET.SubElement(element, "ELEMENT-GROUPS")
+            for group in element_groups:
+                self.writeMcParameterElementGroup(ET.SubElement(groups_element, "MC-PARAMETER-ELEMENT-GROUP"), group)
+        self.setChildElementOptionalRefType(element, "REFERENCE-TABLE-REF", support.getReferenceTableRef())
+
+    def writeMcParameterElementGroup(self, element: ET.Element, group: McParameterElementGroup):
+        self.setChildElementOptionalLiteral(element, "SHORT-LABEL", group.getShortLabel())
+        self.setChildElementOptionalRefType(element, "RAM-LOCATION-REF", group.getRamLocationRef())
+        self.setChildElementOptionalRefType(element, "ROM-LOCATION-REF", group.getRomLocationRef())
+
     def writeMcDataInstance(self, element: ET.Element, instance: McDataInstance):
         self.writeIdentifiable(element, instance)
         self.setChildElementOptionalPositiveInteger(element, "ARRAY-SIZE", instance.getArraySize())
         self.setChildElementOptionalLiteral(element, "DISPLAY-IDENTIFIER", instance.getDisplayIdentifier())
         self.setChildElementOptionalRefType(element, "FLAT-MAP-ENTRY-REF", instance.getFlatMapEntryRef())
-        self.setChildElementOptionalRefType(element, "INSTANCE-IN-MEMORY", instance.getInstanceInMemory())
+        instance_in_memory = instance.getInstanceInMemory()
+        if instance_in_memory is not None:
+            instance_in_memory_element = ET.SubElement(element, "INSTANCE-IN-MEMORY")
+            self.setChildElementOptionalRefType(instance_in_memory_element, "CONTEXT-REF", instance_in_memory.getContextRef())
+            self.setChildElementOptionalRefType(instance_in_memory_element, "TARGET-REF", instance_in_memory.getTargetRef())
         if instance.getMcDataAccessDetails() is not None:
             ET.SubElement(element, "MC-DATA-ACCESS-DETAILS")
         mc_data_assignments = instance.getMcDataAssignments()

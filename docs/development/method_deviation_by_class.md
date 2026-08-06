@@ -464,67 +464,69 @@ No deviations — all Table 9.1 attributes (`emulationSupport` via `addEmulation
 
 Note:
 - `McDataInstance` is fully aligned (Table 9.4 + XSD additions) and serialized with its inner attributes (`readMcDataInstance`/`writeMcDataInstance`).
-- The RptSupport children (`McSwEmulationMethodSupport` excluded) are aligned and serialized recursively under `RPT-SUPPORT-DATA`.
-- `McSwEmulationMethodSupport` is still a placeholder pending its own alignment pass — parser/writer emit the item element without inner content.
+- The RptSupport children are aligned and serialized recursively under `RPT-SUPPORT-DATA`.
+- `McSwEmulationMethodSupport` is aligned and serialized with its inner attributes (`readMcSwEmulationMethodSupport`/`writeMcSwEmulationMethodSupport`), replacing the earlier identity-only placeholder.
 
 ## `AliasNameSet`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 174
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::FlatMap`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/FlatMap.py`
 
+Model aligned: inherits `ARElement` (spec `Base`) with `__init__(self, parent, short_name)`;
+the single spec attribute `aliasName` (`AliasNameAssignment`, `*`, `aggr`) is modeled as
+`aliasNames`/`addAliasName`/`getAliasNames` (the earlier `alias`/`aliases` naming deviation
+has been fixed and this row cleared).
+
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `alias` | `—` | `aliasName` | `AliasNameAssignment` | — | naming |
+| — *(pending)* | `—` | `aliasName` | `AliasNameAssignment` | aggr | parser/writer coverage pending the aggregated child `AliasNameAssignment`'s own alignment pass (it still carries fabricated `aliasName`/`elementRef` and is missing `shortLabel`/`label`/`identifiableRef`/`flatInstanceRef`); `AliasNameSet` is not yet wired into any `ARPackage.element` dispatch |
 
 ## `AliasNameAssignment`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 175
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::FlatMap`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/FlatMap.py`
 
+Model aligned: the four spec attributes `shortLabel` (String), `label`
+(MultilanguageLongName), `identifiableRef` (Ref → Identifiable) and
+`flatInstanceRef` (Ref → FlatInstanceDescriptor) are implemented in
+sequenceOffset order (10/20/50/60). Two fabricated fields were removed:
+`aliasName` (a `str` shadowing spec `shortLabel`) and `elementRef`
+(an `AnyInstanceRef` collapsing the two mutually-exclusive spec refs
+`identifiable` + `flatInstance` into one) — these had not been tracked as
+fabricated; only the *missing* spec attributes had rows (the code→spec
+direction of the cross-check had not been run).
+
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `flatInstanceRef` | `Ref (FlatInstanceDescriptor)` | Ref | missing |
-| — *(missing)* | `—` | `identifiableRef` | `Ref (Identifiable)` | Ref | missing |
-| — *(missing)* | `—` | `label` | `MultilanguageLongName` | — | missing |
+| — *(pending)* | `—` | `shortLabel`/`label`/`identifiableRef`/`flatInstanceRef` | String / MultilanguageLongName / Ref / Ref | attr/aggr/ref/ref | parser/writer coverage pending `AliasNameSet`'s wiring into the `ARPackage.element` read/write dispatch (`AliasNameAssignment` is never a standalone element; it is serialized only inside `ALIAS-NAME-SET/ALIAS-NAMES`) |
 
 ## `McDataInstance`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 177
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py`
 
-No deviations — all Table 9.4 attributes (`role`, `rptImplPolicy`, `subElement`, `symbol`) plus the XSD-only attributes the PDF table omits (`arraySize`, `displayIdentifier`, `flatMapEntryRef`, `instanceInMemory`, `mcDataAccessDetails`, `mcDataAssignment`, `resultingProperties`, `resultingRptSwPrototypingAccess`) are implemented with parser/writer coverage (`readMcDataInstance`/`writeMcDataInstance`). Note: `instanceInMemory` is typed as the concrete `ImplementationElementInParameterInstanceRef` (a `RefType` subclass) and serialized flat as a ref; the child classes it aggregates (`McDataAccessDetails`, `RoleBasedMcDataAssignment`, `SwDataDefProps`, `RptSwPrototypingAccess`) are carried with their own coverage where aligned and by identity where not.
+No deviations — all Table 9.4 attributes (`role`, `rptImplPolicy`, `subElement`, `symbol`) plus the XSD-only attributes the PDF table omits (`arraySize`, `displayIdentifier`, `flatMapEntryRef`, `instanceInMemory`, `mcDataAccessDetails`, `mcDataAssignment`, `resultingProperties`, `resultingRptSwPrototypingAccess`) are implemented with parser/writer coverage (`readMcDataInstance`/`writeMcDataInstance`). Note: `instanceInMemory` is typed as the concrete `ImplementationElementInParameterInstanceRef` (an `ARObject`, not a `RefType`) and serialized as a typed iref with `CONTEXT-REF`/`TARGET-REF` directly under the `INSTANCE-IN-MEMORY` element; the child classes it aggregates (`McDataAccessDetails`, `RoleBasedMcDataAssignment`, `SwDataDefProps`, `RptSwPrototypingAccess`) are carried with their own coverage where aligned and by identity where not.
 
 ## `McSwEmulationMethodSupport`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 180
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `baseReferenceRef` | `Ref (VariableDataPrototype)` | Ref | missing |
-| — *(missing)* | `—` | `category` | `Identifier` | — | missing |
-| — *(missing)* | `—` | `elementGroup` | `Ref (VariableDataPrototype)` | — | missing |
-| — *(missing)* | `—` | `referenceTableRef` | `Ref (VariableDataPrototype)` | Ref | missing |
+No deviations — all Table 9.5 attributes (`baseReference`, `category`, `elementGroup`, `referenceTable`, `shortLabel`) are implemented with parser/writer coverage (`readMcSwEmulationMethodSupport`/`writeMcSwEmulationMethodSupport`, reached from `readMcSupportData`/`writeMcSupportData`). `elementGroup` is an `aggr` of `McParameterElementGroup` (`*`) serialized through the `ELEMENT-GROUPS`/`MC-PARAMETER-ELEMENT-GROUP` wrapper; the earlier tracker rows mistyped it as a ref and omitted `shortLabel` entirely. The previously fabricated `emulationMethodName` field (no spec basis, PDF or XSD) has been removed.
 
 ## `McParameterElementGroup`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 181
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `ramLocationRef` | `Ref (VariableDataPrototype)` | Ref | missing |
-| — *(missing)* | `—` | `romLocationRef` | `Ref (ParameterDataPrototype)` | Ref | missing |
+No deviations — all Table 9.6 attributes (`ramLocation`, `romLocation`, `shortLabel`) are implemented with parser/writer coverage (`readMcParameterElementGroup`/`writeMcParameterElementGroup`). The previously fabricated `parameterRefs` list (no spec basis, PDF or XSD) has been removed; `shortLabel` was missing from the earlier tracker rows.
 
 ## `ImplementationElementInParameterInstanceRef`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 184
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `contextRef` | `Ref (ParameterDataPrototype)` | Ref | missing |
-| — *(missing)* | `—` | `targetRef` | `Ref (AbstractImplementationDataTypeElement)` | Ref | missing |
+No deviations — all Table 9.7 attributes (`context`, `target`) are implemented with parser/writer coverage (`readImplementationElementInParameterInstanceRef`/`writeMcDataInstance`). The class's base was corrected from `RefType` to `ARObject` (spec `Base` row; the earlier `RefType` base was a hierarchy mismatch flagged by `reports/deviation_class_hierarchy_mismatches.md`); `INSTANCE-IN-MEMORY` is a typed iref and is serialized with `CONTEXT-REF`/`TARGET-REF` directly under the `INSTANCE-IN-MEMORY` element, not as a flat ref. The earlier tracker rows recorded `contextRef`/`targetRef` as missing; they are now implemented.
 
 ## `McFunction`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 186

@@ -67,8 +67,6 @@ INTENTIONALLY_UNEXPORTED_MODULES = {
     "McFunctionDataRefSet",
     "McGroup",
     "McGroupDataRefSet",
-    "McParameterElementGroup",
-    "McSwEmulationMethodSupport",
     "ModeErrorBehavior",
     "ModeErrorReactionPolicyEnum",
     "ModeInBswInstanceRef",
@@ -97,7 +95,6 @@ INTENTIONALLY_UNEXPORTED_MODULES = {
     # Blueprint/Standardization - incomplete/experimental
     "BlueprintGenerator",
     "BlueprintMappingSet",
-    "ImplementationElementInParameterInstanceRef",
 }
 
 

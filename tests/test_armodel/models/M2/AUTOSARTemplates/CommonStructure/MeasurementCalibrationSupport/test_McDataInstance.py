@@ -88,7 +88,8 @@ class TestMcDataInstanceAccessors:
         """Test instanceInMemory setter and getter"""
         instance = McDataInstance(AUTOSAR.getInstance(), "TestInstance")
         ref = ImplementationElementInParameterInstanceRef()
-        ref.setValue("/mem/instance")
+        ref.setContextRef(RefType().setValue("/mem/ctx"))
+        ref.setTargetRef(RefType().setValue("/mem/inst"))
         result = instance.setInstanceInMemory(ref)
         assert result is instance
         assert instance.getInstanceInMemory() == ref

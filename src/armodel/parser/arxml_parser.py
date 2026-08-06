@@ -47,7 +47,15 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRe
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantSpecification, NumericalValueSpecification, RecordValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification, ValueSpecification
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import McDataAccessDetails, McDataInstance, McSupportData, McSwEmulationMethodSupport, RoleBasedMcDataAssignment
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import (
+    ImplementationElementInParameterInstanceRef,
+    McDataAccessDetails,
+    McDataInstance,
+    McParameterElementGroup,
+    McSupportData,
+    McSwEmulationMethodSupport,
+    RoleBasedMcDataAssignment,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport import (
     RptComponent,
     RptExecutableEntity,
@@ -1556,7 +1564,9 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readMcSupportData(self, element: ET.Element, support: McSupportData):
         for child_element in self.findall(element, "EMULATION-SUPPORTS/MC-SW-EMULATION-METHOD-SUPPORT"):
-            support.addEmulationSupport(McSwEmulationMethodSupport())
+            emulation_support = McSwEmulationMethodSupport()
+            self.readMcSwEmulationMethodSupport(child_element, emulation_support)
+            support.addEmulationSupport(emulation_support)
         for child_element in self.findall(element, "MC-PARAMETER-INSTANCES/MC-DATA-INSTANCE"):
             instance = support.createMcParameterInstance(self.getShortName(child_element))
             self.readMcDataInstance(child_element, instance)
@@ -1571,11 +1581,34 @@ class ARXMLParser(AbstractARXMLParser):
             self.readRptSupportData(rpt_support_data_element, rpt_support_data)
             support.setRptSupportData(rpt_support_data)
 
+    def readMcSwEmulationMethodSupport(self, element: ET.Element, support: McSwEmulationMethodSupport):
+        support.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
+        support.setCategory(self.getChildElementOptionalLiteral(element, "CATEGORY"))
+        support.setBaseReferenceRef(self.getChildElementOptionalRefType(element, "BASE-REFERENCE-REF"))
+        for child_element in self.findall(element, "ELEMENT-GROUPS/MC-PARAMETER-ELEMENT-GROUP"):
+            group = McParameterElementGroup()
+            self.readMcParameterElementGroup(child_element, group)
+            support.addElementGroup(group)
+        support.setReferenceTableRef(self.getChildElementOptionalRefType(element, "REFERENCE-TABLE-REF"))
+
+    def readMcParameterElementGroup(self, element: ET.Element, group: McParameterElementGroup):
+        group.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
+        group.setRamLocationRef(self.getChildElementOptionalRefType(element, "RAM-LOCATION-REF"))
+        group.setRomLocationRef(self.getChildElementOptionalRefType(element, "ROM-LOCATION-REF"))
+
+    def readImplementationElementInParameterInstanceRef(self, element: ET.Element, instance_in_memory: ImplementationElementInParameterInstanceRef):
+        instance_in_memory.setContextRef(self.getChildElementOptionalRefType(element, "CONTEXT-REF"))
+        instance_in_memory.setTargetRef(self.getChildElementOptionalRefType(element, "TARGET-REF"))
+
     def readMcDataInstance(self, element: ET.Element, instance: McDataInstance):
         instance.setArraySize(self.getChildElementOptionalPositiveInteger(element, "ARRAY-SIZE"))
         instance.setDisplayIdentifier(self.getChildElementOptionalLiteral(element, "DISPLAY-IDENTIFIER"))
         instance.setFlatMapEntryRef(self.getChildElementOptionalRefType(element, "FLAT-MAP-ENTRY-REF"))
-        instance.setInstanceInMemory(self.getChildElementOptionalRefType(element, "INSTANCE-IN-MEMORY"))
+        instance_in_memory_element = self.find(element, "INSTANCE-IN-MEMORY")
+        if instance_in_memory_element is not None:
+            instance_in_memory = ImplementationElementInParameterInstanceRef()
+            self.readImplementationElementInParameterInstanceRef(instance_in_memory_element, instance_in_memory)
+            instance.setInstanceInMemory(instance_in_memory)
         instance.setRole(self.getChildElementOptionalLiteral(element, "ROLE"))
         instance.setSymbol(self.getChildElementOptionalLiteral(element, "SYMBOL"))
         if self.find(element, "MC-DATA-ACCESS-DETAILS") is not None:
