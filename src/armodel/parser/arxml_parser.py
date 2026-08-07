@@ -47,6 +47,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRe
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantSpecification, NumericalValueSpecification, RecordValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification, ValueSpecification
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.McGroups import McGroup, McGroupDataRefSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import (
     ImplementationElementInParameterInstanceRef,
     McDataAccessDetails,
@@ -6449,6 +6450,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "MC-FUNCTION":
                 func = parent.createMcFunction(self.getShortName(child_element))
                 self.readMcFunction(child_element, func)
+            elif tag_name == "MC-GROUP":
+                group = parent.createMcGroup(self.getShortName(child_element))
+                self.readMcGroup(child_element, group)
             else:
                 self.notImplemented("Unsupported Element type of ARPackage <%s>" % tag_name)
 
@@ -6484,6 +6488,32 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readMcFunctionDataRefSet(self, element: ET.Element, data_ref_set: McFunctionDataRefSet):
         conditional_element = self.find(element, "MC-FUNCTION-DATA-REF-SET-VARIANTS/MC-FUNCTION-DATA-REF-SET-CONDITIONAL")
+        if conditional_element is None:
+            return
+        for ref in self.getChildElementRefTypeList(conditional_element, "FLAT-MAP-ENTRY-REFS/FLAT-MAP-ENTRY-REF"):
+            data_ref_set.addFlatMapEntryRef(ref)
+        for ref in self.getChildElementRefTypeList(conditional_element, "MC-DATA-INSTANCE-REFS/MC-DATA-INSTANCE-REF"):
+            data_ref_set.addMcDataInstanceRef(ref)
+
+    def readMcGroup(self, element: ET.Element, group: McGroup):
+        self.readIdentifiable(element, group)
+        for ref in self.getChildElementRefTypeList(element, "SUB-GROUP-REFS/SUB-GROUP-REF"):
+            group.addSubGroupRef(ref)
+        ref_calprm_set_element = self.find(element, "REF-CALPRM-SET")
+        if ref_calprm_set_element is not None:
+            ref_calprm_set = McGroupDataRefSet()
+            self.readMcGroupDataRefSet(ref_calprm_set_element, ref_calprm_set)
+            group.setRefCalprmSet(ref_calprm_set)
+        ref_measurement_set_element = self.find(element, "REF-MEASUREMENT-SET")
+        if ref_measurement_set_element is not None:
+            ref_measurement_set = McGroupDataRefSet()
+            self.readMcGroupDataRefSet(ref_measurement_set_element, ref_measurement_set)
+            group.setRefMeasurementSet(ref_measurement_set)
+        for ref in self.getChildElementRefTypeList(element, "MC-FUNCTION-REFS/MC-FUNCTION-REF"):
+            group.addMcFunctionRef(ref)
+
+    def readMcGroupDataRefSet(self, element: ET.Element, data_ref_set: McGroupDataRefSet):
+        conditional_element = self.find(element, "MC-GROUP-DATA-REF-SET-VARIANTS/MC-GROUP-DATA-REF-SET-CONDITIONAL")
         if conditional_element is None:
             return
         for ref in self.getChildElementRefTypeList(conditional_element, "FLAT-MAP-ENTRY-REFS/FLAT-MAP-ENTRY-REF"):

@@ -120,6 +120,23 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       it extends, matching the direct parent used by its siblings. The
       auto-generated `reports/deviation_class_hierarchy_mismatches.md` flags
       this kind of parent mismatch for review.
+- [ ] **`ARElement` in the `Base` chain means inherit `ARElement`.** When the
+      `Base` row lists `ARElement` (e.g. the McFunction/McGroup family:
+      `ARElement, ARObject, CollectableElement, Identifiable,
+      MultilanguageReferrable, Packageable, Referrable`) and the codebase has
+      an `ARElement` base (the abstract `ARElement(PackageableElement, ABC)`
+      with `__init__(self, parent, short_name)` in `Identifiable.py`), the
+      class inherits `ARElement` — it is the most-derived model class in the
+      chain, and aligned `ARElement` subclasses (`ConstantSpecification`,
+      `Collection`) are the precedent. Do **not** downgrade to `Identifiable`
+      merely because a sibling with the identical `Base` row was previously
+      aligned that way (e.g. `McFunction` inherits `Identifiable` although its
+      spec `Base` names `ARElement`); treat that sibling as a prior deviation
+      to reconcile, not a pattern to copy — `McGroup` inherits `ARElement`.
+      The parser/writer need no extra handling either way: an `ARElement`
+      package element is read/written with `readIdentifiable`/
+      `writeIdentifiable` exactly like an `Identifiable` one, because the
+      `IDENTIFIABLE` XML group is shared.
 - [ ] The PDF spec is the source of truth for multiplicity and base class.
       When the XSD disagrees with the PDF, follow the PDF.
 
@@ -689,6 +706,25 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       catch (the reader is order-insensitive) but a schema validator will.
       Derive the serialization order from the XSD group, never from the PDF
       table or the Python member order.
+- [ ] **Page-split tables: the displayed order is the concatenation of the
+      per-page row groups.** A table that spans PDF pages renders its class
+      header and some rows on one page, then the caption and the remaining
+      rows on the next (e.g. McGroup Table 9.10 splits as `mcFunction`
+      (offset 40) + `refCalprmSet` (20) on page 1, then `refMeasurementSet`
+      (30) + `subGroup` (10) on page 2). The displayed row order is the
+      concatenation — first page's rows, then next page's rows —
+      `mcFunction, refCalprmSet, refMeasurementSet, subGroup` — which is
+      **not** ascending `sequenceOffset` (10, 20, 30, 40) and not a
+      refs-then-aggr grouping. Read the rows in the order the pages render
+      them and use that concatenation for the Python member/checklist order;
+      the XSD offsets still drive serialization order as usual.
+- [ ] **Multi-PDF cross-check.** A class's spec table can appear in more than
+      one PDF (e.g. McGroup is rendered as both BSWModuleDescriptionTemplate
+      Table 9.10 and SystemTemplate Table F.74). When choosing the displayed
+      row order, verify every rendering shows the same order — the split
+      arrangement can differ between PDFs even when the attribute rows are
+      identical, so base the member order on the agreement, not on one
+      document's pagination.
 - [ ] Within one attribute, the accessor pair order is `getXxx` then
       `setXxx` (or `addXxx`/`getXxxs` for list attributes) — getter before
       setter for each attribute, mirroring the sibling classes that are already
@@ -1500,6 +1536,15 @@ self.targetModuleId: Optional[PositiveInteger] = None
       `TYPE_CHECKING`, and `createResourceConsumption` imports it locally;
       the `ResourceConsumption` package submodules likewise import
       `HardwareConfiguration`/`SoftwareContext` under `TYPE_CHECKING`).
+      **`from __future__ import annotations` is also the mechanism for
+      intra-module forward references** — a parent class whose annotations name
+      a child class declared *later in the same module* (e.g. `McGroup`'s
+      `Optional[McGroupDataRefSet]` fields/getters while `McGroupDataRefSet` is
+      defined below it). The aggregator/ARElement parent is conventionally
+      declared first; do **not** reorder the classes or move the child up to
+      satisfy the annotations — the future-import resolves the name lazily, and
+      `TYPE_CHECKING` alone is insufficient because it does not defer local
+      names. This is the single-module analogue of the cross-package case.
 - [ ] A blank line separates each attribute block (comment + assignment) in
       `__init__`.
 - [ ] Code is formatted with Black at `line-length = 200` (per `pyproject.toml`,

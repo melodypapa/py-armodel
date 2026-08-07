@@ -547,21 +547,14 @@ No deviations — all Table 9.9 attributes (`flatMapEntry`, `mcDataInstance`) ar
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::McGroups`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/McGroups.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `mcFunctionRefs` | `Ref (McFunction)` | Refs | missing |
-| — *(missing)* | `—` | `refCalprmSet` | `McGroupDataRefSet` | — | missing |
-| — *(missing)* | `—` | `refMeasurementSet` | `McGroupDataRefSet` | — | missing |
-| — *(missing)* | `—` | `subGroupRefs` | `Ref (McGroup)` | Refs | missing |
+No deviations — all Table 9.10 attributes (`mcFunction`, `refCalprmSet`, `refMeasurementSet`, `subGroup`) are implemented with parser/writer coverage (`readMcGroup`/`writeMcGroup`, dispatched from `readARPackageElements`/`writeARPackageElement` via the new `ARPackage.createMcGroup`/`getMcGroups`). The class's base was corrected from `ARObject` to `ARElement` (the spec `Base` row names `ARElement`, the most-derived model class that exists in the codebase), making `McGroup` a real `ARPackage.element`. Note: the sibling `McFunction` models the same `Base` chain with `Identifiable`; McGroup follows the spec's most-derived `ARElement` per Rule 1.2 (see the Rule 1.2 generalization in `class_check_rules.md`).
 
 ## `McGroupDataRefSet`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 191
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::McGroups`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/McGroups.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `mcGroupDataRefSetVariant` | `McGroupDataRefSetConditional` | — | missing |
+No deviations — all Table 9.11 attributes (`flatMapEntry`, `mcDataInstance`) are implemented with parser/writer coverage (`readMcGroupDataRefSet`/`writeMcGroupDataRefSet`). The class is `<<atpVariation>>`: the XSD nests its attributes under `<MC-GROUP-DATA-REF-SET-VARIANTS>/<MC-GROUP-DATA-REF-SET-CONDITIONAL>`, and per the established cluster-class precedent (`LinCluster`/`CanCluster`/`FlexrayCluster`, and the sibling `McFunctionDataRefSet`) the wrapper is read/written transparently into the owning object — no separate `McGroupDataRefSetConditional` model class, and no `variationPoint` is modeled. The earlier tracker row recorded `mcGroupDataRefSetVariant` (the alternative explicit `Variants`/`Conditional` modeling) as missing; the transparent wrapper is the codebase-consistent choice.
 
 ## `McDataAccessDetails`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 195

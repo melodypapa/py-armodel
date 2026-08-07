@@ -340,6 +340,27 @@ class TestARPackage:
         assert same_func is func
         assert len(package.getMcFunctions()) == 1
 
+    def test_create_mc_group(self):
+        """
+        Test createMcGroup and getMcGroups methods.
+        """
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        package = ARPackage(ar_root, "TestPackage")
+
+        # Create an McGroup
+        group = package.createMcGroup("TestGrp")
+        assert group is not None
+        assert group.getShortName() == "TestGrp"
+        assert group.getParent() == package
+        assert package.getMcGroups() == [group]
+
+        # Create the same name should return same instance
+        same_group = package.createMcGroup("TestGrp")
+        assert same_group is group
+        assert len(package.getMcGroups()) == 1
+
     def test_get_reference_bases(self):
         """
         Test getReferenceBases method.

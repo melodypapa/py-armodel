@@ -48,6 +48,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import B
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantSpecification, NumericalValueSpecification, RecordValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification, ValueSpecification
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.McGroups import McGroup, McGroupDataRefSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import (
     McDataInstance,
     McFunction,
@@ -6621,6 +6622,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writePredefinedVariant(element, ar_element)
         elif isinstance(ar_element, McFunction):
             self.writeMcFunction(element, ar_element)
+        elif isinstance(ar_element, McGroup):
+            self.writeMcGroup(element, ar_element)
         else:
             self.notImplemented("Unsupported Elements of ARPackage <%s>" % type(ar_element))
 
@@ -6664,6 +6667,41 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeMcFunctionDataRefSet(self, element: ET.Element, data_ref_set: McFunctionDataRefSet):
         variants_element = ET.SubElement(element, "MC-FUNCTION-DATA-REF-SET-VARIANTS")
         conditional_element = ET.SubElement(variants_element, "MC-FUNCTION-DATA-REF-SET-CONDITIONAL")
+        flat_map_entry_refs = data_ref_set.getFlatMapEntryRefs()
+        if len(flat_map_entry_refs) > 0:
+            refs_element = ET.SubElement(conditional_element, "FLAT-MAP-ENTRY-REFS")
+            for ref in flat_map_entry_refs:
+                self.setChildElementOptionalRefType(refs_element, "FLAT-MAP-ENTRY-REF", ref)
+        mc_data_instance_refs = data_ref_set.getMcDataInstanceRefs()
+        if len(mc_data_instance_refs) > 0:
+            refs_element = ET.SubElement(conditional_element, "MC-DATA-INSTANCE-REFS")
+            for ref in mc_data_instance_refs:
+                self.setChildElementOptionalRefType(refs_element, "MC-DATA-INSTANCE-REF", ref)
+
+    def writeMcGroup(self, element: ET.Element, group: McGroup):
+        if group is not None:
+            child_element = ET.SubElement(element, "MC-GROUP")
+            self.writeIdentifiable(child_element, group)
+            sub_group_refs = group.getSubGroupRefs()
+            if len(sub_group_refs) > 0:
+                refs_element = ET.SubElement(child_element, "SUB-GROUP-REFS")
+                for ref in sub_group_refs:
+                    self.setChildElementOptionalRefType(refs_element, "SUB-GROUP-REF", ref)
+            if group.getRefCalprmSet() is not None:
+                ref_calprm_set_element = ET.SubElement(child_element, "REF-CALPRM-SET")
+                self.writeMcGroupDataRefSet(ref_calprm_set_element, group.getRefCalprmSet())
+            if group.getRefMeasurementSet() is not None:
+                ref_measurement_set_element = ET.SubElement(child_element, "REF-MEASUREMENT-SET")
+                self.writeMcGroupDataRefSet(ref_measurement_set_element, group.getRefMeasurementSet())
+            mc_function_refs = group.getMcFunctionRefs()
+            if len(mc_function_refs) > 0:
+                refs_element = ET.SubElement(child_element, "MC-FUNCTION-REFS")
+                for ref in mc_function_refs:
+                    self.setChildElementOptionalRefType(refs_element, "MC-FUNCTION-REF", ref)
+
+    def writeMcGroupDataRefSet(self, element: ET.Element, data_ref_set: McGroupDataRefSet):
+        variants_element = ET.SubElement(element, "MC-GROUP-DATA-REF-SET-VARIANTS")
+        conditional_element = ET.SubElement(variants_element, "MC-GROUP-DATA-REF-SET-CONDITIONAL")
         flat_map_entry_refs = data_ref_set.getFlatMapEntryRefs()
         if len(flat_map_entry_refs) > 0:
             refs_element = ET.SubElement(conditional_element, "FLAT-MAP-ENTRY-REFS")
