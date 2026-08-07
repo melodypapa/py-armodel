@@ -259,6 +259,27 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       Before deciding, grep the XSD for the element tag: presence with
       documentation ⇒ omission (keep, record); absence everywhere ⇒ invented
       API (remove).
+      **Release-alignment caveat — a stale XSD flips "omission" to
+      "removed".** The keep-it rule above assumes the XSD is release-aligned
+      with the class's verified release: its attribute set matches what the
+      `# Spec verified:` release renders in the PDF. When the repo's XSD
+      predates the class's verified release, an XSD-only attribute can be an
+      upstream *deletion* rather than a rendering gap. Check the XSD header
+      for its release (`<xsd:documentation>Part of AUTOSAR Release: …` —
+      e.g. `docs/requirements/xsd/AUTOSAR_00046.xsd` is CP 4.4.0 / AP 18-10,
+      i.e. 2018, while the repo PDFs are CP R23-11): if the XSD release is
+      older than the class's `# Spec verified:` release, an attribute present
+      only in that XSD (absent from *all* verified-release PDF renderings,
+      cross-checked across the multiple PDFs that render the class, e.g. BSW
+      Table 12.26 and DiagnosticExtract Table 4.82 both omit
+      `DiagnosticIoControlNeeds.didNumber`) is treated like an
+      `atp.Status="removed"` attribute — it maps to **no field**, it is
+      **not** kept, and the deviation tracker records the reason
+      `"removed upstream: present only in the <old-release> XSD, absent from
+      the <verified-release> PDF tables; not modeled"` instead of the
+      keep-and-record wording. An XSD-only attribute is therefore only kept
+      when the XSD is release-aligned (or newer) and the omission is
+      genuinely a PDF rendering gap.
 - [ ] **Cross-table aggregation.** A class may aggregate attributes whose
       definition lives in **another class's spec table**, discoverable via
       that table's `Aggregated by` row (e.g. `ResourceConsumption`'s Table

@@ -677,13 +677,26 @@ the spec literals `full`/`none`/`silent` and member names to `FULL`/`NONE`/
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
 
+Model aligned (Table 12.26, p.248): all R23-11 spec attributes implemented in
+PDF display order with accessors, tests, and parser/writer coverage
+(`readDiagnosticIoControlNeeds`/`writeDiagnosticIoControlNeeds` + the
+`BswServiceDependency`/`SwcServiceDependency` SERVICE-NEEDS dispatch branches
+and `SwcServiceDependency.createDiagnosticIoControlNeeds`). The base class was
+corrected from `ServiceNeeds` to `DiagnosticCapabilityElement` (the most-derived
+model class in the spec `Base` chain). `didNumber` is **not implemented**: it
+appears only in the stale `docs/requirements/xsd/AUTOSAR_00046.xsd` (AUTOSAR
+CP 4.4.0 / AP 18-10, i.e. 2018) as `DID-NUMBER`, but is absent from the R23-11
+PDF tables (both BSW Table 12.26 and DiagnosticExtract Table 4.82) — it was
+removed upstream between 4.4.0 and R23-11, so it is treated like an
+`atp.Status="removed"` attribute rather than a PDF rendering gap.
+
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `currentValueRef` | `Ref (DiagnosticValueNeeds)` | Ref | missing |
-| — *(missing)* | `—` | `didNumber` | `PositiveInteger` | — | missing |
-| — *(missing)* | `—` | `freezeCurrentStateSupported` | `Boolean` | — | missing |
-| — *(missing)* | `—` | `resetToDefaultSupported` | `Boolean` | — | missing |
-| — *(missing)* | `—` | `shortTermAdjustmentSupported` | `Boolean` | — | missing |
+| `currentValueRef` | `Optional[RefType]` | `currentValue` | `Ref (DiagnosticValueNeeds)` | ref | — |
+| `freezeCurrentStateSupported` | `Optional[Boolean]` | `freezeCurrentStateSupported` | `Boolean` | attr | — |
+| `resetToDefaultSupported` | `Optional[Boolean]` | `resetToDefaultSupported` | `Boolean` | attr | — |
+| `shortTermAdjustmentSupported` | `Optional[Boolean]` | `shortTermAdjustmentSupported` | `Boolean` | attr | — |
+| — *(not implemented)* | `—` | `didNumber` | `PositiveInteger` | attr | removed upstream: present only in the stale 2018 XSD (`DID-NUMBER` in AUTOSAR_00046.xsd), absent from the R23-11 PDF tables; not modeled (see Rule 1.3 release-alignment caveat) |
 
 ## `DiagnosticEventNeeds`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 258

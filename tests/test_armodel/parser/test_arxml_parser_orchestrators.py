@@ -331,6 +331,23 @@ class TestServiceNeedsHandlers:
         parser.readDiagnosticEventInfoNeeds(element, needs)
         assert needs.getDtcKind().getValue() == "kind"
 
+    def test_readDiagnosticIoControlNeeds_sets_currentValueRef(self, parser):
+        from armodel.models import SwcServiceDependency, ApplicationSwComponentType
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip(
+            "<SHORT-NAME>ioNeeds</SHORT-NAME>"
+            '<CURRENT-VALUE-REF DEST="DIAGNOSTIC-VALUE-NEEDS">/Needs/Value</CURRENT-VALUE-REF>'
+            "<FREEZE-CURRENT-STATE-SUPPORTED>true</FREEZE-CURRENT-STATE-SUPPORTED>",
+            root_tag="DIAGNOSTIC-IO-CONTROL-NEEDS",
+        )
+        needs = dependency.createDiagnosticIoControlNeeds("ioNeeds")
+        parser.readDiagnosticIoControlNeeds(element, needs)
+        assert needs.getCurrentValueRef().getValue() == "/Needs/Value"
+        assert needs.getFreezeCurrentStateSupported().getValue() is True
+
     def test_readCryptoServiceNeeds_sets_maxKeyLength(self, parser):
         from armodel.models import SwcServiceDependency, ApplicationSwComponentType
 
@@ -1986,6 +2003,7 @@ class TestSwcServiceDependencyServiceNeeds:
             "DIAGNOSTIC-VALUE-NEEDS",
             "DIAGNOSTIC-EVENT-NEEDS",
             "DIAGNOSTIC-EVENT-INFO-NEEDS",
+            "DIAGNOSTIC-IO-CONTROL-NEEDS",
             "CRYPTO-SERVICE-NEEDS",
             "ECU-STATE-MGR-USER-NEEDS",
             "DTC-STATUS-CHANGE-NOTIFICATION-NEEDS",

@@ -24,6 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DiagnosticAudienceEnum,
     DiagnosticServiceRequestCallbackTypeEnum,
     DiagnosticCapabilityElement,
+    DiagnosticIoControlNeeds,
     DiagnosticRoutineTypeEnum,
     DiagnosticCommunicationManagerNeeds,
     DiagnosticRoutineNeeds,
@@ -908,6 +909,116 @@ class TestDiagnosticValueNeeds:
         result = diag_value.setSecurityAccessLevel(4)
         assert result is diag_value
         assert diag_value.getSecurityAccessLevel() == 4
+
+
+class TestDiagnosticIoControlNeeds:
+    def test_initialization(self):
+        """Test DiagnosticIoControlNeeds initialization"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = DiagnosticIoControlNeeds(ar_root, "TestDiagnosticIoControlNeeds")
+
+        assert needs is not None
+        assert needs.getShortName() == "TestDiagnosticIoControlNeeds"
+        assert needs.audiences == []
+        assert needs.diagRequirement is None
+        assert needs.securityAccessLevel is None
+        assert needs.currentValueRef is None
+        assert needs.freezeCurrentStateSupported is None
+        assert needs.resetToDefaultSupported is None
+        assert needs.shortTermAdjustmentSupported is None
+
+    def test_get_set_current_value_ref(self):
+        """Test getCurrentValueRef/setCurrentValueRef (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = DiagnosticIoControlNeeds(ar_root, "TestDiagnosticIoControlNeeds")
+
+        value = RefType().setValue("/Needs/CurrentValue")
+        result = needs.setCurrentValueRef(value)
+        assert result is needs  # Method chaining
+        assert needs.getCurrentValueRef() == value
+
+        needs.setCurrentValueRef(None)  # No-op
+        assert needs.getCurrentValueRef() == value
+
+    def test_get_set_freeze_current_state_supported(self):
+        """Test getFreezeCurrentStateSupported/setFreezeCurrentStateSupported (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = DiagnosticIoControlNeeds(ar_root, "TestDiagnosticIoControlNeeds")
+
+        value = Boolean().setValue(True)
+        result = needs.setFreezeCurrentStateSupported(value)
+        assert result is needs  # Method chaining
+        assert needs.getFreezeCurrentStateSupported() == value
+
+        needs.setFreezeCurrentStateSupported(None)  # No-op
+        assert needs.getFreezeCurrentStateSupported() == value
+
+    def test_get_set_reset_to_default_supported(self):
+        """Test getResetToDefaultSupported/setResetToDefaultSupported (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = DiagnosticIoControlNeeds(ar_root, "TestDiagnosticIoControlNeeds")
+
+        value = Boolean().setValue(False)
+        result = needs.setResetToDefaultSupported(value)
+        assert result is needs  # Method chaining
+        assert needs.getResetToDefaultSupported() == value
+
+        needs.setResetToDefaultSupported(None)  # No-op
+        assert needs.getResetToDefaultSupported() == value
+
+    def test_get_set_short_term_adjustment_supported(self):
+        """Test getShortTermAdjustmentSupported/setShortTermAdjustmentSupported (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = DiagnosticIoControlNeeds(ar_root, "TestDiagnosticIoControlNeeds")
+
+        value = Boolean().setValue(True)
+        result = needs.setShortTermAdjustmentSupported(value)
+        assert result is needs  # Method chaining
+        assert needs.getShortTermAdjustmentSupported() == value
+
+        needs.setShortTermAdjustmentSupported(None)  # No-op
+        assert needs.getShortTermAdjustmentSupported() == value
+
+
+class TestDiagnosticIoControlNeedsRoundTrip:
+    def test_round_trip_attributes(self):
+        """Test parse -> write -> re-parse preserves DiagnosticIoControlNeeds attributes."""
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        desc = ar_root.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        dependency = BswServiceDependency()
+        needs = DiagnosticIoControlNeeds(dependency, "IoNeeds")
+        needs.setCurrentValueRef(RefType().setValue("/Needs/Value"))
+        needs.setFreezeCurrentStateSupported(Boolean().setValue(True))
+        needs.setResetToDefaultSupported(Boolean().setValue(False))
+        needs.setShortTermAdjustmentSupported(Boolean().setValue(True))
+        dependency.setServiceNeeds(needs)
+        behavior.addServiceDependency(dependency)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            behavior_2 = document_2.getARPackages()[0].getBswModuleDescriptions()[0].getInternalBehaviors()[0]
+            needs_2 = behavior_2.getServiceDependencies()[0].getServiceNeeds()
+            assert needs_2.getShortName() == "IoNeeds"
+            assert needs_2.getCurrentValueRef().getValue() == "/Needs/Value"
+            assert needs_2.getFreezeCurrentStateSupported().getValue() is True
+            assert needs_2.getResetToDefaultSupported().getValue() is False
+            assert needs_2.getShortTermAdjustmentSupported().getValue() is True
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
 
 
 class TestDiagEventDebounceAlgorithm:

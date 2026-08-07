@@ -2373,14 +2373,23 @@ class DiagnosticEventManagerNeeds(ServiceNeeds):
         super().__init__(parent, short_name)
 
 
-class DiagnosticIoControlNeeds(ServiceNeeds):
+class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
     """
-    Represents Diagnostic I/O Control needs in AUTOSAR models.
-    This class defines requirements for diagnostic input/output control services.
+    Specifies the general needs on the configuration of the Diagnostic Communication Manager (DCM) which are not related to a particular item (e.g. a PID). The main use case is the mapping of service ports to the Dcm which are not related to a particular item.
     """
 
     # DiagnosticIoControlNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.26, p.248
+    # Spec verified: R23-11
+    # [x] __init__                           [x] impl  [x] docstring  [x] test
+    # [x] getCurrentValueRef                 [x] impl  [x] docstring  [x] test
+    # [x] setCurrentValueRef                 [x] impl  [x] docstring  [x] test
+    # [x] getFreezeCurrentStateSupported     [x] impl  [x] docstring  [x] test
+    # [x] setFreezeCurrentStateSupported     [x] impl  [x] docstring  [x] test
+    # [x] getResetToDefaultSupported         [x] impl  [x] docstring  [x] test
+    # [x] setResetToDefaultSupported         [x] impl  [x] docstring  [x] test
+    # [x] getShortTermAdjustmentSupported    [x] impl  [x] docstring  [x] test
+    # [x] setShortTermAdjustmentSupported    [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -2391,6 +2400,114 @@ class DiagnosticIoControlNeeds(ServiceNeeds):
             short_name: The unique short name of this diagnostic I/O control needs
         """
         super().__init__(parent, short_name)
+
+        # Reference to the DiagnosticValueNeeds indicating the access to the current value via signalBasedDiagnostics.
+        self.currentValueRef: Optional[RefType] = None
+
+        # This attribute determines, if the referenced port supports temporary freezing of I/O value.
+        self.freezeCurrentStateSupported: Optional[Boolean] = None
+
+        # This represents a flag for the existence of the ResetToDefault operation in the service interface.
+        self.resetToDefaultSupported: Optional[Boolean] = None
+
+        # This attribute determines, if the referenced port supports temporarily setting of I/O value to a specific value provided by the diagnostic tester.
+        self.shortTermAdjustmentSupported: Optional[Boolean] = None
+
+    def getCurrentValueRef(self) -> Optional[RefType]:
+        """
+        Gets the reference to the DiagnosticValueNeeds indicating the access to the current value via signalBasedDiagnostics.
+
+        Returns:
+            RefType instance, or None if not set
+        """
+        return self.currentValueRef
+
+    def setCurrentValueRef(self, value: Optional[RefType]) -> "DiagnosticIoControlNeeds":
+        """
+        Sets the reference to the DiagnosticValueNeeds indicating the access to the current value via signalBasedDiagnostics.
+        A None value is a no-op and does not overwrite an existing currentValueRef.
+
+        Args:
+            value: The RefType instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.currentValueRef = value
+        return self
+
+    def getFreezeCurrentStateSupported(self) -> Optional[Boolean]:
+        """
+        Gets whether the referenced port supports temporary freezing of I/O value.
+
+        Returns:
+            Boolean instance, or None if not set
+        """
+        return self.freezeCurrentStateSupported
+
+    def setFreezeCurrentStateSupported(self, value: Optional[Boolean]) -> "DiagnosticIoControlNeeds":
+        """
+        Sets whether the referenced port supports temporary freezing of I/O value.
+        A None value is a no-op and does not overwrite an existing freezeCurrentStateSupported.
+
+        Args:
+            value: The Boolean instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.freezeCurrentStateSupported = value
+        return self
+
+    def getResetToDefaultSupported(self) -> Optional[Boolean]:
+        """
+        Gets the flag for the existence of the ResetToDefault operation in the service interface.
+
+        Returns:
+            Boolean instance, or None if not set
+        """
+        return self.resetToDefaultSupported
+
+    def setResetToDefaultSupported(self, value: Optional[Boolean]) -> "DiagnosticIoControlNeeds":
+        """
+        Sets the flag for the existence of the ResetToDefault operation in the service interface.
+        A None value is a no-op and does not overwrite an existing resetToDefaultSupported.
+
+        Args:
+            value: The Boolean instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.resetToDefaultSupported = value
+        return self
+
+    def getShortTermAdjustmentSupported(self) -> Optional[Boolean]:
+        """
+        Gets whether the referenced port supports temporarily setting of I/O value to a specific value provided by the diagnostic tester.
+
+        Returns:
+            Boolean instance, or None if not set
+        """
+        return self.shortTermAdjustmentSupported
+
+    def setShortTermAdjustmentSupported(self, value: Optional[Boolean]) -> "DiagnosticIoControlNeeds":
+        """
+        Sets whether the referenced port supports temporarily setting of I/O value to a specific value provided by the diagnostic tester.
+        A None value is a no-op and does not overwrite an existing shortTermAdjustmentSupported.
+
+        Args:
+            value: The Boolean instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.shortTermAdjustmentSupported = value
+        return self
 
 
 class DiagnosticMonitorUpdateKindEnum(AREnum):

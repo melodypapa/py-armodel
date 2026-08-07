@@ -88,7 +88,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ComMgrUserNeeds, CryptoServiceNeeds, DiagEventDebounceMonitorInternal, DltUserNeeds, ServiceNeeds, SupervisedEntityNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import BswMgrNeeds
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement, DtcStatusChangeNotificationNeeds
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement, DiagnosticIoControlNeeds, DtcStatusChangeNotificationNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCommunicationManagerNeeds, DiagnosticEventInfoNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticEventNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import EcuStateMgrUserNeeds, NvBlockNeeds, RoleBasedDataAssignment, SymbolicNameProps
@@ -1794,6 +1794,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticEventNeeds(child_element, needs)
         elif isinstance(needs, DiagnosticEventInfoNeeds):
             self.writeDiagnosticEventInfoNeeds(child_element, needs)
+        elif isinstance(needs, DiagnosticIoControlNeeds):
+            self.writeDiagnosticIoControlNeeds(child_element, needs)
         elif isinstance(needs, CryptoServiceNeeds):
             self.writeCryptoServiceNeeds(child_element, needs)
         elif isinstance(needs, EcuStateMgrUserNeeds):
@@ -1949,6 +1951,15 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(child_element, "DTC-KIND", needs.getDtcKind())
         self.setChildElementOptionalPositiveInteger(child_element, "UDS-DTC-NUMBER", needs.getUdsDtcNumber())
 
+    def writeDiagnosticIoControlNeeds(self, element: ET.Element, needs: DiagnosticIoControlNeeds):
+        # self.logger.debug("Write DiagnosticIoControlNeeds %s" % needs.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-IO-CONTROL-NEEDS")
+        self.writeDiagnosticCapabilityElement(child_element, needs)
+        self.setChildElementOptionalRefType(child_element, "CURRENT-VALUE-REF", needs.getCurrentValueRef())
+        self.setChildElementOptionalBooleanValue(child_element, "FREEZE-CURRENT-STATE-SUPPORTED", needs.getFreezeCurrentStateSupported())
+        self.setChildElementOptionalBooleanValue(child_element, "RESET-TO-DEFAULT-SUPPORTED", needs.getResetToDefaultSupported())
+        self.setChildElementOptionalBooleanValue(child_element, "SHORT-TERM-ADJUSTMENT-SUPPORTED", needs.getShortTermAdjustmentSupported())
+
     def writeCryptoServiceNeeds(self, element: ET.Element, needs: CryptoServiceNeeds):
         # self.logger.debug("Write CryptoServiceNeeds %s" % needs.getShortName())
         child_element = ET.SubElement(element, "CRYPTO-SERVICE-NEEDS")
@@ -2010,6 +2021,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeDiagnosticEventNeeds(child_element, needs)
                 elif isinstance(needs, DiagnosticEventInfoNeeds):
                     self.writeDiagnosticEventInfoNeeds(child_element, needs)
+                elif isinstance(needs, DiagnosticIoControlNeeds):
+                    self.writeDiagnosticIoControlNeeds(child_element, needs)
                 elif isinstance(needs, CryptoServiceNeeds):
                     self.writeCryptoServiceNeeds(child_element, needs)
                 elif isinstance(needs, EcuStateMgrUserNeeds):

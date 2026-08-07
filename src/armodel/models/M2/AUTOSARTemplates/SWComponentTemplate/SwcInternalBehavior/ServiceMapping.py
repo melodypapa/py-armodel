@@ -5,6 +5,7 @@ in software component internal behavior templates.
 
 from typing import List
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ComMgrUserNeeds, CryptoServiceNeeds, DiagnosticCommunicationManagerNeeds, DiagnosticEventInfoNeeds
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticIoControlNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DltUserNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticEventNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DtcStatusChangeNotificationNeeds, EcuStateMgrUserNeeds, NvBlockNeeds
@@ -99,6 +100,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
     # [ ] createCryptoServiceNeeds     [x] impl  [x] docstring  [ ] test
     # [ ] createEcuStateMgrUserNeeds   [x] impl  [x] docstring  [ ] test
     # [ ] createDtcStatusChangeNotificationNeeds [x] impl  [x] docstring  [ ] test
+    # [ ] createDiagnosticIoControlNeeds [x] impl  [x] docstring  [x] test
     # [ ] createDltUserNeeds           [x] impl  [x] docstring  [ ] test
     # [ ] createComMgrUserNeeds        [x] impl  [x] docstring  [x] test
     # [ ] getNvBlockNeeds              [x] impl  [x] docstring  [ ] test
@@ -110,6 +112,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
     # [ ] getCryptoServiceNeeds        [x] impl  [x] docstring  [ ] test
     # [ ] getEcuStateMgrUserNeeds      [x] impl  [x] docstring  [ ] test
     # [ ] getDtcStatusChangeNotificationNeeds [x] impl  [x] docstring  [ ] test
+    # [ ] getDiagnosticIoControlNeeds  [x] impl  [x] docstring  [x] test
     # [ ] getDltUserNeeds              [x] impl  [x] docstring  [ ] test
     # [ ] getComMgrUserNeeds           [x] impl  [x] docstring  [x] test
     # [ ] getServiceNeeds              [x] impl  [x] docstring  [ ] test
@@ -294,6 +297,21 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
             self.addElement(needs)
         return self.getElement(short_name)
 
+    def createDiagnosticIoControlNeeds(self, short_name: str) -> DiagnosticIoControlNeeds:
+        """
+        Creates or retrieves a DiagnosticIoControlNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            DiagnosticIoControlNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name):
+            needs = DiagnosticIoControlNeeds(self, short_name)
+            self.addElement(needs)
+        return self.getElement(short_name)
+
     def createDltUserNeeds(self, short_name: str) -> DltUserNeeds:
         """
         Creates or retrieves a DltUserNeeds element.
@@ -408,6 +426,16 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
                 DtcStatusChangeNotificationNeeds
         """
         return sorted(filter(lambda c: isinstance(c, DtcStatusChangeNotificationNeeds), self.elements), key=lambda e: e.short_name)
+
+    def getDiagnosticIoControlNeeds(self) -> List[DiagnosticIoControlNeeds]:
+        """
+        Gets sorted DiagnosticIoControlNeeds elements.
+
+        Returns:
+            List[DiagnosticIoControlNeeds]: Sorted list of
+                DiagnosticIoControlNeeds
+        """
+        return sorted(filter(lambda c: isinstance(c, DiagnosticIoControlNeeds), self.elements), key=lambda e: e.short_name)
 
     def getDltUserNeeds(self) -> List[DltUserNeeds]:
         """

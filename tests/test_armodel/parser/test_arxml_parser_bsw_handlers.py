@@ -1245,6 +1245,22 @@ class TestBswServiceDependencyHandlers:
         assert needs.getShortName() == "needs"
         assert needs.getMaxCommMode().getValue() == "FULL"
 
+    def test_readBswServiceDependency_io_control_needs(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
+
+        dependency = BswServiceDependency()
+        element = _snip(
+            "<SERVICE-NEEDS>"
+            "<DIAGNOSTIC-IO-CONTROL-NEEDS><SHORT-NAME>needs</SHORT-NAME><FREEZE-CURRENT-STATE-SUPPORTED>true</FREEZE-CURRENT-STATE-SUPPORTED></DIAGNOSTIC-IO-CONTROL-NEEDS>"
+            "</SERVICE-NEEDS>",
+            root_tag="BSW-SERVICE-DEPENDENCY",
+        )
+        parser.readBswServiceDependency(element, dependency)
+
+        needs = dependency.getServiceNeeds()
+        assert needs.getShortName() == "needs"
+        assert needs.getFreezeCurrentStateSupported().getValue() is True
+
     def test_readBswServiceDependency_no_ident(self, parser):
         from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
 

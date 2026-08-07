@@ -13,6 +13,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DiagnosticCommunicationManagerNeeds,
     DiagnosticEventInfoNeeds,
     DiagnosticEventNeeds,
+    DiagnosticIoControlNeeds,
     DiagnosticRoutineNeeds,
     DiagnosticValueNeeds,
     DltUserNeeds,
@@ -1116,6 +1117,23 @@ class TestWriterServiceNeeds:
         assert elem.find("DTC-KIND").text == "UDS_DTC"
         assert elem.find("UDS-DTC-NUMBER").text == "64"
 
+    def test_writeDiagnosticIoControlNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createDiagnosticIoControlNeeds("io1")
+        needs.setCurrentValueRef(_ref("/Needs/Value"))
+        needs.setFreezeCurrentStateSupported(_bool(True))
+        needs.setResetToDefaultSupported(_bool(False))
+        needs.setShortTermAdjustmentSupported(_bool(True))
+        parent = _parent()
+        writer.writeDiagnosticIoControlNeeds(parent, needs)
+        elem = parent.find("DIAGNOSTIC-IO-CONTROL-NEEDS")
+        assert elem is not None
+        assert elem.find("CURRENT-VALUE-REF").text == "/Needs/Value"
+        assert elem.find("FREEZE-CURRENT-STATE-SUPPORTED").text == "true"
+        assert elem.find("RESET-TO-DEFAULT-SUPPORTED").text == "false"
+        assert elem.find("SHORT-TERM-ADJUSTMENT-SUPPORTED").text == "true"
+
     def test_writeCryptoServiceNeeds(self, writer):
         behavior = _make_behavior()
         dep = behavior.createSwcServiceDependency("dep1")
@@ -1178,6 +1196,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         dep.createDiagnosticValueNeeds("dvn")
         dep.createDiagnosticEventNeeds("den")
         dep.createDiagnosticEventInfoNeeds("dei")
+        dep.createDiagnosticIoControlNeeds("io")
         dep.createCryptoServiceNeeds("csn")
         dep.createEcuStateMgrUserNeeds("esm")
         dep.createDtcStatusChangeNotificationNeeds("dsc")
@@ -1194,6 +1213,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         assert "DIAGNOSTIC-VALUE-NEEDS" in tags
         assert "DIAGNOSTIC-EVENT-NEEDS" in tags
         assert "DIAGNOSTIC-EVENT-INFO-NEEDS" in tags
+        assert "DIAGNOSTIC-IO-CONTROL-NEEDS" in tags
         assert "CRYPTO-SERVICE-NEEDS" in tags
         assert "ECU-STATE-MGR-USER-NEEDS" in tags
         assert "DTC-STATUS-CHANGE-NOTIFICATION-NEEDS" in tags

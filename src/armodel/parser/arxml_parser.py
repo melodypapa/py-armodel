@@ -92,7 +92,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ComMgrUserNeeds, CryptoServiceNeeds, DiagEventDebounceMonitorInternal, DltUserNeeds, ServiceNeeds, SupervisedEntityNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import BswMgrNeeds
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement, DtcStatusChangeNotificationNeeds
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement, DiagnosticIoControlNeeds, DtcStatusChangeNotificationNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCommunicationManagerNeeds, DiagnosticEventInfoNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticEventNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import EcuStateMgrUserNeeds, NvBlockNeeds, RoleBasedDataAssignment, SymbolicNameProps
@@ -755,6 +755,10 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = DiagnosticEventInfoNeeds(dependency, short_name)
                 self.readDiagnosticEventInfoNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTIC-IO-CONTROL-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = DiagnosticIoControlNeeds(dependency, short_name)
+                self.readDiagnosticIoControlNeeds(child_element, needs)
             elif tag_name == "CRYPTO-SERVICE-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = CryptoServiceNeeds(dependency, short_name)
@@ -891,6 +895,14 @@ class ARXMLParser(AbstractARXMLParser):
         needs.setDtcKind(self.getChildElementOptionalLiteral(element, "DTC-KIND"))
         needs.setUdsDtcNumber(self.getChildElementOptionalPositiveInteger(element, "UDS-DTC-NUMBER"))
 
+    def readDiagnosticIoControlNeeds(self, element: ET.Element, needs: DiagnosticIoControlNeeds):
+        # self.logger.debug("Read DiagnosticIoControlNeeds %s" % needs.getShortName())
+        self.readDiagnosticCapabilityElement(element, needs)
+        needs.setCurrentValueRef(self.getChildElementOptionalRefType(element, "CURRENT-VALUE-REF"))
+        needs.setFreezeCurrentStateSupported(self.getChildElementOptionalBooleanValue(element, "FREEZE-CURRENT-STATE-SUPPORTED"))
+        needs.setResetToDefaultSupported(self.getChildElementOptionalBooleanValue(element, "RESET-TO-DEFAULT-SUPPORTED"))
+        needs.setShortTermAdjustmentSupported(self.getChildElementOptionalBooleanValue(element, "SHORT-TERM-ADJUSTMENT-SUPPORTED"))
+
     def readCryptoServiceNeeds(self, element: ET.Element, needs: CryptoServiceNeeds):
         # self.logger.debug("Read CryptoServiceNeeds <%s>" % needs.getShortName())
         self.readServiceNeeds(element, needs)
@@ -946,6 +958,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-EVENT-INFO-NEEDS":
                 needs = parent.createDiagnosticEventInfoNeeds(self.getShortName(child_element))
                 self.readDiagnosticEventInfoNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTIC-IO-CONTROL-NEEDS":
+                needs = parent.createDiagnosticIoControlNeeds(self.getShortName(child_element))
+                self.readDiagnosticIoControlNeeds(child_element, needs)
             elif tag_name == "CRYPTO-SERVICE-NEEDS":
                 needs = parent.createCryptoServiceNeeds(self.getShortName(child_element))
                 self.readCryptoServiceNeeds(child_element, needs)

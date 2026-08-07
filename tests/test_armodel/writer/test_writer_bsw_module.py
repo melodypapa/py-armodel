@@ -680,6 +680,22 @@ class TestWriterBswServiceDependency:
         assert dep_element.find("SERVICE-NEEDS/COM-MGR-USER-NEEDS/SHORT-NAME").text == "needs"
         assert dep_element.find("SERVICE-NEEDS/COM-MGR-USER-NEEDS/MAX-COMM-MODE").text == "silent"
 
+    def test_writeBswServiceDependency_io_control_needs(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticIoControlNeeds
+
+        dependency = BswServiceDependency()
+        needs = DiagnosticIoControlNeeds(dependency, "needs")
+        needs.setFreezeCurrentStateSupported(ARBoolean().setValue(True))
+        dependency.setServiceNeeds(needs)
+
+        parent = _parent()
+        writer.writeBswServiceDependency(parent, dependency)
+
+        dep_element = parent.find("BSW-SERVICE-DEPENDENCY")
+        assert dep_element is not None
+        assert dep_element.find("SERVICE-NEEDS/DIAGNOSTIC-IO-CONTROL-NEEDS/SHORT-NAME").text == "needs"
+        assert dep_element.find("SERVICE-NEEDS/DIAGNOSTIC-IO-CONTROL-NEEDS/FREEZE-CURRENT-STATE-SUPPORTED").text == "true"
+
     def test_writeBswServiceDependency_minimal(self, writer):
         dependency = BswServiceDependency()
         parent = _parent()
