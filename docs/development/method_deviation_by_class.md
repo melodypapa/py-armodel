@@ -533,24 +533,14 @@ No deviations — all Table 9.7 attributes (`context`, `target`) are implemented
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `defCalprmSet` | `McFunctionDataRefSet` | — | missing |
-| — *(missing)* | `—` | `inMeasurementSet` | `McFunctionDataRefSet` | — | missing |
-| — *(missing)* | `—` | `locMeasurementSet` | `McFunctionDataRefSet` | — | missing |
-| — *(missing)* | `—` | `outMeasurementSet` | `McFunctionDataRefSet` | — | missing |
-| — *(missing)* | `—` | `outMeasurmentSet` | `McFunctionDataRefSet` | — | missing |
-| — *(missing)* | `—` | `refCalprmSet` | `McFunctionDataRefSet` | — | missing |
-| — *(missing)* | `—` | `subFunctionRefs` | `Ref (McFunction)` | Refs | missing |
+No deviations — all Table 9.8 attributes (`defCalprmSet`, `refCalprmSet`, `inMeasurementSet`, `locMeasurementSet`, `outMeasurementSet`, `subFunction`) are implemented with parser/writer coverage (`readMcFunction`/`writeMcFunction`, dispatched from `readARPackageElements`/`writeARPackageElement` via the new `ARPackage.createMcFunction`/`getMcFunctions`). The class's base was corrected from `ARObject` to `Identifiable` (spec `Base` row ends in `Packageable`/`Identifiable`), making `McFunction` a real `ARPackage.element`. The earlier tracker rows recorded the deprecated `outMeasurmentSet` (XSD `atp.Status="removed"` — "Due to miss spell was set to obsolete. Please use outMeasurementSet instead.") as a separate missing attribute; it is correctly **not** modeled.
 
 ## `McFunctionDataRefSet`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 187
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport::RptSupport`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `mcFunctionDataRefSetVariant` | `McFunctionDataRefSetConditional` | — | missing |
+No deviations — all Table 9.9 attributes (`flatMapEntry`, `mcDataInstance`) are implemented with parser/writer coverage (`readMcFunctionDataRefSet`/`writeMcFunctionDataRefSet`). The class is `<<atpVariation>>`: the XSD nests its attributes under `<MC-FUNCTION-DATA-REF-SET-VARIANTS>/<MC-FUNCTION-DATA-REF-SET-CONDITIONAL>`, and per the established cluster-class precedent (`LinCluster`/`CanCluster`/`FlexrayCluster`) the wrapper is read/written transparently into the owning object — no separate `McFunctionDataRefSetConditional` model class, and no `variationPoint` is modeled. The earlier tracker row recorded `mcFunctionDataRefSetVariant` (the alternative explicit `Variants`/`Conditional` modeling) as missing; the transparent wrapper is the codebase-consistent choice.
 
 ## `McGroup`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 190

@@ -12,7 +12,7 @@ from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProp
 from typing import TYPE_CHECKING, List, Optional
 
 if TYPE_CHECKING:
-    from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport import RptSupportData, RptSwPrototypingAccess
+    from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport import McFunctionDataRefSet, RptSupportData, RptSwPrototypingAccess
     from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import RptImplPolicy
 
 
@@ -427,70 +427,199 @@ class ImplementationElementInParameterInstanceRef(ARObject):
         return self
 
 
-class McFunction(ARObject):
+class McFunction(Identifiable):
     """
-    Represents an MC (Measurement and Calibration) function in AUTOSAR.
-    Defines a function that can be used for measurement and calibration purposes.
+    Represents a functional element to be used as input to support measurement and calibration. It is used to • assign calibration parameters to a logical function • assign measurement variables to a logical function • structure functions hierarchically
     """
 
     # McFunction method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] addDataRef                   [x] impl  [x] docstring  [ ] test
-    # [ ] getDataRefs                  [x] impl  [x] docstring  [ ] test
-    # [ ] getFunctionName              [x] impl  [x] docstring  [ ] test
-    # [ ] setFunctionName              [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.8, p.186
+    # Spec verified: R23-11
+    # [x] __init__                       [x] impl  [x] docstring  [x] test
+    # [x] getDefCalprmSet                [x] impl  [x] docstring  [x] test
+    # [x] setDefCalprmSet                [x] impl  [x] docstring  [x] test
+    # [x] getInMeasurementSet            [x] impl  [x] docstring  [x] test
+    # [x] setInMeasurementSet            [x] impl  [x] docstring  [x] test
+    # [x] getLocMeasurementSet           [x] impl  [x] docstring  [x] test
+    # [x] setLocMeasurementSet           [x] impl  [x] docstring  [x] test
+    # [x] getOutMeasurementSet           [x] impl  [x] docstring  [x] test
+    # [x] setOutMeasurementSet           [x] impl  [x] docstring  [x] test
+    # [x] getRefCalprmSet                [x] impl  [x] docstring  [x] test
+    # [x] setRefCalprmSet                [x] impl  [x] docstring  [x] test
+    # [x] addSubFunctionRef              [x] impl  [x] docstring  [x] test
+    # [x] getSubFunctionRefs             [x] impl  [x] docstring  [x] test
 
-    def __init__(self):
+    def __init__(self, parent: ARObject, short_name: str):
         """
-        Initializes the McFunction with default values.
-        """
-        super().__init__()
-        self.dataRefs: List[RefType] = []
-        self.functionName: str = None
-
-    def addDataRef(self, ref: RefType):
-        """
-        Adds a data reference to this MC function.
+        Initializes the McFunction with a parent and short name.
 
         Args:
-            ref: The data reference to add
+            parent: The parent ARObject that contains this function
+            short_name: The unique short name of this function
+        """
+        super().__init__(parent, short_name)
+
+        # Refers to the set of adjustable data (= calibration parameters) defined in this function. Tags: atp.Splitkey=defCalprmSet xml.sequenceOffset=10
+        self.defCalprmSet: Optional[McFunctionDataRefSet] = None
+
+        # Refers to the set of measurable input data for this function. Tags: atp.Splitkey=inMeasurementSet xml.sequenceOffset=30
+        self.inMeasurementSet: Optional[McFunctionDataRefSet] = None
+
+        # Refers to the set of measurable local data in this function. Tags: atp.Splitkey=locMeasurementSet xml.sequenceOffset=50
+        self.locMeasurementSet: Optional[McFunctionDataRefSet] = None
+
+        # Refers to the set of measurable output data from this function. Tags: atp.Splitkey=outMeasurementSet
+        self.outMeasurementSet: Optional[McFunctionDataRefSet] = None
+
+        # Refers to the set of adjustable data (= calibration parameters) referred by this function. Tags: atp.Splitkey=refCalprmSet xml.sequenceOffset=20
+        self.refCalprmSet: Optional[McFunctionDataRefSet] = None
+
+        # A sub-function that is seen as part of the enclosing function.
+        self.subFunctionRefs: List[RefType] = []
+
+    def getDefCalprmSet(self) -> Optional[McFunctionDataRefSet]:
+        """
+        Gets the set of adjustable data (= calibration parameters) defined in this function.
+
+        Returns:
+            McFunctionDataRefSet instance, or None if not set
+        """
+        return self.defCalprmSet
+
+    def setDefCalprmSet(self, value: Optional[McFunctionDataRefSet]) -> "McFunction":
+        """
+        Sets the set of adjustable data (= calibration parameters) defined in this function.
+        A None value is a no-op and does not overwrite an existing set.
+
+        Args:
+            value: The McFunctionDataRefSet to set
 
         Returns:
             self for method chaining
         """
-        self.dataRefs.append(ref)
+        if value is not None:
+            self.defCalprmSet = value
         return self
 
-    def getDataRefs(self) -> List[RefType]:
+    def getInMeasurementSet(self) -> Optional[McFunctionDataRefSet]:
         """
-        Gets the list of data references.
+        Gets the set of measurable input data for this function.
 
         Returns:
-            List of data references
+            McFunctionDataRefSet instance, or None if not set
         """
-        return self.dataRefs
+        return self.inMeasurementSet
 
-    def getFunctionName(self) -> str:
+    def setInMeasurementSet(self, value: Optional[McFunctionDataRefSet]) -> "McFunction":
         """
-        Gets the function name.
-
-        Returns:
-            String representing the function name
-        """
-        return self.functionName
-
-    def setFunctionName(self, value: str):
-        """
-        Sets the function name.
+        Sets the set of measurable input data for this function.
+        A None value is a no-op and does not overwrite an existing set.
 
         Args:
-            value: String value to set
+            value: The McFunctionDataRefSet to set
 
         Returns:
             self for method chaining
         """
-        self.functionName = value
+        if value is not None:
+            self.inMeasurementSet = value
         return self
+
+    def getLocMeasurementSet(self) -> Optional[McFunctionDataRefSet]:
+        """
+        Gets the set of measurable local data in this function.
+
+        Returns:
+            McFunctionDataRefSet instance, or None if not set
+        """
+        return self.locMeasurementSet
+
+    def setLocMeasurementSet(self, value: Optional[McFunctionDataRefSet]) -> "McFunction":
+        """
+        Sets the set of measurable local data in this function.
+        A None value is a no-op and does not overwrite an existing set.
+
+        Args:
+            value: The McFunctionDataRefSet to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.locMeasurementSet = value
+        return self
+
+    def getOutMeasurementSet(self) -> Optional[McFunctionDataRefSet]:
+        """
+        Gets the set of measurable output data from this function.
+
+        Returns:
+            McFunctionDataRefSet instance, or None if not set
+        """
+        return self.outMeasurementSet
+
+    def setOutMeasurementSet(self, value: Optional[McFunctionDataRefSet]) -> "McFunction":
+        """
+        Sets the set of measurable output data from this function.
+        A None value is a no-op and does not overwrite an existing set.
+
+        Args:
+            value: The McFunctionDataRefSet to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.outMeasurementSet = value
+        return self
+
+    def getRefCalprmSet(self) -> Optional[McFunctionDataRefSet]:
+        """
+        Gets the set of adjustable data (= calibration parameters) referred by this function.
+
+        Returns:
+            McFunctionDataRefSet instance, or None if not set
+        """
+        return self.refCalprmSet
+
+    def setRefCalprmSet(self, value: Optional[McFunctionDataRefSet]) -> "McFunction":
+        """
+        Sets the set of adjustable data (= calibration parameters) referred by this function.
+        A None value is a no-op and does not overwrite an existing set.
+
+        Args:
+            value: The McFunctionDataRefSet to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.refCalprmSet = value
+        return self
+
+    def addSubFunctionRef(self, value: Optional[RefType]) -> "McFunction":
+        """
+        Adds a reference to a sub-function that is seen as part of the enclosing function.
+        A None value is a no-op and does not append anything.
+
+        Args:
+            value: The sub-function reference to add
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.subFunctionRefs.append(value)
+        return self
+
+    def getSubFunctionRefs(self) -> List[RefType]:
+        """
+        Gets the references to sub-functions that are seen as part of the enclosing function.
+
+        Returns:
+            List of RefType instances referencing McFunction elements
+        """
+        return self.subFunctionRefs
 
 
 class RoleBasedMcDataAssignment(ARObject):
