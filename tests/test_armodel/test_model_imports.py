@@ -63,8 +63,6 @@ INTENTIONALLY_UNEXPORTED_MODULES = {
     "LatencyConstraintTypeEnum",
     "LatencyTimingConstraint",
     "McDataAccessDetails",
-    "McFunction",
-    "McFunctionDataRefSet",
     "McGroup",
     "McGroupDataRefSet",
     "ModeErrorBehavior",

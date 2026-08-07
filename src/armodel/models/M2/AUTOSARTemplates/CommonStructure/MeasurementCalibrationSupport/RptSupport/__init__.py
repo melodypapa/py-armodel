@@ -341,43 +341,77 @@ class RptServicePoint(Identifiable):
 
 class McFunctionDataRefSet(ARObject):
     """
-    Represents a set of MC function data references in AUTOSAR.
-    Defines a collection of references to MC (Measurement and Calibration) function data.
+    Refers to a set of data assigned to an McFunction in a particular role. The data are given • either by entries in a FlatMap • or by data instances that are part of MC support data. These two possibilities are exclusive within a given McFunctionDataRefSet. Which one to use depends on the process and tool environment. The set is subject to variability because the same functional model may be used with various representation of the data.
     """
 
     # McFunctionDataRefSet method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] addDataRef                   [x] impl  [x] docstring  [ ] test
-    # [ ] getDataRefs                  [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.9, p.187
+    # Spec verified: R23-11
+    # [x] __init__                       [x] impl  [x] docstring  [x] test
+    # [x] addFlatMapEntryRef             [x] impl  [x] docstring  [x] test
+    # [x] getFlatMapEntryRefs            [x] impl  [x] docstring  [x] test
+    # [x] addMcDataInstanceRef           [x] impl  [x] docstring  [x] test
+    # [x] getMcDataInstanceRefs          [x] impl  [x] docstring  [x] test
 
     def __init__(self):
         """
         Initializes the McFunctionDataRefSet with default values.
         """
         super().__init__()
-        self.dataRefs: List[RefType] = []
 
-    def addDataRef(self, ref: RefType):
+        # Refers to an entry in a FlatMap that is part of the set, for example a calibration parameter or measured variable. Tags: xml.sequenceOffset=10
+        self.flatMapEntryRefs: List[RefType] = []
+
+        # Refers to a data instance within MC support data that is part of the set, i.e. a calibration parameter or measured variable. Tags: xml.sequenceOffset=20
+        self.mcDataInstanceRefs: List[RefType] = []
+
+    def addFlatMapEntryRef(self, value: Optional[RefType]) -> "McFunctionDataRefSet":
         """
-        Adds a data reference to this MC function data reference set.
+        Adds a reference to an entry in a FlatMap that is part of the set, for example a calibration parameter or measured variable.
+        A None value is a no-op and does not append anything.
 
         Args:
-            ref: The data reference to add
+            value: The FlatMap entry reference to add
 
         Returns:
             self for method chaining
         """
-        self.dataRefs.append(ref)
+        if value is not None:
+            self.flatMapEntryRefs.append(value)
         return self
 
-    def getDataRefs(self) -> List[RefType]:
+    def getFlatMapEntryRefs(self) -> List[RefType]:
         """
-        Gets the list of data references.
+        Gets the references to entries in a FlatMap that are part of the set, for example calibration parameters or measured variables.
 
         Returns:
-            List of data references
+            List of RefType instances referencing FlatInstanceDescriptor elements
         """
-        return self.dataRefs
+        return self.flatMapEntryRefs
+
+    def addMcDataInstanceRef(self, value: Optional[RefType]) -> "McFunctionDataRefSet":
+        """
+        Adds a reference to a data instance within MC support data that is part of the set, i.e. a calibration parameter or measured variable.
+        A None value is a no-op and does not append anything.
+
+        Args:
+            value: The MC data instance reference to add
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.mcDataInstanceRefs.append(value)
+        return self
+
+    def getMcDataInstanceRefs(self) -> List[RefType]:
+        """
+        Gets the references to data instances within MC support data that are part of the set, i.e. calibration parameters or measured variables.
+
+        Returns:
+            List of RefType instances referencing McDataInstance elements
+        """
+        return self.mcDataInstanceRefs
 
 
 class RptExecutableEntityEvent(Identifiable):

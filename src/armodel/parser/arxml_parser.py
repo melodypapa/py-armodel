@@ -51,12 +51,14 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSu
     ImplementationElementInParameterInstanceRef,
     McDataAccessDetails,
     McDataInstance,
+    McFunction,
     McParameterElementGroup,
     McSupportData,
     McSwEmulationMethodSupport,
     RoleBasedMcDataAssignment,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport import (
+    McFunctionDataRefSet,
     RptComponent,
     RptExecutableEntity,
     RptExecutableEntityEvent,
@@ -6444,8 +6446,50 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "NV-DATA-INTERFACE":
                 interface = parent.createNvDataInterface(self.getShortName(child_element))
                 self.readNvDataInterface(child_element, interface)
+            elif tag_name == "MC-FUNCTION":
+                func = parent.createMcFunction(self.getShortName(child_element))
+                self.readMcFunction(child_element, func)
             else:
                 self.notImplemented("Unsupported Element type of ARPackage <%s>" % tag_name)
+
+    def readMcFunction(self, element: ET.Element, func: McFunction):
+        self.readIdentifiable(element, func)
+        def_calprm_set_element = self.find(element, "DEF-CALPRM-SET")
+        if def_calprm_set_element is not None:
+            def_calprm_set = McFunctionDataRefSet()
+            self.readMcFunctionDataRefSet(def_calprm_set_element, def_calprm_set)
+            func.setDefCalprmSet(def_calprm_set)
+        ref_calprm_set_element = self.find(element, "REF-CALPRM-SET")
+        if ref_calprm_set_element is not None:
+            ref_calprm_set = McFunctionDataRefSet()
+            self.readMcFunctionDataRefSet(ref_calprm_set_element, ref_calprm_set)
+            func.setRefCalprmSet(ref_calprm_set)
+        in_measurement_set_element = self.find(element, "IN-MEASUREMENT-SET")
+        if in_measurement_set_element is not None:
+            in_measurement_set = McFunctionDataRefSet()
+            self.readMcFunctionDataRefSet(in_measurement_set_element, in_measurement_set)
+            func.setInMeasurementSet(in_measurement_set)
+        loc_measurement_set_element = self.find(element, "LOC-MEASUREMENT-SET")
+        if loc_measurement_set_element is not None:
+            loc_measurement_set = McFunctionDataRefSet()
+            self.readMcFunctionDataRefSet(loc_measurement_set_element, loc_measurement_set)
+            func.setLocMeasurementSet(loc_measurement_set)
+        out_measurement_set_element = self.find(element, "OUT-MEASUREMENT-SET")
+        if out_measurement_set_element is not None:
+            out_measurement_set = McFunctionDataRefSet()
+            self.readMcFunctionDataRefSet(out_measurement_set_element, out_measurement_set)
+            func.setOutMeasurementSet(out_measurement_set)
+        for ref in self.getChildElementRefTypeList(element, "SUB-FUNCTION-REFS/SUB-FUNCTION-REF"):
+            func.addSubFunctionRef(ref)
+
+    def readMcFunctionDataRefSet(self, element: ET.Element, data_ref_set: McFunctionDataRefSet):
+        conditional_element = self.find(element, "MC-FUNCTION-DATA-REF-SET-VARIANTS/MC-FUNCTION-DATA-REF-SET-CONDITIONAL")
+        if conditional_element is None:
+            return
+        for ref in self.getChildElementRefTypeList(conditional_element, "FLAT-MAP-ENTRY-REFS/FLAT-MAP-ENTRY-REF"):
+            data_ref_set.addFlatMapEntryRef(ref)
+        for ref in self.getChildElementRefTypeList(conditional_element, "MC-DATA-INSTANCE-REFS/MC-DATA-INSTANCE-REF"):
+            data_ref_set.addMcDataInstanceRef(ref)
 
     def readReferenceBases(self, element: ET.Element, parent: ARPackage):
         for child_element in self.findall(element, "REFERENCE-BASES/REFERENCE-BASE"):

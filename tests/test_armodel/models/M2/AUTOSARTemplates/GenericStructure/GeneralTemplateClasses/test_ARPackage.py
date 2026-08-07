@@ -319,6 +319,27 @@ class TestARPackage:
         same_desc = package.createBswModuleDescription("TestBswDesc")
         assert same_desc is desc
 
+    def test_create_mc_function(self):
+        """
+        Test createMcFunction and getMcFunctions methods.
+        """
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        package = ARPackage(ar_root, "TestPackage")
+
+        # Create an McFunction
+        func = package.createMcFunction("TestFn")
+        assert func is not None
+        assert func.getShortName() == "TestFn"
+        assert func.getParent() == package
+        assert package.getMcFunctions() == [func]
+
+        # Create the same name should return same instance
+        same_func = package.createMcFunction("TestFn")
+        assert same_func is func
+        assert len(package.getMcFunctions()) == 1
+
     def test_get_reference_bases(self):
         """
         Test getReferenceBases method.

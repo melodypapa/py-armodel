@@ -50,12 +50,14 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantSpecifica
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification, ValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import (
     McDataInstance,
+    McFunction,
     McParameterElementGroup,
     McSupportData,
     McSwEmulationMethodSupport,
     RoleBasedMcDataAssignment,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport import (
+    McFunctionDataRefSet,
     RptComponent,
     RptExecutableEntity,
     RptExecutableEntityEvent,
@@ -6617,6 +6619,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSwSystemconstantValueSet(element, ar_element)
         elif isinstance(ar_element, PredefinedVariant):
             self.writePredefinedVariant(element, ar_element)
+        elif isinstance(ar_element, McFunction):
+            self.writeMcFunction(element, ar_element)
         else:
             self.notImplemented("Unsupported Elements of ARPackage <%s>" % type(ar_element))
 
@@ -6631,6 +6635,45 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalBooleanValue(child_element, "IS-GLOBAL", base.getIsDefault())
                 self.setChildElementOptionalBooleanValue(child_element, "BASE-IS-THIS-PACKAGE", base.getBaseIsThisPackage())
                 self.setChildElementOptionalRefType(child_element, "PACKAGE-REF", base.getPackageRef())
+
+    def writeMcFunction(self, element: ET.Element, func: McFunction):
+        if func is not None:
+            child_element = ET.SubElement(element, "MC-FUNCTION")
+            self.writeIdentifiable(child_element, func)
+            if func.getDefCalprmSet() is not None:
+                def_calprm_set_element = ET.SubElement(child_element, "DEF-CALPRM-SET")
+                self.writeMcFunctionDataRefSet(def_calprm_set_element, func.getDefCalprmSet())
+            if func.getRefCalprmSet() is not None:
+                ref_calprm_set_element = ET.SubElement(child_element, "REF-CALPRM-SET")
+                self.writeMcFunctionDataRefSet(ref_calprm_set_element, func.getRefCalprmSet())
+            if func.getInMeasurementSet() is not None:
+                in_measurement_set_element = ET.SubElement(child_element, "IN-MEASUREMENT-SET")
+                self.writeMcFunctionDataRefSet(in_measurement_set_element, func.getInMeasurementSet())
+            if func.getLocMeasurementSet() is not None:
+                loc_measurement_set_element = ET.SubElement(child_element, "LOC-MEASUREMENT-SET")
+                self.writeMcFunctionDataRefSet(loc_measurement_set_element, func.getLocMeasurementSet())
+            if func.getOutMeasurementSet() is not None:
+                out_measurement_set_element = ET.SubElement(child_element, "OUT-MEASUREMENT-SET")
+                self.writeMcFunctionDataRefSet(out_measurement_set_element, func.getOutMeasurementSet())
+            sub_function_refs = func.getSubFunctionRefs()
+            if len(sub_function_refs) > 0:
+                refs_element = ET.SubElement(child_element, "SUB-FUNCTION-REFS")
+                for ref in sub_function_refs:
+                    self.setChildElementOptionalRefType(refs_element, "SUB-FUNCTION-REF", ref)
+
+    def writeMcFunctionDataRefSet(self, element: ET.Element, data_ref_set: McFunctionDataRefSet):
+        variants_element = ET.SubElement(element, "MC-FUNCTION-DATA-REF-SET-VARIANTS")
+        conditional_element = ET.SubElement(variants_element, "MC-FUNCTION-DATA-REF-SET-CONDITIONAL")
+        flat_map_entry_refs = data_ref_set.getFlatMapEntryRefs()
+        if len(flat_map_entry_refs) > 0:
+            refs_element = ET.SubElement(conditional_element, "FLAT-MAP-ENTRY-REFS")
+            for ref in flat_map_entry_refs:
+                self.setChildElementOptionalRefType(refs_element, "FLAT-MAP-ENTRY-REF", ref)
+        mc_data_instance_refs = data_ref_set.getMcDataInstanceRefs()
+        if len(mc_data_instance_refs) > 0:
+            refs_element = ET.SubElement(conditional_element, "MC-DATA-INSTANCE-REFS")
+            for ref in mc_data_instance_refs:
+                self.setChildElementOptionalRefType(refs_element, "MC-DATA-INSTANCE-REF", ref)
 
     def writeARPackage(self, element: ET.Element, pkg: ARPackage):
         self.logger.debug("Write ARPackage %s" % pkg.getFullName())

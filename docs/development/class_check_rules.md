@@ -413,6 +413,17 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       must gain the new subtype, otherwise a branch exists that no test
       exercises and a later refactor can silently break the dispatch without
       failing CI.
+      The five-place pattern applies unchanged to a **top-level package
+      element** (a class whose spec `Aggregated by` row reads
+      `ARPackage.element`, e.g. `McFunction`): the aggregator is `ARPackage`,
+      which must gain `createXxx(short_name)`/`getXxxs()` and their checklist
+      rows; the parser branch goes in `readARPackageElements` (the tag-name
+      chain), the writer branch in `writeARPackageElement` (the
+      `isinstance` chain), and the dispatch test in the parser-dispatch test
+      file. A package element that has **no** dispatch branch at all is
+      silently dropped on round-trip even when its model and mirrored tests
+      are complete — grep the parser and writer for the element tag before
+      declaring the class aligned.
 - [ ] A concrete `<name>InstanceRef` subclass is a polymorphic type like any
       other subtype: it needs a parser `readXxx`/`getXxxIRef` dispatch branch
       and a matching writer `writeXxx`/`setXxxIRef` branch, plus dispatch-test
@@ -494,6 +505,26 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       this keeps the XML schema-valid and the round-trip lossless at the
       aggregator level, and is recorded in the deviation tracker pending the
       child's own pass.
+- [ ] **`atpVariation` classes wrap their attributes in a
+      `VARIANTS/CONDITIONAL` element.** When the spec class header carries
+      `<<atpVariation>>` (e.g. `McFunctionDataRefSet` Table 9.9, `LinCluster`,
+      `CanCluster`), the PDF `Attribute` rows render on the class itself, but
+      the XSD group contains only a `<NAME>-VARIANTS` wrapper holding a
+      `<NAME>-CONDITIONAL` choice; the class's real attributes (and a
+      `VARIATION-POINT`) live in the conditional's content group. The
+      established model pattern reads/writes the conditional **transparently
+      into the owning object** — no separate `Conditional` model class, no
+      modeled `variationPoint`: the parser does
+      `find(element, "NAME-VARIANTS/NAME-CONDITIONAL")` and reads the
+      attributes from that element; the writer emits
+      `<NAME>-VARIANTS/<NAME>-CONDITIONAL` around the attributes (as
+      `writeLinCluster` does). A deviation tracker that lists
+      `mcFunctionDataRefSetVariant`/`McFunctionDataRefSetConditional` as a
+      "missing" attribute reflects the alternative explicit
+      `Variants: List[...]` modeling; the transparent wrapper is
+      codebase-consistent and schema-valid — pick one shape and record the
+      choice in the tracker, do not leave a `missing` row for the unwrapped
+      variant.
 - [ ] **Identity-only child serialization is a debt to be repaid by the
       child's own pass.** The identity-only shape above is deliberately
       lossy for everything except the item's existence, and for a plain

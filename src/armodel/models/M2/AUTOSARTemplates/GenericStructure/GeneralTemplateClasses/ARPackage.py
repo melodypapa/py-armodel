@@ -35,6 +35,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantSpecifica
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatMap
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import McFunction
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroup
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint
@@ -343,6 +344,8 @@ class ARPackage(CollectableElement):
     # [ ] createBswImplementation      [x] impl  [ ] docstring  [ ] test
     # [ ] createSwcImplementation      [x] impl  [ ] docstring  [ ] test
     # [ ] createSwcBswMapping          [x] impl  [ ] docstring  [ ] test
+    # [x] createMcFunction             [x] impl  [x] docstring  [x] test
+    # [x] getMcFunctions               [x] impl  [x] docstring  [x] test
     # [ ] createConstantSpecification  [x] impl  [ ] docstring  [ ] test
     # [ ] createDataConstr             [x] impl  [ ] docstring  [ ] test
     # [ ] createUnit                   [x] impl  [ ] docstring  [ ] test
@@ -925,6 +928,22 @@ class ARPackage(CollectableElement):
             self.addElement(mapping)
         return self.getElement(short_name, SwcBswMapping)
 
+    def createMcFunction(self, short_name: str) -> McFunction:
+        """
+        Creates an McFunction element in this package.
+        If a function with the given short name already exists, it is returned instead.
+
+        Args:
+            short_name: The unique short name of the function
+
+        Returns:
+            The created (or existing) McFunction
+        """
+        if not self.IsElementExists(short_name, McFunction):
+            func = McFunction(self, short_name)
+            self.addElement(func)
+        return self.getElement(short_name, McFunction)
+
     def createConstantSpecification(self, short_name: str) -> ConstantSpecification:
         if not self.IsElementExists(short_name, ConstantSpecification):
             spec = ConstantSpecification(self, short_name)
@@ -1405,6 +1424,15 @@ class ARPackage(CollectableElement):
 
     def getSwcBswMappings(self) -> List[SwcBswMapping]:
         return list(filter(lambda a: isinstance(a, SwcBswMapping), self.elements))
+
+    def getMcFunctions(self) -> List[McFunction]:
+        """
+        Gets the McFunction elements contained in this package.
+
+        Returns:
+            List of McFunction instances
+        """
+        return list(filter(lambda a: isinstance(a, McFunction), self.elements))
 
     def getConstantSpecifications(self) -> List[ConstantSpecification]:
         return list(filter(lambda a: isinstance(a, ConstantSpecification), self.elements))

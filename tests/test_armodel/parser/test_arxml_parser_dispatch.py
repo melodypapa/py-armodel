@@ -556,6 +556,16 @@ class TestHwDispatch:
         assert parent.getElement("HT1") is not None
 
 
+# ==================== MC support ====================
+
+
+class TestMcDispatch:
+    def test_mc_function(self, parser):
+        parent = _make_parent()
+        _dispatch(parser, parent, _snip("MC-FUNCTION", "MF1"))
+        assert len(parent.getMcFunctions()) == 1
+
+
 # ==================== Else-branch (unsupported element) ====================
 
 
