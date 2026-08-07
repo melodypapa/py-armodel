@@ -622,11 +622,13 @@ Residual deviations (intentionally **not** serialized this pass — recorded hon
 - The parser/writer five-place dispatch for `BswServiceDependency` is already correct: `readBswServiceDependency` calls `readARObjectAttributes` (not `readIdentifiable`, since the class is non-Referrable) and `getBswServiceDependencyIdent` builds the nested `ident` via `BswServiceDependencyIdent(parent, short_name)`; the writer mirrors this. No change needed there.
 
 ## `BswServiceDependencyIdent`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** n/a (no own table)
-- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 240
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::ServiceMapping`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`
 
-No own spec table (Rule 1.5/13.1 exception) — the class carries no attributes of its own (`BSW-SERVICE-DEPENDENCY-IDENT` XSD group is an empty sequence); its purpose is documented only inline as the type of `BswServiceDependency.ident` in Table 12.2. No `# Spec:` line, no `# Spec verified:` marker; checklist rows stay `[ ]` — nothing about it is PDF-confirmed, though `__init__` is implemented.
+Has its own spec table — `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf` Table 5.16 — a `Class` table whose `Attribute` section is empty (`-` rows), because every attribute is inherited from `IdentCaption` (Base chain ends in `IdentCaption` → `Identifiable` → `Referrable`). This is **not** the "no own spec table" exception (Rule 1.5/13.1): that exception is for classes with no rendered PDF table at all, not for classes whose rendered PDF `Class` table simply contributes no *new* attributes. The class therefore carries a `# Spec:` line + `# Spec verified: R23-11` marker and a checklist listing only the methods it defines itself (`__init__`, all `[x]`). No deviations: no own attributes to implement; `ident` (0..1, aggr) on `BswServiceDependency` already has parser/writer coverage (`getBswServiceDependencyIdent`).
+
+- **Rule 8 (package location) — OPEN:** the spec `Package` is `DiagnosticExtract::DiagnosticMapping::ServiceMapping`, but the class is currently defined in `BswModuleTemplate/BswBehavior.py` alongside its aggregator `BswServiceDependency` (Table 12.2). The sibling `IdentCaption` subclasses (`ModeAccessPointIdent`, `ExternalTriggeringPointIdent`, `DiagnosticParameterIdent`) are likewise defined next to their aggregators rather than in their nominal spec packages. Relocating would touch the model module, `BswServiceDependency.ident` annotation, parser/writer, top-level `models/__init__.py` exports, and imports in `test_BswBehavior.py` / `test_writer_bsw_module.py`. Deferred pending a separate pass; recorded here so the placement is a known, intentional deviation rather than an unconsidered one.
 
 ## `RoleBasedBswModuleEntryAssignment`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 226

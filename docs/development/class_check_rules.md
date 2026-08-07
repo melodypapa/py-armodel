@@ -362,6 +362,32 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       the class is implemented, switch the field/getter/setter annotation to
       the concrete type (with a `TYPE_CHECKING` import if needed to avoid
       cycles) and clear the deviation.
+- [ ] **Empty-attribute rendering ≠ "no own spec table" (the most common
+      misapplication of this exception).** This exception is triggered by the
+      *absence of any rendered PDF table*, not by the *absence of own
+      attributes*. A class can have its **own** rendered PDF `Class` table
+      (with `Package` / `Base` / `Note` rows and an `Attribute` column whose
+      only row is a `-` / empty row) while contributing **zero new
+      attributes** — every attribute is inherited from its `Base` chain (e.g.
+      an `IdentCaption` subclass such as `BswServiceDependencyIdent`,
+      `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf` Table 5.16, whose Base
+      ends in `IdentCaption` → `Identifiable` → `Referrable` and whose
+      `Attribute` section is empty). Such a class is **not** covered by this
+      exception: it has a spec table, so it **does** carry a `# Spec:` line +
+      `# Spec verified:` marker (Rules 2 / 13.1), and its method-parity
+      checklist lists **only the methods the class itself defines** — which,
+      when the class adds no accessors, is just `__init__`. Those checklist
+      rows are crossed `[x]` once implemented/docstringed/tested exactly like
+      any other class; they do **not** stay `[ ]`. The reliable tell that a
+      class is the *real* exception (no own table) rather than an
+      empty-rendering class is whether a PDF `Class <Name>` heading exists for
+      it at all — grep the markdown for `^Table .*: <ClassName>` (or
+      `| Class   | <ClassName>`). If that heading exists, the class has its own
+      table and must be treated as the empty-rendering case; if it exists
+      nowhere in any PDF, it is the XSD-only case. Do not let "the class has
+      no attributes of its own" shortcut the decision — that wording describes
+      the *superclass contribution*, not the *table existence*, and the two
+      are independent.
 - [ ] Within a `<name>InstanceRef` class itself, its *inner* attributes are
       ordinary Kind `ref` rows (the sub-elements of the instance ref) and
       therefore map to `Optional[RefType]` with the plain `Ref` suffix — do
@@ -1415,6 +1441,17 @@ define the class. Such a class's checklist begins with the rows directly (no
 `# Spec:` line), every row stays `[ ]`, and the deviation tracker records
 "no own spec table; attributes from XSD group `…`".
 
+**This exception is distinct from an empty-attribute-rendering class.**
+A class whose own PDF `Class` table exists but whose `Attribute` section
+contains only a `-` / empty row (all attributes inherited from its `Base`
+chain, e.g. `BswServiceDependencyIdent`, `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`
+Table 5.16) is **not** this exception: it has a spec table, so it **does**
+carry a `# Spec:` line + `# Spec verified:` marker, and its checklist lists
+only the methods the class itself defines (often just `__init__`), each
+crossed `[x]` once tested. The decision rests on whether a `Class <Name>`
+heading exists in any PDF, not on whether the class adds new attributes —
+see the "Empty-attribute rendering ≠ no own spec table" bullet in Rule 1.5.
+
 ```python
 # ClassName method parity checklist:
 # Spec: AUTOSAR_CP_TPS_SomeTemplate.pdf, Table X.Y, p.NN
@@ -1823,6 +1860,14 @@ still paraphrased) is a Rule 13 violation, not a partial credit.
       7 assert that checks for it) applies only to classes that have a spec
       table to be verified against. **This is the same gate as 13.2 step 0 —
       check it once, first, before starting any of the sync work below.**
+      **Empty-attribute-rendering classes are NOT this exception:** a class
+      with its own PDF `Class` table whose `Attribute` section is empty (all
+      attributes inherited, e.g. `BswServiceDependencyIdent`, Table 5.16) has
+      a PDF `Note` to verify against and therefore **does** get the
+      `# Spec verified:` marker and `[x]` checklist rows. The gate is "does a
+      `Class <Name>` heading exist in a PDF?", not "does the class add new
+      attributes?" — see the "Empty-attribute rendering ≠ no own spec table"
+      bullet in Rule 1.5.
 
 ### 13.2 Per-Class Sync Procedure (Initial Alignment or Upgrade)
 

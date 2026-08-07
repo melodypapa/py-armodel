@@ -2108,14 +2108,12 @@ class BswServiceDependencyIdent(IdentCaption):
     """
     This meta-class is created to add the ability to become the target of a reference
     to the non-Referrable BswServiceDependency.
-
-    No own spec table (Rule 1.5/13.1 exception): the class carries no attributes of
-    its own (`BSW-SERVICE-DEPENDENCY-IDENT` group is an empty sequence in the XSD),
-    and its purpose is documented only inline in `BswServiceDependency.ident`'s note.
     """
 
     # BswServiceDependencyIdent method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.16, p.240
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
         """
