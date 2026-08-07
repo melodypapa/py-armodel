@@ -1128,6 +1128,39 @@ class TestWriterServiceNeeds:
         assert algo_elem is not None
         assert algo_elem.find("DIAG-EVENT-DEBOUNCE-TIME-BASED") is not None
 
+    def test_writeErrorTracerNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createErrorTracerNeeds("etn1")
+        dev = needs.createDevelopmentError("dev1")
+        dev.setId(_posint("10"))
+        needs.createRuntimeError("rt1")
+        tf = needs.createTransientFault("tf1")
+        reaction = tf.createPossibleErrorReaction("reac1")
+        reaction.setReactionCode(_posint("99"))
+        parent = _parent()
+        writer.writeErrorTracerNeeds(parent, needs)
+        elem = parent.find("ERROR-TRACER-NEEDS")
+        assert elem is not None
+        failures = elem.find("TRACED-FAILURES")
+        assert failures is not None
+        assert failures.find("DEVELOPMENT-ERROR") is not None
+        assert failures.find("DEVELOPMENT-ERROR/ID").text == "10"
+        assert failures.find("RUNTIME-ERROR") is not None
+        transient = failures.find("TRANSIENT-FAULT")
+        assert transient is not None
+        assert transient.find("POSSIBLE-ERROR-REACTIONS/POSSIBLE-ERROR-REACTION/REACTION-CODE").text == "99"
+
+    def test_writeErrorTracerNeeds_no_failures(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createErrorTracerNeeds("etn1")
+        parent = _parent()
+        writer.writeErrorTracerNeeds(parent, needs)
+        elem = parent.find("ERROR-TRACER-NEEDS")
+        assert elem is not None
+        assert elem.find("TRACED-FAILURES") is None
+
     def test_writeDiagnosticEventNeeds_no_algorithm(self, writer):
         behavior = _make_behavior()
         dep = behavior.createSwcServiceDependency("dep1")
@@ -1236,6 +1269,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         dep.createDtcStatusChangeNotificationNeeds("dsc")
         dep.createDltUserNeeds("dlt")
         dep.createComMgrUserNeeds("com")
+        dep.createErrorTracerNeeds("etn")
         parent = _parent()
         writer.writeSwcServiceDependencyServiceNeeds(parent, dep)
         needs_tag = parent.find("SERVICE-NEEDS")
@@ -1253,6 +1287,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         assert "DTC-STATUS-CHANGE-NOTIFICATION-NEEDS" in tags
         assert "DLT-USER-NEEDS" in tags
         assert "COM-MGR-USER-NEEDS" in tags
+        assert "ERROR-TRACER-NEEDS" in tags
 
     def test_no_needs_no_tag(self, writer):
         behavior = _make_behavior()

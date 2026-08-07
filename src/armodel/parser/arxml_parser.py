@@ -93,12 +93,18 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import Swc
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     ComMgrUserNeeds,
     CryptoServiceNeeds,
+    DevelopmentError,
     DiagEventDebounceCounterBased,
     DiagEventDebounceMonitorInternal,
     DiagEventDebounceTimeBased,
     DltUserNeeds,
+    ErrorTracerNeeds,
+    PossibleErrorReaction,
+    RuntimeError,
     ServiceNeeds,
     SupervisedEntityNeeds,
+    TracedFailure,
+    TransientFault,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import BswMgrNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement, DiagnosticIoControlNeeds, DtcStatusChangeNotificationNeeds
@@ -792,6 +798,10 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = SupervisedEntityNeeds(dependency, short_name)
                 self.readSupervisedEntityNeeds(child_element, needs)
+            elif tag_name == "ERROR-TRACER-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = ErrorTracerNeeds(dependency, short_name)
+                self.readErrorTracerNeeds(child_element, needs)
             else:
                 self.notImplemented("Unsupported service needs <%s>" % tag_name)
                 continue
@@ -963,6 +973,47 @@ class ARXMLParser(AbstractARXMLParser):
         needs.setMinAliveCycle(self.getChildElementOptionalTimeValue(element, "MIN-ALIVE-CYCLE"))
         needs.setToleratedFailedCycles(self.getChildElementOptionalPositiveInteger(element, "TOLERATED-FAILED-CYCLES"))
 
+    def readTracedFailure(self, element: ET.Element, failure: TracedFailure):
+        self.readIdentifiable(element, failure)
+        failure.setId(self.getChildElementOptionalPositiveInteger(element, "ID"))
+
+    def readDevelopmentError(self, element: ET.Element, failure: DevelopmentError):
+        self.readTracedFailure(element, failure)
+
+    def readRuntimeError(self, element: ET.Element, failure: RuntimeError):
+        self.readTracedFailure(element, failure)
+
+    def readPossibleErrorReaction(self, element: ET.Element, reaction: PossibleErrorReaction):
+        self.readIdentifiable(element, reaction)
+        reaction.setReactionCode(self.getChildElementOptionalPositiveInteger(element, "REACTION-CODE"))
+
+    def readTransientFault(self, element: ET.Element, failure: TransientFault):
+        self.readTracedFailure(element, failure)
+        for child_element in self.findall(element, "POSSIBLE-ERROR-REACTIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "POSSIBLE-ERROR-REACTION":
+                reaction = failure.createPossibleErrorReaction(self.getShortName(child_element))
+                self.readPossibleErrorReaction(child_element, reaction)
+            else:
+                self.notImplemented("Unsupported PossibleErrorReaction <%s>" % tag_name)
+
+    def readErrorTracerNeeds(self, element: ET.Element, needs: ErrorTracerNeeds):
+        # self.logger.debug("Read ErrorTracerNeeds <%s>" % needs.getShortName())
+        self.readServiceNeeds(element, needs)
+        for child_element in self.findall(element, "TRACED-FAILURES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "DEVELOPMENT-ERROR":
+                failure = needs.createDevelopmentError(self.getShortName(child_element))
+                self.readDevelopmentError(child_element, failure)
+            elif tag_name == "RUNTIME-ERROR":
+                failure = needs.createRuntimeError(self.getShortName(child_element))
+                self.readRuntimeError(child_element, failure)
+            elif tag_name == "TRANSIENT-FAULT":
+                failure = needs.createTransientFault(self.getShortName(child_element))
+                self.readTransientFault(child_element, failure)
+            else:
+                self.notImplemented("Unsupported traced failure <%s>" % tag_name)
+
     def readSwcServiceDependencyServiceNeeds(self, element: ET.Element, parent: SwcServiceDependency):
         for child_element in self.findall(element, "SERVICE-NEEDS/*"):
             tag_name = self.getTagName(child_element)
@@ -1002,6 +1053,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "COM-MGR-USER-NEEDS":
                 needs = parent.createComMgrUserNeeds(self.getShortName(child_element))
                 self.readComMgrUserNeeds(child_element, needs)
+            elif tag_name == "ERROR-TRACER-NEEDS":
+                needs = parent.createErrorTracerNeeds(self.getShortName(child_element))
+                self.readErrorTracerNeeds(child_element, needs)
             else:
                 self.notImplemented("Unsupported service needs <%s>" % tag_name)
 

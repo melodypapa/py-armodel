@@ -47,6 +47,12 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     ComMgrUserNeeds,
     MaxCommModeEnum,
     SupervisedEntityNeeds,
+    ErrorTracerNeeds,
+    TracedFailure,
+    DevelopmentError,
+    RuntimeError,
+    TransientFault,
+    PossibleErrorReaction,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType, TimeValue
 
@@ -1658,6 +1664,224 @@ class TestDiagnosticEventNeeds:
         result = diag_event.setSecurityAccessLevel(7)
         assert result is diag_event
         assert diag_event.getSecurityAccessLevel() == 7
+
+
+class TestErrorTracerNeeds:
+    def test_initialization(self):
+        """Test ErrorTracerNeeds initialization"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = ErrorTracerNeeds(ar_root, "TestErrorTracerNeeds")
+
+        assert needs is not None
+        assert needs.getShortName() == "TestErrorTracerNeeds"
+        assert needs.getTracedFailures() == []
+
+    def test_get_traced_failures(self):
+        """Test getTracedFailures default value"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = ErrorTracerNeeds(ar_root, "TestErrorTracerNeeds")
+        assert needs.getTracedFailures() == []
+
+    def test_create_development_error(self):
+        """Test createDevelopmentError method"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = ErrorTracerNeeds(ar_root, "TestErrorTracerNeeds")
+
+        failure = needs.createDevelopmentError("DevError")
+        assert isinstance(failure, DevelopmentError)
+        assert failure.getShortName() == "DevError"
+        assert len(needs.getTracedFailures()) == 1
+
+        same = needs.createDevelopmentError("DevError")
+        assert same is failure
+        assert len(needs.getTracedFailures()) == 1
+
+    def test_create_runtime_error(self):
+        """Test createRuntimeError method"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = ErrorTracerNeeds(ar_root, "TestErrorTracerNeeds")
+
+        failure = needs.createRuntimeError("RunError")
+        assert isinstance(failure, RuntimeError)
+        assert failure.getShortName() == "RunError"
+        assert len(needs.getTracedFailures()) == 1
+
+    def test_create_transient_fault(self):
+        """Test createTransientFault method"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = ErrorTracerNeeds(ar_root, "TestErrorTracerNeeds")
+
+        failure = needs.createTransientFault("TransFault")
+        assert isinstance(failure, TransientFault)
+        assert failure.getShortName() == "TransFault"
+        assert len(needs.getTracedFailures()) == 1
+
+    def test_roundtrip_error_tracer_needs(self):
+        """Test parser/writer round trip for ErrorTracerNeeds"""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        swc = ar_root.createApplicationSwComponentType("App")
+        behavior = swc.createSwcInternalBehavior("Behavior")
+        dependency = behavior.createSwcServiceDependency("Dep")
+        needs = dependency.createErrorTracerNeeds("etn")
+
+        dev = needs.createDevelopmentError("dev1")
+        id_value = PositiveInteger()
+        id_value.setValue("10")
+        dev.setId(id_value)
+        needs.createRuntimeError("rt1")
+        tf = needs.createTransientFault("tf1")
+        reaction = tf.createPossibleErrorReaction("reac1")
+        reaction_code = PositiveInteger()
+        reaction_code.setValue("99")
+        reaction.setReactionCode(reaction_code)
+
+        import tempfile
+        import os
+
+        writer = ARXMLWriter()
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as f:
+            writer.save(f.name, document)
+            path = f.name
+        try:
+            parser = ARXMLParser()
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            parser.load(path, document_2)
+            loaded = document_2.find("/AUTOSAR/App/Behavior/Dep/etn")
+            assert loaded is not None
+            failures = loaded.getTracedFailures()
+            assert len(failures) == 3
+            by_name = {f.getShortName(): f for f in failures}
+            assert isinstance(by_name["dev1"], DevelopmentError)
+            assert by_name["dev1"].getId().getValue() == 10
+            assert isinstance(by_name["rt1"], RuntimeError)
+            assert isinstance(by_name["tf1"], TransientFault)
+            assert len(by_name["tf1"].getPossibleErrorReactions()) == 1
+            assert by_name["tf1"].getPossibleErrorReactions()[0].getReactionCode().getValue() == 99
+        finally:
+            os.unlink(path)
+
+
+class TestTracedFailure:
+    def test_abstract_initialization(self):
+        """Test that TracedFailure cannot be instantiated directly"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        with pytest.raises(TypeError):
+            TracedFailure(ar_root, "TestTracedFailure")
+
+    def test_concrete_subclass_initialization(self):
+        """Test abstract TracedFailure __init__ defaults through a concrete subclass"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        failure = DevelopmentError(ar_root, "TestTracedFailure")
+
+        assert failure.getShortName() == "TestTracedFailure"
+        assert failure.getId() is None
+
+    def test_get_set_id(self):
+        """Test getId and setId methods through a concrete subclass"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        failure = DevelopmentError(ar_root, "TestTracedFailure")
+
+        assert failure.getId() is None
+
+        value = PositiveInteger()
+        value.setValue("5")
+        result = failure.setId(value)
+        assert result is failure
+        assert failure.getId() == value
+
+        failure.setId(None)
+        assert failure.getId() == value
+
+
+class TestDevelopmentError:
+    def test_initialization(self):
+        """Test DevelopmentError initialization"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        failure = DevelopmentError(ar_root, "TestDevelopmentError")
+
+        assert failure is not None
+        assert failure.getShortName() == "TestDevelopmentError"
+        assert failure.getId() is None
+
+
+class TestRuntimeError:
+    def test_initialization(self):
+        """Test RuntimeError initialization"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        failure = RuntimeError(ar_root, "TestRuntimeError")
+
+        assert failure is not None
+        assert failure.getShortName() == "TestRuntimeError"
+        assert failure.getId() is None
+
+
+class TestTransientFault:
+    def test_initialization(self):
+        """Test TransientFault initialization"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        failure = TransientFault(ar_root, "TestTransientFault")
+
+        assert failure is not None
+        assert failure.getShortName() == "TestTransientFault"
+        assert failure.getId() is None
+        assert failure.getPossibleErrorReactions() == []
+
+    def test_create_possible_error_reaction(self):
+        """Test createPossibleErrorReaction and getPossibleErrorReactions methods"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        failure = TransientFault(ar_root, "TestTransientFault")
+
+        reaction = failure.createPossibleErrorReaction("Reac")
+        assert isinstance(reaction, PossibleErrorReaction)
+        assert reaction.getShortName() == "Reac"
+        assert len(failure.getPossibleErrorReactions()) == 1
+
+        same = failure.createPossibleErrorReaction("Reac")
+        assert same is reaction
+        assert len(failure.getPossibleErrorReactions()) == 1
+
+
+class TestPossibleErrorReaction:
+    def test_initialization(self):
+        """Test PossibleErrorReaction initialization"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        reaction = PossibleErrorReaction(ar_root, "TestPossibleErrorReaction")
+
+        assert reaction is not None
+        assert reaction.getShortName() == "TestPossibleErrorReaction"
+        assert reaction.getReactionCode() is None
+
+    def test_get_set_reaction_code(self):
+        """Test getReactionCode and setReactionCode methods"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        reaction = PossibleErrorReaction(ar_root, "TestPossibleErrorReaction")
+
+        assert reaction.getReactionCode() is None
+
+        value = PositiveInteger()
+        value.setValue("42")
+        result = reaction.setReactionCode(value)
+        assert result is reaction
+        assert reaction.getReactionCode() == value
+
+        reaction.setReactionCode(None)
+        assert reaction.getReactionCode() == value
 
 
 class TestCryptoServiceNeeds:

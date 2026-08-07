@@ -718,7 +718,43 @@ removed upstream between 4.4.0 and R23-11, so it is treated like an
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `tracedFailure` | `DevelopmentError` | — | missing |
+| — | — | — | — | — | No deviations |
+
+## `TracedFailure`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 263
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — | — | — | — | — | No deviations |
+
+## `DevelopmentError`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 263
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — | — | — | — | — | No deviations |
+
+## `RuntimeError`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 263
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — | — | — | — | — | No deviations |
+
+## `PossibleErrorReaction`
+- **PDF:** *no own spec table*  | **page:** —
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `reactionCode` | `Optional[PositiveInteger]` | `reactionCode` | `PositiveInteger` (XSD `REACTION-CODE`) | attr | no own spec table; attributes from XSD group `POSSIBLE-ERROR-REACTION` |
 
 ## `ARPackage`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 300
@@ -1940,7 +1976,7 @@ Aligned to `class_check_rules.md` on 2026-08-07. PDF-synced (Rule 1):
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `possibleErrorReaction` | `PossibleErrorReaction` | — | missing |
+| — | — | — | — | — | No deviations |
 
 ## `CanCluster`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 62

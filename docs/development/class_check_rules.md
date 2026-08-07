@@ -514,6 +514,28 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
          with its duplicate-by-short-name return behavior (Rule 4) — exists
          **only** for children whose `Base` lists `Referrable`/
          `Identifiable`.
+- [ ] **An abstract aggregated child gets one `createXxx<Subtype>(short_name)`
+      factory per concrete subtype, whatever the multiplicity.** When the
+      spec `Attribute` type is an *abstract* class with concrete subtypes
+      (e.g. `TracedFailure` (abstract) → `DevelopmentError`/`RuntimeError`/
+      `TransientFault`), the aggregator cannot expose a single
+      `createTracedFailure(short_name)` — the abstract type is not
+      instantiable — nor a plain `addTracedFailure(value)` (the parser has
+      no way to know which subtype to build from a bare value). Instead it
+      exposes one factory per concrete subtype, each writing the same
+      slot/list: for `0..1` (e.g. `DiagnosticEventNeeds.diagEventDebounceAlgorithm`)
+      `createDiagEventDebounceCounterBased(short_name)`/`…MonitorInternal`/`…TimeBased`
+      each assign the single field; for `*` (e.g.
+      `ErrorTracerNeeds.tracedFailure`) `createDevelopmentError(short_name)`/
+      `createRuntimeError(short_name)`/`createTransientFault(short_name)`
+      each append to the `tracedFailures` list and return the created (or
+      existing, per Rule 4) element. The parser dispatches on the XSD child
+      element tag (`DEVELOPMENT-ERROR`/`RUNTIME-ERROR`/`TRANSIENT-FAULT`)
+      to the matching factory; the writer dispatches on `isinstance`. This
+      is the polymorphic-dispatch shape of Rule 1.7 applied to an *aggregated
+      child* — the list case differs from a plain `*` list only in that the
+      parser's per-item element tag selects the subtype factory instead of
+      an `addXxx` call.
 
 ### 1.7 Parser and writer coverage
 
@@ -556,6 +578,21 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       silently dropped on round-trip even when its model and mirrored tests
       are complete — grep the parser and writer for the element tag before
       declaring the class aligned.
+- [ ] **Polymorphic dispatch nests — a concrete subtype that itself
+      aggregates is its own level of dispatch.** The five-place pattern
+      applies at the top-level aggregator; a subtype that owns an aggregated
+      or polymorphic attribute is *itself* a dispatcher with its own factory
+      + parser loop + writer loop + dispatch tests for its children (e.g.
+      `ErrorTracerNeeds.tracedFailure` dispatches
+      `TRACED-FAILURES` → `DEVELOPMENT-ERROR`/`RUNTIME-ERROR`/`TRANSIENT-FAULT`,
+      and the `TransientFault` subtype in turn dispatches its own
+      `POSSIBLE-ERROR-REACTIONS` → `POSSIBLE-ERROR-REACTION` at the next
+      level). Cover each level independently: the outer dispatch tests assert
+      every outer subtype is routed, and the inner level has its own
+      wrapper-list round-trip tests. Do not assume covering the outer level
+      exercises the inner one — an aligned `transientFault` parse reads
+      `POSSIBLE-ERROR-REACTIONS` from *its own* element, unrelated to the
+      outer `TRACED-FAILURES` loop.
 - [ ] A concrete `<name>InstanceRef` subclass is a polymorphic type like any
       other subtype: it needs a parser `readXxx`/`getXxxIRef` dispatch branch
       and a matching writer `writeXxx`/`setXxxIRef` branch, plus dispatch-test
@@ -683,6 +720,20 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       codebase-consistent and schema-valid — pick one shape and record the
       choice in the tracker, do not leave a `missing` row for the unwrapped
       variant.
+      **Attribute-level `atpVariation` is not the same as a class-level
+      `<<atpVariation>>` header.** When the *attribute's* `Note` lists
+      `Stereotypes: … atpVariation` (e.g. `ErrorTracerNeeds.tracedFailure`,
+      whose Note reads "Stereotypes: atpSplitable; atpVariation"), the
+      stereotype is resolved at the XSD by *flattening the multiplicity* —
+      the XSD `documentation` even says so: "The upper multiplicity of this
+      role has been increased to `*` due to resolving an atpVariation
+      stereotype" — into a **plain wrapper list** (`<TRACED-FAILURES>` with
+      `DEVELOPMENT-ERROR`/`RUNTIME-ERROR`/`TRANSIENT-FAULT` items, Rule 1.7),
+      **not** a `VARIANTS/CONDITIONAL` wrapper. Only the *class-header*
+      `<<atpVariation>>` stereotype produces the `VARIANTS/CONDITIONAL`
+      shape. Before assuming a conditional wrapper, check the XSD group for a
+      `<NAME>-VARIANTS` element: an attribute-level stereotype whose XSD
+      group has no `-VARIANTS` element is the ordinary wrapper-list pattern.
 - [ ] **Identity-only child serialization is a debt to be repaid by the
       child's own pass.** The identity-only shape above is deliberately
       lossy for everything except the item's existence, and for a plain
@@ -833,6 +884,39 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       literals' UPPER_CASE form and correct the values — and update its
       checklist/marker; the referencing class's accessor annotations then
       simply retype to the corrected enum.
+      **A stub can be a whole *family* — align the transitive closure, not
+      just the directly-referenced child.** When the spec `Attribute` type
+      is an abstract class whose own `Subclasses` row names concrete
+      subtypes, and those subtypes aggregate yet another class, a
+      placeholder implementation may stub **the entire family**: the
+      abstract base and every subtype as plain `ARObject` with `__init__(self)`
+      and invented fields that appear in no spec table (e.g.
+      `ErrorTracerNeeds.tracedFailure` → abstract `TracedFailure` with
+      fabricated `failureCode`/`failureDescription`, its subtypes
+      `DevelopmentError`/`RuntimeError` with fabricated
+      `errorCode`/`errorDescription`, `TransientFault` with fabricated
+      `faultCode`/`faultDescription`, and the missing XSD-only
+      `PossibleErrorReaction`). The stub-family fix is one coordinated
+      pass over the closure, driven by each class's own spec `Base` column:
+      realign the abstract base to its spec base (`TracedFailure` →
+      `Identifiable, ABC` with `__init__(self, parent, short_name)` and its
+      real `id` attribute), re-type every subtype to inherit it
+      (`DevelopmentError(TracedFailure)`, …), delete all fabricated fields
+      (Rule 1.3), implement the missing XSD-only grandchild first
+      (`PossibleErrorReaction`, Identifiable-based, `reactionCode`), and add
+      the aggregator's per-subtype create factories + parser/writer dispatch
+      (Rule 1.6/1.7). Do **not** stop after aligning only the directly
+      referenced child — a subtype left as an `ARObject` stub with invented
+      fields silently round-trips nothing even though the parent's list is
+      "aligned".
+      **Sibling subtype tables can carry a copy-pasted spec Note.** When one
+      subtype's table `Note` is a verbatim duplicate of a sibling's (e.g.
+      `TransientFault` Table E.50 and `RuntimeError` Table 12.39 both read
+      "The reported failure is classified as runtime error."), mirror each
+      table's own Note verbatim in that subtype's docstring — do **not**
+      "fix" the duplication by inventing a distinct description. Each
+      subtype's docstring is a provenance statement of *its* table, and the
+      subtypes may live in different PDFs (Rule 1.11).
       **Exception — a class with no own spec table is not a stub.** A
       referenced class whose attributes are XSD-only, with no rendered PDF
       table of its own (Rule 1.5, e.g. a concrete `<name>InstanceRef`),
@@ -932,6 +1016,18 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       arrangement can differ between PDFs even when the attribute rows are
       identical, so base the member order on the agreement, not on one
       document's pagination.
+- [ ] **A polymorphic family can span PDFs — each subtype cites its own
+      table.** The abstract parent and some subtypes may render in one PDF
+      while another subtype's table lives in a different one (e.g. the
+      `TracedFailure` family: the abstract base plus `DevelopmentError`/
+      `RuntimeError` are BSWModuleDescriptionTemplate Tables 12.36–12.39,
+      while `TransientFault`'s own table — carrying its sole
+      `possibleErrorReaction` attribute — is SoftwareComponentTemplate Table
+      E.50). When aligning a subtype, do **not** cite the parent's table or
+      read its attributes from the parent's rows: search the other PDF for
+      the subtype name and use *its* table for the `# Spec:` citation, the
+      member order, and the attribute set. A subtype's own attributes are
+      invisible if you only read the family's parent table.
 - [ ] Within one attribute, the accessor pair order is `getXxx` then
       `setXxx` (or `addXxx`/`getXxxs` for list attributes) — getter before
       setter for each attribute, mirroring the sibling classes that are already

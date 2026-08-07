@@ -1880,6 +1880,37 @@ class TestAdditionalOrchestratorCoverage:
             warning_parser.readSwcServiceDependencyServiceNeeds(element, dependency)
         assert any("Unsupported" in r.getMessage() for r in caplog.records)
 
+    def test_readErrorTracerNeeds_dispatch(self, parser):
+        from armodel.models import SwcServiceDependency, ApplicationSwComponentType
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip(
+            "<SERVICE-NEEDS>"
+            "<ERROR-TRACER-NEEDS><SHORT-NAME>etn</SHORT-NAME>"
+            "<TRACED-FAILURES>"
+            "<DEVELOPMENT-ERROR><SHORT-NAME>dev1</SHORT-NAME><ID>10</ID></DEVELOPMENT-ERROR>"
+            "<RUNTIME-ERROR><SHORT-NAME>rt1</SHORT-NAME></RUNTIME-ERROR>"
+            "<TRANSIENT-FAULT><SHORT-NAME>tf1</SHORT-NAME>"
+            "<POSSIBLE-ERROR-REACTIONS><POSSIBLE-ERROR-REACTION><SHORT-NAME>reac1</SHORT-NAME><REACTION-CODE>99</REACTION-CODE></POSSIBLE-ERROR-REACTION></POSSIBLE-ERROR-REACTIONS>"
+            "</TRANSIENT-FAULT>"
+            "</TRACED-FAILURES>"
+            "</ERROR-TRACER-NEEDS>"
+            "</SERVICE-NEEDS>",
+            root_tag="SWC-SERVICE-DEPENDENCY",
+        )
+        parser.readSwcServiceDependencyServiceNeeds(element, dependency)
+        needs = dependency.getErrorTracerNeeds()
+        assert len(needs) == 1
+        failures = needs[0].getTracedFailures()
+        assert len(failures) == 3
+        by_name = {f.getShortName(): f for f in failures}
+        assert by_name["dev1"].getId().getValue() == 10
+        assert by_name["rt1"].getId() is None
+        assert len(by_name["tf1"].getPossibleErrorReactions()) == 1
+        assert by_name["tf1"].getPossibleErrorReactions()[0].getReactionCode().getValue() == 99
+
     def test_readRunnableEntityServerCallPoints_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import ApplicationSwComponentType
 
@@ -2020,6 +2051,7 @@ class TestSwcServiceDependencyServiceNeeds:
             "DTC-STATUS-CHANGE-NOTIFICATION-NEEDS",
             "DLT-USER-NEEDS",
             "COM-MGR-USER-NEEDS",
+            "ERROR-TRACER-NEEDS",
         ],
     )
     def test_service_needs_branches(self, parser, tag):

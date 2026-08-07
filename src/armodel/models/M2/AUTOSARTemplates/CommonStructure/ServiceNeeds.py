@@ -2195,40 +2195,79 @@ class CryptoServiceJobNeeds(ServiceNeeds):
         super().__init__(parent, short_name)
 
 
-class DevelopmentError(ARObject):
+class TracedFailure(Identifiable, ABC):
     """
-    Represents a development error in AUTOSAR models.
-    This class defines information about development errors for error handling.
+    Specifies the ability to report a specific failure to the error tracer. The short name specifies the literal applicable for the Default Error Tracer.
+    """
+
+    # TracedFailure method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.37, p.263
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getId                        [x] impl  [x] docstring  [x] test
+    # [x] setId                        [x] impl  [x] docstring  [x] test
+
+    def __init__(self, parent: ARObject, short_name: str):
+        """
+        Initializes the TracedFailure with a parent and short name.
+        Raises TypeError if this abstract class is instantiated directly.
+
+        Args:
+            parent: The parent ARObject that contains this traced failure
+            short_name: The unique short name of this traced failure
+        """
+        if type(self) is TracedFailure:
+            raise TypeError("TracedFailure is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+        # ID of detected failure used in reporting API as error or fault id.
+        self.id: Optional[PositiveInteger] = None
+
+    def getId(self) -> Optional[PositiveInteger]:
+        """
+        Gets the ID of detected failure used in reporting API as error or fault id.
+
+        Returns:
+            PositiveInteger instance, or None if not set
+        """
+        return self.id
+
+    def setId(self, value: Optional[PositiveInteger]) -> "TracedFailure":
+        """
+        Sets the ID of detected failure used in reporting API as error or fault id.
+        A None value is a no-op and does not overwrite an existing id.
+
+        Args:
+            value: The PositiveInteger instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.id = value
+        return self
+
+
+class DevelopmentError(TracedFailure):
+    """
+    The reported failure is classified as development error.
     """
 
     # DevelopmentError method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getErrorCode                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setErrorCode                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getErrorDescription          [x] impl  [ ] docstring  [ ] test
-    # [ ] setErrorDescription          [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.38, p.263
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
 
-    def __init__(self):
+    def __init__(self, parent: ARObject, short_name: str):
         """
-        Initializes the DevelopmentError with default values.
+        Initializes the DevelopmentError with a parent and short name.
+
+        Args:
+            parent: The parent ARObject that contains this development error
+            short_name: The unique short name of this development error
         """
-        super().__init__()
-        self.errorCode: Integer = None
-        self.errorDescription: String = None
-
-    def getErrorCode(self):
-        return self.errorCode
-
-    def setErrorCode(self, value):
-        self.errorCode = value
-        return self
-
-    def getErrorDescription(self):
-        return self.errorDescription
-
-    def setErrorDescription(self, value):
-        self.errorDescription = value
-        return self
+        super().__init__(parent, short_name)
 
 
 class DiagnosticComponentNeeds(ServiceNeeds):
@@ -2730,12 +2769,17 @@ class DoIpServiceNeeds(ServiceNeeds):
 
 class ErrorTracerNeeds(ServiceNeeds):
     """
-    Represents Error Tracer needs in AUTOSAR models.
-    This class defines requirements for error tracing services.
+    Specifies the need to report failures to the error tracer.
     """
 
     # ErrorTracerNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.36, p.263
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getTracedFailures            [x] impl  [x] docstring  [x] test
+    # [x] createDevelopmentError       [x] impl  [x] docstring  [x] test
+    # [x] createRuntimeError           [x] impl  [x] docstring  [x] test
+    # [x] createTransientFault         [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -2746,6 +2790,66 @@ class ErrorTracerNeeds(ServiceNeeds):
             short_name: The unique short name of this error tracer needs
         """
         super().__init__(parent, short_name)
+
+        # list of traced failures
+        self.tracedFailures: List[TracedFailure] = []
+
+    def getTracedFailures(self) -> List[TracedFailure]:
+        """
+        Gets the list of traced failures.
+
+        Returns:
+            List of TracedFailure instances
+        """
+        return self.tracedFailures
+
+    def createDevelopmentError(self, short_name: str) -> DevelopmentError:
+        """
+        Creates and adds a DevelopmentError traced failure for the error tracer.
+
+        Args:
+            short_name: The short name for the new development error
+
+        Returns:
+            The created DevelopmentError instance
+        """
+        if not self.IsElementExists(short_name):
+            failure = DevelopmentError(self, short_name)
+            self.addElement(failure)
+            self.tracedFailures.append(failure)
+        return self.getElement(short_name)
+
+    def createRuntimeError(self, short_name: str) -> RuntimeError:
+        """
+        Creates and adds a RuntimeError traced failure for the error tracer.
+
+        Args:
+            short_name: The short name for the new runtime error
+
+        Returns:
+            The created RuntimeError instance
+        """
+        if not self.IsElementExists(short_name):
+            failure = RuntimeError(self, short_name)
+            self.addElement(failure)
+            self.tracedFailures.append(failure)
+        return self.getElement(short_name)
+
+    def createTransientFault(self, short_name: str) -> TransientFault:
+        """
+        Creates and adds a TransientFault traced failure for the error tracer.
+
+        Args:
+            short_name: The short name for the new transient fault
+
+        Returns:
+            The created TransientFault instance
+        """
+        if not self.IsElementExists(short_name):
+            failure = TransientFault(self, short_name)
+            self.addElement(failure)
+            self.tracedFailures.append(failure)
+        return self.getElement(short_name)
 
 
 class EventAcceptanceStatusEnum(AREnum):
@@ -3182,40 +3286,25 @@ class OperationCycleTypeEnum(AREnum):
         )
 
 
-class RuntimeError(ARObject):
+class RuntimeError(TracedFailure):
     """
-    Represents a runtime error in AUTOSAR models.
-    This class defines information about runtime errors for error handling.
+    The reported failure is classified as runtime error.
     """
 
     # RuntimeError method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getErrorCode                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setErrorCode                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getErrorDescription          [x] impl  [ ] docstring  [ ] test
-    # [ ] setErrorDescription          [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.39, p.263
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
 
-    def __init__(self):
+    def __init__(self, parent: ARObject, short_name: str):
         """
-        Initializes the RuntimeError with default values.
+        Initializes the RuntimeError with a parent and short name.
+
+        Args:
+            parent: The parent ARObject that contains this runtime error
+            short_name: The unique short name of this runtime error
         """
-        super().__init__()
-        self.errorCode: Integer = None
-        self.errorDescription: String = None
-
-    def getErrorCode(self):
-        return self.errorCode
-
-    def setErrorCode(self, value):
-        self.errorCode = value
-        return self
-
-    def getErrorDescription(self):
-        return self.errorDescription
-
-    def setErrorDescription(self, value):
-        self.errorDescription = value
-        return self
+        super().__init__(parent, short_name)
 
 
 class SecureOnBoardCommunicationNeeds(ServiceNeeds):
@@ -3567,76 +3656,103 @@ class SyncTimeBaseMgrUserNeeds(ServiceNeeds):
         super().__init__(parent, short_name)
 
 
-class TracedFailure(ARObject):
+class PossibleErrorReaction(Identifiable):
     """
-    Represents a Traced Failure in AUTOSAR models.
-    This class defines information about traced failures for error handling.
+    Describes a possible error reaction code for the transient fault handler.
     """
 
-    # TracedFailure method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getFailureCode               [x] impl  [ ] docstring  [ ] test
-    # [ ] setFailureCode               [x] impl  [ ] docstring  [ ] test
-    # [ ] getFailureDescription        [x] impl  [ ] docstring  [ ] test
-    # [ ] setFailureDescription        [x] impl  [ ] docstring  [ ] test
+    # PossibleErrorReaction method parity checklist:
+    # [ ] __init__                     [ ] impl  [ ] docstring  [ ] test
+    # [ ] getReactionCode              [ ] impl  [ ] docstring  [ ] test
+    # [ ] setReactionCode              [ ] impl  [ ] docstring  [ ] test
 
-    def __init__(self):
+    def __init__(self, parent: ARObject, short_name: str):
         """
-        Initializes the TracedFailure with default values.
+        Initializes the PossibleErrorReaction with a parent and short name.
+
+        Args:
+            parent: The parent ARObject that contains this possible error reaction
+            short_name: The unique short name of this possible error reaction
         """
-        super().__init__()
-        self.failureCode: Integer = None
-        self.failureDescription: String = None
+        super().__init__(parent, short_name)
 
-    def getFailureCode(self):
-        return self.failureCode
+        # Fault reaction code which can be returned by transient fault handler.
+        self.reactionCode: Optional[PositiveInteger] = None
 
-    def setFailureCode(self, value):
-        self.failureCode = value
+    def getReactionCode(self) -> Optional[PositiveInteger]:
+        """
+        Gets the fault reaction code which can be returned by transient fault handler.
+
+        Returns:
+            PositiveInteger instance, or None if not set
+        """
+        return self.reactionCode
+
+    def setReactionCode(self, value: Optional[PositiveInteger]) -> "PossibleErrorReaction":
+        """
+        Sets the fault reaction code which can be returned by transient fault handler.
+        A None value is a no-op and does not overwrite an existing reactionCode.
+
+        Args:
+            value: The PositiveInteger instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.reactionCode = value
         return self
 
-    def getFailureDescription(self):
-        return self.failureDescription
 
-    def setFailureDescription(self, value):
-        self.failureDescription = value
-        return self
-
-
-class TransientFault(ARObject):
+class TransientFault(TracedFailure):
     """
-    Represents a Transient Fault in AUTOSAR models.
-    This class defines information about transient faults for error handling.
+    The reported failure is classified as runtime error.
     """
 
     # TransientFault method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getFaultCode                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setFaultCode                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getFaultDescription          [x] impl  [ ] docstring  [ ] test
-    # [ ] setFaultDescription          [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table E.50, p.1009
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] createPossibleErrorReaction  [x] impl  [x] docstring  [x] test
+    # [x] getPossibleErrorReactions    [x] impl  [x] docstring  [x] test
 
-    def __init__(self):
+    def __init__(self, parent: ARObject, short_name: str):
         """
-        Initializes the TransientFault with default values.
+        Initializes the TransientFault with a parent and short name.
+
+        Args:
+            parent: The parent ARObject that contains this transient fault
+            short_name: The unique short name of this transient fault
         """
-        super().__init__()
-        self.faultCode: Integer = None
-        self.faultDescription: String = None
+        super().__init__(parent, short_name)
 
-    def getFaultCode(self):
-        return self.faultCode
+        # Describes a possible error reactions for the transient fault handler.
+        self.possibleErrorReactions: List[PossibleErrorReaction] = []
 
-    def setFaultCode(self, value):
-        self.faultCode = value
-        return self
+    def createPossibleErrorReaction(self, short_name: str) -> PossibleErrorReaction:
+        """
+        Creates and adds a possible error reaction for the transient fault handler.
 
-    def getFaultDescription(self):
-        return self.faultDescription
+        Args:
+            short_name: The short name for the new possible error reaction
 
-    def setFaultDescription(self, value):
-        self.faultDescription = value
-        return self
+        Returns:
+            The created PossibleErrorReaction instance
+        """
+        if not self.IsElementExists(short_name):
+            reaction = PossibleErrorReaction(self, short_name)
+            self.addElement(reaction)
+            self.possibleErrorReactions.append(reaction)
+        return self.getElement(short_name)
+
+    def getPossibleErrorReactions(self) -> List[PossibleErrorReaction]:
+        """
+        Gets the possible error reactions for the transient fault handler.
+
+        Returns:
+            List of PossibleErrorReaction instances
+        """
+        return self.possibleErrorReactions
 
 
 class V2xDataManagerNeeds(ServiceNeeds):
