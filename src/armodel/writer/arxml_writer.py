@@ -86,7 +86,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.Memo
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import MeasuredStackUsage, RoughEstimateStackUsage, StackUsage, WorstCaseStackUsage
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagEventDebounceMonitorInternal, DltUserNeeds, ServiceNeeds
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ComMgrUserNeeds, CryptoServiceNeeds, DiagEventDebounceMonitorInternal, DltUserNeeds, ServiceNeeds, SupervisedEntityNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import BswMgrNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement, DtcStatusChangeNotificationNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCommunicationManagerNeeds, DiagnosticEventInfoNeeds
@@ -1802,6 +1802,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDtcStatusChangeNotificationNeeds(child_element, needs)
         elif isinstance(needs, DltUserNeeds):
             self.writeDltUserNeeds(child_element, needs)
+        elif isinstance(needs, ComMgrUserNeeds):
+            self.writeComMgrUserNeeds(child_element, needs)
+        elif isinstance(needs, SupervisedEntityNeeds):
+            self.writeSupervisedEntityNeeds(child_element, needs)
         else:
             self.notImplemented("Unsupported service needs <%s>" % type(needs))
 
@@ -1967,6 +1971,28 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DLT-USER-NEEDS")
         self.writeServiceNeeds(child_element, needs)
 
+    def writeComMgrUserNeeds(self, element: ET.Element, needs: ComMgrUserNeeds):
+        # self.logger.debug("Write ComMgrUserNeeds %s" % needs.getShortName())
+        child_element = ET.SubElement(element, "COM-MGR-USER-NEEDS")
+        self.writeServiceNeeds(child_element, needs)
+        self.setChildElementOptionalLiteral(child_element, "MAX-COMM-MODE", needs.getMaxCommMode())
+
+    def writeSupervisedEntityNeeds(self, element: ET.Element, needs: SupervisedEntityNeeds):
+        child_element = ET.SubElement(element, "SUPERVISED-ENTITY-NEEDS")
+        self.writeServiceNeeds(child_element, needs)
+        self.setChildElementOptionalBooleanValue(child_element, "ACTIVATE-AT-START", needs.getActivateAtStart())
+        refs = needs.getCheckpointsRefs()
+        if len(refs) > 0:
+            wrapper = ET.SubElement(child_element, "CHECKPOINTSS")
+            for ref in refs:
+                cond_tag = ET.SubElement(wrapper, "SUPERVISED-ENTITY-CHECKPOINT-NEEDS-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(cond_tag, "SUPERVISED-ENTITY-CHECKPOINT-NEEDS-REF", ref)
+        self.setChildElementOptionalBooleanValue(child_element, "ENABLE-DEACTIVATION", needs.getEnableDeactivation())
+        self.setChildElementOptionalTimeValue(child_element, "EXPECTED-ALIVE-CYCLE", needs.getExpectedAliveCycle())
+        self.setChildElementOptionalTimeValue(child_element, "MAX-ALIVE-CYCLE", needs.getMaxAliveCycle())
+        self.setChildElementOptionalTimeValue(child_element, "MIN-ALIVE-CYCLE", needs.getMinAliveCycle())
+        self.setChildElementOptionalPositiveInteger(child_element, "TOLERATED-FAILED-CYCLES", needs.getToleratedFailedCycles())
+
     def writeSwcServiceDependencyServiceNeeds(self, element: ET.Element, parent: SwcServiceDependency):
         needs_list = parent.getServiceNeeds()
         if len(needs_list) > 0:
@@ -1992,6 +2018,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeDtcStatusChangeNotificationNeeds(child_element, needs)
                 elif isinstance(needs, DltUserNeeds):
                     self.writeDltUserNeeds(child_element, needs)
+                elif isinstance(needs, ComMgrUserNeeds):
+                    self.writeComMgrUserNeeds(child_element, needs)
                 else:
                     self.notImplemented("Unsupported service needs <%s>" % type(needs))
 

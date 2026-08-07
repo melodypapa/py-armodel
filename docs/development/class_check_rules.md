@@ -569,6 +569,24 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       `<MC-VARIABLE-INSTANCES>` wrappers each containing `<MC-DATA-INSTANCE>`
       (the type `McDataInstance`). A ref wrapper's item tag *is* the attribute
       base plus `-REF` (`MEASURABLE-SYSTEM-CONSTANT-VALUES-REFS/MEASURABLE-SYSTEM-CONSTANT-VALUES-REF`).
+      **`-REF-CONDITIONAL` items (atpVariation directed associations).** Some
+      `ref` wrappers hold `<NAME>-REF-CONDITIONAL` items instead of plain
+      `<NAME>-REF`: the element group's `mmt.qualifiedName` still names the
+      attribute, but each item is a conditional-ref element with an inner
+      `<NAME>-REF` and an optional CONDITION/VARIATION-POINT child
+      (e.g. `SupervisedEntityNeeds.checkpoints` → `CHECKPOINTSS` wrapper →
+      `SUPERVISED-ENTITY-CHECKPOINT-NEEDS-REF-CONDITIONAL` items → inner
+      `SUPERVISED-ENTITY-CHECKPOINT-NEEDS-REF`). The codebase convention is
+      uniform with all other conditional-ref usages: model the attribute as
+      plain `List[RefType]` (the condition/variation-point is dropped — the
+      XSD type name `<NAME>-REF-CONDITIONAL` is a framework-generated
+      directed-association wrapper, not a class to implement), parse with
+      `getChildElementRefTypeList(element, "WRAPPER/NAME-REF-CONDITIONAL/NAME-REF")`,
+      and write by emitting the wrapper only when non-empty with one
+      `NAME-REF-CONDITIONAL` per entry containing the inner `NAME-REF`
+      (mirroring `writeBswModuleEntityIssuedTriggerRefs`). The already-plural
+      base keeps its plural form: `checkpoints` → field `checkpointsRefs`,
+      `addCheckpointsRef`/`getCheckpointsRefs` (Rule 1.5).
       Read the item tag from the XSD `choice`/element declaration — do not
       derive it from the attribute name or the type name by rule of thumb.
       An **iref** wrapper follows the same container pattern: the wrapper is
@@ -747,6 +765,18 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       follow-up. This keeps the pass self-contained: aligning a parent whose
       child is a stub otherwise immediately re-opens as the Rule 1.7
       identity-only debt above.
+      **The same test applies to a referenced enum attribute type.** An
+      existing enum whose members exist but do **not** match its own
+      `Enumeration` spec table gives the referencing attribute a correct
+      *type* and wrong *values*: the member set and/or member strings are
+      placeholder-shaped (e.g. `MaxCommModeEnum`'s `FULL_COMMUNICATION =
+      "full-communication"` before alignment, while spec Table 13.6 defines
+      the literals `full`/`none`/`silent`), so the referencing class aligns on
+      paper and serializes garbage enum values. Realign the enum against its
+      own table (Rule 12) in the same pass — rename members to the spec
+      literals' UPPER_CASE form and correct the values — and update its
+      checklist/marker; the referencing class's accessor annotations then
+      simply retype to the corrected enum.
       **Exception — a class with no own spec table is not a stub.** A
       referenced class whose attributes are XSD-only, with no rendered PDF
       table of its own (Rule 1.5, e.g. a concrete `<name>InstanceRef`),
@@ -927,6 +957,17 @@ Check:
 - [ ] Verify the enum members: every literal row in the spec table must have a
       corresponding Python enum member. There must be **no extra members** (not
       in spec) and **no missing members** (in spec but not in code).
+      **Placeholder member shapes are the common wrong-set failure.** A
+      placeholder enum from an earlier stage often keeps the *right number* of
+      members with plausible-but-invented values — hyphenated or suffixed
+      values (`full-communication` for spec `full`), paraphrased names
+      (`FULL_COMMUNICATION` for spec `FULL`), or values split/joined differently
+      than the spec literal. A right-count/wrong-value enum passes a
+      member-count check and a spot check of "are there members?", so verify
+      each member's string value 1:1 against the `Literal` column (the XSD
+      `mmt.qualifiedName` tag is the same camelCase literal, e.g.
+      `MaxCommModeEnum.full`) and the member name against the literal's
+      UPPER_CASE conversion.
 - [ ] Enum member naming: convert the spec literal to Python UPPER_CASE naming.
       Example: spec literal `derivedFrom` → Python member `DERIVED_FROM`.
 - [ ] Enum member value: the string value must **exactly match** the spec literal
@@ -1503,6 +1544,22 @@ Check:
 `# Spec: <PDF-filename>.pdf, Table <X.Y>, p.<page>`
 - The PDF filename must match exactly (check the actual PDF file name in the
   repo).
+- **A class whose table renders in more than one PDF cites one PDF, chosen by
+  sibling-family consistency.** Many classes are rendered in several templates
+  with the *same* package and attribute rows (e.g. `ComMgrUserNeeds` appears
+  as both BSWModuleDescriptionTemplate Table 12.13 and SoftwareComponentTemplate
+  Table 13.5). Cite the PDF that the class's sibling family already uses for
+  its `# Spec:` lines (the deviation tracker's `**PDF:**`/`**page:**` header is
+  a reliable signal — it names the same document, e.g. the other
+  `ServiceNeeds` subclasses all cite the BSW template), and keep that choice
+  stable across the family; do **not** cite different PDFs for sibling classes
+  that share a package and table structure. For the *enum attribute type*
+  of such a class, the citation is independent: cite the PDF that renders the
+  enum's own `Enumeration` table, which can be a different document than the
+  class's (e.g. `MaxCommModeEnum` Table 13.6 lives only in the
+  SoftwareComponentTemplate even though the class that uses it cites the BSW
+  template). Verify the enum's page in *its* PDF (with `pypdf`, matching the
+  printed footer) rather than reusing the class's page.
 - Table number must be in format `X.Y` (e.g., `5.38`, not `5-38` or `538`).
 - The page number must **always** be present — a `# Spec:` line without
   `p.<page>` is a violation. Page number is from the PDF's own printed page
@@ -1599,14 +1656,17 @@ field-to-spec cross-check is the gate, not the checklist.
       the `ResourceConsumption` package submodules likewise import
       `HardwareConfiguration`/`SoftwareContext` under `TYPE_CHECKING`).
       **`from __future__ import annotations` is also the mechanism for
-      intra-module forward references** — a parent class whose annotations name
-      a child class declared *later in the same module* (e.g. `McGroup`'s
-      `Optional[McGroupDataRefSet]` fields/getters while `McGroupDataRefSet` is
-      defined below it). The aggregator/ARElement parent is conventionally
-      declared first; do **not** reorder the classes or move the child up to
-      satisfy the annotations — the future-import resolves the name lazily, and
-      `TYPE_CHECKING` alone is insufficient because it does not defer local
-      names. This is the single-module analogue of the cross-package case.
+      intra-module forward references** — any annotation that names a class
+      declared *later in the same module*, not just an aggregated child
+      (e.g. `McGroup`'s `Optional[McGroupDataRefSet]` fields/getters while
+      `McGroupDataRefSet` is defined below it, or `ComMgrUserNeeds`'s
+      `Optional[MaxCommModeEnum]` accessors while the enum is defined later in
+      the same `ServiceNeeds` module). The aggregator/ARElement parent is
+      conventionally declared first; do **not** reorder the classes or move
+      the referenced type up to satisfy the annotations — the future-import
+      resolves the name lazily, and `TYPE_CHECKING` alone is insufficient
+      because it does not defer local names. This is the single-module
+      analogue of the cross-package case.
 - [ ] A blank line separates each attribute block (comment + assignment) in
       `__init__`.
 - [ ] Code is formatted with Black at `line-length = 200` (per `pyproject.toml`,
@@ -1632,6 +1692,16 @@ separate logical units within the class.
 Check:
 - [ ] Every attribute in `__init__` has a blank line before and after its
       comment + assignment block.
+      **This is a manual-only check — Black and flake8 do not enforce it.**
+      Black leaves a run of contiguous `# comment / self.field = …` blocks
+      untouched (it only separates top-level statements), and the flake8 syntax
+      set catches nothing, so a class can pass `black-check`, `flake8`, the
+      set-based checklist, and all tests while its `__init__` fields are glued
+      together (this happened to `AliasNameAssignment` and
+      `SupervisedEntityNeeds` during alignment — the fields were written
+      contiguously and nothing flagged it). Verify spacing by eye or with a
+      small AST audit: in `__init__`, between consecutive field assignments the
+      intervening lines must contain a blank line.
 - [ ] Every enum literal block (inline comment + `NAME = "value"`) is
       separated from the next by exactly one blank line.
 - [ ] Every method is preceded by a blank line (except the first method

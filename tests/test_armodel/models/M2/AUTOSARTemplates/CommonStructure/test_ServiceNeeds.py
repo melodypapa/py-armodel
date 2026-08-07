@@ -3,8 +3,14 @@ This module contains comprehensive tests for the ServiceNeeds.py file
 in the AUTOSAR CommonStructure module.
 """
 
+import os
+import tempfile
+
 import pytest
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
+from armodel.parser.arxml_parser import ARXMLParser
+from armodel.writer.arxml_writer import ARXMLWriter
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     RoleBasedDataAssignment,
     ServiceNeeds,
@@ -37,7 +43,11 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     CryptoServiceNeeds,
     EcuStateMgrUserNeeds,
     DltUserNeeds,
+    ComMgrUserNeeds,
+    MaxCommModeEnum,
+    SupervisedEntityNeeds,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType, TimeValue
 
 
 class TestRoleBasedDataAssignment:
@@ -1581,3 +1591,189 @@ class TestDltUserNeeds:
 
         assert dlt_user is not None
         assert dlt_user.getShortName() == "TestDltUserNeeds"
+
+
+class TestMaxCommModeEnum:
+    def test_initialization(self):
+        """Test MaxCommModeEnum initialization"""
+        enum = MaxCommModeEnum()
+
+        assert enum.enumValues == ("full", "none", "silent")
+
+    def test_values(self):
+        """Test enum values"""
+        assert MaxCommModeEnum.FULL == "full"
+        assert MaxCommModeEnum.NONE == "none"
+        assert MaxCommModeEnum.SILENT == "silent"
+
+
+class TestComMgrUserNeeds:
+    def test_initialization(self):
+        """Test ComMgrUserNeeds initialization"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = ComMgrUserNeeds(ar_root, "TestComMgrUserNeeds")
+
+        assert needs is not None
+        assert needs.getShortName() == "TestComMgrUserNeeds"
+        assert needs.maxCommMode is None
+
+    def test_get_set_max_comm_mode(self):
+        """Test getMaxCommMode/setMaxCommMode (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = ComMgrUserNeeds(ar_root, "TestComMgrUserNeeds")
+
+        value = MaxCommModeEnum().setValue(MaxCommModeEnum.FULL)
+        result = needs.setMaxCommMode(value)
+        assert result is needs  # Method chaining
+        assert needs.getMaxCommMode() == value
+
+        needs.setMaxCommMode(None)  # No-op
+        assert needs.getMaxCommMode() == value
+
+
+class TestComMgrUserNeedsRoundTrip:
+    def test_round_trip_max_comm_mode(self):
+        """Test parse -> write -> re-parse preserves maxCommMode."""
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        desc = ar_root.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        dependency = BswServiceDependency()
+        needs = ComMgrUserNeeds(dependency, "ComNeeds")
+        needs.setMaxCommMode(MaxCommModeEnum().setValue(MaxCommModeEnum.FULL))
+        dependency.setServiceNeeds(needs)
+        behavior.addServiceDependency(dependency)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            behavior_2 = document_2.getARPackages()[0].getBswModuleDescriptions()[0].getInternalBehaviors()[0]
+            needs_2 = behavior_2.getServiceDependencies()[0].getServiceNeeds()
+            assert needs_2.getShortName() == "ComNeeds"
+            assert needs_2.getMaxCommMode().getValue() == "full"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestSupervisedEntityNeeds:
+    def test_initialization(self):
+        """Test SupervisedEntityNeeds initialization"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = SupervisedEntityNeeds(ar_root, "TestSupervisedEntityNeeds")
+
+        assert needs is not None
+        assert needs.getShortName() == "TestSupervisedEntityNeeds"
+        assert needs.activateAtStart is None
+        assert needs.checkpointsRefs == []
+        assert needs.enableDeactivation is None
+        assert needs.expectedAliveCycle is None
+        assert needs.maxAliveCycle is None
+        assert needs.minAliveCycle is None
+        assert needs.toleratedFailedCycles is None
+
+    def test_get_set_activate_at_start(self):
+        """Test getActivateAtStart/setActivateAtStart (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = SupervisedEntityNeeds(ar_root, "TestSupervisedEntityNeeds")
+
+        value = Boolean().setValue(True)
+        result = needs.setActivateAtStart(value)
+        assert result is needs  # Method chaining
+        assert needs.getActivateAtStart() == value
+
+        needs.setActivateAtStart(None)  # No-op
+        assert needs.getActivateAtStart() == value
+
+    def test_add_get_checkpoints_refs(self):
+        """Test addCheckpointsRef/getCheckpointsRefs (append, chaining, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = SupervisedEntityNeeds(ar_root, "TestSupervisedEntityNeeds")
+
+        ref = RefType().setValue("/Checkpoint")
+        result = needs.addCheckpointsRef(ref)
+        assert result is needs  # Method chaining
+        assert needs.getCheckpointsRefs() == [ref]
+
+        needs.addCheckpointsRef(None)  # No-op
+        assert needs.getCheckpointsRefs() == [ref]
+
+    def test_get_set_enable_deactivation(self):
+        """Test getEnableDeactivation/setEnableDeactivation (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = SupervisedEntityNeeds(ar_root, "TestSupervisedEntityNeeds")
+
+        value = Boolean().setValue(False)
+        result = needs.setEnableDeactivation(value)
+        assert result is needs  # Method chaining
+        assert needs.getEnableDeactivation() == value
+
+        needs.setEnableDeactivation(None)  # No-op
+        assert needs.getEnableDeactivation() == value
+
+    def test_get_set_expected_alive_cycle(self):
+        """Test getExpectedAliveCycle/setExpectedAliveCycle (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = SupervisedEntityNeeds(ar_root, "TestSupervisedEntityNeeds")
+
+        value = TimeValue().setValue(0.001)
+        result = needs.setExpectedAliveCycle(value)
+        assert result is needs  # Method chaining
+        assert needs.getExpectedAliveCycle() == value
+
+        needs.setExpectedAliveCycle(None)  # No-op
+        assert needs.getExpectedAliveCycle() == value
+
+    def test_get_set_max_alive_cycle(self):
+        """Test getMaxAliveCycle/setMaxAliveCycle (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = SupervisedEntityNeeds(ar_root, "TestSupervisedEntityNeeds")
+
+        value = TimeValue().setValue(0.01)
+        result = needs.setMaxAliveCycle(value)
+        assert result is needs  # Method chaining
+        assert needs.getMaxAliveCycle() == value
+
+        needs.setMaxAliveCycle(None)  # No-op
+        assert needs.getMaxAliveCycle() == value
+
+    def test_get_set_min_alive_cycle(self):
+        """Test getMinAliveCycle/setMinAliveCycle (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = SupervisedEntityNeeds(ar_root, "TestSupervisedEntityNeeds")
+
+        value = TimeValue().setValue(0.001)
+        result = needs.setMinAliveCycle(value)
+        assert result is needs  # Method chaining
+        assert needs.getMinAliveCycle() == value
+
+        needs.setMinAliveCycle(None)  # No-op
+        assert needs.getMinAliveCycle() == value
+
+    def test_get_set_tolerated_failed_cycles(self):
+        """Test getToleratedFailedCycles/setToleratedFailedCycles (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = SupervisedEntityNeeds(ar_root, "TestSupervisedEntityNeeds")
+
+        value = PositiveInteger().setValue("4")
+        result = needs.setToleratedFailedCycles(value)
+        assert result is needs  # Method chaining
+        assert needs.getToleratedFailedCycles() == value
+
+        needs.setToleratedFailedCycles(None)  # No-op
+        assert needs.getToleratedFailedCycles() == value

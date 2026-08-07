@@ -111,6 +111,11 @@ class TestSwcServiceDependency:
         assert dlt_needs.short_name == "TestDltNeeds"
         assert dlt_needs in service_dep.getDltUserNeeds()
 
+        com_needs = service_dep.createComMgrUserNeeds("TestComNeeds")
+        assert com_needs is not None
+        assert com_needs.short_name == "TestComNeeds"
+        assert com_needs in service_dep.getComMgrUserNeeds()
+
         # Test getting all service needs
         all_service_needs = service_dep.getServiceNeeds()
-        assert len(all_service_needs) == 10  # All the ones we created above
+        assert len(all_service_needs) == 11  # All the ones we created above

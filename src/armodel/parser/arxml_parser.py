@@ -90,7 +90,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.Memo
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import MeasuredStackUsage, RoughEstimateStackUsage, StackUsage, WorstCaseStackUsage
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagEventDebounceMonitorInternal, DltUserNeeds, ServiceNeeds
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ComMgrUserNeeds, CryptoServiceNeeds, DiagEventDebounceMonitorInternal, DltUserNeeds, ServiceNeeds, SupervisedEntityNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import BswMgrNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement, DtcStatusChangeNotificationNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCommunicationManagerNeeds, DiagnosticEventInfoNeeds
@@ -771,6 +771,14 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = DltUserNeeds(dependency, short_name)
                 self.readDltUserNeeds(child_element, needs)
+            elif tag_name == "COM-MGR-USER-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = ComMgrUserNeeds(dependency, short_name)
+                self.readComMgrUserNeeds(child_element, needs)
+            elif tag_name == "SUPERVISED-ENTITY-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = SupervisedEntityNeeds(dependency, short_name)
+                self.readSupervisedEntityNeeds(child_element, needs)
             else:
                 self.notImplemented("Unsupported service needs <%s>" % tag_name)
                 continue
@@ -901,6 +909,22 @@ class ARXMLParser(AbstractARXMLParser):
         # self.logger.debug("Read DltUserNeeds %s" % needs.getShortName())
         self.readServiceNeeds(element, needs)
 
+    def readComMgrUserNeeds(self, element: ET.Element, needs: ComMgrUserNeeds):
+        # self.logger.debug("Read ComMgrUserNeeds %s" % needs.getShortName())
+        self.readServiceNeeds(element, needs)
+        needs.setMaxCommMode(self.getChildElementOptionalLiteral(element, "MAX-COMM-MODE"))
+
+    def readSupervisedEntityNeeds(self, element: ET.Element, needs: SupervisedEntityNeeds):
+        self.readServiceNeeds(element, needs)
+        needs.setActivateAtStart(self.getChildElementOptionalBooleanValue(element, "ACTIVATE-AT-START"))
+        for ref in self.getChildElementRefTypeList(element, "CHECKPOINTSS/SUPERVISED-ENTITY-CHECKPOINT-NEEDS-REF-CONDITIONAL/SUPERVISED-ENTITY-CHECKPOINT-NEEDS-REF"):
+            needs.addCheckpointsRef(ref)
+        needs.setEnableDeactivation(self.getChildElementOptionalBooleanValue(element, "ENABLE-DEACTIVATION"))
+        needs.setExpectedAliveCycle(self.getChildElementOptionalTimeValue(element, "EXPECTED-ALIVE-CYCLE"))
+        needs.setMaxAliveCycle(self.getChildElementOptionalTimeValue(element, "MAX-ALIVE-CYCLE"))
+        needs.setMinAliveCycle(self.getChildElementOptionalTimeValue(element, "MIN-ALIVE-CYCLE"))
+        needs.setToleratedFailedCycles(self.getChildElementOptionalPositiveInteger(element, "TOLERATED-FAILED-CYCLES"))
+
     def readSwcServiceDependencyServiceNeeds(self, element: ET.Element, parent: SwcServiceDependency):
         for child_element in self.findall(element, "SERVICE-NEEDS/*"):
             tag_name = self.getTagName(child_element)
@@ -934,6 +958,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DLT-USER-NEEDS":
                 needs = parent.createDltUserNeeds(self.getShortName(child_element))
                 self.readDltUserNeeds(child_element, needs)
+            elif tag_name == "COM-MGR-USER-NEEDS":
+                needs = parent.createComMgrUserNeeds(self.getShortName(child_element))
+                self.readComMgrUserNeeds(child_element, needs)
             else:
                 self.notImplemented("Unsupported service needs <%s>" % tag_name)
 

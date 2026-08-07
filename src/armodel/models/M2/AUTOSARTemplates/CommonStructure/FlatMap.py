@@ -240,10 +240,13 @@ class AliasNameAssignment(ARObject):
 
         # Assignment of a unique name to a flat representation.
         self.flatInstanceRef: Optional[RefType] = None
+
         # Assignment of a unique name to an Identifiable.
         self.identifiableRef: Optional[RefType] = None
+
         # This represents an "Alias LongName".
         self.label: Optional[MultilanguageLongName] = None
+
         # This attribute represents the alias name. It is modeled as string because the alias name is used outside of AUTOSAR and therefore no naming conventions can be applied within AUTOSAR.
         self.shortLabel: Optional[String] = None
 

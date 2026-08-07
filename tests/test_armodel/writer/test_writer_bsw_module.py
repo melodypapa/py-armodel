@@ -664,6 +664,22 @@ class TestWriterBswServiceDependency:
         assert dep_element.find("ASSIGNED-ENTRY-ROLES/ROLE-BASED-BSW-MODULE-ENTRY-ASSIGNMENT/ROLE").text == "errorNotification"
         assert dep_element.find("SERVICE-NEEDS/BSW-MGR-NEEDS/SHORT-NAME").text == "needs"
 
+    def test_writeBswServiceDependency_com_mgr_needs(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ComMgrUserNeeds, MaxCommModeEnum
+
+        dependency = BswServiceDependency()
+        needs = ComMgrUserNeeds(dependency, "needs")
+        needs.setMaxCommMode(MaxCommModeEnum().setValue(MaxCommModeEnum.SILENT))
+        dependency.setServiceNeeds(needs)
+
+        parent = _parent()
+        writer.writeBswServiceDependency(parent, dependency)
+
+        dep_element = parent.find("BSW-SERVICE-DEPENDENCY")
+        assert dep_element is not None
+        assert dep_element.find("SERVICE-NEEDS/COM-MGR-USER-NEEDS/SHORT-NAME").text == "needs"
+        assert dep_element.find("SERVICE-NEEDS/COM-MGR-USER-NEEDS/MAX-COMM-MODE").text == "silent"
+
     def test_writeBswServiceDependency_minimal(self, writer):
         dependency = BswServiceDependency()
         parent = _parent()

@@ -1231,6 +1231,20 @@ class TestBswServiceDependencyHandlers:
         assert dependency.getAssignedEntryRole()[0].getRole().getValue() == "errorNotification"
         assert dependency.getServiceNeeds().getShortName() == "needs"
 
+    def test_readBswServiceDependency_com_mgr_needs(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
+
+        dependency = BswServiceDependency()
+        element = _snip(
+            "<SERVICE-NEEDS>" "<COM-MGR-USER-NEEDS><SHORT-NAME>needs</SHORT-NAME><MAX-COMM-MODE>FULL</MAX-COMM-MODE></COM-MGR-USER-NEEDS>" "</SERVICE-NEEDS>",
+            root_tag="BSW-SERVICE-DEPENDENCY",
+        )
+        parser.readBswServiceDependency(element, dependency)
+
+        needs = dependency.getServiceNeeds()
+        assert needs.getShortName() == "needs"
+        assert needs.getMaxCommMode().getValue() == "FULL"
+
     def test_readBswServiceDependency_no_ident(self, parser):
         from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
 

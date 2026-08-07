@@ -4,6 +4,8 @@ in the CommonStructure module. Service needs define requirements for various
 services such as NV block management, diagnostic services, cryptographic services, etc.
 """
 
+from __future__ import annotations
+
 from abc import ABC
 from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import AutosarParameterRef
@@ -2147,12 +2149,15 @@ class BswMgrNeeds(ServiceNeeds):
 
 class ComMgrUserNeeds(ServiceNeeds):
     """
-    Represents Communication Manager user needs in AUTOSAR models.
-    This class defines requirements for Communication Manager services.
+    Specifies the abstract needs on the configuration of the Communication Manager for one "user".
     """
 
     # ComMgrUserNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.13, p.235
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getMaxCommMode               [x] impl  [x] docstring  [x] test
+    # [x] setMaxCommMode               [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -2163,6 +2168,33 @@ class ComMgrUserNeeds(ServiceNeeds):
             short_name: The unique short name of this COM manager user needs
         """
         super().__init__(parent, short_name)
+
+        # Maximum communication mode requested by this ComM user.
+        self.maxCommMode: Optional[MaxCommModeEnum] = None
+
+    def getMaxCommMode(self) -> Optional[MaxCommModeEnum]:
+        """
+        Gets the maximum communication mode requested by this ComM user.
+
+        Returns:
+            MaxCommModeEnum instance, or None if not set
+        """
+        return self.maxCommMode
+
+    def setMaxCommMode(self, value: Optional[MaxCommModeEnum]) -> "ComMgrUserNeeds":
+        """
+        Sets the maximum communication mode requested by this ComM user.
+        A None value is a no-op and does not overwrite an existing maxCommMode.
+
+        Args:
+            value: The MaxCommModeEnum instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.maxCommMode = value
+        return self
 
 
 class CryptoKeyManagementNeeds(ServiceNeeds):
@@ -2883,22 +2915,32 @@ class J1939RmOutgoingRequestServiceNeeds(ServiceNeeds):
 
 class MaxCommModeEnum(AREnum):
     """
-    Enumeration for maximum communication mode types.
+    Maximum bus communication mode required by a user of the Communication Manager Service.
     """
 
     # MaxCommModeEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.6, p.711
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
 
-    FULL_COMMUNICATION = "full-communication"
-    NO_COMMUNICATION = "no-communication"
-    SILENT_COMMUNICATION = "silent-communication"
+    # Full communication is requested. atp.EnumerationLiteralIndex=0
+    FULL = "full"
+
+    # No communication is requested. atp.EnumerationLiteralIndex=1
+    NONE = "none"
+
+    # Silent communication is requested: Only listening but not "talking". atp.EnumerationLiteralIndex=2
+    SILENT = "silent"
 
     def __init__(self):
+        """
+        Initializes the MaxCommModeEnum with all possible values.
+        """
         super().__init__(
             (
-                MaxCommModeEnum.FULL_COMMUNICATION,
-                MaxCommModeEnum.NO_COMMUNICATION,
-                MaxCommModeEnum.SILENT_COMMUNICATION,
+                MaxCommModeEnum.FULL,
+                MaxCommModeEnum.NONE,
+                MaxCommModeEnum.SILENT,
             )
         )
 
@@ -3185,12 +3227,27 @@ class SupervisedEntityCheckpointNeeds(ServiceNeeds):
 
 class SupervisedEntityNeeds(ServiceNeeds):
     """
-    Represents Supervised Entity needs in AUTOSAR models.
-    This class defines requirements for supervised entity services.
+    Specifies the abstract needs on the configuration of the Watchdog Manager for one specific Supervised Entity.
     """
 
     # SupervisedEntityNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.12, p.234
+    # Spec verified: R23-11
+    # [x] __init__                  [x] impl  [x] docstring  [x] test
+    # [x] getActivateAtStart        [x] impl  [x] docstring  [x] test
+    # [x] setActivateAtStart        [x] impl  [x] docstring  [x] test
+    # [x] addCheckpointsRef         [x] impl  [x] docstring  [x] test
+    # [x] getCheckpointsRefs        [x] impl  [x] docstring  [x] test
+    # [x] getEnableDeactivation     [x] impl  [x] docstring  [x] test
+    # [x] setEnableDeactivation     [x] impl  [x] docstring  [x] test
+    # [x] getExpectedAliveCycle     [x] impl  [x] docstring  [x] test
+    # [x] setExpectedAliveCycle     [x] impl  [x] docstring  [x] test
+    # [x] getMaxAliveCycle          [x] impl  [x] docstring  [x] test
+    # [x] setMaxAliveCycle          [x] impl  [x] docstring  [x] test
+    # [x] getMinAliveCycle          [x] impl  [x] docstring  [x] test
+    # [x] setMinAliveCycle          [x] impl  [x] docstring  [x] test
+    # [x] getToleratedFailedCycles  [x] impl  [x] docstring  [x] test
+    # [x] setToleratedFailedCycles  [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -3201,6 +3258,195 @@ class SupervisedEntityNeeds(ServiceNeeds):
             short_name: The unique short name of this supervised entity needs
         """
         super().__init__(parent, short_name)
+
+        # True/false: supervision activation status of SupervisedEntity shall be enabled/disabled at start.
+        self.activateAtStart: Optional[Boolean] = None
+
+        # This reference indicates the checkpoints belonging to the Supervised Entity.
+        self.checkpointsRefs: List[RefType] = []
+
+        # True: software-component shall be allowed to deactivate supervision of this SupervisedEntity; false: software-component shall be not allowed to deactivate supervision of this SupervisedEntity
+        self.enableDeactivation: Optional[Boolean] = None
+
+        # Expected cycle time of alive trigger of this SupervisedEntity (in seconds).
+        self.expectedAliveCycle: Optional[TimeValue] = None
+
+        # Maximum cycle time of alive trigger of this SupervisedEntity (in seconds).
+        self.maxAliveCycle: Optional[TimeValue] = None
+
+        # Minimum cycle time of alive trigger of this SupervisedEntity (in seconds).
+        self.minAliveCycle: Optional[TimeValue] = None
+
+        # Number of consecutive failed alive cycles for this SupervisedEntity which shall be tolerated until the supervision status of the SupervisedEntity is set to WDGM_ALIVE_EXPIRED (see SWS WdgM for more details).
+        self.toleratedFailedCycles: Optional[PositiveInteger] = None
+
+    def getActivateAtStart(self) -> Optional[Boolean]:
+        """
+        Gets the supervision activation status of the Supervised Entity to be enabled/disabled at start.
+
+        Returns:
+            Boolean instance, or None if not set
+        """
+        return self.activateAtStart
+
+    def setActivateAtStart(self, value: Optional[Boolean]) -> "SupervisedEntityNeeds":
+        """
+        Sets the supervision activation status of the Supervised Entity to be enabled/disabled at start.
+        A None value is a no-op and does not overwrite an existing activateAtStart.
+
+        Args:
+            value: The Boolean instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.activateAtStart = value
+        return self
+
+    def addCheckpointsRef(self, value: Optional[RefType]) -> "SupervisedEntityNeeds":
+        """
+        Adds a reference indicating a checkpoint belonging to the Supervised Entity.
+        A None value is a no-op and does not append anything.
+
+        Args:
+            value: The checkpoint reference to add
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.checkpointsRefs.append(value)
+        return self
+
+    def getCheckpointsRefs(self) -> List[RefType]:
+        """
+        Gets the references indicating the checkpoints belonging to the Supervised Entity.
+
+        Returns:
+            List of RefType instances (empty by default)
+        """
+        return self.checkpointsRefs
+
+    def getEnableDeactivation(self) -> Optional[Boolean]:
+        """
+        Gets whether the software-component shall be allowed to deactivate supervision of this SupervisedEntity.
+
+        Returns:
+            Boolean instance, or None if not set
+        """
+        return self.enableDeactivation
+
+    def setEnableDeactivation(self, value: Optional[Boolean]) -> "SupervisedEntityNeeds":
+        """
+        Sets whether the software-component shall be allowed to deactivate supervision of this SupervisedEntity.
+        A None value is a no-op and does not overwrite an existing enableDeactivation.
+
+        Args:
+            value: The Boolean instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.enableDeactivation = value
+        return self
+
+    def getExpectedAliveCycle(self) -> Optional[TimeValue]:
+        """
+        Gets the expected cycle time of the alive trigger of this SupervisedEntity (in seconds).
+
+        Returns:
+            TimeValue instance, or None if not set
+        """
+        return self.expectedAliveCycle
+
+    def setExpectedAliveCycle(self, value: Optional[TimeValue]) -> "SupervisedEntityNeeds":
+        """
+        Sets the expected cycle time of the alive trigger of this SupervisedEntity (in seconds).
+        A None value is a no-op and does not overwrite an existing expectedAliveCycle.
+
+        Args:
+            value: The TimeValue instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.expectedAliveCycle = value
+        return self
+
+    def getMaxAliveCycle(self) -> Optional[TimeValue]:
+        """
+        Gets the maximum cycle time of the alive trigger of this SupervisedEntity (in seconds).
+
+        Returns:
+            TimeValue instance, or None if not set
+        """
+        return self.maxAliveCycle
+
+    def setMaxAliveCycle(self, value: Optional[TimeValue]) -> "SupervisedEntityNeeds":
+        """
+        Sets the maximum cycle time of the alive trigger of this SupervisedEntity (in seconds).
+        A None value is a no-op and does not overwrite an existing maxAliveCycle.
+
+        Args:
+            value: The TimeValue instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.maxAliveCycle = value
+        return self
+
+    def getMinAliveCycle(self) -> Optional[TimeValue]:
+        """
+        Gets the minimum cycle time of the alive trigger of this SupervisedEntity (in seconds).
+
+        Returns:
+            TimeValue instance, or None if not set
+        """
+        return self.minAliveCycle
+
+    def setMinAliveCycle(self, value: Optional[TimeValue]) -> "SupervisedEntityNeeds":
+        """
+        Sets the minimum cycle time of the alive trigger of this SupervisedEntity (in seconds).
+        A None value is a no-op and does not overwrite an existing minAliveCycle.
+
+        Args:
+            value: The TimeValue instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.minAliveCycle = value
+        return self
+
+    def getToleratedFailedCycles(self) -> Optional[PositiveInteger]:
+        """
+        Gets the number of consecutive failed alive cycles for this SupervisedEntity which shall be tolerated until the supervision status is set to WDGM_ALIVE_EXPIRED.
+
+        Returns:
+            PositiveInteger instance, or None if not set
+        """
+        return self.toleratedFailedCycles
+
+    def setToleratedFailedCycles(self, value: Optional[PositiveInteger]) -> "SupervisedEntityNeeds":
+        """
+        Sets the number of consecutive failed alive cycles for this SupervisedEntity which shall be tolerated until the supervision status is set to WDGM_ALIVE_EXPIRED.
+        A None value is a no-op and does not overwrite an existing toleratedFailedCycles.
+
+        Args:
+            value: The PositiveInteger instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.toleratedFailedCycles = value
+        return self
 
 
 class SymbolicNameProps(ImplementationProps):

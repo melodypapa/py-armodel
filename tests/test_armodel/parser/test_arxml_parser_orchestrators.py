@@ -381,6 +381,20 @@ class TestServiceNeedsHandlers:
         parser.readDltUserNeeds(element, needs)
         assert needs.getShortName() == "dltNeeds"
 
+    def test_readComMgrUserNeeds_sets_maxCommMode(self, parser):
+        from armodel.models import SwcServiceDependency, ApplicationSwComponentType
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip(
+            "<SHORT-NAME>comNeeds</SHORT-NAME>" "<MAX-COMM-MODE>FULL</MAX-COMM-MODE>",
+            root_tag="COM-MGR-USER-NEEDS",
+        )
+        needs = dependency.createComMgrUserNeeds("comNeeds")
+        parser.readComMgrUserNeeds(element, needs)
+        assert needs.getMaxCommMode().getValue() == "FULL"
+
     def test_readDiagEventDebounceMonitorInternal_minimal(self, parser):
         from armodel.models import DiagnosticEventNeeds, SwcServiceDependency, ApplicationSwComponentType
 
@@ -1976,6 +1990,7 @@ class TestSwcServiceDependencyServiceNeeds:
             "ECU-STATE-MGR-USER-NEEDS",
             "DTC-STATUS-CHANGE-NOTIFICATION-NEEDS",
             "DLT-USER-NEEDS",
+            "COM-MGR-USER-NEEDS",
         ],
     )
     def test_service_needs_branches(self, parser, tag):

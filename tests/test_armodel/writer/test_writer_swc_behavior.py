@@ -7,6 +7,7 @@ from unittest.mock import MagicMock
 from armodel.writer.arxml_writer import ARXMLWriter
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    ComMgrUserNeeds,
     CryptoServiceNeeds,
     DiagEventDebounceMonitorInternal,
     DiagnosticCommunicationManagerNeeds,
@@ -17,6 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DltUserNeeds,
     DtcStatusChangeNotificationNeeds,
     EcuStateMgrUserNeeds,
+    MaxCommModeEnum,
     NvBlockNeeds,
     RoleBasedDataAssignment,
     RoleBasedDataTypeAssignment,
@@ -1154,6 +1156,17 @@ class TestWriterServiceNeeds:
         elem = parent.find("DLT-USER-NEEDS")
         assert elem is not None
 
+    def test_writeComMgrUserNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createComMgrUserNeeds("com1")
+        needs.setMaxCommMode(MaxCommModeEnum().setValue(MaxCommModeEnum.FULL))
+        parent = _parent()
+        writer.writeComMgrUserNeeds(parent, needs)
+        elem = parent.find("COM-MGR-USER-NEEDS")
+        assert elem is not None
+        assert elem.find("MAX-COMM-MODE").text == "full"
+
 
 class TestWriterSwcServiceDependencyServiceNeeds:
     def test_dispatch_all_needs_types(self, writer):
@@ -1169,6 +1182,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         dep.createEcuStateMgrUserNeeds("esm")
         dep.createDtcStatusChangeNotificationNeeds("dsc")
         dep.createDltUserNeeds("dlt")
+        dep.createComMgrUserNeeds("com")
         parent = _parent()
         writer.writeSwcServiceDependencyServiceNeeds(parent, dep)
         needs_tag = parent.find("SERVICE-NEEDS")
@@ -1184,6 +1198,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         assert "ECU-STATE-MGR-USER-NEEDS" in tags
         assert "DTC-STATUS-CHANGE-NOTIFICATION-NEEDS" in tags
         assert "DLT-USER-NEEDS" in tags
+        assert "COM-MGR-USER-NEEDS" in tags
 
     def test_no_needs_no_tag(self, writer):
         behavior = _make_behavior()

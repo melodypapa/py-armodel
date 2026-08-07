@@ -642,24 +642,35 @@ No deviations — all attributes (`assignedEntryRef`, `role`) implemented with p
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
 
+Model aligned (Table 12.12, p.234): all 7 spec attributes implemented in PDF
+display order with accessors, tests, and parser/writer coverage
+(`readSupervisedEntityNeeds`/`writeSupervisedEntityNeeds` + `BswServiceDependency`
+SERVICE-NEEDS dispatch branches). The earlier state was a bare placeholder
+(zero attributes) whose 7 `missing` rows had been recorded but never
+implemented.
+
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `activateAtStart` | `Boolean` | — | missing |
-| — *(missing)* | `—` | `checkpoints` | `SupervisedEntityCheckpointNeedsRefConditional` | — | missing |
-| — *(missing)* | `—` | `enableDeactivation` | `Boolean` | — | missing |
-| — *(missing)* | `—` | `expectedAliveCycle` | `TimeValue` | — | missing |
-| — *(missing)* | `—` | `maxAliveCycle` | `TimeValue` | — | missing |
-| — *(missing)* | `—` | `minAliveCycle` | `TimeValue` | — | missing |
-| — *(missing)* | `—` | `toleratedFailedCycles` | `PositiveInteger` | — | missing |
+| `checkpointsRefs` | `List[RefType]` | `checkpoints` | `SupervisedEntityCheckpointNeedsRefConditional` | ref | modeled as plain `List[RefType]` per the codebase-wide REF-CONDITIONAL convention: the XSD `CHECKPOINTSS` wrapper → `SUPERVISED-ENTITY-CHECKPOINT-NEEDS-REF-CONDITIONAL` item (atpVariation directed-association) is unwrapped by the parser (`...-REF-CONDITIONAL/...-REF`) and re-wrapped by the writer; the CONDITION/VARIATION-POINT children are not modeled |
 
 ## `ComMgrUserNeeds`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 235
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
 
+Model aligned (Table 12.13, p.235): the single spec attribute `maxCommMode` is
+implemented in PDF display order with accessors, tests, and parser/writer
+coverage (`readComMgrUserNeeds`/`writeComMgrUserNeeds` + the
+`BswServiceDependency`/`SwcServiceDependency` SERVICE-NEEDS dispatch branches
+and `SwcServiceDependency.createComMgrUserNeeds`). The enum attribute type
+`MaxCommModeEnum` was realigned to its own spec table (SoftwareComponentTemplate
+Table 13.6, p.711): member values corrected from `"full-communication"` etc. to
+the spec literals `full`/`none`/`silent` and member names to `FULL`/`NONE`/
+`SILENT`.
+
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `maxCommMode` | `MaxCommModeEnum` | — | missing |
+| `maxCommMode` | `Optional[MaxCommModeEnum]` | `maxCommMode` | `MaxCommModeEnum` | attr | — |
 
 ## `DiagnosticIoControlNeeds`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 248

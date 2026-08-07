@@ -45,7 +45,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswServiceDependency,
 )
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import ModeInBswModuleDescriptionInstanceRef
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARFloat, ARLiteral, ARNumerical, PositiveInteger, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARFloat, ARLiteral, ARNumerical, Identifier, PositiveInteger, TimeValue
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ApiPrincipleEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeActivationKind
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment, RoleBasedDataTypeAssignment, SymbolicNameProps, BswMgrNeeds
@@ -1858,7 +1858,7 @@ class TestRoleBasedBswModuleEntryAssignment:
 
     def test_get_set_role(self):
         assignment = RoleBasedBswModuleEntryAssignment()
-        role = ARLiteral().setValue("errorNotification")
+        role = Identifier().setValue("errorNotification")
 
         result = assignment.setRole(role)
 

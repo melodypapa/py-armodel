@@ -4,7 +4,7 @@ in software component internal behavior templates.
 """
 
 from typing import List
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagnosticCommunicationManagerNeeds, DiagnosticEventInfoNeeds
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ComMgrUserNeeds, CryptoServiceNeeds, DiagnosticCommunicationManagerNeeds, DiagnosticEventInfoNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DltUserNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticEventNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DtcStatusChangeNotificationNeeds, EcuStateMgrUserNeeds, NvBlockNeeds
@@ -100,6 +100,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
     # [ ] createEcuStateMgrUserNeeds   [x] impl  [x] docstring  [ ] test
     # [ ] createDtcStatusChangeNotificationNeeds [x] impl  [x] docstring  [ ] test
     # [ ] createDltUserNeeds           [x] impl  [x] docstring  [ ] test
+    # [ ] createComMgrUserNeeds        [x] impl  [x] docstring  [x] test
     # [ ] getNvBlockNeeds              [x] impl  [x] docstring  [ ] test
     # [ ] getDiagnosticCommunicationManagerNeeds [x] impl  [x] docstring  [ ] test
     # [ ] getDiagnosticRoutineNeeds    [x] impl  [x] docstring  [ ] test
@@ -110,6 +111,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
     # [ ] getEcuStateMgrUserNeeds      [x] impl  [x] docstring  [ ] test
     # [ ] getDtcStatusChangeNotificationNeeds [x] impl  [x] docstring  [ ] test
     # [ ] getDltUserNeeds              [x] impl  [x] docstring  [ ] test
+    # [ ] getComMgrUserNeeds           [x] impl  [x] docstring  [x] test
     # [ ] getServiceNeeds              [x] impl  [x] docstring  [ ] test
 
     def __init__(self, parent: ARObject, short_name: str):
@@ -307,6 +309,21 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
             self.addElement(needs)
         return self.getElement(short_name)
 
+    def createComMgrUserNeeds(self, short_name: str) -> ComMgrUserNeeds:
+        """
+        Creates or retrieves a ComMgrUserNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            ComMgrUserNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name):
+            needs = ComMgrUserNeeds(self, short_name)
+            self.addElement(needs)
+        return self.getElement(short_name)
+
     def getNvBlockNeeds(self) -> List[NvBlockNeeds]:
         """
         Gets sorted NvBlockNeeds elements.
@@ -400,6 +417,15 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
             List[DltUserNeeds]: Sorted list of DltUserNeeds
         """
         return sorted(filter(lambda c: isinstance(c, DltUserNeeds), self.elements), key=lambda e: e.short_name)
+
+    def getComMgrUserNeeds(self) -> List[ComMgrUserNeeds]:
+        """
+        Gets sorted ComMgrUserNeeds elements.
+
+        Returns:
+            List[ComMgrUserNeeds]: Sorted list of ComMgrUserNeeds
+        """
+        return sorted(filter(lambda c: isinstance(c, ComMgrUserNeeds), self.elements), key=lambda e: e.short_name)
 
     def getServiceNeeds(self) -> List[ServiceNeeds]:
         """
