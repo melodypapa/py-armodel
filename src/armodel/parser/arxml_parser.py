@@ -90,9 +90,24 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.Memo
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import MeasuredStackUsage, RoughEstimateStackUsage, StackUsage, WorstCaseStackUsage
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagEventDebounceMonitorInternal, DltUserNeeds, ServiceNeeds
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    ComMgrUserNeeds,
+    CryptoServiceNeeds,
+    DevelopmentError,
+    DiagEventDebounceCounterBased,
+    DiagEventDebounceMonitorInternal,
+    DiagEventDebounceTimeBased,
+    DltUserNeeds,
+    ErrorTracerNeeds,
+    PossibleErrorReaction,
+    RuntimeError,
+    ServiceNeeds,
+    SupervisedEntityNeeds,
+    TracedFailure,
+    TransientFault,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import BswMgrNeeds
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement, DtcStatusChangeNotificationNeeds
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement, DiagnosticIoControlNeeds, DtcStatusChangeNotificationNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCommunicationManagerNeeds, DiagnosticEventInfoNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticEventNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import EcuStateMgrUserNeeds, NvBlockNeeds, RoleBasedDataAssignment, SymbolicNameProps
@@ -755,6 +770,10 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = DiagnosticEventInfoNeeds(dependency, short_name)
                 self.readDiagnosticEventInfoNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTIC-IO-CONTROL-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = DiagnosticIoControlNeeds(dependency, short_name)
+                self.readDiagnosticIoControlNeeds(child_element, needs)
             elif tag_name == "CRYPTO-SERVICE-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = CryptoServiceNeeds(dependency, short_name)
@@ -771,6 +790,18 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = DltUserNeeds(dependency, short_name)
                 self.readDltUserNeeds(child_element, needs)
+            elif tag_name == "COM-MGR-USER-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = ComMgrUserNeeds(dependency, short_name)
+                self.readComMgrUserNeeds(child_element, needs)
+            elif tag_name == "SUPERVISED-ENTITY-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = SupervisedEntityNeeds(dependency, short_name)
+                self.readSupervisedEntityNeeds(child_element, needs)
+            elif tag_name == "ERROR-TRACER-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = ErrorTracerNeeds(dependency, short_name)
+                self.readErrorTracerNeeds(child_element, needs)
             else:
                 self.notImplemented("Unsupported service needs <%s>" % tag_name)
                 continue
@@ -858,30 +889,55 @@ class ARXMLParser(AbstractARXMLParser):
         needs.setFixedLength(self.getChildElementOptionalBooleanValue(element, "FIXED-LENGTH"))
         needs.setProcessingStyle(self.getChildElementOptionalLiteral(element, "PROCESSING-STYLE"))
 
+    def readDiagEventDebounceCounterBased(self, element: ET.Element, algorithm: DiagEventDebounceCounterBased):
+        self.readDiagnosticCapabilityElement(element, algorithm)
+
     def readDiagEventDebounceMonitorInternal(self, element: ET.Element, algorithm: DiagEventDebounceMonitorInternal):
+        self.readDiagnosticCapabilityElement(element, algorithm)
+
+    def readDiagEventDebounceTimeBased(self, element: ET.Element, algorithm: DiagEventDebounceTimeBased):
         self.readDiagnosticCapabilityElement(element, algorithm)
 
     def readDiagEventDebounceAlgorithm(self, element: ET.Element, needs: DiagnosticEventNeeds):
         for child_element in self.findall(element, "DIAG-EVENT-DEBOUNCE-ALGORITHM/*"):
             tag_name = self.getTagName(child_element)
-            if tag_name == "DIAG-EVENT-DEBOUNCE-MONITOR-INTERNAL":
+            if tag_name == "DIAG-EVENT-DEBOUNCE-COUNTER-BASED":
+                algorithm = needs.createDiagEventDebounceCounterBased(self.getShortName(child_element))
+                self.readDiagEventDebounceCounterBased(child_element, algorithm)
+            elif tag_name == "DIAG-EVENT-DEBOUNCE-MONITOR-INTERNAL":
                 algorithm = needs.createDiagEventDebounceMonitorInternal(self.getShortName(child_element))
                 self.readDiagEventDebounceMonitorInternal(child_element, algorithm)
+            elif tag_name == "DIAG-EVENT-DEBOUNCE-TIME-BASED":
+                algorithm = needs.createDiagEventDebounceTimeBased(self.getShortName(child_element))
+                self.readDiagEventDebounceTimeBased(child_element, algorithm)
             else:
                 self.notImplemented("Unsupported DiagEventDebounceAlgorithm <%s>" % tag_name)
 
     def readDiagnosticEventNeeds(self, element: ET.Element, needs: DiagnosticEventNeeds):
         # self.logger.debug("Read DiagnosticEventNeeds <%s>" % needs.getShortName())
         self.readDiagnosticCapabilityElement(element, needs)
+        for ref in self.getChildElementRefTypeList(element, "DEFERRING-FID-REFS/DEFERRING-FID-REF"):
+            needs.addDeferringFidRef(ref)
         self.readDiagEventDebounceAlgorithm(element, needs)
-        needs.setDtcKind(self.getChildElementOptionalLiteral(element, "DTC-KIND"))
-        needs.setUdsDtcNumber(self.getChildElementOptionalIntegerValue(element, "UDS-DTC-NUMBER"))
+        needs.setInhibitingFidRef(self.getChildElementOptionalRefType(element, "INHIBITING-FID-REF"))
+        for ref in self.getChildElementRefTypeList(element, "INHIBITING-SECONDARY-FID-REFS/INHIBITING-SECONDARY-FID-REF"):
+            needs.addInhibitingSecondaryFidRef(ref)
+        needs.setPrestoredFreezeframeStoredInNvm(self.getChildElementOptionalBooleanValue(element, "PRESTORED-FREEZEFRAME-STORED-IN-NVM"))
+        needs.setUsesMonitorData(self.getChildElementOptionalBooleanValue(element, "USES-MONITOR-DATA"))
 
     def readDiagnosticEventInfoNeeds(self, element: ET.Element, needs: DiagnosticEventInfoNeeds):
         # self.logger.debug("Read DiagnosticEventInfoNeeds <%s>" % needs.getShortName())
         self.readDiagnosticCapabilityElement(element, needs)
         needs.setDtcKind(self.getChildElementOptionalLiteral(element, "DTC-KIND"))
         needs.setUdsDtcNumber(self.getChildElementOptionalPositiveInteger(element, "UDS-DTC-NUMBER"))
+
+    def readDiagnosticIoControlNeeds(self, element: ET.Element, needs: DiagnosticIoControlNeeds):
+        # self.logger.debug("Read DiagnosticIoControlNeeds %s" % needs.getShortName())
+        self.readDiagnosticCapabilityElement(element, needs)
+        needs.setCurrentValueRef(self.getChildElementOptionalRefType(element, "CURRENT-VALUE-REF"))
+        needs.setFreezeCurrentStateSupported(self.getChildElementOptionalBooleanValue(element, "FREEZE-CURRENT-STATE-SUPPORTED"))
+        needs.setResetToDefaultSupported(self.getChildElementOptionalBooleanValue(element, "RESET-TO-DEFAULT-SUPPORTED"))
+        needs.setShortTermAdjustmentSupported(self.getChildElementOptionalBooleanValue(element, "SHORT-TERM-ADJUSTMENT-SUPPORTED"))
 
     def readCryptoServiceNeeds(self, element: ET.Element, needs: CryptoServiceNeeds):
         # self.logger.debug("Read CryptoServiceNeeds <%s>" % needs.getShortName())
@@ -900,6 +956,63 @@ class ARXMLParser(AbstractARXMLParser):
     def readDltUserNeeds(self, element: ET.Element, needs: DltUserNeeds):
         # self.logger.debug("Read DltUserNeeds %s" % needs.getShortName())
         self.readServiceNeeds(element, needs)
+
+    def readComMgrUserNeeds(self, element: ET.Element, needs: ComMgrUserNeeds):
+        # self.logger.debug("Read ComMgrUserNeeds %s" % needs.getShortName())
+        self.readServiceNeeds(element, needs)
+        needs.setMaxCommMode(self.getChildElementOptionalLiteral(element, "MAX-COMM-MODE"))
+
+    def readSupervisedEntityNeeds(self, element: ET.Element, needs: SupervisedEntityNeeds):
+        self.readServiceNeeds(element, needs)
+        needs.setActivateAtStart(self.getChildElementOptionalBooleanValue(element, "ACTIVATE-AT-START"))
+        for ref in self.getChildElementRefTypeList(element, "CHECKPOINTSS/SUPERVISED-ENTITY-CHECKPOINT-NEEDS-REF-CONDITIONAL/SUPERVISED-ENTITY-CHECKPOINT-NEEDS-REF"):
+            needs.addCheckpointsRef(ref)
+        needs.setEnableDeactivation(self.getChildElementOptionalBooleanValue(element, "ENABLE-DEACTIVATION"))
+        needs.setExpectedAliveCycle(self.getChildElementOptionalTimeValue(element, "EXPECTED-ALIVE-CYCLE"))
+        needs.setMaxAliveCycle(self.getChildElementOptionalTimeValue(element, "MAX-ALIVE-CYCLE"))
+        needs.setMinAliveCycle(self.getChildElementOptionalTimeValue(element, "MIN-ALIVE-CYCLE"))
+        needs.setToleratedFailedCycles(self.getChildElementOptionalPositiveInteger(element, "TOLERATED-FAILED-CYCLES"))
+
+    def readTracedFailure(self, element: ET.Element, failure: TracedFailure):
+        self.readIdentifiable(element, failure)
+        failure.setId(self.getChildElementOptionalPositiveInteger(element, "ID"))
+
+    def readDevelopmentError(self, element: ET.Element, failure: DevelopmentError):
+        self.readTracedFailure(element, failure)
+
+    def readRuntimeError(self, element: ET.Element, failure: RuntimeError):
+        self.readTracedFailure(element, failure)
+
+    def readPossibleErrorReaction(self, element: ET.Element, reaction: PossibleErrorReaction):
+        self.readIdentifiable(element, reaction)
+        reaction.setReactionCode(self.getChildElementOptionalPositiveInteger(element, "REACTION-CODE"))
+
+    def readTransientFault(self, element: ET.Element, failure: TransientFault):
+        self.readTracedFailure(element, failure)
+        for child_element in self.findall(element, "POSSIBLE-ERROR-REACTIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "POSSIBLE-ERROR-REACTION":
+                reaction = failure.createPossibleErrorReaction(self.getShortName(child_element))
+                self.readPossibleErrorReaction(child_element, reaction)
+            else:
+                self.notImplemented("Unsupported PossibleErrorReaction <%s>" % tag_name)
+
+    def readErrorTracerNeeds(self, element: ET.Element, needs: ErrorTracerNeeds):
+        # self.logger.debug("Read ErrorTracerNeeds <%s>" % needs.getShortName())
+        self.readServiceNeeds(element, needs)
+        for child_element in self.findall(element, "TRACED-FAILURES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "DEVELOPMENT-ERROR":
+                failure = needs.createDevelopmentError(self.getShortName(child_element))
+                self.readDevelopmentError(child_element, failure)
+            elif tag_name == "RUNTIME-ERROR":
+                failure = needs.createRuntimeError(self.getShortName(child_element))
+                self.readRuntimeError(child_element, failure)
+            elif tag_name == "TRANSIENT-FAULT":
+                failure = needs.createTransientFault(self.getShortName(child_element))
+                self.readTransientFault(child_element, failure)
+            else:
+                self.notImplemented("Unsupported traced failure <%s>" % tag_name)
 
     def readSwcServiceDependencyServiceNeeds(self, element: ET.Element, parent: SwcServiceDependency):
         for child_element in self.findall(element, "SERVICE-NEEDS/*"):
@@ -922,6 +1035,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-EVENT-INFO-NEEDS":
                 needs = parent.createDiagnosticEventInfoNeeds(self.getShortName(child_element))
                 self.readDiagnosticEventInfoNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTIC-IO-CONTROL-NEEDS":
+                needs = parent.createDiagnosticIoControlNeeds(self.getShortName(child_element))
+                self.readDiagnosticIoControlNeeds(child_element, needs)
             elif tag_name == "CRYPTO-SERVICE-NEEDS":
                 needs = parent.createCryptoServiceNeeds(self.getShortName(child_element))
                 self.readCryptoServiceNeeds(child_element, needs)
@@ -934,6 +1050,12 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DLT-USER-NEEDS":
                 needs = parent.createDltUserNeeds(self.getShortName(child_element))
                 self.readDltUserNeeds(child_element, needs)
+            elif tag_name == "COM-MGR-USER-NEEDS":
+                needs = parent.createComMgrUserNeeds(self.getShortName(child_element))
+                self.readComMgrUserNeeds(child_element, needs)
+            elif tag_name == "ERROR-TRACER-NEEDS":
+                needs = parent.createErrorTracerNeeds(self.getShortName(child_element))
+                self.readErrorTracerNeeds(child_element, needs)
             else:
                 self.notImplemented("Unsupported service needs <%s>" % tag_name)
 

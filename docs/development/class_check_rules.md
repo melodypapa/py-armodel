@@ -259,6 +259,48 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       Before deciding, grep the XSD for the element tag: presence with
       documentation ⇒ omission (keep, record); absence everywhere ⇒ invented
       API (remove).
+      **Release-alignment caveat — a stale XSD flips "omission" to
+      "removed".** The keep-it rule above assumes the XSD is release-aligned
+      with the class's verified release: its attribute set matches what the
+      `# Spec verified:` release renders in the PDF. When the repo's XSD
+      predates the class's verified release, an XSD-only attribute can be an
+      upstream *deletion* rather than a rendering gap. Check the XSD header
+      for its release (`<xsd:documentation>Part of AUTOSAR Release: …` —
+      e.g. `docs/requirements/xsd/AUTOSAR_00046.xsd` is CP 4.4.0 / AP 18-10,
+      i.e. 2018, while the repo PDFs are CP R23-11): if the XSD release is
+      older than the class's `# Spec verified:` release, an attribute present
+      only in that XSD (absent from *all* verified-release PDF renderings,
+      cross-checked across the multiple PDFs that render the class, e.g. BSW
+      Table 12.26 and DiagnosticExtract Table 4.82 both omit
+      `DiagnosticIoControlNeeds.didNumber`) is treated like an
+      `atp.Status="removed"` attribute — it maps to **no field**, it is
+      **not** kept, and the deviation tracker records the reason
+      `"removed upstream: present only in the <old-release> XSD, absent from
+      the <verified-release> PDF tables; not modeled"` instead of the
+      keep-and-record wording. An XSD-only attribute is therefore only kept
+      when the XSD is release-aligned (or newer) and the omission is
+      genuinely a PDF rendering gap.
+      **The caveat cuts both ways: a stale-XSD-only attribute that is
+      *already modeled* (field + accessor pair + parser/writer element +
+      tests) must be **removed** in the same pass, not left in place.**
+      `DiagnosticEventNeeds` carried `dtcKind`/`udsDtcNumber` with complete
+      fields, accessors, parser/writer reads/writes (`DTC-KIND`/
+      `UDS-DTC-NUMBER`), and passing tests — all absent from every R23-11
+      rendering of its own table (they were 2018-XSD group members that R23-11
+      moved to the sibling `DiagnosticEventInfoNeeds`, Table D.26). The
+      aligned action was a **five-place removal**: delete the field and
+      accessors, delete the parser `readXxx`/writer `writeXxx` lines that
+      emit the element, delete the tests, and record the tracker row as
+      `"removed upstream: …; not modeled"` — leaving the field in place and
+      merely recording a deviation would keep emitting elements the verified
+      release no longer defines. A fully-implemented-and-tested field is
+      **not** evidence that the attribute belongs to the class; the
+      verified-release table is. When the stale-XSD attribute still exists in
+      the verified release **under a different class** (a relocation, e.g.
+      `udsDtcNumber` now owned by `DiagnosticEventInfoNeeds`), the receiving
+      class may be named in the tracker reason, but the removal from *this*
+      class is unconditional — do not keep the field "because the release
+      still has the attribute somewhere".
 - [ ] **Cross-table aggregation.** A class may aggregate attributes whose
       definition lives in **another class's spec table**, discoverable via
       that table's `Aggregated by` row (e.g. `ResourceConsumption`'s Table
@@ -288,6 +330,20 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       `[]`), `0..1` → optional single `T` (default `None`). A spec-`*`
       attribute held as a single value is a deviation and must be fixed. The
       reverse is equally a deviation: a spec-`0..1` attribute held as a `List`.
+      **A `type (spec many vs py single)` (or reverse) row in the deviation
+      tracker is a to-fix signal, not an accepted deviation.** It is the
+      multiplicity analogue of the Rule 1.5 naming-row anti-pattern: a
+      spec-`*` ref modeled as a single field (e.g.
+      `DiagnosticEventNeeds.inhibitingSecondaryFidRef` — spec
+      `inhibitingSecondaryFid`, mult `*`) is always fixable by converting the
+      field and accessors to the list shape (`inhibitingSecondaryFidRefs: List[RefType]`,
+      `addInhibitingSecondaryFidRef`/`getInhibitingSecondaryFidRefs`) plus the
+      wrapper-element parser/writer (Rule 1.7) and the updated tests — so fix
+      it and **remove** the tracker row, exactly like a `naming` row; do not
+      leave it recorded as a permanent deviation. A surviving
+      `type (spec many vs py single)` row means the field-to-spec
+      multiplicity cross-check has not been performed, not that the mismatch
+      was reviewed and accepted.
 - [ ] A **bounded ordered** multiplicity such as `0..2` (upper bound > 1 but
       not `*`) still maps to `List[T]` (default `[]`) with the usual
       `getXxxs`/`addXxx` accessors — the upper bound is not enforced in the
@@ -458,6 +514,28 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
          with its duplicate-by-short-name return behavior (Rule 4) — exists
          **only** for children whose `Base` lists `Referrable`/
          `Identifiable`.
+- [ ] **An abstract aggregated child gets one `createXxx<Subtype>(short_name)`
+      factory per concrete subtype, whatever the multiplicity.** When the
+      spec `Attribute` type is an *abstract* class with concrete subtypes
+      (e.g. `TracedFailure` (abstract) → `DevelopmentError`/`RuntimeError`/
+      `TransientFault`), the aggregator cannot expose a single
+      `createTracedFailure(short_name)` — the abstract type is not
+      instantiable — nor a plain `addTracedFailure(value)` (the parser has
+      no way to know which subtype to build from a bare value). Instead it
+      exposes one factory per concrete subtype, each writing the same
+      slot/list: for `0..1` (e.g. `DiagnosticEventNeeds.diagEventDebounceAlgorithm`)
+      `createDiagEventDebounceCounterBased(short_name)`/`…MonitorInternal`/`…TimeBased`
+      each assign the single field; for `*` (e.g.
+      `ErrorTracerNeeds.tracedFailure`) `createDevelopmentError(short_name)`/
+      `createRuntimeError(short_name)`/`createTransientFault(short_name)`
+      each append to the `tracedFailures` list and return the created (or
+      existing, per Rule 4) element. The parser dispatches on the XSD child
+      element tag (`DEVELOPMENT-ERROR`/`RUNTIME-ERROR`/`TRANSIENT-FAULT`)
+      to the matching factory; the writer dispatches on `isinstance`. This
+      is the polymorphic-dispatch shape of Rule 1.7 applied to an *aggregated
+      child* — the list case differs from a plain `*` list only in that the
+      parser's per-item element tag selects the subtype factory instead of
+      an `addXxx` call.
 
 ### 1.7 Parser and writer coverage
 
@@ -500,6 +578,21 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       silently dropped on round-trip even when its model and mirrored tests
       are complete — grep the parser and writer for the element tag before
       declaring the class aligned.
+- [ ] **Polymorphic dispatch nests — a concrete subtype that itself
+      aggregates is its own level of dispatch.** The five-place pattern
+      applies at the top-level aggregator; a subtype that owns an aggregated
+      or polymorphic attribute is *itself* a dispatcher with its own factory
+      + parser loop + writer loop + dispatch tests for its children (e.g.
+      `ErrorTracerNeeds.tracedFailure` dispatches
+      `TRACED-FAILURES` → `DEVELOPMENT-ERROR`/`RUNTIME-ERROR`/`TRANSIENT-FAULT`,
+      and the `TransientFault` subtype in turn dispatches its own
+      `POSSIBLE-ERROR-REACTIONS` → `POSSIBLE-ERROR-REACTION` at the next
+      level). Cover each level independently: the outer dispatch tests assert
+      every outer subtype is routed, and the inner level has its own
+      wrapper-list round-trip tests. Do not assume covering the outer level
+      exercises the inner one — an aligned `transientFault` parse reads
+      `POSSIBLE-ERROR-REACTIONS` from *its own* element, unrelated to the
+      outer `TRACED-FAILURES` loop.
 - [ ] A concrete `<name>InstanceRef` subclass is a polymorphic type like any
       other subtype: it needs a parser `readXxx`/`getXxxIRef` dispatch branch
       and a matching writer `writeXxx`/`setXxxIRef` branch, plus dispatch-test
@@ -569,6 +662,24 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       `<MC-VARIABLE-INSTANCES>` wrappers each containing `<MC-DATA-INSTANCE>`
       (the type `McDataInstance`). A ref wrapper's item tag *is* the attribute
       base plus `-REF` (`MEASURABLE-SYSTEM-CONSTANT-VALUES-REFS/MEASURABLE-SYSTEM-CONSTANT-VALUES-REF`).
+      **`-REF-CONDITIONAL` items (atpVariation directed associations).** Some
+      `ref` wrappers hold `<NAME>-REF-CONDITIONAL` items instead of plain
+      `<NAME>-REF`: the element group's `mmt.qualifiedName` still names the
+      attribute, but each item is a conditional-ref element with an inner
+      `<NAME>-REF` and an optional CONDITION/VARIATION-POINT child
+      (e.g. `SupervisedEntityNeeds.checkpoints` → `CHECKPOINTSS` wrapper →
+      `SUPERVISED-ENTITY-CHECKPOINT-NEEDS-REF-CONDITIONAL` items → inner
+      `SUPERVISED-ENTITY-CHECKPOINT-NEEDS-REF`). The codebase convention is
+      uniform with all other conditional-ref usages: model the attribute as
+      plain `List[RefType]` (the condition/variation-point is dropped — the
+      XSD type name `<NAME>-REF-CONDITIONAL` is a framework-generated
+      directed-association wrapper, not a class to implement), parse with
+      `getChildElementRefTypeList(element, "WRAPPER/NAME-REF-CONDITIONAL/NAME-REF")`,
+      and write by emitting the wrapper only when non-empty with one
+      `NAME-REF-CONDITIONAL` per entry containing the inner `NAME-REF`
+      (mirroring `writeBswModuleEntityIssuedTriggerRefs`). The already-plural
+      base keeps its plural form: `checkpoints` → field `checkpointsRefs`,
+      `addCheckpointsRef`/`getCheckpointsRefs` (Rule 1.5).
       Read the item tag from the XSD `choice`/element declaration — do not
       derive it from the attribute name or the type name by rule of thumb.
       An **iref** wrapper follows the same container pattern: the wrapper is
@@ -609,6 +720,20 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       codebase-consistent and schema-valid — pick one shape and record the
       choice in the tracker, do not leave a `missing` row for the unwrapped
       variant.
+      **Attribute-level `atpVariation` is not the same as a class-level
+      `<<atpVariation>>` header.** When the *attribute's* `Note` lists
+      `Stereotypes: … atpVariation` (e.g. `ErrorTracerNeeds.tracedFailure`,
+      whose Note reads "Stereotypes: atpSplitable; atpVariation"), the
+      stereotype is resolved at the XSD by *flattening the multiplicity* —
+      the XSD `documentation` even says so: "The upper multiplicity of this
+      role has been increased to `*` due to resolving an atpVariation
+      stereotype" — into a **plain wrapper list** (`<TRACED-FAILURES>` with
+      `DEVELOPMENT-ERROR`/`RUNTIME-ERROR`/`TRANSIENT-FAULT` items, Rule 1.7),
+      **not** a `VARIANTS/CONDITIONAL` wrapper. Only the *class-header*
+      `<<atpVariation>>` stereotype produces the `VARIANTS/CONDITIONAL`
+      shape. Before assuming a conditional wrapper, check the XSD group for a
+      `<NAME>-VARIANTS` element: an attribute-level stereotype whose XSD
+      group has no `-VARIANTS` element is the ordinary wrapper-list pattern.
 - [ ] **Identity-only child serialization is a debt to be repaid by the
       child's own pass.** The identity-only shape above is deliberately
       lossy for everything except the item's existence, and for a plain
@@ -747,6 +872,51 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       follow-up. This keeps the pass self-contained: aligning a parent whose
       child is a stub otherwise immediately re-opens as the Rule 1.7
       identity-only debt above.
+      **The same test applies to a referenced enum attribute type.** An
+      existing enum whose members exist but do **not** match its own
+      `Enumeration` spec table gives the referencing attribute a correct
+      *type* and wrong *values*: the member set and/or member strings are
+      placeholder-shaped (e.g. `MaxCommModeEnum`'s `FULL_COMMUNICATION =
+      "full-communication"` before alignment, while spec Table 13.6 defines
+      the literals `full`/`none`/`silent`), so the referencing class aligns on
+      paper and serializes garbage enum values. Realign the enum against its
+      own table (Rule 12) in the same pass — rename members to the spec
+      literals' UPPER_CASE form and correct the values — and update its
+      checklist/marker; the referencing class's accessor annotations then
+      simply retype to the corrected enum.
+      **A stub can be a whole *family* — align the transitive closure, not
+      just the directly-referenced child.** When the spec `Attribute` type
+      is an abstract class whose own `Subclasses` row names concrete
+      subtypes, and those subtypes aggregate yet another class, a
+      placeholder implementation may stub **the entire family**: the
+      abstract base and every subtype as plain `ARObject` with `__init__(self)`
+      and invented fields that appear in no spec table (e.g.
+      `ErrorTracerNeeds.tracedFailure` → abstract `TracedFailure` with
+      fabricated `failureCode`/`failureDescription`, its subtypes
+      `DevelopmentError`/`RuntimeError` with fabricated
+      `errorCode`/`errorDescription`, `TransientFault` with fabricated
+      `faultCode`/`faultDescription`, and the missing XSD-only
+      `PossibleErrorReaction`). The stub-family fix is one coordinated
+      pass over the closure, driven by each class's own spec `Base` column:
+      realign the abstract base to its spec base (`TracedFailure` →
+      `Identifiable, ABC` with `__init__(self, parent, short_name)` and its
+      real `id` attribute), re-type every subtype to inherit it
+      (`DevelopmentError(TracedFailure)`, …), delete all fabricated fields
+      (Rule 1.3), implement the missing XSD-only grandchild first
+      (`PossibleErrorReaction`, Identifiable-based, `reactionCode`), and add
+      the aggregator's per-subtype create factories + parser/writer dispatch
+      (Rule 1.6/1.7). Do **not** stop after aligning only the directly
+      referenced child — a subtype left as an `ARObject` stub with invented
+      fields silently round-trips nothing even though the parent's list is
+      "aligned".
+      **Sibling subtype tables can carry a copy-pasted spec Note.** When one
+      subtype's table `Note` is a verbatim duplicate of a sibling's (e.g.
+      `TransientFault` Table E.50 and `RuntimeError` Table 12.39 both read
+      "The reported failure is classified as runtime error."), mirror each
+      table's own Note verbatim in that subtype's docstring — do **not**
+      "fix" the duplication by inventing a distinct description. Each
+      subtype's docstring is a provenance statement of *its* table, and the
+      subtypes may live in different PDFs (Rule 1.11).
       **Exception — a class with no own spec table is not a stub.** A
       referenced class whose attributes are XSD-only, with no rendered PDF
       table of its own (Rule 1.5, e.g. a concrete `<name>InstanceRef`),
@@ -846,6 +1016,18 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       arrangement can differ between PDFs even when the attribute rows are
       identical, so base the member order on the agreement, not on one
       document's pagination.
+- [ ] **A polymorphic family can span PDFs — each subtype cites its own
+      table.** The abstract parent and some subtypes may render in one PDF
+      while another subtype's table lives in a different one (e.g. the
+      `TracedFailure` family: the abstract base plus `DevelopmentError`/
+      `RuntimeError` are BSWModuleDescriptionTemplate Tables 12.36–12.39,
+      while `TransientFault`'s own table — carrying its sole
+      `possibleErrorReaction` attribute — is SoftwareComponentTemplate Table
+      E.50). When aligning a subtype, do **not** cite the parent's table or
+      read its attributes from the parent's rows: search the other PDF for
+      the subtype name and use *its* table for the `# Spec:` citation, the
+      member order, and the attribute set. A subtype's own attributes are
+      invisible if you only read the family's parent table.
 - [ ] Within one attribute, the accessor pair order is `getXxx` then
       `setXxx` (or `addXxx`/`getXxxs` for list attributes) — getter before
       setter for each attribute, mirroring the sibling classes that are already
@@ -927,6 +1109,17 @@ Check:
 - [ ] Verify the enum members: every literal row in the spec table must have a
       corresponding Python enum member. There must be **no extra members** (not
       in spec) and **no missing members** (in spec but not in code).
+      **Placeholder member shapes are the common wrong-set failure.** A
+      placeholder enum from an earlier stage often keeps the *right number* of
+      members with plausible-but-invented values — hyphenated or suffixed
+      values (`full-communication` for spec `full`), paraphrased names
+      (`FULL_COMMUNICATION` for spec `FULL`), or values split/joined differently
+      than the spec literal. A right-count/wrong-value enum passes a
+      member-count check and a spot check of "are there members?", so verify
+      each member's string value 1:1 against the `Literal` column (the XSD
+      `mmt.qualifiedName` tag is the same camelCase literal, e.g.
+      `MaxCommModeEnum.full`) and the member name against the literal's
+      UPPER_CASE conversion.
 - [ ] Enum member naming: convert the spec literal to Python UPPER_CASE naming.
       Example: spec literal `derivedFrom` → Python member `DERIVED_FROM`.
 - [ ] Enum member value: the string value must **exactly match** the spec literal
@@ -1503,6 +1696,22 @@ Check:
 `# Spec: <PDF-filename>.pdf, Table <X.Y>, p.<page>`
 - The PDF filename must match exactly (check the actual PDF file name in the
   repo).
+- **A class whose table renders in more than one PDF cites one PDF, chosen by
+  sibling-family consistency.** Many classes are rendered in several templates
+  with the *same* package and attribute rows (e.g. `ComMgrUserNeeds` appears
+  as both BSWModuleDescriptionTemplate Table 12.13 and SoftwareComponentTemplate
+  Table 13.5). Cite the PDF that the class's sibling family already uses for
+  its `# Spec:` lines (the deviation tracker's `**PDF:**`/`**page:**` header is
+  a reliable signal — it names the same document, e.g. the other
+  `ServiceNeeds` subclasses all cite the BSW template), and keep that choice
+  stable across the family; do **not** cite different PDFs for sibling classes
+  that share a package and table structure. For the *enum attribute type*
+  of such a class, the citation is independent: cite the PDF that renders the
+  enum's own `Enumeration` table, which can be a different document than the
+  class's (e.g. `MaxCommModeEnum` Table 13.6 lives only in the
+  SoftwareComponentTemplate even though the class that uses it cites the BSW
+  template). Verify the enum's page in *its* PDF (with `pypdf`, matching the
+  printed footer) rather than reusing the class's page.
 - Table number must be in format `X.Y` (e.g., `5.38`, not `5-38` or `538`).
 - The page number must **always** be present — a `# Spec:` line without
   `p.<page>` is a violation. Page number is from the PDF's own printed page
@@ -1599,14 +1808,17 @@ field-to-spec cross-check is the gate, not the checklist.
       the `ResourceConsumption` package submodules likewise import
       `HardwareConfiguration`/`SoftwareContext` under `TYPE_CHECKING`).
       **`from __future__ import annotations` is also the mechanism for
-      intra-module forward references** — a parent class whose annotations name
-      a child class declared *later in the same module* (e.g. `McGroup`'s
-      `Optional[McGroupDataRefSet]` fields/getters while `McGroupDataRefSet` is
-      defined below it). The aggregator/ARElement parent is conventionally
-      declared first; do **not** reorder the classes or move the child up to
-      satisfy the annotations — the future-import resolves the name lazily, and
-      `TYPE_CHECKING` alone is insufficient because it does not defer local
-      names. This is the single-module analogue of the cross-package case.
+      intra-module forward references** — any annotation that names a class
+      declared *later in the same module*, not just an aggregated child
+      (e.g. `McGroup`'s `Optional[McGroupDataRefSet]` fields/getters while
+      `McGroupDataRefSet` is defined below it, or `ComMgrUserNeeds`'s
+      `Optional[MaxCommModeEnum]` accessors while the enum is defined later in
+      the same `ServiceNeeds` module). The aggregator/ARElement parent is
+      conventionally declared first; do **not** reorder the classes or move
+      the referenced type up to satisfy the annotations — the future-import
+      resolves the name lazily, and `TYPE_CHECKING` alone is insufficient
+      because it does not defer local names. This is the single-module
+      analogue of the cross-package case.
 - [ ] A blank line separates each attribute block (comment + assignment) in
       `__init__`.
 - [ ] Code is formatted with Black at `line-length = 200` (per `pyproject.toml`,
@@ -1632,6 +1844,16 @@ separate logical units within the class.
 Check:
 - [ ] Every attribute in `__init__` has a blank line before and after its
       comment + assignment block.
+      **This is a manual-only check — Black and flake8 do not enforce it.**
+      Black leaves a run of contiguous `# comment / self.field = …` blocks
+      untouched (it only separates top-level statements), and the flake8 syntax
+      set catches nothing, so a class can pass `black-check`, `flake8`, the
+      set-based checklist, and all tests while its `__init__` fields are glued
+      together (this happened to `AliasNameAssignment` and
+      `SupervisedEntityNeeds` during alignment — the fields were written
+      contiguously and nothing flagged it). Verify spacing by eye or with a
+      small AST audit: in `__init__`, between consecutive field assignments the
+      intervening lines must contain a blank line.
 - [ ] Every enum literal block (inline comment + `NAME = "value"`) is
       separated from the next by exactly one blank line.
 - [ ] Every method is preceded by a blank line (except the first method

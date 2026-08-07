@@ -3,8 +3,14 @@ This module contains comprehensive tests for the ServiceNeeds.py file
 in the AUTOSAR CommonStructure module.
 """
 
+import os
+import tempfile
+
 import pytest
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
+from armodel.parser.arxml_parser import ARXMLParser
+from armodel.writer.arxml_writer import ARXMLWriter
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     RoleBasedDataAssignment,
     ServiceNeeds,
@@ -18,6 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DiagnosticAudienceEnum,
     DiagnosticServiceRequestCallbackTypeEnum,
     DiagnosticCapabilityElement,
+    DiagnosticIoControlNeeds,
     DiagnosticRoutineTypeEnum,
     DiagnosticCommunicationManagerNeeds,
     DiagnosticRoutineNeeds,
@@ -37,7 +44,17 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     CryptoServiceNeeds,
     EcuStateMgrUserNeeds,
     DltUserNeeds,
+    ComMgrUserNeeds,
+    MaxCommModeEnum,
+    SupervisedEntityNeeds,
+    ErrorTracerNeeds,
+    TracedFailure,
+    DevelopmentError,
+    RuntimeError,
+    TransientFault,
+    PossibleErrorReaction,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType, TimeValue
 
 
 class TestRoleBasedDataAssignment:
@@ -900,6 +917,116 @@ class TestDiagnosticValueNeeds:
         assert diag_value.getSecurityAccessLevel() == 4
 
 
+class TestDiagnosticIoControlNeeds:
+    def test_initialization(self):
+        """Test DiagnosticIoControlNeeds initialization"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = DiagnosticIoControlNeeds(ar_root, "TestDiagnosticIoControlNeeds")
+
+        assert needs is not None
+        assert needs.getShortName() == "TestDiagnosticIoControlNeeds"
+        assert needs.audiences == []
+        assert needs.diagRequirement is None
+        assert needs.securityAccessLevel is None
+        assert needs.currentValueRef is None
+        assert needs.freezeCurrentStateSupported is None
+        assert needs.resetToDefaultSupported is None
+        assert needs.shortTermAdjustmentSupported is None
+
+    def test_get_set_current_value_ref(self):
+        """Test getCurrentValueRef/setCurrentValueRef (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = DiagnosticIoControlNeeds(ar_root, "TestDiagnosticIoControlNeeds")
+
+        value = RefType().setValue("/Needs/CurrentValue")
+        result = needs.setCurrentValueRef(value)
+        assert result is needs  # Method chaining
+        assert needs.getCurrentValueRef() == value
+
+        needs.setCurrentValueRef(None)  # No-op
+        assert needs.getCurrentValueRef() == value
+
+    def test_get_set_freeze_current_state_supported(self):
+        """Test getFreezeCurrentStateSupported/setFreezeCurrentStateSupported (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = DiagnosticIoControlNeeds(ar_root, "TestDiagnosticIoControlNeeds")
+
+        value = Boolean().setValue(True)
+        result = needs.setFreezeCurrentStateSupported(value)
+        assert result is needs  # Method chaining
+        assert needs.getFreezeCurrentStateSupported() == value
+
+        needs.setFreezeCurrentStateSupported(None)  # No-op
+        assert needs.getFreezeCurrentStateSupported() == value
+
+    def test_get_set_reset_to_default_supported(self):
+        """Test getResetToDefaultSupported/setResetToDefaultSupported (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = DiagnosticIoControlNeeds(ar_root, "TestDiagnosticIoControlNeeds")
+
+        value = Boolean().setValue(False)
+        result = needs.setResetToDefaultSupported(value)
+        assert result is needs  # Method chaining
+        assert needs.getResetToDefaultSupported() == value
+
+        needs.setResetToDefaultSupported(None)  # No-op
+        assert needs.getResetToDefaultSupported() == value
+
+    def test_get_set_short_term_adjustment_supported(self):
+        """Test getShortTermAdjustmentSupported/setShortTermAdjustmentSupported (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = DiagnosticIoControlNeeds(ar_root, "TestDiagnosticIoControlNeeds")
+
+        value = Boolean().setValue(True)
+        result = needs.setShortTermAdjustmentSupported(value)
+        assert result is needs  # Method chaining
+        assert needs.getShortTermAdjustmentSupported() == value
+
+        needs.setShortTermAdjustmentSupported(None)  # No-op
+        assert needs.getShortTermAdjustmentSupported() == value
+
+
+class TestDiagnosticIoControlNeedsRoundTrip:
+    def test_round_trip_attributes(self):
+        """Test parse -> write -> re-parse preserves DiagnosticIoControlNeeds attributes."""
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        desc = ar_root.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        dependency = BswServiceDependency()
+        needs = DiagnosticIoControlNeeds(dependency, "IoNeeds")
+        needs.setCurrentValueRef(RefType().setValue("/Needs/Value"))
+        needs.setFreezeCurrentStateSupported(Boolean().setValue(True))
+        needs.setResetToDefaultSupported(Boolean().setValue(False))
+        needs.setShortTermAdjustmentSupported(Boolean().setValue(True))
+        dependency.setServiceNeeds(needs)
+        behavior.addServiceDependency(dependency)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            behavior_2 = document_2.getARPackages()[0].getBswModuleDescriptions()[0].getInternalBehaviors()[0]
+            needs_2 = behavior_2.getServiceDependencies()[0].getServiceNeeds()
+            assert needs_2.getShortName() == "IoNeeds"
+            assert needs_2.getCurrentValueRef().getValue() == "/Needs/Value"
+            assert needs_2.getFreezeCurrentStateSupported().getValue() is True
+            assert needs_2.getResetToDefaultSupported().getValue() is False
+            assert needs_2.getShortTermAdjustmentSupported().getValue() is True
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
 class TestDiagEventDebounceAlgorithm:
     def test_abstract_initialization(self):
         """Test that DiagEventDebounceAlgorithm cannot be instantiated directly"""
@@ -1320,11 +1447,9 @@ class TestDiagnosticEventNeeds:
         assert diag_event.deferringFidRefs == []
         assert diag_event.diagEventDebounceAlgorithm is None
         assert diag_event.inhibitingFidRef is None
-        assert diag_event.inhibitingSecondaryFidRef is None
+        assert diag_event.inhibitingSecondaryFidRefs == []
         assert diag_event.prestoredFreezeframeStoredInNvm is None
         assert diag_event.usesMonitorData is None
-        assert diag_event.dtcKind is None
-        assert diag_event.udsDtcNumber is None
 
     def test_get_deferring_fid_refs(self):
         """Test getDeferringFidRefs and addDeferringFidRef methods"""
@@ -1340,6 +1465,9 @@ class TestDiagnosticEventNeeds:
         ref = MockRefType()
         result = diag_event.addDeferringFidRef(ref)
         assert result is diag_event
+        assert diag_event.getDeferringFidRefs() == [ref]
+
+        diag_event.addDeferringFidRef(None)
         assert diag_event.getDeferringFidRefs() == [ref]
 
     def test_get_set_diag_event_debounce_algorithm(self):
@@ -1396,21 +1524,27 @@ class TestDiagnosticEventNeeds:
         assert result is diag_event
         assert diag_event.getInhibitingFidRef() == ref
 
-    def test_get_set_inhibiting_secondary_fid_ref(self):
-        """Test getInhibitingSecondaryFidRef and setInhibitingSecondaryFidRef methods"""
+        diag_event.setInhibitingFidRef(None)
+        assert diag_event.getInhibitingFidRef() == ref
+
+    def test_get_add_inhibiting_secondary_fid_refs(self):
+        """Test getInhibitingSecondaryFidRefs and addInhibitingSecondaryFidRef methods"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_event = DiagnosticEventNeeds(ar_root, "TestDiagnosticEventNeeds")
 
-        assert diag_event.getInhibitingSecondaryFidRef() is None
+        assert diag_event.getInhibitingSecondaryFidRefs() == []
 
         class MockRefType:
             pass
 
         ref = MockRefType()
-        result = diag_event.setInhibitingSecondaryFidRef(ref)
+        result = diag_event.addInhibitingSecondaryFidRef(ref)
         assert result is diag_event
-        assert diag_event.getInhibitingSecondaryFidRef() == ref
+        assert diag_event.getInhibitingSecondaryFidRefs() == [ref]
+
+        diag_event.addInhibitingSecondaryFidRef(None)
+        assert diag_event.getInhibitingSecondaryFidRefs() == [ref]
 
     def test_get_set_prestored_freezeframe_stored_in_nvm(self):
         """Test getPrestoredFreezeframeStoredInNvm and setPrestoredFreezeframeStoredInNvm methods"""
@@ -1422,6 +1556,9 @@ class TestDiagnosticEventNeeds:
 
         result = diag_event.setPrestoredFreezeframeStoredInNvm(True)
         assert result is diag_event
+        assert diag_event.getPrestoredFreezeframeStoredInNvm() is True
+
+        diag_event.setPrestoredFreezeframeStoredInNvm(None)
         assert diag_event.getPrestoredFreezeframeStoredInNvm() is True
 
     def test_get_set_uses_monitor_data(self):
@@ -1436,29 +1573,60 @@ class TestDiagnosticEventNeeds:
         assert result is diag_event
         assert diag_event.getUsesMonitorData() is True
 
-    def test_get_set_dtc_kind(self):
-        """Test getDtcKind and setDtcKind methods"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        diag_event = DiagnosticEventNeeds(ar_root, "TestDiagnosticEventNeeds")
+        diag_event.setUsesMonitorData(None)
+        assert diag_event.getUsesMonitorData() is True
 
-        assert diag_event.getDtcKind() is None
+    def test_roundtrip_diagnostic_event_needs(self):
+        """Test parser/writer round trip for DiagnosticEventNeeds"""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        swc = ar_root.createApplicationSwComponentType("App")
+        behavior = swc.createSwcInternalBehavior("Behavior")
+        dependency = behavior.createSwcServiceDependency("Dep")
+        needs = dependency.createDiagnosticEventNeeds("eventNeeds")
 
-        result = diag_event.setDtcKind("TEST_DTC")
-        assert result is diag_event
-        assert diag_event.getDtcKind() == "TEST_DTC"
+        ref1 = RefType()
+        ref1.setValue("/Fim/Defer")
+        ref1.setDest("FUNCTION-INHIBITION-NEEDS")
+        needs.addDeferringFidRef(ref1)
+        ref2 = RefType()
+        ref2.setValue("/Fim/Inhibit")
+        ref2.setDest("FUNCTION-INHIBITION-NEEDS")
+        needs.setInhibitingFidRef(ref2)
+        ref3 = RefType()
+        ref3.setValue("/Fim/Secondary")
+        ref3.setDest("FUNCTION-INHIBITION-NEEDS")
+        needs.addInhibitingSecondaryFidRef(ref3)
+        bool_nvm = Boolean()
+        bool_nvm.setValue(True)
+        needs.setPrestoredFreezeframeStoredInNvm(bool_nvm)
+        bool_monitor = Boolean()
+        bool_monitor.setValue(True)
+        needs.setUsesMonitorData(bool_monitor)
 
-    def test_get_set_uds_dtc_number(self):
-        """Test getUdsDtcNumber and setUdsDtcNumber methods"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        diag_event = DiagnosticEventNeeds(ar_root, "TestDiagnosticEventNeeds")
+        import tempfile
+        import os
 
-        assert diag_event.getUdsDtcNumber() is None
-
-        result = diag_event.setUdsDtcNumber(789)
-        assert result is diag_event
-        assert diag_event.getUdsDtcNumber() == 789
+        writer = ARXMLWriter()
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as f:
+            writer.save(f.name, document)
+            path = f.name
+        try:
+            parser = ARXMLParser()
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            parser.load(path, document_2)
+            loaded = document_2.find("/AUTOSAR/App/Behavior/Dep/eventNeeds")
+            assert loaded is not None
+            assert len(loaded.getDeferringFidRefs()) == 1
+            assert loaded.getDeferringFidRefs()[0].getValue() == "/Fim/Defer"
+            assert loaded.getInhibitingFidRef().getValue() == "/Fim/Inhibit"
+            assert len(loaded.getInhibitingSecondaryFidRefs()) == 1
+            assert loaded.getInhibitingSecondaryFidRefs()[0].getValue() == "/Fim/Secondary"
+            assert loaded.getPrestoredFreezeframeStoredInNvm().getValue() is True
+            assert loaded.getUsesMonitorData().getValue() is True
+        finally:
+            os.unlink(path)
 
     def test_get_set_audiences(self):
         """Test getAudiences and addAudience methods"""
@@ -1496,6 +1664,224 @@ class TestDiagnosticEventNeeds:
         result = diag_event.setSecurityAccessLevel(7)
         assert result is diag_event
         assert diag_event.getSecurityAccessLevel() == 7
+
+
+class TestErrorTracerNeeds:
+    def test_initialization(self):
+        """Test ErrorTracerNeeds initialization"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = ErrorTracerNeeds(ar_root, "TestErrorTracerNeeds")
+
+        assert needs is not None
+        assert needs.getShortName() == "TestErrorTracerNeeds"
+        assert needs.getTracedFailures() == []
+
+    def test_get_traced_failures(self):
+        """Test getTracedFailures default value"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = ErrorTracerNeeds(ar_root, "TestErrorTracerNeeds")
+        assert needs.getTracedFailures() == []
+
+    def test_create_development_error(self):
+        """Test createDevelopmentError method"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = ErrorTracerNeeds(ar_root, "TestErrorTracerNeeds")
+
+        failure = needs.createDevelopmentError("DevError")
+        assert isinstance(failure, DevelopmentError)
+        assert failure.getShortName() == "DevError"
+        assert len(needs.getTracedFailures()) == 1
+
+        same = needs.createDevelopmentError("DevError")
+        assert same is failure
+        assert len(needs.getTracedFailures()) == 1
+
+    def test_create_runtime_error(self):
+        """Test createRuntimeError method"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = ErrorTracerNeeds(ar_root, "TestErrorTracerNeeds")
+
+        failure = needs.createRuntimeError("RunError")
+        assert isinstance(failure, RuntimeError)
+        assert failure.getShortName() == "RunError"
+        assert len(needs.getTracedFailures()) == 1
+
+    def test_create_transient_fault(self):
+        """Test createTransientFault method"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = ErrorTracerNeeds(ar_root, "TestErrorTracerNeeds")
+
+        failure = needs.createTransientFault("TransFault")
+        assert isinstance(failure, TransientFault)
+        assert failure.getShortName() == "TransFault"
+        assert len(needs.getTracedFailures()) == 1
+
+    def test_roundtrip_error_tracer_needs(self):
+        """Test parser/writer round trip for ErrorTracerNeeds"""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        swc = ar_root.createApplicationSwComponentType("App")
+        behavior = swc.createSwcInternalBehavior("Behavior")
+        dependency = behavior.createSwcServiceDependency("Dep")
+        needs = dependency.createErrorTracerNeeds("etn")
+
+        dev = needs.createDevelopmentError("dev1")
+        id_value = PositiveInteger()
+        id_value.setValue("10")
+        dev.setId(id_value)
+        needs.createRuntimeError("rt1")
+        tf = needs.createTransientFault("tf1")
+        reaction = tf.createPossibleErrorReaction("reac1")
+        reaction_code = PositiveInteger()
+        reaction_code.setValue("99")
+        reaction.setReactionCode(reaction_code)
+
+        import tempfile
+        import os
+
+        writer = ARXMLWriter()
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as f:
+            writer.save(f.name, document)
+            path = f.name
+        try:
+            parser = ARXMLParser()
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            parser.load(path, document_2)
+            loaded = document_2.find("/AUTOSAR/App/Behavior/Dep/etn")
+            assert loaded is not None
+            failures = loaded.getTracedFailures()
+            assert len(failures) == 3
+            by_name = {f.getShortName(): f for f in failures}
+            assert isinstance(by_name["dev1"], DevelopmentError)
+            assert by_name["dev1"].getId().getValue() == 10
+            assert isinstance(by_name["rt1"], RuntimeError)
+            assert isinstance(by_name["tf1"], TransientFault)
+            assert len(by_name["tf1"].getPossibleErrorReactions()) == 1
+            assert by_name["tf1"].getPossibleErrorReactions()[0].getReactionCode().getValue() == 99
+        finally:
+            os.unlink(path)
+
+
+class TestTracedFailure:
+    def test_abstract_initialization(self):
+        """Test that TracedFailure cannot be instantiated directly"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        with pytest.raises(TypeError):
+            TracedFailure(ar_root, "TestTracedFailure")
+
+    def test_concrete_subclass_initialization(self):
+        """Test abstract TracedFailure __init__ defaults through a concrete subclass"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        failure = DevelopmentError(ar_root, "TestTracedFailure")
+
+        assert failure.getShortName() == "TestTracedFailure"
+        assert failure.getId() is None
+
+    def test_get_set_id(self):
+        """Test getId and setId methods through a concrete subclass"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        failure = DevelopmentError(ar_root, "TestTracedFailure")
+
+        assert failure.getId() is None
+
+        value = PositiveInteger()
+        value.setValue("5")
+        result = failure.setId(value)
+        assert result is failure
+        assert failure.getId() == value
+
+        failure.setId(None)
+        assert failure.getId() == value
+
+
+class TestDevelopmentError:
+    def test_initialization(self):
+        """Test DevelopmentError initialization"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        failure = DevelopmentError(ar_root, "TestDevelopmentError")
+
+        assert failure is not None
+        assert failure.getShortName() == "TestDevelopmentError"
+        assert failure.getId() is None
+
+
+class TestRuntimeError:
+    def test_initialization(self):
+        """Test RuntimeError initialization"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        failure = RuntimeError(ar_root, "TestRuntimeError")
+
+        assert failure is not None
+        assert failure.getShortName() == "TestRuntimeError"
+        assert failure.getId() is None
+
+
+class TestTransientFault:
+    def test_initialization(self):
+        """Test TransientFault initialization"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        failure = TransientFault(ar_root, "TestTransientFault")
+
+        assert failure is not None
+        assert failure.getShortName() == "TestTransientFault"
+        assert failure.getId() is None
+        assert failure.getPossibleErrorReactions() == []
+
+    def test_create_possible_error_reaction(self):
+        """Test createPossibleErrorReaction and getPossibleErrorReactions methods"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        failure = TransientFault(ar_root, "TestTransientFault")
+
+        reaction = failure.createPossibleErrorReaction("Reac")
+        assert isinstance(reaction, PossibleErrorReaction)
+        assert reaction.getShortName() == "Reac"
+        assert len(failure.getPossibleErrorReactions()) == 1
+
+        same = failure.createPossibleErrorReaction("Reac")
+        assert same is reaction
+        assert len(failure.getPossibleErrorReactions()) == 1
+
+
+class TestPossibleErrorReaction:
+    def test_initialization(self):
+        """Test PossibleErrorReaction initialization"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        reaction = PossibleErrorReaction(ar_root, "TestPossibleErrorReaction")
+
+        assert reaction is not None
+        assert reaction.getShortName() == "TestPossibleErrorReaction"
+        assert reaction.getReactionCode() is None
+
+    def test_get_set_reaction_code(self):
+        """Test getReactionCode and setReactionCode methods"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        reaction = PossibleErrorReaction(ar_root, "TestPossibleErrorReaction")
+
+        assert reaction.getReactionCode() is None
+
+        value = PositiveInteger()
+        value.setValue("42")
+        result = reaction.setReactionCode(value)
+        assert result is reaction
+        assert reaction.getReactionCode() == value
+
+        reaction.setReactionCode(None)
+        assert reaction.getReactionCode() == value
 
 
 class TestCryptoServiceNeeds:
@@ -1581,3 +1967,189 @@ class TestDltUserNeeds:
 
         assert dlt_user is not None
         assert dlt_user.getShortName() == "TestDltUserNeeds"
+
+
+class TestMaxCommModeEnum:
+    def test_initialization(self):
+        """Test MaxCommModeEnum initialization"""
+        enum = MaxCommModeEnum()
+
+        assert enum.enumValues == ("full", "none", "silent")
+
+    def test_values(self):
+        """Test enum values"""
+        assert MaxCommModeEnum.FULL == "full"
+        assert MaxCommModeEnum.NONE == "none"
+        assert MaxCommModeEnum.SILENT == "silent"
+
+
+class TestComMgrUserNeeds:
+    def test_initialization(self):
+        """Test ComMgrUserNeeds initialization"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = ComMgrUserNeeds(ar_root, "TestComMgrUserNeeds")
+
+        assert needs is not None
+        assert needs.getShortName() == "TestComMgrUserNeeds"
+        assert needs.maxCommMode is None
+
+    def test_get_set_max_comm_mode(self):
+        """Test getMaxCommMode/setMaxCommMode (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = ComMgrUserNeeds(ar_root, "TestComMgrUserNeeds")
+
+        value = MaxCommModeEnum().setValue(MaxCommModeEnum.FULL)
+        result = needs.setMaxCommMode(value)
+        assert result is needs  # Method chaining
+        assert needs.getMaxCommMode() == value
+
+        needs.setMaxCommMode(None)  # No-op
+        assert needs.getMaxCommMode() == value
+
+
+class TestComMgrUserNeedsRoundTrip:
+    def test_round_trip_max_comm_mode(self):
+        """Test parse -> write -> re-parse preserves maxCommMode."""
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        desc = ar_root.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        dependency = BswServiceDependency()
+        needs = ComMgrUserNeeds(dependency, "ComNeeds")
+        needs.setMaxCommMode(MaxCommModeEnum().setValue(MaxCommModeEnum.FULL))
+        dependency.setServiceNeeds(needs)
+        behavior.addServiceDependency(dependency)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            behavior_2 = document_2.getARPackages()[0].getBswModuleDescriptions()[0].getInternalBehaviors()[0]
+            needs_2 = behavior_2.getServiceDependencies()[0].getServiceNeeds()
+            assert needs_2.getShortName() == "ComNeeds"
+            assert needs_2.getMaxCommMode().getValue() == "full"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestSupervisedEntityNeeds:
+    def test_initialization(self):
+        """Test SupervisedEntityNeeds initialization"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = SupervisedEntityNeeds(ar_root, "TestSupervisedEntityNeeds")
+
+        assert needs is not None
+        assert needs.getShortName() == "TestSupervisedEntityNeeds"
+        assert needs.activateAtStart is None
+        assert needs.checkpointsRefs == []
+        assert needs.enableDeactivation is None
+        assert needs.expectedAliveCycle is None
+        assert needs.maxAliveCycle is None
+        assert needs.minAliveCycle is None
+        assert needs.toleratedFailedCycles is None
+
+    def test_get_set_activate_at_start(self):
+        """Test getActivateAtStart/setActivateAtStart (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = SupervisedEntityNeeds(ar_root, "TestSupervisedEntityNeeds")
+
+        value = Boolean().setValue(True)
+        result = needs.setActivateAtStart(value)
+        assert result is needs  # Method chaining
+        assert needs.getActivateAtStart() == value
+
+        needs.setActivateAtStart(None)  # No-op
+        assert needs.getActivateAtStart() == value
+
+    def test_add_get_checkpoints_refs(self):
+        """Test addCheckpointsRef/getCheckpointsRefs (append, chaining, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = SupervisedEntityNeeds(ar_root, "TestSupervisedEntityNeeds")
+
+        ref = RefType().setValue("/Checkpoint")
+        result = needs.addCheckpointsRef(ref)
+        assert result is needs  # Method chaining
+        assert needs.getCheckpointsRefs() == [ref]
+
+        needs.addCheckpointsRef(None)  # No-op
+        assert needs.getCheckpointsRefs() == [ref]
+
+    def test_get_set_enable_deactivation(self):
+        """Test getEnableDeactivation/setEnableDeactivation (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = SupervisedEntityNeeds(ar_root, "TestSupervisedEntityNeeds")
+
+        value = Boolean().setValue(False)
+        result = needs.setEnableDeactivation(value)
+        assert result is needs  # Method chaining
+        assert needs.getEnableDeactivation() == value
+
+        needs.setEnableDeactivation(None)  # No-op
+        assert needs.getEnableDeactivation() == value
+
+    def test_get_set_expected_alive_cycle(self):
+        """Test getExpectedAliveCycle/setExpectedAliveCycle (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = SupervisedEntityNeeds(ar_root, "TestSupervisedEntityNeeds")
+
+        value = TimeValue().setValue(0.001)
+        result = needs.setExpectedAliveCycle(value)
+        assert result is needs  # Method chaining
+        assert needs.getExpectedAliveCycle() == value
+
+        needs.setExpectedAliveCycle(None)  # No-op
+        assert needs.getExpectedAliveCycle() == value
+
+    def test_get_set_max_alive_cycle(self):
+        """Test getMaxAliveCycle/setMaxAliveCycle (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = SupervisedEntityNeeds(ar_root, "TestSupervisedEntityNeeds")
+
+        value = TimeValue().setValue(0.01)
+        result = needs.setMaxAliveCycle(value)
+        assert result is needs  # Method chaining
+        assert needs.getMaxAliveCycle() == value
+
+        needs.setMaxAliveCycle(None)  # No-op
+        assert needs.getMaxAliveCycle() == value
+
+    def test_get_set_min_alive_cycle(self):
+        """Test getMinAliveCycle/setMinAliveCycle (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = SupervisedEntityNeeds(ar_root, "TestSupervisedEntityNeeds")
+
+        value = TimeValue().setValue(0.001)
+        result = needs.setMinAliveCycle(value)
+        assert result is needs  # Method chaining
+        assert needs.getMinAliveCycle() == value
+
+        needs.setMinAliveCycle(None)  # No-op
+        assert needs.getMinAliveCycle() == value
+
+    def test_get_set_tolerated_failed_cycles(self):
+        """Test getToleratedFailedCycles/setToleratedFailedCycles (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = SupervisedEntityNeeds(ar_root, "TestSupervisedEntityNeeds")
+
+        value = PositiveInteger().setValue("4")
+        result = needs.setToleratedFailedCycles(value)
+        assert result is needs  # Method chaining
+        assert needs.getToleratedFailedCycles() == value
+
+        needs.setToleratedFailedCycles(None)  # No-op
+        assert needs.getToleratedFailedCycles() == value

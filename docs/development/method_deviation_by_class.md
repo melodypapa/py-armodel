@@ -642,37 +642,61 @@ No deviations — all attributes (`assignedEntryRef`, `role`) implemented with p
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
 
+Model aligned (Table 12.12, p.234): all 7 spec attributes implemented in PDF
+display order with accessors, tests, and parser/writer coverage
+(`readSupervisedEntityNeeds`/`writeSupervisedEntityNeeds` + `BswServiceDependency`
+SERVICE-NEEDS dispatch branches). The earlier state was a bare placeholder
+(zero attributes) whose 7 `missing` rows had been recorded but never
+implemented.
+
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `activateAtStart` | `Boolean` | — | missing |
-| — *(missing)* | `—` | `checkpoints` | `SupervisedEntityCheckpointNeedsRefConditional` | — | missing |
-| — *(missing)* | `—` | `enableDeactivation` | `Boolean` | — | missing |
-| — *(missing)* | `—` | `expectedAliveCycle` | `TimeValue` | — | missing |
-| — *(missing)* | `—` | `maxAliveCycle` | `TimeValue` | — | missing |
-| — *(missing)* | `—` | `minAliveCycle` | `TimeValue` | — | missing |
-| — *(missing)* | `—` | `toleratedFailedCycles` | `PositiveInteger` | — | missing |
+| `checkpointsRefs` | `List[RefType]` | `checkpoints` | `SupervisedEntityCheckpointNeedsRefConditional` | ref | modeled as plain `List[RefType]` per the codebase-wide REF-CONDITIONAL convention: the XSD `CHECKPOINTSS` wrapper → `SUPERVISED-ENTITY-CHECKPOINT-NEEDS-REF-CONDITIONAL` item (atpVariation directed-association) is unwrapped by the parser (`...-REF-CONDITIONAL/...-REF`) and re-wrapped by the writer; the CONDITION/VARIATION-POINT children are not modeled |
 
 ## `ComMgrUserNeeds`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 235
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
 
+Model aligned (Table 12.13, p.235): the single spec attribute `maxCommMode` is
+implemented in PDF display order with accessors, tests, and parser/writer
+coverage (`readComMgrUserNeeds`/`writeComMgrUserNeeds` + the
+`BswServiceDependency`/`SwcServiceDependency` SERVICE-NEEDS dispatch branches
+and `SwcServiceDependency.createComMgrUserNeeds`). The enum attribute type
+`MaxCommModeEnum` was realigned to its own spec table (SoftwareComponentTemplate
+Table 13.6, p.711): member values corrected from `"full-communication"` etc. to
+the spec literals `full`/`none`/`silent` and member names to `FULL`/`NONE`/
+`SILENT`.
+
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `maxCommMode` | `MaxCommModeEnum` | — | missing |
+| `maxCommMode` | `Optional[MaxCommModeEnum]` | `maxCommMode` | `MaxCommModeEnum` | attr | — |
 
 ## `DiagnosticIoControlNeeds`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 248
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
 
+Model aligned (Table 12.26, p.248): all R23-11 spec attributes implemented in
+PDF display order with accessors, tests, and parser/writer coverage
+(`readDiagnosticIoControlNeeds`/`writeDiagnosticIoControlNeeds` + the
+`BswServiceDependency`/`SwcServiceDependency` SERVICE-NEEDS dispatch branches
+and `SwcServiceDependency.createDiagnosticIoControlNeeds`). The base class was
+corrected from `ServiceNeeds` to `DiagnosticCapabilityElement` (the most-derived
+model class in the spec `Base` chain). `didNumber` is **not implemented**: it
+appears only in the stale `docs/requirements/xsd/AUTOSAR_00046.xsd` (AUTOSAR
+CP 4.4.0 / AP 18-10, i.e. 2018) as `DID-NUMBER`, but is absent from the R23-11
+PDF tables (both BSW Table 12.26 and DiagnosticExtract Table 4.82) — it was
+removed upstream between 4.4.0 and R23-11, so it is treated like an
+`atp.Status="removed"` attribute rather than a PDF rendering gap.
+
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `currentValueRef` | `Ref (DiagnosticValueNeeds)` | Ref | missing |
-| — *(missing)* | `—` | `didNumber` | `PositiveInteger` | — | missing |
-| — *(missing)* | `—` | `freezeCurrentStateSupported` | `Boolean` | — | missing |
-| — *(missing)* | `—` | `resetToDefaultSupported` | `Boolean` | — | missing |
-| — *(missing)* | `—` | `shortTermAdjustmentSupported` | `Boolean` | — | missing |
+| `currentValueRef` | `Optional[RefType]` | `currentValue` | `Ref (DiagnosticValueNeeds)` | ref | — |
+| `freezeCurrentStateSupported` | `Optional[Boolean]` | `freezeCurrentStateSupported` | `Boolean` | attr | — |
+| `resetToDefaultSupported` | `Optional[Boolean]` | `resetToDefaultSupported` | `Boolean` | attr | — |
+| `shortTermAdjustmentSupported` | `Optional[Boolean]` | `shortTermAdjustmentSupported` | `Boolean` | attr | — |
+| — *(not implemented)* | `—` | `didNumber` | `PositiveInteger` | attr | removed upstream: present only in the stale 2018 XSD (`DID-NUMBER` in AUTOSAR_00046.xsd), absent from the R23-11 PDF tables; not modeled (see Rule 1.3 release-alignment caveat) |
 
 ## `DiagnosticEventNeeds`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 258
@@ -681,10 +705,11 @@ No deviations — all attributes (`assignedEntryRef`, `role`) implemented with p
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `considerPtoStatus` | `Boolean` | — | missing |
-| `inhibitingSecondaryFidRef` | `—` | `inhibitingSecondaryFidRefs` | `Ref (FunctionInhibitionNeeds)` | Refs | type (spec many vs py single) |
-| — *(missing)* | `—` | `obdDtcNumber` | `PositiveInteger` | — | missing |
-| — *(missing)* | `—` | `reportBehavior` | `ReportBehaviorEnum` | — | missing |
+| `dtcKind` *(removed)* | `—` | — | — | — | removed upstream: present only in the stale 2018 XSD (`DTC-KIND` in AUTOSAR_00046.xsd), absent from the R23-11 PDF tables; not modeled (see Rule 1.3 release-alignment caveat) |
+| — *(not modeled)* | `—` | `considerPtoStatus` | `Boolean` | attr | removed upstream: present only in the stale 2018 XSD (`CONSIDER-PTO-STATUS` in AUTOSAR_00046.xsd), absent from the R23-11 PDF tables; not modeled (see Rule 1.3 release-alignment caveat) |
+| — *(not modeled)* | `—` | `obdDtcNumber` | `PositiveInteger` | attr | removed upstream: present only in the stale 2018 XSD (`OBD-DTC-NUMBER` in AUTOSAR_00046.xsd), absent from the R23-11 PDF tables; not modeled (see Rule 1.3 release-alignment caveat) |
+| — *(not modeled)* | `—` | `reportBehavior` | `ReportBehaviorEnum` | attr | removed upstream: present only in the stale 2018 XSD (`REPORT-BEHAVIOR` in AUTOSAR_00046.xsd), absent from the R23-11 PDF tables; not modeled (see Rule 1.3 release-alignment caveat) |
+| `udsDtcNumber` *(removed)* | `—` | — | — | — | removed upstream: present only in the stale 2018 XSD (`UDS-DTC-NUMBER` in AUTOSAR_00046.xsd), absent from the R23-11 PDF tables; not modeled (see Rule 1.3 release-alignment caveat) |
 
 ## `ErrorTracerNeeds`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 263
@@ -693,7 +718,43 @@ No deviations — all attributes (`assignedEntryRef`, `role`) implemented with p
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `tracedFailure` | `DevelopmentError` | — | missing |
+| — | — | — | — | — | No deviations |
+
+## `TracedFailure`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 263
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — | — | — | — | — | No deviations |
+
+## `DevelopmentError`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 263
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — | — | — | — | — | No deviations |
+
+## `RuntimeError`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 263
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — | — | — | — | — | No deviations |
+
+## `PossibleErrorReaction`
+- **PDF:** *no own spec table*  | **page:** —
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `reactionCode` | `Optional[PositiveInteger]` | `reactionCode` | `PositiveInteger` (XSD `REACTION-CODE`) | attr | no own spec table; attributes from XSD group `POSSIBLE-ERROR-REACTION` |
 
 ## `ARPackage`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 300
@@ -1915,7 +1976,7 @@ Aligned to `class_check_rules.md` on 2026-08-07. PDF-synced (Rule 1):
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `possibleErrorReaction` | `PossibleErrorReaction` | — | missing |
+| — | — | — | — | — | No deviations |
 
 ## `CanCluster`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 62

@@ -4,10 +4,11 @@ in software component internal behavior templates.
 """
 
 from typing import List
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagnosticCommunicationManagerNeeds, DiagnosticEventInfoNeeds
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ComMgrUserNeeds, CryptoServiceNeeds, DiagnosticCommunicationManagerNeeds, DiagnosticEventInfoNeeds
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticIoControlNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DltUserNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticEventNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DtcStatusChangeNotificationNeeds, EcuStateMgrUserNeeds, NvBlockNeeds
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DtcStatusChangeNotificationNeeds, EcuStateMgrUserNeeds, ErrorTracerNeeds, NvBlockNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment, ServiceNeeds, ServiceDependency
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
@@ -99,7 +100,10 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
     # [ ] createCryptoServiceNeeds     [x] impl  [x] docstring  [ ] test
     # [ ] createEcuStateMgrUserNeeds   [x] impl  [x] docstring  [ ] test
     # [ ] createDtcStatusChangeNotificationNeeds [x] impl  [x] docstring  [ ] test
+    # [ ] createDiagnosticIoControlNeeds [x] impl  [x] docstring  [x] test
     # [ ] createDltUserNeeds           [x] impl  [x] docstring  [ ] test
+    # [ ] createComMgrUserNeeds        [x] impl  [x] docstring  [x] test
+    # [ ] createErrorTracerNeeds       [x] impl  [x] docstring  [ ] test
     # [ ] getNvBlockNeeds              [x] impl  [x] docstring  [ ] test
     # [ ] getDiagnosticCommunicationManagerNeeds [x] impl  [x] docstring  [ ] test
     # [ ] getDiagnosticRoutineNeeds    [x] impl  [x] docstring  [ ] test
@@ -109,7 +113,10 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
     # [ ] getCryptoServiceNeeds        [x] impl  [x] docstring  [ ] test
     # [ ] getEcuStateMgrUserNeeds      [x] impl  [x] docstring  [ ] test
     # [ ] getDtcStatusChangeNotificationNeeds [x] impl  [x] docstring  [ ] test
+    # [ ] getDiagnosticIoControlNeeds  [x] impl  [x] docstring  [x] test
     # [ ] getDltUserNeeds              [x] impl  [x] docstring  [ ] test
+    # [ ] getComMgrUserNeeds           [x] impl  [x] docstring  [x] test
+    # [ ] getErrorTracerNeeds          [x] impl  [x] docstring  [ ] test
     # [ ] getServiceNeeds              [x] impl  [x] docstring  [ ] test
 
     def __init__(self, parent: ARObject, short_name: str):
@@ -292,6 +299,21 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
             self.addElement(needs)
         return self.getElement(short_name)
 
+    def createDiagnosticIoControlNeeds(self, short_name: str) -> DiagnosticIoControlNeeds:
+        """
+        Creates or retrieves a DiagnosticIoControlNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            DiagnosticIoControlNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name):
+            needs = DiagnosticIoControlNeeds(self, short_name)
+            self.addElement(needs)
+        return self.getElement(short_name)
+
     def createDltUserNeeds(self, short_name: str) -> DltUserNeeds:
         """
         Creates or retrieves a DltUserNeeds element.
@@ -304,6 +326,36 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         """
         if not self.IsElementExists(short_name):
             needs = DltUserNeeds(self, short_name)
+            self.addElement(needs)
+        return self.getElement(short_name)
+
+    def createComMgrUserNeeds(self, short_name: str) -> ComMgrUserNeeds:
+        """
+        Creates or retrieves a ComMgrUserNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            ComMgrUserNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name):
+            needs = ComMgrUserNeeds(self, short_name)
+            self.addElement(needs)
+        return self.getElement(short_name)
+
+    def createErrorTracerNeeds(self, short_name: str) -> ErrorTracerNeeds:
+        """
+        Creates or retrieves an ErrorTracerNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            ErrorTracerNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name):
+            needs = ErrorTracerNeeds(self, short_name)
             self.addElement(needs)
         return self.getElement(short_name)
 
@@ -392,6 +444,16 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         """
         return sorted(filter(lambda c: isinstance(c, DtcStatusChangeNotificationNeeds), self.elements), key=lambda e: e.short_name)
 
+    def getDiagnosticIoControlNeeds(self) -> List[DiagnosticIoControlNeeds]:
+        """
+        Gets sorted DiagnosticIoControlNeeds elements.
+
+        Returns:
+            List[DiagnosticIoControlNeeds]: Sorted list of
+                DiagnosticIoControlNeeds
+        """
+        return sorted(filter(lambda c: isinstance(c, DiagnosticIoControlNeeds), self.elements), key=lambda e: e.short_name)
+
     def getDltUserNeeds(self) -> List[DltUserNeeds]:
         """
         Gets sorted DltUserNeeds elements.
@@ -400,6 +462,24 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
             List[DltUserNeeds]: Sorted list of DltUserNeeds
         """
         return sorted(filter(lambda c: isinstance(c, DltUserNeeds), self.elements), key=lambda e: e.short_name)
+
+    def getComMgrUserNeeds(self) -> List[ComMgrUserNeeds]:
+        """
+        Gets sorted ComMgrUserNeeds elements.
+
+        Returns:
+            List[ComMgrUserNeeds]: Sorted list of ComMgrUserNeeds
+        """
+        return sorted(filter(lambda c: isinstance(c, ComMgrUserNeeds), self.elements), key=lambda e: e.short_name)
+
+    def getErrorTracerNeeds(self) -> List[ErrorTracerNeeds]:
+        """
+        Gets sorted ErrorTracerNeeds elements.
+
+        Returns:
+            List[ErrorTracerNeeds]: Sorted list of ErrorTracerNeeds
+        """
+        return sorted(filter(lambda c: isinstance(c, ErrorTracerNeeds), self.elements), key=lambda e: e.short_name)
 
     def getServiceNeeds(self) -> List[ServiceNeeds]:
         """

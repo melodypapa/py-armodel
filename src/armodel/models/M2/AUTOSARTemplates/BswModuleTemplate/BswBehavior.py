@@ -2137,11 +2137,11 @@ class RoleBasedBswModuleEntryAssignment(ARObject):
     # RoleBasedBswModuleEntryAssignment method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.3, p.226
     # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getAssignedEntryRef          [x] impl  [x] docstring  [ ] test
-    # [ ] setAssignedEntryRef          [x] impl  [x] docstring  [ ] test
-    # [ ] getRole                      [x] impl  [x] docstring  [ ] test
-    # [ ] setRole                      [x] impl  [x] docstring  [ ] test
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getAssignedEntryRef          [x] impl  [x] docstring  [x] test
+    # [x] setAssignedEntryRef          [x] impl  [x] docstring  [x] test
+    # [x] getRole                      [x] impl  [x] docstring  [x] test
+    # [x] setRole                      [x] impl  [x] docstring  [x] test
 
     def __init__(self):
         """
@@ -2150,17 +2150,17 @@ class RoleBasedBswModuleEntryAssignment(ARObject):
         super().__init__()
 
         # The assigned entry. It should be an implementedEntry or expectedEntry of the
-        # module or cluster that requires the ServiceNeeds. [constr_10258]: shall exist
+        # module or cluster of the ServiceNeeds. [constr_10258]: shall exist
         # when the configuration of the BSW module is finished.
-        self.assignedEntryRef: RefType = None
+        self.assignedEntryRef: Optional[RefType] = None
 
         # This is the role of the assigned BswModuleEntry in the given context. Required
         # because different kinds of callbacks may be associated with the same
         # ServiceNeeds (e.g. end-notification vs. error-notification). [constr_10259]:
         # shall exist when the configuration of the BSW module is finished.
-        self.role: ARLiteral = None
+        self.role: Optional[Identifier] = None
 
-    def getAssignedEntryRef(self):
+    def getAssignedEntryRef(self) -> Optional[RefType]:
         """
         Gets the reference to the assigned BswModuleEntry. It should be an
         implementedEntry or expectedEntry of the module or cluster that requires
@@ -2172,7 +2172,7 @@ class RoleBasedBswModuleEntryAssignment(ARObject):
         """
         return self.assignedEntryRef
 
-    def setAssignedEntryRef(self, value):
+    def setAssignedEntryRef(self, value: Optional[RefType]) -> "RoleBasedBswModuleEntryAssignment":
         """
         Sets the reference to the assigned BswModuleEntry. It should be an
         implementedEntry or expectedEntry of the module or cluster that requires
@@ -2190,20 +2190,20 @@ class RoleBasedBswModuleEntryAssignment(ARObject):
             self.assignedEntryRef = value
         return self
 
-    def getRole(self):
+    def getRole(self) -> Optional[Identifier]:
         """
         Gets the role of the assigned BswModuleEntry in the given context. The value
         shall be the role name of a configurable function call (usually a callback)
         as standardized in the Software Specification of the related AUTOSAR Service.
-        [constr_10259]: shall exist when the configuration of the BSW module is
-        finished.
+        [constr_10259]: the attribute shall exist when the configuration of the BSW
+        module is finished.
 
         Returns:
-            ARLiteral: The role
+            Identifier: The role
         """
         return self.role
 
-    def setRole(self, value):
+    def setRole(self, value: Optional[Identifier]) -> "RoleBasedBswModuleEntryAssignment":
         """
         Sets the role of the assigned BswModuleEntry in the given context. The value
         shall be the role name of a configurable function call (usually a callback)

@@ -248,6 +248,22 @@ class TestDiagEventDebounceAlgorithm:
         parser.readDiagEventDebounceAlgorithm(element, needs)
         assert needs.getDiagEventDebounceAlgorithm() is not None
 
+    def test_readDiagEventDebounceAlgorithm_creates_counter_based(self, parser):
+        from armodel.models import DiagnosticEventNeeds
+
+        needs = DiagnosticEventNeeds(parent=MagicMock(), short_name="Den")
+        element = _snip("<DIAG-EVENT-DEBOUNCE-ALGORITHM>" "<DIAG-EVENT-DEBOUNCE-COUNTER-BASED>" "<SHORT-NAME>Di</SHORT-NAME>" "</DIAG-EVENT-DEBOUNCE-COUNTER-BASED>" "</DIAG-EVENT-DEBOUNCE-ALGORITHM>")
+        parser.readDiagEventDebounceAlgorithm(element, needs)
+        assert needs.getDiagEventDebounceAlgorithm() is not None
+
+    def test_readDiagEventDebounceAlgorithm_creates_time_based(self, parser):
+        from armodel.models import DiagnosticEventNeeds
+
+        needs = DiagnosticEventNeeds(parent=MagicMock(), short_name="Den")
+        element = _snip("<DIAG-EVENT-DEBOUNCE-ALGORITHM>" "<DIAG-EVENT-DEBOUNCE-TIME-BASED>" "<SHORT-NAME>Di</SHORT-NAME>" "</DIAG-EVENT-DEBOUNCE-TIME-BASED>" "</DIAG-EVENT-DEBOUNCE-ALGORITHM>")
+        parser.readDiagEventDebounceAlgorithm(element, needs)
+        assert needs.getDiagEventDebounceAlgorithm() is not None
+
     def test_readDiagEventDebounceAlgorithm_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import DiagnosticEventNeeds
 

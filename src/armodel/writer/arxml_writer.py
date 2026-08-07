@@ -86,9 +86,24 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.Memo
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import MeasuredStackUsage, RoughEstimateStackUsage, StackUsage, WorstCaseStackUsage
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagEventDebounceMonitorInternal, DltUserNeeds, ServiceNeeds
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    ComMgrUserNeeds,
+    CryptoServiceNeeds,
+    DevelopmentError,
+    DiagEventDebounceCounterBased,
+    DiagEventDebounceMonitorInternal,
+    DiagEventDebounceTimeBased,
+    DltUserNeeds,
+    ErrorTracerNeeds,
+    PossibleErrorReaction,
+    RuntimeError,
+    ServiceNeeds,
+    SupervisedEntityNeeds,
+    TracedFailure,
+    TransientFault,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import BswMgrNeeds
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement, DtcStatusChangeNotificationNeeds
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement, DiagnosticIoControlNeeds, DtcStatusChangeNotificationNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCommunicationManagerNeeds, DiagnosticEventInfoNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticEventNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import EcuStateMgrUserNeeds, NvBlockNeeds, RoleBasedDataAssignment, SymbolicNameProps
@@ -1794,6 +1809,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticEventNeeds(child_element, needs)
         elif isinstance(needs, DiagnosticEventInfoNeeds):
             self.writeDiagnosticEventInfoNeeds(child_element, needs)
+        elif isinstance(needs, DiagnosticIoControlNeeds):
+            self.writeDiagnosticIoControlNeeds(child_element, needs)
         elif isinstance(needs, CryptoServiceNeeds):
             self.writeCryptoServiceNeeds(child_element, needs)
         elif isinstance(needs, EcuStateMgrUserNeeds):
@@ -1802,6 +1819,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDtcStatusChangeNotificationNeeds(child_element, needs)
         elif isinstance(needs, DltUserNeeds):
             self.writeDltUserNeeds(child_element, needs)
+        elif isinstance(needs, ComMgrUserNeeds):
+            self.writeComMgrUserNeeds(child_element, needs)
+        elif isinstance(needs, SupervisedEntityNeeds):
+            self.writeSupervisedEntityNeeds(child_element, needs)
+        elif isinstance(needs, ErrorTracerNeeds):
+            self.writeErrorTracerNeeds(child_element, needs)
         else:
             self.notImplemented("Unsupported service needs <%s>" % type(needs))
 
@@ -1917,16 +1940,28 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "FIXED-LENGTH", needs.getFixedLength())
         self.setChildElementOptionalLiteral(child_element, "PROCESSING-STYLE", needs.getProcessingStyle())
 
+    def setDiagEventDebounceCounterBased(self, element: ET.Element, algorithm: DiagEventDebounceCounterBased):
+        child_element = ET.SubElement(element, "DIAG-EVENT-DEBOUNCE-COUNTER-BASED")
+        self.writeDiagnosticCapabilityElement(child_element, algorithm)
+
     def setDiagEventDebounceMonitorInternal(self, element: ET.Element, algorithm: DiagEventDebounceMonitorInternal):
         child_element = ET.SubElement(element, "DIAG-EVENT-DEBOUNCE-MONITOR-INTERNAL")
+        self.writeDiagnosticCapabilityElement(child_element, algorithm)
+
+    def setDiagEventDebounceTimeBased(self, element: ET.Element, algorithm: DiagEventDebounceTimeBased):
+        child_element = ET.SubElement(element, "DIAG-EVENT-DEBOUNCE-TIME-BASED")
         self.writeDiagnosticCapabilityElement(child_element, algorithm)
 
     def writeDiagEventDebounceAlgorithm(self, element: ET.Element, needs: DiagnosticEventNeeds):
         algorithm = needs.getDiagEventDebounceAlgorithm()
         if algorithm is not None:
             child_element = ET.SubElement(element, "DIAG-EVENT-DEBOUNCE-ALGORITHM")
-            if isinstance(algorithm, DiagEventDebounceMonitorInternal):
+            if isinstance(algorithm, DiagEventDebounceCounterBased):
+                self.setDiagEventDebounceCounterBased(child_element, algorithm)
+            elif isinstance(algorithm, DiagEventDebounceMonitorInternal):
                 self.setDiagEventDebounceMonitorInternal(child_element, algorithm)
+            elif isinstance(algorithm, DiagEventDebounceTimeBased):
+                self.setDiagEventDebounceTimeBased(child_element, algorithm)
             else:
                 self.notImplemented("Unsupported DiagEventDebounceAlgorithm <%s>" % type(algorithm))
 
@@ -1934,9 +1969,20 @@ class ARXMLWriter(AbstractARXMLWriter):
         # self.logger.debug("Write DiagnosticEventNeeds %s" % needs.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-EVENT-NEEDS")
         self.writeDiagnosticCapabilityElement(child_element, needs)
+        refs = needs.getDeferringFidRefs()
+        if len(refs) > 0:
+            wrapper = ET.SubElement(child_element, "DEFERRING-FID-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(wrapper, "DEFERRING-FID-REF", ref)
         self.writeDiagEventDebounceAlgorithm(child_element, needs)
-        self.setChildElementOptionalLiteral(child_element, "DTC-KIND", needs.getDtcKind())
-        self.setChildElementOptionalIntegerValue(child_element, "UDS-DTC-NUMBER", needs.getUdsDtcNumber())
+        self.setChildElementOptionalRefType(child_element, "INHIBITING-FID-REF", needs.getInhibitingFidRef())
+        refs = needs.getInhibitingSecondaryFidRefs()
+        if len(refs) > 0:
+            wrapper = ET.SubElement(child_element, "INHIBITING-SECONDARY-FID-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(wrapper, "INHIBITING-SECONDARY-FID-REF", ref)
+        self.setChildElementOptionalBooleanValue(child_element, "PRESTORED-FREEZEFRAME-STORED-IN-NVM", needs.getPrestoredFreezeframeStoredInNvm())
+        self.setChildElementOptionalBooleanValue(child_element, "USES-MONITOR-DATA", needs.getUsesMonitorData())
 
     def writeDiagnosticEventInfoNeeds(self, element: ET.Element, needs: DiagnosticEventInfoNeeds):
         # self.logger.debug("Write DiagnosticEventNeeds %s" % needs.getShortName())
@@ -1944,6 +1990,15 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeDiagnosticCapabilityElement(child_element, needs)
         self.setChildElementOptionalLiteral(child_element, "DTC-KIND", needs.getDtcKind())
         self.setChildElementOptionalPositiveInteger(child_element, "UDS-DTC-NUMBER", needs.getUdsDtcNumber())
+
+    def writeDiagnosticIoControlNeeds(self, element: ET.Element, needs: DiagnosticIoControlNeeds):
+        # self.logger.debug("Write DiagnosticIoControlNeeds %s" % needs.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-IO-CONTROL-NEEDS")
+        self.writeDiagnosticCapabilityElement(child_element, needs)
+        self.setChildElementOptionalRefType(child_element, "CURRENT-VALUE-REF", needs.getCurrentValueRef())
+        self.setChildElementOptionalBooleanValue(child_element, "FREEZE-CURRENT-STATE-SUPPORTED", needs.getFreezeCurrentStateSupported())
+        self.setChildElementOptionalBooleanValue(child_element, "RESET-TO-DEFAULT-SUPPORTED", needs.getResetToDefaultSupported())
+        self.setChildElementOptionalBooleanValue(child_element, "SHORT-TERM-ADJUSTMENT-SUPPORTED", needs.getShortTermAdjustmentSupported())
 
     def writeCryptoServiceNeeds(self, element: ET.Element, needs: CryptoServiceNeeds):
         # self.logger.debug("Write CryptoServiceNeeds %s" % needs.getShortName())
@@ -1967,6 +2022,71 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "DLT-USER-NEEDS")
         self.writeServiceNeeds(child_element, needs)
 
+    def writeComMgrUserNeeds(self, element: ET.Element, needs: ComMgrUserNeeds):
+        # self.logger.debug("Write ComMgrUserNeeds %s" % needs.getShortName())
+        child_element = ET.SubElement(element, "COM-MGR-USER-NEEDS")
+        self.writeServiceNeeds(child_element, needs)
+        self.setChildElementOptionalLiteral(child_element, "MAX-COMM-MODE", needs.getMaxCommMode())
+
+    def writeSupervisedEntityNeeds(self, element: ET.Element, needs: SupervisedEntityNeeds):
+        child_element = ET.SubElement(element, "SUPERVISED-ENTITY-NEEDS")
+        self.writeServiceNeeds(child_element, needs)
+        self.setChildElementOptionalBooleanValue(child_element, "ACTIVATE-AT-START", needs.getActivateAtStart())
+        refs = needs.getCheckpointsRefs()
+        if len(refs) > 0:
+            wrapper = ET.SubElement(child_element, "CHECKPOINTSS")
+            for ref in refs:
+                cond_tag = ET.SubElement(wrapper, "SUPERVISED-ENTITY-CHECKPOINT-NEEDS-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(cond_tag, "SUPERVISED-ENTITY-CHECKPOINT-NEEDS-REF", ref)
+        self.setChildElementOptionalBooleanValue(child_element, "ENABLE-DEACTIVATION", needs.getEnableDeactivation())
+        self.setChildElementOptionalTimeValue(child_element, "EXPECTED-ALIVE-CYCLE", needs.getExpectedAliveCycle())
+        self.setChildElementOptionalTimeValue(child_element, "MAX-ALIVE-CYCLE", needs.getMaxAliveCycle())
+        self.setChildElementOptionalTimeValue(child_element, "MIN-ALIVE-CYCLE", needs.getMinAliveCycle())
+        self.setChildElementOptionalPositiveInteger(child_element, "TOLERATED-FAILED-CYCLES", needs.getToleratedFailedCycles())
+
+    def writeTracedFailure(self, element: ET.Element, failure: TracedFailure):
+        self.writeIdentifiable(element, failure)
+        self.setChildElementOptionalPositiveInteger(element, "ID", failure.getId())
+
+    def setDevelopmentError(self, element: ET.Element, failure: DevelopmentError):
+        child_element = ET.SubElement(element, "DEVELOPMENT-ERROR")
+        self.writeTracedFailure(child_element, failure)
+
+    def setRuntimeError(self, element: ET.Element, failure: RuntimeError):
+        child_element = ET.SubElement(element, "RUNTIME-ERROR")
+        self.writeTracedFailure(child_element, failure)
+
+    def setPossibleErrorReaction(self, element: ET.Element, reaction: PossibleErrorReaction):
+        child_element = ET.SubElement(element, "POSSIBLE-ERROR-REACTION")
+        self.writeIdentifiable(child_element, reaction)
+        self.setChildElementOptionalPositiveInteger(child_element, "REACTION-CODE", reaction.getReactionCode())
+
+    def setTransientFault(self, element: ET.Element, failure: TransientFault):
+        child_element = ET.SubElement(element, "TRANSIENT-FAULT")
+        self.writeTracedFailure(child_element, failure)
+        reactions = failure.getPossibleErrorReactions()
+        if len(reactions) > 0:
+            wrapper = ET.SubElement(child_element, "POSSIBLE-ERROR-REACTIONS")
+            for reaction in reactions:
+                self.setPossibleErrorReaction(wrapper, reaction)
+
+    def writeErrorTracerNeeds(self, element: ET.Element, needs: ErrorTracerNeeds):
+        # self.logger.debug("Write ErrorTracerNeeds %s" % needs.getShortName())
+        child_element = ET.SubElement(element, "ERROR-TRACER-NEEDS")
+        self.writeServiceNeeds(child_element, needs)
+        failures = needs.getTracedFailures()
+        if len(failures) > 0:
+            wrapper = ET.SubElement(child_element, "TRACED-FAILURES")
+            for failure in failures:
+                if isinstance(failure, DevelopmentError):
+                    self.setDevelopmentError(wrapper, failure)
+                elif isinstance(failure, RuntimeError):
+                    self.setRuntimeError(wrapper, failure)
+                elif isinstance(failure, TransientFault):
+                    self.setTransientFault(wrapper, failure)
+                else:
+                    self.notImplemented("Unsupported traced failure <%s>" % type(failure))
+
     def writeSwcServiceDependencyServiceNeeds(self, element: ET.Element, parent: SwcServiceDependency):
         needs_list = parent.getServiceNeeds()
         if len(needs_list) > 0:
@@ -1984,6 +2104,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeDiagnosticEventNeeds(child_element, needs)
                 elif isinstance(needs, DiagnosticEventInfoNeeds):
                     self.writeDiagnosticEventInfoNeeds(child_element, needs)
+                elif isinstance(needs, DiagnosticIoControlNeeds):
+                    self.writeDiagnosticIoControlNeeds(child_element, needs)
                 elif isinstance(needs, CryptoServiceNeeds):
                     self.writeCryptoServiceNeeds(child_element, needs)
                 elif isinstance(needs, EcuStateMgrUserNeeds):
@@ -1992,6 +2114,10 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeDtcStatusChangeNotificationNeeds(child_element, needs)
                 elif isinstance(needs, DltUserNeeds):
                     self.writeDltUserNeeds(child_element, needs)
+                elif isinstance(needs, ComMgrUserNeeds):
+                    self.writeComMgrUserNeeds(child_element, needs)
+                elif isinstance(needs, ErrorTracerNeeds):
+                    self.writeErrorTracerNeeds(child_element, needs)
                 else:
                     self.notImplemented("Unsupported service needs <%s>" % type(needs))
 

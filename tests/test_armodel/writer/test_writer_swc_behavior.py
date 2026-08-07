@@ -7,16 +7,21 @@ from unittest.mock import MagicMock
 from armodel.writer.arxml_writer import ARXMLWriter
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    ComMgrUserNeeds,
     CryptoServiceNeeds,
+    DiagEventDebounceCounterBased,
     DiagEventDebounceMonitorInternal,
+    DiagEventDebounceTimeBased,
     DiagnosticCommunicationManagerNeeds,
     DiagnosticEventInfoNeeds,
     DiagnosticEventNeeds,
+    DiagnosticIoControlNeeds,
     DiagnosticRoutineNeeds,
     DiagnosticValueNeeds,
     DltUserNeeds,
     DtcStatusChangeNotificationNeeds,
     EcuStateMgrUserNeeds,
+    MaxCommModeEnum,
     NvBlockNeeds,
     RoleBasedDataAssignment,
     RoleBasedDataTypeAssignment,
@@ -1079,8 +1084,10 @@ class TestWriterServiceNeeds:
         needs = dep.createDiagnosticEventNeeds("den1")
         algo = DiagEventDebounceMonitorInternal(behavior, "deb1")
         needs.diagEventDebounceAlgorithm = algo
-        needs.setDtcKind(_literal("UDS_DTC"))
-        needs.setUdsDtcNumber(_int("48"))
+        needs.setInhibitingFidRef(_ref("/Fim/Inhibit"))
+        needs.addInhibitingSecondaryFidRef(_ref("/Fim/Secondary"))
+        needs.setPrestoredFreezeframeStoredInNvm(_bool(True))
+        needs.setUsesMonitorData(_bool(True))
         parent = _parent()
         writer.writeDiagnosticEventNeeds(parent, needs)
         elem = parent.find("DIAGNOSTIC-EVENT-NEEDS")
@@ -1088,8 +1095,71 @@ class TestWriterServiceNeeds:
         algo_elem = elem.find("DIAG-EVENT-DEBOUNCE-ALGORITHM")
         assert algo_elem is not None
         assert algo_elem.find("DIAG-EVENT-DEBOUNCE-MONITOR-INTERNAL") is not None
-        assert elem.find("DTC-KIND").text == "UDS_DTC"
-        assert elem.find("UDS-DTC-NUMBER").text == "48"
+        assert elem.find("INHIBITING-FID-REF").text == "/Fim/Inhibit"
+        assert elem.find("INHIBITING-SECONDARY-FID-REFS/INHIBITING-SECONDARY-FID-REF").text == "/Fim/Secondary"
+        assert elem.find("PRESTORED-FREEZEFRAME-STORED-IN-NVM").text == "true"
+        assert elem.find("USES-MONITOR-DATA").text == "true"
+
+    def test_writeDiagnosticEventNeeds_counter_based_dispatch(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createDiagnosticEventNeeds("den1")
+        algo = DiagEventDebounceCounterBased(behavior, "deb1")
+        needs.diagEventDebounceAlgorithm = algo
+        parent = _parent()
+        writer.writeDiagnosticEventNeeds(parent, needs)
+        elem = parent.find("DIAGNOSTIC-EVENT-NEEDS")
+        assert elem is not None
+        algo_elem = elem.find("DIAG-EVENT-DEBOUNCE-ALGORITHM")
+        assert algo_elem is not None
+        assert algo_elem.find("DIAG-EVENT-DEBOUNCE-COUNTER-BASED") is not None
+
+    def test_writeDiagnosticEventNeeds_time_based_dispatch(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createDiagnosticEventNeeds("den1")
+        algo = DiagEventDebounceTimeBased(behavior, "deb1")
+        needs.diagEventDebounceAlgorithm = algo
+        parent = _parent()
+        writer.writeDiagnosticEventNeeds(parent, needs)
+        elem = parent.find("DIAGNOSTIC-EVENT-NEEDS")
+        assert elem is not None
+        algo_elem = elem.find("DIAG-EVENT-DEBOUNCE-ALGORITHM")
+        assert algo_elem is not None
+        assert algo_elem.find("DIAG-EVENT-DEBOUNCE-TIME-BASED") is not None
+
+    def test_writeErrorTracerNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createErrorTracerNeeds("etn1")
+        dev = needs.createDevelopmentError("dev1")
+        dev.setId(_posint("10"))
+        needs.createRuntimeError("rt1")
+        tf = needs.createTransientFault("tf1")
+        reaction = tf.createPossibleErrorReaction("reac1")
+        reaction.setReactionCode(_posint("99"))
+        parent = _parent()
+        writer.writeErrorTracerNeeds(parent, needs)
+        elem = parent.find("ERROR-TRACER-NEEDS")
+        assert elem is not None
+        failures = elem.find("TRACED-FAILURES")
+        assert failures is not None
+        assert failures.find("DEVELOPMENT-ERROR") is not None
+        assert failures.find("DEVELOPMENT-ERROR/ID").text == "10"
+        assert failures.find("RUNTIME-ERROR") is not None
+        transient = failures.find("TRANSIENT-FAULT")
+        assert transient is not None
+        assert transient.find("POSSIBLE-ERROR-REACTIONS/POSSIBLE-ERROR-REACTION/REACTION-CODE").text == "99"
+
+    def test_writeErrorTracerNeeds_no_failures(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createErrorTracerNeeds("etn1")
+        parent = _parent()
+        writer.writeErrorTracerNeeds(parent, needs)
+        elem = parent.find("ERROR-TRACER-NEEDS")
+        assert elem is not None
+        assert elem.find("TRACED-FAILURES") is None
 
     def test_writeDiagnosticEventNeeds_no_algorithm(self, writer):
         behavior = _make_behavior()
@@ -1113,6 +1183,23 @@ class TestWriterServiceNeeds:
         assert elem is not None
         assert elem.find("DTC-KIND").text == "UDS_DTC"
         assert elem.find("UDS-DTC-NUMBER").text == "64"
+
+    def test_writeDiagnosticIoControlNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createDiagnosticIoControlNeeds("io1")
+        needs.setCurrentValueRef(_ref("/Needs/Value"))
+        needs.setFreezeCurrentStateSupported(_bool(True))
+        needs.setResetToDefaultSupported(_bool(False))
+        needs.setShortTermAdjustmentSupported(_bool(True))
+        parent = _parent()
+        writer.writeDiagnosticIoControlNeeds(parent, needs)
+        elem = parent.find("DIAGNOSTIC-IO-CONTROL-NEEDS")
+        assert elem is not None
+        assert elem.find("CURRENT-VALUE-REF").text == "/Needs/Value"
+        assert elem.find("FREEZE-CURRENT-STATE-SUPPORTED").text == "true"
+        assert elem.find("RESET-TO-DEFAULT-SUPPORTED").text == "false"
+        assert elem.find("SHORT-TERM-ADJUSTMENT-SUPPORTED").text == "true"
 
     def test_writeCryptoServiceNeeds(self, writer):
         behavior = _make_behavior()
@@ -1154,6 +1241,17 @@ class TestWriterServiceNeeds:
         elem = parent.find("DLT-USER-NEEDS")
         assert elem is not None
 
+    def test_writeComMgrUserNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createComMgrUserNeeds("com1")
+        needs.setMaxCommMode(MaxCommModeEnum().setValue(MaxCommModeEnum.FULL))
+        parent = _parent()
+        writer.writeComMgrUserNeeds(parent, needs)
+        elem = parent.find("COM-MGR-USER-NEEDS")
+        assert elem is not None
+        assert elem.find("MAX-COMM-MODE").text == "full"
+
 
 class TestWriterSwcServiceDependencyServiceNeeds:
     def test_dispatch_all_needs_types(self, writer):
@@ -1165,10 +1263,13 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         dep.createDiagnosticValueNeeds("dvn")
         dep.createDiagnosticEventNeeds("den")
         dep.createDiagnosticEventInfoNeeds("dei")
+        dep.createDiagnosticIoControlNeeds("io")
         dep.createCryptoServiceNeeds("csn")
         dep.createEcuStateMgrUserNeeds("esm")
         dep.createDtcStatusChangeNotificationNeeds("dsc")
         dep.createDltUserNeeds("dlt")
+        dep.createComMgrUserNeeds("com")
+        dep.createErrorTracerNeeds("etn")
         parent = _parent()
         writer.writeSwcServiceDependencyServiceNeeds(parent, dep)
         needs_tag = parent.find("SERVICE-NEEDS")
@@ -1180,10 +1281,13 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         assert "DIAGNOSTIC-VALUE-NEEDS" in tags
         assert "DIAGNOSTIC-EVENT-NEEDS" in tags
         assert "DIAGNOSTIC-EVENT-INFO-NEEDS" in tags
+        assert "DIAGNOSTIC-IO-CONTROL-NEEDS" in tags
         assert "CRYPTO-SERVICE-NEEDS" in tags
         assert "ECU-STATE-MGR-USER-NEEDS" in tags
         assert "DTC-STATUS-CHANGE-NOTIFICATION-NEEDS" in tags
         assert "DLT-USER-NEEDS" in tags
+        assert "COM-MGR-USER-NEEDS" in tags
+        assert "ERROR-TRACER-NEEDS" in tags
 
     def test_no_needs_no_tag(self, writer):
         behavior = _make_behavior()
