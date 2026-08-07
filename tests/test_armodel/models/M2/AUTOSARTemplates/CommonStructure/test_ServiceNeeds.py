@@ -1441,11 +1441,9 @@ class TestDiagnosticEventNeeds:
         assert diag_event.deferringFidRefs == []
         assert diag_event.diagEventDebounceAlgorithm is None
         assert diag_event.inhibitingFidRef is None
-        assert diag_event.inhibitingSecondaryFidRef is None
+        assert diag_event.inhibitingSecondaryFidRefs == []
         assert diag_event.prestoredFreezeframeStoredInNvm is None
         assert diag_event.usesMonitorData is None
-        assert diag_event.dtcKind is None
-        assert diag_event.udsDtcNumber is None
 
     def test_get_deferring_fid_refs(self):
         """Test getDeferringFidRefs and addDeferringFidRef methods"""
@@ -1461,6 +1459,9 @@ class TestDiagnosticEventNeeds:
         ref = MockRefType()
         result = diag_event.addDeferringFidRef(ref)
         assert result is diag_event
+        assert diag_event.getDeferringFidRefs() == [ref]
+
+        diag_event.addDeferringFidRef(None)
         assert diag_event.getDeferringFidRefs() == [ref]
 
     def test_get_set_diag_event_debounce_algorithm(self):
@@ -1517,21 +1518,27 @@ class TestDiagnosticEventNeeds:
         assert result is diag_event
         assert diag_event.getInhibitingFidRef() == ref
 
-    def test_get_set_inhibiting_secondary_fid_ref(self):
-        """Test getInhibitingSecondaryFidRef and setInhibitingSecondaryFidRef methods"""
+        diag_event.setInhibitingFidRef(None)
+        assert diag_event.getInhibitingFidRef() == ref
+
+    def test_get_add_inhibiting_secondary_fid_refs(self):
+        """Test getInhibitingSecondaryFidRefs and addInhibitingSecondaryFidRef methods"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         diag_event = DiagnosticEventNeeds(ar_root, "TestDiagnosticEventNeeds")
 
-        assert diag_event.getInhibitingSecondaryFidRef() is None
+        assert diag_event.getInhibitingSecondaryFidRefs() == []
 
         class MockRefType:
             pass
 
         ref = MockRefType()
-        result = diag_event.setInhibitingSecondaryFidRef(ref)
+        result = diag_event.addInhibitingSecondaryFidRef(ref)
         assert result is diag_event
-        assert diag_event.getInhibitingSecondaryFidRef() == ref
+        assert diag_event.getInhibitingSecondaryFidRefs() == [ref]
+
+        diag_event.addInhibitingSecondaryFidRef(None)
+        assert diag_event.getInhibitingSecondaryFidRefs() == [ref]
 
     def test_get_set_prestored_freezeframe_stored_in_nvm(self):
         """Test getPrestoredFreezeframeStoredInNvm and setPrestoredFreezeframeStoredInNvm methods"""
@@ -1543,6 +1550,9 @@ class TestDiagnosticEventNeeds:
 
         result = diag_event.setPrestoredFreezeframeStoredInNvm(True)
         assert result is diag_event
+        assert diag_event.getPrestoredFreezeframeStoredInNvm() is True
+
+        diag_event.setPrestoredFreezeframeStoredInNvm(None)
         assert diag_event.getPrestoredFreezeframeStoredInNvm() is True
 
     def test_get_set_uses_monitor_data(self):
@@ -1557,29 +1567,60 @@ class TestDiagnosticEventNeeds:
         assert result is diag_event
         assert diag_event.getUsesMonitorData() is True
 
-    def test_get_set_dtc_kind(self):
-        """Test getDtcKind and setDtcKind methods"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        diag_event = DiagnosticEventNeeds(ar_root, "TestDiagnosticEventNeeds")
+        diag_event.setUsesMonitorData(None)
+        assert diag_event.getUsesMonitorData() is True
 
-        assert diag_event.getDtcKind() is None
+    def test_roundtrip_diagnostic_event_needs(self):
+        """Test parser/writer round trip for DiagnosticEventNeeds"""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        swc = ar_root.createApplicationSwComponentType("App")
+        behavior = swc.createSwcInternalBehavior("Behavior")
+        dependency = behavior.createSwcServiceDependency("Dep")
+        needs = dependency.createDiagnosticEventNeeds("eventNeeds")
 
-        result = diag_event.setDtcKind("TEST_DTC")
-        assert result is diag_event
-        assert diag_event.getDtcKind() == "TEST_DTC"
+        ref1 = RefType()
+        ref1.setValue("/Fim/Defer")
+        ref1.setDest("FUNCTION-INHIBITION-NEEDS")
+        needs.addDeferringFidRef(ref1)
+        ref2 = RefType()
+        ref2.setValue("/Fim/Inhibit")
+        ref2.setDest("FUNCTION-INHIBITION-NEEDS")
+        needs.setInhibitingFidRef(ref2)
+        ref3 = RefType()
+        ref3.setValue("/Fim/Secondary")
+        ref3.setDest("FUNCTION-INHIBITION-NEEDS")
+        needs.addInhibitingSecondaryFidRef(ref3)
+        bool_nvm = Boolean()
+        bool_nvm.setValue(True)
+        needs.setPrestoredFreezeframeStoredInNvm(bool_nvm)
+        bool_monitor = Boolean()
+        bool_monitor.setValue(True)
+        needs.setUsesMonitorData(bool_monitor)
 
-    def test_get_set_uds_dtc_number(self):
-        """Test getUdsDtcNumber and setUdsDtcNumber methods"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        diag_event = DiagnosticEventNeeds(ar_root, "TestDiagnosticEventNeeds")
+        import tempfile
+        import os
 
-        assert diag_event.getUdsDtcNumber() is None
-
-        result = diag_event.setUdsDtcNumber(789)
-        assert result is diag_event
-        assert diag_event.getUdsDtcNumber() == 789
+        writer = ARXMLWriter()
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as f:
+            writer.save(f.name, document)
+            path = f.name
+        try:
+            parser = ARXMLParser()
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            parser.load(path, document_2)
+            loaded = document_2.find("/AUTOSAR/App/Behavior/Dep/eventNeeds")
+            assert loaded is not None
+            assert len(loaded.getDeferringFidRefs()) == 1
+            assert loaded.getDeferringFidRefs()[0].getValue() == "/Fim/Defer"
+            assert loaded.getInhibitingFidRef().getValue() == "/Fim/Inhibit"
+            assert len(loaded.getInhibitingSecondaryFidRefs()) == 1
+            assert loaded.getInhibitingSecondaryFidRefs()[0].getValue() == "/Fim/Secondary"
+            assert loaded.getPrestoredFreezeframeStoredInNvm().getValue() is True
+            assert loaded.getUsesMonitorData().getValue() is True
+        finally:
+            os.unlink(path)
 
     def test_get_set_audiences(self):
         """Test getAudiences and addAudience methods"""

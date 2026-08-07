@@ -9,7 +9,9 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     ComMgrUserNeeds,
     CryptoServiceNeeds,
+    DiagEventDebounceCounterBased,
     DiagEventDebounceMonitorInternal,
+    DiagEventDebounceTimeBased,
     DiagnosticCommunicationManagerNeeds,
     DiagnosticEventInfoNeeds,
     DiagnosticEventNeeds,
@@ -1082,8 +1084,10 @@ class TestWriterServiceNeeds:
         needs = dep.createDiagnosticEventNeeds("den1")
         algo = DiagEventDebounceMonitorInternal(behavior, "deb1")
         needs.diagEventDebounceAlgorithm = algo
-        needs.setDtcKind(_literal("UDS_DTC"))
-        needs.setUdsDtcNumber(_int("48"))
+        needs.setInhibitingFidRef(_ref("/Fim/Inhibit"))
+        needs.addInhibitingSecondaryFidRef(_ref("/Fim/Secondary"))
+        needs.setPrestoredFreezeframeStoredInNvm(_bool(True))
+        needs.setUsesMonitorData(_bool(True))
         parent = _parent()
         writer.writeDiagnosticEventNeeds(parent, needs)
         elem = parent.find("DIAGNOSTIC-EVENT-NEEDS")
@@ -1091,8 +1095,38 @@ class TestWriterServiceNeeds:
         algo_elem = elem.find("DIAG-EVENT-DEBOUNCE-ALGORITHM")
         assert algo_elem is not None
         assert algo_elem.find("DIAG-EVENT-DEBOUNCE-MONITOR-INTERNAL") is not None
-        assert elem.find("DTC-KIND").text == "UDS_DTC"
-        assert elem.find("UDS-DTC-NUMBER").text == "48"
+        assert elem.find("INHIBITING-FID-REF").text == "/Fim/Inhibit"
+        assert elem.find("INHIBITING-SECONDARY-FID-REFS/INHIBITING-SECONDARY-FID-REF").text == "/Fim/Secondary"
+        assert elem.find("PRESTORED-FREEZEFRAME-STORED-IN-NVM").text == "true"
+        assert elem.find("USES-MONITOR-DATA").text == "true"
+
+    def test_writeDiagnosticEventNeeds_counter_based_dispatch(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createDiagnosticEventNeeds("den1")
+        algo = DiagEventDebounceCounterBased(behavior, "deb1")
+        needs.diagEventDebounceAlgorithm = algo
+        parent = _parent()
+        writer.writeDiagnosticEventNeeds(parent, needs)
+        elem = parent.find("DIAGNOSTIC-EVENT-NEEDS")
+        assert elem is not None
+        algo_elem = elem.find("DIAG-EVENT-DEBOUNCE-ALGORITHM")
+        assert algo_elem is not None
+        assert algo_elem.find("DIAG-EVENT-DEBOUNCE-COUNTER-BASED") is not None
+
+    def test_writeDiagnosticEventNeeds_time_based_dispatch(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createDiagnosticEventNeeds("den1")
+        algo = DiagEventDebounceTimeBased(behavior, "deb1")
+        needs.diagEventDebounceAlgorithm = algo
+        parent = _parent()
+        writer.writeDiagnosticEventNeeds(parent, needs)
+        elem = parent.find("DIAGNOSTIC-EVENT-NEEDS")
+        assert elem is not None
+        algo_elem = elem.find("DIAG-EVENT-DEBOUNCE-ALGORITHM")
+        assert algo_elem is not None
+        assert algo_elem.find("DIAG-EVENT-DEBOUNCE-TIME-BASED") is not None
 
     def test_writeDiagnosticEventNeeds_no_algorithm(self, writer):
         behavior = _make_behavior()

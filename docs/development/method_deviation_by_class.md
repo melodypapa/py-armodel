@@ -705,10 +705,11 @@ removed upstream between 4.4.0 and R23-11, so it is treated like an
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `considerPtoStatus` | `Boolean` | — | missing |
-| `inhibitingSecondaryFidRef` | `—` | `inhibitingSecondaryFidRefs` | `Ref (FunctionInhibitionNeeds)` | Refs | type (spec many vs py single) |
-| — *(missing)* | `—` | `obdDtcNumber` | `PositiveInteger` | — | missing |
-| — *(missing)* | `—` | `reportBehavior` | `ReportBehaviorEnum` | — | missing |
+| `dtcKind` *(removed)* | `—` | — | — | — | removed upstream: present only in the stale 2018 XSD (`DTC-KIND` in AUTOSAR_00046.xsd), absent from the R23-11 PDF tables; not modeled (see Rule 1.3 release-alignment caveat) |
+| — *(not modeled)* | `—` | `considerPtoStatus` | `Boolean` | attr | removed upstream: present only in the stale 2018 XSD (`CONSIDER-PTO-STATUS` in AUTOSAR_00046.xsd), absent from the R23-11 PDF tables; not modeled (see Rule 1.3 release-alignment caveat) |
+| — *(not modeled)* | `—` | `obdDtcNumber` | `PositiveInteger` | attr | removed upstream: present only in the stale 2018 XSD (`OBD-DTC-NUMBER` in AUTOSAR_00046.xsd), absent from the R23-11 PDF tables; not modeled (see Rule 1.3 release-alignment caveat) |
+| — *(not modeled)* | `—` | `reportBehavior` | `ReportBehaviorEnum` | attr | removed upstream: present only in the stale 2018 XSD (`REPORT-BEHAVIOR` in AUTOSAR_00046.xsd), absent from the R23-11 PDF tables; not modeled (see Rule 1.3 release-alignment caveat) |
+| `udsDtcNumber` *(removed)* | `—` | — | — | — | removed upstream: present only in the stale 2018 XSD (`UDS-DTC-NUMBER` in AUTOSAR_00046.xsd), absent from the R23-11 PDF tables; not modeled (see Rule 1.3 release-alignment caveat) |
 
 ## `ErrorTracerNeeds`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 263

@@ -1688,30 +1688,27 @@ class DtcStatusChangeNotificationNeeds(DiagnosticCapabilityElement):
 
 class DiagnosticEventNeeds(DiagnosticCapabilityElement):
     """
-    Represents diagnostic event needs in AUTOSAR models.
-    This class defines requirements for diagnostic events including debounce algorithms, FID references, and DTC information.
+    Specifies the abstract needs on the configuration of the Diagnostic Event Manager for one diagnostic event. Its shortName can be regarded as a symbol identifying the diagnostic event from the viewpoint of the component or module which owns this element. In case the diagnostic event specifies a production error, the shortName shall be the name of the production error.
     """
 
     # DiagnosticEventNeeds method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.31, p.258
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] getDeferringFidRefs          [x] impl  [x] docstring  [x] test
-    # [ ] addDeferringFidRef           [x] impl  [x] docstring  [ ] test
-    # [ ] getDiagEventDebounceAlgorithm [x] impl  [x] docstring  [ ] test
+    # [x] addDeferringFidRef           [x] impl  [x] docstring  [x] test
+    # [x] getDiagEventDebounceAlgorithm [x] impl  [x] docstring  [x] test
     # [x] createDiagEventDebounceCounterBased [x] impl  [x] docstring  [x] test
     # [x] createDiagEventDebounceMonitorInternal [x] impl  [x] docstring  [x] test
     # [x] createDiagEventDebounceTimeBased [x] impl  [x] docstring  [x] test
-    # [ ] getInhibitingFidRef          [x] impl  [x] docstring  [ ] test
-    # [ ] setInhibitingFidRef          [x] impl  [x] docstring  [ ] test
-    # [ ] getInhibitingSecondaryFidRef [x] impl  [x] docstring  [ ] test
-    # [ ] setInhibitingSecondaryFidRef [x] impl  [x] docstring  [ ] test
-    # [ ] getPrestoredFreezeframeStoredInNvm [x] impl  [x] docstring  [ ] test
-    # [ ] setPrestoredFreezeframeStoredInNvm [x] impl  [x] docstring  [ ] test
-    # [ ] getUsesMonitorData           [x] impl  [x] docstring  [ ] test
-    # [ ] setUsesMonitorData           [x] impl  [x] docstring  [ ] test
-    # [ ] getDtcKind                   [x] impl  [x] docstring  [ ] test
-    # [ ] setDtcKind                   [x] impl  [x] docstring  [ ] test
-    # [ ] getUdsDtcNumber              [x] impl  [x] docstring  [ ] test
-    # [ ] setUdsDtcNumber              [x] impl  [x] docstring  [ ] test
+    # [x] getInhibitingFidRef          [x] impl  [x] docstring  [x] test
+    # [x] setInhibitingFidRef          [x] impl  [x] docstring  [x] test
+    # [x] getInhibitingSecondaryFidRefs [x] impl  [x] docstring  [x] test
+    # [x] addInhibitingSecondaryFidRef [x] impl  [x] docstring  [x] test
+    # [x] getPrestoredFreezeframeStoredInNvm [x] impl  [x] docstring  [x] test
+    # [x] setPrestoredFreezeframeStoredInNvm [x] impl  [x] docstring  [x] test
+    # [x] getUsesMonitorData           [x] impl  [x] docstring  [x] test
+    # [x] setUsesMonitorData           [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -1723,55 +1720,58 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         """
         super().__init__(parent, short_name)
 
-        # List of FID (Function Identifier) references for deferring this diagnostic event
+        # This reference contains the link to a function identifier within the FiM which is used by the monitor before delivering a result.
         self.deferringFidRefs: List[RefType] = []
-        # Debounce algorithm for this diagnostic event
-        self.diagEventDebounceAlgorithm: DiagEventDebounceAlgorithm = None
-        # FID reference for inhibiting this diagnostic event
-        self.inhibitingFidRef: RefType = None
-        # Secondary FID reference for inhibiting this diagnostic event
-        self.inhibitingSecondaryFidRef: RefType = None
-        # Flag indicating if prestored freeze frame is stored in NVM
-        self.prestoredFreezeframeStoredInNvm: Boolean = None
-        # Flag indicating if this event uses monitor data
-        self.usesMonitorData: Boolean = None
-        # Type of diagnostic trouble code (DTC) for this event (as ARLiteral)
-        self.dtcKind: ARLiteral = None
-        # UDS (Unified Diagnostic Services) DTC number for this event
-        self.udsDtcNumber: Integer = None
 
-    def getDeferringFidRefs(self):
+        # Specifies the abstract need on the Debounce Algorithm applied by the Diagnostic Event Manager.
+        self.diagEventDebounceAlgorithm: Optional[DiagEventDebounceAlgorithm] = None
+
+        # This represents the primary Function Inhibition Identifier used for inhibition of the diagnostic monitor. The FID might either inhibit the monitoring of a symptom or the reporting of detected faults.
+        self.inhibitingFidRef: Optional[RefType] = None
+
+        # This represents the secondary Function Inhibition Identifier used for inhibition of the diagnostic monitor. Any of the FID inhibitions leads to an inhibition of the monitoring of a symptom or the reporting of detected faults.
+        self.inhibitingSecondaryFidRefs: List[RefType] = []
+
+        # If the Event uses a prestored freeze-frame (using the operations PrestoreFreezeFrame and ClearPrestoredFreezeFrame of the service interface DiagnosticMonitor) this attribute indicates if the Event requires the data to be stored in non-volatile memory. TRUE = Dem shall store the prestored data in non-volatile memory, FALSE = Data can be lost at shutdown (not stored in Nvm).
+        self.prestoredFreezeframeStoredInNvm: Optional[Boolean] = None
+
+        # This attribute defines whether additional monitor data shall be added to the reporting of events.
+        self.usesMonitorData: Optional[Boolean] = None
+
+    def getDeferringFidRefs(self) -> List[RefType]:
         """
-        Gets the list of FID (Function Identifier) references for deferring this diagnostic event.
+        Gets the references to function identifiers within the FiM which are used by the monitor before delivering a result.
 
         Returns:
             List of RefType instances
         """
         return self.deferringFidRefs
 
-    def addDeferringFidRef(self, value):
+    def addDeferringFidRef(self, value: Optional[RefType]) -> "DiagnosticEventNeeds":
         """
-        Adds a FID (Function Identifier) reference for deferring this diagnostic event.
+        Adds a reference to a function identifier within the FiM which is used by the monitor before delivering a result.
+        A None value is a no-op and does not append anything.
 
         Args:
-            value: The FID reference to add
+            value: The RefType instance to add
 
         Returns:
             self for method chaining
         """
-        self.deferringFidRefs.append(value)
+        if value is not None:
+            self.deferringFidRefs.append(value)
         return self
 
-    def getDiagEventDebounceAlgorithm(self):
+    def getDiagEventDebounceAlgorithm(self) -> Optional[DiagEventDebounceAlgorithm]:
         """
-        Gets the debounce algorithm for this diagnostic event.
+        Gets the abstract need on the Debounce Algorithm applied by the Diagnostic Event Manager.
 
         Returns:
-            DiagEventDebounceAlgorithm: The debounce algorithm
+            DiagEventDebounceAlgorithm instance, or None if not set
         """
         return self.diagEventDebounceAlgorithm
 
-    def createDiagEventDebounceCounterBased(self, short_name: str):
+    def createDiagEventDebounceCounterBased(self, short_name: str) -> DiagEventDebounceCounterBased:
         """
         Creates and adds a counter-based debounce algorithm for this diagnostic event.
 
@@ -1787,7 +1787,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
             self.diagEventDebounceAlgorithm = algorithm
         return self.getElement(short_name)
 
-    def createDiagEventDebounceMonitorInternal(self, short_name: str):
+    def createDiagEventDebounceMonitorInternal(self, short_name: str) -> DiagEventDebounceMonitorInternal:
         """
         Creates and adds an internal monitor-based debounce algorithm for this diagnostic event.
 
@@ -1803,7 +1803,7 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
             self.diagEventDebounceAlgorithm = algorithm
         return self.getElement(short_name)
 
-    def createDiagEventDebounceTimeBased(self, short_name: str):
+    def createDiagEventDebounceTimeBased(self, short_name: str) -> DiagEventDebounceTimeBased:
         """
         Creates and adds a time-based debounce algorithm for this diagnostic event.
 
@@ -1819,142 +1819,100 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
             self.diagEventDebounceAlgorithm = algorithm
         return self.getElement(short_name)
 
-    def getInhibitingFidRef(self):
+    def getInhibitingFidRef(self) -> Optional[RefType]:
         """
-        Gets the FID reference for inhibiting this diagnostic event.
+        Gets the primary Function Inhibition Identifier used for inhibition of the diagnostic monitor. The FID might either inhibit the monitoring of a symptom or the reporting of detected faults.
 
         Returns:
-            RefType: The inhibiting FID reference
+            RefType instance, or None if not set
         """
         return self.inhibitingFidRef
 
-    def setInhibitingFidRef(self, value):
+    def setInhibitingFidRef(self, value: Optional[RefType]) -> "DiagnosticEventNeeds":
         """
-        Sets the FID reference for inhibiting this diagnostic event.
-        Only sets the value if it is not None.
+        Sets the primary Function Inhibition Identifier used for inhibition of the diagnostic monitor. The FID might either inhibit the monitoring of a symptom or the reporting of detected faults.
+        A None value is a no-op and does not overwrite an existing inhibitingFidRef.
 
         Args:
-            value: The inhibiting FID reference to set
+            value: The RefType instance to set
 
         Returns:
             self for method chaining
         """
-        self.inhibitingFidRef = value
+        if value is not None:
+            self.inhibitingFidRef = value
         return self
 
-    def getInhibitingSecondaryFidRef(self):
+    def getInhibitingSecondaryFidRefs(self) -> List[RefType]:
         """
-        Gets the secondary FID reference for inhibiting this diagnostic event.
+        Gets the secondary Function Inhibition Identifiers used for inhibition of the diagnostic monitor. Any of the FID inhibitions leads to an inhibition of the monitoring of a symptom or the reporting of detected faults.
 
         Returns:
-            RefType: The secondary inhibiting FID reference
+            List of RefType instances
         """
-        return self.inhibitingSecondaryFidRef
+        return self.inhibitingSecondaryFidRefs
 
-    def setInhibitingSecondaryFidRef(self, value):
+    def addInhibitingSecondaryFidRef(self, value: Optional[RefType]) -> "DiagnosticEventNeeds":
         """
-        Sets the secondary FID reference for inhibiting this diagnostic event.
-        Only sets the value if it is not None.
+        Adds a secondary Function Inhibition Identifier used for inhibition of the diagnostic monitor. Any of the FID inhibitions leads to an inhibition of the monitoring of a symptom or the reporting of detected faults.
+        A None value is a no-op and does not append anything.
 
         Args:
-            value: The secondary inhibiting FID reference to set
+            value: The RefType instance to add
 
         Returns:
             self for method chaining
         """
-        self.inhibitingSecondaryFidRef = value
+        if value is not None:
+            self.inhibitingSecondaryFidRefs.append(value)
         return self
 
-    def getPrestoredFreezeframeStoredInNvm(self):
+    def getPrestoredFreezeframeStoredInNvm(self) -> Optional[Boolean]:
         """
-        Gets the flag indicating if prestored freeze frame is stored in NVM.
+        Gets whether the Event requires the data of a prestored freeze-frame to be stored in non-volatile memory. TRUE = Dem shall store the prestored data in non-volatile memory, FALSE = Data can be lost at shutdown (not stored in Nvm).
 
         Returns:
-            Boolean: The prestored freeze frame flag
+            Boolean instance, or None if not set
         """
         return self.prestoredFreezeframeStoredInNvm
 
-    def setPrestoredFreezeframeStoredInNvm(self, value):
+    def setPrestoredFreezeframeStoredInNvm(self, value: Optional[Boolean]) -> "DiagnosticEventNeeds":
         """
-        Sets the flag indicating if prestored freeze frame is stored in NVM.
-        Only sets the value if it is not None.
+        Sets whether the Event requires the data of a prestored freeze-frame to be stored in non-volatile memory. TRUE = Dem shall store the prestored data in non-volatile memory, FALSE = Data can be lost at shutdown (not stored in Nvm).
+        A None value is a no-op and does not overwrite an existing prestoredFreezeframeStoredInNvm.
 
         Args:
-            value: The prestored freeze frame flag to set
+            value: The Boolean instance to set
 
         Returns:
             self for method chaining
         """
-        self.prestoredFreezeframeStoredInNvm = value
+        if value is not None:
+            self.prestoredFreezeframeStoredInNvm = value
         return self
 
-    def getUsesMonitorData(self):
+    def getUsesMonitorData(self) -> Optional[Boolean]:
         """
-        Gets the flag indicating if this event uses monitor data.
+        Gets whether additional monitor data shall be added to the reporting of events.
 
         Returns:
-            Boolean: The use monitor data flag
+            Boolean instance, or None if not set
         """
         return self.usesMonitorData
 
-    def setUsesMonitorData(self, value):
+    def setUsesMonitorData(self, value: Optional[Boolean]) -> "DiagnosticEventNeeds":
         """
-        Sets the flag indicating if this event uses monitor data.
-        Only sets the value if it is not None.
+        Sets whether additional monitor data shall be added to the reporting of events.
+        A None value is a no-op and does not overwrite an existing usesMonitorData.
 
         Args:
-            value: The use monitor data flag to set
+            value: The Boolean instance to set
 
         Returns:
             self for method chaining
         """
-        self.usesMonitorData = value
-        return self
-
-    def getDtcKind(self):
-        """
-        Gets the type of diagnostic trouble code (DTC) for this event (as ARLiteral).
-
-        Returns:
-            ARLiteral: The DTC kind
-        """
-        return self.dtcKind
-
-    def setDtcKind(self, value):
-        """
-        Sets the type of diagnostic trouble code (DTC) for this event (as ARLiteral).
-        Only sets the value if it is not None.
-
-        Args:
-            value: The DTC kind to set
-
-        Returns:
-            self for method chaining
-        """
-        self.dtcKind = value
-        return self
-
-    def getUdsDtcNumber(self):
-        """
-        Gets the UDS (Unified Diagnostic Services) DTC number for this event.
-
-        Returns:
-            Integer: The UDS DTC number
-        """
-        return self.udsDtcNumber
-
-    def setUdsDtcNumber(self, value):
-        """
-        Sets the UDS (Unified Diagnostic Services) DTC number for this event.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The UDS DTC number to set
-
-        Returns:
-            self for method chaining
-        """
-        self.udsDtcNumber = value
+        if value is not None:
+            self.usesMonitorData = value
         return self
 
 

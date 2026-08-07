@@ -280,6 +280,27 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       keep-and-record wording. An XSD-only attribute is therefore only kept
       when the XSD is release-aligned (or newer) and the omission is
       genuinely a PDF rendering gap.
+      **The caveat cuts both ways: a stale-XSD-only attribute that is
+      *already modeled* (field + accessor pair + parser/writer element +
+      tests) must be **removed** in the same pass, not left in place.**
+      `DiagnosticEventNeeds` carried `dtcKind`/`udsDtcNumber` with complete
+      fields, accessors, parser/writer reads/writes (`DTC-KIND`/
+      `UDS-DTC-NUMBER`), and passing tests — all absent from every R23-11
+      rendering of its own table (they were 2018-XSD group members that R23-11
+      moved to the sibling `DiagnosticEventInfoNeeds`, Table D.26). The
+      aligned action was a **five-place removal**: delete the field and
+      accessors, delete the parser `readXxx`/writer `writeXxx` lines that
+      emit the element, delete the tests, and record the tracker row as
+      `"removed upstream: …; not modeled"` — leaving the field in place and
+      merely recording a deviation would keep emitting elements the verified
+      release no longer defines. A fully-implemented-and-tested field is
+      **not** evidence that the attribute belongs to the class; the
+      verified-release table is. When the stale-XSD attribute still exists in
+      the verified release **under a different class** (a relocation, e.g.
+      `udsDtcNumber` now owned by `DiagnosticEventInfoNeeds`), the receiving
+      class may be named in the tracker reason, but the removal from *this*
+      class is unconditional — do not keep the field "because the release
+      still has the attribute somewhere".
 - [ ] **Cross-table aggregation.** A class may aggregate attributes whose
       definition lives in **another class's spec table**, discoverable via
       that table's `Aggregated by` row (e.g. `ResourceConsumption`'s Table
@@ -309,6 +330,20 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       `[]`), `0..1` → optional single `T` (default `None`). A spec-`*`
       attribute held as a single value is a deviation and must be fixed. The
       reverse is equally a deviation: a spec-`0..1` attribute held as a `List`.
+      **A `type (spec many vs py single)` (or reverse) row in the deviation
+      tracker is a to-fix signal, not an accepted deviation.** It is the
+      multiplicity analogue of the Rule 1.5 naming-row anti-pattern: a
+      spec-`*` ref modeled as a single field (e.g.
+      `DiagnosticEventNeeds.inhibitingSecondaryFidRef` — spec
+      `inhibitingSecondaryFid`, mult `*`) is always fixable by converting the
+      field and accessors to the list shape (`inhibitingSecondaryFidRefs: List[RefType]`,
+      `addInhibitingSecondaryFidRef`/`getInhibitingSecondaryFidRefs`) plus the
+      wrapper-element parser/writer (Rule 1.7) and the updated tests — so fix
+      it and **remove** the tracker row, exactly like a `naming` row; do not
+      leave it recorded as a permanent deviation. A surviving
+      `type (spec many vs py single)` row means the field-to-spec
+      multiplicity cross-check has not been performed, not that the mismatch
+      was reviewed and accepted.
 - [ ] A **bounded ordered** multiplicity such as `0..2` (upper bound > 1 but
       not `*`) still maps to `List[T]` (default `[]`) with the usual
       `getXxxs`/`addXxx` accessors — the upper bound is not enforced in the

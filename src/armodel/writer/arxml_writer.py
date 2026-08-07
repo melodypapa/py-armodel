@@ -86,7 +86,16 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.Memo
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import MeasuredStackUsage, RoughEstimateStackUsage, StackUsage, WorstCaseStackUsage
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ComMgrUserNeeds, CryptoServiceNeeds, DiagEventDebounceMonitorInternal, DltUserNeeds, ServiceNeeds, SupervisedEntityNeeds
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    ComMgrUserNeeds,
+    CryptoServiceNeeds,
+    DiagEventDebounceCounterBased,
+    DiagEventDebounceMonitorInternal,
+    DiagEventDebounceTimeBased,
+    DltUserNeeds,
+    ServiceNeeds,
+    SupervisedEntityNeeds,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import BswMgrNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement, DiagnosticIoControlNeeds, DtcStatusChangeNotificationNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCommunicationManagerNeeds, DiagnosticEventInfoNeeds
@@ -1923,16 +1932,28 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "FIXED-LENGTH", needs.getFixedLength())
         self.setChildElementOptionalLiteral(child_element, "PROCESSING-STYLE", needs.getProcessingStyle())
 
+    def setDiagEventDebounceCounterBased(self, element: ET.Element, algorithm: DiagEventDebounceCounterBased):
+        child_element = ET.SubElement(element, "DIAG-EVENT-DEBOUNCE-COUNTER-BASED")
+        self.writeDiagnosticCapabilityElement(child_element, algorithm)
+
     def setDiagEventDebounceMonitorInternal(self, element: ET.Element, algorithm: DiagEventDebounceMonitorInternal):
         child_element = ET.SubElement(element, "DIAG-EVENT-DEBOUNCE-MONITOR-INTERNAL")
+        self.writeDiagnosticCapabilityElement(child_element, algorithm)
+
+    def setDiagEventDebounceTimeBased(self, element: ET.Element, algorithm: DiagEventDebounceTimeBased):
+        child_element = ET.SubElement(element, "DIAG-EVENT-DEBOUNCE-TIME-BASED")
         self.writeDiagnosticCapabilityElement(child_element, algorithm)
 
     def writeDiagEventDebounceAlgorithm(self, element: ET.Element, needs: DiagnosticEventNeeds):
         algorithm = needs.getDiagEventDebounceAlgorithm()
         if algorithm is not None:
             child_element = ET.SubElement(element, "DIAG-EVENT-DEBOUNCE-ALGORITHM")
-            if isinstance(algorithm, DiagEventDebounceMonitorInternal):
+            if isinstance(algorithm, DiagEventDebounceCounterBased):
+                self.setDiagEventDebounceCounterBased(child_element, algorithm)
+            elif isinstance(algorithm, DiagEventDebounceMonitorInternal):
                 self.setDiagEventDebounceMonitorInternal(child_element, algorithm)
+            elif isinstance(algorithm, DiagEventDebounceTimeBased):
+                self.setDiagEventDebounceTimeBased(child_element, algorithm)
             else:
                 self.notImplemented("Unsupported DiagEventDebounceAlgorithm <%s>" % type(algorithm))
 
@@ -1940,9 +1961,20 @@ class ARXMLWriter(AbstractARXMLWriter):
         # self.logger.debug("Write DiagnosticEventNeeds %s" % needs.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-EVENT-NEEDS")
         self.writeDiagnosticCapabilityElement(child_element, needs)
+        refs = needs.getDeferringFidRefs()
+        if len(refs) > 0:
+            wrapper = ET.SubElement(child_element, "DEFERRING-FID-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(wrapper, "DEFERRING-FID-REF", ref)
         self.writeDiagEventDebounceAlgorithm(child_element, needs)
-        self.setChildElementOptionalLiteral(child_element, "DTC-KIND", needs.getDtcKind())
-        self.setChildElementOptionalIntegerValue(child_element, "UDS-DTC-NUMBER", needs.getUdsDtcNumber())
+        self.setChildElementOptionalRefType(child_element, "INHIBITING-FID-REF", needs.getInhibitingFidRef())
+        refs = needs.getInhibitingSecondaryFidRefs()
+        if len(refs) > 0:
+            wrapper = ET.SubElement(child_element, "INHIBITING-SECONDARY-FID-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(wrapper, "INHIBITING-SECONDARY-FID-REF", ref)
+        self.setChildElementOptionalBooleanValue(child_element, "PRESTORED-FREEZEFRAME-STORED-IN-NVM", needs.getPrestoredFreezeframeStoredInNvm())
+        self.setChildElementOptionalBooleanValue(child_element, "USES-MONITOR-DATA", needs.getUsesMonitorData())
 
     def writeDiagnosticEventInfoNeeds(self, element: ET.Element, needs: DiagnosticEventInfoNeeds):
         # self.logger.debug("Write DiagnosticEventNeeds %s" % needs.getShortName())

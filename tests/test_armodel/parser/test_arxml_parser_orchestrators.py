@@ -303,19 +303,30 @@ class TestServiceNeedsHandlers:
         parser.readDiagnosticValueNeeds(element, needs)
         assert needs.getDidNumber().getValue() == 0xF190
 
-    def test_readDiagnosticEventNeeds_sets_udsDtcNumber(self, parser):
+    def test_readDiagnosticEventNeeds_sets_attributes(self, parser):
         from armodel.models import SwcServiceDependency, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
         dependency = behavior.createSwcServiceDependency("dep")
         element = _snip(
-            "<SHORT-NAME>eventNeeds</SHORT-NAME>" "<DTC-KIND>kind</DTC-KIND>" "<UDS-DTC-NUMBER>0x1234</UDS-DTC-NUMBER>",
+            "<SHORT-NAME>eventNeeds</SHORT-NAME>"
+            "<DEFERRING-FID-REFS><DEFERRING-FID-REF DEST='FUNCTION-INHIBITION-NEEDS'>/Fim/Defer</DEFERRING-FID-REF></DEFERRING-FID-REFS>"
+            "<INHIBITING-FID-REF DEST='FUNCTION-INHIBITION-NEEDS'>/Fim/Inhibit</INHIBITING-FID-REF>"
+            "<INHIBITING-SECONDARY-FID-REFS><INHIBITING-SECONDARY-FID-REF DEST='FUNCTION-INHIBITION-NEEDS'>/Fim/Secondary</INHIBITING-SECONDARY-FID-REF></INHIBITING-SECONDARY-FID-REFS>"
+            "<PRESTORED-FREEZEFRAME-STORED-IN-NVM>true</PRESTORED-FREEZEFRAME-STORED-IN-NVM>"
+            "<USES-MONITOR-DATA>true</USES-MONITOR-DATA>",
             root_tag="DIAGNOSTIC-EVENT-NEEDS",
         )
         needs = dependency.createDiagnosticEventNeeds("eventNeeds")
         parser.readDiagnosticEventNeeds(element, needs)
-        assert needs.getUdsDtcNumber().getValue() == 0x1234
+        assert len(needs.getDeferringFidRefs()) == 1
+        assert needs.getDeferringFidRefs()[0].getValue() == "/Fim/Defer"
+        assert needs.getInhibitingFidRef().getValue() == "/Fim/Inhibit"
+        assert len(needs.getInhibitingSecondaryFidRefs()) == 1
+        assert needs.getInhibitingSecondaryFidRefs()[0].getValue() == "/Fim/Secondary"
+        assert needs.getPrestoredFreezeframeStoredInNvm().getValue() is True
+        assert needs.getUsesMonitorData().getValue() is True
 
     def test_readDiagnosticEventInfoNeeds_sets_dtcKind(self, parser):
         from armodel.models import SwcServiceDependency, ApplicationSwComponentType
