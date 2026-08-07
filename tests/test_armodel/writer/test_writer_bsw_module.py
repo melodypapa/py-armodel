@@ -16,7 +16,11 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswVariableAccess,
     BswModeManagerErrorEvent,
     BswModeSwitchEvent,
+    BswServiceDependency,
+    BswServiceDependencyIdent,
+    RoleBasedBswModuleEntryAssignment,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import SymbolicNameProps
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import (
     BswModuleClientServerEntry,
     BswModuleEntry,
@@ -34,6 +38,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import (  # noqa E501
     IncludedModeDeclarationGroupSet,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    RoleBasedDataAssignment,
+    BswMgrNeeds,
 )
 
 
@@ -631,6 +639,83 @@ class TestWriterBswInternalTriggeringPoints:
         parent = _parent()
         writer.writeBswModuleDescriptionInternalBehaviors(parent, desc)
         assert len(parent) == 0
+
+
+class TestWriterBswServiceDependency:
+    def test_writeBswServiceDependency_full(self, writer):
+        dependency = BswServiceDependency()
+        dependency.setIdent(BswServiceDependencyIdent(dependency, "ident"))
+        data = RoleBasedDataAssignment()
+        data.setRole(ARLiteral().setValue("theRole"))
+        dependency.addAssignedData(data)
+        entry = RoleBasedBswModuleEntryAssignment()
+        entry.setRole(ARLiteral().setValue("errorNotification"))
+        dependency.addAssignedEntryRole(entry)
+        needs = BswMgrNeeds(dependency, "needs")
+        dependency.setServiceNeeds(needs)
+
+        parent = _parent()
+        writer.writeBswServiceDependency(parent, dependency)
+
+        dep_element = parent.find("BSW-SERVICE-DEPENDENCY")
+        assert dep_element is not None
+        assert dep_element.find("IDENT/SHORT-NAME").text == "ident"
+        assert dep_element.find("ASSIGNED-DATAS/ROLE-BASED-DATA-ASSIGNMENT/ROLE").text == "theRole"
+        assert dep_element.find("ASSIGNED-ENTRY-ROLES/ROLE-BASED-BSW-MODULE-ENTRY-ASSIGNMENT/ROLE").text == "errorNotification"
+        assert dep_element.find("SERVICE-NEEDS/BSW-MGR-NEEDS/SHORT-NAME").text == "needs"
+
+    def test_writeBswServiceDependency_minimal(self, writer):
+        dependency = BswServiceDependency()
+        parent = _parent()
+        writer.writeBswServiceDependency(parent, dependency)
+
+        dep_element = parent.find("BSW-SERVICE-DEPENDENCY")
+        assert dep_element is not None
+        assert dep_element.find("IDENT") is None
+        assert dep_element.find("ASSIGNED-DATAS") is None
+        assert dep_element.find("ASSIGNED-ENTRY-ROLES") is None
+        assert dep_element.find("SERVICE-NEEDS") is None
+
+    def test_writeBswServiceDependency_symbolic_name_props(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CIdentifier
+
+        dependency = BswServiceDependency()
+        props = SymbolicNameProps(dependency, "symProps")
+        props.setSymbol(CIdentifier().setValue("mySymbol"))
+        dependency.setSymbolicNameProps(props)
+
+        parent = _parent()
+        writer.writeBswServiceDependency(parent, dependency)
+
+        props_element = parent.find("BSW-SERVICE-DEPENDENCY/SYMBOLIC-NAME-PROPS")
+        assert props_element is not None
+        assert props_element.find("SHORT-NAME").text == "symProps"
+        symbol_element = props_element.find("SYMBOL")
+        assert symbol_element is not None
+        assert symbol_element.text == "mySymbol"
+
+    def test_writeBswInternalBehaviorServiceDependencies(self, writer):
+        behavior = _make_behavior()
+        dependency = BswServiceDependency()
+        behavior.addServiceDependency(dependency)
+        parent = _parent()
+        writer.writeBswInternalBehaviorServiceDependencies(parent, behavior)
+        assert parent[0].tag == "SERVICE-DEPENDENCYS"
+        assert parent[0].find("BSW-SERVICE-DEPENDENCY") is not None
+
+    def test_writeBswInternalBehaviorServiceDependencies_empty(self, writer):
+        behavior = _make_behavior()
+        parent = _parent()
+        writer.writeBswInternalBehaviorServiceDependencies(parent, behavior)
+        assert len(parent) == 0
+
+    def test_writeBswInternalBehavior_includes_service_dependencies(self, writer):
+        behavior = _make_behavior()
+        behavior.addServiceDependency(BswServiceDependency())
+        parent = _parent()
+        writer.writeBswInternalBehavior(parent, behavior)
+        bh = parent[0]
+        assert bh.find("SERVICE-DEPENDENCYS") is not None
 
 
 class TestWriterBswModuleDescriptionTriggersAndDatas:

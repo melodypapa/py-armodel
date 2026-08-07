@@ -5,11 +5,12 @@ services such as NV block management, diagnostic services, cryptographic service
 """
 
 from abc import ABC
-from typing import List
+from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import AutosarParameterRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AutosarVariableRef import AutosarVariableRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType, AREnum, Boolean, ARLiteral
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagRequirementIdString, Integer, PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String, TimeValue
@@ -599,14 +600,14 @@ class ServiceDiagnosticRelevanceEnum(AREnum):
         super().__init__([])
 
 
-class ServiceDependency(Identifiable, ABC):
+class ServiceDependency(ARObject, ABC):
     """
     Represents a service dependency in AUTOSAR models.
     This class defines dependencies on services along with their data type assignments and diagnostic relevance.
     """
 
     # ServiceDependency method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [x] __init__                     [x] impl  [x] docstring  [ ] test
     # [x] getAssignedDataTypes         [x] impl  [x] docstring  [x] test
     # [x] addAssignedDataType          [x] impl  [x] docstring  [x] test
     # [ ] getDiagnosticRelevance       [x] impl  [x] docstring  [ ] test
@@ -614,27 +615,25 @@ class ServiceDependency(Identifiable, ABC):
     # [ ] getSymbolicNameProps         [x] impl  [x] docstring  [ ] test
     # [ ] setSymbolicNameProps         [x] impl  [x] docstring  [ ] test
 
-    def __init__(self, parent: ARObject, short_name: str):
+    def __init__(self):
         """
-        Initializes the ServiceDependency with a parent and short name.
+        Initializes the ServiceDependency with default values.
         Raises TypeError if this abstract class is instantiated directly.
-
-        Args:
-            parent: The parent ARObject that contains this service dependency
-            short_name: The unique short name of this service dependency
         """
         if type(self) is ServiceDependency:
             raise TypeError("ServiceDependency is an abstract class.")
-        super().__init__(parent, short_name)
+        super().__init__()
 
         # List of role-based data type assignments for this service dependency
         self.assignedDataTypes: List[RoleBasedDataTypeAssignment] = []
-        # Diagnostic relevance of this service dependency
-        self.diagnosticRelevance: ServiceDiagnosticRelevanceEnum = None
-        # Symbolic name properties for this service dependency
-        self.symbolicNameProps = None
 
-    def getAssignedDataTypes(self):
+        # Diagnostic relevance of this service dependency
+        self.diagnosticRelevance: Optional[ServiceDiagnosticRelevanceEnum] = None
+
+        # Symbolic name properties for this service dependency
+        self.symbolicNameProps: Optional["SymbolicNameProps"] = None
+
+    def getAssignedDataTypes(self) -> List[RoleBasedDataTypeAssignment]:
         """
         Gets the list of role-based data type assignments for this service dependency.
 
@@ -643,9 +642,10 @@ class ServiceDependency(Identifiable, ABC):
         """
         return self.assignedDataTypes
 
-    def addAssignedDataType(self, value):
+    def addAssignedDataType(self, value: Optional[RoleBasedDataTypeAssignment]) -> "ServiceDependency":
         """
         Adds a role-based data type assignment to this service dependency.
+        A None value is a no-op and is not appended to the list.
 
         Args:
             value: The data type assignment to add
@@ -653,10 +653,11 @@ class ServiceDependency(Identifiable, ABC):
         Returns:
             self for method chaining
         """
-        self.assignedDataTypes.append(value)
+        if value is not None:
+            self.assignedDataTypes.append(value)
         return self
 
-    def getDiagnosticRelevance(self):
+    def getDiagnosticRelevance(self) -> Optional[ServiceDiagnosticRelevanceEnum]:
         """
         Gets the diagnostic relevance of this service dependency.
 
@@ -665,7 +666,7 @@ class ServiceDependency(Identifiable, ABC):
         """
         return self.diagnosticRelevance
 
-    def setDiagnosticRelevance(self, value):
+    def setDiagnosticRelevance(self, value: Optional[ServiceDiagnosticRelevanceEnum]) -> "ServiceDependency":
         """
         Sets the diagnostic relevance of this service dependency.
         Only sets the value if it is not None.
@@ -676,10 +677,11 @@ class ServiceDependency(Identifiable, ABC):
         Returns:
             self for method chaining
         """
-        self.diagnosticRelevance = value
+        if value is not None:
+            self.diagnosticRelevance = value
         return self
 
-    def getSymbolicNameProps(self):
+    def getSymbolicNameProps(self) -> Optional["SymbolicNameProps"]:
         """
         Gets the symbolic name properties for this service dependency.
 
@@ -688,7 +690,7 @@ class ServiceDependency(Identifiable, ABC):
         """
         return self.symbolicNameProps
 
-    def setSymbolicNameProps(self, value):
+    def setSymbolicNameProps(self, value: Optional["SymbolicNameProps"]) -> "ServiceDependency":
         """
         Sets the symbolic name properties for this service dependency.
         Only sets the value if it is not None.
@@ -699,7 +701,8 @@ class ServiceDependency(Identifiable, ABC):
         Returns:
             self for method chaining
         """
-        self.symbolicNameProps = value
+        if value is not None:
+            self.symbolicNameProps = value
         return self
 
 
@@ -3200,30 +3203,27 @@ class SupervisedEntityNeeds(ServiceNeeds):
         super().__init__(parent, short_name)
 
 
-class SymbolicNameProps(ARObject):
+class SymbolicNameProps(ImplementationProps):
     """
     Represents Symbolic Name properties in AUTOSAR models.
-    This class defines symbolic name properties for elements.
+    This meta-class can be taken to contribute to the creation of symbolic name values.
+    Inherits symbol handling (SYMBOL, 0..1 C-Identifier) from ImplementationProps.
     """
 
     # SymbolicNameProps method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getSymbolicName              [x] impl  [ ] docstring  [ ] test
-    # [ ] setSymbolicName              [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.59, p.610
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
 
-    def __init__(self):
+    def __init__(self, parent: ARObject, short_name: str):
         """
-        Initializes the SymbolicNameProps with default values.
+        Initializes the SymbolicNameProps with a parent and short name.
+
+        Args:
+            parent: The parent ARObject that contains this symbolic name props
+            short_name: The unique short name of this symbolic name props
         """
-        super().__init__()
-        self.symbolicName: String = None
-
-    def getSymbolicName(self):
-        return self.symbolicName
-
-    def setSymbolicName(self, value):
-        self.symbolicName = value
-        return self
+        super().__init__(parent, short_name)
 
 
 class SyncTimeBaseMgrUserNeeds(ServiceNeeds):

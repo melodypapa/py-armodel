@@ -40,6 +40,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import Bsw
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalTriggerOccurredEvent, BswInterruptEntity, BswModeManagerErrorEvent, BswModeSwitchEvent, BswModeSwitchedAckEvent
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModuleEntity, BswQueuedDataReceptionPolicy, BswSchedulableEntity
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswScheduleEvent, BswModeSenderPolicy, BswModeSwitchAckRequest, BswTimingEvent, BswVariableAccess
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency, BswServiceDependencyIdent, RoleBasedBswModuleEntryAssignment
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleClientServerEntry, BswModuleEntry
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
@@ -90,10 +91,11 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.Stac
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagEventDebounceMonitorInternal, DltUserNeeds, ServiceNeeds
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import BswMgrNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement, DtcStatusChangeNotificationNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCommunicationManagerNeeds, DiagnosticEventInfoNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticEventNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import EcuStateMgrUserNeeds, NvBlockNeeds, RoleBasedDataAssignment
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import EcuStateMgrUserNeeds, NvBlockNeeds, RoleBasedDataAssignment, SymbolicNameProps
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataTypeAssignment, ServiceDependency
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
@@ -680,6 +682,113 @@ class ARXMLParser(AbstractARXMLParser):
                 dependency.addAssignedDataType(self.getRoleBasedDataTypeAssignment(child_element))
             else:
                 self.notImplemented("Unsupported assigned data type <%s>" % tag_name)
+        self.readSymbolicNameProps(element, dependency)
+
+    def getBswServiceDependencyIdent(self, element: ET.Element, dependency: BswServiceDependency) -> BswServiceDependencyIdent:
+        ident_element = self.find(element, "IDENT")
+        if ident_element is not None:
+            return BswServiceDependencyIdent(dependency, self.getShortName(ident_element))
+        return None
+
+    def readSymbolicNameProps(self, element: ET.Element, dependency: ServiceDependency):
+        props_element = self.find(element, "SYMBOLIC-NAME-PROPS")
+        if props_element is None:
+            return
+        props = SymbolicNameProps(dependency, self.getShortName(props_element))
+        self.readReferrable(props_element, props)
+        self.readImplementationProps(props_element, props)
+        dependency.setSymbolicNameProps(props)
+
+    def getRoleBasedBswModuleEntryAssignment(self, element: ET.Element) -> RoleBasedBswModuleEntryAssignment:
+        assignment = RoleBasedBswModuleEntryAssignment()
+        assignment.setAssignedEntryRef(self.getChildElementOptionalRefType(element, "ASSIGNED-ENTRY-REF"))
+        assignment.setRole(self.getChildElementOptionalLiteral(element, "ROLE"))
+        return assignment
+
+    def readBswServiceDependencyAssignedData(self, element: ET.Element, dependency: BswServiceDependency):
+        for child_element in self.findall(element, "ASSIGNED-DATAS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "ROLE-BASED-DATA-ASSIGNMENT":
+                dependency.addAssignedData(self.getRoleBasedDataAssignment(child_element))
+            else:
+                self.notImplemented("Unsupported assigned data <%s>" % tag_name)
+
+    def readBswServiceDependencyAssignedEntryRoles(self, element: ET.Element, dependency: BswServiceDependency):
+        for child_element in self.findall(element, "ASSIGNED-ENTRY-ROLES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "ROLE-BASED-BSW-MODULE-ENTRY-ASSIGNMENT":
+                dependency.addAssignedEntryRole(self.getRoleBasedBswModuleEntryAssignment(child_element))
+            else:
+                self.notImplemented("Unsupported assigned entry role <%s>" % tag_name)
+
+    def readBswServiceDependencyServiceNeeds(self, element: ET.Element, dependency: BswServiceDependency):
+        needs_element = self.find(element, "SERVICE-NEEDS")
+        if needs_element is None:
+            return
+        for child_element in self.findall(needs_element, "*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "BSW-MGR-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = BswMgrNeeds(dependency, short_name)
+                self.readBswMgrNeeds(child_element, needs)
+            elif tag_name == "NV-BLOCK-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = NvBlockNeeds(dependency, short_name)
+                self.readNvBlockNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = DiagnosticCommunicationManagerNeeds(dependency, short_name)
+                self.readDiagnosticCommunicationManagerNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTIC-ROUTINE-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = DiagnosticRoutineNeeds(dependency, short_name)
+                self.readDiagnosticRoutineNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTIC-VALUE-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = DiagnosticValueNeeds(dependency, short_name)
+                self.readDiagnosticValueNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTIC-EVENT-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = DiagnosticEventNeeds(dependency, short_name)
+                self.readDiagnosticEventNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTIC-EVENT-INFO-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = DiagnosticEventInfoNeeds(dependency, short_name)
+                self.readDiagnosticEventInfoNeeds(child_element, needs)
+            elif tag_name == "CRYPTO-SERVICE-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = CryptoServiceNeeds(dependency, short_name)
+                self.readCryptoServiceNeeds(child_element, needs)
+            elif tag_name == "ECU-STATE-MGR-USER-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = EcuStateMgrUserNeeds(dependency, short_name)
+                self.readEcuStateMgrUserNeeds(child_element, needs)
+            elif tag_name == "DTC-STATUS-CHANGE-NOTIFICATION-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = DtcStatusChangeNotificationNeeds(dependency, short_name)
+                self.readDtcStatusChangeNotificationNeeds(child_element, needs)
+            elif tag_name == "DLT-USER-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = DltUserNeeds(dependency, short_name)
+                self.readDltUserNeeds(child_element, needs)
+            else:
+                self.notImplemented("Unsupported service needs <%s>" % tag_name)
+                continue
+            dependency.setServiceNeeds(needs)
+
+    def readBswServiceDependency(self, element: ET.Element, dependency: BswServiceDependency):
+        self.readARObjectAttributes(element, dependency)
+        dependency.setIdent(self.getBswServiceDependencyIdent(element, dependency))
+        for child_element in self.findall(element, "ASSIGNED-DATA-TYPES/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "ROLE-BASED-DATA-TYPE-ASSIGNMENT":
+                dependency.addAssignedDataType(self.getRoleBasedDataTypeAssignment(child_element))
+            else:
+                self.notImplemented("Unsupported assigned data type <%s>" % tag_name)
+        self.readBswServiceDependencyAssignedData(element, dependency)
+        self.readBswServiceDependencyAssignedEntryRoles(element, dependency)
+        self.readBswServiceDependencyServiceNeeds(element, dependency)
+        self.readSymbolicNameProps(element, dependency)
 
     def readSwcServiceDependencyAssignedData(self, element: ET.Element, dependency: SwcServiceDependency):
         for child_element in self.findall(element, "ASSIGNED-DATAS/*"):
@@ -699,6 +808,9 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readServiceNeeds(self, element: ET.Element, needs: ServiceNeeds):
         self.readIdentifiable(element, needs)
+
+    def readBswMgrNeeds(self, element: ET.Element, needs: BswMgrNeeds):
+        self.readServiceNeeds(element, needs)
 
     def readNvBlockNeeds(self, element: ET.Element, needs: NvBlockNeeds):
         # self.logger.debug("Read NvBlockNeeds <%s>" % needs.getShortName())
@@ -1089,6 +1201,16 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Internal Triggering Points <%s>" % tag_name)
 
+    def readBswInternalBehaviorServiceDependencies(self, element: ET.Element, behavior: BswInternalBehavior):
+        for child_element in self.findall(element, "SERVICE-DEPENDENCYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "BSW-SERVICE-DEPENDENCY":
+                dependency = BswServiceDependency()
+                self.readBswServiceDependency(child_element, dependency)
+                behavior.addServiceDependency(dependency)
+            else:
+                self.notImplemented("Unsupported Service Dependencies <%s>" % tag_name)
+
     def readBswInternalBehavior(self, element: ET.Element, behavior: BswInternalBehavior):
         self.logger.debug("Read BswInternalBehavior <%s>" % behavior.full_name)
 
@@ -1101,6 +1223,7 @@ class ARXMLParser(AbstractARXMLParser):
         for group_set in self.getIncludedModeDeclarationGroupSets(element):
             behavior.addIncludedModeDeclarationGroupSet(group_set)
         self.readBswInternalBehaviorReceptionPolicies(element, behavior)
+        self.readBswInternalBehaviorServiceDependencies(element, behavior)
 
     def readBswModuleDescriptionBswInternalBehaviors(self, element: ET.Element, desc: BswModuleDescription):
         for child_element in self.findall(element, "INTERNAL-BEHAVIORS/*"):

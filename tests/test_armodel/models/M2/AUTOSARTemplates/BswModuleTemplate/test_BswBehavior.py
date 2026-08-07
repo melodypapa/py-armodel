@@ -40,11 +40,15 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswQueuedDataReceptionPolicy,
     BswInternalTriggeringPoint,
     BswInternalBehavior,
+    BswServiceDependencyIdent,
+    RoleBasedBswModuleEntryAssignment,
+    BswServiceDependency,
 )
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import ModeInBswModuleDescriptionInstanceRef
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARFloat, ARNumerical, PositiveInteger, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARFloat, ARLiteral, ARNumerical, PositiveInteger, TimeValue
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ApiPrincipleEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeActivationKind
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment, RoleBasedDataTypeAssignment, SymbolicNameProps, BswMgrNeeds
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
 from armodel import AUTOSAR
 
@@ -1359,6 +1363,17 @@ class TestBswInternalBehavior:
         assert result == behavior
         assert behavior.getServiceDependencies() == []
 
+    def test_add_service_dependency(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        behavior = BswInternalBehavior(ar_root, "test_internal_behavior")
+        dependency = BswServiceDependency()
+
+        result = behavior.addServiceDependency(dependency)
+
+        assert result == behavior
+        assert behavior.getServiceDependencies() == [dependency]
+
     def test_get_set_trigger_direct_implementations(self):
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
@@ -1805,3 +1820,181 @@ class TestBswDistinguishedPartition:
         partition = BswDistinguishedPartition(ar_root, "test_partition")
 
         assert partition.short_name == "test_partition"
+
+
+class TestBswServiceDependencyIdent:
+    """Test cases for BswServiceDependencyIdent class - allows a non-Referrable BswServiceDependency to become the target of a reference."""
+
+    def test_initialization(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        ident = BswServiceDependencyIdent(ar_root, "test_ident")
+
+        assert ident.short_name == "test_ident"
+
+
+class TestRoleBasedBswModuleEntryAssignment:
+    """Test cases for RoleBasedBswModuleEntryAssignment class - assigns a role to a particular BswModuleEntry."""
+
+    def test_initialization(self):
+        assignment = RoleBasedBswModuleEntryAssignment()
+
+        assert assignment.getAssignedEntryRef() is None
+        assert assignment.getRole() is None
+
+    def test_get_set_assigned_entry_ref(self):
+        assignment = RoleBasedBswModuleEntryAssignment()
+        ref = RefType()
+
+        result = assignment.setAssignedEntryRef(ref)
+
+        assert result == assignment
+        assert assignment.getAssignedEntryRef() == ref
+
+        # Setting None should not change the value
+        result = assignment.setAssignedEntryRef(None)
+        assert result == assignment
+        assert assignment.getAssignedEntryRef() == ref
+
+    def test_get_set_role(self):
+        assignment = RoleBasedBswModuleEntryAssignment()
+        role = ARLiteral().setValue("errorNotification")
+
+        result = assignment.setRole(role)
+
+        assert result == assignment
+        assert assignment.getRole() == role
+
+        # Setting None should not change the value
+        result = assignment.setRole(None)
+        assert result == assignment
+        assert assignment.getRole() == role
+
+
+class TestBswServiceDependency:
+    """Test cases for BswServiceDependency class - specialization of ServiceDependency in the context of a BswInternalBehavior."""
+
+    def test_initialization(self):
+        dependency = BswServiceDependency()
+
+        assert dependency.getAssignedData() == []
+        assert dependency.getAssignedEntryRole() == []
+        assert dependency.getIdent() is None
+        assert dependency.getServiceNeeds() is None
+
+    def test_get_add_assigned_data(self):
+        dependency = BswServiceDependency()
+        data = RoleBasedDataAssignment()
+
+        result = dependency.addAssignedData(data)
+
+        assert result == dependency
+        assert dependency.getAssignedData() == [data]
+
+    def test_add_assigned_data_none_is_noop(self):
+        dependency = BswServiceDependency()
+        data = RoleBasedDataAssignment()
+        dependency.addAssignedData(data)
+
+        result = dependency.addAssignedData(None)
+
+        assert result == dependency
+        assert dependency.getAssignedData() == [data]
+
+    def test_get_add_assigned_entry_role(self):
+        dependency = BswServiceDependency()
+        assignment = RoleBasedBswModuleEntryAssignment()
+
+        result = dependency.addAssignedEntryRole(assignment)
+
+        assert result == dependency
+        assert dependency.getAssignedEntryRole() == [assignment]
+
+    def test_add_assigned_entry_role_none_is_noop(self):
+        dependency = BswServiceDependency()
+        assignment = RoleBasedBswModuleEntryAssignment()
+        dependency.addAssignedEntryRole(assignment)
+
+        result = dependency.addAssignedEntryRole(None)
+
+        assert result == dependency
+        assert dependency.getAssignedEntryRole() == [assignment]
+
+    def test_add_assigned_data_type_none_is_noop(self):
+        dependency = BswServiceDependency()
+        data_type = RoleBasedDataTypeAssignment()
+        dependency.addAssignedDataType(data_type)
+
+        result = dependency.addAssignedDataType(None)
+
+        assert result == dependency
+        assert dependency.getAssignedDataTypes() == [data_type]
+
+    def test_get_set_ident(self):
+        dependency = BswServiceDependency()
+        ident = BswServiceDependencyIdent(dependency, "test_ident")
+
+        result = dependency.setIdent(ident)
+
+        assert result == dependency
+        assert dependency.getIdent() == ident
+
+        # Setting None should not change the value
+        result = dependency.setIdent(None)
+        assert result == dependency
+        assert dependency.getIdent() == ident
+
+    def test_get_set_service_needs(self):
+        dependency = BswServiceDependency()
+        needs = BswMgrNeeds(dependency, "test_needs")
+
+        result = dependency.setServiceNeeds(needs)
+
+        assert result == dependency
+        assert dependency.getServiceNeeds() == needs
+
+        # Setting None should not change the value
+        result = dependency.setServiceNeeds(None)
+        assert result == dependency
+        assert dependency.getServiceNeeds() == needs
+
+    def test_get_set_symbolic_name_props(self):
+        dependency = BswServiceDependency()
+        props = SymbolicNameProps(dependency, "symProps")
+
+        result = dependency.setSymbolicNameProps(props)
+
+        assert result == dependency
+        assert dependency.getSymbolicNameProps() == props
+
+        # Setting None should not change the value
+        result = dependency.setSymbolicNameProps(None)
+        assert result == dependency
+        assert dependency.getSymbolicNameProps() == props
+
+
+class TestSymbolicNameProps:
+    def test_get_set_symbol(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CIdentifier
+
+        parent = BswServiceDependency()
+        props = SymbolicNameProps(parent, "symProps")
+
+        assert props.getShortName() == "symProps"
+        assert props.getSymbol() is None
+
+        value = CIdentifier().setValue("test_symbol")
+        result = props.setSymbol(value)
+
+        assert result == props
+        assert props.getSymbol() == value
+
+        # Setting None should not change the value
+        result = props.setSymbol(None)
+        assert result == props
+        assert props.getSymbol() == value
+
+    def test_inherits_implementation_props(self):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps
+
+        assert issubclass(SymbolicNameProps, ImplementationProps)
