@@ -155,6 +155,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import (
     PortPrototypeBlueprint,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.McGroups import McGroup
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucModuleDef
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucModuleConfigurationValues,
@@ -283,6 +284,7 @@ ELEMENT_TYPES_AND_TAGS = [
     ("SwSystemConst", "SW-SYSTEMCONST"),
     ("SwSystemconstantValueSet", "SW-SYSTEMCONSTANT-VALUE-SET"),
     ("PredefinedVariant", "PREDEFINED-VARIANT"),
+    ("McGroup", "MC-GROUP"),
 ]
 
 ELEMENTS_WITH_SPECIAL_SETUP = {

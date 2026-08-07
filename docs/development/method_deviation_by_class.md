@@ -547,31 +547,21 @@ No deviations — all Table 9.9 attributes (`flatMapEntry`, `mcDataInstance`) ar
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::McGroups`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/McGroups.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `mcFunctionRefs` | `Ref (McFunction)` | Refs | missing |
-| — *(missing)* | `—` | `refCalprmSet` | `McGroupDataRefSet` | — | missing |
-| — *(missing)* | `—` | `refMeasurementSet` | `McGroupDataRefSet` | — | missing |
-| — *(missing)* | `—` | `subGroupRefs` | `Ref (McGroup)` | Refs | missing |
+No deviations — all Table 9.10 attributes (`mcFunction`, `refCalprmSet`, `refMeasurementSet`, `subGroup`) are implemented with parser/writer coverage (`readMcGroup`/`writeMcGroup`, dispatched from `readARPackageElements`/`writeARPackageElement` via the new `ARPackage.createMcGroup`/`getMcGroups`). The class's base was corrected from `ARObject` to `ARElement` (the spec `Base` row names `ARElement`, the most-derived model class that exists in the codebase), making `McGroup` a real `ARPackage.element`. Note: the sibling `McFunction` models the same `Base` chain with `Identifiable`; McGroup follows the spec's most-derived `ARElement` per Rule 1.2 (see the Rule 1.2 generalization in `class_check_rules.md`).
 
 ## `McGroupDataRefSet`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 191
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::McGroups`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/McGroups.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `mcGroupDataRefSetVariant` | `McGroupDataRefSetConditional` | — | missing |
+No deviations — all Table 9.11 attributes (`flatMapEntry`, `mcDataInstance`) are implemented with parser/writer coverage (`readMcGroupDataRefSet`/`writeMcGroupDataRefSet`). The class is `<<atpVariation>>`: the XSD nests its attributes under `<MC-GROUP-DATA-REF-SET-VARIANTS>/<MC-GROUP-DATA-REF-SET-CONDITIONAL>`, and per the established cluster-class precedent (`LinCluster`/`CanCluster`/`FlexrayCluster`, and the sibling `McFunctionDataRefSet`) the wrapper is read/written transparently into the owning object — no separate `McGroupDataRefSetConditional` model class, and no `variationPoint` is modeled. The earlier tracker row recorded `mcGroupDataRefSetVariant` (the alternative explicit `Variants`/`Conditional` modeling) as missing; the transparent wrapper is the codebase-consistent choice.
 
 ## `McDataAccessDetails`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 195
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `rteEvent` | `RteEventInEcuInstanceRef` | — | missing |
-| — *(missing)* | `—` | `variableAccess` | `VariableAccessInEcuInstanceRef` | — | missing |
+No deviations — all Table 9.12 attributes (`rteEvent`, `variableAccess`) are implemented as `*` iref lists with parser/writer coverage (`readMcDataAccessDetails`/`writeMcDataAccessDetails`, wired into `readMcDataInstance`/`writeMcDataInstance`). The earlier placeholder implementation was a Rule 1.3 whole-class stub: the fabricated fields `accessType`/`address` appeared nowhere in the spec and were removed. The two `iref` element types were missing and were implemented first per Rule 1.10 as `RteEventInEcuInstanceRef`/`VariableAccessInEcuInstanceRef` (concrete subclasses of the existing abstract `AtpInstanceRef`), co-located in this package alongside the sibling iref `ImplementationElementInParameterInstanceRef`. Note on the iref classes: they have **no own spec table** in any rendered PDF (their inner attributes — `contextRootComposition`, `contextAtomicComponent`, `targetRteEvent`/`targetVariableAccess` — are defined only in the XSD groups `RTE-EVENT-IN-ECU-INSTANCE-REF`/`VARIABLE-ACCESS-IN-ECU-INSTANCE-REF`), so their checklists carry **no `# Spec:` line and no `# Spec verified:` marker** and every row stays `[ ]` — nothing about them is PDF-confirmed; `base` is `atpDerived` (field + accessor, no XML element).
 
 ## `RptSupportData`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 198
@@ -618,23 +608,34 @@ No deviations — all Table 9.26 attributes (`serviceId`, `symbol`) implemented 
 ## `BswServiceDependency`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 225
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/BswServiceDependency.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `assignedData` | `RoleBasedDataAssignment` | — | missing |
-| — *(missing)* | `—` | `assignedEntryRole` | `RoleBasedBswModuleEntryAssignment` | — | missing |
-| — *(missing)* | `—` | `ident` | `BswServiceDependencyIdent` | — | missing |
-| — *(missing)* | `—` | `serviceNeeds` | `BswMgrNeeds` | — | missing |
+Aligned to `class_check_rules.md` on 2026-08-07. Rule-compliance fixes applied this pass:
+- **Rule 3 (type hints):** all 8 accessors (`getAssignedData`, `addAssignedData`, `getAssignedEntryRole`, `addAssignedEntryRole`, `getIdent`, `setIdent`, `getServiceNeeds`, `setServiceNeeds`) were untyped — now annotated with `List[T]` / `Optional[T]` return and `Optional[T]` parameters returning `"BswServiceDependency"`. Fields `ident` / `serviceNeeds` corrected from `T = None` to `Optional[T] = None`.
+- **Rule 4 (no-op on None):** `addAssignedData` / `addAssignedEntryRole` appended the value unconditionally (a `None` would be appended) — now guarded with `if value is not None:`. Docstrings gained the "None value is a no-op" sentence.
+- **Rule 4.1 (abstract base uniformity):** the inherited `ServiceDependency.addAssignedDataType`, `setDiagnosticRelevance`, `setSymbolicNameProps` were unguarded and untyped — aligned to the uniform `if value is not None:` guard + `Optional[T]` signatures (see the `ServiceDependency` tracker row).
+- **Rule 2 (checklist):** stale `[ ]` rows (every accessor was `[ ]` despite impl/docstring/test existing) crossed to `[x]`; the `Spec verified: R23-11` marker was already present.
+
+Residual deviations (intentionally **not** serialized this pass — recorded honestly rather than claimed covered):
+- **`symbolicNameProps` (0..1, `SymbolicNameProps`):** RESOLVED 2026-08-07 (re-synced to PDF 2026-08-07). Spec `Table 7.59` (`SWCT`): `SymbolicNameProps` Base = `ARObject, ImplementationProps, Referrable` with **no own attributes**; aggregated by `ServiceDependency.symbolicNameProps` (0..1, aggr). The XSD `SYMBOLIC-NAME-PROPS` complexType = `AR-OBJECT` + `REFERRABLE` + `IMPLEMENTATION-PROPS` (and an empty own group). `SymbolicNameProps` therefore inherits `ImplementationProps` (giving the `symbol` / `SYMBOL` 0..1 `C-Identifier` attr) and `Referrable` (SHORT-NAME), and has **no** `symbolicName` field — the earlier `symbolicName: String` attribute was spurious (no `SYMBOLIC-NAME` XSD element exists) and was removed. `readSymbolicNameProps` / `writeSymbolicNameProps` now call `readImplementationProps` / `writeImplementationProps`, serializing both `SHORT-NAME` and `SYMBOL`, wired into base + both subtype readers/writers. Tests: parser `test_readBswServiceDependency_symbolic_name_props` (with `SYMBOL`), writer `test_writeBswServiceDependency_symbolic_name_props` (with `SYMBOL`), model `TestSymbolicNameProps` (inherited `symbol` + `issubclass(ImplementationProps)`). The aggregation on `ServiceDependency` (0..1, aggr) matches spec `Table 7.57`.
+- **`diagnosticRelevance` (0..1, `ServiceDiagnosticRelevanceEnum`):** declared in spec Table 12.1 but **absent** from the `SERVICE-DEPENDENCY` XSD group (no `DIAGNOSTIC-RELEVANCE` element at all). It is a model-only attribute with no serialization element — recorded as a deviation, not a coverage gap.
+- The parser/writer five-place dispatch for `BswServiceDependency` is already correct: `readBswServiceDependency` calls `readARObjectAttributes` (not `readIdentifiable`, since the class is non-Referrable) and `getBswServiceDependencyIdent` builds the nested `ident` via `BswServiceDependencyIdent(parent, short_name)`; the writer mirrors this. No change needed there.
+
+## `BswServiceDependencyIdent`
+- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 240
+- **Package:** `M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::ServiceMapping`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`
+
+Has its own spec table — `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf` Table 5.16 — a `Class` table whose `Attribute` section is empty (`-` rows), because every attribute is inherited from `IdentCaption` (Base chain ends in `IdentCaption` → `Identifiable` → `Referrable`). This is **not** the "no own spec table" exception (Rule 1.5/13.1): that exception is for classes with no rendered PDF table at all, not for classes whose rendered PDF `Class` table simply contributes no *new* attributes. The class therefore carries a `# Spec:` line + `# Spec verified: R23-11` marker and a checklist listing only the methods it defines itself (`__init__`, all `[x]`). No deviations: no own attributes to implement; `ident` (0..1, aggr) on `BswServiceDependency` already has parser/writer coverage (`getBswServiceDependencyIdent`).
+
+- **Rule 8 (package location) — OPEN:** the spec `Package` is `DiagnosticExtract::DiagnosticMapping::ServiceMapping`, but the class is currently defined in `BswModuleTemplate/BswBehavior.py` alongside its aggregator `BswServiceDependency` (Table 12.2). The sibling `IdentCaption` subclasses (`ModeAccessPointIdent`, `ExternalTriggeringPointIdent`, `DiagnosticParameterIdent`) are likewise defined next to their aggregators rather than in their nominal spec packages. Relocating would touch the model module, `BswServiceDependency.ident` annotation, parser/writer, top-level `models/__init__.py` exports, and imports in `test_BswBehavior.py` / `test_writer_bsw_module.py`. Deferred pending a separate pass; recorded here so the placement is a known, intentional deviation rather than an unconsidered one.
 
 ## `RoleBasedBswModuleEntryAssignment`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 226
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/RoleBasedBswModuleEntryAssignment.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `assignedEntryRef` | `Ref (BswModuleEntry)` | Ref | missing |
+No deviations — all attributes (`assignedEntryRef`, `role`) implemented with parser/writer coverage (`getRoleBasedBswModuleEntryAssignment`/`writeRoleBasedBswModuleEntryAssignment`).
 
 ## `SupervisedEntityNeeds`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 234
@@ -959,6 +960,17 @@ No deviations — all Table 9.26 attributes (`serviceId`, `symbol`) implemented 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `blueprintValue` | `?` | — | missing |
+
+## `SymbolicNameProps`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** (Table 7.59, R23-11)
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
+
+Aligned to `class_check_rules.md` on 2026-08-07. PDF-synced (Rule 1):
+- **Rule 1.2 (base class):** spec `Base` = `ARObject, ImplementationProps, Referrable`. The class now inherits `ImplementationProps` (which itself extends `Referrable, ABC`), matching the spec chain — previously it inherited only `Referrable`, missing the `ImplementationProps` link that supplies the `symbol` / `SYMBOL` (0..1 `C-Identifier`) attribute.
+- **Rule 1.1 (own attributes):** spec `Table 7.59` has **no own attribute rows** (all `-`). The earlier `symbolicName: String` field (and `getSymbolicName` / `setSymbolicName`) was spurious — there is no `SYMBOLIC-NAME` XSD element — and was removed. `SymbolicNameProps` now carries only inherited members (`symbol` from `ImplementationProps`, SHORT-NAME from `Referrable`).
+- **Rule 1.7 / serialization:** `SYMBOLIC-NAME-PROPS` XSD complexType = `AR-OBJECT` + `REFERRABLE` + `IMPLEMENTATION-PROPS`; the parser `readSymbolicNameProps` and writer `writeSymbolicNameProps` call `readImplementationProps` / `writeImplementationProps`, so both `SHORT-NAME` and `SYMBOL` round-trip.
+- Aggregated 0..1 by `ServiceDependency.symbolicNameProps` (spec `Table 7.57`, Kind `aggr`) — verified against PDF; the aggregation is correct in the model.
 
 ## `SwcServiceDependency`
 - **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 224

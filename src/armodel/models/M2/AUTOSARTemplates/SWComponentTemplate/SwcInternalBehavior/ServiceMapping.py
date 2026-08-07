@@ -10,6 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import Diag
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DtcStatusChangeNotificationNeeds, EcuStateMgrUserNeeds, NvBlockNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment, ServiceNeeds, ServiceDependency
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType
 
 
@@ -77,7 +78,7 @@ class RoleBasedPortAssignment(ARObject):
         return self
 
 
-class SwcServiceDependency(ServiceDependency):
+class SwcServiceDependency(Identifiable, ServiceDependency):
     """
     A service dependency for an atomic software component that defines the
     required services and their assignments.
@@ -112,7 +113,8 @@ class SwcServiceDependency(ServiceDependency):
     # [ ] getServiceNeeds              [x] impl  [x] docstring  [ ] test
 
     def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
+        ServiceDependency.__init__(self)
+        Identifiable.__init__(self, parent, short_name)
 
         self._assigned_data: List["RoleBasedDataAssignment"] = []
         self._assigned_ports: List["RoleBasedPortAssignment"] = []

@@ -5,6 +5,7 @@ support data (MC support data) in software component and BSW module templates.
 
 from __future__ import annotations
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, McdIdentifier, PositiveInteger, RefType, SymbolString
@@ -16,70 +17,350 @@ if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import RptImplPolicy
 
 
+class RteEventInEcuInstanceRef(AtpInstanceRef):
+    """
+    Instance reference to an RTE event in the context of an ECU extract.
+    The navigation path begins at the root composition of the ECU extract, passes
+    through the atomic component that contains the RTE event and ends at the RTE
+    event itself.
+    """
+
+    # RteEventInEcuInstanceRef method parity checklist:
+    # [ ] __init__                         [ ] impl  [ ] docstring  [ ] test
+    # [ ] getBaseRef                       [ ] impl  [ ] docstring  [ ] test
+    # [ ] setBaseRef                       [ ] impl  [ ] docstring  [ ] test
+    # [ ] getContextRootCompositionRef     [ ] impl  [ ] docstring  [ ] test
+    # [ ] setContextRootCompositionRef     [ ] impl  [ ] docstring  [ ] test
+    # [ ] getContextAtomicComponentRef     [ ] impl  [ ] docstring  [ ] test
+    # [ ] setContextAtomicComponentRef     [ ] impl  [ ] docstring  [ ] test
+    # [ ] getTargetRteEventRef             [ ] impl  [ ] docstring  [ ] test
+    # [ ] setTargetRteEventRef             [ ] impl  [ ] docstring  [ ] test
+
+    def __init__(self):
+        """
+        Initializes the RteEventInEcuInstanceRef with default values.
+        """
+        super().__init__()
+
+        # The base from which the navigation path begins. Stereotypes: atpDerived
+        self.baseRef: Optional[RefType] = None
+
+        # The root composition of the ECU extract that contains the referenced RTE event. Tags: xml.sequenceOffset=20
+        self.contextRootCompositionRef: Optional[RefType] = None
+
+        # The atomic component in the ECU extract that contains the referenced RTE event. Tags: xml.sequenceOffset=30
+        self.contextAtomicComponentRef: Optional[RefType] = None
+
+        # The target RTE event. Tags: xml.sequenceOffset=40
+        self.targetRteEventRef: Optional[RefType] = None
+
+    def getBaseRef(self) -> Optional[RefType]:
+        """
+        Gets the base from which the navigation path begins.
+
+        Returns:
+            RefType referencing the base classifier, or None if not set
+        """
+        return self.baseRef
+
+    def setBaseRef(self, value: Optional[RefType]) -> "RteEventInEcuInstanceRef":
+        """
+        Sets the base from which the navigation path begins.
+        A None value is a no-op and does not overwrite an existing reference.
+
+        Args:
+            value: The base reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.baseRef = value
+        return self
+
+    def getContextRootCompositionRef(self) -> Optional[RefType]:
+        """
+        Gets the reference to the root composition of the ECU extract containing the referenced RTE event.
+
+        Returns:
+            RefType referencing the RootSwCompositionPrototype, or None if not set
+        """
+        return self.contextRootCompositionRef
+
+    def setContextRootCompositionRef(self, value: Optional[RefType]) -> "RteEventInEcuInstanceRef":
+        """
+        Sets the reference to the root composition of the ECU extract containing the referenced RTE event.
+        A None value is a no-op and does not overwrite an existing reference.
+
+        Args:
+            value: The context root composition reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.contextRootCompositionRef = value
+        return self
+
+    def getContextAtomicComponentRef(self) -> Optional[RefType]:
+        """
+        Gets the reference to the atomic component in the ECU extract containing the referenced RTE event.
+
+        Returns:
+            RefType referencing the SwComponentPrototype, or None if not set
+        """
+        return self.contextAtomicComponentRef
+
+    def setContextAtomicComponentRef(self, value: Optional[RefType]) -> "RteEventInEcuInstanceRef":
+        """
+        Sets the reference to the atomic component in the ECU extract containing the referenced RTE event.
+        A None value is a no-op and does not overwrite an existing reference.
+
+        Args:
+            value: The context atomic component reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.contextAtomicComponentRef = value
+        return self
+
+    def getTargetRteEventRef(self) -> Optional[RefType]:
+        """
+        Gets the reference to the target RTE event.
+
+        Returns:
+            RefType referencing the RTEEvent, or None if not set
+        """
+        return self.targetRteEventRef
+
+    def setTargetRteEventRef(self, value: Optional[RefType]) -> "RteEventInEcuInstanceRef":
+        """
+        Sets the reference to the target RTE event.
+        A None value is a no-op and does not overwrite an existing reference.
+
+        Args:
+            value: The target RTE event reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.targetRteEventRef = value
+        return self
+
+
+class VariableAccessInEcuInstanceRef(AtpInstanceRef):
+    """
+    Instance reference to a VariableAccess in the context of an ECU extract.
+    The navigation path begins at the root composition of the ECU extract, passes
+    through the atomic component that contains the variable access and ends at the
+    VariableAccess itself.
+    """
+
+    # VariableAccessInEcuInstanceRef method parity checklist:
+    # [ ] __init__                             [ ] impl  [ ] docstring  [ ] test
+    # [ ] getBaseRef                           [ ] impl  [ ] docstring  [ ] test
+    # [ ] setBaseRef                           [ ] impl  [ ] docstring  [ ] test
+    # [ ] getContextRootCompositionRef         [ ] impl  [ ] docstring  [ ] test
+    # [ ] setContextRootCompositionRef         [ ] impl  [ ] docstring  [ ] test
+    # [ ] getContextAtomicComponentRef         [ ] impl  [ ] docstring  [ ] test
+    # [ ] setContextAtomicComponentRef         [ ] impl  [ ] docstring  [ ] test
+    # [ ] getTargetVariableAccessRef           [ ] impl  [ ] docstring  [ ] test
+    # [ ] setTargetVariableAccessRef           [ ] impl  [ ] docstring  [ ] test
+
+    def __init__(self):
+        """
+        Initializes the VariableAccessInEcuInstanceRef with default values.
+        """
+        super().__init__()
+
+        # The base from which the navigation path begins. Stereotypes: atpDerived
+        self.baseRef: Optional[RefType] = None
+
+        # The root composition of the ECU extract that contains the referenced VariableAccess. Tags: xml.sequenceOffset=20
+        self.contextRootCompositionRef: Optional[RefType] = None
+
+        # The atomic component in the ECU extract that contains the referenced VariableAccess. Tags: xml.sequenceOffset=30
+        self.contextAtomicComponentRef: Optional[RefType] = None
+
+        # The target VariableAccess. Tags: xml.sequenceOffset=40
+        self.targetVariableAccessRef: Optional[RefType] = None
+
+    def getBaseRef(self) -> Optional[RefType]:
+        """
+        Gets the base from which the navigation path begins.
+
+        Returns:
+            RefType referencing the base classifier, or None if not set
+        """
+        return self.baseRef
+
+    def setBaseRef(self, value: Optional[RefType]) -> "VariableAccessInEcuInstanceRef":
+        """
+        Sets the base from which the navigation path begins.
+        A None value is a no-op and does not overwrite an existing reference.
+
+        Args:
+            value: The base reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.baseRef = value
+        return self
+
+    def getContextRootCompositionRef(self) -> Optional[RefType]:
+        """
+        Gets the reference to the root composition of the ECU extract containing the referenced VariableAccess.
+
+        Returns:
+            RefType referencing the RootSwCompositionPrototype, or None if not set
+        """
+        return self.contextRootCompositionRef
+
+    def setContextRootCompositionRef(self, value: Optional[RefType]) -> "VariableAccessInEcuInstanceRef":
+        """
+        Sets the reference to the root composition of the ECU extract containing the referenced VariableAccess.
+        A None value is a no-op and does not overwrite an existing reference.
+
+        Args:
+            value: The context root composition reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.contextRootCompositionRef = value
+        return self
+
+    def getContextAtomicComponentRef(self) -> Optional[RefType]:
+        """
+        Gets the reference to the atomic component in the ECU extract containing the referenced VariableAccess.
+
+        Returns:
+            RefType referencing the SwComponentPrototype, or None if not set
+        """
+        return self.contextAtomicComponentRef
+
+    def setContextAtomicComponentRef(self, value: Optional[RefType]) -> "VariableAccessInEcuInstanceRef":
+        """
+        Sets the reference to the atomic component in the ECU extract containing the referenced VariableAccess.
+        A None value is a no-op and does not overwrite an existing reference.
+
+        Args:
+            value: The context atomic component reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.contextAtomicComponentRef = value
+        return self
+
+    def getTargetVariableAccessRef(self) -> Optional[RefType]:
+        """
+        Gets the reference to the target VariableAccess.
+
+        Returns:
+            RefType referencing the VariableAccess, or None if not set
+        """
+        return self.targetVariableAccessRef
+
+    def setTargetVariableAccessRef(self, value: Optional[RefType]) -> "VariableAccessInEcuInstanceRef":
+        """
+        Sets the reference to the target VariableAccess.
+        A None value is a no-op and does not overwrite an existing reference.
+
+        Args:
+            value: The target VariableAccess reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.targetVariableAccessRef = value
+        return self
+
+
 class McDataAccessDetails(ARObject):
     """
-    Represents MC (Measurement and Calibration) data access details in AUTOSAR.
-    Defines details about how MC data can be accessed.
+    This meta-class allows to attach detailed information about the usage of a data buffer by the RTE to a corresponding McDataInstance. Use Case: Direct memory access to RTE internal buffers for rapid prototyping. In case of implicit communication, the various task local buffers need to be identified in relation to RTE events and variable access points. Note that the SwComponentPrototype, the RunnableEntity and the VariableDataPrototype are implicitly given be the referred instances of RTEEvent and VariableAccess.
+    [constr_4073] Within one given McDataAccessDetails, all instances of System referenced as the base of any McDataAccessDetails.variableAccess or as the base of any McDataAccessDetails.rteEvent shall be identical and of category ECU_EXTRACT.
     """
 
     # McDataAccessDetails method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getAccessType                [x] impl  [x] docstring  [ ] test
-    # [ ] setAccessType                [x] impl  [x] docstring  [ ] test
-    # [ ] getAddress                   [x] impl  [x] docstring  [ ] test
-    # [ ] setAddress                   [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 9.12, p.195
+    # Spec verified: R23-11
+    # [x] __init__                      [x] impl  [x] docstring  [x] test
+    # [x] addRteEventIRef               [x] impl  [x] docstring  [x] test
+    # [x] getRteEventIRefs              [x] impl  [x] docstring  [x] test
+    # [x] addVariableAccessIRef         [x] impl  [x] docstring  [x] test
+    # [x] getVariableAccessIRefs        [x] impl  [x] docstring  [x] test
 
     def __init__(self):
         """
         Initializes the McDataAccessDetails with default values.
         """
         super().__init__()
-        self.accessType: str = None
-        self.address: str = None
 
-    def getAccessType(self) -> str:
-        """
-        Gets the access type.
+        # The RTE event used to receive the data via this buffer. InstanceRef implemented by: RteEventInEcuInstanceRef. [constr_10347] For each McDataAccessDetails, the instanceRef in the role rteEvent shall exist at least once at the time when the configuration of the BSW module is finished.
+        self.rteEventIRefs: List[RteEventInEcuInstanceRef] = []
 
-        Returns:
-            String representing the access type
-        """
-        return self.accessType
+        # The VariableAccess for which the data buffer is used. InstanceRef implemented by: VariableAccessInEcuInstanceRef. [constr_10329] For each McDataAccessDetails, the instanceRef in the role variableAccess shall exist at least once at the time when the configuration of the BSW module is finished.
+        self.variableAccessIRefs: List[VariableAccessInEcuInstanceRef] = []
 
-    def setAccessType(self, value: str):
+    def addRteEventIRef(self, value: Optional[RteEventInEcuInstanceRef]) -> "McDataAccessDetails":
         """
-        Sets the access type.
+        Adds an RTE event instance reference, referencing the RTE event used to receive the data via this buffer.
+        A None value is a no-op and does not append anything.
 
         Args:
-            value: String value to set
+            value: The RteEventInEcuInstanceRef to add
 
         Returns:
             self for method chaining
         """
-        self.accessType = value
+        if value is not None:
+            self.rteEventIRefs.append(value)
         return self
 
-    def getAddress(self) -> str:
+    def getRteEventIRefs(self) -> List[RteEventInEcuInstanceRef]:
         """
-        Gets the address.
+        Gets the RTE event instance references, referencing the RTE events used to receive the data via this buffer.
+        [constr_10347] For each McDataAccessDetails, the instanceRef in the role rteEvent shall exist at least once at the time when the configuration of the BSW module is finished.
 
         Returns:
-            String representing the address
+            List of RteEventInEcuInstanceRef instances
         """
-        return self.address
+        return self.rteEventIRefs
 
-    def setAddress(self, value: str):
+    def addVariableAccessIRef(self, value: Optional[VariableAccessInEcuInstanceRef]) -> "McDataAccessDetails":
         """
-        Sets the address.
+        Adds a VariableAccess instance reference, referencing the VariableAccess for which the data buffer is used.
+        A None value is a no-op and does not append anything.
 
         Args:
-            value: String value to set
+            value: The VariableAccessInEcuInstanceRef to add
 
         Returns:
             self for method chaining
         """
-        self.address = value
+        if value is not None:
+            self.variableAccessIRefs.append(value)
         return self
+
+    def getVariableAccessIRefs(self) -> List[VariableAccessInEcuInstanceRef]:
+        """
+        Gets the VariableAccess instance references, referencing the VariableAccesses for which the data buffer is used.
+        [constr_10329] For each McDataAccessDetails, the instanceRef in the role variableAccess shall exist at least once at the time when the configuration of the BSW module is finished.
+
+        Returns:
+            List of VariableAccessInEcuInstanceRef instances
+        """
+        return self.variableAccessIRefs
 
 
 class McParameterElementGroup(ARObject):
@@ -1275,4 +1556,6 @@ __all__ = [
     "McSupportData",
     "McSwEmulationMethodSupport",
     "RoleBasedMcDataAssignment",
+    "RteEventInEcuInstanceRef",
+    "VariableAccessInEcuInstanceRef",
 ]

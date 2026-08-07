@@ -1201,6 +1201,103 @@ class TestBswInternalBehaviorOrchestrator:
         assert len(behavior.getModeSenderPolicies()) == 1
 
 
+# ==================== BswServiceDependency ====================
+
+
+class TestBswServiceDependencyHandlers:
+    """Exercise readBswServiceDependency and readBswInternalBehaviorServiceDependencies."""
+
+    def test_readBswServiceDependency_full(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
+
+        dependency = BswServiceDependency()
+        element = _snip(
+            "<IDENT><SHORT-NAME>ident</SHORT-NAME></IDENT>"
+            "<ASSIGNED-DATAS>"
+            "<ROLE-BASED-DATA-ASSIGNMENT><ROLE>theRole</ROLE></ROLE-BASED-DATA-ASSIGNMENT>"
+            "</ASSIGNED-DATAS>"
+            "<ASSIGNED-ENTRY-ROLES>"
+            "<ROLE-BASED-BSW-MODULE-ENTRY-ASSIGNMENT><ROLE>errorNotification</ROLE></ROLE-BASED-BSW-MODULE-ENTRY-ASSIGNMENT>"
+            "</ASSIGNED-ENTRY-ROLES>"
+            "<SERVICE-NEEDS>"
+            "<BSW-MGR-NEEDS><SHORT-NAME>needs</SHORT-NAME></BSW-MGR-NEEDS>"
+            "</SERVICE-NEEDS>",
+            root_tag="BSW-SERVICE-DEPENDENCY",
+        )
+        parser.readBswServiceDependency(element, dependency)
+
+        assert dependency.getIdent().getShortName() == "ident"
+        assert dependency.getAssignedData()[0].getRole().getValue() == "theRole"
+        assert dependency.getAssignedEntryRole()[0].getRole().getValue() == "errorNotification"
+        assert dependency.getServiceNeeds().getShortName() == "needs"
+
+    def test_readBswServiceDependency_no_ident(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
+
+        dependency = BswServiceDependency()
+        element = _snip("", root_tag="BSW-SERVICE-DEPENDENCY")
+
+        parser.readBswServiceDependency(element, dependency)
+
+        assert dependency.getIdent() is None
+        assert dependency.getAssignedData() == []
+        assert dependency.getAssignedEntryRole() == []
+        assert dependency.getServiceNeeds() is None
+
+    def test_readBswServiceDependency_symbolic_name_props(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import SymbolicNameProps
+
+        dependency = BswServiceDependency()
+        element = _snip(
+            "<SYMBOLIC-NAME-PROPS>" "<SHORT-NAME>symProps</SHORT-NAME>" "<SYMBOL>mySymbol</SYMBOL>" "</SYMBOLIC-NAME-PROPS>",
+            root_tag="BSW-SERVICE-DEPENDENCY",
+        )
+        parser.readBswServiceDependency(element, dependency)
+
+        props = dependency.getSymbolicNameProps()
+        assert isinstance(props, SymbolicNameProps)
+        assert props.getShortName() == "symProps"
+        assert props.getSymbol() is not None
+        assert props.getSymbol().getValue() == "mySymbol"
+
+    def test_readBswServiceDependency_unsupported_service_needs_warns(self, warning_parser, caplog):
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
+
+        dependency = BswServiceDependency()
+        element = _snip(
+            "<SERVICE-NEEDS><BAD/></SERVICE-NEEDS>",
+            root_tag="BSW-SERVICE-DEPENDENCY",
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readBswServiceDependency(element, dependency)
+        assert any("Unsupported service needs" in r.getMessage() for r in caplog.records)
+
+    def test_readBswInternalBehaviorServiceDependencies_creates(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<SERVICE-DEPENDENCYS>" "<BSW-SERVICE-DEPENDENCY><IDENT><SHORT-NAME>ident</SHORT-NAME></IDENT></BSW-SERVICE-DEPENDENCY>" "</SERVICE-DEPENDENCYS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorServiceDependencies(element, behavior)
+        assert len(behavior.getServiceDependencies()) == 1
+        assert behavior.getServiceDependencies()[0].getIdent().getShortName() == "ident"
+
+    def test_readBswInternalBehaviorServiceDependencies_unsupported_warns(self, warning_parser, caplog):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<SERVICE-DEPENDENCYS><BAD/></SERVICE-DEPENDENCYS>",
+            root_tag="BH",
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readBswInternalBehaviorServiceDependencies(element, behavior)
+        assert any("Unsupported Service Dependencies" in r.getMessage() for r in caplog.records)
+
+
 # ==================== Trigger (released/required) ====================
 
 

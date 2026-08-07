@@ -35,6 +35,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantSpecifica
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatMap
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.McGroups import McGroup
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import McFunction
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroup
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping
@@ -346,6 +347,8 @@ class ARPackage(CollectableElement):
     # [ ] createSwcBswMapping          [x] impl  [ ] docstring  [ ] test
     # [x] createMcFunction             [x] impl  [x] docstring  [x] test
     # [x] getMcFunctions               [x] impl  [x] docstring  [x] test
+    # [x] createMcGroup                [x] impl  [x] docstring  [x] test
+    # [x] getMcGroups                  [x] impl  [x] docstring  [x] test
     # [ ] createConstantSpecification  [x] impl  [ ] docstring  [ ] test
     # [ ] createDataConstr             [x] impl  [ ] docstring  [ ] test
     # [ ] createUnit                   [x] impl  [ ] docstring  [ ] test
@@ -944,6 +947,22 @@ class ARPackage(CollectableElement):
             self.addElement(func)
         return self.getElement(short_name, McFunction)
 
+    def createMcGroup(self, short_name: str) -> McGroup:
+        """
+        Creates an McGroup element in this package.
+        If a group with the given short name already exists, it is returned instead.
+
+        Args:
+            short_name: The unique short name of the group
+
+        Returns:
+            The created (or existing) McGroup
+        """
+        if not self.IsElementExists(short_name, McGroup):
+            group = McGroup(self, short_name)
+            self.addElement(group)
+        return self.getElement(short_name, McGroup)
+
     def createConstantSpecification(self, short_name: str) -> ConstantSpecification:
         if not self.IsElementExists(short_name, ConstantSpecification):
             spec = ConstantSpecification(self, short_name)
@@ -1433,6 +1452,15 @@ class ARPackage(CollectableElement):
             List of McFunction instances
         """
         return list(filter(lambda a: isinstance(a, McFunction), self.elements))
+
+    def getMcGroups(self) -> List[McGroup]:
+        """
+        Gets the McGroup elements contained in this package.
+
+        Returns:
+            List of McGroup instances
+        """
+        return list(filter(lambda a: isinstance(a, McGroup), self.elements))
 
     def getConstantSpecifications(self) -> List[ConstantSpecification]:
         return list(filter(lambda a: isinstance(a, ConstantSpecification), self.elements))

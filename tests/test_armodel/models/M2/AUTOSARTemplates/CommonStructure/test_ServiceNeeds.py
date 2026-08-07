@@ -477,10 +477,8 @@ class TestServiceDiagnosticRelevanceEnum:
 class TestServiceDependency:
     def test_abstract_class_cannot_be_instantiated(self):
         """Test that ServiceDependency abstract class cannot be instantiated directly"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
         with pytest.raises(TypeError, match="ServiceDependency is an abstract class"):
-            ServiceDependency(ar_root, "TestServiceDependency")
+            ServiceDependency()
 
     def test_concrete_subclass_initialization(self):
         """Test that a concrete subclass of ServiceDependency can be instantiated"""
@@ -545,10 +543,10 @@ class TestServiceDependency:
 
         # Create a concrete subclass for testing since ServiceDependency is abstract
         class ConcreteServiceDependency(ServiceDependency):
-            def __init__(self, parent, short_name):
-                super().__init__(parent, short_name)
+            def __init__(self):
+                super().__init__()
 
-        service_dep = ConcreteServiceDependency(ar_root, "TestServiceDependency")
+        service_dep = ConcreteServiceDependency()
 
         assert service_dep.getSymbolicNameProps() is None
 

@@ -565,6 +565,11 @@ class TestMcDispatch:
         _dispatch(parser, parent, _snip("MC-FUNCTION", "MF1"))
         assert len(parent.getMcFunctions()) == 1
 
+    def test_mc_group(self, parser):
+        parent = _make_parent()
+        _dispatch(parser, parent, _snip("MC-GROUP", "MG1"))
+        assert len(parent.getMcGroups()) == 1
+
 
 # ==================== Else-branch (unsupported element) ====================
 

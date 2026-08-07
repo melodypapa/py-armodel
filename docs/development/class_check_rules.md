@@ -120,6 +120,23 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       it extends, matching the direct parent used by its siblings. The
       auto-generated `reports/deviation_class_hierarchy_mismatches.md` flags
       this kind of parent mismatch for review.
+- [ ] **`ARElement` in the `Base` chain means inherit `ARElement`.** When the
+      `Base` row lists `ARElement` (e.g. the McFunction/McGroup family:
+      `ARElement, ARObject, CollectableElement, Identifiable,
+      MultilanguageReferrable, Packageable, Referrable`) and the codebase has
+      an `ARElement` base (the abstract `ARElement(PackageableElement, ABC)`
+      with `__init__(self, parent, short_name)` in `Identifiable.py`), the
+      class inherits `ARElement` — it is the most-derived model class in the
+      chain, and aligned `ARElement` subclasses (`ConstantSpecification`,
+      `Collection`) are the precedent. Do **not** downgrade to `Identifiable`
+      merely because a sibling with the identical `Base` row was previously
+      aligned that way (e.g. `McFunction` inherits `Identifiable` although its
+      spec `Base` names `ARElement`); treat that sibling as a prior deviation
+      to reconcile, not a pattern to copy — `McGroup` inherits `ARElement`.
+      The parser/writer need no extra handling either way: an `ARElement`
+      package element is read/written with `readIdentifiable`/
+      `writeIdentifiable` exactly like an `Identifiable` one, because the
+      `IDENTIFIABLE` XML group is shared.
 - [ ] The PDF spec is the source of truth for multiplicity and base class.
       When the XSD disagrees with the PDF, follow the PDF.
 
@@ -212,6 +229,13 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       missing. A pre-rules checklist whose rows are all `[ ]` is the same
       signal. Conversely, do not read a fully-`[x]` checklist as evidence of
       field correctness — the checklist is method-only (Rule 2).
+      **Exception — a class with no own spec table is a false positive for
+      this detector.** A class whose attributes are XSD-only, with no rendered
+      PDF table of its own (Rule 1.5, e.g. a concrete `<name>InstanceRef`),
+      legitimately has **no** `# Spec:` line, **no** `# Spec verified:`
+      marker, and **all-`[ ]`** rows by rule, not by neglect — exclude classes
+      whose deviation tracker row records "no own spec table; attributes from
+      XSD group `…`" before applying this detector.
 - [ ] **PDF-table omission vs. fabricated API.** An attribute that is absent
       from the class's PDF `Attribute` column but **present in the XSD with a
       real documentation block** (no `atp.Status="removed"`) is *not*
@@ -303,15 +327,67 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       `<name>InstanceRef` classes (same abstract parent, same
       base/context/target inner-attribute shape), and give them parser/writer
       coverage. Rule 1.10 applies to **every** referenced class, of which
-      `<name>InstanceRef` types are one case. Only when the iref's model is
-      genuinely out of scope is a `RefType` placeholder allowed; it must then
-      forward-reference the not-yet-defined instance ref class in the inline
-      comment and in the getter/setter docstrings, and be recorded in
-      `docs/method_deviation_by_class.md` as "instance ref class not yet
-      implemented". When the class is implemented, switch the field/getter/
-      setter annotation to the concrete `<name>InstanceRef` type (with a
-      `TYPE_CHECKING` import if needed to avoid cycles) and clear the
-      deviation.
+      `<name>InstanceRef` types are one case.
+      **A class may have no own spec table.** Some classes never get a
+      rendered PDF table of their own; their attributes are defined **only**
+      in XSD groups. The most common case is a concrete `<name>InstanceRef`
+      subclass of the abstract `AtpInstanceRef` (e.g. `RteEventInEcuInstanceRef`
+      and `VariableAccessInEcuInstanceRef`, used by
+      `McDataAccessDetails.rteEvent`/`variableAccess`), whose inner attributes
+      live only in the XSD group (`CONTEXT-ROOT-COMPOSITION-REF`/
+      `CONTEXT-ATOMIC-COMPONENT-REF`/`TARGET-…-REF`, sequence offsets 20/30/40),
+      but the rule applies to **any** class whose definition cannot be read
+      from a PDF table. Rule 1.10's "implement it first" still applies — do
+      not defer to a placeholder — but the implementation is XSD-driven rather
+      than table-driven: inherit the abstract parent the XSD `Base`/type names
+      (e.g. `AtpInstanceRef`, whose own `atpBase`/`atpContextElement`/
+      `atpTarget` are `atpDerived`) and model the concrete inner refs as
+      `Optional[RefType]` fields with the plain `Ref` suffix. **Because there
+      is no own spec table, the checklist cannot be confirmed: the class
+      carries no `# Spec:` line and no `# Spec verified:` marker, and every
+      row stays `[ ]` — impl, docstring, and test all unchecked.** Nothing
+      about a class with XSD-only attributes is confirmed against a PDF table,
+      so citing the **introducing aggregator's** table (e.g.
+      `McDataAccessDetails` Table 9.12) in the `# Spec:` line would falsely
+      claim a PDF provenance the class does not have; do **not** set it.
+      Record "no own spec table; attributes from XSD group `…`" in the
+      deviation tracker. The `[ ]` rows are a *provenance* statement
+      (unverified against PDF), not a claim that the implementation is absent
+      — the methods are implemented and tested, but they are deliberately not
+      marked `[x]` until a PDF table exists to confirm them against. Only when
+      the class's model is genuinely out of scope is a placeholder allowed; it
+      must then forward-reference the real class in the inline comment and in
+      the getter/setter docstrings, and be recorded in
+      `docs/method_deviation_by_class.md` as "class not yet implemented". When
+      the class is implemented, switch the field/getter/setter annotation to
+      the concrete type (with a `TYPE_CHECKING` import if needed to avoid
+      cycles) and clear the deviation.
+- [ ] **Empty-attribute rendering ≠ "no own spec table" (the most common
+      misapplication of this exception).** This exception is triggered by the
+      *absence of any rendered PDF table*, not by the *absence of own
+      attributes*. A class can have its **own** rendered PDF `Class` table
+      (with `Package` / `Base` / `Note` rows and an `Attribute` column whose
+      only row is a `-` / empty row) while contributing **zero new
+      attributes** — every attribute is inherited from its `Base` chain (e.g.
+      an `IdentCaption` subclass such as `BswServiceDependencyIdent`,
+      `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf` Table 5.16, whose Base
+      ends in `IdentCaption` → `Identifiable` → `Referrable` and whose
+      `Attribute` section is empty). Such a class is **not** covered by this
+      exception: it has a spec table, so it **does** carry a `# Spec:` line +
+      `# Spec verified:` marker (Rules 2 / 13.1), and its method-parity
+      checklist lists **only the methods the class itself defines** — which,
+      when the class adds no accessors, is just `__init__`. Those checklist
+      rows are crossed `[x]` once implemented/docstringed/tested exactly like
+      any other class; they do **not** stay `[ ]`. The reliable tell that a
+      class is the *real* exception (no own table) rather than an
+      empty-rendering class is whether a PDF `Class <Name>` heading exists for
+      it at all — grep the markdown for `^Table .*: <ClassName>` (or
+      `| Class   | <ClassName>`). If that heading exists, the class has its own
+      table and must be treated as the empty-rendering case; if it exists
+      nowhere in any PDF, it is the XSD-only case. Do not let "the class has
+      no attributes of its own" shortcut the decision — that wording describes
+      the *superclass contribution*, not the *table existence*, and the two
+      are independent.
 - [ ] Within a `<name>InstanceRef` class itself, its *inner* attributes are
       ordinary Kind `ref` rows (the sub-elements of the instance ref) and
       therefore map to `Optional[RefType]` with the plain `Ref` suffix — do
@@ -495,6 +571,14 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       base plus `-REF` (`MEASURABLE-SYSTEM-CONSTANT-VALUES-REFS/MEASURABLE-SYSTEM-CONSTANT-VALUES-REF`).
       Read the item tag from the XSD `choice`/element declaration — do not
       derive it from the attribute name or the type name by rule of thumb.
+      An **iref** wrapper follows the same container pattern: the wrapper is
+      `<BASE>-IREFS` and each item is `<BASE>-IREF` — the item tag is the
+      attribute base plus `-IREF`, **not** the `<name>InstanceRef` type name
+      (e.g. `McDataAccessDetails.rteEvent` `*` → `<RTE-EVENT-IREFS>/<RTE-EVENT-IREF>`,
+      where the item's XSD type is `RTE-EVENT-IN-ECU-INSTANCE-REF`). Each item
+      is a concrete `<name>InstanceRef` object whose inner refs are read/written
+      **directly under the item element** (flat, no nested wrapper), via a
+      per-iref `readXxx`/`writeXxx` pair wired into the iref-list loop.
       Parser: iterate `self.findall(element, "WRAPPER/ITEM")` and build each
       item object via the aggregator's `addXxx`/`createXxx`. Writer: create
       the wrapper only when the list is non-empty and emit one item element
@@ -563,6 +647,50 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       accessors, tests, docstrings — every rule except 1.7); only the
       serialization is deferred, and the tracker row names the blocking child
       so the sequencing is explicit.
+- [ ] **A shared `readXxx`/`writeXxx` helper that calls
+      `readIdentifiable`/`writeIdentifiable` is not automatically reusable by
+      every sibling subtype of the abstract base it was written for.** When an
+      abstract spec class (e.g. `ServiceDependency`) has two concrete
+      subtypes and the existing helper for the base was modeled after the
+      *first* subtype (`SwcServiceDependency`, whose complexType includes the
+      `IDENTIFIABLE`/`REFERRABLE` groups), do not assume the second subtype
+      shares that shape. Check the second subtype's own XSD complexType
+      sequence: if it lists only `AR-OBJECT` + the base group + its own group
+      (e.g. `BswServiceDependency` = `AR-OBJECT` + `SERVICE-DEPENDENCY` +
+      `BSW-SERVICE-DEPENDENCY`, with **no** `IDENTIFIABLE`/`REFERRABLE`), the
+      class has no `SHORT-NAME` and must not call `readIdentifiable`/
+      `writeIdentifiable` — write a dedicated `readXxx`/`writeXxx` pair that
+      calls `readARObjectAttributes`/`writeARObjectAttributes` instead, and
+      reads/writes only that subtype's own group elements directly. A
+      non-`Referrable` class that still needs to be the *target* of a
+      reference typically has a companion `<Name>Ident` class implementing
+      `IdentCaption` (itself `AtpStructureElement`) for that purpose (e.g.
+      `BswServiceDependencyIdent`) — model it as a nested attribute
+      (`ident: <Name>Ident`), not as the class's own identity.
+
+- [ ] **Inherited base attributes must be traced to an element in the subtype's
+      *effective* element set, not just to the model field.** A concrete
+      subtype that reuses or mirrors an abstract base's reader/writer can
+      silently drop an inherited base attribute the method-parity checklist
+      cannot see (Rule 1.7). Two distinct failure shapes:
+      1. **Inherited attribute has an XSD element but no reader/writer.** The
+         base group the subtype's complexType references *does* declare the
+         element (e.g. an inherited `symbolicNameProps` whose base group has
+         `SYMBOLIC-NAME-PROPS`), yet neither the base `readXxx`/`writeXxx` nor
+         the subtype's `readXxx`/`writeXxx` emit it — the attribute is dropped
+         on round-trip. The base group's mere presence in the complexType is
+         **not** proof of coverage: grep the base *and* subtype reader/writer
+         for the element tag. If an inherited attribute with an XSD element
+         has no reader/writer, record it as a deviation — never claim
+         "parser/writer coverage".
+      2. **Attribute is in the spec table but absent from the XSD group.** An
+         attribute the PDF lists on the base class may have **no** element in
+         the base XSD group at all (a model-only / `atpDerived`-style
+         attribute with no serialization element). That is a *known deviation*
+         to declare, not a coverage gap to "fix" by inventing a reader/writer.
+      In both cases the deviation tracker must name the inherited attribute
+      explicitly; a "No deviations" claim for a subtype that inherits
+      unserialized base attributes is inaccurate.
 
 ### 1.8 Cross-package types
 
@@ -619,6 +747,16 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       follow-up. This keeps the pass self-contained: aligning a parent whose
       child is a stub otherwise immediately re-opens as the Rule 1.7
       identity-only debt above.
+      **Exception — a class with no own spec table is not a stub.** A
+      referenced class whose attributes are XSD-only, with no rendered PDF
+      table of its own (Rule 1.5, e.g. a concrete `<name>InstanceRef`),
+      legitimately has **no** `# Spec:` line and **no** `# Spec verified:`
+      marker — that absence does **not** mean it is unaligned. Only the
+      missing markers of a class that *should* have a spec table (its
+      attributes are PDF-defined) signal a stub. Before flagging a referenced
+      class, check its deviation tracker row for "no own spec table;
+      attributes from XSD group `…`" (mirroring the Rule 1.3 detector
+      exclusion).
 - [ ] A missing **primitive** has its own spec table in the AUTOSAR markdown,
       formatted `Primitive <Name>` (e.g. Table 4.15 `CseCodeType`), **not** a
       `Class`/`Enumeration` table — verify the referenced type's actual kind
@@ -689,6 +827,25 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       catch (the reader is order-insensitive) but a schema validator will.
       Derive the serialization order from the XSD group, never from the PDF
       table or the Python member order.
+- [ ] **Page-split tables: the displayed order is the concatenation of the
+      per-page row groups.** A table that spans PDF pages renders its class
+      header and some rows on one page, then the caption and the remaining
+      rows on the next (e.g. McGroup Table 9.10 splits as `mcFunction`
+      (offset 40) + `refCalprmSet` (20) on page 1, then `refMeasurementSet`
+      (30) + `subGroup` (10) on page 2). The displayed row order is the
+      concatenation — first page's rows, then next page's rows —
+      `mcFunction, refCalprmSet, refMeasurementSet, subGroup` — which is
+      **not** ascending `sequenceOffset` (10, 20, 30, 40) and not a
+      refs-then-aggr grouping. Read the rows in the order the pages render
+      them and use that concatenation for the Python member/checklist order;
+      the XSD offsets still drive serialization order as usual.
+- [ ] **Multi-PDF cross-check.** A class's spec table can appear in more than
+      one PDF (e.g. McGroup is rendered as both BSWModuleDescriptionTemplate
+      Table 9.10 and SystemTemplate Table F.74). When choosing the displayed
+      row order, verify every rendering shows the same order — the split
+      arrangement can differ between PDFs even when the attribute rows are
+      identical, so base the member order on the agreement, not on one
+      document's pagination.
 - [ ] Within one attribute, the accessor pair order is `getXxx` then
       `setXxx` (or `addXxx`/`getXxxs` for list attributes) — getter before
       setter for each attribute, mirroring the sibling classes that are already
@@ -1262,18 +1419,38 @@ must no-op on `None`).
 
 ---
 
-# Section 5: Documentation — Checklist and Comments (Rules 2, 5)
+# Section 5: Documentation — Method Parity Checklist (Rule 2)
 
 ## Rule 2: Method Parity Checklist
 
 **Maturity**: accept
 
-A comment block at the top of the class lists every method with three columns:
-`impl`, `docstring`, `test`. Each column must be marked `[x]`. The first line
+A comment block at the top of the class lists every method with three
+columns: `impl`, `docstring`, `test`. Each column must be marked `[x]`. The first line
 after the checklist title must cite the AUTOSAR PDF spec table the class is
 aligned against: `# Spec: <PDF file>.pdf, Table <X.Y>, p.<page>` (page from
 the PDF itself). This makes Rule 1 traceable — every later check refers back
 to the spec source named in the class comment.
+**Exception — a class with no own spec table carries no `# Spec:` line.**
+When a class cannot be read from a PDF table — its attributes are defined
+only in an XSD group, with no rendered table of its own (Rule 1.5, e.g. a
+concrete `<name>InstanceRef` such as `RteEventInEcuInstanceRef`/
+`VariableAccessInEcuInstanceRef`) — there is no PDF table to cite: do **not**
+substitute the introducing aggregator's table, because that table does not
+define the class. Such a class's checklist begins with the rows directly (no
+`# Spec:` line), every row stays `[ ]`, and the deviation tracker records
+"no own spec table; attributes from XSD group `…`".
+
+**This exception is distinct from an empty-attribute-rendering class.**
+A class whose own PDF `Class` table exists but whose `Attribute` section
+contains only a `-` / empty row (all attributes inherited from its `Base`
+chain, e.g. `BswServiceDependencyIdent`, `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`
+Table 5.16) is **not** this exception: it has a spec table, so it **does**
+carry a `# Spec:` line + `# Spec verified:` marker, and its checklist lists
+only the methods the class itself defines (often just `__init__`), each
+crossed `[x]` once tested. The decision rests on whether a `Class <Name>`
+heading exists in any PDF, not on whether the class adds new attributes —
+see the "Empty-attribute rendering ≠ no own spec table" bullet in Rule 1.5.
 
 ```python
 # ClassName method parity checklist:
@@ -1301,6 +1478,15 @@ Check:
       accessors were tested via a concrete subclass, but the rows stayed
       `[ ]`). Grep the class body for `# [ ]` during every review — the
       set-based script alone does not flag them.
+      **Exception — a class with no own spec table intentionally keeps every
+      row `[ ]`.** For a class whose attributes are XSD-only, with no rendered
+      PDF table of its own (Rule 1.5, e.g. a concrete `<name>InstanceRef`),
+      all-`[ ]` rows are the **correct** state even though the methods are
+      implemented, docstringed, and tested — the rows are a *provenance*
+      statement (unverified against PDF), not a claim the work is undone. Do
+      **not** cross them, and do **not** let the "grep for `# [ ]`" /
+      "stale `[ ]`" checks fire on such a class; both apply only to classes
+      with a spec table to confirm rows against.
 - [ ] A row is crossed (`[x]`) **only** when all three of its obligations are
       complete and verified — the implementation, the docstring, and the unit
       test. A method that is implemented but whose docstring or test is not
@@ -1390,95 +1576,7 @@ field-to-spec cross-check is the gate, not the checklist.
    pass had never been run). Always perform the code → spec pass; when a
    `missing` spec attribute has a suspiciously-similar fabricated field,
    that fabricated field is its stand-in and the removal + replacement happen
-   together, clearing the `missing` row.
-
----
-
-## Rule 5: Comments from the Spec
-
-**Maturity**: accept
-
-Inline comments and docstrings must reflect the PDF spec wording, not loose
-paraphrase.
-
-- [ ] Each attribute in `__init__` has an inline `#` comment based on the PDF
-      table note for that attribute. The comment should include the key
-      semantic information from the spec. Quote the **semantic sentence** of
-      the `Note` column (verbatim or near-verbatim); do **not** paste the
-      `Stereotypes:`/`Tags:` tail of the note (e.g.
-      `Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=...`) — that
-      tail is tooling metadata already captured in the markdown and adds no
-      semantics to the comment. Example: `AccessCountSet.accessCount`'s note
-      "Count value for a AbstractAccessPoint. Stereotypes: ..." is quoted in
-      the inline comment as "Count value for a AbstractAccessPoint."
-- [ ] Constraint rows are spec material for the comment just like the
-      attribute note: when the PDF's `constr_*` rows impose a constraint on
-      the attribute, include the constraint wording in the inline comment and
-      cite its id. The full constraint wording is typically rendered as a
-      `[constr_NNNNN]` paragraph **immediately after the class's own table**
-      (in addition to any consolidated constraint index elsewhere in the PDF)
-      — e.g. `AccessCountSet`'s Table 4.22 is followed by `constr_10270`
-      constraining `countProfile`. Grep both the table neighborhood and the
-      constraint index when collecting constraint material for a class. Class-level `constr_*` rows belong in the class docstring
-      alongside the note — **including constraints on inherited
-      attributes**: a constraint may target an attribute the subclass does
-      not declare itself (e.g. `constr_4103` constrains
-      `SectionNamePrefix.symbol`, which is inherited from
-      `ImplementationProps`, and therefore belongs in the
-      `SectionNamePrefix` class docstring, not in the parent's). Conversely,
-      an attribute-level `constr_*` (e.g. `constr_4072` on
-      `SectionNamePrefix.implementedIn`) is cited in the `__init__` inline
-      comment **and** in the getter/setter docstrings.
-- [ ] The class docstring reflects the PDF class note (the element's
-      purpose).
-- [ ] Getter/setter docstrings summarize the PDF note and semantic meaning,
-      not just "Gets/sets the value". They should mention what the attribute
-      represents in AUTOSAR, cite the applicable `constr_*` id, and for `iref`
-      attributes name the implementing `<name>InstanceRef` class (so the
-      concrete iref type is discoverable in the code, not only in the
-      deviation tracker). Docstrings connect spec semantics to code
-      intent; setter docstrings should also mention the no-op behavior and
-      the chainable return.
-      **When a setter is guarded (`if value is not None:`), the docstring
-      must explicitly state**: "A None value is a no-op and does not
-      overwrite an existing [attribute]."
-      This documents the guard behavior so consumers understand that setting
-      `None` is safe and intentional, not a bug.
-- [ ] **Verify every docstring against the PDF/XSD note explicitly — this rule
-      has no mechanical check.** The set-based Rule 2/7 script verifies only
-      that the checklist == methods, that every method is tested, and that the
-      `# Spec verified` marker is present; it says nothing about whether the
-      `#` inline comments or the getter/setter docstrings actually match the
-      spec wording. A class can pass Rule 2/7 and the version marker, and even
-      be labeled "fully aligned" in `docs/method_deviation_by_class.md`, yet
-      carry docstrings that are loose paraphrases or — worse — *semantically
-      wrong* rewrites of the PDF note (e.g. `McDataInstance.displayIdentifier`'s
-      PDF note "An optional attribute to be used to set the ASAM ASAP2
-      DISPLAY_IDENTIFIER attribute" had been rewritten as "Optional identifier
-      to be used by an MCD system to identify this data instance", which states
-      a different purpose; 8 of `McDataInstance`'s 12 attributes were paraphrased
-      this way while the class passed every other check). Docstring drift is
-      invisible to every automated check in this document, so for **each**
-      attribute open the PDF/markdown `Note` (or the matching XSD
-      `<xsd:documentation>` block, which carries the same verbatim text) and
-      diff it against the inline comment and the getter/setter docstrings; quote
-      the semantic sentence verbatim. Do not trust the class's prior "aligned"
-      status or the tracker note — re-derive from the PDF.
-
-Example from a spec PDF:
-```python
-# Indicates an entry which is required by this module.
-# Replacement of a deprecated attribute.
-self.expectedEntryRefs: List[RefType] = []
-```
-
-Example (attribute optional because an alternate reference exists per the
-spec note):
-```python
-# AUTOSAR identifier of the target module; optional as the target may be
-# identified by targetModuleRef instead.
-self.targetModuleId: Optional[PositiveInteger] = None
-```
+    together, clearing the `missing` row.
 
 ---
 
@@ -1500,6 +1598,15 @@ self.targetModuleId: Optional[PositiveInteger] = None
       `TYPE_CHECKING`, and `createResourceConsumption` imports it locally;
       the `ResourceConsumption` package submodules likewise import
       `HardwareConfiguration`/`SoftwareContext` under `TYPE_CHECKING`).
+      **`from __future__ import annotations` is also the mechanism for
+      intra-module forward references** — a parent class whose annotations name
+      a child class declared *later in the same module* (e.g. `McGroup`'s
+      `Optional[McGroupDataRefSet]` fields/getters while `McGroupDataRefSet` is
+      defined below it). The aggregator/ARElement parent is conventionally
+      declared first; do **not** reorder the classes or move the child up to
+      satisfy the annotations — the future-import resolves the name lazily, and
+      `TYPE_CHECKING` alone is insufficient because it does not defer local
+      names. This is the single-module analogue of the cross-package case.
 - [ ] A blank line separates each attribute block (comment + assignment) in
       `__init__`.
 - [ ] Code is formatted with Black at `line-length = 200` (per `pyproject.toml`,
@@ -1682,23 +1789,48 @@ assert checklist == methods, f"checklist mismatch: {checklist ^ methods}"
 untested = [m for m in methods if m != "__init__" and m not in test_src]
 assert not untested, f"methods without test coverage: {untested}"
 # Rule 13.1: the class must carry the spec-version marker (a fully-[x]
-# checklist can still miss it, so check it explicitly)
-assert re.search(r"# Spec verified: R\d\d-\d\d", src), "missing # Spec verified marker (Rule 13.1)"
+# checklist can still miss it, so check it explicitly). Only a class with
+# an own spec table carries the marker — a class with no own table (Rule
+# 1.5) has no `# Spec:` line, no marker, and all-`[ ]` rows, so the assert
+# is conditioned on the `# Spec:` line being present.
+if "# Spec:" in src:
+    assert re.search(r"# Spec verified: R\d\d-\d\d", src), "missing # Spec verified marker (Rule 13.1)"
 ```
 
 ---
 
-# Section 8: Docstring Specification Synchronization (Rule 13)
+# Section 8: Docstring and Comment Synchronization with the AUTOSAR Specification (Rule 13)
 
-## Rule 13: Docstring Synchronization with AUTOSAR Specification
+## Rule 13: Docstring and Comment Synchronization with the AUTOSAR Specification
 
 **Maturity**: accept
 
-Class docstrings and attribute/method docstrings must remain synchronized with
-the AUTOSAR PDF specification source. When the AUTOSAR version is upgraded,
-stale docstrings become silent documentation drift — docstrings that no longer
-match the spec but the code still compiles and tests still pass. This rule
-defines how to detect and prevent that drift.
+Class docstrings, inline `__init__` comments, and getter/setter docstrings
+must all reflect the AUTOSAR PDF specification wording — not loose paraphrase
+— and must stay synchronized with it as the AUTOSAR version is upgraded.
+Stale or paraphrased docstrings are silent documentation drift: the code
+compiles, the tests pass, and nothing catches the mismatch automatically.
+This is a **single rule** covering every docstring/comment artifact in a
+class (previously split across two rules, "Comments from the Spec" and
+"Docstring Synchronization"); they are merged here because they describe the
+same one-pass-per-class task and splitting them made it easy to satisfy one
+half (e.g. the class docstring) while forgetting the other (e.g. the
+per-attribute constraint citations).
+
+**Why this rule is one ordered procedure, not a bag of bullets:** the
+individual requirements (verbatim `Note` text, the version marker,
+per-attribute constraint citations, the "None is a no-op" sentence) are each
+easy to satisfy for *some* members while silently skipping others — e.g.
+adding the class docstring and the `# Spec:` marker but forgetting the
+marker's page number, or fixing the getter's wording but not the setter's, or
+citing a constraint in the comment but not in the docstring that repeats the
+same attribute. None of this is caught by Rule 2/7's mechanical check (it
+only verifies checklist == methods and that the marker *string* exists — not
+that its content is correct, nor that every member below it was actually
+synced). Follow 13.2 in order, top to bottom, once per class, and do not
+consider the class done until every checkbox for every member is ticked — a
+partially-synced class (e.g. class docstring fixed but attribute comments
+still paraphrased) is a Rule 13 violation, not a partial credit.
 
 ### 13.1 Docstring Versioning
 
@@ -1719,32 +1851,153 @@ defines how to detect and prevent that drift.
       marker — the Rule 2/7 set-based script does not check for it, so extend
       that script with an explicit `assert re.search(r"# Spec verified:
       R\d\d-\d\d", src)` (see Rule 7) to catch it mechanically.
+- [ ] **Exception — a class with no own spec table carries no marker.** When a
+      class cannot be read from a PDF table — its attributes are defined only
+      in an XSD group, with no rendered table of its own (Rule 1.5, e.g. a
+      concrete `<name>InstanceRef`) — there is no PDF `Note` to verify
+      docstrings against, so it gets **no** `# Spec verified:` marker and its
+      checklist rows stay `[ ]`. Rule 13.1's marker requirement (and the Rule
+      7 assert that checks for it) applies only to classes that have a spec
+      table to be verified against. **This is the same gate as 13.2 step 0 —
+      check it once, first, before starting any of the sync work below.**
+      **Empty-attribute-rendering classes are NOT this exception:** a class
+      with its own PDF `Class` table whose `Attribute` section is empty (all
+      attributes inherited, e.g. `BswServiceDependencyIdent`, Table 5.16) has
+      a PDF `Note` to verify against and therefore **does** get the
+      `# Spec verified:` marker and `[x]` checklist rows. The gate is "does a
+      `Class <Name>` heading exist in a PDF?", not "does the class add new
+      attributes?" — see the "Empty-attribute rendering ≠ no own spec table"
+      bullet in Rule 1.5.
 
-### 13.2 Drift Detection on AUTOSAR Upgrade
+### 13.2 Per-Class Sync Procedure (Initial Alignment or Upgrade)
 
-When the AUTOSAR specification version is upgraded in the repository:
+Run every step below, **in order**, for every class carrying a spec table.
+Do not skip a step because a similar-looking one earlier "probably covered
+it" — each targets a different artifact (class docstring vs. inline comment
+vs. getter vs. setter) and a fix to one does not propagate to the others.
+
+- [ ] **Step 0 — Exception gate.** Does the class have its own PDF table
+      (Rule 1.5)? If its attributes come only from an XSD group with no
+      rendered table of its own (e.g. a concrete `<name>InstanceRef`), **stop
+      here**: no `# Spec:` line, no `# Spec verified:` marker, checklist rows
+      stay `[ ]`, and none of the steps below apply. Record "no own spec
+      table; attributes from XSD group `…`" in the deviation tracker instead.
+      Otherwise, continue.
+- [ ] **Step 1 — Locate the spec table and its page number.**
+      Search `autosar/markdown/AUTOSAR_CP_TPS_*.md` for `Table <N>.<M>:
+      <ClassName>` (markdown extracted from the PDF — this is the reference
+      source, never a loose paraphrase). Get the **exact page number** for
+      the `# Spec:` marker: either reuse the page cited by a sibling class in
+      the same table family, or confirm it directly from the PDF (e.g. with
+      `pypdf`, matching the printed page-footer number, not the zero-indexed
+      page count — footer text and index can be off by one).
+- [ ] **Step 2 — Add the version marker.** Immediately after the
+      `# <ClassName> method parity checklist:` line:
+      ```python
+      # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.2, p.225
+      # Spec verified: R23-11
+      ```
+      (See 13.1 for the exception and the marker format.)
+- [ ] **Step 3 — Sync the class docstring.** The first line after `"""` must
+      be the PDF table's `Note` row, **verbatim** — do not paraphrase, do not
+      abbreviate, and preserve the spec's own grammar even when it reads
+      oddly (e.g. "an BswInternalBehavior").
+      - **Class-level constraints, including on inherited attributes.**
+        `constr_*` rows that target the class belong in this docstring
+        alongside the note — a constraint may target an attribute the
+        subclass does not declare itself (e.g. `constr_4103` constrains
+        `SectionNamePrefix.symbol`, which is inherited from
+        `ImplementationProps`, and therefore belongs in the
+        `SectionNamePrefix` class docstring, not in the parent's).
+      - **Terse cross-reference notes.** If the PDF `Note` is only a citation
+        (e.g. `Specifies a time value based on [20] see [TPS_GST_00354]`),
+        still lead with it verbatim, then append the XSD complexType
+        documentation as an elaboration paragraph (it is also verbatim spec
+        wording) — never silently substitute the XSD text for the PDF
+        `Note`, never invent prose to "expand" a terse note.
+- [ ] **Step 4 — Per-attribute sync loop.** For **every** attribute row in
+      the spec table (not just the ones that look wrong), do all four of the
+      following before moving to the next attribute — treat this as one unit
+      of work per attribute, not four separate passes over the whole class:
+      1. **Inline `__init__` comment**: quote the attribute's PDF `Note`
+         **semantic sentence** verbatim/near-verbatim; do **not** paste the
+         `Stereotypes:`/`Tags:` tail (e.g. `Stereotypes: atpSplitable;
+         atpVariation Tags: atp.Splitkey=...`) — that tail is tooling
+         metadata already captured in the markdown and adds no semantics to
+         the comment. Example: `AccessCountSet.accessCount`'s note "Count
+         value for a AbstractAccessPoint. Stereotypes: ..." is quoted as
+         "Count value for a AbstractAccessPoint." If a `constr_*` row
+         targets this attribute, append its wording and cite the id — the
+         full constraint wording is typically rendered as a
+         `[constr_NNNNN]` paragraph **immediately after the class's own
+         table** (in addition to any consolidated constraint index elsewhere
+         in the PDF), e.g. `AccessCountSet`'s Table 4.22 is followed by
+         `constr_10270` constraining `countProfile`; grep both the table
+         neighborhood and the constraint index when collecting constraint
+         material.
+      2. **Getter docstring**: summarize the same `Note` + constraint — not
+         "Gets the value of X". Mention what the attribute represents in
+         AUTOSAR, cite the applicable `constr_*` id (an attribute-level
+         constraint, e.g. `constr_4072` on
+         `SectionNamePrefix.implementedIn`, is cited in **both** the
+         `__init__` comment and the getter/setter docstrings — not just
+         one), and for an `iref` attribute name the concrete
+         `<name>InstanceRef` implementing class (so the concrete iref type
+         is discoverable in the code, not only in the deviation tracker).
+      3. **Setter docstring**: same `Note`/constraint summary as the getter,
+         plus the chainable-return behavior. **If the setter is guarded**
+         (`if value is not None:`), it **must** also state, verbatim: *"A
+         None value is a no-op and does not overwrite an existing
+         `<attr>`."* This is not optional — a guarded setter without this
+         sentence is an incomplete sync even if the rest of the docstring is
+         correct.
+      4. **Cross-check the four against each other**: the comment, getter,
+         and setter for the same attribute should tell a consistent story —
+         a getter that was updated but a setter left with the old wording
+         (or a constraint cited in one but not the others) is a common
+         half-sync failure.
+
+      Two worked examples of an inline comment quoting the spec `Note`:
+      ```python
+      # Indicates an entry which is required by this module.
+      # Replacement of a deprecated attribute.
+      self.expectedEntryRefs: List[RefType] = []
+      ```
+      ```python
+      # AUTOSAR identifier of the target module; optional as the target may be
+      # identified by targetModuleRef instead.
+      self.targetModuleId: Optional[PositiveInteger] = None
+      ```
+- [ ] **Step 5 — Verify by diff, not by status.** There is **no mechanical
+      check** for docstring correctness (13.5): Rule 2/7's script only
+      confirms the checklist matches the methods, every method is tested,
+      and the marker *string* is present — none of that proves the wording
+      matches the PDF. Do not treat a fully-`[x]` checklist, a present
+      `# Spec verified:` marker, or an "aligned" row in
+      `docs/method_deviation_by_class.md` as evidence that steps 3–4 were
+      done correctly. For each attribute, re-open the PDF/markdown `Note` (or
+      the matching XSD `<xsd:documentation>`, same verbatim text) and diff it
+      against the inline comment and both docstrings yourself — a real
+      instance of this failure mode: `McDataInstance.displayIdentifier`'s PDF
+      note "used to set the ASAM ASAP2 DISPLAY_IDENTIFIER attribute" had been
+      silently rewritten to "used by an MCD system to identify this data
+      instance" (a different meaning) across 8 of 12 attributes, while every
+      other check — checklist, marker, tracker — still passed.
+
+### 13.3 Drift Detection on AUTOSAR Upgrade
+
+When the AUTOSAR specification version is upgraded in the repository, an
+upgrade pass is **not** "check the class docstring only" — it is the
+identical per-member walk as a first-time alignment (13.2), just diffed
+against the new PDF revision instead of an assumed-blank starting point:
 
 1. **Identify affected classes**: search the codebase for the old version marker
    (e.g., `# Spec verified: R23-11`) using:
    ```bash
    grep -r "Spec verified: R23-11" src/armodel/models/
    ```
-
-2. **For each affected class**, perform these steps:
-   - [ ] Open the class source file in an editor.
-   - [ ] Locate the corresponding spec table in the new AUTOSAR PDF markdown
-         (search `autosar/markdown/AUTOSAR_CP_TPS_*.md` for the table name).
-   - [ ] Read the spec table's `Note` row (the class purpose/definition).
-   - [ ] Compare the `Note` text verbatim with the class docstring (first line
-         after `"""`).
-   - [ ] If different: update the class docstring to match the new PDF `Note`
-         exactly (use the PDF wording verbatim, not paraphrased).
-   - [ ] For each attribute, compare the PDF table's `Note` column entry with
-         the inline comment in `__init__` (the line after `self.attributeName`).
-   - [ ] If different: update the inline comment to match the new PDF `Note`.
-   - [ ] For each getter/setter, compare the PDF `Note` and applicable
-         constraints (`constr_*` rows) with the docstring.
-   - [ ] If different: update the docstring.
+2. **For each affected class**, run the full 13.2 procedure (steps 0–5) against
+   the *new* PDF revision, then:
    - [ ] Update the version marker to the new release:
          ```python
          # Spec verified: R24-11
@@ -1754,39 +2007,12 @@ When the AUTOSAR specification version is upgraded in the repository:
    - [ ] Create a commit with message:
          ```
          Updated <ClassName> docstrings for AUTOSAR R24-11
-         
+
          Spec table notes:
          - Class note: "..."
          - attribute1: "..."
          Verified against autosar/markdown/AUTOSAR_CP_TPS_*.md
          ```
-
-### 13.3 During Class Alignment (Initial Synchronization)
-
-When aligning a class to the rules for the first time:
-
-- [ ] Verify **every** class docstring against the PDF `Note` field in its
-      spec table (the source is always the PDF, not loose paraphrase).
-- [ ] **Terse cross-reference PDF notes.** Some PDF `Note` rows carry only a
-      cross-reference (e.g. `MultidimensionalTime` Table 8.22's note reads
-      `Specifies a time value based on [20] see [TPS_GST_00354]`) while the
-      actual semantic description lives in the XSD complexType documentation
-      (`This is used to specify a multidimensional time value based on ASAM CSE
-      codes...`). Still **lead the class docstring with the PDF `Note` verbatim**
-      (the `[n]` bibliography marker included) and append the XSD complexType
-      documentation text as an elaboration paragraph — it is also verbatim spec
-      wording, so it satisfies Rule 5 — but never silently substitute the XSD
-      text for the PDF `Note`, and never invent prose to "expand" a terse note.
-- [ ] Use `autosar/markdown/AUTOSAR_CP_TPS_*.md` as the reference source
-      (markdown extracted from the PDF).
-- [ ] When writing docstrings, copy the PDF `Note` text verbatim; do not
-      paraphrase or abbreviate.
-- [ ] Add the version marker to indicate the baseline:
-      ```python
-      # Spec verified: R23-11
-      ```
-      This signals to future developers that docstrings were aligned to a
-      specific AUTOSAR release and may need review if the spec version changes.
 
 ### 13.4 Rationale
 
@@ -1798,9 +2024,10 @@ Docstring drift is a **silent bug**:
 - Unlike code bugs, drift is discovered only by manual inspection or explicit
   verification (there is no automatic synchronization between PDF and code).
 
-The version marker and upgrade checklist provide explicit reminders and a
-structured process to catch and fix drift at the natural point when AUTOSAR
-is upgraded, rather than silently accumulating outdated documentation.
+The version marker and the ordered per-class procedure provide explicit
+reminders and a structured process to catch and fix drift at the natural
+point when AUTOSAR is upgraded, rather than silently accumulating outdated
+documentation.
 
 ### 13.5 No Automatic Enforcement
 
@@ -1811,9 +2038,12 @@ or detects version skew. This rule relies on:
 - Manual verification during AUTOSAR upgrades (triggered by the grep search
   above).
 - Code review to catch docstring mismatches during PR review.
+- The ordered, per-member checklist in 13.2 — the mechanical Rule 2/7 script
+  can confirm the *marker* exists, but only a deliberate, in-order walk of
+  13.2's steps catches a *content* mismatch or a half-synced member.
 
 If automatic tooling is added in the future (e.g., a docstring validator that
-parsels the PDF markdown and compares against Python docstrings), this rule
+parses the PDF markdown and compares against Python docstrings), this rule
 will be updated to incorporate it.
 
 ---

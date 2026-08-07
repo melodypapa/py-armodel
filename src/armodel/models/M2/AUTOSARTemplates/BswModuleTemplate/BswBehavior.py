@@ -17,13 +17,15 @@ if TYPE_CHECKING:
 
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import AbstractEvent, ApiPrincipleEnum, ExecutableEntity, InternalBehavior
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment, ServiceDependency, ServiceNeeds
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARFloat, ARNumerical, Boolean
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARFloat, ARLiteral, ARNumerical, Boolean
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, String, TimeValue, Identifier
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import VariableDataPrototype
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import IdentCaption
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeActivationKind
@@ -2102,6 +2104,274 @@ class BswInternalTriggeringPoint(Identifiable):
         return self
 
 
+class BswServiceDependencyIdent(IdentCaption):
+    """
+    This meta-class is created to add the ability to become the target of a reference
+    to the non-Referrable BswServiceDependency.
+    """
+
+    # BswServiceDependencyIdent method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table 5.16, p.240
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+
+    def __init__(self, parent: ARObject, short_name: str):
+        """
+        Initializes the BswServiceDependencyIdent with a parent and short name.
+
+        Args:
+            parent: The parent ARObject that contains this ident caption
+            short_name: The unique short name of this ident caption
+        """
+        super().__init__(parent, short_name)
+
+
+class RoleBasedBswModuleEntryAssignment(ARObject):
+    """
+    This class specifies an assignment of a role to a particular BswModuleEntry (usually
+    a configurable callback). With this assignment, the role of the callback is mapped to
+    a specific ServiceNeeds element, so that a tool is able to create appropriate
+    configuration values for the module that implements the AUTOSAR Service.
+    """
+
+    # RoleBasedBswModuleEntryAssignment method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.3, p.226
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getAssignedEntryRef          [x] impl  [x] docstring  [ ] test
+    # [ ] setAssignedEntryRef          [x] impl  [x] docstring  [ ] test
+    # [ ] getRole                      [x] impl  [x] docstring  [ ] test
+    # [ ] setRole                      [x] impl  [x] docstring  [ ] test
+
+    def __init__(self):
+        """
+        Initializes the RoleBasedBswModuleEntryAssignment with default values.
+        """
+        super().__init__()
+
+        # The assigned entry. It should be an implementedEntry or expectedEntry of the
+        # module or cluster that requires the ServiceNeeds. [constr_10258]: shall exist
+        # when the configuration of the BSW module is finished.
+        self.assignedEntryRef: RefType = None
+
+        # This is the role of the assigned BswModuleEntry in the given context. Required
+        # because different kinds of callbacks may be associated with the same
+        # ServiceNeeds (e.g. end-notification vs. error-notification). [constr_10259]:
+        # shall exist when the configuration of the BSW module is finished.
+        self.role: ARLiteral = None
+
+    def getAssignedEntryRef(self):
+        """
+        Gets the reference to the assigned BswModuleEntry. It should be an
+        implementedEntry or expectedEntry of the module or cluster that requires
+        the ServiceNeeds. [constr_10258]: shall exist when the configuration of
+        the BSW module is finished.
+
+        Returns:
+            RefType: The assigned entry reference
+        """
+        return self.assignedEntryRef
+
+    def setAssignedEntryRef(self, value):
+        """
+        Sets the reference to the assigned BswModuleEntry. It should be an
+        implementedEntry or expectedEntry of the module or cluster that requires
+        the ServiceNeeds. [constr_10258]: the reference shall exist when the
+        configuration of the BSW module is finished.
+        A None value is a no-op and does not overwrite an existing assignedEntryRef.
+
+        Args:
+            value: The assigned entry reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.assignedEntryRef = value
+        return self
+
+    def getRole(self):
+        """
+        Gets the role of the assigned BswModuleEntry in the given context. The value
+        shall be the role name of a configurable function call (usually a callback)
+        as standardized in the Software Specification of the related AUTOSAR Service.
+        [constr_10259]: shall exist when the configuration of the BSW module is
+        finished.
+
+        Returns:
+            ARLiteral: The role
+        """
+        return self.role
+
+    def setRole(self, value):
+        """
+        Sets the role of the assigned BswModuleEntry in the given context. The value
+        shall be the role name of a configurable function call (usually a callback)
+        as standardized in the Software Specification of the related AUTOSAR Service.
+        [constr_10259]: the attribute shall exist when the configuration of the BSW
+        module is finished. [TPS_BSWMDT_04113]: the value cannot be arbitrarily set
+        but shall equal the shortName of the applicable BswModuleEntry taken from the
+        standardized AUTOSAR BswModuleEntry model.
+        A None value is a no-op and does not overwrite an existing role.
+
+        Args:
+            value: The role to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.role = value
+        return self
+
+
+class BswServiceDependency(ServiceDependency):
+    """
+    Specialization of ServiceDependency in the context of an BswInternalBehavior. It
+    allows to associate BswModuleEntries and data defined for a BSW module or cluster
+    to a given ServiceNeeds element.
+    """
+
+    # BswServiceDependency method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.2, p.225
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getAssignedData              [x] impl  [x] docstring  [x] test
+    # [x] addAssignedData              [x] impl  [x] docstring  [x] test
+    # [x] getAssignedEntryRole         [x] impl  [x] docstring  [x] test
+    # [x] addAssignedEntryRole         [x] impl  [x] docstring  [x] test
+    # [x] getIdent                     [x] impl  [x] docstring  [x] test
+    # [x] setIdent                     [x] impl  [x] docstring  [x] test
+    # [x] getServiceNeeds              [x] impl  [x] docstring  [x] test
+    # [x] setServiceNeeds              [x] impl  [x] docstring  [x] test
+
+    def __init__(self):
+        """
+        Initializes the BswServiceDependency with default values.
+        """
+        super().__init__()
+
+        # Defines the role of an associated data object (owned by this module or
+        # cluster) in the context of the ServiceNeeds element.
+        self.assignedData: List[RoleBasedDataAssignment] = []
+
+        # Defines the role of an associated BswModuleEntry in the context of the
+        # ServiceNeeds element.
+        self.assignedEntryRole: List[RoleBasedBswModuleEntryAssignment] = []
+
+        # This adds the ability to become referrable to BswServiceDependency.
+        self.ident: Optional[BswServiceDependencyIdent] = None
+
+        # The associated ServiceNeeds. [constr_10257]: shall exist when the
+        # configuration of the BSW module is finished.
+        self.serviceNeeds: Optional[ServiceNeeds] = None
+
+    def getAssignedData(self) -> List[RoleBasedDataAssignment]:
+        """
+        Gets the list of associated data objects (owned by this module or cluster)
+        assigned a role in the context of the ServiceNeeds element.
+
+        Returns:
+            List of RoleBasedDataAssignment instances
+        """
+        return self.assignedData
+
+    def addAssignedData(self, value: Optional[RoleBasedDataAssignment]) -> "BswServiceDependency":
+        """
+        Adds a role-based data assignment defining the role of an associated data
+        object (owned by this module or cluster) in the context of the ServiceNeeds
+        element.
+        A None value is a no-op and is not appended to the list.
+
+        Args:
+            value: The RoleBasedDataAssignment instance to add
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.assignedData.append(value)
+        return self
+
+    def getAssignedEntryRole(self) -> List[RoleBasedBswModuleEntryAssignment]:
+        """
+        Gets the list of associated BswModuleEntry role assignments in the context
+        of the ServiceNeeds element.
+
+        Returns:
+            List of RoleBasedBswModuleEntryAssignment instances
+        """
+        return self.assignedEntryRole
+
+    def addAssignedEntryRole(self, value: Optional[RoleBasedBswModuleEntryAssignment]) -> "BswServiceDependency":
+        """
+        Adds a role-based BSW module entry assignment defining the role of an
+        associated BswModuleEntry in the context of the ServiceNeeds element.
+        A None value is a no-op and is not appended to the list.
+
+        Args:
+            value: The RoleBasedBswModuleEntryAssignment instance to add
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.assignedEntryRole.append(value)
+        return self
+
+    def getIdent(self) -> Optional[BswServiceDependencyIdent]:
+        """
+        Gets the identification caption that adds the ability to become referrable
+        to this BswServiceDependency.
+
+        Returns:
+            BswServiceDependencyIdent: The identification caption
+        """
+        return self.ident
+
+    def setIdent(self, value: Optional[BswServiceDependencyIdent]) -> "BswServiceDependency":
+        """
+        Sets the identification caption that adds the ability to become referrable
+        to this BswServiceDependency.
+        A None value is a no-op and does not overwrite an existing ident.
+
+        Args:
+            value: The BswServiceDependencyIdent to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.ident = value
+        return self
+
+    def getServiceNeeds(self) -> Optional[ServiceNeeds]:
+        """
+        Gets the associated ServiceNeeds. [constr_10257]: shall exist when the
+        configuration of the BSW module is finished.
+
+        Returns:
+            ServiceNeeds: The associated service needs instance
+        """
+        return self.serviceNeeds
+
+    def setServiceNeeds(self, value: Optional[ServiceNeeds]) -> "BswServiceDependency":
+        """
+        Sets the associated ServiceNeeds. [constr_10257]: shall exist when the
+        configuration of the BSW module is finished.
+        A None value is a no-op and does not overwrite an existing serviceNeeds.
+
+        Args:
+            value: The ServiceNeeds instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.serviceNeeds = value
+        return self
+
+
 class BswInternalBehavior(InternalBehavior):
     """
     Represents the internal behavior of a BSW module.
@@ -2141,6 +2411,7 @@ class BswInternalBehavior(InternalBehavior):
     # [ ] setSendPolicies              [x] impl  [x] docstring  [ ] test
     # [ ] getServiceDependencies       [x] impl  [x] docstring  [ ] test
     # [ ] setServiceDependencies       [x] impl  [x] docstring  [ ] test
+    # [ ] addServiceDependency         [x] impl  [x] docstring  [ ] test
     # [ ] getTriggerDirectImplementations [x] impl  [x] docstring  [ ] test
     # [ ] setTriggerDirectImplementations [x] impl  [x] docstring  [ ] test
     # [ ] getVariationPointProxies     [x] impl  [x] docstring  [ ] test
@@ -2594,6 +2865,19 @@ class BswInternalBehavior(InternalBehavior):
         """
         if value is not None:
             self.serviceDependencies = value
+        return self
+
+    def addServiceDependency(self, dependency: BswServiceDependency):
+        """
+        Adds a BSW service dependency to the list.
+
+        Args:
+            dependency: The BswServiceDependency instance to add
+
+        Returns:
+            self for method chaining
+        """
+        self.serviceDependencies.append(dependency)
         return self
 
     def getTriggerDirectImplementations(self):

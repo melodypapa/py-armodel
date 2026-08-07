@@ -41,6 +41,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import Bsw
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalBehavior, BswInterruptEntity, BswModeSenderPolicy, BswModeSwitchAckRequest, BswModuleEntity
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswQueuedDataReceptionPolicy, BswSchedulableEntity, BswScheduleEvent
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswTimingEvent, BswVariableAccess, BswInternalTriggeringPoint
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency, BswServiceDependencyIdent, RoleBasedBswModuleEntryAssignment
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import ModeInBswModuleDescriptionInstanceRef
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
@@ -48,13 +49,17 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import B
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantSpecification, NumericalValueSpecification, RecordValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification, ValueSpecification
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.McGroups import McGroup, McGroupDataRefSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import (
+    McDataAccessDetails,
     McDataInstance,
     McFunction,
     McParameterElementGroup,
     McSupportData,
     McSwEmulationMethodSupport,
     RoleBasedMcDataAssignment,
+    RteEventInEcuInstanceRef,
+    VariableAccessInEcuInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport import (
     McFunctionDataRefSet,
@@ -82,10 +87,11 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.Stac
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceNeeds, DiagEventDebounceMonitorInternal, DltUserNeeds, ServiceNeeds
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import BswMgrNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement, DtcStatusChangeNotificationNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCommunicationManagerNeeds, DiagnosticEventInfoNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticEventNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import EcuStateMgrUserNeeds, NvBlockNeeds, RoleBasedDataAssignment
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import EcuStateMgrUserNeeds, NvBlockNeeds, RoleBasedDataAssignment, SymbolicNameProps
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataTypeAssignment, ServiceDependency
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import KeywordSet, Keyword
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint
@@ -1730,6 +1736,96 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeServiceDependency(self, element: ET.Element, dependency: ServiceDependency):
         self.writeIdentifiable(element, dependency)
         self.writeServiceDependencyAssignedDataType(element, dependency)
+        self.writeSymbolicNameProps(element, dependency)
+
+    def writeSymbolicNameProps(self, element: ET.Element, dependency: ServiceDependency):
+        props = dependency.getSymbolicNameProps()
+        if props is None:
+            return
+        child_element = ET.SubElement(element, "SYMBOLIC-NAME-PROPS")
+        self.writeImplementationProps(child_element, props)
+
+    def writeBswServiceDependencyIdent(self, element: ET.Element, ident: BswServiceDependencyIdent):
+        child_element = ET.SubElement(element, "IDENT")
+        self.writeIdentifiable(child_element, ident)
+
+    def writeRoleBasedBswModuleEntryAssignment(self, element: ET.Element, assignment: RoleBasedBswModuleEntryAssignment):
+        child_element = ET.SubElement(element, "ROLE-BASED-BSW-MODULE-ENTRY-ASSIGNMENT")
+        self.writeARObjectAttributes(child_element, assignment)
+        self.setChildElementOptionalRefType(child_element, "ASSIGNED-ENTRY-REF", assignment.getAssignedEntryRef())
+        self.setChildElementOptionalLiteral(child_element, "ROLE", assignment.getRole())
+
+    def writeBswServiceDependencyAssignedData(self, element: ET.Element, dependency: BswServiceDependency):
+        assigned_data = dependency.getAssignedData()
+        if len(assigned_data) > 0:
+            child_element = ET.SubElement(element, "ASSIGNED-DATAS")
+            for data in assigned_data:
+                if isinstance(data, RoleBasedDataAssignment):
+                    self.writeRoleBasedDataAssignment(child_element, data)
+                else:
+                    self.notImplemented("Unsupported Assigned Data <%s>" % type(data))
+
+    def writeBswServiceDependencyAssignedEntryRoles(self, element: ET.Element, dependency: BswServiceDependency):
+        assigned_entry_roles = dependency.getAssignedEntryRole()
+        if len(assigned_entry_roles) > 0:
+            child_element = ET.SubElement(element, "ASSIGNED-ENTRY-ROLES")
+            for assignment in assigned_entry_roles:
+                if isinstance(assignment, RoleBasedBswModuleEntryAssignment):
+                    self.writeRoleBasedBswModuleEntryAssignment(child_element, assignment)
+                else:
+                    self.notImplemented("Unsupported Assigned Entry Role <%s>" % type(assignment))
+
+    def writeBswServiceDependencyServiceNeeds(self, element: ET.Element, dependency: BswServiceDependency):
+        needs = dependency.getServiceNeeds()
+        if needs is None:
+            return
+        child_element = ET.SubElement(element, "SERVICE-NEEDS")
+        if isinstance(needs, BswMgrNeeds):
+            self.writeBswMgrNeeds(child_element, needs)
+        elif isinstance(needs, NvBlockNeeds):
+            self.writeNvBlockNeeds(child_element, needs)
+        elif isinstance(needs, DiagnosticCommunicationManagerNeeds):
+            self.writeDiagnosticCommunicationManagerNeeds(child_element, needs)
+        elif isinstance(needs, DiagnosticRoutineNeeds):
+            self.writeDiagnosticRoutineNeeds(child_element, needs)
+        elif isinstance(needs, DiagnosticValueNeeds):
+            self.writeDiagnosticValueNeeds(child_element, needs)
+        elif isinstance(needs, DiagnosticEventNeeds):
+            self.writeDiagnosticEventNeeds(child_element, needs)
+        elif isinstance(needs, DiagnosticEventInfoNeeds):
+            self.writeDiagnosticEventInfoNeeds(child_element, needs)
+        elif isinstance(needs, CryptoServiceNeeds):
+            self.writeCryptoServiceNeeds(child_element, needs)
+        elif isinstance(needs, EcuStateMgrUserNeeds):
+            self.writeEcuStateMgrUserNeeds(child_element, needs)
+        elif isinstance(needs, DtcStatusChangeNotificationNeeds):
+            self.writeDtcStatusChangeNotificationNeeds(child_element, needs)
+        elif isinstance(needs, DltUserNeeds):
+            self.writeDltUserNeeds(child_element, needs)
+        else:
+            self.notImplemented("Unsupported service needs <%s>" % type(needs))
+
+    def writeBswServiceDependency(self, element: ET.Element, dependency: BswServiceDependency):
+        child_element = ET.SubElement(element, "BSW-SERVICE-DEPENDENCY")
+        self.writeARObjectAttributes(child_element, dependency)
+        ident = dependency.getIdent()
+        if ident is not None:
+            self.writeBswServiceDependencyIdent(child_element, ident)
+        self.writeServiceDependencyAssignedDataType(child_element, dependency)
+        self.writeBswServiceDependencyAssignedData(child_element, dependency)
+        self.writeBswServiceDependencyAssignedEntryRoles(child_element, dependency)
+        self.writeBswServiceDependencyServiceNeeds(child_element, dependency)
+        self.writeSymbolicNameProps(child_element, dependency)
+
+    def writeBswInternalBehaviorServiceDependencies(self, element: ET.Element, behavior: BswInternalBehavior):
+        dependencies = behavior.getServiceDependencies()
+        if len(dependencies) > 0:
+            child_element = ET.SubElement(element, "SERVICE-DEPENDENCYS")
+            for dependency in dependencies:
+                if isinstance(dependency, BswServiceDependency):
+                    self.writeBswServiceDependency(child_element, dependency)
+                else:
+                    self.notImplemented("Unsupported ServiceDependency <%s>" % type(dependency))
 
     def writeRoleBasedDataAssignment(self, element: ET.Element, assignment: RoleBasedDataAssignment):
         child_element = ET.SubElement(element, "ROLE-BASED-DATA-ASSIGNMENT")
@@ -1766,6 +1862,10 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeServiceNeeds(self, element: ET.Element, needs: ServiceNeeds):
         self.writeIdentifiable(element, needs)
+
+    def writeBswMgrNeeds(self, element: ET.Element, needs: BswMgrNeeds):
+        child_element = ET.SubElement(element, "BSW-MGR-NEEDS")
+        self.writeServiceNeeds(child_element, needs)
 
     def writeNvBlockNeeds(self, element: ET.Element, needs: NvBlockNeeds):
         child_element = ET.SubElement(element, "NV-BLOCK-NEEDS")
@@ -2298,6 +2398,28 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(element, "RAM-LOCATION-REF", group.getRamLocationRef())
         self.setChildElementOptionalRefType(element, "ROM-LOCATION-REF", group.getRomLocationRef())
 
+    def writeRteEventInEcuInstanceRef(self, element: ET.Element, iref: RteEventInEcuInstanceRef):
+        self.setChildElementOptionalRefType(element, "CONTEXT-ROOT-COMPOSITION-REF", iref.getContextRootCompositionRef())
+        self.setChildElementOptionalRefType(element, "CONTEXT-ATOMIC-COMPONENT-REF", iref.getContextAtomicComponentRef())
+        self.setChildElementOptionalRefType(element, "TARGET-RTE-EVENT-REF", iref.getTargetRteEventRef())
+
+    def writeVariableAccessInEcuInstanceRef(self, element: ET.Element, iref: VariableAccessInEcuInstanceRef):
+        self.setChildElementOptionalRefType(element, "CONTEXT-ROOT-COMPOSITION-REF", iref.getContextRootCompositionRef())
+        self.setChildElementOptionalRefType(element, "CONTEXT-ATOMIC-COMPONENT-REF", iref.getContextAtomicComponentRef())
+        self.setChildElementOptionalRefType(element, "TARGET-VARIABLE-ACCESS-REF", iref.getTargetVariableAccessRef())
+
+    def writeMcDataAccessDetails(self, element: ET.Element, details: McDataAccessDetails):
+        rte_event_irefs = details.getRteEventIRefs()
+        if len(rte_event_irefs) > 0:
+            rte_event_irefs_element = ET.SubElement(element, "RTE-EVENT-IREFS")
+            for iref in rte_event_irefs:
+                self.writeRteEventInEcuInstanceRef(ET.SubElement(rte_event_irefs_element, "RTE-EVENT-IREF"), iref)
+        variable_access_irefs = details.getVariableAccessIRefs()
+        if len(variable_access_irefs) > 0:
+            variable_access_irefs_element = ET.SubElement(element, "VARIABLE-ACCESS-IREFS")
+            for iref in variable_access_irefs:
+                self.writeVariableAccessInEcuInstanceRef(ET.SubElement(variable_access_irefs_element, "VARIABLE-ACCESS-IREF"), iref)
+
     def writeMcDataInstance(self, element: ET.Element, instance: McDataInstance):
         self.writeIdentifiable(element, instance)
         self.setChildElementOptionalPositiveInteger(element, "ARRAY-SIZE", instance.getArraySize())
@@ -2309,7 +2431,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(instance_in_memory_element, "CONTEXT-REF", instance_in_memory.getContextRef())
             self.setChildElementOptionalRefType(instance_in_memory_element, "TARGET-REF", instance_in_memory.getTargetRef())
         if instance.getMcDataAccessDetails() is not None:
-            ET.SubElement(element, "MC-DATA-ACCESS-DETAILS")
+            self.writeMcDataAccessDetails(ET.SubElement(element, "MC-DATA-ACCESS-DETAILS"), instance.getMcDataAccessDetails())
         mc_data_assignments = instance.getMcDataAssignments()
         if len(mc_data_assignments) > 0:
             assignments_element = ET.SubElement(element, "MC-DATA-ASSIGNMENTS")
@@ -2986,6 +3108,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeBswInternalBehaviorModeSenderPolicy(child_element, behavior)
         self.writeBswInternalBehaviorIncludedModeDeclarationGroupSets(child_element, behavior)
         self.writeBswInternalBehaviorReceptionPolicies(child_element, behavior)
+        self.writeBswInternalBehaviorServiceDependencies(child_element, behavior)
 
     def writeBswModuleDescriptionInternalBehaviors(self, element: ET.Element, desc: BswModuleDescription):
         behaviors = desc.getInternalBehaviors()
@@ -6621,6 +6744,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writePredefinedVariant(element, ar_element)
         elif isinstance(ar_element, McFunction):
             self.writeMcFunction(element, ar_element)
+        elif isinstance(ar_element, McGroup):
+            self.writeMcGroup(element, ar_element)
         else:
             self.notImplemented("Unsupported Elements of ARPackage <%s>" % type(ar_element))
 
@@ -6664,6 +6789,41 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeMcFunctionDataRefSet(self, element: ET.Element, data_ref_set: McFunctionDataRefSet):
         variants_element = ET.SubElement(element, "MC-FUNCTION-DATA-REF-SET-VARIANTS")
         conditional_element = ET.SubElement(variants_element, "MC-FUNCTION-DATA-REF-SET-CONDITIONAL")
+        flat_map_entry_refs = data_ref_set.getFlatMapEntryRefs()
+        if len(flat_map_entry_refs) > 0:
+            refs_element = ET.SubElement(conditional_element, "FLAT-MAP-ENTRY-REFS")
+            for ref in flat_map_entry_refs:
+                self.setChildElementOptionalRefType(refs_element, "FLAT-MAP-ENTRY-REF", ref)
+        mc_data_instance_refs = data_ref_set.getMcDataInstanceRefs()
+        if len(mc_data_instance_refs) > 0:
+            refs_element = ET.SubElement(conditional_element, "MC-DATA-INSTANCE-REFS")
+            for ref in mc_data_instance_refs:
+                self.setChildElementOptionalRefType(refs_element, "MC-DATA-INSTANCE-REF", ref)
+
+    def writeMcGroup(self, element: ET.Element, group: McGroup):
+        if group is not None:
+            child_element = ET.SubElement(element, "MC-GROUP")
+            self.writeIdentifiable(child_element, group)
+            sub_group_refs = group.getSubGroupRefs()
+            if len(sub_group_refs) > 0:
+                refs_element = ET.SubElement(child_element, "SUB-GROUP-REFS")
+                for ref in sub_group_refs:
+                    self.setChildElementOptionalRefType(refs_element, "SUB-GROUP-REF", ref)
+            if group.getRefCalprmSet() is not None:
+                ref_calprm_set_element = ET.SubElement(child_element, "REF-CALPRM-SET")
+                self.writeMcGroupDataRefSet(ref_calprm_set_element, group.getRefCalprmSet())
+            if group.getRefMeasurementSet() is not None:
+                ref_measurement_set_element = ET.SubElement(child_element, "REF-MEASUREMENT-SET")
+                self.writeMcGroupDataRefSet(ref_measurement_set_element, group.getRefMeasurementSet())
+            mc_function_refs = group.getMcFunctionRefs()
+            if len(mc_function_refs) > 0:
+                refs_element = ET.SubElement(child_element, "MC-FUNCTION-REFS")
+                for ref in mc_function_refs:
+                    self.setChildElementOptionalRefType(refs_element, "MC-FUNCTION-REF", ref)
+
+    def writeMcGroupDataRefSet(self, element: ET.Element, data_ref_set: McGroupDataRefSet):
+        variants_element = ET.SubElement(element, "MC-GROUP-DATA-REF-SET-VARIANTS")
+        conditional_element = ET.SubElement(variants_element, "MC-GROUP-DATA-REF-SET-CONDITIONAL")
         flat_map_entry_refs = data_ref_set.getFlatMapEntryRefs()
         if len(flat_map_entry_refs) > 0:
             refs_element = ET.SubElement(conditional_element, "FLAT-MAP-ENTRY-REFS")
