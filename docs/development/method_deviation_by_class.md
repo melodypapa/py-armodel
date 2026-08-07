@@ -561,10 +561,7 @@ No deviations — all Table 9.11 attributes (`flatMapEntry`, `mcDataInstance`) a
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `rteEvent` | `RteEventInEcuInstanceRef` | — | missing |
-| — *(missing)* | `—` | `variableAccess` | `VariableAccessInEcuInstanceRef` | — | missing |
+No deviations — all Table 9.12 attributes (`rteEvent`, `variableAccess`) are implemented as `*` iref lists with parser/writer coverage (`readMcDataAccessDetails`/`writeMcDataAccessDetails`, wired into `readMcDataInstance`/`writeMcDataInstance`). The earlier placeholder implementation was a Rule 1.3 whole-class stub: the fabricated fields `accessType`/`address` appeared nowhere in the spec and were removed. The two `iref` element types were missing and were implemented first per Rule 1.10 as `RteEventInEcuInstanceRef`/`VariableAccessInEcuInstanceRef` (concrete subclasses of the existing abstract `AtpInstanceRef`), co-located in this package alongside the sibling iref `ImplementationElementInParameterInstanceRef`. Note on the iref classes: they have **no own spec table** in any rendered PDF (their inner attributes — `contextRootComposition`, `contextAtomicComponent`, `targetRteEvent`/`targetVariableAccess` — are defined only in the XSD groups `RTE-EVENT-IN-ECU-INSTANCE-REF`/`VARIABLE-ACCESS-IN-ECU-INSTANCE-REF`), so their checklists carry **no `# Spec:` line and no `# Spec verified:` marker** and every row stays `[ ]` — nothing about them is PDF-confirmed; `base` is `atpDerived` (field + accessor, no XML element).
 
 ## `RptSupportData`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 198

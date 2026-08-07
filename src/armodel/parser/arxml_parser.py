@@ -57,6 +57,8 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSu
     McSupportData,
     McSwEmulationMethodSupport,
     RoleBasedMcDataAssignment,
+    RteEventInEcuInstanceRef,
+    VariableAccessInEcuInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport import (
     McFunctionDataRefSet,
@@ -1603,6 +1605,26 @@ class ARXMLParser(AbstractARXMLParser):
         instance_in_memory.setContextRef(self.getChildElementOptionalRefType(element, "CONTEXT-REF"))
         instance_in_memory.setTargetRef(self.getChildElementOptionalRefType(element, "TARGET-REF"))
 
+    def readRteEventInEcuInstanceRef(self, element: ET.Element, iref: RteEventInEcuInstanceRef):
+        iref.setContextRootCompositionRef(self.getChildElementOptionalRefType(element, "CONTEXT-ROOT-COMPOSITION-REF"))
+        iref.setContextAtomicComponentRef(self.getChildElementOptionalRefType(element, "CONTEXT-ATOMIC-COMPONENT-REF"))
+        iref.setTargetRteEventRef(self.getChildElementOptionalRefType(element, "TARGET-RTE-EVENT-REF"))
+
+    def readVariableAccessInEcuInstanceRef(self, element: ET.Element, iref: VariableAccessInEcuInstanceRef):
+        iref.setContextRootCompositionRef(self.getChildElementOptionalRefType(element, "CONTEXT-ROOT-COMPOSITION-REF"))
+        iref.setContextAtomicComponentRef(self.getChildElementOptionalRefType(element, "CONTEXT-ATOMIC-COMPONENT-REF"))
+        iref.setTargetVariableAccessRef(self.getChildElementOptionalRefType(element, "TARGET-VARIABLE-ACCESS-REF"))
+
+    def readMcDataAccessDetails(self, element: ET.Element, details: McDataAccessDetails):
+        for child_element in self.findall(element, "RTE-EVENT-IREFS/RTE-EVENT-IREF"):
+            iref = RteEventInEcuInstanceRef()
+            self.readRteEventInEcuInstanceRef(child_element, iref)
+            details.addRteEventIRef(iref)
+        for child_element in self.findall(element, "VARIABLE-ACCESS-IREFS/VARIABLE-ACCESS-IREF"):
+            iref = VariableAccessInEcuInstanceRef()
+            self.readVariableAccessInEcuInstanceRef(child_element, iref)
+            details.addVariableAccessIRef(iref)
+
     def readMcDataInstance(self, element: ET.Element, instance: McDataInstance):
         instance.setArraySize(self.getChildElementOptionalPositiveInteger(element, "ARRAY-SIZE"))
         instance.setDisplayIdentifier(self.getChildElementOptionalLiteral(element, "DISPLAY-IDENTIFIER"))
@@ -1614,8 +1636,11 @@ class ARXMLParser(AbstractARXMLParser):
             instance.setInstanceInMemory(instance_in_memory)
         instance.setRole(self.getChildElementOptionalLiteral(element, "ROLE"))
         instance.setSymbol(self.getChildElementOptionalLiteral(element, "SYMBOL"))
-        if self.find(element, "MC-DATA-ACCESS-DETAILS") is not None:
-            instance.setMcDataAccessDetails(McDataAccessDetails())
+        mc_data_access_details_element = self.find(element, "MC-DATA-ACCESS-DETAILS")
+        if mc_data_access_details_element is not None:
+            details = McDataAccessDetails()
+            self.readMcDataAccessDetails(mc_data_access_details_element, details)
+            instance.setMcDataAccessDetails(details)
         if self.find(element, "RESULTING-PROPERTIES") is not None:
             instance.setResultingProperties(SwDataDefProps())
         rpt_sw_prototyping_access_element = self.find(element, "RESULTING-RPT-SW-PROTOTYPING-ACCESS")

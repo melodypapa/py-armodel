@@ -229,6 +229,13 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       missing. A pre-rules checklist whose rows are all `[ ]` is the same
       signal. Conversely, do not read a fully-`[x]` checklist as evidence of
       field correctness — the checklist is method-only (Rule 2).
+      **Exception — a class with no own spec table is a false positive for
+      this detector.** A class whose attributes are XSD-only, with no rendered
+      PDF table of its own (Rule 1.5, e.g. a concrete `<name>InstanceRef`),
+      legitimately has **no** `# Spec:` line, **no** `# Spec verified:`
+      marker, and **all-`[ ]`** rows by rule, not by neglect — exclude classes
+      whose deviation tracker row records "no own spec table; attributes from
+      XSD group `…`" before applying this detector.
 - [ ] **PDF-table omission vs. fabricated API.** An attribute that is absent
       from the class's PDF `Attribute` column but **present in the XSD with a
       real documentation block** (no `atp.Status="removed"`) is *not*
@@ -320,15 +327,41 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       `<name>InstanceRef` classes (same abstract parent, same
       base/context/target inner-attribute shape), and give them parser/writer
       coverage. Rule 1.10 applies to **every** referenced class, of which
-      `<name>InstanceRef` types are one case. Only when the iref's model is
-      genuinely out of scope is a `RefType` placeholder allowed; it must then
-      forward-reference the not-yet-defined instance ref class in the inline
-      comment and in the getter/setter docstrings, and be recorded in
-      `docs/method_deviation_by_class.md` as "instance ref class not yet
-      implemented". When the class is implemented, switch the field/getter/
-      setter annotation to the concrete `<name>InstanceRef` type (with a
-      `TYPE_CHECKING` import if needed to avoid cycles) and clear the
-      deviation.
+      `<name>InstanceRef` types are one case.
+      **A class may have no own spec table.** Some classes never get a
+      rendered PDF table of their own; their attributes are defined **only**
+      in XSD groups. The most common case is a concrete `<name>InstanceRef`
+      subclass of the abstract `AtpInstanceRef` (e.g. `RteEventInEcuInstanceRef`
+      and `VariableAccessInEcuInstanceRef`, used by
+      `McDataAccessDetails.rteEvent`/`variableAccess`), whose inner attributes
+      live only in the XSD group (`CONTEXT-ROOT-COMPOSITION-REF`/
+      `CONTEXT-ATOMIC-COMPONENT-REF`/`TARGET-…-REF`, sequence offsets 20/30/40),
+      but the rule applies to **any** class whose definition cannot be read
+      from a PDF table. Rule 1.10's "implement it first" still applies — do
+      not defer to a placeholder — but the implementation is XSD-driven rather
+      than table-driven: inherit the abstract parent the XSD `Base`/type names
+      (e.g. `AtpInstanceRef`, whose own `atpBase`/`atpContextElement`/
+      `atpTarget` are `atpDerived`) and model the concrete inner refs as
+      `Optional[RefType]` fields with the plain `Ref` suffix. **Because there
+      is no own spec table, the checklist cannot be confirmed: the class
+      carries no `# Spec:` line and no `# Spec verified:` marker, and every
+      row stays `[ ]` — impl, docstring, and test all unchecked.** Nothing
+      about a class with XSD-only attributes is confirmed against a PDF table,
+      so citing the **introducing aggregator's** table (e.g.
+      `McDataAccessDetails` Table 9.12) in the `# Spec:` line would falsely
+      claim a PDF provenance the class does not have; do **not** set it.
+      Record "no own spec table; attributes from XSD group `…`" in the
+      deviation tracker. The `[ ]` rows are a *provenance* statement
+      (unverified against PDF), not a claim that the implementation is absent
+      — the methods are implemented and tested, but they are deliberately not
+      marked `[x]` until a PDF table exists to confirm them against. Only when
+      the class's model is genuinely out of scope is a placeholder allowed; it
+      must then forward-reference the real class in the inline comment and in
+      the getter/setter docstrings, and be recorded in
+      `docs/method_deviation_by_class.md` as "class not yet implemented". When
+      the class is implemented, switch the field/getter/setter annotation to
+      the concrete type (with a `TYPE_CHECKING` import if needed to avoid
+      cycles) and clear the deviation.
 - [ ] Within a `<name>InstanceRef` class itself, its *inner* attributes are
       ordinary Kind `ref` rows (the sub-elements of the instance ref) and
       therefore map to `Optional[RefType]` with the plain `Ref` suffix — do
@@ -512,6 +545,14 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       base plus `-REF` (`MEASURABLE-SYSTEM-CONSTANT-VALUES-REFS/MEASURABLE-SYSTEM-CONSTANT-VALUES-REF`).
       Read the item tag from the XSD `choice`/element declaration — do not
       derive it from the attribute name or the type name by rule of thumb.
+      An **iref** wrapper follows the same container pattern: the wrapper is
+      `<BASE>-IREFS` and each item is `<BASE>-IREF` — the item tag is the
+      attribute base plus `-IREF`, **not** the `<name>InstanceRef` type name
+      (e.g. `McDataAccessDetails.rteEvent` `*` → `<RTE-EVENT-IREFS>/<RTE-EVENT-IREF>`,
+      where the item's XSD type is `RTE-EVENT-IN-ECU-INSTANCE-REF`). Each item
+      is a concrete `<name>InstanceRef` object whose inner refs are read/written
+      **directly under the item element** (flat, no nested wrapper), via a
+      per-iref `readXxx`/`writeXxx` pair wired into the iref-list loop.
       Parser: iterate `self.findall(element, "WRAPPER/ITEM")` and build each
       item object via the aggregator's `addXxx`/`createXxx`. Writer: create
       the wrapper only when the list is non-empty and emit one item element
@@ -636,6 +677,16 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       follow-up. This keeps the pass self-contained: aligning a parent whose
       child is a stub otherwise immediately re-opens as the Rule 1.7
       identity-only debt above.
+      **Exception — a class with no own spec table is not a stub.** A
+      referenced class whose attributes are XSD-only, with no rendered PDF
+      table of its own (Rule 1.5, e.g. a concrete `<name>InstanceRef`),
+      legitimately has **no** `# Spec:` line and **no** `# Spec verified:`
+      marker — that absence does **not** mean it is unaligned. Only the
+      missing markers of a class that *should* have a spec table (its
+      attributes are PDF-defined) signal a stub. Before flagging a referenced
+      class, check its deviation tracker row for "no own spec table;
+      attributes from XSD group `…`" (mirroring the Rule 1.3 detector
+      exclusion).
 - [ ] A missing **primitive** has its own spec table in the AUTOSAR markdown,
       formatted `Primitive <Name>` (e.g. Table 4.15 `CseCodeType`), **not** a
       `Class`/`Enumeration` table — verify the referenced type's actual kind
@@ -1304,12 +1355,21 @@ must no-op on `None`).
 
 **Maturity**: accept
 
-A comment block at the top of the class lists every method with three columns:
-`impl`, `docstring`, `test`. Each column must be marked `[x]`. The first line
+A comment block at the top of the class lists every method with three
+columns: `impl`, `docstring`, `test`. Each column must be marked `[x]`. The first line
 after the checklist title must cite the AUTOSAR PDF spec table the class is
 aligned against: `# Spec: <PDF file>.pdf, Table <X.Y>, p.<page>` (page from
 the PDF itself). This makes Rule 1 traceable — every later check refers back
 to the spec source named in the class comment.
+**Exception — a class with no own spec table carries no `# Spec:` line.**
+When a class cannot be read from a PDF table — its attributes are defined
+only in an XSD group, with no rendered table of its own (Rule 1.5, e.g. a
+concrete `<name>InstanceRef` such as `RteEventInEcuInstanceRef`/
+`VariableAccessInEcuInstanceRef`) — there is no PDF table to cite: do **not**
+substitute the introducing aggregator's table, because that table does not
+define the class. Such a class's checklist begins with the rows directly (no
+`# Spec:` line), every row stays `[ ]`, and the deviation tracker records
+"no own spec table; attributes from XSD group `…`".
 
 ```python
 # ClassName method parity checklist:
@@ -1337,6 +1397,15 @@ Check:
       accessors were tested via a concrete subclass, but the rows stayed
       `[ ]`). Grep the class body for `# [ ]` during every review — the
       set-based script alone does not flag them.
+      **Exception — a class with no own spec table intentionally keeps every
+      row `[ ]`.** For a class whose attributes are XSD-only, with no rendered
+      PDF table of its own (Rule 1.5, e.g. a concrete `<name>InstanceRef`),
+      all-`[ ]` rows are the **correct** state even though the methods are
+      implemented, docstringed, and tested — the rows are a *provenance*
+      statement (unverified against PDF), not a claim the work is undone. Do
+      **not** cross them, and do **not** let the "grep for `# [ ]`" /
+      "stale `[ ]`" checks fire on such a class; both apply only to classes
+      with a spec table to confirm rows against.
 - [ ] A row is crossed (`[x]`) **only** when all three of its obligations are
       complete and verified — the implementation, the docstring, and the unit
       test. A method that is implemented but whose docstring or test is not
@@ -1727,8 +1796,12 @@ assert checklist == methods, f"checklist mismatch: {checklist ^ methods}"
 untested = [m for m in methods if m != "__init__" and m not in test_src]
 assert not untested, f"methods without test coverage: {untested}"
 # Rule 13.1: the class must carry the spec-version marker (a fully-[x]
-# checklist can still miss it, so check it explicitly)
-assert re.search(r"# Spec verified: R\d\d-\d\d", src), "missing # Spec verified marker (Rule 13.1)"
+# checklist can still miss it, so check it explicitly). Only a class with
+# an own spec table carries the marker — a class with no own table (Rule
+# 1.5) has no `# Spec:` line, no marker, and all-`[ ]` rows, so the assert
+# is conditioned on the `# Spec:` line being present.
+if "# Spec:" in src:
+    assert re.search(r"# Spec verified: R\d\d-\d\d", src), "missing # Spec verified marker (Rule 13.1)"
 ```
 
 ---
@@ -1764,6 +1837,14 @@ defines how to detect and prevent that drift.
       marker — the Rule 2/7 set-based script does not check for it, so extend
       that script with an explicit `assert re.search(r"# Spec verified:
       R\d\d-\d\d", src)` (see Rule 7) to catch it mechanically.
+- [ ] **Exception — a class with no own spec table carries no marker.** When a
+      class cannot be read from a PDF table — its attributes are defined only
+      in an XSD group, with no rendered table of its own (Rule 1.5, e.g. a
+      concrete `<name>InstanceRef`) — there is no PDF `Note` to verify
+      docstrings against, so it gets **no** `# Spec verified:` marker and its
+      checklist rows stay `[ ]`. Rule 13.1's marker requirement (and the Rule
+      7 assert that checks for it) applies only to classes that have a spec
+      table to be verified against.
 
 ### 13.2 Drift Detection on AUTOSAR Upgrade
 
@@ -1832,6 +1913,9 @@ When aligning a class to the rules for the first time:
       ```
       This signals to future developers that docstrings were aligned to a
       specific AUTOSAR release and may need review if the spec version changes.
+      **Skip this for a class with no own spec table** (Rule 1.5): it has no
+      PDF `Note` to align against, so it carries no `# Spec verified:` marker
+      and its rows stay `[ ]` (see the Rule 13.1 exception).
 
 ### 13.4 Rationale
 

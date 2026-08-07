@@ -50,12 +50,15 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantSpecifica
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification, ValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.McGroups import McGroup, McGroupDataRefSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import (
+    McDataAccessDetails,
     McDataInstance,
     McFunction,
     McParameterElementGroup,
     McSupportData,
     McSwEmulationMethodSupport,
     RoleBasedMcDataAssignment,
+    RteEventInEcuInstanceRef,
+    VariableAccessInEcuInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport import (
     McFunctionDataRefSet,
@@ -2299,6 +2302,28 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(element, "RAM-LOCATION-REF", group.getRamLocationRef())
         self.setChildElementOptionalRefType(element, "ROM-LOCATION-REF", group.getRomLocationRef())
 
+    def writeRteEventInEcuInstanceRef(self, element: ET.Element, iref: RteEventInEcuInstanceRef):
+        self.setChildElementOptionalRefType(element, "CONTEXT-ROOT-COMPOSITION-REF", iref.getContextRootCompositionRef())
+        self.setChildElementOptionalRefType(element, "CONTEXT-ATOMIC-COMPONENT-REF", iref.getContextAtomicComponentRef())
+        self.setChildElementOptionalRefType(element, "TARGET-RTE-EVENT-REF", iref.getTargetRteEventRef())
+
+    def writeVariableAccessInEcuInstanceRef(self, element: ET.Element, iref: VariableAccessInEcuInstanceRef):
+        self.setChildElementOptionalRefType(element, "CONTEXT-ROOT-COMPOSITION-REF", iref.getContextRootCompositionRef())
+        self.setChildElementOptionalRefType(element, "CONTEXT-ATOMIC-COMPONENT-REF", iref.getContextAtomicComponentRef())
+        self.setChildElementOptionalRefType(element, "TARGET-VARIABLE-ACCESS-REF", iref.getTargetVariableAccessRef())
+
+    def writeMcDataAccessDetails(self, element: ET.Element, details: McDataAccessDetails):
+        rte_event_irefs = details.getRteEventIRefs()
+        if len(rte_event_irefs) > 0:
+            rte_event_irefs_element = ET.SubElement(element, "RTE-EVENT-IREFS")
+            for iref in rte_event_irefs:
+                self.writeRteEventInEcuInstanceRef(ET.SubElement(rte_event_irefs_element, "RTE-EVENT-IREF"), iref)
+        variable_access_irefs = details.getVariableAccessIRefs()
+        if len(variable_access_irefs) > 0:
+            variable_access_irefs_element = ET.SubElement(element, "VARIABLE-ACCESS-IREFS")
+            for iref in variable_access_irefs:
+                self.writeVariableAccessInEcuInstanceRef(ET.SubElement(variable_access_irefs_element, "VARIABLE-ACCESS-IREF"), iref)
+
     def writeMcDataInstance(self, element: ET.Element, instance: McDataInstance):
         self.writeIdentifiable(element, instance)
         self.setChildElementOptionalPositiveInteger(element, "ARRAY-SIZE", instance.getArraySize())
@@ -2310,7 +2335,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(instance_in_memory_element, "CONTEXT-REF", instance_in_memory.getContextRef())
             self.setChildElementOptionalRefType(instance_in_memory_element, "TARGET-REF", instance_in_memory.getTargetRef())
         if instance.getMcDataAccessDetails() is not None:
-            ET.SubElement(element, "MC-DATA-ACCESS-DETAILS")
+            self.writeMcDataAccessDetails(ET.SubElement(element, "MC-DATA-ACCESS-DETAILS"), instance.getMcDataAccessDetails())
         mc_data_assignments = instance.getMcDataAssignments()
         if len(mc_data_assignments) > 0:
             assignments_element = ET.SubElement(element, "MC-DATA-ASSIGNMENTS")
