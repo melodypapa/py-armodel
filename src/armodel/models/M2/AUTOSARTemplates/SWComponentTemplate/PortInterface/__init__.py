@@ -485,12 +485,18 @@ class ClientServerInterface(PortInterface):
     # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] createOperation              [x] impl  [x] docstring  [x] test
-    # [x] createApplicationError       [x] impl  [x] docstring  [x] test
     # [x] getOperations                [x] impl  [x] docstring  [x] test
+    # [x] createApplicationError       [x] impl  [x] docstring  [x] test
     # [x] getPossibleErrors            [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
+        # ClientServerOperation(s) of this ClientServerInterface.
+        self.operations: List[ClientServerOperation] = []
+
+        # Application errors that are defined as part of this interface.
+        self.possibleErrors: List[ApplicationError] = []
 
     def createOperation(self, short_name: str) -> ClientServerOperation:
         """
@@ -506,7 +512,17 @@ class ClientServerInterface(PortInterface):
         if not self.IsElementExists(short_name):
             operation = ClientServerOperation(self, short_name)
             self.addElement(operation)
+            self.operations.append(operation)
         return self.getElement(short_name, ClientServerOperation)
+
+    def getOperations(self) -> List[ClientServerOperation]:
+        """
+        Gets the ClientServerOperation(s) of this ClientServerInterface.
+
+        Returns:
+            The list of ClientServerOperation instances
+        """
+        return self.operations
 
     def createApplicationError(self, short_name: str) -> ApplicationError:
         """
@@ -522,16 +538,8 @@ class ClientServerInterface(PortInterface):
         if not self.IsElementExists(short_name):
             error = ApplicationError(self, short_name)
             self.addElement(error)
+            self.possibleErrors.append(error)
         return self.getElement(short_name, ApplicationError)
-
-    def getOperations(self) -> List[ClientServerOperation]:
-        """
-        Gets the ClientServerOperation(s) of this ClientServerInterface.
-
-        Returns:
-            The list of ClientServerOperation instances
-        """
-        return list(filter(lambda c: isinstance(c, ClientServerOperation), self.elements))
 
     def getPossibleErrors(self) -> List[ApplicationError]:
         """
@@ -540,7 +548,7 @@ class ClientServerInterface(PortInterface):
         Returns:
             The list of ApplicationError instances
         """
-        return list(filter(lambda c: isinstance(c, ApplicationError), self.elements))
+        return self.possibleErrors
 
 
 class TriggerInterface(PortInterface):

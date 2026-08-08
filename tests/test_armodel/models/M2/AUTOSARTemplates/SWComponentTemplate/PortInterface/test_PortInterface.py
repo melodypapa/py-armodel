@@ -162,6 +162,8 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
         assert isinstance(cs_if, MultilanguageReferrable)
         assert isinstance(cs_if, PortInterface)
         assert isinstance(cs_if, Referrable)
+        assert cs_if.getOperations() == []
+        assert cs_if.getPossibleErrors() == []
 
         element = cs_if.createOperation("operation")
         assert isinstance(element, ClientServerOperation)

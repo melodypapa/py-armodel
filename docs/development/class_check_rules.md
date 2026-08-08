@@ -1132,13 +1132,36 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       the subtype name and use *its* table for the `# Spec:` citation, the
       member order, and the attribute set. A subtype's own attributes are
       invisible if you only read the family's parent table.
-- [ ] Within one attribute, the accessor pair order is `getXxx` then
-      `setXxx` (or `addXxx`/`getXxxs` for list attributes) — getter before
-      setter for each attribute, mirroring the sibling classes that are already
-      aligned (e.g. `Compiler` lists `getName`/`setName`, `getOptions`/
-      `setOptions`, ...). The getter-first pairing is uniform across aligned
-      classes; only the *attribute* sequence varies, and that sequence comes
-      from the PDF.
+- [ ] **Group accessors per attribute, in spec row order** — the accessor
+      pair(s) of one attribute are contiguous, immediately followed by the
+      next attribute's pair(s), and the checklist rows (Rule 2) follow that
+      same sequence. A class whose accessors are grouped by *method kind*
+      instead (all `create*`/`add*` factories together, then all `get*`
+      getters together) violates this even when every method is present and
+      the checklist is complete — e.g. `ClientServerInterface` (PDF order
+      `operation`, `possibleError`) must read `createOperation`,
+      `getOperations`, `createApplicationError`, `getPossibleErrors`, **not**
+      `createOperation`, `createApplicationError`, `getOperations`,
+      `getPossibleErrors`. The grouped-by-method-kind shape is easy to miss
+      because the set-based check (Rule 2/7) is order-blind, so verify the
+      *source order* of methods against the spec rows explicitly.
+      Within one attribute the pair order depends on the accessor kind:
+      1. **Scalar pair** (`getXxx`/`setXxx`): **getter first** —
+         `getName`/`setName`, `getOptions`/`setOptions` (the `Compiler`
+         precedent).
+      2. **List/aggregated pair** (`addXxx`/`getXxxs` or
+         `createXxx`/`getXxxs`): **mutator first** —
+         `addEmulationSupport`/`getEmulationSupports`,
+         `createMcParameterInstance`/`getMcParameterInstances`
+         (`McSupportData`), `createOperation`/`getOperations`
+         (`ClientServerInterface`). The "getter before setter" rule for the
+         scalar shape applies *only* to `getXxx`/`setXxx`; do **not** read it
+         as requiring `getOperations` before `createOperation` (that would
+         contradict the aligned `addXxx`/`getXxxs` convention, which always
+         writes the mutator that *builds* the element before the getter that
+         *reads* the resulting list).
+      Only the *attribute* sequence varies, and that sequence comes from the
+      PDF.
 
 Verification: cross-check each attribute (name, multiplicity, **type**)
 against the PDF table and the corresponding XSD in
