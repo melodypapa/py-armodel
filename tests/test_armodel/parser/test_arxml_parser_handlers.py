@@ -504,6 +504,114 @@ class TestDataTypeAndValueSpecHandlers:
         assert parser.getChildValueSpecification(element, "INIT-VALUE") is None
 
 
+# ==================== RuleBasedValueSpecification family ====================
+
+
+class TestRuleBasedValueSpecHandlers:
+    """Exercise getApplicationRuleBasedValueSpecification and its inner
+    readers (getRuleBasedAxisCont, getRuleBasedValueCont,
+    getRuleBasedValueSpecification, getRuleArguments, getNumericalOrText)."""
+
+    def test_getNumericalOrText(self, parser):
+        element = _snip("<VF>1.5</VF><VT>label</VT>", root_tag="VTF")
+        not_text = parser.getNumericalOrText(element)
+        assert not_text is not None
+        assert not_text.getNumericalValue().getValue() == 1.5
+        assert not_text.getTextValue().getValue() == "label"
+
+    def test_getRuleArguments_full(self, parser):
+        element = _snip(
+            "<V>1</V><V>2</V>" "<VT>label</VT>" "<VTF><VF>1.5</VF><VT>alt</VT></VTF>",
+            root_tag="RULE-ARGUMENTS",
+        )
+        arguments = parser.getRuleArguments(element)
+        assert arguments is not None
+        assert len(arguments.getVs()) == 2
+        assert arguments.getVt().getValue() == "label"
+        assert len(arguments.getVtfs()) == 1
+
+    def test_getRuleBasedValueSpecification_full(self, parser):
+        element = _snip(
+            "<RULE>FILL_UNTIL_END</RULE>" "<ARGUMENTSS><RULE-ARGUMENTS><V>1</V></RULE-ARGUMENTS></ARGUMENTSS>" "<MAX-SIZE-TO-FILL>8</MAX-SIZE-TO-FILL>",
+            root_tag="RULE-BASED-VALUES",
+        )
+        value_spec = parser.getRuleBasedValueSpecification(element)
+        assert value_spec is not None
+        assert value_spec.getRule().getValue() == "FILL_UNTIL_END"
+        assert len(value_spec.getArguments()) == 1
+        assert value_spec.getMaxSizeToFill() is not None
+        assert float(value_spec.getMaxSizeToFill().getValue()) == 8.0
+
+    def test_getRuleBasedValueSpecification_missing_returns_None(self, parser):
+        element = _snip("<X/>")
+        assert parser.getRuleBasedValueSpecification(None) is None
+
+    def test_getRuleBasedAxisCont_full(self, parser):
+        element = _snip(
+            "<CATEGORY>STD_AXIS</CATEGORY>"
+            "<UNIT-REF DEST='UNIT'>/p/u</UNIT-REF>"
+            "<SW-ARRAYSIZE><V>3</V></SW-ARRAYSIZE>"
+            "<SW-AXIS-INDEX>1</SW-AXIS-INDEX>"
+            "<RULE-BASED-VALUES><RULE>FILL_UNTIL_END</RULE></RULE-BASED-VALUES>",
+            root_tag="RULE-BASED-AXIS-CONT",
+        )
+        cont = parser.getRuleBasedAxisCont(element)
+        assert cont is not None
+        assert cont.getCategory().getValue() == "STD_AXIS"
+        assert cont.getUnitRef().getValue() == "/p/u"
+        assert cont.getSwArraysize() is not None
+        assert cont.getSwAxisIndex().getValue() == "1"
+        assert cont.getRuleBasedValues() is not None
+
+    def test_getRuleBasedValueCont_full(self, parser):
+        element = _snip(
+            "<SW-VALUE-CONT>" "<UNIT-REF DEST='UNIT'>/p/u</UNIT-REF>" "<SW-ARRAYSIZE><V>10</V></SW-ARRAYSIZE>" "<RULE-BASED-VALUES><RULE>FILL_UNTIL_END</RULE></RULE-BASED-VALUES>" "</SW-VALUE-CONT>",
+            root_tag="PARENT",
+        )
+        cont = parser.getRuleBasedValueCont(element)
+        assert cont is not None
+        assert cont.getUnitRef().getValue() == "/p/u"
+        assert cont.getSwArraysize() is not None
+        assert cont.getRuleBasedValues() is not None
+
+    def test_getRuleBasedValueCont_missing_returns_None(self, parser):
+        element = _snip("<X/>")
+        assert parser.getRuleBasedValueCont(element) is None
+
+    def test_getApplicationRuleBasedValueSpecification_full(self, parser):
+        from armodel.models import ApplicationRuleBasedValueSpecification
+
+        element = _snip(
+            "<CATEGORY>ARRAY</CATEGORY>"
+            "<SW-AXIS-CONTS>"
+            "<RULE-BASED-AXIS-CONT>"
+            "<CATEGORY>STD_AXIS</CATEGORY>"
+            "<RULE-BASED-VALUES><RULE>FILL_UNTIL_END</RULE></RULE-BASED-VALUES>"
+            "</RULE-BASED-AXIS-CONT>"
+            "</SW-AXIS-CONTS>"
+            "<SW-VALUE-CONT>"
+            "<RULE-BASED-VALUES><RULE>FILL_UNTIL_END</RULE></RULE-BASED-VALUES>"
+            "</SW-VALUE-CONT>",
+            root_tag="APPLICATION-RULE-BASED-VALUE-SPECIFICATION",
+        )
+        value_spec = parser.getApplicationRuleBasedValueSpecification(element)
+        assert isinstance(value_spec, ApplicationRuleBasedValueSpecification)
+        assert value_spec.getCategory().getValue() == "ARRAY"
+        assert len(value_spec.getSwAxisConts()) == 1
+        assert value_spec.getSwAxisConts()[0].getCategory().getValue() == "STD_AXIS"
+        assert value_spec.getSwValueCont() is not None
+
+    def test_getValueSpecification_dispatch_application_rule_based(self, parser):
+        element = _snip(
+            "<CATEGORY>ARRAY</CATEGORY>",
+            root_tag="APPLICATION-RULE-BASED-VALUE-SPECIFICATION",
+        )
+        value_spec = parser.getValueSpecification(element, "APPLICATION-RULE-BASED-VALUE-SPECIFICATION")
+        from armodel.models import ApplicationRuleBasedValueSpecification
+
+        assert isinstance(value_spec, ApplicationRuleBasedValueSpecification)
+
+
 # ==================== Group B: SwComponentType & Connectors ====================
 
 

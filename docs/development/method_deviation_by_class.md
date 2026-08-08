@@ -783,8 +783,7 @@ removed upstream between 4.4.0 and R23-11, so it is treated like an
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `swAxisCont` | `RuleBasedAxisCont` | — | missing |
-| — *(missing)* | `—` | `swValueCont` | `RuleBasedValueCont` | — | missing |
+| — | — | — | — | — | No deviations — Table D.6 attributes (`category` via `getCategory`/`setCategory`, `swAxisCont` `*` via plural `swAxisConts`/`addSwAxisCont`/`getSwAxisConts`, `swValueCont` 0..1 via guarded `getSwValueCont`/`setSwValueCont`) all implemented per Rule 1.4. |
 
 ## `ArgumentDataPrototype`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 303
@@ -929,10 +928,10 @@ removed upstream between 4.4.0 and R23-11, so it is treated like an
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `v` | `NumericalValue` | — | missing |
+| `vs` (`addV`) | `List[ARNumerical]` | `v` | `NumericalValue` | — | implemented |
+| `vt` | `VerbatimString` | `vt` | `VerbatimString` | — | implemented |
+| `vtfs` (`addVtf`) | `List[NumericalOrText]` | `vtf` | `NumericalOrText` | — | implemented (spec many vs py list) |
 | — *(missing)* | `—` | `vf` | `NumericalValueVariationPoint` | — | missing |
-| — *(missing)* | `—` | `vt` | `VerbatimString` | — | missing |
-| — *(missing)* | `—` | `vtf` | `NumericalOrText` | — | missing |
 
 ## `RuleBasedValueCont`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 330
@@ -941,9 +940,7 @@ removed upstream between 4.4.0 and R23-11, so it is treated like an
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `ruleBasedValues` | `RuleBasedValueSpecification` | — | missing |
-| — *(missing)* | `—` | `swArraysize` | `ValueList` | — | missing |
-| — *(missing)* | `—` | `unitRef` | `Ref (Unit)` | Ref | missing |
+| — | — | — | — | — | No deviations — Table D.58 attributes (`ruleBasedValues` 0..1 via `getRuleBasedValues`/`setRuleBasedValues`, `swArraysize` 0..1 via `getSwArraysize`/`setSwArraysize`, `unit` Ref via `getUnitRef`/`setUnitRef`) all implemented per Rule 1.4. |
 
 ## `RuleBasedValueSpecification`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 331
@@ -952,8 +949,9 @@ removed upstream between 4.4.0 and R23-11, so it is treated like an
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `arguments` | `RuleArguments` | — | missing |
-| — *(missing)* | `—` | `maxSizeToFill` | `Integer` | — | missing |
+| `arguments` (`addArgument`) | `List[RuleArguments]` | `arguments` | `RuleArguments` | — | implemented (spec many vs py list) |
+| `maxSizeToFill` | `Integer` | `maxSizeToFill` | `Integer` | — | implemented |
+| `rule` | `Identifier` | `rule` | `Identifier` | — | implemented |
 
 ## `RunnableEntity`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 331
@@ -1718,11 +1716,7 @@ Aligned to `class_check_rules.md` on 2026-08-07. PDF-synced (Rule 1):
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `category` | `CalprmAxisCategoryEnum` | — | missing |
-| — *(missing)* | `—` | `ruleBasedValues` | `RuleBasedValueSpecification` | — | missing |
-| — *(missing)* | `—` | `swArraysize` | `ValueList` | — | missing |
-| — *(missing)* | `—` | `swAxisIndex` | `AxisIndexType` | — | missing |
-| — *(missing)* | `—` | `unitRef` | `Ref (Unit)` | Ref | missing |
+| — | — | — | — | — | No deviations — Table 5.130 attributes (`category` via `getCategory`/`setCategory`, `unit` Ref via `getUnitRef`/`setUnitRef`, `swArraysize` via `getSwArraysize`/`setSwArraysize`, `swAxisIndex` via `getSwAxisIndex`/`setSwAxisIndex`, `ruleBasedValues` via `getRuleBasedValues`/`setRuleBasedValues`) all implemented per Rule 1.4. |
 
 ## `NumericalRuleBasedValueSpecification`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 467
