@@ -12,6 +12,8 @@ To support AUTOSAR model with python
 |--|--|--|--|--|
 |[![GitHub version](https://badge.fury.io/gh/melodypapa%2Fpy-armodel.svg)](https://badge.fury.io/gh/melodypapa%2Fpy-armodel)|[![Documentation Status](https://readthedocs.org/projects/py-armodel/badge/?version=latest)](https://py-armodel.readthedocs.io/en/latest)|[![](https://www.travis-ci.com/melodypapa/py-armodel.svg?branch=main)](https://www.travis-ci.com/melodypapa/py-armodel)|[![Coverage Status](https://coveralls.io/repos/github/melodypapa/py-armodel/badge.svg?branch=main)](https://coveralls.io/github/melodypapa/py-armodel?branch=main)|[![PyPI version](https://badge.fury.io/py/armodel.svg)](https://badge.fury.io/py/armodel)|
 
+Full documentation: https://py-armodel.readthedocs.io/en/latest/
+
 ## 1.3. How to create the distribution and upload to pypi
 1. Run `python -m build` to generate distribution (requires `pip install build`)
 2. Run `twine check dist/*` to check the validation of distribution
