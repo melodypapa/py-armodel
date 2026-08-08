@@ -308,6 +308,22 @@ $connector-update src/armodel/tests/test_files/SoftwareComponents.arxml data/Sof
 
 ## 1.12. Change notes:
 
+**Version 1.9.3**
+
+* Added parse/write support for `NvDataInterface` (PR #485)
+* Added `--unescape-entities` parameter to `arxml-format` CLI to normalize `&quot;` / `&apos;` entities in attribute values (PR #495)
+* Bumped project version metadata to 1.9.3
+
+**Version 1.9.2**
+
+* Added parse/write support for `PREDEFINED-VARIANT` and related reference lists under variant handling (PR #481)
+* Added `PredefinedVariant` model reference and suffix APIs
+
+**Version 1.9.1**
+
+* Added `SW-SYSTEMCONSTANT-VALUE-SET` ARXML input/output support (PR #479)
+* Added `ARPackage` APIs and tests for system constant value sets
+
 **Version 1.9.0**
 
 1. **Testing Infrastructure**
