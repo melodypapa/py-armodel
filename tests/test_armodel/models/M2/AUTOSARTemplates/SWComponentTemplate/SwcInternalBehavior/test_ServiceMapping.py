@@ -7,19 +7,14 @@ import os
 import tempfile
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedPortAssignment, SwcServiceDependency
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
-    DiagnosticEnableConditionNeeds,
     DiagnosticIndicatorTypeEnum,
-    DiagnosticOperationCycleNeeds,
-    DiagnosticStorageConditionNeeds,
     EventAcceptanceStatusEnum,
-    FunctionInhibitionAvailabilityNeeds,
-    IndicatorStatusNeeds,
     OperationCycleTypeEnum,
     StorageConditionStatusEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedPortAssignment, SwcServiceDependency
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
