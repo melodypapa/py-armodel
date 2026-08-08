@@ -5,14 +5,19 @@ for initializing data objects in AUTOSAR models, including various forms like
 numerical, text, array, record, and application-specific value specifications.
 """
 
+from __future__ import annotations
+
 from abc import ABC
-from typing import List
+from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
     AREnum as AREnum,
+    Identifier,
+    Integer,
+    VerbatimString,
 )
 
 
@@ -88,7 +93,22 @@ class CompositeValueSpecification(ValueSpecification, ABC):
         super().__init__()
 
 
-class CompositeRuleBasedValueArgument(ARObject, ABC):
+class AbstractRuleBasedValueSpecification(ValueSpecification, ABC):
+    """
+    Abstract base class for rule-based value specifications.
+    This class serves as the base for specifications that use rules to determine values.
+    """
+
+    # AbstractRuleBasedValueSpecification method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
+    def __init__(self):
+        if type(self) is AbstractRuleBasedValueSpecification:
+            raise TypeError("AbstractRuleBasedValueSpecification is an abstract class.")
+        super().__init__()
+
+
+class CompositeRuleBasedValueArgument(AbstractRuleBasedValueSpecification):
     """
     Abstract base class for value specifications that can be used for compound primitive data types.
     This class serves as the base for specialized value specifications that handle complex data types.
@@ -96,7 +116,7 @@ class CompositeRuleBasedValueArgument(ARObject, ABC):
     """
 
     # CompositeRuleBasedValueArgument method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
     def __init__(self):
         """
@@ -497,40 +517,108 @@ class ConstantReference(ValueSpecification):
         return self
 
 
-class AbstractRuleBasedValueSpecification(ValueSpecification, ABC):
-    """
-    Abstract base class for rule-based value specifications.
-    This class serves as the base for specifications that use rules to determine values.
-    """
-
-    # AbstractRuleBasedValueSpecification method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self):
-        if type(self) is AbstractRuleBasedValueSpecification:
-            raise TypeError("AbstractRuleBasedValueSpecification is an abstract class.")
-        super().__init__()
-
-
 class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
     """
-    Represents application-specific rule-based value specifications.
+    This meta-class represents rule based values for DataPrototypes typed by
+    ApplicationDataTypes (ApplicationArrayDataType or a compound
+    ApplicationPrimitiveDataType which also boils down to an array-nature).
+    Base classes: ARObject, ValueSpecification, AbstractRuleBasedValueSpecification, CompositeRuleBasedValueArgument
     """
 
     # ApplicationRuleBasedValueSpecification method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCategory                  [x] impl  [ ] docstring  [ ] test
-    # [ ] setCategory                  [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.6, p.303
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getCategory                  [x] impl  [x] docstring  [x] test
+    # [x] setCategory                  [x] impl  [x] docstring  [x] test
+    # [x] addSwAxisCont                [x] impl  [x] docstring  [x] test
+    # [x] getSwAxisConts               [x] impl  [x] docstring  [x] test
+    # [x] getSwValueCont               [x] impl  [x] docstring  [x] test
+    # [x] setSwValueCont               [x] impl  [x] docstring  [x] test
 
     def __init__(self):
+        """
+        Initializes an ApplicationRuleBasedValueSpecification instance with default values.
+        """
         super().__init__()
-        self.category = None
 
-    def getCategory(self):
+        # The category of this rule-based value specification.
+        self.category: Optional[Identifier] = None
+        # The axis values of a compound primitive data type (curve or map).
+        self.swAxisConts: List[RuleBasedAxisCont] = []
+        # The values of an array or compound primitive data type.
+        self.swValueCont: Optional[RuleBasedValueCont] = None
+
+    def getCategory(self) -> Optional[Identifier]:
+        """
+        Gets the category of this rule-based value specification.
+
+        Returns:
+            Optional[Identifier]: The category, or None if not set
+        """
         return self.category
 
-    def setCategory(self, value):
-        self.category = value
+    def setCategory(self, value: Optional[Identifier]) -> "ApplicationRuleBasedValueSpecification":
+        """
+        Sets the category of this rule-based value specification.
+        A None value is a no-op and does not overwrite an existing category.
+
+        Args:
+            value: The category to set
+
+        Returns:
+            ApplicationRuleBasedValueSpecification: self for method chaining
+        """
+        if value is not None:
+            self.category = value
+        return self
+
+    def addSwAxisCont(self, value: Optional[RuleBasedAxisCont]) -> "ApplicationRuleBasedValueSpecification":
+        """
+        Adds the axis values of a compound primitive data type (curve or map).
+        A None value is a no-op and is not appended.
+
+        Args:
+            value: The RuleBasedAxisCont instance to add
+
+        Returns:
+            ApplicationRuleBasedValueSpecification: self for method chaining
+        """
+        if value is not None:
+            self.swAxisConts.append(value)
+        return self
+
+    def getSwAxisConts(self) -> List[RuleBasedAxisCont]:
+        """
+        Gets the axis values of this rule-based value specification.
+
+        Returns:
+            List[RuleBasedAxisCont]: The axis values
+        """
+        return self.swAxisConts
+
+    def getSwValueCont(self) -> Optional[RuleBasedValueCont]:
+        """
+        Gets the values of an array or compound primitive data type.
+
+        Returns:
+            Optional[RuleBasedValueCont]: The value content, or None if not set
+        """
+        return self.swValueCont
+
+    def setSwValueCont(self, value: Optional[RuleBasedValueCont]) -> "ApplicationRuleBasedValueSpecification":
+        """
+        Sets the values of an array or compound primitive data type.
+        A None value is a no-op and does not overwrite an existing value content.
+
+        Args:
+            value: The RuleBasedValueCont instance to set
+
+        Returns:
+            ApplicationRuleBasedValueSpecification: self for method chaining
+        """
+        if value is not None:
+            self.swValueCont = value
         return self
 
 
@@ -664,23 +752,23 @@ class NumericalOrText(ARObject):
 
 class NumericalRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
     """
-    Represents numerical rule-based value specifications.
+    This meta-class is used to support a rule-based initialization approach for data types with an array-nature (ImplementationDataType of category ARRAY).
     """
 
     # NumericalRuleBasedValueSpecification method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getExpression                [x] impl  [ ] docstring  [ ] test
-    # [ ] setExpression                [x] impl  [ ] docstring  [ ] test
+    # [ ] getRuleBasedValues           [x] impl  [ ] docstring  [ ] test
+    # [ ] setRuleBasedValues           [x] impl  [ ] docstring  [ ] test
 
     def __init__(self):
         super().__init__()
-        self.expression: str = None
+        self.ruleBasedValues = None  # type: RuleBasedValueSpecification
 
-    def getExpression(self):
-        return self.expression
+    def getRuleBasedValues(self):
+        return self.ruleBasedValues
 
-    def setExpression(self, value):
-        self.expression = value
+    def setRuleBasedValues(self, value: RuleBasedValueSpecification):
+        self.ruleBasedValues = value
         return self
 
 
@@ -708,86 +796,188 @@ class ReferenceValueSpecification(ValueSpecification):
 
 class RuleArguments(ARObject):
     """
-    Represents arguments for rule-based value specifications.
+    Represents the arguments for a rule-based value specification.
+
+    This class corresponds to the AUTOSAR meta-class RuleArguments (atpMixed).
     """
 
     # RuleArguments method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] addArgument                  [x] impl  [ ] docstring  [ ] test
-    # [ ] getArguments                 [x] impl  [ ] docstring  [ ] test
+    # [ ] addV                         [x] impl  [ ] docstring  [ ] test
+    # [ ] getVs                        [x] impl  [ ] docstring  [ ] test
+    # [ ] getVt                        [x] impl  [ ] docstring  [ ] test
+    # [ ] setVt                        [x] impl  [ ] docstring  [ ] test
+    # [ ] addVtf                       [x] impl  [ ] docstring  [ ] test
+    # [ ] getVtfs                      [x] impl  [ ] docstring  [ ] test
 
     def __init__(self):
         super().__init__()
-        self.arguments = []
+        self.v = []  # type: List[ARNumerical]
+        self.vt = None  # type: VerbatimString
+        self.vtfs = []  # type: List[NumericalOrText]
 
-    def addArgument(self, argument):
-        self.arguments.append(argument)
+    def addV(self, v: ARNumerical):
+        self.v.append(v)
 
-    def getArguments(self):
-        return self.arguments
+    def getVs(self) -> List[ARNumerical]:
+        return self.v
+
+    def getVt(self) -> VerbatimString:
+        return self.vt
+
+    def setVt(self, value: VerbatimString):
+        self.vt = value
+        return self
+
+    def addVtf(self, vtf: NumericalOrText):
+        self.vtfs.append(vtf)
+
+    def getVtfs(self) -> List[NumericalOrText]:
+        return self.vtfs
 
 
 class RuleBasedAxisCont(ARObject):
     """
-    Represents rule-based axis content.
+    Represents the values for the axis of a compound primitive (curve, map).
+
+    For standard and fix axes, SwAxisCont contains the values of the axis directly.
     """
 
     # RuleBasedAxisCont method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getAxisId                    [x] impl  [ ] docstring  [ ] test
-    # [ ] setAxisId                    [x] impl  [ ] docstring  [ ] test
+    # [ ] getCategory                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setCategory                  [x] impl  [ ] docstring  [ ] test
+    # [ ] getUnitRef                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setUnitRef                   [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwArraysize               [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwArraysize               [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwAxisIndex               [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwAxisIndex               [x] impl  [ ] docstring  [ ] test
+    # [ ] getRuleBasedValues           [x] impl  [ ] docstring  [ ] test
+    # [ ] setRuleBasedValues           [x] impl  [ ] docstring  [ ] test
 
     def __init__(self):
         super().__init__()
-        self.axisId: str = None
+        self.category = None  # type: ARLiteral
+        self.unitRef = None  # type: RefType
+        self.swArraysize = None  # type: ValueList
+        self.swAxisIndex = None  # type: ARLiteral
+        self.ruleBasedValues = None  # type: RuleBasedValueSpecification
 
-    def getAxisId(self):
-        return self.axisId
+    def getCategory(self):
+        return self.category
 
-    def setAxisId(self, value):
-        self.axisId = value
+    def setCategory(self, value):
+        self.category = value
+        return self
+
+    def getUnitRef(self):
+        return self.unitRef
+
+    def setUnitRef(self, value):
+        self.unitRef = value
+        return self
+
+    def getSwArraysize(self):
+        return self.swArraysize
+
+    def setSwArraysize(self, value):
+        self.swArraysize = value
+        return self
+
+    def getSwAxisIndex(self):
+        return self.swAxisIndex
+
+    def setSwAxisIndex(self, value):
+        self.swAxisIndex = value
+        return self
+
+    def getRuleBasedValues(self):
+        return self.ruleBasedValues
+
+    def setRuleBasedValues(self, value):
+        self.ruleBasedValues = value
         return self
 
 
 class RuleBasedValueCont(ARObject):
     """
-    Represents rule-based value content.
+    Represents the values of a compound primitive (CURVE, MAP, CUBOID, CUBE_4, CUBE_5, VAL_BLK) or an array.
     """
 
     # RuleBasedValueCont method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getValue                     [x] impl  [ ] docstring  [ ] test
-    # [ ] setValue                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getUnitRef                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setUnitRef                   [x] impl  [ ] docstring  [ ] test
+    # [ ] getSwArraysize               [x] impl  [ ] docstring  [ ] test
+    # [ ] setSwArraysize               [x] impl  [ ] docstring  [ ] test
+    # [ ] getRuleBasedValues           [x] impl  [ ] docstring  [ ] test
+    # [ ] setRuleBasedValues           [x] impl  [ ] docstring  [ ] test
 
     def __init__(self):
         super().__init__()
-        self.value: str = None
+        self.unitRef = None  # type: RefType
+        self.swArraysize = None  # type: ValueList
+        self.ruleBasedValues = None  # type: RuleBasedValueSpecification
 
-    def getValue(self):
-        return self.value
+    def getUnitRef(self):
+        return self.unitRef
 
-    def setValue(self, value):
-        self.value = value
+    def setUnitRef(self, value):
+        self.unitRef = value
+        return self
+
+    def getSwArraysize(self):
+        return self.swArraysize
+
+    def setSwArraysize(self, value):
+        self.swArraysize = value
+        return self
+
+    def getRuleBasedValues(self):
+        return self.ruleBasedValues
+
+    def setRuleBasedValues(self, value):
+        self.ruleBasedValues = value
         return self
 
 
 class RuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
     """
-    Represents general rule-based value specifications.
+    This meta-class is used to support a rule-based initialization approach for data types with an array-nature.
     """
 
     # RuleBasedValueSpecification method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getRule                      [x] impl  [ ] docstring  [ ] test
     # [ ] setRule                      [x] impl  [ ] docstring  [ ] test
+    # [ ] addArgument                  [x] impl  [ ] docstring  [ ] test
+    # [ ] getArguments                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getMaxSizeToFill             [x] impl  [ ] docstring  [ ] test
+    # [ ] setMaxSizeToFill             [x] impl  [ ] docstring  [ ] test
 
     def __init__(self):
         super().__init__()
-        self.rule: str = None
+        self.rule: Identifier = None
+        self.arguments = []  # type: List[RuleArguments]
+        self.maxSizeToFill: Integer = None
 
     def getRule(self):
         return self.rule
 
     def setRule(self, value):
         self.rule = value
+        return self
+
+    def addArgument(self, argument: RuleArguments):
+        self.arguments.append(argument)
+
+    def getArguments(self):
+        return self.arguments
+
+    def getMaxSizeToFill(self):
+        return self.maxSizeToFill
+
+    def setMaxSizeToFill(self, value):
+        self.maxSizeToFill = value
         return self

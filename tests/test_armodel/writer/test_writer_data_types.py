@@ -38,20 +38,27 @@ from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
     SwPointerTargetProps,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
+    ApplicationRuleBasedValueSpecification,
     ApplicationValueSpecification,
     ArrayValueSpecification,
     ConstantSpecification,
     NumericalValueSpecification,
     RecordValueSpecification,
+    RuleArguments,
+    RuleBasedAxisCont,
+    RuleBasedValueCont,
+    RuleBasedValueSpecification,
     TextValueSpecification,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
     ARNumerical,
     ARFloat,
+    Integer,
     Limit,
     RefType,
 )
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import ValueList
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
     ApplicationPrimitiveDataType,
     ApplicationRecordDataType,
@@ -869,6 +876,150 @@ class TestApplicationValueSpecificationWriter:
         assert child.tag == "APPLICATION-VALUE-SPECIFICATION"
         assert child.find("SHORT-LABEL").text == "Label"
         assert child.find("CATEGORY").text == "CONST"
+
+
+class TestRuleBasedValueSpecificationWriter:
+    def test_write_application_rule_based_value_specification_none(self, writer):
+        parent = _parent()
+        writer.writeApplicationRuleBasedValueSpecification(parent, None)
+        assert len(parent) == 0
+
+    def test_write_application_rule_based_value_specification_full(self, writer):
+        spec = ApplicationRuleBasedValueSpecification()
+        spec.setCategory(_literal("ARRAY"))
+
+        axis = RuleBasedAxisCont()
+        axis.setCategory(_literal("STD_AXIS"))
+        axis.setUnitRef(_ref("UNIT", "/p/u"))
+        size = ValueList()
+        size.setV(_float("3"))
+        axis.setSwArraysize(size)
+        axis.setSwAxisIndex(_literal("1"))
+        axis_rule = RuleBasedValueSpecification()
+        axis_rule.setRule(_literal("FILL_UNTIL_END"))
+        axis_args = RuleArguments()
+        axis_args.addV(_numerical("1"))
+        axis_args.addV(_numerical("2"))
+        axis_rule.addArgument(axis_args)
+        axis.setRuleBasedValues(axis_rule)
+        spec.addSwAxisCont(axis)
+
+        cont = RuleBasedValueCont()
+        cont.setUnitRef(_ref("UNIT", "/p/u"))
+        cont_size = ValueList()
+        cont_size.setV(_float("10"))
+        cont.setSwArraysize(cont_size)
+        cont_rule = RuleBasedValueSpecification()
+        cont_rule.setRule(_literal("FILL_UNTIL_END"))
+        max_size = Integer()
+        max_size.setValue("8")
+        cont_rule.setMaxSizeToFill(max_size)
+        cont.setRuleBasedValues(cont_rule)
+        spec.setSwValueCont(cont)
+
+        parent = _parent()
+        writer.writeApplicationRuleBasedValueSpecification(parent, spec)
+
+        child = parent[0]
+        assert child.tag == "APPLICATION-RULE-BASED-VALUE-SPECIFICATION"
+        assert child.find("CATEGORY").text == "ARRAY"
+        assert child.find("SW-AXIS-CONTS/RULE-BASED-AXIS-CONT/CATEGORY").text == "STD_AXIS"
+        assert child.find("SW-AXIS-CONTS/RULE-BASED-AXIS-CONT/UNIT-REF").text == "/p/u"
+        assert child.find("SW-AXIS-CONTS/RULE-BASED-AXIS-CONT/SW-ARRAYSIZE/V").text == "3"
+        assert child.find("SW-AXIS-CONTS/RULE-BASED-AXIS-CONT/SW-AXIS-INDEX").text == "1"
+        assert child.find("SW-AXIS-CONTS/RULE-BASED-AXIS-CONT/RULE-BASED-VALUES/RULE").text == "FILL_UNTIL_END"
+        argss = child.find("SW-AXIS-CONTS/RULE-BASED-AXIS-CONT/RULE-BASED-VALUES/ARGUMENTSS")
+        assert argss is not None
+        assert len(argss.findall("RULE-ARGUMENTS/V")) == 2
+        assert child.find("SW-VALUE-CONT/RULE-BASED-VALUES/MAX-SIZE-TO-FILL").text == "8"
+
+    def test_write_rule_based_axis_cont_with_vt(self, writer):
+        axis = RuleBasedAxisCont()
+        rule = RuleBasedValueSpecification()
+        rule.setRule(_literal("FILL_UNTIL_END"))
+        args = RuleArguments()
+        args.addV(_numerical("1.5"))
+        args.setVt(_literal("label"))
+        rule.addArgument(args)
+        axis.setRuleBasedValues(rule)
+
+        parent = _parent()
+        writer.writeRuleBasedAxisCont(parent, axis)
+
+        argss = parent[0].find("RULE-BASED-VALUES/ARGUMENTSS")
+        rule_args = argss.find("RULE-ARGUMENTS")
+        assert rule_args.find("V").text == "1.5"
+        assert rule_args.find("VT").text == "label"
+
+    def test_write_rule_based_axis_cont_none(self, writer):
+        parent = _parent()
+        writer.writeRuleBasedAxisCont(parent, None)
+        assert len(parent) == 0
+
+    def test_write_rule_based_value_cont_none(self, writer):
+        parent = _parent()
+        writer.writeRuleBasedValueCont(parent, None)
+        assert len(parent) == 0
+
+    def test_write_rule_based_value_specification_none(self, writer):
+        parent = _parent()
+        writer.writeRuleBasedValueSpecification(parent, "RULE-BASED-VALUES", None)
+        assert len(parent) == 0
+
+    def test_write_rule_arguments_none(self, writer):
+        parent = _parent()
+        writer.writeRuleArguments(parent, None)
+        assert len(parent) == 0
+
+    def test_set_child_value_specification_dispatches_rule_based(self, writer):
+        spec = ApplicationRuleBasedValueSpecification()
+        spec.setCategory(_literal("ARRAY"))
+        parent = _parent()
+        writer.setChildValueSpecification(parent, "VALUE-SPEC", spec)
+        child = parent[0]
+        assert child.tag == "VALUE-SPEC"
+        assert child.find("APPLICATION-RULE-BASED-VALUE-SPECIFICATION/CATEGORY").text == "ARRAY"
+
+    def test_write_array_value_specification_dispatches_rule_based(self, writer):
+        array = ArrayValueSpecification()
+        rule_spec = ApplicationRuleBasedValueSpecification()
+        rule_spec.setCategory(_literal("ARRAY"))
+        array.addElement(rule_spec)
+
+        parent = _parent()
+        writer.writeArrayValueSpecification(parent, array)
+
+        child = parent[0]
+        assert child.tag == "ARRAY-VALUE-SPECIFICATION"
+        assert child.find("ELEMENTS/APPLICATION-RULE-BASED-VALUE-SPECIFICATION/CATEGORY").text == "ARRAY"
+
+    def test_write_record_value_specification_dispatches_rule_based(self, writer):
+        rec = RecordValueSpecification()
+        rule_spec = ApplicationRuleBasedValueSpecification()
+        rule_spec.setCategory(_literal("ARRAY"))
+        rec.addField(rule_spec)
+
+        parent = _parent()
+        writer.writeRecordValueSpecification(parent, rec)
+
+        child = parent[0]
+        assert child.tag == "RECORD-VALUE-SPECIFICATION"
+        assert child.find("FIELDS/APPLICATION-RULE-BASED-VALUE-SPECIFICATION/CATEGORY").text == "ARRAY"
+
+    def test_write_numerical_or_text(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import NumericalOrText
+
+        not_text = NumericalOrText()
+        not_text.setNumericalValue(_numerical("1.5"))
+        not_text.setTextValue(_literal("label"))
+
+        parent = _parent()
+        writer.writeNumericalOrText(parent, "VTF", not_text)
+
+        child = parent[0]
+        assert child.tag == "VTF"
+        assert child.find("VF").text == "1.5"
+        assert child.find("VT").text == "label"
 
 
 class TestRecordValueSpecificationWriter:

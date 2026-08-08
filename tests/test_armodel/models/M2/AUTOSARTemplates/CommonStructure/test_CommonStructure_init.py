@@ -11,12 +11,17 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
     CompositeValueSpecification,
     CompositeRuleBasedValueArgument,
     ApplicationValueSpecification,
+    ApplicationRuleBasedValueSpecification,
     RecordValueSpecification,
     TextValueSpecification,
     NumericalValueSpecification,
     ArrayValueSpecification,
     ConstantSpecification,
     ConstantReference,
+    RuleBasedAxisCont,
+    RuleBasedValueCont,
+    RuleArguments,
+    RuleBasedValueSpecification,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, ARLiteral, RefType
 
@@ -176,6 +181,274 @@ class TestApplicationValueSpecification:
         result = spec.setSwValueCont(None)
         assert result is spec
         assert spec.getSwValueCont() is None
+
+
+class TestApplicationRuleBasedValueSpecification:
+    def test_initialization(self):
+        """Test ApplicationRuleBasedValueSpecification initialization"""
+        spec = ApplicationRuleBasedValueSpecification()
+
+        assert spec is not None
+        assert spec.category is None
+        assert spec.swAxisConts == []
+        assert spec.swValueCont is None
+
+    def test_get_category(self):
+        """Test getCategory method"""
+        spec = ApplicationRuleBasedValueSpecification()
+        assert spec.getCategory() is None
+
+    def test_set_category(self):
+        """Test setCategory method"""
+        spec = ApplicationRuleBasedValueSpecification()
+        test_category = "test_category"
+        result = spec.setCategory(test_category)
+        assert result is spec
+        assert spec.getCategory() == test_category
+
+    def test_set_category_none(self):
+        """Test setCategory with None value does not overwrite existing category"""
+        spec = ApplicationRuleBasedValueSpecification()
+        spec.setCategory("existing")
+        result = spec.setCategory(None)
+        assert result is spec
+        assert spec.getCategory() == "existing"
+
+    def test_get_sw_axis_conts(self):
+        """Test getSwAxisConts method"""
+        spec = ApplicationRuleBasedValueSpecification()
+        assert spec.getSwAxisConts() == []
+
+    def test_add_sw_axis_cont(self):
+        """Test addSwAxisCont method appends to the list"""
+        spec = ApplicationRuleBasedValueSpecification()
+        axis = RuleBasedAxisCont()
+        axis.setCategory("STD_AXIS")
+        result = spec.addSwAxisCont(axis)
+        assert result is spec
+        assert spec.getSwAxisConts() == [axis]
+
+    def test_add_sw_axis_cont_multiple(self):
+        """Test addSwAxisCont accumulates multiple entries"""
+        spec = ApplicationRuleBasedValueSpecification()
+        axis_1 = RuleBasedAxisCont()
+        axis_2 = RuleBasedAxisCont()
+        spec.addSwAxisCont(axis_1)
+        spec.addSwAxisCont(axis_2)
+        assert spec.getSwAxisConts() == [axis_1, axis_2]
+
+    def test_add_sw_axis_cont_none(self):
+        """Test addSwAxisCont with None value is a no-op"""
+        spec = ApplicationRuleBasedValueSpecification()
+        axis = RuleBasedAxisCont()
+        spec.addSwAxisCont(axis)
+        result = spec.addSwAxisCont(None)
+        assert result is spec
+        assert spec.getSwAxisConts() == [axis]
+
+    def test_get_sw_value_cont(self):
+        """Test getSwValueCont method"""
+        spec = ApplicationRuleBasedValueSpecification()
+        assert spec.getSwValueCont() is None
+
+    def test_set_sw_value_cont(self):
+        """Test setSwValueCont method"""
+        spec = ApplicationRuleBasedValueSpecification()
+        value = RuleBasedValueCont()
+        ref = RefType()
+        ref.setDest("Unit")
+        ref.setValue("/p/u")
+        value.setUnitRef(ref)
+        result = spec.setSwValueCont(value)
+        assert result is spec
+        assert spec.getSwValueCont() == value
+
+    def test_set_sw_value_cont_none(self):
+        """Test setSwValueCont with None value does not overwrite existing value content"""
+        spec = ApplicationRuleBasedValueSpecification()
+        value = RuleBasedValueCont()
+        spec.setSwValueCont(value)
+        result = spec.setSwValueCont(None)
+        assert result is spec
+        assert spec.getSwValueCont() == value
+
+
+class TestRuleArguments:
+    def test_initialization(self):
+        """Test RuleArguments initialization"""
+        arguments = RuleArguments()
+
+        assert arguments is not None
+        assert arguments.getVs() == []
+        assert arguments.getVt() is None
+        assert arguments.getVtfs() == []
+
+    def test_add_v(self):
+        """Test addV method appends to the list"""
+        arguments = RuleArguments()
+        v = ARNumerical()
+        v.setValue("1.5")
+        arguments.addV(v)
+        assert arguments.getVs() == [v]
+
+    def test_add_v_multiple(self):
+        """Test addV accumulates multiple entries"""
+        arguments = RuleArguments()
+        v_1 = ARNumerical()
+        v_1.setValue("1")
+        v_2 = ARNumerical()
+        v_2.setValue("2")
+        arguments.addV(v_1)
+        arguments.addV(v_2)
+        assert arguments.getVs() == [v_1, v_2]
+
+    def test_set_vt(self):
+        """Test setVt method"""
+        arguments = RuleArguments()
+        vt = ARLiteral()
+        vt.setValue("label")
+        result = arguments.setVt(vt)
+        assert result is arguments
+        assert arguments.getVt() == vt
+
+    def test_add_vtf(self):
+        """Test addVtf method appends to the list"""
+        arguments = RuleArguments()
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import NumericalOrText
+
+        vtf = NumericalOrText()
+        arguments.addVtf(vtf)
+        assert arguments.getVtfs() == [vtf]
+
+
+class TestRuleBasedAxisCont:
+    def test_initialization(self):
+        """Test RuleBasedAxisCont initialization"""
+        cont = RuleBasedAxisCont()
+
+        assert cont is not None
+        assert cont.getCategory() is None
+        assert cont.getUnitRef() is None
+        assert cont.getSwArraysize() is None
+        assert cont.getSwAxisIndex() is None
+        assert cont.getRuleBasedValues() is None
+
+    def test_set_category(self):
+        """Test setCategory method"""
+        cont = RuleBasedAxisCont()
+        result = cont.setCategory("STD_AXIS")
+        assert result is cont
+        assert cont.getCategory() == "STD_AXIS"
+
+    def test_set_unit_ref(self):
+        """Test setUnitRef method"""
+        cont = RuleBasedAxisCont()
+        ref = RefType()
+        ref.setDest("Unit")
+        ref.setValue("/p/u")
+        result = cont.setUnitRef(ref)
+        assert result is cont
+        assert cont.getUnitRef() == ref
+
+    def test_set_sw_arraysize(self):
+        """Test setSwArraysize method"""
+        cont = RuleBasedAxisCont()
+        from armodel.models.M2.MSR.DataDictionary.DataDefProperties import ValueList
+
+        size = ValueList()
+        result = cont.setSwArraysize(size)
+        assert result is cont
+        assert cont.getSwArraysize() == size
+
+    def test_set_sw_axis_index(self):
+        """Test setSwAxisIndex method"""
+        cont = RuleBasedAxisCont()
+        result = cont.setSwAxisIndex("1")
+        assert result is cont
+        assert cont.getSwAxisIndex() == "1"
+
+    def test_set_rule_based_values(self):
+        """Test setRuleBasedValues method"""
+        cont = RuleBasedAxisCont()
+        values = RuleBasedValueSpecification()
+        result = cont.setRuleBasedValues(values)
+        assert result is cont
+        assert cont.getRuleBasedValues() == values
+
+
+class TestRuleBasedValueCont:
+    def test_initialization(self):
+        """Test RuleBasedValueCont initialization"""
+        cont = RuleBasedValueCont()
+
+        assert cont is not None
+        assert cont.getUnitRef() is None
+        assert cont.getSwArraysize() is None
+        assert cont.getRuleBasedValues() is None
+
+    def test_set_unit_ref(self):
+        """Test setUnitRef method"""
+        cont = RuleBasedValueCont()
+        ref = RefType()
+        ref.setDest("Unit")
+        ref.setValue("/p/u")
+        result = cont.setUnitRef(ref)
+        assert result is cont
+        assert cont.getUnitRef() == ref
+
+    def test_set_sw_arraysize(self):
+        """Test setSwArraysize method"""
+        cont = RuleBasedValueCont()
+        from armodel.models.M2.MSR.DataDictionary.DataDefProperties import ValueList
+
+        size = ValueList()
+        result = cont.setSwArraysize(size)
+        assert result is cont
+        assert cont.getSwArraysize() == size
+
+    def test_set_rule_based_values(self):
+        """Test setRuleBasedValues method"""
+        cont = RuleBasedValueCont()
+        values = RuleBasedValueSpecification()
+        result = cont.setRuleBasedValues(values)
+        assert result is cont
+        assert cont.getRuleBasedValues() == values
+
+
+class TestRuleBasedValueSpecification:
+    def test_initialization(self):
+        """Test RuleBasedValueSpecification initialization"""
+        spec = RuleBasedValueSpecification()
+
+        assert spec is not None
+        assert spec.getRule() is None
+        assert spec.getArguments() == []
+        assert spec.getMaxSizeToFill() is None
+
+    def test_set_rule(self):
+        """Test setRule method"""
+        spec = RuleBasedValueSpecification()
+        result = spec.setRule("FILL_UNTIL_END")
+        assert result is spec
+        assert spec.getRule() == "FILL_UNTIL_END"
+
+    def test_add_argument(self):
+        """Test addArgument method appends to the list"""
+        spec = RuleBasedValueSpecification()
+        argument = RuleArguments()
+        spec.addArgument(argument)
+        assert spec.getArguments() == [argument]
+
+    def test_set_max_size_to_fill(self):
+        """Test setMaxSizeToFill method"""
+        spec = RuleBasedValueSpecification()
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer
+
+        size = Integer()
+        size.setValue("8")
+        result = spec.setMaxSizeToFill(size)
+        assert result is spec
+        assert spec.getMaxSizeToFill() == size
 
 
 class TestRecordValueSpecification:

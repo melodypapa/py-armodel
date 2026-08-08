@@ -49,6 +49,10 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import B
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantSpecification, NumericalValueSpecification, RecordValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification, ValueSpecification
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import ApplicationRuleBasedValueSpecification
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import RuleBasedAxisCont, RuleBasedValueCont
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import RuleArguments, RuleBasedValueSpecification
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import NumericalOrText
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.McGroups import McGroup, McGroupDataRefSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import (
     McDataAccessDetails,
@@ -619,6 +623,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeNumericalValueSpecification(elements_tag, sub_element)
                 elif isinstance(sub_element, ApplicationValueSpecification):
                     self.writeApplicationValueSpecification(elements_tag, sub_element)
+                elif isinstance(sub_element, ApplicationRuleBasedValueSpecification):
+                    self.writeApplicationRuleBasedValueSpecification(elements_tag, sub_element)
                 elif isinstance(sub_element, TextValueSpecification):
                     self.writeTextValueSpecification(elements_tag, sub_element)
                 elif isinstance(sub_element, ArrayValueSpecification):
@@ -638,6 +644,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             if isinstance(value_spec, ApplicationValueSpecification):
                 self.writeApplicationValueSpecification(child_element, value_spec)
+            elif isinstance(value_spec, ApplicationRuleBasedValueSpecification):
+                self.writeApplicationRuleBasedValueSpecification(child_element, value_spec)
             elif isinstance(value_spec, TextValueSpecification):
                 self.writeTextValueSpecification(child_element, value_spec)
             elif isinstance(value_spec, ConstantReference):
@@ -1179,6 +1187,65 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalLiteral(child_element, "CATEGORY", value_spec.getCategory())
             self.writeSwValueCont(child_element, value_spec.getSwValueCont())
 
+    def writeNumericalOrText(self, element: ET.Element, key: str, not_text: NumericalOrText):
+        if not_text is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObjectAttributes(child_element, not_text)
+            self.setChildElementOptionalNumericalValue(child_element, "VF", not_text.getNumericalValue())
+            self.setChildElementOptionalLiteral(child_element, "VT", not_text.getTextValue())
+
+    def writeRuleArguments(self, element: ET.Element, arguments: RuleArguments):
+        if arguments is not None:
+            child_element = ET.SubElement(element, "RULE-ARGUMENTS")
+            self.writeARObjectAttributes(child_element, arguments)
+            for v in arguments.getVs():
+                self.setChildElementOptionalNumericalValue(child_element, "V", v)
+            self.setChildElementOptionalLiteral(child_element, "VT", arguments.getVt())
+            for vtf in arguments.getVtfs():
+                self.writeNumericalOrText(child_element, "VTF", vtf)
+
+    def writeRuleBasedValueSpecification(self, element: ET.Element, key: str, value_spec: RuleBasedValueSpecification):
+        if value_spec is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObjectAttributes(child_element, value_spec)
+            self.setChildElementOptionalLiteral(child_element, "RULE", value_spec.getRule())
+            arguments = value_spec.getArguments()
+            if len(arguments) > 0:
+                arguments_tag = ET.SubElement(child_element, "ARGUMENTSS")
+                for argument in arguments:
+                    self.writeRuleArguments(arguments_tag, argument)
+            self.setChildElementOptionalIntegerValue(child_element, "MAX-SIZE-TO-FILL", value_spec.getMaxSizeToFill())
+
+    def writeRuleBasedAxisCont(self, element: ET.Element, cont: RuleBasedAxisCont):
+        if cont is not None:
+            child_element = ET.SubElement(element, "RULE-BASED-AXIS-CONT")
+            self.writeARObjectAttributes(child_element, cont)
+            self.setChildElementOptionalLiteral(child_element, "CATEGORY", cont.getCategory())
+            self.setChildElementOptionalRefType(child_element, "UNIT-REF", cont.getUnitRef())
+            self.setValueList(child_element, "SW-ARRAYSIZE", cont.getSwArraysize())
+            self.setChildElementOptionalLiteral(child_element, "SW-AXIS-INDEX", cont.getSwAxisIndex())
+            self.writeRuleBasedValueSpecification(child_element, "RULE-BASED-VALUES", cont.getRuleBasedValues())
+
+    def writeRuleBasedValueCont(self, element: ET.Element, cont: RuleBasedValueCont):
+        if cont is not None:
+            child_element = ET.SubElement(element, "SW-VALUE-CONT")
+            self.writeARObjectAttributes(child_element, cont)
+            self.setChildElementOptionalRefType(child_element, "UNIT-REF", cont.getUnitRef())
+            self.setValueList(child_element, "SW-ARRAYSIZE", cont.getSwArraysize())
+            self.writeRuleBasedValueSpecification(child_element, "RULE-BASED-VALUES", cont.getRuleBasedValues())
+
+    def writeApplicationRuleBasedValueSpecification(self, element: ET.Element, value_spec: ApplicationRuleBasedValueSpecification):
+        if value_spec is not None:
+            child_element = ET.SubElement(element, "APPLICATION-RULE-BASED-VALUE-SPECIFICATION")
+            self.writeValueSpecification(child_element, value_spec)
+            self.setChildElementOptionalLiteral(child_element, "CATEGORY", value_spec.getCategory())
+            axis_conts = value_spec.getSwAxisConts()
+            if len(axis_conts) > 0:
+                axis_conts_tag = ET.SubElement(child_element, "SW-AXIS-CONTS")
+                for axis_cont in axis_conts:
+                    self.writeRuleBasedAxisCont(axis_conts_tag, axis_cont)
+            self.writeRuleBasedValueCont(child_element, value_spec.getSwValueCont())
+
     def writeRecordValueSpecification(self, element: ET.Element, spec: RecordValueSpecification):
         child_element = ET.SubElement(element, "RECORD-VALUE-SPECIFICATION")
         self.writeARObjectAttributes(child_element, spec)
@@ -1189,6 +1256,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             for field in fields:
                 if isinstance(field, ApplicationValueSpecification):
                     self.writeApplicationValueSpecification(fields_tag, field)
+                elif isinstance(field, ApplicationRuleBasedValueSpecification):
+                    self.writeApplicationRuleBasedValueSpecification(fields_tag, field)
                 elif isinstance(field, NumericalValueSpecification):
                     self.writeNumericalValueSpecification(fields_tag, field)
                 elif isinstance(field, TextValueSpecification):

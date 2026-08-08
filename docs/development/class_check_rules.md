@@ -139,6 +139,23 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       `IDENTIFIABLE` XML group is shared.
 - [ ] The PDF spec is the source of truth for multiplicity and base class.
       When the XSD disagrees with the PDF, follow the PDF.
+- [ ] **A `Base` row naming two independent chains selects one role-matching
+      branch, not both.** When the `Base` column lists two *parallel*
+      inheritance chains (e.g. `ApplicationRuleBasedValueSpecification`:
+      `ARObject, AbstractRuleBasedValueSpecification, ValueSpecification`
+      — the value-specification branch — alongside `CompositeRuleBasedValueArgument`
+      — the composite-argument branch), there is no single "most-derived"
+      class across both chains to inherit. Inherit the abstract base the
+      codebase already provides for the class's primary role — the one the
+      auto-generated `reports/deviation_class_hierarchy_mismatches.md`
+      records as its direct parent (here `CompositeRuleBasedValueArgument`) —
+      and do **not** mechanically add the second chain via Python multiple
+      inheritance: the abstract `ValueSpecification`/
+      `AbstractRuleBasedValueSpecification` classes add no state, and the
+      composite-argument base is the hub shared with the sibling
+      `ApplicationValueSpecification`. A sibling that happened to inherit both
+      chains is one modeling choice, not a requirement — match the recorded
+      hierarchy parent.
 
 ### 1.3 Attribute-level completeness
 
@@ -532,10 +549,21 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       existing, per Rule 4) element. The parser dispatches on the XSD child
       element tag (`DEVELOPMENT-ERROR`/`RUNTIME-ERROR`/`TRANSIENT-FAULT`)
       to the matching factory; the writer dispatches on `isinstance`. This
-      is the polymorphic-dispatch shape of Rule 1.7 applied to an *aggregated
-      child* — the list case differs from a plain `*` list only in that the
-      parser's per-item element tag selects the subtype factory instead of
-      an `addXxx` call.
+       is the polymorphic-dispatch shape of Rule 1.7 applied to an *aggregated
+       child* — the list case differs from a plain `*` list only in that the
+       parser's per-item element tag selects the subtype factory instead of
+       an `addXxx` call.
+- [ ] **An already-aligned sibling is not an authority on accessor shape.**
+      When a fully `[x]` sibling models a spec-`*` member with a single-value
+      shape (`setXxx`/`getXxx`), it is a prior deviation, not a template: the
+      shape rule above (plural `addXxx`/`getXxxs` for `*`) wins. Example:
+      `ApplicationValueSpecification` (sibling of
+      `ApplicationRuleBasedValueSpecification`) models `swAxisCont` (`*`,
+      `RuleBasedAxisCont`) with `setSwAxisCont`/`getSwAxisCont`; the
+      `*`-shape rule says the correct form is `addSwAxisCont`/`getSwAxisConts`
+      over a `swAxisConts: List[...]` field. Align the class being worked on
+      to the rule, and record the sibling as a deviation to reconcile later —
+      do not copy its shape.
 
 ### 1.7 Parser and writer coverage
 

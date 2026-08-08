@@ -48,6 +48,10 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRe
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantSpecification, NumericalValueSpecification, RecordValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification, ValueSpecification
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import ApplicationRuleBasedValueSpecification
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import RuleBasedAxisCont, RuleBasedValueCont
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import RuleArguments, RuleBasedValueSpecification
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import NumericalOrText
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.McGroups import McGroup, McGroupDataRefSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import (
     ImplementationElementInParameterInstanceRef,
@@ -3475,6 +3479,64 @@ class ARXMLParser(AbstractARXMLParser):
         value_spec.setSwValueCont(self.getSwValueCont(element))
         return value_spec
 
+    def getNumericalOrText(self, element: ET.Element) -> NumericalOrText:
+        not_text = NumericalOrText()
+        self.readARObjectAttributes(element, not_text)
+        not_text.setNumericalValue(self.getChildElementOptionalNumericalValue(element, "VF"))
+        not_text.setTextValue(self.getChildElementOptionalLiteral(element, "VT"))
+        return not_text
+
+    def getRuleArguments(self, element: ET.Element) -> RuleArguments:
+        arguments = RuleArguments()
+        self.readARObjectAttributes(element, arguments)
+        for v in self.getChildElementNumericalValueList(element, "V"):
+            arguments.addV(v)
+        arguments.setVt(self.getChildElementOptionalLiteral(element, "VT"))
+        for child_element in self.findall(element, "VTF"):
+            arguments.addVtf(self.getNumericalOrText(child_element))
+        return arguments
+
+    def getRuleBasedValueSpecification(self, element: ET.Element) -> RuleBasedValueSpecification:
+        if element is None:
+            return None
+        value_spec = RuleBasedValueSpecification()
+        self.readARObjectAttributes(element, value_spec)
+        value_spec.setRule(self.getChildElementOptionalLiteral(element, "RULE"))
+        for child_element in self.findall(element, "ARGUMENTSS/RULE-ARGUMENTS"):
+            value_spec.addArgument(self.getRuleArguments(child_element))
+        value_spec.setMaxSizeToFill(self.getChildElementOptionalIntegerValue(element, "MAX-SIZE-TO-FILL"))
+        return value_spec
+
+    def getRuleBasedAxisCont(self, element: ET.Element) -> RuleBasedAxisCont:
+        cont = RuleBasedAxisCont()
+        self.readARObjectAttributes(element, cont)
+        cont.setCategory(self.getChildElementOptionalLiteral(element, "CATEGORY"))
+        cont.setUnitRef(self.getChildElementOptionalRefType(element, "UNIT-REF"))
+        cont.setSwArraysize(self.getValueList(element, "SW-ARRAYSIZE"))
+        cont.setSwAxisIndex(self.getChildElementOptionalLiteral(element, "SW-AXIS-INDEX"))
+        cont.setRuleBasedValues(self.getRuleBasedValueSpecification(self.find(element, "RULE-BASED-VALUES")))
+        return cont
+
+    def getRuleBasedValueCont(self, element: ET.Element) -> RuleBasedValueCont:
+        cont = None
+        child_element = self.find(element, "SW-VALUE-CONT")
+        if child_element is not None:
+            cont = RuleBasedValueCont()
+            self.readARObjectAttributes(child_element, cont)
+            cont.setUnitRef(self.getChildElementOptionalRefType(child_element, "UNIT-REF"))
+            cont.setSwArraysize(self.getValueList(child_element, "SW-ARRAYSIZE"))
+            cont.setRuleBasedValues(self.getRuleBasedValueSpecification(self.find(child_element, "RULE-BASED-VALUES")))
+        return cont
+
+    def getApplicationRuleBasedValueSpecification(self, element: ET.Element) -> ApplicationRuleBasedValueSpecification:
+        value_spec = ApplicationRuleBasedValueSpecification()
+        self.readValueSpecification(element, value_spec)
+        value_spec.setCategory(self.getChildElementOptionalLiteral(element, "CATEGORY"))
+        for child_element in self.findall(element, "SW-AXIS-CONTS/RULE-BASED-AXIS-CONT"):
+            value_spec.addSwAxisCont(self.getRuleBasedAxisCont(child_element))
+        value_spec.setSwValueCont(self.getRuleBasedValueCont(element))
+        return value_spec
+
     def getNumericalValueSpecification(self, element: ET.Element) -> NumericalValueSpecification:
         value_spec = NumericalValueSpecification()
         self.readValueSpecification(element, value_spec)
@@ -3509,6 +3571,8 @@ class ARXMLParser(AbstractARXMLParser):
     def getValueSpecification(self, element: ET.Element, tag_name: str) -> ValueSpecification:
         if tag_name == "APPLICATION-VALUE-SPECIFICATION":
             value_spec = self.getApplicationValueSpecification(element)
+        elif tag_name == "APPLICATION-RULE-BASED-VALUE-SPECIFICATION":
+            value_spec = self.getApplicationRuleBasedValueSpecification(element)
         elif tag_name == "RECORD-VALUE-SPECIFICATION":
             value_spec = self.getRecordValueSpecification(element)
         elif tag_name == "NUMERICAL-VALUE-SPECIFICATION":
