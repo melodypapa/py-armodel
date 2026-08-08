@@ -86,3 +86,16 @@ extend-exclude = '''
   | htmlcov
 )/
 '''
+
+[tool.ruff]
+line-length = 200
+target-version = "py38"
+extend-exclude = ["build", ".venv", "htmlcov", "dist"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+ignore = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["armodel"]
+force-single-line = false
