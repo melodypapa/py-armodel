@@ -19,7 +19,7 @@ class TestAtpDefinition:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         try:
-            obj = AtpDefinition(ar_root, "TestAtpDefinition")
+            _obj = AtpDefinition(ar_root, "TestAtpDefinition")
             assert False, "AtpDefinition should not be instantiable"
         except TypeError as e:
             assert "abstract class" in str(e).lower()

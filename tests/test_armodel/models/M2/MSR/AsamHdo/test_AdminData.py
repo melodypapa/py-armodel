@@ -2,10 +2,10 @@
 This module contains tests for the AdminData module in MSR.AsamHdo.
 """
 
-from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData, DocRevision, Modification
-from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultiLanguagePlainText
-from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DateTime, NameToken, RevisionLabelString, String
+from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData, DocRevision, Modification
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LEnum
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultiLanguagePlainText
 
 
 class TestModification:

@@ -16,7 +16,7 @@ class TestARObject:
         Test that ARObject cannot be instantiated directly (abstract class).
         """
         try:
-            obj = ARObject()
+            _obj = ARObject()
             assert False, "ARObject should not be instantiable"
         except TypeError as e:
             # The error message should indicate it's abstract

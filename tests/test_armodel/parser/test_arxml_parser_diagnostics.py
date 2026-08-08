@@ -14,9 +14,10 @@ by ``conftest.py``; helper functions (``_snip``, ``_autosar_root``) live in
 ``_helpers.py``.
 """
 
-from tests.test_armodel.parser._helpers import _autosar_root, _snip
 import logging
 from unittest.mock import MagicMock
+
+from tests.test_armodel.parser._helpers import _autosar_root, _snip
 
 
 class TestDoIpHandlers:

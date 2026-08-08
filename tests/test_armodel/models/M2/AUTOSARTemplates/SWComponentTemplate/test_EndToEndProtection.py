@@ -3,15 +3,15 @@ This module contains comprehensive tests for the EndToEndProtection module in SW
 Tests cover all classes and methods in the EndToEndProtection.py file to achieve 100% test coverage.
 """
 
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, PositiveInteger, RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import (
     EndToEndDescription,
-    EndToEndProtectionVariablePrototype,
-    EndToEndProtectionISignalIPdu,
     EndToEndProtection,
+    EndToEndProtectionISignalIPdu,
     EndToEndProtectionSet,
+    EndToEndProtectionVariablePrototype,
 )
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, NameToken, PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import VariableDataPrototypeInSystemInstanceRef
 
 

@@ -18,13 +18,12 @@ by ``conftest.py``; helper functions (``_snip``, ``_autosar_root``) live in
 ``_helpers.py``.
 """
 
-from unittest.mock import MagicMock
 import logging
+from unittest.mock import MagicMock
 
 import pytest
 
-from armodel.models import AUTOSAR
-from armodel.models import ApplicationSwComponentType
+from armodel.models import AUTOSAR, ApplicationSwComponentType
 from tests.test_armodel.parser._helpers import _autosar_root, _snip
 
 

@@ -1,9 +1,9 @@
 """Tests for writer ECUC values and variant handling methods."""
 
 import xml.etree.cElementTree as ET
+
 import pytest
 
-from armodel.writer.arxml_writer import ARXMLWriter
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucInstanceReferenceValue,
@@ -11,13 +11,6 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucReferenceValue,
     EcucTextualParamValue,
 )
-from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
-    SwDataDefProps,
-)
-from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import (
-    SwCalprmAxisSet,
-)
-from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import (  # noqa E501
     AnyInstanceRef,
 )
@@ -29,6 +22,14 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (  # noqa E501
     SwSystemconstValue,
 )
+from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import (
+    SwCalprmAxisSet,
+)
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
+    SwDataDefProps,
+)
+from armodel.models.M2.MSR.Documentation.Annotation import Annotation
+from armodel.writer.arxml_writer import ARXMLWriter
 
 
 @pytest.fixture(autouse=True)

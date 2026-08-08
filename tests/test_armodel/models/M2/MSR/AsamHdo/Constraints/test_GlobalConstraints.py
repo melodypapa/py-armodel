@@ -2,13 +2,13 @@
 This module contains tests for the GlobalConstraints module in MSR.AsamHdo.Constraints.
 """
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import (
     DataConstr,
     DataConstrRule,
     InternalConstrs,
     PhysConstrs,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 
 
 class TestInternalConstrs:

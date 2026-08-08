@@ -1,8 +1,7 @@
-from typing import List
-
 import logging
 import os
 import re
+from typing import List
 
 
 class InputFileParser:

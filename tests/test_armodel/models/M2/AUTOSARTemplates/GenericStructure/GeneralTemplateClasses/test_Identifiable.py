@@ -5,13 +5,13 @@ in the AUTOSAR GenericStructure module.
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-    Referrable,
-    MultilanguageReferrable,
-    CollectableElement,
-    Identifiable,
-    PackageableElement,
     ARElement,
+    CollectableElement,
     Describable,
+    Identifiable,
+    MultilanguageReferrable,
+    PackageableElement,
+    Referrable,
 )
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
@@ -31,7 +31,7 @@ class TestReferrable:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         try:
-            obj = Referrable(ar_root, "TestReferrable")
+            _obj = Referrable(ar_root, "TestReferrable")
             assert False, "Referrable should not be instantiable"
         except TypeError:
             pass  # Expected behavior
@@ -112,7 +112,7 @@ class TestMultilanguageReferrable:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         try:
-            obj = MultilanguageReferrable(ar_root, "TestMLReferrable")
+            _obj = MultilanguageReferrable(ar_root, "TestMLReferrable")
             assert False, "MultilanguageReferrable should not be instantiable"
         except TypeError:
             pass  # Expected behavior
@@ -149,7 +149,7 @@ class TestCollectableElement:
         Test that CollectableElement cannot be instantiated directly (abstract class).
         """
         try:
-            obj = CollectableElement()
+            _obj = CollectableElement()
             assert False, "CollectableElement should not be instantiable"
         except TypeError:
             pass  # Expected behavior
@@ -530,7 +530,7 @@ class TestIdentifiable:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         try:
-            obj = Identifiable(ar_root, "TestIdentifiable")
+            _obj = Identifiable(ar_root, "TestIdentifiable")
             assert False, "Identifiable should not be instantiable"
         except TypeError:
             pass  # Expected behavior
@@ -686,7 +686,7 @@ class TestPackageableElement:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         try:
-            obj = PackageableElement(ar_root, "TestPackageableElement")
+            _obj = PackageableElement(ar_root, "TestPackageableElement")
             assert False, "PackageableElement should not be instantiable"
         except TypeError:
             pass  # Expected behavior
@@ -704,7 +704,7 @@ class TestARElement:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         try:
-            obj = ARElement(ar_root, "TestARElement")
+            _obj = ARElement(ar_root, "TestARElement")
             assert False, "ARElement should not be instantiable"
         except TypeError:
             pass  # Expected behavior
@@ -720,7 +720,7 @@ class TestDescribable:
         Test that Describable cannot be instantiated directly (abstract class).
         """
         try:
-            obj = Describable()
+            _obj = Describable()
             assert False, "Describable should not be instantiable"
         except TypeError:
             pass  # Expected behavior

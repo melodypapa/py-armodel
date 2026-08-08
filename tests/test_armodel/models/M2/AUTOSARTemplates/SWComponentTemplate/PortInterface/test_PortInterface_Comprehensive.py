@@ -4,28 +4,29 @@ Tests cover all classes and methods in the PortInterface module files to achieve
 """
 
 import pytest
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
+
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, ARLiteral, PositiveInteger, RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+    ClientServerApplicationErrorMapping,
+    ClientServerInterfaceMapping,
+    ClientServerOperationMapping,
+    DataPrototypeMapping,
     InvalidationPolicy,
     MetaDataItem,
     MetaDataItemSet,
-    TriggerInterface,
-    ModeSwitchInterface,
-    PortInterfaceMapping,
-    ClientServerApplicationErrorMapping,
-    ClientServerOperationMapping,
-    DataPrototypeMapping,
-    ClientServerInterfaceMapping,
-    VariableAndParameterInterfaceMapping,
-    ModeInterfaceMapping,
-    TriggerInterfaceMapping,
     ModeDeclarationMapping,
     ModeDeclarationMappingSet,
+    ModeInterfaceMapping,
+    ModeSwitchInterface,
+    PortInterfaceMapping,
     PortInterfaceMappingSet,
     TextTableMapping,
+    TriggerInterface,
+    TriggerInterfaceMapping,
+    VariableAndParameterInterfaceMapping,
 )
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARLiteral, PositiveInteger, ARBoolean
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
 
 
 class TestApplicationCompositeElementInPortInterfaceInstanceRef:

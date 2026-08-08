@@ -8,8 +8,10 @@
 
 import os
 import sys
+
 sys.path.insert(0, os.path.abspath('../src'))
 
+from armodel import __version__
 
 # -- Project information -----------------------------------------------------
 
@@ -18,7 +20,6 @@ copyright = '2021-2026, melodypapa'
 author = 'melodypapa'
 
 # The full version, including alpha/beta/rc tags
-from armodel import __version__
 release = __version__
 
 # The short X.Y version

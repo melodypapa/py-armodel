@@ -1,16 +1,24 @@
-import sys
-from abc import ABC
+import logging
 import re
+import sys
+import xml.etree.cElementTree as ET
+from abc import ABC
 from xml.dom import minidom
+
 from colorama import Fore
 
-import logging
-import xml.etree.cElementTree as ET
-
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, ARNumerical, DateTime, Integer
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RevisionLabelString, TimeValue
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARBoolean
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARBoolean,
+    ARFloat,
+    ARLiteral,
+    ARNumerical,
+    DateTime,
+    Integer,
+    RefType,
+    RevisionLabelString,
+    TimeValue,
+)
 
 
 class AbstractARXMLWriter(ABC):

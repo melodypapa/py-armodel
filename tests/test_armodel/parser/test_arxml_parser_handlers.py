@@ -18,9 +18,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from armodel.models import AUTOSAR
-from armodel.models import ApplicationSwComponentType
-from armodel.models import CompositionSwComponentType
+from armodel.models import AUTOSAR, ApplicationSwComponentType, CompositionSwComponentType
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -223,7 +221,7 @@ class TestAdminDataAndReferrableHandlers:
         from armodel.models import BswVariableAccess
 
         obj = BswVariableAccess(parent=_autosar_root(), short_name="va")
-        element = _snip("", root_tag="ELEM")
+        _element = _snip("", root_tag="ELEM")
         elem = ET.fromstring(f"<ELEM xmlns='{NS}' UUID='abc' T='2024-01-01T00:00:00'/>")
         parser.readReferrable(elem, obj)
         assert obj.uuid == "abc"
@@ -543,7 +541,7 @@ class TestRuleBasedValueSpecHandlers:
         assert float(value_spec.getMaxSizeToFill().getValue()) == 8.0
 
     def test_getRuleBasedValueSpecification_missing_returns_None(self, parser):
-        element = _snip("<X/>")
+        _element = _snip("<X/>")
         assert parser.getRuleBasedValueSpecification(None) is None
 
     def test_getRuleBasedAxisCont_full(self, parser):

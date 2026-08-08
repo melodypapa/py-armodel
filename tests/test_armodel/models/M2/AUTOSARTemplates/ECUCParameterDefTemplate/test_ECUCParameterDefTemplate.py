@@ -7,38 +7,38 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+    EcucAbstractConfigurationClass,
+    EcucAbstractExternalReferenceDef,
+    EcucAbstractInternalReferenceDef,
+    EcucAbstractReferenceDef,
+    EcucAbstractStringParamDef,
+    EcucBooleanParamDef,
+    EcucChoiceContainerDef,
+    EcucChoiceReferenceDef,
+    EcucCommonAttributes,
     EcucConditionSpecification,
-    EcucValidationCondition,
-    EcucScopeEnum,
-    EcucDefinitionElement,
-    EcucDestinationUriDefRefType,
     EcucConfigurationClassEnum,
     EcucConfigurationVariantEnum,
-    EcucAbstractConfigurationClass,
-    EcucMultiplicityConfigurationClass,
-    EcucValueConfigurationClass,
-    EcucCommonAttributes,
+    EcucDefinitionElement,
     EcucDerivationSpecification,
-    EcucParameterDef,
-    EcucBooleanParamDef,
-    EcucAbstractReferenceDef,
-    EcucAbstractInternalReferenceDef,
-    EcucAbstractExternalReferenceDef,
-    EcucSymbolicNameReferenceDef,
-    EcucChoiceReferenceDef,
-    EcucReferenceDef,
-    EcucUriReferenceDef,
-    EcucForeignReferenceDef,
-    EcucInstanceReferenceDef,
-    EcucAbstractStringParamDef,
-    EcucStringParamDef,
-    EcucFunctionNameDef,
-    EcucIntegerParamDef,
+    EcucDestinationUriDefRefType,
     EcucEnumerationLiteralDef,
     EcucEnumerationParamDef,
     EcucFloatParamDef,
-    EcucChoiceContainerDef,
+    EcucForeignReferenceDef,
+    EcucFunctionNameDef,
+    EcucInstanceReferenceDef,
+    EcucIntegerParamDef,
+    EcucMultiplicityConfigurationClass,
     EcucParamConfContainerDef,
+    EcucParameterDef,
+    EcucReferenceDef,
+    EcucScopeEnum,
+    EcucStringParamDef,
+    EcucSymbolicNameReferenceDef,
+    EcucUriReferenceDef,
+    EcucValidationCondition,
+    EcucValueConfigurationClass,
 )
 
 
@@ -280,7 +280,7 @@ class TestEcucAbstractConfigurationClass:
         # This test verifies that EcucAbstractConfigurationClass methods exist
         # Concrete classes use these methods independently
         document = AUTOSAR.getInstance()
-        parent = document.createARPackage("TestPackage")
+        _parent = document.createARPackage("TestPackage")
 
         # EcucAbstractConfigurationClass is abstract and has its own subclasses
         # like EcucMultiplicityConfigurationClass and EcucValueConfigurationClass

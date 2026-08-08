@@ -5,7 +5,6 @@ This module tests the BswEntryRelationship class which describes a relationship
 between two BswModuleEntrys and the type of relationship.
 """
 
-import pytest
 
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import (
     BswEntryRelationship,

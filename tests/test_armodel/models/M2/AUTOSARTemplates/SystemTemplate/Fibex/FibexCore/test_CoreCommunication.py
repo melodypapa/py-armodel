@@ -1,44 +1,44 @@
 import pytest
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
-    FibexElement,
-    PduToFrameMapping,
-    Frame,
     ContainedIPduProps,
-    ISignalGroup,
-    ISignalIPduGroup,
-    Pdu,
+    DcmIPdu,
+    DynamicPart,
+    DynamicPartAlternative,
+    FibexElement,
+    Frame,
+    FrameTriggering,
+    GeneralPurposeIPdu,
+    GeneralPurposePdu,
     IPdu,
-    SecureCommunicationProps,
-    SecuredIPdu,
+    IPduTiming,
+    ISignal,
+    ISignalGroup,
+    ISignalIPdu,
+    ISignalIPduGroup,
     ISignalToIPduMapping,
+    ISignalTriggering,
+    MultiplexedIPdu,
+    MultiplexedPart,
     NmPdu,
     NPdu,
-    DcmIPdu,
-    IPduTiming,
-    ISignalIPdu,
-    ISignal,
+    Pdu,
+    PduToFrameMapping,
     PduTriggering,
-    FrameTriggering,
-    SystemSignal,
-    SystemSignalGroup,
-    ISignalTriggering,
-    SegmentPosition,
-    MultiplexedPart,
-    StaticPart,
-    DynamicPartAlternative,
-    DynamicPart,
-    MultiplexedIPdu,
-    GeneralPurposePdu,
-    GeneralPurposeIPdu,
-    SecureCommunicationPropsSet,
-    UserDefinedPdu,
-    UserDefinedIPdu,
     SecureCommunicationAuthenticationProps,
     SecureCommunicationFreshnessProps,
+    SecureCommunicationProps,
+    SecureCommunicationPropsSet,
+    SecuredIPdu,
+    SegmentPosition,
+    StaticPart,
+    SystemSignal,
+    SystemSignalGroup,
+    UserDefinedIPdu,
+    UserDefinedPdu,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, ARElement, Describable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
 class MockParent(ARObject):
@@ -482,7 +482,7 @@ class Test_FibexCoreCommunication:
         assert pdu.getUnusedBitPattern() is None
 
         # Test setter/getter methods with method chaining
-        ref1 = object()
+        _ref1 = object()
         pdu.setNmDataInformation(True)
         assert pdu.getNmDataInformation() is True
         assert pdu == pdu.setNmDataInformation(True)  # Test method chaining

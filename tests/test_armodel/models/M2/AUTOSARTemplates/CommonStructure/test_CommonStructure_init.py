@@ -5,25 +5,26 @@ to be thoroughly tested for complete coverage.
 """
 
 import pytest
+
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
-    ValueSpecification,
-    CompositeValueSpecification,
-    CompositeRuleBasedValueArgument,
-    ApplicationValueSpecification,
     ApplicationRuleBasedValueSpecification,
-    RecordValueSpecification,
-    TextValueSpecification,
-    NumericalValueSpecification,
+    ApplicationValueSpecification,
     ArrayValueSpecification,
-    ConstantSpecification,
+    CompositeRuleBasedValueArgument,
+    CompositeValueSpecification,
     ConstantReference,
+    ConstantSpecification,
+    NumericalValueSpecification,
+    RecordValueSpecification,
+    RuleArguments,
     RuleBasedAxisCont,
     RuleBasedValueCont,
-    RuleArguments,
     RuleBasedValueSpecification,
+    TextValueSpecification,
+    ValueSpecification,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, ARLiteral, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, RefType
 
 
 class TestValueSpecification:

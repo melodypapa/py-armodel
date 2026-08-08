@@ -3,14 +3,15 @@ This module contains tests for the BaseTypes module in MSR.AsamHdo.
 """
 
 import pytest
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, ByteOrderEnum
 from armodel.models.M2.MSR.AsamHdo.BaseTypes import (
     BaseType,
     BaseTypeDefinition,
     BaseTypeDirectDefinition,
     SwBaseType,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, ByteOrderEnum
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 
 
 class TestBaseTypeDefinition:

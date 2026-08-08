@@ -3,6 +3,7 @@ This module contains tests for the PaginationAndView module in MSR.Documentation
 """
 
 import pytest
+
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import (
     DocumentViewSelectable,
     Paginateable,

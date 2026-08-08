@@ -19,7 +19,7 @@ class TestAtpBlueprint:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         try:
-            obj = AtpBlueprint(ar_root, "TestAtpBlueprint")
+            _obj = AtpBlueprint(ar_root, "TestAtpBlueprint")
             assert False, "AtpBlueprint should not be instantiable"
         except TypeError as e:
             assert "abstract class" in str(e).lower()
