@@ -114,6 +114,19 @@ Documentation Structure
 
 .. toctree::
    :maxdepth: 2
+   :caption: Full API (by package):
+
+   api/armodel.models
+   api/armodel.parser
+   api/armodel.writer
+   api/armodel.cli
+   api/armodel.transformer
+   api/armodel.report
+   api/armodel.data_models
+   api/armodel.lib
+
+.. toctree::
+   :maxdepth: 2
    :caption: Examples:
 
    examples/basic_usage
