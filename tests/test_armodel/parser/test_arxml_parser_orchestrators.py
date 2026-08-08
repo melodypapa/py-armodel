@@ -2038,6 +2038,11 @@ class TestSwcServiceDependencyServiceNeeds:
             "DIAGNOSTIC-EVENT-NEEDS",
             "DIAGNOSTIC-EVENT-INFO-NEEDS",
             "DIAGNOSTIC-IO-CONTROL-NEEDS",
+            "DIAGNOSTIC-ENABLE-CONDITION-NEEDS",
+            "DIAGNOSTIC-OPERATION-CYCLE-NEEDS",
+            "DIAGNOSTIC-STORAGE-CONDITION-NEEDS",
+            "INDICATOR-STATUS-NEEDS",
+            "FUNCTION-INHIBITION-AVAILABILITY-NEEDS",
             "CRYPTO-SERVICE-NEEDS",
             "ECU-STATE-MGR-USER-NEEDS",
             "DTC-STATUS-CHANGE-NOTIFICATION-NEEDS",
@@ -2079,6 +2084,101 @@ class TestSwcServiceDependencyServiceNeeds:
         needs = dep.getServiceNeeds()
         assert len(needs) == 1
         assert needs[0].getShortName() == "NvNeed"
+
+    def test_diagnostic_enable_condition_needs_member(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        dep = _make_service_dependency()
+        element = _snip(
+            """
+            <SERVICE-NEEDS>
+                <DIAGNOSTIC-ENABLE-CONDITION-NEEDS>
+                    <SHORT-NAME>Need</SHORT-NAME>
+                    <INITIAL-STATUS>eventAcceptanceEnabled</INITIAL-STATUS>
+                </DIAGNOSTIC-ENABLE-CONDITION-NEEDS>
+            </SERVICE-NEEDS>
+            """,
+        )
+        parser.readSwcServiceDependencyServiceNeeds(element, dep)
+        needs = dep.getServiceNeeds()
+        assert len(needs) == 1
+        assert needs[0].getShortName() == "Need"
+        assert needs[0].getInitialStatus().getValue() == "eventAcceptanceEnabled"
+
+    def test_diagnostic_operation_cycle_needs_member(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        dep = _make_service_dependency()
+        element = _snip(
+            """
+            <SERVICE-NEEDS>
+                <DIAGNOSTIC-OPERATION-CYCLE-NEEDS>
+                    <SHORT-NAME>Need</SHORT-NAME>
+                    <OPERATION-CYCLE>power</OPERATION-CYCLE>
+                </DIAGNOSTIC-OPERATION-CYCLE-NEEDS>
+            </SERVICE-NEEDS>
+            """,
+        )
+        parser.readSwcServiceDependencyServiceNeeds(element, dep)
+        needs = dep.getServiceNeeds()
+        assert len(needs) == 1
+        assert needs[0].getShortName() == "Need"
+        assert needs[0].getOperationCycle().getValue() == "power"
+
+    def test_diagnostic_storage_condition_needs_member(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        dep = _make_service_dependency()
+        element = _snip(
+            """
+            <SERVICE-NEEDS>
+                <DIAGNOSTIC-STORAGE-CONDITION-NEEDS>
+                    <SHORT-NAME>Need</SHORT-NAME>
+                    <INITIAL-STATUS>eventStorageDisabled</INITIAL-STATUS>
+                </DIAGNOSTIC-STORAGE-CONDITION-NEEDS>
+            </SERVICE-NEEDS>
+            """,
+        )
+        parser.readSwcServiceDependencyServiceNeeds(element, dep)
+        needs = dep.getServiceNeeds()
+        assert len(needs) == 1
+        assert needs[0].getShortName() == "Need"
+        assert needs[0].getInitialStatus().getValue() == "eventStorageDisabled"
+
+    def test_indicator_status_needs_member(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        dep = _make_service_dependency()
+        element = _snip(
+            """
+            <SERVICE-NEEDS>
+                <INDICATOR-STATUS-NEEDS>
+                    <SHORT-NAME>Need</SHORT-NAME>
+                    <TYPE>amberWarning</TYPE>
+                </INDICATOR-STATUS-NEEDS>
+            </SERVICE-NEEDS>
+            """,
+        )
+        parser.readSwcServiceDependencyServiceNeeds(element, dep)
+        needs = dep.getServiceNeeds()
+        assert len(needs) == 1
+        assert needs[0].getShortName() == "Need"
+        assert needs[0].getType().getValue() == "amberWarning"
+
+    def test_function_inhibition_availability_needs_member(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        dep = _make_service_dependency()
+        element = _snip(
+            """
+            <SERVICE-NEEDS>
+                <FUNCTION-INHIBITION-AVAILABILITY-NEEDS>
+                    <SHORT-NAME>Need</SHORT-NAME>
+                    <CONTROLLED-FID-REF DEST='FUNCTION-INHIBITION-NEEDS'>/Fim/Controlled</CONTROLLED-FID-REF>
+                </FUNCTION-INHIBITION-AVAILABILITY-NEEDS>
+            </SERVICE-NEEDS>
+            """,
+        )
+        parser.readSwcServiceDependencyServiceNeeds(element, dep)
+        needs = dep.getServiceNeeds()
+        assert len(needs) == 1
+        assert needs[0].getShortName() == "Need"
+        assert needs[0].getControlledFidRef().getValue() == "/Fim/Controlled"
 
     def test_unknown_service_needs_warning(self, warning_parser):
         AUTOSAR.getInstance().setARRelease("R23-11")

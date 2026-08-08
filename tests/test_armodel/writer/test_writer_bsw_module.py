@@ -684,6 +684,93 @@ class TestWriterBswServiceDependency:
         assert dep_element.find("SERVICE-NEEDS/DIAGNOSTIC-IO-CONTROL-NEEDS/SHORT-NAME").text == "needs"
         assert dep_element.find("SERVICE-NEEDS/DIAGNOSTIC-IO-CONTROL-NEEDS/FREEZE-CURRENT-STATE-SUPPORTED").text == "true"
 
+    def test_writeBswServiceDependency_diagnostic_enable_condition_needs(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticEnableConditionNeeds, EventAcceptanceStatusEnum
+
+        dependency = BswServiceDependency()
+        needs = DiagnosticEnableConditionNeeds(dependency, "needs")
+        needs.setInitialStatus(EventAcceptanceStatusEnum().setValue(EventAcceptanceStatusEnum.EVENT_ACCEPTANCE_DISABLED))
+        dependency.setServiceNeeds(needs)
+
+        parent = _parent()
+        writer.writeBswServiceDependency(parent, dependency)
+
+        dep_element = parent.find("BSW-SERVICE-DEPENDENCY")
+        assert dep_element is not None
+        assert dep_element.find("SERVICE-NEEDS/DIAGNOSTIC-ENABLE-CONDITION-NEEDS/SHORT-NAME").text == "needs"
+        assert dep_element.find("SERVICE-NEEDS/DIAGNOSTIC-ENABLE-CONDITION-NEEDS/INITIAL-STATUS").text == "eventAcceptanceDisabled"
+
+    def test_writeBswServiceDependency_diagnostic_operation_cycle_needs(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticOperationCycleNeeds, OperationCycleTypeEnum
+
+        dependency = BswServiceDependency()
+        needs = DiagnosticOperationCycleNeeds(dependency, "needs")
+        needs.setOperationCycle(OperationCycleTypeEnum().setValue(OperationCycleTypeEnum.WARMUP))
+        dependency.setServiceNeeds(needs)
+
+        parent = _parent()
+        writer.writeBswServiceDependency(parent, dependency)
+
+        dep_element = parent.find("BSW-SERVICE-DEPENDENCY")
+        assert dep_element is not None
+        assert dep_element.find("SERVICE-NEEDS/DIAGNOSTIC-OPERATION-CYCLE-NEEDS/SHORT-NAME").text == "needs"
+        assert dep_element.find("SERVICE-NEEDS/DIAGNOSTIC-OPERATION-CYCLE-NEEDS/OPERATION-CYCLE").text == "warmup"
+
+    def test_writeBswServiceDependency_diagnostic_storage_condition_needs(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticStorageConditionNeeds, StorageConditionStatusEnum
+
+        dependency = BswServiceDependency()
+        needs = DiagnosticStorageConditionNeeds(dependency, "needs")
+        needs.setInitialStatus(StorageConditionStatusEnum().setValue(StorageConditionStatusEnum.EVENT_STORAGE_ENABLE))
+        dependency.setServiceNeeds(needs)
+
+        parent = _parent()
+        writer.writeBswServiceDependency(parent, dependency)
+
+        dep_element = parent.find("BSW-SERVICE-DEPENDENCY")
+        assert dep_element is not None
+        assert dep_element.find("SERVICE-NEEDS/DIAGNOSTIC-STORAGE-CONDITION-NEEDS/SHORT-NAME").text == "needs"
+        assert dep_element.find("SERVICE-NEEDS/DIAGNOSTIC-STORAGE-CONDITION-NEEDS/INITIAL-STATUS").text == "eventStorageEnabled"
+
+    def test_writeBswServiceDependency_indicator_status_needs(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticIndicatorTypeEnum, IndicatorStatusNeeds
+
+        dependency = BswServiceDependency()
+        needs = IndicatorStatusNeeds(dependency, "needs")
+        needs.setType(DiagnosticIndicatorTypeEnum().setValue(DiagnosticIndicatorTypeEnum.MALFUNCTION))
+        dependency.setServiceNeeds(needs)
+
+        parent = _parent()
+        writer.writeBswServiceDependency(parent, dependency)
+
+        dep_element = parent.find("BSW-SERVICE-DEPENDENCY")
+        assert dep_element is not None
+        assert dep_element.find("SERVICE-NEEDS/INDICATOR-STATUS-NEEDS/SHORT-NAME").text == "needs"
+        assert dep_element.find("SERVICE-NEEDS/INDICATOR-STATUS-NEEDS/TYPE").text == "malfunction"
+
+    def test_writeBswServiceDependency_function_inhibition_availability_needs(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import FunctionInhibitionAvailabilityNeeds
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+
+        dependency = BswServiceDependency()
+        needs = FunctionInhibitionAvailabilityNeeds(dependency, "needs")
+        ref = RefType()
+        ref.setValue("/Fim/Controlled")
+        ref.setDest("FUNCTION-INHIBITION-NEEDS")
+        needs.setControlledFidRef(ref)
+        dependency.setServiceNeeds(needs)
+
+        parent = _parent()
+        writer.writeBswServiceDependency(parent, dependency)
+
+        dep_element = parent.find("BSW-SERVICE-DEPENDENCY")
+        assert dep_element is not None
+        assert dep_element.find("SERVICE-NEEDS/FUNCTION-INHIBITION-AVAILABILITY-NEEDS/SHORT-NAME").text == "needs"
+        ref_element = dep_element.find("SERVICE-NEEDS/FUNCTION-INHIBITION-AVAILABILITY-NEEDS/CONTROLLED-FID-REF")
+        assert ref_element is not None
+        assert ref_element.text == "/Fim/Controlled"
+        assert ref_element.get("DEST") == "FUNCTION-INHIBITION-NEEDS"
+
     def test_writeBswServiceDependency_minimal(self, writer):
         dependency = BswServiceDependency()
         parent = _parent()

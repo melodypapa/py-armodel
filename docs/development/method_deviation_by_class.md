@@ -851,15 +851,6 @@ Note, Base, Aggregated-by and Attribute rows).
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `bitPosition` | `PositiveInteger` | — | missing |
 
-## `FunctionInhibitionAvailabilityNeeds`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 318
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `controlledFidRef` | `Ref (FunctionInhibitionNeeds)` | Ref | missing |
-
 ## `ImplementationDataType`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 320
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes`
@@ -1813,36 +1804,8 @@ Aligned to `class_check_rules.md` on 2026-08-07. PDF-synced (Rule 1):
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `operationCycle` | `OperationCycleTypeEnum` | — | missing |
 | — *(missing)* | `—` | `operationCycleAutomaticEnd` | `Boolean` | — | missing |
 | — *(missing)* | `—` | `operationCycleAutostart` | `Boolean` | — | missing |
-
-## `DiagnosticEnableConditionNeeds`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 762
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `initialStatus` | `EventAcceptanceStatusEnum` | — | missing |
-
-## `DiagnosticStorageConditionNeeds`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 762
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `initialStatus` | `StorageConditionStatusEnum` | — | missing |
-
-## `IndicatorStatusNeeds`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 766
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `type` | `DiagnosticIndicatorTypeEnum` | — | missing |
 
 ## `ObdRatioServiceNeeds`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 795

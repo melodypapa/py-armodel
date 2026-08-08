@@ -2330,14 +2330,17 @@ class DiagnosticDenominatorConditionEnum(AREnum):
         )
 
 
-class DiagnosticEnableConditionNeeds(ServiceNeeds):
+class DiagnosticEnableConditionNeeds(DiagnosticCapabilityElement):
     """
-    Represents Diagnostic Enable Condition needs in AUTOSAR models.
-    This class defines requirements for diagnostic enable condition services.
+    This meta-class represents the needs of a software-component to provide the capability to set an enable condition.
     """
 
     # DiagnosticEnableConditionNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.26, p.762
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getInitialStatus             [x] impl  [x] docstring  [x] test
+    # [x] setInitialStatus             [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -2348,6 +2351,32 @@ class DiagnosticEnableConditionNeeds(ServiceNeeds):
             short_name: The unique short name of this diagnostic enable condition needs
         """
         super().__init__(parent, short_name)
+
+        # Defines the initial status for enable or disable of acceptance of event reports of a diagnostic event.
+        self.initialStatus: Optional[EventAcceptanceStatusEnum] = None
+
+    def getInitialStatus(self) -> Optional[EventAcceptanceStatusEnum]:
+        """
+        Gets the initial status for enable or disable of acceptance of event reports of a diagnostic event.
+
+        Returns:
+            EventAcceptanceStatusEnum instance, or None if not set
+        """
+        return self.initialStatus
+
+    def setInitialStatus(self, value: Optional[EventAcceptanceStatusEnum]) -> "DiagnosticEnableConditionNeeds":
+        """
+        Sets a new initialStatus. A None value is a no-op and does not overwrite an existing initialStatus.
+
+        Args:
+            value: The EventAcceptanceStatusEnum instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.initialStatus = value
+        return self
 
 
 class DiagnosticEventManagerNeeds(ServiceNeeds):
@@ -2527,14 +2556,17 @@ class DiagnosticMonitorUpdateKindEnum(AREnum):
         )
 
 
-class DiagnosticOperationCycleNeeds(ServiceNeeds):
+class DiagnosticOperationCycleNeeds(DiagnosticCapabilityElement):
     """
-    Represents Diagnostic Operation Cycle needs in AUTOSAR models.
-    This class defines requirements for diagnostic operation cycle services.
+    This meta-class represents the needs of a software-component to provide information regarding the operation cycle management to the Dem module.
     """
 
     # DiagnosticOperationCycleNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.24, p.761
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getOperationCycle            [x] impl  [x] docstring  [x] test
+    # [x] setOperationCycle            [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -2545,6 +2577,33 @@ class DiagnosticOperationCycleNeeds(ServiceNeeds):
             short_name: The unique short name of this diagnostic operation cycle needs
         """
         super().__init__(parent, short_name)
+
+        # Operation cycles types for the Dem to be supported by cycle-state APIs.
+        self.operationCycle: Optional[OperationCycleTypeEnum] = None
+
+    def getOperationCycle(self) -> Optional[OperationCycleTypeEnum]:
+        """
+        Gets the operation cycles types for the Dem to be supported by cycle-state APIs.
+
+        Returns:
+            OperationCycleTypeEnum instance, or None if not set
+        """
+        return self.operationCycle
+
+    def setOperationCycle(self, value: Optional[OperationCycleTypeEnum]) -> "DiagnosticOperationCycleNeeds":
+        """
+        Sets the operation cycles types for the Dem to be supported by cycle-state APIs.
+        A None value is a no-op and does not overwrite an existing operationCycle.
+
+        Args:
+            value: The OperationCycleTypeEnum instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.operationCycle = value
+        return self
 
 
 class DiagnosticRequestFileTransferNeeds(ServiceNeeds):
@@ -2567,14 +2626,17 @@ class DiagnosticRequestFileTransferNeeds(ServiceNeeds):
         super().__init__(parent, short_name)
 
 
-class DiagnosticStorageConditionNeeds(ServiceNeeds):
+class DiagnosticStorageConditionNeeds(DiagnosticCapabilityElement):
     """
-    Represents Diagnostic Storage Condition needs in AUTOSAR models.
-    This class defines requirements for diagnostic storage condition services.
+    This meta-class represents the needs of a software-component to provide the capability to set a storage condition.
     """
 
     # DiagnosticStorageConditionNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.28, p.762
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getInitialStatus             [x] impl  [x] docstring  [x] test
+    # [x] setInitialStatus             [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -2585,6 +2647,32 @@ class DiagnosticStorageConditionNeeds(ServiceNeeds):
             short_name: The unique short name of this diagnostic storage condition needs
         """
         super().__init__(parent, short_name)
+
+        # Defines the initial status for enable or disable of storage of a diagnostic event.
+        self.initialStatus: Optional[StorageConditionStatusEnum] = None
+
+    def getInitialStatus(self) -> Optional[StorageConditionStatusEnum]:
+        """
+        Gets the initial status for enable or disable of storage of a diagnostic event.
+
+        Returns:
+            StorageConditionStatusEnum instance, or None if not set
+        """
+        return self.initialStatus
+
+    def setInitialStatus(self, value: Optional[StorageConditionStatusEnum]) -> "DiagnosticStorageConditionNeeds":
+        """
+        Sets a new initialStatus. A None value is a no-op and does not overwrite an existing initialStatus.
+
+        Args:
+            value: The StorageConditionStatusEnum instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.initialStatus = value
+        return self
 
 
 class DiagnosticUploadDownloadNeeds(ServiceNeeds):
@@ -2854,32 +2942,37 @@ class ErrorTracerNeeds(ServiceNeeds):
 
 class EventAcceptanceStatusEnum(AREnum):
     """
-    Enumeration for event acceptance status types.
+    This enumerator specifies the initial status for enable or disable of acceptance of event reports of a diagnostic event.
     """
 
     # EventAcceptanceStatusEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.27, p.762
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
 
-    ACCEPTED = "accepted"
-    REJECTED = "rejected"
+    EVENT_ACCEPTANCE_DISABLED = "eventAcceptanceDisabled"
+    EVENT_ACCEPTANCE_ENABLED = "eventAcceptanceEnabled"
 
     def __init__(self):
         super().__init__(
             (
-                EventAcceptanceStatusEnum.ACCEPTED,
-                EventAcceptanceStatusEnum.REJECTED,
+                EventAcceptanceStatusEnum.EVENT_ACCEPTANCE_DISABLED,
+                EventAcceptanceStatusEnum.EVENT_ACCEPTANCE_ENABLED,
             )
         )
 
 
 class FunctionInhibitionAvailabilityNeeds(ServiceNeeds):
     """
-    Represents Function Inhibition Availability needs in AUTOSAR models.
-    This class defines requirements for function inhibition availability services.
+    Specifies the abstract needs on the configuration of the Function Inhibition Manager to provide the control function for one Function Identifier (FID).
     """
 
     # FunctionInhibitionAvailabilityNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.13, p.751
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getControlledFidRef          [x] impl  [x] docstring  [x] test
+    # [x] setControlledFidRef          [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -2890,6 +2983,33 @@ class FunctionInhibitionAvailabilityNeeds(ServiceNeeds):
             short_name: The unique short name of this function inhibition availability needs
         """
         super().__init__(parent, short_name)
+
+        # This reference represents the controlled FID.
+        self.controlledFidRef: Optional[RefType] = None
+
+    def getControlledFidRef(self) -> Optional[RefType]:
+        """
+        This reference represents the controlled FID.
+
+        Returns:
+            RefType instance, or None if not set
+        """
+        return self.controlledFidRef
+
+    def setControlledFidRef(self, value: Optional[RefType]) -> "FunctionInhibitionAvailabilityNeeds":
+        """
+        This reference represents the controlled FID.
+        A None value is a no-op and does not overwrite an existing controlledFidRef.
+
+        Args:
+            value: The RefType instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.controlledFidRef = value
+        return self
 
 
 class FunctionInhibitionNeeds(ServiceNeeds):
@@ -3012,14 +3132,57 @@ class IdsMgrNeeds(ServiceNeeds):
         super().__init__(parent, short_name)
 
 
+class DiagnosticIndicatorTypeEnum(AREnum):
+    """
+    Type of an indicator. (Table 13.31, SoftwareComponentTemplate)
+    """
+
+    # DiagnosticIndicatorTypeEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.31, p.766
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+
+    # Amber Warning Lamp Tags: atp.EnumerationLiteralIndex=0
+    AMBER_WARNING = "amberWarning"
+
+    # Malfunction Indicator Lamp Tags: atp.EnumerationLiteralIndex=1
+    MALFUNCTION = "malfunction"
+
+    # Protect Lamp Tags: atp.EnumerationLiteralIndex=2
+    PROTECT_LAMP = "protectLamp"
+
+    # Red Stop Lamp Tags: atp.EnumerationLiteralIndex=3
+    RED_STOP_LAMP = "redStopLamp"
+
+    # Warning Tags: atp.EnumerationLiteralIndex=4
+    WARNING = "warning"
+
+    def __init__(self):
+        """
+        Initializes the DiagnosticIndicatorTypeEnum with all possible values.
+        """
+        super().__init__(
+            (
+                DiagnosticIndicatorTypeEnum.AMBER_WARNING,
+                DiagnosticIndicatorTypeEnum.MALFUNCTION,
+                DiagnosticIndicatorTypeEnum.PROTECT_LAMP,
+                DiagnosticIndicatorTypeEnum.RED_STOP_LAMP,
+                DiagnosticIndicatorTypeEnum.WARNING,
+            )
+        )
+
+
 class IndicatorStatusNeeds(ServiceNeeds):
     """
-    Represents Indicator Status needs in AUTOSAR models.
-    This class defines requirements for indicator status services.
+    This meta-class shall be taken to signal a service use case that affects the indicator status.
     """
 
     # IndicatorStatusNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.30, p.766
+    # Spec verified: R23-11
+    # [x] __init__   [x] impl  [x] docstring  [x] test
+    # [x] getType             [x] impl  [x] docstring  [x] test
+    # [x] setType             [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -3030,6 +3193,33 @@ class IndicatorStatusNeeds(ServiceNeeds):
             short_name: The unique short name of this indicator status needs
         """
         super().__init__(parent, short_name)
+
+        # Defines the type of the indicator.
+        self.type: Optional[DiagnosticIndicatorTypeEnum] = None
+
+    def getType(self) -> Optional[DiagnosticIndicatorTypeEnum]:
+        """
+        Gets the type of the indicator.
+
+        Returns:
+            DiagnosticIndicatorTypeEnum instance, or None if not set
+        """
+        return self.type
+
+    def setType(self, value: Optional[DiagnosticIndicatorTypeEnum]) -> "IndicatorStatusNeeds":
+        """
+        Sets the type of the indicator.
+        A None value is a no-op and does not overwrite an existing type.
+
+        Args:
+            value: The DiagnosticIndicatorTypeEnum instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.type = value
+        return self
 
 
 class J1939DcmDm19Support(ServiceNeeds):
@@ -3126,8 +3316,7 @@ class MaxCommModeEnum(AREnum):
 
 class ObdControlServiceNeeds(ServiceNeeds):
     """
-    Represents OBD Control Service needs in AUTOSAR models.
-    This class defines requirements for On-Board Diagnostics control services.
+    Specifies the abstract needs of a component or module on the configuration of OBD Service 08 (request control of on-board system) in relation to a particular test-Identifier (TID) supported by this component or module.
     """
 
     # ObdControlServiceNeeds method parity checklist:
@@ -3146,8 +3335,7 @@ class ObdControlServiceNeeds(ServiceNeeds):
 
 class ObdInfoServiceNeeds(ServiceNeeds):
     """
-    Represents OBD Info Service needs in AUTOSAR models.
-    This class defines requirements for On-Board Diagnostics information services.
+    Specifies the abstract needs of a component or module on the configuration of OBD Services in relation to a given InfoType (OBD Service 09) which is supported by this component or module.
     """
 
     # ObdInfoServiceNeeds method parity checklist:
@@ -3166,8 +3354,7 @@ class ObdInfoServiceNeeds(ServiceNeeds):
 
 class ObdMonitorServiceNeeds(ServiceNeeds):
     """
-    Represents OBD Monitor Service needs in AUTOSAR models.
-    This class defines requirements for On-Board Diagnostics monitor services.
+    Specifies the abstract needs of a component or module on the configuration of OBD Services in relation to a particular on-board monitoring test supported by this component or module. (OBD Service 06).
     """
 
     # ObdMonitorServiceNeeds method parity checklist:
@@ -3186,8 +3373,7 @@ class ObdMonitorServiceNeeds(ServiceNeeds):
 
 class ObdPidServiceNeeds(ServiceNeeds):
     """
-    Represents OBD PID Service needs in AUTOSAR models.
-    This class defines requirements for On-Board Diagnostics PID (Parameter ID) services.
+    Specifies the abstract needs of a component or module on the configuration of OBD Services in relation to a particular PID (parameter identifier) which is supported by this component or module. In case of using a client/server communicated value, the related value shall be communicated via the port referenced by assignedPort. The details of this communication (e.g. appropriate naming conventions) are specified in the related software specifications (SWS).
     """
 
     # ObdPidServiceNeeds method parity checklist:
@@ -3226,8 +3412,7 @@ class ObdRatioConnectionKindEnum(AREnum):
 
 class ObdRatioDenominatorNeeds(ServiceNeeds):
     """
-    Represents OBD Ratio Denominator needs in AUTOSAR models.
-    This class defines requirements for On-Board Diagnostics ratio denominator services.
+    This meta-class shall be used to indicate that a software-component wants to access the in-use-monitoring performance ration denominator.
     """
 
     # ObdRatioDenominatorNeeds method parity checklist:
@@ -3246,8 +3431,7 @@ class ObdRatioDenominatorNeeds(ServiceNeeds):
 
 class ObdRatioServiceNeeds(ServiceNeeds):
     """
-    Represents OBD Ratio Service needs in AUTOSAR models.
-    This class defines requirements for On-Board Diagnostics ratio services.
+    Specifies the abstract needs of a component or module on the configuration of OBD Services in relation to a particular "ratio monitoring" which is supported by this component or module.
     """
 
     # ObdRatioServiceNeeds method parity checklist:
@@ -3266,22 +3450,30 @@ class ObdRatioServiceNeeds(ServiceNeeds):
 
 class OperationCycleTypeEnum(AREnum):
     """
-    Enumeration for operation cycle type.
+    The possible values of the operation cycles types for the Dem.
     """
 
     # OperationCycleTypeEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.25, p.761
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
 
-    ALL_CYCLES = "all-cycles"
-    IGNITION_CYCLE = "ignition-cycle"
-    POWER_CYCLE = "power-cycle"
+    IGNITION = "ignition"
+    OBD_DCY = "obdDcy"
+    OTHER = "other"
+    POWER = "power"
+    TIME = "time"
+    WARMUP = "warmup"
 
     def __init__(self):
         super().__init__(
             (
-                OperationCycleTypeEnum.ALL_CYCLES,
-                OperationCycleTypeEnum.IGNITION_CYCLE,
-                OperationCycleTypeEnum.POWER_CYCLE,
+                OperationCycleTypeEnum.IGNITION,
+                OperationCycleTypeEnum.OBD_DCY,
+                OperationCycleTypeEnum.OTHER,
+                OperationCycleTypeEnum.POWER,
+                OperationCycleTypeEnum.TIME,
+                OperationCycleTypeEnum.WARMUP,
             )
         )
 
@@ -3351,20 +3543,22 @@ class ServiceProviderEnum(AREnum):
 
 class StorageConditionStatusEnum(AREnum):
     """
-    Enumeration for storage condition status types.
+    This enumeration specifies the initial status for enable or disable of storage of a diagnostic event.
     """
 
     # StorageConditionStatusEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.29, p.762
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
 
-    CONDITION_FALSE = "condition-false"
-    CONDITION_TRUE = "condition-true"
+    EVENT_STORAGE_DISABLE = "eventStorageDisabled"
+    EVENT_STORAGE_ENABLE = "eventStorageEnabled"
 
     def __init__(self):
         super().__init__(
             (
-                StorageConditionStatusEnum.CONDITION_FALSE,
-                StorageConditionStatusEnum.CONDITION_TRUE,
+                StorageConditionStatusEnum.EVENT_STORAGE_DISABLE,
+                StorageConditionStatusEnum.EVENT_STORAGE_ENABLE,
             )
         )
 

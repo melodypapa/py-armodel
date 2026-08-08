@@ -22,13 +22,17 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DiagnosticCapabilityElement,
     DiagnosticClearDtcNotificationEnum,
     DiagnosticCommunicationManagerNeeds,
+    DiagnosticEnableConditionNeeds,
     DiagnosticEventInfoNeeds,
     DiagnosticEventNeeds,
+    DiagnosticIndicatorTypeEnum,
     DiagnosticIoControlNeeds,
+    DiagnosticOperationCycleNeeds,
     DiagnosticProcessingStyleEnum,
     DiagnosticRoutineNeeds,
     DiagnosticRoutineTypeEnum,
     DiagnosticServiceRequestCallbackTypeEnum,
+    DiagnosticStorageConditionNeeds,
     DiagnosticValueAccessEnum,
     DiagnosticValueNeeds,
     DltUserNeeds,
@@ -37,8 +41,12 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DtcStatusChangeNotificationNeeds,
     EcuStateMgrUserNeeds,
     ErrorTracerNeeds,
+    EventAcceptanceStatusEnum,
+    FunctionInhibitionAvailabilityNeeds,
+    IndicatorStatusNeeds,
     MaxCommModeEnum,
     NvBlockNeeds,
+    OperationCycleTypeEnum,
     NvBlockNeedsReliabilityEnum,
     NvBlockNeedsWritingPriorityEnum,
     PossibleErrorReaction,
@@ -49,6 +57,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     ServiceDependency,
     ServiceDiagnosticRelevanceEnum,
     ServiceNeeds,
+    StorageConditionStatusEnum,
     SupervisedEntityNeeds,
     TracedFailure,
     TransientFault,
@@ -1984,6 +1993,81 @@ class TestMaxCommModeEnum:
         assert MaxCommModeEnum.SILENT == "silent"
 
 
+class TestEventAcceptanceStatusEnum:
+    def test_initialization(self):
+        """Test EventAcceptanceStatusEnum initialization"""
+        enum = EventAcceptanceStatusEnum()
+        assert enum.enumValues == ("eventAcceptanceDisabled", "eventAcceptanceEnabled")
+
+    def test_values(self):
+        """Test enum values"""
+        assert EventAcceptanceStatusEnum.EVENT_ACCEPTANCE_DISABLED == "eventAcceptanceDisabled"
+        assert EventAcceptanceStatusEnum.EVENT_ACCEPTANCE_ENABLED == "eventAcceptanceEnabled"
+
+    def test_get_value(self):
+        """Test setValue/getValue round-trip"""
+        enum = EventAcceptanceStatusEnum().setValue(EventAcceptanceStatusEnum.EVENT_ACCEPTANCE_ENABLED)
+        assert enum.getValue() == "eventAcceptanceEnabled"
+
+
+class TestOperationCycleTypeEnum:
+    def test_initialization(self):
+        """Test OperationCycleTypeEnum initialization"""
+        enum = OperationCycleTypeEnum()
+        assert enum.enumValues == ("ignition", "obdDcy", "other", "power", "time", "warmup")
+
+    def test_values(self):
+        """Test enum values"""
+        assert OperationCycleTypeEnum.IGNITION == "ignition"
+        assert OperationCycleTypeEnum.OBD_DCY == "obdDcy"
+        assert OperationCycleTypeEnum.OTHER == "other"
+        assert OperationCycleTypeEnum.POWER == "power"
+        assert OperationCycleTypeEnum.TIME == "time"
+        assert OperationCycleTypeEnum.WARMUP == "warmup"
+
+    def test_get_value(self):
+        """Test setValue/getValue round-trip"""
+        enum = OperationCycleTypeEnum().setValue(OperationCycleTypeEnum.WARMUP)
+        assert enum.getValue() == "warmup"
+
+
+class TestStorageConditionStatusEnum:
+    def test_initialization(self):
+        """Test StorageConditionStatusEnum initialization"""
+        enum = StorageConditionStatusEnum()
+        assert enum.enumValues == ("eventStorageDisabled", "eventStorageEnabled")
+
+    def test_values(self):
+        """Test enum values"""
+        assert StorageConditionStatusEnum.EVENT_STORAGE_DISABLE == "eventStorageDisabled"
+        assert StorageConditionStatusEnum.EVENT_STORAGE_ENABLE == "eventStorageEnabled"
+
+    def test_get_value(self):
+        """Test setValue/getValue round-trip"""
+        enum = StorageConditionStatusEnum().setValue(StorageConditionStatusEnum.EVENT_STORAGE_ENABLE)
+        assert enum.getValue() == "eventStorageEnabled"
+
+
+class TestDiagnosticIndicatorTypeEnum:
+    def test_initialization(self):
+        """Test DiagnosticIndicatorTypeEnum initialization"""
+        enum = DiagnosticIndicatorTypeEnum()
+        assert enum.enumValues == ("amberWarning", "malfunction", "protectLamp", "redStopLamp", "warning")
+
+    def test_values(self):
+        """Test enum values"""
+        assert DiagnosticIndicatorTypeEnum.AMBER_WARNING == "amberWarning"
+        assert DiagnosticIndicatorTypeEnum.MALFUNCTION == "malfunction"
+        assert DiagnosticIndicatorTypeEnum.PROTECT_LAMP == "protectLamp"
+        assert DiagnosticIndicatorTypeEnum.RED_STOP_LAMP == "redStopLamp"
+        assert DiagnosticIndicatorTypeEnum.WARNING == "warning"
+
+    def test_get_value(self):
+        """Test setValue/getValue round-trip"""
+        enum = DiagnosticIndicatorTypeEnum().setValue(DiagnosticIndicatorTypeEnum.MALFUNCTION)
+        assert enum.getValue() == "malfunction"
+
+
 class TestComMgrUserNeeds:
     def test_initialization(self):
         """Test ComMgrUserNeeds initialization"""
@@ -2035,6 +2119,281 @@ class TestComMgrUserNeedsRoundTrip:
             needs_2 = behavior_2.getServiceDependencies()[0].getServiceNeeds()
             assert needs_2.getShortName() == "ComNeeds"
             assert needs_2.getMaxCommMode().getValue() == "full"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestDiagnosticEnableConditionNeeds:
+    def test_initialization(self):
+        """Test DiagnosticEnableConditionNeeds initialization"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = DiagnosticEnableConditionNeeds(ar_root, "TestDiagnosticEnableConditionNeeds")
+
+        assert needs is not None
+        assert needs.getShortName() == "TestDiagnosticEnableConditionNeeds"
+        assert needs.getInitialStatus() is None
+
+    def test_get_set_initial_status(self):
+        """Test getInitialStatus/setInitialStatus (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = DiagnosticEnableConditionNeeds(ar_root, "TestDiagnosticEnableConditionNeeds")
+
+        value = EventAcceptanceStatusEnum().setValue(EventAcceptanceStatusEnum.EVENT_ACCEPTANCE_ENABLED)
+        result = needs.setInitialStatus(value)
+        assert result is needs  # Method chaining
+        assert needs.getInitialStatus() == value
+
+        needs.setInitialStatus(None)  # No-op
+        assert needs.getInitialStatus() == value
+
+    def test_round_trip_initial_status(self):
+        """Test parse -> write -> re-parse preserves initialStatus."""
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        desc = ar_root.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        dependency = BswServiceDependency()
+        needs = DiagnosticEnableConditionNeeds(dependency, "EnableNeeds")
+        needs.setInitialStatus(EventAcceptanceStatusEnum().setValue(EventAcceptanceStatusEnum.EVENT_ACCEPTANCE_DISABLED))
+        dependency.setServiceNeeds(needs)
+        behavior.addServiceDependency(dependency)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            behavior_2 = document_2.getARPackages()[0].getBswModuleDescriptions()[0].getInternalBehaviors()[0]
+            needs_2 = behavior_2.getServiceDependencies()[0].getServiceNeeds()
+            assert needs_2.getShortName() == "EnableNeeds"
+            assert needs_2.getInitialStatus().getValue() == "eventAcceptanceDisabled"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestDiagnosticOperationCycleNeeds:
+    def test_initialization(self):
+        """Test DiagnosticOperationCycleNeeds initialization"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = DiagnosticOperationCycleNeeds(ar_root, "TestDiagnosticOperationCycleNeeds")
+
+        assert needs is not None
+        assert needs.getShortName() == "TestDiagnosticOperationCycleNeeds"
+        assert needs.getOperationCycle() is None
+
+    def test_get_set_operation_cycle(self):
+        """Test getOperationCycle/setOperationCycle (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = DiagnosticOperationCycleNeeds(ar_root, "TestDiagnosticOperationCycleNeeds")
+
+        value = OperationCycleTypeEnum().setValue(OperationCycleTypeEnum.WARMUP)
+        result = needs.setOperationCycle(value)
+        assert result is needs  # Method chaining
+        assert needs.getOperationCycle() == value
+
+        needs.setOperationCycle(None)  # No-op
+        assert needs.getOperationCycle() == value
+
+    def test_round_trip_operation_cycle(self):
+        """Test parse -> write -> re-parse preserves operationCycle."""
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        desc = ar_root.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        dependency = BswServiceDependency()
+        needs = DiagnosticOperationCycleNeeds(dependency, "CycleNeeds")
+        needs.setOperationCycle(OperationCycleTypeEnum().setValue(OperationCycleTypeEnum.POWER))
+        dependency.setServiceNeeds(needs)
+        behavior.addServiceDependency(dependency)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            behavior_2 = document_2.getARPackages()[0].getBswModuleDescriptions()[0].getInternalBehaviors()[0]
+            needs_2 = behavior_2.getServiceDependencies()[0].getServiceNeeds()
+            assert needs_2.getShortName() == "CycleNeeds"
+            assert needs_2.getOperationCycle().getValue() == "power"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestDiagnosticStorageConditionNeeds:
+    def test_initialization(self):
+        """Test DiagnosticStorageConditionNeeds initialization"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = DiagnosticStorageConditionNeeds(ar_root, "TestDiagnosticStorageConditionNeeds")
+
+        assert needs is not None
+        assert needs.getShortName() == "TestDiagnosticStorageConditionNeeds"
+        assert needs.getInitialStatus() is None
+
+    def test_get_set_initial_status(self):
+        """Test getInitialStatus/setInitialStatus (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = DiagnosticStorageConditionNeeds(ar_root, "TestDiagnosticStorageConditionNeeds")
+
+        value = StorageConditionStatusEnum().setValue(StorageConditionStatusEnum.EVENT_STORAGE_ENABLE)
+        result = needs.setInitialStatus(value)
+        assert result is needs  # Method chaining
+        assert needs.getInitialStatus() == value
+
+        needs.setInitialStatus(None)  # No-op
+        assert needs.getInitialStatus() == value
+
+    def test_round_trip_initial_status(self):
+        """Test parse -> write -> re-parse preserves initialStatus."""
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        desc = ar_root.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        dependency = BswServiceDependency()
+        needs = DiagnosticStorageConditionNeeds(dependency, "StorageNeeds")
+        needs.setInitialStatus(StorageConditionStatusEnum().setValue(StorageConditionStatusEnum.EVENT_STORAGE_DISABLE))
+        dependency.setServiceNeeds(needs)
+        behavior.addServiceDependency(dependency)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            behavior_2 = document_2.getARPackages()[0].getBswModuleDescriptions()[0].getInternalBehaviors()[0]
+            needs_2 = behavior_2.getServiceDependencies()[0].getServiceNeeds()
+            assert needs_2.getShortName() == "StorageNeeds"
+            assert needs_2.getInitialStatus().getValue() == "eventStorageDisabled"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestIndicatorStatusNeeds:
+    def test_initialization(self):
+        """Test IndicatorStatusNeeds initialization"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = IndicatorStatusNeeds(ar_root, "TestIndicatorStatusNeeds")
+
+        assert needs is not None
+        assert needs.getShortName() == "TestIndicatorStatusNeeds"
+        assert needs.getType() is None
+
+    def test_get_set_type(self):
+        """Test getType/setType (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = IndicatorStatusNeeds(ar_root, "TestIndicatorStatusNeeds")
+
+        value = DiagnosticIndicatorTypeEnum().setValue(DiagnosticIndicatorTypeEnum.MALFUNCTION)
+        result = needs.setType(value)
+        assert result is needs  # Method chaining
+        assert needs.getType() == value
+
+        needs.setType(None)  # No-op
+        assert needs.getType() == value
+
+    def test_round_trip_type(self):
+        """Test parse -> write -> re-parse preserves type."""
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        desc = ar_root.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        dependency = BswServiceDependency()
+        needs = IndicatorStatusNeeds(dependency, "IndNeeds")
+        needs.setType(DiagnosticIndicatorTypeEnum().setValue(DiagnosticIndicatorTypeEnum.AMBER_WARNING))
+        dependency.setServiceNeeds(needs)
+        behavior.addServiceDependency(dependency)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            behavior_2 = document_2.getARPackages()[0].getBswModuleDescriptions()[0].getInternalBehaviors()[0]
+            needs_2 = behavior_2.getServiceDependencies()[0].getServiceNeeds()
+            assert needs_2.getShortName() == "IndNeeds"
+            assert needs_2.getType().getValue() == "amberWarning"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestFunctionInhibitionAvailabilityNeeds:
+    def test_initialization(self):
+        """Test FunctionInhibitionAvailabilityNeeds initialization"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = FunctionInhibitionAvailabilityNeeds(ar_root, "TestFunctionInhibitionAvailabilityNeeds")
+
+        assert needs is not None
+        assert needs.getShortName() == "TestFunctionInhibitionAvailabilityNeeds"
+        assert needs.getControlledFidRef() is None
+
+    def test_get_set_controlled_fid_ref(self):
+        """Test getControlledFidRef/setControlledFidRef (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = FunctionInhibitionAvailabilityNeeds(ar_root, "TestFunctionInhibitionAvailabilityNeeds")
+
+        value = RefType()
+        value.setValue("/Fim/Controlled")
+        value.setDest("FUNCTION-INHIBITION-NEEDS")
+        result = needs.setControlledFidRef(value)
+        assert result is needs  # Method chaining
+        assert needs.getControlledFidRef() == value
+
+        needs.setControlledFidRef(None)  # No-op
+        assert needs.getControlledFidRef() == value
+
+    def test_round_trip_controlled_fid_ref(self):
+        """Test parse -> write -> re-parse preserves controlledFidRef."""
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        desc = ar_root.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        dependency = BswServiceDependency()
+        needs = FunctionInhibitionAvailabilityNeeds(dependency, "FimNeeds")
+        ref = RefType()
+        ref.setValue("/Fim/Controlled")
+        ref.setDest("FUNCTION-INHIBITION-NEEDS")
+        needs.setControlledFidRef(ref)
+        dependency.setServiceNeeds(needs)
+        behavior.addServiceDependency(dependency)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            behavior_2 = document_2.getARPackages()[0].getBswModuleDescriptions()[0].getInternalBehaviors()[0]
+            needs_2 = behavior_2.getServiceDependencies()[0].getServiceNeeds()
+            assert needs_2.getShortName() == "FimNeeds"
+            assert needs_2.getControlledFidRef().getValue() == "/Fim/Controlled"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
