@@ -103,15 +103,20 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DiagEventDebounceTimeBased,
     DiagnosticCapabilityElement,
     DiagnosticCommunicationManagerNeeds,
+    DiagnosticEnableConditionNeeds,
     DiagnosticEventInfoNeeds,
     DiagnosticEventNeeds,
     DiagnosticIoControlNeeds,
+    DiagnosticOperationCycleNeeds,
     DiagnosticRoutineNeeds,
+    DiagnosticStorageConditionNeeds,
     DiagnosticValueNeeds,
     DltUserNeeds,
     DtcStatusChangeNotificationNeeds,
     EcuStateMgrUserNeeds,
     ErrorTracerNeeds,
+    FunctionInhibitionAvailabilityNeeds,
+    IndicatorStatusNeeds,
     NvBlockNeeds,
     PossibleErrorReaction,
     RoleBasedDataAssignment,
@@ -997,6 +1002,26 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = DiagnosticIoControlNeeds(dependency, short_name)
                 self.readDiagnosticIoControlNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTIC-ENABLE-CONDITION-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = DiagnosticEnableConditionNeeds(dependency, short_name)
+                self.readDiagnosticEnableConditionNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTIC-OPERATION-CYCLE-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = DiagnosticOperationCycleNeeds(dependency, short_name)
+                self.readDiagnosticOperationCycleNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTIC-STORAGE-CONDITION-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = DiagnosticStorageConditionNeeds(dependency, short_name)
+                self.readDiagnosticStorageConditionNeeds(child_element, needs)
+            elif tag_name == "INDICATOR-STATUS-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = IndicatorStatusNeeds(dependency, short_name)
+                self.readIndicatorStatusNeeds(child_element, needs)
+            elif tag_name == "FUNCTION-INHIBITION-AVAILABILITY-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = FunctionInhibitionAvailabilityNeeds(dependency, short_name)
+                self.readFunctionInhibitionAvailabilityNeeds(child_element, needs)
             elif tag_name == "CRYPTO-SERVICE-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = CryptoServiceNeeds(dependency, short_name)
@@ -1162,6 +1187,31 @@ class ARXMLParser(AbstractARXMLParser):
         needs.setResetToDefaultSupported(self.getChildElementOptionalBooleanValue(element, "RESET-TO-DEFAULT-SUPPORTED"))
         needs.setShortTermAdjustmentSupported(self.getChildElementOptionalBooleanValue(element, "SHORT-TERM-ADJUSTMENT-SUPPORTED"))
 
+    def readDiagnosticEnableConditionNeeds(self, element: ET.Element, needs: DiagnosticEnableConditionNeeds):
+        # self.logger.debug("Read DiagnosticEnableConditionNeeds %s" % needs.getShortName())
+        self.readDiagnosticCapabilityElement(element, needs)
+        needs.setInitialStatus(self.getChildElementOptionalLiteral(element, "INITIAL-STATUS"))
+
+    def readDiagnosticOperationCycleNeeds(self, element: ET.Element, needs: DiagnosticOperationCycleNeeds):
+        # self.logger.debug("Read DiagnosticOperationCycleNeeds %s" % needs.getShortName())
+        self.readDiagnosticCapabilityElement(element, needs)
+        needs.setOperationCycle(self.getChildElementOptionalLiteral(element, "OPERATION-CYCLE"))
+
+    def readDiagnosticStorageConditionNeeds(self, element: ET.Element, needs: DiagnosticStorageConditionNeeds):
+        # self.logger.debug("Read DiagnosticStorageConditionNeeds %s" % needs.getShortName())
+        self.readDiagnosticCapabilityElement(element, needs)
+        needs.setInitialStatus(self.getChildElementOptionalLiteral(element, "INITIAL-STATUS"))
+
+    def readIndicatorStatusNeeds(self, element: ET.Element, needs: IndicatorStatusNeeds):
+        # self.logger.debug("Read IndicatorStatusNeeds %s" % needs.getShortName())
+        self.readServiceNeeds(element, needs)
+        needs.setType(self.getChildElementOptionalLiteral(element, "TYPE"))
+
+    def readFunctionInhibitionAvailabilityNeeds(self, element: ET.Element, needs: FunctionInhibitionAvailabilityNeeds):
+        # self.logger.debug("Read FunctionInhibitionAvailabilityNeeds %s" % needs.getShortName())
+        self.readServiceNeeds(element, needs)
+        needs.setControlledFidRef(self.getChildElementOptionalRefType(element, "CONTROLLED-FID-REF"))
+
     def readCryptoServiceNeeds(self, element: ET.Element, needs: CryptoServiceNeeds):
         # self.logger.debug("Read CryptoServiceNeeds <%s>" % needs.getShortName())
         self.readServiceNeeds(element, needs)
@@ -1279,6 +1329,21 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ERROR-TRACER-NEEDS":
                 needs = parent.createErrorTracerNeeds(self.getShortName(child_element))
                 self.readErrorTracerNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTIC-ENABLE-CONDITION-NEEDS":
+                needs = parent.createDiagnosticEnableConditionNeeds(self.getShortName(child_element))
+                self.readDiagnosticEnableConditionNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTIC-OPERATION-CYCLE-NEEDS":
+                needs = parent.createDiagnosticOperationCycleNeeds(self.getShortName(child_element))
+                self.readDiagnosticOperationCycleNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTIC-STORAGE-CONDITION-NEEDS":
+                needs = parent.createDiagnosticStorageConditionNeeds(self.getShortName(child_element))
+                self.readDiagnosticStorageConditionNeeds(child_element, needs)
+            elif tag_name == "INDICATOR-STATUS-NEEDS":
+                needs = parent.createIndicatorStatusNeeds(self.getShortName(child_element))
+                self.readIndicatorStatusNeeds(child_element, needs)
+            elif tag_name == "FUNCTION-INHIBITION-AVAILABILITY-NEEDS":
+                needs = parent.createFunctionInhibitionAvailabilityNeeds(self.getShortName(child_element))
+                self.readFunctionInhibitionAvailabilityNeeds(child_element, needs)
             else:
                 self.notImplemented("Unsupported service needs <%s>" % tag_name)
 

@@ -3,8 +3,20 @@ This module contains comprehensive tests for the ServiceMapping module in SWComp
 Tests cover all classes and methods in the ServiceMapping.py file to achieve 100% test coverage.
 """
 
+import os
+import tempfile
+
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    DiagnosticIndicatorTypeEnum,
+    EventAcceptanceStatusEnum,
+    OperationCycleTypeEnum,
+    StorageConditionStatusEnum,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedPortAssignment, SwcServiceDependency
+from armodel.parser.arxml_parser import ARXMLParser
+from armodel.writer.arxml_writer import ARXMLWriter
 
 
 class TestRoleBasedPortAssignment:
@@ -121,6 +133,83 @@ class TestSwcServiceDependency:
         assert com_needs.short_name == "TestComNeeds"
         assert com_needs in service_dep.getComMgrUserNeeds()
 
+        enable_condition_needs = service_dep.createDiagnosticEnableConditionNeeds("TestEnableConditionNeeds")
+        assert enable_condition_needs is not None
+        assert enable_condition_needs.short_name == "TestEnableConditionNeeds"
+        assert enable_condition_needs in service_dep.getServiceNeeds()
+
+        operation_cycle_needs = service_dep.createDiagnosticOperationCycleNeeds("TestOperationCycleNeeds")
+        assert operation_cycle_needs is not None
+        assert operation_cycle_needs.short_name == "TestOperationCycleNeeds"
+        assert operation_cycle_needs in service_dep.getServiceNeeds()
+
+        storage_condition_needs = service_dep.createDiagnosticStorageConditionNeeds("TestStorageConditionNeeds")
+        assert storage_condition_needs is not None
+        assert storage_condition_needs.short_name == "TestStorageConditionNeeds"
+        assert storage_condition_needs in service_dep.getServiceNeeds()
+
+        indicator_status_needs = service_dep.createIndicatorStatusNeeds("TestIndicatorStatusNeeds")
+        assert indicator_status_needs is not None
+        assert indicator_status_needs.short_name == "TestIndicatorStatusNeeds"
+        assert indicator_status_needs in service_dep.getServiceNeeds()
+
+        fim_availability_needs = service_dep.createFunctionInhibitionAvailabilityNeeds("TestFimAvailabilityNeeds")
+        assert fim_availability_needs is not None
+        assert fim_availability_needs.short_name == "TestFimAvailabilityNeeds"
+        assert fim_availability_needs in service_dep.getServiceNeeds()
+
         # Test getting all service needs
         all_service_needs = service_dep.getServiceNeeds()
-        assert len(all_service_needs) == 12  # All the ones we created above
+        assert len(all_service_needs) == 17  # All the ones we created above
+
+
+class TestSwcServiceDependencyRoundTrip:
+    """Test full parse -> write -> re-parse for the 5 new ServiceNeeds via SWC route."""
+
+    def test_swc_service_needs_round_trip(self):
+        """Verify all 5 new needs survive an SWC round-trip."""
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        swc = ar_root.createApplicationSwComponentType("MySwc")
+        behavior = swc.createSwcInternalBehavior("Beh")
+        dependency = behavior.createSwcServiceDependency("Dep")
+
+        enable = dependency.createDiagnosticEnableConditionNeeds("EnableNeeds")
+        enable.setInitialStatus(EventAcceptanceStatusEnum().setValue(EventAcceptanceStatusEnum.EVENT_ACCEPTANCE_ENABLED))
+
+        cycle = dependency.createDiagnosticOperationCycleNeeds("CycleNeeds")
+        cycle.setOperationCycle(OperationCycleTypeEnum().setValue(OperationCycleTypeEnum.WARMUP))
+
+        storage = dependency.createDiagnosticStorageConditionNeeds("StorageNeeds")
+        storage.setInitialStatus(StorageConditionStatusEnum().setValue(StorageConditionStatusEnum.EVENT_STORAGE_ENABLE))
+
+        indicator = dependency.createIndicatorStatusNeeds("IndicatorNeeds")
+        indicator.setType(DiagnosticIndicatorTypeEnum().setValue(DiagnosticIndicatorTypeEnum.MALFUNCTION))
+
+        fim = dependency.createFunctionInhibitionAvailabilityNeeds("FimNeeds")
+        fim_ref = RefType()
+        fim_ref.setValue("/Fim/Ref")
+        fim.setControlledFidRef(fim_ref)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+
+            swc_2 = document_2.getARPackages()[0].getSwComponentTypes()[0]
+            behavior_2 = swc_2.getInternalBehavior()
+            dependency_2 = behavior_2.getSwcServiceDependencies()[0]
+            needs_2 = {n.getShortName(): n for n in dependency_2.getServiceNeeds()}
+
+            assert needs_2["EnableNeeds"].getInitialStatus().getValue() == "eventAcceptanceEnabled"
+            assert needs_2["CycleNeeds"].getOperationCycle().getValue() == "warmup"
+            assert needs_2["StorageNeeds"].getInitialStatus().getValue() == "eventStorageEnabled"
+            assert needs_2["IndicatorNeeds"].getType().getValue() == "malfunction"
+            assert needs_2["FimNeeds"].getControlledFidRef().getValue() == "/Fim/Ref"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)

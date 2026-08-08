@@ -1274,6 +1274,84 @@ class TestBswServiceDependencyHandlers:
         assert dependency.getAssignedEntryRole() == []
         assert dependency.getServiceNeeds() is None
 
+    def test_readBswServiceDependency_diagnostic_enable_condition_needs(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
+
+        dependency = BswServiceDependency()
+        element = _snip(
+            "<SERVICE-NEEDS>"
+            "<DIAGNOSTIC-ENABLE-CONDITION-NEEDS><SHORT-NAME>needs</SHORT-NAME><INITIAL-STATUS>eventAcceptanceEnabled</INITIAL-STATUS></DIAGNOSTIC-ENABLE-CONDITION-NEEDS>"
+            "</SERVICE-NEEDS>",
+            root_tag="BSW-SERVICE-DEPENDENCY",
+        )
+        parser.readBswServiceDependency(element, dependency)
+
+        needs = dependency.getServiceNeeds()
+        assert needs.getShortName() == "needs"
+        assert needs.getInitialStatus().getValue() == "eventAcceptanceEnabled"
+
+    def test_readBswServiceDependency_diagnostic_operation_cycle_needs(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
+
+        dependency = BswServiceDependency()
+        element = _snip(
+            "<SERVICE-NEEDS>" "<DIAGNOSTIC-OPERATION-CYCLE-NEEDS><SHORT-NAME>needs</SHORT-NAME><OPERATION-CYCLE>power</OPERATION-CYCLE></DIAGNOSTIC-OPERATION-CYCLE-NEEDS>" "</SERVICE-NEEDS>",
+            root_tag="BSW-SERVICE-DEPENDENCY",
+        )
+        parser.readBswServiceDependency(element, dependency)
+
+        needs = dependency.getServiceNeeds()
+        assert needs.getShortName() == "needs"
+        assert needs.getOperationCycle().getValue() == "power"
+
+    def test_readBswServiceDependency_diagnostic_storage_condition_needs(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
+
+        dependency = BswServiceDependency()
+        element = _snip(
+            "<SERVICE-NEEDS>"
+            "<DIAGNOSTIC-STORAGE-CONDITION-NEEDS><SHORT-NAME>needs</SHORT-NAME><INITIAL-STATUS>eventStorageDisabled</INITIAL-STATUS></DIAGNOSTIC-STORAGE-CONDITION-NEEDS>"
+            "</SERVICE-NEEDS>",
+            root_tag="BSW-SERVICE-DEPENDENCY",
+        )
+        parser.readBswServiceDependency(element, dependency)
+
+        needs = dependency.getServiceNeeds()
+        assert needs.getShortName() == "needs"
+        assert needs.getInitialStatus().getValue() == "eventStorageDisabled"
+
+    def test_readBswServiceDependency_indicator_status_needs(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
+
+        dependency = BswServiceDependency()
+        element = _snip(
+            "<SERVICE-NEEDS>" "<INDICATOR-STATUS-NEEDS><SHORT-NAME>needs</SHORT-NAME><TYPE>amberWarning</TYPE></INDICATOR-STATUS-NEEDS>" "</SERVICE-NEEDS>",
+            root_tag="BSW-SERVICE-DEPENDENCY",
+        )
+        parser.readBswServiceDependency(element, dependency)
+
+        needs = dependency.getServiceNeeds()
+        assert needs.getShortName() == "needs"
+        assert needs.getType().getValue() == "amberWarning"
+
+    def test_readBswServiceDependency_function_inhibition_availability_needs(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
+
+        dependency = BswServiceDependency()
+        element = _snip(
+            "<SERVICE-NEEDS>"
+            "<FUNCTION-INHIBITION-AVAILABILITY-NEEDS><SHORT-NAME>needs</SHORT-NAME>"
+            "<CONTROLLED-FID-REF DEST='FUNCTION-INHIBITION-NEEDS'>/Fim/Controlled</CONTROLLED-FID-REF>"
+            "</FUNCTION-INHIBITION-AVAILABILITY-NEEDS>"
+            "</SERVICE-NEEDS>",
+            root_tag="BSW-SERVICE-DEPENDENCY",
+        )
+        parser.readBswServiceDependency(element, dependency)
+
+        needs = dependency.getServiceNeeds()
+        assert needs.getShortName() == "needs"
+        assert needs.getControlledFidRef().getValue() == "/Fim/Controlled"
+
     def test_readBswServiceDependency_symbolic_name_props(self, parser):
         from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
         from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import SymbolicNameProps

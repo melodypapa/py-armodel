@@ -4,11 +4,30 @@ in software component internal behavior templates.
 """
 
 from typing import List
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ComMgrUserNeeds, CryptoServiceNeeds, DiagnosticCommunicationManagerNeeds, DiagnosticEventInfoNeeds
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    ComMgrUserNeeds,
+    CryptoServiceNeeds,
+    DiagnosticCommunicationManagerNeeds,
+    DiagnosticEnableConditionNeeds,
+    DiagnosticEventInfoNeeds,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticIoControlNeeds
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DltUserNeeds
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticEventNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DtcStatusChangeNotificationNeeds, EcuStateMgrUserNeeds, ErrorTracerNeeds, NvBlockNeeds
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    DiagnosticEventNeeds,
+    DiagnosticOperationCycleNeeds,
+    DiagnosticRoutineNeeds,
+    DiagnosticStorageConditionNeeds,
+    DiagnosticValueNeeds,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    DtcStatusChangeNotificationNeeds,
+    EcuStateMgrUserNeeds,
+    ErrorTracerNeeds,
+    FunctionInhibitionAvailabilityNeeds,
+    IndicatorStatusNeeds,
+    NvBlockNeeds,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment, ServiceNeeds, ServiceDependency
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
@@ -311,6 +330,81 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         """
         if not self.IsElementExists(short_name):
             needs = DiagnosticIoControlNeeds(self, short_name)
+            self.addElement(needs)
+        return self.getElement(short_name)
+
+    def createDiagnosticEnableConditionNeeds(self, short_name: str) -> DiagnosticEnableConditionNeeds:
+        """
+        Creates or retrieves a DiagnosticEnableConditionNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            DiagnosticEnableConditionNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name):
+            needs = DiagnosticEnableConditionNeeds(self, short_name)
+            self.addElement(needs)
+        return self.getElement(short_name)
+
+    def createDiagnosticOperationCycleNeeds(self, short_name: str) -> DiagnosticOperationCycleNeeds:
+        """
+        Creates or retrieves a DiagnosticOperationCycleNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            DiagnosticOperationCycleNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name):
+            needs = DiagnosticOperationCycleNeeds(self, short_name)
+            self.addElement(needs)
+        return self.getElement(short_name)
+
+    def createDiagnosticStorageConditionNeeds(self, short_name: str) -> DiagnosticStorageConditionNeeds:
+        """
+        Creates or retrieves a DiagnosticStorageConditionNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            DiagnosticStorageConditionNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name):
+            needs = DiagnosticStorageConditionNeeds(self, short_name)
+            self.addElement(needs)
+        return self.getElement(short_name)
+
+    def createFunctionInhibitionAvailabilityNeeds(self, short_name: str) -> FunctionInhibitionAvailabilityNeeds:
+        """
+        Creates or retrieves a FunctionInhibitionAvailabilityNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            FunctionInhibitionAvailabilityNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name):
+            needs = FunctionInhibitionAvailabilityNeeds(self, short_name)
+            self.addElement(needs)
+        return self.getElement(short_name)
+
+    def createIndicatorStatusNeeds(self, short_name: str) -> IndicatorStatusNeeds:
+        """
+        Creates or retrieves an IndicatorStatusNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            IndicatorStatusNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name):
+            needs = IndicatorStatusNeeds(self, short_name)
             self.addElement(needs)
         return self.getElement(short_name)
 

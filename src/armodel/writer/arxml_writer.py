@@ -96,15 +96,20 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DiagEventDebounceTimeBased,
     DiagnosticCapabilityElement,
     DiagnosticCommunicationManagerNeeds,
+    DiagnosticEnableConditionNeeds,
     DiagnosticEventInfoNeeds,
     DiagnosticEventNeeds,
     DiagnosticIoControlNeeds,
+    DiagnosticOperationCycleNeeds,
     DiagnosticRoutineNeeds,
+    DiagnosticStorageConditionNeeds,
     DiagnosticValueNeeds,
     DltUserNeeds,
     DtcStatusChangeNotificationNeeds,
     EcuStateMgrUserNeeds,
     ErrorTracerNeeds,
+    FunctionInhibitionAvailabilityNeeds,
+    IndicatorStatusNeeds,
     NvBlockNeeds,
     PossibleErrorReaction,
     RoleBasedDataAssignment,
@@ -2101,6 +2106,16 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticEventInfoNeeds(child_element, needs)
         elif isinstance(needs, DiagnosticIoControlNeeds):
             self.writeDiagnosticIoControlNeeds(child_element, needs)
+        elif isinstance(needs, DiagnosticEnableConditionNeeds):
+            self.writeDiagnosticEnableConditionNeeds(child_element, needs)
+        elif isinstance(needs, DiagnosticOperationCycleNeeds):
+            self.writeDiagnosticOperationCycleNeeds(child_element, needs)
+        elif isinstance(needs, DiagnosticStorageConditionNeeds):
+            self.writeDiagnosticStorageConditionNeeds(child_element, needs)
+        elif isinstance(needs, IndicatorStatusNeeds):
+            self.writeIndicatorStatusNeeds(child_element, needs)
+        elif isinstance(needs, FunctionInhibitionAvailabilityNeeds):
+            self.writeFunctionInhibitionAvailabilityNeeds(child_element, needs)
         elif isinstance(needs, CryptoServiceNeeds):
             self.writeCryptoServiceNeeds(child_element, needs)
         elif isinstance(needs, EcuStateMgrUserNeeds):
@@ -2290,6 +2305,36 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "RESET-TO-DEFAULT-SUPPORTED", needs.getResetToDefaultSupported())
         self.setChildElementOptionalBooleanValue(child_element, "SHORT-TERM-ADJUSTMENT-SUPPORTED", needs.getShortTermAdjustmentSupported())
 
+    def writeDiagnosticEnableConditionNeeds(self, element: ET.Element, needs: DiagnosticEnableConditionNeeds):
+        # self.logger.debug("Write DiagnosticEnableConditionNeeds %s" % needs.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-ENABLE-CONDITION-NEEDS")
+        self.writeDiagnosticCapabilityElement(child_element, needs)
+        self.setChildElementOptionalLiteral(child_element, "INITIAL-STATUS", needs.getInitialStatus())
+
+    def writeDiagnosticOperationCycleNeeds(self, element: ET.Element, needs: DiagnosticOperationCycleNeeds):
+        # self.logger.debug("Write DiagnosticOperationCycleNeeds %s" % needs.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-OPERATION-CYCLE-NEEDS")
+        self.writeDiagnosticCapabilityElement(child_element, needs)
+        self.setChildElementOptionalLiteral(child_element, "OPERATION-CYCLE", needs.getOperationCycle())
+
+    def writeDiagnosticStorageConditionNeeds(self, element: ET.Element, needs: DiagnosticStorageConditionNeeds):
+        # self.logger.debug("Write DiagnosticStorageConditionNeeds %s" % needs.getShortName())
+        child_element = ET.SubElement(element, "DIAGNOSTIC-STORAGE-CONDITION-NEEDS")
+        self.writeDiagnosticCapabilityElement(child_element, needs)
+        self.setChildElementOptionalLiteral(child_element, "INITIAL-STATUS", needs.getInitialStatus())
+
+    def writeIndicatorStatusNeeds(self, element: ET.Element, needs: IndicatorStatusNeeds):
+        # self.logger.debug("Write IndicatorStatusNeeds %s" % needs.getShortName())
+        child_element = ET.SubElement(element, "INDICATOR-STATUS-NEEDS")
+        self.writeServiceNeeds(child_element, needs)
+        self.setChildElementOptionalLiteral(child_element, "TYPE", needs.getType())
+
+    def writeFunctionInhibitionAvailabilityNeeds(self, element: ET.Element, needs: FunctionInhibitionAvailabilityNeeds):
+        # self.logger.debug("Write FunctionInhibitionAvailabilityNeeds %s" % needs.getShortName())
+        child_element = ET.SubElement(element, "FUNCTION-INHIBITION-AVAILABILITY-NEEDS")
+        self.writeServiceNeeds(child_element, needs)
+        self.setChildElementOptionalRefType(child_element, "CONTROLLED-FID-REF", needs.getControlledFidRef())
+
     def writeCryptoServiceNeeds(self, element: ET.Element, needs: CryptoServiceNeeds):
         # self.logger.debug("Write CryptoServiceNeeds %s" % needs.getShortName())
         child_element = ET.SubElement(element, "CRYPTO-SERVICE-NEEDS")
@@ -2396,6 +2441,16 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeDiagnosticEventInfoNeeds(child_element, needs)
                 elif isinstance(needs, DiagnosticIoControlNeeds):
                     self.writeDiagnosticIoControlNeeds(child_element, needs)
+                elif isinstance(needs, DiagnosticEnableConditionNeeds):
+                    self.writeDiagnosticEnableConditionNeeds(child_element, needs)
+                elif isinstance(needs, DiagnosticOperationCycleNeeds):
+                    self.writeDiagnosticOperationCycleNeeds(child_element, needs)
+                elif isinstance(needs, DiagnosticStorageConditionNeeds):
+                    self.writeDiagnosticStorageConditionNeeds(child_element, needs)
+                elif isinstance(needs, IndicatorStatusNeeds):
+                    self.writeIndicatorStatusNeeds(child_element, needs)
+                elif isinstance(needs, FunctionInhibitionAvailabilityNeeds):
+                    self.writeFunctionInhibitionAvailabilityNeeds(child_element, needs)
                 elif isinstance(needs, CryptoServiceNeeds):
                     self.writeCryptoServiceNeeds(child_element, needs)
                 elif isinstance(needs, EcuStateMgrUserNeeds):
