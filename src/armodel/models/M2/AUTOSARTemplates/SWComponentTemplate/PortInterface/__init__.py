@@ -476,46 +476,70 @@ class ClientServerOperation(AtpStructureElement):
 
 class ClientServerInterface(PortInterface):
     """
-    A client/server interface declares a number of operations that can be invoked on a server by a client.
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
-    Base: ARElement, ARObject, AtpBlueprint, AtpBlueprintable, AtpClassifier , AtpType, CollectableElement, Identifiable, MultilanguageReferrable,
-          PackageableElement, PortInterface, Referrable
-
-    Methods:
-    --------
-    createOperation             create ClientServerOperation(s) of this ClientServerInterface.
-    createApplicationError      create Application errors that are defined as part of this interface
-    getOperations               get all ClientServerOperation(s) of this ClientServerInterface
-    getPossibleErrors           get all Application error(s) of this ClientServerInterface
-
+    A client/server interface declares a number of operations that can be
+    invoked on a server by a client.
     """
 
     # ClientServerInterface method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] createOperation              [x] impl  [ ] docstring  [ ] test
-    # [ ] createApplicationError       [x] impl  [ ] docstring  [ ] test
-    # [ ] getOperations                [x] impl  [ ] docstring  [ ] test
-    # [ ] getPossibleErrors            [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.6, p.101
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] createOperation              [x] impl  [x] docstring  [x] test
+    # [x] createApplicationError       [x] impl  [x] docstring  [x] test
+    # [x] getOperations                [x] impl  [x] docstring  [x] test
+    # [x] getPossibleErrors            [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
     def createOperation(self, short_name: str) -> ClientServerOperation:
+        """
+        Creates a ClientServerOperation of this ClientServerInterface with the
+        given short name, or returns the existing one if it already exists.
+
+        Args:
+            short_name: The short name for the new ClientServerOperation
+
+        Returns:
+            The created (or existing) ClientServerOperation
+        """
         if not self.IsElementExists(short_name):
             operation = ClientServerOperation(self, short_name)
             self.addElement(operation)
         return self.getElement(short_name, ClientServerOperation)
 
     def createApplicationError(self, short_name: str) -> ApplicationError:
+        """
+        Creates an ApplicationError of this ClientServerInterface with the
+        given short name, or returns the existing one if it already exists.
+
+        Args:
+            short_name: The short name for the new ApplicationError
+
+        Returns:
+            The created (or existing) ApplicationError
+        """
         if not self.IsElementExists(short_name):
             error = ApplicationError(self, short_name)
             self.addElement(error)
         return self.getElement(short_name, ApplicationError)
 
     def getOperations(self) -> List[ClientServerOperation]:
+        """
+        Gets the ClientServerOperation(s) of this ClientServerInterface.
+
+        Returns:
+            The list of ClientServerOperation instances
+        """
         return list(filter(lambda c: isinstance(c, ClientServerOperation), self.elements))
 
     def getPossibleErrors(self) -> List[ApplicationError]:
+        """
+        Gets the Application errors that are defined as part of this interface.
+
+        Returns:
+            The list of ApplicationError instances
+        """
         return list(filter(lambda c: isinstance(c, ApplicationError), self.elements))
 
 

@@ -609,6 +609,23 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       over a `swAxisConts: List[...]` field. Align the class being worked on
       to the rule, and record the sibling as a deviation to reconcile later —
       do not copy its shape.
+- [ ] **A factory named after the child type does not make a `*` member
+      "missing" — the tracker heuristic keys on the member name, not on
+      Rule 1.6's factory name.** For a `*` aggr member whose child type's base
+      name differs from the member's (e.g. `ClientServerInterface.possibleError`
+      of type `ApplicationError`), the factory is correctly named after the
+      child type (`createApplicationError`) while the getter is correctly
+      named after the member (`getPossibleErrors`). A member-matching script
+      that searches accessors for the member base name (`possibleError`) will
+      find the getter but not the child-type-named factory and can flag the
+      member as `missing` in `docs/method_deviation_by_class.md`. That row is
+      **stale — remove it**, do not rename the factory to
+      `createPossibleError` and do not record a `naming` deviation: the
+      member is implemented, parser/writer-wired, and tested. The checklist
+      rows carry the truth (`createApplicationError`, `getPossibleErrors`); a
+      `missing` row surviving for a member that has both a factory and a
+      getter is a stale-row signal (Rule 1.4/1.5's stale-row guidance applies
+      to `missing` rows as much as to `type`/`naming` rows).
 
 ### 1.7 Parser and writer coverage
 
@@ -2152,9 +2169,12 @@ assert not untested, f"methods without test coverage: {untested}"
 # Rule 13.1: the class must carry the spec-version marker (a fully-[x]
 # checklist can still miss it, so check it explicitly). Only a class with
 # an own spec table carries the marker — a class with no own table (Rule
-# 1.5) has no `# Spec:` line, no marker, and all-`[ ]` rows, so the assert
-# is conditioned on the `# Spec:` line being present.
-if "# Spec:" in src:
+# 1.5) has no `# Spec:` line, no marker, and all-`[ ]` rows. A class with a
+# Rule 1.10 placeholder (a "not yet implemented" / "carried as a" comment on
+# a member whose spec type is a real model class) keeps its `# Spec:` line
+# but legitimately omits the stamp; the marker is only required when no such
+# placeholder comment is present, so condition the assert on that.
+if "# Spec:" in src and "not yet implemented" not in src and "carried as a" not in src:
     assert re.search(r"# Spec verified: R\d\d-\d\d", src), "missing # Spec verified marker (Rule 13.1)"
 ```
 
@@ -2220,11 +2240,21 @@ still paraphrased) is a Rule 13 violation, not a partial credit.
       `Optional[ARObject]`) contradicts the marker even when every docstring
       is accurate (this happened to `VariationPointProxy.valueAccess`). When
       a Rule 1.10 placeholder remains because the real type's closure is out
-      of scope, **remove the `# Spec:` and `# Spec verified:` lines** (the
-      two travel together for the Rule 7 assert) and keep the checklist
-      `[x]` rows for the implemented+tested members — an unclaimed marker is
-      the honest state, and it flips back on once the placeholder is replaced
-      by the real type.
+      of scope, **omit the `# Spec verified:` stamp** but **keep the `# Spec:`
+      line** — the PDF name/table/page of a class that *does* have an own
+      rendered table is a provenance statement that stays valid whether or
+      not every member is fully typed (e.g. `AtpBlueprint`, Table D.11,
+      p.305, keeps `# Spec:` with a `blueprintPolicy` placeholder, but carries
+      no `# Spec verified: R23-11`). The `# Spec:` line without the stamp is
+      the honest state; the stamp flips back on once the placeholder is
+      replaced by the real type. **The affected members' checklist rows stay
+      `[ ]` too — impl, docstring, and test all unchecked** (the Rule 1.5
+      provenance convention: `[ ]` means "not confirmed against the spec
+      type", and a placeholder is *not* the spec type even though the methods
+      are written and tested). The two lines only "travel together" for the
+      Rule 7 assert when the class is fully aligned — the assert must allow a
+      `# Spec:` line with no stamp when a Rule 1.10 placeholder comment is
+      present.
 - [ ] **Exception — a class with no own spec table carries no marker.** When a
       class cannot be read from a PDF table — its attributes are defined only
       in an XSD group, with no rendered table of its own (Rule 1.5, e.g. a

@@ -811,17 +811,24 @@ is only the atpVariation flattening), so the single-value model is PDF-correct.
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `blueprintPolicy` | `BlueprintPolicyList` | — | missing |
-| — *(missing)* | `—` | `shortNamePattern` | `String` | — | missing |
+| `blueprintPolicys` | `List[ARObject]` | `blueprintPolicy` | `BlueprintPolicy` | aggr | placeholder: spec type `BlueprintPolicy` (abstract, `*` aggr) is **not yet implemented** (Rule 1.10); the `BlueprintPolicy` family — abstract `BlueprintPolicy`/`BlueprintPolicyModifiable` and concrete `BlueprintPolicyList`/`BlueprintPolicyNotModifiable`/`BlueprintPolicySingle` — has **no own spec table** in any rendered PDF (attributes XSD-only: `attributeName`, `maxNumberOfElements`, `minNumberOfElements`, `blueprintDerivationGuide`), so it is carried as a `List[ARObject]` placeholder with `addBlueprintPolicy`/`getBlueprintPolicys`, forward-referenced in the docstrings; when the family is implemented, switch to the concrete type and add the `# Spec verified:` stamp (the `# Spec:` provenance line is already present) |
+| — *(not modeled)* | `—` | `shortNamePattern` | `String` | — | deprecated (atp.Status=removed), not implemented — present only in the XSD `ATP-BLUEPRINT` group (`SHORT-NAME-PATTERN`), absent from the R23-11 PDF Table D.11 rendering |
+
+Aligned to `class_check_rules.md` on 2026-08-08 (Table D.11, p.305). Base `ARObject, Identifiable, MultilanguageReferrable, Referrable` → inherits `Identifiable`. Class docstring is the verbatim Table D.11 Note. Carries `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.11, p.305` (provenance) but **no `# Spec verified:` stamp, and the checklist rows stay `[ ]` (impl/docstring/test unchecked)**: `blueprintPolicy` remains a `List[ARObject]` placeholder — *not* the spec type `BlueprintPolicy` — because the `BlueprintPolicy` family is unimplemented (Rule 1.10 "class not yet implemented"; see Rule 13.1 marker-omission + unchecked-row rule). `AtpBlueprint` is abstract with no concrete serialization — its attributes serialize only through concrete blueprint subclasses, so no parser/writer wiring is needed or expected (Rule 1.7 abstract-class exception).
 
 ## `ClientServerInterface`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 308
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 101
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::PortInterface`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `possibleError` | `ApplicationError` | — | missing |
+No deviations — Table 4.6 attributes (`operation`, `possibleError`) are implemented with
+parser/writer coverage and tests. The previously recorded `possibleError` row was stale: the
+member is implemented via the `createApplicationError` factory (named after the child type
+`ApplicationError` per Rule 1.6) plus the `getPossibleErrors` getter, both wired in
+`parser/arxml_parser.py` (`readPossibleErrors`) and `writer/arxml_writer.py`. Cross-checked
+across all four renderings (BSW Table D.17, Diag Table 5.13, System Table F.28) — all agree
+on the member set and order; SWC Table 4.6 is cited as the complete rendering (Package,
+Note, Base, Aggregated-by and Attribute rows).
 
 ## `ClientServerOperation`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 309
