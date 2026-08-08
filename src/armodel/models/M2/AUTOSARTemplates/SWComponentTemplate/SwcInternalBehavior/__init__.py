@@ -1,10 +1,11 @@
-from typing import List
+from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint, AccessCount, AccessCountSet, RteApiReturnValueProvisionEnum
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import PortAPIOption
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import InternalBehavior
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ApiPrincipleEnum, InternalBehavior
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstantiationDataDefProps import InstantiationDataDefProps
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PerInstanceMemory import PerInstanceMemory
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import AsynchronousServerCallReturnsEvent, BackgroundEvent
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import DataSendCompletedEvent
@@ -26,6 +27,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import ModeSwitchPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import ExternalTriggeringPoint, InternalTriggeringPoint
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity
 
@@ -298,84 +300,206 @@ class RunnableEntity(ExecutableEntity):
         return self
 
 
+class SwcExclusiveAreaPolicy(ARObject):
+    """
+    Options how to generate the ExclusiveArea related APIs. If no
+    SwcExclusiveAreaPolicy is specified for an ExclusiveArea the default values
+    apply.
+    """
+
+    # SwcExclusiveAreaPolicy method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.28, p.556
+    # Spec verified: R23-11
+    # [x] __init__             [x] impl  [x] docstring  [x] test
+    # [x] getApiPrinciple      [x] impl  [x] docstring  [x] test
+    # [x] setApiPrinciple      [x] impl  [x] docstring  [x] test
+    # [x] getExclusiveAreaRef  [x] impl  [x] docstring  [x] test
+    # [x] setExclusiveAreaRef  [x] impl  [x] docstring  [x] test
+
+    def __init__(self):
+        super().__init__()
+
+        # Specifies for this ExclusiveArea if either one common set of Enter
+        # and Exit APIs for the whole software component is requested from the
+        # Rte or if the set of Enter and Exit APIs is expected per
+        # RunnableEntity. The default value is "common".
+        self.apiPrinciple: Optional[ApiPrincipleEnum] = None
+
+        # This reference represents the ExclusiveArea for which the policy
+        # applies.
+        self.exclusiveAreaRef: Optional[RefType] = None
+
+    def getApiPrinciple(self) -> Optional[ApiPrincipleEnum]:
+        """Gets the apiPrinciple (common vs per-RunnableEntity API generation) for this policy."""
+        return self.apiPrinciple
+
+    def setApiPrinciple(self, value: Optional[ApiPrincipleEnum]) -> "SwcExclusiveAreaPolicy":
+        """
+        Sets the apiPrinciple (common vs per-RunnableEntity API generation) for
+        this policy. A None value is a no-op and does not overwrite an existing
+        apiPrinciple.
+        """
+        if value is not None:
+            self.apiPrinciple = value
+        return self
+
+    def getExclusiveAreaRef(self) -> Optional[RefType]:
+        """Gets the reference to the ExclusiveArea for which this policy applies."""
+        return self.exclusiveAreaRef
+
+    def setExclusiveAreaRef(self, value: Optional[RefType]) -> "SwcExclusiveAreaPolicy":
+        """
+        Sets the reference to the ExclusiveArea for which this policy applies.
+        A None value is a no-op and does not overwrite an existing
+        exclusiveAreaRef.
+        """
+        if value is not None:
+            self.exclusiveAreaRef = value
+        return self
+
+
 class SwcInternalBehavior(InternalBehavior):
+    """
+    The SwcInternalBehavior of an AtomicSwComponentType describes the
+    relevant aspects of the software-component with respect to the RTE, i.e.
+    the RunnableEntities and the RTEEvents they respond to.
+    """
+
     # SwcInternalBehavior method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getArTypedPerInstanceMemories [x] impl  [ ] docstring  [ ] test
-    # [ ] createArTypedPerInstanceMemory [x] impl  [ ] docstring  [ ] test
-    # [ ] getExplicitInterRunnableVariables [x] impl  [ ] docstring  [ ] test
-    # [ ] createExplicitInterRunnableVariable [x] impl  [ ] docstring  [ ] test
-    # [ ] getHandleTerminationAndRestart [x] impl  [ ] docstring  [ ] test
-    # [ ] setHandleTerminationAndRestart [x] impl  [ ] docstring  [ ] test
-    # [ ] getImplicitInterRunnableVariables [x] impl  [ ] docstring  [ ] test
-    # [ ] getPerInstanceMemories       [x] impl  [ ] docstring  [ ] test
-    # [ ] getPerInstanceParameters     [x] impl  [ ] docstring  [ ] test
-    # [ ] addPortAPIOption             [x] impl  [ ] docstring  [ ] test
-    # [ ] getPortAPIOptions            [x] impl  [ ] docstring  [ ] test
-    # [ ] addIncludedDataTypeSet       [x] impl  [ ] docstring  [ ] test
-    # [ ] getIncludedDataTypeSets      [x] impl  [ ] docstring  [ ] test
-    # [ ] getIncludedModeDeclarationGroupSets [x] impl  [ ] docstring  [ ] test
-    # [ ] addIncludedModeDeclarationGroupSet [x] impl  [ ] docstring  [ ] test
-    # [ ] createOperationInvokedEvent  [x] impl  [ ] docstring  [ ] test
-    # [ ] createTimingEvent            [x] impl  [ ] docstring  [ ] test
-    # [ ] createInitEvent              [x] impl  [ ] docstring  [ ] test
-    # [ ] createAsynchronousServerCallReturnsEvent [x] impl  [ ] docstring  [ ] test
-    # [ ] createDataReceivedEvent      [x] impl  [ ] docstring  [ ] test
-    # [ ] createSwcModeSwitchEvent     [x] impl  [ ] docstring  [ ] test
-    # [ ] createInternalTriggerOccurredEvent [x] impl  [ ] docstring  [ ] test
-    # [ ] createSwcServiceDependency   [x] impl  [ ] docstring  [ ] test
-    # [ ] createModeSwitchedAckEvent   [x] impl  [ ] docstring  [ ] test
-    # [ ] createBackgroundEvent        [x] impl  [ ] docstring  [ ] test
-    # [ ] createDataSendCompletedEvent [x] impl  [ ] docstring  [ ] test
-    # [ ] getRteEvents                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getOperationInvokedEvents    [x] impl  [ ] docstring  [ ] test
-    # [ ] getInitEvents                [x] impl  [ ] docstring  [ ] test
-    # [ ] getTimingEvents              [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataReceivedEvents        [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwcModeSwitchEvents       [x] impl  [ ] docstring  [ ] test
-    # [ ] getInternalTriggerOccurredEvents [x] impl  [ ] docstring  [ ] test
-    # [ ] getModeSwitchedAckEvents     [x] impl  [ ] docstring  [ ] test
-    # [ ] getBackgroundEvents          [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataSendCompletedEvents   [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwcServiceDependencies    [x] impl  [ ] docstring  [ ] test
-    # [ ] getEvent                     [x] impl  [x] docstring  [ ] test
-    # [ ] createImplicitInterRunnableVariable [x] impl  [ ] docstring  [ ] test
-    # [ ] createPerInstanceMemory      [x] impl  [ ] docstring  [ ] test
-    # [ ] createPerInstanceParameter   [x] impl  [ ] docstring  [ ] test
-    # [ ] getVariableDataPrototypes    [x] impl  [ ] docstring  [ ] test
-    # [ ] createRunnableEntity         [x] impl  [ ] docstring  [ ] test
-    # [ ] getRunnableEntities          [x] impl  [ ] docstring  [ ] test
-    # [ ] getRunnableEntity            [x] impl  [ ] docstring  [ ] test
-    # [ ] getSharedParameters          [x] impl  [ ] docstring  [ ] test
-    # [ ] createSharedParameter        [x] impl  [ ] docstring  [ ] test
-    # [ ] getSupportsMultipleInstantiation [x] impl  [ ] docstring  [ ] test
-    # [ ] setSupportsMultipleInstantiation [x] impl  [ ] docstring  [ ] test
+    # [x] __init__                                   [x] impl  [x] docstring  [x] test
+    # [x] getArTypedPerInstanceMemories              [x] impl  [x] docstring  [x] test
+    # [x] createArTypedPerInstanceMemory             [x] impl  [x] docstring  [x] test
+    # [x] addExclusiveAreaPolicy                     [x] impl  [x] docstring  [x] test
+    # [x] getExclusiveAreaPolicies                   [x] impl  [x] docstring  [x] test
+    # [x] getExplicitInterRunnableVariables          [x] impl  [x] docstring  [x] test
+    # [x] createExplicitInterRunnableVariable        [x] impl  [x] docstring  [x] test
+    # [x] getHandleTerminationAndRestart             [x] impl  [x] docstring  [x] test
+    # [x] setHandleTerminationAndRestart             [x] impl  [x] docstring  [x] test
+    # [x] getImplicitInterRunnableVariables          [x] impl  [x] docstring  [x] test
+    # [x] createImplicitInterRunnableVariable        [x] impl  [x] docstring  [x] test
+    # [x] getPerInstanceMemories                     [x] impl  [x] docstring  [x] test
+    # [x] createPerInstanceMemory                    [x] impl  [x] docstring  [x] test
+    # [x] getPerInstanceParameters                   [x] impl  [x] docstring  [x] test
+    # [x] createPerInstanceParameter                 [x] impl  [x] docstring  [x] test
+    # [x] getSharedParameters                        [x] impl  [x] docstring  [x] test
+    # [x] createSharedParameter                      [x] impl  [x] docstring  [x] test
+    # [x] addPortAPIOption                           [x] impl  [x] docstring  [x] test
+    # [x] getPortAPIOptions                          [x] impl  [x] docstring  [x] test
+    # [x] addIncludedDataTypeSet                     [x] impl  [x] docstring  [x] test
+    # [x] getIncludedDataTypeSets                    [x] impl  [x] docstring  [x] test
+    # [x] addIncludedModeDeclarationGroupSet         [x] impl  [x] docstring  [x] test
+    # [x] getIncludedModeDeclarationGroupSets        [x] impl  [x] docstring  [x] test
+    # [x] createOperationInvokedEvent                [x] impl  [x] docstring  [x] test
+    # [x] createTimingEvent                          [x] impl  [x] docstring  [x] test
+    # [x] createInitEvent                            [x] impl  [x] docstring  [x] test
+    # [x] createAsynchronousServerCallReturnsEvent   [x] impl  [x] docstring  [x] test
+    # [x] createDataReceivedEvent                    [x] impl  [x] docstring  [x] test
+    # [x] createSwcModeSwitchEvent                   [x] impl  [x] docstring  [x] test
+    # [x] createInternalTriggerOccurredEvent         [x] impl  [x] docstring  [x] test
+    # [x] createModeSwitchedAckEvent                 [x] impl  [x] docstring  [x] test
+    # [x] createBackgroundEvent                      [x] impl  [x] docstring  [x] test
+    # [x] createDataSendCompletedEvent               [x] impl  [x] docstring  [x] test
+    # [x] getRteEvents                               [x] impl  [x] docstring  [x] test
+    # [x] getOperationInvokedEvents                  [x] impl  [x] docstring  [x] test
+    # [x] getInitEvents                              [x] impl  [x] docstring  [x] test
+    # [x] getTimingEvents                            [x] impl  [x] docstring  [x] test
+    # [x] getDataReceivedEvents                      [x] impl  [x] docstring  [x] test
+    # [x] getSwcModeSwitchEvents                     [x] impl  [x] docstring  [x] test
+    # [x] getInternalTriggerOccurredEvents           [x] impl  [x] docstring  [x] test
+    # [x] getModeSwitchedAckEvents                   [x] impl  [x] docstring  [x] test
+    # [x] getBackgroundEvents                        [x] impl  [x] docstring  [x] test
+    # [x] getDataSendCompletedEvents                 [x] impl  [x] docstring  [x] test
+    # [x] getEvent                                   [x] impl  [x] docstring  [x] test
+    # [x] createSwcServiceDependency                 [x] impl  [x] docstring  [x] test
+    # [x] getSwcServiceDependencies                  [x] impl  [x] docstring  [x] test
+    # [x] getVariableDataPrototypes                  [x] impl  [x] docstring  [x] test
+    # [x] createRunnableEntity                       [x] impl  [x] docstring  [x] test
+    # [x] getRunnableEntities                        [x] impl  [x] docstring  [x] test
+    # [x] getRunnableEntity                          [x] impl  [x] docstring  [x] test
+    # [x] getSupportsMultipleInstantiation           [x] impl  [x] docstring  [x] test
+    # [x] setSupportsMultipleInstantiation           [x] impl  [x] docstring  [x] test
+    # [x] addInstantiationDataDefProps               [x] impl  [x] docstring  [x] test
+    # [x] getInstantiationDataDefPropss              [x] impl  [x] docstring  [x] test
+    # [x] addVariationPointProxy                     [x] impl  [x] docstring  [x] test
+    # [x] getVariationPointProxies                   [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.arTypedPerInstanceMemories = []  # type: List[VariableDataPrototype]
-        self.events = []  # type: List[RTEEvent]
-        self.exclusiveAreaPolicies = []  # type: List[SwcExclusiveAreaPolicy]
-        self.explicitInterRunnableVariables = []  # type: List[VariableDataPrototype]
-        self.handleTerminationAndRestart = None  # type: str
-        self.implicitInterRunnableVariables = []  # type: List[VariableDataPrototype]
-        self.includedDataTypeSets = []  # type: List[IncludedDataTypeSet]
-        self.includedModeDeclarationGroupSets = []  # type: List[IncludedModeDeclarationGroupSet]
-        self.instantiationDataDefProps = []  # type: List[InstantiationDataDefProps]
-        self.perInstanceMemories = []  # type: List[PerInstanceMemory]
-        self.perInstanceParameters = []  # type: List[ParameterDataPrototype]
-        self.portAPIOptions = []  # type: List[PortAPIOption]
-        self.runnables = []  # type: List[RunnableEntity]
-        self.serviceDependencies = []  # type: List[SwcServiceDependency]
-        self.sharedParameters = []  # type: List[ParameterDataPrototype]
-        self.supportsMultipleInstantiation = None  # type: Boolean
-        self.variationPointProxies = []  # type: List[VariationPointProxy]
+        # Defines an AUTOSAR typed memory-block that needs to be available for
+        # each instance of the SW-component.
+        self.arTypedPerInstanceMemories: List[VariableDataPrototype] = []
+
+        # This is a RTEEvent specified for the particular Swc InternalBehavior.
+        # RTEEvents are registered through the create*Event factories and are
+        # retrieved from the elements registry via getRteEvents / getEvent.
+        self.events: List[RTEEvent] = []
+
+        # Options how to generate the ExclusiveArea related APIs.
+        self.exclusiveAreaPolicies: List[SwcExclusiveAreaPolicy] = []
+
+        # Implement state message semantics for establishing communication
+        # among runnables of the same component.
+        self.explicitInterRunnableVariables: List[VariableDataPrototype] = []
+
+        # Controls the behavior with respect to stopping and restarting; the
+        # corresponding AtomicSwComponentType may either not support stop and
+        # restart, or support only stop, or support both. (Present in the XSD,
+        # absent from the PDF table rendering; PDF enum
+        # HandleTerminationAndRestartEnum not modeled, carried as ARLiteral.)
+        self.handleTerminationAndRestart: Optional[ARLiteral] = None
+
+        # Implement state message semantics for establishing communication
+        # among runnables of the same component.
+        self.implicitInterRunnableVariables: List[VariableDataPrototype] = []
+
+        # The includedDataTypeSet is used by a software component for its
+        # implementation.
+        self.includedDataTypeSets: List[IncludedDataTypeSet] = []
+
+        # This aggregation represents the included Mode DeclarationGroups.
+        self.includedModeDeclarationGroupSets: List[IncludedModeDeclarationGroupSet] = []
+
+        # Within the context of a given SwComponentType some data def
+        # properties of individual instantiations can be modified.
+        self.instantiationDataDefProps: List[InstantiationDataDefProps] = []
+
+        # Defines a per-instance memory object needed by this software
+        # component.
+        self.perInstanceMemories: List[PerInstanceMemory] = []
+
+        # Defines parameter(s) or characteristic value(s) that needs to be
+        # available for each instance of the software-component.
+        self.perInstanceParameters: List[ParameterDataPrototype] = []
+
+        # Options for generating the signature of port-related calls from a
+        # runnable to the RTE and vice versa.
+        self.portAPIOptions: List[PortAPIOption] = []
+
+        # This is a RunnableEntity specified for the particular Swc
+        # InternalBehavior.
+        self.runnables: List[RunnableEntity] = []
+
+        # Defines the requirements on AUTOSAR Services for a particular item.
+        self.serviceDependencies: List[SwcServiceDependency] = []
+
+        # Defines parameter(s) or characteristic value(s) shared between
+        # SwComponentPrototypes of the same SwComponentType.
+        self.sharedParameters: List[ParameterDataPrototype] = []
+
+        # Indicate whether the corresponding software-component can be multiply
+        # instantiated on one ECU. [constr_1935]
+        self.supportsMultipleInstantiation: Optional[Boolean] = None
+
+        # Proxy of a variation points in the C/C++ implementation.
+        self.variationPointProxies: List[VariationPointProxy] = []
 
     def getArTypedPerInstanceMemories(self) -> List[VariableDataPrototype]:
+        """Gets the AUTOSAR typed per-instance memory blocks owned by this behavior."""
         return self.arTypedPerInstanceMemories
 
     def createArTypedPerInstanceMemory(self, short_name: str) -> VariableDataPrototype:
+        """Creates (or returns an existing) arTypedPerInstanceMemory registered to this behavior."""
         if not self.IsElementExists(short_name):
             prototype = VariableDataPrototype(self, short_name)
             self.addElement(prototype)
@@ -383,208 +507,319 @@ class SwcInternalBehavior(InternalBehavior):
         return self.getElement(short_name)
 
     def getExplicitInterRunnableVariables(self) -> List[VariableDataPrototype]:
+        """Gets the explicitInterRunnableVariables owned by this behavior."""
         return self.explicitInterRunnableVariables
 
     def createExplicitInterRunnableVariable(self, short_name: str) -> VariableDataPrototype:
+        """Creates (or returns an existing) explicitInterRunnableVariable registered to this behavior."""
         if not self.IsElementExists(short_name):
             prototype = VariableDataPrototype(self, short_name)
             self.addElement(prototype)
             self.explicitInterRunnableVariables.append(prototype)
         return self.getElement(short_name)
 
-    def getHandleTerminationAndRestart(self):
+    def getHandleTerminationAndRestart(self) -> Optional[ARLiteral]:
+        """Gets handleTerminationAndRestart (stop/restart support of the AtomicSwComponentType)."""
         return self.handleTerminationAndRestart
 
-    def setHandleTerminationAndRestart(self, value):
-        self.handleTerminationAndRestart = value
+    def setHandleTerminationAndRestart(self, value: Optional[ARLiteral]) -> "SwcInternalBehavior":
+        """
+        Sets handleTerminationAndRestart (stop/restart support of the
+        AtomicSwComponentType). A None value is a no-op and does not overwrite
+        an existing handleTerminationAndRestart.
+        """
+        if value is not None:
+            self.handleTerminationAndRestart = value
         return self
 
     def getImplicitInterRunnableVariables(self) -> List[VariableDataPrototype]:
+        """Gets the implicitInterRunnableVariables owned by this behavior."""
         return self.implicitInterRunnableVariables
 
-    def getPerInstanceMemories(self) -> List[PerInstanceMemory]:
-        return self.perInstanceMemories
-
-    def getPerInstanceParameters(self) -> List[ParameterDataPrototype]:
-        return self.perInstanceParameters
-
-    def addPortAPIOption(self, option: PortAPIOption):
-        self.portAPIOptions.append(option)
-
-    def getPortAPIOptions(self) -> List[PortAPIOption]:
-        return self.portAPIOptions
-
-    def addIncludedDataTypeSet(self, set: IncludedDataTypeSet):
-        self.includedDataTypeSets.append(set)
-
-    def getIncludedDataTypeSets(self) -> List[IncludedDataTypeSet]:
-        return self.includedDataTypeSets
-
-    def getIncludedModeDeclarationGroupSets(self):
-        return self.includedModeDeclarationGroupSets
-
-    def addIncludedModeDeclarationGroupSet(self, value):
-        if value is not None:
-            self.includedModeDeclarationGroupSets.append(value)
-        return self
-
-    def createOperationInvokedEvent(self, short_name: str) -> OperationInvokedEvent:
-        if not self.IsElementExists(short_name):
-            event = OperationInvokedEvent(self, short_name)
-            self.addElement(event)
-        return self.getElement(short_name, OperationInvokedEvent)
-
-    def createTimingEvent(self, short_name: str) -> TimingEvent:
-        if not self.IsElementExists(short_name):
-            event = TimingEvent(self, short_name)
-            self.addElement(event)
-        return self.getElement(short_name, TimingEvent)
-
-    def createInitEvent(self, short_name: str) -> InitEvent:
-        if not self.IsElementExists(short_name):
-            event = InitEvent(self, short_name)
-            self.addElement(event)
-        return self.getElement(short_name, InitEvent)
-
-    def createAsynchronousServerCallReturnsEvent(self, short_name: str) -> AsynchronousServerCallReturnsEvent:
-        if not self.IsElementExists(short_name):
-            event = AsynchronousServerCallReturnsEvent(self, short_name)
-            self.addElement(event)
-        return self.getElement(short_name, AsynchronousServerCallReturnsEvent)
-
-    def createDataReceivedEvent(self, short_name: str) -> DataReceivedEvent:
-        if not self.IsElementExists(short_name):
-            event = DataReceivedEvent(self, short_name)
-            self.addElement(event)
-        return self.getElement(short_name, DataReceivedEvent)
-
-    def createSwcModeSwitchEvent(self, short_name: str) -> SwcModeSwitchEvent:
-        if not self.IsElementExists(short_name):
-            event = SwcModeSwitchEvent(self, short_name)
-            self.addElement(event)
-        return self.getElement(short_name, SwcModeSwitchEvent)
-
-    def createInternalTriggerOccurredEvent(self, short_name: str) -> InternalTriggerOccurredEvent:
-        if not self.IsElementExists(short_name):
-            event = InternalTriggerOccurredEvent(self, short_name)
-            self.addElement(event)
-        return self.getElement(short_name, InternalTriggerOccurredEvent)
-
-    def createSwcServiceDependency(self, short_name: str) -> SwcServiceDependency:
-        if not self.IsElementExists(short_name):
-            event = SwcServiceDependency(self, short_name)
-            self.addElement(event)
-        return self.getElement(short_name, SwcServiceDependency)
-
-    def createModeSwitchedAckEvent(self, short_name: str) -> ModeSwitchedAckEvent:
-        if not self.IsElementExists(short_name):
-            event = ModeSwitchedAckEvent(self, short_name)
-            self.addElement(event)
-        return self.getElement(short_name, ModeSwitchedAckEvent)
-
-    def createBackgroundEvent(self, short_name: str) -> BackgroundEvent:
-        if not self.IsElementExists(short_name):
-            event = BackgroundEvent(self, short_name)
-            self.addElement(event)
-        return self.getElement(short_name, BackgroundEvent)
-
-    def createDataSendCompletedEvent(self, short_name: str) -> DataSendCompletedEvent:
-        if not self.IsElementExists(short_name):
-            event = DataSendCompletedEvent(self, short_name)
-            self.addElement(event)
-        return self.getElement(short_name, DataSendCompletedEvent)
-
-    def getRteEvents(self) -> List[RTEEvent]:
-        return sorted(filter(lambda c: isinstance(c, RTEEvent), self.elements), key=lambda e: e.short_name)
-
-    def getOperationInvokedEvents(self) -> List[OperationInvokedEvent]:
-        return sorted(filter(lambda c: isinstance(c, OperationInvokedEvent), self.elements), key=lambda e: e.short_name)
-
-    def getInitEvents(self) -> List[InitEvent]:
-        return sorted(filter(lambda c: isinstance(c, InitEvent), self.elements), key=lambda e: e.short_name)
-
-    def getTimingEvents(self) -> List[TimingEvent]:
-        return sorted(filter(lambda c: isinstance(c, TimingEvent), self.elements), key=lambda e: e.short_name)
-
-    def getDataReceivedEvents(self) -> List[DataReceivedEvent]:
-        return sorted(filter(lambda c: isinstance(c, DataReceivedEvent), self.elements), key=lambda e: e.short_name)
-
-    def getSwcModeSwitchEvents(self) -> List[SwcModeSwitchEvent]:
-        return sorted(filter(lambda c: isinstance(c, SwcModeSwitchEvent), self.elements), key=lambda e: e.short_name)
-
-    def getInternalTriggerOccurredEvents(self) -> List[InternalTriggerOccurredEvent]:
-        return sorted(filter(lambda c: isinstance(c, InternalTriggerOccurredEvent), self.elements), key=lambda e: e.short_name)
-
-    def getModeSwitchedAckEvents(self) -> List[ModeSwitchedAckEvent]:
-        return sorted(filter(lambda c: isinstance(c, ModeSwitchedAckEvent), self.elements), key=lambda e: e.short_name)
-
-    def getBackgroundEvents(self) -> List[BackgroundEvent]:
-        return sorted(filter(lambda c: isinstance(c, BackgroundEvent), self.elements), key=lambda e: e.short_name)
-
-    def getDataSendCompletedEvents(self) -> List[DataSendCompletedEvent]:
-        return sorted(filter(lambda c: isinstance(c, DataSendCompletedEvent), self.elements), key=lambda e: e.short_name)
-
-    def getSwcServiceDependencies(self) -> List[SwcServiceDependency]:
-        return sorted(filter(lambda c: isinstance(c, SwcServiceDependency), self.elements), key=lambda e: e.short_name)
-
-    def getEvent(self, short_name: str) -> RTEEvent:
-        """
-        if (not isinstance(self.elements[short_name], RTEEvent)):
-            raise ValueError("Invalid Event Type <%s> of <%s>" %
-                             type(self.elements[short_name]), short_name)
-        return self.elements[short_name]'
-        """
-        return self.getElement(short_name, RTEEvent)
-
     def createImplicitInterRunnableVariable(self, short_name: str) -> VariableDataPrototype:
+        """Creates (or returns an existing) implicitInterRunnableVariable registered to this behavior."""
         if not self.IsElementExists(short_name):
             prototype = VariableDataPrototype(self, short_name)
             self.addElement(prototype)
             self.implicitInterRunnableVariables.append(prototype)
         return self.getElement(short_name)
 
+    def getPerInstanceMemories(self) -> List[PerInstanceMemory]:
+        """Gets the perInstanceMemory objects owned by this behavior."""
+        return self.perInstanceMemories
+
     def createPerInstanceMemory(self, short_name: str) -> PerInstanceMemory:
+        """Creates (or returns an existing) perInstanceMemory registered to this behavior."""
         if not self.IsElementExists(short_name):
             memory = PerInstanceMemory(self, short_name)
             self.addElement(memory)
             self.perInstanceMemories.append(memory)
         return self.getElement(short_name)
 
+    def getPerInstanceParameters(self) -> List[ParameterDataPrototype]:
+        """Gets the perInstanceParameter objects owned by this behavior."""
+        return self.perInstanceParameters
+
     def createPerInstanceParameter(self, short_name: str) -> ParameterDataPrototype:
+        """Creates (or returns an existing) perInstanceParameter registered to this behavior."""
         if not self.IsElementExists(short_name):
             prototype = ParameterDataPrototype(self, short_name)
             self.addElement(prototype)
             self.perInstanceParameters.append(prototype)
         return self.getElement(short_name)
 
-    def getVariableDataPrototypes(self) -> List[VariableDataPrototype]:
-        return sorted(filter(lambda c: isinstance(c, VariableDataPrototype), self.elements), key=lambda e: e.short_name)
-
-    def createRunnableEntity(self, short_name: str) -> RunnableEntity:
-        if not self.IsElementExists(short_name):
-            runnable = RunnableEntity(self, short_name)
-            self.addElement(runnable)
-        return self.getElement(short_name)
-
-    def getRunnableEntities(self) -> List[RunnableEntity]:
-        return sorted(filter(lambda c: isinstance(c, RunnableEntity), self.elements), key=lambda r: r.short_name)
-
-    def getRunnableEntity(self, short_name) -> RunnableEntity:
-        return self.getElement(short_name, RunnableEntity)
-
     def getSharedParameters(self) -> List[ParameterDataPrototype]:
+        """Gets the sharedParameter objects owned by this behavior."""
         return self.sharedParameters
 
     def createSharedParameter(self, short_name: str) -> ParameterDataPrototype:
+        """Creates (or returns an existing) sharedParameter registered to this behavior."""
         if not self.IsElementExists(short_name):
             memory = ParameterDataPrototype(self, short_name)
             self.addElement(memory)
             self.sharedParameters.append(memory)
         return self.getElement(short_name)
 
-    def getSupportsMultipleInstantiation(self):
+    def addPortAPIOption(self, value: Optional[PortAPIOption]) -> "SwcInternalBehavior":
+        """
+        Adds a portAPIOption (options for generating port-related call signatures).
+        A None value is a no-op and does not append to portAPIOptions.
+        """
+        if value is not None:
+            self.portAPIOptions.append(value)
+        return self
+
+    def getPortAPIOptions(self) -> List[PortAPIOption]:
+        """Gets the portAPIOption objects owned by this behavior."""
+        return self.portAPIOptions
+
+    def addIncludedDataTypeSet(self, value: Optional[IncludedDataTypeSet]) -> "SwcInternalBehavior":
+        """
+        Adds an includedDataTypeSet used by the software component for its
+        implementation. A None value is a no-op and does not append to
+        includedDataTypeSets.
+        """
+        if value is not None:
+            self.includedDataTypeSets.append(value)
+        return self
+
+    def getIncludedDataTypeSets(self) -> List[IncludedDataTypeSet]:
+        """Gets the includedDataTypeSet objects owned by this behavior."""
+        return self.includedDataTypeSets
+
+    def addIncludedModeDeclarationGroupSet(self, value: Optional[IncludedModeDeclarationGroupSet]) -> "SwcInternalBehavior":
+        """
+        Adds an includedModeDeclarationGroupSet representing the included Mode
+        DeclarationGroups. A None value is a no-op and does not append to
+        includedModeDeclarationGroupSets.
+        """
+        if value is not None:
+            self.includedModeDeclarationGroupSets.append(value)
+        return self
+
+    def getIncludedModeDeclarationGroupSets(self) -> List[IncludedModeDeclarationGroupSet]:
+        """Gets the includedModeDeclarationGroupSet objects owned by this behavior."""
+        return self.includedModeDeclarationGroupSets
+
+    def addExclusiveAreaPolicy(self, value: Optional[SwcExclusiveAreaPolicy]) -> "SwcInternalBehavior":
+        """
+        Adds an exclusiveAreaPolicy (options how to generate the ExclusiveArea
+        related APIs). A None value is a no-op and does not append to
+        exclusiveAreaPolicies.
+        """
+        if value is not None:
+            self.exclusiveAreaPolicies.append(value)
+        return self
+
+    def getExclusiveAreaPolicies(self) -> List[SwcExclusiveAreaPolicy]:
+        """Gets the exclusiveAreaPolicy objects owned by this behavior."""
+        return self.exclusiveAreaPolicies
+
+    def createOperationInvokedEvent(self, short_name: str) -> OperationInvokedEvent:
+        """Creates (or returns an existing) OperationInvokedEvent RTEEvent registered to this behavior."""
+        if not self.IsElementExists(short_name):
+            event = OperationInvokedEvent(self, short_name)
+            self.addElement(event)
+        return self.getElement(short_name, OperationInvokedEvent)
+
+    def createTimingEvent(self, short_name: str) -> TimingEvent:
+        """Creates (or returns an existing) TimingEvent RTEEvent registered to this behavior."""
+        if not self.IsElementExists(short_name):
+            event = TimingEvent(self, short_name)
+            self.addElement(event)
+        return self.getElement(short_name, TimingEvent)
+
+    def createInitEvent(self, short_name: str) -> InitEvent:
+        """Creates (or returns an existing) InitEvent RTEEvent registered to this behavior."""
+        if not self.IsElementExists(short_name):
+            event = InitEvent(self, short_name)
+            self.addElement(event)
+        return self.getElement(short_name, InitEvent)
+
+    def createAsynchronousServerCallReturnsEvent(self, short_name: str) -> AsynchronousServerCallReturnsEvent:
+        """Creates (or returns an existing) AsynchronousServerCallReturnsEvent RTEEvent registered to this behavior."""
+        if not self.IsElementExists(short_name):
+            event = AsynchronousServerCallReturnsEvent(self, short_name)
+            self.addElement(event)
+        return self.getElement(short_name, AsynchronousServerCallReturnsEvent)
+
+    def createDataReceivedEvent(self, short_name: str) -> DataReceivedEvent:
+        """Creates (or returns an existing) DataReceivedEvent RTEEvent registered to this behavior."""
+        if not self.IsElementExists(short_name):
+            event = DataReceivedEvent(self, short_name)
+            self.addElement(event)
+        return self.getElement(short_name, DataReceivedEvent)
+
+    def createSwcModeSwitchEvent(self, short_name: str) -> SwcModeSwitchEvent:
+        """Creates (or returns an existing) SwcModeSwitchEvent RTEEvent registered to this behavior."""
+        if not self.IsElementExists(short_name):
+            event = SwcModeSwitchEvent(self, short_name)
+            self.addElement(event)
+        return self.getElement(short_name, SwcModeSwitchEvent)
+
+    def createInternalTriggerOccurredEvent(self, short_name: str) -> InternalTriggerOccurredEvent:
+        """Creates (or returns an existing) InternalTriggerOccurredEvent RTEEvent registered to this behavior."""
+        if not self.IsElementExists(short_name):
+            event = InternalTriggerOccurredEvent(self, short_name)
+            self.addElement(event)
+        return self.getElement(short_name, InternalTriggerOccurredEvent)
+
+    def createModeSwitchedAckEvent(self, short_name: str) -> ModeSwitchedAckEvent:
+        """Creates (or returns an existing) ModeSwitchedAckEvent RTEEvent registered to this behavior."""
+        if not self.IsElementExists(short_name):
+            event = ModeSwitchedAckEvent(self, short_name)
+            self.addElement(event)
+        return self.getElement(short_name, ModeSwitchedAckEvent)
+
+    def createBackgroundEvent(self, short_name: str) -> BackgroundEvent:
+        """Creates (or returns an existing) BackgroundEvent RTEEvent registered to this behavior."""
+        if not self.IsElementExists(short_name):
+            event = BackgroundEvent(self, short_name)
+            self.addElement(event)
+        return self.getElement(short_name, BackgroundEvent)
+
+    def createDataSendCompletedEvent(self, short_name: str) -> DataSendCompletedEvent:
+        """Creates (or returns an existing) DataSendCompletedEvent RTEEvent registered to this behavior."""
+        if not self.IsElementExists(short_name):
+            event = DataSendCompletedEvent(self, short_name)
+            self.addElement(event)
+        return self.getElement(short_name, DataSendCompletedEvent)
+
+    def createSwcServiceDependency(self, short_name: str) -> SwcServiceDependency:
+        """Creates (or returns an existing) SwcServiceDependency defining AUTOSAR Service requirements."""
+        if not self.IsElementExists(short_name):
+            event = SwcServiceDependency(self, short_name)
+            self.addElement(event)
+        return self.getElement(short_name, SwcServiceDependency)
+
+    def getRteEvents(self) -> List[RTEEvent]:
+        """Gets all RTEEvents specified for this SwcInternalBehavior, sorted by short name."""
+        return sorted(filter(lambda c: isinstance(c, RTEEvent), self.elements), key=lambda e: e.short_name)
+
+    def getOperationInvokedEvents(self) -> List[OperationInvokedEvent]:
+        """Gets the OperationInvokedEvent RTEEvents owned by this behavior, sorted by short name."""
+        return sorted(filter(lambda c: isinstance(c, OperationInvokedEvent), self.elements), key=lambda e: e.short_name)
+
+    def getInitEvents(self) -> List[InitEvent]:
+        """Gets the InitEvent RTEEvents owned by this behavior, sorted by short name."""
+        return sorted(filter(lambda c: isinstance(c, InitEvent), self.elements), key=lambda e: e.short_name)
+
+    def getTimingEvents(self) -> List[TimingEvent]:
+        """Gets the TimingEvent RTEEvents owned by this behavior, sorted by short name."""
+        return sorted(filter(lambda c: isinstance(c, TimingEvent), self.elements), key=lambda e: e.short_name)
+
+    def getDataReceivedEvents(self) -> List[DataReceivedEvent]:
+        """Gets the DataReceivedEvent RTEEvents owned by this behavior, sorted by short name."""
+        return sorted(filter(lambda c: isinstance(c, DataReceivedEvent), self.elements), key=lambda e: e.short_name)
+
+    def getSwcModeSwitchEvents(self) -> List[SwcModeSwitchEvent]:
+        """Gets the SwcModeSwitchEvent RTEEvents owned by this behavior, sorted by short name."""
+        return sorted(filter(lambda c: isinstance(c, SwcModeSwitchEvent), self.elements), key=lambda e: e.short_name)
+
+    def getInternalTriggerOccurredEvents(self) -> List[InternalTriggerOccurredEvent]:
+        """Gets the InternalTriggerOccurredEvent RTEEvents owned by this behavior, sorted by short name."""
+        return sorted(filter(lambda c: isinstance(c, InternalTriggerOccurredEvent), self.elements), key=lambda e: e.short_name)
+
+    def getModeSwitchedAckEvents(self) -> List[ModeSwitchedAckEvent]:
+        """Gets the ModeSwitchedAckEvent RTEEvents owned by this behavior, sorted by short name."""
+        return sorted(filter(lambda c: isinstance(c, ModeSwitchedAckEvent), self.elements), key=lambda e: e.short_name)
+
+    def getBackgroundEvents(self) -> List[BackgroundEvent]:
+        """Gets the BackgroundEvent RTEEvents owned by this behavior, sorted by short name."""
+        return sorted(filter(lambda c: isinstance(c, BackgroundEvent), self.elements), key=lambda e: e.short_name)
+
+    def getDataSendCompletedEvents(self) -> List[DataSendCompletedEvent]:
+        """Gets the DataSendCompletedEvent RTEEvents owned by this behavior, sorted by short name."""
+        return sorted(filter(lambda c: isinstance(c, DataSendCompletedEvent), self.elements), key=lambda e: e.short_name)
+
+    def getSwcServiceDependencies(self) -> List[SwcServiceDependency]:
+        """Gets the SwcServiceDependency objects defining AUTOSAR Service requirements, sorted by short name."""
+        return sorted(filter(lambda c: isinstance(c, SwcServiceDependency), self.elements), key=lambda e: e.short_name)
+
+    def getEvent(self, short_name: str) -> RTEEvent:
+        """Gets the RTEEvent with the given short name from this behavior."""
+        return self.getElement(short_name, RTEEvent)
+
+    def getVariableDataPrototypes(self) -> List[VariableDataPrototype]:
+        """Gets all VariableDataPrototype instances owned by this behavior, sorted by short name."""
+        return sorted(filter(lambda c: isinstance(c, VariableDataPrototype), self.elements), key=lambda e: e.short_name)
+
+    def createRunnableEntity(self, short_name: str) -> RunnableEntity:
+        """Creates (or returns an existing) RunnableEntity specified for this SwcInternalBehavior."""
+        if not self.IsElementExists(short_name):
+            runnable = RunnableEntity(self, short_name)
+            self.addElement(runnable)
+        return self.getElement(short_name)
+
+    def getRunnableEntities(self) -> List[RunnableEntity]:
+        """Gets the RunnableEntity objects owned by this behavior, sorted by short name."""
+        return sorted(filter(lambda c: isinstance(c, RunnableEntity), self.elements), key=lambda r: r.short_name)
+
+    def getRunnableEntity(self, short_name: str) -> RunnableEntity:
+        """Gets the RunnableEntity with the given short name from this behavior."""
+        return self.getElement(short_name, RunnableEntity)
+
+    def getSupportsMultipleInstantiation(self) -> Optional[Boolean]:
+        """
+        Indicates whether the corresponding software-component can be multiply
+        instantiated on one ECU.
+        """
         return self.supportsMultipleInstantiation
 
-    def setSupportsMultipleInstantiation(self, value):
-        self.supportsMultipleInstantiation = value
+    def setSupportsMultipleInstantiation(self, value: Optional[Boolean]) -> "SwcInternalBehavior":
+        """
+        Indicates whether the corresponding software-component can be multiply
+        instantiated on one ECU. A None value is a no-op and does not overwrite
+        an existing supportsMultipleInstantiation.
+        """
+        if value is not None:
+            self.supportsMultipleInstantiation = value
         return self
+
+    def addInstantiationDataDefProps(self, value: Optional[InstantiationDataDefProps]) -> "SwcInternalBehavior":
+        """
+        Adds an InstantiationDataDefProps applying additional SwDataDefProps to
+        a particular instantiation. A None value is a no-op and does not append
+        to instantiationDataDefProps.
+        """
+        if value is not None:
+            self.instantiationDataDefProps.append(value)
+        return self
+
+    def getInstantiationDataDefPropss(self) -> List[InstantiationDataDefProps]:
+        """Gets the InstantiationDataDefProps objects owned by this behavior."""
+        return self.instantiationDataDefProps
+
+    def addVariationPointProxy(self, value: Optional[VariationPointProxy]) -> "SwcInternalBehavior":
+        """
+        Adds a VariationPointProxy (proxy of a variation point in the C/C++
+        implementation). A None value is a no-op and does not append to
+        variationPointProxies.
+        """
+        if value is not None:
+            self.variationPointProxies.append(value)
+        return self
+
+    def getVariationPointProxies(self) -> List[VariationPointProxy]:
+        """Gets the VariationPointProxy objects owned by this behavior."""
+        return self.variationPointProxies

@@ -962,6 +962,39 @@ removed upstream between 4.4.0 and R23-11, so it is treated like an
 |---|---|---|---|---|---|
 | `waitPoints` | `Dict[str, WaitPoint]` | `waitPoint` | `WaitPoint` | — | type (spec many vs py single) |
 
+## `SwcInternalBehavior`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 518 (Table 7.2 header block)
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/__init__.py`
+
+Aligned to `class_check_rules.md` on 2026-08-08. PDF-synced (Rule 1):
+- **Rule 1.3 (XSD-only attribute, PDF table omission — KEPT):** `handleTerminationAndRestart` is **present** in the XSD (`HANDLE-TERMINATION-AND-RESTART`, `HANDLE-TERMINATION-AND-RESTART-ENUM`, with documentation) but absent from the R23-11 PDF table renderings (Tables 7.2 / D.74 / F.132). Per the Rule 1.3 PDF-table-omission rule it is **kept** with field + accessors + parser/writer coverage. **The `[constr_1934] Existence of attribute SwcInternalBehavior.handleTerminationAndRestart` entry under the "G.16.6 Deleted Constraints in R23-11" appendix is NOT a removal signal** — it means the mandatory-*existence* requirement was deleted, not the attribute. The field is typed `Optional[ARLiteral]` because the PDF enum `HandleTerminationAndRestartEnum` (literals `canBeTerminated`/`canBeTerminatedAndRestarted`/`noSupport`) is not modeled.
+- **Rule 1.7 (parser/writer pending for two aggregations):** `instantiationDataDefProps` and `variationPointProxy` got their aggregated type classes (`InstantiationDataDefProps` Table 7.41, `VariationPointProxy` Table 7.61) and accessors (`addInstantiationDataDefProps`/`getInstantiationDataDefPropss`, `addVariationPointProxy`/`getVariationPointProxies`) in this pass, but the **parser/writer wrapper serialization is pending**: the nested aggregated children (`SwDataDefProps`, `AutosarParameterRef`, `AutosarVariableRef`, `ConditionByFormula`, `PostBuildVariantCondition`) have no `readXxx`/`writeXxx` helpers yet, so serialization is sequenced after the children's alignment (Rule 1.7 "Aggregator serialization sequenced after the child's alignment").
+- **Dual storage:** the `events`/`runnables`/`serviceDependencies` fields map to the spec `event`/`runnable`/`serviceDependency` attributes but the instances are registered via the `elements` registry (Identifiable) and retrieved by the typed getters (`getRteEvents`, `getRunnableEntities`, `getSwcServiceDependencies`); the fields are kept as empty list placeholders for backward compatibility.
+- **Method declaration order:** kept the existing logical grouping (per-attribute create/get groups) rather than a strict PDF-row reorder — a deliberate scoping choice for a large legacy aggregator; `__init__` fields follow the PDF (alphabetical) displayed order.
+- **Rule 13.1:** no `# Spec verified:` marker carried — the class is implemented and tested but the full per-member 13.2 docstring sync (verbatim Note in every accessor + all constraint citations) is not yet completed, so no verification claim is made.
+
+## `SwcExclusiveAreaPolicy`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 556 (Table 7.28)
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/__init__.py`
+
+Aligned to `class_check_rules.md` on 2026-08-08 (Table 7.28, p.556). Implements `apiPrinciple` (`ApiPrincipleEnum`, 0..1) and `exclusiveArea` (ref → `exclusiveAreaRef: Optional[RefType]`, 0..1); Base `ARObject`. Parser (`readSwcInternalBehaviorExclusiveAreaPolicies`) and writer (`writeSwcInternalBehaviorExclusiveAreaPolicies`) added for the `EXCLUSIVE-AREA-POLICYS`/`SWC-EXCLUSIVE-AREA-POLICY` wrapper. No deviations.
+
+## `InstantiationDataDefProps`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 588 (Table 7.41)
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::InstantiationDataDefProps`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/InstantiationDataDefProps.py`
+
+Aligned to `class_check_rules.md` on 2026-08-08 (Table 7.41, p.588). Implements `parameterInstance`/`swDataDefProps`/`variableInstance` (all 0..1 aggr, types `AutosarParameterRef`/`SwDataDefProps`/`AutosarVariableRef`); Base `ARObject`. Parser/writer for the `INSTANTIATION-DATA-DEF-PROPSS` wrapper is pending the child serializers (see SwcInternalBehavior entry).
+
+## `VariationPointProxy`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 613 (Table 7.61)
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::VariantHandling`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/VariantHandling.py`
+
+Aligned to `class_check_rules.md` on 2026-08-08 (Table 7.61, p.613). Base `ARObject, Identifiable, MultilanguageReferrable, Referrable` → inherits `Identifiable`. Implements `conditionAccess` (`ConditionByFormula`), `implementationDataType` (ref → `implementationDataTypeRef`), `postBuildValueAccess` (ref → `postBuildValueAccessRef`), `postBuildVariantCondition` (`*` aggr). **No `# Spec verified:` marker carried**: `valueAccess` (spec type `AttributeValueVariationPoint`, abstract) is carried as an `Optional[ARObject]` placeholder because the `AttributeValueVariationPoint` abstract base and its bases `FormulaExpression`/`SwSystemconstDependentFormula` are not yet implemented (Rule 1.10 "class not yet implemented" placeholder; forward-referenced in the inline comment). Parser/writer for the `VARIATION-POINT-PROXYS` wrapper is pending the child serializers.
+
 ## `SignalServiceTranslationProps`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 336
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::SignalServiceTranslation`

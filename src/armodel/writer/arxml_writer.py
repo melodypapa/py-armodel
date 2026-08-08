@@ -192,7 +192,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import TriggerInterface, VariableAndParameterInterfaceMapping
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import AsynchronousServerCallPoint, RunnableEntity, RunnableEntityArgument
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import SwcInternalBehavior, SynchronousServerCallPoint
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import SwcInternalBehavior, SwcExclusiveAreaPolicy, SynchronousServerCallPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AutosarVariableRef import AutosarVariableRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import AutosarParameterRef, ParameterInAtomicSWCTypeInstanceRef
@@ -2239,12 +2239,23 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported IncludedModeDeclarationGroupSet <%s>" % type(group_set))
 
+    def writeSwcInternalBehaviorExclusiveAreaPolicies(self, element: ET.Element, behavior: SwcInternalBehavior):
+        policies = behavior.getExclusiveAreaPolicies()
+        if len(policies) > 0:
+            policies_tag = ET.SubElement(element, "EXCLUSIVE-AREA-POLICYS")
+            for policy in policies:
+                if isinstance(policy, SwcExclusiveAreaPolicy):
+                    policy_element = ET.SubElement(policies_tag, "SWC-EXCLUSIVE-AREA-POLICY")
+                    self.setChildElementOptionalLiteral(policy_element, "API-PRINCIPLE", policy.getApiPrinciple())
+                    self.setChildElementOptionalRefType(policy_element, "EXCLUSIVE-AREA-REF", policy.getExclusiveAreaRef())
+
     def writeSwcInternalBehavior(self, element: ET.Element, behavior: SwcInternalBehavior):
         self.logger.debug("writeSwInternalBehavior %s" % behavior.getShortName())
         child_element = ET.SubElement(element, "SWC-INTERNAL-BEHAVIOR")
         self.writeInternalBehavior(child_element, behavior)
 
         self.writeSwcInternalBehaviorArTypedPerInstanceMemories(child_element, behavior)
+        self.writeSwcInternalBehaviorExclusiveAreaPolicies(child_element, behavior)
         self.writeSwcInternalBehaviorEvents(child_element, behavior)
         self.writeSwcInternalBehaviorExplicitInterRunnableVariables(child_element, behavior)
         self.setChildElementOptionalLiteral(child_element, "HANDLE-TERMINATION-AND-RESTART", behavior.getHandleTerminationAndRestart())

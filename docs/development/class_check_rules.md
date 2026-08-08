@@ -297,6 +297,28 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       keep-and-record wording. An XSD-only attribute is therefore only kept
       when the XSD is release-aligned (or newer) and the omission is
       genuinely a PDF rendering gap.
+      **"Deleted Constraints in R<release>" is NOT an attribute-removal
+      signal.** The spec's release-diff appendix (e.g. "G.16.6 Deleted
+      Constraints in R23-11") lists *constraints* that were deleted, not
+      attributes. A row such as `[constr_1934] Existence of attribute
+      SwcInternalBehavior.handleTerminationAndRestart` means the
+      mandatory-*existence* requirement was dropped — the attribute itself
+      remains in the spec. Do **not** treat this appendix as evidence of
+      upstream attribute deletion: an earlier pass misread it and wrongly
+      removed `handleTerminationAndRestart`, whose element
+      `HANDLE-TERMINATION-AND-RESTART` is present in the XSD with a real
+      documentation block (the PDF-omission case, which must be **kept**).
+      The valid removal signals remain (a) `atp.Status="removed"` in a
+      release-aligned XSD and (b) a stale-XSD-only attribute absent from all
+      verified-release PDF renderings **and** from the verified release's own
+      XSD — an appendix row is never sufficient on its own. **Integration
+      fixtures as a removal check.** `tests/integration_tests/test_files/*.arxml`
+      are authoritative reference content and must **not** be edited; if a
+      fixture carries the attribute's XML element, the parser/writer must
+      keep round-tripping it or the round-trip test's file-comparison step
+      fails (3 removed lines became a hard failure). Fixture presence is
+      therefore itself strong evidence the attribute is still part of the
+      supported surface — resolve that conflict *before* recording a removal.
       **The caveat cuts both ways: a stale-XSD-only attribute that is
       *already modeled* (field + accessor pair + parser/writer element +
       tests) must be **removed** in the same pass, not left in place.**
@@ -2139,6 +2161,19 @@ still paraphrased) is a Rule 13 violation, not a partial credit.
       marker — the Rule 2/7 set-based script does not check for it, so extend
       that script with an explicit `assert re.search(r"# Spec verified:
       R\d\d-\d\d", src)` (see Rule 7) to catch it mechanically.
+- [ ] **The marker certifies *all* spec information, including member types —
+      do not claim it while a member is a placeholder.** The marker means the
+      class's spec-derived information is correct and complete. A field whose
+      spec type is a real model class (e.g. `AttributeValueVariationPoint`,
+      Table 7.65) but which is carried as a placeholder (e.g.
+      `Optional[ARObject]`) contradicts the marker even when every docstring
+      is accurate (this happened to `VariationPointProxy.valueAccess`). When
+      a Rule 1.10 placeholder remains because the real type's closure is out
+      of scope, **remove the `# Spec:` and `# Spec verified:` lines** (the
+      two travel together for the Rule 7 assert) and keep the checklist
+      `[x]` rows for the implemented+tested members — an unclaimed marker is
+      the honest state, and it flips back on once the placeholder is replaced
+      by the real type.
 - [ ] **Exception — a class with no own spec table carries no marker.** When a
       class cannot be read from a PDF table — its attributes are defined only
       in an XSD group, with no rendered table of its own (Rule 1.5, e.g. a

@@ -220,7 +220,6 @@ class TestSwcInternalBehavior:
         assert behavior.implicitInterRunnableVariables == []
         assert behavior.includedDataTypeSets == []
         assert behavior.includedModeDeclarationGroupSets == []
-        assert behavior.instantiationDataDefProps == []
         assert behavior.perInstanceMemories == []
         assert behavior.perInstanceParameters == []
         assert behavior.portAPIOptions == []
@@ -228,12 +227,39 @@ class TestSwcInternalBehavior:
         assert behavior.serviceDependencies == []
         assert behavior.sharedParameters == []
         assert behavior.supportsMultipleInstantiation is None
-        assert behavior.variationPointProxies == []
 
         # Test handleTerminationAndRestart methods
-        handle_term = "test_handle"
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
+
+        handle_term = ARLiteral()
+        handle_term.setValue("NO-SUPPORT")
         behavior.setHandleTerminationAndRestart(handle_term)
-        assert behavior.getHandleTerminationAndRestart() == handle_term
+        assert behavior.getHandleTerminationAndRestart() is handle_term
+        # None is a no-op
+        behavior.setHandleTerminationAndRestart(None)
+        assert behavior.getHandleTerminationAndRestart() is handle_term
+
+        # Test exclusiveAreaPolicy methods (SwcExclusiveAreaPolicy)
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import SwcExclusiveAreaPolicy
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ApiPrincipleEnum
+
+        policy = SwcExclusiveAreaPolicy()
+        policy.setApiPrinciple(ApiPrincipleEnum().setValue(ApiPrincipleEnum.PER_EXECUTABLE))
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+
+        area_ref = RefType()
+        area_ref.setValue("/ExclusiveArea1")
+        policy.setExclusiveAreaRef(area_ref)
+        assert behavior.addExclusiveAreaPolicy(policy) is behavior
+        assert policy in behavior.getExclusiveAreaPolicies()
+        # None is a no-op for addExclusiveAreaPolicy
+        behavior.addExclusiveAreaPolicy(None)
+        assert len(behavior.getExclusiveAreaPolicies()) == 1
+        # None is a no-op for the SwcExclusiveAreaPolicy setters
+        policy.setApiPrinciple(None)
+        policy.setExclusiveAreaRef(None)
+        assert policy.getApiPrinciple().getValue() == ApiPrincipleEnum.PER_EXECUTABLE
+        assert policy.getExclusiveAreaRef() is area_ref
 
         # Test supportsMultipleInstantiation methods
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean
@@ -241,6 +267,9 @@ class TestSwcInternalBehavior:
         supports_multi = Boolean()
         supports_multi.setValue(True)
         behavior.setSupportsMultipleInstantiation(supports_multi)
+        assert behavior.getSupportsMultipleInstantiation() == supports_multi
+        # None is a no-op
+        behavior.setSupportsMultipleInstantiation(None)
         assert behavior.getSupportsMultipleInstantiation() == supports_multi
 
         # Test event creation methods
@@ -480,3 +509,31 @@ class TestSwcInternalBehavior:
         # Get the event using getEvent
         retrieved_event = behavior.getEvent("TestInitEvent")
         assert retrieved_event == init_event
+
+    def test_swc_internal_behavior_instantiation_data_def_props_accessors(self):
+        """Test addInstantiationDataDefProps/getInstantiationDataDefPropss (incl. None no-op)."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        behavior = SwcInternalBehavior(ar_root, "TestSwcInternalBehavior")
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstantiationDataDefProps import InstantiationDataDefProps
+
+        props = InstantiationDataDefProps()
+        assert behavior.addInstantiationDataDefProps(props) is behavior
+        assert props in behavior.getInstantiationDataDefPropss()
+        behavior.addInstantiationDataDefProps(None)
+        assert len(behavior.getInstantiationDataDefPropss()) == 1
+
+    def test_swc_internal_behavior_variation_point_proxy_accessors(self):
+        """Test addVariationPointProxy/getVariationPointProxies (incl. None no-op)."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        behavior = SwcInternalBehavior(ar_root, "TestSwcInternalBehavior")
+
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
+
+        proxy = VariationPointProxy(ar_root, "TestProxy")
+        assert behavior.addVariationPointProxy(proxy) is behavior
+        assert proxy in behavior.getVariationPointProxies()
+        behavior.addVariationPointProxy(None)
+        assert len(behavior.getVariationPointProxies()) == 1

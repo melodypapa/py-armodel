@@ -813,6 +813,27 @@ class TestBswBehaviorOrchestratorHandlers:
         assert behavior.getHandleTerminationAndRestart() is None
         assert behavior.getSupportsMultipleInstantiation() is None
 
+    def test_readSwcInternalBehavior_exclusiveAreaPolicies(self, warning_parser):
+        from armodel.models import ApplicationSwComponentType
+
+        app = ApplicationSwComponentType(parent=_autosar_root(), short_name="a")
+        behavior = app.createSwcInternalBehavior("ib")
+        element = _snip(
+            "<SHORT-NAME>ib</SHORT-NAME>"
+            "<EXCLUSIVE-AREA-POLICYS>"
+            "<SWC-EXCLUSIVE-AREA-POLICY>"
+            "<API-PRINCIPLE>perExecutable</API-PRINCIPLE>"
+            '<EXCLUSIVE-AREA-REF DEST="EXCLUSIVE-AREA">/ea1</EXCLUSIVE-AREA-REF>'
+            "</SWC-EXCLUSIVE-AREA-POLICY>"
+            "</EXCLUSIVE-AREA-POLICYS>",
+            root_tag="SWC-INTERNAL-BEHAVIOR",
+        )
+        warning_parser.readSwcInternalBehavior(element, behavior)
+        policies = behavior.getExclusiveAreaPolicies()
+        assert len(policies) == 1
+        assert policies[0].getApiPrinciple().getValue() == "perExecutable"
+        assert policies[0].getExclusiveAreaRef().getValue() == "/ea1"
+
     def test_readSwcInternalBehavior_with_optional_literals(self, warning_parser):
         from armodel.models import ApplicationSwComponentType
 

@@ -1,1 +1,0 @@
-uv run docling .pdf --output .md
