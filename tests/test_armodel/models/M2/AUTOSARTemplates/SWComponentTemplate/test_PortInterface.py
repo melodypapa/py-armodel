@@ -29,6 +29,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     PortInterfaceMapping,
     PortInterfaceMappingSet,
     SenderReceiverInterface,
+    ServerArgumentImplPolicyEnum,
     TextTableMapping,
     TriggerInterface,
     TriggerInterfaceMapping,
@@ -216,6 +217,24 @@ class TestSenderReceiverInterface:
         assert policy_created in sr_interface.getInvalidationPolicys()
 
 
+class TestServerArgumentImplPolicyEnum:
+    """Test class for ServerArgumentImplPolicyEnum class."""
+
+    def test_server_argument_impl_policy_enum_initialization(self):
+        """Test ServerArgumentImplPolicyEnum initialization."""
+        enum = ServerArgumentImplPolicyEnum()
+
+        assert enum.getEnumValues() == ("useArgumentType", "useVoid")
+
+        arg_type_enum = ServerArgumentImplPolicyEnum()
+        arg_type_enum.setValue("useArgumentType")
+        assert arg_type_enum.getValue() == ServerArgumentImplPolicyEnum.USE_ARGUMENT_TYPE
+
+        void_enum = ServerArgumentImplPolicyEnum()
+        void_enum.setValue("useVoid")
+        assert void_enum.getValue() == ServerArgumentImplPolicyEnum.USE_VOID
+
+
 class TestArgumentDataPrototype:
     """Test class for ArgumentDataPrototype class."""
 
@@ -239,7 +258,8 @@ class TestArgumentDataPrototype:
         assert arg_proto.getDirection() == direction
 
         # Test serverArgumentImplPolicy methods
-        policy = "test_policy"
+        policy = ServerArgumentImplPolicyEnum()
+        policy.setValue("useArgumentType")
         arg_proto.setServerArgumentImplPolicy(policy)
         assert arg_proto.getServerArgumentImplPolicy() == policy
 

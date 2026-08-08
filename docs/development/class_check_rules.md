@@ -1167,8 +1167,15 @@ Check:
       "fix" the member value to UPPERCASE to satisfy the schema: keep the member
       matching the spec's `mmt.qualifiedName`, and write the UPPERCASE form only
       in test XML fixtures and fragments.
-- [ ] Class docstring: summarize the spec table's "Note" row (the enum's purpose
-      and scope).
+- [ ] Class docstring: lead with the spec table's "Note" row **verbatim**, the
+      same as a class docstring (13.2 Step 3) — do **not** paraphrase or
+      summarize it into invented prose. The enum's purpose and scope are the
+      Note; a "summarize the purpose" instruction invites a loose paraphrase
+      that drifts from the PDF wording (the `ServerArgumentImplPolicyEnum`/
+      `ArgumentDirectionEnum` passes showed the correct shape: a verbatim,
+      wrapped Note, e.g. `ArgumentDirectionEnum`'s "Use cases: • Arguments in
+      ClientServerOperation can have different directions …" exactly as
+      written).
 - [ ] Enum member documentation: each member must have an inline comment that
       cites the spec literal's description (not paraphrased, use the PDF wording).
       Include Tags information (e.g., `atp.EnumerationLiteralIndex=0`) to document
@@ -1740,6 +1747,21 @@ Check:
   SoftwareComponentTemplate even though the class that uses it cites the BSW
   template). Verify the enum's page in *its* PDF (with `pypdf`, matching the
   printed footer) rather than reusing the class's page.
+- **An enum that renders in more than one PDF is itself a "class in more than
+  one PDF" and uses the same sibling-family rule — but its sibling family is
+  the *enums* in the same template, not the class that references it.** A
+  shared enum (Rule 1.8) can have its own `Enumeration` table in several
+  templates with the same package and literal rows (e.g.
+  `ArgumentDirectionEnum` renders as BSW Table 4.8, SWC Table 4.9, and
+  SystemTemplate Table F.16; `ServerArgumentImplPolicyEnum` renders only as
+  SWC Table 4.10). Cite the PDF that the enum's *sibling enums* already use
+  (e.g. `ArgumentDirectionEnum` cites the SWC template because its sibling
+  `ServerArgumentImplPolicyEnum` — the other enum used by
+  `ArgumentDataPrototype` — cites SWC Table 4.10), and keep that choice stable
+  across the enum family; the referencing class's own PDF choice does **not**
+  dictate the enum's (the class may cite BSW Table D.7 while its enum
+  attributes cite the SWC template). When an enum has no aligned sibling yet,
+  fall back to the template that renders the enum's most complete table.
 - Table number must be in format `X.Y` (e.g., `5.38`, not `5-38` or `538`).
 - The page number must **always** be present — a `# Spec:` line without
   `p.<page>` is a violation. Page number is from the PDF's own printed page
@@ -2192,10 +2214,27 @@ vs. getter vs. setter) and a fix to one does not propagate to the others.
         wording) — never silently substitute the XSD text for the PDF
         `Note`, never invent prose to "expand" a terse note.
 - [ ] **Step 4 — Per-attribute sync loop.** For **every** attribute row in
-      the spec table (not just the ones that look wrong), do all four of the
-      following before moving to the next attribute — treat this as one unit
-      of work per attribute, not four separate passes over the whole class:
-       1. **Inline `__init__` comment**: quote the attribute's PDF `Note`
+      the spec table (not just the ones that look wrong), do all **five** of
+      the following before moving to the next attribute — treat this as one
+      unit of work per attribute, not separate passes over the whole class:
+       1. **Referenced type must exist and be aligned before typing.**
+          Check the attribute row's `Type` column first: if it names a model
+          class or enum (e.g. an `Enumeration` like
+          `ServerArgumentImplPolicyEnum`), that type must **exist** in the
+          codebase and carry its own `# Spec:`/`# Spec verified:` markers —
+          Rule 1.10 applies to **every** referenced type, not only
+          `<name>InstanceRef`s. The field and accessor annotations are typed
+          against that class, so if it is missing, implement it first from
+          its own spec table (checklist, marker, tests, parser/writer
+          coverage) and only then type the attribute. The referenced type's
+          `# Spec:` citation is **independent** of the owning class's: it
+          cites the PDF/table/page that renders the referenced type's **own**
+          table. E.g. the enum `ServerArgumentImplPolicyEnum` is spec'd by
+          SWC Table 4.10 even though the `ArgumentDataPrototype` field using
+          it cites BSW Table D.7 — never copy the owning class's citation
+          onto the referenced type or vice versa, and give the new type its
+          own table location/version search.
+       2. **Inline `__init__` comment**: quote the attribute's PDF `Note`
           **semantic sentence** verbatim/near-verbatim; do **not** paste the
           `Stereotypes:`/`Tags:` tail (e.g. `Stereotypes: atpSplitable;
           atpVariation Tags: atp.Splitkey=...`) — that tail is tooling
@@ -2219,27 +2258,27 @@ vs. getter vs. setter) and a fix to one does not propagate to the others.
           (`...ApplicationRuleBasedValueSpecification.swAxisCont.category
           shall not be set to fixAXIS. [constr_10041]`), not pasted as a
           `Note` replacement.
-      2. **Getter docstring**: summarize the same `Note` + constraint — not
-         "Gets the value of X". Mention what the attribute represents in
-         AUTOSAR, cite the applicable `constr_*` id (an attribute-level
-         constraint, e.g. `constr_4072` on
-         `SectionNamePrefix.implementedIn`, is cited in **both** the
-         `__init__` comment and the getter/setter docstrings — not just
-         one), and for an `iref` attribute name the concrete
-         `<name>InstanceRef` implementing class (so the concrete iref type
-         is discoverable in the code, not only in the deviation tracker).
-      3. **Setter docstring**: same `Note`/constraint summary as the getter,
-         plus the chainable-return behavior. **If the setter is guarded**
-         (`if value is not None:`), it **must** also state, verbatim: *"A
-         None value is a no-op and does not overwrite an existing
-         `<attr>`."* This is not optional — a guarded setter without this
-         sentence is an incomplete sync even if the rest of the docstring is
-         correct.
-      4. **Cross-check the four against each other**: the comment, getter,
-         and setter for the same attribute should tell a consistent story —
-         a getter that was updated but a setter left with the old wording
-         (or a constraint cited in one but not the others) is a common
-         half-sync failure.
+       3. **Getter docstring**: summarize the same `Note` + constraint — not
+          "Gets the value of X". Mention what the attribute represents in
+          AUTOSAR, cite the applicable `constr_*` id (an attribute-level
+          constraint, e.g. `constr_4072` on
+          `SectionNamePrefix.implementedIn`, is cited in **both** the
+          `__init__` comment and the getter/setter docstrings — not just
+          one), and for an `iref` attribute name the concrete
+          `<name>InstanceRef` implementing class (so the concrete iref type
+          is discoverable in the code, not only in the deviation tracker).
+       4. **Setter docstring**: same `Note`/constraint summary as the getter,
+          plus the chainable-return behavior. **If the setter is guarded**
+          (`if value is not None:`), it **must** also state, verbatim: *"A
+          None value is a no-op and does not overwrite an existing
+          `<attr>`."* This is not optional — a guarded setter without this
+          sentence is an incomplete sync even if the rest of the docstring is
+          correct.
+       5. **Cross-check the four against each other**: the comment, getter,
+          and setter for the same attribute should tell a consistent story —
+          a getter that was updated but a setter left with the old wording
+          (or a constraint cited in one but not the others) is a common
+          half-sync failure.
 
       Two worked examples of an inline comment quoting the spec `Note`:
       ```python

@@ -6,7 +6,7 @@ parameter interfaces, as well as mapping classes for interface mappings.
 """
 
 from abc import ABC
-from typing import List
+from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototype, ModeDeclarationGroupPrototypeMapping
@@ -14,7 +14,16 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration impor
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpBlueprintable, AtpStructureElement, AtpType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, ArgumentDirectionEnum, ARLiteral, ARNumerical, Boolean, PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARBoolean,
+    AREnum,
+    ArgumentDirectionEnum,
+    ARLiteral,
+    ARNumerical,
+    Boolean,
+    PositiveInteger,
+    RefType,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import AutosarDataPrototype, ParameterDataPrototype, VariableDataPrototype
 
 
@@ -272,32 +281,129 @@ class SenderReceiverInterface(DataInterface):
         return list(filter(lambda c: isinstance(c, InvalidationPolicy), self.invalidationPolicies))
 
 
+class ServerArgumentImplPolicyEnum(AREnum):
+    """
+    This defines how the argument type of the servers RunnableEntity is implemented.
+    """
+
+    # ServerArgumentImplPolicyEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.10, p.105
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+
+    # The argument type of the RunnableEntity is derived from the AutosarDataType of the
+    # Argument Prototype. Tags: atp.EnumerationLiteralIndex=0
+    USE_ARGUMENT_TYPE = "useArgumentType"
+
+    # The argument type of the RunnableEntity is void. Tags: atp.EnumerationLiteralIndex=2
+    USE_VOID = "useVoid"
+
+    def __init__(self):
+        """
+        Initializes a ServerArgumentImplPolicyEnum instance with the spec-defined literals.
+        """
+        super().__init__((ServerArgumentImplPolicyEnum.USE_ARGUMENT_TYPE, ServerArgumentImplPolicyEnum.USE_VOID))
+
+
 class ArgumentDataPrototype(AutosarDataPrototype):
+    """
+    An argument of an operation, much like a data element, but also carries direction
+    information and is owned by a particular ClientServerOperation.
+    The overriding value of attribute swImplPolicy of an ArgumentDataPrototype shall be
+    standard. [constr_2047]
+    """
+
     # ArgumentDataPrototype method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDirection                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setDirection                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getServerArgumentImplPolicy  [x] impl  [ ] docstring  [ ] test
-    # [ ] setServerArgumentImplPolicy  [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.7, p.303
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getDirection                 [x] impl  [x] docstring  [x] test
+    # [x] setDirection                 [x] impl  [x] docstring  [x] test
+    # [x] getServerArgumentImplPolicy  [x] impl  [x] docstring  [x] test
+    # [x] setServerArgumentImplPolicy  [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
+        """
+        Initializes an ArgumentDataPrototype instance with an argument direction and a server
+        argument implementation policy.
+        """
         super().__init__(parent, short_name)
 
-        self.direction: ArgumentDirectionEnum = None
-        self.serverArgumentImplPolicy = None
+        # This attribute specifies the direction of the argument prototype.
+        # For each ArgumentDataPrototype, attribute direction shall be defined at the time
+        # when the contract phase generation is executed. [constr_1869]
+        self.direction: Optional[ArgumentDirectionEnum] = None
 
-    def getDirection(self):
+        # This defines how the argument type of the servers RunnableEntity is implemented.
+        # If the attribute is not defined this has the same semantics as if the attribute is set
+        # to the value useArgumentType for primitive arguments and structures.
+        # The value of the attribute ArgumentDataPrototype.serverArgumentImplPolicy shall not be
+        # set to useVoid for an ArgumentDataPrototype of direction in that is typed by an
+        # AutosarDataType that boils down to a primitive C data type. [constr_1286]
+        self.serverArgumentImplPolicy: Optional[ServerArgumentImplPolicyEnum] = None
+
+    def getDirection(self) -> Optional[ArgumentDirectionEnum]:
+        """
+        Gets the direction of the argument prototype.
+        This attribute specifies the direction of the argument prototype.
+        For each ArgumentDataPrototype, attribute direction shall be defined at the time
+        when the contract phase generation is executed. [constr_1869]
+
+        Returns:
+            Optional[ArgumentDirectionEnum]: The direction, or None if not set
+        """
         return self.direction
 
-    def setDirection(self, value):
+    def setDirection(self, value: Optional[ArgumentDirectionEnum]) -> "ArgumentDataPrototype":
+        """
+        Sets the direction of the argument prototype.
+        This attribute specifies the direction of the argument prototype.
+        For each ArgumentDataPrototype, attribute direction shall be defined at the time
+        when the contract phase generation is executed. [constr_1869]
+        A None value is a no-op and does not overwrite an existing direction.
+
+        Args:
+            value: The direction to set
+
+        Returns:
+            ArgumentDataPrototype: self for method chaining
+        """
         if value is not None:
             self.direction = value
         return self
 
-    def getServerArgumentImplPolicy(self):
+    def getServerArgumentImplPolicy(self) -> Optional[ServerArgumentImplPolicyEnum]:
+        """
+        Gets the server argument implementation policy.
+        This defines how the argument type of the servers RunnableEntity is implemented.
+        If the attribute is not defined this has the same semantics as if the attribute is set
+        to the value useArgumentType for primitive arguments and structures.
+        The value of the attribute ArgumentDataPrototype.serverArgumentImplPolicy shall not be
+        set to useVoid for an ArgumentDataPrototype of direction in that is typed by an
+        AutosarDataType that boils down to a primitive C data type. [constr_1286]
+
+        Returns:
+            Optional[ServerArgumentImplPolicyEnum]: The policy, or None if not set
+        """
         return self.serverArgumentImplPolicy
 
-    def setServerArgumentImplPolicy(self, value):
+    def setServerArgumentImplPolicy(self, value: Optional[ServerArgumentImplPolicyEnum]) -> "ArgumentDataPrototype":
+        """
+        Sets the server argument implementation policy.
+        This defines how the argument type of the servers RunnableEntity is implemented.
+        If the attribute is not defined this has the same semantics as if the attribute is set
+        to the value useArgumentType for primitive arguments and structures.
+        The value of the attribute ArgumentDataPrototype.serverArgumentImplPolicy shall not be
+        set to useVoid for an ArgumentDataPrototype of direction in that is typed by an
+        AutosarDataType that boils down to a primitive C data type. [constr_1286]
+        A None value is a no-op and does not overwrite an existing policy.
+
+        Args:
+            value: The policy to set
+
+        Returns:
+            ArgumentDataPrototype: self for method chaining
+        """
         if value is not None:
             self.serverArgumentImplPolicy = value
         return self
