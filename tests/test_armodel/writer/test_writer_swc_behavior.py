@@ -1332,6 +1332,13 @@ class TestWriterSwcInternalBehaviorHub:
         opt = PortAPIOption()
         opt.setEnableTakeAddress(_bool(True))
         behavior.addPortAPIOption(opt)
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import SwcExclusiveAreaPolicy
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ApiPrincipleEnum
+
+        policy = SwcExclusiveAreaPolicy()
+        policy.setApiPrinciple(ApiPrincipleEnum().setValue(ApiPrincipleEnum.PER_EXECUTABLE))
+        policy.setExclusiveAreaRef(_ref("/ea1", "EXCLUSIVE-AREA"))
+        behavior.addExclusiveAreaPolicy(policy)
         parent = _parent()
         writer.writeSwcInternalBehavior(parent, behavior)
         elem = parent.find("SWC-INTERNAL-BEHAVIOR")
@@ -1351,6 +1358,11 @@ class TestWriterSwcInternalBehaviorHub:
         assert elem.find("RUNNABLES") is not None
         assert elem.find("SERVICE-DEPENDENCYS") is not None
         assert elem.find("SHARED-PARAMETERS") is not None
+        policies = elem.find("EXCLUSIVE-AREA-POLICYS")
+        assert policies is not None
+        assert policies[0].tag == "SWC-EXCLUSIVE-AREA-POLICY"
+        assert policies[0].find("API-PRINCIPLE").text == "perExecutable"
+        assert policies[0].find("EXCLUSIVE-AREA-REF").text == "/ea1"
 
     def test_writeAtomicSwComponentTypeInternalBehaviors_swc(self, writer):
         behavior = _make_behavior()

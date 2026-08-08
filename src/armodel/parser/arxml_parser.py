@@ -198,7 +198,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import SenderReceiverInterface, TriggerInterface, DataInterface
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import VariableAndParameterInterfaceMapping
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import RunnableEntity, RunnableEntityArgument, SwcInternalBehavior
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import RunnableEntity, RunnableEntityArgument, SwcExclusiveAreaPolicy, SwcInternalBehavior
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AutosarVariableRef import AutosarVariableRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
@@ -1117,12 +1117,20 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported IncludedModeDeclarationGroupSet <%s>" % tag_name)
 
+    def readSwcInternalBehaviorExclusiveAreaPolicies(self, element: ET.Element, behavior: SwcInternalBehavior):
+        for child_element in self.findall(element, "EXCLUSIVE-AREA-POLICYS/SWC-EXCLUSIVE-AREA-POLICY"):
+            policy = SwcExclusiveAreaPolicy()
+            policy.setApiPrinciple(self.getChildElementOptionalLiteral(child_element, "API-PRINCIPLE"))
+            policy.setExclusiveAreaRef(self.getChildElementOptionalRefType(child_element, "EXCLUSIVE-AREA-REF"))
+            behavior.addExclusiveAreaPolicy(policy)
+
     def readSwcInternalBehavior(self, element: ET.Element, behavior: SwcInternalBehavior):
         # read the internal behavior
         self.readInternalBehavior(element, behavior)
 
         # read the extra SwcInternalBehavior
         self.readSwcInternalBehaviorArTypedPerInstanceMemories(element, behavior)
+        self.readSwcInternalBehaviorExclusiveAreaPolicies(element, behavior)
         self.readSwcInternalBehaviorEvents(element, behavior)
         self.readSwcInternalBehaviorExplicitInterRunnableVariables(element, behavior)
         behavior.setHandleTerminationAndRestart(self.getChildElementOptionalLiteral(element, "HANDLE-TERMINATION-AND-RESTART"))

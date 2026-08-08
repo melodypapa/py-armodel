@@ -1,0 +1,1 @@
+uv run docling docs/pdf/AUTOSAR_CP_TPS_ECUConfiguration.pdf --output docs/pdf/AUTOSAR_CP_TPS_ECUConfiguration.md

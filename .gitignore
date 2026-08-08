@@ -77,3 +77,4 @@ docs/api/modules.rst
 # Worktrees
 worktrees/
 coverage_*.xml
+uv.lock
