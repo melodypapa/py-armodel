@@ -522,11 +522,10 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
     This meta-class represents rule based values for DataPrototypes typed by
     ApplicationDataTypes (ApplicationArrayDataType or a compound
     ApplicationPrimitiveDataType which also boils down to an array-nature).
-    Base classes: ARObject, ValueSpecification, AbstractRuleBasedValueSpecification, CompositeRuleBasedValueArgument
     """
 
     # ApplicationRuleBasedValueSpecification method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.6, p.303
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.6, p.302
     # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] getCategory                  [x] impl  [x] docstring  [x] test
@@ -542,16 +541,26 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
         """
         super().__init__()
 
-        # The category of this rule-based value specification.
+        # This represents the category of the RuleBasedValueSpecification.
+        # For each ApplicationRuleBasedValueSpecification, attribute category shall exist
+        # at the time when the RTE is generated. [constr_1922]
         self.category: Optional[Identifier] = None
-        # The axis values of a compound primitive data type (curve or map).
+
+        # This represents the axis values of a Compound Primitive Data Type (curve or map).
+        # The first swAxisCont describes the x-axis, the second swAxisCont describes the y-axis,
+        # the third swAxisCont describes the z-axis. In addition to this, the axis can be
+        # denoted in swAxisIndex. The value of ApplicationRuleBasedValueSpecification.swAxisCont.category
+        # shall not be set to fixAXIS. [constr_10041]
         self.swAxisConts: List[RuleBasedAxisCont] = []
-        # The values of an array or compound primitive data type.
+
+        # This represents the values of an array or Compound Primitive Data Type.
         self.swValueCont: Optional[RuleBasedValueCont] = None
 
     def getCategory(self) -> Optional[Identifier]:
         """
-        Gets the category of this rule-based value specification.
+        Gets the category of the RuleBasedValueSpecification.
+        For each ApplicationRuleBasedValueSpecification, attribute category shall exist
+        at the time when the RTE is generated. [constr_1922]
 
         Returns:
             Optional[Identifier]: The category, or None if not set
@@ -560,7 +569,9 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
 
     def setCategory(self, value: Optional[Identifier]) -> "ApplicationRuleBasedValueSpecification":
         """
-        Sets the category of this rule-based value specification.
+        Sets the category of the RuleBasedValueSpecification.
+        For each ApplicationRuleBasedValueSpecification, attribute category shall exist
+        at the time when the RTE is generated. [constr_1922]
         A None value is a no-op and does not overwrite an existing category.
 
         Args:
@@ -575,7 +586,11 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
 
     def addSwAxisCont(self, value: Optional[RuleBasedAxisCont]) -> "ApplicationRuleBasedValueSpecification":
         """
-        Adds the axis values of a compound primitive data type (curve or map).
+        Adds the axis values of a Compound Primitive Data Type (curve or map).
+        The first swAxisCont describes the x-axis, the second swAxisCont describes the y-axis,
+        the third swAxisCont describes the z-axis. In addition to this, the axis can be
+        denoted in swAxisIndex. The value of ApplicationRuleBasedValueSpecification.swAxisCont.category
+        shall not be set to fixAXIS. [constr_10041]
         A None value is a no-op and is not appended.
 
         Args:
@@ -591,6 +606,10 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
     def getSwAxisConts(self) -> List[RuleBasedAxisCont]:
         """
         Gets the axis values of this rule-based value specification.
+        The first swAxisCont describes the x-axis, the second swAxisCont describes the y-axis,
+        the third swAxisCont describes the z-axis. In addition to this, the axis can be
+        denoted in swAxisIndex. The value of ApplicationRuleBasedValueSpecification.swAxisCont.category
+        shall not be set to fixAXIS. [constr_10041]
 
         Returns:
             List[RuleBasedAxisCont]: The axis values
@@ -599,7 +618,7 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
 
     def getSwValueCont(self) -> Optional[RuleBasedValueCont]:
         """
-        Gets the values of an array or compound primitive data type.
+        Gets the values of an array or Compound Primitive Data Type.
 
         Returns:
             Optional[RuleBasedValueCont]: The value content, or None if not set
@@ -608,7 +627,7 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
 
     def setSwValueCont(self, value: Optional[RuleBasedValueCont]) -> "ApplicationRuleBasedValueSpecification":
         """
-        Sets the values of an array or compound primitive data type.
+        Sets the values of an array or Compound Primitive Data Type.
         A None value is a no-op and does not overwrite an existing value content.
 
         Args:

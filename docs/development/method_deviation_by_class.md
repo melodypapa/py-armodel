@@ -777,7 +777,7 @@ removed upstream between 4.4.0 and R23-11, so it is treated like an
 | — *(missing)* | `—` | `introduction` | `DocumentationBlock` | — | missing |
 
 ## `ApplicationRuleBasedValueSpecification`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 303
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 302
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::Constants`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Constants/__init__.py`
 

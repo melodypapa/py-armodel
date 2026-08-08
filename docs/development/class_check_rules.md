@@ -1759,12 +1759,28 @@ Check:
   in **both** layouts always cite the header row's page so the reader lands
   on the class definition. Verify the header page directly in the PDF
   (search for the `Class <Name>` heading), do not assume the caption page.
+- **Page-split renderings emit a separate compact header block.** A page-split
+  table renders two physically separate blocks in the markdown: a compact
+  header block (the `Class`/`Package`/`Note`/`Base` rows as a short 4-row
+  table) followed by `glyph[triangleinv]`/image markers, and then the main
+  table (the repeated `Class` row plus `Aggregated by`/`Attribute` rows).
+  The `Table X.Y:` caption may appear *before* the main table (SWC layout) or
+  *after* it (BSW layout) — either way it is **not** co-located with the
+  header block, and grepping the markdown for the class name finds **two**
+  `Class <Name>` headings. Cite the page of the **first** occurrence — the
+  compact header block — not the caption's page (e.g.
+  `ApplicationRuleBasedValueSpecification`, BSW Table D.6: the compact header
+  block with `Class`/`Note`/`Base` is on p.302, the continuation/caption on
+  p.303).
 - Adjacent tables that appear on the same or consecutive pages (e.g. an
   abstract class and its subclasses) are easy to confuse with one another or
   with the section's start page — verify each class's **own** `Table X.Y`
   page independently against the PDF's printed page counter, and never reuse a
   neighboring class's already-checked value. Cross-check against the page in
-  `docs/method_deviation_by_class.md`, which may already be correct.
+  `docs/method_deviation_by_class.md`, which **may** already be correct but is
+  not authoritative — a stale tracker page (e.g. `ApplicationRuleBasedValueSpecification`
+  recorded **page:** 303 while its header block is on p.302) must be corrected
+  in the same pass, never propagated into the class's `# Spec:` line.
 - **Abstract base + concrete subclass sharing one page.** When the spec page
   holds *two* tables on the same page — an abstract base (e.g.
   `EngineeringObject`, Table 7.6, p.132) and a concrete subclass
@@ -2152,6 +2168,16 @@ vs. getter vs. setter) and a fix to one does not propagate to the others.
       be the PDF table's `Note` row, **verbatim** — do not paraphrase, do not
       abbreviate, and preserve the spec's own grammar even when it reads
       oddly (e.g. "an BswInternalBehavior").
+      - **No invented recap prose after the verbatim Note.** The docstring is
+        the Note (plus class-level constraint citations, below) — **not** a
+        place to recap the `Base` chain or the class's role in an invented
+        summary line. A trailing line like `Base classes: ARObject, …,
+        CompositeRuleBasedValueArgument` is invented prose that appears
+        nowhere in the PDF `Note` (it paraphrases the `Base` row, which the
+        class's own inheritance already expresses) and must be **removed**,
+        not "improved". The class docstring sync is Note-only; the `Base`
+        chain is already discoverable from the class statement and the
+        `# Spec:` citation.
       - **Class-level constraints, including on inherited attributes.**
         `constr_*` rows that target the class belong in this docstring
         alongside the note — a constraint may target an attribute the
@@ -2169,22 +2195,30 @@ vs. getter vs. setter) and a fix to one does not propagate to the others.
       the spec table (not just the ones that look wrong), do all four of the
       following before moving to the next attribute — treat this as one unit
       of work per attribute, not four separate passes over the whole class:
-      1. **Inline `__init__` comment**: quote the attribute's PDF `Note`
-         **semantic sentence** verbatim/near-verbatim; do **not** paste the
-         `Stereotypes:`/`Tags:` tail (e.g. `Stereotypes: atpSplitable;
-         atpVariation Tags: atp.Splitkey=...`) — that tail is tooling
-         metadata already captured in the markdown and adds no semantics to
-         the comment. Example: `AccessCountSet.accessCount`'s note "Count
-         value for a AbstractAccessPoint. Stereotypes: ..." is quoted as
-         "Count value for a AbstractAccessPoint." If a `constr_*` row
-         targets this attribute, append its wording and cite the id — the
-         full constraint wording is typically rendered as a
-         `[constr_NNNNN]` paragraph **immediately after the class's own
-         table** (in addition to any consolidated constraint index elsewhere
-         in the PDF), e.g. `AccessCountSet`'s Table 4.22 is followed by
-         `constr_10270` constraining `countProfile`; grep both the table
-         neighborhood and the constraint index when collecting constraint
-         material.
+       1. **Inline `__init__` comment**: quote the attribute's PDF `Note`
+          **semantic sentence** verbatim/near-verbatim; do **not** paste the
+          `Stereotypes:`/`Tags:` tail (e.g. `Stereotypes: atpSplitable;
+          atpVariation Tags: atp.Splitkey=...`) — that tail is tooling
+          metadata already captured in the markdown and adds no semantics to
+          the comment. Example: `AccessCountSet.accessCount`'s note "Count
+          value for a AbstractAccessPoint. Stereotypes: ..." is quoted as
+          "Count value for a AbstractAccessPoint." If a `constr_*` row
+          targets this attribute, append its wording and cite the id — the
+          full constraint wording is typically rendered as a
+          `[constr_NNNNN]` paragraph **immediately after the class's own
+          table** (in addition to any consolidated constraint index elsewhere
+          in the PDF), e.g. `AccessCountSet`'s Table 4.22 is followed by
+          `constr_10270` constraining `countProfile`; grep both the table
+          neighborhood and the constraint index when collecting constraint
+          material. A `constr_*` whose target is an **aggregated child's
+          nested attribute** (e.g. `constr_10041` constraining
+          `ApplicationRuleBasedValueSpecification.swAxisCont.category`) is
+          cited on the **owning attribute** — the parent's `swAxisCont`
+          comment and accessor docstrings — not on the child class, and its
+          wording is abbreviated to that owning attribute's context
+          (`...ApplicationRuleBasedValueSpecification.swAxisCont.category
+          shall not be set to fixAXIS. [constr_10041]`), not pasted as a
+          `Note` replacement.
       2. **Getter docstring**: summarize the same `Note` + constraint — not
          "Gets the value of X". Mention what the attribute represents in
          AUTOSAR, cite the applicable `constr_*` id (an attribute-level
