@@ -1,5 +1,3 @@
-from typing import List
-
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.ApplicationDesign.PortInterface.Field import (
     Field,
 )
@@ -11,8 +9,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
     ClientServerOperation,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
     PortInterface,
 )
+from typing import List
 
 
 class ApplicationInterface(PortInterface):

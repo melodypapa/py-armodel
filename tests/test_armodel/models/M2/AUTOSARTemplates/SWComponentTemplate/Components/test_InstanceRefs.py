@@ -4,19 +4,18 @@ Tests cover all classes and methods in the InstanceRefs.py file to achieve 100% 
 """
 
 import pytest
-
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (
-    InnerPortGroupInCompositionInstanceRef,
     ModeGroupInAtomicSwcInstanceRef,
     PModeGroupInAtomicSwcInstanceRef,
-    PTriggerInAtomicSwcTypeInstanceRef,
     RModeGroupInAtomicSWCInstanceRef,
     RModeInAtomicSwcInstanceRef,
-    RVariableInAtomicSwcInstanceRef,
     TriggerInAtomicSwcInstanceRef,
+    PTriggerInAtomicSwcTypeInstanceRef,
     VariableInAtomicSwcInstanceRef,
+    RVariableInAtomicSwcInstanceRef,
+    InnerPortGroupInCompositionInstanceRef,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 
 class TestModeGroupInAtomicSwcInstanceRef:

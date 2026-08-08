@@ -6,51 +6,51 @@ Tests verify initialization, getter/setter methods, and special functionality fo
 
 import pytest
 
-from armodel import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
-    BswApiOptions,
+    BswModuleCallPoint,
     BswAsynchronousServerCallPoint,
-    BswAsynchronousServerCallResultPoint,
-    BswAsynchronousServerCallReturnsEvent,
-    BswBackgroundEvent,
-    BswCalledEntity,
-    BswDataReceivedEvent,
-    BswDataReceptionPolicy,
     BswDirectCallPoint,
+    BswSynchronousServerCallPoint,
+    BswAsynchronousServerCallResultPoint,
+    BswVariableAccess,
     BswDistinguishedPartition,
-    BswEvent,
-    BswExclusiveAreaPolicy,
-    BswExternalTriggerOccurredEvent,
-    BswInternalBehavior,
-    BswInternalTriggeringPoint,
-    BswInternalTriggerOccurredEvent,
+    BswModuleEntity,
+    BswCalledEntity,
+    BswSchedulableEntity,
     BswInterruptCategory,
     BswInterruptEntity,
-    BswModeManagerErrorEvent,
-    BswModeSenderPolicy,
-    BswModeSwitchAckRequest,
-    BswModeSwitchedAckEvent,
-    BswModeSwitchEvent,
-    BswModuleCallPoint,
-    BswModuleEntity,
+    BswEvent,
     BswOperationInvokedEvent,
-    BswOsTaskExecutionEvent,
-    BswQueuedDataReceptionPolicy,
-    BswSchedulableEntity,
     BswScheduleEvent,
-    BswServiceDependency,
-    BswServiceDependencyIdent,
-    BswSynchronousServerCallPoint,
+    BswModeSwitchEvent,
+    BswModeManagerErrorEvent,
+    BswModeSwitchedAckEvent,
+    BswAsynchronousServerCallReturnsEvent,
     BswTimingEvent,
-    BswVariableAccess,
+    BswDataReceivedEvent,
+    BswInternalTriggerOccurredEvent,
+    BswModeSwitchAckRequest,
+    BswModeSenderPolicy,
+    BswBackgroundEvent,
+    BswOsTaskExecutionEvent,
+    BswExternalTriggerOccurredEvent,
+    BswApiOptions,
+    BswExclusiveAreaPolicy,
+    BswDataReceptionPolicy,
+    BswQueuedDataReceptionPolicy,
+    BswInternalTriggeringPoint,
+    BswInternalBehavior,
+    BswServiceDependencyIdent,
     RoleBasedBswModuleEntryAssignment,
+    BswServiceDependency,
 )
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import ModeInBswModuleDescriptionInstanceRef
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARFloat, ARLiteral, ARNumerical, Identifier, PositiveInteger, TimeValue
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ApiPrincipleEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeActivationKind
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import BswMgrNeeds, RoleBasedDataAssignment, RoleBasedDataTypeAssignment, SymbolicNameProps
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARNumerical, Identifier, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment, RoleBasedDataTypeAssignment, SymbolicNameProps, BswMgrNeeds
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
+from armodel import AUTOSAR
 
 
 class TestBswModuleCallPoint:

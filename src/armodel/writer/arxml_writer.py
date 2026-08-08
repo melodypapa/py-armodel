@@ -1,64 +1,58 @@
 import xml.etree.cElementTree as ET
 from typing import List
 
+from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData, DocRevision, Modification
+from armodel.models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
+from armodel.models.M2.MSR.AsamHdo.ComputationMethod import Compu, CompuConst, CompuConstContent, CompuConstFormulaContent, CompuConstNumericContent
+from armodel.models.M2.MSR.AsamHdo.ComputationMethod import CompuConstTextContent, CompuMethod, CompuNominatorDenominator, CompuScale
+from armodel.models.M2.MSR.AsamHdo.ComputationMethod import CompuScaleConstantContents, CompuScaleRationalFormula, CompuScales
+from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr, InternalConstrs, PhysConstrs
+from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
+from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
+from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues
+from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual
+from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
+from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis, SwCalprmAxisSet
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps, SwPointerTargetProps, ValueList
+from armodel.models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout, SwRecordLayoutGroup, SwRecordLayoutV
+from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
+from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
+from armodel.models.M2.MSR.Documentation.Annotation import Annotation
+from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Graphic, MlFigure
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ARList
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName, LPlainText, LanguageSpecific
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
+
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswApiOptions, BswAsynchronousServerCallPoint, BswAsynchronousServerCallReturnsEvent, BswBackgroundEvent
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswSynchronousServerCallPoint
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswCalledEntity, BswDataReceivedEvent, BswModuleCallPoint
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
-    BswApiOptions,
-    BswAsynchronousServerCallPoint,
-    BswAsynchronousServerCallReturnsEvent,
-    BswBackgroundEvent,
-    BswCalledEntity,
-    BswDataReceivedEvent,
-    BswDataReceptionPolicy,
-    BswEvent,
-    BswExternalTriggerOccurredEvent,
-    BswInternalBehavior,
-    BswInternalTriggeringPoint,
     BswInternalTriggerOccurredEvent,
-    BswInterruptEntity,
-    BswModeManagerErrorEvent,
-    BswModeSenderPolicy,
-    BswModeSwitchAckRequest,
-    BswModeSwitchedAckEvent,
-    BswModeSwitchEvent,
-    BswModuleCallPoint,
-    BswModuleEntity,
     BswOperationInvokedEvent,
-    BswQueuedDataReceptionPolicy,
-    BswSchedulableEntity,
-    BswScheduleEvent,
-    BswServiceDependency,
-    BswServiceDependencyIdent,
-    BswSynchronousServerCallPoint,
-    BswTimingEvent,
-    BswVariableAccess,
-    RoleBasedBswModuleEntryAssignment,
+    BswModeManagerErrorEvent,
+    BswModeSwitchEvent,
+    BswModeSwitchedAckEvent,
 )
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleClientServerEntry, BswModuleEntry
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswDataReceptionPolicy, BswEvent, BswExternalTriggerOccurredEvent
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalBehavior, BswInterruptEntity, BswModeSenderPolicy, BswModeSwitchAckRequest, BswModuleEntity
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswQueuedDataReceptionPolicy, BswSchedulableEntity, BswScheduleEvent
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswTimingEvent, BswVariableAccess, BswInternalTriggeringPoint
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency, BswServiceDependencyIdent, RoleBasedBswModuleEntryAssignment
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import ModeInBswModuleDescriptionInstanceRef
-from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
-    ApplicationRuleBasedValueSpecification,
-    ApplicationValueSpecification,
-    ArrayValueSpecification,
-    ConstantReference,
-    ConstantSpecification,
-    NumericalValueSpecification,
-    RecordValueSpecification,
-    RuleArguments,
-    RuleBasedAxisCont,
-    RuleBasedValueCont,
-    RuleBasedValueSpecification,
-    TextValueSpecification,
-    ValueSpecification,
-)
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleClientServerEntry, BswModuleEntry
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import ApplicationValueSpecification, ArrayValueSpecification, ConstantReference
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantSpecification, NumericalValueSpecification, RecordValueSpecification
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification, ValueSpecification
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import ApplicationRuleBasedValueSpecification
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import RuleBasedAxisCont, RuleBasedValueCont
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import RuleArguments, RuleBasedValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import NumericalOrText
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, Compiler, DependencyOnArtifact, Implementation, ImplementationProps, Linker
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import AbstractImplementationDataTypeElement, ImplementationDataType, ImplementationDataTypeElement
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity, InternalBehavior
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.McGroups import McGroup, McGroupDataRefSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import (
     McDataAccessDetails,
@@ -80,427 +74,213 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSu
     RptSupportData,
     RptSwPrototypingAccess,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import RptExecutableEntityProperties, RptImplPolicy
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, Implementation, ImplementationProps, Compiler, Linker, DependencyOnArtifact
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import AbstractImplementationDataTypeElement, ImplementationDataType
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataTypeElement
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import InternalBehavior
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclaration, ModeDeclarationGroup, ModeDeclarationGroupPrototype
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.ExecutionTime import AnalyzedExecutionTime, MeasuredExecutionTime, RoughEstimateOfExecutionTime, SimulatedExecutionTime
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HeapUsage import MeasuredHeapUsage, RoughEstimateHeapUsage, WorstCaseHeapUsage
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.MemorySectionUsage import MemorySection, SectionNamePrefix
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.StackUsage import MeasuredStackUsage, RoughEstimateStackUsage, StackUsage, WorstCaseStackUsage
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
-    BswMgrNeeds,
     ComMgrUserNeeds,
     CryptoServiceNeeds,
     DevelopmentError,
     DiagEventDebounceCounterBased,
     DiagEventDebounceMonitorInternal,
     DiagEventDebounceTimeBased,
-    DiagnosticCapabilityElement,
-    DiagnosticCommunicationManagerNeeds,
-    DiagnosticEventInfoNeeds,
-    DiagnosticEventNeeds,
-    DiagnosticIoControlNeeds,
-    DiagnosticRoutineNeeds,
-    DiagnosticValueNeeds,
     DltUserNeeds,
-    DtcStatusChangeNotificationNeeds,
-    EcuStateMgrUserNeeds,
     ErrorTracerNeeds,
-    NvBlockNeeds,
     PossibleErrorReaction,
-    RoleBasedDataAssignment,
-    RoleBasedDataTypeAssignment,
     RuntimeError,
-    ServiceDependency,
     ServiceNeeds,
     SupervisedEntityNeeds,
     TracedFailure,
     TransientFault,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import BswMgrNeeds
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCapabilityElement, DiagnosticIoControlNeeds, DtcStatusChangeNotificationNeeds
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticCommunicationManagerNeeds, DiagnosticEventInfoNeeds
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticEventNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import EcuStateMgrUserNeeds, NvBlockNeeds, RoleBasedDataAssignment, SymbolicNameProps
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataTypeAssignment, ServiceDependency
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import KeywordSet, Keyword
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import EOCExecutableEntityRef, ExecutionOrderConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming, TimingExtension
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import EOCExecutableEntityRef
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import ExecutionOrderConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
-from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
-    EcucAbstractReferenceValue,
-    EcucContainerValue,
-    EcucInstanceReferenceValue,
-    EcucModuleConfigurationValues,
-    EcucNumericalParamValue,
-    EcucParameterValue,
-    EcucReferenceValue,
-    EcucTextualParamValue,
-    EcucValueCollection,
-)
-from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
-    EcucAbstractConfigurationClass,
-    EcucAbstractInternalReferenceDef,
-    EcucAbstractReferenceDef,
-    EcucAbstractStringParamDef,
-    EcucBooleanParamDef,
-    EcucChoiceContainerDef,
-    EcucCommonAttributes,
-    EcucContainerDef,
-    EcucDefinitionElement,
-    EcucEnumerationLiteralDef,
-    EcucEnumerationParamDef,
-    EcucFloatParamDef,
-    EcucFunctionNameDef,
-    EcucIntegerParamDef,
-    EcucModuleDef,
-    EcucMultiplicityConfigurationClass,
-    EcucParamConfContainerDef,
-    EcucParameterDef,
-    EcucReferenceDef,
-    EcucStringParamDef,
-    EcucSymbolicNameReferenceDef,
-    EcucValueConfigurationClass,
-)
+from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucAbstractReferenceValue, EcucContainerValue
+from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucInstanceReferenceValue
+from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucModuleConfigurationValues, EcucNumericalParamValue, EcucParameterValue
+from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucReferenceValue, EcucTextualParamValue, EcucValueCollection
+from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucDefinitionElement, EcucModuleDef
+from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucAbstractConfigurationClass
+from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucFunctionNameDef, EcucReferenceDef
+from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucAbstractInternalReferenceDef, EcucAbstractReferenceDef
+from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucAbstractStringParamDef, EcucBooleanParamDef, EcucSymbolicNameReferenceDef
+from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucEnumerationLiteralDef, EcucValueConfigurationClass
+from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucCommonAttributes, EcucParameterDef
+from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucChoiceContainerDef, EcucEnumerationParamDef, EcucFloatParamDef
+from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucIntegerParamDef, EcucStringParamDef
+from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucContainerDef
+from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucMultiplicityConfigurationClass, EcucParamConfContainerDef
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwPinGroup
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable, MultilanguageReferrable, Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Limit, RefType
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable, MultilanguageReferrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARLiteral, Limit
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     PredefinedVariant,
-    SwSystemconstantValueSet,
     SwSystemconstValue,
+    SwSystemconstantValueSet,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
-    ClientComSpec,
-    CompositeNetworkRepresentation,
-    ModeSwitchedAckRequest,
-    ModeSwitchReceiverComSpec,
-    ModeSwitchSenderComSpec,
-    NonqueuedReceiverComSpec,
-    NonqueuedSenderComSpec,
-    NvProvideComSpec,
-    NvRequireComSpec,
-    ParameterRequireComSpec,
-    PPortComSpec,
-    QueuedReceiverComSpec,
-    QueuedSenderComSpec,
-    ReceiverComSpec,
-    RPortComSpec,
-    SenderComSpec,
-    ServerComSpec,
-    TransformationComSpecProps,
-    TransmissionAcknowledgementRequest,
-    UserDefinedTransformationComSpecProps,
-)
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
-    AbstractProvidedPortPrototype,
-    AbstractRequiredPortPrototype,
-    ApplicationSwComponentType,
-    AtomicSwComponentType,
-    ComplexDeviceDriverSwComponentType,
-    EcuAbstractionSwComponentType,
-    PortGroup,
-    PPortPrototype,
-    PRPortPrototype,
-    RPortPrototype,
-    ServiceSwComponentType,
-    SwComponentType,
-    SymbolProps,
-)
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (
-    InnerPortGroupInCompositionInstanceRef,
-    ModeGroupInAtomicSwcInstanceRef,
-    PModeGroupInAtomicSwcInstanceRef,
-    PTriggerInAtomicSwcTypeInstanceRef,
-    RModeGroupInAtomicSWCInstanceRef,
-    RModeInAtomicSwcInstanceRef,
-    RVariableInAtomicSwcInstanceRef,
-)
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import AssemblySwConnector, CompositionSwComponentType, DelegationSwConnector, SwComponentPrototype, SwConnector
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import (
-    POperationInAtomicSwcInstanceRef,
-    PPortInCompositionInstanceRef,
-    ROperationInAtomicSwcInstanceRef,
-    RPortInCompositionInstanceRef,
-)
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
-    ApplicationArrayElement,
-    ApplicationCompositeElementDataPrototype,
-    ApplicationRecordElement,
-    AutosarDataPrototype,
-    DataPrototype,
-    ParameterDataPrototype,
-    VariableDataPrototype,
-)
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
-    ApplicationArrayDataType,
-    ApplicationCompositeDataType,
-    ApplicationDataType,
-    ApplicationPrimitiveDataType,
-    ApplicationRecordDataType,
-    AutosarDataType,
-    DataTypeMappingSet,
-)
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import (
-    EndToEndDescription,
-    EndToEndProtection,
-    EndToEndProtectionISignalIPdu,
-    EndToEndProtectionSet,
-    EndToEndProtectionVariablePrototype,
-)
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
-    ApplicationError,
-    ArgumentDataPrototype,
-    ClientServerInterface,
-    ClientServerInterfaceMapping,
-    ClientServerOperation,
-    ClientServerOperationMapping,
-    DataInterface,
-    DataPrototypeMapping,
-    ModeDeclarationMapping,
-    ModeDeclarationMappingSet,
-    ModeInterfaceMapping,
-    ModeSwitchInterface,
-    NvDataInterface,
-    ParameterInterface,
-    PortInterface,
-    PortInterfaceMappingSet,
-    SenderReceiverInterface,
-    TriggerInterface,
-    VariableAndParameterInterfaceMapping,
-)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import CompositeNetworkRepresentation, ModeSwitchedAckRequest, NvProvideComSpec, NvRequireComSpec
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import TransformationComSpecProps, UserDefinedTransformationComSpecProps
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import TransmissionAcknowledgementRequest
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import NonqueuedReceiverComSpec, NonqueuedSenderComSpec, PPortComSpec
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ParameterRequireComSpec, QueuedReceiverComSpec, QueuedSenderComSpec
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import RPortComSpec, ReceiverComSpec, SenderComSpec, ServerComSpec
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AbstractProvidedPortPrototype, AbstractRequiredPortPrototype
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ApplicationSwComponentType, AtomicSwComponentType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ComplexDeviceDriverSwComponentType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import EcuAbstractionSwComponentType, PRPortPrototype, PortGroup, SwComponentType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import PPortPrototype, RPortPrototype, SymbolProps
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ServiceSwComponentType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import ModeGroupInAtomicSwcInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import PModeGroupInAtomicSwcInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import PTriggerInAtomicSwcTypeInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RModeGroupInAtomicSWCInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RModeInAtomicSwcInstanceRef, RVariableInAtomicSwcInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import AssemblySwConnector, DelegationSwConnector, SwComponentPrototype, SwConnector
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import POperationInAtomicSwcInstanceRef, PPortInCompositionInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import ROperationInAtomicSwcInstanceRef, RPortInCompositionInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationArrayElement
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationCompositeElementDataPrototype
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ApplicationRecordElement, AutosarDataPrototype, DataPrototype
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationArrayDataType, ApplicationCompositeDataType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationDataType, ApplicationPrimitiveDataType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationRecordDataType, AutosarDataType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import DataTypeMappingSet
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndDescription, EndToEndProtection, EndToEndProtectionISignalIPdu
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionVariablePrototype
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionSet
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ApplicationError, ArgumentDataPrototype, ClientServerInterface
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ModeDeclarationMapping, ModeDeclarationMappingSet
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerInterfaceMapping, ClientServerOperationMapping
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerOperation, DataInterface, ModeInterfaceMapping
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import DataPrototypeMapping, ModeSwitchInterface, NvDataInterface, ParameterInterface
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import PortInterface, PortInterfaceMappingSet, SenderReceiverInterface
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import TriggerInterface, VariableAndParameterInterfaceMapping
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import RptExecutableEntityProperties, RptImplPolicy
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
-    AsynchronousServerCallPoint,
-    RunnableEntity,
-    RunnableEntityArgument,
-    SwcInternalBehavior,
-    SynchronousServerCallPoint,
-)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import AsynchronousServerCallPoint, RunnableEntity, RunnableEntityArgument
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import SwcInternalBehavior, SynchronousServerCallPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AutosarVariableRef import AutosarVariableRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import AutosarParameterRef, ParameterInAtomicSWCTypeInstanceRef, VariableInAtomicSWCTypeInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet, ModeAccessPoint, ModeSwitchPoint
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import AutosarParameterRef, ParameterInAtomicSWCTypeInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import VariableInAtomicSWCTypeInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import PortDefinedArgumentValue
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import (
-    AsynchronousServerCallReturnsEvent,
-    BackgroundEvent,
-    DataReceivedEvent,
-    DataSendCompletedEvent,
-    InitEvent,
-    InternalTriggerOccurredEvent,
-    ModeSwitchedAckEvent,
-    OperationInvokedEvent,
-    RTEEvent,
-    SwcModeSwitchEvent,
-    TimingEvent,
-)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import AsynchronousServerCallReturnsEvent, BackgroundEvent
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import DataSendCompletedEvent
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import DataReceivedEvent, InitEvent, InternalTriggerOccurredEvent
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import ModeSwitchedAckEvent, OperationInvokedEvent, RTEEvent
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import SwcModeSwitchEvent, TimingEvent
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import ModeAccessPoint, ModeSwitchPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedPortAssignment, SwcServiceDependency
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
+
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import SwcToEcuMapping, System, SystemMapping
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
-    SenderRecCompositeTypeMapping,
-    SenderReceiverToSignalGroupMapping,
-    SenderReceiverToSignalMapping,
-    SenderRecRecordElementMapping,
-    SenderRecRecordTypeMapping,
-)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderRecCompositeTypeMapping, SenderRecRecordElementMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderRecRecordTypeMapping, SenderReceiverToSignalGroupMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import SenderReceiverToSignalMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame, CanFrameTriggering, RxIdentifierRange
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
-    AbstractCanCommunicationController,
-    AbstractCanCommunicationControllerAttributes,
-    CanCommunicationConnector,
-    CanCommunicationController,
-    CanControllerConfigurationRequirements,
-    CanControllerFdConfiguration,
-    CanControllerFdConfigurationRequirements,
-)
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SoAdRoutingGroup, SocketConnection, SocketConnectionBundle, SocketConnectionIpduIdentifier
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import AbstractCanCommunicationController
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import AbstractCanCommunicationControllerAttributes
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationConnector, CanCommunicationController
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfigurationRequirements
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerFdConfiguration
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerFdConfigurationRequirements
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SoAdRoutingGroup, SocketConnection
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnectionBundle
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnectionIpduIdentifier
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
-    CouplingPort,
-    CouplingPortDetails,
-    CouplingPortFifo,
-    CouplingPortScheduler,
-    CouplingPortStructuralElement,
-    EthernetCluster,
-    EthernetCommunicationConnector,
-    EthernetCommunicationController,
-    EthernetPriorityRegeneration,
-    InitialSdDelayConfig,
-    MacMulticastGroup,
-    RequestResponseDelay,
-    SdClientConfig,
-    VlanMembership,
-)
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import DoIpEntity, InfrastructureServices, Ipv6Configuration, NetworkEndpoint, NetworkEndpointAddress
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
-    ApplicationEndpoint,
-    ConsumedEventGroup,
-    ConsumedServiceInstance,
-    EventHandler,
-    GenericTp,
-    ProvidedServiceInstance,
-    SdServerConfig,
-    SoAdConfig,
-    SocketAddress,
-    TcpTp,
-    TpPort,
-    TransportProtocolConfiguration,
-    UdpTp,
-)
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayAbsolutelyScheduledTiming, FlexrayFrame, FlexrayFrameTriggering
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCluster, FlexrayCommunicationConnector, FlexrayCommunicationController
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import ApplicationEntry, LinFrameTriggering, LinScheduleTable, LinUnconditionalFrame, ScheduleTableEntry
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import CouplingPort, CouplingPortDetails, CouplingPortFifo
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import CouplingPortScheduler, CouplingPortStructuralElement
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCluster, EthernetCommunicationConnector
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCommunicationController
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetPriorityRegeneration, InitialSdDelayConfig
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import MacMulticastGroup, RequestResponseDelay, SdClientConfig
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import VlanMembership
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import DoIpEntity, InfrastructureServices, Ipv6Configuration
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import NetworkEndpoint, NetworkEndpointAddress
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ApplicationEndpoint, ConsumedEventGroup
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ConsumedServiceInstance, EventHandler, GenericTp
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ProvidedServiceInstance, SdServerConfig, SoAdConfig
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import SocketAddress, TcpTp, TpPort
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import TransportProtocolConfiguration, UdpTp
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayAbsolutelyScheduledTiming, FlexrayFrame
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrameTriggering
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCluster, FlexrayCommunicationConnector
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCommunicationController
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import ApplicationEntry, LinFrameTriggering, LinScheduleTable
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinUnconditionalFrame, ScheduleTableEntry
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinMaster
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, IPduMapping, ISignalMapping, TargetIPduRef
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
-    DcmIPdu,
-    DynamicPart,
-    DynamicPartAlternative,
-    Frame,
-    FrameTriggering,
-    GeneralPurposeIPdu,
-    GeneralPurposePdu,
-    IPdu,
-    IPduTiming,
-    ISignal,
-    ISignalGroup,
-    ISignalIPdu,
-    ISignalIPduGroup,
-    ISignalToIPduMapping,
-    ISignalTriggering,
-    MultiplexedIPdu,
-    MultiplexedPart,
-    NmPdu,
-    NPdu,
-    Pdu,
-    PduTriggering,
-    SecureCommunicationAuthenticationProps,
-    SecureCommunicationFreshnessProps,
-    SecureCommunicationProps,
-    SecureCommunicationPropsSet,
-    SecuredIPdu,
-    SegmentPosition,
-    StaticPart,
-    SystemSignal,
-    SystemSignalGroup,
-    UserDefinedIPdu,
-    UserDefinedPdu,
-)
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
-    AbstractCanCluster,
-    CanCluster,
-    CanClusterBusOffRecovery,
-    CanPhysicalChannel,
-    CommConnectorPort,
-    CommunicationCluster,
-    CommunicationConnector,
-    CommunicationController,
-    CommunicationCycle,
-    CycleRepetition,
-    EthernetPhysicalChannel,
-    FlexrayPhysicalChannel,
-    FramePort,
-    IPduPort,
-    ISignalPort,
-    LinCluster,
-    LinPhysicalChannel,
-    PhysicalChannel,
-)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import DynamicPart, DynamicPartAlternative, FrameTriggering
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import GeneralPurposeIPdu, GeneralPurposePdu, IPdu, IPduTiming
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import ISignalGroup, ISignalIPdu, ISignalIPduGroup
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import ISignalToIPduMapping, ISignalTriggering, MultiplexedIPdu
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import MultiplexedPart, Pdu, PduTriggering
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import SecureCommunicationAuthenticationProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import SecureCommunicationFreshnessProps, SecureCommunicationProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import SecureCommunicationPropsSet, SecuredIPdu, SegmentPosition
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import StaticPart, SystemSignal, DcmIPdu, Frame, ISignal, NPdu
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import NmPdu, SystemSignalGroup, UserDefinedIPdu, UserDefinedPdu
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import AbstractCanCluster, CanCluster, CanClusterBusOffRecovery
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import FlexrayPhysicalChannel, CommunicationCycle, CycleRepetition
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CanPhysicalChannel, CommConnectorPort, CommunicationCluster
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EthernetPhysicalChannel, FramePort, IPduPort, ISignalPort
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import LinCluster, LinPhysicalChannel, PhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance import EcuInstance
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import (
-    CyclicTiming,
-    EventControlledTiming,
-    TimeRangeType,
-    TransmissionModeCondition,
-    TransmissionModeDeclaration,
-    TransmissionModeTiming,
-)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import CyclicTiming, EventControlledTiming, TimeRangeType
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import TransmissionModeCondition, TransmissionModeDeclaration
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import TransmissionModeTiming
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
-    CanNmCluster,
-    CanNmClusterCoupling,
-    CanNmNode,
-    NmCluster,
-    NmConfig,
-    NmEcu,
-    NmNode,
-    UdpNmCluster,
-    UdpNmClusterCoupling,
-    UdpNmEcu,
-    UdpNmNode,
-)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmCluster, CanNmClusterCoupling, CanNmNode, NmCluster, NmConfig, NmEcu
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmNode, UdpNmCluster, UdpNmClusterCoupling, UdpNmEcu, UdpNmNode
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import SwcToImplMapping
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
-    BufferProperties,
-    DataTransformation,
-    DataTransformationSet,
-    EndToEndTransformationDescription,
-    EndToEndTransformationISignalProps,
-    TransformationDescription,
-    TransformationISignalProps,
-    TransformationTechnology,
-)
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
-    CanTpAddress,
-    CanTpChannel,
-    CanTpConfig,
-    CanTpConnection,
-    CanTpEcu,
-    CanTpNode,
-    DoIpLogicAddress,
-    DoIpTpConfig,
-    DoIpTpConnection,
-    LinTpConfig,
-    LinTpConnection,
-    LinTpNode,
-    TpAddress,
-    TpConfig,
-    TpConnection,
-)
-from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData, DocRevision, Modification
-from armodel.models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
-from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
-    Compu,
-    CompuConst,
-    CompuConstContent,
-    CompuConstFormulaContent,
-    CompuConstNumericContent,
-    CompuConstTextContent,
-    CompuMethod,
-    CompuNominatorDenominator,
-    CompuScale,
-    CompuScaleConstantContents,
-    CompuScaleRationalFormula,
-    CompuScales,
-)
-from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr, InternalConstrs, PhysConstrs
-from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
-from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
-from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues
-from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
-from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual
-from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis, SwCalprmAxisSet
-from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps, SwPointerTargetProps, ValueList
-from armodel.models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout, SwRecordLayoutGroup, SwRecordLayoutV
-from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
-from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
-from armodel.models.M2.MSR.Documentation.Annotation import Annotation
-from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Graphic, MlFigure
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ARList
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
-from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LPlainText
-from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import BufferProperties, DataTransformation, DataTransformationSet
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import EndToEndTransformationISignalProps, TransformationISignalProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import EndToEndTransformationDescription, TransformationDescription
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import TransformationTechnology
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpAddress, CanTpChannel, CanTpConfig, CanTpConnection, CanTpEcu
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpNode, DoIpLogicAddress, DoIpTpConfig, DoIpTpConnection, LinTpConfig
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import LinTpConnection, LinTpNode, TpAddress, TpConfig, TpConnection
+
 from armodel.writer.abstract_arxml_writer import AbstractARXMLWriter
 
 

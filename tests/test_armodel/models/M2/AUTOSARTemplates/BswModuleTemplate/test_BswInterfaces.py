@@ -8,17 +8,18 @@ that define dependencies, module entries, and client-server relationships in the
 
 import pytest
 
-from armodel import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import (
-    BswCallType,
     BswEntryKindEnum,
+    BswCallType,
     BswExecutionContext,
-    BswModuleClientServerEntry,
+    SwServiceImplPolicyEnum,
     BswModuleDependency,
     BswModuleEntry,
-    SwServiceImplPolicyEnum,
+    BswModuleClientServerEntry,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Identifier, NameToken, PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import NvBlockNeeds
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Identifier, NameToken, RefType, PositiveInteger
+from armodel import AUTOSAR
 
 
 class TestBswEntryKindEnum:

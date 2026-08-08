@@ -1,17 +1,17 @@
 import pytest
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     DataMapping,
+    SenderReceiverToSignalMapping,
+    SenderRecCompositeTypeMapping,
+    SenderRecRecordElementMapping,
+    SenderRecRecordTypeMapping,
     IndexedArrayElement,
     SenderRecArrayElementMapping,
     SenderRecArrayTypeMapping,
-    SenderRecCompositeTypeMapping,
     SenderReceiverToSignalGroupMapping,
-    SenderReceiverToSignalMapping,
-    SenderRecRecordElementMapping,
-    SenderRecRecordTypeMapping,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationDirectionType
 
 

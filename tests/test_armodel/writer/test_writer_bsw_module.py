@@ -1,23 +1,32 @@
 """Tests for writer BSW module template handlers."""
 
 import xml.etree.cElementTree as ET
-
 import pytest
+from unittest.mock import MagicMock
 
+from armodel.writer.arxml_writer import ARXMLWriter
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import (
+    BswModuleDescription,
+)
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswModeSenderPolicy,
     BswModeSwitchAckRequest,
     BswQueuedDataReceptionPolicy,
+    BswVariableAccess,
+    BswModeManagerErrorEvent,
+    BswModeSwitchEvent,
     BswServiceDependency,
     BswServiceDependencyIdent,
-    BswVariableAccess,
     RoleBasedBswModuleEntryAssignment,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
-    BswMgrNeeds,
-    RoleBasedDataAssignment,
-    SymbolicNameProps,
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import SymbolicNameProps
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import (
+    BswModuleClientServerEntry,
+    BswModuleEntry,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import (
+    Trigger,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa E501
     ARBoolean,
@@ -30,7 +39,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import (  # noqa E501
     IncludedModeDeclarationGroupSet,
 )
-from armodel.writer.arxml_writer import ARXMLWriter
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    RoleBasedDataAssignment,
+    BswMgrNeeds,
+)
 
 
 @pytest.fixture(autouse=True)

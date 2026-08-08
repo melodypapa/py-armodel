@@ -9,9 +9,9 @@ Targets the uncovered branches in `src/armodel/parser/abstract_arxml_parser.py`:
 """
 
 import logging
-import xml.etree.ElementTree as ET
 
 import pytest
+import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.parser.abstract_arxml_parser import AbstractARXMLParser

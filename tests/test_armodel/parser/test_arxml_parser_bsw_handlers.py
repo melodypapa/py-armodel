@@ -561,7 +561,7 @@ class TestBswModuleEntityHandlers:
     trigger refs, activation points, and managed mode groups."""
 
     def test_readBswModuleEntityManagedModeGroups_adds_refs(self, parser):
-        from armodel.models import BswInternalBehavior
+        from armodel.models import BswInternalBehavior, BswSchedulableEntity
 
         behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
         entity = behavior.createBswSchedulableEntity("e")

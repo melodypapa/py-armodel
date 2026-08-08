@@ -5,9 +5,9 @@ Tests cover all classes and methods in the InstanceRefsUsage.py file to achieve 
 
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import (
     ArVariableInImplementationDataInstanceRef,
-    AutosarParameterRef,
-    ParameterInAtomicSWCTypeInstanceRef,
     VariableInAtomicSWCTypeInstanceRef,
+    ParameterInAtomicSWCTypeInstanceRef,
+    AutosarParameterRef,
 )
 
 

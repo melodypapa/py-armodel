@@ -1,10 +1,36 @@
 """Tests for writer signal, lifecycle and diagnostic handlers."""
 
 import xml.etree.cElementTree as ET
-
 import pytest
 
+from armodel.writer.arxml_writer import ARXMLWriter
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (  # noqa: E501
+    ISignalGroup,
+    ISignalIPduGroup,
+    SystemSignal,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import (  # noqa: E501
+    GenericEthernetFrame,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
+    EndToEndTransformationISignalProps,
+    TransformationISignalProps,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import (
+    LifeCycleInfo,
+    LifeCycleInfoSet,
+    LifeCyclePeriod,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import (  # noqa: E501
+    DiagnosticConnection,
+)
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import (  # noqa: E501
+    DiagnosticServiceTable,
+)
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import (
+    DocumentationBlock,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
     ARBoolean,
     ARLiteral,
@@ -12,18 +38,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
     RevisionLabelString,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import (
-    LifeCycleInfo,
-    LifeCyclePeriod,
-)
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
-    EndToEndTransformationISignalProps,
-    TransformationISignalProps,
-)
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import (
-    DocumentationBlock,
-)
-from armodel.writer.arxml_writer import ARXMLWriter
 
 
 @pytest.fixture(autouse=True)

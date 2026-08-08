@@ -2,9 +2,9 @@
 This module contains tests for the Composition subdirectory in SWComponentTemplate.
 """
 
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import SwComponentPrototype, SwConnector, AssemblySwConnector, DelegationSwConnector, PassThroughSwConnector
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import AssemblySwConnector, DelegationSwConnector, PassThroughSwConnector, SwComponentPrototype, SwConnector
 
 
 class Test_M2_AUTOSARTemplates_SWComponentTemplate_Composition:

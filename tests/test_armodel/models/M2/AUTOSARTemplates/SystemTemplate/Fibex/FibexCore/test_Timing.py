@@ -1,15 +1,15 @@
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import (
+    ModeDrivenTransmissionModeCondition,
+    TransmissionModeCondition,
+    TimeRangeType,
     CyclicTiming,
     EventControlledTiming,
-    ModeDrivenTransmissionModeCondition,
-    TimeRangeType,
-    TransmissionModeCondition,
-    TransmissionModeDeclaration,
     TransmissionModeTiming,
+    TransmissionModeDeclaration,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 
 
 class Test_FibexCoreTiming:

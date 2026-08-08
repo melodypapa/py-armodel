@@ -1,19 +1,19 @@
 import pytest
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
-    AbstractCanCommunicationConnector,
-    AbstractCanCommunicationController,
-    AbstractCanCommunicationControllerAttributes,
-    CanCommunicationConnector,
-    CanCommunicationController,
-    CanControllerConfigurationRequirements,
     CanControllerFdConfiguration,
     CanControllerFdConfigurationRequirements,
     CanControllerXlConfiguration,
     CanControllerXlConfigurationRequirements,
+    AbstractCanCommunicationControllerAttributes,
+    CanControllerConfigurationRequirements,
+    AbstractCanCommunicationController,
+    CanCommunicationController,
+    AbstractCanCommunicationConnector,
+    CanCommunicationConnector,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
 class MockParent(ARObject):

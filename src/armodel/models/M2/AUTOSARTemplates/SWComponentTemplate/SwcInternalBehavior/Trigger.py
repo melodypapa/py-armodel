@@ -4,10 +4,10 @@ in software component internal behavior templates.
 """
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import IdentCaption
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint
-from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
 
 
 class InternalTriggeringPoint(AbstractAccessPoint):

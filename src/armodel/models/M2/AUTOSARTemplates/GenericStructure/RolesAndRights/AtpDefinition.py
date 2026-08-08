@@ -4,7 +4,6 @@ in the GenericStructure module.
 """
 
 from abc import ABC
-
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 
 

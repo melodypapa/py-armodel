@@ -1,30 +1,9 @@
 """Tests for writer SW component and communication handlers."""
 
 import xml.etree.cElementTree as ET
-
 import pytest
-
+from armodel.writer.arxml_writer import ARXMLWriter
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
-    ApplicationValueSpecification,
-    ArrayValueSpecification,
-    ConstantReference,
-    NumericalValueSpecification,
-    RecordValueSpecification,
-    TextValueSpecification,
-    ValueSpecification,
-)
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
-    ARBoolean,
-    ARFloat,
-    ARLiteral,
-    ARNumerical,
-    ARPositiveInteger,
-    RefType,
-    TimeValue,
-    TRefType,
-)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
     ClientComSpec,
     CompositeNetworkRepresentation,
@@ -35,42 +14,74 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import
     NonqueuedSenderComSpec,
     NvProvideComSpec,
     NvRequireComSpec,
-    ParameterRequireComSpec,
     PPortComSpec,
+    ParameterRequireComSpec,
     QueuedReceiverComSpec,
     QueuedSenderComSpec,
     RPortComSpec,
     ServerComSpec,
-    TransformationComSpecProps,
     TransmissionAcknowledgementRequest,
     UserDefinedTransformationComSpecProps,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+    PortGroup,
+    PPortPrototype,
+    PRPortPrototype,
+    RPortPrototype,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
+    AssemblySwConnector,
+    CompositionSwComponentType,
+    DelegationSwConnector,
+    PassThroughSwConnector,
+    SwComponentPrototype,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import (  # noqa: E501
+    PPortInCompositionInstanceRef,
+    PortInCompositionTypeInstanceRef,
+    RPortInCompositionInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (  # noqa: E501
     InnerPortGroupInCompositionInstanceRef,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
-    PassThroughSwConnector,
-)
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import (  # noqa: E501
-    PortInCompositionTypeInstanceRef,
-    PPortInCompositionInstanceRef,
-    RPortInCompositionInstanceRef,
-)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import (  # noqa: E501
     ApplicationCompositeElementInPortInterfaceInstanceRef,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
+    ApplicationValueSpecification,
+    ArrayValueSpecification,
+    ConstantReference,
+    NumericalValueSpecification,
+    RecordValueSpecification,
+    TextValueSpecification,
+    ValueSpecification,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import (
     SwValueCont,
     SwValues,
-)
-from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import (
-    SwCalprmAxisSet,
 )
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
     SwDataDefProps,
     ValueList,
 )
-from armodel.writer.arxml_writer import ARXMLWriter
+from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import (
+    SwCalprmAxisSet,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
+    ARBoolean,
+    ARFloat,
+    ARLiteral,
+    ARPositiveInteger,
+    ARNumerical,
+    PositiveInteger,
+    RefType,
+    TRefType,
+    TimeValue,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
+    TransformationComSpecProps,
+)
 
 
 @pytest.fixture(autouse=True)

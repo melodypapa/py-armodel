@@ -4,9 +4,8 @@ Tests cover all classes and methods in the ServerCall.py file to achieve 100% te
 """
 
 import pytest
-
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 
 
 class TestServerCallPoint:

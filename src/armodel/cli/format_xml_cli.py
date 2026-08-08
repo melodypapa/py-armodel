@@ -1,11 +1,10 @@
 import argparse
-import logging
-import re
 import sys
+from armodel import __version__
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
-
-from armodel import __version__
+import logging
+import re
 
 
 def patch_xml(xml: str) -> str:

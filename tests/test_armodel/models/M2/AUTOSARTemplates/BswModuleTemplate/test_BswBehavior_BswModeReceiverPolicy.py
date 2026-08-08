@@ -2,6 +2,7 @@
 Unit tests for BswModeReceiverPolicy class.
 """
 
+import pytest
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswModeReceiverPolicy
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 

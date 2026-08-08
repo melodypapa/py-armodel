@@ -43,7 +43,8 @@ class TestUdpNmEcuHandler:
 
 class TestBusDependentNmEcusHandler:
     def test_readBusDependentNmEcus_creates_udpNmEcu(self, parser):
-        from armodel.models import NmConfig, NmEcu
+        from armodel.models import NmEcu
+        from armodel.models import NmConfig
 
         config = NmConfig(parent=_autosar_root(), short_name="nmConfig")
         nm_ecu = NmEcu(parent=config, short_name="ecu")
@@ -58,7 +59,8 @@ class TestBusDependentNmEcusHandler:
         assert dependents[0].getNmSynchronizationPointEnabled().getValue() is True
 
     def test_readBusDependentNmEcus_unsupported_warns(self, warning_parser, caplog):
-        from armodel.models import NmConfig, NmEcu
+        from armodel.models import NmEcu
+        from armodel.models import NmConfig
 
         config = NmConfig(parent=_autosar_root(), short_name="nmConfig")
         nm_ecu = NmEcu(parent=config, short_name="ecu")
@@ -72,7 +74,8 @@ class TestBusDependentNmEcusHandler:
         assert len(nm_ecu.getBusDependentNmEcus()) == 0
 
     def test_readBusDependentNmEcus_unsupported_raises(self, parser):
-        from armodel.models import NmConfig, NmEcu
+        from armodel.models import NmEcu
+        from armodel.models import NmConfig
 
         config = NmConfig(parent=_autosar_root(), short_name="nmConfig")
         nm_ecu = NmEcu(parent=config, short_name="ecu")
@@ -137,7 +140,8 @@ class TestLinTpConfigTpConnectionsHandler:
 
 class TestLinTpNodeHandler:
     def test_readLinTpNode_sets_connectorRef(self, parser):
-        from armodel.models import LinTpConfig, LinTpNode
+        from armodel.models import LinTpNode
+        from armodel.models import LinTpConfig
 
         config = LinTpConfig(parent=_autosar_root(), short_name="linTp")
         node = LinTpNode(parent=config, short_name="node")
@@ -150,7 +154,8 @@ class TestLinTpNodeHandler:
         assert node.getConnectorRef().getValue() == "/conn"
 
     def test_readLinTpNode_sets_dropNotRequestedNad(self, parser):
-        from armodel.models import LinTpConfig, LinTpNode
+        from armodel.models import LinTpNode
+        from armodel.models import LinTpConfig
 
         config = LinTpConfig(parent=_autosar_root(), short_name="linTp")
         node = LinTpNode(parent=config, short_name="node")
@@ -163,7 +168,8 @@ class TestLinTpNodeHandler:
         assert node.getDropNotRequestedNad().getValue() is True
 
     def test_readLinTpNode_sets_p2Max(self, parser):
-        from armodel.models import LinTpConfig, LinTpNode
+        from armodel.models import LinTpNode
+        from armodel.models import LinTpConfig
 
         config = LinTpConfig(parent=_autosar_root(), short_name="linTp")
         node = LinTpNode(parent=config, short_name="node")
@@ -176,7 +182,8 @@ class TestLinTpNodeHandler:
         assert node.getP2Max().getValue() == 0.05
 
     def test_readLinTpNode_sets_p2Timing(self, parser):
-        from armodel.models import LinTpConfig, LinTpNode
+        from armodel.models import LinTpNode
+        from armodel.models import LinTpConfig
 
         config = LinTpConfig(parent=_autosar_root(), short_name="linTp")
         node = LinTpNode(parent=config, short_name="node")
@@ -189,7 +196,8 @@ class TestLinTpNodeHandler:
         assert node.getP2Timing().getValue() == 0.01
 
     def test_readLinTpNode_sets_tpAddressRef(self, parser):
-        from armodel.models import LinTpConfig, LinTpNode
+        from armodel.models import LinTpNode
+        from armodel.models import LinTpConfig
 
         config = LinTpConfig(parent=_autosar_root(), short_name="linTp")
         node = LinTpNode(parent=config, short_name="node")
@@ -202,7 +210,8 @@ class TestLinTpNodeHandler:
         assert node.getTpAddressRef().getValue() == "/addr"
 
     def test_readLinTpNode_sets_all_properties(self, parser):
-        from armodel.models import LinTpConfig, LinTpNode
+        from armodel.models import LinTpNode
+        from armodel.models import LinTpConfig
 
         config = LinTpConfig(parent=_autosar_root(), short_name="linTp")
         node = LinTpNode(parent=config, short_name="node")
@@ -224,7 +233,8 @@ class TestLinTpNodeHandler:
         assert node.getTpAddressRef().getValue() == "/addr"
 
     def test_readLinTpNode_without_optional_fields(self, parser):
-        from armodel.models import LinTpConfig, LinTpNode
+        from armodel.models import LinTpNode
+        from armodel.models import LinTpConfig
 
         config = LinTpConfig(parent=_autosar_root(), short_name="linTp")
         node = LinTpNode(parent=config, short_name="node")

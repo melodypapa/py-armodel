@@ -6,19 +6,21 @@ UPPERCASE form expected by the schema (e.g. ``BUILD``, ``C``) rather than the
 camelCase ``mmt.qualifiedName`` constant form.
 """
 
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import (
+    SwcImplementation,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
-    Code,
     Compiler,
-    DependencyOnArtifact,
     Linker,
+    DependencyOnArtifact,
+    Code,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     PositiveInteger,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import (
-    SwcImplementation,
-)
+
 from tests.test_armodel import xsd_validation
+
 
 FRAGMENT = """<?xml version="1.0" encoding="UTF-8"?>
 <AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xml="http://www.w3.org/XML/1998/namespace" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_00046.xsd">

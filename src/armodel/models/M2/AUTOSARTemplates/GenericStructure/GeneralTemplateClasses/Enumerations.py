@@ -5,7 +5,6 @@ various configuration and behavior options throughout the AUTOSAR model.
 """
 
 from enum import Enum
-
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum
 
 

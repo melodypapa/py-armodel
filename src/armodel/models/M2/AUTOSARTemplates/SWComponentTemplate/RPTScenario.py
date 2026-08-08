@@ -3,13 +3,12 @@ This module contains classes for representing AUTOSAR Run-Time Protection (RPT) 
 and access point identification elements in software component templates.
 """
 
-from abc import ABC
-from typing import Optional
-
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport import RptEnablerImplTypeEnum, RptExecutionControlEnum, RptPreparationEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, PositiveInteger
+from abc import ABC
+from typing import Optional
 
 
 class IdentCaption(AtpStructureElement, ABC):

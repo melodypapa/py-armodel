@@ -1,6 +1,6 @@
-import logging
-
 from openpyxl import Workbook
+
+import logging
 
 
 class ExcelReporter:

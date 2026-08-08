@@ -13,7 +13,9 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from armodel.models import AUTOSAR, ApplicationSwComponentType, CompositionSwComponentType
+from armodel.models import AUTOSAR
+from armodel.models import ApplicationSwComponentType
+from armodel.models import CompositionSwComponentType
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -241,7 +243,7 @@ class TestServiceNeedsHandlers:
     """Exercise all service needs types."""
 
     def test_readNvBlockNeeds_full(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcServiceDependency, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -260,7 +262,7 @@ class TestServiceNeedsHandlers:
         assert needs.getNDataSets().getValue() == 3
 
     def test_readDiagnosticCommunicationManagerNeeds_sets_callbackType(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcServiceDependency, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -274,7 +276,7 @@ class TestServiceNeedsHandlers:
         assert needs.getServiceRequestCallbackType().getValue() == "callback"
 
     def test_readDiagnosticRoutineNeeds_sets_ridNumber(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcServiceDependency, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -288,7 +290,7 @@ class TestServiceNeedsHandlers:
         assert needs.getRidNumber().getValue() == 0x0100
 
     def test_readDiagnosticValueNeeds_sets_didNumber(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcServiceDependency, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -302,7 +304,7 @@ class TestServiceNeedsHandlers:
         assert needs.getDidNumber().getValue() == 0xF190
 
     def test_readDiagnosticEventNeeds_sets_attributes(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcServiceDependency, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -327,7 +329,7 @@ class TestServiceNeedsHandlers:
         assert needs.getUsesMonitorData().getValue() is True
 
     def test_readDiagnosticEventInfoNeeds_sets_dtcKind(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcServiceDependency, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -341,7 +343,7 @@ class TestServiceNeedsHandlers:
         assert needs.getDtcKind().getValue() == "kind"
 
     def test_readDiagnosticIoControlNeeds_sets_currentValueRef(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcServiceDependency, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -358,7 +360,7 @@ class TestServiceNeedsHandlers:
         assert needs.getFreezeCurrentStateSupported().getValue() is True
 
     def test_readCryptoServiceNeeds_sets_maxKeyLength(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcServiceDependency, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -372,7 +374,7 @@ class TestServiceNeedsHandlers:
         assert needs.getMaximumKeyLength().getValue() == 256
 
     def test_readEcuStateMgrUserNeeds_minimal(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcServiceDependency, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -383,7 +385,7 @@ class TestServiceNeedsHandlers:
         assert needs.getShortName() == "ecuStateNeeds"
 
     def test_readDtcStatusChangeNotificationNeeds_sets_dtcFormatType(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcServiceDependency, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -397,7 +399,7 @@ class TestServiceNeedsHandlers:
         assert needs.getDtcFormatType().getValue() == "format"
 
     def test_readDltUserNeeds_minimal(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcServiceDependency, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -408,7 +410,7 @@ class TestServiceNeedsHandlers:
         assert needs.getShortName() == "dltNeeds"
 
     def test_readComMgrUserNeeds_sets_maxCommMode(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcServiceDependency, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -422,7 +424,7 @@ class TestServiceNeedsHandlers:
         assert needs.getMaxCommMode().getValue() == "FULL"
 
     def test_readDiagEventDebounceMonitorInternal_minimal(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import DiagnosticEventNeeds, SwcServiceDependency, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -441,7 +443,7 @@ class TestRunnableEntityOrchestrator:
     """Exercise readRunnableEntity full orchestrator and all variable access types."""
 
     def test_readRunnableEntity_minimal(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcInternalBehavior, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -451,7 +453,7 @@ class TestRunnableEntityOrchestrator:
         assert runnable.getSymbol().getValue() == "Run"
 
     def test_readRunnableEntity_with_dataReceivePointByArguments(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcInternalBehavior, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -464,7 +466,7 @@ class TestRunnableEntityOrchestrator:
         assert len(runnable.getDataReceivePointByArguments()) == 1
 
     def test_readRunnableEntity_with_dataReceivePointByValues(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcInternalBehavior, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -477,7 +479,7 @@ class TestRunnableEntityOrchestrator:
         assert len(runnable.getDataReceivePointByValues()) == 1
 
     def test_readRunnableEntity_with_dataReadAccesses(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcInternalBehavior, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -490,7 +492,7 @@ class TestRunnableEntityOrchestrator:
         assert len(runnable.getDataReadAccesses()) == 1
 
     def test_readRunnableEntity_with_dataWriteAccesses(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcInternalBehavior, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -503,7 +505,7 @@ class TestRunnableEntityOrchestrator:
         assert len(runnable.getDataWriteAccesses()) == 1
 
     def test_readRunnableEntity_with_dataSendPoints(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcInternalBehavior, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -516,7 +518,7 @@ class TestRunnableEntityOrchestrator:
         assert len(runnable.getDataSendPoints()) == 1
 
     def test_readRunnableEntity_with_writtenLocalVariables(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcInternalBehavior, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -529,7 +531,7 @@ class TestRunnableEntityOrchestrator:
         assert len(runnable.getWrittenLocalVariables()) == 1
 
     def test_readRunnableEntity_with_readLocalVariables(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcInternalBehavior, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -542,7 +544,7 @@ class TestRunnableEntityOrchestrator:
         assert len(runnable.getReadLocalVariables()) == 1
 
     def test_readRunnableEntity_with_synchronousServerCallPoint(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcInternalBehavior, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -561,7 +563,7 @@ class TestRunnableEntityOrchestrator:
         assert len(runnable.getSynchronousServerCallPoint()) == 1
 
     def test_readRunnableEntity_with_asynchronousServerCallPoint(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcInternalBehavior, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -580,7 +582,7 @@ class TestRunnableEntityOrchestrator:
         assert len(runnable.getAsynchronousServerCallPoint()) == 1
 
     def test_readRunnableEntity_with_internalTriggeringPoints(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcInternalBehavior, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -593,7 +595,7 @@ class TestRunnableEntityOrchestrator:
         assert len(list(runnable.getInternalTriggeringPoints())) == 1
 
     def test_readRunnableEntity_with_modeAccessPoints(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcInternalBehavior, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -606,7 +608,7 @@ class TestRunnableEntityOrchestrator:
         assert len(runnable.getModeAccessPoints()) == 1
 
     def test_readRunnableEntity_with_modeSwitchPoints(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcInternalBehavior, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -619,7 +621,7 @@ class TestRunnableEntityOrchestrator:
         assert len(runnable.getModeSwitchPoints()) == 1
 
     def test_readRunnableEntity_with_parameterAccesses(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcInternalBehavior, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -632,7 +634,7 @@ class TestRunnableEntityOrchestrator:
         assert len(runnable.getParameterAccesses()) == 1
 
     def test_readRunnableEntity_with_arguments(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcInternalBehavior, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -645,7 +647,7 @@ class TestRunnableEntityOrchestrator:
         assert len(runnable.getArguments()) == 1
 
     def test_readRunnableEntity_with_asynchronousServerCallResultPoints(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcInternalBehavior, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -663,7 +665,7 @@ class TestRunnableEntityOrchestrator:
         assert len(runnable.getAsynchronousServerCallResultPoints()) == 1
 
     def test_readRunnableEntity_with_canBeInvokedConcurrently(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcInternalBehavior, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -683,7 +685,7 @@ class TestRteEventHandlers:
     """Exercise all RTE event types."""
 
     def test_readTimingEvent_full(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcInternalBehavior, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -697,7 +699,7 @@ class TestRteEventHandlers:
         assert event.getOffset().getValue() == 0.05
 
     def test_readOperationInvokedEvent_full(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcInternalBehavior, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -714,7 +716,7 @@ class TestRteEventHandlers:
         assert event.getOperationIRef() is not None
 
     def test_readDataReceivedEvent_full(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcInternalBehavior, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -731,7 +733,7 @@ class TestRteEventHandlers:
         assert event.getDataIRef() is not None
 
     def test_readSwcModeSwitchEvent_full(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcInternalBehavior, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -750,7 +752,7 @@ class TestRteEventHandlers:
         assert event.getActivation().getValue() == "enable"
 
     def test_readInternalTriggerOccurredEvent_full(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcInternalBehavior, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -763,7 +765,7 @@ class TestRteEventHandlers:
         assert event.getEventSourceRef().getValue() == "/itp"
 
     def test_readInitEvent_minimal(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcInternalBehavior, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -773,7 +775,7 @@ class TestRteEventHandlers:
         assert event.getShortName() == "ie"
 
     def test_readAsynchronousServerCallReturnsEvent_full(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcInternalBehavior, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -786,7 +788,7 @@ class TestRteEventHandlers:
         assert event.getEventSourceRef().getValue() == "/acp"
 
     def test_readModeSwitchedAckEvent_full(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcInternalBehavior, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -799,7 +801,7 @@ class TestRteEventHandlers:
         assert event.getEventSourceRef().getValue() == "/msp"
 
     def test_readBackgroundEvent_minimal(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcInternalBehavior, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -809,7 +811,7 @@ class TestRteEventHandlers:
         assert event.getShortName() == "be"
 
     def test_readDataSendCompletedEvent_full(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcInternalBehavior, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -898,6 +900,7 @@ class TestSwComponentTypeDeepHandlers:
         assert len(port.getRequiredComSpecs()) == 1
 
     def test_readCompositionSwComponentTypeComponents_creates(self, parser):
+        from armodel.models import CompositionSwComponentType
 
         comp = CompositionSwComponentType(parent=_autosar_root(), short_name="comp")
         element = _snip(
@@ -908,6 +911,7 @@ class TestSwComponentTypeDeepHandlers:
         assert len(comp.getComponents()) == 1
 
     def test_readCompositionSwComponentTypeSwConnectors_assembly(self, parser):
+        from armodel.models import CompositionSwComponentType
 
         comp = CompositionSwComponentType(parent=_autosar_root(), short_name="comp")
         element = _snip(
@@ -918,6 +922,7 @@ class TestSwComponentTypeDeepHandlers:
         assert len(comp.getAssemblySwConnectors()) == 1
 
     def test_readCompositionSwComponentTypeSwConnectors_delegation(self, parser):
+        from armodel.models import CompositionSwComponentType
 
         comp = CompositionSwComponentType(parent=_autosar_root(), short_name="comp")
         element = _snip(
@@ -938,6 +943,7 @@ class TestSwComponentTypeDeepHandlers:
         assert len(comp.getDelegationSwConnectors()) == 1
 
     def test_readAssemblySwConnector_full(self, parser):
+        from armodel.models import CompositionSwComponentType
 
         comp = CompositionSwComponentType(parent=_autosar_root(), short_name="comp")
         connector = comp.createAssemblySwConnector("conn")
@@ -958,6 +964,7 @@ class TestSwComponentTypeDeepHandlers:
         assert connector.getRequesterIRef() is not None
 
     def test_readSwComponentPrototype_sets_typeTRef(self, parser):
+        from armodel.models import CompositionSwComponentType
 
         comp = CompositionSwComponentType(parent=_autosar_root(), short_name="comp")
         proto = comp.createSwComponentPrototype("proto")
@@ -1302,7 +1309,7 @@ class TestSystemAndMappingHandlers:
         assert len(system.getMappings()) == 1
 
     def test_readSystemMapping_full(self, parser):
-        from armodel.models import System
+        from armodel.models import System, SystemMapping
 
         system = System(parent=_autosar_root(), short_name="sys")
         mapping = system.createSystemMapping("sm")
@@ -1332,7 +1339,7 @@ class TestSystemAndMappingHandlers:
         assert len(mapping.getSwImplMappings()) == 1
 
     def test_readSwcToEcuMapping_full(self, parser):
-        from armodel.models import System
+        from armodel.models import System, SystemMapping
 
         system = System(parent=_autosar_root(), short_name="sys")
         mapping = system.createSystemMapping("sm")
@@ -1351,7 +1358,7 @@ class TestSystemAndMappingHandlers:
         assert swc_mapping.getEcuInstanceRef().getValue() == "/ecu"
 
     def test_readEcuMapping_full(self, parser):
-        from armodel.models import System
+        from armodel.models import System, SystemMapping
 
         system = System(parent=_autosar_root(), short_name="sys")
         mapping = system.createSystemMapping("sm")
@@ -1364,7 +1371,7 @@ class TestSystemAndMappingHandlers:
         assert ecu_mapping.getEcuInstanceRef().getValue() == "/ecuInst"
 
     def test_readSwcToImplMapping_full(self, parser):
-        from armodel.models import System
+        from armodel.models import System, SystemMapping
 
         system = System(parent=_autosar_root(), short_name="sys")
         mapping = system.createSystemMapping("sm")
@@ -1450,7 +1457,7 @@ class TestEcucDefAndValueHandlers:
         assert len(values.getContainers()) == 1
 
     def test_readEcucContainerValue_full(self, parser):
-        from armodel.models import EcucModuleConfigurationValues
+        from armodel.models import EcucModuleConfigurationValues, EcucContainerValue
 
         values = EcucModuleConfigurationValues(parent=_autosar_root(), short_name="emcv")
         container = values.createContainer("container")
@@ -1558,7 +1565,7 @@ class TestLifeCycleAndVariantHandlers:
         assert len(flat_map.getInstances()) == 1
 
     def test_readFlatInstanceDescriptor_full(self, parser):
-        from armodel.models import FlatMap
+        from armodel.models import FlatMap, FlatInstanceDescriptor
 
         flat_map = FlatMap(parent=_autosar_root(), short_name="fm")
         desc = flat_map.createFlatInstanceDescriptor("fid")
@@ -1874,7 +1881,7 @@ class TestAdditionalOrchestratorCoverage:
         assert any("Unsupported" in r.getMessage() for r in caplog.records)
 
     def test_readErrorTracerNeeds_dispatch(self, parser):
-        from armodel.models import ApplicationSwComponentType
+        from armodel.models import SwcServiceDependency, ApplicationSwComponentType
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -1919,7 +1926,7 @@ class TestAdditionalOrchestratorCoverage:
         assert "Unsupported" in caplog.text
 
     def test_readSystemMappingDataMappings_unsupported_warns(self, warning_parser, caplog):
-        from armodel.models import System
+        from armodel.models import System, SystemMapping
 
         system = System(parent=_autosar_root(), short_name="sys")
         mapping = system.createSystemMapping("sm")
@@ -1956,6 +1963,7 @@ class TestAdditionalOrchestratorCoverage:
         assert any("Unsupported" in r.getMessage() for r in caplog.records)
 
     def test_readCompositionSwComponentTypeSwConnectors_unsupported_warns(self, warning_parser, caplog):
+        from armodel.models import CompositionSwComponentType
 
         comp = CompositionSwComponentType(parent=_autosar_root(), short_name="comp")
         element = _snip(
@@ -2302,7 +2310,6 @@ class TestModeGroupIRef:
 def _make_system_mapping():
     """Create a SystemMapping with a MagicMock parent for data-mapping tests."""
     from unittest.mock import MagicMock
-
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate import SystemMapping
 
     return SystemMapping(parent=MagicMock(), short_name="TestSystemMapping")

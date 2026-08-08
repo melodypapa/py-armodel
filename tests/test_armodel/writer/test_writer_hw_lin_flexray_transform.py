@@ -1,56 +1,59 @@
 """Tests for writer HW, Lin, Flexray, and transformation handlers."""
 
 import xml.etree.cElementTree as ET
-
 import pytest
 
+from armodel.writer.arxml_writer import ARXMLWriter
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import (
+    HwDescriptionEntity,
     HwElement,
     HwPinGroup,
 )
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import (
-    HwAttributeDef,
     HwCategory,
+    HwAttributeDef,
     HwType,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import (
+    LinMaster,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import (
+    FlexrayCommunicationController,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import (
+    FlexrayFrame,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    ISignalIPdu,
+    IPduTiming,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import (
+    TransmissionModeCondition,
+    TransmissionModeDeclaration,
+    TransmissionModeTiming,
+    CyclicTiming,
+    EventControlledTiming,
+    TimeRangeType,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
+    DataTransformation,
+    DataTransformationSet,
+    TransformationTechnology,
+    BufferProperties,
+    TransformationDescription,
+    EndToEndTransformationDescription,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa E501
-    ARBoolean,
     ARLiteral,
+    ARBoolean,
     ARNumerical,
     Integer,
     PositiveInteger,
     RefType,
     TimeValue,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import (
-    FlexrayFrame,
-)
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import (
-    FlexrayCommunicationController,
-)
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import (
-    LinMaster,
-)
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
-    IPduTiming,
-    ISignalIPdu,
-)
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import (
-    CyclicTiming,
-    EventControlledTiming,
-    TimeRangeType,
-    TransmissionModeCondition,
-    TransmissionModeDeclaration,
-    TransmissionModeTiming,
-)
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
-    BufferProperties,
-    DataTransformationSet,
-    EndToEndTransformationDescription,
-)
-from armodel.writer.arxml_writer import ARXMLWriter
 
 
 @pytest.fixture(autouse=True)
@@ -689,10 +692,10 @@ class TestWriterBufferProperties:
     def test_writeBufferPropertiesBufferComputation_with_computation(self, writer):
         props = BufferProperties()
         from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
-            CompuConst,
-            CompuConstTextContent,
             CompuScale,
             CompuScaleConstantContents,
+            CompuConst,
+            CompuConstTextContent,
         )
 
         computation = CompuScale()

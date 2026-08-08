@@ -4,18 +4,17 @@ Tests cover all classes and methods in the Datatypes.py file to achieve 100% tes
 """
 
 import pytest
-
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
-    ApplicationArrayDataType,
-    ApplicationCompositeDataType,
+    AutosarDataType,
     ApplicationDataType,
     ApplicationPrimitiveDataType,
+    ApplicationCompositeDataType,
+    ApplicationArrayDataType,
     ApplicationRecordDataType,
-    AutosarDataType,
     DataTypeMap,
     DataTypeMappingSet,
 )
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 
 
 class TestAutosarDataType:

@@ -1,7 +1,7 @@
-import logging
 from typing import Dict
-
 from openpyxl.worksheet.worksheet import Worksheet
+
+import logging
 
 
 class AbstractExcelParser:

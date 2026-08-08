@@ -2,7 +2,6 @@
 This module contains tests for the Figure module in MSR.Documentation.BlockElements.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import (
     Graphic,
     GraphicFitEnum,
@@ -10,6 +9,7 @@ from armodel.models.M2.MSR.Documentation.BlockElements.Figure import (
     Map,
     MlFigure,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
 
 
 class TestGraphicFitEnum:

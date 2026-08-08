@@ -10,9 +10,8 @@ Goal: exercise every branch of the dispatch chain, which naturally cascades
 coverage into each handler method (~30–100 lines per handler).
 """
 
-import xml.etree.ElementTree as ET
-
 import pytest
+import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage

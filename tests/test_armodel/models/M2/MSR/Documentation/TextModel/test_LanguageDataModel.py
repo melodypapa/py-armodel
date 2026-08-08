@@ -3,14 +3,13 @@ This module contains tests for the LanguageDataModel module in MSR.Documentation
 """
 
 import pytest
-
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
-    LanguageSpecific,
     LEnum,
     LLongName,
     LOverviewParagraph,
     LParagraph,
     LPlainText,
+    LanguageSpecific,
 )
 
 

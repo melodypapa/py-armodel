@@ -3,21 +3,20 @@ Tests for ARXMLWriter class
 """
 
 import xml.etree.cElementTree as ET
-
+from armodel.writer.arxml_writer import ARXMLWriter
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantReference, NumericalValueSpecification, TextValueSpecification
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, DateTime, Limit, RefType, RevisionLabelString
+from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg, Sd
+from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData, DocRevision, Modification
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Limit, RefType, ARLiteral, RevisionLabelString, DateTime, ARFloat
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName, LPlainText, LOverviewParagraph
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguagePlainText
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification, NumericalValueSpecification, ConstantReference
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
+from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     SwSystemconstValue,
 )
-from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData, DocRevision, Modification
-from armodel.models.M2.MSR.AsamHdo.SpecialData import Sd, Sdg
-from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
-from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
-from armodel.models.M2.MSR.Documentation.Annotation import Annotation
-from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName, LOverviewParagraph, LPlainText
-from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguagePlainText
-from armodel.writer.arxml_writer import ARXMLWriter
 
 
 class TestARXMLWriterBasicMethods:

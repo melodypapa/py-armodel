@@ -2,49 +2,65 @@
 
 import xml.etree.cElementTree as ET
 from unittest.mock import MagicMock
-
 import pytest
 
+from armodel.writer.arxml_writer import ARXMLWriter
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import (
     AUTOSAR,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
-    Code,
-)
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import (
-    ImplementationDataTypeElement,
-)
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
-    ModeRequestTypeMap,
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARLiteral,
+    ARBoolean,
+    ARFloat,
+    RefType,
+    RevisionLabelString,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import (
+    SwcBswMapping,
     SwcBswRunnableMapping,
     SwcBswSynchronizedModeGroupPrototype,
     SwcBswSynchronizedTrigger,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (
+    PTriggerInAtomicSwcTypeInstanceRef,
+    PModeGroupInAtomicSwcInstanceRef,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
+    Code,
+    ImplementationProps,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import (
     AutosarEngineeringObject,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARBoolean,
-    ARFloat,
-    ARLiteral,
-    RefType,
-    RevisionLabelString,
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import (
+    ImplementationDataType,
+    ImplementationDataTypeElement,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (
-    PModeGroupInAtomicSwcInstanceRef,
-    PTriggerInAtomicSwcTypeInstanceRef,
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+    SymbolProps,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
     DataTypeMap,
+    DataTypeMappingSet,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
+    ModeDeclaration,
+    ModeDeclarationGroup,
+    ModeRequestTypeMap,
 )
 from armodel.models.M2.MSR.DataDictionary.RecordLayout import (
+    SwRecordLayout,
     SwRecordLayoutGroup,
     SwRecordLayoutGroupContent,
     SwRecordLayoutV,
 )
-from armodel.writer.arxml_writer import ARXMLWriter
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import (
+    SwcTiming,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
+    EOCExecutableEntityRef,
+    ExecutionOrderConstraint,
+)
 
 
 @pytest.fixture(autouse=True)

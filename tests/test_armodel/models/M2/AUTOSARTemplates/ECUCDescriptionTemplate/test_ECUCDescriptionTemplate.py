@@ -4,24 +4,24 @@ These tests ensure 100% code coverage for all classes in the ECUCDescriptionTemp
 """
 
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
-    EcucAbstractReferenceValue,
+    EcucValueCollection,
+    EcucIndexableValue,
+    EcucParameterValue,
     EcucAddInfoParamValue,
+    EcucTextualParamValue,
+    EcucNumericalParamValue,
+    EcucAbstractReferenceValue,
+    EcucInstanceReferenceValue,
+    EcucReferenceValue,
+    EcucContainerValue,
+    EcucModuleConfigurationValues,
     EcucConditionSpecification,
     EcucConfigurationVariantEnum,
-    EcucContainerValue,
-    EcucIndexableValue,
-    EcucInstanceReferenceValue,
-    EcucModuleConfigurationValues,
-    EcucNumericalParamValue,
-    EcucParameterValue,
-    EcucReferenceValue,
-    EcucTextualParamValue,
-    EcucValueCollection,
 )
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucModuleDef
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, CIdentifier, Limit, RefType
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, RefType, CIdentifier, Limit
 
 
 def test_ecuc_value_collection():

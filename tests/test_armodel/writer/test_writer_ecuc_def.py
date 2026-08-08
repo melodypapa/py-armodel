@@ -1,12 +1,24 @@
 """Tests for writer ECUC parameter definition handlers."""
 
 import xml.etree.cElementTree as ET
-
 import pytest
 
+from armodel.writer.arxml_writer import ARXMLWriter
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+    EcucBooleanParamDef,
+    EcucChoiceContainerDef,
+    EcucEnumerationLiteralDef,
+    EcucEnumerationParamDef,
+    EcucFloatParamDef,
+    EcucFunctionNameDef,
+    EcucIntegerParamDef,
+    EcucModuleDef,
     EcucMultiplicityConfigurationClass,
+    EcucParamConfContainerDef,
+    EcucReferenceDef,
+    EcucStringParamDef,
+    EcucSymbolicNameReferenceDef,
     EcucValueConfigurationClass,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa E501
@@ -19,7 +31,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     UnlimitedInteger,
     VerbatimString,
 )
-from armodel.writer.arxml_writer import ARXMLWriter
 
 
 @pytest.fixture(autouse=True)

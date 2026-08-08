@@ -10,9 +10,9 @@ Targets:
 import logging
 import os
 import tempfile
-import xml.etree.ElementTree as ET
 
 import pytest
+import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.parser.arxml_parser import ARXMLParser

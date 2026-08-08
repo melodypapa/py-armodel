@@ -4,28 +4,27 @@ Tests cover all classes and methods in the __init__.py file to achieve 100% test
 """
 
 import pytest
-
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+    SymbolProps,
+    PortPrototype,
     AbstractProvidedPortPrototype,
     AbstractRequiredPortPrototype,
-    ApplicationSwComponentType,
-    AtomicSwComponentType,
-    ComplexDeviceDriverSwComponentType,
-    EcuAbstractionSwComponentType,
-    NvBlockSwComponentType,
-    PortGroup,
-    PortPrototype,
     PPortPrototype,
-    PRPortPrototype,
     RPortPrototype,
+    PRPortPrototype,
+    PortGroup,
+    SwComponentType,
+    AtomicSwComponentType,
+    EcuAbstractionSwComponentType,
+    ApplicationSwComponentType,
+    ComplexDeviceDriverSwComponentType,
+    NvBlockSwComponentType,
     SensorActuatorSwComponentType,
     ServiceProxySwComponentType,
     ServiceSwComponentType,
-    SwComponentType,
-    SymbolProps,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 
 
 class TestSymbolProps:
@@ -142,8 +141,8 @@ class TestAbstractProvidedPortPrototype:
         assert provided_port.providedComSpecs == []
 
         # Test providedComSpecs methods
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import NonqueuedSenderComSpec
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
         com_spec = NonqueuedSenderComSpec()
         # Set required fields to pass validation
@@ -186,8 +185,8 @@ class TestAbstractRequiredPortPrototype:
         assert required_port.requiredComSpecs == []
 
         # Test requiredComSpecs methods
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ClientComSpec
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
         com_spec = ClientComSpec()
         # Set required fields for validation

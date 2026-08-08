@@ -4,9 +4,8 @@ Tests cover all classes and methods in the __init__.py file to achieve 100% test
 """
 
 import pytest
-
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import SwComponentPrototype, SwConnector, AssemblySwConnector, DelegationSwConnector, PassThroughSwConnector
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import AssemblySwConnector, DelegationSwConnector, PassThroughSwConnector, SwComponentPrototype, SwConnector
 
 
 class TestSwComponentPrototype:

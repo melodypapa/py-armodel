@@ -8,24 +8,22 @@ This module tests the AUTOSAR-related classes including:
 - AUTOSARDoc
 """
 
-from unittest.mock import Mock, patch
-
 import pytest
-
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR, AbstractAUTOSAR, AUTOSARDoc, FileInfoComment
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswCalledEntity, BswSchedulableEntity
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
+from unittest.mock import Mock, patch
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import FileInfoComment, AbstractAUTOSAR, AUTOSAR, AUTOSARDoc
+from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType, PortPrototype
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import VariableDataPrototype
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import RunnableEntity
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate import System
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import SystemSignal, SystemSignalGroup
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
 from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
-from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate import System
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import RunnableEntity
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import SystemSignal, SystemSignalGroup
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswSchedulableEntity, BswCalledEntity
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 
 class TestFileInfoComment:

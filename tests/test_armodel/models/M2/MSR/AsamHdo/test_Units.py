@@ -2,13 +2,13 @@
 This module contains tests for the Units module in MSR.AsamHdo.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARNumerical, RefType
 from armodel.models.M2.MSR.AsamHdo.Units import (
     PhysicalDimension,
     SingleLanguageUnitNames,
     Unit,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARNumerical, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 
 
 class TestPhysicalDimension:

@@ -2,41 +2,39 @@
 
 import xml.etree.cElementTree as ET
 from unittest.mock import MagicMock
-
 import pytest
-
+from armodel.writer.arxml_writer import ARXMLWriter
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import (
     AUTOSAR,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (  # noqa: E501
+    ISignalToIPduMapping,
+    NmPdu,
+    NPdu,
+    DcmIPdu,
+    SecuredIPdu,
+    SecureCommunicationProps,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (  # noqa: E501
+    CanTpAddress,
+    CanTpChannel,
+    CanTpConnection,
+    CanTpEcu,
+    CanTpNode,
+    CanTpConfig,
+    TpAddress,
+    LinTpConnection,
+    LinTpNode,
+    LinTpConfig,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
-    ARBoolean,
     ARLiteral,
+    ARBoolean,
     Integer,
     PositiveInteger,
     RefType,
     TimeValue,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (  # noqa: E501
-    DcmIPdu,
-    ISignalToIPduMapping,
-    NmPdu,
-    NPdu,
-    SecureCommunicationProps,
-    SecuredIPdu,
-)
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (  # noqa: E501
-    CanTpAddress,
-    CanTpChannel,
-    CanTpConfig,
-    CanTpConnection,
-    CanTpEcu,
-    CanTpNode,
-    LinTpConfig,
-    LinTpConnection,
-    LinTpNode,
-    TpAddress,
-)
-from armodel.writer.arxml_writer import ARXMLWriter
 
 
 @pytest.fixture(autouse=True)

@@ -8,24 +8,23 @@ of the respective classes.
 """
 
 import pytest
-
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
-    CouplingPort,
-    CouplingPortDetails,
+    MacMulticastGroup,
+    EthernetCluster,
+    CouplingPortStructuralElement,
     CouplingPortFifo,
     CouplingPortScheduler,
-    CouplingPortStructuralElement,
-    EthernetCluster,
-    EthernetCommunicationConnector,
-    EthernetCommunicationController,
     EthernetPriorityRegeneration,
-    InitialSdDelayConfig,
-    MacMulticastGroup,
-    RequestResponseDelay,
-    SdClientConfig,
+    CouplingPortDetails,
     VlanMembership,
+    CouplingPort,
+    EthernetCommunicationController,
+    EthernetCommunicationConnector,
+    RequestResponseDelay,
+    InitialSdDelayConfig,
+    SdClientConfig,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
 class MockParent(ARObject):

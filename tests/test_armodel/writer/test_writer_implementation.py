@@ -4,25 +4,28 @@ The written XML conforms to the AUTOSAR XSD, so enum values must use the
 serialized UPPERCASE form (``BUILD``, ``C``) that the schema expects.
 """
 
-import os
 import tempfile
+import os
 import xml.etree.cElementTree as ET
 
 import pytest
 
+from armodel.writer.arxml_writer import ARXMLWriter
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
     DependencyUsageEnum,
     ProgramminglanguageEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARLiteral,
     PositiveInteger,
-    RefType,
     RevisionLabelString,
     String,
+    ARLiteral,
 )
-from armodel.writer.arxml_writer import ARXMLWriter
+
 from tests.test_armodel import xsd_validation
 
 

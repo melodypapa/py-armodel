@@ -2,40 +2,40 @@
 
 import xml.etree.cElementTree as ET
 from unittest.mock import MagicMock
-
 import pytest
-
+from armodel.writer.arxml_writer import ARXMLWriter
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARBoolean,
-    ARLiteral,
-    ARNumerical,
-    Integer,
-    PositiveInteger,
-    RefType,
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    SegmentPosition,
+    MultiplexedPart,
+    StaticPart,
+    DynamicPartAlternative,
+    DynamicPart,
+    MultiplexedIPdu,
+    UserDefinedIPdu,
+    UserDefinedPdu,
+    GeneralPurposePdu,
+    GeneralPurposeIPdu,
+    SecureCommunicationPropsSet,
+    SecureCommunicationAuthenticationProps,
+    SecureCommunicationFreshnessProps,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import (
     SoAdRoutingGroup,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
-    DynamicPart,
-    DynamicPartAlternative,
-    GeneralPurposeIPdu,
-    GeneralPurposePdu,
-    MultiplexedIPdu,
-    SecureCommunicationAuthenticationProps,
-    SecureCommunicationFreshnessProps,
-    SecureCommunicationPropsSet,
-    SegmentPosition,
-    StaticPart,
-    UserDefinedIPdu,
-    UserDefinedPdu,
-)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
-    DoIpTpConfig,
+    DoIpLogicAddress,
     DoIpTpConnection,
+    DoIpTpConfig,
 )
-from armodel.writer.arxml_writer import ARXMLWriter
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARLiteral,
+    ARBoolean,
+    Integer,
+    PositiveInteger,
+    RefType,
+    ARNumerical,
+)
 
 
 @pytest.fixture(autouse=True)

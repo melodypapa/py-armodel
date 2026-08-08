@@ -11,23 +11,35 @@ Focus areas (from coverage report on arxml_parser.py):
 """
 
 import logging
-import xml.etree.ElementTree as ET
 
 import pytest
+import xml.etree.ElementTree as ET
+from unittest.mock import MagicMock
 
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models import (
     AdminData,
     Annotation,
     BswModuleDescription,
     DocRevision,
     DocumentationBlock,
+    Graphic,
+    LGraphic,
     MlFigure,
+    MultiLanguageParagraph,
+    MultiLanguagePlainText,
     RunnableEntity,
     Sdg,
+    SwAxisGrouped,
+    SwAxisIndividual,
+    SwCalprmAxis,
+    SwCalprmAxisSet,
     SwDataDefProps,
+    SwPointerTargetProps,
+    CompositeNetworkRepresentation,
 )
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
+    TransformationDescription,
     EndToEndTransformationDescription,
 )
 from armodel.parser.arxml_parser import ARXMLParser
@@ -708,6 +720,7 @@ class TestDocRevisionModificationGap:
 
 class TestSwDataDefProsInvalidValue:
     def test_readInvalidValue_sets_value(self, parser):
+        from armodel.models import SwDataDefProps
 
         props = SwDataDefProps()
         element = _snip("<INVALID-VALUE>" "<NUMERICAL-VALUE-SPECIFICATION>" "<VALUE>42</VALUE>" "</NUMERICAL-VALUE-SPECIFICATION>" "</INVALID-VALUE>")

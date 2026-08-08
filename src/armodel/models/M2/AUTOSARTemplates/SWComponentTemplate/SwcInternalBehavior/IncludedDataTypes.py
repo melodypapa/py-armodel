@@ -3,10 +3,9 @@ This module contains classes for representing AUTOSAR included data types
 in software component internal behavior templates.
 """
 
-from typing import List
-
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, RefType
+from typing import List
 
 
 class IncludedDataTypeSet(ARObject):

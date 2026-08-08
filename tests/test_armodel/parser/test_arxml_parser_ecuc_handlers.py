@@ -5,7 +5,6 @@ import xml.etree.ElementTree as ET
 from unittest.mock import MagicMock
 
 import pytest
-
 from armodel.models import AUTOSAR
 from armodel.parser.arxml_parser import ARXMLParser
 

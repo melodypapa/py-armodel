@@ -3,8 +3,8 @@ This module contains comprehensive tests for the DataElements module in SWCompon
 Tests cover all classes and methods in the DataElements.py file to achieve 100% test coverage.
 """
 
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 
 
 class TestParameterAccess:

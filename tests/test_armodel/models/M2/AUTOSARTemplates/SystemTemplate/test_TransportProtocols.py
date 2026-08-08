@@ -1,27 +1,27 @@
 import pytest
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIp import AbstractDoIpLogicAddressProps
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
+    TpConfig,
     CanTpAddress,
     CanTpChannel,
-    CanTpConfig,
+    TpConnectionIdent,
+    TpConnection,
     CanTpConnection,
     CanTpEcu,
     CanTpNode,
+    CanTpConfig,
     DoIpLogicAddress,
-    DoIpTpConfig,
     DoIpTpConnection,
-    LinTpConfig,
+    DoIpTpConfig,
+    TpAddress,
     LinTpConnection,
     LinTpNode,
-    TpAddress,
-    TpConfig,
-    TpConnection,
-    TpConnectionIdent,
+    LinTpConfig,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIp import AbstractDoIpLogicAddressProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
 
 
 class MockParent(ARObject):

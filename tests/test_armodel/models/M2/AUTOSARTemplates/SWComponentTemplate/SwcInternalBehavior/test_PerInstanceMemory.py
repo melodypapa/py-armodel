@@ -3,8 +3,8 @@ This module contains comprehensive tests for the PerInstanceMemory module in SWC
 Tests cover all classes and methods in the PerInstanceMemory.py file to achieve 100% test coverage.
 """
 
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PerInstanceMemory import PerInstanceMemory
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 
 
 class TestPerInstanceMemory:

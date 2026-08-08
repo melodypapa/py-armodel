@@ -2,8 +2,8 @@
 This module contains tests for the DocumentationBlock module in MSR.Documentation.TextModel.BlockElements.
 """
 
-from armodel.models.M2.MSR.Documentation.BlockElements.Figure import MlFigure
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+from armodel.models.M2.MSR.Documentation.BlockElements.Figure import MlFigure
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ARList
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageParagraph
 

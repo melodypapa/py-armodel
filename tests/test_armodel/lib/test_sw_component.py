@@ -4,7 +4,6 @@ These tests ensure 100% code coverage for the software component analysis functi
 """
 
 from unittest.mock import Mock, patch
-
 from armodel.lib.sw_component import SwComponentAnalyzer
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage

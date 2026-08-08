@@ -3,9 +3,11 @@ Test suite for BswTriggerDirectImplementation class.
 Tests verify initialization, getter/setter methods, and proper attribute handling.
 """
 
+import pytest
 
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswTriggerDirectImplementation
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, Identifier
+from armodel import AUTOSAR
 
 
 class TestBswTriggerDirectImplementation:

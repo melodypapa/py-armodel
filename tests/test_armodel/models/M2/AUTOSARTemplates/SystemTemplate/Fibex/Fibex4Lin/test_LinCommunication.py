@@ -1,19 +1,19 @@
 import pytest
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import (
+    LinFrame,
+    LinUnconditionalFrame,
+    LinFrameTriggering,
+    ResumePosition,
+    ScheduleTableEntry,
     ApplicationEntry,
     FreeFormatEntry,
     LinConfigurationEntry,
-    LinFrame,
-    LinFrameTriggering,
     LinScheduleTable,
-    LinUnconditionalFrame,
-    ResumePosition,
-    ScheduleTableEntry,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 
 
 class MockParent(ARObject):
@@ -217,8 +217,8 @@ class Test_Fibex4LinCommunication:
         assert result == table  # Test method chaining
 
 
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinMaster
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationController, LinMaster, LinCommunicationConnector
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationController, CommunicationConnector
 
 
 class Test_Fibex4LinTopology:

@@ -1,10 +1,11 @@
 """Tests for writer remaining coverage gaps - dispatch else branches."""
 
 import xml.etree.ElementTree as ET
+import pytest
 from unittest.mock import MagicMock
 
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.writer.arxml_writer import ARXMLWriter
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 
 
 class TestWriterDispatchElseBranches:

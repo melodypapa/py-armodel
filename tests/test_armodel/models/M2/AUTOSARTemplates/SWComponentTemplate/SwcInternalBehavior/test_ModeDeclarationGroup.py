@@ -3,8 +3,8 @@ This module contains comprehensive tests for the ModeDeclarationGroup module in 
 Tests cover all classes and methods in the ModeDeclarationGroup.py file to achieve 100% test coverage.
 """
 
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import ModeAccessPoint, ModeSwitchPoint, IncludedModeDeclarationGroupSet
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet, ModeAccessPoint, ModeSwitchPoint
 
 
 class TestModeAccessPoint:

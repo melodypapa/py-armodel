@@ -4,18 +4,17 @@ Tests cover all classes and methods in the DataPrototypes.py file to achieve 100
 """
 
 import pytest
-
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
-    ApplicationArrayElement,
-    ApplicationCompositeElementDataPrototype,
-    ApplicationRecordElement,
     AtpPrototype,
-    AutosarDataPrototype,
     DataPrototype,
-    ParameterDataPrototype,
+    AutosarDataPrototype,
     VariableDataPrototype,
+    ApplicationCompositeElementDataPrototype,
+    ApplicationArrayElement,
+    ApplicationRecordElement,
+    ParameterDataPrototype,
 )
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 
 
 class TestAtpPrototype:

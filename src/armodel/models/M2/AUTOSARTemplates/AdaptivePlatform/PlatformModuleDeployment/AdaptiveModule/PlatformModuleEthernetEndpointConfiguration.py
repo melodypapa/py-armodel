@@ -1,5 +1,3 @@
-from typing import Any, Optional
-
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
@@ -8,8 +6,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Ip4AddressString,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Ip6AddressString,
 )
+from typing import Any, Optional
 
 
 class PlatformModuleEthernetEndpointConfiguration(ARElement):

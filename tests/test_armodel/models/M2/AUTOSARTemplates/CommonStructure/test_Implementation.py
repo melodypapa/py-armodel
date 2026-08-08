@@ -2,18 +2,18 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
+    ImplementationProps,
     Code,
     Compiler,
     DependencyOnArtifact,
-    DependencyUsageEnum,
     Implementation,
-    ImplementationProps,
+    DependencyUsageEnum,
     Linker,
     ProgramminglanguageEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import McSupportData
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, CIdentifier, PositiveInteger, RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, ARLiteral, RefType, String, CIdentifier
 
 
 class TestImplementationProps:

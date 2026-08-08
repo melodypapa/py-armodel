@@ -156,6 +156,7 @@ class TestReadEndToEndProtection:
 
 class TestReadEndToEndProtections:
     def test_readEndToEndProtections_creates_protection(self, parser):
+        from armodel.models import EndToEndProtectionSet
 
         pkg = _autosar_root().createARPackage("Pkg")
         protection_set = pkg.createEndToEndProtectionSet("E2eSet")
@@ -164,6 +165,7 @@ class TestReadEndToEndProtections:
         assert len(protection_set.getEndToEndProtections()) == 1
 
     def test_readEndToEndProtections_unsupported_warns(self, warning_parser, caplog):
+        from armodel.models import EndToEndProtectionSet
 
         pkg = _autosar_root().createARPackage("Pkg")
         protection_set = pkg.createEndToEndProtectionSet("E2eSet")

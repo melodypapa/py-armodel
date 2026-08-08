@@ -7,55 +7,54 @@ import os
 import tempfile
 
 import pytest
-
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
+from armodel.parser.arxml_parser import ARXMLParser
+from armodel.writer.arxml_writer import ARXMLWriter
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
-    ComMgrUserNeeds,
-    CryptoServiceNeeds,
-    DevelopmentError,
+    RoleBasedDataAssignment,
+    ServiceNeeds,
+    RamBlockStatusControlEnum,
+    NvBlockNeedsReliabilityEnum,
+    NvBlockNeedsWritingPriorityEnum,
+    NvBlockNeeds,
+    RoleBasedDataTypeAssignment,
+    ServiceDiagnosticRelevanceEnum,
+    ServiceDependency,
+    DiagnosticAudienceEnum,
+    DiagnosticServiceRequestCallbackTypeEnum,
+    DiagnosticCapabilityElement,
+    DiagnosticIoControlNeeds,
+    DiagnosticRoutineTypeEnum,
+    DiagnosticCommunicationManagerNeeds,
+    DiagnosticRoutineNeeds,
+    DiagnosticValueAccessEnum,
+    DiagnosticProcessingStyleEnum,
+    DiagnosticValueNeeds,
     DiagEventDebounceAlgorithm,
     DiagEventDebounceCounterBased,
     DiagEventDebounceMonitorInternal,
     DiagEventDebounceTimeBased,
-    DiagnosticAudienceEnum,
-    DiagnosticCapabilityElement,
-    DiagnosticClearDtcNotificationEnum,
-    DiagnosticCommunicationManagerNeeds,
-    DiagnosticEventInfoNeeds,
-    DiagnosticEventNeeds,
-    DiagnosticIoControlNeeds,
-    DiagnosticProcessingStyleEnum,
-    DiagnosticRoutineNeeds,
-    DiagnosticRoutineTypeEnum,
-    DiagnosticServiceRequestCallbackTypeEnum,
-    DiagnosticValueAccessEnum,
-    DiagnosticValueNeeds,
-    DltUserNeeds,
-    DtcFormatTypeEnum,
     DtcKindEnum,
+    DiagnosticEventInfoNeeds,
+    DiagnosticClearDtcNotificationEnum,
+    DtcFormatTypeEnum,
     DtcStatusChangeNotificationNeeds,
+    DiagnosticEventNeeds,
+    CryptoServiceNeeds,
     EcuStateMgrUserNeeds,
-    ErrorTracerNeeds,
+    DltUserNeeds,
+    ComMgrUserNeeds,
     MaxCommModeEnum,
-    NvBlockNeeds,
-    NvBlockNeedsReliabilityEnum,
-    NvBlockNeedsWritingPriorityEnum,
-    PossibleErrorReaction,
-    RamBlockStatusControlEnum,
-    RoleBasedDataAssignment,
-    RoleBasedDataTypeAssignment,
-    RuntimeError,
-    ServiceDependency,
-    ServiceDiagnosticRelevanceEnum,
-    ServiceNeeds,
     SupervisedEntityNeeds,
+    ErrorTracerNeeds,
     TracedFailure,
+    DevelopmentError,
+    RuntimeError,
     TransientFault,
+    PossibleErrorReaction,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType, TimeValue
-from armodel.parser.arxml_parser import ARXMLParser
-from armodel.writer.arxml_writer import ARXMLWriter
 
 
 class TestRoleBasedDataAssignment:
@@ -1605,8 +1604,8 @@ class TestDiagnosticEventNeeds:
         bool_monitor.setValue(True)
         needs.setUsesMonitorData(bool_monitor)
 
-        import os
         import tempfile
+        import os
 
         writer = ARXMLWriter()
         with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as f:
@@ -1742,8 +1741,8 @@ class TestErrorTracerNeeds:
         reaction_code.setValue("99")
         reaction.setReactionCode(reaction_code)
 
-        import os
         import tempfile
+        import os
 
         writer = ARXMLWriter()
         with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as f:

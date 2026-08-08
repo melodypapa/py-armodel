@@ -1,12 +1,12 @@
 import argparse
-import logging
-import os.path
-import sys
-
 from armodel import __version__
+import logging
+import sys
+import os.path
+
+from armodel.transformer.admin_data import AdminDataTransformer
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.parser.arxml_parser import ARXMLParser
-from armodel.transformer.admin_data import AdminDataTransformer
 from armodel.writer import ARXMLWriter
 
 

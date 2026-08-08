@@ -3,12 +3,11 @@ This module contains comprehensive tests for the LifeCycles.py file
 in the AUTOSAR GenericStructure module.
 """
 
-from datetime import datetime
-
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCyclePeriod, LifeCycleInfo, LifeCycleInfoSet
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, RevisionLabelString
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+from datetime import datetime
 
 
 class TestLifeCyclePeriod:

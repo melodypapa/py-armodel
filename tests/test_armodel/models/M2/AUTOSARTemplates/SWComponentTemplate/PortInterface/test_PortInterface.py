@@ -1,22 +1,16 @@
 import pytest
 
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpBlueprintable, AtpType
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpBlueprintable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import AtpPrototype, AutosarDataPrototype, DataPrototype, VariableDataPrototype
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
-    ApplicationError,
-    ArgumentDataPrototype,
-    ClientServerInterface,
-    ClientServerOperation,
-    DataInterface,
-    NvDataInterface,
-    ParameterInterface,
-    PortInterface,
-    SenderReceiverInterface,
-)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import AtpPrototype, AutosarDataPrototype, DataPrototype
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import VariableDataPrototype
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ApplicationError, ArgumentDataPrototype, ClientServerInterface
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerOperation, DataInterface, NvDataInterface
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ParameterInterface, PortInterface, SenderReceiverInterface
 
 
 class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
@@ -181,8 +175,8 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
 
     def test_NvDataInterface_serviceKind(self):
         """Test NvDataInterface getServiceKind method to cover line 42 in PortInterface/__init__.py"""
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import NvDataInterface
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")

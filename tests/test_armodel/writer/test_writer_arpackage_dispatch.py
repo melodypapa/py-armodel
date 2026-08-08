@@ -1,20 +1,175 @@
 """Tests for writer ARPackage dispatch and top-level methods."""
 
-import os
-import tempfile
 import xml.etree.cElementTree as ET
-
 import pytest
+import tempfile
+import os
 
+from armodel.writer.arxml_writer import ARXMLWriter
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARPackage,
     ReferenceBase,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARBoolean,
-    ARLiteral,
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+    ApplicationSwComponentType,
+    ComplexDeviceDriverSwComponentType,
+    EcuAbstractionSwComponentType,
+    ServiceSwComponentType,
 )
-from armodel.writer.arxml_writer import ARXMLWriter
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
+    CompositionSwComponentType,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
+    ApplicationPrimitiveDataType,
+    ApplicationRecordDataType,
+    ApplicationArrayDataType,
+    DataTypeMappingSet,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+    SenderReceiverInterface,
+    ClientServerInterface,
+    ModeSwitchInterface,
+    TriggerInterface,
+    ParameterInterface,
+    NvDataInterface,
+    PortInterfaceMappingSet,
+    ModeDeclarationMappingSet,
+)
+from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
+from armodel.models.M2.MSR.AsamHdo.ComputationMethod import CompuMethod
+from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr
+from armodel.models.M2.MSR.AsamHdo.Units import Unit, PhysicalDimension
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
+    ConstantSpecification,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import (
+    ImplementationDataType,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
+    ModeDeclarationGroup,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import (
+    SwcTiming,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import (
+    EndToEndProtectionSet,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import (
+    SwcImplementation,
+)
+from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
+from armodel.models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import (
+    BswModuleDescription,
+)
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import (
+    BswModuleEntry,
+)
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import (
+    BswImplementation,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate import System
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import (
+    LinUnconditionalFrame,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
+    NmConfig,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    NmPdu,
+    NPdu,
+    DcmIPdu,
+    SecuredIPdu,
+    ISignal,
+    SystemSignal,
+    ISignalIPdu,
+    ISignalGroup,
+    SystemSignalGroup,
+    ISignalIPduGroup,
+    MultiplexedIPdu,
+    UserDefinedIPdu,
+    UserDefinedPdu,
+    GeneralPurposePdu,
+    GeneralPurposeIPdu,
+    SecureCommunicationPropsSet,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
+    LinCluster,
+    CanCluster,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
+    CanFrame,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import (
+    Gateway,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.EcuInstance import (
+    EcuInstance,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import (
+    GenericEthernetFrame,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import (
+    LifeCycleInfoSet,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatMap
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
+    EthernetCluster,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import (
+    DiagnosticConnection,
+)
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import (
+    DiagnosticServiceTable,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import (
+    SoAdRoutingGroup,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
+    CanTpConfig,
+    LinTpConfig,
+    DoIpTpConfig,
+)
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwElement
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import (
+    HwCategory,
+    HwType,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
+    DataTransformationSet,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import (
+    FlexrayFrame,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import (
+    FlexrayCluster,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import (
+    Collection,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import (
+    KeywordSet,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import (
+    PortPrototypeBlueprint,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.McGroups import McGroup
+from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucModuleDef
+from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+    EcucModuleConfigurationValues,
+)
+from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
+    SwSystemconstantValueSet,
+    PredefinedVariant,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARLiteral,
+    RevisionLabelString,
+    ARBoolean,
+)
 
 
 @pytest.fixture(autouse=True)

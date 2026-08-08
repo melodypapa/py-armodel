@@ -1,27 +1,26 @@
-import os
+import pytest
 import tempfile
+import os
 import xml.etree.cElementTree as ET
 
-import pytest
-
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.writer.abstract_arxml_writer import AbstractARXMLWriter
+from armodel.writer.arxml_writer import ARXMLWriter
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARBoolean,
     ARFloat,
     ARLiteral,
     ARNumerical,
-    ARPositiveInteger,
     DateTime,
     Integer,
-    RefType,
     RevisionLabelString,
     TimeValue,
+    RefType,
+    ARBoolean,
+    ARPositiveInteger,
 )
-from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
-from armodel.writer.abstract_arxml_writer import AbstractARXMLWriter
-from armodel.writer.arxml_writer import ARXMLWriter
+from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
 
 
 class ConcreteARXMLWriter(AbstractARXMLWriter):

@@ -3,9 +3,9 @@ This module contains comprehensive tests for the Trigger module in SWComponentTe
 Tests cover all classes and methods in the Trigger.py file to achieve 100% test coverage.
 """
 
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import InternalTriggeringPoint, ExternalTriggeringPointIdent, ExternalTriggeringPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import IdentCaption
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import ExternalTriggeringPoint, ExternalTriggeringPointIdent, InternalTriggeringPoint
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 
 
 class TestInternalTriggeringPoint:

@@ -2,17 +2,13 @@
 
 import xml.etree.cElementTree as ET
 from unittest.mock import MagicMock
-
 import pytest
-
+from armodel.writer.arxml_writer import ARXMLWriter
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import (
     AUTOSAR,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
     Code,
-)
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (  # noqa: E501
-    ModeDeclarationGroupPrototype,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import (  # noqa: E501
     ResourceConsumption,
@@ -20,33 +16,35 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption impo
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.MemorySectionUsage import (  # noqa: E501
     MemorySection,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import (  # noqa: E501
-    AutosarEngineeringObject,
-)
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
-    AlignmentType,
-    ARBoolean,
-    ARLiteral,
-    CIdentifier,
-    Identifier,
-    PositiveInteger,
-    RefType,
-)
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (  # noqa: E501
-    VariableDataPrototype,
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import (  # noqa: E501
+    SwcImplementation,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import (  # noqa: E501
     EndToEndDescription,
     EndToEndProtectionISignalIPdu,
     EndToEndProtectionVariablePrototype,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import (  # noqa: E501
-    SwcImplementation,
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (  # noqa: E501
+    VariableDataPrototype,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (  # noqa: E501
+    ModeDeclarationGroupPrototype,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (  # noqa: E501
     VariableDataPrototypeInSystemInstanceRef,
 )
-from armodel.writer.arxml_writer import ARXMLWriter
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
+    ARBoolean,
+    ARLiteral,
+    AlignmentType,
+    CIdentifier,
+    Identifier,
+    PositiveInteger,
+    RefType,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import (  # noqa: E501
+    AutosarEngineeringObject,
+)
 
 
 @pytest.fixture(autouse=True)

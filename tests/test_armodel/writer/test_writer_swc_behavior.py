@@ -1,23 +1,34 @@
 """Tests for writer SWC internal behavior handlers."""
 
 import xml.etree.cElementTree as ET
+import pytest
 from unittest.mock import MagicMock
 
-import pytest
-
+from armodel.writer.arxml_writer import ARXMLWriter
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import TextValueSpecification  # noqa E501
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    ComMgrUserNeeds,
+    CryptoServiceNeeds,
     DiagEventDebounceCounterBased,
     DiagEventDebounceMonitorInternal,
     DiagEventDebounceTimeBased,
+    DiagnosticCommunicationManagerNeeds,
+    DiagnosticEventInfoNeeds,
+    DiagnosticEventNeeds,
+    DiagnosticIoControlNeeds,
+    DiagnosticRoutineNeeds,
+    DiagnosticValueNeeds,
+    DltUserNeeds,
+    DtcStatusChangeNotificationNeeds,
+    EcuStateMgrUserNeeds,
     MaxCommModeEnum,
+    NvBlockNeeds,
     RoleBasedDataAssignment,
     RoleBasedDataTypeAssignment,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa E501
-    ARBoolean,
     ARLiteral,
+    ARBoolean,
     Integer,
     PositiveInteger,
     RefType,
@@ -33,20 +44,17 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.Instance
     POperationInAtomicSwcInstanceRef,
     ROperationInAtomicSwcInstanceRef,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
-    RunnableEntityArgument,
-)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AutosarVariableRef import AutosarVariableRef  # noqa E501
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import (  # noqa E501
     ParameterAccess,
     VariableAccess,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet  # noqa E501
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import (  # noqa E501
     AutosarParameterRef,
     ParameterInAtomicSWCTypeInstanceRef,
     VariableInAtomicSWCTypeInstanceRef,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet  # noqa E501
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import (  # noqa E501
     IncludedModeDeclarationGroupSet,
     ModeAccessPoint,
@@ -55,10 +63,13 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
     PortAPIOption,
     PortDefinedArgumentValue,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
+    RunnableEntityArgument,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import (  # noqa E501
     RoleBasedPortAssignment,
 )
-from armodel.writer.arxml_writer import ARXMLWriter
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import TextValueSpecification  # noqa E501
 
 
 @pytest.fixture(autouse=True)

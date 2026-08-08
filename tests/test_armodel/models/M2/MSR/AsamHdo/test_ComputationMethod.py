@@ -3,9 +3,6 @@ This module contains tests for the ComputationMethod module in MSR.AsamHdo.
 """
 
 import pytest
-
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CIdentifier, Identifier, Limit, PositiveUnlimitedInteger, RefType, String
 from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
     Compu,
     CompuConst,
@@ -24,6 +21,8 @@ from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
     CompuScales,
 )
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CIdentifier, Identifier, PositiveUnlimitedInteger, String, Limit, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 
 
 class TestCompuContent:
