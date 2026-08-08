@@ -1,20 +1,20 @@
 from typing import List, Optional
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String, RefType, ARNumerical, Identifier, Integer
-from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 
-from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
-    MultiLanguageOverviewParagraph,
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Identifier, Integer, RefType, String
+from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
+from armodel.models.M2.MSR.Documentation.Annotation import Annotation
+from armodel.models.M2.MSR.Documentation.BlockElements.Formula import (
+    MlFormula,
 )
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import (
     DocumentationBlock,
 )
-from armodel.models.M2.MSR.Documentation.BlockElements.Formula import (
-    MlFormula,
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
+    MultiLanguageOverviewParagraph,
 )
-from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum
 
 
 class PostBuildVariantCriterion(ARObject):

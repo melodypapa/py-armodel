@@ -4,32 +4,33 @@ Tests cover all classes and methods in the Communication.py file to achieve 100%
 """
 
 import pytest
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, ARNumerical, ARPositiveInteger, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
-    HandleInvalidEnum,
-    PPortComSpec,
-    RPortComSpec,
-    CompositeNetworkRepresentation,
-    TransmissionAcknowledgementRequest,
-    SenderComSpec,
-    QueuedSenderComSpec,
-    NonqueuedSenderComSpec,
     ClientComSpec,
-    ModeSwitchReceiverComSpec,
-    NvRequireComSpec,
-    ParameterRequireComSpec,
-    ReceiverComSpec,
-    ModeSwitchedAckRequest,
-    ModeSwitchSenderComSpec,
-    ParameterProvideComSpec,
-    TransformationComSpecProps,
+    CompositeNetworkRepresentation,
     EndToEndTransformationComSpecProps,
-    UserDefinedTransformationComSpecProps,
-    ServerComSpec,
-    NvProvideComSpec,
+    HandleInvalidEnum,
+    ModeSwitchedAckRequest,
+    ModeSwitchReceiverComSpec,
+    ModeSwitchSenderComSpec,
     NonqueuedReceiverComSpec,
+    NonqueuedSenderComSpec,
+    NvProvideComSpec,
+    NvRequireComSpec,
+    ParameterProvideComSpec,
+    ParameterRequireComSpec,
+    PPortComSpec,
     QueuedReceiverComSpec,
+    QueuedSenderComSpec,
+    ReceiverComSpec,
+    RPortComSpec,
+    SenderComSpec,
+    ServerComSpec,
+    TransformationComSpecProps,
+    TransmissionAcknowledgementRequest,
+    UserDefinedTransformationComSpecProps,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARBoolean, PositiveInteger, TimeValue, ARPositiveInteger, ARNumerical
 
 
 class TestHandleInvalidEnum:

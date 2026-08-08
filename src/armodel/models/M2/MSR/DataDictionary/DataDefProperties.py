@@ -1,7 +1,8 @@
 from typing import List
-from armodel.models.M2.MSR.Documentation.Annotation import Annotation
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARLiteral
+from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 
 
 class SwImplPolicyEnum(AREnum):

@@ -4,12 +4,25 @@ in software component internal behavior templates.
 """
 
 from typing import List
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ComMgrUserNeeds, CryptoServiceNeeds, DiagnosticCommunicationManagerNeeds, DiagnosticEventInfoNeeds
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticIoControlNeeds
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DltUserNeeds
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticEventNeeds, DiagnosticRoutineNeeds, DiagnosticValueNeeds
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DtcStatusChangeNotificationNeeds, EcuStateMgrUserNeeds, ErrorTracerNeeds, NvBlockNeeds
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment, ServiceNeeds, ServiceDependency
+
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
+    ComMgrUserNeeds,
+    CryptoServiceNeeds,
+    DiagnosticCommunicationManagerNeeds,
+    DiagnosticEventInfoNeeds,
+    DiagnosticEventNeeds,
+    DiagnosticIoControlNeeds,
+    DiagnosticRoutineNeeds,
+    DiagnosticValueNeeds,
+    DltUserNeeds,
+    DtcStatusChangeNotificationNeeds,
+    EcuStateMgrUserNeeds,
+    ErrorTracerNeeds,
+    NvBlockNeeds,
+    RoleBasedDataAssignment,
+    ServiceDependency,
+    ServiceNeeds,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType

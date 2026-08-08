@@ -1,8 +1,7 @@
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
+from armodel.models import AUTOSAR, PPortInCompositionInstanceRef, RPortInCompositionInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
 from armodel.report.excel_report import ExcelReporter
-from armodel.models import AUTOSAR
-from armodel.models import PPortInCompositionInstanceRef, RPortInCompositionInstanceRef
 
 
 class ConnectorXlsReport(ExcelReporter):

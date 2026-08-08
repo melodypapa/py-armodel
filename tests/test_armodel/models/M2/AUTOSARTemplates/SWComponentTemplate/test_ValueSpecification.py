@@ -2,18 +2,18 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
-    ValueSpecification,
-    CompositeValueSpecification,
-    CompositeRuleBasedValueArgument,
     ApplicationValueSpecification,
+    ArrayValueSpecification,
+    CompositeRuleBasedValueArgument,
+    CompositeValueSpecification,
+    ConstantReference,
+    ConstantSpecification,
+    NumericalValueSpecification,
     RecordValueSpecification,
     TextValueSpecification,
-    NumericalValueSpecification,
-    ArrayValueSpecification,
-    ConstantSpecification,
-    ConstantReference,
+    ValueSpecification,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType, ARLiteral
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, RefType
 
 
 class TestValueSpecification:

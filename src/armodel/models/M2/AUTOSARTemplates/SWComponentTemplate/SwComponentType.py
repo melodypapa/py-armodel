@@ -3,12 +3,13 @@ This module contains the SwComponentType base class for AUTOSAR software compone
 """
 
 from abc import ABC
-from typing import List, TYPE_CHECKING
+from typing import TYPE_CHECKING, List
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 if TYPE_CHECKING:
-    from ....M2.AUTOSARTemplates.SWComponentTemplate.Components import PPortPrototype, RPortPrototype, PRPortPrototype, PortPrototype, PortGroup
+    from ....M2.AUTOSARTemplates.SWComponentTemplate.Components import PortGroup, PortPrototype, PPortPrototype, PRPortPrototype, RPortPrototype
 
 
 class SwComponentType(AtpType, ABC):

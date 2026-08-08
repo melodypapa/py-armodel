@@ -3,15 +3,15 @@ This module contains classes for representing identifiable elements in AUTOSAR m
 in the GenericStructure module.
 """
 
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
-from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
-from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
-from armodel.models.M2.MSR.Documentation.Annotation import Annotation
-from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
+from abc import ABC
+from typing import TYPE_CHECKING, Dict, List, Optional, Union
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString
-from abc import ABC
-from typing import Dict, List, Optional, TYPE_CHECKING, Union
+from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
+from armodel.models.M2.MSR.Documentation.Annotation import Annotation
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph
 
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint

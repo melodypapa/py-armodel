@@ -4,9 +4,10 @@ Tests cover all classes and methods in the AccessCount.py file to achieve 100% t
 """
 
 import pytest
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint, AccessCount, AccessCountSet
+
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint, AccessCount, AccessCountSet
 
 
 class TestAbstractAccessPoint:

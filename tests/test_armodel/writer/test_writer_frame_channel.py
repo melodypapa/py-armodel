@@ -2,38 +2,21 @@
 
 import xml.etree.cElementTree as ET
 from unittest.mock import MagicMock
+
 import pytest
-from armodel.writer.arxml_writer import ARXMLWriter
+
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
+    ARBoolean,
+    ARLiteral,
+    Integer,
+    PositiveInteger,
+    RefType,
+    TimeValue,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (  # noqa: E501
     CanFrameTriggering,
     RxIdentifierRange,
-)
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import (  # noqa: E501
-    ApplicationEntry,
-    LinFrameTriggering,
-    LinScheduleTable,
-)
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import (  # noqa: E501
-    FlexrayAbsolutelyScheduledTiming,
-    FlexrayFrameTriggering,
-)
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import (  # noqa: E501
-    FlexrayCluster,
-)
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (  # noqa: E501
-    ISignalTriggering,
-    PduTriggering,
-)
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (  # noqa: E501
-    CanCluster,
-    CanClusterBusOffRecovery,
-    CanPhysicalChannel,
-    CycleRepetition,
-    EthernetPhysicalChannel,
-    FlexrayPhysicalChannel,
-    LinCluster,
-    LinPhysicalChannel,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import (  # noqa: E501
     SocketConnection,
@@ -65,14 +48,33 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     TpPort,
     UdpTp,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
-    ARBoolean,
-    ARLiteral,
-    Integer,
-    PositiveInteger,
-    RefType,
-    TimeValue,
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import (  # noqa: E501
+    FlexrayAbsolutelyScheduledTiming,
+    FlexrayFrameTriggering,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import (  # noqa: E501
+    FlexrayCluster,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import (  # noqa: E501
+    ApplicationEntry,
+    LinFrameTriggering,
+    LinScheduleTable,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (  # noqa: E501
+    ISignalTriggering,
+    PduTriggering,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (  # noqa: E501
+    CanCluster,
+    CanClusterBusOffRecovery,
+    CanPhysicalChannel,
+    CycleRepetition,
+    EthernetPhysicalChannel,
+    FlexrayPhysicalChannel,
+    LinCluster,
+    LinPhysicalChannel,
+)
+from armodel.writer.arxml_writer import ARXMLWriter
 
 
 @pytest.fixture(autouse=True)

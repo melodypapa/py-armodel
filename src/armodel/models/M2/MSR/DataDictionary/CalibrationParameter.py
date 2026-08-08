@@ -1,5 +1,6 @@
-from typing import List
 from abc import ABC
+from typing import List
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 

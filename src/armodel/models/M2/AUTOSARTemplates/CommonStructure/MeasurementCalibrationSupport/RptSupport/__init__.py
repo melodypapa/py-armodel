@@ -5,10 +5,11 @@ data (RptSupport) in the measurement and calibration support templates.
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING, List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, CIdentifier, Identifier, PositiveInteger, RefType
-from typing import TYPE_CHECKING, List, Optional
 
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import RoleBasedMcDataAssignment

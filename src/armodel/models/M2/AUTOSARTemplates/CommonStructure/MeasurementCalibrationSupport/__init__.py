@@ -5,12 +5,13 @@ support data (MC support data) in software component and BSW module templates.
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING, List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, McdIdentifier, PositiveInteger, RefType, SymbolString
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
-from typing import TYPE_CHECKING, List, Optional
 
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport import McFunctionDataRefSet, RptSupportData, RptSwPrototypingAccess

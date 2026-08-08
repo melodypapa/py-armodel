@@ -1,9 +1,9 @@
 import argparse
-from armodel import __version__
 import logging
-import sys
 import os.path
+import sys
 
+from armodel import __version__
 from armodel.parser import FileListParser
 
 

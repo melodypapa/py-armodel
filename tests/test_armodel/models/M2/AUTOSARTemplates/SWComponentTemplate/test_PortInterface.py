@@ -4,35 +4,36 @@ Tests cover all classes and methods in the __init__.py file to achieve 100% test
 """
 
 import pytest
+
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
-    PortInterface,
+    ApplicationError,
+    ArgumentDataPrototype,
+    ClientServerApplicationErrorMapping,
+    ClientServerInterface,
+    ClientServerInterfaceMapping,
+    ClientServerOperation,
+    ClientServerOperationMapping,
     DataInterface,
-    NvDataInterface,
-    ParameterInterface,
+    DataPrototypeMapping,
     InvalidationPolicy,
     MetaDataItem,
     MetaDataItemSet,
-    SenderReceiverInterface,
-    ArgumentDataPrototype,
-    ApplicationError,
-    ClientServerOperation,
-    ClientServerInterface,
-    TriggerInterface,
-    ModeSwitchInterface,
-    PortInterfaceMapping,
-    ClientServerApplicationErrorMapping,
-    ClientServerOperationMapping,
-    DataPrototypeMapping,
-    ClientServerInterfaceMapping,
-    VariableAndParameterInterfaceMapping,
-    ModeInterfaceMapping,
-    TriggerInterfaceMapping,
     ModeDeclarationMapping,
     ModeDeclarationMappingSet,
+    ModeInterfaceMapping,
+    ModeSwitchInterface,
+    NvDataInterface,
+    ParameterInterface,
+    PortInterface,
+    PortInterfaceMapping,
     PortInterfaceMappingSet,
+    SenderReceiverInterface,
     TextTableMapping,
+    TriggerInterface,
+    TriggerInterfaceMapping,
+    VariableAndParameterInterfaceMapping,
 )
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 
 
 class TestPortInterface:

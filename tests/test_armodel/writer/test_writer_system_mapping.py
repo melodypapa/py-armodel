@@ -1,57 +1,13 @@
 """Tests for writer System, Mapping, FlatMap, and Gateway handlers."""
 
 import xml.etree.cElementTree as ET
+
 import pytest
 
-from armodel.writer.arxml_writer import ARXMLWriter
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate import (
-    SwcToEcuMapping,
-    System,
-    SystemMapping,
-)
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
-    SenderReceiverToSignalGroupMapping,
-    SenderReceiverToSignalMapping,
-    SenderRecRecordElementMapping,
-    SenderRecRecordTypeMapping,
-)
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import (
-    ECUMapping,
-)
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import (
-    SwcToImplMapping,
-)
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
-    ComponentInSystemInstanceRef,
-    VariableDataPrototypeInSystemInstanceRef,
-)
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (  # noqa: E501
-    ISignal,
-    SystemSignalGroup,
-)
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import (  # noqa: E501
-    Gateway,
-    IPduMapping,
-    ISignalMapping,
-    TargetIPduRef,
-)
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import (
-    FlatInstanceDescriptor,
-    FlatMap,
-)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
     ModeDeclarationGroupPrototypeMapping,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
-    ClientServerInterfaceMapping,
-    ClientServerOperationMapping,
-    DataPrototypeMapping,
-    ModeInterfaceMapping,
-    PortInterfaceMappingSet,
-    VariableAndParameterInterfaceMapping,
-)
-from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import (  # noqa: E501
     AnyInstanceRef,
 )
@@ -61,6 +17,26 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
     RevisionLabelString,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+    ClientServerOperationMapping,
+    DataPrototypeMapping,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
+    SenderReceiverToSignalGroupMapping,
+    SenderReceiverToSignalMapping,
+    SenderRecRecordElementMapping,
+    SenderRecRecordTypeMapping,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import (  # noqa: E501
+    IPduMapping,
+    ISignalMapping,
+    TargetIPduRef,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
+    ComponentInSystemInstanceRef,
+    VariableDataPrototypeInSystemInstanceRef,
+)
+from armodel.writer.arxml_writer import ARXMLWriter
 
 
 @pytest.fixture(autouse=True)

@@ -1,18 +1,16 @@
+import re
 from typing import Dict, List
-from openpyxl.worksheet.worksheet import Worksheet
 
 import openpyxl
-import re
+from openpyxl.worksheet.worksheet import Worksheet
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
-
-from armodel.parser.excel_parser import AbstractExcelParser
 from armodel.data_models.sw_connector import AssemblySwConnectorData, DelegationSwConnectorData, SwConnectorData
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import PPortInCompositionInstanceRef, RPortInCompositionInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import PPortInCompositionInstanceRef, RPortInCompositionInstanceRef
+from armodel.parser.excel_parser import AbstractExcelParser
 
 
 class ConnectorXls:

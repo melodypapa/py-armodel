@@ -5,14 +5,13 @@ This script runs pytest with coverage and generates a simple coverage report
 containing only source file names and coverage percentages.
 """
 
+import argparse
+import logging
+import re
 import subprocess
 import sys
-import re
-import logging
-from datetime import datetime
-import argparse
 import time
-
+from datetime import datetime
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s", handlers=[logging.FileHandler("tests/coverage_generation.log"), logging.StreamHandler(sys.stdout)])

@@ -3,9 +3,10 @@ This module contains the MultidimensionalTime class for representing
 multidimensional time values based on ASAM CSE codes.
 """
 
+from typing import Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CseCodeType, Integer
-from typing import Optional
 
 
 class MultidimensionalTime(ARObject):

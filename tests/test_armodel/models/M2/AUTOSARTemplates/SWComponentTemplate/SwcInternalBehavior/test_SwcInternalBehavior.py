@@ -3,15 +3,15 @@ This module contains comprehensive tests for the SwcInternalBehavior module in S
 Tests cover all classes and methods in the __init__.py file to achieve 100% test coverage.
 """
 
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
-    RunnableEntityArgument,
-    AsynchronousServerCallResultPoint,
-    AsynchronousServerCallPoint,
-    SynchronousServerCallPoint,
-    RunnableEntity,
-    SwcInternalBehavior,
-)
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
+    AsynchronousServerCallPoint,
+    AsynchronousServerCallResultPoint,
+    RunnableEntity,
+    RunnableEntityArgument,
+    SwcInternalBehavior,
+    SynchronousServerCallPoint,
+)
 
 
 class TestRunnableEntityArgument:

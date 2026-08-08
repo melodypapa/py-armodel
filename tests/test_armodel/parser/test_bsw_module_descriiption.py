@@ -1,16 +1,10 @@
 import filecmp
+import logging
 from pathlib import Path
 
+from armodel import AUTOSAR, ARXMLParser, ARXMLWriter
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalBehavior
-
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
-
-
-from armodel import AUTOSAR
-
-from armodel import ARXMLParser, ARXMLWriter
-
-import logging
 
 
 def get_test_file_path(filename: str) -> str:

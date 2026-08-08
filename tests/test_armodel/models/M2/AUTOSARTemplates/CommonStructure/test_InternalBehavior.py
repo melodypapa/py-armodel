@@ -2,15 +2,15 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
-    ReentrancyLevelEnum,
+    AbstractEvent,
     ApiPrincipleEnum,
     ExclusiveArea,
     ExclusiveAreaNestingOrder,
     ExecutableEntity,
     InternalBehavior,
-    AbstractEvent,
+    ReentrancyLevelEnum,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, TimeValue
 
 
 class TestReentrancyLevelEnum:

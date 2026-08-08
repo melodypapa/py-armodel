@@ -1,10 +1,10 @@
+
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import ImplementationElementInParameterInstanceRef, McDataAccessDetails, McDataInstance, RoleBasedMcDataAssignment
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport import RptSwPrototypingAccess
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, McdIdentifier, PositiveInteger, RefType, SymbolString
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import RptImplPolicy
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
-import pytest
 
 
 class TestMcDataInstanceInitialization:

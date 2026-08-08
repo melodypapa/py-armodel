@@ -2,14 +2,14 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
-    ModeDeclarationGroupPrototypeMapping,
+    ModeActivationKind,
     ModeDeclaration,
-    ModeRequestTypeMap,
     ModeDeclarationGroup,
     ModeDeclarationGroupPrototype,
+    ModeDeclarationGroupPrototypeMapping,
     ModeErrorBehavior,
+    ModeRequestTypeMap,
     ModeTransition,
-    ModeActivationKind,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType, TRefType
 

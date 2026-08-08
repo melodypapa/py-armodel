@@ -3,11 +3,12 @@ This module contains the MemorySection and SectionNamePrefix classes for represe
 memory section usage in AUTOSAR resource consumption models.
 """
 
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AlignmentType, CIdentifier, Identifier, PositiveInteger, RefType
-from typing import List, Optional
 
 
 class MemorySection(Identifiable):

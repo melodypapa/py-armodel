@@ -4,12 +4,12 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import (
     AbstractImplementationDataType,
     AbstractImplementationDataTypeElement,
-    ImplementationDataTypeElement,
     ImplementationDataType,
+    ImplementationDataTypeElement,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Boolean, String, ARBoolean
-from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, ARLiteral, ARNumerical, Boolean, String
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SymbolProps
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
 
 class TestAbstractImplementationDataTypeElement:

@@ -1,13 +1,13 @@
 import argparse
-from armodel import __version__
 import logging
-import sys
 import os.path
+import sys
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.parser.arxml_parser import ARXMLParser
+from armodel import __version__
 from armodel.lib.cli_args_parser import InputFileParser
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
+from armodel.parser.arxml_parser import ARXMLParser
 
 
 def perform_uuid_duplicate_check(args):

@@ -2,6 +2,7 @@
 # It defines Ethernet frame structures for network communication
 
 from abc import ABC
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame
 

@@ -4,6 +4,8 @@ This module contains the ResourceConsumption class, its aggregated context class
 classes for representing resource consumption in AUTOSAR models.
 """
 
+from typing import TYPE_CHECKING, List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.ExecutionTime import (
     AnalyzedExecutionTime,
     ExecutionTime,
@@ -17,7 +19,6 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.Stac
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
-from typing import List, Optional, TYPE_CHECKING
 
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AccessCountSet

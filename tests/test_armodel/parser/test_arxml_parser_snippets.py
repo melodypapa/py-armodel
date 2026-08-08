@@ -4,8 +4,10 @@ Tests use authentic XML snippets extracted from real AUTOSAR XML files
 to ensure parsing works correctly with real AUTOSAR structure patterns.
 """
 
-import pytest
 import xml.etree.ElementTree as ET
+
+import pytest
+
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import (
     AUTOSAR,
     AUTOSARDoc,

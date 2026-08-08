@@ -1,26 +1,26 @@
 import pytest
 
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
-    TransportProtocolConfiguration,
-    GenericTp,
-    TcpUdpConfig,
-    TpPort,
-    UdpTp,
-    TcpTp,
-    AbstractServiceInstance,
-    ConsumedEventGroup,
-    ConsumedServiceInstance,
-    InitialSdDelayConfig,
-    SdServerConfig,
-    EventHandler,
-    ProvidedServiceInstance,
-    ApplicationEndpoint,
-    SocketAddress,
-    SoAdConfig,
-)
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnectionBundle
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnectionBundle
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
+    AbstractServiceInstance,
+    ApplicationEndpoint,
+    ConsumedEventGroup,
+    ConsumedServiceInstance,
+    EventHandler,
+    GenericTp,
+    InitialSdDelayConfig,
+    ProvidedServiceInstance,
+    SdServerConfig,
+    SoAdConfig,
+    SocketAddress,
+    TcpTp,
+    TcpUdpConfig,
+    TpPort,
+    TransportProtocolConfiguration,
+    UdpTp,
+)
 
 
 class MockParent(ARObject):

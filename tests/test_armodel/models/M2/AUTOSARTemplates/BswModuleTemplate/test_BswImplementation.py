@@ -6,13 +6,14 @@ It includes functionality for managing BSW-specific implementation properties li
 behavior references, configuration references, and vendor-specific information.
 """
 
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, RevisionLabelString, Identifier
-from armodel import AUTOSAR
-from armodel.parser.arxml_parser import ARXMLParser
-from armodel.writer.arxml_writer import ARXMLWriter
 import os
 import tempfile
+
+from armodel import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType, RevisionLabelString
+from armodel.parser.arxml_parser import ARXMLParser
+from armodel.writer.arxml_writer import ARXMLWriter
 
 
 class TestBswImplementation:

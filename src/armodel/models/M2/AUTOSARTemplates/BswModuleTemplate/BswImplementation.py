@@ -4,10 +4,11 @@ BSW implementation describes how BSW modules are implemented, including their be
 configuration options, and version information.
 """
 
+from typing import List, Optional
+
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType, RevisionLabelString
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
-from typing import List, Optional
 
 
 class BswImplementation(Implementation):

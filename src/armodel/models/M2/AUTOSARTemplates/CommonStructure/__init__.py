@@ -3,27 +3,26 @@ CommonStructure module re-exports classes from submodules for backward compatibi
 """
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
-    ValueSpecification,
-    CompositeValueSpecification,
-    CompositeRuleBasedValueArgument,
-    ApplicationValueSpecification,
     ApplicationRuleBasedValueSpecification,
-    RecordValueSpecification,
-    TextValueSpecification,
-    NumericalValueSpecification,
+    ApplicationValueSpecification,
     ArrayValueSpecification,
-    ConstantSpecification,
+    CompositeRuleBasedValueArgument,
+    CompositeValueSpecification,
     ConstantReference,
+    ConstantSpecification,
+    NumericalValueSpecification,
+    RecordValueSpecification,
+    RuleArguments,
     RuleBasedAxisCont,
     RuleBasedValueCont,
-    RuleArguments,
     RuleBasedValueSpecification,
+    TextValueSpecification,
+    ValueSpecification,
 )
-
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
-    ModeTransition,
     ModeErrorBehavior,
     ModeErrorReactionPolicyEnum,
+    ModeTransition,
 )
 
 __all__ = [

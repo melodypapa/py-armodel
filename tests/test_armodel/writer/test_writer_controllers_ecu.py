@@ -1,19 +1,10 @@
 """Tests for writer Ethernet/CAN controller and EcuInstance methods."""
 
 import xml.etree.cElementTree as ET
+
 import pytest
 
-from armodel.writer.arxml_writer import ARXMLWriter
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (  # noqa E501
-    CanControllerConfigurationRequirements,
-    CanControllerFdConfiguration,
-    CanControllerFdConfigurationRequirements,
-)
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (  # noqa E501
-    CouplingPortDetails,
-    VlanMembership,
-)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa E501
     ARBoolean,
     ARLiteral,
@@ -23,6 +14,16 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
     TimeValue,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (  # noqa E501
+    CanControllerConfigurationRequirements,
+    CanControllerFdConfiguration,
+    CanControllerFdConfigurationRequirements,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (  # noqa E501
+    CouplingPortDetails,
+    VlanMembership,
+)
+from armodel.writer.arxml_writer import ARXMLWriter
 
 
 @pytest.fixture(autouse=True)

@@ -15,10 +15,10 @@ directly imported and are excluded from this test:
 import ast
 import os
 from pathlib import Path
+
 import pytest
 
 import armodel
-
 
 # Classes that cannot be imported directly due to name collisions
 # These are accessible via their full import paths instead

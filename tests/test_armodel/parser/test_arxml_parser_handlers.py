@@ -18,9 +18,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from armodel.models import AUTOSAR
-from armodel.models import ApplicationSwComponentType
-from armodel.models import CompositionSwComponentType
+from armodel.models import AUTOSAR, ApplicationSwComponentType, CompositionSwComponentType
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
