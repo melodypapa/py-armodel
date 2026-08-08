@@ -3262,9 +3262,16 @@ class ARXMLParser(AbstractARXMLParser):
         self.readSwComponentTypePorts(element, parent)
         self.readSwComponentTypePortGroups(element, parent)
 
+    def readAtomicSwComponentTypeSymbolProps(self, element: ET.Element, sw_component: AtomicSwComponentType):
+        child_element = self.find(element, "SYMBOL-PROPS")
+        if child_element is not None:
+            props = sw_component.createSymbolProps(self.getShortName(child_element))
+            self.readSymbolProps(child_element, props)
+
     def readAtomicSwComponentType(self, element, parent: AtomicSwComponentType):
         self.readSwComponentType(element, parent)
         self.readAtomicSwComponentTypeSwcInternalBehavior(element, parent)
+        self.readAtomicSwComponentTypeSymbolProps(element, parent)
 
     def readEcuAbstractionSwComponentType(self, element, sw_component: EcuAbstractionSwComponentType):
         self.logger.debug("Read EcuAbstractionSwComponentType <%s>" % sw_component.getShortName())

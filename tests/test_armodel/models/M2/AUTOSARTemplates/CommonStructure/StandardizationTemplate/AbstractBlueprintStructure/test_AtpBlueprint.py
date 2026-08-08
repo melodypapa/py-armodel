@@ -5,6 +5,12 @@ in the AUTOSAR CommonStructure module.
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure.AtpBlueprint import AtpBlueprint
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+
+class ConcreteAtpBlueprint(AtpBlueprint):
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
 
 
 class TestAtpBlueprint:
@@ -32,10 +38,6 @@ class TestAtpBlueprint:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
 
-        class ConcreteAtpBlueprint(AtpBlueprint):
-            def __init__(self, parent, short_name):
-                super().__init__(parent, short_name)
-
         obj = ConcreteAtpBlueprint(ar_root, "ConcreteAtpBlueprint")
         assert obj is not None
         assert obj.getShortName() == "ConcreteAtpBlueprint"
@@ -50,10 +52,6 @@ class TestAtpBlueprint:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
 
-        class ConcreteAtpBlueprint(AtpBlueprint):
-            def __init__(self, parent, short_name):
-                super().__init__(parent, short_name)
-
         obj = ConcreteAtpBlueprint(ar_root, "TestBlueprint")
         assert isinstance(obj, Identifiable)
         assert isinstance(obj, AtpBlueprint)
@@ -64,10 +62,6 @@ class TestAtpBlueprint:
         """
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
-
-        class ConcreteAtpBlueprint(AtpBlueprint):
-            def __init__(self, parent, short_name):
-                super().__init__(parent, short_name)
 
         obj = ConcreteAtpBlueprint(ar_root, "TestBlueprint")
         assert obj.shortName == "TestBlueprint"
@@ -85,10 +79,6 @@ class TestAtpBlueprint:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
 
-        class ConcreteAtpBlueprint(AtpBlueprint):
-            def __init__(self, parent, short_name):
-                super().__init__(parent, short_name)
-
         obj = ConcreteAtpBlueprint(ar_root, "TestBlueprint")
 
         # Initially should be None
@@ -102,3 +92,30 @@ class TestAtpBlueprint:
         # Remove admin data
         obj.removeAdminData()
         assert obj.getAdminData() is None
+
+    def test_initial_blueprint_policys(self):
+        """
+        Test that blueprintPolicys is an empty list initially.
+        """
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        obj = ConcreteAtpBlueprint(ar_root, "TestBlueprint")
+        assert obj.blueprintPolicys == []
+        assert obj.getBlueprintPolicys() == []
+
+    def test_add_get_blueprint_policys(self):
+        """
+        Test addBlueprintPolicy/getBlueprintPolicys (incl. None no-op).
+        """
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        obj = ConcreteAtpBlueprint(ar_root, "TestBlueprint")
+
+        value = ARObject.__new__(ARObject)
+        assert obj.addBlueprintPolicy(value) is obj
+        assert obj.getBlueprintPolicys() == [value]
+
+        obj.addBlueprintPolicy(None)
+        assert obj.getBlueprintPolicys() == [value]

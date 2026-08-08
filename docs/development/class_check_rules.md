@@ -383,6 +383,19 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       `type (spec many vs py single)` row means the field-to-spec
       multiplicity cross-check has not been performed, not that the mismatch
       was reviewed and accepted.
+      **A `type (spec many vs py single)` row whose "many" came from the XSD,
+      not the PDF, is a stale row to remove, not a real deviation.** The PDF
+      table is the source of truth for multiplicity (Rule 1.2), and a PDF Mult
+      of `0..1` stays a single-value model even when the XSD element carries
+      the attribute-level atpVariation flattening note — "The upper
+      multiplicity of this role has been increased to `*` due to resolving an
+      atpVariation stereotype" (e.g. `AtomicSwComponentType.internalBehavior`:
+      PDF Table 3.8 Mult `0..1`, XSD `INTERNAL-BEHAVIORS` wrapper with the
+      note). The `*` is an XSD-only resolution of the stereotype, so the
+      single-field model is PDF-correct and the row is dropped — the XSD may
+      still serialize it through a wrapper element that holds the single item.
+      Only when the PDF Mult column itself reads `*` does the list shape
+      apply.
 - [ ] A **bounded ordered** multiplicity such as `0..2` (upper bound > 1 but
       not `*`) still maps to `List[T]` (default `[]`) with the usual
       `getXxxs`/`addXxx` accessors — the upper bound is not enforced in the
@@ -535,6 +548,16 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       "is the child `Identifiable`" — a child whose `Base` is
       `ARObject, Referrable` (but not `Identifiable`) still carries a short
       name and still uses a `createXXX(short_name)` factory.
+      **A working `setXxx(value)` setter is still a violation when the child
+      is `Referrable`.** An existing `setXxx`/`getXxx` pair for a `0..1`
+      aggregated child whose `Base` lists `Referrable` is misaligned even when
+      it is implemented, guarded, and tested (e.g. `AtomicSwComponentType`
+      held `setSymbolProps`/`getSymbolProps` for `symbolProps`, whose child
+      `SymbolProps` Base is `ARObject, ImplementationProps, Referrable`).
+      Migrate the accessor pair to `createXxx(short_name)` +
+      `getXxx()`, update the tests that call the old setter, and wire the
+      parser/writer through the factory — passing tests for the old shape are
+      not evidence the shape is right.
 - [ ] The child's **multiplicity** selects the exact accessor shape for
       non-Identifiable children (`Base` is only `ARObject`):
       1. multiplicity `0..1` → `setXxx(value)` + `getXxx()` (the plain setter
@@ -586,6 +609,23 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       over a `swAxisConts: List[...]` field. Align the class being worked on
       to the rule, and record the sibling as a deviation to reconcile later —
       do not copy its shape.
+- [ ] **A factory named after the child type does not make a `*` member
+      "missing" — the tracker heuristic keys on the member name, not on
+      Rule 1.6's factory name.** For a `*` aggr member whose child type's base
+      name differs from the member's (e.g. `ClientServerInterface.possibleError`
+      of type `ApplicationError`), the factory is correctly named after the
+      child type (`createApplicationError`) while the getter is correctly
+      named after the member (`getPossibleErrors`). A member-matching script
+      that searches accessors for the member base name (`possibleError`) will
+      find the getter but not the child-type-named factory and can flag the
+      member as `missing` in `docs/method_deviation_by_class.md`. That row is
+      **stale — remove it**, do not rename the factory to
+      `createPossibleError` and do not record a `naming` deviation: the
+      member is implemented, parser/writer-wired, and tested. The checklist
+      rows carry the truth (`createApplicationError`, `getPossibleErrors`); a
+      `missing` row surviving for a member that has both a factory and a
+      getter is a stale-row signal (Rule 1.4/1.5's stale-row guidance applies
+      to `missing` rows as much as to `type`/`naming` rows).
 
 ### 1.7 Parser and writer coverage
 
@@ -599,6 +639,20 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       read/write at all.) Verify coverage separately by grepping the parser and
       writer for the XML element tag of every field — a field whose accessor
       methods are present and tested is *not* evidence that any code serializes it.
+      **A shared child reader/writer helper's existence is not evidence that
+      every aggregator of that child uses it.** When the child type has a
+      dedicated `readXxx`/`writeXxx` pair already in the parser/writer (written
+      for a sibling aggregator, e.g. `readSymbolProps`/`writeSymbolProps` used
+      by `ImplementationDataType`), a *different* aggregator of the same child
+      can still silently drop it — its own `readXxx`/`writeXxx` must be grepped
+      for a call to the child helper (e.g. `AtomicSwComponentType.symbolProps`
+      was dropped because `readAtomicSwComponentType`/`writeAtomicSwComponentType`
+      never called the existing `readSymbolProps`/`writeSymbolProps`). For an
+      aggregated child the wiring is one `createXxx(short_name)` call per
+      occurrence in the reader plus one `writeXxx` call per field in the
+      writer — grep each aggregator's reader/writer, not just the parser/writer
+      for the element tag, and wire the child helper in when the call is
+      missing.
 - [ ] This extends to **polymorphic dispatch**: a class that is a concrete
       subtype of an abstract base (event, entity, policy, etc.) may have a
       dedicated `readXxx`/`writeXxx` method yet still be silently dropped if
@@ -1720,6 +1774,12 @@ Check:
       a property therefore produces **three** rows: `getXxx`, the property
       name itself, and `setXxx` (e.g. `MemorySection` lists `getAlignment`,
       `alignment`, `setAlignment`).
+      **A commented-out member block is dead code, not a "future" method.** A
+      commented-out `@property`/method (e.g. a disabled `internal_behavior`
+      property block in `AtomicSwComponentType`) is invisible to the AST-based
+      checklist check and to Rule 9's spacing check — it is neither a checklist
+      row nor a test target, so nothing flags it. Remove it during alignment;
+      do not leave it as a placeholder for future work.
 - [ ] Every row is fully `[x]` — no stale `[ ]` entries. A row can look
       incomplete even when the method/docstring/test all already exist —
       always double-check by reading the class, not just the checklist text.
@@ -1762,7 +1822,15 @@ Check:
   a reliable signal — it names the same document, e.g. the other
   `ServiceNeeds` subclasses all cite the BSW template), and keep that choice
   stable across the family; do **not** cite different PDFs for sibling classes
-  that share a package and table structure. For the *enum attribute type*
+  that share a package and table structure.
+      **The deviation tracker's `**PDF:**` header is not authoritative for
+      this choice.** It can name a *different* rendering of the same class
+      (e.g. `AtomicSwComponentType` was tracked under the BSW template,
+      Table D.10, while its sibling family in `Components/__init__.py` cites
+      the SWC template, Table 3.8). Choose by the siblings' actual `# Spec:`
+      lines, verify the class's own header page in the chosen PDF, and correct
+      a stale tracker PDF choice in the same pass — the tracker's *page* is
+      already known to go stale (see below); its *PDF* can too. For the *enum attribute type*
   of such a class, the citation is independent: cite the PDF that renders the
   enum's own `Enumeration` table, which can be a different document than the
   class's (e.g. `MaxCommModeEnum` Table 13.6 lives only in the
@@ -2101,9 +2169,12 @@ assert not untested, f"methods without test coverage: {untested}"
 # Rule 13.1: the class must carry the spec-version marker (a fully-[x]
 # checklist can still miss it, so check it explicitly). Only a class with
 # an own spec table carries the marker — a class with no own table (Rule
-# 1.5) has no `# Spec:` line, no marker, and all-`[ ]` rows, so the assert
-# is conditioned on the `# Spec:` line being present.
-if "# Spec:" in src:
+# 1.5) has no `# Spec:` line, no marker, and all-`[ ]` rows. A class with a
+# Rule 1.10 placeholder (a "not yet implemented" / "carried as a" comment on
+# a member whose spec type is a real model class) keeps its `# Spec:` line
+# but legitimately omits the stamp; the marker is only required when no such
+# placeholder comment is present, so condition the assert on that.
+if "# Spec:" in src and "not yet implemented" not in src and "carried as a" not in src:
     assert re.search(r"# Spec verified: R\d\d-\d\d", src), "missing # Spec verified marker (Rule 13.1)"
 ```
 
@@ -2169,11 +2240,21 @@ still paraphrased) is a Rule 13 violation, not a partial credit.
       `Optional[ARObject]`) contradicts the marker even when every docstring
       is accurate (this happened to `VariationPointProxy.valueAccess`). When
       a Rule 1.10 placeholder remains because the real type's closure is out
-      of scope, **remove the `# Spec:` and `# Spec verified:` lines** (the
-      two travel together for the Rule 7 assert) and keep the checklist
-      `[x]` rows for the implemented+tested members — an unclaimed marker is
-      the honest state, and it flips back on once the placeholder is replaced
-      by the real type.
+      of scope, **omit the `# Spec verified:` stamp** but **keep the `# Spec:`
+      line** — the PDF name/table/page of a class that *does* have an own
+      rendered table is a provenance statement that stays valid whether or
+      not every member is fully typed (e.g. `AtpBlueprint`, Table D.11,
+      p.305, keeps `# Spec:` with a `blueprintPolicy` placeholder, but carries
+      no `# Spec verified: R23-11`). The `# Spec:` line without the stamp is
+      the honest state; the stamp flips back on once the placeholder is
+      replaced by the real type. **The affected members' checklist rows stay
+      `[ ]` too — impl, docstring, and test all unchecked** (the Rule 1.5
+      provenance convention: `[ ]` means "not confirmed against the spec
+      type", and a placeholder is *not* the spec type even though the methods
+      are written and tested). The two lines only "travel together" for the
+      Rule 7 assert when the class is fully aligned — the assert must allow a
+      `# Spec:` line with no stamp when a Rule 1.10 placeholder comment is
+      present.
 - [ ] **Exception — a class with no own spec table carries no marker.** When a
       class cannot be read from a PDF table — its attributes are defined only
       in an XSD group, with no rendered table of its own (Rule 1.5, e.g. a
