@@ -4,22 +4,23 @@ Tests cover all classes and methods in the RTEEvents.py file to achieve 100% tes
 """
 
 import pytest
+
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import (
-    RTEEvent,
     AsynchronousServerCallReturnsEvent,
+    BackgroundEvent,
+    DataReceivedEvent,
+    DataReceiveErrorEvent,
     DataSendCompletedEvent,
     DataWriteCompletedEvent,
-    DataReceivedEvent,
-    SwcModeSwitchEvent,
-    DataReceiveErrorEvent,
-    OperationInvokedEvent,
     InitEvent,
-    TimingEvent,
     InternalTriggerOccurredEvent,
     ModeSwitchedAckEvent,
-    BackgroundEvent,
+    OperationInvokedEvent,
+    RTEEvent,
+    SwcModeSwitchEvent,
+    TimingEvent,
 )
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 
 
 class TestRTEEvent:

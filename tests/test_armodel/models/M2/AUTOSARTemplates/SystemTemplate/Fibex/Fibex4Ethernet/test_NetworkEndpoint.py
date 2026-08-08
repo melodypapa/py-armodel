@@ -1,19 +1,19 @@
 import pytest
 
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import (
-    NetworkEndpointAddress,
-    Ipv4Configuration,
-    Ipv6Configuration,
-    DoIpEntity,
-    TimeSyncClientConfiguration,
-    TimeSyncServerConfiguration,
-    TimeSynchronization,
-    InfrastructureServices,
-    NetworkEndpoint,
-)
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import (
+    DoIpEntity,
+    InfrastructureServices,
+    Ipv4Configuration,
+    Ipv6Configuration,
+    NetworkEndpoint,
+    NetworkEndpointAddress,
+    TimeSyncClientConfiguration,
+    TimeSynchronization,
+    TimeSyncServerConfiguration,
+)
 
 
 class MockParent(ARObject):

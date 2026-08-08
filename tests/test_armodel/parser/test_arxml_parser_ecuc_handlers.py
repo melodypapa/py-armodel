@@ -5,6 +5,7 @@ import xml.etree.ElementTree as ET
 from unittest.mock import MagicMock
 
 import pytest
+
 from armodel.models import AUTOSAR
 from armodel.parser.arxml_parser import ARXMLParser
 
@@ -62,7 +63,7 @@ class TestEcucContainerDefParameters:
         assert len(params) == 1
         assert params[0].getShortName() == "EnableFeature"
         assert params[0].getDefaultValue() is not None
-        assert params[0].getDefaultValue().getValue() == True
+        assert params[0].getDefaultValue().getValue()
 
     def test_readEcucBooleanParamDef_without_value(self, parser):
         from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
@@ -484,11 +485,11 @@ class TestEcucCommonAttributes:
         )
         parser.readEcucCommonAttributes(element, param)
         assert param.getPostBuildVariantMultiplicity() is not None
-        assert param.getPostBuildVariantMultiplicity().getValue() == True
+        assert param.getPostBuildVariantMultiplicity().getValue()
         assert param.getPostBuildVariantValue() is not None
-        assert param.getPostBuildVariantValue().getValue() == False
+        assert not param.getPostBuildVariantValue().getValue()
         assert param.getRequiresIndex() is not None
-        assert param.getRequiresIndex().getValue() == True
+        assert param.getRequiresIndex().getValue()
 
 
 class TestEcucContainerDefReferences:

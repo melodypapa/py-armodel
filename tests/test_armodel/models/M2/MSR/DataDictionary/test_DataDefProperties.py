@@ -2,6 +2,9 @@
 This module contains tests for the DataDefProperties module in MSR.DataDictionary.
 """
 
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import NumericalValueSpecification
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, RefType
+from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
     SwDataDefProps,
     SwDataDefPropsConditional,
@@ -10,9 +13,6 @@ from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
     ValueList,
 )
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
-from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, RefType, ARLiteral
-from armodel.models.M2.AUTOSARTemplates.CommonStructure import NumericalValueSpecification
 
 
 class TestSwImplPolicyEnum:

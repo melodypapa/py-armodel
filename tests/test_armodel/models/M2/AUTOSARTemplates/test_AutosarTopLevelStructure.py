@@ -8,22 +8,24 @@ This module tests the AUTOSAR-related classes including:
 - AUTOSARDoc
 """
 
-import pytest
 from unittest.mock import Mock, patch
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import FileInfoComment, AbstractAUTOSAR, AUTOSAR, AUTOSARDoc
-from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
+
+import pytest
+
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR, AbstractAUTOSAR, AUTOSARDoc, FileInfoComment
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswCalledEntity, BswSchedulableEntity
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType, PortPrototype
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import VariableDataPrototype
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
-from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate import System
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import RunnableEntity
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate import System
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import SystemSignal, SystemSignalGroup
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswSchedulableEntity, BswCalledEntity
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
+from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
 
 
 class TestFileInfoComment:
@@ -813,7 +815,7 @@ class TestAUTOSAR:
         try:
             existing = AUTOSAR.getInstance()
             existing.new()  # Clear the instance
-        except:
+        except Exception:
             pass  # If no instance exists, that's fine
 
         instance1 = AUTOSAR.getInstance()
@@ -834,11 +836,11 @@ class TestAUTOSAR:
         try:
             existing = AUTOSAR.getInstance()
             existing.new()
-        except:
+        except Exception:
             pass  # If no instance exists, that's fine
 
         # Now create first instance through getInstance()
-        first_instance = AUTOSAR.getInstance()
+        _first_instance = AUTOSAR.getInstance()
 
         # Trying to create a second instance directly should raise an exception
         with pytest.raises(Exception, match="The AUTOSAR is singleton!"):

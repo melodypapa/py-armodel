@@ -1,8 +1,9 @@
 import filecmp
 from pathlib import Path
-from armodel.writer.arxml_writer import ARXMLWriter
-from armodel.parser.arxml_parser import ARXMLParser
+
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.parser.arxml_parser import ARXMLParser
+from armodel.writer.arxml_writer import ARXMLWriter
 
 
 class TestSystemTemplate:

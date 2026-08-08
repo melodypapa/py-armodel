@@ -2,10 +2,12 @@
 
 import logging
 import xml.etree.ElementTree as ET
+from unittest.mock import MagicMock
+
 import pytest
+
 from armodel.models import AUTOSAR
 from armodel.parser.arxml_parser import ARXMLParser
-from unittest.mock import MagicMock
 
 NS = "http://autosar.org/schema/r4.0"
 
@@ -85,7 +87,6 @@ class TestCanClusterHandlers:
         assert cluster.getCanFdBaudrate().getValue() == 2000000
 
     def test_getCanClusterBusOffRecovery_sets_borTimeL1(self, parser):
-        from armodel.models import CanClusterBusOffRecovery
 
         element = _snip(
             "<BUS-OFF-RECOVERY>" "<BOR-TIME-L-1>0.1</BOR-TIME-L-1>" "</BUS-OFF-RECOVERY>",
@@ -97,7 +98,6 @@ class TestCanClusterHandlers:
         assert recovery.getBorTimeL1().getValue() == 0.1
 
     def test_getCanClusterBusOffRecovery_sets_borTimeL2(self, parser):
-        from armodel.models import CanClusterBusOffRecovery
 
         element = _snip(
             "<BUS-OFF-RECOVERY>" "<BOR-TIME-L-2>0.2</BOR-TIME-L-2>" "</BUS-OFF-RECOVERY>",
@@ -109,7 +109,6 @@ class TestCanClusterHandlers:
         assert recovery.getBorTimeL2().getValue() == 0.2
 
     def test_getCanClusterBusOffRecovery_sets_borCounterL1ToL2(self, parser):
-        from armodel.models import CanClusterBusOffRecovery
 
         element = _snip(
             "<BUS-OFF-RECOVERY>" "<BOR-COUNTER-L-1-TO-L-2>10</BOR-COUNTER-L-1-TO-L-2>" "</BUS-OFF-RECOVERY>",
@@ -155,8 +154,7 @@ class TestCanClusterHandlers:
         assert any("Unsupported Physical Channel" in r.getMessage() for r in caplog.records)
 
     def test_readCanPhysicalChannel_reads_channel(self, parser):
-        from armodel.models import CanPhysicalChannel
-        from armodel.models import CanCluster
+        from armodel.models import CanCluster, CanPhysicalChannel
 
         cluster = CanCluster(parent=_autosar_root(), short_name="c")
         channel = CanPhysicalChannel(parent=cluster, short_name="ch")
@@ -220,8 +218,7 @@ class TestLinClusterHandlers:
         assert cluster.getShortName() == "l"
 
     def test_readLinPhysicalChannel_reads_channel(self, parser):
-        from armodel.models import LinPhysicalChannel
-        from armodel.models import LinCluster
+        from armodel.models import LinCluster, LinPhysicalChannel
 
         cluster = LinCluster(parent=_autosar_root(), short_name="l")
         channel = LinPhysicalChannel(parent=cluster, short_name="ch")
@@ -230,9 +227,7 @@ class TestLinClusterHandlers:
         assert channel.getShortName() == "ch"
 
     def test_readLinScheduleTable_sets_properties(self, parser):
-        from armodel.models import LinScheduleTable
-        from armodel.models import LinPhysicalChannel
-        from armodel.models import LinCluster
+        from armodel.models import LinCluster, LinPhysicalChannel, LinScheduleTable
 
         cluster = LinCluster(parent=_autosar_root(), short_name="l")
         channel = LinPhysicalChannel(parent=cluster, short_name="ch")
@@ -248,8 +243,7 @@ class TestLinClusterHandlers:
         assert table.getRunMode().getValue() == "continuous"
 
     def test_readLinPhysicalChannelScheduleTables_creates_table(self, parser):
-        from armodel.models import LinPhysicalChannel
-        from armodel.models import LinCluster
+        from armodel.models import LinCluster, LinPhysicalChannel
 
         cluster = LinCluster(parent=_autosar_root(), short_name="l")
         channel = LinPhysicalChannel(parent=cluster, short_name="ch")
@@ -261,8 +255,7 @@ class TestLinClusterHandlers:
         assert len(channel.getScheduleTables()) == 1
 
     def test_readLinPhysicalChannelScheduleTables_unsupported_warns(self, warning_parser, caplog):
-        from armodel.models import LinPhysicalChannel
-        from armodel.models import LinCluster
+        from armodel.models import LinCluster, LinPhysicalChannel
 
         cluster = LinCluster(parent=_autosar_root(), short_name="l")
         channel = LinPhysicalChannel(parent=cluster, short_name="ch")
@@ -275,9 +268,7 @@ class TestLinClusterHandlers:
         assert any("Unsupported Schedule Table" in r.getMessage() for r in caplog.records)
 
     def test_readLinFrameTriggering_sets_identifier(self, parser):
-        from armodel.models import LinFrameTriggering
-        from armodel.models import LinPhysicalChannel
-        from armodel.models import LinCluster
+        from armodel.models import LinCluster, LinFrameTriggering, LinPhysicalChannel
 
         cluster = LinCluster(parent=_autosar_root(), short_name="l")
         channel = LinPhysicalChannel(parent=cluster, short_name="ch")
@@ -293,7 +284,6 @@ class TestLinClusterHandlers:
         assert triggering.getLinChecksum().getValue() == "enhanced"
 
     def test_getApplicationEntry_returns_entry(self, parser):
-        from armodel.models import ApplicationEntry
 
         element = _snip(
             "<DELAY>0.01</DELAY>" "<POSITION-IN-TABLE>1</POSITION-IN-TABLE>" "<FRAME-TRIGGERING-REF DEST='FRAME-TRIGGERING'>/ft</FRAME-TRIGGERING-REF>",
@@ -383,11 +373,10 @@ class TestFlexrayClusterHandlers:
         )
         parser.readFlexrayCluster(element, cluster)
         assert cluster.getDetectNitError() is not None
-        assert cluster.getDetectNitError().getValue() == True
+        assert cluster.getDetectNitError().getValue()
 
     def test_readFlexrayPhysicalChannel_sets_channelName(self, parser):
-        from armodel.models import FlexrayPhysicalChannel
-        from armodel.models import FlexrayCluster
+        from armodel.models import FlexrayCluster, FlexrayPhysicalChannel
 
         cluster = FlexrayCluster(parent=_autosar_root(), short_name="fr")
         channel = FlexrayPhysicalChannel(parent=cluster, short_name="ch")
@@ -400,9 +389,7 @@ class TestFlexrayClusterHandlers:
         assert channel.getChannelName().getValue() == "A"
 
     def test_readFlexrayFrameTriggering_sets_messageId(self, parser):
-        from armodel.models import FlexrayFrameTriggering
-        from armodel.models import FlexrayPhysicalChannel
-        from armodel.models import FlexrayCluster
+        from armodel.models import FlexrayCluster, FlexrayFrameTriggering, FlexrayPhysicalChannel
 
         cluster = FlexrayCluster(parent=_autosar_root(), short_name="fr")
         channel = FlexrayPhysicalChannel(parent=cluster, short_name="ch")
@@ -442,9 +429,7 @@ class TestFlexrayClusterHandlers:
         assert timing.getSlotID().getValue() == 5
 
     def test_readFlexrayFrameTriggeringAbsolutelyScheduledTimings_creates_timing(self, parser):
-        from armodel.models import FlexrayFrameTriggering
-        from armodel.models import FlexrayPhysicalChannel
-        from armodel.models import FlexrayCluster
+        from armodel.models import FlexrayCluster, FlexrayFrameTriggering, FlexrayPhysicalChannel
 
         cluster = FlexrayCluster(parent=_autosar_root(), short_name="fr")
         channel = FlexrayPhysicalChannel(parent=cluster, short_name="ch")
@@ -520,8 +505,7 @@ class TestEthernetClusterHandlers:
         assert any("Unsupported assigned data type" in r.getMessage() for r in caplog.records)
 
     def test_readMacMulticastGroup_sets_address(self, parser):
-        from armodel.models import MacMulticastGroup
-        from armodel.models import EthernetCluster
+        from armodel.models import EthernetCluster, MacMulticastGroup
 
         cluster = EthernetCluster(parent=_autosar_root(), short_name="eth")
         group = MacMulticastGroup(parent=cluster, short_name="mcg")
@@ -534,8 +518,7 @@ class TestEthernetClusterHandlers:
         assert group.getMacMulticastAddress().getValue() == "01:02:03:04:05:06"
 
     def test_readEthernetPhysicalChannel_reads_channel(self, parser):
-        from armodel.models import EthernetPhysicalChannel
-        from armodel.models import EthernetCluster
+        from armodel.models import EthernetCluster, EthernetPhysicalChannel
 
         cluster = EthernetCluster(parent=_autosar_root(), short_name="eth")
         channel = EthernetPhysicalChannel(parent=cluster, short_name="ch")
@@ -544,8 +527,7 @@ class TestEthernetClusterHandlers:
         assert channel.getShortName() == "ch"
 
     def test_readEthernetPhysicalChannelVlan_creates_vlan(self, parser):
-        from armodel.models import EthernetPhysicalChannel
-        from armodel.models import EthernetCluster
+        from armodel.models import EthernetCluster, EthernetPhysicalChannel
 
         cluster = EthernetCluster(parent=_autosar_root(), short_name="eth")
         channel = EthernetPhysicalChannel(parent=cluster, short_name="ch")
@@ -557,8 +539,7 @@ class TestEthernetClusterHandlers:
         assert channel.getVlan() is not None
 
     def test_readEthernetPhysicalChannelNetworkEndPoints_creates_endpoint(self, parser):
-        from armodel.models import EthernetPhysicalChannel
-        from armodel.models import EthernetCluster
+        from armodel.models import EthernetCluster, EthernetPhysicalChannel
 
         cluster = EthernetCluster(parent=_autosar_root(), short_name="eth")
         channel = EthernetPhysicalChannel(parent=cluster, short_name="ch")
@@ -570,9 +551,7 @@ class TestEthernetClusterHandlers:
         assert len(channel.getNetworkEndpoints()) == 1
 
     def test_readNetworkEndPoint_sets_priority(self, parser):
-        from armodel.models import NetworkEndpoint
-        from armodel.models import EthernetPhysicalChannel
-        from armodel.models import EthernetCluster
+        from armodel.models import EthernetCluster, EthernetPhysicalChannel, NetworkEndpoint
 
         cluster = EthernetCluster(parent=_autosar_root(), short_name="eth")
         channel = EthernetPhysicalChannel(parent=cluster, short_name="ch")
@@ -596,9 +575,7 @@ class TestEthernetClusterHandlers:
         assert config.getIpv6Address().getValue() == "fe80::1"
 
     def test_readNetworkEndPointNetworkEndPointAddress_adds_ipv6(self, parser):
-        from armodel.models import NetworkEndpoint
-        from armodel.models import EthernetPhysicalChannel
-        from armodel.models import EthernetCluster
+        from armodel.models import EthernetCluster, EthernetPhysicalChannel, NetworkEndpoint
 
         cluster = EthernetCluster(parent=_autosar_root(), short_name="eth")
         channel = EthernetPhysicalChannel(parent=cluster, short_name="ch")
@@ -622,8 +599,7 @@ class TestEthernetClusterHandlers:
         assert services.getDoIpEntity().getDoIpEntityRole().getValue() == "server"
 
     def test_readEthernetPhysicalChannel_sets_soAdConfig(self, parser):
-        from armodel.models import EthernetPhysicalChannel
-        from armodel.models import EthernetCluster
+        from armodel.models import EthernetCluster, EthernetPhysicalChannel
 
         cluster = EthernetCluster(parent=_autosar_root(), short_name="eth")
         channel = EthernetPhysicalChannel(parent=cluster, short_name="ch")
@@ -643,8 +619,7 @@ class TestEthernetClusterHandlers:
         assert cluster.getShortName() == "eth"
 
     def test_readEthernetPhysicalChannelNetworkEndPoints_unsupported_warns(self, warning_parser, caplog):
-        from armodel.models import EthernetPhysicalChannel
-        from armodel.models import EthernetCluster
+        from armodel.models import EthernetCluster, EthernetPhysicalChannel
 
         cluster = EthernetCluster(parent=_autosar_root(), short_name="eth")
         channel = EthernetPhysicalChannel(parent=cluster, short_name="ch")
@@ -690,8 +665,7 @@ class TestSoAdAndSocketHandlers:
         assert any("Unsupported Socket Address" in r.getMessage() for r in caplog.records)
 
     def test_readSocketAddress_sets_portAddress(self, parser):
-        from armodel.models import SocketAddress
-        from armodel.models import SoAdConfig
+        from armodel.models import SoAdConfig, SocketAddress
 
         config = SoAdConfig()
         address = SocketAddress(parent=config, short_name="sa")
@@ -704,8 +678,7 @@ class TestSoAdAndSocketHandlers:
         assert address.getPortAddress().getValue() == 5000
 
     def test_readSocketAddressApplicationEndpoint_creates_endpoint(self, parser):
-        from armodel.models import SocketAddress
-        from armodel.models import SoAdConfig
+        from armodel.models import SoAdConfig, SocketAddress
 
         config = SoAdConfig()
         address = SocketAddress(parent=config, short_name="sa")
@@ -717,8 +690,7 @@ class TestSoAdAndSocketHandlers:
         assert address.getApplicationEndpoint() is not None
 
     def test_readSocketAddressMulticastConnectorRefs_adds_ref(self, parser):
-        from armodel.models import SocketAddress
-        from armodel.models import SoAdConfig
+        from armodel.models import SoAdConfig, SocketAddress
 
         config = SoAdConfig()
         address = SocketAddress(parent=config, short_name="sa")
@@ -730,10 +702,7 @@ class TestSoAdAndSocketHandlers:
         assert len(address.getMulticastConnectorRefs()) == 1
 
     def test_readConsumedServiceInstanceConsumedEventGroups_creates_group(self, parser):
-        from armodel.models import ConsumedServiceInstance
-        from armodel.models import ApplicationEndpoint
-        from armodel.models import SocketAddress
-        from armodel.models import SoAdConfig
+        from armodel.models import ApplicationEndpoint, ConsumedServiceInstance, SoAdConfig, SocketAddress
 
         config = SoAdConfig()
         address = SocketAddress(parent=config, short_name="sa")
@@ -747,11 +716,7 @@ class TestSoAdAndSocketHandlers:
         assert len(instance.getConsumedEventGroups()) == 1
 
     def test_readConsumedEventGroup_sets_eventGroupIdentifier(self, parser):
-        from armodel.models import ConsumedEventGroup
-        from armodel.models import ConsumedServiceInstance
-        from armodel.models import ApplicationEndpoint
-        from armodel.models import SocketAddress
-        from armodel.models import SoAdConfig
+        from armodel.models import ApplicationEndpoint, ConsumedEventGroup, ConsumedServiceInstance, SoAdConfig, SocketAddress
 
         config = SoAdConfig()
         address = SocketAddress(parent=config, short_name="sa")
@@ -767,11 +732,7 @@ class TestSoAdAndSocketHandlers:
         assert group.getEventGroupIdentifier().getValue() == 1
 
     def test_readConsumedEventGroupRoutingGroupRefs_adds_ref(self, parser):
-        from armodel.models import ConsumedEventGroup
-        from armodel.models import ConsumedServiceInstance
-        from armodel.models import ApplicationEndpoint
-        from armodel.models import SocketAddress
-        from armodel.models import SoAdConfig
+        from armodel.models import ApplicationEndpoint, ConsumedEventGroup, ConsumedServiceInstance, SoAdConfig, SocketAddress
 
         config = SoAdConfig()
         address = SocketAddress(parent=config, short_name="sa")
@@ -806,10 +767,7 @@ class TestSoAdAndSocketHandlers:
         assert config.getTtl().getValue() == 3600
 
     def test_readProvidedServiceInstanceEventHandlers_creates_handler(self, parser):
-        from armodel.models import ProvidedServiceInstance
-        from armodel.models import ApplicationEndpoint
-        from armodel.models import SocketAddress
-        from armodel.models import SoAdConfig
+        from armodel.models import ApplicationEndpoint, ProvidedServiceInstance, SoAdConfig, SocketAddress
 
         config = SoAdConfig()
         address = SocketAddress(parent=config, short_name="sa")
@@ -823,11 +781,7 @@ class TestSoAdAndSocketHandlers:
         assert len(instance.getEventHandlers()) == 1
 
     def test_readEventHandler_sets_multicastThreshold(self, parser):
-        from armodel.models import EventHandler
-        from armodel.models import ProvidedServiceInstance
-        from armodel.models import ApplicationEndpoint
-        from armodel.models import SocketAddress
-        from armodel.models import SoAdConfig
+        from armodel.models import ApplicationEndpoint, EventHandler, ProvidedServiceInstance, SoAdConfig, SocketAddress
 
         config = SoAdConfig()
         address = SocketAddress(parent=config, short_name="sa")
@@ -843,10 +797,7 @@ class TestSoAdAndSocketHandlers:
         assert handler.getMulticastThreshold().getValue() == 10
 
     def test_readProvidedServiceInstance_sets_serviceIdentifier(self, parser):
-        from armodel.models import ProvidedServiceInstance
-        from armodel.models import ApplicationEndpoint
-        from armodel.models import SocketAddress
-        from armodel.models import SoAdConfig
+        from armodel.models import ApplicationEndpoint, ProvidedServiceInstance, SoAdConfig, SocketAddress
 
         config = SoAdConfig()
         address = SocketAddress(parent=config, short_name="sa")
@@ -872,7 +823,6 @@ class TestSoAdAndSocketHandlers:
         assert len(config.getConnectionBundles()) == 1
 
     def test_readSocketConnectionBundleConnections_creates_connection(self, parser):
-        from armodel.models import SocketConnectionBundle
         from armodel.models import SoAdConfig
 
         config = SoAdConfig()
@@ -913,10 +863,7 @@ class TestSoAdAndSocketHandlers:
         assert len(pdus) == 1
 
     def test_readConsumedServiceInstanceConsumedEventGroups_unsupported_warns(self, warning_parser, caplog):
-        from armodel.models import ConsumedServiceInstance
-        from armodel.models import ApplicationEndpoint
-        from armodel.models import SocketAddress
-        from armodel.models import SoAdConfig
+        from armodel.models import ApplicationEndpoint, ConsumedServiceInstance, SoAdConfig, SocketAddress
 
         config = SoAdConfig()
         address = SocketAddress(parent=config, short_name="sa")
@@ -1003,7 +950,7 @@ class TestTransportProtocolHandlers:
         )
         parser.readTcpTp(element, tp)
         assert tp.getKeepAlives() is not None
-        assert tp.getKeepAlives().getValue() == True
+        assert tp.getKeepAlives().getValue()
 
     def test_readTcpTp_sets_keepAliveTime(self, parser):
         from armodel.models import TcpTp
@@ -1066,9 +1013,7 @@ class TestTransportProtocolHandlers:
 
 class TestFrameAndPduHandlers:
     def test_readFrameTriggering_sets_frameRef(self, parser):
-        from armodel.models import CanFrameTriggering
-        from armodel.models import CanPhysicalChannel
-        from armodel.models import CanCluster
+        from armodel.models import CanCluster, CanFrameTriggering, CanPhysicalChannel
 
         cluster = CanCluster(parent=_autosar_root(), short_name="c")
         channel = CanPhysicalChannel(parent=cluster, short_name="ch")
@@ -1081,9 +1026,7 @@ class TestFrameAndPduHandlers:
         assert triggering.getFrameRef().getValue() == "/frame"
 
     def test_readFrameTriggering_adds_framePortRefs(self, parser):
-        from armodel.models import CanFrameTriggering
-        from armodel.models import CanPhysicalChannel
-        from armodel.models import CanCluster
+        from armodel.models import CanCluster, CanFrameTriggering, CanPhysicalChannel
 
         cluster = CanCluster(parent=_autosar_root(), short_name="c")
         channel = CanPhysicalChannel(parent=cluster, short_name="ch")
@@ -1096,9 +1039,7 @@ class TestFrameAndPduHandlers:
         assert len(triggering.getFramePortRefs()) == 1
 
     def test_readCanFrameTriggering_sets_canAddressingMode(self, parser):
-        from armodel.models import CanFrameTriggering
-        from armodel.models import CanPhysicalChannel
-        from armodel.models import CanCluster
+        from armodel.models import CanCluster, CanFrameTriggering, CanPhysicalChannel
 
         cluster = CanCluster(parent=_autosar_root(), short_name="c")
         channel = CanPhysicalChannel(parent=cluster, short_name="ch")
@@ -1112,9 +1053,7 @@ class TestFrameAndPduHandlers:
         assert triggering.getCanAddressingMode().getValue() == "standard"
 
     def test_readCanFrameTriggering_sets_canFdFrameSupport(self, parser):
-        from armodel.models import CanFrameTriggering
-        from armodel.models import CanPhysicalChannel
-        from armodel.models import CanCluster
+        from armodel.models import CanCluster, CanFrameTriggering, CanPhysicalChannel
 
         cluster = CanCluster(parent=_autosar_root(), short_name="c")
         channel = CanPhysicalChannel(parent=cluster, short_name="ch")
@@ -1125,12 +1064,10 @@ class TestFrameAndPduHandlers:
         )
         parser.readCanFrameTriggering(element, triggering)
         assert triggering.getCanFdFrameSupport() is not None
-        assert triggering.getCanFdFrameSupport().getValue() == True
+        assert triggering.getCanFdFrameSupport().getValue()
 
     def test_readCanFrameTriggering_sets_identifier(self, parser):
-        from armodel.models import CanFrameTriggering
-        from armodel.models import CanPhysicalChannel
-        from armodel.models import CanCluster
+        from armodel.models import CanCluster, CanFrameTriggering, CanPhysicalChannel
 
         cluster = CanCluster(parent=_autosar_root(), short_name="c")
         channel = CanPhysicalChannel(parent=cluster, short_name="ch")
@@ -1144,9 +1081,7 @@ class TestFrameAndPduHandlers:
         assert triggering.getIdentifier().getValue() == 100
 
     def test_readPduTriggering_sets_ipduRef(self, parser):
-        from armodel.models import PduTriggering
-        from armodel.models import CanPhysicalChannel
-        from armodel.models import CanCluster
+        from armodel.models import CanCluster, CanPhysicalChannel, PduTriggering
 
         cluster = CanCluster(parent=_autosar_root(), short_name="c")
         channel = CanPhysicalChannel(parent=cluster, short_name="ch")
@@ -1159,9 +1094,7 @@ class TestFrameAndPduHandlers:
         assert triggering.getIPduRef().getValue() == "/pdu"
 
     def test_readPduTriggering_adds_ipduPortRefs(self, parser):
-        from armodel.models import PduTriggering
-        from armodel.models import CanPhysicalChannel
-        from armodel.models import CanCluster
+        from armodel.models import CanCluster, CanPhysicalChannel, PduTriggering
 
         cluster = CanCluster(parent=_autosar_root(), short_name="c")
         channel = CanPhysicalChannel(parent=cluster, short_name="ch")
@@ -1174,9 +1107,7 @@ class TestFrameAndPduHandlers:
         assert len(triggering.getIPduPortRefs()) == 1
 
     def test_readISignalTriggering_sets_iSignalRef(self, parser):
-        from armodel.models import ISignalTriggering
-        from armodel.models import CanPhysicalChannel
-        from armodel.models import CanCluster
+        from armodel.models import CanCluster, CanPhysicalChannel, ISignalTriggering
 
         cluster = CanCluster(parent=_autosar_root(), short_name="c")
         channel = CanPhysicalChannel(parent=cluster, short_name="ch")
@@ -1189,8 +1120,7 @@ class TestFrameAndPduHandlers:
         assert triggering.getISignalRef().getValue() == "/sig"
 
     def test_readPhysicalChannelFrameTriggerings_can(self, parser):
-        from armodel.models import CanPhysicalChannel
-        from armodel.models import CanCluster
+        from armodel.models import CanCluster, CanPhysicalChannel
 
         cluster = CanCluster(parent=_autosar_root(), short_name="c")
         channel = CanPhysicalChannel(parent=cluster, short_name="ch")
@@ -1202,8 +1132,7 @@ class TestFrameAndPduHandlers:
         assert len(channel.getFrameTriggerings()) == 1
 
     def test_readPhysicalChannelFrameTriggerings_lin(self, parser):
-        from armodel.models import LinPhysicalChannel
-        from armodel.models import LinCluster
+        from armodel.models import LinCluster, LinPhysicalChannel
 
         cluster = LinCluster(parent=_autosar_root(), short_name="l")
         channel = LinPhysicalChannel(parent=cluster, short_name="ch")
@@ -1215,8 +1144,7 @@ class TestFrameAndPduHandlers:
         assert len(channel.getFrameTriggerings()) == 1
 
     def test_readPhysicalChannelFrameTriggerings_flexray(self, parser):
-        from armodel.models import FlexrayPhysicalChannel
-        from armodel.models import FlexrayCluster
+        from armodel.models import FlexrayCluster, FlexrayPhysicalChannel
 
         cluster = FlexrayCluster(parent=_autosar_root(), short_name="fr")
         channel = FlexrayPhysicalChannel(parent=cluster, short_name="ch")
@@ -1228,8 +1156,7 @@ class TestFrameAndPduHandlers:
         assert len(channel.getFrameTriggerings()) == 1
 
     def test_readPhysicalChannelFrameTriggerings_unsupported_warns(self, warning_parser, caplog):
-        from armodel.models import CanPhysicalChannel
-        from armodel.models import CanCluster
+        from armodel.models import CanCluster, CanPhysicalChannel
 
         cluster = CanCluster(parent=_autosar_root(), short_name="c")
         channel = CanPhysicalChannel(parent=cluster, short_name="ch")
@@ -1242,8 +1169,7 @@ class TestFrameAndPduHandlers:
         assert any("Unsupported Frame Triggering" in r.getMessage() for r in caplog.records)
 
     def test_readPhysicalChannelPduTriggerings_creates_triggering(self, parser):
-        from armodel.models import CanPhysicalChannel
-        from armodel.models import CanCluster
+        from armodel.models import CanCluster, CanPhysicalChannel
 
         cluster = CanCluster(parent=_autosar_root(), short_name="c")
         channel = CanPhysicalChannel(parent=cluster, short_name="ch")
@@ -1255,8 +1181,7 @@ class TestFrameAndPduHandlers:
         assert len(channel.getPduTriggerings()) == 1
 
     def test_readPhysicalChannelISignalTriggerings_creates_triggering(self, parser):
-        from armodel.models import CanPhysicalChannel
-        from armodel.models import CanCluster
+        from armodel.models import CanCluster, CanPhysicalChannel
 
         cluster = CanCluster(parent=_autosar_root(), short_name="c")
         channel = CanPhysicalChannel(parent=cluster, short_name="ch")
@@ -1268,8 +1193,7 @@ class TestFrameAndPduHandlers:
         assert len(channel.getISignalTriggerings()) == 1
 
     def test_readPhysicalChannelCommConnectorRefs_adds_ref(self, parser):
-        from armodel.models import CanPhysicalChannel
-        from armodel.models import CanCluster
+        from armodel.models import CanCluster, CanPhysicalChannel
 
         cluster = CanCluster(parent=_autosar_root(), short_name="c")
         channel = CanPhysicalChannel(parent=cluster, short_name="ch")
@@ -1483,8 +1407,7 @@ class TestEndToEndProtectionHandlers:
         assert len(desc.getDataIds()) == 2
 
     def test_readEndToEndProtection_sets_short_name(self, parser):
-        from armodel.models import EndToEndProtectionSet
-        from armodel.models import EndToEndProtection
+        from armodel.models import EndToEndProtection, EndToEndProtectionSet
 
         set = EndToEndProtectionSet(parent=_autosar_root(), short_name="e2eSet")
         protection = EndToEndProtection(parent=set, short_name="e2e")
@@ -1540,8 +1463,7 @@ class TestEndToEndProtectionHandlers:
         assert len(proto.getReceiverIrefs()) == 1
 
     def test_readEndToEndProtectionEndToEndProtectionVariablePrototypes_creates(self, parser):
-        from armodel.models import EndToEndProtection
-        from armodel.models import EndToEndProtectionSet
+        from armodel.models import EndToEndProtection, EndToEndProtectionSet
 
         set = EndToEndProtectionSet(parent=_autosar_root(), short_name="e2eSet")
         protection = EndToEndProtection(parent=set, short_name="e2e")
@@ -1557,8 +1479,7 @@ class TestEndToEndProtectionHandlers:
         assert len(protection.getEndToEndProtectionVariablePrototypes()) == 1
 
     def test_readEndToEndProtectionEndToEndProtectionVariablePrototypes_unsupported_warns(self, warning_parser, caplog):
-        from armodel.models import EndToEndProtection
-        from armodel.models import EndToEndProtectionSet
+        from armodel.models import EndToEndProtection, EndToEndProtectionSet
 
         set = EndToEndProtectionSet(parent=_autosar_root(), short_name="e2eSet")
         protection = EndToEndProtection(parent=set, short_name="e2e")
@@ -1622,8 +1543,7 @@ class TestNmConfigHandlers:
             parser.readNmConfigNmClusters(element, config)
 
     def test_readCanNmCluster_sets_nmBusloadReductionActive(self, parser):
-        from armodel.models import CanNmCluster
-        from armodel.models import NmConfig
+        from armodel.models import CanNmCluster, NmConfig
 
         config = NmConfig(parent=_autosar_root(), short_name="nmConfig")
         cluster = CanNmCluster(parent=config, short_name="cnm")
@@ -1632,11 +1552,10 @@ class TestNmConfigHandlers:
             root_tag="CAN-NM-CLUSTER",
         )
         parser.readCanNmCluster(element, cluster)
-        assert cluster.getNmBusloadReductionActive().getValue() == True
+        assert cluster.getNmBusloadReductionActive().getValue()
 
     def test_readUdpNmCluster_sets_nmChannelActive(self, parser):
-        from armodel.models import UdpNmCluster
-        from armodel.models import NmConfig
+        from armodel.models import NmConfig, UdpNmCluster
 
         config = NmConfig(parent=_autosar_root(), short_name="nmConfig")
         cluster = UdpNmCluster(parent=config, short_name="unm")
@@ -1645,11 +1564,10 @@ class TestNmConfigHandlers:
             root_tag="UDP-NM-CLUSTER",
         )
         parser.readUdpNmCluster(element, cluster)
-        assert cluster.getNmChannelActive().getValue() == True
+        assert cluster.getNmChannelActive().getValue()
 
     def test_readNmCluster_sets_communicationClusterRef(self, parser):
-        from armodel.models import CanNmCluster
-        from armodel.models import NmConfig
+        from armodel.models import CanNmCluster, NmConfig
 
         config = NmConfig(parent=_autosar_root(), short_name="nmConfig")
         cluster = CanNmCluster(parent=config, short_name="cnm")
@@ -1661,8 +1579,7 @@ class TestNmConfigHandlers:
         assert cluster.getCommunicationClusterRef().getValue() == "/cc"
 
     def test_readNmClusterNmNodes_canNmNode(self, parser):
-        from armodel.models import CanNmCluster
-        from armodel.models import NmConfig
+        from armodel.models import CanNmCluster, NmConfig
 
         config = NmConfig(parent=_autosar_root(), short_name="nmConfig")
         cluster = CanNmCluster(parent=config, short_name="cnm")
@@ -1674,8 +1591,7 @@ class TestNmConfigHandlers:
         assert len(cluster.getNmNodes()) == 1
 
     def test_readNmClusterNmNodes_udpNmNode(self, parser):
-        from armodel.models import UdpNmCluster
-        from armodel.models import NmConfig
+        from armodel.models import NmConfig, UdpNmCluster
 
         config = NmConfig(parent=_autosar_root(), short_name="nmConfig")
         cluster = UdpNmCluster(parent=config, short_name="unm")
@@ -1687,8 +1603,7 @@ class TestNmConfigHandlers:
         assert len(cluster.getNmNodes()) == 1
 
     def test_readNmClusterNmNodes_unsupported_warns(self, warning_parser, caplog):
-        from armodel.models import CanNmCluster
-        from armodel.models import NmConfig
+        from armodel.models import CanNmCluster, NmConfig
 
         config = NmConfig(parent=_autosar_root(), short_name="nmConfig")
         cluster = CanNmCluster(parent=config, short_name="cnm")
@@ -1701,9 +1616,7 @@ class TestNmConfigHandlers:
         assert any("Unsupported Nm Node" in r.getMessage() for r in caplog.records)
 
     def test_readCanNmNode_sets_nmNodeId(self, parser):
-        from armodel.models import CanNmNode
-        from armodel.models import CanNmCluster
-        from armodel.models import NmConfig
+        from armodel.models import CanNmCluster, CanNmNode, NmConfig
 
         config = NmConfig(parent=_autosar_root(), short_name="nmConfig")
         cluster = CanNmCluster(parent=config, short_name="cnm")
@@ -1716,9 +1629,7 @@ class TestNmConfigHandlers:
         assert node.getNmNodeId().getValue() == 1
 
     def test_readNmNode_sets_controllerRef(self, parser):
-        from armodel.models import CanNmNode
-        from armodel.models import CanNmCluster
-        from armodel.models import NmConfig
+        from armodel.models import CanNmCluster, CanNmNode, NmConfig
 
         config = NmConfig(parent=_autosar_root(), short_name="nmConfig")
         cluster = CanNmCluster(parent=config, short_name="cnm")
@@ -1731,9 +1642,7 @@ class TestNmConfigHandlers:
         assert node.getControllerRef().getValue() == "/ctrl"
 
     def test_readNmNode_adds_rxNmPduRef(self, parser):
-        from armodel.models import CanNmNode
-        from armodel.models import CanNmCluster
-        from armodel.models import NmConfig
+        from armodel.models import CanNmCluster, CanNmNode, NmConfig
 
         config = NmConfig(parent=_autosar_root(), short_name="nmConfig")
         cluster = CanNmCluster(parent=config, short_name="cnm")
@@ -1746,9 +1655,7 @@ class TestNmConfigHandlers:
         assert len(node.getRxNmPduRefs()) == 1
 
     def test_readNmNode_adds_txNmPduRef(self, parser):
-        from armodel.models import CanNmNode
-        from armodel.models import CanNmCluster
-        from armodel.models import NmConfig
+        from armodel.models import CanNmCluster, CanNmNode, NmConfig
 
         config = NmConfig(parent=_autosar_root(), short_name="nmConfig")
         cluster = CanNmCluster(parent=config, short_name="cnm")
@@ -1816,8 +1723,7 @@ class TestNmConfigHandlers:
         assert len(config.getNmIfEcus()) == 1
 
     def test_readNmEcu_sets_ecuInstanceRef(self, parser):
-        from armodel.models import NmEcu
-        from armodel.models import NmConfig
+        from armodel.models import NmConfig, NmEcu
 
         config = NmConfig(parent=_autosar_root(), short_name="nmConfig")
         ecu = NmEcu(parent=config, short_name="ecu")
@@ -1850,8 +1756,7 @@ class TestCanTpAndLinTpHandlers:
         assert len(config.getTpAddresses()) == 1
 
     def test_readCanTpAddress_sets_tpAddress(self, parser):
-        from armodel.models import CanTpAddress
-        from armodel.models import CanTpConfig
+        from armodel.models import CanTpAddress, CanTpConfig
 
         config = CanTpConfig(parent=_autosar_root(), short_name="canTp")
         addr = CanTpAddress(parent=config, short_name="addr")
@@ -1874,8 +1779,7 @@ class TestCanTpAndLinTpHandlers:
         assert len(config.getTpChannels()) == 1
 
     def test_readCanTpChannel_sets_channelId(self, parser):
-        from armodel.models import CanTpChannel
-        from armodel.models import CanTpConfig
+        from armodel.models import CanTpChannel, CanTpConfig
 
         config = CanTpConfig(parent=_autosar_root(), short_name="canTp")
         channel = CanTpChannel(parent=config, short_name="ch")
@@ -1898,8 +1802,7 @@ class TestCanTpAndLinTpHandlers:
         assert len(config.getTpNodes()) == 1
 
     def test_readCanTpNode_sets_maxFcWait(self, parser):
-        from armodel.models import CanTpNode
-        from armodel.models import CanTpConfig
+        from armodel.models import CanTpConfig, CanTpNode
 
         config = CanTpConfig(parent=_autosar_root(), short_name="canTp")
         node = CanTpNode(parent=config, short_name="node")
@@ -1974,8 +1877,7 @@ class TestCanTpAndLinTpHandlers:
         assert len(config.getTpAddresses()) == 1
 
     def test_readTpAddress_sets_tpAddress(self, parser):
-        from armodel.models import TpAddress
-        from armodel.models import LinTpConfig
+        from armodel.models import LinTpConfig, TpAddress
 
         config = LinTpConfig(parent=_autosar_root(), short_name="linTp")
         addr = TpAddress(parent=config, short_name="addr")
@@ -1998,8 +1900,7 @@ class TestCanTpAndLinTpHandlers:
         assert len(config.getTpNodes()) == 1
 
     def test_readLinTpNode_sets_p2Max(self, parser):
-        from armodel.models import LinTpNode
-        from armodel.models import LinTpConfig
+        from armodel.models import LinTpConfig, LinTpNode
 
         config = LinTpConfig(parent=_autosar_root(), short_name="linTp")
         node = LinTpNode(parent=config, short_name="node")
@@ -2121,8 +2022,7 @@ class TestEcuInstanceHandlers:
             parser.readEcuInstanceCommControllers(element, instance)
 
     def test_readCanCommunicationController_sets_short_name(self, parser):
-        from armodel.models import CanCommunicationController
-        from armodel.models import EcuInstance
+        from armodel.models import CanCommunicationController, EcuInstance
 
         instance = EcuInstance(parent=_autosar_root(), short_name="ecu")
         ctrl = CanCommunicationController(parent=instance, short_name="ctrl")
@@ -2138,8 +2038,7 @@ class TestEcuInstanceHandlers:
         assert ctrl.getShortName() == "ctrl"
 
     def test_readEthernetCommunicationController_sets_short_name(self, parser):
-        from armodel.models import EthernetCommunicationController
-        from armodel.models import EcuInstance
+        from armodel.models import EcuInstance, EthernetCommunicationController
 
         instance = EcuInstance(parent=_autosar_root(), short_name="ecu")
         ctrl = EthernetCommunicationController(parent=instance, short_name="ctrl")
@@ -2155,8 +2054,7 @@ class TestEcuInstanceHandlers:
         assert ctrl.getShortName() == "ctrl"
 
     def test_readLinMaster_sets_short_name(self, parser):
-        from armodel.models import LinMaster
-        from armodel.models import EcuInstance
+        from armodel.models import EcuInstance, LinMaster
 
         instance = EcuInstance(parent=_autosar_root(), short_name="ecu")
         ctrl = LinMaster(parent=instance, short_name="ctrl")
@@ -2168,8 +2066,7 @@ class TestEcuInstanceHandlers:
         assert ctrl.getShortName() == "ctrl"
 
     def test_readFlexrayCommunicationController_sets_short_name(self, parser):
-        from armodel.models import FlexrayCommunicationController
-        from armodel.models import EcuInstance
+        from armodel.models import EcuInstance, FlexrayCommunicationController
 
         instance = EcuInstance(parent=_autosar_root(), short_name="ecu")
         ctrl = FlexrayCommunicationController(parent=instance, short_name="ctrl")
@@ -2241,8 +2138,7 @@ class TestEcuInstanceHandlers:
         assert any("Unsupported Communication Connector" in r.getMessage() for r in caplog.records)
 
     def test_readCommunicationConnector_sets_commControllerRef(self, parser):
-        from armodel.models import CanCommunicationConnector
-        from armodel.models import EcuInstance
+        from armodel.models import CanCommunicationConnector, EcuInstance
 
         instance = EcuInstance(parent=_autosar_root(), short_name="ecu")
         conn = CanCommunicationConnector(parent=instance, short_name="conn")
@@ -2254,8 +2150,7 @@ class TestEcuInstanceHandlers:
         assert conn.getCommControllerRef().getValue() == "/ctrl"
 
     def test_readEthernetCommunicationConnector_sets_maximumTransmissionUnit(self, parser):
-        from armodel.models import EthernetCommunicationConnector
-        from armodel.models import EcuInstance
+        from armodel.models import EcuInstance, EthernetCommunicationConnector
 
         instance = EcuInstance(parent=_autosar_root(), short_name="ecu")
         conn = EthernetCommunicationConnector(parent=instance, short_name="conn")
@@ -2267,8 +2162,7 @@ class TestEcuInstanceHandlers:
         assert conn.getMaximumTransmissionUnit().getValue() == 1500
 
     def test_readEthernetCommunicationConnectorNetworkEndpointRefs_adds_ref(self, parser):
-        from armodel.models import EthernetCommunicationConnector
-        from armodel.models import EcuInstance
+        from armodel.models import EcuInstance, EthernetCommunicationConnector
 
         instance = EcuInstance(parent=_autosar_root(), short_name="ecu")
         conn = EthernetCommunicationConnector(parent=instance, short_name="conn")
@@ -2280,8 +2174,7 @@ class TestEcuInstanceHandlers:
         assert len(conn.getNetworkEndpointRefs()) == 1
 
     def test_readCommunicationConnectorEcuCommPortInstances_framePort(self, parser):
-        from armodel.models import CanCommunicationConnector
-        from armodel.models import EcuInstance
+        from armodel.models import CanCommunicationConnector, EcuInstance
 
         instance = EcuInstance(parent=_autosar_root(), short_name="ecu")
         conn = CanCommunicationConnector(parent=instance, short_name="conn")
@@ -2293,8 +2186,7 @@ class TestEcuInstanceHandlers:
         assert len(conn.getEcuCommPortInstances()) == 1
 
     def test_readCommunicationConnectorEcuCommPortInstances_ipduPort(self, parser):
-        from armodel.models import EthernetCommunicationConnector
-        from armodel.models import EcuInstance
+        from armodel.models import EcuInstance, EthernetCommunicationConnector
 
         instance = EcuInstance(parent=_autosar_root(), short_name="ecu")
         conn = EthernetCommunicationConnector(parent=instance, short_name="conn")
@@ -2306,8 +2198,7 @@ class TestEcuInstanceHandlers:
         assert len(conn.getEcuCommPortInstances()) == 1
 
     def test_readCommunicationConnectorEcuCommPortInstances_iSignalPort(self, parser):
-        from armodel.models import CanCommunicationConnector
-        from armodel.models import EcuInstance
+        from armodel.models import CanCommunicationConnector, EcuInstance
 
         instance = EcuInstance(parent=_autosar_root(), short_name="ecu")
         conn = CanCommunicationConnector(parent=instance, short_name="conn")
@@ -2319,8 +2210,7 @@ class TestEcuInstanceHandlers:
         assert len(conn.getEcuCommPortInstances()) == 1
 
     def test_readCommunicationConnectorEcuCommPortInstances_unsupported_raises(self, parser):
-        from armodel.models import CanCommunicationConnector
-        from armodel.models import EcuInstance
+        from armodel.models import CanCommunicationConnector, EcuInstance
 
         instance = EcuInstance(parent=_autosar_root(), short_name="ecu")
         conn = CanCommunicationConnector(parent=instance, short_name="conn")
@@ -2332,9 +2222,7 @@ class TestEcuInstanceHandlers:
             parser.readCommunicationConnectorEcuCommPortInstances(element, conn)
 
     def test_readFramePort_sets_communicationDirection(self, parser):
-        from armodel.models import FramePort
-        from armodel.models import CanCommunicationConnector
-        from armodel.models import EcuInstance
+        from armodel.models import CanCommunicationConnector, EcuInstance, FramePort
 
         instance = EcuInstance(parent=_autosar_root(), short_name="ecu")
         conn = CanCommunicationConnector(parent=instance, short_name="conn")
@@ -2347,9 +2235,7 @@ class TestEcuInstanceHandlers:
         assert port.getCommunicationDirection().getValue() == "in"
 
     def test_readIPduPort_sets_keyId(self, parser):
-        from armodel.models import IPduPort
-        from armodel.models import EthernetCommunicationConnector
-        from armodel.models import EcuInstance
+        from armodel.models import EcuInstance, EthernetCommunicationConnector, IPduPort
 
         instance = EcuInstance(parent=_autosar_root(), short_name="ecu")
         conn = EthernetCommunicationConnector(parent=instance, short_name="conn")
@@ -2362,9 +2248,7 @@ class TestEcuInstanceHandlers:
         assert port.getKeyId().getValue() == 1
 
     def test_readISignalPort_sets_timeout(self, parser):
-        from armodel.models import ISignalPort
-        from armodel.models import CanCommunicationConnector
-        from armodel.models import EcuInstance
+        from armodel.models import CanCommunicationConnector, EcuInstance, ISignalPort
 
         instance = EcuInstance(parent=_autosar_root(), short_name="ecu")
         conn = CanCommunicationConnector(parent=instance, short_name="conn")
@@ -2388,8 +2272,7 @@ class TestEcuInstanceHandlers:
         assert len(instance.getAssociatedComIPduGroupRefs()) == 1
 
     def test_readCommunicationController_sets_wakeUpByControllerSupported(self, parser):
-        from armodel.models import EthernetCommunicationController
-        from armodel.models import EcuInstance
+        from armodel.models import EcuInstance, EthernetCommunicationController
 
         instance = EcuInstance(parent=_autosar_root(), short_name="ecu")
         ctrl = EthernetCommunicationController(parent=instance, short_name="ctrl")
@@ -2398,11 +2281,10 @@ class TestEcuInstanceHandlers:
             root_tag="ETHERNET-COMMUNICATION-CONTROLLER-CONDITIONAL",
         )
         parser.readCommunicationController(element, ctrl)
-        assert ctrl.getWakeUpByControllerSupported().getValue() == True
+        assert ctrl.getWakeUpByControllerSupported().getValue()
 
     def test_readEthernetCommunicationControllerCouplingPorts_creates_port(self, parser):
-        from armodel.models import EthernetCommunicationController
-        from armodel.models import EcuInstance
+        from armodel.models import EcuInstance, EthernetCommunicationController
 
         instance = EcuInstance(parent=_autosar_root(), short_name="ecu")
         ctrl = EthernetCommunicationController(parent=instance, short_name="ctrl")
@@ -2414,9 +2296,7 @@ class TestEcuInstanceHandlers:
         assert len(ctrl.getCouplingPorts()) == 1
 
     def test_readCouplingPort_sets_macLayerType(self, parser):
-        from armodel.models import CouplingPort
-        from armodel.models import EthernetCommunicationController
-        from armodel.models import EcuInstance
+        from armodel.models import CouplingPort, EcuInstance, EthernetCommunicationController
 
         instance = EcuInstance(parent=_autosar_root(), short_name="ecu")
         ctrl = EthernetCommunicationController(parent=instance, short_name="ctrl")

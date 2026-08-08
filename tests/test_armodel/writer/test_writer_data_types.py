@@ -1,47 +1,14 @@
 """Tests for writer data types and compu method handlers."""
 
 import xml.etree.cElementTree as ET
+
 import pytest
 
-from armodel.writer.arxml_writer import ARXMLWriter
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
-from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
-    Compu,
-    CompuConst,
-    CompuConstFormulaContent,
-    CompuConstNumericContent,
-    CompuConstTextContent,
-    CompuConstContent,
-    CompuMethod,
-    CompuNominatorDenominator,
-    CompuRationalCoeffs,
-    CompuScale,
-    CompuScaleConstantContents,
-    CompuScaleRationalFormula,
-    CompuScales,
-)
-from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import (
-    DataConstr,
-    DataConstrRule,
-    InternalConstrs,
-    PhysConstrs,
-)
-from armodel.models.M2.MSR.AsamHdo.Units import Unit
-from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual
-from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import (
-    SwCalprmAxis,
-    SwCalprmAxisSet,
-)
-from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
-    SwDataDefProps,
-    SwPointerTargetProps,
-)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
     ApplicationRuleBasedValueSpecification,
     ApplicationValueSpecification,
     ArrayValueSpecification,
-    ConstantSpecification,
     NumericalValueSpecification,
     RecordValueSpecification,
     RuleArguments,
@@ -51,18 +18,43 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
     TextValueSpecification,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARFloat,
     ARLiteral,
     ARNumerical,
-    ARFloat,
     Integer,
     Limit,
     RefType,
 )
-from armodel.models.M2.MSR.DataDictionary.DataDefProperties import ValueList
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
-    ApplicationPrimitiveDataType,
-    ApplicationRecordDataType,
+from armodel.models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition
+from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
+    Compu,
+    CompuConst,
+    CompuConstFormulaContent,
+    CompuConstNumericContent,
+    CompuConstTextContent,
+    CompuNominatorDenominator,
+    CompuRationalCoeffs,
+    CompuScale,
+    CompuScaleConstantContents,
+    CompuScaleRationalFormula,
+    CompuScales,
 )
+from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import (
+    DataConstrRule,
+    InternalConstrs,
+    PhysConstrs,
+)
+from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual
+from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import (
+    SwCalprmAxis,
+    SwCalprmAxisSet,
+)
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
+    SwDataDefProps,
+    SwPointerTargetProps,
+    ValueList,
+)
+from armodel.writer.arxml_writer import ARXMLWriter
 
 
 @pytest.fixture(autouse=True)

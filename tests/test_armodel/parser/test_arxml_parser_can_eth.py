@@ -22,7 +22,6 @@ import pytest
 
 from tests.test_armodel.parser._helpers import _autosar_root, _snip
 
-
 # ==================== CanControllerFdConfiguration ====================
 
 
@@ -30,7 +29,6 @@ class TestCanControllerFdConfiguration:
     """getCanControllerFdConfiguration (L4743-4749) - has TODO/incomplete impl."""
 
     def test_returns_none_when_child_absent(self, parser):
-        from armodel.models import CanControllerFdConfiguration
 
         element = _snip("<OTHER/>")
         result = parser.getCanControllerFdConfiguration(element, "CAN-CONTROLLER-FD-CONFIGURATION")
@@ -328,8 +326,7 @@ class TestCouplingPortVlanMemberships:
 
 class TestCommunicationClusterPhysicalChannels:
     def test_readPhysicalChannels_creates_all_channel_types(self, parser):
-        from armodel.models import CanCluster, LinCluster
-        from armodel.models import EthernetCluster, FlexrayCluster
+        from armodel.models import CanCluster, EthernetCluster, FlexrayCluster, LinCluster
 
         can_cluster = CanCluster(parent=MagicMock(), short_name="Can")
         lin_cluster = LinCluster(parent=MagicMock(), short_name="Lin")

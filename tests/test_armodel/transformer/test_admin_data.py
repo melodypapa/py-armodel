@@ -3,10 +3,11 @@ Test cases for the AdminDataTransformer class.
 These tests ensure 100% code coverage for the admin data transformer functionality.
 """
 
-from unittest.mock import patch, MagicMock
-from armodel.transformer.admin_data import AdminDataTransformer
+from unittest.mock import MagicMock, patch
+
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable
+from armodel.transformer.admin_data import AdminDataTransformer
 
 
 class TestAdminDataTransformer:
@@ -114,7 +115,7 @@ class TestAdminDataTransformer:
         """
         transformer = AdminDataTransformer()
         root = AUTOSAR.getInstance()
-        pkg = root.createARPackage("TestPkg")  # Add a package to the root
+        _pkg = root.createARPackage("TestPkg")  # Add a package to the root
 
         with patch.object(root, "removeAdminData") as mock_remove_admin_data, patch.object(transformer, "process_pkg") as mock_process_pkg:
             # Mock getARPackages to return a list with our package

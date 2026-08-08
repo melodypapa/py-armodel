@@ -4,24 +4,24 @@ These tests ensure 100% code coverage for all classes in the ECUCDescriptionTemp
 """
 
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
-    EcucValueCollection,
-    EcucIndexableValue,
-    EcucParameterValue,
-    EcucAddInfoParamValue,
-    EcucTextualParamValue,
-    EcucNumericalParamValue,
     EcucAbstractReferenceValue,
-    EcucInstanceReferenceValue,
-    EcucReferenceValue,
-    EcucContainerValue,
-    EcucModuleConfigurationValues,
+    EcucAddInfoParamValue,
     EcucConditionSpecification,
     EcucConfigurationVariantEnum,
+    EcucContainerValue,
+    EcucIndexableValue,
+    EcucInstanceReferenceValue,
+    EcucModuleConfigurationValues,
+    EcucNumericalParamValue,
+    EcucParameterValue,
+    EcucReferenceValue,
+    EcucTextualParamValue,
+    EcucValueCollection,
 )
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucModuleDef
-from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, RefType, CIdentifier, Limit
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, CIdentifier, Limit, RefType
+from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 
 
 def test_ecuc_value_collection():
@@ -378,7 +378,7 @@ def test_ecuc_condition_specification():
     1. Create an EcucConditionSpecification instance
     2. Test initial values
     """
-    condition_spec = EcucConditionSpecification()
+    _condition_spec = EcucConditionSpecification()
 
     # Test initial values (currently no attributes in __init__)
 
@@ -391,7 +391,7 @@ def test_ecuc_configuration_variant_enum():
     1. Create an EcucConfigurationVariantEnum instance
     2. Test initial values
     """
-    config_enum = EcucConfigurationVariantEnum()
+    _config_enum = EcucConfigurationVariantEnum()
 
     # Test initial values inherited from AREnum
 

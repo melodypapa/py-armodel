@@ -1,11 +1,11 @@
 import argparse
 import logging
-import sys
 import os.path
+import sys
 
+from armodel.lib import InputFileParser, SystemSignalAnalyzer
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.parser import ARXMLParser
-from armodel.lib import InputFileParser, SystemSignalAnalyzer
 
 
 def main():

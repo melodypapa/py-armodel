@@ -1,40 +1,40 @@
 import pytest
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import NetworkEndpoint
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrameTriggering
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering, LinScheduleTable
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import ISignalTriggering, PduTriggering
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
-    CommunicationCycle,
-    CycleCounter,
-    CycleRepetitionType,
-    CycleRepetition,
-    PhysicalChannel,
+    AbstractCanCluster,
     AbstractCanPhysicalChannel,
+    CanCluster,
+    CanClusterBusOffRecovery,
     CanPhysicalChannel,
-    LinPhysicalChannel,
-    VlanConfig,
+    CommConnectorPort,
+    CommunicationCluster,
+    CommunicationConnector,
+    CommunicationController,
+    CommunicationCycle,
+    CommunicationDirectionType,
+    CycleCounter,
+    CycleRepetition,
+    CycleRepetitionType,
     EthernetPhysicalChannel,
     FlexrayChannelName,
     FlexrayPhysicalChannel,
-    CommunicationCluster,
-    CanClusterBusOffRecovery,
-    AbstractCanCluster,
-    CanCluster,
-    LinCluster,
-    CommunicationController,
-    PncGatewayTypeEnum,
-    CommunicationDirectionType,
-    CommConnectorPort,
     FramePort,
-    IPduSignalProcessingEnum,
     IPduPort,
+    IPduSignalProcessingEnum,
     ISignalPort,
-    CommunicationConnector,
+    LinCluster,
+    LinPhysicalChannel,
+    PhysicalChannel,
+    PncGatewayTypeEnum,
+    VlanConfig,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering, LinScheduleTable
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import NetworkEndpoint
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrameTriggering
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import ISignalTriggering, PduTriggering
 
 
 class MockParent(ARObject):

@@ -4,7 +4,7 @@ in the AUTOSAR GenericStructure module.
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef, AtpBlueprintable, AtpStructureElement, AtpType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpBlueprintable, AtpInstanceRef, AtpStructureElement, AtpType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
@@ -19,7 +19,7 @@ class TestAtpInstanceRef:
         Test that AtpInstanceRef cannot be instantiated directly (abstract class).
         """
         try:
-            obj = AtpInstanceRef()
+            _obj = AtpInstanceRef()
             assert False, "AtpInstanceRef should not be instantiable"
         except TypeError:
             pass  # Expected behavior
@@ -201,7 +201,7 @@ class TestAtpBlueprintable:
         try:
             parent = AUTOSAR.getInstance()
             ar_root = parent.createARPackage("AUTOSAR")
-            obj = AtpBlueprintable(ar_root, "TestAtpBlueprintable")
+            _obj = AtpBlueprintable(ar_root, "TestAtpBlueprintable")
             assert False, "AtpBlueprintable should not be instantiable"
         except TypeError:
             pass  # Expected behavior
@@ -220,7 +220,7 @@ class TestAtpStructureElement:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         try:
-            obj = AtpStructureElement(ar_root, "TestAtpStructureElement")
+            _obj = AtpStructureElement(ar_root, "TestAtpStructureElement")
             assert False, "AtpStructureElement should not be instantiable"
         except TypeError:
             pass  # Expected behavior after bug fix
@@ -262,7 +262,7 @@ class TestAtpType:
         try:
             parent = AUTOSAR.getInstance()
             ar_root = parent.createARPackage("AUTOSAR")
-            obj = AtpType(ar_root, "TestAtpType")
+            _obj = AtpType(ar_root, "TestAtpType")
             assert False, "AtpType should not be instantiable"
         except TypeError:
             pass  # Expected behavior

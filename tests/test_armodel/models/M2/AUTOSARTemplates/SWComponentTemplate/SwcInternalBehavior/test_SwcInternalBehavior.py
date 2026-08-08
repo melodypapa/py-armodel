@@ -3,15 +3,15 @@ This module contains comprehensive tests for the SwcInternalBehavior module in S
 Tests cover all classes and methods in the __init__.py file to achieve 100% test coverage.
 """
 
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
-    RunnableEntityArgument,
-    AsynchronousServerCallResultPoint,
-    AsynchronousServerCallPoint,
-    SynchronousServerCallPoint,
-    RunnableEntity,
-    SwcInternalBehavior,
-)
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
+    AsynchronousServerCallPoint,
+    AsynchronousServerCallResultPoint,
+    RunnableEntity,
+    RunnableEntityArgument,
+    SwcInternalBehavior,
+    SynchronousServerCallPoint,
+)
 
 
 class TestRunnableEntityArgument:
@@ -160,7 +160,7 @@ class TestRunnableEntity:
         # Test data access methods
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import VariableAccess
 
-        var_access = VariableAccess(ar_root, "TestDataAccess")
+        _var_access = VariableAccess(ar_root, "TestDataAccess")
         data_access = runnable._createVariableAccess("TestDataAccess", runnable.dataReadAccesses)
         assert data_access is not None
         assert data_access.short_name == "TestDataAccess"
@@ -240,8 +240,8 @@ class TestSwcInternalBehavior:
         assert behavior.getHandleTerminationAndRestart() is handle_term
 
         # Test exclusiveAreaPolicy methods (SwcExclusiveAreaPolicy)
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import SwcExclusiveAreaPolicy
         from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ApiPrincipleEnum
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import SwcExclusiveAreaPolicy
 
         policy = SwcExclusiveAreaPolicy()
         policy.setApiPrinciple(ApiPrincipleEnum().setValue(ApiPrincipleEnum.PER_EXECUTABLE))

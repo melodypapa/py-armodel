@@ -2,10 +2,10 @@
 This module contains tests for the ServiceProcessTask module in MSR.DataDictionary.
 """
 
-from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
-from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps, ValueList
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ArgumentDirectionEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ArgumentDirectionEnum
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps, ValueList
+from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 
 
 class TestSwServiceArg:

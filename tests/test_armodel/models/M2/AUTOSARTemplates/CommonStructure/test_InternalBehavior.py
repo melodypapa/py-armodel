@@ -2,15 +2,15 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
-    ReentrancyLevelEnum,
+    AbstractEvent,
     ApiPrincipleEnum,
     ExclusiveArea,
     ExclusiveAreaNestingOrder,
     ExecutableEntity,
     InternalBehavior,
-    AbstractEvent,
+    ReentrancyLevelEnum,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, TimeValue
 
 
 class TestReentrancyLevelEnum:
@@ -533,8 +533,8 @@ class TestInternalBehavior:
                 super().__init__(parent, short_name)
 
         internal_behavior = ConcreteInternalBehavior(ar_root, "TestInternalBehavior")
-        area1 = internal_behavior.createExclusiveArea("Area1")
-        area2 = internal_behavior.createExclusiveArea("Area2")
+        _area1 = internal_behavior.createExclusiveArea("Area1")
+        _area2 = internal_behavior.createExclusiveArea("Area2")
 
         areas = internal_behavior.getExclusiveAreas()
         assert len(areas) == 2

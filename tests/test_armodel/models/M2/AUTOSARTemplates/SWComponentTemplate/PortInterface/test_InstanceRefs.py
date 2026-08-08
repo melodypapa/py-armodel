@@ -3,8 +3,8 @@ This module contains comprehensive tests for the InstanceRefs module in SWCompon
 Tests cover all classes and methods in the InstanceRefs.py file to achieve 100% test coverage.
 """
 
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
 
 
 class TestApplicationCompositeElementInPortInterfaceInstanceRef:

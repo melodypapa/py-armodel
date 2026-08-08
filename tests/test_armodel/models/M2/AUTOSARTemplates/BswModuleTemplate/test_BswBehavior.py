@@ -6,51 +6,51 @@ Tests verify initialization, getter/setter methods, and special functionality fo
 
 import pytest
 
+from armodel import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
-    BswModuleCallPoint,
+    BswApiOptions,
     BswAsynchronousServerCallPoint,
-    BswDirectCallPoint,
-    BswSynchronousServerCallPoint,
     BswAsynchronousServerCallResultPoint,
-    BswVariableAccess,
-    BswDistinguishedPartition,
-    BswModuleEntity,
+    BswAsynchronousServerCallReturnsEvent,
+    BswBackgroundEvent,
     BswCalledEntity,
-    BswSchedulableEntity,
+    BswDataReceivedEvent,
+    BswDataReceptionPolicy,
+    BswDirectCallPoint,
+    BswDistinguishedPartition,
+    BswEvent,
+    BswExclusiveAreaPolicy,
+    BswExternalTriggerOccurredEvent,
+    BswInternalBehavior,
+    BswInternalTriggeringPoint,
+    BswInternalTriggerOccurredEvent,
     BswInterruptCategory,
     BswInterruptEntity,
-    BswEvent,
-    BswOperationInvokedEvent,
-    BswScheduleEvent,
-    BswModeSwitchEvent,
     BswModeManagerErrorEvent,
-    BswModeSwitchedAckEvent,
-    BswAsynchronousServerCallReturnsEvent,
-    BswTimingEvent,
-    BswDataReceivedEvent,
-    BswInternalTriggerOccurredEvent,
-    BswModeSwitchAckRequest,
     BswModeSenderPolicy,
-    BswBackgroundEvent,
+    BswModeSwitchAckRequest,
+    BswModeSwitchedAckEvent,
+    BswModeSwitchEvent,
+    BswModuleCallPoint,
+    BswModuleEntity,
+    BswOperationInvokedEvent,
     BswOsTaskExecutionEvent,
-    BswExternalTriggerOccurredEvent,
-    BswApiOptions,
-    BswExclusiveAreaPolicy,
-    BswDataReceptionPolicy,
     BswQueuedDataReceptionPolicy,
-    BswInternalTriggeringPoint,
-    BswInternalBehavior,
-    BswServiceDependencyIdent,
-    RoleBasedBswModuleEntryAssignment,
+    BswSchedulableEntity,
+    BswScheduleEvent,
     BswServiceDependency,
+    BswServiceDependencyIdent,
+    BswSynchronousServerCallPoint,
+    BswTimingEvent,
+    BswVariableAccess,
+    RoleBasedBswModuleEntryAssignment,
 )
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import ModeInBswModuleDescriptionInstanceRef
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARFloat, ARLiteral, ARNumerical, Identifier, PositiveInteger, TimeValue
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ApiPrincipleEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeActivationKind
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment, RoleBasedDataTypeAssignment, SymbolicNameProps, BswMgrNeeds
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import BswMgrNeeds, RoleBasedDataAssignment, RoleBasedDataTypeAssignment, SymbolicNameProps
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARNumerical, Identifier, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
-from armodel import AUTOSAR
 
 
 class TestBswModuleCallPoint:
@@ -62,7 +62,7 @@ class TestBswModuleCallPoint:
         ar_root = document.createARPackage("AUTOSAR")
 
         with pytest.raises(TypeError, match="BswModuleCallPoint is an abstract class"):
-            call_point = BswModuleCallPoint(ar_root, "test_call_point")
+            _call_point = BswModuleCallPoint(ar_root, "test_call_point")
 
     def test_concrete_subclass_can_be_instantiated(self):
         """Test that concrete subclasses of BswModuleCallPoint can be instantiated."""
@@ -1135,7 +1135,7 @@ class TestBswApiOptions:
 
         # Initially, enableTakeAddress should be None
         # (Based on the actual behavior, it might have a default value)
-        initial_value = policy.getEnableTakeAddress()
+        _initial_value = policy.getEnableTakeAddress()
 
         result = policy.setEnableTakeAddress(True)
 
@@ -1781,7 +1781,7 @@ class TestBswInternalBehavior:
         # Initially should be an empty list
         assert behavior.getModeReceiverPolicies() == []
 
-    def test_get_set_mode_sender_policies(self):
+    def test_set_mode_sender_policies_none_noop(self):
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         behavior = BswInternalBehavior(ar_root, "test_internal_behavior")

@@ -5,23 +5,21 @@ Tests for GenericStructure VariantHandling model classes.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARPackage,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import (
+    BindingTimeEnum,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARNumerical,
     RefType,
-    String,
-    Boolean,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
-    PredefinedVariant,
-    SwSystemconstValue,
-    SwSystemconstantValueSet,
-    VariationPoint,
+    ConditionByFormula,
     PostBuildVariantCondition,
     PostBuildVariantCriterion,
-    ConditionByFormula,
-)
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import (
-    BindingTimeEnum,
+    PredefinedVariant,
+    SwSystemconstantValueSet,
+    SwSystemconstValue,
+    VariationPoint,
 )
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 

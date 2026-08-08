@@ -1,12 +1,12 @@
 import argparse
 import logging
-import sys
 import os.path
+import sys
 
-from armodel.writer.arxml_writer import ARXMLWriter
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.parser.connector_xlsx_parser import ConnectorXlsReader
+from armodel.writer.arxml_writer import ARXMLWriter
 
 
 def main():

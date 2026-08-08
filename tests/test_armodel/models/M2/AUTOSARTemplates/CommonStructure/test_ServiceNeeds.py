@@ -7,54 +7,55 @@ import os
 import tempfile
 
 import pytest
+
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
-from armodel.parser.arxml_parser import ARXMLParser
-from armodel.writer.arxml_writer import ARXMLWriter
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
-    RoleBasedDataAssignment,
-    ServiceNeeds,
-    RamBlockStatusControlEnum,
-    NvBlockNeedsReliabilityEnum,
-    NvBlockNeedsWritingPriorityEnum,
-    NvBlockNeeds,
-    RoleBasedDataTypeAssignment,
-    ServiceDiagnosticRelevanceEnum,
-    ServiceDependency,
-    DiagnosticAudienceEnum,
-    DiagnosticServiceRequestCallbackTypeEnum,
-    DiagnosticCapabilityElement,
-    DiagnosticIoControlNeeds,
-    DiagnosticRoutineTypeEnum,
-    DiagnosticCommunicationManagerNeeds,
-    DiagnosticRoutineNeeds,
-    DiagnosticValueAccessEnum,
-    DiagnosticProcessingStyleEnum,
-    DiagnosticValueNeeds,
+    ComMgrUserNeeds,
+    CryptoServiceNeeds,
+    DevelopmentError,
     DiagEventDebounceAlgorithm,
     DiagEventDebounceCounterBased,
     DiagEventDebounceMonitorInternal,
     DiagEventDebounceTimeBased,
-    DtcKindEnum,
-    DiagnosticEventInfoNeeds,
+    DiagnosticAudienceEnum,
+    DiagnosticCapabilityElement,
     DiagnosticClearDtcNotificationEnum,
-    DtcFormatTypeEnum,
-    DtcStatusChangeNotificationNeeds,
+    DiagnosticCommunicationManagerNeeds,
+    DiagnosticEventInfoNeeds,
     DiagnosticEventNeeds,
-    CryptoServiceNeeds,
-    EcuStateMgrUserNeeds,
+    DiagnosticIoControlNeeds,
+    DiagnosticProcessingStyleEnum,
+    DiagnosticRoutineNeeds,
+    DiagnosticRoutineTypeEnum,
+    DiagnosticServiceRequestCallbackTypeEnum,
+    DiagnosticValueAccessEnum,
+    DiagnosticValueNeeds,
     DltUserNeeds,
-    ComMgrUserNeeds,
-    MaxCommModeEnum,
-    SupervisedEntityNeeds,
+    DtcFormatTypeEnum,
+    DtcKindEnum,
+    DtcStatusChangeNotificationNeeds,
+    EcuStateMgrUserNeeds,
     ErrorTracerNeeds,
-    TracedFailure,
-    DevelopmentError,
-    RuntimeError,
-    TransientFault,
+    MaxCommModeEnum,
+    NvBlockNeeds,
+    NvBlockNeedsReliabilityEnum,
+    NvBlockNeedsWritingPriorityEnum,
     PossibleErrorReaction,
+    RamBlockStatusControlEnum,
+    RoleBasedDataAssignment,
+    RoleBasedDataTypeAssignment,
+    RuntimeError,
+    ServiceDependency,
+    ServiceDiagnosticRelevanceEnum,
+    ServiceNeeds,
+    SupervisedEntityNeeds,
+    TracedFailure,
+    TransientFault,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType, TimeValue
+from armodel.parser.arxml_parser import ARXMLParser
+from armodel.writer.arxml_writer import ARXMLWriter
 
 
 class TestRoleBasedDataAssignment:
@@ -556,7 +557,7 @@ class TestServiceDependency:
     def test_get_set_symbolic_name_props(self):
         """Test getSymbolicNameProps and setSymbolicNameProps methods"""
         parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
+        _ar_root = parent.createARPackage("AUTOSAR")
 
         # Create a concrete subclass for testing since ServiceDependency is abstract
         class ConcreteServiceDependency(ServiceDependency):
@@ -1604,8 +1605,8 @@ class TestDiagnosticEventNeeds:
         bool_monitor.setValue(True)
         needs.setUsesMonitorData(bool_monitor)
 
-        import tempfile
         import os
+        import tempfile
 
         writer = ARXMLWriter()
         with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as f:
@@ -1741,8 +1742,8 @@ class TestErrorTracerNeeds:
         reaction_code.setValue("99")
         reaction.setReactionCode(reaction_code)
 
-        import tempfile
         import os
+        import tempfile
 
         writer = ARXMLWriter()
         with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as f:

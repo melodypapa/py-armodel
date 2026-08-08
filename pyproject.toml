@@ -96,6 +96,13 @@ extend-exclude = ["build", ".venv", "htmlcov", "dist"]
 select = ["E", "F", "W", "I"]
 ignore = ["E501"]
 
+[tool.ruff.lint.per-file-ignores]
+# The AUTOSAR model package relies on deliberate (non-alphabetical) import
+# ordering to avoid circular imports during package initialization. Sorting
+# these imports (I001) breaks that ordering and triggers ImportError at load
+# time, so isort is disabled for the model tree.
+"src/armodel/models/**" = ["I001"]
+
 [tool.ruff.lint.isort]
 known-first-party = ["armodel"]
 force-single-line = false

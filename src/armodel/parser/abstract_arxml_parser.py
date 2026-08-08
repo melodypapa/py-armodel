@@ -1,16 +1,26 @@
+import logging
+import re
+import xml.etree.ElementTree as ET
 from abc import ABC
 from typing import List
-from colorama import Fore
 
-import re
-import logging
-import xml.etree.ElementTree as ET
+from colorama import Fore
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, ARNumerical, Boolean, DateTime
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, PositiveInteger, TimeValue
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, Limit, RevisionLabelString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARFloat,
+    ARLiteral,
+    ARNumerical,
+    Boolean,
+    DateTime,
+    Integer,
+    Limit,
+    PositiveInteger,
+    RefType,
+    RevisionLabelString,
+    TimeValue,
+)
 
 
 class AbstractARXMLParser(ABC):

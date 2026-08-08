@@ -3,38 +3,39 @@ This module contains tests for the Components subdirectory in SWComponentTemplat
 """
 
 import pytest
+
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, RefType, TRefType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
+    ClientComSpec,
+    ModeSwitchReceiverComSpec,
+    ModeSwitchSenderComSpec,
+    NonqueuedReceiverComSpec,
+    NonqueuedSenderComSpec,
+    ParameterRequireComSpec,
+    PPortComSpec,
+    QueuedReceiverComSpec,
+    QueuedSenderComSpec,
+    RPortComSpec,
+    ServerComSpec,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
-    SymbolProps,
-    PPortPrototype,
-    RPortPrototype,
-    PRPortPrototype,
-    PortGroup,
-    SwComponentType,
-    AtomicSwComponentType,
-    EcuAbstractionSwComponentType,
     ApplicationSwComponentType,
+    AtomicSwComponentType,
     ComplexDeviceDriverSwComponentType,
+    EcuAbstractionSwComponentType,
     NvBlockSwComponentType,
+    PortGroup,
+    PPortPrototype,
+    PRPortPrototype,
+    RPortPrototype,
     SensorActuatorSwComponentType,
     ServiceProxySwComponentType,
     ServiceSwComponentType,
+    SwComponentType,
+    SymbolProps,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
-    PPortComSpec,
-    RPortComSpec,
-    NonqueuedSenderComSpec,
-    ServerComSpec,
-    QueuedSenderComSpec,
-    ModeSwitchSenderComSpec,
-    ClientComSpec,
-    NonqueuedReceiverComSpec,
-    QueuedReceiverComSpec,
-    ModeSwitchReceiverComSpec,
-    ParameterRequireComSpec,
-)
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType, ARBoolean, RefType
 
 
 class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
@@ -192,7 +193,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
 
         # Test adding com specs
         # Use concrete implementations instead of abstract class
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import QueuedSenderComSpec, ClientComSpec
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ClientComSpec, QueuedSenderComSpec
 
         provided_spec = QueuedSenderComSpec()
         pr_port.addProvidedComSpec(provided_spec)

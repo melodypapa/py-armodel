@@ -1,62 +1,63 @@
 """Tests for writer common structure and documentation handlers."""
 
 import xml.etree.cElementTree as ET
+
 import pytest
-from armodel.writer.arxml_writer import ARXMLWriter
+
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg, Sd, SdgCaption
-from armodel.models.M2.MSR.AsamHdo.AdminData import (
-    AdminData,
-    DocRevision,
-    Modification,
-)
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
-    Limit,
-    RefType,
-    ARLiteral,
-    RevisionLabelString,
-    DateTime,
-)
-from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
-    LLongName,
-    LPlainText,
-    LOverviewParagraph,
-)
-from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
-    MultilanguageLongName,
-    MultiLanguageOverviewParagraph,
-    MultiLanguagePlainText,
-    MultiLanguageParagraph,
-)
-from armodel.models.M2.MSR.Documentation.Annotation import Annotation
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import (
-    DocumentationBlock,
-)
-from armodel.models.M2.MSR.Documentation.BlockElements.Figure import (
-    MlFigure,
-    Graphic,
-    LGraphic,
-)
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import (  # noqa: E501
-    ARList,
-)
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import (  # noqa: E501
-    Collection,
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import (  # noqa: E501
+    PortPrototypeBlueprint,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import (  # noqa: E501
     Keyword,
     KeywordSet,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import (  # noqa: E501
-    PortPrototypeBlueprint,
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import (  # noqa: E501
+    Collection,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (  # noqa: E501
+    Describable,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
+    ARLiteral,
+    DateTime,
+    RefType,
+    RevisionLabelString,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
     ModeDeclarationMapping,
     ModeDeclarationMappingSet,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (  # noqa: E501
-    Describable,
+from armodel.models.M2.MSR.AsamHdo.AdminData import (
+    AdminData,
+    DocRevision,
+    Modification,
 )
+from armodel.models.M2.MSR.AsamHdo.SpecialData import Sd, Sdg, SdgCaption
+from armodel.models.M2.MSR.Documentation.Annotation import Annotation
+from armodel.models.M2.MSR.Documentation.BlockElements.Figure import (
+    Graphic,
+    LGraphic,
+    MlFigure,
+)
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import (
+    DocumentationBlock,
+)
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import (  # noqa: E501
+    ARList,
+)
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
+    LLongName,
+    LOverviewParagraph,
+    LPlainText,
+)
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
+    MultilanguageLongName,
+    MultiLanguageOverviewParagraph,
+    MultiLanguageParagraph,
+    MultiLanguagePlainText,
+)
+from armodel.writer.arxml_writer import ARXMLWriter
 
 
 @pytest.fixture(autouse=True)

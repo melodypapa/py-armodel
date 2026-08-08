@@ -3,6 +3,7 @@ This module contains tests for the CalibrationParameter module in MSR.DataDictio
 """
 
 import pytest
+
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import (
     SwCalprmAxis,
     SwCalprmAxisSet,
