@@ -1,4 +1,3 @@
-
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import ImplementationElementInParameterInstanceRef, McDataAccessDetails, McDataInstance, RoleBasedMcDataAssignment
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport import RptSwPrototypingAccess

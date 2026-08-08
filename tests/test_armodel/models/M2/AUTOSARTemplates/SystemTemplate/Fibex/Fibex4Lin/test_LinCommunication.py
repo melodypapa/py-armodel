@@ -215,7 +215,7 @@ class Test_Fibex4LinCommunication:
 
         # Test adding None to table entries to cover 'if value is not None' condition
         result = table.addTableEntry(None)
-        assert table.getTableEntries() == [entry]          # Should still be [entry] since None was not added
+        assert table.getTableEntries() == [entry]  # Should still be [entry] since None was not added
         assert result == table  # Test method chaining
 
 
