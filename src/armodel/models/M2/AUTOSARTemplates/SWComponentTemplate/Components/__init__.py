@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import List
+from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype, AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import SwComponentType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
@@ -332,42 +332,84 @@ class PortGroup(AtpStructureElement):
 
 
 class AtomicSwComponentType(SwComponentType, ABC):
+    """
+    An atomic software component is atomic in the sense that it cannot be
+    further decomposed and distributed across multiple ECUs.
+    """
+
     # AtomicSwComponentType method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-    # [ ] getInternalBehavior          [x] impl  [ ] docstring  [ ] test
-    # [ ] createSwcInternalBehavior    [x] impl  [ ] docstring  [ ] test
-    # [ ] getSymbolProps               [x] impl  [ ] docstring  [ ] test
-    # [ ] setSymbolProps               [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.8, p.70
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getInternalBehavior          [x] impl  [x] docstring  [x] test
+    # [x] createSwcInternalBehavior    [x] impl  [x] docstring  [x] test
+    # [x] getSymbolProps               [x] impl  [x] docstring  [x] test
+    # [x] createSymbolProps            [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.internalBehavior: SwcInternalBehavior = None
-        self.symbolProps: SymbolProps = None
+        # The SwcInternalBehaviors owned by an AtomicSwComponentType can be
+        # located in a different physical file.
+        self.internalBehavior: Optional[SwcInternalBehavior] = None
 
-    def getInternalBehavior(self):
+        # This represents the SymbolProps for the AtomicSwComponentType.
+        self.symbolProps: Optional[SymbolProps] = None
+
+    def getInternalBehavior(self) -> Optional[SwcInternalBehavior]:
+        """
+        Gets the SwcInternalBehavior of this atomic software component, which
+        describes the relevant aspects of the software-component with respect
+        to the RTE.
+
+        Returns:
+            The aggregated SwcInternalBehavior, or None if not set
+        """
         return self.internalBehavior
 
-    def createSwcInternalBehavior(self, short_name) -> SwcInternalBehavior:
+    def createSwcInternalBehavior(self, short_name: str) -> SwcInternalBehavior:
+        """
+        Creates and adds a SwcInternalBehavior with the given short name, or
+        returns the existing one if it already exists.
+
+        Args:
+            short_name: The short name for the new SwcInternalBehavior
+
+        Returns:
+            The created (or existing) SwcInternalBehavior
+        """
         if not self.IsElementExists(short_name, SwcInternalBehavior):
             behavior = SwcInternalBehavior(self, short_name)
             self.addElement(behavior)
             self.internalBehavior = behavior
         return self.getElement(short_name, SwcInternalBehavior)
 
-    def getSymbolProps(self):
+    def getSymbolProps(self) -> Optional[SymbolProps]:
+        """
+        Gets the SymbolProps for the AtomicSwComponentType, which represent the
+        symbolic name used to mitigate name clashes in RTE source code.
+
+        Returns:
+            The aggregated SymbolProps, or None if not set
+        """
         return self.symbolProps
 
-    def setSymbolProps(self, value):
-        if value is not None:
-            self.symbolProps = value
-        return self
+    def createSymbolProps(self, short_name: str) -> SymbolProps:
+        """
+        Creates and adds the SymbolProps for the AtomicSwComponentType with the
+        given short name, or returns the existing one if it already exists.
 
-    """
-    @property
-    def internal_behavior(self) -> SwcInternalBehavior:
-        return next(filter(lambda e: isinstance(e, SwcInternalBehavior), self.elements))
-    """
+        Args:
+            short_name: The short name for the new SymbolProps
+
+        Returns:
+            The created (or existing) SymbolProps
+        """
+        if not self.IsElementExists(short_name, SymbolProps):
+            symbol_props = SymbolProps(self, short_name)
+            self.addElement(symbol_props)
+            self.symbolProps = symbol_props
+        return self.getElement(short_name, SymbolProps)
 
 
 class EcuAbstractionSwComponentType(AtomicSwComponentType):

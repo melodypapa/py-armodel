@@ -2501,6 +2501,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeAtomicSwComponentType(self, element: ET.Element, sw_component: AtomicSwComponentType):
         self.writeSwComponentType(element, sw_component)
         self.writeAtomicSwComponentTypeInternalBehaviors(element, sw_component.getInternalBehavior())
+        self.writeSymbolProps(element, sw_component.getSymbolProps())
 
     def writeComplexDeviceDriverSwComponentType(self, element: ET.Element, sw_component: ComplexDeviceDriverSwComponentType):
         self.logger.debug("writeComplexDeviceDriverSwComponentType %s" % sw_component.getShortName())

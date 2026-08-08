@@ -795,13 +795,14 @@ removed upstream between 4.4.0 and R23-11, so it is treated like an
 | — *(missing)* | `—` | `typeBlueprint` | `AutosarDataTypeRefConditional` | — | missing |
 
 ## `AtomicSwComponentType`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 304
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 70
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Components`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `internalBehavior` | `—` | `internalBehavior` | `SwcInternalBehavior` | — | type (spec many vs py single) |
+No deviations — Table 3.8 attributes (`internalBehavior`, `symbolProps`) are implemented
+with parser/writer coverage. The previously recorded `internalBehavior`
+`type (spec many vs py single)` row is removed: the PDF table states `0..1` (the XSD `*`
+is only the atpVariation flattening), so the single-value model is PDF-correct.
 
 ## `AtpBlueprint`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 305

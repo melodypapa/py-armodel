@@ -383,6 +383,19 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       `type (spec many vs py single)` row means the field-to-spec
       multiplicity cross-check has not been performed, not that the mismatch
       was reviewed and accepted.
+      **A `type (spec many vs py single)` row whose "many" came from the XSD,
+      not the PDF, is a stale row to remove, not a real deviation.** The PDF
+      table is the source of truth for multiplicity (Rule 1.2), and a PDF Mult
+      of `0..1` stays a single-value model even when the XSD element carries
+      the attribute-level atpVariation flattening note — "The upper
+      multiplicity of this role has been increased to `*` due to resolving an
+      atpVariation stereotype" (e.g. `AtomicSwComponentType.internalBehavior`:
+      PDF Table 3.8 Mult `0..1`, XSD `INTERNAL-BEHAVIORS` wrapper with the
+      note). The `*` is an XSD-only resolution of the stereotype, so the
+      single-field model is PDF-correct and the row is dropped — the XSD may
+      still serialize it through a wrapper element that holds the single item.
+      Only when the PDF Mult column itself reads `*` does the list shape
+      apply.
 - [ ] A **bounded ordered** multiplicity such as `0..2` (upper bound > 1 but
       not `*`) still maps to `List[T]` (default `[]`) with the usual
       `getXxxs`/`addXxx` accessors — the upper bound is not enforced in the
@@ -535,6 +548,16 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       "is the child `Identifiable`" — a child whose `Base` is
       `ARObject, Referrable` (but not `Identifiable`) still carries a short
       name and still uses a `createXXX(short_name)` factory.
+      **A working `setXxx(value)` setter is still a violation when the child
+      is `Referrable`.** An existing `setXxx`/`getXxx` pair for a `0..1`
+      aggregated child whose `Base` lists `Referrable` is misaligned even when
+      it is implemented, guarded, and tested (e.g. `AtomicSwComponentType`
+      held `setSymbolProps`/`getSymbolProps` for `symbolProps`, whose child
+      `SymbolProps` Base is `ARObject, ImplementationProps, Referrable`).
+      Migrate the accessor pair to `createXxx(short_name)` +
+      `getXxx()`, update the tests that call the old setter, and wire the
+      parser/writer through the factory — passing tests for the old shape are
+      not evidence the shape is right.
 - [ ] The child's **multiplicity** selects the exact accessor shape for
       non-Identifiable children (`Base` is only `ARObject`):
       1. multiplicity `0..1` → `setXxx(value)` + `getXxx()` (the plain setter
@@ -599,6 +622,20 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
       read/write at all.) Verify coverage separately by grepping the parser and
       writer for the XML element tag of every field — a field whose accessor
       methods are present and tested is *not* evidence that any code serializes it.
+      **A shared child reader/writer helper's existence is not evidence that
+      every aggregator of that child uses it.** When the child type has a
+      dedicated `readXxx`/`writeXxx` pair already in the parser/writer (written
+      for a sibling aggregator, e.g. `readSymbolProps`/`writeSymbolProps` used
+      by `ImplementationDataType`), a *different* aggregator of the same child
+      can still silently drop it — its own `readXxx`/`writeXxx` must be grepped
+      for a call to the child helper (e.g. `AtomicSwComponentType.symbolProps`
+      was dropped because `readAtomicSwComponentType`/`writeAtomicSwComponentType`
+      never called the existing `readSymbolProps`/`writeSymbolProps`). For an
+      aggregated child the wiring is one `createXxx(short_name)` call per
+      occurrence in the reader plus one `writeXxx` call per field in the
+      writer — grep each aggregator's reader/writer, not just the parser/writer
+      for the element tag, and wire the child helper in when the call is
+      missing.
 - [ ] This extends to **polymorphic dispatch**: a class that is a concrete
       subtype of an abstract base (event, entity, policy, etc.) may have a
       dedicated `readXxx`/`writeXxx` method yet still be silently dropped if
@@ -1720,6 +1757,12 @@ Check:
       a property therefore produces **three** rows: `getXxx`, the property
       name itself, and `setXxx` (e.g. `MemorySection` lists `getAlignment`,
       `alignment`, `setAlignment`).
+      **A commented-out member block is dead code, not a "future" method.** A
+      commented-out `@property`/method (e.g. a disabled `internal_behavior`
+      property block in `AtomicSwComponentType`) is invisible to the AST-based
+      checklist check and to Rule 9's spacing check — it is neither a checklist
+      row nor a test target, so nothing flags it. Remove it during alignment;
+      do not leave it as a placeholder for future work.
 - [ ] Every row is fully `[x]` — no stale `[ ]` entries. A row can look
       incomplete even when the method/docstring/test all already exist —
       always double-check by reading the class, not just the checklist text.
@@ -1762,7 +1805,15 @@ Check:
   a reliable signal — it names the same document, e.g. the other
   `ServiceNeeds` subclasses all cite the BSW template), and keep that choice
   stable across the family; do **not** cite different PDFs for sibling classes
-  that share a package and table structure. For the *enum attribute type*
+  that share a package and table structure.
+      **The deviation tracker's `**PDF:**` header is not authoritative for
+      this choice.** It can name a *different* rendering of the same class
+      (e.g. `AtomicSwComponentType` was tracked under the BSW template,
+      Table D.10, while its sibling family in `Components/__init__.py` cites
+      the SWC template, Table 3.8). Choose by the siblings' actual `# Spec:`
+      lines, verify the class's own header page in the chosen PDF, and correct
+      a stale tracker PDF choice in the same pass — the tracker's *page* is
+      already known to go stale (see below); its *PDF* can too. For the *enum attribute type*
   of such a class, the citation is independent: cite the PDF that renders the
   enum's own `Enumeration` table, which can be a different document than the
   class's (e.g. `MaxCommModeEnum` Table 13.6 lives only in the

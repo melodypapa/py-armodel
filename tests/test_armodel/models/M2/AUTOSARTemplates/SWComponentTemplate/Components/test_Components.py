@@ -5,7 +5,7 @@ This module contains tests for the Components subdirectory in SWComponentTemplat
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, RefType, TRefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, RefType, TRefType, CIdentifier
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
     ClientComSpec,
     ModeSwitchReceiverComSpec,
@@ -496,21 +496,67 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         ar_root = document.createARPackage("AUTOSAR")
         swc = AtomicSwComponentType(ar_root, "TestAtomicSwc")
 
-        # Test internal behavior
+        # Test internal behavior creation returns the existing element on re-create
+        behavior = swc.createSwcInternalBehavior("TestBehavior")
+        assert swc.getInternalBehavior() == behavior
+        assert swc.createSwcInternalBehavior("TestBehavior") == behavior
+        assert behavior.short_name == "TestBehavior"
+        assert behavior in swc.elements
+
+        # Test symbol props creation returns the existing element on re-create
+        symbol_props = swc.createSymbolProps("TestSymbolProps")
+        assert swc.getSymbolProps() == symbol_props
+        assert swc.createSymbolProps("TestSymbolProps") == symbol_props
+        assert symbol_props.short_name == "TestSymbolProps"
+        assert symbol_props in swc.elements
+
+    def test_AtomicSwComponentType_base_properties(self):
+        """Test AtomicSwComponentType abstract base accessors through a concrete subclass."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        swc = ApplicationSwComponentType(ar_root, "TestAtomicSwc")
+
+        assert swc.getInternalBehavior() is None
+        assert swc.getSymbolProps() is None
+
         behavior = swc.createSwcInternalBehavior("TestBehavior")
         assert swc.getInternalBehavior() == behavior
 
-        # Test symbol props
-        symbol_props = SymbolProps(ar_root, "TestSymbolProps")
-        swc.setSymbolProps(symbol_props)
+        symbol_props = swc.createSymbolProps("TestSymbolProps")
         assert swc.getSymbolProps() == symbol_props
 
-        # Test setSymbolProps with None
-        # Note: Due to MRO with SwcInternalBehavior also having symbolProps,
-        # getSymbolProps() may return SwcInternalBehavior's symbolProps
-        # So we skip this assertion for now
-        swc.setSymbolProps(None)
-        # assert swc.getSymbolProps() is None
+    def test_AtomicSwComponentType_round_trip(self):
+        """Test AtomicSwComponentType symbolProps and internalBehavior round trip."""
+        import os
+        import tempfile
+
+        from armodel.parser.arxml_parser import ARXMLParser
+        from armodel.writer.arxml_writer import ARXMLWriter
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        swc = ar_root.createApplicationSwComponentType("TestAtomicSwc")
+
+        swc.createSwcInternalBehavior("TestBehavior")
+        symbol_props = swc.createSymbolProps("TestSymbolProps")
+        symbol_props.setSymbol(CIdentifier().setValue("TestSymbol"))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            swc_2 = document_2.getARPackages()[0].getAtomicSwComponentTypes()[0]
+
+            assert swc_2.getInternalBehavior().getShortName() == "TestBehavior"
+            assert swc_2.getSymbolProps().getShortName() == "TestSymbolProps"
+            assert swc_2.getSymbolProps().getSymbol().getValue() == "TestSymbol"
+        finally:
+            os.remove(file_path)
 
     def test_EcuAbstractionSwComponentType_methods(self):
         """Test EcuAbstractionSwComponentType methods."""
