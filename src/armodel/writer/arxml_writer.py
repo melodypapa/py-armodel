@@ -3904,6 +3904,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "IMPLEMENTATION-DATA-TYPE")
         self.writeAutosarDataType(child_element, data_type)
         self.setChildElementOptionalLiteral(child_element, "DYNAMIC-ARRAY-SIZE-PROFILE", data_type.getDynamicArraySizeProfile())
+        self.setChildElementOptionalBooleanValue(child_element, "IS-STRUCT-WITH-OPTIONAL-ELEMENT", data_type.getIsStructWithOptionalElement())
         self.writeImplementationDataTypeSymbolProps(child_element, data_type)
         self.writeImplementationDataTypeSubElements(child_element, data_type)
         self.setChildElementOptionalLiteral(child_element, "TYPE-EMITTER", data_type.getTypeEmitter())

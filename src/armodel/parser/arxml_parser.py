@@ -3006,6 +3006,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read ImplementationDataType <%s>" % data_type.getShortName())
         self.readAutosarDataType(element, data_type)
         data_type.setDynamicArraySizeProfile(self.getChildElementOptionalLiteral(element, "DYNAMIC-ARRAY-SIZE-PROFILE"))
+        data_type.setIsStructWithOptionalElement(self.getChildElementOptionalBooleanValue(element, "IS-STRUCT-WITH-OPTIONAL-ELEMENT"))
         self.readImplementationDataTypeSubElements(element, data_type)
         self.readImplementationDataTypeSymbolProps(element, data_type)
         data_type.setTypeEmitter(self.getChildElementOptionalLiteral(element, "TYPE-EMITTER"))
