@@ -6,10 +6,12 @@ Self-contained rule reference for aligning any AUTOSAR model class in py-armodel
 - source: `src/armodel/models/M2/AUTOSARTemplates/<package>/<ClassName>.py`
   (or `<package>/<ClassName>/__init__.py`)
 - mirrored test: `tests/test_armodel/models/M2/AUTOSARTemplates/<package>/test_<ClassName>.py`
-- spec table: the class's attribute table in the AUTOSAR PDF
-  (PDF `autosar/pdf/AUTOSAR_CP_TPS_*.pdf`, markdown `autosar/markdown/AUTOSAR_CP_TPS_*.md`,
-  XSD `autosar-pdf/examples/xsd/`). The **PDF name, Table ID, and page number come from
-  the PDF file directly** — the markdown carries no page numbers.
+- spec table: the class's attribute table (markdown
+  `autosar/markdown/AUTOSAR_*_TPS_*.md` (covers `CP_TPS` + `FO_TPS`), derived from PDF
+  `autosar/pdf/AUTOSAR_*_TPS_*.pdf`, XSD `autosar-pdf/examples/xsd/`). **All text** —
+  `Note`, `Attribute`, `Base`, the `Table N.M` id, and the table name (from the markdown
+  filename) — **is read from the markdown**; the **PDF is opened only for the page
+  number** (`p.NN`), because the markdown carries no page numbers.
 
 **IDs:** rules carry contiguous 4-digit IDs (`Rule 0001` …). Each notes its former
 number for traceability. The 9-step workflow in `SKILL.md` references these IDs.
@@ -265,7 +267,7 @@ the checklist title cites the spec table, then the version marker:
 
 ```
 # ClassName method parity checklist:
-# Spec: AUTOSAR_CP_TPS_<Template>.pdf, Table X.Y, p.NN
+# Spec: AUTOSAR_<Platform>_TPS_<Template>.pdf, Table X.Y, p.NN
 # Spec verified: R<YY>-<MM>
 # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
 # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
@@ -288,9 +290,12 @@ the checklist title cites the spec table, then the version marker:
   applicable); a `[ ]` whose obligation is actually done is stale — cross it. A row is
   `[x]` only when all obligations are complete and verified.
 - Rows in **source order** matching the methods (Rule 0011).
-- The `# Spec:` line names the correct PDF/table/page — the **PDF name, Table ID, and
-  page number come from the PDF file directly** (`autosar/pdf/AUTOSAR_CP_TPS_*.pdf`); the
-  markdown (`autosar/markdown/...`) carries no page numbers. Cite the header-row page
+- The `# Spec:` line names the correct PDF/table/page — the table name and the `Table
+  N.M` id are read from the **markdown** (`autosar/markdown/AUTOSAR_*_TPS_*.md`, `CP_TPS` or
+  `FO_TPS`); only the **`p.NN` page number** is read from the **PDF**
+  (`autosar/pdf/AUTOSAR_*_TPS_*.pdf`) — the markdown carries no page numbers. In
+  `AUTOSAR_<Platform>_TPS_<Template>.pdf`, `<Platform>` is `CP` (Classic) or `FO`
+  (Foundation), from the spec markdown filename. Cite the header-row page
   (where `Class <Name>` first appears), in format `Table X.Y, p.NN`. A class rendered in >1 PDF
   cites the PDF its sibling family uses. For the enum attribute type, cite the PDF that
   renders the enum's own `Enumeration` table (independent of the class's PDF).
@@ -547,8 +552,9 @@ string values (`MEMBER = "member_value"`).
   (`DependencyUsageEnum.BUILD = "build"`); the **XSD** serializes enum literals in
   **UPPERCASE**. Keep the member matching the spec; write UPPERCASE only in test XML
   fixtures/XSD-valid fragments.
-- Class docstring: the spec `Note` **verbatim** (do not paraphrase). Each member has an
-  inline comment citing the literal's description + Tags (`atp.EnumerationLiteralIndex=N`).
+- Class docstring: the spec `Note` **verbatim from the markdown** (do not paraphrase). Each
+  member has an inline comment citing the literal's description + Tags
+  (`atp.EnumerationLiteralIndex=N`).
 - Tests reference members like `MyEnum.MEMBER_NAME` for reading; to **set** an enum
   attribute construct `MyEnum().setValue(MyEnum.MEMBER_NAME)`; assert round-tripped values
   with `.getValue() == "memberName"` (the parser returns a generic `ARLiteral`). An
@@ -559,10 +565,13 @@ string values (`MEMBER = "member_value"`).
 
 ## Rule 0012 — Docstring & Comment Sync *(formerly Rule 13)*
 
-Class docstrings, inline `__init__` comments, and getter/setter docstrings copy the PDF
-`Note` **verbatim** — never summarize, paraphrase, or rephrase the wording — and stay
-synced across AUTOSAR upgrades. This is one ordered procedure per class (Rule 0006's
-mechanical check only confirms the marker *string* exists, not that content is correct).
+Class docstrings, inline `__init__` comments, and getter/setter docstrings copy the spec
+`Note` **verbatim from the markdown table** (`autosar/markdown/*.md`) — never summarize,
+paraphrase, or rephrase the wording — and stay synced across AUTOSAR upgrades. The PDF
+(`autosar/pdf/*.pdf`) is opened **only to read the page number** for the `p.NN` citation;
+all `Note`/`Attribute`/`Base` text (and the `Table N.M` id) comes from the markdown. This
+is one ordered procedure per class (Rule 0006's mechanical check only confirms the marker
+*string* exists, not that content is correct).
 
 ### 0012.1 Versioning
 
@@ -581,28 +590,33 @@ mechanical check only confirms the marker *string* exists, not that content is c
 
 0. **Exception gate:** XSD-only class (no own table)? Stop — no `# Spec:`, no marker,
    `[ ]` rows; record in the tracker. Otherwise continue.
-1. Locate the spec table + page (`grep "Table N.M: <ClassName>" autosar/markdown/*.md`;
-   confirm the page in the PDF via `pypdf`, matching the printed footer).
+1. Locate the spec table in the **markdown** (`grep "Table N.M: <ClassName>
+   autosar/markdown/*.md`) — its `Note`/`Attribute`/`Base` text and the `Table N.M` id are
+   the extraction source; then read **only the page number** from the **PDF** via `pypdf`
+   (matching the printed footer) for the `p.NN` citation.
 2. Add the version marker.
-3. **Class docstring** = the PDF `Note` **verbatim** (no invented recap prose, no `Base`
-   chain summary); append class-level `constr_*` rows (including ones targeting inherited
-   attributes). For a terse citation Note, append the XSD complexType doc as an
-   elaboration (also verbatim).
+3. **Class docstring** = the spec `Note` **copied verbatim from the markdown table** (no
+   invented recap prose, no `Base` chain summary); append class-level `constr_*` rows
+   (including ones targeting inherited attributes). For a terse citation Note, append the
+   XSD complexType doc as an elaboration (also verbatim).
 4. **Per-attribute loop** (all five, per attribute, before the next):
    1. Referenced type must exist and be aligned before typing (Rule 0010/0011); its
       `# Spec:` cites its **own** table, independent of the owning class.
-   2. Inline `__init__` comment: the attribute's `Note` semantic sentence verbatim
-      (drop `Stereotypes:`/`Tags:` tail); append any `constr_*` wording + id.
-   3. Getter docstring: the PDF `Note` **verbatim** + constraint — never summarize or
-      rephrase into "Gets the value of X"; for an `iref`, name the concrete
-      `<name>InstanceRef` class.
-   4. Setter docstring: the PDF `Note` **verbatim** (same wording as the getter) +
-      constraint; the chainable-return and (if guarded) None-no-op lines are **added
-      code-behavior notes, not Note content** — append them without altering the Note
-      text: *"A None value is a no-op and does not overwrite an existing `<attr>`."*
+   2. Inline `__init__` comment: the attribute's `Note` (markdown) semantic sentence,
+      copied verbatim (drop `Stereotypes:`/`Tags:` tail); append any `constr_*` wording
+      + id.
+   3. Getter docstring: the spec `Note` **copied verbatim from the markdown** + constraint
+      — never summarize or rephrase into "Gets the value of X"; for an `iref`, name the
+      concrete `<name>InstanceRef` class.
+   4. Setter docstring: the spec `Note` **copied verbatim from the markdown** (same
+      wording as the getter) + constraint; the chainable-return and (if guarded)
+      None-no-op lines are **added code-behavior notes, not Note content** — append them
+      without altering the Note text: *"A None value is a no-op and does not overwrite an
+      existing `<attr>`."*
    5. Cross-check comment/getter/setter for consistency.
-5. Verify by **diff**, not status — no mechanical check proves wording matches the PDF;
-   re-open the Note/XSD doc and diff against the comment and both docstrings.
+5. Verify by **diff**, not status — no mechanical check proves wording matches the spec;
+   re-open the markdown `Note` (and the XSD doc) and diff against the comment and both
+   docstrings. Re-open the PDF only if the page number is in doubt.
 
 ### 0012.3 Drift on upgrade
 
@@ -675,7 +689,7 @@ tracker. Each class entry has a header and a deviation table:
 
 ```
 ## `ClassName`
-- **PDF:** `AUTOSAR_CP_TPS_<Template>.pdf`  | **page:** NN
+- **PDF:** `AUTOSAR_<Platform>_TPS_<Template>.pdf`  | **page:** NN
 - **Package:** `M2::AUTOSARTemplates::…`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/…/<ClassName>.py`
 

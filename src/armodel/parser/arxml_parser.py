@@ -189,6 +189,21 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import 
     SwSystemconstantValueSet,
     SwSystemconstValue,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes import (
+    ClientServerAnnotation,
+    DataLimitKindEnum,
+    DelegatedPortAnnotation,
+    FilterDebouncingEnum,
+    IoHwAbstractionServerAnnotation,
+    ModePortAnnotation,
+    NvDataPortAnnotation,
+    ParameterPortAnnotation,
+    ProcessingKindEnum,
+    PulseTestEnum,
+    SenderReceiverAnnotation,
+    SignalFanEnum,
+    TriggerPortAnnotation,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
     ClientComSpec,
     CompositeNetworkRepresentation,
@@ -219,6 +234,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
     ComplexDeviceDriverSwComponentType,
     EcuAbstractionSwComponentType,
     PortGroup,
+    PortPrototype,
     PPortPrototype,
     PRPortPrototype,
     RPortPrototype,
@@ -2258,9 +2274,11 @@ class ARXMLParser(AbstractARXMLParser):
             self.readMcDataInstance(sub_element, instance.createSubElement(self.getShortName(sub_element)))
 
     def readRoleBasedMcDataAssignment(self, element: ET.Element, assignment: RoleBasedMcDataAssignment):
-        assignment.setExecutionContextRef(self.getChildElementOptionalRefType(element, "EXECUTION-CONTEXT-REF"))
-        assignment.setMcDataInstanceRef(self.getChildElementOptionalRefType(element, "MC-DATA-INSTANCE-REF"))
-        assignment.setRole(self.getChildElementOptionalLiteral(element, "ROLE"))
+        for ref in self.getChildElementRefTypeList(element, "EXECUTION-CONTEXT-REFS/EXECUTION-CONTEXT-REF"):
+            assignment.addExecutionContextRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "MC-DATA-INSTANCE-REFS/MC-DATA-INSTANCE-REF"):
+            assignment.addMcDataInstanceRef(ref)
+        assignment.setRole(self.getChildElementOptionalIdentifier(element, "ROLE"))
 
     def readRptSwPrototypingAccess(self, element: ET.Element, access: RptSwPrototypingAccess):
         access.setRptHookAccess(self.getChildElementOptionalLiteral(element, "RPT-HOOK-ACCESS"))
@@ -3238,6 +3256,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, prototype)
         self.readAbstractRequiredPortPrototype(element, prototype)
         prototype.setProvidedInterfaceTRef(self.getChildElementOptionalRefType(element, "PROVIDED-INTERFACE-TREF"))
+        self.readPortPrototype(element, prototype)
 
     def readAbstractProvidedPortPrototype(self, element: ET.Element, prototype: AbstractProvidedPortPrototype):
         self.readRequiredComSpec(element, prototype)
@@ -3247,6 +3266,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, prototype)
         self.readAbstractProvidedPortPrototype(element, prototype)
         prototype.setRequiredInterfaceTRef(self.getChildElementOptionalRefType(element, "REQUIRED-INTERFACE-TREF"))
+        self.readPortPrototype(element, prototype)
 
     def readPRPortPrototype(self, element: ET.Element, prototype: PRPortPrototype):
         # self.logger.debug("Read PRPortPrototype %s" % prototype.getShortName())
@@ -3254,6 +3274,57 @@ class ARXMLParser(AbstractARXMLParser):
         self.readAbstractRequiredPortPrototype(element, prototype)
         self.readAbstractProvidedPortPrototype(element, prototype)
         prototype.setProvidedRequiredInterface(self.getChildElementOptionalRefType(element, "PROVIDED-REQUIRED-INTERFACE-TREF"))
+        self.readPortPrototype(element, prototype)
+
+    def readPortPrototype(self, element: ET.Element, prototype: PortPrototype):
+        for child in self.findall(element, "CLIENT-SERVER-ANNOTATIONS/CLIENT-SERVER-ANNOTATION"):
+            annotation = ClientServerAnnotation()
+            annotation.setOperationRef(self.getChildElementOptionalRefType(child, "OPERATION-REF"))
+            prototype.addClientServerAnnotation(annotation)
+        child = self.find(element, "DELEGATED-PORT-ANNOTATION")
+        if child is not None:
+            annotation = DelegatedPortAnnotation()
+            signal_fan = self.getChildElementOptionalLiteral(child, "SIGNAL-FAN")
+            if signal_fan is not None:
+                annotation.setSignalFan(SignalFanEnum().setValue(signal_fan.getValue()))
+            prototype.setDelegatedPortAnnotation(annotation)
+        for child in self.findall(element, "IO-HW-ABSTRACTION-SERVER-ANNOTATIONS/IO-HW-ABSTRACTION-SERVER-ANNOTATION"):
+            annotation = IoHwAbstractionServerAnnotation()
+            filtering_debouncing = self.getChildElementOptionalLiteral(child, "FILTERING-DEBOUNCING")
+            if filtering_debouncing is not None:
+                annotation.setFilteringDebouncing(FilterDebouncingEnum().setValue(filtering_debouncing.getValue()))
+            pulse_test = self.getChildElementOptionalLiteral(child, "PULSE-TEST")
+            if pulse_test is not None:
+                annotation.setPulseTest(PulseTestEnum().setValue(pulse_test.getValue()))
+            annotation.setTriggerRef(self.getChildElementOptionalRefType(child, "TRIGGER-REF"))
+            prototype.addIoHwAbstractionServerAnnotation(annotation)
+        for child in self.findall(element, "MODE-PORT-ANNOTATIONS/MODE-PORT-ANNOTATION"):
+            annotation = ModePortAnnotation()
+            annotation.setModeGroupRef(self.getChildElementOptionalRefType(child, "MODE-GROUP-REF"))
+            prototype.addModePortAnnotation(annotation)
+        for child in self.findall(element, "NV-DATA-PORT-ANNOTATIONS/NV-DATA-PORT-ANNOTATION"):
+            annotation = NvDataPortAnnotation()
+            annotation.setVariableRef(self.getChildElementOptionalRefType(child, "VARIABLE-REF"))
+            prototype.addNvDataPortAnnotation(annotation)
+        for child in self.findall(element, "PARAMETER-PORT-ANNOTATIONS/PARAMETER-PORT-ANNOTATION"):
+            annotation = ParameterPortAnnotation()
+            annotation.setParameterRef(self.getChildElementOptionalRefType(child, "PARAMETER-REF"))
+            prototype.addParameterPortAnnotation(annotation)
+        for child in self.findall(element, "SENDER-RECEIVER-ANNOTATIONS/SENDER-RECEIVER-ANNOTATION"):
+            annotation = SenderReceiverAnnotation()
+            annotation.setComputed(self.getChildElementOptionalBooleanValue(child, "COMPUTED"))
+            annotation.setDataElementRef(self.getChildElementOptionalRefType(child, "DATA-ELEMENT-REF"))
+            limit_kind = self.getChildElementOptionalLiteral(child, "LIMIT-KIND")
+            if limit_kind is not None:
+                annotation.setLimitKind(DataLimitKindEnum().setValue(limit_kind.getValue()))
+            processing_kind = self.getChildElementOptionalLiteral(child, "PROCESSING-KIND")
+            if processing_kind is not None:
+                annotation.setProcessingKind(ProcessingKindEnum().setValue(processing_kind.getValue()))
+            prototype.addSenderReceiverAnnotation(annotation)
+        for child in self.findall(element, "TRIGGER-PORT-ANNOTATIONS/TRIGGER-PORT-ANNOTATION"):
+            annotation = TriggerPortAnnotation()
+            annotation.setTriggerRef(self.getChildElementOptionalRefType(child, "TRIGGER-REF"))
+            prototype.addTriggerPortAnnotation(annotation)
 
     def readSwComponentTypePorts(self, element: ET.Element, sw_component: SwComponentType):
         for child_element in self.findall(element, "PORTS/*"):

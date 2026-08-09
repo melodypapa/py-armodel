@@ -6,6 +6,10 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, CIdentifier, RefType, TRefType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes import (
+    ClientServerAnnotation,
+    DelegatedPortAnnotation,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
     ClientComSpec,
     ModeSwitchReceiverComSpec,
@@ -67,12 +71,20 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         assert port_prototype.senderReceiverAnnotations == []
         assert port_prototype.triggerPortAnnotations == []
 
-        # Test setters and getters
-        port_prototype.addClientServerAnnotation("Annotation1")
-        assert "Annotation1" in port_prototype.getClientServerAnnotations()
+        # Test setters and getters with real annotation objects
+        cs_annotation = ClientServerAnnotation()
+        port_prototype.addClientServerAnnotation(cs_annotation)
+        assert cs_annotation in port_prototype.getClientServerAnnotations()
 
-        port_prototype.setDelegatedPortAnnotation("DelegatedAnnotation")
-        assert port_prototype.getDelegatedPortAnnotation() == "DelegatedAnnotation"
+        delegated_annotation = DelegatedPortAnnotation()
+        port_prototype.setDelegatedPortAnnotation(delegated_annotation)
+        assert port_prototype.getDelegatedPortAnnotation() == delegated_annotation
+
+        # None no-ops
+        port_prototype.addClientServerAnnotation(None)
+        assert len(port_prototype.getClientServerAnnotations()) == 1
+        port_prototype.setDelegatedPortAnnotation(None)
+        assert port_prototype.getDelegatedPortAnnotation() == delegated_annotation
 
     def test_AbstractProvidedPortPrototype(self):
         """Test AbstractProvidedPortPrototype class."""
@@ -614,24 +626,43 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
 
     def test_PortPrototype_all_annotation_methods(self):
         """Test all annotation methods for PortPrototype."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes import (
+            IoHwAbstractionServerAnnotation,
+            ModePortAnnotation,
+            NvDataPortAnnotation,
+            ParameterPortAnnotation,
+            SenderReceiverAnnotation,
+            TriggerPortAnnotation,
+        )
+
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         port = PRPortPrototype(ar_root, "TestPort")
 
-        # Test all add annotation methods
-        port.addIoHwAbstractionServerAnnotation("io_hw")
-        port.addModePortAnnotation("mode")
-        port.addNvDataPortAnnotation("nv_data")
-        port.addParameterPortAnnotation("param")
-        port.addSenderReceiverAnnotation("sender_recv")
-        port.addTriggerPortAnnotation("trigger")
+        # Test all add annotation methods with real annotation objects
+        io_hw = IoHwAbstractionServerAnnotation()
+        port.addIoHwAbstractionServerAnnotation(io_hw)
+        mode = ModePortAnnotation()
+        port.addModePortAnnotation(mode)
+        nv_data = NvDataPortAnnotation()
+        port.addNvDataPortAnnotation(nv_data)
+        param = ParameterPortAnnotation()
+        port.addParameterPortAnnotation(param)
+        sender_recv = SenderReceiverAnnotation()
+        port.addSenderReceiverAnnotation(sender_recv)
+        trigger = TriggerPortAnnotation()
+        port.addTriggerPortAnnotation(trigger)
 
-        assert "io_hw" in port.getIoHwAbstractionServerAnnotations()
-        assert "mode" in port.getModePortAnnotations()
-        assert "nv_data" in port.getNvDataPortAnnotations()
-        assert "param" in port.getParameterPortAnnotations()
-        assert "sender_recv" in port.getSenderReceiverAnnotations()
-        assert "trigger" in port.getTriggerPortAnnotations()
+        assert io_hw in port.getIoHwAbstractionServerAnnotations()
+        assert mode in port.getModePortAnnotations()
+        assert nv_data in port.getNvDataPortAnnotations()
+        assert param in port.getParameterPortAnnotations()
+        assert sender_recv in port.getSenderReceiverAnnotations()
+        assert trigger in port.getTriggerPortAnnotations()
+
+        # None no-ops for the add annotation methods
+        port.addIoHwAbstractionServerAnnotation(None)
+        assert len(port.getIoHwAbstractionServerAnnotations()) == 1
 
     def test_SwComponentType_port_creation(self):
         """Test SwComponentType port creation methods."""

@@ -25,6 +25,16 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import NonqueuedReceiverComSpec, NonqueuedSenderComSpec, PPortComSpec
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ParameterRequireComSpec, QueuedReceiverComSpec, QueuedSenderComSpec
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import RPortComSpec, ServerComSpec
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes import (
+    ClientServerAnnotation,
+    DelegatedPortAnnotation,
+    IoHwAbstractionServerAnnotation,
+    ModePortAnnotation,
+    NvDataPortAnnotation,
+    ParameterPortAnnotation,
+    SenderReceiverAnnotation,
+    TriggerPortAnnotation,
+)
 
 
 class SymbolProps(ImplementationProps):
@@ -36,93 +46,250 @@ class SymbolProps(ImplementationProps):
 
 
 class PortPrototype(AtpPrototype, ABC):
+    """
+    Base class for the ports of an AUTOSAR software component. The aggregation of PortPrototypes is subject to variability with the purpose to support the conditional existence of ports.
+    """
+
     # PortPrototype method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getClientServerAnnotations   [x] impl  [ ] docstring  [ ] test
-    # [ ] addClientServerAnnotation    [x] impl  [ ] docstring  [ ] test
-    # [ ] getDelegatedPortAnnotation   [x] impl  [ ] docstring  [ ] test
-    # [ ] setDelegatedPortAnnotation   [x] impl  [ ] docstring  [ ] test
-    # [ ] getIoHwAbstractionServerAnnotations [x] impl  [ ] docstring  [ ] test
-    # [ ] addIoHwAbstractionServerAnnotation [x] impl  [ ] docstring  [ ] test
-    # [ ] getModePortAnnotations       [x] impl  [ ] docstring  [ ] test
-    # [ ] addModePortAnnotation        [x] impl  [ ] docstring  [ ] test
-    # [ ] getNvDataPortAnnotations     [x] impl  [ ] docstring  [ ] test
-    # [ ] addNvDataPortAnnotation      [x] impl  [ ] docstring  [ ] test
-    # [ ] getParameterPortAnnotations  [x] impl  [ ] docstring  [ ] test
-    # [ ] addParameterPortAnnotation   [x] impl  [ ] docstring  [ ] test
-    # [ ] getSenderReceiverAnnotations [x] impl  [ ] docstring  [ ] test
-    # [ ] addSenderReceiverAnnotation  [x] impl  [ ] docstring  [ ] test
-    # [ ] getTriggerPortAnnotations    [x] impl  [ ] docstring  [ ] test
-    # [ ] addTriggerPortAnnotation     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.2, p.66
+    # Spec verified: R23-11
+    # [x] __init__                         [x] impl  [x] docstring  [x] test
+    # [x] addClientServerAnnotation       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getClientServerAnnotations      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDelegatedPortAnnotation      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDelegatedPortAnnotation      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addIoHwAbstractionServerAnnotation [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getIoHwAbstractionServerAnnotations [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addModePortAnnotation           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getModePortAnnotations          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addNvDataPortAnnotation         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getNvDataPortAnnotations        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addParameterPortAnnotation      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getParameterPortAnnotations     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addSenderReceiverAnnotation     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSenderReceiverAnnotations    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addTriggerPortAnnotation        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTriggerPortAnnotations       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is PortPrototype:
             raise TypeError("PortPrototype is an abstract class.")
         super().__init__(parent, short_name)
 
-        self.clientServerAnnotations = []
-        self.delegatedPortAnnotation = None
-        self.ioHwAbstractionServerAnnotations = []
-        self.modePortAnnotations = []
-        self.nvDataPortAnnotations = []
-        self.parameterPortAnnotations = []
-        self.senderReceiverAnnotations = []
-        self.triggerPortAnnotations = []
+        # Annotation of this PortPrototype with respect to client/server communication.
+        self.clientServerAnnotations: List[ClientServerAnnotation] = []
 
-    def getClientServerAnnotations(self):
+        # Annotations on this delegated port.
+        self.delegatedPortAnnotation: Optional[DelegatedPortAnnotation] = None
+
+        # Annotations on this IO Hardware Abstraction port.
+        self.ioHwAbstractionServerAnnotations: List[IoHwAbstractionServerAnnotation] = []
+
+        # Annotations on this mode port.
+        self.modePortAnnotations: List[ModePortAnnotation] = []
+
+        # Annotations on this non voilatile data port.
+        self.nvDataPortAnnotations: List[NvDataPortAnnotation] = []
+
+        # Annotations on this parameter port.
+        self.parameterPortAnnotations: List[ParameterPortAnnotation] = []
+
+        # Collection of annotations of this ports sender/receiver communication.
+        self.senderReceiverAnnotations: List[SenderReceiverAnnotation] = []
+
+        # Annotations on this trigger port.
+        self.triggerPortAnnotations: List[TriggerPortAnnotation] = []
+
+    def getClientServerAnnotations(self) -> List[ClientServerAnnotation]:
+        """
+        Gets the annotations of this PortPrototype with respect to client/server communication.
+
+        Returns:
+            List of ClientServerAnnotation instances
+        """
         return self.clientServerAnnotations
 
-    def addClientServerAnnotation(self, value):
-        self.clientServerAnnotations.append(value)
+    def addClientServerAnnotation(self, value: Optional[ClientServerAnnotation]) -> "PortPrototype":
+        """
+        Adds an annotation of this PortPrototype with respect to client/server communication.
+        A None value is a no-op and does not append anything.
+
+        Args:
+            value: The ClientServerAnnotation to add
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.clientServerAnnotations.append(value)
         return self
 
-    def getDelegatedPortAnnotation(self):
+    def getDelegatedPortAnnotation(self) -> Optional[DelegatedPortAnnotation]:
+        """
+        Gets the annotations on this delegated port.
+
+        Returns:
+            DelegatedPortAnnotation, or None if not set
+        """
         return self.delegatedPortAnnotation
 
-    def setDelegatedPortAnnotation(self, value):
-        self.delegatedPortAnnotation = value
+    def setDelegatedPortAnnotation(self, value: Optional[DelegatedPortAnnotation]) -> "PortPrototype":
+        """
+        Sets the annotations on this delegated port.
+        A None value is a no-op and does not overwrite an existing annotation.
+
+        Args:
+            value: The DelegatedPortAnnotation to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.delegatedPortAnnotation = value
         return self
 
-    def getIoHwAbstractionServerAnnotations(self):
+    def getIoHwAbstractionServerAnnotations(self) -> List[IoHwAbstractionServerAnnotation]:
+        """
+        Gets the annotations on this IO Hardware Abstraction port.
+
+        Returns:
+            List of IoHwAbstractionServerAnnotation instances
+        """
         return self.ioHwAbstractionServerAnnotations
 
-    def addIoHwAbstractionServerAnnotation(self, value):
-        self.ioHwAbstractionServerAnnotations.append(value)
+    def addIoHwAbstractionServerAnnotation(self, value: Optional[IoHwAbstractionServerAnnotation]) -> "PortPrototype":
+        """
+        Adds an annotation on this IO Hardware Abstraction port.
+        A None value is a no-op and does not append anything.
+
+        Args:
+            value: The IoHwAbstractionServerAnnotation to add
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.ioHwAbstractionServerAnnotations.append(value)
         return self
 
-    def getModePortAnnotations(self):
+    def getModePortAnnotations(self) -> List[ModePortAnnotation]:
+        """
+        Gets the annotations on this mode port.
+
+        Returns:
+            List of ModePortAnnotation instances
+        """
         return self.modePortAnnotations
 
-    def addModePortAnnotation(self, value):
-        self.modePortAnnotations.append(value)
+    def addModePortAnnotation(self, value: Optional[ModePortAnnotation]) -> "PortPrototype":
+        """
+        Adds an annotation on this mode port.
+        A None value is a no-op and does not append anything.
+
+        Args:
+            value: The ModePortAnnotation to add
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.modePortAnnotations.append(value)
         return self
 
-    def getNvDataPortAnnotations(self):
+    def getNvDataPortAnnotations(self) -> List[NvDataPortAnnotation]:
+        """
+        Gets the annotations on this non voilatile data port.
+
+        Returns:
+            List of NvDataPortAnnotation instances
+        """
         return self.nvDataPortAnnotations
 
-    def addNvDataPortAnnotation(self, value):
-        self.nvDataPortAnnotations.append(value)
+    def addNvDataPortAnnotation(self, value: Optional[NvDataPortAnnotation]) -> "PortPrototype":
+        """
+        Adds an annotation on this non voilatile data port.
+        A None value is a no-op and does not append anything.
+
+        Args:
+            value: The NvDataPortAnnotation to add
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.nvDataPortAnnotations.append(value)
         return self
 
-    def getParameterPortAnnotations(self):
+    def getParameterPortAnnotations(self) -> List[ParameterPortAnnotation]:
+        """
+        Gets the annotations on this parameter port.
+
+        Returns:
+            List of ParameterPortAnnotation instances
+        """
         return self.parameterPortAnnotations
 
-    def addParameterPortAnnotation(self, value):
-        self.parameterPortAnnotations.append(value)
+    def addParameterPortAnnotation(self, value: Optional[ParameterPortAnnotation]) -> "PortPrototype":
+        """
+        Adds an annotation on this parameter port.
+        A None value is a no-op and does not append anything.
+
+        Args:
+            value: The ParameterPortAnnotation to add
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.parameterPortAnnotations.append(value)
         return self
 
-    def getSenderReceiverAnnotations(self):
+    def getSenderReceiverAnnotations(self) -> List[SenderReceiverAnnotation]:
+        """
+        Gets the collection of annotations of this ports sender/receiver communication.
+
+        Returns:
+            List of SenderReceiverAnnotation instances
+        """
         return self.senderReceiverAnnotations
 
-    def addSenderReceiverAnnotation(self, value):
-        self.senderReceiverAnnotations.append(value)
+    def addSenderReceiverAnnotation(self, value: Optional[SenderReceiverAnnotation]) -> "PortPrototype":
+        """
+        Adds an annotation of this ports sender/receiver communication.
+        A None value is a no-op and does not append anything.
+
+        Args:
+            value: The SenderReceiverAnnotation to add
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.senderReceiverAnnotations.append(value)
         return self
 
-    def getTriggerPortAnnotations(self):
+    def getTriggerPortAnnotations(self) -> List[TriggerPortAnnotation]:
+        """
+        Gets the annotations on this trigger port.
+
+        Returns:
+            List of TriggerPortAnnotation instances
+        """
         return self.triggerPortAnnotations
 
-    def addTriggerPortAnnotation(self, value):
-        self.triggerPortAnnotations.append(value)
+    def addTriggerPortAnnotation(self, value: Optional[TriggerPortAnnotation]) -> "PortPrototype":
+        """
+        Adds an annotation on this trigger port.
+        A None value is a no-op and does not append anything.
+
+        Args:
+            value: The TriggerPortAnnotation to add
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.triggerPortAnnotations.append(value)
         return self
 
 

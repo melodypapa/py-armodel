@@ -181,6 +181,16 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import 
     SwSystemconstantValueSet,
     SwSystemconstValue,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes import (
+    ClientServerAnnotation,
+    DelegatedPortAnnotation,
+    IoHwAbstractionServerAnnotation,
+    ModePortAnnotation,
+    NvDataPortAnnotation,
+    ParameterPortAnnotation,
+    SenderReceiverAnnotation,
+    TriggerPortAnnotation,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
     ClientComSpec,
     CompositeNetworkRepresentation,
@@ -211,6 +221,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
     ComplexDeviceDriverSwComponentType,
     EcuAbstractionSwComponentType,
     PortGroup,
+    PortPrototype,
     PPortPrototype,
     PRPortPrototype,
     RPortPrototype,
@@ -981,6 +992,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("write PPortPrototype %s" % prototype.getShortName())
         self.setAbstractProvidedPortPrototype(prototype_tag, prototype)
         self.setChildElementOptionalRefType(prototype_tag, "PROVIDED-INTERFACE-TREF", prototype.getProvidedInterfaceTRef())
+        self.setPortPrototype(prototype_tag, prototype)
 
     def setAbstractRequiredPortPrototype(self, element: ET.Element, prototype: AbstractRequiredPortPrototype):
         com_specs = prototype.getRequiredComSpecs()
@@ -995,6 +1007,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(prototype_tag, prototype)
         self.setAbstractRequiredPortPrototype(prototype_tag, prototype)
         self.setChildElementOptionalRefType(prototype_tag, "REQUIRED-INTERFACE-TREF", prototype.getRequiredInterfaceTRef())
+        self.setPortPrototype(prototype_tag, prototype)
 
     def writePRPortPrototype(self, ports_tag: ET.Element, prototype: PRPortPrototype):
         self.logger.debug("write PRPortPrototype %s" % prototype.getShortName())
@@ -1003,6 +1016,84 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setAbstractProvidedPortPrototype(prototype_tag, prototype)
         self.setAbstractRequiredPortPrototype(prototype_tag, prototype)
         self.setChildElementOptionalRefType(prototype_tag, "PROVIDED-REQUIRED-INTERFACE-TREF", prototype.getProvidedRequiredInterface())
+        self.setPortPrototype(prototype_tag, prototype)
+
+    def setPortPrototype(self, element: ET.Element, prototype: PortPrototype):
+        client_server_annotations = prototype.getClientServerAnnotations()
+        if len(client_server_annotations) > 0:
+            annotations_tag = ET.SubElement(element, "CLIENT-SERVER-ANNOTATIONS")
+            for annotation in client_server_annotations:
+                self.writeClientServerAnnotation(annotations_tag, annotation)
+        delegated_port_annotation = prototype.getDelegatedPortAnnotation()
+        if delegated_port_annotation is not None:
+            self.writeDelegatedPortAnnotation(element, delegated_port_annotation)
+        io_hw_annotations = prototype.getIoHwAbstractionServerAnnotations()
+        if len(io_hw_annotations) > 0:
+            annotations_tag = ET.SubElement(element, "IO-HW-ABSTRACTION-SERVER-ANNOTATIONS")
+            for annotation in io_hw_annotations:
+                self.writeIoHwAbstractionServerAnnotation(annotations_tag, annotation)
+        mode_annotations = prototype.getModePortAnnotations()
+        if len(mode_annotations) > 0:
+            annotations_tag = ET.SubElement(element, "MODE-PORT-ANNOTATIONS")
+            for annotation in mode_annotations:
+                self.writeModePortAnnotation(annotations_tag, annotation)
+        nv_data_annotations = prototype.getNvDataPortAnnotations()
+        if len(nv_data_annotations) > 0:
+            annotations_tag = ET.SubElement(element, "NV-DATA-PORT-ANNOTATIONS")
+            for annotation in nv_data_annotations:
+                self.writeNvDataPortAnnotation(annotations_tag, annotation)
+        parameter_annotations = prototype.getParameterPortAnnotations()
+        if len(parameter_annotations) > 0:
+            annotations_tag = ET.SubElement(element, "PARAMETER-PORT-ANNOTATIONS")
+            for annotation in parameter_annotations:
+                self.writeParameterPortAnnotation(annotations_tag, annotation)
+        sender_receiver_annotations = prototype.getSenderReceiverAnnotations()
+        if len(sender_receiver_annotations) > 0:
+            annotations_tag = ET.SubElement(element, "SENDER-RECEIVER-ANNOTATIONS")
+            for annotation in sender_receiver_annotations:
+                self.writeSenderReceiverAnnotation(annotations_tag, annotation)
+        trigger_annotations = prototype.getTriggerPortAnnotations()
+        if len(trigger_annotations) > 0:
+            annotations_tag = ET.SubElement(element, "TRIGGER-PORT-ANNOTATIONS")
+            for annotation in trigger_annotations:
+                self.writeTriggerPortAnnotation(annotations_tag, annotation)
+
+    def writeClientServerAnnotation(self, element: ET.Element, annotation: ClientServerAnnotation):
+        child_element = ET.SubElement(element, "CLIENT-SERVER-ANNOTATION")
+        self.setChildElementOptionalRefType(child_element, "OPERATION-REF", annotation.getOperationRef())
+
+    def writeDelegatedPortAnnotation(self, element: ET.Element, annotation: DelegatedPortAnnotation):
+        child_element = ET.SubElement(element, "DELEGATED-PORT-ANNOTATION")
+        self.setChildElementOptionalLiteral(child_element, "SIGNAL-FAN", annotation.getSignalFan())
+
+    def writeIoHwAbstractionServerAnnotation(self, element: ET.Element, annotation: IoHwAbstractionServerAnnotation):
+        child_element = ET.SubElement(element, "IO-HW-ABSTRACTION-SERVER-ANNOTATION")
+        self.setChildElementOptionalLiteral(child_element, "FILTERING-DEBOUNCING", annotation.getFilteringDebouncing())
+        self.setChildElementOptionalLiteral(child_element, "PULSE-TEST", annotation.getPulseTest())
+        self.setChildElementOptionalRefType(child_element, "TRIGGER-REF", annotation.getTriggerRef())
+
+    def writeModePortAnnotation(self, element: ET.Element, annotation: ModePortAnnotation):
+        child_element = ET.SubElement(element, "MODE-PORT-ANNOTATION")
+        self.setChildElementOptionalRefType(child_element, "MODE-GROUP-REF", annotation.getModeGroupRef())
+
+    def writeNvDataPortAnnotation(self, element: ET.Element, annotation: NvDataPortAnnotation):
+        child_element = ET.SubElement(element, "NV-DATA-PORT-ANNOTATION")
+        self.setChildElementOptionalRefType(child_element, "VARIABLE-REF", annotation.getVariableRef())
+
+    def writeParameterPortAnnotation(self, element: ET.Element, annotation: ParameterPortAnnotation):
+        child_element = ET.SubElement(element, "PARAMETER-PORT-ANNOTATION")
+        self.setChildElementOptionalRefType(child_element, "PARAMETER-REF", annotation.getParameterRef())
+
+    def writeSenderReceiverAnnotation(self, element: ET.Element, annotation: SenderReceiverAnnotation):
+        child_element = ET.SubElement(element, "SENDER-RECEIVER-ANNOTATION")
+        self.setChildElementOptionalBooleanValue(child_element, "COMPUTED", annotation.getComputed())
+        self.setChildElementOptionalRefType(child_element, "DATA-ELEMENT-REF", annotation.getDataElementRef())
+        self.setChildElementOptionalLiteral(child_element, "LIMIT-KIND", annotation.getLimitKind())
+        self.setChildElementOptionalLiteral(child_element, "PROCESSING-KIND", annotation.getProcessingKind())
+
+    def writeTriggerPortAnnotation(self, element: ET.Element, annotation: TriggerPortAnnotation):
+        child_element = ET.SubElement(element, "TRIGGER-PORT-ANNOTATION")
+        self.setChildElementOptionalRefType(child_element, "TRIGGER-REF", annotation.getTriggerRef())
 
     def writeSwComponentTypePorts(self, element: ET.Element, sw_component: SwComponentType):
         ports = sw_component.getPorts()
@@ -3001,9 +3092,17 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(element, "SYMBOL", instance.getSymbol())
 
     def writeRoleBasedMcDataAssignment(self, element: ET.Element, assignment: RoleBasedMcDataAssignment):
-        self.setChildElementOptionalRefType(element, "EXECUTION-CONTEXT-REF", assignment.getExecutionContextRef())
-        self.setChildElementOptionalRefType(element, "MC-DATA-INSTANCE-REF", assignment.getMcDataInstanceRef())
-        self.setChildElementOptionalLiteral(element, "ROLE", assignment.getRole())
+        execution_context_refs = assignment.getExecutionContextRefs()
+        if len(execution_context_refs) > 0:
+            refs_element = ET.SubElement(element, "EXECUTION-CONTEXT-REFS")
+            for ref in execution_context_refs:
+                self.setChildElementOptionalRefType(refs_element, "EXECUTION-CONTEXT-REF", ref)
+        mc_data_instance_refs = assignment.getMcDataInstanceRefs()
+        if len(mc_data_instance_refs) > 0:
+            refs_element = ET.SubElement(element, "MC-DATA-INSTANCE-REFS")
+            for ref in mc_data_instance_refs:
+                self.setChildElementOptionalRefType(refs_element, "MC-DATA-INSTANCE-REF", ref)
+        self.setChildElementOptionalIdentifier(element, "ROLE", assignment.getRole())
 
     def writeRptSwPrototypingAccess(self, element: ET.Element, access: RptSwPrototypingAccess):
         self.setChildElementOptionalLiteral(element, "RPT-HOOK-ACCESS", access.getRptHookAccess())
