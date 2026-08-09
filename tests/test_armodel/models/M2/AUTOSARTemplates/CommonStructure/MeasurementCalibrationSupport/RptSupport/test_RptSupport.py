@@ -252,8 +252,8 @@ class TestRoleBasedMcDataAssignment:
         """Test RoleBasedMcDataAssignment initialization defaults"""
         assignment = RoleBasedMcDataAssignment()
         assert assignment is not None
-        assert assignment.executionContextRef is None
-        assert assignment.mcDataInstanceRef is None
+        assert assignment.executionContextRefs == []
+        assert assignment.mcDataInstanceRefs == []
         assert assignment.role is None
 
     def test_mc_data_instance_ref_setter_getter(self):
@@ -261,18 +261,18 @@ class TestRoleBasedMcDataAssignment:
         assignment = RoleBasedMcDataAssignment()
         ref = RefType()
         ref.setValue("/mc/instance")
-        result = assignment.setMcDataInstanceRef(ref)
+        result = assignment.addMcDataInstanceRef(ref)
         assert result is assignment
-        assert assignment.getMcDataInstanceRef() == ref
+        assert assignment.getMcDataInstanceRefs() == [ref]
 
     def test_execution_context_ref_setter_getter(self):
         """Test executionContextRef setter and getter"""
         assignment = RoleBasedMcDataAssignment()
         ref = RefType()
         ref.setValue("/exec/context")
-        result = assignment.setExecutionContextRef(ref)
+        result = assignment.addExecutionContextRef(ref)
         assert result is assignment
-        assert assignment.getExecutionContextRef() == ref
+        assert assignment.getExecutionContextRefs() == [ref]
 
     def test_role_setter_getter(self):
         """Test role setter and getter"""

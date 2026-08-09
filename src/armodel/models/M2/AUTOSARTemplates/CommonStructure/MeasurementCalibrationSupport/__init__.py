@@ -905,19 +905,19 @@ class McFunction(Identifiable):
 
 class RoleBasedMcDataAssignment(ARObject):
     """
-    This class specifies an assignment of a role to a particular McDataInstance, enabling the reuse of data in different contexts of rapid prototyping.
+    This meta-class allows to define links that specify logical relationships between single McDataInstances. The details on the existence and semantics of such links are not standardized. Possible Use Case: Rapid Prototyping solutions in which additional communication buffers and switches are implemented in the RTE that allow to switch between the usage of the original and the bypass buffers. The different buffers and the switch can be represented by McDataInstances (in order to be accessed by MC tools) which have relationships to each other.
     """
 
     # RoleBasedMcDataAssignment method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.55, p.195
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.55, p.329
     # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getExecutionContextRef       [x] impl  [x] docstring  [x] test
-    # [x] setExecutionContextRef       [x] impl  [x] docstring  [x] test
-    # [x] getMcDataInstanceRef         [x] impl  [x] docstring  [x] test
-    # [x] setMcDataInstanceRef         [x] impl  [x] docstring  [x] test
-    # [x] getRole                      [x] impl  [x] docstring  [x] test
-    # [x] setRole                      [x] impl  [x] docstring  [x] test
+    # [x] addExecutionContextRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getExecutionContextRefs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addMcDataInstanceRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMcDataInstanceRefs        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getRole                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRole                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         """
@@ -925,61 +925,61 @@ class RoleBasedMcDataAssignment(ARObject):
         """
         super().__init__()
 
-        # Reference to the execution context the assigned data instance is used in.
-        self.executionContextRef: Optional[RefType] = None
+        # Determines the executionContext in which the McDataInstance describing a local (e.g Task-Local) buffer of a global buffer is valid.
+        self.executionContextRefs: List[RefType] = []
 
-        # Reference to the McDataInstance the role is assigned to.
-        self.mcDataInstanceRef: Optional[RefType] = None
+        # The target of the assignment.
+        self.mcDataInstanceRefs: List[RefType] = []
 
         # Shall be used to specify the role of the assigned data instance in relation to the instance that owns the assignment.
         self.role: Optional[Identifier] = None
 
-    def getExecutionContextRef(self) -> Optional[RefType]:
+    def getExecutionContextRefs(self) -> List[RefType]:
         """
-        Gets the reference to the execution context the assigned data instance is used in.
+        Gets the references to the execution context the assigned data instance is used in.
 
         Returns:
-            RefType referencing the execution context, or None if not set
+            List of RefType referencing the execution context
         """
-        return self.executionContextRef
+        return self.executionContextRefs
 
-    def setExecutionContextRef(self, value: Optional[RefType]) -> "RoleBasedMcDataAssignment":
+    def addExecutionContextRef(self, value: Optional[RefType]) -> "RoleBasedMcDataAssignment":
         """
-        Sets the reference to the execution context the assigned data instance is used in.
-        A None value is a no-op and does not overwrite an existing reference.
+        Adds a reference to the execution context the assigned data instance is used in.
+        A None value is a no-op and does not append anything.
 
         Args:
-            value: The execution context reference to set
+            value: The execution context reference to add
 
         Returns:
             self for method chaining
         """
         if value is not None:
-            self.executionContextRef = value
+            self.executionContextRefs.append(value)
         return self
 
-    def getMcDataInstanceRef(self) -> Optional[RefType]:
+    def getMcDataInstanceRefs(self) -> List[RefType]:
         """
-        Gets the reference to the McDataInstance the role is assigned to.
+        Gets the references to the McDataInstance the role is assigned to.
 
         Returns:
-            RefType referencing the McDataInstance, or None if not set
+            List of RefType referencing the McDataInstance
         """
-        return self.mcDataInstanceRef
+        return self.mcDataInstanceRefs
 
-    def setMcDataInstanceRef(self, value: Optional[RefType]) -> "RoleBasedMcDataAssignment":
+    def addMcDataInstanceRef(self, value: Optional[RefType]) -> "RoleBasedMcDataAssignment":
         """
-        Sets the reference to the McDataInstance the role is assigned to.
-        A None value is a no-op and does not overwrite an existing reference.
+        Adds a reference to the McDataInstance the role is assigned to.
+        A None value is a no-op and does not append anything.
 
         Args:
-            value: The McDataInstance reference to set
+            value: The McDataInstance reference to add
 
         Returns:
             self for method chaining
         """
         if value is not None:
-            self.mcDataInstanceRef = value
+            self.mcDataInstanceRefs.append(value)
         return self
 
     def getRole(self) -> Optional[Identifier]:
