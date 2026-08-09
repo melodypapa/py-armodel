@@ -199,7 +199,11 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
 - [ ] Every spec attribute must map to a field **plus** an accessor pair. The
       method parity checklist (Rule 2) only tracks methods, so a class can be
       checklist-complete while still missing accessors — a field without a
-      getter/setter is a gap.
+      getter/setter is a gap. For an `Identifiable` aggregator, a spec `*`
+      `aggr` row still maps to its **own** typed list field even though the
+      created children also live in the shared `elements` registry; the getter
+      reads that field directly, not a `list(filter(isinstance, elements))`
+      view of the registry (see Rule 4).
 - [ ] No fabricated attributes: the reverse of attribute-level completeness —
       every field in the class must trace back to a spec attribute. A class
       can be checklist-complete (every method `[x] impl/docstring/test`) yet
@@ -1594,6 +1598,8 @@ Check:
       via `->` notation).
 - [ ] `npm run black-check` passes for the file — signatures that fit within
       200 characters are on one line, not hand-broken.
+- [ ] `npm run ruff-check` passes for the file (the broader `E`/`F`/`W`/`I`
+      set, including unused-import `F401` that the syntax-only flake8 set skips).
 - [ ] The method body begins on a new line after the `:`.
 
 Note: a trailing comma after the last parameter is Black's "magic trailing
@@ -1657,6 +1663,67 @@ def setSomeEnumValue(self, value):
       `Identifiable` with `__init__(self, parent, short_name)`) at least far
       enough for the factory to build it; the remainder of the child's own
       alignment is tracked separately in the deviation tracker.
+- [ ] **A spec-`*` aggregated attribute on an `Identifiable` aggregator is
+      backed by a dedicated typed list field, not by filtering the shared
+      `elements` registry.** Rule 1.3 ("every spec attribute maps to a field")
+      applies even when the created children also live in the `elements`
+      registry for short-name lookup: each spec `*` `aggr` row maps to its
+      **own** field (`self.operations: List[ClientServerOperation] = []`,
+      `self.possibleErrors: List[ApplicationError] = []`), declared in
+      `__init__` in spec row order with the spec `Note` as its comment
+      (Rule 13.2 Step 4.2). The `createXxx(short_name)` factory appends to
+      that field **in addition to** `addElement` (keeping the registry and
+      the field in sync), and `getXxxs()` returns the field **directly** —
+      never `list(filter(lambda c: isinstance(c, Xxx), self.elements))`.
+      Filtering the registry on every getter call has two defects: (a) it
+      gives the spec attribute no model field of its own, so the
+      field-to-spec cross-check (Rule 1.3) finds the attribute unmodeled;
+      and (b) it discriminates by Python type rather than by spec role, so
+      two spec attributes whose children share a base type would collapse
+      into one filtered list. The dedicated-field shape is the established
+      sibling pattern (`ParameterInterface.parameters`, and now
+      `ClientServerInterface.operations`/`possibleErrors`). The `elements`
+      registry still does the factory's "return existing on same short
+      name" job (`IsElementExists`/`getElement`, above) — registry and
+      field coexist, each for its own purpose; only the getter reads the
+      field.
+- [ ] **An `Identifiable` aggregator that handles its members *only*
+      through the `elements` registry is a to-fix, not an accepted shape.**
+      The tell-tale is a getter of the form
+      `list(filter(lambda c: isinstance(c, Xxx), self.elements))` (or
+      `sorted(filter(isinstance(...), self.elements), ...)`) for a spec `*`
+      `aggr` attribute that has **no** dedicated field in `__init__` — the
+      class borrows the inherited registry as its only storage and
+      re-derives each attribute's membership by Python type on every call.
+      This is both a Rule 1.3 violation (the spec attribute has no model
+      field of its own) and a Rule 4 violation (the getter does not read an
+      own field), and it survives a fully-`[x]` checklist plus
+      parser/writer coverage exactly like the fabricated-attribute /
+      stale-row anti-patterns do — so do **not** treat a complete checklist
+      or a passing round-trip as evidence the shape is right. Migrate it in
+      one pass, per spec attribute row:
+      1. add the dedicated typed list field in `__init__`, in spec row
+         order, with the spec `Note` as its comment
+         (`self.operations: List[ClientServerOperation] = []`);
+      2. make the `createXxx(short_name)` factory **append** the new
+         instance to that field right after `addElement` (the
+         `IsElementExists`/`getElement` duplicate check stays on the
+         registry);
+      3. rewrite `getXxxs()` to `return self.<field>` (drop the
+         `isinstance` filter entirely); and
+      4. assert the field's `[]` default in the test (Rule 7) so the new
+         `__init__` field is covered.
+      The parser/writer need no change — they already call `createXxx`/
+      `getXxxs`, which now flow through the dedicated field. The previously
+      recorded deviation row (if any) for the attribute is removed once the
+      field is added, since the attribute is now modeled. `ClientServerInterface`
+      is the worked example (migrated from the registry-filter shape to
+      `self.operations`/`self.possibleErrors`); sibling classes still in the
+      old shape (e.g. `NvDataInterface.getNvDatas` returns
+      `list(filter(isinstance(...), self.elements))`) are deviations to
+      reconcile, **not** a pattern to copy — a fully-`[x]` sibling in the
+      elements-only shape is a prior deviation, exactly like Rule 1.6's
+      "an already-aligned sibling is not an authority".
 - [ ] `create*` factories are only used for children that are
       `Referrable`/`Identifiable` per their spec `Base`; non-Identifiable
       children use `setXXX` (multiplicity `0..1`) or `addXxx(value)`
@@ -2005,10 +2072,14 @@ field-to-spec cross-check is the gate, not the checklist.
       obsolete and must not be applied by hand.
 - [ ] No trailing whitespace on blank lines (`W293`) or after code (`W291`),
       and at most one blank line between definitions (`E303`).
-      (CI flake8 enforces only the syntax set `E9/F63/F7/F82`; line length (127)
-      and style codes like `W291`/`W293`/`E303` run exit-zero, so violations are
-      warnings only and are tracked as a separate cleanup, but new or edited code
-      must not introduce them.)
+      The project runs two linters: `npm run flake8` (CI, syntax-only set
+      `E9/F63/F7/F82`) and `npm run ruff-check` (the broader `E`/`F`/`W`/`I`
+      set from `pyproject.toml` `[tool.ruff]`, ignoring only `E501`). Ruff
+      therefore **enforces** `W291`/`W293`/`E303` and unused-import `F401`
+      that the flake8 syntax set leaves as warnings — so new or edited code
+      must pass `npm run ruff-check` (or the file-scoped `ruff check <file>`,
+      which reads the same config) as well as `npm run black-check`; an
+      outstanding whole-tree cleanup is tracked separately.
 - [ ] No comments are added unless they carry spec information (per AGENTS.md,
       comments are only written when asked).
 
@@ -2023,11 +2094,14 @@ separate logical units within the class.
 Check:
 - [ ] Every attribute in `__init__` has a blank line before and after its
       comment + assignment block.
-      **This is a manual-only check — Black and flake8 do not enforce it.**
-      Black leaves a run of contiguous `# comment / self.field = …` blocks
-      untouched (it only separates top-level statements), and the flake8 syntax
-      set catches nothing, so a class can pass `black-check`, `flake8`, the
-      set-based checklist, and all tests while its `__init__` fields are glued
+      **This is a manual-only check — Black, flake8, and ruff do not enforce
+      it.** Black leaves a run of contiguous `# comment / self.field = …` blocks
+      untouched (it only separates top-level statements); ruff's `E303` caps
+      the *maximum* number of blank lines but enforces no *minimum* between
+      statements, so it does not require a blank line between field blocks
+      either. A class can therefore pass `black-check`, `npm run ruff-check`,
+      `flake8`, the set-based checklist, and all tests while its `__init__`
+      fields are glued
       together (this happened to `AliasNameAssignment` and
       `SupervisedEntityNeeds` during alignment — the fields were written
       contiguously and nothing flagged it). Verify spacing by eye or with a
@@ -2163,6 +2237,8 @@ check):
 ```bash
 python -m pytest tests/test_armodel/models/M2/AUTOSARTemplates/<package>/test_<ClassName>.py -q
 PATH=".venv/Scripts:$PATH" flake8 --exclude=.venv,build --select=E9,F63,F7,F82 \
+  src/armodel/models/M2/AUTOSARTemplates/<package>/<ClassName>.py
+PATH=".venv/Scripts:$PATH" ruff check \
   src/armodel/models/M2/AUTOSARTemplates/<package>/<ClassName>.py
 ```
 
@@ -2590,10 +2666,10 @@ Verification:
   grep -nE 'AUTOSAR\.getInstance\(\)\.' \
       src/armodel/parser/arxml_parser.py src/armodel/writer/arxml_writer.py
   ```
-- After any parser/writer edit, run `npm run black-check` and the full suite
-  (`python scripts/run_tests.py`). Enforcing this rule is a purely mechanical,
-  behavior-preserving refactor: round-trip parse → write → re-parse must still
-  match for every integration fixture (29 ARXML files).
+- After any parser/writer edit, run `npm run ruff-check`, `npm run black-check`,
+  and the full suite (`python scripts/run_tests.py`). Enforcing this rule is a
+  purely mechanical, behavior-preserving refactor: round-trip parse → write →
+  re-parse must still match for every integration fixture (29 ARXML files).
 
 ---
 
