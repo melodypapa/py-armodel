@@ -7,7 +7,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes 
     ImplementationDataType,
     ImplementationDataTypeElement,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, ARLiteral, ARNumerical, Boolean, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, ARLiteral, ARNumerical, Boolean, NameToken, String
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SymbolProps
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
@@ -372,52 +372,20 @@ class TestImplementationDataType:
         data_type = ImplementationDataType(ar_root, "TestImplementationDataType")
         assert data_type.getSubElements() == []
 
-    def test_get_array_element_type(self):
-        """Test getArrayElementType method"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        data_type = ImplementationDataType(ar_root, "TestImplementationDataType")
-        assert data_type.getArrayElementType() is None
-
-    def test_set_array_element_type(self):
-        """Test setArrayElementType method"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        data_type = ImplementationDataType(ar_root, "TestImplementationDataType")
-        data_type.setArrayElementType("test_type")
-        assert data_type.getArrayElementType() == "test_type"
-
-    def test_set_type_emitter(self):
-        """Test setTypeEmitter method"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        data_type = ImplementationDataType(ar_root, "TestImplementationDataType")
-        result = data_type.setTypeEmitter("test_emitter")
-        assert result is data_type
-        assert data_type.getTypeEmitter() == "test_emitter"
-
-    def test_get_type_emitter(self):
-        """Test getTypeEmitter method"""
+    def test_get_set_type_emitter(self):
+        """Test setTypeEmitter/getTypeEmitter methods"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         data_type = ImplementationDataType(ar_root, "TestImplementationDataType")
         assert data_type.getTypeEmitter() is None
 
-    def test_set_struct_element_type(self):
-        """Test setStructElementType method"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        data_type = ImplementationDataType(ar_root, "TestImplementationDataType")
-        result = data_type.setStructElementType("test_struct_type")
+        value = NameToken().setValue("test_emitter")
+        result = data_type.setTypeEmitter(value)
         assert result is data_type
-        assert data_type.getStructElementType() == "test_struct_type"
+        assert data_type.getTypeEmitter().getValue() == "test_emitter"
 
-    def test_get_struct_element_type(self):
-        """Test getStructElementType method"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        data_type = ImplementationDataType(ar_root, "TestImplementationDataType")
-        assert data_type.getStructElementType() is None
+        data_type.setTypeEmitter(None)
+        assert data_type.getTypeEmitter().getValue() == "test_emitter"
 
     def test_create_symbol_props(self):
         """Test createSymbolProps method"""
@@ -446,9 +414,9 @@ class TestImplementationDataType:
         # Set all properties
         data_type.setDynamicArraySizeProfile(String().setValue("PROFILE"))
         data_type.setIsStructWithOptionalElement(Boolean().setValue(True))
-        data_type.setTypeEmitter("EMITTER")
+        data_type.setTypeEmitter(NameToken().setValue("EMITTER"))
 
         # Verify all properties are set
         assert data_type.getDynamicArraySizeProfile().getValue() == "PROFILE"
         assert data_type.getIsStructWithOptionalElement().getValue() is True
-        assert data_type.getTypeEmitter() == "EMITTER"
+        assert data_type.getTypeEmitter().getValue() == "EMITTER"

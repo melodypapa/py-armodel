@@ -244,3 +244,41 @@ class TestImplementationDataTypeParser:
         assert sub_element2.getArraySizeHandling() is None
         assert sub_element2.getIsOptional() is None
         assert sub_element2.getSwDataDefProps().getCompuMethodRef() is None
+
+    def test_read_implementation_data_type_full_attributes(self):
+        parser = ARXMLParser()
+        parser.nsmap = {"xmlns": "http://autosar.org/schema/r4.0"}
+        xml_content = """
+            <AUTOSAR xmlns="http://autosar.org/schema/r4.0">
+                <AR-PACKAGES>
+                    <AR-PACKAGE>
+                        <SHORT-NAME>ImplementationDataType</SHORT-NAME>s
+                        <ELEMENTS>
+                            <IMPLEMENTATION-DATA-TYPE>
+                                <SHORT-NAME>MyStructDataType</SHORT-NAME>
+                                <CATEGORY>STRUCTURE</CATEGORY>
+                                <DYNAMIC-ARRAY-SIZE-PROFILE>profile</DYNAMIC-ARRAY-SIZE-PROFILE>
+                                <IS-STRUCT-WITH-OPTIONAL-ELEMENT>true</IS-STRUCT-WITH-OPTIONAL-ELEMENT>
+                                <SYMBOL-PROPS>
+                                    <SHORT-NAME>Sym</SHORT-NAME>
+                                    <SYMBOL>REASON_SYM</SYMBOL>
+                                </SYMBOL-PROPS>
+                                <TYPE-EMITTER>RTE</TYPE-EMITTER>
+                            </IMPLEMENTATION-DATA-TYPE>
+                        </ELEMENTS>
+                    </AR-PACKAGE>
+                </AR-PACKAGES>
+            </AUTOSAR>
+        """  # noqa E501
+
+        element = ET.fromstring(xml_content)
+        document = AUTOSARDoc()
+        parser.readARPackages(element, document)
+
+        data_type = document.getARPackages()[0].getImplementationDataTypes()[0]
+        assert data_type.getShortName() == "MyStructDataType"
+        assert data_type.getDynamicArraySizeProfile().getValue() == "profile"
+        assert data_type.getIsStructWithOptionalElement().getValue() is True
+        assert data_type.getSymbolProps().getShortName() == "Sym"
+        assert data_type.getSymbolProps().getSymbol().getValue() == "REASON_SYM"
+        assert data_type.getTypeEmitter().getValue() == "RTE"

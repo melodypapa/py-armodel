@@ -548,6 +548,7 @@ class TestImplementationDataTypeWriter:
         pkg = autosar.createARPackage("Pkg")
         data_type = pkg.createImplementationDataType("ImplType")
         data_type.setDynamicArraySizeProfile(_make_literal("prof"))
+        data_type.setIsStructWithOptionalElement(_make_bool(True))
         data_type.typeEmitter = _make_literal("Emitter")
         data_type.createImplementationDataTypeElement("Sub")
         props = data_type.createSymbolProps("Sym")
@@ -561,6 +562,7 @@ class TestImplementationDataTypeWriter:
         assert child.tag == "IMPLEMENTATION-DATA-TYPE"
         assert child.find("SHORT-NAME").text == "ImplType"
         assert child.find("DYNAMIC-ARRAY-SIZE-PROFILE").text == "prof"
+        assert child.find("IS-STRUCT-WITH-OPTIONAL-ELEMENT").text == "true"
         assert child.find("TYPE-EMITTER").text == "Emitter"
         assert child.find("SYMBOL-PROPS") is not None
         assert child.find("SUB-ELEMENTS") is not None
