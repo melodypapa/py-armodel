@@ -3806,8 +3806,8 @@ class ARXMLParser(AbstractARXMLParser):
     def getNumericalOrText(self, element: ET.Element) -> NumericalOrText:
         not_text = NumericalOrText()
         self.readARObjectAttributes(element, not_text)
-        not_text.setNumericalValue(self.getChildElementOptionalNumericalValue(element, "VF"))
-        not_text.setTextValue(self.getChildElementOptionalLiteral(element, "VT"))
+        not_text.setVf(self.getChildElementOptionalNumericalValue(element, "VF"))
+        not_text.setVt(self.getChildElementOptionalLiteral(element, "VT"))
         return not_text
 
     def getRuleArguments(self, element: ET.Element) -> RuleArguments:

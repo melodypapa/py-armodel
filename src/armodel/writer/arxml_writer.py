@@ -1417,8 +1417,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         if not_text is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObjectAttributes(child_element, not_text)
-            self.setChildElementOptionalNumericalValue(child_element, "VF", not_text.getNumericalValue())
-            self.setChildElementOptionalLiteral(child_element, "VT", not_text.getTextValue())
+            self.setChildElementOptionalNumericalValue(child_element, "VF", not_text.getVf())
+            self.setChildElementOptionalLiteral(child_element, "VT", not_text.getVt())
 
     def writeRuleArguments(self, element: ET.Element, arguments: RuleArguments):
         if arguments is not None:

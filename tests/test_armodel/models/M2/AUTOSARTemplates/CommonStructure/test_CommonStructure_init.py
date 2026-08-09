@@ -15,6 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
     CompositeValueSpecification,
     ConstantReference,
     ConstantSpecification,
+    NumericalOrText,
     NumericalValueSpecification,
     RecordValueSpecification,
     RuleArguments,
@@ -320,6 +321,54 @@ class TestRuleArguments:
         vtf = NumericalOrText()
         arguments.addVtf(vtf)
         assert arguments.getVtfs() == [vtf]
+
+
+class TestNumericalOrText:
+    def test_initialization(self):
+        """Test NumericalOrText initialization"""
+        not_text = NumericalOrText()
+
+        assert not_text is not None
+        assert not_text.getVf() is None
+        assert not_text.getVt() is None
+
+    def test_get_set_vf(self):
+        """Test setVf/getVf round-trip with a numerical value"""
+        not_text = NumericalOrText()
+        vf = ARNumerical()
+        vf.setValue("1.5")
+        result = not_text.setVf(vf)
+        assert result is not_text
+        assert not_text.getVf() == vf
+
+    def test_set_vf_none_noop(self):
+        """Test setVf(None) is a no-op and does not overwrite an existing value"""
+        not_text = NumericalOrText()
+        vf = ARNumerical()
+        vf.setValue("1.5")
+        not_text.setVf(vf)
+        result = not_text.setVf(None)
+        assert result is not_text
+        assert not_text.getVf() == vf
+
+    def test_get_set_vt(self):
+        """Test setVt/getVt round-trip with a textual value"""
+        not_text = NumericalOrText()
+        vt = ARLiteral()
+        vt.setValue("label")
+        result = not_text.setVt(vt)
+        assert result is not_text
+        assert not_text.getVt() == vt
+
+    def test_set_vt_none_noop(self):
+        """Test setVt(None) is a no-op and does not overwrite an existing value"""
+        not_text = NumericalOrText()
+        vt = ARLiteral()
+        vt.setValue("label")
+        not_text.setVt(vt)
+        result = not_text.setVt(None)
+        assert result is not_text
+        assert not_text.getVt() == vt
 
 
 class TestRuleBasedAxisCont:

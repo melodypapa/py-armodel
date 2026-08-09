@@ -739,33 +739,81 @@ class NotAvailableValueSpecification(ValueSpecification):
 
 class NumericalOrText(ARObject):
     """
-    Represents a value that can be either numerical or text.
+    This meta-class represents the ability to yield either a numerical or a string. A typical use case is that
+    two or more instances of this meta-class are aggregated with a VariationPoint where some instances yield
+    strings while other instances yield numerical depending on the resolution of the binding expression.
+    Within the context of one NumericalOrText, either the attribute vf or the attribute vt shall be defined.
+    The existence of both attributes at the same time is not permitted. [constr_1243]
     """
 
     # NumericalOrText method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getNumericalValue            [x] impl  [ ] docstring  [ ] test
-    # [ ] setNumericalValue            [x] impl  [ ] docstring  [ ] test
-    # [ ] getTextValue                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setTextValue                 [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.42, p.323
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getVf                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setVf                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getVt                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setVt                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
-        self.numericalValue: ARNumerical = None
-        self.textValue: ARLiteral = None
 
-    def getNumericalValue(self):
-        return self.numericalValue
+        # This attribute represents the ability to provide a numerical value.
+        # The latest binding time of the VariationPoint shall be preCompileTime.
+        self.vf: Optional[ARNumerical] = None
 
-    def setNumericalValue(self, value):
-        self.numericalValue = value
+        # This attribute represents the ability to provide a textual value.
+        self.vt: Optional[ARLiteral] = None
+
+    def getVf(self) -> Optional[ARNumerical]:
+        """
+        This attribute represents the ability to provide a numerical value.
+        The latest binding time of the VariationPoint shall be preCompileTime.
+
+        Returns:
+            Optional[ARNumerical]: The numerical value, or None if not set
+        """
+        return self.vf
+
+    def setVf(self, value: Optional[ARNumerical]) -> "NumericalOrText":
+        """
+        This attribute represents the ability to provide a numerical value.
+        The latest binding time of the VariationPoint shall be preCompileTime.
+        A None value is a no-op and does not overwrite an existing vf.
+
+        Args:
+            value: The numerical value to set
+
+        Returns:
+            NumericalOrText: self for method chaining
+        """
+        if value is not None:
+            self.vf = value
         return self
 
-    def getTextValue(self):
-        return self.textValue
+    def getVt(self) -> Optional[ARLiteral]:
+        """
+        This attribute represents the ability to provide a textual value.
 
-    def setTextValue(self, value):
-        self.textValue = value
+        Returns:
+            Optional[ARLiteral]: The textual value, or None if not set
+        """
+        return self.vt
+
+    def setVt(self, value: Optional[ARLiteral]) -> "NumericalOrText":
+        """
+        This attribute represents the ability to provide a textual value.
+        A None value is a no-op and does not overwrite an existing vt.
+
+        Args:
+            value: The textual value to set
+
+        Returns:
+            NumericalOrText: self for method chaining
+        """
+        if value is not None:
+            self.vt = value
         return self
 
 

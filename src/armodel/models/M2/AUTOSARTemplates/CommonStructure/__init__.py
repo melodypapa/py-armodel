@@ -18,6 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
     RuleBasedValueCont,
     RuleArguments,
     RuleBasedValueSpecification,
+    NumericalOrText,
 )
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
@@ -42,6 +43,7 @@ __all__ = [
     "RuleBasedValueCont",
     "RuleArguments",
     "RuleBasedValueSpecification",
+    "NumericalOrText",
     "ModeTransition",
     "ModeErrorBehavior",
     "ModeErrorReactionPolicyEnum",
