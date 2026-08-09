@@ -9,7 +9,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import Mult
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString, Identifier
 from abc import ABC
 from typing import Dict, List, Optional, TYPE_CHECKING, Union
 
@@ -19,18 +19,18 @@ if TYPE_CHECKING:
 
 class Referrable(ARObject, ABC):
     """
-    Abstract class for elements that can be referenced by other elements in AUTOSAR models.
-    This class provides basic functionality for managing short names and parent-child relationships.
+    Instances of this class can be referred to by their identifier (while adhering to namespace borders).
     """
 
     # Referrable method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] shortName                    [x] impl  [x] docstring  [ ] test
-    # [ ] shortName                    [x] impl  [ ] docstring  [ ] test
-    # [x] getShortName                 [x] impl  [x] docstring  [x] test
-    # [x] getParent                    [x] impl  [x] docstring  [x] test
-    # [ ] full_name                    [x] impl  [x] docstring  [ ] test
-    # [ ] getFullName                  [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table E.38, p.1002
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addShortNameFragment         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getShortNameFragments        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getShortName                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getParent                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getFullName                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is Referrable:
@@ -40,6 +40,9 @@ class Referrable(ARObject, ABC):
 
         self.parent = parent
         self.short_name = short_name
+
+        # This specifies how the Referrable.shortName is composed of several shortNameFragments. Tags: xml.sequenceOffset=-90
+        self.shortNameFragments: List["ShortNameFragment"] = []
 
     @property
     def shortName(self) -> str:
@@ -83,6 +86,100 @@ class Referrable(ARObject, ABC):
             The full name of this element
         """
         return self.full_name
+
+    def addShortNameFragment(self, value: Optional["ShortNameFragment"]) -> "Referrable":
+        """
+        Adds a short name fragment that specifies how the shortName is composed of several shortNameFragments.
+        A None value is a no-op and does not append anything.
+
+        Args:
+            value: The ShortNameFragment to add
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.shortNameFragments.append(value)
+        return self
+
+    def getShortNameFragments(self) -> List["ShortNameFragment"]:
+        """
+        Gets the short name fragments that specify how the shortName is composed of several shortNameFragments.
+
+        Returns:
+            List of ShortNameFragment instances
+        """
+        return self.shortNameFragments
+
+
+class ShortNameFragment(ARObject):
+    """
+    This class describes how the Referrable.shortName is composed of several shortNameFragments.
+    """
+
+    # ShortNameFragment method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [x] test
+    # [ ] getRole                      [x] impl  [x] docstring  [x] test
+    # [ ] setRole                      [x] impl  [x] docstring  [x] test
+    # [ ] getFragment                  [x] impl  [x] docstring  [x] test
+    # [ ] setFragment                  [x] impl  [x] docstring  [x] test
+
+    def __init__(self):
+        super().__init__()
+
+        # This specifies the role of fragment to define e.g. the order of the fragments. Tags: xml.sequenceOffset=10
+        self.role: Optional[str] = None
+
+        # This specifies a single shortName (fragment) which is part of the composed shortName. Tags: xml.sequenceOffset=20
+        self.fragment: Optional[Identifier] = None
+
+    def getRole(self) -> Optional[str]:
+        """
+        Gets the role of fragment to define e.g. the order of the fragments.
+
+        Returns:
+            The role string, or None if not set
+        """
+        return self.role
+
+    def setRole(self, value: Optional[str]) -> "ShortNameFragment":
+        """
+        Sets the role of fragment to define e.g. the order of the fragments.
+        A None value is a no-op and does not overwrite an existing role.
+
+        Args:
+            value: The role string to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.role = value
+        return self
+
+    def getFragment(self) -> Optional[Identifier]:
+        """
+        Gets the single shortName (fragment) which is part of the composed shortName.
+
+        Returns:
+            Identifier representing the fragment, or None if not set
+        """
+        return self.fragment
+
+    def setFragment(self, value: Optional[Identifier]) -> "ShortNameFragment":
+        """
+        Sets the single shortName (fragment) which is part of the composed shortName.
+        A None value is a no-op and does not overwrite an existing fragment.
+
+        Args:
+            value: The fragment identifier to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.fragment = value
+        return self
 
 
 class MultilanguageReferrable(Referrable, ABC):

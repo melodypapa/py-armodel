@@ -180,7 +180,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable, MultilanguageReferrable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable, MultilanguageReferrable, Referrable, ShortNameFragment
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
@@ -622,6 +622,16 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readReferrable(self, element: ET.Element, referrable: Referrable):
         self.readARObjectAttributes(element, referrable)
+
+        if isinstance(referrable, Referrable):
+            for child_element in self.findall(element, "SHORT-NAME-FRAGMENTS/SHORT-NAME-FRAGMENT"):
+                fragment = ShortNameFragment()
+                self.readARObjectAttributes(child_element, fragment)
+                role_element = self.find(child_element, "ROLE")
+                if role_element is not None:
+                    fragment.setRole(role_element.text)
+                fragment.setFragment(self.getChildElementOptionalIdentifier(child_element, "FRAGMENT"))
+                referrable.addShortNameFragment(fragment)
 
     def readMultilanguageReferrable(self, element: ET.Element, referrable: MultilanguageReferrable):
         self.readReferrable(element, referrable)
