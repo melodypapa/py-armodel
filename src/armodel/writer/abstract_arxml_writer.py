@@ -14,6 +14,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARLiteral,
     ARNumerical,
     DateTime,
+    Identifier,
     Integer,
     RefType,
     RevisionLabelString,
@@ -134,6 +135,13 @@ class AbstractARXMLWriter(ABC):
         return element
 
     def setChildElementOptionalLiteral(self, element: ET.Element, key: str, value: ARLiteral) -> ET.Element:
+        if value is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObjectAttributes(child_element, value)
+            child_element.text = value.getText()
+        return element
+
+    def setChildElementOptionalIdentifier(self, element: ET.Element, key: str, value: Identifier) -> ET.Element:
         if value is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObjectAttributes(child_element, value)

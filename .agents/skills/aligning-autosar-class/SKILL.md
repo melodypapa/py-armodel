@@ -52,8 +52,8 @@ trivial edits that don't touch the class's spec contract.
 | model test | `tests/test_armodel/models/M2/AUTOSARTemplates/<pkg>/test_<ClassName>.py` → `class Test<ClassName>` — pairs 1:1 with source `<ClassName>.py` (Step 2) |
 | parser test | `tests/test_armodel/parser/test_*.py` → `class Test*` (load with `ARXMLParser`, assert model fields; Step 5) |
 | writer test | `tests/test_armodel/writer/test_*.py` → `class Test*` (set → save → reload round-trip; Step 5) |
-| spec PDF | `autosar/pdf/AUTOSAR_CP_TPS_*.pdf` — **PDF name, Table ID, and page (p.NN) come from the PDF file directly** |
-| spec table | `grep "Table N.M: <ClassName>" autosar/markdown/AUTOSAR_CP_TPS_*.md` (table content only; the markdown carries no page numbers) |
+| spec markdown | `grep "Table N.M: <ClassName>" autosar/markdown/AUTOSAR_*_TPS_*.md` — **primary source for all text**: `Note` (→ docstrings), `Attribute`/`Base`, `Table N.M` id, table name (via filename). Covers **both** `CP_TPS` (Classic) and `FO_TPS` (Foundation) |
+| spec PDF | `autosar/pdf/AUTOSAR_*_TPS_*.pdf` — **opened only to read the page number** (`p.NN`); the markdown carries no page numbers |
 | deviation records | the project deviation tracker (format in *Rule 0014*) |
 | XSD ground truth | `autosar-pdf/examples/xsd/` |
 
@@ -87,8 +87,9 @@ implementation before its failing test.
   report referenced non-existent classes (do **not** block). **Enum (`AREnum`)?** produce
   literals not accessors (*Rules 0010–0011*).
 - **4** — Class docstring, inline `__init__` comments, and getter/setter docstrings copy
-  the PDF `Note` **verbatim** (no summarizing/rephrasing); a guarded setter also appends
-  the None-no-op code-behavior sentence.
+  the spec `Note` **verbatim from the markdown** (no summarizing/rephrasing); the PDF is
+  opened only for the `p.NN` page. A guarded setter also appends the None-no-op
+  code-behavior sentence.
 - **5** — **Reader/writer tests live in their own folders**, not the per-class mirror:
   parser → `tests/test_armodel/parser/`, writer → `tests/test_armodel/writer/`
   (both `class Test*`, organized by feature/handler). Assert **field values** (not just
@@ -117,7 +118,7 @@ implementation before its failing test.
 
 ```
 # ClassName method parity checklist:
-# Spec: AUTOSAR_CP_TPS_<Template>.pdf, Table X.Y, p.NN
+# Spec: AUTOSAR_<Platform>_TPS_<Template>.pdf, Table X.Y, p.NN
 # Spec verified: R<YY>-<MM>
 # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
 # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
@@ -127,9 +128,11 @@ implementation before its failing test.
 # [x] getBar       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 ```
 
-**Citation source:** the `# Spec:` PDF name, Table ID, and `p.NN` page come from the
-PDF file directly (`autosar/pdf/AUTOSAR_CP_TPS_*.pdf`); the markdown carries no page
-numbers.
+**Citation source:** the `# Spec:` table name, `Table N.M` id, and `Note` text come from
+the **markdown** (`autosar/markdown/AUTOSAR_*_TPS_*.md` — covers `CP_TPS` and `FO_TPS`);
+only the `p.NN` **page** is read from the **PDF** (`autosar/pdf/...`) — the markdown
+carries no page numbers. In the `# Spec:` line, `<Platform>` is `CP` (Classic) or `FO`
+(Foundation), taken from the spec markdown filename.
 
 `reader [x]` on the **mutator** row (reader's `readXxx` calls `setXxx`/`createXxx`/
 `addXxx`); `writer [x]` on the **getter** row (writer's `writeXxx` calls `getXxx`);
@@ -163,6 +166,6 @@ detail: *Rule 0002*.
 
 - **Rules (self-contained):** `rules.md` in this skill folder — *Rule 0001*–*Rule 0014*.
 - Coding standards: `docs/development/coding_rules.md`.
-- Spec PDFs (authoritative — source of the PDF name, Table ID, and page): `autosar/pdf/AUTOSAR_CP_TPS_*.pdf`.
-- Spec markdown (derived table content; carries no page numbers): `autosar/markdown/AUTOSAR_CP_TPS_*.md`.
+- Spec markdown (primary — source of all text: `Note`, `Table N.M` id, table name): `autosar/markdown/AUTOSAR_*_TPS_*.md` (`CP_TPS` + `FO_TPS`).
+- Spec PDFs (opened only for the `p.NN` page number): `autosar/pdf/AUTOSAR_*_TPS_*.pdf`.
 - XSD ground truth: `autosar-pdf/examples/xsd/`.

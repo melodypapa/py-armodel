@@ -188,7 +188,7 @@ class TestMcSupportDataRoundTrip:
         sub_element = instance.createSubElement("StructElem")
         sub_element.setSymbol(SymbolString().setValue("sub_sym"))
         assignment = RoleBasedMcDataAssignment()
-        assignment.setMcDataInstanceRef(make_ref("/mc/inst")).setRole(Identifier().setValue("RpEnablerFlag"))
+        assignment.addMcDataInstanceRef(make_ref("/mc/inst")).setRole(Identifier().setValue("RpEnablerFlag"))
         instance.addMcDataAssignment(assignment)
         access = RptSwPrototypingAccess()
         access.setRptHookAccess(RptAccessEnum().setValue(RptAccessEnum.ENABLED)).setRptReadAccess(RptAccessEnum().setValue(RptAccessEnum.NONE))
@@ -238,7 +238,7 @@ class TestMcSupportDataRoundTrip:
             assert instance_2.getRptImplPolicy().getRptPreparationLevel().getValue() == "rptLevel2"
             assert len(instance_2.getSubElements()) == 1
             assert instance_2.getSubElements()[0].getSymbol().getValue() == "sub_sym"
-            assert instance_2.getMcDataAssignments()[0].getMcDataInstanceRef().getValue() == "/mc/inst"
+            assert instance_2.getMcDataAssignments()[0].getMcDataInstanceRefs()[0].getValue() == "/mc/inst"
             assert instance_2.getMcDataAssignments()[0].getRole().getValue() == "RpEnablerFlag"
             assert instance_2.getResultingRptSwPrototypingAccess().getRptHookAccess().getValue() == "enabled"
             assert support_2.getMcVariableInstances()[0].getDisplayIdentifier().getValue() == "meas_1"
@@ -254,7 +254,7 @@ class TestMcSupportDataRoundTrip:
             assert entity_2.getShortName() == "Run1"
             assert entity_2.getSymbol().getValue() == "Run1_func"
             assert len(entity_2.getRptReads()) == 1
-            assert entity_2.getRptReads()[0].getMcDataInstanceRef().getValue() == "/mc/inst"
+            assert entity_2.getRptReads()[0].getMcDataInstanceRefs()[0].getValue() == "/mc/inst"
             assert len(entity_2.getRptWrites()) == 1
             event_2 = entity_2.getRptExecutableEntityEvents()[0]
             assert event_2.getShortName() == "TimingEvent1"

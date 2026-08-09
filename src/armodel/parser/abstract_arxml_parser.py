@@ -14,6 +14,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARNumerical,
     Boolean,
     DateTime,
+    Identifier,
     Integer,
     Limit,
     PositiveInteger,
@@ -118,6 +119,19 @@ class AbstractARXMLParser(ABC):
             else:
                 literal.setValue(child_element.text)
         return literal
+
+    def getChildElementOptionalIdentifier(self, element: ET.Element, key: str) -> Identifier:
+        child_element = self.find(element, key)
+        identifier = None
+        if child_element is not None:
+            identifier = Identifier()
+            self.readARObjectAttributes(child_element, identifier)
+            # Patch for empty element <USED-CODE-GENERATOR></USED-CODE-GENERATOR>
+            if child_element.text is None:
+                identifier.setValue("")
+            else:
+                identifier.setValue(child_element.text)
+        return identifier
 
     def getChildElementOptionalRevisionLabelString(self, element: ET.Element, key: str) -> RevisionLabelString:
         child_element = self.find(element, key)
