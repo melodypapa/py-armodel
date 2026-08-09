@@ -10,6 +10,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
+from armodel.models import ApplicationSwComponentType
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     ComMgrUserNeeds,
     CryptoServiceNeeds,
@@ -27,6 +28,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DiagnosticEventNeeds,
     DiagnosticIndicatorTypeEnum,
     DiagnosticIoControlNeeds,
+    DiagnosticMonitorUpdateKindEnum,
     DiagnosticOperationCycleNeeds,
     DiagnosticProcessingStyleEnum,
     DiagnosticRoutineNeeds,
@@ -48,6 +50,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     NvBlockNeeds,
     NvBlockNeedsReliabilityEnum,
     NvBlockNeedsWritingPriorityEnum,
+    ObdInfoServiceNeeds,
+    ObdMonitorServiceNeeds,
+    ObdPidServiceNeeds,
     OperationCycleTypeEnum,
     PossibleErrorReaction,
     RamBlockStatusControlEnum,
@@ -2513,3 +2518,258 @@ class TestSupervisedEntityNeeds:
 
         needs.setToleratedFailedCycles(None)  # No-op
         assert needs.getToleratedFailedCycles() == value
+
+
+class TestDiagnosticMonitorUpdateKindEnum:
+    def test_enum_values(self):
+        """Test DiagnosticMonitorUpdateKindEnum literal values and indices."""
+        assert DiagnosticMonitorUpdateKindEnum.ALWAYS == "always"
+        assert DiagnosticMonitorUpdateKindEnum.STEADY == "steady"
+        enum = DiagnosticMonitorUpdateKindEnum()
+        assert "always" in enum.getEnumValues()
+        assert "steady" in enum.getEnumValues()
+
+    def test_set_value(self):
+        """Test setValue/getValue round-trip for the enum."""
+        enum = DiagnosticMonitorUpdateKindEnum()
+        result = enum.setValue(DiagnosticMonitorUpdateKindEnum.STEADY)
+        assert result is enum  # Method chaining
+        assert enum.getValue() == "steady"
+
+        enum.setValue(DiagnosticMonitorUpdateKindEnum.ALWAYS)
+        assert enum.getValue() == "always"
+
+        enum.setValue(None)  # No-op
+        assert enum.getValue() == "always"
+
+
+class TestObdInfoServiceNeeds:
+    def test_initialization(self):
+        """Test ObdInfoServiceNeeds initialization defaults."""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = ObdInfoServiceNeeds(ar_root, "TestObdInfoServiceNeeds")
+
+        assert needs is not None
+        assert needs.getShortName() == "TestObdInfoServiceNeeds"
+        assert needs.audiences == []
+        assert needs.diagRequirement is None
+        assert needs.securityAccessLevel is None
+
+
+class TestObdMonitorServiceNeeds:
+    def test_initialization(self):
+        """Test ObdMonitorServiceNeeds initialization defaults."""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = ObdMonitorServiceNeeds(ar_root, "TestObdMonitorServiceNeeds")
+
+        assert needs is not None
+        assert needs.getShortName() == "TestObdMonitorServiceNeeds"
+        assert needs.audiences == []
+        assert needs.diagRequirement is None
+        assert needs.securityAccessLevel is None
+        assert needs.getApplicationDataTypeRef() is None
+        assert needs.getEventNeedsRef() is None
+        assert needs.getUnitAndScalingId() is None
+        assert needs.getUpdateKind() is None
+
+    def test_get_set_application_data_type_ref(self):
+        """Test getApplicationDataTypeRef/setApplicationDataTypeRef (chaining, round-trip, None no-op)."""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = ObdMonitorServiceNeeds(ar_root, "TestObdMonitorServiceNeeds")
+
+        value = RefType().setValue("/Data/AppType")
+        result = needs.setApplicationDataTypeRef(value)
+        assert result is needs  # Method chaining
+        assert needs.getApplicationDataTypeRef() == value
+
+        needs.setApplicationDataTypeRef(None)  # No-op
+        assert needs.getApplicationDataTypeRef() == value
+
+    def test_get_set_event_needs_ref(self):
+        """Test getEventNeedsRef/setEventNeedsRef (chaining, round-trip, None no-op)."""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = ObdMonitorServiceNeeds(ar_root, "TestObdMonitorServiceNeeds")
+
+        value = RefType().setValue("/Events/Evt")
+        result = needs.setEventNeedsRef(value)
+        assert result is needs  # Method chaining
+        assert needs.getEventNeedsRef() == value
+
+        needs.setEventNeedsRef(None)  # No-op
+        assert needs.getEventNeedsRef() == value
+
+    def test_get_set_unit_and_scaling_id(self):
+        """Test getUnitAndScalingId/setUnitAndScalingId (chaining, round-trip, None no-op)."""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = ObdMonitorServiceNeeds(ar_root, "TestObdMonitorServiceNeeds")
+
+        value = PositiveInteger().setValue("2")
+        result = needs.setUnitAndScalingId(value)
+        assert result is needs  # Method chaining
+        assert needs.getUnitAndScalingId() == value
+
+        needs.setUnitAndScalingId(None)  # No-op
+        assert needs.getUnitAndScalingId() == value
+
+    def test_get_set_update_kind(self):
+        """Test getUpdateKind/setUpdateKind (chaining, round-trip, None no-op)."""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = ObdMonitorServiceNeeds(ar_root, "TestObdMonitorServiceNeeds")
+
+        value = DiagnosticMonitorUpdateKindEnum().setValue(DiagnosticMonitorUpdateKindEnum.STEADY)
+        result = needs.setUpdateKind(value)
+        assert result is needs  # Method chaining
+        assert needs.getUpdateKind() == value
+
+        needs.setUpdateKind(None)  # No-op
+        assert needs.getUpdateKind() == value
+
+
+class TestObdPidServiceNeeds:
+    def test_initialization(self):
+        """Test ObdPidServiceNeeds initialization defaults."""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = ObdPidServiceNeeds(ar_root, "TestObdPidServiceNeeds")
+
+        assert needs is not None
+        assert needs.getShortName() == "TestObdPidServiceNeeds"
+        assert needs.audiences == []
+        assert needs.diagRequirement is None
+        assert needs.securityAccessLevel is None
+
+
+class TestObdInfoServiceNeedsRoundTrip:
+    def test_round_trip_attributes(self):
+        """Test parse -> write -> re-parse preserves ObdInfoServiceNeeds (attribute-less)."""
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        desc = ar_root.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        dependency = BswServiceDependency()
+        needs = ObdInfoServiceNeeds(dependency, "ObdInfoNeeds")
+        dependency.setServiceNeeds(needs)
+        behavior.addServiceDependency(dependency)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            behavior_2 = document_2.getARPackages()[0].getBswModuleDescriptions()[0].getInternalBehaviors()[0]
+            needs_2 = behavior_2.getServiceDependencies()[0].getServiceNeeds()
+            assert needs_2.getShortName() == "ObdInfoNeeds"
+            assert isinstance(needs_2, ObdInfoServiceNeeds)
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestObdMonitorServiceNeedsRoundTrip:
+    def test_round_trip_bsw_attributes(self):
+        """Test parse -> write -> re-parse preserves ObdMonitorServiceNeeds attributes (BSW path)."""
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        desc = ar_root.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        dependency = BswServiceDependency()
+        needs = ObdMonitorServiceNeeds(dependency, "ObdMonitorNeeds")
+        app_ref = RefType()
+        app_ref.setValue("/Data/AppType")
+        app_ref.setDest("APPLICATION-DATA-TYPE--SUBTYPES-ENUM")
+        needs.setApplicationDataTypeRef(app_ref)
+        evt_ref = RefType()
+        evt_ref.setValue("/Events/Evt")
+        evt_ref.setDest("DIAGNOSTIC-EVENT-NEEDS--SUBTYPES-ENUM")
+        needs.setEventNeedsRef(evt_ref)
+        needs.setUnitAndScalingId(PositiveInteger().setValue("2"))
+        needs.setUpdateKind(DiagnosticMonitorUpdateKindEnum().setValue(DiagnosticMonitorUpdateKindEnum.STEADY))
+        dependency.setServiceNeeds(needs)
+        behavior.addServiceDependency(dependency)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            behavior_2 = document_2.getARPackages()[0].getBswModuleDescriptions()[0].getInternalBehaviors()[0]
+            needs_2 = behavior_2.getServiceDependencies()[0].getServiceNeeds()
+            assert needs_2.getShortName() == "ObdMonitorNeeds"
+            assert isinstance(needs_2, ObdMonitorServiceNeeds)
+            assert needs_2.getApplicationDataTypeRef().getValue() == "/Data/AppType"
+            assert needs_2.getApplicationDataTypeRef().getDest() == "APPLICATION-DATA-TYPE--SUBTYPES-ENUM"
+            assert needs_2.getEventNeedsRef().getValue() == "/Events/Evt"
+            assert needs_2.getEventNeedsRef().getDest() == "DIAGNOSTIC-EVENT-NEEDS--SUBTYPES-ENUM"
+            assert needs_2.getUnitAndScalingId().getValue() == 2
+            assert needs_2.getUpdateKind().getValue() == "steady"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_swc_attributes(self):
+        """Test parse -> write -> re-parse preserves ObdMonitorServiceNeeds attributes (SWC path)."""
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        swc = ar_root.createApplicationSwComponentType("Swc")
+        behavior = swc.createSwcInternalBehavior("Beh")
+        dependency = behavior.createSwcServiceDependency("Dep")
+        needs = dependency.createObdMonitorServiceNeeds("ObdMonitorNeeds")
+        needs.setUpdateKind(DiagnosticMonitorUpdateKindEnum().setValue(DiagnosticMonitorUpdateKindEnum.ALWAYS))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            behavior_2 = document_2.getARPackages()[0].getElement("Swc", ApplicationSwComponentType).getInternalBehavior()
+            needs_2 = behavior_2.getSwcServiceDependencies()[0].getObdMonitorServiceNeeds()[0]
+            assert needs_2.getShortName() == "ObdMonitorNeeds"
+            assert isinstance(needs_2, ObdMonitorServiceNeeds)
+            assert needs_2.getUpdateKind().getValue() == "always"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestObdPidServiceNeedsRoundTrip:
+    def test_round_trip_attributes(self):
+        """Test parse -> write -> re-parse preserves ObdPidServiceNeeds (attribute-less)."""
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        desc = ar_root.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        dependency = BswServiceDependency()
+        needs = ObdPidServiceNeeds(dependency, "ObdPidNeeds")
+        dependency.setServiceNeeds(needs)
+        behavior.addServiceDependency(dependency)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            behavior_2 = document_2.getARPackages()[0].getBswModuleDescriptions()[0].getInternalBehaviors()[0]
+            needs_2 = behavior_2.getServiceDependencies()[0].getServiceNeeds()
+            assert needs_2.getShortName() == "ObdPidNeeds"
+            assert isinstance(needs_2, ObdPidServiceNeeds)
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)

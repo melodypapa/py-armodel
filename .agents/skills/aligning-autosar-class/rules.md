@@ -84,10 +84,11 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
   field set as unverified. Exception: a class with **no own spec table** (attributes
   XSD-only, e.g. a concrete `<name>InstanceRef`) legitimately lacks these — excluded.
 - **PDF-table omission vs fabricated API.** An attribute absent from the PDF
-  `Attribute` column but **present in the XSD with a documentation block** (no
-  `atp.Status="removed"`) is a rendering gap — **keep** it with coverage and record
-  `"present in XSD, absent from PDF table rendering; kept"`. A field with **no spec
-  basis anywhere** is fabricated — **remove**. Grep the XSD to decide.
+  `Attribute` column is **not** modeled, even when present in the XSD (with or without a
+  documentation block, and no `atp.Status="removed"`) — the PDF/markdown attribute set is
+  authoritative; see Rule 0015. Do **not** keep XSD-only attributes as a "rendering gap".
+  A field with **no spec basis anywhere** is fabricated — **remove**. Grep the XSD to
+  decide.
   *Stale-XSD caveat:* if the repo's XSD predates the class's verified release, an
   XSD-only attribute may be an upstream deletion (not a rendering gap) — treat like
   `atp.Status="removed"` (no field) when absent from all verified-release PDF
@@ -706,3 +707,38 @@ tracker. Each class entry has a header and a deviation table:
 - A class with no deviations records `No deviations — …` with a one-line summary.
 - **The `# Spec verified:` stamp (Rule 0012.1) is not set while any non-`atpDerived`/
   non-`convenience` deviation remains unresolved.**
+
+---
+
+## Rule 0015 — XSD vs PDF/markdown attribute authority *(added after the Obd*ServiceNeeds alignment)*
+
+When the XSD and the human-readable PDF/markdown spec tables disagree on a class's
+**attribute set**, the **PDF/markdown tables are authoritative** for what the model class
+contains. This is the final arbiter; it overrides the former "keep XSD-only attrs as a
+rendering gap" guidance in Rule 0001.3.
+
+- **XSD-only attributes are not added.** If an attribute exists in the XSD (an element or
+  attribute, with or without `atp.Status="removed"`) but is **absent from the class's PDF
+  `Attribute` column and from the clean markdown table**, it is **not** modeled as a
+  field/accessor pair. Do not add it "because the XSD has it." If it was already added,
+  **remove** the field(s) and revert the parser reader, writer, and reader/writer/unit
+  tests accordingly — the model must match the PDF/markdown exactly.
+- Treat an XSD-only attribute as an upstream XSD artifact, **not** a rendering gap to
+  preserve. The Stale-XSD caveat in Rule 0001.3 (an XSD-only attribute absent from all
+  verified-release PDF renderings behaves like `atp.Status="removed"`) reaches the same
+  conclusion: no field.
+- **Scope.** This rule governs *attribute membership only*. It does **not** relax:
+  - type-typing (Rule 0001.3 still applies — kept attributes use the spec-typed reader
+    `getChildElementOptional…` / writer `setChildElementOptional…` helpers and
+    `Optional[PositiveInteger]` etc.);
+  - reader/writer coverage for attributes that *are* kept (Rule 0001.7);
+  - the "no fabricated attributes" direction (Rule 0001.3) — both point the same way:
+    model only what the PDF lists, add nothing the PDF lacks.
+- **Worked example (Obd*ServiceNeeds, R23-11).** The XSD defines `DATA-LENGTH`,
+  `INFO-TYPE`, `PARAMETER-ID`, `STANDARD`, `ON-BOARD-MONITOR-ID`, `TEST-ID` on the OBD
+  service-needs classes, but PDF Tables 13.47–13.49 and the clean DEXT 5.9 / BSW D.44
+  markdown omit them. The aligned model now matches the PDF: `ObdInfoServiceNeeds` and
+  `ObdPidServiceNeeds` are attribute-less (inherit `DiagnosticCapabilityElement` only);
+  `ObdMonitorServiceNeeds` keeps only `applicationDataTypeRef`, `eventNeedsRef`,
+  `unitAndScalingId`, `updateKind`. The dropped XSD-only members are not recorded as
+  deviations (they are simply not modeled).

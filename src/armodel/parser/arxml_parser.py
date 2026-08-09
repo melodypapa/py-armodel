@@ -118,6 +118,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     FunctionInhibitionAvailabilityNeeds,
     IndicatorStatusNeeds,
     NvBlockNeeds,
+    ObdInfoServiceNeeds,
+    ObdMonitorServiceNeeds,
+    ObdPidServiceNeeds,
     PossibleErrorReaction,
     RoleBasedDataAssignment,
     RoleBasedDataTypeAssignment,
@@ -1059,6 +1062,18 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = ErrorTracerNeeds(dependency, short_name)
                 self.readErrorTracerNeeds(child_element, needs)
+            elif tag_name == "OBD-INFO-SERVICE-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = ObdInfoServiceNeeds(dependency, short_name)
+                self.readObdInfoServiceNeeds(child_element, needs)
+            elif tag_name == "OBD-MONITOR-SERVICE-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = ObdMonitorServiceNeeds(dependency, short_name)
+                self.readObdMonitorServiceNeeds(child_element, needs)
+            elif tag_name == "OBD-PID-SERVICE-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = ObdPidServiceNeeds(dependency, short_name)
+                self.readObdPidServiceNeeds(child_element, needs)
             else:
                 self.notImplemented("Unsupported service needs <%s>" % tag_name)
                 continue
@@ -1125,6 +1140,19 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readDiagnosticCapabilityElement(self, element: ET.Element, needs: DiagnosticCapabilityElement):
         self.readServiceNeeds(element, needs)
+
+    def readObdInfoServiceNeeds(self, element: ET.Element, needs: ObdInfoServiceNeeds):
+        self.readDiagnosticCapabilityElement(element, needs)
+
+    def readObdMonitorServiceNeeds(self, element: ET.Element, needs: ObdMonitorServiceNeeds):
+        self.readDiagnosticCapabilityElement(element, needs)
+        needs.setApplicationDataTypeRef(self.getChildElementOptionalRefType(element, "APPLICATION-DATA-TYPE-REF"))
+        needs.setEventNeedsRef(self.getChildElementOptionalRefType(element, "EVENT-NEEDS-REF"))
+        needs.setUnitAndScalingId(self.getChildElementOptionalPositiveInteger(element, "UNIT-AND-SCALING-ID"))
+        needs.setUpdateKind(self.getChildElementOptionalLiteral(element, "UPDATE-KIND"))
+
+    def readObdPidServiceNeeds(self, element: ET.Element, needs: ObdPidServiceNeeds):
+        self.readDiagnosticCapabilityElement(element, needs)
 
     def readDiagnosticCommunicationManagerNeeds(self, element: ET.Element, needs: DiagnosticCommunicationManagerNeeds):
         # self.logger.debug("Read DiagnosticCommunicationManagerNeeds <%s>" % needs.getShortName())
@@ -1353,6 +1381,15 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "FUNCTION-INHIBITION-AVAILABILITY-NEEDS":
                 needs = parent.createFunctionInhibitionAvailabilityNeeds(self.getShortName(child_element))
                 self.readFunctionInhibitionAvailabilityNeeds(child_element, needs)
+            elif tag_name == "OBD-INFO-SERVICE-NEEDS":
+                needs = parent.createObdInfoServiceNeeds(self.getShortName(child_element))
+                self.readObdInfoServiceNeeds(child_element, needs)
+            elif tag_name == "OBD-MONITOR-SERVICE-NEEDS":
+                needs = parent.createObdMonitorServiceNeeds(self.getShortName(child_element))
+                self.readObdMonitorServiceNeeds(child_element, needs)
+            elif tag_name == "OBD-PID-SERVICE-NEEDS":
+                needs = parent.createObdPidServiceNeeds(self.getShortName(child_element))
+                self.readObdPidServiceNeeds(child_element, needs)
             else:
                 self.notImplemented("Unsupported service needs <%s>" % tag_name)
 

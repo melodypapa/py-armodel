@@ -27,6 +27,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     FunctionInhibitionAvailabilityNeeds,
     IndicatorStatusNeeds,
     NvBlockNeeds,
+    ObdInfoServiceNeeds,
+    ObdMonitorServiceNeeds,
+    ObdPidServiceNeeds,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment, ServiceNeeds, ServiceDependency
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -136,6 +139,12 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
     # [ ] getDltUserNeeds              [x] impl  [x] docstring  [ ] test
     # [ ] getComMgrUserNeeds           [x] impl  [x] docstring  [x] test
     # [ ] getErrorTracerNeeds          [x] impl  [x] docstring  [ ] test
+    # [ ] createObdInfoServiceNeeds    [x] impl  [x] docstring  [x] test
+    # [ ] createObdMonitorServiceNeeds [x] impl  [x] docstring  [x] test
+    # [ ] createObdPidServiceNeeds     [x] impl  [x] docstring  [x] test
+    # [ ] getObdInfoServiceNeeds       [x] impl  [x] docstring  [x] test
+    # [ ] getObdMonitorServiceNeeds    [x] impl  [x] docstring  [x] test
+    # [ ] getObdPidServiceNeeds        [x] impl  [x] docstring  [x] test
     # [ ] getServiceNeeds              [x] impl  [x] docstring  [ ] test
 
     def __init__(self, parent: ARObject, short_name: str):
@@ -453,6 +462,51 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
             self.addElement(needs)
         return self.getElement(short_name)
 
+    def createObdInfoServiceNeeds(self, short_name: str) -> ObdInfoServiceNeeds:
+        """
+        Creates or retrieves an ObdInfoServiceNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            ObdInfoServiceNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name):
+            needs = ObdInfoServiceNeeds(self, short_name)
+            self.addElement(needs)
+        return self.getElement(short_name)
+
+    def createObdMonitorServiceNeeds(self, short_name: str) -> ObdMonitorServiceNeeds:
+        """
+        Creates or retrieves an ObdMonitorServiceNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            ObdMonitorServiceNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name):
+            needs = ObdMonitorServiceNeeds(self, short_name)
+            self.addElement(needs)
+        return self.getElement(short_name)
+
+    def createObdPidServiceNeeds(self, short_name: str) -> ObdPidServiceNeeds:
+        """
+        Creates or retrieves an ObdPidServiceNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            ObdPidServiceNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name):
+            needs = ObdPidServiceNeeds(self, short_name)
+            self.addElement(needs)
+        return self.getElement(short_name)
+
     def getNvBlockNeeds(self) -> List[NvBlockNeeds]:
         """
         Gets sorted NvBlockNeeds elements.
@@ -574,6 +628,33 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
             List[ErrorTracerNeeds]: Sorted list of ErrorTracerNeeds
         """
         return sorted(filter(lambda c: isinstance(c, ErrorTracerNeeds), self.elements), key=lambda e: e.short_name)
+
+    def getObdInfoServiceNeeds(self) -> List[ObdInfoServiceNeeds]:
+        """
+        Gets sorted ObdInfoServiceNeeds elements.
+
+        Returns:
+            List[ObdInfoServiceNeeds]: Sorted list of ObdInfoServiceNeeds
+        """
+        return sorted(filter(lambda c: isinstance(c, ObdInfoServiceNeeds), self.elements), key=lambda e: e.short_name)
+
+    def getObdMonitorServiceNeeds(self) -> List[ObdMonitorServiceNeeds]:
+        """
+        Gets sorted ObdMonitorServiceNeeds elements.
+
+        Returns:
+            List[ObdMonitorServiceNeeds]: Sorted list of ObdMonitorServiceNeeds
+        """
+        return sorted(filter(lambda c: isinstance(c, ObdMonitorServiceNeeds), self.elements), key=lambda e: e.short_name)
+
+    def getObdPidServiceNeeds(self) -> List[ObdPidServiceNeeds]:
+        """
+        Gets sorted ObdPidServiceNeeds elements.
+
+        Returns:
+            List[ObdPidServiceNeeds]: Sorted list of ObdPidServiceNeeds
+        """
+        return sorted(filter(lambda c: isinstance(c, ObdPidServiceNeeds), self.elements), key=lambda e: e.short_name)
 
     def getServiceNeeds(self) -> List[ServiceNeeds]:
         """
