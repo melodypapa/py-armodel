@@ -12,7 +12,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     MultilanguageReferrable,
     PackageableElement,
     Referrable,
+    ShortNameFragment,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
@@ -98,6 +100,103 @@ class TestReferrable:
         # The parent (ar_root) full name starts with /, so result is /AUTOSAR/TestName
         assert obj.full_name == "/AUTOSAR/TestName"
         assert obj.getFullName() == "/AUTOSAR/TestName"
+
+    def test_get_short_name_fragments_empty_default(self):
+        """
+        Test that shortNameFragments is empty by default.
+        """
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        class ConcreteReferrable(Referrable):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        obj = ConcreteReferrable(ar_root, "TestName")
+        assert obj.getShortNameFragments() == []
+
+    def test_add_short_name_fragment(self):
+        """
+        Test addShortNameFragment appends and returns self for chaining.
+        """
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        class ConcreteReferrable(Referrable):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        obj = ConcreteReferrable(ar_root, "TestName")
+        fragment = ShortNameFragment()
+        result = obj.addShortNameFragment(fragment)
+        assert result is obj
+        assert obj.getShortNameFragments() == [fragment]
+
+    def test_add_short_name_fragment_none_is_noop(self):
+        """
+        Test addShortNameFragment with None does not append anything.
+        """
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        class ConcreteReferrable(Referrable):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        obj = ConcreteReferrable(ar_root, "TestName")
+        result = obj.addShortNameFragment(None)
+        assert result is obj
+        assert obj.getShortNameFragments() == []
+
+
+class TestShortNameFragment:
+    """
+    Test class for ShortNameFragment functionality.
+    """
+
+    def test_initialization(self):
+        """
+        Test that ShortNameFragment initializes with None attributes.
+        """
+        fragment = ShortNameFragment()
+        assert fragment.getRole() is None
+        assert fragment.getFragment() is None
+
+    def test_role_setter_getter(self):
+        """
+        Test setRole and getRole methods.
+        """
+        fragment = ShortNameFragment()
+        assert fragment.setRole("prefix") is fragment
+        assert fragment.getRole() == "prefix"
+
+    def test_role_none_is_noop(self):
+        """
+        Test that setRole(None) does not overwrite an existing role.
+        """
+        fragment = ShortNameFragment()
+        fragment.setRole("prefix")
+        fragment.setRole(None)
+        assert fragment.getRole() == "prefix"
+
+    def test_fragment_setter_getter(self):
+        """
+        Test setFragment and getFragment methods.
+        """
+        fragment = ShortNameFragment()
+        value = Identifier().setValue("FragmentText")
+        assert fragment.setFragment(value) is fragment
+        assert fragment.getFragment() == value
+
+    def test_fragment_none_is_noop(self):
+        """
+        Test that setFragment(None) does not overwrite an existing fragment.
+        """
+        fragment = ShortNameFragment()
+        value = Identifier().setValue("FragmentText")
+        fragment.setFragment(value)
+        fragment.setFragment(None)
+        assert fragment.getFragment() == value
 
 
 class TestMultilanguageReferrable:

@@ -6,7 +6,8 @@ import xml.etree.cElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantReference, NumericalValueSpecification, TextValueSpecification
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, DateTime, Limit, RefType, RevisionLabelString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable, ShortNameFragment
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, DateTime, Identifier, Limit, RefType, RevisionLabelString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     SwSystemconstValue,
 )
@@ -931,3 +932,54 @@ class TestARXMLWriterPredefinedVariantMethods:
         assert systemconst_el.attrib.get("DEST") == "SW-SYSTEMCONSTANT-VALUE-SET"
 
         autosar.clear()
+
+
+class TestShortNameFragmentsWriting:
+    """Test writing of Referrable.shortNameFragments."""
+
+    def test_write_referrable_with_short_name_fragments(self):
+        writer = ARXMLWriter()
+        parent = ET.Element("parent")
+        autosar = AUTOSAR.getInstance()
+
+        class ConcreteReferrable(Referrable):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        obj = ConcreteReferrable(autosar, "TestName")
+        fragment = ShortNameFragment()
+        fragment.setRole("prefix")
+        fragment.setFragment(Identifier().setValue("PFX"))
+        obj.addShortNameFragment(fragment)
+
+        writer.writeReferrable(parent, obj)
+
+        short_name_el = parent.find("SHORT-NAME")
+        assert short_name_el is not None
+        assert short_name_el.text == "TestName"
+
+        fragments_el = parent.find("SHORT-NAME-FRAGMENTS")
+        assert fragments_el is not None
+        fragment_el = fragments_el.find("SHORT-NAME-FRAGMENT")
+        assert fragment_el is not None
+        role_el = fragment_el.find("ROLE")
+        assert role_el is not None
+        assert role_el.text == "prefix"
+        fragment_value_el = fragment_el.find("FRAGMENT")
+        assert fragment_value_el is not None
+        assert fragment_value_el.text == "PFX"
+
+    def test_write_referrable_without_short_name_fragments(self):
+        writer = ARXMLWriter()
+        parent = ET.Element("parent")
+        autosar = AUTOSAR.getInstance()
+
+        class ConcreteReferrable(Referrable):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        obj = ConcreteReferrable(autosar, "TestName")
+
+        writer.writeReferrable(parent, obj)
+
+        assert parent.find("SHORT-NAME-FRAGMENTS") is None

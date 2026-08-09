@@ -172,7 +172,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable, MultilanguageReferrable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable, MultilanguageReferrable, Referrable, ShortNameFragment
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Limit, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
@@ -593,6 +593,23 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeReferrable(self, element: ET.Element, referrable: Referrable):
         self.writeARObjectAttributes(element, referrable)
         self.setShortName(element, referrable.getShortName())
+        if isinstance(referrable, Referrable):
+            self.setShortNameFragments(element, referrable.getShortNameFragments())
+
+    def setShortNameFragment(self, element: ET.Element, fragment: ShortNameFragment):
+        if fragment is not None:
+            child_element = ET.SubElement(element, "SHORT-NAME-FRAGMENT")
+            self.writeARObjectAttributes(child_element, fragment)
+            if fragment.getRole() is not None:
+                role_element = ET.SubElement(child_element, "ROLE")
+                role_element.text = fragment.getRole()
+            self.setChildElementOptionalIdentifier(child_element, "FRAGMENT", fragment.getFragment())
+
+    def setShortNameFragments(self, element: ET.Element, fragments: List[ShortNameFragment]):
+        if fragments is not None and len(fragments) > 0:
+            child_element = ET.SubElement(element, "SHORT-NAME-FRAGMENTS")
+            for fragment in fragments:
+                self.setShortNameFragment(child_element, fragment)
 
     def setLanguageSpecific(self, element: ET.Element, key: str, specific: LanguageSpecific):
         child_element = ET.SubElement(element, key)
