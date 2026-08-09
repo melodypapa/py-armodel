@@ -514,8 +514,15 @@ class TestRuleBasedValueSpecHandlers:
         element = _snip("<VF>1.5</VF><VT>label</VT>", root_tag="VTF")
         not_text = parser.getNumericalOrText(element)
         assert not_text is not None
-        assert not_text.getNumericalValue().getValue() == 1.5
-        assert not_text.getTextValue().getValue() == "label"
+        assert not_text.getVf().getValue() == 1.5
+        assert not_text.getVt().getValue() == "label"
+
+    def test_getNumericalOrText_missing_returns_None_fields(self, parser):
+        element = _snip("<VTF/>", root_tag="VTF")
+        not_text = parser.getNumericalOrText(element)
+        assert not_text is not None
+        assert not_text.getVf() is None
+        assert not_text.getVt() is None
 
     def test_getRuleArguments_full(self, parser):
         element = _snip(

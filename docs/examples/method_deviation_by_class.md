@@ -881,8 +881,8 @@ Table 4.6).
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `vf` | `NumericalValueVariationPoint` | — | missing |
-| — *(missing)* | `—` | `vt` | `String` | — | missing |
+| `vf` | `ARNumerical` | `vf` | `Numerical` | attr | implemented |
+| `vt` | `ARLiteral` | `vt` | `String` | attr | implemented |
 
 ## `ObdInfoServiceNeeds`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 324

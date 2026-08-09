@@ -1002,8 +1002,8 @@ class TestRuleBasedValueSpecificationWriter:
         from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import NumericalOrText
 
         not_text = NumericalOrText()
-        not_text.setNumericalValue(_numerical("1.5"))
-        not_text.setTextValue(_literal("label"))
+        not_text.setVf(_numerical("1.5"))
+        not_text.setVt(_literal("label"))
 
         parent = _parent()
         writer.writeNumericalOrText(parent, "VTF", not_text)
