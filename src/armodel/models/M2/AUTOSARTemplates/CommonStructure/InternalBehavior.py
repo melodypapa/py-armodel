@@ -9,7 +9,8 @@ from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue, RefType, AREnum
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, TimeValue, RefType, AREnum
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype
 
 
@@ -80,6 +81,7 @@ class ExecutableEntity(Identifiable, ABC):
     # ExecutableEntity method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.3, p.70
     # [x] __init__                         [x] impl  [x] docstring  [x] test
+    # [x] createActivationReason           [x] impl  [x] docstring  [x] test
     # [x] getActivationReasons             [x] impl  [x] docstring  [x] test
     # [x] addActivationReason              [x] impl  [x] docstring  [x] test
     # [x] getCanEnterRefs                 [x] impl  [x] docstring  [x] test
@@ -138,6 +140,23 @@ class ExecutableEntity(Identifiable, ABC):
         # sharing the same SwAddrMethod shall be located in the same memory
         # without specifying the memory section itself.
         self.swAddrMethodRef: Optional[RefType] = None
+
+    def createActivationReason(self, short_name: str) -> "ExecutableEntityActivationReason":
+        """
+        Creates (or returns an existing) ExecutableEntityActivationReason
+        aggregated by this executable entity.
+
+        Args:
+            short_name: The short name of the activation reason
+
+        Returns:
+            The created ExecutableEntityActivationReason instance
+        """
+        if not self.IsElementExists(short_name):
+            reason = ExecutableEntityActivationReason(self, short_name)
+            self.addElement(reason)
+            self.activationReasons.append(reason)
+        return self.getElement(short_name)
 
     def getActivationReasons(self) -> List["ExecutableEntityActivationReason"]:
         """
@@ -603,26 +622,54 @@ class ExclusiveAreaNestingOrder(Referrable):
         return self
 
 
-class ExecutableEntityActivationReason(ARObject):
+class ExecutableEntityActivationReason(ImplementationProps):
     """
-    Represents the reason for executable entity activation in AUTOSAR.
+    This meta-class represents the ability to define the reason for the
+    activation of the enclosing Executable Entity.
     """
 
     # ExecutableEntityActivationReason method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getReason                    [x] impl  [ ] docstring  [ ] test
-    # [ ] setReason                    [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.30, p.315
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getBitPosition  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setBitPosition  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
-    def __init__(self):
+    def __init__(self, parent: ARObject, short_name: str):
         """
-        Initializes the ExecutableEntityActivationReason with default values.
+        Initializes the ExecutableEntityActivationReason with a parent and
+        short name.
         """
-        super().__init__()
-        self.reason: str = None
+        super().__init__(parent, short_name)
 
-    def getReason(self):
-        return self.reason
+        # This attribute allows for defining the position of the enclosing
+        # ExecutableEntityActivationReason in the activation vector.
+        # [constr_1226, constr_1939]
+        self.bitPosition: Optional[PositiveInteger] = None
 
-    def setReason(self, value):
-        self.reason = value
+    def getBitPosition(self) -> Optional[PositiveInteger]:
+        """
+        Gets the position of the enclosing ExecutableEntityActivationReason in
+        the activation vector. [constr_1226, constr_1939]
+
+        Returns:
+            PositiveInteger: The bit position in the activation vector
+        """
+        return self.bitPosition
+
+    def setBitPosition(self, value: Optional[PositiveInteger]) -> "ExecutableEntityActivationReason":
+        """
+        Sets the position of the enclosing ExecutableEntityActivationReason in
+        the activation vector. A None value is a no-op and does not overwrite
+        an existing bitPosition. [constr_1226, constr_1939]
+
+        Args:
+            value: The bit position in the activation vector
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.bitPosition = value
         return self

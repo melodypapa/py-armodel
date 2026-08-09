@@ -143,6 +143,25 @@ class TestExecutableEntity:
         assert result is exec_entity  # Method chaining
         assert exec_entity.getActivationReasons() == []
 
+    def test_create_activation_reason(self):
+        """Test createActivationReason appends and returns the existing element on re-create."""
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntityActivationReason
+
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        class ConcreteExecutableEntity(ExecutableEntity):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        exec_entity = ConcreteExecutableEntity(ar_root, "TestExecutableEntity")
+        reason = exec_entity.createActivationReason("reason1")
+        assert isinstance(reason, ExecutableEntityActivationReason)
+        assert reason.short_name == "reason1"
+        assert len(exec_entity.getActivationReasons()) == 1
+        assert exec_entity.createActivationReason("reason1") == reason
+        assert len(exec_entity.getActivationReasons()) == 1
+
     def test_get_exclusive_area_nesting_order_refs(self):
         """Test getExclusiveAreaNestingOrderRefs method"""
         parent = AUTOSAR.getInstance()

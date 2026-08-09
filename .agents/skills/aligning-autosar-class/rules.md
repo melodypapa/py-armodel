@@ -7,7 +7,9 @@ Self-contained rule reference for aligning any AUTOSAR model class in py-armodel
   (or `<package>/<ClassName>/__init__.py`)
 - mirrored test: `tests/test_armodel/models/M2/AUTOSARTemplates/<package>/test_<ClassName>.py`
 - spec table: the class's attribute table in the AUTOSAR PDF
-  (markdown `autosar/markdown/AUTOSAR_CP_TPS_*.md`, XSD `autosar-pdf/examples/xsd/`)
+  (PDF `autosar/pdf/AUTOSAR_CP_TPS_*.pdf`, markdown `autosar/markdown/AUTOSAR_CP_TPS_*.md`,
+  XSD `autosar-pdf/examples/xsd/`). The **PDF name, Table ID, and page number come from
+  the PDF file directly** — the markdown carries no page numbers.
 
 **IDs:** rules carry contiguous 4-digit IDs (`Rule 0001` …). Each notes its former
 number for traceability. The 9-step workflow in `SKILL.md` references these IDs.
@@ -285,8 +287,10 @@ the checklist title cites the spec table, then the version marker:
   applicable); a `[ ]` whose obligation is actually done is stale — cross it. A row is
   `[x]` only when all obligations are complete and verified.
 - Rows in **source order** matching the methods (Rule 0011).
-- The `# Spec:` line names the correct PDF/table/page — cite the header-row page (where
-  `Class <Name>` first appears), in format `Table X.Y, p.NN`. A class rendered in >1 PDF
+- The `# Spec:` line names the correct PDF/table/page — the **PDF name, Table ID, and
+  page number come from the PDF file directly** (`autosar/pdf/AUTOSAR_CP_TPS_*.pdf`); the
+  markdown (`autosar/markdown/...`) carries no page numbers. Cite the header-row page
+  (where `Class <Name>` first appears), in format `Table X.Y, p.NN`. A class rendered in >1 PDF
   cites the PDF its sibling family uses. For the enum attribute type, cite the PDF that
   renders the enum's own `Enumeration` table (independent of the class's PDF).
 - **Exception — no own spec table:** a class whose attributes are XSD-only (e.g. a
@@ -397,6 +401,14 @@ A `@property` setter is a setter too and must guard.
 Every method has coverage in the mirrored test file. TDD: **write the test first (Red),
 then implement (Green)** — for the model (Step 2→3) and for the reader/writer (Step 5→6).
 
+**Test placement & naming** — the Red test for each phase lives in a different folder:
+
+| Phase | Folder | File ↔ test class |
+|---|---|---|
+| model (Step 2) | `tests/test_armodel/models/M2/AUTOSARTemplates/<package>/` | `test_<ClassName>.py` → `class Test<ClassName>`, pairs 1:1 with source `<ClassName>.py` |
+| parser (Step 5) | `tests/test_armodel/parser/` | `test_*.py` → `class Test*`, organized by feature/handler (load with `ARXMLParser`, assert model fields) |
+| writer (Step 5) | `tests/test_armodel/writer/` | `test_*.py` → `class Test*`, organized by feature (set → save → reload round-trip) |
+
 - `test_initialization` asserts all `__init__` field defaults (`None`/`[]`).
 - Abstract classes: test `__init__` defaults + base accessors through a concrete subclass
   (`test_<name>_base_properties`: exercise every base getter/setter, assert chaining +
@@ -423,6 +435,9 @@ then implement (Green)** — for the model (Step 2→3) and for the reader/write
 
 ```bash
 python -m pytest tests/test_armodel/models/M2/AUTOSARTemplates/<package>/test_<ClassName>.py -q
+# Step 5 reader/writer tests live in their own folders — run the files you touched:
+#   tests/test_armodel/parser/test_<feature>.py   and   tests/test_armodel/writer/test_writer_<feature>.py
+python -m pytest tests/test_armodel/parser/ tests/test_armodel/writer/ -q
 PATH=".venv/Scripts:$PATH" flake8 --exclude=.venv,build --select=E9,F63,F7,F82 \
   src/armodel/models/M2/AUTOSARTemplates/<package>/<ClassName>.py
 PATH=".venv/Scripts:$PATH" ruff check \
@@ -604,6 +619,36 @@ reader/writer source does not exploit it.
   object to a local first (`document = AUTOSAR.getInstance(); document.addXxx(...)`).
 - Getter/attribute chains **used as values** (`ref.getDest()`,
   `event.getPeriod().getValue()`) are read-only sub-expressions — left as-is.
+
+### 0013.1 Reader helpers mirror the model inheritance chain
+
+A `readXxx` helper models the class's own attribute level and calls the reader helper
+of its **direct model base** — it never re-reads an ancestor from outside:
+
+- `readIdentifiable` → `readMultilanguageReferrable` → `readReferrable` →
+  `readARObjectAttributes` (T/UUID + `addARObject`).
+- `readImplementationProps` → `readReferrable` + the `SYMBOL` element
+  (`ImplementationProps` is a direct child of `Referrable`, so its helper owns the
+  `readReferrable` call).
+- A concrete subclass reads only one level: `readExecutableEntityActivationReason`
+  calls `readImplementationProps` (which handles `readReferrable`) plus its own element
+  (`BIT-POSITION`) — never `readReferrable` again.
+
+Calling `readReferrable` both in a base helper **and** in the subclass **double-registers**
+the object: `readARObjectAttributes` → `AUTOSAR.getInstance().addARObject` →
+`UUIDMgr.addObject` appends to `uuid_object_mappings[uuid]` with no dedupe, so duplicate
+entries surface in `getObjects`/`getDuplicateUUIDs`. Fix = remove the explicit
+`readReferrable` from the subclass call site (worked example: `readSymbolicNameProps` and
+`readExecutableEntityActivationReason` each dropped their redundant call once
+`readImplementationProps` gained it).
+
+The writer keeps the same leveling (`writeImplementationProps` calls `writeReferrable` at
+its own level) — the reader and writer must stay symmetric. A shared base reader helper's
+existence is not evidence a given subclass calls it; grep each subclass:
+
+```bash
+grep -nE '(readReferrable|readImplementationProps|readIdentifiable)\([^)]*\)' src/armodel/parser/arxml_parser.py
+```
 
 Verify (must return nothing):
 

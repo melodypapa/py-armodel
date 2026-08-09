@@ -78,3 +78,4 @@ docs/api/modules.rst
 worktrees/
 coverage_*.xml
 uv.lock
+.codebuddy

@@ -58,7 +58,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, DependencyUsageEnum, Implementation, ImplementationProps
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType, ImplementationDataTypeElement
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity, InternalBehavior
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity, ExecutableEntityActivationReason, InternalBehavior
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.McGroups import McGroup, McGroupDataRefSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import (
     ImplementationElementInParameterInstanceRef,
@@ -768,6 +768,15 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported RequiredModeGroup <%s>" % tag_name)
 
+    def readActivationReasons(self, element: ET.Element, entity: ExecutableEntity):
+        for reason_element in self.findall(element, "ACTIVATION-REASONS/EXECUTABLE-ENTITY-ACTIVATION-REASON"):
+            reason = entity.createActivationReason(self.getShortName(reason_element))
+            self.readExecutableEntityActivationReason(reason_element, reason)
+
+    def readExecutableEntityActivationReason(self, element: ET.Element, reason: ExecutableEntityActivationReason):
+        self.readImplementationProps(element, reason)
+        reason.setBitPosition(self.getChildElementOptionalPositiveInteger(element, "BIT-POSITION"))
+
     def readCanEnterRefs(self, element: ET.Element, entity: ExecutableEntity):
         for ref in self.getChildElementRefTypeList(element, "CAN-ENTER-EXCLUSIVE-AREA-REFS/CAN-ENTER-EXCLUSIVE-AREA-REF"):
             entity.addCanEnterRef(ref)
@@ -775,6 +784,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readExecutableEntity(self, element: ET.Element, entity: ExecutableEntity):
         # self.logger.debug("Read ExecutableEntity %s" % entity.getShortName())
         self.readIdentifiable(element, entity)
+        self.readActivationReasons(element, entity)
         self.readCanEnterRefs(element, entity)
         entity.setMinimumStartInterval(self.getChildElementOptionalTimeValue(element, "MINIMUM-START-INTERVAL"))
         entity.setSwAddrMethodRef(self.getChildElementOptionalRefType(element, "SW-ADDR-METHOD-REF"))
@@ -938,7 +948,6 @@ class ARXMLParser(AbstractARXMLParser):
         if props_element is None:
             return
         props = SymbolicNameProps(dependency, self.getShortName(props_element))
-        self.readReferrable(props_element, props)
         self.readImplementationProps(props_element, props)
         dependency.setSymbolicNameProps(props)
 
@@ -4034,6 +4043,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readEndToEndProtections(element, protection_set)
 
     def readImplementationProps(self, element: ET.Element, props: ImplementationProps):
+        self.readReferrable(element, props)
         props.setSymbol(self.getChildElementOptionalLiteral(element, "SYMBOL"))
 
     def readSymbolProps(self, element: ET.Element, props: SymbolProps):
