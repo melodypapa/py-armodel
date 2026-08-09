@@ -1879,6 +1879,20 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeARObjectAttributes(child_element, point)
             self.setModeGroupIRef(child_element, "MODE-GROUP-IREF", point.getModeGroupIRef())
 
+    def writeRunnableEntityExternalTriggeringPoints(self, element: ET.Element, entity: RunnableEntity):
+        points = entity.getExternalTriggeringPoints()
+        if len(points) > 0:
+            points_tag = ET.SubElement(element, "EXTERNAL-TRIGGERING-POINTS")
+            for point in points:
+                child_element = ET.SubElement(points_tag, "EXTERNAL-TRIGGERING-POINT")
+                ident = point.getIdent()
+                if ident is not None:
+                    ident_element = ET.SubElement(child_element, "IDENT")
+                    self.writeIdentifiable(ident_element, ident)
+                trigger = point.getTrigger()
+                if trigger is not None:
+                    self.writePTriggerInAtomicSwcTypeInstanceRef(child_element, "TRIGGER-IREF", trigger)
+
     def writeRunnableEntityModeAccessPoints(self, element: ET.Element, entity: RunnableEntity):
         points = entity.getModeAccessPoints()
         if len(points) > 0:
@@ -1948,6 +1962,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeRunnableEntityDataWriteAccesses(child_element, entity)
             self.writeRunnableEntityModeAccessPoints(child_element, entity)
             self.writeRunnableEntityModeSwitchPoints(child_element, entity)
+            self.writeRunnableEntityExternalTriggeringPoints(child_element, entity)
             self.writeRunnableEntityParameterAccesses(child_element, entity)
             self.writeRunnableEntityReadLocalVariables(child_element, entity)
             self.writeRunnableEntityServerCallPoints(child_element, entity)
@@ -3904,6 +3919,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "IMPLEMENTATION-DATA-TYPE")
         self.writeAutosarDataType(child_element, data_type)
         self.setChildElementOptionalLiteral(child_element, "DYNAMIC-ARRAY-SIZE-PROFILE", data_type.getDynamicArraySizeProfile())
+        self.setChildElementOptionalBooleanValue(child_element, "IS-STRUCT-WITH-OPTIONAL-ELEMENT", data_type.getIsStructWithOptionalElement())
         self.writeImplementationDataTypeSymbolProps(child_element, data_type)
         self.writeImplementationDataTypeSubElements(child_element, data_type)
         self.setChildElementOptionalLiteral(child_element, "TYPE-EMITTER", data_type.getTypeEmitter())

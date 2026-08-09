@@ -4,6 +4,7 @@ Tests cover all classes and methods in the Trigger.py file to achieve 100% test 
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import PTriggerInAtomicSwcTypeInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import IdentCaption
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import ExternalTriggeringPoint, ExternalTriggeringPointIdent, InternalTriggeringPoint
 
@@ -61,18 +62,32 @@ class TestExternalTriggeringPoint:
         assert ext_trigger_point.ident is None
         assert ext_trigger_point.trigger is None
 
-        # Test ident methods
-        document = AUTOSAR.getInstance()
-        ar_root = document.createARPackage("AUTOSAR")
-        ident = ExternalTriggeringPointIdent(ar_root, "TestIdent")
-        ext_trigger_point.setIdent(ident)
+    def test_get_set_ident(self):
+        """Test ident create/get round-trip and None no-op."""
+        ext_trigger_point = ExternalTriggeringPoint()
+        ident = ext_trigger_point.createIdent("TestIdent")
+        assert isinstance(ident, ExternalTriggeringPointIdent)
+        assert ident.getShortName() == "TestIdent"
         assert ext_trigger_point.getIdent() == ident
+        # calling createIdent again returns the existing identification
+        assert ext_trigger_point.createIdent("TestIdent") == ident
 
-        # Test trigger methods
-        from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
-
-        document = AUTOSAR.getInstance()
-        ar_root = document.createARPackage("AUTOSAR")
-        trigger = Trigger(ar_root, "TestTrigger")
-        ext_trigger_point.setTrigger(trigger)
+    def test_get_set_trigger(self):
+        """Test trigger set/get round-trip and None no-op."""
+        ext_trigger_point = ExternalTriggeringPoint()
+        trigger = PTriggerInAtomicSwcTypeInstanceRef()
+        trigger.setContextPPortRef(_make_ref("/p"))
+        trigger.setTargetTriggerRef(_make_ref("/trig"))
+        assert ext_trigger_point.setTrigger(trigger) == ext_trigger_point
         assert ext_trigger_point.getTrigger() == trigger
+        # None is a no-op
+        ext_trigger_point.setTrigger(None)
+        assert ext_trigger_point.getTrigger() == trigger
+
+
+def _make_ref(value):
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+
+    ref = RefType()
+    ref.setValue(value)
+    return ref
