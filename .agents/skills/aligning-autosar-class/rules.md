@@ -7,7 +7,9 @@ Self-contained rule reference for aligning any AUTOSAR model class in py-armodel
   (or `<package>/<ClassName>/__init__.py`)
 - mirrored test: `tests/test_armodel/models/M2/AUTOSARTemplates/<package>/test_<ClassName>.py`
 - spec table: the class's attribute table in the AUTOSAR PDF
-  (markdown `autosar/markdown/AUTOSAR_CP_TPS_*.md`, XSD `autosar-pdf/examples/xsd/`)
+  (PDF `autosar/pdf/AUTOSAR_CP_TPS_*.pdf`, markdown `autosar/markdown/AUTOSAR_CP_TPS_*.md`,
+  XSD `autosar-pdf/examples/xsd/`). The **PDF name, Table ID, and page number come from
+  the PDF file directly** — the markdown carries no page numbers.
 
 **IDs:** rules carry contiguous 4-digit IDs (`Rule 0001` …). Each notes its former
 number for traceability. The 9-step workflow in `SKILL.md` references these IDs.
@@ -285,8 +287,10 @@ the checklist title cites the spec table, then the version marker:
   applicable); a `[ ]` whose obligation is actually done is stale — cross it. A row is
   `[x]` only when all obligations are complete and verified.
 - Rows in **source order** matching the methods (Rule 0011).
-- The `# Spec:` line names the correct PDF/table/page — cite the header-row page (where
-  `Class <Name>` first appears), in format `Table X.Y, p.NN`. A class rendered in >1 PDF
+- The `# Spec:` line names the correct PDF/table/page — the **PDF name, Table ID, and
+  page number come from the PDF file directly** (`autosar/pdf/AUTOSAR_CP_TPS_*.pdf`); the
+  markdown (`autosar/markdown/...`) carries no page numbers. Cite the header-row page
+  (where `Class <Name>` first appears), in format `Table X.Y, p.NN`. A class rendered in >1 PDF
   cites the PDF its sibling family uses. For the enum attribute type, cite the PDF that
   renders the enum's own `Enumeration` table (independent of the class's PDF).
 - **Exception — no own spec table:** a class whose attributes are XSD-only (e.g. a

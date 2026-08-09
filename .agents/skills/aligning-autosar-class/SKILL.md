@@ -5,7 +5,7 @@ author: melodypapa
 repository: https://github.com/melodypapa/py-armodel
 license: MIT
 metadata:
-  version: "1.2.0"
+  version: "1.3.0"
   keywords:
     - AUTOSAR
     - model-class
@@ -50,7 +50,8 @@ trivial edits that don't touch the class's spec contract.
 |---|---|
 | source | `src/armodel/models/M2/AUTOSARTemplates/<pkg>/<ClassName>.py` (or `<pkg>/<ClassName>/__init__.py`) |
 | mirrored test | `tests/test_armodel/models/M2/AUTOSARTemplates/<pkg>/test_<ClassName>.py` |
-| spec table | `grep "Table N.M: <ClassName>" autosar/markdown/AUTOSAR_CP_TPS_*.md` |
+| spec PDF | `autosar/pdf/AUTOSAR_CP_TPS_*.pdf` — **PDF name, Table ID, and page (p.NN) come from the PDF file directly** |
+| spec table | `grep "Table N.M: <ClassName>" autosar/markdown/AUTOSAR_CP_TPS_*.md` (table content only; the markdown carries no page numbers) |
 | deviation records | the project deviation tracker (format in *Rule 0014*) |
 | XSD ground truth | `autosar-pdf/examples/xsd/` |
 
@@ -121,6 +122,10 @@ implementation before its failing test.
 # [x] getBar       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 ```
 
+**Citation source:** the `# Spec:` PDF name, Table ID, and `p.NN` page come from the
+PDF file directly (`autosar/pdf/AUTOSAR_CP_TPS_*.pdf`); the markdown carries no page
+numbers.
+
 `reader [x]` on the **mutator** row (reader's `readXxx` calls `setXxx`/`createXxx`/
 `addXxx`); `writer [x]` on the **getter** row (writer's `writeXxx` calls `getXxx`);
 `[—]` for no-XML members (`__init__`, `atpDerived`, convenience properties). An `AREnum`
@@ -150,5 +155,6 @@ detail: *Rule 0002*.
 
 - **Rules (self-contained):** `rules.md` in this skill folder — *Rule 0001*–*Rule 0014*.
 - Coding standards: `docs/development/coding_rules.md`.
-- Spec markdown: `autosar/markdown/AUTOSAR_CP_TPS_*.md`.
+- Spec PDFs (authoritative — source of the PDF name, Table ID, and page): `autosar/pdf/AUTOSAR_CP_TPS_*.pdf`.
+- Spec markdown (derived table content; carries no page numbers): `autosar/markdown/AUTOSAR_CP_TPS_*.md`.
 - XSD ground truth: `autosar-pdf/examples/xsd/`.
