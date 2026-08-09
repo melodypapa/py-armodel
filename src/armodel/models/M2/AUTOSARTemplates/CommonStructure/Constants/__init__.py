@@ -19,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Integer,
     VerbatimString,
 )
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import ValueList
 
 
 class ValueSpecification(ARObject, ABC):
@@ -863,44 +864,136 @@ class ReferenceValueSpecification(ValueSpecification):
 
 class RuleArguments(ARObject):
     """
-    Represents the arguments for a rule-based value specification.
-
-    This class corresponds to the AUTOSAR meta-class RuleArguments (atpMixed).
+    This represents the arguments for a rule-based value specification.
     """
 
     # RuleArguments method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] addV                         [x] impl  [ ] docstring  [ ] test
-    # [ ] getVs                        [x] impl  [ ] docstring  [ ] test
-    # [ ] getVt                        [x] impl  [ ] docstring  [ ] test
-    # [ ] setVt                        [x] impl  [ ] docstring  [ ] test
-    # [ ] addVtf                       [x] impl  [ ] docstring  [ ] test
-    # [ ] getVtfs                      [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.57, p.329
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getV                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setV                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getVf                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setVf                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getVt                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setVt                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getVtf                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setVtf                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
-        self.v = []  # type: List[ARNumerical]
-        self.vt = None  # type: VerbatimString
-        self.vtfs = []  # type: List[NumericalOrText]
 
-    def addV(self, v: ARNumerical):
-        self.v.append(v)
+        # This represents a numerical value for the RuleBased ValueSpecification.
+        self.v: Optional[ARNumerical] = None
 
-    def getVs(self) -> List[ARNumerical]:
+        # This represents a numerical value for the RuleBased ValueSpecification which may subject to variability.
+        # The latest binding time of the VariationPoint shall be pre CompileTime.
+        self.vf: Optional[ARNumerical] = None
+
+        # This represents a textual value for the RuleBasedValue Specification.
+        self.vt: Optional[VerbatimString] = None
+
+        # This aggregation represents the ability to provide a value that is either numerical or text which existence is subject to variability.
+        self.vtf: Optional[NumericalOrText] = None
+
+    def getV(self) -> Optional[ARNumerical]:
+        """
+        This represents a numerical value for the RuleBased ValueSpecification.
+
+        Returns:
+            Optional[ARNumerical]: The numerical value, or None if not set
+        """
         return self.v
 
-    def getVt(self) -> VerbatimString:
-        return self.vt
+    def setV(self, value: Optional[ARNumerical]) -> "RuleArguments":
+        """
+        This represents a numerical value for the RuleBased ValueSpecification.
+        A None value is a no-op and does not overwrite an existing v.
 
-    def setVt(self, value: VerbatimString):
-        self.vt = value
+        Args:
+            value: The numerical value to set
+
+        Returns:
+            RuleArguments: self for method chaining
+        """
+        if value is not None:
+            self.v = value
         return self
 
-    def addVtf(self, vtf: NumericalOrText):
-        self.vtfs.append(vtf)
+    def getVf(self) -> Optional[ARNumerical]:
+        """
+        This represents a numerical value for the RuleBased ValueSpecification which may subject to variability.
+        The latest binding time of the VariationPoint shall be pre CompileTime.
 
-    def getVtfs(self) -> List[NumericalOrText]:
-        return self.vtfs
+        Returns:
+            Optional[ARNumerical]: The numerical value, or None if not set
+        """
+        return self.vf
+
+    def setVf(self, value: Optional[ARNumerical]) -> "RuleArguments":
+        """
+        This represents a numerical value for the RuleBased ValueSpecification which may subject to variability.
+        The latest binding time of the VariationPoint shall be pre CompileTime.
+        A None value is a no-op and does not overwrite an existing vf.
+
+        Args:
+            value: The numerical value to set
+
+        Returns:
+            RuleArguments: self for method chaining
+        """
+        if value is not None:
+            self.vf = value
+        return self
+
+    def getVt(self) -> Optional[VerbatimString]:
+        """
+        This represents a textual value for the RuleBasedValue Specification.
+
+        Returns:
+            Optional[VerbatimString]: The textual value, or None if not set
+        """
+        return self.vt
+
+    def setVt(self, value: Optional[VerbatimString]) -> "RuleArguments":
+        """
+        This represents a textual value for the RuleBasedValue Specification.
+        A None value is a no-op and does not overwrite an existing vt.
+
+        Args:
+            value: The textual value to set
+
+        Returns:
+            RuleArguments: self for method chaining
+        """
+        if value is not None:
+            self.vt = value
+        return self
+
+    def getVtf(self) -> Optional[NumericalOrText]:
+        """
+        This aggregation represents the ability to provide a value that is either numerical or text which existence is subject to variability.
+
+        Returns:
+            Optional[NumericalOrText]: The value, or None if not set
+        """
+        return self.vtf
+
+    def setVtf(self, value: Optional[NumericalOrText]) -> "RuleArguments":
+        """
+        This aggregation represents the ability to provide a value that is either numerical or text which existence is subject to variability.
+        A None value is a no-op and does not overwrite an existing vtf.
+
+        Args:
+            value: The value to set
+
+        Returns:
+            RuleArguments: self for method chaining
+        """
+        if value is not None:
+            self.vtf = value
+        return self
 
 
 class RuleBasedAxisCont(ARObject):
@@ -969,82 +1062,208 @@ class RuleBasedAxisCont(ARObject):
 
 class RuleBasedValueCont(ARObject):
     """
-    Represents the values of a compound primitive (CURVE, MAP, CUBOID, CUBE_4, CUBE_5, VAL_BLK) or an array.
+    This represents the values of a compound primitive (CURVE, MAP, CUBOID, CUBE_4, CUBE_5, VAL_BLK) or an array.
     """
 
     # RuleBasedValueCont method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getUnitRef                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setUnitRef                   [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwArraysize               [x] impl  [ ] docstring  [ ] test
-    # [ ] setSwArraysize               [x] impl  [ ] docstring  [ ] test
-    # [ ] getRuleBasedValues           [x] impl  [ ] docstring  [ ] test
-    # [ ] setRuleBasedValues           [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.58, p.330
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getRuleBasedValues           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRuleBasedValues           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSwArraysize               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSwArraysize               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getUnitRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setUnitRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
-        self.unitRef = None  # type: RefType
-        self.swArraysize = None  # type: ValueList
-        self.ruleBasedValues = None  # type: RuleBasedValueSpecification
 
-    def getUnitRef(self):
-        return self.unitRef
+        # This represents the rule based value specification for the array or compound primitive (CURVE, MAP, CUBOID, CUBE_4, CUBE_5, VAL_BLK).
+        self.ruleBasedValues: Optional[RuleBasedValueSpecification] = None
 
-    def setUnitRef(self, value):
-        self.unitRef = value
-        return self
+        # This attribute defines the size of each dimension for compound primitives CURVE, MAP, CUBOID, CUBE_4, CUBE_5, COM_AXIS, RES_AXIS, VAL_BLK.
+        # For each dimension one value has to be defined, e.g. one in case of COM_AXIS and two or more in case of MAP.
+        self.swArraysize: Optional[ValueList] = None
 
-    def getSwArraysize(self):
-        return self.swArraysize
+        # This represents the physical unit of the provided values.
+        self.unitRef: Optional[RefType] = None
 
-    def setSwArraysize(self, value):
-        self.swArraysize = value
-        return self
+    def getRuleBasedValues(self) -> Optional[RuleBasedValueSpecification]:
+        """
+        This represents the rule based value specification for the array or compound primitive (CURVE, MAP, CUBOID, CUBE_4, CUBE_5, VAL_BLK).
 
-    def getRuleBasedValues(self):
+        Returns:
+            Optional[RuleBasedValueSpecification]: The value specification, or None if not set
+        """
         return self.ruleBasedValues
 
-    def setRuleBasedValues(self, value):
-        self.ruleBasedValues = value
+    def setRuleBasedValues(self, value: Optional[RuleBasedValueSpecification]) -> "RuleBasedValueCont":
+        """
+        This represents the rule based value specification for the array or compound primitive (CURVE, MAP, CUBOID, CUBE_4, CUBE_5, VAL_BLK).
+        A None value is a no-op and does not overwrite an existing ruleBasedValues.
+
+        Args:
+            value: The value specification to set
+
+        Returns:
+            RuleBasedValueCont: self for method chaining
+        """
+        if value is not None:
+            self.ruleBasedValues = value
+        return self
+
+    def getSwArraysize(self) -> Optional[ValueList]:
+        """
+        This attribute defines the size of each dimension for compound primitives CURVE, MAP, CUBOID, CUBE_4, CUBE_5, COM_AXIS, RES_AXIS, VAL_BLK.
+        For each dimension one value has to be defined, e.g. one in case of COM_AXIS and two or more in case of MAP.
+
+        Returns:
+            Optional[ValueList]: The array size, or None if not set
+        """
+        return self.swArraysize
+
+    def setSwArraysize(self, value: Optional[ValueList]) -> "RuleBasedValueCont":
+        """
+        This attribute defines the size of each dimension for compound primitives CURVE, MAP, CUBOID, CUBE_4, CUBE_5, COM_AXIS, RES_AXIS, VAL_BLK.
+        For each dimension one value has to be defined, e.g. one in case of COM_AXIS and two or more in case of MAP.
+        A None value is a no-op and does not overwrite an existing swArraysize.
+
+        Args:
+            value: The array size to set
+
+        Returns:
+            RuleBasedValueCont: self for method chaining
+        """
+        if value is not None:
+            self.swArraysize = value
+        return self
+
+    def getUnitRef(self) -> Optional[RefType]:
+        """
+        This represents the physical unit of the provided values.
+
+        Returns:
+            Optional[RefType]: The unit reference, or None if not set
+        """
+        return self.unitRef
+
+    def setUnitRef(self, value: Optional[RefType]) -> "RuleBasedValueCont":
+        """
+        This represents the physical unit of the provided values.
+        A None value is a no-op and does not overwrite an existing unitRef.
+
+        Args:
+            value: The unit reference to set
+
+        Returns:
+            RuleBasedValueCont: self for method chaining
+        """
+        if value is not None:
+            self.unitRef = value
         return self
 
 
-class RuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
+class RuleBasedValueSpecification(ARObject):
     """
-    This meta-class is used to support a rule-based initialization approach for data types with an array-nature.
+    This meta-class is used to support a rule-based initialization approach for data types with an array-nature (ApplicationArrayDataType and ImplementationDataType of category ARRAY) or a compound Application PrimitiveDataType (which also boils down to an array-nature).
     """
 
     # RuleBasedValueSpecification method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getRule                      [x] impl  [ ] docstring  [ ] test
-    # [ ] setRule                      [x] impl  [ ] docstring  [ ] test
-    # [ ] addArgument                  [x] impl  [ ] docstring  [ ] test
-    # [ ] getArguments                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getMaxSizeToFill             [x] impl  [ ] docstring  [ ] test
-    # [ ] setMaxSizeToFill             [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.59, p.331
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addArgument                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getArguments                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getMaxSizeToFill             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMaxSizeToFill             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRule                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRule                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
-        self.rule: Identifier = None
-        self.arguments = []  # type: List[RuleArguments]
-        self.maxSizeToFill: Integer = None
 
-    def getRule(self):
-        return self.rule
+        # This represents the arguments for the RuleBasedValue Specification.
+        self.arguments: List[RuleArguments] = []
 
-    def setRule(self, value):
-        self.rule = value
+        # If a rule is chosen which does not fill until the end, this determines until which size the rule shall fill the values.
+        self.maxSizeToFill: Optional[Integer] = None
+
+        # This denotes the name of the rule of the RuleBasedValue Specification.
+        # The rule determines the calculation specification according which the arguments are used to calculated the values.
+        self.rule: Optional[Identifier] = None
+
+    def addArgument(self, argument: RuleArguments) -> "RuleBasedValueSpecification":
+        """
+        This represents the arguments for the RuleBasedValue Specification.
+
+        Args:
+            argument: The argument to add
+
+        Returns:
+            RuleBasedValueSpecification: self for method chaining
+        """
+        if argument is not None:
+            self.arguments.append(argument)
         return self
 
-    def addArgument(self, argument: RuleArguments):
-        self.arguments.append(argument)
+    def getArguments(self) -> List[RuleArguments]:
+        """
+        This represents the arguments for the RuleBasedValue Specification.
 
-    def getArguments(self):
+        Returns:
+            List[RuleArguments]: The list of arguments
+        """
         return self.arguments
 
-    def getMaxSizeToFill(self):
+    def getMaxSizeToFill(self) -> Optional[Integer]:
+        """
+        If a rule is chosen which does not fill until the end, this determines until which size the rule shall fill the values.
+
+        Returns:
+            Optional[Integer]: The max size to fill, or None if not set
+        """
         return self.maxSizeToFill
 
-    def setMaxSizeToFill(self, value):
-        self.maxSizeToFill = value
+    def setMaxSizeToFill(self, value: Optional[Integer]) -> "RuleBasedValueSpecification":
+        """
+        If a rule is chosen which does not fill until the end, this determines until which size the rule shall fill the values.
+        A None value is a no-op and does not overwrite an existing maxSizeToFill.
+
+        Args:
+            value: The max size to fill
+
+        Returns:
+            RuleBasedValueSpecification: self for method chaining
+        """
+        if value is not None:
+            self.maxSizeToFill = value
+        return self
+
+    def getRule(self) -> Optional[Identifier]:
+        """
+        This denotes the name of the rule of the RuleBasedValue Specification.
+        The rule determines the calculation specification according which the arguments are used to calculated the values.
+
+        Returns:
+            Optional[Identifier]: The rule name, or None if not set
+        """
+        return self.rule
+
+    def setRule(self, value: Optional[Identifier]) -> "RuleBasedValueSpecification":
+        """
+        This denotes the name of the rule of the RuleBasedValue Specification.
+        The rule determines the calculation specification according which the arguments are used to calculated the values.
+        A None value is a no-op and does not overwrite an existing rule.
+
+        Args:
+            value: The rule name
+
+        Returns:
+            RuleBasedValueSpecification: self for method chaining
+        """
+        if value is not None:
+            self.rule = value
         return self

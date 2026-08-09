@@ -941,10 +941,7 @@ Table 4.6).
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `vs` (`addV`) | `List[ARNumerical]` | `v` | `NumericalValue` | — | implemented |
-| `vt` | `VerbatimString` | `vt` | `VerbatimString` | — | implemented |
-| `vtfs` (`addVtf`) | `List[NumericalOrText]` | `vtf` | `NumericalOrText` | — | implemented (spec many vs py list) |
-| — *(missing)* | `—` | `vf` | `NumericalValueVariationPoint` | — | missing |
+| — *(no deviation)* | — | — | — | — | `v` (Numerical 0..1 attr via `getV`/`setV`), `vf` (Numerical 0..1 attr via `getVf`/`setVf`), `vt` (VerbatimString 0..1 attr via `getVt`/`setVt`), `vtf` (NumericalOrText 0..1 aggr via `getVtf`/`setVtf`) all implemented per Table D.57. The old `addV`/`getVs` and `addVtf`/`getVtfs` list shapes and the missing `vf` are resolved. |
 
 ## `RuleBasedValueCont`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 330
@@ -953,7 +950,7 @@ Table 4.6).
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — | — | — | — | — | No deviations — Table D.58 attributes (`ruleBasedValues` 0..1 via `getRuleBasedValues`/`setRuleBasedValues`, `swArraysize` 0..1 via `getSwArraysize`/`setSwArraysize`, `unit` Ref via `getUnitRef`/`setUnitRef`) all implemented per Rule 1.4. |
+| — | — | — | — | — | No deviations — Table D.58 attributes (`ruleBasedValues` 0..1 aggr via `getRuleBasedValues`/`setRuleBasedValues`, `swArraysize` 0..1 aggr via `getSwArraysize`/`setSwArraysize`, `unit` Ref via `getUnitRef`/`setUnitRef`) all implemented per Rule 1.4; member order follows the PDF displayed row order. |
 
 ## `RuleBasedValueSpecification`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 331
@@ -962,9 +959,7 @@ Table 4.6).
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `arguments` (`addArgument`) | `List[RuleArguments]` | `arguments` | `RuleArguments` | — | implemented (spec many vs py list) |
-| `maxSizeToFill` | `Integer` | `maxSizeToFill` | `Integer` | — | implemented |
-| `rule` | `Identifier` | `rule` | `Identifier` | — | implemented |
+| — *(no deviation)* | — | — | — | — | `arguments` (`*` wrapper list via `addArgument`/`getArguments` — the XSD wrapper `ARGUMENTSS` carries multiple `RULE-ARGUMENTS`), `maxSizeToFill` (Integer 0..1 attr via `getMaxSizeToFill`/`setMaxSizeToFill`), `rule` (Identifier 0..1 attr via `getRule`/`setRule`) all implemented per Table D.59. Base aligned to `ARObject` per the spec `Base` column. |
 
 ## `RunnableEntity`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 331

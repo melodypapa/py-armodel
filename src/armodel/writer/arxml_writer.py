@@ -1535,17 +1535,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         if arguments is not None:
             child_element = ET.SubElement(element, "RULE-ARGUMENTS")
             self.writeARObjectAttributes(child_element, arguments)
-            for v in arguments.getVs():
-                self.setChildElementOptionalNumericalValue(child_element, "V", v)
+            self.setChildElementOptionalNumericalValue(child_element, "V", arguments.getV())
+            self.setChildElementOptionalNumericalValue(child_element, "VF", arguments.getVf())
             self.setChildElementOptionalLiteral(child_element, "VT", arguments.getVt())
-            for vtf in arguments.getVtfs():
-                self.writeNumericalOrText(child_element, "VTF", vtf)
+            self.writeNumericalOrText(child_element, "VTF", arguments.getVtf())
 
     def writeRuleBasedValueSpecification(self, element: ET.Element, key: str, value_spec: RuleBasedValueSpecification):
         if value_spec is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObjectAttributes(child_element, value_spec)
-            self.setChildElementOptionalLiteral(child_element, "RULE", value_spec.getRule())
+            self.setChildElementOptionalIdentifier(child_element, "RULE", value_spec.getRule())
             arguments = value_spec.getArguments()
             if len(arguments) > 0:
                 arguments_tag = ET.SubElement(child_element, "ARGUMENTSS")
