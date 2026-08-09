@@ -699,6 +699,31 @@ class TestWriterRunnableEntity:
         writer.writeRunnableEntityAsynchronousServerCallResultPoint(parent, entity)
         assert parent.find("ASYNCHRONOUS-SERVER-CALL-RESULT-POINTS") is not None
 
+    def test_writeRunnableEntityActivationReasons(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createRunnableEntity("re1")
+        reason = entity.createActivationReason("reason1")
+        reason.setSymbol(_literal("sym"))
+        reason.setBitPosition(_posint(7))
+        parent = _parent()
+        writer.writeRunnableEntity(parent, entity)
+        re_elem = parent.find("RUNNABLE-ENTITY")
+        reasons = re_elem.find("ACTIVATION-REASONS")
+        assert reasons is not None
+        reason_elem = reasons.find("EXECUTABLE-ENTITY-ACTIVATION-REASON")
+        assert reason_elem is not None
+        assert reason_elem.find("SHORT-NAME").text == "reason1"
+        assert reason_elem.find("SYMBOL").text == "sym"
+        assert reason_elem.find("BIT-POSITION").text == "7"
+
+    def test_writeRunnableEntityActivationReasons_empty(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createRunnableEntity("re1")
+        parent = _parent()
+        writer.writeRunnableEntity(parent, entity)
+        re_elem = parent.find("RUNNABLE-ENTITY")
+        assert re_elem.find("ACTIVATION-REASONS") is None
+
 
 # ==================== SwcInternalBehavior collection writers ====================
 

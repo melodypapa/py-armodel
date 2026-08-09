@@ -58,7 +58,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, Compiler, DependencyOnArtifact, Implementation, ImplementationProps, Linker
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import AbstractImplementationDataTypeElement, ImplementationDataType, ImplementationDataTypeElement
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity, InternalBehavior
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity, ExecutableEntityActivationReason, InternalBehavior
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.McGroups import McGroup, McGroupDataRefSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import (
     McDataAccessDetails,
@@ -3275,6 +3275,20 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported ProvidedModeGroup <%s>" % type(mode_group))
 
+    def writeActivationReasons(self, element: ET.Element, entity: ExecutableEntity):
+        reasons = entity.getActivationReasons()
+        if len(reasons) > 0:
+            reasons_tag = ET.SubElement(element, "ACTIVATION-REASONS")
+            for reason in reasons:
+                if isinstance(reason, ExecutableEntityActivationReason):
+                    self.writeExecutableEntityActivationReason(ET.SubElement(reasons_tag, "EXECUTABLE-ENTITY-ACTIVATION-REASON"), reason)
+                else:
+                    self.notImplemented("Unsupported ExecutableEntityActivationReason <%s>" % type(reason))
+
+    def writeExecutableEntityActivationReason(self, element: ET.Element, reason: ExecutableEntityActivationReason):
+        self.writeImplementationProps(element, reason)
+        self.setChildElementOptionalPositiveInteger(element, "BIT-POSITION", reason.getBitPosition())
+
     def writeCanEnterRefs(self, element: ET.Element, entity: ExecutableEntity):
         refs = entity.getCanEnterRefs()
         if len(refs) > 0:
@@ -3284,6 +3298,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeExecutableEntity(self, element: ET.Element, entity: ExecutableEntity):
         self.writeIdentifiable(element, entity)
+        self.writeActivationReasons(element, entity)
         self.writeCanEnterRefs(element, entity)
         self.setChildElementOptionalTimeValue(element, "MINIMUM-START-INTERVAL", entity.getMinimumStartInterval())
         self.setChildElementOptionalRefType(element, "SW-ADDR-METHOD-REF", entity.getSwAddrMethodRef())

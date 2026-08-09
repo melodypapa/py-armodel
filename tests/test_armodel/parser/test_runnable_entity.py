@@ -133,3 +133,55 @@ class TestRunnableEntity:
         assert written_var.getAccessedVariableRef().timestamp == "2020-08-03T07:59:25+02:00"
         assert written_var.getAccessedVariableRef().getLocalVariableRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
         assert written_var.getAccessedVariableRef().getLocalVariableRef().getValue() == "/DemoApplication/SwComponentTypes/SWC_CyclicCounter/IB_SWC_CyclicCounter/CurrentCounterValue"
+
+    def _read_runnables(self, xml_content):
+        element = ET.fromstring(xml_content)
+        document = AUTOSARDoc()
+        parser = ARXMLParser()
+        parser.nsmap = {"xmlns": ""}
+        behavior = SwcInternalBehavior(document, "Behavior")
+        parser.readSwcInternalBehaviorRunnables(element, behavior)
+        return behavior
+
+    def test_activation_reasons(self):
+        xml_content = """
+            <SWC-INTERNAL-BEHAVIOR>
+                <RUNNABLES>
+                    <RUNNABLE-ENTITY>
+                      <SHORT-NAME>Cyclic</SHORT-NAME>
+                      <ACTIVATION-REASONS>
+                        <EXECUTABLE-ENTITY-ACTIVATION-REASON>
+                          <SHORT-NAME>ReasonA</SHORT-NAME>
+                          <SYMBOL>REASON_SYM</SYMBOL>
+                          <BIT-POSITION>7</BIT-POSITION>
+                        </EXECUTABLE-ENTITY-ACTIVATION-REASON>
+                      </ACTIVATION-REASONS>
+                    </RUNNABLE-ENTITY>
+                </RUNNABLES>
+            </SWC-INTERNAL-BEHAVIOR>
+        """
+
+        behavior = self._read_runnables(xml_content)
+        runnable = behavior.getRunnableEntities()[0]
+        reasons = runnable.getActivationReasons()
+        assert len(reasons) == 1
+        reason = reasons[0]
+        assert reason.getShortName() == "ReasonA"
+        assert reason.getSymbol().getValue() == "REASON_SYM"
+        assert reason.getBitPosition().getValue() == 7
+
+    def test_activation_reasons_empty_wrapper(self):
+        xml_content = """
+            <SWC-INTERNAL-BEHAVIOR>
+                <RUNNABLES>
+                    <RUNNABLE-ENTITY>
+                      <SHORT-NAME>Cyclic</SHORT-NAME>
+                      <ACTIVATION-REASONS/>
+                    </RUNNABLE-ENTITY>
+                </RUNNABLES>
+            </SWC-INTERNAL-BEHAVIOR>
+        """
+
+        behavior = self._read_runnables(xml_content)
+        runnable = behavior.getRunnableEntities()[0]
+        assert runnable.getActivationReasons() == []

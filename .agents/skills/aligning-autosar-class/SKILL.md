@@ -5,7 +5,7 @@ author: melodypapa
 repository: https://github.com/melodypapa/py-armodel
 license: MIT
 metadata:
-  version: "1.3.0"
+  version: "1.4.0"
   keywords:
     - AUTOSAR
     - model-class
@@ -49,7 +49,9 @@ trivial edits that don't touch the class's spec contract.
 | Artifact | Path |
 |---|---|
 | source | `src/armodel/models/M2/AUTOSARTemplates/<pkg>/<ClassName>.py` (or `<pkg>/<ClassName>/__init__.py`) |
-| mirrored test | `tests/test_armodel/models/M2/AUTOSARTemplates/<pkg>/test_<ClassName>.py` |
+| model test | `tests/test_armodel/models/M2/AUTOSARTemplates/<pkg>/test_<ClassName>.py` → `class Test<ClassName>` — pairs 1:1 with source `<ClassName>.py` (Step 2) |
+| parser test | `tests/test_armodel/parser/test_*.py` → `class Test*` (load with `ARXMLParser`, assert model fields; Step 5) |
+| writer test | `tests/test_armodel/writer/test_*.py` → `class Test*` (set → save → reload round-trip; Step 5) |
 | spec PDF | `autosar/pdf/AUTOSAR_CP_TPS_*.pdf` — **PDF name, Table ID, and page (p.NN) come from the PDF file directly** |
 | spec table | `grep "Table N.M: <ClassName>" autosar/markdown/AUTOSAR_CP_TPS_*.md` (table content only; the markdown carries no page numbers) |
 | deviation records | the project deviation tracker (format in *Rule 0014*) |
@@ -86,8 +88,10 @@ implementation before its failing test.
   literals not accessors (*Rules 0010–0011*).
 - **4** — Class docstring = PDF `Note` verbatim; a guarded setter states the None-no-op
   sentence.
-- **5** — Assert **field values** (not just `len(...) == n`); add an empty-wrapper-list
-  case.
+- **5** — **Reader/writer tests live in their own folders**, not the per-class mirror:
+  parser → `tests/test_armodel/parser/`, writer → `tests/test_armodel/writer/`
+  (both `class Test*`, organized by feature/handler). Assert **field values** (not just
+  `len(...) == n`); add an empty-wrapper-list case.
 - **6** — Reader populates via mutators (`readXxx`→`setXxx`/`createXxx`/`addXxx`), writer
   reads via getters (`writeXxx`→`getXxx`); cover wrapper lists + polymorphic five-place
   dispatch; **no chained mutator calls** (*Rule 0013*).
@@ -141,6 +145,9 @@ detail: *Rule 0002*.
 - **A `[x]` checklist with `reader`/`writer` still `[ ]`** — silent round-trip drop.
 - **Asserting only `len(...) == n`** in the round-trip test — assert field values.
 - **Chained `set(...).set(...)`** in reader/writer source (*Rule 0013*).
+- **Double `readReferrable`** — `readImplementationProps` called both, or a subclass
+  re-reading `readReferrable` on top of its base helper → duplicate UUIDMgr registry
+  entries (*Rule 0013.1*).
 - **Recording a `naming`/`missing`/`type` deviation and leaving it** — to-fix: rename/
   retype/cover and **remove** the row (*Rule 0014*).
 - **`T | None` / `list[…]` hints** — Python ≥ 3.8: `Optional[T]` / `List[T]` (*Rule 0003*).

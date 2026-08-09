@@ -1,1 +1,1 @@
-uv run docling docs/pdf/AUTOSAR_CP_TPS_ECUConfiguration.pdf --output docs/pdf/AUTOSAR_CP_TPS_ECUConfiguration.md
+docling autosar/pdf/AUTOSAR_CP_TPS_ECUResourceTemplate.pdf --to md --output autosar/markdown/

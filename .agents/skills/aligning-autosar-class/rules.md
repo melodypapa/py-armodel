@@ -401,6 +401,14 @@ A `@property` setter is a setter too and must guard.
 Every method has coverage in the mirrored test file. TDD: **write the test first (Red),
 then implement (Green)** — for the model (Step 2→3) and for the reader/writer (Step 5→6).
 
+**Test placement & naming** — the Red test for each phase lives in a different folder:
+
+| Phase | Folder | File ↔ test class |
+|---|---|---|
+| model (Step 2) | `tests/test_armodel/models/M2/AUTOSARTemplates/<package>/` | `test_<ClassName>.py` → `class Test<ClassName>`, pairs 1:1 with source `<ClassName>.py` |
+| parser (Step 5) | `tests/test_armodel/parser/` | `test_*.py` → `class Test*`, organized by feature/handler (load with `ARXMLParser`, assert model fields) |
+| writer (Step 5) | `tests/test_armodel/writer/` | `test_*.py` → `class Test*`, organized by feature (set → save → reload round-trip) |
+
 - `test_initialization` asserts all `__init__` field defaults (`None`/`[]`).
 - Abstract classes: test `__init__` defaults + base accessors through a concrete subclass
   (`test_<name>_base_properties`: exercise every base getter/setter, assert chaining +
@@ -427,6 +435,9 @@ then implement (Green)** — for the model (Step 2→3) and for the reader/write
 
 ```bash
 python -m pytest tests/test_armodel/models/M2/AUTOSARTemplates/<package>/test_<ClassName>.py -q
+# Step 5 reader/writer tests live in their own folders — run the files you touched:
+#   tests/test_armodel/parser/test_<feature>.py   and   tests/test_armodel/writer/test_writer_<feature>.py
+python -m pytest tests/test_armodel/parser/ tests/test_armodel/writer/ -q
 PATH=".venv/Scripts:$PATH" flake8 --exclude=.venv,build --select=E9,F63,F7,F82 \
   src/armodel/models/M2/AUTOSARTemplates/<package>/<ClassName>.py
 PATH=".venv/Scripts:$PATH" ruff check \
@@ -608,6 +619,36 @@ reader/writer source does not exploit it.
   object to a local first (`document = AUTOSAR.getInstance(); document.addXxx(...)`).
 - Getter/attribute chains **used as values** (`ref.getDest()`,
   `event.getPeriod().getValue()`) are read-only sub-expressions — left as-is.
+
+### 0013.1 Reader helpers mirror the model inheritance chain
+
+A `readXxx` helper models the class's own attribute level and calls the reader helper
+of its **direct model base** — it never re-reads an ancestor from outside:
+
+- `readIdentifiable` → `readMultilanguageReferrable` → `readReferrable` →
+  `readARObjectAttributes` (T/UUID + `addARObject`).
+- `readImplementationProps` → `readReferrable` + the `SYMBOL` element
+  (`ImplementationProps` is a direct child of `Referrable`, so its helper owns the
+  `readReferrable` call).
+- A concrete subclass reads only one level: `readExecutableEntityActivationReason`
+  calls `readImplementationProps` (which handles `readReferrable`) plus its own element
+  (`BIT-POSITION`) — never `readReferrable` again.
+
+Calling `readReferrable` both in a base helper **and** in the subclass **double-registers**
+the object: `readARObjectAttributes` → `AUTOSAR.getInstance().addARObject` →
+`UUIDMgr.addObject` appends to `uuid_object_mappings[uuid]` with no dedupe, so duplicate
+entries surface in `getObjects`/`getDuplicateUUIDs`. Fix = remove the explicit
+`readReferrable` from the subclass call site (worked example: `readSymbolicNameProps` and
+`readExecutableEntityActivationReason` each dropped their redundant call once
+`readImplementationProps` gained it).
+
+The writer keeps the same leveling (`writeImplementationProps` calls `writeReferrable` at
+its own level) — the reader and writer must stay symmetric. A shared base reader helper's
+existence is not evidence a given subclass calls it; grep each subclass:
+
+```bash
+grep -nE '(readReferrable|readImplementationProps|readIdentifiable)\([^)]*\)' src/armodel/parser/arxml_parser.py
+```
 
 Verify (must return nothing):
 
