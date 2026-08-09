@@ -8,9 +8,9 @@ import tempfile
 
 import pytest
 
+from armodel.models import ApplicationSwComponentType
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswServiceDependency
-from armodel.models import ApplicationSwComponentType
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     ComMgrUserNeeds,
     CryptoServiceNeeds,
