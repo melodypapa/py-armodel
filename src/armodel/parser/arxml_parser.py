@@ -289,7 +289,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import RptExecutableEntityProperties, RptImplPolicy
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import RunnableEntity, RunnableEntityArgument, SwcExclusiveAreaPolicy, SwcInternalBehavior
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import ExternalTriggeringPoint, RunnableEntity, RunnableEntityArgument, SwcExclusiveAreaPolicy, SwcInternalBehavior
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AccessCount, AccessCountSet
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AutosarVariableRef import AutosarVariableRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess
@@ -2458,6 +2458,19 @@ class ARXMLParser(AbstractARXMLParser):
             point = parent.createInternalTriggeringPoint(short_name)
             point.sw_impl_policy = self.getChildElementOptionalLiteral(child_element, "SW-IMPL-POLICY")
 
+    def readRunnableEntityExternalTriggeringPoints(self, element: ET.Element, parent: RunnableEntity):
+        for child_element in self.findall(element, "EXTERNAL-TRIGGERING-POINTS/EXTERNAL-TRIGGERING-POINT"):
+            point = ExternalTriggeringPoint()
+            ident_element = self.find(child_element, "IDENT")
+            if ident_element is not None:
+                point.createIdent(self.getShortName(ident_element))
+            trigger_element = self.find(child_element, "TRIGGER-IREF")
+            if trigger_element is not None:
+                trigger = PTriggerInAtomicSwcTypeInstanceRef()
+                self.readPTriggerInAtomicSwcTypeInstanceRef(trigger_element, trigger)
+                point.setTrigger(trigger)
+            parent.addExternalTriggeringPoint(point)
+
     def readModeGroupInAtomicSwcInstanceRef(self, element: ET.Element, instance_ref: ModeGroupInAtomicSwcInstanceRef):
         instance_ref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE-REF"))
         instance_ref.setContextPortRef(self.getChildElementOptionalRefType(element, "CONTEXT-PORT-REF"))
@@ -2551,6 +2564,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readRunnableEntityDataSendPoints(element, entity)
         self.readRunnableEntityInternalBehaviorServerCallPoint(element, entity)
         self.readRunnableEntityInternalTriggeringPoints(element, entity)
+        self.readRunnableEntityExternalTriggeringPoints(element, entity)
         self.readRunnableEntityModeAccessPoints(element, entity)
         self.readRunnableEntityModeSwitchPoints(element, entity)
         self.readRunnableEntityParameterAccesses(element, entity)
@@ -3006,6 +3020,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read ImplementationDataType <%s>" % data_type.getShortName())
         self.readAutosarDataType(element, data_type)
         data_type.setDynamicArraySizeProfile(self.getChildElementOptionalLiteral(element, "DYNAMIC-ARRAY-SIZE-PROFILE"))
+        data_type.setIsStructWithOptionalElement(self.getChildElementOptionalBooleanValue(element, "IS-STRUCT-WITH-OPTIONAL-ELEMENT"))
         self.readImplementationDataTypeSubElements(element, data_type)
         self.readImplementationDataTypeSymbolProps(element, data_type)
         data_type.setTypeEmitter(self.getChildElementOptionalLiteral(element, "TYPE-EMITTER"))

@@ -26,7 +26,11 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
     ModeAccessPoint,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import ModeSwitchPoint
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import ExternalTriggeringPoint, InternalTriggeringPoint
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import (
+    ExternalTriggeringPoint,
+    ExternalTriggeringPointIdent as ExternalTriggeringPointIdent,
+    InternalTriggeringPoint,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity
@@ -275,6 +279,14 @@ class RunnableEntity(ExecutableEntity):
 
     def getInternalTriggeringPoints(self) -> List[InternalTriggeringPoint]:
         return filter(lambda o: isinstance(o, InternalTriggeringPoint), self.elements)
+
+    def getExternalTriggeringPoints(self) -> List[ExternalTriggeringPoint]:
+        return self.externalTriggeringPoints
+
+    def addExternalTriggeringPoint(self, value: Optional[ExternalTriggeringPoint]) -> "RunnableEntity":
+        if value is not None:
+            self.externalTriggeringPoints.append(value)
+        return self
 
     def getModeAccessPoints(self) -> List[ModeAccessPoint]:
         return self.modeAccessPoints

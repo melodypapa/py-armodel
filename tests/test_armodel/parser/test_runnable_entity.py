@@ -185,3 +185,52 @@ class TestRunnableEntity:
         behavior = self._read_runnables(xml_content)
         runnable = behavior.getRunnableEntities()[0]
         assert runnable.getActivationReasons() == []
+
+    def test_external_triggering_points(self):
+        xml_content = """
+            <SWC-INTERNAL-BEHAVIOR>
+                <RUNNABLES>
+                    <RUNNABLE-ENTITY>
+                      <SHORT-NAME>Cyclic</SHORT-NAME>
+                      <EXTERNAL-TRIGGERING-POINTS>
+                        <EXTERNAL-TRIGGERING-POINT>
+                          <IDENT>
+                            <SHORT-NAME>ExtTrigger</SHORT-NAME>
+                          </IDENT>
+                          <TRIGGER-IREF>
+                            <CONTEXT-P-PORT-REF DEST="P-PORT-PROTOTYPE">/Demo/P</CONTEXT-P-PORT-REF>
+                            <TARGET-TRIGGER-REF DEST="TRIGGER">/Demo/Trigger</TARGET-TRIGGER-REF>
+                          </TRIGGER-IREF>
+                        </EXTERNAL-TRIGGERING-POINT>
+                      </EXTERNAL-TRIGGERING-POINTS>
+                    </RUNNABLE-ENTITY>
+                </RUNNABLES>
+            </SWC-INTERNAL-BEHAVIOR>
+        """
+
+        behavior = self._read_runnables(xml_content)
+        runnable = behavior.getRunnableEntities()[0]
+        points = runnable.getExternalTriggeringPoints()
+        assert len(points) == 1
+        point = points[0]
+        assert point.getIdent() is not None
+        assert point.getIdent().getShortName() == "ExtTrigger"
+        assert point.getTrigger() is not None
+        assert point.getTrigger().getContextPPortRef().getValue() == "/Demo/P"
+        assert point.getTrigger().getTargetTriggerRef().getValue() == "/Demo/Trigger"
+
+    def test_external_triggering_points_empty_wrapper(self):
+        xml_content = """
+            <SWC-INTERNAL-BEHAVIOR>
+                <RUNNABLES>
+                    <RUNNABLE-ENTITY>
+                      <SHORT-NAME>Cyclic</SHORT-NAME>
+                      <EXTERNAL-TRIGGERING-POINTS/>
+                    </RUNNABLE-ENTITY>
+                </RUNNABLES>
+            </SWC-INTERNAL-BEHAVIOR>
+        """
+
+        behavior = self._read_runnables(xml_content)
+        runnable = behavior.getRunnableEntities()[0]
+        assert runnable.getExternalTriggeringPoints() == []

@@ -25,6 +25,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (  # noqa E501
     PModeGroupInAtomicSwcInstanceRef,
+    PTriggerInAtomicSwcTypeInstanceRef,
     RModeGroupInAtomicSWCInstanceRef,
     RModeInAtomicSwcInstanceRef,
     RVariableInAtomicSwcInstanceRef,
@@ -57,6 +58,9 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import (  # noqa E501
     RoleBasedPortAssignment,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import (  # noqa E501
+    ExternalTriggeringPoint,
 )
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -577,6 +581,34 @@ class TestWriterRunnableEntity:
         parent = _parent()
         writer.writeRunnableEntityModeAccessPoints(parent, entity)
         assert parent.find("MODE-ACCESS-POINTS") is None
+
+    def test_writeRunnableEntityExternalTriggeringPoints(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createRunnableEntity("re1")
+        point = ExternalTriggeringPoint()
+        point.createIdent("ExtTrigger")
+        trigger = PTriggerInAtomicSwcTypeInstanceRef()
+        trigger.setContextPPortRef(_ref("/pp"))
+        trigger.setTargetTriggerRef(_ref("/trig"))
+        point.setTrigger(trigger)
+        entity.addExternalTriggeringPoint(point)
+        parent = _parent()
+        writer.writeRunnableEntity(parent, entity)
+        re_elem = parent.find("RUNNABLE-ENTITY")
+        points_tag = re_elem.find("EXTERNAL-TRIGGERING-POINTS")
+        assert points_tag is not None
+        etp = points_tag.find("EXTERNAL-TRIGGERING-POINT")
+        assert etp.find("IDENT/SHORT-NAME").text == "ExtTrigger"
+        assert etp.find("TRIGGER-IREF/CONTEXT-P-PORT-REF").text == "/pp"
+        assert etp.find("TRIGGER-IREF/TARGET-TRIGGER-REF").text == "/trig"
+
+    def test_writeRunnableEntityExternalTriggeringPoints_empty(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createRunnableEntity("re1")
+        parent = _parent()
+        writer.writeRunnableEntity(parent, entity)
+        re_elem = parent.find("RUNNABLE-ENTITY")
+        assert re_elem.find("EXTERNAL-TRIGGERING-POINTS") is None
 
     def test_writeRunnableEntityModeSwitchPoints(self, writer):
         behavior = _make_behavior()
