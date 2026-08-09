@@ -3921,6 +3921,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "CLIENT-SERVER-OPERATION")
         self.writeIdentifiable(child_element, operation)
         self.writeClientServerOperationArguments(child_element, operation)
+        self.setChildElementOptionalBooleanValue(child_element, "DIAG-ARG-INTEGRITY", operation.getDiagArgIntegrity())
         self.writeClientServerOperationPossibleErrorRefs(child_element, operation)
 
     def writeClientServerInterfaceOperations(self, element: ET.Element, parent: ClientServerInterface):

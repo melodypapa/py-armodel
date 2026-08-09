@@ -4,7 +4,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpBlueprintable, AtpType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable, Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import AtpPrototype, AutosarDataPrototype, DataPrototype, VariableDataPrototype
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
     ApplicationError,
@@ -138,11 +138,18 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
         assert isinstance(operation, ClientServerOperation)
         assert operation.short_name == "client_server_operation"
 
+        assert operation.getDiagArgIntegrity() is None
+
         prototype = operation.createArgumentDataPrototype("argument_data_prototype1")
         assert prototype.short_name == "argument_data_prototype1"
 
         assert len(operation.getArguments()) == 1
         assert operation.getArguments()[0] == prototype
+
+        # creating an existing argument returns the existing instance
+        prototype2 = operation.createArgumentDataPrototype("argument_data_prototype1")
+        assert prototype2 == prototype
+        assert len(operation.getArguments()) == 1
 
         refType = RefType()
         refType.dest = "APPLICATION-ERROR"
@@ -151,6 +158,25 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
 
         assert len(operation.getPossibleErrorRefs()) == 1
         assert operation.getPossibleErrorRefs()[0] == refType
+
+    def test_ClientServerOperation_diagArgIntegrity(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        operation = ClientServerOperation(ar_root, "client_server_operation")
+
+        bool_true = Boolean()
+        bool_true.value = True
+        assert operation.setDiagArgIntegrity(bool_true) == operation
+        assert operation.getDiagArgIntegrity() == bool_true
+
+        # None is a no-op: existing value is preserved
+        operation.setDiagArgIntegrity(None)
+        assert operation.getDiagArgIntegrity() == bool_true
+
+        bool_false = Boolean()
+        bool_false.value = False
+        operation.setDiagArgIntegrity(bool_false)
+        assert operation.getDiagArgIntegrity() == bool_false
 
     def test_ClientServerInterface(self):
         document = AUTOSAR.getInstance()
@@ -162,6 +188,8 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
         assert isinstance(cs_if, MultilanguageReferrable)
         assert isinstance(cs_if, PortInterface)
         assert isinstance(cs_if, Referrable)
+        assert cs_if.getOperations() == []
+        assert cs_if.getPossibleErrors() == []
 
         element = cs_if.createOperation("operation")
         assert isinstance(element, ClientServerOperation)

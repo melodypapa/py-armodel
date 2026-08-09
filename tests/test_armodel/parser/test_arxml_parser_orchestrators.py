@@ -1050,6 +1050,19 @@ class TestPortInterfaceHandlers:
         parser.readClientServerOperation(element, op)
         assert len(op.getArguments()) == 1
 
+    def test_readClientServerOperation_diagArgIntegrity(self, parser):
+        from armodel.models import ClientServerInterface
+
+        cs_if = ClientServerInterface(parent=_autosar_root(), short_name="cs_if")
+        op = cs_if.createOperation("op")
+        element = _snip(
+            "<SHORT-NAME>op</SHORT-NAME>" "<DIAG-ARG-INTEGRITY>true</DIAG-ARG-INTEGRITY>",
+            root_tag="CLIENT-SERVER-OPERATION",
+        )
+        parser.readClientServerOperation(element, op)
+        assert op.getDiagArgIntegrity() is not None
+        assert op.getDiagArgIntegrity().value is True
+
     def test_readArgumentDataPrototype_sets_direction(self, parser):
         from armodel.models import ClientServerInterface
 

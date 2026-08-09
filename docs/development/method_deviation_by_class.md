@@ -831,16 +831,30 @@ on the member set and order; SWC Table 4.6 is cited as the complete rendering (P
 Note, Base, Aggregated-by and Attribute rows).
 
 ## `ClientServerOperation`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 309
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 102
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::PortInterface`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `diagArgIntegrity` | `Boolean` | — | missing |
-| — *(missing)* | `—` | `fireAndForget` | `Boolean` | — | missing |
-| — *(missing)* | `—` | `possibleApErrorRefs` | `Ref (ApApplicationError)` | Refs | missing |
-| — *(missing)* | `—` | `possibleApErrorSetRefs` | `Ref (ApApplicationErrorSet)` | Refs | missing |
+No deviations — Table 4.7 attributes (`argument`, `diagArgIntegrity`, `possibleError`) are
+implemented with parser/writer coverage and tests. The previously recorded `diagArgIntegrity`
+`missing` row is removed: the member is now implemented as a `0..1` `Boolean` attribute
+(field + `getDiagArgIntegrity`/`setDiagArgIntegrity` pair) wired into
+`parser/arxml_parser.py` (`readClientServerOperation`) and
+`writer/arxml_writer.py` (`writeClientServerOperation`) via `DIAG-ARG-INTEGRITY`.
+
+The previously recorded `fireAndForget`, `possibleApErrorRefs` (`possibleApError`),
+and `possibleApErrorSetRefs` (`possibleApErrorSet`) `missing` rows are removed as
+stale, not modeled: each is an `mmt.RestrictToStandards="AP"`, `atp.Status="draft"`
+member of the old-release XSD (`docs/requirements/xsd/AUTOSAR_00046.xsd`) only, absent
+from **every** CP R23-11 rendering of the class's table (SWC Table 4.7, BSW Table D.18,
+DiagnosticExtract Table C.14) — they are AP-restricted draft attributes, not CP spec
+attributes of `ClientServerOperation`, so no field is required and no deviation applies.
+
+Cross-checked across the renderings (SWC Table 4.7, BSW Table D.18, DiagnosticExtract
+Table C.14) — all agree on the member set and order (`argument`, `diagArgIntegrity`,
+`possibleError`) and on the Package/Note/Base rows; SWC Table 4.7 is cited as the
+complete rendering, matching the sibling family (`ClientServerInterface` cites SWC
+Table 4.6).
 
 ## `ExecutableEntityActivationReason`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 315

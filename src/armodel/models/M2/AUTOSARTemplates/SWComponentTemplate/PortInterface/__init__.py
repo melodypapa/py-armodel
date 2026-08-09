@@ -422,56 +422,135 @@ class ApplicationError(Identifiable):
 class ClientServerOperation(AtpStructureElement):
     """
     An operation declared within the scope of a client/server interface.
-    Package: M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
-    Base: ARObject, AtpClassifier , AtpBlueprintable, AtpStructureElement, Identifiable, MultilanguageReferrable, Referrable
-
-    Attributes:
-    -----------
-    _argument: ArgumentDataPrototype (optional)
-        An argument of this ClientServerOperation
-
-    _possibleError: RefType -> ApplicationError (optional)
-        Possible errors that may by raised by the referring operation
-
-    Methods:
-    --------
-    addArgumentDataPrototype    add the argument
-    getArgumentDataPrototypes   get the arguments
-    addPossibleErrorRef         add the possible error
-    getPossbileErrorRefs        get the possible errors
-
     """
 
     # ClientServerOperation method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getArguments                 [x] impl  [ ] docstring  [ ] test
-    # [ ] createArgumentDataPrototype  [x] impl  [ ] docstring  [ ] test
-    # [ ] getPossibleErrorRefs         [x] impl  [ ] docstring  [ ] test
-    # [ ] addPossibleErrorRef          [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.7, p.102
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] createArgumentDataPrototype  [x] impl  [x] docstring  [x] test
+    # [x] getArguments                 [x] impl  [x] docstring  [x] test
+    # [x] getDiagArgIntegrity          [x] impl  [x] docstring  [x] test
+    # [x] setDiagArgIntegrity          [x] impl  [x] docstring  [x] test
+    # [x] addPossibleErrorRef          [x] impl  [x] docstring  [x] test
+    # [x] getPossibleErrorRefs         [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
+        """
+        Constructs a ClientServerOperation.
+
+        Args:
+            parent: The parent ARObject
+            short_name: The short name of the operation
+        """
         super().__init__(parent, short_name)
 
+        # An argument of this ClientServerOperation
         self.arguments: List[ArgumentDataPrototype] = []
+
+        # This attribute shall only be used in the implementation of diagnostic routines to support
+        # the case where input and output arguments are allocated in a shared buffer and might
+        # unintentionally overwrite input arguments by tentative write operations to output
+        # arguments. The value true means that the ClientServerOperation is aware of the usage of a
+        # shared buffer and takes precautions to avoid unintentional overwrite of input arguments.
+        # [constr_1724]
+        self.diagArgIntegrity: Optional[Boolean] = None
+
+        # Possible errors that may by raised by the referring operation.
         self.possibleErrorRefs: List[RefType] = []
 
-    def getArguments(self):
-        return self.arguments
+    def createArgumentDataPrototype(self, short_name: str) -> ArgumentDataPrototype:
+        """
+        Creates an ArgumentDataPrototype of this ClientServerOperation with the given short name,
+        or returns the existing one if it already exists.
 
-    def createArgumentDataPrototype(self, short_name):
+        An argument of this ClientServerOperation.
+
+        Args:
+            short_name: The short name for the new ArgumentDataPrototype
+
+        Returns:
+            The created (or existing) ArgumentDataPrototype
+        """
         if not self.IsElementExists(short_name):
             prototype = ArgumentDataPrototype(self, short_name)
             self.addElement(prototype)
             self.arguments.append(prototype)
-        return self.getElement(short_name)
+        return self.getElement(short_name, ArgumentDataPrototype)
 
-    def getPossibleErrorRefs(self):
-        return self.possibleErrorRefs
+    def getArguments(self) -> List[ArgumentDataPrototype]:
+        """
+        Gets the ArgumentDataPrototype objects of this ClientServerOperation.
 
-    def addPossibleErrorRef(self, value):
+        An argument of this ClientServerOperation.
+
+        Returns:
+            The list of ArgumentDataPrototype instances
+        """
+        return self.arguments
+
+    def getDiagArgIntegrity(self) -> Optional[Boolean]:
+        """
+        Returns the diagArgIntegrity flag of this ClientServerOperation.
+
+        This attribute shall only be used in the implementation of diagnostic routines to support the
+        case where input and output arguments are allocated in a shared buffer and might
+        unintentionally overwrite input arguments by tentative write operations to output arguments.
+        The value true means that the ClientServerOperation is aware of the usage of a shared buffer
+        and takes precautions to avoid unintentional overwrite of input arguments. [constr_1724]
+
+        Returns:
+            Optional[Boolean]: The diagArgIntegrity flag, or None if not set
+        """
+        return self.diagArgIntegrity
+
+    def setDiagArgIntegrity(self, value: Optional[Boolean]) -> "ClientServerOperation":
+        """
+        Sets the diagArgIntegrity flag of this ClientServerOperation.
+
+        This attribute shall only be used in the implementation of diagnostic routines to support the
+        case where input and output arguments are allocated in a shared buffer and might
+        unintentionally overwrite input arguments by tentative write operations to output arguments.
+        The value true means that the ClientServerOperation is aware of the usage of a shared buffer
+        and takes precautions to avoid unintentional overwrite of input arguments. [constr_1724]
+        A None value is a no-op and does not overwrite an existing diagArgIntegrity.
+
+        Args:
+            value: The diagArgIntegrity flag to set
+
+        Returns:
+            ClientServerOperation: self for method chaining
+        """
+        if value is not None:
+            self.diagArgIntegrity = value
+        return self
+
+    def addPossibleErrorRef(self, value: Optional[RefType]) -> "ClientServerOperation":
+        """
+        Adds a possible error to this ClientServerOperation.
+
+        Possible errors that may by raised by the referring operation.
+
+        Args:
+            value: The possible error reference to add
+
+        Returns:
+            ClientServerOperation: self for method chaining
+        """
         if value is not None:
             self.possibleErrorRefs.append(value)
         return self
+
+    def getPossibleErrorRefs(self) -> List[RefType]:
+        """
+        Gets the possible errors that may be raised by this ClientServerOperation.
+
+        Possible errors that may by raised by the referring operation.
+
+        Returns:
+            The list of possible error references
+        """
+        return self.possibleErrorRefs
 
 
 class ClientServerInterface(PortInterface):
@@ -485,12 +564,18 @@ class ClientServerInterface(PortInterface):
     # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] createOperation              [x] impl  [x] docstring  [x] test
-    # [x] createApplicationError       [x] impl  [x] docstring  [x] test
     # [x] getOperations                [x] impl  [x] docstring  [x] test
+    # [x] createApplicationError       [x] impl  [x] docstring  [x] test
     # [x] getPossibleErrors            [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
+        # ClientServerOperation(s) of this ClientServerInterface.
+        self.operations: List[ClientServerOperation] = []
+
+        # Application errors that are defined as part of this interface.
+        self.possibleErrors: List[ApplicationError] = []
 
     def createOperation(self, short_name: str) -> ClientServerOperation:
         """
@@ -506,7 +591,17 @@ class ClientServerInterface(PortInterface):
         if not self.IsElementExists(short_name):
             operation = ClientServerOperation(self, short_name)
             self.addElement(operation)
+            self.operations.append(operation)
         return self.getElement(short_name, ClientServerOperation)
+
+    def getOperations(self) -> List[ClientServerOperation]:
+        """
+        Gets the ClientServerOperation(s) of this ClientServerInterface.
+
+        Returns:
+            The list of ClientServerOperation instances
+        """
+        return self.operations
 
     def createApplicationError(self, short_name: str) -> ApplicationError:
         """
@@ -522,16 +617,8 @@ class ClientServerInterface(PortInterface):
         if not self.IsElementExists(short_name):
             error = ApplicationError(self, short_name)
             self.addElement(error)
+            self.possibleErrors.append(error)
         return self.getElement(short_name, ApplicationError)
-
-    def getOperations(self) -> List[ClientServerOperation]:
-        """
-        Gets the ClientServerOperation(s) of this ClientServerInterface.
-
-        Returns:
-            The list of ClientServerOperation instances
-        """
-        return list(filter(lambda c: isinstance(c, ClientServerOperation), self.elements))
 
     def getPossibleErrors(self) -> List[ApplicationError]:
         """
@@ -540,7 +627,7 @@ class ClientServerInterface(PortInterface):
         Returns:
             The list of ApplicationError instances
         """
-        return list(filter(lambda c: isinstance(c, ApplicationError), self.elements))
+        return self.possibleErrors
 
 
 class TriggerInterface(PortInterface):

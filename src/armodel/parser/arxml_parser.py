@@ -3564,6 +3564,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readClientServerOperation(self, element: ET.Element, operation: ClientServerOperation):
         self.readIdentifiable(element, operation)
         self.readClientServerOperationArguments(element, operation)
+        operation.setDiagArgIntegrity(self.getChildElementOptionalBooleanValue(element, "DIAG-ARG-INTEGRITY"))
         self.readPossibleErrorRefs(element, operation)
 
     def readClientServerInterfaceOperations(self, element: ET.Element, parent: ClientServerInterface):

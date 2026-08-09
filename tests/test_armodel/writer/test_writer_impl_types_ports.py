@@ -651,6 +651,36 @@ class TestClientServerOperationWriter:
         writer.writeClientServerOperationPossibleErrorRefs(parent, op)
         assert len(parent) == 0
 
+    def test_write_cs_operation_diag_arg_integrity(self, writer):
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Pkg")
+        cs_if = pkg.createClientServerInterface("CsIf")
+        op = cs_if.createOperation("Op")
+        arg_integrity = _make_bool("true")
+        op.setDiagArgIntegrity(arg_integrity)
+
+        parent = _parent()
+        writer.writeClientServerOperation(parent, op)
+
+        assert len(parent) == 1
+        child = parent[0]
+        assert child.tag == "CLIENT-SERVER-OPERATION"
+        assert child.find("DIAG-ARG-INTEGRITY").text == "true"
+
+    def test_write_cs_operation_diag_arg_integrity_unset(self, writer):
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Pkg")
+        cs_if = pkg.createClientServerInterface("CsIf")
+        op = cs_if.createOperation("Op")
+
+        parent = _parent()
+        writer.writeClientServerOperation(parent, op)
+
+        assert len(parent) == 1
+        child = parent[0]
+        assert child.tag == "CLIENT-SERVER-OPERATION"
+        assert child.find("DIAG-ARG-INTEGRITY") is None
+
     def test_write_client_server_operation(self, writer):
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("Pkg")
