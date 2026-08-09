@@ -111,6 +111,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     FunctionInhibitionAvailabilityNeeds,
     IndicatorStatusNeeds,
     NvBlockNeeds,
+    ObdInfoServiceNeeds,
+    ObdMonitorServiceNeeds,
+    ObdPidServiceNeeds,
     PossibleErrorReaction,
     RoleBasedDataAssignment,
     RoleBasedDataTypeAssignment,
@@ -2145,6 +2148,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSupervisedEntityNeeds(child_element, needs)
         elif isinstance(needs, ErrorTracerNeeds):
             self.writeErrorTracerNeeds(child_element, needs)
+        elif isinstance(needs, ObdInfoServiceNeeds):
+            self.writeObdInfoServiceNeeds(child_element, needs)
+        elif isinstance(needs, ObdMonitorServiceNeeds):
+            self.writeObdMonitorServiceNeeds(child_element, needs)
+        elif isinstance(needs, ObdPidServiceNeeds):
+            self.writeObdPidServiceNeeds(child_element, needs)
         else:
             self.notImplemented("Unsupported service needs <%s>" % type(needs))
 
@@ -2259,6 +2268,25 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalIntegerValue(child_element, "DID-NUMBER", needs.getDidNumber())
         self.setChildElementOptionalBooleanValue(child_element, "FIXED-LENGTH", needs.getFixedLength())
         self.setChildElementOptionalLiteral(child_element, "PROCESSING-STYLE", needs.getProcessingStyle())
+
+    def writeObdInfoServiceNeeds(self, element: ET.Element, needs: ObdInfoServiceNeeds):
+        child_element = ET.SubElement(element, "OBD-INFO-SERVICE-NEEDS")
+        self.logger.debug("write ObdInfoServiceNeeds %s" % needs.getShortName())
+        self.writeDiagnosticCapabilityElement(child_element, needs)
+
+    def writeObdMonitorServiceNeeds(self, element: ET.Element, needs: ObdMonitorServiceNeeds):
+        child_element = ET.SubElement(element, "OBD-MONITOR-SERVICE-NEEDS")
+        self.logger.debug("write ObdMonitorServiceNeeds %s" % needs.getShortName())
+        self.writeDiagnosticCapabilityElement(child_element, needs)
+        self.setChildElementOptionalRefType(child_element, "APPLICATION-DATA-TYPE-REF", needs.getApplicationDataTypeRef())
+        self.setChildElementOptionalRefType(child_element, "EVENT-NEEDS-REF", needs.getEventNeedsRef())
+        self.setChildElementOptionalPositiveInteger(child_element, "UNIT-AND-SCALING-ID", needs.getUnitAndScalingId())
+        self.setChildElementOptionalLiteral(child_element, "UPDATE-KIND", needs.getUpdateKind())
+
+    def writeObdPidServiceNeeds(self, element: ET.Element, needs: ObdPidServiceNeeds):
+        child_element = ET.SubElement(element, "OBD-PID-SERVICE-NEEDS")
+        self.logger.debug("write ObdPidServiceNeeds %s" % needs.getShortName())
+        self.writeDiagnosticCapabilityElement(child_element, needs)
 
     def setDiagEventDebounceCounterBased(self, element: ET.Element, algorithm: DiagEventDebounceCounterBased):
         child_element = ET.SubElement(element, "DIAG-EVENT-DEBOUNCE-COUNTER-BASED")
@@ -2478,6 +2506,12 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeComMgrUserNeeds(child_element, needs)
                 elif isinstance(needs, ErrorTracerNeeds):
                     self.writeErrorTracerNeeds(child_element, needs)
+                elif isinstance(needs, ObdInfoServiceNeeds):
+                    self.writeObdInfoServiceNeeds(child_element, needs)
+                elif isinstance(needs, ObdMonitorServiceNeeds):
+                    self.writeObdMonitorServiceNeeds(child_element, needs)
+                elif isinstance(needs, ObdPidServiceNeeds):
+                    self.writeObdPidServiceNeeds(child_element, needs)
                 else:
                     self.notImplemented("Unsupported service needs <%s>" % type(needs))
 

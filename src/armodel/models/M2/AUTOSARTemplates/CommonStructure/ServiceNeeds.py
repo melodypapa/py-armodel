@@ -2538,20 +2538,28 @@ class DiagnosticIoControlNeeds(DiagnosticCapabilityElement):
 
 class DiagnosticMonitorUpdateKindEnum(AREnum):
     """
-    Enumeration for diagnostic monitor update kinds.
+    This enumeration indicates the acceptance criteria for a diagnostic monitor.
     """
 
     # DiagnosticMonitorUpdateKindEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.50, p.798
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
 
-    IMMEDIATE = "immediate"
-    ON_REQUEST = "on-request"
+    # The value 'always' configures Dem to accept the call to SetDTR() regardless of the state of the diagnostics. Tags: atp.EnumerationLiteralIndex=0
+    ALWAYS = "always"
+
+    # The value 'steady' configures Dem to accept it only when debouncing is at the limit. Tags: atp.EnumerationLiteralIndex=1
+    STEADY = "steady"
 
     def __init__(self):
+        """
+        Initializes the DiagnosticMonitorUpdateKindEnum with all possible values.
+        """
         super().__init__(
             (
-                DiagnosticMonitorUpdateKindEnum.IMMEDIATE,
-                DiagnosticMonitorUpdateKindEnum.ON_REQUEST,
+                DiagnosticMonitorUpdateKindEnum.ALWAYS,
+                DiagnosticMonitorUpdateKindEnum.STEADY,
             )
         )
 
@@ -3333,13 +3341,15 @@ class ObdControlServiceNeeds(ServiceNeeds):
         super().__init__(parent, short_name)
 
 
-class ObdInfoServiceNeeds(ServiceNeeds):
+class ObdInfoServiceNeeds(DiagnosticCapabilityElement):
     """
     Specifies the abstract needs of a component or module on the configuration of OBD Services in relation to a given InfoType (OBD Service 09) which is supported by this component or module.
     """
 
     # ObdInfoServiceNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.48, p.797
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -3352,13 +3362,23 @@ class ObdInfoServiceNeeds(ServiceNeeds):
         super().__init__(parent, short_name)
 
 
-class ObdMonitorServiceNeeds(ServiceNeeds):
+class ObdMonitorServiceNeeds(DiagnosticCapabilityElement):
     """
     Specifies the abstract needs of a component or module on the configuration of OBD Services in relation to a particular on-board monitoring test supported by this component or module. (OBD Service 06).
     """
 
     # ObdMonitorServiceNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.49, p.798
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getApplicationDataTypeRef    [x] impl  [x] docstring  [x] test
+    # [x] setApplicationDataTypeRef    [x] impl  [x] docstring  [x] test
+    # [x] getEventNeedsRef             [x] impl  [x] docstring  [x] test
+    # [x] setEventNeedsRef             [x] impl  [x] docstring  [x] test
+    # [x] getUnitAndScalingId          [x] impl  [x] docstring  [x] test
+    # [x] setUnitAndScalingId          [x] impl  [x] docstring  [x] test
+    # [x] getUpdateKind                [x] impl  [x] docstring  [x] test
+    # [x] setUpdateKind                [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -3370,14 +3390,124 @@ class ObdMonitorServiceNeeds(ServiceNeeds):
         """
         super().__init__(parent, short_name)
 
+        # reference to an ApplicationDataType that describes the scaling of the data reported by the software-component to the Dem.
+        self.applicationDataTypeRef: Optional[RefType] = None
 
-class ObdPidServiceNeeds(ServiceNeeds):
+        # This reference identifies the corresponding diagnostic event.
+        self.eventNeedsRef: Optional[RefType] = None
+
+        # Unit and scaling ID according to ISO 15031-5.
+        self.unitAndScalingId: Optional[PositiveInteger] = None
+
+        # This attribute indicates the settings for the acceptance of updates.
+        self.updateKind: Optional[DiagnosticMonitorUpdateKindEnum] = None
+
+    def getApplicationDataTypeRef(self) -> Optional[RefType]:
+        """
+        Gets the reference to an ApplicationDataType that describes the scaling of the data reported by the software-component to the Dem.
+
+        Returns:
+            RefType instance, or None if not set
+        """
+        return self.applicationDataTypeRef
+
+    def setApplicationDataTypeRef(self, value: Optional[RefType]) -> "ObdMonitorServiceNeeds":
+        """
+        Sets the reference to an ApplicationDataType that describes the scaling of the data reported by the software-component to the Dem.
+        A None value is a no-op and does not overwrite an existing applicationDataTypeRef.
+
+        Args:
+            value: The RefType instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.applicationDataTypeRef = value
+        return self
+
+    def getEventNeedsRef(self) -> Optional[RefType]:
+        """
+        Gets the reference that identifies the corresponding diagnostic event.
+
+        Returns:
+            RefType instance, or None if not set
+        """
+        return self.eventNeedsRef
+
+    def setEventNeedsRef(self, value: Optional[RefType]) -> "ObdMonitorServiceNeeds":
+        """
+        Sets the reference that identifies the corresponding diagnostic event.
+        A None value is a no-op and does not overwrite an existing eventNeedsRef.
+
+        Args:
+            value: The RefType instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.eventNeedsRef = value
+        return self
+
+    def getUnitAndScalingId(self) -> Optional[PositiveInteger]:
+        """
+        Gets the unit and scaling ID according to ISO 15031-5.
+
+        Returns:
+            PositiveInteger instance, or None if not set
+        """
+        return self.unitAndScalingId
+
+    def setUnitAndScalingId(self, value: Optional[PositiveInteger]) -> "ObdMonitorServiceNeeds":
+        """
+        Sets the unit and scaling ID according to ISO 15031-5.
+        A None value is a no-op and does not overwrite an existing unitAndScalingId.
+
+        Args:
+            value: The PositiveInteger instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.unitAndScalingId = value
+        return self
+
+    def getUpdateKind(self) -> Optional[DiagnosticMonitorUpdateKindEnum]:
+        """
+        Gets the settings for the acceptance of updates to the Dem.
+
+        Returns:
+            DiagnosticMonitorUpdateKindEnum instance, or None if not set
+        """
+        return self.updateKind
+
+    def setUpdateKind(self, value: Optional[DiagnosticMonitorUpdateKindEnum]) -> "ObdMonitorServiceNeeds":
+        """
+        Sets the settings for the acceptance of updates to the Dem.
+        A None value is a no-op and does not overwrite an existing updateKind.
+
+        Args:
+            value: The DiagnosticMonitorUpdateKindEnum instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.updateKind = value
+        return self
+
+
+class ObdPidServiceNeeds(DiagnosticCapabilityElement):
     """
     Specifies the abstract needs of a component or module on the configuration of OBD Services in relation to a particular PID (parameter identifier) which is supported by this component or module. In case of using a client/server communicated value, the related value shall be communicated via the port referenced by assignedPort. The details of this communication (e.g. appropriate naming conventions) are specified in the related software specifications (SWS).
     """
 
     # ObdPidServiceNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.47, p.797
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
         """
