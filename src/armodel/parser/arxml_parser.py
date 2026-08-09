@@ -3931,11 +3931,12 @@ class ARXMLParser(AbstractARXMLParser):
     def getRuleArguments(self, element: ET.Element) -> RuleArguments:
         arguments = RuleArguments()
         self.readARObjectAttributes(element, arguments)
-        for v in self.getChildElementNumericalValueList(element, "V"):
-            arguments.addV(v)
-        arguments.setVt(self.getChildElementOptionalLiteral(element, "VT"))
-        for child_element in self.findall(element, "VTF"):
-            arguments.addVtf(self.getNumericalOrText(child_element))
+        arguments.setV(self.getChildElementOptionalNumericalValue(element, "V"))
+        arguments.setVf(self.getChildElementOptionalNumericalValue(element, "VF"))
+        arguments.setVt(self.getChildElementOptionalVerbatimString(element, "VT"))
+        vtf = self.find(element, "VTF")
+        if vtf is not None:
+            arguments.setVtf(self.getNumericalOrText(vtf))
         return arguments
 
     def getRuleBasedValueSpecification(self, element: ET.Element) -> RuleBasedValueSpecification:
@@ -3943,7 +3944,7 @@ class ARXMLParser(AbstractARXMLParser):
             return None
         value_spec = RuleBasedValueSpecification()
         self.readARObjectAttributes(element, value_spec)
-        value_spec.setRule(self.getChildElementOptionalLiteral(element, "RULE"))
+        value_spec.setRule(self.getChildElementOptionalIdentifier(element, "RULE"))
         for child_element in self.findall(element, "ARGUMENTSS/RULE-ARGUMENTS"):
             value_spec.addArgument(self.getRuleArguments(child_element))
         value_spec.setMaxSizeToFill(self.getChildElementOptionalIntegerValue(element, "MAX-SIZE-TO-FILL"))

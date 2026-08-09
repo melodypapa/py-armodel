@@ -25,7 +25,13 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
     TextValueSpecification,
     ValueSpecification,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARLiteral,
+    ARNumerical,
+    Identifier,
+    RefType,
+    VerbatimString,
+)
 
 
 class TestValueSpecification:
@@ -281,46 +287,88 @@ class TestRuleArguments:
         arguments = RuleArguments()
 
         assert arguments is not None
-        assert arguments.getVs() == []
+        assert arguments.getV() is None
+        assert arguments.getVf() is None
         assert arguments.getVt() is None
-        assert arguments.getVtfs() == []
+        assert arguments.getVtf() is None
 
-    def test_add_v(self):
-        """Test addV method appends to the list"""
+    def test_get_set_v(self):
+        """Test setV/getV round-trip with a numerical value"""
         arguments = RuleArguments()
         v = ARNumerical()
         v.setValue("1.5")
-        arguments.addV(v)
-        assert arguments.getVs() == [v]
+        result = arguments.setV(v)
+        assert result is arguments
+        assert arguments.getV() == v
 
-    def test_add_v_multiple(self):
-        """Test addV accumulates multiple entries"""
+    def test_set_v_none_noop(self):
+        """Test setV(None) is a no-op and does not overwrite an existing value"""
         arguments = RuleArguments()
-        v_1 = ARNumerical()
-        v_1.setValue("1")
-        v_2 = ARNumerical()
-        v_2.setValue("2")
-        arguments.addV(v_1)
-        arguments.addV(v_2)
-        assert arguments.getVs() == [v_1, v_2]
+        v = ARNumerical()
+        v.setValue("1.5")
+        arguments.setV(v)
+        result = arguments.setV(None)
+        assert result is arguments
+        assert arguments.getV() == v
 
-    def test_set_vt(self):
-        """Test setVt method"""
+    def test_get_set_vf(self):
+        """Test setVf/getVf round-trip with a numerical value"""
         arguments = RuleArguments()
-        vt = ARLiteral()
+        vf = ARNumerical()
+        vf.setValue("2.5")
+        result = arguments.setVf(vf)
+        assert result is arguments
+        assert arguments.getVf() == vf
+
+    def test_set_vf_none_noop(self):
+        """Test setVf(None) is a no-op and does not overwrite an existing value"""
+        arguments = RuleArguments()
+        vf = ARNumerical()
+        vf.setValue("2.5")
+        arguments.setVf(vf)
+        result = arguments.setVf(None)
+        assert result is arguments
+        assert arguments.getVf() == vf
+
+    def test_get_set_vt(self):
+        """Test setVt/getVt round-trip with a textual value"""
+        arguments = RuleArguments()
+        vt = VerbatimString()
         vt.setValue("label")
         result = arguments.setVt(vt)
         assert result is arguments
         assert arguments.getVt() == vt
 
-    def test_add_vtf(self):
-        """Test addVtf method appends to the list"""
+    def test_set_vt_none_noop(self):
+        """Test setVt(None) is a no-op and does not overwrite an existing value"""
+        arguments = RuleArguments()
+        vt = VerbatimString()
+        vt.setValue("label")
+        arguments.setVt(vt)
+        result = arguments.setVt(None)
+        assert result is arguments
+        assert arguments.getVt() == vt
+
+    def test_get_set_vtf(self):
+        """Test setVtf/getVtf round-trip with a NumericalOrText value"""
         arguments = RuleArguments()
         from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import NumericalOrText
 
         vtf = NumericalOrText()
-        arguments.addVtf(vtf)
-        assert arguments.getVtfs() == [vtf]
+        result = arguments.setVtf(vtf)
+        assert result is arguments
+        assert arguments.getVtf() == vtf
+
+    def test_set_vtf_none_noop(self):
+        """Test setVtf(None) is a no-op and does not overwrite an existing value"""
+        arguments = RuleArguments()
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import NumericalOrText
+
+        vtf = NumericalOrText()
+        arguments.setVtf(vtf)
+        result = arguments.setVtf(None)
+        assert result is arguments
+        assert arguments.getVtf() == vtf
 
 
 class TestNumericalOrText:
@@ -432,22 +480,29 @@ class TestRuleBasedValueCont:
         cont = RuleBasedValueCont()
 
         assert cont is not None
-        assert cont.getUnitRef() is None
-        assert cont.getSwArraysize() is None
         assert cont.getRuleBasedValues() is None
+        assert cont.getSwArraysize() is None
+        assert cont.getUnitRef() is None
 
-    def test_set_unit_ref(self):
-        """Test setUnitRef method"""
+    def test_get_set_rule_based_values(self):
+        """Test setRuleBasedValues/getRuleBasedValues round-trip"""
         cont = RuleBasedValueCont()
-        ref = RefType()
-        ref.setDest("Unit")
-        ref.setValue("/p/u")
-        result = cont.setUnitRef(ref)
+        values = RuleBasedValueSpecification()
+        result = cont.setRuleBasedValues(values)
         assert result is cont
-        assert cont.getUnitRef() == ref
+        assert cont.getRuleBasedValues() == values
 
-    def test_set_sw_arraysize(self):
-        """Test setSwArraysize method"""
+    def test_set_rule_based_values_none_noop(self):
+        """Test setRuleBasedValues(None) is a no-op"""
+        cont = RuleBasedValueCont()
+        values = RuleBasedValueSpecification()
+        cont.setRuleBasedValues(values)
+        result = cont.setRuleBasedValues(None)
+        assert result is cont
+        assert cont.getRuleBasedValues() == values
+
+    def test_get_set_sw_arraysize(self):
+        """Test setSwArraysize/getSwArraysize round-trip"""
         cont = RuleBasedValueCont()
         from armodel.models.M2.MSR.DataDictionary.DataDefProperties import ValueList
 
@@ -456,13 +511,37 @@ class TestRuleBasedValueCont:
         assert result is cont
         assert cont.getSwArraysize() == size
 
-    def test_set_rule_based_values(self):
-        """Test setRuleBasedValues method"""
+    def test_set_sw_arraysize_none_noop(self):
+        """Test setSwArraysize(None) is a no-op"""
         cont = RuleBasedValueCont()
-        values = RuleBasedValueSpecification()
-        result = cont.setRuleBasedValues(values)
+        from armodel.models.M2.MSR.DataDictionary.DataDefProperties import ValueList
+
+        size = ValueList()
+        cont.setSwArraysize(size)
+        result = cont.setSwArraysize(None)
         assert result is cont
-        assert cont.getRuleBasedValues() == values
+        assert cont.getSwArraysize() == size
+
+    def test_get_set_unit_ref(self):
+        """Test setUnitRef/getUnitRef round-trip"""
+        cont = RuleBasedValueCont()
+        ref = RefType()
+        ref.setDest("Unit")
+        ref.setValue("/p/u")
+        result = cont.setUnitRef(ref)
+        assert result is cont
+        assert cont.getUnitRef() == ref
+
+    def test_set_unit_ref_none_noop(self):
+        """Test setUnitRef(None) is a no-op"""
+        cont = RuleBasedValueCont()
+        ref = RefType()
+        ref.setDest("Unit")
+        ref.setValue("/p/u")
+        cont.setUnitRef(ref)
+        result = cont.setUnitRef(None)
+        assert result is cont
+        assert cont.getUnitRef() == ref
 
 
 class TestRuleBasedValueSpecification:
@@ -471,26 +550,19 @@ class TestRuleBasedValueSpecification:
         spec = RuleBasedValueSpecification()
 
         assert spec is not None
-        assert spec.getRule() is None
         assert spec.getArguments() == []
         assert spec.getMaxSizeToFill() is None
-
-    def test_set_rule(self):
-        """Test setRule method"""
-        spec = RuleBasedValueSpecification()
-        result = spec.setRule("FILL_UNTIL_END")
-        assert result is spec
-        assert spec.getRule() == "FILL_UNTIL_END"
+        assert spec.getRule() is None
 
     def test_add_argument(self):
-        """Test addArgument method appends to the list"""
+        """Test addArgument appends to the list"""
         spec = RuleBasedValueSpecification()
         argument = RuleArguments()
         spec.addArgument(argument)
         assert spec.getArguments() == [argument]
 
-    def test_set_max_size_to_fill(self):
-        """Test setMaxSizeToFill method"""
+    def test_get_set_max_size_to_fill(self):
+        """Test setMaxSizeToFill/getMaxSizeToFill round-trip"""
         spec = RuleBasedValueSpecification()
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer
 
@@ -499,6 +571,37 @@ class TestRuleBasedValueSpecification:
         result = spec.setMaxSizeToFill(size)
         assert result is spec
         assert spec.getMaxSizeToFill() == size
+
+    def test_set_max_size_to_fill_none_noop(self):
+        """Test setMaxSizeToFill(None) is a no-op"""
+        spec = RuleBasedValueSpecification()
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer
+
+        size = Integer()
+        size.setValue("8")
+        spec.setMaxSizeToFill(size)
+        result = spec.setMaxSizeToFill(None)
+        assert result is spec
+        assert spec.getMaxSizeToFill() == size
+
+    def test_get_set_rule(self):
+        """Test setRule/getRule round-trip"""
+        spec = RuleBasedValueSpecification()
+        rule = Identifier()
+        rule.setValue("FILL_UNTIL_END")
+        result = spec.setRule(rule)
+        assert result is spec
+        assert spec.getRule() == rule
+
+    def test_set_rule_none_noop(self):
+        """Test setRule(None) is a no-op"""
+        spec = RuleBasedValueSpecification()
+        rule = Identifier()
+        rule.setValue("FILL_UNTIL_END")
+        spec.setRule(rule)
+        result = spec.setRule(None)
+        assert result is spec
+        assert spec.getRule() == rule
 
 
 class TestRecordValueSpecification:

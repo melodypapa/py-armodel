@@ -526,14 +526,16 @@ class TestRuleBasedValueSpecHandlers:
 
     def test_getRuleArguments_full(self, parser):
         element = _snip(
-            "<V>1</V><V>2</V>" "<VT>label</VT>" "<VTF><VF>1.5</VF><VT>alt</VT></VTF>",
+            "<V>1</V><VF>2</VF><VT>label</VT><VTF><VF>1.5</VF><VT>alt</VT></VTF>",
             root_tag="RULE-ARGUMENTS",
         )
         arguments = parser.getRuleArguments(element)
         assert arguments is not None
-        assert len(arguments.getVs()) == 2
+        assert arguments.getV().getValue() == 1
+        assert arguments.getVf().getValue() == 2
         assert arguments.getVt().getValue() == "label"
-        assert len(arguments.getVtfs()) == 1
+        assert arguments.getVtf() is not None
+        assert arguments.getVtf().getVf().getValue() == 1.5
 
     def test_getRuleBasedValueSpecification_full(self, parser):
         element = _snip(
@@ -550,6 +552,13 @@ class TestRuleBasedValueSpecHandlers:
     def test_getRuleBasedValueSpecification_missing_returns_None(self, parser):
         _element = _snip("<X/>")
         assert parser.getRuleBasedValueSpecification(None) is None
+
+    def test_getRuleBasedValueSpecification_empty_arguments(self, parser):
+        element = _snip("<RULE>FILL_UNTIL_END</RULE>", root_tag="RULE-BASED-VALUES")
+        value_spec = parser.getRuleBasedValueSpecification(element)
+        assert value_spec is not None
+        assert value_spec.getArguments() == []
+        assert value_spec.getRule().getValue() == "FILL_UNTIL_END"
 
     def test_getRuleBasedAxisCont_full(self, parser):
         element = _snip(

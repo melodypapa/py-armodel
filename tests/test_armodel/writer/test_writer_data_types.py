@@ -21,9 +21,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARFloat,
     ARLiteral,
     ARNumerical,
+    Identifier,
     Integer,
     Limit,
     RefType,
+    VerbatimString,
 )
 from armodel.models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition
 from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
@@ -91,6 +93,18 @@ def _numerical(text):
     num = ARNumerical()
     num.value = text
     return num
+
+
+def _identifier(text):
+    ident = Identifier()
+    ident.setValue(text)
+    return ident
+
+
+def _verbatim(text):
+    verbatim = VerbatimString()
+    verbatim.setValue(text)
+    return verbatim
 
 
 def _float(text):
@@ -888,10 +902,10 @@ class TestRuleBasedValueSpecificationWriter:
         axis.setSwArraysize(size)
         axis.setSwAxisIndex(_literal("1"))
         axis_rule = RuleBasedValueSpecification()
-        axis_rule.setRule(_literal("FILL_UNTIL_END"))
+        axis_rule.setRule(_identifier("FILL_UNTIL_END"))
         axis_args = RuleArguments()
-        axis_args.addV(_numerical("1"))
-        axis_args.addV(_numerical("2"))
+        axis_args.setV(_numerical("1"))
+        axis_args.setVf(_numerical("2"))
         axis_rule.addArgument(axis_args)
         axis.setRuleBasedValues(axis_rule)
         spec.addSwAxisCont(axis)
@@ -902,7 +916,7 @@ class TestRuleBasedValueSpecificationWriter:
         cont_size.setV(_float("10"))
         cont.setSwArraysize(cont_size)
         cont_rule = RuleBasedValueSpecification()
-        cont_rule.setRule(_literal("FILL_UNTIL_END"))
+        cont_rule.setRule(_identifier("FILL_UNTIL_END"))
         max_size = Integer()
         max_size.setValue("8")
         cont_rule.setMaxSizeToFill(max_size)
@@ -922,16 +936,17 @@ class TestRuleBasedValueSpecificationWriter:
         assert child.find("SW-AXIS-CONTS/RULE-BASED-AXIS-CONT/RULE-BASED-VALUES/RULE").text == "FILL_UNTIL_END"
         argss = child.find("SW-AXIS-CONTS/RULE-BASED-AXIS-CONT/RULE-BASED-VALUES/ARGUMENTSS")
         assert argss is not None
-        assert len(argss.findall("RULE-ARGUMENTS/V")) == 2
+        assert argss.find("RULE-ARGUMENTS/V").text == "1"
+        assert argss.find("RULE-ARGUMENTS/VF").text == "2"
         assert child.find("SW-VALUE-CONT/RULE-BASED-VALUES/MAX-SIZE-TO-FILL").text == "8"
 
     def test_write_rule_based_axis_cont_with_vt(self, writer):
         axis = RuleBasedAxisCont()
         rule = RuleBasedValueSpecification()
-        rule.setRule(_literal("FILL_UNTIL_END"))
+        rule.setRule(_identifier("FILL_UNTIL_END"))
         args = RuleArguments()
-        args.addV(_numerical("1.5"))
-        args.setVt(_literal("label"))
+        args.setV(_numerical("1.5"))
+        args.setVt(_verbatim("label"))
         rule.addArgument(args)
         axis.setRuleBasedValues(rule)
 
@@ -957,6 +972,15 @@ class TestRuleBasedValueSpecificationWriter:
         parent = _parent()
         writer.writeRuleBasedValueSpecification(parent, "RULE-BASED-VALUES", None)
         assert len(parent) == 0
+
+    def test_write_rule_based_value_specification_empty_arguments_no_wrapper(self, writer):
+        spec = RuleBasedValueSpecification()
+        spec.setRule(_identifier("FILL_UNTIL_END"))
+        parent = _parent()
+        writer.writeRuleBasedValueSpecification(parent, "RULE-BASED-VALUES", spec)
+        child = parent[0]
+        assert child.find("RULE").text == "FILL_UNTIL_END"
+        assert child.find("ARGUMENTSS") is None
 
     def test_write_rule_arguments_none(self, writer):
         parent = _parent()
