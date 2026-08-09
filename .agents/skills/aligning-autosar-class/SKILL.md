@@ -86,8 +86,9 @@ implementation before its failing test.
   `aggr` (never registry filters); `createXxx` only for `Referrable` children; collect &
   report referenced non-existent classes (do **not** block). **Enum (`AREnum`)?** produce
   literals not accessors (*Rules 0010–0011*).
-- **4** — Class docstring = PDF `Note` verbatim; a guarded setter states the None-no-op
-  sentence.
+- **4** — Class docstring, inline `__init__` comments, and getter/setter docstrings copy
+  the PDF `Note` **verbatim** (no summarizing/rephrasing); a guarded setter also appends
+  the None-no-op code-behavior sentence.
 - **5** — **Reader/writer tests live in their own folders**, not the per-class mirror:
   parser → `tests/test_armodel/parser/`, writer → `tests/test_armodel/writer/`
   (both `class Test*`, organized by feature/handler). Assert **field values** (not just

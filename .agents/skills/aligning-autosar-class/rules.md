@@ -558,10 +558,10 @@ string values (`MEMBER = "member_value"`).
 
 ## Rule 0012 — Docstring & Comment Sync *(formerly Rule 13)*
 
-Class docstrings, inline `__init__` comments, and getter/setter docstrings reflect the
-PDF spec wording (not paraphrase) and stay synced across AUTOSAR upgrades. This is one
-ordered procedure per class (Rule 0006's mechanical check only confirms the marker
-*string* exists, not that content is correct).
+Class docstrings, inline `__init__` comments, and getter/setter docstrings copy the PDF
+`Note` **verbatim** — never summarize, paraphrase, or rephrase the wording — and stay
+synced across AUTOSAR upgrades. This is one ordered procedure per class (Rule 0006's
+mechanical check only confirms the marker *string* exists, not that content is correct).
 
 ### 0012.1 Versioning
 
@@ -592,10 +592,13 @@ ordered procedure per class (Rule 0006's mechanical check only confirms the mark
       `# Spec:` cites its **own** table, independent of the owning class.
    2. Inline `__init__` comment: the attribute's `Note` semantic sentence verbatim
       (drop `Stereotypes:`/`Tags:` tail); append any `constr_*` wording + id.
-   3. Getter docstring: summarize the Note + constraint (not "Gets the value of X");
-      for an `iref`, name the concrete `<name>InstanceRef` class.
-   4. Setter docstring: same Note/constraint + chainable return; **if guarded**, state
-      verbatim: *"A None value is a no-op and does not overwrite an existing `<attr>`."*
+   3. Getter docstring: the PDF `Note` **verbatim** + constraint — never summarize or
+      rephrase into "Gets the value of X"; for an `iref`, name the concrete
+      `<name>InstanceRef` class.
+   4. Setter docstring: the PDF `Note` **verbatim** (same wording as the getter) +
+      constraint; the chainable-return and (if guarded) None-no-op lines are **added
+      code-behavior notes, not Note content** — append them without altering the Note
+      text: *"A None value is a no-op and does not overwrite an existing `<attr>`."*
    5. Cross-check comment/getter/setter for consistency.
 5. Verify by **diff**, not status — no mechanical check proves wording matches the PDF;
    re-open the Note/XSD doc and diff against the comment and both docstrings.
