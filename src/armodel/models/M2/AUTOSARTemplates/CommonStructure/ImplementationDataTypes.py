@@ -1,10 +1,9 @@
 from abc import ABC
-from typing import List
+from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Boolean, String, AREnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, AREnum, ARLiteral, ARNumerical, NameToken, String
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import AutosarDataType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SymbolProps
 
@@ -136,26 +135,25 @@ class AbstractImplementationDataType(AutosarDataType, ABC):
 
 class ImplementationDataType(AbstractImplementationDataType):
     """
-    Represents an implementation data type in AUTOSAR models.
-    This class defines how data types are implemented in code, including arrays, structures, and data references.
+    Describes a reusable data type on the implementation level. This will
+    typically correspond to a typedef in C-code.
     """
 
     # ImplementationDataType method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getDynamicArraySizeProfile   [x] impl  [x] docstring  [x] test
-    # [x] setDynamicArraySizeProfile   [x] impl  [x] docstring  [x] test
-    # [x] getIsStructWithOptionalElement [x] impl  [x] docstring  [x] test
-    # [x] setIsStructWithOptionalElement [x] impl  [x] docstring  [x] test
-    # [x] createImplementationDataTypeElement [x] impl  [x] docstring  [x] test
-    # [x] getSubElements               [x] impl  [x] docstring  [x] test
-    # [x] getArrayElementType          [x] impl  [x] docstring  [x] test
-    # [x] setArrayElementType          [x] impl  [x] docstring  [x] test
-    # [x] setTypeEmitter               [x] impl  [x] docstring  [x] test
-    # [x] getTypeEmitter               [x] impl  [x] docstring  [x] test
-    # [x] setStructElementType         [x] impl  [x] docstring  [x] test
-    # [x] getStructElementType         [x] impl  [x] docstring  [x] test
-    # [x] createSymbolProps            [x] impl  [x] docstring  [x] test
-    # [x] getSymbolProps               [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.37, p.321
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDynamicArraySizeProfile          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDynamicArraySizeProfile          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getIsStructWithOptionalElement      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIsStructWithOptionalElement      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createImplementationDataTypeElement [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSubElements                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createSymbolProps                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSymbolProps                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getTypeEmitter                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTypeEmitter                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     # Category constant for type reference implementation data types
     CATEGORY_TYPE_REFERENCE = "TYPE_REFERENCE"
@@ -178,30 +176,36 @@ class ImplementationDataType(AbstractImplementationDataType):
         """
         super().__init__(parent, short_name)
 
-        # Profile for dynamic array size (for variable-size arrays)
-        self.dynamicArraySizeProfile: String = None
-        # Flag indicating if this structure contains optional elements
-        self.isStructWithOptionalElement: Boolean = None
-        # List of sub-elements in this implementation data type
-        self.subElements: List["ImplementationDataTypeElement"] = []
-        # Symbol properties for this implementation data type
-        self.symbolProps: SymbolProps = None
-        # Type emitter for code generation
-        self.typeEmitter: ARLiteral = None
+        # Specifies the profile which the array will follow in case this data
+        # type is a variable size array.
+        self.dynamicArraySizeProfile: Optional[String] = None
+        # Indicates that the ImplementationDataType has been created with the
+        # intention to define at least one element of the structure as
+        # optional.
+        self.isStructWithOptionalElement: Optional[ARBoolean] = None
+        # Specifies an element of an array, struct, or union data type.
+        self.subElements: List[ImplementationDataTypeElement] = []
+        # The SymbolProps for the ImplementationDataType.
+        self.symbolProps: Optional[SymbolProps] = None
+        # Controls which part of the AUTOSAR toolchain is supposed to trigger
+        # data type definitions.
+        self.typeEmitter: Optional[NameToken] = None
 
-    def getDynamicArraySizeProfile(self):
+    def getDynamicArraySizeProfile(self) -> Optional[String]:
         """
-        Gets the profile for dynamic array size (for variable-size arrays).
+        Gets the profile which the array will follow in case this data type is
+        a variable size array.
 
         Returns:
             String: The dynamic array size profile
         """
         return self.dynamicArraySizeProfile
 
-    def setDynamicArraySizeProfile(self, value):
+    def setDynamicArraySizeProfile(self, value: Optional[String]) -> "ImplementationDataType":
         """
-        Sets the profile for dynamic array size (for variable-size arrays).
-        Only sets the value if it is not None.
+        Sets the profile which the array will follow in case this data type is
+        a variable size array. A None value is a no-op and does not overwrite
+        an existing profile.
 
         Args:
             value: The dynamic array size profile to set
@@ -209,38 +213,47 @@ class ImplementationDataType(AbstractImplementationDataType):
         Returns:
             self for method chaining
         """
-        self.dynamicArraySizeProfile = value
+        if value is not None:
+            self.dynamicArraySizeProfile = value
         return self
 
-    def getIsStructWithOptionalElement(self):
+    def getIsStructWithOptionalElement(self) -> Optional[ARBoolean]:
         """
-        Gets the flag indicating if this structure contains optional elements.
+        Gets the flag indicating whether the ImplementationDataType has been
+        created with the intention to define at least one element of the
+        structure as optional.
 
         Returns:
-            Boolean: The flag for optional elements in structure
+            ARBoolean: The flag for optional elements in the structure
         """
         return self.isStructWithOptionalElement
 
-    def setIsStructWithOptionalElement(self, value):
+    def setIsStructWithOptionalElement(self, value: Optional[ARBoolean]) -> "ImplementationDataType":
         """
-        Sets the flag indicating if this structure contains optional elements.
-        Only sets the value if it is not None.
+        Sets the flag indicating whether the ImplementationDataType has been
+        created with the intention to define at least one element of the
+        structure as optional. A None value is a no-op and does not overwrite
+        an existing flag.
 
         Args:
-            value: The flag for optional elements in structure to set
+            value: The flag for optional elements in the structure to set
 
         Returns:
             self for method chaining
         """
-        self.isStructWithOptionalElement = value
+        if value is not None:
+            self.isStructWithOptionalElement = value
         return self
 
-    def createImplementationDataTypeElement(self, short_name: str) -> "ImplementationDataTypeElement":
+    def createImplementationDataTypeElement(self, short_name: str) -> ImplementationDataTypeElement:
         """
-        Creates and adds an ImplementationDataTypeElement to this implementation data type's sub-elements.
+        Creates and adds an ImplementationDataTypeElement to this
+        ImplementationDataType's sub-elements, or returns the existing element
+        with the same short name.
 
         Args:
-            short_name: The short name for the new implementation data type element
+            short_name: The short name for the new implementation data type
+                element
 
         Returns:
             The created ImplementationDataTypeElement instance
@@ -249,95 +262,24 @@ class ImplementationDataType(AbstractImplementationDataType):
             type_element = ImplementationDataTypeElement(self, short_name)
             self.addElement(type_element)
             self.subElements.append(type_element)
-        return self.getElement(short_name)
+        return self.getElement(short_name, ImplementationDataTypeElement)
 
-    def getSubElements(self) -> List["ImplementationDataTypeElement"]:
+    def getSubElements(self) -> List[ImplementationDataTypeElement]:
         """
-        Gets the list of sub-elements in this implementation data type.
+        Gets the list of sub-elements of this ImplementationDataType.
 
         Returns:
             List of ImplementationDataTypeElement instances
         """
         return self.subElements
 
-    def getArrayElementType(self) -> str:
-        """
-        Gets the array element type for this implementation data type.
-        This is an internal property used for tracking the array type.
-
-        Returns:
-            str: The array element type
-        """
-        return getattr(self, "_array_type", None)
-
-    def setArrayElementType(self, type: str):
-        """
-        Sets the array element type for this implementation data type.
-        This is an internal property used for tracking the array type.
-
-        Args:
-            type: The array element type to set
-
-        Returns:
-            self for method chaining
-        """
-        self._array_type = type
-        return self
-
-    def setTypeEmitter(self, emitter: str):
-        """
-        Sets the type emitter for code generation for this implementation data type.
-        The type emitter defines how the type should be emitted in generated code.
-
-        Args:
-            emitter: The type emitter to set
-
-        Returns:
-            self for method chaining
-        """
-        self.typeEmitter = emitter
-        return self
-
-    def getTypeEmitter(self) -> str:
-        """
-        Gets the type emitter for code generation for this implementation data type.
-        The type emitter defines how the type should be emitted in generated code.
-
-        Returns:
-            str: The type emitter
-        """
-        return self.typeEmitter
-
-    def setStructElementType(self, type: str):
-        """
-        Sets the structure element type for this implementation data type.
-        This is an internal property used for tracking the structure type.
-
-        Args:
-            type: The structure element type to set
-
-        Returns:
-            self for method chaining
-        """
-        self._struct_type = type
-        return self
-
-    def getStructElementType(self) -> str:
-        """
-        Gets the structure element type for this implementation data type.
-        This is an internal property used for tracking the structure type.
-
-        Returns:
-            str: The structure element type
-        """
-        return getattr(self, "_struct_type", None)
-
     def createSymbolProps(self, short_name: str) -> SymbolProps:
         """
-        Creates and adds SymbolProps to this implementation data type.
+        Creates and adds the SymbolProps for this ImplementationDataType, or
+        returns the existing SymbolProps.
 
         Args:
-            short_name: The short name for the new symbol properties
+            short_name: The short name for the new SymbolProps
 
         Returns:
             The created SymbolProps instance
@@ -348,14 +290,37 @@ class ImplementationDataType(AbstractImplementationDataType):
             self.symbolProps = symbol_props
         return self.symbolProps
 
-    def getSymbolProps(self) -> SymbolProps:
+    def getSymbolProps(self) -> Optional[SymbolProps]:
         """
-        Gets the symbol properties for this implementation data type.
+        Gets the SymbolProps for this ImplementationDataType.
 
         Returns:
             SymbolProps: The symbol properties
         """
         return self.symbolProps
+
+    def getTypeEmitter(self) -> Optional[NameToken]:
+        """
+        Gets the type emitter that controls which part of the AUTOSAR
+        toolchain is supposed to trigger data type definitions.
+
+        Returns:
+            NameToken: The type emitter
+        """
+        return self.typeEmitter
+
+    def setTypeEmitter(self, value: Optional[NameToken]) -> "ImplementationDataType":
+        """
+        Sets the type emitter that controls which part of the AUTOSAR
+        toolchain is supposed to trigger data type definitions. A None value is
+        a no-op and does not overwrite an existing type emitter.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.typeEmitter = value
+        return self
 
 
 class ArrayImplPolicyEnum(AREnum):
