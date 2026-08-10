@@ -3,13 +3,15 @@ This module contains tests for the DataDefProperties module in MSR.DataDictionar
 """
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import NumericalValueSpecification
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, RefType
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ArraySizeSemanticsEnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, Integer, RefType
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
     SwDataDefProps,
     SwDataDefPropsConditional,
     SwImplPolicyEnum,
     SwPointerTargetProps,
+    SwTextProps,
     ValueList,
 )
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
@@ -427,3 +429,63 @@ class TestValueList:
         vfs = value_list.getVfs()
         assert vf in vfs
         assert len(vfs) == 1
+
+
+class TestSwTextProps:
+    """Test class for SwTextProps class."""
+
+    def test_sw_text_props_initialization(self):
+        """Test that a SwTextProps object can be initialized with default values."""
+        sw_text_props = SwTextProps()
+        assert sw_text_props.arraySizeSemantics is None
+        assert sw_text_props.baseTypeRef is None
+        assert sw_text_props.swFillCharacter is None
+        assert sw_text_props.swMaxTextSize is None
+
+    def test_sw_text_props_array_size_semantics_methods(self):
+        """Test the arraySizeSemantics getter and setter."""
+        sw_text_props = SwTextProps()
+        semantics = ArraySizeSemanticsEnum().setValue(ArraySizeSemanticsEnum.FIXED_SIZE)
+
+        result = sw_text_props.setArraySizeSemantics(semantics)
+        assert sw_text_props.getArraySizeSemantics() == semantics
+        assert result == sw_text_props
+
+        sw_text_props.setArraySizeSemantics(None)
+        assert sw_text_props.getArraySizeSemantics() == semantics
+
+    def test_sw_text_props_base_type_ref_methods(self):
+        """Test the baseTypeRef getter and setter."""
+        sw_text_props = SwTextProps()
+        ref = RefType()
+
+        result = sw_text_props.setBaseTypeRef(ref)
+        assert sw_text_props.getBaseTypeRef() == ref
+        assert result == sw_text_props
+
+        sw_text_props.setBaseTypeRef(None)
+        assert sw_text_props.getBaseTypeRef() == ref
+
+    def test_sw_text_props_sw_fill_character_methods(self):
+        """Test the swFillCharacter getter and setter."""
+        sw_text_props = SwTextProps()
+        fill_character = Integer().setValue("0")
+
+        result = sw_text_props.setSwFillCharacter(fill_character)
+        assert sw_text_props.getSwFillCharacter() == fill_character
+        assert result == sw_text_props
+
+        sw_text_props.setSwFillCharacter(None)
+        assert sw_text_props.getSwFillCharacter() == fill_character
+
+    def test_sw_text_props_sw_max_text_size_methods(self):
+        """Test the swMaxTextSize getter and setter."""
+        sw_text_props = SwTextProps()
+        max_text_size = Integer().setValue("200")
+
+        result = sw_text_props.setSwMaxTextSize(max_text_size)
+        assert sw_text_props.getSwMaxTextSize() == max_text_size
+        assert result == sw_text_props
+
+        sw_text_props.setSwMaxTextSize(None)
+        assert sw_text_props.getSwMaxTextSize() == max_text_size

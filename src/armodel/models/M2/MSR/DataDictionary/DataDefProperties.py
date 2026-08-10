@@ -1,7 +1,12 @@
-from typing import List
+from __future__ import annotations
+
+from typing import TYPE_CHECKING, List, Optional
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARLiteral
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARLiteral, Integer, RefType
+
+if TYPE_CHECKING:
+    from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ArraySizeSemanticsEnum
 
 
 class SwImplPolicyEnum(AREnum):
@@ -447,41 +452,114 @@ class ValueList(ARObject):
 
 class SwTextProps(ARObject):
     """
-    Represents software text properties in the AUTOSAR model.
-
-    This class is used to define text-related properties for data elements,
-    such as encoding and format information.
-
-    Attributes:
-        encoding (ARLiteral): The encoding of the text.
-        format (ARLiteral): The format of the text.
+    This meta-class expresses particular properties applicable to strings in variables or calibration parameters.
     """
 
     # SwTextProps method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getEncoding                  [x] impl  [ ] docstring  [ ] test
-    # [ ] setEncoding                  [x] impl  [ ] docstring  [ ] test
-    # [ ] getFormat                    [x] impl  [ ] docstring  [ ] test
-    # [ ] setFormat                    [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.72, p.343
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getArraySizeSemantics    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setArraySizeSemantics    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getBaseTypeRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setBaseTypeRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSwFillCharacter       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSwFillCharacter       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSwMaxTextSize         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSwMaxTextSize         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        self.encoding: ARLiteral = None
-        self.format: ARLiteral = None
+        # This attribute controls the semantics of the arraysize for the array representing the string in an Implementation DataType. It is there to support a safe conversion between ApplicationDatatype and ImplementationDatatype, even for variable length strings as required e.g. for Support of SAE J1939.
+        self.arraySizeSemantics: Optional[ArraySizeSemanticsEnum] = None
 
-    def getEncoding(self) -> ARLiteral:
-        return self.encoding
+        # This is the base type of one character in the string. In particular this baseType denotes the intended encoding of the characters in the string on level of ApplicationData Type.
+        self.baseTypeRef: Optional[RefType] = None
 
-    def setEncoding(self, value: ARLiteral):
+        # Filler character for text parameter to pad up to the maximum length swMaxTextSize. The value will be interpreted according to the encoding specified in the associated base type of the data object, e.g. 0x30 (hex) represents the ASCII character zero as filler character and 0 (dec) represents an end of string as filler character. The usage of the fill character depends on the arraySize Semantics.
+        self.swFillCharacter: Optional[Integer] = None
+
+        # Specifies the maximum text size in characters. Note the size in bytes depends on the encoding in the corresponding baseType.
+        self.swMaxTextSize: Optional[Integer] = None
+
+    def getArraySizeSemantics(self) -> Optional[ArraySizeSemanticsEnum]:
+        """
+        This attribute controls the semantics of the arraysize for the array representing the string in an Implementation DataType. It is there to support a safe conversion between ApplicationDatatype and ImplementationDatatype, even for variable length strings as required e.g. for Support of SAE J1939.
+
+        Returns:
+            The array size semantics
+        """
+        return self.arraySizeSemantics
+
+    def setArraySizeSemantics(self, value: Optional[ArraySizeSemanticsEnum]) -> "SwTextProps":
+        """
+        This attribute controls the semantics of the arraysize for the array representing the string in an Implementation DataType. It is there to support a safe conversion between ApplicationDatatype and ImplementationDatatype, even for variable length strings as required e.g. for Support of SAE J1939. A None value is a no-op and does not overwrite an existing arraySizeSemantics.
+
+        Returns:
+            self for method chaining
+        """
         if value is not None:
-            self.encoding = value
+            self.arraySizeSemantics = value
         return self
 
-    def getFormat(self) -> ARLiteral:
-        return self.format
+    def getBaseTypeRef(self) -> Optional[RefType]:
+        """
+        This is the base type of one character in the string. In particular this baseType denotes the intended encoding of the characters in the string on level of ApplicationData Type.
 
-    def setFormat(self, value: ARLiteral):
+        Returns:
+            The base type reference
+        """
+        return self.baseTypeRef
+
+    def setBaseTypeRef(self, value: Optional[RefType]) -> "SwTextProps":
+        """
+        This is the base type of one character in the string. In particular this baseType denotes the intended encoding of the characters in the string on level of ApplicationData Type. A None value is a no-op and does not overwrite an existing baseTypeRef.
+
+        Returns:
+            self for method chaining
+        """
         if value is not None:
-            self.format = value
+            self.baseTypeRef = value
+        return self
+
+    def getSwFillCharacter(self) -> Optional[Integer]:
+        """
+        Filler character for text parameter to pad up to the maximum length swMaxTextSize. The value will be interpreted according to the encoding specified in the associated base type of the data object, e.g. 0x30 (hex) represents the ASCII character zero as filler character and 0 (dec) represents an end of string as filler character. The usage of the fill character depends on the arraySize Semantics.
+
+        Returns:
+            The fill character value
+        """
+        return self.swFillCharacter
+
+    def setSwFillCharacter(self, value: Optional[Integer]) -> "SwTextProps":
+        """
+        Filler character for text parameter to pad up to the maximum length swMaxTextSize. The value will be interpreted according to the encoding specified in the associated base type of the data object, e.g. 0x30 (hex) represents the ASCII character zero as filler character and 0 (dec) represents an end of string as filler character. The usage of the fill character depends on the arraySize Semantics. A None value is a no-op and does not overwrite an existing swFillCharacter.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.swFillCharacter = value
+        return self
+
+    def getSwMaxTextSize(self) -> Optional[Integer]:
+        """
+        Specifies the maximum text size in characters. Note the size in bytes depends on the encoding in the corresponding baseType.
+
+        Returns:
+            The maximum text size in characters
+        """
+        return self.swMaxTextSize
+
+    def setSwMaxTextSize(self, value: Optional[Integer]) -> "SwTextProps":
+        """
+        Specifies the maximum text size in characters. Note the size in bytes depends on the encoding in the corresponding baseType. A None value is a no-op and does not overwrite an existing swMaxTextSize.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.swMaxTextSize = value
         return self
