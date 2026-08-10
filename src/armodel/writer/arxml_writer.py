@@ -519,16 +519,14 @@ from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
 from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis, SwCalprmAxisSet
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
+    SwBitRepresentation,
+    SwCalprmRefProxy,
     SwDataDefProps,
+    SwDataDependency,
     SwPointerTargetProps,
     SwTextProps,
-    ValueList,
-    SwBitRepresentation,
     SwVariableRefProxy,
-    SwCalprmRefProxy,
-    SwDataDependencyArgs,
-    CompuGenericMath,
-    SwDataDependency,
+    ValueList,
 )
 from armodel.models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout, SwRecordLayoutGroup, SwRecordLayoutV
 from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg

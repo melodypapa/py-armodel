@@ -4,10 +4,11 @@ This module contains tests for the DataDefProperties module in MSR.DataDictionar
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import NumericalValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ArraySizeSemanticsEnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AlignmentType,
     ARFloat,
     ARNumerical,
-    AlignmentType,
     Boolean,
     DisplayFormatString,
     Identifier,
@@ -16,24 +17,23 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     PrimitiveIdentifier,
     RefType,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AutosarVariableRef import AutosarVariableRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import AutosarParameterRef
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
-    SwDataDefProps,
-    SwCalibrationAccessEnum,
-    SwImplPolicyEnum,
+    CompuGenericMath,
     DisplayPresentationEnum,
+    SwBitRepresentation,
+    SwCalibrationAccessEnum,
+    SwCalprmRefProxy,
+    SwDataDefProps,
+    SwDataDependency,
+    SwDataDependencyArgs,
+    SwImplPolicyEnum,
     SwPointerTargetProps,
     SwTextProps,
-    ValueList,
-    SwBitRepresentation,
     SwVariableRefProxy,
-    SwCalprmRefProxy,
-    SwDataDependencyArgs,
-    CompuGenericMath,
-    SwDataDependency,
+    ValueList,
 )
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 
