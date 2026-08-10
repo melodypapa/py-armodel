@@ -196,12 +196,14 @@ class TestWriteTriggerInterfaceDispatch:
 
 
 class TestWriteSecureCommunicationPropsSetDispatch:
-    @pytest.mark.skip(reason="Model method getAuthenticationProps not implemented")
     def test_secure_comm_props_set_dispatch(self, writer):
         pkg = _pkg()
         props = pkg.createSecureCommunicationPropsSet("Props")
         parent = _parent()
         writer.writeARPackageElement(parent, props)
+        child = parent.find("SECURE-COMMUNICATION-PROPS-SET")
+        assert child is not None
+        assert child.find("SHORT-NAME").text == "Props"
 
 
 class TestWriteReferenceBases:

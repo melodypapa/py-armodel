@@ -171,17 +171,18 @@ def run_unit_tests(args: argparse.Namespace, pytest_args: List[str], run_coverag
             if " passed" in line:
                 parts = line.split()
                 for i, part in enumerate(parts):
-                    if part == "passed":
+                    token = part.strip(",")
+                    if token == "passed":
                         try:
                             passed = int(parts[i - 1])
                         except (ValueError, IndexError):
                             pass
-                    elif part == "failed":
+                    elif token == "failed":
                         try:
                             failed = int(parts[i - 1])
                         except (ValueError, IndexError):
                             pass
-                    elif part == "skipped":
+                    elif token == "skipped":
                         try:
                             skipped = int(parts[i - 1])
                         except (ValueError, IndexError):
@@ -244,17 +245,18 @@ def run_integration_tests(args: argparse.Namespace, pytest_args: List[str], run_
             if " passed" in line:
                 parts = line.split()
                 for i, part in enumerate(parts):
-                    if part == "passed":
+                    token = part.strip(",")
+                    if token == "passed":
                         try:
                             passed = int(parts[i - 1])
                         except (ValueError, IndexError):
                             pass
-                    elif part == "failed":
+                    elif token == "failed":
                         try:
                             failed = int(parts[i - 1])
                         except (ValueError, IndexError):
                             pass
-                    elif part == "skipped":
+                    elif token == "skipped":
                         try:
                             skipped = int(parts[i - 1])
                         except (ValueError, IndexError):

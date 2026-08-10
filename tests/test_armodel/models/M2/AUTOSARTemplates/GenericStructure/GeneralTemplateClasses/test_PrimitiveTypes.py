@@ -20,6 +20,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     CseCodeType,
     DateTime,
     DiagRequirementIdString,
+    DisplayFormatString,
     Float,
     Identifier,
     Integer,
@@ -28,7 +29,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Limit,
     MacAddressString,
     NameToken,
+    NativeDeclarationString,
     PositiveInteger,
+    PrimitiveIdentifier,
     ReferrableSubtypesEnum,
     RefType,
     RegularExpression,
@@ -408,6 +411,69 @@ class TestCseCodeType:
 
         cse_zero = CseCodeType().setValue("0")
         assert cse_zero.getValue() == "0"
+
+
+class TestDisplayFormatString:
+    """
+    Test class for DisplayFormatString functionality.
+    """
+
+    def test_initialization(self):
+        """
+        Test DisplayFormatString initialization.
+        """
+        display_format = DisplayFormatString()
+        assert display_format is not None
+        assert display_format._value is None
+
+    def test_set_value(self):
+        """
+        Test DisplayFormatString value assignment.
+        """
+        display_format = DisplayFormatString().setValue("%5.2f")
+        assert display_format.getValue() == "%5.2f"
+
+
+class TestNativeDeclarationString:
+    """
+    Test class for NativeDeclarationString functionality.
+    """
+
+    def test_initialization(self):
+        """
+        Test NativeDeclarationString initialization.
+        """
+        native_declaration = NativeDeclarationString()
+        assert native_declaration is not None
+        assert native_declaration._value is None
+
+    def test_set_value(self):
+        """
+        Test NativeDeclarationString value assignment.
+        """
+        native_declaration = NativeDeclarationString().setValue("volatile")
+        assert native_declaration.getValue() == "volatile"
+
+
+class TestPrimitiveIdentifier:
+    """
+    Test class for PrimitiveIdentifier functionality.
+    """
+
+    def test_initialization(self):
+        """
+        Test PrimitiveIdentifier initialization.
+        """
+        primitive_identifier = PrimitiveIdentifier()
+        assert primitive_identifier is not None
+        assert primitive_identifier._value is None
+
+    def test_set_value(self):
+        """
+        Test PrimitiveIdentifier value assignment.
+        """
+        primitive_identifier = PrimitiveIdentifier().setValue("INFORMAL")
+        assert primitive_identifier.getValue() == "INFORMAL"
 
 
 class TestReferrableSubtypesEnum:
