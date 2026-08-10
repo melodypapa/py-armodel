@@ -132,6 +132,12 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     TracedFailure,
     TransientFault,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation import (
+    SignalServiceTranslationElementProps,
+    SignalServiceTranslationEventProps,
+    SignalServiceTranslationProps,
+    SignalServiceTranslationPropsSet,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
@@ -182,7 +188,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable, MultilanguageReferrable, Referrable, ShortNameFragment
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, NameToken, RefType, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     PredefinedVariant,
@@ -520,17 +526,23 @@ from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, 
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
 from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis, SwCalprmAxisSet
-from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps, SwPointerTargetProps, ValueList
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps, SwPointerTargetProps, SwTextProps, ValueList
 from armodel.models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout, SwRecordLayoutGroup, SwRecordLayoutGroupContent, SwRecordLayoutV
 from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation, GeneralAnnotation
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Graphic, LGraphic, MlFigure
+from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
+from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import FloatEnum, PgwideEnum
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ARList
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, ItemLabelPosEnum, LabeledItem, LabeledList
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.Note import Note, NoteTypeEnum
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
-from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LOverviewParagraph, LParagraph
-from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.RequirementsTracing import StructuredReq, TraceableText
+from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import EmphasisText, IndexEntry, Superscript, Tt
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LOverviewParagraph, LParagraph, LVerbatim
+from armodel.models.M2.MSR.Documentation.TextModel.MsrQuery import MsrQueryArg, MsrQueryP2, MsrQueryProps
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
 from armodel.parser.abstract_arxml_parser import AbstractARXMLParser
 
 
@@ -673,10 +685,58 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "L-4"):
             l4 = LLongName()
             self.readARObjectAttributes(child_element, l4)
-            l4.value = child_element.text
+            l4.setValue(child_element.text)
             if "L" in child_element.attrib:
-                l4.l = child_element.attrib["L"]  # noqa: E741
+                l4.setL(child_element.attrib["L"])  # noqa: E741
+            if "SUP" in child_element.attrib:
+                l4.setSup(Superscript().setValue(child_element.attrib["SUP"]))
+            if "SUB" in child_element.attrib:
+                l4.setSub(Superscript().setValue(child_element.attrib["SUB"]))
+            for inline in child_element:
+                tag_name = self.getTagName(inline)
+                if tag_name == "E":
+                    l4.setE(self.readEmphasisText(inline))
+                elif tag_name == "IE":
+                    l4.setIe(self.readIndexEntry(inline))
+                elif tag_name == "TT":
+                    l4.setTt(self.readTt(inline))
             long_name.addL4(l4)
+
+    def readEmphasisText(self, element: ET.Element) -> EmphasisText:
+        emphasis = EmphasisText()
+        if element.text is not None:
+            emphasis.setValue(String().setValue(element.text))
+        if "COLOR" in element.attrib:
+            emphasis.setColor(String().setValue(element.attrib["COLOR"]))
+        if "SUP" in element.attrib:
+            emphasis.setSup(Superscript().setValue(element.attrib["SUP"]))
+        if "SUB" in element.attrib:
+            emphasis.setSub(Superscript().setValue(element.attrib["SUB"]))
+        for inline in element:
+            tag_name = self.getTagName(inline)
+            if tag_name == "TT":
+                emphasis.setTt(self.readTt(inline))
+        return emphasis
+
+    def readIndexEntry(self, element: ET.Element) -> IndexEntry:
+        index_entry = IndexEntry()
+        if element.text is not None:
+            index_entry.setValue(String().setValue(element.text))
+        if "SUP" in element.attrib:
+            index_entry.setSup(Superscript().setValue(element.attrib["SUP"]))
+        if "SUB" in element.attrib:
+            index_entry.setSub(Superscript().setValue(element.attrib["SUB"]))
+        return index_entry
+
+    def readTt(self, element: ET.Element) -> Tt:
+        tt = Tt()
+        if element.text is not None:
+            tt.setValue(String().setValue(element.text))
+        if "TYPE" in element.attrib:
+            tt.setType(NameToken().setValue(element.attrib["TYPE"]))
+        if "TEX-RENDER" in element.attrib:
+            tt.setTexRender(String().setValue(element.attrib["TEX-RENDER"]))
+        return tt
 
     def getMultilanguageLongName(self, element: ET.Element, key: str) -> MultilanguageLongName:
         long_name = None
@@ -691,9 +751,9 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "L-2"):
             l2 = LOverviewParagraph()
             self.readARObjectAttributes(child_element, l2)
-            l2.value = child_element.text
+            l2.setValue(child_element.text)
             if "L" in child_element.attrib:
-                l2.l = child_element.attrib["L"]  # noqa: E741
+                l2.setL(child_element.attrib["L"])  # noqa: E741
             paragraph.addL2(l2)
 
     def getMultiLanguageOverviewParagraph(self, element: ET.Element, key: str) -> MultiLanguageOverviewParagraph:
@@ -2852,11 +2912,22 @@ class ARXMLParser(AbstractARXMLParser):
             sw_pointer_target_props.setSwDataDefProps(self.getSwDataDefProps(child_element, "SW-DATA-DEF-PROPS"))
             parent.swPointerTargetProps = sw_pointer_target_props
 
+    def getSwTextProps(self, element: ET.Element, key: str) -> SwTextProps:
+        child_element = self.find(element, key)
+        props = None
+        if child_element is not None:
+            props = SwTextProps()
+            props.setArraySizeSemantics(self.getChildElementOptionalLiteral(child_element, "ARRAY-SIZE-SEMANTICS"))
+            props.setBaseTypeRef(self.getChildElementOptionalRefType(child_element, "BASE-TYPE-REF"))
+            props.setSwFillCharacter(self.getChildElementOptionalIntegerValue(child_element, "SW-FILL-CHARACTER"))
+            props.setSwMaxTextSize(self.getChildElementOptionalIntegerValue(child_element, "SW-MAX-TEXT-SIZE"))
+        return props
+
     def readLanguageSpecific(self, element: ET.Element, specific: LanguageSpecific):
         self.readARObjectAttributes(element, specific)
-        specific.value = element.text
+        specific.setValue(element.text)
         if "L" in element.attrib:
-            specific.l = element.attrib["L"]  # noqa E741
+            specific.setL(element.attrib["L"])  # noqa E741
 
     def getLParagraphs(self, element: ET.Element, key: str) -> List[LParagraph]:
         results = []
@@ -2943,6 +3014,164 @@ class ARXMLParser(AbstractARXMLParser):
                 paragraph.addL10(l10)
         return paragraph
 
+    def getNote(self, element: ET.Element, key: str) -> Note:
+        note = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            note = Note()
+            self.readARObjectAttributes(child_element, note)
+            note.setLabel(self.getMultilanguageLongName(child_element, "LABEL"))
+            note.setNoteText(self.getDocumentationBlock(child_element, "NOTE-TEXT"))
+            if "NOTETYPE" in child_element.attrib:
+                note.setNoteType(NoteTypeEnum().setValue(child_element.attrib["NOTETYPE"]))
+        return note
+
+    def getTraceableText(self, element: ET.Element, key: str) -> TraceableText:
+        traceable_text = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            traceable_text = TraceableText()
+            self.readARObjectAttributes(child_element, traceable_text)
+            traceable_text.setText(self.getDocumentationBlock(child_element, "TEXT"))
+            for trace_ref in self.findall(child_element, "TRACE-REFS/TRACE-REF"):
+                traceable_text.addTraceRef(RefType().setDest(trace_ref.text))
+        return traceable_text
+
+    def getStructuredReq(self, element: ET.Element, key: str) -> StructuredReq:
+        structured_req = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            structured_req = StructuredReq()
+            self.readARObjectAttributes(child_element, structured_req)
+            structured_req.setDate(self.getChildElementOptionalLiteral(child_element, "DATE"))
+            structured_req.setImportance(self.getChildElementOptionalLiteral(child_element, "IMPORTANCE"))
+            structured_req.setIssuedBy(self.getChildElementOptionalLiteral(child_element, "ISSUED-BY"))
+            structured_req.setType(self.getChildElementOptionalLiteral(child_element, "TYPE"))
+            structured_req.setDescription(self.getDocumentationBlock(child_element, "DESCRIPTION"))
+            structured_req.setRationale(self.getDocumentationBlock(child_element, "RATIONALE"))
+            structured_req.setDependencies(self.getDocumentationBlock(child_element, "DEPENDENCIES"))
+            structured_req.setUseCase(self.getDocumentationBlock(child_element, "USE-CASE"))
+            structured_req.setConflicts(self.getDocumentationBlock(child_element, "CONFLICTS"))
+            structured_req.setSupportingMaterial(self.getDocumentationBlock(child_element, "SUPPORTING-MATERIAL"))
+            structured_req.setRemark(self.getDocumentationBlock(child_element, "REMARK"))
+            for tested_item_ref in self.findall(child_element, "TESTED-ITEM-REFS/TESTED-ITEM-REF"):
+                structured_req.addTestedItemRef(RefType().setDest(tested_item_ref.text))
+        return structured_req
+
+    def getDefItem(self, element: ET.Element) -> DefItem:
+        def_item = DefItem()
+        self.readARObjectAttributes(element, def_item)
+        def_item.setDef(self.getDocumentationBlock(element, "DEF"))
+        if "HELPENTRY" in element.attrib:
+            def_item.setHelpEntry(String().setValue(element.attrib["HELPENTRY"]))
+        return def_item
+
+    def getDefList(self, element: ET.Element, key: str) -> DefList:
+        def_list = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            def_list = DefList()
+            self.readARObjectAttributes(child_element, def_list)
+            for def_item in self.findall(child_element, "DEF-ITEM"):
+                def_list.addDefItem(self.getDefItem(def_item))
+        return def_list
+
+    def getIndentSample(self, element: ET.Element) -> IndentSample:
+        indent_sample = IndentSample()
+        self.readARObjectAttributes(element, indent_sample)
+        if "ITEMLABELPOS" in element.attrib:
+            indent_sample.setItemLabelPos(ItemLabelPosEnum().setValue(element.attrib["ITEMLABELPOS"]))
+        for l2 in self.getLOverviewParagraphs(element, "L-2"):
+            indent_sample.addL2(l2)
+        return indent_sample
+
+    def getLabeledItem(self, element: ET.Element) -> LabeledItem:
+        labeled_item = LabeledItem()
+        self.readARObjectAttributes(element, labeled_item)
+        if "HELPENTRY" in element.attrib:
+            labeled_item.setHelpEntry(String().setValue(element.attrib["HELPENTRY"]))
+        labeled_item.setItemContents(self.getDocumentationBlock(element, "ITEM-CONTENTS"))
+        labeled_item.setItemLabel(self.getMultiLanguageOverviewParagraph(element, "ITEM-LABEL"))
+        return labeled_item
+
+    def getLabeledList(self, element: ET.Element, key: str) -> LabeledList:
+        labeled_list = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            labeled_list = LabeledList()
+            self.readARObjectAttributes(child_element, labeled_list)
+            indent_sample = self.find(child_element, "INDENT-SAMPLE")
+            if indent_sample is not None:
+                labeled_list.setIndentSample(self.getIndentSample(indent_sample))
+            for labeled_item in self.findall(child_element, "LABELED-ITEM"):
+                labeled_list.addLabeledItem(self.getLabeledItem(labeled_item))
+        return labeled_list
+
+    def getLOverviewParagraphs(self, element: ET.Element, key: str) -> List[LOverviewParagraph]:
+        results = []
+        for child_element in self.findall(element, key):
+            l2 = LOverviewParagraph()
+            self.readLanguageSpecific(child_element, l2)
+            results.append(l2)
+        return results
+
+    def getMultiLanguageVerbatim(self, element: ET.Element, key: str) -> MultiLanguageVerbatim:
+        verbatim = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            verbatim = MultiLanguageVerbatim()
+            self.readARObjectAttributes(child_element, verbatim)
+            if "ALLOWBREAK" in child_element.attrib:
+                verbatim.setAllowBreak(NameToken().setValue(child_element.attrib["ALLOWBREAK"]))
+            if "FLOAT" in child_element.attrib:
+                verbatim.setFloat(FloatEnum().setValue(child_element.attrib["FLOAT"]))
+            if "HELPENTRY" in child_element.attrib:
+                verbatim.setHelpEntry(String().setValue(child_element.attrib["HELPENTRY"]))
+            if "PGWIDE" in child_element.attrib:
+                verbatim.setPgwide(PgwideEnum().setValue(child_element.attrib["PGWIDE"]))
+            for l5 in self.findall(child_element, "L-5"):
+                verbatim_l5 = LVerbatim()
+                self.readLanguageSpecific(l5, verbatim_l5)
+                verbatim.addL5(verbatim_l5)
+        return verbatim
+
+    def getMsrQueryArg(self, element: ET.Element) -> MsrQueryArg:
+        msr_query_arg = MsrQueryArg()
+        self.readARObjectAttributes(element, msr_query_arg)
+        msr_query_arg.setArg(self.getChildElementOptionalLiteral(element, "ARG"))
+        if "SI" in element.attrib:
+            msr_query_arg.setSi(NameToken().setValue(element.attrib["SI"]))
+        return msr_query_arg
+
+    def getMsrQueryProps(self, element: ET.Element) -> MsrQueryProps:
+        msr_query_props = MsrQueryProps()
+        self.readARObjectAttributes(element, msr_query_props)
+        msr_query_props.setComment(self.getChildElementOptionalLiteral(element, "COMMENT"))
+        msr_query_props.setMsrQueryName(self.getChildElementOptionalLiteral(element, "MSR-QUERY-NAME"))
+        for msr_query_arg in self.findall(element, "MSR-QUERY-ARG"):
+            msr_query_props.addMsrQueryArg(self.getMsrQueryArg(msr_query_arg))
+        return msr_query_props
+
+    def getMsrQueryP2(self, element: ET.Element, key: str) -> MsrQueryP2:
+        msr_query_p2 = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            msr_query_p2 = MsrQueryP2()
+            self.readARObjectAttributes(child_element, msr_query_p2)
+            msr_query_props = self.find(child_element, "MSR-QUERY-PROPS")
+            if msr_query_props is not None:
+                msr_query_p2.setMsrQueryProps(self.getMsrQueryProps(msr_query_props))
+            msr_query_p2.setMsrQueryResultP2(self.getDocumentationBlock(child_element, "MSR-QUERY-RESULT-P2"))
+        return msr_query_p2
+
+    def getMlFormula(self, element: ET.Element, key: str) -> MlFormula:
+        formula = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            formula = MlFormula()
+            self.readARObjectAttributes(child_element, formula)
+        return formula
+
     def readDocumentationBlock(self, element: ET.Element, block: DocumentationBlock):
         self.readARObjectAttributes(element, block)
         for paragraph in self.getMultiLanguageParagraphs(element, "P"):
@@ -2951,6 +3180,14 @@ class ARXMLParser(AbstractARXMLParser):
             block.addList(list)
         for figure in self.getMlFigures(element, "FIGURE"):
             block.addFigure(figure)
+        block.setDefList(self.getDefList(element, "DEF-LIST"))
+        block.setFormula(self.getMlFormula(element, "FORMULA"))
+        block.setLabeledList(self.getLabeledList(element, "LABELED-LIST"))
+        block.setMsrQueryP2(self.getMsrQueryP2(element, "MSR-QUERY-P2"))
+        block.setNote(self.getNote(element, "NOTE"))
+        block.setStructuredReq(self.getStructuredReq(element, "STRUCTURED-REQ"))
+        block.setTrace(self.getTraceableText(element, "TRACE"))
+        block.setVerbatim(self.getMultiLanguageVerbatim(element, "VERBATIM"))
 
     def getDocumentationBlock(self, element: ET.Element, key: str) -> DocumentationBlock:
         block = None
@@ -3049,6 +3286,7 @@ class ARXMLParser(AbstractARXMLParser):
                 sw_data_def_props.setSwCalibrationAccess(self.getChildElementOptionalLiteral(conditional_tag, "SW-CALIBRATION-ACCESS"))
                 sw_data_def_props.setSwCalprmAxisSet(self.getSwCalprmAxisSet(conditional_tag, "SW-CALPRM-AXIS-SET"))
                 sw_data_def_props.setSwPointerTargetProps(self.getSwPointerTargetProps(conditional_tag, "SW-POINTER-TARGET-PROPS"))
+                sw_data_def_props.setSwTextProps(self.getSwTextProps(conditional_tag, "SW-TEXT-PROPS"))
                 sw_data_def_props.setSwRecordLayoutRef(self.getChildElementOptionalRefType(conditional_tag, "SW-RECORD-LAYOUT-REF"))
                 sw_data_def_props.setValueAxisDataTypeRef(self.getChildElementOptionalRefType(conditional_tag, "VALUE-AXIS-DATA-TYPE-REF"))
                 sw_data_def_props.setUnitRef(self.getChildElementOptionalRefType(conditional_tag, "UNIT-REF"))
@@ -6596,6 +6834,43 @@ class ARXMLParser(AbstractARXMLParser):
         for ref_type in self.getChildElementRefTypeList(element, "SYSTEM-SIGNAL-REFS/SYSTEM-SIGNAL-REF"):
             group.addSystemSignalRefs(ref_type)
 
+    def readSignalServiceTranslationPropsSet(self, element: ET.Element, props_set: SignalServiceTranslationPropsSet):
+        self.logger.debug("Read SignalServiceTranslationPropsSet <%s>" % props_set.getShortName())
+        self.readIdentifiable(element, props_set)
+        for child_element in self.findall(element, "SIGNAL-SERVICE-TRANSLATION-PROPS"):
+            props = props_set.createSignalServiceTranslationProps(self.getShortName(child_element))
+            self.readSignalServiceTranslationProps(child_element, props)
+
+    def readSignalServiceTranslationProps(self, element: ET.Element, props: SignalServiceTranslationProps):
+        self.logger.debug("Read SignalServiceTranslationProps <%s>" % props.getShortName())
+        self.readIdentifiable(element, props)
+        for ref_type in self.getChildElementRefTypeList(element, "CONTROL-CONSUMED-EVENT-GROUP-REFS/CONTROL-CONSUMED-EVENT-GROUP-REF"):
+            props.addControlConsumedEventGroupRef(ref_type)
+        for ref_type in self.getChildElementRefTypeList(element, "CONTROL-PNC-REFS/CONTROL-PNC-REF"):
+            props.addControlPncRef(ref_type)
+        for ref_type in self.getChildElementRefTypeList(element, "CONTROL-PROVIDED-EVENT-GROUP-REFS/CONTROL-PROVIDED-EVENT-GROUP-REF"):
+            props.addControlProvidedEventGroupRef(ref_type)
+        props.setServiceControl(self.getChildElementOptionalLiteral(element, "SERVICE-CONTROL"))
+        for child_element in self.findall(element, "SIGNAL-SERVICE-TRANSLATION-EVENT-PROPS"):
+            event_props = props.createSignalServiceTranslationEventProps(self.getShortName(child_element))
+            self.readSignalServiceTranslationEventProps(child_element, event_props)
+
+    def readSignalServiceTranslationEventProps(self, element: ET.Element, event_props: SignalServiceTranslationEventProps):
+        self.logger.debug("Read SignalServiceTranslationEventProps <%s>" % event_props.getShortName())
+        self.readIdentifiable(element, event_props)
+        for child_element in self.findall(element, "SIGNAL-SERVICE-TRANSLATION-ELEMENT-PROPS"):
+            element_props = event_props.createSignalServiceTranslationElementProps(self.getShortName(child_element))
+            self.readSignalServiceTranslationElementProps(child_element, element_props)
+        event_props.setSafeTranslation(self.getChildElementOptionalBooleanValue(element, "SAFE-TRANSLATION"))
+        event_props.setSecureTranslation(self.getChildElementOptionalBooleanValue(element, "SECURE-TRANSLATION"))
+        event_props.setTranslationTarget(self.getVariableDataPrototypeInSystemInstanceRef(self.find(element, "TRANSLATION-TARGET")))
+
+    def readSignalServiceTranslationElementProps(self, element: ET.Element, element_props: SignalServiceTranslationElementProps):
+        self.logger.debug("Read SignalServiceTranslationElementProps <%s>" % element_props.getShortName())
+        self.readIdentifiable(element, element_props)
+        element_props.setFilter(self.getDataFilter(element, "FILTER"))
+        element_props.setTransmissionTrigger(self.getChildElementOptionalBooleanValue(element, "TRANSMISSION-TRIGGER"))
+
     def readISignalToPduMappings(self, element: ET.Element, parent: ISignalIPdu):
         for child_element in self.findall(element, "I-SIGNAL-TO-PDU-MAPPINGS/I-SIGNAL-TO-I-PDU-MAPPING"):
             short_name = self.getShortName(child_element)
@@ -7142,6 +7417,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "SYSTEM-SIGNAL-GROUP":
                 group = parent.createSystemSignalGroup(self.getShortName(child_element))
                 self.readSystemSignalGroup(child_element, group)
+            elif tag_name == "SIGNAL-SERVICE-TRANSLATION-PROPS-SET":
+                props_set = parent.createSignalServiceTranslationPropsSet(self.getShortName(child_element))
+                self.readSignalServiceTranslationPropsSet(child_element, props_set)
             elif tag_name == "ECUC-VALUE-COLLECTION":
                 collection = parent.createEcucValueCollection(self.getShortName(child_element))
                 self.readEcucValueCollection(child_element, collection)

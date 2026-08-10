@@ -3,9 +3,7 @@ This module contains tests for the SignalServiceTranslationControlEnum class in 
 AUTOSAR CommonStructure.SignalServiceTranslation module.
 """
 
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation.SignalServiceTranslationControlEnum import (
-    SignalServiceTranslationControlEnum,
-)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation import SignalServiceTranslationControlEnum
 
 
 class TestSignalServiceTranslationControlEnum:
@@ -13,6 +11,13 @@ class TestSignalServiceTranslationControlEnum:
     Test class for SignalServiceTranslationControlEnum functionality.
     """
 
-    def test_members(self):
-        assert SignalServiceTranslationControlEnum.ENUM_AUTOMATIC.value == "automatic"
-        assert SignalServiceTranslationControlEnum.ENUM_MANUAL.value == "manual"
+    def test_literals_and_values(self):
+        assert SignalServiceTranslationControlEnum.ALL_PARTIAL_NETWORKS_ACTIVE == "allPartialNetworksActive"
+        assert SignalServiceTranslationControlEnum.ANY_PARTIAL_NETWORK_ACTIVE == "anyPartialNetworkActive"
+        assert SignalServiceTranslationControlEnum.PARTIAL_NETWORK == "partialNetwork"
+        assert SignalServiceTranslationControlEnum.SERVICE_DISCOVERY == "serviceDiscovery"
+        assert SignalServiceTranslationControlEnum.TRANSLATION_START == "translationStart"
+
+    def test_initialization(self):
+        enum_obj = SignalServiceTranslationControlEnum()
+        assert isinstance(enum_obj, SignalServiceTranslationControlEnum)

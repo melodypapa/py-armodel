@@ -124,6 +124,12 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     TracedFailure,
     TransientFault,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation import (
+    SignalServiceTranslationElementProps,
+    SignalServiceTranslationEventProps,
+    SignalServiceTranslationProps,
+    SignalServiceTranslationPropsSet,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
@@ -512,17 +518,22 @@ from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, 
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
 from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis, SwCalprmAxisSet
-from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps, SwPointerTargetProps, ValueList
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps, SwPointerTargetProps, SwTextProps, ValueList
 from armodel.models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout, SwRecordLayoutGroup, SwRecordLayoutV
 from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Graphic, MlFigure
+from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ARList
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, LabeledItem, LabeledList
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.Note import Note
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
-from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LPlainText
-from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.RequirementsTracing import StructuredReq, TraceableText
+from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import EmphasisText, IndexEntry, Tt
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LPlainText, LVerbatim
+from armodel.models.M2.MSR.Documentation.TextModel.MsrQuery import MsrQueryArg, MsrQueryP2, MsrQueryProps
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
 from armodel.writer.abstract_arxml_writer import AbstractARXMLWriter
 
 
@@ -616,12 +627,54 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setLanguageSpecific(self, element: ET.Element, key: str, specific: LanguageSpecific):
         child_element = ET.SubElement(element, key)
         self.writeARObjectAttributes(child_element, specific)
-        if specific.l is not None:
-            child_element.attrib["L"] = specific.l
-        child_element.text = specific.value
+        if specific.getL() is not None:
+            child_element.attrib["L"] = specific.getL()
+        child_element.text = specific.getValue()
 
     def setLLongName(self, element: ET.Element, name: LLongName):
-        self.setLanguageSpecific(element, "L-4", name)
+        child_element = ET.SubElement(element, "L-4")
+        self.writeARObjectAttributes(child_element, name)
+        if name.getL() is not None:
+            child_element.attrib["L"] = name.getL()
+        if name.getSup() is not None:
+            child_element.attrib["SUP"] = name.getSup().getValue()
+        if name.getSub() is not None:
+            child_element.attrib["SUB"] = name.getSub().getValue()
+        child_element.text = name.getValue()
+        if name.getE() is not None:
+            self.setEmphasisText(child_element, "E", name.getE())
+        if name.getIe() is not None:
+            self.setIndexEntry(child_element, "IE", name.getIe())
+        if name.getTt() is not None:
+            self.setTt(child_element, "TT", name.getTt())
+
+    def setEmphasisText(self, element: ET.Element, key: str, emphasis: EmphasisText):
+        child_element = ET.SubElement(element, key)
+        if emphasis.getColor() is not None:
+            child_element.attrib["COLOR"] = emphasis.getColor().getValue()
+        if emphasis.getSup() is not None:
+            child_element.attrib["SUP"] = emphasis.getSup().getValue()
+        if emphasis.getSub() is not None:
+            child_element.attrib["SUB"] = emphasis.getSub().getValue()
+        child_element.text = emphasis.getValue().getValue() if emphasis.getValue() is not None else None
+        if emphasis.getTt() is not None:
+            self.setTt(child_element, "TT", emphasis.getTt())
+
+    def setIndexEntry(self, element: ET.Element, key: str, index_entry: IndexEntry):
+        child_element = ET.SubElement(element, key)
+        if index_entry.getSup() is not None:
+            child_element.attrib["SUP"] = index_entry.getSup().getValue()
+        if index_entry.getSub() is not None:
+            child_element.attrib["SUB"] = index_entry.getSub().getValue()
+        child_element.text = index_entry.getValue().getValue() if index_entry.getValue() is not None else None
+
+    def setTt(self, element: ET.Element, key: str, tt: Tt):
+        child_element = ET.SubElement(element, key)
+        if tt.getType() is not None:
+            child_element.attrib["TYPE"] = tt.getType().getValue()
+        if tt.getTexRender() is not None:
+            child_element.attrib["TEX-RENDER"] = tt.getTexRender().getValue()
+        child_element.text = tt.getValue().getValue() if tt.getValue() is not None else None
 
     def setMultiLongName(self, element: ET.Element, key: str, long_name: MultilanguageLongName):
         if long_name is not None:
@@ -1298,10 +1351,146 @@ class ARXMLWriter(AbstractARXMLWriter):
         if block is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObjectAttributes(child_element, block)
+            self.setMsrQueryP2(child_element, block.getMsrQueryP2())
             self.setMultiLanguageParagraphs(child_element, "P", block.getPs())
+            self.setMultiLanguageVerbatim(child_element, "VERBATIM", block.getVerbatim())
             for list in block.getLists():
                 self.setListElement(child_element, "LIST", list)
+            self.setDefList(child_element, block.getDefList())
+            self.setLabeledList(child_element, block.getLabeledList())
+            self.setMlFormula(child_element, "FORMULA", block.getFormula())
             self.setMlFigures(child_element, "FIGURE", block.getFigures())
+            self.setNote(child_element, block.getNote())
+            self.setTraceableText(child_element, "TRACE", block.getTrace())
+            self.setStructuredReq(child_element, block.getStructuredReq())
+
+    def setDefList(self, element: ET.Element, def_list: DefList):
+        if def_list is not None:
+            child_element = ET.SubElement(element, "DEF-LIST")
+            self.writeARObjectAttributes(child_element, def_list)
+            for def_item in def_list.getDefItems():
+                self.setDefItem(child_element, def_item)
+
+    def setDefItem(self, element: ET.Element, def_item: DefItem):
+        child_element = ET.SubElement(element, "DEF-ITEM")
+        self.writeARObjectAttributes(child_element, def_item)
+        if def_item.getHelpEntry() is not None:
+            child_element.attrib["HELPENTRY"] = def_item.getHelpEntry().getValue()
+        self.writeDocumentationBlock(child_element, "DEF", def_item.getDef())
+
+    def setMlFormula(self, element: ET.Element, key: str, formula: MlFormula):
+        if formula is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObjectAttributes(child_element, formula)
+
+    def setLabeledList(self, element: ET.Element, labeled_list: LabeledList):
+        if labeled_list is not None:
+            child_element = ET.SubElement(element, "LABELED-LIST")
+            self.writeARObjectAttributes(child_element, labeled_list)
+            if labeled_list.getIndentSample() is not None:
+                self.setIndentSample(child_element, labeled_list.getIndentSample())
+            for labeled_item in labeled_list.getLabeledItems():
+                self.setLabeledItem(child_element, labeled_item)
+
+    def setIndentSample(self, element: ET.Element, indent_sample: IndentSample):
+        child_element = ET.SubElement(element, "INDENT-SAMPLE")
+        self.writeARObjectAttributes(child_element, indent_sample)
+        if indent_sample.getItemLabelPos() is not None:
+            child_element.attrib["ITEMLABELPOS"] = indent_sample.getItemLabelPos().getValue()
+        for l2 in indent_sample.getL2s():
+            self.setLOverviewParagraph(child_element, l2)
+
+    def setLabeledItem(self, element: ET.Element, labeled_item: LabeledItem):
+        child_element = ET.SubElement(element, "LABELED-ITEM")
+        self.writeARObjectAttributes(child_element, labeled_item)
+        if labeled_item.getHelpEntry() is not None:
+            child_element.attrib["HELPENTRY"] = labeled_item.getHelpEntry().getValue()
+        self.setMultiLanguageOverviewParagraph(child_element, "ITEM-LABEL", labeled_item.getItemLabel())
+        self.writeDocumentationBlock(child_element, "ITEM-CONTENTS", labeled_item.getItemContents())
+
+    def setNote(self, element: ET.Element, note: Note):
+        if note is not None:
+            child_element = ET.SubElement(element, "NOTE")
+            self.writeARObjectAttributes(child_element, note)
+            self.setMultiLongName(child_element, "LABEL", note.getLabel())
+            if note.getNoteType() is not None:
+                child_element.attrib["NOTETYPE"] = note.getNoteType().getValue()
+            self.writeDocumentationBlock(child_element, "NOTE-TEXT", note.getNoteText())
+
+    def setTraceableText(self, element: ET.Element, key: str, traceable_text: TraceableText):
+        if traceable_text is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObjectAttributes(child_element, traceable_text)
+            self.writeDocumentationBlock(child_element, "TEXT", traceable_text.getText())
+            trace_refs = traceable_text.getTraceRefs()
+            if len(trace_refs) > 0:
+                refs_tag = ET.SubElement(child_element, "TRACE-REFS")
+                for trace_ref in trace_refs:
+                    ref_tag = ET.SubElement(refs_tag, "TRACE-REF")
+                    ref_tag.text = trace_ref.getValue()
+
+    def setStructuredReq(self, element: ET.Element, structured_req: StructuredReq):
+        if structured_req is not None:
+            child_element = ET.SubElement(element, "STRUCTURED-REQ")
+            self.writeARObjectAttributes(child_element, structured_req)
+            self.setChildElementOptionalLiteral(child_element, "DATE", structured_req.getDate())
+            self.setChildElementOptionalLiteral(child_element, "IMPORTANCE", structured_req.getImportance())
+            self.setChildElementOptionalLiteral(child_element, "ISSUED-BY", structured_req.getIssuedBy())
+            self.setChildElementOptionalLiteral(child_element, "TYPE", structured_req.getType())
+            self.writeDocumentationBlock(child_element, "DESCRIPTION", structured_req.getDescription())
+            self.writeDocumentationBlock(child_element, "RATIONALE", structured_req.getRationale())
+            self.writeDocumentationBlock(child_element, "DEPENDENCIES", structured_req.getDependencies())
+            self.writeDocumentationBlock(child_element, "USE-CASE", structured_req.getUseCase())
+            self.writeDocumentationBlock(child_element, "CONFLICTS", structured_req.getConflicts())
+            self.writeDocumentationBlock(child_element, "SUPPORTING-MATERIAL", structured_req.getSupportingMaterial())
+            self.writeDocumentationBlock(child_element, "REMARK", structured_req.getRemark())
+            tested_item_refs = structured_req.getTestedItemRefs()
+            if len(tested_item_refs) > 0:
+                refs_tag = ET.SubElement(child_element, "TESTED-ITEM-REFS")
+                for tested_item_ref in tested_item_refs:
+                    ref_tag = ET.SubElement(refs_tag, "TESTED-ITEM-REF")
+                    ref_tag.text = tested_item_ref.getValue()
+
+    def setMultiLanguageVerbatim(self, element: ET.Element, key: str, verbatim: MultiLanguageVerbatim):
+        if verbatim is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObjectAttributes(child_element, verbatim)
+            if verbatim.getAllowBreak() is not None:
+                child_element.attrib["ALLOWBREAK"] = verbatim.getAllowBreak().getValue()
+            if verbatim.getFloat() is not None:
+                child_element.attrib["FLOAT"] = verbatim.getFloat().getValue()
+            if verbatim.getHelpEntry() is not None:
+                child_element.attrib["HELPENTRY"] = verbatim.getHelpEntry().getValue()
+            if verbatim.getPgwide() is not None:
+                child_element.attrib["PGWIDE"] = verbatim.getPgwide().getValue()
+            for l5 in verbatim.getL5s():
+                self.setLVerbatim(child_element, l5)
+
+    def setLVerbatim(self, element: ET.Element, text: LVerbatim):
+        self.setLanguageSpecific(element, "L-5", text)
+
+    def setMsrQueryP2(self, element: ET.Element, msr_query_p2: MsrQueryP2):
+        if msr_query_p2 is not None:
+            child_element = ET.SubElement(element, "MSR-QUERY-P2")
+            self.writeARObjectAttributes(child_element, msr_query_p2)
+            if msr_query_p2.getMsrQueryProps() is not None:
+                self.setMsrQueryProps(child_element, msr_query_p2.getMsrQueryProps())
+            self.writeDocumentationBlock(child_element, "MSR-QUERY-RESULT-P2", msr_query_p2.getMsrQueryResultP2())
+
+    def setMsrQueryProps(self, element: ET.Element, msr_query_props: MsrQueryProps):
+        child_element = ET.SubElement(element, "MSR-QUERY-PROPS")
+        self.writeARObjectAttributes(child_element, msr_query_props)
+        self.setChildElementOptionalLiteral(child_element, "COMMENT", msr_query_props.getComment())
+        self.setChildElementOptionalLiteral(child_element, "MSR-QUERY-NAME", msr_query_props.getMsrQueryName())
+        for msr_query_arg in msr_query_props.getMsrQueryArgs():
+            self.setMsrQueryArg(child_element, msr_query_arg)
+
+    def setMsrQueryArg(self, element: ET.Element, msr_query_arg: MsrQueryArg):
+        child_element = ET.SubElement(element, "MSR-QUERY-ARG")
+        self.writeARObjectAttributes(child_element, msr_query_arg)
+        self.setChildElementOptionalLiteral(child_element, "ARG", msr_query_arg.getArg())
+        if msr_query_arg.getSi() is not None:
+            child_element.attrib["SI"] = msr_query_arg.getSi().getValue()
 
     def writeGeneralAnnotation(self, element: ET.Element, annotation: Annotation):
         self.setMultiLongName(element, "LABEL", annotation.getLabel())
@@ -1376,9 +1565,19 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalLiteral(conditional_tag, "SW-IMPL-POLICY", props.getSwImplPolicy())
             self.setChildElementOptionalNumericalValue(conditional_tag, "SW-INTENDED-RESOLUTION", props.getSwIntendedResolution())
             self.setSwPointerTargetProps(conditional_tag, "SW-POINTER-TARGET-PROPS", props.getSwPointerTargetProps())
+            self.setSwTextProps(conditional_tag, props.getSwTextProps())
             self.setChildElementOptionalRefType(conditional_tag, "SW-RECORD-LAYOUT-REF", props.getSwRecordLayoutRef())
             self.setChildElementOptionalRefType(conditional_tag, "VALUE-AXIS-DATA-TYPE-REF", props.getValueAxisDataTypeRef())
             self.setChildElementOptionalRefType(conditional_tag, "UNIT-REF", props.getUnitRef())
+
+    def setSwTextProps(self, element: ET.Element, props: SwTextProps):
+        if props is not None:
+            child_element = ET.SubElement(element, "SW-TEXT-PROPS")
+            self.writeARObjectAttributes(child_element, props)
+            self.setChildElementOptionalLiteral(child_element, "ARRAY-SIZE-SEMANTICS", props.getArraySizeSemantics())
+            self.setChildElementOptionalRefType(child_element, "BASE-TYPE-REF", props.getBaseTypeRef())
+            self.setChildElementOptionalIntegerValue(child_element, "SW-FILL-CHARACTER", props.getSwFillCharacter())
+            self.setChildElementOptionalIntegerValue(child_element, "SW-MAX-TEXT-SIZE", props.getSwMaxTextSize())
 
     def setApplicationDataType(self, element: ET.Element, data_type: ApplicationDataType):
         self.writeAutosarDataType(element, data_type)
@@ -6723,6 +6922,59 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "DYNAMIC-LENGTH", signal.getDynamicLength())
         self.setSwDataDefProps(child_element, "PHYSICAL-PROPS", signal.getPhysicalProps())
 
+    def writeSignalServiceTranslationPropsSet(self, element: ET.Element, props_set: SignalServiceTranslationPropsSet):
+        self.logger.debug("SignalServiceTranslationPropsSet %s" % props_set.getShortName())
+        child_element = ET.SubElement(element, "SIGNAL-SERVICE-TRANSLATION-PROPS-SET")
+        self.writeIdentifiable(child_element, props_set)
+        props_list = props_set.getSignalServiceTranslationProps()
+        if len(props_list) > 0:
+            for props in props_list:
+                self.writeSignalServiceTranslationProps(child_element, props)
+
+    def writeSignalServiceTranslationProps(self, element: ET.Element, props: SignalServiceTranslationProps):
+        self.logger.debug("SignalServiceTranslationProps %s" % props.getShortName())
+        child_element = ET.SubElement(element, "SIGNAL-SERVICE-TRANSLATION-PROPS")
+        self.writeIdentifiable(child_element, props)
+        consumed_event_group_refs = props.getControlConsumedEventGroupRefs()
+        if len(consumed_event_group_refs) > 0:
+            refs_tag = ET.SubElement(child_element, "CONTROL-CONSUMED-EVENT-GROUP-REFS")
+            for ref in consumed_event_group_refs:
+                self.setChildElementOptionalRefType(refs_tag, "CONTROL-CONSUMED-EVENT-GROUP-REF", ref)
+        pnc_refs = props.getControlPncRefs()
+        if len(pnc_refs) > 0:
+            refs_tag = ET.SubElement(child_element, "CONTROL-PNC-REFS")
+            for ref in pnc_refs:
+                self.setChildElementOptionalRefType(refs_tag, "CONTROL-PNC-REF", ref)
+        provided_event_group_refs = props.getControlProvidedEventGroupRefs()
+        if len(provided_event_group_refs) > 0:
+            refs_tag = ET.SubElement(child_element, "CONTROL-PROVIDED-EVENT-GROUP-REFS")
+            for ref in provided_event_group_refs:
+                self.setChildElementOptionalRefType(refs_tag, "CONTROL-PROVIDED-EVENT-GROUP-REF", ref)
+        self.setChildElementOptionalLiteral(child_element, "SERVICE-CONTROL", props.getServiceControl())
+        event_props_list = props.getSignalServiceTranslationEventProps()
+        if len(event_props_list) > 0:
+            for event_props in event_props_list:
+                self.writeSignalServiceTranslationEventProps(child_element, event_props)
+
+    def writeSignalServiceTranslationEventProps(self, element: ET.Element, event_props: SignalServiceTranslationEventProps):
+        self.logger.debug("SignalServiceTranslationEventProps %s" % event_props.getShortName())
+        child_element = ET.SubElement(element, "SIGNAL-SERVICE-TRANSLATION-EVENT-PROPS")
+        self.writeIdentifiable(child_element, event_props)
+        element_props_list = event_props.getSignalServiceTranslationElementProps()
+        if len(element_props_list) > 0:
+            for element_props in element_props_list:
+                self.writeSignalServiceTranslationElementProps(child_element, element_props)
+        self.setChildElementOptionalBooleanValue(child_element, "SAFE-TRANSLATION", event_props.getSafeTranslation())
+        self.setChildElementOptionalBooleanValue(child_element, "SECURE-TRANSLATION", event_props.getSecureTranslation())
+        self.setVariableDataPrototypeInSystemInstanceRef(child_element, "TRANSLATION-TARGET", event_props.getTranslationTarget())
+
+    def writeSignalServiceTranslationElementProps(self, element: ET.Element, element_props: SignalServiceTranslationElementProps):
+        self.logger.debug("SignalServiceTranslationElementProps %s" % element_props.getShortName())
+        child_element = ET.SubElement(element, "SIGNAL-SERVICE-TRANSLATION-ELEMENT-PROPS")
+        self.writeIdentifiable(child_element, element_props)
+        self.setDataFilter(child_element, "FILTER", element_props.getFilter())
+        self.setChildElementOptionalBooleanValue(child_element, "TRANSMISSION-TRIGGER", element_props.getTransmissionTrigger())
+
     def writeGenericEthernetFrame(self, element: ET.Element, frame: GenericEthernetFrame):
         self.logger.debug("Write GenericEthernetFrame %s" % frame.getShortName())
         child_element = ET.SubElement(element, "ETHERNET-FRAME")
@@ -7373,6 +7625,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeISignalIPdu(element, ar_element)
         elif isinstance(ar_element, SystemSignal):
             self.writeSystemSignal(element, ar_element)
+        elif isinstance(ar_element, SignalServiceTranslationPropsSet):
+            self.writeSignalServiceTranslationPropsSet(element, ar_element)
         elif isinstance(ar_element, ParameterInterface):
             self.writeParameterInterface(element, ar_element)
         elif isinstance(ar_element, NvDataInterface):

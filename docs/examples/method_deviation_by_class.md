@@ -1032,34 +1032,34 @@ Aligned to `class_check_rules.md` on 2026-08-08 (Table 7.61, p.613). Base `ARObj
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `arraySizeSemantics` | `ArraySizeSemanticsEnum` | — | missing |
-| — *(missing)* | `—` | `baseTypeRef` | `Ref (SwBaseType)` | Ref | missing |
-| — *(missing)* | `—` | `swFillCharacter` | `Integer` | — | missing |
-| — *(missing)* | `—` | `swMaxTextSize` | `IntegerValueVariationPoint` | — | missing |
+| — *(no deviation)* | — | — | — | — | Aligned to Table D.72 (R23-11): `arraySizeSemantics`, `baseTypeRef`, `swFillCharacter`, `swMaxTextSize` all present with reader/writer; fabricated `encoding`/`format` fields removed. |
 
 ## `DocumentationBlock`
-- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 52
+- **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** 287
 - **Package:** `M2::MSR::Documentation::BlockElements`
 - **Source:** `src/armodel/models/M2/MSR/Documentation/TextModel/BlockElements/__init__.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `defList` | `DefList` | `defList` | `DefList` | — | type (spec many vs py single) |
-| `formula` | `—` | `formula` | `MlFormula` | — | type (spec many vs py single) |
-| `labeledList` | `LabeledList` | `labeledList` | `LabeledList` | — | type (spec many vs py single) |
-| `note` | `Note` | `note` | `Note` | — | type (spec many vs py single) |
-| `structuredReq` | `StructuredReq` | `structuredReq` | `StructuredReq` | — | type (spec many vs py single) |
-| `trace` | `TraceableText` | `trace` | `TraceableText` | — | type (spec many vs py single) |
-| `verbatim` | `MultiLanguageVerbatim` | `verbatim` | `MultiLanguageVerbatim` | — | type (spec many vs py single) |
+| — *(no deviation)* | — | — | — | — | Aligned to Table 9.1 (R23-11). All 11 attributes present with reader/writer. Referenced classes Note (9.27), TraceableText/StructuredReq (9.30/9.31), DefList/DefItem (9.15/9.16), LabeledList/LabeledItem/IndentSample (9.11–9.13), MultiLanguageVerbatim (9.5), MsrQueryP2/MsrQueryProps/MsrQueryArg (9.85/9.86/E.56) implemented. `figure`/`list`/`p` kept as lists for atpSplitable/atpVariation XML. TraceableText/StructuredReq/DefItem simplified to ARObject base (spec lists Identifiable/Referrable; no shortName modeled). `DefItem.def` backed by field `def_doc` (Python keyword). |
 
 ## `LLongName`
-- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 179
+- **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** 62
 - **Package:** `M2::MSR::Documentation::TextModel::LanguageDataModel`
 - **Source:** `src/armodel/models/M2/MSR/Documentation/TextModel/LanguageDataModel.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `blueprintValue` | `?` | — | missing |
+| — *(no deviation)* | — | — | — | — | Aligned to Table 4.8/4.9 (R23-11): `blueprintValue` (draft) + MixedContentForLongName attrs `e`/`ie`/`sub`/`sup`/`tt` present with reader/writer. Referenced classes EmphasisText/IndexEntry/Superscript/Tt implemented (Tables 9.34/9.36/9.38/9.39). Inherits LanguageSpecific (`l`, `value`). |
+
+## `LanguageSpecific`
+- **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** 350
+- **Package:** `M2::MSR::Documentation::TextModel::LanguageDataModel`
+- **Source:** `src/armodel/models/M2/MSR/Documentation/TextModel/LanguageDataModel.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | Aligned to Table 9.97 (R23-11): `l` (LEnum attr) present with reader/writer; `value` carries the atpMixedString text content. Referenced `LEnum` now a spec-aligned `AREnum` (34 literals, Table 9.97). |
 
 ## `SymbolicNameProps`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** (Table 7.59, R23-11)
