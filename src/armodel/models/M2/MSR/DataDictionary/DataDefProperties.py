@@ -221,7 +221,7 @@ class SwVariableRefProxy(ARObject):
 
 class SwCalprmRefProxy(ARObject):
     """
-    Proxy class for several kinds of references to a calibration parameter.
+    Wrapper class for different kinds of references to a calibration parameter.
     """
 
     # SwCalprmRefProxy method parity checklist:
@@ -237,21 +237,21 @@ class SwCalprmRefProxy(ARObject):
     def __init__(self):
         super().__init__()
 
-        # This represents the reference to a calibration parameter in an Autosar system.
+        # This represents a Parameter within AUTOSAR. Note that the Datatype of the referenced ParameterDataPrototype shall be an ApplicationDataType of category VALUE.
         self.arParameter: Optional["AutosarParameterRef"] = None
 
-        # This reference is used in the McSupport file to express the final instance of input values etc.
+        # This reference is used in the McSupport file to express the final instance of group axis etc. It is not allowed to use this outside of an McDataInstance. The referenced mcDataInstance shall be originated from a ParameterDataPrototype.
         self.mcDataInstanceRef: Optional[RefType] = None
 
     def getArParameter(self) -> Optional["AutosarParameterRef"]:
         """
-        This represents the reference to a calibration parameter in an Autosar system.
+        This represents a Parameter within AUTOSAR. Note that the Datatype of the referenced ParameterDataPrototype shall be an ApplicationDataType of category VALUE.
         """
         return self.arParameter
 
     def setArParameter(self, value: Optional["AutosarParameterRef"]) -> "SwCalprmRefProxy":
         """
-        This represents the reference to a calibration parameter in an Autosar system. A None value is a no-op and does not overwrite an existing arParameter.
+        This represents a Parameter within AUTOSAR. Note that the Datatype of the referenced ParameterDataPrototype shall be an ApplicationDataType of category VALUE. A None value is a no-op and does not overwrite an existing arParameter.
         """
         if value is not None:
             self.arParameter = value
@@ -259,13 +259,13 @@ class SwCalprmRefProxy(ARObject):
 
     def getMcDataInstanceRef(self) -> Optional[RefType]:
         """
-        This reference is used in the McSupport file to express the final instance of input values etc.
+        This reference is used in the McSupport file to express the final instance of group axis etc. It is not allowed to use this outside of an McDataInstance. The referenced mcDataInstance shall be originated from a ParameterDataPrototype.
         """
         return self.mcDataInstanceRef
 
     def setMcDataInstanceRef(self, value: Optional[RefType]) -> "SwCalprmRefProxy":
         """
-        This reference is used in the McSupport file to express the final instance of input values etc. A None value is a no-op and does not overwrite an existing mcDataInstanceRef.
+        This reference is used in the McSupport file to express the final instance of group axis etc. It is not allowed to use this outside of an McDataInstance. The referenced mcDataInstance shall be originated from a ParameterDataPrototype. A None value is a no-op and does not overwrite an existing mcDataInstanceRef.
         """
         if value is not None:
             self.mcDataInstanceRef = value
@@ -290,21 +290,21 @@ class SwDataDependencyArgs(ARObject):
     def __init__(self):
         super().__init__()
 
-        # This property specifies the calibration parameter which serves as the input axis.
+        # Specifies a calibration parameter as an input argument to the dependency.
         self.swCalprmRef: Optional[SwCalprmRefProxy] = None
 
-        # This property specifies the variable which is used in the data dependency.
+        # Specifies a variable as an input argument to the dependency.
         self.swVariable: Optional[SwVariableRefProxy] = None
 
     def getSwCalprmRef(self) -> Optional[SwCalprmRefProxy]:
         """
-        This property specifies the calibration parameter which serves as the input axis.
+        Specifies a calibration parameter as an input argument to the dependency.
         """
         return self.swCalprmRef
 
     def setSwCalprmRef(self, value: Optional[SwCalprmRefProxy]) -> "SwDataDependencyArgs":
         """
-        This property specifies the calibration parameter which serves as the input axis. A None value is a no-op and does not overwrite an existing swCalprmRef.
+        Specifies a calibration parameter as an input argument to the dependency. A None value is a no-op and does not overwrite an existing swCalprmRef.
         """
         if value is not None:
             self.swCalprmRef = value
@@ -312,13 +312,13 @@ class SwDataDependencyArgs(ARObject):
 
     def getSwVariable(self) -> Optional[SwVariableRefProxy]:
         """
-        This property specifies the variable which is used in the data dependency.
+        Specifies a variable as an input argument to the dependency.
         """
         return self.swVariable
 
     def setSwVariable(self, value: Optional[SwVariableRefProxy]) -> "SwDataDependencyArgs":
         """
-        This property specifies the variable which is used in the data dependency. A None value is a no-op and does not overwrite an existing swVariable.
+        Specifies a variable as an input argument to the dependency. A None value is a no-op and does not overwrite an existing swVariable.
         """
         if value is not None:
             self.swVariable = value
@@ -361,7 +361,7 @@ class CompuGenericMath(ARObject):
 
 class SwDataDependency(ARObject):
     """
-    This element describes the interdependencies of data objects, e.g. variables and parameters. Use cases: Calculate the value of a calibration parameter (by the MCD system) from the value(s) of other calibration parameters. Virtual data - that means the data object is not directly in the ecu and this property describes how the "virtual variable" can be computed from the real ones (by the MCD system).
+    This element describes the interdependencies of data objects, e.g. variables and parameters. Use cases: • Calculate the value of a calibration parameter (by the MCD system) from the value(s) of other calibration parameters. • Virtual data - that means the data object is not directly in the ecu and this property describes how the "virtual variable" can be computed from the real ones (by the MCD system).
     """
 
     # SwDataDependency method parity checklist:
@@ -377,10 +377,10 @@ class SwDataDependency(ARObject):
     def __init__(self):
         super().__init__()
 
-        # This element describes the formula with which the dependencies between the participating objects are defined. Tags: xml.sequenceOffset=30
+        # This element describes the formula with which the dependencies between the participating objects are defined.
         self.swDataDependencyFormula: Optional[CompuGenericMath] = None
 
-        # Specifies the arguments used in the data dependency. Note that this is 0..1 since the aggregated class is a container (atpMixed). Tags: xml.sequenceOffset=40
+        # Specifies the arguments used in the data dependency. Note that this is 0..1 since the aggregated class is a container (atpMixed).
         self.swDataDependencyArgs: Optional[SwDataDependencyArgs] = None
 
     def getSwDataDependencyFormula(self) -> Optional[CompuGenericMath]:
@@ -414,7 +414,7 @@ class SwDataDependency(ARObject):
 
 class SwDataDefProps(ARObject):
     """
-    The properties of data are summarized in the meta-class SwDataDefProps. This meta-class itself is the superset of all applicable properties.
+    This class is a collection of properties relevant for data objects under various aspects. One could consider this class as a "pattern of inheritance by aggregation". The properties can be applied to all objects of all classes in which SwDataDefProps is aggregated. Note that not all of the attributes or associated elements are useful all of the time. Hence, the process definition (e.g. expressed with an OCL or a Document Control Instance MSR-DCI) has the task of implementing limitations. SwDataDefProps covers various aspects: • Structure of the data element for calibration use cases: is it a single value, a curve, or a map, but also the recordLayouts which specify how such elements are mapped/converted to the DataTypes in the programming language (or in AUTOSAR). This is mainly expressed by properties like swRecordLayout and swCalprmAxisSet • Implementation aspects, mainly expressed by swImplPolicy, swVariableAccessImplPolicy, swAddr Method, swPointerTagetProps, baseType, implementationDataType and additionalNativeTypeQualifier • Access policy for the MCD system, mainly expressed by swCalibrationAccess • Semantics of the data element, mainly expressed by compuMethod and/or unit, dataConstr, invalid Value • Code generation policy provided by swRecordLayout
     """
 
     # SwDataDefProps method parity checklist:
@@ -501,7 +501,7 @@ class SwDataDefProps(ARObject):
         # Addressing method related to this data object. Via an association to the same SwAddrMethod it can be specified that several DataPrototypes shall be located in the same memory without already specifying the memory section itself.
         self.swAddrMethodRef: Optional[RefType] = None
 
-        # The attribute describes the intended alignment of the DataPrototype. If the attribute is not defined the alignment is determined by the swBaseType size and the memoryAllocationKeywordPolicy of the referenced SwAddrMethod.
+        # The attribute describes the intended typical alignment of the DataPrototype. If the attribute is not defined the alignment is determined by the swBaseType size and the memoryAllocationKeywordPolicy of the referenced SwAddrMethod.
         self.swAlignment: Optional[AlignmentType] = None
 
         # Base type associated with the containing data object.
@@ -522,55 +522,55 @@ class SwDataDefProps(ARObject):
         # the specific properties if the data object is a text object.
         self.swTextProps: Optional[SwTextProps] = None
 
-        # This element is used to express that a data object is a comparison variable.
+        # Variables used for comparison in an MCD process.
         self.swComparisonVariables: List[SwVariableRefProxy] = []
 
-        # Compu method associated with the containing data object.
+        # Computation method associated with the semantics of this data object.
         self.compuMethodRef: Optional[RefType] = None
 
-        # Data constraint associated with the containing data object.
+        # Data constraint for this data object.
         self.dataConstrRef: Optional[RefType] = None
 
-        # This element describes the interdependencies of data objects, e.g. variables and parameters.
+        # Describes how the value of the data object has to be calculated from the value of another data object (by the MCD system).
         self.swDataDependency: Optional[SwDataDependency] = None
 
-        # This is a display format specifier for the display of values e.g. in documents or in measurement and calibration systems.
+        # This property describes how a number is to be rendered e.g. in documents or in a measurement and calibration system.
         self.displayFormat: Optional[DisplayFormatString] = None
 
-        # This association denotes the ImplementationDataType of a data declaration via its aggregated SwDataDefProps.
+        # This association denotes the ImplementationDataType of a data declaration via its aggregated SwDataDefProps. It is used whenever a data declaration is not directly referring to a base type. Especially • redefinition of an ImplementationDataType via a "typedef" to another ImplementationDatatype • the target type of a pointer (see SwPointerTargetProps), if it does not refer to a base type directly • the data type of an array or record element within an ImplementationDataType, if it does not refer to a base type directly • the data type of an SwServiceArg, if it does not refer to a base type directly
         self.implementationDataTypeRef: Optional[RefType] = None
 
-        # Proxy class for several kinds of references to a variable.
+        # Contains a reference to a variable which serves as a host-variable for a bit variable. Only applicable to bit objects.
         self.swHostVariable: Optional[SwVariableRefProxy] = None
 
-        # This indicates the intended implementation policy of the data object.
+        # Implementation policy for this data object.
         self.swImplPolicy: Optional[SwImplPolicyEnum] = None
 
-        # This string contains a native data declaration of a data type in a programming language. It is basically a string, but white-space shall be preserved.
+        # This attribute is used to declare native qualifiers of the programming language which can neither be deduced from the baseType (e.g. because the data object describes a pointer) nor from other more abstract attributes. Examples are qualifiers like "volatile", "strict" or "enum" of the C-language. All such declarations have to be put into one string.
         self.additionalNativeTypeQualifier: Optional[NativeDeclarationString] = None
 
-        # This attribute can be used to specify the intended resolution of the data object.
+        # The purpose of this element is to describe the requested quantization of data objects early on in the design process. The resolution ultimately occurs via the conversion formula present (compuMethod), which specifies the transition from the physical world to the standardized world (and vice-versa) (here, "the slope per bit" is present implicitly in the conversion formula). In the case of a development phase without a fixed conversion formula, a pre-specification can occur through swIntendedResolution. The resolution is specified in the physical domain according to the property "unit".
         self.swIntendedResolution: Optional[ARNumerical] = None
 
-        # This is the name of the interpolation method which is implemented by the referenced bswModuleEntry. It corresponds to swInterpolationMethod in SwDataDefProps.
+        # This is a keyword identifying the mathematical method to be applied for interpolation. The keyword needs to be related to the interpolation routine which needs to be invoked.
         self.swInterpolationMethod: Optional[Identifier] = None
 
-        # The value which indicates that the data object is invalid.
+        # Optional value to express invalidity of the actual data element.
         self.invalidValue: Optional[ValueSpecification] = None
 
         # This element distinguishes virtual objects. Virtual objects do not appear in the memory, their derivation is much more dependent on other objects and hence they shall have a swDataDependency.
         self.swIsVirtual: Optional[Boolean] = None
 
-        # Specifies that the containing data object is a pointer to another data object.
+        # Specifies that the containing data object is a pointer to another data object. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern).
         self.swPointerTargetProps: Optional[SwPointerTargetProps] = None
 
         # Record layout for this data object.
         self.swRecordLayoutRef: Optional[RefType] = None
 
-        # This element specifies the frequency in which the object involved shall be or is called or calculated.
+        # This element specifies the frequency in which the object involved shall be or is called or calculated. This timing can be collected from the task in which write access processes to the variable run. But this cannot be done by the MCD system. So this attribute can be used in an early phase to express the desired refresh timing and later on to specify the real refresh timing.
         self.swRefreshTiming: Optional[MultidimensionalTime] = None
 
-        # Physical unit associated with the semantics of this data object. This attribute applies if no compuMethod is specified.
+        # Physical unit associated with the semantics of this data object. This attribute applies if no compuMethod is specified. If both units (this as well as via compuMethod) are specified the units shall be compatible.
         self.unitRef: Optional[RefType] = None
 
         # The referenced ApplicationPrimitiveDataType represents the primitive data type of the value axis within a compound primitive (e.g. curve, map). It supersedes CompuMethod, Unit, and BaseType.
@@ -648,13 +648,13 @@ class SwDataDefProps(ARObject):
 
     def getSwAlignment(self) -> Optional[AlignmentType]:
         """
-        The attribute describes the intended alignment of the DataPrototype. If the attribute is not defined the alignment is determined by the swBaseType size and the memoryAllocationKeywordPolicy of the referenced SwAddrMethod.
+        The attribute describes the intended typical alignment of the DataPrototype. If the attribute is not defined the alignment is determined by the swBaseType size and the memoryAllocationKeywordPolicy of the referenced SwAddrMethod.
         """
         return self.swAlignment
 
     def setSwAlignment(self, value: Optional[AlignmentType]) -> "SwDataDefProps":
         """
-        The attribute describes the intended alignment of the DataPrototype. If the attribute is not defined the alignment is determined by the swBaseType size and the memoryAllocationKeywordPolicy of the referenced SwAddrMethod. A None value is a no-op and does not overwrite an existing swAlignment.
+        The attribute describes the intended typical alignment of the DataPrototype. If the attribute is not defined the alignment is determined by the swBaseType size and the memoryAllocationKeywordPolicy of the referenced SwAddrMethod. A None value is a no-op and does not overwrite an existing swAlignment.
         """
         if value is not None:
             self.swAlignment = value
@@ -746,13 +746,13 @@ class SwDataDefProps(ARObject):
 
     def getSwComparisonVariables(self) -> List[SwVariableRefProxy]:
         """
-        This element is used to express that a data object is a comparison variable.
+        Variables used for comparison in an MCD process.
         """
         return self.swComparisonVariables
 
     def addSwComparisonVariable(self, value: Optional[SwVariableRefProxy]) -> "SwDataDefProps":
         """
-        This element is used to express that a data object is a comparison variable. Appends a comparison variable. A None value is a no-op.
+        Variables used for comparison in an MCD process. Appends a comparison variable. A None value is a no-op.
         """
         if value is not None:
             self.swComparisonVariables.append(value)
@@ -760,13 +760,13 @@ class SwDataDefProps(ARObject):
 
     def getCompuMethodRef(self) -> Optional[RefType]:
         """
-        Compu method associated with the containing data object.
+        Computation method associated with the semantics of this data object.
         """
         return self.compuMethodRef
 
     def setCompuMethodRef(self, value: Optional[RefType]) -> "SwDataDefProps":
         """
-        Compu method associated with the containing data object. A None value is a no-op and does not overwrite an existing compuMethodRef.
+        Computation method associated with the semantics of this data object. A None value is a no-op and does not overwrite an existing compuMethodRef.
         """
         if value is not None:
             self.compuMethodRef = value
@@ -774,13 +774,13 @@ class SwDataDefProps(ARObject):
 
     def getDataConstrRef(self) -> Optional[RefType]:
         """
-        Data constraint associated with the containing data object.
+        Data constraint for this data object.
         """
         return self.dataConstrRef
 
     def setDataConstrRef(self, value: Optional[RefType]) -> "SwDataDefProps":
         """
-        Data constraint associated with the containing data object. A None value is a no-op and does not overwrite an existing dataConstrRef.
+        Data constraint for this data object. A None value is a no-op and does not overwrite an existing dataConstrRef.
         """
         if value is not None:
             self.dataConstrRef = value
@@ -788,13 +788,13 @@ class SwDataDefProps(ARObject):
 
     def getSwDataDependency(self) -> Optional[SwDataDependency]:
         """
-        This element describes the interdependencies of data objects, e.g. variables and parameters.
+        Describes how the value of the data object has to be calculated from the value of another data object (by the MCD system).
         """
         return self.swDataDependency
 
     def setSwDataDependency(self, value: Optional[SwDataDependency]) -> "SwDataDefProps":
         """
-        This element describes the interdependencies of data objects, e.g. variables and parameters. A None value is a no-op and does not overwrite an existing swDataDependency.
+        Describes how the value of the data object has to be calculated from the value of another data object (by the MCD system). A None value is a no-op and does not overwrite an existing swDataDependency.
         """
         if value is not None:
             self.swDataDependency = value
@@ -802,13 +802,13 @@ class SwDataDefProps(ARObject):
 
     def getDisplayFormat(self) -> Optional[DisplayFormatString]:
         """
-        This is a display format specifier for the display of values e.g. in documents or in measurement and calibration systems.
+        This property describes how a number is to be rendered e.g. in documents or in a measurement and calibration system.
         """
         return self.displayFormat
 
     def setDisplayFormat(self, value: Optional[DisplayFormatString]) -> "SwDataDefProps":
         """
-        This is a display format specifier for the display of values e.g. in documents or in measurement and calibration systems. A None value is a no-op and does not overwrite an existing displayFormat.
+        This property describes how a number is to be rendered e.g. in documents or in a measurement and calibration system. A None value is a no-op and does not overwrite an existing displayFormat.
         """
         if value is not None:
             self.displayFormat = value
@@ -816,13 +816,13 @@ class SwDataDefProps(ARObject):
 
     def getImplementationDataTypeRef(self) -> Optional[RefType]:
         """
-        This association denotes the ImplementationDataType of a data declaration via its aggregated SwDataDefProps.
+        This association denotes the ImplementationDataType of a data declaration via its aggregated SwDataDefProps. It is used whenever a data declaration is not directly referring to a base type. Especially • redefinition of an ImplementationDataType via a "typedef" to another ImplementationDatatype • the target type of a pointer (see SwPointerTargetProps), if it does not refer to a base type directly • the data type of an array or record element within an ImplementationDataType, if it does not refer to a base type directly • the data type of an SwServiceArg, if it does not refer to a base type directly
         """
         return self.implementationDataTypeRef
 
     def setImplementationDataTypeRef(self, value: Optional[RefType]) -> "SwDataDefProps":
         """
-        This association denotes the ImplementationDataType of a data declaration via its aggregated SwDataDefProps. A None value is a no-op and does not overwrite an existing implementationDataTypeRef.
+        This association denotes the ImplementationDataType of a data declaration via its aggregated SwDataDefProps. It is used whenever a data declaration is not directly referring to a base type. Especially • redefinition of an ImplementationDataType via a "typedef" to another ImplementationDatatype • the target type of a pointer (see SwPointerTargetProps), if it does not refer to a base type directly • the data type of an array or record element within an ImplementationDataType, if it does not refer to a base type directly • the data type of an SwServiceArg, if it does not refer to a base type directly. A None value is a no-op and does not overwrite an existing implementationDataTypeRef.
         """
         if value is not None:
             self.implementationDataTypeRef = value
@@ -830,13 +830,13 @@ class SwDataDefProps(ARObject):
 
     def getSwHostVariable(self) -> Optional[SwVariableRefProxy]:
         """
-        Proxy class for several kinds of references to a variable.
+        Contains a reference to a variable which serves as a host-variable for a bit variable. Only applicable to bit objects.
         """
         return self.swHostVariable
 
     def setSwHostVariable(self, value: Optional[SwVariableRefProxy]) -> "SwDataDefProps":
         """
-        Proxy class for several kinds of references to a variable. A None value is a no-op and does not overwrite an existing swHostVariable.
+        Contains a reference to a variable which serves as a host-variable for a bit variable. Only applicable to bit objects. A None value is a no-op and does not overwrite an existing swHostVariable.
         """
         if value is not None:
             self.swHostVariable = value
@@ -844,13 +844,13 @@ class SwDataDefProps(ARObject):
 
     def getSwImplPolicy(self) -> Optional[SwImplPolicyEnum]:
         """
-        This indicates the intended implementation policy of the data object.
+        Implementation policy for this data object.
         """
         return self.swImplPolicy
 
     def setSwImplPolicy(self, value: Optional[SwImplPolicyEnum]) -> "SwDataDefProps":
         """
-        This indicates the intended implementation policy of the data object. A None value is a no-op and does not overwrite an existing swImplPolicy.
+        Implementation policy for this data object. A None value is a no-op and does not overwrite an existing swImplPolicy.
         """
         if value is not None:
             self.swImplPolicy = value
@@ -858,13 +858,13 @@ class SwDataDefProps(ARObject):
 
     def getAdditionalNativeTypeQualifier(self) -> Optional[NativeDeclarationString]:
         """
-        This string contains a native data declaration of a data type in a programming language. It is basically a string, but white-space shall be preserved.
+        This attribute is used to declare native qualifiers of the programming language which can neither be deduced from the baseType (e.g. because the data object describes a pointer) nor from other more abstract attributes. Examples are qualifiers like "volatile", "strict" or "enum" of the C-language. All such declarations have to be put into one string.
         """
         return self.additionalNativeTypeQualifier
 
     def setAdditionalNativeTypeQualifier(self, value: Optional[NativeDeclarationString]) -> "SwDataDefProps":
         """
-        This string contains a native data declaration of a data type in a programming language. It is basically a string, but white-space shall be preserved. A None value is a no-op and does not overwrite an existing additionalNativeTypeQualifier.
+        This attribute is used to declare native qualifiers of the programming language which can neither be deduced from the baseType (e.g. because the data object describes a pointer) nor from other more abstract attributes. Examples are qualifiers like "volatile", "strict" or "enum" of the C-language. All such declarations have to be put into one string. A None value is a no-op and does not overwrite an existing additionalNativeTypeQualifier.
         """
         if value is not None:
             self.additionalNativeTypeQualifier = value
@@ -872,13 +872,13 @@ class SwDataDefProps(ARObject):
 
     def getSwIntendedResolution(self) -> Optional[ARNumerical]:
         """
-        This attribute can be used to specify the intended resolution of the data object.
+        The purpose of this element is to describe the requested quantization of data objects early on in the design process. The resolution ultimately occurs via the conversion formula present (compuMethod), which specifies the transition from the physical world to the standardized world (and vice-versa) (here, "the slope per bit" is present implicitly in the conversion formula). In the case of a development phase without a fixed conversion formula, a pre-specification can occur through swIntendedResolution. The resolution is specified in the physical domain according to the property "unit".
         """
         return self.swIntendedResolution
 
     def setSwIntendedResolution(self, value: Optional[ARNumerical]) -> "SwDataDefProps":
         """
-        This attribute can be used to specify the intended resolution of the data object. A None value is a no-op and does not overwrite an existing swIntendedResolution.
+        The purpose of this element is to describe the requested quantization of data objects early on in the design process. The resolution ultimately occurs via the conversion formula present (compuMethod), which specifies the transition from the physical world to the standardized world (and vice-versa) (here, "the slope per bit" is present implicitly in the conversion formula). In the case of a development phase without a fixed conversion formula, a pre-specification can occur through swIntendedResolution. The resolution is specified in the physical domain according to the property "unit". A None value is a no-op and does not overwrite an existing swIntendedResolution.
         """
         if value is not None:
             self.swIntendedResolution = value
@@ -886,13 +886,13 @@ class SwDataDefProps(ARObject):
 
     def getSwInterpolationMethod(self) -> Optional[Identifier]:
         """
-        This is the name of the interpolation method which is implemented by the referenced bswModuleEntry. It corresponds to swInterpolationMethod in SwDataDefProps.
+        This is a keyword identifying the mathematical method to be applied for interpolation. The keyword needs to be related to the interpolation routine which needs to be invoked.
         """
         return self.swInterpolationMethod
 
     def setSwInterpolationMethod(self, value: Optional[Identifier]) -> "SwDataDefProps":
         """
-        This is the name of the interpolation method which is implemented by the referenced bswModuleEntry. It corresponds to swInterpolationMethod in SwDataDefProps. A None value is a no-op and does not overwrite an existing swInterpolationMethod.
+        This is a keyword identifying the mathematical method to be applied for interpolation. The keyword needs to be related to the interpolation routine which needs to be invoked. A None value is a no-op and does not overwrite an existing swInterpolationMethod.
         """
         if value is not None:
             self.swInterpolationMethod = value
@@ -900,13 +900,13 @@ class SwDataDefProps(ARObject):
 
     def getInvalidValue(self) -> Optional[ValueSpecification]:
         """
-        The value which indicates that the data object is invalid.
+        Optional value to express invalidity of the actual data element.
         """
         return self.invalidValue
 
     def setInvalidValue(self, value: Optional[ValueSpecification]) -> "SwDataDefProps":
         """
-        The value which indicates that the data object is invalid. A None value is a no-op and does not overwrite an existing invalidValue.
+        Optional value to express invalidity of the actual data element. A None value is a no-op and does not overwrite an existing invalidValue.
         """
         if value is not None:
             self.invalidValue = value
@@ -928,13 +928,13 @@ class SwDataDefProps(ARObject):
 
     def getSwPointerTargetProps(self) -> Optional[SwPointerTargetProps]:
         """
-        Specifies that the containing data object is a pointer to another data object.
+        Specifies that the containing data object is a pointer to another data object. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern).
         """
         return self.swPointerTargetProps
 
     def setSwPointerTargetProps(self, value: Optional[SwPointerTargetProps]) -> "SwDataDefProps":
         """
-        Specifies that the containing data object is a pointer to another data object. A None value is a no-op and does not overwrite an existing swPointerTargetProps.
+        Specifies that the containing data object is a pointer to another data object. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). A None value is a no-op and does not overwrite an existing swPointerTargetProps.
         """
         if value is not None:
             self.swPointerTargetProps = value
@@ -956,13 +956,13 @@ class SwDataDefProps(ARObject):
 
     def getSwRefreshTiming(self) -> Optional[MultidimensionalTime]:
         """
-        This element specifies the frequency in which the object involved shall be or is called or calculated.
+        This element specifies the frequency in which the object involved shall be or is called or calculated. This timing can be collected from the task in which write access processes to the variable run. But this cannot be done by the MCD system. So this attribute can be used in an early phase to express the desired refresh timing and later on to specify the real refresh timing.
         """
         return self.swRefreshTiming
 
     def setSwRefreshTiming(self, value: Optional[MultidimensionalTime]) -> "SwDataDefProps":
         """
-        This element specifies the frequency in which the object involved shall be or is called or calculated. A None value is a no-op and does not overwrite an existing swRefreshTiming.
+        This element specifies the frequency in which the object involved shall be or is called or calculated. This timing can be collected from the task in which write access processes to the variable run. But this cannot be done by the MCD system. So this attribute can be used in an early phase to express the desired refresh timing and later on to specify the real refresh timing. A None value is a no-op and does not overwrite an existing swRefreshTiming.
         """
         if value is not None:
             self.swRefreshTiming = value
@@ -970,13 +970,13 @@ class SwDataDefProps(ARObject):
 
     def getUnitRef(self) -> Optional[RefType]:
         """
-        Physical unit associated with the semantics of this data object. This attribute applies if no compuMethod is specified.
+        Physical unit associated with the semantics of this data object. This attribute applies if no compuMethod is specified. If both units (this as well as via compuMethod) are specified the units shall be compatible.
         """
         return self.unitRef
 
     def setUnitRef(self, value: Optional[RefType]) -> "SwDataDefProps":
         """
-        Physical unit associated with the semantics of this data object. This attribute applies if no compuMethod is specified. A None value is a no-op and does not overwrite an existing unitRef.
+        Physical unit associated with the semantics of this data object. This attribute applies if no compuMethod is specified. If both units (this as well as via compuMethod) are specified the units shall be compatible. A None value is a no-op and does not overwrite an existing unitRef.
         """
         if value is not None:
             self.unitRef = value
@@ -999,7 +999,7 @@ class SwDataDefProps(ARObject):
 
 class SwPointerTargetProps(ARObject):
     """
-    Properties for pointer targets including function pointer signature and target category.
+    This element defines, that the data object (which is specified by the aggregating element) contains a reference to another data object or to a function in the CPU code. This corresponds to a pointer in the C-language. The attributes of this element describe the category and the detailed properties of the target which is either a data description or a function signature.
     """
 
     # SwPointerTargetProps method parity checklist:
@@ -1007,8 +1007,8 @@ class SwPointerTargetProps(ARObject):
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getFunctionPointerSignatureRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFunctionPointerSignatureRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getFunctionPointerSignatureRef [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setFunctionPointerSignatureRef [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
     # [x] getSwDataDefProps              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setSwDataDefProps              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getTargetCategory              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -1017,24 +1017,24 @@ class SwPointerTargetProps(ARObject):
     def __init__(self):
         super().__init__()
 
-        # The signature of the function the pointer refers to.
+        # The referenced BswModuleEntry serves as the signature of a function pointer definition. Primary use case: function pointer passed as argument to other function.
         self.functionPointerSignatureRef: Optional[RefType] = None
 
-        # The properties of the data which is referenced by the pointer.
+        # The properties of the target data type.
         self.swDataDefProps: Optional[SwDataDefProps] = None
 
-        # Specifies the category of the target (the object the pointer points to).
+        # This specifies the category of the target: • In case of a data pointer, it shall specify the category of the referenced data. • In case of a function pointer, it could be used to denote the category of the referenced BswModuleEntry.
         self.targetCategory: Optional[Identifier] = None
 
     def getFunctionPointerSignatureRef(self) -> Optional[RefType]:
         """
-        The signature of the function the pointer refers to.
+        The referenced BswModuleEntry serves as the signature of a function pointer definition. Primary use case: function pointer passed as argument to other function.
         """
         return self.functionPointerSignatureRef
 
     def setFunctionPointerSignatureRef(self, value: Optional[RefType]) -> "SwPointerTargetProps":
         """
-        The signature of the function the pointer refers to. A None value is a no-op and does not overwrite an existing functionPointerSignatureRef.
+        The referenced BswModuleEntry serves as the signature of a function pointer definition. Primary use case: function pointer passed as argument to other function. A None value is a no-op and does not overwrite an existing functionPointerSignatureRef.
         """
         if value is not None:
             self.functionPointerSignatureRef = value
@@ -1042,13 +1042,13 @@ class SwPointerTargetProps(ARObject):
 
     def getSwDataDefProps(self) -> Optional[SwDataDefProps]:
         """
-        The properties of the data which is referenced by the pointer.
+        The properties of the target data type.
         """
         return self.swDataDefProps
 
     def setSwDataDefProps(self, value: Optional[SwDataDefProps]) -> "SwPointerTargetProps":
         """
-        The properties of the data which is referenced by the pointer. A None value is a no-op and does not overwrite an existing swDataDefProps.
+        The properties of the target data type. A None value is a no-op and does not overwrite an existing swDataDefProps.
         """
         if value is not None:
             self.swDataDefProps = value
@@ -1056,13 +1056,13 @@ class SwPointerTargetProps(ARObject):
 
     def getTargetCategory(self) -> Optional[Identifier]:
         """
-        Specifies the category of the target (the object the pointer points to).
+        This specifies the category of the target: • In case of a data pointer, it shall specify the category of the referenced data. • In case of a function pointer, it could be used to denote the category of the referenced BswModuleEntry.
         """
         return self.targetCategory
 
     def setTargetCategory(self, value: Optional[Identifier]) -> "SwPointerTargetProps":
         """
-        Specifies the category of the target (the object the pointer points to). A None value is a no-op and does not overwrite an existing targetCategory.
+        This specifies the category of the target: • In case of a data pointer, it shall specify the category of the referenced data. • In case of a function pointer, it could be used to denote the category of the referenced BswModuleEntry. A None value is a no-op and does not overwrite an existing targetCategory.
         """
         if value is not None:
             self.targetCategory = value

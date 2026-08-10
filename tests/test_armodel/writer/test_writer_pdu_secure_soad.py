@@ -408,8 +408,6 @@ class TestWriteGeneralPurposeIPdu:
 class TestWriteSecureCommunicationAuthenticationProps:
     def test_with_mock(self, writer):
         props = SecureCommunicationAuthenticationProps(_pkg(), "authProps")
-        auth_algo = MagicMock()
-        props.getAuthAlgorithm = MagicMock(return_value=auth_algo)
         tx_len = MagicMock()
         props.getAuthInfoTxLength = MagicMock(return_value=tx_len)
         parent = _parent()
@@ -430,8 +428,6 @@ class TestWriteSecureCommunicationPropsSetAuthenticationProps:
         props_set = MagicMock()
         pkg = _pkg()
         props = SecureCommunicationAuthenticationProps(pkg, "authProps")
-        auth_algo = MagicMock()
-        props.getAuthAlgorithm = MagicMock(return_value=auth_algo)
         tx_len = MagicMock()
         props.getAuthInfoTxLength = MagicMock(return_value=tx_len)
         props_set.getAuthenticationProps.return_value = [props]
@@ -448,15 +444,21 @@ class TestWriteSecureCommunicationFreshnessProps:
     def test_with_real_props(self, writer):
         pkg = _pkg()
         props = SecureCommunicationFreshnessProps(pkg, "freshProps")
+        props.setFreshnessCounterSyncAttempts(_pos_int("3"))
+        props.setFreshnessTimestampTimePeriodFactor(_pos_int("2"))
         props.setFreshnessValueLength(_pos_int("16"))
         props.setFreshnessValueTxLength(_pos_int("8"))
+        props.setUseFreshnessTimestamp(_bool("true"))
         parent = _parent()
         writer.writeSecureCommunicationFreshnessProps(parent, props)
         child = parent.find("SECURE-COMMUNICATION-FRESHNESS-PROPS")
         assert child is not None
         assert child.find("SHORT-NAME").text == "freshProps"
-        assert child.find("FRESHNESS-VALUE-LENGTH") is not None
-        assert child.find("FRESHNESS-VALUE-TX-LENGTH") is not None
+        assert child.find("FRESHNESS-COUNTER-SYNC-ATTEMPTS").text == "3"
+        assert child.find("FRESHNESS-TIMESTAMP-TIME-PERIOD-FACTOR").text == "2"
+        assert child.find("FRESHNESS-VALUE-LENGTH").text == "16"
+        assert child.find("FRESHNESS-VALUE-TX-LENGTH").text == "8"
+        assert child.find("USE-FRESHNESS-TIMESTAMP").text == "true"
 
 
 class TestWriteSecureCommunicationPropsSetFreshnessProps:

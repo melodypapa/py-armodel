@@ -298,84 +298,84 @@ class Test_FibexCoreCommunication:
         assert ipdu.getContainedIPduProps() == props
         assert ipdu == ipdu.setContainedIPduProps(props)  # Test method chaining
 
-    def test_SecureCommunicationProps(self):
-        """Test SecureCommunicationProps class functionality."""
+    def test_SecureCommunicationProps_initialization(self):
         props = SecureCommunicationProps()
 
         assert isinstance(props, ARObject)
 
-        # Test default values
         assert props.getAuthDataFreshnessLength() is None
         assert props.getAuthDataFreshnessStartPosition() is None
-        assert props.getAuthInfoTxLength() is None
         assert props.getAuthenticationBuildAttempts() is None
         assert props.getAuthenticationRetries() is None
         assert props.getDataId() is None
         assert props.getFreshnessValueId() is None
-        assert props.getFreshnessValueLength() is None
-        assert props.getFreshnessValueTxLength() is None
         assert props.getMessageLinkLength() is None
         assert props.getMessageLinkPosition() is None
         assert props.getSecondaryFreshnessValueId() is None
         assert props.getSecuredAreaLength() is None
         assert props.getSecuredAreaOffset() is None
 
-        # Test setter/getter methods with method chaining
+        assert not hasattr(props, "getAuthInfoTxLength")
+        assert not hasattr(props, "getFreshnessValueLength")
+        assert not hasattr(props, "getFreshnessValueTxLength")
+
+    def test_SecureCommunicationProps_set_get(self):
+        props = SecureCommunicationProps()
+
         props.setAuthDataFreshnessLength(10)
         assert props.getAuthDataFreshnessLength() == 10
-        assert props == props.setAuthDataFreshnessLength(10)  # Test method chaining
+        assert props == props.setAuthDataFreshnessLength(None)
+        assert props.getAuthDataFreshnessLength() == 10
 
         props.setAuthDataFreshnessStartPosition(20)
         assert props.getAuthDataFreshnessStartPosition() == 20
-        assert props == props.setAuthDataFreshnessStartPosition(20)  # Test method chaining
-
-        props.setAuthInfoTxLength(30)
-        assert props.getAuthInfoTxLength() == 30
-        assert props == props.setAuthInfoTxLength(30)  # Test method chaining
+        assert props == props.setAuthDataFreshnessStartPosition(None)
+        assert props.getAuthDataFreshnessStartPosition() == 20
 
         props.setAuthenticationBuildAttempts(5)
         assert props.getAuthenticationBuildAttempts() == 5
-        assert props == props.setAuthenticationBuildAttempts(5)  # Test method chaining
+        assert props == props.setAuthenticationBuildAttempts(None)
+        assert props.getAuthenticationBuildAttempts() == 5
 
         props.setAuthenticationRetries(3)
         assert props.getAuthenticationRetries() == 3
-        assert props == props.setAuthenticationRetries(3)  # Test method chaining
+        assert props == props.setAuthenticationRetries(None)
+        assert props.getAuthenticationRetries() == 3
 
         props.setDataId(42)
         assert props.getDataId() == 42
-        assert props == props.setDataId(42)  # Test method chaining
+        assert props == props.setDataId(None)
+        assert props.getDataId() == 42
 
         props.setFreshnessValueId(100)
         assert props.getFreshnessValueId() == 100
-        assert props == props.setFreshnessValueId(100)  # Test method chaining
-
-        props.setFreshnessValueLength(50)
-        assert props.getFreshnessValueLength() == 50
-        assert props == props.setFreshnessValueLength(50)  # Test method chaining
-
-        props.setFreshnessValueTxLength(60)
-        assert props.getFreshnessValueTxLength() == 60
-        assert props == props.setFreshnessValueTxLength(60)  # Test method chaining
+        assert props == props.setFreshnessValueId(None)
+        assert props.getFreshnessValueId() == 100
 
         props.setMessageLinkLength(70)
         assert props.getMessageLinkLength() == 70
-        assert props == props.setMessageLinkLength(70)  # Test method chaining
+        assert props == props.setMessageLinkLength(None)
+        assert props.getMessageLinkLength() == 70
 
         props.setMessageLinkPosition(80)
         assert props.getMessageLinkPosition() == 80
-        assert props == props.setMessageLinkPosition(80)  # Test method chaining
+        assert props == props.setMessageLinkPosition(None)
+        assert props.getMessageLinkPosition() == 80
 
         props.setSecondaryFreshnessValueId(200)
         assert props.getSecondaryFreshnessValueId() == 200
-        assert props == props.setSecondaryFreshnessValueId(200)  # Test method chaining
+        assert props == props.setSecondaryFreshnessValueId(None)
+        assert props.getSecondaryFreshnessValueId() == 200
 
         props.setSecuredAreaLength(90)
         assert props.getSecuredAreaLength() == 90
-        assert props == props.setSecuredAreaLength(90)  # Test method chaining
+        assert props == props.setSecuredAreaLength(None)
+        assert props.getSecuredAreaLength() == 90
 
         props.setSecuredAreaOffset(100)
         assert props.getSecuredAreaOffset() == 100
-        assert props == props.setSecuredAreaOffset(100)  # Test method chaining
+        assert props == props.setSecuredAreaOffset(None)
+        assert props.getSecuredAreaOffset() == 100
 
     def test_SecuredIPdu(self):
         """Test SecuredIPdu class functionality."""
@@ -955,15 +955,41 @@ class Test_FibexCoreCommunication:
 
         assert isinstance(ipdu, IPdu)
 
-    def test_SecureCommunicationPropsSet(self):
-        """Test SecureCommunicationPropsSet class functionality."""
+    def test_SecureCommunicationPropsSet_initialization(self):
         parent = MockParent()
         props_set = SecureCommunicationPropsSet(parent, "test_secure_com_props_set")
 
         assert isinstance(props_set, Identifiable)
 
-        # Test default values
-        assert props_set.secureComProps == []
+        assert props_set.getAuthenticationProps() == []
+        assert props_set.getFreshnessProps() == []
+        assert not hasattr(props_set, "secureComProps")
+
+    def test_SecureCommunicationPropsSet_create_authentication_props(self):
+        parent = MockParent()
+        props_set = SecureCommunicationPropsSet(parent, "test_secure_com_props_set")
+
+        props = props_set.createSecureCommunicationAuthenticationProps("authProps")
+        assert isinstance(props, SecureCommunicationAuthenticationProps)
+        assert props.getShortName() == "authProps"
+        assert props_set.getAuthenticationProps() == [props]
+
+        props_dup = props_set.createSecureCommunicationAuthenticationProps("authProps")
+        assert props_dup is props
+        assert len(props_set.getAuthenticationProps()) == 1
+
+    def test_SecureCommunicationPropsSet_create_freshness_props(self):
+        parent = MockParent()
+        props_set = SecureCommunicationPropsSet(parent, "test_secure_com_props_set")
+
+        props = props_set.createSecureCommunicationFreshnessProps("freshProps")
+        assert isinstance(props, SecureCommunicationFreshnessProps)
+        assert props.getShortName() == "freshProps"
+        assert props_set.getFreshnessProps() == [props]
+
+        props_dup = props_set.createSecureCommunicationFreshnessProps("freshProps")
+        assert props_dup is props
+        assert len(props_set.getFreshnessProps()) == 1
 
     def test_UserDefinedPdu(self):
         """Test UserDefinedPdu class functionality."""
@@ -979,77 +1005,69 @@ class Test_FibexCoreCommunication:
 
         assert isinstance(ipdu, IPdu)
 
-    def test_SecureCommunicationAuthenticationProps(self):
-        """Test SecureCommunicationAuthenticationProps class functionality."""
+    def test_SecureCommunicationAuthenticationProps_initialization(self):
         parent = MockParent()
         auth_props = SecureCommunicationAuthenticationProps(parent, "test_auth_props")
 
         assert isinstance(auth_props, Identifiable)
 
-        # Test default values
-        assert auth_props.getAuthenticationBuildAttempts() is None
-        assert auth_props.getAuthenticationRetries() is None
-        assert auth_props.getDataId() is None
-        assert auth_props.getSecuredComAuthenticationType() is None
+        assert auth_props.getAuthInfoTxLength() is None
+        assert not hasattr(auth_props, "getAuthenticationBuildAttempts")
+        assert not hasattr(auth_props, "getAuthenticationRetries")
+        assert not hasattr(auth_props, "getDataId")
+        assert not hasattr(auth_props, "getSecuredComAuthenticationType")
 
-        # Test setter/getter methods with method chaining (only when value is not None)
-        auth_props.setAuthenticationBuildAttempts(5)
-        assert auth_props.getAuthenticationBuildAttempts() == 5
-        assert auth_props == auth_props.setAuthenticationBuildAttempts(5)  # Test method chaining
+    def test_SecureCommunicationAuthenticationProps_set_get(self):
+        parent = MockParent()
+        auth_props = SecureCommunicationAuthenticationProps(parent, "test_auth_props")
 
-        auth_props.setAuthenticationRetries(3)
-        assert auth_props.getAuthenticationRetries() == 3
-        assert auth_props == auth_props.setAuthenticationRetries(3)  # Test method chaining
+        auth_props.setAuthInfoTxLength(4)
+        assert auth_props.getAuthInfoTxLength() == 4
+        assert auth_props == auth_props.setAuthInfoTxLength(None)
+        assert auth_props.getAuthInfoTxLength() == 4
 
-        auth_props.setDataId(42)
-        assert auth_props.getDataId() == 42
-        assert auth_props == auth_props.setDataId(42)  # Test method chaining
-
-        auth_props.setSecuredComAuthenticationType("HMAC_SHA256")
-        assert auth_props.getSecuredComAuthenticationType() == "HMAC_SHA256"
-        assert auth_props == auth_props.setSecuredComAuthenticationType("HMAC_SHA256")  # Test method chaining
-
-    def test_SecureCommunicationFreshnessProps(self):
-        """Test SecureCommunicationFreshnessProps class functionality."""
+    def test_SecureCommunicationFreshnessProps_initialization(self):
         parent = MockParent()
         freshness_props = SecureCommunicationFreshnessProps(parent, "test_freshness_props")
 
         assert isinstance(freshness_props, Identifiable)
 
-        # Test default values
-        assert freshness_props.getFreshnessValueId() is None
+        assert freshness_props.getFreshnessCounterSyncAttempts() is None
+        assert freshness_props.getFreshnessTimestampTimePeriodFactor() is None
         assert freshness_props.getFreshnessValueLength() is None
         assert freshness_props.getFreshnessValueTxLength() is None
-        assert freshness_props.getMessageLinkLength() is None
-        assert freshness_props.getMessageLinkPosition() is None
-        assert freshness_props.getSecondaryFreshnessValueId() is None
-        assert freshness_props.getSecuredComFreshnessType() is None
+        assert freshness_props.getUseFreshnessTimestamp() is None
+        assert not hasattr(freshness_props, "getFreshnessValueId")
+        assert not hasattr(freshness_props, "getMessageLinkLength")
+        assert not hasattr(freshness_props, "getMessageLinkPosition")
+        assert not hasattr(freshness_props, "getSecondaryFreshnessValueId")
+        assert not hasattr(freshness_props, "getSecuredComFreshnessType")
 
-        # Test setter/getter methods with method chaining (only when value is not None)
-        freshness_props.setFreshnessValueId(100)
-        assert freshness_props.getFreshnessValueId() == 100
-        assert freshness_props == freshness_props.setFreshnessValueId(100)  # Test method chaining
+    def test_SecureCommunicationFreshnessProps_set_get(self):
+        parent = MockParent()
+        freshness_props = SecureCommunicationFreshnessProps(parent, "test_freshness_props")
+
+        freshness_props.setFreshnessCounterSyncAttempts(3)
+        assert freshness_props.getFreshnessCounterSyncAttempts() == 3
+        assert freshness_props == freshness_props.setFreshnessCounterSyncAttempts(None)
+        assert freshness_props.getFreshnessCounterSyncAttempts() == 3
+
+        freshness_props.setFreshnessTimestampTimePeriodFactor(2)
+        assert freshness_props.getFreshnessTimestampTimePeriodFactor() == 2
+        assert freshness_props == freshness_props.setFreshnessTimestampTimePeriodFactor(None)
+        assert freshness_props.getFreshnessTimestampTimePeriodFactor() == 2
 
         freshness_props.setFreshnessValueLength(50)
         assert freshness_props.getFreshnessValueLength() == 50
-        assert freshness_props == freshness_props.setFreshnessValueLength(50)  # Test method chaining
+        assert freshness_props == freshness_props.setFreshnessValueLength(None)
+        assert freshness_props.getFreshnessValueLength() == 50
 
         freshness_props.setFreshnessValueTxLength(60)
         assert freshness_props.getFreshnessValueTxLength() == 60
-        assert freshness_props == freshness_props.setFreshnessValueTxLength(60)  # Test method chaining
+        assert freshness_props == freshness_props.setFreshnessValueTxLength(None)
+        assert freshness_props.getFreshnessValueTxLength() == 60
 
-        freshness_props.setMessageLinkLength(70)
-        assert freshness_props.getMessageLinkLength() == 70
-        assert freshness_props == freshness_props.setMessageLinkLength(70)  # Test method chaining
-
-        freshness_props.setMessageLinkPosition(80)
-        assert freshness_props.getMessageLinkPosition() == 80
-        assert freshness_props == freshness_props.setMessageLinkPosition(80)  # Test method chaining
-
-        freshness_props.setSecondaryFreshnessValueId(200)
-        assert freshness_props.getSecondaryFreshnessValueId() == 200
-        assert freshness_props == freshness_props.setSecondaryFreshnessValueId(200)  # Test method chaining
-
-        freshness_props.setSecuredComFreshnessType("COUNTER_BASED")
-        assert freshness_props.getSecuredComFreshnessType() == "COUNTER_BASED"
-        assert freshness_props == freshness_props.setSecuredComFreshnessType("COUNTER_BASED")  # Test method chaining
+        freshness_props.setUseFreshnessTimestamp(True)
+        assert freshness_props.getUseFreshnessTimestamp() is True
+        assert freshness_props == freshness_props.setUseFreshnessTimestamp(None)
+        assert freshness_props.getUseFreshnessTimestamp() is True

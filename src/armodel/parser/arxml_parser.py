@@ -2913,6 +2913,7 @@ class ARXMLParser(AbstractARXMLParser):
             props = SwPointerTargetProps()
             props.setTargetCategory(self.getChildElementOptionalLiteral(child_element, "TARGET-CATEGORY"))
             props.setSwDataDefProps(self.getSwDataDefProps(child_element, "SW-DATA-DEF-PROPS"))
+            props.setFunctionPointerSignatureRef(self.getChildElementOptionalRefType(child_element, "FUNCTION-POINTER-SIGNATURE-REF"))
         return props
 
     def readSwPointerTargetProps(self, element: ET.Element, parent: SwDataDefProps):
@@ -2921,6 +2922,7 @@ class ARXMLParser(AbstractARXMLParser):
             sw_pointer_target_props = SwPointerTargetProps()
             sw_pointer_target_props.setTargetCategory(self.getChildElementOptionalLiteral(child_element, "TARGET-CATEGORY"))
             sw_pointer_target_props.setSwDataDefProps(self.getSwDataDefProps(child_element, "SW-DATA-DEF-PROPS"))
+            sw_pointer_target_props.setFunctionPointerSignatureRef(self.getChildElementOptionalRefType(child_element, "FUNCTION-POINTER-SIGNATURE-REF"))
             parent.swPointerTargetProps = sw_pointer_target_props
 
     def getSwTextProps(self, element: ET.Element, key: str) -> SwTextProps:
@@ -5398,7 +5400,6 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSecureCommunicationAuthenticationProps(self, element: ET.Element, props: SecureCommunicationAuthenticationProps):
         self.readIdentifiable(element, props)
-        props.setAuthAlgorithm(self.getChildElementOptionalLiteral(element, "AUTH-ALGORITHM"))
         props.setAuthInfoTxLength(self.getChildElementOptionalPositiveInteger(element, "AUTH-INFO-TX-LENGTH"))
 
     def readSecureCommunicationPropsSetAuthenticationProps(self, element: ET.Element, props_set: SecureCommunicationPropsSet):
@@ -5412,8 +5413,11 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSecureCommunicationFreshnessProps(self, element: ET.Element, props: SecureCommunicationFreshnessProps):
         self.readIdentifiable(element, props)
-        props.setFreshnessValueLength(self.getChildElementOptionalLiteral(element, "FRESHNESS-VALUE-LENGTH"))
+        props.setFreshnessCounterSyncAttempts(self.getChildElementOptionalPositiveInteger(element, "FRESHNESS-COUNTER-SYNC-ATTEMPTS"))
+        props.setFreshnessTimestampTimePeriodFactor(self.getChildElementOptionalPositiveInteger(element, "FRESHNESS-TIMESTAMP-TIME-PERIOD-FACTOR"))
+        props.setFreshnessValueLength(self.getChildElementOptionalPositiveInteger(element, "FRESHNESS-VALUE-LENGTH"))
         props.setFreshnessValueTxLength(self.getChildElementOptionalPositiveInteger(element, "FRESHNESS-VALUE-TX-LENGTH"))
+        props.setUseFreshnessTimestamp(self.getChildElementOptionalBooleanValue(element, "USE-FRESHNESS-TIMESTAMP"))
 
     def readSecureCommunicationPropsSetFreshnessProps(self, element: ET.Element, props_set: SecureCommunicationPropsSet):
         for child_element in self.findall(element, "FRESHNESS-PROPSS/*"):
@@ -5582,13 +5586,15 @@ class ARXMLParser(AbstractARXMLParser):
             props = SecureCommunicationProps()
             props.setAuthDataFreshnessLength(self.getChildElementOptionalPositiveInteger(child_element, "AUTH-DATA-FRESHNESS-LENGTH"))
             props.setAuthDataFreshnessStartPosition(self.getChildElementOptionalPositiveInteger(child_element, "AUTH-DATA-FRESHNESS-START-POSITION"))
-            props.setAuthInfoTxLength(self.getChildElementOptionalPositiveInteger(child_element, "AUTH-INFO-TX-LENGTH"))
             props.setAuthenticationBuildAttempts(self.getChildElementOptionalPositiveInteger(child_element, "AUTHENTICATION-BUILD-ATTEMPTS"))
             props.setAuthenticationRetries(self.getChildElementOptionalPositiveInteger(child_element, "AUTHENTICATION-RETRIES"))
             props.setDataId(self.getChildElementOptionalPositiveInteger(child_element, "DATA-ID"))
             props.setFreshnessValueId(self.getChildElementOptionalPositiveInteger(child_element, "FRESHNESS-VALUE-ID"))
-            props.setFreshnessValueLength(self.getChildElementOptionalPositiveInteger(child_element, "FRESHNESS-VALUE-LENGTH"))
-            props.setFreshnessValueTxLength(self.getChildElementOptionalPositiveInteger(child_element, "FRESHNESS-VALUE-TX-LENGTH"))  # NOQA E501
+            props.setMessageLinkLength(self.getChildElementOptionalPositiveInteger(child_element, "MESSAGE-LINK-LENGTH"))
+            props.setMessageLinkPosition(self.getChildElementOptionalPositiveInteger(child_element, "MESSAGE-LINK-POSITION"))
+            props.setSecondaryFreshnessValueId(self.getChildElementOptionalPositiveInteger(child_element, "SECONDARY-FRESHNESS-VALUE-ID"))
+            props.setSecuredAreaLength(self.getChildElementOptionalPositiveInteger(child_element, "SECURED-AREA-LENGTH"))
+            props.setSecuredAreaOffset(self.getChildElementOptionalPositiveInteger(child_element, "SECURED-AREA-OFFSET"))
         return props
 
     def readSecuredIPdu(self, element: ET.Element, i_pdu: SecuredIPdu):

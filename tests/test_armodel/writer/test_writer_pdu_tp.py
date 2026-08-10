@@ -203,13 +203,15 @@ class TestSetSecureCommunicationProps:
         props = SecureCommunicationProps()
         props.setAuthDataFreshnessLength(_pos_int("8"))
         props.setAuthDataFreshnessStartPosition(_pos_int("0"))
-        props.setAuthInfoTxLength(_pos_int("4"))
         props.setAuthenticationBuildAttempts(_pos_int("2"))
         props.setAuthenticationRetries(_pos_int("3"))
         props.setDataId(_pos_int("1"))
         props.setFreshnessValueId(_pos_int("5"))
-        props.setFreshnessValueLength(_pos_int("6"))
-        props.setFreshnessValueTxLength(_pos_int("7"))
+        props.setMessageLinkLength(_pos_int("6"))
+        props.setMessageLinkPosition(_pos_int("7"))
+        props.setSecondaryFreshnessValueId(_pos_int("9"))
+        props.setSecuredAreaLength(_pos_int("10"))
+        props.setSecuredAreaOffset(_pos_int("11"))
         parent = _parent()
         writer.setSecureCommunicationProps(parent, "SECURE-PROPS", props)
         assert len(parent) == 1
@@ -217,7 +219,8 @@ class TestSetSecureCommunicationProps:
         assert child.tag == "SECURE-PROPS"
         assert child.find("AUTH-DATA-FRESHNESS-LENGTH").text == "8"
         assert child.find("DATA-ID").text == "1"
-        assert child.find("FRESHNESS-VALUE-TX-LENGTH").text == "7"
+        assert child.find("MESSAGE-LINK-LENGTH").text == "6"
+        assert child.find("SECURED-AREA-OFFSET").text == "11"
 
 
 class TestWriteSecuredIPdu:

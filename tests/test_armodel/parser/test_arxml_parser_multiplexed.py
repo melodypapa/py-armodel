@@ -326,11 +326,10 @@ class TestSecureCommunicationHandlers:
     def test_readSecureCommunicationAuthenticationProps_with_mock(self, parser):
         props = MagicMock()
         element = _snip(
-            "<SHORT-NAME>authProps</SHORT-NAME>" "<AUTH-ALGORITHM>AES-128</AUTH-ALGORITHM>" "<AUTH-INFO-TX-LENGTH>16</AUTH-INFO-TX-LENGTH>",
+            "<SHORT-NAME>authProps</SHORT-NAME>" "<AUTH-INFO-TX-LENGTH>16</AUTH-INFO-TX-LENGTH>",
             root_tag="SECURE-COMMUNICATION-AUTHENTICATION-PROPS",
         )
         parser.readSecureCommunicationAuthenticationProps(element, props)
-        assert props.setAuthAlgorithm.called
         assert props.setAuthInfoTxLength.called
 
     def test_readSecureCommunicationAuthenticationProps_empty_with_mock(self, parser):
@@ -340,19 +339,13 @@ class TestSecureCommunicationHandlers:
             root_tag="SECURE-COMMUNICATION-AUTHENTICATION-PROPS",
         )
         parser.readSecureCommunicationAuthenticationProps(element, props)
-        assert props.setAuthAlgorithm.called
         assert props.setAuthInfoTxLength.called
 
     def test_readSecureCommunicationPropsSetAuthenticationProps_with_props(self, parser):
         props_set = MagicMock()
         props_set.createSecureCommunicationAuthenticationProps.return_value = MagicMock()
         element = _snip(
-            "<AUTHENTICATION-PROPSS>"
-            "<SECURE-COMMUNICATION-AUTHENTICATION-PROPS>"
-            "<SHORT-NAME>authProps</SHORT-NAME>"
-            "<AUTH-ALGORITHM>AES-128</AUTH-ALGORITHM>"
-            "</SECURE-COMMUNICATION-AUTHENTICATION-PROPS>"
-            "</AUTHENTICATION-PROPSS>",
+            "<AUTHENTICATION-PROPSS>" "<SECURE-COMMUNICATION-AUTHENTICATION-PROPS>" "<SHORT-NAME>authProps</SHORT-NAME>" "</SECURE-COMMUNICATION-AUTHENTICATION-PROPS>" "</AUTHENTICATION-PROPSS>",
         )
         parser.readSecureCommunicationPropsSetAuthenticationProps(element, props_set)
         props_set.createSecureCommunicationAuthenticationProps.assert_called_once_with("authProps")
@@ -371,15 +364,26 @@ class TestSecureCommunicationHandlers:
 
         props = SecureCommunicationFreshnessProps(parent=_autosar_root(), short_name="freshProps")
         element = _snip(
-            "<SHORT-NAME>freshProps</SHORT-NAME>" "<FRESHNESS-VALUE-LENGTH>16</FRESHNESS-VALUE-LENGTH>" "<FRESHNESS-VALUE-TX-LENGTH>8</FRESHNESS-VALUE-TX-LENGTH>",
+            "<SHORT-NAME>freshProps</SHORT-NAME>"
+            "<FRESHNESS-COUNTER-SYNC-ATTEMPTS>3</FRESHNESS-COUNTER-SYNC-ATTEMPTS>"
+            "<FRESHNESS-TIMESTAMP-TIME-PERIOD-FACTOR>2</FRESHNESS-TIMESTAMP-TIME-PERIOD-FACTOR>"
+            "<FRESHNESS-VALUE-LENGTH>16</FRESHNESS-VALUE-LENGTH>"
+            "<FRESHNESS-VALUE-TX-LENGTH>8</FRESHNESS-VALUE-TX-LENGTH>"
+            "<USE-FRESHNESS-TIMESTAMP>true</USE-FRESHNESS-TIMESTAMP>",
             root_tag="SECURE-COMMUNICATION-FRESHNESS-PROPS",
         )
         parser.readSecureCommunicationFreshnessProps(element, props)
         assert props.getShortName() == "freshProps"
+        assert props.getFreshnessCounterSyncAttempts() is not None
+        assert props.getFreshnessCounterSyncAttempts().getValue() == 3
+        assert props.getFreshnessTimestampTimePeriodFactor() is not None
+        assert props.getFreshnessTimestampTimePeriodFactor().getValue() == 2
         assert props.getFreshnessValueLength() is not None
-        assert props.getFreshnessValueLength().getValue() == "16"
+        assert props.getFreshnessValueLength().getValue() == 16
         assert props.getFreshnessValueTxLength() is not None
         assert props.getFreshnessValueTxLength().getValue() == 8
+        assert props.getUseFreshnessTimestamp() is not None
+        assert props.getUseFreshnessTimestamp().getValue() is True
 
     def test_readSecureCommunicationFreshnessProps_empty(self, parser):
         from armodel.models import SecureCommunicationFreshnessProps
@@ -390,8 +394,11 @@ class TestSecureCommunicationHandlers:
             root_tag="SECURE-COMMUNICATION-FRESHNESS-PROPS",
         )
         parser.readSecureCommunicationFreshnessProps(element, props)
+        assert props.getFreshnessCounterSyncAttempts() is None
+        assert props.getFreshnessTimestampTimePeriodFactor() is None
         assert props.getFreshnessValueLength() is None
         assert props.getFreshnessValueTxLength() is None
+        assert props.getUseFreshnessTimestamp() is None
 
     def test_readSecureCommunicationPropsSetFreshnessProps_with_props(self, parser):
         props_set = MagicMock()
@@ -496,12 +503,13 @@ class TestPduAndSecureCommunication:
             "<SECURE-COMMUNICATION-PROPS>"
             "<AUTH-DATA-FRESHNESS-LENGTH>16</AUTH-DATA-FRESHNESS-LENGTH>"
             "<AUTH-DATA-FRESHNESS-START-POSITION>0</AUTH-DATA-FRESHNESS-START-POSITION>"
-            "<AUTH-INFO-TX-LENGTH>8</AUTH-INFO-TX-LENGTH>"
+            "<MESSAGE-LINK-LENGTH>8</MESSAGE-LINK-LENGTH>"
             "</SECURE-COMMUNICATION-PROPS>"
         )
         result = parser.getSecureCommunicationProps(element, "SECURE-COMMUNICATION-PROPS")
         assert result is not None
         assert result.getAuthDataFreshnessLength().getValue() == 16
+        assert result.getMessageLinkLength().getValue() == 8
 
 
 # ==================== NmConfig (L3981, L4072) ====================

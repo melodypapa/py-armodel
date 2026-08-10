@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from abc import ABC
-from typing import List
+from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable, Describable, PackageableElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, ARPositiveInteger, Boolean, ByteOrderEnum
@@ -398,168 +400,237 @@ class IPdu(Pdu, ABC):
 
 class SecureCommunicationProps(ARObject):
     """
-    Defines properties for secure communication, including authentication
-    data freshness, integrity protection, and secured area specifications
-    for protected communication channels.
+    This meta-class contains configuration settings that are specific for an individual SecuredIPdu.
     """
 
     # SecureCommunicationProps method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getAuthDataFreshnessLength   [x] impl  [ ] docstring  [ ] test
-    # [ ] setAuthDataFreshnessLength   [x] impl  [ ] docstring  [ ] test
-    # [ ] getAuthDataFreshnessStartPosition [x] impl  [ ] docstring  [ ] test
-    # [ ] setAuthDataFreshnessStartPosition [x] impl  [ ] docstring  [ ] test
-    # [ ] getAuthInfoTxLength          [x] impl  [ ] docstring  [ ] test
-    # [ ] setAuthInfoTxLength          [x] impl  [ ] docstring  [ ] test
-    # [ ] getAuthenticationBuildAttempts [x] impl  [ ] docstring  [ ] test
-    # [ ] setAuthenticationBuildAttempts [x] impl  [ ] docstring  [ ] test
-    # [ ] getAuthenticationRetries     [x] impl  [ ] docstring  [ ] test
-    # [ ] setAuthenticationRetries     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataId                    [x] impl  [ ] docstring  [ ] test
-    # [ ] setDataId                    [x] impl  [ ] docstring  [ ] test
-    # [ ] getFreshnessValueId          [x] impl  [ ] docstring  [ ] test
-    # [ ] setFreshnessValueId          [x] impl  [ ] docstring  [ ] test
-    # [ ] getFreshnessValueLength      [x] impl  [ ] docstring  [ ] test
-    # [ ] setFreshnessValueLength      [x] impl  [ ] docstring  [ ] test
-    # [ ] getFreshnessValueTxLength    [x] impl  [ ] docstring  [ ] test
-    # [ ] setFreshnessValueTxLength    [x] impl  [ ] docstring  [ ] test
-    # [ ] getMessageLinkLength         [x] impl  [ ] docstring  [ ] test
-    # [ ] setMessageLinkLength         [x] impl  [ ] docstring  [ ] test
-    # [ ] getMessageLinkPosition       [x] impl  [ ] docstring  [ ] test
-    # [ ] setMessageLinkPosition       [x] impl  [ ] docstring  [ ] test
-    # [ ] getSecondaryFreshnessValueId [x] impl  [ ] docstring  [ ] test
-    # [ ] setSecondaryFreshnessValueId [x] impl  [ ] docstring  [ ] test
-    # [ ] getSecuredAreaLength         [x] impl  [ ] docstring  [ ] test
-    # [ ] setSecuredAreaLength         [x] impl  [ ] docstring  [ ] test
-    # [ ] getSecuredAreaOffset         [x] impl  [ ] docstring  [ ] test
-    # [ ] setSecuredAreaOffset         [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.44, p.369
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getAuthDataFreshnessLength             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setAuthDataFreshnessLength             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getAuthDataFreshnessStartPosition      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setAuthDataFreshnessStartPosition      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getAuthenticationBuildAttempts         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setAuthenticationBuildAttempts         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getAuthenticationRetries               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setAuthenticationRetries               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDataId                              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDataId                              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getFreshnessValueId                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setFreshnessValueId                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMessageLinkLength                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMessageLinkLength                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMessageLinkPosition                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMessageLinkPosition                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSecondaryFreshnessValueId           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSecondaryFreshnessValueId           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSecuredAreaLength                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSecuredAreaLength                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSecuredAreaOffset                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSecuredAreaOffset                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
+        """
+        Initializes the SecureCommunicationProps.
+        """
         super().__init__()
 
-        self.authDataFreshnessLength: PositiveInteger = None
-        self.authDataFreshnessStartPosition: PositiveInteger = None
-        self.authInfoTxLength: PositiveInteger = None
-        self.authenticationBuildAttempts: PositiveInteger = None
-        self.authenticationRetries: PositiveInteger = None
-        self.dataId: PositiveInteger = None
-        self.freshnessValueId: PositiveInteger = None
-        self.freshnessValueLength: PositiveInteger = None
-        self.freshnessValueTxLength: PositiveInteger = None
-        self.messageLinkLength: PositiveInteger = None
-        self.messageLinkPosition: PositiveInteger = None
-        self.secondaryFreshnessValueId: PositiveInteger = None
-        self.securedAreaLength: PositiveInteger = None
-        self.securedAreaOffset: PositiveInteger = None
+        # This attribute defines the length in bits of the authentic PDU data that is passed to the SWC that verifies and generates the Freshness.
+        self.authDataFreshnessLength: Optional[PositiveInteger] = None
 
-    def getAuthDataFreshnessLength(self):
+        # This value determines the start position in bits of the Authentic PDU that shall be passed on to the SWC that verifies and generates the Freshness. The bit counting is done according to TPS_SYST_01068.
+        self.authDataFreshnessStartPosition: Optional[PositiveInteger] = None
+
+        # This attribute specifies the number of authentication build attempts.
+        self.authenticationBuildAttempts: Optional[PositiveInteger] = None
+
+        # This attribute defines the additional number of authentication attempts that are to be carried out when the generation of the authentication information failed for a given SecuredIPdu. If zero is set than only one authentication attempt is done.
+        self.authenticationRetries: Optional[PositiveInteger] = None
+
+        # This attribute defines a numerical identifier for the Secured I-PDU.
+        self.dataId: Optional[PositiveInteger] = None
+
+        # This attribute defines the Id of the Freshness Value. The Freshness Value might be a normal counter or a time value.
+        self.freshnessValueId: Optional[PositiveInteger] = None
+
+        # SecOC links an AuthenticIPdu and CryptographicIPdu together by repeating a specific part (Message Linker) of the AuthenticIPdu in the CryptographicIPdu. This attribute defines the length in bits of the messageLinker.
+        self.messageLinkLength: Optional[PositiveInteger] = None
+
+        # SecOC links an AuthenticIPdu and CryptographicIPdu together by repeating a specific part (Message Linker) of the AuthenticIPdu in the CryptographicIPdu. This attribute defines the startPosition in bits of the messageLinker.
+        self.messageLinkPosition: Optional[PositiveInteger] = None
+
+        # This attribute defines the Id of the Secondary Freshness Value. The Secondary Freshness Value might be a normal counter or a time value. Please note that this attribute is for documentation only to allow the configuration of required freshness value manager and no upstream mapping is defined for it.
+        self.secondaryFreshnessValueId: Optional[PositiveInteger] = None
+
+        # This attribute defines the length in bytes of the area within the payload Pdu which will be secured.
+        self.securedAreaLength: Optional[PositiveInteger] = None
+
+        # This attribute defines the start position (offset in byte) of the area within the payload Pdu which will be secured.
+        self.securedAreaOffset: Optional[PositiveInteger] = None
+
+    def getAuthDataFreshnessLength(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines the length in bits of the authentic PDU data that is passed to the SWC that verifies and generates the Freshness.
+        """
         return self.authDataFreshnessLength
 
-    def setAuthDataFreshnessLength(self, value):
+    def setAuthDataFreshnessLength(self, value: Optional[PositiveInteger]) -> "SecureCommunicationProps":
+        """
+        This attribute defines the length in bits of the authentic PDU data that is passed to the SWC that verifies and generates the Freshness.
+        A None value is a no-op and does not overwrite an existing authDataFreshnessLength.
+        """
         if value is not None:
             self.authDataFreshnessLength = value
         return self
 
-    def getAuthDataFreshnessStartPosition(self):
+    def getAuthDataFreshnessStartPosition(self) -> Optional[PositiveInteger]:
+        """
+        This value determines the start position in bits of the Authentic PDU that shall be passed on to the SWC that verifies and generates the Freshness. The bit counting is done according to TPS_SYST_01068.
+        """
         return self.authDataFreshnessStartPosition
 
-    def setAuthDataFreshnessStartPosition(self, value):
+    def setAuthDataFreshnessStartPosition(self, value: Optional[PositiveInteger]) -> "SecureCommunicationProps":
+        """
+        This value determines the start position in bits of the Authentic PDU that shall be passed on to the SWC that verifies and generates the Freshness. The bit counting is done according to TPS_SYST_01068.
+        A None value is a no-op and does not overwrite an existing authDataFreshnessStartPosition.
+        """
         if value is not None:
             self.authDataFreshnessStartPosition = value
         return self
 
-    def getAuthInfoTxLength(self):
-        return self.authInfoTxLength
-
-    def setAuthInfoTxLength(self, value):
-        if value is not None:
-            self.authInfoTxLength = value
-        return self
-
-    def getAuthenticationBuildAttempts(self):
+    def getAuthenticationBuildAttempts(self) -> Optional[PositiveInteger]:
+        """
+        This attribute specifies the number of authentication build attempts.
+        """
         return self.authenticationBuildAttempts
 
-    def setAuthenticationBuildAttempts(self, value):
+    def setAuthenticationBuildAttempts(self, value: Optional[PositiveInteger]) -> "SecureCommunicationProps":
+        """
+        This attribute specifies the number of authentication build attempts.
+        A None value is a no-op and does not overwrite an existing authenticationBuildAttempts.
+        """
         if value is not None:
             self.authenticationBuildAttempts = value
         return self
 
-    def getAuthenticationRetries(self):
+    def getAuthenticationRetries(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines the additional number of authentication attempts that are to be carried out when the generation of the authentication information failed for a given SecuredIPdu. If zero is set than only one authentication attempt is done.
+        """
         return self.authenticationRetries
 
-    def setAuthenticationRetries(self, value):
+    def setAuthenticationRetries(self, value: Optional[PositiveInteger]) -> "SecureCommunicationProps":
+        """
+        This attribute defines the additional number of authentication attempts that are to be carried out when the generation of the authentication information failed for a given SecuredIPdu. If zero is set than only one authentication attempt is done.
+        A None value is a no-op and does not overwrite an existing authenticationRetries.
+        """
         if value is not None:
             self.authenticationRetries = value
         return self
 
-    def getDataId(self):
+    def getDataId(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines a numerical identifier for the Secured I-PDU.
+        """
         return self.dataId
 
-    def setDataId(self, value):
+    def setDataId(self, value: Optional[PositiveInteger]) -> "SecureCommunicationProps":
+        """
+        This attribute defines a numerical identifier for the Secured I-PDU.
+        A None value is a no-op and does not overwrite an existing dataId.
+        """
         if value is not None:
             self.dataId = value
         return self
 
-    def getFreshnessValueId(self):
+    def getFreshnessValueId(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines the Id of the Freshness Value. The Freshness Value might be a normal counter or a time value.
+        """
         return self.freshnessValueId
 
-    def setFreshnessValueId(self, value):
+    def setFreshnessValueId(self, value: Optional[PositiveInteger]) -> "SecureCommunicationProps":
+        """
+        This attribute defines the Id of the Freshness Value. The Freshness Value might be a normal counter or a time value.
+        A None value is a no-op and does not overwrite an existing freshnessValueId.
+        """
         if value is not None:
             self.freshnessValueId = value
         return self
 
-    def getFreshnessValueLength(self):
-        return self.freshnessValueLength
-
-    def setFreshnessValueLength(self, value):
-        if value is not None:
-            self.freshnessValueLength = value
-        return self
-
-    def getFreshnessValueTxLength(self):
-        return self.freshnessValueTxLength
-
-    def setFreshnessValueTxLength(self, value):
-        if value is not None:
-            self.freshnessValueTxLength = value
-        return self
-
-    def getMessageLinkLength(self):
+    def getMessageLinkLength(self) -> Optional[PositiveInteger]:
+        """
+        SecOC links an AuthenticIPdu and CryptographicIPdu together by repeating a specific part (Message Linker) of the AuthenticIPdu in the CryptographicIPdu. This attribute defines the length in bits of the messageLinker.
+        """
         return self.messageLinkLength
 
-    def setMessageLinkLength(self, value):
+    def setMessageLinkLength(self, value: Optional[PositiveInteger]) -> "SecureCommunicationProps":
+        """
+        SecOC links an AuthenticIPdu and CryptographicIPdu together by repeating a specific part (Message Linker) of the AuthenticIPdu in the CryptographicIPdu. This attribute defines the length in bits of the messageLinker.
+        A None value is a no-op and does not overwrite an existing messageLinkLength.
+        """
         if value is not None:
             self.messageLinkLength = value
         return self
 
-    def getMessageLinkPosition(self):
+    def getMessageLinkPosition(self) -> Optional[PositiveInteger]:
+        """
+        SecOC links an AuthenticIPdu and CryptographicIPdu together by repeating a specific part (Message Linker) of the AuthenticIPdu in the CryptographicIPdu. This attribute defines the startPosition in bits of the messageLinker.
+        """
         return self.messageLinkPosition
 
-    def setMessageLinkPosition(self, value):
+    def setMessageLinkPosition(self, value: Optional[PositiveInteger]) -> "SecureCommunicationProps":
+        """
+        SecOC links an AuthenticIPdu and CryptographicIPdu together by repeating a specific part (Message Linker) of the AuthenticIPdu in the CryptographicIPdu. This attribute defines the startPosition in bits of the messageLinker.
+        A None value is a no-op and does not overwrite an existing messageLinkPosition.
+        """
         if value is not None:
             self.messageLinkPosition = value
         return self
 
-    def getSecondaryFreshnessValueId(self):
+    def getSecondaryFreshnessValueId(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines the Id of the Secondary Freshness Value. The Secondary Freshness Value might be a normal counter or a time value. Please note that this attribute is for documentation only to allow the configuration of required freshness value manager and no upstream mapping is defined for it.
+        """
         return self.secondaryFreshnessValueId
 
-    def setSecondaryFreshnessValueId(self, value):
+    def setSecondaryFreshnessValueId(self, value: Optional[PositiveInteger]) -> "SecureCommunicationProps":
+        """
+        This attribute defines the Id of the Secondary Freshness Value. The Secondary Freshness Value might be a normal counter or a time value. Please note that this attribute is for documentation only to allow the configuration of required freshness value manager and no upstream mapping is defined for it.
+        A None value is a no-op and does not overwrite an existing secondaryFreshnessValueId.
+        """
         if value is not None:
             self.secondaryFreshnessValueId = value
         return self
 
-    def getSecuredAreaLength(self):
+    def getSecuredAreaLength(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines the length in bytes of the area within the payload Pdu which will be secured.
+        """
         return self.securedAreaLength
 
-    def setSecuredAreaLength(self, value):
+    def setSecuredAreaLength(self, value: Optional[PositiveInteger]) -> "SecureCommunicationProps":
+        """
+        This attribute defines the length in bytes of the area within the payload Pdu which will be secured.
+        A None value is a no-op and does not overwrite an existing securedAreaLength.
+        """
         if value is not None:
             self.securedAreaLength = value
         return self
 
-    def getSecuredAreaOffset(self):
+    def getSecuredAreaOffset(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines the start position (offset in byte) of the area within the payload Pdu which will be secured.
+        """
         return self.securedAreaOffset
 
-    def setSecuredAreaOffset(self, value):
+    def setSecuredAreaOffset(self, value: Optional[PositiveInteger]) -> "SecureCommunicationProps":
+        """
+        This attribute defines the start position (offset in byte) of the area within the payload Pdu which will be secured.
+        A None value is a no-op and does not overwrite an existing securedAreaOffset.
+        """
         if value is not None:
             self.securedAreaOffset = value
         return self
@@ -1554,17 +1625,62 @@ class GeneralPurposeIPdu(IPdu):
 
 class SecureCommunicationPropsSet(FibexElement):
     """
-    Represents a set of secure communication properties that can be grouped
-    together to define common security configurations for communication channels.
+    Collection of properties used to configure SecuredIPdus.
     """
 
     # SecureCommunicationPropsSet method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.45, p.370
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] createSecureCommunicationAuthenticationProps     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getAuthenticationProps                           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createSecureCommunicationFreshnessProps          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getFreshnessProps                                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self, parent: ARObject, short_name: str):
+        """
+        Initializes the SecureCommunicationPropsSet.
+        """
         super().__init__(parent, short_name)
 
-        self.secureComProps: List[SecureCommunicationProps] = []
+        # Authentication properties used to configure Secured IPdus.
+        self.authenticationProps: List[SecureCommunicationAuthenticationProps] = []
+
+        # Freshness properties used to configure SecuredIPdus.
+        self.freshnessProps: List[SecureCommunicationFreshnessProps] = []
+
+    def createSecureCommunicationAuthenticationProps(self, short_name: str) -> SecureCommunicationAuthenticationProps:
+        """
+        Authentication properties used to configure Secured IPdus.
+        """
+        if not self.IsElementExists(short_name, SecureCommunicationAuthenticationProps):
+            props = SecureCommunicationAuthenticationProps(self, short_name)
+            self.addElement(props)
+            self.authenticationProps.append(props)
+        return self.getElement(short_name, SecureCommunicationAuthenticationProps)
+
+    def getAuthenticationProps(self) -> List[SecureCommunicationAuthenticationProps]:
+        """
+        Authentication properties used to configure Secured IPdus.
+        """
+        return self.authenticationProps
+
+    def createSecureCommunicationFreshnessProps(self, short_name: str) -> SecureCommunicationFreshnessProps:
+        """
+        Freshness properties used to configure SecuredIPdus.
+        """
+        if not self.IsElementExists(short_name, SecureCommunicationFreshnessProps):
+            props = SecureCommunicationFreshnessProps(self, short_name)
+            self.addElement(props)
+            self.freshnessProps.append(props)
+        return self.getElement(short_name, SecureCommunicationFreshnessProps)
+
+    def getFreshnessProps(self) -> List[SecureCommunicationFreshnessProps]:
+        """
+        Freshness properties used to configure SecuredIPdus.
+        """
+        return self.freshnessProps
 
 
 class UserDefinedPdu(Pdu):
@@ -1625,150 +1741,155 @@ class UserDefinedIPdu(IPdu):
 
 class SecureCommunicationAuthenticationProps(Identifiable):
     """
-    Defines authentication properties for secure communication,
-    including authentication build attempts, retries, and other
-    authentication-related security parameters.
+    Authentication properties used to configure SecuredIPdus.
     """
 
     # SecureCommunicationAuthenticationProps method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getAuthenticationBuildAttempts [x] impl  [ ] docstring  [ ] test
-    # [ ] setAuthenticationBuildAttempts [x] impl  [ ] docstring  [ ] test
-    # [ ] getAuthenticationRetries     [x] impl  [ ] docstring  [ ] test
-    # [ ] setAuthenticationRetries     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataId                    [x] impl  [ ] docstring  [ ] test
-    # [ ] setDataId                    [x] impl  [ ] docstring  [ ] test
-    # [ ] getSecuredComAuthenticationType [x] impl  [ ] docstring  [ ] test
-    # [ ] setSecuredComAuthenticationType [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.47, p.371
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getAuthInfoTxLength            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setAuthInfoTxLength            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
+        """
+        Initializes the SecureCommunicationAuthenticationProps.
+        """
         super().__init__(parent, short_name)
 
-        self.authenticationBuildAttempts: PositiveInteger = None
-        self.authenticationRetries: PositiveInteger = None
-        self.dataId: PositiveInteger = None
-        self.securedComAuthenticationType: ARLiteral = None
+        # This attribute defines the length in bits of the authentication code to be included in the payload of the authenticated Pdu.
+        self.authInfoTxLength: Optional[PositiveInteger] = None
 
-    def getAuthenticationBuildAttempts(self):
-        return self.authenticationBuildAttempts
+    def getAuthInfoTxLength(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines the length in bits of the authentication code to be included in the payload of the authenticated Pdu.
+        """
+        return self.authInfoTxLength
 
-    def setAuthenticationBuildAttempts(self, value):
+    def setAuthInfoTxLength(self, value: Optional[PositiveInteger]) -> "SecureCommunicationAuthenticationProps":
+        """
+        This attribute defines the length in bits of the authentication code to be included in the payload of the authenticated Pdu.
+        A None value is a no-op and does not overwrite an existing authInfoTxLength.
+        """
         if value is not None:
-            self.authenticationBuildAttempts = value
-        return self
-
-    def getAuthenticationRetries(self):
-        return self.authenticationRetries
-
-    def setAuthenticationRetries(self, value):
-        if value is not None:
-            self.authenticationRetries = value
-        return self
-
-    def getDataId(self):
-        return self.dataId
-
-    def setDataId(self, value):
-        if value is not None:
-            self.dataId = value
-        return self
-
-    def getSecuredComAuthenticationType(self):
-        return self.securedComAuthenticationType
-
-    def setSecuredComAuthenticationType(self, value):
-        if value is not None:
-            self.securedComAuthenticationType = value
+            self.authInfoTxLength = value
         return self
 
 
 class SecureCommunicationFreshnessProps(Identifiable):
     """
-    Defines freshness properties for secure communication,
-    including freshness value IDs, lengths, and other
-    freshness-related security parameters to prevent replay attacks.
+    Freshness properties used to configure SecuredIPdus.
     """
 
     # SecureCommunicationFreshnessProps method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getFreshnessValueId          [x] impl  [ ] docstring  [ ] test
-    # [ ] setFreshnessValueId          [x] impl  [ ] docstring  [ ] test
-    # [ ] getFreshnessValueLength      [x] impl  [ ] docstring  [ ] test
-    # [ ] setFreshnessValueLength      [x] impl  [ ] docstring  [ ] test
-    # [ ] getFreshnessValueTxLength    [x] impl  [ ] docstring  [ ] test
-    # [ ] setFreshnessValueTxLength    [x] impl  [ ] docstring  [ ] test
-    # [ ] getMessageLinkLength         [x] impl  [ ] docstring  [ ] test
-    # [ ] setMessageLinkLength         [x] impl  [ ] docstring  [ ] test
-    # [ ] getMessageLinkPosition       [x] impl  [ ] docstring  [ ] test
-    # [ ] setMessageLinkPosition       [x] impl  [ ] docstring  [ ] test
-    # [ ] getSecondaryFreshnessValueId [x] impl  [ ] docstring  [ ] test
-    # [ ] setSecondaryFreshnessValueId [x] impl  [ ] docstring  [ ] test
-    # [ ] getSecuredComFreshnessType   [x] impl  [ ] docstring  [ ] test
-    # [ ] setSecuredComFreshnessType   [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.46, p.371
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getFreshnessCounterSyncAttempts            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setFreshnessCounterSyncAttempts            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getFreshnessTimestampTimePeriodFactor      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setFreshnessTimestampTimePeriodFactor      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getFreshnessValueLength                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setFreshnessValueLength                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getFreshnessValueTxLength                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setFreshnessValueTxLength                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getUseFreshnessTimestamp                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setUseFreshnessTimestamp                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
+        """
+        Initializes the SecureCommunicationFreshnessProps.
+        """
         super().__init__(parent, short_name)
 
-        self.freshnessValueId: PositiveInteger = None
-        self.freshnessValueLength: PositiveInteger = None
-        self.freshnessValueTxLength: PositiveInteger = None
-        self.messageLinkLength: PositiveInteger = None
-        self.messageLinkPosition: PositiveInteger = None
-        self.secondaryFreshnessValueId: PositiveInteger = None
-        self.securedComFreshnessType: ARLiteral = None
+        # This attribute defines the number of Freshness Counter re-synchronization attempts when a verification failed for a Secured I-PDU. If the value is zero, there will be no additional verification attempt to synchronize with a potentially better fitting Freshness Counter value. This attribute is only applicable if useFreshnessTimestamp is FALSE.
+        self.freshnessCounterSyncAttempts: Optional[PositiveInteger] = None
 
-    def getFreshnessValueId(self):
-        return self.freshnessValueId
+        # This attribute defines a factor that specifies the time period for the Freshness Timestamp. It holds a multiplication factor that specifies the concrete meaning of a Freshness Timestamp increment by one on basis of microseconds.
+        self.freshnessTimestampTimePeriodFactor: Optional[PositiveInteger] = None
 
-    def setFreshnessValueId(self, value):
+        # This attribute defines the complete length in bits of the Freshness Value. As long as the key doesn't change the counter shall not overflow. The length of the counter shall be determined based on the expected life time of the corresponding key and frequency of usage of the counter.
+        self.freshnessValueLength: Optional[PositiveInteger] = None
+
+        # This attribute defines the length in bits of the Freshness Value to be included in the payload of the Secured I-PDU. This length is specific to the least significant bits of the complete Freshness Counter. If the attribute is 0 no Freshness Value is included in the Secured I-PDU.
+        self.freshnessValueTxLength: Optional[PositiveInteger] = None
+
+        # This attribute specifies whether the Freshness Value is generated through individual Freshness Counters or by a Timestamps. The value is set to TRUE when Timestamps are used.
+        self.useFreshnessTimestamp: Optional[Boolean] = None
+
+    def getFreshnessCounterSyncAttempts(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines the number of Freshness Counter re-synchronization attempts when a verification failed for a Secured I-PDU. If the value is zero, there will be no additional verification attempt to synchronize with a potentially better fitting Freshness Counter value. This attribute is only applicable if useFreshnessTimestamp is FALSE.
+        """
+        return self.freshnessCounterSyncAttempts
+
+    def setFreshnessCounterSyncAttempts(self, value: Optional[PositiveInteger]) -> "SecureCommunicationFreshnessProps":
+        """
+        This attribute defines the number of Freshness Counter re-synchronization attempts when a verification failed for a Secured I-PDU. If the value is zero, there will be no additional verification attempt to synchronize with a potentially better fitting Freshness Counter value. This attribute is only applicable if useFreshnessTimestamp is FALSE.
+        A None value is a no-op and does not overwrite an existing freshnessCounterSyncAttempts.
+        """
         if value is not None:
-            self.freshnessValueId = value
+            self.freshnessCounterSyncAttempts = value
         return self
 
-    def getFreshnessValueLength(self):
+    def getFreshnessTimestampTimePeriodFactor(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines a factor that specifies the time period for the Freshness Timestamp. It holds a multiplication factor that specifies the concrete meaning of a Freshness Timestamp increment by one on basis of microseconds.
+        """
+        return self.freshnessTimestampTimePeriodFactor
+
+    def setFreshnessTimestampTimePeriodFactor(self, value: Optional[PositiveInteger]) -> "SecureCommunicationFreshnessProps":
+        """
+        This attribute defines a factor that specifies the time period for the Freshness Timestamp. It holds a multiplication factor that specifies the concrete meaning of a Freshness Timestamp increment by one on basis of microseconds.
+        A None value is a no-op and does not overwrite an existing freshnessTimestampTimePeriodFactor.
+        """
+        if value is not None:
+            self.freshnessTimestampTimePeriodFactor = value
+        return self
+
+    def getFreshnessValueLength(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines the complete length in bits of the Freshness Value. As long as the key doesn't change the counter shall not overflow. The length of the counter shall be determined based on the expected life time of the corresponding key and frequency of usage of the counter.
+        """
         return self.freshnessValueLength
 
-    def setFreshnessValueLength(self, value):
+    def setFreshnessValueLength(self, value: Optional[PositiveInteger]) -> "SecureCommunicationFreshnessProps":
+        """
+        This attribute defines the complete length in bits of the Freshness Value. As long as the key doesn't change the counter shall not overflow. The length of the counter shall be determined based on the expected life time of the corresponding key and frequency of usage of the counter.
+        A None value is a no-op and does not overwrite an existing freshnessValueLength.
+        """
         if value is not None:
             self.freshnessValueLength = value
         return self
 
-    def getFreshnessValueTxLength(self):
+    def getFreshnessValueTxLength(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines the length in bits of the Freshness Value to be included in the payload of the Secured I-PDU. This length is specific to the least significant bits of the complete Freshness Counter. If the attribute is 0 no Freshness Value is included in the Secured I-PDU.
+        """
         return self.freshnessValueTxLength
 
-    def setFreshnessValueTxLength(self, value):
+    def setFreshnessValueTxLength(self, value: Optional[PositiveInteger]) -> "SecureCommunicationFreshnessProps":
+        """
+        This attribute defines the length in bits of the Freshness Value to be included in the payload of the Secured I-PDU. This length is specific to the least significant bits of the complete Freshness Counter. If the attribute is 0 no Freshness Value is included in the Secured I-PDU.
+        A None value is a no-op and does not overwrite an existing freshnessValueTxLength.
+        """
         if value is not None:
             self.freshnessValueTxLength = value
         return self
 
-    def getMessageLinkLength(self):
-        return self.messageLinkLength
+    def getUseFreshnessTimestamp(self) -> Optional[Boolean]:
+        """
+        This attribute specifies whether the Freshness Value is generated through individual Freshness Counters or by a Timestamps. The value is set to TRUE when Timestamps are used.
+        """
+        return self.useFreshnessTimestamp
 
-    def setMessageLinkLength(self, value):
+    def setUseFreshnessTimestamp(self, value: Optional[Boolean]) -> "SecureCommunicationFreshnessProps":
+        """
+        This attribute specifies whether the Freshness Value is generated through individual Freshness Counters or by a Timestamps. The value is set to TRUE when Timestamps are used.
+        A None value is a no-op and does not overwrite an existing useFreshnessTimestamp.
+        """
         if value is not None:
-            self.messageLinkLength = value
-        return self
-
-    def getMessageLinkPosition(self):
-        return self.messageLinkPosition
-
-    def setMessageLinkPosition(self, value):
-        if value is not None:
-            self.messageLinkPosition = value
-        return self
-
-    def getSecondaryFreshnessValueId(self):
-        return self.secondaryFreshnessValueId
-
-    def setSecondaryFreshnessValueId(self, value):
-        if value is not None:
-            self.secondaryFreshnessValueId = value
-        return self
-
-    def getSecuredComFreshnessType(self):
-        return self.securedComFreshnessType
-
-    def setSecuredComFreshnessType(self, value):
-        if value is not None:
-            self.securedComFreshnessType = value
+            self.useFreshnessTimestamp = value
         return self
