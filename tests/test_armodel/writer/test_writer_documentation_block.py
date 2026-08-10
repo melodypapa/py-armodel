@@ -6,6 +6,7 @@ import tempfile
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, String
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
+from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import FloatEnum, PgwideEnum
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import DefItem, DefList, LabeledItem, LabeledList
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.Note import Note, NoteTypeEnum
@@ -82,6 +83,8 @@ class TestDocumentationBlockRoundTrip:
         l5.setL("EN")
         l5.setValue("verbatim text")
         verbatim.addL5(l5)
+        verbatim.setFloat(FloatEnum().setValue(FloatEnum.NO_FLOAT))
+        verbatim.setPgwide(PgwideEnum().setValue(PgwideEnum.PGWIDE))
         intro.setVerbatim(verbatim)
 
         msr_query_arg = MsrQueryArg()
@@ -144,6 +147,8 @@ class TestDocumentationBlockRoundTrip:
             verbatim = intro.getVerbatim()
             assert verbatim is not None
             assert verbatim.getL5s()[0].getValue() == "verbatim text"
+            assert verbatim.getFloat().getValue() == "noFloat"
+            assert verbatim.getPgwide().getValue() == "pgwide"
 
             msr_query_p2 = intro.getMsrQueryP2()
             assert msr_query_p2 is not None

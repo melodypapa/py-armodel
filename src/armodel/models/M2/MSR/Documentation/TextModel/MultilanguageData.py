@@ -2,11 +2,12 @@ from __future__ import annotations
 
 from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, NameToken, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, String
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LOverviewParagraph, LPlainText
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LVerbatim
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import Paginateable
+from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import FloatEnum, PgwideEnum
 
 
 class MultiLanguageParagraph(Paginateable):
@@ -116,14 +117,14 @@ class MultiLanguageVerbatim(Paginateable):
     # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getAllowBreak    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setAllowBreak    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHelpEntry     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setHelpEntry     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getFloat         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setFloat         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPgwide        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPgwide        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getHelpEntry     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setHelpEntry     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] addL5            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getL5s           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getPgwide        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPgwide        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
@@ -131,17 +132,17 @@ class MultiLanguageVerbatim(Paginateable):
         # This indicates if the verbatim text might be split on multiple pages. Default is "1".
         self.allowBreak: Optional[NameToken] = None
 
+        # Indicate whether it is allowed to break the element. The following values are allowed:
+        self.float: Optional[FloatEnum] = None
+
         # This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator.
         self.helpEntry: Optional[String] = None
 
-        # Indicate whether it is allowed to break the element. The following values are allowed:
-        self.float: Optional[ARLiteral] = None
-
-        # Used to indicate wether the figure should take the complete page width (value = "pgwide") or not (value = "noPgwide").
-        self.pgwide: Optional[ARLiteral] = None
-
         # This the text in one particular language.
         self.l5s: List[LVerbatim] = []
+
+        # Used to indicate wether the figure should take the complete page width (value = "pgwide") or not (value = "noPgwide").
+        self.pgwide: Optional[PgwideEnum] = None
 
     def getAllowBreak(self) -> Optional[NameToken]:
         """
@@ -161,6 +162,26 @@ class MultiLanguageVerbatim(Paginateable):
         """
         if value is not None:
             self.allowBreak = value
+        return self
+
+    def getFloat(self) -> Optional[FloatEnum]:
+        """
+        Indicate whether it is allowed to break the element. The following values are allowed:
+
+        Returns:
+            Whether it is allowed to break the element
+        """
+        return self.float
+
+    def setFloat(self, value: Optional[FloatEnum]) -> "MultiLanguageVerbatim":
+        """
+        Indicate whether it is allowed to break the element. The following values are allowed:. A None value is a no-op and does not overwrite an existing float.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.float = value
         return self
 
     def getHelpEntry(self) -> Optional[String]:
@@ -183,46 +204,6 @@ class MultiLanguageVerbatim(Paginateable):
             self.helpEntry = value
         return self
 
-    def getFloat(self) -> Optional[ARLiteral]:
-        """
-        Indicate whether it is allowed to break the element. The following values are allowed:
-
-        Returns:
-            Whether it is allowed to break the element
-        """
-        return self.float
-
-    def setFloat(self, value: Optional[ARLiteral]) -> "MultiLanguageVerbatim":
-        """
-        Indicate whether it is allowed to break the element. The following values are allowed:. A None value is a no-op and does not overwrite an existing float.
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.float = value
-        return self
-
-    def getPgwide(self) -> Optional[ARLiteral]:
-        """
-        Used to indicate wether the figure should take the complete page width (value = "pgwide") or not (value = "noPgwide").
-
-        Returns:
-            Whether the figure should take the complete page width
-        """
-        return self.pgwide
-
-    def setPgwide(self, value: Optional[ARLiteral]) -> "MultiLanguageVerbatim":
-        """
-        Used to indicate wether the figure should take the complete page width (value = "pgwide") or not (value = "noPgwide"). A None value is a no-op and does not overwrite an existing pgwide.
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.pgwide = value
-        return self
-
     def addL5(self, value: Optional[LVerbatim]) -> "MultiLanguageVerbatim":
         """
         This the text in one particular language. A None value is a no-op and is not appended.
@@ -242,3 +223,23 @@ class MultiLanguageVerbatim(Paginateable):
             The texts in particular languages
         """
         return self.l5s
+
+    def getPgwide(self) -> Optional[PgwideEnum]:
+        """
+        Used to indicate wether the figure should take the complete page width (value = "pgwide") or not (value = "noPgwide").
+
+        Returns:
+            Whether the figure should take the complete page width
+        """
+        return self.pgwide
+
+    def setPgwide(self, value: Optional[PgwideEnum]) -> "MultiLanguageVerbatim":
+        """
+        Used to indicate wether the figure should take the complete page width (value = "pgwide") or not (value = "noPgwide"). A None value is a no-op and does not overwrite an existing pgwide.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.pgwide = value
+        return self

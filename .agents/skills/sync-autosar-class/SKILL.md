@@ -1,11 +1,11 @@
 ---
-name: aligning-autosar-class
-description: "Use when aligning, implementing, or extending an AUTOSAR model class in py-armodel against its PDF spec table. Triggers: 'align <ClassName>', 'implement <ClassName> to spec', 'add reader/writer coverage for <ClassName>', 'update the class checklist', 'sync docstrings to the PDF', or working on any class under src/armodel/models/M2/AUTOSARTemplates/. py-armodel project."
+name: sync-autosar-class
+description: "Use when syncing, aligning, implementing, or extending an AUTOSAR model class in py-armodel against its PDF spec table. Triggers: 'sync <ClassName>', 'implement <ClassName> to spec', 'add reader/writer coverage for <ClassName>', 'update the class checklist', 'sync docstrings to the PDF', or working on any class under src/armodel/models/M2/AUTOSARTemplates/. py-armodel project."
 author: melodypapa
 repository: https://github.com/melodypapa/py-armodel
 license: MIT
 metadata:
-  version: "1.4.0"
+  version: "1.5.1"
   keywords:
     - AUTOSAR
     - model-class
@@ -17,11 +17,11 @@ metadata:
     - py-armodel
 ---
 
-# Aligning an AUTOSAR Model Class (TDD)
+# Syncing an AUTOSAR Model Class (TDD)
 
 ## Core Principle
 
-The AUTOSAR PDF spec table is the source of truth. Align via a **9-step TDD workflow**:
+The AUTOSAR PDF spec table is the source of truth. Sync via a **9-step TDD workflow**:
 write the failing test (Red) before the implementation (Green), **twice** — once for the
 model, once for the reader/writer. Set the release before parse/write:
 
@@ -30,13 +30,13 @@ document = AUTOSAR.getInstance()
 document.setARRelease('R23-11')
 ```
 
-Detailed rules live in **`rules.md`** (*Rule 0001*–*Rule 0014*); this skill is
+Detailed rules live in **`rules.md`** (*Rule 0001*–*Rule 0015*); this skill is
 self-contained (no external rules document). Each step below points into `rules.md` for
 the detail — do not re-derive it here.
 
 ## When to use / NOT to use
 
-**Use** when aligning, implementing, or extending a model class under
+**Use** when syncing, implementing, or extending a model class under
 `src/armodel/models/M2/AUTOSARTemplates/` against its PDF spec table.
 
 **Not for:** non-AUTOSAR classes; reader/writer-only refactors with no spec change;
@@ -44,15 +44,15 @@ trivial edits that don't touch the class's spec contract.
 
 ## The stamp is the review gate
 
-A class counts as **reviewed/aligned ONLY** when its source carries the
+A class counts as **reviewed/synced ONLY** when its source carries the
 `# Spec verified: R<YY>-<MM>` marker (Step 8 / Rule 0012.1). That marker is the single
 provenance signal — nothing else (a fully-`[x]` checklist, passing tests, or a clean
 round-trip) certifies a class as reviewed.
 
-- **Has the marker** → the class has been aligned. Treat its fields, checklist,
+- **Has the marker** → the class has been synced. Treat its fields, checklist,
   docstrings, and reader/writer coverage as authoritative. Re-run the workflow only when
   the spec changes (Rule 0012.3 drift) or when extending the class.
-- **No marker** → the class has **not** been reviewed. Align it **from the beginning**:
+- **No marker** → the class has **not** been reviewed. Sync it **from the beginning**:
   run the full 9-step workflow starting at Step 1, with the failing model test first
   (Step 2). Do **not** trust pre-existing fields/checklist/docstrings — they may be
   fabricated or stale (Rule 0001.3 shape-3 detector; the Rule 0002 field-to-spec
@@ -60,7 +60,7 @@ round-trip) certifies a class as reviewed.
 - **Exception — no own spec table:** a class whose attributes are XSD-only legitimately
   carries no marker and all-`[ ]` rows. It is *not* "unreviewed" — it is excluded
   (Rule 0002). Confirm the exception before treating a marker-less class as
-  align-from-scratch.
+  sync-from-scratch.
 
 ## Input
 
@@ -68,14 +68,14 @@ round-trip) certifies a class as reviewed.
 
 | Artifact | Path |
 |---|---|
-| source | `src/armodel/models/M2/AUTOSARTemplates/<pkg>/<ClassName>.py` (or `<pkg>/<ClassName>/__init__.py`) |
+| source | `src/armodel/models/M2/AUTOSARTemplates/<pkg>/<ClassName>.py` (leaf package → `<pkg>.py`; non-leaf package with subpackages → `<pkg>/__init__.py`. See Rule 0007) |
 | model test | `tests/test_armodel/models/M2/AUTOSARTemplates/<pkg>/test_<ClassName>.py` → `class Test<ClassName>` — pairs 1:1 with source `<ClassName>.py` (Step 2) |
 | parser test | `tests/test_armodel/parser/test_*.py` → `class Test*` (load with `ARXMLParser`, assert model fields; Step 5) |
 | writer test | `tests/test_armodel/writer/test_*.py` → `class Test*` (set → save → reload round-trip; Step 5) |
 | spec markdown | `grep "Table N.M: <ClassName>" autosar/markdown/AUTOSAR_*_TPS_*.md` — **primary source for all text**: `Note` (→ docstrings), `Attribute`/`Base`, `Table N.M` id, table name (via filename). Covers **both** `CP_TPS` (Classic) and `FO_TPS` (Foundation) |
 | spec PDF | `autosar/pdf/AUTOSAR_*_TPS_*.pdf` — **opened only to read the page number** (`p.NN`); the markdown carries no page numbers |
 | deviation records | the project deviation tracker (format in *Rule 0014*) |
-| XSD ground truth | `autosar-pdf/examples/xsd/` |
+| XSD ground truth | `docs/requirements/xsd/` |
 
 ## The 9-step workflow (TDD)
 
@@ -84,7 +84,7 @@ implementation before its failing test.
 
 | Step | What | Rules | Phase |
 |---|---|---|---|
-| 1 | Sync members & description from the PDF by class name | 0001 (§§1.1–1.5, 1.11), 0007 | — |
+| 1 | Sync members & description from the PDF by class name | 0001 (§§1.1–1.5, 1.11), 0007, 0015 | — |
 | **2** | **Write the model class unit test** | 0006 | **Red** |
 | **3** | **Implement the model class** | 0001 (§§1.6, 1.8, 1.10), 0003, 0004, 0005, 0008, 0009, 0010, 0011 | **Green** |
 | 4 | Sync description (docstrings & comments) | 0012 (§§2–3) | — |
@@ -96,33 +96,15 @@ implementation before its failing test.
 
 **Essence per step** (full detail in `rules.md`):
 
-- **1** — Extract `Note`/`Base`/`Attribute` rows in displayed order; confirm Class vs
-  Enumeration header; *Rule 0007* (Package→module location, no shadowing) is part of
-  this step.
-- **2** — `test_initialization` (defaults), `test_get_set_*` (round-trip + **None
-  no-op**), `create*`/`add*` (append + duplicate-returns-existing). **Abstract class?**
-  test `__init__` + base accessors through a concrete subclass (*Rule 0006*).
-- **3** — Most-derived base from the `Base` chain; dedicated typed list fields for `*`
-  `aggr` (never registry filters); `createXxx` only for `Referrable` children; collect &
-  report referenced non-existent classes (do **not** block). **Enum (`AREnum`)?** produce
-  literals not accessors (*Rules 0010–0011*).
-- **4** — Class docstring, inline `__init__` comments, and getter/setter docstrings copy
-  the spec `Note` **verbatim from the markdown** (no summarizing/rephrasing); the PDF is
-  opened only for the `p.NN` page. A guarded setter also appends the None-no-op
-  code-behavior sentence.
-- **5** — **Reader/writer tests live in their own folders**, not the per-class mirror:
-  parser → `tests/test_armodel/parser/`, writer → `tests/test_armodel/writer/`
-  (both `class Test*`, organized by feature/handler). Assert **field values** (not just
-  `len(...) == n`); add an empty-wrapper-list case.
-- **6** — Reader populates via mutators (`readXxx`→`setXxx`/`createXxx`/`addXxx`), writer
-  reads via getters (`writeXxx`→`getXxx`); cover wrapper lists + polymorphic five-place
-  dispatch; **no chained mutator calls** (*Rule 0013*).
-- **7** — One row per method, source order, all `[x]`, using the 5-column format below.
-- **8** — Record deviations (*Rule 0014*); **omit `# Spec verified:`** while any
-  placeholder/deviation remains; report the Step-3 referenced classes here.
-- **9** — `pytest` + `flake8` + `ruff check` + `black-check` + the set-based script + a
-  lossless integration round-trip (`npm run flake8` / `npm run ruff-check` /
-  `npm run black-check` are the cross-platform forms). **Stop on any failure.**
+- **1** — Extract `Note`/`Base`/`Attribute` rows in displayed order; confirm Class-vs-Enumeration header. *Rule 0015* arbitrates XSD-vs-PDF/markdown attribute conflicts (the PDF/markdown table wins — model nothing the PDF lacks).
+- **2** — `test_initialization` (defaults), `test_get_set_*` (round-trip + **None no-op**), `create*`/`add*` (append, duplicate returns existing). Abstract class → test `__init__` + base accessors via a concrete subclass.
+- **3** — Most-derived base from the `Base` chain; dedicated typed-list fields for `*` `aggr` (never registry filters); `createXxx` only for `Referrable` children; collect referenced missing classes and report in Step 8 (don't block). Enum (`AREnum`) → literals, not accessors.
+- **4** — Copy the spec `Note` **verbatim from the markdown** into the class docstring, `__init__` comments, and getter/setter docstrings (PDF opened only for the `p.NN` page); guarded setters append the None-no-op sentence.
+- **5** — Reader/writer tests live in **their own folders** (`tests/test_armodel/parser/`, `.../writer/`, both `class Test*`), not the per-class mirror. Assert **field values**, not just `len(...) == n`; add an empty-wrapper-list case.
+- **6** — Reader populates via mutators (`readXxx`→`set/create/addXxx`), writer reads via getters (`writeXxx`→`getXxx`); cover wrapper lists + polymorphic five-place dispatch; **no chained mutator calls**.
+- **7** — One row per method, source order, all `[x]`, 5-column format below.
+- **8** — Record deviations; **omit `# Spec verified:`** while any placeholder/deviation remains; report the Step-3 referenced classes here.
+- **9** — `pytest` + `flake8` + `ruff check` + `black-check` + the set-based script + a lossless integration round-trip (`npm run flake8` / `ruff-check` / `black-check` are the cross-platform forms). **Stop on any failure.**
 
 **Workflow adaptations** (which steps still apply):
 
@@ -175,6 +157,11 @@ detail: *Rule 0002*.
 - **Recording a `naming`/`missing`/`type` deviation and leaving it** — to-fix: rename/
   retype/cover and **remove** the row (*Rule 0014*).
 - **`T | None` / `list[…]` hints** — Python ≥ 3.8: `Optional[T]` / `List[T]` (*Rule 0003*).
+- **Flattened inherited members on a subclass** — the subclass's own spec table (`Attribute`
+  column) has fewer rows than the subclass has fields; the "extra" fields live in a *separate
+  base-class table* named in `Base`. Model that base class and relocate the members there;
+  reduce the subclass to its own attributes (*Rule 0001.3*). A fully-`[x]` checklist + clean
+  round-trip **will not** catch this — the field-to-spec cross-check is the gate.
 
 | Rationalization | Reality |
 |---|---|
@@ -184,8 +171,8 @@ detail: *Rule 0002*.
 
 ## References
 
-- **Rules (self-contained):** `rules.md` in this skill folder — *Rule 0001*–*Rule 0014*.
+- **Rules (self-contained):** `rules.md` in this skill folder — *Rule 0001*–*Rule 0015*.
 - Coding standards: `docs/development/coding_rules.md`.
 - Spec markdown (primary — source of all text: `Note`, `Table N.M` id, table name): `autosar/markdown/AUTOSAR_*_TPS_*.md` (`CP_TPS` + `FO_TPS`).
 - Spec PDFs (opened only for the `p.NN` page number): `autosar/pdf/AUTOSAR_*_TPS_*.pdf`.
-- XSD ground truth: `autosar-pdf/examples/xsd/`.
+- XSD ground truth: `docs/requirements/xsd/`.

@@ -148,10 +148,10 @@ class TestMultiLanguageVerbatim:
 
     def test_multi_language_verbatim_float_methods(self):
         """Test the float getter and setter."""
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
+        from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import FloatEnum
 
         multi_lang_verbatim = MultiLanguageVerbatim()
-        float_value = ARLiteral().setValue("no")
+        float_value = FloatEnum().setValue(FloatEnum.NO_FLOAT)
 
         result = multi_lang_verbatim.setFloat(float_value)
         assert multi_lang_verbatim.getFloat() == float_value
@@ -162,10 +162,10 @@ class TestMultiLanguageVerbatim:
 
     def test_multi_language_verbatim_pgwide_methods(self):
         """Test the pgwide getter and setter."""
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
+        from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import PgwideEnum
 
         multi_lang_verbatim = MultiLanguageVerbatim()
-        pgwide = ARLiteral().setValue("noPgwide")
+        pgwide = PgwideEnum().setValue(PgwideEnum.NO_PGWIDE)
 
         result = multi_lang_verbatim.setPgwide(pgwide)
         assert multi_lang_verbatim.getPgwide() == pgwide

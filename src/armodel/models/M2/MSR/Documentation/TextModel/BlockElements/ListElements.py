@@ -362,18 +362,12 @@ class DefItem(ARObject):
     def getDef(self) -> Optional["DocumentationBlock"]:
         """
         This represents the definition part of the DefItem.
-
-        Returns:
-            The definition part of the DefItem
         """
         return self.def_doc
 
     def setDef(self, value: Optional["DocumentationBlock"]) -> "DefItem":
         """
         This represents the definition part of the DefItem. A None value is a no-op and does not overwrite an existing def.
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.def_doc = value
@@ -382,18 +376,12 @@ class DefItem(ARObject):
     def getHelpEntry(self) -> Optional[String]:
         """
         This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator.
-
-        Returns:
-            The entry point in an online help system
         """
         return self.helpEntry
 
     def setHelpEntry(self, value: Optional[String]) -> "DefItem":
         """
         This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. A None value is a no-op and does not overwrite an existing helpEntry.
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.helpEntry = value

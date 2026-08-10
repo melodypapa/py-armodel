@@ -124,6 +124,12 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     TracedFailure,
     TransientFault,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation import (
+    SignalServiceTranslationElementProps,
+    SignalServiceTranslationEventProps,
+    SignalServiceTranslationProps,
+    SignalServiceTranslationPropsSet,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
@@ -1451,8 +1457,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeARObjectAttributes(child_element, verbatim)
             if verbatim.getAllowBreak() is not None:
                 child_element.attrib["ALLOWBREAK"] = verbatim.getAllowBreak().getValue()
+            if verbatim.getFloat() is not None:
+                child_element.attrib["FLOAT"] = verbatim.getFloat().getValue()
             if verbatim.getHelpEntry() is not None:
                 child_element.attrib["HELPENTRY"] = verbatim.getHelpEntry().getValue()
+            if verbatim.getPgwide() is not None:
+                child_element.attrib["PGWIDE"] = verbatim.getPgwide().getValue()
             for l5 in verbatim.getL5s():
                 self.setLVerbatim(child_element, l5)
 
@@ -6912,6 +6922,59 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "DYNAMIC-LENGTH", signal.getDynamicLength())
         self.setSwDataDefProps(child_element, "PHYSICAL-PROPS", signal.getPhysicalProps())
 
+    def writeSignalServiceTranslationPropsSet(self, element: ET.Element, props_set: SignalServiceTranslationPropsSet):
+        self.logger.debug("SignalServiceTranslationPropsSet %s" % props_set.getShortName())
+        child_element = ET.SubElement(element, "SIGNAL-SERVICE-TRANSLATION-PROPS-SET")
+        self.writeIdentifiable(child_element, props_set)
+        props_list = props_set.getSignalServiceTranslationProps()
+        if len(props_list) > 0:
+            for props in props_list:
+                self.writeSignalServiceTranslationProps(child_element, props)
+
+    def writeSignalServiceTranslationProps(self, element: ET.Element, props: SignalServiceTranslationProps):
+        self.logger.debug("SignalServiceTranslationProps %s" % props.getShortName())
+        child_element = ET.SubElement(element, "SIGNAL-SERVICE-TRANSLATION-PROPS")
+        self.writeIdentifiable(child_element, props)
+        consumed_event_group_refs = props.getControlConsumedEventGroupRefs()
+        if len(consumed_event_group_refs) > 0:
+            refs_tag = ET.SubElement(child_element, "CONTROL-CONSUMED-EVENT-GROUP-REFS")
+            for ref in consumed_event_group_refs:
+                self.setChildElementOptionalRefType(refs_tag, "CONTROL-CONSUMED-EVENT-GROUP-REF", ref)
+        pnc_refs = props.getControlPncRefs()
+        if len(pnc_refs) > 0:
+            refs_tag = ET.SubElement(child_element, "CONTROL-PNC-REFS")
+            for ref in pnc_refs:
+                self.setChildElementOptionalRefType(refs_tag, "CONTROL-PNC-REF", ref)
+        provided_event_group_refs = props.getControlProvidedEventGroupRefs()
+        if len(provided_event_group_refs) > 0:
+            refs_tag = ET.SubElement(child_element, "CONTROL-PROVIDED-EVENT-GROUP-REFS")
+            for ref in provided_event_group_refs:
+                self.setChildElementOptionalRefType(refs_tag, "CONTROL-PROVIDED-EVENT-GROUP-REF", ref)
+        self.setChildElementOptionalLiteral(child_element, "SERVICE-CONTROL", props.getServiceControl())
+        event_props_list = props.getSignalServiceTranslationEventProps()
+        if len(event_props_list) > 0:
+            for event_props in event_props_list:
+                self.writeSignalServiceTranslationEventProps(child_element, event_props)
+
+    def writeSignalServiceTranslationEventProps(self, element: ET.Element, event_props: SignalServiceTranslationEventProps):
+        self.logger.debug("SignalServiceTranslationEventProps %s" % event_props.getShortName())
+        child_element = ET.SubElement(element, "SIGNAL-SERVICE-TRANSLATION-EVENT-PROPS")
+        self.writeIdentifiable(child_element, event_props)
+        element_props_list = event_props.getSignalServiceTranslationElementProps()
+        if len(element_props_list) > 0:
+            for element_props in element_props_list:
+                self.writeSignalServiceTranslationElementProps(child_element, element_props)
+        self.setChildElementOptionalBooleanValue(child_element, "SAFE-TRANSLATION", event_props.getSafeTranslation())
+        self.setChildElementOptionalBooleanValue(child_element, "SECURE-TRANSLATION", event_props.getSecureTranslation())
+        self.setVariableDataPrototypeInSystemInstanceRef(child_element, "TRANSLATION-TARGET", event_props.getTranslationTarget())
+
+    def writeSignalServiceTranslationElementProps(self, element: ET.Element, element_props: SignalServiceTranslationElementProps):
+        self.logger.debug("SignalServiceTranslationElementProps %s" % element_props.getShortName())
+        child_element = ET.SubElement(element, "SIGNAL-SERVICE-TRANSLATION-ELEMENT-PROPS")
+        self.writeIdentifiable(child_element, element_props)
+        self.setDataFilter(child_element, "FILTER", element_props.getFilter())
+        self.setChildElementOptionalBooleanValue(child_element, "TRANSMISSION-TRIGGER", element_props.getTransmissionTrigger())
+
     def writeGenericEthernetFrame(self, element: ET.Element, frame: GenericEthernetFrame):
         self.logger.debug("Write GenericEthernetFrame %s" % frame.getShortName())
         child_element = ET.SubElement(element, "ETHERNET-FRAME")
@@ -7562,6 +7625,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeISignalIPdu(element, ar_element)
         elif isinstance(ar_element, SystemSignal):
             self.writeSystemSignal(element, ar_element)
+        elif isinstance(ar_element, SignalServiceTranslationPropsSet):
+            self.writeSignalServiceTranslationPropsSet(element, ar_element)
         elif isinstance(ar_element, ParameterInterface):
             self.writeParameterInterface(element, ar_element)
         elif isinstance(ar_element, NvDataInterface):

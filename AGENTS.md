@@ -114,4 +114,4 @@ parser = ARXMLParser(options={"warning": True})  # warnings instead of exception
 
 - `CLAUDE.md` — comprehensive project guidance (this file is the condensed agent reference)
 - `docs/development/coding_rules.md` — detailed coding standards
-- `docs/development/class_check_rules.md` — 12 rules for aligning model classes with the AUTOSAR PDF spec (method parity checklists, spec-based docstrings, `Optional`/`List` hints, setter chaining). Recent work = aligning model classes to these rules.
+- `docs/development/class_check_rules.md` — 12 rules for syncing model classes with the AUTOSAR PDF spec (method parity checklists, spec-based docstrings, `Optional`/`List` hints, setter chaining). Recent work = syncing model classes to these rules.

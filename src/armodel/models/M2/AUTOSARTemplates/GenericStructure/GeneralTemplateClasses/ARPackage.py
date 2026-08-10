@@ -38,6 +38,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatMap
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.McGroups import McGroup
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import McFunction
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroup
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation import SignalServiceTranslationPropsSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import KeywordSet
@@ -1165,6 +1166,12 @@ class ARPackage(CollectableElement):
             element = SystemSignalGroup(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, SystemSignalGroup)
+
+    def createSignalServiceTranslationPropsSet(self, short_name: str) -> SignalServiceTranslationPropsSet:
+        if not self.IsElementExists(short_name, SignalServiceTranslationPropsSet):
+            element = SignalServiceTranslationPropsSet(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, SignalServiceTranslationPropsSet)
 
     def createISignalIPdu(self, short_name: str) -> ISignalIPdu:
         if not self.IsElementExists(short_name, ISignalIPdu):

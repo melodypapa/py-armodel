@@ -166,18 +166,12 @@ class LanguageSpecific(ARObject, ABC):
     def getL(self) -> Optional[LEnum]:
         """
         This attribute denotes the language in which the language specific document entity is given. Note that "FOR-ALL" means, that the entity is applicable to all languages. It is language neutral. It follows ISO 639-1:2002 and is specified in upper case.
-
-        Returns:
-            The language in which the document entity is given
         """
         return self.l
 
     def setL(self, value: Optional[LEnum]) -> "LanguageSpecific":
         """
         This attribute denotes the language in which the language specific document entity is given. Note that "FOR-ALL" means, that the entity is applicable to all languages. It is language neutral. It follows ISO 639-1:2002 and is specified in upper case. A None value is a no-op and does not overwrite an existing l.
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.l = value
@@ -186,18 +180,12 @@ class LanguageSpecific(ARObject, ABC):
     def getValue(self) -> str:
         """
         Gets the text content of the language specific entity.
-
-        Returns:
-            The text content of the language specific entity
         """
         return self.value
 
     def setValue(self, value: str) -> "LanguageSpecific":
         """
         Sets the text content of the language specific entity. A None value is a no-op and does not overwrite an existing value.
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.value = value
@@ -228,30 +216,31 @@ class LParagraph(LanguageSpecific):
         super().__init__()
 
 
-class LLongName(LanguageSpecific):
+class MixedContentForLongName(ARObject, ABC):
     """
     This is the model for titles and long-names. It allows some emphasis and index entries but no reference target (which is provided by the identifiable in question). It is intended that the content model can also be rendered as plain text. The abstract class can be used for single language as well as for multi language elements.
     """
 
-    # LLongName method parity checklist:
-    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.8, p.62
+    # MixedContentForLongName method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.9, p.63
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getE                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setE                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIe                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIe                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSub               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSub               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSup               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSup               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTt                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTt                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getBlueprintValue    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setBlueprintValue    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getE         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setE         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getIe        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIe        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSub       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSub       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSup       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSup       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTt        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTt        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
+        if type(self) is MixedContentForLongName:
+            raise TypeError("MixedContentForLongName is an abstract class.")
+
         super().__init__()
 
         # This is emphasized text.
@@ -269,24 +258,15 @@ class LLongName(LanguageSpecific):
         # This is a technical term.
         self.tt: Optional[Tt] = None
 
-        # This represents a description that documents how the value shall be defined when deriving objects from the blueprint.
-        self.blueprintValue: Optional[str] = None
-
     def getE(self) -> Optional[EmphasisText]:
         """
         This is emphasized text.
-
-        Returns:
-            The emphasized text
         """
         return self.e
 
-    def setE(self, value: Optional[EmphasisText]) -> "LLongName":
+    def setE(self, value: Optional[EmphasisText]) -> "MixedContentForLongName":
         """
         This is emphasized text. A None value is a no-op and does not overwrite an existing e.
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.e = value
@@ -295,18 +275,12 @@ class LLongName(LanguageSpecific):
     def getIe(self) -> Optional[IndexEntry]:
         """
         This is an index entry.
-
-        Returns:
-            The index entry
         """
         return self.ie
 
-    def setIe(self, value: Optional[IndexEntry]) -> "LLongName":
+    def setIe(self, value: Optional[IndexEntry]) -> "MixedContentForLongName":
         """
         This is an index entry. A None value is a no-op and does not overwrite an existing ie.
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.ie = value
@@ -315,18 +289,12 @@ class LLongName(LanguageSpecific):
     def getSub(self) -> Optional[Superscript]:
         """
         This is subscript text.
-
-        Returns:
-            The subscript text
         """
         return self.sub
 
-    def setSub(self, value: Optional[Superscript]) -> "LLongName":
+    def setSub(self, value: Optional[Superscript]) -> "MixedContentForLongName":
         """
         This is subscript text. A None value is a no-op and does not overwrite an existing sub.
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.sub = value
@@ -335,18 +303,12 @@ class LLongName(LanguageSpecific):
     def getSup(self) -> Optional[Superscript]:
         """
         This is superscript text.
-
-        Returns:
-            The superscript text
         """
         return self.sup
 
-    def setSup(self, value: Optional[Superscript]) -> "LLongName":
+    def setSup(self, value: Optional[Superscript]) -> "MixedContentForLongName":
         """
         This is superscript text. A None value is a no-op and does not overwrite an existing sup.
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.sup = value
@@ -355,38 +317,46 @@ class LLongName(LanguageSpecific):
     def getTt(self) -> Optional[Tt]:
         """
         This is a technical term.
-
-        Returns:
-            The technical term
         """
         return self.tt
 
-    def setTt(self, value: Optional[Tt]) -> "LLongName":
+    def setTt(self, value: Optional[Tt]) -> "MixedContentForLongName":
         """
         This is a technical term. A None value is a no-op and does not overwrite an existing tt.
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.tt = value
         return self
 
+
+class LLongName(MixedContentForLongName, LanguageSpecific):
+    """
+    MixedContentForLongNames in one particular language. The language is denoted in the attribute l.
+    """
+
+    # LLongName method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.7, p.62
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getBlueprintValue    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setBlueprintValue    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # This represents a description that documents how the value shall be defined when deriving objects from the blueprint.
+        self.blueprintValue: Optional[str] = None
+
     def getBlueprintValue(self) -> Optional[str]:
         """
         This represents a description that documents how the value shall be defined when deriving objects from the blueprint.
-
-        Returns:
-            The description that documents how the value shall be defined when deriving objects from the blueprint
         """
         return self.blueprintValue
 
     def setBlueprintValue(self, value: Optional[str]) -> "LLongName":
         """
         This represents a description that documents how the value shall be defined when deriving objects from the blueprint. A None value is a no-op and does not overwrite an existing blueprintValue.
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.blueprintValue = value

@@ -1,6 +1,6 @@
 # AUTOSAR Model Class Check Rules
 
-Self-contained rule reference for aligning any AUTOSAR model class in py-armodel.
+Self-contained rule reference for syncing any AUTOSAR model class in py-armodel.
 `ClassName` denotes the class under check:
 
 - source: `src/armodel/models/M2/AUTOSARTemplates/<package>/<ClassName>.py`
@@ -8,7 +8,7 @@ Self-contained rule reference for aligning any AUTOSAR model class in py-armodel
 - mirrored test: `tests/test_armodel/models/M2/AUTOSARTemplates/<package>/test_<ClassName>.py`
 - spec table: the class's attribute table (markdown
   `autosar/markdown/AUTOSAR_*_TPS_*.md` (covers `CP_TPS` + `FO_TPS`), derived from PDF
-  `autosar/pdf/AUTOSAR_*_TPS_*.pdf`, XSD `autosar-pdf/examples/xsd/`). **All text** —
+  `autosar/pdf/AUTOSAR_*_TPS_*.pdf`, XSD `docs/requirements/xsd/`). **All text** —
   `Note`, `Attribute`, `Base`, the `Table N.M` id, and the table name (from the markdown
   filename) — **is read from the markdown**; the **PDF is opened only for the page
   number** (`p.NN`), because the markdown carries no page numbers.
@@ -22,7 +22,7 @@ follow the PDF. AUTOSAR version **must** be set before parse or write:
 
 ---
 
-## Rule 0001 — Spec Alignment *(formerly Rule 1)*
+## Rule 0001 — Spec Sync *(formerly Rule 1)*
 
 The class must reflect the AUTOSAR PDF specification for its attributes.
 
@@ -73,9 +73,9 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
   must all agree on the same type.
 - **No fabricated attributes.** Every field must trace to a spec attribute. Three
   fabrication shapes, all fixed by **removing** the fabricated field(s) and adding the
-  spec-aligned replacement(s) — not by recording a deviation:
+  spec-synced replacement(s) — not by recording a deviation:
   1. *N:1 collapse* — one generic field stands in for several spec refs (e.g. one
-     `AnyInstanceRef` for two mutually-exclusive refs) → N spec-aligned fields, each
+     `AnyInstanceRef` for two mutually-exclusive refs) → N spec-synced fields, each
      with its concrete `RefType` + `Ref` suffix.
   2. *Shadowing rename* — an invented field name shadows a real spec attribute
      semantically → rename to the spec name **and** re-type to the spec primitive.
@@ -100,6 +100,36 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
 - **Cross-table aggregation:** an attribute whose definition lives in another class's
   table (discoverable via that table's `Aggregated by` row) is a spec attribute of the
   aggregator like its own rows.
+- **Inherited-attribute relocation (missing spec base class).** When the class's own spec
+  table lists only a *subset* of its modeled fields, and the remaining fields come from a
+  **separate spec table named in the `Base` column** (not an `Aggregated by` parent), those
+  fields belong to a **base class that must exist as its own model class** — they are *not*
+  owned by the subclass. This is the classic flattening deviation: the subclass re-declares
+  inherited members as if they were its own. The fix is to **model the base class** (from its
+  own spec table, with its own checklist + marker) and **relocate** the inherited members
+  there, then strip them from the subclass so the subclass declares only its own attributes:
+  1. Create the base class from its own `Table N.M` (e.g. `MixedContentForLongName`, Table
+     4.9) — spec `Base` column decides its Python parent (often `ARObject`, possibly
+     `ABC` if the spec marks it abstract; add the `type(self) is BaseClass: raise TypeError`
+     guard like `LanguageSpecific`).
+  2. Move each inherited field + accessor pair (in spec row order) into the base class;
+     keep the verbatim `Note` comments/docstrings and the None-no-op setter behavior.
+  3. Change the subclass `Base` to **multiple-inherit** the new base class **and** its other
+     existing base(s), preserving MRO order (`Subclass(BaseClass, OtherBase)`). Verify the
+     `__init__` chain via `super().__init__()` initializes every field exactly once.
+  4. Reduce the subclass checklist (Rule 0002) to **only its own methods** (`__init__` +
+     its own accessors); the relocated members are tracked by the base class's own checklist.
+  5. The subclass keeps its `# Spec verified:` marker only if **its own** table is fully
+     synced; the base class gets its own marker. Reader/writer dispatch is unchanged — they
+     reference the subclass by name and reach inherited members through inheritance, so no
+     parser/writer edit is needed (re-run the round-trip to confirm).
+  - **Detector:** the subclass spec table's `Attribute` column has fewer rows than the
+    subclass has fields. Grep the `Base` column for a named class; if that class's table
+    holds the "missing" rows, it is a flattening deviation, **not** a legitimate
+    cross-table aggregation. A fully-`[x]` checklist + clean round-trip **will not** catch
+    this (the checklist only lists the subclass's own methods) — the field-to-spec
+    cross-check (Rule 0002, both directions) is the gate. See `LLongName` (Table 4.7 owns
+    only `blueprintValue`; `e/ie/sub/sup/tt` belong to `MixedContentForLongName` Table 4.9).
 - **Read-only derived convenience property** (`@property`, no backing field, no setter,
   e.g. a ms value derived from a `TimeValue`) is **kept**, not fabricated — give it a
   checklist row, test it, and record it as an "added convenience property".
@@ -146,7 +176,7 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
   concrete subtype (the abstract type is not instantiable); for `0..1` each assigns the
   single field, for `*` each appends. The parser dispatches on the XSD child tag, the
   writer on `isinstance`.
-- An already-aligned sibling in the wrong shape is a prior deviation, not a template —
+- An already-synced sibling in the wrong shape is a prior deviation, not a template —
   the shape rule wins; record the sibling to reconcile later.
 - A factory named after the child type does **not** make a `*` member "missing": for
   `ClientServerInterface.possibleError` (type `ApplicationError`), `createApplicationError`
@@ -187,13 +217,13 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
   conditional transparently into the owning object (no separate Conditional model).
   Attribute-level `atpVariation` flattens to a plain wrapper list, **not**
   `VARIANTS/CONDITIONAL`.
-- **Identity-only child serialization** (a not-yet-aligned child) is debt: an aligned
+- **Identity-only child serialization** (a not-yet-synced child) is debt: a synced
   model whose aggregator still emits an empty item element is a Rule 1.7 violation; when
-  the child's alignment lands, replace the placeholder with a real `readXxx`/`writeXxx`
+  the child's sync lands, replace the placeholder with a real `readXxx`/`writeXxx`
   in the same change, and assert the child's field values in the round-trip test.
 - **Aggregator sequenced after the child:** an aggregator with zero serialization whose
-  only child is unaligned defers its own reader/writer coverage (recorded as pending),
-  while its **model** is fully aligned in the meantime.
+  only child is unsynced defers its own reader/writer coverage (recorded as pending),
+  while its **model** is fully synced in the meantime.
 - A shared `readXxx`/`writeXxx` that calls `readIdentifiable`/`writeIdentifiable` is not
   reusable by every sibling subtype — check the subtype's own XSD complexType; a
   non-`Referrable` subtype must call `readARObjectAttributes`/`writeARObjectAttributes`
@@ -228,11 +258,11 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
 - **Workflow relaxation:** in the 9-step workflow, do **not** block on this — collect
   the referenced non-existent classes and **report them later** (Step 8), use a
   placeholder, and switch to the real type when that class gets its own pass. Rule
-  0001.10 remains the standard for the referenced class's own alignment.
+  0001.10 remains the standard for the referenced class's own sync.
 - A referenced class that **exists but is a stub** (no `# Spec:` line / marker, or
-  fabricated fields) counts as missing — align it in the same pass. The same applies to
+  fabricated fields) counts as missing — sync it in the same pass. The same applies to
   a referenced enum whose members don't match its `Enumeration` table. A stub can be a
-  whole family (align the transitive closure).
+  whole family (sync the transitive closure).
 - A missing **primitive** has a `Primitive <Name>` table (not `Class`/`Enumeration`),
   possibly in a different PDF — implement it as an `ARLiteral` subclass.
 - Exception: a class with no own spec table (XSD-only attributes) is **not** a stub.
@@ -308,7 +338,10 @@ the checklist title cites the spec table, then the version marker:
   fabricated fields) **and** each spec attr → code (catches missing). A tracker built
   only spec→code is not evidence of completeness. Strip suffixes, search the `Attribute`
   column + `Aggregated by` rows; if not found, grep the XSD (keep if present with docs,
-  else remove).
+  else remove). **When a field maps to a `Base`-column class's own table** (not an
+  `Aggregated by` parent), it is an *inherited* member — see Rule 0001.3 relocation; it
+  belongs on the base class, and the subclass's own table must still account for every
+  field the subclass keeps (no net field loss after relocation).
 - The checklist is method-only — it cannot detect fabricated attributes; the field-to-spec
   cross-check is the gate.
 
@@ -475,19 +508,30 @@ if "# Spec:" in src and "not yet implemented" not in src and "carried as a" not 
 
 ---
 
-## Rule 0007 — Package Location *(formerly Rule 8)*
+## Rule 0007 — Package Location & File Shape *(formerly Rule 8)*
 
 The class is defined in the module matching its spec `Package` row (`M2::…::Pkg` →
-`…/Pkg.py` or `…/Pkg/__init__.py`).
+`…/Pkg.py` or `…/Pkg/__init__.py`). Decide the file shape by whether the package has
+subpackages:
 
-- All classes in a spec package live in that single module. Prefer defining classes
-  directly in `__init__.py`; split into per-class submodules only when the package is
-  large, and never name a submodule after the class.
+- **Leaf package (no subpackages/directories of its own) → `Pkg.py`.** The class(es)
+  live directly in a file named after the package tail
+  (`M2::…::OasisExchangeTable` → `…/OasisExchangeTable.py`). **This is the preferred
+  default** — use `Pkg.py` unless the package also contains subpackages.
+- **Non-leaf package (has subpackages) → `Pkg/__init__.py`.** When the package itself
+  contains subpackage directories (e.g. `…/SomeGroup/SubA/`, `…/SomeGroup/SubB/`),
+  define the package-level classes in `SomeGroup/__init__.py`; the subpackages stay as
+  their own directories.
+- Never name a submodule after the class (`SomeGroup/ClassName.py` implies package
+  `…::SomeGroup::ClassName` — wrong); the class is a direct member of `Pkg.py` or
+  `Pkg/__init__.py`. Element-type packages whose tail **is** the class
+  (`BswImplementation` → `BswImplementation.py`) are the correct synced case.
+- All classes in a spec package live in that single module. Split into per-class
+  submodules only when the package is large, and never name a submodule after the class.
 - **Package-name match anti-pattern:** when the package tail (`SomeGroup`) differs from
   the class (`ClassName`), do not nest it as `SomeGroup/ClassName.py` (implies package
-  `…::SomeGroup::ClassName`). The class is a direct member of `SomeGroup/__init__.py`.
-  Element-type packages whose tail **is** the class (`BswImplementation` →
-  `BswImplementation.py`) are the correct aligned case, not the anti-pattern.
+  `…::SomeGroup::ClassName`). The class is a direct member of `SomeGroup.py` (leaf) or
+  `SomeGroup/__init__.py` (non-leaf).
 - Classes sharing a parent package tail are all direct members of that `__init__.py`
   (consolidate placeholder submodule families into the package `__init__.py`); break
   resulting cycles with `from __future__ import annotations` + `TYPE_CHECKING`.
@@ -499,10 +543,18 @@ The class is defined in the module matching its spec `Package` row (`M2::…::Pk
   from a class-named submodule. Latent broken imports surface when an aggregator first
   imports a sibling subpackage — run the full import + test suite after cross-package
   imports.
-- **Top-level export chain:** an aligned class must be importable as `armodel.<ClassName>`
-  (`hasattr(armodel, "<ClassName>")`); add the package's `import *` to
-  `models/__init__.py` and remove it from `INTENTIONALLY_UNEXPORTED_MODULES`. A name
-  colliding at top level goes into `KNOWN_NAME_COLLISION_CLASSES`.
+- **Prefer explicit imports over `import *`.** New model classes are imported by name, not
+  via wildcard: `from ...OasisExchangeTable import FloatEnum, PgwideEnum` — never
+  `from ...OasisExchangeTable import *`. Aggregator `__init__.py` files that re-export
+  names must make that intent explicit with an `__all__` list
+  (`__all__ = ["FloatEnum", "PgwideEnum"]`); do not rely on `import *` + `# noqa: F403`
+  for newly added classes. Pre-existing `import *` lines elsewhere in `models/__init__.py`
+  may stay until converted, but new additions should be explicit.
+- **Top-level export chain:** a synced class must be importable as `armodel.<ClassName>`
+  (`hasattr(armodel, "<ClassName>")`); export it explicitly (or via a parent package's
+  `__all__`) so it reaches `models/__init__.py`, and remove it from
+  `INTENTIONALLY_UNEXPORTED_MODULES`. A name colliding at top level goes into
+  `KNOWN_NAME_COLLISION_CLASSES`.
 
 ---
 
@@ -540,7 +592,7 @@ string values (`MEMBER = "member_value"`).
 
 ---
 
-## Rule 0011 — Enum Specification Alignment *(formerly Rule 12)*
+## Rule 0011 — Enum Specification Sync *(formerly Rule 12)*
 
 - Locate the enum's spec `Enumeration` table; members 1:1 with the `Literal` rows — no
   extra, no missing. Placeholder shapes keep the right count with wrong values (hyphenated
@@ -557,8 +609,8 @@ string values (`MEMBER = "member_value"`).
   (`atp.EnumerationLiteralIndex=N`).
 - Tests reference members like `MyEnum.MEMBER_NAME` for reading; to **set** an enum
   attribute construct `MyEnum().setValue(MyEnum.MEMBER_NAME)`; assert round-tripped values
-  with `.getValue() == "memberName"` (the parser returns a generic `ARLiteral`). An
-  aligned enum defines `__init__(self)` passing the tuple to `AREnum`, so `MyEnum()` is
+  with `.getValue() == "memberName"` (the parser returns a generic `ARLiteral`). A
+  synced enum defines `__init__(self)` passing the tuple to `AREnum`, so `MyEnum()` is
   instantiable.
 
 ---
@@ -576,10 +628,10 @@ is one ordered procedure per class (Rule 0006's mechanical check only confirms t
 ### 0012.1 Versioning
 
 - The checklist includes `# Spec verified: R<YY>-<MM>` immediately after the `# Spec:`
-  line (`R23-11` = Nov 2023). Verify during every alignment pass.
-- **The marker is the single review gate.** A class is reviewed/aligned iff its source
+  line (`R23-11` = Nov 2023). Verify during every sync pass.
+- **The marker is the single review gate.** A class is reviewed/synced iff its source
   carries `# Spec verified: R<YY>-<MM>`; a fully-`[x]` checklist, passing tests, or a
-  clean round-trip do **not** by themselves certify a class. **No marker ⇒ align from
+  clean round-trip do **not** by themselves certify a class. **No marker ⇒ sync from
   the beginning** — run the full 9-step workflow (SKILL.md), trusting no pre-existing
   field/checklist/docstring (Rule 0001.3 shape-3 detector; Rule 0002 field-to-spec
   cross-check is the gate, both directions). The only marker-less classes that are
@@ -608,7 +660,7 @@ is one ordered procedure per class (Rule 0006's mechanical check only confirms t
    (including ones targeting inherited attributes). For a terse citation Note, append the
    XSD complexType doc as an elaboration (also verbatim).
 4. **Per-attribute loop** (all five, per attribute, before the next):
-   1. Referenced type must exist and be aligned before typing (Rule 0010/0011); its
+   1. Referenced type must exist and be synced before typing (Rule 0010/0011); its
       `# Spec:` cites its **own** table, independent of the owning class.
    2. Inline `__init__` comment: the attribute's `Note` (markdown) semantic sentence,
       copied verbatim (drop `Stereotypes:`/`Tags:` tail); append any `constr_*` wording
@@ -732,7 +784,7 @@ tracker. Each class entry has a header and a deviation table:
 
 ---
 
-## Rule 0015 — XSD vs PDF/markdown attribute authority *(added after the Obd*ServiceNeeds alignment)*
+## Rule 0015 — XSD vs PDF/markdown attribute authority *(added after the Obd*ServiceNeeds sync)*
 
 When the XSD and the human-readable PDF/markdown spec tables disagree on a class's
 **attribute set**, the **PDF/markdown tables are authoritative** for what the model class
@@ -759,7 +811,7 @@ rendering gap" guidance in Rule 0001.3.
 - **Worked example (Obd*ServiceNeeds, R23-11).** The XSD defines `DATA-LENGTH`,
   `INFO-TYPE`, `PARAMETER-ID`, `STANDARD`, `ON-BOARD-MONITOR-ID`, `TEST-ID` on the OBD
   service-needs classes, but PDF Tables 13.47–13.49 and the clean DEXT 5.9 / BSW D.44
-  markdown omit them. The aligned model now matches the PDF: `ObdInfoServiceNeeds` and
+  markdown omit them. The synced model now matches the PDF: `ObdInfoServiceNeeds` and
   `ObdPidServiceNeeds` are attribute-less (inherit `DiagnosticCapabilityElement` only);
   `ObdMonitorServiceNeeds` keeps only `applicationDataTypeRef`, `eventNeedsRef`,
   `unitAndScalingId`, `updateKind`. The dropped XSD-only members are not recorded as

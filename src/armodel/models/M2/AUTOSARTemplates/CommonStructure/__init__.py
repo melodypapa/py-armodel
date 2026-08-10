@@ -27,6 +27,14 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
     ModeErrorReactionPolicyEnum,
 )
 
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation import (
+    SignalServiceTranslationControlEnum,
+    SignalServiceTranslationElementProps,
+    SignalServiceTranslationEventProps,
+    SignalServiceTranslationProps,
+    SignalServiceTranslationPropsSet,
+)
+
 __all__ = [
     "ValueSpecification",
     "CompositeValueSpecification",
@@ -47,4 +55,9 @@ __all__ = [
     "ModeTransition",
     "ModeErrorBehavior",
     "ModeErrorReactionPolicyEnum",
+    "SignalServiceTranslationControlEnum",
+    "SignalServiceTranslationElementProps",
+    "SignalServiceTranslationEventProps",
+    "SignalServiceTranslationProps",
+    "SignalServiceTranslationPropsSet",
 ]

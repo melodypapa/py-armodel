@@ -487,18 +487,12 @@ class SwTextProps(ARObject):
     def getArraySizeSemantics(self) -> Optional[ArraySizeSemanticsEnum]:
         """
         This attribute controls the semantics of the arraysize for the array representing the string in an Implementation DataType. It is there to support a safe conversion between ApplicationDatatype and ImplementationDatatype, even for variable length strings as required e.g. for Support of SAE J1939.
-
-        Returns:
-            The array size semantics
         """
         return self.arraySizeSemantics
 
     def setArraySizeSemantics(self, value: Optional[ArraySizeSemanticsEnum]) -> "SwTextProps":
         """
         This attribute controls the semantics of the arraysize for the array representing the string in an Implementation DataType. It is there to support a safe conversion between ApplicationDatatype and ImplementationDatatype, even for variable length strings as required e.g. for Support of SAE J1939. A None value is a no-op and does not overwrite an existing arraySizeSemantics.
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.arraySizeSemantics = value
@@ -507,18 +501,12 @@ class SwTextProps(ARObject):
     def getBaseTypeRef(self) -> Optional[RefType]:
         """
         This is the base type of one character in the string. In particular this baseType denotes the intended encoding of the characters in the string on level of ApplicationData Type.
-
-        Returns:
-            The base type reference
         """
         return self.baseTypeRef
 
     def setBaseTypeRef(self, value: Optional[RefType]) -> "SwTextProps":
         """
         This is the base type of one character in the string. In particular this baseType denotes the intended encoding of the characters in the string on level of ApplicationData Type. A None value is a no-op and does not overwrite an existing baseTypeRef.
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.baseTypeRef = value
@@ -527,18 +515,12 @@ class SwTextProps(ARObject):
     def getSwFillCharacter(self) -> Optional[Integer]:
         """
         Filler character for text parameter to pad up to the maximum length swMaxTextSize. The value will be interpreted according to the encoding specified in the associated base type of the data object, e.g. 0x30 (hex) represents the ASCII character zero as filler character and 0 (dec) represents an end of string as filler character. The usage of the fill character depends on the arraySize Semantics.
-
-        Returns:
-            The fill character value
         """
         return self.swFillCharacter
 
     def setSwFillCharacter(self, value: Optional[Integer]) -> "SwTextProps":
         """
         Filler character for text parameter to pad up to the maximum length swMaxTextSize. The value will be interpreted according to the encoding specified in the associated base type of the data object, e.g. 0x30 (hex) represents the ASCII character zero as filler character and 0 (dec) represents an end of string as filler character. The usage of the fill character depends on the arraySize Semantics. A None value is a no-op and does not overwrite an existing swFillCharacter.
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.swFillCharacter = value
@@ -547,18 +529,12 @@ class SwTextProps(ARObject):
     def getSwMaxTextSize(self) -> Optional[Integer]:
         """
         Specifies the maximum text size in characters. Note the size in bytes depends on the encoding in the corresponding baseType.
-
-        Returns:
-            The maximum text size in characters
         """
         return self.swMaxTextSize
 
     def setSwMaxTextSize(self, value: Optional[Integer]) -> "SwTextProps":
         """
         Specifies the maximum text size in characters. Note the size in bytes depends on the encoding in the corresponding baseType. A None value is a no-op and does not overwrite an existing swMaxTextSize.
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.swMaxTextSize = value

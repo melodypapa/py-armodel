@@ -132,6 +132,12 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     TracedFailure,
     TransientFault,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation import (
+    SignalServiceTranslationElementProps,
+    SignalServiceTranslationEventProps,
+    SignalServiceTranslationProps,
+    SignalServiceTranslationPropsSet,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
@@ -527,6 +533,7 @@ from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation, GeneralAnnotation
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Graphic, LGraphic, MlFigure
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
+from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import FloatEnum, PgwideEnum
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, ItemLabelPosEnum, LabeledItem, LabeledList
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.Note import Note, NoteTypeEnum
@@ -3116,8 +3123,12 @@ class ARXMLParser(AbstractARXMLParser):
             self.readARObjectAttributes(child_element, verbatim)
             if "ALLOWBREAK" in child_element.attrib:
                 verbatim.setAllowBreak(NameToken().setValue(child_element.attrib["ALLOWBREAK"]))
+            if "FLOAT" in child_element.attrib:
+                verbatim.setFloat(FloatEnum().setValue(child_element.attrib["FLOAT"]))
             if "HELPENTRY" in child_element.attrib:
                 verbatim.setHelpEntry(String().setValue(child_element.attrib["HELPENTRY"]))
+            if "PGWIDE" in child_element.attrib:
+                verbatim.setPgwide(PgwideEnum().setValue(child_element.attrib["PGWIDE"]))
             for l5 in self.findall(child_element, "L-5"):
                 verbatim_l5 = LVerbatim()
                 self.readLanguageSpecific(l5, verbatim_l5)
@@ -6823,6 +6834,43 @@ class ARXMLParser(AbstractARXMLParser):
         for ref_type in self.getChildElementRefTypeList(element, "SYSTEM-SIGNAL-REFS/SYSTEM-SIGNAL-REF"):
             group.addSystemSignalRefs(ref_type)
 
+    def readSignalServiceTranslationPropsSet(self, element: ET.Element, props_set: SignalServiceTranslationPropsSet):
+        self.logger.debug("Read SignalServiceTranslationPropsSet <%s>" % props_set.getShortName())
+        self.readIdentifiable(element, props_set)
+        for child_element in self.findall(element, "SIGNAL-SERVICE-TRANSLATION-PROPS"):
+            props = props_set.createSignalServiceTranslationProps(self.getShortName(child_element))
+            self.readSignalServiceTranslationProps(child_element, props)
+
+    def readSignalServiceTranslationProps(self, element: ET.Element, props: SignalServiceTranslationProps):
+        self.logger.debug("Read SignalServiceTranslationProps <%s>" % props.getShortName())
+        self.readIdentifiable(element, props)
+        for ref_type in self.getChildElementRefTypeList(element, "CONTROL-CONSUMED-EVENT-GROUP-REFS/CONTROL-CONSUMED-EVENT-GROUP-REF"):
+            props.addControlConsumedEventGroupRef(ref_type)
+        for ref_type in self.getChildElementRefTypeList(element, "CONTROL-PNC-REFS/CONTROL-PNC-REF"):
+            props.addControlPncRef(ref_type)
+        for ref_type in self.getChildElementRefTypeList(element, "CONTROL-PROVIDED-EVENT-GROUP-REFS/CONTROL-PROVIDED-EVENT-GROUP-REF"):
+            props.addControlProvidedEventGroupRef(ref_type)
+        props.setServiceControl(self.getChildElementOptionalLiteral(element, "SERVICE-CONTROL"))
+        for child_element in self.findall(element, "SIGNAL-SERVICE-TRANSLATION-EVENT-PROPS"):
+            event_props = props.createSignalServiceTranslationEventProps(self.getShortName(child_element))
+            self.readSignalServiceTranslationEventProps(child_element, event_props)
+
+    def readSignalServiceTranslationEventProps(self, element: ET.Element, event_props: SignalServiceTranslationEventProps):
+        self.logger.debug("Read SignalServiceTranslationEventProps <%s>" % event_props.getShortName())
+        self.readIdentifiable(element, event_props)
+        for child_element in self.findall(element, "SIGNAL-SERVICE-TRANSLATION-ELEMENT-PROPS"):
+            element_props = event_props.createSignalServiceTranslationElementProps(self.getShortName(child_element))
+            self.readSignalServiceTranslationElementProps(child_element, element_props)
+        event_props.setSafeTranslation(self.getChildElementOptionalBooleanValue(element, "SAFE-TRANSLATION"))
+        event_props.setSecureTranslation(self.getChildElementOptionalBooleanValue(element, "SECURE-TRANSLATION"))
+        event_props.setTranslationTarget(self.getVariableDataPrototypeInSystemInstanceRef(self.find(element, "TRANSLATION-TARGET")))
+
+    def readSignalServiceTranslationElementProps(self, element: ET.Element, element_props: SignalServiceTranslationElementProps):
+        self.logger.debug("Read SignalServiceTranslationElementProps <%s>" % element_props.getShortName())
+        self.readIdentifiable(element, element_props)
+        element_props.setFilter(self.getDataFilter(element, "FILTER"))
+        element_props.setTransmissionTrigger(self.getChildElementOptionalBooleanValue(element, "TRANSMISSION-TRIGGER"))
+
     def readISignalToPduMappings(self, element: ET.Element, parent: ISignalIPdu):
         for child_element in self.findall(element, "I-SIGNAL-TO-PDU-MAPPINGS/I-SIGNAL-TO-I-PDU-MAPPING"):
             short_name = self.getShortName(child_element)
@@ -7369,6 +7417,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "SYSTEM-SIGNAL-GROUP":
                 group = parent.createSystemSignalGroup(self.getShortName(child_element))
                 self.readSystemSignalGroup(child_element, group)
+            elif tag_name == "SIGNAL-SERVICE-TRANSLATION-PROPS-SET":
+                props_set = parent.createSignalServiceTranslationPropsSet(self.getShortName(child_element))
+                self.readSignalServiceTranslationPropsSet(child_element, props_set)
             elif tag_name == "ECUC-VALUE-COLLECTION":
                 collection = parent.createEcucValueCollection(self.getShortName(child_element))
                 self.readEcucValueCollection(child_element, collection)
