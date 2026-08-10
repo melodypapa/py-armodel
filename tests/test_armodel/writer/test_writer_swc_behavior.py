@@ -517,6 +517,7 @@ class TestWriterRunnableEntity:
         entity.createDataReadAccess("dr1")
         entity.createDataWriteAccess("dw1")
         entity.createDataReceivePointByArgument("drp1")
+        entity.createDataReceivePointByValue("drpv1")
         entity.createDataSendPoint("ds1")
         entity.createReadLocalVariable("rl1")
         entity.createWrittenLocalVariable("wl1")
@@ -537,6 +538,7 @@ class TestWriterRunnableEntity:
         assert re_elem.find("DATA-READ-ACCESSS") is not None
         assert re_elem.find("DATA-WRITE-ACCESSS") is not None
         assert re_elem.find("DATA-RECEIVE-POINT-BY-ARGUMENTS") is not None
+        assert re_elem.find("DATA-RECEIVE-POINT-BY-VALUES") is not None
         assert re_elem.find("DATA-SEND-POINTS") is not None
         assert re_elem.find("READ-LOCAL-VARIABLES") is not None
         assert re_elem.find("WRITTEN-LOCAL-VARIABLES") is not None
@@ -548,6 +550,31 @@ class TestWriterRunnableEntity:
         parent = _parent()
         writer.writeRunnableEntity(parent, None)
         assert len(parent) == 0
+
+    def test_writeRunnableEntity_wait_point(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createRunnableEntity("re1")
+        wp = entity.createWaitPoint("wp1")
+        wp.setTimeout(_time(5.0))
+        wp.setTriggerRef(_ref("/Event", dest="RTEEvent"))
+        parent = _parent()
+        writer.writeRunnableEntity(parent, entity)
+        re_elem = parent.find("RUNNABLE-ENTITY")
+        wait_points = re_elem.find("WAIT-POINTS")
+        assert wait_points is not None
+        wp_elem = wait_points.find("WAIT-POINT")
+        assert wp_elem is not None
+        assert wp_elem.find("SHORT-NAME").text == "wp1"
+        assert wp_elem.find("TIMEOUT").text == "5.0"
+        assert wp_elem.find("TRIGGER").text == "/Event"
+
+    def test_writeRunnableEntity_wait_point_empty_no_wrapper(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createRunnableEntity("re1")
+        parent = _parent()
+        writer.writeRunnableEntity(parent, entity)
+        re_elem = parent.find("RUNNABLE-ENTITY")
+        assert re_elem.find("WAIT-POINTS") is None
 
     def test_writeRunnableEntityModeAccessPoints_pmode(self, writer):
         behavior = _make_behavior()
@@ -805,6 +832,31 @@ class TestWriterSwcInternalBehaviorCollections:
         parent = _parent()
         writer.writeSwcInternalBehaviorExplicitInterRunnableVariables(parent, behavior)
         assert parent.find("EXPLICIT-INTER-RUNNABLE-VARIABLES") is None
+
+    def test_writeSwcInternalBehaviorInstantiationDataDefProps(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstantiationDataDefProps import (  # noqa E501
+            InstantiationDataDefProps,
+        )
+        from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+
+        behavior = _make_behavior()
+        props = InstantiationDataDefProps()
+        vref = AutosarVariableRef()
+        props.setVariableInstance(vref)
+        sddp = SwDataDefProps()
+        props.setSwDataDefProps(sddp)
+        behavior.addInstantiationDataDefProps(props)
+        parent = _parent()
+        writer.writeSwcInternalBehaviorInstantiationDataDefProps(parent, behavior)
+        p = parent.find("INSTANTIATION-DATA-DEF-PROPSS")
+        assert p is not None
+        assert p[0].tag == "INSTANTIATION-DATA-DEF-PROPS"
+
+    def test_writeSwcInternalBehaviorInstantiationDataDefProps_empty(self, writer):
+        behavior = _make_behavior()
+        parent = _parent()
+        writer.writeSwcInternalBehaviorInstantiationDataDefProps(parent, behavior)
+        assert parent.find("INSTANTIATION-DATA-DEF-PROPSS") is None
 
     def test_writeSwcInternalBehaviorPerInstanceMemories(self, writer):
         behavior = _make_behavior()

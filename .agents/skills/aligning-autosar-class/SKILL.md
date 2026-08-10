@@ -42,6 +42,26 @@ the detail — do not re-derive it here.
 **Not for:** non-AUTOSAR classes; reader/writer-only refactors with no spec change;
 trivial edits that don't touch the class's spec contract.
 
+## The stamp is the review gate
+
+A class counts as **reviewed/aligned ONLY** when its source carries the
+`# Spec verified: R<YY>-<MM>` marker (Step 8 / Rule 0012.1). That marker is the single
+provenance signal — nothing else (a fully-`[x]` checklist, passing tests, or a clean
+round-trip) certifies a class as reviewed.
+
+- **Has the marker** → the class has been aligned. Treat its fields, checklist,
+  docstrings, and reader/writer coverage as authoritative. Re-run the workflow only when
+  the spec changes (Rule 0012.3 drift) or when extending the class.
+- **No marker** → the class has **not** been reviewed. Align it **from the beginning**:
+  run the full 9-step workflow starting at Step 1, with the failing model test first
+  (Step 2). Do **not** trust pre-existing fields/checklist/docstrings — they may be
+  fabricated or stale (Rule 0001.3 shape-3 detector; the Rule 0002 field-to-spec
+  cross-check is the gate, in both directions).
+- **Exception — no own spec table:** a class whose attributes are XSD-only legitimately
+  carries no marker and all-`[ ]` rows. It is *not* "unreviewed" — it is excluded
+  (Rule 0002). Confirm the exception before treating a marker-less class as
+  align-from-scratch.
+
 ## Input
 
 **Required:** `ClassName`. From it, locate:

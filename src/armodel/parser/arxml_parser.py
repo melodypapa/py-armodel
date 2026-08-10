@@ -314,6 +314,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import AutosarParameterRef, ParameterInAtomicSWCTypeInstanceRef, VariableInAtomicSWCTypeInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstantiationDataDefProps import InstantiationDataDefProps
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet, ModeAccessPoint, ModeSwitchPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import PortAPIOption, PortDefinedArgumentValue
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import (
@@ -1491,6 +1492,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readSwcInternalBehaviorExplicitInterRunnableVariables(element, behavior)
         behavior.setHandleTerminationAndRestart(self.getChildElementOptionalLiteral(element, "HANDLE-TERMINATION-AND-RESTART"))
         self.readSwcInternalBehaviorIncludedModeDeclarationGroupSets(element, behavior)
+        self.readSwcInternalBehaviorInstantiationDataDefProps(element, behavior)
         self.readSwcInternalBehaviorPerInstanceMemories(element, behavior)
         self.readSwcInternalBehaviorPerInstanceParameters(element, behavior)
         self.readSwcInternalBehaviorPortAPIOptions(element, behavior)
@@ -1498,6 +1500,15 @@ class ARXMLParser(AbstractARXMLParser):
         self.readSwcInternalBehaviorServiceDependencies(element, behavior)
         self.readSwcInternalBehaviorSharedParameters(element, behavior)
         behavior.setSupportsMultipleInstantiation(self.getChildElementOptionalBooleanValue(element, "SUPPORTS-MULTIPLE-INSTANTIATION"))
+
+    def readSwcInternalBehaviorInstantiationDataDefProps(self, element: ET.Element, behavior: SwcInternalBehavior):
+        for child_element in self.findall(element, "INSTANTIATION-DATA-DEF-PROPSS/INSTANTIATION-DATA-DEF-PROPS"):
+            props = InstantiationDataDefProps()
+            self.readARObjectAttributes(child_element, props)
+            props.setParameterInstance(self.getAutosarParameterRef(child_element, "PARAMETER-INSTANCE"))
+            props.setSwDataDefProps(self.getSwDataDefProps(child_element, "SW-DATA-DEF-PROPS"))
+            props.setVariableInstance(self.getAutosarVariableRef(child_element, "VARIABLE-INSTANCE"))
+            behavior.addInstantiationDataDefProps(props)
 
     def readAtomicSwComponentTypeSwcInternalBehavior(self, element: ET.Element, parent: AtomicSwComponentType):
         for child_element in self.findall(element, "INTERNAL-BEHAVIORS/*"):
@@ -2616,6 +2627,13 @@ class ARXMLParser(AbstractARXMLParser):
             self.readIdentifiable(child_element, point)
             point.setAsynchronousServerCallPointRef(self.getChildElementOptionalRefType(child_element, "ASYNCHRONOUS-SERVER-CALL-POINT-REF"))
 
+    def readRunnableEntityWaitPoints(self, element: ET.Element, entity: RunnableEntity):
+        for child_element in self.findall(element, "WAIT-POINTS/WAIT-POINT"):
+            point = entity.createWaitPoint(self.getShortName(child_element))
+            self.readIdentifiable(child_element, point)
+            point.setTimeout(self.getChildElementOptionalTimeValue(child_element, "TIMEOUT"))
+            point.setTriggerRef(self.getChildElementOptionalRefType(child_element, "TRIGGER"))
+
     def readRunnableEntity(self, element: ET.Element, entity: RunnableEntity):
         self.readExecutableEntity(element, entity)
         self.readRunnableEntityArguments(element, entity)
@@ -2634,6 +2652,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readRunnableEntityModeSwitchPoints(element, entity)
         self.readRunnableEntityParameterAccesses(element, entity)
         self.readRunnableEntityReadLocalVariables(element, entity)
+        self.readRunnableEntityWaitPoints(element, entity)
         self.readRunnableEntityWrittenLocalVariables(element, entity)
 
         entity.setSymbol(self.getChildElementOptionalLiteral(element, "SYMBOL"))
