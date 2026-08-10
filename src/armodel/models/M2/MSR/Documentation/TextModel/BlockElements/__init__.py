@@ -8,8 +8,11 @@ from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements im
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import DefList as DefList
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import LabeledList as LabeledList
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.Note import Note as Note
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.Note import NoteTypeEnum as NoteTypeEnum
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.RequirementsTracing import StructuredReq as StructuredReq
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.RequirementsTracing import TraceableText as TraceableText
+from armodel.models.M2.MSR.Documentation.TextModel.MsrQuery import MsrQueryArg as MsrQueryArg
+from armodel.models.M2.MSR.Documentation.TextModel.MsrQuery import MsrQueryProps as MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MsrQuery import MsrQueryP2 as MsrQueryP2
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageParagraph
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageVerbatim as MultiLanguageVerbatim

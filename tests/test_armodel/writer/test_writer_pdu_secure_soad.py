@@ -407,13 +407,11 @@ class TestWriteGeneralPurposeIPdu:
 
 class TestWriteSecureCommunicationAuthenticationProps:
     def test_with_mock(self, writer):
-        props = MagicMock()
+        props = SecureCommunicationAuthenticationProps(_pkg(), "authProps")
         auth_algo = MagicMock()
-        auth_algo.setValue.return_value = None
-        props.getAuthAlgorithm.return_value = auth_algo
+        props.getAuthAlgorithm = MagicMock(return_value=auth_algo)
         tx_len = MagicMock()
-        tx_len.setValue.return_value = None
-        props.getAuthInfoTxLength.return_value = tx_len
+        props.getAuthInfoTxLength = MagicMock(return_value=tx_len)
         parent = _parent()
         writer.writeSecureCommunicationAuthenticationProps(parent, props)
         child = parent.find("SECURE-COMMUNICATION-AUTHENTICATION-PROPS")

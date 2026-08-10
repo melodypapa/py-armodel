@@ -1351,18 +1351,18 @@ class ARXMLWriter(AbstractARXMLWriter):
         if block is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObjectAttributes(child_element, block)
-            self.setDefList(child_element, block.getDefList())
-            self.setMlFigures(child_element, "FIGURE", block.getFigures())
-            self.setMlFormula(child_element, "FORMULA", block.getFormula())
-            self.setLabeledList(child_element, block.getLabeledList())
+            self.setMsrQueryP2(child_element, block.getMsrQueryP2())
+            self.setMultiLanguageParagraphs(child_element, "P", block.getPs())
+            self.setMultiLanguageVerbatim(child_element, "VERBATIM", block.getVerbatim())
             for list in block.getLists():
                 self.setListElement(child_element, "LIST", list)
-            self.setMsrQueryP2(child_element, block.getMsrQueryP2())
+            self.setDefList(child_element, block.getDefList())
+            self.setLabeledList(child_element, block.getLabeledList())
+            self.setMlFormula(child_element, "FORMULA", block.getFormula())
+            self.setMlFigures(child_element, "FIGURE", block.getFigures())
             self.setNote(child_element, block.getNote())
-            self.setMultiLanguageParagraphs(child_element, "P", block.getPs())
-            self.setStructuredReq(child_element, block.getStructuredReq())
             self.setTraceableText(child_element, "TRACE", block.getTrace())
-            self.setMultiLanguageVerbatim(child_element, "VERBATIM", block.getVerbatim())
+            self.setStructuredReq(child_element, block.getStructuredReq())
 
     def setDefList(self, element: ET.Element, def_list: DefList):
         if def_list is not None:
