@@ -20,6 +20,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
     RTEEvent,
     SwcModeSwitchEvent,
     TimingEvent,
+    WaitPoint,
 )
 
 
@@ -353,3 +354,78 @@ class TestBackgroundEvent:
         assert event.short_name == "TestBackgroundEvent"
         assert event.disabledModeIRefs == []
         assert event.startOnEventRef is None
+
+
+class TestWaitPoint:
+    """Test class for WaitPoint class."""
+
+    def test_wait_point_initialization(self):
+        """Test WaitPoint initialization."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        point = WaitPoint(ar_root, "TestWaitPoint")
+
+        assert point.parent == ar_root
+        assert point.short_name == "TestWaitPoint"
+        assert point.getTimeout() is None
+        assert point.getTriggerRef() is None
+
+    def test_get_set_timeout(self):
+        """Test setTimeout/getTimeout round-trip."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        point = WaitPoint(ar_root, "TestWaitPoint")
+
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue
+
+        timeout = TimeValue()
+        timeout.setValue(5.0)
+        result = point.setTimeout(timeout)
+        assert result is point
+        assert point.getTimeout() == timeout
+
+    def test_set_timeout_none_noop(self):
+        """Test setTimeout(None) is a no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        point = WaitPoint(ar_root, "TestWaitPoint")
+
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue
+
+        timeout = TimeValue()
+        timeout.setValue(5.0)
+        point.setTimeout(timeout)
+        result = point.setTimeout(None)
+        assert result is point
+        assert point.getTimeout() == timeout
+
+    def test_get_set_trigger_ref(self):
+        """Test setTriggerRef/getTriggerRef round-trip."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        point = WaitPoint(ar_root, "TestWaitPoint")
+
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+
+        trigger_ref = RefType()
+        trigger_ref.setDest("RTEEvent")
+        trigger_ref.setValue("/Event")
+        result = point.setTriggerRef(trigger_ref)
+        assert result is point
+        assert point.getTriggerRef() == trigger_ref
+
+    def test_set_trigger_ref_none_noop(self):
+        """Test setTriggerRef(None) is a no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        point = WaitPoint(ar_root, "TestWaitPoint")
+
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+
+        trigger_ref = RefType()
+        trigger_ref.setDest("RTEEvent")
+        trigger_ref.setValue("/Event")
+        point.setTriggerRef(trigger_ref)
+        result = point.setTriggerRef(None)
+        assert result is point
+        assert point.getTriggerRef() == trigger_ref

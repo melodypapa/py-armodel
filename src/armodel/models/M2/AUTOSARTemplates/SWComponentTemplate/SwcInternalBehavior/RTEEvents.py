@@ -4,12 +4,13 @@ in software component internal behavior templates.
 """
 
 from abc import ABC
+from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RVariableInAtomicSwcInstanceRef, RModeInAtomicSwcInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import POperationInAtomicSwcInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, TimeValue
-from typing import List
 
 
 class RTEEvent(AtpStructureElement, ABC):
@@ -556,4 +557,77 @@ class ModeSwitchedAckEvent(RTEEvent):
         """
         if value is not None:
             self.eventSourceRef = value
+        return self
+
+
+class WaitPoint(Identifiable):
+    """
+    This defines a wait-point for which the RunnableEntity can wait.
+    """
+
+    # WaitPoint method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.25, p.550
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getTimeout                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTimeout                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTriggerRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTriggerRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Time in seconds before the WaitPoint times out and the blocking wait call returns with an error indicating the timeout.
+        self.timeout: Optional[TimeValue] = None
+
+        # This is the RTEEvent this WaitPoint is waiting for.
+        self.triggerRef: Optional[RefType] = None
+
+    def getTimeout(self) -> Optional[TimeValue]:
+        """
+        Time in seconds before the WaitPoint times out and the blocking wait call returns with an error indicating the timeout.
+
+        Returns:
+            Optional[TimeValue]: The timeout, or None if not set
+        """
+        return self.timeout
+
+    def setTimeout(self, value: Optional[TimeValue]) -> "WaitPoint":
+        """
+        Time in seconds before the WaitPoint times out and the blocking wait call returns with an error indicating the timeout.
+        A None value is a no-op and does not overwrite an existing timeout.
+
+        Args:
+            value: The timeout to set
+
+        Returns:
+            WaitPoint: self for method chaining
+        """
+        if value is not None:
+            self.timeout = value
+        return self
+
+    def getTriggerRef(self) -> Optional[RefType]:
+        """
+        This is the RTEEvent this WaitPoint is waiting for.
+
+        Returns:
+            Optional[RefType]: The trigger reference, or None if not set
+        """
+        return self.triggerRef
+
+    def setTriggerRef(self, value: Optional[RefType]) -> "WaitPoint":
+        """
+        This is the RTEEvent this WaitPoint is waiting for.
+        A None value is a no-op and does not overwrite an existing triggerRef.
+
+        Args:
+            value: The trigger reference to set
+
+        Returns:
+            WaitPoint: self for method chaining
+        """
+        if value is not None:
+            self.triggerRef = value
         return self

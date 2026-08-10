@@ -11,7 +11,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import DataSendCompletedEvent
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import DataReceivedEvent, InitEvent, InternalTriggerOccurredEvent
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import ModeSwitchedAckEvent, OperationInvokedEvent, RTEEvent
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import SwcModeSwitchEvent, TimingEvent
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import SwcModeSwitchEvent, TimingEvent, WaitPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import SwcServiceDependency
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
@@ -102,65 +102,126 @@ class SynchronousServerCallPoint(ServerCallPoint):
 
 
 class RunnableEntity(ExecutableEntity):
+    """
+    A RunnableEntity represents the smallest code-fragment that is provided by an AtomicSwComponentType and are executed under control of the RTE. RunnableEntities are for instance set up to respond to data reception or operation invocation on a server.
+    """
+
     # RunnableEntity method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] _createVariableAccess        [x] impl  [ ] docstring  [ ] test
-    # [ ] getArguments                 [x] impl  [ ] docstring  [ ] test
-    # [ ] addArgument                  [x] impl  [ ] docstring  [ ] test
-    # [ ] getCanBeInvokedConcurrently  [x] impl  [ ] docstring  [ ] test
-    # [ ] setCanBeInvokedConcurrently  [x] impl  [ ] docstring  [ ] test
-    # [ ] createDataReadAccess         [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataReadAccesses          [x] impl  [ ] docstring  [ ] test
-    # [ ] createDataWriteAccess        [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataWriteAccesses         [x] impl  [ ] docstring  [ ] test
-    # [ ] createDataReceivePointByArgument [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataReceivePointByArguments [x] impl  [ ] docstring  [ ] test
-    # [ ] createDataReceivePointByValue [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataReceivePointByValues  [x] impl  [ ] docstring  [ ] test
-    # [ ] createDataSendPoint          [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataSendPoints            [x] impl  [ ] docstring  [ ] test
-    # [ ] createReadLocalVariable      [x] impl  [ ] docstring  [ ] test
-    # [ ] getReadLocalVariables        [x] impl  [ ] docstring  [ ] test
-    # [ ] createWrittenLocalVariable   [x] impl  [ ] docstring  [ ] test
-    # [ ] getWrittenLocalVariables     [x] impl  [ ] docstring  [ ] test
-    # [ ] getParameterAccesses         [x] impl  [ ] docstring  [ ] test
-    # [ ] createParameterAccess        [x] impl  [ ] docstring  [ ] test
-    # [ ] createSynchronousServerCallPoint [x] impl  [ ] docstring  [ ] test
-    # [ ] createAsynchronousServerCallPoint [x] impl  [ ] docstring  [ ] test
-    # [ ] createAsynchronousServerCallResultPoint [x] impl  [ ] docstring  [ ] test
-    # [ ] getSynchronousServerCallPoint [x] impl  [ ] docstring  [ ] test
-    # [ ] getAsynchronousServerCallPoint [x] impl  [ ] docstring  [ ] test
-    # [ ] getAsynchronousServerCallResultPoints [x] impl  [ ] docstring  [ ] test
-    # [ ] getServerCallPoints          [x] impl  [ ] docstring  [ ] test
-    # [ ] createInternalTriggeringPoint [x] impl  [ ] docstring  [ ] test
-    # [ ] getInternalTriggeringPoints  [x] impl  [ ] docstring  [ ] test
-    # [ ] getModeAccessPoints          [x] impl  [ ] docstring  [ ] test
-    # [ ] addModeAccessPoint           [x] impl  [ ] docstring  [ ] test
-    # [ ] getModeSwitchPoints          [x] impl  [ ] docstring  [ ] test
-    # [ ] createModeSwitchPoint        [x] impl  [ ] docstring  [ ] test
-    # [ ] getSymbol                    [x] impl  [ ] docstring  [ ] test
-    # [ ] setSymbol                    [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.3, p.525
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] _createVariableAccess        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getArguments                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addArgument                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getCanBeInvokedConcurrently  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCanBeInvokedConcurrently  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createDataReadAccess         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDataReadAccesses          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createDataWriteAccess        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDataWriteAccesses         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createDataReceivePointByArgument [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDataReceivePointByArguments [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createDataReceivePointByValue [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDataReceivePointByValues  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createDataSendPoint          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDataSendPoints            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createReadLocalVariable      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getReadLocalVariables        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createWrittenLocalVariable   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getWrittenLocalVariables     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getParameterAccesses         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createParameterAccess        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createSynchronousServerCallPoint [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createAsynchronousServerCallPoint [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createAsynchronousServerCallResultPoint [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSynchronousServerCallPoint [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getAsynchronousServerCallPoint [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getAsynchronousServerCallResultPoints [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getServerCallPoints          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createInternalTriggeringPoint [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getInternalTriggeringPoints  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getExternalTriggeringPoints  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addExternalTriggeringPoint   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getModeAccessPoints          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addModeAccessPoint           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getModeSwitchPoints          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createModeSwitchPoint        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSymbol                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSymbol                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createWaitPoint              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getWaitPoints                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # This represents the formal definition of a an argument to a RunnableEntity.
         self.arguments: List[RunnableEntityArgument] = []
+
+        # The server call result point admits a runnable to fetch the result of an asynchronous server call.
+        # The aggregation of AsynchronousServerCallResultPoint is subject to variability with the purpose to support the conditional existence of client server PortPrototypes and the variant existence of server call result points in the implementation.
         self.asynchronousServerCallResultPoints: List[AsynchronousServerCallResultPoint] = []
+
+        # If the value of this attribute is set to "true" the enclosing RunnableEntity can be invoked concurrently (even for one instance of the corresponding AtomicSwComponentType).
+        # This implies that it is the responsibility of the implementation of the RunnableEntity to take care of this form of concurrency.
         self.canBeInvokedConcurrently: ARBoolean = None
+
+        # RunnableEntity has implicit read access to dataElement of a sender-receiver PortPrototype or nv data of a nv data PortPrototype.
+        # The aggregation of dataReadAccess is subject to variability with the purpose to support the conditional existence of sender receiver ports or the variant existence of dataReadAccess in the implementation.
         self.dataReadAccesses: List[VariableAccess] = []
+
+        # RunnableEntity has explicit read access to dataElement of a sender-receiver PortPrototype or nv data of a nv data PortPrototype.
+        # The result is passed back to the application by means of an argument in the function signature.
+        # The aggregation of dataReceivePointByArgument is subject to variability with the purpose to support the conditional existence of sender receiver PortPrototype or the variant existence of data receive points in the implementation.
         self.dataReceivePointByArguments: List[VariableAccess] = []
+
+        # RunnableEntity has explicit read access to dataElement of a sender-receiver PortPrototype or nv data of a nv data PortPrototype.
+        # The result is passed back to the application by means of the return value.
+        # The aggregation of dataReceivePointByValue is subject to variability with the purpose to support the conditional existence of sender receiver ports or the variant existence of data receive points in the implementation.
         self.dataReceivePointByValues: List[VariableAccess] = []
+
+        # RunnableEntity has explicit write access to dataElement of a sender-receiver PortPrototype or nv data of a nv data PortPrototype.
+        # The aggregation of dataSendPoint is subject to variability with the purpose to support the conditional existence of sender receiver PortPrototype or the variant existence of data send points in the implementation.
         self.dataSendPoints: List[VariableAccess] = []
+
+        # RunnableEntity has implicit write access to dataElement of a sender-receiver PortPrototype or nv data of a nv data PortPrototype.
+        # The aggregation of dataWriteAccess is subject to variability with the purpose to support the conditional existence of sender receiver ports or the variant existence of dataWriteAccess in the implementation.
         self.dataWriteAccesses: List[VariableAccess] = []
+
+        # The aggregation of ExternalTriggeringPoint is subject to variability with the purpose to support the conditional existence of trigger ports or the variant existence of external triggering points in the implementation.
         self.externalTriggeringPoints: List[ExternalTriggeringPoint] = []
+
+        # The aggregation of InternalTriggeringPoint is subject to variability with the purpose to support the variant existence of internal triggering points in the implementation.
         self.internalTriggeringPoints: List[InternalTriggeringPoint] = []
+
+        # The runnable has a mode access point.
+        # The aggregation of ModeAccessPoint is subject to variability with the purpose to support the conditional existence of mode ports or the variant existence of mode access points in the implementation.
         self.modeAccessPoints: List[ModeAccessPoint] = []
+
+        # The runnable has a mode switch point.
+        # The aggregation of ModeSwitchPoint is subject to variability with the purpose to support the conditional existence of mode ports or the variant existence of mode switch points in the implementation.
         self.modeSwitchPoints: List[ModeSwitchPoint] = []
+
+        # The presence of a ParameterAccess implies that a RunnableEntity needs read only access to a ParameterDataPrototype which may either be local or within a PortPrototype.
+        # The aggregation of ParameterAccess is subject to variability with the purpose to support the conditional existence of parameter ports and component local parameters as well as the variant existence of ParameterAccess (points) in the implementation.
         self.parameterAccesses: List[ParameterAccess] = []
+
+        # The presence of a readLocalVariable implies that a RunnableEntity needs read access to a VariableDataPrototype in the role of implicitInterRunnableVariable or explicitInterRunnableVariable.
+        # The aggregation of readLocalVariable is subject to variability with the purpose to support the conditional existence of implicitInterRunnableVariable and explicitInterRunnableVariable or the variant existence of readLocalVariable (points) in the implementation.
         self.readLocalVariables: List[VariableAccess] = []
+
+        # The RunnableEntity has a ServerCallPoint.
+        # The aggregation of ServerCallPoint is subject to variability with the purpose to support the conditional existence of client server PortPrototypes or the variant existence of server call points in the implementation.
         self.serverCallPoints: List[ServerCallPoint] = []
+
+        # The symbol describing this RunnableEntity's entry point. This is considered the API of the RunnableEntity and is required during the RTE contract phase.
         self.symbol: ARLiteral = None
-        self.waitPoints = {}  # type: Dict[str, WaitPoint]
+
+        # The WaitPoint associated with the RunnableEntity.
+        self.waitPoints: List[WaitPoint] = []
+
+        # The presence of a writtenLocalVariable implies that a RunnableEntity needs write access to a VariableDataPrototype in the role of implicitInterRunnableVariable or explicitInterRunnableVariable.
+        # The aggregation of writtenLocalVariable is subject to variability with the purpose to support the conditional existence of implicitInterRunnableVariable and explicitInterRunnableVariable or the variant existence of writtenLocalVariable (points) in the implementation.
         self.writtenLocalVariables: List[VariableAccess] = []
 
     def _createVariableAccess(self, short_name, variable_accesses: List[VariableAccess]):
@@ -170,146 +231,484 @@ class RunnableEntity(ExecutableEntity):
             variable_accesses.append(variable_access)
         return self.getElement(short_name, VariableAccess)
 
-    def getArguments(self):
+    def getArguments(self) -> List[RunnableEntityArgument]:
+        """
+        This represents the formal definition of a an argument to a RunnableEntity.
+
+        Returns:
+            List[RunnableEntityArgument]: The list of arguments
+        """
         return self.arguments
 
-    def addArgument(self, value):
-        self.arguments.append(value)
+    def addArgument(self, value: Optional[RunnableEntityArgument]) -> "RunnableEntity":
+        """
+        This represents the formal definition of a an argument to a RunnableEntity.
+        A None value is a no-op and does not append to arguments.
+
+        Args:
+            value: The argument to add
+
+        Returns:
+            RunnableEntity: self for method chaining
+        """
+        if value is not None:
+            self.arguments.append(value)
         return self
 
-    def getCanBeInvokedConcurrently(self):
+    def getCanBeInvokedConcurrently(self) -> Optional[ARBoolean]:
+        """
+        If the value of this attribute is set to "true" the enclosing RunnableEntity can be invoked concurrently (even for one instance of the corresponding AtomicSwComponentType).
+        This implies that it is the responsibility of the implementation of the RunnableEntity to take care of this form of concurrency.
+
+        Returns:
+            Optional[ARBoolean]: The concurrency flag, or None if not set
+        """
         return self.canBeInvokedConcurrently
 
-    def setCanBeInvokedConcurrently(self, value):
-        self.canBeInvokedConcurrently = value
+    def setCanBeInvokedConcurrently(self, value: Optional[ARBoolean]) -> "RunnableEntity":
+        """
+        If the value of this attribute is set to "true" the enclosing RunnableEntity can be invoked concurrently (even for one instance of the corresponding AtomicSwComponentType).
+        This implies that it is the responsibility of the implementation of the RunnableEntity to take care of this form of concurrency.
+        A None value is a no-op and does not overwrite an existing canBeInvokedConcurrently.
+
+        Args:
+            value: The concurrency flag to set
+
+        Returns:
+            RunnableEntity: self for method chaining
+        """
+        if value is not None:
+            self.canBeInvokedConcurrently = value
         return self
 
     def createDataReadAccess(self, short_name: str) -> VariableAccess:
+        """
+        RunnableEntity has implicit read access to dataElement of a sender-receiver PortPrototype or nv data of a nv data PortPrototype.
+        The aggregation of dataReadAccess is subject to variability with the purpose to support the conditional existence of sender receiver ports or the variant existence of dataReadAccess in the implementation.
+
+        Args:
+            short_name: The short name of the data read access
+
+        Returns:
+            VariableAccess: the created or existing VariableAccess
+        """
         return self._createVariableAccess(short_name, self.dataReadAccesses)
 
     def getDataReadAccesses(self) -> List[VariableAccess]:
+        """
+        RunnableEntity has implicit read access to dataElement of a sender-receiver PortPrototype or nv data of a nv data PortPrototype.
+        The aggregation of dataReadAccess is subject to variability with the purpose to support the conditional existence of sender receiver ports or the variant existence of dataReadAccess in the implementation.
+
+        Returns:
+            List[VariableAccess]: The list of data read accesses
+        """
         return sorted(self.dataReadAccesses, key=lambda v: v.short_name)
 
     def createDataWriteAccess(self, short_name: str) -> VariableAccess:
+        """
+        RunnableEntity has implicit write access to dataElement of a sender-receiver PortPrototype or nv data of a nv data PortPrototype.
+        The aggregation of dataWriteAccess is subject to variability with the purpose to support the conditional existence of sender receiver ports or the variant existence of dataWriteAccess in the implementation.
+
+        Args:
+            short_name: The short name of the data write access
+
+        Returns:
+            VariableAccess: the created or existing VariableAccess
+        """
         return self._createVariableAccess(short_name, self.dataWriteAccesses)
 
     def getDataWriteAccesses(self) -> List[VariableAccess]:
+        """
+        RunnableEntity has implicit write access to dataElement of a sender-receiver PortPrototype or nv data of a nv data PortPrototype.
+        The aggregation of dataWriteAccess is subject to variability with the purpose to support the conditional existence of sender receiver ports or the variant existence of dataWriteAccess in the implementation.
+
+        Returns:
+            List[VariableAccess]: The list of data write accesses
+        """
         return sorted(self.dataWriteAccesses, key=lambda v: v.short_name)
 
     def createDataReceivePointByArgument(self, short_name: str) -> VariableAccess:
+        """
+        RunnableEntity has explicit read access to dataElement of a sender-receiver PortPrototype or nv data of a nv data PortPrototype.
+        The result is passed back to the application by means of an argument in the function signature.
+        The aggregation of dataReceivePointByArgument is subject to variability with the purpose to support the conditional existence of sender receiver PortPrototype or the variant existence of data receive points in the implementation.
+
+        Args:
+            short_name: The short name of the data receive point
+
+        Returns:
+            VariableAccess: the created or existing VariableAccess
+        """
         return self._createVariableAccess(short_name, self.dataReceivePointByArguments)
 
     def getDataReceivePointByArguments(self) -> List[VariableAccess]:
+        """
+        RunnableEntity has explicit read access to dataElement of a sender-receiver PortPrototype or nv data of a nv data PortPrototype.
+        The result is passed back to the application by means of an argument in the function signature.
+        The aggregation of dataReceivePointByArgument is subject to variability with the purpose to support the conditional existence of sender receiver PortPrototype or the variant existence of data receive points in the implementation.
+
+        Returns:
+            List[VariableAccess]: The list of data receive points by argument
+        """
         return sorted(self.dataReceivePointByArguments, key=lambda v: v.short_name)
 
     def createDataReceivePointByValue(self, short_name: str) -> VariableAccess:
+        """
+        RunnableEntity has explicit read access to dataElement of a sender-receiver PortPrototype or nv data of a nv data PortPrototype.
+        The result is passed back to the application by means of the return value.
+        The aggregation of dataReceivePointByValue is subject to variability with the purpose to support the conditional existence of sender receiver ports or the variant existence of data receive points in the implementation.
+
+        Args:
+            short_name: The short name of the data receive point
+
+        Returns:
+            VariableAccess: the created or existing VariableAccess
+        """
         return self._createVariableAccess(short_name, self.dataReceivePointByValues)
 
     def getDataReceivePointByValues(self) -> List[VariableAccess]:
+        """
+        RunnableEntity has explicit read access to dataElement of a sender-receiver PortPrototype or nv data of a nv data PortPrototype.
+        The result is passed back to the application by means of the return value.
+        The aggregation of dataReceivePointByValue is subject to variability with the purpose to support the conditional existence of sender receiver ports or the variant existence of data receive points in the implementation.
+
+        Returns:
+            List[VariableAccess]: The list of data receive points by value
+        """
         return sorted(self.dataReceivePointByValues, key=lambda v: v.short_name)
 
     def createDataSendPoint(self, short_name: str) -> VariableAccess:
+        """
+        RunnableEntity has explicit write access to dataElement of a sender-receiver PortPrototype or nv data of a nv data PortPrototype.
+        The aggregation of dataSendPoint is subject to variability with the purpose to support the conditional existence of sender receiver PortPrototype or the variant existence of data send points in the implementation.
+
+        Args:
+            short_name: The short name of the data send point
+
+        Returns:
+            VariableAccess: the created or existing VariableAccess
+        """
         return self._createVariableAccess(short_name, self.dataSendPoints)
 
     def getDataSendPoints(self) -> List[VariableAccess]:
-        # return sorted(self.dataSendPoints.values(), key=lambda v: v.short_name)
+        """
+        RunnableEntity has explicit write access to dataElement of a sender-receiver PortPrototype or nv data of a nv data PortPrototype.
+        The aggregation of dataSendPoint is subject to variability with the purpose to support the conditional existence of sender receiver PortPrototype or the variant existence of data send points in the implementation.
+
+        Returns:
+            List[VariableAccess]: The list of data send points
+        """
         return self.dataSendPoints
 
     def createReadLocalVariable(self, short_name: str) -> VariableAccess:
+        """
+        The presence of a readLocalVariable implies that a RunnableEntity needs read access to a VariableDataPrototype in the role of implicitInterRunnableVariable or explicitInterRunnableVariable.
+        The aggregation of readLocalVariable is subject to variability with the purpose to support the conditional existence of implicitInterRunnableVariable and explicitInterRunnableVariable or the variant existence of readLocalVariable (points) in the implementation.
+
+        Args:
+            short_name: The short name of the read local variable
+
+        Returns:
+            VariableAccess: the created or existing VariableAccess
+        """
         return self._createVariableAccess(short_name, self.readLocalVariables)
 
     def getReadLocalVariables(self) -> List[VariableAccess]:
-        # return sorted(self.readLocalVariables.values(), key=lambda v: v.short_name)
+        """
+        The presence of a readLocalVariable implies that a RunnableEntity needs read access to a VariableDataPrototype in the role of implicitInterRunnableVariable or explicitInterRunnableVariable.
+        The aggregation of readLocalVariable is subject to variability with the purpose to support the conditional existence of implicitInterRunnableVariable and explicitInterRunnableVariable or the variant existence of readLocalVariable (points) in the implementation.
+
+        Returns:
+            List[VariableAccess]: The list of read local variables
+        """
         return self.readLocalVariables
 
     def createWrittenLocalVariable(self, short_name: str) -> VariableAccess:
+        """
+        The presence of a writtenLocalVariable implies that a RunnableEntity needs write access to a VariableDataPrototype in the role of implicitInterRunnableVariable or explicitInterRunnableVariable.
+        The aggregation of writtenLocalVariable is subject to variability with the purpose to support the conditional existence of implicitInterRunnableVariable and explicitInterRunnableVariable or the variant existence of writtenLocalVariable (points) in the implementation.
+
+        Args:
+            short_name: The short name of the written local variable
+
+        Returns:
+            VariableAccess: the created or existing VariableAccess
+        """
         return self._createVariableAccess(short_name, self.writtenLocalVariables)
 
     def getWrittenLocalVariables(self) -> List[VariableAccess]:
+        """
+        The presence of a writtenLocalVariable implies that a RunnableEntity needs write access to a VariableDataPrototype in the role of implicitInterRunnableVariable or explicitInterRunnableVariable.
+        The aggregation of writtenLocalVariable is subject to variability with the purpose to support the conditional existence of implicitInterRunnableVariable and explicitInterRunnableVariable or the variant existence of writtenLocalVariable (points) in the implementation.
+
+        Returns:
+            List[VariableAccess]: The list of written local variables
+        """
         return self.writtenLocalVariables
 
     def getParameterAccesses(self) -> List[ParameterAccess]:
+        """
+        The presence of a ParameterAccess implies that a RunnableEntity needs read only access to a ParameterDataPrototype which may either be local or within a PortPrototype.
+        The aggregation of ParameterAccess is subject to variability with the purpose to support the conditional existence of parameter ports and component local parameters as well as the variant existence of ParameterAccess (points) in the implementation.
+
+        Returns:
+            List[ParameterAccess]: The list of parameter accesses
+        """
         return list(sorted(filter(lambda a: isinstance(a, ParameterAccess), self.elements), key=lambda o: o.short_name))
 
     def createParameterAccess(self, short_name: str) -> ParameterAccess:
+        """
+        The presence of a ParameterAccess implies that a RunnableEntity needs read only access to a ParameterDataPrototype which may either be local or within a PortPrototype.
+        The aggregation of ParameterAccess is subject to variability with the purpose to support the conditional existence of parameter ports and component local parameters as well as the variant existence of ParameterAccess (points) in the implementation.
+
+        Args:
+            short_name: The short name of the parameter access
+
+        Returns:
+            ParameterAccess: the created or existing ParameterAccess
+        """
         if not self.IsElementExists(short_name):
             access = ParameterAccess(self, short_name)
             self.addElement(access)
         return self.getElement(short_name)
 
     def createSynchronousServerCallPoint(self, short_name: str) -> SynchronousServerCallPoint:
+        """
+        The RunnableEntity has a ServerCallPoint.
+        The aggregation of ServerCallPoint is subject to variability with the purpose to support the conditional existence of client server PortPrototypes or the variant existence of server call points in the implementation.
+
+        Args:
+            short_name: The short name of the synchronous server call point
+
+        Returns:
+            SynchronousServerCallPoint: the created or existing SynchronousServerCallPoint
+        """
         if short_name not in self.serverCallPoints:
             point = SynchronousServerCallPoint(self, short_name)
             self.addElement(point)
         return self.getElement(short_name)
-        # self.serverCallPoints[short_name] = server_call_point
-        # return self.serverCallPoints[short_name]
 
     def createAsynchronousServerCallPoint(self, short_name: str) -> AsynchronousServerCallPoint:
+        """
+        The RunnableEntity has a ServerCallPoint.
+        The aggregation of ServerCallPoint is subject to variability with the purpose to support the conditional existence of client server PortPrototypes or the variant existence of server call points in the implementation.
+
+        Args:
+            short_name: The short name of the asynchronous server call point
+
+        Returns:
+            AsynchronousServerCallPoint: the created or existing AsynchronousServerCallPoint
+        """
         if short_name not in self.serverCallPoints:
             point = AsynchronousServerCallPoint(self, short_name)
             self.addElement(point)
         return self.getElement(short_name, AsynchronousServerCallPoint)
-        # self.serverCallPoints[short_name] = server_call_point
-        # return self.serverCallPoints[short_name]
 
     def createAsynchronousServerCallResultPoint(self, short_name: str) -> AsynchronousServerCallResultPoint:
+        """
+        The server call result point admits a runnable to fetch the result of an asynchronous server call.
+        The aggregation of AsynchronousServerCallResultPoint is subject to variability with the purpose to support the conditional existence of client server PortPrototypes and the variant existence of server call result points in the implementation.
+
+        Args:
+            short_name: The short name of the asynchronous server call result point
+
+        Returns:
+            AsynchronousServerCallResultPoint: the created or existing AsynchronousServerCallResultPoint
+        """
         if short_name not in self.serverCallPoints:
             point = AsynchronousServerCallResultPoint(self, short_name)
             self.addElement(point)
         return self.getElement(short_name)
 
     def getSynchronousServerCallPoint(self) -> List[SynchronousServerCallPoint]:
+        """
+        The RunnableEntity has a ServerCallPoint.
+        The aggregation of ServerCallPoint is subject to variability with the purpose to support the conditional existence of client server PortPrototypes or the variant existence of server call points in the implementation.
+
+        Returns:
+            List[SynchronousServerCallPoint]: The list of synchronous server call points
+        """
         return list(sorted(filter(lambda a: isinstance(a, SynchronousServerCallPoint), self.elements), key=lambda o: o.getShortName()))
 
     def getAsynchronousServerCallPoint(self) -> List[AsynchronousServerCallPoint]:
+        """
+        The RunnableEntity has a ServerCallPoint.
+        The aggregation of ServerCallPoint is subject to variability with the purpose to support the conditional existence of client server PortPrototypes or the variant existence of server call points in the implementation.
+
+        Returns:
+            List[AsynchronousServerCallPoint]: The list of asynchronous server call points
+        """
         return list(sorted(filter(lambda a: isinstance(a, AsynchronousServerCallPoint), self.elements), key=lambda o: o.getShortName()))
 
     def getAsynchronousServerCallResultPoints(self) -> List[AsynchronousServerCallResultPoint]:
+        """
+        The server call result point admits a runnable to fetch the result of an asynchronous server call.
+        The aggregation of AsynchronousServerCallResultPoint is subject to variability with the purpose to support the conditional existence of client server PortPrototypes and the variant existence of server call result points in the implementation.
+
+        Returns:
+            List[AsynchronousServerCallResultPoint]: The list of asynchronous server call result points
+        """
         return list(sorted(filter(lambda a: isinstance(a, AsynchronousServerCallResultPoint), self.elements), key=lambda o: o.getShortName()))  # noqa E501
 
     def getServerCallPoints(self) -> List[ServerCallPoint]:
+        """
+        The RunnableEntity has a ServerCallPoint.
+        The aggregation of ServerCallPoint is subject to variability with the purpose to support the conditional existence of client server PortPrototypes or the variant existence of server call points in the implementation.
+
+        Returns:
+            List[ServerCallPoint]: The list of server call points
+        """
         return list(sorted(filter(lambda a: isinstance(a, ServerCallPoint), self.elements), key=lambda o: o.getShortName()))
 
     def createInternalTriggeringPoint(self, short_name: str) -> InternalTriggeringPoint:
+        """
+        The aggregation of InternalTriggeringPoint is subject to variability with the purpose to support the variant existence of internal triggering points in the implementation.
+
+        Args:
+            short_name: The short name of the internal triggering point
+
+        Returns:
+            InternalTriggeringPoint: the created or existing InternalTriggeringPoint
+        """
         if not self.IsElementExists(short_name):
             point = InternalTriggeringPoint(self, short_name)
             self.addElement(point)
         return self.getElement(short_name, InternalTriggeringPoint)
 
     def getInternalTriggeringPoints(self) -> List[InternalTriggeringPoint]:
+        """
+        The aggregation of InternalTriggeringPoint is subject to variability with the purpose to support the variant existence of internal triggering points in the implementation.
+
+        Returns:
+            List[InternalTriggeringPoint]: The list of internal triggering points
+        """
         return filter(lambda o: isinstance(o, InternalTriggeringPoint), self.elements)
 
     def getExternalTriggeringPoints(self) -> List[ExternalTriggeringPoint]:
+        """
+        The aggregation of ExternalTriggeringPoint is subject to variability with the purpose to support the conditional existence of trigger ports or the variant existence of external triggering points in the implementation.
+
+        Returns:
+            List[ExternalTriggeringPoint]: The list of external triggering points
+        """
         return self.externalTriggeringPoints
 
     def addExternalTriggeringPoint(self, value: Optional[ExternalTriggeringPoint]) -> "RunnableEntity":
+        """
+        The aggregation of ExternalTriggeringPoint is subject to variability with the purpose to support the conditional existence of trigger ports or the variant existence of external triggering points in the implementation.
+        A None value is a no-op and does not append to externalTriggeringPoints.
+
+        Args:
+            value: The external triggering point to add
+
+        Returns:
+            RunnableEntity: self for method chaining
+        """
         if value is not None:
             self.externalTriggeringPoints.append(value)
         return self
 
     def getModeAccessPoints(self) -> List[ModeAccessPoint]:
+        """
+        The runnable has a mode access point.
+        The aggregation of ModeAccessPoint is subject to variability with the purpose to support the conditional existence of mode ports or the variant existence of mode access points in the implementation.
+
+        Returns:
+            List[ModeAccessPoint]: The list of mode access points
+        """
         return self.modeAccessPoints
 
-    def addModeAccessPoint(self, value):
-        self.modeAccessPoints.append(value)
+    def addModeAccessPoint(self, value: Optional[ModeAccessPoint]) -> "RunnableEntity":
+        """
+        The runnable has a mode access point.
+        The aggregation of ModeAccessPoint is subject to variability with the purpose to support the conditional existence of mode ports or the variant existence of mode access points in the implementation.
+        A None value is a no-op and does not append to modeAccessPoints.
+
+        Args:
+            value: The mode access point to add
+
+        Returns:
+            RunnableEntity: self for method chaining
+        """
+        if value is not None:
+            self.modeAccessPoints.append(value)
+        return self
 
     def getModeSwitchPoints(self) -> List[ModeSwitchPoint]:
+        """
+        The runnable has a mode switch point.
+        The aggregation of ModeSwitchPoint is subject to variability with the purpose to support the conditional existence of mode ports or the variant existence of mode switch points in the implementation.
+
+        Returns:
+            List[ModeSwitchPoint]: The list of mode switch points
+        """
         return list(sorted(filter(lambda a: isinstance(a, ModeSwitchPoint), self.elements), key=lambda o: o.short_name))
 
     def createModeSwitchPoint(self, short_name: str) -> ModeSwitchPoint:
+        """
+        The runnable has a mode switch point.
+        The aggregation of ModeSwitchPoint is subject to variability with the purpose to support the conditional existence of mode ports or the variant existence of mode switch points in the implementation.
+
+        Args:
+            short_name: The short name of the mode switch point
+
+        Returns:
+            ModeSwitchPoint: the created or existing ModeSwitchPoint
+        """
         if not self.IsElementExists(short_name):
             access = ModeSwitchPoint(self, short_name)
             self.addElement(access)
             self.modeSwitchPoints.append(access)
         return self.getElement(short_name, ModeSwitchPoint)
 
-    def getSymbol(self):
+    def getSymbol(self) -> Optional[ARLiteral]:
+        """
+        The symbol describing this RunnableEntity's entry point. This is considered the API of the RunnableEntity and is required during the RTE contract phase.
+
+        Returns:
+            Optional[ARLiteral]: The symbol, or None if not set
+        """
         return self.symbol
 
-    def setSymbol(self, value):
-        self.symbol = value
+    def setSymbol(self, value: Optional[ARLiteral]) -> "RunnableEntity":
+        """
+        The symbol describing this RunnableEntity's entry point. This is considered the API of the RunnableEntity and is required during the RTE contract phase.
+        A None value is a no-op and does not overwrite an existing symbol.
+
+        Args:
+            value: The symbol to set
+
+        Returns:
+            RunnableEntity: self for method chaining
+        """
+        if value is not None:
+            self.symbol = value
         return self
+
+    def createWaitPoint(self, short_name: str) -> WaitPoint:
+        """
+        The WaitPoint associated with the RunnableEntity.
+
+        Args:
+            short_name: The short name of the WaitPoint
+
+        Returns:
+            WaitPoint: the created or existing WaitPoint
+        """
+        if not self.IsElementExists(short_name):
+            point = WaitPoint(self, short_name)
+            self.addElement(point)
+            self.waitPoints.append(point)
+        return self.getElement(short_name, WaitPoint)
+
+    def getWaitPoints(self) -> List[WaitPoint]:
+        """
+        The WaitPoint associated with the RunnableEntity.
+
+        Returns:
+            List[WaitPoint]: The list of wait points
+        """
+        return self.waitPoints
 
 
 class SwcExclusiveAreaPolicy(ARObject):
@@ -378,6 +777,7 @@ class SwcInternalBehavior(InternalBehavior):
     """
 
     # SwcInternalBehavior method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.2, p.518
     # [x] __init__                                   [x] impl  [x] docstring  [x] test
     # [x] getArTypedPerInstanceMemories              [x] impl  [x] docstring  [x] test
     # [x] createArTypedPerInstanceMemory             [x] impl  [x] docstring  [x] test
@@ -430,10 +830,10 @@ class SwcInternalBehavior(InternalBehavior):
     # [x] getRunnableEntity                          [x] impl  [x] docstring  [x] test
     # [x] getSupportsMultipleInstantiation           [x] impl  [x] docstring  [x] test
     # [x] setSupportsMultipleInstantiation           [x] impl  [x] docstring  [x] test
-    # [x] addInstantiationDataDefProps               [x] impl  [x] docstring  [x] test
-    # [x] getInstantiationDataDefPropss              [x] impl  [x] docstring  [x] test
-    # [x] addVariationPointProxy                     [x] impl  [x] docstring  [x] test
-    # [x] getVariationPointProxies                   [x] impl  [x] docstring  [x] test
+    # [x] addInstantiationDataDefProps               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getInstantiationDataDefPropss              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addVariationPointProxy                     [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer
+    # [x] getVariationPointProxies                   [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

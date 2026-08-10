@@ -306,6 +306,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import AutosarParameterRef, ParameterInAtomicSWCTypeInstanceRef, VariableInAtomicSWCTypeInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstantiationDataDefProps import InstantiationDataDefProps
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet, ModeAccessPoint, ModeSwitchPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import PortDefinedArgumentValue
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import (
@@ -320,6 +321,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
     RTEEvent,
     SwcModeSwitchEvent,
     TimingEvent,
+    WaitPoint,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedPortAssignment, SwcServiceDependency
@@ -1341,11 +1343,12 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.notImplemented("Unsupported SwCalprmAxisTypeProps %s" % type(axis.sw_calprm_axis_type_props))
 
     def setSwCalprmAxisSet(self, element: ET.Element, key: str, set: SwCalprmAxisSet):
-        axises = set.getSwCalprmAxises()
-        if len(axises) > 0:
-            child_element = ET.SubElement(element, key)
-            for axis in axises:
-                self.setSwCalprmAxis(child_element, axis)
+        if set is not None:
+            axises = set.getSwCalprmAxises()
+            if len(axises) > 0:
+                child_element = ET.SubElement(element, key)
+                for axis in axises:
+                    self.setSwCalprmAxis(child_element, axis)
 
     def setSwPointerTargetProps(self, element: ET.Element, key: str, props: SwPointerTargetProps):
         if props is not None:
@@ -1873,6 +1876,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             for access in accesses:
                 self.writeVariableAccess(child_element, access)
 
+    def writeRunnableEntityDataReceivePointByValues(self, element: ET.Element, entity: RunnableEntity):
+        accesses = entity.getDataReceivePointByValues()
+        if len(accesses) > 0:
+            child_element = ET.SubElement(element, "DATA-RECEIVE-POINT-BY-VALUES")
+            for access in accesses:
+                self.writeVariableAccess(child_element, access)
+
     def writeRunnableEntityDataSendPoints(self, element: ET.Element, entity: RunnableEntity):
         points = entity.getDataSendPoints()
         if len(points) > 0:
@@ -2050,6 +2060,19 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported argument of Runnable Entity <%s>" % type(argument))
 
+    def writeRunnableEntityWaitPoints(self, element: ET.Element, entity: RunnableEntity):
+        points = entity.getWaitPoints()
+        if len(points) > 0:
+            child_element = ET.SubElement(element, "WAIT-POINTS")
+            for point in points:
+                if isinstance(point, WaitPoint):
+                    wp_element = ET.SubElement(child_element, "WAIT-POINT")
+                    self.writeIdentifiable(wp_element, point)
+                    self.setChildElementOptionalTimeValue(wp_element, "TIMEOUT", point.getTimeout())
+                    self.setChildElementOptionalRefType(wp_element, "TRIGGER", point.getTriggerRef())
+                else:
+                    self.notImplemented("Unsupported WaitPoint <%s>" % type(point))
+
     def writeRunnableEntityAsynchronousServerCallResultPoint(self, element: ET.Element, entity: RunnableEntity):
         points = entity.getAsynchronousServerCallResultPoints()
         if len(points) > 0:
@@ -2068,6 +2091,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalBooleanValue(child_element, "CAN-BE-INVOKED-CONCURRENTLY", entity.getCanBeInvokedConcurrently())
             self.writeRunnableEntityDataReadAccesses(child_element, entity)
             self.writeRunnableEntityDataReceivePointByArguments(child_element, entity)
+            self.writeRunnableEntityDataReceivePointByValues(child_element, entity)
             self.writeRunnableEntityDataSendPoints(child_element, entity)
             self.writeRunnableEntityDataWriteAccesses(child_element, entity)
             self.writeRunnableEntityModeAccessPoints(child_element, entity)
@@ -2077,6 +2101,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeRunnableEntityReadLocalVariables(child_element, entity)
             self.writeRunnableEntityServerCallPoints(child_element, entity)
             self.setChildElementOptionalLiteral(child_element, "SYMBOL", entity.symbol)
+            self.writeRunnableEntityWaitPoints(child_element, entity)
             self.writeRunnableEntityWrittenLocalVariable(child_element, entity)
 
     def writeSwcInternalBehaviorRunnables(self, element: ET.Element, behavior: SwcInternalBehavior):
@@ -2681,6 +2706,19 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.setChildElementOptionalLiteral(policy_element, "API-PRINCIPLE", policy.getApiPrinciple())
                     self.setChildElementOptionalRefType(policy_element, "EXCLUSIVE-AREA-REF", policy.getExclusiveAreaRef())
 
+    def writeSwcInternalBehaviorInstantiationDataDefProps(self, element: ET.Element, behavior: SwcInternalBehavior):
+        props_list = behavior.getInstantiationDataDefPropss()
+        if len(props_list) > 0:
+            props_tag = ET.SubElement(element, "INSTANTIATION-DATA-DEF-PROPSS")
+            for props in props_list:
+                if isinstance(props, InstantiationDataDefProps):
+                    child_element = ET.SubElement(props_tag, "INSTANTIATION-DATA-DEF-PROPS")
+                    self.setAutosarParameterRef(child_element, "PARAMETER-INSTANCE", props.getParameterInstance())
+                    self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", props.getSwDataDefProps())
+                    self.setAutosarVariableRef(child_element, "VARIABLE-INSTANCE", props.getVariableInstance())
+                else:
+                    self.notImplemented("Unsupported InstantiationDataDefProps <%s>" % type(props))
+
     def writeSwcInternalBehavior(self, element: ET.Element, behavior: SwcInternalBehavior):
         self.logger.debug("writeSwInternalBehavior %s" % behavior.getShortName())
         child_element = ET.SubElement(element, "SWC-INTERNAL-BEHAVIOR")
@@ -2693,6 +2731,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(child_element, "HANDLE-TERMINATION-AND-RESTART", behavior.getHandleTerminationAndRestart())
         self.setIncludedDataTypeSets(child_element, behavior.getIncludedDataTypeSets())
         self.writeSwcInternalBehaviorIncludedModeDeclarationGroupSets(child_element, behavior)
+        self.writeSwcInternalBehaviorInstantiationDataDefProps(child_element, behavior)
         self.writeSwcInternalBehaviorPerInstanceMemories(child_element, behavior)
         self.writeSwcInternalBehaviorParameterDataPrototypes(child_element, "PER-INSTANCE-PARAMETERS", behavior.getPerInstanceParameters())
         self.writeSwcInternalBehaviorPortAPIOptions(child_element, behavior)

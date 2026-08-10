@@ -577,6 +577,14 @@ is one ordered procedure per class (Rule 0006's mechanical check only confirms t
 
 - The checklist includes `# Spec verified: R<YY>-<MM>` immediately after the `# Spec:`
   line (`R23-11` = Nov 2023). Verify during every alignment pass.
+- **The marker is the single review gate.** A class is reviewed/aligned iff its source
+  carries `# Spec verified: R<YY>-<MM>`; a fully-`[x]` checklist, passing tests, or a
+  clean round-trip do **not** by themselves certify a class. **No marker ⇒ align from
+  the beginning** — run the full 9-step workflow (SKILL.md), trusting no pre-existing
+  field/checklist/docstring (Rule 0001.3 shape-3 detector; Rule 0002 field-to-spec
+  cross-check is the gate, both directions). The only marker-less classes that are
+  *not* "unreviewed" are XSD-only classes with no own spec table (the Rule 0002 /
+  0012.1 exception below) — confirm the exception before a from-scratch pass.
 - **The marker certifies all spec info, including member types** — do not claim it while a
   member is a placeholder. When a Rule 0001.10 placeholder remains, **keep the `# Spec:`
   line but omit the stamp**; the affected rows stay `[ ]`. The stamp flips back on once

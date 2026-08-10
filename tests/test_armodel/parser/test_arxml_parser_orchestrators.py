@@ -115,6 +115,37 @@ class TestSwcInternalBehaviorOrchestrator:
         parser.readSwcInternalBehavior(element, behavior)
         assert len(behavior.getPortAPIOptions()) == 1
 
+    def test_readSwcInternalBehavior_with_instantiation_data_def_props(self, parser):
+        from armodel.models import ApplicationSwComponentType
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        element = _snip(
+            "<SHORT-NAME>bh</SHORT-NAME>"
+            "<INSTANTIATION-DATA-DEF-PROPSS>"
+            "<INSTANTIATION-DATA-DEF-PROPS>"
+            "<VARIABLE-INSTANCE>"
+            "<LOCAL-VARIABLE-REF DEST='VARIABLE-DATA-PROTOTYPE'>/var</LOCAL-VARIABLE-REF>"
+            "</VARIABLE-INSTANCE>"
+            "</INSTANTIATION-DATA-DEF-PROPS>"
+            "</INSTANTIATION-DATA-DEF-PROPSS>",
+            root_tag="SWC-INTERNAL-BEHAVIOR",
+        )
+        parser.readSwcInternalBehavior(element, behavior)
+        props = behavior.getInstantiationDataDefPropss()
+        assert len(props) == 1
+        assert props[0].getVariableInstance() is not None
+        assert props[0].getVariableInstance().getLocalVariableRef().getValue() == "/var"
+
+    def test_readSwcInternalBehavior_instantiation_data_def_props_empty(self, parser):
+        from armodel.models import ApplicationSwComponentType
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        element = _snip("<SHORT-NAME>bh</SHORT-NAME>", root_tag="SWC-INTERNAL-BEHAVIOR")
+        parser.readSwcInternalBehavior(element, behavior)
+        assert behavior.getInstantiationDataDefPropss() == []
+
     def test_readSwcInternalBehavior_with_explicit_inter_runnable_variables(self, parser):
         from armodel.models import ApplicationSwComponentType
 
@@ -527,6 +558,31 @@ class TestRunnableEntityOrchestrator:
         )
         parser.readRunnableEntity(element, runnable)
         assert len(runnable.getWrittenLocalVariables()) == 1
+
+    def test_readRunnableEntity_with_wait_points(self, parser):
+        from armodel.models import ApplicationSwComponentType
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        runnable = behavior.createRunnableEntity("run")
+        element = _snip(
+            "<SHORT-NAME>run</SHORT-NAME>"
+            "<WAIT-POINTS>"
+            "<WAIT-POINT>"
+            "<SHORT-NAME>wp1</SHORT-NAME>"
+            "<TIMEOUT>5.0</TIMEOUT>"
+            "<TRIGGER DEST='RTEEVENT'>/pkg/Event</TRIGGER>"
+            "</WAIT-POINT>"
+            "</WAIT-POINTS>",
+            root_tag="RUNNABLE-ENTITY",
+        )
+        parser.readRunnableEntity(element, runnable)
+        points = runnable.getWaitPoints()
+        assert len(points) == 1
+        assert points[0].getShortName() == "wp1"
+        assert points[0].getTimeout() is not None
+        assert points[0].getTimeout().getValue() == 5.0
+        assert points[0].getTriggerRef().getValue() == "/pkg/Event"
 
     def test_readRunnableEntity_with_readLocalVariables(self, parser):
         from armodel.models import ApplicationSwComponentType

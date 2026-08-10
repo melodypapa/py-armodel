@@ -138,7 +138,7 @@ class TestRunnableEntity:
         assert runnable.readLocalVariables == []
         assert runnable.serverCallPoints == []
         assert runnable.symbol is None
-        assert runnable.waitPoints == {}
+        assert runnable.getWaitPoints() == []
         assert runnable.writtenLocalVariables == []
 
         # Test canBeInvokedConcurrently methods
@@ -199,6 +199,69 @@ class TestRunnableEntity:
         assert mode_switch_point is not None
         assert mode_switch_point.short_name == "TestModeSwitch"
         assert mode_switch_point in runnable.getModeSwitchPoints()
+
+        # Test waitPoint methods
+        wait_point = runnable.createWaitPoint("TestWaitPoint")
+        assert wait_point is not None
+        assert wait_point.short_name == "TestWaitPoint"
+        assert wait_point in runnable.getWaitPoints()
+        assert runnable.createWaitPoint("TestWaitPoint") == wait_point
+        assert len(runnable.getWaitPoints()) == 1
+
+        # Test external triggering point methods
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import ExternalTriggeringPoint
+
+        ext_point = ExternalTriggeringPoint()
+        assert runnable.addExternalTriggeringPoint(ext_point) is runnable
+        assert ext_point in runnable.getExternalTriggeringPoints()
+        assert runnable.addExternalTriggeringPoint(None) is runnable
+        assert len(runnable.getExternalTriggeringPoints()) == 1
+
+
+class TestRunnableEntityAccessors:
+    """Cover the remaining RunnableEntity accessors referenced by the set-based gate."""
+
+    def test_runnable_entity_accessor_coverage(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        runnable = RunnableEntity(ar_root, "AccessorRunnable")
+
+        # argument accessors
+        arg = RunnableEntityArgument()
+        runnable.addArgument(arg)
+        assert runnable.getArguments() == [arg]
+
+        # data read / write accessors
+        read_access = runnable.createDataReadAccess("ra")
+        assert read_access in runnable.getDataReadAccesses()
+        write_access = runnable.createDataWriteAccess("wa")
+        assert write_access in runnable.getDataWriteAccesses()
+
+        # data receive point accessors
+        rpa = runnable.createDataReceivePointByArgument("rpa")
+        assert rpa in runnable.getDataReceivePointByArguments()
+        rpv = runnable.createDataReceivePointByValue("rpv")
+        assert rpv in runnable.getDataReceivePointByValues()
+
+        # data send point accessors
+        dsp = runnable.createDataSendPoint("dsp")
+        assert dsp in runnable.getDataSendPoints()
+
+        # local variable accessors
+        rlv = runnable.createReadLocalVariable("rlv")
+        assert rlv in runnable.getReadLocalVariables()
+        wlv = runnable.createWrittenLocalVariable("wlv")
+        assert wlv in runnable.getWrittenLocalVariables()
+
+        # server call point getters (populated via elements registry)
+        runnable.createSynchronousServerCallPoint("scp")
+        assert len(runnable.getSynchronousServerCallPoint()) == 1
+        assert len(runnable.getServerCallPoints()) == 1
+
+        # mode access point accessors
+        map_point = runnable.addModeAccessPoint(None)
+        assert map_point is runnable
+        assert runnable.getModeAccessPoints() == []
 
 
 class TestSwcInternalBehavior:
