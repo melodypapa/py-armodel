@@ -526,7 +526,18 @@ from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, 
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
 from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis, SwCalprmAxisSet
-from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps, SwPointerTargetProps, SwTextProps, ValueList
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
+    SwDataDefProps,
+    SwPointerTargetProps,
+    SwTextProps,
+    ValueList,
+    SwBitRepresentation,
+    SwVariableRefProxy,
+    SwCalprmRefProxy,
+    SwDataDependencyArgs,
+    CompuGenericMath,
+    SwDataDependency,
+)
 from armodel.models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout, SwRecordLayoutGroup, SwRecordLayoutGroupContent, SwRecordLayoutV
 from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
@@ -3275,10 +3286,12 @@ class ARXMLParser(AbstractARXMLParser):
                 for annotation in self.getAnnotations(conditional_tag):
                     sw_data_def_props.addAnnotation(annotation)
 
+                sw_data_def_props.setDisplayPresentation(self.getChildElementOptionalLiteral(conditional_tag, "DISPLAY-PRESENTATION"))
                 sw_data_def_props.setBaseTypeRef(self.getChildElementOptionalRefType(conditional_tag, "BASE-TYPE-REF"))
                 sw_data_def_props.setDataConstrRef(self.getChildElementOptionalRefType(conditional_tag, "DATA-CONSTR-REF"))
                 sw_data_def_props.setCompuMethodRef(self.getChildElementOptionalRefType(conditional_tag, "COMPU-METHOD-REF"))
                 sw_data_def_props.setSwAddrMethodRef(self.getChildElementOptionalRefType(conditional_tag, "SW-ADDR-METHOD-REF"))
+                sw_data_def_props.setSwAlignment(self.getChildElementOptionalLiteral(conditional_tag, "SW-ALIGNMENT"))
                 sw_data_def_props.setSwImplPolicy(self.getChildElementOptionalLiteral(conditional_tag, "SW-IMPL-POLICY"))
                 sw_data_def_props.setSwIntendedResolution(self.getChildElementOptionalNumericalValue(conditional_tag, "SW-INTENDED-RESOLUTION"))
                 sw_data_def_props.setImplementationDataTypeRef(self.getChildElementOptionalRefType(conditional_tag, "IMPLEMENTATION-DATA-TYPE-REF"))
@@ -3290,10 +3303,84 @@ class ARXMLParser(AbstractARXMLParser):
                 sw_data_def_props.setSwRecordLayoutRef(self.getChildElementOptionalRefType(conditional_tag, "SW-RECORD-LAYOUT-REF"))
                 sw_data_def_props.setValueAxisDataTypeRef(self.getChildElementOptionalRefType(conditional_tag, "VALUE-AXIS-DATA-TYPE-REF"))
                 sw_data_def_props.setUnitRef(self.getChildElementOptionalRefType(conditional_tag, "UNIT-REF"))
+                sw_data_def_props.setDisplayFormat(self.getChildElementOptionalLiteral(conditional_tag, "DISPLAY-FORMAT"))
+                sw_data_def_props.setAdditionalNativeTypeQualifier(self.getChildElementOptionalLiteral(conditional_tag, "ADDITIONAL-NATIVE-TYPE-QUALIFIER"))
+                sw_data_def_props.setSwInterpolationMethod(self.getChildElementOptionalLiteral(conditional_tag, "SW-INTERPOLATION-METHOD"))
+                sw_data_def_props.setSwIsVirtual(self.getChildElementOptionalBooleanValue(conditional_tag, "SW-IS-VIRTUAL"))
                 self.readSwDataDefProsInvalidValue(conditional_tag, sw_data_def_props)
+                self.readSwDataDefPropsBits(conditional_tag, sw_data_def_props)
+                self.readSwComparisonVariables(conditional_tag, sw_data_def_props)
+                self.readSwDataDependency(conditional_tag, sw_data_def_props)
+                self.readSwHostVariable(conditional_tag, sw_data_def_props)
+                self.readSwRefTiming(conditional_tag, sw_data_def_props)
                 # self.readSwPointerTargetProps(conditional_tag, sw_data_def_props)
-                self.readARObjectAttributes(conditional_tag, sw_data_def_props.conditional)
         return sw_data_def_props
+
+    def readSwDataDefPropsBits(self, element: ET.Element, props: SwDataDefProps):
+        bit_representation_element = self.find(element, "SW-BIT-REPRESENTATION")
+        if bit_representation_element is not None:
+            bit_representation = SwBitRepresentation()
+            bit_representation.setBitPosition(self.getChildElementOptionalIntegerValue(bit_representation_element, "BIT-POSITION"))
+            bit_representation.setNumberOfBits(self.getChildElementOptionalIntegerValue(bit_representation_element, "NUMBER-OF-BITS"))
+            props.setSwBitRepresentation(bit_representation)
+        value_block_size = self.getChildElementOptionalNumericalValue(element, "SW-VALUE-BLOCK-SIZE")
+        props.setSwValueBlockSize(value_block_size)
+        for mult_element in self.findall(element, "SW-VALUE-BLOCK-SIZE-MULTS/NUMERICAL-VALUE-VARIATION-POINT"):
+            value = self.getChildElementOptionalNumericalValue(mult_element, "VALUE")
+            if value is None:
+                value = self.getChildElementOptionalNumericalValue(mult_element, "V")
+            props.addSwValueBlockSizeMult(value)
+
+    def readSwComparisonVariables(self, element: ET.Element, props: SwDataDefProps):
+        for proxy_element in self.findall(element, "SW-COMPARISON-VARIABLES/SW-VARIABLE-REF-PROXY"):
+            props.addSwComparisonVariable(self.readSwVariableRefProxy(proxy_element))
+
+    def readSwHostVariable(self, element: ET.Element, props: SwDataDefProps):
+        host_variable_element = self.find(element, "SW-HOST-VARIABLE")
+        if host_variable_element is not None:
+            props.setSwHostVariable(self.readSwVariableRefProxy(host_variable_element))
+
+    def readSwVariableRefProxy(self, element: ET.Element) -> SwVariableRefProxy:
+        proxy = SwVariableRefProxy()
+        proxy.setAutosarVariable(self.getAutosarVariableRef(element, "AUTOSAR-VARIABLE"))
+        proxy.setMcDataInstanceVarRef(self.getChildElementOptionalRefType(element, "MC-DATA-INSTANCE-VAR-REF"))
+        return proxy
+
+    def readSwDataDependency(self, element: ET.Element, props: SwDataDefProps):
+        dependency_element = self.find(element, "SW-DATA-DEPENDENCY")
+        if dependency_element is not None:
+            dependency = SwDataDependency()
+            formula_element = self.find(dependency_element, "SW-DATA-DEPENDENCY-FORMULA")
+            if formula_element is not None:
+                formula = CompuGenericMath()
+                level = formula_element.attrib.get("LEVEL")
+                if level is not None:
+                    formula.setLevel(ARLiteral().setValue(level))
+                dependency.setSwDataDependencyFormula(formula)
+            args_element = self.find(dependency_element, "SW-DATA-DEPENDENCY-ARGS")
+            if args_element is not None:
+                args = SwDataDependencyArgs()
+                calprm_element = self.find(args_element, "SW-CALPRM-REF-PROXY")
+                if calprm_element is not None:
+                    args.setSwCalprmRef(self.readSwCalprmRefProxy(calprm_element))
+                variable_element = self.find(args_element, "SW-VARIABLE-REF-PROXY")
+                if variable_element is not None:
+                    args.setSwVariable(self.readSwVariableRefProxy(variable_element))
+                dependency.setSwDataDependencyArgs(args)
+            props.setSwDataDependency(dependency)
+
+    def readSwCalprmRefProxy(self, element: ET.Element) -> SwCalprmRefProxy:
+        proxy = SwCalprmRefProxy()
+        proxy.setArParameter(self.getAutosarParameterRef(element, "AR-PARAMETER"))
+        proxy.setMcDataInstanceRef(self.getChildElementOptionalRefType(element, "MC-DATA-INSTANCE-REF"))
+        return proxy
+
+    def readSwRefTiming(self, element: ET.Element, props: SwDataDefProps):
+        refresh_timing_element = self.find(element, "SW-REFRESH-TIMING")
+        if refresh_timing_element is not None:
+            refresh_timing = MultidimensionalTime()
+            self.readMultidimensionalTime(refresh_timing_element, refresh_timing)
+            props.setSwRefreshTiming(refresh_timing)
 
     def readAutosarDataType(self, element: ET.Element, data_type: AutosarDataType):
         self.readIdentifiable(element, data_type)

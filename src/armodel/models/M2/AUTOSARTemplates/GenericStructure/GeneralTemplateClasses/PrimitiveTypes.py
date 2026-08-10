@@ -399,6 +399,66 @@ class CseCodeType(ARLiteral):
         super().__init__()
 
 
+class DisplayFormatString(ARLiteral):
+    """
+    This is a display format specifier for the display of values e.g. in documents or in measurement and calibration systems. The display format specifier is a subset of the ANSI C printf specifiers with the following form: %[flags] [width] [.prec] type character.
+
+    Tags:
+        * xml.xsd.customType=DISPLAY-FORMAT-STRING
+        * xml.xsd.type=string
+    """
+
+    # DisplayFormatString method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.42, p.334
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [ ] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+
+    def __init__(self):
+        super().__init__()
+
+
+class NativeDeclarationString(ARLiteral):
+    """
+    This string contains a native data declaration of a data type in a programming language. It is basically a string, but white-space shall be preserved.
+
+    Tags:
+        * xml.xsd.customType=NATIVE-DECLARATION-STRING
+        * xml.xsd.type=string
+        * xml.xsd.whiteSpace=preserve
+    """
+
+    # NativeDeclarationString method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.40, p.333
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [ ] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+
+    def __init__(self):
+        super().__init__()
+
+
+class PrimitiveIdentifier(ARLiteral):
+    """
+    This meta-class has the ability to contain a string. Please note that this meta-class has only been introduced to fix an issue with the generation of attributes on primitives in context with [TPS_XMLSPR_00024].
+
+    Tags:
+        * xml.xsd.customType=PRIMITIVE-IDENTIFIER
+        * xml.xsd.maxLength=128
+        * xml.xsd.pattern=[a-zA-Z]([a-zA-Z0-9]|_[a-zA-Z0-9])*_?
+        * xml.xsd.type=string
+    """
+
+    # PrimitiveIdentifier method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.58, p.112
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [ ] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+
+    def __init__(self):
+        super().__init__()
+
+
 class ReferrableSubtypesEnum(ARLiteral):
     """
     Represents an enum for referrable subtypes in AUTOSAR models.

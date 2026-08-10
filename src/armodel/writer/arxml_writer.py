@@ -180,7 +180,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable, MultilanguageReferrable, Referrable, ShortNameFragment
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Limit, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Limit, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     PredefinedVariant,
@@ -518,7 +518,18 @@ from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, 
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
 from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis, SwCalprmAxisSet
-from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps, SwPointerTargetProps, SwTextProps, ValueList
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
+    SwDataDefProps,
+    SwPointerTargetProps,
+    SwTextProps,
+    ValueList,
+    SwBitRepresentation,
+    SwVariableRefProxy,
+    SwCalprmRefProxy,
+    SwDataDependencyArgs,
+    CompuGenericMath,
+    SwDataDependency,
+)
 from armodel.models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout, SwRecordLayoutGroup, SwRecordLayoutV
 from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
@@ -1551,10 +1562,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeARObjectAttributes(child_element, props)
             sw_data_def_props_variants_tag = ET.SubElement(child_element, "SW-DATA-DEF-PROPS-VARIANTS")
             conditional_tag = ET.SubElement(sw_data_def_props_variants_tag, "SW-DATA-DEF-PROPS-CONDITIONAL")
-            self.writeARObjectAttributes(conditional_tag, props.conditional)
             self.setAnnotations(conditional_tag, props.getAnnotations())
+            self.setChildElementOptionalLiteral(conditional_tag, "DISPLAY-PRESENTATION", props.getDisplayPresentation())
             self.setChildElementOptionalRefType(conditional_tag, "BASE-TYPE-REF", props.getBaseTypeRef())
             self.setChildElementOptionalRefType(conditional_tag, "SW-ADDR-METHOD-REF", props.getSwAddrMethodRef())
+            self.setChildElementOptionalLiteral(conditional_tag, "SW-ALIGNMENT", props.getSwAlignment())
             self.setChildElementOptionalLiteral(conditional_tag, "SW-CALIBRATION-ACCESS", props.getSwCalibrationAccess())
             self.setChildElementOptionalRefType(conditional_tag, "COMPU-METHOD-REF", props.getCompuMethodRef())
             self.setChildValueSpecification(conditional_tag, "INVALID-VALUE", props.getInvalidValue())
@@ -1562,13 +1574,79 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(conditional_tag, "DATA-CONSTR-REF", props.getDataConstrRef())
             self.setChildElementOptionalRefType(conditional_tag, "IMPLEMENTATION-DATA-TYPE-REF", props.getImplementationDataTypeRef())
             self.setSwCalprmAxisSet(conditional_tag, "SW-CALPRM-AXIS-SET", props.getSwCalprmAxisSet())
+            self.setSwBitRepresentation(conditional_tag, props.getSwBitRepresentation())
+            self.setChildElementOptionalNumericalValue(conditional_tag, "SW-VALUE-BLOCK-SIZE", props.getSwValueBlockSize())
+            self.setSwValueBlockSizeMults(conditional_tag, props.getSwValueBlockSizeMults())
             self.setChildElementOptionalLiteral(conditional_tag, "SW-IMPL-POLICY", props.getSwImplPolicy())
             self.setChildElementOptionalNumericalValue(conditional_tag, "SW-INTENDED-RESOLUTION", props.getSwIntendedResolution())
             self.setSwPointerTargetProps(conditional_tag, "SW-POINTER-TARGET-PROPS", props.getSwPointerTargetProps())
             self.setSwTextProps(conditional_tag, props.getSwTextProps())
+            self.setSwComparisonVariables(conditional_tag, props.getSwComparisonVariables())
             self.setChildElementOptionalRefType(conditional_tag, "SW-RECORD-LAYOUT-REF", props.getSwRecordLayoutRef())
             self.setChildElementOptionalRefType(conditional_tag, "VALUE-AXIS-DATA-TYPE-REF", props.getValueAxisDataTypeRef())
             self.setChildElementOptionalRefType(conditional_tag, "UNIT-REF", props.getUnitRef())
+            self.setSwDataDependency(conditional_tag, props.getSwDataDependency())
+            self.setChildElementOptionalLiteral(conditional_tag, "DISPLAY-FORMAT", props.getDisplayFormat())
+            self.setChildElementOptionalLiteral(conditional_tag, "ADDITIONAL-NATIVE-TYPE-QUALIFIER", props.getAdditionalNativeTypeQualifier())
+            self.setChildElementOptionalLiteral(conditional_tag, "SW-INTERPOLATION-METHOD", props.getSwInterpolationMethod())
+            self.setChildElementOptionalBooleanValue(conditional_tag, "SW-IS-VIRTUAL", props.getSwIsVirtual())
+            self.setSwHostVariable(conditional_tag, props.getSwHostVariable())
+            self.setMultidimensionalTime(conditional_tag, "SW-REFRESH-TIMING", props.getSwRefreshTiming())
+
+    def setSwBitRepresentation(self, element: ET.Element, bit_representation: SwBitRepresentation):
+        if bit_representation is not None:
+            child_element = ET.SubElement(element, "SW-BIT-REPRESENTATION")
+            self.writeARObjectAttributes(child_element, bit_representation)
+            self.setChildElementOptionalIntegerValue(child_element, "BIT-POSITION", bit_representation.getBitPosition())
+            self.setChildElementOptionalIntegerValue(child_element, "NUMBER-OF-BITS", bit_representation.getNumberOfBits())
+
+    def setSwValueBlockSizeMults(self, element: ET.Element, mults: List[ARNumerical]):
+        if len(mults) > 0:
+            mults_element = ET.SubElement(element, "SW-VALUE-BLOCK-SIZE-MULTS")
+            for mult in mults:
+                value_element = ET.SubElement(mults_element, "NUMERICAL-VALUE-VARIATION-POINT")
+                self.setChildElementOptionalNumericalValue(value_element, "V", mult)
+
+    def setSwComparisonVariables(self, element: ET.Element, comparison_variables: List[SwVariableRefProxy]):
+        if len(comparison_variables) > 0:
+            comparison_variables_element = ET.SubElement(element, "SW-COMPARISON-VARIABLES")
+            for comparison_variable in comparison_variables:
+                self.setSwVariableRefProxy(comparison_variables_element, "SW-VARIABLE-REF-PROXY", comparison_variable)
+
+    def setSwHostVariable(self, element: ET.Element, host_variable: SwVariableRefProxy):
+        if host_variable is not None:
+            self.setSwVariableRefProxy(element, "SW-HOST-VARIABLE", host_variable)
+
+    def setSwVariableRefProxy(self, element: ET.Element, key: str, proxy: SwVariableRefProxy):
+        if proxy is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObjectAttributes(child_element, proxy)
+            self.setAutosarVariableRef(child_element, "AUTOSAR-VARIABLE", proxy.getAutosarVariable())
+            self.setChildElementOptionalRefType(child_element, "MC-DATA-INSTANCE-VAR-REF", proxy.getMcDataInstanceVarRef())
+
+    def setSwCalprmRefProxy(self, element: ET.Element, key: str, proxy: SwCalprmRefProxy):
+        if proxy is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObjectAttributes(child_element, proxy)
+            self.setAutosarParameterRef(child_element, "AR-PARAMETER", proxy.getArParameter())
+            self.setChildElementOptionalRefType(child_element, "MC-DATA-INSTANCE-REF", proxy.getMcDataInstanceRef())
+
+    def setSwDataDependency(self, element: ET.Element, dependency: SwDataDependency):
+        if dependency is not None:
+            dependency_element = ET.SubElement(element, "SW-DATA-DEPENDENCY")
+            self.writeARObjectAttributes(dependency_element, dependency)
+            formula = dependency.getSwDataDependencyFormula()
+            if formula is not None:
+                formula_element = ET.SubElement(dependency_element, "SW-DATA-DEPENDENCY-FORMULA")
+                self.writeARObjectAttributes(formula_element, formula)
+                if formula.getLevel() is not None:
+                    formula_element.set("LEVEL", formula.getLevel().value)
+            args = dependency.getSwDataDependencyArgs()
+            if args is not None:
+                args_element = ET.SubElement(dependency_element, "SW-DATA-DEPENDENCY-ARGS")
+                self.writeARObjectAttributes(args_element, args)
+                self.setSwCalprmRefProxy(args_element, "SW-CALPRM-REF-PROXY", args.getSwCalprmRef())
+                self.setSwVariableRefProxy(args_element, "SW-VARIABLE-REF-PROXY", args.getSwVariable())
 
     def setSwTextProps(self, element: ET.Element, props: SwTextProps):
         if props is not None:
