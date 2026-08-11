@@ -2941,6 +2941,24 @@ class TestSwcServiceDependencyAssigned:
         assert any("Unsupported Service Dependencies" in r.getMessage() for r in caplog.records)
 
 
+class TestSwcServiceDependencyRepresentedPortGroup:
+    def test_readRepresentedPortGroup(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        dep = _make_service_dependency()
+        element = _snip('<REPRESENTED-PORT-GROUP-REF DEST="PORT-GROUP">/PortGroup/Ref</REPRESENTED-PORT-GROUP-REF>')
+        parser.readSwcServiceDependencyRepresentedPortGroup(element, dep)
+        ref = dep.getRepresentedPortGroup()
+        assert ref is not None
+        assert ref.getValue() == "/PortGroup/Ref"
+
+    def test_readRepresentedPortGroup_absent_is_none(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        dep = _make_service_dependency()
+        element = _snip("<SWC-SERVICE-DEPENDENCY/>")
+        parser.readSwcServiceDependencyRepresentedPortGroup(element, dep)
+        assert dep.getRepresentedPortGroup() is None
+
+
 # ==================== SwcInternalBehavior IncludedModeDeclarationGroupSet (L813, L840, L845-848) ====================
 
 
