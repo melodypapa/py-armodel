@@ -1281,6 +1281,65 @@ class TestISignalAndGroupHandlers:
         parser.readISignal(element, signal)
         assert signal.getSystemSignalRef().getValue() == "/ss"
 
+    def test_readISignal_sets_dataTransformationRef(self, parser):
+        from armodel.models import ISignal
+
+        signal = ISignal(parent=_autosar_root(), short_name="sig")
+        element = _snip(
+            "<SHORT-NAME>sig</SHORT-NAME>"
+            "<DATA-TRANSFORMATIONS><DATA-TRANSFORMATION-REF-CONDITIONAL><DATA-TRANSFORMATION-REF DEST='DATA-TRANSFORMATION'>/dt</DATA-TRANSFORMATION-REF></DATA-TRANSFORMATION-REF-CONDITIONAL></DATA-TRANSFORMATIONS>",
+            root_tag="I-SIGNAL",
+        )
+        parser.readISignal(element, signal)
+        assert signal.getDataTransformationRef().getValue() == "/dt"
+
+    def test_readISignal_sets_timeoutSubstitutionValue(self, parser):
+        from armodel.models import ISignal
+
+        signal = ISignal(parent=_autosar_root(), short_name="sig")
+        element = _snip(
+            "<SHORT-NAME>sig</SHORT-NAME>" "<TIMEOUT-SUBSTITUTION-VALUE><TEXT-VALUE-SPECIFICATION><SHORT-LABEL>t</SHORT-LABEL></TEXT-VALUE-SPECIFICATION></TIMEOUT-SUBSTITUTION-VALUE>",
+            root_tag="I-SIGNAL",
+        )
+        parser.readISignal(element, signal)
+        assert signal.getTimeoutSubstitutionValue() is not None
+
+    def test_readISignal_sets_transformationISignalProps(self, parser):
+        from armodel.models import ISignal
+
+        signal = ISignal(parent=_autosar_root(), short_name="sig")
+        element = _snip(
+            "<SHORT-NAME>sig</SHORT-NAME>"
+            "<TRANSFORMATION-I-SIGNAL-PROPSS><END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS><END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS><END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL><TRANSFORMER-REF DEST='TRANSFORMATION-PROPS'>/tr</TRANSFORMER-REF></END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL></END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS></END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS></TRANSFORMATION-I-SIGNAL-PROPSS>",
+            root_tag="I-SIGNAL",
+        )
+        parser.readISignal(element, signal)
+        assert len(signal.getTransformationISignalProps()) == 1
+
+    def test_readISignal_sets_iSignalProps(self, parser):
+        from armodel.models import ISignal
+
+        signal = ISignal(parent=_autosar_root(), short_name="sig")
+        element = _snip(
+            "<SHORT-NAME>sig</SHORT-NAME>" "<I-SIGNAL-PROPS><HANDLE-OUT-OF-RANGE>DEFAULT</HANDLE-OUT-OF-RANGE></I-SIGNAL-PROPS>",
+            root_tag="I-SIGNAL",
+        )
+        parser.readISignal(element, signal)
+        props = signal.getISignalProps()
+        assert props is not None
+        assert props.getHandleOutOfRange().getValue() == "DEFAULT"
+
+    def test_readISignal_does_not_set_iSignalProps_when_absent(self, parser):
+        from armodel.models import ISignal
+
+        signal = ISignal(parent=_autosar_root(), short_name="sig")
+        element = _snip(
+            "<SHORT-NAME>sig</SHORT-NAME>" "<LENGTH>8</LENGTH>",
+            root_tag="I-SIGNAL",
+        )
+        parser.readISignal(element, signal)
+        assert signal.getISignalProps() is None
+
     def test_readISignalGroup_sets_systemSignalGroupRef(self, parser):
         from armodel.models import ISignalGroup
 
@@ -1955,16 +2014,55 @@ class TestEcuInstanceHandlers:
         parser.readIdentifiable(element, instance)
         assert instance.getShortName() == "ecu"
 
-    def test_readEcuInstance_sets_diagnosticAddress(self, parser):
+    def test_readEcuInstance_sets_ref_lists(self, parser):
         from armodel.models import EcuInstance
 
         instance = EcuInstance(parent=_autosar_root(), short_name="ecu")
         element = _snip(
-            "<SHORT-NAME>ecu</SHORT-NAME>" "<DIAGNOSTIC-ADDRESS>0x01</DIAGNOSTIC-ADDRESS>" "<SLEEP-MODE-SUPPORTED>true</SLEEP-MODE-SUPPORTED>",
+            "<SHORT-NAME>ecu</SHORT-NAME>"
+            "<ASSOCIATED-CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUP-REFS><ASSOCIATED-CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUP-REF DEST='CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUP'>/g1</ASSOCIATED-CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUP-REF></ASSOCIATED-CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUP-REFS>"
+            "<ASSOCIATED-PDUR-I-PDU-GROUP-REFS><ASSOCIATED-PDUR-I-PDU-GROUP-REF DEST='PDUR-I-PDU-GROUP'>/g2</ASSOCIATED-PDUR-I-PDU-GROUP-REF></ASSOCIATED-PDUR-I-PDU-GROUP-REFS>"
+            "<ECU-TASK-PROXY-REFS><ECU-TASK-PROXY-REF DEST='OS-TASK-PROXY'>/t1</ECU-TASK-PROXY-REF></ECU-TASK-PROXY-REFS>"
+            "<FIREWALL-RULE-REFS><FIREWALL-RULE-REF DEST='STATE-DEPENDENT-FIREWALL'>/f1</FIREWALL-RULE-REF></FIREWALL-RULE-REFS>",
             root_tag="ECU-INSTANCE",
         )
         parser.readEcuInstance(element, instance)
-        assert instance.getDiagnosticAddress().getValue() == 0x01
+        assert [r.getValue() for r in instance.getAssociatedConsumedProvidedServiceInstanceGroupRefs()] == ["/g1"]
+        assert [r.getValue() for r in instance.getAssociatedPdurIPduGroupRefs()] == ["/g2"]
+        assert [r.getValue() for r in instance.getEcuTaskProxyRefs()] == ["/t1"]
+        assert [r.getValue() for r in instance.getFirewallRuleRefs()] == ["/f1"]
+
+    def test_readEcuInstance_sets_scalars(self, parser):
+        from armodel.models import EcuInstance
+
+        instance = EcuInstance(parent=_autosar_root(), short_name="ecu")
+        element = _snip(
+            "<SHORT-NAME>ecu</SHORT-NAME>"
+            "<CHANNEL-SYNCHRONOUS-WAKEUP>true</CHANNEL-SYNCHRONOUS-WAKEUP>"
+            "<ETH-SWITCH-PORT-GROUP-DERIVATION>true</ETH-SWITCH-PORT-GROUP-DERIVATION>"
+            "<PNC-NM-REQUEST>true</PNC-NM-REQUEST>"
+            "<PNC-SYNCHRONOUS-WAKEUP>true</PNC-SYNCHRONOUS-WAKEUP>"
+            "<PNC-PREPARE-SLEEP-TIMER>0.1</PNC-PREPARE-SLEEP-TIMER>"
+            "<PN-RESET-TIME>0.2</PN-RESET-TIME>"
+            "<TCP-IP-ICMP-PROPS DEST='ETH-TCP-IP-ICMP-PROPS'>/icmp</TCP-IP-ICMP-PROPS>"
+            "<TCP-IP-PROPS DEST='ETH-TCP-IP-PROPS'>/tcp</TCP-IP-PROPS>"
+            "<V-2-X-SUPPORTED>V-2-X-NOT-SUPPORTED</V-2-X-SUPPORTED>"
+            "<SLEEP-MODE-SUPPORTED>true</SLEEP-MODE-SUPPORTED>"
+            "<WAKE-UP-OVER-BUS-SUPPORTED>false</WAKE-UP-OVER-BUS-SUPPORTED>",
+            root_tag="ECU-INSTANCE",
+        )
+        parser.readEcuInstance(element, instance)
+        assert instance.getChannelSynchronousWakeup().getValue() is True
+        assert instance.getEthSwitchPortGroupDerivation().getValue() is True
+        assert instance.getPncNmRequest().getValue() is True
+        assert instance.getPncSynchronousWakeup().getValue() is True
+        assert instance.getPncPrepareSleepTimer().getValue() == 0.1
+        assert instance.getPnResetTime().getValue() == 0.2
+        assert instance.getTcpIpIcmpPropsRef().getValue() == "/icmp"
+        assert instance.getTcpIpPropsRef().getValue() == "/tcp"
+        assert instance.getV2xSupported().getValue() == "V-2-X-NOT-SUPPORTED"
+        assert instance.getSleepModeSupported().getValue() is True
+        assert instance.getWakeUpOverBusSupported().getValue() is False
 
     def test_readEcuInstanceCommControllers_can(self, parser):
         from armodel.models import EcuInstance

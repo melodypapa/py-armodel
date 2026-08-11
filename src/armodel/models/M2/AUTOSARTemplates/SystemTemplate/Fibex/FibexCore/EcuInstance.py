@@ -1,4 +1,4 @@
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCommunicationConnector, EthernetCommunicationController
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationConnector, CanCommunicationController
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
@@ -16,67 +16,66 @@ class EcuInstance(FibexElement):
     """
 
     # EcuInstance method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getAssociatedComIPduGroupRefs [x] impl  [ ] docstring  [ ] test
-    # [ ] addAssociatedComIPduGroupRef [x] impl  [ ] docstring  [ ] test
-    # [ ] getAssociatedConsumedProvidedServiceInstanceGroupRefs [x] impl  [ ] docstring  [ ] test
-    # [ ] addAssociatedConsumedProvidedServiceInstanceGroupRef [x] impl  [ ] docstring  [ ] test
-    # [ ] getAssociatedPdurIPduGroupRefs [x] impl  [ ] docstring  [ ] test
-    # [ ] addAssociatedPdurIPduGroupRef [x] impl  [ ] docstring  [ ] test
-    # [ ] getChannelSynchronousWakeup  [x] impl  [ ] docstring  [ ] test
-    # [ ] setChannelSynchronousWakeup  [x] impl  [ ] docstring  [ ] test
-    # [ ] getClientIdRange             [x] impl  [ ] docstring  [ ] test
-    # [ ] setClientIdRange             [x] impl  [ ] docstring  [ ] test
-    # [ ] getComConfigurationGwTimeBase [x] impl  [ ] docstring  [ ] test
-    # [ ] setComConfigurationGwTimeBase [x] impl  [ ] docstring  [ ] test
-    # [ ] getComConfigurationRxTimeBase [x] impl  [ ] docstring  [ ] test
-    # [ ] setComConfigurationRxTimeBase [x] impl  [ ] docstring  [ ] test
-    # [ ] getComConfigurationTxTimeBase [x] impl  [ ] docstring  [ ] test
-    # [ ] setComConfigurationTxTimeBase [x] impl  [ ] docstring  [ ] test
-    # [ ] getComEnableMDTForCyclicTransmission [x] impl  [ ] docstring  [ ] test
-    # [ ] setComEnableMDTForCyclicTransmission [x] impl  [ ] docstring  [ ] test
-    # [ ] getCommControllers           [x] impl  [ ] docstring  [ ] test
-    # [ ] createCanCommunicationController [x] impl  [ ] docstring  [ ] test
-    # [ ] createEthernetCommunicationController [x] impl  [ ] docstring  [ ] test
-    # [ ] createLinMaster              [x] impl  [ ] docstring  [ ] test
-    # [ ] createFlexrayCommunicationController [x] impl  [ ] docstring  [ ] test
-    # [ ] getConnectors                [x] impl  [ ] docstring  [ ] test
-    # [ ] createCanCommunicationConnector [x] impl  [ ] docstring  [ ] test
-    # [ ] createEthernetCommunicationConnector [x] impl  [ ] docstring  [ ] test
-    # [ ] createLinCommunicationConnector [x] impl  [ ] docstring  [ ] test
-    # [ ] createFlexrayCommunicationConnector [x] impl  [ ] docstring  [ ] test
-    # [ ] getDiagnosticAddress         [x] impl  [ ] docstring  [ ] test
-    # [ ] setDiagnosticAddress         [x] impl  [ ] docstring  [ ] test
-    # [ ] getDltConfig                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setDltConfig                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getDoIpConfig                [x] impl  [ ] docstring  [ ] test
-    # [ ] setDoIpConfig                [x] impl  [ ] docstring  [ ] test
-    # [ ] getEcuTaskProxyRefs          [x] impl  [ ] docstring  [ ] test
-    # [ ] setEcuTaskProxyRefs          [x] impl  [ ] docstring  [ ] test
-    # [ ] getEthSwitchPortGroupDerivation [x] impl  [ ] docstring  [ ] test
-    # [ ] setEthSwitchPortGroupDerivation [x] impl  [ ] docstring  [ ] test
-    # [ ] getFirewallRuleRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] setFirewallRuleRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] getPartitions                [x] impl  [ ] docstring  [ ] test
-    # [ ] addPartition                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getPncNmRequest              [x] impl  [ ] docstring  [ ] test
-    # [ ] setPncNmRequest              [x] impl  [ ] docstring  [ ] test
-    # [ ] getPncPrepareSleepTimer      [x] impl  [ ] docstring  [ ] test
-    # [ ] setPncPrepareSleepTimer      [x] impl  [ ] docstring  [ ] test
-    # [ ] getPncSynchronousWakeup      [x] impl  [ ] docstring  [ ] test
-    # [ ] setPncSynchronousWakeup      [x] impl  [ ] docstring  [ ] test
-    # [ ] getPnResetTime               [x] impl  [ ] docstring  [ ] test
-    # [ ] setPnResetTime               [x] impl  [ ] docstring  [ ] test
-    # [ ] getSleepModeSupported        [x] impl  [ ] docstring  [ ] test
-    # [ ] setSleepModeSupported        [x] impl  [ ] docstring  [ ] test
-    # [ ] getTcpIpIcmpPropsRef         [x] impl  [ ] docstring  [ ] test
-    # [ ] setTcpIpIcmpPropsRef         [x] impl  [ ] docstring  [ ] test
-    # [ ] getTcpIpPropsRef             [x] impl  [ ] docstring  [ ] test
-    # [ ] setTcpIpPropsRef             [x] impl  [ ] docstring  [ ] test
-    # [ ] getV2xSupported              [x] impl  [ ] docstring  [ ] test
-    # [ ] setV2xSupported              [x] impl  [ ] docstring  [ ] test
-    # [ ] getWakeUpOverBusSupported    [x] impl  [ ] docstring  [ ] test
-    # [ ] setWakeUpOverBusSupported    [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.1, pp.50-52
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getAssociatedComIPduGroupRefs [x] impl  [x] docstring  [x] test
+    # [x] addAssociatedComIPduGroupRef [x] impl  [x] docstring  [x] test
+    # [x] getAssociatedConsumedProvidedServiceInstanceGroupRefs [x] impl  [x] docstring  [x] test
+    # [x] addAssociatedConsumedProvidedServiceInstanceGroupRef [x] impl  [x] docstring  [x] test
+    # [x] getAssociatedPdurIPduGroupRefs [x] impl  [x] docstring  [x] test
+    # [x] addAssociatedPdurIPduGroupRef [x] impl  [x] docstring  [x] test
+    # [x] getChannelSynchronousWakeup  [x] impl  [x] docstring  [x] test
+    # [x] setChannelSynchronousWakeup  [x] impl  [x] docstring  [x] test
+    # [x] getClientIdRange             [x] impl  [x] docstring  [x] test
+    # [x] setClientIdRange             [x] impl  [x] docstring  [x] test
+    # [x] getComConfigurationGwTimeBase [x] impl  [x] docstring  [x] test
+    # [x] setComConfigurationGwTimeBase [x] impl  [x] docstring  [x] test
+    # [x] getComConfigurationRxTimeBase [x] impl  [x] docstring  [x] test
+    # [x] setComConfigurationRxTimeBase [x] impl  [x] docstring  [x] test
+    # [x] getComConfigurationTxTimeBase [x] impl  [x] docstring  [x] test
+    # [x] setComConfigurationTxTimeBase [x] impl  [x] docstring  [x] test
+    # [x] getComEnableMDTForCyclicTransmission [x] impl  [x] docstring  [x] test
+    # [x] setComEnableMDTForCyclicTransmission [x] impl  [x] docstring  [x] test
+    # [x] getCommControllers           [x] impl  [x] docstring  [x] test
+    # [x] createCanCommunicationController [x] impl  [x] docstring  [x] test
+    # [x] createEthernetCommunicationController [x] impl  [x] docstring  [x] test
+    # [x] createLinMaster              [x] impl  [x] docstring  [x] test
+    # [x] createFlexrayCommunicationController [x] impl  [x] docstring  [x] test
+    # [x] getConnectors                [x] impl  [x] docstring  [x] test
+    # [x] createCanCommunicationConnector [x] impl  [x] docstring  [x] test
+    # [x] createEthernetCommunicationConnector [x] impl  [x] docstring  [x] test
+    # [x] createLinCommunicationConnector [x] impl  [x] docstring  [x] test
+    # [x] createFlexrayCommunicationConnector [x] impl  [x] docstring  [x] test
+    # [x] getDltConfig                 [x] impl  [x] docstring  [x] test
+    # [x] setDltConfig                 [x] impl  [x] docstring  [x] test
+    # [x] getDoIpConfig                [x] impl  [x] docstring  [x] test
+    # [x] setDoIpConfig                [x] impl  [x] docstring  [x] test
+    # [x] getEcuTaskProxyRefs          [x] impl  [x] docstring  [x] test
+    # [x] addEcuTaskProxyRef           [x] impl  [x] docstring  [x] test
+    # [x] getEthSwitchPortGroupDerivation [x] impl  [x] docstring  [x] test
+    # [x] setEthSwitchPortGroupDerivation [x] impl  [x] docstring  [x] test
+    # [x] getFirewallRuleRefs          [x] impl  [x] docstring  [x] test
+    # [x] addFirewallRuleRef           [x] impl  [x] docstring  [x] test
+    # [x] getPartitions                [x] impl  [x] docstring  [x] test
+    # [x] addPartition                 [x] impl  [x] docstring  [x] test
+    # [x] getPncNmRequest              [x] impl  [x] docstring  [x] test
+    # [x] setPncNmRequest              [x] impl  [x] docstring  [x] test
+    # [x] getPncPrepareSleepTimer      [x] impl  [x] docstring  [x] test
+    # [x] setPncPrepareSleepTimer      [x] impl  [x] docstring  [x] test
+    # [x] getPncSynchronousWakeup      [x] impl  [x] docstring  [x] test
+    # [x] setPncSynchronousWakeup      [x] impl  [x] docstring  [x] test
+    # [x] getPnResetTime               [x] impl  [x] docstring  [x] test
+    # [x] setPnResetTime               [x] impl  [x] docstring  [x] test
+    # [x] getSleepModeSupported        [x] impl  [x] docstring  [x] test
+    # [x] setSleepModeSupported        [x] impl  [x] docstring  [x] test
+    # [x] getTcpIpIcmpPropsRef         [x] impl  [x] docstring  [x] test
+    # [x] setTcpIpIcmpPropsRef         [x] impl  [x] docstring  [x] test
+    # [x] getTcpIpPropsRef             [x] impl  [x] docstring  [x] test
+    # [x] setTcpIpPropsRef             [x] impl  [x] docstring  [x] test
+    # [x] getV2xSupported              [x] impl  [x] docstring  [x] test
+    # [x] setV2xSupported              [x] impl  [x] docstring  [x] test
+    # [x] getWakeUpOverBusSupported    [x] impl  [x] docstring  [x] test
+    # [x] setWakeUpOverBusSupported    [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
@@ -92,12 +91,11 @@ class EcuInstance(FibexElement):
         self.comEnableMDTForCyclicTransmission: Boolean = None
         self.commControllers: List[CommunicationController] = []
         self.connectors: List[CommunicationConnector] = []
-        self.diagnosticAddress: Integer = None
         self.dltConfig = None
         self.doIpConfig = None
         self.ecuTaskProxyRefs: List[RefType] = []
         self.ethSwitchPortGroupDerivation: Boolean = None
-        self.firewallRuleRef: RefType = None
+        self.firewallRuleRefs: List[RefType] = []
         self.partitions = []
         self.pncNmRequest: Boolean = None
         self.pncPrepareSleepTimer: TimeValue = None
@@ -226,14 +224,6 @@ class EcuInstance(FibexElement):
             self.addElement(connector)
         return self.getElement(short_name)
 
-    def getDiagnosticAddress(self):
-        return self.diagnosticAddress
-
-    def setDiagnosticAddress(self, value):
-        if value is not None:
-            self.diagnosticAddress = value
-        return self
-
     def getDltConfig(self):
         return self.dltConfig
 
@@ -251,8 +241,8 @@ class EcuInstance(FibexElement):
     def getEcuTaskProxyRefs(self):
         return self.ecuTaskProxyRefs
 
-    def setEcuTaskProxyRefs(self, value):
-        self.ecuTaskProxyRefs = value
+    def addEcuTaskProxyRef(self, value):
+        self.ecuTaskProxyRefs.append(value)
         return self
 
     def getEthSwitchPortGroupDerivation(self):
@@ -262,11 +252,11 @@ class EcuInstance(FibexElement):
         self.ethSwitchPortGroupDerivation = value
         return self
 
-    def getFirewallRuleRef(self):
-        return self.firewallRuleRef
+    def getFirewallRuleRefs(self):
+        return self.firewallRuleRefs
 
-    def setFirewallRuleRef(self, value):
-        self.firewallRuleRef = value
+    def addFirewallRuleRef(self, value):
+        self.firewallRuleRefs.append(value)
         return self
 
     def getPartitions(self):

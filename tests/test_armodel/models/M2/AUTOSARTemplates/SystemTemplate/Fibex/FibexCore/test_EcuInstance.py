@@ -34,12 +34,11 @@ class Test_FibexCoreEcuInstance:
         assert ecu.getComEnableMDTForCyclicTransmission() is None
         assert ecu.getCommControllers() == []
         assert ecu.getConnectors() == []
-        assert ecu.getDiagnosticAddress() is None
         assert ecu.getDltConfig() is None
         assert ecu.getDoIpConfig() is None
         assert ecu.getEcuTaskProxyRefs() == []
         assert ecu.getEthSwitchPortGroupDerivation() is None
-        assert ecu.getFirewallRuleRef() is None
+        assert ecu.getFirewallRuleRefs() == []
         assert ecu.getPartitions() == []
         assert ecu.getPncNmRequest() is None
         assert ecu.getPncPrepareSleepTimer() is None
@@ -57,7 +56,6 @@ class Test_FibexCoreEcuInstance:
         ecu = EcuInstance(parent, "test_ecu_instance")
 
         # Test setter/getter methods with method chaining - with None values
-        # Note: Most setters will set the value to None, but setDiagnosticAddress doesn't change value when None is passed
         assert ecu == ecu.setChannelSynchronousWakeup(None)
         assert ecu.getChannelSynchronousWakeup() is None
 
@@ -76,26 +74,18 @@ class Test_FibexCoreEcuInstance:
         assert ecu == ecu.setComEnableMDTForCyclicTransmission(None)
         assert ecu.getComEnableMDTForCyclicTransmission() is None
 
-        # Test setDiagnosticAddress with initial value first, then None (doesn't change when None)
-        ecu.setDiagnosticAddress(123)
-        assert ecu.getDiagnosticAddress() == 123
-        assert ecu == ecu.setDiagnosticAddress(None)  # Method chaining still works
-        assert ecu.getDiagnosticAddress() == 123  # Value should remain unchanged when None is passed
-
         assert ecu == ecu.setDltConfig(None)
         assert ecu.getDltConfig() is None
 
         assert ecu == ecu.setDoIpConfig(None)
         assert ecu.getDoIpConfig() is None
 
-        assert ecu == ecu.setEcuTaskProxyRefs(None)
-        assert ecu.getEcuTaskProxyRefs() is None
+        assert ecu.getEcuTaskProxyRefs() == []
 
         assert ecu == ecu.setEthSwitchPortGroupDerivation(None)
         assert ecu.getEthSwitchPortGroupDerivation() is None
 
-        assert ecu == ecu.setFirewallRuleRef(None)
-        assert ecu.getFirewallRuleRef() is None
+        assert ecu.getFirewallRuleRefs() == []
 
         assert ecu == ecu.setPncNmRequest(None)
         assert ecu.getPncNmRequest() is None
@@ -154,10 +144,6 @@ class Test_FibexCoreEcuInstance:
         assert ecu.getComEnableMDTForCyclicTransmission() is False
         assert ecu == ecu.setComEnableMDTForCyclicTransmission(False)
 
-        ecu.setDiagnosticAddress(123)
-        assert ecu.getDiagnosticAddress() == 123
-        assert ecu == ecu.setDiagnosticAddress(123)
-
         ecu.setDltConfig("dlt_config_value")
         assert ecu.getDltConfig() == "dlt_config_value"
         assert ecu == ecu.setDltConfig("dlt_config_value")
@@ -166,17 +152,19 @@ class Test_FibexCoreEcuInstance:
         assert ecu.getDoIpConfig() == "doip_config_value"
         assert ecu == ecu.setDoIpConfig("doip_config_value")
 
-        ecu.setEcuTaskProxyRefs(["task1", "task2"])
+        ecu.addEcuTaskProxyRef("task1")
+        ecu.addEcuTaskProxyRef("task2")
         assert ecu.getEcuTaskProxyRefs() == ["task1", "task2"]
-        assert ecu == ecu.setEcuTaskProxyRefs(["task1", "task2"])
+        assert ecu == ecu.addEcuTaskProxyRef("task3")
 
         ecu.setEthSwitchPortGroupDerivation(True)
         assert ecu.getEthSwitchPortGroupDerivation() is True
         assert ecu == ecu.setEthSwitchPortGroupDerivation(True)
 
-        ecu.setFirewallRuleRef("firewall_rule")
-        assert ecu.getFirewallRuleRef() == "firewall_rule"
-        assert ecu == ecu.setFirewallRuleRef("firewall_rule")
+        ecu.addFirewallRuleRef("firewall_rule")
+        ecu.addFirewallRuleRef("firewall_rule2")
+        assert ecu.getFirewallRuleRefs() == ["firewall_rule", "firewall_rule2"]
+        assert ecu == ecu.addFirewallRuleRef("firewall_rule3")
 
         ecu.setPncNmRequest(True)
         assert ecu.getPncNmRequest() is True
@@ -242,6 +230,18 @@ class Test_FibexCoreEcuInstance:
         assert "partition_value" in ecu.getPartitions()
         assert ecu == ecu.addPartition("partition_value2")
         assert len(ecu.getPartitions()) == 2
+
+        # Test addEcuTaskProxyRef with method chaining
+        ecu.addEcuTaskProxyRef("task1")
+        assert "task1" in ecu.getEcuTaskProxyRefs()
+        assert ecu == ecu.addEcuTaskProxyRef("task2")
+        assert len(ecu.getEcuTaskProxyRefs()) == 2
+
+        # Test addFirewallRuleRef with method chaining
+        ecu.addFirewallRuleRef("firewall_rule")
+        assert "firewall_rule" in ecu.getFirewallRuleRefs()
+        assert ecu == ecu.addFirewallRuleRef("firewall_rule2")
+        assert len(ecu.getFirewallRuleRefs()) == 2
 
     def test_EcuInstance_create_methods(self):
         """Test EcuInstance create methods for communication controllers and connectors."""

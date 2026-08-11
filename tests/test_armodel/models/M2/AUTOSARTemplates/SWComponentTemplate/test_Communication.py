@@ -611,3 +611,26 @@ class TestQueuedReceiverComSpec:
         queue_len.setValue(5)
         receiver.setQueueLength(queue_len)
         assert receiver.getQueueLength() == queue_len
+
+
+class TestHandleOutOfRangeEnum:
+    """Test cases for HandleOutOfRangeEnum class."""
+
+    def test_members(self):
+        """Test HandleOutOfRangeEnum member values."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import HandleOutOfRangeEnum
+
+        enum = HandleOutOfRangeEnum()
+        values = enum.getEnumValues()
+        assert HandleOutOfRangeEnum.DEFAULT == "default"
+        assert HandleOutOfRangeEnum.EXTERNAL_REPLACEMENT == "externalReplacement"
+        assert HandleOutOfRangeEnum.IGNORE == "ignore"
+        assert HandleOutOfRangeEnum.INVALID == "invalid"
+        assert HandleOutOfRangeEnum.NONE == "none"
+        assert HandleOutOfRangeEnum.SATURATE == "saturate"
+        assert HandleOutOfRangeEnum.DEFAULT in values
+        assert HandleOutOfRangeEnum.EXTERNAL_REPLACEMENT in values
+        assert HandleOutOfRangeEnum.IGNORE in values
+        assert HandleOutOfRangeEnum.INVALID in values
+        assert HandleOutOfRangeEnum.NONE in values
+        assert HandleOutOfRangeEnum.SATURATE in values

@@ -421,6 +421,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     ISignalGroup,
     ISignalIPdu,
     ISignalIPduGroup,
+    ISignalProps,
     ISignalToIPduMapping,
     ISignalTriggering,
     MultiplexedIPdu,
@@ -6740,18 +6741,46 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "ASSOCIATED-COM-I-PDU-GROUP-REFS/ASSOCIATED-COM-I-PDU-GROUP-REF"):
             instance.addAssociatedComIPduGroupRef(ref)
 
+    def readEcuInstanceAssociatedConsumedProvidedServiceInstanceGroupRefs(self, element: ET.Element, instance: EcuInstance):
+        for ref in self.getChildElementRefTypeList(element, "ASSOCIATED-CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUP-REFS/ASSOCIATED-CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUP-REF"):
+            instance.addAssociatedConsumedProvidedServiceInstanceGroupRef(ref)
+
+    def readEcuInstanceAssociatedPdurIPduGroupRefs(self, element: ET.Element, instance: EcuInstance):
+        for ref in self.getChildElementRefTypeList(element, "ASSOCIATED-PDUR-I-PDU-GROUP-REFS/ASSOCIATED-PDUR-I-PDU-GROUP-REF"):
+            instance.addAssociatedPdurIPduGroupRef(ref)
+
+    def readEcuInstanceEcuTaskProxyRefs(self, element: ET.Element, instance: EcuInstance):
+        for ref in self.getChildElementRefTypeList(element, "ECU-TASK-PROXY-REFS/ECU-TASK-PROXY-REF"):
+            instance.addEcuTaskProxyRef(ref)
+
+    def readEcuInstanceFirewallRuleRefs(self, element: ET.Element, instance: EcuInstance):
+        for ref in self.getChildElementRefTypeList(element, "FIREWALL-RULE-REFS/FIREWALL-RULE-REF"):
+            instance.addFirewallRuleRef(ref)
+
     def readEcuInstance(self, element: ET.Element, instance: EcuInstance):
         self.logger.debug("Read EcuInstance <%s>" % instance.getShortName())
         self.readIdentifiable(element, instance)
         self.readEcuInstanceAssociatedComIPduGroupRefs(element, instance)
+        self.readEcuInstanceAssociatedConsumedProvidedServiceInstanceGroupRefs(element, instance)
+        self.readEcuInstanceAssociatedPdurIPduGroupRefs(element, instance)
+        instance.setChannelSynchronousWakeup(self.getChildElementOptionalBooleanValue(element, "CHANNEL-SYNCHRONOUS-WAKEUP"))
         instance.setComConfigurationGwTimeBase(self.getChildElementOptionalTimeValue(element, "COM-CONFIGURATION-GW-TIME-BASE"))
         instance.setComConfigurationRxTimeBase(self.getChildElementOptionalTimeValue(element, "COM-CONFIGURATION-RX-TIME-BASE"))
         instance.setComConfigurationTxTimeBase(self.getChildElementOptionalTimeValue(element, "COM-CONFIGURATION-TX-TIME-BASE"))
         instance.setComEnableMDTForCyclicTransmission(self.getChildElementOptionalBooleanValue(element, "COM-ENABLE-MDT-FOR-CYCLIC-TRANSMISSION"))
         self.readEcuInstanceCommControllers(element, instance)
         self.readEcuInstanceConnectors(element, instance)
-        instance.setDiagnosticAddress(self.getChildElementOptionalIntegerValue(element, "DIAGNOSTIC-ADDRESS"))
+        self.readEcuInstanceEcuTaskProxyRefs(element, instance)
+        instance.setEthSwitchPortGroupDerivation(self.getChildElementOptionalBooleanValue(element, "ETH-SWITCH-PORT-GROUP-DERIVATION"))
+        self.readEcuInstanceFirewallRuleRefs(element, instance)
+        instance.setPncNmRequest(self.getChildElementOptionalBooleanValue(element, "PNC-NM-REQUEST"))
+        instance.setPncPrepareSleepTimer(self.getChildElementOptionalTimeValue(element, "PNC-PREPARE-SLEEP-TIMER"))
+        instance.setPncSynchronousWakeup(self.getChildElementOptionalBooleanValue(element, "PNC-SYNCHRONOUS-WAKEUP"))
+        instance.setPnResetTime(self.getChildElementOptionalTimeValue(element, "PN-RESET-TIME"))
         instance.setSleepModeSupported(self.getChildElementOptionalBooleanValue(element, "SLEEP-MODE-SUPPORTED"))
+        instance.setTcpIpIcmpPropsRef(self.getChildElementOptionalRefType(element, "TCP-IP-ICMP-PROPS"))
+        instance.setTcpIpPropsRef(self.getChildElementOptionalRefType(element, "TCP-IP-PROPS"))
+        instance.setV2xSupported(self.getChildElementOptionalLiteral(element, "V-2-X-SUPPORTED"))
         instance.setWakeUpOverBusSupported(self.getChildElementOptionalBooleanValue(element, "WAKE-UP-OVER-BUS-SUPPORTED"))
 
     """
@@ -6803,12 +6832,33 @@ class ARXMLParser(AbstractARXMLParser):
     def readISignal(self, element: ET.Element, signal: ISignal):
         self.logger.debug("Read ISignal <%s>" % signal.getShortName())
         self.readIdentifiable(element, signal)
+        signal.setDataTransformationRef(self.getChildElementOptionalRefType(element, "DATA-TRANSFORMATIONS/DATA-TRANSFORMATION-REF-CONDITIONAL/DATA-TRANSFORMATION-REF"))
         signal.setDataTypePolicy(self.getChildElementOptionalLiteral(element, "DATA-TYPE-POLICY"))
         signal.setISignalType(self.getChildElementOptionalLiteral(element, "I-SIGNAL-TYPE"))
         signal.setInitValue(self.getInitValue(element))
         signal.setLength(self.getChildElementOptionalNumericalValue(element, "LENGTH"))
         signal.setNetworkRepresentationProps(self.getSwDataDefProps(element, "NETWORK-REPRESENTATION-PROPS"))
         signal.setSystemSignalRef(self.getChildElementOptionalRefType(element, "SYSTEM-SIGNAL-REF"))
+        signal.setTimeoutSubstitutionValue(self.getChildValueSpecification(element, "TIMEOUT-SUBSTITUTION-VALUE"))
+        self.readISignalProps(element, signal)
+        self.readISignalTransformationISignalProps(element, signal)
+
+    def readISignalProps(self, element: ET.Element, signal: ISignal):
+        props_element = self.find(element, "I-SIGNAL-PROPS")
+        if props_element is not None:
+            props = ISignalProps()
+            props.setHandleOutOfRange(self.getChildElementOptionalLiteral(props_element, "HANDLE-OUT-OF-RANGE"))
+            signal.setISignalProps(props)
+
+    def readISignalTransformationISignalProps(self, element: ET.Element, signal: ISignal):
+        for child_element in self.findall(element, "TRANSFORMATION-I-SIGNAL-PROPSS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS":
+                props = EndToEndTransformationISignalProps()
+                self.readEndToEndTransformationISignalProps(child_element, props)
+                signal.addTransformationISignalProps(props)
+            else:
+                self.notImplemented("Unsupported TransformationISignalProps %s" % tag_name)
 
     def readEcucValueCollectionEcucValues(self, element: ET.Element, parent: EcucValueCollection):
         for child_element in self.findall(element, "ECUC-VALUES/ECUC-MODULE-CONFIGURATION-VALUES-REF-CONDITIONAL"):

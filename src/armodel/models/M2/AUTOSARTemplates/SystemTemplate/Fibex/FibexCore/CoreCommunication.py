@@ -1,14 +1,20 @@
 from __future__ import annotations
 
 from abc import ABC
-from typing import List, Optional
+from typing import List, Optional, TYPE_CHECKING
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable, Describable, PackageableElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, ARPositiveInteger, Boolean, ByteOrderEnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARLiteral, ARNumerical, ARPositiveInteger, Boolean, ByteOrderEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, PositiveInteger, RefType, ARBoolean, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue, UnlimitedInteger
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import TransmissionModeDeclaration
+
+if TYPE_CHECKING:
+    from armodel.models.M2.AUTOSARTemplates.CommonStructure import ValueSpecification
+    from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import HandleOutOfRangeEnum
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import DataTypePolicyEnum
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import TransformationISignalProps
 
 
 class FibexElement(PackageableElement, ABC):
@@ -984,119 +990,284 @@ class ISignalIPdu(IPdu):
         return self
 
 
+class ISignalTypeEnum(AREnum):
+    """
+    This enumeration defines ISignal types that are used for derivation of the ComSignalType in the COM configuration.
+    """
+
+    # ISignalTypeEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.9, p.322
+    # Spec verified: R23-11
+    # (no methods)
+
+    # ISignal shall be interpreted as an array (UINT8_N, UINT8_DYN) Tags: atp.EnumerationLiteralIndex=0
+    ARRAY = "array"
+
+    # ISignal shall be interpreted as a primitive type (e.g. UINT_8, SINT_32) Tags: atp.EnumerationLiteralIndex=1
+    PRIMITIVE = "primitive"
+
+    def __init__(self):
+        super().__init__(
+            (
+                ISignalTypeEnum.ARRAY,
+                ISignalTypeEnum.PRIMITIVE,
+            )
+        )
+
+
+class ISignalProps(ARObject):
+    """
+    Additional ISignal properties that may be stored in different files.
+    """
+
+    # ISignalProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.10, p.323
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getHandleOutOfRange                             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setHandleOutOfRange                             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self):
+        """
+        Initializes the ISignalProps.
+        """
+        super().__init__()
+
+        # This attribute defines the outOfRangeHandling for received and sent signals.
+        self.handleOutOfRange: Optional[HandleOutOfRangeEnum] = None
+
+    def getHandleOutOfRange(self) -> Optional[HandleOutOfRangeEnum]:
+        """
+        This attribute defines the outOfRangeHandling for received and sent signals.
+        """
+        return self.handleOutOfRange
+
+    def setHandleOutOfRange(self, value: Optional[HandleOutOfRangeEnum]) -> "ISignalProps":
+        """
+        This attribute defines the outOfRangeHandling for received and sent signals.
+        A None value is a no-op and does not overwrite an existing handleOutOfRange.
+        """
+        if value is not None:
+            self.handleOutOfRange = value
+        return self
+
+
 class ISignal(FibexElement):
     """
-    Represents an interaction signal in the communication system,
-    defining data transformation, signal type, initialization values,
-    length, and system signal references for signal-based communication.
+    Signal of the Interaction Layer. The RTE supports a "signal fan-out" where the same System Signal is sent in different SignalIPdus to multiple receivers. To support the RTE "signal fan-out" each SignalIPdu contains ISignals. If the same System Signal is to be mapped into several SignalIPdus there is one ISignal needed for each ISignalToIPduMapping. ISignals describe the Interface between the Precompile configured RTE and the potentially Postbuild configured Com Stack (see ECUC Parameter Mapping). In case of the SystemSignalGroup an ISignal shall be created for each SystemSignal contained in the SystemSignalGroup.
     """
 
     # ISignal method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataTransformationRef     [x] impl  [ ] docstring  [ ] test
-    # [ ] setDataTransformationRef     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataTypePolicy            [x] impl  [ ] docstring  [ ] test
-    # [ ] setDataTypePolicy            [x] impl  [ ] docstring  [ ] test
-    # [ ] getISignalProps              [x] impl  [ ] docstring  [ ] test
-    # [ ] setISignalProps              [x] impl  [ ] docstring  [ ] test
-    # [ ] getISignalType               [x] impl  [ ] docstring  [ ] test
-    # [ ] setISignalType               [x] impl  [ ] docstring  [ ] test
-    # [ ] getInitValue                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setInitValue                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getLength                    [x] impl  [ ] docstring  [ ] test
-    # [ ] setLength                    [x] impl  [ ] docstring  [ ] test
-    # [ ] getNetworkRepresentationProps [x] impl  [ ] docstring  [ ] test
-    # [ ] setNetworkRepresentationProps [x] impl  [ ] docstring  [ ] test
-    # [ ] getSystemSignalRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] setSystemSignalRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] getTimeoutSubstitutionValue  [x] impl  [ ] docstring  [ ] test
-    # [ ] setTimeoutSubstitutionValue  [x] impl  [ ] docstring  [ ] test
-    # [ ] getTransformationISignalProps [x] impl  [ ] docstring  [ ] test
-    # [ ] addTransformationISignalProps [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.7, p.321
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDataTransformationRef                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDataTransformationRef                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDataTypePolicy                                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDataTypePolicy                                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getInitValue                                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setInitValue                                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getISignalProps                                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setISignalProps                                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getISignalType                                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setISignalType                                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getLength                                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setLength                                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getNetworkRepresentationProps                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setNetworkRepresentationProps                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSystemSignalRef                               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSystemSignalRef                               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTimeoutSubstitutionValue                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTimeoutSubstitutionValue                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] addTransformationISignalProps                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTransformationISignalProps                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self, parent: ARObject, short_name: str):
+        """
+        Initializes the ISignal.
+        """
         super().__init__(parent, short_name)
 
-        self.dataTransformationRef = None
-        self.dataTypePolicy = None
-        self.iSignalProps = None
-        self.iSignalType = None
-        self.initValue = None
-        self.length = None
-        self.networkRepresentationProps = None
-        self.systemSignalRef: RefType = None
-        self.timeoutSubstitutionValue = None
-        self.transformationISignalProps = []
+        # Optional reference to a DataTransformation which represents the transformer chain that is used to transform the data that shall be placed inside this ISignal.
+        self.dataTransformationRef: Optional[RefType] = None
 
-    def getDataTransformationRef(self):
+        # With the aggregation of SwDataDefProps an ISignal specifies how it is represented on the network. This representation follows a particular policy. Note that this causes some redundancy which is intended and can be used to support flexible development methodology as well as subsequent integrity checks. If the policy "networkRepresentationFromComSpec" is chosen the network representation from the ComSpec that is aggregated by the PortPrototype shall be used. If the "override" policy is chosen the requirements specified in the PortInterface and in the ComSpec are not fulfilled by the networkRepresentationProps. In case the System Description doesn't use a complete Software Component Description (VFB View) the "legacy" policy can be chosen.
+        self.dataTypePolicy: Optional[DataTypePolicyEnum] = None
+
+        # Optional definition of a ISignal's initValue in case the System Description doesn't use a complete Software Component Description (VFB View). This supports the inclusion of legacy system signals. This value can be used to configure the Signal's "Init Value". If a full DataMapping exist for the SystemSignal this information may be available from a configured SenderComSpec and ReceiverComSpec. In this case the initvalues in SenderComSpec and/or ReceiverComSpec override this optional value specification. Further restrictions apply from the RTE specification.
+        self.initValue: Optional[ValueSpecification] = None
+
+        # Additional optional ISignal properties that may be stored in different files.
+        self.iSignalProps: Optional[ISignalProps] = None
+
+        # This attribute defines whether this iSignal is an array that results in a UINT8_N / UINT8_DYN ComSignalType in the COM configuration or a primitive type.
+        self.iSignalType: Optional[ISignalTypeEnum] = None
+
+        # Size of the signal in bits. The size needs to be derived from the mapped VariableDataPrototype according to the mapping of primitive DataTypes to BaseTypes as used in the RTE. Indicates maximum size for dynamic length signals. The ISignal length of zero bits is allowed.
+        self.length: Optional[UnlimitedInteger] = None
+
+        # Specification of the actual network representation. The usage of SwDataDefProps for this purpose is restricted to the attributes compuMethod and baseType. The optional baseType attributes "memAllignment" and "byteOrder" shall not be used. The attribute "dataTypePolicy" in the SystemTemplate element defines whether this network representation shall be ignored and the information shall be taken over from the network representation of the ComSpec. If "override" is chosen by the system integrator the network representation can violate against the requirements defined in the PortInterface and in the network representation of the ComSpec. In case that the System Description doesn't use a complete Software Component Description (VFB View) this element is used to configure "ComSignalDataInvalidValue" and the Data Semantics.
+        self.networkRepresentationProps: Optional[SwDataDefProps] = None
+
+        # Reference to the System Signal that is supposed to be transmitted in the ISignal.
+        self.systemSignalRef: Optional[RefType] = None
+
+        # Defines and enables the ComTimeoutSubstituition for this ISignal.
+        self.timeoutSubstitutionValue: Optional[ValueSpecification] = None
+
+        # A transformer chain consists of an ordered list of transformers. The ISignal specific configuration properties for each transformer are defined in the TransformationISignalProps class. The transformer configuration properties that are common for all ISignals are described in the TransformationTechnology class.
+        self.transformationISignalProps: List[TransformationISignalProps] = []
+
+    def getDataTransformationRef(self) -> Optional[RefType]:
+        """
+        Optional reference to a DataTransformation which represents the transformer chain that is used to transform the data that shall be placed inside this ISignal.
+        """
         return self.dataTransformationRef
 
-    def setDataTransformationRef(self, value):
-        self.dataTransformationRef = value
+    def setDataTransformationRef(self, value: Optional[RefType]) -> "ISignal":
+        """
+        Optional reference to a DataTransformation which represents the transformer chain that is used to transform the data that shall be placed inside this ISignal.
+        A None value is a no-op and does not overwrite an existing dataTransformationRef.
+        """
+        if value is not None:
+            self.dataTransformationRef = value
         return self
 
-    def getDataTypePolicy(self):
+    def getDataTypePolicy(self) -> Optional[DataTypePolicyEnum]:
+        """
+        With the aggregation of SwDataDefProps an ISignal specifies how it is represented on the network. This representation follows a particular policy. Note that this causes some redundancy which is intended and can be used to support flexible development methodology as well as subsequent integrity checks. If the policy "networkRepresentationFromComSpec" is chosen the network representation from the ComSpec that is aggregated by the PortPrototype shall be used. If the "override" policy is chosen the requirements specified in the PortInterface and in the ComSpec are not fulfilled by the networkRepresentationProps. In case the System Description doesn't use a complete Software Component Description (VFB View) the "legacy" policy can be chosen.
+        """
         return self.dataTypePolicy
 
-    def setDataTypePolicy(self, value):
-        self.dataTypePolicy = value
+    def setDataTypePolicy(self, value: Optional[DataTypePolicyEnum]) -> "ISignal":
+        """
+        With the aggregation of SwDataDefProps an ISignal specifies how it is represented on the network. This representation follows a particular policy. Note that this causes some redundancy which is intended and can be used to support flexible development methodology as well as subsequent integrity checks. If the policy "networkRepresentationFromComSpec" is chosen the network representation from the ComSpec that is aggregated by the PortPrototype shall be used. If the "override" policy is chosen the requirements specified in the PortInterface and in the ComSpec are not fulfilled by the networkRepresentationProps. In case the System Description doesn't use a complete Software Component Description (VFB View) the "legacy" policy can be chosen.
+        A None value is a no-op and does not overwrite an existing dataTypePolicy.
+        """
+        if value is not None:
+            self.dataTypePolicy = value
         return self
 
-    def getISignalProps(self):
-        return self.iSignalProps
-
-    def setISignalProps(self, value):
-        self.iSignalProps = value
-        return self
-
-    def getISignalType(self):
-        return self.iSignalType
-
-    def setISignalType(self, value):
-        self.iSignalType = value
-        return self
-
-    def getInitValue(self):
+    def getInitValue(self) -> Optional[ValueSpecification]:
+        """
+        Optional definition of a ISignal's initValue in case the System Description doesn't use a complete Software Component Description (VFB View). This supports the inclusion of legacy system signals. This value can be used to configure the Signal's "Init Value". If a full DataMapping exist for the SystemSignal this information may be available from a configured SenderComSpec and ReceiverComSpec. In this case the initvalues in SenderComSpec and/or ReceiverComSpec override this optional value specification. Further restrictions apply from the RTE specification.
+        """
         return self.initValue
 
-    def setInitValue(self, value):
-        self.initValue = value
+    def setInitValue(self, value: Optional[ValueSpecification]) -> "ISignal":
+        """
+        Optional definition of a ISignal's initValue in case the System Description doesn't use a complete Software Component Description (VFB View). This supports the inclusion of legacy system signals. This value can be used to configure the Signal's "Init Value". If a full DataMapping exist for the SystemSignal this information may be available from a configured SenderComSpec and ReceiverComSpec. In this case the initvalues in SenderComSpec and/or ReceiverComSpec override this optional value specification. Further restrictions apply from the RTE specification.
+        A None value is a no-op and does not overwrite an existing initValue.
+        """
+        if value is not None:
+            self.initValue = value
         return self
 
-    def getLength(self):
+    def getISignalProps(self) -> Optional[ISignalProps]:
+        """
+        Additional optional ISignal properties that may be stored in different files.
+        """
+        return self.iSignalProps
+
+    def setISignalProps(self, value: Optional[ISignalProps]) -> "ISignal":
+        """
+        Additional optional ISignal properties that may be stored in different files.
+        A None value is a no-op and does not overwrite an existing iSignalProps.
+        """
+        if value is not None:
+            self.iSignalProps = value
+        return self
+
+    def getISignalType(self) -> Optional[ISignalTypeEnum]:
+        """
+        This attribute defines whether this iSignal is an array that results in a UINT8_N / UINT8_DYN ComSignalType in the COM configuration or a primitive type.
+        """
+        return self.iSignalType
+
+    def setISignalType(self, value: Optional[ISignalTypeEnum]) -> "ISignal":
+        """
+        This attribute defines whether this iSignal is an array that results in a UINT8_N / UINT8_DYN ComSignalType in the COM configuration or a primitive type.
+        A None value is a no-op and does not overwrite an existing iSignalType.
+        """
+        if value is not None:
+            self.iSignalType = value
+        return self
+
+    def getLength(self) -> Optional[UnlimitedInteger]:
+        """
+        Size of the signal in bits. The size needs to be derived from the mapped VariableDataPrototype according to the mapping of primitive DataTypes to BaseTypes as used in the RTE. Indicates maximum size for dynamic length signals. The ISignal length of zero bits is allowed.
+        """
         return self.length
 
-    def setLength(self, value):
-        self.length = value
+    def setLength(self, value: Optional[UnlimitedInteger]) -> "ISignal":
+        """
+        Size of the signal in bits. The size needs to be derived from the mapped VariableDataPrototype according to the mapping of primitive DataTypes to BaseTypes as used in the RTE. Indicates maximum size for dynamic length signals. The ISignal length of zero bits is allowed.
+        A None value is a no-op and does not overwrite an existing length.
+        """
+        if value is not None:
+            self.length = value
         return self
 
-    def getNetworkRepresentationProps(self):
+    def getNetworkRepresentationProps(self) -> Optional[SwDataDefProps]:
+        """
+        Specification of the actual network representation. The usage of SwDataDefProps for this purpose is restricted to the attributes compuMethod and baseType. The optional baseType attributes "memAllignment" and "byteOrder" shall not be used. The attribute "dataTypePolicy" in the SystemTemplate element defines whether this network representation shall be ignored and the information shall be taken over from the network representation of the ComSpec. If "override" is chosen by the system integrator the network representation can violate against the requirements defined in the PortInterface and in the network representation of the ComSpec. In case that the System Description doesn't use a complete Software Component Description (VFB View) this element is used to configure "ComSignalDataInvalidValue" and the Data Semantics.
+        """
         return self.networkRepresentationProps
 
-    def setNetworkRepresentationProps(self, value):
-        self.networkRepresentationProps = value
+    def setNetworkRepresentationProps(self, value: Optional[SwDataDefProps]) -> "ISignal":
+        """
+        Specification of the actual network representation. The usage of SwDataDefProps for this purpose is restricted to the attributes compuMethod and baseType. The optional baseType attributes "memAllignment" and "byteOrder" shall not be used. The attribute "dataTypePolicy" in the SystemTemplate element defines whether this network representation shall be ignored and the information shall be taken over from the network representation of the ComSpec. If "override" is chosen by the system integrator the network representation can violate against the requirements defined in the PortInterface and in the network representation of the ComSpec. In case that the System Description doesn't use a complete Software Component Description (VFB View) this element is used to configure "ComSignalDataInvalidValue" and the Data Semantics.
+        A None value is a no-op and does not overwrite an existing networkRepresentationProps.
+        """
+        if value is not None:
+            self.networkRepresentationProps = value
         return self
 
-    def getSystemSignalRef(self):
+    def getSystemSignalRef(self) -> Optional[RefType]:
+        """
+        Reference to the System Signal that is supposed to be transmitted in the ISignal.
+        """
         return self.systemSignalRef
 
-    def setSystemSignalRef(self, value):
-        self.systemSignalRef = value
+    def setSystemSignalRef(self, value: Optional[RefType]) -> "ISignal":
+        """
+        Reference to the System Signal that is supposed to be transmitted in the ISignal.
+        A None value is a no-op and does not overwrite an existing systemSignalRef.
+        """
+        if value is not None:
+            self.systemSignalRef = value
         return self
 
-    def getTimeoutSubstitutionValue(self):
+    def getTimeoutSubstitutionValue(self) -> Optional[ValueSpecification]:
+        """
+        Defines and enables the ComTimeoutSubstituition for this ISignal.
+        """
         return self.timeoutSubstitutionValue
 
-    def setTimeoutSubstitutionValue(self, value):
-        self.timeoutSubstitutionValue = value
+    def setTimeoutSubstitutionValue(self, value: Optional[ValueSpecification]) -> "ISignal":
+        """
+        Defines and enables the ComTimeoutSubstituition for this ISignal.
+        A None value is a no-op and does not overwrite an existing timeoutSubstitutionValue.
+        """
+        if value is not None:
+            self.timeoutSubstitutionValue = value
         return self
 
-    def getTransformationISignalProps(self):
+    def addTransformationISignalProps(self, value: Optional[TransformationISignalProps]) -> "ISignal":
+        """
+        A transformer chain consists of an ordered list of transformers. The ISignal specific configuration properties for each transformer are defined in the TransformationISignalProps class. The transformer configuration properties that are common for all ISignals are described in the TransformationTechnology class.
+        """
+        if value is not None:
+            self.transformationISignalProps.append(value)
+        return self
+
+    def getTransformationISignalProps(self) -> List[TransformationISignalProps]:
+        """
+        A transformer chain consists of an ordered list of transformers. The ISignal specific configuration properties for each transformer are defined in the TransformationISignalProps class. The transformer configuration properties that are common for all ISignals are described in the TransformationTechnology class.
+        """
         return self.transformationISignalProps
-
-    def addTransformationISignalProps(self, value):
-        self.transformationISignalProps.append(value)
-        return self
 
 
 class PduTriggering(Identifiable):

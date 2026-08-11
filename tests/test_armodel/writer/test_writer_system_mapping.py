@@ -5,6 +5,9 @@ import xml.etree.cElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
+    TextValueSpecification,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
     ModeDeclarationGroupPrototypeMapping,
 )
@@ -35,6 +38,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
     ComponentInSystemInstanceRef,
     VariableDataPrototypeInSystemInstanceRef,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
+    EndToEndTransformationISignalProps,
 )
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -844,6 +850,11 @@ class TestWriterISignal:
         sig.setISignalType(_literal("FIXED-LENGTH"))
         sig.setLength(_numerical(8))
         sig.setSystemSignalRef(_ref("/ss", "SYSTEM-SIGNAL"))
+        sig.setDataTransformationRef(_ref("/dt", "DATA-TRANSFORMATION"))
+        sig.setTimeoutSubstitutionValue(TextValueSpecification())
+        props = EndToEndTransformationISignalProps()
+        props.setTransformerRef(_ref("/tr", "TRANSFORMATION-PROPS"))
+        sig.addTransformationISignalProps(props)
         parent = _parent()
         writer.writeISignal(parent, sig)
         s = parent[0]
@@ -852,3 +863,28 @@ class TestWriterISignal:
         assert s.find("I-SIGNAL-TYPE").text == "FIXED-LENGTH"
         assert s.find("LENGTH").text == "8"
         assert s.find("SYSTEM-SIGNAL-REF") is not None
+        assert s.find("DATA-TRANSFORMATIONS/DATA-TRANSFORMATION-REF-CONDITIONAL/DATA-TRANSFORMATION-REF") is not None
+        assert s.find("TIMEOUT-SUBSTITUTION-VALUE") is not None
+        assert s.find("TRANSFORMATION-I-SIGNAL-PROPSS/END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS") is not None
+
+    def test_with_i_signal_props(self, writer):
+        from armodel.models import ISignalProps
+
+        sig = _make_isignal()
+        props = ISignalProps()
+        props.setHandleOutOfRange(_literal("DEFAULT"))
+        sig.setISignalProps(props)
+        parent = _parent()
+        writer.writeISignal(parent, sig)
+        s = parent[0]
+        assert s.tag == "I-SIGNAL"
+        assert s.find("I-SIGNAL-PROPS") is not None
+        assert s.find("I-SIGNAL-PROPS/HANDLE-OUT-OF-RANGE").text == "DEFAULT"
+
+    def test_without_i_signal_props(self, writer):
+        sig = _make_isignal()
+        parent = _parent()
+        writer.writeISignal(parent, sig)
+        s = parent[0]
+        assert s.tag == "I-SIGNAL"
+        assert s.find("I-SIGNAL-PROPS") is None

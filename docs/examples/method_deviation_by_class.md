@@ -1121,27 +1121,28 @@ Aligned to `class_check_rules.md` on 2026-08-07. PDF-synced (Rule 1):
 | `physicalDimensionMappingRef` | `RefType` | `physicalDimensionMappingRef` | `Ref (PhysicalDimensionMappingSet)` | Ref | model implemented; reader/writer not (element absent from AUTOSAR XSD) |
 
 ## `EcuInstance`
-- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 312
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 50
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/EcuInstance.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `canTpAddressRefs` | `Ref (CanTpAddress)` | Refs | missing |
-| — *(missing)* | `—` | `diagnosticProps` | `DiagnosticEcuProps` | — | missing |
-| — *(missing)* | `—` | `ecuInstanceProps` | `Ref (OsTaskProxy)` | — | missing |
-| `firewallRuleRef` | `—` | `firewallRuleRefs` | `Ref (StateDependentFirewall)` | Refs | type (spec many vs py single) |
-| — *(missing)* | `—` | `tpAddressRefs` | `Ref (TpAddress)` | Refs | missing |
+| — *(missing)* | `—` | `canTpAddressRefs` | `Ref (CanTpAddress)` | Refs | deprecated (atp.Status=removed), not implemented |
+| — *(missing)* | `—` | `diagnosticProps` | `DiagnosticEcuProps` | — | deprecated (atp.Status=removed), not implemented |
+| — *(missing)* | `—` | `tpAddressRefs` | `Ref (TpAddress)` | Refs | deprecated (atp.Status=removed), not implemented |
+
+No `# Spec verified:` stamp this pass: `firewallRule` → `firewallRuleRefs` (list ref) and `ecuTaskProxy` → `addEcuTaskProxyRef` (list-add shape) were converted to the Table 3.1 `*` ref shape; the XSD-only `diagnosticAddress` was removed per Rule 0015. Reader/writer coverage is pending for the aggregate attributes whose referenced classes are missing (Rule 0001.10 placeholders): `clientIdRange` → `ClientIdRange`, `dltConfig` → `DltConfig`, `doIpConfig` → `DoIpConfig`, `partition` → `EcuPartition`. All 13 spec scalar/ref attributes and the four list-ref groups now round-trip.
 
 ## `ISignal`
-- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 315
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 320
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `dataTransformationRef` | `—` | `dataTransformation` | `DataTransformationRefConditional` | — | type (spec many vs py single) |
-| `transformationISignalProps` | `—` | `iSignalProps` | `ISignalProps` | — | type (spec one vs py list) |
+| — *(missing)* | `—` | `iSignalProps` | `ISignalProps` | — | missing (referenced class `ISignalProps` not implemented; Rule 0001.10 placeholder) |
+
+The previous `dataTransformation` "type (spec many vs py single)" row was stale — the "many" came from the XSD wrapper (`pureMM.maxOccurs="-1"`); the PDF Table 6.7 multiplicity is `0..1`, so the single `dataTransformationRef` is PDF-correct. The `transformationISignalProps`/`iSignalProps` "type (spec one vs py list)" row was generator noise: both shapes are correct (`iSignalProps` is `0..1` single, `transformationISignalProps` is `*` list). Reader/writer for `DATA-TRANSFORMATIONS`, `TIMEOUT-SUBSTITUTION-VALUE`, and the `TRANSFORMATION-I-SIGNAL-PROPSS` wrapper were added. No `# Spec verified:` stamp while `ISignalProps` remains missing.
 
 ## `J1939NmNode`
 - **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 322

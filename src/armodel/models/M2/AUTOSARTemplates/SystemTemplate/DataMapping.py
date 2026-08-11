@@ -6,7 +6,7 @@ from typing import List
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import VariableDataPrototypeInSystemInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import TextTableMapping
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Integer, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationDirectionType
 
@@ -418,3 +418,44 @@ class SenderReceiverToSignalGroupMapping(DataMapping):
     def setTypeMapping(self, value):
         self.typeMapping = value
         return self
+
+
+class DataTypePolicyEnum(AREnum):
+    """
+    This class lists the supported DataTypePolicies.
+    """
+
+    # DataTypePolicyEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.8, p.322
+    # Spec verified: R23-11
+    # (no methods)
+
+    # This literal indicates that this ISignal is used to transport a message as part of a service for Dds. Tags: atp.EnumerationLiteralIndex=6 atp.Status=candidate
+    DDS_SERVICE = "ddsService"
+
+    # This literal indicates that this ISignal is used to transport a signal based signal for Dds. Tags: atp.EnumerationLiteralIndex=5 atp.Status=candidate
+    DDS_SIGNAL = "ddsSignal"
+
+    # In case the System Description doesn't use a complete Software Component Description (VFB View) this value can be chosen. This supports the inclusion of legacy signals. The aggregation of SwDataDefProps shall be used to configure the "ComSignalDataInvalidValue" and the Data Semantics. Tags: atp.EnumerationLiteralIndex=0
+    LEGACY = "legacy"
+
+    # Ignore any networkRepresentationProps of this ISignal and use the networkRepresentation from the ComSpec. Please note that the usage does not imply the existence of the SwDataDefProps in the role networkRepresentation aggregated by the SenderComSpec or ReceiverComSpec if an ImplementationDataType is defined. Tags: atp.EnumerationLiteralIndex=1
+    NETWORK_REPRESENTATION_FROM_COM_SPEC = "networkRepresentationFromComSpec"
+
+    # If this value is chosen the requirements specified in the ComSpec (networkRepresentationFromComSpec) are not fullfilled by the aggregated SwDataDefProps. In this case the networkRepresentation is specified by the aggregated swDataDefProps. Tags: atp.EnumerationLiteralIndex=2
+    OVERRIDE = "override"
+
+    # This literal indicates that a transformer chain shall be used to communicate the ISignal as UINT8_N over the bus. Tags: atp.EnumerationLiteralIndex=4
+    TRANSFORMING_I_SIGNAL = "transformingISignal"
+
+    def __init__(self):
+        super().__init__(
+            (
+                DataTypePolicyEnum.DDS_SERVICE,
+                DataTypePolicyEnum.DDS_SIGNAL,
+                DataTypePolicyEnum.LEGACY,
+                DataTypePolicyEnum.NETWORK_REPRESENTATION_FROM_COM_SPEC,
+                DataTypePolicyEnum.OVERRIDE,
+                DataTypePolicyEnum.TRANSFORMING_I_SIGNAL,
+            )
+        )

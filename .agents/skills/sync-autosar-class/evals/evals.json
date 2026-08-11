@@ -1,0 +1,42 @@
+{
+  "skill_name": "sync-autosar-class",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Run Phase 0 (Discovery & Class Closure) for the AUTOSAR class `ObdInfoServiceNeeds` in py-armodel. Do NOT modify any source files. Produce the sync map (closure classes, source location, queue order) and stop. The repo root is /Users/ray/Workspace/py-armodel.",
+      "expected_output": "A sync map / closure table listing ObdInfoServiceNeeds itself, its parent class (DiagnosticCapabilityElement), and any member types. Each row has a spec source (markdown / pdf / missing). An ordered sync queue. No file modifications under src/armodel/ or tests/.",
+      "expectations": [
+        "Output mentions the class ObdInfoServiceNeeds and its parent DiagnosticCapabilityElement",
+        "Output lists spec source for each closure class (markdown/pdf/missing)",
+        "Output presents an ordered sync queue (parents first, input class last)",
+        "No source files under src/armodel/models/ were modified",
+        "Output cites Rule 0016 or the Phase 0 procedure"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Run Phase 0 (Discovery & Class Closure) for the AUTOSAR class `EndToEndProtection` in py-armodel. Do NOT modify any source files. Produce the sync map (closure classes, source location, queue order) and stop. The repo root is /Users/ray/Workspace/py-armodel.",
+      "expected_output": "A closure table covering EndToEndProtection, its parent (TransmissionAcknowledgementRequestProxy or similar per spec), and member types (data identifiers, counters, etc.). Each row has source location. Ordered queue. No file modifications.",
+      "expectations": [
+        "Output mentions the class EndToEndProtection",
+        "Output lists parent class(es) by walking the Base column",
+        "Output enumerates member types from the Attribute rows (refs, aggrs, enums)",
+        "Output presents an ordered sync queue",
+        "No source files under src/armodel/models/ were modified",
+        "Output mentions Rule 0016 or Phase 0 procedure"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "I want to sync `ObdMonitorServiceNeeds` in py-armodel but suspect some referenced types may not exist in the markdown spec. Use the sync-autosar-class skill to run the discovery pre-flight (Phase 0) and tell me what you find. Do NOT modify any source files. If any closure classes are missing from both markdown and PDF, present the user-decision step. Repo root: /Users/ray/Workspace/py-armodel.",
+      "expected_output": "Phase 0 closure for ObdMonitorServiceNeeds (parent DiagnosticCapabilityElement + member types from Attribute column: applicationDataTypeRef, eventNeedsRef, unitAndScalingId, updateKind). For each missing class, an AskUserQuestion-style prompt offering Skip vs Derive-from-XSD. No file modifications.",
+      "expectations": [
+        "Output mentions ObdMonitorServiceNeeds and its parent DiagnosticCapabilityElement",
+        "Output lists member types (applicationDataTypeRef, eventNeedsRef, unitAndScalingId, updateKind or their target classes)",
+        "Output either confirms all closure classes are in markdown OR presents an AskUserQuestion-style prompt for missing ones with Skip/Derive-from-XSD options",
+        "Output does NOT invent a third option beyond Skip and Derive-from-XSD for missing classes",
+        "No source files under src/armodel/models/ were modified"
+      ]
+    }
+  ]
+}
