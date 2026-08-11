@@ -259,8 +259,17 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceR
     RModeInAtomicSwcInstanceRef,
     RVariableInAtomicSwcInstanceRef,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import AssemblySwConnector, CompositionSwComponentType, DelegationSwConnector, SwComponentPrototype, SwConnector
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
+    AssemblySwConnector,
+    CompositionSwComponentType,
+    DelegationSwConnector,
+    InstantiationTimingEventProps,
+    PassThroughSwConnector,
+    SwComponentPrototype,
+    SwConnector,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import (
+    InstanceEventInCompositionInstanceRef,
     POperationInAtomicSwcInstanceRef,
     PPortInCompositionInstanceRef,
     ROperationInAtomicSwcInstanceRef,
@@ -3926,8 +3935,16 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DELEGATION-SW-CONNECTOR":
                 connector = parent.createDelegationSwConnector(self.getShortName(child_element))
                 self.readDelegationSwConnector(child_element, connector)
+            elif tag_name == "PASS-THROUGH-SW-CONNECTOR":
+                connector = parent.createPassThroughSwConnector(self.getShortName(child_element))
+                self.readPassThroughSwConnector(child_element, connector)
             else:
                 self.notImplemented("Unsupported SwConnector <%s>" % tag_name)
+
+    def readPassThroughSwConnector(self, element: ET.Element, connector: PassThroughSwConnector):
+        self.readSwConnector(element, connector)
+        connector.setProvidedOuterPortRef(self.getChildElementOptionalRefType(element, "PROVIDED-OUTER-PORT-REF"))
+        connector.setRequiredOuterPortRef(self.getChildElementOptionalRefType(element, "REQUIRED-OUTER-PORT-REF"))
 
     def readDelegationSwConnectorInnerPortIRef(self, element, parent: DelegationSwConnector):
         inner_port_iref_element = self.find(element, "INNER-PORT-IREF")
@@ -3977,7 +3994,40 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, "DATA-TYPE-MAPPING-REFS")
         if child_element is not None:
             for ref in self.getChildElementRefTypeList(child_element, "DATA-TYPE-MAPPING-REF"):
-                parent.addDataTypeMapping(ref)
+                parent.addDataTypeMappingRef(ref)
+
+    def readCompositionSwComponentTypeConstantValueMappingSet(self, element: ET.Element, parent: CompositionSwComponentType):
+        child_element = self.find(element, "CONSTANT-VALUE-MAPPING-REFS")
+        if child_element is not None:
+            for ref in self.getChildElementRefTypeList(child_element, "CONSTANT-VALUE-MAPPING-REF"):
+                parent.addConstantValueMappingRef(ref)
+
+    def readInstanceEventInCompositionInstanceRef(self, element: ET.Element, instance_ref: InstanceEventInCompositionInstanceRef):
+        for ref in self.getChildElementRefTypeList(element, "CONTEXT-COMPONENT-PROTOTYPE-REF"):
+            instance_ref.addContextComponentPrototypeRef(ref)
+        instance_ref.setTargetEventRef(self.getChildElementOptionalRefType(element, "TARGET-EVENT-REF"))
+
+    def readInstantiationRTEEventProps(self, element: ET.Element, props: InstantiationTimingEventProps):
+        refined_event_element = self.find(element, "REFINED-EVENT-IREF")
+        if refined_event_element is not None:
+            refined_event = InstanceEventInCompositionInstanceRef()
+            self.readARObjectAttributes(refined_event_element, refined_event)
+            self.readInstanceEventInCompositionInstanceRef(refined_event_element, refined_event)
+            props.setRefinedEventIRef(refined_event)
+        props.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
+
+    def readInstantiationTimingEventProps(self, element: ET.Element, props: InstantiationTimingEventProps):
+        self.readInstantiationRTEEventProps(element, props)
+        props.setPeriod(self.getChildElementOptionalTimeValue(element, "PERIOD"))
+
+    def readCompositionSwComponentTypeInstantiationRTEEventProps(self, element: ET.Element, parent: CompositionSwComponentType):
+        child_element = self.find(element, "INSTANTIATION-RTE-EVENT-PROPSS")
+        if child_element is not None:
+            for props_element in self.findall(child_element, "INSTANTIATION-TIMING-EVENT-PROPS"):
+                props = InstantiationTimingEventProps()
+                self.readARObjectAttributes(props_element, props)
+                self.readInstantiationTimingEventProps(props_element, props)
+                parent.addInstantiationRTEEventProps(props)
 
     def readCompositionSwComponentType(self, element: ET.Element, type: CompositionSwComponentType):
         self.logger.debug("Read CompositionSwComponentType: <%s>" % type.getShortName())
@@ -3985,6 +4035,8 @@ class ARXMLParser(AbstractARXMLParser):
         self.readCompositionSwComponentTypeComponents(element, type)
         self.readCompositionSwComponentTypeSwConnectors(element, type)
         self.readCompositionSwComponentTypeDataTypeMappingSet(element, type)
+        self.readCompositionSwComponentTypeConstantValueMappingSet(element, type)
+        self.readCompositionSwComponentTypeInstantiationRTEEventProps(element, type)
         document = AUTOSAR.getInstance()
         document.addCompositionSwComponentType(type)
 

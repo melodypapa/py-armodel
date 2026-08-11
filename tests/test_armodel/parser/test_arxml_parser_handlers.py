@@ -18,7 +18,13 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from armodel.models import AUTOSAR, ApplicationSwComponentType, CompositionSwComponentType
+from armodel.models import (
+    AUTOSAR,
+    ApplicationSwComponentType,
+    CompositionSwComponentType,
+    InstanceEventInCompositionInstanceRef,
+    InstantiationTimingEventProps,
+)
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -786,12 +792,104 @@ class TestSwComponentAndConnectorHandlers:
             root_tag="COMP",
         )
         parser.readCompositionSwComponentTypeDataTypeMappingSet(element, composition)
-        assert len(composition.getDataTypeMappings()) == 2
+        assert len(composition.getDataTypeMappingRefs()) == 2
 
     def test_readCompositionSwComponentTypeDataTypeMappingSet_missing_no_op(self, parser, composition):
         element = _snip("<X/>")
         parser.readCompositionSwComponentTypeDataTypeMappingSet(element, composition)
-        assert len(composition.getDataTypeMappings()) == 0
+        assert len(composition.getDataTypeMappingRefs()) == 0
+
+    def test_readCompositionSwComponentTypeConstantValueMappingSet_adds_refs(self, parser, composition):
+        element = _snip(
+            "<CONSTANT-VALUE-MAPPING-REFS>"
+            "<CONSTANT-VALUE-MAPPING-REF DEST='CONSTANT-SPECIFICATION-MAPPING-SET'>/cvm1</CONSTANT-VALUE-MAPPING-REF>"
+            "<CONSTANT-VALUE-MAPPING-REF DEST='CONSTANT-SPECIFICATION-MAPPING-SET'>/cvm2</CONSTANT-VALUE-MAPPING-REF>"
+            "</CONSTANT-VALUE-MAPPING-REFS>",
+            root_tag="COMP",
+        )
+        parser.readCompositionSwComponentTypeConstantValueMappingSet(element, composition)
+        assert len(composition.getConstantValueMappingRefs()) == 2
+        assert composition.getConstantValueMappingRefs()[0].getValue() == "/cvm1"
+
+    def test_readCompositionSwComponentTypeConstantValueMappingSet_missing_no_op(self, parser, composition):
+        element = _snip("<X/>")
+        parser.readCompositionSwComponentTypeConstantValueMappingSet(element, composition)
+        assert len(composition.getConstantValueMappingRefs()) == 0
+
+    def test_readPassThroughSwConnector(self, parser, composition):
+        connector = composition.createPassThroughSwConnector("p1")
+        element = _snip(
+            "<SHORT-NAME>p1</SHORT-NAME>"
+            "<PROVIDED-OUTER-PORT-REF DEST='P-PORT-PROTOTYPE'>/pop</PROVIDED-OUTER-PORT-REF>"
+            "<REQUIRED-OUTER-PORT-REF DEST='R-PORT-PROTOTYPE'>/rop</REQUIRED-OUTER-PORT-REF>",
+            root_tag="PASS-THROUGH-SW-CONNECTOR",
+        )
+        parser.readPassThroughSwConnector(element, connector)
+        assert connector.getProvidedOuterPortRef().getValue() == "/pop"
+        assert connector.getRequiredOuterPortRef().getValue() == "/rop"
+
+    def test_readPassThroughSwConnector_without_outer_refs(self, parser, composition):
+        connector = composition.createPassThroughSwConnector("p2")
+        element = _snip("<SHORT-NAME>p2</SHORT-NAME>", root_tag="PASS-THROUGH-SW-CONNECTOR")
+        parser.readPassThroughSwConnector(element, connector)
+        assert connector.getProvidedOuterPortRef() is None
+        assert connector.getRequiredOuterPortRef() is None
+
+    def test_readInstanceEventInCompositionInstanceRef(self, parser):
+        instance_ref = InstanceEventInCompositionInstanceRef()
+        element = _snip(
+            "<CONTEXT-COMPONENT-PROTOTYPE-REF DEST='SW-COMPONENT-PROTOTYPE'>/inner1</CONTEXT-COMPONENT-PROTOTYPE-REF>"
+            "<CONTEXT-COMPONENT-PROTOTYPE-REF DEST='SW-COMPONENT-PROTOTYPE'>/inner2</CONTEXT-COMPONENT-PROTOTYPE-REF>"
+            "<TARGET-EVENT-REF DEST='TIMING-EVENT'>/evt</TARGET-EVENT-REF>",
+            root_tag="REFINED-EVENT-IREF",
+        )
+        parser.readInstanceEventInCompositionInstanceRef(element, instance_ref)
+        assert len(instance_ref.getContextComponentPrototypeRefs()) == 2
+        assert instance_ref.getContextComponentPrototypeRefs()[0].getValue() == "/inner1"
+        assert instance_ref.getTargetEventRef().getValue() == "/evt"
+
+    def test_readInstantiationTimingEventProps(self, parser):
+        props = InstantiationTimingEventProps()
+        element = _snip(
+            "<REFINED-EVENT-IREF>"
+            "<CONTEXT-COMPONENT-PROTOTYPE-REF DEST='SW-COMPONENT-PROTOTYPE'>/inner</CONTEXT-COMPONENT-PROTOTYPE-REF>"
+            "<TARGET-EVENT-REF DEST='TIMING-EVENT'>/evt</TARGET-EVENT-REF>"
+            "</REFINED-EVENT-IREF>"
+            "<SHORT-LABEL>Label</SHORT-LABEL>"
+            "<PERIOD>0.01</PERIOD>",
+            root_tag="INSTANTIATION-TIMING-EVENT-PROPS",
+        )
+        parser.readInstantiationTimingEventProps(element, props)
+        assert props.getRefinedEventIRef() is not None
+        assert props.getRefinedEventIRef().getTargetEventRef().getValue() == "/evt"
+        assert props.getShortLabel().getValue() == "Label"
+        assert props.getPeriod().getValue() == 0.01
+
+    def test_readCompositionSwComponentTypeInstantiationRTEEventProps(self, parser, composition):
+        element = _snip(
+            "<INSTANTIATION-RTE-EVENT-PROPSS>"
+            "<INSTANTIATION-TIMING-EVENT-PROPS>"
+            "<REFINED-EVENT-IREF>"
+            "<CONTEXT-COMPONENT-PROTOTYPE-REF DEST='SW-COMPONENT-PROTOTYPE'>/inner</CONTEXT-COMPONENT-PROTOTYPE-REF>"
+            "<TARGET-EVENT-REF DEST='TIMING-EVENT'>/evt</TARGET-EVENT-REF>"
+            "</REFINED-EVENT-IREF>"
+            "<SHORT-LABEL>Label</SHORT-LABEL>"
+            "<PERIOD>0.01</PERIOD>"
+            "</INSTANTIATION-TIMING-EVENT-PROPS>"
+            "</INSTANTIATION-RTE-EVENT-PROPSS>",
+            root_tag="COMP",
+        )
+        parser.readCompositionSwComponentTypeInstantiationRTEEventProps(element, composition)
+        assert len(composition.getInstantiationRTEEventProps()) == 1
+        props = composition.getInstantiationRTEEventProps()[0]
+        assert isinstance(props, InstantiationTimingEventProps)
+        assert props.getShortLabel().getValue() == "Label"
+        assert props.getPeriod().getValue() == 0.01
+
+    def test_readCompositionSwComponentTypeInstantiationRTEEventProps_missing_no_op(self, parser, composition):
+        element = _snip("<X/>")
+        parser.readCompositionSwComponentTypeInstantiationRTEEventProps(element, composition)
+        assert len(composition.getInstantiationRTEEventProps()) == 0
 
     def test_readDataTypeMaps_adds_to_parent_and_global(self, parser):
         from armodel.models import DataTypeMappingSet
