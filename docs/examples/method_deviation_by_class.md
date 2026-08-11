@@ -1117,8 +1117,8 @@ Aligned to `class_check_rules.md` on 2026-08-07. PDF-synced (Rule 1):
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Composition/__init__.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `physicalDimensionMappingRef` | `Ref (PhysicalDimensionMappingSet)` | Ref | missing |
+|---|---|---|---|---|---|---|
+| `physicalDimensionMappingRef` | `RefType` | `physicalDimensionMappingRef` | `Ref (PhysicalDimensionMappingSet)` | Ref | model implemented; reader/writer not (element absent from AUTOSAR XSD) |
 
 ## `EcuInstance`
 - **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 312

@@ -562,8 +562,8 @@ class TestCompositionSwComponentType:
 
         data_type_ref = RefType()
         data_type_ref.setValue("/Data/Type/Ref")
-        comp_type.addDataTypeMapping(data_type_ref)
-        assert data_type_ref in comp_type.getDataTypeMappings()
+        comp_type.addDataTypeMappingRef(data_type_ref)
+        assert data_type_ref in comp_type.getDataTypeMappingRefs()
 
         # Test connector methods
         assembly_connector = comp_type.createAssemblySwConnector("TestAssemblyConnector")

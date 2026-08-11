@@ -3,8 +3,22 @@ This module contains tests for the Composition subdirectory in SWComponentTempla
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import AssemblySwConnector, DelegationSwConnector, PassThroughSwConnector, SwComponentPrototype, SwConnector
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Identifier,
+    RefType,
+    TimeValue,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
+    AssemblySwConnector,
+    CompositionSwComponentType,
+    DelegationSwConnector,
+    InstantiationRTEEventProps,
+    InstantiationTimingEventProps,
+    PassThroughSwConnector,
+    SwComponentPrototype,
+    SwConnector,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import InstanceEventInCompositionInstanceRef
 
 
 class Test_M2_AUTOSARTemplates_SWComponentTemplate_Composition:
@@ -92,3 +106,224 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Composition:
         ref = RefType()
         pass_through_connector.setMappingRef(ref)
         assert pass_through_connector.getMappingRef() == ref
+
+
+class TestInstantiationRTEEventProps:
+    """Test class for InstantiationRTEEventProps abstract class."""
+
+    def test_instantiation_rte_event_props_abstract(self):
+        """Test that InstantiationRTEEventProps is an abstract class."""
+        import pytest
+
+        with pytest.raises(TypeError):
+            InstantiationRTEEventProps()
+
+    def test_get_set_refined_event_iref(self):
+        """Test refinedEventIRef getter and setter."""
+        props = InstantiationTimingEventProps()
+
+        assert props.getRefinedEventIRef() is None
+
+        refined_event = InstanceEventInCompositionInstanceRef()
+        props.setRefinedEventIRef(refined_event)
+        assert props.getRefinedEventIRef() == refined_event
+
+        props.setRefinedEventIRef(None)
+        assert props.getRefinedEventIRef() == refined_event
+
+    def test_get_set_short_label(self):
+        """Test shortLabel getter and setter."""
+        props = InstantiationTimingEventProps()
+
+        assert props.getShortLabel() is None
+
+        short_label = Identifier()
+        short_label.setValue("Label")
+        props.setShortLabel(short_label)
+        assert props.getShortLabel() == short_label
+
+        props.setShortLabel(None)
+        assert props.getShortLabel() == short_label
+
+
+class TestInstantiationTimingEventProps:
+    """Test class for InstantiationTimingEventProps class."""
+
+    def test_initialization(self):
+        """Test InstantiationTimingEventProps initialization and defaults."""
+        props = InstantiationTimingEventProps()
+
+        assert props.getRefinedEventIRef() is None
+        assert props.getShortLabel() is None
+        assert props.getPeriod() is None
+
+    def test_get_set_period(self):
+        """Test period getter and setter."""
+        props = InstantiationTimingEventProps()
+
+        period = TimeValue()
+        period.setValue("0.01")
+        props.setPeriod(period)
+        assert props.getPeriod() == period
+
+        props.setPeriod(None)
+        assert props.getPeriod() == period
+
+
+class TestCompositionSwComponentType:
+    """Test class for CompositionSwComponentType class."""
+
+    def test_initialization(self):
+        """Test CompositionSwComponentType initialization and defaults."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        composition = CompositionSwComponentType(ar_root, "TestComposition")
+
+        assert composition.getComponents() == []
+        assert composition.getSwConnectors() == []
+        assert composition.getConstantValueMappingRefs() == []
+        assert composition.getDataTypeMappingRefs() == []
+        assert composition.getInstantiationRTEEventProps() == []
+        assert composition.getPhysicalDimensionMappingRef() is None
+
+    def test_create_sw_component_prototype(self):
+        """Test createSwComponentPrototype method."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        composition = CompositionSwComponentType(ar_root, "TestComposition")
+
+        prototype = composition.createSwComponentPrototype("Cmp1")
+        assert isinstance(prototype, SwComponentPrototype)
+        assert prototype.short_name == "Cmp1"
+        assert composition.getComponents() == [prototype]
+
+        prototype_again = composition.createSwComponentPrototype("Cmp1")
+        assert prototype_again is prototype
+
+    def test_create_connectors(self):
+        """Test createAssemblySwConnector, createDelegationSwConnector and createPassThroughSwConnector."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        composition = CompositionSwComponentType(ar_root, "TestComposition")
+
+        assembly = composition.createAssemblySwConnector("AsmConn")
+        delegation = composition.createDelegationSwConnector("DelConn")
+        pass_through = composition.createPassThroughSwConnector("PassConn")
+
+        assert isinstance(assembly, AssemblySwConnector)
+        assert isinstance(delegation, DelegationSwConnector)
+        assert isinstance(pass_through, PassThroughSwConnector)
+        assert len(composition.getSwConnectors()) == 3
+        assert composition.getAssemblySwConnectors() == [assembly]
+        assert composition.getDelegationSwConnectors() == [delegation]
+        assert composition.getPassThroughSwConnectors() == [pass_through]
+
+        assert composition.createAssemblySwConnector("AsmConn") is assembly
+        assert len(composition.getSwConnectors()) == 3
+
+    def test_remove_all_connectors(self):
+        """Test removeAllAssemblySwConnector, removeAllDelegationSwConnector and removeAllPassThroughSwConnector."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        composition = CompositionSwComponentType(ar_root, "TestComposition")
+
+        composition.createAssemblySwConnector("AsmConn")
+        composition.createDelegationSwConnector("DelConn")
+        composition.createPassThroughSwConnector("PassConn")
+
+        composition.removeAllAssemblySwConnector()
+        assert len(composition.getSwConnectors()) == 2
+
+        composition.removeAllDelegationSwConnector()
+        assert len(composition.getSwConnectors()) == 1
+
+        composition.removeAllPassThroughSwConnector()
+        assert len(composition.getSwConnectors()) == 0
+
+    def test_remove_element_connector(self):
+        """Test that removeElement removes a connector from the connectors list."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        composition = CompositionSwComponentType(ar_root, "TestComposition")
+
+        assembly = composition.createAssemblySwConnector("AsmConn")
+        composition.createDelegationSwConnector("DelConn")
+
+        composition.removeElement("AsmConn")
+        assert assembly not in composition.getSwConnectors()
+        assert len(composition.getSwConnectors()) == 1
+
+    def test_add_get_constant_value_mapping_refs(self):
+        """Test addConstantValueMappingRef and getConstantValueMappingRefs methods."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        composition = CompositionSwComponentType(ar_root, "TestComposition")
+
+        ref1 = RefType()
+        ref1.setDest("CONSTANT-SPECIFICATION-MAPPING-SET")
+        ref1.setValue("/Mapping/Set1")
+        composition.addConstantValueMappingRef(ref1)
+        assert composition.getConstantValueMappingRefs() == [ref1]
+
+        ref2 = RefType()
+        ref2.setDest("CONSTANT-SPECIFICATION-MAPPING-SET")
+        ref2.setValue("/Mapping/Set2")
+        composition.addConstantValueMappingRef(ref2)
+        assert composition.getConstantValueMappingRefs() == [ref1, ref2]
+
+        composition.addConstantValueMappingRef(None)
+        assert composition.getConstantValueMappingRefs() == [ref1, ref2]
+
+    def test_add_get_data_type_mapping_refs(self):
+        """Test addDataTypeMappingRef and getDataTypeMappingRefs methods."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        composition = CompositionSwComponentType(ar_root, "TestComposition")
+
+        ref1 = RefType()
+        ref1.setDest("DATA-TYPE-MAPPING-SET")
+        ref1.setValue("/Mapping/Set1")
+        composition.addDataTypeMappingRef(ref1)
+        assert composition.getDataTypeMappingRefs() == [ref1]
+
+        ref2 = RefType()
+        ref2.setDest("DATA-TYPE-MAPPING-SET")
+        ref2.setValue("/Mapping/Set2")
+        composition.addDataTypeMappingRef(ref2)
+        assert composition.getDataTypeMappingRefs() == [ref1, ref2]
+
+        composition.addDataTypeMappingRef(None)
+        assert composition.getDataTypeMappingRefs() == [ref1, ref2]
+
+    def test_add_get_instantiation_rte_event_props(self):
+        """Test addInstantiationRTEEventProps and getInstantiationRTEEventProps methods."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        composition = CompositionSwComponentType(ar_root, "TestComposition")
+
+        props1 = InstantiationTimingEventProps()
+        props1.setPeriod(TimeValue())
+        composition.addInstantiationRTEEventProps(props1)
+        assert composition.getInstantiationRTEEventProps() == [props1]
+
+        props2 = InstantiationTimingEventProps()
+        composition.addInstantiationRTEEventProps(props2)
+        assert composition.getInstantiationRTEEventProps() == [props1, props2]
+
+        composition.addInstantiationRTEEventProps(None)
+        assert composition.getInstantiationRTEEventProps() == [props1, props2]
+
+    def test_set_get_physical_dimension_mapping_ref(self):
+        """Test setPhysicalDimensionMappingRef and getPhysicalDimensionMappingRef methods."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        composition = CompositionSwComponentType(ar_root, "TestComposition")
+
+        ref = RefType()
+        ref.setDest("PHYSICAL-DIMENSION-MAPPING-SET")
+        ref.setValue("/Mapping/DimSet")
+        composition.setPhysicalDimensionMappingRef(ref)
+        assert composition.getPhysicalDimensionMappingRef() == ref
+
+        composition.setPhysicalDimensionMappingRef(None)
+        assert composition.getPhysicalDimensionMappingRef() == ref

@@ -7,6 +7,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import (
+    InstanceEventInCompositionInstanceRef,
     OperationInAtomicSwcInstanceRef,
     POperationInAtomicSwcInstanceRef,
     PortInCompositionTypeInstanceRef,
@@ -208,3 +209,60 @@ class TestROperationInAtomicSwcInstanceRef:
         target_required_operation_ref.setValue("/Target/Required/Operation")
         instance_ref.setTargetRequiredOperationRef(target_required_operation_ref)
         assert instance_ref.getTargetRequiredOperationRef() == target_required_operation_ref
+
+
+class TestInstanceEventInCompositionInstanceRef:
+    """Test class for InstanceEventInCompositionInstanceRef class."""
+
+    def test_initialization(self):
+        """Test InstanceEventInCompositionInstanceRef initialization and defaults."""
+        instance_ref = InstanceEventInCompositionInstanceRef()
+
+        assert instance_ref.getBaseRef() is None
+        assert instance_ref.getContextComponentPrototypeRefs() == []
+        assert instance_ref.getTargetEventRef() is None
+
+    def test_set_get_base_ref(self):
+        """Test setBaseRef and getBaseRef methods."""
+        instance_ref = InstanceEventInCompositionInstanceRef()
+
+        base_ref = RefType()
+        base_ref.setDest("COMPOSITION-SW-COMPONENT-TYPE")
+        base_ref.setValue("/Composition")
+        instance_ref.setBaseRef(base_ref)
+        assert instance_ref.getBaseRef() == base_ref
+
+        instance_ref.setBaseRef(None)
+        assert instance_ref.getBaseRef() == base_ref
+
+    def test_add_get_context_component_prototype_refs(self):
+        """Test addContextComponentPrototypeRef and getContextComponentPrototypeRefs methods."""
+        instance_ref = InstanceEventInCompositionInstanceRef()
+
+        ref1 = RefType()
+        ref1.setDest("SW-COMPONENT-PROTOTYPE")
+        ref1.setValue("/Comp/Inner")
+        instance_ref.addContextComponentPrototypeRef(ref1)
+        assert instance_ref.getContextComponentPrototypeRefs() == [ref1]
+
+        ref2 = RefType()
+        ref2.setDest("SW-COMPONENT-PROTOTYPE")
+        ref2.setValue("/Comp/Inner2")
+        instance_ref.addContextComponentPrototypeRef(ref2)
+        assert instance_ref.getContextComponentPrototypeRefs() == [ref1, ref2]
+
+        instance_ref.addContextComponentPrototypeRef(None)
+        assert instance_ref.getContextComponentPrototypeRefs() == [ref1, ref2]
+
+    def test_set_get_target_event_ref(self):
+        """Test setTargetEventRef and getTargetEventRef methods."""
+        instance_ref = InstanceEventInCompositionInstanceRef()
+
+        target_event_ref = RefType()
+        target_event_ref.setDest("TIMING-EVENT")
+        target_event_ref.setValue("/Events/Evt")
+        instance_ref.setTargetEventRef(target_event_ref)
+        assert instance_ref.getTargetEventRef() == target_event_ref
+
+        instance_ref.setTargetEventRef(None)
+        assert instance_ref.getTargetEventRef() == target_event_ref

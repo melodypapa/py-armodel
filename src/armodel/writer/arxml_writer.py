@@ -245,8 +245,17 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceR
     RModeInAtomicSwcInstanceRef,
     RVariableInAtomicSwcInstanceRef,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import AssemblySwConnector, CompositionSwComponentType, DelegationSwConnector, SwComponentPrototype, SwConnector
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
+    AssemblySwConnector,
+    CompositionSwComponentType,
+    DelegationSwConnector,
+    InstantiationTimingEventProps,
+    PassThroughSwConnector,
+    SwComponentPrototype,
+    SwConnector,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import (
+    InstanceEventInCompositionInstanceRef,
     POperationInAtomicSwcInstanceRef,
     PPortInCompositionInstanceRef,
     ROperationInAtomicSwcInstanceRef,
@@ -1268,6 +1277,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(connector_tag, "OUTER-PORT-REF", sw_connector.getOuterPortRef())
             # self.writeChildOptionalRefElement(requester_iref_tag, "TARGET-R-PORT-REF", sw_connector.requester_iref.target_r_port_ref)
 
+    def writePassThroughSwConnector(self, element: ET.Element, sw_connector: PassThroughSwConnector):
+        connector_tag = ET.SubElement(element, "PASS-THROUGH-SW-CONNECTOR")
+        self.writeSwConnector(connector_tag, sw_connector)
+        self.setChildElementOptionalRefType(connector_tag, "PROVIDED-OUTER-PORT-REF", sw_connector.getProvidedOuterPortRef())
+        self.setChildElementOptionalRefType(connector_tag, "REQUIRED-OUTER-PORT-REF", sw_connector.getRequiredOuterPortRef())
+
     def writeSwConnector(self, element: ET.Element, sw_connector: SwConnector):
         self.writeIdentifiable(element, sw_connector)
         self.setChildElementOptionalRefType(element, "MAPPING-REF", sw_connector.getMappingRef())
@@ -1281,16 +1296,51 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeAssemblySwConnector(child_element, sw_connector)
                 elif isinstance(sw_connector, DelegationSwConnector):
                     self.writeDelegationSwConnector(child_element, sw_connector)
+                elif isinstance(sw_connector, PassThroughSwConnector):
+                    self.writePassThroughSwConnector(child_element, sw_connector)
                 else:
                     self.notImplemented("Unsupported Sw Connector %s" % type(sw_connector))
 
     def writeCompositionSwComponentTypeDataTypeMappingSet(self, element: ET.Element, parent: CompositionSwComponentType):
-        data_type_mappings = parent.getDataTypeMappings()
+        data_type_mappings = parent.getDataTypeMappingRefs()
         if len(data_type_mappings) > 0:
             child_element = ET.SubElement(element, "DATA-TYPE-MAPPING-REFS")
             self.logger.debug("writeDataTypeMappingSet")
             for data_type_mapping in data_type_mappings:
                 self.setChildElementOptionalRefType(child_element, "DATA-TYPE-MAPPING-REF", data_type_mapping)
+
+    def writeCompositionSwComponentTypeConstantValueMappingSet(self, element: ET.Element, parent: CompositionSwComponentType):
+        constant_value_mappings = parent.getConstantValueMappingRefs()
+        if len(constant_value_mappings) > 0:
+            child_element = ET.SubElement(element, "CONSTANT-VALUE-MAPPING-REFS")
+            for constant_value_mapping in constant_value_mappings:
+                self.setChildElementOptionalRefType(child_element, "CONSTANT-VALUE-MAPPING-REF", constant_value_mapping)
+
+    def writeInstanceEventInCompositionInstanceRef(self, element: ET.Element, instance_ref: InstanceEventInCompositionInstanceRef):
+        for ref in instance_ref.getContextComponentPrototypeRefs():
+            self.setChildElementOptionalRefType(element, "CONTEXT-COMPONENT-PROTOTYPE-REF", ref)
+        self.setChildElementOptionalRefType(element, "TARGET-EVENT-REF", instance_ref.getTargetEventRef())
+
+    def writeInstantiationRTEEventProps(self, element: ET.Element, props: InstantiationTimingEventProps):
+        props_tag = ET.SubElement(element, "INSTANTIATION-TIMING-EVENT-PROPS")
+        self.writeARObjectAttributes(props_tag, props)
+        if props.getRefinedEventIRef() is not None:
+            refined_event_tag = ET.SubElement(props_tag, "REFINED-EVENT-IREF")
+            refined_event = props.getRefinedEventIRef()
+            self.writeARObjectAttributes(refined_event_tag, refined_event)
+            self.writeInstanceEventInCompositionInstanceRef(refined_event_tag, refined_event)
+        self.setChildElementOptionalLiteral(props_tag, "SHORT-LABEL", props.getShortLabel())
+        self.setChildElementOptionalTimeValue(props_tag, "PERIOD", props.getPeriod())
+
+    def writeCompositionSwComponentTypeInstantiationRTEEventProps(self, element: ET.Element, parent: CompositionSwComponentType):
+        props_list = parent.getInstantiationRTEEventProps()
+        if len(props_list) > 0:
+            child_element = ET.SubElement(element, "INSTANTIATION-RTE-EVENT-PROPSS")
+            for props in props_list:
+                if isinstance(props, InstantiationTimingEventProps):
+                    self.writeInstantiationRTEEventProps(child_element, props)
+                else:
+                    self.notImplemented("Unsupported InstantiationRTEEventProps %s" % type(props))
 
     def writeCompositionSwComponentType(self, parent: ET.Element, sw_component: CompositionSwComponentType):
         child_element = ET.SubElement(parent, "COMPOSITION-SW-COMPONENT-TYPE")
@@ -1299,6 +1349,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeCompositionSwComponentTypeComponents(child_element, sw_component)
         self.writeCompositionSwComponentTypeSwConnectors(child_element, sw_component)
         self.writeCompositionSwComponentTypeDataTypeMappingSet(child_element, sw_component)
+        self.writeCompositionSwComponentTypeConstantValueMappingSet(child_element, sw_component)
+        self.writeCompositionSwComponentTypeInstantiationRTEEventProps(child_element, sw_component)
 
     def writeCompositionSwComponentTypes(self, element: ET.Element, ar_package: ARPackage):
         for sw_component in ar_package.getCompositionSwComponentTypes():

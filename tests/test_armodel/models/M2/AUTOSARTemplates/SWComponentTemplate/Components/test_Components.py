@@ -744,8 +744,8 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         assert connector1 in connectors
         assert connector2 in connectors
 
-        # Test addDataTypeMapping
+        # Test addDataTypeMappingRef
         mapping_ref = RefType()
         mapping_ref.setValue("/Test/Mapping")
-        swc.addDataTypeMapping(mapping_ref)
-        assert mapping_ref in swc.getDataTypeMappings()
+        swc.addDataTypeMappingRef(mapping_ref)
+        assert mapping_ref in swc.getDataTypeMappingRefs()

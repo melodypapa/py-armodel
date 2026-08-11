@@ -5,6 +5,8 @@ operations within compositions and atomic SWC instances.
 """
 
 from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 
@@ -237,3 +239,108 @@ class ROperationInAtomicSwcInstanceRef(OperationInAtomicSwcInstanceRef):
     def setTargetRequiredOperationRef(self, value):
         self.targetRequiredOperationRef = value
         return self
+
+
+class InstanceEventInCompositionInstanceRef(AtpInstanceRef):
+    """
+    Instance reference to an RTEEvent in the context of a CompositionSwComponentType.
+    Aggregated by InstantiationRTEEventProps.refinedEventIRef.
+    """
+
+    # InstanceEventInCompositionInstanceRef method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.23, p.959
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getBaseRef                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setBaseRef                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addContextComponentPrototypeRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getContextComponentPrototypeRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTargetEventRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTargetEventRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # The CompositionSwComponentType that is the base of this instance ref.
+        # Stereotypes: atpDerived (derived attribute, no XML element).
+        self.baseRef: Optional[RefType] = None
+
+        # This represents the nested structure of SwComponentPrototypes.
+        self.contextComponentPrototypeRefs: List[RefType] = []
+
+        # This represents the target RTEEvent.
+        self.targetEventRef: Optional[RefType] = None
+
+    def getBaseRef(self) -> Optional[RefType]:
+        """
+        Gets the reference to the base CompositionSwComponentType.
+        Derived attribute (atpDerived), so it has no XML element.
+
+        Returns:
+            RefType referencing the CompositionSwComponentType, or None if not set
+        """
+        return self.baseRef
+
+    def setBaseRef(self, value: Optional[RefType]) -> "InstanceEventInCompositionInstanceRef":
+        """
+        Sets the reference to the base CompositionSwComponentType.
+        A None value is a no-op and does not overwrite an existing reference.
+
+        Args:
+            value: The base CompositionSwComponentType reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.baseRef = value
+        return self
+
+    def addContextComponentPrototypeRef(self, value: Optional[RefType]) -> "InstanceEventInCompositionInstanceRef":
+        """
+        Adds a reference to a context SwComponentPrototype.
+        A None value is a no-op and does not append anything.
+
+        Args:
+            value: The context SwComponentPrototype reference to add
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.contextComponentPrototypeRefs.append(value)
+        return self
+
+    def getContextComponentPrototypeRefs(self) -> List[RefType]:
+        """
+        Gets the references to the context SwComponentPrototypes.
+
+        Returns:
+            List of RefType instances
+        """
+        return self.contextComponentPrototypeRefs
+
+    def setTargetEventRef(self, value: Optional[RefType]) -> "InstanceEventInCompositionInstanceRef":
+        """
+        Sets the reference to the target RTEEvent.
+        A None value is a no-op and does not overwrite an existing reference.
+
+        Args:
+            value: The target RTEEvent reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.targetEventRef = value
+        return self
+
+    def getTargetEventRef(self) -> Optional[RefType]:
+        """
+        Gets the reference to the target RTEEvent.
+
+        Returns:
+            RefType referencing the RTEEvent, or None if not set
+        """
+        return self.targetEventRef

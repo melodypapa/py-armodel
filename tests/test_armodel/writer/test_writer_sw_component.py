@@ -48,10 +48,9 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (  # noqa: E501
     InnerPortGroupInCompositionInstanceRef,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
-    PassThroughSwConnector,
-)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import InstantiationTimingEventProps
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import (  # noqa: E501
+    InstanceEventInCompositionInstanceRef,
     PortInCompositionTypeInstanceRef,
     PPortInCompositionInstanceRef,
     RPortInCompositionInstanceRef,
@@ -856,17 +855,83 @@ class TestWriteCompositionSwComponentType:
 
     def test_write_data_type_mapping(self, writer):
         comp = self._comp()
-        comp.addDataTypeMapping(_ref(dest="DATA-TYPE-MAPPING-SET"))
+        comp.addDataTypeMappingRef(_ref(dest="DATA-TYPE-MAPPING-SET"))
         parent = _parent()
         writer.writeCompositionSwComponentTypeDataTypeMappingSet(parent, comp)
         assert parent.find("DATA-TYPE-MAPPING-REFS") is not None
         assert parent.find("DATA-TYPE-MAPPING-REFS").find("DATA-TYPE-MAPPING-REF") is not None
 
+    def test_write_constant_value_mapping_empty(self, writer):
+        comp = self._comp()
+        parent = _parent()
+        writer.writeCompositionSwComponentTypeConstantValueMappingSet(parent, comp)
+        assert parent.find("CONSTANT-VALUE-MAPPING-REFS") is None
+
+    def test_write_constant_value_mapping(self, writer):
+        comp = self._comp()
+        comp.addConstantValueMappingRef(_ref(dest="CONSTANT-SPECIFICATION-MAPPING-SET"))
+        parent = _parent()
+        writer.writeCompositionSwComponentTypeConstantValueMappingSet(parent, comp)
+        assert parent.find("CONSTANT-VALUE-MAPPING-REFS") is not None
+        assert parent.find("CONSTANT-VALUE-MAPPING-REFS").find("CONSTANT-VALUE-MAPPING-REF") is not None
+
+    def test_write_instantiation_rte_event_props_empty(self, writer):
+        comp = self._comp()
+        parent = _parent()
+        writer.writeCompositionSwComponentTypeInstantiationRTEEventProps(parent, comp)
+        assert parent.find("INSTANTIATION-RTE-EVENT-PROPSS") is None
+
+    def test_write_instantiation_rte_event_props(self, writer):
+        comp = self._comp()
+        props = InstantiationTimingEventProps()
+        refined_event = InstanceEventInCompositionInstanceRef()
+        refined_event.addContextComponentPrototypeRef(_ref("/Comp/Inner", "SW-COMPONENT-PROTOTYPE"))
+        refined_event.setTargetEventRef(_ref("/Events/Evt", "TIMING-EVENT"))
+        props.setRefinedEventIRef(refined_event)
+        props.setShortLabel(_literal("Label"))
+        period = TimeValue()
+        period.setValue("0.01")
+        props.setPeriod(period)
+        comp.addInstantiationRTEEventProps(props)
+        parent = _parent()
+        writer.writeCompositionSwComponentTypeInstantiationRTEEventProps(parent, comp)
+        props_tag = parent.find("INSTANTIATION-RTE-EVENT-PROPSS")
+        assert props_tag is not None
+        timing_tag = props_tag.find("INSTANTIATION-TIMING-EVENT-PROPS")
+        assert timing_tag is not None
+        assert timing_tag.find("REFINED-EVENT-IREF") is not None
+        assert timing_tag.find("REFINED-EVENT-IREF").find("CONTEXT-COMPONENT-PROTOTYPE-REF") is not None
+        assert timing_tag.find("REFINED-EVENT-IREF").find("TARGET-EVENT-REF") is not None
+        assert timing_tag.find("SHORT-LABEL").text == "Label"
+        assert timing_tag.find("PERIOD").text == "0.01"
+
+    def test_write_pass_through_sw_connector(self, writer):
+        comp = self._comp()
+        conn = comp.createPassThroughSwConnector("PassConn")
+        conn.setProvidedOuterPortRef(_ref("/POP", "P-PORT-PROTOTYPE"))
+        conn.setRequiredOuterPortRef(_ref("/ROP", "R-PORT-PROTOTYPE"))
+        parent = _parent()
+        writer.writePassThroughSwConnector(parent, conn)
+        assert parent[0].tag == "PASS-THROUGH-SW-CONNECTOR"
+        assert parent[0].find("PROVIDED-OUTER-PORT-REF") is not None
+        assert parent[0].find("REQUIRED-OUTER-PORT-REF") is not None
+
+    def test_write_pass_through_sw_connector_no_outer_refs(self, writer):
+        comp = self._comp()
+        conn = comp.createPassThroughSwConnector("PassConn")
+        parent = _parent()
+        writer.writePassThroughSwConnector(parent, conn)
+        assert parent[0].tag == "PASS-THROUGH-SW-CONNECTOR"
+        assert parent[0].find("PROVIDED-OUTER-PORT-REF") is None
+        assert parent[0].find("REQUIRED-OUTER-PORT-REF") is None
+
     def test_write_composition_sw_component_type(self, writer):
         comp = self._comp()
         comp.createSwComponentPrototype("Cmp1")
         comp.createAssemblySwConnector("AsmConn")
-        comp.addDataTypeMapping(_ref(dest="DATA-TYPE-MAPPING-SET"))
+        comp.createPassThroughSwConnector("PassConn")
+        comp.addDataTypeMappingRef(_ref(dest="DATA-TYPE-MAPPING-SET"))
+        comp.addConstantValueMappingRef(_ref(dest="CONSTANT-SPECIFICATION-MAPPING-SET"))
         comp.createPPortPrototype("PPort")
         parent = _parent()
         writer.writeCompositionSwComponentType(parent, comp)
@@ -875,7 +940,9 @@ class TestWriteCompositionSwComponentType:
         assert parent[0].find("PORTS") is not None
         assert parent[0].find("COMPONENTS") is not None
         assert parent[0].find("CONNECTORS") is not None
+        assert parent[0].find("CONNECTORS").find("PASS-THROUGH-SW-CONNECTOR") is not None
         assert parent[0].find("DATA-TYPE-MAPPING-REFS") is not None
+        assert parent[0].find("CONSTANT-VALUE-MAPPING-REFS") is not None
 
     def test_write_composition_sw_component_types(self, writer):
         autosar = AUTOSAR.getInstance()
@@ -1105,11 +1172,11 @@ class TestWriteErrorBranches:
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("Pkg")
         comp = pkg.createCompositionSwComponentType("Comp")
-        pass_through = PassThroughSwConnector(comp, "PassConn")
-        comp.addElement(pass_through)
+        comp.createPassThroughSwConnector("PassConn")
         parent = _parent()
         writer.writeCompositionSwComponentTypeSwConnectors(parent, comp)
         assert parent.find("CONNECTORS") is not None
+        assert parent.find("CONNECTORS").find("PASS-THROUGH-SW-CONNECTOR") is not None
 
 
 class TestWriteRPortComSpecUnsupported:
