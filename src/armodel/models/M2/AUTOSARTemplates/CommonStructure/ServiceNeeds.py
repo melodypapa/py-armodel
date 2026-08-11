@@ -3322,13 +3322,15 @@ class MaxCommModeEnum(AREnum):
         )
 
 
-class ObdControlServiceNeeds(ServiceNeeds):
+class ObdControlServiceNeeds(DiagnosticCapabilityElement):
     """
     Specifies the abstract needs of a component or module on the configuration of OBD Service 08 (request control of on-board system) in relation to a particular test-Identifier (TID) supported by this component or module.
     """
 
     # ObdControlServiceNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.45, p.796
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
         """

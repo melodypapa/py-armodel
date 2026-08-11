@@ -370,6 +370,7 @@ class TestDataTypeAndValueSpecHandlers:
         parser.readSwBaseType(element, bt)
         definition = bt.getBaseTypeDefinition()
         assert definition.getBaseTypeSize().getValue() == 32
+        assert definition.getBaseTypeEncoding().getValue() == "IEEE754"
         assert definition.getNativeDeclaration().getValue() == "float"
         assert definition.getByteOrder().getValue() == "BIG-ENDIAN"
 

@@ -118,6 +118,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     FunctionInhibitionAvailabilityNeeds,
     IndicatorStatusNeeds,
     NvBlockNeeds,
+    ObdControlServiceNeeds,
     ObdInfoServiceNeeds,
     ObdMonitorServiceNeeds,
     ObdPidServiceNeeds,
@@ -1172,6 +1173,10 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = ObdPidServiceNeeds(dependency, short_name)
                 self.readObdPidServiceNeeds(child_element, needs)
+            elif tag_name == "OBD-CONTROL-SERVICE-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = ObdControlServiceNeeds(dependency, short_name)
+                self.readObdControlServiceNeeds(child_element, needs)
             else:
                 self.notImplemented("Unsupported service needs <%s>" % tag_name)
                 continue
@@ -1250,6 +1255,9 @@ class ARXMLParser(AbstractARXMLParser):
         needs.setUpdateKind(self.getChildElementOptionalLiteral(element, "UPDATE-KIND"))
 
     def readObdPidServiceNeeds(self, element: ET.Element, needs: ObdPidServiceNeeds):
+        self.readDiagnosticCapabilityElement(element, needs)
+
+    def readObdControlServiceNeeds(self, element: ET.Element, needs: ObdControlServiceNeeds):
         self.readDiagnosticCapabilityElement(element, needs)
 
     def readDiagnosticCommunicationManagerNeeds(self, element: ET.Element, needs: DiagnosticCommunicationManagerNeeds):
@@ -1488,6 +1496,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "OBD-PID-SERVICE-NEEDS":
                 needs = parent.createObdPidServiceNeeds(self.getShortName(child_element))
                 self.readObdPidServiceNeeds(child_element, needs)
+            elif tag_name == "OBD-CONTROL-SERVICE-NEEDS":
+                needs = parent.createObdControlServiceNeeds(self.getShortName(child_element))
+                self.readObdControlServiceNeeds(child_element, needs)
             else:
                 self.notImplemented("Unsupported service needs <%s>" % tag_name)
 
@@ -3443,10 +3454,10 @@ class ARXMLParser(AbstractARXMLParser):
         data_type.setTypeEmitter(self.getChildElementOptionalLiteral(element, "TYPE-EMITTER"))
 
     def readBaseTypeDirectDefinition(self, element: ET.Element, definition: BaseTypeDirectDefinition):
-        definition.setBaseTypeSize(self.getChildElementOptionalNumericalValue(element, "BASE-TYPE-SIZE"))
+        definition.setBaseTypeSize(self.getChildElementOptionalPositiveInteger(element, "BASE-TYPE-SIZE"))
         definition.setBaseTypeEncoding(self.getChildElementOptionalLiteral(element, "BASE-TYPE-ENCODING"))
+        definition.setMemAlignment(self.getChildElementOptionalPositiveInteger(element, "MEM-ALIGNMENT"))
         definition.setByteOrder(self.getChildElementOptionalLiteral(element, "BYTE-ORDER"))
-        definition.setMemAlignment(self.getChildElementOptionalNumericalValue(element, "MEM-ALIGNMENT"))
         definition.setNativeDeclaration(self.getChildElementOptionalLiteral(element, "NATIVE-DECLARATION"))
 
     def readSwBaseType(self, element: ET.Element, data_type: SwBaseType):

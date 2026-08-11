@@ -27,6 +27,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     FunctionInhibitionAvailabilityNeeds,
     IndicatorStatusNeeds,
     NvBlockNeeds,
+    ObdControlServiceNeeds,
     ObdInfoServiceNeeds,
     ObdMonitorServiceNeeds,
     ObdPidServiceNeeds,
@@ -546,6 +547,22 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
             self.serviceNeeds = needs
         return self.getElement(short_name)
 
+    def createObdControlServiceNeeds(self, short_name: str) -> ObdControlServiceNeeds:
+        """
+        Creates or retrieves an ObdControlServiceNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            ObdControlServiceNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name):
+            needs = ObdControlServiceNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name)
+
     def getNvBlockNeeds(self) -> List[NvBlockNeeds]:
         """
         Gets sorted NvBlockNeeds elements.
@@ -694,6 +711,15 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
             List[ObdPidServiceNeeds]: Sorted list of ObdPidServiceNeeds
         """
         return sorted(filter(lambda c: isinstance(c, ObdPidServiceNeeds), self.elements), key=lambda e: e.short_name)
+
+    def getObdControlServiceNeeds(self) -> List[ObdControlServiceNeeds]:
+        """
+        Gets sorted ObdControlServiceNeeds elements.
+
+        Returns:
+            List[ObdControlServiceNeeds]: Sorted list of ObdControlServiceNeeds
+        """
+        return sorted(filter(lambda c: isinstance(c, ObdControlServiceNeeds), self.elements), key=lambda e: e.short_name)
 
     def getServiceNeeds(self) -> List[ServiceNeeds]:
         """

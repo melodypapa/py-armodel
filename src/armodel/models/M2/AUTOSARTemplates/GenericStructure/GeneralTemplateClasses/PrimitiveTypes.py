@@ -438,6 +438,25 @@ class NativeDeclarationString(ARLiteral):
         super().__init__()
 
 
+class BaseTypeEncodingString(ARLiteral):
+    """
+    This is the string denotion of a BaseType encoding. It may be refined by specific use-cases. Tags: xml.xsd.customType=BASE-TYPE-ENCODING-STRING xml.xsd.type=string
+
+    Tags:
+        * xml.xsd.customType=BASE-TYPE-ENCODING-STRING
+        * xml.xsd.type=string
+    """
+
+    # BaseTypeEncodingString method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.25, p.291
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+
+    def __init__(self):
+        super().__init__()
+
+
 class PrimitiveIdentifier(ARLiteral):
     """
     This meta-class has the ability to contain a string. Please note that this meta-class has only been introduced to fix an issue with the generation of attributes on primitives in context with [TPS_XMLSPR_00024].
@@ -1107,14 +1126,31 @@ class CategoryString(ARLiteral):
 
 class ByteOrderEnum(AREnum):
     """
-    Enumeration for byte order in AUTOSAR models.
+    When more than one byte is stored in the memory the order of those bytes may differ depending on the architecture of the processing unit. If the least significant byte is stored at the lowest address, this architecture is called little endian and otherwise it is called big endian. ByteOrder is very important in case of communication between different PUs or ECUs.
     """
 
     # ByteOrderEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.27, p.297
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+
+    # Most significant byte shall come at the lowest address (also known as BigEndian or as Motorola-Format) Tags: atp.EnumerationLiteralIndex=0
+    MOST_SIGNIFICANT_BYTE_FIRST = "mostSignificantByteFirst"
+
+    # Most significant byte shall come highest address (also known as LittleEndian or as Intel-Format) Tags: atp.EnumerationLiteralIndex=1
+    MOST_SIGNIFICANT_BYTE_LAST = "mostSignificantByteLast"
+
+    # For opaque data endianness conversion has to be configured to Opaque. See AUTOSAR COM Specification for more details. Tags: atp.EnumerationLiteralIndex=2
+    OPAQUE = "opaque"
 
     def __init__(self):
-        super().__init__([])
+        super().__init__(
+            (
+                ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST,
+                ByteOrderEnum.MOST_SIGNIFICANT_BYTE_LAST,
+                ByteOrderEnum.OPAQUE,
+            )
+        )
 
 
 class DateTime(ARLiteral):

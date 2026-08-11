@@ -854,7 +854,27 @@ class TestByteOrderEnum:
 
         # Verify basic properties
         assert enum is not None
-        assert enum.getEnumValues() == []
+        assert enum.getEnumValues() == (
+            "mostSignificantByteFirst",
+            "mostSignificantByteLast",
+            "opaque",
+        )
+
+    def test_enum_values(self):
+        """
+        Test ByteOrderEnum values.
+        """
+        enum = ByteOrderEnum()
+
+        assert ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST == "mostSignificantByteFirst"
+        assert ByteOrderEnum.MOST_SIGNIFICANT_BYTE_LAST == "mostSignificantByteLast"
+        assert ByteOrderEnum.OPAQUE == "opaque"
+
+        # Test validation
+        assert enum.validateEnumValue("mostSignificantByteFirst") is True
+        assert enum.validateEnumValue("mostSignificantByteLast") is True
+        assert enum.validateEnumValue("opaque") is True
+        assert enum.validateEnumValue("invalid") is False
 
 
 class TestCIdentifier:
