@@ -50,6 +50,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     NvBlockNeeds,
     NvBlockNeedsReliabilityEnum,
     NvBlockNeedsWritingPriorityEnum,
+    ObdControlServiceNeeds,
     ObdInfoServiceNeeds,
     ObdMonitorServiceNeeds,
     ObdPidServiceNeeds,
@@ -2770,6 +2771,74 @@ class TestObdPidServiceNeedsRoundTrip:
             needs_2 = behavior_2.getServiceDependencies()[0].getServiceNeeds()
             assert needs_2.getShortName() == "ObdPidNeeds"
             assert isinstance(needs_2, ObdPidServiceNeeds)
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestObdControlServiceNeeds:
+    def test_initialization(self):
+        """Test ObdControlServiceNeeds initialization defaults."""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = ObdControlServiceNeeds(ar_root, "TestObdControlServiceNeeds")
+
+        assert needs is not None
+        assert needs.getShortName() == "TestObdControlServiceNeeds"
+        assert needs.audiences == []
+        assert needs.diagRequirement is None
+        assert needs.securityAccessLevel is None
+
+
+class TestObdControlServiceNeedsRoundTrip:
+    def test_round_trip_bsw_attributes(self):
+        """Test parse -> write -> re-parse preserves ObdControlServiceNeeds (attribute-less, BSW path)."""
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        desc = ar_root.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        dependency = BswServiceDependency()
+        needs = ObdControlServiceNeeds(dependency, "ObdControlNeeds")
+        dependency.setServiceNeeds(needs)
+        behavior.addServiceDependency(dependency)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            behavior_2 = document_2.getARPackages()[0].getBswModuleDescriptions()[0].getInternalBehaviors()[0]
+            needs_2 = behavior_2.getServiceDependencies()[0].getServiceNeeds()
+            assert needs_2.getShortName() == "ObdControlNeeds"
+            assert isinstance(needs_2, ObdControlServiceNeeds)
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_swc_attributes(self):
+        """Test parse -> write -> re-parse preserves ObdControlServiceNeeds (attribute-less, SWC path)."""
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        swc = ar_root.createApplicationSwComponentType("Swc")
+        behavior = swc.createSwcInternalBehavior("Beh")
+        dependency = behavior.createSwcServiceDependency("Dep")
+        dependency.createObdControlServiceNeeds("ObdControlNeeds")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            behavior_2 = document_2.getARPackages()[0].getElement("Swc", ApplicationSwComponentType).getInternalBehavior()
+            needs_2 = behavior_2.getSwcServiceDependencies()[0].getObdControlServiceNeeds()[0]
+            assert needs_2.getShortName() == "ObdControlNeeds"
+            assert isinstance(needs_2, ObdControlServiceNeeds)
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

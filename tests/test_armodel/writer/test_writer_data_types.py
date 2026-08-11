@@ -511,6 +511,15 @@ class TestBaseTypeDirectDefinitionWriter:
         assert parent.find("MEM-ALIGNMENT").text == "4"
         assert parent.find("NATIVE-DECLARATION").text == "float"
 
+        # Elements are emitted in XSD sequenceOffset order (70, 90, 100, 110, 120)
+        assert [child.tag for child in parent] == [
+            "BASE-TYPE-SIZE",
+            "BASE-TYPE-ENCODING",
+            "MEM-ALIGNMENT",
+            "BYTE-ORDER",
+            "NATIVE-DECLARATION",
+        ]
+
     def test_set_base_type_direct_definition_empty(self, writer):
         btd = BaseTypeDirectDefinition()
         parent = _parent()

@@ -7,8 +7,8 @@ the member name and is recognised in matching, so e.g. a spec attr `type` of
 kind `TRef` is correctly implemented by `typeTRef`. `variationPoint`/
 `shortLabel` are excluded as framework-level.
 
-- Classes with deviations: **292**
-- Missing accessors: **665**
+- Classes with deviations: **293**
+- Missing accessors: **664**
 - Naming deviations: **11**
 - Type deviations (list/single multiplicity): **60**
 
@@ -1094,13 +1094,22 @@ Aligned to `class_check_rules.md` on 2026-08-07. PDF-synced (Rule 1):
 | — *(missing)* | `—` | `testId` | `PositiveInteger` | — | missing |
 
 ## `BaseTypeDirectDefinition`
-- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 302
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 290
 - **Package:** `M2::MSR::AsamHdo::BaseTypes`
 - **Source:** `src/armodel/models/M2/MSR/AsamHdo/BaseTypes.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `maxBaseTypeSize` | `PositiveInteger` | — | missing |
+| — *(missing)* | `—` | `maxBaseTypeSize` | `PositiveInteger` | — | deprecated (atp.Status=removed), not implemented |
+
+## `BaseType`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 291
+- **Package:** `M2::MSR::AsamHdo::BaseTypes`
+- **Source:** `src/armodel/models/M2/MSR/AsamHdo/BaseTypes.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `baseTypeDefinition` | `BaseTypeDirectDefinition` | `baseTypeDefinition` | `BaseTypeDefinition` | aggr | type (PDF abstract BaseTypeDefinition vs py BaseTypeDirectDefinition; the abstract aggregated type is instantiated as the concrete subtype) |
 
 ## `CompositionSwComponentType`
 - **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 307
