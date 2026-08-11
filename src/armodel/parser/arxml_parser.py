@@ -1491,6 +1491,11 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported service needs <%s>" % tag_name)
 
+    def readSwcServiceDependencyRepresentedPortGroup(self, element: ET.Element, dependency: SwcServiceDependency):
+        ref = self.getChildElementOptionalRefType(element, "REPRESENTED-PORT-GROUP-REF")
+        if ref is not None:
+            dependency.setRepresentedPortGroup(ref)
+
     def readSwcServiceDependency(self, element: ET.Element, parent: SwcInternalBehavior):
         short_name = self.getShortName(element)
         dependency = parent.createSwcServiceDependency(short_name)
@@ -1499,6 +1504,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readSwcServiceDependencyAssignedData(element, dependency)
         self.readSwcServiceDependencyAssignedPorts(element, dependency)
         self.readSwcServiceDependencyServiceNeeds(element, dependency)
+        self.readSwcServiceDependencyRepresentedPortGroup(element, dependency)
 
     def readSwcInternalBehaviorServiceDependencies(self, element: ET.Element, parent: SwcInternalBehavior):
         for child_element in self.findall(element, "SERVICE-DEPENDENCYS/*"):

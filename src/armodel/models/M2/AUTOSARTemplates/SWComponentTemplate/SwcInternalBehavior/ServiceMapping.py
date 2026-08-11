@@ -3,7 +3,7 @@ This module contains classes for representing AUTOSAR service mapping elements
 in software component internal behavior templates.
 """
 
-from typing import List
+from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     ComMgrUserNeeds,
     CryptoServiceNeeds,
@@ -103,56 +103,74 @@ class RoleBasedPortAssignment(ARObject):
 
 class SwcServiceDependency(Identifiable, ServiceDependency):
     """
-    A service dependency for an atomic software component that defines the
-    required services and their assignments.
+    Specialization of ServiceDependency in the context of an SwcInternalBehavior. It allows to associate ports, port groups and (in special cases) data defined for an atomic software component to a given ServiceNeeds element.
     """
 
     # SwcServiceDependency method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] AddAssignedData              [x] impl  [x] docstring  [ ] test
-    # [ ] getAssignedData              [x] impl  [x] docstring  [ ] test
-    # [ ] AddAssignedPort              [x] impl  [x] docstring  [ ] test
-    # [ ] getAssignedPorts             [x] impl  [x] docstring  [ ] test
-    # [ ] createNvBlockNeeds           [x] impl  [x] docstring  [ ] test
-    # [ ] createDiagnosticCommunicationManagerNeeds [x] impl  [x] docstring  [ ] test
-    # [ ] createDiagnosticRoutineNeeds [x] impl  [x] docstring  [ ] test
-    # [ ] createDiagnosticValueNeeds   [x] impl  [x] docstring  [ ] test
-    # [ ] createDiagnosticEventNeeds   [x] impl  [x] docstring  [ ] test
-    # [ ] createDiagnosticEventInfoNeeds [x] impl  [x] docstring  [ ] test
-    # [ ] createCryptoServiceNeeds     [x] impl  [x] docstring  [ ] test
-    # [ ] createEcuStateMgrUserNeeds   [x] impl  [x] docstring  [ ] test
-    # [ ] createDtcStatusChangeNotificationNeeds [x] impl  [x] docstring  [ ] test
-    # [ ] createDiagnosticIoControlNeeds [x] impl  [x] docstring  [x] test
-    # [ ] createDltUserNeeds           [x] impl  [x] docstring  [ ] test
-    # [ ] createComMgrUserNeeds        [x] impl  [x] docstring  [x] test
-    # [ ] createErrorTracerNeeds       [x] impl  [x] docstring  [ ] test
-    # [ ] getNvBlockNeeds              [x] impl  [x] docstring  [ ] test
-    # [ ] getDiagnosticCommunicationManagerNeeds [x] impl  [x] docstring  [ ] test
-    # [ ] getDiagnosticRoutineNeeds    [x] impl  [x] docstring  [ ] test
-    # [ ] getDiagnosticValueNeeds      [x] impl  [x] docstring  [ ] test
-    # [ ] getDiagnosticEventNeeds      [x] impl  [x] docstring  [ ] test
-    # [ ] getDiagnosticEventInfoNeeds  [x] impl  [x] docstring  [ ] test
-    # [ ] getCryptoServiceNeeds        [x] impl  [x] docstring  [ ] test
-    # [ ] getEcuStateMgrUserNeeds      [x] impl  [x] docstring  [ ] test
-    # [ ] getDtcStatusChangeNotificationNeeds [x] impl  [x] docstring  [ ] test
-    # [ ] getDiagnosticIoControlNeeds  [x] impl  [x] docstring  [x] test
-    # [ ] getDltUserNeeds              [x] impl  [x] docstring  [ ] test
-    # [ ] getComMgrUserNeeds           [x] impl  [x] docstring  [x] test
-    # [ ] getErrorTracerNeeds          [x] impl  [x] docstring  [ ] test
-    # [ ] createObdInfoServiceNeeds    [x] impl  [x] docstring  [x] test
-    # [ ] createObdMonitorServiceNeeds [x] impl  [x] docstring  [x] test
-    # [ ] createObdPidServiceNeeds     [x] impl  [x] docstring  [x] test
-    # [ ] getObdInfoServiceNeeds       [x] impl  [x] docstring  [x] test
-    # [ ] getObdMonitorServiceNeeds    [x] impl  [x] docstring  [x] test
-    # [ ] getObdPidServiceNeeds        [x] impl  [x] docstring  [x] test
-    # [ ] getServiceNeeds              [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.56, p.608
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] AddAssignedData              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getAssignedData              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] AddAssignedPort              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getAssignedPorts             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createNvBlockNeeds           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] createDiagnosticCommunicationManagerNeeds [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] createDiagnosticRoutineNeeds [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] createDiagnosticValueNeeds   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] createDiagnosticEventNeeds   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] createDiagnosticEventInfoNeeds [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] createCryptoServiceNeeds     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] createEcuStateMgrUserNeeds   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] createDtcStatusChangeNotificationNeeds [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] createDiagnosticIoControlNeeds [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] createDltUserNeeds           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] createComMgrUserNeeds        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] createErrorTracerNeeds       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] createDiagnosticEnableConditionNeeds [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] createDiagnosticOperationCycleNeeds [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] createDiagnosticStorageConditionNeeds [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] createFunctionInhibitionAvailabilityNeeds [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] createIndicatorStatusNeeds   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getNvBlockNeeds              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getDiagnosticCommunicationManagerNeeds [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getDiagnosticRoutineNeeds    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getDiagnosticValueNeeds      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getDiagnosticEventNeeds      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getDiagnosticEventInfoNeeds  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getCryptoServiceNeeds        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getEcuStateMgrUserNeeds      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getDtcStatusChangeNotificationNeeds [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getDiagnosticIoControlNeeds  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getDltUserNeeds              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getComMgrUserNeeds           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getErrorTracerNeeds          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createObdInfoServiceNeeds    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] createObdMonitorServiceNeeds [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] createObdPidServiceNeeds     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getObdInfoServiceNeeds       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getObdMonitorServiceNeeds    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getObdPidServiceNeeds        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRepresentedPortGroup      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getRepresentedPortGroup      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getServiceNeeds              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         ServiceDependency.__init__(self)
         Identifiable.__init__(self, parent, short_name)
 
-        self._assigned_data: List["RoleBasedDataAssignment"] = []
-        self._assigned_ports: List["RoleBasedPortAssignment"] = []
+        # Defines the role of an associated data object of the same component.
+        self.assignedData: List["RoleBasedDataAssignment"] = []
+
+        # Defines the role of an associated port of the same component.
+        self.assignedPort: List["RoleBasedPortAssignment"] = []
+
+        # This reference specifies an association between the ServiceNeeeds and a PortGroup, for example to request a communication mode which applies for communication via these ports. The referred PortGroup shall be local to this atomic SWC, but via the links between the Port Groups, a tool can evaluate this information such that all the ports linked via this port group on the same ECU can be found.
+        self.representedPortGroup: Optional["RefType"] = None
+
+        # The associated ServiceNeeds.
+        self.serviceNeeds: Optional["ServiceNeeds"] = None
 
     def AddAssignedData(self, data: RoleBasedDataAssignment):
         """
@@ -161,7 +179,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         Args:
             data: The role-based data assignment to add
         """
-        self._assigned_data.append(data)
+        self.assignedData.append(data)
 
     def getAssignedData(self) -> List[RoleBasedDataAssignment]:
         """
@@ -170,7 +188,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         Returns:
             List[RoleBasedDataAssignment]: The assigned data list
         """
-        return self._assigned_data
+        return self.assignedData
 
     def AddAssignedPort(self, data: RoleBasedPortAssignment):
         """
@@ -179,7 +197,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         Args:
             data: The role-based port assignment to add
         """
-        self._assigned_ports.append(data)
+        self.assignedPort.append(data)
 
     def getAssignedPorts(self) -> List[RoleBasedPortAssignment]:
         """
@@ -188,7 +206,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         Returns:
             List[RoleBasedPortAssignment]: The assigned ports list
         """
-        return self._assigned_ports
+        return self.assignedPort
 
     def createNvBlockNeeds(self, short_name: str) -> NvBlockNeeds:
         """
@@ -203,6 +221,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         if not self.IsElementExists(short_name):
             needs = NvBlockNeeds(self, short_name)
             self.addElement(needs)
+            self.serviceNeeds = needs
         return self.getElement(short_name)
 
     def createDiagnosticCommunicationManagerNeeds(self, short_name: str) -> DiagnosticCommunicationManagerNeeds:
@@ -219,6 +238,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         if not self.IsElementExists(short_name):
             needs = DiagnosticCommunicationManagerNeeds(self, short_name)
             self.addElement(needs)
+            self.serviceNeeds = needs
         return self.getElement(short_name)
 
     def createDiagnosticRoutineNeeds(self, short_name: str) -> DiagnosticRoutineNeeds:
@@ -234,6 +254,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         if not self.IsElementExists(short_name):
             needs = DiagnosticRoutineNeeds(self, short_name)
             self.addElement(needs)
+            self.serviceNeeds = needs
         return self.getElement(short_name)
 
     def createDiagnosticValueNeeds(self, short_name: str) -> DiagnosticValueNeeds:
@@ -249,6 +270,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         if not self.IsElementExists(short_name):
             needs = DiagnosticValueNeeds(self, short_name)
             self.addElement(needs)
+            self.serviceNeeds = needs
         return self.getElement(short_name)
 
     def createDiagnosticEventNeeds(self, short_name: str) -> DiagnosticEventNeeds:
@@ -264,6 +286,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         if not self.IsElementExists(short_name):
             needs = DiagnosticEventNeeds(self, short_name)
             self.addElement(needs)
+            self.serviceNeeds = needs
         return self.getElement(short_name)
 
     def createDiagnosticEventInfoNeeds(self, short_name: str) -> DiagnosticEventInfoNeeds:
@@ -279,6 +302,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         if not self.IsElementExists(short_name):
             needs = DiagnosticEventInfoNeeds(self, short_name)
             self.addElement(needs)
+            self.serviceNeeds = needs
         return self.getElement(short_name)
 
     def createCryptoServiceNeeds(self, short_name: str) -> CryptoServiceNeeds:
@@ -294,6 +318,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         if not self.IsElementExists(short_name):
             needs = CryptoServiceNeeds(self, short_name)
             self.addElement(needs)
+            self.serviceNeeds = needs
         return self.getElement(short_name)
 
     def createEcuStateMgrUserNeeds(self, short_name: str) -> EcuStateMgrUserNeeds:
@@ -309,6 +334,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         if not self.IsElementExists(short_name):
             needs = EcuStateMgrUserNeeds(self, short_name)
             self.addElement(needs)
+            self.serviceNeeds = needs
         return self.getElement(short_name)
 
     def createDtcStatusChangeNotificationNeeds(self, short_name: str) -> DtcStatusChangeNotificationNeeds:
@@ -325,6 +351,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         if not self.IsElementExists(short_name):
             needs = DtcStatusChangeNotificationNeeds(self, short_name)
             self.addElement(needs)
+            self.serviceNeeds = needs
         return self.getElement(short_name)
 
     def createDiagnosticIoControlNeeds(self, short_name: str) -> DiagnosticIoControlNeeds:
@@ -340,6 +367,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         if not self.IsElementExists(short_name):
             needs = DiagnosticIoControlNeeds(self, short_name)
             self.addElement(needs)
+            self.serviceNeeds = needs
         return self.getElement(short_name)
 
     def createDiagnosticEnableConditionNeeds(self, short_name: str) -> DiagnosticEnableConditionNeeds:
@@ -355,6 +383,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         if not self.IsElementExists(short_name):
             needs = DiagnosticEnableConditionNeeds(self, short_name)
             self.addElement(needs)
+            self.serviceNeeds = needs
         return self.getElement(short_name)
 
     def createDiagnosticOperationCycleNeeds(self, short_name: str) -> DiagnosticOperationCycleNeeds:
@@ -370,6 +399,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         if not self.IsElementExists(short_name):
             needs = DiagnosticOperationCycleNeeds(self, short_name)
             self.addElement(needs)
+            self.serviceNeeds = needs
         return self.getElement(short_name)
 
     def createDiagnosticStorageConditionNeeds(self, short_name: str) -> DiagnosticStorageConditionNeeds:
@@ -385,6 +415,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         if not self.IsElementExists(short_name):
             needs = DiagnosticStorageConditionNeeds(self, short_name)
             self.addElement(needs)
+            self.serviceNeeds = needs
         return self.getElement(short_name)
 
     def createFunctionInhibitionAvailabilityNeeds(self, short_name: str) -> FunctionInhibitionAvailabilityNeeds:
@@ -400,6 +431,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         if not self.IsElementExists(short_name):
             needs = FunctionInhibitionAvailabilityNeeds(self, short_name)
             self.addElement(needs)
+            self.serviceNeeds = needs
         return self.getElement(short_name)
 
     def createIndicatorStatusNeeds(self, short_name: str) -> IndicatorStatusNeeds:
@@ -415,6 +447,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         if not self.IsElementExists(short_name):
             needs = IndicatorStatusNeeds(self, short_name)
             self.addElement(needs)
+            self.serviceNeeds = needs
         return self.getElement(short_name)
 
     def createDltUserNeeds(self, short_name: str) -> DltUserNeeds:
@@ -430,6 +463,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         if not self.IsElementExists(short_name):
             needs = DltUserNeeds(self, short_name)
             self.addElement(needs)
+            self.serviceNeeds = needs
         return self.getElement(short_name)
 
     def createComMgrUserNeeds(self, short_name: str) -> ComMgrUserNeeds:
@@ -445,6 +479,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         if not self.IsElementExists(short_name):
             needs = ComMgrUserNeeds(self, short_name)
             self.addElement(needs)
+            self.serviceNeeds = needs
         return self.getElement(short_name)
 
     def createErrorTracerNeeds(self, short_name: str) -> ErrorTracerNeeds:
@@ -460,6 +495,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         if not self.IsElementExists(short_name):
             needs = ErrorTracerNeeds(self, short_name)
             self.addElement(needs)
+            self.serviceNeeds = needs
         return self.getElement(short_name)
 
     def createObdInfoServiceNeeds(self, short_name: str) -> ObdInfoServiceNeeds:
@@ -475,6 +511,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         if not self.IsElementExists(short_name):
             needs = ObdInfoServiceNeeds(self, short_name)
             self.addElement(needs)
+            self.serviceNeeds = needs
         return self.getElement(short_name)
 
     def createObdMonitorServiceNeeds(self, short_name: str) -> ObdMonitorServiceNeeds:
@@ -490,6 +527,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         if not self.IsElementExists(short_name):
             needs = ObdMonitorServiceNeeds(self, short_name)
             self.addElement(needs)
+            self.serviceNeeds = needs
         return self.getElement(short_name)
 
     def createObdPidServiceNeeds(self, short_name: str) -> ObdPidServiceNeeds:
@@ -505,6 +543,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         if not self.IsElementExists(short_name):
             needs = ObdPidServiceNeeds(self, short_name)
             self.addElement(needs)
+            self.serviceNeeds = needs
         return self.getElement(short_name)
 
     def getNvBlockNeeds(self) -> List[NvBlockNeeds]:
@@ -664,3 +703,27 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
             List[ServiceNeeds]: Sorted list of ServiceNeeds
         """
         return sorted(filter(lambda c: isinstance(c, ServiceNeeds), self.elements), key=lambda e: e.short_name)
+
+    def setRepresentedPortGroup(self, value: Optional["RefType"]) -> "SwcServiceDependency":
+        """
+        This reference specifies an association between the ServiceNeeeds and a PortGroup, for example to request a communication mode which applies for communication via these ports. The referred PortGroup shall be local to this atomic SWC, but via the links between the Port Groups, a tool can evaluate this information such that all the ports linked via this port group on the same ECU can be found.
+        A None value is a no-op and does not overwrite an existing representedPortGroup.
+
+        Args:
+            value: The represented port group reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.representedPortGroup = value
+        return self
+
+    def getRepresentedPortGroup(self) -> Optional["RefType"]:
+        """
+        This reference specifies an association between the ServiceNeeeds and a PortGroup, for example to request a communication mode which applies for communication via these ports. The referred PortGroup shall be local to this atomic SWC, but via the links between the Port Groups, a tool can evaluate this information such that all the ports linked via this port group on the same ECU can be found.
+
+        Returns:
+            RefType: The represented port group reference
+        """
+        return self.representedPortGroup

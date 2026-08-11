@@ -57,8 +57,9 @@ class TestSwcServiceDependency:
 
         assert service_dep.parent == ar_root
         assert service_dep.short_name == "TestSwcServiceDependency"
-        assert service_dep._assigned_data == []
-        assert service_dep._assigned_ports == []
+        assert service_dep.assignedData == []
+        assert service_dep.assignedPort == []
+        assert service_dep.serviceNeeds is None
 
         # Test assigned data methods
         from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment
@@ -158,9 +159,43 @@ class TestSwcServiceDependency:
         assert fim_availability_needs.short_name == "TestFimAvailabilityNeeds"
         assert fim_availability_needs in service_dep.getServiceNeeds()
 
+        # Test remaining create/get service needs methods
+        error_tracer_needs = service_dep.createErrorTracerNeeds("TestErrorTracerNeeds")
+        assert error_tracer_needs is not None
+        assert error_tracer_needs in service_dep.getErrorTracerNeeds()
+
+        obd_info_needs = service_dep.createObdInfoServiceNeeds("TestObdInfoNeeds")
+        assert obd_info_needs is not None
+        assert obd_info_needs in service_dep.getObdInfoServiceNeeds()
+
+        obd_monitor_needs = service_dep.createObdMonitorServiceNeeds("TestObdMonitorNeeds")
+        assert obd_monitor_needs is not None
+        assert obd_monitor_needs in service_dep.getObdMonitorServiceNeeds()
+
+        obd_pid_needs = service_dep.createObdPidServiceNeeds("TestObdPidNeeds")
+        assert obd_pid_needs is not None
+        assert obd_pid_needs in service_dep.getObdPidServiceNeeds()
+
         # Test getting all service needs
         all_service_needs = service_dep.getServiceNeeds()
-        assert len(all_service_needs) == 17  # All the ones we created above
+        assert len(all_service_needs) == 21  # All the ones we created above
+
+    def test_get_set_represented_port_group(self):
+        """Test representedPortGroup getter/setter round-trip with None no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        service_dep = SwcServiceDependency(ar_root, "TestSwcServiceDependency")
+
+        assert service_dep.getRepresentedPortGroup() is None
+
+        port_group_ref = RefType()
+        port_group_ref.setValue("/PortGroup/Ref")
+        service_dep.setRepresentedPortGroup(port_group_ref)
+        assert service_dep.getRepresentedPortGroup().getValue() == "/PortGroup/Ref"
+
+        # None is a no-op and must not overwrite an existing value
+        service_dep.setRepresentedPortGroup(None)
+        assert service_dep.getRepresentedPortGroup().getValue() == "/PortGroup/Ref"
 
 
 class TestSwcServiceDependencyRoundTrip:
@@ -210,6 +245,35 @@ class TestSwcServiceDependencyRoundTrip:
             assert needs_2["StorageNeeds"].getInitialStatus().getValue() == "eventStorageEnabled"
             assert needs_2["IndicatorNeeds"].getType().getValue() == "malfunction"
             assert needs_2["FimNeeds"].getControlledFidRef().getValue() == "/Fim/Ref"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_swc_service_dependency_represented_port_group_round_trip(self):
+        """Verify representedPortGroup (REPRESENTED-PORT-GROUP-REF) survives an SWC round-trip."""
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        swc = ar_root.createApplicationSwComponentType("MySwc")
+        behavior = swc.createSwcInternalBehavior("Beh")
+        dependency = behavior.createSwcServiceDependency("Dep")
+
+        port_group_ref = RefType()
+        port_group_ref.setValue("/PortGroup/Ref")
+        dependency.setRepresentedPortGroup(port_group_ref)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+
+            swc_2 = document_2.getARPackages()[0].getSwComponentTypes()[0]
+            behavior_2 = swc_2.getInternalBehavior()
+            dependency_2 = behavior_2.getSwcServiceDependencies()[0]
+            assert dependency_2.getRepresentedPortGroup().getValue() == "/PortGroup/Ref"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

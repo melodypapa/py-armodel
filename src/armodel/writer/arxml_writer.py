@@ -2923,12 +2923,16 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported service needs <%s>" % type(needs))
 
+    def writeSwcServiceDependencyRepresentedPortGroup(self, element: ET.Element, dependency: SwcServiceDependency):
+        self.setChildElementOptionalRefType(element, "REPRESENTED-PORT-GROUP-REF", dependency.getRepresentedPortGroup())
+
     def writeSwcServiceDependency(self, element: ET.Element, dependency: SwcServiceDependency):
         child_element = ET.SubElement(element, "SWC-SERVICE-DEPENDENCY")
         self.writeServiceDependency(child_element, dependency)
         self.writeSwcServiceDependencyAssignedData(child_element, dependency)
         self.writeSwcServiceDependencyAssignedPorts(child_element, dependency)
         self.writeSwcServiceDependencyServiceNeeds(child_element, dependency)
+        self.writeSwcServiceDependencyRepresentedPortGroup(child_element, dependency)
 
     def writeSwcInternalBehaviorServiceDependencies(self, element: ET.Element, behavior: SwcInternalBehavior):
         dependencies = behavior.getSwcServiceDependencies()

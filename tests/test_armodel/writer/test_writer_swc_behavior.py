@@ -1395,6 +1395,27 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         assert parent.find("SERVICE-NEEDS") is None
 
 
+class TestWriterSwcServiceDependencyRepresentedPortGroup:
+    def test_writeRepresentedPortGroup(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        ref = RefType()
+        ref.setValue("/PortGroup/Ref")
+        dep.setRepresentedPortGroup(ref)
+        parent = _parent()
+        writer.writeSwcServiceDependencyRepresentedPortGroup(parent, dep)
+        ref_tag = parent.find("REPRESENTED-PORT-GROUP-REF")
+        assert ref_tag is not None
+        assert ref_tag.text == "/PortGroup/Ref"
+
+    def test_writeRepresentedPortGroup_none_no_tag(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        parent = _parent()
+        writer.writeSwcServiceDependencyRepresentedPortGroup(parent, dep)
+        assert parent.find("REPRESENTED-PORT-GROUP-REF") is None
+
+
 # ==================== SwcInternalBehavior hub & helpers ====================
 
 
