@@ -64,6 +64,7 @@ Temporary Items
 
 # Claude
 .claude/settings.local.json
+.agents/skills/*-workspace
 docs/**/M2
 docs/**/packages
 

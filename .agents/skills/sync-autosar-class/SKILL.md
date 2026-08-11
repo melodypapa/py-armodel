@@ -1,11 +1,11 @@
 ---
 name: sync-autosar-class
-description: "Use when syncing, aligning, implementing, or extending an AUTOSAR model class in py-armodel against its PDF spec table. Triggers: 'sync <ClassName>', 'implement <ClassName> to spec', 'add reader/writer coverage for <ClassName>', 'update the class checklist', 'sync docstrings to the PDF', or working on any class under src/armodel/models/M2/AUTOSARTemplates/. py-armodel project."
+description: "Use when syncing, aligning, implementing, or extending an AUTOSAR model class in py-armodel against its PDF spec table. Triggers: 'sync <ClassName>', 'implement <ClassName> to spec', 'add reader/writer coverage for <ClassName>', 'update the class checklist', 'sync docstrings to the PDF', or working on any class under src/armodel/models/M2/AUTOSARTemplates/. py-armodel project. Phase 0 builds the class closure and resolves missing classes interactively before the per-class 9-step TDD loop."
 author: melodypapa
 repository: https://github.com/melodypapa/py-armodel
 license: MIT
 metadata:
-  version: "1.5.1"
+  version: "1.6.0"
   keywords:
     - AUTOSAR
     - model-class
@@ -21,16 +21,24 @@ metadata:
 
 ## Core Principle
 
-The AUTOSAR PDF spec table is the source of truth. Sync via a **9-step TDD workflow**:
-write the failing test (Red) before the implementation (Green), **twice** — once for the
-model, once for the reader/writer. Set the release before parse/write:
+The AUTOSAR PDF spec table is the source of truth. Sync runs in **two phases**:
+
+- **Phase 0 — Discovery & class closure (Rule 0016):** build the closure of related
+  classes (parents + member types), locate each one's spec source (markdown → PDF →
+  missing), resolve missing classes interactively (skip / derive from XSD), and emit
+  an ordered sync queue.
+- **Phase 1 — 9-step TDD per class (Rules 0001–0015):** consume the queue
+  one class at a time. Two Red→Green pairs per class: model (2→3) and reader/writer
+  (5→6). Write the failing test before the implementation.
+
+Set the release before parse/write:
 
 ```python
 document = AUTOSAR.getInstance()
 document.setARRelease('R23-11')
 ```
 
-Detailed rules live in **`rules.md`** (*Rule 0001*–*Rule 0015*); this skill is
+Detailed rules live in **`rules.md`** (*Rule 0001*–*Rule 0016*); this skill is
 self-contained (no external rules document). Each step below points into `rules.md` for
 the detail — do not re-derive it here.
 
@@ -41,6 +49,35 @@ the detail — do not re-derive it here.
 
 **Not for:** non-AUTOSAR classes; reader/writer-only refactors with no spec change;
 trivial edits that don't touch the class's spec contract.
+
+## Phase 0 — Discovery & Class Closure (Rule 0016)
+
+Before the per-class 9-step loop, build the closure of classes that the input
+class depends on, locate the spec for each, resolve missing classes with the
+user, and emit an ordered sync queue. The 9-step workflow assumes this closure
+exists — running it without Phase 0 risks fabricating fields when a referenced
+class turns out to be missing mid-sync (Rule 0001.10).
+
+**Procedure (full detail in Rule 0016):**
+
+1. **Closure** = {input class} ∪ {transitive parents from `Base`} ∪ {member types
+   from `Attribute` rows: refs, aggrs, enums, primitive containers}.
+2. **Locate spec source** for each closure class: markdown first
+   (`grep "Table N.M: K" autosar/markdown/*_TPS_*.md`), then PDF, then mark
+   `missing`.
+3. **Resolve missing classes (interactive, batched)**: present one
+   `AskUserQuestion` listing every class not in markdown or PDF. Per class, the
+   user picks **Skip** (deviation row + placeholder) or **Derive from XSD**
+   (XSD-only class, no marker). Do not proceed without an answer; do not invent a
+   third option.
+4. **Build the sync queue**: parents first (deepest ancestor first → input class
+   last), member types in spec-row order. Skip classes already stamped
+   `# Spec verified: R<YY>-<MM>` unless extending or drift (Rule 0012.3).
+
+**Output:** a sync map (kept in the conversation) listing each closure class,
+its source, its parent, and whether it enters the 9-step queue.
+
+Phase 1 consumes this map one row at a time.
 
 ## The stamp is the review gate
 
@@ -77,10 +114,11 @@ round-trip) certifies a class as reviewed.
 | deviation records | the project deviation tracker (format in *Rule 0014*) |
 | XSD ground truth | `docs/requirements/xsd/` |
 
-## The 9-step workflow (TDD)
+## Phase 1 — The 9-step workflow (TDD, per class)
 
-Two Red→Green pairs: **2→3** (model) and **5→6** (reader/writer). Do not write the
-implementation before its failing test.
+Runs once per class in the queue built by Phase 0 (Rule 0016). Two Red→Green pairs:
+**2→3** (model) and **5→6** (reader/writer). Do not write the implementation
+before its failing test.
 
 | Step | What | Rules | Phase |
 |---|---|---|---|
@@ -171,7 +209,7 @@ detail: *Rule 0002*.
 
 ## References
 
-- **Rules (self-contained):** `rules.md` in this skill folder — *Rule 0001*–*Rule 0015*.
+- **Rules (self-contained):** `rules.md` in this skill folder — *Rule 0001*–*Rule 0016*.
 - Coding standards: `docs/development/coding_rules.md`.
 - Spec markdown (primary — source of all text: `Note`, `Table N.M` id, table name): `autosar/markdown/AUTOSAR_*_TPS_*.md` (`CP_TPS` + `FO_TPS`).
 - Spec PDFs (opened only for the `p.NN` page number): `autosar/pdf/AUTOSAR_*_TPS_*.pdf`.

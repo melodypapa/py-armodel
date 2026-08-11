@@ -2046,24 +2046,41 @@ class QueuedReceiverComSpec(ReceiverComSpec):
 
 class HandleOutOfRangeEnum(AREnum):
     """
-    Enumeration for handle out of range behavior.
+    A value of this type is taken for controlling the range checking behavior of the AUTOSAR RTE.
     """
 
     # HandleOutOfRangeEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.72, p.180
+    # Spec verified: R23-11
+    # (no methods)
 
-    KEEP_OLD_VALUE = "keep-old-value"
-    REPLACE_WITH_DEFAULT = "replace-with-default"
-    REPLACE_WITH_LIMIT = "replace-with-limit"
-    INVALIDATE = "invalidate"
+    # The RTE will use the initValue if the actual value is out of the specified bounds. Tags: atp.EnumerationLiteralIndex=0
+    DEFAULT = "default"
+
+    # This indicates that the value replacement is sourced from the attribute replaceWith. Tags: atp.EnumerationLiteralIndex=1
+    EXTERNAL_REPLACEMENT = "externalReplacement"
+
+    # The RTE will ignore any attempt to send or receive the corresponding dataElement if the value is out of the specified range. Tags: atp.EnumerationLiteralIndex=2
+    IGNORE = "ignore"
+
+    # The RTE will use the invalidValue if the value is out of the specified bounds. Tags: atp.EnumerationLiteralIndex=3
+    INVALID = "invalid"
+
+    # A range check is not required. Tags: atp.EnumerationLiteralIndex=4
+    NONE = "none"
+
+    # The RTE will saturate the value of the dataElement such that it is limited to the applicable upper bound if it is greater than the upper bound. Consequently, it is limited to the applicable lower bound if the value is less than the lower bound. Tags: atp.EnumerationLiteralIndex=5
+    SATURATE = "saturate"
 
     def __init__(self):
         super().__init__(
             (
-                HandleOutOfRangeEnum.KEEP_OLD_VALUE,
-                HandleOutOfRangeEnum.REPLACE_WITH_DEFAULT,
-                HandleOutOfRangeEnum.REPLACE_WITH_LIMIT,
-                HandleOutOfRangeEnum.INVALIDATE,
+                HandleOutOfRangeEnum.DEFAULT,
+                HandleOutOfRangeEnum.EXTERNAL_REPLACEMENT,
+                HandleOutOfRangeEnum.IGNORE,
+                HandleOutOfRangeEnum.INVALID,
+                HandleOutOfRangeEnum.NONE,
+                HandleOutOfRangeEnum.SATURATE,
             )
         )
 

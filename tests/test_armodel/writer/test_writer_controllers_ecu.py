@@ -728,7 +728,17 @@ class TestWriterEcuInstance:
         instance.setComEnableMDTForCyclicTransmission(_bool(True))
         instance.createCanCommunicationController("can")
         instance.createCanCommunicationConnector("cc")
-        instance.setDiagnosticAddress(_int(1))
+        instance.addEcuTaskProxyRef(_ref("/t1", "OS-TASK-PROXY"))
+        instance.addFirewallRuleRef(_ref("/f1", "STATE-DEPENDENT-FIREWALL"))
+        instance.setChannelSynchronousWakeup(_bool(True))
+        instance.setEthSwitchPortGroupDerivation(_bool(True))
+        instance.setPncNmRequest(_bool(True))
+        instance.setPncSynchronousWakeup(_bool(True))
+        instance.setPncPrepareSleepTimer(_time(0.1))
+        instance.setPnResetTime(_time(0.2))
+        instance.setTcpIpIcmpPropsRef(_ref("/icmp", "ETH-TCP-IP-ICMP-PROPS"))
+        instance.setTcpIpPropsRef(_ref("/tcp", "ETH-TCP-IP-PROPS"))
+        instance.setV2xSupported(_literal("V-2-X-NOT-SUPPORTED"))
         instance.setSleepModeSupported(_bool(True))
         instance.setWakeUpOverBusSupported(_bool(False))
         parent = _parent()
@@ -742,6 +752,16 @@ class TestWriterEcuInstance:
         assert ei.find("COM-ENABLE-MDT-FOR-CYCLIC-TRANSMISSION") is not None
         assert ei.find("COMM-CONTROLLERS") is not None
         assert ei.find("CONNECTORS") is not None
-        assert ei.find("DIAGNOSTIC-ADDRESS") is not None
+        assert ei.find("ECU-TASK-PROXY-REFS/ECU-TASK-PROXY-REF") is not None
+        assert ei.find("FIREWALL-RULE-REFS/FIREWALL-RULE-REF") is not None
+        assert ei.find("CHANNEL-SYNCHRONOUS-WAKEUP") is not None
+        assert ei.find("ETH-SWITCH-PORT-GROUP-DERIVATION") is not None
+        assert ei.find("PNC-NM-REQUEST") is not None
+        assert ei.find("PNC-SYNCHRONOUS-WAKEUP") is not None
+        assert ei.find("PNC-PREPARE-SLEEP-TIMER") is not None
+        assert ei.find("PN-RESET-TIME") is not None
+        assert ei.find("TCP-IP-ICMP-PROPS") is not None
+        assert ei.find("TCP-IP-PROPS") is not None
+        assert ei.find("V-2-X-SUPPORTED") is not None
         assert ei.find("SLEEP-MODE-SUPPORTED") is not None
         assert ei.find("WAKE-UP-OVER-BUS-SUPPORTED") is not None

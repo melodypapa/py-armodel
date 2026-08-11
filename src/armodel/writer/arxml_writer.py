@@ -6408,19 +6408,59 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in refs:
                 self.setChildElementOptionalRefType(child_element, "ASSOCIATED-COM-I-PDU-GROUP-REF", ref)
 
+    def writeEcuInstanceAssociatedConsumedProvidedServiceInstanceGroupRefs(self, element: ET.Element, instance: EcuInstance):
+        refs = instance.getAssociatedConsumedProvidedServiceInstanceGroupRefs()
+        if len(refs) > 0:
+            child_element = ET.SubElement(element, "ASSOCIATED-CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUP-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(child_element, "ASSOCIATED-CONSUMED-PROVIDED-SERVICE-INSTANCE-GROUP-REF", ref)
+
+    def writeEcuInstanceAssociatedPdurIPduGroupRefs(self, element: ET.Element, instance: EcuInstance):
+        refs = instance.getAssociatedPdurIPduGroupRefs()
+        if len(refs) > 0:
+            child_element = ET.SubElement(element, "ASSOCIATED-PDUR-I-PDU-GROUP-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(child_element, "ASSOCIATED-PDUR-I-PDU-GROUP-REF", ref)
+
+    def writeEcuInstanceEcuTaskProxyRefs(self, element: ET.Element, instance: EcuInstance):
+        refs = instance.getEcuTaskProxyRefs()
+        if len(refs) > 0:
+            child_element = ET.SubElement(element, "ECU-TASK-PROXY-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(child_element, "ECU-TASK-PROXY-REF", ref)
+
+    def writeEcuInstanceFirewallRuleRefs(self, element: ET.Element, instance: EcuInstance):
+        refs = instance.getFirewallRuleRefs()
+        if len(refs) > 0:
+            child_element = ET.SubElement(element, "FIREWALL-RULE-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(child_element, "FIREWALL-RULE-REF", ref)
+
     def writeEcuInstance(self, element: ET.Element, instance: EcuInstance):
         self.logger.debug("EcuInstance %s" % instance.getShortName())
         child_element = ET.SubElement(element, "ECU-INSTANCE")
         self.writeIdentifiable(child_element, instance)
         self.writeEcuInstanceAssociatedComIPduGroupRefs(child_element, instance)
+        self.writeEcuInstanceAssociatedConsumedProvidedServiceInstanceGroupRefs(child_element, instance)
+        self.writeEcuInstanceAssociatedPdurIPduGroupRefs(child_element, instance)
+        self.setChildElementOptionalBooleanValue(child_element, "CHANNEL-SYNCHRONOUS-WAKEUP", instance.getChannelSynchronousWakeup())
         self.setChildElementOptionalTimeValue(child_element, "COM-CONFIGURATION-GW-TIME-BASE", instance.getComConfigurationGwTimeBase())
         self.setChildElementOptionalTimeValue(child_element, "COM-CONFIGURATION-RX-TIME-BASE", instance.getComConfigurationRxTimeBase())
         self.setChildElementOptionalTimeValue(child_element, "COM-CONFIGURATION-TX-TIME-BASE", instance.getComConfigurationTxTimeBase())
         self.setChildElementOptionalBooleanValue(child_element, "COM-ENABLE-MDT-FOR-CYCLIC-TRANSMISSION", instance.getComEnableMDTForCyclicTransmission())  # noqa E501
         self.writeEcuInstanceCommControllers(child_element, instance)
         self.writeEcuInstanceConnectors(child_element, instance)
-        self.setChildElementOptionalIntegerValue(child_element, "DIAGNOSTIC-ADDRESS", instance.getDiagnosticAddress())
+        self.writeEcuInstanceEcuTaskProxyRefs(child_element, instance)
+        self.setChildElementOptionalBooleanValue(child_element, "ETH-SWITCH-PORT-GROUP-DERIVATION", instance.getEthSwitchPortGroupDerivation())
+        self.writeEcuInstanceFirewallRuleRefs(child_element, instance)
+        self.setChildElementOptionalBooleanValue(child_element, "PNC-NM-REQUEST", instance.getPncNmRequest())
+        self.setChildElementOptionalTimeValue(child_element, "PNC-PREPARE-SLEEP-TIMER", instance.getPncPrepareSleepTimer())
+        self.setChildElementOptionalBooleanValue(child_element, "PNC-SYNCHRONOUS-WAKEUP", instance.getPncSynchronousWakeup())
+        self.setChildElementOptionalTimeValue(child_element, "PN-RESET-TIME", instance.getPnResetTime())
         self.setChildElementOptionalBooleanValue(child_element, "SLEEP-MODE-SUPPORTED", instance.getSleepModeSupported())
+        self.setChildElementOptionalRefType(child_element, "TCP-IP-ICMP-PROPS", instance.getTcpIpIcmpPropsRef())
+        self.setChildElementOptionalRefType(child_element, "TCP-IP-PROPS", instance.getTcpIpPropsRef())
+        self.setChildElementOptionalLiteral(child_element, "V-2-X-SUPPORTED", instance.getV2xSupported())
         self.setChildElementOptionalBooleanValue(child_element, "WAKE-UP-OVER-BUS-SUPPORTED", instance.getWakeUpOverBusSupported())
 
     def writeSystemSignalGroup(self, element: ET.Element, group: SystemSignalGroup):
@@ -6741,12 +6781,39 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("ISignal %s" % signal.getShortName())
         child_element = ET.SubElement(element, "I-SIGNAL")
         self.writeIdentifiable(child_element, signal)
+        self.writeISignalDataTransformation(child_element, signal)
         self.setChildElementOptionalLiteral(child_element, "DATA-TYPE-POLICY", signal.getDataTypePolicy())
         self.setChildElementOptionalLiteral(child_element, "I-SIGNAL-TYPE", signal.getISignalType())
         self.setChildValueSpecification(child_element, "INIT-VALUE", signal.getInitValue())
         self.setChildElementOptionalNumericalValue(child_element, "LENGTH", signal.getLength())
         self.setSwDataDefProps(child_element, "NETWORK-REPRESENTATION-PROPS", signal.getNetworkRepresentationProps())
         self.setChildElementOptionalRefType(child_element, "SYSTEM-SIGNAL-REF", signal.getSystemSignalRef())
+        self.setChildValueSpecification(child_element, "TIMEOUT-SUBSTITUTION-VALUE", signal.getTimeoutSubstitutionValue())
+        self.writeISignalProps(child_element, signal)
+        self.writeISignalTransformationISignalProps(child_element, signal)
+
+    def writeISignalProps(self, element: ET.Element, signal: ISignal):
+        props = signal.getISignalProps()
+        if props is not None:
+            child_element = ET.SubElement(element, "I-SIGNAL-PROPS")
+            self.setChildElementOptionalLiteral(child_element, "HANDLE-OUT-OF-RANGE", props.getHandleOutOfRange())
+
+    def writeISignalDataTransformation(self, element: ET.Element, signal: ISignal):
+        data_transformation_ref = signal.getDataTransformationRef()
+        if data_transformation_ref is not None:
+            child_element = ET.SubElement(element, "DATA-TRANSFORMATIONS")
+            ref_conditional_element = ET.SubElement(child_element, "DATA-TRANSFORMATION-REF-CONDITIONAL")
+            self.setChildElementOptionalRefType(ref_conditional_element, "DATA-TRANSFORMATION-REF", data_transformation_ref)
+
+    def writeISignalTransformationISignalProps(self, element: ET.Element, signal: ISignal):
+        props_list = signal.getTransformationISignalProps()
+        if len(props_list) > 0:
+            child_element = ET.SubElement(element, "TRANSFORMATION-I-SIGNAL-PROPSS")
+            for props in props_list:
+                if isinstance(props, EndToEndTransformationISignalProps):
+                    self.writeEndToEndTransformationISignalProps(child_element, props)
+                else:
+                    self.notImplemented("Unsupported TransformationISignalProps %s" % type(props))
 
     def writeEcucValueCollectionEcucValues(self, element: ET.Element, collection: EcucValueCollection):
         value_refs = collection.getEcucValueRefs()

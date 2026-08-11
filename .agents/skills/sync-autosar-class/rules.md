@@ -816,3 +816,94 @@ rendering gap" guidance in Rule 0001.3.
   `ObdMonitorServiceNeeds` keeps only `applicationDataTypeRef`, `eventNeedsRef`,
   `unitAndScalingId`, `updateKind`. The dropped XSD-only members are not recorded as
   deviations (they are simply not modeled).
+
+---
+
+## Rule 0016 — Class Closure & Spec Availability Discovery *(Phase 0)*
+
+Pre-flight phase. Runs once per sync invocation before the per-class 9-step loop
+(Steps 1–9). Produces the ordered sync queue and resolves spec-source availability
+for every related class. The 9-step workflow assumes this closure exists.
+
+### 16.1 Build the related-class closure
+
+For input class C, the closure contains:
+
+- C itself.
+- **Inheritance chain** — every class named in C's `Base` column (markdown), walked
+  transitively up to `ARObject`/`Identifiable`/`ARElement`. Each named base is in the
+  closure.
+- **Member types** — for every row in C's `Attribute` column, the referenced type:
+  - `ref`/`tref`/`iref` target (the `<name>InstanceRef` element type for `iref`).
+  - Aggregated child type (`aggr`).
+  - Shared enum type.
+  - Primitive container type (a class with a `Primitive <Name>` table — Rule 0001.10).
+
+Recursion depth: member types of member types are **not** pulled in automatically;
+each closure class gets its own Phase 0 pass when its sync turn arrives. Only the
+referenced classes of C are collected here.
+
+### 16.2 Locate spec source for each closure class
+
+For each class K in the closure:
+
+1. `grep "Table N.M: K" autosar/markdown/AUTOSAR_*_TPS_*.md` (`CP_TPS` + `FO_TPS`).
+2. Found → record `source = markdown`, capture `Table N.M` id, table name, `Note`,
+   `Attribute` rows, `Base` column.
+3. Not found in markdown → open `autosar/pdf/AUTOSAR_*_TPS_*.pdf` (search via `pypdf`)
+   for K's table.
+4. Found in PDF only → record `source = pdf` and re-extract via the same markdown
+   convention; if the PDF is the only carrier, mark `source = pdf-only`.
+5. Not found in markdown **and** not found in PDF → record `source = missing`.
+
+### 16.3 Missing-class resolution (interactive, batched)
+
+For every class recorded `source = missing`, present a **single batched**
+`AskUserQuestion` to the user. Do not sync any further until the user answers —
+the choice gates how each missing class is treated in the queue.
+
+Per missing class, two mutually-exclusive options:
+
+- **Skip** — the class is excluded from this sync pass. Record in the deviation
+  tracker (Rule 0014) with reason `class not in markdown/PDF — skipped per user`.
+  Any attribute of C that references it uses a placeholder (Rule 0001.10) and the
+  `# Spec:` line stays without the stamp.
+- **Derive from XSD** — read `docs/requirements/xsd/` for K's complexType. K is
+  then synced as an XSD-only class: no `# Spec:` line, no `# Spec verified:`
+  marker, every checklist row stays `[ ]` (Rule 0002 / Rule 0012.1 exception).
+  The 9-step workflow still runs for K, but Step 1 derives attributes from the XSD
+  group, not a PDF table.
+
+If multiple missing classes, one `AskUserQuestion` call lists all of them
+(multi-select per class). The agent must not invent a third option or proceed
+without the user's decision.
+
+### 16.4 Build the ordered sync queue
+
+Order the closure for syncing:
+
+1. Deepest ancestor first (transitive parents of C, root-last).
+2. Member types next, in spec-row order of C's `Attribute` column (resolve
+   forward references after their target).
+3. C last.
+
+Skip classes that already carry `# Spec verified: R<YY>-<MM>` **unless** the spec
+changed (Rule 0012.3 drift) or the class is being extended — those re-enter the
+queue at Step 1.
+
+A class marked Skip in 16.3 stays out of the queue; a class marked XSD-derived
+enters the queue with the XSD-only flag.
+
+### 16.5 Phase 0 output
+
+Phase 0 produces a sync map persisted in the conversation (a markdown table or
+JSON; not a repo file):
+
+| Class | Source | Table N.M | Parent | Role | Sync? |
+|---|---|---|---|---|---|
+| C | markdown | Table X.Y | (input) | yes | 9-step |
+| ParentK | markdown | Table A.B | base | yes (already stamped) | skip |
+| MemberK | missing | — | member | xsd-derived | 9-step (XSD-only) |
+| MemberK2 | missing | — | member | skipped | deviation row |
+
+The 9-step workflow (Phase 1) consumes this map one row at a time.
