@@ -73,6 +73,9 @@ class turns out to be missing mid-sync (Rule 0001.10).
 4. **Build the sync queue**: parents first (deepest ancestor first → input class
    last), member types in spec-row order. Skip classes already stamped
    `# Spec verified: R<YY>-<MM>` unless extending or drift (Rule 0012.3).
+   **"Exists" is not a stamp** — a member type that exists but is a stub (no marker,
+   or fields/literals don't match its own table) is queued for the same pass like a
+   missing class (Rule 0001.10 / 0016.4).
 
 **Output:** a sync map (kept in the conversation) listing each closure class,
 its source, its parent, and whether it enters the 9-step queue.
@@ -137,7 +140,7 @@ before its failing test.
 - **1** — Extract `Note`/`Base`/`Attribute` rows in displayed order; confirm Class-vs-Enumeration header. *Rule 0015* arbitrates XSD-vs-PDF/markdown attribute conflicts (the PDF/markdown table wins — model nothing the PDF lacks).
 - **2** — `test_initialization` (defaults), `test_get_set_*` (round-trip + **None no-op**), `create*`/`add*` (append, duplicate returns existing). Abstract class → test `__init__` + base accessors via a concrete subclass.
 - **3** — Most-derived base from the `Base` chain; dedicated typed-list fields for `*` `aggr` (never registry filters); `createXxx` only for `Referrable` children; collect referenced missing classes and report in Step 8 (don't block). Enum (`AREnum`) → literals, not accessors.
-- **4** — Copy the spec `Note` **verbatim from the markdown** into the class docstring, `__init__` comments, and getter/setter docstrings (PDF opened only for the `p.NN` page); guarded setters append the None-no-op sentence.
+- **4** — Copy the spec `Note` **verbatim from the markdown** into the **class docstring** (the class-level `Note` — **not** into `__init__`, which has no docstring), inline `__init__` **comments**, and getter/setter docstrings (PDF opened only for the `p.NN` page); guarded setters append the None-no-op sentence.
 - **5** — Reader/writer tests live in **their own folders** (`tests/test_armodel/parser/`, `.../writer/`, both `class Test*`), not the per-class mirror. Assert **field values**, not just `len(...) == n`; add an empty-wrapper-list case.
 - **6** — Reader populates via mutators (`readXxx`→`set/create/addXxx`), writer reads via getters (`writeXxx`→`getXxx`); cover wrapper lists + polymorphic five-place dispatch; **no chained mutator calls**.
 - **7** — One row per method, source order, all `[x]`, 5-column format below.
@@ -200,6 +203,9 @@ detail: *Rule 0002*.
   base-class table* named in `Base`. Model that base class and relocate the members there;
   reduce the subclass to its own attributes (*Rule 0001.3*). A fully-`[x]` checklist + clean
   round-trip **will not** catch this — the field-to-spec cross-check is the gate.
+- **Class `Note` written into the `__init__` docstring** — the class-level `Note` belongs
+  in the **class docstring** only; `__init__` carries inline per-attribute comments and
+  **no docstring** (Rule 0012.2.3 / 0012.2.4.2).
 
 | Rationalization | Reality |
 |---|---|

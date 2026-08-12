@@ -3653,22 +3653,113 @@ class SecureOnBoardCommunicationNeeds(ServiceNeeds):
 
 class ServiceProviderEnum(AREnum):
     """
-    Enumeration for service provider types.
+    This represents a list of possible service providers
     """
 
     # ServiceProviderEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.20, p.90
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
 
-    BSW = "bsw"
-    RTE = "rte"
-    SWC = "swc"
+    # This value means that the specific nature is either unknown or it is not important for the given purpose.
+    # This is also the default value for any attribute of type ServiceProviderEnum. Tags: atp.EnumerationLiteralIndex=0
+    ANY_STANDARDIZED = "anyStandardized"
+
+    # The service relates to the Basic Software Mode Manager (BswM). Tags: atp.EnumerationLiteralIndex=1
+    BASIC_SOFTWARE_MODE_MANAGER = "basicSoftwareModeManager"
+
+    # The service relates to the COM Manager (ComM). Tags: atp.EnumerationLiteralIndex=2
+    COM_MANAGER = "comManager"
+
+    # The service relates to the Key Manager (KeyM). Tags: atp.EnumerationLiteralIndex=23
+    CRYPTO_KEY_MANAGEMENT = "cryptoKeyManagement"
+
+    # The service relates to the Crypto Service Manager (CsM). Tags: atp.EnumerationLiteralIndex=3
+    CRYPTO_SERVICE_MANAGER = "cryptoServiceManager"
+
+    # The service relates to the Default Error Tracer (DET). Tags: atp.EnumerationLiteralIndex=4
+    DEFAULT_ERROR_TRACER = "defaultErrorTracer"
+
+    # The service relates to the Diagnostic Communication Manager (DCM). Tags: atp.EnumerationLiteralIndex=6
+    DIAGNOSTIC_COMMUNICATION_MANAGER = "diagnosticCommunicationManager"
+
+    # The service relates to the Diagnostic Event Manager (DEM). Tags: atp.EnumerationLiteralIndex=7
+    DIAGNOSTIC_EVENT_MANAGER = "diagnosticEventManager"
+
+    # The service relates to the Diagnostic Log and Trace (DLT). Tags: atp.EnumerationLiteralIndex=8
+    DIAGNOSTIC_LOG_AND_TRACE = "diagnosticLogAndTrace"
+
+    # The service relates to the ECU Manager (EcuM). Tags: atp.EnumerationLiteralIndex=9
+    ECU_MANAGER = "ecuManager"
+
+    # This service relates to the error tracer. Tags: atp.EnumerationLiteralIndex=18
+    ERROR_TRACER = "errorTracer"
+
+    # The service relates to the Function Inhibition Manager (FIM). Tags: atp.EnumerationLiteralIndex=10
+    FUNCTION_INHIBITION_MANAGER = "functionInhibitionManager"
+
+    # This service relates to the hardware test manager. Tags: atp.EnumerationLiteralIndex=19
+    HARDWARE_TEST_MANAGER = "hardwareTestManager"
+
+    # The service relates to the intrusion detection security management (IdsM). Tags: atp.EnumerationLiteralIndex=24
+    INTRUSION_DETECTION_SECURITY_MANAGEMENT = "intrusionDetectionSecurityManagement"
+
+    # This service relates to the J1939 Dcm. Tags: atp.EnumerationLiteralIndex=22
+    J1939_DCM = "j1939Dcm"
+
+    # The service relates to the J1939Rm. Tags: atp.EnumerationLiteralIndex=11
+    J1939_REQUEST_MANAGER = "j1939RequestManager"
+
+    # The service relates to the Non-Volatile RAM Manager (NvM). Tags: atp.EnumerationLiteralIndex=12
+    NON_VOLATILE_RAM_MANAGER = "nonVolatileRamManager"
+
+    # The service relates to the Operating System (OS). Tags: atp.EnumerationLiteralIndex=13
+    OPERATING_SYSTEM = "operatingSystem"
+
+    # The service relates to the SecOc module. Tags: atp.EnumerationLiteralIndex=14
+    SECURE_ON_BOARD_COMMUNICATION = "secureOnBoardCommunication"
+
+    # The service relates to the Sync Time Base Manager (StbM). Tags: atp.EnumerationLiteralIndex=15
+    SYNC_BASE_TIME_MANAGER = "syncBaseTimeManager"
+
+    # This service relates to the Vehicle to X facilities. Tags: atp.EnumerationLiteralIndex=20
+    V2X_FACILITIES = "v2xFacilities"
+
+    # This service relates to the Vehicle to X management. Tags: atp.EnumerationLiteralIndex=21
+    V2X_MANAGEMENT = "v2xManagement"
+
+    # This value denotes a vendor-specific service. Tags: atp.EnumerationLiteralIndex=16
+    VENDOR_SPECIFIC = "vendorSpecific"
 
     def __init__(self):
+        """
+        Initializes a ServiceProviderEnum instance with the spec-defined literals.
+        """
         super().__init__(
             (
-                ServiceProviderEnum.BSW,
-                ServiceProviderEnum.RTE,
-                ServiceProviderEnum.SWC,
+                ServiceProviderEnum.ANY_STANDARDIZED,
+                ServiceProviderEnum.BASIC_SOFTWARE_MODE_MANAGER,
+                ServiceProviderEnum.COM_MANAGER,
+                ServiceProviderEnum.CRYPTO_KEY_MANAGEMENT,
+                ServiceProviderEnum.CRYPTO_SERVICE_MANAGER,
+                ServiceProviderEnum.DEFAULT_ERROR_TRACER,
+                ServiceProviderEnum.DIAGNOSTIC_COMMUNICATION_MANAGER,
+                ServiceProviderEnum.DIAGNOSTIC_EVENT_MANAGER,
+                ServiceProviderEnum.DIAGNOSTIC_LOG_AND_TRACE,
+                ServiceProviderEnum.ECU_MANAGER,
+                ServiceProviderEnum.ERROR_TRACER,
+                ServiceProviderEnum.FUNCTION_INHIBITION_MANAGER,
+                ServiceProviderEnum.HARDWARE_TEST_MANAGER,
+                ServiceProviderEnum.INTRUSION_DETECTION_SECURITY_MANAGEMENT,
+                ServiceProviderEnum.J1939_DCM,
+                ServiceProviderEnum.J1939_REQUEST_MANAGER,
+                ServiceProviderEnum.NON_VOLATILE_RAM_MANAGER,
+                ServiceProviderEnum.OPERATING_SYSTEM,
+                ServiceProviderEnum.SECURE_ON_BOARD_COMMUNICATION,
+                ServiceProviderEnum.SYNC_BASE_TIME_MANAGER,
+                ServiceProviderEnum.V2X_FACILITIES,
+                ServiceProviderEnum.V2X_MANAGEMENT,
+                ServiceProviderEnum.VENDOR_SPECIFIC,
             )
         )
 

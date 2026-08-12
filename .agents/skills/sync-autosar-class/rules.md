@@ -313,7 +313,8 @@ the checklist title cites the spec table, then the version marker:
   for members with no XML element: `__init__`, `atpDerived` attributes, read-only
   convenience properties. The split matches how coverage is verified (grep the reader
   for the mutator call, the writer for the getter call) and closes the Rule 0001.7
-  blind spot.
+  blind spot. The `__init__` row's `docstring` column marks the **class docstring** (the
+  class-level `Note`) — `__init__` itself has no docstring (Rule 0012.2.3).
 - The checklist covers every method 1:1 (no missing/extra); a `@property` counts as a
   method (needs a row + test). A commented-out member block is dead code — remove it.
 - Every row fully `[x]` (impl **and** docstring **and** test **and** reader/writer as
@@ -617,9 +618,11 @@ string values (`MEMBER = "member_value"`).
 
 ## Rule 0012 — Docstring & Comment Sync *(formerly Rule 13)*
 
-Class docstrings, inline `__init__` comments, and getter/setter docstrings copy the spec
-`Note` **verbatim from the markdown table** (`autosar/markdown/*.md`) — never summarize,
-paraphrase, or rephrase the wording — and stay synced across AUTOSAR upgrades. The PDF
+The class-level `Note` lives in the **class docstring**; per-attribute `Note`s live in
+inline `__init__` **comments** and getter/setter docstrings — all copied **verbatim from
+the markdown table** (`autosar/markdown/*.md`), never summarized, paraphrased, or
+rephrased, and staying synced across AUTOSAR upgrades. **`__init__` has no docstring** —
+do not write the class `Note` into an `__init__` docstring (0012.2.3, 0012.2.4.2). The PDF
 (`autosar/pdf/*.pdf`) is opened **only to read the page number** for the `p.NN` citation;
 all `Note`/`Attribute`/`Base` text (and the `Table N.M` id) comes from the markdown. This
 is one ordered procedure per class (Rule 0006's mechanical check only confirms the marker
@@ -658,13 +661,15 @@ is one ordered procedure per class (Rule 0006's mechanical check only confirms t
 3. **Class docstring** = the spec `Note` **copied verbatim from the markdown table** (no
    invented recap prose, no `Base` chain summary); append class-level `constr_*` rows
    (including ones targeting inherited attributes). For a terse citation Note, append the
-   XSD complexType doc as an elaboration (also verbatim).
+   XSD complexType doc as an elaboration (also verbatim). The class `Note` lives **only**
+   here — **do not** also write it into an `__init__` docstring; `__init__` carries no
+   docstring (step 4.2's inline comments hold the per-attribute `Note`).
 4. **Per-attribute loop** (all five, per attribute, before the next):
    1. Referenced type must exist and be synced before typing (Rule 0010/0011); its
       `# Spec:` cites its **own** table, independent of the owning class.
-   2. Inline `__init__` comment: the attribute's `Note` (markdown) semantic sentence,
-      copied verbatim (drop `Stereotypes:`/`Tags:` tail); append any `constr_*` wording
-      + id.
+   2. Inline `__init__` **comment** (not a docstring — `__init__` has no docstring): the
+      attribute's `Note` (markdown) semantic sentence, copied verbatim (drop
+      `Stereotypes:`/`Tags:` tail); append any `constr_*` wording + id.
    3. Getter docstring: the spec `Note` **copied verbatim from the markdown** + constraint
       — never summarize or rephrase into "Gets the value of X"; for an `iref`, name the
       concrete `<name>InstanceRef` class.
@@ -890,6 +895,14 @@ Order the closure for syncing:
 Skip classes that already carry `# Spec verified: R<YY>-<MM>` **unless** the spec
 changed (Rule 0012.3 drift) or the class is being extended — those re-enter the
 queue at Step 1.
+
+An un-stamped member type is **not** skipped — it is queued. A member type that
+**exists but is a stub** (no `# Spec verified:` marker, or its fields/literals don't
+match its own table) counts as missing and is queued for the same pass exactly like an
+absent class (Rule 0001.10) — e.g. an enum member type whose `Literal` rows don't match
+its `Enumeration` table, or a class whose `Attribute` rows are missing/fabricated.
+"Exists in the codebase" is not a stamp; verify the marker before treating a member
+type as already-synced.
 
 A class marked Skip in 16.3 stays out of the queue; a class marked XSD-derived
 enters the queue with the XSD-only flag.
