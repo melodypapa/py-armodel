@@ -63,6 +63,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     ServiceDependency,
     ServiceDiagnosticRelevanceEnum,
     ServiceNeeds,
+    ServiceProviderEnum,
     StorageConditionStatusEnum,
     SupervisedEntityNeeds,
     TracedFailure,
@@ -155,6 +156,68 @@ class TestRamBlockStatusControlEnum:
         """Test enum values"""
         assert RamBlockStatusControlEnum.API == "api"
         assert RamBlockStatusControlEnum.NV_RAM_MANAGER == "nvRamManager"
+
+
+class TestServiceProviderEnum:
+    def test_initialization(self):
+        """Test ServiceProviderEnum initialization matches the spec Literal rows in order"""
+        enum = ServiceProviderEnum()
+        assert enum.enumValues == (
+            "anyStandardized",
+            "basicSoftwareModeManager",
+            "comManager",
+            "cryptoKeyManagement",
+            "cryptoServiceManager",
+            "defaultErrorTracer",
+            "diagnosticCommunicationManager",
+            "diagnosticEventManager",
+            "diagnosticLogAndTrace",
+            "ecuManager",
+            "errorTracer",
+            "functionInhibitionManager",
+            "hardwareTestManager",
+            "intrusionDetectionSecurityManagement",
+            "j1939Dcm",
+            "j1939RequestManager",
+            "nonVolatileRamManager",
+            "operatingSystem",
+            "secureOnBoardCommunication",
+            "syncBaseTimeManager",
+            "v2xFacilities",
+            "v2xManagement",
+            "vendorSpecific",
+        )
+
+    def test_values(self):
+        """Test enum member values match the spec literals"""
+        assert ServiceProviderEnum.ANY_STANDARDIZED == "anyStandardized"
+        assert ServiceProviderEnum.BASIC_SOFTWARE_MODE_MANAGER == "basicSoftwareModeManager"
+        assert ServiceProviderEnum.COM_MANAGER == "comManager"
+        assert ServiceProviderEnum.CRYPTO_KEY_MANAGEMENT == "cryptoKeyManagement"
+        assert ServiceProviderEnum.CRYPTO_SERVICE_MANAGER == "cryptoServiceManager"
+        assert ServiceProviderEnum.DEFAULT_ERROR_TRACER == "defaultErrorTracer"
+        assert ServiceProviderEnum.DIAGNOSTIC_COMMUNICATION_MANAGER == "diagnosticCommunicationManager"
+        assert ServiceProviderEnum.DIAGNOSTIC_EVENT_MANAGER == "diagnosticEventManager"
+        assert ServiceProviderEnum.DIAGNOSTIC_LOG_AND_TRACE == "diagnosticLogAndTrace"
+        assert ServiceProviderEnum.ECU_MANAGER == "ecuManager"
+        assert ServiceProviderEnum.ERROR_TRACER == "errorTracer"
+        assert ServiceProviderEnum.FUNCTION_INHIBITION_MANAGER == "functionInhibitionManager"
+        assert ServiceProviderEnum.HARDWARE_TEST_MANAGER == "hardwareTestManager"
+        assert ServiceProviderEnum.INTRUSION_DETECTION_SECURITY_MANAGEMENT == "intrusionDetectionSecurityManagement"
+        assert ServiceProviderEnum.J1939_DCM == "j1939Dcm"
+        assert ServiceProviderEnum.J1939_REQUEST_MANAGER == "j1939RequestManager"
+        assert ServiceProviderEnum.NON_VOLATILE_RAM_MANAGER == "nonVolatileRamManager"
+        assert ServiceProviderEnum.OPERATING_SYSTEM == "operatingSystem"
+        assert ServiceProviderEnum.SECURE_ON_BOARD_COMMUNICATION == "secureOnBoardCommunication"
+        assert ServiceProviderEnum.SYNC_BASE_TIME_MANAGER == "syncBaseTimeManager"
+        assert ServiceProviderEnum.V2X_FACILITIES == "v2xFacilities"
+        assert ServiceProviderEnum.V2X_MANAGEMENT == "v2xManagement"
+        assert ServiceProviderEnum.VENDOR_SPECIFIC == "vendorSpecific"
+
+    def test_instantiation(self):
+        """Test ServiceProviderEnum is instantiable and settable"""
+        enum = ServiceProviderEnum().setValue(ServiceProviderEnum.COM_MANAGER)
+        assert enum.getValue() == "comManager"
 
 
 class TestNvBlockNeedsReliabilityEnum:
