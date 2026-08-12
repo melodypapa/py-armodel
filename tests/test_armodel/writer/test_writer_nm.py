@@ -28,6 +28,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     CanNmClusterCoupling,
     CanNmNode,
     NmConfig,
+    NmCoordinatorRoleEnum,
     NmEcu,
     UdpNmCluster,
     UdpNmClusterCoupling,
@@ -188,7 +189,7 @@ class TestWriteNmNode:
         node = CanNmNode(MockParent(), "nm_node")
         node.addRxNmPduRef(_ref("/rx/p1", dest="NM-PDU"))
         node.addRxNmPduRef(_ref("/rx/p2", dest="NM-PDU"))
-        node.addTxNmPduRefs(_ref("/tx/p1", dest="NM-PDU"))
+        node.addTxNmPduRef(_ref("/tx/p1", dest="NM-PDU"))
         parent = _parent()
         writer.writeNmNode(parent, node)
         rx_refs = parent.find("RX-NM-PDU-REFS")
@@ -197,6 +198,32 @@ class TestWriteNmNode:
         tx_refs = parent.find("TX-NM-PDU-REFS")
         assert tx_refs is not None
         assert len(tx_refs.findall("TX-NM-PDU-REF")) == 1
+
+    def test_nm_node_without_pdu_refs(self, writer):
+        """Empty pdu ref lists produce no wrapper elements."""
+        node = CanNmNode(MockParent(), "nm_node")
+        parent = _parent()
+        writer.writeNmNode(parent, node)
+        assert parent.find("RX-NM-PDU-REFS") is None
+        assert parent.find("TX-NM-PDU-REFS") is None
+
+    def test_nm_node_with_coord_attrs(self, writer):
+        """nmCoordCluster and nmCoordinatorRole are written."""
+        node = CanNmNode(MockParent(), "nm_node")
+        coord = PositiveInteger()
+        coord.setValue("2")
+        node.setNmCoordCluster(coord)
+        role = NmCoordinatorRoleEnum()
+        role.setValue(NmCoordinatorRoleEnum.ACTIVE)
+        node.setNmCoordinatorRole(role)
+        parent = _parent()
+        writer.writeNmNode(parent, node)
+        coord_tag = parent.find("NM-COORD-CLUSTER")
+        assert coord_tag is not None
+        assert coord_tag.text == "2"
+        role_tag = parent.find("NM-COORDINATOR-ROLE")
+        assert role_tag is not None
+        assert role_tag.text == "active"
 
 
 class TestWriteCanNmNode:

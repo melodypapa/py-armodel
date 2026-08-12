@@ -10,7 +10,8 @@
         "Output lists spec source for each closure class (markdown/pdf/missing)",
         "Output presents an ordered sync queue (parents first, input class last)",
         "No source files under src/armodel/models/ were modified",
-        "Output cites Rule 0016 or the Phase 0 procedure"
+        "Output cites Rule 0016 or the Phase 0 procedure",
+        "Output presents the collected closure set and asks the user to confirm it (membership gate) before locating specs, resolving missing classes, or building the queue"
       ]
     },
     {
@@ -23,7 +24,8 @@
         "Output enumerates member types from the Attribute rows (refs, aggrs, enums)",
         "Output presents an ordered sync queue",
         "No source files under src/armodel/models/ were modified",
-        "Output mentions Rule 0016 or Phase 0 procedure"
+        "Output mentions Rule 0016 or Phase 0 procedure",
+        "Output presents the collected closure set and asks the user to confirm it (membership gate) before locating specs, resolving missing classes, or building the queue"
       ]
     },
     {
@@ -35,6 +37,47 @@
         "Output lists member types (applicationDataTypeRef, eventNeedsRef, unitAndScalingId, updateKind or their target classes)",
         "Output either confirms all closure classes are in markdown OR presents an AskUserQuestion-style prompt for missing ones with Skip/Derive-from-XSD options",
         "Output does NOT invent a third option beyond Skip and Derive-from-XSD for missing classes",
+        "No source files under src/armodel/models/ were modified",
+        "Output presents the collected closure set and asks the user to confirm it (membership gate) before the missing-class Skip/Derive-from-XSD resolution"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Using the sync-autosar-class skill, you have just finished implementing the sync of the AUTOSAR enum `NmCoordinatorRoleEnum` (Table 6.304) in py-armodel: Steps 1 through 9a are complete and all automated checks (pytest, flake8, ruff, black-check, set-based checklist script, round-trip) pass. Now perform Step 9b: present the post-sync rule-compliance confirmation to the end user. Do NOT modify any source files; just produce the confirmation. Repo root: /Users/ray/Workspace/py-armodel.",
+      "expected_output": "A Step 9b rule-compliance summary (gate) walking the rules automated checks are blind to for NmCoordinatorRoleEnum: enum literals vs the spec Literal rows (no extra/missing), member names UPPER_CASE with values exactly the spec literal, class docstring = spec Note verbatim from the markdown, member order, and the stamp decision (# Spec verified placed iff no unresolved deviation/placeholder). Ends by asking the user to confirm before stamping the class or advancing to the next queue item.",
+      "expectations": [
+        "Output presents a Step 9b rule-compliance confirmation gate (not just 'tests pass')",
+        "Output checks field<->spec in both directions (for the enum: members vs Literal rows, no extra/missing)",
+        "Output checks docstrings/comments copy the spec Note verbatim (verified by diff, not status)",
+        "Output states the stamp decision: # Spec verified placed only if no unresolved deviation/placeholder remains",
+        "Output checks member order (Rule 0011) for the enum literals",
+        "Output states the 9b checklist is the complete pre-stamp sign-off (when all items pass, # Spec verified is warranted)",
+        "Output asks the user to confirm before stamping the class or advancing to the next queue item",
+        "No source files under src/armodel/models/ were modified"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Using the sync-autosar-class skill, you have just finished implementing the sync of the AUTOSAR class `NmNode` (CP SystemTemplate Table 6.303, abstract, base Identifiable) in py-armodel: Steps 1 through 9a are complete and all automated checks (pytest, flake8, ruff, black-check, set-based checklist script, round-trip) pass. Now perform Step 9b: present the post-sync rule-compliance confirmation for NmNode against its spec table. The current source is src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py and the spec markdown is autosar/markdown/AUTOSAR_CP_TPS_SystemTemplate.md (Table 6.303). Do NOT modify any source files; just produce the confirmation. Repo root: /Users/ray/Workspace/py-armodel.",
+      "expected_output": "A Step 9b complete pre-stamp checklist for NmNode. It must flag at least: (a) the Kind-suffix/naming deviation TxNmPduRefs -> txNmPduRefs (and addTxNmPduRefs -> addTxNmPduRef) per Rule 0001.5; (b) the type drift nmCoordCluster ARNumerical->PositiveInteger and/or nmCoordinatorRole ARLiteral->NmCoordinatorRoleEnum and/or nmNodeId ARNumerical->Integer per Rule 0001.3; and it must check member order (Rule 0011) and reader/writer coverage (Rule 0001.7). It must conclude that # Spec verified may NOT be stamped while any 9b item fails, and ask the user to confirm.",
+      "expectations": [
+        "Output presents a Step 9b complete pre-stamp rule-compliance checklist (not just 'tests pass')",
+        "Output flags the Kind-suffix/naming deviation TxNmPduRefs (should be txNmPduRefs) under Rule 0001.5",
+        "Output flags type drift vs the PDF (e.g. nmCoordCluster ARNumerical vs PositiveInteger, or nmCoordinatorRole ARLiteral vs NmCoordinatorRoleEnum) under Rule 0001.3",
+        "Output checks member order (Rule 0011) and reader/writer coverage (Rule 0001.7)",
+        "Output concludes # Spec verified may NOT be stamped while any 9b item fails, and asks the user to confirm",
+        "No source files under src/armodel/models/ were modified"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Using the sync-autosar-class skill, you are re-syncing the AUTOSAR class `NmNode` (CP SystemTemplate Table 6.303) in py-armodel for an R23-11 drift pass. A prior sync left a `# Spec verified: R21-11` marker in the file (src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py). Explain how you handle that pre-existing marker when you reach Step 9b. Do NOT modify any source files; just describe the Step 9b handling. Repo root: /Users/ray/Workspace/py-armodel.",
+      "expected_output": "The agent must NOT treat the pre-existing # Spec verified: R21-11 stamp as proof that 9b ran for this drift pass. It re-runs the full 9b checklist (field<->spec both directions, naming/Kind-suffix, type drift, member order, reader/writer coverage, docstrings verbatim, deviations resolved) against the current R23-11 spec, and re-stamps with R23-11 only after the user confirms every item. The old marker is the output of a prior 9b, not a substitute for the current one (Rule 0006.1, Rule 0012.3).",
+      "expectations": [
+        "Output states the pre-existing # Spec verified marker is NOT proof that 9b ran for this pass",
+        "Output re-runs the full Step 9b checklist against the current spec rather than skipping 9b",
+        "Output does not skip 9b on the grounds that the class is already stamped",
+        "Output re-stamps (e.g. to R23-11) only after the user confirms every 9b item",
         "No source files under src/armodel/models/ were modified"
       ]
     }

@@ -24,12 +24,13 @@ metadata:
 The AUTOSAR PDF spec table is the source of truth. Sync runs in **two phases**:
 
 - **Phase 0 — Discovery & class closure (Rule 0016):** build the closure of related
-  classes (parents + member types), locate each one's spec source (markdown → PDF →
-  missing), resolve missing classes interactively (skip / derive from XSD), and emit
-  an ordered sync queue.
+  classes (parents + member types), confirm the collected set with the user, locate
+  each one's spec source (markdown → PDF → missing), resolve missing classes
+  interactively (skip / derive from XSD), and emit an ordered sync queue.
 - **Phase 1 — 9-step TDD per class (Rules 0001–0015):** consume the queue
   one class at a time. Two Red→Green pairs per class: model (2→3) and reader/writer
-  (5→6). Write the failing test before the implementation.
+  (5→6). Write the failing test before the implementation. Each class ends with a
+  rule-compliance confirmation gate (Step 9b) before it is stamped.
 
 Set the release before parse/write:
 
@@ -53,24 +54,32 @@ trivial edits that don't touch the class's spec contract.
 ## Phase 0 — Discovery & Class Closure (Rule 0016)
 
 Before the per-class 9-step loop, build the closure of classes that the input
-class depends on, locate the spec for each, resolve missing classes with the
-user, and emit an ordered sync queue. The 9-step workflow assumes this closure
-exists — running it without Phase 0 risks fabricating fields when a referenced
-class turns out to be missing mid-sync (Rule 0001.10).
+class depends on, have the end user confirm the collected set, locate the spec
+for each, resolve missing classes with the user, and emit an ordered sync queue.
+The 9-step workflow assumes this closure exists — running it without Phase 0
+risks fabricating fields when a referenced class turns out to be missing mid-sync
+(Rule 0001.10).
 
 **Procedure (full detail in Rule 0016):**
 
 1. **Closure** = {input class} ∪ {transitive parents from `Base`} ∪ {member types
    from `Attribute` rows: refs, aggrs, enums, primitive containers}.
-2. **Locate spec source** for each closure class: markdown first
+2. **Confirm the collected set (gate).** Present every collected class to the end
+   user with its role (`input` / `base` / `member`) and, for member types, the
+   referencing attribute, then ask: *is this set correct and complete?* Do **not**
+   locate specs, resolve missing classes, or build the queue until the user
+   confirms. If the user adds or drops a class, rebuild the closure and re-confirm.
+   This membership gate is distinct from the missing-class resolution gate in
+   step 4.
+3. **Locate spec source** for each closure class: markdown first
    (`grep "Table N.M: K" autosar/markdown/*_TPS_*.md`), then PDF, then mark
    `missing`.
-3. **Resolve missing classes (interactive, batched)**: present one
+4. **Resolve missing classes (interactive, batched)**: present one
    `AskUserQuestion` listing every class not in markdown or PDF. Per class, the
    user picks **Skip** (deviation row + placeholder) or **Derive from XSD**
    (XSD-only class, no marker). Do not proceed without an answer; do not invent a
    third option.
-4. **Build the sync queue**: parents first (deepest ancestor first → input class
+5. **Build the sync queue**: parents first (deepest ancestor first → input class
    last), member types in spec-row order. Skip classes already stamped
    `# Spec verified: R<YY>-<MM>` unless extending or drift (Rule 0012.3).
 
@@ -130,7 +139,7 @@ before its failing test.
 | **6** | **Update the parser (reader) & writer** | 0001 (§1.7), 0013 | **Green** |
 | 7 | Update the 5-column checklist comment | 0002 | — |
 | 8 | Deviations ⇒ no `# Spec verified:` stamp | 0001 (§1.9), 0012 (§1), 0014 | — |
-| 9 | Verify (gate) | 0006 | — |
+| 9 | Verify (9a) + confirm rule compliance (9b — gate) | 0006, 0006.1 | — |
 
 **Essence per step** (full detail in `rules.md`):
 
@@ -142,7 +151,7 @@ before its failing test.
 - **6** — Reader populates via mutators (`readXxx`→`set/create/addXxx`), writer reads via getters (`writeXxx`→`getXxx`); cover wrapper lists + polymorphic five-place dispatch; **no chained mutator calls**.
 - **7** — One row per method, source order, all `[x]`, 5-column format below.
 - **8** — Record deviations; **omit `# Spec verified:`** while any placeholder/deviation remains; report the Step-3 referenced classes here.
-- **9** — `pytest` + `flake8` + `ruff check` + `black-check` + the set-based script + a lossless integration round-trip (`npm run flake8` / `ruff-check` / `black-check` are the cross-platform forms). **Stop on any failure.**
+- **9** — **(9a automated)** `pytest` + `flake8` + `ruff check` + `black-check` + the set-based script + a lossless integration round-trip (`npm run flake8` / `ruff-check` / `black-check` are the cross-platform forms). **Stop on any failure.** **(9b confirm — gate)** then present the **complete pre-stamp** rule-compliance checklist covering every check automation is blind to — element kind + every spec attr modeled (*0001.1*), most-derived base (*0001.2*), no fabrication/flattening + PDF-typed fields (*0001.3*), **Kind-suffix naming** `ref`→Ref/Refs·`tref`→TRef·`iref`→IRef/IRefs + singular `*`→plural (*0001.5*), create/set/add shape (*0001.6*), **reader+writer coverage** for every kept attr (*0001.7*), **member order** (*0011*), docstrings = spec `Note` **verbatim by diff** (*0012*), deviations resolved/removed (*0014*), stamp decision (*0012.1*) — and get explicit user confirmation; **when all pass, `# Spec verified:` is warranted**. Fix & re-present on any failure (*Rule 0006.1* has the full checklist).
 
 **Workflow adaptations** (which steps still apply):
 
@@ -200,12 +209,26 @@ detail: *Rule 0002*.
   base-class table* named in `Base`. Model that base class and relocate the members there;
   reduce the subclass to its own attributes (*Rule 0001.3*). A fully-`[x]` checklist + clean
   round-trip **will not** catch this — the field-to-spec cross-check is the gate.
+- **Locating specs / building the queue before the user confirms the collected closure** —
+  Phase 0 step 2 is a membership gate, not a nicety; over- or under-collection silently
+  corrupts the whole queue (*Rule 0016.2*).
+- **Stamping `# Spec verified:` (or advancing to the next class) straight after the
+  automated checks pass** — Step 9b is a confirmation gate for the rules automation is
+  blind to (field↔spec both directions, verbatim docstrings, no fabrication/flattening,
+  reader+writer coverage, member order); present the summary and get user sign-off first
+  (*Rule 0006.1*).
+- **Trusting a pre-existing `# Spec verified:` stamp and skipping 9b** — the marker is
+  the *output* of 9b, not a substitute for it; on any re-sync/drift pass, re-run the full
+  9b checklist before re-stamping (*Rule 0006.1*, *Rule 0012.3*).
 
 | Rationalization | Reality |
 |---|---|
 | "Simple model — I'll implement then test" | A test written after mirrors the code, not the spec. Step 2 first. |
 | "Reader/writer first, round-trip test after" | No failing round-trip ⇒ can't see dropped elements. Step 5 first. |
 | "It's just docstrings, skip Step 4" | Drift is silent; the marker then certifies wrong wording (*Rule 0012*). |
+| "The closure looks right, I'll skip the confirm gate" | Over/under-collection wastes every later step; present the set and let the user confirm (*Rule 0016.2*). |
+| "Tests pass and the round-trip is clean — I can stamp and move on" | Those don't certify a class (Rule 0012.1); run Step 9b on the blind-spot rules before stamping (*Rule 0006.1*). |
+| "The class already has `# Spec verified:` stamped — I'll skip 9b" | The marker is the *output* of 9b, not a substitute; on re-sync/drift re-run the full 9b checklist — a stale marker certifies nothing (*Rule 0006.1*, *Rule 0012.3*). |
 
 ## References
 

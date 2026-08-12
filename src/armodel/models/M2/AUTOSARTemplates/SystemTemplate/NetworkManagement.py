@@ -2,11 +2,11 @@
 # It defines CAN, FlexRay, J1939, and UDP network management configurations
 
 from abc import ABC
-from typing import List
+from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import RxIdentifierRange
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Boolean, Integer, PositiveInteger, RefType, ARBoolean, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Integer, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 
 
@@ -107,31 +107,57 @@ class FlexrayNmClusterCoupling(NmClusterCoupling):
         return self
 
 
+class NmCoordinatorRoleEnum(AREnum):
+    """
+    Supported NmCoordinator roles.
+    """
+
+    # NmCoordinatorRoleEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.304, p.676
+    # Spec verified: R23-11
+    # (no methods)
+
+    # Coordinator which "actively" performs NmCoordinator functionality at this channel Tags: atp.EnumerationLiteralIndex=0
+    ACTIVE = "active"
+
+    # Coordinator which "passively" performs NmCoordinator functionality at this channel - used at Nm CoordinatorSync use case. Tags: atp.EnumerationLiteralIndex=1
+    PASSIVE = "passive"
+
+    def __init__(self):
+        super().__init__(
+            (
+                NmCoordinatorRoleEnum.ACTIVE,
+                NmCoordinatorRoleEnum.PASSIVE,
+            )
+        )
+
+
 class NmNode(Identifiable, ABC):
     """
-    Abstract base class for network management nodes, defining
-    common properties for different types of NM nodes including
-    controller references, node IDs, and communication properties.
+    The linking of NmEcus to NmClusters is realized via the NmNodes.
     """
 
     # NmNode method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getControllerRef             [x] impl  [ ] docstring  [ ] test
-    # [ ] setControllerRef             [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmCoordCluster            [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmCoordCluster            [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmCoordinatorRole         [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmCoordinatorRole         [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmIfEcuRef                [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmIfEcuRef                [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmNodeId                  [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmNodeId                  [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmPassiveModeEnabled      [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmPassiveModeEnabled      [x] impl  [ ] docstring  [ ] test
-    # [ ] addRxNmPduRef                [x] impl  [ ] docstring  [ ] test
-    # [ ] getRxNmPduRefs               [x] impl  [ ] docstring  [ ] test
-    # [ ] addTxNmPduRefs               [x] impl  [ ] docstring  [ ] test
-    # [ ] getTxNmPduRefs               [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.303, p.676
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getControllerRef                                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setControllerRef                                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getNmCoordCluster                                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setNmCoordCluster                                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getNmCoordinatorRole                               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setNmCoordinatorRole                               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getNmIfEcuRef                                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setNmIfEcuRef                                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getNmNodeId                                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setNmNodeId                                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getNmPassiveModeEnabled                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setNmPassiveModeEnabled                            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] addRxNmPduRef                                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRxNmPduRefs                                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addTxNmPduRef                                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTxNmPduRefs                                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is NmNode:
@@ -139,70 +165,142 @@ class NmNode(Identifiable, ABC):
 
         super().__init__(parent, short_name)
 
-        self.controllerRef: RefType = None
-        self.nmCoordCluster: ARNumerical = None
-        self.nmCoordinatorRole: ARLiteral = None
-        self.nmIfEcuRef: RefType = None
-        self.nmNodeId: ARNumerical = None
-        self.nmPassiveModeEnabled: ARBoolean = None
-        self.rxNmPduRefs: List[RefType] = []
-        self.TxNmPduRefs: List[RefType] = []
+        # Association to an CommunicationController in the topology description.
+        self.controllerRef: Optional[RefType] = None
 
-    def getControllerRef(self) -> RefType:
+        # NmCoordinationCluster identification number.
+        self.nmCoordCluster: Optional[PositiveInteger] = None
+
+        # This attribute indicates the role the NM Coordinator will have on this channel.
+        self.nmCoordinatorRole: Optional[NmCoordinatorRoleEnum] = None
+
+        # Reference to the NmEcu that contains this NmNode. (CommunicationController that is referenced by the Nm Node shall be contained in the EcuInstance that is referenced by the NmEcu).
+        self.nmIfEcuRef: Optional[RefType] = None
+
+        # Node identifier of local NmNode. Shall be unique in the NmCluster.
+        self.nmNodeId: Optional[Integer] = None
+
+        # Enables support of the Passive Mode. The passive mode is configurable per channel.
+        self.nmPassiveModeEnabled: Optional[Boolean] = None
+
+        self.rxNmPduRefs: List[RefType] = []
+        self.txNmPduRefs: List[RefType] = []
+
+    def getControllerRef(self) -> Optional[RefType]:
+        """
+        Association to an CommunicationController in the topology description.
+        """
         return self.controllerRef
 
-    def setControllerRef(self, value):
-        self.controllerRef = value
+    def setControllerRef(self, value: Optional[RefType]) -> "NmNode":
+        """
+        Association to an CommunicationController in the topology description.
+        A None value is a no-op and does not overwrite an existing controllerRef.
+        """
+        if value is not None:
+            self.controllerRef = value
         return self
 
-    def getNmCoordCluster(self) -> ARNumerical:
+    def getNmCoordCluster(self) -> Optional[PositiveInteger]:
+        """
+        NmCoordinationCluster identification number.
+        """
         return self.nmCoordCluster
 
-    def setNmCoordCluster(self, value: ARNumerical):
-        self.nmCoordCluster = value
+    def setNmCoordCluster(self, value: Optional[PositiveInteger]) -> "NmNode":
+        """
+        NmCoordinationCluster identification number.
+        A None value is a no-op and does not overwrite an existing nmCoordCluster.
+        """
+        if value is not None:
+            self.nmCoordCluster = value
         return self
 
-    def getNmCoordinatorRole(self) -> ARLiteral:
+    def getNmCoordinatorRole(self) -> Optional[NmCoordinatorRoleEnum]:
+        """
+        This attribute indicates the role the NM Coordinator will have on this channel.
+        """
         return self.nmCoordinatorRole
 
-    def setNmCoordinatorRole(self, value: ARLiteral):
-        self.nmCoordinatorRole = value
+    def setNmCoordinatorRole(self, value: Optional[NmCoordinatorRoleEnum]) -> "NmNode":
+        """
+        This attribute indicates the role the NM Coordinator will have on this channel.
+        A None value is a no-op and does not overwrite an existing nmCoordinatorRole.
+        """
+        if value is not None:
+            self.nmCoordinatorRole = value
         return self
 
-    def getNmIfEcuRef(self) -> RefType:
+    def getNmIfEcuRef(self) -> Optional[RefType]:
+        """
+        Reference to the NmEcu that contains this NmNode. (CommunicationController that is referenced by the Nm Node shall be contained in the EcuInstance that is referenced by the NmEcu).
+        """
         return self.nmIfEcuRef
 
-    def setNmIfEcuRef(self, value):
-        self.nmIfEcuRef = value
+    def setNmIfEcuRef(self, value: Optional[RefType]) -> "NmNode":
+        """
+        Reference to the NmEcu that contains this NmNode. (CommunicationController that is referenced by the Nm Node shall be contained in the EcuInstance that is referenced by the NmEcu).
+        A None value is a no-op and does not overwrite an existing nmIfEcuRef.
+        """
+        if value is not None:
+            self.nmIfEcuRef = value
         return self
 
-    def getNmNodeId(self) -> ARNumerical:
+    def getNmNodeId(self) -> Optional[Integer]:
+        """
+        Node identifier of local NmNode. Shall be unique in the NmCluster.
+        """
         return self.nmNodeId
 
-    def setNmNodeId(self, value: ARNumerical):
-        self.nmNodeId = value
+    def setNmNodeId(self, value: Optional[Integer]) -> "NmNode":
+        """
+        Node identifier of local NmNode. Shall be unique in the NmCluster.
+        A None value is a no-op and does not overwrite an existing nmNodeId.
+        """
+        if value is not None:
+            self.nmNodeId = value
         return self
 
-    def getNmPassiveModeEnabled(self) -> ARBoolean:
+    def getNmPassiveModeEnabled(self) -> Optional[Boolean]:
+        """
+        Enables support of the Passive Mode. The passive mode is configurable per channel.
+        """
         return self.nmPassiveModeEnabled
 
-    def setNmPassiveModeEnabled(self, value: ARBoolean):
-        self.nmPassiveModeEnabled = value
+    def setNmPassiveModeEnabled(self, value: Optional[Boolean]) -> "NmNode":
+        """
+        Enables support of the Passive Mode. The passive mode is configurable per channel.
+        A None value is a no-op and does not overwrite an existing nmPassiveModeEnabled.
+        """
+        if value is not None:
+            self.nmPassiveModeEnabled = value
         return self
 
-    def addRxNmPduRef(self, ref: RefType):
+    def addRxNmPduRef(self, ref: RefType) -> "NmNode":
+        """
+        receive NM Pdu.
+        """
         self.rxNmPduRefs.append(ref)
         return self
 
     def getRxNmPduRefs(self) -> List[RefType]:
+        """
+        receive NM Pdu.
+        """
         return self.rxNmPduRefs
 
-    def addTxNmPduRefs(self, ref: RefType):
-        self.TxNmPduRefs.append(ref)
+    def addTxNmPduRef(self, ref: RefType) -> "NmNode":
+        """
+        transmit NM Pdu.
+        """
+        self.txNmPduRefs.append(ref)
         return self
 
     def getTxNmPduRefs(self) -> List[RefType]:
-        return self.TxNmPduRefs
+        """
+        transmit NM Pdu.
+        """
+        return self.txNmPduRefs
 
 
 class CanNmNode(NmNode):

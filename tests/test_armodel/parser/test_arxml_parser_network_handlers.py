@@ -1726,6 +1726,20 @@ class TestNmConfigHandlers:
         parser.readNmNode(element, node)
         assert len(node.getTxNmPduRefs()) == 1
 
+    def test_readNmNode_sets_coord_attrs(self, parser):
+        from armodel.models import CanNmCluster, CanNmNode, NmConfig
+
+        config = NmConfig(parent=_autosar_root(), short_name="nmConfig")
+        cluster = CanNmCluster(parent=config, short_name="cnm")
+        node = CanNmNode(parent=cluster, short_name="node")
+        element = _snip(
+            "<SHORT-NAME>node</SHORT-NAME>" "<NM-COORD-CLUSTER>2</NM-COORD-CLUSTER>" "<NM-COORDINATOR-ROLE>active</NM-COORDINATOR-ROLE>",
+            root_tag="CAN-NM-NODE",
+        )
+        parser.readNmNode(element, node)
+        assert node.getNmCoordCluster().getValue() == 2
+        assert node.getNmCoordinatorRole().getValue() == "active"
+
     def test_getCanNmClusterCoupling_adds_coupledClusterRef(self, parser):
         element = _snip(
             "<COUPLED-CLUSTER-REFS>"
