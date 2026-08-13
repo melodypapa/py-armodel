@@ -141,6 +141,8 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.Instance
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior.InstanceRefs import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import *  # noqa: F403

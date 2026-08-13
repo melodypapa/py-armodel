@@ -286,6 +286,13 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection i
     EndToEndProtectionSet,
     EndToEndProtectionVariablePrototype,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior import DataPrototypeGroup
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior.InstanceRefs import (
+    InnerDataPrototypeGroupInCompositionInstanceRef,
+    InnerRunnableEntityGroupInCompositionInstanceRef,
+    RunnableEntityInCompositionInstanceRef,
+    VariableDataPrototypeInCompositionInstanceRef,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
     ApplicationError,
     ArgumentDataPrototype,
@@ -2417,6 +2424,56 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalRefType(child_element, "CONTEXT-P-PORT-REF", instance_ref.getContextPPortRef())
             self.setChildElementOptionalRefType(child_element, "TARGET-TRIGGER-REF", instance_ref.getTargetTriggerRef())
+
+    def writeInnerDataPrototypeGroupInCompositionInstanceRef(self, element: ET.Element, key: str, instance_ref: InnerDataPrototypeGroupInCompositionInstanceRef):
+        if instance_ref is not None:
+            child_element = ET.SubElement(element, key)
+            for ref in instance_ref.getContextSwComponentPrototypeRefs():
+                self.setChildElementOptionalRefType(child_element, "CONTEXT-SW-COMPONENT-PROTOTYPE-REF", ref)
+            self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-GROUP-REF", instance_ref.getTargetDataPrototypeGroupRef())
+
+    def writeInnerRunnableEntityGroupInCompositionInstanceRef(self, element: ET.Element, key: str, instance_ref: InnerRunnableEntityGroupInCompositionInstanceRef):
+        if instance_ref is not None:
+            child_element = ET.SubElement(element, key)
+            for ref in instance_ref.getContextSwComponentPrototypeRefs():
+                self.setChildElementOptionalRefType(child_element, "CONTEXT-SW-COMPONENT-PROTOTYPE-REF", ref)
+            self.setChildElementOptionalRefType(child_element, "TARGET-RUNNABLE-ENTITY-GROUP-REF", instance_ref.getTargetRunnableEntityGroupRef())
+
+    def writeRunnableEntityInCompositionInstanceRef(self, element: ET.Element, key: str, instance_ref: RunnableEntityInCompositionInstanceRef):
+        if instance_ref is not None:
+            child_element = ET.SubElement(element, key)
+            for ref in instance_ref.getContextSwComponentPrototypeRefs():
+                self.setChildElementOptionalRefType(child_element, "CONTEXT-SW-COMPONENT-PROTOTYPE-REF", ref)
+            self.setChildElementOptionalRefType(child_element, "TARGET-RUNNABLE-ENTITY-REF", instance_ref.getTargetRunnableEntityRef())
+
+    def writeVariableDataPrototypeInCompositionInstanceRef(self, element: ET.Element, key: str, instance_ref: VariableDataPrototypeInCompositionInstanceRef):
+        if instance_ref is not None:
+            child_element = ET.SubElement(element, key)
+            for ref in instance_ref.getContextSwComponentPrototypeRefs():
+                self.setChildElementOptionalRefType(child_element, "CONTEXT-SW-COMPONENT-PROTOTYPE-REF", ref)
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-PORT-PROTOTYPE-REF", instance_ref.getContextPortPrototypeRef())
+            self.setChildElementOptionalRefType(child_element, "TARGET-VARIABLE-DATA-PROTOTYPE-REF", instance_ref.getTargetVariableDataPrototypeRef())
+
+    def writeDataPrototypeGroupDataPrototypeGroupIRefs(self, element: ET.Element, data_group: DataPrototypeGroup):
+        irefs = data_group.getDataPrototypeGroupIRefs()
+        if len(irefs) > 0:
+            child_element = ET.SubElement(element, "DATA-PROTOTYPE-GROUP-IREFS")
+            for iref in irefs:
+                self.writeInnerDataPrototypeGroupInCompositionInstanceRef(child_element, "DATA-PROTOTYPE-GROUP-IREF", iref)
+
+    def writeDataPrototypeGroupImplicitDataAccessIRefs(self, element: ET.Element, data_group: DataPrototypeGroup):
+        irefs = data_group.getImplicitDataAccessIRefs()
+        if len(irefs) > 0:
+            child_element = ET.SubElement(element, "IMPLICIT-DATA-ACCESS-IREFS")
+            for iref in irefs:
+                self.writeVariableDataPrototypeInCompositionInstanceRef(child_element, "IMPLICIT-DATA-ACCESS-IREF", iref)
+
+    def writeDataPrototypeGroup(self, element: ET.Element, data_group: DataPrototypeGroup):
+        self.logger.debug("writeDataPrototypeGroup %s" % data_group.getShortName())
+        child_element = ET.SubElement(element, "DATA-PROTOTYPE-GROUP")
+        self.writeIdentifiable(child_element, data_group)
+        self.writeDataPrototypeGroupDataPrototypeGroupIRefs(child_element, data_group)
+        self.writeDataPrototypeGroupImplicitDataAccessIRefs(child_element, data_group)
 
     def setPModeGroupInAtomicSwcInstanceRef(self, element: ET.Element, key: str, instance_ref: PModeGroupInAtomicSwcInstanceRef):
         if instance_ref is not None:
@@ -8033,6 +8090,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeMcFunction(element, ar_element)
         elif isinstance(ar_element, McGroup):
             self.writeMcGroup(element, ar_element)
+        elif isinstance(ar_element, DataPrototypeGroup):
+            self.writeDataPrototypeGroup(element, ar_element)
         else:
             self.notImplemented("Unsupported Elements of ARPackage <%s>" % type(ar_element))
 
