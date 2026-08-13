@@ -1,6 +1,7 @@
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceProviderEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpBlueprintable, AtpType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable, Referrable
@@ -207,30 +208,46 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
         element2 = cs_if.getPossibleErrors()[0]
         assert element == element2
 
-    def test_NvDataInterface_serviceKind(self):
-        """Test NvDataInterface getServiceKind method to cover line 42 in PortInterface/__init__.py"""
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import NvDataInterface
-
+    def test_PortInterface_isService(self):
+        """PortInterface.isService: default None, setter chains, value round-trips, None no-op."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        nv_data_if = NvDataInterface(ar_root, "NvDataInterface")
+        pi = NvDataInterface(ar_root, "NvDataInterface")
 
-        # Test getServiceKind - this should return self.serviceKind
-        _service_kind = nv_data_if.getServiceKind()
-        # NvDataInterface inherits from PortInterface, so it should have serviceKind attribute
-        # This test covers line 42 in PortInterface/__init__.py
+        assert pi.getIsService() is None
 
-        # Test setServiceKind to cover lines 45-46
-        ar_literal = ARLiteral()
-        nv_data_if.setServiceKind(ar_literal)
-        assert nv_data_if.getServiceKind() == ar_literal
-        assert nv_data_if == nv_data_if.setServiceKind(ar_literal)  # Test method chaining
+        is_service = Boolean()
+        is_service.setValue("true")
+        assert pi.setIsService(is_service) is pi
+        assert pi.getIsService() is is_service
+        assert pi.getIsService().getValue() is True
 
-        # Test setIsService and getIsService to cover lines 35, 38-39
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
+        # None is a no-op: existing value is preserved
+        pi.setIsService(None)
+        assert pi.getIsService() is is_service
 
-        ar_bool = ARBoolean()
-        nv_data_if.setIsService(ar_bool)
-        assert nv_data_if.getIsService() == ar_bool
-        assert nv_data_if == nv_data_if.setIsService(ar_bool)  # Test method chaining
+        is_service_false = Boolean()
+        is_service_false.setValue("false")
+        pi.setIsService(is_service_false)
+        assert pi.getIsService() is is_service_false
+
+    def test_PortInterface_serviceKind(self):
+        """PortInterface.serviceKind: default None, setter chains, value round-trips, None no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        pi = NvDataInterface(ar_root, "NvDataInterface")
+
+        assert pi.getServiceKind() is None
+
+        service_kind = ServiceProviderEnum().setValue(ServiceProviderEnum.COM_MANAGER)
+        assert pi.setServiceKind(service_kind) is pi
+        assert pi.getServiceKind() is service_kind
+        assert pi.getServiceKind().getValue() == "comManager"
+
+        # None is a no-op: existing value is preserved
+        pi.setServiceKind(None)
+        assert pi.getServiceKind() is service_kind
+
+        service_kind2 = ServiceProviderEnum().setValue(ServiceProviderEnum.DEFAULT_ERROR_TRACER)
+        pi.setServiceKind(service_kind2)
+        assert pi.getServiceKind() is service_kind2
