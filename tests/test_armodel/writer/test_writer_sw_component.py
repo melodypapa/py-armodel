@@ -22,6 +22,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARNumerical,
     ARPositiveInteger,
     RefType,
+    String,
     TimeValue,
     TRefType,
 )
@@ -58,6 +59,9 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.Instance
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import (  # noqa: E501
     ApplicationCompositeElementInPortInterfaceInstanceRef,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import (
+    SwComponentDocumentation,
+)
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import (
     SwValueCont,
     SwValues,
@@ -69,6 +73,19 @@ from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
     SwDataDefProps,
     ValueList,
 )
+from armodel.models.M2.MSR.Documentation.Chapters import (
+    ChapterContent,
+    ChapterModel,
+    ChapterOrMsrQuery,
+    MsrQueryChapter,
+    MsrQueryTopic1,
+    Topic1,
+    TopicContent,
+    TopicContentOrMsrQuery,
+    TopicOrMsrQuery,
+)
+from armodel.models.M2.MSR.Documentation.TextModel.MsrQuery import MsrQueryP1
+from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
 
@@ -724,6 +741,232 @@ class TestWriteSwComponentType:
         assert parent.find("SHORT-NAME") is not None
         assert parent.find("PORTS") is not None
         assert parent.find("PORT-GROUPS") is not None
+
+    def test_write_sw_component_type_swc_mapping_constraints_empty(self, writer):
+        app = self._app()
+        parent = _parent()
+        writer.writeSwComponentTypeSwcMappingConstraints(parent, app)
+        assert parent.find("SWC-MAPPING-CONSTRAINT-REFS") is None
+
+    def test_write_sw_component_type_swc_mapping_constraints(self, writer):
+        app = self._app()
+        app.addSwcMappingConstraintRef(_ref("/Mapping/Const1"))
+        app.addSwcMappingConstraintRef(_ref("/Mapping/Const2"))
+        parent = _parent()
+        writer.writeSwComponentTypeSwcMappingConstraints(parent, app)
+        refs = parent.find("SWC-MAPPING-CONSTRAINT-REFS")
+        assert refs is not None
+        assert len(refs) == 2
+        assert [r.text for r in refs] == ["/Mapping/Const1", "/Mapping/Const2"]
+
+    def test_write_sw_component_type_unit_groups_empty(self, writer):
+        app = self._app()
+        parent = _parent()
+        writer.writeSwComponentTypeUnitGroups(parent, app)
+        assert parent.find("UNIT-GROUP-REFS") is None
+
+    def test_write_sw_component_type_unit_groups(self, writer):
+        app = self._app()
+        app.addUnitGroupRef(_ref("/Units/Group1"))
+        parent = _parent()
+        writer.writeSwComponentTypeUnitGroups(parent, app)
+        refs = parent.find("UNIT-GROUP-REFS")
+        assert refs is not None
+        assert len(refs) == 1
+        assert refs[0].text == "/Units/Group1"
+
+
+class TestSwComponentTypeRoundTrip:
+    def test_round_trip(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Swcs")
+        app = pkg.createApplicationSwComponentType("App")
+        app.createPPortPrototype("PPort")
+        app.createRPortPrototype("RPort")
+        app.createPRPortPrototype("PRPort")
+        app.createPortGroup("PG")
+        app.addSwcMappingConstraintRef(_ref("/Mapping/Const1"))
+        app.addSwcMappingConstraintRef(_ref("/Mapping/Const2"))
+        app.addUnitGroupRef(_ref("/Units/Group1"))
+
+        out_file = tmp_path / "sw_component_type_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        swc = reloaded.find("/Swcs/App")
+        assert swc is not None
+        assert swc.getShortName() == "App"
+        assert len(swc.getPorts()) == 3
+        assert len(swc.getPPortPrototypes()) == 1
+        assert len(swc.getRPortPrototypes()) == 1
+        assert len(swc.getPRPortPrototypes()) == 1
+        assert len(swc.getPortGroups()) == 1
+        assert [r.getValue() for r in swc.getSwcMappingConstraintsRefs()] == ["/Mapping/Const1", "/Mapping/Const2"]
+        assert [r.getValue() for r in swc.getUnitGroupRefs()] == ["/Units/Group1"]
+
+    def test_round_trip_empty_refs(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Swcs")
+        pkg.createApplicationSwComponentType("App")
+
+        out_file = tmp_path / "sw_component_type_empty_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        swc = reloaded.find("/Swcs/App")
+        assert swc is not None
+        assert swc.getSwcMappingConstraintsRefs() == []
+        assert swc.getUnitGroupRefs() == []
+        assert swc.getSwComponentDocumentation() is None
+
+
+class TestSwComponentTypeDocumentationRoundTrip:
+    def _build(self, pkg):
+        app = pkg.createApplicationSwComponentType("App")
+        documentation = SwComponentDocumentation()
+        documentation.createSwFeatureDef("FeatureDef")
+        general_chapter = documentation.createChapter("GeneralChapter")
+        general_chapter.setHelpEntry(String().setValue("help.general"))
+        chapter_model = ChapterModel()
+        chapter_model.setChapterContent(ChapterContent())
+        general_chapter.setChapterModel(chapter_model)
+        app.setSwComponentDocumentation(documentation)
+        return app
+
+    def test_round_trip_with_documentation(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Swcs")
+        self._build(pkg)
+
+        out_file = tmp_path / "sw_component_documentation_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        swc = reloaded.find("/Swcs/App")
+        assert swc is not None
+        documentation = swc.getSwComponentDocumentation()
+        assert documentation is not None
+        assert documentation.getSwFeatureDef() is not None
+        assert documentation.getSwFeatureDef().getShortName() == "FeatureDef"
+        assert len(documentation.getChapters()) == 1
+        general_chapter = documentation.getChapters()[0]
+        assert general_chapter.getShortName() == "GeneralChapter"
+        assert general_chapter.getHelpEntry().getValue() == "help.general"
+        assert general_chapter.getChapterModel() is not None
+        assert general_chapter.getChapterModel().getChapterContent() is not None
+
+    def test_round_trip_with_msr_query_members(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Swcs")
+        app = pkg.createApplicationSwComponentType("App")
+        documentation = SwComponentDocumentation()
+        chapter = documentation.createChapter("ChapterWithMsr")
+        chapter_model = ChapterModel()
+        topic_query = TopicOrMsrQuery()
+        topic_query.addTopic1(Topic1(chapter, "TopicA"))
+        topic_query.setMsrQueryTopic1(MsrQueryTopic1())
+        chapter_model.setTopic1(topic_query)
+        subchapter_query = ChapterOrMsrQuery()
+        subchapter_query.setMsrQueryChapter(MsrQueryChapter())
+        chapter_model.setChapter(subchapter_query)
+        chapter.setChapterModel(chapter_model)
+        app.setSwComponentDocumentation(documentation)
+
+        out_file = tmp_path / "sw_component_msr_query_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        swc = reloaded.find("/Swcs/App")
+        documentation = swc.getSwComponentDocumentation()
+        assert documentation is not None
+        reloaded_chapter = documentation.getChapters()[0]
+        reloaded_model = reloaded_chapter.getChapterModel()
+        assert reloaded_model is not None
+        assert reloaded_model.getTopic1() is not None
+        assert len(reloaded_model.getTopic1().getTopic1s()) == 1
+        assert reloaded_model.getTopic1().getMsrQueryTopic1() is not None
+        assert reloaded_model.getChapter() is not None
+        assert reloaded_model.getChapter().getMsrQueryChapter() is not None
+
+    def test_round_trip_with_topic_content_or_msr_query(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Swcs")
+        app = pkg.createApplicationSwComponentType("App")
+        documentation = SwComponentDocumentation()
+        chapter = documentation.createChapter("ChapterWithTopicContent")
+        chapter_model = ChapterModel()
+        chapter_content = ChapterContent()
+        topic_content_query = TopicContentOrMsrQuery()
+        topic_content_query.setMsrQueryP1(MsrQueryP1())
+        topic_content_query.setTopicContent(TopicContent())
+        chapter_content.setTopicContent(topic_content_query)
+        chapter_model.setChapterContent(chapter_content)
+        chapter.setChapterModel(chapter_model)
+        app.setSwComponentDocumentation(documentation)
+
+        out_file = tmp_path / "sw_component_topic_content_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        swc = reloaded.find("/Swcs/App")
+        documentation = swc.getSwComponentDocumentation()
+        assert documentation is not None
+        reloaded_chapter = documentation.getChapters()[0]
+        reloaded_content = reloaded_chapter.getChapterModel().getChapterContent()
+        assert reloaded_content is not None
+        reloaded_topic_content = reloaded_content.getTopicContent()
+        assert reloaded_topic_content is not None
+        assert reloaded_topic_content.getMsrQueryP1() is not None
+        assert reloaded_topic_content.getTopicContent() is not None
+
+    def test_round_trip_without_documentation(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Swcs")
+        pkg.createApplicationSwComponentType("App")
+
+        out_file = tmp_path / "sw_component_no_documentation_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        swc = reloaded.find("/Swcs/App")
+        assert swc is not None
+        assert swc.getSwComponentDocumentation() is None
 
 
 class TestWriteSwComponentPrototype:

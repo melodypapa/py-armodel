@@ -1,63 +1,69 @@
 """
-This module contains comprehensive tests for the SoftwareComponentDocumentation module in SWComponentTemplate.
-Tests cover all classes and methods in the SoftwareComponentDocumentation.py file to achieve 100% test coverage.
+This module contains tests for the SoftwareComponentDocumentation module in SWComponentTemplate.
 """
 
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import SwComponentDocumentation
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import (
+    SwComponentDocumentation,
+)
 
 
 class TestSwComponentDocumentation:
     """Test class for SwComponentDocumentation class."""
 
     def test_sw_component_documentation_initialization(self):
-        """Test SwComponentDocumentation initialization and methods."""
+        doc = SwComponentDocumentation()
+        assert doc.getChapters() == []
+        assert doc.getSwCalibrationNotes() is None
+        assert doc.getSwCarbDoc() is None
+        assert doc.getSwDiagnosticsNotes() is None
+        assert doc.getSwFeatureDef() is None
+        assert doc.getSwFeatureDesc() is None
+        assert doc.getSwMaintenanceNotes() is None
+        assert doc.getSwTestDesc() is None
+
+    def test_create_get_predefined_chapters(self):
         doc = SwComponentDocumentation()
 
-        assert doc.chapters == []
-        assert doc.swCalibrationNotes is None
-        assert doc.swCarbDoc is None
-        assert doc.swDiagnosticsNotes is None
-        assert doc.swFeatureDef is None
-        assert doc.swFeatureDesc is None
-        assert doc.swMaintenanceNotes is None
-        assert doc.swTestDesc is None
+        feature_def = doc.createSwFeatureDef("FeatureDef")
+        assert feature_def.getShortName() == "FeatureDef"
+        assert doc.getSwFeatureDef() is feature_def
+        assert doc.createSwFeatureDef("FeatureDef") is feature_def
 
-        # Test chapters methods
-        chapter = "Test Chapter"
-        doc.addChapter(chapter)
-        assert chapter in doc.getChapters()
+        feature_desc = doc.createSwFeatureDesc("FeatureDesc")
+        assert feature_desc.getShortName() == "FeatureDesc"
+        assert doc.getSwFeatureDesc() is feature_desc
+        assert doc.createSwFeatureDesc("FeatureDesc") is feature_desc
 
-        # Test swCalibrationNotes methods
-        calibration_notes = "Calibration notes"
-        doc.setSwCalibrationNotes(calibration_notes)
-        assert doc.getSwCalibrationNotes() == calibration_notes
+        test_desc = doc.createSwTestDesc("TestDesc")
+        assert test_desc.getShortName() == "TestDesc"
+        assert doc.getSwTestDesc() is test_desc
+        assert doc.createSwTestDesc("TestDesc") is test_desc
 
-        # Test swCarbDoc methods
-        carb_doc = "CARB document"
-        doc.setSwCarbDoc(carb_doc)
-        assert doc.getSwCarbDoc() == carb_doc
+        calibration_notes = doc.createSwCalibrationNotes("CalibrationNotes")
+        assert calibration_notes.getShortName() == "CalibrationNotes"
+        assert doc.getSwCalibrationNotes() is calibration_notes
+        assert doc.createSwCalibrationNotes("CalibrationNotes") is calibration_notes
 
-        # Test swDiagnosticsNotes methods
-        diag_notes = "Diagnostic notes"
-        doc.setSwDiagnosticsNotes(diag_notes)
-        assert doc.getSwDiagnosticsNotes() == diag_notes
+        maintenance_notes = doc.createSwMaintenanceNotes("MaintenanceNotes")
+        assert maintenance_notes.getShortName() == "MaintenanceNotes"
+        assert doc.getSwMaintenanceNotes() is maintenance_notes
+        assert doc.createSwMaintenanceNotes("MaintenanceNotes") is maintenance_notes
 
-        # Test swFeatureDef methods
-        feature_def = "Feature definition"
-        doc.setSwFeatureDef(feature_def)
-        assert doc.getSwFeatureDef() == feature_def
+        diagnostics_notes = doc.createSwDiagnosticsNotes("DiagnosticsNotes")
+        assert diagnostics_notes.getShortName() == "DiagnosticsNotes"
+        assert doc.getSwDiagnosticsNotes() is diagnostics_notes
+        assert doc.createSwDiagnosticsNotes("DiagnosticsNotes") is diagnostics_notes
 
-        # Test swFeatureDesc methods
-        feature_desc = "Feature description"
-        doc.setSwFeatureDesc(feature_desc)
-        assert doc.getSwFeatureDesc() == feature_desc
+        carb_doc = doc.createSwCarbDoc("CarbDoc")
+        assert carb_doc.getShortName() == "CarbDoc"
+        assert doc.getSwCarbDoc() is carb_doc
+        assert doc.createSwCarbDoc("CarbDoc") is carb_doc
 
-        # Test swMaintenanceNotes methods
-        maintenance_notes = "Maintenance notes"
-        doc.setSwMaintenanceNotes(maintenance_notes)
-        assert doc.getSwMaintenanceNotes() == maintenance_notes
-
-        # Test swTestDesc methods
-        test_desc = "Test description"
-        doc.setSwTestDesc(test_desc)
-        assert doc.getSwTestDesc() == test_desc
+    def test_create_get_chapters(self):
+        doc = SwComponentDocumentation()
+        chapter_a = doc.createChapter("ChapterA")
+        assert chapter_a.getShortName() == "ChapterA"
+        chapter_b = doc.createChapter("ChapterB")
+        assert doc.getChapters() == [chapter_a, chapter_b]
+        assert doc.createChapter("ChapterA") is chapter_a
+        assert doc.getChapters() == [chapter_a, chapter_b]

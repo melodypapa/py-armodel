@@ -544,6 +544,16 @@ from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Graphic, MlFigure
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
+from armodel.models.M2.MSR.Documentation.Chapters import (
+    Chapter,
+    ChapterContent,
+    ChapterModel,
+    MsrQueryChapter,
+    MsrQueryTopic1,
+    Topic1,
+    TopicContent,
+    TopicContentOrMsrQuery,
+)
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, LabeledItem, LabeledList
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.Note import Note
@@ -551,7 +561,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndVi
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.RequirementsTracing import StructuredReq, TraceableText
 from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import EmphasisText, IndexEntry, Tt
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LPlainText, LVerbatim
-from armodel.models.M2.MSR.Documentation.TextModel.MsrQuery import MsrQueryArg, MsrQueryP2, MsrQueryProps
+from armodel.models.M2.MSR.Documentation.TextModel.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
 from armodel.writer.abstract_arxml_writer import AbstractARXMLWriter
 
@@ -1217,10 +1227,114 @@ class ARXMLWriter(AbstractARXMLWriter):
             for port_group in port_groups:
                 self.writePortGroup(child_element, port_group)
 
+    def writeSwComponentTypeSwcMappingConstraints(self, element: ET.Element, parent: SwComponentType):
+        refs = parent.getSwcMappingConstraintsRefs()
+        if len(refs) > 0:
+            child_element = ET.SubElement(element, "SWC-MAPPING-CONSTRAINT-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(child_element, "SWC-MAPPING-CONSTRAINT-REF", ref)
+
+    def writeSwComponentTypeSwComponentDocumentation(self, element: ET.Element, parent: SwComponentType):
+        documentation = parent.getSwComponentDocumentation()
+        if documentation is None:
+            return
+        child_element = ET.SubElement(element, "SW-COMPONENT-DOCUMENTATION")
+        predefined_chapters = [
+            (documentation.getSwFeatureDef(), "SW-FEATURE-DEF"),
+            (documentation.getSwFeatureDesc(), "SW-FEATURE-DESC"),
+            (documentation.getSwTestDesc(), "SW-TEST-DESC"),
+            (documentation.getSwCalibrationNotes(), "SW-CALIBRATION-NOTES"),
+            (documentation.getSwMaintenanceNotes(), "SW-MAINTENANCE-NOTES"),
+            (documentation.getSwDiagnosticsNotes(), "SW-DIAGNOSTICS-NOTES"),
+            (documentation.getSwCarbDoc(), "SW-CARB-DOC"),
+        ]
+        for chapter, tag_name in predefined_chapters:
+            if chapter is not None:
+                self.writeChapter(child_element, chapter, tag_name)
+        for chapter in documentation.getChapters():
+            self.writeChapter(child_element, chapter, "CHAPTER")
+
+    def writeChapter(self, element: ET.Element, chapter: Chapter, tag_name: str):
+        child_element = ET.SubElement(element, tag_name)
+        self.writeIdentifiable(child_element, chapter)
+        if chapter.getHelpEntry() is not None:
+            child_element.set("HELP-ENTRY", chapter.getHelpEntry().getValue())
+        chapter_model = chapter.getChapterModel()
+        if chapter_model is not None:
+            self.writeChapterModel(child_element, chapter_model)
+
+    def writeChapterModel(self, element: ET.Element, chapter_model: ChapterModel):
+        child_element = ET.SubElement(element, "CHAPTER-MODEL")
+        chapter_content = chapter_model.getChapterContent()
+        if chapter_content is not None:
+            self.writeChapterContent(child_element, chapter_content)
+        topic1 = chapter_model.getTopic1()
+        if topic1 is not None:
+            for topic in topic1.getTopic1s():
+                self.writeTopic1(child_element, topic)
+            if topic1.getMsrQueryTopic1() is not None:
+                self.writeMsrQueryTopic1(child_element, topic1.getMsrQueryTopic1())
+        chapter = chapter_model.getChapter()
+        if chapter is not None:
+            for chapter_item in chapter.getChapters():
+                self.writeChapter(child_element, chapter_item, "CHAPTER")
+            if chapter.getMsrQueryChapter() is not None:
+                self.writeMsrQueryChapter(child_element, chapter.getMsrQueryChapter())
+
+    def writeChapterContent(self, element: ET.Element, chapter_content: ChapterContent):
+        child_element = ET.SubElement(element, "CHAPTER-CONTENT")
+        self.writeTopicContentOrMsrQuery(child_element, chapter_content.getTopicContent())
+
+    def writeTopicContentOrMsrQuery(self, element: ET.Element, topic_content_or_msr_query: TopicContentOrMsrQuery):
+        if topic_content_or_msr_query is None:
+            return
+        if topic_content_or_msr_query.getMsrQueryP1() is not None:
+            self.writeMsrQueryP1(element, topic_content_or_msr_query.getMsrQueryP1())
+        if topic_content_or_msr_query.getTopicContent() is not None:
+            self.writeTopicContent(element, topic_content_or_msr_query.getTopicContent())
+
+    def writeMsrQueryP1(self, element: ET.Element, msr_query_p1: MsrQueryP1):
+        child_element = ET.SubElement(element, "MSR-QUERY-P1")
+        self.writeARObjectAttributes(child_element, msr_query_p1)
+
+    def writeTopicContent(self, element: ET.Element, topic_content: TopicContent):
+        child_element = ET.SubElement(element, "TOPIC-CONTENT")
+        self.writeARObjectAttributes(child_element, topic_content)
+        self.writeDocumentationBlock(child_element, "DOCUMENTATION-BLOCK", topic_content.getBlockLevelContent())
+
+    def writeTopic1(self, element: ET.Element, topic1: Topic1):
+        child_element = ET.SubElement(element, "TOPIC-1")
+        self.writeIdentifiable(child_element, topic1)
+        if topic1.getHelpEntry() is not None:
+            child_element.set("HELP-ENTRY", topic1.getHelpEntry().getValue())
+        self.writeTopicContentOrMsrQuery(child_element, topic1.getTopicContent())
+
+    def writeMsrQueryTopic1(self, element: ET.Element, msr_query_topic1: MsrQueryTopic1):
+        child_element = ET.SubElement(element, "MSR-QUERY-TOPIC-1")
+        self.writeARObjectAttributes(child_element, msr_query_topic1)
+        if msr_query_topic1.getMsrQueryProps() is not None:
+            self.setMsrQueryProps(child_element, msr_query_topic1.getMsrQueryProps())
+
+    def writeMsrQueryChapter(self, element: ET.Element, msr_query_chapter: MsrQueryChapter):
+        child_element = ET.SubElement(element, "MSR-QUERY-CHAPTER")
+        self.writeARObjectAttributes(child_element, msr_query_chapter)
+        if msr_query_chapter.getMsrQueryProps() is not None:
+            self.setMsrQueryProps(child_element, msr_query_chapter.getMsrQueryProps())
+
+    def writeSwComponentTypeUnitGroups(self, element: ET.Element, parent: SwComponentType):
+        refs = parent.getUnitGroupRefs()
+        if len(refs) > 0:
+            child_element = ET.SubElement(element, "UNIT-GROUP-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(child_element, "UNIT-GROUP-REF", ref)
+
     def writeSwComponentType(self, element: ET.Element, sw_component: SwComponentType):
         self.writeIdentifiable(element, sw_component)
         self.writeSwComponentTypePorts(element, sw_component)
         self.writeSwComponentTypePortGroups(element, sw_component)
+        self.writeSwComponentTypeSwcMappingConstraints(element, sw_component)
+        self.writeSwComponentTypeUnitGroups(element, sw_component)
+        self.writeSwComponentTypeSwComponentDocumentation(element, sw_component)
 
     def writeSwComponentPrototype(self, element: ET.Element, prototype: SwComponentPrototype):
         prototype_tag = ET.SubElement(element, "SW-COMPONENT-PROTOTYPE")

@@ -102,6 +102,7 @@ from armodel.models.M2.MSR.DataDictionary.SystemConstant import *  # noqa: F403
 from armodel.models.M2.MSR.Documentation.BlockElements import *  # noqa: F403
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import *  # noqa: F403
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import *  # noqa: F403
+from armodel.models.M2.MSR.Documentation.Chapters import *  # noqa: F403
 
 # Additional CommonStructure imports
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure.AtpBlueprint import *  # noqa: F403

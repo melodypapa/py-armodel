@@ -1,228 +1,273 @@
 """
-This module contains classes for representing AUTOSAR software component documentation
-elements in software component templates.
+This module contains the SwComponentDocumentation class for AUTOSAR software
+component templates (spec M2::AUTOSARTemplates::SWComponentTemplate::SoftwareComponentDocumentation).
+
+The Chapter family it aggregates (Chapter, ChapterModel, ChapterContent,
+ChapterOrMsrQuery, TopicOrMsrQuery) lives in its own package
+M2::MSR::Documentation::Chapters (see src/armodel/models/M2/MSR/Documentation/Chapters.py).
 """
 
+from __future__ import annotations
+
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.MSR.Documentation.Chapters import Chapter
 
 
 class SwComponentDocumentation(ARObject):
     """
-    Documentation for a software component including chapters, calibration
-    notes, diagnostics notes, feature descriptions, and test descriptions.
+    This class specifies the ability to write dedicated documentation to a component type according to ASAM FSX.
     """
 
     # SwComponentDocumentation method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getChapters                  [x] impl  [x] docstring  [ ] test
-    # [ ] addChapter                   [x] impl  [x] docstring  [ ] test
-    # [ ] getSwCalibrationNotes        [x] impl  [x] docstring  [ ] test
-    # [ ] setSwCalibrationNotes        [x] impl  [x] docstring  [ ] test
-    # [ ] getSwCarbDoc                 [x] impl  [x] docstring  [ ] test
-    # [ ] setSwCarbDoc                 [x] impl  [x] docstring  [ ] test
-    # [ ] getSwDiagnosticsNotes        [x] impl  [x] docstring  [ ] test
-    # [ ] setSwDiagnosticsNotes        [x] impl  [x] docstring  [ ] test
-    # [ ] getSwFeatureDef              [x] impl  [x] docstring  [ ] test
-    # [ ] setSwFeatureDef              [x] impl  [x] docstring  [ ] test
-    # [ ] getSwFeatureDesc             [x] impl  [x] docstring  [ ] test
-    # [ ] setSwFeatureDesc             [x] impl  [x] docstring  [ ] test
-    # [ ] getSwMaintenanceNotes        [x] impl  [x] docstring  [ ] test
-    # [ ] setSwMaintenanceNotes        [x] impl  [x] docstring  [ ] test
-    # [ ] getSwTestDesc                [x] impl  [x] docstring  [ ] test
-    # [ ] setSwTestDesc                [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 12.1, p.698
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] createChapter            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getChapters              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createSwCalibrationNotes [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSwCalibrationNotes    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createSwCarbDoc          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSwCarbDoc             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createSwDiagnosticsNotes [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSwDiagnosticsNotes    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createSwFeatureDef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSwFeatureDef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createSwFeatureDesc      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSwFeatureDesc         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createSwMaintenanceNotes [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSwMaintenanceNotes    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createSwTestDesc         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSwTestDesc            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self):
         super().__init__()
 
-        self.chapters = []
-        self.swCalibrationNotes = None
-        self.swCarbDoc = None
-        self.swDiagnosticsNotes = None
-        self.swFeatureDef = None
-        self.swFeatureDesc = None
-        self.swMaintenanceNotes = None
-        self.swTestDesc = None
+        # These chapters provide additional information about the software component that do not fit in the other chapters. Note that this is subject to variation because Chapter aggregations in the role chapter are variant within the documentation in general.
+        self.chapters: List[Chapter] = []
 
-    def getChapters(self):
+        # This element contains calibration instructions and hints for a calibration engineer.
+        self.swCalibrationNotes: Optional[Chapter] = None
+
+        # This element records the documentation requested by CARB.
+        self.swCarbDoc: Optional[Chapter] = None
+
+        # This element contains general information about diagnostics issues within the component.
+        self.swDiagnosticsNotes: Optional[Chapter] = None
+
+        # This element contains the definition of the physical functionality of this software component. This definition is more or less formal and is intended to be delivered from modeling tools.
+        self.swFeatureDef: Optional[Chapter] = None
+
+        # This element contains the textual description of the software functionality of this software component. Expert should write this description.
+        self.swFeatureDesc: Optional[Chapter] = None
+
+        # This element contains information regarding the software maintenance of the component.
+        self.swMaintenanceNotes: Optional[Chapter] = None
+
+        # This element contains suggestions and hints for the test of the software functionality of this software component.
+        self.swTestDesc: Optional[Chapter] = None
+
+    def createChapter(self, short_name: str) -> Chapter:
         """
-        Gets the list of documentation chapters.
+        These chapters provide additional information about the software component that do not fit in the other chapters. Note that this is subject to variation because Chapter aggregations in the role chapter are variant within the documentation in general.
+
+        Creates a new Chapter for the chapter attribute with the given short name, or returns the existing one if it already exists.
+
+        Args:
+            short_name: The short name for the new Chapter
 
         Returns:
-            The list of chapters
+            The created (or existing) Chapter
+        """
+        for chapter in self.chapters:
+            if chapter.getShortName() == short_name:
+                return chapter
+        chapter = Chapter(self, short_name)
+        self.chapters.append(chapter)
+        return chapter
+
+    def getChapters(self) -> List[Chapter]:
+        """
+        These chapters provide additional information about the software component that do not fit in the other chapters. Note that this is subject to variation because Chapter aggregations in the role chapter are variant within the documentation in general.
+
+        Returns:
+            List of Chapter instances
         """
         return self.chapters
 
-    def addChapter(self, value):
+    def createSwCalibrationNotes(self, short_name: str) -> Chapter:
         """
-        Adds a documentation chapter.
+        This element contains calibration instructions and hints for a calibration engineer.
+
+        Creates a new Chapter for the swCalibrationNotes attribute with the given short name, or returns the existing one if already set.
 
         Args:
-            value: The chapter to add
+            short_name: The short name for the new Chapter
 
         Returns:
-            self for method chaining
+            The created (or existing) Chapter
         """
-        if value is not None:
-            self.chapters.append(value)
-        return self
+        if self.swCalibrationNotes is None:
+            self.swCalibrationNotes = Chapter(self, short_name)
+        return self.swCalibrationNotes
 
-    def getSwCalibrationNotes(self):
+    def getSwCalibrationNotes(self) -> Optional[Chapter]:
         """
-        Gets the software calibration notes.
+        This element contains calibration instructions and hints for a calibration engineer.
 
         Returns:
-            The software calibration notes
+            Chapter, or None if not set
         """
         return self.swCalibrationNotes
 
-    def setSwCalibrationNotes(self, value):
+    def createSwCarbDoc(self, short_name: str) -> Chapter:
         """
-        Sets the software calibration notes.
+        This element records the documentation requested by CARB.
+
+        Creates a new Chapter for the swCarbDoc attribute with the given short name, or returns the existing one if already set.
 
         Args:
-            value: The calibration notes to set
+            short_name: The short name for the new Chapter
 
         Returns:
-            self for method chaining
+            The created (or existing) Chapter
         """
-        if value is not None:
-            self.swCalibrationNotes = value
-        return self
+        if self.swCarbDoc is None:
+            self.swCarbDoc = Chapter(self, short_name)
+        return self.swCarbDoc
 
-    def getSwCarbDoc(self):
+    def getSwCarbDoc(self) -> Optional[Chapter]:
         """
-        Gets the software carbon documentation.
+        This element records the documentation requested by CARB.
 
         Returns:
-            The software carbon documentation
+            Chapter, or None if not set
         """
         return self.swCarbDoc
 
-    def setSwCarbDoc(self, value):
+    def createSwDiagnosticsNotes(self, short_name: str) -> Chapter:
         """
-        Sets the software carbon documentation.
+        This element contains general information about diagnostics issues within the component.
+
+        Creates a new Chapter for the swDiagnosticsNotes attribute with the given short name, or returns the existing one if already set.
 
         Args:
-            value: The carbon documentation to set
+            short_name: The short name for the new Chapter
 
         Returns:
-            self for method chaining
+            The created (or existing) Chapter
         """
-        if value is not None:
-            self.swCarbDoc = value
-        return self
+        if self.swDiagnosticsNotes is None:
+            self.swDiagnosticsNotes = Chapter(self, short_name)
+        return self.swDiagnosticsNotes
 
-    def getSwDiagnosticsNotes(self):
+    def getSwDiagnosticsNotes(self) -> Optional[Chapter]:
         """
-        Gets the software diagnostics notes.
+        This element contains general information about diagnostics issues within the component.
 
         Returns:
-            The software diagnostics notes
+            Chapter, or None if not set
         """
         return self.swDiagnosticsNotes
 
-    def setSwDiagnosticsNotes(self, value):
+    def createSwFeatureDef(self, short_name: str) -> Chapter:
         """
-        Sets the software diagnostics notes.
+        This element contains the definition of the physical functionality of this software component. This definition is more or less formal and is intended to be delivered from modeling tools.
+
+        Creates a new Chapter for the swFeatureDef attribute with the given short name, or returns the existing one if already set.
 
         Args:
-            value: The diagnostics notes to set
+            short_name: The short name for the new Chapter
 
         Returns:
-            self for method chaining
+            The created (or existing) Chapter
         """
-        if value is not None:
-            self.swDiagnosticsNotes = value
-        return self
+        if self.swFeatureDef is None:
+            self.swFeatureDef = Chapter(self, short_name)
+        return self.swFeatureDef
 
-    def getSwFeatureDef(self):
+    def getSwFeatureDef(self) -> Optional[Chapter]:
         """
-        Gets the software feature definition.
+        This element contains the definition of the physical functionality of this software component. This definition is more or less formal and is intended to be delivered from modeling tools.
 
         Returns:
-            The software feature definition
+            Chapter, or None if not set
         """
         return self.swFeatureDef
 
-    def setSwFeatureDef(self, value):
+    def createSwFeatureDesc(self, short_name: str) -> Chapter:
         """
-        Sets the software feature definition.
+        This element contains the textual description of the software functionality of this software component. Expert should write this description.
+
+        Creates a new Chapter for the swFeatureDesc attribute with the given short name, or returns the existing one if already set.
 
         Args:
-            value: The feature definition to set
+            short_name: The short name for the new Chapter
 
         Returns:
-            self for method chaining
+            The created (or existing) Chapter
         """
-        if value is not None:
-            self.swFeatureDef = value
-        return self
+        if self.swFeatureDesc is None:
+            self.swFeatureDesc = Chapter(self, short_name)
+        return self.swFeatureDesc
 
-    def getSwFeatureDesc(self):
+    def getSwFeatureDesc(self) -> Optional[Chapter]:
         """
-        Gets the software feature description.
+        This element contains the textual description of the software functionality of this software component. Expert should write this description.
 
         Returns:
-            The software feature description
+            Chapter, or None if not set
         """
         return self.swFeatureDesc
 
-    def setSwFeatureDesc(self, value):
+    def createSwMaintenanceNotes(self, short_name: str) -> Chapter:
         """
-        Sets the software feature description.
+        This element contains information regarding the software maintenance of the component.
+
+        Creates a new Chapter for the swMaintenanceNotes attribute with the given short name, or returns the existing one if already set.
 
         Args:
-            value: The feature description to set
+            short_name: The short name for the new Chapter
 
         Returns:
-            self for method chaining
+            The created (or existing) Chapter
         """
-        if value is not None:
-            self.swFeatureDesc = value
-        return self
+        if self.swMaintenanceNotes is None:
+            self.swMaintenanceNotes = Chapter(self, short_name)
+        return self.swMaintenanceNotes
 
-    def getSwMaintenanceNotes(self):
+    def getSwMaintenanceNotes(self) -> Optional[Chapter]:
         """
-        Gets the software maintenance notes.
+        This element contains information regarding the software maintenance of the component.
 
         Returns:
-            The software maintenance notes
+            Chapter, or None if not set
         """
         return self.swMaintenanceNotes
 
-    def setSwMaintenanceNotes(self, value):
+    def createSwTestDesc(self, short_name: str) -> Chapter:
         """
-        Sets the software maintenance notes.
+        This element contains suggestions and hints for the test of the software functionality of this software component.
+
+        Creates a new Chapter for the swTestDesc attribute with the given short name, or returns the existing one if already set.
 
         Args:
-            value: The maintenance notes to set
+            short_name: The short name for the new Chapter
 
         Returns:
-            self for method chaining
+            The created (or existing) Chapter
         """
-        if value is not None:
-            self.swMaintenanceNotes = value
-        return self
-
-    def getSwTestDesc(self):
-        """
-        Gets the software test description.
-
-        Returns:
-            The software test description
-        """
+        if self.swTestDesc is None:
+            self.swTestDesc = Chapter(self, short_name)
         return self.swTestDesc
 
-    def setSwTestDesc(self, value):
+    def getSwTestDesc(self) -> Optional[Chapter]:
         """
-        Sets the software test description.
-
-        Args:
-            value: The test description to set
+        This element contains suggestions and hints for the test of the software functionality of this software component.
 
         Returns:
-            self for method chaining
+            Chapter, or None if not set
         """
-        if value is not None:
-            self.swTestDesc = value
-        return self
+        return self.swTestDesc
