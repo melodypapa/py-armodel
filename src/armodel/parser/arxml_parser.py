@@ -301,6 +301,13 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection i
     EndToEndProtectionSet,
     EndToEndProtectionVariablePrototype,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior import DataPrototypeGroup
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior.InstanceRefs import (
+    InnerDataPrototypeGroupInCompositionInstanceRef,
+    InnerRunnableEntityGroupInCompositionInstanceRef,
+    RunnableEntityInCompositionInstanceRef,
+    VariableDataPrototypeInCompositionInstanceRef,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
     ArgumentDataPrototype,
     ClientServerInterface,
@@ -2678,6 +2685,45 @@ class ARXMLParser(AbstractARXMLParser):
     def readPTriggerInAtomicSwcTypeInstanceRef(self, element: ET.Element, instance_ref: PTriggerInAtomicSwcTypeInstanceRef):
         instance_ref.setContextPPortRef(self.getChildElementOptionalRefType(element, "CONTEXT-P-PORT-REF"))
         instance_ref.setTargetTriggerRef(self.getChildElementOptionalRefType(element, "TARGET-TRIGGER-REF"))
+
+    def readInnerDataPrototypeGroupInCompositionInstanceRef(self, element: ET.Element, instance_ref: InnerDataPrototypeGroupInCompositionInstanceRef):
+        for ref in self.getChildElementRefTypeList(element, "CONTEXT-SW-COMPONENT-PROTOTYPE-REF"):
+            instance_ref.addContextSwComponentPrototypeRef(ref)
+        instance_ref.setTargetDataPrototypeGroupRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-GROUP-REF"))
+
+    def readInnerRunnableEntityGroupInCompositionInstanceRef(self, element: ET.Element, instance_ref: InnerRunnableEntityGroupInCompositionInstanceRef):
+        for ref in self.getChildElementRefTypeList(element, "CONTEXT-SW-COMPONENT-PROTOTYPE-REF"):
+            instance_ref.addContextSwComponentPrototypeRef(ref)
+        instance_ref.setTargetRunnableEntityGroupRef(self.getChildElementOptionalRefType(element, "TARGET-RUNNABLE-ENTITY-GROUP-REF"))
+
+    def readRunnableEntityInCompositionInstanceRef(self, element: ET.Element, instance_ref: RunnableEntityInCompositionInstanceRef):
+        for ref in self.getChildElementRefTypeList(element, "CONTEXT-SW-COMPONENT-PROTOTYPE-REF"):
+            instance_ref.addContextSwComponentPrototypeRef(ref)
+        instance_ref.setTargetRunnableEntityRef(self.getChildElementOptionalRefType(element, "TARGET-RUNNABLE-ENTITY-REF"))
+
+    def readVariableDataPrototypeInCompositionInstanceRef(self, element: ET.Element, instance_ref: VariableDataPrototypeInCompositionInstanceRef):
+        for ref in self.getChildElementRefTypeList(element, "CONTEXT-SW-COMPONENT-PROTOTYPE-REF"):
+            instance_ref.addContextSwComponentPrototypeRef(ref)
+        instance_ref.setContextPortPrototypeRef(self.getChildElementOptionalRefType(element, "CONTEXT-PORT-PROTOTYPE-REF"))
+        instance_ref.setTargetVariableDataPrototypeRef(self.getChildElementOptionalRefType(element, "TARGET-VARIABLE-DATA-PROTOTYPE-REF"))
+
+    def readDataPrototypeGroupDataPrototypeGroupIRefs(self, element: ET.Element, parent: DataPrototypeGroup):
+        for child_element in self.findall(element, "DATA-PROTOTYPE-GROUP-IREFS/DATA-PROTOTYPE-GROUP-IREF"):
+            instance_ref = InnerDataPrototypeGroupInCompositionInstanceRef()
+            self.readInnerDataPrototypeGroupInCompositionInstanceRef(child_element, instance_ref)
+            parent.addDataPrototypeGroupIRef(instance_ref)
+
+    def readDataPrototypeGroupImplicitDataAccessIRefs(self, element: ET.Element, parent: DataPrototypeGroup):
+        for child_element in self.findall(element, "IMPLICIT-DATA-ACCESS-IREFS/IMPLICIT-DATA-ACCESS-IREF"):
+            instance_ref = VariableDataPrototypeInCompositionInstanceRef()
+            self.readVariableDataPrototypeInCompositionInstanceRef(child_element, instance_ref)
+            parent.addImplicitDataAccessIRef(instance_ref)
+
+    def readDataPrototypeGroup(self, element: ET.Element, data_group: DataPrototypeGroup):
+        self.logger.debug("readDataPrototypeGroup %s" % data_group.getShortName())
+        self.readIdentifiable(element, data_group)
+        self.readDataPrototypeGroupDataPrototypeGroupIRefs(element, data_group)
+        self.readDataPrototypeGroupImplicitDataAccessIRefs(element, data_group)
 
     def getModeGroupIRef(self, element: ET.Element, key: str) -> ModeGroupInAtomicSwcInstanceRef:
         instance_ref = None
@@ -7631,6 +7677,9 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "COMPOSITION-SW-COMPONENT-TYPE":
                 type = parent.createCompositionSwComponentType(self.getShortName(child_element))
                 self.readCompositionSwComponentType(child_element, type)
+            elif tag_name == "DATA-PROTOTYPE-GROUP":
+                data_group = parent.createDataPrototypeGroup(self.getShortName(child_element))
+                self.readDataPrototypeGroup(child_element, data_group)
             elif tag_name == "COMPLEX-DEVICE-DRIVER-SW-COMPONENT-TYPE":
                 type = parent.createComplexDeviceDriverSwComponentType(self.getShortName(child_element))
                 self.readComplexDeviceDriverSwComponentType(child_element, type)

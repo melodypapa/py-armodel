@@ -21,6 +21,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import 
 )
 
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SensorActuatorSwComponentType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior import DataPrototypeGroup
 from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
 from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
 from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr
@@ -1011,6 +1012,12 @@ class ARPackage(CollectableElement):
             trigger_interface = TriggerInterface(self, short_name)
             self.addElement(trigger_interface)
         return self.getElement(short_name, TriggerInterface)
+
+    def createDataPrototypeGroup(self, short_name: str) -> DataPrototypeGroup:
+        if not self.IsElementExists(short_name, DataPrototypeGroup):
+            data_group = DataPrototypeGroup(self, short_name)
+            self.addElement(data_group)
+        return self.getElement(short_name, DataPrototypeGroup)
 
     def createModeDeclarationGroup(self, short_name: str) -> ModeDeclarationGroup:
         if not self.IsElementExists(short_name, ModeDeclarationGroup):
