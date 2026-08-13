@@ -292,8 +292,10 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
 ## Rule 0002 — Method Parity Checklist *(formerly Rule 2)*
 
 A comment block at the top of the class lists every method with five columns:
-`impl`, `docstring`, `test`, `reader`, `writer`. Each must be `[x]`. The first line after
-the checklist title cites the spec table, then the version marker:
+`impl`, `docstring`, `test`, `reader`, `writer`. Each must be `[x]`. The `# Spec:` line
+and the method rows are written in **Step 7**; the `# Spec verified: R<YY>-<MM>` marker is
+added in **Step 9b** (after the user confirms every rule-compliance item) — never in
+Step 7. The block's final form (marker present only once 9b has passed):
 
 ```
 # ClassName method parity checklist:
@@ -484,7 +486,7 @@ PATH=".venv/Scripts:$PATH" ruff check \
 npm run ruff-check && npm run black-check
 ```
 
-Set-based checklist vs. methods check (adapt paths + `CLASS_NAME`):
+Set-based checklist vs. methods check (adapt paths + `CLASS_NAME`). The checklist==methods and coverage asserts run in 9a; the marker-existence assert below runs **after 9b** has written the marker (during 9a the marker is legitimately absent):
 
 ```python
 import re, ast
@@ -502,6 +504,8 @@ methods = {n.name for n in cls.body if isinstance(n, (ast.FunctionDef, ast.Async
 assert checklist == methods, f"checklist mismatch: {checklist ^ methods}"
 untested = [m for m in methods if m != "__init__" and m not in test_src]
 assert not untested, f"methods without test coverage: {untested}"
+# Marker check — run AFTER Step 9b (the marker is written there on user-confirmation;
+# during 9a it is legitimately absent).
 if "# Spec:" in src and "not yet implemented" not in src and "carried as a" not in src:
     assert re.search(r"# Spec verified: R\d\d-\d\d", src), "missing # Spec verified marker"
 ```
@@ -545,9 +549,12 @@ R<YY>-<MM>` stamp is warranted.
   existence is not evidence a given aggregator calls it).
 - **Rule 0011 (member order)** — fields, accessor groups, and checklist rows are in
   displayed PDF row order.
-- **Rule 0012 (docstrings & comments)** — class docstring, `__init__` inline
-  comments, and getter/setter docstrings copy the spec `Note` **verbatim from the
-  markdown** (verify by **diff**, not status); only the `p.NN` page comes from the PDF.
+- **Rule 0012 (docstrings & comments)** — checked **one by one for every member**
+  (walk the Rule 0012.2 per-attribute loop): the class docstring, then for **each**
+  attribute its inline `__init__` comment, its getter docstring, **and** its setter
+  docstring — each diffed individually against its spec `Note` **verbatim from the
+  markdown** (verify by **diff**, not status; no spot-checks); only the `p.NN` page
+  comes from the PDF.
 - **Rule 0014 (deviations resolved)** — every `naming`/`type`/`missing` deviation row
   is fixed and **removed**; only accepted deviations remain (`atpDerived`,
   `deprecated (atp.Status=removed)`, `added convenience property`).
@@ -687,8 +694,10 @@ is one ordered procedure per class (Rule 0006's mechanical check only confirms t
 
 ### 0012.1 Versioning
 
-- The checklist includes `# Spec verified: R<YY>-<MM>` immediately after the `# Spec:`
-  line (`R23-11` = Nov 2023). Verify during every sync pass.
+- The `# Spec verified: R<YY>-<MM>` marker sits immediately after the `# Spec:` line
+  (`R23-11` = Nov 2023). It is **written in Step 9b** (after the user confirms), not in
+  Step 4/7/8 — a file that hasn't passed 9b carries the `# Spec:` line and method rows
+  but no marker. Verify during every sync pass.
 - **The marker is the single review gate.** A class is reviewed/synced iff its source
   carries `# Spec verified: R<YY>-<MM>`; a fully-`[x]` checklist, passing tests, or a
   clean round-trip do **not** by themselves certify a class. **No marker ⇒ sync from
@@ -714,7 +723,8 @@ is one ordered procedure per class (Rule 0006's mechanical check only confirms t
    autosar/markdown/*.md`) — its `Note`/`Attribute`/`Base` text and the `Table N.M` id are
    the extraction source; then read **only the page number** from the **PDF** via `pypdf`
    (matching the printed footer) for the `p.NN` citation.
-2. Add the version marker.
+2. Add the `# Spec:` citation line (the `# Spec verified:` marker is **not** added here —
+   it is written in Step 9b after the user confirms).
 3. **Class docstring** = the spec `Note` **copied verbatim from the markdown table** (no
    invented recap prose, no `Base` chain summary); append class-level `constr_*` rows
    (including ones targeting inherited attributes). For a terse citation Note, append the

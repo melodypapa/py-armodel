@@ -183,7 +183,10 @@ class NmNode(Identifiable, ABC):
         # Enables support of the Passive Mode. The passive mode is configurable per channel.
         self.nmPassiveModeEnabled: Optional[Boolean] = None
 
+        # receive NM Pdu.
         self.rxNmPduRefs: List[RefType] = []
+
+        # transmit NM Pdu
         self.txNmPduRefs: List[RefType] = []
 
     def getControllerRef(self) -> Optional[RefType]:
@@ -291,14 +294,14 @@ class NmNode(Identifiable, ABC):
 
     def addTxNmPduRef(self, ref: RefType) -> "NmNode":
         """
-        transmit NM Pdu.
+        transmit NM Pdu
         """
         self.txNmPduRefs.append(ref)
         return self
 
     def getTxNmPduRefs(self) -> List[RefType]:
         """
-        transmit NM Pdu.
+        transmit NM Pdu
         """
         return self.txNmPduRefs
 
