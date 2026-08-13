@@ -292,8 +292,10 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
 ## Rule 0002 — Method Parity Checklist *(formerly Rule 2)*
 
 A comment block at the top of the class lists every method with five columns:
-`impl`, `docstring`, `test`, `reader`, `writer`. Each must be `[x]`. The first line after
-the checklist title cites the spec table, then the version marker:
+`impl`, `docstring`, `test`, `reader`, `writer`. Each must be `[x]`. The `# Spec:` line
+and the method rows are written in **Step 7**; the `# Spec verified: R<YY>-<MM>` marker is
+added in **Step 9b** (after the user confirms every rule-compliance item) — never in
+Step 7. The block's final form (marker present only once 9b has passed):
 
 ```
 # ClassName method parity checklist:
@@ -485,7 +487,7 @@ PATH=".venv/Scripts:$PATH" ruff check \
 npm run ruff-check && npm run black-check
 ```
 
-Set-based checklist vs. methods check (adapt paths + `CLASS_NAME`):
+Set-based checklist vs. methods check (adapt paths + `CLASS_NAME`). The checklist==methods and coverage asserts run in 9a; the marker-existence assert below runs **after 9b** has written the marker (during 9a the marker is legitimately absent):
 
 ```python
 import re, ast
@@ -503,9 +505,74 @@ methods = {n.name for n in cls.body if isinstance(n, (ast.FunctionDef, ast.Async
 assert checklist == methods, f"checklist mismatch: {checklist ^ methods}"
 untested = [m for m in methods if m != "__init__" and m not in test_src]
 assert not untested, f"methods without test coverage: {untested}"
+# Marker check — run AFTER Step 9b (the marker is written there on user-confirmation;
+# during 9a it is legitimately absent).
 if "# Spec:" in src and "not yet implemented" not in src and "carried as a" not in src:
     assert re.search(r"# Spec verified: R\d\d-\d\d", src), "missing # Spec verified marker"
 ```
+
+### 0006.1 Post-sync rule-compliance confirmation (gate)
+
+Step 9 has two phases. **9a** is the automated verification above (pytest, flake8,
+ruff, black-check, the set-based checklist-vs-methods script, and the lossless
+integration round-trip) — stop on any failure. **9b** is a human confirmation gate
+that runs **after** 9a passes and **before** the class is stamped
+`# Spec verified: R<YY>-<MM>` or the next queue item starts.
+
+Automated checks are blind to most spec-sync rules — a fully-`[x]` checklist,
+passing tests, and a clean round-trip do **not** certify a class (Rule 0012.1). 9b
+is the **complete pre-stamp sign-off**: present, for the just-synced class, a
+rule-compliance checklist covering every automation-blind item below, and get the
+end user's explicit confirmation. When every item passes, the `# Spec verified:
+R<YY>-<MM>` stamp is warranted.
+
+- **Rule 0001.1 (element kind & membership)** — spec table is `Class` (not
+  `Enumeration`); every spec `Attribute` row has a field + accessor pair.
+- **Rule 0001.2 (base & inheritance)** — Python base is the most-derived model class
+  in the spec `Base` chain; `__init__` signature matches (`ARObject`→`(self)`,
+  `Referrable`/`Identifiable`→`(self, parent, short_name)`).
+- **Rule 0001.3 (no fabrication / flattening / type drift)** — no N:1 collapse,
+  shadowing rename, whole-class stub, or flattened inherited members; field +
+  parser + writer types match the PDF (no looser types, e.g. `ARNumerical` where the
+  PDF says `PositiveInteger`, or `ARLiteral` where the PDF says an enum); no untyped
+  accessors.
+- **Rule 0001.5 (naming & Kind suffix)** — field base name verbatim from the spec
+  `Attribute` column; Kind suffix appended correctly (`ref`→`Ref`/`Refs`,
+  `tref`→`TRef`, `iref`→`IRef`/`IRefs`); a singular spec-`*` name still maps to a
+  plural Python list + plural accessors. No casing/pluralization bugs (e.g.
+  `TxNmPduRefs` → `txNmPduRefs`).
+- **Rule 0001.6 (create vs set/add shape)** — `createXxx(short_name)` only for
+  `Referrable`/`Identifiable` children; `setXxx` (`0..1`) / `addXxx` (`*`) for
+  non-Referrable children; one `createXxx<Subtype>` per concrete subtype for an
+  abstract child.
+- **Rule 0001.7 (reader & writer coverage)** — every kept attribute has **both** a
+  reader element and a writer element (grep each aggregator; a shared helper's
+  existence is not evidence a given aggregator calls it).
+- **Rule 0011 (member order)** — fields, accessor groups, and checklist rows are in
+  displayed PDF row order.
+- **Rule 0012 (docstrings & comments)** — checked **one by one for every member**
+  (walk the Rule 0012.2 per-attribute loop): the class docstring, then for **each**
+  attribute its inline `__init__` comment, its getter docstring, **and** its setter
+  docstring — each diffed individually against its spec `Note` **verbatim from the
+  markdown** (verify by **diff**, not status; no spot-checks); only the `p.NN` page
+  comes from the PDF.
+- **Rule 0014 (deviations resolved)** — every `naming`/`type`/`missing` deviation row
+  is fixed and **removed**; only accepted deviations remain (`atpDerived`,
+  `deprecated (atp.Status=removed)`, `added convenience property`).
+- **Stamp decision (Rule 0012.1)** — `# Spec verified: R<YY>-<MM>` is placed **iff**
+  no non-`atpDerived`/non-convenience deviation or Rule 0001.10 placeholder remains;
+  otherwise the `# Spec:` line stays without the stamp.
+
+The `# Spec verified:` marker is the **output** of 9b — written only after the user
+confirms every item above. A marker that already exists in the file (from a prior
+sync) is **not** evidence that 9b ran for *this* pass: on any re-sync or drift pass
+(Rule 0012.3), re-run the full 9b checklist before re-stamping. Never treat a
+pre-existing stamp as a substitute for 9b.
+
+Do **not** stamp the class or advance to the next queue item until the user
+confirms every item. If any item failed, fix it and re-present 9b. This gate is the
+post-sync analogue of the Phase 0 membership gate (Rule 0016.2): both exist because
+the agent must not silently certify work the automation cannot check.
 
 ---
 
@@ -630,8 +697,10 @@ is one ordered procedure per class (Rule 0006's mechanical check only confirms t
 
 ### 0012.1 Versioning
 
-- The checklist includes `# Spec verified: R<YY>-<MM>` immediately after the `# Spec:`
-  line (`R23-11` = Nov 2023). Verify during every sync pass.
+- The `# Spec verified: R<YY>-<MM>` marker sits immediately after the `# Spec:` line
+  (`R23-11` = Nov 2023). It is **written in Step 9b** (after the user confirms), not in
+  Step 4/7/8 — a file that hasn't passed 9b carries the `# Spec:` line and method rows
+  but no marker. Verify during every sync pass.
 - **The marker is the single review gate.** A class is reviewed/synced iff its source
   carries `# Spec verified: R<YY>-<MM>`; a fully-`[x]` checklist, passing tests, or a
   clean round-trip do **not** by themselves certify a class. **No marker ⇒ sync from
@@ -657,7 +726,8 @@ is one ordered procedure per class (Rule 0006's mechanical check only confirms t
    autosar/markdown/*.md`) — its `Note`/`Attribute`/`Base` text and the `Table N.M` id are
    the extraction source; then read **only the page number** from the **PDF** via `pypdf`
    (matching the printed footer) for the `p.NN` citation.
-2. Add the version marker.
+2. Add the `# Spec:` citation line (the `# Spec verified:` marker is **not** added here —
+   it is written in Step 9b after the user confirms).
 3. **Class docstring** = the spec `Note` **copied verbatim from the markdown table** (no
    invented recap prose, no `Base` chain summary); append class-level `constr_*` rows
    (including ones targeting inherited attributes). For a terse citation Note, append the
@@ -685,8 +755,10 @@ is one ordered procedure per class (Rule 0006's mechanical check only confirms t
 
 ### 0012.3 Drift on upgrade
 
-An AUTOSAR upgrade is the identical per-member walk diffed against the new PDF; update
-the marker, run tests, commit with the spec notes.
+An AUTOSAR upgrade is the identical per-member walk diffed against the new PDF;
+**re-run the full Step 9b checklist** (the old `# Spec verified:` marker is not
+proof — see Rule 0006.1), then update the marker, run tests, commit with the spec
+notes.
 
 ---
 
@@ -848,7 +920,33 @@ Recursion depth: member types of member types are **not** pulled in automaticall
 each closure class gets its own Phase 0 pass when its sync turn arrives. Only the
 referenced classes of C are collected here.
 
-### 16.2 Locate spec source for each closure class
+### 16.2 Confirm the closure with the end user (gate)
+
+Before locating any spec sources, present the **entire collected set** to the end
+user for confirmation. This is a *membership* gate — distinct from the
+missing-class resolution gate in 16.4, which decides Skip-vs-XSD for classes that
+later turn out to be unfindable.
+
+Present, for every collected class:
+
+- its **role** — `input` (C), `base` (a transitive parent), or `member`
+  (referenced by one of C's `Attribute` rows);
+- for member types, the **referencing attribute** (the row that pulled it in), so
+  the user can judge why each class is in the set.
+
+Ask one question: *is this set correct and complete — any class to add or drop?*
+
+- **Confirm as-is** → proceed to 16.3 (locate spec source).
+- **Add a class** → re-collect the closure (the added class may pull in its own
+  parents/member types) and re-present.
+- **Drop a class** → remove it and re-present; any attribute that now references
+  nothing is recorded as a placeholder (Rule 0001.10).
+
+Do **not** locate specs, resolve missing classes, or build the queue until the
+user confirms the set. A class the user drops never enters the queue; a class the
+user adds is ordered as a member type.
+
+### 16.3 Locate spec source for each closure class
 
 For each class K in the closure:
 
@@ -861,7 +959,7 @@ For each class K in the closure:
    convention; if the PDF is the only carrier, mark `source = pdf-only`.
 5. Not found in markdown **and** not found in PDF → record `source = missing`.
 
-### 16.3 Missing-class resolution (interactive, batched)
+### 16.4 Missing-class resolution (interactive, batched)
 
 For every class recorded `source = missing`, present a **single batched**
 `AskUserQuestion` to the user. Do not sync any further until the user answers —
@@ -883,7 +981,7 @@ If multiple missing classes, one `AskUserQuestion` call lists all of them
 (multi-select per class). The agent must not invent a third option or proceed
 without the user's decision.
 
-### 16.4 Build the ordered sync queue
+### 16.5 Build the ordered sync queue
 
 Order the closure for syncing:
 
@@ -904,10 +1002,10 @@ its `Enumeration` table, or a class whose `Attribute` rows are missing/fabricate
 "Exists in the codebase" is not a stamp; verify the marker before treating a member
 type as already-synced.
 
-A class marked Skip in 16.3 stays out of the queue; a class marked XSD-derived
+A class marked Skip in 16.4 stays out of the queue; a class marked XSD-derived
 enters the queue with the XSD-only flag.
 
-### 16.5 Phase 0 output
+### 16.6 Phase 0 output
 
 Phase 0 produces a sync map persisted in the conversation (a markdown table or
 JSON; not a repo file):

@@ -4759,9 +4759,11 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeNmNode(self, element: ET.Element, nm_node: NmNode):
         self.writeIdentifiable(element, nm_node)
         self.setChildElementOptionalRefType(element, "CONTROLLER-REF", nm_node.getControllerRef())
+        self.setChildElementOptionalPositiveInteger(element, "NM-COORD-CLUSTER", nm_node.getNmCoordCluster())
+        self.setChildElementOptionalLiteral(element, "NM-COORDINATOR-ROLE", nm_node.getNmCoordinatorRole())
         self.setChildElementOptionalRefType(element, "NM-IF-ECU-REF", nm_node.getNmIfEcuRef())
+        self.setChildElementOptionalIntegerValue(element, "NM-NODE-ID", nm_node.getNmNodeId())
         self.setChildElementOptionalBooleanValue(element, "NM-PASSIVE-MODE-ENABLED", nm_node.getNmPassiveModeEnabled())
-        self.setChildElementOptionalNumericalValue(element, "NM-NODE-ID", nm_node.getNmNodeId())
 
         refs = nm_node.getRxNmPduRefs()
         if len(refs) > 0:

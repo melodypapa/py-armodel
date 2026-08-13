@@ -1,6 +1,7 @@
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, RefType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
     BusspecificNmEcu,
     CanNmCluster,
@@ -16,6 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     J1939NmNode,
     NmClusterCoupling,
     NmConfig,
+    NmCoordinatorRoleEnum,
     NmEcu,
     NmNode,
     UdpNmCluster,
@@ -102,6 +104,11 @@ class TestNetworkManagement:
         """
         with pytest.raises(TypeError):
             NmNode(MockParent(), "test_nm_node")
+        """
+        Test NmNode abstract class functionality.
+        """
+        with pytest.raises(TypeError):
+            NmNode(MockParent(), "test_nm_node")
 
     def test_can_nm_node(self):
         """
@@ -159,9 +166,9 @@ class TestNetworkManagement:
         assert "rx_ref" in node.getRxNmPduRefs()
         assert node == node.addRxNmPduRef("rx_ref2")
 
-        node.addTxNmPduRefs("tx_ref")
+        node.addTxNmPduRef("tx_ref")
         assert "tx_ref" in node.getTxNmPduRefs()
-        assert node == node.addTxNmPduRefs("tx_ref2")
+        assert node == node.addTxNmPduRef("tx_ref2")
 
         # Test CAN-specific methods
         node.setAllNmMessagesKeepAwake(True)
@@ -784,3 +791,122 @@ class TestNetworkManagement:
         cluster.setVlanRef("vlan_ref")
         assert cluster.getVlanRef() == "vlan_ref"
         assert cluster == cluster.setVlanRef("vlan_ref")
+
+
+class TestNmNode:
+    """Spec-driven tests for the abstract NmNode via a concrete subclass."""
+
+    def _make_node(self):
+        return CanNmNode(MockParent(), "test_nm_node")
+
+    def test_abstract(self):
+        """NmNode is abstract and cannot be instantiated directly."""
+        with pytest.raises(TypeError):
+            NmNode(MockParent(), "nm_node")
+
+    def test_initialization(self):
+        """NmNode defaults are None and empty lists."""
+        node = self._make_node()
+        assert node.getControllerRef() is None
+        assert node.getNmCoordCluster() is None
+        assert node.getNmCoordinatorRole() is None
+        assert node.getNmIfEcuRef() is None
+        assert node.getNmNodeId() is None
+        assert node.getNmPassiveModeEnabled() is None
+        assert node.getRxNmPduRefs() == []
+        assert node.getTxNmPduRefs() == []
+
+    def test_get_set_controller_ref(self):
+        """controller ref get/set with method chaining and None no-op."""
+        node = self._make_node()
+        ref = RefType()
+        ref.setDest("CAN-CONTROLLER").setValue("/ctrl/c1")
+        assert node == node.setControllerRef(ref)
+        assert node.getControllerRef() == ref
+        assert node == node.setControllerRef(None)
+        assert node.getControllerRef() == ref
+
+    def test_get_set_nm_coord_cluster(self):
+        """nmCoordCluster get/set with method chaining and None no-op."""
+        node = self._make_node()
+        value = Integer()
+        value.setValue(3)
+        assert node == node.setNmCoordCluster(value)
+        assert node.getNmCoordCluster() == value
+        assert node == node.setNmCoordCluster(None)
+        assert node.getNmCoordCluster() == value
+
+    def test_get_set_nm_coordinator_role(self):
+        """nmCoordinatorRole get/set with enum value, chaining and None no-op."""
+        node = self._make_node()
+        role = NmCoordinatorRoleEnum()
+        role.setValue(NmCoordinatorRoleEnum.ACTIVE)
+        assert node == node.setNmCoordinatorRole(role)
+        assert node.getNmCoordinatorRole() == role
+        assert node == node.setNmCoordinatorRole(None)
+        assert node.getNmCoordinatorRole() == role
+
+    def test_get_set_nm_if_ecu_ref(self):
+        """nmIfEcuRef get/set with method chaining and None no-op."""
+        node = self._make_node()
+        ref = RefType()
+        ref.setDest("NM-ECU").setValue("/ecus/e1")
+        assert node == node.setNmIfEcuRef(ref)
+        assert node.getNmIfEcuRef() == ref
+        assert node == node.setNmIfEcuRef(None)
+        assert node.getNmIfEcuRef() == ref
+
+    def test_get_set_nm_node_id(self):
+        """nmNodeId get/set with method chaining and None no-op."""
+        node = self._make_node()
+        value = Integer()
+        value.setValue(1)
+        assert node == node.setNmNodeId(value)
+        assert node.getNmNodeId() == value
+        assert node == node.setNmNodeId(None)
+        assert node.getNmNodeId() == value
+
+    def test_get_set_nm_passive_mode_enabled(self):
+        """nmPassiveModeEnabled get/set with chaining and None no-op."""
+        node = self._make_node()
+        value = Boolean()
+        value.setValue(True)
+        assert node == node.setNmPassiveModeEnabled(value)
+        assert node.getNmPassiveModeEnabled() == value
+        assert node == node.setNmPassiveModeEnabled(None)
+        assert node.getNmPassiveModeEnabled() == value
+
+    def test_add_rx_nm_pdu_ref(self):
+        """addRxNmPduRef appends and getRxNmPduRefs returns the refs."""
+        node = self._make_node()
+        ref = RefType()
+        ref.setDest("NM-PDU").setValue("/rx/p1")
+        assert node == node.addRxNmPduRef(ref)
+        assert node.getRxNmPduRefs() == [ref]
+
+    def test_add_tx_nm_pdu_ref(self):
+        """addTxNmPduRef appends and getTxNmPduRefs returns the refs."""
+        node = self._make_node()
+        ref = RefType()
+        ref.setDest("NM-PDU").setValue("/tx/p1")
+        assert node == node.addTxNmPduRef(ref)
+        assert node.getTxNmPduRefs() == [ref]
+
+
+class Test_NmCoordinatorRoleEnum:
+    """Test cases for NmCoordinatorRoleEnum class."""
+
+    def test_members(self):
+        """Test NmCoordinatorRoleEnum member values."""
+        enum = NmCoordinatorRoleEnum()
+        values = enum.getEnumValues()
+        assert NmCoordinatorRoleEnum.ACTIVE == "active"
+        assert NmCoordinatorRoleEnum.PASSIVE == "passive"
+        assert NmCoordinatorRoleEnum.ACTIVE in values
+        assert NmCoordinatorRoleEnum.PASSIVE in values
+
+    def test_set_value(self):
+        """Test NmCoordinatorRoleEnum value assignment."""
+        enum = NmCoordinatorRoleEnum()
+        enum.setValue(NmCoordinatorRoleEnum.ACTIVE)
+        assert enum.getValue() == "active"

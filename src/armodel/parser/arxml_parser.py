@@ -5680,13 +5680,15 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, nm_node)
 
         nm_node.setControllerRef(self.getChildElementOptionalRefType(element, "CONTROLLER-REF"))
+        nm_node.setNmCoordCluster(self.getChildElementOptionalPositiveInteger(element, "NM-COORD-CLUSTER"))
+        nm_node.setNmCoordinatorRole(self.getChildElementOptionalLiteral(element, "NM-COORDINATOR-ROLE"))
         nm_node.setNmIfEcuRef(self.getChildElementOptionalRefType(element, "NM-IF-ECU-REF"))
+        nm_node.setNmNodeId(self.getChildElementOptionalIntegerValue(element, "NM-NODE-ID"))
         nm_node.setNmPassiveModeEnabled(self.getChildElementOptionalBooleanValue(element, "NM-PASSIVE-MODE-ENABLED"))
-        nm_node.setNmNodeId(self.getChildElementOptionalNumericalValue(element, "NM-NODE-ID"))
         for ref in self.getChildElementRefTypeList(element, "RX-NM-PDU-REFS/RX-NM-PDU-REF"):
             nm_node.addRxNmPduRef(ref)
         for ref in self.getChildElementRefTypeList(element, "TX-NM-PDU-REFS/TX-NM-PDU-REF"):
-            nm_node.addTxNmPduRefs(ref)
+            nm_node.addTxNmPduRef(ref)
 
     def readCanNmNode(self, element: ET.Element, nm_node: CanNmNode):
         self.logger.debug("Read CanNmNode <%s>" % nm_node.getShortName())
