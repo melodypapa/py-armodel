@@ -227,3 +227,20 @@ class MsrQueryP2(ARObject):
         if value is not None:
             self.msrQueryResultP2 = value
         return self
+
+
+class MsrQueryP1(ARObject):
+    """
+    This meta-class represents the ability to express a query which yields the content of a topic as a result.
+
+    NOTE: stub placeholder for the MSR::Documentation::MsrQuery MsrQueryP1 type
+    (Table 9.82); the full content model is not yet synced. Referred to by
+    TopicContentOrMsrQuery.msrQueryP1.
+    """
+
+    # MsrQueryP1 method parity checklist (stub):
+    # Spec: not synced (MSR Documentation subtree)
+    # (no methods)
+
+    def __init__(self):
+        super().__init__()

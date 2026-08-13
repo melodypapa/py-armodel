@@ -677,6 +677,29 @@ class TestSwComponentAndConnectorHandlers:
             warning_parser.readSwComponentTypePorts(element, composition)
         assert any("Unsupported Port Prototype" in r.getMessage() for r in caplog.records)
 
+    def test_readSwComponentTypeSwcMappingConstraints(self, parser, composition):
+        element = _snip(
+            "<SWC-MAPPING-CONSTRAINT-REFS>"
+            "<SWC-MAPPING-CONSTRAINT-REF DEST='SWC-MAPPING-CONSTRAINTS'>/Mapping/Const1</SWC-MAPPING-CONSTRAINT-REF>"
+            "<SWC-MAPPING-CONSTRAINT-REF DEST='SWC-MAPPING-CONSTRAINTS'>/Mapping/Const2</SWC-MAPPING-CONSTRAINT-REF>"
+            "</SWC-MAPPING-CONSTRAINT-REFS>",
+            root_tag="COMP",
+        )
+        parser.readSwComponentTypeSwcMappingConstraints(element, composition)
+        refs = composition.getSwcMappingConstraintsRefs()
+        assert [ref.getValue() for ref in refs] == ["/Mapping/Const1", "/Mapping/Const2"]
+        assert refs[0].getDest() == "SWC-MAPPING-CONSTRAINTS"
+
+    def test_readSwComponentTypeUnitGroups(self, parser, composition):
+        element = _snip(
+            "<UNIT-GROUP-REFS>" "<UNIT-GROUP-REF DEST='UNIT-GROUP'>/Units/Group1</UNIT-GROUP-REF>" "</UNIT-GROUP-REFS>",
+            root_tag="COMP",
+        )
+        parser.readSwComponentTypeUnitGroups(element, composition)
+        refs = composition.getUnitGroupRefs()
+        assert [ref.getValue() for ref in refs] == ["/Units/Group1"]
+        assert refs[0].getDest() == "UNIT-GROUP"
+
     def test_readSwComponentPrototype_sets_typeTRef(self, parser, composition):
         prototype = composition.createSwComponentPrototype("cp1")
         element = _snip(

@@ -184,6 +184,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwPinGroup
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
@@ -323,6 +324,9 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import RptExecutableEntityProperties, RptImplPolicy
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import (
+    SwComponentDocumentation,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import ExternalTriggeringPoint, RunnableEntity, RunnableEntityArgument, SwcExclusiveAreaPolicy, SwcInternalBehavior
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AccessCount, AccessCountSet
@@ -556,6 +560,18 @@ from armodel.models.M2.MSR.Documentation.Annotation import Annotation, GeneralAn
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Graphic, LGraphic, MlFigure
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import FloatEnum, PgwideEnum
+from armodel.models.M2.MSR.Documentation.Chapters import (
+    Chapter,
+    ChapterContent,
+    ChapterModel,
+    ChapterOrMsrQuery,
+    MsrQueryChapter,
+    MsrQueryTopic1,
+    Topic1,
+    TopicContent,
+    TopicContentOrMsrQuery,
+    TopicOrMsrQuery,
+)
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, ItemLabelPosEnum, LabeledItem, LabeledList
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.Note import Note, NoteTypeEnum
@@ -563,7 +579,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndVi
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.RequirementsTracing import StructuredReq, TraceableText
 from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import EmphasisText, IndexEntry, Superscript, Tt
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LOverviewParagraph, LParagraph, LVerbatim
-from armodel.models.M2.MSR.Documentation.TextModel.MsrQuery import MsrQueryArg, MsrQueryP2, MsrQueryProps
+from armodel.models.M2.MSR.Documentation.TextModel.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
 from armodel.parser.abstract_arxml_parser import AbstractARXMLParser
 
@@ -3837,10 +3853,141 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.raiseError("Unsupported Port Group type: %s" % tag_name)
 
+    def readSwComponentTypeSwcMappingConstraints(self, element: ET.Element, parent: SwComponentType):
+        for ref in self.getChildElementRefTypeList(element, "SWC-MAPPING-CONSTRAINT-REFS/SWC-MAPPING-CONSTRAINT-REF"):
+            parent.addSwcMappingConstraintRef(ref)
+
+    def readSwComponentTypeUnitGroups(self, element: ET.Element, parent: SwComponentType):
+        for ref in self.getChildElementRefTypeList(element, "UNIT-GROUP-REFS/UNIT-GROUP-REF"):
+            parent.addUnitGroupRef(ref)
+
+    def readSwComponentTypeSwComponentDocumentation(self, element: ET.Element, parent: SwComponentType):
+        child_element = self.find(element, "SW-COMPONENT-DOCUMENTATION")
+        if child_element is None:
+            return
+        documentation = SwComponentDocumentation()
+        predefined_chapter_map = [
+            ("SW-FEATURE-DEF", documentation.createSwFeatureDef),
+            ("SW-FEATURE-DESC", documentation.createSwFeatureDesc),
+            ("SW-TEST-DESC", documentation.createSwTestDesc),
+            ("SW-CALIBRATION-NOTES", documentation.createSwCalibrationNotes),
+            ("SW-MAINTENANCE-NOTES", documentation.createSwMaintenanceNotes),
+            ("SW-DIAGNOSTICS-NOTES", documentation.createSwDiagnosticsNotes),
+            ("SW-CARB-DOC", documentation.createSwCarbDoc),
+        ]
+        for tag_name, creator in predefined_chapter_map:
+            chapter_element = self.find(child_element, tag_name)
+            if chapter_element is not None:
+                chapter = creator(self.getShortName(chapter_element))
+                self.readChapterBody(chapter_element, chapter)
+        for chapter_element in self.findall(child_element, "CHAPTER"):
+            chapter = documentation.createChapter(self.getShortName(chapter_element))
+            self.readChapterBody(chapter_element, chapter)
+        parent.setSwComponentDocumentation(documentation)
+
+    def readChapter(self, element: ET.Element, parent: ARObject) -> Chapter:
+        chapter = Chapter(parent, self.getShortName(element))
+        self.readChapterBody(element, chapter)
+        return chapter
+
+    def readChapterBody(self, element: ET.Element, chapter: Chapter):
+        self.readIdentifiable(element, chapter)
+        help_entry = element.get("HELP-ENTRY")
+        if help_entry is not None:
+            chapter.setHelpEntry(String().setValue(help_entry))
+        chapter_model_element = self.find(element, "CHAPTER-MODEL")
+        if chapter_model_element is not None:
+            chapter.setChapterModel(self.readChapterModel(chapter_model_element, chapter))
+
+    def readChapterModel(self, element: ET.Element, parent: Chapter) -> ChapterModel:
+        chapter_model = ChapterModel()
+        chapter_content_element = self.find(element, "CHAPTER-CONTENT")
+        if chapter_content_element is not None:
+            chapter_model.setChapterContent(self.readChapterContent(chapter_content_element, parent))
+        topic_elements = self.findall(element, "TOPIC-1")
+        msr_query_topic1_element = self.find(element, "MSR-QUERY-TOPIC-1")
+        if len(topic_elements) > 0 or msr_query_topic1_element is not None:
+            topic_or_msr_query = TopicOrMsrQuery()
+            for topic_element in topic_elements:
+                topic_or_msr_query.addTopic1(self.readTopic1(topic_element, parent))
+            if msr_query_topic1_element is not None:
+                topic_or_msr_query.setMsrQueryTopic1(self.readMsrQueryTopic1(msr_query_topic1_element, parent))
+            chapter_model.setTopic1(topic_or_msr_query)
+        chapter_elements = self.findall(element, "CHAPTER")
+        msr_query_chapter_element = self.find(element, "MSR-QUERY-CHAPTER")
+        if len(chapter_elements) > 0 or msr_query_chapter_element is not None:
+            chapter_or_msr_query = ChapterOrMsrQuery()
+            for chapter_element in chapter_elements:
+                chapter_or_msr_query.addChapter(self.readChapter(chapter_element, parent))
+            if msr_query_chapter_element is not None:
+                chapter_or_msr_query.setMsrQueryChapter(self.readMsrQueryChapter(msr_query_chapter_element, parent))
+            chapter_model.setChapter(chapter_or_msr_query)
+        return chapter_model
+
+    def readChapterContent(self, element: ET.Element, parent: Chapter) -> ChapterContent:
+        chapter_content = ChapterContent()
+        topic_content_or_msr_query = self.readTopicContentOrMsrQuery(element, chapter_content)
+        if topic_content_or_msr_query is not None:
+            chapter_content.setTopicContent(topic_content_or_msr_query)
+        return chapter_content
+
+    def readTopicContentOrMsrQuery(self, element: ET.Element, parent: ARObject) -> "TopicContentOrMsrQuery":
+        result = None
+        msr_query_p1_element = self.find(element, "MSR-QUERY-P1")
+        topic_content_element = self.find(element, "TOPIC-CONTENT")
+        if msr_query_p1_element is not None or topic_content_element is not None:
+            result = TopicContentOrMsrQuery()
+            if msr_query_p1_element is not None:
+                result.setMsrQueryP1(self.readMsrQueryP1(msr_query_p1_element, parent))
+            if topic_content_element is not None:
+                result.setTopicContent(self.readTopicContent(topic_content_element, parent))
+        return result
+
+    def readMsrQueryP1(self, element: ET.Element, parent: ARObject) -> MsrQueryP1:
+        return MsrQueryP1()
+
+    def readTopicContent(self, element: ET.Element, parent: ARObject) -> TopicContent:
+        topic_content = TopicContent()
+        self.readARObjectAttributes(element, topic_content)
+        block_level_content = self.getDocumentationBlock(element, "DOCUMENTATION-BLOCK")
+        if block_level_content is not None:
+            topic_content.setBlockLevelContent(block_level_content)
+        return topic_content
+
+    def readTopic1(self, element: ET.Element, parent: Chapter) -> Topic1:
+        topic1 = Topic1(parent, self.getShortName(element))
+        self.readIdentifiable(element, topic1)
+        help_entry = element.get("HELP-ENTRY")
+        if help_entry is not None:
+            topic1.setHelpEntry(String().setValue(help_entry))
+        topic_content_or_msr_query = self.readTopicContentOrMsrQuery(element, topic1)
+        if topic_content_or_msr_query is not None:
+            topic1.setTopicContent(topic_content_or_msr_query)
+        return topic1
+
+    def readMsrQueryTopic1(self, element: ET.Element, parent: Chapter) -> MsrQueryTopic1:
+        msr_query_topic1 = MsrQueryTopic1()
+        self.readARObjectAttributes(element, msr_query_topic1)
+        msr_query_props = self.find(element, "MSR-QUERY-PROPS")
+        if msr_query_props is not None:
+            msr_query_topic1.setMsrQueryProps(self.getMsrQueryProps(msr_query_props))
+        return msr_query_topic1
+
+    def readMsrQueryChapter(self, element: ET.Element, parent: Chapter) -> MsrQueryChapter:
+        msr_query_chapter = MsrQueryChapter()
+        self.readARObjectAttributes(element, msr_query_chapter)
+        msr_query_props = self.find(element, "MSR-QUERY-PROPS")
+        if msr_query_props is not None:
+            msr_query_chapter.setMsrQueryProps(self.getMsrQueryProps(msr_query_props))
+        return msr_query_chapter
+
     def readSwComponentType(self, element: ET.Element, parent: SwComponentType):
         self.readIdentifiable(element, parent)
         self.readSwComponentTypePorts(element, parent)
         self.readSwComponentTypePortGroups(element, parent)
+        self.readSwComponentTypeSwcMappingConstraints(element, parent)
+        self.readSwComponentTypeUnitGroups(element, parent)
+        self.readSwComponentTypeSwComponentDocumentation(element, parent)
 
     def readAtomicSwComponentTypeSymbolProps(self, element: ET.Element, sw_component: AtomicSwComponentType):
         child_element = self.find(element, "SYMBOL-PROPS")

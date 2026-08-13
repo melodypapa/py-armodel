@@ -668,6 +668,60 @@ Table 13.6, p.711): member values corrected from `"full-communication"` etc. to
 the spec literals `full`/`none`/`silent` and member names to `FULL`/`NONE`/
 `SILENT`.
 
+## `ChapterContent`
+- **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** 330
+- **Package:** `M2::MSR::Documentation::Chapters`
+- **Source:** `src/armodel/models/M2/MSR/Documentation/Chapters.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `topicContent` | `Optional[TopicContentOrMsrQuery]` | `topicContent` | `TopicContentOrMsrQuery` | aggr | synced via the `TopicContentOrMsrQuery` pass; `prms` member (Table 9.60) still pending its own pass |
+
+## `TopicContentOrMsrQuery`
+- **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** 342
+- **Package:** `M2::MSR::Documentation::Chapters`
+- **Source:** `src/armodel/models/M2/MSR/Documentation/Chapters.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `msrQueryP1` | `Optional[MsrQueryP1]` | `msrQueryP1` | `MsrQueryP1` | aggr | referenced class `MsrQueryP1` (Table 9.82) deferred to a 2nd-level placeholder; `# Spec:` line kept without the `# Spec verified:` stamp until resolved |
+| `topicContent` | `Optional[TopicContent]` | `topicContent` | `TopicContent` | aggr | synced via the `TopicContent` pass |
+
+## `TopicContent`
+- **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** 478
+- **Package:** `M2::MSR::Documentation::Chapters`
+- **Source:** `src/armodel/models/M2/MSR/Documentation/Chapters.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `blockLevelContent` | `Optional[DocumentationBlock]` | `blockLevelContent` | `DocumentationBlock` | aggr | synced; XSD group holds DOCUMENTATION-BLOCK (unbounded) while the spec table E.81 lists mult. 1 |
+| — *(missing)* | `—` | `table` | `Table` | — | missing |
+| — *(missing)* | `—` | `traceableTable` | `TraceableTable` | — | missing |
+
+## `MsrQueryChapter`
+- **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** 343
+- **Package:** `M2::MSR::Documentation::Chapters`
+- **Source:** `src/armodel/models/M2/MSR/Documentation/Chapters.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `msrQueryProps` | `Optional[MsrQueryProps]` | `msrQueryProps` | `MsrQueryProps` | aggr | synced via the `MsrQueryProps` pass |
+| — *(missing)* | `—` | `msrQueryResultChapter` | `MsrQueryResultChapter` | — | missing |
+
+Base deviation: spec Base is `ARObject , DocumentViewSelectable , Paginateable`; implemented as `ARObject` (matches the sibling `MsrQueryP2`). `# Spec:` line kept without the `# Spec verified:` stamp until `msrQueryResultChapter` lands.
+
+## `MsrQueryTopic1`
+- **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** 343
+- **Package:** `M2::MSR::Documentation::Chapters`
+- **Source:** `src/armodel/models/M2/MSR/Documentation/Chapters.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `msrQueryProps` | `Optional[MsrQueryProps]` | `msrQueryProps` | `MsrQueryProps` | aggr | synced via the `MsrQueryProps` pass |
+| — *(missing)* | `—` | `msrQueryResultTopic1` | `MsrQueryResultTopic1` | — | missing |
+
+Base deviation: spec Base is `ARObject , DocumentViewSelectable , Paginateable`; implemented as `ARObject` (matches the sibling `MsrQueryP2`). `# Spec:` line kept without the `# Spec verified:` stamp until `msrQueryResultTopic1` lands.
+
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | `maxCommMode` | `Optional[MaxCommModeEnum]` | `maxCommMode` | `MaxCommModeEnum` | attr | — |
@@ -1189,16 +1243,27 @@ The previous `dataTransformation` "type (spec many vs py single)" row was stale 
 | — *(missing)* | `—` | `namespace` | `SymbolProps` | — | missing |
 
 ## `SwComponentType`
-- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** 330
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 65
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Components`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwComponentType.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `consistencyNeeds` | `ConsistencyNeeds` | — | missing |
-| — *(missing)* | `—` | `swComponentDocumentation` | `SwComponentDocumentation` | — | missing |
-| — *(missing)* | `—` | `swcMappingConstraintRefs` | `Ref (SwComponentMappingConstraints)` | Refs | missing |
-| — *(missing)* | `—` | `unitGroupRefs` | `Ref (UnitGroup)` | Refs | missing |
+| `consistencyNeeds` | `List[ARObject]` | `consistencyNeeds` | `ConsistencyNeeds` | aggr | Table 4.99 class not yet implemented — ARObject placeholder; reader/writer pending |
+| `swcMappingConstraintsRefs` | `List[RefType]` | `swcMappingConstraintRefs` | `Ref (SwComponentMappingConstraints)` | Refs | class not in markdown/PDF — skipped per user; RefType placeholder |
+| `unitGroupRefs` | `List[RefType]` | `unitGroupRefs` | `Ref (UnitGroup)` | Refs | `UnitGroup` not yet synced (stub); RefType placeholder |
+
+## `SwComponentDocumentation`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 698
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::SoftwareComponentDocumentation`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SoftwareComponentDocumentation.py`
+
+Model aligned (Table 12.1, p.698): `chapter` (*, aggr) and the seven predefined
+0..1 chapters (`swCalibrationNotes`, `swCarbDoc`, `swDiagnosticsNotes`,
+`swFeatureDef`, `swFeatureDesc`, `swMaintenanceNotes`, `swTestDesc`) implemented
+as `List[Chapter]` / `Optional[Chapter]` with `createXXX`/`getXXX` accessors,
+tests, and reader/writer coverage. The aggregated Chapter family lives in
+`M2::MSR::Documentation::Chapters`. `# Spec verified: R23-11` stamped.
 
 ## `EcucDefinitionCollection`
 - **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** 25
