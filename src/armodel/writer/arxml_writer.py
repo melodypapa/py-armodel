@@ -548,13 +548,11 @@ from armodel.models.M2.MSR.Documentation.Chapters import (
     Chapter,
     ChapterContent,
     ChapterModel,
-    ChapterOrMsrQuery,
     MsrQueryChapter,
     MsrQueryTopic1,
     Topic1,
     TopicContent,
     TopicContentOrMsrQuery,
-    TopicOrMsrQuery,
 )
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, LabeledItem, LabeledList
