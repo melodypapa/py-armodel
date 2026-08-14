@@ -27,6 +27,9 @@ from armodel.models import (
     SwDataDefProps,
 )
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
+    J1939NodeName,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     EndToEndTransformationDescription,
 )
@@ -168,6 +171,49 @@ class TestRxIdentifierRange:
     def test_getChildElementRxIdentifierRange_missing_returns_None(self, parser):
         element = _snip("<X/>")
         assert parser.getChildElementRxIdentifierRange(element, "ABSENT") is None
+
+
+# ==================== J1939NodeName ====================
+
+
+class TestJ1939NodeName:
+    def test_getChildElementJ1939NodeName(self, parser):
+        element = _snip(
+            "<NODE-NAME>"
+            "<ARBITRARY-ADDRESS-CAPABLE>true</ARBITRARY-ADDRESS-CAPABLE>"
+            "<ECU-INSTANCE>1</ECU-INSTANCE>"
+            "<FUNCTION>2</FUNCTION>"
+            "<FUNCTION-INSTANCE>3</FUNCTION-INSTANCE>"
+            "<IDENTITIY-NUMBER>4</IDENTITIY-NUMBER>"
+            "<INDUSTRY-GROUP>5</INDUSTRY-GROUP>"
+            "<MANUFACTURER-CODE>6</MANUFACTURER-CODE>"
+            "<VEHICLE-SYSTEM>7</VEHICLE-SYSTEM>"
+            "<VEHICLE-SYSTEM-INSTANCE>8</VEHICLE-SYSTEM-INSTANCE>"
+            "</NODE-NAME>",
+            root_tag="PARENT",
+        )
+        node_name = parser.getChildElementJ1939NodeName(element, "NODE-NAME")
+        assert isinstance(node_name, J1939NodeName)
+        assert node_name.getArbitraryAddressCapable().getValue() is True
+        assert node_name.getEcuInstance().getValue() == 1
+        assert node_name.getFunction().getValue() == 2
+        assert node_name.getFunctionInstance().getValue() == 3
+        assert node_name.getIdentitiyNumber().getValue() == 4
+        assert node_name.getIndustryGroup().getValue() == 5
+        assert node_name.getManufacturerCode().getValue() == 6
+        assert node_name.getVehicleSystem().getValue() == 7
+        assert node_name.getVehicleSystemInstance().getValue() == 8
+
+    def test_getChildElementJ1939NodeName_empty(self, parser):
+        element = _snip("<NODE-NAME></NODE-NAME>", root_tag="PARENT")
+        node_name = parser.getChildElementJ1939NodeName(element, "NODE-NAME")
+        assert isinstance(node_name, J1939NodeName)
+        assert node_name.getArbitraryAddressCapable() is None
+        assert node_name.getEcuInstance() is None
+
+    def test_getChildElementJ1939NodeName_missing_returns_None(self, parser):
+        element = _snip("<X/>")
+        assert parser.getChildElementJ1939NodeName(element, "ABSENT") is None
 
 
 # ==================== _readVariableAccesses branching ====================

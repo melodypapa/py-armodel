@@ -12,9 +12,11 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     FlexrayNmClusterCoupling,
     FlexrayNmEcu,
     FlexrayNmNode,
+    J1939NmAddressConfigurationCapabilityEnum,
     J1939NmCluster,
     J1939NmEcu,
     J1939NmNode,
+    J1939NodeName,
     NmClusterCoupling,
     NmConfig,
     NmCoordinatorRoleEnum,
@@ -910,3 +912,174 @@ class Test_NmCoordinatorRoleEnum:
         enum = NmCoordinatorRoleEnum()
         enum.setValue(NmCoordinatorRoleEnum.ACTIVE)
         assert enum.getValue() == "active"
+
+
+class Test_J1939NmAddressConfigurationCapabilityEnum:
+    """Spec-driven tests for the J1939NmAddressConfigurationCapabilityEnum."""
+
+    def test_members(self):
+        """The five literals exist with the serialized XML form as value."""
+        enum = J1939NmAddressConfigurationCapabilityEnum()
+        values = enum.getEnumValues()
+        assert J1939NmAddressConfigurationCapabilityEnum.J1939NM_AAC == "J-1939-NM-AAC"
+        assert J1939NmAddressConfigurationCapabilityEnum.J1939NM_CCA == "J-1939-NM-CCA"
+        assert J1939NmAddressConfigurationCapabilityEnum.J1939NM_NCA == "J-1939-NM-NCA"
+        assert J1939NmAddressConfigurationCapabilityEnum.J1939NM_SCA == "J-1939-NM-SCA"
+        assert J1939NmAddressConfigurationCapabilityEnum.J1939NM_SVCA == "J-1939-NM-SVCA"
+        assert J1939NmAddressConfigurationCapabilityEnum.J1939NM_AAC in values
+        assert J1939NmAddressConfigurationCapabilityEnum.J1939NM_CCA in values
+        assert J1939NmAddressConfigurationCapabilityEnum.J1939NM_NCA in values
+        assert J1939NmAddressConfigurationCapabilityEnum.J1939NM_SCA in values
+        assert J1939NmAddressConfigurationCapabilityEnum.J1939NM_SVCA in values
+
+    def test_set_value(self):
+        """Value assignment with a typed enum instance."""
+        enum = J1939NmAddressConfigurationCapabilityEnum()
+        enum.setValue(J1939NmAddressConfigurationCapabilityEnum.J1939NM_AAC)
+        assert enum.getValue() == "J-1939-NM-AAC"
+
+
+class TestJ1939NodeName:
+    """Spec-driven tests for the J1939NodeName class."""
+
+    def _make_node_name(self):
+        return J1939NodeName()
+
+    def test_initialization(self):
+        """All J1939NodeName fields default to None."""
+        node_name = self._make_node_name()
+        assert node_name.getArbitraryAddressCapable() is None
+        assert node_name.getEcuInstance() is None
+        assert node_name.getFunction() is None
+        assert node_name.getFunctionInstance() is None
+        assert node_name.getIdentitiyNumber() is None
+        assert node_name.getIndustryGroup() is None
+        assert node_name.getManufacturerCode() is None
+        assert node_name.getVehicleSystem() is None
+        assert node_name.getVehicleSystemInstance() is None
+
+    def test_get_set_arbitrary_address_capable(self):
+        """arbitraryAddressCapable get/set with chaining and None no-op."""
+        node_name = self._make_node_name()
+        value = Boolean()
+        value.setValue(True)
+        assert node_name == node_name.setArbitraryAddressCapable(value)
+        assert node_name.getArbitraryAddressCapable() == value
+        assert node_name == node_name.setArbitraryAddressCapable(None)
+        assert node_name.getArbitraryAddressCapable() == value
+
+    def test_get_set_ecu_instance(self):
+        """ecuInstance get/set with chaining and None no-op."""
+        node_name = self._make_node_name()
+        value = Integer()
+        value.setValue(3)
+        assert node_name == node_name.setEcuInstance(value)
+        assert node_name.getEcuInstance() == value
+        assert node_name == node_name.setEcuInstance(None)
+        assert node_name.getEcuInstance() == value
+
+    def test_get_set_function(self):
+        """function get/set with chaining and None no-op."""
+        node_name = self._make_node_name()
+        value = Integer()
+        value.setValue(128)
+        assert node_name == node_name.setFunction(value)
+        assert node_name.getFunction() == value
+        assert node_name == node_name.setFunction(None)
+        assert node_name.getFunction() == value
+
+    def test_get_set_function_instance(self):
+        """functionInstance get/set with chaining and None no-op."""
+        node_name = self._make_node_name()
+        value = Integer()
+        value.setValue(4)
+        assert node_name == node_name.setFunctionInstance(value)
+        assert node_name.getFunctionInstance() == value
+        assert node_name == node_name.setFunctionInstance(None)
+        assert node_name.getFunctionInstance() == value
+
+    def test_get_set_identitiy_number(self):
+        """identitiyNumber get/set with chaining and None no-op."""
+        node_name = self._make_node_name()
+        value = Integer()
+        value.setValue(1234)
+        assert node_name == node_name.setIdentitiyNumber(value)
+        assert node_name.getIdentitiyNumber() == value
+        assert node_name == node_name.setIdentitiyNumber(None)
+        assert node_name.getIdentitiyNumber() == value
+
+    def test_get_set_industry_group(self):
+        """industryGroup get/set with chaining and None no-op."""
+        node_name = self._make_node_name()
+        value = Integer()
+        value.setValue(7)
+        assert node_name == node_name.setIndustryGroup(value)
+        assert node_name.getIndustryGroup() == value
+        assert node_name == node_name.setIndustryGroup(None)
+        assert node_name.getIndustryGroup() == value
+
+    def test_get_set_manufacturer_code(self):
+        """manufacturerCode get/set with chaining and None no-op."""
+        node_name = self._make_node_name()
+        value = Integer()
+        value.setValue(305)
+        assert node_name == node_name.setManufacturerCode(value)
+        assert node_name.getManufacturerCode() == value
+        assert node_name == node_name.setManufacturerCode(None)
+        assert node_name.getManufacturerCode() == value
+
+    def test_get_set_vehicle_system(self):
+        """vehicleSystem get/set with chaining and None no-op."""
+        node_name = self._make_node_name()
+        value = Integer()
+        value.setValue(2)
+        assert node_name == node_name.setVehicleSystem(value)
+        assert node_name.getVehicleSystem() == value
+        assert node_name == node_name.setVehicleSystem(None)
+        assert node_name.getVehicleSystem() == value
+
+    def test_get_set_vehicle_system_instance(self):
+        """vehicleSystemInstance get/set with chaining and None no-op."""
+        node_name = self._make_node_name()
+        value = Integer()
+        value.setValue(1)
+        assert node_name == node_name.setVehicleSystemInstance(value)
+        assert node_name.getVehicleSystemInstance() == value
+        assert node_name == node_name.setVehicleSystemInstance(None)
+        assert node_name.getVehicleSystemInstance() == value
+
+
+class TestJ1939NmNode:
+    """Spec-driven tests for the J1939NmNode class."""
+
+    def _make_node(self):
+        return J1939NmNode(MockParent(), "test_j1939_nm_node")
+
+    def test_initialization(self):
+        """J1939NmNode fields default to None."""
+        node = self._make_node()
+        assert node.getAddressConfigurationCapability() is None
+        assert node.getNodeName() is None
+
+    def test_get_set_address_configuration_capability(self):
+        """addressConfigurationCapability get/set with typed enum instance."""
+        node = self._make_node()
+        value = J1939NmAddressConfigurationCapabilityEnum()
+        value.setValue(J1939NmAddressConfigurationCapabilityEnum.J1939NM_SCA)
+        assert node == node.setAddressConfigurationCapability(value)
+        assert node.getAddressConfigurationCapability() == value
+        assert node.getAddressConfigurationCapability().getValue() == "J-1939-NM-SCA"
+        assert node == node.setAddressConfigurationCapability(None)
+        assert node.getAddressConfigurationCapability() == value
+
+    def test_get_set_node_name(self):
+        """nodeName get/set with chaining and None no-op."""
+        node = self._make_node()
+        value = J1939NodeName()
+        value.setArbitraryAddressCapable(Boolean().setValue(True))
+        value.setManufacturerCode(Integer().setValue(305))
+        assert node == node.setNodeName(value)
+        assert node.getNodeName() == value
+        assert node.getNodeName().getManufacturerCode().getValue() == 305
+        assert node == node.setNodeName(None)
+        assert node.getNodeName() == value
