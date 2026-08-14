@@ -790,6 +790,9 @@ class TestSwComponentTypeRoundTrip:
         app.addSwcMappingConstraintRef(_ref("/Mapping/Const1"))
         app.addSwcMappingConstraintRef(_ref("/Mapping/Const2"))
         app.addUnitGroupRef(_ref("/Units/Group1"))
+        consistency_needs = app.createConsistencyNeeds("Needs")
+        consistency_needs.createDpgRequiresCoherency("DpgGroup")
+        consistency_needs.createRegRequiresStability("RegGroup")
 
         out_file = tmp_path / "sw_component_type_out.arxml"
         ARXMLWriter().save(str(out_file), document)
@@ -809,6 +812,11 @@ class TestSwComponentTypeRoundTrip:
         assert len(swc.getPortGroups()) == 1
         assert [r.getValue() for r in swc.getSwcMappingConstraintsRefs()] == ["/Mapping/Const1", "/Mapping/Const2"]
         assert [r.getValue() for r in swc.getUnitGroupRefs()] == ["/Units/Group1"]
+        assert len(swc.getConsistencyNeeds()) == 1
+        consistency_needs_2 = swc.getConsistencyNeeds()[0]
+        assert consistency_needs_2.getShortName() == "Needs"
+        assert len(consistency_needs_2.getDpgRequiresCoherencys()) == 1
+        assert len(consistency_needs_2.getRegRequiresStabilitys()) == 1
 
     def test_round_trip_empty_refs(self, tmp_path):
         document = AUTOSAR.getInstance()

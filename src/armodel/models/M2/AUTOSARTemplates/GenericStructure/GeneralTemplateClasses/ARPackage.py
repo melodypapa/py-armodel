@@ -21,7 +21,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import 
 )
 
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SensorActuatorSwComponentType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior import DataPrototypeGroup
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior import (
+    ConsistencyNeeds,
+    DataPrototypeGroup,
+    RunnableEntityGroup,
+)
 from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
 from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
 from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr
@@ -1018,6 +1022,18 @@ class ARPackage(CollectableElement):
             data_group = DataPrototypeGroup(self, short_name)
             self.addElement(data_group)
         return self.getElement(short_name, DataPrototypeGroup)
+
+    def createRunnableEntityGroup(self, short_name: str) -> RunnableEntityGroup:
+        if not self.IsElementExists(short_name, RunnableEntityGroup):
+            runnable_group = RunnableEntityGroup(self, short_name)
+            self.addElement(runnable_group)
+        return self.getElement(short_name, RunnableEntityGroup)
+
+    def createConsistencyNeeds(self, short_name: str) -> ConsistencyNeeds:
+        if not self.IsElementExists(short_name, ConsistencyNeeds):
+            consistency_needs = ConsistencyNeeds(self, short_name)
+            self.addElement(consistency_needs)
+        return self.getElement(short_name, ConsistencyNeeds)
 
     def createModeDeclarationGroup(self, short_name: str) -> ModeDeclarationGroup:
         if not self.IsElementExists(short_name, ModeDeclarationGroup):

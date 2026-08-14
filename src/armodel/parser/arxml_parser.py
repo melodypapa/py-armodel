@@ -301,7 +301,11 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection i
     EndToEndProtectionSet,
     EndToEndProtectionVariablePrototype,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior import DataPrototypeGroup
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior import (
+    ConsistencyNeeds,
+    DataPrototypeGroup,
+    RunnableEntityGroup,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior.InstanceRefs import (
     InnerDataPrototypeGroupInCompositionInstanceRef,
     InnerRunnableEntityGroupInCompositionInstanceRef,
@@ -2743,6 +2747,52 @@ class ARXMLParser(AbstractARXMLParser):
         self.readDataPrototypeGroupDataPrototypeGroupIRefs(element, data_group)
         self.readDataPrototypeGroupImplicitDataAccessIRefs(element, data_group)
 
+    def readRunnableEntityGroupRunnableEntityGroupIRefs(self, element: ET.Element, parent: RunnableEntityGroup):
+        for child_element in self.findall(element, "RUNNABLE-ENTITY-GROUP-IREFS/RUNNABLE-ENTITY-GROUP-IREF"):
+            instance_ref = InnerRunnableEntityGroupInCompositionInstanceRef()
+            self.readInnerRunnableEntityGroupInCompositionInstanceRef(child_element, instance_ref)
+            parent.addRunnableEntityGroupIRef(instance_ref)
+
+    def readRunnableEntityGroupRunnableEntityIRefs(self, element: ET.Element, parent: RunnableEntityGroup):
+        for child_element in self.findall(element, "RUNNABLE-ENTITY-IREFS/RUNNABLE-ENTITY-IREF"):
+            instance_ref = RunnableEntityInCompositionInstanceRef()
+            self.readRunnableEntityInCompositionInstanceRef(child_element, instance_ref)
+            parent.addRunnableEntityIRef(instance_ref)
+
+    def readRunnableEntityGroup(self, element: ET.Element, runnable_group: RunnableEntityGroup):
+        self.logger.debug("readRunnableEntityGroup %s" % runnable_group.getShortName())
+        self.readIdentifiable(element, runnable_group)
+        self.readRunnableEntityGroupRunnableEntityGroupIRefs(element, runnable_group)
+        self.readRunnableEntityGroupRunnableEntityIRefs(element, runnable_group)
+
+    def readConsistencyNeedsDpgDoesNotRequireCoherencys(self, element: ET.Element, parent: ConsistencyNeeds):
+        for child_element in self.findall(element, "DPG-DOES-NOT-REQUIRE-COHERENCYS/DATA-PROTOTYPE-GROUP"):
+            data_group = parent.createDpgDoesNotRequireCoherency(self.getShortName(child_element))
+            self.readDataPrototypeGroup(child_element, data_group)
+
+    def readConsistencyNeedsDpgRequiresCoherencys(self, element: ET.Element, parent: ConsistencyNeeds):
+        for child_element in self.findall(element, "DPG-REQUIRES-COHERENCYS/DATA-PROTOTYPE-GROUP"):
+            data_group = parent.createDpgRequiresCoherency(self.getShortName(child_element))
+            self.readDataPrototypeGroup(child_element, data_group)
+
+    def readConsistencyNeedsRegDoesNotRequireStabilitys(self, element: ET.Element, parent: ConsistencyNeeds):
+        for child_element in self.findall(element, "REG-DOES-NOT-REQUIRE-STABILITYS/RUNNABLE-ENTITY-GROUP"):
+            runnable_group = parent.createRegDoesNotRequireStability(self.getShortName(child_element))
+            self.readRunnableEntityGroup(child_element, runnable_group)
+
+    def readConsistencyNeedsRegRequiresStabilitys(self, element: ET.Element, parent: ConsistencyNeeds):
+        for child_element in self.findall(element, "REG-REQUIRES-STABILITYS/RUNNABLE-ENTITY-GROUP"):
+            runnable_group = parent.createRegRequiresStability(self.getShortName(child_element))
+            self.readRunnableEntityGroup(child_element, runnable_group)
+
+    def readConsistencyNeeds(self, element: ET.Element, consistency_needs: ConsistencyNeeds):
+        self.logger.debug("readConsistencyNeeds %s" % consistency_needs.getShortName())
+        self.readIdentifiable(element, consistency_needs)
+        self.readConsistencyNeedsDpgDoesNotRequireCoherencys(element, consistency_needs)
+        self.readConsistencyNeedsDpgRequiresCoherencys(element, consistency_needs)
+        self.readConsistencyNeedsRegDoesNotRequireStabilitys(element, consistency_needs)
+        self.readConsistencyNeedsRegRequiresStabilitys(element, consistency_needs)
+
     def getModeGroupIRef(self, element: ET.Element, key: str) -> ModeGroupInAtomicSwcInstanceRef:
         instance_ref = None
         for child_element in self.findall(element, "%s/*" % key):
@@ -3925,6 +3975,10 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "UNIT-GROUP-REFS/UNIT-GROUP-REF"):
             parent.addUnitGroupRef(ref)
 
+    def readSwComponentTypeConsistencyNeeds(self, element: ET.Element, parent: SwComponentType):
+        for child_element in self.findall(element, "CONSISTENCY-NEEDSS/CONSISTENCY-NEEDS"):
+            self.readConsistencyNeeds(child_element, parent.createConsistencyNeeds(self.getShortName(child_element)))
+
     def readSwComponentTypeSwComponentDocumentation(self, element: ET.Element, parent: SwComponentType):
         child_element = self.find(element, "SW-COMPONENT-DOCUMENTATION")
         if child_element is None:
@@ -4047,11 +4101,12 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSwComponentType(self, element: ET.Element, parent: SwComponentType):
         self.readIdentifiable(element, parent)
+        self.readSwComponentTypeSwComponentDocumentation(element, parent)
+        self.readSwComponentTypeConsistencyNeeds(element, parent)
         self.readSwComponentTypePorts(element, parent)
         self.readSwComponentTypePortGroups(element, parent)
         self.readSwComponentTypeSwcMappingConstraints(element, parent)
         self.readSwComponentTypeUnitGroups(element, parent)
-        self.readSwComponentTypeSwComponentDocumentation(element, parent)
 
     def readAtomicSwComponentTypeSymbolProps(self, element: ET.Element, sw_component: AtomicSwComponentType):
         child_element = self.find(element, "SYMBOL-PROPS")
@@ -7707,6 +7762,12 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DATA-PROTOTYPE-GROUP":
                 data_group = parent.createDataPrototypeGroup(self.getShortName(child_element))
                 self.readDataPrototypeGroup(child_element, data_group)
+            elif tag_name == "RUNNABLE-ENTITY-GROUP":
+                runnable_group = parent.createRunnableEntityGroup(self.getShortName(child_element))
+                self.readRunnableEntityGroup(child_element, runnable_group)
+            elif tag_name == "CONSISTENCY-NEEDS":
+                consistency_needs = parent.createConsistencyNeeds(self.getShortName(child_element))
+                self.readConsistencyNeeds(child_element, consistency_needs)
             elif tag_name == "COMPLEX-DEVICE-DRIVER-SW-COMPONENT-TYPE":
                 type = parent.createComplexDeviceDriverSwComponentType(self.getShortName(child_element))
                 self.readComplexDeviceDriverSwComponentType(child_element, type)

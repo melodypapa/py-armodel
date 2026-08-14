@@ -286,7 +286,11 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection i
     EndToEndProtectionSet,
     EndToEndProtectionVariablePrototype,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior import DataPrototypeGroup
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior import (
+    ConsistencyNeeds,
+    DataPrototypeGroup,
+    RunnableEntityGroup,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior.InstanceRefs import (
     InnerDataPrototypeGroupInCompositionInstanceRef,
     InnerRunnableEntityGroupInCompositionInstanceRef,
@@ -1350,13 +1354,21 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in refs:
                 self.setChildElementOptionalRefType(child_element, "UNIT-GROUP-REF", ref)
 
+    def writeSwComponentTypeConsistencyNeeds(self, element: ET.Element, parent: SwComponentType):
+        consistency_needs_list = parent.getConsistencyNeeds()
+        if len(consistency_needs_list) > 0:
+            child_element = ET.SubElement(element, "CONSISTENCY-NEEDSS")
+            for consistency_needs in consistency_needs_list:
+                self.writeConsistencyNeeds(child_element, consistency_needs)
+
     def writeSwComponentType(self, element: ET.Element, sw_component: SwComponentType):
         self.writeIdentifiable(element, sw_component)
+        self.writeSwComponentTypeSwComponentDocumentation(element, sw_component)
+        self.writeSwComponentTypeConsistencyNeeds(element, sw_component)
         self.writeSwComponentTypePorts(element, sw_component)
         self.writeSwComponentTypePortGroups(element, sw_component)
         self.writeSwComponentTypeSwcMappingConstraints(element, sw_component)
         self.writeSwComponentTypeUnitGroups(element, sw_component)
-        self.writeSwComponentTypeSwComponentDocumentation(element, sw_component)
 
     def writeSwComponentPrototype(self, element: ET.Element, prototype: SwComponentPrototype):
         prototype_tag = ET.SubElement(element, "SW-COMPONENT-PROTOTYPE")
@@ -2489,6 +2501,60 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, data_group)
         self.writeDataPrototypeGroupDataPrototypeGroupIRefs(child_element, data_group)
         self.writeDataPrototypeGroupImplicitDataAccessIRefs(child_element, data_group)
+
+    def writeRunnableEntityGroupRunnableEntityGroupIRefs(self, element: ET.Element, runnable_group: RunnableEntityGroup):
+        irefs = runnable_group.getRunnableEntityGroupIRefs()
+        if len(irefs) > 0:
+            child_element = ET.SubElement(element, "RUNNABLE-ENTITY-GROUP-IREFS")
+            for iref in irefs:
+                self.writeInnerRunnableEntityGroupInCompositionInstanceRef(child_element, "RUNNABLE-ENTITY-GROUP-IREF", iref)
+
+    def writeRunnableEntityGroupRunnableEntityIRefs(self, element: ET.Element, runnable_group: RunnableEntityGroup):
+        irefs = runnable_group.getRunnableEntityIRefs()
+        if len(irefs) > 0:
+            child_element = ET.SubElement(element, "RUNNABLE-ENTITY-IREFS")
+            for iref in irefs:
+                self.writeRunnableEntityInCompositionInstanceRef(child_element, "RUNNABLE-ENTITY-IREF", iref)
+
+    def writeRunnableEntityGroup(self, element: ET.Element, runnable_group: RunnableEntityGroup):
+        self.logger.debug("writeRunnableEntityGroup %s" % runnable_group.getShortName())
+        child_element = ET.SubElement(element, "RUNNABLE-ENTITY-GROUP")
+        self.writeIdentifiable(child_element, runnable_group)
+        self.writeRunnableEntityGroupRunnableEntityGroupIRefs(child_element, runnable_group)
+        self.writeRunnableEntityGroupRunnableEntityIRefs(child_element, runnable_group)
+
+    def writeConsistencyNeedsDpgDoesNotRequireCoherencys(self, element: ET.Element, consistency_needs: ConsistencyNeeds):
+        if len(consistency_needs.getDpgDoesNotRequireCoherencys()) > 0:
+            child_element = ET.SubElement(element, "DPG-DOES-NOT-REQUIRE-COHERENCYS")
+            for data_group in consistency_needs.getDpgDoesNotRequireCoherencys():
+                self.writeDataPrototypeGroup(child_element, data_group)
+
+    def writeConsistencyNeedsDpgRequiresCoherencys(self, element: ET.Element, consistency_needs: ConsistencyNeeds):
+        if len(consistency_needs.getDpgRequiresCoherencys()) > 0:
+            child_element = ET.SubElement(element, "DPG-REQUIRES-COHERENCYS")
+            for data_group in consistency_needs.getDpgRequiresCoherencys():
+                self.writeDataPrototypeGroup(child_element, data_group)
+
+    def writeConsistencyNeedsRegDoesNotRequireStabilitys(self, element: ET.Element, consistency_needs: ConsistencyNeeds):
+        if len(consistency_needs.getRegDoesNotRequireStabilitys()) > 0:
+            child_element = ET.SubElement(element, "REG-DOES-NOT-REQUIRE-STABILITYS")
+            for runnable_group in consistency_needs.getRegDoesNotRequireStabilitys():
+                self.writeRunnableEntityGroup(child_element, runnable_group)
+
+    def writeConsistencyNeedsRegRequiresStabilitys(self, element: ET.Element, consistency_needs: ConsistencyNeeds):
+        if len(consistency_needs.getRegRequiresStabilitys()) > 0:
+            child_element = ET.SubElement(element, "REG-REQUIRES-STABILITYS")
+            for runnable_group in consistency_needs.getRegRequiresStabilitys():
+                self.writeRunnableEntityGroup(child_element, runnable_group)
+
+    def writeConsistencyNeeds(self, element: ET.Element, consistency_needs: ConsistencyNeeds):
+        self.logger.debug("writeConsistencyNeeds %s" % consistency_needs.getShortName())
+        child_element = ET.SubElement(element, "CONSISTENCY-NEEDS")
+        self.writeIdentifiable(child_element, consistency_needs)
+        self.writeConsistencyNeedsDpgDoesNotRequireCoherencys(child_element, consistency_needs)
+        self.writeConsistencyNeedsDpgRequiresCoherencys(child_element, consistency_needs)
+        self.writeConsistencyNeedsRegDoesNotRequireStabilitys(child_element, consistency_needs)
+        self.writeConsistencyNeedsRegRequiresStabilitys(child_element, consistency_needs)
 
     def setPModeGroupInAtomicSwcInstanceRef(self, element: ET.Element, key: str, instance_ref: PModeGroupInAtomicSwcInstanceRef):
         if instance_ref is not None:
@@ -8116,6 +8182,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeMcGroup(element, ar_element)
         elif isinstance(ar_element, DataPrototypeGroup):
             self.writeDataPrototypeGroup(element, ar_element)
+        elif isinstance(ar_element, RunnableEntityGroup):
+            self.writeRunnableEntityGroup(element, ar_element)
+        elif isinstance(ar_element, ConsistencyNeeds):
+            self.writeConsistencyNeeds(element, ar_element)
         else:
             self.notImplemented("Unsupported Elements of ARPackage <%s>" % type(ar_element))
 
