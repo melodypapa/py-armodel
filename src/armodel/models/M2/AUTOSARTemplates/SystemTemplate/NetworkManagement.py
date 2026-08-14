@@ -125,10 +125,10 @@ class NmCoordinatorRoleEnum(AREnum):
 
     def __init__(self):
         super().__init__(
-            (
+            [
                 NmCoordinatorRoleEnum.ACTIVE,
                 NmCoordinatorRoleEnum.PASSIVE,
-            )
+            ]
         )
 
 

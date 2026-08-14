@@ -11,6 +11,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
     PRPortPrototype,
     RPortPrototype,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior import ConsistencyNeeds
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import (
     SwComponentDocumentation,
 )
@@ -46,11 +47,19 @@ class TestSwComponentType:
     def test_initialization(self):
         obj = self._create_concrete()
         assert obj.getShortName() == "TestSwComponentType"
+        assert obj.getConsistencyNeeds() == []
         assert obj.getPorts() == []
         assert obj.getPortGroups() == []
         assert obj.getSwcMappingConstraintsRefs() == []
         assert obj.getSwComponentDocumentation() is None
         assert obj.getUnitGroupRefs() == []
+
+    def test_create_get_consistency_needs(self):
+        obj = self._create_concrete()
+        consistency_needs = obj.createConsistencyNeeds("ConsistencyNeeds")
+        assert isinstance(consistency_needs, ConsistencyNeeds)
+        assert consistency_needs in obj.getConsistencyNeeds()
+        assert obj.createConsistencyNeeds("ConsistencyNeeds") == consistency_needs
 
     def test_get_set_swComponentDocumentation(self):
         obj = self._create_concrete()

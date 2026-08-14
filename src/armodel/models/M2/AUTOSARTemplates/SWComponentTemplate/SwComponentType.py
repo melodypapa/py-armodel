@@ -19,6 +19,9 @@ if TYPE_CHECKING:
         PRPortPrototype,
         RPortPrototype,
     )
+    from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior import (
+        ConsistencyNeeds,
+    )
     from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import (
         SwComponentDocumentation,
     )
@@ -31,7 +34,10 @@ class SwComponentType(AtpType, ABC):
 
     # SwComponentType method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.1, p.64
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] createConsistencyNeeds       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getConsistencyNeeds          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] createPPortPrototype         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] createRPortPrototype         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] createPRPortPrototype        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -54,6 +60,9 @@ class SwComponentType(AtpType, ABC):
             raise TypeError("SwComponentType is an abstract class.")
         super().__init__(parent, short_name)
 
+        # This represents the collection of ConsistencyNeeds owned by the enclosing SwComponentType.
+        self.consistencyNeeds: List[ConsistencyNeeds] = []
+
         # The PortPrototypes through which this SwComponent Type can communicate. The aggregation of PortPrototype is subject to variability with the purpose to support the conditional existence of PortPrototypes.
         self.ports: List[PortPrototype] = []
 
@@ -68,6 +77,34 @@ class SwComponentType(AtpType, ABC):
 
         # This allows for the specification of which UnitGroups are relevant in the context of referencing SwComponentType.
         self.unitGroupRefs: List[RefType] = []
+
+    def createConsistencyNeeds(self, short_name: str) -> ConsistencyNeeds:
+        """
+        Creates a ConsistencyNeeds owned by the enclosing SwComponentType.
+        Returns the existing ConsistencyNeeds when the short name already exists.
+
+        Args:
+            short_name: The short name of the ConsistencyNeeds
+
+        Returns:
+            The created or existing ConsistencyNeeds
+        """
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior import ConsistencyNeeds
+
+        if not self.IsElementExists(short_name, ConsistencyNeeds):
+            consistency_needs = ConsistencyNeeds(self, short_name)
+            self.addElement(consistency_needs)
+            self.consistencyNeeds.append(consistency_needs)
+        return self.getElement(short_name, ConsistencyNeeds)
+
+    def getConsistencyNeeds(self) -> List[ConsistencyNeeds]:
+        """
+        Gets the collection of ConsistencyNeeds owned by the enclosing SwComponentType.
+
+        Returns:
+            List of ConsistencyNeeds instances
+        """
+        return self.consistencyNeeds
 
     def createPPortPrototype(self, short_name: str) -> PPortPrototype:
         """
