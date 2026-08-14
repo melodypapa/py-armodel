@@ -461,6 +461,11 @@ class TestEcucDispatch:
         _dispatch(parser, parent, _snip("ECUC-MODULE-DEF", "EMD1"))
         assert len(parent.getEcucModuleDefs()) == 1
 
+    def test_ecuc_definition_collection(self, parser):
+        parent = _make_parent()
+        _dispatch(parser, parent, _snip("ECUC-DEFINITION-COLLECTION", "EDC1"))
+        assert len(parent.getEcucDefinitionCollections()) == 1
+
 
 # ==================== Diagnostic ====================
 

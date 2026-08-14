@@ -166,6 +166,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucChoiceContainerDef,
     EcucCommonAttributes,
     EcucContainerDef,
+    EcucDefinitionCollection,
     EcucDefinitionElement,
     EcucEnumerationLiteralDef,
     EcucEnumerationParamDef,
@@ -6706,9 +6707,18 @@ class ARXMLParser(AbstractARXMLParser):
     def readEcucModuleDef(self, element: ET.Element, module_def: EcucModuleDef):
         self.logger.debug("Read EcucModuleDef <%s>" % module_def.getShortName())
         self.readEcucDefinitionElement(element, module_def)
+        module_def.setApiServicePrefix(self.getChildElementOptionalLiteral(element, "API-SERVICE-PREFIX"))
         module_def.setPostBuildVariantSupport(self.getChildElementOptionalBooleanValue(element, "POST-BUILD-VARIANT-SUPPORT"))
+        module_def.setRefinedModuleDefRef(self.getChildElementOptionalRefType(element, "REFINED-MODULE-DEF-REF"))
         self.readEcucModuleDefSupportedConfigVariants(element, module_def)
         self.readEcucModuleDefContainers(element, module_def)
+
+    def readEcucDefinitionCollection(self, element: ET.Element, collection: EcucDefinitionCollection):
+        self.logger.debug("Read EcucDefinitionCollection <%s>" % collection.getShortName())
+        self.readARElement(element, collection)
+        module_refs = self.getChildElementRefTypeList(element, "MODULE-REFS/MODULE-REF")
+        for module_ref in module_refs:
+            collection.addModuleRef(module_ref)
 
     def readSwSystemconst(self, element: ET.Element, system_const: SwSystemconst):
         self.logger.debug("Read SwSystemconst <%s>" % system_const.getShortName())
@@ -8009,6 +8019,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ECUC-MODULE-DEF":
                 module_def = parent.createEcucModuleDef(self.getShortName(child_element))
                 self.readEcucModuleDef(child_element, module_def)
+            elif tag_name == "ECUC-DEFINITION-COLLECTION":
+                collection = parent.createEcucDefinitionCollection(self.getShortName(child_element))
+                self.readEcucDefinitionCollection(child_element, collection)
             elif tag_name == "SW-SYSTEMCONST":
                 system_const = parent.createSwSystemConst(self.getShortName(child_element))
                 self.readSwSystemconst(child_element, system_const)

@@ -3,6 +3,8 @@ Test cases for the ECUC Parameter Definition Template classes.
 These tests ensure 100% code coverage for all ECUC parameter definition classes.
 """
 
+from typing import Optional, get_type_hints
+
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
@@ -19,6 +21,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucConditionSpecification,
     EcucConfigurationClassEnum,
     EcucConfigurationVariantEnum,
+    EcucDefinitionCollection,
     EcucDefinitionElement,
     EcucDerivationSpecification,
     EcucDestinationUriDefRefType,
@@ -29,6 +32,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucFunctionNameDef,
     EcucInstanceReferenceDef,
     EcucIntegerParamDef,
+    EcucModuleDef,
     EcucMultiplicityConfigurationClass,
     EcucParamConfContainerDef,
     EcucParameterDef,
@@ -40,6 +44,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucValidationCondition,
     EcucValueConfigurationClass,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, CIdentifier, RefType
 
 
 class TestEcucConditionSpecification:
@@ -238,8 +243,7 @@ class TestEcucConfigurationClassEnum:
 class TestEcucConfigurationVariantEnum:
     """
     Test class for EcucConfigurationVariantEnum functionality.
-    This class contains test methods for validating the behavior of
-    the EcucConfigurationVariantEnum class, including its initialization.
+    Verifies the four spec literals of Table 2.13 and the registered enum values.
     """
 
     def test_initialization(self):
@@ -251,7 +255,38 @@ class TestEcucConfigurationVariantEnum:
         config_variant_enum = EcucConfigurationVariantEnum()
 
         assert config_variant_enum is not None
-        assert config_variant_enum.enumValues == []
+        assert isinstance(config_variant_enum, AREnum)
+
+    def test_literal_members(self):
+        """
+        Test that the four spec literals are defined with their XSD value strings.
+        """
+        assert EcucConfigurationVariantEnum.RECOMMENDED_CONFIGURATION == "RECOMMENDED-CONFIGURATION"
+        assert EcucConfigurationVariantEnum.VARIANT_LINK_TIME == "VARIANT-LINK-TIME"
+        assert EcucConfigurationVariantEnum.VARIANT_POST_BUILD == "VARIANT-POST-BUILD"
+        assert EcucConfigurationVariantEnum.VARIANT_PRE_COMPILE == "VARIANT-PRE-COMPILE"
+
+    def test_enum_values(self):
+        """
+        Test that the registered enum values match the spec literals in order.
+        """
+        config_variant_enum = EcucConfigurationVariantEnum()
+
+        assert config_variant_enum.getEnumValues() == [
+            "RECOMMENDED-CONFIGURATION",
+            "VARIANT-LINK-TIME",
+            "VARIANT-POST-BUILD",
+            "VARIANT-PRE-COMPILE",
+        ]
+
+    def test_set_value(self):
+        """
+        Test that a spec literal can be set as the enum value.
+        """
+        config_variant_enum = EcucConfigurationVariantEnum()
+        config_variant_enum.setValue(EcucConfigurationVariantEnum.VARIANT_PRE_COMPILE)
+
+        assert config_variant_enum.getValue() == "VARIANT-PRE-COMPILE"
 
 
 class TestEcucAbstractConfigurationClass:
@@ -1454,3 +1489,162 @@ class TestEcucParamConfContainerDef:
         assert param_conf_container.getParameters() == []
         assert param_conf_container.getReferences() == []
         assert param_conf_container.getSubContainers() == []
+
+
+class TestEcucModuleDef:
+    """
+    Test class for EcucModuleDef functionality against Table 2.2.
+    """
+
+    def _make_module(self):
+        document = AUTOSAR.getInstance()
+        pkg = document.createARPackage("PkgModuleDef")
+        return EcucModuleDef(pkg, "Md")
+
+    def test_initialization(self):
+        """
+        Test EcucModuleDef __init__ defaults.
+        """
+        module_def = self._make_module()
+        assert module_def.getShortName() == "Md"
+        assert module_def.getApiServicePrefix() is None
+        assert module_def.getContainers() == []
+        assert module_def.getPostBuildVariantSupport() is None
+        assert module_def.getRefinedModuleDefRef() is None
+        assert module_def.getSupportedConfigVariants() == []
+
+    def test_api_service_prefix_is_optional(self):
+        """Test the optional apiServicePrefix type contract."""
+        assert EcucModuleDef.__init__.__annotations__
+        assert get_type_hints(EcucModuleDef.getApiServicePrefix)["return"] == Optional[CIdentifier]
+        assert get_type_hints(EcucModuleDef.setApiServicePrefix)["value"] == Optional[CIdentifier]
+
+    def test_set_get_api_service_prefix(self):
+        """
+        Test setApiServicePrefix returns self and getApiServicePrefix round-trips.
+        """
+        module_def = self._make_module()
+        prefix = CIdentifier()
+        prefix.setValue("Cdd")
+        result = module_def.setApiServicePrefix(prefix)
+        assert result is module_def
+        assert module_def.getApiServicePrefix() is prefix
+
+    def test_set_api_service_prefix_none_is_noop(self):
+        """
+        Test setting a None apiServicePrefix is a no-op.
+        """
+        module_def = self._make_module()
+        prefix = CIdentifier()
+        prefix.setValue("Cdd")
+        module_def.setApiServicePrefix(prefix)
+        module_def.setApiServicePrefix(None)
+        assert module_def.getApiServicePrefix() is prefix
+
+    def test_create_get_containers(self):
+        """
+        Test createEcucParamConfContainerDef appends to getContainers.
+        """
+        module_def = self._make_module()
+        container = module_def.createEcucParamConfContainerDef("Ct")
+        assert container.getShortName() == "Ct"
+        assert module_def.getContainers() == [container]
+
+    def test_create_choice_container(self):
+        """
+        Test createEcucChoiceContainerDef appends to getContainers.
+        """
+        module_def = self._make_module()
+        container = module_def.createEcucChoiceContainerDef("Ct")
+        assert container.getShortName() == "Ct"
+        assert module_def.getContainers() == [container]
+
+    def test_set_get_post_build_variant_support(self):
+        """
+        Test setPostBuildVariantSupport returns self and getPostBuildVariantSupport round-trips.
+        """
+        module_def = self._make_module()
+        value = Boolean()
+        value.setValue(True)
+        result = module_def.setPostBuildVariantSupport(value)
+        assert result is module_def
+        assert module_def.getPostBuildVariantSupport() is value
+
+    def test_set_get_refined_module_def_ref(self):
+        """
+        Test setRefinedModuleDefRef returns self and getRefinedModuleDefRef round-trips.
+        """
+        module_def = self._make_module()
+        ref = RefType()
+        ref.setValue("/PkgModuleDef/StMd")
+        result = module_def.setRefinedModuleDefRef(ref)
+        assert result is module_def
+        assert module_def.getRefinedModuleDefRef() is ref
+
+    def test_set_refined_module_def_ref_none_is_noop(self):
+        """
+        Test setting a None refinedModuleDefRef is a no-op.
+        """
+        module_def = self._make_module()
+        ref = RefType()
+        ref.setValue("/PkgModuleDef/StMd")
+        module_def.setRefinedModuleDefRef(ref)
+        module_def.setRefinedModuleDefRef(None)
+        assert module_def.getRefinedModuleDefRef() is ref
+
+    def test_add_get_supported_config_variants(self):
+        """
+        Test addSupportedConfigVariant appends and returns self for chaining.
+        """
+        module_def = self._make_module()
+        variant = EcucConfigurationVariantEnum()
+        variant.setValue(EcucConfigurationVariantEnum.VARIANT_PRE_COMPILE)
+        result = module_def.addSupportedConfigVariant(variant)
+        assert result is module_def
+        assert module_def.getSupportedConfigVariants() == [variant]
+
+    def test_add_supported_config_variant_none_is_noop(self):
+        """
+        Test adding a None supportedConfigVariant is a no-op.
+        """
+        module_def = self._make_module()
+        module_def.addSupportedConfigVariant(None)
+        assert module_def.getSupportedConfigVariants() == []
+
+
+class TestEcucDefinitionCollection:
+    """
+    Test class for EcucDefinitionCollection functionality against Table 2.1.
+    """
+
+    def _make_collection(self):
+        document = AUTOSAR.getInstance()
+        pkg = document.createARPackage("PkgEcucDefinitionCollection")
+        return EcucDefinitionCollection(pkg, "Coll")
+
+    def test_initialization(self):
+        """
+        Test EcucDefinitionCollection __init__ defaults.
+        """
+        collection = self._make_collection()
+        assert collection.getShortName() == "Coll"
+        assert collection.getModuleRefs() == []
+
+    def test_add_get_module_refs(self):
+        """
+        Test addModuleRef appends and returns self for chaining.
+        """
+        collection = self._make_collection()
+        module_ref = RefType()
+        module_ref.setValue("/PkgModuleDef/Md")
+        result = collection.addModuleRef(module_ref)
+        assert result is collection
+        assert collection.getModuleRefs() == [module_ref]
+
+    def test_add_module_ref_none_is_noop(self):
+        """
+        Test adding a None module ref is a no-op.
+        """
+        collection = self._make_collection()
+        collection.addModuleRef(None)
+        assert collection.getModuleRefs() == []

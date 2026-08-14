@@ -158,6 +158,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucChoiceContainerDef,
     EcucCommonAttributes,
     EcucContainerDef,
+    EcucDefinitionCollection,
     EcucDefinitionElement,
     EcucEnumerationLiteralDef,
     EcucEnumerationParamDef,
@@ -6414,24 +6415,39 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeEcucModuleDefContainers(self, element: ET.Element, module_def: EcucModuleDef):
         container_defs = module_def.getContainers()
-        if len(container_defs) > 0:
-            child_element = ET.SubElement(element, "CONTAINERS")
-            for container_def in container_defs:
-                if isinstance(container_def, EcucParamConfContainerDef):
-                    self.writeEcucParamConfContainerDef(child_element, container_def)
-                elif isinstance(container_def, EcucChoiceContainerDef):
-                    self.writeEcucChoiceContainerDef(child_element, container_def)
-                else:
-                    self.notImplemented("Unsupported Container <%s>" % type(container_def))
+        child_element = ET.SubElement(element, "CONTAINERS")
+        for container_def in container_defs:
+            if isinstance(container_def, EcucParamConfContainerDef):
+                self.writeEcucParamConfContainerDef(child_element, container_def)
+            elif isinstance(container_def, EcucChoiceContainerDef):
+                self.writeEcucChoiceContainerDef(child_element, container_def)
+            else:
+                self.notImplemented("Unsupported Container <%s>" % type(container_def))
 
     def writeEcucModuleDef(self, element: ET.Element, module_def: EcucModuleDef):
         if module_def is not None:
             self.logger.debug("Write EcucModuleDef <%s>" % module_def.getShortName())
             child_element = ET.SubElement(element, "ECUC-MODULE-DEF")
             self.writeEcucDefinitionElement(child_element, module_def)
+            self.setChildElementOptionalLiteral(child_element, "API-SERVICE-PREFIX", module_def.getApiServicePrefix())
             self.setChildElementOptionalBooleanValue(child_element, "POST-BUILD-VARIANT-SUPPORT", module_def.getPostBuildVariantSupport())
+            self.setChildElementOptionalRefType(child_element, "REFINED-MODULE-DEF-REF", module_def.getRefinedModuleDefRef())
             self.writeEcucModuleDefSupportedConfigVariants(child_element, module_def)
             self.writeEcucModuleDefContainers(child_element, module_def)
+
+    def writeEcucDefinitionCollectionModuleRefs(self, element: ET.Element, collection: EcucDefinitionCollection):
+        module_refs = collection.getModuleRefs()
+        if len(module_refs) > 0:
+            child_element = ET.SubElement(element, "MODULE-REFS")
+            for module_ref in module_refs:
+                self.setChildElementOptionalRefType(child_element, "MODULE-REF", module_ref)
+
+    def writeEcucDefinitionCollection(self, element: ET.Element, collection: EcucDefinitionCollection):
+        if collection is not None:
+            self.logger.debug("Write EcucDefinitionCollection <%s>" % collection.getShortName())
+            child_element = ET.SubElement(element, "ECUC-DEFINITION-COLLECTION")
+            self.writeARElement(child_element, collection)
+            self.writeEcucDefinitionCollectionModuleRefs(child_element, collection)
 
     def writeMacMulticastGroup(self, element: ET.Element, group: MacMulticastGroup):
         if group is not None:
@@ -8168,6 +8184,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeModeDeclarationMappingSet(element, ar_element)
         elif isinstance(ar_element, EcucModuleDef):
             self.writeEcucModuleDef(element, ar_element)
+        elif isinstance(ar_element, EcucDefinitionCollection):
+            self.writeEcucDefinitionCollection(element, ar_element)
         elif isinstance(ar_element, EcucModuleConfigurationValues):
             self.writeEcucModuleConfigurationValues(element, ar_element)
         elif isinstance(ar_element, SwSystemconst):

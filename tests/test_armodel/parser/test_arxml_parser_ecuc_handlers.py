@@ -1208,4 +1208,63 @@ class TestEcucParameterValue:
         assert any("Unsupported EcucParameterValue" in r.getMessage() for r in caplog.records)
 
 
+# ==================== EcucModuleDef apiServicePrefix / refinedModuleDef ====================
+
+
+class TestEcucModuleDefApiAndRefined:
+    def test_readEcucModuleDef_reads_api_and_refined(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucModuleDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        module_def = EcucModuleDef(parent=_autosar_root(), short_name="Md")
+        element = _snip(
+            "<API-SERVICE-PREFIX>Cdd</API-SERVICE-PREFIX>" '<REFINED-MODULE-DEF-REF DEST="ECUC-MODULE-DEF">/Pkg/StMd</REFINED-MODULE-DEF-REF>',
+            root_tag="ECUC-MODULE-DEF",
+        )
+        parser.readEcucModuleDef(element, module_def)
+        assert module_def.getApiServicePrefix() is not None
+        assert module_def.getApiServicePrefix().getValue() == "Cdd"
+        assert module_def.getRefinedModuleDefRef() is not None
+        assert module_def.getRefinedModuleDefRef().getValue() == "/Pkg/StMd"
+        assert module_def.getRefinedModuleDefRef().getDest() == "ECUC-MODULE-DEF"
+
+    def test_readEcucModuleDef_without_api_and_refined(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucModuleDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        module_def = EcucModuleDef(parent=_autosar_root(), short_name="Md")
+        element = _snip("", root_tag="ECUC-MODULE-DEF")
+        parser.readEcucModuleDef(element, module_def)
+        assert module_def.getApiServicePrefix() is None
+        assert module_def.getRefinedModuleDefRef() is None
+
+
+# ==================== EcucDefinitionCollection (Table 2.1) ====================
+
+
+class TestEcucDefinitionCollection:
+    def test_readEcucDefinitionCollection(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucDefinitionCollection
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        collection = EcucDefinitionCollection(parent=_autosar_root(), short_name="Coll")
+        element = _snip(
+            "<MODULE-REFS>" '<MODULE-REF DEST="ECUC-MODULE-DEF">/Pkg/Mod</MODULE-REF>' "</MODULE-REFS>",
+            root_tag="ECUC-DEFINITION-COLLECTION",
+        )
+        parser.readEcucDefinitionCollection(element, collection)
+        assert len(collection.getModuleRefs()) == 1
+        assert collection.getModuleRefs()[0].getValue() == "/Pkg/Mod"
+        assert collection.getModuleRefs()[0].getDest() == "ECUC-MODULE-DEF"
+
+    def test_readEcucDefinitionCollection_empty(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucDefinitionCollection
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        collection = EcucDefinitionCollection(parent=_autosar_root(), short_name="Coll")
+        element = _snip("", root_tag="ECUC-DEFINITION-COLLECTION")
+        parser.readEcucDefinitionCollection(element, collection)
+        assert collection.getModuleRefs() == []
+
+
 # ==================== SystemSignalGroup (L5249) ====================

@@ -6,12 +6,14 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+    EcucDefinitionCollection,
     EcucMultiplicityConfigurationClass,
     EcucValueConfigurationClass,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa E501
     ARBoolean,
     ARLiteral,
+    CIdentifier,
     Float,
     Limit,
     PositiveInteger,
@@ -632,7 +634,9 @@ class TestWriterEcucModuleDefContainers:
         module = _make_module()
         parent = _parent()
         writer.writeEcucModuleDefContainers(parent, module)
-        assert len(parent) == 0
+        assert len(parent) == 1
+        assert parent[0].tag == "CONTAINERS"
+        assert len(parent[0]) == 0
 
 
 class TestWriterEcucModuleDef:
@@ -650,7 +654,50 @@ class TestWriterEcucModuleDef:
         assert parent[0].find("SUPPORTED-CONFIG-VARIANTS") is not None
         assert parent[0].find("CONTAINERS") is not None
 
+    def test_full_with_api_service_prefix_and_refined(self, writer):
+        module = _make_module()
+        prefix = CIdentifier()
+        prefix.setValue("Cdd")
+        module.setApiServicePrefix(prefix)
+        module.setRefinedModuleDefRef(_ref("/Pkg/StMd", dest="ECUC-MODULE-DEF"))
+        parent = _parent()
+        writer.writeEcucModuleDef(parent, module)
+        assert parent[0].tag == "ECUC-MODULE-DEF"
+        assert parent[0].find("API-SERVICE-PREFIX").text == "Cdd"
+        refined = parent[0].find("REFINED-MODULE-DEF-REF")
+        assert refined is not None
+        assert refined.text == "/Pkg/StMd"
+        assert refined.attrib.get("DEST") == "ECUC-MODULE-DEF"
+
     def test_none(self, writer):
         parent = _parent()
         writer.writeEcucModuleDef(parent, None)
+        assert len(parent) == 0
+
+
+class TestWriterEcucDefinitionCollection:
+    def test_full(self, writer):
+        pkg = AUTOSAR.getInstance().createARPackage("Pkg")
+        collection = EcucDefinitionCollection(pkg, "Coll")
+        collection.addModuleRef(_ref("/Pkg/Mod", dest="ECUC-MODULE-DEF"))
+        parent = _parent()
+        writer.writeEcucDefinitionCollection(parent, collection)
+        assert parent[0].tag == "ECUC-DEFINITION-COLLECTION"
+        assert parent[0].find("SHORT-NAME").text == "Coll"
+        refs = parent[0].findall("MODULE-REFS/MODULE-REF")
+        assert len(refs) == 1
+        assert refs[0].text == "/Pkg/Mod"
+        assert refs[0].attrib.get("DEST") == "ECUC-MODULE-DEF"
+
+    def test_empty(self, writer):
+        pkg = AUTOSAR.getInstance().createARPackage("Pkg")
+        collection = EcucDefinitionCollection(pkg, "Coll")
+        parent = _parent()
+        writer.writeEcucDefinitionCollection(parent, collection)
+        assert parent[0].tag == "ECUC-DEFINITION-COLLECTION"
+        assert parent[0].find("MODULE-REFS") is None
+
+    def test_none(self, writer):
+        parent = _parent()
+        writer.writeEcucDefinitionCollection(parent, None)
         assert len(parent) == 0
