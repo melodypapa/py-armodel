@@ -125,6 +125,7 @@ ELEMENT_TYPES_AND_TAGS = [
     ("PortPrototypeBlueprint", "PORT-PROTOTYPE-BLUEPRINT"),
     ("ModeDeclarationMappingSet", "MODE-DECLARATION-MAPPING-SET"),
     ("EcucModuleDef", "ECUC-MODULE-DEF"),
+    ("EcucDefinitionCollection", "ECUC-DEFINITION-COLLECTION"),
     ("EcucModuleConfigurationValues", "ECUC-MODULE-CONFIGURATION-VALUES"),
     ("SwSystemConst", "SW-SYSTEMCONST"),
     ("SwSystemconstantValueSet", "SW-SYSTEMCONSTANT-VALUE-SET"),

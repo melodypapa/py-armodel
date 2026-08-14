@@ -51,7 +51,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucModuleConfigurationValues, EcucValueCollection
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwElement
-from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucModuleDef
+from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucDefinitionCollection, EcucModuleDef
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwCategory, HwType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
@@ -1220,6 +1220,12 @@ class ARPackage(CollectableElement):
             self.addElement(element)
         return self.getElement(short_name, EcucModuleDef)
 
+    def createEcucDefinitionCollection(self, short_name: str) -> EcucDefinitionCollection:
+        if not self.IsElementExists(short_name, EcucDefinitionCollection):
+            element = EcucDefinitionCollection(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, EcucDefinitionCollection)
+
     def createSwSystemConst(self, short_name: str) -> SwSystemconst:
         if not self.IsElementExists(short_name, SwSystemconst):
             element = SwSystemconst(self, short_name)
@@ -1569,6 +1575,9 @@ class ARPackage(CollectableElement):
 
     def getEcucModuleDefs(self) -> List[EcucModuleDef]:
         return list(sorted(filter(lambda a: isinstance(a, EcucModuleDef), self.elements), key=lambda a: a.short_name))
+
+    def getEcucDefinitionCollections(self) -> List[EcucDefinitionCollection]:
+        return list(sorted(filter(lambda a: isinstance(a, EcucDefinitionCollection), self.elements), key=lambda a: a.short_name))
 
     def getSwSystemConsts(self) -> List[SwSystemconst]:
         return list(sorted(filter(lambda a: isinstance(a, SwSystemconst), self.elements), key=lambda a: a.short_name))

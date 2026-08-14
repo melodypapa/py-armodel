@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import List
+from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpBlueprintable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, CIdentifier, Float, Identifier, Limit
@@ -237,14 +237,35 @@ class EcucConfigurationClassEnum(AREnum):
 
 class EcucConfigurationVariantEnum(AREnum):
     """
-    Enumeration for ECUC configuration variant types.
+    Specifies which ConfigurationVariants are supported by this software module.
     """
 
     # EcucConfigurationVariantEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.13, p.53
+    # Spec verified: R23-11
+    # (no methods)
+
+    # Recommended configuration for a module. Tags: atp.EnumerationLiteralIndex=1
+    RECOMMENDED_CONFIGURATION = "RECOMMENDED-CONFIGURATION"
+
+    # Specifies that the BSW Module implementation may use PreCompileTime and LinkTime configuration parameters. Tags: atp.EnumerationLiteralIndex=2
+    VARIANT_LINK_TIME = "VARIANT-LINK-TIME"
+
+    # Specifies that the BSW Module implementation may use PreCompileTime, LinkTime and PostBuild configuration parameters. Tags: atp.EnumerationLiteralIndex=3
+    VARIANT_POST_BUILD = "VARIANT-POST-BUILD"
+
+    # Specifies that the BSW Module implementation uses only PreCompileTime configuration parameters. Tags: atp.EnumerationLiteralIndex=6
+    VARIANT_PRE_COMPILE = "VARIANT-PRE-COMPILE"
 
     def __init__(self):
-        super().__init__([])
+        super().__init__(
+            [
+                EcucConfigurationVariantEnum.RECOMMENDED_CONFIGURATION,
+                EcucConfigurationVariantEnum.VARIANT_LINK_TIME,
+                EcucConfigurationVariantEnum.VARIANT_POST_BUILD,
+                EcucConfigurationVariantEnum.VARIANT_PRE_COMPILE,
+            ]
+        )
 
 
 class EcucAbstractConfigurationClass(ARObject, ABC):
@@ -1596,31 +1617,36 @@ class EcucConditionFormula(ARObject):
 
 class EcucDefinitionCollection(AtpBlueprintable):
     """
-    Represents an ECUC definition collection in the AUTOSAR model.
-
-    This class is used to group related ECUC definitions together.
-
-    Attributes:
-        definitions (List[EcucDefinitionElement]): A list of ECUC definition elements.
+    This represents the anchor point of an ECU Configuration Parameter Definition within the AUTOSAR templates structure. Tags: atp.recommendedPackage=EcucDefinitionCollections
     """
 
     # EcucDefinitionCollection method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDefinitions               [x] impl  [ ] docstring  [ ] test
-    # [ ] addDefinition                [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.1, p.25
+    # Spec verified: R23-11
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addModuleRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getModuleRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.definitions: List[EcucDefinitionElement] = []
+        # References to the module definitions of individual software modules.
+        self.moduleRefs: List[RefType] = []
 
-    def getDefinitions(self) -> List[EcucDefinitionElement]:
-        return self.definitions
-
-    def addDefinition(self, value: EcucDefinitionElement):
+    def addModuleRef(self, value: RefType) -> "EcucDefinitionCollection":
+        """
+        Adds a reference to the module definition of an individual software module.
+        A None value is a no-op and does not append anything.
+        """
         if value is not None:
-            self.definitions.append(value)
+            self.moduleRefs.append(value)
         return self
+
+    def getModuleRefs(self) -> List[RefType]:
+        """
+        Gets the references to the module definitions of individual software modules.
+        """
+        return self.moduleRefs
 
 
 class EcucDestinationUriDef(Identifiable):
@@ -1853,45 +1879,67 @@ class EcucQueryExpression(ARObject):
 
 class EcucModuleDef(EcucDefinitionElement):
     """
-    ECUC module definition with API service prefix, container
-    definitions, and variant support properties.
+    Used as the top-level element for configuration definition for Software Modules, including BSW and RTE as well as ECU Infrastructure. Tags: atp.recommendedPackage=EcucModuleDefs
     """
 
     # EcucModuleDef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getApiServicePrefix          [x] impl  [ ] docstring  [ ] test
-    # [ ] setApiServicePrefix          [x] impl  [ ] docstring  [ ] test
-    # [ ] getContainers                [x] impl  [ ] docstring  [ ] test
-    # [ ] createEcucParamConfContainerDef [x] impl  [ ] docstring  [ ] test
-    # [ ] createEcucChoiceContainerDef [x] impl  [ ] docstring  [ ] test
-    # [ ] getPostBuildVariantSupport   [x] impl  [ ] docstring  [ ] test
-    # [ ] setPostBuildVariantSupport   [x] impl  [ ] docstring  [ ] test
-    # [ ] getRefinedModuleDefRef       [x] impl  [ ] docstring  [ ] test
-    # [ ] setRefinedModuleDefRef       [x] impl  [ ] docstring  [ ] test
-    # [ ] getSupportedConfigVariants   [x] impl  [ ] docstring  [ ] test
-    # [ ] addSupportedConfigVariant    [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.2, p.32
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getApiServicePrefix            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setApiServicePrefix            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getContainers                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createEcucParamConfContainerDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createEcucChoiceContainerDef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPostBuildVariantSupport     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPostBuildVariantSupport     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRefinedModuleDefRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRefinedModuleDefRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSupportedConfigVariants     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addSupportedConfigVariant      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # For modules where several instances of the VSMD can be defined the apiServicePrefix defines the API namespace of the derived instances, e.g. Cdd, Xfrm (ComXf, SomeIpXf, E2EXf).
         self.apiServicePrefix: CIdentifier = None
+
+        # Aggregates the top-level container definitions of this specific module definition. Stereotypes: atpSplitable Tags: atp.Splitkey=container.shortName xml.sequenceOffset=11
         self.containers: List[EcucContainerDef] = []
+
+        # Indicates if a module supports different post-build variants (previously known as post-build selectable configuration sets). TRUE means yes, FALSE means no.
         self.postBuildVariantSupport: Boolean = None
+
+        # Optional reference from the Vendor Specific Module Definition to the Standardized Module Definition it refines. In case this EcucModuleDef has the category STANDARDIZED_MODULE_DEFINITION this reference shall not be provided. In case this EcucModuleDef has the category VENDOR_SPECIFIC_MODULE_DEFINITION this reference is mandatory. Stereotypes: atpUriDef
         self.refinedModuleDefRef: RefType = None
+
+        # Specifies which ConfigurationVariants are supported by this software module. This attribute is optional if the EcucModuleDef has the category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION then this attribute is mandatory.
         self.supportedConfigVariants: List[EcucConfigurationVariantEnum] = []
 
-    def getApiServicePrefix(self) -> CIdentifier:
+    def getApiServicePrefix(self) -> Optional[CIdentifier]:
+        """
+        Gets the API namespace of the derived instances, e.g. Cdd, Xfrm (ComXf, SomeIpXf, E2EXf).
+        """
         return self.apiServicePrefix
 
-    def setApiServicePrefix(self, value: CIdentifier):
+    def setApiServicePrefix(self, value: Optional[CIdentifier]):
+        """
+        Sets the API namespace of the derived instances, e.g. Cdd, Xfrm (ComXf, SomeIpXf, E2EXf).
+        A None value is a no-op and does not change the current value.
+        """
         if value is not None:
             self.apiServicePrefix = value
         return self
 
     def getContainers(self) -> List[EcucContainerDef]:
+        """
+        Gets the top-level container definitions of this specific module definition.
+        """
         return self.containers
 
     def createEcucParamConfContainerDef(self, short_name: str) -> "EcucParamConfContainerDef":
+        """
+        Creates or returns an existing EcucParamConfContainerDef aggregated as a top-level container of this module definition.
+        """
         if not self.IsElementExists(short_name):
             container_def = EcucParamConfContainerDef(self, short_name)
             self.addElement(container_def)
@@ -1899,6 +1947,9 @@ class EcucModuleDef(EcucDefinitionElement):
         return self.getElement(short_name)
 
     def createEcucChoiceContainerDef(self, short_name: str) -> EcucChoiceContainerDef:
+        """
+        Creates or returns an existing EcucChoiceContainerDef aggregated as a top-level container of this module definition.
+        """
         if not self.IsElementExists(short_name):
             container_def = EcucChoiceContainerDef(self, short_name)
             self.addElement(container_def)
@@ -1906,25 +1957,46 @@ class EcucModuleDef(EcucDefinitionElement):
         return self.getElement(short_name)
 
     def getPostBuildVariantSupport(self) -> Boolean:
+        """
+        Gets whether a module supports different post-build variants. TRUE means yes, FALSE means no.
+        """
         return self.postBuildVariantSupport
 
     def setPostBuildVariantSupport(self, value: Boolean):
+        """
+        Sets whether a module supports different post-build variants. TRUE means yes, FALSE means no.
+        A None value is a no-op and does not change the current value.
+        """
         if value is not None:
             self.postBuildVariantSupport = value
         return self
 
     def getRefinedModuleDefRef(self) -> RefType:
+        """
+        Gets the optional reference from the Vendor Specific Module Definition to the Standardized Module Definition it refines.
+        """
         return self.refinedModuleDefRef
 
     def setRefinedModuleDefRef(self, value: RefType):
+        """
+        Sets the optional reference from the Vendor Specific Module Definition to the Standardized Module Definition it refines.
+        A None value is a no-op and does not change the current value.
+        """
         if value is not None:
             self.refinedModuleDefRef = value
         return self
 
     def getSupportedConfigVariants(self) -> List[EcucConfigurationVariantEnum]:
+        """
+        Gets the ConfigurationVariants supported by this software module.
+        """
         return self.supportedConfigVariants
 
     def addSupportedConfigVariant(self, value: EcucConfigurationVariantEnum):
+        """
+        Adds a ConfigurationVariant supported by this software module.
+        A None value is a no-op and does not append anything.
+        """
         if value is not None:
             self.supportedConfigVariants.append(value)
         return self
