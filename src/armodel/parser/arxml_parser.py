@@ -2904,6 +2904,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def getModeInBswModuleDescriptionInstanceRef(self, element: ET.Element) -> ModeInBswModuleDescriptionInstanceRef:
         instance_ref = ModeInBswModuleDescriptionInstanceRef()
+        self.readARObjectAttributes(element, instance_ref)
         instance_ref.setContextModeDeclarationGroupRef(self.getChildElementOptionalRefType(element, "CONTEXT-MODE-DECLARATION-GROUP-REF"))
         instance_ref.setTargetModeRef(self.getChildElementOptionalRefType(element, "TARGET-MODE-REF"))  # NOQA E501
         return instance_ref

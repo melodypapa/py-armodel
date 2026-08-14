@@ -11,62 +11,86 @@ class ModeInBswModuleDescriptionInstanceRef(AtpInstanceRef):
     """
     Instance reference to a mode declaration of a BswModuleDescription, reached
     through a ModeDeclarationGroup.
-
-    Sources:
-      - AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf (Page 323, Classic Platform
-      R23-11)
+    Aggregated by BswEvent.disabledInMode, BswModeSwitchEvent.mode,
+    DiagnosticEnvBswModeElement.mode.
     """
 
     # ModeInBswModuleDescriptionInstanceRef method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table C.37
-    # [x] __init__                          [x] impl  [x] docstring  [x] test
-    # [x] getBaseRef                        [x] impl  [x] docstring  [x] test
-    # [x] setBaseRef                        [x] impl  [x] docstring  [x] test
-    # [x] getContextModeDeclarationGroupRef [x] impl  [x] docstring  [x] test
-    # [x] setContextModeDeclarationGroupRef [x] impl  [x] docstring  [x] test
-    # [x] getTargetModeRef                  [x] impl  [x] docstring  [x] test
-    # [x] setTargetModeRef                  [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf, Table C.37, p.323
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getBaseRef                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setBaseRef                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getContextModeDeclarationGroupRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setContextModeDeclarationGroupRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTargetModeRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTargetModeRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        # The BswModuleDescription that contains the referenced mode.
-        # Stereotypes: atpDerived; Tags: xml.sequenceOffset=10.
+        # The BswModuleDescription that is the base of this instance ref.
+        # Stereotypes: atpDerived (derived attribute, no XML element).
         self.baseRef: Optional[RefType] = None
 
-        # The context ModeDeclarationGroup through which the mode is referenced.
-        # Tags: xml.sequenceOffset=20.
+        # This represents the context ModeDeclarationGroupPrototype.
         self.contextModeDeclarationGroupRef: Optional[RefType] = None
 
-        # The target mode declaration. Tags: xml.sequenceOffset=30.
+        # This represents the target mode declaration.
         self.targetModeRef: Optional[RefType] = None
 
     def getBaseRef(self) -> Optional[RefType]:
-        """Gets the reference to the BswModuleDescription containing the mode."""
+        """
+        Gets the reference to the base BswModuleDescription.
+        Derived attribute (atpDerived), so it has no XML element.
+
+        Returns:
+            RefType referencing the BswModuleDescription, or None if not set
+        """
         return self.baseRef
 
     def setBaseRef(self, value: Optional[RefType]) -> "ModeInBswModuleDescriptionInstanceRef":
-        """Sets the base BswModuleDescription reference. No-op when None; returns self."""
+        """
+        Sets the reference to the base BswModuleDescription.
+        A None value is a no-op and does not overwrite an existing reference.
+        """
         if value is not None:
             self.baseRef = value
         return self
 
     def getContextModeDeclarationGroupRef(self) -> Optional[RefType]:
-        """Gets the reference to the context ModeDeclarationGroup."""
+        """
+        Gets the reference to the context ModeDeclarationGroupPrototype.
+
+        Returns:
+            RefType referencing the ModeDeclarationGroupPrototype, or None if not set
+        """
         return self.contextModeDeclarationGroupRef
 
     def setContextModeDeclarationGroupRef(self, value: Optional[RefType]) -> "ModeInBswModuleDescriptionInstanceRef":
-        """Sets the context ModeDeclarationGroup reference. No-op when None; returns self."""
+        """
+        Sets the reference to the context ModeDeclarationGroupPrototype.
+        A None value is a no-op and does not overwrite an existing reference.
+        """
         if value is not None:
             self.contextModeDeclarationGroupRef = value
         return self
 
     def getTargetModeRef(self) -> Optional[RefType]:
-        """Gets the reference to the target mode declaration."""
+        """
+        Gets the reference to the target mode declaration.
+
+        Returns:
+            RefType referencing the ModeDeclaration, or None if not set
+        """
         return self.targetModeRef
 
     def setTargetModeRef(self, value: Optional[RefType]) -> "ModeInBswModuleDescriptionInstanceRef":
-        """Sets the target mode reference. No-op when None; returns self."""
+        """
+        Sets the reference to the target mode declaration.
+        A None value is a no-op and does not overwrite an existing reference.
+        """
         if value is not None:
             self.targetModeRef = value
         return self
