@@ -57,7 +57,7 @@ class TestWriteConsistencyNeeds:
         implicit_iref.setTargetVariableDataPrototypeRef(make_ref("/Comp/A/PPort/Data", "VARIABLE-DATA-PROTOTYPE"))
         dpg_not_coherent.addImplicitDataAccessIRef(implicit_iref)
 
-        dpg_coherent = consistency_needs.createDpgRequiresCoherency("DpgCoherent")
+        consistency_needs.createDpgRequiresCoherency("DpgCoherent")
 
         reg_not_stable = consistency_needs.createRegDoesNotRequireStability("RegNotStable")
         runnable_iref = RunnableEntityInCompositionInstanceRef()
