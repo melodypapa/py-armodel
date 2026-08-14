@@ -8,11 +8,15 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswModeSenderPolicy,
     BswModeSwitchAckRequest,
+    BswModeSwitchEvent,
     BswQueuedDataReceptionPolicy,
     BswServiceDependency,
     BswServiceDependencyIdent,
     BswVariableAccess,
     RoleBasedBswModuleEntryAssignment,
+)
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import (
+    ModeInBswModuleDescriptionInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     BswMgrNeeds,
@@ -30,6 +34,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import (  # noqa E501
     IncludedModeDeclarationGroupSet,
 )
+from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
 
@@ -1028,3 +1033,55 @@ class TestWriterBswModuleEntry:
         assert e.find("BSW-ENTRY-KIND") is not None
         assert e.find("RETURN-TYPE") is not None
         assert e.find("ARGUMENTS") is not None
+
+
+class TestWriterModeInBswModuleDescriptionInstanceRefRoundTrip:
+    def test_round_trip_mode_irefs(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        event = behavior.createBswModeSwitchEvent("Ev")
+        iref = ModeInBswModuleDescriptionInstanceRef()
+        iref.setContextModeDeclarationGroupRef(_ref("/g", "MODE-DECLARATION-GROUP-PROTOTYPE"))
+        iref.setTargetModeRef(_ref("/m", "MODE-DECLARATION"))
+        event.addModeIRef(iref)
+
+        out_file = tmp_path / "mode_iref_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        event_2 = desc_2.getInternalBehaviors()[0].getBswEvents()[0]
+        assert isinstance(event_2, BswModeSwitchEvent)
+        mode_irefs = event_2.getModeIRefs()
+        assert len(mode_irefs) == 1
+        assert mode_irefs[0].getContextModeDeclarationGroupRef().getValue() == "/g"
+        assert mode_irefs[0].getTargetModeRef().getValue() == "/m"
+
+    def test_round_trip_empty_mode_irefs(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        behavior.createBswModeSwitchEvent("Ev")
+
+        out_file = tmp_path / "mode_iref_empty_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        event_2 = desc_2.getInternalBehaviors()[0].getBswEvents()[0]
+        assert event_2.getModeIRefs() == []
