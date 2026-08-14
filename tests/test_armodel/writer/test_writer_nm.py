@@ -27,6 +27,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     CanNmCluster,
     CanNmClusterCoupling,
     CanNmNode,
+    J1939NmAddressConfigurationCapabilityEnum,
+    J1939NmNode,
+    J1939NodeName,
     NmConfig,
     NmCoordinatorRoleEnum,
     NmEcu,
@@ -88,6 +91,12 @@ def _int(val=1):
     return i
 
 
+def _set_int_text(val=1):
+    i = Integer()
+    i.setValue(str(val))
+    return i
+
+
 def _pos_int(val=1):
     i = PositiveInteger()
     i.setValue(val)
@@ -116,6 +125,12 @@ def _literal(val="lit"):
     lit = ARLiteral()
     lit.setValue(val)
     return lit
+
+
+def _j1939_cap(val="J-1939-NM-SCA"):
+    cap = J1939NmAddressConfigurationCapabilityEnum()
+    cap.setValue(val)
+    return cap
 
 
 class TestWritePduToFrameMappings:
@@ -226,6 +241,38 @@ class TestWriteNmNode:
         assert role_tag.text == "active"
 
 
+class TestWriteJ1939NodeName:
+    def test_writes_all_fields(self, writer):
+        node_name = J1939NodeName()
+        node_name.setArbitraryAddressCapable(_bool(True))
+        node_name.setEcuInstance(_set_int_text(1))
+        node_name.setFunction(_set_int_text(2))
+        node_name.setFunctionInstance(_set_int_text(3))
+        node_name.setIdentitiyNumber(_set_int_text(4))
+        node_name.setIndustryGroup(_set_int_text(5))
+        node_name.setManufacturerCode(_set_int_text(6))
+        node_name.setVehicleSystem(_set_int_text(7))
+        node_name.setVehicleSystemInstance(_set_int_text(8))
+        parent = _parent()
+        writer.setChildElementJ1939NodeName(parent, "NODE-NAME", node_name)
+        child = parent.find("NODE-NAME")
+        assert child is not None
+        assert child.find("ARBITRARY-ADDRESS-CAPABLE").text == "true"
+        assert child.find("ECU-INSTANCE").text == "1"
+        assert child.find("FUNCTION").text == "2"
+        assert child.find("FUNCTION-INSTANCE").text == "3"
+        assert child.find("IDENTITIY-NUMBER").text == "4"
+        assert child.find("INDUSTRY-GROUP").text == "5"
+        assert child.find("MANUFACTURER-CODE").text == "6"
+        assert child.find("VEHICLE-SYSTEM").text == "7"
+        assert child.find("VEHICLE-SYSTEM-INSTANCE").text == "8"
+
+    def test_none_produces_no_element(self, writer):
+        parent = _parent()
+        writer.setChildElementJ1939NodeName(parent, "NODE-NAME", None)
+        assert parent.find("NODE-NAME") is None
+
+
 class TestWriteCanNmNode:
     def test_writes_can_nm_node(self, writer):
         node = CanNmNode(MockParent(), "can_nm_node")
@@ -277,6 +324,47 @@ class TestWriteNmClusterNmNodes:
         assert nodes_tag is not None
         assert nodes_tag.find("CAN-NM-NODE") is not None
         assert nodes_tag.find("UDP-NM-NODE") is not None
+
+    def test_with_j1939_node(self, writer):
+        cluster = CanNmCluster(MockParent(), "cluster")
+        node = cluster.createJ1939NmNode("j1939_node")
+        node.setAddressConfigurationCapability(_j1939_cap())
+        parent = _parent()
+        writer.writeNmClusterNmNodes(parent, cluster)
+        nodes_tag = parent.find("NM-NODES")
+        assert nodes_tag is not None
+        j1939_tag = nodes_tag.find("J-1939-NM-NODE")
+        assert j1939_tag is not None
+        assert j1939_tag.find("ADDRESS-CONFIGURATION-CAPABILITY") is not None
+        assert j1939_tag.find("ADDRESS-CONFIGURATION-CAPABILITY").text == "J-1939-NM-SCA"
+
+
+class TestWriteJ1939NmNode:
+    def test_writes_j1939_nm_node(self, writer):
+        node = J1939NmNode(MockParent(), "j1939_node")
+        node.setAddressConfigurationCapability(_j1939_cap())
+        node_name = J1939NodeName()
+        node_name.setArbitraryAddressCapable(_bool(True))
+        node_name.setManufacturerCode(_set_int_text(305))
+        node.setNodeName(node_name)
+        parent = _parent()
+        writer.writeJ1939NmNode(parent, node)
+        j1939_tag = parent.find("J-1939-NM-NODE")
+        assert j1939_tag is not None
+        assert j1939_tag.find("ADDRESS-CONFIGURATION-CAPABILITY").text == "J-1939-NM-SCA"
+        node_name_tag = j1939_tag.find("NODE-NAME")
+        assert node_name_tag is not None
+        assert node_name_tag.find("ARBITRARY-ADDRESS-CAPABLE").text == "true"
+        assert node_name_tag.find("MANUFACTURER-CODE").text == "305"
+
+    def test_without_optional_fields(self, writer):
+        node = J1939NmNode(MockParent(), "j1939_node")
+        parent = _parent()
+        writer.writeJ1939NmNode(parent, node)
+        j1939_tag = parent.find("J-1939-NM-NODE")
+        assert j1939_tag is not None
+        assert j1939_tag.find("ADDRESS-CONFIGURATION-CAPABILITY") is None
+        assert j1939_tag.find("NODE-NAME") is None
 
 
 class TestWriteCanNmClusterCoupling:

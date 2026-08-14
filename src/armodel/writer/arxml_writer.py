@@ -475,6 +475,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     CanNmCluster,
     CanNmClusterCoupling,
     CanNmNode,
+    J1939NmNode,
+    J1939NodeName,
     NmCluster,
     NmConfig,
     NmEcu,
@@ -593,6 +595,19 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalNumericalValue(child_element, "LOWER-CAN-ID", range.getLowerCanId())
             self.setChildElementOptionalNumericalValue(child_element, "UPPER-CAN-ID", range.getUpperCanId())
+
+    def setChildElementJ1939NodeName(self, element: ET.Element, key: str, node_name: J1939NodeName):
+        if node_name is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalBooleanValue(child_element, "ARBITRARY-ADDRESS-CAPABLE", node_name.getArbitraryAddressCapable())
+            self.setChildElementOptionalIntegerValue(child_element, "ECU-INSTANCE", node_name.getEcuInstance())
+            self.setChildElementOptionalIntegerValue(child_element, "FUNCTION", node_name.getFunction())
+            self.setChildElementOptionalIntegerValue(child_element, "FUNCTION-INSTANCE", node_name.getFunctionInstance())
+            self.setChildElementOptionalIntegerValue(child_element, "IDENTITIY-NUMBER", node_name.getIdentitiyNumber())
+            self.setChildElementOptionalIntegerValue(child_element, "INDUSTRY-GROUP", node_name.getIndustryGroup())
+            self.setChildElementOptionalIntegerValue(child_element, "MANUFACTURER-CODE", node_name.getManufacturerCode())
+            self.setChildElementOptionalIntegerValue(child_element, "VEHICLE-SYSTEM", node_name.getVehicleSystem())
+            self.setChildElementOptionalIntegerValue(child_element, "VEHICLE-SYSTEM-INSTANCE", node_name.getVehicleSystemInstance())
 
     def writeSds(self, parent: ET.Element, sdg: Sdg):
         for sd in sdg.getSds():
@@ -4963,6 +4978,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeNmNode(child_element, nm_node)
         self.setChildElementOptionalTimeValue(child_element, "NM-MSG-CYCLE-OFFSET", nm_node.getNmMsgCycleOffset())
 
+    def writeJ1939NmNode(self, element: ET.Element, nm_node: J1939NmNode):
+        self.logger.debug("write J1939NmNode %s" % nm_node.getShortName())
+        child_element = ET.SubElement(element, "J-1939-NM-NODE")
+        self.writeNmNode(child_element, nm_node)
+        self.setChildElementOptionalLiteral(child_element, "ADDRESS-CONFIGURATION-CAPABILITY", nm_node.getAddressConfigurationCapability())
+        self.setChildElementJ1939NodeName(child_element, "NODE-NAME", nm_node.getNodeName())
+
     def writeNmClusterNmNodes(self, element: ET.Element, parent: NmCluster):
         nodes = parent.getNmNodes()
         if len(nodes) > 0:
@@ -4972,6 +4994,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeCanNmNode(child_element, node)
                 elif isinstance(node, UdpNmNode):
                     self.writeUdpNmNode(child_element, node)
+                elif isinstance(node, J1939NmNode):
+                    self.writeJ1939NmNode(child_element, node)
                 else:
                     self.notImplemented("Unsupported Nm Node <%s>" % type(node))
 

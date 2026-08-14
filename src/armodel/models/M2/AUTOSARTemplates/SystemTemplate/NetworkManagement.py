@@ -394,18 +394,291 @@ class FlexrayNmNode(NmNode):
         super().__init__(parent, short_name)
 
 
-class J1939NmNode(NmNode):
+class J1939NmAddressConfigurationCapabilityEnum(AREnum):
     """
-    Represents a J1939 network management node in the system,
-    defining J1939-specific NM properties for heavy-duty
-    vehicle network management communication.
+    Defines the Address Configuration Capability options for the J1939NmNode.
     """
 
+    # Spec verified: R23-11
+    # J1939NmAddressConfigurationCapabilityEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.322, p.692
+    # (no methods)
+
+    # Arbitrary Address Capable CA Tags: atp.EnumerationLiteralIndex=4 xml.name=J-1939-NM-AAC
+    J1939NM_AAC = "J-1939-NM-AAC"
+
+    # Command Configurable Address CA. Tags: atp.EnumerationLiteralIndex=3 xml.name=J-1939-NM-CCA
+    J1939NM_CCA = "J-1939-NM-CCA"
+
+    # Non-Configurable Address CA. Tags: atp.EnumerationLiteralIndex=0 xml.name=J-1939-NM-NCA
+    J1939NM_NCA = "J-1939-NM-NCA"
+
+    # Self-Configurable Address CA. Tags: atp.EnumerationLiteralIndex=2 xml.name=J-1939-NM-SCA
+    J1939NM_SCA = "J-1939-NM-SCA"
+
+    # Service Configurable Address CA. Tags: atp.EnumerationLiteralIndex=1 xml.name=J-1939-NM-SVCA
+    J1939NM_SVCA = "J-1939-NM-SVCA"
+
+    def __init__(self):
+        super().__init__(
+            (
+                J1939NmAddressConfigurationCapabilityEnum.J1939NM_AAC,
+                J1939NmAddressConfigurationCapabilityEnum.J1939NM_CCA,
+                J1939NmAddressConfigurationCapabilityEnum.J1939NM_NCA,
+                J1939NmAddressConfigurationCapabilityEnum.J1939NM_SCA,
+                J1939NmAddressConfigurationCapabilityEnum.J1939NM_SVCA,
+            )
+        )
+
+
+class J1939NodeName(ARObject):
+    """
+    This element contains attributes to configure the J1939NmNode NAME.
+    """
+
+    # Spec verified: R23-11
+    # J1939NodeName method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.321, p.691
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getArbitraryAddressCapable                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setArbitraryAddressCapable                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getEcuInstance                                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setEcuInstance                                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getFunction                                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setFunction                                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getFunctionInstance                               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setFunctionInstance                               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getIdentitiyNumber                                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIdentitiyNumber                                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getIndustryGroup                                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIndustryGroup                                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getManufacturerCode                               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setManufacturerCode                               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getVehicleSystem                                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setVehicleSystem                                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getVehicleSystemInstance                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setVehicleSystemInstance                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # Arbitrary Address Capable field of the NAME of this node.
+        self.arbitraryAddressCapable: Optional[Boolean] = None
+
+        # ECU Instance field of the NAME of this node.
+        self.ecuInstance: Optional[Integer] = None
+
+        # Function field of the NAME of this node.
+        self.function: Optional[Integer] = None
+
+        # Function Instance field of the NAME of this node.
+        self.functionInstance: Optional[Integer] = None
+
+        # Identity Number field of the NAME of this node.
+        self.identitiyNumber: Optional[Integer] = None
+
+        # Industry Group field of the NAME of this node.
+        self.industryGroup: Optional[Integer] = None
+
+        # Manufacturer Code field of the NAME of this node.
+        self.manufacturerCode: Optional[Integer] = None
+
+        # Vehicle System field of the NAME of this node.
+        self.vehicleSystem: Optional[Integer] = None
+
+        # Vehicle System Instance field of the NAME of this node.
+        self.vehicleSystemInstance: Optional[Integer] = None
+
+    def getArbitraryAddressCapable(self) -> Optional[Boolean]:
+        """
+        Arbitrary Address Capable field of the NAME of this node.
+        """
+        return self.arbitraryAddressCapable
+
+    def setArbitraryAddressCapable(self, value: Optional[Boolean]) -> "J1939NodeName":
+        """
+        Arbitrary Address Capable field of the NAME of this node.
+        A None value is a no-op and does not overwrite an existing arbitraryAddressCapable.
+        """
+        if value is not None:
+            self.arbitraryAddressCapable = value
+        return self
+
+    def getEcuInstance(self) -> Optional[Integer]:
+        """
+        ECU Instance field of the NAME of this node.
+        """
+        return self.ecuInstance
+
+    def setEcuInstance(self, value: Optional[Integer]) -> "J1939NodeName":
+        """
+        ECU Instance field of the NAME of this node.
+        A None value is a no-op and does not overwrite an existing ecuInstance.
+        """
+        if value is not None:
+            self.ecuInstance = value
+        return self
+
+    def getFunction(self) -> Optional[Integer]:
+        """
+        Function field of the NAME of this node.
+        """
+        return self.function
+
+    def setFunction(self, value: Optional[Integer]) -> "J1939NodeName":
+        """
+        Function field of the NAME of this node.
+        A None value is a no-op and does not overwrite an existing function.
+        """
+        if value is not None:
+            self.function = value
+        return self
+
+    def getFunctionInstance(self) -> Optional[Integer]:
+        """
+        Function Instance field of the NAME of this node.
+        """
+        return self.functionInstance
+
+    def setFunctionInstance(self, value: Optional[Integer]) -> "J1939NodeName":
+        """
+        Function Instance field of the NAME of this node.
+        A None value is a no-op and does not overwrite an existing functionInstance.
+        """
+        if value is not None:
+            self.functionInstance = value
+        return self
+
+    def getIdentitiyNumber(self) -> Optional[Integer]:
+        """
+        Identity Number field of the NAME of this node.
+        """
+        return self.identitiyNumber
+
+    def setIdentitiyNumber(self, value: Optional[Integer]) -> "J1939NodeName":
+        """
+        Identity Number field of the NAME of this node.
+        A None value is a no-op and does not overwrite an existing identitiyNumber.
+        """
+        if value is not None:
+            self.identitiyNumber = value
+        return self
+
+    def getIndustryGroup(self) -> Optional[Integer]:
+        """
+        Industry Group field of the NAME of this node.
+        """
+        return self.industryGroup
+
+    def setIndustryGroup(self, value: Optional[Integer]) -> "J1939NodeName":
+        """
+        Industry Group field of the NAME of this node.
+        A None value is a no-op and does not overwrite an existing industryGroup.
+        """
+        if value is not None:
+            self.industryGroup = value
+        return self
+
+    def getManufacturerCode(self) -> Optional[Integer]:
+        """
+        Manufacturer Code field of the NAME of this node.
+        """
+        return self.manufacturerCode
+
+    def setManufacturerCode(self, value: Optional[Integer]) -> "J1939NodeName":
+        """
+        Manufacturer Code field of the NAME of this node.
+        A None value is a no-op and does not overwrite an existing manufacturerCode.
+        """
+        if value is not None:
+            self.manufacturerCode = value
+        return self
+
+    def getVehicleSystem(self) -> Optional[Integer]:
+        """
+        Vehicle System field of the NAME of this node.
+        """
+        return self.vehicleSystem
+
+    def setVehicleSystem(self, value: Optional[Integer]) -> "J1939NodeName":
+        """
+        Vehicle System field of the NAME of this node.
+        A None value is a no-op and does not overwrite an existing vehicleSystem.
+        """
+        if value is not None:
+            self.vehicleSystem = value
+        return self
+
+    def getVehicleSystemInstance(self) -> Optional[Integer]:
+        """
+        Vehicle System Instance field of the NAME of this node.
+        """
+        return self.vehicleSystemInstance
+
+    def setVehicleSystemInstance(self, value: Optional[Integer]) -> "J1939NodeName":
+        """
+        Vehicle System Instance field of the NAME of this node.
+        A None value is a no-op and does not overwrite an existing vehicleSystemInstance.
+        """
+        if value is not None:
+            self.vehicleSystemInstance = value
+        return self
+
+
+class J1939NmNode(NmNode):
+    """
+    J1939 specific NM Node attributes.
+    """
+
+    # Spec verified: R23-11
     # J1939NmNode method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.320, p.691
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getAddressConfigurationCapability                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setAddressConfigurationCapability                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getNodeName                                       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setNodeName                                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
+        # Defines the Address Configuration Capability of the J1939NmNode (corresponding to an SAE J1939 Controller Application, CA).
+        self.addressConfigurationCapability: Optional[J1939NmAddressConfigurationCapabilityEnum] = None
+
+        # NodeName configuration.
+        self.nodeName: Optional[J1939NodeName] = None
+
+    def getAddressConfigurationCapability(self) -> Optional[J1939NmAddressConfigurationCapabilityEnum]:
+        """
+        Defines the Address Configuration Capability of the J1939NmNode (corresponding to an SAE J1939 Controller Application, CA).
+        """
+        return self.addressConfigurationCapability
+
+    def setAddressConfigurationCapability(self, value: Optional[J1939NmAddressConfigurationCapabilityEnum]) -> "J1939NmNode":
+        """
+        Defines the Address Configuration Capability of the J1939NmNode (corresponding to an SAE J1939 Controller Application, CA).
+        A None value is a no-op and does not overwrite an existing addressConfigurationCapability.
+        """
+        if value is not None:
+            self.addressConfigurationCapability = value
+        return self
+
+    def getNodeName(self) -> Optional[J1939NodeName]:
+        """
+        NodeName configuration.
+        """
+        return self.nodeName
+
+    def setNodeName(self, value: Optional[J1939NodeName]) -> "J1939NmNode":
+        """
+        NodeName configuration.
+        A None value is a no-op and does not overwrite an existing nodeName.
+        """
+        if value is not None:
+            self.nodeName = value
+        return self
 
 
 class UdpNmNode(NmNode):
@@ -766,8 +1039,10 @@ class NmCluster(Identifiable, ABC):
     # [ ] setNmChannelSleepMaster      [x] impl  [ ] docstring  [ ] test
     # [ ] createCanNmNode              [x] impl  [ ] docstring  [ ] test
     # [ ] readUdpNmNode                [x] impl  [ ] docstring  [ ] test
+    # [ ] createJ1939NmNode            [x] impl  [ ] docstring  [ ] test
     # [ ] getCanNmNodes                [x] impl  [ ] docstring  [ ] test
     # [ ] getUdpNmNodes                [x] impl  [ ] docstring  [ ] test
+    # [ ] getJ1939NmNodes              [x] impl  [ ] docstring  [ ] test
     # [ ] getNmNodes                   [x] impl  [ ] docstring  [ ] test
     # [ ] getNmNodeDetectionEnabled    [x] impl  [ ] docstring  [ ] test
     # [ ] setNmNodeDetectionEnabled    [x] impl  [ ] docstring  [ ] test
@@ -830,11 +1105,21 @@ class NmCluster(Identifiable, ABC):
             self.nmNodes.append(node)
         return self.getElement(short_name)
 
+    def createJ1939NmNode(self, short_name: str) -> J1939NmNode:
+        if short_name not in self.elements:
+            node = J1939NmNode(self, short_name)
+            self.addElement(node)
+            self.nmNodes.append(node)
+        return self.getElement(short_name)
+
     def getCanNmNodes(self) -> List[CanNmNode]:
         return list(sorted(filter(lambda a: isinstance(a, CanNmNode), self.elements), key=lambda o: o.short_name))
 
     def getUdpNmNodes(self) -> List[UdpNmNode]:
         return list(sorted(filter(lambda a: isinstance(a, UdpNmNode), self.elements), key=lambda o: o.short_name))
+
+    def getJ1939NmNodes(self) -> List[J1939NmNode]:
+        return list(sorted(filter(lambda a: isinstance(a, J1939NmNode), self.elements), key=lambda o: o.short_name))
 
     def getNmNodes(self) -> List[NmNode]:
         return list(sorted(filter(lambda a: isinstance(a, NmNode), self.elements), key=lambda o: o.short_name))

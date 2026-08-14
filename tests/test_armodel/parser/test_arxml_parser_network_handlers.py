@@ -1674,6 +1674,48 @@ class TestNmConfigHandlers:
             warning_parser.readNmClusterNmNodes(element, cluster)
         assert any("Unsupported Nm Node" in r.getMessage() for r in caplog.records)
 
+    def test_readNmClusterNmNodes_j1939NmNode(self, parser):
+        from armodel.models import J1939NmCluster, NmConfig
+
+        config = NmConfig(parent=_autosar_root(), short_name="nmConfig")
+        cluster = J1939NmCluster(parent=config, short_name="jnm")
+        element = _snip(
+            "<NM-NODES>" "<J-1939-NM-NODE>" "<SHORT-NAME>node</SHORT-NAME>" "</J-1939-NM-NODE>" "</NM-NODES>",
+            root_tag="J-1939-NM-CLUSTER",
+        )
+        parser.readNmClusterNmNodes(element, cluster)
+        assert len(cluster.getNmNodes()) == 1
+        assert cluster.getNmNodes()[0].getShortName() == "node"
+
+    def test_readJ1939NmNode_sets_addressConfigurationCapability(self, parser):
+        from armodel.models import J1939NmCluster, J1939NmNode, NmConfig
+
+        config = NmConfig(parent=_autosar_root(), short_name="nmConfig")
+        cluster = J1939NmCluster(parent=config, short_name="jnm")
+        node = J1939NmNode(parent=cluster, short_name="node")
+        element = _snip(
+            "<SHORT-NAME>node</SHORT-NAME>" "<ADDRESS-CONFIGURATION-CAPABILITY>J-1939-NM-SCA</ADDRESS-CONFIGURATION-CAPABILITY>",
+            root_tag="J-1939-NM-NODE",
+        )
+        parser.readJ1939NmNode(element, node)
+        assert node.getAddressConfigurationCapability().getValue() == "J-1939-NM-SCA"
+
+    def test_readJ1939NmNode_sets_nodeName(self, parser):
+        from armodel.models import J1939NmCluster, J1939NmNode, NmConfig
+
+        config = NmConfig(parent=_autosar_root(), short_name="nmConfig")
+        cluster = J1939NmCluster(parent=config, short_name="jnm")
+        node = J1939NmNode(parent=cluster, short_name="node")
+        element = _snip(
+            "<SHORT-NAME>node</SHORT-NAME>" "<NODE-NAME>" "<ARBITRARY-ADDRESS-CAPABLE>true</ARBITRARY-ADDRESS-CAPABLE>" "<MANUFACTURER-CODE>305</MANUFACTURER-CODE>" "</NODE-NAME>",
+            root_tag="J-1939-NM-NODE",
+        )
+        parser.readJ1939NmNode(element, node)
+        node_name = node.getNodeName()
+        assert node_name is not None
+        assert node_name.getArbitraryAddressCapable().getValue() is True
+        assert node_name.getManufacturerCode().getValue() == 305
+
     def test_readCanNmNode_sets_nmNodeId(self, parser):
         from armodel.models import CanNmCluster, CanNmNode, NmConfig
 

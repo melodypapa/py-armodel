@@ -487,6 +487,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     CanNmCluster,
     CanNmClusterCoupling,
     CanNmNode,
+    J1939NmNode,
+    J1939NodeName,
     NmCluster,
     NmConfig,
     NmEcu,
@@ -609,6 +611,22 @@ class ARXMLParser(AbstractARXMLParser):
             range.setLowerCanId(self.getChildElementOptionalNumericalValue(child_element, "LOWER-CAN-ID"))
             range.setUpperCanId(self.getChildElementOptionalNumericalValue(child_element, "UPPER-CAN-ID"))
         return range
+
+    def getChildElementJ1939NodeName(self, element: ET.Element, key: str) -> J1939NodeName:
+        child_element = self.find(element, key)
+        node_name = None
+        if child_element is not None:
+            node_name = J1939NodeName()
+            node_name.setArbitraryAddressCapable(self.getChildElementOptionalBooleanValue(child_element, "ARBITRARY-ADDRESS-CAPABLE"))
+            node_name.setEcuInstance(self.getChildElementOptionalIntegerValue(child_element, "ECU-INSTANCE"))
+            node_name.setFunction(self.getChildElementOptionalIntegerValue(child_element, "FUNCTION"))
+            node_name.setFunctionInstance(self.getChildElementOptionalIntegerValue(child_element, "FUNCTION-INSTANCE"))
+            node_name.setIdentitiyNumber(self.getChildElementOptionalIntegerValue(child_element, "IDENTITIY-NUMBER"))
+            node_name.setIndustryGroup(self.getChildElementOptionalIntegerValue(child_element, "INDUSTRY-GROUP"))
+            node_name.setManufacturerCode(self.getChildElementOptionalIntegerValue(child_element, "MANUFACTURER-CODE"))
+            node_name.setVehicleSystem(self.getChildElementOptionalIntegerValue(child_element, "VEHICLE-SYSTEM"))
+            node_name.setVehicleSystemInstance(self.getChildElementOptionalIntegerValue(child_element, "VEHICLE-SYSTEM-INSTANCE"))
+        return node_name
 
     def readSd(self, element: ET.Element, sdg: Sdg):
         for child_element in self.findall(element, "./SD"):
@@ -5896,6 +5914,12 @@ class ARXMLParser(AbstractARXMLParser):
         self.readNmNode(element, nm_node)
         nm_node.setNmMsgCycleOffset(self.getChildElementOptionalTimeValue(element, "NM-MSG-CYCLE-OFFSET"))
 
+    def readJ1939NmNode(self, element: ET.Element, nm_node: J1939NmNode):
+        self.logger.debug("Read J1939NmNode <%s>" % nm_node.getShortName())
+        self.readNmNode(element, nm_node)
+        nm_node.setAddressConfigurationCapability(self.getChildElementOptionalLiteral(element, "ADDRESS-CONFIGURATION-CAPABILITY"))
+        nm_node.setNodeName(self.getChildElementJ1939NodeName(element, "NODE-NAME"))
+
     def readNmClusterNmNodes(self, element: ET.Element, cluster: NmCluster):
         self.logger.debug("readNmConfigNmNodes %s" % cluster.getShortName())
         for child_element in self.findall(element, "NM-NODES/*"):
@@ -5906,6 +5930,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "UDP-NM-NODE":
                 nm_node = cluster.readUdpNmNode(self.getShortName(child_element))
                 self.readUdpNmNode(child_element, nm_node)
+            elif tag_name == "J-1939-NM-NODE":
+                nm_node = cluster.createJ1939NmNode(self.getShortName(child_element))
+                self.readJ1939NmNode(child_element, nm_node)
             else:
                 self.notImplemented("Unsupported Nm Node <%s>" % tag_name)
 
