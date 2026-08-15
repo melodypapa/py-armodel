@@ -1139,11 +1139,7 @@ class TestEcucContainerAndModuleDef:
         from armodel.models import EcucParamConfContainerDef
 
         container = EcucParamConfContainerDef(_autosar_root(), "Cd")
-        element = _snip(
-            "<DESTINATION-URI-REFS>"
-            "<DESTINATION-URI-REF DEST=\"ECUC-DESTINATION-URI-DEF\">/Dest/Uri</DESTINATION-URI-REF>"
-            "</DESTINATION-URI-REFS>"
-        )
+        element = _snip("<DESTINATION-URI-REFS>" '<DESTINATION-URI-REF DEST="ECUC-DESTINATION-URI-DEF">/Dest/Uri</DESTINATION-URI-REF>' "</DESTINATION-URI-REFS>")
         parser.readEcucContainerDef(element, container)
         uri_refs = container.getDestinationUriRefs()
         assert len(uri_refs) == 1
