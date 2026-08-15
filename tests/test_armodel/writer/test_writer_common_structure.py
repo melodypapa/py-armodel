@@ -35,11 +35,13 @@ from armodel.models.M2.MSR.AsamHdo.AdminData import (
 )
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sd, Sdg, SdgCaption
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
+from armodel.models.M2.MSR.Documentation.BlockElements import Caption
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import (
     Graphic,
     LGraphic,
     MlFigure,
 )
+from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import (
     DocumentationBlock,
 )
@@ -58,8 +60,6 @@ from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
     MultiLanguagePlainText,
     MultiLanguageVerbatim,
 )
-from armodel.models.M2.MSR.Documentation.BlockElements import Caption
-from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 from armodel.writer.arxml_writer import ARXMLWriter
 
 
