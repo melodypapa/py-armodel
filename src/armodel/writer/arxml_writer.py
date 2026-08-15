@@ -190,6 +190,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
 )
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwPinGroup
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import Documentation, DocumentationContext
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
@@ -579,6 +580,7 @@ from armodel.models.M2.MSR.Documentation.Chapters import (
     ChapterModel,
     MsrQueryChapter,
     MsrQueryTopic1,
+    PredefinedChapter,
     Topic1,
     TopicContent,
     TopicContentOrMsrQuery,
@@ -1328,6 +1330,35 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeChapter(child_element, chapter_item, "CHAPTER")
             if chapter.getMsrQueryChapter() is not None:
                 self.writeMsrQueryChapter(child_element, chapter.getMsrQueryChapter())
+
+    def writePredefinedChapter(self, element: ET.Element, predefined: Optional[PredefinedChapter]):
+        if predefined is not None:
+            chapter_model = predefined.getChapterModel()
+            if chapter_model is not None:
+                self.writeChapterModel(element, chapter_model)
+        return predefined
+
+    def writeDocumentationContext(self, element: ET.Element, context: DocumentationContext):
+        self.writeMultilanguageReferrable(element, context)
+        feature_iref = context.getFeatureIRef()
+        if feature_iref is not None:
+            self.setAnyInstanceRef(element, "FEATURE-IREF", feature_iref)
+        self.setChildElementOptionalRefType(element, "IDENTIFIABLE-REF", context.getIdentifiableRef())
+
+    def writeDocumentation(self, element: ET.Element, documentation: Documentation):
+        child_element = ET.SubElement(element, "DOCUMENTATION")
+        self.writeARElement(child_element, documentation)
+        contexts = documentation.getContexts()
+        if len(contexts) > 0:
+            contexts_tag = ET.SubElement(child_element, "CONTEXTS")
+            for context in contexts:
+                context_el = ET.SubElement(contexts_tag, "DOCUMENTATION-CONTEXT")
+                self.writeDocumentationContext(context_el, context)
+        documentation_content = documentation.getDocumentationContent()
+        if documentation_content is not None:
+            content_el = ET.SubElement(child_element, "DOCUMENTATION-CONTENT")
+            self.writePredefinedChapter(content_el, documentation_content)
+        return documentation
 
     def writeChapterContent(self, element: ET.Element, chapter_content: ChapterContent):
         child_element = ET.SubElement(element, "CHAPTER-CONTENT")
@@ -7408,6 +7439,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
         self.setChildElementOptionalRefType(element, "DEFINITION-REF", param_value.getDefinitionRef())
         self.setAnnotations(element, param_value.getAnnotations())
+        self.setChildElementOptionalPositiveInteger(element, "INDEX", param_value.getIndex())
 
     def setEcucTextualParamValue(self, element: ET.Element, param_value: EcucTextualParamValue):
         child_element = ET.SubElement(element, "ECUC-TEXTUAL-PARAM-VALUE")
@@ -7434,6 +7466,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeEcucAbstractReferenceValue(self, element: ET.Element, value: EcucAbstractReferenceValue):
         self.setChildElementOptionalRefType(element, "DEFINITION-REF", value.getDefinitionRef())
         self.setAnnotations(element, value.getAnnotations())
+        self.setChildElementOptionalPositiveInteger(element, "INDEX", value.getIndex())
 
     def setEcucReferenceValue(self, element: ET.Element, value=None):
         if value is not None:
@@ -7474,6 +7507,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "ECUC-CONTAINER-VALUE")
         self.writeIdentifiable(child_element, container_value)
         self.setChildElementOptionalRefType(child_element, "DEFINITION-REF", container_value.getDefinitionRef())
+        self.setChildElementOptionalPositiveInteger(child_element, "INDEX", container_value.getIndex())
         self.writeEcucContainerValueParameterValues(child_element, container_value)
         self.writeEcucContainerValueReferenceValues(child_element, container_value)
         self.writeEcucContainerValueSubContainers(child_element, container_value)
@@ -8376,6 +8410,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticConnection(element, ar_element)
         elif isinstance(ar_element, DiagnosticServiceTable):
             self.writeDiagnosticServiceTable(element, ar_element)
+        elif isinstance(ar_element, Documentation):
+            self.writeDocumentation(element, ar_element)
         elif isinstance(ar_element, MultiplexedIPdu):
             self.writeMultiplexedIPdu(element, ar_element)
         elif isinstance(ar_element, UserDefinedIPdu):

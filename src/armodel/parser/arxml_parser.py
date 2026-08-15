@@ -200,6 +200,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
 )
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwPinGroup
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import Documentation, DocumentationContext
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
@@ -598,6 +599,7 @@ from armodel.models.M2.MSR.Documentation.Chapters import (
     ChapterOrMsrQuery,
     MsrQueryChapter,
     MsrQueryTopic1,
+    PredefinedChapter,
     Topic1,
     TopicContent,
     TopicContentOrMsrQuery,
@@ -4080,6 +4082,29 @@ class ARXMLParser(AbstractARXMLParser):
             chapter_model.setChapter(chapter_or_msr_query)
         return chapter_model
 
+    def readPredefinedChapter(self, element: ET.Element) -> PredefinedChapter:
+        predefined = PredefinedChapter()
+        chapter_model_element = self.find(element, "CHAPTER-MODEL")
+        if chapter_model_element is not None:
+            predefined.setChapterModel(self.readChapterModel(chapter_model_element, None))
+        return predefined
+
+    def readDocumentationContext(self, element: ET.Element, parent: ARObject) -> DocumentationContext:
+        context = DocumentationContext(parent, self.getShortName(element))
+        self.readMultilanguageReferrable(element, context)
+        context.setFeatureIRef(self.getAnyInstanceRef(element, "FEATURE-IREF"))
+        context.setIdentifiableRef(self.getChildElementOptionalRefType(element, "IDENTIFIABLE-REF"))
+        return context
+
+    def readDocumentation(self, element: ET.Element, documentation: Documentation):
+        self.readARElement(element, documentation)
+        for context_element in self.findall(element, "CONTEXTS/DOCUMENTATION-CONTEXT"):
+            documentation.addContext(self.readDocumentationContext(context_element, documentation))
+        documentation_content_element = self.find(element, "DOCUMENTATION-CONTENT")
+        if documentation_content_element is not None:
+            documentation.setDocumentationContent(self.readPredefinedChapter(documentation_content_element))
+        return documentation
+
     def readChapterContent(self, element: ET.Element, parent: Chapter) -> ChapterContent:
         chapter_content = ChapterContent()
         topic_content_or_msr_query = self.readTopicContentOrMsrQuery(element, chapter_content)
@@ -7429,6 +7454,7 @@ class ARXMLParser(AbstractARXMLParser):
         param_value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
         for annotation in self.getAnnotations(element):
             param_value.addAnnotation(annotation)
+        param_value.setIndex(self.getChildElementOptionalPositiveInteger(element, "INDEX"))
 
     def getEcucTextualParamValue(self, element: ET.Element) -> EcucTextualParamValue:
         param_value = EcucTextualParamValue()
@@ -7456,6 +7482,7 @@ class ARXMLParser(AbstractARXMLParser):
         value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
         for annotation in self.getAnnotations(element):
             value.addAnnotation(annotation)
+        value.setIndex(self.getChildElementOptionalPositiveInteger(element, "INDEX"))
 
     def getEcucReferenceValue(self, element: ET.Element) -> EcucReferenceValue:
         value = EcucReferenceValue()
@@ -7493,6 +7520,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readEcucContainerValue(self, element: ET.Element, container_value: EcucContainerValue):
         self.readIdentifiable(element, container_value)
         container_value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
+        container_value.setIndex(self.getChildElementOptionalPositiveInteger(element, "INDEX"))
         self.readEcucContainerValueParameterValues(element, container_value)
         self.readEcucContainerValueReferenceValues(element, container_value)
         self.readEcucContainerValueSubContainers(element, container_value)
@@ -8226,6 +8254,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-SERVICE-TABLE":
                 table = parent.createDiagnosticServiceTable(self.getShortName(child_element))
                 self.readDiagnosticServiceTable(child_element, table)
+            elif tag_name == "DOCUMENTATION":
+                documentation = parent.createDocumentation(self.getShortName(child_element))
+                self.readDocumentation(child_element, documentation)
             elif tag_name == "MULTIPLEXED-I-PDU":
                 i_pdu = parent.createMultiplexedIPdu(self.getShortName(child_element))
                 self.readMultiplexedIPdu(child_element, i_pdu)

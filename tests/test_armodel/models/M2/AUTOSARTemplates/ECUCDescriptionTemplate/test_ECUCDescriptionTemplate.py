@@ -66,6 +66,33 @@ def test_ecuc_indexable_value_abstract():
         pass  # Expected
 
 
+def test_ecuc_indexable_value_index_methods():
+    """
+    Test EcucIndexableValue index accessors (via a concrete subclass).
+
+    Test Steps:
+    1. Create an EcucNumericalParamValue instance (concrete subclass)
+    2. Test initial index value
+    3. Test index getter and setter with method chaining
+    4. Test setIndex(None) is a no-op
+    """
+    value = EcucNumericalParamValue()
+
+    # Test initial value
+    assert value.index is None
+
+    # Test getter and setter
+    index = ARNumerical()
+    index.setValue("4")
+    result = value.setIndex(index)
+    assert result == value  # Method chaining
+    assert value.getIndex() == index
+
+    # Test None is a no-op
+    value.setIndex(None)
+    assert value.getIndex() == index
+
+
 def test_ecuc_parameter_value_abstract():
     """
     Test EcucParameterValue abstract class.

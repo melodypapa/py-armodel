@@ -715,23 +715,71 @@ class Boolean(ARBoolean):
 
 class Identifier(ARLiteral):
     """
-    An Identifier is a string with a number of constraints on its appearance, satisfying the requirements typical
-    programming languages define for their Identifiers.
-    This datatype represents a string, that can be used as a c-Identifier.
-    It shall start with a letter, may consist of letters, digits and underscores.
-
-    Tags:
-        * xml.xsd.customType=IDENTIFIER
-        * xml.xsd.maxLength=128
-        * xml.xsd.pattern=[a-zA-Z][a-zA-Z0-9_]*
-        * xml.xsd.type=string
+    An Identifier is a string with a number of constraints on its appearance, satisfying the requirements typical programming languages define for their Identifiers. This datatype represents a string, that can be used as a c-Identifier. It shall start with a letter, may consist of letters, digits and underscores.
     """
 
     # Identifier method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.5, p.61
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getBlueprintValue   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setBlueprintValue   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getNamePattern      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setNamePattern      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self):
         super().__init__()
+
+        # This represents a description that documents how the value shall be defined when deriving objects from the blueprint.
+        self.blueprintValue: Optional[String] = None
+
+        # This attribute represents a pattern which shall be used to define the value of the identifier if the identifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate.
+        self.namePattern: Optional[String] = None
+
+    def getBlueprintValue(self) -> Optional[String]:
+        """
+        This represents a description that documents how the value shall be defined when deriving objects from the blueprint.
+
+        Returns:
+            The blueprint value, or None if not set
+        """
+        return self.blueprintValue
+
+    def setBlueprintValue(self, value: Optional[String]) -> "Identifier":
+        """
+        This represents a description that documents how the value shall be defined when deriving objects from the blueprint.
+
+        A None value is a no-op and does not overwrite an existing blueprintValue.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.blueprintValue = value
+        return self
+
+    def getNamePattern(self) -> Optional[String]:
+        """
+        This attribute represents a pattern which shall be used to define the value of the identifier if the identifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate.
+
+        Returns:
+            The name pattern, or None if not set
+        """
+        return self.namePattern
+
+    def setNamePattern(self, value: Optional[String]) -> "Identifier":
+        """
+        This attribute represents a pattern which shall be used to define the value of the identifier if the identifier in question is part of a blueprint. For more details refer to TPS_StandardizationTemplate.
+
+        A None value is a no-op and does not overwrite an existing namePattern.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.namePattern = value
+        return self
 
 
 class CIdentifier(ARLiteral):

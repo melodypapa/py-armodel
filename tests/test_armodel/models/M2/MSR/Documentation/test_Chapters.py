@@ -13,6 +13,7 @@ from armodel.models.M2.MSR.Documentation.Chapters import (
     ChapterOrMsrQuery,
     MsrQueryChapter,
     MsrQueryTopic1,
+    PredefinedChapter,
     Topic1,
     TopicContent,
     TopicContentOrMsrQuery,
@@ -52,6 +53,22 @@ class TestChapter:
         assert chapter.getChapterModel() is chapter_model
         chapter.setChapterModel(None)
         assert chapter.getChapterModel() is chapter_model
+
+
+class TestPredefinedChapter:
+    """Test class for PredefinedChapter class."""
+
+    def test_initialization(self):
+        predefined = PredefinedChapter()
+        assert predefined.getChapterModel() is None
+
+    def test_set_get_chapter_model(self):
+        predefined = PredefinedChapter()
+        chapter_model = ChapterModel()
+        assert predefined.setChapterModel(chapter_model) is predefined
+        assert predefined.getChapterModel() is chapter_model
+        predefined.setChapterModel(None)
+        assert predefined.getChapterModel() is chapter_model
 
 
 class TestDocumentationLeafClasses:

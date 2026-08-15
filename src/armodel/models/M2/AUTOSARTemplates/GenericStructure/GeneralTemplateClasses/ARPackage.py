@@ -10,6 +10,7 @@ from typing import Dict, List, Optional, Any
 
 from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import Documentation
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
@@ -836,6 +837,12 @@ class ARPackage(CollectableElement):
             set = LifeCycleInfoSet(self, short_name)
             self.addElement(set)
         return self.getElement(short_name, LifeCycleInfoSet)
+
+    def createDocumentation(self, short_name: str) -> Documentation:
+        if not self.IsElementExists(short_name, Documentation):
+            documentation = Documentation(self, short_name)
+            self.addElement(documentation)
+        return self.getElement(short_name, Documentation)
 
     def createClientServerInterface(self, short_name: str) -> ClientServerInterface:
         if not self.IsElementExists(short_name, ClientServerInterface):

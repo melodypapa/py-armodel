@@ -1065,3 +1065,55 @@ class TestCIdentifier:
 
         unlimited_int = UnlimitedInteger()
         assert unlimited_int is not None
+
+
+class TestIdentifier:
+    """
+    Test class for Identifier functionality.
+    """
+
+    def test_initialization(self):
+        """
+        Test Identifier initialization.
+        """
+        identifier = Identifier()
+
+        # Verify basic properties
+        assert identifier is not None
+        assert identifier._value is None
+        assert identifier.blueprintValue is None
+        assert identifier.namePattern is None
+
+    def test_blueprint_value_methods(self):
+        """
+        Test blueprint value methods.
+        """
+        identifier = Identifier()
+
+        assert identifier.getBlueprintValue() is None
+
+        bp_value = String()
+        bp_value.setValue("TestValue")
+        result = identifier.setBlueprintValue(bp_value)
+        assert result is identifier  # Verify method chaining
+        assert identifier.getBlueprintValue() == bp_value
+
+        identifier.setBlueprintValue(None)
+        assert identifier.getBlueprintValue() == bp_value
+
+    def test_name_pattern_methods(self):
+        """
+        Test name pattern methods.
+        """
+        identifier = Identifier()
+
+        assert identifier.getNamePattern() is None
+
+        name_pattern = String()
+        name_pattern.setValue("TestPattern")
+        result = identifier.setNamePattern(name_pattern)
+        assert result is identifier  # Verify method chaining
+        assert identifier.getNamePattern() == name_pattern
+
+        identifier.setNamePattern(None)
+        assert identifier.getNamePattern() == name_pattern
