@@ -932,13 +932,34 @@ class EcucAbstractReferenceDef(EcucCommonAttributes, ABC):
 
     # EcucAbstractReferenceDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.26, p.71
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getWithAuto                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setWithAuto                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent, short_name):
         if type(self) is EcucAbstractReferenceDef:
             raise TypeError("Cannot instantiate abstract class EcucAbstractReferenceDef")
 
         super().__init__(parent, short_name)
+
+        # Specifies whether it shall be allowed on the value side to specify this reference value as "AUTO".
+        self.withAuto: Optional[Boolean] = None
+
+    def getWithAuto(self) -> Optional[Boolean]:
+        """
+        Specifies whether it shall be allowed on the value side to specify this reference value as "AUTO". If withAuto is "true" it shall be possible to set the "isAuto Value" attribute of the respective reference to "true". This means that the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. These implicit updated values might require a re-generation of other modules which reference these values. If withAuto is "false" it shall not be possible to set the "is AutoValue" attribute of the respective reference to "true". If withAuto is not present the default is "false".
+        """
+        return self.withAuto
+
+    def setWithAuto(self, value: Optional[Boolean]) -> "EcucAbstractReferenceDef":
+        """
+        Specifies whether it shall be allowed on the value side to specify this reference value as "AUTO". If withAuto is "true" it shall be possible to set the "isAuto Value" attribute of the respective reference to "true". This means that the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. These implicit updated values might require a re-generation of other modules which reference these values. If withAuto is "false" it shall not be possible to set the "is AutoValue" attribute of the respective reference to "true". If withAuto is not present the default is "false".
+        A None value is a no-op and does not overwrite an existing withAuto.
+        """
+        if value is not None:
+            self.withAuto = value
+        return self
 
 
 class EcucAbstractInternalReferenceDef(EcucAbstractReferenceDef, ABC):
@@ -949,6 +970,7 @@ class EcucAbstractInternalReferenceDef(EcucAbstractReferenceDef, ABC):
 
     # EcucAbstractInternalReferenceDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.27, p.72
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getRequiresSymbolicNameValue [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setRequiresSymbolicNameValue [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -958,19 +980,19 @@ class EcucAbstractInternalReferenceDef(EcucAbstractReferenceDef, ABC):
             raise TypeError("Cannot instantiate abstract class EcucAbstractInternalReferenceDef")
         super().__init__(parent, short_name)
 
-        # If this attribute is set to true the implementation of the reference is done using a Symbolic Name defined by the referenced container.
-        self.requiresSymbolicNameValue: Boolean = None
+        # If this attribute is set to true the implementation of the reference is done using a Symbolic Name defined by the referenced container according to TPS_ECUC_02108.
+        self.requiresSymbolicNameValue: Optional[Boolean] = None
 
-    def getRequiresSymbolicNameValue(self) -> Boolean:
+    def getRequiresSymbolicNameValue(self) -> Optional[Boolean]:
         """
-        Gets whether the implementation of the reference is done using a Symbolic Name.
+        If this attribute is set to true the implementation of the reference is done using a Symbolic Name defined by the referenced container according to TPS_ECUC_02108.
         """
         return self.requiresSymbolicNameValue
 
-    def setRequiresSymbolicNameValue(self, value: Boolean) -> "EcucAbstractInternalReferenceDef":
+    def setRequiresSymbolicNameValue(self, value: Optional[Boolean]) -> "EcucAbstractInternalReferenceDef":
         """
-        Sets whether the implementation of the reference is done using a Symbolic Name.
-        A None value is a no-op.
+        If this attribute is set to true the implementation of the reference is done using a Symbolic Name defined by the referenced container according to TPS_ECUC_02108.
+        A None value is a no-op and does not overwrite an existing requiresSymbolicNameValue.
         """
         if value is not None:
             self.requiresSymbolicNameValue = value
@@ -986,6 +1008,7 @@ class EcucAbstractExternalReferenceDef(EcucAbstractReferenceDef, ABC):
 
     # EcucAbstractExternalReferenceDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.28, p.72
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent, short_name):
@@ -1035,9 +1058,10 @@ class EcucChoiceReferenceDef(EcucAbstractInternalReferenceDef):
 
     # EcucChoiceReferenceDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.30, p.74
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDestinationRefs           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addDestinationRef            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDestinationRefs           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addDestinationRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1047,14 +1071,14 @@ class EcucChoiceReferenceDef(EcucAbstractInternalReferenceDef):
 
     def getDestinationRefs(self) -> List[RefType]:
         """
-        Gets all the possible parameter containers for the reference.
+        All the possible parameter containers for the reference are specified.
         """
         return self.destinationRefs
 
     def addDestinationRef(self, value: RefType) -> "EcucChoiceReferenceDef":
         """
-        Adds a possible parameter container for the reference.
-        A None value is a no-op.
+        All the possible parameter containers for the reference are specified.
+        A None value is a no-op and does not overwrite an existing destinationRefs.
         """
         if value is not None:
             self.destinationRefs.append(value)
@@ -1169,46 +1193,47 @@ class EcucInstanceReferenceDef(EcucAbstractExternalReferenceDef):
 
     # EcucInstanceReferenceDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.32, p.77
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDestinationContext        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setDestinationContext        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDestinationType           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setDestinationType           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDestinationContext        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDestinationContext        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDestinationType           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDestinationType           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
         # The context in the AUTOSAR Metamodel to which this reference is allowed to point to.
-        self.destinationContext: String = None
+        self.destinationContext: Optional[String] = None
 
         # The type in the AUTOSAR Metamodel to which instance this reference is allowed to point to.
-        self.destinationType: String = None
+        self.destinationType: Optional[String] = None
 
-    def getDestinationContext(self) -> String:
+    def getDestinationContext(self) -> Optional[String]:
         """
-        Gets the context in the AUTOSAR Metamodel to which this reference may point.
+        The context in the AUTOSAR Metamodel to which this reference is allowed to point to.
         """
         return self.destinationContext
 
-    def setDestinationContext(self, value: String) -> "EcucInstanceReferenceDef":
+    def setDestinationContext(self, value: Optional[String]) -> "EcucInstanceReferenceDef":
         """
-        Sets the context in the AUTOSAR Metamodel to which this reference may point.
-        A None value is a no-op.
+        The context in the AUTOSAR Metamodel to which this reference is allowed to point to.
+        A None value is a no-op and does not overwrite an existing destinationContext.
         """
         if value is not None:
             self.destinationContext = value
         return self
 
-    def getDestinationType(self) -> String:
+    def getDestinationType(self) -> Optional[String]:
         """
-        Gets the type in the AUTOSAR Metamodel to which this reference may point.
+        The type in the AUTOSAR Metamodel to which instance this reference is allowed to point to.
         """
         return self.destinationType
 
-    def setDestinationType(self, value: String) -> "EcucInstanceReferenceDef":
+    def setDestinationType(self, value: Optional[String]) -> "EcucInstanceReferenceDef":
         """
-        Sets the type in the AUTOSAR Metamodel to which this reference may point.
-        A None value is a no-op.
+        The type in the AUTOSAR Metamodel to which instance this reference is allowed to point to.
+        A None value is a no-op and does not overwrite an existing destinationType.
         """
         if value is not None:
             self.destinationType = value
@@ -1585,6 +1610,8 @@ class EcucParamConfContainerDef(EcucContainerDef):
     # [x] getReferences                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] createEcucSymbolicNameReferenceDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] createEcucReferenceDef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createEcucChoiceReferenceDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createEcucInstanceReferenceDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getSubContainers             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] createEcucChoiceContainerDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] createEcucParamConfContainerDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -1772,6 +1799,38 @@ class EcucParamConfContainerDef(EcucContainerDef):
             self.references.append(ref)
         return self.getElement(short_name)
 
+    def createEcucChoiceReferenceDef(self, short_name: str) -> EcucChoiceReferenceDef:
+        """
+        Creates a new ECUC choice reference definition and adds it to the container.
+
+        Args:
+            short_name (str): The short name identifier for the new reference definition.
+
+        Returns:
+            EcucChoiceReferenceDef: The newly created ECUC choice reference definition.
+        """
+        if not self.IsElementExists(short_name):
+            ref = EcucChoiceReferenceDef(self, short_name)
+            self.addElement(ref)
+            self.references.append(ref)
+        return self.getElement(short_name)
+
+    def createEcucInstanceReferenceDef(self, short_name: str) -> EcucInstanceReferenceDef:
+        """
+        Creates a new ECUC instance reference definition and adds it to the container.
+
+        Args:
+            short_name (str): The short name identifier for the new reference definition.
+
+        Returns:
+            EcucInstanceReferenceDef: The newly created ECUC instance reference definition.
+        """
+        if not self.IsElementExists(short_name):
+            ref = EcucInstanceReferenceDef(self, short_name)
+            self.addElement(ref)
+            self.references.append(ref)
+        return self.getElement(short_name)
+
     def getSubContainers(self) -> List[EcucContainerDef]:
         """
         Retrieves the list of ECUC container definitions.
@@ -1939,7 +1998,7 @@ class EcucDestinationUriDef(Identifiable):
         """
         return self.destinationUriPolicy
 
-    def setDestinationUriPolicy(self, value: "EcucDestinationUriPolicy") -> "EcucDestinationUriDef":
+    def setDestinationUriPolicy(self, value: Optional["EcucDestinationUriPolicy"]) -> "EcucDestinationUriDef":
         """
         Description of the targeted EcucContainerDef.
         A None value is a no-op and does not overwrite an existing destinationUriPolicy.
@@ -2001,20 +2060,27 @@ class EcucDestinationUriPolicy(ARObject):
     def __init__(self):
         super().__init__()
 
+        # Description of the targetContainer in case that the destinationUriNestingPolicy is set to targetContainer. In all other cases the subContainers of the target container are defined here.
         self.containers: List[EcucContainerDef] = []
+
+        # This attribute defines how the referenced target EcucContainerDef is described.
         self.destinationUriNestingContract: Optional["EcucDestinationUriNestingContractEnum"] = None
+
+        # Description of parameters that are contained in the target container.
         self.parameters: List[EcucParameterDef] = []
+
+        # Description of references that are contained in the target container.
         self.references: List[EcucAbstractReferenceDef] = []
 
     def getContainers(self) -> List[EcucContainerDef]:
         """
-        Gets the list of container definitions.
+        Description of the targetContainer in case that the destinationUriNestingPolicy is set to targetContainer. In all other cases the subContainers of the target container are defined here.
         """
         return self.containers
 
     def addContainer(self, value: EcucContainerDef) -> "EcucDestinationUriPolicy":
         """
-        Adds a container definition to the list.
+        Description of the targetContainer in case that the destinationUriNestingPolicy is set to targetContainer. In all other cases the subContainers of the target container are defined here.
         A None value is a no-op.
         """
         if value is not None:
@@ -2023,13 +2089,13 @@ class EcucDestinationUriPolicy(ARObject):
 
     def getDestinationUriNestingContract(self) -> Optional["EcucDestinationUriNestingContractEnum"]:
         """
-        Gets the destination URI nesting contract.
+        This attribute defines how the referenced target EcucContainerDef is described.
         """
         return self.destinationUriNestingContract
 
-    def setDestinationUriNestingContract(self, value: "EcucDestinationUriNestingContractEnum") -> "EcucDestinationUriPolicy":
+    def setDestinationUriNestingContract(self, value: Optional["EcucDestinationUriNestingContractEnum"]) -> "EcucDestinationUriPolicy":
         """
-        Sets the destination URI nesting contract.
+        This attribute defines how the referenced target EcucContainerDef is described.
         A None value is a no-op.
         """
         if value is not None:
@@ -2038,13 +2104,13 @@ class EcucDestinationUriPolicy(ARObject):
 
     def getParameters(self) -> List[EcucParameterDef]:
         """
-        Gets the list of parameter definitions.
+        Description of parameters that are contained in the target container.
         """
         return self.parameters
 
     def addParameter(self, value: EcucParameterDef) -> "EcucDestinationUriPolicy":
         """
-        Adds a parameter definition to the list.
+        Description of parameters that are contained in the target container.
         A None value is a no-op.
         """
         if value is not None:
@@ -2053,13 +2119,13 @@ class EcucDestinationUriPolicy(ARObject):
 
     def getReferences(self) -> List[EcucAbstractReferenceDef]:
         """
-        Gets the list of reference definitions.
+        Description of references that are contained in the target container.
         """
         return self.references
 
     def addReference(self, value: EcucAbstractReferenceDef) -> "EcucDestinationUriPolicy":
         """
-        Adds a reference definition to the list.
+        Description of references that are contained in the target container.
         A None value is a no-op.
         """
         if value is not None:

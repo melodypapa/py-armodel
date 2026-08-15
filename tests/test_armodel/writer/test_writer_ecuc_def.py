@@ -523,9 +523,17 @@ class TestWriterEcucAbstractReferenceDef:
         container = _make_container()
         ref = container.createEcucReferenceDef("R")
         ref.setOrigin(_literal("org"))
+        ref.setWithAuto(_bool(True))
         parent = _parent()
         writer.writeEcucAbstractReferenceDef(parent, ref)
         assert parent.find("ORIGIN").text == "org"
+        assert parent.find("WITH-AUTO").text == "true"
+
+    def test_omits_with_auto_when_none(self, writer):
+        container = _make_container()
+        ref = container.createEcucReferenceDef("R")
+        parent = _parent()
+        writer.writeEcucAbstractReferenceDef(parent, ref)
         assert parent.find("WITH-AUTO") is None
 
 
@@ -582,6 +590,56 @@ class TestWriterEcucReferenceDef:
         parent = _parent()
         writer.writeEcucReferenceDef(parent, None)
         assert len(parent) == 0
+
+
+class TestWriterEcucChoiceReferenceDef:
+    def test_full(self, writer):
+        container = _make_container()
+        ref = container.createEcucChoiceReferenceDef("C")
+        ref.addDestinationRef(_ref("/dst1", "ECUC-PARAM-CONF-CONTAINER-DEF"))
+        ref.addDestinationRef(_ref("/dst2", "ECUC-PARAM-CONF-CONTAINER-DEF"))
+        parent = _parent()
+        writer.writeEcucChoiceReferenceDef(parent, ref)
+        assert parent[0].tag == "ECUC-CHOICE-REFERENCE-DEF"
+        dest_refs = parent[0].find("DESTINATION-REFS")
+        assert dest_refs is not None
+        refs = dest_refs.findall("DESTINATION-REF")
+        assert len(refs) == 2
+        assert refs[0].text == "/dst1"
+        assert refs[0].attrib["DEST"] == "ECUC-PARAM-CONF-CONTAINER-DEF"
+        assert refs[1].text == "/dst2"
+
+    def test_omits_destination_refs_when_none(self, writer):
+        container = _make_container()
+        ref = container.createEcucChoiceReferenceDef("C")
+        parent = _parent()
+        writer.writeEcucChoiceReferenceDef(parent, ref)
+        assert parent[0].find("DESTINATION-REFS") is None
+
+
+class TestWriterEcucInstanceReferenceDef:
+    def test_full(self, writer):
+        container = _make_container()
+        ref = container.createEcucInstanceReferenceDef("I")
+        ref.setDestinationContext(_literal("SW-COMPONENT-PROTOTYPE R-PORT-PROTOTYPE"))
+        ref.setDestinationType(_literal("VARIABLE-DATA-PROTOTYPE"))
+        parent = _parent()
+        writer.writeEcucInstanceReferenceDef(parent, ref)
+        assert parent[0].tag == "ECUC-INSTANCE-REFERENCE-DEF"
+        ctx = parent[0].find("DESTINATION-CONTEXT")
+        assert ctx is not None
+        assert ctx.text == "SW-COMPONENT-PROTOTYPE R-PORT-PROTOTYPE"
+        typ = parent[0].find("DESTINATION-TYPE")
+        assert typ is not None
+        assert typ.text == "VARIABLE-DATA-PROTOTYPE"
+
+    def test_omits_when_none(self, writer):
+        container = _make_container()
+        ref = container.createEcucInstanceReferenceDef("I")
+        parent = _parent()
+        writer.writeEcucInstanceReferenceDef(parent, ref)
+        assert parent[0].find("DESTINATION-CONTEXT") is None
+        assert parent[0].find("DESTINATION-TYPE") is None
 
 
 class TestWriterEcucContainerDefReferences:

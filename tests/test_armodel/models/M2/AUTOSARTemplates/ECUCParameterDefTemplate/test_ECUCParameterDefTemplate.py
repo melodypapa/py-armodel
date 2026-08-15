@@ -1053,6 +1053,31 @@ class TestEcucAbstractReferenceDef:
         assert concrete is not None
         assert concrete.getShortName() == "TestConcrete"
 
+    def test_get_set_with_auto(self):
+        """
+        Test getWithAuto/setWithAuto against Table 2.26.
+        Verifies the default is None and that a None value is a no-op.
+        """
+
+        class ConcreteAbstractReferenceDef(EcucAbstractReferenceDef):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        document = AUTOSAR.getInstance()
+        parent = document.createARPackage("TestPackage")
+        concrete = ConcreteAbstractReferenceDef(parent, "TestWithAuto")
+
+        assert concrete.getWithAuto() is None
+
+        result = concrete.setWithAuto(True)
+        assert result == concrete
+        assert concrete.getWithAuto() is True
+
+        # None value is a no-op
+        concrete.setWithAuto(False)
+        concrete.setWithAuto(None)
+        assert concrete.getWithAuto() is False
+
 
 class TestEcucAbstractInternalReferenceDef:
     """
@@ -1874,6 +1899,18 @@ class TestEcucParamConfContainerDef:
         assert ref is not None
         assert ref.getShortName() == "TestRef"
         assert len(param_conf_container.getReferences()) == 1
+
+        # Test createEcucChoiceReferenceDef
+        choice_ref = param_conf_container.createEcucChoiceReferenceDef("TestChoiceRef")
+        assert choice_ref is not None
+        assert choice_ref.getShortName() == "TestChoiceRef"
+        assert len(param_conf_container.getReferences()) == 2
+
+        # Test createEcucInstanceReferenceDef
+        instance_ref = param_conf_container.createEcucInstanceReferenceDef("TestInstanceRef")
+        assert instance_ref is not None
+        assert instance_ref.getShortName() == "TestInstanceRef"
+        assert len(param_conf_container.getReferences()) == 3
 
         # Test createEcucChoiceContainerDef
         sub_container = param_conf_container.createEcucChoiceContainerDef("TestSubContainer")
