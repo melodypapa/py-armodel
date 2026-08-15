@@ -1,6 +1,6 @@
 import os
 import xml.etree.ElementTree as ET
-from typing import List
+from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
@@ -170,6 +170,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucContainerDef,
     EcucDefinitionCollection,
     EcucDefinitionElement,
+    EcucDerivationSpecification,
     EcucDestinationUriDef,
     EcucDestinationUriDefRefType,
     EcucDestinationUriDefSet,
@@ -186,6 +187,9 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucMultiplicityConfigurationClass,
     EcucParamConfContainerDef,
     EcucParameterDef,
+    EcucParameterDerivationFormula,
+    EcucQuery,
+    EcucQueryExpression,
     EcucReferenceDef,
     EcucStringParamDef,
     EcucSymbolicNameReferenceDef,
@@ -6685,9 +6689,38 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readEcucParameterDef(self, element: ET.Element, param_def: EcucParameterDef):
         self.readEcucCommonAttributes(element, param_def)
-        param_def.setDerivation(self.getChildElementOptionalLiteral(element, "DERIVATION"))
+        param_def.setDerivation(self.readEcucDerivationSpecification(element))
         param_def.setSymbolicNameValue(self.getChildElementOptionalBooleanValue(element, "SYMBOLIC-NAME-VALUE"))
         param_def.setWithAuto(self.getChildElementOptionalBooleanValue(element, "WITH-AUTO"))
+
+    def readEcucDerivationSpecification(self, element: ET.Element) -> Optional[EcucDerivationSpecification]:
+        child_element = self.find(element, "DERIVATION")
+        if child_element is None:
+            return None
+        derivation = EcucDerivationSpecification()
+        calc_formula = self.find(child_element, "CALCULATION-FORMULA")
+        if calc_formula is not None:
+            derivation.setCalculationFormula(self.readEcucParameterDerivationFormula(calc_formula))
+        for query_element in self.findall(child_element, "ECUC-QUERYS/ECUC-QUERY"):
+            query = derivation.createEcucQuery(self.getShortName(query_element))
+            self.readEcucQuery(query_element, query)
+        derivation.setInformalFormula(self.getMlFormula(child_element, "INFORMAL-FORMULA"))
+        return derivation
+
+    def readEcucParameterDerivationFormula(self, element: ET.Element) -> EcucParameterDerivationFormula:
+        formula = EcucParameterDerivationFormula()
+        formula.setEcucQueryRef(self.getChildElementOptionalRefType(element, "ECUC-QUERY-REF"))
+        formula.setEcucQueryStringRef(self.getChildElementOptionalRefType(element, "ECUC-QUERY-STRING-REF"))
+        return formula
+
+    def readEcucQuery(self, element: ET.Element, query: EcucQuery):
+        self.readIdentifiable(element, query)
+        expr_element = self.find(element, "ECUC-QUERY-EXPRESSION")
+        if expr_element is not None:
+            expr = EcucQueryExpression()
+            expr.setConfigElementDefGlobalRef(self.getChildElementOptionalRefType(expr_element, "CONFIG-ELEMENT-DEF-GLOBAL-REF"))
+            expr.setConfigElementDefLocalRef(self.getChildElementOptionalRefType(expr_element, "CONFIG-ELEMENT-DEF-LOCAL-REF"))
+            query.setEcucQueryExpression(expr)
 
     def readEcucBooleanParamDef(self, element: ET.Element, param_def: EcucBooleanParamDef):
         self.readEcucParameterDef(element, param_def)

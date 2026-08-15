@@ -1548,3 +1548,95 @@ class TestEcucDestinationUriPolicyRoundTrip:
         uri_def_set = self._load(parser, inner)
         uri_def = uri_def_set.getDestinationUriDefs()[0]
         assert uri_def.getDestinationUriPolicy() is None
+
+
+class TestEcucDerivationSpecification:
+    """Tests for reading the DERIVATION element into an EcucDerivationSpecification."""
+
+    def _load_derivation(self, parser, inner):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+            EcucParamConfContainerDef,
+        )
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        param = container.createEcucBooleanParamDef("P")
+        element = _snip(
+            f"""
+            <PARAMETERS>
+                <ECUC-BOOLEAN-PARAM-DEF>
+                    <SHORT-NAME>P</SHORT-NAME>
+                    <DERIVATION>{inner}</DERIVATION>
+                </ECUC-BOOLEAN-PARAM-DEF>
+            </PARAMETERS>
+            """,
+            root_tag="ECUC-PARAM-CONF-CONTAINER-DEF",
+        )
+        params_element = element.find("{%s}PARAMETERS" % NS)
+        param_element = params_element.find("{%s}ECUC-BOOLEAN-PARAM-DEF" % NS)
+        parser.readEcucParameterDef(param_element, param)
+        return param.getDerivation()
+
+    def test_no_derivation(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+            EcucParamConfContainerDef,
+        )
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        param = container.createEcucBooleanParamDef("P")
+        element = _snip(
+            "<PARAMETERS><ECUC-BOOLEAN-PARAM-DEF><SHORT-NAME>P</SHORT-NAME></ECUC-BOOLEAN-PARAM-DEF></PARAMETERS>",
+            root_tag="ECUC-PARAM-CONF-CONTAINER-DEF",
+        )
+        param_element = element.find("{%s}PARAMETERS" % NS).find("{%s}ECUC-BOOLEAN-PARAM-DEF" % NS)
+        parser.readEcucParameterDef(param_element, param)
+        assert param.getDerivation() is None
+
+    def test_read_calculation_formula_refs(self, parser):
+        derivation = self._load_derivation(
+            parser,
+            """
+            <CALCULATION-FORMULA>
+                <ECUC-QUERY-REF DEST="ECUC-QUERY">/Ref/Query1</ECUC-QUERY-REF>
+                <ECUC-QUERY-STRING-REF DEST="ECUC-QUERY">/Ref/Query2</ECUC-QUERY-STRING-REF>
+            </CALCULATION-FORMULA>
+            """,
+        )
+        assert derivation is not None
+        calc = derivation.getCalculationFormula()
+        assert calc is not None
+        assert calc.getEcucQueryRef() is not None
+        assert calc.getEcucQueryRef().getValue() == "/Ref/Query1"
+        assert calc.getEcucQueryStringRef() is not None
+        assert calc.getEcucQueryStringRef().getValue() == "/Ref/Query2"
+
+    def test_read_ecuc_queries(self, parser):
+        derivation = self._load_derivation(
+            parser,
+            """
+            <ECUC-QUERYS>
+                <ECUC-QUERY>
+                    <SHORT-NAME>Q1</SHORT-NAME>
+                    <ECUC-QUERY-EXPRESSION>
+                        <CONFIG-ELEMENT-DEF-GLOBAL-REF DEST="ECUC-DEFINITION-ELEMENT">/Def/Global</CONFIG-ELEMENT-DEF-GLOBAL-REF>
+                    </ECUC-QUERY-EXPRESSION>
+                </ECUC-QUERY>
+            </ECUC-QUERYS>
+            """,
+        )
+        assert derivation is not None
+        queries = derivation.getEcucQueries()
+        assert len(queries) == 1
+        assert queries[0].getShortName() == "Q1"
+        expr = queries[0].getEcucQueryExpression()
+        assert expr is not None
+        assert expr.getConfigElementDefGlobalRef().getValue() == "/Def/Global"
+
+    def test_read_informal_formula(self, parser):
+        derivation = self._load_derivation(
+            parser,
+            "<INFORMAL-FORMULA><FORDOC>Fx</FORDOC></INFORMAL-FORMULA>",
+        )
+        assert derivation is not None
+        assert derivation.getInformalFormula() is not None

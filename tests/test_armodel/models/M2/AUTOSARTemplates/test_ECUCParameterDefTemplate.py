@@ -53,6 +53,8 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucValidationCondition,
     EcucValueConfigurationClass,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 
 
 def _instantiate(cls, name="sn"):
@@ -158,6 +160,18 @@ class TestEcucQuery:
     def test_instantiation(self):
         assert _instantiate(EcucQuery, "EcucQuery").getShortName() == "EcucQuery"
 
+    def test_initialization(self):
+        query = EcucQuery(AUTOSAR.getInstance().createARPackage("Pkg"), "Q")
+        assert query.getEcucQueryExpression() is None
+
+    def test_get_set_ecuc_query_expression(self):
+        query = EcucQuery(AUTOSAR.getInstance().createARPackage("Pkg"), "Q")
+        expr = EcucQueryExpression()
+        assert query.setEcucQueryExpression(expr) is query
+        assert query.getEcucQueryExpression() is expr
+        assert query.setEcucQueryExpression(None) is query
+        assert query.getEcucQueryExpression() is expr
+
 
 class TestEcucModuleDef:
     def test_instantiation(self):
@@ -208,6 +222,43 @@ class TestEcucDerivationSpecification:
     def test_instantiation(self):
         assert isinstance(EcucDerivationSpecification(), EcucDerivationSpecification)
 
+    def test_initialization(self):
+        derivation = EcucDerivationSpecification()
+        assert derivation.getCalculationFormula() is None
+        assert derivation.getEcucQueries() == []
+        assert derivation.getInformalFormula() is None
+
+    def test_get_set_calculation_formula(self):
+        derivation = EcucDerivationSpecification()
+        formula = EcucParameterDerivationFormula()
+        assert derivation.setCalculationFormula(formula) is derivation
+        assert derivation.getCalculationFormula() is formula
+        assert derivation.setCalculationFormula(None) is derivation
+        assert derivation.getCalculationFormula() is formula
+
+    def test_get_set_informal_formula(self):
+        derivation = EcucDerivationSpecification()
+        informal = MlFormula()
+        assert derivation.setInformalFormula(informal) is derivation
+        assert derivation.getInformalFormula() is informal
+        assert derivation.setInformalFormula(None) is derivation
+        assert derivation.getInformalFormula() is informal
+
+    def test_create_ecuc_query(self):
+        derivation = EcucDerivationSpecification()
+        query = derivation.createEcucQuery("Q1")
+        assert query is not None
+        assert query.getShortName() == "Q1"
+        assert len(derivation.getEcucQueries()) == 1
+        assert derivation.createEcucQuery("Q1") is query
+        assert len(derivation.getEcucQueries()) == 1
+        assert derivation.getEcucQuery("Q1") is query
+        assert derivation.getEcucQuery("Missing") is None
+
+    def test_create_ecuc_query_none_short_name(self):
+        derivation = EcucDerivationSpecification()
+        assert derivation.createEcucQuery(None) is None
+
 
 class TestEcucConditionFormula:
     def test_instantiation(self):
@@ -223,10 +274,55 @@ class TestEcucParameterDerivationFormula:
     def test_instantiation(self):
         assert isinstance(EcucParameterDerivationFormula(), EcucParameterDerivationFormula)
 
+    def test_initialization(self):
+        formula = EcucParameterDerivationFormula()
+        assert formula.getEcucQueryRef() is None
+        assert formula.getEcucQueryStringRef() is None
+
+    def test_get_set_ecuc_query_ref(self):
+        formula = EcucParameterDerivationFormula()
+        ref = RefType()
+        ref.setValue("/Ref/Query1")
+        ref.setDest("ECUC-QUERY")
+        assert formula.setEcucQueryRef(ref) is formula
+        assert formula.getEcucQueryRef() is ref
+        assert formula.setEcucQueryRef(None) is formula
+        assert formula.getEcucQueryRef() is ref
+
+    def test_get_set_ecuc_query_string_ref(self):
+        formula = EcucParameterDerivationFormula()
+        ref = RefType()
+        ref.setValue("/Ref/Query2")
+        ref.setDest("ECUC-QUERY")
+        assert formula.setEcucQueryStringRef(ref) is formula
+        assert formula.getEcucQueryStringRef() is ref
+        assert formula.setEcucQueryStringRef(None) is formula
+        assert formula.getEcucQueryStringRef() is ref
+
 
 class TestEcucQueryExpression:
     def test_instantiation(self):
         assert isinstance(EcucQueryExpression(), EcucQueryExpression)
+
+    def test_initialization(self):
+        expr = EcucQueryExpression()
+        assert expr.getConfigElementDefGlobalRef() is None
+        assert expr.getConfigElementDefLocalRef() is None
+
+    def test_get_set_refs(self):
+        expr = EcucQueryExpression()
+        gref = RefType()
+        gref.setValue("/Def/Global")
+        gref.setDest("ECUC-DEFINITION-ELEMENT")
+        lref = RefType()
+        lref.setValue("/Def/Local")
+        lref.setDest("ECUC-DEFINITION-ELEMENT")
+        assert expr.setConfigElementDefGlobalRef(gref) is expr
+        assert expr.setConfigElementDefLocalRef(lref) is expr
+        assert expr.getConfigElementDefGlobalRef() is gref
+        assert expr.getConfigElementDefLocalRef() is lref
+        assert expr.setConfigElementDefGlobalRef(None) is expr
+        assert expr.getConfigElementDefGlobalRef() is gref
 
 
 class TestEcucConditionSpecification:

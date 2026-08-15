@@ -771,14 +771,15 @@ class EcucDerivationSpecification(ARObject):
 
     # EcucDerivationSpecification method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.38, p.87
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCalculationFormula        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setCalculationFormula        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEcucQueries               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createEcucQuery              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEcucQuery                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getInformalFormula           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setInformalFormula           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getCalculationFormula        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCalculationFormula        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getEcucQueries               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createEcucQuery              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getEcucQuery                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getInformalFormula           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setInformalFormula           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
@@ -794,13 +795,13 @@ class EcucDerivationSpecification(ARObject):
 
     def getCalculationFormula(self) -> Optional["EcucParameterDerivationFormula"]:
         """
-        Gets the formula used to calculate the value of the configuration element.
+        Definition of the formula used to calculate the value of the configuration element.
         """
         return self.calculationFormula
 
-    def setCalculationFormula(self, value: "EcucParameterDerivationFormula") -> "EcucDerivationSpecification":
+    def setCalculationFormula(self, value: Optional["EcucParameterDerivationFormula"]) -> "EcucDerivationSpecification":
         """
-        Sets the formula used to calculate the value of the configuration element.
+        Definition of the formula used to calculate the value of the configuration element.
         A None value is a no-op.
         """
         if value is not None:
@@ -809,7 +810,7 @@ class EcucDerivationSpecification(ARObject):
 
     def getEcucQueries(self) -> List["EcucQuery"]:
         """
-        Gets the queries to the ECU Configuration Description.
+        Query to the ECU Configuration Description.
         """
         return self.ecucQueries
 
@@ -837,13 +838,13 @@ class EcucDerivationSpecification(ARObject):
 
     def getInformalFormula(self) -> Optional[MlFormula]:
         """
-        Gets the informal description of the derivation.
+        Informal description of the derivation used to calculate the value of the configuration element.
         """
         return self.informalFormula
 
-    def setInformalFormula(self, value: MlFormula) -> "EcucDerivationSpecification":
+    def setInformalFormula(self, value: Optional[MlFormula]) -> "EcucDerivationSpecification":
         """
-        Sets the informal description of the derivation.
+        Informal description of the derivation used to calculate the value of the configuration element.
         A None value is a no-op.
         """
         if value is not None:
@@ -2210,11 +2211,12 @@ class EcucParameterDerivationFormula(ARObject):
 
     # EcucParameterDerivationFormula method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.39, p.88
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEcucQueryRef              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setEcucQueryRef              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEcucQueryStringRef        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setEcucQueryStringRef        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getEcucQueryRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setEcucQueryRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getEcucQueryStringRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setEcucQueryStringRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
@@ -2227,13 +2229,13 @@ class EcucParameterDerivationFormula(ARObject):
 
     def getEcucQueryRef(self) -> RefType:
         """
-        Gets the EcucQuery used in the calculation formula.
+        This is one particular EcucQuery used in the calculation formula.
         """
         return self.ecucQueryRef
 
     def setEcucQueryRef(self, value: RefType) -> "EcucParameterDerivationFormula":
         """
-        Sets the EcucQuery used in the calculation formula.
+        This is one particular EcucQuery used in the calculation formula.
         A None value is a no-op.
         """
         if value is not None:
@@ -2242,13 +2244,13 @@ class EcucParameterDerivationFormula(ARObject):
 
     def getEcucQueryStringRef(self) -> RefType:
         """
-        Gets the reference indicating that the query shall return a string.
+        This indicates that the referenced query shall return a string.
         """
         return self.ecucQueryStringRef
 
     def setEcucQueryStringRef(self, value: RefType) -> "EcucParameterDerivationFormula":
         """
-        Sets the reference indicating that the query shall return a string.
+        This indicates that the referenced query shall return a string.
         A None value is a no-op.
         """
         if value is not None:
@@ -2264,24 +2266,24 @@ class EcucQuery(Identifiable):
     # EcucQuery method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.40, p.89
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEcucQueryExpression       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setEcucQueryExpression       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getEcucQueryExpression       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setEcucQueryExpression       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # The EcucQuery used in the calculation formula or the condition formula.
+        # This is the EcucQuery used in the calculation formula or the condition formula.
         self.ecucQueryExpression: "EcucQueryExpression" = None
 
     def getEcucQueryExpression(self) -> "EcucQueryExpression":
         """
-        Gets the EcucQuery used in the calculation or condition formula.
+        This is the EcucQuery used in the calculation formula or the condition formula.
         """
         return self.ecucQueryExpression
 
-    def setEcucQueryExpression(self, value: "EcucQueryExpression") -> "EcucQuery":
+    def setEcucQueryExpression(self, value: Optional["EcucQueryExpression"]) -> "EcucQuery":
         """
-        Sets the EcucQuery used in the calculation or condition formula.
+        This is the EcucQuery used in the calculation formula or the condition formula.
         A None value is a no-op.
         """
         if value is not None:
@@ -2291,52 +2293,50 @@ class EcucQuery(Identifiable):
 
 class EcucQueryExpression(ARObject):
     """
-    Defines a query expression to the ECUC Description and outputs the result
-    as a numerical value. Due to the "mixedString" nature of the formula
-    there can be several EcucQueryExpressions used.
+    Defines a query expression to the ECUC Description and output the result as an numerical value. Due to the "mixedString" nature of the formula there can be several EcuQueryExpressions used.
     """
 
     # EcucQueryExpression method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.41, p.90
     # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getConfigElementDefGlobalRef  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setConfigElementDefGlobalRef  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getConfigElementDefLocalRef   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setConfigElementDefLocalRef   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getConfigElementDefGlobalRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setConfigElementDefGlobalRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getConfigElementDefLocalRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setConfigElementDefLocalRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        # Global reference to find an element in the Ecuc Description.
-        self.configElementDefGlobalRef: RefType = None
+        # The EcucQueryExpression points to an EcucDefinition Element that is used to find an element in the Ecuc Description. In order to find the right element in the Ecuc Description a search is necessary. If the complete Ecuc Description needs to be searched this global reference shall be used. Due to the "mixedString" nature of the EcucQueryExpression several references to Ecuc DefintionElements can be used in one EcucQuery Expression.
+        self.configElementDefGlobalRef: Optional[RefType] = None
 
-        # Local reference to find an element within the same module.
-        self.configElementDefLocalRef: RefType = None
+        # The EcucQueryExpression points to an EcucDefinition Element that is used to find an element in the Ecuc Description. In order to find the right element in the Ecuc Description a search is necessary. If the search is executed inside of the same module that contains the EcucQuery this local reference shall be used. Due to the "mixedString" nature of the EcucQueryExpression several references to EcucDefintionElements can be used in one EcucQueryExpression.
+        self.configElementDefLocalRef: Optional[RefType] = None
 
-    def getConfigElementDefGlobalRef(self) -> RefType:
+    def getConfigElementDefGlobalRef(self) -> Optional[RefType]:
         """
-        Gets the global reference to find an element in the Ecuc Description.
+        The EcucQueryExpression points to an EcucDefinition Element that is used to find an element in the Ecuc Description. In order to find the right element in the Ecuc Description a search is necessary. If the complete Ecuc Description needs to be searched this global reference shall be used. Due to the "mixedString" nature of the EcucQueryExpression several references to Ecuc DefintionElements can be used in one EcucQuery Expression.
         """
         return self.configElementDefGlobalRef
 
-    def setConfigElementDefGlobalRef(self, value: RefType) -> "EcucQueryExpression":
+    def setConfigElementDefGlobalRef(self, value: Optional[RefType]) -> "EcucQueryExpression":
         """
-        Sets the global reference to find an element in the Ecuc Description.
+        The EcucQueryExpression points to an EcucDefinition Element that is used to find an element in the Ecuc Description. In order to find the right element in the Ecuc Description a search is necessary. If the complete Ecuc Description needs to be searched this global reference shall be used. Due to the "mixedString" nature of the EcucQueryExpression several references to Ecuc DefintionElements can be used in one EcucQuery Expression.
         A None value is a no-op.
         """
         if value is not None:
             self.configElementDefGlobalRef = value
         return self
 
-    def getConfigElementDefLocalRef(self) -> RefType:
+    def getConfigElementDefLocalRef(self) -> Optional[RefType]:
         """
-        Gets the local reference to find an element within the same module.
+        The EcucQueryExpression points to an EcucDefinition Element that is used to find an element in the Ecuc Description. In order to find the right element in the Ecuc Description a search is necessary. If the search is executed inside of the same module that contains the EcucQuery this local reference shall be used. Due to the "mixedString" nature of the EcucQueryExpression several references to EcucDefintionElements can be used in one EcucQueryExpression.
         """
         return self.configElementDefLocalRef
 
-    def setConfigElementDefLocalRef(self, value: RefType) -> "EcucQueryExpression":
+    def setConfigElementDefLocalRef(self, value: Optional[RefType]) -> "EcucQueryExpression":
         """
-        Sets the local reference to find an element within the same module.
+        The EcucQueryExpression points to an EcucDefinition Element that is used to find an element in the Ecuc Description. In order to find the right element in the Ecuc Description a search is necessary. If the search is executed inside of the same module that contains the EcucQuery this local reference shall be used. Due to the "mixedString" nature of the EcucQueryExpression several references to EcucDefintionElements can be used in one EcucQueryExpression.
         A None value is a no-op.
         """
         if value is not None:

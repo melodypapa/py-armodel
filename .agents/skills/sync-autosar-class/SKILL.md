@@ -154,7 +154,7 @@ before its failing test.
 - **6** — Reader populates via mutators (`readXxx`→`set/create/addXxx`), writer reads via getters (`writeXxx`→`getXxx`); cover wrapper lists + polymorphic five-place dispatch; **no chained mutator calls**.
 - **7** — One row per method, source order, all `[x]`, 5-column format below. Writes the `# Spec:` line + method rows **only** — the `# Spec verified:` marker is added in Step 9b, never here.
 - **8** — Record deviations; the `# Spec verified:` marker (added in 9b) is **withheld** while any placeholder/deviation remains; report the Step-3 referenced classes here.
-- **9** — **(9a automated)** `pytest` + `flake8` + `ruff check` + `black-check` + the set-based script + a lossless integration round-trip (`npm run flake8` / `ruff-check` / `black-check` are the cross-platform forms). **Stop on any failure.** **(9b confirm — gate)** then present the **complete pre-stamp** rule-compliance checklist covering every check automation is blind to — element kind + every spec attr modeled (*0001.1*), most-derived base (*0001.2*), no fabrication/flattening + PDF-typed fields (*0001.3*), **Kind-suffix naming** `ref`→Ref/Refs·`tref`→TRef·`iref`→IRef/IRefs + singular `*`→plural (*0001.5*), create/set/add shape (*0001.6*), **reader+writer coverage** for every kept attr (*0001.7*), **member order** (*0011*), docstrings = spec `Note` **verbatim by diff** (*0012*), deviations resolved/removed (*0014*), stamp decision (*0012.1*) — and get explicit user confirmation; **when all pass, write the `# Spec verified:` marker in this step (9b)** — never in Step 4/7/8. Fix & re-present on any failure (*Rule 0006.1* has the full checklist).
+- **9** — **(9a automated)** `pytest` + `flake8` + `ruff check` + `black-check` + the set-based script + a lossless integration round-trip (`npm run flake8` / `ruff-check` / `black-check` are the cross-platform forms). **Stop on any failure.** **(9b confirm — gate)** then present the **complete pre-stamp** rule-compliance checklist covering every check automation is blind to — element kind + every spec attr modeled (*0001.1*), most-derived base (*0001.2*), no fabrication/flattening + PDF-typed fields (*0001.3*), **Kind-suffix naming** `ref`→Ref/Refs·`tref`→TRef·`iref`→IRef/IRefs + singular `*`→plural (*0001.5*), create/set/add shape (*0001.6*), **reader+writer coverage** for every kept attr (*0001.7*), **member order** (*0011*), docstrings = spec `Note` **verbatim by diff** (*0012* **and** *0001.4* — every attribute's inline `__init__` comment + getter docstring + setter docstring must be the spec `Note` copied verbatim, not a "Gets/Sets the…" paraphrase or a truncated summary that drops the spec's full sentence), deviations resolved/removed (*0014*), stamp decision (*0012.1*) — and get explicit user confirmation; **when all pass, write the `# Spec verified:` marker in this step (9b)** — never in Step 4/7/8. Fix & re-present on any failure (*Rule 0006.1* has the full checklist).
 
 **Workflow adaptations** (which steps still apply):
 
@@ -230,6 +230,13 @@ detail: *Rule 0002*.
   the docstrings it happens to re-read leaves stale old-release wording on renamed,
   removed, or overlooked members. Remove **all** docstrings (class + method + member
   comments) before writing the new ones from the markdown (*Rule 0012.2.3*).
+- **Paraphrasing or truncating an attribute `Note`** — writing "Gets the X" / "Sets the
+  X" in front of (or instead of) the spec `Note`, or a shortened summary ("Global
+  reference to find an element…") that drops the spec's full sentence, is a *Rule 0001.4*
+  violation even when the field/getter/setter/reader/writer are all correct. Tests,
+  black, and ruff cannot catch it — diff every member docstring against its spec `Note`
+  verbatim during 9b. This applies to **every** class in the queue, including unstamped
+  member types consumed by a stamped class.
 
 | Rationalization | Reality |
 |---|---|
@@ -237,6 +244,7 @@ detail: *Rule 0002*.
 | "Reader/writer first, round-trip test after" | No failing round-trip ⇒ can't see dropped elements. Step 5 first. |
 | "It's just docstrings, skip Step 4" | Drift is silent; the marker then certifies wrong wording (*Rule 0012*). |
 | "The docstrings mostly look right — I'll just patch the ones that changed" | In-place patching leaves stale sentences on members you didn't re-read; wipe all docstrings first, then rewrite from the markdown (*Rule 0012.2.3*). |
+| "Gets/Sets the X is close enough to the spec Note" | A paraphrase or truncation is a *Rule 0001.4* violation the automation can't catch; copy the spec `Note` verbatim per member (inline comment + getter + setter) and diff it. |
 | "The closure looks right, I'll skip the confirm gate" | Over/under-collection wastes every later step; present the set and let the user confirm (*Rule 0016.2*). |
 | "Tests pass and the round-trip is clean — I can stamp and move on" | Those don't certify a class (Rule 0012.1); run Step 9b on the blind-spot rules before stamping (*Rule 0006.1*). |
 | "The class already has `# Spec verified:` stamped — I'll skip 9b" | The marker is the *output* of 9b, not a substitute; on re-sync/drift re-run the full 9b checklist — a stale marker certifies nothing (*Rule 0006.1*, *Rule 0012.3*). |
