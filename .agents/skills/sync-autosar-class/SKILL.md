@@ -5,7 +5,7 @@ author: melodypapa
 repository: https://github.com/melodypapa/py-armodel
 license: MIT
 metadata:
-  version: "1.6.0"
+  version: "1.7.0"
   keywords:
     - AUTOSAR
     - model-class
@@ -137,7 +137,7 @@ before its failing test.
 | 1 | Sync members & description from the PDF by class name | 0001 (§§1.1–1.5, 1.11), 0007, 0015 | — |
 | **2** | **Write the model class unit test** | 0006 | **Red** |
 | **3** | **Implement the model class** | 0001 (§§1.6, 1.8, 1.10), 0003, 0004, 0005, 0008, 0009, 0010, 0011 | **Green** |
-| 4 | Sync description (docstrings & comments) | 0012 (§§2–3) | — |
+| 4 | Sync description — **wipe all old docstrings**, rewrite from markdown | 0012 (§§2–4) | — |
 | **5** | **Write the reader/writer round-trip test** | 0006 | **Red** |
 | **6** | **Update the parser (reader) & writer** | 0001 (§1.7), 0013 | **Green** |
 | 7 | Update checklist comment (`# Spec:` + rows; **marker deferred to 9b**) | 0002 | — |
@@ -149,7 +149,7 @@ before its failing test.
 - **1** — Extract `Note`/`Base`/`Attribute` rows in displayed order; confirm Class-vs-Enumeration header. *Rule 0015* arbitrates XSD-vs-PDF/markdown attribute conflicts (the PDF/markdown table wins — model nothing the PDF lacks).
 - **2** — `test_initialization` (defaults), `test_get_set_*` (round-trip + **None no-op**), `create*`/`add*` (append, duplicate returns existing). Abstract class → test `__init__` + base accessors via a concrete subclass.
 - **3** — Most-derived base from the `Base` chain; dedicated typed-list fields for `*` `aggr` (never registry filters); `createXxx` only for `Referrable` children; collect referenced missing classes and report in Step 8 (don't block). Enum (`AREnum`) → literals, not accessors.
-- **4** — Copy the spec `Note` **verbatim from the markdown** into the **class docstring** (the class-level `Note` — **not** into `__init__`, which has no docstring), inline `__init__` **comments**, and getter/setter docstrings (PDF opened only for the `p.NN` page); guarded setters append the None-no-op sentence.
+- **4** — **Wipe first, then rewrite.** Remove **all** existing docstrings — the class docstring, every method docstring (`__init__`, getters, setters, `create*`/`add*`), and every inline `__init__` member comment — so no stale wording survives a re-sync on renamed/removed/overlooked members (*Rule 0012.2.3*); keep the code, the `# Spec:` checklist block, and placeholder comments. Then copy the spec `Note` **verbatim from the markdown** into the **class docstring** (the class-level `Note` — **not** into `__init__`, which has no docstring), inline `__init__` **comments**, and getter/setter docstrings (PDF opened only for the `p.NN` page); guarded setters append the None-no-op sentence.
 - **5** — Reader/writer tests live in **their own folders** (`tests/test_armodel/parser/`, `.../writer/`, both `class Test*`), not the per-class mirror. Assert **field values**, not just `len(...) == n`; add an empty-wrapper-list case.
 - **6** — Reader populates via mutators (`readXxx`→`set/create/addXxx`), writer reads via getters (`writeXxx`→`getXxx`); cover wrapper lists + polymorphic five-place dispatch; **no chained mutator calls**.
 - **7** — One row per method, source order, all `[x]`, 5-column format below. Writes the `# Spec:` line + method rows **only** — the `# Spec verified:` marker is added in Step 9b, never here.
@@ -225,13 +225,18 @@ detail: *Rule 0002*.
   9b checklist before re-stamping (*Rule 0006.1*, *Rule 0012.3*).
 - **Class `Note` written into the `__init__` docstring** — the class-level `Note` belongs
   in the **class docstring** only; `__init__` carries inline per-attribute comments and
-  **no docstring** (Rule 0012.2.3 / 0012.2.4.2).
+  **no docstring** (Rule 0012.2.4 / 0012.2.5.2).
+- **Patching docstrings in place instead of wiping first** — a re-sync that edits only
+  the docstrings it happens to re-read leaves stale old-release wording on renamed,
+  removed, or overlooked members. Remove **all** docstrings (class + method + member
+  comments) before writing the new ones from the markdown (*Rule 0012.2.3*).
 
 | Rationalization | Reality |
 |---|---|
 | "Simple model — I'll implement then test" | A test written after mirrors the code, not the spec. Step 2 first. |
 | "Reader/writer first, round-trip test after" | No failing round-trip ⇒ can't see dropped elements. Step 5 first. |
 | "It's just docstrings, skip Step 4" | Drift is silent; the marker then certifies wrong wording (*Rule 0012*). |
+| "The docstrings mostly look right — I'll just patch the ones that changed" | In-place patching leaves stale sentences on members you didn't re-read; wipe all docstrings first, then rewrite from the markdown (*Rule 0012.2.3*). |
 | "The closure looks right, I'll skip the confirm gate" | Over/under-collection wastes every later step; present the set and let the user confirm (*Rule 0016.2*). |
 | "Tests pass and the round-trip is clean — I can stamp and move on" | Those don't certify a class (Rule 0012.1); run Step 9b on the blind-spot rules before stamping (*Rule 0006.1*). |
 | "The class already has `# Spec verified:` stamped — I'll skip 9b" | The marker is the *output* of 9b, not a substitute; on re-sync/drift re-run the full 9b checklist — a stale marker certifies nothing (*Rule 0006.1*, *Rule 0012.3*). |

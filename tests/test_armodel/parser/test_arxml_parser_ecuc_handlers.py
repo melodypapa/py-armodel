@@ -580,6 +580,50 @@ class TestEcucContainerDefReferences:
         assert refs[0].getShortName() == "OptionalRef"
         assert refs[0].getDestinationRef() is None
 
+    def test_readEcucReferenceDef_with_requires_symbolic_name_value(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        element = _snip(
+            """
+            <REFERENCES>
+                <ECUC-REFERENCE-DEF>
+                    <SHORT-NAME>SymbolicRef</SHORT-NAME>
+                    <REQUIRES-SYMBOLIC-NAME-VALUE>true</REQUIRES-SYMBOLIC-NAME-VALUE>
+                </ECUC-REFERENCE-DEF>
+            </REFERENCES>
+            """,
+            root_tag="ECUC-PARAM-CONF-CONTAINER-DEF",
+        )
+        parser.readEcucContainerDefReferences(element, container)
+        refs = container.getReferences()
+        assert len(refs) == 1
+        assert refs[0].getShortName() == "SymbolicRef"
+        assert refs[0].getRequiresSymbolicNameValue() is not None
+        assert refs[0].getRequiresSymbolicNameValue().getValue() is True
+
+    def test_readEcucReferenceDef_without_requires_symbolic_name_value(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        element = _snip(
+            """
+            <REFERENCES>
+                <ECUC-REFERENCE-DEF>
+                    <SHORT-NAME>PlainRef</SHORT-NAME>
+                </ECUC-REFERENCE-DEF>
+            </REFERENCES>
+            """,
+            root_tag="ECUC-PARAM-CONF-CONTAINER-DEF",
+        )
+        parser.readEcucContainerDefReferences(element, container)
+        refs = container.getReferences()
+        assert len(refs) == 1
+        assert refs[0].getShortName() == "PlainRef"
+        assert refs[0].getRequiresSymbolicNameValue() is None
+
     def test_readEcucContainerDefReferences_unsupported_type_warning(self, warning_parser):
         from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
 
@@ -1084,7 +1128,6 @@ class TestEcucContainerAndModuleDef:
             "</MULTIPLICITY-CONFIG-CLASSES>"
             "<POST-BUILD-VARIANT-MULTIPLICITY>true</POST-BUILD-VARIANT-MULTIPLICITY>"
             "<REQUIRES-INDEX>true</REQUIRES-INDEX>"
-            "<MULTIPLE-CONFIGURATION-CONTAINER>true</MULTIPLE-CONFIGURATION-CONTAINER>"
         )
         parser.readEcucContainerDef(element, container)
         assert len(container.getMultiplicityConfigClasses()) == 1

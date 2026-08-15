@@ -6344,14 +6344,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setEcucMultiplicityConfigClasses(element, container_def.getMultiplicityConfigClasses())
         self.setChildElementOptionalBooleanValue(element, "POST-BUILD-VARIANT-MULTIPLICITY", container_def.getPostBuildVariantMultiplicity())
         self.setChildElementOptionalBooleanValue(element, "REQUIRES-INDEX", container_def.getRequiresIndex())
-        self.setChildElementOptionalBooleanValue(element, "MULTIPLE-CONFIGURATION-CONTAINER", container_def.getMultipleConfigurationContainer())
 
     def writeEcucAbstractReferenceDef(self, element: ET.Element, reference: EcucAbstractReferenceDef):
         self.writeEcucCommonAttributes(element, reference)
-        self.setChildElementOptionalBooleanValue(element, "WITH-AUTO", reference.getWithAuto())
 
     def writeEcucAbstractInternalReferenceDef(self, element: ET.Element, reference: EcucAbstractInternalReferenceDef):
         self.writeEcucAbstractReferenceDef(element, reference)
+        self.setChildElementOptionalBooleanValue(element, "REQUIRES-SYMBOLIC-NAME-VALUE", reference.getRequiresSymbolicNameValue())
 
     def writeEcucSymbolicNameReferenceDef(self, element: ET.Element, reference: EcucSymbolicNameReferenceDef):
         if reference is not None:

@@ -14,17 +14,23 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucAbstractInternalReferenceDef,
     EcucAbstractReferenceDef,
     EcucAbstractStringParamDef,
+    EcucAddInfoParamDef,
     EcucBooleanParamDef,
     EcucChoiceContainerDef,
     EcucChoiceReferenceDef,
     EcucCommonAttributes,
+    EcucConditionFormula,
     EcucConditionSpecification,
     EcucConfigurationClassEnum,
     EcucConfigurationVariantEnum,
     EcucDefinitionCollection,
     EcucDefinitionElement,
     EcucDerivationSpecification,
+    EcucDestinationUriDef,
     EcucDestinationUriDefRefType,
+    EcucDestinationUriDefSet,
+    EcucDestinationUriNestingContractEnum,
+    EcucDestinationUriPolicy,
     EcucEnumerationLiteralDef,
     EcucEnumerationParamDef,
     EcucFloatParamDef,
@@ -32,10 +38,15 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucFunctionNameDef,
     EcucInstanceReferenceDef,
     EcucIntegerParamDef,
+    EcucLinkerSymbolDef,
     EcucModuleDef,
+    EcucMultilineStringParamDef,
     EcucMultiplicityConfigurationClass,
     EcucParamConfContainerDef,
     EcucParameterDef,
+    EcucParameterDerivationFormula,
+    EcucQuery,
+    EcucQueryExpression,
     EcucReferenceDef,
     EcucScopeEnum,
     EcucStringParamDef,
@@ -45,53 +56,114 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucValueConfigurationClass,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, CIdentifier, RefType
+from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 
 
 class TestEcucConditionSpecification:
     """
-    Test class for EcucConditionSpecification functionality.
-    This class contains test methods for validating the behavior of
-    the EcucConditionSpecification class, including its initialization.
+    Test class for EcucConditionSpecification functionality against Table 2.42.
     """
+
+    def _make_spec(self):
+        return EcucConditionSpecification()
 
     def test_initialization(self):
         """
-        Test EcucConditionSpecification class initialization.
-        Verifies that the EcucConditionSpecification can be properly instantiated
-        and that it inherits from ARObject.
+        Test EcucConditionSpecification __init__ defaults.
         """
-        condition_spec = EcucConditionSpecification()
+        condition_spec = self._make_spec()
+        assert condition_spec.getConditionFormula() is None
+        assert condition_spec.getEcucQueries() == []
+        assert condition_spec.getInformalFormula() is None
 
-        assert condition_spec is not None
+    def test_set_get_condition_formula(self):
+        """
+        Test setConditionFormula stores an EcucConditionFormula and returns self.
+        """
+        condition_spec = self._make_spec()
+        formula = EcucConditionFormula()
+        result = condition_spec.setConditionFormula(formula)
+        assert result is condition_spec
+        assert condition_spec.getConditionFormula() is formula
+
+    def test_create_get_ecuc_queries(self):
+        """
+        Test createEcucQuery appends an EcucQuery and returns it for chaining.
+        """
+        condition_spec = self._make_spec()
+        query = condition_spec.createEcucQuery("Q1")
+        assert query is not None
+        assert query.getShortName() == "Q1"
+        assert condition_spec.getEcucQueries() == [query]
+        assert condition_spec.getEcucQuery("Q1") is query
+
+    def test_create_ecuc_query_none_is_noop(self):
+        """
+        Test createEcucQuery with a None short name is a no-op.
+        """
+        condition_spec = self._make_spec()
+        query = condition_spec.createEcucQuery(None)
+        assert query is None
+        assert condition_spec.getEcucQueries() == []
+
+    def test_set_get_informal_formula(self):
+        """
+        Test setInformalFormula stores an MlFormula and returns self.
+        """
+        condition_spec = self._make_spec()
+        formula = MlFormula()
+        result = condition_spec.setInformalFormula(formula)
+        assert result is condition_spec
+        assert condition_spec.getInformalFormula() is formula
 
 
 class TestEcucValidationCondition:
     """
-    Test class for EcucValidationCondition functionality.
-    This class contains test methods for validating the behavior of
-    the EcucValidationCondition class, including its initialization.
+    Test class for EcucValidationCondition functionality against Table 2.44.
     """
+
+    def _make_condition(self):
+        document = AUTOSAR.getInstance()
+        parent = document.createARPackage("TestPackage")
+        return EcucValidationCondition(parent, "TestValidationCondition")
 
     def test_initialization(self):
         """
-        Test EcucValidationCondition class initialization.
-        Verifies that the EcucValidationCondition can be properly instantiated
-        with a parent and short name.
+        Test EcucValidationCondition __init__ defaults.
         """
-        document = AUTOSAR.getInstance()
-        parent = document.createARPackage("TestPackage")
-        validation_condition = EcucValidationCondition(parent, "TestValidationCondition")
-
+        validation_condition = self._make_condition()
         assert validation_condition is not None
         assert validation_condition.getShortName() == "TestValidationCondition"
-        assert validation_condition.parent == parent
+        assert validation_condition.parent is not None
+        assert validation_condition.getEcucQueries() == []
+        assert validation_condition.getValidationFormula() is None
+
+    def test_create_get_ecuc_queries(self):
+        """
+        Test createEcucQuery appends an EcucQuery and returns it for chaining.
+        """
+        validation_condition = self._make_condition()
+        query = validation_condition.createEcucQuery("Q1")
+        assert query is not None
+        assert query.getShortName() == "Q1"
+        assert validation_condition.getEcucQueries() == [query]
+        assert validation_condition.getEcucQuery("Q1") is query
+
+    def test_set_get_validation_formula(self):
+        """
+        Test setValidationFormula stores an EcucConditionFormula and returns self.
+        """
+        validation_condition = self._make_condition()
+        formula = EcucConditionFormula()
+        result = validation_condition.setValidationFormula(formula)
+        assert result is validation_condition
+        assert validation_condition.getValidationFormula() is formula
 
 
 class TestEcucScopeEnum:
     """
     Test class for EcucScopeEnum functionality.
-    This class contains test methods for validating the behavior of
-    the EcucScopeEnum class, including its initialization.
+    Verifies the two spec literals of Table 2.7 and the registered enum values.
     """
 
     def test_initialization(self):
@@ -103,8 +175,31 @@ class TestEcucScopeEnum:
         scope_enum = EcucScopeEnum()
 
         assert scope_enum is not None
-        assert hasattr(scope_enum, "enumValues")
-        assert scope_enum.enumValues == []
+        assert isinstance(scope_enum, AREnum)
+
+    def test_literal_members(self):
+        """
+        Test that the two spec literals are defined with their XSD value strings.
+        """
+        assert EcucScopeEnum.ECU == "ECU"
+        assert EcucScopeEnum.LOCAL == "LOCAL"
+
+    def test_enum_values(self):
+        """
+        Test that the registered enum values match the spec literals in order.
+        """
+        scope_enum = EcucScopeEnum()
+
+        assert scope_enum.getEnumValues() == ["ECU", "LOCAL"]
+
+    def test_set_value(self):
+        """
+        Test that a spec literal can be set as the enum value.
+        """
+        scope_enum = EcucScopeEnum()
+        scope_enum.setValue(EcucScopeEnum.LOCAL)
+
+        assert scope_enum.getValue() == "LOCAL"
 
 
 class TestEcucDefinitionElement:
@@ -221,11 +316,150 @@ class TestEcucDestinationUriDefRefType:
         assert uri_ref is not None
 
 
+class TestEcucDestinationUriDef:
+    """
+    Test class for EcucDestinationUriDef functionality.
+    This class contains test methods for validating the behavior of
+    the EcucDestinationUriDef class, including its initialization and methods.
+    """
+
+    def _make_uri_def(self):
+        document = AUTOSAR.getInstance()
+        parent = document.createARPackage("TestPackage")
+        uri_def = EcucDestinationUriDef(parent, "TestDestinationUriDef")
+        return parent, uri_def
+
+    def test_initialization(self):
+        """
+        Test EcucDestinationUriDef class initialization.
+        Verifies that the EcucDestinationUriDef can be properly instantiated.
+        """
+        parent, uri_def = self._make_uri_def()
+        assert uri_def is not None
+        assert uri_def.getShortName() == "TestDestinationUriDef"
+        assert uri_def.getDestinationUriPolicy() is None
+
+    def test_set_get_destination_uri_policy(self):
+        """
+        Test setDestinationUriPolicy stores an EcucDestinationUriPolicy and returns self.
+        """
+        parent, uri_def = self._make_uri_def()
+        policy = EcucDestinationUriPolicy()
+        result = uri_def.setDestinationUriPolicy(policy)
+        assert result == uri_def
+        assert uri_def.getDestinationUriPolicy() is policy
+
+
+class TestEcucDestinationUriDefSet:
+    """
+    Test class for EcucDestinationUriDefSet functionality.
+    This class contains test methods for validating the behavior of
+    the EcucDestinationUriDefSet class, including its initialization and methods.
+    """
+
+    def _make_uri_def_set(self):
+        document = AUTOSAR.getInstance()
+        parent = document.createARPackage("TestPackage")
+        uri_def_set = EcucDestinationUriDefSet(parent, "TestDestinationUriDefSet")
+        return parent, uri_def_set
+
+    def test_initialization(self):
+        """
+        Test EcucDestinationUriDefSet class initialization.
+        Verifies that the EcucDestinationUriDefSet can be properly instantiated.
+        """
+        parent, uri_def_set = self._make_uri_def_set()
+        assert uri_def_set is not None
+        assert uri_def_set.getShortName() == "TestDestinationUriDefSet"
+        assert uri_def_set.getDestinationUriDefs() == []
+
+    def test_add_get_destination_uri_defs(self):
+        """
+        Test addDestinationUriDef appends an EcucDestinationUriDef and returns self.
+        """
+        parent, uri_def_set = self._make_uri_def_set()
+        uri_def = EcucDestinationUriDef(parent, "TestDestinationUriDef")
+        result = uri_def_set.addDestinationUriDef(uri_def)
+        assert result == uri_def_set
+        assert len(uri_def_set.getDestinationUriDefs()) == 1
+        assert uri_def_set.getDestinationUriDefs()[0] is uri_def
+
+
+class TestEcucDestinationUriPolicy:
+    """
+    Test class for EcucDestinationUriPolicy functionality.
+    This class contains test methods for validating the behavior of
+    the EcucDestinationUriPolicy class, including its initialization and methods.
+    """
+
+    def _make_policy(self):
+        return EcucDestinationUriPolicy()
+
+    def test_initialization(self):
+        """
+        Test EcucDestinationUriPolicy class initialization.
+        Verifies that the EcucDestinationUriPolicy can be properly instantiated.
+        """
+        policy = self._make_policy()
+        assert policy is not None
+        assert policy.getDestinationUriNestingContract() is None
+        assert policy.getContainers() == []
+        assert policy.getParameters() == []
+        assert policy.getReferences() == []
+
+    def test_set_get_destination_uri_nesting_contract(self):
+        """
+        Test setDestinationUriNestingContract stores the enum and returns self.
+        """
+        policy = self._make_policy()
+        result = policy.setDestinationUriNestingContract(EcucDestinationUriNestingContractEnum.TARGET_CONTAINER)
+        assert result == policy
+        assert policy.getDestinationUriNestingContract() == EcucDestinationUriNestingContractEnum.TARGET_CONTAINER
+
+    def test_add_container(self):
+        """
+        Test addContainer appends an EcucContainerDef and returns self.
+        """
+        document = AUTOSAR.getInstance()
+        parent = document.createARPackage("TestPackage")
+        policy = self._make_policy()
+        container = EcucParamConfContainerDef(parent, "TestContainerDef")
+        result = policy.addContainer(container)
+        assert result == policy
+        assert len(policy.getContainers()) == 1
+        assert policy.getContainers()[0] is container
+
+    def test_add_parameter(self):
+        """
+        Test addParameter appends an EcucParameterDef and returns self.
+        """
+        document = AUTOSAR.getInstance()
+        parent = document.createARPackage("TestPackage")
+        policy = self._make_policy()
+        param = EcucBooleanParamDef(parent, "TestBooleanParamDef")
+        result = policy.addParameter(param)
+        assert result == policy
+        assert len(policy.getParameters()) == 1
+        assert policy.getParameters()[0] is param
+
+    def test_add_reference(self):
+        """
+        Test addReference appends an EcucAbstractReferenceDef and returns self.
+        """
+        document = AUTOSAR.getInstance()
+        parent = document.createARPackage("TestPackage")
+        policy = self._make_policy()
+        reference = EcucReferenceDef(parent, "TestReferenceDef")
+        result = policy.addReference(reference)
+        assert result == policy
+        assert len(policy.getReferences()) == 1
+        assert policy.getReferences()[0] is reference
+
+
 class TestEcucConfigurationClassEnum:
     """
     Test class for EcucConfigurationClassEnum functionality.
-    This class contains test methods for validating the behavior of
-    the EcucConfigurationClassEnum class, including its initialization.
+    Verifies the four spec literals of Table 2.12 and the registered enum values.
     """
 
     def test_initialization(self):
@@ -237,7 +471,85 @@ class TestEcucConfigurationClassEnum:
         config_class_enum = EcucConfigurationClassEnum()
 
         assert config_class_enum is not None
-        assert config_class_enum.enumValues == []
+        assert isinstance(config_class_enum, AREnum)
+
+    def test_literal_members(self):
+        """
+        Test that the four spec literals are defined with their XSD value strings.
+        """
+        assert EcucConfigurationClassEnum.LINK == "LINK"
+        assert EcucConfigurationClassEnum.POST_BUILD == "POST-BUILD"
+        assert EcucConfigurationClassEnum.PRE_COMPILE == "PRE-COMPILE"
+        assert EcucConfigurationClassEnum.PUBLISHED_INFORMATION == "PUBLISHED-INFORMATION"
+
+    def test_enum_values(self):
+        """
+        Test that the registered enum values match the spec literals in order.
+        """
+        config_class_enum = EcucConfigurationClassEnum()
+
+        assert config_class_enum.getEnumValues() == [
+            "LINK",
+            "POST-BUILD",
+            "PRE-COMPILE",
+            "PUBLISHED-INFORMATION",
+        ]
+
+    def test_set_value(self):
+        """
+        Test that a spec literal can be set as the enum value.
+        """
+        config_class_enum = EcucConfigurationClassEnum()
+        config_class_enum.setValue(EcucConfigurationClassEnum.PRE_COMPILE)
+
+        assert config_class_enum.getValue() == "PRE-COMPILE"
+
+
+class TestEcucDestinationUriNestingContractEnum:
+    """
+    Test class for EcucDestinationUriNestingContractEnum functionality.
+    Verifies the three spec literals of Table 2.37 and the registered enum values.
+    """
+
+    def test_initialization(self):
+        """
+        Test EcucDestinationUriNestingContractEnum class initialization.
+        Verifies that the EcucDestinationUriNestingContractEnum can be properly
+        instantiated and inherits from AREnum.
+        """
+        contract_enum = EcucDestinationUriNestingContractEnum()
+
+        assert contract_enum is not None
+        assert isinstance(contract_enum, AREnum)
+
+    def test_literal_members(self):
+        """
+        Test that the three spec literals are defined with their XSD value strings.
+        """
+        assert EcucDestinationUriNestingContractEnum.LEAF_OF_TARGET_CONTAINER == "LEAF-OF-TARGET-CONTAINER"
+        assert EcucDestinationUriNestingContractEnum.TARGET_CONTAINER == "TARGET-CONTAINER"
+        assert EcucDestinationUriNestingContractEnum.VERTEX_OF_TARGET_CONTAINER == "VERTEX-OF-TARGET-CONTAINER"
+
+    def test_enum_values(self):
+        """
+        Test that the registered enum values match the spec literals in order.
+        """
+        contract_enum = EcucDestinationUriNestingContractEnum()
+
+        assert contract_enum.getEnumValues() == [
+            "LEAF-OF-TARGET-CONTAINER",
+            "TARGET-CONTAINER",
+            "VERTEX-OF-TARGET-CONTAINER",
+        ]
+
+    def test_set_value(self):
+        """
+        Test that a spec literal can be set as the enum value.
+        """
+        contract_enum = EcucDestinationUriNestingContractEnum()
+        contract_enum.setValue(EcucDestinationUriNestingContractEnum.TARGET_CONTAINER)
+
+        assert contract_enum.getValue() == "TARGET-CONTAINER"
 
 
 class TestEcucConfigurationVariantEnum:
@@ -389,7 +701,6 @@ class TestEcucContainerDef:
         assert container_def.getOrigin() is None
         assert container_def.getPostBuildVariantMultiplicity() is None
         assert container_def.getRequiresIndex() is None
-        assert container_def.getMultipleConfigurationContainer() is None
 
     def test_setter_methods(self):
         """
@@ -427,11 +738,6 @@ class TestEcucContainerDef:
         result = container_def.setRequiresIndex(True)
         assert result == container_def
         assert container_def.getRequiresIndex() is True
-
-        # Test setMultipleConfigurationContainer
-        result = container_def.setMultipleConfigurationContainer(True)
-        assert result == container_def
-        assert container_def.getMultipleConfigurationContainer() is True
 
 
 class TestEcucValueConfigurationClass:
@@ -545,20 +851,51 @@ class TestEcucCommonAttributes:
 
 class TestEcucDerivationSpecification:
     """
-    Test class for EcucDerivationSpecification functionality.
-    This class contains test methods for validating the behavior of
-    the EcucDerivationSpecification class, including its initialization.
+    Test class for EcucDerivationSpecification functionality against Table 2.38.
     """
+
+    def _make_spec(self):
+        return EcucDerivationSpecification()
 
     def test_initialization(self):
         """
-        Test EcucDerivationSpecification class initialization.
-        Verifies that the EcucDerivationSpecification can be properly instantiated
-        and inherits from ARObject.
+        Test EcucDerivationSpecification __init__ defaults.
         """
-        derivation_spec = EcucDerivationSpecification()
+        derivation_spec = self._make_spec()
+        assert derivation_spec.getCalculationFormula() is None
+        assert derivation_spec.getEcucQueries() == []
+        assert derivation_spec.getInformalFormula() is None
 
-        assert derivation_spec is not None
+    def test_set_get_calculation_formula(self):
+        """
+        Test setCalculationFormula stores a formula and returns self.
+        """
+        derivation_spec = self._make_spec()
+        formula = EcucParameterDerivationFormula()
+        result = derivation_spec.setCalculationFormula(formula)
+        assert result is derivation_spec
+        assert derivation_spec.getCalculationFormula() is formula
+
+    def test_create_get_ecuc_queries(self):
+        """
+        Test createEcucQuery appends an EcucQuery and returns it for chaining.
+        """
+        derivation_spec = self._make_spec()
+        query = derivation_spec.createEcucQuery("Q1")
+        assert query is not None
+        assert query.getShortName() == "Q1"
+        assert derivation_spec.getEcucQueries() == [query]
+        assert derivation_spec.getEcucQuery("Q1") is query
+
+    def test_set_get_informal_formula(self):
+        """
+        Test setInformalFormula stores an MlFormula and returns self.
+        """
+        derivation_spec = self._make_spec()
+        formula = MlFormula()
+        result = derivation_spec.setInformalFormula(formula)
+        assert result is derivation_spec
+        assert derivation_spec.getInformalFormula() is formula
 
 
 class TestEcucParameterDef:
@@ -654,9 +991,7 @@ class TestEcucBooleanParamDef:
 
 class TestEcucAbstractReferenceDef:
     """
-    Test class for EcucAbstractReferenceDef functionality.
-    This class tests the abstract class behavior and verifies that attempting to
-    instantiate it directly raises a TypeError.
+    Test class for EcucAbstractReferenceDef functionality against Table 2.26.
     """
 
     def test_abstract_instantiation_raises_error(self):
@@ -685,25 +1020,6 @@ class TestEcucAbstractReferenceDef:
 
         assert concrete is not None
         assert concrete.getShortName() == "TestConcrete"
-        assert concrete.getWithAuto() is None
-
-    def test_setter_methods(self):
-        """
-        Test EcucAbstractReferenceDef setter methods.
-        Verifies that setter methods work correctly and return self for method chaining.
-        """
-
-        class ConcreteAbstractReferenceDef(EcucAbstractReferenceDef):
-            def __init__(self, parent, short_name):
-                super().__init__(parent, short_name)
-
-        document = AUTOSAR.getInstance()
-        parent = document.createARPackage("TestPackage")
-        concrete = ConcreteAbstractReferenceDef(parent, "TestConcrete")
-
-        result = concrete.setWithAuto(True)
-        assert result == concrete
-        assert concrete.getWithAuto() is True
 
 
 class TestEcucAbstractInternalReferenceDef:
@@ -739,7 +1055,6 @@ class TestEcucAbstractInternalReferenceDef:
 
         assert concrete is not None
         assert concrete.getShortName() == "TestConcrete"
-        assert concrete.getWithAuto() is None
         assert concrete.getRequiresSymbolicNameValue() is None
 
     def test_setter_methods(self):
@@ -817,15 +1132,12 @@ class TestEcucSymbolicNameReferenceDef:
 
 class TestEcucChoiceReferenceDef:
     """
-    Test class for EcucChoiceReferenceDef functionality.
-    This class contains test methods for validating the behavior of
-    the EcucChoiceReferenceDef class, including its initialization and methods.
+    Test class for EcucChoiceReferenceDef functionality against Table 2.30.
     """
 
     def test_initialization(self):
         """
-        Test EcucChoiceReferenceDef class initialization.
-        Verifies that the EcucChoiceReferenceDef can be properly instantiated.
+        Test EcucChoiceReferenceDef __init__ defaults.
         """
         document = AUTOSAR.getInstance()
         parent = document.createARPackage("TestPackage")
@@ -833,21 +1145,32 @@ class TestEcucChoiceReferenceDef:
 
         assert choice_ref is not None
         assert choice_ref.getShortName() == "TestChoiceRef"
-        assert choice_ref.getDestinationRef() is None
+        assert choice_ref.getDestinationRefs() == []
 
-    def test_setter_methods(self):
+    def test_add_get_destination_refs(self):
         """
-        Test EcucChoiceReferenceDef setter methods.
-        Verifies that setter methods work correctly and return self for method chaining.
+        Test addDestinationRef appends and returns self for chaining.
         """
         document = AUTOSAR.getInstance()
         parent = document.createARPackage("TestPackage")
         choice_ref = EcucChoiceReferenceDef(parent, "TestChoiceRef")
 
-        ref = EcucDestinationUriDefRefType()
-        result = choice_ref.setDestinationRef(ref)
+        ref = RefType()
+        ref.setValue("/AUTOSAR/Can/CanConfigSet")
+        result = choice_ref.addDestinationRef(ref)
         assert result == choice_ref
-        assert choice_ref.getDestinationRef() == ref
+        assert choice_ref.getDestinationRefs() == [ref]
+
+    def test_add_destination_ref_none_is_noop(self):
+        """
+        Test adding a None destination ref is a no-op.
+        """
+        document = AUTOSAR.getInstance()
+        parent = document.createARPackage("TestPackage")
+        choice_ref = EcucChoiceReferenceDef(parent, "TestChoiceRef")
+
+        choice_ref.addDestinationRef(None)
+        assert choice_ref.getDestinationRefs() == []
 
 
 class TestEcucReferenceDef:
@@ -929,8 +1252,7 @@ class TestEcucForeignReferenceDef:
 
     def test_initialization(self):
         """
-        Test EcucForeignReferenceDef class initialization.
-        Verifies that the EcucForeignReferenceDef can be properly instantiated.
+        Test EcucForeignReferenceDef __init__ defaults.
         """
         document = AUTOSAR.getInstance()
         parent = document.createARPackage("TestPackage")
@@ -938,7 +1260,6 @@ class TestEcucForeignReferenceDef:
 
         assert foreign_ref_def is not None
         assert foreign_ref_def.getShortName() == "TestForeignRefDef"
-        assert foreign_ref_def.getDestinationContext() is None
         assert foreign_ref_def.getDestinationType() is None
 
     def test_setter_methods(self):
@@ -949,11 +1270,6 @@ class TestEcucForeignReferenceDef:
         document = AUTOSAR.getInstance()
         parent = document.createARPackage("TestPackage")
         foreign_ref_def = EcucForeignReferenceDef(parent, "TestForeignRefDef")
-
-        # Test setDestinationContext
-        result = foreign_ref_def.setDestinationContext("TestContext")
-        assert result == foreign_ref_def
-        assert foreign_ref_def.getDestinationContext() == "TestContext"
 
         # Test setDestinationType
         result = foreign_ref_def.setDestinationType("TestType")
@@ -970,8 +1286,7 @@ class TestEcucInstanceReferenceDef:
 
     def test_initialization(self):
         """
-        Test EcucInstanceReferenceDef class initialization.
-        Verifies that the EcucInstanceReferenceDef can be properly instantiated.
+        Test EcucInstanceReferenceDef __init__ defaults.
         """
         document = AUTOSAR.getInstance()
         parent = document.createARPackage("TestPackage")
@@ -979,6 +1294,7 @@ class TestEcucInstanceReferenceDef:
 
         assert instance_ref_def is not None
         assert instance_ref_def.getShortName() == "TestInstanceRefDef"
+        assert instance_ref_def.getDestinationContext() is None
         assert instance_ref_def.getDestinationType() is None
 
     def test_setter_methods(self):
@@ -990,9 +1306,15 @@ class TestEcucInstanceReferenceDef:
         parent = document.createARPackage("TestPackage")
         instance_ref_def = EcucInstanceReferenceDef(parent, "TestInstanceRefDef")
 
-        result = instance_ref_def.setDestinationType("TestType")
+        # Test setDestinationContext
+        result = instance_ref_def.setDestinationContext("SW-COMPONENT-PROTOTYPE R-PORT-PROTOTYPE")
         assert result == instance_ref_def
-        assert instance_ref_def.getDestinationType() == "TestType"
+        assert instance_ref_def.getDestinationContext() == "SW-COMPONENT-PROTOTYPE R-PORT-PROTOTYPE"
+
+        # Test setDestinationType
+        result = instance_ref_def.setDestinationType("VARIABLE-DATA-PROTOTYPE")
+        assert result == instance_ref_def
+        assert instance_ref_def.getDestinationType() == "VARIABLE-DATA-PROTOTYPE"
 
 
 class TestEcucAbstractStringParamDef:
@@ -1089,6 +1411,98 @@ class TestEcucFunctionNameDef:
         assert func_name_def.getMaxLength() is None
         assert func_name_def.getMinLength() is None
         assert func_name_def.getRegularExpression() is None
+
+
+class TestEcucLinkerSymbolDef:
+    """
+    Test class for EcucLinkerSymbolDef functionality.
+    This class contains test methods for validating the behavior of
+    the EcucLinkerSymbolDef class, including its initialization and methods.
+    """
+
+    def _make_symbol(self):
+        document = AUTOSAR.getInstance()
+        parent = document.createARPackage("TestPackage")
+        symbol = EcucLinkerSymbolDef(parent, "TestLinkerSymbolDef")
+        return parent, symbol
+
+    def test_initialization(self):
+        """
+        Test EcucLinkerSymbolDef class initialization.
+        Verifies that the EcucLinkerSymbolDef can be properly instantiated.
+        """
+        parent, symbol = self._make_symbol()
+        assert symbol is not None
+        assert symbol.getShortName() == "TestLinkerSymbolDef"
+        assert symbol.getDefaultValue() is None
+        assert symbol.getMaxLength() is None
+        assert symbol.getMinLength() is None
+        assert symbol.getRegularExpression() is None
+
+    def test_setter_methods(self):
+        """
+        Test EcucLinkerSymbolDef setter methods.
+        Verifies that setter methods work correctly and return self for method chaining.
+        """
+        parent, symbol = self._make_symbol()
+        result = symbol.setDefaultValue("MySymbol")
+        assert result == symbol
+        assert symbol.getDefaultValue() == "MySymbol"
+        result = symbol.setMaxLength(255)
+        assert result == symbol
+        assert symbol.getMaxLength() == 255
+        result = symbol.setMinLength(1)
+        assert result == symbol
+        assert symbol.getMinLength() == 1
+        result = symbol.setRegularExpression(r"\w+")
+        assert result == symbol
+        assert symbol.getRegularExpression() == r"\w+"
+
+
+class TestEcucMultilineStringParamDef:
+    """
+    Test class for EcucMultilineStringParamDef functionality.
+    This class contains test methods for validating the behavior of
+    the EcucMultilineStringParamDef class, including its initialization and methods.
+    """
+
+    def _make_multiline(self):
+        document = AUTOSAR.getInstance()
+        parent = document.createARPackage("TestPackage")
+        multiline = EcucMultilineStringParamDef(parent, "TestMultilineStringParamDef")
+        return parent, multiline
+
+    def test_initialization(self):
+        """
+        Test EcucMultilineStringParamDef class initialization.
+        Verifies that the EcucMultilineStringParamDef can be properly instantiated.
+        """
+        parent, multiline = self._make_multiline()
+        assert multiline is not None
+        assert multiline.getShortName() == "TestMultilineStringParamDef"
+        assert multiline.getDefaultValue() is None
+        assert multiline.getMaxLength() is None
+        assert multiline.getMinLength() is None
+        assert multiline.getRegularExpression() is None
+
+    def test_setter_methods(self):
+        """
+        Test EcucMultilineStringParamDef setter methods.
+        Verifies that setter methods work correctly and return self for method chaining.
+        """
+        parent, multiline = self._make_multiline()
+        result = multiline.setDefaultValue("line1\nline2")
+        assert result == multiline
+        assert multiline.getDefaultValue() == "line1\nline2"
+        result = multiline.setMaxLength(100)
+        assert result == multiline
+        assert multiline.getMaxLength() == 100
+        result = multiline.setMinLength(2)
+        assert result == multiline
+        assert multiline.getMinLength() == 2
+        result = multiline.setRegularExpression(r"\w+")
+        assert result == multiline
+        assert multiline.getRegularExpression() == r"\w+"
 
 
 class TestEcucIntegerParamDef:
@@ -1247,6 +1661,29 @@ class TestEcucEnumerationParamDef:
         assert literal2 is not None
         assert literal1 == literal2  # Should return the same instance
         assert len(enum_param_def.getLiterals()) == 1  # Count should still be 1
+
+
+class TestEcucAddInfoParamDef:
+    """
+    Test class for EcucAddInfoParamDef functionality.
+    This class contains test methods for validating the behavior of
+    the EcucAddInfoParamDef class, including its initialization and methods.
+    """
+
+    def _make_add_info(self):
+        document = AUTOSAR.getInstance()
+        parent = document.createARPackage("TestPackage")
+        add_info = EcucAddInfoParamDef(parent, "TestAddInfoParamDef")
+        return parent, add_info
+
+    def test_initialization(self):
+        """
+        Test EcucAddInfoParamDef class initialization.
+        Verifies that the EcucAddInfoParamDef can be properly instantiated.
+        """
+        parent, add_info = self._make_add_info()
+        assert add_info is not None
+        assert add_info.getShortName() == "TestAddInfoParamDef"
 
 
 class TestEcucFloatParamDef:
@@ -1648,3 +2085,149 @@ class TestEcucDefinitionCollection:
         collection = self._make_collection()
         collection.addModuleRef(None)
         assert collection.getModuleRefs() == []
+
+
+class TestEcucConditionFormula:
+    """
+    Test class for EcucConditionFormula functionality against Table 2.43.
+    """
+
+    def _make_formula(self):
+        return EcucConditionFormula()
+
+    def test_initialization(self):
+        """
+        Test EcucConditionFormula __init__ defaults.
+        """
+        formula = self._make_formula()
+        assert formula.getEcucQueryRef() is None
+        assert formula.getEcucQueryStringRef() is None
+
+    def test_set_get_ecuc_query_ref(self):
+        """
+        Test setEcucQueryRef stores and returns self for chaining.
+        """
+        formula = self._make_formula()
+        ref = RefType()
+        ref.setValue("/PkgQuery/Q1")
+        result = formula.setEcucQueryRef(ref)
+        assert result is formula
+        assert formula.getEcucQueryRef() is ref
+
+    def test_set_get_ecuc_query_string_ref(self):
+        """
+        Test setEcucQueryStringRef stores and returns self for chaining.
+        """
+        formula = self._make_formula()
+        ref = RefType()
+        ref.setValue("/PkgQuery/Q2")
+        result = formula.setEcucQueryStringRef(ref)
+        assert result is formula
+        assert formula.getEcucQueryStringRef() is ref
+
+
+class TestEcucParameterDerivationFormula:
+    """
+    Test class for EcucParameterDerivationFormula functionality against Table 2.39.
+    """
+
+    def _make_formula(self):
+        return EcucParameterDerivationFormula()
+
+    def test_initialization(self):
+        """
+        Test EcucParameterDerivationFormula __init__ defaults.
+        """
+        formula = self._make_formula()
+        assert formula.getEcucQueryRef() is None
+        assert formula.getEcucQueryStringRef() is None
+
+    def test_set_get_ecuc_query_ref(self):
+        """
+        Test setEcucQueryRef stores and returns self for chaining.
+        """
+        formula = self._make_formula()
+        ref = RefType()
+        ref.setValue("/PkgQuery/Q1")
+        result = formula.setEcucQueryRef(ref)
+        assert result is formula
+        assert formula.getEcucQueryRef() is ref
+
+    def test_set_get_ecuc_query_string_ref(self):
+        """
+        Test setEcucQueryStringRef stores and returns self for chaining.
+        """
+        formula = self._make_formula()
+        ref = RefType()
+        ref.setValue("/PkgQuery/Q2")
+        result = formula.setEcucQueryStringRef(ref)
+        assert result is formula
+        assert formula.getEcucQueryStringRef() is ref
+
+
+class TestEcucQueryExpression:
+    """
+    Test class for EcucQueryExpression functionality against Table 2.41.
+    """
+
+    def _make_expression(self):
+        return EcucQueryExpression()
+
+    def test_initialization(self):
+        """
+        Test EcucQueryExpression __init__ defaults.
+        """
+        expression = self._make_expression()
+        assert expression.getConfigElementDefGlobalRef() is None
+        assert expression.getConfigElementDefLocalRef() is None
+
+    def test_set_get_config_element_def_global_ref(self):
+        """
+        Test setConfigElementDefGlobalRef stores and returns self for chaining.
+        """
+        expression = self._make_expression()
+        ref = RefType()
+        ref.setValue("/Pkg/Md/Md/N")
+        result = expression.setConfigElementDefGlobalRef(ref)
+        assert result is expression
+        assert expression.getConfigElementDefGlobalRef() is ref
+
+    def test_set_get_config_element_def_local_ref(self):
+        """
+        Test setConfigElementDefLocalRef stores and returns self for chaining.
+        """
+        expression = self._make_expression()
+        ref = RefType()
+        ref.setValue("/Pkg/Md/Md/N")
+        result = expression.setConfigElementDefLocalRef(ref)
+        assert result is expression
+        assert expression.getConfigElementDefLocalRef() is ref
+
+
+class TestEcucQuery:
+    """
+    Test class for EcucQuery functionality against Table 2.40.
+    """
+
+    def _make_query(self):
+        document = AUTOSAR.getInstance()
+        pkg = document.createARPackage("PkgEcucQuery")
+        return EcucQuery(pkg, "Q1")
+
+    def test_initialization(self):
+        """
+        Test EcucQuery __init__ defaults.
+        """
+        query = self._make_query()
+        assert query.getShortName() == "Q1"
+        assert query.getEcucQueryExpression() is None
+
+    def test_set_get_ecuc_query_expression(self):
+        """
+        Test setEcucQueryExpression stores and returns self for chaining.
+        """
+        query = self._make_query()
+        expression = EcucQueryExpression()
+        result = query.setEcucQueryExpression(expression)
+        assert result is query
+        assert query.getEcucQueryExpression() is expression

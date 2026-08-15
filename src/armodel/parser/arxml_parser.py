@@ -6524,7 +6524,6 @@ class ARXMLParser(AbstractARXMLParser):
             container_def.addMultiplicityConfigClass(cfg_class)
         container_def.setPostBuildVariantMultiplicity(self.getChildElementOptionalBooleanValue(element, "POST-BUILD-VARIANT-MULTIPLICITY"))
         container_def.setRequiresIndex(self.getChildElementOptionalBooleanValue(element, "REQUIRES-INDEX"))
-        container_def.setMultipleConfigurationContainer(self.getChildElementOptionalBooleanValue(element, "MULTIPLE-CONFIGURATION-CONTAINER"))
 
     def readEcucValueConfigurationClass(self, element: ET.Element, cfg_class: EcucValueConfigurationClass):
         self.readEcucAbstractConfigurationClass(element, cfg_class)
@@ -6636,10 +6635,10 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readEcucAbstractReferenceDef(self, element: ET.Element, ref_def: EcucAbstractReferenceDef):
         self.readEcucCommonAttributes(element, ref_def)
-        ref_def.setWithAuto(self.getChildElementOptionalBooleanValue(element, "WITH-AUTO"))
 
     def readEcucAbstractInternalReferenceDef(self, element: ET.Element, ref_def: EcucAbstractInternalReferenceDef):
         self.readEcucAbstractReferenceDef(element, ref_def)
+        ref_def.setRequiresSymbolicNameValue(self.getChildElementOptionalBooleanValue(element, "REQUIRES-SYMBOLIC-NAME-VALUE"))
 
     def readEcucSymbolicNameReferenceDef(self, element: ET.Element, ref_def: EcucSymbolicNameReferenceDef):
         self.readEcucAbstractInternalReferenceDef(element, ref_def)
