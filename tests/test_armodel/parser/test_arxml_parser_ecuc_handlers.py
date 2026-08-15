@@ -1469,11 +1469,8 @@ class TestEcucDestinationUriPolicyRoundTrip:
 
         AUTOSAR.getInstance().setARRelease("R23-11")
         arxml = (
-            '<AR-PACKAGE xmlns="%s"><SHORT-NAME>UriDefSetPkg</SHORT-NAME>' % NS
-            + "<ELEMENTS>"
-            "<ECUC-DESTINATION-URI-DEF-SET><SHORT-NAME>UriDefSet</SHORT-NAME>"
-            + inner
-            + "</ECUC-DESTINATION-URI-DEF-SET>"
+            '<AR-PACKAGE xmlns="%s"><SHORT-NAME>UriDefSetPkg</SHORT-NAME>' % NS + "<ELEMENTS>"
+            "<ECUC-DESTINATION-URI-DEF-SET><SHORT-NAME>UriDefSet</SHORT-NAME>" + inner + "</ECUC-DESTINATION-URI-DEF-SET>"
             "</ELEMENTS></AR-PACKAGE>"
         )
         pkg_element = ET.fromstring(arxml)
@@ -1484,7 +1481,6 @@ class TestEcucDestinationUriPolicyRoundTrip:
     def test_read_full_policy(self, parser):
         from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
             EcucBooleanParamDef,
-            EcucChoiceContainerDef,
             EcucDestinationUriNestingContractEnum,
             EcucParamConfContainerDef,
             EcucReferenceDef,
@@ -1548,11 +1544,7 @@ class TestEcucDestinationUriPolicyRoundTrip:
         assert policy.getDestinationUriNestingContract() is None
 
     def test_read_no_policy(self, parser):
-        inner = (
-            "<DESTINATION-URI-DEFS>"
-            "<ECUC-DESTINATION-URI-DEF><SHORT-NAME>Uri3</SHORT-NAME></ECUC-DESTINATION-URI-DEF>"
-            "</DESTINATION-URI-DEFS>"
-        )
+        inner = "<DESTINATION-URI-DEFS>" "<ECUC-DESTINATION-URI-DEF><SHORT-NAME>Uri3</SHORT-NAME></ECUC-DESTINATION-URI-DEF>" "</DESTINATION-URI-DEFS>"
         uri_def_set = self._load(parser, inner)
         uri_def = uri_def_set.getDestinationUriDefs()[0]
         assert uri_def.getDestinationUriPolicy() is None
