@@ -6,9 +6,12 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+    EcucBooleanParamDef,
     EcucDefinitionCollection,
     EcucDestinationUriDefRefType,
+    EcucModuleDef,
     EcucMultiplicityConfigurationClass,
+    EcucParamConfContainerDef,
     EcucValueConfigurationClass,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa E501
@@ -23,6 +26,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     UnlimitedInteger,
     VerbatimString,
 )
+from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
 
@@ -924,3 +928,96 @@ class TestEcucDestinationUriPolicyWriter:
         uri_def_set = reloaded_pkg.getElement("UriDefSet", EcucDestinationUriDefSet)
         uri_def = uri_def_set.getDestinationUriDefs()[0]
         assert uri_def.getDestinationUriPolicy() is None
+
+
+class TestWriterEcucDerivationSpecification:
+    def _build_derivation(self):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+            EcucDerivationSpecification,
+            EcucParameterDerivationFormula,
+            EcucQueryExpression,
+        )
+        from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
+
+        derivation = EcucDerivationSpecification()
+        formula = EcucParameterDerivationFormula()
+        qref = RefType()
+        qref.setValue("/Ref/Query1")
+        qref.setDest("ECUC-QUERY")
+        sref = RefType()
+        sref.setValue("/Ref/Query2")
+        sref.setDest("ECUC-QUERY")
+        formula.setEcucQueryRef(qref)
+        formula.setEcucQueryStringRef(sref)
+        derivation.setCalculationFormula(formula)
+        query = derivation.createEcucQuery("Q1")
+        expr = EcucQueryExpression()
+        gref = RefType()
+        gref.setValue("/Def/Global")
+        gref.setDest("ECUC-DEFINITION-ELEMENT")
+        expr.setConfigElementDefGlobalRef(gref)
+        query.setEcucQueryExpression(expr)
+        informal = MlFormula()
+        derivation.setInformalFormula(informal)
+        return derivation
+
+    def test_writes_derivation(self, writer):
+        container = _make_container()
+        param = container.createEcucBooleanParamDef("P")
+        param.setDerivation(self._build_derivation())
+        parent = _parent()
+        writer.writeEcucParameterDef(parent, param)
+        derivation = parent.find("DERIVATION")
+        assert derivation is not None
+        assert derivation.find("CALCULATION-FORMULA/ECUC-QUERY-REF").text == "/Ref/Query1"
+        assert derivation.find("CALCULATION-FORMULA/ECUC-QUERY-STRING-REF").text == "/Ref/Query2"
+        queries = derivation.find("ECUC-QUERYS")
+        assert queries is not None
+        query = queries.find("ECUC-QUERY")
+        assert query is not None
+        assert query.find("SHORT-NAME").text == "Q1"
+        assert query.find("ECUC-QUERY-EXPRESSION/CONFIG-ELEMENT-DEF-GLOBAL-REF").text == "/Def/Global"
+        assert derivation.find("INFORMAL-FORMULA") is not None
+
+    def test_writes_no_derivation(self, writer):
+        container = _make_container()
+        param = container.createEcucBooleanParamDef("P")
+        parent = _parent()
+        writer.writeEcucParameterDef(parent, param)
+        assert parent.find("DERIVATION") is None
+
+    def test_round_trip(self, writer):
+        import os
+        import tempfile
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("DerivPkg")
+        module = pkg.createEcucModuleDef("Mod")
+        container = module.createEcucParamConfContainerDef("Ct")
+        param = container.createEcucBooleanParamDef("P")
+        param.setDerivation(self._build_derivation())
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_module = reloaded_pkg.getElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getElement("Ct", EcucParamConfContainerDef)
+            reloaded_param = reloaded_container.getElement("P", EcucBooleanParamDef)
+            reloaded_derivation = reloaded_param.getDerivation()
+            assert reloaded_derivation is not None
+            reloaded_calc = reloaded_derivation.getCalculationFormula()
+            assert reloaded_calc.getEcucQueryRef().getValue() == "/Ref/Query1"
+            assert reloaded_calc.getEcucQueryStringRef().getValue() == "/Ref/Query2"
+            reloaded_queries = reloaded_derivation.getEcucQueries()
+            assert len(reloaded_queries) == 1
+            assert reloaded_queries[0].getShortName() == "Q1"
+            assert reloaded_queries[0].getEcucQueryExpression().getConfigElementDefGlobalRef().getValue() == "/Def/Global"
+            assert reloaded_derivation.getInformalFormula() is not None
+        finally:
+            if os.path.exists(tmp_path):
+                os.unlink(tmp_path)

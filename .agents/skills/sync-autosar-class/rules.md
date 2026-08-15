@@ -583,6 +583,20 @@ R<YY>-<MM>` stamp is warranted.
   comes from the PDF. Every docstring in the file was **written fresh in this pass
   after the 0012.2.3 wipe** — no pre-wipe docstring or member comment survives on a
   removed/renamed/overlooked member.
+- **Rule 0001.4 (attribute `Note` docstrings are verbatim, not paraphrased)** — for
+  **every** spec `Attribute` row (and the class-level `Note`), the text in the
+  inline `__init__` comment, the getter docstring, and the setter docstring must be
+  the spec `Note` copied **verbatim** — character-for-character, including the spec's
+  own spelling/grammar quirks (e.g. "an numerical value", "Ecuc DefintionElements").
+  A paraphrase such as "Gets the X" / "Sets the X" prefixed to the Note, or a
+  truncated summary ("Global reference to find an element…") that drops the spec's
+  full sentence, is a **Rule 0001.4 violation** even when the field, getter,
+  setter, reader, and writer are all otherwise correct. The automation (tests /
+  black / ruff / the set-based script) is blind to this — catch it by diffing each
+  member docstring against its spec `Note` during the 9b gate (and during Step 4's
+  wipe-and-rewrite). This applies to **every** class in the sync queue, including
+  member types that are not yet stamped: their docstrings must still be verbatim
+  before the consuming class is stamped.
 - **Rule 0014 (deviations resolved)** — every `naming`/`type`/`missing` deviation row
   is fixed and **removed**; only accepted deviations remain (`atpDerived`,
   `deprecated (atp.Status=removed)`, `added convenience property`).
