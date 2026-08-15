@@ -55,7 +55,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucValidationCondition,
     EcucValueConfigurationClass,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, CIdentifier, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, CIdentifier, RefType, String
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 
 
@@ -696,7 +696,7 @@ class TestEcucContainerDef:
 
         assert container_def is not None
         assert container_def.getShortName() == "TestContainerDef"
-        assert container_def.getDestinationUriRef() is None
+        assert container_def.getDestinationUriRefs() == []
         assert container_def.getMultiplicityConfigClasses() == []
         assert container_def.getOrigin() is None
         assert container_def.getPostBuildVariantMultiplicity() is None
@@ -712,11 +712,13 @@ class TestEcucContainerDef:
         # Use EcucParamConfContainerDef as it's a concrete subclass of EcucContainerDef
         container_def = EcucParamConfContainerDef(parent, "TestContainerDef")
 
-        # Test setDestinationUriRef
+        # Test addDestinationUriRef
         uri_ref = EcucDestinationUriDefRefType()
-        result = container_def.setDestinationUriRef(uri_ref)
+        uri_ref.setValue("/Dest/Uri")
+        uri_ref.setDest("ECUC-DESTINATION-URI-DEF")
+        result = container_def.addDestinationUriRef(uri_ref)
         assert result == container_def
-        assert container_def.getDestinationUriRef() == uri_ref
+        assert uri_ref in container_def.getDestinationUriRefs()
 
         # Test addMultiplicityConfigClass
         mult_config = EcucMultiplicityConfigurationClass()
@@ -725,9 +727,12 @@ class TestEcucContainerDef:
         assert mult_config in container_def.getMultiplicityConfigClasses()
 
         # Test setOrigin
-        result = container_def.setOrigin("TestOrigin")
+        origin = String()
+        origin.setValue("MANUFACTURER")
+        result = container_def.setOrigin(origin)
         assert result == container_def
-        assert container_def.getOrigin() == "TestOrigin"
+        assert container_def.getOrigin() == origin
+        assert container_def.getOrigin().getValue() == "MANUFACTURER"
 
         # Test setPostBuildVariantMultiplicity
         result = container_def.setPostBuildVariantMultiplicity(True)
@@ -738,6 +743,33 @@ class TestEcucContainerDef:
         result = container_def.setRequiresIndex(True)
         assert result == container_def
         assert container_def.getRequiresIndex() is True
+
+    def test_setters_none_noop(self):
+        """
+        Test EcucContainerDef setters with None values.
+        Verifies that setting None values doesn't change the stored values.
+        """
+        document = AUTOSAR.getInstance()
+        parent = document.createARPackage("TestPackage")
+        container_def = EcucParamConfContainerDef(parent, "TestContainerDef")
+
+        uri_ref = EcucDestinationUriDefRefType()
+        container_def.addDestinationUriRef(uri_ref)
+        result = container_def.addDestinationUriRef(None)
+        assert result == container_def
+        assert container_def.getDestinationUriRefs() == [uri_ref]
+
+        result = container_def.setPostBuildVariantMultiplicity(None)
+        assert result == container_def
+        assert container_def.getPostBuildVariantMultiplicity() is None
+
+        result = container_def.setRequiresIndex(None)
+        assert result == container_def
+        assert container_def.getRequiresIndex() is None
+
+        result = container_def.setOrigin(None)
+        assert result == container_def
+        assert container_def.getOrigin() is None
 
 
 class TestEcucValueConfigurationClass:

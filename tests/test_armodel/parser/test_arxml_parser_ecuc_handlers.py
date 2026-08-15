@@ -1126,12 +1126,32 @@ class TestEcucContainerAndModuleDef:
             "<CONFIG-VARIANT>POST-BUILD</CONFIG-VARIANT>"
             "</ECUC-MULTIPLICITY-CONFIGURATION-CLASS>"
             "</MULTIPLICITY-CONFIG-CLASSES>"
+            "<ORIGIN>MANUFACTURER</ORIGIN>"
             "<POST-BUILD-VARIANT-MULTIPLICITY>true</POST-BUILD-VARIANT-MULTIPLICITY>"
             "<REQUIRES-INDEX>true</REQUIRES-INDEX>"
         )
         parser.readEcucContainerDef(element, container)
         assert len(container.getMultiplicityConfigClasses()) == 1
+        assert container.getOrigin().getValue() == "MANUFACTURER"
         assert container.getPostBuildVariantMultiplicity().getValue() is True
+
+    def test_readEcucContainerDef_destination_uri_refs(self, parser):
+        from armodel.models import EcucParamConfContainerDef
+
+        container = EcucParamConfContainerDef(_autosar_root(), "Cd")
+        element = _snip("<DESTINATION-URI-REFS>" '<DESTINATION-URI-REF DEST="ECUC-DESTINATION-URI-DEF">/Dest/Uri</DESTINATION-URI-REF>' "</DESTINATION-URI-REFS>")
+        parser.readEcucContainerDef(element, container)
+        uri_refs = container.getDestinationUriRefs()
+        assert len(uri_refs) == 1
+        assert uri_refs[0].getValue() == "/Dest/Uri"
+        assert uri_refs[0].getDest() == "ECUC-DESTINATION-URI-DEF"
+
+    def test_getEcucDestinationUriRefs_unsupported_warns(self, warning_parser, caplog):
+        element = _snip("<DESTINATION-URI-REFS><BAD/></DESTINATION-URI-REFS>")
+        with caplog.at_level(logging.ERROR):
+            result = warning_parser.getEcucDestinationUriRefs(element)
+        assert result == []
+        assert any("Unsupported DestinationUriRef" in r.getMessage() for r in caplog.records)
 
     def test_getEcucValueConfigurationClasses_unsupported_warns(self, warning_parser, caplog):
         element = _snip("<VALUE-CONFIG-CLASSES><BAD/></VALUE-CONFIG-CLASSES>")

@@ -191,11 +191,12 @@ class EcucScopeEnum(AREnum):
 
 class EcucDefinitionElement(Identifiable, ABC):
     """
-    Common class used to express the commonalities of configuration parameters, references and containers. If not stated otherwise the default multiplicity is exactly one mandatory instance per definition.
+    Common class used to express the commonalities of configuration parameters, references and containers. If not stated otherwise the default multiplicity is exactly one mandatory occurrence of the specified element.
     """
 
     # EcucDefinitionElement method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.6, p.46
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getEcucCond                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] setEcucCond                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
@@ -217,66 +218,128 @@ class EcucDefinitionElement(Identifiable, ABC):
             raise TypeError("EcucDefinitionElement is an abstract class.")
         super().__init__(parent, short_name)
 
-        self.ecucCond: EcucConditionSpecification = None
-        self.ecucValidationConds: List[EcucValidationCondition] = []
-        self.lowerMultiplicity: PositiveInteger = None
-        self.relatedTraceItemRef: RefType = None
-        self.scope: EcucScopeEnum = None
-        self.upperMultiplicity: PositiveInteger = None
-        self.upperMultiplicityInfinite: Boolean = None
+        # If it evaluates to true the Ecu Parameter definition shall be processed as specified. Otherwise the parameter definition shall be ignored.
+        self.ecucCond: Optional[EcucConditionSpecification] = None
 
-    def getEcucCond(self) -> EcucConditionSpecification:
+        # Collection of validation conditions which all need to evaluate to true in order to indicate a valid validation condition of the EcucDefinitionElement.
+        self.ecucValidationConds: List[EcucValidationCondition] = []
+
+        # The lower multiplicity of the specified element. 0: optional 1: at least one occurrence n: at least n occurrences.
+        self.lowerMultiplicity: Optional[PositiveInteger] = None
+
+        # This contains a sloppy reference to the Autosar compatible identifier of the element (EcucId).
+        self.relatedTraceItemRef: Optional[RefType] = None
+
+        # Specifies the scope of this configuration element.
+        self.scope: Optional[EcucScopeEnum] = None
+
+        # The upper multiplicity of the specified element. 0: no occurrence (used for VSMD) 1: at most one occurrence m: at most m occurrences If upperMultiplicity is set than upperMultiplicityInfinite shall not be used.
+        self.upperMultiplicity: Optional[PositiveInteger] = None
+
+        # To express an infinite number of occurrences of this element this attribute has to be set to true. If upperMultiplicityInfinite is set than upperMultiplicity shall not be used.
+        self.upperMultiplicityInfinite: Optional[Boolean] = None
+
+    def getEcucCond(self) -> Optional[EcucConditionSpecification]:
+        """
+        If it evaluates to true the Ecu Parameter definition shall be processed as specified. Otherwise the parameter definition shall be ignored.
+        """
         return self.ecucCond
 
-    def setEcucCond(self, value: EcucConditionSpecification):
+    def setEcucCond(self, value: Optional[EcucConditionSpecification]):
+        """
+        If it evaluates to true the Ecu Parameter definition shall be processed as specified. Otherwise the parameter definition shall be ignored.
+        A None value is a no-op and does not overwrite an existing ecucCond.
+        """
         if value is not None:
             self.ecucCond = value
         return self
 
     def getEcucValidationConds(self) -> List[EcucValidationCondition]:
+        """
+        Collection of validation conditions which all need to evaluate to true in order to indicate a valid validation condition of the EcucDefinitionElement.
+        """
         return self.ecucValidationConds
 
     def addEcucValidationCond(self, value: EcucValidationCondition):
+        """
+        Collection of validation conditions which all need to evaluate to true in order to indicate a valid validation condition of the EcucDefinitionElement.
+        A None value is a no-op.
+        """
         if value is not None:
             self.ecucValidationConds.append(value)
         return self
 
-    def getLowerMultiplicity(self) -> PositiveInteger:
+    def getLowerMultiplicity(self) -> Optional[PositiveInteger]:
+        """
+        The lower multiplicity of the specified element. 0: optional 1: at least one occurrence n: at least n occurrences.
+        """
         return self.lowerMultiplicity
 
-    def setLowerMultiplicity(self, value: PositiveInteger):
+    def setLowerMultiplicity(self, value: Optional[PositiveInteger]):
+        """
+        The lower multiplicity of the specified element. 0: optional 1: at least one occurrence n: at least n occurrences.
+        A None value is a no-op and does not overwrite an existing lowerMultiplicity.
+        """
         if value is not None:
             self.lowerMultiplicity = value
         return self
 
-    def getRelatedTraceItemRef(self) -> RefType:
+    def getRelatedTraceItemRef(self) -> Optional[RefType]:
+        """
+        This contains a sloppy reference to the Autosar compatible identifier of the element (EcucId).
+        """
         return self.relatedTraceItemRef
 
-    def setRelatedTraceItemRef(self, value: RefType):
+    def setRelatedTraceItemRef(self, value: Optional[RefType]):
+        """
+        This contains a sloppy reference to the Autosar compatible identifier of the element (EcucId).
+        A None value is a no-op and does not overwrite an existing relatedTraceItemRef.
+        """
         if value is not None:
             self.relatedTraceItemRef = value
         return self
 
-    def getScope(self) -> EcucScopeEnum:
+    def getScope(self) -> Optional[EcucScopeEnum]:
+        """
+        Specifies the scope of this configuration element.
+        """
         return self.scope
 
-    def setScope(self, value: EcucScopeEnum):
+    def setScope(self, value: Optional[EcucScopeEnum]):
+        """
+        Specifies the scope of this configuration element.
+        A None value is a no-op and does not overwrite an existing scope.
+        """
         if value is not None:
             self.scope = value
         return self
 
-    def getUpperMultiplicity(self) -> PositiveInteger:
+    def getUpperMultiplicity(self) -> Optional[PositiveInteger]:
+        """
+        The upper multiplicity of the specified element. 0: no occurrence (used for VSMD) 1: at most one occurrence m: at most m occurrences If upperMultiplicity is set than upperMultiplicityInfinite shall not be used.
+        """
         return self.upperMultiplicity
 
-    def setUpperMultiplicity(self, value: PositiveInteger):
+    def setUpperMultiplicity(self, value: Optional[PositiveInteger]):
+        """
+        The upper multiplicity of the specified element. 0: no occurrence (used for VSMD) 1: at most one occurrence m: at most m occurrences If upperMultiplicity is set than upperMultiplicityInfinite shall not be used.
+        A None value is a no-op and does not overwrite an existing upperMultiplicity.
+        """
         if value is not None:
             self.upperMultiplicity = value
         return self
 
-    def getUpperMultiplicityInfinite(self) -> Boolean:
+    def getUpperMultiplicityInfinite(self) -> Optional[Boolean]:
+        """
+        To express an infinite number of occurrences of this element this attribute has to be set to true. If upperMultiplicityInfinite is set than upperMultiplicity shall not be used.
+        """
         return self.upperMultiplicityInfinite
 
-    def setUpperMultiplicityInfinite(self, value: Boolean):
+    def setUpperMultiplicityInfinite(self, value: Optional[Boolean]):
+        """
+        To express an infinite number of occurrences of this element this attribute has to be set to true. If upperMultiplicityInfinite is set than upperMultiplicity shall not be used.
+        A None value is a no-op and does not overwrite an existing upperMultiplicityInfinite.
+        """
         if value is not None:
             self.upperMultiplicityInfinite = value
         return self
@@ -370,6 +433,7 @@ class EcucAbstractConfigurationClass(ARObject, ABC):
 
     # EcucAbstractConfigurationClass method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.9, p.51
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getConfigClass               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setConfigClass               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -381,21 +445,38 @@ class EcucAbstractConfigurationClass(ARObject, ABC):
             raise TypeError("EcucAbstractConfigurationClass is an abstract class.")
         super().__init__()
 
-        self.configClass: EcucConfigurationClassEnum = None
-        self.configVariant: EcucConfigurationVariantEnum = None
+        # Specifies the ConfigurationClass for the given ConfigurationVariant.
+        self.configClass: Optional[EcucConfigurationClassEnum] = None
 
-    def getConfigClass(self) -> EcucConfigurationClassEnum:
+        # Specifies the ConfigurationVariant the ConfigurationClass is specified for.
+        self.configVariant: Optional[EcucConfigurationVariantEnum] = None
+
+    def getConfigClass(self) -> Optional[EcucConfigurationClassEnum]:
+        """
+        Specifies the ConfigurationClass for the given ConfigurationVariant.
+        """
         return self.configClass
 
-    def setConfigClass(self, value: EcucConfigurationClassEnum):
+    def setConfigClass(self, value: Optional[EcucConfigurationClassEnum]):
+        """
+        Specifies the ConfigurationClass for the given ConfigurationVariant.
+        A None value is a no-op and does not overwrite an existing configClass.
+        """
         if value is not None:
             self.configClass = value
         return self
 
-    def getConfigVariant(self) -> EcucConfigurationVariantEnum:
+    def getConfigVariant(self) -> Optional[EcucConfigurationVariantEnum]:
+        """
+        Specifies the ConfigurationVariant the ConfigurationClass is specified for.
+        """
         return self.configVariant
 
-    def setConfigVariant(self, value: EcucConfigurationVariantEnum):
+    def setConfigVariant(self, value: Optional[EcucConfigurationVariantEnum]):
+        """
+        Specifies the ConfigurationVariant the ConfigurationClass is specified for.
+        A None value is a no-op and does not overwrite an existing configVariant.
+        """
         if value is not None:
             self.configVariant = value
         return self
@@ -408,6 +489,7 @@ class EcucMultiplicityConfigurationClass(EcucAbstractConfigurationClass):
 
     # EcucMultiplicityConfigurationClass method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.11, p.52
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self):
@@ -421,65 +503,110 @@ class EcucContainerDef(EcucDefinitionElement, ABC):
 
     # EcucContainerDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.3, p.37
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDestinationUriRef         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setDestinationUriRef         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDestinationUriRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addDestinationUriRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getMultiplicityConfigClasses [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addMultiplicityConfigClass   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getOrigin                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setOrigin                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addMultiplicityConfigClass  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getOrigin                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setOrigin                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getPostBuildVariantMultiplicity [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setPostBuildVariantMultiplicity [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRequiresIndex             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRequiresIndex             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRequiresIndex            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRequiresIndex            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is EcucContainerDef:
             raise TypeError("EcucContainerDef is an abstract class.")
         super().__init__(parent, short_name)
 
-        self.destinationUriRef: EcucDestinationUriDefRefType = None
+        # Several destinationUris can be defined for an Ecuc ContainerDef. With such destinationUris an Ecuc ContainerDef is applicable for several EcucUriReference Defs.
+        self.destinationUriRefs: List[EcucDestinationUriDefRefType] = []
+
+        # Specifies which MultiplicityConfigurationClass this container is available for which ConfigurationVariant.
         self.multiplicityConfigClasses: List[EcucMultiplicityConfigurationClass] = []
-        self.origin: String = None
-        self.postBuildVariantMultiplicity: Boolean = None
-        self.requiresIndex: Boolean = None
 
-    def getDestinationUriRef(self) -> EcucDestinationUriDefRefType:
-        return self.destinationUriRef
+        # This attribute specifies whether this configuration container is an AUTOSAR standardized container or whether it is vendor-specific.
+        self.origin: Optional[String] = None
 
-    def setDestinationUriRef(self, value: EcucDestinationUriDefRefType):
+        # Indicates if a container may have different number of instances in different post-build variants (previously known as post-build selectable configuration sets). TRUE means yes, FALSE means no.
+        self.postBuildVariantMultiplicity: Optional[Boolean] = None
+
+        # Used to define whether the value element for this definition shall be provided with an index.
+        self.requiresIndex: Optional[Boolean] = None
+
+    def getDestinationUriRefs(self) -> List[EcucDestinationUriDefRefType]:
+        """
+        Several destinationUris can be defined for an Ecuc ContainerDef. With such destinationUris an Ecuc ContainerDef is applicable for several EcucUriReference Defs.
+        """
+        return self.destinationUriRefs
+
+    def addDestinationUriRef(self, value: EcucDestinationUriDefRefType) -> "EcucContainerDef":
+        """
+        Several destinationUris can be defined for an Ecuc ContainerDef. With such destinationUris an Ecuc ContainerDef is applicable for several EcucUriReference Defs.
+        A None value is a no-op.
+        """
         if value is not None:
-            self.destinationUriRef = value
+            self.destinationUriRefs.append(value)
         return self
 
     def getMultiplicityConfigClasses(self) -> List[EcucMultiplicityConfigurationClass]:
+        """
+        Specifies which MultiplicityConfigurationClass this container is available for which ConfigurationVariant.
+        """
         return self.multiplicityConfigClasses
 
-    def addMultiplicityConfigClass(self, value: EcucMultiplicityConfigurationClass):
+    def addMultiplicityConfigClass(self, value: EcucMultiplicityConfigurationClass) -> "EcucContainerDef":
+        """
+        Specifies which MultiplicityConfigurationClass this container is available for which ConfigurationVariant.
+        A None value is a no-op.
+        """
         if value is not None:
             self.multiplicityConfigClasses.append(value)
         return self
 
-    def getOrigin(self) -> String:
+    def getOrigin(self) -> Optional[String]:
+        """
+        This attribute specifies whether this configuration container is an AUTOSAR standardized container or whether it is vendor-specific.
+        """
         return self.origin
 
-    def setOrigin(self, value: String):
+    def setOrigin(self, value: Optional[String]) -> "EcucContainerDef":
+        """
+        This attribute specifies whether this configuration container is an AUTOSAR standardized container or whether it is vendor-specific.
+        A None value is a no-op and does not overwrite an existing origin.
+        """
         if value is not None:
             self.origin = value
         return self
 
-    def getPostBuildVariantMultiplicity(self) -> Boolean:
+    def getPostBuildVariantMultiplicity(self) -> Optional[Boolean]:
+        """
+        Indicates if a container may have different number of instances in different post-build variants (previously known as post-build selectable configuration sets). TRUE means yes, FALSE means no.
+        """
         return self.postBuildVariantMultiplicity
 
-    def setPostBuildVariantMultiplicity(self, value: Boolean):
+    def setPostBuildVariantMultiplicity(self, value: Optional[Boolean]) -> "EcucContainerDef":
+        """
+        Indicates if a container may have different number of instances in different post-build variants (previously known as post-build selectable configuration sets). TRUE means yes, FALSE means no.
+        A None value is a no-op and does not overwrite an existing postBuildVariantMultiplicity.
+        """
         if value is not None:
             self.postBuildVariantMultiplicity = value
         return self
 
-    def getRequiresIndex(self) -> Boolean:
+    def getRequiresIndex(self) -> Optional[Boolean]:
+        """
+        Used to define whether the value element for this definition shall be provided with an index.
+        """
         return self.requiresIndex
 
-    def setRequiresIndex(self, value: Boolean):
+    def setRequiresIndex(self, value: Optional[Boolean]) -> "EcucContainerDef":
+        """
+        Used to define whether the value element for this definition shall be provided with an index.
+        A None value is a no-op and does not overwrite an existing requiresIndex.
+        """
         if value is not None:
             self.requiresIndex = value
         return self
@@ -1690,18 +1817,19 @@ class EcucDestinationUriDef(Identifiable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # Description of the targeted EcucContainerDef.
         self.destinationUriPolicy: Optional["EcucDestinationUriPolicy"] = None
 
     def getDestinationUriPolicy(self) -> Optional["EcucDestinationUriPolicy"]:
         """
-        Gets the destination URI policy.
+        Description of the targeted EcucContainerDef.
         """
         return self.destinationUriPolicy
 
     def setDestinationUriPolicy(self, value: "EcucDestinationUriPolicy") -> "EcucDestinationUriDef":
         """
-        Sets the destination URI policy.
-        A None value is a no-op.
+        Description of the targeted EcucContainerDef.
+        A None value is a no-op and does not overwrite an existing destinationUriPolicy.
         """
         if value is not None:
             self.destinationUriPolicy = value
