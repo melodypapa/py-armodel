@@ -632,6 +632,7 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
 
     # EcucCommonAttributes method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.8, p.49
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getMultiplicityConfigClasses [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] addMultiplicityConfigClass   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -652,57 +653,110 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
 
         super().__init__(parent, short_name)
 
+        # Specifies in which MultiplicityConfigurationClass this parameter or reference is available in a particular ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION, then this aggregation is mandatory.
         self.multiplicityConfigClasses: List[EcucMultiplicityConfigurationClass] = []
-        self.origin: String = None
-        self.postBuildVariantMultiplicity: Boolean = None
-        self.postBuildVariantValue: Boolean = None
-        self.requiresIndex: Boolean = None
+
+        # String specifying if this configuration parameter is an AUTOSAR standardized configuration parameter or if the parameter is hardware- or vendor-specific.
+        self.origin: Optional[String] = None
+
+        # Indicates if a parameter or a reference may have different number of instances in different post-build variants (previously known as post-build selectable configuration sets). TRUE means yes, FALSE means no.
+        self.postBuildVariantMultiplicity: Optional[Boolean] = None
+
+        # Indicates if a parameter or a reference may have different value in different post-build variants (previously known as post-build selectable configuration sets). TRUE means yes, FALSE means no.
+        self.postBuildVariantValue: Optional[Boolean] = None
+
+        # Used to define whether the value element for this definition shall be provided with an index.
+        self.requiresIndex: Optional[Boolean] = None
+
+        # Specifies in which ValueConfigurationClass this parameter or reference is available in a particular ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION, then this aggregation is mandatory.
         self.valueConfigClasses: List[EcucValueConfigurationClass] = []
 
     def getMultiplicityConfigClasses(self) -> List[EcucMultiplicityConfigurationClass]:
+        """
+        Specifies in which MultiplicityConfigurationClass this parameter or reference is available in a particular ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION, then this aggregation is mandatory.
+        """
         return self.multiplicityConfigClasses
 
     def addMultiplicityConfigClass(self, value: EcucMultiplicityConfigurationClass):
+        """
+        Specifies in which MultiplicityConfigurationClass this parameter or reference is available in a particular ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION, then this aggregation is mandatory.
+        A None value is a no-op.
+        """
         if value is not None:
             self.multiplicityConfigClasses.append(value)
         return self
 
-    def getOrigin(self) -> String:
+    def getOrigin(self) -> Optional[String]:
+        """
+        String specifying if this configuration parameter is an AUTOSAR standardized configuration parameter or if the parameter is hardware- or vendor-specific.
+        """
         return self.origin
 
-    def setOrigin(self, value: String):
+    def setOrigin(self, value: Optional[String]):
+        """
+        String specifying if this configuration parameter is an AUTOSAR standardized configuration parameter or if the parameter is hardware- or vendor-specific.
+        A None value is a no-op and does not overwrite an existing origin.
+        """
         if value is not None:
             self.origin = value
         return self
 
-    def getPostBuildVariantMultiplicity(self) -> Boolean:
+    def getPostBuildVariantMultiplicity(self) -> Optional[Boolean]:
+        """
+        Indicates if a parameter or a reference may have different number of instances in different post-build variants (previously known as post-build selectable configuration sets). TRUE means yes, FALSE means no.
+        """
         return self.postBuildVariantMultiplicity
 
-    def setPostBuildVariantMultiplicity(self, value: Boolean):
+    def setPostBuildVariantMultiplicity(self, value: Optional[Boolean]):
+        """
+        Indicates if a parameter or a reference may have different number of instances in different post-build variants (previously known as post-build selectable configuration sets). TRUE means yes, FALSE means no.
+        A None value is a no-op and does not overwrite an existing postBuildVariantMultiplicity.
+        """
         if value is not None:
             self.postBuildVariantMultiplicity = value
         return self
 
-    def getPostBuildVariantValue(self) -> Boolean:
+    def getPostBuildVariantValue(self) -> Optional[Boolean]:
+        """
+        Indicates if a parameter or a reference may have different value in different post-build variants (previously known as post-build selectable configuration sets). TRUE means yes, FALSE means no.
+        """
         return self.postBuildVariantValue
 
-    def setPostBuildVariantValue(self, value: Boolean):
+    def setPostBuildVariantValue(self, value: Optional[Boolean]):
+        """
+        Indicates if a parameter or a reference may have different value in different post-build variants (previously known as post-build selectable configuration sets). TRUE means yes, FALSE means no.
+        A None value is a no-op and does not overwrite an existing postBuildVariantValue.
+        """
         if value is not None:
             self.postBuildVariantValue = value
         return self
 
-    def getRequiresIndex(self) -> Boolean:
+    def getRequiresIndex(self) -> Optional[Boolean]:
+        """
+        Used to define whether the value element for this definition shall be provided with an index.
+        """
         return self.requiresIndex
 
-    def setRequiresIndex(self, value: Boolean):
+    def setRequiresIndex(self, value: Optional[Boolean]):
+        """
+        Used to define whether the value element for this definition shall be provided with an index.
+        A None value is a no-op and does not overwrite an existing requiresIndex.
+        """
         if value is not None:
             self.requiresIndex = value
         return self
 
     def getValueConfigClasses(self) -> List[EcucValueConfigurationClass]:
+        """
+        Specifies in which ValueConfigurationClass this parameter or reference is available in a particular ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION, then this aggregation is mandatory.
+        """
         return self.valueConfigClasses
 
     def addValueConfigClass(self, value: EcucValueConfigurationClass):
+        """
+        Specifies in which ValueConfigurationClass this parameter or reference is available in a particular ConfigurationVariant. This aggregation is optional if the surrounding EcucModuleDef has the Category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION, then this aggregation is mandatory.
+        A None value is a no-op.
+        """
         if value is not None:
             self.valueConfigClasses.append(value)
         return self
@@ -1163,20 +1217,21 @@ class EcucInstanceReferenceDef(EcucAbstractExternalReferenceDef):
 
 class EcucAbstractStringParamDef(EcucParameterDef, ABC):
     """
-    Abstract class that is used to collect the common properties for StringParamDefs, LinkerSymbolDef, FunctionNameDef and MultilineStringParamDefs.
+    Abstract class that is used to collect the common properties for StringParamDefs, LinkerSymbolDef, FunctionNameDef and MultilineStringParamDefs. atpVariation: [RS_ECUC_00083] Tags: vh.latestBindingTime=codeGenerationTime
     """
 
     # EcucAbstractStringParamDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.18, p.63
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDefaultValue              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefaultValue              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMaxLength                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxLength                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMinLength                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMinLength                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRegularExpression         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setRegularExpression         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec verified: R23-11
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDefaultValue      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setDefaultValue      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMaxLength         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setMaxLength         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMinLength         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setMinLength         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRegularExpression [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setRegularExpression [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent, short_name):
         if type(self) is EcucAbstractStringParamDef:
@@ -1184,39 +1239,78 @@ class EcucAbstractStringParamDef(EcucParameterDef, ABC):
 
         super().__init__(parent, short_name)
 
-        self.defaultValue: VerbatimString = None
-        self.maxLength: PositiveInteger = None
-        self.minLength: PositiveInteger = None
-        self.regularExpression: RegularExpression = None
+        # Default value of the string configuration parameter.
+        self.defaultValue: Optional[VerbatimString] = None
 
-    def getDefaultValue(self) -> VerbatimString:
+        # Max length allowed for this string.
+        self.maxLength: Optional[PositiveInteger] = None
+
+        # Min length allowed for this string.
+        self.minLength: Optional[PositiveInteger] = None
+
+        # This represents the regular expression which shall be used to validate the string parameter value.
+        self.regularExpression: Optional[RegularExpression] = None
+
+    def getDefaultValue(self) -> Optional[VerbatimString]:
+        """
+        Default value of the string configuration parameter.
+        """
         return self.defaultValue
 
-    def setDefaultValue(self, value: VerbatimString):
+    def setDefaultValue(self, value: Optional[VerbatimString]):
+        """
+        Default value of the string configuration parameter.
+
+        A None value is a no-op and does not overwrite an existing defaultValue.
+        """
         if value is not None:
             self.defaultValue = value
         return self
 
-    def getMaxLength(self) -> PositiveInteger:
+    def getMaxLength(self) -> Optional[PositiveInteger]:
+        """
+        Max length allowed for this string.
+        """
         return self.maxLength
 
-    def setMaxLength(self, value: PositiveInteger):
+    def setMaxLength(self, value: Optional[PositiveInteger]):
+        """
+        Max length allowed for this string.
+
+        A None value is a no-op and does not overwrite an existing maxLength.
+        """
         if value is not None:
             self.maxLength = value
         return self
 
-    def getMinLength(self) -> PositiveInteger:
+    def getMinLength(self) -> Optional[PositiveInteger]:
+        """
+        Min length allowed for this string.
+        """
         return self.minLength
 
-    def setMinLength(self, value: PositiveInteger):
+    def setMinLength(self, value: Optional[PositiveInteger]):
+        """
+        Min length allowed for this string.
+
+        A None value is a no-op and does not overwrite an existing minLength.
+        """
         if value is not None:
             self.minLength = value
         return self
 
-    def getRegularExpression(self) -> RegularExpression:
+    def getRegularExpression(self) -> Optional[RegularExpression]:
+        """
+        This represents the regular expression which shall be used to validate the string parameter value.
+        """
         return self.regularExpression
 
-    def setRegularExpression(self, value: RegularExpression):
+    def setRegularExpression(self, value: Optional[RegularExpression]):
+        """
+        This represents the regular expression which shall be used to validate the string parameter value.
+
+        A None value is a no-op and does not overwrite an existing regularExpression.
+        """
         if value is not None:
             self.regularExpression = value
         return self
@@ -1229,6 +1323,7 @@ class EcucStringParamDef(EcucAbstractStringParamDef):
 
     # EcucStringParamDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.19, p.64
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
@@ -1242,7 +1337,8 @@ class EcucFunctionNameDef(EcucAbstractStringParamDef):
 
     # EcucFunctionNameDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.22, p.65
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1485,6 +1581,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
     # [x] createEcucFloatParamDef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] createEcucEnumerationParamDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] createEcucFunctionNameDef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createEcucMultilineStringParamDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getReferences                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] createEcucSymbolicNameReferenceDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] createEcucReferenceDef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -1616,6 +1713,22 @@ class EcucParamConfContainerDef(EcucContainerDef):
             ref = EcucFunctionNameDef(self, short_name)
             self.addElement(ref)
             self.parameters.append(ref)
+        return self.getElement(short_name)
+
+    def createEcucMultilineStringParamDef(self, short_name: str) -> "EcucMultilineStringParamDef":
+        """
+        Creates a new ECUC multiline string parameter definition and adds it to the container.
+
+        Args:
+            short_name (str): The short name identifier for the new parameter definition.
+
+        Returns:
+            EcucMultilineStringParamDef: The newly created ECUC multiline string parameter definition.
+        """
+        if not self.IsElementExists(short_name):
+            param = EcucMultilineStringParamDef(self, short_name)
+            self.addElement(param)
+            self.parameters.append(param)
         return self.getElement(short_name)
 
     def getReferences(self) -> List[EcucAbstractReferenceDef]:
@@ -2002,6 +2115,7 @@ class EcucMultilineStringParamDef(EcucAbstractStringParamDef):
 
     # EcucMultilineStringParamDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.20, p.64
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):

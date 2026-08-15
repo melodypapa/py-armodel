@@ -256,6 +256,87 @@ class TestEcucCommonAttributes:
         with pytest.raises(TypeError):
             _instantiate(EcucCommonAttributes)
 
+    def _make(self):
+        class _Concrete(EcucCommonAttributes):
+            pass
+
+        return _Concrete(AUTOSAR.getInstance().createARPackage("Pkg_TestECA"), "sn")
+
+    def test_initialization_defaults(self):
+        obj = self._make()
+        assert obj.getMultiplicityConfigClasses() == []
+        assert obj.getOrigin() is None
+        assert obj.getPostBuildVariantMultiplicity() is None
+        assert obj.getPostBuildVariantValue() is None
+        assert obj.getRequiresIndex() is None
+        assert obj.getValueConfigClasses() == []
+
+    def test_get_set_origin_roundtrip(self):
+        obj = self._make()
+        assert obj.setOrigin("AUTOSAR_ECUC") is obj
+        assert obj.getOrigin() == "AUTOSAR_ECUC"
+
+    def test_set_origin_none_noop(self):
+        obj = self._make()
+        obj.setOrigin("AUTOSAR_ECUC")
+        obj.setOrigin(None)
+        assert obj.getOrigin() == "AUTOSAR_ECUC"
+
+    def test_get_set_post_build_variant_multiplicity_roundtrip(self):
+        obj = self._make()
+        assert obj.setPostBuildVariantMultiplicity(True) is obj
+        assert obj.getPostBuildVariantMultiplicity() is True
+
+    def test_set_post_build_variant_multiplicity_none_noop(self):
+        obj = self._make()
+        obj.setPostBuildVariantMultiplicity(True)
+        obj.setPostBuildVariantMultiplicity(None)
+        assert obj.getPostBuildVariantMultiplicity() is True
+
+    def test_get_set_post_build_variant_value_roundtrip(self):
+        obj = self._make()
+        assert obj.setPostBuildVariantValue(False) is obj
+        assert obj.getPostBuildVariantValue() is False
+
+    def test_set_post_build_variant_value_none_noop(self):
+        obj = self._make()
+        obj.setPostBuildVariantValue(False)
+        obj.setPostBuildVariantValue(None)
+        assert obj.getPostBuildVariantValue() is False
+
+    def test_get_set_requires_index_roundtrip(self):
+        obj = self._make()
+        assert obj.setRequiresIndex(True) is obj
+        assert obj.getRequiresIndex() is True
+
+    def test_set_requires_index_none_noop(self):
+        obj = self._make()
+        obj.setRequiresIndex(True)
+        obj.setRequiresIndex(None)
+        assert obj.getRequiresIndex() is True
+
+    def test_add_multiplicity_config_class(self):
+        obj = self._make()
+        item = EcucMultiplicityConfigurationClass()
+        assert obj.addMultiplicityConfigClass(item) is obj
+        assert obj.getMultiplicityConfigClasses() == [item]
+
+    def test_add_multiplicity_config_class_none_noop(self):
+        obj = self._make()
+        obj.addMultiplicityConfigClass(None)
+        assert obj.getMultiplicityConfigClasses() == []
+
+    def test_add_value_config_class(self):
+        obj = self._make()
+        item = EcucValueConfigurationClass()
+        assert obj.addValueConfigClass(item) is obj
+        assert obj.getValueConfigClasses() == [item]
+
+    def test_add_value_config_class_none_noop(self):
+        obj = self._make()
+        obj.addValueConfigClass(None)
+        assert obj.getValueConfigClasses() == []
+
 
 class TestEcucParameterDef:
     def test_rejects_direct_instantiation(self):
@@ -285,6 +366,87 @@ class TestEcucAbstractStringParamDef:
     def test_rejects_direct_instantiation(self):
         with pytest.raises(TypeError):
             _instantiate(EcucAbstractStringParamDef)
+
+    def _make(self):
+        class _Concrete(EcucAbstractStringParamDef):
+            pass
+
+        return _Concrete(AUTOSAR.getInstance().createARPackage("Pkg_TestEASPD"), "sn")
+
+    def test_initialization_defaults(self):
+        obj = self._make()
+        assert obj.getDefaultValue() is None
+        assert obj.getMaxLength() is None
+        assert obj.getMinLength() is None
+        assert obj.getRegularExpression() is None
+
+    def test_get_set_default_value_roundtrip(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import VerbatimString
+
+        obj = self._make()
+        value = VerbatimString().setValue("default_value")
+        assert obj.setDefaultValue(value) is obj
+        assert obj.getDefaultValue() == value
+
+    def test_set_default_value_none_noop(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import VerbatimString
+
+        obj = self._make()
+        value = VerbatimString().setValue("default_value")
+        obj.setDefaultValue(value)
+        obj.setDefaultValue(None)
+        assert obj.getDefaultValue() == value
+
+    def test_get_set_max_length_roundtrip(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
+
+        obj = self._make()
+        value = PositiveInteger().setValue("100")
+        assert obj.setMaxLength(value) is obj
+        assert obj.getMaxLength() == value
+
+    def test_set_max_length_none_noop(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
+
+        obj = self._make()
+        value = PositiveInteger().setValue("100")
+        obj.setMaxLength(value)
+        obj.setMaxLength(None)
+        assert obj.getMaxLength() == value
+
+    def test_get_set_min_length_roundtrip(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
+
+        obj = self._make()
+        value = PositiveInteger().setValue("1")
+        assert obj.setMinLength(value) is obj
+        assert obj.getMinLength() == value
+
+    def test_set_min_length_none_noop(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
+
+        obj = self._make()
+        value = PositiveInteger().setValue("1")
+        obj.setMinLength(value)
+        obj.setMinLength(None)
+        assert obj.getMinLength() == value
+
+    def test_get_set_regular_expression_roundtrip(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RegularExpression
+
+        obj = self._make()
+        value = RegularExpression().setValue("[a-zA-Z]*")
+        assert obj.setRegularExpression(value) is obj
+        assert obj.getRegularExpression() == value
+
+    def test_set_regular_expression_none_noop(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RegularExpression
+
+        obj = self._make()
+        value = RegularExpression().setValue("[a-zA-Z]*")
+        obj.setRegularExpression(value)
+        obj.setRegularExpression(None)
+        assert obj.getRegularExpression() == value
 
 
 class TestEcucAbstractConfigurationClass:

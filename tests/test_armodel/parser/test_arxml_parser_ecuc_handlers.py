@@ -96,9 +96,14 @@ class TestEcucContainerDefParameters:
             <PARAMETERS>
                 <ECUC-STRING-PARAM-DEF>
                     <SHORT-NAME>ConfigString</SHORT-NAME>
-                    <DEFAULT-VALUE>default_value</DEFAULT-VALUE>
-                    <MAX-LENGTH>100</MAX-LENGTH>
-                    <MIN-LENGTH>1</MIN-LENGTH>
+                    <ECUC-STRING-PARAM-DEF-VARIANTS>
+                        <ECUC-STRING-PARAM-DEF-CONDITIONAL>
+                            <DEFAULT-VALUE>default_value</DEFAULT-VALUE>
+                            <MAX-LENGTH>100</MAX-LENGTH>
+                            <MIN-LENGTH>1</MIN-LENGTH>
+                            <REGULAR-EXPRESSION>[a-zA-Z]*</REGULAR-EXPRESSION>
+                        </ECUC-STRING-PARAM-DEF-CONDITIONAL>
+                    </ECUC-STRING-PARAM-DEF-VARIANTS>
                 </ECUC-STRING-PARAM-DEF>
             </PARAMETERS>
             """,
@@ -111,6 +116,7 @@ class TestEcucContainerDefParameters:
         assert params[0].getDefaultValue() is not None
         assert params[0].getMaxLength().getValue() == 100
         assert params[0].getMinLength().getValue() == 1
+        assert params[0].getRegularExpression() is not None
 
     def test_readEcucStringParamDef_without_default(self, parser):
         from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
@@ -132,6 +138,37 @@ class TestEcucContainerDefParameters:
         assert len(params) == 1
         assert params[0].getShortName() == "ConfigString"
         assert params[0].getDefaultValue() is None
+
+    def test_readEcucMultilineStringParamDef_with_default(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        element = _snip(
+            """
+            <PARAMETERS>
+                <ECUC-MULTILINE-STRING-PARAM-DEF>
+                    <SHORT-NAME>ConfigMulti</SHORT-NAME>
+                    <ECUC-MULTILINE-STRING-PARAM-DEF-VARIANTS>
+                        <ECUC-MULTILINE-STRING-PARAM-DEF-CONDITIONAL>
+                            <DEFAULT-VALUE>line1
+line2</DEFAULT-VALUE>
+                            <MAX-LENGTH>200</MAX-LENGTH>
+                            <MIN-LENGTH>2</MIN-LENGTH>
+                        </ECUC-MULTILINE-STRING-PARAM-DEF-CONDITIONAL>
+                    </ECUC-MULTILINE-STRING-PARAM-DEF-VARIANTS>
+                </ECUC-MULTILINE-STRING-PARAM-DEF>
+            </PARAMETERS>
+            """,
+            root_tag="ECUC-PARAM-CONF-CONTAINER-DEF",
+        )
+        parser.readEcucContainerDefParameters(element, container)
+        params = container.getParameters()
+        assert len(params) == 1
+        assert params[0].getShortName() == "ConfigMulti"
+        assert params[0].getDefaultValue() is not None
+        assert params[0].getMaxLength().getValue() == 200
+        assert params[0].getMinLength().getValue() == 2
 
     def test_readEcucIntegerParamDef_with_limits(self, parser):
         from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
@@ -301,6 +338,7 @@ class TestEcucContainerDefParameters:
                             <DEFAULT-VALUE>Init_MyModule</DEFAULT-VALUE>
                             <MIN-LENGTH>1</MIN-LENGTH>
                             <MAX-LENGTH>50</MAX-LENGTH>
+                            <REGULAR-EXPRESSION>[a-zA-Z_][a-zA-Z0-9_]*</REGULAR-EXPRESSION>
                         </ECUC-FUNCTION-NAME-DEF-CONDITIONAL>
                     </ECUC-FUNCTION-NAME-DEF-VARIANTS>
                 </ECUC-FUNCTION-NAME-DEF>
@@ -312,6 +350,10 @@ class TestEcucContainerDefParameters:
         params = container.getParameters()
         assert len(params) == 1
         assert params[0].getShortName() == "InitFunction"
+        assert params[0].getDefaultValue() is not None
+        assert params[0].getMinLength().getValue() == 1
+        assert params[0].getMaxLength().getValue() == 50
+        assert params[0].getRegularExpression() is not None
 
     def test_readEcucFunctionNameDef_without_value(self, parser):
         from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucParamConfContainerDef
@@ -347,7 +389,11 @@ class TestEcucContainerDefParameters:
                 </ECUC-BOOLEAN-PARAM-DEF>
                 <ECUC-STRING-PARAM-DEF>
                     <SHORT-NAME>Name</SHORT-NAME>
-                    <DEFAULT-VALUE>default</DEFAULT-VALUE>
+                    <ECUC-STRING-PARAM-DEF-VARIANTS>
+                        <ECUC-STRING-PARAM-DEF-CONDITIONAL>
+                            <DEFAULT-VALUE>default</DEFAULT-VALUE>
+                        </ECUC-STRING-PARAM-DEF-CONDITIONAL>
+                    </ECUC-STRING-PARAM-DEF-VARIANTS>
                 </ECUC-STRING-PARAM-DEF>
                 <ECUC-INTEGER-PARAM-DEF>
                     <SHORT-NAME>Count</SHORT-NAME>

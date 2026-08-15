@@ -167,6 +167,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucFunctionNameDef,
     EcucIntegerParamDef,
     EcucModuleDef,
+    EcucMultilineStringParamDef,
     EcucMultiplicityConfigurationClass,
     EcucParamConfContainerDef,
     EcucParameterDef,
@@ -6263,12 +6264,18 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeEcucAbstractStringParamDef(self, element: ET.Element, param_def: EcucAbstractStringParamDef):
         self.writeEcucParameterDef(element, param_def)
-        # self.setChildElementOptionalLiteral(element, "DEFAULT-VALUE", param_def.getDefaultValue())
+        self.setChildElementOptionalLiteral(element, "DEFAULT-VALUE", param_def.getDefaultValue())
+        self.setChildElementOptionalIntegerValue(element, "MAX-LENGTH", param_def.getMaxLength())
+        self.setChildElementOptionalIntegerValue(element, "MIN-LENGTH", param_def.getMinLength())
+        self.setChildElementOptionalLiteral(element, "REGULAR-EXPRESSION", param_def.getRegularExpression())
 
     def writeEcucStringParamDef(self, element: ET.Element, param_def: EcucStringParamDef):
         if param_def is not None:
             child_element = ET.SubElement(element, "ECUC-STRING-PARAM-DEF")
-            self.writeEcucAbstractStringParamDef(child_element, param_def)
+            self.writeEcucParameterDef(child_element, param_def)
+            variants_tag = ET.SubElement(child_element, "ECUC-STRING-PARAM-DEF-VARIANTS")
+            cond_tag = ET.SubElement(variants_tag, "ECUC-STRING-PARAM-DEF-CONDITIONAL")
+            self.writeEcucAbstractStringParamDef(cond_tag, param_def)
 
     def writeEcucIntegerParamDef(self, element: ET.Element, param_def: EcucIntegerParamDef):
         if param_def is not None:
@@ -6312,13 +6319,18 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeEcucFunctionNameDef(self, element: ET.Element, param_def: EcucFunctionNameDef):
         if param_def is not None:
             child_element = ET.SubElement(element, "ECUC-FUNCTION-NAME-DEF")
-            self.writeEcucAbstractStringParamDef(child_element, param_def)
-
+            self.writeEcucParameterDef(child_element, param_def)
             variants_tag = ET.SubElement(child_element, "ECUC-FUNCTION-NAME-DEF-VARIANTS")
             cond_tag = ET.SubElement(variants_tag, "ECUC-FUNCTION-NAME-DEF-CONDITIONAL")
-            self.setChildElementOptionalLiteral(cond_tag, "DEFAULT-VALUE", param_def.getDefaultValue())
-            self.setChildElementOptionalIntegerValue(cond_tag, "MIN-LENGTH", param_def.getMinLength())
-            self.setChildElementOptionalIntegerValue(cond_tag, "MAX-LENGTH", param_def.getMaxLength())
+            self.writeEcucAbstractStringParamDef(cond_tag, param_def)
+
+    def writeEcucMultilineStringParamDef(self, element: ET.Element, param_def: EcucMultilineStringParamDef):
+        if param_def is not None:
+            child_element = ET.SubElement(element, "ECUC-MULTILINE-STRING-PARAM-DEF")
+            self.writeEcucParameterDef(child_element, param_def)
+            variants_tag = ET.SubElement(child_element, "ECUC-MULTILINE-STRING-PARAM-DEF-VARIANTS")
+            cond_tag = ET.SubElement(variants_tag, "ECUC-MULTILINE-STRING-PARAM-DEF-CONDITIONAL")
+            self.writeEcucAbstractStringParamDef(cond_tag, param_def)
 
     def writeEcucContainerDefParameters(self, element: ET.Element, container_def: EcucParamConfContainerDef):
         parameters = container_def.getParameters()
@@ -6337,6 +6349,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeEcucEnumerationParamDef(child_element, parameter)
                 elif isinstance(parameter, EcucFunctionNameDef):
                     self.writeEcucFunctionNameDef(child_element, parameter)
+                elif isinstance(parameter, EcucMultilineStringParamDef):
+                    self.writeEcucMultilineStringParamDef(child_element, parameter)
                 else:
                     self.notImplemented("Unsupported Parameter <%s>" % type(parameter))
 
