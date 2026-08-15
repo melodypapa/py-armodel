@@ -19,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Limit,
     PositiveInteger,
     RefType,
+    RegularExpression,
     UnlimitedInteger,
     VerbatimString,
 )
@@ -90,6 +91,12 @@ def _limit(value, interval=None):
 
 def _verbatim(value):
     v = VerbatimString()
+    v.setValue(value)
+    return v
+
+
+def _regex(value):
+    v = RegularExpression()
     v.setValue(value)
     return v
 
@@ -284,9 +291,21 @@ class TestWriterEcucStringParamDef:
     def test_full(self, writer):
         container = _make_container()
         param = container.createEcucStringParamDef("P")
+        param.setDefaultValue(_verbatim("dv"))
+        param.setMinLength(_posint(1))
+        param.setMaxLength(_posint(64))
+        param.setRegularExpression(_regex("[a-z]*"))
         parent = _parent()
         writer.writeEcucStringParamDef(parent, param)
         assert parent[0].tag == "ECUC-STRING-PARAM-DEF"
+        variants = parent[0].find("ECUC-STRING-PARAM-DEF-VARIANTS")
+        assert variants is not None
+        cond = variants.find("ECUC-STRING-PARAM-DEF-CONDITIONAL")
+        assert cond is not None
+        assert cond.find("DEFAULT-VALUE").text == "dv"
+        assert cond.find("MIN-LENGTH").text == "1"
+        assert cond.find("MAX-LENGTH").text == "64"
+        assert cond.find("REGULAR-EXPRESSION").text == "[a-z]*"
 
     def test_none(self, writer):
         parent = _parent()
@@ -398,6 +417,7 @@ class TestWriterEcucFunctionNameDef:
         param.setDefaultValue(_verbatim("fn"))
         param.setMinLength(_posint(1))
         param.setMaxLength(_posint(64))
+        param.setRegularExpression(_regex("[a-zA-Z_][a-zA-Z0-9_]*"))
         parent = _parent()
         writer.writeEcucFunctionNameDef(parent, param)
         assert parent[0].tag == "ECUC-FUNCTION-NAME-DEF"
@@ -408,6 +428,26 @@ class TestWriterEcucFunctionNameDef:
         assert cond.find("DEFAULT-VALUE").text == "fn"
         assert cond.find("MIN-LENGTH").text == "1"
         assert cond.find("MAX-LENGTH").text == "64"
+        assert cond.find("REGULAR-EXPRESSION").text == "[a-zA-Z_][a-zA-Z0-9_]*"
+
+
+class TestWriterEcucMultilineStringParamDef:
+    def test_full(self, writer):
+        container = _make_container()
+        param = container.createEcucMultilineStringParamDef("P")
+        param.setDefaultValue(_verbatim("line1\nline2"))
+        param.setMinLength(_posint(2))
+        param.setMaxLength(_posint(200))
+        parent = _parent()
+        writer.writeEcucMultilineStringParamDef(parent, param)
+        assert parent[0].tag == "ECUC-MULTILINE-STRING-PARAM-DEF"
+        variants = parent[0].find("ECUC-MULTILINE-STRING-PARAM-DEF-VARIANTS")
+        assert variants is not None
+        cond = variants.find("ECUC-MULTILINE-STRING-PARAM-DEF-CONDITIONAL")
+        assert cond is not None
+        assert cond.find("DEFAULT-VALUE").text == "line1\nline2"
+        assert cond.find("MIN-LENGTH").text == "2"
+        assert cond.find("MAX-LENGTH").text == "200"
 
     def test_none(self, writer):
         parent = _parent()
@@ -424,6 +464,7 @@ class TestWriterEcucContainerDefParameters:
         container.createEcucFloatParamDef("Fp")
         container.createEcucEnumerationParamDef("Ep")
         container.createEcucFunctionNameDef("Fn")
+        container.createEcucMultilineStringParamDef("Mp")
         parent = _parent()
         writer.writeEcucContainerDefParameters(parent, container)
         assert parent[0].tag == "PARAMETERS"
@@ -434,6 +475,7 @@ class TestWriterEcucContainerDefParameters:
         assert "ECUC-FLOAT-PARAM-DEF" in tags
         assert "ECUC-ENUMERATION-PARAM-DEF" in tags
         assert "ECUC-FUNCTION-NAME-DEF" in tags
+        assert "ECUC-MULTILINE-STRING-PARAM-DEF" in tags
 
     def test_empty(self, writer):
         container = _make_container()

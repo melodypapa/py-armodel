@@ -136,8 +136,33 @@ The class must reflect the AUTOSAR PDF specification for its attributes.
 
 ### 1.4 Multiplicity
 
-- `*` → `List[T]` (default `[]`); `0..1` → optional single `T` (default `None`). A
-  bounded ordered mult like `0..2` still maps to `List[T]` with `getXxxs`/`addXxx`.
+The spec `Mult.` column decides the Python shape — and the **type annotations must
+match it exactly** (field, getter return, setter parameter, and parser/writer helper
+all agree; Rule 0001.3). Do not stop at the field default:
+
+- `*` (or any bounded many like `0..2`) → `List[T]` field (default `[]`) with plural
+  accessors (`getXxxs`/`addXxx`); `getXxxs() -> List[T]`, `addXxx(value: T)`.
+- `0..1` → **optional single**: the field, the getter return, **and** the setter
+  parameter must ALL be annotated `Optional[T]` (default `None`) — not bare `T`.
+  ```python
+  self.regularExpression: Optional[RegularExpression] = None
+
+  def getRegularExpression(self) -> Optional[RegularExpression]:
+      return self.regularExpression
+
+  def setRegularExpression(self, value: Optional[RegularExpression]):
+      if value is not None:
+          self.regularExpression = value
+      return self
+  ```
+  A bare `self.x: T = None` (or `getXxx(self) -> T` / `setXxx(self, value: T)`) is a
+  Rule 1.4 violation even if the field defaults to `None` and the tests pass. The
+  parser/writer helpers stay optional-typed too (`getChildElementOptional…` /
+  `setChildElementOptional…`), so a bare-`T` annotation on any one of them is drift.
+  Because tests/black/ruff do **not** catch a bare-`T` `0..1` annotation (the value is
+  still `None` at runtime), re-verify annotations against the `Mult.` column as part of
+  the Step 9b field-to-spec cross-check — a class whose `0..1` fields were written in an
+  earlier release often carries bare `T`; fix them rather than re-stamping over them.
 - A spec-`*` member whose **name is singular** still maps to a **plural** Python list
   field + plural accessors (`revisionLabel` `*` → `revisionLabels` +
   `addRevisionLabel`/`getRevisionLabels`). The per-item XML element keeps the singular

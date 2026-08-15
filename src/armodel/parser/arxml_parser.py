@@ -175,6 +175,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucFunctionNameDef,
     EcucIntegerParamDef,
     EcucModuleDef,
+    EcucMultilineStringParamDef,
     EcucMultiplicityConfigurationClass,
     EcucParamConfContainerDef,
     EcucParameterDef,
@@ -6593,7 +6594,22 @@ class ARXMLParser(AbstractARXMLParser):
         param_def.setRegularExpression(self.getChildElementOptionalLiteral(element, "REGULAR-EXPRESSION"))
 
     def readEcucStringParamDef(self, element: ET.Element, param_def: EcucStringParamDef):
-        self.readEcucAbstractStringParamDef(element, param_def)
+        self.readEcucParameterDef(element, param_def)
+        child_element = self.find(element, "ECUC-STRING-PARAM-DEF-VARIANTS/ECUC-STRING-PARAM-DEF-CONDITIONAL")
+        if child_element is not None:
+            param_def.setDefaultValue(self.getChildElementOptionalLiteral(child_element, "DEFAULT-VALUE"))
+            param_def.setMinLength(self.getChildElementOptionalIntegerValue(child_element, "MIN-LENGTH"))
+            param_def.setMaxLength(self.getChildElementOptionalIntegerValue(child_element, "MAX-LENGTH"))
+            param_def.setRegularExpression(self.getChildElementOptionalLiteral(child_element, "REGULAR-EXPRESSION"))
+
+    def readEcucMultilineStringParamDef(self, element: ET.Element, param_def: EcucMultilineStringParamDef):
+        self.readEcucParameterDef(element, param_def)
+        child_element = self.find(element, "ECUC-MULTILINE-STRING-PARAM-DEF-VARIANTS/ECUC-MULTILINE-STRING-PARAM-DEF-CONDITIONAL")
+        if child_element is not None:
+            param_def.setDefaultValue(self.getChildElementOptionalLiteral(child_element, "DEFAULT-VALUE"))
+            param_def.setMinLength(self.getChildElementOptionalIntegerValue(child_element, "MIN-LENGTH"))
+            param_def.setMaxLength(self.getChildElementOptionalIntegerValue(child_element, "MAX-LENGTH"))
+            param_def.setRegularExpression(self.getChildElementOptionalLiteral(child_element, "REGULAR-EXPRESSION"))
 
     def readEcucIntegerParamDef(self, element: ET.Element, param_def: EcucIntegerParamDef):
         self.readEcucParameterDef(element, param_def)
@@ -6626,12 +6642,13 @@ class ARXMLParser(AbstractARXMLParser):
         self.readEcucEnumerationParamDefLiterals(element, param_def)
 
     def readEcucFunctionNameDef(self, element: ET.Element, ref_def: EcucFunctionNameDef):
-        self.readEcucAbstractStringParamDef(element, ref_def)
+        self.readEcucParameterDef(element, ref_def)
         child_element = self.find(element, "ECUC-FUNCTION-NAME-DEF-VARIANTS/ECUC-FUNCTION-NAME-DEF-CONDITIONAL")
         if child_element is not None:
             ref_def.setDefaultValue(self.getChildElementOptionalLiteral(child_element, "DEFAULT-VALUE"))
             ref_def.setMinLength(self.getChildElementOptionalIntegerValue(child_element, "MIN-LENGTH"))
             ref_def.setMaxLength(self.getChildElementOptionalIntegerValue(child_element, "MAX-LENGTH"))
+            ref_def.setRegularExpression(self.getChildElementOptionalLiteral(child_element, "REGULAR-EXPRESSION"))
 
     def readEcucContainerDefParameters(self, element: ET.Element, container_def: EcucParamConfContainerDef):
         for child_element in self.findall(element, "PARAMETERS/*"):
@@ -6654,6 +6671,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ECUC-FUNCTION-NAME-DEF":
                 param_def = container_def.createEcucFunctionNameDef(self.getShortName(child_element))
                 self.readEcucFunctionNameDef(child_element, param_def)
+            elif tag_name == "ECUC-MULTILINE-STRING-PARAM-DEF":
+                param_def = container_def.createEcucMultilineStringParamDef(self.getShortName(child_element))
+                self.readEcucMultilineStringParamDef(child_element, param_def)
             else:
                 self.notImplemented("Unsupported Parameter <%s>" % tag_name)
 
