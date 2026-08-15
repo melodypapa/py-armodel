@@ -2265,6 +2265,7 @@ class EcucQuery(Identifiable):
 
     # EcucQuery method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.40, p.89
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getEcucQueryExpression       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setEcucQueryExpression       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -2298,6 +2299,7 @@ class EcucQueryExpression(ARObject):
 
     # EcucQueryExpression method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.41, p.90
+    # Spec verified: R23-11
     # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getConfigElementDefGlobalRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setConfigElementDefGlobalRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
