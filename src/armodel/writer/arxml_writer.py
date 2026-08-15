@@ -160,6 +160,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucContainerDef,
     EcucDefinitionCollection,
     EcucDefinitionElement,
+    EcucDestinationUriDefRefType,
     EcucEnumerationLiteralDef,
     EcucEnumerationParamDef,
     EcucFloatParamDef,
@@ -6341,9 +6342,28 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeEcucContainerDef(self, element: ET.Element, container_def: EcucContainerDef):
         self.writeEcucDefinitionElement(element, container_def)
+        self.setEcucDestinationUriRefs(element, container_def.getDestinationUriRefs())
         self.setEcucMultiplicityConfigClasses(element, container_def.getMultiplicityConfigClasses())
+        self.setChildElementOptionalLiteral(element, "ORIGIN", container_def.getOrigin())
         self.setChildElementOptionalBooleanValue(element, "POST-BUILD-VARIANT-MULTIPLICITY", container_def.getPostBuildVariantMultiplicity())
         self.setChildElementOptionalBooleanValue(element, "REQUIRES-INDEX", container_def.getRequiresIndex())
+
+    def setEcucDestinationUriRefs(self, element: ET.Element, uri_refs: List[EcucDestinationUriDefRefType]):
+        if len(uri_refs) > 0:
+            child_element = ET.SubElement(element, "DESTINATION-URI-REFS")
+            for uri_ref in uri_refs:
+                if isinstance(uri_ref, EcucDestinationUriDefRefType):
+                    ref_element = ET.SubElement(child_element, "DESTINATION-URI-REF")
+                    base = uri_ref.getBase()
+                    if base is not None:
+                        ref_element.attrib["BASE"] = base
+                    dest = uri_ref.getDest()
+                    if dest is not None:
+                        ref_element.attrib["DEST"] = dest
+                    if uri_ref.value is not None:
+                        ref_element.text = uri_ref.value
+                else:
+                    self.notImplemented("Unsupported DestinationUriRef <%s>" % type(uri_ref))
 
     def writeEcucAbstractReferenceDef(self, element: ET.Element, reference: EcucAbstractReferenceDef):
         self.writeEcucCommonAttributes(element, reference)

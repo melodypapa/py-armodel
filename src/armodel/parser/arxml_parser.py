@@ -168,6 +168,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucContainerDef,
     EcucDefinitionCollection,
     EcucDefinitionElement,
+    EcucDestinationUriDefRefType,
     EcucEnumerationLiteralDef,
     EcucEnumerationParamDef,
     EcucFloatParamDef,
@@ -6520,10 +6521,33 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readEcucContainerDef(self, element: ET.Element, container_def: EcucContainerDef):
         self.readEcucDefinitionElement(element, container_def)
+        for uri_ref in self.getEcucDestinationUriRefs(element):
+            container_def.addDestinationUriRef(uri_ref)
         for cfg_class in self.getEcucMultiplicityConfigurationClasses(element):
             container_def.addMultiplicityConfigClass(cfg_class)
         container_def.setPostBuildVariantMultiplicity(self.getChildElementOptionalBooleanValue(element, "POST-BUILD-VARIANT-MULTIPLICITY"))
         container_def.setRequiresIndex(self.getChildElementOptionalBooleanValue(element, "REQUIRES-INDEX"))
+        origin_lit = self.getChildElementOptionalLiteral(element, "ORIGIN")
+        if origin_lit is not None:
+            origin = String()
+            origin.setValue(origin_lit.getValue())
+            container_def.setOrigin(origin)
+
+    def getEcucDestinationUriRefs(self, element: ET.Element) -> List[EcucDestinationUriDefRefType]:
+        uri_refs = []
+        for child_element in self.findall(element, "DESTINATION-URI-REFS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "DESTINATION-URI-REF":
+                uri_ref = EcucDestinationUriDefRefType()
+                if "BASE" in child_element.attrib:
+                    uri_ref.setBase(child_element.attrib["BASE"])
+                if "DEST" in child_element.attrib:
+                    uri_ref.setDest(child_element.attrib["DEST"])
+                uri_ref.setValue(child_element.text)
+                uri_refs.append(uri_ref)
+            else:
+                self.notImplemented("Unsupported DestinationUriRef <%s>" % tag_name)
+        return uri_refs
 
     def readEcucValueConfigurationClass(self, element: ET.Element, cfg_class: EcucValueConfigurationClass):
         self.readEcucAbstractConfigurationClass(element, cfg_class)

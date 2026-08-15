@@ -36,9 +36,7 @@ def check_continuity(top_level: List[str]) -> List[str]:
     findings: List[str] = []
     expected = [f"{n:04d}" for n in range(1, 17)]
     if top_level != expected:
-        findings.append(
-            f"top-level rule list is {top_level}, expected {expected}"
-        )
+        findings.append(f"top-level rule list is {top_level}, expected {expected}")
     seen = set()
     duplicates = [r for r in top_level if r in seen or seen.add(r)]
     if duplicates:
@@ -50,9 +48,7 @@ def check_dangling_refs(defined: List[str], referenced: Dict[str, int]) -> List[
     findings: List[str] = []
     defined_set = set(defined)
     for rid in referenced:
-        if rid not in defined_set and not any(
-            d == rid.split(".")[0] for d in defined_set
-        ):
+        if rid not in defined_set and not any(d == rid.split(".")[0] for d in defined_set):
             findings.append(f"referenced Rule {rid} has no definition")
     return findings
 

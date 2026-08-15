@@ -7,6 +7,7 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucDefinitionCollection,
+    EcucDestinationUriDefRefType,
     EcucMultiplicityConfigurationClass,
     EcucValueConfigurationClass,
 )
@@ -444,12 +445,21 @@ class TestWriterEcucContainerDefParameters:
 class TestWriterEcucContainerDef:
     def test_full(self, writer):
         container = _make_container()
+        uri_ref = EcucDestinationUriDefRefType()
+        uri_ref.setValue("/Dest/Uri")
+        uri_ref.setDest("ECUC-DESTINATION-URI-DEF")
+        container.addDestinationUriRef(uri_ref)
         container.addMultiplicityConfigClass(EcucMultiplicityConfigurationClass().setConfigClass(_literal("mc")))
+        container.setOrigin(_literal("MANUFACTURER"))
         container.setPostBuildVariantMultiplicity(_bool(True))
         container.setRequiresIndex(_bool(False))
         parent = _parent()
         writer.writeEcucContainerDef(parent, container)
+        assert parent.find("DESTINATION-URI-REFS") is not None
+        assert parent.find("DESTINATION-URI-REFS/DESTINATION-URI-REF").text == "/Dest/Uri"
+        assert parent.find("DESTINATION-URI-REFS/DESTINATION-URI-REF").attrib["DEST"] == "ECUC-DESTINATION-URI-DEF"
         assert parent.find("MULTIPLICITY-CONFIG-CLASSES") is not None
+        assert parent.find("ORIGIN").text == "MANUFACTURER"
         assert parent.find("POST-BUILD-VARIANT-MULTIPLICITY").text == "true"
         assert parent.find("REQUIRES-INDEX").text == "false"
         assert parent.find("MULTIPLE-CONFIGURATION-CONTAINER") is None
@@ -458,7 +468,9 @@ class TestWriterEcucContainerDef:
         container = _make_container()
         parent = _parent()
         writer.writeEcucContainerDef(parent, container)
+        assert parent.find("DESTINATION-URI-REFS") is None
         assert parent.find("MULTIPLICITY-CONFIG-CLASSES") is None
+        assert parent.find("ORIGIN") is None
         assert parent.find("POST-BUILD-VARIANT-MULTIPLICITY") is None
         assert parent.find("REQUIRES-INDEX") is None
         assert parent.find("MULTIPLE-CONFIGURATION-CONTAINER") is None
