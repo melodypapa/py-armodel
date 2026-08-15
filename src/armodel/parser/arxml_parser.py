@@ -159,11 +159,13 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
 )
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucAbstractConfigurationClass,
+    EcucAbstractExternalReferenceDef,
     EcucAbstractInternalReferenceDef,
     EcucAbstractReferenceDef,
     EcucAbstractStringParamDef,
     EcucBooleanParamDef,
     EcucChoiceContainerDef,
+    EcucChoiceReferenceDef,
     EcucCommonAttributes,
     EcucContainerDef,
     EcucDefinitionCollection,
@@ -173,6 +175,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucEnumerationParamDef,
     EcucFloatParamDef,
     EcucFunctionNameDef,
+    EcucInstanceReferenceDef,
     EcucIntegerParamDef,
     EcucModuleDef,
     EcucMultilineStringParamDef,
@@ -6679,10 +6682,14 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readEcucAbstractReferenceDef(self, element: ET.Element, ref_def: EcucAbstractReferenceDef):
         self.readEcucCommonAttributes(element, ref_def)
+        ref_def.setWithAuto(self.getChildElementOptionalBooleanValue(element, "WITH-AUTO"))
 
     def readEcucAbstractInternalReferenceDef(self, element: ET.Element, ref_def: EcucAbstractInternalReferenceDef):
         self.readEcucAbstractReferenceDef(element, ref_def)
         ref_def.setRequiresSymbolicNameValue(self.getChildElementOptionalBooleanValue(element, "REQUIRES-SYMBOLIC-NAME-VALUE"))
+
+    def readEcucAbstractExternalReferenceDef(self, element: ET.Element, ref_def: EcucAbstractExternalReferenceDef):
+        self.readEcucAbstractReferenceDef(element, ref_def)
 
     def readEcucSymbolicNameReferenceDef(self, element: ET.Element, ref_def: EcucSymbolicNameReferenceDef):
         self.readEcucAbstractInternalReferenceDef(element, ref_def)
@@ -6691,6 +6698,16 @@ class ARXMLParser(AbstractARXMLParser):
     def readEcucReferenceDef(self, element: ET.Element, ref_def: EcucReferenceDef):
         self.readEcucAbstractInternalReferenceDef(element, ref_def)
         ref_def.setDestinationRef(self.getChildElementOptionalRefType(element, "DESTINATION-REF"))
+
+    def readEcucChoiceReferenceDef(self, element: ET.Element, ref_def: EcucChoiceReferenceDef):
+        self.readEcucAbstractInternalReferenceDef(element, ref_def)
+        for ref in self.getChildElementRefTypeList(element, "DESTINATION-REFS/DESTINATION-REF"):
+            ref_def.addDestinationRef(ref)
+
+    def readEcucInstanceReferenceDef(self, element: ET.Element, ref_def: EcucInstanceReferenceDef):
+        self.readEcucAbstractExternalReferenceDef(element, ref_def)
+        ref_def.setDestinationContext(self.getChildElementOptionalLiteral(element, "DESTINATION-CONTEXT"))
+        ref_def.setDestinationType(self.getChildElementOptionalLiteral(element, "DESTINATION-TYPE"))
 
     def readEcucContainerDefReferences(self, element: ET.Element, container_def: EcucParamConfContainerDef):
         for child_element in self.findall(element, "REFERENCES/*"):
@@ -6701,6 +6718,12 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ECUC-REFERENCE-DEF":
                 ref_def = container_def.createEcucReferenceDef(self.getShortName(child_element))
                 self.readEcucReferenceDef(child_element, ref_def)
+            elif tag_name == "ECUC-CHOICE-REFERENCE-DEF":
+                ref_def = container_def.createEcucChoiceReferenceDef(self.getShortName(child_element))
+                self.readEcucChoiceReferenceDef(child_element, ref_def)
+            elif tag_name == "ECUC-INSTANCE-REFERENCE-DEF":
+                ref_def = container_def.createEcucInstanceReferenceDef(self.getShortName(child_element))
+                self.readEcucInstanceReferenceDef(child_element, ref_def)
             else:
                 self.notImplemented("Unsupported EcucReferenceDef <%s>" % tag_name)
 

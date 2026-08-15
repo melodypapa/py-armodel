@@ -151,11 +151,13 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
 )
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucAbstractConfigurationClass,
+    EcucAbstractExternalReferenceDef,
     EcucAbstractInternalReferenceDef,
     EcucAbstractReferenceDef,
     EcucAbstractStringParamDef,
     EcucBooleanParamDef,
     EcucChoiceContainerDef,
+    EcucChoiceReferenceDef,
     EcucCommonAttributes,
     EcucContainerDef,
     EcucDefinitionCollection,
@@ -165,6 +167,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucEnumerationParamDef,
     EcucFloatParamDef,
     EcucFunctionNameDef,
+    EcucInstanceReferenceDef,
     EcucIntegerParamDef,
     EcucModuleDef,
     EcucMultilineStringParamDef,
@@ -6381,10 +6384,14 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeEcucAbstractReferenceDef(self, element: ET.Element, reference: EcucAbstractReferenceDef):
         self.writeEcucCommonAttributes(element, reference)
+        self.setChildElementOptionalBooleanValue(element, "WITH-AUTO", reference.getWithAuto())
 
     def writeEcucAbstractInternalReferenceDef(self, element: ET.Element, reference: EcucAbstractInternalReferenceDef):
         self.writeEcucAbstractReferenceDef(element, reference)
         self.setChildElementOptionalBooleanValue(element, "REQUIRES-SYMBOLIC-NAME-VALUE", reference.getRequiresSymbolicNameValue())
+
+    def writeEcucAbstractExternalReferenceDef(self, element: ET.Element, reference: EcucAbstractExternalReferenceDef):
+        self.writeEcucAbstractReferenceDef(element, reference)
 
     def writeEcucSymbolicNameReferenceDef(self, element: ET.Element, reference: EcucSymbolicNameReferenceDef):
         if reference is not None:
@@ -6398,6 +6405,23 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeEcucAbstractInternalReferenceDef(child_element, reference)
             self.setChildElementOptionalRefType(child_element, "DESTINATION-REF", reference.getDestinationRef())
 
+    def writeEcucChoiceReferenceDef(self, element: ET.Element, reference: EcucChoiceReferenceDef):
+        if reference is not None:
+            child_element = ET.SubElement(element, "ECUC-CHOICE-REFERENCE-DEF")
+            self.writeEcucAbstractInternalReferenceDef(child_element, reference)
+            destination_refs = reference.getDestinationRefs()
+            if len(destination_refs) > 0:
+                refs_element = ET.SubElement(child_element, "DESTINATION-REFS")
+                for destination_ref in destination_refs:
+                    self.setChildElementOptionalRefType(refs_element, "DESTINATION-REF", destination_ref)
+
+    def writeEcucInstanceReferenceDef(self, element: ET.Element, reference: EcucInstanceReferenceDef):
+        if reference is not None:
+            child_element = ET.SubElement(element, "ECUC-INSTANCE-REFERENCE-DEF")
+            self.writeEcucAbstractExternalReferenceDef(child_element, reference)
+            self.setChildElementOptionalLiteral(child_element, "DESTINATION-CONTEXT", reference.getDestinationContext())
+            self.setChildElementOptionalLiteral(child_element, "DESTINATION-TYPE", reference.getDestinationType())
+
     def writeEcucContainerDefReferences(self, element: ET.Element, container_def: EcucContainerDef):
         references = container_def.getReferences()
         if len(references) > 0:
@@ -6407,6 +6431,10 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeEcucSymbolicNameReferenceDef(child_element, reference)
                 elif isinstance(reference, EcucReferenceDef):
                     self.writeEcucReferenceDef(child_element, reference)
+                elif isinstance(reference, EcucChoiceReferenceDef):
+                    self.writeEcucChoiceReferenceDef(child_element, reference)
+                elif isinstance(reference, EcucInstanceReferenceDef):
+                    self.writeEcucInstanceReferenceDef(child_element, reference)
                 else:
                     self.notImplemented("Unsupported Reference <%s>" % type(reference))
 
