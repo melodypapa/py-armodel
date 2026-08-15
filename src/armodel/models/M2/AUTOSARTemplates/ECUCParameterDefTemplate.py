@@ -1982,9 +1982,10 @@ class EcucDestinationUriDef(Identifiable):
 
     # EcucDestinationUriDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.35, p.82
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDestinationUriPolicy      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setDestinationUriPolicy      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getDestinationUriPolicy      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDestinationUriPolicy      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -2015,24 +2016,35 @@ class EcucDestinationUriDefSet(AtpBlueprintable):
 
     # EcucDestinationUriDefSet method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.34, p.82
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDestinationUriDefs        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getDestinationUriDefs        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createEcucDestinationUriDef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] addDestinationUriDef         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # This is one particular EcucDestinationUriDef.
         self.destinationUriDefs: List[EcucDestinationUriDef] = []
 
     def getDestinationUriDefs(self) -> List[EcucDestinationUriDef]:
         """
-        Gets the list of destination URI definitions.
+        This is one particular EcucDestinationUriDef.
         """
         return self.destinationUriDefs
 
+    def createEcucDestinationUriDef(self, short_name: str) -> EcucDestinationUriDef:
+        """
+        This is one particular EcucDestinationUriDef.
+        """
+        element = EcucDestinationUriDef(self, short_name)
+        self.destinationUriDefs.append(element)
+        return element
+
     def addDestinationUriDef(self, value: EcucDestinationUriDef) -> "EcucDestinationUriDefSet":
         """
-        Adds a destination URI definition to the list.
+        This is one particular EcucDestinationUriDef.
         A None value is a no-op.
         """
         if value is not None:
@@ -2047,15 +2059,16 @@ class EcucDestinationUriPolicy(ARObject):
 
     # EcucDestinationUriPolicy method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.36, p.83
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getContainers                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addContainer                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDestinationUriNestingContract [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setDestinationUriNestingContract [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getParameters                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addParameter                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getReferences                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addReference                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getContainers                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addContainer                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDestinationUriNestingContract [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDestinationUriNestingContract [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getParameters                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addParameter                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getReferences                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addReference                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
@@ -2140,6 +2153,7 @@ class EcucDestinationUriNestingContractEnum(AREnum):
 
     # EcucDestinationUriNestingContractEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.37, p.83
+    # Spec verified: R23-11
     # (no methods)
 
     # EcucDestinationUriPolicy describes elements (subContainers, Parameters, References) that are directly owned by the target container. Tags: atp.EnumerationLiteralIndex=0

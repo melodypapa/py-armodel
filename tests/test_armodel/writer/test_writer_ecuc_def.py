@@ -818,3 +818,109 @@ class TestWriterEcucDefinitionCollection:
         parent = _parent()
         writer.writeEcucDefinitionCollection(parent, None)
         assert len(parent) == 0
+
+
+# ==================== EcucDestinationUriPolicy (Table 2.36) writer round-trip ====================
+
+
+class TestEcucDestinationUriPolicyWriter:
+    """Writer round-trip for EcucDestinationUriDefSet -> Def -> Policy (Tables 2.34-2.36)."""
+
+    def _round_trip(self, build):
+        import os
+        import tempfile
+
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("UriDefSetPkg")
+        build(pkg)
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            return reloaded_pkg
+        finally:
+            if os.path.exists(tmp_path):
+                os.unlink(tmp_path)
+
+    def test_write_full_policy(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+            EcucBooleanParamDef,
+            EcucDestinationUriDefSet,
+            EcucDestinationUriNestingContractEnum,
+            EcucDestinationUriPolicy,
+            EcucParamConfContainerDef,
+            EcucReferenceDef,
+        )
+
+        def build(pkg):
+            uri_def_set = pkg.createEcucDestinationUriDefSet("UriDefSet")
+            uri_def = uri_def_set.createEcucDestinationUriDef("Uri1")
+            policy = EcucDestinationUriPolicy()
+            container = EcucParamConfContainerDef(policy, "TargetContainer")
+            policy.addContainer(container)
+            contract = EcucDestinationUriNestingContractEnum()
+            contract.setValue(EcucDestinationUriNestingContractEnum.TARGET_CONTAINER)
+            policy.setDestinationUriNestingContract(contract)
+            param = EcucBooleanParamDef(policy, "InterestingParam1")
+            policy.addParameter(param)
+            ref = EcucReferenceDef(policy, "Ref1")
+            policy.addReference(ref)
+            uri_def.setDestinationUriPolicy(policy)
+
+        reloaded_pkg = self._round_trip(build)
+        uri_def_set = reloaded_pkg.getElement("UriDefSet", EcucDestinationUriDefSet)
+        assert uri_def_set is not None
+        uri_def = uri_def_set.getDestinationUriDefs()[0]
+        assert uri_def.getShortName() == "Uri1"
+        policy = uri_def.getDestinationUriPolicy()
+        assert policy is not None
+        assert len(policy.getContainers()) == 1
+        assert policy.getContainers()[0].getShortName() == "TargetContainer"
+        assert policy.getDestinationUriNestingContract().getValue() == EcucDestinationUriNestingContractEnum.TARGET_CONTAINER
+        assert len(policy.getParameters()) == 1
+        assert policy.getParameters()[0].getShortName() == "InterestingParam1"
+        assert len(policy.getReferences()) == 1
+        assert policy.getReferences()[0].getShortName() == "Ref1"
+
+    def test_write_empty_policy(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+            EcucDestinationUriDefSet,
+            EcucDestinationUriPolicy,
+        )
+
+        def build(pkg):
+            uri_def_set = pkg.createEcucDestinationUriDefSet("UriDefSet")
+            uri_def = uri_def_set.createEcucDestinationUriDef("Uri2")
+            policy = EcucDestinationUriPolicy()
+            uri_def.setDestinationUriPolicy(policy)
+
+        reloaded_pkg = self._round_trip(build)
+        uri_def_set = reloaded_pkg.getElement("UriDefSet", EcucDestinationUriDefSet)
+        uri_def = uri_def_set.getDestinationUriDefs()[0]
+        policy = uri_def.getDestinationUriPolicy()
+        assert policy is not None
+        assert policy.getContainers() == []
+        assert policy.getParameters() == []
+        assert policy.getReferences() == []
+        assert policy.getDestinationUriNestingContract() is None
+
+    def test_write_no_policy(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+            EcucDestinationUriDefSet,
+        )
+
+        def build(pkg):
+            uri_def_set = pkg.createEcucDestinationUriDefSet("UriDefSet")
+            uri_def_set.createEcucDestinationUriDef("Uri3")
+
+        reloaded_pkg = self._round_trip(build)
+        uri_def_set = reloaded_pkg.getElement("UriDefSet", EcucDestinationUriDefSet)
+        uri_def = uri_def_set.getDestinationUriDefs()[0]
+        assert uri_def.getDestinationUriPolicy() is None

@@ -51,7 +51,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucModuleConfigurationValues, EcucValueCollection
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwElement
-from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucDefinitionCollection, EcucModuleDef
+from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucDefinitionCollection, EcucDestinationUriDefSet, EcucModuleDef
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwCategory, HwType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
@@ -1225,6 +1225,12 @@ class ARPackage(CollectableElement):
             element = EcucDefinitionCollection(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, EcucDefinitionCollection)
+
+    def createEcucDestinationUriDefSet(self, short_name: str) -> EcucDestinationUriDefSet:
+        if not self.IsElementExists(short_name, EcucDestinationUriDefSet):
+            element = EcucDestinationUriDefSet(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, EcucDestinationUriDefSet)
 
     def createSwSystemConst(self, short_name: str) -> SwSystemconst:
         if not self.IsElementExists(short_name, SwSystemconst):
