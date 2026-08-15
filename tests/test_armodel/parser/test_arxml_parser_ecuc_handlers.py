@@ -1456,3 +1456,103 @@ class TestEcucDefinitionCollection:
 
 
 # ==================== SystemSignalGroup (L5249) ====================
+
+
+# ==================== EcucDestinationUriPolicy (Table 2.36) ====================
+
+
+class TestEcucDestinationUriPolicyRoundTrip:
+    """Tests for readEcucDestinationUriDefSet / Def / Policy handlers (Tables 2.34-2.36)."""
+
+    def _load(self, parser, inner):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucDestinationUriDefSet
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        arxml = (
+            '<AR-PACKAGE xmlns="%s"><SHORT-NAME>UriDefSetPkg</SHORT-NAME>' % NS
+            + "<ELEMENTS>"
+            "<ECUC-DESTINATION-URI-DEF-SET><SHORT-NAME>UriDefSet</SHORT-NAME>"
+            + inner
+            + "</ECUC-DESTINATION-URI-DEF-SET>"
+            "</ELEMENTS></AR-PACKAGE>"
+        )
+        pkg_element = ET.fromstring(arxml)
+        pkg = AUTOSAR.getInstance().createARPackage("UriDefSetPkg")
+        parser.readARPackage(pkg_element, pkg)
+        return pkg.getElement("UriDefSet", EcucDestinationUriDefSet)
+
+    def test_read_full_policy(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+            EcucBooleanParamDef,
+            EcucChoiceContainerDef,
+            EcucDestinationUriNestingContractEnum,
+            EcucParamConfContainerDef,
+            EcucReferenceDef,
+        )
+
+        inner = (
+            "<DESTINATION-URI-DEFS>"
+            "<ECUC-DESTINATION-URI-DEF><SHORT-NAME>Uri1</SHORT-NAME>"
+            "<DESTINATION-URI-POLICY><SHORT-NAME>Policy1</SHORT-NAME>"
+            "<CONTAINERS>"
+            "<ECUC-PARAM-CONF-CONTAINER-DEF><SHORT-NAME>TargetContainer</SHORT-NAME></ECUC-PARAM-CONF-CONTAINER-DEF>"
+            "</CONTAINERS>"
+            "<DESTINATION-URI-NESTING-CONTRACT>TARGET-CONTAINER</DESTINATION-URI-NESTING-CONTRACT>"
+            "<PARAMETERS>"
+            "<ECUC-BOOLEAN-PARAM-DEF><SHORT-NAME>InterestingParam1</SHORT-NAME><DEFAULT-VALUE>true</DEFAULT-VALUE></ECUC-BOOLEAN-PARAM-DEF>"
+            "</PARAMETERS>"
+            "<REFERENCES>"
+            "<ECUC-REFERENCE-DEF><SHORT-NAME>Ref1</SHORT-NAME></ECUC-REFERENCE-DEF>"
+            "</REFERENCES>"
+            "</DESTINATION-URI-POLICY>"
+            "</ECUC-DESTINATION-URI-DEF>"
+            "</DESTINATION-URI-DEFS>"
+        )
+        uri_def_set = self._load(parser, inner)
+        assert uri_def_set is not None
+        uri_defs = uri_def_set.getDestinationUriDefs()
+        assert len(uri_defs) == 1
+        uri_def = uri_defs[0]
+        assert uri_def.getShortName() == "Uri1"
+        policy = uri_def.getDestinationUriPolicy()
+        assert policy is not None
+        containers = policy.getContainers()
+        assert len(containers) == 1
+        assert isinstance(containers[0], EcucParamConfContainerDef)
+        assert containers[0].getShortName() == "TargetContainer"
+        assert policy.getDestinationUriNestingContract().getValue() == EcucDestinationUriNestingContractEnum.TARGET_CONTAINER
+        parameters = policy.getParameters()
+        assert len(parameters) == 1
+        assert isinstance(parameters[0], EcucBooleanParamDef)
+        assert parameters[0].getShortName() == "InterestingParam1"
+        references = policy.getReferences()
+        assert len(references) == 1
+        assert isinstance(references[0], EcucReferenceDef)
+        assert references[0].getShortName() == "Ref1"
+
+    def test_read_empty_policy(self, parser):
+        inner = (
+            "<DESTINATION-URI-DEFS>"
+            "<ECUC-DESTINATION-URI-DEF><SHORT-NAME>Uri2</SHORT-NAME>"
+            "<DESTINATION-URI-POLICY><SHORT-NAME>Policy2</SHORT-NAME></DESTINATION-URI-POLICY>"
+            "</ECUC-DESTINATION-URI-DEF>"
+            "</DESTINATION-URI-DEFS>"
+        )
+        uri_def_set = self._load(parser, inner)
+        uri_def = uri_def_set.getDestinationUriDefs()[0]
+        policy = uri_def.getDestinationUriPolicy()
+        assert policy is not None
+        assert policy.getContainers() == []
+        assert policy.getParameters() == []
+        assert policy.getReferences() == []
+        assert policy.getDestinationUriNestingContract() is None
+
+    def test_read_no_policy(self, parser):
+        inner = (
+            "<DESTINATION-URI-DEFS>"
+            "<ECUC-DESTINATION-URI-DEF><SHORT-NAME>Uri3</SHORT-NAME></ECUC-DESTINATION-URI-DEF>"
+            "</DESTINATION-URI-DEFS>"
+        )
+        uri_def_set = self._load(parser, inner)
+        uri_def = uri_def_set.getDestinationUriDefs()[0]
+        assert uri_def.getDestinationUriPolicy() is None

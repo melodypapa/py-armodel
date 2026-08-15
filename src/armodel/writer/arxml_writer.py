@@ -162,7 +162,11 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucContainerDef,
     EcucDefinitionCollection,
     EcucDefinitionElement,
+    EcucDestinationUriDef,
+    EcucDestinationUriDefSet,
+    EcucDestinationUriNestingContractEnum,
     EcucDestinationUriDefRefType,
+    EcucDestinationUriPolicy,
     EcucEnumerationLiteralDef,
     EcucEnumerationParamDef,
     EcucFloatParamDef,
@@ -6510,6 +6514,85 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeARElement(child_element, collection)
             self.writeEcucDefinitionCollectionModuleRefs(child_element, collection)
 
+    def writeEcucDestinationUriDefSet(self, element: ET.Element, uri_def_set: EcucDestinationUriDefSet):
+        if uri_def_set is not None:
+            self.logger.debug("Write EcucDestinationUriDefSet <%s>" % uri_def_set.getShortName())
+            child_element = ET.SubElement(element, "ECUC-DESTINATION-URI-DEF-SET")
+            self.writeARElement(child_element, uri_def_set)
+            uri_defs = uri_def_set.getDestinationUriDefs()
+            if len(uri_defs) > 0:
+                defs_element = ET.SubElement(child_element, "DESTINATION-URI-DEFS")
+                for uri_def in uri_defs:
+                    self.writeEcucDestinationUriDef(defs_element, uri_def)
+
+    def writeEcucDestinationUriDef(self, element: ET.Element, uri_def: EcucDestinationUriDef):
+        if uri_def is not None:
+            self.logger.debug("Write EcucDestinationUriDef <%s>" % uri_def.getShortName())
+            child_element = ET.SubElement(element, "ECUC-DESTINATION-URI-DEF")
+            self.writeIdentifiable(child_element, uri_def)
+            self.writeEcucDestinationUriPolicy(child_element, uri_def.getDestinationUriPolicy())
+
+    def writeEcucDestinationUriPolicy(self, element: ET.Element, policy: EcucDestinationUriPolicy):
+        if policy is None:
+            return
+        self.logger.debug("Write EcucDestinationUriPolicy")
+        child_element = ET.SubElement(element, "DESTINATION-URI-POLICY")
+        self.writeARObjectAttributes(child_element, policy)
+        containers = policy.getContainers()
+        if len(containers) > 0:
+            containers_element = ET.SubElement(child_element, "CONTAINERS")
+            for container in containers:
+                if isinstance(container, EcucParamConfContainerDef):
+                    self.writeEcucParamConfContainerDef(containers_element, container)
+                elif isinstance(container, EcucChoiceContainerDef):
+                    self.writeEcucChoiceContainerDef(containers_element, container)
+                else:
+                    self.notImplemented("Unsupported DestinationUriPolicy Container <%s>" % type(container))
+        nesting_contract = policy.getDestinationUriNestingContract()
+        if nesting_contract is not None:
+            contract_element = ET.SubElement(child_element, "DESTINATION-URI-NESTING-CONTRACT")
+            contract_element.text = nesting_contract.getValue()
+        self.writeEcucDestinationUriPolicyParameters(child_element, policy)
+        self.writeEcucDestinationUriPolicyReferences(child_element, policy)
+
+    def writeEcucDestinationUriPolicyParameters(self, element: ET.Element, policy: EcucDestinationUriPolicy):
+        parameters = policy.getParameters()
+        if len(parameters) > 0:
+            parameters_element = ET.SubElement(element, "PARAMETERS")
+            for parameter in parameters:
+                if isinstance(parameter, EcucBooleanParamDef):
+                    self.writeEcucBooleanParamDef(parameters_element, parameter)
+                elif isinstance(parameter, EcucStringParamDef):
+                    self.writeEcucStringParamDef(parameters_element, parameter)
+                elif isinstance(parameter, EcucIntegerParamDef):
+                    self.writeEcucIntegerParamDef(parameters_element, parameter)
+                elif isinstance(parameter, EcucFloatParamDef):
+                    self.writeEcucFloatParamDef(parameters_element, parameter)
+                elif isinstance(parameter, EcucEnumerationParamDef):
+                    self.writeEcucEnumerationParamDef(parameters_element, parameter)
+                elif isinstance(parameter, EcucFunctionNameDef):
+                    self.writeEcucFunctionNameDef(parameters_element, parameter)
+                elif isinstance(parameter, EcucMultilineStringParamDef):
+                    self.writeEcucMultilineStringParamDef(parameters_element, parameter)
+                else:
+                    self.notImplemented("Unsupported DestinationUriPolicy Parameter <%s>" % type(parameter))
+
+    def writeEcucDestinationUriPolicyReferences(self, element: ET.Element, policy: EcucDestinationUriPolicy):
+        references = policy.getReferences()
+        if len(references) > 0:
+            references_element = ET.SubElement(element, "REFERENCES")
+            for reference in references:
+                if isinstance(reference, EcucSymbolicNameReferenceDef):
+                    self.writeEcucSymbolicNameReferenceDef(references_element, reference)
+                elif isinstance(reference, EcucReferenceDef):
+                    self.writeEcucReferenceDef(references_element, reference)
+                elif isinstance(reference, EcucChoiceReferenceDef):
+                    self.writeEcucChoiceReferenceDef(references_element, reference)
+                elif isinstance(reference, EcucInstanceReferenceDef):
+                    self.writeEcucInstanceReferenceDef(references_element, reference)
+                else:
+                    self.notImplemented("Unsupported DestinationUriPolicy Reference <%s>" % type(reference))
+
     def writeMacMulticastGroup(self, element: ET.Element, group: MacMulticastGroup):
         if group is not None:
             child_element = ET.SubElement(element, "MAC-MULTICAST-GROUP")
@@ -8247,6 +8330,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeEcucModuleDef(element, ar_element)
         elif isinstance(ar_element, EcucDefinitionCollection):
             self.writeEcucDefinitionCollection(element, ar_element)
+        elif isinstance(ar_element, EcucDestinationUriDefSet):
+            self.writeEcucDestinationUriDefSet(element, ar_element)
         elif isinstance(ar_element, EcucModuleConfigurationValues):
             self.writeEcucModuleConfigurationValues(element, ar_element)
         elif isinstance(ar_element, SwSystemconst):
