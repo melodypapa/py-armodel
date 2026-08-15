@@ -35,11 +35,13 @@ from armodel.models.M2.MSR.AsamHdo.AdminData import (
 )
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sd, Sdg, SdgCaption
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
+from armodel.models.M2.MSR.Documentation.BlockElements import Caption
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import (
     Graphic,
     LGraphic,
     MlFigure,
 )
+from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import (
     DocumentationBlock,
 )
@@ -56,6 +58,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
     MultiLanguageOverviewParagraph,
     MultiLanguageParagraph,
     MultiLanguagePlainText,
+    MultiLanguageVerbatim,
 )
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -459,12 +462,87 @@ class TestSetAdminData:
         assert parent[0].tag == "ADMIN-DATA"
         assert parent[0].find("LANGUAGE") is not None
         assert parent[0].find("USED-LANGUAGES") is not None
+        l10 = parent[0].find("USED-LANGUAGES/L-10")
+        assert l10 is not None
+        assert l10.text == "English"
         assert parent[0].find("SDGS") is not None
         assert parent[0].find("DOC-REVISIONS") is not None
 
     def test_none(self, writer):
         parent = _parent()
         writer.setAdminData(parent, None)
+        assert len(parent) == 0
+
+
+class TestSetMlFormula:
+    def test_writes_full_formula(self, writer):
+        parent = _parent()
+        formula = MlFormula()
+        caption = Caption(None, "cap")
+        formula.setFormulaCaption(caption)
+        l_graphic = LGraphic()
+        graphic = Graphic()
+        graphic.setFilename("g.png")
+        l_graphic.setGraphic(graphic)
+        formula.addLGraphic(l_graphic)
+        tex_math = MultiLanguagePlainText()
+        l10 = LPlainText()
+        l10.l = "en"
+        l10.value = "x^2"
+        tex_math.addL10(l10)
+        formula.setTexMath(tex_math)
+        verbatim = MultiLanguageVerbatim()
+        formula.setVerbatim(verbatim)
+        generic_math = MultiLanguagePlainText()
+        g10 = LPlainText()
+        g10.l = "en"
+        g10.value = "generic"
+        generic_math.addL10(g10)
+        formula.setGenericMath(generic_math)
+        writer.setMlFormula(parent, "FORMULA", formula)
+        formula_el = parent[0]
+        assert formula_el.tag == "FORMULA"
+        caption_el = formula_el.find("FORMULA-CAPTION")
+        assert caption_el is not None
+        assert caption_el.find("SHORT-NAME").text == "cap"
+        l_graphic_el = formula_el.find("L-GRAPHIC")
+        assert l_graphic_el is not None
+        assert l_graphic_el.find("GRAPHIC").attrib["FILENAME"] == "g.png"
+        tex_math_el = formula_el.find("TEX-MATH")
+        assert tex_math_el is not None
+        assert tex_math_el.find("L-10").text == "x^2"
+        assert formula_el.find("VERBATIM") is not None
+        generic_math_el = formula_el.find("GENERIC-MATH")
+        assert generic_math_el is not None
+        assert generic_math_el.find("L-10").text == "generic"
+
+    def test_none(self, writer):
+        parent = _parent()
+        writer.setMlFormula(parent, "FORMULA", None)
+        assert len(parent) == 0
+
+
+class TestSetCaption:
+    def test_writes_full_caption(self, writer):
+        parent = _parent()
+        caption = Caption(None, "cap")
+        desc = MultiLanguageOverviewParagraph()
+        l2 = LOverviewParagraph()
+        l2.l = "en"
+        l2.value = "desc"
+        desc.addL2(l2)
+        caption.setDesc(desc)
+        writer.setCaption(parent, "FORMULA-CAPTION", caption)
+        caption_el = parent[0]
+        assert caption_el.tag == "FORMULA-CAPTION"
+        assert caption_el.find("SHORT-NAME").text == "cap"
+        desc_el = caption_el.find("DESC")
+        assert desc_el is not None
+        assert desc_el.find("L-2").text == "desc"
+
+    def test_none(self, writer):
+        parent = _parent()
+        writer.setCaption(parent, "FORMULA-CAPTION", None)
         assert len(parent) == 0
 
 

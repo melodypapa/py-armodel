@@ -9,7 +9,6 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucAbstractReferenceValue,
     EcucAddInfoParamValue,
-    EcucConditionSpecification,
     EcucConfigurationVariantEnum,
     EcucContainerValue,
     EcucIndexableValue,
@@ -100,15 +99,6 @@ class TestEcucReferenceValue:
 
     def test_instantiation(self):
         assert isinstance(EcucReferenceValue(), EcucReferenceValue)
-
-
-class TestEcucConditionSpecification:
-    """
-    Test class for EcucConditionSpecification functionality.
-    """
-
-    def test_instantiation(self):
-        assert isinstance(EcucConditionSpecification(), EcucConditionSpecification)
 
 
 class TestEcucConfigurationVariantEnum:

@@ -65,6 +65,34 @@ class TestEcucValidationCondition:
     def test_instantiation(self):
         assert _instantiate(EcucValidationCondition, "EcucValidationCondition").getShortName() == "EcucValidationCondition"
 
+    def test_initialization(self):
+        vc = EcucValidationCondition(AUTOSAR.getInstance().createARPackage("Pkg"), "VC")
+        assert vc.getEcucQueries() == []
+        assert vc.getValidationFormula() is None
+
+    def test_create_ecuc_query(self):
+        vc = EcucValidationCondition(AUTOSAR.getInstance().createARPackage("Pkg"), "VC")
+        query = vc.createEcucQuery("Q1")
+        assert query is not None
+        assert query.getShortName() == "Q1"
+        assert len(vc.getEcucQueries()) == 1
+        assert vc.createEcucQuery("Q1") is query
+        assert len(vc.getEcucQueries()) == 1
+        assert vc.getEcucQuery("Q1") is query
+        assert vc.getEcucQuery("Missing") is None
+
+    def test_create_ecuc_query_none_short_name(self):
+        vc = EcucValidationCondition(AUTOSAR.getInstance().createARPackage("Pkg"), "VC")
+        assert vc.createEcucQuery(None) is None
+
+    def test_get_set_validation_formula(self):
+        vc = EcucValidationCondition(AUTOSAR.getInstance().createARPackage("Pkg"), "VC")
+        formula = EcucConditionFormula()
+        assert vc.setValidationFormula(formula) is vc
+        assert vc.getValidationFormula() is formula
+        assert vc.setValidationFormula(None) is vc
+        assert vc.getValidationFormula() is formula
+
 
 class TestEcucSymbolicNameReferenceDef:
     def test_instantiation(self):
@@ -264,6 +292,31 @@ class TestEcucConditionFormula:
     def test_instantiation(self):
         assert isinstance(EcucConditionFormula(), EcucConditionFormula)
 
+    def test_initialization(self):
+        formula = EcucConditionFormula()
+        assert formula.getEcucQueryRef() is None
+        assert formula.getEcucQueryStringRef() is None
+
+    def test_get_set_ecuc_query_ref(self):
+        formula = EcucConditionFormula()
+        ref = RefType()
+        ref.setValue("/Ref/Query1")
+        ref.setDest("ECUC-QUERY")
+        assert formula.setEcucQueryRef(ref) is formula
+        assert formula.getEcucQueryRef() is ref
+        assert formula.setEcucQueryRef(None) is formula
+        assert formula.getEcucQueryRef() is ref
+
+    def test_get_set_ecuc_query_string_ref(self):
+        formula = EcucConditionFormula()
+        ref = RefType()
+        ref.setValue("/Ref/Query2")
+        ref.setDest("ECUC-QUERY")
+        assert formula.setEcucQueryStringRef(ref) is formula
+        assert formula.getEcucQueryStringRef() is ref
+        assert formula.setEcucQueryStringRef(None) is formula
+        assert formula.getEcucQueryStringRef() is ref
+
 
 class TestEcucDestinationUriPolicy:
     def test_instantiation(self):
@@ -328,6 +381,43 @@ class TestEcucQueryExpression:
 class TestEcucConditionSpecification:
     def test_instantiation(self):
         assert isinstance(EcucConditionSpecification(), EcucConditionSpecification)
+
+    def test_initialization(self):
+        cond = EcucConditionSpecification()
+        assert cond.getConditionFormula() is None
+        assert cond.getEcucQueries() == []
+        assert cond.getInformalFormula() is None
+
+    def test_get_set_condition_formula(self):
+        cond = EcucConditionSpecification()
+        formula = EcucConditionFormula()
+        assert cond.setConditionFormula(formula) is cond
+        assert cond.getConditionFormula() is formula
+        assert cond.setConditionFormula(None) is cond
+        assert cond.getConditionFormula() is formula
+
+    def test_create_ecuc_query(self):
+        cond = EcucConditionSpecification()
+        query = cond.createEcucQuery("Q1")
+        assert query is not None
+        assert query.getShortName() == "Q1"
+        assert len(cond.getEcucQueries()) == 1
+        assert cond.createEcucQuery("Q1") is query
+        assert len(cond.getEcucQueries()) == 1
+        assert cond.getEcucQuery("Q1") is query
+        assert cond.getEcucQuery("Missing") is None
+
+    def test_create_ecuc_query_none_short_name(self):
+        cond = EcucConditionSpecification()
+        assert cond.createEcucQuery(None) is None
+
+    def test_get_set_informal_formula(self):
+        cond = EcucConditionSpecification()
+        informal = MlFormula()
+        assert cond.setInformalFormula(informal) is cond
+        assert cond.getInformalFormula() is informal
+        assert cond.setInformalFormula(None) is cond
+        assert cond.getInformalFormula() is informal
 
 
 class TestEcucScopeEnum:

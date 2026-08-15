@@ -1640,3 +1640,129 @@ class TestEcucDerivationSpecification:
         )
         assert derivation is not None
         assert derivation.getInformalFormula() is not None
+
+
+class TestEcucConditionSpecification:
+    """Tests for reading the ECUC-COND element into an EcucConditionSpecification."""
+
+    def _load_cond(self, parser, inner):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+            EcucParamConfContainerDef,
+        )
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        element = _snip(
+            f"<ECUC-COND>{inner}</ECUC-COND>",
+            root_tag="ECUC-PARAM-CONF-CONTAINER-DEF",
+        )
+        parser.readEcucContainerDef(element, container)
+        return container.getEcucCond()
+
+    def test_no_cond(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+            EcucParamConfContainerDef,
+        )
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        element = _snip("", root_tag="ECUC-PARAM-CONF-CONTAINER-DEF")
+        parser.readEcucContainerDef(element, container)
+        assert container.getEcucCond() is None
+
+    def test_read_condition_formula_refs(self, parser):
+        cond = self._load_cond(
+            parser,
+            """
+            <CONDITION-FORMULA>
+                <ECUC-QUERY-REF DEST="ECUC-QUERY">/Ref/Query1</ECUC-QUERY-REF>
+                <ECUC-QUERY-STRING-REF DEST="ECUC-QUERY">/Ref/Query2</ECUC-QUERY-STRING-REF>
+            </CONDITION-FORMULA>
+            """,
+        )
+        assert cond is not None
+        formula = cond.getConditionFormula()
+        assert formula is not None
+        assert formula.getEcucQueryRef() is not None
+        assert formula.getEcucQueryRef().getValue() == "/Ref/Query1"
+        assert formula.getEcucQueryStringRef() is not None
+        assert formula.getEcucQueryStringRef().getValue() == "/Ref/Query2"
+
+    def test_read_ecuc_queries(self, parser):
+        cond = self._load_cond(
+            parser,
+            """
+            <ECUC-QUERYS>
+                <ECUC-QUERY>
+                    <SHORT-NAME>Q1</SHORT-NAME>
+                    <ECUC-QUERY-EXPRESSION>
+                        <CONFIG-ELEMENT-DEF-GLOBAL-REF DEST="ECUC-DEFINITION-ELEMENT">/Def/Global</CONFIG-ELEMENT-DEF-GLOBAL-REF>
+                    </ECUC-QUERY-EXPRESSION>
+                </ECUC-QUERY>
+            </ECUC-QUERYS>
+            """,
+        )
+        assert cond is not None
+        queries = cond.getEcucQueries()
+        assert len(queries) == 1
+        assert queries[0].getShortName() == "Q1"
+        assert queries[0].getEcucQueryExpression().getConfigElementDefGlobalRef().getValue() == "/Def/Global"
+
+    def test_read_informal_formula(self, parser):
+        cond = self._load_cond(parser, "<INFORMAL-FORMULA><FORDOC>Fx</FORDOC></INFORMAL-FORMULA>")
+        assert cond is not None
+        assert cond.getInformalFormula() is not None
+
+
+class TestEcucValidationCondition:
+    """Tests for reading the ECUC-VALIDATION-CONDS element."""
+
+    def _load_conds(self, parser, inner):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+            EcucParamConfContainerDef,
+        )
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        element = _snip(
+            f"<ECUC-VALIDATION-CONDS>{inner}</ECUC-VALIDATION-CONDS>",
+            root_tag="ECUC-PARAM-CONF-CONTAINER-DEF",
+        )
+        parser.readEcucContainerDef(element, container)
+        return container.getEcucValidationConds()
+
+    def test_no_validation_conds(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+            EcucParamConfContainerDef,
+        )
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = EcucParamConfContainerDef(_autosar_root(), "ContainerDef")
+        element = _snip("", root_tag="ECUC-PARAM-CONF-CONTAINER-DEF")
+        parser.readEcucContainerDef(element, container)
+        assert container.getEcucValidationConds() == []
+
+    def test_read_validation_condition(self, parser):
+        conds = self._load_conds(
+            parser,
+            """
+            <ECUC-VALIDATION-CONDITION>
+                <SHORT-NAME>VC1</SHORT-NAME>
+                <ECUC-QUERYS>
+                    <ECUC-QUERY>
+                        <SHORT-NAME>Q1</SHORT-NAME>
+                    </ECUC-QUERY>
+                </ECUC-QUERYS>
+                <VALIDATION-FORMULA>
+                    <ECUC-QUERY-REF DEST="ECUC-QUERY">/Ref/Query1</ECUC-QUERY-REF>
+                </VALIDATION-FORMULA>
+            </ECUC-VALIDATION-CONDITION>
+            """,
+        )
+        assert len(conds) == 1
+        vc = conds[0]
+        assert vc.getShortName() == "VC1"
+        assert len(vc.getEcucQueries()) == 1
+        assert vc.getEcucQueries()[0].getShortName() == "Q1"
+        assert vc.getValidationFormula() is not None
+        assert vc.getValidationFormula().getEcucQueryRef().getValue() == "/Ref/Query1"

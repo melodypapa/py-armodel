@@ -92,6 +92,9 @@ class TestMultiLanguagePlainText:
         assert l_plain_text in l10s
         assert result == multi_lang_plain_text
 
+        multi_lang_plain_text.addL10(None)
+        assert multi_lang_plain_text.getL10s() == [l_plain_text]
+
 
 class TestMultiLanguageVerbatim:
     """Test class for MultiLanguageVerbatim class."""
