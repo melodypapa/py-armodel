@@ -89,6 +89,48 @@ class Chapter(Identifiable):
         return self.chapterModel
 
 
+class PredefinedChapter(ARObject):
+    """
+    This represents a predefined chapter.
+    """
+
+    # PredefinedChapter method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.62, p.331
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setChapterModel     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getChapterModel     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # This is the content of the predefined chapter.
+        self.chapterModel: Optional[ChapterModel] = None
+
+    def setChapterModel(self, value: Optional[ChapterModel]) -> "PredefinedChapter":
+        """
+        This is the content of the predefined chapter.
+
+        A None value is a no-op and does not overwrite an existing chapterModel.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.chapterModel = value
+        return self
+
+    def getChapterModel(self) -> Optional[ChapterModel]:
+        """
+        This is the content of the predefined chapter.
+
+        Returns:
+            The content of the predefined chapter
+        """
+        return self.chapterModel
+
+
 class ChapterModel(ARObject):
     """
     This is the basic content model of a chapter except the Chapter title. This can be utilized in general chapters as well as in predefined chapters.

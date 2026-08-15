@@ -180,12 +180,21 @@ class TestWriterEcucParameterValue:
         writer.writeEcucParameterValue(parent, param)
         assert parent.find("ANNOTATIONS/ANNOTATION") is not None
 
+    def test_with_index(self, writer):
+        param = EcucNumericalParamValue()
+        param.setIndex(_numerical(4))
+        parent = _parent()
+        writer.writeEcucParameterValue(parent, param)
+        assert parent.find("INDEX") is not None
+        assert parent.find("INDEX").text == "4"
+
     def test_minimal(self, writer):
         param = EcucTextualParamValue()
         parent = _parent()
         writer.writeEcucParameterValue(parent, param)
         assert parent.find("DEFINITION-REF") is None
         assert parent.find("ANNOTATIONS") is None
+        assert parent.find("INDEX") is None
 
 
 class TestWriterEcucContainerValueParameterValues:
@@ -249,6 +258,7 @@ class TestWriterEcucContainerValueReferenceValues:
         ref_val = EcucReferenceValue()
         ref_val.setValueRef(_ref("/v", "ECUC-CONTAINER-VALUE"))
         ref_val.setDefinitionRef(_ref("/d1", "ECUC-REFERENCE-DEF"))
+        ref_val.setIndex(_numerical(3))
         container.addReferenceValue(ref_val)
         iref_val = EcucInstanceReferenceValue()
         iref_val.setDefinitionRef(_ref("/d2", "ECUC-REFERENCE-DEF"))
@@ -263,6 +273,9 @@ class TestWriterEcucContainerValueReferenceValues:
         tags = {c.tag for c in parent[0]}
         assert "ECUC-REFERENCE-VALUE" in tags
         assert "ECUC-INSTANCE-REFERENCE-VALUE" in tags
+        ref_el = parent[0].find("ECUC-REFERENCE-VALUE")
+        assert ref_el.find("INDEX") is not None
+        assert ref_el.find("INDEX").text == "3"
         iref_el = parent[0].find("ECUC-INSTANCE-REFERENCE-VALUE")
         assert iref_el.find("VALUE-IREF") is not None
         assert iref_el.find("VALUE-IREF/BASE-REF") is not None
@@ -279,6 +292,7 @@ class TestWriterEcucContainValue:
     def test_full(self, writer):
         container = _make_container()
         container.setDefinitionRef(_ref("/d", "ECUC-PARAM-CONF-CONTAINER-DEF"))
+        container.setIndex(_numerical(7))
         textual = EcucTextualParamValue()
         textual.setValue(_literal("txt"))
         container.addParameterValue(textual)
@@ -291,6 +305,8 @@ class TestWriterEcucContainValue:
         assert parent[0].tag == "ECUC-CONTAINER-VALUE"
         assert parent[0].find("SHORT-NAME").text == "cv"
         assert parent[0].find("DEFINITION-REF") is not None
+        assert parent[0].find("INDEX") is not None
+        assert parent[0].find("INDEX").text == "7"
         assert parent[0].find("PARAMETER-VALUES") is not None
         assert parent[0].find("REFERENCE-VALUES") is not None
         assert parent[0].find("SUB-CONTAINERS") is not None
@@ -301,6 +317,7 @@ class TestWriterEcucContainValue:
         writer.writeEcucContainValue(parent, container)
         assert parent[0].tag == "ECUC-CONTAINER-VALUE"
         assert parent[0].find("DEFINITION-REF") is None
+        assert parent[0].find("INDEX") is None
         assert parent[0].find("PARAMETER-VALUES") is None
         assert parent[0].find("REFERENCE-VALUES") is None
         assert parent[0].find("SUB-CONTAINERS") is None

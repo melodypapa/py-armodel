@@ -1,12 +1,18 @@
 from abc import ABC
-from typing import List
+from typing import List, Optional
 
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARLiteral, ARNumerical
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARBoolean,
+    AREnum,
+    ARLiteral,
+    ARNumerical,
+    PositiveInteger,
+    RefType,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
 
 
@@ -45,17 +51,41 @@ class EcucValueCollection(ARElement):
 
 class EcucIndexableValue(ARObject, ABC):
     """
-    Abstract base class for indexable ECUC values.
+    Used to support the specification of ordering of parameter values.
     """
 
     # EcucIndexableValue method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.46, p.110
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getIndex                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIndex                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         if type(self) is EcucIndexableValue:
             raise TypeError("EcucIndexableValue is an abstract class.")
 
         super().__init__()
+
+        # Used to support the specification of ordering of parameter values. Tags: xml.sequenceOffset=-5
+        self.index: Optional[PositiveInteger] = None
+
+    def getIndex(self) -> Optional[PositiveInteger]:
+        """
+        Used to support the specification of ordering of parameter values.
+        """
+        return self.index
+
+    def setIndex(self, value: Optional[PositiveInteger]) -> "EcucIndexableValue":
+        """
+        Used to support the specification of ordering of parameter values.
+
+        A None value is a no-op and does not overwrite an existing index.
+        """
+        if value is not None:
+            self.index = value
+        return self
 
 
 class EcucParameterValue(EcucIndexableValue, ABC):
@@ -284,6 +314,7 @@ class EcucContainerValue(Identifiable, EcucIndexableValue):
     # [ ] createSubContainer           [x] impl  [ ] docstring  [ ] test
 
     def __init__(self, parent: ARObject, short_name: str):
+        EcucIndexableValue.__init__(self)
         Identifiable.__init__(self, parent, short_name)
 
         self.definitionRef = None  # type: RefType

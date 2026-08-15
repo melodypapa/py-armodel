@@ -805,6 +805,7 @@ class TestGetEcucInstanceReferenceValue:
         element = _snip(
             """
             <DEFINITION-REF DEST="ECUC-REFERENCE-DEF">/Path/To/Def</DEFINITION-REF>
+            <INDEX>9</INDEX>
             <VALUE-IREF>
                 <BASE-REF DEST="SW-COMPONENT-TYPE">/Base/Path</BASE-REF>
                 <CONTEXT-ELEMENT-REF DEST="R-PORT-PROTOTYPE">/Context/El1</CONTEXT-ELEMENT-REF>
@@ -816,6 +817,8 @@ class TestGetEcucInstanceReferenceValue:
         value = parser.getEcucInstanceReferenceValue(element)
         assert value is not None
         assert value.getDefinitionRef() is not None
+        assert value.getIndex() is not None
+        assert value.getIndex().getValue() == 9
         iref = value.valueRef
         assert iref is not None
         assert iref.getBaseRef() is not None
@@ -970,6 +973,7 @@ class TestReadEcucContainerValue:
             """
             <SHORT-NAME>MyContainer</SHORT-NAME>
             <DEFINITION-REF DEST="ECUC-PARAM-CONF-CONTAINER-DEF">/Path/To/ContainerDef</DEFINITION-REF>
+            <INDEX>7</INDEX>
             <PARAMETER-VALUES>
                 <ECUC-TEXTUAL-PARAM-VALUE>
                     <DEFINITION-REF DEST="ECUC-STRING-PARAM-DEF">/Path/To/StringDef</DEFINITION-REF>
@@ -992,6 +996,8 @@ class TestReadEcucContainerValue:
         )
         parser.readEcucContainerValue(element, container)
         assert container.getDefinitionRef() is not None
+        assert container.getIndex() is not None
+        assert container.getIndex().getValue() == 7
         assert len(container.getParameterValues()) == 1
         assert len(container.getReferenceValues()) == 1
         assert len(container.getSubContainers()) == 1
@@ -1007,6 +1013,7 @@ class TestReadEcucContainerValue:
         )
         parser.readEcucContainerValue(element, container)
         assert container.getDefinitionRef() is None
+        assert container.getIndex() is None
         assert len(container.getParameterValues()) == 0
         assert len(container.getReferenceValues()) == 0
         assert len(container.getSubContainers()) == 0
@@ -1385,6 +1392,23 @@ class TestEcucParameterValue:
         parser.readEcucParameterValue(element, param_value)
         assert param_value.getDefinitionRef() is not None
         assert len(param_value.getAnnotations()) == 1
+
+    def test_readEcucParameterValue_reads_index(self, parser):
+        from armodel.models import EcucTextualParamValue
+
+        param_value = EcucTextualParamValue()
+        element = _snip("<INDEX>4</INDEX>")
+        parser.readEcucParameterValue(element, param_value)
+        assert param_value.getIndex() is not None
+        assert param_value.getIndex().getValue() == 4
+
+    def test_readEcucParameterValue_without_index(self, parser):
+        from armodel.models import EcucTextualParamValue
+
+        param_value = EcucTextualParamValue()
+        element = _snip("")
+        parser.readEcucParameterValue(element, param_value)
+        assert param_value.getIndex() is None
 
     def test_readEcucContainerValueParameterValues_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import EcucContainerValue
