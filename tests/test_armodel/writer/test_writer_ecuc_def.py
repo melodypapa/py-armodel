@@ -447,13 +447,12 @@ class TestWriterEcucContainerDef:
         container.addMultiplicityConfigClass(EcucMultiplicityConfigurationClass().setConfigClass(_literal("mc")))
         container.setPostBuildVariantMultiplicity(_bool(True))
         container.setRequiresIndex(_bool(False))
-        container.setMultipleConfigurationContainer(_bool(True))
         parent = _parent()
         writer.writeEcucContainerDef(parent, container)
         assert parent.find("MULTIPLICITY-CONFIG-CLASSES") is not None
         assert parent.find("POST-BUILD-VARIANT-MULTIPLICITY").text == "true"
         assert parent.find("REQUIRES-INDEX").text == "false"
-        assert parent.find("MULTIPLE-CONFIGURATION-CONTAINER").text == "true"
+        assert parent.find("MULTIPLE-CONFIGURATION-CONTAINER") is None
 
     def test_minimal(self, writer):
         container = _make_container()
@@ -470,21 +469,27 @@ class TestWriterEcucAbstractReferenceDef:
         container = _make_container()
         ref = container.createEcucReferenceDef("R")
         ref.setOrigin(_literal("org"))
-        ref.setWithAuto(_bool(True))
         parent = _parent()
         writer.writeEcucAbstractReferenceDef(parent, ref)
         assert parent.find("ORIGIN").text == "org"
-        assert parent.find("WITH-AUTO").text == "true"
+        assert parent.find("WITH-AUTO") is None
 
 
 class TestWriterEcucAbstractInternalReferenceDef:
     def test_writes_inherited_attributes(self, writer):
         container = _make_container()
         ref = container.createEcucReferenceDef("R")
-        ref.setWithAuto(_bool(True))
+        ref.setRequiresSymbolicNameValue(_bool(True))
         parent = _parent()
         writer.writeEcucAbstractInternalReferenceDef(parent, ref)
-        assert parent.find("WITH-AUTO").text == "true"
+        assert parent.find("REQUIRES-SYMBOLIC-NAME-VALUE").text == "true"
+
+    def test_omits_requires_symbolic_name_value_when_none(self, writer):
+        container = _make_container()
+        ref = container.createEcucReferenceDef("R")
+        parent = _parent()
+        writer.writeEcucAbstractInternalReferenceDef(parent, ref)
+        assert parent.find("REQUIRES-SYMBOLIC-NAME-VALUE") is None
 
 
 class TestWriterEcucSymbolicNameReferenceDef:

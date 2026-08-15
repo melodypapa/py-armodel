@@ -316,7 +316,7 @@ Step 7. The block's final form (marker present only once 9b has passed):
   convenience properties. The split matches how coverage is verified (grep the reader
   for the mutator call, the writer for the getter call) and closes the Rule 0001.7
   blind spot. The `__init__` row's `docstring` column marks the **class docstring** (the
-  class-level `Note`) — `__init__` itself has no docstring (Rule 0012.2.3).
+  class-level `Note`) — `__init__` itself has no docstring (Rule 0012.2.4).
 - The checklist covers every method 1:1 (no missing/extra); a `@property` counts as a
   method (needs a row + test). A commented-out member block is dead code — remove it.
 - Every row fully `[x]` (impl **and** docstring **and** test **and** reader/writer as
@@ -555,7 +555,9 @@ R<YY>-<MM>` stamp is warranted.
   attribute its inline `__init__` comment, its getter docstring, **and** its setter
   docstring — each diffed individually against its spec `Note` **verbatim from the
   markdown** (verify by **diff**, not status; no spot-checks); only the `p.NN` page
-  comes from the PDF.
+  comes from the PDF. Every docstring in the file was **written fresh in this pass
+  after the 0012.2.3 wipe** — no pre-wipe docstring or member comment survives on a
+  removed/renamed/overlooked member.
 - **Rule 0014 (deviations resolved)** — every `naming`/`type`/`missing` deviation row
   is fixed and **removed**; only accepted deviations remain (`atpDerived`,
   `deprecated (atp.Status=removed)`, `added convenience property`).
@@ -689,9 +691,12 @@ The class-level `Note` lives in the **class docstring**; per-attribute `Note`s l
 inline `__init__` **comments** and getter/setter docstrings — all copied **verbatim from
 the markdown table** (`autosar/markdown/*.md`), never summarized, paraphrased, or
 rephrased, and staying synced across AUTOSAR upgrades. **`__init__` has no docstring** —
-do not write the class `Note` into an `__init__` docstring (0012.2.3, 0012.2.4.2). The PDF
+do not write the class `Note` into an `__init__` docstring (0012.2.4, 0012.2.5.2). The PDF
 (`autosar/pdf/*.pdf`) is opened **only to read the page number** for the `p.NN` citation;
-all `Note`/`Attribute`/`Base` text (and the `Table N.M` id) comes from the markdown. This
+all `Note`/`Attribute`/`Base` text (and the `Table N.M` id) comes from the markdown. Sync
+is **wipe-then-rewrite**: every existing docstring in the file (class, method, member)
+is removed *before* the new spec text is written (0012.2.3), so no stale sentence
+survives a re-sync. This
 is one ordered procedure per class (Rule 0006's mechanical check only confirms the marker
 *string* exists, not that content is correct).
 
@@ -728,13 +733,23 @@ is one ordered procedure per class (Rule 0006's mechanical check only confirms t
    (matching the printed footer) for the `p.NN` citation.
 2. Add the `# Spec:` citation line (the `# Spec verified:` marker is **not** added here —
    it is written in Step 9b after the user confirms).
-3. **Class docstring** = the spec `Note` **copied verbatim from the markdown table** (no
+3. **Wipe ALL existing docstrings & member comments first.** Before writing any new
+   docstring, remove from the class file: the class docstring, **every** method
+   docstring (`__init__`, getters, setters, `create*`/`add*`/`set*`, any other
+   method), and every inline `__init__` member comment. Run the wipe even when the
+   file already looks partially synced: an in-place "update" only touches the
+   docstrings the agent happens to re-read and silently leaves stale wording behind
+   on renamed, removed, or overlooked members — wiping guarantees the surviving
+   docstring set is exactly what this pass writes from the spec. Only docstrings and
+   member comments are removed; the code, the `# Spec:` checklist comment block
+   (steps 2/7 manage it), and Rule 0001.10 placeholder comments are untouched.
+4. **Class docstring** = the spec `Note` **copied verbatim from the markdown table** (no
    invented recap prose, no `Base` chain summary); append class-level `constr_*` rows
    (including ones targeting inherited attributes). For a terse citation Note, append the
    XSD complexType doc as an elaboration (also verbatim). The class `Note` lives **only**
    here — **do not** also write it into an `__init__` docstring; `__init__` carries no
-   docstring (step 4.2's inline comments hold the per-attribute `Note`).
-4. **Per-attribute loop** (all five, per attribute, before the next):
+   docstring (step 5.2's inline comments hold the per-attribute `Note`).
+5. **Per-attribute loop** (all five, per attribute, before the next):
    1. Referenced type must exist and be synced before typing (Rule 0010/0011); its
       `# Spec:` cites its **own** table, independent of the owning class.
    2. Inline `__init__` **comment** (not a docstring — `__init__` has no docstring): the
@@ -749,14 +764,16 @@ is one ordered procedure per class (Rule 0006's mechanical check only confirms t
       without altering the Note text: *"A None value is a no-op and does not overwrite an
       existing `<attr>`."*
    5. Cross-check comment/getter/setter for consistency.
-5. Verify by **diff**, not status — no mechanical check proves wording matches the spec;
+6. Verify by **diff**, not status — no mechanical check proves wording matches the spec;
    re-open the markdown `Note` (and the XSD doc) and diff against the comment and both
    docstrings. Re-open the PDF only if the page number is in doubt.
 
 ### 0012.3 Drift on upgrade
 
 An AUTOSAR upgrade is the identical per-member walk diffed against the new PDF;
-**re-run the full Step 9b checklist** (the old `# Spec verified:` marker is not
+the 0012.2.3 wipe **re-runs on every drift pass** — old-release docstrings are removed
+before the new-release text is written, so stale sentences cannot survive the upgrade.
+**Re-run the full Step 9b checklist** (the old `# Spec verified:` marker is not
 proof — see Rule 0006.1), then update the marker, run tests, commit with the spec
 notes.
 

@@ -7,131 +7,210 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RegularExpression, String, VerbatimString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-
-
-# class EcucConditionFormula(FormulaExpression)
+from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 
 
 class EcucConditionSpecification(ARObject):
     """
-    Represents an ECUC (Electronic Control Unit Configuration) condition specification
-    in the AUTOSAR model.
-    This class is used to define conditions that can be applied to ECUC parameters
-    or configurations. It inherits from the ARObject base class.
-    Attributes:
-        conditionFormula (EcucConditionFormula): Represents the formula or expression
-            that defines the condition.
+    Allows to define existence dependencies based on the value of parameter
+    values.
     """
 
     # EcucConditionSpecification method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-    # [ ] getConditionFormula          [x] impl  [ ] docstring  [ ] test
-    # [ ] setConditionFormula          [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.42, p.100
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getConditionFormula          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setConditionFormula          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getEcucQueries               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] createEcucQuery              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getEcucQuery                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getInformalFormula           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setInformalFormula           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        self.conditionFormula: "EcucConditionFormula" = None
+        # The condition that shall be evaluated to infer whether the existence dependency holds.
+        self.conditionFormula: Optional[EcucConditionFormula] = None
 
-    def getConditionFormula(self) -> "EcucConditionFormula":
+        # The EcucQuery executed to evaluate the existence dependency.
+        self.ecucQueries: List[EcucQuery] = []
+
+        # The informal specification of the existence dependency.
+        self.informalFormula: Optional[MlFormula] = None
+
+    def getConditionFormula(self) -> Optional["EcucConditionFormula"]:
+        """
+        Gets the condition that shall be evaluated to infer whether the existence dependency holds.
+        """
         return self.conditionFormula
 
-    def setConditionFormula(self, value: "EcucConditionFormula"):
+    def setConditionFormula(self, value: "EcucConditionFormula") -> "EcucConditionSpecification":
+        """
+        Sets the condition that shall be evaluated to infer whether the existence dependency holds.
+        A None value is a no-op.
+        """
         if value is not None:
             self.conditionFormula = value
+        return self
+
+    def getEcucQueries(self) -> List["EcucQuery"]:
+        """
+        Gets the EcucQueries executed to evaluate the existence dependency.
+        """
+        return self.ecucQueries
+
+    def createEcucQuery(self, short_name: str) -> Optional["EcucQuery"]:
+        """
+        Creates or returns an existing EcucQuery aggregated by this condition specification.
+        """
+        if short_name is None:
+            return None
+        for query in self.ecucQueries:
+            if query.getShortName() == short_name:
+                return query
+        query = EcucQuery(self, short_name)
+        self.ecucQueries.append(query)
+        return query
+
+    def getEcucQuery(self, short_name: str) -> Optional["EcucQuery"]:
+        """
+        Gets the EcucQuery with the given short name, or None if not present.
+        """
+        for query in self.ecucQueries:
+            if query.getShortName() == short_name:
+                return query
+        return None
+
+    def getInformalFormula(self) -> Optional[MlFormula]:
+        """
+        Gets the informal specification of the existence dependency.
+        """
+        return self.informalFormula
+
+    def setInformalFormula(self, value: MlFormula) -> "EcucConditionSpecification":
+        """
+        Sets the informal specification of the existence dependency.
+        A None value is a no-op.
+        """
+        if value is not None:
+            self.informalFormula = value
         return self
 
 
 class EcucValidationCondition(Identifiable):
     """
-    Represents an ECUC validation condition in the AUTOSAR model.
-
-    This class is used to define a validation condition for an ECUC parameter
-    within the AUTOSAR framework. It inherits from the `Identifiable` class.
-
-    Attributes:
-        parent (ARObject): The parent ARObject to which this validation condition belongs.
-        short_name (str): A short name identifier for the validation condition.
+    Validation condition to perform a formula calculation based on EcucQueries.
     """
 
     # EcucValidationCondition method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.44, p.103
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getEcucQueries               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] createEcucQuery              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getEcucQuery                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getValidationFormula         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setValidationFormula         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # The EcucQuery used to validate the Ecuc configuration.
+        self.ecucQueries: List["EcucQuery"] = []
+
+        # The validation condition applied to the Ecuc configuration.
+        self.validationFormula: Optional["EcucConditionFormula"] = None
+
+    def getEcucQueries(self) -> List["EcucQuery"]:
+        """
+        Gets the EcucQueries used to validate the Ecuc configuration.
+        """
+        return self.ecucQueries
+
+    def createEcucQuery(self, short_name: str) -> Optional["EcucQuery"]:
+        """
+        Creates or returns an existing EcucQuery aggregated by this validation condition.
+        """
+        if short_name is None:
+            return None
+        for query in self.ecucQueries:
+            if query.getShortName() == short_name:
+                return query
+        query = EcucQuery(self, short_name)
+        self.ecucQueries.append(query)
+        return query
+
+    def getEcucQuery(self, short_name: str) -> Optional["EcucQuery"]:
+        """
+        Gets the EcucQuery with the given short name, or None if not present.
+        """
+        for query in self.ecucQueries:
+            if query.getShortName() == short_name:
+                return query
+        return None
+
+    def getValidationFormula(self) -> Optional["EcucConditionFormula"]:
+        """
+        Gets the validation condition applied to the Ecuc configuration.
+        """
+        return self.validationFormula
+
+    def setValidationFormula(self, value: "EcucConditionFormula") -> "EcucValidationCondition":
+        """
+        Sets the validation condition applied to the Ecuc configuration.
+        A None value is a no-op.
+        """
+        if value is not None:
+            self.validationFormula = value
+        return self
+
 
 class EcucScopeEnum(AREnum):
     """
-    Enumeration for ECUC definition scope types.
+    Possible scope settings for a configuration element.
     """
 
     # EcucScopeEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.7, p.46
+    # (no methods)
+
+    # An element may be shared with other modules. Tags: atp.EnumerationLiteralIndex=0
+    ECU = "ECU"
+
+    # An element is only be applicable for the module it is defined in. Tags: atp.EnumerationLiteralIndex=1
+    LOCAL = "LOCAL"
 
     def __init__(self):
-        super().__init__([])
+        super().__init__(
+            [
+                EcucScopeEnum.ECU,
+                EcucScopeEnum.LOCAL,
+            ]
+        )
 
 
 class EcucDefinitionElement(Identifiable, ABC):
     """
-    Represents an ECUC (Electronic Control Unit Configuration) definition element
-    with various attributes and methods to manage its properties.
-    Attributes:
-        ecucCond (EcucConditionSpecification): The condition specification for the ECUC element.
-        ecucValidationConds (List[EcucValidationCondition]): A list of validation conditions for the ECUC element.
-        lowerMultiplicity (PositiveInteger): The lower multiplicity of the ECUC element.
-        relatedTraceItemRef (RefType): A reference to a related trace item.
-        scope (EcucScopeEnum): The scope of the ECUC element.
-        upperMultiplicity (PositiveInteger): The upper multiplicity of the ECUC element.
-        upperMultiplicityInfinite (Boolean): Indicates if the upper multiplicity is infinite.
-    Methods:
-        getEcucCond() -> EcucConditionSpecification:
-            Returns the ECUC condition specification.
-        setEcucCond(value: EcucConditionSpecification):
-            Sets the ECUC condition specification.
-        getEcucValidationConds() -> List[EcucValidationCondition]:
-            Returns the list of ECUC validation conditions.
-        addEcucValidationCond(value: EcucValidationCondition):
-            Adds a validation condition to the list of ECUC validation conditions.
-        getLowerMultiplicity() -> PositiveInteger:
-            Returns the lower multiplicity of the ECUC element.
-        setLowerMultiplicity(value: PositiveInteger):
-            Sets the lower multiplicity of the ECUC element.
-        getRelatedTraceItemRef() -> RefType:
-            Returns the reference to the related trace item.
-        setRelatedTraceItemRef(value: RefType):
-            Sets the reference to the related trace item.
-        getScope() -> EcucScopeEnum:
-            Returns the scope of the ECUC element.
-        setScope(value: EcucScopeEnum):
-            Sets the scope of the ECUC element.
-        getUpperMultiplicity() -> PositiveInteger:
-            Returns the upper multiplicity of the ECUC element.
-        setUpperMultiplicity(value: PositiveInteger):
-            Sets the upper multiplicity of the ECUC element.
-        getUpperMultiplicityInfinite() -> Boolean:
-            Returns whether the upper multiplicity is infinite.
-        setUpperMultiplicityInfinite(value: Boolean):
-            Sets whether the upper multiplicity is infinite.
+    Common class used to express the commonalities of configuration parameters, references and containers. If not stated otherwise the default multiplicity is exactly one mandatory instance per definition.
     """
 
     # EcucDefinitionElement method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-    # [ ] getEcucCond                  [x] impl  [ ] docstring  [ ] test
-    # [ ] setEcucCond                  [x] impl  [ ] docstring  [ ] test
-    # [ ] getEcucValidationConds       [x] impl  [ ] docstring  [ ] test
-    # [ ] addEcucValidationCond        [x] impl  [ ] docstring  [ ] test
-    # [ ] getLowerMultiplicity         [x] impl  [ ] docstring  [ ] test
-    # [ ] setLowerMultiplicity         [x] impl  [ ] docstring  [ ] test
-    # [ ] getRelatedTraceItemRef       [x] impl  [ ] docstring  [ ] test
-    # [ ] setRelatedTraceItemRef       [x] impl  [ ] docstring  [ ] test
-    # [ ] getScope                     [x] impl  [ ] docstring  [ ] test
-    # [ ] setScope                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getUpperMultiplicity         [x] impl  [ ] docstring  [ ] test
-    # [ ] setUpperMultiplicity         [x] impl  [ ] docstring  [ ] test
-    # [ ] getUpperMultiplicityInfinite [x] impl  [ ] docstring  [ ] test
-    # [ ] setUpperMultiplicityInfinite [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.6, p.46
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getEcucCond                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setEcucCond                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getEcucValidationConds       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addEcucValidationCond        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getLowerMultiplicity         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setLowerMultiplicity         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRelatedTraceItemRef       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setRelatedTraceItemRef       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getScope                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setScope                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getUpperMultiplicity         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setUpperMultiplicity         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getUpperMultiplicityInfinite [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setUpperMultiplicityInfinite [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is EcucDefinitionElement:
@@ -210,10 +289,6 @@ class EcucDestinationUriDefRefType(RefType):
 
     This class inherits from the `RefType` base class and is used to define
     references to ECUC Destination URI definitions in the AUTOSAR model.
-
-    Methods:
-        __init__(): Initializes an instance of EcucDestinationUriDefRefType
-        by invoking the constructor of the parent `RefType` class.
     """
 
     # EcucDestinationUriDefRefType method parity checklist:
@@ -225,14 +300,34 @@ class EcucDestinationUriDefRefType(RefType):
 
 class EcucConfigurationClassEnum(AREnum):
     """
-    Enumeration for ECUC configuration class types.
+    Possible configuration classes for the AUTOSAR configuration parameters.
     """
 
     # EcucConfigurationClassEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.12, p.52
+    # (no methods)
+
+    # Link Time: parts of configuration are delivered from another object code file Tags: atp.EnumerationLiteralIndex=0
+    LINK = "LINK"
+
+    # PostBuildTime: after compilation a configuration parameter can be changed. Tags: atp.EnumerationLiteralIndex=1
+    POST_BUILD = "POST-BUILD"
+
+    # PreCompile Time: after compilation a configuration parameter can not be changed any more. Tags: atp.EnumerationLiteralIndex=2
+    PRE_COMPILE = "PRE-COMPILE"
+
+    # PublishedInformation is used to specify the fact that certain information is fixed even before the pre-compile stage. Tags: atp.EnumerationLiteralIndex=3
+    PUBLISHED_INFORMATION = "PUBLISHED-INFORMATION"
 
     def __init__(self):
-        super().__init__([])
+        super().__init__(
+            [
+                EcucConfigurationClassEnum.LINK,
+                EcucConfigurationClassEnum.POST_BUILD,
+                EcucConfigurationClassEnum.PRE_COMPILE,
+                EcucConfigurationClassEnum.PUBLISHED_INFORMATION,
+            ]
+        )
 
 
 class EcucConfigurationVariantEnum(AREnum):
@@ -270,30 +365,16 @@ class EcucConfigurationVariantEnum(AREnum):
 
 class EcucAbstractConfigurationClass(ARObject, ABC):
     """
-    Represents an abstract configuration class for ECUC (Electronic Control Unit Configuration).
-    This class provides methods to get and set the configuration class and variant.
-    Attributes:
-        configClass (EcucConfigurationClassEnum): The configuration class of the ECUC.
-        configVariant (EcucConfigurationVariantEnum): The configuration variant of the ECUC.
-    Methods:
-        getConfigClass() -> EcucConfigurationClassEnum:
-            Retrieves the current configuration class.
-        setConfigClass(value: EcucConfigurationClassEnum):
-            Sets the configuration class to the specified value.
-            Returns the instance for method chaining.
-        getConfigVariant() -> EcucConfigurationVariantEnum:
-            Retrieves the current configuration variant.
-        setConfigVariant(value: EcucConfigurationVariantEnum):
-            Sets the configuration variant to the specified value.
-            Returns the instance for method chaining.
+    Specifies the ValueConfigurationClass of a parameter/reference or the MultiplicityConfigurationClass of a parameter/reference or a container for each ConfigurationVariant of the EcucModuleDef.
     """
 
     # EcucAbstractConfigurationClass method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getConfigClass               [x] impl  [ ] docstring  [ ] test
-    # [ ] setConfigClass               [x] impl  [ ] docstring  [ ] test
-    # [ ] getConfigVariant             [x] impl  [ ] docstring  [ ] test
-    # [ ] setConfigVariant             [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.9, p.51
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getConfigClass               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setConfigClass               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getConfigVariant             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setConfigVariant             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         if type(self) is EcucAbstractConfigurationClass:
@@ -322,20 +403,12 @@ class EcucAbstractConfigurationClass(ARObject, ABC):
 
 class EcucMultiplicityConfigurationClass(EcucAbstractConfigurationClass):
     """
-    EcucMultiplicityConfigurationClass is a subclass of EcucAbstractConfigurationClass.
-
-    This class represents a specific configuration class for handling multiplicity
-    in ECUC (Electronic Control Unit Configuration) parameter definitions. It
-    inherits from the EcucAbstractConfigurationClass to provide base functionality
-    and extend it for multiplicity-specific configurations.
-
-    Methods:
-        __init__(): Initializes an instance of EcucMultiplicityConfigurationClass
-        and invokes the constructor of the parent class.
+    Specifies the MultiplicityConfigurationClass of a parameter/reference or a container for each ConfigurationVariant of the EcucModuleDef.
     """
 
     # EcucMultiplicityConfigurationClass method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.11, p.52
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self):
         super().__init__()
@@ -343,61 +416,22 @@ class EcucMultiplicityConfigurationClass(EcucAbstractConfigurationClass):
 
 class EcucContainerDef(EcucDefinitionElement, ABC):
     """
-    Represents an ECUC container definition in the AUTOSAR model.
-    This class defines various properties and methods to manage ECUC container
-    definitions, including destination URI references, multiplicity configuration
-    classes, origin, and other configuration-related attributes.
-    Attributes:
-        destinationUriRef (EcucDestinationUriDefRefType): The destination URI reference.
-        multiplicityConfigClasses (List[EcucMultiplicityConfigurationClass]): A list of
-            multiplicity configuration classes associated with the container.
-        origin (String): The origin of the container.
-        postBuildVariantMultiplicity (Boolean): Indicates if the container supports
-            post-build variant multiplicity.
-        requiresIndex (Boolean): Indicates if the container requires an index.
-        multipleConfigurationContainer (Boolean): Indicates if the container supports
-            multiple configurations.
-    Methods:
-        getDestinationUriRef() -> EcucDestinationUriDefRefType:
-            Returns the destination URI reference.
-        setDestinationUriRef(value: EcucDestinationUriDefRefType):
-            Sets the destination URI reference.
-        getMultiplicityConfigClasses() -> List[EcucMultiplicityConfigurationClass]:
-            Returns the list of multiplicity configuration classes.
-        addMultiplicityConfigClass(value: EcucMultiplicityConfigurationClass):
-            Adds a multiplicity configuration class to the list.
-        getOrigin() -> String:
-            Returns the origin of the container.
-        setOrigin(value: String):
-            Sets the origin of the container.
-        getPostBuildVariantMultiplicity() -> Boolean:
-            Returns whether the container supports post-build variant multiplicity.
-        setPostBuildVariantMultiplicity(value: Boolean):
-            Sets whether the container supports post-build variant multiplicity.
-        getRequiresIndex() -> Boolean:
-            Returns whether the container requires an index.
-        setRequiresIndex(value: Boolean):
-            Sets whether the container requires an index.
-        getMultipleConfigurationContainer() -> Boolean:
-            Returns whether the container supports multiple configurations.
-        setMultipleConfigurationContainer(value: Boolean):
-            Sets whether the container supports multiple configurations.
+    Base class used to gather common attributes of configuration container definitions.
     """
 
     # EcucContainerDef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-    # [ ] getDestinationUriRef         [x] impl  [ ] docstring  [ ] test
-    # [ ] setDestinationUriRef         [x] impl  [ ] docstring  [ ] test
-    # [ ] getMultiplicityConfigClasses [x] impl  [ ] docstring  [ ] test
-    # [ ] addMultiplicityConfigClass   [x] impl  [ ] docstring  [ ] test
-    # [ ] getOrigin                    [x] impl  [ ] docstring  [ ] test
-    # [ ] setOrigin                    [x] impl  [ ] docstring  [ ] test
-    # [ ] getPostBuildVariantMultiplicity [x] impl  [ ] docstring  [ ] test
-    # [ ] setPostBuildVariantMultiplicity [x] impl  [ ] docstring  [ ] test
-    # [ ] getRequiresIndex             [x] impl  [ ] docstring  [ ] test
-    # [ ] setRequiresIndex             [x] impl  [ ] docstring  [ ] test
-    # [ ] getMultipleConfigurationContainer [x] impl  [ ] docstring  [ ] test
-    # [ ] setMultipleConfigurationContainer [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.3, p.37
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDestinationUriRef         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setDestinationUriRef         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getMultiplicityConfigClasses [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addMultiplicityConfigClass   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getOrigin                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setOrigin                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getPostBuildVariantMultiplicity [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPostBuildVariantMultiplicity [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRequiresIndex             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRequiresIndex             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is EcucContainerDef:
@@ -409,7 +443,6 @@ class EcucContainerDef(EcucDefinitionElement, ABC):
         self.origin: String = None
         self.postBuildVariantMultiplicity: Boolean = None
         self.requiresIndex: Boolean = None
-        self.multipleConfigurationContainer: Boolean = None
 
     def getDestinationUriRef(self) -> EcucDestinationUriDefRefType:
         return self.destinationUriRef
@@ -451,29 +484,15 @@ class EcucContainerDef(EcucDefinitionElement, ABC):
             self.requiresIndex = value
         return self
 
-    def getMultipleConfigurationContainer(self) -> Boolean:
-        return self.multipleConfigurationContainer
-
-    def setMultipleConfigurationContainer(self, value: Boolean):
-        if value is not None:
-            self.multipleConfigurationContainer = value
-        return self
-
 
 class EcucValueConfigurationClass(EcucAbstractConfigurationClass):
     """
-    EcucValueConfigurationClass is a subclass of EcucAbstractConfigurationClass.
-
-    This class represents a specific type of ECU configuration class used in the AUTOSAR standard.
-    It is designed to handle value-based configurations for ECU parameters.
-
-    Methods:
-        __init__(): Initializes an instance of EcucValueConfigurationClass by invoking the constructor
-                    of its superclass, EcucAbstractConfigurationClass.
+    Specifies the ValueConfigurationClass of a parameter/reference for each ConfigurationVariant of the EcucModuleDef.
     """
 
     # EcucValueConfigurationClass method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.10, p.52
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self):
         super().__init__()
@@ -481,63 +500,24 @@ class EcucValueConfigurationClass(EcucAbstractConfigurationClass):
 
 class EcucCommonAttributes(EcucDefinitionElement, ABC):
     """
-    EcucCommonAttributes is an abstract base class that represents common attributes
-    for ECUC (Electronic Control Unit Configuration) definition elements. This class
-    cannot be instantiated directly and must be subclassed.
-    Attributes:
-        multiplicityConfigClasses (List[EcucMultiplicityConfigurationClass]):
-            A list of multiplicity configuration classes associated with the ECUC element.
-        origin (String):
-            The origin of the ECUC element.
-        postBuildVariantMultiplicity (Boolean):
-            Indicates whether the ECUC element supports post-build variant multiplicity.
-        postBuildVariantValue (Boolean):
-            Indicates whether the ECUC element supports post-build variant values.
-        requiresIndex (Boolean):
-            Specifies whether the ECUC element requires an index.
-        valueConfigClasses (List[EcucValueConfigurationClass]):
-            A list of value configuration classes associated with the ECUC element.
-    Methods:
-        getMultiplicityConfigClasses() -> List[EcucMultiplicityConfigurationClass]:
-            Returns the list of multiplicity configuration classes.
-        addMultiplicityConfigClass(value: EcucMultiplicityConfigurationClass):
-            Adds a multiplicity configuration class to the list.
-        getOrigin() -> String:
-            Returns the origin of the ECUC element.
-        setOrigin(value: String):
-            Sets the origin of the ECUC element.
-        getPostBuildVariantMultiplicity() -> Boolean:
-            Returns whether the ECUC element supports post-build variant multiplicity.
-        setPostBuildVariantMultiplicity(value: Boolean):
-            Sets whether the ECUC element supports post-build variant multiplicity.
-        getPostBuildVariantValue() -> Boolean:
-            Returns whether the ECUC element supports post-build variant values.
-        setPostBuildVariantValue(value: Boolean):
-            Sets whether the ECUC element supports post-build variant values.
-        getRequiresIndex() -> Boolean:
-            Returns whether the ECUC element requires an index.
-        setRequiresIndex(value: Boolean):
-            Sets whether the ECUC element requires an index.
-        getValueConfigClasses() -> List[EcucValueConfigurationClass]:
-            Returns the list of value configuration classes.
-        addValueConfigClass(value: EcucValueConfigurationClass):
-            Adds a value configuration class to the list.
+    Attributes used by Configuration Parameters as well as References.
     """
 
     # EcucCommonAttributes method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getMultiplicityConfigClasses [x] impl  [ ] docstring  [ ] test
-    # [ ] addMultiplicityConfigClass   [x] impl  [ ] docstring  [ ] test
-    # [ ] getOrigin                    [x] impl  [ ] docstring  [ ] test
-    # [ ] setOrigin                    [x] impl  [ ] docstring  [ ] test
-    # [ ] getPostBuildVariantMultiplicity [x] impl  [ ] docstring  [ ] test
-    # [ ] setPostBuildVariantMultiplicity [x] impl  [ ] docstring  [ ] test
-    # [ ] getPostBuildVariantValue     [x] impl  [ ] docstring  [ ] test
-    # [ ] setPostBuildVariantValue     [x] impl  [ ] docstring  [ ] test
-    # [ ] getRequiresIndex             [x] impl  [ ] docstring  [ ] test
-    # [ ] setRequiresIndex             [x] impl  [ ] docstring  [ ] test
-    # [ ] getValueConfigClasses        [x] impl  [ ] docstring  [ ] test
-    # [ ] addValueConfigClass          [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.8, p.49
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getMultiplicityConfigClasses [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addMultiplicityConfigClass   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getOrigin                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setOrigin                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPostBuildVariantMultiplicity [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPostBuildVariantMultiplicity [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPostBuildVariantValue     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPostBuildVariantValue     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRequiresIndex             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRequiresIndex             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getValueConfigClasses        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addValueConfigClass          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is EcucCommonAttributes:
@@ -592,7 +572,7 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
             self.requiresIndex = value
         return self
 
-    def getValueConfigClasses(self) -> EcucValueConfigurationClass:
+    def getValueConfigClasses(self) -> List[EcucValueConfigurationClass]:
         return self.valueConfigClasses
 
     def addValueConfigClass(self, value: EcucValueConfigurationClass):
@@ -603,54 +583,107 @@ class EcucCommonAttributes(EcucDefinitionElement, ABC):
 
 class EcucDerivationSpecification(ARObject):
     """
-    Represents an ECUC Derivation Specification in the AUTOSAR model.
-
-    This class is a specialization of the ARObject base class and is used to define
-    derivation specifications for ECUC parameters in the AUTOSAR standard.
+    Allows to define configuration items that are calculated based on the value of
+    other parameter values, or of elements (attributes/classes) defined in other
+    AUTOSAR templates such as System template and SW component template.
     """
 
     # EcucDerivationSpecification method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.38, p.87
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getCalculationFormula        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setCalculationFormula        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getEcucQueries               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] createEcucQuery              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getEcucQuery                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getInformalFormula           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setInformalFormula           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
+        # Definition of the formula used to calculate the value of the configuration element.
+        self.calculationFormula: Optional["EcucParameterDerivationFormula"] = None
+
+        # Query to the ECU Configuration Description.
+        self.ecucQueries: List["EcucQuery"] = []
+
+        # Informal description of the derivation used to calculate the value of the configuration element.
+        self.informalFormula: Optional[MlFormula] = None
+
+    def getCalculationFormula(self) -> Optional["EcucParameterDerivationFormula"]:
+        """
+        Gets the formula used to calculate the value of the configuration element.
+        """
+        return self.calculationFormula
+
+    def setCalculationFormula(self, value: "EcucParameterDerivationFormula") -> "EcucDerivationSpecification":
+        """
+        Sets the formula used to calculate the value of the configuration element.
+        A None value is a no-op.
+        """
+        if value is not None:
+            self.calculationFormula = value
+        return self
+
+    def getEcucQueries(self) -> List["EcucQuery"]:
+        """
+        Gets the queries to the ECU Configuration Description.
+        """
+        return self.ecucQueries
+
+    def createEcucQuery(self, short_name: str) -> Optional["EcucQuery"]:
+        """
+        Creates or returns an existing EcucQuery aggregated by this derivation specification.
+        """
+        if short_name is None:
+            return None
+        for query in self.ecucQueries:
+            if query.getShortName() == short_name:
+                return query
+        query = EcucQuery(self, short_name)
+        self.ecucQueries.append(query)
+        return query
+
+    def getEcucQuery(self, short_name: str) -> Optional["EcucQuery"]:
+        """
+        Gets the EcucQuery with the given short name, or None if not present.
+        """
+        for query in self.ecucQueries:
+            if query.getShortName() == short_name:
+                return query
+        return None
+
+    def getInformalFormula(self) -> Optional[MlFormula]:
+        """
+        Gets the informal description of the derivation.
+        """
+        return self.informalFormula
+
+    def setInformalFormula(self, value: MlFormula) -> "EcucDerivationSpecification":
+        """
+        Sets the informal description of the derivation.
+        A None value is a no-op.
+        """
+        if value is not None:
+            self.informalFormula = value
+        return self
+
 
 class EcucParameterDef(EcucCommonAttributes, ABC):
     """
-    Represents an ECUC (Electronic Control Unit Configuration) parameter definition
-    in the AUTOSAR model. This class extends common attributes for ECUC elements
-    and provides additional properties and methods specific to parameter definitions.
-    Attributes:
-        derivation (EcucDerivationSpecification): Specifies the derivation of the parameter.
-        symbolicNameValue (Boolean): Indicates whether the parameter has a symbolic name value.
-        withAuto (Boolean): Indicates whether the parameter supports automatic configuration.
-    Methods:
-        getDerivation() -> EcucDerivationSpecification:
-            Retrieves the derivation specification of the parameter.
-        setDerivation(value: EcucDerivationSpecification):
-            Sets the derivation specification of the parameter.
-            Returns the current instance for method chaining.
-        getSymbolicNameValue() -> Boolean:
-            Retrieves the symbolic name value of the parameter.
-        setSymbolicNameValue(value: Boolean):
-            Sets the symbolic name value of the parameter.
-            Returns the current instance for method chaining.
-        getWithAuto() -> Boolean:
-            Retrieves the automatic configuration status of the parameter.
-        setWithAuto(value: Boolean):
-            Sets the automatic configuration status of the parameter.
-            Returns the current instance for method chaining.
+    Abstract class used to define the similarities of all ECU Configuration Parameter types defined as subclasses.
     """
 
     # EcucParameterDef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDerivation                [x] impl  [ ] docstring  [ ] test
-    # [ ] setDerivation                [x] impl  [ ] docstring  [ ] test
-    # [ ] getSymbolicNameValue         [x] impl  [ ] docstring  [ ] test
-    # [ ] setSymbolicNameValue         [x] impl  [ ] docstring  [ ] test
-    # [ ] getWithAuto                  [x] impl  [ ] docstring  [ ] test
-    # [ ] setWithAuto                  [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.14, p.57
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDerivation                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDerivation                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSymbolicNameValue         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSymbolicNameValue         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getWithAuto                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setWithAuto                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is EcucParameterDef:
@@ -688,20 +721,14 @@ class EcucParameterDef(EcucCommonAttributes, ABC):
 
 class EcucBooleanParamDef(EcucParameterDef):
     """
-    Represents a boolean parameter definition in the AUTOSAR ECUC model.
-
-    This class is a specialized type of `EcucParameterDef` that allows for the
-    definition of boolean parameters within the ECUC parameter configuration.
-
-    Attributes:
-        parent (ARObject): The parent object in the AUTOSAR model hierarchy.
-        short_name (str): The short name of the ECUC boolean parameter definition.
+    Configuration parameter type for Boolean. Allowed values are true and false.
     """
 
     # EcucBooleanParamDef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-    # [ ] getDefaultValue              [x] impl  [ ] docstring  [ ] test
-    # [ ] setDefaultValue              [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.15, p.58
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDefaultValue              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDefaultValue              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -719,24 +746,12 @@ class EcucBooleanParamDef(EcucParameterDef):
 
 class EcucAbstractReferenceDef(EcucCommonAttributes, ABC):
     """
-    EcucAbstractReferenceDef is an abstract class that extends EcucCommonAttributes and uses ABCMeta as its metaclass.
-    It represents an ECUC (Electronic Control Unit Configuration) abstract reference definition.
-    Attributes:
-        withAuto (Boolean): A flag indicating whether the reference is automatic. Defaults to None.
-    Methods:
-        getWithAuto() -> Boolean:
-            Retrieves the value of the `withAuto` attribute.
-        setWithAuto(value: Boolean):
-            Sets the value of the `withAuto` attribute. If the provided value is not None, it updates the attribute.
-            Returns the instance itself for method chaining.
-    Raises:
-        TypeError: If an attempt is made to instantiate this abstract class directly.
+    Common class to gather the attributes for the definition of references.
     """
 
     # EcucAbstractReferenceDef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getWithAuto                  [x] impl  [ ] docstring  [ ] test
-    # [ ] setWithAuto                  [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.26, p.71
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent, short_name):
         if type(self) is EcucAbstractReferenceDef:
@@ -744,48 +759,38 @@ class EcucAbstractReferenceDef(EcucCommonAttributes, ABC):
 
         super().__init__(parent, short_name)
 
-        self.withAuto: Boolean = None
-
-    def getWithAuto(self) -> Boolean:
-        return self.withAuto
-
-    def setWithAuto(self, value: Boolean):
-        if value is not None:
-            self.withAuto = value
-        return self
-
 
 class EcucAbstractInternalReferenceDef(EcucAbstractReferenceDef, ABC):
     """
-    EcucAbstractInternalReferenceDef is an abstract class that extends EcucAbstractReferenceDef
-    and uses ABCMeta as its metaclass. This class cannot be instantiated directly.
-    Attributes:
-        requiresSymbolicNameValue (Boolean): A boolean attribute that indicates whether
-            a symbolic name value is required. Defaults to None.
-    Methods:
-        getRequiresSymbolicNameValue() -> Boolean:
-            Returns the value of the requiresSymbolicNameValue attribute.
-        setRequiresSymbolicNameValue(value: Boolean):
-            Sets the value of the requiresSymbolicNameValue attribute if the provided value
-            is not None. Returns the instance of the class.
+    Common abstract class to gather attributes for internal references (where
+    the destination is located in the Ecu Configuration Description).
     """
 
     # EcucAbstractInternalReferenceDef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getRequiresSymbolicNameValue [x] impl  [ ] docstring  [ ] test
-    # [ ] setRequiresSymbolicNameValue [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.27, p.72
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getRequiresSymbolicNameValue [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRequiresSymbolicNameValue [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent, short_name):
         if type(self) is EcucAbstractInternalReferenceDef:
             raise TypeError("Cannot instantiate abstract class EcucAbstractInternalReferenceDef")
         super().__init__(parent, short_name)
 
+        # If this attribute is set to true the implementation of the reference is done using a Symbolic Name defined by the referenced container.
         self.requiresSymbolicNameValue: Boolean = None
 
     def getRequiresSymbolicNameValue(self) -> Boolean:
+        """
+        Gets whether the implementation of the reference is done using a Symbolic Name.
+        """
         return self.requiresSymbolicNameValue
 
-    def setRequiresSymbolicNameValue(self, value: Boolean):
+    def setRequiresSymbolicNameValue(self, value: Boolean) -> "EcucAbstractInternalReferenceDef":
+        """
+        Sets whether the implementation of the reference is done using a Symbolic Name.
+        A None value is a no-op.
+        """
         if value is not None:
             self.requiresSymbolicNameValue = value
         return self
@@ -793,11 +798,14 @@ class EcucAbstractInternalReferenceDef(EcucAbstractReferenceDef, ABC):
 
 class EcucAbstractExternalReferenceDef(EcucAbstractReferenceDef, ABC):
     """
-    Abstract base class for ECUC external reference definitions.
+    Common abstract class to gather attributes for external references (where the
+    destination is not located in the ECU Configuration Description but in an
+    another AUTOSAR Template).
     """
 
     # EcucAbstractExternalReferenceDef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.28, p.72
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent, short_name):
         if type(self) is EcucAbstractExternalReferenceDef:
@@ -808,14 +816,14 @@ class EcucAbstractExternalReferenceDef(EcucAbstractReferenceDef, ABC):
 
 class EcucSymbolicNameReferenceDef(EcucAbstractInternalReferenceDef):
     """
-    ECUC reference definition using symbolic names with a destination
-    reference.
+    ECUC reference definition using symbolic names with a destination reference.
     """
 
     # EcucSymbolicNameReferenceDef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-    # [ ] getDestinationRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] setDestinationRef            [x] impl  [ ] docstring  [ ] test
+    # (legacy class, removed in R23-11; no spec table)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDestinationRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDestinationRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -823,9 +831,16 @@ class EcucSymbolicNameReferenceDef(EcucAbstractInternalReferenceDef):
         self.destinationRef: RefType = None
 
     def getDestinationRef(self) -> RefType:
+        """
+        Gets the reference to a parameter container.
+        """
         return self.destinationRef
 
-    def setDestinationRef(self, value: RefType):
+    def setDestinationRef(self, value: RefType) -> "EcucSymbolicNameReferenceDef":
+        """
+        Sets the reference to a parameter container.
+        A None value is a no-op.
+        """
         if value is not None:
             self.destinationRef = value
         return self
@@ -833,48 +848,67 @@ class EcucSymbolicNameReferenceDef(EcucAbstractInternalReferenceDef):
 
 class EcucChoiceReferenceDef(EcucAbstractInternalReferenceDef):
     """
-    ECUC reference definition for choice containers with a destination
-    reference.
+    Specify alternative references where in the ECU Configuration description
+    only one of the specified references will actually be used.
     """
 
     # EcucChoiceReferenceDef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-    # [ ] getDestinationRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] setDestinationRef            [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.30, p.74
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDestinationRefs           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addDestinationRef            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.destinationRef: RefType = None
+        # All the possible parameter containers for the reference are specified.
+        self.destinationRefs: List[RefType] = []
 
-    def getDestinationRef(self) -> RefType:
-        return self.destinationRef
+    def getDestinationRefs(self) -> List[RefType]:
+        """
+        Gets all the possible parameter containers for the reference.
+        """
+        return self.destinationRefs
 
-    def setDestinationRef(self, value: RefType):
+    def addDestinationRef(self, value: RefType) -> "EcucChoiceReferenceDef":
+        """
+        Adds a possible parameter container for the reference.
+        A None value is a no-op.
+        """
         if value is not None:
-            self.destinationRef = value
+            self.destinationRefs.append(value)
         return self
 
 
 class EcucReferenceDef(EcucAbstractInternalReferenceDef):
     """
-    ECUC reference definition with a destination reference.
+    Specify references within the ECU Configuration Description between parameter
+    containers.
     """
 
     # EcucReferenceDef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-    # [ ] getDestinationRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] setDestinationRef            [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.29, p.73
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDestinationRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDestinationRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # Exactly one reference to a parameter container is allowed as destination.
         self.destinationRef: RefType = None
 
     def getDestinationRef(self) -> RefType:
+        """
+        Gets the reference to a parameter container.
+        """
         return self.destinationRef
 
-    def setDestinationRef(self, value: RefType):
+    def setDestinationRef(self, value: RefType) -> "EcucReferenceDef":
+        """
+        Sets the reference to a parameter container.
+        A None value is a no-op.
+        """
         if value is not None:
             self.destinationRef = value
         return self
@@ -882,14 +916,14 @@ class EcucReferenceDef(EcucAbstractInternalReferenceDef):
 
 class EcucUriReferenceDef(EcucAbstractInternalReferenceDef):
     """
-    ECUC reference definition using a URI with a destination URI
-    reference.
+    Definition of reference with a destination that is specified via a destinationUri. With such a reference it is possible to define a reference to a EcucContainerDef in a different module independent from the concrete definition of the target container.
     """
 
     # EcucUriReferenceDef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-    # [ ] getDestinationUriRef         [x] impl  [ ] docstring  [ ] test
-    # [ ] setDestinationUriRef         [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.33, p.81
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDestinationUriRef         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setDestinationUriRef         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -897,9 +931,16 @@ class EcucUriReferenceDef(EcucAbstractInternalReferenceDef):
         self.destinationUriRef: EcucDestinationUriDefRefType = None
 
     def getDestinationUriRef(self) -> EcucDestinationUriDefRefType:
+        """
+        Gets the destination URI reference.
+        """
         return self.destinationUriRef
 
-    def setDestinationUriRef(self, value: EcucDestinationUriDefRefType):
+    def setDestinationUriRef(self, value: EcucDestinationUriDefRefType) -> "EcucUriReferenceDef":
+        """
+        Sets the destination URI reference.
+        A None value is a no-op.
+        """
         if value is not None:
             self.destinationUriRef = value
         return self
@@ -907,35 +948,33 @@ class EcucUriReferenceDef(EcucAbstractInternalReferenceDef):
 
 class EcucForeignReferenceDef(EcucAbstractExternalReferenceDef):
     """
-    ECUC reference definition to a foreign context with destination
-    context and type.
+    Specify a reference to an XML description of an entity described in another
+    AUTOSAR template.
     """
 
     # EcucForeignReferenceDef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-    # [ ] getDestinationContext        [x] impl  [ ] docstring  [ ] test
-    # [ ] setDestinationContext        [x] impl  [ ] docstring  [ ] test
-    # [ ] getDestinationType           [x] impl  [ ] docstring  [ ] test
-    # [ ] setDestinationType           [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.31, p.75
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDestinationType           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setDestinationType           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.destinationContext: String = None
+        # The type in the AUTOSAR Metamodel to which instance this reference is allowed to point to.
         self.destinationType: String = None
 
-    def getDestinationContext(self) -> String:
-        return self.destinationContext
-
-    def setDestinationContext(self, value: String):
-        if value is not None:
-            self.destinationContext = value
-        return self
-
     def getDestinationType(self) -> String:
+        """
+        Gets the type in the AUTOSAR Metamodel to which this reference may point.
+        """
         return self.destinationType
 
-    def setDestinationType(self, value: String):
+    def setDestinationType(self, value: String) -> "EcucForeignReferenceDef":
+        """
+        Sets the type in the AUTOSAR Metamodel to which this reference may point.
+        A None value is a no-op.
+        """
         if value is not None:
             self.destinationType = value
         return self
@@ -943,24 +982,53 @@ class EcucForeignReferenceDef(EcucAbstractExternalReferenceDef):
 
 class EcucInstanceReferenceDef(EcucAbstractExternalReferenceDef):
     """
-    ECUC reference definition for instance-based references with
-    destination type.
+    Specify a reference to an XML description of an entity described in another
+    AUTOSAR template using the INSTANCE REFERENCE semantics.
     """
 
     # EcucInstanceReferenceDef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-    # [ ] getDestinationType           [x] impl  [ ] docstring  [ ] test
-    # [ ] setDestinationType           [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.32, p.77
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDestinationContext        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setDestinationContext        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDestinationType           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setDestinationType           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # The context in the AUTOSAR Metamodel to which this reference is allowed to point to.
+        self.destinationContext: String = None
+
+        # The type in the AUTOSAR Metamodel to which instance this reference is allowed to point to.
         self.destinationType: String = None
 
+    def getDestinationContext(self) -> String:
+        """
+        Gets the context in the AUTOSAR Metamodel to which this reference may point.
+        """
+        return self.destinationContext
+
+    def setDestinationContext(self, value: String) -> "EcucInstanceReferenceDef":
+        """
+        Sets the context in the AUTOSAR Metamodel to which this reference may point.
+        A None value is a no-op.
+        """
+        if value is not None:
+            self.destinationContext = value
+        return self
+
     def getDestinationType(self) -> String:
+        """
+        Gets the type in the AUTOSAR Metamodel to which this reference may point.
+        """
         return self.destinationType
 
-    def setDestinationType(self, value: String):
+    def setDestinationType(self, value: String) -> "EcucInstanceReferenceDef":
+        """
+        Sets the type in the AUTOSAR Metamodel to which this reference may point.
+        A None value is a no-op.
+        """
         if value is not None:
             self.destinationType = value
         return self
@@ -968,45 +1036,20 @@ class EcucInstanceReferenceDef(EcucAbstractExternalReferenceDef):
 
 class EcucAbstractStringParamDef(EcucParameterDef, ABC):
     """
-    EcucAbstractStringParamDef is an abstract class that represents a string parameter definition
-    in the AUTOSAR ECUC model. It inherits from EcucParameterDef and uses ABCMeta as its metaclass
-    to enforce abstraction.
-    Attributes:
-        defaultValue (VerbatimString): The default value of the string parameter.
-        maxLength (PositiveInteger): The maximum length of the string parameter.
-        minLength (PositiveInteger): The minimum length of the string parameter.
-        regularExpression (RegularExpression): A regular expression that the string parameter must match.
-    Methods:
-        getDefaultValue() -> VerbatimString:
-            Returns the default value of the string parameter.
-        setDefaultValue(value: VerbatimString):
-            Sets the default value of the string parameter. Returns the instance for chaining.
-        getMaxLength() -> PositiveInteger:
-            Returns the maximum length of the string parameter.
-        setMaxLength(value: PositiveInteger):
-            Sets the maximum length of the string parameter. Returns the instance for chaining.
-        getMinLength() -> PositiveInteger:
-            Returns the minimum length of the string parameter.
-        setMinLength(value: PositiveInteger):
-            Sets the minimum length of the string parameter. Returns the instance for chaining.
-        getRegularExpression() -> RegularExpression:
-            Returns the regular expression constraint of the string parameter.
-        setRegularExpression(value: RegularExpression):
-            Sets the regular expression constraint of the string parameter. Returns the instance for chaining.
-    Raises:
-        TypeError: If an attempt is made to instantiate the abstract class directly.
+    Abstract class that is used to collect the common properties for StringParamDefs, LinkerSymbolDef, FunctionNameDef and MultilineStringParamDefs.
     """
 
     # EcucAbstractStringParamDef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDefaultValue              [x] impl  [ ] docstring  [ ] test
-    # [ ] setDefaultValue              [x] impl  [ ] docstring  [ ] test
-    # [ ] getMaxLength                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setMaxLength                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getMinLength                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setMinLength                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getRegularExpression         [x] impl  [ ] docstring  [ ] test
-    # [ ] setRegularExpression         [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.18, p.63
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDefaultValue              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDefaultValue              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMaxLength                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMaxLength                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMinLength                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMinLength                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRegularExpression         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setRegularExpression         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent, short_name):
         if type(self) is EcucAbstractStringParamDef:
@@ -1054,18 +1097,12 @@ class EcucAbstractStringParamDef(EcucParameterDef, ABC):
 
 class EcucStringParamDef(EcucAbstractStringParamDef):
     """
-    Represents a specific type of ECUC parameter definition for string parameters.
-
-    This class is a specialization of `EcucAbstractStringParamDef` and is used to
-    define string parameters in the AUTOSAR ECUC configuration.
-
-    Attributes:
-        parent (ARObject): The parent object in the AUTOSAR model hierarchy.
-        short_name (str): The short name of the ECUC string parameter definition.
+    Configuration parameter type for String.
     """
 
     # EcucStringParamDef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.19, p.64
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1073,18 +1110,12 @@ class EcucStringParamDef(EcucAbstractStringParamDef):
 
 class EcucFunctionNameDef(EcucAbstractStringParamDef):
     """
-    Represents a specific type of ECUC parameter definition for function names.
-
-    This class is a specialization of `EcucAbstractStringParamDef` and is used
-    to define ECUC parameters that represent function names in the AUTOSAR model.
-
-    Attributes:
-        parent (ARObject): The parent object in the AUTOSAR hierarchy.
-        short_name (str): The short name of the ECUC parameter definition.
+    Configuration parameter type for Function Names like those used to specify callback functions.
     """
 
     # EcucFunctionNameDef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.22, p.65
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1092,18 +1123,18 @@ class EcucFunctionNameDef(EcucAbstractStringParamDef):
 
 class EcucIntegerParamDef(EcucParameterDef):
     """
-    ECUC integer parameter definition with default value, min, and max
-    constraints.
+    Configuration parameter type for Integer.
     """
 
     # EcucIntegerParamDef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-    # [ ] getDefaultValue              [x] impl  [ ] docstring  [ ] test
-    # [ ] setDefaultValue              [x] impl  [ ] docstring  [ ] test
-    # [ ] getMax                       [x] impl  [ ] docstring  [ ] test
-    # [ ] setMax                       [x] impl  [ ] docstring  [ ] test
-    # [ ] getMin                       [x] impl  [ ] docstring  [ ] test
-    # [ ] setMin                       [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.16, p.60
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDefaultValue              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDefaultValue              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMax                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMax                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMin                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMin                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1139,31 +1170,16 @@ class EcucIntegerParamDef(EcucParameterDef):
 
 class EcucEnumerationLiteralDef(Identifiable):
     """
-    Represents an ECUC Enumeration Literal Definition in the AUTOSAR model.
-    This class is used to define enumeration literals for ECUC parameters,
-    including their associated condition specifications and origin information.
-    Attributes:
-        ecucCond (EcucConditionSpecification): The condition specification associated with the enumeration literal.
-        origin (String): The origin information for the enumeration literal.
-    Methods:
-        getEcucCond() -> EcucConditionSpecification:
-            Retrieves the condition specification associated with the enumeration literal.
-        setEcucCond(value: EcucConditionSpecification):
-            Sets the condition specification for the enumeration literal.
-            Returns the current instance for method chaining.
-        getOrigin() -> String:
-            Retrieves the origin information for the enumeration literal.
-        setOrigin(value: String):
-            Sets the origin information for the enumeration literal.
-            Returns the current instance for method chaining.
+    Configuration parameter type for enumeration literals definition.
     """
 
     # EcucEnumerationLiteralDef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-    # [ ] getEcucCond                  [x] impl  [ ] docstring  [ ] test
-    # [ ] setEcucCond                  [x] impl  [ ] docstring  [ ] test
-    # [ ] getOrigin                    [x] impl  [ ] docstring  [ ] test
-    # [ ] setOrigin                    [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.24, p.67
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getEcucCond                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setEcucCond                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getOrigin                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setOrigin                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1172,17 +1188,31 @@ class EcucEnumerationLiteralDef(Identifiable):
         self.origin: String = None
 
     def getEcucCond(self) -> EcucConditionSpecification:
+        """
+        Gets the condition specification of the literal.
+        """
         return self.ecucCond
 
-    def setEcucCond(self, value: EcucConditionSpecification):
+    def setEcucCond(self, value: EcucConditionSpecification) -> "EcucEnumerationLiteralDef":
+        """
+        Sets the condition specification of the literal.
+        A None value is a no-op.
+        """
         if value is not None:
             self.ecucCond = value
         return self
 
     def getOrigin(self) -> String:
+        """
+        Gets the origin of the literal.
+        """
         return self.origin
 
-    def setOrigin(self, value: String):
+    def setOrigin(self, value: String) -> "EcucEnumerationLiteralDef":
+        """
+        Sets the origin of the literal.
+        A None value is a no-op.
+        """
         if value is not None:
             self.origin = value
         return self
@@ -1190,31 +1220,16 @@ class EcucEnumerationLiteralDef(Identifiable):
 
 class EcucEnumerationParamDef(EcucParameterDef):
     """
-    Represents an ECUC (Electronic Control Unit Configuration) enumeration parameter definition.
-    This class is used to define an enumeration parameter in an AUTOSAR ECUC model. It allows
-    setting a default value and managing a list of enumeration literals.
-    Attributes:
-        defaultValue (Identifier): The default value of the enumeration parameter.
-        literals (List[EcucEnumerationLiteralDef]): A list of enumeration literal definitions.
-    Methods:
-        getDefaultValue() -> UnlimitedInteger:
-            Retrieves the default value of the enumeration parameter.
-        setDefaultValue(value: UnlimitedInteger):
-            Sets the default value of the enumeration parameter.
-            Returns the current instance for method chaining.
-        getLiterals() -> List[EcucEnumerationLiteralDef]:
-            Retrieves the list of enumeration literal definitions.
-        createLiteral(short_name: str) -> EcucEnumerationLiteralDef:
-            Creates a new enumeration literal with the specified short name if it does not already exist.
-            Adds the literal to the list of literals and returns it.
+    Configuration parameter type for Enumeration.
     """
 
     # EcucEnumerationParamDef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-    # [ ] getDefaultValue              [x] impl  [ ] docstring  [ ] test
-    # [ ] setDefaultValue              [x] impl  [ ] docstring  [ ] test
-    # [ ] getLiterals                  [x] impl  [ ] docstring  [ ] test
-    # [ ] createLiteral                [x] impl  [ ] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.23, p.68
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDefaultValue              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDefaultValue              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getLiterals                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createLiteral                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1222,18 +1237,31 @@ class EcucEnumerationParamDef(EcucParameterDef):
         self.defaultValue: Identifier = None
         self.literals: List[EcucEnumerationLiteralDef] = []
 
-    def getDefaultValue(self) -> UnlimitedInteger:
+    def getDefaultValue(self) -> Identifier:
+        """
+        Gets the default value of the parameter.
+        """
         return self.defaultValue
 
-    def setDefaultValue(self, value: UnlimitedInteger):
+    def setDefaultValue(self, value: Identifier) -> "EcucEnumerationParamDef":
+        """
+        Sets the default value of the parameter.
+        A None value is a no-op.
+        """
         if value is not None:
             self.defaultValue = value
         return self
 
     def getLiterals(self) -> List[EcucEnumerationLiteralDef]:
+        """
+        Gets the list of enumeration literals.
+        """
         return self.literals
 
     def createLiteral(self, short_name: str) -> EcucEnumerationLiteralDef:
+        """
+        Creates or returns an existing EcucEnumerationLiteralDef aggregated by this parameter definition.
+        """
         if not self.IsElementExists(short_name):
             literal = EcucEnumerationLiteralDef(self, short_name)
             self.addElement(literal)
@@ -1243,18 +1271,18 @@ class EcucEnumerationParamDef(EcucParameterDef):
 
 class EcucFloatParamDef(EcucParameterDef):
     """
-    ECUC float parameter definition with default value, min, and max
-    limits.
+    Configuration parameter type for Float.
     """
 
     # EcucFloatParamDef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-    # [ ] getDefaultValue              [x] impl  [ ] docstring  [ ] test
-    # [ ] setDefaultValue              [x] impl  [ ] docstring  [ ] test
-    # [ ] getMax                       [x] impl  [ ] docstring  [ ] test
-    # [ ] setMax                       [x] impl  [ ] docstring  [ ] test
-    # [ ] getMin                       [x] impl  [ ] docstring  [ ] test
-    # [ ] setMin                       [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.17, p.62
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDefaultValue              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDefaultValue              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMax                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMax                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMin                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMin                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1290,20 +1318,14 @@ class EcucFloatParamDef(EcucParameterDef):
 
 class EcucChoiceContainerDef(EcucContainerDef):
     """
-    Represents an ECUC choice container definition in the AUTOSAR model.
-
-    This class is a specialized type of `EcucContainerDef` that allows for the
-    definition of choice containers within the ECUC parameter configuration.
-
-    Attributes:
-        parent (ARObject): The parent object in the AUTOSAR model hierarchy.
-        short_name (str): The short name of the ECUC choice container definition.
+    Used to define configuration containers that provide a choice between several EcucParamConfContainerDef. But in the actual ECU Configuration Value description only one of the given containers will actually be present.
     """
 
     # EcucChoiceContainerDef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-    # [ ] getChoices                   [x] impl  [ ] docstring  [x] test
-    # [ ] createEcucParamConfContainerDef [x] impl  [ ] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.5, p.41
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getChoices                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createEcucParamConfContainerDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1323,26 +1345,25 @@ class EcucChoiceContainerDef(EcucContainerDef):
 
 class EcucParamConfContainerDef(EcucContainerDef):
     """
-    Represents a configuration container definition in the AUTOSAR ECUC model.
-    This class is used to define a container that can hold parameters, references,
-    and sub-containers as part of the AUTOSAR ECUC configuration.
+    Used to define configuration containers that can hierarchically contain other containers and/or parameter definitions.
     """
 
     # EcucParamConfContainerDef method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getParameters                [x] impl  [x] docstring  [ ] test
-    # [ ] createEcucBooleanParamDef    [x] impl  [x] docstring  [ ] test
-    # [ ] createEcucStringParamDef     [x] impl  [x] docstring  [ ] test
-    # [ ] createEcucIntegerParamDef    [x] impl  [x] docstring  [ ] test
-    # [ ] createEcucFloatParamDef      [x] impl  [x] docstring  [ ] test
-    # [ ] createEcucEnumerationParamDef [x] impl  [x] docstring  [ ] test
-    # [ ] createEcucFunctionNameDef    [x] impl  [x] docstring  [ ] test
-    # [ ] getReferences                [x] impl  [x] docstring  [ ] test
-    # [ ] createEcucSymbolicNameReferenceDef [x] impl  [x] docstring  [ ] test
-    # [ ] createEcucReferenceDef       [x] impl  [x] docstring  [ ] test
-    # [ ] getSubContainers             [x] impl  [x] docstring  [ ] test
-    # [ ] createEcucChoiceContainerDef [x] impl  [x] docstring  [ ] test
-    # [ ] createEcucParamConfContainerDef [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.4, p.39
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getParameters                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createEcucBooleanParamDef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createEcucStringParamDef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createEcucIntegerParamDef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createEcucFloatParamDef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createEcucEnumerationParamDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createEcucFunctionNameDef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getReferences                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createEcucSymbolicNameReferenceDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createEcucReferenceDef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSubContainers             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createEcucChoiceContainerDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createEcucParamConfContainerDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -1555,63 +1576,69 @@ class EcucParamConfContainerDef(EcucContainerDef):
 
 class EcucAddInfoParamDef(EcucParameterDef):
     """
-    Represents an ECUC additional info parameter definition in the AUTOSAR model.
-
-    This class is a specialized type of `EcucParameterDef` that allows for the
-    definition of additional info parameters within the ECUC parameter configuration.
-
-    Attributes:
-        parent (ARObject): The parent object in the AUTOSAR model hierarchy.
-        short_name (str): The short name of the ECUC additional info parameter definition.
-        defaultValue (VerbatimString): The default value of the additional info parameter.
+    Configuration Parameter Definition for the specification of formatted text in the ECU Configuration Parameter Description.
     """
 
     # EcucAddInfoParamDef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDefaultValue              [x] impl  [ ] docstring  [ ] test
-    # [ ] setDefaultValue              [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.25, p.68
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.defaultValue: VerbatimString = None
-
-    def getDefaultValue(self) -> VerbatimString:
-        return self.defaultValue
-
-    def setDefaultValue(self, value: VerbatimString):
-        if value is not None:
-            self.defaultValue = value
-        return self
-
 
 class EcucConditionFormula(ARObject):
     """
-    Represents an ECUC condition formula in the AUTOSAR model.
-
-    This class is used to define formulas or expressions that can be used
-    in ECUC condition specifications.
-
-    Attributes:
-        formula (String): The formula expression.
+    This formula shall yield a boolean expression depending on ecuc queries.
+    Note that the EcucConditionFormula is a mixed string. Therefore, the
+    properties have the upper multiplicity 1.
     """
 
     # EcucConditionFormula method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getFormula                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setFormula                   [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.43, p.100
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getEcucQueryRef              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setEcucQueryRef              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getEcucQueryStringRef        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setEcucQueryStringRef        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        self.formula: String = None
+        # The EcucQuery serves as an argument for the formula.
+        self.ecucQueryRef: RefType = None
 
-    def getFormula(self) -> String:
-        return self.formula
+        # This indicates that the referenced query shall return a string.
+        self.ecucQueryStringRef: RefType = None
 
-    def setFormula(self, value: String):
+    def getEcucQueryRef(self) -> RefType:
+        """
+        Gets the EcucQuery that serves as an argument for the formula.
+        """
+        return self.ecucQueryRef
+
+    def setEcucQueryRef(self, value: RefType) -> "EcucConditionFormula":
+        """
+        Sets the EcucQuery that serves as an argument for the formula.
+        A None value is a no-op.
+        """
         if value is not None:
-            self.formula = value
+            self.ecucQueryRef = value
+        return self
+
+    def getEcucQueryStringRef(self) -> RefType:
+        """
+        Gets the reference indicating that the query shall return a string.
+        """
+        return self.ecucQueryStringRef
+
+    def setEcucQueryStringRef(self, value: RefType) -> "EcucConditionFormula":
+        """
+        Sets the reference indicating that the query shall return a string.
+        A None value is a no-op.
+        """
+        if value is not None:
+            self.ecucQueryStringRef = value
         return self
 
 
@@ -1651,51 +1678,46 @@ class EcucDefinitionCollection(AtpBlueprintable):
 
 class EcucDestinationUriDef(Identifiable):
     """
-    Represents an ECUC destination URI definition in the AUTOSAR model.
-
-    This class is used to define destination URIs for ECUC references.
-
-    Attributes:
-        parent (ARObject): The parent object in the AUTOSAR model hierarchy.
-        short_name (str): The short name of the ECUC destination URI definition.
-        destinationUri (String): The destination URI.
+    Description of an EcucDestinationUriDef that is used as target of EcucUriReferenceDefs.
     """
 
     # EcucDestinationUriDef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDestinationUri            [x] impl  [ ] docstring  [ ] test
-    # [ ] setDestinationUri            [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.35, p.82
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDestinationUriPolicy      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setDestinationUriPolicy      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.destinationUri: String = None
+        self.destinationUriPolicy: Optional["EcucDestinationUriPolicy"] = None
 
-    def getDestinationUri(self) -> String:
-        return self.destinationUri
+    def getDestinationUriPolicy(self) -> Optional["EcucDestinationUriPolicy"]:
+        """
+        Gets the destination URI policy.
+        """
+        return self.destinationUriPolicy
 
-    def setDestinationUri(self, value: String):
+    def setDestinationUriPolicy(self, value: "EcucDestinationUriPolicy") -> "EcucDestinationUriDef":
+        """
+        Sets the destination URI policy.
+        A None value is a no-op.
+        """
         if value is not None:
-            self.destinationUri = value
+            self.destinationUriPolicy = value
         return self
 
 
 class EcucDestinationUriDefSet(AtpBlueprintable):
     """
-    Represents an ECUC destination URI definition set in the AUTOSAR model.
-
-    This class is used to group related ECUC destination URI definitions.
-
-    Attributes:
-        parent (ARObject): The parent object in the AUTOSAR model hierarchy.
-        short_name (str): The short name of the ECUC destination URI definition set.
-        destinationUriDefs (List[EcucDestinationUriDef]): A list of ECUC destination URI definitions.
+    This class represents a list of EcucDestinationUriDefs.
     """
 
     # EcucDestinationUriDefSet method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDestinationUriDefs        [x] impl  [ ] docstring  [ ] test
-    # [ ] addDestinationUriDef         [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.34, p.82
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDestinationUriDefs        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addDestinationUriDef         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1703,9 +1725,16 @@ class EcucDestinationUriDefSet(AtpBlueprintable):
         self.destinationUriDefs: List[EcucDestinationUriDef] = []
 
     def getDestinationUriDefs(self) -> List[EcucDestinationUriDef]:
+        """
+        Gets the list of destination URI definitions.
+        """
         return self.destinationUriDefs
 
-    def addDestinationUriDef(self, value: EcucDestinationUriDef):
+    def addDestinationUriDef(self, value: EcucDestinationUriDef) -> "EcucDestinationUriDefSet":
+        """
+        Adds a destination URI definition to the list.
+        A None value is a no-op.
+        """
         if value is not None:
             self.destinationUriDefs.append(value)
         return self
@@ -1713,78 +1742,139 @@ class EcucDestinationUriDefSet(AtpBlueprintable):
 
 class EcucDestinationUriPolicy(ARObject):
     """
-    Represents an ECUC destination URI policy in the AUTOSAR model.
-
-    This class is used to define policies for ECUC destination URIs.
-
-    Attributes:
-        policy (String): The policy definition.
+    The EcucDestinationUriPolicy describes the EcucContainerDef that will be targeted by EcucUriReferenceDefs. The type of the description is dependent of the destinationUriNestingContract attribute.
     """
 
     # EcucDestinationUriPolicy method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getPolicy                    [x] impl  [ ] docstring  [ ] test
-    # [ ] setPolicy                    [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.36, p.83
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getContainers                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addContainer                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDestinationUriNestingContract [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setDestinationUriNestingContract [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getParameters                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addParameter                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getReferences                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addReference                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        self.policy: String = None
+        self.containers: List[EcucContainerDef] = []
+        self.destinationUriNestingContract: Optional["EcucDestinationUriNestingContractEnum"] = None
+        self.parameters: List[EcucParameterDef] = []
+        self.references: List[EcucAbstractReferenceDef] = []
 
-    def getPolicy(self) -> String:
-        return self.policy
+    def getContainers(self) -> List[EcucContainerDef]:
+        """
+        Gets the list of container definitions.
+        """
+        return self.containers
 
-    def setPolicy(self, value: String):
+    def addContainer(self, value: EcucContainerDef) -> "EcucDestinationUriPolicy":
+        """
+        Adds a container definition to the list.
+        A None value is a no-op.
+        """
         if value is not None:
-            self.policy = value
+            self.containers.append(value)
         return self
+
+    def getDestinationUriNestingContract(self) -> Optional["EcucDestinationUriNestingContractEnum"]:
+        """
+        Gets the destination URI nesting contract.
+        """
+        return self.destinationUriNestingContract
+
+    def setDestinationUriNestingContract(self, value: "EcucDestinationUriNestingContractEnum") -> "EcucDestinationUriPolicy":
+        """
+        Sets the destination URI nesting contract.
+        A None value is a no-op.
+        """
+        if value is not None:
+            self.destinationUriNestingContract = value
+        return self
+
+    def getParameters(self) -> List[EcucParameterDef]:
+        """
+        Gets the list of parameter definitions.
+        """
+        return self.parameters
+
+    def addParameter(self, value: EcucParameterDef) -> "EcucDestinationUriPolicy":
+        """
+        Adds a parameter definition to the list.
+        A None value is a no-op.
+        """
+        if value is not None:
+            self.parameters.append(value)
+        return self
+
+    def getReferences(self) -> List[EcucAbstractReferenceDef]:
+        """
+        Gets the list of reference definitions.
+        """
+        return self.references
+
+    def addReference(self, value: EcucAbstractReferenceDef) -> "EcucDestinationUriPolicy":
+        """
+        Adds a reference definition to the list.
+        A None value is a no-op.
+        """
+        if value is not None:
+            self.references.append(value)
+        return self
+
+
+class EcucDestinationUriNestingContractEnum(AREnum):
+    """
+    EcucDestinationUriNestingContractEnum is used to determine what is qualified by the EcucDestinationUriPolicy.
+    """
+
+    # EcucDestinationUriNestingContractEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.37, p.83
+    # (no methods)
+
+    # EcucDestinationUriPolicy describes elements (subContainers, Parameters, References) that are directly owned by the target container. Tags: atp.EnumerationLiteralIndex=0
+    LEAF_OF_TARGET_CONTAINER = "LEAF-OF-TARGET-CONTAINER"
+
+    # EcucDestinationUriPolicy describes the target container of EcucUriReferenceDef. Tags: atp.EnumerationLiteralIndex=1
+    TARGET_CONTAINER = "TARGET-CONTAINER"
+
+    # EcucDestinationUriPolicy describes elements (subContainers, Parameters, References) of the target container which can be defined in arbitrary nested subContainer structure. Tags: atp.EnumerationLiteralIndex=2
+    VERTEX_OF_TARGET_CONTAINER = "VERTEX-OF-TARGET-CONTAINER"
+
+    def __init__(self):
+        super().__init__(
+            [
+                EcucDestinationUriNestingContractEnum.LEAF_OF_TARGET_CONTAINER,
+                EcucDestinationUriNestingContractEnum.TARGET_CONTAINER,
+                EcucDestinationUriNestingContractEnum.VERTEX_OF_TARGET_CONTAINER,
+            ]
+        )
 
 
 class EcucLinkerSymbolDef(EcucAbstractStringParamDef):
     """
-    Represents an ECUC linker symbol definition in the AUTOSAR model.
-
-    This class is used to define linker symbols for ECUC parameters.
-
-    Attributes:
-        parent (ARObject): The parent object in the AUTOSAR model hierarchy.
-        short_name (str): The short name of the ECUC linker symbol definition.
-        linkerSymbol (CIdentifier): The linker symbol.
+    Configuration parameter type for Linker Symbol Names like those used to specify memory locations of variables and constants.
     """
 
     # EcucLinkerSymbolDef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getLinkerSymbol              [x] impl  [ ] docstring  [ ] test
-    # [ ] setLinkerSymbol              [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.21, p.65
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.linkerSymbol: CIdentifier = None
-
-    def getLinkerSymbol(self) -> CIdentifier:
-        return self.linkerSymbol
-
-    def setLinkerSymbol(self, value: CIdentifier):
-        if value is not None:
-            self.linkerSymbol = value
-        return self
-
 
 class EcucMultilineStringParamDef(EcucAbstractStringParamDef):
     """
-    Represents an ECUC multiline string parameter definition in the AUTOSAR model.
-
-    This class is a specialized type of `EcucAbstractStringParamDef` that allows for
-    multiline string parameters within the ECUC parameter configuration.
-
-    Attributes:
-        parent (ARObject): The parent object in the AUTOSAR model hierarchy.
-        short_name (str): The short name of the ECUC multiline string parameter definition.
+    Configuration parameter type for multiline Strings (including "carriage return").
     """
 
     # EcucMultilineStringParamDef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.20, p.64
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1792,88 +1882,143 @@ class EcucMultilineStringParamDef(EcucAbstractStringParamDef):
 
 class EcucParameterDerivationFormula(ARObject):
     """
-    Represents an ECUC parameter derivation formula in the AUTOSAR model.
-
-    This class is used to define formulas for deriving ECUC parameter values.
-
-    Attributes:
-        formula (String): The derivation formula.
+    This formula is intended to specify how an ecu parameter can be derived
+    from other information in the Autosar Templates.
     """
 
     # EcucParameterDerivationFormula method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getFormula                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setFormula                   [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.39, p.88
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getEcucQueryRef              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setEcucQueryRef              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getEcucQueryStringRef        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setEcucQueryStringRef        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        self.formula: String = None
+        # This is one particular EcucQuery used in the calculation formula.
+        self.ecucQueryRef: RefType = None
 
-    def getFormula(self) -> String:
-        return self.formula
+        # This indicates that the referenced query shall return a string.
+        self.ecucQueryStringRef: RefType = None
 
-    def setFormula(self, value: String):
+    def getEcucQueryRef(self) -> RefType:
+        """
+        Gets the EcucQuery used in the calculation formula.
+        """
+        return self.ecucQueryRef
+
+    def setEcucQueryRef(self, value: RefType) -> "EcucParameterDerivationFormula":
+        """
+        Sets the EcucQuery used in the calculation formula.
+        A None value is a no-op.
+        """
         if value is not None:
-            self.formula = value
+            self.ecucQueryRef = value
+        return self
+
+    def getEcucQueryStringRef(self) -> RefType:
+        """
+        Gets the reference indicating that the query shall return a string.
+        """
+        return self.ecucQueryStringRef
+
+    def setEcucQueryStringRef(self, value: RefType) -> "EcucParameterDerivationFormula":
+        """
+        Sets the reference indicating that the query shall return a string.
+        A None value is a no-op.
+        """
+        if value is not None:
+            self.ecucQueryStringRef = value
         return self
 
 
 class EcucQuery(Identifiable):
     """
-    Represents an ECUC query in the AUTOSAR model.
-
-    This class is used to define queries for ECUC parameter values.
-
-    Attributes:
-        queryExpression (EcucQueryExpression): The query expression.
+    Defines a query to the ECUC Description.
     """
 
     # EcucQuery method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getQueryExpression           [x] impl  [ ] docstring  [ ] test
-    # [ ] setQueryExpression           [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.40, p.89
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getEcucQueryExpression       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setEcucQueryExpression       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.queryExpression: "EcucQueryExpression" = None
+        # The EcucQuery used in the calculation formula or the condition formula.
+        self.ecucQueryExpression: "EcucQueryExpression" = None
 
-    def getQueryExpression(self) -> "EcucQueryExpression":
-        return self.queryExpression
+    def getEcucQueryExpression(self) -> "EcucQueryExpression":
+        """
+        Gets the EcucQuery used in the calculation or condition formula.
+        """
+        return self.ecucQueryExpression
 
-    def setQueryExpression(self, value: "EcucQueryExpression"):
+    def setEcucQueryExpression(self, value: "EcucQueryExpression") -> "EcucQuery":
+        """
+        Sets the EcucQuery used in the calculation or condition formula.
+        A None value is a no-op.
+        """
         if value is not None:
-            self.queryExpression = value
+            self.ecucQueryExpression = value
         return self
 
 
 class EcucQueryExpression(ARObject):
     """
-    Represents an ECUC query expression in the AUTOSAR model.
-
-    This class is used to define query expressions for ECUC parameters.
-
-    Attributes:
-        expression (String): The query expression.
+    Defines a query expression to the ECUC Description and outputs the result
+    as a numerical value. Due to the "mixedString" nature of the formula
+    there can be several EcucQueryExpressions used.
     """
 
     # EcucQueryExpression method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getExpression                [x] impl  [ ] docstring  [ ] test
-    # [ ] setExpression                [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.41, p.90
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getConfigElementDefGlobalRef  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setConfigElementDefGlobalRef  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getConfigElementDefLocalRef   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setConfigElementDefLocalRef   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        self.expression: String = None
+        # Global reference to find an element in the Ecuc Description.
+        self.configElementDefGlobalRef: RefType = None
 
-    def getExpression(self) -> String:
-        return self.expression
+        # Local reference to find an element within the same module.
+        self.configElementDefLocalRef: RefType = None
 
-    def setExpression(self, value: String):
+    def getConfigElementDefGlobalRef(self) -> RefType:
+        """
+        Gets the global reference to find an element in the Ecuc Description.
+        """
+        return self.configElementDefGlobalRef
+
+    def setConfigElementDefGlobalRef(self, value: RefType) -> "EcucQueryExpression":
+        """
+        Sets the global reference to find an element in the Ecuc Description.
+        A None value is a no-op.
+        """
         if value is not None:
-            self.expression = value
+            self.configElementDefGlobalRef = value
+        return self
+
+    def getConfigElementDefLocalRef(self) -> RefType:
+        """
+        Gets the local reference to find an element within the same module.
+        """
+        return self.configElementDefLocalRef
+
+    def setConfigElementDefLocalRef(self, value: RefType) -> "EcucQueryExpression":
+        """
+        Sets the local reference to find an element within the same module.
+        A None value is a no-op.
+        """
+        if value is not None:
+            self.configElementDefLocalRef = value
         return self
 
 
