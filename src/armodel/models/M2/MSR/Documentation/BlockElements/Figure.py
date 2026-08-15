@@ -110,45 +110,63 @@ class Map(ARObject):
 
 class LGraphic(LanguageSpecific):
     """
-    Language-specific graphic with an associated image and optional map.
+    This meta-class represents the figure in one particular language.
     """
 
     # LGraphic method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getL                         [x] impl  [ ] docstring  [ ] test
-    # [ ] setL                         [x] impl  [ ] docstring  [ ] test
-    # [ ] getGraphic                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setGraphic                   [x] impl  [ ] docstring  [ ] test
-    # [ ] getMap                       [x] impl  [ ] docstring  [ ] test
-    # [ ] setMap                       [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.25, p.308
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getGraphic   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setGraphic   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMap       [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer
+    # [x] setMap       [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer
 
     def __init__(self):
         super().__init__()
 
-        self.l = None  # type: str                         # noqa E741
+        # Reference to the actual graphic represented in the figure. Tags: xml.sequenceOffset=20
         self.graphic = None  # type: Graphic
+
+        # Image maps enable authors to specify regions of an image or object and assign a specific action to each region. Tags: xml.sequenceOffset=30
         self.map = None  # type: Map
 
-    def getL(self):
-        return self.l
-
-    def setL(self, value):
-        if value is not None:
-            self.l = value  # noqa E741
-        return self
-
     def getGraphic(self):
+        """
+        Reference to the actual graphic represented in the figure. Tags: xml.sequenceOffset=20
+
+        Returns:
+            The graphic represented in the figure
+        """
         return self.graphic
 
     def setGraphic(self, value):
+        """
+        Reference to the actual graphic represented in the figure. Tags: xml.sequenceOffset=20. A None value is a no-op and does not overwrite an existing graphic.
+
+        Returns:
+            self for method chaining
+        """
         if value is not None:
             self.graphic = value
         return self
 
     def getMap(self):
+        """
+        Image maps enable authors to specify regions of an image or object and assign a specific action to each region. Tags: xml.sequenceOffset=30
+
+        Returns:
+            The image map of the figure
+        """
         return self.map
 
     def setMap(self, value):
+        """
+        Image maps enable authors to specify regions of an image or object and assign a specific action to each region. Tags: xml.sequenceOffset=30. A None value is a no-op and does not overwrite an existing map.
+
+        Returns:
+            self for method chaining
+        """
         if value is not None:
             self.map = value
         return self

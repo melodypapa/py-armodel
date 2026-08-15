@@ -1021,3 +1021,177 @@ class TestWriterEcucDerivationSpecification:
         finally:
             if os.path.exists(tmp_path):
                 os.unlink(tmp_path)
+
+
+class TestWriterEcucConditionFormula:
+    """Tests for writing the ECUC-CONDITION-FORMULA element."""
+
+    def _build_formula(self):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucConditionFormula
+
+        formula = EcucConditionFormula()
+        qref = RefType()
+        qref.setValue("/Ref/Query1")
+        qref.setDest("ECUC-QUERY")
+        sref = RefType()
+        sref.setValue("/Ref/Query2")
+        sref.setDest("ECUC-QUERY")
+        formula.setEcucQueryRef(qref)
+        formula.setEcucQueryStringRef(sref)
+        return formula
+
+    def test_writes_refs(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucConditionSpecification
+
+        container = _make_container()
+        cond = EcucConditionSpecification()
+        cond.setConditionFormula(self._build_formula())
+        container.setEcucCond(cond)
+        parent = _parent()
+        writer.writeEcucContainerDef(parent, container)
+        cond_el = parent.find("ECUC-COND")
+        assert cond_el is not None
+        formula_el = cond_el.find("CONDITION-FORMULA")
+        assert formula_el is not None
+        assert formula_el.find("ECUC-QUERY-REF").text == "/Ref/Query1"
+        assert formula_el.find("ECUC-QUERY-STRING-REF").text == "/Ref/Query2"
+
+    def test_writes_none(self, writer):
+        container = _make_container()
+        parent = _parent()
+        writer.writeEcucContainerDef(parent, container)
+        assert parent.find("ECUC-COND") is None
+
+
+class TestWriterEcucConditionSpecification:
+    """Tests for writing the ECUC-COND element into an EcucConditionSpecification."""
+
+    def _build_cond(self):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+            EcucConditionFormula,
+            EcucConditionSpecification,
+            EcucQueryExpression,
+        )
+        from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
+
+        cond = EcucConditionSpecification()
+        formula = EcucConditionFormula()
+        qref = RefType()
+        qref.setValue("/Ref/Query1")
+        qref.setDest("ECUC-QUERY")
+        sref = RefType()
+        sref.setValue("/Ref/Query2")
+        sref.setDest("ECUC-QUERY")
+        formula.setEcucQueryRef(qref)
+        formula.setEcucQueryStringRef(sref)
+        cond.setConditionFormula(formula)
+        query = cond.createEcucQuery("Q1")
+        expr = EcucQueryExpression()
+        gref = RefType()
+        gref.setValue("/Def/Global")
+        gref.setDest("ECUC-DEFINITION-ELEMENT")
+        expr.setConfigElementDefGlobalRef(gref)
+        query.setEcucQueryExpression(expr)
+        cond.setInformalFormula(MlFormula())
+        return cond
+
+    def test_writes_cond(self, writer):
+        container = _make_container()
+        container.setEcucCond(self._build_cond())
+        parent = _parent()
+        writer.writeEcucContainerDef(parent, container)
+        cond_el = parent.find("ECUC-COND")
+        assert cond_el is not None
+        assert cond_el.find("CONDITION-FORMULA/ECUC-QUERY-REF").text == "/Ref/Query1"
+        assert cond_el.find("CONDITION-FORMULA/ECUC-QUERY-STRING-REF").text == "/Ref/Query2"
+        queries = cond_el.find("ECUC-QUERYS")
+        assert queries is not None
+        query = queries.find("ECUC-QUERY")
+        assert query.find("SHORT-NAME").text == "Q1"
+        assert query.find("ECUC-QUERY-EXPRESSION/CONFIG-ELEMENT-DEF-GLOBAL-REF").text == "/Def/Global"
+        assert cond_el.find("INFORMAL-FORMULA") is not None
+
+    def test_writes_none(self, writer):
+        container = _make_container()
+        parent = _parent()
+        writer.writeEcucContainerDef(parent, container)
+        assert parent.find("ECUC-COND") is None
+
+
+class TestWriterEcucValidationCondition:
+    """Tests for writing the ECUC-VALIDATION-CONDITION elements."""
+
+    def _build_validation_cond(self):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+            EcucConditionFormula,
+            EcucQueryExpression,
+            EcucValidationCondition,
+        )
+
+        vc = EcucValidationCondition(None, "VC1")
+        query = vc.createEcucQuery("Q1")
+        expr = EcucQueryExpression()
+        gref = RefType()
+        gref.setValue("/Def/Global")
+        gref.setDest("ECUC-DEFINITION-ELEMENT")
+        expr.setConfigElementDefGlobalRef(gref)
+        query.setEcucQueryExpression(expr)
+        formula = EcucConditionFormula()
+        qref = RefType()
+        qref.setValue("/Ref/Query1")
+        qref.setDest("ECUC-QUERY")
+        formula.setEcucQueryRef(qref)
+        vc.setValidationFormula(formula)
+        return vc
+
+    def test_writes_validation_conds(self, writer):
+        container = _make_container()
+        container.addEcucValidationCond(self._build_validation_cond())
+        parent = _parent()
+        writer.writeEcucContainerDef(parent, container)
+        conds_el = parent.find("ECUC-VALIDATION-CONDS")
+        assert conds_el is not None
+        vc_el = conds_el.find("ECUC-VALIDATION-CONDITION")
+        assert vc_el is not None
+        assert vc_el.find("SHORT-NAME").text == "VC1"
+        queries = vc_el.find("ECUC-QUERYS")
+        assert queries is not None
+        assert queries.find("ECUC-QUERY/SHORT-NAME").text == "Q1"
+        assert vc_el.find("VALIDATION-FORMULA/ECUC-QUERY-REF").text == "/Ref/Query1"
+
+    def test_writes_none(self, writer):
+        container = _make_container()
+        parent = _parent()
+        writer.writeEcucContainerDef(parent, container)
+        assert parent.find("ECUC-VALIDATION-CONDS") is None
+
+    def test_round_trip(self, writer):
+        import os
+        import tempfile
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("VcPkg")
+        module = pkg.createEcucModuleDef("Mod")
+        container = module.createEcucParamConfContainerDef("Ct")
+        container.addEcucValidationCond(self._build_validation_cond())
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, autosar)
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_module = reloaded_pkg.getElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getElement("Ct", EcucParamConfContainerDef)
+            reloaded_conds = reloaded_container.getEcucValidationConds()
+            assert len(reloaded_conds) == 1
+            assert reloaded_conds[0].getShortName() == "VC1"
+            assert len(reloaded_conds[0].getEcucQueries()) == 1
+            assert reloaded_conds[0].getEcucQueries()[0].getShortName() == "Q1"
+            assert reloaded_conds[0].getValidationFormula() is not None
+            assert reloaded_conds[0].getValidationFormula().getEcucQueryRef().getValue() == "/Ref/Query1"
+        finally:
+            if os.path.exists(tmp_path):
+                os.unlink(tmp_path)

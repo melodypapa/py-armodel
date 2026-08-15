@@ -400,23 +400,6 @@ class EcucModuleConfigurationValues(ARElement):
         return self
 
 
-class EcucConditionSpecification(ARObject):
-    """
-    Condition specification for ECUC definitions with condition formula
-    and queries.
-    """
-
-    # EcucConditionSpecification method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-
-    def __init__(self):
-        super().__init__()
-
-        # self.conditionFormula: EcucConditionFormula = None     # 0..1 aggr Definition of the formula used to define existence dependencies.
-        # self.ecucQueries: List[EcucQuery] = []                  # *    aggr Query to the ECU Configuration Description.
-        # self.informalFormula: MlFormula = None                 # 0..1 aggr Informal description of the condition used to to define existence dependencies. # noqa E501
-
-
 class EcucConfigurationVariantEnum(AREnum):
     """
     Enumeration for ECUC configuration variant types.

@@ -167,6 +167,8 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucChoiceContainerDef,
     EcucChoiceReferenceDef,
     EcucCommonAttributes,
+    EcucConditionFormula,
+    EcucConditionSpecification,
     EcucContainerDef,
     EcucDefinitionCollection,
     EcucDefinitionElement,
@@ -193,6 +195,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucReferenceDef,
     EcucStringParamDef,
     EcucSymbolicNameReferenceDef,
+    EcucValidationCondition,
     EcucValueConfigurationClass,
 )
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwPinGroup
@@ -584,6 +587,7 @@ from armodel.models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout, Sw
 from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation, GeneralAnnotation
+from armodel.models.M2.MSR.Documentation.BlockElements import Caption
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Graphic, LGraphic, MlFigure
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import FloatEnum, PgwideEnum
@@ -746,6 +750,15 @@ class ARXMLParser(AbstractARXMLParser):
     def readMultilanguageReferrable(self, element: ET.Element, referrable: MultilanguageReferrable):
         self.readReferrable(element, referrable)
         referrable.setLongName(self.getMultilanguageLongName(element, "LONG-NAME"))
+
+    def getCaption(self, element: ET.Element, key: str) -> Caption:
+        caption = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            caption = Caption(None, self.getShortName(child_element))
+            self.readMultilanguageReferrable(child_element, caption)
+            caption.setDesc(self.getMultiLanguageOverviewParagraph(child_element, "DESC"))
+        return caption
 
     def readIdentifiable(self, element: ET.Element, identifiable: Identifiable):
         self.readMultilanguageReferrable(element, identifiable)
@@ -3354,7 +3367,17 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             formula = MlFormula()
-            self.readARObjectAttributes(child_element, formula)
+            self.readPaginateable(child_element, formula)
+            formula.setFormulaCaption(self.getCaption(child_element, "FORMULA-CAPTION"))
+            for l_graphic in self.findall(child_element, "L-GRAPHIC"):
+                graphic = LGraphic()
+                if "L" in l_graphic.attrib:
+                    graphic.setL(l_graphic.attrib["L"])
+                graphic.setGraphic(self.getGraphic(l_graphic, "GRAPHIC"))
+                formula.addLGraphic(graphic)
+            formula.setVerbatim(self.getMultiLanguageVerbatim(child_element, "VERBATIM"))
+            formula.setTexMath(self.getMultiLanguagePlainText(child_element, "TEX-MATH"))
+            formula.setGenericMath(self.getMultiLanguagePlainText(child_element, "GENERIC-MATH"))
         return formula
 
     def readDocumentationBlock(self, element: ET.Element, block: DocumentationBlock):
@@ -6503,6 +6526,8 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readEcucDefinitionElement(self, element: ET.Element, def_element: EcucDefinitionElement):
         self.readIdentifiable(element, def_element)
+        def_element.setEcucCond(self.readEcucConditionSpecification(element))
+        self.readEcucValidationConditions(element, def_element)
         def_element.setLowerMultiplicity(self.getChildElementOptionalPositiveInteger(element, "LOWER-MULTIPLICITY"))
         def_element.setUpperMultiplicity(self.getChildElementOptionalPositiveInteger(element, "UPPER-MULTIPLICITY"))
         def_element.setScope(self.getChildElementOptionalLiteral(element, "SCOPE"))
@@ -6712,6 +6737,42 @@ class ARXMLParser(AbstractARXMLParser):
         formula.setEcucQueryRef(self.getChildElementOptionalRefType(element, "ECUC-QUERY-REF"))
         formula.setEcucQueryStringRef(self.getChildElementOptionalRefType(element, "ECUC-QUERY-STRING-REF"))
         return formula
+
+    def readEcucConditionFormula(self, element: ET.Element) -> EcucConditionFormula:
+        formula = EcucConditionFormula()
+        formula.setEcucQueryRef(self.getChildElementOptionalRefType(element, "ECUC-QUERY-REF"))
+        formula.setEcucQueryStringRef(self.getChildElementOptionalRefType(element, "ECUC-QUERY-STRING-REF"))
+        return formula
+
+    def readEcucConditionSpecification(self, element: ET.Element) -> Optional[EcucConditionSpecification]:
+        child_element = self.find(element, "ECUC-COND")
+        if child_element is None:
+            return None
+        cond = EcucConditionSpecification()
+        formula_element = self.find(child_element, "CONDITION-FORMULA")
+        if formula_element is not None:
+            cond.setConditionFormula(self.readEcucConditionFormula(formula_element))
+        for query_element in self.findall(child_element, "ECUC-QUERYS/ECUC-QUERY"):
+            query = cond.createEcucQuery(self.getShortName(query_element))
+            self.readEcucQuery(query_element, query)
+        cond.setInformalFormula(self.getMlFormula(child_element, "INFORMAL-FORMULA"))
+        return cond
+
+    def readEcucValidationCondition(self, element: ET.Element) -> EcucValidationCondition:
+        vc = EcucValidationCondition(None, self.getShortName(element))
+        self.readIdentifiable(element, vc)
+        for query_element in self.findall(element, "ECUC-QUERYS/ECUC-QUERY"):
+            query = vc.createEcucQuery(self.getShortName(query_element))
+            self.readEcucQuery(query_element, query)
+        formula_element = self.find(element, "VALIDATION-FORMULA")
+        if formula_element is not None:
+            vc.setValidationFormula(self.readEcucConditionFormula(formula_element))
+        return vc
+
+    def readEcucValidationConditions(self, element: ET.Element, def_element: EcucDefinitionElement):
+        for vc_element in self.findall(element, "ECUC-VALIDATION-CONDS/ECUC-VALIDATION-CONDITION"):
+            vc = self.readEcucValidationCondition(vc_element)
+            def_element.addEcucValidationCond(vc)
 
     def readEcucQuery(self, element: ET.Element, query: EcucQuery):
         self.readIdentifiable(element, query)

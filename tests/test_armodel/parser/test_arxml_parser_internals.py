@@ -381,11 +381,53 @@ class TestDocumentationBlockHandlers:
         text = parser.getMultiLanguagePlainText(element, "MY-TEXT")
         assert text is not None
         assert len(text.getL10s()) == 2
+        assert [l10.value for l10 in text.getL10s()] == ["text1", "text2"]
 
     def test_getMultiLanguagePlainText_missing(self, parser):
         element = _snip("<X/>")
         text = parser.getMultiLanguagePlainText(element, "MISSING")
         assert text is None
+
+    def test_getMlFormula(self, parser):
+        element = _snip(
+            "<FORMULA>"
+            "<FORMULA-CAPTION><SHORT-NAME>cap</SHORT-NAME></FORMULA-CAPTION>"
+            "<L-GRAPHIC><GRAPHIC FILENAME='g.png'/></L-GRAPHIC>"
+            "<VERBATIM><L-5 L='en'>x*x</L-5></VERBATIM>"
+            "<TEX-MATH><L-10 L='en'>x^2</L-10></TEX-MATH>"
+            "<GENERIC-MATH><L-10 L='en'>generic</L-10></GENERIC-MATH>"
+            "</FORMULA>",
+        )
+        formula = parser.getMlFormula(element, "FORMULA")
+        assert formula is not None
+        assert formula.getFormulaCaption() is not None
+        assert formula.getFormulaCaption().getShortName() == "cap"
+        assert len(formula.getLGraphics()) == 1
+        assert formula.getLGraphics()[0].getGraphic().getFilename() == "g.png"
+        assert formula.getVerbatim() is not None
+        assert [l5.value for l5 in formula.getVerbatim().getL5s()] == ["x*x"]
+        assert formula.getTexMath() is not None
+        assert [l10.value for l10 in formula.getTexMath().getL10s()] == ["x^2"]
+        assert formula.getGenericMath() is not None
+        assert [l10.value for l10 in formula.getGenericMath().getL10s()] == ["generic"]
+
+    def test_getMlFormula_missing(self, parser):
+        element = _snip("<X/>")
+        formula = parser.getMlFormula(element, "MISSING")
+        assert formula is None
+
+    def test_getCaption(self, parser):
+        element = _snip(
+            "<FORMULA-CAPTION>" "<SHORT-NAME>cap</SHORT-NAME>" "<DESC><L-2 L='en'>desc</L-2></DESC>" "</FORMULA-CAPTION>",
+        )
+        caption = parser.getCaption(element, "FORMULA-CAPTION")
+        assert caption is not None
+        assert [l2.value for l2 in caption.getDesc().getL2s()] == ["desc"]
+
+    def test_getCaption_missing(self, parser):
+        element = _snip("<X/>")
+        caption = parser.getCaption(element, "MISSING")
+        assert caption is None
 
     def test_getListElements(self, parser):
         element = _snip(

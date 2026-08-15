@@ -6,7 +6,6 @@ These tests ensure 100% code coverage for all classes in the ECUCDescriptionTemp
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucAbstractReferenceValue,
     EcucAddInfoParamValue,
-    EcucConditionSpecification,
     EcucConfigurationVariantEnum,
     EcucContainerValue,
     EcucIndexableValue,
@@ -370,19 +369,6 @@ def test_ecuc_module_configuration_values():
     assert module_config.getPostBuildVariantUsed() is True
 
 
-def test_ecuc_condition_specification():
-    """
-    Test EcucConditionSpecification class.
-
-    Test Steps:
-    1. Create an EcucConditionSpecification instance
-    2. Test initial values
-    """
-    _condition_spec = EcucConditionSpecification()
-
-    # Test initial values (currently no attributes in __init__)
-
-
 def test_ecuc_configuration_variant_enum():
     """
     Test EcucConfigurationVariantEnum class.
@@ -465,7 +451,6 @@ if __name__ == "__main__":
     test_ecuc_reference_value()
     test_ecuc_container_value()
     test_ecuc_module_configuration_values()
-    test_ecuc_condition_specification()
     test_ecuc_configuration_variant_enum()
     test_ecuc_module_def()
     print("All ECUCDescriptionTemplate tests passed!")

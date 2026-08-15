@@ -159,6 +159,8 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucChoiceContainerDef,
     EcucChoiceReferenceDef,
     EcucCommonAttributes,
+    EcucConditionFormula,
+    EcucConditionSpecification,
     EcucContainerDef,
     EcucDefinitionCollection,
     EcucDefinitionElement,
@@ -183,6 +185,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucReferenceDef,
     EcucStringParamDef,
     EcucSymbolicNameReferenceDef,
+    EcucValidationCondition,
     EcucValueConfigurationClass,
 )
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwPinGroup
@@ -567,6 +570,7 @@ from armodel.models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout, Sw
 from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
+from armodel.models.M2.MSR.Documentation.BlockElements import Caption
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Graphic, MlFigure
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 from armodel.models.M2.MSR.Documentation.Chapters import (
@@ -764,6 +768,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeReferrable(element, referrable)
         if referrable.longName is not None:
             self.setMultiLongName(element, "LONG-NAME", referrable.longName)
+
+    def setCaption(self, element: ET.Element, key: str, caption: Caption):
+        if caption is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeMultilanguageReferrable(child_element, caption)
+            self.setMultiLanguageOverviewParagraph(child_element, "DESC", caption.getDesc())
 
     def setLPlainText(self, element: ET.Element, text: LPlainText):
         self.setLanguageSpecific(element, "L-10", text)
@@ -1603,7 +1613,16 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setMlFormula(self, element: ET.Element, key: str, formula: MlFormula):
         if formula is not None:
             child_element = ET.SubElement(element, key)
-            self.writeARObjectAttributes(child_element, formula)
+            self.writePaginateable(child_element, formula)
+            self.setCaption(child_element, "FORMULA-CAPTION", formula.getFormulaCaption())
+            for graphic in formula.getLGraphics():
+                l_graphic_element = ET.SubElement(child_element, "L-GRAPHIC")
+                if graphic.getL() is not None:
+                    l_graphic_element.attrib["L"] = graphic.getL()
+                self.setGraphic(l_graphic_element, "GRAPHIC", graphic.getGraphic())
+            self.setMultiLanguageVerbatim(child_element, "VERBATIM", formula.getVerbatim())
+            self.setMultiLanguagePlainText(child_element, "TEX-MATH", formula.getTexMath())
+            self.setMultiLanguagePlainText(child_element, "GENERIC-MATH", formula.getGenericMath())
 
     def setLabeledList(self, element: ET.Element, labeled_list: LabeledList):
         if labeled_list is not None:
@@ -6206,6 +6225,8 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeEcucDefinitionElement(self, element: ET.Element, def_element: EcucDefinitionElement):
         self.writeARElement(element, def_element)
+        self.writeEcucConditionSpecification(element, def_element.getEcucCond())
+        self.writeEcucValidationConditions(element, def_element.getEcucValidationConds())
         self.setChildElementOptionalPositiveInteger(element, "LOWER-MULTIPLICITY", def_element.getLowerMultiplicity())
         self.setChildElementOptionalPositiveInteger(element, "UPPER-MULTIPLICITY", def_element.getUpperMultiplicity())
         self.setChildElementOptionalLiteral(element, "SCOPE", def_element.getScope())
@@ -6284,6 +6305,45 @@ class ARXMLWriter(AbstractARXMLWriter):
         formula_element = ET.SubElement(element, "CALCULATION-FORMULA")
         self.setChildElementOptionalRefType(formula_element, "ECUC-QUERY-REF", formula.getEcucQueryRef())
         self.setChildElementOptionalRefType(formula_element, "ECUC-QUERY-STRING-REF", formula.getEcucQueryStringRef())
+
+    def writeEcucConditionFormula(self, element: ET.Element, key: str, formula: Optional[EcucConditionFormula]):
+        if formula is None:
+            return
+        formula_element = ET.SubElement(element, key)
+        self.setChildElementOptionalRefType(formula_element, "ECUC-QUERY-REF", formula.getEcucQueryRef())
+        self.setChildElementOptionalRefType(formula_element, "ECUC-QUERY-STRING-REF", formula.getEcucQueryStringRef())
+
+    def writeEcucConditionSpecification(self, element: ET.Element, cond: Optional[EcucConditionSpecification]):
+        if cond is None:
+            return
+        child_element = ET.SubElement(element, "ECUC-COND")
+        self.writeEcucConditionFormula(child_element, "CONDITION-FORMULA", cond.getConditionFormula())
+        queries = cond.getEcucQueries()
+        if len(queries) > 0:
+            queries_element = ET.SubElement(child_element, "ECUC-QUERYS")
+            for query in queries:
+                query_element = ET.SubElement(queries_element, "ECUC-QUERY")
+                self.writeEcucQuery(query_element, query)
+        self.setMlFormula(child_element, "INFORMAL-FORMULA", cond.getInformalFormula())
+
+    def writeEcucValidationCondition(self, element: ET.Element, vc: Optional[EcucValidationCondition]):
+        if vc is None:
+            return
+        self.writeIdentifiable(element, vc)
+        queries = vc.getEcucQueries()
+        if len(queries) > 0:
+            queries_element = ET.SubElement(element, "ECUC-QUERYS")
+            for query in queries:
+                query_element = ET.SubElement(queries_element, "ECUC-QUERY")
+                self.writeEcucQuery(query_element, query)
+        self.writeEcucConditionFormula(element, "VALIDATION-FORMULA", vc.getValidationFormula())
+
+    def writeEcucValidationConditions(self, element: ET.Element, conds: List[EcucValidationCondition]):
+        if len(conds) > 0:
+            child_element = ET.SubElement(element, "ECUC-VALIDATION-CONDS")
+            for vc in conds:
+                vc_element = ET.SubElement(child_element, "ECUC-VALIDATION-CONDITION")
+                self.writeEcucValidationCondition(vc_element, vc)
 
     def writeEcucQuery(self, element: ET.Element, query: EcucQuery):
         self.writeIdentifiable(element, query)

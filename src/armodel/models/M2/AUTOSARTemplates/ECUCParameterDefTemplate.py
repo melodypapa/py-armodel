@@ -12,42 +12,42 @@ from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 
 class EcucConditionSpecification(ARObject):
     """
-    Allows to define existence dependencies based on the value of parameter
-    values.
+    Allows to define existence dependencies based on the value of parameter values.
     """
 
     # EcucConditionSpecification method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.42, p.100
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getConditionFormula          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setConditionFormula          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEcucQueries               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createEcucQuery              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getConditionFormula          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setConditionFormula          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getEcucQueries               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createEcucQuery              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getEcucQuery                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getInformalFormula           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setInformalFormula           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getInformalFormula           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setInformalFormula           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        # The condition that shall be evaluated to infer whether the existence dependency holds.
+        # Definition of the formula used to define existence dependencies.
         self.conditionFormula: Optional[EcucConditionFormula] = None
 
-        # The EcucQuery executed to evaluate the existence dependency.
+        # Query to the ECU Configuration Description.
         self.ecucQueries: List[EcucQuery] = []
 
-        # The informal specification of the existence dependency.
+        # Informal description of the condition used to to define existence dependencies.
         self.informalFormula: Optional[MlFormula] = None
 
     def getConditionFormula(self) -> Optional["EcucConditionFormula"]:
         """
-        Gets the condition that shall be evaluated to infer whether the existence dependency holds.
+        Definition of the formula used to define existence dependencies.
         """
         return self.conditionFormula
 
     def setConditionFormula(self, value: "EcucConditionFormula") -> "EcucConditionSpecification":
         """
-        Sets the condition that shall be evaluated to infer whether the existence dependency holds.
+        Definition of the formula used to define existence dependencies.
         A None value is a no-op.
         """
         if value is not None:
@@ -56,7 +56,7 @@ class EcucConditionSpecification(ARObject):
 
     def getEcucQueries(self) -> List["EcucQuery"]:
         """
-        Gets the EcucQueries executed to evaluate the existence dependency.
+        Query to the ECU Configuration Description.
         """
         return self.ecucQueries
 
@@ -84,13 +84,13 @@ class EcucConditionSpecification(ARObject):
 
     def getInformalFormula(self) -> Optional[MlFormula]:
         """
-        Gets the informal specification of the existence dependency.
+        Informal description of the condition used to to define existence dependencies.
         """
         return self.informalFormula
 
     def setInformalFormula(self, value: MlFormula) -> "EcucConditionSpecification":
         """
-        Sets the informal specification of the existence dependency.
+        Informal description of the condition used to to define existence dependencies.
         A None value is a no-op.
         """
         if value is not None:
@@ -105,25 +105,26 @@ class EcucValidationCondition(Identifiable):
 
     # EcucValidationCondition method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.44, p.103
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEcucQueries               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createEcucQuery              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getEcucQueries               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createEcucQuery              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getEcucQuery                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getValidationFormula         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setValidationFormula         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getValidationFormula         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setValidationFormula         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # The EcucQuery used to validate the Ecuc configuration.
+        # Query to the ECU Configuration Description.
         self.ecucQueries: List["EcucQuery"] = []
 
-        # The validation condition applied to the Ecuc configuration.
+        # Definition of the formula used to define validation condition.
         self.validationFormula: Optional["EcucConditionFormula"] = None
 
     def getEcucQueries(self) -> List["EcucQuery"]:
         """
-        Gets the EcucQueries used to validate the Ecuc configuration.
+        Query to the ECU Configuration Description.
         """
         return self.ecucQueries
 
@@ -151,13 +152,13 @@ class EcucValidationCondition(Identifiable):
 
     def getValidationFormula(self) -> Optional["EcucConditionFormula"]:
         """
-        Gets the validation condition applied to the Ecuc configuration.
+        Definition of the formula used to define validation condition.
         """
         return self.validationFormula
 
     def setValidationFormula(self, value: "EcucConditionFormula") -> "EcucValidationCondition":
         """
-        Sets the validation condition applied to the Ecuc configuration.
+        Definition of the formula used to define validation condition.
         A None value is a no-op.
         """
         if value is not None:
@@ -1889,52 +1890,51 @@ class EcucAddInfoParamDef(EcucParameterDef):
 
 class EcucConditionFormula(ARObject):
     """
-    This formula shall yield a boolean expression depending on ecuc queries.
-    Note that the EcucConditionFormula is a mixed string. Therefore, the
-    properties have the upper multiplicity 1.
+    This formula shall yield a boolean expression depending on ecuc queries. Note that the EcucCondition Formula is a mixed string. Therefore, the properties have the upper multiplicity 1.
     """
 
     # EcucConditionFormula method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.43, p.100
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEcucQueryRef              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setEcucQueryRef              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEcucQueryStringRef        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setEcucQueryStringRef        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getEcucQueryRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setEcucQueryRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getEcucQueryStringRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setEcucQueryStringRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        # The EcucQuery serves as an argument for the formula.
-        self.ecucQueryRef: RefType = None
+        # The EcucQuery serves as a argument for the formula.
+        self.ecucQueryRef: Optional[RefType] = None
 
         # This indicates that the referenced query shall return a string.
-        self.ecucQueryStringRef: RefType = None
+        self.ecucQueryStringRef: Optional[RefType] = None
 
-    def getEcucQueryRef(self) -> RefType:
+    def getEcucQueryRef(self) -> Optional[RefType]:
         """
-        Gets the EcucQuery that serves as an argument for the formula.
+        The EcucQuery serves as a argument for the formula.
         """
         return self.ecucQueryRef
 
-    def setEcucQueryRef(self, value: RefType) -> "EcucConditionFormula":
+    def setEcucQueryRef(self, value: Optional[RefType]) -> "EcucConditionFormula":
         """
-        Sets the EcucQuery that serves as an argument for the formula.
+        The EcucQuery serves as a argument for the formula.
         A None value is a no-op.
         """
         if value is not None:
             self.ecucQueryRef = value
         return self
 
-    def getEcucQueryStringRef(self) -> RefType:
+    def getEcucQueryStringRef(self) -> Optional[RefType]:
         """
-        Gets the reference indicating that the query shall return a string.
+        This indicates that the referenced query shall return a string.
         """
         return self.ecucQueryStringRef
 
-    def setEcucQueryStringRef(self, value: RefType) -> "EcucConditionFormula":
+    def setEcucQueryStringRef(self, value: Optional[RefType]) -> "EcucConditionFormula":
         """
-        Sets the reference indicating that the query shall return a string.
+        This indicates that the referenced query shall return a string.
         A None value is a no-op.
         """
         if value is not None:
