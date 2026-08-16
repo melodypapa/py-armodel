@@ -1,8 +1,31 @@
 Changelog
 =========
 
-Version 1.9.3 (Current)
-------------------------
+Version 1.9.4 (Current)
+-----------------------
+
+* Synced SWC template classes to AUTOSAR R23-11 spec: ``AtomicSwComponentType``,
+  ``SwcServiceDependency``, ``RunnableEntity``, ``WaitPoint``, ``ExternalTriggeringPoint``,
+  ``ConsistencyNeeds``, ``RunnableEntityGroup``, ``Chapter``, ``PortPrototype`` annotations
+* Synced ECUC template classes to AUTOSAR R23-11 spec: ``ECUCParameterDefTemplate``,
+  ``EcucParameterDef``, ``EcucStringParamDef``, ``EcucFunctionNameDef``,
+  ``EcucReferenceDef``, ``EcucDestinationUriPolicy``, ``EcucDerivation``, ``EcucQuery``,
+  ``EcucConditionFormula``, doc block element classes, ``ModeInBswModuleDescriptionInstanceRef``
+* Synced MSR text/data model classes: ``TextModel``, ``SwDataDefProps`` (full spec
+  verification), ``SignalServiceTranslation``, ``NumericalOrText``
+* Synced System/Network classes: ``Pdu``, ``FibexElement``, ``PackageableElement``,
+  ``ISignal`` and Communication specs, ``NmNode``, ``J1939NmNode``, ``ObdControlServiceNeeds``
+* Synced ``ImplementationDataType`` (Table D.37), ``DataPrototypeGroup``, InstanceRefs,
+  ``ServiceNeeds``/``ServiceMapping``, ``ClientServerInterface`` accessors, ``AtpBlueprint``,
+  ``BaseTypes``, ``Composition`` instance refs, ``InstantiationRTEEventProps``
+* Added ``ShortNameFragment`` read/write support
+* Added ``ExecutableEntityActivationReason`` support
+* Added ``sync-autosar-class`` agent skill and AUTOSAR spec PDF reorganization
+* Achieved full model test parity and fixed source import paths
+* Bumped project version metadata to 1.9.4
+
+Version 1.9.3
+-------------
 
 * Added parse/write support for ``NvDataInterface`` (PR #485)
 * Added ``--unescape-entities`` parameter to ``arxml-format`` CLI to normalize
