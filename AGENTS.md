@@ -33,7 +33,7 @@ writer.save('output.arxml', document)
 - `AUTOSAR` singleton: `getInstance()` / `new()` to reset
 - Model classes use wildcard exports in `__init__.py` — when adding a class, add `from .my_class import *` to parent `__init__.py`
 - Use `ABC` from `abc` module (not `ABCMeta`)
-- Current version: 1.9.3, Python >= 3.8 (CI tests 3.8–3.13)
+- Current version: 1.9.4, Python >= 3.8 (CI tests 3.8–3.13)
 - Dependencies: `colorama`, `openpyxl`, `lxml` (runtime)
 
 ### High-Level Data Flow
