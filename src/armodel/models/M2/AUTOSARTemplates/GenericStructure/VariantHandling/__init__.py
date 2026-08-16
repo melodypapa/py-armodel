@@ -331,12 +331,13 @@ class PostBuildVariantCondition(ARObject):
 
     # PostBuildVariantCondition method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 7.6, p.232
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getMatchingCriterionRef [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer
-    # [x] setMatchingCriterionRef [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer
-    # [x] getValue                [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer
-    # [x] setValue                [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer
+    # [x] getMatchingCriterionRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMatchingCriterionRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getValue                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setValue                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
@@ -399,10 +400,11 @@ class ConditionByFormula(ARObject):
 
     # ConditionByFormula method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 7.5, p.231
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getBindingTime    [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer
-    # [x] setBindingTime    [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer
+    # [x] getBindingTime    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setBindingTime    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
@@ -461,7 +463,7 @@ class VariationPoint(ARObject):
             point to support the RTE generator. It is necessary for supporting
             splitable aggregations and if binding time is later than
             codeGenerationTime, as well as some RTE conditions. It needs to be
-            unique within the enclosing Identifiables with the same ShortName.
+            unique with in the enclosing Identifiables with the same ShortName.
             (Multiplicity: 0..1)
         swSyscond (ConditionByFormula): This condition acts as Binding Function for
             the Variation Point. Note that the multiplicity is 0..1 in order to
@@ -470,22 +472,23 @@ class VariationPoint(ARObject):
 
     # VariationPoint method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 7.4, p.226
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getBlueprintCondition             [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer
-    # [x] setBlueprintCondition             [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer
-    # [x] getDesc                           [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer
-    # [x] setDesc                           [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer
-    # [x] getFormalBlueprintGenerator       [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer
-    # [x] setFormalBlueprintGenerator       [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer
-    # [x] getPostBuildVariantConditions     [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer
-    # [x] addPostBuildVariantCondition      [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer
-    # [x] getSdg                            [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer
-    # [x] setSdg                            [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer
-    # [x] getShortLabel                     [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer
-    # [x] setShortLabel                     [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer
-    # [x] getSwSyscond                      [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer
-    # [x] setSwSyscond                      [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer
+    # [x] getBlueprintCondition             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setBlueprintCondition             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDesc                           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDesc                           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getFormalBlueprintGenerator       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setFormalBlueprintGenerator       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPostBuildVariantConditions     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addPostBuildVariantCondition      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getSdg                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSdg                            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getShortLabel                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setShortLabel                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSwSyscond                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSwSyscond                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
@@ -607,7 +610,7 @@ class VariationPoint(ARObject):
         This provides a name to the particular variation point to support the RTE
         generator. It is necessary for supporting splitable aggregations and if binding
         time is later than codeGenerationTime, as well as some RTE conditions. It needs
-        to be unique within the enclosing Identifiables with the same ShortName.
+        to be unique with in the enclosing Identifiables with the same ShortName.
         """
         return self.shortLabel
 
@@ -616,7 +619,7 @@ class VariationPoint(ARObject):
         This provides a name to the particular variation point to support the RTE
         generator. It is necessary for supporting splitable aggregations and if binding
         time is later than codeGenerationTime, as well as some RTE conditions. It needs
-        to be unique within the enclosing Identifiables with the same ShortName. A None
+        to be unique with in the enclosing Identifiables with the same ShortName. A None
         value is a no-op and does not overwrite an existing shortLabel.
         """
         if value is not None:

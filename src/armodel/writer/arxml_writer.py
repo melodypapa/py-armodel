@@ -132,6 +132,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation
     SignalServiceTranslationPropsSet,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator.BlueprintGenerator import BlueprintGenerator
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import EOCExecutableEntityRef, ExecutionOrderConstraint
@@ -200,10 +201,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Limit, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
+    ConditionByFormula,
+    PostBuildVariantCondition,
     PostBuildVariantCriterion,
     PredefinedVariant,
     SwSystemconstantValueSet,
     SwSystemconstValue,
+    VariationPoint,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes import (
     ClientServerAnnotation,
@@ -552,7 +556,7 @@ from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
     CompuScales,
 )
 from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr, InternalConstrs, PhysConstrs
-from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
+from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg, SdgContents
 from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
@@ -597,6 +601,15 @@ from armodel.models.M2.MSR.Documentation.TextModel.MsrQuery import MsrQueryArg, 
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
 from armodel.writer.abstract_arxml_writer import AbstractARXMLWriter
 
+#: Mapping between BindingTimeEnum camelCase values and their XML attribute tokens
+#: (AR:BINDING-TIME-ENUM--SIMPLE).
+BINDING_TIME_XML_MAP = {
+    "codeGenerationTime": "CODE-GENERATION-TIME",
+    "linkTime": "LINK-TIME",
+    "preCompileTime": "PRE-COMPILE-TIME",
+    "systemDesignTime": "SYSTEM-DESIGN-TIME",
+}
+
 
 class ARXMLWriter(AbstractARXMLWriter):
     """
@@ -632,13 +645,30 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalIntegerValue(child_element, "VEHICLE-SYSTEM", node_name.getVehicleSystem())
             self.setChildElementOptionalIntegerValue(child_element, "VEHICLE-SYSTEM-INSTANCE", node_name.getVehicleSystemInstance())
 
-    def writeSds(self, parent: ET.Element, sdg: Sdg):
-        for sd in sdg.getSds():
+    def writeSds(self, parent: ET.Element, contents: SdgContents):
+        for sd in contents.getSds():
             sd_tag = ET.SubElement(parent, "SD")
             self.writeARObjectAttributes(sd_tag, sd)
-            if sd.gid is not None:
-                sd_tag.attrib["GID"] = sd.gid
-            sd_tag.text = sd.value
+            gid = sd.getGID()
+            if gid is not None:
+                sd_tag.attrib["GID"] = gid.getValue()
+            xml_space = sd.getXmlSpace()
+            if xml_space is not None:
+                sd_tag.attrib["{http://www.w3.org/XML/1998/namespace}space"] = xml_space.getValue()
+            value = sd.getValue()
+            if value is not None:
+                sd_tag.text = value.getValue()
+
+    def writeSdfs(self, parent: ET.Element, contents: SdgContents):
+        for sdf in contents.getSdfs():
+            sdf_tag = ET.SubElement(parent, "SDF")
+            self.writeARObjectAttributes(sdf_tag, sdf)
+            gid = sdf.getGID()
+            if gid is not None:
+                sdf_tag.attrib["GID"] = gid.getValue()
+            value = sdf.getValue()
+            if value is not None:
+                sdf_tag.text = value.getValue()
 
     def writeSdgCaption(self, element: ET.Element, sdg: Sdg):
         caption = sdg.getSdgCaption()
@@ -646,21 +676,81 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "SDG-CAPTION")
             self.writeMultilanguageReferrable(child_element, caption)
 
-    def writeSdgSdxRefs(self, element: ET.Element, sdg: Sdg):
-        for ref in sdg.getSdxRefs():
+    def writeSdgSdxRefs(self, element: ET.Element, contents: SdgContents):
+        for ref in contents.getSdxRefs():
             self.setChildElementOptionalRefType(element, "SDX-REF", ref)
+
+    def writeSdgSdxfRefs(self, element: ET.Element, contents: SdgContents):
+        for ref in contents.getSdxfRefs():
+            self.setChildElementOptionalRefType(element, "SDXF", ref)
 
     def setSdg(self, element: ET.Element, sdg: Sdg):
         if sdg is not None:
             child_element = ET.SubElement(element, "SDG")
             self.writeARObjectAttributes(child_element, sdg)
-            if sdg.gid is not None and sdg.gid != "":
-                child_element.attrib["GID"] = sdg.gid
+            gid = sdg.getGID()
+            if gid is not None:
+                child_element.attrib["GID"] = gid.getValue()
             self.writeSdgCaption(child_element, sdg)
-            for sdg_item in sdg.getSdgContentsTypes():
-                self.setSdg(child_element, sdg_item)
-            self.writeSds(child_element, sdg)
-            self.writeSdgSdxRefs(child_element, sdg)
+            contents = sdg.getSdgContentsType()
+            if contents is not None:
+                for sdg_item in contents.getSdgs():
+                    self.setSdg(child_element, sdg_item)
+                self.writeSds(child_element, contents)
+                self.writeSdfs(child_element, contents)
+                self.writeSdgSdxRefs(child_element, contents)
+                self.writeSdgSdxfRefs(child_element, contents)
+
+    def writeBlueprintGenerator(self, element: ET.Element, generator: BlueprintGenerator):
+        if generator is not None:
+            child_element = ET.SubElement(element, "FORMAL-BLUEPRINT-GENERATOR")
+            self.writeARObjectAttributes(child_element, generator)
+            # XSD sequence: INTRODUCTION (offset 10) before EXPRESSION (offset 20).
+            self.writeDocumentationBlock(child_element, "INTRODUCTION", generator.getIntroduction())
+            expression = generator.getExpression()
+            if expression is not None:
+                expression_element = ET.SubElement(child_element, "EXPRESSION")
+                expression_element.text = expression.getValue()
+
+    def writeConditionByFormula(self, element: ET.Element, condition: ConditionByFormula):
+        if condition is not None:
+            child_element = ET.SubElement(element, "SW-SYSCOND")
+            self.writeARObjectAttributes(child_element, condition)
+            binding_time = condition.getBindingTime()
+            if binding_time is not None:
+                token = BINDING_TIME_XML_MAP.get(binding_time.getValue())
+                if token is None:
+                    self.notImplemented("Unsupported BINDING-TIME <%s>" % binding_time.getValue())
+                else:
+                    child_element.attrib["BINDING-TIME"] = token
+
+    def writePostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition):
+        child_element = ET.SubElement(element, "POST-BUILD-VARIANT-CONDITION")
+        self.writeARObjectAttributes(child_element, condition)
+        self.setChildElementOptionalRefType(child_element, "MATCHING-CRITERION-REF", condition.getMatchingCriterionRef())
+        self.setChildElementOptionalIntegerValue(child_element, "VALUE", condition.getValue())
+
+    def writeVariationPoint(self, element: ET.Element, variation_point: VariationPoint):
+        if variation_point is not None:
+            child_element = ET.SubElement(element, "VARIATION-POINT")
+            self.writeARObjectAttributes(child_element, variation_point)
+            # XSD sequence (AUTOSAR_00046.xsd group AR:VARIATION-POINT, line 99470):
+            # SHORT-LABEL, DESC, BLUEPRINT-CONDITION, [FORMAL-BLUEPRINT-CONDITION obsolete],
+            # FORMAL-BLUEPRINT-GENERATOR, SW-SYSCOND, POST-BUILD-VARIANT-CONDITIONS, SDG.
+            short_label = variation_point.getShortLabel()
+            if short_label is not None:
+                label_element = ET.SubElement(child_element, "SHORT-LABEL")
+                label_element.text = short_label.getValue()
+            self.setMultiLanguageOverviewParagraph(child_element, "DESC", variation_point.getDesc())
+            self.writeDocumentationBlock(child_element, "BLUEPRINT-CONDITION", variation_point.getBlueprintCondition())
+            self.writeBlueprintGenerator(child_element, variation_point.getFormalBlueprintGenerator())
+            self.writeConditionByFormula(child_element, variation_point.getSwSyscond())
+            conditions = variation_point.getPostBuildVariantConditions()
+            if len(conditions) > 0:
+                conditions_element = ET.SubElement(child_element, "POST-BUILD-VARIANT-CONDITIONS")
+                for condition in conditions:
+                    self.writePostBuildVariantCondition(conditions_element, condition)
+            self.setSdg(child_element, variation_point.getSdg())
 
     def writeAdminDataSdgs(self, parent: ET.Element, admin_data: AdminData):
         sdgs = admin_data.getSdgs()
@@ -842,6 +932,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(element, "CATEGORY", identifiable.getCategory())
         self.writeDocumentationBlock(element, "INTRODUCTION", identifiable.getIntroduction())
         self.setAdminData(element, identifiable.getAdminData())
+        if isinstance(identifiable, Identifiable):
+            self.writeVariationPoint(element, identifiable.getVariationPoint())
 
     def writeARElement(self, parent: ET.Element, ar_element: ARElement):
         self.writeIdentifiable(parent, ar_element)

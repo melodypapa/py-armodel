@@ -15,6 +15,7 @@ if TYPE_CHECKING:
     from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph
     from armodel.models.M2.MSR.Documentation.Annotation import Annotation
     from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 
 
 class Referrable(ARObject, ABC):
@@ -366,6 +367,8 @@ class Identifiable(MultilanguageReferrable, ABC):
     # [ ] setIntroduction              [x] impl  [x] docstring  [ ] test
     # [ ] addAnnotation                [x] impl  [x] docstring  [ ] test
     # [ ] getAnnotations               [x] impl  [x] docstring  [ ] test
+    # [x] getVariationPoint            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setVariationPoint            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is Identifiable:
@@ -381,6 +384,12 @@ class Identifiable(MultilanguageReferrable, ABC):
         self.category: Optional[CategoryString] = None
         self.introduction: Optional[DocumentationBlock] = None
         self.desc: Optional[MultiLanguageOverviewParagraph] = None
+        # Structural variation point attached to this element (pattern: aggregation,
+        # TPS_GST 7.6; XSD group AR:VARIATION-POINT, AUTOSAR_00046.xsd:99470).
+        # Deviation: spec also allows variation points on non-Identifiable elements
+        # (reference pattern, property set pattern); only the Identifiable
+        # aggregation pattern is supported.
+        self.variationPoint: Optional["VariationPoint"] = None
 
     def getTotalElement(self) -> int:
         """
@@ -522,6 +531,21 @@ class Identifiable(MultilanguageReferrable, ABC):
             self for method chaining
         """
         self.desc = value
+        return self
+
+    def getVariationPoint(self) -> Optional["VariationPoint"]:
+        """
+        Returns the structural variation point of this element, if any.
+        """
+        return self.variationPoint
+
+    def setVariationPoint(self, value: Optional["VariationPoint"]) -> "Identifiable":
+        """
+        Sets the structural variation point of this element. A None value is a no-op
+        and does not overwrite an existing variationPoint.
+        """
+        if value is not None:
+            self.variationPoint = value
         return self
 
     def getCategory(self) -> Optional[CategoryString]:

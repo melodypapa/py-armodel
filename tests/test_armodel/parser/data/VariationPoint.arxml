@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_4-2-2.xsd">
+  <AR-PACKAGES>
+    <AR-PACKAGE>
+      <SHORT-NAME>Demo</SHORT-NAME>
+      <AR-PACKAGES>
+        <AR-PACKAGE>
+          <SHORT-NAME>SystemConstants</SHORT-NAME>
+          <ELEMENTS>
+            <SW-SYSTEMCONST>
+              <SHORT-NAME>SY_TURBO</SHORT-NAME>
+            </SW-SYSTEMCONST>
+          </ELEMENTS>
+        </AR-PACKAGE>
+        <AR-PACKAGE>
+          <SHORT-NAME>Criterions</SHORT-NAME>
+          <ELEMENTS>
+            <POST-BUILD-VARIANT-CRITERION>
+              <SHORT-NAME>Country</SHORT-NAME>
+              <VARIATION-POINT>
+                <SHORT-LABEL>VP_Country</SHORT-LABEL>
+              </VARIATION-POINT>
+            </POST-BUILD-VARIANT-CRITERION>
+          </ELEMENTS>
+        </AR-PACKAGE>
+        <AR-PACKAGE>
+          <SHORT-NAME>SwComponents</SHORT-NAME>
+          <ELEMENTS>
+            <APPLICATION-SW-COMPONENT-TYPE>
+              <SHORT-NAME>MySWC</SHORT-NAME>
+              <INTERNAL-BEHAVIORS>
+                <SWC-INTERNAL-BEHAVIOR>
+                  <SHORT-NAME>Ib_MySWC</SHORT-NAME>
+                  <RUNNABLES>
+                    <RUNNABLE-ENTITY>
+                      <SHORT-NAME>Run2</SHORT-NAME>
+                    </RUNNABLE-ENTITY>
+                  </RUNNABLES>
+                  <VARIATION-POINT>
+                    <SHORT-LABEL>VP1</SHORT-LABEL>
+                    <SW-SYSCOND BINDING-TIME="CODE-GENERATION-TIME">defined(<SYSC-REF DEST="SW-SYSTEMCONST">/Demo/SystemConstants/SY_TURBO</SYSC-REF>) &amp;&amp; <SYSC-REF DEST="SW-SYSTEMCONST">/Demo/SystemConstants/SY_TURBO</SYSC-REF> == 0</SW-SYSCOND>
+                    <POST-BUILD-VARIANT-CONDITIONS>
+                      <POST-BUILD-VARIANT-CONDITION>
+                        <MATCHING-CRITERION-REF DEST="POST-BUILD-VARIANT-CRITERION">/Demo/Criterions/Country</MATCHING-CRITERION-REF>
+                        <VALUE>1</VALUE>
+                      </POST-BUILD-VARIANT-CONDITION>
+                    </POST-BUILD-VARIANT-CONDITIONS>
+                  </VARIATION-POINT>
+                </SWC-INTERNAL-BEHAVIOR>
+              </INTERNAL-BEHAVIORS>
+            </APPLICATION-SW-COMPONENT-TYPE>
+          </ELEMENTS>
+        </AR-PACKAGE>
+      </AR-PACKAGES>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>

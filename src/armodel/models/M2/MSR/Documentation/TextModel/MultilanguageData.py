@@ -36,25 +36,36 @@ class MultiLanguageParagraph(Paginateable):
 
 class MultiLanguageOverviewParagraph(ARObject):
     """
-    Multi-language overview paragraph with language-specific overview
-    entries.
+    This is the content of a multilingual paragraph in an overview item.
     """
 
     # MultiLanguageOverviewParagraph method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] addL2                        [x] impl  [ ] docstring  [ ] test
-    # [ ] getL2s                       [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.90, p.348
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addL2       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getL2s      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self):
         super().__init__()
 
+        # This represents the text in one particular language.
         self.l2: List[LOverviewParagraph] = []
 
-    def addL2(self, l2: LOverviewParagraph):
-        self.l2.append(l2)
+    def addL2(self, l2: Optional[LOverviewParagraph]) -> "MultiLanguageOverviewParagraph":
+        """
+        This represents the text in one particular language. A None value is a no-op and
+        is not appended.
+        """
+        if l2 is not None:
+            self.l2.append(l2)
         return self
 
     def getL2s(self) -> List[LOverviewParagraph]:
+        """
+        This represents the text in one particular language.
+        """
         return self.l2
 
 

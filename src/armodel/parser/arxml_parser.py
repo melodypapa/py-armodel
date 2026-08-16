@@ -140,6 +140,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation
     SignalServiceTranslationPropsSet,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator.BlueprintGenerator import BlueprintGenerator
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import ExecutionOrderConstraint
@@ -206,15 +207,19 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable, MultilanguageReferrable, Referrable, ShortNameFragment
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, NameToken, RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, NameToken, Numerical, RefType, String, VerbatimString, VerbatimStringPlain
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
+    ConditionByFormula,
+    PostBuildVariantCondition,
     PostBuildVariantCriterion,
     PredefinedVariant,
     SwSystemconstantValueSet,
     SwSystemconstValue,
+    VariationPoint,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes import (
     ClientServerAnnotation,
@@ -567,7 +572,7 @@ from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
     CompuScales,
 )
 from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr, DataConstrRule, InternalConstrs, PhysConstrs
-from armodel.models.M2.MSR.AsamHdo.SpecialData import Sd, Sdg
+from armodel.models.M2.MSR.AsamHdo.SpecialData import Sd, Sdf, Sdg, SdgContents
 from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
@@ -617,6 +622,15 @@ from armodel.models.M2.MSR.Documentation.TextModel.MsrQuery import MsrQueryArg, 
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
 from armodel.parser.abstract_arxml_parser import AbstractARXMLParser
 
+#: Mapping between BindingTimeEnum camelCase values and their XML attribute tokens
+#: (AR:BINDING-TIME-ENUM--SIMPLE).
+BINDING_TIME_XML_MAP = {
+    "codeGenerationTime": "CODE-GENERATION-TIME",
+    "linkTime": "LINK-TIME",
+    "preCompileTime": "PRE-COMPILE-TIME",
+    "systemDesignTime": "SYSTEM-DESIGN-TIME",
+}
+
 
 class ARXMLParser(AbstractARXMLParser):
     """
@@ -653,35 +667,107 @@ class ARXMLParser(AbstractARXMLParser):
             node_name.setVehicleSystemInstance(self.getChildElementOptionalIntegerValue(child_element, "VEHICLE-SYSTEM-INSTANCE"))
         return node_name
 
-    def readSd(self, element: ET.Element, sdg: Sdg):
+    def readSd(self, element: ET.Element, contents: SdgContents):
         for child_element in self.findall(element, "./SD"):
             sd = Sd()
             self.readARObjectAttributes(child_element, sd)
             if "GID" in child_element.attrib:
-                sd.setGID(child_element.attrib["GID"])
-            sd.setValue(child_element.text)
-            sdg.addSd(sd)
+                sd.setGID(NameToken().setValue(child_element.attrib["GID"]))
+            if child_element.text is not None and child_element.text.strip() != "":
+                sd.setValue(VerbatimStringPlain().setValue(child_element.text))
+            contents.addSd(sd)
+
+    def readSdf(self, element: ET.Element, contents: SdgContents):
+        for child_element in self.findall(element, "./SDF"):
+            sdf = Sdf()
+            self.readARObjectAttributes(child_element, sdf)
+            if "GID" in child_element.attrib:
+                sdf.setGID(NameToken().setValue(child_element.attrib["GID"]))
+            if child_element.text is not None and child_element.text.strip() != "":
+                sdf.setValue(Numerical().setValue(child_element.text))
+            contents.addSdf(sdf)
 
     def readSdgCaption(self, element: ET.Element, sdg: Sdg):
         child_element = self.find(element, "SDG-CAPTION")
         if child_element is not None:
             sdg.createSdgCaption(self.getShortName(child_element))
 
-    def readSdgSdxRefs(self, element: ET.SubElement, sdg: Sdg):
+    def readSdgSdxRefs(self, element: ET.SubElement, contents: SdgContents):
         for ref in self.getChildElementRefTypeList(element, "SDX-REF"):
-            sdg.addSdxRef(ref)
+            contents.addSdxRef(ref)
+
+    def readSdgSdxfRefs(self, element: ET.SubElement, contents: SdgContents):
+        for ref in self.getChildElementRefTypeList(element, "SDXF"):
+            contents.addSdxfRef(ref)
 
     def getSdg(self, element: ET.Element) -> Sdg:
         sdg = Sdg()
         self.readARObjectAttributes(element, sdg)
         if "GID" in element.attrib:
-            sdg.setGID(element.attrib["GID"])
+            sdg.setGID(NameToken().setValue(element.attrib["GID"]))
         self.readSdgCaption(element, sdg)
-        self.readSd(element, sdg)
+        contents = SdgContents()
+        self.readSd(element, contents)
+        self.readSdf(element, contents)
         for child_element in self.findall(element, "SDG"):
-            sdg.addSdgContentsType(self.getSdg(child_element))
-        self.readSdgSdxRefs(element, sdg)
+            contents.addSdg(self.getSdg(child_element))
+        self.readSdgSdxRefs(element, contents)
+        self.readSdgSdxfRefs(element, contents)
+        if len(contents.getSds()) > 0 or len(contents.getSdfs()) > 0 or len(contents.getSdgs()) > 0 or len(contents.getSdxRefs()) > 0 or len(contents.getSdxfRefs()) > 0:
+            sdg.setSdgContentsType(contents)
         return sdg
+
+    def readBlueprintGenerator(self, element: ET.Element, generator: BlueprintGenerator) -> BlueprintGenerator:
+        self.readARObjectAttributes(element, generator)
+        generator.setIntroduction(self.getDocumentationBlock(element, "INTRODUCTION"))
+        expression_element = self.find(element, "EXPRESSION")
+        if expression_element is not None:
+            generator.setExpression(VerbatimString().setValue(expression_element.text))
+        return generator
+
+    def readConditionByFormula(self, element: ET.Element, condition: ConditionByFormula) -> ConditionByFormula:
+        self.readARObjectAttributes(element, condition)
+        if "BINDING-TIME" in element.attrib:
+            binding_time = None
+            for camel, token in BINDING_TIME_XML_MAP.items():
+                if token == element.attrib["BINDING-TIME"]:
+                    binding_time = camel
+                    break
+            if binding_time is not None:
+                condition.setBindingTime(BindingTimeEnum().setValue(binding_time))
+            else:
+                self.notImplemented("Unsupported BINDING-TIME <%s>" % element.attrib["BINDING-TIME"])
+        return condition
+
+    def readPostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition) -> PostBuildVariantCondition:
+        self.readARObjectAttributes(element, condition)
+        condition.setMatchingCriterionRef(self.getChildElementRefType("", element, "MATCHING-CRITERION-REF"))
+        condition.setValue(self.getChildElementOptionalIntegerValue(element, "VALUE"))
+        return condition
+
+    def readVariationPoint(self, element: ET.Element, variation_point: VariationPoint) -> VariationPoint:
+        self.readARObjectAttributes(element, variation_point)
+        variation_point.setShortLabel(self.getChildElementOptionalIdentifier(element, "SHORT-LABEL"))
+        variation_point.setDesc(self.getMultiLanguageOverviewParagraph(element, "DESC"))
+        variation_point.setBlueprintCondition(self.getDocumentationBlock(element, "BLUEPRINT-CONDITION"))
+        # FORMAL-BLUEPRINT-CONDITION is obsolete (atp.Status="obsolete") and has no
+        # model attribute — deliberately not read.
+        formal_element = self.find(element, "FORMAL-BLUEPRINT-GENERATOR")
+        if formal_element is not None:
+            variation_point.setFormalBlueprintGenerator(self.readBlueprintGenerator(formal_element, BlueprintGenerator()))
+        sw_syscond_element = self.find(element, "SW-SYSCOND")
+        if sw_syscond_element is not None:
+            variation_point.setSwSyscond(self.readConditionByFormula(sw_syscond_element, ConditionByFormula()))
+        for child_element in self.findall(element, "POST-BUILD-VARIANT-CONDITIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "POST-BUILD-VARIANT-CONDITION":
+                variation_point.addPostBuildVariantCondition(self.readPostBuildVariantCondition(child_element, PostBuildVariantCondition()))
+            else:
+                self.notImplemented("Unsupported POST-BUILD-VARIANT-CONDITIONS content <%s>" % tag_name)
+        sdg_element = self.find(element, "SDG")
+        if sdg_element is not None:
+            variation_point.setSdg(self.getSdg(sdg_element))
+        return variation_point
 
     def readAdminDataSdgs(self, element: ET.Element, admin_data: AdminData):
         for child_element in self.findall(element, "SDGS/*"):
@@ -774,6 +860,11 @@ class ARXMLParser(AbstractARXMLParser):
         identifiable.setIntroduction(self.getDocumentationBlock(element, "INTRODUCTION"))
 
         identifiable.setAdminData(self.getAdminData(element, "ADMIN-DATA"))
+
+        if isinstance(identifiable, Identifiable):
+            variation_point_element = self.find(element, "VARIATION-POINT")
+            if variation_point_element is not None:
+                identifiable.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
 
     def readARElement(self, element: ET.Element, ar_element: ARElement):
         self.readIdentifiable(element, ar_element)
