@@ -24,17 +24,15 @@ from armodel.models.M2.MSR.DataDictionary.DataDefProperties import ValueList
 
 class ValueSpecification(ARObject, ABC):
     """
-    Abstract base class for expressions leading to a value which can be used to initialize a data object.
-    This class serves as the base for all value specification types in AUTOSAR models.
-    Subclasses include AbstractRuleBasedValueSpecification, ApplicationValueSpecification, CompositeValueSpecification,
-    ConstantReference, NotAvailableValueSpecification, NumericalValueSpecification, ReferenceValueSpecification,
-    and TextValueSpecification.
+    Base class for expressions leading to a value which can be used to initialize a data object.
     """
 
     # ValueSpecification method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [x] getShortLabel                [x] impl  [x] docstring  [x] test
-    # [x] setShortLabel                [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.109, p.433
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getShortLabel                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setShortLabel                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         """
@@ -46,7 +44,7 @@ class ValueSpecification(ARObject, ABC):
 
         super().__init__()
 
-        # Short label for this value specification
+        # The shortLabel of this ValueSpecification.
         self.shortLabel = None
 
     def getShortLabel(self):

@@ -5,12 +5,14 @@ Tests cover all classes and methods in the Communication.py file to achieve 100%
 
 import pytest
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, ARNumerical, ARPositiveInteger, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, ARPositiveInteger, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
     ClientComSpec,
     CompositeNetworkRepresentation,
     EndToEndTransformationComSpecProps,
     HandleInvalidEnum,
+    HandleOutOfRangeStatusEnum,
+    HandleTimeoutEnum,
     ModeSwitchedAckRequest,
     ModeSwitchReceiverComSpec,
     ModeSwitchSenderComSpec,
@@ -24,6 +26,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import
     QueuedReceiverComSpec,
     QueuedSenderComSpec,
     ReceiverComSpec,
+    ReceptionComSpecProps,
     RPortComSpec,
     SenderComSpec,
     ServerComSpec,
@@ -309,6 +312,61 @@ class TestReceiverComSpec:
         receiver.addCompositeNetworkRepresentation(comp_rep)
         assert comp_rep in receiver.getCompositeNetworkRepresentations()
 
+    def test_reception_props(self):
+        """Test receptionProps getter and setter with round-trip and None no-op."""
+        receiver = NonqueuedReceiverComSpec()
+        assert receiver.getReceptionProps() is None
+
+        props = ReceptionComSpecProps()
+        result = receiver.setReceptionProps(props)
+        assert result is receiver
+        assert receiver.getReceptionProps() == props
+
+        receiver.setReceptionProps(None)
+        assert receiver.getReceptionProps() == props
+
+    def test_replace_with(self):
+        """Test replaceWith getter and setter with round-trip and None no-op."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import VariableAccess
+
+        receiver = NonqueuedReceiverComSpec()
+        assert receiver.getReplaceWith() is None
+
+        access = VariableAccess(None, "TestAccess")
+        result = receiver.setReplaceWith(access)
+        assert result is receiver
+        assert receiver.getReplaceWith() == access
+
+        receiver.setReplaceWith(None)
+        assert receiver.getReplaceWith() == access
+
+    def test_sync_counter_init(self):
+        """Test syncCounterInit getter and setter with round-trip and None no-op."""
+        receiver = NonqueuedReceiverComSpec()
+        assert receiver.getSyncCounterInit() is None
+
+        value = PositiveInteger()
+        value.setValue(3)
+        result = receiver.setSyncCounterInit(value)
+        assert result is receiver
+        assert receiver.getSyncCounterInit() == value
+
+        receiver.setSyncCounterInit(None)
+        assert receiver.getSyncCounterInit() == value
+
+    def test_transformation_com_spec_props(self):
+        """Test transformationComSpecProps add and get with None no-op."""
+        receiver = NonqueuedReceiverComSpec()
+        assert receiver.getTransformationComSpecProps() == []
+
+        props = EndToEndTransformationComSpecProps()
+        result = receiver.addTransformationComSpecProps(props)
+        assert result is receiver
+        assert receiver.getTransformationComSpecProps() == [props]
+
+        receiver.addTransformationComSpecProps(None)
+        assert receiver.getTransformationComSpecProps() == [props]
+
 
 class TestModeSwitchedAckRequest:
     """Test class for ModeSwitchedAckRequest class."""
@@ -549,27 +607,29 @@ class TestNonqueuedReceiverComSpec:
     def test_nonqueued_receiver_com_spec_initialization(self):
         """Test NonqueuedReceiverComSpec initialization and methods."""
         receiver = NonqueuedReceiverComSpec()
-        assert receiver.aliveTimeout is None
-        assert receiver.enableUpdated is None
-        assert receiver.filter is None
-        assert receiver.handleDataStatus is None
-        assert receiver.handleNeverReceived is None
-        assert receiver.handleTimeoutType == ""
-        assert receiver.initValue is None
-        assert receiver.timeoutSubstitution is None
+        assert receiver.getAliveTimeout() is None
+        assert receiver.getEnableUpdate() is None
+        assert receiver.getFilter() is None
+        assert receiver.getHandleDataStatus() is None
+        assert receiver.getHandleNeverReceived() is None
+        assert receiver.getHandleTimeoutType() is None
+        assert receiver.getInitValue() is None
+        assert receiver.getTimeoutSubstitutionValue() is None
 
         # Test setters and getters
-        alive_timeout = ARNumerical()
+        alive_timeout = TimeValue()
         alive_timeout.setValue("10.5")
         receiver.setAliveTimeout(alive_timeout)
         assert receiver.getAliveTimeout() == alive_timeout
 
         enable_updated = ARBoolean()
         enable_updated.setValue(True)
-        receiver.setEnableUpdated(enable_updated)
-        assert receiver.getEnableUpdated() == enable_updated
+        receiver.setEnableUpdate(enable_updated)
+        assert receiver.getEnableUpdate() == enable_updated
 
-        filter_value = "test_filter"
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
+
+        filter_value = DataFilter()
         receiver.setFilter(filter_value)
         assert receiver.getFilter() == filter_value
 
@@ -583,7 +643,8 @@ class TestNonqueuedReceiverComSpec:
         receiver.setHandleNeverReceived(handle_never)
         assert receiver.getHandleNeverReceived() == handle_never
 
-        timeout_type = "test_timeout"
+        timeout_type = HandleTimeoutEnum()
+        timeout_type.setValue(HandleTimeoutEnum.REPLACE)
         receiver.setHandleTimeoutType(timeout_type)
         assert receiver.getHandleTimeoutType() == timeout_type
 
@@ -594,8 +655,73 @@ class TestNonqueuedReceiverComSpec:
         assert receiver.getInitValue() == init_value
 
         timeout_sub = TextValueSpecification()
-        receiver.setTimeoutSubstitution(timeout_sub)
-        assert receiver.getTimeoutSubstitution() == timeout_sub
+        receiver.setTimeoutSubstitutionValue(timeout_sub)
+        assert receiver.getTimeoutSubstitutionValue() == timeout_sub
+
+    def test_alive_timeout_none_noop(self):
+        """Test setAliveTimeout with None is a no-op."""
+        receiver = NonqueuedReceiverComSpec()
+        alive_timeout = TimeValue()
+        alive_timeout.setValue("10.5")
+        receiver.setAliveTimeout(alive_timeout)
+        receiver.setAliveTimeout(None)
+        assert receiver.getAliveTimeout() == alive_timeout
+
+    def test_enable_update_none_noop(self):
+        """Test setEnableUpdate with None is a no-op."""
+        receiver = NonqueuedReceiverComSpec()
+        enable = ARBoolean()
+        enable.setValue(True)
+        receiver.setEnableUpdate(enable)
+        receiver.setEnableUpdate(None)
+        assert receiver.getEnableUpdate() == enable
+
+    def test_handle_timeout_type_none_noop(self):
+        """Test setHandleTimeoutType with None is a no-op."""
+        receiver = NonqueuedReceiverComSpec()
+        timeout_type = HandleTimeoutEnum()
+        timeout_type.setValue(HandleTimeoutEnum.NONE)
+        receiver.setHandleTimeoutType(timeout_type)
+        receiver.setHandleTimeoutType(None)
+        assert receiver.getHandleTimeoutType() == timeout_type
+
+    def test_timeout_substitution_value_none_noop(self):
+        """Test setTimeoutSubstitutionValue with None is a no-op."""
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
+
+        receiver = NonqueuedReceiverComSpec()
+        timeout_sub = TextValueSpecification()
+        receiver.setTimeoutSubstitutionValue(timeout_sub)
+        receiver.setTimeoutSubstitutionValue(None)
+        assert receiver.getTimeoutSubstitutionValue() == timeout_sub
+
+
+class TestHandleOutOfRangeStatusEnum:
+    """Test cases for HandleOutOfRangeStatusEnum class."""
+
+    def test_members(self):
+        """Test HandleOutOfRangeStatusEnum member values."""
+        enum = HandleOutOfRangeStatusEnum()
+        values = enum.getEnumValues()
+        assert HandleOutOfRangeStatusEnum.INDICATE == "indicate"
+        assert HandleOutOfRangeStatusEnum.SILENT == "silent"
+        assert HandleOutOfRangeStatusEnum.INDICATE in values
+        assert HandleOutOfRangeStatusEnum.SILENT in values
+
+
+class TestHandleTimeoutEnum:
+    """Test cases for HandleTimeoutEnum class."""
+
+    def test_members(self):
+        """Test HandleTimeoutEnum member values."""
+        enum = HandleTimeoutEnum()
+        values = enum.getEnumValues()
+        assert HandleTimeoutEnum.NONE == "none"
+        assert HandleTimeoutEnum.REPLACE == "replace"
+        assert HandleTimeoutEnum.REPLACE_BY_TIMEOUT_SUBSTITUTION_VALUE == "replaceByTimeoutSubstitutionValue"
+        assert HandleTimeoutEnum.NONE in values
+        assert HandleTimeoutEnum.REPLACE in values
+        assert HandleTimeoutEnum.REPLACE_BY_TIMEOUT_SUBSTITUTION_VALUE in values
 
 
 class TestQueuedReceiverComSpec:

@@ -516,13 +516,15 @@ class TestDataPrototypeMapping:
         assert data_mapping.getSecondToFirstDataTransformationRef() == second_transform_ref
 
         # Test subElementMappings methods
-        sub_element = "test_sub_element"
-        data_mapping.setSubElementMappings(sub_element)
-        assert data_mapping.getSubElementMappings() == sub_element
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import SubElementMapping
+
+        sub_element = SubElementMapping()
+        data_mapping.addSubElementMapping(sub_element)
+        assert data_mapping.getSubElementMappings() == [sub_element]
 
         # Test textTableMappings methods
         text_table_mapping = TextTableMapping()
-        data_mapping.setTextTableMappings([text_table_mapping])
+        data_mapping.addTextTableMapping(text_table_mapping)
         assert text_table_mapping in data_mapping.getTextTableMappings()
 
 
@@ -624,7 +626,7 @@ class TestModeDeclarationMapping:
         assert mode_decl_mapping.parent == ar_root
         assert mode_decl_mapping.short_name == "TestModeDeclarationMapping"
         assert mode_decl_mapping.firstModeRefs == []
-        assert mode_decl_mapping.secondModeRef == []
+        assert mode_decl_mapping.secondModeRef is None
 
         # Test firstModeRefs methods
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -637,8 +639,8 @@ class TestModeDeclarationMapping:
         # Test secondModeRef methods
         second_ref = RefType()
         second_ref.setValue("/Second/Mode/Ref")
-        mode_decl_mapping.setSecondModeRef([second_ref])
-        assert second_ref in mode_decl_mapping.getSecondModeRef()
+        mode_decl_mapping.setSecondModeRef(second_ref)
+        assert second_ref == mode_decl_mapping.getSecondModeRef()
 
 
 class TestModeDeclarationMappingSet:
@@ -738,5 +740,5 @@ class TestTextTableMapping:
 
         # Test valuePairs methods
         value_pair = "test_value_pair"
-        text_mapping.setValuePairs([value_pair])
+        text_mapping.addValuePair(value_pair)
         assert value_pair in text_mapping.getValuePairs()

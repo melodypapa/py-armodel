@@ -6,7 +6,7 @@ Tests cover all classes and methods in the PortInterface module files to achieve
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, ARLiteral, PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, PositiveInteger, RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
     ClientServerApplicationErrorMapping,
     ClientServerInterfaceMapping,
@@ -21,7 +21,6 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     ModeSwitchInterface,
     PortInterfaceMapping,
     PortInterfaceMappingSet,
-    TextTableMapping,
     TriggerInterface,
     TriggerInterfaceMapping,
     VariableAndParameterInterfaceMapping,
@@ -252,6 +251,168 @@ class TestDataPrototypeMapping:
         mapping.setSecondDataPrototypeRef(second_ref)
         assert mapping.getSecondDataPrototypeRef() == second_ref
 
+    def test_first_data_prototype_ref_none_noop(self):
+        """Test setFirstDataPrototypeRef with None is a no-op."""
+        mapping = DataPrototypeMapping()
+        ref = RefType()
+        ref.setValue("/Test/FirstData")
+        mapping.setFirstDataPrototypeRef(ref)
+        mapping.setFirstDataPrototypeRef(None)
+        assert mapping.getFirstDataPrototypeRef() == ref
+
+    def test_first_to_second_data_transformation_ref(self):
+        """Test firstToSecondDataTransformationRef getter and setter with None no-op."""
+        mapping = DataPrototypeMapping()
+        assert mapping.getFirstToSecondDataTransformationRef() is None
+        ref = RefType()
+        ref.setValue("/Test/Transform")
+        mapping.setFirstToSecondDataTransformationRef(ref)
+        assert mapping.getFirstToSecondDataTransformationRef() == ref
+        mapping.setFirstToSecondDataTransformationRef(None)
+        assert mapping.getFirstToSecondDataTransformationRef() == ref
+
+    def test_second_to_first_data_transformation_ref(self):
+        """Test secondToFirstDataTransformationRef getter and setter with None no-op."""
+        mapping = DataPrototypeMapping()
+        assert mapping.getSecondToFirstDataTransformationRef() is None
+        ref = RefType()
+        ref.setValue("/Test/Transform2")
+        mapping.setSecondToFirstDataTransformationRef(ref)
+        assert mapping.getSecondToFirstDataTransformationRef() == ref
+        mapping.setSecondToFirstDataTransformationRef(None)
+        assert mapping.getSecondToFirstDataTransformationRef() == ref
+
+    def test_add_sub_element_mapping(self):
+        """Test addSubElementMapping and getSubElementMappings with None no-op."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import SubElementMapping
+
+        mapping = DataPrototypeMapping()
+        assert mapping.getSubElementMappings() == []
+        sub = SubElementMapping()
+        result = mapping.addSubElementMapping(sub)
+        assert result is mapping
+        assert mapping.getSubElementMappings() == [sub]
+        mapping.addSubElementMapping(None)
+        assert mapping.getSubElementMappings() == [sub]
+
+    def test_add_text_table_mapping(self):
+        """Test addTextTableMapping and getTextTableMappings with None no-op."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import TextTableMapping
+
+        mapping = DataPrototypeMapping()
+        assert mapping.getTextTableMappings() == []
+        text_map = TextTableMapping()
+        result = mapping.addTextTableMapping(text_map)
+        assert result is mapping
+        assert mapping.getTextTableMappings() == [text_map]
+        mapping.addTextTableMapping(None)
+        assert mapping.getTextTableMappings() == [text_map]
+
+
+class TestSubElementMapping:
+    """Test class for SubElementMapping class."""
+
+    def test_sub_element_mapping_initialization(self):
+        """Test SubElementMapping initialization."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import SubElementMapping
+
+        mapping = SubElementMapping()
+        assert mapping.getFirstElement() is None
+        assert mapping.getSecondElement() is None
+        assert mapping.getTextTableMappings() == []
+
+    def test_get_set_first_element(self):
+        """Test firstElement getter and setter with None no-op."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import SubElementMapping
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
+
+        mapping = SubElementMapping()
+        iref = ApplicationCompositeElementInPortInterfaceInstanceRef()
+        result = mapping.setFirstElement(iref)
+        assert result is mapping
+        assert mapping.getFirstElement() == iref
+        mapping.setFirstElement(None)
+        assert mapping.getFirstElement() == iref
+
+    def test_get_set_second_element(self):
+        """Test secondElement getter and setter with None no-op."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import SubElementMapping
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
+
+        mapping = SubElementMapping()
+        iref = ApplicationCompositeElementInPortInterfaceInstanceRef()
+        result = mapping.setSecondElement(iref)
+        assert result is mapping
+        assert mapping.getSecondElement() == iref
+        mapping.setSecondElement(None)
+        assert mapping.getSecondElement() == iref
+
+    def test_add_text_table_mapping(self):
+        """Test addTextTableMapping and getTextTableMappings with None no-op."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import SubElementMapping, TextTableMapping
+
+        mapping = SubElementMapping()
+        assert mapping.getTextTableMappings() == []
+        text_map = TextTableMapping()
+        result = mapping.addTextTableMapping(text_map)
+        assert result is mapping
+        assert mapping.getTextTableMappings() == [text_map]
+        mapping.addTextTableMapping(None)
+        assert mapping.getTextTableMappings() == [text_map]
+
+
+class TestTextTableMapping:
+    """Test class for TextTableMapping class."""
+
+    def test_text_table_mapping_initialization(self):
+        """Test TextTableMapping initialization."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import TextTableMapping
+
+        mapping = TextTableMapping()
+        assert mapping.getBitfieldTextTableMaskFirst() is None
+        assert mapping.getBitfieldTextTableMaskSecond() is None
+        assert mapping.getIdenticalMapping() is None
+        assert mapping.getValuePairs() == []
+
+    def test_get_set_bitfield_text_table_mask_first(self):
+        """Test bitfieldTextTableMaskFirst getter and setter with None no-op."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import TextTableMapping
+
+        mapping = TextTableMapping()
+        mask = PositiveInteger()
+        mask.setValue(255)
+        result = mapping.setBitfieldTextTableMaskFirst(mask)
+        assert result is mapping
+        assert mapping.getBitfieldTextTableMaskFirst() == mask
+        mapping.setBitfieldTextTableMaskFirst(None)
+        assert mapping.getBitfieldTextTableMaskFirst() == mask
+
+    def test_get_set_bitfield_text_table_mask_second(self):
+        """Test bitfieldTextTableMaskSecond getter and setter with None no-op."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import TextTableMapping
+
+        mapping = TextTableMapping()
+        mask = PositiveInteger()
+        mask.setValue(255)
+        result = mapping.setBitfieldTextTableMaskSecond(mask)
+        assert result is mapping
+        assert mapping.getBitfieldTextTableMaskSecond() == mask
+        mapping.setBitfieldTextTableMaskSecond(None)
+        assert mapping.getBitfieldTextTableMaskSecond() == mask
+
+    def test_get_set_identical_mapping(self):
+        """Test identicalMapping getter and setter with None no-op."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import TextTableMapping
+
+        mapping = TextTableMapping()
+        flag = Boolean()
+        flag.setValue(True)
+        result = mapping.setIdenticalMapping(flag)
+        assert result is mapping
+        assert mapping.getIdenticalMapping() == flag
+        mapping.setIdenticalMapping(None)
+        assert mapping.getIdenticalMapping() == flag
+
 
 class TestClientServerInterfaceMapping:
     """Test class for ClientServerInterfaceMapping class."""
@@ -350,7 +511,7 @@ class TestModeDeclarationMapping:
         mapping = ModeDeclarationMapping(ar_root, "TestModeDeclarationMapping")
 
         assert mapping.getFirstModeRefs() == []
-        assert mapping.getSecondModeRef() == []
+        assert mapping.getSecondModeRef() is None
         assert mapping.parent == ar_root
         assert mapping.short_name == "TestModeDeclarationMapping"
 
@@ -364,6 +525,18 @@ class TestModeDeclarationMapping:
         second_ref.setValue("/Test/SecondMode")
         mapping.setSecondModeRef(second_ref)  # Fixed to take single ref, not list
         assert second_ref == mapping.getSecondModeRef()
+
+        # Test None no-op on secondModeRef
+        mapping.setSecondModeRef(None)
+        assert second_ref == mapping.getSecondModeRef()
+
+    def test_add_first_mode_ref_none_noop(self):
+        """Test addFirstModeRef with None is a no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        mapping = ModeDeclarationMapping(ar_root, "TestModeDeclarationMapping")
+        mapping.addFirstModeRef(None)
+        assert mapping.getFirstModeRefs() == []
 
 
 class TestModeDeclarationMappingSet:
@@ -412,32 +585,3 @@ class TestPortInterfaceMappingSet:
         assert trigger_mapping is not None
 
         assert len(mapping_set.getPortInterfaceMappings()) == 4
-
-
-class TestTextTableMapping:
-    """Test class for TextTableMapping class."""
-
-    def test_text_table_mapping_initialization(self):
-        """Test TextTableMapping initialization and methods."""
-        mapping = TextTableMapping()
-        assert mapping.bitfieldTextTableMaskFirst is None
-        assert mapping.bitfieldTextTableMaskSecond is None
-        assert mapping.identicalMapping is None
-        assert mapping.mappingDirection is None
-        assert mapping.valuePairs == []
-
-        # Test setters and getters
-        first_mask = PositiveInteger()
-        first_mask.setValue(15)
-        mapping.setBitfieldTextTableMaskFirst(first_mask)
-        assert mapping.getBitfieldTextTableMaskFirst() == first_mask
-
-        second_mask = PositiveInteger()
-        second_mask.setValue(31)
-        mapping.setBitfieldTextTableMaskSecond(second_mask)
-        assert mapping.getBitfieldTextTableMaskSecond() == second_mask
-
-        identical = ARBoolean()
-        identical.setValue(True)
-        mapping.setIdenticalMapping(identical)
-        assert mapping.getIdenticalMapping() == identical

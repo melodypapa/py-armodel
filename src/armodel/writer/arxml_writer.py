@@ -222,6 +222,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttribute
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
     ClientComSpec,
     CompositeNetworkRepresentation,
+    EndToEndTransformationComSpecProps,
     ModeSwitchedAckRequest,
     ModeSwitchReceiverComSpec,
     ModeSwitchSenderComSpec,
@@ -234,6 +235,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import
     QueuedReceiverComSpec,
     QueuedSenderComSpec,
     ReceiverComSpec,
+    ReceptionComSpecProps,
     RPortComSpec,
     SenderComSpec,
     ServerComSpec,
@@ -336,6 +338,8 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     PortInterface,
     PortInterfaceMappingSet,
     SenderReceiverInterface,
+    SubElementMapping,
+    TextTableMapping,
     TriggerInterface,
     VariableAndParameterInterfaceMapping,
 )
@@ -1032,8 +1036,8 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setApplicationCompositeElementInPortInterfaceInstanceRef(self, element: ET.Element, key: str, iref: ApplicationCompositeElementInPortInterfaceInstanceRef):  # noqa E501
         if iref is not None:
             child_element = ET.SubElement(element, key)
-            self.setChildElementOptionalRefType(child_element, "ROOT-DATA-PROTOTYPE-REF", iref.root_data_prototype_ref)
-            self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-REF", iref.target_data_prototype_ref)
+            self.setChildElementOptionalRefType(child_element, "ROOT-DATA-PROTOTYPE-REF", iref.getRootDataPrototypeRef())
+            self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-REF", iref.getTargetDataPrototypeRef())
         return iref
 
     def writeCompositeNetworkRepresentation(self, element: ET.Element, representation: CompositeNetworkRepresentation):
@@ -1056,6 +1060,34 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(element, "MAX-DELTA-COUNTER-INIT", com_spec.getMaxDeltaCounterInit())
         self.setChildElementOptionalPositiveInteger(element, "MAX-NO-NEW-OR-REPEATED-DATA", com_spec.getMaxNoNewOrRepeatedData())
         self.setChildElementOptionalBooleanValue(element, "USES-END-TO-END-PROTECTION", com_spec.getUsesEndToEndProtection())
+        self.writeReceptionComSpecProps(element, "RECEPTION-PROPS", com_spec.getReceptionProps())
+        self.writeReceiverReplaceWith(element, "REPLACE-WITH", com_spec.getReplaceWith())
+        self.setChildElementOptionalPositiveInteger(element, "SYNC-COUNTER-INIT", com_spec.getSyncCounterInit())
+        props = com_spec.getTransformationComSpecProps()
+        if len(props) > 0:
+            props_tag = ET.SubElement(element, "TRANSFORMATION-COM-SPEC-PROPSS")
+            for prop in props:
+                if isinstance(prop, EndToEndTransformationComSpecProps):
+                    child = ET.SubElement(props_tag, "END-TO-END-TRANSFORMATION-COM-SPEC-PROPS")
+                    self.writeTransformationComSpecProps(child, prop)
+                elif isinstance(prop, UserDefinedTransformationComSpecProps):
+                    self.writeUserDefinedTransformationComSpecProps(props_tag, prop)
+                else:
+                    self.notImplemented("Unsupported TransformationComSpecProps %s" % type(prop))
+
+    def writeReceptionComSpecProps(self, element: ET.Element, key: str, props: ReceptionComSpecProps):
+        if props is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObjectAttributes(child_element, props)
+            self.setChildElementOptionalTimeValue(child_element, "DATA-UPDATE-PERIOD", props.getDataUpdatePeriod())
+            self.setChildElementOptionalTimeValue(child_element, "TIMEOUT", props.getTimeout())
+
+    def writeReceiverReplaceWith(self, element: ET.Element, key: str, access: VariableAccess):
+        if access is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeIdentifiable(child_element, access)
+            self.setAutosarVariableRef(child_element, "ACCESSED-VARIABLE", access.getAccessedVariableRef())
+            self.setChildElementOptionalLiteral(child_element, "SCOPE", access.getScope())
 
     def setSwValues(self, element: ET.Element, key: str, sw_values: SwValues):
         if sw_values is not None:
@@ -1148,12 +1180,14 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeARObjectAttributes(child_element, com_spec)
         self.writeReceiverComSpec(child_element, com_spec)
         self.setChildElementOptionalFloatValue(child_element, "ALIVE-TIMEOUT", com_spec.getAliveTimeout())
-        self.setChildElementOptionalBooleanValue(child_element, "ENABLE-UPDATE", com_spec.getEnableUpdated())
+        self.setChildElementOptionalBooleanValue(child_element, "ENABLE-UPDATE", com_spec.getEnableUpdate())
         self.setDataFilter(child_element, "FILTER", com_spec.getFilter())
+        self.setChildElementOptionalBooleanValue(child_element, "HANDLE-DATA-STATUS", com_spec.getHandleDataStatus())
         self.setChildElementOptionalBooleanValue(child_element, "HANDLE-NEVER-RECEIVED", com_spec.getHandleNeverReceived())
         self.setChildElementOptionalLiteral(child_element, "HANDLE-TIMEOUT-TYPE", com_spec.getHandleTimeoutType())
 
         self.setChildValueSpecification(child_element, "INIT-VALUE", com_spec.getInitValue())
+        self.setChildValueSpecification(child_element, "TIMEOUT-SUBSTITUTION-VALUE", com_spec.getTimeoutSubstitutionValue())
 
     def writeQueuedReceiverComSpec(self, element: ET.Element, com_spec: QueuedReceiverComSpec):
         child_element = ET.SubElement(element, "QUEUED-RECEIVER-COM-SPEC")
@@ -7367,7 +7401,44 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setDataPrototypeMapping(self, element: ET.Element, mapping: DataPrototypeMapping):
         child_element = ET.SubElement(element, "DATA-PROTOTYPE-MAPPING")
         self.setChildElementOptionalRefType(child_element, "FIRST-DATA-PROTOTYPE-REF", mapping.getFirstDataPrototypeRef())
+        self.setChildElementOptionalRefType(child_element, "FIRST-TO-SECOND-DATA-TRANSFORMATION-REF", mapping.getFirstToSecondDataTransformationRef())
         self.setChildElementOptionalRefType(child_element, "SECOND-DATA-PROTOTYPE-REF", mapping.getSecondDataPrototypeRef())
+        self.setChildElementOptionalRefType(child_element, "SECOND-TO-FIRST-DATA-TRANSFORMATION-REF", mapping.getSecondToFirstDataTransformationRef())
+        sub_elements = mapping.getSubElementMappings()
+        if len(sub_elements) > 0:
+            sub_tag = ET.SubElement(child_element, "SUB-ELEMENT-MAPPINGS")
+            for sub_element in sub_elements:
+                self.setSubElementMapping(sub_tag, sub_element)
+        text_tables = mapping.getTextTableMappings()
+        if len(text_tables) > 0:
+            text_tag = ET.SubElement(child_element, "TEXT-TABLE-MAPPINGS")
+            for text_table in text_tables:
+                self.setTextTableMapping(text_tag, text_table)
+
+    def setSubElementMapping(self, element: ET.Element, mapping: SubElementMapping):
+        child_element = ET.SubElement(element, "SUB-ELEMENT-MAPPING")
+        first = mapping.getFirstElement()
+        if first is not None:
+            first_tag = ET.SubElement(child_element, "FIRST-ELEMENTS")
+            iref_tag = ET.SubElement(first_tag, "APPLICATION-COMPOSITE-DATA-TYPE-SUB-ELEMENT-REF")
+            self.setApplicationCompositeElementInPortInterfaceInstanceRef(iref_tag, "APPLICATION-COMPOSITE-ELEMENT-IREF", first)
+        second = mapping.getSecondElement()
+        if second is not None:
+            second_tag = ET.SubElement(child_element, "SECOND-ELEMENTS")
+            iref_tag = ET.SubElement(second_tag, "APPLICATION-COMPOSITE-DATA-TYPE-SUB-ELEMENT-REF")
+            self.setApplicationCompositeElementInPortInterfaceInstanceRef(iref_tag, "APPLICATION-COMPOSITE-ELEMENT-IREF", second)
+        text_tables = mapping.getTextTableMappings()
+        if len(text_tables) > 0:
+            text_tag = ET.SubElement(child_element, "TEXT-TABLE-MAPPINGS")
+            for text_table in text_tables:
+                self.setTextTableMapping(text_tag, text_table)
+
+    def setTextTableMapping(self, element: ET.Element, mapping: TextTableMapping):
+        child_element = ET.SubElement(element, "TEXT-TABLE-MAPPING")
+        self.setChildElementOptionalPositiveInteger(child_element, "BITFIELD-TEXT-TABLE-MASK-FIRST", mapping.getBitfieldTextTableMaskFirst())
+        self.setChildElementOptionalPositiveInteger(child_element, "BITFIELD-TEXT-TABLE-MASK-SECOND", mapping.getBitfieldTextTableMaskSecond())
+        self.setChildElementOptionalBooleanValue(child_element, "IDENTICAL-MAPPING", mapping.getIdenticalMapping())
+        self.setChildElementOptionalLiteral(child_element, "MAPPING-DIRECTION", mapping.getMappingDirection())
 
     def setDataPrototypeMappings(self, element: ET.Element, key: str, mappings: List[DataPrototypeMapping]):
         if len(mappings) > 0:

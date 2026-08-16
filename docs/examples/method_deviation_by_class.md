@@ -1601,7 +1601,7 @@ tests, and reader/writer coverage. The aggregated Chapter family lives in
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `textTableMappings` | `—` | `textTableMapping` | `TextTableMapping` | — | type (spec one vs py list) |
+| — *(no deviation)* | — | — | — | — | All 6 spec attributes implemented (`firstDataPrototypeRef`, `firstToSecondDataTransformationRef`, `secondDataPrototypeRef`, `secondToFirstDataTransformationRef`, `subElementMappings`, `textTableMappings` with mult `0..2` → list). Reader/writer coverage added (incl. `SUB-ELEMENT-MAPPINGS`/`TEXT-TABLE-MAPPINGS` wrappers). |
 
 ## `ModeDeclarationMapping`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 132
@@ -1610,33 +1610,25 @@ tests, and reader/writer coverage. The aggregated Chapter family lives in
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `secondModeRef` | `—` | `secondModeRef` | `Ref (ModeDeclaration)` | Ref | type (spec one vs py list) |
+| — *(no deviation)* | — | — | — | — | `secondModeRef` is `Optional[RefType]` (spec mult `0..1`), `firstModeRefs` is `List[RefType]` (spec mult `*`). |
 
 ## `ReceiverComSpec`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 170
-- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Communication`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `dataUpdatePeriod` | `TimeValue` | — | missing |
-| — *(missing)* | `—` | `externalReplacementRef` | `Ref (AutosarDataPrototype)` | Ref | missing |
-| `compositeNetworkRepresentation` | `—` | `networkRepresentation` | `SwDataDefProps` | — | type (spec one vs py list) |
-| — *(missing)* | `—` | `receiverIntent` | `ReceiverIntentEnum` | — | missing |
-| — *(missing)* | `—` | `receptionProps` | `ReceptionComSpecProps` | — | missing |
-| — *(missing)* | `—` | `replaceWith` | `VariableAccess` | — | missing |
-| — *(missing)* | `—` | `syncCounterInit` | `PositiveInteger` | — | missing |
-| — *(missing)* | `—` | `transformationComSpecProps` | `EndToEndTransformationComSpecProps` | — | missing |
-
-## `NonqueuedReceiverComSpec`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 172
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Communication`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `enableUpdated` | `—` | `enableUpdate` | `Boolean` | — | naming |
-| `timeoutSubstitution` | `—` | `timeoutSubstitutionValue` | `ApplicationAssocMapValueSpecification` | — | naming |
+| — *(no deviation)* | — | — | — | — | All 12 spec attributes implemented (`compositeNetworkRepresentation` mult `*` → list; `dataElement`, `handleOutOfRange`, `handleOutOfRangeStatus`, `maxDeltaCounterInit`, `maxNoNewOrRepeatedData`, `networkRepresentation`, `receptionProps`, `replaceWith`, `syncCounterInit`, `transformationComSpecProps` mult `*` → list, `usesEndToEndProtection`). Reader/writer coverage complete. |
+
+## `NonqueuedReceiverComSpec`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 173
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Communication`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Communication.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | All 8 spec attributes implemented; `handleDataStatus` reader/writer coverage added. |
 
 ## `SenderComSpec`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 178
