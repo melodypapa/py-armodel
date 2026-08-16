@@ -24,10 +24,10 @@ class BlueprintGenerator(ARObject):
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table E.11, p.424
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getExpression     [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer
-    # [x] setExpression     [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer
-    # [x] getIntroduction   [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer
-    # [x] setIntroduction   [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer
+    # [x] getExpression     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setExpression     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getIntroduction   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIntroduction   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()

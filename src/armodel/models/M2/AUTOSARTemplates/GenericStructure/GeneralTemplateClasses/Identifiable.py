@@ -367,6 +367,8 @@ class Identifiable(MultilanguageReferrable, ABC):
     # [ ] setIntroduction              [x] impl  [x] docstring  [ ] test
     # [ ] addAnnotation                [x] impl  [x] docstring  [ ] test
     # [ ] getAnnotations               [x] impl  [x] docstring  [ ] test
+    # [x] getVariationPoint            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setVariationPoint            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is Identifiable:
