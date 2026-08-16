@@ -269,6 +269,10 @@ class Test_FibexCoreCommunication:
         assert pdu.getLength() == 100
         assert pdu == pdu.setLength(100)  # Test method chaining
 
+        # None no-op
+        assert pdu == pdu.setLength(None)
+        assert pdu.getLength() == 100  # Should remain unchanged
+
     def test_IPdu(self):
         """Test IPdu abstract class instantiation."""
         parent = MockParent()

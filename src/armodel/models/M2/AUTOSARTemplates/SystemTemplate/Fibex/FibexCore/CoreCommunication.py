@@ -19,14 +19,14 @@ if TYPE_CHECKING:
 
 class FibexElement(PackageableElement, ABC):
     """
-    Abstract base class for FIBEX (FIBer EXchange) elements in the
-    AUTOSAR system, providing a common foundation for all communication
-    elements defined in the FIBEX format used for exchanging communication
-    data between tools.
+    ASAM FIBEX elements specifying Communication and Topology.
     """
 
     # FibexElement method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table F.64, p.2026
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is FibexElement:
@@ -339,16 +339,18 @@ class ISignalIPduGroup(FibexElement):
 
 class Pdu(FibexElement, ABC):
     """
-    Abstract base class for Protocol Data Units (PDUs) in the communication system,
-    defining common properties such as dynamic length support and length specifications.
+    Collection of all Pdus that can be routed through a bus interface.
     """
 
     # Pdu method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getHasDynamicLength          [x] impl  [ ] docstring  [ ] test
-    # [ ] setHasDynamicLength          [x] impl  [ ] docstring  [ ] test
-    # [ ] getLength                    [x] impl  [ ] docstring  [ ] test
-    # [ ] setLength                    [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.17, p.340
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setHasDynamicLength          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getHasDynamicLength          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setLength                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getLength                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is Pdu:
@@ -356,23 +358,41 @@ class Pdu(FibexElement, ABC):
 
         super().__init__(parent, short_name)
 
+        # This attribute defines whether the Pdu has dynamic length (true) or not (false). Please note that the usage of this attribute is restricted by [constr_3448].
         self.hasDynamicLength: Boolean = None
+
+        # Pdu length in bytes. In case of dynamic length IPdus (containing a dynamical length signal), this value indicates the maximum data length. It should be noted that in former AUTOSAR releases (Rel 2.1, Rel 3.0, Rel 3.1, Rel 4.0 Rev. 1) this parameter was defined in bits. The Pdu length of zero bytes is allowed.
         self.length: UnlimitedInteger = None
 
-    def getHasDynamicLength(self):
-        return self.hasDynamicLength
-
-    def setHasDynamicLength(self, value):
+    def setHasDynamicLength(self, value: Optional[Boolean]) -> "Pdu":
+        """
+        This attribute defines whether the Pdu has dynamic length (true) or not (false). Please note that the usage of this attribute is restricted by [constr_3448].
+        A None value is a no-op and does not overwrite an existing hasDynamicLength.
+        """
         if value is not None:
             self.hasDynamicLength = value
         return self
 
-    def getLength(self):
-        return self.length
+    def getHasDynamicLength(self) -> Optional[Boolean]:
+        """
+        This attribute defines whether the Pdu has dynamic length (true) or not (false). Please note that the usage of this attribute is restricted by [constr_3448].
+        """
+        return self.hasDynamicLength
 
-    def setLength(self, value):
-        self.length = value
+    def setLength(self, value: Optional[UnlimitedInteger]) -> "Pdu":
+        """
+        Pdu length in bytes. In case of dynamic length IPdus (containing a dynamical length signal), this value indicates the maximum data length. It should be noted that in former AUTOSAR releases (Rel 2.1, Rel 3.0, Rel 3.1, Rel 4.0 Rev. 1) this parameter was defined in bits. The Pdu length of zero bytes is allowed.
+        A None value is a no-op and does not overwrite an existing length.
+        """
+        if value is not None:
+            self.length = value
         return self
+
+    def getLength(self) -> Optional[UnlimitedInteger]:
+        """
+        Pdu length in bytes. In case of dynamic length IPdus (containing a dynamical length signal), this value indicates the maximum data length. It should be noted that in former AUTOSAR releases (Rel 2.1, Rel 3.0, Rel 3.1, Rel 4.0 Rev. 1) this parameter was defined in bits. The Pdu length of zero bytes is allowed.
+        """
+        return self.length
 
 
 class IPdu(Pdu, ABC):
