@@ -157,6 +157,40 @@ def test_post_build_variant_condition_none_values():
     assert condition.getValue() is None
 
 
+def test_condition_by_formula_formula_items_ordered():
+    sysc_ref = RefType().setValue("/SwSystemconsts/SY_TURBO").setDest("SW-SYSTEMCONST")
+    string_ref = RefType().setValue("/SwSystemconsts/SY_MODE").setDest("SW-SYSTEMCONST")
+
+    condition = ConditionByFormula()
+
+    assert condition.getFormulaItems() == []
+
+    result_text = condition.addFormulaText("defined(")
+    result_ref = condition.addFormulaRef(sysc_ref)
+    result_tail = condition.addFormulaText(") && ")
+    result_string_ref = condition.addFormulaRef(string_ref, tag="SYSC-STRING-REF")
+
+    items = condition.getFormulaItems()
+    assert items[0] == "defined("
+    assert items[1] == ("SYSC-REF", sysc_ref)
+    assert items[2] == ") && "
+    assert items[3] == ("SYSC-STRING-REF", string_ref)
+    assert len(items) == 4
+    assert result_text is condition
+    assert result_ref is condition
+    assert result_tail is condition
+    assert result_string_ref is condition
+
+
+def test_condition_by_formula_add_none_is_no_op():
+    condition = ConditionByFormula()
+
+    condition.addFormulaText(None)
+    condition.addFormulaRef(None)
+
+    assert condition.getFormulaItems() == []
+
+
 def test_condition_by_formula_getters_and_setters():
     binding_time = BindingTimeEnum()
     binding_time.setValue("preCompileTime")
