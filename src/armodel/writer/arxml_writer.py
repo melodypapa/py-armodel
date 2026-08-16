@@ -200,6 +200,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Limit, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
+    PostBuildVariantCriterion,
     PredefinedVariant,
     SwSystemconstantValueSet,
     SwSystemconstValue,
@@ -7603,6 +7604,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writePredefinedVariantPostBuildVariantCriterionValueSetRefs(child_element, variant)
         self.writePredefinedVariantSwSystemconstantValueSetRefs(child_element, variant)
 
+    def writePostBuildVariantCriterion(self, element: ET.Element, criterion: PostBuildVariantCriterion):
+        self.logger.debug("PostBuildVariantCriterion %s" % criterion.getShortName())
+        child_element = ET.SubElement(element, "POST-BUILD-VARIANT-CRITERION")
+        self.writeIdentifiable(child_element, criterion)
+        self.setChildElementOptionalRefType(
+            child_element,
+            "COMPU-METHOD-REF",
+            criterion.getCompuMethodRef(),
+        )
+
     def writeISignalGroupISignalRef(self, element: ET.Element, group: ISignalGroup):
         signal_refs = group.getISignalRefs()
         if len(signal_refs) > 0:
@@ -8466,6 +8477,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSwSystemconstantValueSet(element, ar_element)
         elif isinstance(ar_element, PredefinedVariant):
             self.writePredefinedVariant(element, ar_element)
+        elif isinstance(ar_element, PostBuildVariantCriterion):
+            self.writePostBuildVariantCriterion(element, ar_element)
         elif isinstance(ar_element, McFunction):
             self.writeMcFunction(element, ar_element)
         elif isinstance(ar_element, McGroup):
