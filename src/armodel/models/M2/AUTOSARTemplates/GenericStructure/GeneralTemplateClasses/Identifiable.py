@@ -11,7 +11,6 @@ from abc import ABC
 from typing import Dict, List, Optional, TYPE_CHECKING, Union
 
 if TYPE_CHECKING:
-    from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
     from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
     from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph
     from armodel.models.M2.MSR.Documentation.Annotation import Annotation
@@ -598,43 +597,19 @@ class Identifiable(MultilanguageReferrable, ABC):
 
 class PackageableElement(Identifiable, ABC):
     """
-    Abstract class for elements that can be packaged in AUTOSAR models.
-    This class extends Identifiable with packaging functionality.
+    This meta-class specifies the ability to be a member of an AUTOSAR package.
     """
 
     # PackageableElement method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] addVariationPoint            [x] impl  [x] docstring  [ ] test
-    # [ ] getVariationPoints           [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.2, p.54
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is PackageableElement:
             raise TypeError("PackageableElement is an abstract class.")
         super().__init__(parent, short_name)
-
-        self.variationPoints: List[VariationPoint] = []
-
-    def addVariationPoint(self, variation_point: "VariationPoint"):
-        """
-        Adds a variation point to this packageable element.
-
-        Args:
-            variation_point: The VariationPoint to add
-
-        Returns:
-            self for method chaining
-        """
-        self.variationPoints.append(variation_point)
-        return self
-
-    def getVariationPoints(self) -> List["VariationPoint"]:
-        """
-        Gets the list of variation points for this packageable element.
-
-        Returns:
-            List of VariationPoint instances
-        """
-        return self.variationPoints
 
 
 class ARElement(PackageableElement, ABC):
