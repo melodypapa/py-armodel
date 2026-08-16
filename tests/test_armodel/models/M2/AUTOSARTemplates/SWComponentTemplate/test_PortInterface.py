@@ -6,6 +6,7 @@ Tests cover all classes and methods in the __init__.py file to achieve 100% test
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
     ApplicationError,
     ArgumentDataPrototype,
@@ -275,7 +276,22 @@ class TestApplicationError:
 
         assert app_error.parent == ar_root
         assert app_error.short_name == "TestApplicationError"
-        assert app_error.error_code is None
+        assert app_error.getErrorCode() is None
+
+    def test_application_error_get_set_error_code(self):
+        """Test errorCode getter and setter with round-trip and None no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        app_error = ApplicationError(ar_root, "TestApplicationError")
+
+        error_code = Integer()
+        error_code.setValue("42")
+        result = app_error.setErrorCode(error_code)
+        assert result is app_error
+        assert app_error.getErrorCode() == error_code
+
+        app_error.setErrorCode(None)
+        assert app_error.getErrorCode() == error_code
 
 
 class TestClientServerOperation:
@@ -362,13 +378,27 @@ class TestModeSwitchInterface:
         assert mode_interface.short_name == "TestModeSwitchInterface"
         assert mode_interface.isService is None
         assert mode_interface.serviceKind is None
-        assert mode_interface._modeGroup == []
+        assert mode_interface.getModeGroup() is None
 
-        # Test mode group methods
+    def test_mode_switch_interface_create_mode_group(self):
+        """Test createModeGroup creates the single modeGroup and returns it."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        mode_interface = ModeSwitchInterface(ar_root, "TestModeSwitchInterface")
+
         mode_group = mode_interface.createModeGroup("TestModeGroup")
         assert mode_group is not None
         assert mode_group.short_name == "TestModeGroup"
-        assert mode_group in mode_interface.getModeGroups()
+        assert mode_interface.getModeGroup() is mode_group
+
+    def test_mode_switch_interface_create_mode_group_duplicate(self):
+        """Test createModeGroup returns the existing prototype for a duplicate short name."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        mode_interface = ModeSwitchInterface(ar_root, "TestModeSwitchInterface")
+
+        mode_group = mode_interface.createModeGroup("TestModeGroup")
+        assert mode_interface.createModeGroup("TestModeGroup") is mode_group
 
 
 class TestPortInterfaceMapping:

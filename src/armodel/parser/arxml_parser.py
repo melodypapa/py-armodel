@@ -581,6 +581,7 @@ from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAx
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
     CompuGenericMath,
     SwBitRepresentation,
+    SwCalibrationAccessEnum,
     SwCalprmRefProxy,
     SwDataDefProps,
     SwDataDependency,
@@ -1027,6 +1028,9 @@ class ARXMLParser(AbstractARXMLParser):
     def readModeDeclarationGroupPrototype(self, element: ET.Element, prototype: ModeDeclarationGroupPrototype):
         self.readIdentifiable(element, prototype)
         prototype.setTypeTRef(self.getChildElementOptionalRefType(element, "TYPE-TREF"))
+        sw_calibration_access = self.getChildElementOptionalLiteral(element, "SW-CALIBRATION-ACCESS")
+        if sw_calibration_access is not None:
+            prototype.setSwCalibrationAccess(SwCalibrationAccessEnum().setValue(sw_calibration_access.getValue()))
 
     def readBswModuleDescriptionProvidedModeGroups(self, element: ET.Element, parent: BswModuleDescription):
         for child_element in self.findall(element, "PROVIDED-MODE-GROUPS/*"):
@@ -4560,7 +4564,7 @@ class ARXMLParser(AbstractARXMLParser):
             short_name = self.getShortName(child_element)
             error = parent.createApplicationError(short_name)
             self.readIdentifiable(child_element, error)  # some errors has its uuid
-            error.error_code = self.getChildElementOptionalNumericalValue(child_element, "ERROR-CODE")
+            error.setErrorCode(self.getChildElementOptionalIntegerValue(child_element, "ERROR-CODE"))
 
     def readPortInterface(self, element: ET.Element, port_interface: PortInterface):
         self.readIdentifiable(element, port_interface)
@@ -5128,8 +5132,7 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             short_name = self.getShortName(child_element)
             mode_group = parent.createModeGroup(short_name)
-            self.readIdentifiable(child_element, mode_group)
-            mode_group.type_tref = self.getChildElementOptionalRefType(child_element, "TYPE-TREF")
+            self.readModeDeclarationGroupPrototype(child_element, mode_group)
 
     def readModeSwitchInterface(self, element: ET.Element, mode_interface: ModeSwitchInterface):
         self.logger.debug("Read ModeSwitchInterface <%s>" % mode_interface.getShortName())

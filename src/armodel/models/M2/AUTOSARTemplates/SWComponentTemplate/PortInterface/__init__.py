@@ -21,8 +21,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AREnum,
     ArgumentDirectionEnum,
     ARLiteral,
-    ARNumerical,
     Boolean,
+    Integer,
     PositiveInteger,
     RefType,
 )
@@ -471,13 +471,49 @@ class ArgumentDataPrototype(AutosarDataPrototype):
 
 
 class ApplicationError(Identifiable):
+    """
+    This is a user-defined error that is associated with an element of an AUTOSAR interface. It is specific for the particular functionality or service provided by the AUTOSAR software component.
+    """
+
     # ApplicationError method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.11, p.108
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getErrorCode      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setErrorCode      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.error_code: ARNumerical = None
+        # The RTE generator is forced to assign this value to the corresponding error symbol. Note that for error codes certain ranges are predefined (see RTE specification).
+        self.errorCode: Optional[Integer] = None
+
+    def getErrorCode(self) -> Optional[Integer]:
+        """
+        Gets the error code that the RTE generator is forced to assign to the corresponding error symbol.
+        Note that for error codes certain ranges are predefined (see RTE specification).
+
+        Returns:
+            Integer representing the error code, or None if not set
+        """
+        return self.errorCode
+
+    def setErrorCode(self, value: Optional[Integer]) -> "ApplicationError":
+        """
+        Sets the error code that the RTE generator is forced to assign to the corresponding error symbol.
+        Note that for error codes certain ranges are predefined (see RTE specification).
+        A None value is a no-op and does not overwrite an existing error code.
+
+        Args:
+            value: The error code Integer to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.errorCode = value
+        return self
 
 
 class ClientServerOperation(AtpStructureElement):
@@ -702,24 +738,54 @@ class TriggerInterface(PortInterface):
 
 
 class ModeSwitchInterface(PortInterface):
+    """
+    A mode switch interface declares a ModeDeclarationGroupPrototype to be sent and received. Tags: atp.recommendedPackage=PortInterfaces
+    """
+
     # ModeSwitchInterface method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] createModeGroup              [x] impl  [ ] docstring  [ ] test
-    # [ ] getModeGroups                [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.16, p.113
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] createModeGroup    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getModeGroup       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self._modeGroup: List[ModeDeclarationGroupPrototype] = []
+        # The ModeDeclarationGroupPrototype of this mode interface.
+        self.modeGroup: Optional[ModeDeclarationGroupPrototype] = None
 
     def createModeGroup(self, short_name: str) -> ModeDeclarationGroupPrototype:
+        """
+        Creates the ModeDeclarationGroupPrototype of this mode interface.
+        Returns the existing prototype when the short name already exists.
+
+        The ModeDeclarationGroupPrototype of this mode interface.
+
+        Args:
+            short_name: The short name of the ModeDeclarationGroupPrototype
+
+        Returns:
+            The created or existing ModeDeclarationGroupPrototype
+        """
         if not self.IsElementExists(short_name):
             prototype = ModeDeclarationGroupPrototype(self, short_name)
             self.addElement(prototype)
-        return self.getElement(short_name, ModeDeclarationGroupPrototype)
+        mode_group = self.getElement(short_name, ModeDeclarationGroupPrototype)
+        self.modeGroup = mode_group
+        return mode_group
 
-    def getModeGroups(self) -> List[ModeDeclarationGroupPrototype]:
-        return list(sorted(filter(lambda c: isinstance(c, ModeDeclarationGroupPrototype), self.elements), key=lambda o: o.short_name))
+    def getModeGroup(self) -> Optional[ModeDeclarationGroupPrototype]:
+        """
+        Gets the ModeDeclarationGroupPrototype of this mode interface.
+
+        The ModeDeclarationGroupPrototype of this mode interface.
+
+        Returns:
+            The ModeDeclarationGroupPrototype, or None if not set
+        """
+        return self.modeGroup
 
 
 class PortInterfaceMapping(AtpBlueprintable, ABC):

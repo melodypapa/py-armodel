@@ -29,6 +29,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARBoolean,
     ARFloat,
     ARLiteral,
+    Integer,
     RefType,
     RevisionLabelString,
 )
@@ -39,6 +40,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceR
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
     DataTypeMap,
 )
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwCalibrationAccessEnum
 from armodel.models.M2.MSR.DataDictionary.RecordLayout import (
     SwRecordLayoutGroup,
     SwRecordLayoutGroupContent,
@@ -742,7 +744,9 @@ class TestPortInterfaceWriter:
         pkg = autosar.createARPackage("Pkg")
         cs_if = pkg.createClientServerInterface("CsIf")
         error = cs_if.createApplicationError("Err")
-        error.error_code = _make_float(42, "42")
+        error_code = Integer()
+        error_code.setValue("42")
+        error.setErrorCode(error_code)
 
         parent = _parent()
         writer.writeApplicationError(parent, error)
@@ -1286,7 +1290,8 @@ class TestModeDeclarationWriter:
         pkg = autosar.createARPackage("Pkg")
         mode_if = pkg.createModeSwitchInterface("ModeIf")
         mode_group = mode_if.createModeGroup("ModeGroup")
-        mode_group.type_tref = _make_ref("/ModeGrp", "MODE-DECLARATION-GROUP")
+        mode_group.setTypeTRef(_make_ref("/ModeGrp", "MODE-DECLARATION-GROUP"))
+        mode_group.setSwCalibrationAccess(SwCalibrationAccessEnum().setValue(SwCalibrationAccessEnum.READ_ONLY))
 
         parent = _parent()
         writer.writeModeSwitchInterfaceModeGroup(parent, mode_if)
@@ -1296,6 +1301,7 @@ class TestModeDeclarationWriter:
         assert child.tag == "MODE-GROUP"
         assert child.find("SHORT-NAME").text == "ModeGroup"
         assert child.find("TYPE-TREF").text == "/ModeGrp"
+        assert child.find("SW-CALIBRATION-ACCESS").text == "readOnly"
 
     def test_write_mode_switch_interface_mode_group_empty(self, writer):
         autosar = AUTOSAR.getInstance()
@@ -1311,7 +1317,7 @@ class TestModeDeclarationWriter:
         pkg = autosar.createARPackage("Pkg")
         mode_if = pkg.createModeSwitchInterface("ModeIf")
         mode_group = mode_if.createModeGroup("ModeGroup")
-        mode_group.type_tref = None
+        mode_group.setTypeTRef(None)
 
         parent = _parent()
         writer.writeModeSwitchInterface(parent, mode_if)

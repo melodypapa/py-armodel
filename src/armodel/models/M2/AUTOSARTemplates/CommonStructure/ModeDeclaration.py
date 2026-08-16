@@ -9,6 +9,7 @@ from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype, AtpType, AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType, TRefType, AREnum
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwCalibrationAccessEnum
 
 
 class ModeActivationKind(AREnum):
@@ -473,105 +474,82 @@ class ModeDeclarationGroup(AtpType):
 
 class ModeDeclarationGroupPrototype(AtpPrototype):
     """
-    Represents a mode declaration group prototype in AUTOSAR models.
     The ModeDeclarationGroupPrototype specifies a set of Modes (ModeDeclarationGroup) which is provided or required in the given context.
     """
 
     # ModeDeclarationGroupPrototype method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] sw_calibration_access        [x] impl  [x] docstring  [ ] test
-    # [ ] sw_calibration_access        [x] impl  [x] docstring  [ ] test
-    # [ ] getSwCalibrationAccess       [x] impl  [x] docstring  [ ] test
-    # [x] setSwCalibrationAccess       [x] impl  [x] docstring  [x] test
-    # [x] getTypeTRef                  [x] impl  [x] docstring  [x] test
-    # [x] setTypeTRef                  [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.17, p.113
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getSwCalibrationAccess   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSwCalibrationAccess   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTypeTRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTypeTRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the ModeDeclarationGroupPrototype with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this mode declaration group prototype
-            short_name: The unique short name of this mode declaration group prototype
-        """
         super().__init__(parent, short_name)
 
-        # Private storage for software calibration access setting
-        self._swCalibrationAccess: str = None
-        # Type reference to the mode declaration group
-        self.typeTRef: TRefType = None
+        # This allows for specifying whether or not the enclosing ModeDeclarationGroupPrototype can be measured at run-time.
+        self.swCalibrationAccess: Optional[SwCalibrationAccessEnum] = None
 
-    @property
-    def sw_calibration_access(self):
+        # The "collection of ModeDeclarations" ( = ModeDeclarationGroup) supported by a component Stereotypes: isOfType
+        self.typeTRef: Optional[TRefType] = None
+
+    def getSwCalibrationAccess(self) -> Optional["SwCalibrationAccessEnum"]:
         """
-        Gets the software calibration access setting for this mode declaration group prototype.
-        This property controls access permissions for calibration parameters.
+        Gets whether or not the enclosing ModeDeclarationGroupPrototype can be measured at run-time.
+
+        This allows for specifying whether or not the enclosing ModeDeclarationGroupPrototype can be measured at run-time.
 
         Returns:
-            str: The software calibration access setting
+            SwCalibrationAccessEnum representing the calibration access, or None if not set
         """
-        return self._swCalibrationAccess
+        return self.swCalibrationAccess
 
-    @sw_calibration_access.setter
-    def sw_calibration_access(self, value):
+    def setSwCalibrationAccess(self, value: Optional["SwCalibrationAccessEnum"]) -> "ModeDeclarationGroupPrototype":
         """
-        Sets the software calibration access setting for this mode declaration group prototype.
-        Valid values are "notAccessible", "readOnly", or "readWrite".
-        Raises ValueError if an invalid value is provided.
+        Sets whether or not the enclosing ModeDeclarationGroupPrototype can be measured at run-time.
+        A None value is a no-op and does not overwrite an existing calibration access.
 
-        Args:
-            value: The software calibration access setting to set
-        """
-        if value not in ("notAccessible", "readOnly", "readWrite"):
-            raise ValueError("Invalid SwCalibrationAccess <%s> of ModeDeclarationGroupPrototype <%s>" % (value, self.short_name))
-        self._swCalibrationAccess = value
-
-    def getSwCalibrationAccess(self):
-        """
-        Gets the software calibration access setting for this mode declaration group prototype.
-        This is a convenience method that returns the same value as the property.
-
-        Returns:
-            str: The software calibration access setting
-        """
-        return self.sw_calibration_access
-
-    def setSwCalibrationAccess(self, value):
-        """
-        Sets the software calibration access setting for this mode declaration group prototype.
-        This is a convenience method that sets the same value as the property.
-        Only sets the value if it is not None.
+        This allows for specifying whether or not the enclosing ModeDeclarationGroupPrototype can be measured at run-time.
 
         Args:
-            value: The software calibration access setting to set
+            value: The SwCalibrationAccessEnum to set
 
         Returns:
             self for method chaining
         """
-        self.sw_calibration_access = value
+        if value is not None:
+            self.swCalibrationAccess = value
         return self
 
-    def getTypeTRef(self):
+    def getTypeTRef(self) -> Optional[TRefType]:
         """
-        Gets the type reference to the mode declaration group for this prototype.
+        Gets the "collection of ModeDeclarations" ( = ModeDeclarationGroup) supported by a component.
+
+        The "collection of ModeDeclarations" ( = ModeDeclarationGroup) supported by a component Stereotypes: isOfType
 
         Returns:
-            TRefType: The type reference
+            TRefType referencing the ModeDeclarationGroup, or None if not set
         """
         return self.typeTRef
 
-    def setTypeTRef(self, value):
+    def setTypeTRef(self, value: Optional[TRefType]) -> "ModeDeclarationGroupPrototype":
         """
-        Sets the type reference to the mode declaration group for this prototype.
-        Only sets the value if it is not None.
+        Sets the "collection of ModeDeclarations" ( = ModeDeclarationGroup) supported by a component.
+        A None value is a no-op and does not overwrite an existing type reference.
+
+        The "collection of ModeDeclarations" ( = ModeDeclarationGroup) supported by a component Stereotypes: isOfType
 
         Args:
-            value: The type reference to set
+            value: The ModeDeclarationGroup type reference to set
 
         Returns:
             self for method chaining
         """
-        self.typeTRef = value
+        if value is not None:
+            self.typeTRef = value
         return self
 
 
