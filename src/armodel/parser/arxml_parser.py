@@ -1,4 +1,5 @@
 import os
+import re
 import xml.etree.ElementTree as ET
 from typing import List, Optional
 
@@ -719,7 +720,7 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported BINDING-TIME <%s>" % element.attrib["BINDING-TIME"])
         if element.text is not None:
-            condition.addFormulaText(element.text)
+            condition.addFormulaText(self._stripMixedContentWhitespace(element.text))
         for child_element in element:
             tag_name = self.getTagName(child_element)
             if tag_name in ("SYSC-REF", "SYSC-STRING-REF"):
@@ -729,10 +730,16 @@ class ARXMLParser(AbstractARXMLParser):
                 ref.setValue(child_element.text)
                 condition.addFormulaRef(ref, tag=tag_name)
                 if child_element.tail is not None:
-                    condition.addFormulaText(child_element.tail)
+                    condition.addFormulaText(self._stripMixedContentWhitespace(child_element.tail))
             else:
                 self.notImplemented("Unsupported SW-SYSCOND content <%s>" % tag_name)
         return condition
+
+    def _stripMixedContentWhitespace(self, text: str) -> str:
+        # The writer pretty-prints with minidom.toprettyxml, which wraps mixed-content
+        # text fragments (element.text / tail) in newline + indentation. Strip that
+        # formatting boundary while preserving meaningful internal whitespace.
+        return re.sub(r"^\s*\n\s*", "", re.sub(r"\s*\n\s*$", "", text))
 
     def readPostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition) -> PostBuildVariantCondition:
         self.readARObjectAttributes(element, condition)
@@ -857,9 +864,10 @@ class ARXMLParser(AbstractARXMLParser):
 
         identifiable.setAdminData(self.getAdminData(element, "ADMIN-DATA"))
 
-        variation_point_element = self.find(element, "VARIATION-POINT")
-        if variation_point_element is not None:
-            identifiable.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+        if isinstance(identifiable, Identifiable):
+            variation_point_element = self.find(element, "VARIATION-POINT")
+            if variation_point_element is not None:
+                identifiable.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
 
     def readARElement(self, element: ET.Element, ar_element: ARElement):
         self.readIdentifiable(element, ar_element)
