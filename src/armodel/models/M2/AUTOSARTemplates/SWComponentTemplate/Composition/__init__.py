@@ -36,23 +36,48 @@ class SwComponentPrototype(AtpPrototype):
 
 
 class SwConnector(AtpStructureElement, ABC):
+    """
+    The base class for connectors between ports. Connectors have to be identifiable to allow references from the system constraint template.
+    """
+
     # SwConnector method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-    # [ ] getMappingRef                [x] impl  [ ] docstring  [ ] test
-    # [ ] setMappingRef                [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.12, p.80
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getMappingRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMappingRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is SwConnector:
             raise TypeError("SwConnector is an abstract class.")
         super().__init__(parent, short_name)
 
-        self.mappingRef: RefType = None
+        # Reference to a PortInterfaceMapping specifying the mapping of unequal named PortInterface elements of the two different PortInterfaces typing the two PortPrototypes which are referenced by the ConnectorPrototype.
+        self.mappingRef: Optional[RefType] = None
 
-    def getMappingRef(self) -> RefType:
+    def getMappingRef(self) -> Optional[RefType]:
+        """
+        Gets the reference to a PortInterfaceMapping specifying the mapping of unequal named PortInterface elements of the two different PortInterfaces typing the two PortPrototypes which are referenced by the ConnectorPrototype.
+
+        Returns:
+            RefType referencing the PortInterfaceMapping, or None if not set
+        """
         return self.mappingRef
 
-    def setMappingRef(self, value: RefType):
-        self.mappingRef = value
+    def setMappingRef(self, value: Optional[RefType]) -> "SwConnector":
+        """
+        Sets the reference to a PortInterfaceMapping specifying the mapping of unequal named PortInterface elements of the two different PortInterfaces typing the two PortPrototypes which are referenced by the ConnectorPrototype.
+        A None value is a no-op and does not overwrite an existing reference.
+
+        Args:
+            value: The PortInterfaceMapping reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.mappingRef = value
         return self
 
 
@@ -115,31 +140,75 @@ class DelegationSwConnector(SwConnector):
 
 
 class PassThroughSwConnector(SwConnector):
+    """
+    This kind of SwConnector can be used inside a CompositionSwComponentType to connect two delegation PortPrototypes.
+    """
+
     # PassThroughSwConnector method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getProvidedOuterPortRef      [x] impl  [ ] docstring  [ ] test
-    # [ ] setProvidedOuterPortRef      [x] impl  [ ] docstring  [ ] test
-    # [ ] getRequiredOuterPortRef      [x] impl  [ ] docstring  [ ] test
-    # [ ] setRequiredOuterPortRef      [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.15, p.83
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getProvidedOuterPortRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setProvidedOuterPortRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRequiredOuterPortRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRequiredOuterPortRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.providedOuterPortRef: RefType = None
-        self.requiredOuterPortRef: RefType = None
+        # This represents the provided outer delegation Port Prototype of the PassThroughSwConnector.
+        self.providedOuterPortRef: Optional[RefType] = None
 
-    def getProvidedOuterPortRef(self) -> RefType:
+        # This represents the required outer delegation Port Prototype of the PassThroughSwConnector.
+        self.requiredOuterPortRef: Optional[RefType] = None
+
+    def getProvidedOuterPortRef(self) -> Optional[RefType]:
+        """
+        Gets the provided outer delegation Port Prototype of the PassThroughSwConnector.
+
+        Returns:
+            RefType referencing the provided outer delegation Port Prototype, or None if not set
+        """
         return self.providedOuterPortRef
 
-    def setProvidedOuterPortRef(self, value: RefType):
-        self.providedOuterPortRef = value
+    def setProvidedOuterPortRef(self, value: Optional[RefType]) -> "PassThroughSwConnector":
+        """
+        Sets the provided outer delegation Port Prototype of the PassThroughSwConnector.
+        A None value is a no-op and does not overwrite an existing reference.
+
+        Args:
+            value: The provided outer delegation Port Prototype reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.providedOuterPortRef = value
         return self
 
-    def getRequiredOuterPortRef(self) -> RefType:
+    def getRequiredOuterPortRef(self) -> Optional[RefType]:
+        """
+        Gets the required outer delegation Port Prototype of the PassThroughSwConnector.
+
+        Returns:
+            RefType referencing the required outer delegation Port Prototype, or None if not set
+        """
         return self.requiredOuterPortRef
 
-    def setRequiredOuterPortRef(self, value: RefType):
-        self.requiredOuterPortRef = value
+    def setRequiredOuterPortRef(self, value: Optional[RefType]) -> "PassThroughSwConnector":
+        """
+        Sets the required outer delegation Port Prototype of the PassThroughSwConnector.
+        A None value is a no-op and does not overwrite an existing reference.
+
+        Args:
+            value: The required outer delegation Port Prototype reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.requiredOuterPortRef = value
         return self
 
 

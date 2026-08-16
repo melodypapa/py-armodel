@@ -87,11 +87,12 @@ class TestBswModuleDescriptionHandlers:
 
         proto = ModeDeclarationGroupPrototype(parent=_autosar_root(), short_name="mg")
         element = _snip(
-            "<SHORT-NAME>mg</SHORT-NAME>" "<TYPE-TREF DEST='MODE-DECLARATION-GROUP'>/tg</TYPE-TREF>",
+            "<SHORT-NAME>mg</SHORT-NAME>" "<TYPE-TREF DEST='MODE-DECLARATION-GROUP'>/tg</TYPE-TREF>" "<SW-CALIBRATION-ACCESS>readOnly</SW-CALIBRATION-ACCESS>",
             root_tag="MODE-DECLARATION-GROUP-PROTOTYPE",
         )
         parser.readModeDeclarationGroupPrototype(element, proto)
         assert proto.getTypeTRef().getValue() == "/tg"
+        assert proto.getSwCalibrationAccess().getValue() == "readOnly"
 
     def test_readBswModuleDescriptionProvidedModeGroups_creates_group(self, parser):
         from armodel.models import BswModuleDescription

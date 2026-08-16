@@ -56,6 +56,30 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Composition:
         assert test_connector.short_name == "TestSwConnector"
         assert isinstance(test_connector, SwConnector)
 
+    def test_SwConnector_initialization(self):
+        """Test SwConnector initialization defaults via a concrete subclass."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        connector = AssemblySwConnector(ar_root, "TestSwConnector")
+
+        assert connector.getMappingRef() is None
+
+    def test_SwConnector_get_set_MappingRef(self):
+        """Test mappingRef getter and setter with round-trip and None no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        connector = AssemblySwConnector(ar_root, "TestSwConnector")
+
+        ref = RefType()
+        ref.setDest("PORT-INTERFACE-MAPPING")
+        ref.setValue("/Mapping/IfMap")
+        result = connector.setMappingRef(ref)
+        assert result is connector
+        assert connector.getMappingRef() == ref
+
+        connector.setMappingRef(None)
+        assert connector.getMappingRef() == ref
+
     def test_AssemblySwConnector(self):
         """Test AssemblySwConnector class."""
         document = AUTOSAR.getInstance()
@@ -106,6 +130,48 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Composition:
         ref = RefType()
         pass_through_connector.setMappingRef(ref)
         assert pass_through_connector.getMappingRef() == ref
+
+    def test_PassThroughSwConnector_initialization(self):
+        """Test PassThroughSwConnector initialization defaults."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        connector = PassThroughSwConnector(ar_root, "TestPassThroughSwConnector")
+
+        assert connector.getMappingRef() is None
+        assert connector.getProvidedOuterPortRef() is None
+        assert connector.getRequiredOuterPortRef() is None
+
+    def test_PassThroughSwConnector_get_set_ProvidedOuterPortRef(self):
+        """Test providedOuterPortRef getter and setter with round-trip and None no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        connector = PassThroughSwConnector(ar_root, "TestPassThroughSwConnector")
+
+        ref = RefType()
+        ref.setDest("P-PORT-PROTOTYPE")
+        ref.setValue("/Composition/PPort")
+        result = connector.setProvidedOuterPortRef(ref)
+        assert result is connector
+        assert connector.getProvidedOuterPortRef() == ref
+
+        connector.setProvidedOuterPortRef(None)
+        assert connector.getProvidedOuterPortRef() == ref
+
+    def test_PassThroughSwConnector_get_set_RequiredOuterPortRef(self):
+        """Test requiredOuterPortRef getter and setter with round-trip and None no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        connector = PassThroughSwConnector(ar_root, "TestPassThroughSwConnector")
+
+        ref = RefType()
+        ref.setDest("R-PORT-PROTOTYPE")
+        ref.setValue("/Composition/RPort")
+        result = connector.setRequiredOuterPortRef(ref)
+        assert result is connector
+        assert connector.getRequiredOuterPortRef() == ref
+
+        connector.setRequiredOuterPortRef(None)
+        assert connector.getRequiredOuterPortRef() == ref
 
 
 class TestInstantiationRTEEventProps:

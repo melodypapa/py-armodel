@@ -1053,13 +1053,14 @@ class TestPortInterfaceHandlers:
             "<CLIENT-SERVER-OPERATION><SHORT-NAME>op</SHORT-NAME></CLIENT-SERVER-OPERATION>"
             "</OPERATIONS>"
             "<POSSIBLE-ERRORS>"
-            "<APPLICATION-ERROR><SHORT-NAME>err</SHORT-NAME></APPLICATION-ERROR>"
+            "<APPLICATION-ERROR><SHORT-NAME>err</SHORT-NAME><ERROR-CODE>42</ERROR-CODE></APPLICATION-ERROR>"
             "</POSSIBLE-ERRORS>",
             root_tag="CLIENT-SERVER-INTERFACE",
         )
         parser.readClientServerInterface(element, cs_if)
         assert len(cs_if.getOperations()) == 1
         assert len(cs_if.getPossibleErrors()) == 1
+        assert cs_if.getPossibleErrors()[0].getErrorCode().getValue() == 42
 
     def test_readParameterInterface_full(self, parser):
         from armodel.models import ParameterInterface
@@ -1088,11 +1089,20 @@ class TestPortInterfaceHandlers:
 
         mode_if = ModeSwitchInterface(parent=_autosar_root(), short_name="mode_if")
         element = _snip(
-            "<SHORT-NAME>mode_if</SHORT-NAME>" "<MODE-GROUP>" "<SHORT-NAME>mg</SHORT-NAME>" "<TYPE-TREF DEST='MODE-DECLARATION-GROUP'>/mg</TYPE-TREF>" "</MODE-GROUP>",
+            "<SHORT-NAME>mode_if</SHORT-NAME>"
+            "<MODE-GROUP>"
+            "<SHORT-NAME>mg</SHORT-NAME>"
+            "<TYPE-TREF DEST='MODE-DECLARATION-GROUP'>/mg</TYPE-TREF>"
+            "<SW-CALIBRATION-ACCESS>readOnly</SW-CALIBRATION-ACCESS>"
+            "</MODE-GROUP>",
             root_tag="MODE-SWITCH-INTERFACE",
         )
         parser.readModeSwitchInterface(element, mode_if)
-        assert len(mode_if.getModeGroups()) == 1
+        mode_group = mode_if.getModeGroup()
+        assert mode_group is not None
+        assert mode_group.getShortName() == "mg"
+        assert mode_group.getTypeTRef().getValue() == "/mg"
+        assert mode_group.getSwCalibrationAccess().getValue() == "readOnly"
 
     def test_readClientServerOperation_with_arguments(self, parser):
         from armodel.models import ClientServerInterface

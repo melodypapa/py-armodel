@@ -1,5 +1,3 @@
-import pytest
-
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
     ModeActivationKind,
@@ -12,6 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
     ModeTransition,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType, TRefType
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwCalibrationAccessEnum
 
 
 class TestModeDeclarationGroupPrototypeMapping:
@@ -473,59 +472,16 @@ class TestModeDeclarationGroupPrototype:
 
         assert mode_group_proto is not None
         assert mode_group_proto.getShortName() == "TestModeGroupProto"
-        assert mode_group_proto._swCalibrationAccess is None
-        assert mode_group_proto.typeTRef is None
+        assert mode_group_proto.getSwCalibrationAccess() is None
+        assert mode_group_proto.getTypeTRef() is None
 
-    def test_sw_calibration_access_property_getter(self):
-        """Test sw_calibration_access property getter"""
+    def test_get_sw_calibration_access(self):
+        """Test getSwCalibrationAccess method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         mode_group_proto = ModeDeclarationGroupPrototype(ar_root, "TestModeGroupProto")
 
-        # Initially None
-        assert mode_group_proto.sw_calibration_access is None
-
-        # Set a value
-        mode_group_proto._swCalibrationAccess = "readOnly"
-        assert mode_group_proto.sw_calibration_access == "readOnly"
-
-    def test_sw_calibration_access_property_setter_valid_values(self):
-        """Test sw_calibration_access property setter with valid values"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        mode_group_proto = ModeDeclarationGroupPrototype(ar_root, "TestModeGroupProto")
-
-        # Test valid values
-        mode_group_proto.sw_calibration_access = "notAccessible"
-        assert mode_group_proto._swCalibrationAccess == "notAccessible"
-
-        mode_group_proto.sw_calibration_access = "readOnly"
-        assert mode_group_proto._swCalibrationAccess == "readOnly"
-
-        mode_group_proto.sw_calibration_access = "readWrite"
-        assert mode_group_proto._swCalibrationAccess == "readWrite"
-
-    def test_sw_calibration_access_property_setter_invalid_value(self):
-        """Test sw_calibration_access property setter with invalid value"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        mode_group_proto = ModeDeclarationGroupPrototype(ar_root, "TestModeGroupProto")
-
-        with pytest.raises(ValueError, match=r"Invalid SwCalibrationAccess <invalid> of ModeDeclarationGroupPrototype <TestModeGroupProto>"):
-            mode_group_proto.sw_calibration_access = "invalid"
-
-        def test_get_sw_calibration_access(self):
-            """Test getSwCalibrationAccess method"""
-            parent = AUTOSAR.getInstance()
-            ar_root = parent.createARPackage("AUTOSAR")
-            mode_group_proto = ModeDeclarationGroupPrototype(ar_root, "TestModeGroupProto")
-
-            # Initially should return None
-            assert mode_group_proto.getSwCalibrationAccess() is None
-
-            # Set a value and check it's returned
-            mode_group_proto.setSwCalibrationAccess("readOnly")
-            assert mode_group_proto.getSwCalibrationAccess() == "readOnly"
+        assert mode_group_proto.getSwCalibrationAccess() is None
 
     def test_set_sw_calibration_access(self):
         """Test setSwCalibrationAccess method"""
@@ -533,14 +489,22 @@ class TestModeDeclarationGroupPrototype:
         ar_root = parent.createARPackage("AUTOSAR")
         mode_group_proto = ModeDeclarationGroupPrototype(ar_root, "TestModeGroupProto")
 
-        # Test setting a valid value
-        result = mode_group_proto.setSwCalibrationAccess("readOnly")
+        cal_access = SwCalibrationAccessEnum().setValue(SwCalibrationAccessEnum.READ_ONLY)
+        result = mode_group_proto.setSwCalibrationAccess(cal_access)
         assert result is mode_group_proto  # Method chaining
-        assert mode_group_proto.getSwCalibrationAccess() == "readOnly"
+        assert mode_group_proto.getSwCalibrationAccess() == cal_access
 
-        # Test setting another value
-        mode_group_proto.setSwCalibrationAccess("readWrite")
-        assert mode_group_proto.getSwCalibrationAccess() == "readWrite"
+    def test_set_sw_calibration_access_none(self):
+        """Test setSwCalibrationAccess with None value (no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        mode_group_proto = ModeDeclarationGroupPrototype(ar_root, "TestModeGroupProto")
+
+        cal_access = SwCalibrationAccessEnum().setValue(SwCalibrationAccessEnum.READ_WRITE)
+        mode_group_proto.setSwCalibrationAccess(cal_access)
+        result = mode_group_proto.setSwCalibrationAccess(None)
+        assert result is mode_group_proto  # Method chaining
+        assert mode_group_proto.getSwCalibrationAccess() == cal_access
 
     def test_get_type_t_ref(self):
         """Test getTypeTRef method"""
@@ -560,13 +524,19 @@ class TestModeDeclarationGroupPrototype:
         assert mode_group_proto.getTypeTRef() == test_value
 
     def test_set_type_t_ref_none(self):
-        """Test setTypeTRef with None value"""
+        """Test setTypeTRef with None value (no-op)"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         mode_group_proto = ModeDeclarationGroupPrototype(ar_root, "TestModeGroupProto")
         result = mode_group_proto.setTypeTRef(None)
         assert result is mode_group_proto  # Method chaining
         assert mode_group_proto.getTypeTRef() is None
+
+        test_value = TRefType().setValue("TypeTRefValue")
+        mode_group_proto.setTypeTRef(test_value)
+        result = mode_group_proto.setTypeTRef(None)
+        assert result is mode_group_proto  # Method chaining
+        assert mode_group_proto.getTypeTRef() == test_value
 
 
 class TestModeErrorBehavior:

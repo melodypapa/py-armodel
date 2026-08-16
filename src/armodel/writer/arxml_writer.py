@@ -4206,6 +4206,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "MODE-DECLARATION-GROUP-PROTOTYPE")
         self.writeIdentifiable(child_element, prototype)
         self.setChildElementOptionalRefType(child_element, "TYPE-TREF", prototype.getTypeTRef())
+        self.setChildElementOptionalLiteral(child_element, "SW-CALIBRATION-ACCESS", prototype.getSwCalibrationAccess())
 
     def writeBswModuleDescriptionProvidedModeGroups(self, element: ET.Element, parent: BswModuleDescription):
         mode_groups = parent.getProvidedModeGroups()
@@ -4906,7 +4907,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("writeApplicationError %s" % error.getShortName())
         child_element = ET.SubElement(element, "APPLICATION-ERROR")
         self.writeIdentifiable(child_element, error)
-        self.setChildElementOptionalNumericalValue(child_element, "ERROR-CODE", error.error_code)
+        self.setChildElementOptionalIntegerValue(child_element, "ERROR-CODE", error.getErrorCode())
 
     def writePossibleErrors(self, element: ET.Element, parent: ClientServerInterface):
         errors = parent.getPossibleErrors()
@@ -5083,12 +5084,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalNumericalValue(child_element, "ON-TRANSITION-VALUE", group.getOnTransitionValue())
 
     def writeModeSwitchInterfaceModeGroup(self, element: ET.Element, parent: ModeSwitchInterface):
-        mode_groups = parent.getModeGroups()
-        if len(mode_groups) > 0:
-            mode_group = mode_groups[0]
+        mode_group = parent.getModeGroup()
+        if mode_group is not None:
             child_element = ET.SubElement(element, "MODE-GROUP")
             self.writeIdentifiable(child_element, mode_group)
-            self.setChildElementOptionalRefType(child_element, "TYPE-TREF", mode_group.type_tref)
+            self.setChildElementOptionalRefType(child_element, "TYPE-TREF", mode_group.getTypeTRef())
+            self.setChildElementOptionalLiteral(child_element, "SW-CALIBRATION-ACCESS", mode_group.getSwCalibrationAccess())
 
     def writeModeSwitchInterface(self, element: ET.Element, mode_interface: ModeSwitchInterface):
         self.logger.debug("writeModeSwitchInterface %s" % mode_interface.getShortName())

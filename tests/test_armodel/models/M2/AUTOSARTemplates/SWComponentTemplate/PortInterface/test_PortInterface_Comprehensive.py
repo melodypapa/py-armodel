@@ -148,14 +148,14 @@ class TestModeSwitchInterface:
         ar_root = document.createARPackage("AUTOSAR")
         mode_switch_interface = ModeSwitchInterface(ar_root, "TestModeSwitchInterface")
 
-        assert mode_switch_interface._modeGroup == []
+        assert mode_switch_interface.getModeGroup() is None
         assert mode_switch_interface.parent == ar_root
         assert mode_switch_interface.short_name == "TestModeSwitchInterface"
 
-        # Test createModeGroup and getModeGroups
+        # Test createModeGroup and getModeGroup
         mode_group = mode_switch_interface.createModeGroup("TestModeGroup")
         assert mode_group is not None
-        assert len(mode_switch_interface.getModeGroups()) == 1
+        assert mode_switch_interface.getModeGroup() is mode_group
 
 
 class TestPortInterfaceMapping:
