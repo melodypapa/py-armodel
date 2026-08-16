@@ -62,7 +62,7 @@ class TestWriteVariationPoint:
         vp.addPostBuildVariantCondition(condition)
 
         generator = BlueprintGenerator()
-        generator.setExpression(VerbatimString().setValue("LET Name = \"Example\";"))
+        generator.setExpression(VerbatimString().setValue('LET Name = "Example";'))
         vp.setFormalBlueprintGenerator(generator)
 
         element = _write_vp_to_element(vp)
@@ -98,7 +98,7 @@ class TestWriteVariationPoint:
         formal = vp_element.find("FORMAL-BLUEPRINT-GENERATOR")
         formal_tags = [child.tag for child in formal]
         assert formal_tags == ["EXPRESSION"]
-        assert formal.find("EXPRESSION").text == "LET Name = \"Example\";"
+        assert formal.find("EXPRESSION").text == 'LET Name = "Example";'
 
     def test_write_none_creates_no_element(self):
         vp = None

@@ -37,13 +37,13 @@ class TestReadVariationPoint:
         inner = (
             "<VARIATION-POINT>"
             "<SHORT-LABEL>VP_Turbo</SHORT-LABEL>"
-            "<SW-SYSCOND BINDING-TIME=\"CODE-GENERATION-TIME\">"
-            "defined(<SYSC-REF DEST=\"SW-SYSTEMCONST\">/Demo/SystemConstants/SY_TURBO</SYSC-REF>)"
-            " &amp;&amp; <SYSC-STRING-REF DEST=\"SW-SYSTEMCONST\">/Demo/SystemConstants/SY_MODE</SYSC-STRING-REF> == 0"
+            '<SW-SYSCOND BINDING-TIME="CODE-GENERATION-TIME">'
+            'defined(<SYSC-REF DEST="SW-SYSTEMCONST">/Demo/SystemConstants/SY_TURBO</SYSC-REF>)'
+            ' &amp;&amp; <SYSC-STRING-REF DEST="SW-SYSTEMCONST">/Demo/SystemConstants/SY_MODE</SYSC-STRING-REF> == 0'
             "</SW-SYSCOND>"
             "<POST-BUILD-VARIANT-CONDITIONS>"
             "<POST-BUILD-VARIANT-CONDITION>"
-            "<MATCHING-CRITERION-REF DEST=\"POST-BUILD-VARIANT-CRITERION\">/Demo/Criterions/Country</MATCHING-CRITERION-REF>"
+            '<MATCHING-CRITERION-REF DEST="POST-BUILD-VARIANT-CRITERION">/Demo/Criterions/Country</MATCHING-CRITERION-REF>'
             "<VALUE>1</VALUE>"
             "</POST-BUILD-VARIANT-CONDITION>"
             "</POST-BUILD-VARIANT-CONDITIONS>"
@@ -79,7 +79,7 @@ class TestReadVariationPoint:
         inner = (
             "<POST-BUILD-VARIANT-CRITERION>"
             "<SHORT-NAME>Country</SHORT-NAME>"
-            "<COMPU-METHOD-REF DEST=\"COMPU-METHOD\">/Demo/CompuMethods/CountryEnum</COMPU-METHOD-REF>"
+            '<COMPU-METHOD-REF DEST="COMPU-METHOD">/Demo/CompuMethods/CountryEnum</COMPU-METHOD-REF>'
             "<VARIATION-POINT><SHORT-LABEL>VP_Country</SHORT-LABEL></VARIATION-POINT>"
             "</POST-BUILD-VARIANT-CRITERION>"
         )

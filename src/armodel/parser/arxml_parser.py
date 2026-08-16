@@ -763,8 +763,7 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "POST-BUILD-VARIANT-CONDITIONS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "POST-BUILD-VARIANT-CONDITION":
-                variation_point.addPostBuildVariantCondition(
-                    self.readPostBuildVariantCondition(child_element, PostBuildVariantCondition()))
+                variation_point.addPostBuildVariantCondition(self.readPostBuildVariantCondition(child_element, PostBuildVariantCondition()))
             else:
                 self.notImplemented("Unsupported POST-BUILD-VARIANT-CONDITIONS content <%s>" % tag_name)
         sdg_element = self.find(element, "SDG")
