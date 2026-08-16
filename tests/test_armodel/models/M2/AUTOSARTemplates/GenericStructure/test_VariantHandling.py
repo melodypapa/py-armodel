@@ -2,6 +2,9 @@
 Tests for GenericStructure VariantHandling model classes.
 """
 
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator.BlueprintGenerator import (
+    BlueprintGenerator,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARPackage,
 )
@@ -10,12 +13,14 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARNumerical,
+    Integer,
     RefType,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     ConditionByFormula,
     PostBuildVariantCondition,
     PostBuildVariantCriterion,
+    PostBuildVariantCriterionValue,
     PredefinedVariant,
     SwSystemconstantValueSet,
     SwSystemconstValue,
@@ -113,31 +118,29 @@ def test_binding_time_enum_validate_enum_value():
 def test_post_build_variant_condition_getters_and_setters():
     from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer
 
-    criterion = PostBuildVariantCriterion()
-    criterion.setCriterionName("MyCriterion")
+    criterion_ref = RefType().setValue("/RootPkg/Criteria/MyCriterion")
 
     value = Integer()
     value.setValue(42)
 
     condition = PostBuildVariantCondition()
-    condition.setMatchingCriterion(criterion)
+    condition.setMatchingCriterionRef(criterion_ref)
     condition.setValue(value)
 
-    assert condition.getMatchingCriterion() == criterion
+    assert condition.getMatchingCriterionRef() == criterion_ref
     assert condition.getValue() == value
 
 
 def test_post_build_variant_condition_method_chaining():
     from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer
 
-    criterion = PostBuildVariantCriterion()
-    criterion.setCriterionName("MyCriterion")
+    criterion_ref = RefType().setValue("/RootPkg/Criteria/MyCriterion")
 
     value = Integer()
     value.setValue(42)
 
     condition = PostBuildVariantCondition()
-    result_criterion = condition.setMatchingCriterion(criterion)
+    result_criterion = condition.setMatchingCriterionRef(criterion_ref)
     result_value = condition.setValue(value)
 
     assert result_criterion is condition
@@ -147,10 +150,10 @@ def test_post_build_variant_condition_method_chaining():
 def test_post_build_variant_condition_none_values():
     condition = PostBuildVariantCondition()
 
-    condition.setMatchingCriterion(None)
+    condition.setMatchingCriterionRef(None)
     condition.setValue(None)
 
-    assert condition.getMatchingCriterion() is None
+    assert condition.getMatchingCriterionRef() is None
     assert condition.getValue() is None
 
 
@@ -200,19 +203,17 @@ def test_variation_point_add_post_build_conditions():
 
     variation_point = VariationPoint()
 
-    criterion1 = PostBuildVariantCriterion()
-    criterion1.setCriterionName("Criterion1")
+    criterion_ref1 = RefType().setValue("/RootPkg/Criteria/Criterion1")
     value1 = Integer()
     value1.setValue(1)
     condition1 = PostBuildVariantCondition()
-    condition1.setMatchingCriterion(criterion1).setValue(value1)
+    condition1.setMatchingCriterionRef(criterion_ref1).setValue(value1)
 
-    criterion2 = PostBuildVariantCriterion()
-    criterion2.setCriterionName("Criterion2")
+    criterion_ref2 = RefType().setValue("/RootPkg/Criteria/Criterion2")
     value2 = Integer()
     value2.setValue(2)
     condition2 = PostBuildVariantCondition()
-    condition2.setMatchingCriterion(criterion2).setValue(value2)
+    condition2.setMatchingCriterionRef(criterion_ref2).setValue(value2)
 
     result1 = variation_point.addPostBuildVariantCondition(condition1)
     result2 = variation_point.addPostBuildVariantCondition(condition2)
@@ -266,13 +267,119 @@ def test_variation_point_all_new_attributes():
     sys_cond.setBindingTime(binding_time)
     variation_point.setSwSyscond(sys_cond)
 
-    criterion = PostBuildVariantCriterion()
-    criterion.setCriterionName("TestCriterion")
+    criterion_ref = RefType().setValue("/RootPkg/Criteria/TestCriterion")
     pb_condition = PostBuildVariantCondition()
-    pb_condition.setMatchingCriterion(criterion).setValue(100)
+    pb_condition.setMatchingCriterionRef(criterion_ref).setValue(100)
     variation_point.addPostBuildVariantCondition(pb_condition)
 
     assert variation_point.getShortLabel() == "VP_Complete"
     assert variation_point.getSwSyscond() == sys_cond
     assert len(variation_point.getPostBuildVariantConditions()) == 1
     assert variation_point.getPostBuildVariantConditions()[0] == pb_condition
+
+
+class TestPostBuildVariantCriterion:
+    def test_initialization(self):
+        parent = ARPackage(None, "ParentPkg")
+        criterion = PostBuildVariantCriterion(parent, "MyCriterion")
+        assert criterion.getCompuMethodRef() is None
+
+    def test_set_get_compu_method_ref(self):
+        parent = ARPackage(None, "ParentPkg")
+        criterion = PostBuildVariantCriterion(parent, "MyCriterion")
+        compu_method_ref = RefType().setValue("/RootPkg/CompuMethods/MyCompuMethod")
+        assert criterion.setCompuMethodRef(compu_method_ref) is criterion
+        assert criterion.getCompuMethodRef() == compu_method_ref
+
+    def test_set_compu_method_ref_none_is_noop(self):
+        parent = ARPackage(None, "ParentPkg")
+        criterion = PostBuildVariantCriterion(parent, "MyCriterion")
+        compu_method_ref = RefType().setValue("/RootPkg/CompuMethods/MyCompuMethod")
+        criterion.setCompuMethodRef(compu_method_ref)
+        criterion.setCompuMethodRef(None)
+        assert criterion.getCompuMethodRef() == compu_method_ref
+
+
+class TestPostBuildVariantCriterionValue:
+    def test_initialization(self):
+        value = PostBuildVariantCriterionValue()
+        assert value.getAnnotations() == []
+        assert value.getValue() is None
+        assert value.getVariantCriterionRef() is None
+
+    def test_add_annotations_and_get(self):
+        value = PostBuildVariantCriterionValue()
+        annotation = Annotation()
+        assert value.addAnnotation(annotation) is value
+        assert value.getAnnotations() == [annotation]
+
+    def test_add_annotation_none_is_noop(self):
+        value = PostBuildVariantCriterionValue()
+        annotation = Annotation()
+        value.addAnnotation(annotation)
+        value.addAnnotation(None)
+        assert value.getAnnotations() == [annotation]
+
+    def test_set_get_value(self):
+        value = PostBuildVariantCriterionValue()
+        integer_value = Integer().setValue(5)
+        assert value.setValue(integer_value) is value
+        assert value.getValue() == integer_value
+
+    def test_set_value_none_is_noop(self):
+        value = PostBuildVariantCriterionValue()
+        integer_value = Integer().setValue(5)
+        value.setValue(integer_value)
+        value.setValue(None)
+        assert value.getValue() == integer_value
+
+    def test_set_get_variant_criterion_ref(self):
+        value = PostBuildVariantCriterionValue()
+        criterion_ref = RefType().setValue("/RootPkg/Criteria/MyCriterion")
+        assert value.setVariantCriterionRef(criterion_ref) is value
+        assert value.getVariantCriterionRef() == criterion_ref
+
+    def test_set_variant_criterion_ref_none_is_noop(self):
+        value = PostBuildVariantCriterionValue()
+        criterion_ref = RefType().setValue("/RootPkg/Criteria/MyCriterion")
+        value.setVariantCriterionRef(criterion_ref)
+        value.setVariantCriterionRef(None)
+        assert value.getVariantCriterionRef() == criterion_ref
+
+
+class TestPostBuildVariantCondition:
+    def test_initialization(self):
+        condition = PostBuildVariantCondition()
+        assert condition.getMatchingCriterionRef() is None
+        assert condition.getValue() is None
+
+
+class TestConditionByFormula:
+    def test_initialization(self):
+        condition = ConditionByFormula()
+        assert condition.getBindingTime() is None
+
+
+class TestVariationPoint:
+    def test_initialization(self):
+        variation_point = VariationPoint()
+        assert variation_point.getBlueprintCondition() is None
+        assert variation_point.getDesc() is None
+        assert variation_point.getFormalBlueprintGenerator() is None
+        assert variation_point.getPostBuildVariantConditions() == []
+        assert variation_point.getSdg() is None
+        assert variation_point.getShortLabel() is None
+        assert variation_point.getSwSyscond() is None
+
+    def test_set_get_formal_blueprint_generator(self):
+        variation_point = VariationPoint()
+        generator = BlueprintGenerator()
+        assert variation_point.setFormalBlueprintGenerator(generator) is variation_point
+        assert variation_point.getFormalBlueprintGenerator() == generator
+
+    def test_set_formal_blueprint_generator_none_is_noop(self):
+        variation_point = VariationPoint()
+        generator = BlueprintGenerator()
+        variation_point.setFormalBlueprintGenerator(generator)
+        variation_point.setFormalBlueprintGenerator(None)
+        assert variation_point.getFormalBlueprintGenerator() == generator

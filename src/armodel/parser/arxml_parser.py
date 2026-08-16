@@ -211,6 +211,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, NameToken, RefType, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
+    PostBuildVariantCriterion,
     PredefinedVariant,
     SwSystemconstantValueSet,
     SwSystemconstValue,
@@ -7063,6 +7064,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.readPredefinedVariantPostBuildVariantCriterionValueSetRefs(element, variant)
         self.readPredefinedVariantSwSystemconstantValueSetRefs(element, variant)
 
+    def readPostBuildVariantCriterion(self, element: ET.Element, criterion: PostBuildVariantCriterion):
+        self.logger.debug("Read PostBuildVariantCriterion <%s>" % criterion.getShortName())
+        self.readIdentifiable(element, criterion)
+        criterion.setCompuMethodRef(self.getChildElementOptionalRefType(element, "COMPU-METHOD-REF"))
+
     def readCommunicationController(self, element: ET.Element, controller: CommunicationController):
         controller.setWakeUpByControllerSupported(self.getChildElementOptionalBooleanValue(element, "WAKE-UP-BY-CONTROLLER-SUPPORTED"))
 
@@ -8329,6 +8335,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "PREDEFINED-VARIANT":
                 variant = parent.createPredefinedVariant(self.getShortName(child_element))
                 self.readPredefinedVariant(child_element, variant)
+            elif tag_name == "POST-BUILD-VARIANT-CRITERION":
+                criterion = parent.createPostBuildVariantCriterion(self.getShortName(child_element))
+                self.readPostBuildVariantCriterion(child_element, criterion)
             elif tag_name == "NV-DATA-INTERFACE":
                 interface = parent.createNvDataInterface(self.getShortName(child_element))
                 self.readNvDataInterface(child_element, interface)

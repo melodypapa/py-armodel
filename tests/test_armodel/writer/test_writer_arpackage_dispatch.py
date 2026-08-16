@@ -13,7 +13,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARBoolean,
     ARLiteral,
+    RefType,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import PostBuildVariantCriterion
 from armodel.writer.arxml_writer import ARXMLWriter
 
 
@@ -130,6 +132,7 @@ ELEMENT_TYPES_AND_TAGS = [
     ("SwSystemConst", "SW-SYSTEMCONST"),
     ("SwSystemconstantValueSet", "SW-SYSTEMCONSTANT-VALUE-SET"),
     ("PredefinedVariant", "PREDEFINED-VARIANT"),
+    ("PostBuildVariantCriterion", "POST-BUILD-VARIANT-CRITERION"),
     ("McGroup", "MC-GROUP"),
 ]
 
@@ -309,6 +312,38 @@ class TestWriteARPackageElements:
         tags = {child.tag for child in elements_tag}
         assert "SW-BASE-TYPE" in tags
         assert "COMPU-METHOD" in tags
+
+
+class TestWritePostBuildVariantCriterionRoundTrip:
+    def test_round_trip_preserves_compu_method_ref(self, writer, tmp_path):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        pkg = _pkg()
+        criterion = pkg.createPostBuildVariantCriterion("MyCriterion")
+        compu_ref = RefType().setValue("/Pkg/CompuMethods/MyCompuMethod")
+        compu_ref.setDest("COMPU-METHOD")
+        criterion.setCompuMethodRef(compu_ref)
+
+        out_file = str(tmp_path / "postbuild.arxml")
+        writer.save(out_file, AUTOSAR.getInstance())
+
+        AUTOSAR.getInstance().new()
+        parser = ARXMLParser(options={"warning": True})
+        document = AUTOSAR.getInstance()
+        document.setARRelease("R23-11")
+        parser.load(out_file, document)
+
+        re_pkg = document.find("Pkg")
+        re_criterion = re_pkg.getElement("MyCriterion", PostBuildVariantCriterion)
+        assert re_criterion is not None
+        assert re_criterion.getCompuMethodRef().getValue() == "/Pkg/CompuMethods/MyCompuMethod"
+
+    def test_empty_compu_method_ref(self, writer):
+        pkg = _pkg()
+        criterion = pkg.createPostBuildVariantCriterion("NoRefCriterion")
+        parent = _parent()
+        writer.writePostBuildVariantCriterion(parent, criterion)
+        assert parent[0].find("COMPU-METHOD-REF") is None
 
     def test_skips_arpackage_elements(self, writer):
         parent = ET.Element("AR-PACKAGE")

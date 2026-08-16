@@ -17,6 +17,7 @@ from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
+    PostBuildVariantCriterion,
     PredefinedVariant,
     SwSystemconstantValueSet,
 )
@@ -1257,6 +1258,12 @@ class ARPackage(CollectableElement):
             self.addElement(element)
         return self.getElement(short_name, PredefinedVariant)
 
+    def createPostBuildVariantCriterion(self, short_name: str) -> PostBuildVariantCriterion:
+        if not self.IsElementExists(short_name, PostBuildVariantCriterion):
+            element = PostBuildVariantCriterion(self, short_name)
+            self.addElement(element)
+        return self.getElement(short_name, PostBuildVariantCriterion)
+
     def createPhysicalDimension(self, short_name: str) -> PhysicalDimension:
         if not self.IsElementExists(short_name, PhysicalDimension):
             element = PhysicalDimension(self, short_name)
@@ -1602,6 +1609,14 @@ class ARPackage(CollectableElement):
         return list(
             sorted(
                 filter(lambda a: isinstance(a, PredefinedVariant), self.elements),
+                key=lambda a: a.short_name,
+            )
+        )
+
+    def getPostBuildVariantCriterions(self) -> List[PostBuildVariantCriterion]:
+        return list(
+            sorted(
+                filter(lambda a: isinstance(a, PostBuildVariantCriterion), self.elements),
                 key=lambda a: a.short_name,
             )
         )

@@ -501,6 +501,21 @@ class TestVariantAndLifecycleDispatch:
         _dispatch(parser, parent, _snip("PREDEFINED-VARIANT", "PV1"))
         assert len(parent.getPredefinedVariants()) == 1
 
+    def test_post_build_variant_criterion(self, parser):
+        parent = _make_parent()
+        _dispatch(
+            parser,
+            parent,
+            _snip(
+                "POST-BUILD-VARIANT-CRITERION",
+                "PBC1",
+                "<COMPU-METHOD-REF DEST='COMPU-METHOD'>/Pkg/CompuMethods/C1</COMPU-METHOD-REF>",
+            ),
+        )
+        criterions = parent.getPostBuildVariantCriterions()
+        assert len(criterions) == 1
+        assert criterions[0].getCompuMethodRef().getValue() == "/Pkg/CompuMethods/C1"
+
     def test_life_cycle_info_set(self, parser):
         parent = _make_parent()
         _dispatch(parser, parent, _snip("LIFE-CYCLE-INFO-SET", "LC1"))
