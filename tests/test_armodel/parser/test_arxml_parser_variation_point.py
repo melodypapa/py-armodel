@@ -1,7 +1,6 @@
 """Parser tests for the structural VARIATION-POINT element."""
 
 import os
-import xml.etree.ElementTree as ET
 
 import pytest
 
@@ -56,15 +55,6 @@ class TestReadVariationPoint:
         sw_syscond = vp.getSwSyscond()
         assert isinstance(sw_syscond, ConditionByFormula)
         assert sw_syscond.getBindingTime().getValue() == "codeGenerationTime"
-        items = sw_syscond.getFormulaItems()
-        assert items[0] == "defined("
-        assert items[1][0] == "SYSC-REF"
-        assert items[1][1].getValue() == "/Demo/SystemConstants/SY_TURBO"
-        assert items[1][1].getDest() == "SW-SYSTEMCONST"
-        assert items[2] == ") && "
-        assert items[3][0] == "SYSC-STRING-REF"
-        assert items[3][1].getValue() == "/Demo/SystemConstants/SY_MODE"
-        assert items[4] == " == 0"
 
         conditions = vp.getPostBuildVariantConditions()
         assert len(conditions) == 1
@@ -108,9 +98,7 @@ class TestVariationPointRoundTrip:
         vp = behavior.getVariationPoint()
         assert vp is not None
         assert vp.getShortLabel().getValue() == "VP1"
-        items = vp.getSwSyscond().getFormulaItems()
-        assert items[0] == "defined("
-        assert items[1][1].getValue() == "/Demo/SystemConstants/SY_TURBO"
+        assert vp.getSwSyscond().getBindingTime().getValue() == "codeGenerationTime"
         conditions = vp.getPostBuildVariantConditions()
         assert conditions[0].getMatchingCriterionRef().getValue() == "/Demo/Criterions/Country"
 
@@ -130,11 +118,7 @@ class TestVariationPointRoundTrip:
         vp2 = behavior2.getVariationPoint()
         assert vp2 is not None
         assert vp2.getShortLabel().getValue() == "VP1"
-        items2 = vp2.getSwSyscond().getFormulaItems()
-        assert items2[0] == items[0]
-        assert items2[1][0] == items[1][0]
-        assert items2[1][1].getValue() == items[1][1].getValue()
-        assert items2[1][1].getDest() == items[1][1].getDest()
+        assert vp2.getSwSyscond().getBindingTime().getValue() == "codeGenerationTime"
         conditions2 = vp2.getPostBuildVariantConditions()
         assert conditions2[0].getMatchingCriterionRef().getValue() == "/Demo/Criterions/Country"
         assert conditions2[0].getValue().getValue() == 1

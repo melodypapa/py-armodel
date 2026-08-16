@@ -1,4 +1,4 @@
-from typing import List, Optional, Tuple, Union
+from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARNumerical, Identifier, Integer
@@ -331,6 +331,7 @@ class PostBuildVariantCondition(ARObject):
 
     # PostBuildVariantCondition method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 7.6, p.232
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getMatchingCriterionRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -399,25 +400,17 @@ class ConditionByFormula(ARObject):
 
     # ConditionByFormula method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 7.5, p.231
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getBindingTime    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setBindingTime    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFormulaItems   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addFormulaText    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] addFormulaRef     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
 
     def __init__(self):
         super().__init__()
 
         # This attribute specifies the point in time when condition may be evaluated at earliest. At this point in time all referenced system constants shall have a value.
         self.bindingTime: Optional["BindingTimeEnum"] = None
-
-        # Formula content of the atpMixedString SW-SYSCOND (XSD CONDITION-BY-FORMULA,
-        # AUTOSAR_00046.xsd:18334): ordered text fragments (str) and inline system
-        # constant references stored as (tag, ref) tuples, in document order.
-        # tag is "SYSC-REF" (coded value) or "SYSC-STRING-REF" (string evaluation).
-        self.formulaItems: List[Union[str, Tuple[str, RefType]]] = []
 
     def getBindingTime(self) -> Optional["BindingTimeEnum"]:
         """
@@ -435,32 +428,6 @@ class ConditionByFormula(ARObject):
         """
         if value is not None:
             self.bindingTime = value
-        return self
-
-    def getFormulaItems(self) -> List[Union[str, Tuple[str, RefType]]]:
-        """
-        Returns the formula content in document order: plain text fragments (str)
-        and inline system constant references as (tag, RefType) tuples, where tag
-        is "SYSC-REF" or "SYSC-STRING-REF", as they appear inside SW-SYSCOND.
-        """
-        return self.formulaItems
-
-    def addFormulaText(self, value: str) -> "ConditionByFormula":
-        """
-        Appends a plain text fragment to the formula content. A None value is a no-op.
-        """
-        if value is not None:
-            self.formulaItems.append(value)
-        return self
-
-    def addFormulaRef(self, value: RefType, tag: str = "SYSC-REF") -> "ConditionByFormula":
-        """
-        Appends an inline system constant reference to the formula content. tag is
-        "SYSC-REF" (internal/coded value) or "SYSC-STRING-REF" (string evaluation).
-        A None value is a no-op.
-        """
-        if value is not None:
-            self.formulaItems.append((tag, value))
         return self
 
 
@@ -496,7 +463,7 @@ class VariationPoint(ARObject):
             point to support the RTE generator. It is necessary for supporting
             splitable aggregations and if binding time is later than
             codeGenerationTime, as well as some RTE conditions. It needs to be
-            unique within the enclosing Identifiables with the same ShortName.
+            unique with in the enclosing Identifiables with the same ShortName.
             (Multiplicity: 0..1)
         swSyscond (ConditionByFormula): This condition acts as Binding Function for
             the Variation Point. Note that the multiplicity is 0..1 in order to
@@ -505,6 +472,7 @@ class VariationPoint(ARObject):
 
     # VariationPoint method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 7.4, p.226
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getBlueprintCondition             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -642,7 +610,7 @@ class VariationPoint(ARObject):
         This provides a name to the particular variation point to support the RTE
         generator. It is necessary for supporting splitable aggregations and if binding
         time is later than codeGenerationTime, as well as some RTE conditions. It needs
-        to be unique within the enclosing Identifiables with the same ShortName.
+        to be unique with in the enclosing Identifiables with the same ShortName.
         """
         return self.shortLabel
 
@@ -651,7 +619,7 @@ class VariationPoint(ARObject):
         This provides a name to the particular variation point to support the RTE
         generator. It is necessary for supporting splitable aggregations and if binding
         time is later than codeGenerationTime, as well as some RTE conditions. It needs
-        to be unique within the enclosing Identifiables with the same ShortName. A None
+        to be unique with in the enclosing Identifiables with the same ShortName. A None
         value is a no-op and does not overwrite an existing shortLabel.
         """
         if value is not None:

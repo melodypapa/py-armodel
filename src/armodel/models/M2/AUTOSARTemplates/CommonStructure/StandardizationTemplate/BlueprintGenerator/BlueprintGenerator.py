@@ -21,7 +21,8 @@ class BlueprintGenerator(ARObject):
     """
 
     # BlueprintGenerator method parity checklist:
-    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table E.11, p.424
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table E.12, p.424
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getExpression     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer

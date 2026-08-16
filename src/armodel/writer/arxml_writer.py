@@ -196,10 +196,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable, MultilanguageReferrable, Referrable, ShortNameFragment
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Identifier, Integer, Limit, RefType, VerbatimString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Limit, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     ConditionByFormula,
@@ -557,7 +556,7 @@ from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
     CompuScales,
 )
 from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr, InternalConstrs, PhysConstrs
-from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
+from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg, SdgContents
 from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
@@ -601,7 +600,6 @@ from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import Lang
 from armodel.models.M2.MSR.Documentation.TextModel.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
 from armodel.writer.abstract_arxml_writer import AbstractARXMLWriter
-
 
 #: Mapping between BindingTimeEnum camelCase values and their XML attribute tokens
 #: (AR:BINDING-TIME-ENUM--SIMPLE).
@@ -647,13 +645,30 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalIntegerValue(child_element, "VEHICLE-SYSTEM", node_name.getVehicleSystem())
             self.setChildElementOptionalIntegerValue(child_element, "VEHICLE-SYSTEM-INSTANCE", node_name.getVehicleSystemInstance())
 
-    def writeSds(self, parent: ET.Element, sdg: Sdg):
-        for sd in sdg.getSds():
+    def writeSds(self, parent: ET.Element, contents: SdgContents):
+        for sd in contents.getSds():
             sd_tag = ET.SubElement(parent, "SD")
             self.writeARObjectAttributes(sd_tag, sd)
-            if sd.gid is not None:
-                sd_tag.attrib["GID"] = sd.gid
-            sd_tag.text = sd.value
+            gid = sd.getGID()
+            if gid is not None:
+                sd_tag.attrib["GID"] = gid.getValue()
+            xml_space = sd.getXmlSpace()
+            if xml_space is not None:
+                sd_tag.attrib["{http://www.w3.org/XML/1998/namespace}space"] = xml_space.getValue()
+            value = sd.getValue()
+            if value is not None:
+                sd_tag.text = value.getValue()
+
+    def writeSdfs(self, parent: ET.Element, contents: SdgContents):
+        for sdf in contents.getSdfs():
+            sdf_tag = ET.SubElement(parent, "SDF")
+            self.writeARObjectAttributes(sdf_tag, sdf)
+            gid = sdf.getGID()
+            if gid is not None:
+                sdf_tag.attrib["GID"] = gid.getValue()
+            value = sdf.getValue()
+            if value is not None:
+                sdf_tag.text = value.getValue()
 
     def writeSdgCaption(self, element: ET.Element, sdg: Sdg):
         caption = sdg.getSdgCaption()
@@ -661,21 +676,30 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "SDG-CAPTION")
             self.writeMultilanguageReferrable(child_element, caption)
 
-    def writeSdgSdxRefs(self, element: ET.Element, sdg: Sdg):
-        for ref in sdg.getSdxRefs():
+    def writeSdgSdxRefs(self, element: ET.Element, contents: SdgContents):
+        for ref in contents.getSdxRefs():
             self.setChildElementOptionalRefType(element, "SDX-REF", ref)
+
+    def writeSdgSdxfRefs(self, element: ET.Element, contents: SdgContents):
+        for ref in contents.getSdxfRefs():
+            self.setChildElementOptionalRefType(element, "SDXF", ref)
 
     def setSdg(self, element: ET.Element, sdg: Sdg):
         if sdg is not None:
             child_element = ET.SubElement(element, "SDG")
             self.writeARObjectAttributes(child_element, sdg)
-            if sdg.gid is not None and sdg.gid != "":
-                child_element.attrib["GID"] = sdg.gid
+            gid = sdg.getGID()
+            if gid is not None:
+                child_element.attrib["GID"] = gid.getValue()
             self.writeSdgCaption(child_element, sdg)
-            for sdg_item in sdg.getSdgContentsTypes():
-                self.setSdg(child_element, sdg_item)
-            self.writeSds(child_element, sdg)
-            self.writeSdgSdxRefs(child_element, sdg)
+            contents = sdg.getSdgContentsType()
+            if contents is not None:
+                for sdg_item in contents.getSdgs():
+                    self.setSdg(child_element, sdg_item)
+                self.writeSds(child_element, contents)
+                self.writeSdfs(child_element, contents)
+                self.writeSdgSdxRefs(child_element, contents)
+                self.writeSdgSdxfRefs(child_element, contents)
 
     def writeBlueprintGenerator(self, element: ET.Element, generator: BlueprintGenerator):
         if generator is not None:
@@ -699,19 +723,6 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.notImplemented("Unsupported BINDING-TIME <%s>" % binding_time.getValue())
                 else:
                     child_element.attrib["BINDING-TIME"] = token
-            last_ref = None
-            for item in condition.getFormulaItems():
-                if isinstance(item, str):
-                    if last_ref is None:
-                        child_element.text = item if child_element.text is None else child_element.text + item
-                    else:
-                        last_ref.tail = item if last_ref.tail is None else last_ref.tail + item
-                else:
-                    tag, ref = item
-                    last_ref = ET.SubElement(child_element, tag)
-                    if ref.getDest() is not None:
-                        last_ref.attrib["DEST"] = ref.getDest()
-                    last_ref.text = ref.getValue()
 
     def writePostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition):
         child_element = ET.SubElement(element, "POST-BUILD-VARIANT-CONDITION")

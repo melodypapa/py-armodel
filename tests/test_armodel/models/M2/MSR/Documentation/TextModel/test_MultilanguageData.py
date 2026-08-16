@@ -54,6 +54,9 @@ class TestMultiLanguageOverviewParagraph:
         assert l_overview_paragraph in l2s
         assert result == multi_lang_overview_paragraph
 
+        multi_lang_overview_paragraph.addL2(None)
+        assert multi_lang_overview_paragraph.getL2s() == [l_overview_paragraph]
+
 
 class TestMultilanguageLongName:
     """Test class for MultilanguageLongName class."""

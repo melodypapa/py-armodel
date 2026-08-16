@@ -24,6 +24,7 @@ from armodel.models import (
     MlFigure,
     RunnableEntity,
     Sdg,
+    SdgContents,
     SwDataDefProps,
 )
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
@@ -697,18 +698,20 @@ class TestSdgDeepHandlers:
             "<SD GID='key1'>value1</SD>",
             root_tag="SDG",
         )
-        sdg = Sdg()
-        parser.readSd(element, sdg)
-        assert len(sdg.getSds()) == 1
+        contents = SdgContents()
+        parser.readSd(element, contents)
+        assert len(contents.getSds()) == 1
+        assert contents.getSds()[0].getGID().getValue() == "key1"
+        assert contents.getSds()[0].getValue().getValue() == "value1"
 
     def test_readSd_multiple(self, parser):
         element = _snip(
             "<SD GID='key1'>value1</SD>" "<SD GID='key2'>value2</SD>",
             root_tag="SDG",
         )
-        sdg = Sdg()
-        parser.readSd(element, sdg)
-        assert len(sdg.getSds()) == 2
+        contents = SdgContents()
+        parser.readSd(element, contents)
+        assert len(contents.getSds()) == 2
 
     def test_readSdgCaption(self, parser):
         element = _snip(
@@ -724,9 +727,9 @@ class TestSdgDeepHandlers:
             "<SDX-REF DEST='ELEMENT'>/path/ref1</SDX-REF>" "<SDX-REF DEST='ELEMENT'>/path/ref2</SDX-REF>",
             root_tag="SDG",
         )
-        sdg = Sdg()
-        parser.readSdgSdxRefs(element, sdg)
-        assert len(sdg.getSdxRefs()) == 2
+        contents = SdgContents()
+        parser.readSdgSdxRefs(element, contents)
+        assert len(contents.getSdxRefs()) == 2
 
     def test_getSdg_with_gid(self, parser):
         element = _snip(
@@ -735,7 +738,7 @@ class TestSdgDeepHandlers:
         )
         element.attrib["GID"] = "MyGroup"
         sdg = parser.getSdg(element)
-        assert sdg.getGID() == "MyGroup"
+        assert sdg.getGID().getValue() == "MyGroup"
 
     def test_readAdminDataSdgs_nested_sdg(self, parser):
         element = _snip(
@@ -745,7 +748,7 @@ class TestSdgDeepHandlers:
         parser.readAdminDataSdgs(element, admin)
         sdgs = admin.getSdgs()
         assert len(sdgs) == 1
-        assert len(sdgs[0].getSdgContentsTypes()) == 1
+        assert len(sdgs[0].getSdgContentsType().getSdgs()) == 1
 
 
 # ==================== Describable Handlers ====================

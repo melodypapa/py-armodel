@@ -51,9 +51,6 @@ class TestWriteVariationPoint:
 
         syscond = ConditionByFormula()
         syscond.setBindingTime(BindingTimeEnum().setValue("codeGenerationTime"))
-        syscond.addFormulaText("defined(")
-        syscond.addFormulaRef(RefType().setValue("/Demo/SystemConstants/SY_TURBO").setDest("SW-SYSTEMCONST"))
-        syscond.addFormulaText(")")
         vp.setSwSyscond(syscond)
 
         condition = PostBuildVariantCondition()
@@ -80,12 +77,6 @@ class TestWriteVariationPoint:
         syscond_element = vp_element.find("SW-SYSCOND")
         assert syscond_element is not None
         assert syscond_element.attrib["BINDING-TIME"] == "CODE-GENERATION-TIME"
-        assert syscond_element.text == "defined("
-        refs = syscond_element.findall("SYSC-REF")
-        assert len(refs) == 1
-        assert refs[0].attrib["DEST"] == "SW-SYSTEMCONST"
-        assert refs[0].text == "/Demo/SystemConstants/SY_TURBO"
-        assert refs[0].tail == ")"
 
         conditions_wrapper = vp_element.find("POST-BUILD-VARIANT-CONDITIONS")
         condition_element = conditions_wrapper.find("POST-BUILD-VARIANT-CONDITION")

@@ -21,8 +21,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
     ARLiteral,
     DateTime,
+    NameToken,
     RefType,
     RevisionLabelString,
+    VerbatimStringPlain,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
     ModeDeclarationMapping,
@@ -33,7 +35,7 @@ from armodel.models.M2.MSR.AsamHdo.AdminData import (
     DocRevision,
     Modification,
 )
-from armodel.models.M2.MSR.AsamHdo.SpecialData import Sd, Sdg, SdgCaption
+from armodel.models.M2.MSR.AsamHdo.SpecialData import Sd, Sdg, SdgCaption, SdgContents
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.MSR.Documentation.BlockElements import Caption
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import (
@@ -107,12 +109,12 @@ class TestSetShortName:
 class TestWriteSds:
     def test_single_sd_with_gid(self, writer):
         parent = _parent()
-        sdg = Sdg()
+        contents = SdgContents()
         sd = Sd()
-        sd.value = "val"
-        sd.gid = "g1"
-        sdg.addSd(sd)
-        writer.writeSds(parent, sdg)
+        sd.setValue(VerbatimStringPlain().setValue("val"))
+        sd.setGID(NameToken().setValue("g1"))
+        contents.addSd(sd)
+        writer.writeSds(parent, contents)
         assert len(parent) == 1
         assert parent[0].tag == "SD"
         assert parent[0].text == "val"
@@ -120,25 +122,24 @@ class TestWriteSds:
 
     def test_multiple_sds(self, writer):
         parent = _parent()
-        sdg = Sdg()
+        contents = SdgContents()
         sd1 = Sd()
-        sd1.value = "v1"
+        sd1.setValue(VerbatimStringPlain().setValue("v1"))
         sd2 = Sd()
-        sd2.value = "v2"
-        sdg.addSd(sd1).addSd(sd2)
-        writer.writeSds(parent, sdg)
+        sd2.setValue(VerbatimStringPlain().setValue("v2"))
+        contents.addSd(sd1).addSd(sd2)
+        writer.writeSds(parent, contents)
         assert len(parent) == 2
         assert parent[0].text == "v1"
         assert parent[1].text == "v2"
 
     def test_sd_without_gid(self, writer):
         parent = _parent()
-        sdg = Sdg()
+        contents = SdgContents()
         sd = Sd()
-        sd.value = "val"
-        sd.gid = None
-        sdg.addSd(sd)
-        writer.writeSds(parent, sdg)
+        sd.setValue(VerbatimStringPlain().setValue("val"))
+        contents.addSd(sd)
+        writer.writeSds(parent, contents)
         assert "GID" not in parent[0].attrib
 
 
@@ -164,12 +165,12 @@ class TestWriteSdgCaption:
 class TestWriteSdgSdxRefs:
     def test_with_refs(self, writer):
         parent = _parent()
-        sdg = Sdg()
+        contents = SdgContents()
         ref = RefType()
         ref.value = "/path"
         ref.dest = "ELEMENT"
-        sdg.addSdxRef(ref)
-        writer.writeSdgSdxRefs(parent, sdg)
+        contents.addSdxRef(ref)
+        writer.writeSdgSdxRefs(parent, contents)
         assert len(parent) == 1
         assert parent[0].tag == "SDX-REF"
         assert parent[0].text == "/path"
@@ -177,8 +178,8 @@ class TestWriteSdgSdxRefs:
 
     def test_without_refs(self, writer):
         parent = _parent()
-        sdg = Sdg()
-        writer.writeSdgSdxRefs(parent, sdg)
+        contents = SdgContents()
+        writer.writeSdgSdxRefs(parent, contents)
         assert len(parent) == 0
 
 
@@ -186,10 +187,12 @@ class TestSetSdg:
     def test_basic_with_gid(self, writer):
         parent = _parent()
         sdg = Sdg()
-        sdg.gid = "gid1"
+        sdg.setGID(NameToken().setValue("gid1"))
         sd = Sd()
-        sd.value = "v"
-        sdg.addSd(sd)
+        sd.setValue(VerbatimStringPlain().setValue("v"))
+        contents = SdgContents()
+        contents.addSd(sd)
+        sdg.setSdgContentsType(contents)
         writer.setSdg(parent, sdg)
         assert parent[0].tag == "SDG"
         assert parent[0].attrib["GID"] == "gid1"
@@ -202,20 +205,21 @@ class TestSetSdg:
         writer.setSdg(parent, None)
         assert len(parent) == 0
 
-    def test_empty_gid_not_written(self, writer):
+    def test_no_gid_not_written(self, writer):
         parent = _parent()
         sdg = Sdg()
-        sdg.gid = ""
         writer.setSdg(parent, sdg)
         assert "GID" not in parent[0].attrib
 
     def test_nested_sdg_contents(self, writer):
         parent = _parent()
         sdg = Sdg()
-        sdg.gid = "outer"
+        sdg.setGID(NameToken().setValue("outer"))
         inner = Sdg()
-        inner.gid = "inner"
-        sdg.addSdgContentsType(inner)
+        inner.setGID(NameToken().setValue("inner"))
+        contents = SdgContents()
+        contents.addSdg(inner)
+        sdg.setSdgContentsType(contents)
         writer.setSdg(parent, sdg)
         outer = parent[0]
         assert outer.tag == "SDG"
@@ -226,11 +230,13 @@ class TestSetSdg:
     def test_sdg_with_caption_and_sdx(self, writer):
         parent = _parent()
         sdg = Sdg()
-        sdg.gid = "g"
+        sdg.setGID(NameToken().setValue("g"))
         sdg.createSdgCaption("Cap")
         ref = RefType()
         ref.value = "/r"
-        sdg.addSdxRef(ref)
+        contents = SdgContents()
+        contents.addSdxRef(ref)
+        sdg.setSdgContentsType(contents)
         writer.setSdg(parent, sdg)
         sdg_tag = parent[0]
         assert sdg_tag.find("SDG-CAPTION") is not None
@@ -242,7 +248,7 @@ class TestWriteAdminDataSdgs:
         parent = _parent()
         admin = AdminData()
         sdg = Sdg()
-        sdg.gid = "g"
+        sdg.setGID(NameToken().setValue("g"))
         admin.addSdg(sdg)
         writer.writeAdminDataSdgs(parent, admin)
         assert parent[0].tag == "SDGS"

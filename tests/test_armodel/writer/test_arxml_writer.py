@@ -7,12 +7,22 @@ import xml.etree.cElementTree as ET
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantReference, NumericalValueSpecification, TextValueSpecification
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable, ShortNameFragment
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARLiteral, DateTime, Identifier, Limit, RefType, RevisionLabelString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARFloat,
+    ARLiteral,
+    DateTime,
+    Identifier,
+    Limit,
+    NameToken,
+    RefType,
+    RevisionLabelString,
+    VerbatimStringPlain,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     SwSystemconstValue,
 )
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData, DocRevision, Modification
-from armodel.models.M2.MSR.AsamHdo.SpecialData import Sd, Sdg
+from armodel.models.M2.MSR.AsamHdo.SpecialData import Sd, Sdg, SdgContents
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
@@ -117,13 +127,13 @@ class TestARXMLWriterSdgMethods:
         writer = ARXMLWriter()
         parent = ET.Element("parent")
 
-        sdg = Sdg()
+        contents = SdgContents()
         sd = Sd()
-        sd.value = "test value"
-        sd.gid = "test-gid"
-        sdg.addSd(sd)
+        sd.setValue(VerbatimStringPlain().setValue("test value"))
+        sd.setGID(NameToken().setValue("test-gid"))
+        contents.addSd(sd)
 
-        writer.writeSds(parent, sdg)
+        writer.writeSds(parent, contents)
 
         assert len(parent) == 1
         sd_tag = parent[0]
@@ -136,15 +146,15 @@ class TestARXMLWriterSdgMethods:
         writer = ARXMLWriter()
         parent = ET.Element("parent")
 
-        sdg = Sdg()
+        contents = SdgContents()
         sd1 = Sd()
-        sd1.value = "value1"
+        sd1.setValue(VerbatimStringPlain().setValue("value1"))
         sd2 = Sd()
-        sd2.value = "value2"
-        sdg.addSd(sd1)
-        sdg.addSd(sd2)
+        sd2.setValue(VerbatimStringPlain().setValue("value2"))
+        contents.addSd(sd1)
+        contents.addSd(sd2)
 
-        writer.writeSds(parent, sdg)
+        writer.writeSds(parent, contents)
 
         assert len(parent) == 2
         assert parent[0].text == "value1"
@@ -169,12 +179,12 @@ class TestARXMLWriterSdgMethods:
         writer = ARXMLWriter()
         parent = ET.Element("parent")
 
-        sdg = Sdg()
+        contents = SdgContents()
         ref = RefType()
         ref.value = "/path/to/ref"
-        sdg.sdxRefs = [ref]
+        contents.addSdxRef(ref)
 
-        writer.writeSdgSdxRefs(parent, sdg)
+        writer.writeSdgSdxRefs(parent, contents)
 
         assert len(parent) == 1
         ref_tag = parent[0]
@@ -187,10 +197,12 @@ class TestARXMLWriterSdgMethods:
         parent = ET.Element("parent")
 
         sdg = Sdg()
-        sdg.gid = "test-gid"
+        sdg.setGID(NameToken().setValue("test-gid"))
         sd = Sd()
-        sd.value = "test value"
-        sdg.addSd(sd)
+        sd.setValue(VerbatimStringPlain().setValue("test value"))
+        contents = SdgContents()
+        contents.addSd(sd)
+        sdg.setSdgContentsType(contents)
 
         writer.setSdg(parent, sdg)
 
@@ -214,10 +226,11 @@ class TestARXMLWriterSdgMethods:
         parent = ET.Element("parent")
 
         sdg = Sdg()
-        sdg.gid = ""
         sd = Sd()
-        sd.value = "test value"
-        sdg.addSd(sd)
+        sd.setValue(VerbatimStringPlain().setValue("test value"))
+        contents = SdgContents()
+        contents.addSd(sd)
+        sdg.setSdgContentsType(contents)
 
         writer.setSdg(parent, sdg)
 
@@ -233,8 +246,10 @@ class TestARXMLWriterSdgMethods:
         admin_data = AdminData()
         sdg = Sdg()
         sd = Sd()
-        sd.value = "test value"
-        sdg.addSd(sd)
+        sd.setValue(VerbatimStringPlain().setValue("test value"))
+        contents = SdgContents()
+        contents.addSd(sd)
+        sdg.setSdgContentsType(contents)
         admin_data.addSdg(sdg)
 
         writer.writeAdminDataSdgs(parent, admin_data)

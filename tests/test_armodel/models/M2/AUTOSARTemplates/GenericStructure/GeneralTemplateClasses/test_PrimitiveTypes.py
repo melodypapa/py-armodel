@@ -30,6 +30,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     MacAddressString,
     NameToken,
     NativeDeclarationString,
+    Numerical,
     PositiveInteger,
     PrimitiveIdentifier,
     ReferrableSubtypesEnum,
@@ -40,6 +41,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     TRefType,
     UnlimitedInteger,
     VerbatimString,
+    VerbatimStringPlain,
 )
 
 
@@ -1117,3 +1119,35 @@ class TestIdentifier:
 
         identifier.setNamePattern(None)
         assert identifier.getNamePattern() == name_pattern
+
+
+class TestVerbatimStringPlain:
+    """
+    Test class for VerbatimStringPlain functionality.
+    """
+
+    def test_initialization(self):
+        verbatim = VerbatimStringPlain()
+        assert verbatim is not None
+        assert verbatim._value is None
+
+    def test_set_get_value(self):
+        verbatim = VerbatimStringPlain()
+        assert verbatim.setValue("plain text") is verbatim
+        assert verbatim.getValue() == "plain text"
+
+
+class TestNumerical:
+    """
+    Test class for Numerical functionality.
+    """
+
+    def test_initialization(self):
+        numerical = Numerical()
+        assert numerical is not None
+        assert numerical._value is None
+
+    def test_set_get_value(self):
+        numerical = Numerical()
+        assert numerical.setValue("0x1F") is numerical
+        assert numerical.getValue() == "0x1F"

@@ -13,6 +13,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARNumerical,
+    Identifier,
     Integer,
     RefType,
 )
@@ -26,7 +27,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import 
     SwSystemconstValue,
     VariationPoint,
 )
+from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
 
 
 def test_sw_systemconst_value_getters_setters_and_chaining():
@@ -155,40 +159,6 @@ def test_post_build_variant_condition_none_values():
 
     assert condition.getMatchingCriterionRef() is None
     assert condition.getValue() is None
-
-
-def test_condition_by_formula_formula_items_ordered():
-    sysc_ref = RefType().setValue("/SwSystemconsts/SY_TURBO").setDest("SW-SYSTEMCONST")
-    string_ref = RefType().setValue("/SwSystemconsts/SY_MODE").setDest("SW-SYSTEMCONST")
-
-    condition = ConditionByFormula()
-
-    assert condition.getFormulaItems() == []
-
-    result_text = condition.addFormulaText("defined(")
-    result_ref = condition.addFormulaRef(sysc_ref)
-    result_tail = condition.addFormulaText(") && ")
-    result_string_ref = condition.addFormulaRef(string_ref, tag="SYSC-STRING-REF")
-
-    items = condition.getFormulaItems()
-    assert items[0] == "defined("
-    assert items[1] == ("SYSC-REF", sysc_ref)
-    assert items[2] == ") && "
-    assert items[3] == ("SYSC-STRING-REF", string_ref)
-    assert len(items) == 4
-    assert result_text is condition
-    assert result_ref is condition
-    assert result_tail is condition
-    assert result_string_ref is condition
-
-
-def test_condition_by_formula_add_none_is_no_op():
-    condition = ConditionByFormula()
-
-    condition.addFormulaText(None)
-    condition.addFormulaRef(None)
-
-    assert condition.getFormulaItems() == []
 
 
 def test_condition_by_formula_getters_and_setters():
@@ -387,6 +357,22 @@ class TestPostBuildVariantCondition:
         assert condition.getMatchingCriterionRef() is None
         assert condition.getValue() is None
 
+    def test_get_set_matching_criterion_ref(self):
+        condition = PostBuildVariantCondition()
+        ref = RefType().setValue("/Criterions/Country").setDest("POST-BUILD-VARIANT-CRITERION")
+        assert condition.setMatchingCriterionRef(ref) is condition
+        assert condition.getMatchingCriterionRef() == ref
+        condition.setMatchingCriterionRef(None)
+        assert condition.getMatchingCriterionRef() == ref
+
+    def test_get_set_value(self):
+        condition = PostBuildVariantCondition()
+        value = Integer().setValue("1")
+        assert condition.setValue(value) is condition
+        assert condition.getValue() == value
+        condition.setValue(None)
+        assert condition.getValue() == value
+
 
 class TestConditionByFormula:
     def test_initialization(self):
@@ -432,3 +418,43 @@ class TestVariationPoint:
         variation_point.setFormalBlueprintGenerator(generator)
         variation_point.setFormalBlueprintGenerator(None)
         assert variation_point.getFormalBlueprintGenerator() == generator
+
+    def test_set_get_blueprint_condition(self):
+        variation_point = VariationPoint()
+        block = DocumentationBlock()
+        assert variation_point.setBlueprintCondition(block) is variation_point
+        assert variation_point.getBlueprintCondition() == block
+        variation_point.setBlueprintCondition(None)
+        assert variation_point.getBlueprintCondition() == block
+
+    def test_set_get_desc(self):
+        variation_point = VariationPoint()
+        desc = MultiLanguageOverviewParagraph()
+        assert variation_point.setDesc(desc) is variation_point
+        assert variation_point.getDesc() == desc
+        variation_point.setDesc(None)
+        assert variation_point.getDesc() == desc
+
+    def test_set_get_sdg(self):
+        variation_point = VariationPoint()
+        sdg = Sdg()
+        assert variation_point.setSdg(sdg) is variation_point
+        assert variation_point.getSdg() == sdg
+        variation_point.setSdg(None)
+        assert variation_point.getSdg() == sdg
+
+    def test_set_get_short_label(self):
+        variation_point = VariationPoint()
+        label = Identifier().setValue("VP_Label")
+        assert variation_point.setShortLabel(label) is variation_point
+        assert variation_point.getShortLabel() == label
+        variation_point.setShortLabel(None)
+        assert variation_point.getShortLabel() == label
+
+    def test_set_get_sw_syscond(self):
+        variation_point = VariationPoint()
+        syscond = ConditionByFormula()
+        assert variation_point.setSwSyscond(syscond) is variation_point
+        assert variation_point.getSwSyscond() == syscond
+        variation_point.setSwSyscond(None)
+        assert variation_point.getSwSyscond() == syscond

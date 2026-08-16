@@ -1238,6 +1238,23 @@ class VerbatimString(ARLiteral):
         super().__init__()
 
 
+class VerbatimStringPlain(ARLiteral):
+    """
+    This primitive represents a string in which white-space needs to be preserved.
+    This primitive is applied in cases where xml:space attribute cannot be provided by
+    the primitive type but needs to be provided by the container class. This is in
+    particular the case in applications of [TPS_XMLSPR_00024].
+    """
+
+    # VerbatimStringPlain method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.68, p.115
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+
+    def __init__(self):
+        super().__init__()
+
+
 class RegularExpression(ARLiteral):
     """
     Represents a regular expression in AUTOSAR models.
@@ -1282,6 +1299,23 @@ class McdIdentifier(ARLiteral):
 
     # McdIdentifier method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+
+    def __init__(self):
+        super().__init__()
+
+
+class Numerical(ARLiteral):
+    """
+    This primitive specifies a numerical value. It can be denoted in different formats
+    such as Decimal, Octal, Hexadecimal, Float. See the xsd pattern for details. The
+    value can be expressed in octal, hexadecimal, binary representation. Negative
+    numbers can only be expressed in decimal or float notation.
+    """
+
+    # Numerical method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table E.58, p.92
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self):
         super().__init__()

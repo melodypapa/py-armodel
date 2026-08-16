@@ -1,5 +1,4 @@
 import os
-import re
 import xml.etree.ElementTree as ET
 from typing import List, Optional
 
@@ -211,7 +210,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable, MultilanguageReferrable, Referrable, ShortNameFragment
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, NameToken, RefType, String, VerbatimString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, NameToken, Numerical, RefType, String, VerbatimString, VerbatimStringPlain
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     ConditionByFormula,
@@ -573,7 +572,7 @@ from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
     CompuScales,
 )
 from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr, DataConstrRule, InternalConstrs, PhysConstrs
-from armodel.models.M2.MSR.AsamHdo.SpecialData import Sd, Sdg
+from armodel.models.M2.MSR.AsamHdo.SpecialData import Sd, Sdf, Sdg, SdgContents
 from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
@@ -623,7 +622,6 @@ from armodel.models.M2.MSR.Documentation.TextModel.MsrQuery import MsrQueryArg, 
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
 from armodel.parser.abstract_arxml_parser import AbstractARXMLParser
 
-
 #: Mapping between BindingTimeEnum camelCase values and their XML attribute tokens
 #: (AR:BINDING-TIME-ENUM--SIMPLE).
 BINDING_TIME_XML_MAP = {
@@ -669,34 +667,54 @@ class ARXMLParser(AbstractARXMLParser):
             node_name.setVehicleSystemInstance(self.getChildElementOptionalIntegerValue(child_element, "VEHICLE-SYSTEM-INSTANCE"))
         return node_name
 
-    def readSd(self, element: ET.Element, sdg: Sdg):
+    def readSd(self, element: ET.Element, contents: SdgContents):
         for child_element in self.findall(element, "./SD"):
             sd = Sd()
             self.readARObjectAttributes(child_element, sd)
             if "GID" in child_element.attrib:
-                sd.setGID(child_element.attrib["GID"])
-            sd.setValue(child_element.text)
-            sdg.addSd(sd)
+                sd.setGID(NameToken().setValue(child_element.attrib["GID"]))
+            if child_element.text is not None and child_element.text.strip() != "":
+                sd.setValue(VerbatimStringPlain().setValue(child_element.text))
+            contents.addSd(sd)
+
+    def readSdf(self, element: ET.Element, contents: SdgContents):
+        for child_element in self.findall(element, "./SDF"):
+            sdf = Sdf()
+            self.readARObjectAttributes(child_element, sdf)
+            if "GID" in child_element.attrib:
+                sdf.setGID(NameToken().setValue(child_element.attrib["GID"]))
+            if child_element.text is not None and child_element.text.strip() != "":
+                sdf.setValue(Numerical().setValue(child_element.text))
+            contents.addSdf(sdf)
 
     def readSdgCaption(self, element: ET.Element, sdg: Sdg):
         child_element = self.find(element, "SDG-CAPTION")
         if child_element is not None:
             sdg.createSdgCaption(self.getShortName(child_element))
 
-    def readSdgSdxRefs(self, element: ET.SubElement, sdg: Sdg):
+    def readSdgSdxRefs(self, element: ET.SubElement, contents: SdgContents):
         for ref in self.getChildElementRefTypeList(element, "SDX-REF"):
-            sdg.addSdxRef(ref)
+            contents.addSdxRef(ref)
+
+    def readSdgSdxfRefs(self, element: ET.SubElement, contents: SdgContents):
+        for ref in self.getChildElementRefTypeList(element, "SDXF"):
+            contents.addSdxfRef(ref)
 
     def getSdg(self, element: ET.Element) -> Sdg:
         sdg = Sdg()
         self.readARObjectAttributes(element, sdg)
         if "GID" in element.attrib:
-            sdg.setGID(element.attrib["GID"])
+            sdg.setGID(NameToken().setValue(element.attrib["GID"]))
         self.readSdgCaption(element, sdg)
-        self.readSd(element, sdg)
+        contents = SdgContents()
+        self.readSd(element, contents)
+        self.readSdf(element, contents)
         for child_element in self.findall(element, "SDG"):
-            sdg.addSdgContentsType(self.getSdg(child_element))
-        self.readSdgSdxRefs(element, sdg)
+            contents.addSdg(self.getSdg(child_element))
+        self.readSdgSdxRefs(element, contents)
+        self.readSdgSdxfRefs(element, contents)
+        if len(contents.getSds()) > 0 or len(contents.getSdfs()) > 0 or len(contents.getSdgs()) > 0 or len(contents.getSdxRefs()) > 0 or len(contents.getSdxfRefs()) > 0:
+            sdg.setSdgContentsType(contents)
         return sdg
 
     def readBlueprintGenerator(self, element: ET.Element, generator: BlueprintGenerator) -> BlueprintGenerator:
@@ -719,27 +737,7 @@ class ARXMLParser(AbstractARXMLParser):
                 condition.setBindingTime(BindingTimeEnum().setValue(binding_time))
             else:
                 self.notImplemented("Unsupported BINDING-TIME <%s>" % element.attrib["BINDING-TIME"])
-        if element.text is not None:
-            condition.addFormulaText(self._stripMixedContentWhitespace(element.text))
-        for child_element in element:
-            tag_name = self.getTagName(child_element)
-            if tag_name in ("SYSC-REF", "SYSC-STRING-REF"):
-                ref = RefType()
-                if "DEST" in child_element.attrib:
-                    ref.setDest(child_element.attrib["DEST"])
-                ref.setValue(child_element.text)
-                condition.addFormulaRef(ref, tag=tag_name)
-                if child_element.tail is not None:
-                    condition.addFormulaText(self._stripMixedContentWhitespace(child_element.tail))
-            else:
-                self.notImplemented("Unsupported SW-SYSCOND content <%s>" % tag_name)
         return condition
-
-    def _stripMixedContentWhitespace(self, text: str) -> str:
-        # The writer pretty-prints with minidom.toprettyxml, which wraps mixed-content
-        # text fragments (element.text / tail) in newline + indentation. Strip that
-        # formatting boundary while preserving meaningful internal whitespace.
-        return re.sub(r"^\s*\n\s*", "", re.sub(r"\s*\n\s*$", "", text))
 
     def readPostBuildVariantCondition(self, element: ET.Element, condition: PostBuildVariantCondition) -> PostBuildVariantCondition:
         self.readARObjectAttributes(element, condition)
