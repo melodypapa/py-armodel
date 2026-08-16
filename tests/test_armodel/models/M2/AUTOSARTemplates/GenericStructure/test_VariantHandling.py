@@ -360,6 +360,21 @@ class TestConditionByFormula:
         assert condition.getBindingTime() is None
 
 
+def test_identifiable_holds_variation_point():
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
+
+    parent = ARPackage(None, "Pkg")
+    criterion = PostBuildVariantCriterion(parent, "MyCriterion")
+    variation_point = VariationPoint()
+
+    assert criterion.getVariationPoint() is None
+
+    result = criterion.setVariationPoint(variation_point)
+
+    assert criterion.getVariationPoint() is variation_point
+    assert result is criterion
+
+
 class TestVariationPoint:
     def test_initialization(self):
         variation_point = VariationPoint()
