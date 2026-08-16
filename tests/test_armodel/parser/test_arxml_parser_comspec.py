@@ -146,6 +146,7 @@ class TestGetNonqueuedReceiverComSpec:
             <DATA-ELEMENT-REF DEST="VARIABLE-DATA-PROTOTYPE">/vdp/Elem</DATA-ELEMENT-REF>
             <ALIVE-TIMEOUT>0.5</ALIVE-TIMEOUT>
             <ENABLE-UPDATE>true</ENABLE-UPDATE>
+            <HANDLE-DATA-STATUS>true</HANDLE-DATA-STATUS>
             <HANDLE-NEVER-RECEIVED>false</HANDLE-NEVER-RECEIVED>
             <HANDLE-TIMEOUT-TYPE>REPLACE</HANDLE-TIMEOUT-TYPE>
             """,
@@ -156,7 +157,9 @@ class TestGetNonqueuedReceiverComSpec:
         assert result.getDataElementRef() is not None
         assert result.getDataElementRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
         assert result.getAliveTimeout() is not None
-        assert result.getEnableUpdated() is not None
+        assert result.getEnableUpdate() is not None
+        assert result.getHandleDataStatus() is not None
+        assert result.getHandleDataStatus().getValue() is True
         assert result.getHandleNeverReceived() is not None
         assert result.getHandleTimeoutType() is not None
 

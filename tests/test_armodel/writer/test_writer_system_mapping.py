@@ -15,8 +15,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AnyInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
+    ARBoolean,
     ARLiteral,
     ARNumerical,
+    ARPositiveInteger,
     RefType,
     RevisionLabelString,
 )
@@ -86,6 +88,18 @@ def _revision(value):
     r = RevisionLabelString()
     r.setValue(value)
     return r
+
+
+def _boolean(val=True):
+    b = ARBoolean()
+    b.setValue(val)
+    return b
+
+
+def _positive_int(val=1):
+    i = ARPositiveInteger()
+    i.setValue(str(val))
+    return i
 
 
 def _pkg():
@@ -593,13 +607,71 @@ class TestWriterSetDataPrototypeMapping:
     def test_full(self, writer):
         mapping = DataPrototypeMapping()
         mapping.setFirstDataPrototypeRef(_ref("/f", "VARIABLE-DATA-PROTOTYPE"))
+        mapping.setFirstToSecondDataTransformationRef(_ref("/t1", "DATA-TRANSFORMATION"))
         mapping.setSecondDataPrototypeRef(_ref("/s", "VARIABLE-DATA-PROTOTYPE"))
+        mapping.setSecondToFirstDataTransformationRef(_ref("/t2", "DATA-TRANSFORMATION"))
         parent = _parent()
         writer.setDataPrototypeMapping(parent, mapping)
         m = parent[0]
         assert m.tag == "DATA-PROTOTYPE-MAPPING"
         assert m.find("FIRST-DATA-PROTOTYPE-REF") is not None
+        assert m.find("FIRST-TO-SECOND-DATA-TRANSFORMATION-REF") is not None
         assert m.find("SECOND-DATA-PROTOTYPE-REF") is not None
+        assert m.find("SECOND-TO-FIRST-DATA-TRANSFORMATION-REF") is not None
+
+    def test_with_sub_element_and_text_table_mappings(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+            SubElementMapping,
+            TextTableMapping,
+        )
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import (
+            ApplicationCompositeElementInPortInterfaceInstanceRef,
+        )
+
+        mapping = DataPrototypeMapping()
+        sub = SubElementMapping()
+        iref = ApplicationCompositeElementInPortInterfaceInstanceRef()
+        iref.setRootDataPrototypeRef(_ref("/root", "VARIABLE-DATA-PROTOTYPE"))
+        iref.setTargetDataPrototypeRef(_ref("/target", "VARIABLE-DATA-PROTOTYPE"))
+        sub.setFirstElement(iref)
+        mapping.addSubElementMapping(sub)
+        text = TextTableMapping()
+        text.setBitfieldTextTableMaskFirst(_positive_int(1))
+        text.setBitfieldTextTableMaskSecond(_positive_int(2))
+        text.setIdenticalMapping(_boolean(True))
+        text.setMappingDirection(_literal("BIDIRECTIONAL"))
+        mapping.addTextTableMapping(text)
+        parent = _parent()
+        writer.setDataPrototypeMapping(parent, mapping)
+        m = parent[0]
+        sub_elements = m.find("SUB-ELEMENT-MAPPINGS")
+        assert sub_elements is not None
+        sub_mapping = sub_elements.find("SUB-ELEMENT-MAPPING")
+        first_elements = sub_mapping.find("FIRST-ELEMENTS")
+        assert first_elements is not None
+        sub_ref = first_elements.find("APPLICATION-COMPOSITE-DATA-TYPE-SUB-ELEMENT-REF")
+        assert sub_ref is not None
+        iref_elem = sub_ref.find("APPLICATION-COMPOSITE-ELEMENT-IREF")
+        assert iref_elem is not None
+        assert iref_elem.find("ROOT-DATA-PROTOTYPE-REF") is not None
+        text_elements = m.find("TEXT-TABLE-MAPPINGS")
+        assert text_elements is not None
+        text_mapping = text_elements.find("TEXT-TABLE-MAPPING")
+        assert text_mapping is not None
+        assert text_mapping.find("BITFIELD-TEXT-TABLE-MASK-FIRST") is not None
+        assert text_mapping.find("BITFIELD-TEXT-TABLE-MASK-SECOND") is not None
+        assert text_mapping.find("IDENTICAL-MAPPING") is not None
+        assert text_mapping.find("MAPPING-DIRECTION") is not None
+
+    def test_empty_wrapper_lists_not_emitted(self, writer):
+        mapping = DataPrototypeMapping()
+        parent = _parent()
+        writer.setDataPrototypeMapping(parent, mapping)
+        m = parent[0]
+        assert m.find("SUB-ELEMENT-MAPPINGS") is None
+        assert m.find("TEXT-TABLE-MAPPINGS") is None
+        assert m.find("FIRST-TO-SECOND-DATA-TRANSFORMATION-REF") is None
+        assert m.find("SECOND-TO-FIRST-DATA-TRANSFORMATION-REF") is None
 
 
 class TestWriterSetDataPrototypeMappings:

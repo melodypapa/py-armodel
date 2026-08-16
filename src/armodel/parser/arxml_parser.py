@@ -239,6 +239,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttribute
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
     ClientComSpec,
     CompositeNetworkRepresentation,
+    EndToEndTransformationComSpecProps,
     ModeSwitchedAckRequest,
     ModeSwitchReceiverComSpec,
     ModeSwitchSenderComSpec,
@@ -251,6 +252,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import
     QueuedReceiverComSpec,
     QueuedSenderComSpec,
     ReceiverComSpec,
+    ReceptionComSpecProps,
     RPortComSpec,
     SenderComSpec,
     ServerComSpec,
@@ -354,6 +356,8 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     PortInterface,
     PortInterfaceMappingSet,
     SenderReceiverInterface,
+    SubElementMapping,
+    TextTableMapping,
     TriggerInterface,
     VariableAndParameterInterfaceMapping,
 )
@@ -366,7 +370,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation im
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import ExternalTriggeringPoint, RunnableEntity, RunnableEntityArgument, SwcExclusiveAreaPolicy, SwcInternalBehavior
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AccessCount, AccessCountSet
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AutosarVariableRef import AutosarVariableRef
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import AutosarParameterRef, ParameterInAtomicSWCTypeInstanceRef, VariableInAtomicSWCTypeInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstantiationDataDefProps import InstantiationDataDefProps
@@ -3768,6 +3772,48 @@ class ARXMLParser(AbstractARXMLParser):
         com_spec.setMaxDeltaCounterInit(self.getChildElementOptionalPositiveInteger(element, "MAX-DELTA-COUNTER-INIT"))
         com_spec.setMaxNoNewOrRepeatedData(self.getChildElementOptionalPositiveInteger(element, "MAX-NO-NEW-OR-REPEATED-DATA"))
         com_spec.setUsesEndToEndProtection(self.getChildElementOptionalBooleanValue(element, "USES-END-TO-END-PROTECTION"))
+        reception_props = self.getReceptionComSpecProps(element, "RECEPTION-PROPS")
+        if reception_props is not None:
+            com_spec.setReceptionProps(reception_props)
+        replace_with = self.find(element, "REPLACE-WITH")
+        if replace_with is not None:
+            variable_access = VariableAccess(None, self.getShortName(replace_with))
+            self.readVariableAccess(replace_with, variable_access)
+            com_spec.setReplaceWith(variable_access)
+        com_spec.setSyncCounterInit(self.getChildElementOptionalPositiveInteger(element, "SYNC-COUNTER-INIT"))
+        for child_element in self.findall(element, "TRANSFORMATION-COM-SPEC-PROPSS/TRANSFORMATION-COM-SPEC-PROPS"):
+            com_spec.addTransformationComSpecProps(self.getTransformationComSpecProps(child_element))
+
+    def getReceptionComSpecProps(self, element: ET.Element, key: str) -> ReceptionComSpecProps:
+        child_element = self.find(element, key)
+        if child_element is None:
+            return None
+        props = ReceptionComSpecProps()
+        self.readARObjectAttributes(child_element, props)
+        props.setDataUpdatePeriod(self.getChildElementOptionalTimeValue(child_element, "DATA-UPDATE-PERIOD"))
+        props.setTimeout(self.getChildElementOptionalTimeValue(child_element, "TIMEOUT"))
+        return props
+
+    def readVariableAccess(self, element: ET.Element, access: VariableAccess):
+        self.readIdentifiable(element, access)
+        access.setAccessedVariableRef(self.getAutosarVariableRef(element, "ACCESSED-VARIABLE"))
+        access.setScope(self.getChildElementOptionalLiteral(element, "SCOPE"))
+
+    def getTransformationComSpecProps(self, element: ET.Element) -> TransformationComSpecProps:
+        child = self.find(element, "*")
+        if child is None:
+            return None
+        tag_name = self.getTagName(child)
+        if tag_name == "END-TO-END-TRANSFORMATION-COM-SPEC-PROPS":
+            props = EndToEndTransformationComSpecProps()
+            self.readTransformationComSpecProps(child, props)
+            return props
+        elif tag_name == "USER-DEFINED-TRANSFORMATION-COM-SPEC-PROPS":
+            props = UserDefinedTransformationComSpecProps()
+            self.readUserDefinedTransformationComSpecProps(child, props)
+            return props
+        self.notImplemented("Unsupported TransformationComSpecProps <%s>" % tag_name)
+        return None
 
     def getSwValues(self, element: ET.Element, key: str) -> SwValues:
         child_element = self.find(element, key)
@@ -3862,11 +3908,13 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARObjectAttributes(element, com_spec)
         self.readReceiverComSpec(element, com_spec)
         com_spec.setAliveTimeout(self.getChildElementOptionalFloatValue(element, "ALIVE-TIMEOUT"))
-        com_spec.setEnableUpdated(self.getChildElementOptionalBooleanValue(element, "ENABLE-UPDATE"))
+        com_spec.setEnableUpdate(self.getChildElementOptionalBooleanValue(element, "ENABLE-UPDATE"))
+        com_spec.setHandleDataStatus(self.getChildElementOptionalBooleanValue(element, "HANDLE-DATA-STATUS"))
         com_spec.setHandleNeverReceived(self.getChildElementOptionalBooleanValue(element, "HANDLE-NEVER-RECEIVED"))
         com_spec.setFilter(self.getDataFilter(element, "FILTER"))
         com_spec.setHandleTimeoutType(self.getChildElementOptionalLiteral(element, "HANDLE-TIMEOUT-TYPE"))
         com_spec.setInitValue(self.getInitValue(element))
+        com_spec.setTimeoutSubstitutionValue(self.getChildValueSpecification(element, "TIMEOUT-SUBSTITUTION-VALUE"))
         return com_spec
 
     def readRequiredComSpec(self, element: ET.Element, parent: RPortPrototype):
@@ -8093,9 +8141,39 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "%s/DATA-PROTOTYPE-MAPPING" % key):
             mapping = DataPrototypeMapping()
             mapping.setFirstDataPrototypeRef(self.getChildElementOptionalRefType(child_element, "FIRST-DATA-PROTOTYPE-REF"))
+            mapping.setFirstToSecondDataTransformationRef(self.getChildElementOptionalRefType(child_element, "FIRST-TO-SECOND-DATA-TRANSFORMATION-REF"))
             mapping.setSecondDataPrototypeRef(self.getChildElementOptionalRefType(child_element, "SECOND-DATA-PROTOTYPE-REF"))
+            mapping.setSecondToFirstDataTransformationRef(self.getChildElementOptionalRefType(child_element, "SECOND-TO-FIRST-DATA-TRANSFORMATION-REF"))
+            for sub_element in self.findall(child_element, "SUB-ELEMENT-MAPPINGS/SUB-ELEMENT-MAPPING"):
+                mapping.addSubElementMapping(self.getSubElementMapping(sub_element))
+            for text_table in self.findall(child_element, "TEXT-TABLE-MAPPINGS/TEXT-TABLE-MAPPING"):
+                mapping.addTextTableMapping(self.getTextTableMapping(text_table))
             mappings.append(mapping)
         return mappings
+
+    def getSubElementMapping(self, element: ET.Element) -> SubElementMapping:
+        mapping = SubElementMapping()
+        for ref_element in self.findall(element, "FIRST-ELEMENTS/*"):
+            if self.getTagName(ref_element) == "APPLICATION-COMPOSITE-DATA-TYPE-SUB-ELEMENT-REF":
+                mapping.setFirstElement(self.getApplicationCompositeElementInPortInterfaceInstanceRef(ref_element, "APPLICATION-COMPOSITE-ELEMENT-IREF"))
+            else:
+                self.notImplemented("Unsupported firstElement SubElementRef <%s>" % self.getTagName(ref_element))
+        for ref_element in self.findall(element, "SECOND-ELEMENTS/*"):
+            if self.getTagName(ref_element) == "APPLICATION-COMPOSITE-DATA-TYPE-SUB-ELEMENT-REF":
+                mapping.setSecondElement(self.getApplicationCompositeElementInPortInterfaceInstanceRef(ref_element, "APPLICATION-COMPOSITE-ELEMENT-IREF"))
+            else:
+                self.notImplemented("Unsupported secondElement SubElementRef <%s>" % self.getTagName(ref_element))
+        for text_table in self.findall(element, "TEXT-TABLE-MAPPINGS/TEXT-TABLE-MAPPING"):
+            mapping.addTextTableMapping(self.getTextTableMapping(text_table))
+        return mapping
+
+    def getTextTableMapping(self, element: ET.Element) -> TextTableMapping:
+        mapping = TextTableMapping()
+        mapping.setBitfieldTextTableMaskFirst(self.getChildElementOptionalPositiveInteger(element, "BITFIELD-TEXT-TABLE-MASK-FIRST"))
+        mapping.setBitfieldTextTableMaskSecond(self.getChildElementOptionalPositiveInteger(element, "BITFIELD-TEXT-TABLE-MASK-SECOND"))
+        mapping.setIdenticalMapping(self.getChildElementOptionalBooleanValue(element, "IDENTICAL-MAPPING"))
+        mapping.setMappingDirection(self.getChildElementOptionalLiteral(element, "MAPPING-DIRECTION"))
+        return mapping
 
     def readVariableAndParameterInterfaceMapping(self, element: ET.Element, mapping: VariableAndParameterInterfaceMapping):
         # self.logger.debug("Read VariableAndParameterInterfaceMapping %s" % mapping.getShortName())

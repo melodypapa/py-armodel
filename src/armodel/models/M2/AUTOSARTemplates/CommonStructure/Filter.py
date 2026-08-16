@@ -51,26 +51,27 @@ class DataFilterTypeEnum(AREnum):
 
 class DataFilter(ARObject):
     """
-    Represents a data filter configuration in AUTOSAR models.
-    This class defines conditions and parameters for filtering data updates in AUTOSAR systems.
+    Base class for data filters. The type of the filter is specified in attribute dataFilterType. Some of the filter types require additional arguments which are specified as attributes of this class.
     """
 
     # DataFilter method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getDataFilterType            [x] impl  [x] docstring  [x] test
-    # [x] setDataFilterType            [x] impl  [x] docstring  [x] test
-    # [x] getMask                      [x] impl  [x] docstring  [x] test
-    # [x] setMask                      [x] impl  [x] docstring  [x] test
-    # [x] getMax                       [x] impl  [x] docstring  [x] test
-    # [x] setMax                       [x] impl  [x] docstring  [x] test
-    # [x] getMin                       [x] impl  [x] docstring  [x] test
-    # [x] setMin                       [x] impl  [x] docstring  [x] test
-    # [x] getOffset                    [x] impl  [x] docstring  [x] test
-    # [x] setOffset                    [x] impl  [x] docstring  [x] test
-    # [x] getPeriod                    [x] impl  [x] docstring  [x] test
-    # [x] setPeriod                    [x] impl  [x] docstring  [x] test
-    # [x] getX                         [x] impl  [x] docstring  [x] test
-    # [x] setX                         [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.75, p.182
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDataFilterType            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDataFilterType            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMask                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMask                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMax                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMax                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMin                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMin                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getOffset                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setOffset                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPeriod                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPeriod                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getX                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setX                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         """

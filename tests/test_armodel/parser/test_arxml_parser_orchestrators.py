@@ -1884,6 +1884,61 @@ class TestPortInterfaceMappingHandlers:
         parser.readVariableAndParameterInterfaceMapping(element, mapping)
         assert len(mapping.getDataMappings()) == 1
 
+    def test_readDataPrototypeMapping_full(self, parser):
+        element = _snip(
+            "<DATA-MAPPINGS>"
+            "<DATA-PROTOTYPE-MAPPING>"
+            "<FIRST-DATA-PROTOTYPE-REF DEST='VARIABLE-DATA-PROTOTYPE'>/first</FIRST-DATA-PROTOTYPE-REF>"
+            "<FIRST-TO-SECOND-DATA-TRANSFORMATION-REF DEST='DATA-TRANSFORMATION'>/t1</FIRST-TO-SECOND-DATA-TRANSFORMATION-REF>"
+            "<SECOND-DATA-PROTOTYPE-REF DEST='VARIABLE-DATA-PROTOTYPE'>/second</SECOND-DATA-PROTOTYPE-REF>"
+            "<SECOND-TO-FIRST-DATA-TRANSFORMATION-REF DEST='DATA-TRANSFORMATION'>/t2</SECOND-TO-FIRST-DATA-TRANSFORMATION-REF>"
+            "<SUB-ELEMENT-MAPPINGS>"
+            "<SUB-ELEMENT-MAPPING>"
+            "<FIRST-ELEMENTS>"
+            "<APPLICATION-COMPOSITE-DATA-TYPE-SUB-ELEMENT-REF>"
+            "<APPLICATION-COMPOSITE-ELEMENT-IREF>"
+            "<ROOT-DATA-PROTOTYPE-REF DEST='VARIABLE-DATA-PROTOTYPE'>/root</ROOT-DATA-PROTOTYPE-REF>"
+            "<TARGET-DATA-PROTOTYPE-REF DEST='VARIABLE-DATA-PROTOTYPE'>/target</TARGET-DATA-PROTOTYPE-REF>"
+            "</APPLICATION-COMPOSITE-ELEMENT-IREF>"
+            "</APPLICATION-COMPOSITE-DATA-TYPE-SUB-ELEMENT-REF>"
+            "</FIRST-ELEMENTS>"
+            "</SUB-ELEMENT-MAPPING>"
+            "</SUB-ELEMENT-MAPPINGS>"
+            "<TEXT-TABLE-MAPPINGS>"
+            "<TEXT-TABLE-MAPPING>"
+            "<BITFIELD-TEXT-TABLE-MASK-FIRST>1</BITFIELD-TEXT-TABLE-MASK-FIRST>"
+            "<BITFIELD-TEXT-TABLE-MASK-SECOND>2</BITFIELD-TEXT-TABLE-MASK-SECOND>"
+            "<IDENTICAL-MAPPING>true</IDENTICAL-MAPPING>"
+            "<MAPPING-DIRECTION>BIDIRECTIONAL</MAPPING-DIRECTION>"
+            "</TEXT-TABLE-MAPPING>"
+            "</TEXT-TABLE-MAPPINGS>"
+            "</DATA-PROTOTYPE-MAPPING>"
+            "</DATA-MAPPINGS>",
+            root_tag="PARENT",
+        )
+        mappings = parser.getDataPrototypeMappings(element, "DATA-MAPPINGS")
+        assert len(mappings) == 1
+        parsed = mappings[0]
+        assert parsed.getFirstDataPrototypeRef().getValue() == "/first"
+        assert parsed.getFirstToSecondDataTransformationRef().getValue() == "/t1"
+        assert parsed.getSecondDataPrototypeRef().getValue() == "/second"
+        assert parsed.getSecondToFirstDataTransformationRef().getValue() == "/t2"
+        assert len(parsed.getSubElementMappings()) == 1
+        sub = parsed.getSubElementMappings()[0]
+        assert sub.getFirstElement() is not None
+        assert sub.getFirstElement().getRootDataPrototypeRef().getValue() == "/root"
+        assert len(parsed.getTextTableMappings()) == 1
+        text = parsed.getTextTableMappings()[0]
+        assert text.getBitfieldTextTableMaskFirst().getValue() == 1
+        assert text.getBitfieldTextTableMaskSecond().getValue() == 2
+        assert text.getIdenticalMapping().getValue() is True
+        assert text.getMappingDirection().getValue() == "BIDIRECTIONAL"
+
+    def test_readDataPrototypeMapping_minimal(self, parser):
+        element = _snip("<DATA-MAPPINGS></DATA-MAPPINGS>", root_tag="PARENT")
+        mappings = parser.getDataPrototypeMappings(element, "DATA-MAPPINGS")
+        assert len(mappings) == 0
+
     def test_readClientServerInterfaceMapping_full(self, parser):
         from armodel.models import PortInterfaceMappingSet
 

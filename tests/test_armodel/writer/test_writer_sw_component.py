@@ -403,8 +403,8 @@ class TestWriteCompositeNetworkRepresentation:
     def test_set_app_composite_iref(self, writer):
         parent = _parent()
         iref = ApplicationCompositeElementInPortInterfaceInstanceRef()
-        iref.root_data_prototype_ref = _ref()
-        iref.target_data_prototype_ref = _ref()
+        iref.setRootDataPrototypeRef(_ref())
+        iref.setTargetDataPrototypeRef(_ref())
         writer.setApplicationCompositeElementInPortInterfaceInstanceRef(parent, "LEAF-ELEMENT-IREF", iref)
         assert parent[0].tag == "LEAF-ELEMENT-IREF"
         assert parent[0].find("ROOT-DATA-PROTOTYPE-REF") is not None
@@ -444,8 +444,9 @@ class TestWriteReceiverComSpec:
         com_spec = NonqueuedReceiverComSpec()
         com_spec.setDataElementRef(_ref())
         com_spec.setAliveTimeout(_time_value(0.5))
-        com_spec.setEnableUpdated(_boolean(True))
+        com_spec.setEnableUpdate(_boolean(True))
         com_spec.setFilter(DataFilter())
+        com_spec.setHandleDataStatus(_boolean(True))
         com_spec.setHandleNeverReceived(_boolean(False))
         com_spec.setHandleTimeoutType(_literal("keep-old-value"))
         com_spec.setInitValue(TextValueSpecification())
@@ -455,6 +456,7 @@ class TestWriteReceiverComSpec:
         assert parent[0].find("ALIVE-TIMEOUT") is not None
         assert parent[0].find("ENABLE-UPDATE") is not None
         assert parent[0].find("FILTER") is not None
+        assert parent[0].find("HANDLE-DATA-STATUS") is not None
         assert parent[0].find("HANDLE-NEVER-RECEIVED") is not None
         assert parent[0].find("HANDLE-TIMEOUT-TYPE") is not None
         assert parent[0].find("INIT-VALUE") is not None
