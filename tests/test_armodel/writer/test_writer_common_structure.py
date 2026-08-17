@@ -20,6 +20,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
     ARLiteral,
+    CategoryString,
     DateTime,
     NameToken,
     RefType,
@@ -1078,3 +1079,30 @@ class TestWriteDescribable:
         desc.timestamp = "2024-01-01T00:00:00"
         writer.writeDescribable(parent, desc)
         assert parent.attrib["T"] == "2024-01-01T00:00:00"
+
+    def test_writes_full_describable(self, writer):
+        parent = _parent()
+        desc = ConcreteDescribable()
+        desc_desc = MultiLanguageOverviewParagraph()
+        l2 = LOverviewParagraph()
+        l2.l = "en"
+        l2.value = "Desc"
+        desc_desc.addL2(l2)
+        desc.setDesc(desc_desc)
+        desc.setCategory(CategoryString().setValue("MyCategory"))
+        intro = DocumentationBlock()
+        para = MultiLanguageParagraph()
+        l1 = LLongName()
+        l1.l = "en"
+        l1.value = "Intro"
+        para.addL1(l1)
+        intro.addP(para)
+        desc.setIntroduction(intro)
+        desc.setAdminData(AdminData())
+        writer.writeDescribable(parent, desc)
+        assert parent.find("DESC") is not None
+        assert parent.find("DESC/L-2").text == "Desc"
+        assert parent.find("CATEGORY").text == "MyCategory"
+        assert parent.find("INTRODUCTION") is not None
+        assert parent.find("INTRODUCTION/P/L-1").text == "Intro"
+        assert parent.find("ADMIN-DATA") is not None

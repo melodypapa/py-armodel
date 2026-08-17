@@ -274,6 +274,15 @@ the aggregation is itself a partial implementation and remains to be wired.
 
 No deviations (multiplicity/type resolved to spec).
 
+## `Describable`
+- **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** 438
+- **Package:** `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `removeAdminData` | — | — *(not in spec)* | — | — | added convenience method (resets `adminData` to `None`; used by the admin-data transformer) |
+
 ## `EngineeringObject`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 132
 - **Package:** `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::EngineeringObject`
@@ -928,6 +937,13 @@ Table 4.6).
 |---|---|---|---|---|---|
 | `symbolProps` | `—` | `symbolProps` | `SymbolProps` | — | type (spec one vs py list) |
 
+## `Integer`
+- **PDF:** *no own spec table*  |  **page:** —
+- **Package:** `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py`
+
+Class not in markdown/PDF — skipped per user (primitive `Integer` has no dedicated spec table in any rendered PDF; XSD-only, `xml.xsd.customType="INTEGER"`). Left as-is; not part of this sync pass.
+
 ## `NumericalOrText`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 323
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::Constants`
@@ -1526,6 +1542,13 @@ tests, and reader/writer coverage. The aggregated Chapter family lives in
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `blueprintValue` | `?` | — | missing |
 | — *(missing)* | `—` | `xmlSpace` | `?` | — | missing |
+
+## `XmlSpaceEnum`
+- **PDF:** *no own spec table*  |  **page:** —
+- **Package:** `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Enumerations`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Enumerations.py`
+
+Class not in markdown/PDF — skipped per user (enumeration `XmlSpaceEnum` has no dedicated `Enumeration` table in any rendered PDF; XSD-only, used only as an attribute type such as `Sd.xmlSpace`). Left as-is; not part of this sync pass.
 
 ## `HwAttributeValue`
 - **PDF:** `AUTOSAR_CP_TPS_ECUResourceTemplate.pdf`  | **page:** 16
@@ -3088,6 +3111,20 @@ tests, and reader/writer coverage. The aggregated Chapter family lives in
 | — *(missing)* | `—` | `htmlScale` | `?` | — | missing |
 | — *(missing)* | `—` | `htmlWidth` | `?` | — | missing |
 | — *(missing)* | `—` | `notation` | `?` | — | missing |
+
+## `HwElementConnector`
+- **PDF:** `AUTOSAR_CP_TPS_ECUResourceTemplate.pdf`  | **page:** 23
+- **Package:** `M2::AUTOSARTemplates::EcuResourceTemplate`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate/HwElementConnector.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `hwElementRef` | `RefType` (ref, 0..1) | `hwElement` | `HW-ELEMENT` (ref) | 2× | retained existing single-ref API; spec models two `hwElement` refs (`HW-ELEMENT-REFS`, multiplicity 2). Deferred per bounded-sync decision. |
+| `hwPinRef` | `RefType` (ref, 0..1) | — *(not in spec)* | — | — | convenience ref retained; spec models pin wiring via `hwPinConnection` (aggr `HwPinConnector`\*) and `hwPinGroupConnection` (ref `HwPinGroupConnector`\*), which are not yet modeled. Deferred per bounded-sync decision. |
+| — *(missing)* | `—` | `hwPinConnection` | `HwPinConnector` | aggr\* | not modeled (class `HwPinConnector` does not exist yet) |
+| — *(missing)* | `—` | `hwPinGroupConnection` | `HwPinGroupConnector` | ref\* | not modeled (class `HwPinGroupConnector` does not exist yet) |
+
+> **Note:** Per the bounded-sync decision, the pre-existing `HwElementConnector` API (`hwElementRef`/`hwPinRef`) is retained unchanged and its reader/writer coverage was added for round-trip integrity. No `# Spec verified` marker is applied because the attribute set does not match the spec table. Full spec alignment (introduce `HwPinConnector`/`HwPinGroupConnector`, model `hwElement` as a 2-ref set and the two pin-connection members) is deferred work.
 
 ## `Map`
 - **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** 305

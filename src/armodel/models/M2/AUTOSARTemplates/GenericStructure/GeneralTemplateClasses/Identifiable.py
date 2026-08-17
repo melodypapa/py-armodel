@@ -653,21 +653,23 @@ class ARElement(PackageableElement, ABC):
 
 class Describable(ARObject, ABC):
     """
-    Abstract class for elements that can be described in AUTOSAR models.
-    This class provides basic description functionality for AUTOSAR elements.
+    This meta-class represents the ability to add a descriptive documentation to non identifiable elements.
     """
 
     # Describable method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDesc                      [x] impl  [x] docstring  [ ] test
-    # [ ] setDesc                      [x] impl  [x] docstring  [ ] test
-    # [ ] getCategory                  [x] impl  [x] docstring  [ ] test
-    # [ ] setCategory                  [x] impl  [x] docstring  [ ] test
-    # [ ] getAdminData                 [x] impl  [x] docstring  [ ] test
-    # [ ] setAdminData                 [x] impl  [x] docstring  [ ] test
-    # [ ] removeAdminData              [x] impl  [x] docstring  [ ] test
-    # [ ] getIntroduction              [x] impl  [x] docstring  [ ] test
-    # [ ] setIntroduction              [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table E.25, p.438
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getAdminData                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setAdminData                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] removeAdminData              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getCategory                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCategory                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDesc                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDesc                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getIntroduction              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIntroduction              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         if type(self) is Describable:
@@ -675,72 +677,27 @@ class Describable(ARObject, ABC):
 
         super().__init__()
 
-        self.desc = None
-        self.category = None
-        self.adminData = None
-        self.introduction = None
+        # This represents the administrative data for the describable object. Stereotypes: atpSplitable Tags: atp.Splitkey=adminData xml.sequenceOffset=-20
+        self.adminData: Optional[AdminData] = None
 
-    def getDesc(self) -> Optional[MultiLanguageOverviewParagraph]:
-        """
-        Gets the description for this describable element.
+        # The category is a keyword that specializes the semantics of the Describable. It affects the expected existence of attributes and the applicability of constraints. Tags: xml.sequenceOffset=-50
+        self.category: Optional[CategoryString] = None
 
-        Returns:
-            MultiLanguageOverviewParagraph instance, or None if not set
-        """
-        return self.desc
+        # This represents a general but brief (one paragraph) description what the object in question is about. It is only one paragraph! Desc is intended to be collected into overview tables. This property helps a human reader to identify the object in question. More elaborate documentation, (in particular how the object is built or used) should go to "introduction". Tags: xml.sequenceOffset=-60
+        self.desc: Optional[MultiLanguageOverviewParagraph] = None
 
-    def setDesc(self, value: MultiLanguageOverviewParagraph):
-        """
-        Sets the description for this describable element.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The description to set
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.desc = value
-        return self
-
-    def getCategory(self) -> Optional[CategoryString]:
-        """
-        Gets the category for this describable element.
-
-        Returns:
-            CategoryString instance, or None if not set
-        """
-        return self.category
-
-    def setCategory(self, value: CategoryString):
-        """
-        Sets the category for this describable element.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The category to set
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.category = value
-        return self
+        # This represents more information about how the object in question is built or is used. Therefore it is a DocumentationBlock. Tags: xml.sequenceOffset=-30
+        self.introduction: Optional[DocumentationBlock] = None
 
     def getAdminData(self) -> Optional[AdminData]:
         """
-        Gets the administrative data for this describable element.
-
-        Returns:
-            AdminData instance, or None if not set
+        This represents the administrative data for the describable object. Stereotypes: atpSplitable Tags: atp.Splitkey=adminData xml.sequenceOffset=-20
         """
         return self.adminData
 
-    def setAdminData(self, value: AdminData):
+    def setAdminData(self, value: Optional[AdminData]):
         """
-        Sets the administrative data for this describable element.
-        Only sets the value if it is not None.
+        This represents the administrative data for the describable object. Stereotypes: atpSplitable Tags: atp.Splitkey=adminData xml.sequenceOffset=-20
 
         Args:
             value: The administrative data to set
@@ -758,19 +715,55 @@ class Describable(ARObject, ABC):
         """
         self.adminData = None
 
-    def getIntroduction(self) -> Optional[DocumentationBlock]:
+    def getCategory(self) -> Optional[CategoryString]:
         """
-        Gets the introduction documentation for this describable element.
+        The category is a keyword that specializes the semantics of the Describable. It affects the expected existence of attributes and the applicability of constraints. Tags: xml.sequenceOffset=-50
+        """
+        return self.category
+
+    def setCategory(self, value: Optional[CategoryString]):
+        """
+        The category is a keyword that specializes the semantics of the Describable. It affects the expected existence of attributes and the applicability of constraints. Tags: xml.sequenceOffset=-50
+
+        Args:
+            value: The category to set
 
         Returns:
-            DocumentationBlock instance, or None if not set
+            self for method chaining
+        """
+        if value is not None:
+            self.category = value
+        return self
+
+    def getDesc(self) -> Optional[MultiLanguageOverviewParagraph]:
+        """
+        This represents a general but brief (one paragraph) description what the object in question is about. It is only one paragraph! Desc is intended to be collected into overview tables. This property helps a human reader to identify the object in question. More elaborate documentation, (in particular how the object is built or used) should go to "introduction". Tags: xml.sequenceOffset=-60
+        """
+        return self.desc
+
+    def setDesc(self, value: Optional[MultiLanguageOverviewParagraph]):
+        """
+        This represents a general but brief (one paragraph) description what the object in question is about. It is only one paragraph! Desc is intended to be collected into overview tables. This property helps a human reader to identify the object in question. More elaborate documentation, (in particular how the object is built or used) should go to "introduction". Tags: xml.sequenceOffset=-60
+
+        Args:
+            value: The description to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.desc = value
+        return self
+
+    def getIntroduction(self) -> Optional[DocumentationBlock]:
+        """
+        This represents more information about how the object in question is built or is used. Therefore it is a DocumentationBlock. Tags: xml.sequenceOffset=-30
         """
         return self.introduction
 
-    def setIntroduction(self, value: DocumentationBlock):
+    def setIntroduction(self, value: Optional[DocumentationBlock]):
         """
-        Sets the introduction documentation for this describable element.
-        Only sets the value if it is not None.
+        This represents more information about how the object in question is built or is used. Therefore it is a DocumentationBlock. Tags: xml.sequenceOffset=-30
 
         Args:
             value: The introduction documentation to set

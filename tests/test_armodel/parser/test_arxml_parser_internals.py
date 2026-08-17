@@ -756,9 +756,20 @@ class TestSdgDeepHandlers:
 
 class TestDescribableHandlers:
     def test_readDescribable(self, parser):
-        element = _snip("", root_tag="DESC")
+        element = _snip(
+            "<DESC><L-2 L='en'>Desc</L-2></DESC>" "<CATEGORY>MyCategory</CATEGORY>" "<INTRODUCTION><P><L-1 L='en'>Intro</L-1></P></INTRODUCTION>" "<ADMIN-DATA><LANGUAGE>en</LANGUAGE></ADMIN-DATA>",
+            root_tag="DESC",
+        )
         desc = EndToEndTransformationDescription()
         parser.readDescribable(element, desc)
+        assert desc.getDesc() is not None
+        assert desc.getDesc().getL2s()[0].getValue() == "Desc"
+        assert desc.getCategory() is not None
+        assert desc.getCategory().getValue() == "MyCategory"
+        assert desc.getIntroduction() is not None
+        assert desc.getIntroduction().getPs()[0].getL1s()[0].getValue() == "Intro"
+        assert desc.getAdminData() is not None
+        assert desc.getAdminData().getLanguage().getValue() == "en"
 
     def test_readTransformationDescription(self, parser):
         element = _snip("", root_tag="TRANS-DESC")

@@ -362,6 +362,13 @@ class TestString:
         assert string_val is not None
         assert string_val._value is None
 
+    def test_set_value(self):
+        """
+        Test String value assignment.
+        """
+        string_val = String().setValue("Hello World")
+        assert string_val.getValue() == "Hello World"
+
 
 class TestAlignmentType:
     """

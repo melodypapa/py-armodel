@@ -11,21 +11,22 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 class HwElementConnector(Describable):
     """
-    Represents a connection between hardware elements in AUTOSAR hardware descriptions.
-    This class defines the connections that can exist between different hardware elements in the model.
+    This meta-class represents the ability to connect two hardware elements. The details of the connection can be refined by hwPinGroupConnection.
     """
 
     # HwElementConnector method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getHwElementRef              [x] impl  [x] docstring  [ ] test
-    # [ ] setHwElementRef              [x] impl  [x] docstring  [ ] test
-    # [ ] getHwPinRef                  [x] impl  [x] docstring  [ ] test
-    # [ ] setHwPinRef                  [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.8, p.21
+    # Deviation: source attributes (hwElementRef, hwPinRef) do not match spec
+    #   Table 2.8 (hwElement x2, hwPinConnection aggr, hwPinGroupConnection ref);
+    #   HwPinConnector/HwPinGroupConnector classes not yet modeled. No stamp.
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getHwElementRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] setHwElementRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getHwPinRef                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setHwPinRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self):
-        """
-        Initializes the HwElementConnector.
-        """
         super().__init__()
 
         self.hwElementRef: Optional[RefType] = None

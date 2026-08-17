@@ -10,80 +10,68 @@ from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType, String
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import HwAttributeValue
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementConnector import HwElementConnector
 
 
-class HwDescriptionEntity(ARElement):
+class HwDescriptionEntity(Referrable):
     """
-    Abstract base class for hardware description entities in AUTOSAR.
-    This class defines common properties for hardware elements including attribute values and type references.
+    This meta-class represents the ability to describe a hardware entity.
     """
 
     # HwDescriptionEntity method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getHwAttributeValues         [x] impl  [x] docstring  [ ] test
-    # [ ] setHwAttributeValues         [x] impl  [x] docstring  [ ] test
-    # [ ] getHwCategoryRefs            [x] impl  [x] docstring  [ ] test
-    # [ ] addHwCategoryRef             [x] impl  [x] docstring  [ ] test
-    # [ ] getHwTypeRef                 [x] impl  [x] docstring  [ ] test
-    # [ ] setHwTypeRef                 [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.1, p.15
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addHwAttributeValue          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getHwAttributeValues         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addHwCategoryRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getHwCategoryRefs            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getHwTypeRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setHwTypeRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent, short_name: str):
-        """
-        Initializes the HwDescriptionEntity with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this hardware description entity
-            short_name: The unique short name of this hardware description entity
-        """
+        if type(self) is HwDescriptionEntity:
+            raise TypeError("HwDescriptionEntity is an abstract class.")
         super().__init__(parent, short_name)
 
+        # This aggregation represents a particular hardware attribute value.
         self.hwAttributeValues: List[HwAttributeValue] = []
+
+        # One of the associations representing one particular category of the hardware entity.
         self.hwCategoryRefs: List[RefType] = []
+
+        # This association is used to assign an optional HwType which contains the common attribute values for all occurences of this HwDescriptionEntity. Note that Hw Types can not be redefined and therefore shall not have a hwType reference.
         self.hwTypeRef: Optional[RefType] = None
 
-    def getHwAttributeValues(self) -> List[HwAttributeValue]:
+    def addHwAttributeValue(self, value: HwAttributeValue):
         """
-        Gets the list of hardware attribute values for this entity.
+        This aggregation represents a particular hardware attribute value.
 
-        Returns:
-            List of HwAttributeValue instances
-        """
-        return self.hwAttributeValues
-
-    def setHwAttributeValues(self, value: List[HwAttributeValue]):
-        """
-        Sets the list of hardware attribute values for this entity.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The list of hardware attribute values to set
+        A None value is a no-op and does not add an hwAttributeValue.
 
         Returns:
             self for method chaining
         """
         if value is not None:
-            self.hwAttributeValues = value
+            self.hwAttributeValues.append(value)
         return self
 
-    def getHwCategoryRefs(self) -> List[RefType]:
+    def getHwAttributeValues(self) -> List[HwAttributeValue]:
         """
-        Gets the list of hardware category references for this entity.
+        This aggregation represents a particular hardware attribute value.
 
         Returns:
-            List of RefType instances representing hardware category references
+            The list of hwAttributeValues, or an empty list if none are set
         """
-        return self.hwCategoryRefs
+        return self.hwAttributeValues
 
     def addHwCategoryRef(self, value: RefType):
         """
-        Adds a hardware category reference to this entity.
-        Only adds the value if it is not None.
+        One of the associations representing one particular category of the hardware entity.
 
-        Args:
-            value: The hardware category reference to add
+        A None value is a no-op and does not add an hwCategoryRef.
 
         Returns:
             self for method chaining
@@ -92,22 +80,29 @@ class HwDescriptionEntity(ARElement):
             self.hwCategoryRefs.append(value)
         return self
 
-    def getHwTypeRef(self) -> Optional[RefType]:
+    def getHwCategoryRefs(self) -> List[RefType]:
         """
-        Gets the hardware type reference for this entity.
+        One of the associations representing one particular category of the hardware entity.
 
         Returns:
-            RefType representing the hardware type reference, or None if not set
+            The list of hwCategoryRefs, or an empty list if none are set
+        """
+        return self.hwCategoryRefs
+
+    def getHwTypeRef(self) -> Optional[RefType]:
+        """
+        This association is used to assign an optional HwType which contains the common attribute values for all occurences of this HwDescriptionEntity. Note that Hw Types can not be redefined and therefore shall not have a hwType reference.
+
+        Returns:
+            The hwTypeRef, or None if not set
         """
         return self.hwTypeRef
 
-    def setHwTypeRef(self, value: RefType):
+    def setHwTypeRef(self, value: Optional[RefType]):
         """
-        Sets the hardware type reference for this entity.
-        Only sets the value if it is not None.
+        This association is used to assign an optional HwType which contains the common attribute values for all occurences of this HwDescriptionEntity. Note that Hw Types can not be redefined and therefore shall not have a hwType reference.
 
-        Args:
-            value: The hardware type reference to set
+        A None value is a no-op and does not overwrite an existing hwTypeRef.
 
         Returns:
             self for method chaining
@@ -344,58 +339,57 @@ class HwElement(HwDescriptionEntity):
     """
 
     # HwElement method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getHwElementConnections      [x] impl  [x] docstring  [ ] test
-    # [ ] setHwElementConnections      [x] impl  [x] docstring  [ ] test
-    # [ ] getHwPinGroups               [x] impl  [x] docstring  [ ] test
-    # [ ] createHwPinGroup             [x] impl  [x] docstring  [ ] test
-    # [ ] getNestedElementRefs         [x] impl  [x] docstring  [ ] test
-    # [ ] setNestedElementRefs         [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.4, p.18
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addHwElementConnection       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getHwElementConnections      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createHwPinGroup             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getHwPinGroups               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addNestedElementRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getNestedElementRefs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self, parent, short_name: str):
-        """
-        Initializes the HwElement with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this hardware element
-            short_name: The unique short name of this hardware element
-        """
         super().__init__(parent, short_name)
 
+        # This represents one particular connection between two hardware elements.
         self.hwElementConnections: List[HwElementConnector] = []
+
+        # This aggregation is used to describe the connection facilities of a hardware element. Note that hardware element has no pins but only pingroups.
         self.hwPinGroups: List[HwPinGroup] = []
+
+        # This association is used to establish hierarchies of hw elements. Note that one particular HwElement can be target of this association only once. I.e. multiple instantiation of the same HwElement is not supported (at any hierarchy level).
         self.nestedElementRefs: List[RefType] = []
 
     def getHwElementConnections(self) -> List[HwElementConnector]:
         """
-        Gets the list of hardware element connections for this element.
+        This represents one particular connection between two hardware elements.
 
         Returns:
-            List of HwElementConnector instances
+            The list of hwElementConnections, or an empty list if none are set
         """
         return self.hwElementConnections
 
-    def setHwElementConnections(self, value: List[HwElementConnector]):
+    def addHwElementConnection(self, value: HwElementConnector):
         """
-        Sets the list of hardware element connections for this element.
-        Only sets the value if it is not None.
+        This represents one particular connection between two hardware elements.
 
-        Args:
-            value: The list of hardware element connections to set
+        A None value is a no-op and does not add an hwElementConnection.
 
         Returns:
             self for method chaining
         """
         if value is not None:
-            self.hwElementConnections = value
+            self.hwElementConnections.append(value)
         return self
 
     def getHwPinGroups(self) -> List[HwPinGroup]:
         """
-        Gets the list of hardware pin groups for this element.
+        This aggregation is used to describe the connection facilities of a hardware element. Note that hardware element has no pins but only pingroups.
 
         Returns:
-            List of HwPinGroup instances
+            The list of hwPinGroups, or an empty list if none are set
         """
         return self.hwPinGroups
 
@@ -409,32 +403,29 @@ class HwElement(HwDescriptionEntity):
         Returns:
             The created HwPinGroup instance
         """
-        if not self.IsElementExists(short_name):
+        if not any(pin_group.getShortName() == short_name for pin_group in self.hwPinGroups):
             pin_group = HwPinGroup(self, short_name)
-            self.addElement(pin_group)
             self.hwPinGroups.append(pin_group)
-        return self.getElement(short_name)
+        return next(pin_group for pin_group in self.hwPinGroups if pin_group.getShortName() == short_name)
 
     def getNestedElementRefs(self) -> List[RefType]:
         """
-        Gets the list of nested element references for this element.
+        This association is used to establish hierarchies of hw elements. Note that one particular HwElement can be target of this association only once. I.e. multiple instantiation of the same HwElement is not supported (at any hierarchy level).
 
         Returns:
-            List of RefType instances representing nested element references
+            The list of nestedElementRefs, or an empty list if none are set
         """
         return self.nestedElementRefs
 
-    def setNestedElementRefs(self, value: List[RefType]):
+    def addNestedElementRef(self, value: RefType):
         """
-        Sets the list of nested element references for this element.
-        Only sets the value if it is not None.
+        This association is used to establish hierarchies of hw elements. Note that one particular HwElement can be target of this association only once. I.e. multiple instantiation of the same HwElement is not supported (at any hierarchy level).
 
-        Args:
-            value: The list of nested element references to set
+        A None value is a no-op and does not add a nestedElementRef.
 
         Returns:
             self for method chaining
         """
         if value is not None:
-            self.nestedElementRefs = value
+            self.nestedElementRefs.append(value)
         return self
