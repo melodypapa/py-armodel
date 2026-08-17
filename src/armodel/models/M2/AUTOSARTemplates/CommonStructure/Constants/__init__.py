@@ -29,6 +29,7 @@ class ValueSpecification(ARObject, ABC):
 
     # ValueSpecification method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.109, p.433
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getShortLabel                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -41,15 +42,15 @@ class ValueSpecification(ARObject, ABC):
         super().__init__()
 
         # This can be used to identify particular value specifications for human readers, for example elements of a record type.
-        self.shortLabel = None
+        self.shortLabel: Optional[Identifier] = None
 
-    def getShortLabel(self):
+    def getShortLabel(self) -> Optional[Identifier]:
         """
         This can be used to identify particular value specifications for human readers, for example elements of a record type.
         """
         return self.shortLabel
 
-    def setShortLabel(self, value):
+    def setShortLabel(self, value: Optional[Identifier]) -> "ValueSpecification":
         """
         This can be used to identify particular value specifications for human readers, for example elements of a record type.
         A None value is a no-op and does not overwrite an existing shortLabel.

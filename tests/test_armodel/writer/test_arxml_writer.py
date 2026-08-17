@@ -10,6 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARFloat,
     ARLiteral,
+    ARNumerical,
     DateTime,
     DisplayFormatString,
     Identifier,
@@ -25,7 +26,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import 
 )
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData, DocRevision, Modification
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sd, Sdg, SdgContents
-from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisIndividual
+from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisIndividual, SwGenericAxisParam
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis, SwCalprmAxisSet
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwCalibrationAccessEnum, SwDataDefProps
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
@@ -870,6 +871,58 @@ class TestARXMLWriterSwCalprmAxisMethods:
         props = axis.getSwCalprmAxisTypeProps()
         assert props.getMaxGradient().getValue() == 2.5
         assert props.getMonotony().getValue() == "strictlyIncreasing"
+
+    def test_setSwCalprmAxis_generic_axis_roundtrip(self):
+        """SW-AXIS-GENERIC with type ref and generic params shall be written and round-trip."""
+        writer = ARXMLWriter()
+        axis = SwCalprmAxis()
+        props = SwAxisIndividual()
+        generic = SwAxisGeneric()
+        axis_type_ref = RefType()
+        axis_type_ref.setDest("SW-AXIS-TYPE")
+        axis_type_ref.setValue("/axis/types/fixed")
+        generic.setSwAxisTypeRef(axis_type_ref)
+        param = SwGenericAxisParam()
+        param_type_ref = RefType()
+        param_type_ref.setDest("SW-GENERIC-AXIS-PARAM-TYPE")
+        param_type_ref.setValue("/axis/types/fixed/shift")
+        param.setSwGenericAxisParamTypeRef(param_type_ref)
+        vf1 = ARNumerical()
+        vf1.setValue("1.5")
+        param.addVf(vf1)
+        generic.addSwGenericAxisParam(param)
+        props.setSwAxisGeneric(generic)
+        axis.setSwCalprmAxisTypeProps(props)
+
+        root = ET.Element("SW-CALPRM-AXIS-SET")
+        writer.setSwCalprmAxis(root, axis)
+
+        axis_el = root.find("SW-CALPRM-AXIS")
+        individual = axis_el.find("SW-AXIS-INDIVIDUAL")
+        assert individual is not None
+        generic_el = individual.find("SW-AXIS-GENERIC")
+        assert generic_el is not None
+        assert generic_el.find("SW-AXIS-TYPE-REF").text == "/axis/types/fixed"
+        params_wrapper = generic_el.find("SW-GENERIC-AXIS-PARAMS")
+        assert params_wrapper is not None
+        param_el = params_wrapper.find("SW-GENERIC-AXIS-PARAM")
+        assert param_el is not None
+        assert param_el.find("SW-GENERIC-AXIS-PARAM-TYPE-REF").text == "/axis/types/fixed/shift"
+        assert len(param_el.findall("VF")) == 1
+        assert param_el.find("VF").text == "1.5"
+
+        wrapped = ET.fromstring("<WRAP xmlns='http://autosar.org/schema/r4.0'>%s</WRAP>" % ET.tostring(axis_el, encoding="unicode"))
+        parser = ARXMLParser()
+        reparsed = parser.getSwCalprmAxis(wrapped[0])
+        reparsed_props = reparsed.getSwCalprmAxisTypeProps()
+        reparsed_generic = reparsed_props.getSwAxisGeneric()
+        assert reparsed_generic is not None
+        assert reparsed_generic.getSwAxisTypeRef().getValue() == "/axis/types/fixed"
+        reparsed_params = reparsed_generic.getSwGenericAxisParams()
+        assert len(reparsed_params) == 1
+        assert reparsed_params[0].getSwGenericAxisParamTypeRef().getValue() == "/axis/types/fixed/shift"
+        assert len(reparsed_params[0].getVfs()) == 1
+        assert reparsed_params[0].getVfs()[0].getValue() == 1.5
 
     def test_setSwCalprmAxis_access_and_display_format(self):
         """SW-CALIBRATION-ACCESS and DISPLAY-FORMAT shall be written in XSD sequence order."""

@@ -641,6 +641,36 @@ class TestSwDataDefPropsHandlers:
         assert props is not None
         assert props.getSharedAxisTypeRef() is not None
 
+    def test_getSwAxisIndividual_with_generic_axis(self, parser):
+        element = _snip(
+            "<SW-AXIS-INDIVIDUAL>"
+            "<SW-AXIS-GENERIC>"
+            "<SW-AXIS-TYPE-REF DEST='SW-AXIS-TYPE'>/axis/types/fixed</SW-AXIS-TYPE-REF>"
+            "<SW-GENERIC-AXIS-PARAMS>"
+            "<SW-GENERIC-AXIS-PARAM>"
+            "<SW-GENERIC-AXIS-PARAM-TYPE-REF DEST='SW-GENERIC-AXIS-PARAM-TYPE'>/axis/types/fixed/shift</SW-GENERIC-AXIS-PARAM-TYPE-REF>"
+            "<VF>1.5</VF>"
+            "<VF>2.5</VF>"
+            "</SW-GENERIC-AXIS-PARAM>"
+            "</SW-GENERIC-AXIS-PARAMS>"
+            "</SW-AXIS-GENERIC>"
+            "</SW-AXIS-INDIVIDUAL>",
+            root_tag="SW-CALPRM-AXIS",
+        )
+        axis = parser.getSwCalprmAxis(element)
+        props = axis.getSwCalprmAxisTypeProps()
+        assert props is not None
+        generic = props.getSwAxisGeneric()
+        assert generic is not None
+        assert generic.getSwAxisTypeRef() is not None
+        assert generic.getSwAxisTypeRef().getValue() == "/axis/types/fixed"
+        params = generic.getSwGenericAxisParams()
+        assert len(params) == 1
+        assert params[0].getSwGenericAxisParamTypeRef() is not None
+        assert params[0].getSwGenericAxisParamTypeRef().getValue() == "/axis/types/fixed/shift"
+        assert len(params[0].getVfs()) == 2
+        assert params[0].getVfs()[0].getValue() == 1.5
+
     def test_getSwCalprmAxis_individual(self, parser):
         element = _snip(
             "<SW-AXIS-INDEX>0</SW-AXIS-INDEX>" "<CATEGORY>FIXED</CATEGORY>" "<SW-AXIS-INDIVIDUAL>" "<SW-MAX-AXIS-POINTS>10</SW-MAX-AXIS-POINTS>" "</SW-AXIS-INDIVIDUAL>",

@@ -2,7 +2,7 @@
 This module contains tests for the Axis module in MSR.DataDictionary.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARNumerical, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType
 from armodel.models.M2.MSR.DataDictionary.Axis import (
     SwAxisGeneric,
     SwAxisGrouped,
@@ -30,13 +30,21 @@ class TestSwGenericAxisParam:
         assert result == sw_generic_axis_param
 
     def test_sw_generic_axis_param_vfs_methods(self):
-        """Test adding and getting float values."""
+        """Test adding and getting numerical values."""
         sw_generic_axis_param = SwGenericAxisParam()
-        value = ARFloat()
+        value = ARNumerical()
+        value.setValue("1.5")
 
         result = sw_generic_axis_param.addVf(value)
         vfs = sw_generic_axis_param.getVfs()
         assert value in vfs
+        assert result == sw_generic_axis_param
+
+    def test_sw_generic_axis_param_vfs_none_noop(self):
+        """Test that addVf(None) is a no-op."""
+        sw_generic_axis_param = SwGenericAxisParam()
+        result = sw_generic_axis_param.addVf(None)
+        assert sw_generic_axis_param.getVfs() == []
         assert result == sw_generic_axis_param
 
 
