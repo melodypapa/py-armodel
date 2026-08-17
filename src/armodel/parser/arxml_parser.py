@@ -199,7 +199,8 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucValidationCondition,
     EcucValueConfigurationClass,
 )
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwPinGroup
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwElementConnector, HwPinGroup
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import HwAttributeValue
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import Documentation, DocumentationContext
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
@@ -5969,9 +5970,21 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "HW-CATEGORY-REFS/HW-CATEGORY-REF"):
             entity.addHwCategoryRef(ref)
 
+    def readHwAttributeValue(self, element: ET.Element, attribute_value: HwAttributeValue):
+        self.readARObjectAttributes(element, attribute_value)
+        attribute_value.setHwAttributeDefRef(self.getChildElementOptionalRefType(element, "HW-ATTRIBUTE-DEF-REF"))
+
+    def readHwDescriptionEntityHwAttributeValues(self, element: ET.Element, entity: HwDescriptionEntity):
+        for child_element in self.findall(element, "HW-ATTRIBUTE-VALUES/HW-ATTRIBUTE-VALUE"):
+            attribute_value = HwAttributeValue()
+            self.readHwAttributeValue(child_element, attribute_value)
+            entity.addHwAttributeValue(attribute_value)
+
     def readHwDescriptionEntity(self, element: ET.Element, entity: HwDescriptionEntity):
-        self.readARElement(element, entity)
+        self.readReferrable(element, entity)
+        entity.setHwTypeRef(self.getChildElementOptionalRefType(element, "HW-TYPE-REF"))
         self.readHwDescriptionEntityHwCategoryRefs(element, entity)
+        self.readHwDescriptionEntityHwAttributeValues(element, entity)
 
     def readHwPinGroup(self, element: ET.SubElement, pin_group: HwPinGroup):
         self.readHwDescriptionEntity(element, pin_group)
@@ -5985,10 +5998,30 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Hw Pin Group <%s>" % tag_name)
 
+    def readHwElementConnector(self, element: ET.Element, connector: HwElementConnector):
+        self.readDescribable(element, connector)
+        connector.setHwElementRef(self.getChildElementOptionalRefType(element, "HW-ELEMENT-REF"))
+        connector.setHwPinRef(self.getChildElementOptionalRefType(element, "HW-PIN-REF"))
+
+    def readHwElementHwElementConnections(self, element: ET.Element, hw_element: HwElement):
+        for child_element in self.findall(element, "HW-ELEMENT-CONNECTIONS/HW-ELEMENT-CONNECTOR"):
+            connector = HwElementConnector()
+            self.readHwElementConnector(child_element, connector)
+            hw_element.addHwElementConnection(connector)
+
+    def readHwElementHwNestedElementRefs(self, element: ET.Element, hw_element: HwElement):
+        refs = self.getChildElementRefTypeList(element, "NESTED-ELEMENTS/HW-ELEMENT-REF-CONDITIONAL/HW-ELEMENT-REF")
+        if len(refs) == 0:
+            refs = self.getChildElementRefTypeList(element, "NESTED-ELEMENTS/HW-ELEMENT-REF")
+        for ref in refs:
+            hw_element.addNestedElementRef(ref)
+
     def readHwElement(self, element: ET.Element, hw_element: HwElement):
         self.logger.debug("Read HwElement <%s>" % hw_element.getShortName())
         self.readHwDescriptionEntity(element, hw_element)
         self.readHwElementHwPinGroups(element, hw_element)
+        self.readHwElementHwElementConnections(element, hw_element)
+        self.readHwElementHwNestedElementRefs(element, hw_element)
 
     def readHwAttributeDef(self, element: ET.Element, attribute_def: HwAttributeDef):
         self.readIdentifiable(element, attribute_def)
@@ -6010,7 +6043,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readHwType(self, element: ET.Element, type: HwType):
         self.logger.debug("Read HwType <%s>" % type.getShortName())
-        self.readARElement(element, type)
+        self.readReferrable(element, type)
 
     def readPduToFrameMappings(self, element: ET.Element, parent: Frame):
         for child_element in self.findall(element, "PDU-TO-FRAME-MAPPINGS/PDU-TO-FRAME-MAPPING"):
@@ -6515,6 +6548,11 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readDescribable(self, element: ET.Element, desc: Describable):
         self.readARObjectAttributes(element, desc)
+
+        desc.setDesc(self.getMultiLanguageOverviewParagraph(element, "DESC"))
+        desc.setCategory(self.getChildElementOptionalLiteral(element, "CATEGORY"))
+        desc.setIntroduction(self.getDocumentationBlock(element, "INTRODUCTION"))
+        desc.setAdminData(self.getAdminData(element, "ADMIN-DATA"))
 
     def readTransformationDescription(self, element: ET.Element, desc: TransformationDescription):
         self.readDescribable(element, desc)

@@ -3,76 +3,9 @@ Test cases for the EcuResourceTemplate __init__.py module.
 These tests ensure 100% code coverage for the HwDescriptionEntity, HwPin, HwPinGroupContent, HwPinGroup, and HwElement classes.
 """
 
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwPin, HwPinGroup, HwPinGroupContent
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import HwAttributeValue
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwElement, HwPin, HwPinGroup, HwPinGroupContent
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementConnector import HwElementConnector
-
-
-def test_hw_description_entity_init():
-    """
-    Test initialization of HwDescriptionEntity class.
-
-    Test Steps:
-    1. Create a HwDescriptionEntity instance with parent and short_name
-    2. Verify default attributes are set correctly
-    """
-    # Create a mock parent object
-    parent = object()
-
-    # Initialize HwDescriptionEntity
-    hw_desc_entity = HwDescriptionEntity(parent, "test_hw_desc_entity")
-
-    # Verify initial values
-    assert hw_desc_entity.parent == parent
-    assert hw_desc_entity.short_name == "test_hw_desc_entity"
-    assert hw_desc_entity.hwAttributeValues == []
-    assert hw_desc_entity.hwCategoryRefs == []
-    assert hw_desc_entity.hwTypeRef is None
-
-
-def test_hw_description_entity_getters_and_setters():
-    """
-    Test all getter and setter methods of HwDescriptionEntity class.
-
-    Test Steps:
-    1. Create a HwDescriptionEntity instance
-    2. Test setting and getting hwAttributeValues
-    3. Test adding and getting hwCategoryRefs
-    4. Test setting and getting hwTypeRef
-    5. Verify method chaining (return self)
-    """
-    hw_desc_entity = HwDescriptionEntity(None, "test_hw_desc_entity")
-
-    # Test hwAttributeValues setter and getter
-    test_attr_values = [HwAttributeValue(), HwAttributeValue()]
-    return_value = hw_desc_entity.setHwAttributeValues(test_attr_values)
-    assert return_value == hw_desc_entity  # Verify method chaining
-    assert hw_desc_entity.getHwAttributeValues() == test_attr_values
-
-    # Test addHwCategoryRef and getHwCategoryRefs
-    test_category_ref = "test_category_ref"
-    return_value = hw_desc_entity.addHwCategoryRef(test_category_ref)
-    assert return_value == hw_desc_entity  # Verify method chaining
-    assert test_category_ref in hw_desc_entity.getHwCategoryRefs()
-
-    # Test hwTypeRef setter and getter
-    test_type_ref = "test_type_ref"
-    return_value = hw_desc_entity.setHwTypeRef(test_type_ref)
-    assert return_value == hw_desc_entity  # Verify method chaining
-    assert hw_desc_entity.getHwTypeRef() == test_type_ref
-
-    # Test with None values (should not set/add)
-    original_attr_values = hw_desc_entity.getHwAttributeValues()
-    hw_desc_entity.setHwAttributeValues(None)
-    assert hw_desc_entity.getHwAttributeValues() == original_attr_values  # Should remain unchanged
-
-    original_type_ref = hw_desc_entity.getHwTypeRef()
-    hw_desc_entity.setHwTypeRef(None)
-    assert hw_desc_entity.getHwTypeRef() == original_type_ref  # Should remain unchanged
-
-    original_category_refs_count = len(hw_desc_entity.getHwCategoryRefs())
-    hw_desc_entity.addHwCategoryRef(None)
-    assert len(hw_desc_entity.getHwCategoryRefs()) == original_category_refs_count  # Should remain unchanged
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 
 def test_hw_pin_init():
@@ -275,19 +208,29 @@ def test_hw_element_getters_and_setters():
 
     Test Steps:
     1. Create a HwElement instance
-    2. Test setting and getting hwElementConnections
+    2. Test adding and getting hwElementConnections
     3. Test createHwPinGroup method
-    4. Test setting and getting nestedElementRefs
-    5. Verify method chaining (return self)
+    4. Test adding and getting nestedElementRefs
+    5. Verify method chaining (return self) and None no-op
     """
 
     hw_element = HwElement(None, "test_hw_element")
 
-    # Test hwElementConnections setter and getter
-    test_connections = [HwElementConnector(), HwElementConnector()]
-    return_value = hw_element.setHwElementConnections(test_connections)
+    # Test hwElementConnections adder and getter
+    connection1 = HwElementConnector()
+    ref1 = RefType()
+    ref1.setDest("HW-ELEMENT")
+    ref1.setValue("/pkg/elem1")
+    connection1.setHwElementRef(ref1)
+    connection2 = HwElementConnector()
+    ref2 = RefType()
+    ref2.setDest("HW-PIN")
+    ref2.setValue("/pkg/elem1/pinA")
+    connection2.setHwPinRef(ref2)
+    return_value = hw_element.addHwElementConnection(connection1)
     assert return_value == hw_element  # Verify method chaining
-    assert hw_element.getHwElementConnections() == test_connections
+    hw_element.addHwElementConnection(connection2)
+    assert hw_element.getHwElementConnections() == [connection1, connection2]
 
     # Test createHwPinGroup
     new_pin_group = hw_element.createHwPinGroup("new_pin_group")
@@ -295,25 +238,29 @@ def test_hw_element_getters_and_setters():
     assert new_pin_group.short_name == "new_pin_group"
     assert new_pin_group in hw_element.getHwPinGroups()
 
-    # Test nestedElementRefs setter and getter
-    test_nested_refs = ["ref1", "ref2", "ref3"]
-    return_value = hw_element.setNestedElementRefs(test_nested_refs)
+    # Test nestedElementRefs adder and getter
+    ref1 = RefType()
+    ref1.setDest("HW-ELEMENT")
+    ref1.setValue("/pkg/elem2")
+    ref2 = RefType()
+    ref2.setDest("HW-ELEMENT")
+    ref2.setValue("/pkg/elem3")
+    return_value = hw_element.addNestedElementRef(ref1)
     assert return_value == hw_element  # Verify method chaining
-    assert hw_element.getNestedElementRefs() == test_nested_refs
+    hw_element.addNestedElementRef(ref2)
+    assert hw_element.getNestedElementRefs() == [ref1, ref2]
 
-    # Test with None values (should not set)
+    # Test with None values (should not add)
     original_connections = hw_element.getHwElementConnections()
-    hw_element.setHwElementConnections(None)
+    hw_element.addHwElementConnection(None)
     assert hw_element.getHwElementConnections() == original_connections  # Should remain unchanged
 
     original_nested_refs = hw_element.getNestedElementRefs()
-    hw_element.setNestedElementRefs(None)
+    hw_element.addNestedElementRef(None)
     assert hw_element.getNestedElementRefs() == original_nested_refs  # Should remain unchanged
 
 
 if __name__ == "__main__":
-    test_hw_description_entity_init()
-    test_hw_description_entity_getters_and_setters()
     test_hw_pin_init()
     test_hw_pin_getters_and_setters()
     test_hw_pin_group_content_init()

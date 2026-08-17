@@ -14,7 +14,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Referrable,
     ShortNameFragment,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString, Identifier
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
@@ -824,9 +824,9 @@ class TestDescribable:
         except TypeError:
             pass  # Expected behavior
 
-    def test_get_set_desc_describable(self):
+    def test_initialization(self):
         """
-        Test getDesc and setDesc methods for Describable.
+        Test that Describable initializes all fields to None.
         """
 
         class ConcreteDescribable(Describable):
@@ -835,13 +835,10 @@ class TestDescribable:
 
         obj = ConcreteDescribable()
 
-        # Initially should be None
+        assert obj.getAdminData() is None
+        assert obj.getCategory() is None
         assert obj.getDesc() is None
-
-        # Set description
-        desc = MultiLanguageOverviewParagraph()
-        obj.setDesc(desc)
-        assert obj.getDesc() is desc
+        assert obj.getIntroduction() is None
 
     def test_get_set_admin_data_describable(self):
         """
@@ -854,13 +851,16 @@ class TestDescribable:
 
         obj = ConcreteDescribable()
 
-        # Initially should be None
         assert obj.getAdminData() is None
 
-        # Set admin data
         admin_data = AdminData()
-        obj.setAdminData(admin_data)
+        result = obj.setAdminData(admin_data)
+        assert result is obj  # method chaining
         assert obj.getAdminData() is admin_data
+
+        result = obj.setAdminData(None)
+        assert result is obj  # method chaining with None
+        assert obj.getAdminData() is admin_data  # None is a no-op
 
     def test_remove_admin_data_describable(self):
         """
@@ -873,18 +873,16 @@ class TestDescribable:
 
         obj = ConcreteDescribable()
 
-        # Set admin data
         admin_data = AdminData()
         obj.setAdminData(admin_data)
         assert obj.getAdminData() is admin_data
 
-        # Remove admin data
         obj.removeAdminData()
         assert obj.getAdminData() is None
 
     def test_get_set_category_describable(self):
         """
-        Test getCategory and setCategory methods in Describable class to cover lines 435, 448-450.
+        Test getCategory and setCategory methods in Describable class.
         """
 
         class ConcreteDescribable(Describable):
@@ -893,24 +891,38 @@ class TestDescribable:
 
         obj = ConcreteDescribable()
 
-        # Test initial value is None (covers line 435)
         assert obj.getCategory() is None
 
-        # Test setCategory with a value (covers lines 448, 449, 450)
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString
-
         category = CategoryString().setValue("TestDescribableCategory")
-        result = obj.setCategory(category)  # Should return self (line 450)
-        assert result is obj  # Verify method chaining
-
-        # Verify the category was set (covers line 435 again)
+        result = obj.setCategory(category)
+        assert result is obj  # method chaining
         assert obj.getCategory() is category
 
-        # Test setCategory with None to test the if condition path
-        obj2 = ConcreteDescribable()
-        result2 = obj2.setCategory(None)  # Should still return self
-        assert result2 is obj2  # Method chaining still works with None input
-        assert obj2.getCategory() is None  # Category remains None
+        result = obj.setCategory(None)
+        assert result is obj  # method chaining with None
+        assert obj.getCategory() is category  # None is a no-op
+
+    def test_get_set_desc_describable(self):
+        """
+        Test getDesc and setDesc methods for Describable.
+        """
+
+        class ConcreteDescribable(Describable):
+            def __init__(self):
+                super().__init__()
+
+        obj = ConcreteDescribable()
+
+        assert obj.getDesc() is None
+
+        desc = MultiLanguageOverviewParagraph()
+        result = obj.setDesc(desc)
+        assert result is obj  # method chaining
+        assert obj.getDesc() is desc
+
+        result = obj.setDesc(None)
+        assert result is obj  # method chaining with None
+        assert obj.getDesc() is desc  # None is a no-op
 
     def test_get_set_introduction_describable(self):
         """
@@ -923,10 +935,13 @@ class TestDescribable:
 
         obj = ConcreteDescribable()
 
-        # Initially should be None
         assert obj.getIntroduction() is None
 
-        # Set introduction
         intro = DocumentationBlock()
-        obj.setIntroduction(intro)
+        result = obj.setIntroduction(intro)
+        assert result is obj  # method chaining
         assert obj.getIntroduction() is intro
+
+        result = obj.setIntroduction(None)
+        assert result is obj  # method chaining with None
+        assert obj.getIntroduction() is intro  # None is a no-op
