@@ -247,6 +247,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import
     NonqueuedSenderComSpec,
     NvProvideComSpec,
     NvRequireComSpec,
+    ParameterProvideComSpec,
     ParameterRequireComSpec,
     PPortComSpec,
     QueuedReceiverComSpec,
@@ -258,6 +259,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import
     ServerComSpec,
     TransformationComSpecProps,
     TransmissionAcknowledgementRequest,
+    TransmissionComSpecProps,
     UserDefinedTransformationComSpecProps,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
@@ -3871,7 +3873,9 @@ class ARXMLParser(AbstractARXMLParser):
     def getClientComSpec(self, element: ET.Element) -> ClientComSpec:
         com_spec = ClientComSpec()
         self.readRPortComSpec(element, com_spec)
-        com_spec.operationRef = self.getChildElementOptionalRefType(element, "OPERATION-REF")
+        com_spec.setEndToEndCallResponseTimeout(self.getChildElementOptionalTimeValue(element, "END-TO-END-CALL-RESPONSE-TIMEOUT"))
+        com_spec.setOperationRef(self.getChildElementOptionalRefType(element, "OPERATION-REF"))
+        self.readTransformationComSpecPropss(element, com_spec)
         return com_spec
 
     def getParameterRequireComSpec(self, element: ET.Element) -> ParameterRequireComSpec:
@@ -4033,8 +4037,19 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             acknowledge = TransmissionAcknowledgementRequest()
             self.readARObjectAttributes(child_element, acknowledge)
-            acknowledge.timeout = self.getChildElementOptionalFloatValue(child_element, "TIMEOUT")
+            acknowledge.setTimeout(self.getChildElementOptionalTimeValue(child_element, "TIMEOUT"))
             return acknowledge
+        return None
+
+    def getTransmissionComSpecProps(self, element: ET.Element, key: str) -> TransmissionComSpecProps:
+        child_element = self.find(element, key)
+        if child_element is not None:
+            props = TransmissionComSpecProps()
+            self.readARObjectAttributes(child_element, props)
+            props.setDataUpdatePeriod(self.getChildElementOptionalTimeValue(child_element, "DATA-UPDATE-PERIOD"))
+            props.setMinimumSendInterval(self.getChildElementOptionalTimeValue(child_element, "MINIMUM-SEND-INTERVAL"))
+            props.setTransmissionMode(self.getChildElementOptionalLiteral(child_element, "TRANSMISSION-MODE"))
+            return props
         return None
 
     def readSenderComSpec(self, element: ET.Element, com_spec: SenderComSpec):
@@ -4042,14 +4057,16 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "COMPOSITE-NETWORK-REPRESENTATIONS/COMPOSITE-NETWORK-REPRESENTATION"):
             com_spec.addCompositeNetworkRepresentation(self.getCompositeNetworkRepresentation(child_element))
         com_spec.setDataElementRef(self.getChildElementOptionalRefType(element, "DATA-ELEMENT-REF"))
-        com_spec.setNetworkRepresentation(self.getSwDataDefProps(element, "NETWORK-REPRESENTATION"))
         com_spec.setHandleOutOfRange(self.getChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE"))
+        com_spec.setNetworkRepresentation(self.getSwDataDefProps(element, "NETWORK-REPRESENTATION"))
         com_spec.setTransmissionAcknowledge(self.readTransmissionAcknowledgementRequest(element))
+        com_spec.setTransmissionProps(self.getTransmissionComSpecProps(element, "TRANSMISSION-PROPS"))
         com_spec.setUsesEndToEndProtection(self.getChildElementOptionalBooleanValue(element, "USES-END-TO-END-PROTECTION"))
 
     def getNonqueuedSenderComSpec(self, element: ET.Element) -> NonqueuedSenderComSpec:
         com_spec = NonqueuedSenderComSpec()
         self.readSenderComSpec(element, com_spec)
+        com_spec.setDataFilter(self.getDataFilter(element, "DATA-FILTER"))
         com_spec.setInitValue(self.getInitValue(element))
         return com_spec
 
@@ -4059,10 +4076,17 @@ class ARXMLParser(AbstractARXMLParser):
     def readUserDefinedTransformationComSpecProps(self, element: ET.Element, props: UserDefinedTransformationComSpecProps):
         self.readTransformationComSpecProps(element, props)
 
-    def readServerComSpecTransformationComSpecProps(self, element: ET.Element, com_spec: ServerComSpec):
+    def readEndToEndTransformationComSpecProps(self, element: ET.Element, props: EndToEndTransformationComSpecProps):
+        self.readTransformationComSpecProps(element, props)
+
+    def readTransformationComSpecPropss(self, element: ET.Element, com_spec):
         for child_element in self.findall(element, "TRANSFORMATION-COM-SPEC-PROPSS/*"):
             tag_name = self.getTagName(child_element)
-            if tag_name == "USER-DEFINED-TRANSFORMATION-COM-SPEC-PROPS":
+            if tag_name == "END-TO-END-TRANSFORMATION-COM-SPEC-PROPS":
+                props = EndToEndTransformationComSpecProps()
+                self.readEndToEndTransformationComSpecProps(child_element, props)
+                com_spec.addTransformationComSpecProps(props)
+            elif tag_name == "USER-DEFINED-TRANSFORMATION-COM-SPEC-PROPS":
                 props = UserDefinedTransformationComSpecProps()
                 self.readUserDefinedTransformationComSpecProps(child_element, props)
                 com_spec.addTransformationComSpecProps(props)
@@ -4076,8 +4100,15 @@ class ARXMLParser(AbstractARXMLParser):
         com_spec = ServerComSpec()
         self.readPPortComSpec(element, com_spec)
         com_spec.setOperationRef(self.getChildElementOptionalRefType(element, "OPERATION-REF"))
-        com_spec.setQueueLength(self.getChildElementOptionalNumericalValue(element, "QUEUE-LENGTH"))
-        self.readServerComSpecTransformationComSpecProps(element, com_spec)
+        com_spec.setQueueLength(self.getChildElementOptionalPositiveInteger(element, "QUEUE-LENGTH"))
+        self.readTransformationComSpecPropss(element, com_spec)
+        return com_spec
+
+    def getParameterProvideComSpec(self, element: ET.Element) -> ParameterProvideComSpec:
+        com_spec = ParameterProvideComSpec()
+        self.readPPortComSpec(element, com_spec)
+        com_spec.setInitValue(self.getInitValue(element))
+        com_spec.setParameterRef(self.getChildElementOptionalRefType(element, "PARAMETER-REF"))
         return com_spec
 
     def getQueuedSenderComSpec(self, element: ET.Element) -> QueuedSenderComSpec:
@@ -4121,6 +4152,8 @@ class ARXMLParser(AbstractARXMLParser):
                 parent.addProvidedComSpec(self.getModeSwitchSenderComSpec(child_element))
             elif tag_name == "NV-PROVIDE-COM-SPEC":
                 parent.addProvidedComSpec(self.getNvProvideComSpec(child_element))
+            elif tag_name == "PARAMETER-PROVIDE-COM-SPEC":
+                parent.addProvidedComSpec(self.getParameterProvideComSpec(child_element))
             else:
                 self.raiseError("Unsupported RequiredComSpec <%s>" % tag_name)
 

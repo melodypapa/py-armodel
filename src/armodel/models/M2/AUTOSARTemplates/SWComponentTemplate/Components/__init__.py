@@ -22,7 +22,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import NonqueuedReceiverComSpec, NonqueuedSenderComSpec, PPortComSpec
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import NonqueuedReceiverComSpec, NonqueuedSenderComSpec, NvProvideComSpec, ParameterProvideComSpec, PPortComSpec
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ParameterRequireComSpec, QueuedReceiverComSpec, QueuedSenderComSpec
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import RPortComSpec, ServerComSpec
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes import (
@@ -319,6 +319,10 @@ class AbstractProvidedPortPrototype(PortPrototype):
         elif isinstance(com_spec, QueuedSenderComSpec):
             pass
         elif isinstance(com_spec, ModeSwitchSenderComSpec):
+            pass
+        elif isinstance(com_spec, NvProvideComSpec):
+            pass
+        elif isinstance(com_spec, ParameterProvideComSpec):
             pass
         else:
             raise ValueError("Unsupported com spec")

@@ -230,6 +230,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import
     NonqueuedSenderComSpec,
     NvProvideComSpec,
     NvRequireComSpec,
+    ParameterProvideComSpec,
     ParameterRequireComSpec,
     PPortComSpec,
     QueuedReceiverComSpec,
@@ -241,6 +242,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import
     ServerComSpec,
     TransformationComSpecProps,
     TransmissionAcknowledgementRequest,
+    TransmissionComSpecProps,
     UserDefinedTransformationComSpecProps,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
@@ -946,8 +948,15 @@ class ARXMLWriter(AbstractARXMLWriter):
         if acknowledge is not None:
             child_element = ET.SubElement(element, "TRANSMISSION-ACKNOWLEDGE")
             self.writeARObjectAttributes(child_element, acknowledge)
-            if acknowledge.timeout is not None:
-                self.setChildElementOptionalFloatValue(child_element, "TIMEOUT", acknowledge.timeout)
+            self.setChildElementOptionalTimeValue(child_element, "TIMEOUT", acknowledge.getTimeout())
+
+    def writeTransmissionComSpecProps(self, element: ET.Element, props: TransmissionComSpecProps):
+        if props is not None:
+            child_element = ET.SubElement(element, "TRANSMISSION-PROPS")
+            self.writeARObjectAttributes(child_element, props)
+            self.setChildElementOptionalTimeValue(child_element, "DATA-UPDATE-PERIOD", props.getDataUpdatePeriod())
+            self.setChildElementOptionalTimeValue(child_element, "MINIMUM-SEND-INTERVAL", props.getMinimumSendInterval())
+            self.setChildElementOptionalLiteral(child_element, "TRANSMISSION-MODE", props.getTransmissionMode())
 
     def writeSenderComSpec(self, element: ET.Element, com_spec: SenderComSpec):
         representations = com_spec.getCompositeNetworkRepresentations()
@@ -956,15 +965,17 @@ class ARXMLWriter(AbstractARXMLWriter):
             for representation in representations:
                 self.writeCompositeNetworkRepresentation(child_element, representation)
         self.setChildElementOptionalRefType(element, "DATA-ELEMENT-REF", com_spec.getDataElementRef())
-        self.setSwDataDefProps(element, "NETWORK-REPRESENTATION", com_spec.getNetworkRepresentation())
         self.setChildElementOptionalLiteral(element, "HANDLE-OUT-OF-RANGE", com_spec.getHandleOutOfRange())
+        self.setSwDataDefProps(element, "NETWORK-REPRESENTATION", com_spec.getNetworkRepresentation())
         self.writeTransmissionAcknowledgementRequest(element, com_spec.getTransmissionAcknowledge())
+        self.writeTransmissionComSpecProps(element, com_spec.getTransmissionProps())
         self.setChildElementOptionalBooleanValue(element, "USES-END-TO-END-PROTECTION", com_spec.getUsesEndToEndProtection())
 
     def writeNonqueuedSenderComSpec(self, element: ET.Element, com_spec: NonqueuedSenderComSpec):
         child_element = ET.SubElement(element, "NONQUEUED-SENDER-COM-SPEC")
         self.writeARObjectAttributes(child_element, com_spec)
         self.writeSenderComSpec(child_element, com_spec)
+        self.setDataFilter(child_element, "DATA-FILTER", com_spec.getDataFilter())
         self.setChildValueSpecification(child_element, "INIT-VALUE", com_spec.getInitValue())
 
     def writeTransformationComSpecProps(self, element: ET.Element, prop: TransformationComSpecProps):
@@ -977,20 +988,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeTransformationComSpecProps(child_element, prop)
 
     def writeServerComSpecTransformationComSpecProps(self, element: ET.Element, com_spec: ServerComSpec):
-        props = com_spec.getTransformationComSpecProps()
-        if len(props) > 0:
-            child_element = ET.SubElement(element, "TRANSFORMATION-COM-SPEC-PROPSS")
-            for prop in props:
-                if isinstance(prop, UserDefinedTransformationComSpecProps):
-                    self.writeUserDefinedTransformationComSpecProps(child_element, prop)
-                else:
-                    self.notImplemented("Unsupported TransformationComSpecProps %s" % type(prop))
+        self.writeTransformationComSpecPropss(element, com_spec.getTransformationComSpecProps())
 
     def writeServerComSpec(self, element: ET.Element, com_spec: ServerComSpec):
         child_element = ET.SubElement(element, "SERVER-COM-SPEC")
         self.writeARObjectAttributes(child_element, com_spec)
         self.setChildElementOptionalRefType(child_element, "OPERATION-REF", com_spec.getOperationRef())
-        self.setChildElementOptionalNumericalValue(child_element, "QUEUE-LENGTH", com_spec.getQueueLength())
+        self.setChildElementOptionalPositiveInteger(child_element, "QUEUE-LENGTH", com_spec.getQueueLength())
         self.writeServerComSpecTransformationComSpecProps(child_element, com_spec)
 
     def writeQueuedSenderComSpec(self, element: ET.Element, com_spec: QueuedSenderComSpec):
@@ -1030,6 +1034,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeModeSwitchSenderComSpec(com_specs_tag, com_spec)
         elif isinstance(com_spec, NvProvideComSpec):
             self.writeNvProvideComSpec(com_specs_tag, com_spec)
+        elif isinstance(com_spec, ParameterProvideComSpec):
+            self.writeParameterProvideComSpec(com_specs_tag, com_spec)
         else:
             self.notImplemented("Unsupported PPortComSpec %s" % type(com_spec))
 
@@ -1199,7 +1205,25 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("writeClientComSpec")
         child_element = ET.SubElement(element, "CLIENT-COM-SPEC")
         self.writeARObjectAttributes(child_element, com_spec)
+        self.setChildElementOptionalTimeValue(child_element, "END-TO-END-CALL-RESPONSE-TIMEOUT", com_spec.getEndToEndCallResponseTimeout())
         self.setChildElementOptionalRefType(child_element, "OPERATION-REF", com_spec.getOperationRef())
+        self.writeTransformationComSpecPropss(child_element, com_spec.getTransformationComSpecProps())
+
+    def writeTransformationComSpecPropss(self, element: ET.Element, props):
+        if len(props) > 0:
+            child_element = ET.SubElement(element, "TRANSFORMATION-COM-SPEC-PROPSS")
+            for prop in props:
+                if isinstance(prop, UserDefinedTransformationComSpecProps):
+                    self.writeUserDefinedTransformationComSpecProps(child_element, prop)
+                else:
+                    self.notImplemented("Unsupported TransformationComSpecProps %s" % type(prop))
+
+    def writeParameterProvideComSpec(self, element: ET.Element, com_spec: ParameterProvideComSpec):
+        self.logger.debug("writeParameterProvideComSpec")
+        child_element = ET.SubElement(element, "PARAMETER-PROVIDE-COM-SPEC")
+        self.writeARObjectAttributes(child_element, com_spec)
+        self.setChildValueSpecification(child_element, "INIT-VALUE", com_spec.getInitValue())
+        self.setChildElementOptionalRefType(child_element, "PARAMETER-REF", com_spec.getParameterRef())
 
     def writeParameterRequireComSpec(self, element: ET.Element, com_spec: ParameterRequireComSpec):
         self.logger.debug("writeParameterRequireComSpec")

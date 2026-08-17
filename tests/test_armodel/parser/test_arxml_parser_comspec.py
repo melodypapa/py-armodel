@@ -24,6 +24,7 @@ from unittest.mock import MagicMock
 import pytest
 
 from armodel.models import AUTOSAR, ApplicationSwComponentType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import UserDefinedTransformationComSpecProps
 from tests.test_armodel.parser._helpers import _autosar_root, _snip
 
 
@@ -58,6 +59,134 @@ class TestGetClientComSpec:
         result = parser.getClientComSpec(element)
         assert result is not None
         assert result.getOperationRef() is None
+
+    def test_with_end_to_end_call_response_timeout(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            """
+            <END-TO-END-CALL-RESPONSE-TIMEOUT>1.5</END-TO-END-CALL-RESPONSE-TIMEOUT>
+            """,
+            root_tag="CLIENT-COM-SPEC",
+        )
+        result = parser.getClientComSpec(element)
+        assert result.getEndToEndCallResponseTimeout() is not None
+        assert result.getEndToEndCallResponseTimeout().getValue() == 1.5
+
+    def test_with_transformation_com_spec_props(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            """
+            <TRANSFORMATION-COM-SPEC-PROPSS>
+                <USER-DEFINED-TRANSFORMATION-COM-SPEC-PROPS></USER-DEFINED-TRANSFORMATION-COM-SPEC-PROPS>
+            </TRANSFORMATION-COM-SPEC-PROPSS>
+            """,
+            root_tag="CLIENT-COM-SPEC",
+        )
+        result = parser.getClientComSpec(element)
+        assert len(result.getTransformationComSpecProps()) == 1
+        assert isinstance(result.getTransformationComSpecProps()[0], UserDefinedTransformationComSpecProps)
+
+
+class TestGetNonqueuedSenderComSpec:
+    """Tests for getNonqueuedSenderComSpec."""
+
+    def test_with_data_filter(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            """
+            <DATA-ELEMENT-REF DEST="VARIABLE-DATA-PROTOTYPE">/if/De</DATA-ELEMENT-REF>
+            <DATA-FILTER>
+                <DATA-FILTER-TYPE>ONE-EVERY-N</DATA-FILTER-TYPE>
+            </DATA-FILTER>
+            """,
+            root_tag="NONQUEUED-SENDER-COM-SPEC",
+        )
+        result = parser.getNonqueuedSenderComSpec(element)
+        assert result.getDataFilter() is not None
+        assert result.getDataFilter().getDataFilterType() is not None
+        assert result.getDataElementRef().getValue() == "/if/De"
+
+    def test_with_transmission_props(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            """
+            <TRANSMISSION-PROPS>
+                <DATA-UPDATE-PERIOD>0.01</DATA-UPDATE-PERIOD>
+                <MINIMUM-SEND-INTERVAL>0.1</MINIMUM-SEND-INTERVAL>
+                <TRANSMISSION-MODE>triggered</TRANSMISSION-MODE>
+            </TRANSMISSION-PROPS>
+            <TRANSMISSION-ACKNOWLEDGE>
+                <TIMEOUT>0.5</TIMEOUT>
+            </TRANSMISSION-ACKNOWLEDGE>
+            """,
+            root_tag="NONQUEUED-SENDER-COM-SPEC",
+        )
+        result = parser.getNonqueuedSenderComSpec(element)
+        props = result.getTransmissionProps()
+        assert props is not None
+        assert props.getDataUpdatePeriod().getValue() == 0.01
+        assert props.getMinimumSendInterval().getValue() == 0.1
+        assert props.getTransmissionMode().getValue() == "triggered"
+        assert result.getTransmissionAcknowledge() is not None
+        assert result.getTransmissionAcknowledge().getTimeout().getValue() == 0.5
+
+    def test_without_transmission_props(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip("", root_tag="NONQUEUED-SENDER-COM-SPEC")
+        result = parser.getNonqueuedSenderComSpec(element)
+        assert result.getTransmissionProps() is None
+        assert result.getTransmissionAcknowledge() is None
+
+
+class TestGetServerComSpec:
+    """Tests for getServerComSpec."""
+
+    def test_with_queue_length_and_props(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            """
+            <OPERATION-REF DEST="CLIENT-SERVER-OPERATION">/if/Op</OPERATION-REF>
+            <QUEUE-LENGTH>4</QUEUE-LENGTH>
+            <TRANSFORMATION-COM-SPEC-PROPSS>
+                <USER-DEFINED-TRANSFORMATION-COM-SPEC-PROPS></USER-DEFINED-TRANSFORMATION-COM-SPEC-PROPS>
+            </TRANSFORMATION-COM-SPEC-PROPSS>
+            """,
+            root_tag="SERVER-COM-SPEC",
+        )
+        result = parser.getServerComSpec(element)
+        assert result.getOperationRef().getValue() == "/if/Op"
+        assert result.getQueueLength().getValue() == 4
+        assert len(result.getTransformationComSpecProps()) == 1
+
+
+class TestGetParameterProvideComSpec:
+    """Tests for getParameterProvideComSpec."""
+
+    def test_with_init_value_and_parameter_ref(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            """
+            <INIT-VALUE>
+                <TEXT-VALUE-SPECIFICATION>
+                    <VALUE>init</VALUE>
+                </TEXT-VALUE-SPECIFICATION>
+            </INIT-VALUE>
+            <PARAMETER-REF DEST="PARAMETER-DATA-PROTOTYPE">/if/Param</PARAMETER-REF>
+            """,
+            root_tag="PARAMETER-PROVIDE-COM-SPEC",
+        )
+        result = parser.getParameterProvideComSpec(element)
+        assert result.getInitValue() is not None
+        assert result.getParameterRef() is not None
+        assert result.getParameterRef().getValue() == "/if/Param"
+        assert result.getParameterRef().getDest() == "PARAMETER-DATA-PROTOTYPE"
+
+    def test_empty(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip("", root_tag="PARAMETER-PROVIDE-COM-SPEC")
+        result = parser.getParameterProvideComSpec(element)
+        assert result.getInitValue() is None
+        assert result.getParameterRef() is None
 
 
 class TestGetParameterRequireComSpec:
@@ -373,6 +502,23 @@ class TestReadProvidedComSpec:
         specs = p_port.getProvidedComSpecs()
         assert len(specs) == 1
 
+    def test_parameter_provide_branch(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        p_port = _make_p_port()
+        element = _snip(
+            """
+            <PROVIDED-COM-SPECS>
+                <PARAMETER-PROVIDE-COM-SPEC>
+                    <PARAMETER-REF DEST="PARAMETER-DATA-PROTOTYPE">/if/Param</PARAMETER-REF>
+                </PARAMETER-PROVIDE-COM-SPEC>
+            </PROVIDED-COM-SPECS>
+            """
+        )
+        parser.readProvidedComSpec(element, p_port)
+        specs = p_port.getProvidedComSpecs()
+        assert len(specs) == 1
+        assert specs[0].getParameterRef().getValue() == "/if/Param"
+
     def test_nv_provide_branch_with_mock_parent(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")
         mock_parent = MagicMock()
@@ -504,7 +650,7 @@ class TestTransformationComSpecProps:
 
         com_spec = ServerComSpec()
         element = _snip("<TRANSFORMATION-COM-SPEC-PROPSS>" "<USER-DEFINED-TRANSFORMATION-COM-SPEC-PROPS/>" "</TRANSFORMATION-COM-SPEC-PROPSS>")
-        parser.readServerComSpecTransformationComSpecProps(element, com_spec)
+        parser.readTransformationComSpecPropss(element, com_spec)
         assert len(com_spec.getTransformationComSpecProps()) == 1
 
     def test_readServerComSpecTransformationComSpecProps_unsupported_warns(self, warning_parser, caplog):
@@ -513,7 +659,7 @@ class TestTransformationComSpecProps:
         com_spec = ServerComSpec()
         element = _snip("<TRANSFORMATION-COM-SPEC-PROPSS><BAD/></TRANSFORMATION-COM-SPEC-PROPSS>")
         with caplog.at_level(logging.ERROR):
-            warning_parser.readServerComSpecTransformationComSpecProps(element, com_spec)
+            warning_parser.readTransformationComSpecPropss(element, com_spec)
         assert any("Unsupported TransformationComSpecProps" in r.getMessage() for r in caplog.records)
 
 

@@ -29,6 +29,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
     ClientComSpec,
     CompositeNetworkRepresentation,
+    HandleOutOfRangeEnum,
     ModeSwitchedAckRequest,
     ModeSwitchReceiverComSpec,
     ModeSwitchSenderComSpec,
@@ -36,6 +37,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import
     NonqueuedSenderComSpec,
     NvProvideComSpec,
     NvRequireComSpec,
+    ParameterProvideComSpec,
     ParameterRequireComSpec,
     PPortComSpec,
     QueuedReceiverComSpec,
@@ -44,6 +46,8 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import
     ServerComSpec,
     TransformationComSpecProps,
     TransmissionAcknowledgementRequest,
+    TransmissionComSpecProps,
+    TransmissionModeDefinitionEnum,
     UserDefinedTransformationComSpecProps,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (  # noqa: E501
@@ -200,7 +204,7 @@ class TestWriteSenderComSpec:
         props = SwDataDefProps()
         props.setSwCalprmAxisSet(SwCalprmAxisSet())
         com_spec.setNetworkRepresentation(props)
-        com_spec.setHandleOutOfRange(_literal("keep"))
+        com_spec.setHandleOutOfRange(HandleOutOfRangeEnum().setValue(HandleOutOfRangeEnum.SATURATE))
         com_spec.setTransmissionAcknowledge(TransmissionAcknowledgementRequest())
         com_spec.setUsesEndToEndProtection(_boolean(False))
         parent = _parent()
@@ -227,6 +231,28 @@ class TestWriteSenderComSpec:
         writer.writeNonqueuedSenderComSpec(parent, com_spec)
         assert parent[0].tag == "NONQUEUED-SENDER-COM-SPEC"
         assert parent[0].find("INIT-VALUE") is not None
+
+    def test_write_sender_comspec_with_transmission_props(self, writer):
+        com_spec = NonqueuedSenderComSpec()
+        props = TransmissionComSpecProps()
+        props.setDataUpdatePeriod(_time_value(0.01))
+        props.setMinimumSendInterval(_time_value(0.1))
+        props.setTransmissionMode(TransmissionModeDefinitionEnum().setValue(TransmissionModeDefinitionEnum.TRIGGERED))
+        com_spec.setTransmissionProps(props)
+        parent = _parent()
+        writer.writeSenderComSpec(parent, com_spec)
+        transmission_props = parent.find("TRANSMISSION-PROPS")
+        assert transmission_props is not None
+        assert transmission_props.find("DATA-UPDATE-PERIOD") is not None
+        assert transmission_props.find("MINIMUM-SEND-INTERVAL") is not None
+        assert transmission_props.find("TRANSMISSION-MODE").text == "triggered"
+
+    def test_write_nonqueued_sender_comspec_with_data_filter(self, writer):
+        com_spec = NonqueuedSenderComSpec()
+        com_spec.setDataFilter(DataFilter())
+        parent = _parent()
+        writer.writeNonqueuedSenderComSpec(parent, com_spec)
+        assert parent[0].find("DATA-FILTER") is not None
 
     def test_write_queued_sender_comspec(self, writer):
         com_spec = QueuedSenderComSpec()
@@ -286,6 +312,46 @@ class TestWriteServerComSpec:
         assert parent[0].find("OPERATION-REF") is not None
         assert parent[0].find("QUEUE-LENGTH") is not None
         assert parent[0].find("TRANSFORMATION-COM-SPEC-PROPSS") is not None
+
+
+class TestWriteClientComSpec:
+    def test_write_client_comspec(self, writer):
+        com_spec = ClientComSpec()
+        com_spec.setEndToEndCallResponseTimeout(_time_value(1.5))
+        com_spec.setOperationRef(_ref(value="/if/Op", dest="CLIENT-SERVER-OPERATION"))
+        com_spec.addTransformationComSpecProps(UserDefinedTransformationComSpecProps())
+        parent = _parent()
+        writer.writeClientComSpec(parent, com_spec)
+        assert parent[0].tag == "CLIENT-COM-SPEC"
+        assert parent[0].find("END-TO-END-CALL-RESPONSE-TIMEOUT") is not None
+        assert parent[0].find("OPERATION-REF") is not None
+        assert parent[0].find("TRANSFORMATION-COM-SPEC-PROPSS") is not None
+
+    def test_write_client_comspec_empty(self, writer):
+        com_spec = ClientComSpec()
+        parent = _parent()
+        writer.writeClientComSpec(parent, com_spec)
+        assert parent[0].find("END-TO-END-CALL-RESPONSE-TIMEOUT") is None
+        assert parent[0].find("TRANSFORMATION-COM-SPEC-PROPSS") is None
+
+
+class TestWriteParameterProvideComSpec:
+    def test_write_parameter_provide_comspec(self, writer):
+        com_spec = ParameterProvideComSpec()
+        com_spec.setInitValue(TextValueSpecification())
+        com_spec.setParameterRef(_ref(value="/if/Param", dest="PARAMETER-DATA-PROTOTYPE"))
+        parent = _parent()
+        writer.writeParameterProvideComSpec(parent, com_spec)
+        assert parent[0].tag == "PARAMETER-PROVIDE-COM-SPEC"
+        assert parent[0].find("INIT-VALUE") is not None
+        assert parent[0].find("PARAMETER-REF") is not None
+
+    def test_write_parameter_provide_comspec_empty(self, writer):
+        com_spec = ParameterProvideComSpec()
+        parent = _parent()
+        writer.writeParameterProvideComSpec(parent, com_spec)
+        assert parent[0].find("INIT-VALUE") is None
+        assert parent[0].find("PARAMETER-REF") is None
 
 
 class TestWriteModeSwitchSenderComSpec:
@@ -372,6 +438,12 @@ class TestWritePPortComSpec:
         parent = _parent()
         writer.writePPortComSpec(parent, com_spec)
         assert parent.find("NV-PROVIDE-COM-SPEC") is not None
+
+    def test_dispatches_parameter_provide(self, writer):
+        com_spec = ParameterProvideComSpec()
+        parent = _parent()
+        writer.writePPortComSpec(parent, com_spec)
+        assert parent.find("PARAMETER-PROVIDE-COM-SPEC") is not None
 
 
 class TestWriteCompositeNetworkRepresentation:

@@ -5,12 +5,15 @@ Tests cover all classes and methods in the Communication.py file to achieve 100%
 
 import pytest
 
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, ARPositiveInteger, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
     ClientComSpec,
     CompositeNetworkRepresentation,
     EndToEndTransformationComSpecProps,
     HandleInvalidEnum,
+    HandleOutOfRangeEnum,
     HandleOutOfRangeStatusEnum,
     HandleTimeoutEnum,
     ModeSwitchedAckRequest,
@@ -32,6 +35,8 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import
     ServerComSpec,
     TransformationComSpecProps,
     TransmissionAcknowledgementRequest,
+    TransmissionComSpecProps,
+    TransmissionModeDefinitionEnum,
     UserDefinedTransformationComSpecProps,
 )
 
@@ -92,19 +97,87 @@ class TestCompositeNetworkRepresentation:
 class TestTransmissionAcknowledgementRequest:
     """Test class for TransmissionAcknowledgementRequest class."""
 
-    def test_transmission_acknowledgement_request_initialization(self):
-        """Test TransmissionAcknowledgementRequest initialization."""
+    def test_initialization(self):
+        """Test TransmissionAcknowledgementRequest field defaults."""
         request = TransmissionAcknowledgementRequest()
         assert request.timeout is None
+        assert request.getTimeout() is None
+
+    def test_get_set_timeout(self):
+        """Test setTimeout returns self, value round-trips, None is a no-op."""
+        request = TransmissionAcknowledgementRequest()
+        timeout = TimeValue()
+        timeout.setValue("0.5")
+        assert request.setTimeout(timeout) is request
+        assert request.getTimeout() is timeout
+        request.setTimeout(None)
+        assert request.getTimeout() is timeout
 
 
 class TestSenderComSpec:
-    """Test class for SenderComSpec abstract class."""
+    """Test class for SenderComSpec abstract class (base accessors via NonqueuedSenderComSpec)."""
 
     def test_sender_com_spec_abstract(self):
-        """Test that SenderComSpec is an abstract class that raises NotImplementedError when instantiated."""
+        """Test that SenderComSpec is an abstract class that raises TypeError when instantiated."""
         with pytest.raises(TypeError):
             SenderComSpec()
+
+    def test_sender_com_spec_base_properties(self):
+        """Test all SenderComSpec base accessors through a concrete subclass."""
+        sender = NonqueuedSenderComSpec()
+        assert sender.compositeNetworkRepresentations == []
+        assert sender.dataElementRef is None
+        assert sender.handleOutOfRange is None
+        assert sender.networkRepresentation is None
+        assert sender.transmissionAcknowledge is None
+        assert sender.transmissionProps is None
+        assert sender.usesEndToEndProtection is None
+
+        from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+
+        representation = CompositeNetworkRepresentation()
+        assert sender.addCompositeNetworkRepresentation(representation) is sender
+        assert sender.getCompositeNetworkRepresentations() == [representation]
+        sender.addCompositeNetworkRepresentation(None)
+        assert len(sender.getCompositeNetworkRepresentations()) == 1
+
+        ref = RefType()
+        ref.setValue("/if/DataElement")
+        assert sender.setDataElementRef(ref) is sender
+        assert sender.getDataElementRef() is ref
+        sender.setDataElementRef(None)
+        assert sender.getDataElementRef() is ref
+
+        handle_out_of_range = HandleOutOfRangeEnum().setValue(HandleOutOfRangeEnum.NONE)
+        assert sender.setHandleOutOfRange(handle_out_of_range) is sender
+        assert sender.getHandleOutOfRange() is handle_out_of_range
+        sender.setHandleOutOfRange(None)
+        assert sender.getHandleOutOfRange() is handle_out_of_range
+
+        network_representation = SwDataDefProps()
+        assert sender.setNetworkRepresentation(network_representation) is sender
+        assert sender.getNetworkRepresentation() is network_representation
+        sender.setNetworkRepresentation(None)
+        assert sender.getNetworkRepresentation() is network_representation
+
+        acknowledge = TransmissionAcknowledgementRequest()
+        assert sender.setTransmissionAcknowledge(acknowledge) is sender
+        assert sender.getTransmissionAcknowledge() is acknowledge
+        sender.setTransmissionAcknowledge(None)
+        assert sender.getTransmissionAcknowledge() is acknowledge
+
+        transmission_props = TransmissionComSpecProps()
+        assert sender.setTransmissionProps(transmission_props) is sender
+        assert sender.getTransmissionProps() is transmission_props
+        sender.setTransmissionProps(None)
+        assert sender.getTransmissionProps() is transmission_props
+
+        uses_e2e = ARBoolean()
+        uses_e2e.setValue(True)
+        assert sender.setUsesEndToEndProtection(uses_e2e) is sender
+        assert sender.getUsesEndToEndProtection() is uses_e2e
+        sender.setUsesEndToEndProtection(None)
+        assert sender.getUsesEndToEndProtection() is uses_e2e
 
 
 class TestQueuedSenderComSpec:
@@ -146,9 +219,10 @@ class TestQueuedSenderComSpec:
         assert sender.getNetworkRepresentation() == network_rep
         assert sender == sender.setNetworkRepresentation(network_rep)  # Test method chaining
 
-        sender.setHandleOutOfRange("handle_out")
-        assert sender.getHandleOutOfRange() == "handle_out"
-        assert sender == sender.setHandleOutOfRange("handle_out")  # Test method chaining
+        handle_out_of_range = HandleOutOfRangeEnum().setValue(HandleOutOfRangeEnum.SATURATE)
+        sender.setHandleOutOfRange(handle_out_of_range)
+        assert sender.getHandleOutOfRange() == handle_out_of_range
+        assert sender == sender.setHandleOutOfRange(handle_out_of_range)  # Test method chaining
 
 
 class TestNonqueuedSenderComSpec:
@@ -157,13 +231,26 @@ class TestNonqueuedSenderComSpec:
     def test_nonqueued_sender_com_spec_initialization(self):
         """Test NonqueuedSenderComSpec initialization and methods."""
         sender = NonqueuedSenderComSpec()
-        assert sender.compositeNetworkRepresentations == []
-        assert sender.dataElementRef is None
-        assert sender.networkRepresentation is None
-        assert sender.handleOutOfRange is None
-        assert sender.transmissionAcknowledge is None
-        assert sender.usesEndToEndProtection is None
+        assert sender.dataFilter is None
         assert sender.initValue is None
+
+    def test_get_set_data_filter(self):
+        """Test dataFilter accessor pair and None no-op."""
+        sender = NonqueuedSenderComSpec()
+        data_filter = DataFilter()
+        assert sender.setDataFilter(data_filter) is sender
+        assert sender.getDataFilter() is data_filter
+        sender.setDataFilter(None)
+        assert sender.getDataFilter() is data_filter
+
+    def test_get_set_init_value(self):
+        """Test initValue accessor pair and None no-op."""
+        sender = NonqueuedSenderComSpec()
+        init_value = TextValueSpecification()
+        assert sender.setInitValue(init_value) is sender
+        assert sender.getInitValue() is init_value
+        sender.setInitValue(None)
+        assert sender.getInitValue() is init_value
 
 
 class TestClientComSpec:
@@ -172,13 +259,38 @@ class TestClientComSpec:
     def test_client_com_spec_initialization(self):
         """Test ClientComSpec initialization and methods."""
         client = ClientComSpec()
+        assert client.endToEndCallResponseTimeout is None
         assert client.operationRef is None
+        assert client.transformationComSpecProps == []
 
-        # Test setters and getters
+    def test_get_set_end_to_end_call_response_timeout(self):
+        """Test endToEndCallResponseTimeout accessor pair and None no-op."""
+        client = ClientComSpec()
+        timeout = TimeValue()
+        timeout.setValue("1.0")
+        assert client.setEndToEndCallResponseTimeout(timeout) is client
+        assert client.getEndToEndCallResponseTimeout() is timeout
+        client.setEndToEndCallResponseTimeout(None)
+        assert client.getEndToEndCallResponseTimeout() is timeout
+
+    def test_get_set_operation_ref(self):
+        """Test operationRef accessor pair and None no-op."""
+        client = ClientComSpec()
         ref = RefType()
         ref.setValue("/Test/Operation")
-        client.setOperationRef(ref)
-        assert client.getOperationRef() == ref
+        assert client.setOperationRef(ref) is client
+        assert client.getOperationRef() is ref
+        client.setOperationRef(None)
+        assert client.getOperationRef() is ref
+
+    def test_add_transformation_com_spec_props(self):
+        """Test transformationComSpecProps add/get and None no-op."""
+        client = ClientComSpec()
+        props = UserDefinedTransformationComSpecProps()
+        assert client.addTransformationComSpecProps(props) is client
+        assert client.getTransformationComSpecProps() == [props]
+        client.addTransformationComSpecProps(None)
+        assert len(client.getTransformationComSpecProps()) == 1
 
 
 class TestModeSwitchReceiverComSpec:
@@ -419,9 +531,91 @@ class TestParameterProvideComSpec:
     """Test class for ParameterProvideComSpec class."""
 
     def test_parameter_provide_com_spec_initialization(self):
-        """Test ParameterProvideComSpec initialization."""
-        _param_prov = ParameterProvideComSpec()
-        # Just verify it can be initialized
+        """Test ParameterProvideComSpec field defaults."""
+        com_spec = ParameterProvideComSpec()
+        assert com_spec.initValue is None
+        assert com_spec.parameterRef is None
+
+    def test_get_set_init_value(self):
+        """Test initValue accessor pair and None no-op."""
+        com_spec = ParameterProvideComSpec()
+        init_value = TextValueSpecification()
+        assert com_spec.setInitValue(init_value) is com_spec
+        assert com_spec.getInitValue() is init_value
+        com_spec.setInitValue(None)
+        assert com_spec.getInitValue() is init_value
+
+    def test_get_set_parameter_ref(self):
+        """Test parameterRef accessor pair and None no-op."""
+        com_spec = ParameterProvideComSpec()
+        ref = RefType()
+        ref.setValue("/if/Parameter")
+        assert com_spec.setParameterRef(ref) is com_spec
+        assert com_spec.getParameterRef() is ref
+        com_spec.setParameterRef(None)
+        assert com_spec.getParameterRef() is ref
+
+
+class TestTransmissionComSpecProps:
+    """Test class for TransmissionComSpecProps class."""
+
+    def test_initialization(self):
+        """Test TransmissionComSpecProps field defaults."""
+        props = TransmissionComSpecProps()
+        assert props.dataUpdatePeriod is None
+        assert props.minimumSendInterval is None
+        assert props.transmissionMode is None
+
+    def test_get_set_data_update_period(self):
+        """Test dataUpdatePeriod accessor pair and None no-op."""
+        props = TransmissionComSpecProps()
+        period = TimeValue()
+        period.setValue("0.01")
+        assert props.setDataUpdatePeriod(period) is props
+        assert props.getDataUpdatePeriod() is period
+        props.setDataUpdatePeriod(None)
+        assert props.getDataUpdatePeriod() is period
+
+    def test_get_set_minimum_send_interval(self):
+        """Test minimumSendInterval accessor pair and None no-op."""
+        props = TransmissionComSpecProps()
+        interval = TimeValue()
+        interval.setValue("0.1")
+        assert props.setMinimumSendInterval(interval) is props
+        assert props.getMinimumSendInterval() is interval
+        props.setMinimumSendInterval(None)
+        assert props.getMinimumSendInterval() is interval
+
+    def test_get_set_transmission_mode(self):
+        """Test transmissionMode accessor pair and None no-op."""
+        props = TransmissionComSpecProps()
+        mode = TransmissionModeDefinitionEnum().setValue(TransmissionModeDefinitionEnum.TRIGGERED)
+        assert props.setTransmissionMode(mode) is props
+        assert props.getTransmissionMode() is mode
+        props.setTransmissionMode(None)
+        assert props.getTransmissionMode() is mode
+
+
+class TestTransmissionModeDefinitionEnum:
+    """Test class for TransmissionModeDefinitionEnum class."""
+
+    def test_members(self):
+        """Test TransmissionModeDefinitionEnum member values."""
+        enum = TransmissionModeDefinitionEnum()
+        values = enum.getEnumValues()
+        assert TransmissionModeDefinitionEnum.CYCLIC == "cyclic"
+        assert TransmissionModeDefinitionEnum.CYCLIC_AND_ON_CHANGE == "cyclicAndOnChange"
+        assert TransmissionModeDefinitionEnum.TRIGGERED == "triggered"
+        assert TransmissionModeDefinitionEnum.CYCLIC in values
+        assert TransmissionModeDefinitionEnum.CYCLIC_AND_ON_CHANGE in values
+        assert TransmissionModeDefinitionEnum.TRIGGERED in values
+        assert len(values) == 3
+
+    def test_instantiable(self):
+        """Test that the enum can be instantiated and hold a value."""
+        enum = TransmissionModeDefinitionEnum()
+        enum.setValue(TransmissionModeDefinitionEnum.CYCLIC_AND_ON_CHANGE)
+        assert enum.getValue() == "cyclicAndOnChange"
 
 
 class TestTransformationComSpecProps:
@@ -572,6 +766,14 @@ class TestServerComSpec:
         e2e_props = EndToEndTransformationComSpecProps()
         server.addTransformationComSpecProps(e2e_props)
         assert e2e_props in server.getTransformationComSpecProps()
+
+        # None no-op checks
+        server.setOperationRef(None)
+        assert server.getOperationRef() is ref
+        server.setQueueLength(None)
+        assert server.getQueueLength() is queue_len
+        server.addTransformationComSpecProps(None)
+        assert len(server.getTransformationComSpecProps()) == 1
 
 
 class TestNvProvideComSpec:
