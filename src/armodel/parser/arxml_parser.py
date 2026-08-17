@@ -240,7 +240,6 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttribute
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
     ClientComSpec,
     CompositeNetworkRepresentation,
-    EndToEndTransformationComSpecProps,
     ModeSwitchedAckRequest,
     ModeSwitchReceiverComSpec,
     ModeSwitchSenderComSpec,
@@ -538,6 +537,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     BufferProperties,
     DataTransformation,
     DataTransformationSet,
+    EndToEndTransformationComSpecProps,
     EndToEndTransformationDescription,
     EndToEndTransformationISignalProps,
     TransformationDescription,
@@ -3538,6 +3538,8 @@ class ARXMLParser(AbstractARXMLParser):
     def getSwAxisIndividual(self, element: ET.Element) -> SwAxisIndividual:
         props = SwAxisIndividual()
         self.readARObjectAttributes(element, props)
+        props.setMaxGradient(self.getChildElementOptionalFloatValue(element, "MAX-GRADIENT"))
+        props.setMonotony(self.getChildElementOptionalLiteral(element, "MONOTONY"))
         props.setInputVariableTypeRef(self.getChildElementOptionalRefType(element, "INPUT-VARIABLE-TYPE-REF"))
         props.setCompuMethodRef(self.getChildElementOptionalRefType(element, "COMPU-METHOD-REF"))
         props.setSwMaxAxisPoints(self.getChildElementOptionalNumericalValue(element, "SW-MAX-AXIS-POINTS"))
@@ -3547,19 +3549,23 @@ class ARXMLParser(AbstractARXMLParser):
 
     def getSwAxisGrouped(self, element: ET.Element) -> SwAxisGrouped:
         props = SwAxisGrouped()
+        props.setMaxGradient(self.getChildElementOptionalFloatValue(element, "MAX-GRADIENT"))
+        props.setMonotony(self.getChildElementOptionalLiteral(element, "MONOTONY"))
         props.setSharedAxisTypeRef(self.getChildElementOptionalRefType(element, "SHARED-AXIS-TYPE-REF"))
         return props
 
     def getSwCalprmAxis(self, element: ET.Element) -> SwCalprmAxis:
         axis = SwCalprmAxis()
-        axis.sw_axis_index = self.getChildElementOptionalNumericalValue(element, "SW-AXIS-INDEX")
-        axis.category = self.getChildElementOptionalLiteral(element, "CATEGORY")
+        axis.setSwAxisIndex(self.getChildElementOptionalLiteral(element, "SW-AXIS-INDEX"))
+        axis.setCategory(self.getChildElementOptionalLiteral(element, "CATEGORY"))
         child_element = self.find(element, "SW-AXIS-INDIVIDUAL")
         if child_element is not None:
-            axis.sw_calprm_axis_type_props = self.getSwAxisIndividual(child_element)
+            axis.setSwCalprmAxisTypeProps(self.getSwAxisIndividual(child_element))
         child_element = self.find(element, "SW-AXIS-GROUPED")
         if child_element is not None:
-            axis.sw_calprm_axis_type_props = self.getSwAxisGrouped(child_element)
+            axis.setSwCalprmAxisTypeProps(self.getSwAxisGrouped(child_element))
+        axis.setSwCalibrationAccess(self.getChildElementOptionalLiteral(element, "SW-CALIBRATION-ACCESS"))
+        axis.setDisplayFormat(self.getChildElementOptionalLiteral(element, "DISPLAY-FORMAT"))
 
         return axis
 
@@ -4079,6 +4085,22 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readEndToEndTransformationComSpecProps(self, element: ET.Element, props: EndToEndTransformationComSpecProps):
         self.readTransformationComSpecProps(element, props)
+        props.setClearFromValidToInvalid(self.getChildElementOptionalBooleanValue(element, "CLEAR-FROM-VALID-TO-INVALID"))
+        props.setDisableEndToEndCheck(self.getChildElementOptionalBooleanValue(element, "DISABLE-END-TO-END-CHECK"))
+        props.setDisableEndToEndStateMachine(self.getChildElementOptionalBooleanValue(element, "DISABLE-END-TO-END-STATE-MACHINE"))
+        props.setE2eProfileCompatibilityPropsRef(self.getChildElementOptionalRefType(element, "E2E-PROFILE-COMPATIBILITY-PROPS-REF"))
+        props.setMaxDeltaCounter(self.getChildElementOptionalPositiveInteger(element, "MAX-DELTA-COUNTER"))
+        props.setMaxErrorStateInit(self.getChildElementOptionalPositiveInteger(element, "MAX-ERROR-STATE-INIT"))
+        props.setMaxErrorStateInvalid(self.getChildElementOptionalPositiveInteger(element, "MAX-ERROR-STATE-INVALID"))
+        props.setMaxErrorStateValid(self.getChildElementOptionalPositiveInteger(element, "MAX-ERROR-STATE-VALID"))
+        props.setMaxNoNewOrRepeatedData(self.getChildElementOptionalPositiveInteger(element, "MAX-NO-NEW-OR-REPEATED-DATA"))
+        props.setMinOkStateInit(self.getChildElementOptionalPositiveInteger(element, "MIN-OK-STATE-INIT"))
+        props.setMinOkStateInvalid(self.getChildElementOptionalPositiveInteger(element, "MIN-OK-STATE-INVALID"))
+        props.setMinOkStateValid(self.getChildElementOptionalPositiveInteger(element, "MIN-OK-STATE-VALID"))
+        props.setSyncCounterInit(self.getChildElementOptionalPositiveInteger(element, "SYNC-COUNTER-INIT"))
+        props.setWindowSizeInit(self.getChildElementOptionalPositiveInteger(element, "WINDOW-SIZE-INIT"))
+        props.setWindowSizeInvalid(self.getChildElementOptionalPositiveInteger(element, "WINDOW-SIZE-INVALID"))
+        props.setWindowSizeValid(self.getChildElementOptionalPositiveInteger(element, "WINDOW-SIZE-VALID"))
 
     def readTransformationComSpecPropss(self, element: ET.Element, com_spec):
         for child_element in self.findall(element, "TRANSFORMATION-COM-SPEC-PROPSS/*"):
@@ -6613,19 +6635,11 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported DataTransformation <%s>" % tag_name)
 
-    def readBufferPropertiesBufferComputation(self, element: ET.Element, properties: BufferProperties):
-        child_element = self.find(element, "BUFFER-COMPUTATION")
-        if child_element is not None:
-            scale = CompuScale()
-            self.readCompuScale(child_element, scale)
-            properties.setBufferComputation(scale)
-
     def getBufferProperties(self, element: ET.Element, key: str) -> BufferProperties:
         properties = None
         child_element = self.find(element, key)
         if child_element is not None:
             properties = BufferProperties()
-            self.readBufferPropertiesBufferComputation(child_element, properties)
             properties.setHeaderLength(self.getChildElementOptionalIntegerValue(child_element, "HEADER-LENGTH"))
             properties.setInPlace(self.getChildElementOptionalBooleanValue(child_element, "IN-PLACE"))
         return properties
@@ -6673,6 +6687,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readTransformationTechnology(self, element: ET.Element, tech: TransformationTechnology):
         self.readIdentifiable(element, tech)
         tech.setBufferProperties(self.getBufferProperties(element, "BUFFER-PROPERTIES"))
+        tech.setHasInternalState(self.getChildElementOptionalBooleanValue(element, "HAS-INTERNAL-STATE"))
         tech.setNeedsOriginalData(self.getChildElementOptionalBooleanValue(element, "NEEDS-ORIGINAL-DATA"))
         tech.setProtocol(self.getChildElementOptionalLiteral(element, "PROTOCOL"))
         self.readTransformationTechnologyTransformationDescriptions(element, tech)

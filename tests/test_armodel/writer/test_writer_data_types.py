@@ -181,11 +181,11 @@ class TestSwCalprmAxisWriter:
 
     def test_set_sw_calprm_axis_individual(self, writer):
         axis = SwCalprmAxis()
-        axis.sw_axis_index = _numerical("1")
-        axis.category = _literal("FIXED")
+        axis.setSwAxisIndex(_literal("1"))
+        axis.setCategory(_literal("FIXED"))
         individual = SwAxisIndividual()
         individual.setSwMaxAxisPoints(_numerical("50"))
-        axis.sw_calprm_axis_type_props = individual
+        axis.setSwCalprmAxisTypeProps(individual)
 
         parent = _parent()
         writer.setSwCalprmAxis(parent, axis)
@@ -200,11 +200,11 @@ class TestSwCalprmAxisWriter:
 
     def test_set_sw_calprm_axis_grouped(self, writer):
         axis = SwCalprmAxis()
-        axis.sw_axis_index = _numerical("2")
-        axis.category = _literal("STD")
+        axis.setSwAxisIndex(_literal("2"))
+        axis.setCategory(_literal("STD"))
         grouped = SwAxisGrouped()
         grouped.setSharedAxisTypeRef(_ref("SW-CALPRM-AXIS", "/g"))
-        axis.sw_calprm_axis_type_props = grouped
+        axis.setSwCalprmAxisTypeProps(grouped)
 
         parent = _parent()
         writer.setSwCalprmAxis(parent, axis)
@@ -223,7 +223,7 @@ class TestSwCalprmAxisWriter:
             pass
 
         axis = SwCalprmAxis()
-        axis.sw_calprm_axis_type_props = FakeProps()
+        axis.setSwCalprmAxisTypeProps(FakeProps())
 
         parent = _parent()
         w.setSwCalprmAxis(parent, axis)

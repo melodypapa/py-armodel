@@ -11,7 +11,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
     ClientComSpec,
     CompositeNetworkRepresentation,
-    EndToEndTransformationComSpecProps,
     HandleInvalidEnum,
     HandleOutOfRangeEnum,
     HandleOutOfRangeStatusEnum,
@@ -39,6 +38,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import
     TransmissionModeDefinitionEnum,
     UserDefinedTransformationComSpecProps,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import EndToEndTransformationComSpecProps
 
 
 class TestHandleInvalidEnum:

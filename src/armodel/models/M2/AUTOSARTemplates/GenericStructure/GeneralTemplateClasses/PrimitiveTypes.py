@@ -1199,11 +1199,58 @@ class ByteOrderEnum(AREnum):
 
     def __init__(self):
         super().__init__(
-            (
+            [
                 ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST,
                 ByteOrderEnum.MOST_SIGNIFICANT_BYTE_LAST,
                 ByteOrderEnum.OPAQUE,
-            )
+            ]
+        )
+
+
+class MonotonyEnum(AREnum):
+    """
+    This enumerator denotes the values for specification of monotony for e.g. curves.
+    """
+
+    # MonotonyEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.87, p.408
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on InternalConstrs.monotony, PhysConstrs.monotony, SwCalprmAxisTypeProps.monotony
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+
+    # This indicates that the related curve needs to be monotony decreasing. Tags: atp.EnumerationLiteralIndex=0
+    DECREASING = "decreasing"
+
+    # This indicates that the related curve needs to be monotony increasing. Tags: atp.EnumerationLiteralIndex=1
+    INCREASING = "increasing"
+
+    # This indicates that the values shall be monotonously decreasing or increasing, depending on the trend set by the first values of the series. Tags: atp.EnumerationLiteralIndex=2
+    MONOTONOUS = "monotonous"
+
+    # This indicates that the related curve needs not to be monotony. Tags: atp.EnumerationLiteralIndex=3
+    NO_MONOTONY = "noMonotony"
+
+    # This indicates that the related curve needs to be strictly monotony decreasing. Tags: atp.EnumerationLiteralIndex=4
+    STRICTLY_DECREASING = "strictlyDecreasing"
+
+    # This indicates that the related curve needs to be strictly monotony increasing. Tags: atp.EnumerationLiteralIndex=5
+    STRICTLY_INCREASING = "strictlyIncreasing"
+
+    # This indicates that the values shall be strict monotonously decreasing or increasing, depending on the trend set by the first values of the series. Tags: atp.EnumerationLiteralIndex=6
+    STRICT_MONOTONOUS = "strictMonotonous"
+
+    def __init__(self):
+        super().__init__(
+            [
+                MonotonyEnum.DECREASING,
+                MonotonyEnum.INCREASING,
+                MonotonyEnum.MONOTONOUS,
+                MonotonyEnum.NO_MONOTONY,
+                MonotonyEnum.STRICTLY_DECREASING,
+                MonotonyEnum.STRICTLY_INCREASING,
+                MonotonyEnum.STRICT_MONOTONOUS,
+            ]
         )
 
 

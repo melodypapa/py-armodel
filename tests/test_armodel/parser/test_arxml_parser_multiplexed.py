@@ -519,13 +519,15 @@ class TestPduAndSecureCommunication:
 
 
 class TestBufferProperties:
-    def test_readBufferPropertiesBufferComputation_sets_scale(self, parser):
-        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import BufferProperties
+    def test_getBufferProperties_reads_header_length_and_in_place(self, parser):
+        element = _snip("<BUFFER-PROPERTIES>" "<HEADER-LENGTH>8</HEADER-LENGTH>" "<IN-PLACE>true</IN-PLACE>" "</BUFFER-PROPERTIES>")
+        props = parser.getBufferProperties(element, "BUFFER-PROPERTIES")
 
-        props = BufferProperties()
-        element = _snip("<BUFFER-COMPUTATION>" "<SHORT-LABEL>bc</SHORT-LABEL>" "<LOWER-LIMIT>0</LOWER-LIMIT>" "<UPPER-LIMIT>100</UPPER-LIMIT>" "</BUFFER-COMPUTATION>")
-        parser.readBufferPropertiesBufferComputation(element, props)
-        assert props.getBufferComputation() is not None
+        assert props.getHeaderLength().getValue() == 8
+        assert props.getInPlace().getValue() is True
+
+    def test_readBufferPropertiesBufferComputation_removed(self, parser):
+        assert not hasattr(parser, "readBufferPropertiesBufferComputation")
 
 
 # ==================== ECUC ModuleDef / ContainerDef (L4461, L4480, L4484-4489, L4503, L4560, L4627-4667) ====================
