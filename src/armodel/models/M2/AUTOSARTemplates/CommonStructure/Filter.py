@@ -37,7 +37,7 @@ class DataFilterTypeEnum(AREnum):
         Initializes the DataFilterTypeEnum with all possible values.
         """
         super().__init__(
-            (
+            [
                 DataFilterTypeEnum.MASKED_NEW_DIFFERS_MASKED_OLD,
                 DataFilterTypeEnum.MASKED_NEW_DIFFERS_X,
                 DataFilterTypeEnum.MASKED_NEW_EQUALS_X,
@@ -45,7 +45,7 @@ class DataFilterTypeEnum(AREnum):
                 DataFilterTypeEnum.NEW_IS_OUTSIDE,
                 DataFilterTypeEnum.NEW_IS_WITHIN,
                 DataFilterTypeEnum.ONE_EVERY_N,
-            )
+            ]
         )
 
 
@@ -74,45 +74,39 @@ class DataFilter(ARObject):
     # [x] setX                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
-        """
-        Initializes the DataFilter with default values.
-        """
         super().__init__()
 
-        # Type of data filtering to apply
+        # This attribute specifies the type of the filter.
         self.dataFilterType: DataFilterTypeEnum = None
-        # Bit mask for masked filtering operations
+
+        # Mask for old and new value.
         self.mask: UnlimitedInteger = None
-        # Maximum threshold value for range-based filtering
+
+        # Value to specify the upper boundary
         self.max: UnlimitedInteger = None
-        # Minimum threshold value for range-based filtering
+
+        # Value to specify the lower boundary
         self.min: UnlimitedInteger = None
-        # Offset value for filtering calculations
+
+        # Specifies the initial number of messages to occur before the first message is passed
         self.offset: PositiveInteger = None
-        # Period for periodic filtering operations (e.g., oneEveryN)
+
+        # Specifies number of messages to occur before the message is passed again
         self.period: PositiveInteger = None
-        # Reference value X used in comparison-based filtering
+
+        # Value to compare with
         self.x: UnlimitedInteger = None
 
     def getDataFilterType(self):
         """
-        Gets the type of data filtering to apply.
-
-        Returns:
-            DataFilterTypeEnum: The data filter type
+        This attribute specifies the type of the filter.
         """
         return self.dataFilterType
 
     def setDataFilterType(self, value):
         """
-        Sets the type of data filtering to apply.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The data filter type to set
-
-        Returns:
-            self for method chaining
+        This attribute specifies the type of the filter.
+        A None value is a no-op and does not overwrite an existing dataFilterType.
         """
         if value is not None:
             self.dataFilterType = value
@@ -120,23 +114,14 @@ class DataFilter(ARObject):
 
     def getMask(self):
         """
-        Gets the bit mask for masked filtering operations.
-
-        Returns:
-            UnlimitedInteger: The bit mask
+        Mask for old and new value.
         """
         return self.mask
 
     def setMask(self, value):
         """
-        Sets the bit mask for masked filtering operations.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The bit mask to set
-
-        Returns:
-            self for method chaining
+        Mask for old and new value.
+        A None value is a no-op and does not overwrite an existing mask.
         """
         if value is not None:
             self.mask = value
@@ -144,23 +129,14 @@ class DataFilter(ARObject):
 
     def getMax(self):
         """
-        Gets the maximum threshold value for range-based filtering.
-
-        Returns:
-            UnlimitedInteger: The maximum threshold
+        Value to specify the upper boundary
         """
         return self.max
 
     def setMax(self, value):
         """
-        Sets the maximum threshold value for range-based filtering.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The maximum threshold to set
-
-        Returns:
-            self for method chaining
+        Value to specify the upper boundary
+        A None value is a no-op and does not overwrite an existing max.
         """
         if value is not None:
             self.max = value
@@ -168,23 +144,14 @@ class DataFilter(ARObject):
 
     def getMin(self):
         """
-        Gets the minimum threshold value for range-based filtering.
-
-        Returns:
-            UnlimitedInteger: The minimum threshold
+        Value to specify the lower boundary
         """
         return self.min
 
     def setMin(self, value):
         """
-        Sets the minimum threshold value for range-based filtering.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The minimum threshold to set
-
-        Returns:
-            self for method chaining
+        Value to specify the lower boundary
+        A None value is a no-op and does not overwrite an existing min.
         """
         if value is not None:
             self.min = value
@@ -192,23 +159,14 @@ class DataFilter(ARObject):
 
     def getOffset(self):
         """
-        Gets the offset value for filtering calculations.
-
-        Returns:
-            PositiveInteger: The offset value
+        Specifies the initial number of messages to occur before the first message is passed
         """
         return self.offset
 
     def setOffset(self, value):
         """
-        Sets the offset value for filtering calculations.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The offset value to set
-
-        Returns:
-            self for method chaining
+        Specifies the initial number of messages to occur before the first message is passed
+        A None value is a no-op and does not overwrite an existing offset.
         """
         if value is not None:
             self.offset = value
@@ -216,23 +174,14 @@ class DataFilter(ARObject):
 
     def getPeriod(self):
         """
-        Gets the period for periodic filtering operations (e.g., oneEveryN).
-
-        Returns:
-            PositiveInteger: The period value
+        Specifies number of messages to occur before the message is passed again
         """
         return self.period
 
     def setPeriod(self, value):
         """
-        Sets the period for periodic filtering operations (e.g., oneEveryN).
-        Only sets the value if it is not None.
-
-        Args:
-            value: The period value to set
-
-        Returns:
-            self for method chaining
+        Specifies number of messages to occur before the message is passed again
+        A None value is a no-op and does not overwrite an existing period.
         """
         if value is not None:
             self.period = value
@@ -240,23 +189,14 @@ class DataFilter(ARObject):
 
     def getX(self):
         """
-        Gets the reference value X used in comparison-based filtering.
-
-        Returns:
-            UnlimitedInteger: The reference value X
+        Value to compare with
         """
         return self.x
 
     def setX(self, value):
         """
-        Sets the reference value X used in comparison-based filtering.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The reference value X to set
-
-        Returns:
-            self for method chaining
+        Value to compare with
+        A None value is a no-op and does not overwrite an existing x.
         """
         if value is not None:
             self.x = value

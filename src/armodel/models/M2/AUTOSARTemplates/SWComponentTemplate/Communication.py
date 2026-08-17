@@ -40,13 +40,14 @@ class HandleInvalidEnum(AREnum):
 
 class PPortComSpec(ARObject, ABC):
     """
-    Communication attributes of a provided PortPrototype. This class will contain attributes
-    that are valid for all kinds of provide ports, independent of client-server or
-    sender-receiver communication patterns.
+    Communication attributes of a provided PortPrototype. This class will contain attributes that are valid for all kinds of provide ports, independent of client-server or sender-receiver communication patterns.
     """
 
     # PPortComSpec method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.58, p.166
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self):
         if type(self) is PPortComSpec:
@@ -234,41 +235,141 @@ class CompositeNetworkRepresentation(ARObject):
         return self
 
 
-class TransmissionAcknowledgementRequest(ARObject):
+class TransmissionModeDefinitionEnum(AREnum):
     """
-    Requests transmission acknowledgement that data has been sent successfully.
-    Success/failure is reported via a SendPoint of a RunnableEntity.
+    This meta-class defines possible settings for the transmission mode.
     """
 
-    # TransmissionAcknowledgementRequest method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getTimeout                   [x] impl  [x] docstring  [ ] test
-    # [ ] setTimeout                   [x] impl  [x] docstring  [ ] test
+    # TransmissionModeDefinitionEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.73, p.181
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on TransmissionComSpecProps.transmissionMode
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+
+    # The data is assumed to be transmitted in a cyclic manner. The cycle is defined by dataUpdatePeriod. Tags: atp.EnumerationLiteralIndex=0
+    CYCLIC = "cyclic"
+
+    # The data is assumed to be transmitted in a cyclic manner (with cycle time dataUpdatePeriod) and additionally there may be arbitrary transmission if the data value changes (minimumSendInterval to be respected, if defined). Tags: atp.EnumerationLiteralIndex=2
+    CYCLIC_AND_ON_CHANGE = "cyclicAndOnChange"
+
+    # The data is assumed to be transmitted in an arbitrary manner (minimumSendInterval to be respected, if defined). Tags: atp.EnumerationLiteralIndex=1
+    TRIGGERED = "triggered"
+
+    def __init__(self):
+        super().__init__(
+            [
+                TransmissionModeDefinitionEnum.CYCLIC,
+                TransmissionModeDefinitionEnum.CYCLIC_AND_ON_CHANGE,
+                TransmissionModeDefinitionEnum.TRIGGERED,
+            ]
+        )
+
+
+class TransmissionComSpecProps(ARObject):
+    """
+    This meta-class defines a set of transmission attributes which the application software is assumed to implement.
+    """
+
+    # TransmissionComSpecProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.70, p.179
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDataUpdatePeriod     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDataUpdatePeriod     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMinimumSendInterval  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMinimumSendInterval  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTransmissionMode     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTransmissionMode     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        self.timeout: float = None
+        # This attribute defines the period in which the application is assumed to transmit the respective data.
+        self.dataUpdatePeriod: Optional[TimeValue] = None
 
-    def getTimeout(self):
+        # This attribute defines the minimum interval between two consecutive transmissions of the respective data the application is assumed to ensure.
+        self.minimumSendInterval: Optional[TimeValue] = None
+
+        # The attribute defines the mode in which the application is assumed to transmit the respective data.
+        self.transmissionMode: Optional["TransmissionModeDefinitionEnum"] = None
+
+    def getDataUpdatePeriod(self) -> Optional[TimeValue]:
         """
-        Gets the timeout value for the transmission acknowledgement.
+        This attribute defines the period in which the application is assumed to transmit the respective data.
+        """
+        return self.dataUpdatePeriod
 
-        Returns:
-            float: The timeout value
+    def setDataUpdatePeriod(self, value: Optional[TimeValue]) -> "TransmissionComSpecProps":
+        """
+        This attribute defines the period in which the application is assumed to transmit the respective data.
+        A None value is a no-op and does not overwrite an existing dataUpdatePeriod.
+        """
+        if value is not None:
+            self.dataUpdatePeriod = value
+        return self
+
+    def getMinimumSendInterval(self) -> Optional[TimeValue]:
+        """
+        This attribute defines the minimum interval between two consecutive transmissions of the respective data the application is assumed to ensure.
+        """
+        return self.minimumSendInterval
+
+    def setMinimumSendInterval(self, value: Optional[TimeValue]) -> "TransmissionComSpecProps":
+        """
+        This attribute defines the minimum interval between two consecutive transmissions of the respective data the application is assumed to ensure.
+        A None value is a no-op and does not overwrite an existing minimumSendInterval.
+        """
+        if value is not None:
+            self.minimumSendInterval = value
+        return self
+
+    def getTransmissionMode(self) -> Optional["TransmissionModeDefinitionEnum"]:
+        """
+        The attribute defines the mode in which the application is assumed to transmit the respective data.
+        """
+        return self.transmissionMode
+
+    def setTransmissionMode(self, value: Optional["TransmissionModeDefinitionEnum"]) -> "TransmissionComSpecProps":
+        """
+        The attribute defines the mode in which the application is assumed to transmit the respective data.
+        A None value is a no-op and does not overwrite an existing transmissionMode.
+        """
+        if value is not None:
+            self.transmissionMode = value
+        return self
+
+
+class TransmissionAcknowledgementRequest(ARObject):
+    """
+    Requests transmission acknowledgement that data has been sent successfully. Success/failure is reported via a SendPoint of a RunnableEntity.
+    """
+
+    # TransmissionAcknowledgementRequest method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.71, p.180
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getTimeout   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTimeout   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # Number of seconds before an error is reported or in case of allowed redundancy, the value is sent again.
+        self.timeout: Optional[TimeValue] = None
+
+    def getTimeout(self) -> Optional[TimeValue]:
+        """
+        Number of seconds before an error is reported or in case of allowed redundancy, the value is sent again.
         """
         return self.timeout
 
-    def setTimeout(self, value):
+    def setTimeout(self, value: Optional[TimeValue]) -> "TransmissionAcknowledgementRequest":
         """
-        Sets the timeout value for the transmission acknowledgement.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The timeout value to set
-
-        Returns:
-            self for method chaining
+        Number of seconds before an error is reported or in case of allowed redundancy, the value is sent again.
+        A None value is a no-op and does not overwrite an existing timeout.
         """
         if value is not None:
             self.timeout = value
@@ -281,19 +382,24 @@ class SenderComSpec(PPortComSpec, ABC):
     """
 
     # SenderComSpec method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] addCompositeNetworkRepresentation [x] impl  [x] docstring  [ ] test
-    # [ ] getCompositeNetworkRepresentations [x] impl  [x] docstring  [ ] test
-    # [ ] getDataElementRef            [x] impl  [x] docstring  [ ] test
-    # [ ] setDataElementRef            [x] impl  [x] docstring  [ ] test
-    # [ ] getNetworkRepresentation     [x] impl  [x] docstring  [ ] test
-    # [ ] setNetworkRepresentation     [x] impl  [x] docstring  [ ] test
-    # [ ] getHandleOutOfRange          [x] impl  [x] docstring  [ ] test
-    # [ ] setHandleOutOfRange          [x] impl  [x] docstring  [ ] test
-    # [ ] getTransmissionAcknowledge   [x] impl  [x] docstring  [ ] test
-    # [ ] setTransmissionAcknowledge   [x] impl  [x] docstring  [ ] test
-    # [ ] getUsesEndToEndProtection    [x] impl  [x] docstring  [ ] test
-    # [ ] setUsesEndToEndProtection    [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.67, p.178
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addCompositeNetworkRepresentation [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getCompositeNetworkRepresentations [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getDataElementRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDataElementRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getHandleOutOfRange        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setHandleOutOfRange        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getNetworkRepresentation   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setNetworkRepresentation   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTransmissionAcknowledge [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTransmissionAcknowledge [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTransmissionProps       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTransmissionProps       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getUsesEndToEndProtection  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setUsesEndToEndProtection  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         if type(self) is SenderComSpec:
@@ -301,145 +407,130 @@ class SenderComSpec(PPortComSpec, ABC):
 
         super().__init__()
 
+        # This represents a CompositeNetworkRepresentation defined in the context of a SenderComSpec. Stereotypes: atpSplitable Tags: atp.Splitkey=compositeNetworkRepresentation
         self.compositeNetworkRepresentations: List[CompositeNetworkRepresentation] = []
-        self.dataElementRef: RefType = None
-        self.networkRepresentation: SwDataDefProps = None
-        self.handleOutOfRange: str = None
-        self.transmissionAcknowledge: TransmissionAcknowledgementRequest = None
-        self.usesEndToEndProtection: ARBoolean = None
 
-    def addCompositeNetworkRepresentation(self, representation: CompositeNetworkRepresentation):
+        # Data element these quality of service attributes apply to.
+        self.dataElementRef: Optional[RefType] = None
+
+        # This attribute controls how out-of-range values shall be dealt with.
+        self.handleOutOfRange: Optional[HandleOutOfRangeEnum] = None
+
+        # A networkRepresentation is used to define how the data Element is mapped to a communication bus. Stereotypes: atpSplitable Tags: atp.Splitkey=networkRepresentation
+        self.networkRepresentation: Optional[SwDataDefProps] = None
+
+        # Requested transmission acknowledgement for data element.
+        self.transmissionAcknowledge: Optional[TransmissionAcknowledgementRequest] = None
+
+        # This aggregation represents the definition transmission props in the context of the enclosing SenderComSpec.
+        self.transmissionProps: Optional[TransmissionComSpecProps] = None
+
+        # This indicates whether the corresponding dataElement shall be transmitted using end-to-end protection. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.usesEndToEndProtection: Optional[Boolean] = None
+
+    def addCompositeNetworkRepresentation(self, representation: Optional[CompositeNetworkRepresentation]) -> "SenderComSpec":
         """
-        Adds a composite network representation defined in the context of this SenderComSpec.
+        This represents a CompositeNetworkRepresentation defined in the context of a SenderComSpec. Stereotypes: atpSplitable Tags: atp.Splitkey=compositeNetworkRepresentation
+        A None value is a no-op and does not append anything.
         """
-        self.compositeNetworkRepresentations.append(representation)
+        if representation is not None:
+            self.compositeNetworkRepresentations.append(representation)
+        return self
 
     def getCompositeNetworkRepresentations(self) -> List[CompositeNetworkRepresentation]:
         """
-        Gets the composite network representations defined in the context of this SenderComSpec.
-
-        Returns:
-            List[CompositeNetworkRepresentation]: The composite network representations
+        This represents a CompositeNetworkRepresentation defined in the context of a SenderComSpec. Stereotypes: atpSplitable Tags: atp.Splitkey=compositeNetworkRepresentation
         """
         return self.compositeNetworkRepresentations
 
-    def getDataElementRef(self):
+    def getDataElementRef(self) -> Optional[RefType]:
         """
-        Gets the data element these quality of service attributes apply to.
-
-        Returns:
-            RefType: The data element reference
+        Data element these quality of service attributes apply to.
         """
         return self.dataElementRef
 
-    def setDataElementRef(self, value):
+    def setDataElementRef(self, value: Optional[RefType]) -> "SenderComSpec":
         """
-        Sets the data element these quality of service attributes apply to.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The data element reference to set
-
-        Returns:
-            self for method chaining
+        Data element these quality of service attributes apply to.
+        A None value is a no-op and does not overwrite an existing dataElementRef.
         """
-        self.dataElementRef = value
+        if value is not None:
+            self.dataElementRef = value
         return self
 
-    def getNetworkRepresentation(self):
+    def getHandleOutOfRange(self) -> Optional["HandleOutOfRangeEnum"]:
         """
-        Gets the network representation used to define how the data element is mapped
-        to a communication bus.
-
-        Returns:
-            SwDataDefProps: The network representation
-        """
-        return self.networkRepresentation
-
-    def setNetworkRepresentation(self, value):
-        """
-        Sets the network representation used to define how the data element is mapped
-        to a communication bus.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The network representation to set
-
-        Returns:
-            self for method chaining
-        """
-        self.networkRepresentation = value
-        return self
-
-    def getHandleOutOfRange(self):
-        """
-        Gets the strategy for handling out-of-range values.
-
-        Returns:
-            str: The handle out-of-range setting
+        This attribute controls how out-of-range values shall be dealt with.
         """
         return self.handleOutOfRange
 
-    def setHandleOutOfRange(self, value):
+    def setHandleOutOfRange(self, value: Optional["HandleOutOfRangeEnum"]) -> "SenderComSpec":
         """
-        Sets the strategy for handling out-of-range values.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The handle out-of-range setting
-
-        Returns:
-            self for method chaining
+        This attribute controls how out-of-range values shall be dealt with.
+        A None value is a no-op and does not overwrite an existing handleOutOfRange.
         """
-        self.handleOutOfRange = value
+        if value is not None:
+            self.handleOutOfRange = value
         return self
 
-    def getTransmissionAcknowledge(self):
+    def getNetworkRepresentation(self) -> Optional[SwDataDefProps]:
         """
-        Gets the transmission acknowledgement request for this sender com spec.
+        A networkRepresentation is used to define how the data Element is mapped to a communication bus. Stereotypes: atpSplitable Tags: atp.Splitkey=networkRepresentation
+        """
+        return self.networkRepresentation
 
-        Returns:
-            TransmissionAcknowledgementRequest: The transmission acknowledgement
+    def setNetworkRepresentation(self, value: Optional[SwDataDefProps]) -> "SenderComSpec":
+        """
+        A networkRepresentation is used to define how the data Element is mapped to a communication bus. Stereotypes: atpSplitable Tags: atp.Splitkey=networkRepresentation
+        A None value is a no-op and does not overwrite an existing networkRepresentation.
+        """
+        if value is not None:
+            self.networkRepresentation = value
+        return self
+
+    def getTransmissionAcknowledge(self) -> Optional[TransmissionAcknowledgementRequest]:
+        """
+        Requested transmission acknowledgement for data element.
         """
         return self.transmissionAcknowledge
 
-    def setTransmissionAcknowledge(self, value):
+    def setTransmissionAcknowledge(self, value: Optional[TransmissionAcknowledgementRequest]) -> "SenderComSpec":
         """
-        Sets the transmission acknowledgement request for this sender com spec.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The transmission acknowledgement request to set
-
-        Returns:
-            self for method chaining
+        Requested transmission acknowledgement for data element.
+        A None value is a no-op and does not overwrite an existing transmissionAcknowledge.
         """
-        self.transmissionAcknowledge = value
+        if value is not None:
+            self.transmissionAcknowledge = value
         return self
 
-    def getUsesEndToEndProtection(self):
+    def getTransmissionProps(self) -> Optional[TransmissionComSpecProps]:
         """
-        Gets whether the corresponding data element shall be transmitted using
-        end-to-end protection.
+        This aggregation represents the definition transmission props in the context of the enclosing SenderComSpec.
+        """
+        return self.transmissionProps
 
-        Returns:
-            ARBoolean: True if end-to-end protection is used
+    def setTransmissionProps(self, value: Optional[TransmissionComSpecProps]) -> "SenderComSpec":
+        """
+        This aggregation represents the definition transmission props in the context of the enclosing SenderComSpec.
+        A None value is a no-op and does not overwrite an existing transmissionProps.
+        """
+        if value is not None:
+            self.transmissionProps = value
+        return self
+
+    def getUsesEndToEndProtection(self) -> Optional[Boolean]:
+        """
+        This indicates whether the corresponding dataElement shall be transmitted using end-to-end protection. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
         """
         return self.usesEndToEndProtection
 
-    def setUsesEndToEndProtection(self, value):
+    def setUsesEndToEndProtection(self, value: Optional[Boolean]) -> "SenderComSpec":
         """
-        Sets whether the corresponding data element shall be transmitted using
-        end-to-end protection.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The end-to-end protection flag
-
-        Returns:
-            self for method chaining
+        This indicates whether the corresponding dataElement shall be transmitted using end-to-end protection. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        A None value is a no-op and does not overwrite an existing usesEndToEndProtection.
         """
-        self.usesEndToEndProtection = value
+        if value is not None:
+            self.usesEndToEndProtection = value
         return self
 
 
@@ -458,42 +549,56 @@ class QueuedSenderComSpec(SenderComSpec):
 
 class NonqueuedSenderComSpec(SenderComSpec):
     """
-    Communication attributes for non-queued sender/receiver communication (sender side).
+    Communication attributes for non-queued sender/receiver communication (sender side)
     """
 
     # NonqueuedSenderComSpec method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getInitValue                 [x] impl  [x] docstring  [ ] test
-    # [ ] setInitValue                 [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.69, p.179
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDataFilter  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDataFilter  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getInitValue  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setInitValue  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        self.initValue: ValueSpecification = None
+        # The applicable filter algorithm for filtering the value of the corresponding dataElement.
+        self.dataFilter: Optional[DataFilter] = None
 
-    def getInitValue(self):
+        # Initial value to be sent if sender component is not yet fully initialized, but receiver needs data already.
+        self.initValue: Optional[ValueSpecification] = None
+
+    def getDataFilter(self) -> Optional[DataFilter]:
         """
-        Gets the initial value to be sent if sender component is not yet fully initialized,
-        but receiver needs data already.
+        The applicable filter algorithm for filtering the value of the corresponding dataElement.
+        """
+        return self.dataFilter
 
-        Returns:
-            ValueSpecification: The initial value
+    def setDataFilter(self, value: Optional[DataFilter]) -> "NonqueuedSenderComSpec":
+        """
+        The applicable filter algorithm for filtering the value of the corresponding dataElement.
+        A None value is a no-op and does not overwrite an existing dataFilter.
+        """
+        if value is not None:
+            self.dataFilter = value
+        return self
+
+    def getInitValue(self) -> Optional[ValueSpecification]:
+        """
+        Initial value to be sent if sender component is not yet fully initialized, but receiver needs data already.
         """
         return self.initValue
 
-    def setInitValue(self, value):
+    def setInitValue(self, value: Optional[ValueSpecification]) -> "NonqueuedSenderComSpec":
         """
-        Sets the initial value to be sent if sender component is not yet fully initialized,
-        but receiver needs data already.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The initial value to set
-
-        Returns:
-            self for method chaining
+        Initial value to be sent if sender component is not yet fully initialized, but receiver needs data already.
+        A None value is a no-op and does not overwrite an existing initValue.
         """
-        self.initValue = value
+        if value is not None:
+            self.initValue = value
         return self
 
 
@@ -503,37 +608,73 @@ class ClientComSpec(RPortComSpec):
     """
 
     # ClientComSpec method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getOperationRef              [x] impl  [x] docstring  [ ] test
-    # [ ] setOperationRef              [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.77, p.187
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getEndToEndCallResponseTimeout  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setEndToEndCallResponseTimeout  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getOperationRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setOperationRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] addTransformationComSpecProps  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTransformationComSpecProps  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self):
         super().__init__()
 
-        self.operationRef: RefType = None
+        # This attribute defines the maximum time interval in which the application shall expect the servers's response (time between the sending of the call invocation until the arrival of the server's response).
+        self.endToEndCallResponseTimeout: Optional[TimeValue] = None
 
-    def getOperationRef(self):
+        # This represents the corresponding ClientServerOperation.
+        self.operationRef: Optional[RefType] = None
+
+        # This references the TransformationComSpecProps which define port-specific configuration for data transformation.
+        self.transformationComSpecProps: List[TransformationComSpecProps] = []
+
+    def getEndToEndCallResponseTimeout(self) -> Optional[TimeValue]:
         """
-        Gets the reference to the operation these communication attributes apply to.
+        This attribute defines the maximum time interval in which the application shall expect the servers's response (time between the sending of the call invocation until the arrival of the server's response).
+        """
+        return self.endToEndCallResponseTimeout
 
-        Returns:
-            RefType: The operation reference
+    def setEndToEndCallResponseTimeout(self, value: Optional[TimeValue]) -> "ClientComSpec":
+        """
+        This attribute defines the maximum time interval in which the application shall expect the servers's response (time between the sending of the call invocation until the arrival of the server's response).
+        A None value is a no-op and does not overwrite an existing endToEndCallResponseTimeout.
+        """
+        if value is not None:
+            self.endToEndCallResponseTimeout = value
+        return self
+
+    def getOperationRef(self) -> Optional[RefType]:
+        """
+        This represents the corresponding ClientServerOperation.
         """
         return self.operationRef
 
-    def setOperationRef(self, value):
+    def setOperationRef(self, value: Optional[RefType]) -> "ClientComSpec":
         """
-        Sets the reference to the operation these communication attributes apply to.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The operation reference to set
-
-        Returns:
-            self for method chaining
+        This represents the corresponding ClientServerOperation.
+        A None value is a no-op and does not overwrite an existing operationRef.
         """
-        self.operationRef = value
+        if value is not None:
+            self.operationRef = value
         return self
+
+    def addTransformationComSpecProps(self, value: Optional["TransformationComSpecProps"]) -> "ClientComSpec":
+        """
+        This references the TransformationComSpecProps which define port-specific configuration for data transformation.
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.transformationComSpecProps.append(value)
+        return self
+
+    def getTransformationComSpecProps(self) -> List["TransformationComSpecProps"]:
+        """
+        This references the TransformationComSpecProps which define port-specific configuration for data transformation.
+        """
+        return self.transformationComSpecProps
 
 
 class ModeSwitchReceiverComSpec(RPortComSpec):
@@ -1177,15 +1318,57 @@ class ModeSwitchSenderComSpec(PPortComSpec):
 
 class ParameterProvideComSpec(PPortComSpec):
     """
-    \"Communication\" specification that applies to parameters on the provided side
-    of a connection.
+    "Communication" specification that applies to parameters on the provided side of a connection.
     """
 
     # ParameterProvideComSpec method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.82, p.192
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getInitValue  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setInitValue  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getParameterRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setParameterRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
+
+        # The initial value applicable for the corresponding ParameterDataPrototype.
+        self.initValue: Optional[ValueSpecification] = None
+
+        # The ParameterDataPrototype to which the Parameter ComSpec applies.
+        self.parameterRef: Optional[RefType] = None
+
+    def getInitValue(self) -> Optional[ValueSpecification]:
+        """
+        The initial value applicable for the corresponding ParameterDataPrototype.
+        """
+        return self.initValue
+
+    def setInitValue(self, value: Optional[ValueSpecification]) -> "ParameterProvideComSpec":
+        """
+        The initial value applicable for the corresponding ParameterDataPrototype.
+        A None value is a no-op and does not overwrite an existing initValue.
+        """
+        if value is not None:
+            self.initValue = value
+        return self
+
+    def getParameterRef(self) -> Optional[RefType]:
+        """
+        The ParameterDataPrototype to which the Parameter ComSpec applies.
+        """
+        return self.parameterRef
+
+    def setParameterRef(self, value: Optional[RefType]) -> "ParameterProvideComSpec":
+        """
+        The ParameterDataPrototype to which the Parameter ComSpec applies.
+        A None value is a no-op and does not overwrite an existing parameterRef.
+        """
+        if value is not None:
+            self.parameterRef = value
+        return self
 
 
 class TransformationComSpecProps(Describable, ABC):
@@ -1195,6 +1378,7 @@ class TransformationComSpecProps(Describable, ABC):
 
     # TransformationComSpecProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.86, p.197
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
@@ -1707,93 +1891,73 @@ class ServerComSpec(PPortComSpec):
     """
 
     # ServerComSpec method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getOperationRef              [x] impl  [x] docstring  [ ] test
-    # [ ] setOperationRef              [x] impl  [x] docstring  [ ] test
-    # [ ] getQueueLength               [x] impl  [x] docstring  [ ] test
-    # [ ] setQueueLength               [x] impl  [x] docstring  [ ] test
-    # [ ] getTransformationComSpecProps [x] impl  [x] docstring  [ ] test
-    # [ ] addTransformationComSpecProps [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.78, p.188
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getOperationRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setOperationRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getQueueLength  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setQueueLength  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] addTransformationComSpecProps  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTransformationComSpecProps  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self):
         super().__init__()
 
-        self.operationRef: RefType = None
-        self.queueLength: PositiveInteger = None
+        # Operation these communication attributes apply to.
+        self.operationRef: Optional[RefType] = None
+
+        # Length of call queue on the server side. The queue is implemented by the RTE. The value shall be greater or equal to 1. Setting the value of queueLength to 1 implies that incoming requests are rejected while another request that arrived earlier is being processed.
+        self.queueLength: Optional[PositiveInteger] = None
+
+        # This references the TransformationComSpecProps which define port-specific configuration for data transformation.
         self.transformationComSpecProps: List[TransformationComSpecProps] = []
 
-    def getOperationRef(self):
+    def getOperationRef(self) -> Optional[RefType]:
         """
-        Gets the operation these communication attributes apply to.
-
-        Returns:
-            RefType: The operation reference
+        Operation these communication attributes apply to.
         """
         return self.operationRef
 
-    def setOperationRef(self, value):
+    def setOperationRef(self, value: Optional[RefType]) -> "ServerComSpec":
         """
-        Sets the operation these communication attributes apply to.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The operation reference to set
-
-        Returns:
-            self for method chaining
+        Operation these communication attributes apply to.
+        A None value is a no-op and does not overwrite an existing operationRef.
         """
-        self.operationRef = value
+        if value is not None:
+            self.operationRef = value
         return self
 
-    def getQueueLength(self):
+    def getQueueLength(self) -> Optional[PositiveInteger]:
         """
-        Gets the length of call queue on the server side.
-        The queue is implemented by the RTE.
-
-        Returns:
-            PositiveInteger: The queue length
+        Length of call queue on the server side. The queue is implemented by the RTE. The value shall be greater or equal to 1. Setting the value of queueLength to 1 implies that incoming requests are rejected while another request that arrived earlier is being processed.
         """
         return self.queueLength
 
-    def setQueueLength(self, value):
+    def setQueueLength(self, value: Optional[PositiveInteger]) -> "ServerComSpec":
         """
-        Sets the length of call queue on the server side.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The queue length to set
-
-        Returns:
-            self for method chaining
+        Length of call queue on the server side. The queue is implemented by the RTE. The value shall be greater or equal to 1. Setting the value of queueLength to 1 implies that incoming requests are rejected while another request that arrived earlier is being processed.
+        A None value is a no-op and does not overwrite an existing queueLength.
         """
-        self.queueLength = value
+        if value is not None:
+            self.queueLength = value
         return self
 
-    def getTransformationComSpecProps(self) -> List[TransformationComSpecProps]:
+    def addTransformationComSpecProps(self, value: Optional["TransformationComSpecProps"]) -> "ServerComSpec":
         """
-        Gets the TransformationComSpecProps which define port-specific configuration
-        for data transformation.
+        This references the TransformationComSpecProps which define port-specific configuration for data transformation.
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.transformationComSpecProps.append(value)
+        return self
 
-        Returns:
-            List[TransformationComSpecProps]: The transformation com spec props
+    def getTransformationComSpecProps(self) -> List["TransformationComSpecProps"]:
+        """
+        This references the TransformationComSpecProps which define port-specific configuration for data transformation.
         """
         return self.transformationComSpecProps
-
-    def addTransformationComSpecProps(self, transformationComSpecProps: TransformationComSpecProps):
-        """
-        Adds a TransformationComSpecProps which defines port-specific configuration
-        for data transformation.
-        Only adds the value if it is not None.
-
-        Args:
-            transformationComSpecProps: The transformation com spec props to add
-
-        Returns:
-            self for method chaining
-        """
-        if transformationComSpecProps is not None:
-            self.transformationComSpecProps.append(transformationComSpecProps)
-        return self
 
 
 class NvProvideComSpec(PPortComSpec):
@@ -2200,29 +2364,5 @@ class HandleTimeoutEnum(AREnum):
                 HandleTimeoutEnum.NONE,
                 HandleTimeoutEnum.REPLACE,
                 HandleTimeoutEnum.REPLACE_BY_TIMEOUT_SUBSTITUTION_VALUE,
-            )
-        )
-
-
-class TransmissionModeDefinitionEnum(AREnum):
-    """
-    Enumeration for transmission mode definition.
-    """
-
-    # TransmissionModeDefinitionEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
-    PERIODIC = "periodic"
-    ON_CHANGE = "on-change"
-    DIRECT = "direct"
-    MIXED = "mixed"
-
-    def __init__(self):
-        super().__init__(
-            (
-                TransmissionModeDefinitionEnum.PERIODIC,
-                TransmissionModeDefinitionEnum.ON_CHANGE,
-                TransmissionModeDefinitionEnum.DIRECT,
-                TransmissionModeDefinitionEnum.MIXED,
             )
         )

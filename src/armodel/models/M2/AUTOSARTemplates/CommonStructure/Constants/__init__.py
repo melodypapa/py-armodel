@@ -35,39 +35,27 @@ class ValueSpecification(ARObject, ABC):
     # [x] setShortLabel                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
-        """
-        Initializes the ValueSpecification base class.
-        Raises TypeError if this abstract class is instantiated directly.
-        """
         if type(self) is ValueSpecification:
             raise TypeError("ValueSpecification is an abstract class.")
 
         super().__init__()
 
-        # The shortLabel of this ValueSpecification.
+        # This can be used to identify particular value specifications for human readers, for example elements of a record type.
         self.shortLabel = None
 
     def getShortLabel(self):
         """
-        Gets the short label for this value specification.
-
-        Returns:
-            The short label
+        This can be used to identify particular value specifications for human readers, for example elements of a record type.
         """
         return self.shortLabel
 
     def setShortLabel(self, value):
         """
-        Sets the short label for this value specification.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The short label to set
-
-        Returns:
-            self for method chaining
+        This can be used to identify particular value specifications for human readers, for example elements of a record type.
+        A None value is a no-op and does not overwrite an existing shortLabel.
         """
-        self.shortLabel = value
+        if value is not None:
+            self.shortLabel = value
         return self
 
 
