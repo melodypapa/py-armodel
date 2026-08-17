@@ -66,6 +66,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.Instan
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import (
     SwComponentDocumentation,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import EndToEndTransformationComSpecProps
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import (
     SwValueCont,
     SwValues,
@@ -285,6 +286,46 @@ class TestWriteTransformationComSpec:
         writer.writeUserDefinedTransformationComSpecProps(parent, prop)
         assert len(parent) == 1
         assert parent[0].tag == ("USER-DEFINED-TRANSFORMATION-COM-SPEC-PROPS")
+
+    def test_write_end_to_end_transformation_comspec_props(self, writer):
+        parent = _parent()
+        prop = EndToEndTransformationComSpecProps()
+        prop.setClearFromValidToInvalid(_boolean(True))
+        prop.setDisableEndToEndCheck(_boolean(True))
+        prop.setDisableEndToEndStateMachine(_boolean(True))
+        prop.setE2eProfileCompatibilityPropsRef(_ref(value="/Pkg/Props", dest="E2E-PROFILE-COMPATIBILITY-PROPS"))
+        prop.setMaxDeltaCounter(_positive_int("3"))
+        prop.setMaxErrorStateInit(_positive_int("2"))
+        prop.setMaxErrorStateInvalid(_positive_int("2"))
+        prop.setMaxErrorStateValid(_positive_int("2"))
+        prop.setMaxNoNewOrRepeatedData(_positive_int("2"))
+        prop.setMinOkStateInit(_positive_int("1"))
+        prop.setMinOkStateInvalid(_positive_int("1"))
+        prop.setMinOkStateValid(_positive_int("1"))
+        prop.setSyncCounterInit(_positive_int("0"))
+        prop.setWindowSizeInit(_positive_int("5"))
+        prop.setWindowSizeInvalid(_positive_int("5"))
+        prop.setWindowSizeValid(_positive_int("5"))
+        writer.writeEndToEndTransformationComSpecProps(parent, prop)
+        assert len(parent) == 1
+        child = parent[0]
+        assert child.tag == "END-TO-END-TRANSFORMATION-COM-SPEC-PROPS"
+        assert child.find("CLEAR-FROM-VALID-TO-INVALID").text == "true"
+        assert child.find("DISABLE-END-TO-END-CHECK").text == "true"
+        assert child.find("DISABLE-END-TO-END-STATE-MACHINE").text == "true"
+        assert child.find("E2E-PROFILE-COMPATIBILITY-PROPS-REF").text == "/Pkg/Props"
+        assert child.find("MAX-DELTA-COUNTER").text == "3"
+        assert child.find("MAX-ERROR-STATE-INIT").text == "2"
+        assert child.find("MAX-ERROR-STATE-INVALID").text == "2"
+        assert child.find("MAX-ERROR-STATE-VALID").text == "2"
+        assert child.find("MAX-NO-NEW-OR-REPEATED-DATA").text == "2"
+        assert child.find("MIN-OK-STATE-INIT").text == "1"
+        assert child.find("MIN-OK-STATE-INVALID").text == "1"
+        assert child.find("MIN-OK-STATE-VALID").text == "1"
+        assert child.find("SYNC-COUNTER-INIT").text == "0"
+        assert child.find("WINDOW-SIZE-INIT").text == "5"
+        assert child.find("WINDOW-SIZE-INVALID").text == "5"
+        assert child.find("WINDOW-SIZE-VALID").text == "5"
 
     def test_write_server_comspec_transformation_props_empty(self, writer):
         parent = _parent()

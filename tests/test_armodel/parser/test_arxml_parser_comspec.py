@@ -662,6 +662,52 @@ class TestTransformationComSpecProps:
             warning_parser.readTransformationComSpecPropss(element, com_spec)
         assert any("Unsupported TransformationComSpecProps" in r.getMessage() for r in caplog.records)
 
+    def test_readEndToEndTransformationComSpecProps_full(self, parser):
+        from armodel.models import ServerComSpec
+
+        com_spec = ServerComSpec()
+        element = _snip(
+            "<TRANSFORMATION-COM-SPEC-PROPSS>"
+            "<END-TO-END-TRANSFORMATION-COM-SPEC-PROPS>"
+            "<CLEAR-FROM-VALID-TO-INVALID>true</CLEAR-FROM-VALID-TO-INVALID>"
+            "<DISABLE-END-TO-END-CHECK>true</DISABLE-END-TO-END-CHECK>"
+            "<DISABLE-END-TO-END-STATE-MACHINE>true</DISABLE-END-TO-END-STATE-MACHINE>"
+            "<E2E-PROFILE-COMPATIBILITY-PROPS-REF DEST='E2E-PROFILE-COMPATIBILITY-PROPS'>/Pkg/Props</E2E-PROFILE-COMPATIBILITY-PROPS-REF>"
+            "<MAX-DELTA-COUNTER>3</MAX-DELTA-COUNTER>"
+            "<MAX-ERROR-STATE-INIT>2</MAX-ERROR-STATE-INIT>"
+            "<MAX-ERROR-STATE-INVALID>2</MAX-ERROR-STATE-INVALID>"
+            "<MAX-ERROR-STATE-VALID>2</MAX-ERROR-STATE-VALID>"
+            "<MAX-NO-NEW-OR-REPEATED-DATA>2</MAX-NO-NEW-OR-REPEATED-DATA>"
+            "<MIN-OK-STATE-INIT>1</MIN-OK-STATE-INIT>"
+            "<MIN-OK-STATE-INVALID>1</MIN-OK-STATE-INVALID>"
+            "<MIN-OK-STATE-VALID>1</MIN-OK-STATE-VALID>"
+            "<SYNC-COUNTER-INIT>0</SYNC-COUNTER-INIT>"
+            "<WINDOW-SIZE-INIT>5</WINDOW-SIZE-INIT>"
+            "<WINDOW-SIZE-INVALID>5</WINDOW-SIZE-INVALID>"
+            "<WINDOW-SIZE-VALID>5</WINDOW-SIZE-VALID>"
+            "</END-TO-END-TRANSFORMATION-COM-SPEC-PROPS>"
+            "</TRANSFORMATION-COM-SPEC-PROPSS>",
+            root_tag="SERVER-COM-SPEC",
+        )
+        parser.readTransformationComSpecPropss(element, com_spec)
+        props = com_spec.getTransformationComSpecProps()[0]
+        assert props.getClearFromValidToInvalid().getValue() is True
+        assert props.getDisableEndToEndCheck().getValue() is True
+        assert props.getDisableEndToEndStateMachine().getValue() is True
+        assert props.getE2eProfileCompatibilityPropsRef().getValue() == "/Pkg/Props"
+        assert props.getMaxDeltaCounter().getValue() == 3
+        assert props.getMaxErrorStateInit().getValue() == 2
+        assert props.getMaxErrorStateInvalid().getValue() == 2
+        assert props.getMaxErrorStateValid().getValue() == 2
+        assert props.getMaxNoNewOrRepeatedData().getValue() == 2
+        assert props.getMinOkStateInit().getValue() == 1
+        assert props.getMinOkStateInvalid().getValue() == 1
+        assert props.getMinOkStateValid().getValue() == 1
+        assert props.getSyncCounterInit().getValue() == 0
+        assert props.getWindowSizeInit().getValue() == 5
+        assert props.getWindowSizeInvalid().getValue() == 5
+        assert props.getWindowSizeValid().getValue() == 5
+
 
 # ==================== PortGroup / InnerPortIRef / Composition (L2231, L2345, L2370) ====================
 

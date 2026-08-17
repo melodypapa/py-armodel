@@ -686,44 +686,19 @@ class TestWriterDataTransformationSet:
 
 
 class TestWriterBufferProperties:
-    def test_writeBufferPropertiesBufferComputation_with_computation(self, writer):
-        props = BufferProperties()
-        from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
-            CompuConst,
-            CompuConstTextContent,
-            CompuScale,
-            CompuScaleConstantContents,
-        )
-
-        computation = CompuScale()
-        computation.setShortLabel(_literal("scale"))
-        contents = CompuScaleConstantContents()
-        const = CompuConst()
-        text_content = CompuConstTextContent()
-        text_content.setVt(_literal("value"))
-        const.setCompuConstContentType(text_content)
-        contents.setCompuConst(const)
-        computation.setCompuScaleContents(contents)
-        props.setBufferComputation(computation)
-        parent = _parent()
-        writer.writeBufferPropertiesBufferComputation(parent, props)
-        assert parent.find("BUFFER-COMPUTATION") is not None
-
-    def test_writeBufferPropertiesBufferComputation_none(self, writer):
-        props = BufferProperties()
-        parent = _parent()
-        writer.writeBufferPropertiesBufferComputation(parent, props)
-        assert len(parent) == 0
+    def test_writeBufferPropertiesBufferComputation_removed(self, writer):
+        assert not hasattr(writer, "writeBufferPropertiesBufferComputation")
 
     def test_setBufferProperties_full(self, writer):
         props = BufferProperties()
-        props.setHeaderLength(_integer(4))
+        props.setHeaderLength(Integer().setValue("4"))
         props.setInPlace(_bool(True))
         parent = _parent()
         writer.setBufferProperties(parent, "BUFFER-PROPERTIES", props)
         assert parent[0].tag == "BUFFER-PROPERTIES"
-        assert parent[0].find("HEADER-LENGTH") is not None
-        assert parent[0].find("IN-PLACE") is not None
+        assert parent[0].find("HEADER-LENGTH").text == "4"
+        assert parent[0].find("IN-PLACE").text == "true"
+        assert parent[0].find("BUFFER-COMPUTATION") is None
 
     def test_setBufferProperties_none(self, writer):
         parent = _parent()
@@ -734,15 +709,19 @@ class TestWriterBufferProperties:
 class TestWriterTransformationDescription:
     def test_writeDescribable(self, writer):
         desc = EndToEndTransformationDescription()
+        desc.setCategory(_literal("category"))
         parent = _parent()
         writer.writeDescribable(parent, desc)
-        assert len(parent) >= 0
+        assert parent.find("CATEGORY") is not None
+        assert parent.find("CATEGORY").text == "category"
 
     def test_writeTransformationDescription(self, writer):
         desc = EndToEndTransformationDescription()
+        desc.setCategory(_literal("category"))
         parent = _parent()
         writer.writeTransformationDescription(parent, desc)
-        assert len(parent) >= 0
+        assert parent.find("CATEGORY") is not None
+        assert parent.find("CATEGORY").text == "category"
 
     def test_writeEndToEndTransformationDescription_full(self, writer):
         desc = EndToEndTransformationDescription()
@@ -816,6 +795,7 @@ class TestWriterTransformationTechnology:
         props = BufferProperties()
         props.setHeaderLength(_integer(4))
         tech.setBufferProperties(props)
+        tech.setHasInternalState(_bool(True))
         tech.setNeedsOriginalData(_bool(True))
         tech.setProtocol(_literal("E2E"))
         desc = EndToEndTransformationDescription()
@@ -827,6 +807,7 @@ class TestWriterTransformationTechnology:
         writer.writeTransformationTechnology(parent, tech)
         assert parent[0].tag == "TRANSFORMATION-TECHNOLOGY"
         assert parent[0].find("BUFFER-PROPERTIES") is not None
+        assert parent[0].find("HAS-INTERNAL-STATE") is not None
         assert parent[0].find("NEEDS-ORIGINAL-DATA") is not None
         assert parent[0].find("PROTOCOL") is not None
         assert parent[0].find("TRANSFORMATION-DESCRIPTIONS") is not None

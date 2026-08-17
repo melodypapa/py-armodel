@@ -648,7 +648,7 @@ class TestSwDataDefPropsHandlers:
         )
         axis = parser.getSwCalprmAxis(element)
         assert axis is not None
-        assert axis.sw_calprm_axis_type_props is not None
+        assert axis.getSwCalprmAxisTypeProps() is not None
 
     def test_getSwCalprmAxis_grouped(self, parser):
         element = _snip(
@@ -657,7 +657,54 @@ class TestSwDataDefPropsHandlers:
         )
         axis = parser.getSwCalprmAxis(element)
         assert axis is not None
-        assert axis.sw_calprm_axis_type_props is not None
+        assert axis.getSwCalprmAxisTypeProps() is not None
+
+    def test_getSwCalprmAxis_individual_type_props(self, parser):
+        element = _snip(
+            "<SW-AXIS-INDEX>0</SW-AXIS-INDEX>"
+            "<CATEGORY>FIXED</CATEGORY>"
+            "<SW-AXIS-INDIVIDUAL>"
+            "<MAX-GRADIENT>2.5</MAX-GRADIENT>"
+            "<MONOTONY>strictlyIncreasing</MONOTONY>"
+            "<SW-MAX-AXIS-POINTS>10</SW-MAX-AXIS-POINTS>"
+            "</SW-AXIS-INDIVIDUAL>",
+            root_tag="SW-CALPRM-AXIS",
+        )
+        axis = parser.getSwCalprmAxis(element)
+        props = axis.getSwCalprmAxisTypeProps()
+        assert props is not None
+        assert props.getMaxGradient() is not None
+        assert props.getMaxGradient().getValue() == 2.5
+        assert props.getMonotony() is not None
+        assert props.getMonotony().getValue() == "strictlyIncreasing"
+
+    def test_getSwCalprmAxis_access_and_display_format(self, parser):
+        element = _snip(
+            "<SW-AXIS-INDEX>1</SW-AXIS-INDEX>" "<CATEGORY>STD_AXIS</CATEGORY>" "<SW-CALIBRATION-ACCESS>readOnly</SW-CALIBRATION-ACCESS>" "<DISPLAY-FORMAT>%.2f</DISPLAY-FORMAT>",
+            root_tag="SW-CALPRM-AXIS",
+        )
+        axis = parser.getSwCalprmAxis(element)
+        assert axis.getSwCalibrationAccess() is not None
+        assert axis.getSwCalibrationAccess().getValue() == "readOnly"
+        assert axis.getDisplayFormat() is not None
+        assert axis.getDisplayFormat().getValue() == "%.2f"
+
+    def test_getSwCalprmAxis_grouped_type_props(self, parser):
+        element = _snip(
+            "<SW-AXIS-INDEX>1</SW-AXIS-INDEX>"
+            "<CATEGORY>FIXED</CATEGORY>"
+            "<SW-AXIS-GROUPED>"
+            "<MAX-GRADIENT>0.75</MAX-GRADIENT>"
+            "<MONOTONY>monotonous</MONOTONY>"
+            "<SHARED-AXIS-TYPE-REF DEST='SW-AXIS-TYPE'>/axis/shared</SHARED-AXIS-TYPE-REF>"
+            "</SW-AXIS-GROUPED>",
+            root_tag="SW-CALPRM-AXIS",
+        )
+        axis = parser.getSwCalprmAxis(element)
+        props = axis.getSwCalprmAxisTypeProps()
+        assert props is not None
+        assert props.getMaxGradient().getValue() == 0.75
+        assert props.getMonotony().getValue() == "monotonous"
 
     def test_getSwCalprmAxisSet(self, parser):
         element = _snip(

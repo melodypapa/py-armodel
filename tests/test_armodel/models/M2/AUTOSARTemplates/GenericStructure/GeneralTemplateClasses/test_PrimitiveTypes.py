@@ -28,6 +28,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Ip6AddressString,
     Limit,
     MacAddressString,
+    MonotonyEnum,
     NameToken,
     NativeDeclarationString,
     Numerical,
@@ -863,11 +864,11 @@ class TestByteOrderEnum:
 
         # Verify basic properties
         assert enum is not None
-        assert enum.getEnumValues() == (
+        assert enum.getEnumValues() == [
             "mostSignificantByteFirst",
             "mostSignificantByteLast",
             "opaque",
-        )
+        ]
 
     def test_enum_values(self):
         """
@@ -883,6 +884,32 @@ class TestByteOrderEnum:
         assert enum.validateEnumValue("mostSignificantByteFirst") is True
         assert enum.validateEnumValue("mostSignificantByteLast") is True
         assert enum.validateEnumValue("opaque") is True
+        assert enum.validateEnumValue("invalid") is False
+
+
+class TestMonotonyEnum:
+    """
+    Test class for MonotonyEnum functionality.
+    """
+
+    def test_initialization(self):
+        enum = MonotonyEnum()
+        enum.setValue(MonotonyEnum.STRICTLY_INCREASING)
+        assert enum.getValue() == "strictlyIncreasing"
+
+    def test_enum_values(self):
+        enum = MonotonyEnum()
+
+        assert MonotonyEnum.DECREASING == "decreasing"
+        assert MonotonyEnum.INCREASING == "increasing"
+        assert MonotonyEnum.MONOTONOUS == "monotonous"
+        assert MonotonyEnum.NO_MONOTONY == "noMonotony"
+        assert MonotonyEnum.STRICTLY_DECREASING == "strictlyDecreasing"
+        assert MonotonyEnum.STRICTLY_INCREASING == "strictlyIncreasing"
+        assert MonotonyEnum.STRICT_MONOTONOUS == "strictMonotonous"
+
+        assert enum.validateEnumValue("decreasing") is True
+        assert enum.validateEnumValue("strictMonotonous") is True
         assert enum.validateEnumValue("invalid") is False
 
 

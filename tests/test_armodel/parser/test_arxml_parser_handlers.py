@@ -1149,6 +1149,7 @@ class TestDataTransformationHandlers:
             "<TRANSFORMATION-TECHNOLOGYS>"
             "<TRANSFORMATION-TECHNOLOGY>"
             "<SHORT-NAME>tech1</SHORT-NAME>"
+            "<HAS-INTERNAL-STATE>true</HAS-INTERNAL-STATE>"
             "<NEEDS-ORIGINAL-DATA>true</NEEDS-ORIGINAL-DATA>"
             "<PROTOCOL>E2E</PROTOCOL>"
             "<TRANSFORMER-CLASS>safety</TRANSFORMER-CLASS>"
@@ -1159,6 +1160,8 @@ class TestDataTransformationHandlers:
         )
         parser.readDataTransformationSet(element, dtf_set)
         tech = dtf_set.getTransformationTechnologies()[0]
+        assert tech.getHasInternalState() is not None
+        assert tech.getHasInternalState().getValue() is True
         assert tech.getNeedsOriginalData() is not None
         assert tech.getProtocol().getValue() == "E2E"
         assert tech.getTransformerClass().getValue() == "safety"

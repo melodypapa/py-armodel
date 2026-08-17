@@ -5,12 +5,36 @@ This module contains tests for the RecordLayout module in MSR.DataDictionary.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Integer, RefType
 from armodel.models.M2.MSR.DataDictionary.RecordLayout import (
+    AxisIndexType,
     SwRecordLayout,
     SwRecordLayoutGroup,
     SwRecordLayoutGroupContent,
     SwRecordLayoutV,
 )
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
+
+
+class TestAxisIndexType:
+    """Test class for AxisIndexType primitive (spec FO GST Table 4.43: xml.xsd.pattern=[0-9]+|STRING|ARRAY)."""
+
+    def test_axis_index_type_initialization(self):
+        """Test that an AxisIndexType object can be instantiated and defaults to an empty value."""
+        axis_index_type = AxisIndexType()
+        assert axis_index_type.getValue() == ""
+
+    def test_axis_index_type_numeric_value(self):
+        """Test that an AxisIndexType carries a numeric axis index (e.g. "1" for the X input axis of a CURVE)."""
+        axis_index_type = AxisIndexType()
+        axis_index_type.setValue("1")
+        assert axis_index_type.getValue() == "1"
+
+    def test_axis_index_type_string_array_values(self):
+        """Test that an AxisIndexType carries the STRING and ARRAY iteration values."""
+        axis_index_type = AxisIndexType()
+        axis_index_type.setValue("STRING")
+        assert axis_index_type.getValue() == "STRING"
+        axis_index_type.setValue("ARRAY")
+        assert axis_index_type.getValue() == "ARRAY"
 
 
 class TestSwRecordLayoutV:

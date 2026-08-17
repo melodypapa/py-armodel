@@ -2,13 +2,13 @@
 # It defines transformation technologies and end-to-end protection profiles for data safety and security
 
 from abc import ABC
-from typing import List
+from typing import List, Optional
 
-from armodel.models.M2.MSR.AsamHdo.ComputationMethod import CompuScale
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Integer, NameToken, PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import TransformationComSpecProps
 
 
 class DataTransformationKindEnum(AREnum):
@@ -75,47 +75,57 @@ class DataTransformation(Identifiable):
 
 class BufferProperties(ARObject):
     """
-    Defines properties for data buffers used in transformations,
-    specifying computation scales, header lengths, and in-place
-    processing capabilities for buffer management.
+    Configuration of the buffer properties the transformer needs to work.
+
+    [constr_9279] Existence of BufferProperties . headerLength: For each BufferProperties , the attribute headerLength shall exist at the time when the System Description is complete . ()
+    [constr_9280] Existence of BufferProperties . inPlace: For each BufferProperties , the attribute inPlace shall exist at the time when the System Description is complete . ()
     """
 
     # BufferProperties method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getBufferComputation         [x] impl  [ ] docstring  [ ] test
-    # [ ] setBufferComputation         [x] impl  [ ] docstring  [ ] test
-    # [ ] getHeaderLength              [x] impl  [ ] docstring  [ ] test
-    # [ ] setHeaderLength              [x] impl  [ ] docstring  [ ] test
-    # [ ] getInPlace                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setInPlace                   [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.5, p.767
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getHeaderLength   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setHeaderLength   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getInPlace        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setInPlace        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        self.bufferComputation: CompuScale = None
-        self.headerLength: Integer = None
-        self.inPlace: Boolean = None
+        # Defines the length of the header (in bits) this transformer will add in front of the data.
+        self.headerLength: Optional[Integer] = None
 
-    def getBufferComputation(self):
-        return self.bufferComputation
+        # If set, the transformer uses the input buffer as output buffer.
+        self.inPlace: Optional[Boolean] = None
 
-    def setBufferComputation(self, value):
-        if value is not None:
-            self.bufferComputation = value
-        return self
-
-    def getHeaderLength(self):
+    def getHeaderLength(self) -> Optional[Integer]:
+        """
+        Defines the length of the header (in bits) this transformer will add in front of the data.
+        """
         return self.headerLength
 
-    def setHeaderLength(self, value):
+    def setHeaderLength(self, value: Optional[Integer]) -> "BufferProperties":
+        """
+        Defines the length of the header (in bits) this transformer will add in front of the data.
+        A None value is a no-op and does not overwrite an existing headerLength.
+        """
         if value is not None:
             self.headerLength = value
         return self
 
-    def getInPlace(self):
+    def getInPlace(self) -> Optional[Boolean]:
+        """
+        If set, the transformer uses the input buffer as output buffer.
+        """
         return self.inPlace
 
-    def setInPlace(self, value):
+    def setInPlace(self, value: Optional[Boolean]) -> "BufferProperties":
+        """
+        If set, the transformer uses the input buffer as output buffer.
+        A None value is a no-op and does not overwrite an existing inPlace.
+        """
         if value is not None:
             self.inPlace = value
         return self
@@ -123,13 +133,14 @@ class BufferProperties(ARObject):
 
 class TransformationDescription(Describable, ABC):
     """
-    Abstract base class for transformation descriptions,
-    defining common properties for different types of
-    data transformation descriptions in the system.
+    The TransformationDescription is the abstract class that can be used by specific transformers to add transformer specific properties.
     """
 
     # TransformationDescription method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.6, p.771
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self):
         if type(self) is TransformationDescription:
@@ -421,13 +432,25 @@ class EndToEndTransformationDescription(TransformationDescription):
 
 
 class TransformerClassEnum(AREnum):
+    """
+    Specifies the transformer class of a transformer.
+    """
 
     # TransformerClassEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.4, p.765
+    # Spec verified: R23-11
+    # (no methods)
 
+    # The transformer is a custom transformer. Tags: atp.EnumerationLiteralIndex=0
     CUSTOM = "custom"
+
+    # The transformer is a safety transformer. Tags: atp.EnumerationLiteralIndex=1
     SAFETY = "safety"
+
+    # The transformer is a security transformer. Tags: atp.EnumerationLiteralIndex=2
     SECURITY = "security"
+
+    # The transformer is a serializing transformer. Tags: atp.EnumerationLiteralIndex=3
     SERIALIZER = "serializer"
 
     def __init__(self):
@@ -436,94 +459,157 @@ class TransformerClassEnum(AREnum):
 
 class TransformationTechnology(Identifiable):
     """
-    Represents a transformation technology in the system,
-    defining buffer properties, state management, protocol
-    specifications, and transformer class for data transformation.
+    A TransformationTechnology is a transformer inside a transformer chain. Tags: xml.namePlural=TRANSFORMATION-TECHNOLOGIES
     """
 
     # TransformationTechnology method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getBufferProperties          [x] impl  [ ] docstring  [ ] test
-    # [ ] setBufferProperties          [x] impl  [ ] docstring  [ ] test
-    # [ ] getHasInternalState          [x] impl  [ ] docstring  [ ] test
-    # [ ] setHasInternalState          [x] impl  [ ] docstring  [ ] test
-    # [ ] getNeedsOriginalData         [x] impl  [ ] docstring  [ ] test
-    # [ ] setNeedsOriginalData         [x] impl  [ ] docstring  [ ] test
-    # [ ] getProtocol                  [x] impl  [ ] docstring  [ ] test
-    # [ ] setProtocol                  [x] impl  [ ] docstring  [ ] test
-    # [ ] getTransformationDescription [x] impl  [ ] docstring  [ ] test
-    # [ ] setTransformationDescription [x] impl  [ ] docstring  [ ] test
-    # [ ] getTransformerClass          [x] impl  [ ] docstring  [ ] test
-    # [ ] setTransformerClass          [x] impl  [ ] docstring  [ ] test
-    # [ ] getVersion                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setVersion                   [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.3, p.764
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setBufferProperties   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getBufferProperties   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setHasInternalState   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getHasInternalState   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setNeedsOriginalData  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getNeedsOriginalData  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setProtocol           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getProtocol           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTransformationDescription [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTransformationDescription [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTransformerClass    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTransformerClass    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setVersion             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getVersion             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.bufferProperties: BufferProperties = None
-        self.hasInternalState: Boolean = None
-        self.needsOriginalData: Boolean = None
-        self.protocol: String = None
-        self.transformationDescription: TransformationDescription = None
-        self.transformerClass: TransformerClassEnum = None
-        self.version: String = None
+        # Aggregation of the mandatory BufferProperties.
+        self.bufferProperties: Optional[BufferProperties] = None
 
-    def getBufferProperties(self):
-        return self.bufferProperties
+        # This attribute defines whether the Transformer has an internal state or not.
+        self.hasInternalState: Optional[Boolean] = None
 
-    def setBufferProperties(self, value):
+        # Specifies whether this transformer gets access to the SWC's original data.
+        self.needsOriginalData: Optional[Boolean] = None
+
+        # Specifies the protocol that is implemented by this transformer.
+        self.protocol: Optional[String] = None
+
+        # A transformer can be configured with transformer specific parameters which are represented by the Transformer Description.
+        self.transformationDescription: Optional[TransformationDescription] = None
+
+        # Specifies to which transformer class this transformer belongs.
+        self.transformerClass: Optional[TransformerClassEnum] = None
+
+        # Version of the implemented protocol.
+        self.version: Optional[String] = None
+
+    def setBufferProperties(self, value: Optional[BufferProperties]) -> "TransformationTechnology":
+        """
+        Aggregation of the mandatory BufferProperties.
+        A None value is a no-op and does not overwrite an existing bufferProperties.
+        """
         if value is not None:
             self.bufferProperties = value
         return self
 
-    def getHasInternalState(self):
-        return self.hasInternalState
+    def getBufferProperties(self) -> Optional[BufferProperties]:
+        """
+        Aggregation of the mandatory BufferProperties.
+        """
+        return self.bufferProperties
 
-    def setHasInternalState(self, value):
+    def setHasInternalState(self, value: Optional[Boolean]) -> "TransformationTechnology":
+        """
+        This attribute defines whether the Transformer has an internal state or not.
+        A None value is a no-op and does not overwrite an existing hasInternalState.
+        """
         if value is not None:
             self.hasInternalState = value
         return self
 
-    def getNeedsOriginalData(self):
-        return self.needsOriginalData
+    def getHasInternalState(self) -> Optional[Boolean]:
+        """
+        This attribute defines whether the Transformer has an internal state or not.
+        """
+        return self.hasInternalState
 
-    def setNeedsOriginalData(self, value):
+    def setNeedsOriginalData(self, value: Optional[Boolean]) -> "TransformationTechnology":
+        """
+        Specifies whether this transformer gets access to the SWC's original data.
+        A None value is a no-op and does not overwrite an existing needsOriginalData.
+        """
         if value is not None:
             self.needsOriginalData = value
         return self
 
-    def getProtocol(self):
-        return self.protocol
+    def getNeedsOriginalData(self) -> Optional[Boolean]:
+        """
+        Specifies whether this transformer gets access to the SWC's original data.
+        """
+        return self.needsOriginalData
 
-    def setProtocol(self, value):
+    def setProtocol(self, value: Optional[String]) -> "TransformationTechnology":
+        """
+        Specifies the protocol that is implemented by this transformer.
+        A None value is a no-op and does not overwrite an existing protocol.
+        """
         if value is not None:
             self.protocol = value
         return self
 
-    def getTransformationDescription(self):
-        return self.transformationDescription
+    def getProtocol(self) -> Optional[String]:
+        """
+        Specifies the protocol that is implemented by this transformer.
+        """
+        return self.protocol
 
-    def setTransformationDescription(self, value):
+    def setTransformationDescription(self, value: Optional[TransformationDescription]) -> "TransformationTechnology":
+        """
+        A transformer can be configured with transformer specific parameters which are represented by the Transformer Description.
+        A None value is a no-op and does not overwrite an existing transformationDescription.
+        """
         if value is not None:
             self.transformationDescription = value
         return self
 
-    def getTransformerClass(self):
-        return self.transformerClass
+    def getTransformationDescription(self) -> Optional[TransformationDescription]:
+        """
+        A transformer can be configured with transformer specific parameters which are represented by the Transformer Description.
+        """
+        return self.transformationDescription
 
-    def setTransformerClass(self, value):
+    def setTransformerClass(self, value: Optional[TransformerClassEnum]) -> "TransformationTechnology":
+        """
+        Specifies to which transformer class this transformer belongs.
+        A None value is a no-op and does not overwrite an existing transformerClass.
+        """
         if value is not None:
             self.transformerClass = value
         return self
 
-    def getVersion(self):
-        return self.version
+    def getTransformerClass(self) -> Optional[TransformerClassEnum]:
+        """
+        Specifies to which transformer class this transformer belongs.
+        """
+        return self.transformerClass
 
-    def setVersion(self, value):
+    def setVersion(self, value: Optional[String]) -> "TransformationTechnology":
+        """
+        Version of the implemented protocol.
+        A None value is a no-op and does not overwrite an existing version.
+        """
         if value is not None:
             self.version = value
         return self
+
+    def getVersion(self) -> Optional[String]:
+        """
+        Version of the implemented protocol.
+        """
+        return self.version
 
 
 class DataTransformationSet(ARElement):
@@ -695,4 +781,339 @@ class EndToEndTransformationISignalProps(TransformationISignalProps):
     def setSourceId(self, value):
         if value is not None:
             self.sourceId = value
+        return self
+
+
+class EndToEndTransformationComSpecProps(TransformationComSpecProps):
+    """
+    The class EndToEndTransformationIComSpecProps specifies port specific configuration properties for EndToEnd transformer attributes.
+    """
+
+    # EndToEndTransformationComSpecProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.92, p.201
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [ ] __init__                              [x] impl  [ ] docstring  [ ] test
+    # [ ] getClearFromValidToInvalid            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [ ] setClearFromValidToInvalid            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [ ] getDisableEndToEndCheck               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [ ] setDisableEndToEndCheck               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [ ] getDisableEndToEndStateMachine        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [ ] setDisableEndToEndStateMachine        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [ ] getE2eProfileCompatibilityPropsRef    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [ ] setE2eProfileCompatibilityPropsRef    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [ ] getMaxDeltaCounter                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [ ] setMaxDeltaCounter                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [ ] getMaxErrorStateInit                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [ ] setMaxErrorStateInit                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [ ] getMaxErrorStateInvalid               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [ ] setMaxErrorStateInvalid               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [ ] getMaxErrorStateValid                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [ ] setMaxErrorStateValid                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [ ] getMaxNoNewOrRepeatedData             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [ ] setMaxNoNewOrRepeatedData             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [ ] getMinOkStateInit                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [ ] setMinOkStateInit                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [ ] getMinOkStateInvalid                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [ ] setMinOkStateInvalid                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [ ] getMinOkStateValid                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [ ] setMinOkStateValid                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [ ] getSyncCounterInit                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [ ] setSyncCounterInit                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [ ] getWindowSizeInit                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [ ] setWindowSizeInit                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [ ] getWindowSizeInvalid                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [ ] setWindowSizeInvalid                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [ ] getWindowSizeValid                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [ ] setWindowSizeValid                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # Clear monitoring window on transition from state Valid to state Invalid.
+        self.clearFromValidToInvalid: Optional[Boolean] = None
+
+        # Disables/Enables the E2E check. The E2Eheader is removed from the payload independent from the setting of this attribute.
+        self.disableEndToEndCheck: Optional[Boolean] = None
+
+        # Disables the E2EStateMachine (only E2E check functionality is performed)
+        self.disableEndToEndStateMachine: Optional[Boolean] = None
+
+        # Reference to additional settings for the E2E state machine.
+        self.e2eProfileCompatibilityPropsRef: Optional[RefType] = None
+
+        # Maximum allowed difference between two counter values of two consecutively received valid messages. For example, if the receiver gets data with counter 1 and Max DeltaCounter is 3, then at the next reception the receiver can accept Counters with values 2, 3 or 4.
+        self.maxDeltaCounter: Optional[PositiveInteger] = None
+
+        # Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last Window Size checks, for the state E2E_SM_INIT. The minimum value is 0.
+        self.maxErrorStateInit: Optional[PositiveInteger] = None
+
+        # Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last Window Size checks, for the state E2E_SM_INVALID. The minimum value is 0.
+        self.maxErrorStateInvalid: Optional[PositiveInteger] = None
+
+        # Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last Window Size checks, for the state E2E_SM_VALID. The minimum value is 0.
+        self.maxErrorStateValid: Optional[PositiveInteger] = None
+
+        # EndToEndTransformationDescription holds these attributes which are profile specific and have the same value for all E2E transformers.
+        self.maxNoNewOrRepeatedData: Optional[PositiveInteger] = None
+
+        # Minimal number of checks in which ProfileStatus equal to E2E_P_OK was determined, within the last WindowSize checks, for the state E2E_SM_INIT. The minimum value is 1.
+        self.minOkStateInit: Optional[PositiveInteger] = None
+
+        # Minimal number of checks in which ProfileStatus equal to E2E_P_OK was determined, within the last WindowSize checks, for the state E2E_SM_INVALID. The minimum value is 1.
+        self.minOkStateInvalid: Optional[PositiveInteger] = None
+
+        # Minimal number of checks in which ProfileStatus equal to E2E_P_OK was determined, within the last WindowSize checks, for the state E2E_SM_VALID. The minimum value is 1.
+        self.minOkStateValid: Optional[PositiveInteger] = None
+
+        # EndToEndTransformationDescription holds these attributes which are profile specific and have the same value for all E2E transformers.
+        self.syncCounterInit: Optional[PositiveInteger] = None
+
+        # Size of the monitoring window of state Init for the E2E state machine.
+        self.windowSizeInit: Optional[PositiveInteger] = None
+
+        # Size of the monitoring window of state Invalid for the E2E state machine.
+        self.windowSizeInvalid: Optional[PositiveInteger] = None
+
+        # Size of the monitoring window of state Valid for the E2E state machine.
+        self.windowSizeValid: Optional[PositiveInteger] = None
+
+    def getClearFromValidToInvalid(self) -> Optional[Boolean]:
+        """
+        Clear monitoring window on transition from state Valid to state Invalid.
+        """
+        return self.clearFromValidToInvalid
+
+    def setClearFromValidToInvalid(self, value: Optional[Boolean]) -> "EndToEndTransformationComSpecProps":
+        """
+        Clear monitoring window on transition from state Valid to state Invalid.
+        A None value is a no-op and does not overwrite an existing clearFromValidToInvalid.
+        """
+        if value is not None:
+            self.clearFromValidToInvalid = value
+        return self
+
+    def getDisableEndToEndCheck(self) -> Optional[Boolean]:
+        """
+        Disables/Enables the E2E check. The E2Eheader is removed from the payload independent from the setting of this attribute.
+        """
+        return self.disableEndToEndCheck
+
+    def setDisableEndToEndCheck(self, value: Optional[Boolean]) -> "EndToEndTransformationComSpecProps":
+        """
+        Disables/Enables the E2E check. The E2Eheader is removed from the payload independent from the setting of this attribute.
+        A None value is a no-op and does not overwrite an existing disableEndToEndCheck.
+        """
+        if value is not None:
+            self.disableEndToEndCheck = value
+        return self
+
+    def getDisableEndToEndStateMachine(self) -> Optional[Boolean]:
+        """
+        Disables the E2EStateMachine (only E2E check functionality is performed)
+        """
+        return self.disableEndToEndStateMachine
+
+    def setDisableEndToEndStateMachine(self, value: Optional[Boolean]) -> "EndToEndTransformationComSpecProps":
+        """
+        Disables the E2EStateMachine (only E2E check functionality is performed)
+        A None value is a no-op and does not overwrite an existing disableEndToEndStateMachine.
+        """
+        if value is not None:
+            self.disableEndToEndStateMachine = value
+        return self
+
+    def getE2eProfileCompatibilityPropsRef(self) -> Optional[RefType]:
+        """
+        Reference to additional settings for the E2E state machine.
+        """
+        return self.e2eProfileCompatibilityPropsRef
+
+    def setE2eProfileCompatibilityPropsRef(self, value: Optional[RefType]) -> "EndToEndTransformationComSpecProps":
+        """
+        Reference to additional settings for the E2E state machine.
+        A None value is a no-op and does not overwrite an existing e2eProfileCompatibilityPropsRef.
+        """
+        if value is not None:
+            self.e2eProfileCompatibilityPropsRef = value
+        return self
+
+    def getMaxDeltaCounter(self) -> Optional[PositiveInteger]:
+        """
+        Maximum allowed difference between two counter values of two consecutively received valid messages. For example, if the receiver gets data with counter 1 and Max DeltaCounter is 3, then at the next reception the receiver can accept Counters with values 2, 3 or 4.
+        """
+        return self.maxDeltaCounter
+
+    def setMaxDeltaCounter(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationComSpecProps":
+        """
+        Maximum allowed difference between two counter values of two consecutively received valid messages. For example, if the receiver gets data with counter 1 and Max DeltaCounter is 3, then at the next reception the receiver can accept Counters with values 2, 3 or 4.
+        A None value is a no-op and does not overwrite an existing maxDeltaCounter.
+        """
+        if value is not None:
+            self.maxDeltaCounter = value
+        return self
+
+    def getMaxErrorStateInit(self) -> Optional[PositiveInteger]:
+        """
+        Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last Window Size checks, for the state E2E_SM_INIT. The minimum value is 0.
+        """
+        return self.maxErrorStateInit
+
+    def setMaxErrorStateInit(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationComSpecProps":
+        """
+        Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last Window Size checks, for the state E2E_SM_INIT. The minimum value is 0.
+        A None value is a no-op and does not overwrite an existing maxErrorStateInit.
+        """
+        if value is not None:
+            self.maxErrorStateInit = value
+        return self
+
+    def getMaxErrorStateInvalid(self) -> Optional[PositiveInteger]:
+        """
+        Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last Window Size checks, for the state E2E_SM_INVALID. The minimum value is 0.
+        """
+        return self.maxErrorStateInvalid
+
+    def setMaxErrorStateInvalid(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationComSpecProps":
+        """
+        Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last Window Size checks, for the state E2E_SM_INVALID. The minimum value is 0.
+        A None value is a no-op and does not overwrite an existing maxErrorStateInvalid.
+        """
+        if value is not None:
+            self.maxErrorStateInvalid = value
+        return self
+
+    def getMaxErrorStateValid(self) -> Optional[PositiveInteger]:
+        """
+        Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last Window Size checks, for the state E2E_SM_VALID. The minimum value is 0.
+        """
+        return self.maxErrorStateValid
+
+    def setMaxErrorStateValid(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationComSpecProps":
+        """
+        Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last Window Size checks, for the state E2E_SM_VALID. The minimum value is 0.
+        A None value is a no-op and does not overwrite an existing maxErrorStateValid.
+        """
+        if value is not None:
+            self.maxErrorStateValid = value
+        return self
+
+    def getMaxNoNewOrRepeatedData(self) -> Optional[PositiveInteger]:
+        """
+        EndToEndTransformationDescription holds these attributes which are profile specific and have the same value for all E2E transformers.
+        """
+        return self.maxNoNewOrRepeatedData
+
+    def setMaxNoNewOrRepeatedData(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationComSpecProps":
+        """
+        EndToEndTransformationDescription holds these attributes which are profile specific and have the same value for all E2E transformers.
+        A None value is a no-op and does not overwrite an existing maxNoNewOrRepeatedData.
+        """
+        if value is not None:
+            self.maxNoNewOrRepeatedData = value
+        return self
+
+    def getMinOkStateInit(self) -> Optional[PositiveInteger]:
+        """
+        Minimal number of checks in which ProfileStatus equal to E2E_P_OK was determined, within the last WindowSize checks, for the state E2E_SM_INIT. The minimum value is 1.
+        """
+        return self.minOkStateInit
+
+    def setMinOkStateInit(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationComSpecProps":
+        """
+        Minimal number of checks in which ProfileStatus equal to E2E_P_OK was determined, within the last WindowSize checks, for the state E2E_SM_INIT. The minimum value is 1.
+        A None value is a no-op and does not overwrite an existing minOkStateInit.
+        """
+        if value is not None:
+            self.minOkStateInit = value
+        return self
+
+    def getMinOkStateInvalid(self) -> Optional[PositiveInteger]:
+        """
+        Minimal number of checks in which ProfileStatus equal to E2E_P_OK was determined, within the last WindowSize checks, for the state E2E_SM_INVALID. The minimum value is 1.
+        """
+        return self.minOkStateInvalid
+
+    def setMinOkStateInvalid(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationComSpecProps":
+        """
+        Minimal number of checks in which ProfileStatus equal to E2E_P_OK was determined, within the last WindowSize checks, for the state E2E_SM_INVALID. The minimum value is 1.
+        A None value is a no-op and does not overwrite an existing minOkStateInvalid.
+        """
+        if value is not None:
+            self.minOkStateInvalid = value
+        return self
+
+    def getMinOkStateValid(self) -> Optional[PositiveInteger]:
+        """
+        Minimal number of checks in which ProfileStatus equal to E2E_P_OK was determined, within the last WindowSize checks, for the state E2E_SM_VALID. The minimum value is 1.
+        """
+        return self.minOkStateValid
+
+    def setMinOkStateValid(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationComSpecProps":
+        """
+        Minimal number of checks in which ProfileStatus equal to E2E_P_OK was determined, within the last WindowSize checks, for the state E2E_SM_VALID. The minimum value is 1.
+        A None value is a no-op and does not overwrite an existing minOkStateValid.
+        """
+        if value is not None:
+            self.minOkStateValid = value
+        return self
+
+    def getSyncCounterInit(self) -> Optional[PositiveInteger]:
+        """
+        EndToEndTransformationDescription holds these attributes which are profile specific and have the same value for all E2E transformers.
+        """
+        return self.syncCounterInit
+
+    def setSyncCounterInit(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationComSpecProps":
+        """
+        EndToEndTransformationDescription holds these attributes which are profile specific and have the same value for all E2E transformers.
+        A None value is a no-op and does not overwrite an existing syncCounterInit.
+        """
+        if value is not None:
+            self.syncCounterInit = value
+        return self
+
+    def getWindowSizeInit(self) -> Optional[PositiveInteger]:
+        """
+        Size of the monitoring window of state Init for the E2E state machine.
+        """
+        return self.windowSizeInit
+
+    def setWindowSizeInit(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationComSpecProps":
+        """
+        Size of the monitoring window of state Init for the E2E state machine.
+        A None value is a no-op and does not overwrite an existing windowSizeInit.
+        """
+        if value is not None:
+            self.windowSizeInit = value
+        return self
+
+    def getWindowSizeInvalid(self) -> Optional[PositiveInteger]:
+        """
+        Size of the monitoring window of state Invalid for the E2E state machine.
+        """
+        return self.windowSizeInvalid
+
+    def setWindowSizeInvalid(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationComSpecProps":
+        """
+        Size of the monitoring window of state Invalid for the E2E state machine.
+        A None value is a no-op and does not overwrite an existing windowSizeInvalid.
+        """
+        if value is not None:
+            self.windowSizeInvalid = value
+        return self
+
+    def getWindowSizeValid(self) -> Optional[PositiveInteger]:
+        """
+        Size of the monitoring window of state Valid for the E2E state machine.
+        """
+        return self.windowSizeValid
+
+    def setWindowSizeValid(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationComSpecProps":
+        """
+        Size of the monitoring window of state Valid for the E2E state machine.
+        A None value is a no-op and does not overwrite an existing windowSizeValid.
+        """
+        if value is not None:
+            self.windowSizeValid = value
         return self

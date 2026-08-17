@@ -9,6 +9,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     DataTransformationKindEnum,
     DataTransformationSet,
     EndToEndProfileBehaviorEnum,
+    EndToEndTransformationComSpecProps,
     EndToEndTransformationDescription,
     EndToEndTransformationISignalProps,
     TransformationDescription,
@@ -31,45 +32,43 @@ class TestTransformer:
     inheritance relationships, and property accessors.
     """
 
-    def test_buffer_properties(self):
-        """
-        Test BufferProperties class functionality with method chaining and None handling.
-        """
-        from armodel.models.M2.MSR.AsamHdo.ComputationMethod import CompuScale
+    def test_buffer_properties_initialization(self):
+        props = BufferProperties()
 
-        buffer_props = BufferProperties()
+        assert isinstance(props, ARObject)
+        assert props.getHeaderLength() is None
+        assert props.getInPlace() is None
 
-        assert isinstance(buffer_props, ARObject)
+    def test_get_set_buffer_properties_header_length(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer
 
-        # Test default values
-        assert buffer_props.getBufferComputation() is None
-        assert buffer_props.getHeaderLength() is None
-        assert buffer_props.getInPlace() is None
+        props = BufferProperties()
+        value = Integer().setValue(8)
 
-        # Test setter/getter methods with method chaining - with None values
-        assert buffer_props == buffer_props.setBufferComputation(None)
-        assert buffer_props.getBufferComputation() is None
+        assert props == props.setHeaderLength(None)
+        assert props.getHeaderLength() is None
 
-        assert buffer_props == buffer_props.setHeaderLength(None)
-        assert buffer_props.getHeaderLength() is None
+        assert props == props.setHeaderLength(value)
+        assert props.getHeaderLength() == value
+        assert props.getHeaderLength().getValue() == 8
 
-        assert buffer_props == buffer_props.setInPlace(None)
-        assert buffer_props.getInPlace() is None
+    def test_get_set_buffer_properties_in_place(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean
 
-        # Test setter/getter methods with method chaining - with actual values
-        buffer_props.setHeaderLength(10)
-        assert buffer_props.getHeaderLength() == 10
-        assert buffer_props == buffer_props.setHeaderLength(10)
+        props = BufferProperties()
+        value = Boolean().setValue(True)
 
-        buffer_props.setInPlace(True)
-        assert buffer_props.getInPlace() is True
-        assert buffer_props == buffer_props.setInPlace(True)
+        assert props == props.setInPlace(None)
+        assert props.getInPlace() is None
 
-        # Test setBufferComputation with actual CompuScale value to cover line 80
-        compu_scale = CompuScale()
-        buffer_props.setBufferComputation(compu_scale)
-        assert buffer_props.getBufferComputation() == compu_scale
-        assert buffer_props == buffer_props.setBufferComputation(compu_scale)
+        assert props == props.setInPlace(value)
+        assert props.getInPlace() == value
+        assert value.getValue() is True
+
+    def test_no_fabricated_buffer_computation(self):
+        props = BufferProperties()
+
+        assert not hasattr(props, "bufferComputation")
 
     def test_data_id_mode_enum(self):
         """
@@ -358,6 +357,37 @@ class TestTransformer:
         with pytest.raises(TypeError):
             TransformationDescription()
 
+    def test_transformation_description_base_properties(self):
+        from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
+
+        class ConcreteTransformationDescription(TransformationDescription):
+            def __init__(self):
+                super().__init__()
+
+        desc = ConcreteTransformationDescription()
+
+        assert desc.getCategory() is None
+        assert desc.getDesc() is None
+        assert desc.getIntroduction() is None
+
+        assert desc == desc.setCategory(None)
+        assert desc.getCategory() is None
+
+        assert desc == desc.setDesc(None)
+        assert desc.getDesc() is None
+
+        assert desc == desc.setIntroduction(None)
+        assert desc.getIntroduction() is None
+
+        desc.setCategory("category")
+        assert desc.getCategory() == "category"
+        assert desc == desc.setCategory("category")
+
+        value = MultiLanguageOverviewParagraph()
+        desc.setDesc(value)
+        assert desc.getDesc() == value
+        assert desc == desc.setDesc(value)
+
     def test_transformation_technology(self):
         """
         Test TransformationTechnology class functionality with method chaining and None handling.
@@ -421,9 +451,11 @@ class TestTransformer:
         assert technology.getTransformationDescription() == mock_desc
         assert technology == technology.setTransformationDescription(mock_desc)
 
-        technology.setTransformerClass(TransformerClassEnum.SECURITY)
-        assert technology.getTransformerClass() == TransformerClassEnum.SECURITY
-        assert technology == technology.setTransformerClass(TransformerClassEnum.SECURITY)
+        transformer_class = TransformerClassEnum().setValue(TransformerClassEnum.SECURITY)
+        technology.setTransformerClass(transformer_class)
+        assert technology.getTransformerClass() == transformer_class
+        assert technology.getTransformerClass().getValue() == "security"
+        assert technology == technology.setTransformerClass(transformer_class)
 
         technology.setVersion("1.0")
         assert technology.getVersion() == "1.0"
@@ -435,12 +467,20 @@ class TestTransformer:
         """
         enum = TransformerClassEnum()
 
-        # Test that it's properly initialized
         assert enum is not None
-        assert hasattr(enum, "CUSTOM")
-        assert hasattr(enum, "SAFETY")
-        assert hasattr(enum, "SECURITY")
-        assert hasattr(enum, "SERIALIZER")
+        assert TransformerClassEnum.CUSTOM == "custom"
+        assert TransformerClassEnum.SAFETY == "safety"
+        assert TransformerClassEnum.SECURITY == "security"
+        assert TransformerClassEnum.SERIALIZER == "serializer"
+
+        assert enum == enum.setValue(TransformerClassEnum.CUSTOM)
+        assert enum.getValue() == "custom"
+        assert enum == enum.setValue(TransformerClassEnum.SAFETY)
+        assert enum.getValue() == "safety"
+        assert enum == enum.setValue(TransformerClassEnum.SECURITY)
+        assert enum.getValue() == "security"
+        assert enum == enum.setValue(TransformerClassEnum.SERIALIZER)
+        assert enum.getValue() == "serializer"
 
     def test_transformation_isignal_props_abstract(self):
         """
@@ -537,3 +577,167 @@ class TestTransformer:
         props.setSourceId(100)
         assert props.getSourceId() == 100
         assert props == props.setSourceId(100)
+
+
+class TestEndToEndTransformationComSpecProps:
+    """
+    Test EndToEndTransformationComSpecProps against SWCT Table 4.92 (p.201).
+    """
+
+    def _make_positive(self, value):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
+
+        return PositiveInteger().setValue(value)
+
+    def test_initialization(self):
+        props = EndToEndTransformationComSpecProps()
+        assert props.getClearFromValidToInvalid() is None
+        assert props.getDisableEndToEndCheck() is None
+        assert props.getDisableEndToEndStateMachine() is None
+        assert props.getE2eProfileCompatibilityPropsRef() is None
+        assert props.getMaxDeltaCounter() is None
+        assert props.getMaxErrorStateInit() is None
+        assert props.getMaxErrorStateInvalid() is None
+        assert props.getMaxErrorStateValid() is None
+        assert props.getMaxNoNewOrRepeatedData() is None
+        assert props.getMinOkStateInit() is None
+        assert props.getMinOkStateInvalid() is None
+        assert props.getMinOkStateValid() is None
+        assert props.getSyncCounterInit() is None
+        assert props.getWindowSizeInit() is None
+        assert props.getWindowSizeInvalid() is None
+        assert props.getWindowSizeValid() is None
+
+    def test_get_set_clear_from_valid_to_invalid(self):
+        props = EndToEndTransformationComSpecProps()
+        assert props.setClearFromValidToInvalid(None) is props
+        assert props.getClearFromValidToInvalid() is None
+        props.setClearFromValidToInvalid(True)
+        assert props.getClearFromValidToInvalid() is True
+
+    def test_get_set_disable_end_to_end_check(self):
+        props = EndToEndTransformationComSpecProps()
+        assert props.setDisableEndToEndCheck(None) is props
+        assert props.getDisableEndToEndCheck() is None
+        props.setDisableEndToEndCheck(True)
+        assert props.getDisableEndToEndCheck() is True
+
+    def test_get_set_disable_end_to_end_state_machine(self):
+        props = EndToEndTransformationComSpecProps()
+        assert props.setDisableEndToEndStateMachine(None) is props
+        assert props.getDisableEndToEndStateMachine() is None
+        props.setDisableEndToEndStateMachine(True)
+        assert props.getDisableEndToEndStateMachine() is True
+
+    def test_get_set_e2e_profile_compatibility_props_ref(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+
+        props = EndToEndTransformationComSpecProps()
+        assert props.setE2eProfileCompatibilityPropsRef(None) is props
+        assert props.getE2eProfileCompatibilityPropsRef() is None
+        ref = RefType()
+        ref.setDest("E2EProfileCompatibilityProps")
+        ref.setValue("/Pkg/Props")
+        props.setE2eProfileCompatibilityPropsRef(ref)
+        assert props.getE2eProfileCompatibilityPropsRef() == ref
+
+    def test_get_set_max_delta_counter(self):
+        props = EndToEndTransformationComSpecProps()
+        assert props.setMaxDeltaCounter(None) is props
+        assert props.getMaxDeltaCounter() is None
+        value = self._make_positive(3)
+        props.setMaxDeltaCounter(value)
+        assert props.getMaxDeltaCounter() == value
+
+    def test_get_set_max_error_state_init(self):
+        props = EndToEndTransformationComSpecProps()
+        assert props.setMaxErrorStateInit(None) is props
+        assert props.getMaxErrorStateInit() is None
+        value = self._make_positive(2)
+        props.setMaxErrorStateInit(value)
+        assert props.getMaxErrorStateInit() == value
+
+    def test_get_set_max_error_state_invalid(self):
+        props = EndToEndTransformationComSpecProps()
+        assert props.setMaxErrorStateInvalid(None) is props
+        assert props.getMaxErrorStateInvalid() is None
+        value = self._make_positive(2)
+        props.setMaxErrorStateInvalid(value)
+        assert props.getMaxErrorStateInvalid() == value
+
+    def test_get_set_max_error_state_valid(self):
+        props = EndToEndTransformationComSpecProps()
+        assert props.setMaxErrorStateValid(None) is props
+        assert props.getMaxErrorStateValid() is None
+        value = self._make_positive(2)
+        props.setMaxErrorStateValid(value)
+        assert props.getMaxErrorStateValid() == value
+
+    def test_get_set_max_no_new_or_repeated_data(self):
+        props = EndToEndTransformationComSpecProps()
+        assert props.setMaxNoNewOrRepeatedData(None) is props
+        assert props.getMaxNoNewOrRepeatedData() is None
+        value = self._make_positive(2)
+        props.setMaxNoNewOrRepeatedData(value)
+        assert props.getMaxNoNewOrRepeatedData() == value
+
+    def test_get_set_min_ok_state_init(self):
+        props = EndToEndTransformationComSpecProps()
+        assert props.setMinOkStateInit(None) is props
+        assert props.getMinOkStateInit() is None
+        value = self._make_positive(1)
+        props.setMinOkStateInit(value)
+        assert props.getMinOkStateInit() == value
+
+    def test_get_set_min_ok_state_invalid(self):
+        props = EndToEndTransformationComSpecProps()
+        assert props.setMinOkStateInvalid(None) is props
+        assert props.getMinOkStateInvalid() is None
+        value = self._make_positive(1)
+        props.setMinOkStateInvalid(value)
+        assert props.getMinOkStateInvalid() == value
+
+    def test_get_set_min_ok_state_valid(self):
+        props = EndToEndTransformationComSpecProps()
+        assert props.setMinOkStateValid(None) is props
+        assert props.getMinOkStateValid() is None
+        value = self._make_positive(1)
+        props.setMinOkStateValid(value)
+        assert props.getMinOkStateValid() == value
+
+    def test_get_set_sync_counter_init(self):
+        props = EndToEndTransformationComSpecProps()
+        assert props.setSyncCounterInit(None) is props
+        assert props.getSyncCounterInit() is None
+        value = self._make_positive(0)
+        props.setSyncCounterInit(value)
+        assert props.getSyncCounterInit() == value
+
+    def test_get_set_window_size_init(self):
+        props = EndToEndTransformationComSpecProps()
+        assert props.setWindowSizeInit(None) is props
+        assert props.getWindowSizeInit() is None
+        value = self._make_positive(5)
+        props.setWindowSizeInit(value)
+        assert props.getWindowSizeInit() == value
+
+    def test_get_set_window_size_invalid(self):
+        props = EndToEndTransformationComSpecProps()
+        assert props.setWindowSizeInvalid(None) is props
+        assert props.getWindowSizeInvalid() is None
+        value = self._make_positive(5)
+        props.setWindowSizeInvalid(value)
+        assert props.getWindowSizeInvalid() == value
+
+    def test_get_set_window_size_valid(self):
+        props = EndToEndTransformationComSpecProps()
+        assert props.setWindowSizeValid(None) is props
+        assert props.getWindowSizeValid() is None
+        value = self._make_positive(5)
+        props.setWindowSizeValid(value)
+        assert props.getWindowSizeValid() == value
+
+    def test_inherits_from_transformation_com_spec_props(self):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import TransformationComSpecProps
+
+        assert issubclass(EndToEndTransformationComSpecProps, TransformationComSpecProps)

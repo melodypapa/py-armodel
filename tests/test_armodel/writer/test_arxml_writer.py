@@ -11,8 +11,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARFloat,
     ARLiteral,
     DateTime,
+    DisplayFormatString,
     Identifier,
     Limit,
+    MonotonyEnum,
     NameToken,
     RefType,
     RevisionLabelString,
@@ -23,11 +25,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import 
 )
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData, DocRevision, Modification
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sd, Sdg, SdgContents
-from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisSet
-from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisIndividual
+from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis, SwCalprmAxisSet
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwCalibrationAccessEnum, SwDataDefProps
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName, LOverviewParagraph, LPlainText
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguagePlainText
+from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
 
@@ -822,6 +826,73 @@ class TestARXMLWriterSwSystemconstMethods:
         assert compu_method.attrib.get("DEST") == "COMPU-METHOD"
 
         autosar.clear()
+
+
+class TestARXMLWriterSwCalprmAxisMethods:
+    """Tests for SwCalprmAxis / SwCalprmAxisTypeProps writer behavior."""
+
+    def _build_individual_axis(self) -> SwCalprmAxis:
+        axis = SwCalprmAxis()
+        props = SwAxisIndividual()
+        gradient = ARFloat()
+        gradient.setValue(2.5)
+        props.setMaxGradient(gradient)
+        monotony = MonotonyEnum()
+        monotony.setValue(MonotonyEnum.STRICTLY_INCREASING)
+        props.setMonotony(monotony)
+        axis.setSwCalprmAxisTypeProps(props)
+        return axis
+
+    def test_setSwCalprmAxis_individual_type_props(self):
+        """MAX-GRADIENT and MONOTONY shall be written inside SW-AXIS-INDIVIDUAL."""
+        writer = ARXMLWriter()
+        root = ET.Element("SW-CALPRM-AXIS-SET")
+        writer.setSwCalprmAxis(root, self._build_individual_axis())
+
+        axis_el = root.find("SW-CALPRM-AXIS")
+        assert axis_el is not None
+        individual = axis_el.find("SW-AXIS-INDIVIDUAL")
+        assert individual is not None
+        assert individual.find("MAX-GRADIENT") is not None
+        assert individual.find("MAX-GRADIENT").text == "2.5"
+        assert individual.find("MONOTONY") is not None
+        assert individual.find("MONOTONY").text == "strictlyIncreasing"
+
+    def test_setSwCalprmAxis_type_props_roundtrip(self):
+        """Write then re-parse: maxGradient and monotony survive a round-trip."""
+        writer = ARXMLWriter()
+        root = ET.Element("SW-CALPRM-AXIS-SET")
+        writer.setSwCalprmAxis(root, self._build_individual_axis())
+
+        wrapped = ET.fromstring("<WRAP xmlns='http://autosar.org/schema/r4.0'>%s</WRAP>" % ET.tostring(root.find("SW-CALPRM-AXIS"), encoding="unicode"))
+        parser = ARXMLParser()
+        axis = parser.getSwCalprmAxis(wrapped[0])
+        props = axis.getSwCalprmAxisTypeProps()
+        assert props.getMaxGradient().getValue() == 2.5
+        assert props.getMonotony().getValue() == "strictlyIncreasing"
+
+    def test_setSwCalprmAxis_access_and_display_format(self):
+        """SW-CALIBRATION-ACCESS and DISPLAY-FORMAT shall be written in XSD sequence order."""
+        writer = ARXMLWriter()
+        axis = SwCalprmAxis()
+        access = SwCalibrationAccessEnum()
+        access.setValue(SwCalibrationAccessEnum.READ_ONLY)
+        axis.setSwCalibrationAccess(access)
+        display_format = DisplayFormatString()
+        display_format.setValue("%.3f")
+        axis.setDisplayFormat(display_format)
+
+        root = ET.Element("SW-CALPRM-AXIS-SET")
+        writer.setSwCalprmAxis(root, axis)
+
+        axis_el = root.find("SW-CALPRM-AXIS")
+        assert axis_el is not None
+        access_el = axis_el.find("SW-CALIBRATION-ACCESS")
+        assert access_el is not None
+        assert access_el.text == "readOnly"
+        display_el = axis_el.find("DISPLAY-FORMAT")
+        assert display_el is not None
+        assert display_el.text == "%.3f"
 
 
 class TestARXMLWriterSwSystemconstantValueSetMethods:
