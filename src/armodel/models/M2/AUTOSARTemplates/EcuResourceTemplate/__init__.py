@@ -13,6 +13,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import HwAttributeValue
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementConnector import HwElementConnector
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwPinConnector import HwPinConnector
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwPinGroupConnector import HwPinGroupConnector
 
 
 class HwDescriptionEntity(Referrable):
@@ -116,16 +118,22 @@ class HwPin(HwDescriptionEntity):
     """
     Represents a hardware pin in AUTOSAR hardware descriptions.
     This class defines the properties of individual hardware pins including function names and pin numbers.
+
+    Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.7, p.20
+    Spec verified: R23-11
+    Note: Represents a grouping of pins including function names, packaging pin names, and pin numbers.
     """
 
     # HwPin method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getFunctionName              [x] impl  [x] docstring  [ ] test
-    # [ ] setFunctionName              [x] impl  [x] docstring  [ ] test
-    # [ ] getPackagingPinName          [x] impl  [x] docstring  [ ] test
-    # [ ] setPackagingPinName          [x] impl  [x] docstring  [ ] test
-    # [ ] getPinNumber                 [x] impl  [x] docstring  [ ] test
-    # [ ] setPinNumber                 [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.7, p.20
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getFunctionName              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setFunctionName              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getPackagingPinName          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setPackagingPinName          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getPinNumber                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setPinNumber                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent, short_name: str):
         """
@@ -218,14 +226,20 @@ class HwPinGroupContent(ARObject):
     """
     Represents the content of a hardware pin group in AUTOSAR.
     This class links individual pins and pin groups together to form complex pin structures.
+
+    Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.6, p.20
+    Spec verified: R23-11
+    Note: XSD defines atpMixed choice (HW-PIN-GROUP | HW-PIN), not a sequence. Multiplicity 0..1 for both fields.
     """
 
     # HwPinGroupContent method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getHwPin                     [x] impl  [x] docstring  [ ] test
-    # [ ] createHwPin                  [x] impl  [x] docstring  [ ] test
-    # [ ] getHwPinGroup                [x] impl  [x] docstring  [ ] test
-    # [ ] setHwPinGroup                [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.6, p.20
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getHwPin                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] createHwPin                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getHwPinGroup                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setHwPinGroup                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self):
         """
@@ -288,12 +302,18 @@ class HwPinGroup(HwDescriptionEntity):
     """
     Represents a group of hardware pins in AUTOSAR hardware descriptions.
     This class defines collections of related hardware pins with associated content.
+
+    Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.5, p.19
+    Spec verified: R23-11
+    Note: Represents a grouping of pins with optional content (HwPin or HwPinGroup).
     """
 
     # HwPinGroup method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getHwPinGroupContent         [x] impl  [x] docstring  [ ] test
-    # [ ] setHwPinGroupContent         [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.5, p.19
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getHwPinGroupContent         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setHwPinGroupContent         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent, short_name: str):
         """
