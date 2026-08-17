@@ -1,70 +1,116 @@
+from typing import List, Optional
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisTypeProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType
 
 
 class SwGenericAxisParam(ARObject):
     """
-    Parameters for a generic axis including type reference and value list.
+    This meta-class describes a specific parameter of a generic axis. The name of the parameter is defined through a reference to a parameter type defined on a corresponding axis type. The value of the parameter is given here in case that it is not changeable during calibration. Example is shift / offset in a fixed axis.
     """
 
     # SwGenericAxisParam method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwGenericAxisParamTypeRef [x] impl  [ ] docstring  [ ] test
-    # [ ] setSwGenericAxisParamTypeRef [x] impl  [ ] docstring  [ ] test
-    # [ ] getVfs                       [x] impl  [ ] docstring  [ ] test
-    # [ ] addVf                        [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.53, p.356
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getSwGenericAxisParamTypeRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSwGenericAxisParamTypeRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getVfs                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addVf                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        self.swGenericAxisParamTypeRef = None  # type: RefType
-        self.vfs = []  # type: List[ARFloat]
+        # Parameter type defined on a corresponding axis type. References can only be made to axis parameters types which are defined within the referenced axis type.
+        self.swGenericAxisParamTypeRef: Optional[RefType] = None
 
-    def getSwGenericAxisParamTypeRef(self):
+        # This attribute represents the value of the generic axis parameter.
+        self.vfs: List[ARNumerical] = []
+
+    def getSwGenericAxisParamTypeRef(self) -> Optional[RefType]:
+        """
+        Parameter type defined on a corresponding axis type. References can only be made to axis parameters types which are defined within the referenced axis type.
+        """
         return self.swGenericAxisParamTypeRef
 
-    def setSwGenericAxisParamTypeRef(self, value):
-        self.swGenericAxisParamTypeRef = value
+    def setSwGenericAxisParamTypeRef(self, value: Optional[RefType]) -> "SwGenericAxisParam":
+        """
+        Parameter type defined on a corresponding axis type. References can only be made to axis parameters types which are defined within the referenced axis type.
+        A None value is a no-op and does not overwrite an existing swGenericAxisParamTypeRef.
+        """
+        if value is not None:
+            self.swGenericAxisParamTypeRef = value
         return self
 
-    def getVfs(self):
+    def getVfs(self) -> List[ARNumerical]:
+        """
+        This attribute represents the value of the generic axis parameter.
+        """
         return self.vfs
 
-    def addVf(self, value):
-        self.vfs.append(value)
+    def addVf(self, value: Optional[ARNumerical]) -> "SwGenericAxisParam":
+        """
+        This attribute represents the value of the generic axis parameter.
+        A None value is a no-op and is not appended to vfs.
+        """
+        if value is not None:
+            self.vfs.append(value)
         return self
 
 
 class SwAxisGeneric(ARObject):
     """
-    Generic axis definition with axis type reference and parameters.
+    This meta-class defines a generic axis. In a generic axis the axispoints points are calculated in the ECU. The ECU is equipped with a fixed calculation algorithm. Parameters for the algorithm can be stored in the data component of the ECU. Therefore these parameters are specified in the data declaration, not in the calibration data.
     """
 
     # SwAxisGeneric method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwAxisTypeRef             [x] impl  [ ] docstring  [ ] test
-    # [ ] setSwAxisTypeRef             [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwGenericAxisParams       [x] impl  [ ] docstring  [ ] test
-    # [ ] addSwGenericAxisParam        [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.51, p.355
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getSwAxisTypeRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSwAxisTypeRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSwGenericAxisParams   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addSwGenericAxisParam    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        self.swAxisTypeRef = None  # type: RefType
-        self.swGenericAxisParams = []  # type: List[SwGenericAxisParam]
+        # Associated axis calculation strategy.
+        self.swAxisTypeRef: Optional[RefType] = None
 
-    def getSwAxisTypeRef(self):
+        # Specific parameter of a generic axis.
+        self.swGenericAxisParams: List[SwGenericAxisParam] = []
+
+    def getSwAxisTypeRef(self) -> Optional[RefType]:
+        """
+        Associated axis calculation strategy.
+        """
         return self.swAxisTypeRef
 
-    def setSwAxisTypeRef(self, value):
-        self.swAxisTypeRef = value
+    def setSwAxisTypeRef(self, value: Optional[RefType]) -> "SwAxisGeneric":
+        """
+        Associated axis calculation strategy.
+        A None value is a no-op and does not overwrite an existing swAxisTypeRef.
+        """
+        if value is not None:
+            self.swAxisTypeRef = value
         return self
 
-    def getSwGenericAxisParams(self):
+    def getSwGenericAxisParams(self) -> List[SwGenericAxisParam]:
+        """
+        Specific parameter of a generic axis.
+        """
         return self.swGenericAxisParams
 
-    def addSwGenericAxisParam(self, value):
-        self.swGenericAxisParams.append(value)
+    def addSwGenericAxisParam(self, value: Optional[SwGenericAxisParam]) -> "SwAxisGeneric":
+        """
+        Specific parameter of a generic axis.
+        A None value is a no-op and is not appended to swGenericAxisParams.
+        """
+        if value is not None:
+            self.swGenericAxisParams.append(value)
         return self
 
 

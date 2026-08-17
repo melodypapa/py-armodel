@@ -567,7 +567,7 @@ from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg, SdgContents
 from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
-from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual
+from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwGenericAxisParam
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis, SwCalprmAxisSet
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
     SwBitRepresentation,
@@ -1961,6 +1961,24 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalNumericalValue(child_element, "SW-MAX-AXIS-POINTS", props.getSwMaxAxisPoints())
         self.setChildElementOptionalNumericalValue(child_element, "SW-MIN-AXIS-POINTS", props.getSwMinAxisPoints())
         self.setChildElementOptionalRefType(child_element, "DATA-CONSTR-REF", props.getDataConstrRef())
+        if props.getSwAxisGeneric() is not None:
+            self.setSwAxisGeneric(child_element, props.getSwAxisGeneric())
+
+    def setSwAxisGeneric(self, element: ET.Element, axis: SwAxisGeneric):
+        child_element = ET.SubElement(element, "SW-AXIS-GENERIC")
+        self.writeARObjectAttributes(child_element, axis)
+        self.setChildElementOptionalRefType(child_element, "SW-AXIS-TYPE-REF", axis.getSwAxisTypeRef())
+        if axis.getSwGenericAxisParams():
+            params_wrapper = ET.SubElement(child_element, "SW-GENERIC-AXIS-PARAMS")
+            for param in axis.getSwGenericAxisParams():
+                self.setSwGenericAxisParam(params_wrapper, param)
+
+    def setSwGenericAxisParam(self, element: ET.Element, param: SwGenericAxisParam):
+        param_element = ET.SubElement(element, "SW-GENERIC-AXIS-PARAM")
+        self.writeARObjectAttributes(param_element, param)
+        self.setChildElementOptionalRefType(param_element, "SW-GENERIC-AXIS-PARAM-TYPE-REF", param.getSwGenericAxisParamTypeRef())
+        for vf in param.getVfs():
+            self.setChildElementOptionalNumericalValue(param_element, "VF", vf)
 
     def setSwAxisGrouped(self, element: ET.Element, props: SwAxisGrouped):
         child_element = ET.SubElement(element, "SW-AXIS-GROUPED")
