@@ -80,7 +80,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSu
     RptSupportData,
     RptSwPrototypingAccess,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclaration, ModeDeclarationGroup, ModeDeclarationGroupPrototype
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclaration, ModeDeclarationGroup, ModeDeclarationGroupPrototype, ModeErrorBehavior
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.ExecutionTime import AnalyzedExecutionTime, MeasuredExecutionTime, RoughEstimateOfExecutionTime, SimulatedExecutionTime
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.HeapUsage import MeasuredHeapUsage, RoughEstimateHeapUsage, WorstCaseHeapUsage
@@ -5172,7 +5172,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setModeDeclaration(self, element: ET.Element, mode_declaration: ModeDeclaration):
         child_element = ET.SubElement(element, "MODE-DECLARATION")
         self.writeIdentifiable(child_element, mode_declaration)
-        self.setChildElementOptionalNumericalValue(child_element, "VALUE", mode_declaration.getValue())
+        self.setChildElementOptionalPositiveInteger(child_element, "VALUE", mode_declaration.getValue())
 
     def writeModeDeclarationGroupModeDeclaration(self, element: ET.Element, parent: ModeDeclarationGroup):
         mode_declarations = parent.getModeDeclarations()
@@ -5181,13 +5181,34 @@ class ARXMLWriter(AbstractARXMLWriter):
             for mode_declaration in mode_declarations:
                 self.setModeDeclaration(child_element, mode_declaration)
 
+    def writeModeErrorBehavior(self, element: ET.Element, key: str, behavior: ModeErrorBehavior):
+        if behavior is None:
+            return element
+        child_element = ET.SubElement(element, key)
+        self.setChildElementOptionalRefType(child_element, "DEFAULT-MODE-REF", behavior.getDefaultModeRef())
+        self.setChildElementOptionalLiteral(child_element, "ERROR-REACTION-POLICY", behavior.getErrorReactionPolicy())
+        return child_element
+
+    def writeModeDeclarationGroupModeTransition(self, element: ET.Element, parent: ModeDeclarationGroup):
+        mode_transitions = parent.getModeTransitions()
+        if len(mode_transitions) > 0:
+            child_element = ET.SubElement(element, "MODE-TRANSITIONS")
+            for mode_transition in mode_transitions:
+                transition_el = ET.SubElement(child_element, "MODE-TRANSITION")
+                self.writeIdentifiable(transition_el, mode_transition)
+                self.setChildElementOptionalRefType(transition_el, "ENTERED-MODE-REF", mode_transition.getEnteredModeRef())
+                self.setChildElementOptionalRefType(transition_el, "EXITED-MODE-REF", mode_transition.getExitedModeRef())
+
     def writeModeDeclarationGroup(self, element: ET.Element, group: ModeDeclarationGroup):
         self.logger.debug("writeModeDeclarationGroup %s" % group.getShortName())
         child_element = ET.SubElement(element, "MODE-DECLARATION-GROUP")
         self.writeIdentifiable(child_element, group)
         self.setChildElementOptionalRefType(child_element, "INITIAL-MODE-REF", group.initialModeRef)
         self.writeModeDeclarationGroupModeDeclaration(child_element, group)
-        self.setChildElementOptionalNumericalValue(child_element, "ON-TRANSITION-VALUE", group.getOnTransitionValue())
+        self.writeModeErrorBehavior(child_element, "MODE-MANAGER-ERROR-BEHAVIOR", group.getModeManagerErrorBehavior())
+        self.writeModeDeclarationGroupModeTransition(child_element, group)
+        self.writeModeErrorBehavior(child_element, "MODE-USER-ERROR-BEHAVIOR", group.getModeUserErrorBehavior())
+        self.setChildElementOptionalPositiveInteger(child_element, "ON-TRANSITION-VALUE", group.getOnTransitionValue())
 
     def writeModeSwitchInterfaceModeGroup(self, element: ET.Element, parent: ModeSwitchInterface):
         mode_group = parent.getModeGroup()

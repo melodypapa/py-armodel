@@ -6,10 +6,11 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
     ModeDeclarationGroupPrototype,
     ModeDeclarationGroupPrototypeMapping,
     ModeErrorBehavior,
+    ModeErrorReactionPolicyEnum,
     ModeRequestTypeMap,
     ModeTransition,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType, TRefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, TRefType
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwCalibrationAccessEnum
 
 
@@ -109,34 +110,30 @@ class TestModeDeclaration:
         assert mode_decl is not None
         assert mode_decl.getShortName() == "TestMode"
         assert mode_decl.value is None
+        assert mode_decl.getValue() is None
 
-    def test_set_value(self):
-        """Test setValue method"""
+    def test_get_set_value(self):
+        """Test getValue and setValue methods"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         mode_decl = ModeDeclaration(ar_root, "TestMode")
 
-        test_value = ARNumerical().setValue(1)
+        test_value = PositiveInteger().setValue("4")
         result = mode_decl.setValue(test_value)
         assert result is mode_decl  # Method chaining
         assert mode_decl.getValue() == test_value
 
-    def test_set_value_none(self):
-        """Test setValue with None value"""
+    def test_set_value_none_noop(self):
+        """Test setValue with None value (no-op)"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         mode_decl = ModeDeclaration(ar_root, "TestMode")
 
+        test_value = PositiveInteger().setValue("4")
+        mode_decl.setValue(test_value)
         result = mode_decl.setValue(None)
         assert result is mode_decl  # Method chaining
-        assert mode_decl.getValue() is None
-
-    def test_get_value(self):
-        """Test getValue method"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        mode_decl = ModeDeclaration(ar_root, "TestMode")
-        assert mode_decl.getValue() is None
+        assert mode_decl.getValue() == test_value
 
 
 class TestModeRequestTypeMap:
@@ -258,15 +255,14 @@ class TestModeDeclarationGroup:
         assert mode_group.getInitialModeRef() is None
 
     def test_set_on_transition_value(self):
-        """Test setOnTransitionValue method with integer"""
+        """Test setOnTransitionValue method"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         mode_group = ModeDeclarationGroup(ar_root, "TestModeGroup")
 
-        result = mode_group.setOnTransitionValue(42)
+        result = mode_group.setOnTransitionValue(PositiveInteger().setValue("42"))
         assert result is mode_group  # Method chaining
-        # When an integer is passed, it should be converted to ARNumerical
-        assert isinstance(mode_group.onTransitionValue, ARNumerical)
+        assert isinstance(mode_group.onTransitionValue, PositiveInteger)
         assert mode_group.onTransitionValue.getValue() == 42
 
     def test_get_on_transition_value(self):
@@ -288,15 +284,15 @@ class TestModeDeclarationGroup:
         assert mode_group.getInitialModeRef() is not None
 
     def test_set_on_transition_value_none(self):
-        """Test setOnTransitionValue with None value"""
+        """Test setOnTransitionValue with None value (no-op)"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         mode_group = ModeDeclarationGroup(ar_root, "TestModeGroup")
 
-        mode_group.setOnTransitionValue(42)
+        mode_group.setOnTransitionValue(PositiveInteger().setValue("42"))
         result = mode_group.setOnTransitionValue(None)
         assert result is mode_group  # Method chaining
-        assert mode_group.getOnTransitionValue() is None
+        assert mode_group.getOnTransitionValue() is not None
 
     def test_create_mode_transition(self):
         """Test createModeTransition method"""
@@ -342,7 +338,7 @@ class TestModeDeclarationGroup:
         ar_root = parent.createARPackage("AUTOSAR")
         mode_group = ModeDeclarationGroup(ar_root, "TestModeGroup")
 
-        error_behavior = ModeErrorBehavior().setErrorReactionPolicy("keep-mode")
+        error_behavior = ModeErrorBehavior().setErrorReactionPolicy(ModeErrorReactionPolicyEnum().setValue(ModeErrorReactionPolicyEnum.DEFAULT_MODE))
         result = mode_group.setModeManagerErrorBehavior(error_behavior)
         assert result is mode_group  # Method chaining
         assert mode_group.getModeManagerErrorBehavior() == error_behavior
@@ -353,7 +349,7 @@ class TestModeDeclarationGroup:
         ar_root = parent.createARPackage("AUTOSAR")
         mode_group = ModeDeclarationGroup(ar_root, "TestModeGroup")
 
-        error_behavior = ModeErrorBehavior().setErrorReactionPolicy("keep-mode")
+        error_behavior = ModeErrorBehavior().setErrorReactionPolicy(ModeErrorReactionPolicyEnum().setValue(ModeErrorReactionPolicyEnum.DEFAULT_MODE))
         mode_group.setModeManagerErrorBehavior(error_behavior)
         result = mode_group.setModeManagerErrorBehavior(None)
         assert result is mode_group  # Method chaining
@@ -372,7 +368,7 @@ class TestModeDeclarationGroup:
         ar_root = parent.createARPackage("AUTOSAR")
         mode_group = ModeDeclarationGroup(ar_root, "TestModeGroup")
 
-        error_behavior = ModeErrorBehavior().setErrorReactionPolicy("transition-to-safe-mode")
+        error_behavior = ModeErrorBehavior().setErrorReactionPolicy(ModeErrorReactionPolicyEnum().setValue(ModeErrorReactionPolicyEnum.LAST_MODE))
         result = mode_group.setModeUserErrorBehavior(error_behavior)
         assert result is mode_group  # Method chaining
         assert mode_group.getModeUserErrorBehavior() == error_behavior
@@ -383,7 +379,7 @@ class TestModeDeclarationGroup:
         ar_root = parent.createARPackage("AUTOSAR")
         mode_group = ModeDeclarationGroup(ar_root, "TestModeGroup")
 
-        error_behavior = ModeErrorBehavior().setErrorReactionPolicy("transition-to-safe-mode")
+        error_behavior = ModeErrorBehavior().setErrorReactionPolicy(ModeErrorReactionPolicyEnum().setValue(ModeErrorReactionPolicyEnum.LAST_MODE))
         mode_group.setModeUserErrorBehavior(error_behavior)
         result = mode_group.setModeUserErrorBehavior(None)
         assert result is mode_group  # Method chaining
@@ -539,6 +535,32 @@ class TestModeDeclarationGroupPrototype:
         assert mode_group_proto.getTypeTRef() == test_value
 
 
+class TestModeErrorReactionPolicyEnum:
+    def test_initialization(self):
+        """Test ModeErrorReactionPolicyEnum member values"""
+        enum = ModeErrorReactionPolicyEnum()
+        assert enum.DEFAULT_MODE == "defaultMode"
+        assert enum.LAST_MODE == "lastMode"
+        assert "defaultMode" in enum.getEnumValues()
+        assert "lastMode" in enum.getEnumValues()
+
+    def test_enum_values(self):
+        """Test ModeErrorReactionPolicyEnum literal values"""
+        assert ModeErrorReactionPolicyEnum.DEFAULT_MODE == "defaultMode"
+        assert ModeErrorReactionPolicyEnum.LAST_MODE == "lastMode"
+
+    def test_valid_values(self):
+        """Test ModeErrorReactionPolicyEnum valid values in __init__"""
+        enum = ModeErrorReactionPolicyEnum()
+        valid_values = [
+            ModeErrorReactionPolicyEnum.DEFAULT_MODE,
+            ModeErrorReactionPolicyEnum.LAST_MODE,
+        ]
+        for value in valid_values:
+            enum.setValue(value)
+            assert enum.getText() == value
+
+
 class TestModeErrorBehavior:
     def test_initialization(self):
         """Test ModeErrorBehavior initialization"""
@@ -566,14 +588,16 @@ class TestModeErrorBehavior:
     def test_get_set_error_reaction_policy(self):
         """Test getErrorReactionPolicy and setErrorReactionPolicy methods"""
         error_behavior = ModeErrorBehavior()
-        test_policy = "keep-mode"
+        test_policy = ModeErrorReactionPolicyEnum().setValue(ModeErrorReactionPolicyEnum.DEFAULT_MODE)
 
         # Test setter returns self
         result = error_behavior.setErrorReactionPolicy(test_policy)
         assert result is error_behavior
 
-        # Test value round-trips
+        # Test value round-trips as a ModeErrorReactionPolicyEnum instance
         assert error_behavior.getErrorReactionPolicy() == test_policy
+        assert isinstance(error_behavior.getErrorReactionPolicy(), ModeErrorReactionPolicyEnum)
+        assert error_behavior.getErrorReactionPolicy().getText() == "defaultMode"
 
         # Test None is no-op
         error_behavior.setErrorReactionPolicy(None)
@@ -583,7 +607,7 @@ class TestModeErrorBehavior:
         """Test method chaining with ModeErrorBehavior"""
         error_behavior = ModeErrorBehavior()
         test_ref = RefType().setValue("TestModeRef")
-        test_policy = "transition-to-default-mode"
+        test_policy = ModeErrorReactionPolicyEnum().setValue(ModeErrorReactionPolicyEnum.LAST_MODE)
 
         result = error_behavior.setDefaultModeRef(test_ref).setErrorReactionPolicy(test_policy)
 
