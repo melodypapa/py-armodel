@@ -28,7 +28,7 @@ def test_hw_pin_init():
     assert hw_pin.hwAttributeValues == []
     assert hw_pin.hwCategoryRefs == []
     assert hw_pin.hwTypeRef is None
-    assert hw_pin.functionName is None
+    assert hw_pin.functionNames == []
     assert hw_pin.packagingPinName is None
     assert hw_pin.pinNumber is None
 
@@ -39,18 +39,27 @@ def test_hw_pin_getters_and_setters():
 
     Test Steps:
     1. Create a HwPin instance
-    2. Test setting and getting functionName
+    2. Test setting and getting functionNames (list)
     3. Test setting and getting packagingPinName
     4. Test setting and getting pinNumber
     5. Verify method chaining (return self)
     """
     hw_pin = HwPin(None, "test_hw_pin")
 
-    # Test functionName setter and getter
-    test_function_name = "test_function"
-    return_value = hw_pin.setFunctionName(test_function_name)
+    # Test functionNames setter and getter with list
+    test_function_names = ["CLK", "DATA"]
+    return_value = hw_pin.setFunctionNames(test_function_names)
     assert return_value == hw_pin  # Verify method chaining
-    assert hw_pin.getFunctionName() == test_function_name
+    assert hw_pin.getFunctionNames() == test_function_names
+
+    # Test createFunctionName and addFunctionName
+    func_name = hw_pin.createFunctionName("RESET")
+    assert func_name == "RESET"
+    assert "RESET" in hw_pin.getFunctionNames()
+
+    return_value = hw_pin.addFunctionName("POWER")
+    assert return_value == hw_pin  # Verify method chaining
+    assert "POWER" in hw_pin.getFunctionNames()
 
     # Test packagingPinName setter and getter
     test_packaging_name = "test_packaging"
@@ -65,9 +74,9 @@ def test_hw_pin_getters_and_setters():
     assert hw_pin.getPinNumber() == test_pin_number
 
     # Test with None values (should not set)
-    original_function_name = hw_pin.getFunctionName()
-    hw_pin.setFunctionName(None)
-    assert hw_pin.getFunctionName() == original_function_name  # Should remain unchanged
+    original_function_names = hw_pin.getFunctionNames()
+    hw_pin.setFunctionNames(None)
+    assert hw_pin.getFunctionNames() == original_function_names  # Should remain unchanged
 
     original_packaging_name = hw_pin.getPackagingPinName()
     hw_pin.setPackagingPinName(None)

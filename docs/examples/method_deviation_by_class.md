@@ -1534,14 +1534,15 @@ tests, and reader/writer coverage. The aggregated Chapter family lives in
 | — *(missing)* | `—` | `formalBlueprintGenerator` | `BlueprintGenerator` | — | missing |
 
 ## `VerbatimString`
-- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** 316
+- **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** 115 (Table 4.67)
 - **Package:** `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/PrimitiveTypes.py`
 
+**Note:** Spec verified R23-11. Bare ARLiteral subclass per spec (no own attributes). Spec Table 4.67 defines two XML attributes (blueprintValue with atp.Status=draft, xmlSpace requiring missing XmlSpaceEnum); not implemented due to draft status and missing enum dependency. Stamped.
+
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `blueprintValue` | `?` | — | missing |
-| — *(missing)* | `—` | `xmlSpace` | `?` | — | missing |
+| — *(no deviation)* | — | — | — | — | Modeled as bare ARLiteral subclass. Spec attributes blueprintValue (String, 0..1, attr, atp.Status=draft) and xmlSpace (XmlSpaceEnum, 0..1, attr) not implemented (draft status; XmlSpaceEnum missing enum). Per Rule 0001.4 guidance on draft/missing-dependency attributes. |
 
 ## `XmlSpaceEnum`
 - **PDF:** *no own spec table*  |  **page:** —
@@ -1550,45 +1551,118 @@ tests, and reader/writer coverage. The aggregated Chapter family lives in
 
 Class not in markdown/PDF — skipped per user (enumeration `XmlSpaceEnum` has no dedicated `Enumeration` table in any rendered PDF; XSD-only, used only as an attribute type such as `Sd.xmlSpace`). Left as-is; not part of this sync pass.
 
+## `Annotation`
+- **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** 163 (Table 4.72)
+- **Package:** `M2::MSR::Documentation::Annotation`
+- **Source:** `src/armodel/models/M2/MSR/Documentation/Annotation.py`
+
+**Note:** Spec verified R23-11. Concrete subclass of GeneralAnnotation with no own attributes. Per spec: "This is a plain annotation which does not have further formal data." Stamped.
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | Empty concrete subclass of GeneralAnnotation (inherits annotationOrigin, annotationText, label from parent). No own attributes per spec. |
+
+## `HwAttributeDef`
+- **PDF:** `AUTOSAR_CP_TPS_ECUResourceTemplate.pdf`  | **page:** 26 (Table 2.13)
+- **Package:** `M2::AUTOSARTemplates::EcuResourceTemplate`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate/HwElementCategory.py`
+
+**Note:** Spec verified R23-11. All spec attributes implemented: hwAttributeLiterals (List[HwAttributeLiteralDef], *), isRequired (Optional[Boolean], 0..1), unitRef (Optional[RefType], 0..1). Reader/writer coverage pending. Stamped.
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `hwAttributeLiterals` | `List[HwAttributeLiteralDef]` | `hwAttributeLiteral` | `HwAttributeLiteralDef` | aggr | spec `*`; modeled as list. |
+| `isRequired` | `Optional[Boolean]` | `isRequired` | `Boolean` | attr | spec `0..1`; modeled as Optional. |
+| `unitRef` | `Optional[RefType]` | `unit` | `Unit` | Ref | spec `0..1`; modeled as Optional ref (RefType). |
+
+## `HwPinGroup`
+- **PDF:** `AUTOSAR_CP_TPS_ECUResourceTemplate.pdf`  | **page:** 19 (Table 2.5)
+- **Package:** `M2::AUTOSARTemplates::EcuResourceTemplate`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate/__init__.py`
+
+**Note:** Spec verified R23-11. Single spec attribute implemented: hwPinGroupContent (Optional[HwPinGroupContent], 0..1). Extends HwDescriptionEntity. Reader/writer coverage present. Stamped.
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `hwPinGroupContent` | `Optional[HwPinGroupContent]` | `hwPinGroupContent` | `HwPinGroupContent` | aggr | spec `0..1`; modeled as Optional. |
+
+## `HwPinConnector`
+- **PDF:** `AUTOSAR_CP_TPS_ECUResourceTemplate.pdf`  | **page:** 22 (Table 2.10)
+- **Package:** `M2::AUTOSARTemplates::EcuResourceTemplate`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate/HwPinConnector.py`
+
+**Note:** Spec verified R23-11. **NEW CLASS** created. Single spec attribute: hwPinRefs (List[RefType], *, ref to HwPin). Extends Describable. Methods: addHwPinRef, getHwPinRefs. Reader/writer coverage pending. Stamped.
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `hwPinRefs` | `List[RefType]` | `hwPin` | `HwPin` | Refs | spec `*`; modeled as list. |
+
+## `HwPinGroupConnector`
+- **PDF:** `AUTOSAR_CP_TPS_ECUResourceTemplate.pdf`  | **page:** 22 (Table 2.9)
+- **Package:** `M2::AUTOSARTemplates::EcuResourceTemplate`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate/HwPinGroupConnector.py`
+
+**Note:** Spec verified R23-11. **NEW CLASS** created. Two spec attributes: hwPinConnections (List[HwPinConnector], *, aggr), hwPinGroupRefs (List[RefType], *, ref to HwPinGroup). Extends Describable. Methods: addHwPinConnection/getHwPinConnections, addHwPinGroupRef/getHwPinGroupRefs. Reader/writer coverage pending. Stamped.
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `hwPinConnections` | `List[HwPinConnector]` | `hwPinConnection` | `HwPinConnector` | aggr | spec `*`; modeled as list. |
+| `hwPinGroupRefs` | `List[RefType]` | `hwPinGroup` | `HwPinGroup` | Refs | spec `*`; modeled as list. |
+
 ## `HwAttributeValue`
 - **PDF:** `AUTOSAR_CP_TPS_ECUResourceTemplate.pdf`  | **page:** 16
 - **Package:** `M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate/HwAttributeValue.py`
 
+**Note:** Class requires rework in future sync pass. Current implementation has fabricated fields (hwAttributeDefRef, value) instead of spec attributes (annotation, hwAttributeDef, v, vt). Spec Table 2.2 defines: annotation (Annotation, 0..1, aggr), hwAttributeDef (HwAttributeDef, 0..1, ref), v (Numerical, 0..1, attr), vt (VerbatimString, 0..1, attr). Not stamped.
+
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `annotation` | `Annotation` | — | missing |
-| — *(missing)* | `—` | `v` | `NumericalValueVariationPoint` | — | missing |
-| — *(missing)* | `—` | `vt` | `VerbatimString` | — | missing |
+| `hwAttributeDefRef` | `RefType` | `hwAttributeDef` | `HwAttributeDef` | Ref | type/name mismatch (spec 0..1 ref, model uses RefType; needs rework) |
+| `value` | `str` | — | — | — | fabricated (not in spec) |
+| — *(missing)* | `—` | `annotation` | `Annotation` | — | missing (needs impl) |
+| — *(missing)* | `—` | `v` | `Numerical` | attr | missing (needs impl) |
+| — *(missing)* | `—` | `vt` | `VerbatimString` | attr | missing (needs impl) |
 
 ## `HwPin`
 - **PDF:** `AUTOSAR_CP_TPS_ECUResourceTemplate.pdf`  | **page:** 20
 - **Package:** `M2::AUTOSARTemplates::EcuResourceTemplate`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate/__init__.py`
 
+**Note:** Spec verified R23-11. All attributes implemented: functionName (List[String], *), packagingPinName (Optional[String], 0..1), pinNumber (Optional[Integer], 0..1). PDF-spec deviation: functionName/packagingPinName are in PDF Table 2.7 but have no corresponding XSD elements (only PIN-NUMBER exists in XSD); modeled with reader/writer for round-trip lossless compatibility (per Rule 0015: PDF authoritative for membership, reader/writer for serialization). Stamped.
+
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `functionName` | `—` | `functionName` | `String` | — | type (spec many vs py single) |
+| `functionName` | `List[String]` | `functionName` | `String` | attr | spec `*` (mult many); XSD has no element (PDF-only); reader/writer covers for round-trip. |
+| `packagingPinName` | `Optional[String]` | `packagingPinName` | `String` | attr | spec `0..1`; XSD has no element (PDF-only); reader/writer covers. |
+| `pinNumber` | `Optional[Integer]` | `pinNumber` | `Integer` | attr | spec `0..1`; XSD has PIN-NUMBER element; covered by reader/writer. |
 
 ## `HwPinGroupContent`
 - **PDF:** `AUTOSAR_CP_TPS_ECUResourceTemplate.pdf`  | **page:** 20
 - **Package:** `M2::AUTOSARTemplates::EcuResourceTemplate`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate/__init__.py`
 
+**Note:** Spec verified R23-11. Resolved multiplicity deviation from earlier tracker: PDF Table 2.6 lists hwPin and hwPinGroup as 0..1 single fields (not * as XSD atpMixed variation suggested); modeled as Optional single fields per PDF authoritative rule. XSD choice semantics (HW-PIN | HW-PIN-GROUP) handled in reader/writer. Stamped.
+
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `hwPinGroup` | `—` | `hwPinGroup` | `HwPinGroup` | — | type (spec many vs py single) |
+| `hwPin` | `Optional[HwPin]` | `hwPin` | `HwPin` | aggr | spec `0..1` (single, not many); deviation row now resolved per PDF Table 2.6. |
+| `hwPinGroup` | `Optional[HwPinGroup]` | `hwPinGroup` | `HwPinGroup` | aggr | spec `0..1` (single, not many); deviation row now resolved per PDF Table 2.6. |
 
 ## `HwElementConnector`
 - **PDF:** `AUTOSAR_CP_TPS_ECUResourceTemplate.pdf`  | **page:** 21
 - **Package:** `M2::AUTOSARTemplates::EcuResourceTemplate`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate/HwElementConnector.py`
 
+**Note:** Class requires rework in future sync pass. Current implementation has fabricated fields (hwElementRef, hwPinRef) instead of spec-defined lists (hwElementRefs, hwPinConnections, hwPinGroupConnections). Spec Table 2.8: hwElement (HwElement, *, ref), hwPinConnection (HwPinConnector, *, aggr), hwPinGroupConnection (HwPinGroupConnector, *, aggr). Classes HwPinConnector/HwPinGroupConnector now exist and are stamped R23-11; HwElementConnector awaits rework to use them. Not stamped.
+
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `hwElementRef` | `—` | `hwElementRefs` | `Ref (HwElement)` | Refs | type (spec many vs py single) |
-| — *(missing)* | `—` | `hwPinConnection` | `HwPinConnector` | — | missing |
-| — *(missing)* | `—` | `hwPinGroupConnection` | `HwPinGroupConnector` | — | missing |
+| `hwElementRef` | `RefType` | `hwElementRefs` | `Ref (HwElement)` | Refs | type (spec many → list[RefType]); fabricated single field (needs rework) |
+| `hwPinRef` | `RefType` | `hwPinConnection` | `HwPinConnector` | aggr | wrong type/name (spec aggr list, model has single ref; needs rework) |
+| — *(missing)* | `—` | `hwPinGroupConnection` | `HwPinGroupConnector` | aggr | missing (needs impl with HwPinGroupConnector) |
+
+
 
 ## `PassThroughSwConnector`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 83

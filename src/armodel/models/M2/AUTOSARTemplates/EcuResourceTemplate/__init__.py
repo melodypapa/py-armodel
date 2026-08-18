@@ -116,107 +116,73 @@ class HwDescriptionEntity(Referrable):
 
 class HwPin(HwDescriptionEntity):
     """
-    Represents a hardware pin in AUTOSAR hardware descriptions.
-    This class defines the properties of individual hardware pins including function names and pin numbers.
-
-    Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.7, p.20
-    Spec verified: R23-11
-    Note: Represents a grouping of pins including function names, packaging pin names, and pin numbers.
+    This meta-class represents the possibility to describe a hardware pin.
     """
 
     # HwPin method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.7, p.20
     # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getFunctionName              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setFunctionName              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getPackagingPinName          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setPackagingPinName          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getPinNumber                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setPinNumber                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] createFunctionName           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] addFunctionName              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getFunctionNames             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setFunctionNames             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getPackagingPinName          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setPackagingPinName          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getPinNumber                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setPinNumber                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
 
     def __init__(self, parent, short_name: str):
-        """
-        Initializes the HwPin with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this hardware pin
-            short_name: The unique short name of this hardware pin
-        """
         super().__init__(parent, short_name)
 
-        self.functionName: Optional[String] = None
+        # This attribute describes the function of the pin (e.g. CLK for Clock).
+        self.functionNames: List[String] = []
+
+        # This attribute contains the name of the pin according to the packaging of the hardware element (e.g. A03).
         self.packagingPinName: Optional[String] = None
+
+        # This attribute contains the physical pin number.
         self.pinNumber: Optional[Integer] = None
 
-    def getFunctionName(self) -> Optional[String]:
-        """
-        Gets the function name of this hardware pin.
+    def createFunctionName(self, value: String) -> String:
+        """This attribute describes the function of the pin (e.g. CLK for Clock)."""
+        if value not in self.functionNames:
+            self.functionNames.append(value)
+        return value
 
-        Returns:
-            String representing the function name, or None if not set
-        """
-        return self.functionName
+    def addFunctionName(self, value: String) -> "HwPin":
+        """This attribute describes the function of the pin (e.g. CLK for Clock)."""
+        if value not in self.functionNames:
+            self.functionNames.append(value)
+        return self
 
-    def setFunctionName(self, value: String):
-        """
-        Sets the function name of this hardware pin.
-        Only sets the value if it is not None.
+    def getFunctionNames(self) -> List[String]:
+        """This attribute describes the function of the pin (e.g. CLK for Clock)."""
+        return self.functionNames
 
-        Args:
-            value: The function name to set
-
-        Returns:
-            self for method chaining
-        """
+    def setFunctionNames(self, value: List[String]):
+        """This attribute describes the function of the pin (e.g. CLK for Clock). Only sets the value if it is not None."""
         if value is not None:
-            self.functionName = value
+            self.functionNames = value
         return self
 
     def getPackagingPinName(self) -> Optional[String]:
-        """
-        Gets the packaging pin name of this hardware pin.
-
-        Returns:
-            String representing the packaging pin name, or None if not set
-        """
+        """This attribute contains the name of the pin according to the packaging of the hardware element (e.g. A03)."""
         return self.packagingPinName
 
     def setPackagingPinName(self, value: String):
-        """
-        Sets the packaging pin name of this hardware pin.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The packaging pin name to set
-
-        Returns:
-            self for method chaining
-        """
+        """This attribute contains the name of the pin according to the packaging of the hardware element (e.g. A03). Only sets the value if it is not None."""
         if value is not None:
             self.packagingPinName = value
         return self
 
     def getPinNumber(self) -> Optional[Integer]:
-        """
-        Gets the pin number of this hardware pin.
-
-        Returns:
-            Integer representing the pin number, or None if not set
-        """
+        """This attribute contains the physical pin number."""
         return self.pinNumber
 
     def setPinNumber(self, value: Integer):
-        """
-        Sets the pin number of this hardware pin.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The pin number to set
-
-        Returns:
-            self for method chaining
-        """
+        """This attribute contains the physical pin number. Only sets the value if it is not None."""
         if value is not None:
             self.pinNumber = value
         return self

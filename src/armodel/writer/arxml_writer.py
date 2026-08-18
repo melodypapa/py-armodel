@@ -189,7 +189,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucValidationCondition,
     EcucValueConfigurationClass,
 )
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwElementConnector, HwPinGroup
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwElementConnector, HwPin, HwPinGroup
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import HwAttributeValue
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import Documentation, DocumentationContext
@@ -8235,6 +8235,22 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "HW-PIN-GROUP")
             self.writeHwDescriptionEntity(child_element, pin_group)
 
+    def writeHwPin(self, parent: ET.Element, hw_pin: HwPin):
+        if hw_pin is not None:
+            child_element = ET.SubElement(parent, "HW-PIN")
+            self.writeHwDescriptionEntity(child_element, hw_pin)
+            function_names = hw_pin.getFunctionNames()
+            if len(function_names) > 0:
+                function_names_element = ET.SubElement(child_element, "FUNCTION-NAMES")
+                for function_name in function_names:
+                    function_name_element = ET.SubElement(function_names_element, "FUNCTION-NAME")
+                    function_name_element.text = function_name
+            packaging_pin_name = hw_pin.getPackagingPinName()
+            if packaging_pin_name is not None:
+                packaging_pin_name_element = ET.SubElement(child_element, "PACKAGING-PIN-NAME")
+                packaging_pin_name_element.text = packaging_pin_name
+            self.setChildElementOptionalIntegerValue(child_element, "PIN-NUMBER", hw_pin.getPinNumber())
+
     def writeHwElementHwPinGroups(self, element: ET.Element, hw_element: HwElement):
         pin_groups = hw_element.getHwPinGroups()
         if len(pin_groups) > 0:
@@ -8282,7 +8298,22 @@ class ARXMLWriter(AbstractARXMLWriter):
         if attribute_def is not None:
             child_element = ET.SubElement(element, "HW-ATTRIBUTE-DEF")
             self.writeIdentifiable(child_element, attribute_def)
+            self.setChildElementOptionalBooleanValue(child_element, "IS-REQUIRED", attribute_def.getIsRequired())
             self.setChildElementOptionalRefType(child_element, "UNIT-REF", attribute_def.getUnitRef())
+            self.writeHwAttributeDefHwAttributeLiterals(child_element, attribute_def)
+
+    def writeHwAttributeDefHwAttributeLiterals(self, element: ET.Element, attribute_def: HwAttributeDef):
+        literals = attribute_def.getHwAttributeLiterals()
+        if len(literals) > 0:
+            child_element = ET.SubElement(element, "HW-ATTRIBUTE-LITERALS")
+            for literal_def in literals:
+                self.writeHwAttributeLiteralDef(child_element, literal_def)
+
+    def writeHwAttributeLiteralDef(self, element: ET.Element, literal_def):
+        if literal_def is not None:
+            child_element = ET.SubElement(element, "HW-ATTRIBUTE-LITERAL-DEF")
+            self.writeIdentifiable(child_element, literal_def)
+            self.setChildElementOptionalString(child_element, "VALUE", literal_def.getValue())
 
     def writeHwCategoryHwAttributeDef(self, element: ET.Element, hw_category: HwCategory):
         attribute_defs = hw_category.getHwAttributeDefs()

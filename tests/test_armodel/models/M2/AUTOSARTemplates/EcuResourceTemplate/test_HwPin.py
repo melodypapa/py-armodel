@@ -9,23 +9,39 @@ class TestHwPin:
         """Test HwPin initialization"""
         pin = HwPin(None, "TestPin")
         assert pin.getShortName() == "TestPin"
-        assert pin.getFunctionName() is None
+        assert pin.getFunctionNames() == []
         assert pin.getPackagingPinName() is None
         assert pin.getPinNumber() is None
 
-    def test_set_function_name(self):
-        """Test setFunctionName method"""
+    def test_create_function_name(self):
+        """Test createFunctionName method"""
         pin = HwPin(None, "TestPin")
-        result = pin.setFunctionName("CAN_TX")
-        assert result is pin
-        assert pin.getFunctionName() == "CAN_TX"
+        result = pin.createFunctionName("CAN_TX")
+        assert result == "CAN_TX"
+        assert "CAN_TX" in pin.getFunctionNames()
 
-    def test_set_function_name_none(self):
-        """Test setFunctionName with None value"""
+    def test_add_function_name(self):
+        """Test addFunctionName method"""
         pin = HwPin(None, "TestPin")
-        result = pin.setFunctionName(None)
+        result = pin.addFunctionName("CAN_TX")
         assert result is pin
-        assert pin.getFunctionName() is None
+        assert "CAN_TX" in pin.getFunctionNames()
+
+    def test_set_function_names(self):
+        """Test setFunctionNames method"""
+        pin = HwPin(None, "TestPin")
+        function_names = ["CAN_TX", "CAN_RX"]
+        result = pin.setFunctionNames(function_names)
+        assert result is pin
+        assert pin.getFunctionNames() == function_names
+
+    def test_set_function_names_none(self):
+        """Test setFunctionNames with None value"""
+        pin = HwPin(None, "TestPin")
+        pin.createFunctionName("CAN_TX")
+        result = pin.setFunctionNames(None)
+        assert result is pin
+        assert "CAN_TX" in pin.getFunctionNames()  # Should remain unchanged
 
     def test_set_packaging_pin_name(self):
         """Test setPackagingPinName method"""
@@ -58,9 +74,9 @@ class TestHwPin:
     def test_method_chaining(self):
         """Test method chaining for all setters"""
         pin = HwPin(None, "TestPin")
-        result = pin.setFunctionName("CAN_TX").setPackagingPinName("P1_23").setPinNumber(42)
+        result = pin.addFunctionName("CAN_TX").setPackagingPinName("P1_23").setPinNumber(42)
         assert result is pin
-        assert pin.getFunctionName() == "CAN_TX"
+        assert "CAN_TX" in pin.getFunctionNames()
         assert pin.getPackagingPinName() == "P1_23"
         assert pin.getPinNumber() == 42
 

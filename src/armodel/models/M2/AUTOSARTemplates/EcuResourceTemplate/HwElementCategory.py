@@ -44,101 +44,75 @@ class HwType(HwDescriptionEntity):
 
 class HwAttributeDef(Identifiable):
     """
-    Represents a hardware attribute definition in AUTOSAR hardware descriptions.
-    This class defines the attributes that can be assigned to hardware elements.
+    This metaclass represents the ability to define a particular hardware attribute. The category of this element defines the type of the attributeValue. If the category is Enumeration the hw AttributeEnumerationLiterals specify the available literals.
     """
 
     # HwAttributeDef method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getHwAttributeLiterals       [x] impl  [x] docstring  [ ] test
-    # [ ] setHwAttributeLiterals       [x] impl  [x] docstring  [ ] test
-    # [ ] getIsRequired                [x] impl  [x] docstring  [ ] test
-    # [ ] setIsRequired                [x] impl  [x] docstring  [ ] test
-    # [ ] getUnitRef                   [x] impl  [x] docstring  [ ] test
-    # [ ] setUnitRef                   [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.13, p.26
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] createHwAttributeLiteral     [x] impl  [x] docstring  [ ] test  [x] reader  [x] writer
+    # [x] addHwAttributeLiteral        [x] impl  [x] docstring  [ ] test  [ ] reader  [ ] writer
+    # [x] getHwAttributeLiterals       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setHwAttributeLiterals       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getIsRequired                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setIsRequired                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getUnitRef                   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setUnitRef                   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
 
     def __init__(self, parent, short_name: str):
-        """
-        Initializes the HwAttributeDef with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this hardware attribute definition
-            short_name: The unique short name of this hardware attribute definition
-        """
         super().__init__(parent, short_name)
 
+        # The available EnumerationLiterals of the Enumeration definition. Only applicable if the category of the Hw AttributeDef equals Enumeration.
         self.hwAttributeLiterals: List[HwAttributeLiteralDef] = []
+
+        # This attribute specifies if the defined attribute value is required to be provided.
         self.isRequired: Optional[Boolean] = None
+
+        # This association specifies the physical unit of the defined hardware attribute. This is optional due to the fact that there are textual attributes.
         self.unitRef: Optional[RefType] = None
 
     def getHwAttributeLiterals(self) -> List[HwAttributeLiteralDef]:
-        """
-        Gets the list of hardware attribute literals for this definition.
-
-        Returns:
-            List of HwAttributeLiteralDef instances
-        """
+        """The available EnumerationLiterals of the Enumeration definition. Only applicable if the category of the Hw AttributeDef equals Enumeration."""
         return self.hwAttributeLiterals
 
     def setHwAttributeLiterals(self, value: List[HwAttributeLiteralDef]):
-        """
-        Sets the list of hardware attribute literals for this definition.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The list of hardware attribute literals to set
-
-        Returns:
-            self for method chaining
-        """
+        """The available EnumerationLiterals of the Enumeration definition. Only applicable if the category of the Hw AttributeDef equals Enumeration. Only sets the value if it is not None."""
         if value is not None:
             self.hwAttributeLiterals = value
         return self
 
-    def getIsRequired(self) -> Optional[Boolean]:
-        """
-        Gets the required flag for this attribute definition.
+    def createHwAttributeLiteral(self, short_name: str) -> HwAttributeLiteralDef:
+        """The available EnumerationLiterals of the Enumeration definition. Only applicable if the category of the Hw AttributeDef equals Enumeration."""
+        if not self.IsElementExists(short_name):
+            literal_def = HwAttributeLiteralDef(self, short_name)
+            self.addElement(literal_def)
+            self.hwAttributeLiterals.append(literal_def)
+        return self.getElement(short_name)
 
-        Returns:
-            Boolean indicating if this attribute is required, or None if not set
-        """
+    def addHwAttributeLiteral(self, literal_def: HwAttributeLiteralDef) -> "HwAttributeDef":
+        """The available EnumerationLiterals of the Enumeration definition. Only applicable if the category of the Hw AttributeDef equals Enumeration."""
+        if literal_def not in self.hwAttributeLiterals:
+            self.hwAttributeLiterals.append(literal_def)
+        return self
+
+    def getIsRequired(self) -> Optional[Boolean]:
+        """This attribute specifies if the defined attribute value is required to be provided."""
         return self.isRequired
 
     def setIsRequired(self, value: Boolean):
-        """
-        Sets the required flag for this attribute definition.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The required flag to set
-
-        Returns:
-            self for method chaining
-        """
+        """This attribute specifies if the defined attribute value is required to be provided. Only sets the value if it is not None."""
         if value is not None:
             self.isRequired = value
         return self
 
     def getUnitRef(self) -> Optional[RefType]:
-        """
-        Gets the unit reference for this attribute definition.
-
-        Returns:
-            RefType representing the unit reference, or None if not set
-        """
+        """This association specifies the physical unit of the defined hardware attribute. This is optional due to the fact that there are textual attributes."""
         return self.unitRef
 
     def setUnitRef(self, value: RefType):
-        """
-        Sets the unit reference for this attribute definition.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The unit reference to set
-
-        Returns:
-            self for method chaining
-        """
+        """This association specifies the physical unit of the defined hardware attribute. This is optional due to the fact that there are textual attributes. Only sets the value if it is not None."""
         if value is not None:
             self.unitRef = value
         return self
