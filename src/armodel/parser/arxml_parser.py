@@ -199,7 +199,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucValidationCondition,
     EcucValueConfigurationClass,
 )
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwElementConnector, HwPinGroup
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwElementConnector, HwPin, HwPinGroup
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import HwAttributeValue
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import Documentation, DocumentationContext
@@ -6116,6 +6116,16 @@ class ARXMLParser(AbstractARXMLParser):
     def readHwPinGroup(self, element: ET.SubElement, pin_group: HwPinGroup):
         self.readHwDescriptionEntity(element, pin_group)
 
+    def readHwPin(self, element: ET.Element, hw_pin: HwPin):
+        self.readHwDescriptionEntity(element, hw_pin)
+        for function_name_element in self.findall(element, "FUNCTION-NAMES/FUNCTION-NAME"):
+            if function_name_element.text is not None:
+                hw_pin.addFunctionName(function_name_element.text)
+        packaging_pin_name_element = self.find(element, "PACKAGING-PIN-NAME")
+        if packaging_pin_name_element is not None and packaging_pin_name_element.text is not None:
+            hw_pin.setPackagingPinName(packaging_pin_name_element.text)
+        hw_pin.setPinNumber(self.getChildElementOptionalIntegerValue(element, "PIN-NUMBER"))
+
     def readHwElementHwPinGroups(self, element: ET.Element, hw_element: HwElement):
         for child_element in self.findall(element, "HW-PIN-GROUPS/*"):
             tag_name = self.getTagName(child_element)
@@ -6152,7 +6162,15 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readHwAttributeDef(self, element: ET.Element, attribute_def: HwAttributeDef):
         self.readIdentifiable(element, attribute_def)
+        attribute_def.setIsRequired(self.getChildElementOptionalBooleanValue(element, "IS-REQUIRED"))
         attribute_def.setUnitRef(self.getChildElementOptionalRefType(element, "UNIT-REF"))
+        for child_element in self.findall(element, "HW-ATTRIBUTE-LITERALS/HW-ATTRIBUTE-LITERAL-DEF"):
+            literal_def = attribute_def.createHwAttributeLiteral(self.getShortName(child_element))
+            self.readHwAttributeLiteralDef(child_element, literal_def)
+
+    def readHwAttributeLiteralDef(self, element: ET.Element, literal_def):
+        self.readIdentifiable(element, literal_def)
+        literal_def.setValue(self.getChildElementOptionalString(element, "VALUE"))
 
     def readHwCategoryHwAttributeDef(self, element: ET.Element, hw_category: HwCategory):
         for child_element in self.findall(element, "HW-ATTRIBUTE-DEFS/*"):

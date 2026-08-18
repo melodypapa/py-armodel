@@ -13,6 +13,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import HwAttributeValue
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementConnector import HwElementConnector
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwPinConnector import HwPinConnector as HwPinConnector
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwPinGroupConnector import HwPinGroupConnector as HwPinGroupConnector
 
 
 class HwDescriptionEntity(Referrable):
@@ -114,101 +116,73 @@ class HwDescriptionEntity(Referrable):
 
 class HwPin(HwDescriptionEntity):
     """
-    Represents a hardware pin in AUTOSAR hardware descriptions.
-    This class defines the properties of individual hardware pins including function names and pin numbers.
+    This meta-class represents the possibility to describe a hardware pin.
     """
 
     # HwPin method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getFunctionName              [x] impl  [x] docstring  [ ] test
-    # [ ] setFunctionName              [x] impl  [x] docstring  [ ] test
-    # [ ] getPackagingPinName          [x] impl  [x] docstring  [ ] test
-    # [ ] setPackagingPinName          [x] impl  [x] docstring  [ ] test
-    # [ ] getPinNumber                 [x] impl  [x] docstring  [ ] test
-    # [ ] setPinNumber                 [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.7, p.20
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] createFunctionName           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] addFunctionName              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getFunctionNames             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setFunctionNames             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getPackagingPinName          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setPackagingPinName          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getPinNumber                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setPinNumber                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
 
     def __init__(self, parent, short_name: str):
-        """
-        Initializes the HwPin with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this hardware pin
-            short_name: The unique short name of this hardware pin
-        """
         super().__init__(parent, short_name)
 
-        self.functionName: Optional[String] = None
+        # This attribute describes the function of the pin (e.g. CLK for Clock).
+        self.functionNames: List[String] = []
+
+        # This attribute contains the name of the pin according to the packaging of the hardware element (e.g. A03).
         self.packagingPinName: Optional[String] = None
+
+        # This attribute contains the physical pin number.
         self.pinNumber: Optional[Integer] = None
 
-    def getFunctionName(self) -> Optional[String]:
-        """
-        Gets the function name of this hardware pin.
+    def createFunctionName(self, value: String) -> String:
+        """This attribute describes the function of the pin (e.g. CLK for Clock)."""
+        if value not in self.functionNames:
+            self.functionNames.append(value)
+        return value
 
-        Returns:
-            String representing the function name, or None if not set
-        """
-        return self.functionName
+    def addFunctionName(self, value: String) -> "HwPin":
+        """This attribute describes the function of the pin (e.g. CLK for Clock)."""
+        if value not in self.functionNames:
+            self.functionNames.append(value)
+        return self
 
-    def setFunctionName(self, value: String):
-        """
-        Sets the function name of this hardware pin.
-        Only sets the value if it is not None.
+    def getFunctionNames(self) -> List[String]:
+        """This attribute describes the function of the pin (e.g. CLK for Clock)."""
+        return self.functionNames
 
-        Args:
-            value: The function name to set
-
-        Returns:
-            self for method chaining
-        """
+    def setFunctionNames(self, value: List[String]):
+        """This attribute describes the function of the pin (e.g. CLK for Clock). Only sets the value if it is not None."""
         if value is not None:
-            self.functionName = value
+            self.functionNames = value
         return self
 
     def getPackagingPinName(self) -> Optional[String]:
-        """
-        Gets the packaging pin name of this hardware pin.
-
-        Returns:
-            String representing the packaging pin name, or None if not set
-        """
+        """This attribute contains the name of the pin according to the packaging of the hardware element (e.g. A03)."""
         return self.packagingPinName
 
     def setPackagingPinName(self, value: String):
-        """
-        Sets the packaging pin name of this hardware pin.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The packaging pin name to set
-
-        Returns:
-            self for method chaining
-        """
+        """This attribute contains the name of the pin according to the packaging of the hardware element (e.g. A03). Only sets the value if it is not None."""
         if value is not None:
             self.packagingPinName = value
         return self
 
     def getPinNumber(self) -> Optional[Integer]:
-        """
-        Gets the pin number of this hardware pin.
-
-        Returns:
-            Integer representing the pin number, or None if not set
-        """
+        """This attribute contains the physical pin number."""
         return self.pinNumber
 
     def setPinNumber(self, value: Integer):
-        """
-        Sets the pin number of this hardware pin.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The pin number to set
-
-        Returns:
-            self for method chaining
-        """
+        """This attribute contains the physical pin number. Only sets the value if it is not None."""
         if value is not None:
             self.pinNumber = value
         return self
@@ -218,14 +192,20 @@ class HwPinGroupContent(ARObject):
     """
     Represents the content of a hardware pin group in AUTOSAR.
     This class links individual pins and pin groups together to form complex pin structures.
+
+    Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.6, p.20
+    Spec verified: R23-11
+    Note: XSD defines atpMixed choice (HW-PIN-GROUP | HW-PIN), not a sequence. Multiplicity 0..1 for both fields.
     """
 
     # HwPinGroupContent method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getHwPin                     [x] impl  [x] docstring  [ ] test
-    # [ ] createHwPin                  [x] impl  [x] docstring  [ ] test
-    # [ ] getHwPinGroup                [x] impl  [x] docstring  [ ] test
-    # [ ] setHwPinGroup                [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.6, p.20
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getHwPin                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] createHwPin                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getHwPinGroup                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setHwPinGroup                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self):
         """
@@ -288,12 +268,18 @@ class HwPinGroup(HwDescriptionEntity):
     """
     Represents a group of hardware pins in AUTOSAR hardware descriptions.
     This class defines collections of related hardware pins with associated content.
+
+    Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.5, p.19
+    Spec verified: R23-11
+    Note: Represents a grouping of pins with optional content (HwPin or HwPinGroup).
     """
 
     # HwPinGroup method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getHwPinGroupContent         [x] impl  [x] docstring  [ ] test
-    # [ ] setHwPinGroupContent         [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.5, p.19
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getHwPinGroupContent         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setHwPinGroupContent         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent, short_name: str):
         """

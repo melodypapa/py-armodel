@@ -1280,12 +1280,22 @@ class DateTime(ARLiteral):
 
 class VerbatimString(ARLiteral):
     """
-    Represents a verbatim string in AUTOSAR models.
-    This class is used for strings that should be preserved exactly as written.
+    This primitive represents a string in which white-space needs to be preserved.
+
+    Tags: xml.xsd.customType=VERBATIM-STRING xml.xsd.type=string xml.xsd.whiteSpace=preserve
+
+    Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.66, p.115
+
+    Attributes (per Table 4.67):
+    - blueprintValue (String, 0..1, attr): Not implemented (atp.Status=draft)
+    - xmlSpace (XmlSpaceEnum, 0..1, attr): Not implemented (missing enum type)
     """
 
     # VerbatimString method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.66–4.67, p.115
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Spec verified: R23-11
 
     def __init__(self):
         super().__init__()

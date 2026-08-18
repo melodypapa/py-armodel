@@ -1155,6 +1155,26 @@ class TestIdentifier:
         assert identifier.getNamePattern() == name_pattern
 
 
+class TestVerbatimString:
+    """
+    Test class for VerbatimString functionality.
+    """
+
+    def test_initialization(self):
+        verbatim = VerbatimString()
+        assert verbatim is not None
+        assert verbatim._value is None
+
+    def test_subclass_of_arliteral(self):
+        verbatim = VerbatimString()
+        assert isinstance(verbatim, ARLiteral)
+
+    def test_set_get_value(self):
+        verbatim = VerbatimString()
+        assert verbatim.setValue("verbatim text") is verbatim
+        assert verbatim.getValue() == "verbatim text"
+
+
 class TestVerbatimStringPlain:
     """
     Test class for VerbatimStringPlain functionality.

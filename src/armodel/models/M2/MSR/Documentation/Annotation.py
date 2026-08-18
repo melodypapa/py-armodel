@@ -52,12 +52,14 @@ class GeneralAnnotation(ARObject, ABC):
 
 class Annotation(GeneralAnnotation):
     """
-    Concrete annotation with origin, text, and label for documenting
-    model elements.
+    This is a plain annotation which does not have further formal data.
     """
 
     # Annotation method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.72, p.163
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no own attributes)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self):
         super().__init__()
