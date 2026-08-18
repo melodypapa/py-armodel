@@ -126,7 +126,7 @@ class TestBswModuleDescriptionHandlers:
             root_tag="BSW-MODULE-DESCRIPTION",
         )
         parser.readBswModuleDescriptionRequiredModeGroups(element, desc)
-        assert len(desc.getProvidedModeGroups()) == 1
+        assert len(desc.getRequiredModeGroups()) == 1
 
     def test_readBswModuleDescriptionRequiredModeGroups_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import BswModuleDescription

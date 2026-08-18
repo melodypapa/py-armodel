@@ -35,7 +35,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     RoleBasedBswModuleEntryAssignment,
 )
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleClientServerEntry, BswModuleEntry
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleClientServerEntry, BswModuleDependency, BswModuleEntry
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import ModeInBswModuleDescriptionInstanceRef
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
@@ -1459,11 +1459,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in refs:
                 self.setChildElementOptionalRefType(child_element, "SWC-MAPPING-CONSTRAINT-REF", ref)
 
-    def writeSwComponentTypeSwComponentDocumentation(self, element: ET.Element, parent: SwComponentType):
-        documentation = parent.getSwComponentDocumentation()
-        if documentation is None:
-            return
-        child_element = ET.SubElement(element, "SW-COMPONENT-DOCUMENTATION")
+    def writeSwComponentDocumentationElement(self, child_element: ET.Element, documentation):
         predefined_chapters = [
             (documentation.getSwFeatureDef(), "SW-FEATURE-DEF"),
             (documentation.getSwFeatureDesc(), "SW-FEATURE-DESC"),
@@ -1478,6 +1474,13 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeChapter(child_element, chapter, tag_name)
         for chapter in documentation.getChapters():
             self.writeChapter(child_element, chapter, "CHAPTER")
+
+    def writeSwComponentTypeSwComponentDocumentation(self, element: ET.Element, parent: SwComponentType):
+        documentation = parent.getSwComponentDocumentation()
+        if documentation is None:
+            return
+        child_element = ET.SubElement(element, "SW-COMPONENT-DOCUMENTATION")
+        self.writeSwComponentDocumentationElement(child_element, documentation)
 
     def writeChapter(self, element: ET.Element, chapter: Chapter, tag_name: str):
         child_element = ET.SubElement(element, tag_name)
@@ -4763,6 +4766,38 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeBswModuleDescriptionRequiredDatas(child_element, desc)
         self.writeBswModuleDescriptionInternalBehaviors(child_element, desc)
         self.writeBswModuleDescriptionReleasedTriggers(child_element, desc)
+        self.writeBswModuleDescriptionExpectedEntryRefs(child_element, desc)
+        self.writeBswModuleDescriptionBswModuleDependencies(child_element, desc)
+        self.writeBswModuleDescriptionBswModuleDocumentation(child_element, desc)
+
+    def writeBswModuleDescriptionExpectedEntryRefs(self, element: ET.Element, desc: BswModuleDescription):
+        refs = desc.getExpectedEntryRefs()
+        if len(refs) > 0:
+            entries_tag = ET.SubElement(element, "EXPECTED-ENTRYS")
+            for ref in refs:
+                entry_tag = ET.SubElement(entries_tag, "BSW-MODULE-ENTRY-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(entry_tag, "BSW-MODULE-ENTRY-REF", ref)
+
+    def writeBswModuleDescriptionBswModuleDependencies(self, element: ET.Element, desc: BswModuleDescription):
+        dependencies = desc.getBswModuleDependencies()
+        if len(dependencies) > 0:
+            container = ET.SubElement(element, "BSW-MODULE-DEPENDENCYS")
+            for dependency in dependencies:
+                if isinstance(dependency, BswModuleDependency):
+                    child_element = ET.SubElement(container, "BSW-MODULE-DEPENDENCY")
+                    self.writeIdentifiable(child_element, dependency)
+                    self.setChildElementOptionalNumericalValue(child_element, "TARGET-MODULE-ID", dependency.getTargetModuleId())
+                    self.setChildElementOptionalRefType(child_element, "TARGET-MODULE-REF", dependency.getTargetModuleRef())
+                else:
+                    self.notImplemented("Unsupported BswModuleDependency <%s>" % type(dependency))
+
+    def writeBswModuleDescriptionBswModuleDocumentation(self, element: ET.Element, desc: BswModuleDescription):
+        documentation = desc.getBswModuleDocumentation()
+        if documentation is None:
+            return
+        container = ET.SubElement(element, "BSW-MODULE-DOCUMENTATIONS")
+        child_element = ET.SubElement(container, "SW-COMPONENT-DOCUMENTATION")
+        self.writeSwComponentDocumentationElement(child_element, documentation)
 
     def setSwServiceArg(self, element: ET.Element, key: str, arg: SwServiceArg):
         self.logger.debug("Set SwServiceArg <%s>" % arg.getShortName())
@@ -4794,6 +4829,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(child_element, "EXECUTION-CONTEXT", entry.getExecutionContext())
         self.setChildElementOptionalLiteral(child_element, "SW-SERVICE-IMPL-POLICY", entry.getSwServiceImplPolicy())
         self.setChildElementOptionalLiteral(child_element, "BSW-ENTRY-KIND", entry.getBswEntryKind())
+        self.setChildElementOptionalLiteral(child_element, "ROLE", entry.getRole())
+        self.setChildElementOptionalLiteral(child_element, "FUNCTION-PROTOTYPE-EMITTER", entry.getFunctionPrototypeEmitter())
         self.writeBswModuleEntryReturnType(child_element, entry)
         self.writeBswModuleEntryArguments(child_element, entry)
 

@@ -35,7 +35,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     RoleBasedBswModuleEntryAssignment,
 )
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleClientServerEntry, BswModuleEntry
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleClientServerEntry, BswModuleDependency, BswModuleEntry
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import ModeInBswModuleDescriptionInstanceRef
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
@@ -1052,7 +1052,7 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "REQUIRED-MODE-GROUPS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "MODE-DECLARATION-GROUP-PROTOTYPE":
-                prototype = parent.createProvidedModeGroup(self.getShortName(child_element))
+                prototype = parent.createRequiredModeGroup(self.getShortName(child_element))
                 self.readModeDeclarationGroupPrototype(child_element, prototype)
             else:
                 self.notImplemented("Unsupported RequiredModeGroup <%s>" % tag_name)
@@ -2078,6 +2078,7 @@ class ARXMLParser(AbstractARXMLParser):
 
         self.readIdentifiable(element, desc)
         desc.setModuleId(self.getChildElementOptionalNumericalValue(element, "MODULE-ID"))
+        self.readBswModuleDescriptionExpectedEntryRefs(element, desc)
         self.readBswModuleDescriptionImplementedEntryRefs(element, desc)
         self.readBswModuleDescriptionProvidedModeGroups(element, desc)
         self.readBswModuleDescriptionRequiredModeGroups(element, desc)
@@ -2087,6 +2088,33 @@ class ARXMLParser(AbstractARXMLParser):
         self.readBswModuleDescriptionRequiredDatas(element, desc)
         self.readBswModuleDescriptionBswInternalBehaviors(element, desc)
         self.readBswModuleDescriptionRequiredTriggers(element, desc)
+        self.readBswModuleDescriptionBswModuleDependencies(element, desc)
+        self.readBswModuleDescriptionBswModuleDocumentation(element, desc)
+
+    def readBswModuleDescriptionExpectedEntryRefs(self, element: ET.Element, parent: BswModuleDescription):
+        for child_element in self.findall(element, "EXPECTED-ENTRYS/BSW-MODULE-ENTRY-REF-CONDITIONAL"):
+            ref = self.getChildElementOptionalRefType(child_element, "BSW-MODULE-ENTRY-REF")
+            if ref is not None:
+                parent.addExpectedEntryRef(ref)
+
+    def readBswModuleDescriptionBswModuleDependencies(self, element: ET.Element, parent: BswModuleDescription):
+        for child_element in self.findall(element, "BSW-MODULE-DEPENDENCYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "BSW-MODULE-DEPENDENCY":
+                dependency = parent.createBswModuleDependency(self.getShortName(child_element))
+                dependency.setTargetModuleId(self.getChildElementOptionalNumericalValue(child_element, "TARGET-MODULE-ID"))
+                dependency.setTargetModuleRef(self.getChildElementOptionalRefType(child_element, "TARGET-MODULE-REF"))
+            else:
+                self.notImplemented("Unsupported BswModuleDependency <%s>" % tag_name)
+
+    def readBswModuleDescriptionBswModuleDocumentation(self, element: ET.Element, parent: BswModuleDescription):
+        container = self.find(element, "BSW-MODULE-DOCUMENTATIONS")
+        if container is None:
+            return
+        child_element = self.find(container, "SW-COMPONENT-DOCUMENTATION")
+        if child_element is None:
+            return
+        parent.setBswModuleDocumentation(self.readSwComponentDocumentationElement(child_element))
 
     def readSwServiceArg(self, element: ET.Element, arg: SwServiceArg):
         self.readIdentifiable(element, arg)
@@ -2120,6 +2148,8 @@ class ARXMLParser(AbstractARXMLParser):
         entry.setExecutionContext(self.getChildElementOptionalLiteral(element, "EXECUTION-CONTEXT"))
         entry.setSwServiceImplPolicy(self.getChildElementOptionalLiteral(element, "SW-SERVICE-IMPL-POLICY"))
         entry.setBswEntryKind(self.getChildElementOptionalLiteral(element, "BSW-ENTRY-KIND"))
+        entry.setRole(self.getChildElementOptionalLiteral(element, "ROLE"))
+        entry.setFunctionPrototypeEmitter(self.getChildElementOptionalLiteral(element, "FUNCTION-PROTOTYPE-EMITTER"))
         self.readBswModuleEntryReturnType(element, entry)
 
     def readEngineeringObject(self, element: ET.Element, engineering_obj: EngineeringObject):
@@ -4240,10 +4270,7 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "CONSISTENCY-NEEDSS/CONSISTENCY-NEEDS"):
             self.readConsistencyNeeds(child_element, parent.createConsistencyNeeds(self.getShortName(child_element)))
 
-    def readSwComponentTypeSwComponentDocumentation(self, element: ET.Element, parent: SwComponentType):
-        child_element = self.find(element, "SW-COMPONENT-DOCUMENTATION")
-        if child_element is None:
-            return
+    def readSwComponentDocumentationElement(self, child_element: ET.Element) -> SwComponentDocumentation:
         documentation = SwComponentDocumentation()
         predefined_chapter_map = [
             ("SW-FEATURE-DEF", documentation.createSwFeatureDef),
@@ -4262,7 +4289,13 @@ class ARXMLParser(AbstractARXMLParser):
         for chapter_element in self.findall(child_element, "CHAPTER"):
             chapter = documentation.createChapter(self.getShortName(chapter_element))
             self.readChapterBody(chapter_element, chapter)
-        parent.setSwComponentDocumentation(documentation)
+        return documentation
+
+    def readSwComponentTypeSwComponentDocumentation(self, element: ET.Element, parent: SwComponentType):
+        child_element = self.find(element, "SW-COMPONENT-DOCUMENTATION")
+        if child_element is None:
+            return
+        parent.setSwComponentDocumentation(self.readSwComponentDocumentationElement(child_element))
 
     def readChapter(self, element: ET.Element, parent: ARObject) -> Chapter:
         chapter = Chapter(parent, self.getShortName(element))

@@ -216,3 +216,117 @@ class TestBswMD:
         writer.save("data/generated_BswM_Bswmd.arxml", document)
 
         assert filecmp.cmp(get_test_file_path("BswM_Bswmd.arxml"), "data/generated_BswM_Bswmd.arxml", shallow=False) is True
+
+
+class TestReadBswModuleEntry:
+    def test_read_entry_attributes(self):
+        from xml.etree import ElementTree as ET
+
+        document = AUTOSAR.getInstance()
+        document.clear()
+        pkg = document.createARPackage("Pkg")
+        parser = ARXMLParser()
+        xml = (
+            "<BSW-MODULE-ENTRY xmlns='http://autosar.org/schema/r4.0'>"
+            "<SHORT-NAME>Entry</SHORT-NAME>"
+            "<ROLE>theRole</ROLE>"
+            "<FUNCTION-PROTOTYPE-EMITTER>RTE</FUNCTION-PROTOTYPE-EMITTER>"
+            "<CALL-TYPE>scheduled</CALL-TYPE>"
+            "<BSW-ENTRY-KIND>concrete</BSW-ENTRY-KIND>"
+            "<SERVICE-ID>42</SERVICE-ID>"
+            "</BSW-MODULE-ENTRY>"
+        )
+        elem = ET.fromstring(xml)
+        entry = pkg.createBswModuleEntry("Entry")
+        parser.readBswModuleEntry(elem, entry)
+
+        assert entry.getRole().getText() == "theRole"
+        assert entry.getFunctionPrototypeEmitter().getText() == "RTE"
+        assert entry.getCallType().getText() == "scheduled"
+        assert entry.getBswEntryKind().getText() == "concrete"
+        assert entry.getServiceId().getValue() == 42
+
+
+class TestReadWriteBswModuleEntryRoundTrip:
+    def test_round_trip_entry_attributes(self, tmp_path):
+        from xml.etree import ElementTree as ET
+
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
+
+        ET.register_namespace("", "http://autosar.org/schema/r4.0")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        pkg = document.createARPackage("Pkg")
+        entry = pkg.createBswModuleEntry("Entry")
+        entry.setRole(ARLiteral().setValue("theRole"))
+        entry.setFunctionPrototypeEmitter(ARLiteral().setValue("RTE"))
+        entry.setCallType(ARLiteral().setValue("scheduled"))
+        entry.setBswEntryKind(ARLiteral().setValue("concrete"))
+
+        writer = ARXMLWriter()
+        root = ET.Element("{http://autosar.org/schema/r4.0}AR-PACKAGES")
+        writer.writeBswModuleEntry(root, entry)
+        reparsed = ET.fromstring(ET.tostring(root))
+        reparsed_entry = reparsed.find("{http://autosar.org/schema/r4.0}BSW-MODULE-ENTRY")
+        entry2 = pkg.createBswModuleEntry("Entry2")
+        parser = ARXMLParser()
+        parser.readBswModuleEntry(reparsed_entry, entry2)
+
+        assert entry2.getRole().getText() == "theRole"
+        assert entry2.getFunctionPrototypeEmitter().getText() == "RTE"
+        assert entry2.getCallType().getText() == "scheduled"
+        assert entry2.getBswEntryKind().getText() == "concrete"
+
+
+class TestReadWriteBswModuleDescriptionRoundTrip:
+    def test_round_trip_new_attributes(self, tmp_path):
+        from xml.etree import ElementTree as ET
+
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleDependency
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototype
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import SwComponentDocumentation
+
+        ET.register_namespace("", "http://autosar.org/schema/r4.0")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("Desc")
+
+        dependency = desc.createBswModuleDependency("dep1")
+        dependency.setTargetModuleId(PositiveInteger().setValue("7"))
+        dependency.setTargetModuleRef(RefType().setValue("/Target/Module"))
+
+        doc = SwComponentDocumentation()
+        desc.setBswModuleDocumentation(doc)
+
+        desc.addExpectedEntryRef(RefType().setValue("/Expected/Entry"))
+
+        desc.createRequiredModeGroup("rmg1")
+
+        writer = ARXMLWriter()
+        root = ET.Element("{http://autosar.org/schema/r4.0}AR-PACKAGES")
+        writer.writeBswModuleDescription(root, desc)
+        reparsed = ET.fromstring(ET.tostring(root))
+
+        desc2 = pkg.createBswModuleDescription("Desc2")
+        parser = ARXMLParser()
+        reparsed_desc = reparsed.find("{http://autosar.org/schema/r4.0}BSW-MODULE-DESCRIPTION")
+        parser.readBswModuleDescription(reparsed_desc, desc2)
+
+        assert len(desc2.getBswModuleDependencies()) == 1
+        dep2 = desc2.getBswModuleDependencies()[0]
+        assert dep2.getShortName() == "dep1"
+        assert dep2.getTargetModuleId().getValue() == 7
+        assert dep2.getTargetModuleRef().getValue() == "/Target/Module"
+
+        assert desc2.getBswModuleDocumentation() is not None
+
+        assert len(desc2.getExpectedEntryRefs()) == 1
+        assert desc2.getExpectedEntryRefs()[0].getValue() == "/Expected/Entry"
+
+        # requiredModeGroup must be routed to the required list, not the provided list
+        assert len(desc2.getRequiredModeGroups()) == 1
+        assert desc2.getRequiredModeGroups()[0].getShortName() == "rmg1"
+        assert desc2.getProvidedModeGroups() == []
