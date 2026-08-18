@@ -1,5 +1,3 @@
-import pytest
-
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwPin
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 

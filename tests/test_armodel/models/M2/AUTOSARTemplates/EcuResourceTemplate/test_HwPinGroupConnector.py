@@ -1,5 +1,3 @@
-import pytest
-
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 
@@ -17,8 +15,8 @@ class TestHwPinGroupConnector:
 
     def test_add_hw_pin_connection(self):
         """Test addHwPinConnection method"""
-        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwPinGroupConnector import HwPinGroupConnector
         from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwPinConnector import HwPinConnector
+        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwPinGroupConnector import HwPinGroupConnector
 
         connector = HwPinGroupConnector()
         pin_conn = HwPinConnector()
@@ -57,8 +55,8 @@ class TestHwPinGroupConnector:
 
     def test_method_chaining(self):
         """Test method chaining for all adders"""
-        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwPinGroupConnector import HwPinGroupConnector
         from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwPinConnector import HwPinConnector
+        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwPinGroupConnector import HwPinGroupConnector
 
         connector = HwPinGroupConnector()
         pin_conn1 = HwPinConnector()

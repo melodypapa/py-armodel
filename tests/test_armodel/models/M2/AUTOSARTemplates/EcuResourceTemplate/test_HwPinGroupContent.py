@@ -1,5 +1,3 @@
-import pytest
-
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import (
     HwPin,
     HwPinGroup,
@@ -43,7 +41,7 @@ class TestHwPinGroupContent:
         content = HwPinGroupContent()
 
         # Set a pin
-        pin = content.createHwPin("TestPin")
+        content.createHwPin("TestPin")
         assert content.getHwPin() is not None
 
         # Set a group (both can coexist in model, though XML choice is invalid)

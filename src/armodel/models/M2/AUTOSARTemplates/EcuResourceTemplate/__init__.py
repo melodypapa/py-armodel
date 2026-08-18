@@ -13,8 +13,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import HwAttributeValue
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementConnector import HwElementConnector
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwPinConnector import HwPinConnector
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwPinGroupConnector import HwPinGroupConnector
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwPinConnector import HwPinConnector as HwPinConnector
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwPinGroupConnector import HwPinGroupConnector as HwPinGroupConnector
 
 
 class HwDescriptionEntity(Referrable):
