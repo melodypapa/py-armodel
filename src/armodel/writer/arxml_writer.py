@@ -42,6 +42,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
     ApplicationRuleBasedValueSpecification,
     ApplicationValueSpecification,
     ArrayValueSpecification,
+    CompositeRuleBasedValueSpecification,
     ConstantReference,
     ConstantSpecification,
     NumericalValueSpecification,
@@ -1169,6 +1170,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeApplicationValueSpecification(elements_tag, sub_element)
                 elif isinstance(sub_element, ApplicationRuleBasedValueSpecification):
                     self.writeApplicationRuleBasedValueSpecification(elements_tag, sub_element)
+                elif isinstance(sub_element, CompositeRuleBasedValueSpecification):
+                    self.writeCompositeRuleBasedValueSpecification(elements_tag, sub_element)
                 elif isinstance(sub_element, TextValueSpecification):
                     self.writeTextValueSpecification(elements_tag, sub_element)
                 elif isinstance(sub_element, ArrayValueSpecification):
@@ -1190,6 +1193,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeApplicationValueSpecification(child_element, value_spec)
             elif isinstance(value_spec, ApplicationRuleBasedValueSpecification):
                 self.writeApplicationRuleBasedValueSpecification(child_element, value_spec)
+            elif isinstance(value_spec, CompositeRuleBasedValueSpecification):
+                self.writeCompositeRuleBasedValueSpecification(child_element, value_spec)
             elif isinstance(value_spec, TextValueSpecification):
                 self.writeTextValueSpecification(child_element, value_spec)
             elif isinstance(value_spec, ConstantReference):
@@ -2326,6 +2331,43 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeRuleBasedAxisCont(axis_conts_tag, axis_cont)
             self.writeRuleBasedValueCont(child_element, value_spec.getSwValueCont())
 
+    def writeCompositeRuleBasedValueSpecification(self, element: ET.Element, value_spec: CompositeRuleBasedValueSpecification):
+        if value_spec is not None:
+            child_element = ET.SubElement(element, "COMPOSITE-RULE-BASED-VALUE-SPECIFICATION")
+            self.writeValueSpecification(child_element, value_spec)
+            self.setChildElementOptionalIdentifier(child_element, "RULE", value_spec.getRule())
+            arguments = value_spec.getArguments()
+            if len(arguments) > 0:
+                arguments_tag = ET.SubElement(child_element, "ARGUMENTS")
+                for argument in arguments:
+                    if isinstance(argument, CompositeRuleBasedValueSpecification):
+                        self.writeCompositeRuleBasedValueSpecification(arguments_tag, argument)
+                    elif isinstance(argument, ArrayValueSpecification):
+                        self.writeArrayValueSpecification(arguments_tag, argument)
+                    elif isinstance(argument, RecordValueSpecification):
+                        self.writeRecordValueSpecification(arguments_tag, argument)
+                    elif isinstance(argument, ConstantReference):
+                        self.setConstantReference(arguments_tag, argument)
+                    else:
+                        self.notImplemented("Unsupported argument type of <%s> of CompositeRuleBasedValueSpecification" % type(argument))
+            compound_arguments = value_spec.getCompoundPrimitiveArguments()
+            if len(compound_arguments) > 0:
+                compound_tag = ET.SubElement(child_element, "COMPOUND-PRIMITIVE-ARGUMENTS")
+                for argument in compound_arguments:
+                    if isinstance(argument, ApplicationRuleBasedValueSpecification):
+                        self.writeApplicationRuleBasedValueSpecification(compound_tag, argument)
+                    elif isinstance(argument, CompositeRuleBasedValueSpecification):
+                        self.writeCompositeRuleBasedValueSpecification(compound_tag, argument)
+                    elif isinstance(argument, ArrayValueSpecification):
+                        self.writeArrayValueSpecification(compound_tag, argument)
+                    elif isinstance(argument, RecordValueSpecification):
+                        self.writeRecordValueSpecification(compound_tag, argument)
+                    elif isinstance(argument, ConstantReference):
+                        self.setConstantReference(compound_tag, argument)
+                    else:
+                        self.notImplemented("Unsupported compound primitive argument type of <%s> of CompositeRuleBasedValueSpecification" % type(argument))
+            self.setChildElementOptionalIntegerValue(child_element, "MAX-SIZE-TO-FILL", value_spec.getMaxSizeToFill())
+
     def writeRecordValueSpecification(self, element: ET.Element, spec: RecordValueSpecification):
         child_element = ET.SubElement(element, "RECORD-VALUE-SPECIFICATION")
         self.writeARObjectAttributes(child_element, spec)
@@ -2338,6 +2380,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeApplicationValueSpecification(fields_tag, field)
                 elif isinstance(field, ApplicationRuleBasedValueSpecification):
                     self.writeApplicationRuleBasedValueSpecification(fields_tag, field)
+                elif isinstance(field, CompositeRuleBasedValueSpecification):
+                    self.writeCompositeRuleBasedValueSpecification(fields_tag, field)
                 elif isinstance(field, NumericalValueSpecification):
                     self.writeNumericalValueSpecification(fields_tag, field)
                 elif isinstance(field, TextValueSpecification):
@@ -2447,7 +2491,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if event is not None:
             child_element = ET.SubElement(element, "SWC-MODE-SWITCH-EVENT")
             self.setRTEEvent(child_element, event)
-            self.setChildElementOptionalLiteral(child_element, "ACTIVATION", event.activation)
+            self.setChildElementOptionalLiteral(child_element, "ACTIVATION", event.getActivation())
             irefs = event.getModeIRefs()
             if len(irefs) > 0:
                 mode_irefs_tag = ET.SubElement(child_element, "MODE-IREFS")
@@ -4358,17 +4402,42 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in refs:
                 self.setChildElementOptionalRefType(child_element, "CAN-ENTER-EXCLUSIVE-AREA-REF", ref)
 
+    def writeExclusiveAreaNestingOrderRefs(self, element: ET.Element, entity: ExecutableEntity):
+        refs = entity.getExclusiveAreaNestingOrderRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "EXCLUSIVE-AREA-NESTING-ORDER-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "EXCLUSIVE-AREA-NESTING-ORDER-REF", ref)
+
+    def writeRunsInsideRefs(self, element: ET.Element, entity: ExecutableEntity):
+        refs = entity.getRunsInsideRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "RUNS-INSIDE-EXCLUSIVE-AREA-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "RUNS-INSIDE-EXCLUSIVE-AREA-REF", ref)
+
     def writeExecutableEntity(self, element: ET.Element, entity: ExecutableEntity):
         self.writeIdentifiable(element, entity)
         self.writeActivationReasons(element, entity)
         self.writeCanEnterRefs(element, entity)
+        self.writeExclusiveAreaNestingOrderRefs(element, entity)
         self.setChildElementOptionalTimeValue(element, "MINIMUM-START-INTERVAL", entity.getMinimumStartInterval())
+        self.setChildElementOptionalLiteral(element, "REENTRANCY-LEVEL", entity.getReentrancyLevel())
+        self.writeRunsInsideRefs(element, entity)
         self.setChildElementOptionalRefType(element, "SW-ADDR-METHOD-REF", entity.getSwAddrMethodRef())
 
     def writeBswModuleEntityManagedModeGroups(self, element: ET.Element, entity: BswModuleEntity):
         mode_group_refs = entity.getManagedModeGroupRefs()
         if len(mode_group_refs) > 0:
             mode_groups_tag = ET.SubElement(element, "MANAGED-MODE-GROUPS")
+            for mode_group_ref in mode_group_refs:
+                child_element = ET.SubElement(mode_groups_tag, "MODE-DECLARATION-GROUP-PROTOTYPE-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(child_element, "MODE-DECLARATION-GROUP-PROTOTYPE-REF", mode_group_ref)
+
+    def writeBswModuleEntityAccessedModeGroups(self, element: ET.Element, entity: BswModuleEntity):
+        mode_group_refs = entity.getAccessedModeGroupRefs()
+        if len(mode_group_refs) > 0:
+            mode_groups_tag = ET.SubElement(element, "ACCESSED-MODE-GROUPS")
             for mode_group_ref in mode_group_refs:
                 child_element = ET.SubElement(mode_groups_tag, "MODE-DECLARATION-GROUP-PROTOTYPE-REF-CONDITIONAL")
                 self.setChildElementOptionalRefType(child_element, "MODE-DECLARATION-GROUP-PROTOTYPE-REF", mode_group_ref)
@@ -4442,6 +4511,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeBswModuleEntity(self, element: ET.Element, entity: BswModuleEntity):
         self.writeExecutableEntity(element, entity)
+        self.writeBswModuleEntityAccessedModeGroups(element, entity)
         self.writeBswModuleEntityActivationPointRefs(element, entity)
         self.writeBswModuleEntityCallPoints(element, entity)
         self.writeBswModuleEntityDataSendPoints(element, entity)

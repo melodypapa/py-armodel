@@ -794,7 +794,7 @@ class TestRteEventHandlers:
         event = behavior.createSwcModeSwitchEvent("mse")
         element = _snip(
             "<SHORT-NAME>mse</SHORT-NAME>"
-            "<ACTIVATION>enable</ACTIVATION>"
+            "<ACTIVATION>onEntry</ACTIVATION>"
             "<MODE-IREFS>"
             "<MODE-IREF>"
             "<CONTEXT-PORT-REF DEST='R-PORT-PROTOTYPE'>/port</CONTEXT-PORT-REF>"
@@ -803,7 +803,24 @@ class TestRteEventHandlers:
             root_tag="SWC-MODE-SWITCH-EVENT",
         )
         parser.readSwcModeSwitchEvent(element, event)
-        assert event.getActivation().getValue() == "enable"
+        assert event.getActivation().getValue() == "onEntry"
+        assert len(event.getModeIRefs()) == 1
+        mode_iref = event.getModeIRefs()[0]
+        assert mode_iref.getContextPortRef().getValue() == "/port"
+
+    def test_readSwcModeSwitchEvent_empty_irefs(self, parser):
+        from armodel.models import ApplicationSwComponentType
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        event = behavior.createSwcModeSwitchEvent("mse")
+        element = _snip(
+            "<SHORT-NAME>mse</SHORT-NAME>" "<ACTIVATION>onExit</ACTIVATION>",
+            root_tag="SWC-MODE-SWITCH-EVENT",
+        )
+        parser.readSwcModeSwitchEvent(element, event)
+        assert event.getActivation().getValue() == "onExit"
+        assert event.getModeIRefs() == []
 
     def test_readInternalTriggerOccurredEvent_full(self, parser):
         from armodel.models import ApplicationSwComponentType
@@ -2369,6 +2386,7 @@ class TestSwcInternalBehaviorEvents:
             "MODE-SWITCHED-ACK-EVENT",
             "BACKGROUND-EVENT",
             "DATA-SEND-COMPLETED-EVENT",
+            "SWC-MODE-SWITCH-EVENT",
         ],
     )
     def test_event_branches(self, parser, tag):

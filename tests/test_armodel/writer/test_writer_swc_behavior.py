@@ -166,9 +166,11 @@ class TestWriterRteEvents:
         assert len(parent) == 0
 
     def test_writeSwcModeSwitchEvent(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeActivationKind
+
         behavior = _make_behavior()
         event = behavior.createSwcModeSwitchEvent("mse")
-        event.setActivation(_literal("enable"))
+        event.setActivation(ModeActivationKind().setValue(ModeActivationKind.ON_ENTRY))
         mode_iref = RModeInAtomicSwcInstanceRef()
         mode_iref.setContextPortRef(_ref("/p", "R-PORT-PROTOTYPE"))
         event.addModeIRef(mode_iref)
@@ -176,8 +178,25 @@ class TestWriterRteEvents:
         writer.writeSwcModeSwitchEvent(parent, event)
         evt = parent[0]
         assert evt.tag == "SWC-MODE-SWITCH-EVENT"
-        assert evt.find("ACTIVATION").text == "enable"
-        assert evt.find("MODE-IREFS") is not None
+        assert evt.find("ACTIVATION").text == "onEntry"
+        mode_irefs_tag = evt.find("MODE-IREFS")
+        assert mode_irefs_tag is not None
+        mode_iref_tag = mode_irefs_tag.find("MODE-IREF")
+        assert mode_iref_tag is not None
+        assert mode_iref_tag.find("CONTEXT-PORT-REF").text == "/p"
+
+    def test_writeSwcModeSwitchEvent_empty_irefs(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeActivationKind
+
+        behavior = _make_behavior()
+        event = behavior.createSwcModeSwitchEvent("mse")
+        event.setActivation(ModeActivationKind().setValue(ModeActivationKind.ON_EXIT))
+        parent = _parent()
+        writer.writeSwcModeSwitchEvent(parent, event)
+        evt = parent[0]
+        assert evt.tag == "SWC-MODE-SWITCH-EVENT"
+        assert evt.find("ACTIVATION").text == "onExit"
+        assert evt.find("MODE-IREFS") is None
 
     def test_writeSwcModeSwitchEvent_none(self, writer):
         parent = _parent()

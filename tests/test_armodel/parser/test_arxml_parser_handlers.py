@@ -632,6 +632,95 @@ class TestRuleBasedValueSpecHandlers:
 
         assert isinstance(value_spec, ApplicationRuleBasedValueSpecification)
 
+    def test_getCompositeRuleBasedValueSpecification_full(self, parser):
+        from armodel.models import ApplicationRuleBasedValueSpecification, ArrayValueSpecification
+
+        element = _snip(
+            "<RULE>FILL_UNTIL_END</RULE>"
+            "<ARGUMENTS>"
+            "<ARRAY-VALUE-SPECIFICATION>"
+            "<ELEMENTS>"
+            "<NUMERICAL-VALUE-SPECIFICATION><VALUE>1</VALUE></NUMERICAL-VALUE-SPECIFICATION>"
+            "</ELEMENTS>"
+            "</ARRAY-VALUE-SPECIFICATION>"
+            "</ARGUMENTS>"
+            "<COMPOUND-PRIMITIVE-ARGUMENTS>"
+            "<APPLICATION-RULE-BASED-VALUE-SPECIFICATION><CATEGORY>ARRAY</CATEGORY></APPLICATION-RULE-BASED-VALUE-SPECIFICATION>"
+            "</COMPOUND-PRIMITIVE-ARGUMENTS>"
+            "<MAX-SIZE-TO-FILL>16</MAX-SIZE-TO-FILL>",
+            root_tag="COMPOSITE-RULE-BASED-VALUE-SPECIFICATION",
+        )
+        value_spec = parser.getCompositeRuleBasedValueSpecification(element)
+        assert value_spec.getRule().getValue() == "FILL_UNTIL_END"
+        assert len(value_spec.getArguments()) == 1
+        assert isinstance(value_spec.getArguments()[0], ArrayValueSpecification)
+        assert len(value_spec.getArguments()[0].getElements()) == 1
+        assert len(value_spec.getCompoundPrimitiveArguments()) == 1
+        assert isinstance(value_spec.getCompoundPrimitiveArguments()[0], ApplicationRuleBasedValueSpecification)
+        assert float(value_spec.getMaxSizeToFill().getValue()) == 16.0
+
+    def test_getCompositeRuleBasedValueSpecification_empty_lists(self, parser):
+        element = _snip("<RULE>FILL_UNTIL_END</RULE>", root_tag="COMPOSITE-RULE-BASED-VALUE-SPECIFICATION")
+        value_spec = parser.getCompositeRuleBasedValueSpecification(element)
+        assert value_spec.getRule().getValue() == "FILL_UNTIL_END"
+        assert value_spec.getArguments() == []
+        assert value_spec.getCompoundPrimitiveArguments() == []
+        assert value_spec.getMaxSizeToFill() is None
+
+    def test_getValueSpecification_dispatch_composite_rule_based(self, parser):
+        from armodel.models import CompositeRuleBasedValueSpecification
+
+        element = _snip(
+            "<RULE>FILL_UNTIL_END</RULE>",
+            root_tag="COMPOSITE-RULE-BASED-VALUE-SPECIFICATION",
+        )
+        value_spec = parser.getValueSpecification(element, "COMPOSITE-RULE-BASED-VALUE-SPECIFICATION")
+        assert isinstance(value_spec, CompositeRuleBasedValueSpecification)
+
+    def test_readConstantSpecification_nested_composite_rule_based(self, parser):
+        from armodel.models import (
+            ApplicationRuleBasedValueSpecification,
+            CompositeRuleBasedValueSpecification,
+            ConstantSpecification,
+            NumericalValueSpecification,
+            RecordValueSpecification,
+        )
+
+        element = _snip(
+            "<SHORT-NAME>c</SHORT-NAME>"
+            "<VALUE-SPEC>"
+            "<COMPOSITE-RULE-BASED-VALUE-SPECIFICATION>"
+            "<RULE>FILL_UNTIL_END</RULE>"
+            "<ARGUMENTS>"
+            "<RECORD-VALUE-SPECIFICATION>"
+            "<FIELDS><NUMERICAL-VALUE-SPECIFICATION><VALUE>1</VALUE></NUMERICAL-VALUE-SPECIFICATION></FIELDS>"
+            "</RECORD-VALUE-SPECIFICATION>"
+            "</ARGUMENTS>"
+            "<COMPOUND-PRIMITIVE-ARGUMENTS>"
+            "<APPLICATION-RULE-BASED-VALUE-SPECIFICATION><CATEGORY>ARRAY</CATEGORY></APPLICATION-RULE-BASED-VALUE-SPECIFICATION>"
+            "</COMPOUND-PRIMITIVE-ARGUMENTS>"
+            "<MAX-SIZE-TO-FILL>16</MAX-SIZE-TO-FILL>"
+            "</COMPOSITE-RULE-BASED-VALUE-SPECIFICATION>"
+            "</VALUE-SPEC>",
+            root_tag="CONSTANT-SPECIFICATION",
+        )
+        spec = ConstantSpecification(_autosar_root(), "c")
+        parser.readConstantSpecification(element, spec)
+
+        value_spec = spec.getValueSpec()
+        assert isinstance(value_spec, CompositeRuleBasedValueSpecification)
+        assert value_spec.getRule().getValue() == "FILL_UNTIL_END"
+        assert value_spec.getMaxSizeToFill() is not None
+        assert float(value_spec.getMaxSizeToFill().getValue()) == 16.0
+        assert len(value_spec.getArguments()) == 1
+        assert isinstance(value_spec.getArguments()[0], RecordValueSpecification)
+        fields = value_spec.getArguments()[0].getFields()
+        assert len(fields) == 1
+        assert isinstance(fields[0], NumericalValueSpecification)
+        assert float(fields[0].getValue().getValue()) == 1.0
+        assert len(value_spec.getCompoundPrimitiveArguments()) == 1
+        assert isinstance(value_spec.getCompoundPrimitiveArguments()[0], ApplicationRuleBasedValueSpecification)
+
 
 # ==================== Group B: SwComponentType & Connectors ====================
 
