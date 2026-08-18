@@ -6,8 +6,6 @@ and BswModuleClientServerEntry. These classes represent BSW-specific interface e
 that define dependencies, module entries, and client-server relationships in the AUTOSAR architecture.
 """
 
-import pytest
-
 from armodel import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import (
     BswCallType,

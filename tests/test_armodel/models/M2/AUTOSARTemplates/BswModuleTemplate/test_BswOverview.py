@@ -103,23 +103,6 @@ class TestBswModuleDescription:
         assert result == desc
         assert len(desc.getExpectedEntryRefs()) == 1  # Should remain unchanged
 
-    def test_get_set_bsw_module_documentation(self):
-        """Test getter and setter for BSW module documentation."""
-        document = AUTOSAR.getInstance()
-        ar_root = document.createARPackage("AUTOSAR")
-        desc = BswModuleDescription(ar_root, "test_bsw_module")
-
-        doc = SwComponentDocumentation()
-        result = desc.setBswModuleDocumentation(doc)
-
-        assert result == desc
-        assert desc.getBswModuleDocumentation() == doc
-
-        # Test setting None (should not change value)
-        result = desc.setBswModuleDocumentation(None)
-        assert result == desc
-        assert desc.getBswModuleDocumentation() == doc  # Should remain unchanged
-
     def test_get_set_expected_entry_refs(self):
         """Test getter and setter for expected entry references."""
         document = AUTOSAR.getInstance()

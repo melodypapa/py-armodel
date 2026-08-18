@@ -282,9 +282,6 @@ class TestReadWriteBswModuleDescriptionRoundTrip:
     def test_round_trip_new_attributes(self, tmp_path):
         from xml.etree import ElementTree as ET
 
-        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleDependency
-        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
-        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroupPrototype
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import SwComponentDocumentation
 
