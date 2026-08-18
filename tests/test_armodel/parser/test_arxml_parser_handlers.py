@@ -1462,6 +1462,107 @@ class TestModeDeclarationGroupPrototypeHandlers:
         assert proto.getTypeTRef() is not None
         assert proto.getTypeTRef().getValue() == "/mdg1"
 
+
+class TestModeDeclarationGroupHandlers:
+    """Exercise readModeDeclarationGroup."""
+
+    def test_readModeDeclarationGroup_with_modes(self, parser):
+        from armodel.models import ModeDeclarationGroup
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
+
+        group = ModeDeclarationGroup(parent=_autosar_root(), short_name="Group")
+        element = _snip(
+            "<SHORT-NAME>Group</SHORT-NAME>"
+            "<MODE-DECLARATIONS>"
+            "<MODE-DECLARATION><SHORT-NAME>Mode1</SHORT-NAME><VALUE>4</VALUE></MODE-DECLARATION>"
+            "</MODE-DECLARATIONS>"
+            "<INITIAL-MODE-REF DEST='MODE-DECLARATION'>/Group/Mode1</INITIAL-MODE-REF>"
+            "<ON-TRANSITION-VALUE>7</ON-TRANSITION-VALUE>",
+            root_tag="MODE-DECLARATION-GROUP",
+        )
+        parser.readModeDeclarationGroup(element, group)
+        assert group.getShortName() == "Group"
+        decls = group.getModeDeclarations()
+        assert len(decls) == 1
+        assert decls[0].getShortName() == "Mode1"
+        assert isinstance(decls[0].getValue(), PositiveInteger)
+        assert decls[0].getValue().getValue() == 4
+        assert group.getInitialModeRef().getValue() == "/Group/Mode1"
+        assert group.getOnTransitionValue().getValue() == 7
+
+    def test_readModeDeclarationGroup_empty_modes(self, parser):
+        from armodel.models import ModeDeclarationGroup
+
+        group = ModeDeclarationGroup(parent=_autosar_root(), short_name="Group")
+        element = _snip(
+            "<SHORT-NAME>Group</SHORT-NAME>",
+            root_tag="MODE-DECLARATION-GROUP",
+        )
+        parser.readModeDeclarationGroup(element, group)
+        assert group.getModeDeclarations() == []
+        assert group.getInitialModeRef() is None
+        assert group.getOnTransitionValue() is None
+
+    def test_readModeDeclarationGroup_mode_manager_error_behavior(self, parser):
+        from armodel.models import ModeDeclarationGroup, ModeErrorReactionPolicyEnum
+
+        group = ModeDeclarationGroup(parent=_autosar_root(), short_name="Group")
+        element = _snip(
+            "<SHORT-NAME>Group</SHORT-NAME>"
+            "<MODE-MANAGER-ERROR-BEHAVIOR>"
+            "<DEFAULT-MODE-REF DEST='MODE-DECLARATION'>/Group/ErrorMode</DEFAULT-MODE-REF>"
+            "<ERROR-REACTION-POLICY>defaultMode</ERROR-REACTION-POLICY>"
+            "</MODE-MANAGER-ERROR-BEHAVIOR>",
+            root_tag="MODE-DECLARATION-GROUP",
+        )
+        parser.readModeDeclarationGroup(element, group)
+        behavior = group.getModeManagerErrorBehavior()
+        assert behavior is not None
+        assert behavior.getDefaultModeRef().getValue() == "/Group/ErrorMode"
+        assert isinstance(behavior.getErrorReactionPolicy(), ModeErrorReactionPolicyEnum)
+        assert behavior.getErrorReactionPolicy().getValue() == ModeErrorReactionPolicyEnum.DEFAULT_MODE
+
+    def test_readModeDeclarationGroup_mode_user_error_behavior(self, parser):
+        from armodel.models import ModeDeclarationGroup, ModeErrorReactionPolicyEnum
+
+        group = ModeDeclarationGroup(parent=_autosar_root(), short_name="Group")
+        element = _snip(
+            "<SHORT-NAME>Group</SHORT-NAME>"
+            "<MODE-USER-ERROR-BEHAVIOR>"
+            "<DEFAULT-MODE-REF DEST='MODE-DECLARATION'>/Group/ErrorMode</DEFAULT-MODE-REF>"
+            "<ERROR-REACTION-POLICY>lastMode</ERROR-REACTION-POLICY>"
+            "</MODE-USER-ERROR-BEHAVIOR>",
+            root_tag="MODE-DECLARATION-GROUP",
+        )
+        parser.readModeDeclarationGroup(element, group)
+        behavior = group.getModeUserErrorBehavior()
+        assert behavior is not None
+        assert behavior.getDefaultModeRef().getValue() == "/Group/ErrorMode"
+        assert isinstance(behavior.getErrorReactionPolicy(), ModeErrorReactionPolicyEnum)
+        assert behavior.getErrorReactionPolicy().getValue() == ModeErrorReactionPolicyEnum.LAST_MODE
+
+    def test_readModeDeclarationGroup_mode_transitions(self, parser):
+        from armodel.models import ModeDeclarationGroup
+
+        group = ModeDeclarationGroup(parent=_autosar_root(), short_name="Group")
+        element = _snip(
+            "<SHORT-NAME>Group</SHORT-NAME>"
+            "<MODE-TRANSITIONS>"
+            "<MODE-TRANSITION>"
+            "<SHORT-NAME>Transition1</SHORT-NAME>"
+            "<ENTERED-MODE-REF DEST='MODE-DECLARATION'>/Group/Mode2</ENTERED-MODE-REF>"
+            "<EXITED-MODE-REF DEST='MODE-DECLARATION'>/Group/Mode1</EXITED-MODE-REF>"
+            "</MODE-TRANSITION>"
+            "</MODE-TRANSITIONS>",
+            root_tag="MODE-DECLARATION-GROUP",
+        )
+        parser.readModeDeclarationGroup(element, group)
+        transitions = group.getModeTransitions()
+        assert len(transitions) == 1
+        assert transitions[0].getShortName() == "Transition1"
+        assert transitions[0].getEnteredModeRef().getValue() == "/Group/Mode2"
+        assert transitions[0].getExitedModeRef().getValue() == "/Group/Mode1"
+
     def test_readPortPrototypeBlueprint_minimal(self, parser):
         from armodel.models import PortPrototypeBlueprint
 

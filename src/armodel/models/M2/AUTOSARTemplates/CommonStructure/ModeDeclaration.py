@@ -8,7 +8,7 @@ from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype, AtpType, AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType, TRefType, AREnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, TRefType, AREnum
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwCalibrationAccessEnum
 
 
@@ -148,32 +148,36 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
 
 class ModeDeclaration(AtpStructureElement):
     """
-    Represents a mode declaration in AUTOSAR models.
-    Mode declarations define specific operational states that components can be in, with associated values.
+    Declaration of one Mode. The name and semantics of a specific mode is not defined in the meta-model.
     """
 
     # ModeDeclaration method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] setValue                     [x] impl  [x] docstring  [x] test
-    # [x] getValue                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.11, p.43
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getValue     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setValue     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the ModeDeclaration with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this mode declaration
-            short_name: The unique short name of this mode declaration
-        """
         super().__init__(parent, short_name)
 
-        # Value associated with this mode declaration
-        self.value: ARNumerical = None
+        # The RTE shall take the value of this attribute for generating the source code representation of this Mode Declaration.
+        self.value: Optional[PositiveInteger] = None
 
-    def setValue(self, value):
+    def getValue(self) -> Optional[PositiveInteger]:
         """
-        Sets the value associated with this mode declaration.
-        Only sets the value if it is not None.
+        The RTE shall take the value of this attribute for generating the source code representation of this Mode Declaration.
+
+        Returns:
+            Optional[PositiveInteger]: The mode value
+        """
+        return self.value
+
+    def setValue(self, value: Optional[PositiveInteger]) -> "ModeDeclaration":
+        """
+        The RTE shall take the value of this attribute for generating the source code representation of this Mode Declaration.
+        A None value is a no-op and does not overwrite an existing value.
 
         Args:
             value: The value to set
@@ -181,17 +185,9 @@ class ModeDeclaration(AtpStructureElement):
         Returns:
             self for method chaining
         """
-        self.value = value
+        if value is not None:
+            self.value = value
         return self
-
-    def getValue(self) -> ARNumerical:
-        """
-        Gets the value associated with this mode declaration.
-
-        Returns:
-            ARNumerical: The mode value
-        """
-        return self.value
 
 
 class ModeRequestTypeMap(ARObject):
@@ -267,59 +263,49 @@ class ModeRequestTypeMap(ARObject):
 
 class ModeDeclarationGroup(AtpType):
     """
-    A collection of Mode Declarations. Also, the initial mode is explicitly identified.
+    A collection of Mode Declarations. Also, the initial mode is explicitly identified. Tags: atp.recommendedPackage=ModeDeclarationGroups
     """
 
     # ModeDeclarationGroup method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] createModeDeclaration        [x] impl  [x] docstring  [x] test
-    # [x] getModeDeclarations          [x] impl  [x] docstring  [x] test
-    # [x] setInitialModeRef            [x] impl  [x] docstring  [x] test
-    # [x] getInitialModeRef            [x] impl  [x] docstring  [x] test
-    # [x] setOnTransitionValue         [x] impl  [x] docstring  [x] test
-    # [x] getOnTransitionValue         [x] impl  [x] docstring  [x] test
-    # [x] createModeTransition         [x] impl  [x] docstring  [x] test
-    # [x] getModeTransitions           [x] impl  [x] docstring  [x] test
-    # [x] getModeManagerErrorBehavior  [x] impl  [x] docstring  [x] test
-    # [x] setModeManagerErrorBehavior  [x] impl  [x] docstring  [x] test
-    # [x] getModeUserErrorBehavior     [x] impl  [x] docstring  [x] test
-    # [x] setModeUserErrorBehavior     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table C.68, p.197
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] createModeDeclaration        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getModeDeclarations          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setInitialModeRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getInitialModeRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setOnTransitionValue         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getOnTransitionValue         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createModeTransition         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getModeTransitions           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getModeManagerErrorBehavior  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setModeManagerErrorBehavior  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getModeUserErrorBehavior     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setModeUserErrorBehavior     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the ModeDeclarationGroup with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this mode declaration group
-            short_name: The unique short name of this mode declaration group
-        """
         super().__init__(parent, short_name)
 
-        # The initial mode of the ModeDeclarationGroup. This mode is active before any
-        # mode switches occurred.
-        self.initialModeRef: RefType = None
+        # The initial mode of the ModeDeclarationGroup. This mode is active before any mode switches occurred.
+        self.initialModeRef: Optional[RefType] = None
 
-        # The ModeDeclarations collected in this ModeDeclarationGroup.
-        self.modeDeclarations: List["ModeDeclaration"] = []
+        # The ModeDeclarations collected in this ModeDeclaration Group. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=modeDeclaration.shortName, mode Declaration.variationPoint.shortLabel vh.latestBindingTime=blueprintDerivationTime
+        self.modeDeclarations: List[ModeDeclaration] = []
 
-        # This represents the ability to define the error behavior expected by the mode
-        # manager in case of errors on the mode user side (e.g. terminated mode user).
-        self.modeManagerErrorBehavior: "ModeErrorBehavior" = None
+        # This represents the ability to define the error behavior expected by the mode manager in case of errors on the mode user side (e.g. terminated mode user).
+        self.modeManagerErrorBehavior: Optional[ModeErrorBehavior] = None
 
-        # This represents the available ModeTransitions of the ModeDeclarationGroup.
-        self.modeTransitions: List["ModeTransition"] = []
+        # This represents the avaliable ModeTransitions of the ModeDeclarationGroup
+        self.modeTransitions: List[ModeTransition] = []
 
-        # This represents the definition of the error behavior expected by the mode
-        # user in case of errors on the mode manager side (e.g. terminated mode
-        # manager).
-        self.modeUserErrorBehavior: "ModeErrorBehavior" = None
+        # This represents the definition of the error behavior expected by the mode user in case of errors on the mode manager side (e.g. terminated mode manager).
+        self.modeUserErrorBehavior: Optional[ModeErrorBehavior] = None
 
-        # The value of this attribute shall be taken into account by the RTE generator
-        # for programmatically representing a value used for the transition between two
-        # statuses.
-        self.onTransitionValue: ARNumerical = None
+        # The value of this attribute shall be taken into account by the RTE generator for programmatically representing a value used for the transition between two statuses.
+        self.onTransitionValue: Optional[PositiveInteger] = None
 
-    def createModeDeclaration(self, short_name: str) -> "ModeDeclaration":
+    def createModeDeclaration(self, short_name: str) -> ModeDeclaration:
         """
         Creates and adds a ModeDeclaration to this mode declaration group.
 
@@ -334,22 +320,22 @@ class ModeDeclarationGroup(AtpType):
             self.addElement(spec)
         return self.getElement(short_name, ModeDeclaration)
 
-    def getModeDeclarations(self) -> List["ModeDeclaration"]:
+    def getModeDeclarations(self) -> List[ModeDeclaration]:
         """
-        Gets all mode declarations from the elements list, sorted by short name.
+        The ModeDeclarations collected in this ModeDeclaration Group.
 
         Returns:
-            List of ModeDeclaration instances sorted by short name
+            List of ModeDeclaration instances
         """
         return list(sorted(filter(lambda a: isinstance(a, ModeDeclaration), self.elements), key=lambda o: o.short_name))
 
-    def setInitialModeRef(self, ref: RefType) -> "ModeDeclarationGroup":
+    def setInitialModeRef(self, ref: Optional[RefType]) -> "ModeDeclarationGroup":
         """
-        Sets the reference to the initial mode of this group.
-        Only sets the value if it is not None.
+        The initial mode of the ModeDeclarationGroup. This mode is active before any mode switches occurred.
+        A None value is a no-op and does not overwrite an existing value.
 
         Args:
-            ref: The initial mode reference to set
+            ref: The value to set
 
         Returns:
             self for method chaining
@@ -360,37 +346,34 @@ class ModeDeclarationGroup(AtpType):
 
     def getInitialModeRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the initial mode of this group.
+        The initial mode of the ModeDeclarationGroup. This mode is active before any mode switches occurred.
 
         Returns:
             Optional[RefType]: The initial mode reference
         """
         return self.initialModeRef
 
-    def setOnTransitionValue(self, value: ARNumerical) -> "ModeDeclarationGroup":
+    def setOnTransitionValue(self, value: Optional[PositiveInteger]) -> "ModeDeclarationGroup":
         """
-        Sets the value used on mode transitions.
-        If value is an integer, creates an ARNumerical instance with that value.
+        The value of this attribute shall be taken into account by the RTE generator for programmatically representing a value used for the transition between two statuses.
+        A None value is a no-op and does not overwrite an existing value.
 
         Args:
-            value: The value to set for transitions
+            value: The value to set
 
         Returns:
             self for method chaining
         """
-        if isinstance(value, int):
-            original_value = value
-            value = ARNumerical()
-            value.setValue(original_value)
-        self.onTransitionValue = value
+        if value is not None:
+            self.onTransitionValue = value
         return self
 
-    def getOnTransitionValue(self) -> Optional[ARNumerical]:
+    def getOnTransitionValue(self) -> Optional[PositiveInteger]:
         """
-        Gets the value used on mode transitions.
+        The value of this attribute shall be taken into account by the RTE generator for programmatically representing a value used for the transition between two statuses.
 
         Returns:
-            Optional[ARNumerical]: The transition value
+            Optional[PositiveInteger]: The transition value
         """
         return self.onTransitionValue
 
@@ -412,7 +395,7 @@ class ModeDeclarationGroup(AtpType):
 
     def getModeTransitions(self) -> List["ModeTransition"]:
         """
-        Gets all mode transitions of this mode declaration group.
+        This represents the avaliable ModeTransitions of the ModeDeclarationGroup
 
         Returns:
             List of ModeTransition instances
@@ -421,22 +404,20 @@ class ModeDeclarationGroup(AtpType):
 
     def getModeManagerErrorBehavior(self) -> Optional["ModeErrorBehavior"]:
         """
-        Gets the error behavior expected by the mode manager in case of errors on the
-        mode user side (e.g. terminated mode user).
+        This represents the ability to define the error behavior expected by the mode manager in case of errors on the mode user side (e.g. terminated mode user).
 
         Returns:
             Optional["ModeErrorBehavior"]: The mode manager error behavior
         """
         return self.modeManagerErrorBehavior
 
-    def setModeManagerErrorBehavior(self, value: "ModeErrorBehavior") -> "ModeDeclarationGroup":
+    def setModeManagerErrorBehavior(self, value: Optional["ModeErrorBehavior"]) -> "ModeDeclarationGroup":
         """
-        Sets the error behavior expected by the mode manager in case of errors on the
-        mode user side (e.g. terminated mode user).
-        Only sets the value if it is not None.
+        This represents the ability to define the error behavior expected by the mode manager in case of errors on the mode user side (e.g. terminated mode user).
+        A None value is a no-op and does not overwrite an existing value.
 
         Args:
-            value: The mode manager error behavior to set
+            value: The value to set
 
         Returns:
             self for method chaining
@@ -447,22 +428,20 @@ class ModeDeclarationGroup(AtpType):
 
     def getModeUserErrorBehavior(self) -> Optional["ModeErrorBehavior"]:
         """
-        Gets the error behavior expected by the mode user in case of errors on the mode
-        manager side (e.g. terminated mode manager).
+        This represents the definition of the error behavior expected by the mode user in case of errors on the mode manager side (e.g. terminated mode manager).
 
         Returns:
             Optional["ModeErrorBehavior"]: The mode user error behavior
         """
         return self.modeUserErrorBehavior
 
-    def setModeUserErrorBehavior(self, value: "ModeErrorBehavior") -> "ModeDeclarationGroup":
+    def setModeUserErrorBehavior(self, value: Optional["ModeErrorBehavior"]) -> "ModeDeclarationGroup":
         """
-        Sets the error behavior expected by the mode user in case of errors on the mode
-        manager side (e.g. terminated mode manager).
-        Only sets the value if it is not None.
+        This represents the definition of the error behavior expected by the mode user in case of errors on the mode manager side (e.g. terminated mode manager).
+        A None value is a no-op and does not overwrite an existing value.
 
         Args:
-            value: The mode user error behavior to set
+            value: The value to set
 
         Returns:
             self for method chaining
@@ -555,49 +534,44 @@ class ModeDeclarationGroupPrototype(AtpPrototype):
 
 class ModeTransition(AtpStructureElement):
     """
-    This meta-class represents the ability to describe possible ModeTransitions in
-    the context of a ModeDeclarationGroup.
+    This meta-class represents the ability to describe possible ModeTransitions in the context of a Mode DeclarationGroup.
     """
 
     # ModeTransition method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getEnteredModeRef            [x] impl  [x] docstring  [x] test
-    # [x] setEnteredModeRef            [x] impl  [x] docstring  [x] test
-    # [x] getExitedModeRef             [x] impl  [x] docstring  [x] test
-    # [x] setExitedModeRef             [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.12, p.43
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getEnteredModeRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setEnteredModeRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getExitedModeRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setExitedModeRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the ModeTransition with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this mode transition
-            short_name: The unique short name of this mode transition
-        """
         super().__init__(parent, short_name)
 
-        # This represents the entered mode of the ModeTransition.
-        self.enteredModeRef: RefType = None
+        # This represents the entered model of the ModeTransition.
+        self.enteredModeRef: Optional[RefType] = None
 
-        # This represents the exited mode of the ModeTransition.
-        self.exitedModeRef: RefType = None
+        # This represents the exited mode of the ModeTransition
+        self.exitedModeRef: Optional[RefType] = None
 
     def getEnteredModeRef(self) -> Optional[RefType]:
         """
-        Gets the mode that is entered by this transition.
+        This represents the entered model of the ModeTransition.
 
         Returns:
             Optional[RefType]: The entered mode reference
         """
         return self.enteredModeRef
 
-    def setEnteredModeRef(self, value: RefType) -> "ModeTransition":
+    def setEnteredModeRef(self, value: Optional[RefType]) -> "ModeTransition":
         """
-        Sets the mode that is entered by this transition.
-        Only sets the value if it is not None.
+        This represents the entered model of the ModeTransition.
+        A None value is a no-op and does not overwrite an existing value.
 
         Args:
-            value: The entered mode reference to set
+            value: The value to set
 
         Returns:
             self for method chaining
@@ -608,20 +582,20 @@ class ModeTransition(AtpStructureElement):
 
     def getExitedModeRef(self) -> Optional[RefType]:
         """
-        Gets the mode that is exited by this transition.
+        This represents the exited mode of the ModeTransition
 
         Returns:
             Optional[RefType]: The exited mode reference
         """
         return self.exitedModeRef
 
-    def setExitedModeRef(self, value: RefType) -> "ModeTransition":
+    def setExitedModeRef(self, value: Optional[RefType]) -> "ModeTransition":
         """
-        Sets the mode that is exited by this transition.
-        Only sets the value if it is not None.
+        This represents the exited mode of the ModeTransition
+        A None value is a no-op and does not overwrite an existing value.
 
         Args:
-            value: The exited mode reference to set
+            value: The value to set
 
         Returns:
             self for method chaining
@@ -633,45 +607,44 @@ class ModeTransition(AtpStructureElement):
 
 class ModeErrorBehavior(ARObject):
     """
-    Represents mode error behavior in AUTOSAR.
-    This class defines the behavior when a mode error occurs.
+    This represents the ability to define the error behavior in the context of mode handling.
     """
 
     # ModeErrorBehavior method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getDefaultModeRef            [x] impl  [x] docstring  [x] test
-    # [x] setDefaultModeRef            [x] impl  [x] docstring  [x] test
-    # [x] getErrorReactionPolicy       [x] impl  [x] docstring  [x] test
-    # [x] setErrorReactionPolicy       [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.13, p.44
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDefaultModeRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDefaultModeRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getErrorReactionPolicy      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setErrorReactionPolicy      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
-        """
-        Initializes the ModeErrorBehavior with default values.
-        """
         super().__init__()
 
-        # The ModeDeclaration that is considered the error mode.
+        # This represents the ModeDeclaration that is considered the error mode in the context of the enclosing ModeDeclarationGroup.
         self.defaultModeRef: Optional[RefType] = None
 
-        # The policy defining which default mode shall apply in case of error.
-        self.errorReactionPolicy: Optional[str] = None
+        # This represents the ability to define the policy in terms of which default model shall apply in case an error occurs.
+        self.errorReactionPolicy: Optional["ModeErrorReactionPolicyEnum"] = None
 
     def getDefaultModeRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the error mode declaration.
+        This represents the ModeDeclaration that is considered the error mode in the context of the enclosing ModeDeclarationGroup.
 
         Returns:
-            Optional[RefType]: The error mode reference
+            Optional[RefType]: The default mode reference
         """
         return self.defaultModeRef
 
-    def setDefaultModeRef(self, value: RefType) -> "ModeErrorBehavior":
+    def setDefaultModeRef(self, value: Optional[RefType]) -> "ModeErrorBehavior":
         """
-        Sets the reference to the error mode declaration.
-        Only sets the value if it is not None.
+        This represents the ModeDeclaration that is considered the error mode in the context of the enclosing ModeDeclarationGroup.
+        A None value is a no-op and does not overwrite an existing value.
 
         Args:
-            value: The error mode reference to set
+            value: The value to set
 
         Returns:
             self for method chaining
@@ -680,22 +653,22 @@ class ModeErrorBehavior(ARObject):
             self.defaultModeRef = value
         return self
 
-    def getErrorReactionPolicy(self) -> Optional[str]:
+    def getErrorReactionPolicy(self) -> Optional["ModeErrorReactionPolicyEnum"]:
         """
-        Gets the error reaction policy defining behavior on mode error.
+        This represents the ability to define the policy in terms of which default model shall apply in case an error occurs.
 
         Returns:
-            Optional[str]: The error reaction policy
+            Optional[ModeErrorReactionPolicyEnum]: The error reaction policy
         """
         return self.errorReactionPolicy
 
-    def setErrorReactionPolicy(self, value: str) -> "ModeErrorBehavior":
+    def setErrorReactionPolicy(self, value: Optional["ModeErrorReactionPolicyEnum"]) -> "ModeErrorBehavior":
         """
-        Sets the error reaction policy.
-        Only sets the value if it is not None.
+        This represents the ability to define the policy in terms of which default model shall apply in case an error occurs.
+        A None value is a no-op and does not overwrite an existing value.
 
         Args:
-            value: The error reaction policy to set
+            value: The value to set
 
         Returns:
             self for method chaining
@@ -707,21 +680,26 @@ class ModeErrorBehavior(ARObject):
 
 class ModeErrorReactionPolicyEnum(AREnum):
     """
-    Enumeration for mode error reaction policy.
+    This represents the ability to specify the reaction on a mode error.
     """
 
     # ModeErrorReactionPolicyEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.14, p.44
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on ModeErrorBehavior.errorReactionPolicy
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
-    KEEP_MODE = "keep-mode"
-    TRANSITION_TO_DEFAULT_MODE = "transition-to-default-mode"
-    TRANSITION_TO_SAFE_MODE = "transition-to-safe-mode"
+    # This represents the ability to switch to the defaultMode in case of a mode error. Tags: atp.EnumerationLiteralIndex=0
+    DEFAULT_MODE = "defaultMode"
+
+    # This represents the ability to keep the last mode in case of a mode error. Tags: atp.EnumerationLiteralIndex=1
+    LAST_MODE = "lastMode"
 
     def __init__(self):
         super().__init__(
-            (
-                ModeErrorReactionPolicyEnum.KEEP_MODE,
-                ModeErrorReactionPolicyEnum.TRANSITION_TO_DEFAULT_MODE,
-                ModeErrorReactionPolicyEnum.TRANSITION_TO_SAFE_MODE,
-            )
+            [
+                ModeErrorReactionPolicyEnum.DEFAULT_MODE,
+                ModeErrorReactionPolicyEnum.LAST_MODE,
+            ]
         )

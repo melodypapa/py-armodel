@@ -81,7 +81,14 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSu
     RptSupportData,
     RptSwPrototypingAccess,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroup, ModeDeclarationGroupPrototype, ModeDeclarationGroupPrototypeMapping, ModeRequestTypeMap
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
+    ModeDeclarationGroup,
+    ModeDeclarationGroupPrototype,
+    ModeDeclarationGroupPrototypeMapping,
+    ModeErrorBehavior,
+    ModeErrorReactionPolicyEnum,
+    ModeRequestTypeMap,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import HardwareConfiguration, ResourceConsumption, SoftwareContext
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.ExecutionTime import (
     AnalyzedExecutionTime,
@@ -5243,14 +5250,38 @@ class ARXMLParser(AbstractARXMLParser):
             short_name = self.getShortName(child_element)
             declaration = parent.createModeDeclaration(short_name)
             self.readARObjectAttributes(child_element, declaration)
-            declaration.setValue(self.getChildElementOptionalNumericalValue(child_element, "VALUE"))
+            declaration.setValue(self.getChildElementOptionalPositiveInteger(child_element, "VALUE"))
+
+    def readModeErrorBehavior(self, element: ET.Element) -> ModeErrorBehavior:
+        behavior = ModeErrorBehavior()
+        self.readARObjectAttributes(element, behavior)
+        behavior.setDefaultModeRef(self.getChildElementOptionalRefType(element, "DEFAULT-MODE-REF"))
+        error_reaction_policy = self.getChildElementOptionalLiteral(element, "ERROR-REACTION-POLICY")
+        if error_reaction_policy is not None:
+            behavior.setErrorReactionPolicy(ModeErrorReactionPolicyEnum().setValue(error_reaction_policy.getValue()))
+        return behavior
+
+    def readModeDeclarationGroupModeTransition(self, element: ET.Element, parent: ModeDeclarationGroup):
+        for child_element in self.findall(element, "MODE-TRANSITIONS/MODE-TRANSITION"):
+            short_name = self.getShortName(child_element)
+            transition = parent.createModeTransition(short_name)
+            self.readARObjectAttributes(child_element, transition)
+            transition.setEnteredModeRef(self.getChildElementOptionalRefType(child_element, "ENTERED-MODE-REF"))
+            transition.setExitedModeRef(self.getChildElementOptionalRefType(child_element, "EXITED-MODE-REF"))
 
     def readModeDeclarationGroup(self, element: ET.Element, group: ModeDeclarationGroup):
         self.logger.debug("Read ModeDeclarationGroup <%s>" % group.getShortName())
         self.readIdentifiable(element, group)
         self.readModeDeclarationGroupModeDeclaration(element, group)
         group.setInitialModeRef(self.getChildElementOptionalRefType(element, "INITIAL-MODE-REF"))
-        group.setOnTransitionValue(self.getChildElementOptionalNumericalValue(element, "ON-TRANSITION-VALUE"))
+        mode_manager_error_behavior = self.find(element, "MODE-MANAGER-ERROR-BEHAVIOR")
+        if mode_manager_error_behavior is not None:
+            group.setModeManagerErrorBehavior(self.readModeErrorBehavior(mode_manager_error_behavior))
+        self.readModeDeclarationGroupModeTransition(element, group)
+        mode_user_error_behavior = self.find(element, "MODE-USER-ERROR-BEHAVIOR")
+        if mode_user_error_behavior is not None:
+            group.setModeUserErrorBehavior(self.readModeErrorBehavior(mode_user_error_behavior))
+        group.setOnTransitionValue(self.getChildElementOptionalPositiveInteger(element, "ON-TRANSITION-VALUE"))
 
     def readModeSwitchInterfaceModeGroup(self, element: ET.Element, parent: ModeSwitchInterface):
         child_element = self.find(element, "MODE-GROUP")

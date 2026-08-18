@@ -15,6 +15,8 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes 
     ImplementationDataTypeElement,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
+    ModeErrorBehavior,
+    ModeErrorReactionPolicyEnum,
     ModeRequestTypeMap,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import (
@@ -30,6 +32,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARFloat,
     ARLiteral,
     Integer,
+    PositiveInteger,
     RefType,
     RevisionLabelString,
 )
@@ -1220,7 +1223,7 @@ class TestModeDeclarationWriter:
         pkg = autosar.createARPackage("Pkg")
         group = pkg.createModeDeclarationGroup("Group")
         decl = group.createModeDeclaration("Mode")
-        decl.setValue(_make_float(1, "1"))
+        decl.setValue(PositiveInteger().setValue("1"))
 
         parent = _parent()
         writer.setModeDeclaration(parent, decl)
@@ -1272,7 +1275,7 @@ class TestModeDeclarationWriter:
         group = pkg.createModeDeclarationGroup("Group")
         group.setInitialModeRef(_make_ref("/Init", "MODE-DECLARATION"))
         group.createModeDeclaration("Mode")
-        group.setOnTransitionValue(_make_float(5, "5"))
+        group.setOnTransitionValue(PositiveInteger().setValue("5"))
 
         parent = _parent()
         writer.writeModeDeclarationGroup(parent, group)
@@ -1284,6 +1287,76 @@ class TestModeDeclarationWriter:
         assert child.find("INITIAL-MODE-REF").text == "/Init"
         assert child.find("MODE-DECLARATIONS") is not None
         assert child.find("ON-TRANSITION-VALUE").text == "5"
+
+    def test_write_mode_declaration_group_error_behaviors(self, writer):
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Pkg")
+        group = pkg.createModeDeclarationGroup("Group")
+        manager_behavior = ModeErrorBehavior()
+        manager_behavior.setDefaultModeRef(_make_ref("/Group/ErrorMode", "MODE-DECLARATION"))
+        manager_behavior.setErrorReactionPolicy(ModeErrorReactionPolicyEnum().setValue(ModeErrorReactionPolicyEnum.DEFAULT_MODE))
+        group.setModeManagerErrorBehavior(manager_behavior)
+        user_behavior = ModeErrorBehavior()
+        user_behavior.setErrorReactionPolicy(ModeErrorReactionPolicyEnum().setValue(ModeErrorReactionPolicyEnum.LAST_MODE))
+        group.setModeUserErrorBehavior(user_behavior)
+
+        parent = _parent()
+        writer.writeModeDeclarationGroup(parent, group)
+
+        child = parent[0]
+        manager_el = child.find("MODE-MANAGER-ERROR-BEHAVIOR")
+        assert manager_el is not None
+        assert manager_el.find("DEFAULT-MODE-REF").text == "/Group/ErrorMode"
+        assert manager_el.find("ERROR-REACTION-POLICY").text == "defaultMode"
+        user_el = child.find("MODE-USER-ERROR-BEHAVIOR")
+        assert user_el is not None
+        assert user_el.find("DEFAULT-MODE-REF") is None
+        assert user_el.find("ERROR-REACTION-POLICY").text == "lastMode"
+
+    def test_write_mode_declaration_group_error_behaviors_none(self, writer):
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Pkg")
+        group = pkg.createModeDeclarationGroup("Group")
+
+        parent = _parent()
+        writer.writeModeDeclarationGroup(parent, group)
+
+        child = parent[0]
+        assert child.find("MODE-MANAGER-ERROR-BEHAVIOR") is None
+        assert child.find("MODE-USER-ERROR-BEHAVIOR") is None
+
+    def test_write_mode_declaration_group_mode_transitions(self, writer):
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Pkg")
+        group = pkg.createModeDeclarationGroup("Group")
+        group.createModeDeclaration("Mode1")
+        group.createModeDeclaration("Mode2")
+        transition = group.createModeTransition("Transition1")
+        transition.setEnteredModeRef(_make_ref("/Group/Mode2", "MODE-DECLARATION"))
+        transition.setExitedModeRef(_make_ref("/Group/Mode1", "MODE-DECLARATION"))
+
+        parent = _parent()
+        writer.writeModeDeclarationGroup(parent, group)
+
+        child = parent[0]
+        transitions_el = child.find("MODE-TRANSITIONS")
+        assert transitions_el is not None
+        assert len(transitions_el) == 1
+        assert transitions_el[0].tag == "MODE-TRANSITION"
+        assert transitions_el[0].find("SHORT-NAME").text == "Transition1"
+        assert transitions_el[0].find("ENTERED-MODE-REF").text == "/Group/Mode2"
+        assert transitions_el[0].find("EXITED-MODE-REF").text == "/Group/Mode1"
+
+    def test_write_mode_declaration_group_mode_transitions_none(self, writer):
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Pkg")
+        group = pkg.createModeDeclarationGroup("Group")
+
+        parent = _parent()
+        writer.writeModeDeclarationGroup(parent, group)
+
+        child = parent[0]
+        assert child.find("MODE-TRANSITIONS") is None
 
     def test_write_mode_switch_interface_mode_group(self, writer):
         autosar = AUTOSAR.getInstance()
