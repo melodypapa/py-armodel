@@ -1011,13 +1011,15 @@ class TestWriterBswModuleEntry:
 
     def test_writeBswModuleEntry_full(self, writer):
         entry = _make_entry()
-        entry.setServiceId(_numerical(42))
+        entry.setServiceId(_posint(42))
         entry.setIsReentrant(_bool(True))
         entry.setIsSynchronous(_bool(False))
         entry.setCallType(_literal("scheduled"))
         entry.setExecutionContext(_literal("task"))
         entry.setSwServiceImplPolicy(_literal("inline"))
-        entry.setBswEntryKind(_literal("function"))
+        entry.setBswEntryKind(_literal("concrete"))
+        entry.setRole(_literal("theRole"))
+        entry.setFunctionPrototypeEmitter(_literal("RTE"))
         entry.createReturnType("ret")
         entry.createArgument("arg")
         parent = _parent()
@@ -1031,6 +1033,8 @@ class TestWriterBswModuleEntry:
         assert e.find("EXECUTION-CONTEXT") is not None
         assert e.find("SW-SERVICE-IMPL-POLICY") is not None
         assert e.find("BSW-ENTRY-KIND") is not None
+        assert e.find("ROLE").text == "theRole"
+        assert e.find("FUNCTION-PROTOTYPE-EMITTER").text == "RTE"
         assert e.find("RETURN-TYPE") is not None
         assert e.find("ARGUMENTS") is not None
 

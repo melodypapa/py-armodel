@@ -18,162 +18,137 @@ from typing import List, Optional
 
 class BswModuleDescription(AtpStructureElement):
     """
-    Represents the description of a single BSW module or BSW cluster in AUTOSAR.
-    In case it describes a BSW module, the short name of this element equals the name of the BSW module.
-    This is the root element for describing BSW module structure, interfaces, and behavior.
+    Root element for the description of a single BSW module or BSW cluster. In case it describes a BSW module, the short name of this element equals the name of the BSW module.
     """
 
     # BswModuleDescription method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getBswModuleDependencies     [x] impl  [x] docstring  [x] test
-    # [x] setBswModuleDependencies     [x] impl  [x] docstring  [x] test
-    # [x] getBswModuleDocumentation    [x] impl  [x] docstring  [x] test
-    # [x] setBswModuleDocumentation    [x] impl  [x] docstring  [x] test
-    # [x] getExpectedEntryRefs         [x] impl  [x] docstring  [x] test
-    # [x] setExpectedEntryRefs         [x] impl  [x] docstring  [x] test
-    # [x] getImplementedEntryRefs      [x] impl  [x] docstring  [x] test
-    # [x] addImplementedEntryRef       [x] impl  [x] docstring  [x] test
-    # [x] getInternalBehaviors         [x] impl  [x] docstring  [x] test
-    # [x] setInternalBehaviors         [x] impl  [x] docstring  [x] test
-    # [x] createBswInternalBehavior    [x] impl  [x] docstring  [x] test
-    # [x] getModuleId                  [x] impl  [x] docstring  [x] test
-    # [x] setModuleId                  [x] impl  [x] docstring  [x] test
-    # [x] getProvidedClientServerEntries [x] impl  [x] docstring  [x] test
-    # [x] createProvidedClientServerEntry [x] impl  [x] docstring  [x] test
-    # [x] getProvidedDatas             [x] impl  [x] docstring  [x] test
-    # [x] createProvidedData           [x] impl  [x] docstring  [x] test
-    # [x] getProvidedModeGroups        [x] impl  [x] docstring  [x] test
-    # [x] createProvidedModeGroup      [x] impl  [x] docstring  [x] test
-    # [x] getReleasedTriggers          [x] impl  [x] docstring  [x] test
-    # [x] createReleasedTrigger        [x] impl  [x] docstring  [x] test
-    # [x] getRequiredClientServerEntries [x] impl  [x] docstring  [x] test
-    # [x] createRequiredClientServerEntry [x] impl  [x] docstring  [x] test
-    # [x] getRequiredDatas             [x] impl  [x] docstring  [x] test
-    # [x] createRequiredData           [x] impl  [x] docstring  [x] test
-    # [x] getRequiredModeGroups        [x] impl  [x] docstring  [x] test
-    # [x] createRequiredModeGroup      [x] impl  [x] docstring  [x] test
-    # [x] getRequiredTriggers          [x] impl  [x] docstring  [x] test
-    # [x] createRequiredTrigger        [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 3.1, p.29
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getBswModuleDependencies      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createBswModuleDependency     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] addBswModuleDependency        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getBswModuleDocumentation     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setBswModuleDocumentation      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getExpectedEntryRefs          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setExpectedEntryRefs          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] addExpectedEntryRef           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getImplementedEntryRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addImplementedEntryRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getInternalBehaviors          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setInternalBehaviors          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] createBswInternalBehavior     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getModuleId                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setModuleId                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getProvidedClientServerEntries [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createProvidedClientServerEntry [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getProvidedDatas              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createProvidedData            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getProvidedModeGroups         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createProvidedModeGroup       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getReleasedTriggers           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createReleasedTrigger         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRequiredClientServerEntries [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createRequiredClientServerEntry [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRequiredDatas              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createRequiredData            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRequiredModeGroups         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createRequiredModeGroup       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRequiredTriggers           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createRequiredTrigger         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BSW module description with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this BSW module description
-            short_name: The unique short name of this BSW module (equals the module name)
-        """
         super().__init__(parent, short_name)
 
-        # Describes the dependency to another BSW module
+        # Describes the dependency to another BSW module.
         self.bswModuleDependencies: List[BswModuleDependency] = []
 
-        # This adds a documentation to the BSW module
-        self.bswModuleDocumentation: SwComponentDocumentation = None
+        # This adds a documentation to the BSW module.
+        self.bswModuleDocumentation: Optional[SwComponentDocumentation] = None
 
-        # Indicates an entry which is required by this module.
-        # Replacement of outgoingCallback / requiredEntry.
+        # Indicates an entry which is required by this module. Replacement of outgoingCallback / requiredEntry.
         self.expectedEntryRefs: List[RefType] = []
 
-        # Specifies an entry provided by this module which can be called by other modules.
-        # This includes "main" functions, interrupt routines, and callbacks.
-        # Replacement of providedEntry / expectedCallback.
+        # Specifies an entry provided by this module which can be called by other modules. This includes "main" functions, interrupt routines, and callbacks. Replacement of providedEntry / expectedCallback.
         self.implementedEntryRefs: List[RefType] = []
 
-        # The various BswInternalBehaviors associated with a BswModuleDescription
-        # can be distributed over several physical files (<<atpSplitable>>).
+        # The various BswInternalBehaviors associated with a BswModuleDescription can be distributed over several physical files. Therefore the aggregation is <<atpSplitable>>.
         self.internalBehaviors: List[BswInternalBehavior] = []
 
-        # Refers to the BSW Module Identifier defined by the AUTOSAR standard.
-        # For non-standardized modules, a proprietary identifier can be optionally chosen.
-        self.moduleId: PositiveInteger = None
+        # Refers to the BSW Module Identifier defined by the AUTOSAR standard. For non-standardized modules, a proprietary identifier can be optionally chosen.
+        self.moduleId: Optional[PositiveInteger] = None
 
-        # Specifies that this module provides a client server entry which can be called
-        # from another partition or core. This entry is declared locally to this context
-        # and will be connected to the requiredClientServerEntry of another or the same
-        # module via the configuration of the BSW Scheduler.
+        # Specifies that this module provides a client server entry which can be called from another partition or core. This entry is declared locally to this context and will be connected to the requiredClientServerEntry of another or the same module via the configuration of the BSW Scheduler.
         self.providedClientServerEntries: List[BswModuleClientServerEntry] = []
 
-        # Specifies a data prototype provided by this module in order to be read from
-        # another partition or core. The providedData is declared locally to this context
-        # and will be connected to the requiredData of another or the same module via
-        # the configuration of the BSW Scheduler.
+        # Specifies a data prototype provided by this module in order to be read from another partition or core. The providedData is declared locally to this context and will be connected to the requiredData of another or the same module via the configuration of the BSW Scheduler.
         self.providedDatas: List[VariableDataPrototype] = []
 
-        # A set of modes which is owned and provided by this module or cluster. It can be
-        # connected to the requiredModeGroups of other modules or clusters via the
-        # configuration of the BswScheduler. It can also be synchronized with modes provided
-        # via ports by an associated ServiceSwComponentType, EcuAbstractionSwComponentType
-        # or ComplexDeviceDriverSwComponentType.
+        # A set of modes which is owned and provided by this module or cluster. It can be connected to the requiredModeGroups of other modules or clusters via the configuration of the BswScheduler. It can also be synchronized with modes provided via ports by an associated ServiceSwComponentType, EcuAbstractionSwComponentType or ComplexDeviceDriverSwComponentType.
         self.providedModeGroups: List[ModeDeclarationGroupPrototype] = []
 
-        # A Trigger released by this module or cluster. It can be connected to the
-        # requiredTriggers of other modules or clusters via the configuration of the
-        # BswScheduler. It can also be synchronized with Triggers provided via ports by an
-        # associated ServiceSwComponentType, EcuAbstractionSwComponentType or
-        # ComplexDeviceDriverSwComponentType.
+        # A Trigger released by this module or cluster. It can be connected to the requiredTriggers of other modules or clusters via the configuration of the BswScheduler. It can also be synchronized with Triggers provided via ports by an associated ServiceSwComponentType, EcuAbstractionSwComponentType or ComplexDeviceDriverSwComponentType.
         self.releasedTriggers: List[Trigger] = []
 
-        # Specifies that this module requires a client server entry which can be implemented
-        # on another partition or core. This entry is declared locally to this context and
-        # will be connected to the providedClientServerEntry of another or the same module
-        # via the configuration of the BSW Scheduler.
+        # Specifies that this module requires a client server entry which can be implemented on another partition or core. This entry is declared locally to this context and will be connected to the providedClientServerEntry of another or the same module via the configuration of the BSW Scheduler.
         self.requiredClientServerEntries: List[BswModuleClientServerEntry] = []
 
-        # Specifies a data prototype required by this module in order to be provided from
-        # another partition or core. The requiredData is declared locally to this context
-        # and will be connected to the providedData of another or the same module via the
-        # configuration of the BswScheduler.
+        # Specifies a data prototype required by this module in order to be provided from another partition or core. The requiredData is declared locally to this context and will be connected to the providedData of another or the same module via the configuration of the BswScheduler.
         self.requiredDatas: List[VariableDataPrototype] = []
 
-        # Specifies that this module or cluster depends on a certain mode group. The
-        # requiredModeGroup is local to this context and will be connected to the
-        # providedModeGroup of another module or cluster via the configuration of the
-        # BswScheduler.
+        # Specifies that this module or cluster depends on a certain mode group. The requiredModeGroup is local to this context and will be connected to the providedModeGroup of another module or cluster via the configuration of the BswScheduler.
         self.requiredModeGroups: List[ModeDeclarationGroupPrototype] = []
 
-        # Specifies that this module or cluster reacts upon an external trigger. This
-        # requiredTrigger is declared locally to this context and will be connected to the
-        # providedTrigger of another module or cluster via the configuration of the
-        # BswScheduler.
+        # Specifies that this module or cluster reacts upon an external trigger. This requiredTrigger is declared locally to this context and will be connected to the providedTrigger of another module or cluster via the configuration of the BswScheduler.
         self.requiredTriggers: List[Trigger] = []
 
     def getBswModuleDependencies(self) -> List[BswModuleDependency]:
         """
-        Gets the list of dependencies to other BSW modules.
-
-        Returns:
-            List of BswModuleDependency instances
+        Describes the dependency to another BSW module.
         """
         return self.bswModuleDependencies
 
-    def setBswModuleDependencies(self, value: List[BswModuleDependency]) -> "BswModuleDescription":
+    def createBswModuleDependency(self, short_name: str) -> BswModuleDependency:
         """
-        Sets the list of dependencies to other BSW modules.
-        Only sets the value if it is not None.
+        Describes the dependency to another BSW module.
 
         Args:
-            value: List of BswModuleDependency instances to set
+            short_name: The short name for the new BSW module dependency
+
+        Returns:
+            The created BswModuleDependency instance
+        """
+        if not self.IsElementExists(short_name):
+            dependency = BswModuleDependency(self, short_name)
+            self.addElement(dependency)
+            self.bswModuleDependencies.append(dependency)
+        return self.getElement(short_name)
+
+    def addBswModuleDependency(self, value: BswModuleDependency) -> "BswModuleDescription":
+        """
+        Describes the dependency to another BSW module.
+        Only adds the value if it is not None.
+
+        Args:
+            value: BswModuleDependency instance to add
 
         Returns:
             self for method chaining
         """
         if value is not None:
-            self.bswModuleDependencies = value
+            self.bswModuleDependencies.append(value)
         return self
 
     def getBswModuleDocumentation(self) -> Optional[SwComponentDocumentation]:
         """
-        Gets the documentation attached to this BSW module.
-
-        Returns:
-            SwComponentDocumentation instance containing module documentation
+        This adds a documentation to the BSW module.
         """
         return self.bswModuleDocumentation
 
     def setBswModuleDocumentation(self, value: SwComponentDocumentation) -> "BswModuleDescription":
         """
-        Sets the documentation attached to this BSW module.
+        This adds a documentation to the BSW module.
         Only sets the value if it is not None.
 
         Args:
@@ -188,18 +163,13 @@ class BswModuleDescription(AtpStructureElement):
 
     def getExpectedEntryRefs(self) -> List[RefType]:
         """
-        Gets the list of expected entry references that this module requires.
-        These are entries required by this module
-        (replacement of outgoingCallback / requiredEntry).
-
-        Returns:
-            List of RefType to expected entries
+        Indicates an entry which is required by this module. Replacement of outgoingCallback / requiredEntry.
         """
         return self.expectedEntryRefs
 
     def setExpectedEntryRefs(self, value: List[RefType]) -> "BswModuleDescription":
         """
-        Sets the list of expected entry references that this module requires.
+        Indicates an entry which is required by this module. Replacement of outgoingCallback / requiredEntry.
         Only sets the value if it is not None.
 
         Args:
@@ -212,22 +182,30 @@ class BswModuleDescription(AtpStructureElement):
             self.expectedEntryRefs = value
         return self
 
-    def getImplementedEntryRefs(self) -> List[RefType]:
+    def addExpectedEntryRef(self, value: RefType) -> "BswModuleDescription":
         """
-        Gets the list of implemented entry references that this module provides.
-        These are entries provided by this module which can be called by other modules,
-        including "main" functions, interrupt routines, and callbacks
-        (replacement of providedEntry / expectedCallback).
+        Indicates an entry which is required by this module. Replacement of outgoingCallback / requiredEntry.
+        Only adds the value if it is not None.
+
+        Args:
+            value: RefType to an expected entry to add
 
         Returns:
-            List of RefType to implemented entries
+            self for method chaining
+        """
+        if value is not None:
+            self.expectedEntryRefs.append(value)
+        return self
+
+    def getImplementedEntryRefs(self) -> List[RefType]:
+        """
+        Specifies an entry provided by this module which can be called by other modules. This includes "main" functions, interrupt routines, and callbacks. Replacement of providedEntry / expectedCallback.
         """
         return self.implementedEntryRefs
 
     def addImplementedEntryRef(self, value: RefType) -> "BswModuleDescription":
         """
-        Adds an implemented entry reference to this module's list.
-        These are entries provided by this module which can be called by other modules.
+        Specifies an entry provided by this module which can be called by other modules. This includes "main" functions, interrupt routines, and callbacks. Replacement of providedEntry / expectedCallback.
         Only adds the value if it is not None.
 
         Args:
@@ -242,18 +220,13 @@ class BswModuleDescription(AtpStructureElement):
 
     def getInternalBehaviors(self) -> List[BswInternalBehavior]:
         """
-        Gets the list of internal behaviors of this BSW module.
-        The various BswInternalBehaviors can be distributed over several physical files.
-
-        Returns:
-            List of BswInternalBehavior instances
+        The various BswInternalBehaviors associated with a BswModuleDescription can be distributed over several physical files. Therefore the aggregation is <<atpSplitable>>.
         """
         return self.internalBehaviors
 
     def setInternalBehaviors(self, value: List[BswInternalBehavior]) -> "BswModuleDescription":
         """
-        Sets the list of internal behaviors of this BSW module.
-        The various BswInternalBehaviors can be distributed over several physical files.
+        The various BswInternalBehaviors associated with a BswModuleDescription can be distributed over several physical files. Therefore the aggregation is <<atpSplitable>>.
         Only sets the value if it is not None.
 
         Args:
@@ -268,8 +241,7 @@ class BswModuleDescription(AtpStructureElement):
 
     def createBswInternalBehavior(self, short_name: str) -> BswInternalBehavior:
         """
-        Creates and adds a BSW internal behavior to this module description.
-        This defines how the module behaves internally, including its events and entities.
+        The various BswInternalBehaviors associated with a BswModuleDescription can be distributed over several physical files. Therefore the aggregation is <<atpSplitable>>.
 
         Args:
             short_name: The short name for the new internal behavior
@@ -285,18 +257,13 @@ class BswModuleDescription(AtpStructureElement):
 
     def getModuleId(self) -> Optional[PositiveInteger]:
         """
-        Gets the BSW Module Identifier defined by the AUTOSAR standard.
-        For non-standardized modules, a proprietary identifier can be optionally chosen.
-
-        Returns:
-            Positive integer representing the module ID
+        Refers to the BSW Module Identifier defined by the AUTOSAR standard. For non-standardized modules, a proprietary identifier can be optionally chosen.
         """
         return self.moduleId
 
     def setModuleId(self, value: PositiveInteger) -> "BswModuleDescription":
         """
-        Sets the BSW Module Identifier defined by the AUTOSAR standard.
-        For non-standardized modules, a proprietary identifier can be optionally chosen.
+        Refers to the BSW Module Identifier defined by the AUTOSAR standard. For non-standardized modules, a proprietary identifier can be optionally chosen.
         Only sets the value if it is not None.
 
         Args:
@@ -311,19 +278,13 @@ class BswModuleDescription(AtpStructureElement):
 
     def getProvidedClientServerEntries(self) -> List[BswModuleClientServerEntry]:
         """
-        Gets the list of client-server entries that this module provides.
-        These are entries which can be called from another partition or core, connected to
-        the requiredClientServerEntry of another or the same module via the BSW Scheduler.
-
-        Returns:
-            List of BswModuleClientServerEntry instances
+        Specifies that this module provides a client server entry which can be called from another partition or core. This entry is declared locally to this context and will be connected to the requiredClientServerEntry of another or the same module via the configuration of the BSW Scheduler.
         """
         return self.providedClientServerEntries
 
     def createProvidedClientServerEntry(self, short_name: str) -> BswModuleClientServerEntry:
         """
-        Creates and adds a client-server entry that this module provides to others.
-        This is a service interface that this module offers to other modules.
+        Specifies that this module provides a client server entry which can be called from another partition or core. This entry is declared locally to this context and will be connected to the requiredClientServerEntry of another or the same module via the configuration of the BSW Scheduler.
 
         Args:
             short_name: The short name for the new provided client-server entry
@@ -339,20 +300,13 @@ class BswModuleDescription(AtpStructureElement):
 
     def getProvidedDatas(self) -> List[VariableDataPrototype]:
         """
-        Gets the list of data prototypes that this module provides.
-        These are data prototypes provided by this module to be read from another partition
-        or core, connected to the requiredData of another or the same module via the
-        BSW Scheduler.
-
-        Returns:
-            List of VariableDataPrototype instances
+        Specifies a data prototype provided by this module in order to be read from another partition or core. The providedData is declared locally to this context and will be connected to the requiredData of another or the same module via the configuration of the BSW Scheduler.
         """
         return self.providedDatas
 
     def createProvidedData(self, short_name: str) -> VariableDataPrototype:
         """
-        Creates and adds a data prototype that this module provides to others.
-        This is a data interface that this module offers to other modules.
+        Specifies a data prototype provided by this module in order to be read from another partition or core. The providedData is declared locally to this context and will be connected to the requiredData of another or the same module via the configuration of the BSW Scheduler.
 
         Args:
             short_name: The short name for the new provided data prototype
@@ -368,19 +322,13 @@ class BswModuleDescription(AtpStructureElement):
 
     def getProvidedModeGroups(self) -> List[ModeDeclarationGroupPrototype]:
         """
-        Gets the list of mode group prototypes that this module provides.
-        These are a set of modes owned and provided by this module or cluster, connected to
-        the requiredModeGroups of other modules or clusters via the BswScheduler.
-
-        Returns:
-            List of ModeDeclarationGroupPrototype instances
+        A set of modes which is owned and provided by this module or cluster. It can be connected to the requiredModeGroups of other modules or clusters via the configuration of the BswScheduler. It can also be synchronized with modes provided via ports by an associated ServiceSwComponentType, EcuAbstractionSwComponentType or ComplexDeviceDriverSwComponentType.
         """
         return self.providedModeGroups
 
     def createProvidedModeGroup(self, short_name: str) -> ModeDeclarationGroupPrototype:
         """
-        Creates and adds a mode group prototype that this module provides to others.
-        This is a mode interface that this module offers to other modules for mode management.
+        A set of modes which is owned and provided by this module or cluster. It can be connected to the requiredModeGroups of other modules or clusters via the configuration of the BswScheduler. It can also be synchronized with modes provided via ports by an associated ServiceSwComponentType, EcuAbstractionSwComponentType or ComplexDeviceDriverSwComponentType.
 
         Args:
             short_name: The short name for the new provided mode group
@@ -396,19 +344,13 @@ class BswModuleDescription(AtpStructureElement):
 
     def getReleasedTriggers(self) -> List[Trigger]:
         """
-        Gets the list of triggers that this module releases.
-        These are triggers released by this module or cluster, connected to the
-        requiredTriggers of other modules or clusters via the BswScheduler.
-
-        Returns:
-            List of Trigger instances
+        A Trigger released by this module or cluster. It can be connected to the requiredTriggers of other modules or clusters via the configuration of the BswScheduler. It can also be synchronized with Triggers provided via ports by an associated ServiceSwComponentType, EcuAbstractionSwComponentType or ComplexDeviceDriverSwComponentType.
         """
         return self.releasedTriggers
 
     def createReleasedTrigger(self, short_name: str) -> Trigger:
         """
-        Creates and adds a trigger that this module releases to others.
-        This is a trigger interface that this module can send to other modules.
+        A Trigger released by this module or cluster. It can be connected to the requiredTriggers of other modules or clusters via the configuration of the BswScheduler. It can also be synchronized with Triggers provided via ports by an associated ServiceSwComponentType, EcuAbstractionSwComponentType or ComplexDeviceDriverSwComponentType.
 
         Args:
             short_name: The short name for the new released trigger
@@ -424,19 +366,13 @@ class BswModuleDescription(AtpStructureElement):
 
     def getRequiredClientServerEntries(self) -> List[BswModuleClientServerEntry]:
         """
-        Gets the list of client-server entries that this module requires.
-        These are entries which can be implemented on another partition or core, connected
-        to the providedClientServerEntry of another or the same module via the BSW Scheduler.
-
-        Returns:
-            List of BswModuleClientServerEntry instances
+        Specifies that this module requires a client server entry which can be implemented on another partition or core. This entry is declared locally to this context and will be connected to the providedClientServerEntry of another or the same module via the configuration of the BSW Scheduler.
         """
         return self.requiredClientServerEntries
 
     def createRequiredClientServerEntry(self, short_name: str) -> BswModuleClientServerEntry:
         """
-        Creates and adds a client-server entry that this module requires from others.
-        This is a service interface that this module needs from other modules.
+        Specifies that this module requires a client server entry which can be implemented on another partition or core. This entry is declared locally to this context and will be connected to the providedClientServerEntry of another or the same module via the configuration of the BSW Scheduler.
 
         Args:
             short_name: The short name for the new required client-server entry
@@ -452,20 +388,13 @@ class BswModuleDescription(AtpStructureElement):
 
     def getRequiredDatas(self) -> List[VariableDataPrototype]:
         """
-        Gets the list of data prototypes that this module requires.
-        These are data prototypes required by this module to be provided from another
-        partition or core, connected to the providedData of another or the same module via
-        the BSW Scheduler.
-
-        Returns:
-            List of VariableDataPrototype instances
+        Specifies a data prototype required by this module in order to be provided from another partition or core. The requiredData is declared locally to this context and will be connected to the providedData of another or the same module via the configuration of the BswScheduler.
         """
         return self.requiredDatas
 
     def createRequiredData(self, short_name: str) -> VariableDataPrototype:
         """
-        Creates and adds a data prototype that this module requires from others.
-        This is a data interface that this module needs from other modules.
+        Specifies a data prototype required by this module in order to be provided from another partition or core. The requiredData is declared locally to this context and will be connected to the providedData of another or the same module via the configuration of the BswScheduler.
 
         Args:
             short_name: The short name for the new required data prototype
@@ -481,19 +410,13 @@ class BswModuleDescription(AtpStructureElement):
 
     def getRequiredModeGroups(self) -> List[ModeDeclarationGroupPrototype]:
         """
-        Gets the list of mode group prototypes that this module requires.
-        These indicate a dependency on a certain mode group, connected to the
-        providedModeGroup of another module or cluster via the BswScheduler.
-
-        Returns:
-            List of ModeDeclarationGroupPrototype instances
+        Specifies that this module or cluster depends on a certain mode group. The requiredModeGroup is local to this context and will be connected to the providedModeGroup of another module or cluster via the configuration of the BswScheduler.
         """
         return self.requiredModeGroups
 
     def createRequiredModeGroup(self, short_name: str) -> ModeDeclarationGroupPrototype:
         """
-        Creates and adds a mode group prototype that this module requires from others.
-        This is a mode interface that this module needs from other modules for mode management.
+        Specifies that this module or cluster depends on a certain mode group. The requiredModeGroup is local to this context and will be connected to the providedModeGroup of another module or cluster via the configuration of the BswScheduler.
 
         Args:
             short_name: The short name for the new required mode group
@@ -509,19 +432,13 @@ class BswModuleDescription(AtpStructureElement):
 
     def getRequiredTriggers(self) -> List[Trigger]:
         """
-        Gets the list of triggers that this module requires.
-        These indicate that this module or cluster reacts upon an external trigger,
-        connected to the providedTrigger of another module or cluster via the BswScheduler.
-
-        Returns:
-            List of Trigger instances
+        Specifies that this module or cluster reacts upon an external trigger. This requiredTrigger is declared locally to this context and will be connected to the providedTrigger of another module or cluster via the configuration of the BswScheduler.
         """
         return self.requiredTriggers
 
     def createRequiredTrigger(self, short_name: str) -> Trigger:
         """
-        Creates and adds a trigger that this module requires from others.
-        This is a trigger interface that this module needs from other modules.
+        Specifies that this module or cluster reacts upon an external trigger. This requiredTrigger is declared locally to this context and will be connected to the providedTrigger of another module or cluster via the configuration of the BswScheduler.
 
         Args:
             short_name: The short name for the new required trigger

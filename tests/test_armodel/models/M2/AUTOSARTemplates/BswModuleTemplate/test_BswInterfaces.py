@@ -6,8 +6,6 @@ and BswModuleClientServerEntry. These classes represent BSW-specific interface e
 that define dependencies, module entries, and client-server relationships in the AUTOSAR architecture.
 """
 
-import pytest
-
 from armodel import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import (
     BswCallType,
@@ -18,47 +16,95 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import (
     BswModuleEntry,
     SwServiceImplPolicyEnum,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Identifier, NameToken, PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, NameToken, PositiveInteger, RefType
 
 
 class TestBswEntryKindEnum:
     """Test cases for BswEntryKindEnum enumeration."""
 
     def test_bsw_entry_kind_enum_values(self):
-        """Test BswEntryKindEnum values."""
-        assert BswEntryKindEnum.FUNCTION == "FUNCTION"
+        """Test BswEntryKindEnum values and instantiability (AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Table 4.2)."""
+        BswEntryKindEnum()
+        assert hasattr(BswEntryKindEnum, "ABSTRACT")
+        assert hasattr(BswEntryKindEnum, "CONCRETE")
+        assert BswEntryKindEnum.ABSTRACT == "abstract"
+        assert BswEntryKindEnum.CONCRETE == "concrete"
+
+    def test_bsw_entry_kind_enum_set_value(self):
+        """Test setting an enum value via the AREnum pattern."""
+        enum = BswEntryKindEnum()
+        enum.setValue(BswEntryKindEnum.ABSTRACT)
+        assert enum.getValue() == "abstract"
 
 
 class TestBswCallType:
     """Test cases for BswCallType enumeration."""
 
     def test_bsw_call_type_enum_values(self):
-        """Test BswCallType enum values."""
-        assert BswCallType.SYNCHRONOUS == "SYNCHRONOUS"
-        assert BswCallType.ASYNCHRONOUS == "ASYNCHRONOUS"
+        """Test BswCallType enum values and instantiability (AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Table 4.4)."""
+        BswCallType()
+        assert hasattr(BswCallType, "CALLBACK")
+        assert hasattr(BswCallType, "CALLOUT")
+        assert hasattr(BswCallType, "INTERRUPT")
+        assert hasattr(BswCallType, "REGULAR")
+        assert hasattr(BswCallType, "SCHEDULED")
+        assert BswCallType.CALLBACK == "callback"
+        assert BswCallType.CALLOUT == "callout"
+        assert BswCallType.INTERRUPT == "interrupt"
+        assert BswCallType.REGULAR == "regular"
+        assert BswCallType.SCHEDULED == "scheduled"
+
+    def test_bsw_call_type_enum_set_value(self):
+        """Test setting an enum value via the AREnum pattern."""
+        enum = BswCallType()
+        enum.setValue(BswCallType.REGULAR)
+        assert enum.getValue() == "regular"
 
 
 class TestBswExecutionContext:
     """Test cases for BswExecutionContext enumeration."""
 
     def test_bsw_execution_context_enum_values(self):
-        """Test BswExecutionContext enum values."""
-        assert BswExecutionContext.HOOK == "HOOK"
-        assert BswExecutionContext.INTERRUPT_CAT_1 == "INTERRUPT-CAT-1"
-        assert BswExecutionContext.INTERRUPT_CAT_2 == "INTERRUPT-CAT-2"
-        assert BswExecutionContext.TASK == "TASK"
-        assert BswExecutionContext.UNSPECIFIED == "UNSPECIFIED"
+        """Test BswExecutionContext enum values and instantiability (AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Table 4.3)."""
+        BswExecutionContext()
+        assert hasattr(BswExecutionContext, "HOOK")
+        assert hasattr(BswExecutionContext, "INTERRUPT_CAT_1")
+        assert hasattr(BswExecutionContext, "INTERRUPT_CAT_2")
+        assert hasattr(BswExecutionContext, "TASK")
+        assert hasattr(BswExecutionContext, "UNSPECIFIED")
+        assert BswExecutionContext.HOOK == "hook"
+        assert BswExecutionContext.INTERRUPT_CAT_1 == "interruptCat1"
+        assert BswExecutionContext.INTERRUPT_CAT_2 == "interruptCat2"
+        assert BswExecutionContext.TASK == "task"
+        assert BswExecutionContext.UNSPECIFIED == "unspecified"
+
+    def test_bsw_execution_context_enum_set_value(self):
+        """Test setting an enum value via the AREnum pattern."""
+        enum = BswExecutionContext()
+        enum.setValue(BswExecutionContext.TASK)
+        assert enum.getValue() == "task"
 
 
 class TestSwServiceImplPolicyEnum:
     """Test cases for SwServiceImplPolicyEnum enumeration."""
 
     def test_sw_service_impl_policy_enum_values(self):
-        """Test SwServiceImplPolicyEnum enum values."""
-        assert SwServiceImplPolicyEnum.INLINE == "INLINE"
-        assert SwServiceImplPolicyEnum.INLINE_CONDITIONAL == "INLINE-CONDITIONAL"
-        assert SwServiceImplPolicyEnum.MACRO == "MACRO"
-        assert SwServiceImplPolicyEnum.STANDARD == "STANDARD"
+        """Test SwServiceImplPolicyEnum enum values and instantiability (AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate Table 4.5)."""
+        SwServiceImplPolicyEnum()
+        assert hasattr(SwServiceImplPolicyEnum, "INLINE")
+        assert hasattr(SwServiceImplPolicyEnum, "INLINE_CONDITIONAL")
+        assert hasattr(SwServiceImplPolicyEnum, "MACRO")
+        assert hasattr(SwServiceImplPolicyEnum, "STANDARD")
+        assert SwServiceImplPolicyEnum.INLINE == "inline"
+        assert SwServiceImplPolicyEnum.INLINE_CONDITIONAL == "inlineConditional"
+        assert SwServiceImplPolicyEnum.MACRO == "macro"
+        assert SwServiceImplPolicyEnum.STANDARD == "standard"
+
+    def test_sw_service_impl_policy_enum_set_value(self):
+        """Test setting an enum value via the AREnum pattern."""
+        enum = SwServiceImplPolicyEnum()
+        enum.setValue(SwServiceImplPolicyEnum.STANDARD)
+        assert enum.getValue() == "standard"
 
 
 class TestBswModuleDependency:
@@ -159,15 +205,15 @@ class TestBswModuleEntry:
         ar_root = document.createARPackage("AUTOSAR")
         entry = BswModuleEntry(ar_root, "test_entry")
 
-        result = entry.setBswEntryKind(BswEntryKindEnum.FUNCTION)
+        result = entry.setBswEntryKind(BswEntryKindEnum.CONCRETE)
 
         assert result == entry
-        assert entry.getBswEntryKind() == BswEntryKindEnum.FUNCTION
+        assert entry.getBswEntryKind() == BswEntryKindEnum.CONCRETE
 
         # Test setting None (should not change value)
         result = entry.setBswEntryKind(None)
         assert result == entry
-        assert entry.getBswEntryKind() == BswEntryKindEnum.FUNCTION  # Should remain unchanged
+        assert entry.getBswEntryKind() == BswEntryKindEnum.CONCRETE  # Should remain unchanged
 
     def test_get_set_call_type(self):
         """Test getter and setter for call type."""
@@ -175,15 +221,15 @@ class TestBswModuleEntry:
         ar_root = document.createARPackage("AUTOSAR")
         entry = BswModuleEntry(ar_root, "test_entry")
 
-        result = entry.setCallType(BswCallType.SYNCHRONOUS)
+        result = entry.setCallType(BswCallType.REGULAR)
 
         assert result == entry
-        assert entry.getCallType() == BswCallType.SYNCHRONOUS
+        assert entry.getCallType() == BswCallType.REGULAR
 
         # Test setting None (should not change value)
         result = entry.setCallType(None)
         assert result == entry
-        assert entry.getCallType() == BswCallType.SYNCHRONOUS  # Should remain unchanged
+        assert entry.getCallType() == BswCallType.REGULAR  # Should remain unchanged
 
     def test_get_set_execution_context(self):
         """Test getter and setter for execution context."""
@@ -200,16 +246,6 @@ class TestBswModuleEntry:
         result = entry.setExecutionContext(None)
         assert result == entry
         assert entry.getExecutionContext() == "TASK"  # Should remain unchanged
-
-    def test_set_execution_context_invalid(self):
-        """Test setting invalid execution context raises ValueError."""
-        document = AUTOSAR.getInstance()
-        ar_root = document.createARPackage("AUTOSAR")
-        entry = BswModuleEntry(ar_root, "test_entry")
-
-        with pytest.raises(ValueError) as exc_info:
-            entry.setExecutionContext("INVALID_CONTEXT")
-        assert "Invalid execution context" in str(exc_info.value)
 
     def test_get_set_function_prototype_emitter(self):
         """Test getter and setter for function prototype emitter."""
@@ -304,7 +340,7 @@ class TestBswModuleEntry:
         ar_root = document.createARPackage("AUTOSAR")
         entry = BswModuleEntry(ar_root, "test_entry")
 
-        service_id = ARNumerical()
+        service_id = PositiveInteger()
         service_id.setValue(123)
         result = entry.setServiceId(service_id)
 
@@ -333,48 +369,13 @@ class TestBswModuleEntry:
         assert entry.getSwServiceImplPolicy() == SwServiceImplPolicyEnum.STANDARD  # Should remain unchanged
 
     def test_set_sw_service_impl_policy_invalid(self):
-        """Test setting invalid SW service implementation policy raises ValueError."""
+        """Setting a non-None SW service implementation policy stores it (no ValueError validation)."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         entry = BswModuleEntry(ar_root, "test_entry")
 
-        with pytest.raises(ValueError) as exc_info:
-            entry.setSwServiceImplPolicy("INVALID_POLICY")
-        assert "Invalid SwServiceImplPolicy" in str(exc_info.value)
-
-    def test_str_method(self):
-        """Test string representation of BswModuleEntry."""
-        document = AUTOSAR.getInstance()
-        ar_root = document.createARPackage("AUTOSAR")
-        entry = BswModuleEntry(ar_root, "test_entry")
-
-        # Set some properties to test string representation including serviceId
-        service_id = ARNumerical()
-        service_id.setValue(123)
-        entry.setServiceId(service_id)
-        entry.setIsReentrant(True)
-        entry.setIsSynchronous(False)
-        entry.setCallType(BswCallType.SYNCHRONOUS)
-        entry.setExecutionContext("TASK")
-        entry.setSwServiceImplPolicy(SwServiceImplPolicyEnum.STANDARD)
-
-        # Call the __str__ method which should work with serviceId set
-        str_repr = str(entry)
-
-        assert "short_name" in str_repr
-        assert "test_entry" in str_repr
-        assert "service_id" in str_repr
-        assert "123" in str_repr
-        assert "is_reentrant" in str_repr
-        assert "True" in str_repr
-        assert "is_synchronous" in str_repr
-        assert "False" in str_repr
-        assert "call_type" in str_repr
-        assert "SYNCHRONOUS" in str_repr
-        assert "execution_context" in str_repr
-        assert "TASK" in str_repr
-        assert "sw_service_impl_policy" in str_repr
-        assert "STANDARD" in str_repr
+        entry.setSwServiceImplPolicy("INLINE")
+        assert entry.getSwServiceImplPolicy() == "INLINE"
 
 
 class TestBswModuleClientServerEntry:

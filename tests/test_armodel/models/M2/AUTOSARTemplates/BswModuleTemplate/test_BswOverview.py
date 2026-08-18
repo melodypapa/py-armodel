@@ -39,24 +39,34 @@ class TestBswModuleDescription:
         assert desc.getRequiredModeGroups() == []
         assert desc.getRequiredTriggers() == []
 
-    def test_get_set_bsw_module_dependencies(self):
-        """Test getter and setter for BSW module dependencies."""
+    def test_create_bsw_module_dependency(self):
+        """Test creating a BSW module dependency via the create pattern (spec multiplicity *)."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         desc = BswModuleDescription(ar_root, "test_bsw_module")
 
-        # Create a mock dependency
+        dependency = desc.createBswModuleDependency("test_dependency")
+
+        assert dependency.short_name == "test_dependency"
+        assert len(desc.getBswModuleDependencies()) == 1
+        assert desc.getBswModuleDependencies()[0] == dependency
+
+    def test_add_bsw_module_dependency(self):
+        """Test adding a BSW module dependency instance."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        desc = BswModuleDescription(ar_root, "test_bsw_module")
+
         dependency = BswModuleDependency(ar_root, "test_dependency")
-        dependencies = [dependency]
-        result = desc.setBswModuleDependencies(dependencies)
+        result = desc.addBswModuleDependency(dependency)
 
         assert result == desc
-        assert desc.getBswModuleDependencies() == dependencies
+        assert desc.getBswModuleDependencies() == [dependency]
 
-        # Test setting None (should not change value)
-        result = desc.setBswModuleDependencies(None)
+        # Test adding None (should not be added)
+        result = desc.addBswModuleDependency(None)
         assert result == desc
-        assert desc.getBswModuleDependencies() == dependencies  # Should remain unchanged
+        assert len(desc.getBswModuleDependencies()) == 1  # Should remain unchanged
 
     def test_get_set_bsw_module_documentation(self):
         """Test getter and setter for BSW module documentation."""
@@ -74,6 +84,24 @@ class TestBswModuleDescription:
         result = desc.setBswModuleDocumentation(None)
         assert result == desc
         assert desc.getBswModuleDocumentation() == doc  # Should remain unchanged
+
+    def test_add_expected_entry_ref(self):
+        """Test adding an expected entry reference."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        desc = BswModuleDescription(ar_root, "test_bsw_module")
+
+        ref = RefType()
+        ref.setValue("/path/to/expected/entry")
+        result = desc.addExpectedEntryRef(ref)
+
+        assert result == desc
+        assert desc.getExpectedEntryRefs() == [ref]
+
+        # Test adding None (should not be added)
+        result = desc.addExpectedEntryRef(None)
+        assert result == desc
+        assert len(desc.getExpectedEntryRefs()) == 1  # Should remain unchanged
 
     def test_get_set_expected_entry_refs(self):
         """Test getter and setter for expected entry references."""
