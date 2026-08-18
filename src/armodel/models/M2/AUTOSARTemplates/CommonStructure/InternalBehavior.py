@@ -73,72 +73,55 @@ class ExclusiveArea(Identifiable):
 class ExecutableEntity(Identifiable, ABC):
     """
     Abstraction of executable code.
-    Executable entities represent pieces of executable code that can be
-    triggered by events and may have specific execution requirements like
-    exclusive areas or reentrancy levels.
     """
 
     # ExecutableEntity method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.3, p.70
-    # [x] __init__                         [x] impl  [x] docstring  [x] test
-    # [x] createActivationReason           [x] impl  [x] docstring  [x] test
-    # [x] getActivationReasons             [x] impl  [x] docstring  [x] test
-    # [x] addActivationReason              [x] impl  [x] docstring  [x] test
-    # [x] getCanEnterRefs                 [x] impl  [x] docstring  [x] test
-    # [x] addCanEnterRef                  [x] impl  [x] docstring  [x] test
-    # [x] getExclusiveAreaNestingOrderRefs [x] impl  [x] docstring  [x] test
-    # [x] addExclusiveAreaNestingOrderRef  [x] impl  [x] docstring  [x] test
-    # [x] getMinimumStartInterval          [x] impl  [x] docstring  [x] test
-    # [x] setMinimumStartInterval          [x] impl  [x] docstring  [x] test
-    # [x] minimumStartIntervalMs           [x] impl  [x] docstring  [x] test
-    # [x] getReentrancyLevel               [x] impl  [x] docstring  [x] test
-    # [x] setReentrancyLevel               [x] impl  [x] docstring  [x] test
-    # [x] getRunsInsideRefs                [x] impl  [x] docstring  [x] test
-    # [x] addRunsInsideRef                 [x] impl  [x] docstring  [x] test
-    # [x] getSwAddrMethodRef               [x] impl  [x] docstring  [x] test
-    # [x] setSwAddrMethodRef               [x] impl  [x] docstring  [x] test
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] createActivationReason           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getActivationReasons             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addActivationReason              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getCanEnterRefs                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addCanEnterRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getExclusiveAreaNestingOrderRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addExclusiveAreaNestingOrderRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMinimumStartInterval          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMinimumStartInterval          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] minimumStartIntervalMs           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getReentrancyLevel               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setReentrancyLevel               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRunsInsideRefs                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addRunsInsideRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSwAddrMethodRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSwAddrMethodRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the ExecutableEntity with a parent and short name.
-        Raises TypeError if this abstract class is instantiated directly.
-
-        Args:
-            parent: The parent ARObject that contains this executable entity
-            short_name: The unique short name of this executable entity
-        """
         if type(self) is ExecutableEntity:
             raise TypeError("ExecutableEntity is an abstract class.")
 
         super().__init__(parent, short_name)
 
-        # If at least one activation reason is provided the RTE resp. BSW
-        # Scheduler provides means to read the activation vector of this
-        # executable entity execution.
-        self.activationReasons: List["ExecutableEntityActivationReason"] = []
+        # If the ExecutableEntity provides at least one activation Reason element the RTE resp. BSW Scheduler shall provide means to read the activation vector of this executable entity execution. If no activationReason element is provided the feature of being able to determine the activating RTEEvent is disabled for this ExecutableEntity.
+        self.activationReasons: List[ExecutableEntityActivationReason] = []
 
-        # The executable entity can enter/leave the referenced exclusive area
-        # through explicit API calls.
+        # This means that the executable entity can enter/leave the referenced exclusive area through explicit API calls. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=canEnter.exclusiveArea, canEnter.variation Point.shortLabel vh.latestBindingTime=preCompileTime
         self.canEnterRefs: List[RefType] = []
 
-        # The set of ExclusiveAreaNestingOrders recognized by this
-        # ExecutableEntity.
+        # This represents the set of ExclusiveAreaNestingOrders recognized by this ExecutableEntity.
         self.exclusiveAreaNestingOrderRefs: List[RefType] = []
 
-        # Specifies the time in seconds by which two consecutive starts of an
-        # ExecutableEntity are guaranteed to be separated.
+        # Specifies the time in seconds by which two consecutive starts of an ExecutableEntity are guaranteed to be separated.
         self.minimumStartInterval: Optional[TimeValue] = None
 
-        # The reentrancy level of this ExecutableEntity.
+        # The reentrancy level of this ExecutableEntity. See the documentation of the enumeration type ReentrancyLevel Enum for details. Please note that nonReentrant interfaces can have also reentrant or multicoreReentrant implementations, and reentrant interfaces can also have multicoreReentrant implementations.
         self.reentrancyLevel: Optional[ReentrancyLevelEnum] = None
 
-        # The executable entity runs completely inside the referenced exclusive
-        # area.
+        # The executable entity runs completely inside the referenced exclusive area. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=runsInside.exclusiveArea, runs Inside.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.runsInsideRefs: List[RefType] = []
 
-        # Addressing method related to this code entity; several code entities
-        # sharing the same SwAddrMethod shall be located in the same memory
-        # without specifying the memory section itself.
+        # Addressing method related to this code entity. Via an association to the same SwAddrMethod, it can be specified that several code entities (even of different modules or components) shall be located in the same memory without already specifying the memory section itself.
         self.swAddrMethodRef: Optional[RefType] = None
 
     def createActivationReason(self, short_name: str) -> "ExecutableEntityActivationReason":
@@ -160,9 +143,7 @@ class ExecutableEntity(Identifiable, ABC):
 
     def getActivationReasons(self) -> List["ExecutableEntityActivationReason"]:
         """
-        Gets the activation reasons of this executable entity; if at least one
-        activation reason is provided the RTE resp. BSW Scheduler provides
-        means to read the activation vector of this entity execution.
+        Gets the activation reasons. If the ExecutableEntity provides at least one activation Reason element the RTE resp. BSW Scheduler shall provide means to read the activation vector of this executable entity execution. If no activationReason element is provided the feature of being able to determine the activating RTEEvent is disabled for this ExecutableEntity.
 
         Returns:
             List of ExecutableEntityActivationReason instances
@@ -185,8 +166,7 @@ class ExecutableEntity(Identifiable, ABC):
 
     def getCanEnterRefs(self) -> List[RefType]:
         """
-        Gets the references to exclusive areas that this executable entity can
-        enter/leave through explicit API calls.
+        Gets the references to exclusive areas. This means that the executable entity can enter/leave the referenced exclusive area through explicit API calls. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=canEnter.exclusiveArea, canEnter.variation Point.shortLabel vh.latestBindingTime=preCompileTime
 
         Returns:
             List of RefType instances
@@ -210,8 +190,7 @@ class ExecutableEntity(Identifiable, ABC):
 
     def getExclusiveAreaNestingOrderRefs(self) -> List[RefType]:
         """
-        Gets the set of ExclusiveAreaNestingOrders recognized by this
-        executable entity.
+        Gets the references to exclusive area nesting orders. This represents the set of ExclusiveAreaNestingOrders recognized by this ExecutableEntity.
 
         Returns:
             List of RefType instances
@@ -235,8 +214,7 @@ class ExecutableEntity(Identifiable, ABC):
 
     def getMinimumStartInterval(self) -> Optional[TimeValue]:
         """
-        Gets the time in seconds by which two consecutive starts of an
-        executable entity are guaranteed to be separated.
+        Gets the minimum start interval. Specifies the time in seconds by which two consecutive starts of an ExecutableEntity are guaranteed to be separated.
 
         Returns:
             TimeValue: The minimum start interval
@@ -245,8 +223,7 @@ class ExecutableEntity(Identifiable, ABC):
 
     def setMinimumStartInterval(self, value: Optional[TimeValue]) -> "ExecutableEntity":
         """
-        Sets the time in seconds by which two consecutive starts of an
-        executable entity are guaranteed to be separated.
+        Sets the minimum start interval. Specifies the time in seconds by which two consecutive starts of an ExecutableEntity are guaranteed to be separated.
         Only sets the value if it is not None.
 
         Args:
@@ -273,7 +250,7 @@ class ExecutableEntity(Identifiable, ABC):
 
     def getReentrancyLevel(self) -> Optional[ReentrancyLevelEnum]:
         """
-        Gets the reentrancy level of this executable entity.
+        Gets the reentrancy level. The reentrancy level of this ExecutableEntity. See the documentation of the enumeration type ReentrancyLevel Enum for details. Please note that nonReentrant interfaces can have also reentrant or multicoreReentrant implementations, and reentrant interfaces can also have multicoreReentrant implementations.
 
         Returns:
             ReentrancyLevelEnum: The reentrancy level
@@ -282,7 +259,7 @@ class ExecutableEntity(Identifiable, ABC):
 
     def setReentrancyLevel(self, value: Optional[ReentrancyLevelEnum]) -> "ExecutableEntity":
         """
-        Sets the reentrancy level of this executable entity.
+        Sets the reentrancy level. The reentrancy level of this ExecutableEntity. See the documentation of the enumeration type ReentrancyLevel Enum for details. Please note that nonReentrant interfaces can have also reentrant or multicoreReentrant implementations, and reentrant interfaces can also have multicoreReentrant implementations.
         Only sets the value if it is not None.
 
         Args:
@@ -297,8 +274,7 @@ class ExecutableEntity(Identifiable, ABC):
 
     def getRunsInsideRefs(self) -> List[RefType]:
         """
-        Gets the references to exclusive areas that this executable entity runs
-        completely inside.
+        Gets the references to exclusive areas. The executable entity runs completely inside the referenced exclusive area. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=runsInside.exclusiveArea, runs Inside.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
 
         Returns:
             List of RefType instances
@@ -322,9 +298,7 @@ class ExecutableEntity(Identifiable, ABC):
 
     def getSwAddrMethodRef(self) -> Optional[RefType]:
         """
-        Gets the addressing method related to this code entity; several code
-        entities sharing the same SwAddrMethod shall be located in the same
-        memory without specifying the memory section itself.
+        Gets the software address method reference. Addressing method related to this code entity. Via an association to the same SwAddrMethod, it can be specified that several code entities (even of different modules or components) shall be located in the same memory without already specifying the memory section itself.
 
         Returns:
             RefType: The software address method reference
@@ -333,7 +307,7 @@ class ExecutableEntity(Identifiable, ABC):
 
     def setSwAddrMethodRef(self, value: Optional[RefType]) -> "ExecutableEntity":
         """
-        Sets the addressing method related to this code entity.
+        Sets the software address method reference. Addressing method related to this code entity. Via an association to the same SwAddrMethod, it can be specified that several code entities (even of different modules or components) shall be located in the same memory without already specifying the memory section itself.
         Only sets the value if it is not None.
 
         Args:

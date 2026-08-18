@@ -183,11 +183,46 @@ class TestWriterExecutableEntity:
         entity.addCanEnterRef(_ref("/ea", "EXCLUSIVE-AREA"))
         entity.setMinimumStartInterval(_time(0.1))
         entity.setSwAddrMethodRef(_ref("/am", "SW-ADDR-METHOD"))
+        entity.addExclusiveAreaNestingOrderRef(_ref("/o1", "EXCLUSIVE-AREA-NESTING-ORDER"))
+        entity.addRunsInsideRef(_ref("/ea1", "EXCLUSIVE-AREA"))
+        entity.setReentrancyLevel(_literal("multicoreReentrant"))
         parent = _parent()
         writer.writeExecutableEntity(parent, entity)
         assert parent.find("CAN-ENTER-EXCLUSIVE-AREA-REFS") is not None
         assert parent.find("MINIMUM-START-INTERVAL").text == "0.1"
         assert parent.find("SW-ADDR-METHOD-REF") is not None
+        assert parent.find("EXCLUSIVE-AREA-NESTING-ORDER-REFS") is not None
+        assert parent.find("RUNS-INSIDE-EXCLUSIVE-AREA-REFS") is not None
+        assert parent.find("REENTRANCY-LEVEL") is not None
+        assert parent.find("REENTRANCY-LEVEL").text == "multicoreReentrant"
+
+    def test_exclusive_area_nesting_order_refs_with_refs(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createBswSchedulableEntity("ent")
+        entity.addExclusiveAreaNestingOrderRef(_ref("/o1", "EXCLUSIVE-AREA-NESTING-ORDER"))
+        entity.addExclusiveAreaNestingOrderRef(_ref("/o2", "EXCLUSIVE-AREA-NESTING-ORDER"))
+        parent = _parent()
+        writer.writeExecutableEntity(parent, entity)
+        assert parent.find("EXCLUSIVE-AREA-NESTING-ORDER-REFS") is not None
+        refs = parent.find("EXCLUSIVE-AREA-NESTING-ORDER-REFS").findall("EXCLUSIVE-AREA-NESTING-ORDER-REF")
+        assert len(refs) == 2
+
+    def test_runs_inside_refs_with_refs(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createBswSchedulableEntity("ent")
+        entity.addRunsInsideRef(_ref("/ea1", "EXCLUSIVE-AREA"))
+        parent = _parent()
+        writer.writeExecutableEntity(parent, entity)
+        assert parent.find("RUNS-INSIDE-EXCLUSIVE-AREA-REFS") is not None
+
+    def test_reentrancy_level(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createBswSchedulableEntity("ent")
+        entity.setReentrancyLevel(_literal("multicoreReentrant"))
+        parent = _parent()
+        writer.writeExecutableEntity(parent, entity)
+        assert parent.find("REENTRANCY-LEVEL") is not None
+        assert parent.find("REENTRANCY-LEVEL").text == "multicoreReentrant"
 
 
 class TestWriterBswModuleEntityFamily:
@@ -206,6 +241,23 @@ class TestWriterBswModuleEntityFamily:
         entity = behavior.createBswSchedulableEntity("ent")
         parent = _parent()
         writer.writeBswModuleEntityManagedModeGroups(parent, entity)
+        assert len(parent) == 0
+
+    def test_accessed_mode_groups(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createBswSchedulableEntity("ent")
+        entity.addAccessedModeGroupRef(_ref("/amg1", "MODE-DECLARATION-GROUP-PROTOTYPE"))
+        parent = _parent()
+        writer.writeBswModuleEntityAccessedModeGroups(parent, entity)
+        assert parent[0].tag == "ACCESSED-MODE-GROUPS"
+        cond = parent[0].find("MODE-DECLARATION-GROUP-PROTOTYPE-REF-CONDITIONAL")
+        assert cond is not None
+
+    def test_accessed_mode_groups_empty(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createBswSchedulableEntity("ent")
+        parent = _parent()
+        writer.writeBswModuleEntityAccessedModeGroups(parent, entity)
         assert len(parent) == 0
 
     def test_bsw_variable_access_with_data(self, writer):
@@ -353,6 +405,7 @@ class TestWriterBswInternalBehaviorEntities:
         entity.createDataSendPoint("dsp")
         entity.createDataReceivePoint("drp")
         entity.addManagedModeGroupRef(_ref("/mg", "MODE-DECLARATION-GROUP-PROTOTYPE"))
+        entity.addAccessedModeGroupRef(_ref("/amg", "MODE-DECLARATION-GROUP-PROTOTYPE"))
         entity.addIssuedTriggerRef(_ref("/t", "TRIGGER"))
         parent = _parent()
         writer.writeBswModuleEntity(parent, entity)
@@ -362,6 +415,7 @@ class TestWriterBswInternalBehaviorEntities:
         assert parent.find("DATA-SEND-POINTS") is not None
         assert parent.find("DATA-RECEIVE-POINTS") is not None
         assert parent.find("MANAGED-MODE-GROUPS") is not None
+        assert parent.find("ACCESSED-MODE-GROUPS") is not None
         assert parent.find("ISSUED-TRIGGERS") is not None
 
 

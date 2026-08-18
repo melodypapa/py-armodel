@@ -159,30 +159,47 @@ class TestDataReceivedEvent:
 class TestSwcModeSwitchEvent:
     """Test class for SwcModeSwitchEvent class."""
 
-    def test_swc_mode_switch_event_initialization(self):
-        """Test SwcModeSwitchEvent initialization and methods."""
+    def test_initialization(self):
+        """Test SwcModeSwitchEvent initialization defaults."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         event = SwcModeSwitchEvent(ar_root, "TestSwcModeSwitchEvent")
 
         assert event.parent == ar_root
         assert event.short_name == "TestSwcModeSwitchEvent"
-        assert event.disabledModeIRefs == []
-        assert event.startOnEventRef is None
         assert event.activation is None
         assert event.modeIRefs == []
 
-        # Test activation methods
-        activation = "test_activation"
-        event.setActivation(activation)
+    def test_get_set_activation(self):
+        """Test getActivation/setActivation round-trip and None no-op."""
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeActivationKind
+
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = SwcModeSwitchEvent(ar_root, "TestSwcModeSwitchEvent")
+
+        activation = ModeActivationKind().setValue(ModeActivationKind.ON_ENTRY)
+        assert event.setActivation(activation) is event
         assert event.getActivation() == activation
 
-        # Test modeIRefs methods
+        event.setActivation(None)
+        assert event.getActivation() == activation
+
+    def test_add_get_mode_irefs(self):
+        """Test addModeIRef/getModeIRefs append, return value and None no-op."""
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RModeInAtomicSwcInstanceRef
 
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = SwcModeSwitchEvent(ar_root, "TestSwcModeSwitchEvent")
+
+        assert event.getModeIRefs() == []
         iref = RModeInAtomicSwcInstanceRef()
-        event.addModeIRef(iref)
-        assert iref in event.getModeIRefs()
+        assert event.addModeIRef(iref) is event
+        assert event.getModeIRefs() == [iref]
+
+        event.addModeIRef(None)
+        assert event.getModeIRefs() == [iref]
 
 
 class TestDataReceiveErrorEvent:

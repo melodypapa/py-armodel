@@ -9,6 +9,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
     ApplicationRuleBasedValueSpecification,
     ApplicationValueSpecification,
     ArrayValueSpecification,
+    CompositeRuleBasedValueSpecification,
     NumericalValueSpecification,
     RecordValueSpecification,
     RuleArguments,
@@ -966,6 +967,43 @@ class TestRuleBasedValueSpecificationWriter:
         rule_args = argss.find("RULE-ARGUMENTS")
         assert rule_args.find("V").text == "1.5"
         assert rule_args.find("VT").text == "label"
+
+
+class TestCompositeRuleBasedValueSpecificationWriter:
+    def test_write_composite_rule_based_value_specification_none(self, writer):
+        parent = _parent()
+        writer.writeCompositeRuleBasedValueSpecification(parent, None)
+        assert len(parent) == 0
+
+    def test_write_composite_rule_based_value_specification_full(self, writer):
+        spec = CompositeRuleBasedValueSpecification()
+        spec.setRule(_identifier("FILL_UNTIL_END"))
+
+        argument = ArrayValueSpecification()
+        argument.setShortLabel(_literal("arg"))
+        element = NumericalValueSpecification()
+        element.setValue(_numerical("1"))
+        argument.addElement(element)
+        spec.addArgument(argument)
+
+        compound = ApplicationRuleBasedValueSpecification()
+        compound.setCategory(_literal("ARRAY"))
+        spec.addCompoundPrimitiveArgument(compound)
+
+        max_size = Integer()
+        max_size.setValue("16")
+        spec.setMaxSizeToFill(max_size)
+
+        parent = _parent()
+        writer.writeCompositeRuleBasedValueSpecification(parent, spec)
+
+        child = parent[0]
+        assert child.tag == "COMPOSITE-RULE-BASED-VALUE-SPECIFICATION"
+        assert child.find("RULE").text == "FILL_UNTIL_END"
+        assert child.find("ARGUMENTS/ARRAY-VALUE-SPECIFICATION/SHORT-LABEL").text == "arg"
+        assert child.find("ARGUMENTS/ARRAY-VALUE-SPECIFICATION/ELEMENTS/NUMERICAL-VALUE-SPECIFICATION/VALUE").text == "1"
+        assert child.find("COMPOUND-PRIMITIVE-ARGUMENTS/APPLICATION-RULE-BASED-VALUE-SPECIFICATION/CATEGORY").text == "ARRAY"
+        assert child.find("MAX-SIZE-TO-FILL").text == "16"
 
     def test_write_rule_based_axis_cont_none(self, writer):
         parent = _parent()

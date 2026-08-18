@@ -17,6 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AREnum as AREnum,
     Identifier,
     Integer,
+    PositiveInteger,
     VerbatimString,
 )
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import ValueList
@@ -629,25 +630,98 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
         return self
 
 
-class CompositeRuleBasedValueSpecification(CompositeValueSpecification):
+class CompositeRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
     """
-    Represents composite rule-based value specifications.
+    This meta-class represents rule-based values for DataPrototypes typed by composite AutosarDataTypes.
     """
 
     # CompositeRuleBasedValueSpecification method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] addRuleArgument              [x] impl  [ ] docstring  [ ] test
-    # [ ] getRuleArguments             [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.135, p.471
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addArgument                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getArguments                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addCompoundPrimitiveArgument    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getCompoundPrimitiveArguments   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getMaxSizeToFill                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMaxSizeToFill                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRule                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRule                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
-        self.ruleArguments = []
 
-    def addRuleArgument(self, argument):
-        self.ruleArguments.append(argument)
+        # This represents the collection of aggregated Value Specifications. The last ValueSpecification in the collection shall be taken to execute the filling rule. Tags: xml.sequenceOffset=30
+        self.arguments: List[CompositeValueSpecification] = []
 
-    def getRuleArguments(self):
-        return self.ruleArguments
+        # This represents the collection of aggregated Value Specifications for compound primitive data type. The last ValueSpecification in the collection shall be taken to execute the filling rule. Tags: xml.sequenceOffset=35
+        self.compoundPrimitiveArguments: List[CompositeRuleBasedValueArgument] = []
+
+        # If a rule is chosen which does not fill until the end, this determines until which size the rule shall fill the values. Tags: xml.sequenceOffset=40
+        self.maxSizeToFill: Optional[PositiveInteger] = None
+
+        # This denotes the name of the rule of the RuleBasedValue Specification. The rule determines the calculation specification according which the arguments are used to calculated the values. Tags: xml.sequenceOffset=20
+        self.rule: Optional[Identifier] = None
+
+    def addArgument(self, argument: CompositeValueSpecification) -> "CompositeRuleBasedValueSpecification":
+        """
+        This represents the collection of aggregated Value Specifications. The last ValueSpecification in the collection shall be taken to execute the filling rule. Tags: xml.sequenceOffset=30
+        A None value is a no-op and does not append anything.
+        """
+        if argument is not None:
+            self.arguments.append(argument)
+        return self
+
+    def getArguments(self) -> List[CompositeValueSpecification]:
+        """
+        This represents the collection of aggregated Value Specifications. The last ValueSpecification in the collection shall be taken to execute the filling rule. Tags: xml.sequenceOffset=30
+        """
+        return self.arguments
+
+    def addCompoundPrimitiveArgument(self, argument: CompositeRuleBasedValueArgument) -> "CompositeRuleBasedValueSpecification":
+        """
+        This represents the collection of aggregated Value Specifications for compound primitive data type. The last ValueSpecification in the collection shall be taken to execute the filling rule. Tags: xml.sequenceOffset=35
+        A None value is a no-op and does not append anything.
+        """
+        if argument is not None:
+            self.compoundPrimitiveArguments.append(argument)
+        return self
+
+    def getCompoundPrimitiveArguments(self) -> List[CompositeRuleBasedValueArgument]:
+        """
+        This represents the collection of aggregated Value Specifications for compound primitive data type. The last ValueSpecification in the collection shall be taken to execute the filling rule. Tags: xml.sequenceOffset=35
+        """
+        return self.compoundPrimitiveArguments
+
+    def getMaxSizeToFill(self) -> Optional[PositiveInteger]:
+        """
+        If a rule is chosen which does not fill until the end, this determines until which size the rule shall fill the values. Tags: xml.sequenceOffset=40
+        """
+        return self.maxSizeToFill
+
+    def setMaxSizeToFill(self, value: Optional[PositiveInteger]) -> "CompositeRuleBasedValueSpecification":
+        """
+        If a rule is chosen which does not fill until the end, this determines until which size the rule shall fill the values. Tags: xml.sequenceOffset=40
+        A None value is a no-op and does not overwrite an existing maxSizeToFill.
+        """
+        if value is not None:
+            self.maxSizeToFill = value
+        return self
+
+    def getRule(self) -> Optional[Identifier]:
+        """
+        This denotes the name of the rule of the RuleBasedValue Specification. The rule determines the calculation specification according which the arguments are used to calculated the values. Tags: xml.sequenceOffset=20
+        """
+        return self.rule
+
+    def setRule(self, value: Optional[Identifier]) -> "CompositeRuleBasedValueSpecification":
+        """
+        This denotes the name of the rule of the RuleBasedValue Specification. The rule determines the calculation specification according which the arguments are used to calculated the values. Tags: xml.sequenceOffset=20
+        A None value is a no-op and does not overwrite an existing rule.
+        """
+        if value is not None:
+            self.rule = value
+        return self
 
 
 class ConstantSpecificationMapping(ARObject):

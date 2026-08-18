@@ -405,86 +405,69 @@ class BswDistinguishedPartition(Referrable):
 
 class BswModuleEntity(ExecutableEntity, ABC):
     """
-    Specifies the smallest code fragment which can be described for a BSW
-    module or cluster within AUTOSAR. It is the abstract base class for
-    BswCalledEntity, BswInterruptEntity, and BswSchedulableEntity.
+    Specifies the smallest code fragment which can be described for a BSW module or cluster within AUTOSAR.
     """
 
     # BswModuleEntity method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.4, p.72
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getAccessedModeGroupRefs     [x] impl  [x] docstring  [x] test
-    # [x] addAccessedModeGroupRef      [x] impl  [x] docstring  [x] test
-    # [x] getActivationPointRefs       [x] impl  [x] docstring  [x] test
-    # [x] addActivationPointRef        [x] impl  [x] docstring  [x] test
-    # [x] getCallPoints                [x] impl  [x] docstring  [x] test
-    # [x] createBswAsynchronousServerCallPoint [x] impl  [x] docstring  [x] test
-    # [x] createBswSynchronousServerCallPoint [x] impl  [x] docstring  [x] test
-    # [x] getDataReceivePoints         [x] impl  [x] docstring  [x] test
-    # [x] createDataReceivePoint       [x] impl  [x] docstring  [x] test
-    # [x] getDataSendPoints            [x] impl  [x] docstring  [x] test
-    # [x] createDataSendPoint          [x] impl  [x] docstring  [x] test
-    # [x] getImplementedEntryRef       [x] impl  [x] docstring  [x] test
-    # [x] setImplementedEntryRef       [x] impl  [x] docstring  [x] test
-    # [x] getIssuedTriggerRefs         [x] impl  [x] docstring  [x] test
-    # [x] addIssuedTriggerRef          [x] impl  [x] docstring  [x] test
-    # [x] getManagedModeGroupRefs      [x] impl  [x] docstring  [x] test
-    # [x] addManagedModeGroupRef       [x] impl  [x] docstring  [x] test
-    # [x] getSchedulerNamePrefixRef    [x] impl  [x] docstring  [x] test
-    # [x] setSchedulerNamePrefixRef    [x] impl  [x] docstring  [x] test
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getAccessedModeGroupRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addAccessedModeGroupRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getActivationPointRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addActivationPointRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getCallPoints                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createBswAsynchronousServerCallPoint [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createBswSynchronousServerCallPoint [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDataReceivePoints         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createDataReceivePoint       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDataSendPoints            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createDataSendPoint          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getImplementedEntryRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setImplementedEntryRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getIssuedTriggerRefs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addIssuedTriggerRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getManagedModeGroupRefs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addManagedModeGroupRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSchedulerNamePrefixRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSchedulerNamePrefixRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BSW module entity with a parent and short name.
-        Raises TypeError if this abstract class is instantiated directly.
-
-        Args:
-            parent: The parent ARObject that contains this entity
-            short_name: The unique short name of this entity
-        """
         if type(self) is BswModuleEntity:
             raise TypeError("BswModuleEntity is an abstract class.")
         super().__init__(parent, short_name)
 
-        # A mode group which is accessed via API call by this entity. It shall
-        # be a ModeDeclarationGroupPrototype required by this module or cluster.
+        # A mode group which is accessed via API call by this entity. It shall be a ModeDeclarationGroupPrototype required by this module or cluster. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=accessedModeGroup.modeDeclaration GroupPrototype, accessedModeGroup.variation Point.shortLabel vh.latestBindingTime=preCompileTime
         self.accessedModeGroupRefs: List[RefType] = []
 
-        # Activation point used by the module entity to activate one or more
-        # internal triggers.
+        # Activation point used by the module entity to activate one or more internal triggers. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=activationPoint.bswInternalTriggeringPoint, activationPoint.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.activationPointRefs: List[RefType] = []
 
-        # A call point used in the code of this entity.
+        # A call point used in the code of this entity. The variability of this association is especially targeted at debug scenarios: It is possible to have one variant calling into the AUTOSAR debug module and another one which doesn't. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=callPoint.shortName, callPoint.variation Point.shortLabel vh.latestBindingTime=preCompileTime
         self.callPoints: List[BswModuleCallPoint] = []
 
-        # The data is received via the BSW Scheduler.
+        # The data is received via the BSW Scheduler. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=dataReceivePoint.shortName, dataReceive Point.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.dataReceivePoints: List[BswVariableAccess] = []
 
-        # The data is sent via the BSW Scheduler.
+        # The data is sent via the BSW Scheduler. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=dataSendPoint.shortName, dataSend Point.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.dataSendPoints: List[BswVariableAccess] = []
 
         # The entry which is implemented by this module entity.
         self.implementedEntryRef: Optional[RefType] = None
 
-        # A trigger issued by this entity via BSW Scheduler API call. It shall
-        # be a BswTrigger released (i.e. owned) by this module or cluster.
+        # A trigger issued by this entity via BSW Scheduler API call. It shall be a BswTrigger released (i.e. owned) by this module or cluster. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=issuedTrigger.trigger, issuedTrigger.variation Point.shortLabel vh.latestBindingTime=preCompileTime
         self.issuedTriggerRefs: List[RefType] = []
 
-        # A mode group which is managed by this entity. It shall be a
-        # ModeDeclarationGroupPrototype provided by this module or cluster.
+        # A mode group which is managed by this entity. It shall be a ModeDeclarationGroupPrototype provided by this module or cluster. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=managedModeGroup.modeDeclaration GroupPrototype, managedModeGroup.variation Point.shortLabel vh.latestBindingTime=preCompileTime
         self.managedModeGroupRefs: List[RefType] = []
 
-        # A prefix to be used in generated names for the BswModuleScheduler in
-        # the context of this BswModuleEntity, for example entry point
-        # prototypes, macros for dealing with exclusive areas, header file
-        # names.
+        # A prefix to be used in generated names for the Bsw ModuleScheduler in the context of this BswModuleEntity, for example entry point prototypes, macros for dealing with exclusive areas, header file names. Details are defined in the SWS RTE. The prefix supersedes default rules for the prefix of those names.
         self.schedulerNamePrefixRef: Optional[RefType] = None
 
     def getAccessedModeGroupRefs(self) -> List[RefType]:
         """
-        Gets the mode groups which are accessed via API call by this entity;
-        they shall be ModeDeclarationGroupPrototypes required by this module
-        or cluster.
+        Gets the mode groups which are accessed via API call by this entity. A mode group which is accessed via API call by this entity. It shall be a ModeDeclarationGroupPrototype required by this module or cluster. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=accessedModeGroup.modeDeclaration GroupPrototype, accessedModeGroup.variation Point.shortLabel vh.latestBindingTime=preCompileTime
 
         Returns:
             List of RefType instances
@@ -493,8 +476,8 @@ class BswModuleEntity(ExecutableEntity, ABC):
 
     def addAccessedModeGroupRef(self, value: RefType) -> "BswModuleEntity":
         """
-        Adds a mode group accessed via API call by this entity. Only adds the
-        value if it is not None.
+        Adds a mode group accessed via API call by this entity. A mode group which is accessed via API call by this entity. It shall be a ModeDeclarationGroupPrototype required by this module or cluster. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=accessedModeGroup.modeDeclaration GroupPrototype, accessedModeGroup.variation Point.shortLabel vh.latestBindingTime=preCompileTime
+        Only adds the value if it is not None.
 
         Args:
             value: The mode group reference to add
@@ -508,8 +491,7 @@ class BswModuleEntity(ExecutableEntity, ABC):
 
     def getActivationPointRefs(self) -> List[RefType]:
         """
-        Gets the activation points used by the module entity to activate one
-        or more internal triggers.
+        Gets the activation points used by the module entity to activate one or more internal triggers. Activation point used by the module entity to activate one or more internal triggers. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=activationPoint.bswInternalTriggeringPoint, activationPoint.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
 
         Returns:
             List of RefType instances
@@ -518,8 +500,8 @@ class BswModuleEntity(ExecutableEntity, ABC):
 
     def addActivationPointRef(self, value: RefType) -> "BswModuleEntity":
         """
-        Adds an activation point used to activate one or more internal
-        triggers. Only adds the value if it is not None.
+        Adds an activation point used to activate one or more internal triggers. Activation point used by the module entity to activate one or more internal triggers. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=activationPoint.bswInternalTriggeringPoint, activationPoint.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        Only adds the value if it is not None.
 
         Args:
             value: The activation point reference to add
@@ -533,7 +515,7 @@ class BswModuleEntity(ExecutableEntity, ABC):
 
     def getCallPoints(self) -> List[BswModuleCallPoint]:
         """
-        Gets the call points used in the code of this entity.
+        Gets the call points used in the code of this entity. A call point used in the code of this entity. The variability of this association is especially targeted at debug scenarios: It is possible to have one variant calling into the AUTOSAR debug module and another one which doesn't. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=callPoint.shortName, callPoint.variation Point.shortLabel vh.latestBindingTime=preCompileTime
 
         Returns:
             List of BswModuleCallPoint instances
@@ -578,8 +560,7 @@ class BswModuleEntity(ExecutableEntity, ABC):
 
     def getDataReceivePoints(self) -> List[BswVariableAccess]:
         """
-        Gets the variable accesses through which data is received via the BSW
-        Scheduler.
+        Gets the variable accesses through which data is received via the BSW Scheduler. The data is received via the BSW Scheduler. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=dataReceivePoint.shortName, dataReceive Point.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
 
         Returns:
             List of BswVariableAccess instances
@@ -606,8 +587,7 @@ class BswModuleEntity(ExecutableEntity, ABC):
 
     def getDataSendPoints(self) -> List[BswVariableAccess]:
         """
-        Gets the variable accesses through which data is sent via the BSW
-        Scheduler.
+        Gets the variable accesses through which data is sent via the BSW Scheduler. The data is sent via the BSW Scheduler. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=dataSendPoint.shortName, dataSend Point.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
 
         Returns:
             List of BswVariableAccess instances
@@ -634,7 +614,7 @@ class BswModuleEntity(ExecutableEntity, ABC):
 
     def getImplementedEntryRef(self) -> Optional[RefType]:
         """
-        Gets the entry which is implemented by this module entity.
+        Gets the entry which is implemented by this module entity. The entry which is implemented by this module entity.
 
         Returns:
             RefType: The implemented entry reference, or None if not set
@@ -643,8 +623,8 @@ class BswModuleEntity(ExecutableEntity, ABC):
 
     def setImplementedEntryRef(self, value: Optional[RefType]) -> "BswModuleEntity":
         """
-        Sets the entry which is implemented by this module entity. Only sets
-        the value if it is not None.
+        Sets the entry which is implemented by this module entity. The entry which is implemented by this module entity.
+        Only sets the value if it is not None.
 
         Args:
             value: The implemented entry reference to set
@@ -658,9 +638,7 @@ class BswModuleEntity(ExecutableEntity, ABC):
 
     def getIssuedTriggerRefs(self) -> List[RefType]:
         """
-        Gets the triggers issued by this entity via BSW Scheduler API call;
-        they shall be BswTriggers released (i.e. owned) by this module or
-        cluster.
+        Gets the triggers issued by this entity via BSW Scheduler API call. A trigger issued by this entity via BSW Scheduler API call. It shall be a BswTrigger released (i.e. owned) by this module or cluster. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=issuedTrigger.trigger, issuedTrigger.variation Point.shortLabel vh.latestBindingTime=preCompileTime
 
         Returns:
             List of RefType instances
@@ -669,8 +647,8 @@ class BswModuleEntity(ExecutableEntity, ABC):
 
     def addIssuedTriggerRef(self, value: RefType) -> "BswModuleEntity":
         """
-        Adds a trigger issued by this entity via BSW Scheduler API call. Only
-        adds the value if it is not None.
+        Adds a trigger issued by this entity via BSW Scheduler API call. A trigger issued by this entity via BSW Scheduler API call. It shall be a BswTrigger released (i.e. owned) by this module or cluster. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=issuedTrigger.trigger, issuedTrigger.variation Point.shortLabel vh.latestBindingTime=preCompileTime
+        Only adds the value if it is not None.
 
         Args:
             value: The trigger reference to add
@@ -684,8 +662,7 @@ class BswModuleEntity(ExecutableEntity, ABC):
 
     def getManagedModeGroupRefs(self) -> List[RefType]:
         """
-        Gets the mode groups which are managed by this entity; they shall be
-        ModeDeclarationGroupPrototypes provided by this module or cluster.
+        Gets the mode groups which are managed by this entity. A mode group which is managed by this entity. It shall be a ModeDeclarationGroupPrototype provided by this module or cluster. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=managedModeGroup.modeDeclaration GroupPrototype, managedModeGroup.variation Point.shortLabel vh.latestBindingTime=preCompileTime
 
         Returns:
             List of RefType instances
@@ -694,8 +671,8 @@ class BswModuleEntity(ExecutableEntity, ABC):
 
     def addManagedModeGroupRef(self, value: RefType) -> "BswModuleEntity":
         """
-        Adds a mode group managed by this entity. Only adds the value if it is
-        not None.
+        Adds a mode group managed by this entity. A mode group which is managed by this entity. It shall be a ModeDeclarationGroupPrototype provided by this module or cluster. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=managedModeGroup.modeDeclaration GroupPrototype, managedModeGroup.variation Point.shortLabel vh.latestBindingTime=preCompileTime
+        Only adds the value if it is not None.
 
         Args:
             value: The mode group reference to add
@@ -709,9 +686,7 @@ class BswModuleEntity(ExecutableEntity, ABC):
 
     def getSchedulerNamePrefixRef(self) -> Optional[RefType]:
         """
-        Gets the prefix to be used in generated names for the BswModuleScheduler
-        in the context of this BswModuleEntity, for example entry point
-        prototypes, macros for dealing with exclusive areas, header file names.
+        Gets the prefix to be used in generated names for the BswModuleScheduler in the context of this BswModuleEntity. A prefix to be used in generated names for the Bsw ModuleScheduler in the context of this BswModuleEntity, for example entry point prototypes, macros for dealing with exclusive areas, header file names. Details are defined in the SWS RTE. The prefix supersedes default rules for the prefix of those names.
 
         Returns:
             RefType: The scheduler name prefix reference, or None if not set
@@ -720,9 +695,8 @@ class BswModuleEntity(ExecutableEntity, ABC):
 
     def setSchedulerNamePrefixRef(self, value: Optional[RefType]) -> "BswModuleEntity":
         """
-        Sets the prefix to be used in generated names for the BswModuleScheduler
-        in the context of this BswModuleEntity. Only sets the value if it is
-        not None.
+        Sets the prefix to be used in generated names for the BswModuleScheduler in the context of this BswModuleEntity. A prefix to be used in generated names for the Bsw ModuleScheduler in the context of this BswModuleEntity, for example entry point prototypes, macros for dealing with exclusive areas, header file names. Details are defined in the SWS RTE. The prefix supersedes default rules for the prefix of those names.
+        Only sets the value if it is not None.
 
         Args:
             value: The scheduler name prefix reference to set

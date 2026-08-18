@@ -470,6 +470,44 @@ class TestExecutableEntityAndInternalBehaviorHandlers:
         assert entity.getMinimumStartInterval().getValue() == 0.5
         assert entity.getSwAddrMethodRef().getValue() == "/m"
 
+    def test_readExecutableEntity_exclusive_area_nesting_order_refs(self, parser):
+        from armodel.models import BswCalledEntity
+
+        entity = BswCalledEntity(parent=_autosar_root(), short_name="e")
+        element = _snip(
+            "<EXCLUSIVE-AREA-NESTING-ORDER-REFS>" "<EXCLUSIVE-AREA-NESTING-ORDER-REF DEST='EXCLUSIVE-AREA-NESTING-ORDER'>/o1</EXCLUSIVE-AREA-NESTING-ORDER-REF>" "</EXCLUSIVE-AREA-NESTING-ORDER-REFS>",
+            root_tag="ENTITY",
+        )
+        parser.readExecutableEntity(element, entity)
+        refs = entity.getExclusiveAreaNestingOrderRefs()
+        assert len(refs) == 1
+        assert refs[0].getValue() == "/o1"
+
+    def test_readExecutableEntity_runs_inside_refs(self, parser):
+        from armodel.models import BswCalledEntity
+
+        entity = BswCalledEntity(parent=_autosar_root(), short_name="e")
+        element = _snip(
+            "<RUNS-INSIDE-EXCLUSIVE-AREA-REFS>" "<RUNS-INSIDE-EXCLUSIVE-AREA-REF DEST='EXCLUSIVE-AREA'>/ea1</RUNS-INSIDE-EXCLUSIVE-AREA-REF>" "</RUNS-INSIDE-EXCLUSIVE-AREA-REFS>",
+            root_tag="ENTITY",
+        )
+        parser.readExecutableEntity(element, entity)
+        refs = entity.getRunsInsideRefs()
+        assert len(refs) == 1
+        assert refs[0].getValue() == "/ea1"
+
+    def test_readExecutableEntity_reentrancy_level(self, parser):
+        from armodel.models import BswCalledEntity
+
+        entity = BswCalledEntity(parent=_autosar_root(), short_name="e")
+        element = _snip(
+            "<REENTRANCY-LEVEL>multicoreReentrant</REENTRANCY-LEVEL>",
+            root_tag="ENTITY",
+        )
+        parser.readExecutableEntity(element, entity)
+        assert entity.getReentrancyLevel() is not None
+        assert entity.getReentrancyLevel().getValue() == "multicoreReentrant"
+
     def test_readDataTypeMappingRefs_adds_refs(self, parser):
         from armodel.models import BswInternalBehavior
 
@@ -588,6 +626,22 @@ class TestBswModuleEntityHandlers:
         )
         parser.readBswModuleEntityManagedModeGroups(element, entity)
         assert len(entity.getManagedModeGroupRefs()) == 0
+
+    def test_readBswModuleEntityAccessedModeGroups_adds_refs(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        entity = behavior.createBswSchedulableEntity("e")
+        element = _snip(
+            "<ACCESSED-MODE-GROUPS>"
+            "<MODE-DECLARATION-GROUP-PROTOTYPE-REF-CONDITIONAL>"
+            "<MODE-DECLARATION-GROUP-PROTOTYPE-REF DEST='MODE-DECLARATION-GROUP-PROTOTYPE'>/amg</MODE-DECLARATION-GROUP-PROTOTYPE-REF>"
+            "</MODE-DECLARATION-GROUP-PROTOTYPE-REF-CONDITIONAL>"
+            "</ACCESSED-MODE-GROUPS>",
+            root_tag="ENTITY",
+        )
+        parser.readBswModuleEntityAccessedModeGroups(element, entity)
+        assert len(entity.getAccessedModeGroupRefs()) == 1
 
     def test_readBswModuleEntityIssuedTriggerRefs_adds(self, parser):
         from armodel.models import BswInternalBehavior

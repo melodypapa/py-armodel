@@ -5,6 +5,7 @@ in software component internal behavior templates.
 
 from abc import ABC
 from typing import List, Optional
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeActivationKind
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RVariableInAtomicSwcInstanceRef, RModeInAtomicSwcInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import POperationInAtomicSwcInstanceRef
@@ -238,61 +239,53 @@ class SwcModeSwitchEvent(RTEEvent):
     """
 
     # SwcModeSwitchEvent method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getActivation                [x] impl  [x] docstring  [ ] test
-    # [ ] setActivation                [x] impl  [x] docstring  [ ] test
-    # [ ] getModeIRefs                 [x] impl  [x] docstring  [ ] test
-    # [ ] addModeIRef                  [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.17, p.544
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getActivation    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setActivation    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] addModeIRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getModeIRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.activation = None
-        self.modeIRefs: List["RModeInAtomicSwcInstanceRef"] = []
+        # Specifies if the event is raised on entering or exiting a specific mode or is raised on the transition between two modes.
+        self.activation: Optional[ModeActivationKind] = None
 
-    def getActivation(self):
+        # The referenced mode or the transition between two modes raises this SwcModeSwitchEvent. InstanceRef implemented by: RModeInAtomicSwc InstanceRef
+        self.modeIRefs: List[RModeInAtomicSwcInstanceRef] = []
+
+    def getActivation(self) -> Optional[ModeActivationKind]:
         """
-        Gets the activation setting.
-
-        Returns:
-            The activation setting
+        Specifies if the event is raised on entering or exiting a specific mode or is raised on the transition between two modes.
         """
         return self.activation
 
-    def setActivation(self, value):
+    def setActivation(self, value: Optional[ModeActivationKind]) -> "SwcModeSwitchEvent":
         """
-        Sets the activation setting.
-
-        Args:
-            value: The activation setting to set
-
-        Returns:
-            self for method chaining
+        Specifies if the event is raised on entering or exiting a specific mode or is raised on the transition between two modes.
+        A None value is a no-op and does not overwrite an existing activation.
         """
-        self.activation = value
+        if value is not None:
+            self.activation = value
         return self
 
-    def getModeIRefs(self):
+    def addModeIRef(self, value: Optional[RModeInAtomicSwcInstanceRef]) -> "SwcModeSwitchEvent":
         """
-        Gets the list of mode instance references.
+        The referenced mode or the transition between two modes raises this SwcModeSwitchEvent. InstanceRef implemented by: RModeInAtomicSwc InstanceRef
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.modeIRefs.append(value)
+        return self
 
-        Returns:
-            List[RModeInAtomicSwcInstanceRef]: The mode instance references
+    def getModeIRefs(self) -> List[RModeInAtomicSwcInstanceRef]:
+        """
+        The referenced mode or the transition between two modes raises this SwcModeSwitchEvent. InstanceRef implemented by: RModeInAtomicSwc InstanceRef
         """
         return self.modeIRefs
-
-    def addModeIRef(self, value):
-        """
-        Adds a mode instance reference.
-
-        Args:
-            value: The mode instance reference to add
-
-        Returns:
-            self for method chaining
-        """
-        self.modeIRefs.append(value)
-        return self
 
 
 class DataReceiveErrorEvent(RTEEvent):

@@ -42,6 +42,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
     ApplicationRuleBasedValueSpecification,
     ApplicationValueSpecification,
     ArrayValueSpecification,
+    CompositeRuleBasedValueSpecification,
     ConstantReference,
     ConstantSpecification,
     NumericalValueSpecification,
@@ -82,6 +83,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSu
     RptSwPrototypingAccess,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
+    ModeActivationKind,
     ModeDeclarationGroup,
     ModeDeclarationGroupPrototype,
     ModeDeclarationGroupPrototypeMapping,
@@ -1077,12 +1079,23 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "CAN-ENTER-EXCLUSIVE-AREA-REFS/CAN-ENTER-EXCLUSIVE-AREA-REF"):
             entity.addCanEnterRef(ref)
 
+    def readExclusiveAreaNestingOrderRefs(self, element: ET.Element, entity: ExecutableEntity):
+        for ref in self.getChildElementRefTypeList(element, "EXCLUSIVE-AREA-NESTING-ORDER-REFS/EXCLUSIVE-AREA-NESTING-ORDER-REF"):
+            entity.addExclusiveAreaNestingOrderRef(ref)
+
+    def readRunsInsideRefs(self, element: ET.Element, entity: ExecutableEntity):
+        for ref in self.getChildElementRefTypeList(element, "RUNS-INSIDE-EXCLUSIVE-AREA-REFS/RUNS-INSIDE-EXCLUSIVE-AREA-REF"):
+            entity.addRunsInsideRef(ref)
+
     def readExecutableEntity(self, element: ET.Element, entity: ExecutableEntity):
         # self.logger.debug("Read ExecutableEntity %s" % entity.getShortName())
         self.readIdentifiable(element, entity)
         self.readActivationReasons(element, entity)
         self.readCanEnterRefs(element, entity)
+        self.readExclusiveAreaNestingOrderRefs(element, entity)
         entity.setMinimumStartInterval(self.getChildElementOptionalTimeValue(element, "MINIMUM-START-INTERVAL"))
+        entity.setReentrancyLevel(self.getChildElementOptionalLiteral(element, "REENTRANCY-LEVEL"))
+        self.readRunsInsideRefs(element, entity)
         entity.setSwAddrMethodRef(self.getChildElementOptionalRefType(element, "SW-ADDR-METHOD-REF"))
 
     def readBswModuleEntityManagedModeGroups(self, element: ET.Element, entity: BswModuleEntity):
@@ -1090,6 +1103,12 @@ class ARXMLParser(AbstractARXMLParser):
             ref_type = self.getChildElementOptionalRefType(child_element, "MODE-DECLARATION-GROUP-PROTOTYPE-REF")
             if ref_type is not None:
                 entity.addManagedModeGroupRef(ref_type)
+
+    def readBswModuleEntityAccessedModeGroups(self, element: ET.Element, entity: BswModuleEntity):
+        for child_element in self.findall(element, "ACCESSED-MODE-GROUPS/MODE-DECLARATION-GROUP-PROTOTYPE-REF-CONDITIONAL"):
+            ref_type = self.getChildElementOptionalRefType(child_element, "MODE-DECLARATION-GROUP-PROTOTYPE-REF")
+            if ref_type is not None:
+                entity.addAccessedModeGroupRef(ref_type)
 
     def readBswEvent(self, element: ET.Element, event: BswScheduleEvent):
         for ref in self.getChildElementRefTypeList(element, "CONTEXT-LIMITATION-REFS/CONTEXT-LIMITATION-REF"):
@@ -1871,6 +1890,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readBswModuleEntityDataSendPoints(element, entity)
         entity.setImplementedEntryRef(self.getChildElementRefType(entity.getShortName(), element, "IMPLEMENTED-ENTRY-REF"))
         entity.setSchedulerNamePrefixRef(self.getChildElementOptionalRefType(element, "SCHEDULER-NAME-PREFIX-REF"))
+        self.readBswModuleEntityAccessedModeGroups(element, entity)
         self.readBswModuleEntityManagedModeGroups(element, entity)
         self.readBswModuleEntityIssuedTriggerRefs(element, entity)
 
@@ -3166,7 +3186,9 @@ class ARXMLParser(AbstractARXMLParser):
     def readSwcModeSwitchEvent(self, element: ET.Element, event: SwcModeSwitchEvent):
         # self.logger.debug("Read SwcModeSwitchEvent <%s>" % event.getShortName())
         self.readRTEEvent(element, event)
-        event.setActivation(self.getChildElementOptionalLiteral(element, "ACTIVATION"))
+        activation = self.getChildElementOptionalLiteral(element, "ACTIVATION")
+        if activation is not None:
+            event.setActivation(ModeActivationKind().setValue(activation.getValue()))
         self.readRModeInAtomicSwcInstanceRef(element, event)
 
     def readInternalTriggerOccurredEvent(self, element: ET.Element, event: InternalTriggerOccurredEvent):
@@ -4986,6 +5008,17 @@ class ARXMLParser(AbstractARXMLParser):
         value_spec.setSwValueCont(self.getRuleBasedValueCont(element))
         return value_spec
 
+    def getCompositeRuleBasedValueSpecification(self, element: ET.Element) -> CompositeRuleBasedValueSpecification:
+        value_spec = CompositeRuleBasedValueSpecification()
+        self.readValueSpecification(element, value_spec)
+        value_spec.setRule(self.getChildElementOptionalIdentifier(element, "RULE"))
+        for child_element in self.findall(element, "ARGUMENTS/*"):
+            value_spec.addArgument(self.getValueSpecification(child_element, self.getTagName(child_element)))
+        for child_element in self.findall(element, "COMPOUND-PRIMITIVE-ARGUMENTS/*"):
+            value_spec.addCompoundPrimitiveArgument(self.getValueSpecification(child_element, self.getTagName(child_element)))
+        value_spec.setMaxSizeToFill(self.getChildElementOptionalIntegerValue(element, "MAX-SIZE-TO-FILL"))
+        return value_spec
+
     def getNumericalValueSpecification(self, element: ET.Element) -> NumericalValueSpecification:
         value_spec = NumericalValueSpecification()
         self.readValueSpecification(element, value_spec)
@@ -5022,6 +5055,8 @@ class ARXMLParser(AbstractARXMLParser):
             value_spec = self.getApplicationValueSpecification(element)
         elif tag_name == "APPLICATION-RULE-BASED-VALUE-SPECIFICATION":
             value_spec = self.getApplicationRuleBasedValueSpecification(element)
+        elif tag_name == "COMPOSITE-RULE-BASED-VALUE-SPECIFICATION":
+            value_spec = self.getCompositeRuleBasedValueSpecification(element)
         elif tag_name == "RECORD-VALUE-SPECIFICATION":
             value_spec = self.getRecordValueSpecification(element)
         elif tag_name == "NUMERICAL-VALUE-SPECIFICATION":
