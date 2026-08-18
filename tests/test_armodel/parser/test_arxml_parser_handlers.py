@@ -633,7 +633,7 @@ class TestRuleBasedValueSpecHandlers:
         assert isinstance(value_spec, ApplicationRuleBasedValueSpecification)
 
     def test_getCompositeRuleBasedValueSpecification_full(self, parser):
-        from armodel.models import ArrayValueSpecification, ApplicationRuleBasedValueSpecification
+        from armodel.models import ApplicationRuleBasedValueSpecification, ArrayValueSpecification
 
         element = _snip(
             "<RULE>FILL_UNTIL_END</RULE>"
