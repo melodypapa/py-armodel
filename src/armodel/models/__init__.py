@@ -146,6 +146,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicatio
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior.InstanceRefs import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AutosarVariableRef import *  # noqa: F403

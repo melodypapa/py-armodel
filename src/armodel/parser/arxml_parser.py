@@ -349,6 +349,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicatio
     RunnableEntityInCompositionInstanceRef,
     VariableDataPrototypeInCompositionInstanceRef,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import BulkNvDataDescriptor, ModeSwitchEventTriggeredActivity, NvBlockDataMapping, NvBlockDescriptor
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
     ArgumentDataPrototype,
     ClientServerInterface,
@@ -999,6 +1000,88 @@ class ARXMLParser(AbstractARXMLParser):
             instance_ref.setLocalVariableRef(self.getChildElementOptionalRefType(child_element, "LOCAL-VARIABLE-REF"))
         return instance_ref
 
+    def getNvBlockDataMapping(self, element: ET.Element, key: str) -> NvBlockDataMapping:
+        child_element = self.find(element, key)
+        mapping = None
+        if child_element is not None:
+            mapping = NvBlockDataMapping()
+            self.readNvBlockDataMapping(child_element, mapping)
+        return mapping
+
+    def readNvBlockDataMapping(self, element: ET.Element, mapping: NvBlockDataMapping):
+        mapping.setBitfieldTextTableMaskNvBlockDescriptor(self.getChildElementOptionalPositiveInteger(element, "BITFIELD-TEXT-TABLE-MASK-NV-BLOCK-DESCRIPTOR"))
+        mapping.setBitfieldTextTableMaskPortPrototype(self.getChildElementOptionalPositiveInteger(element, "BITFIELD-TEXT-TABLE-MASK-PORT-PROTOTYPE"))
+        mapping.setNvRamBlockElement(self.getAutosarVariableRef(element, "NV-RAM-BLOCK-ELEMENT"))
+        mapping.setReadNvData(self.getAutosarVariableRef(element, "READ-NV-DATA"))
+        mapping.setWrittenNvData(self.getAutosarVariableRef(element, "WRITTEN-NV-DATA"))
+        mapping.setWrittenReadNvData(self.getAutosarVariableRef(element, "WRITTEN-READ-NV-DATA"))
+
+    def readBulkNvDataDescriptor(self, element: ET.Element, descriptor: BulkNvDataDescriptor):
+        self.readIdentifiable(element, descriptor)
+        child_element = self.find(element, "BULK-NV-BLOCK")
+        if child_element is not None:
+            prototype_element = self.find(child_element, "VARIABLE-DATA-PROTOTYPE")
+            block = VariableDataPrototype(descriptor, self.getShortName(prototype_element))
+            self.readVariableDataPrototype(prototype_element, block)
+            descriptor.setBulkNvBlock(block)
+        for child_element in self.findall(element, "NV-BLOCK-DATA-MAPPINGS/NV-BLOCK-DATA-MAPPING"):
+            mapping = NvBlockDataMapping()
+            self.readNvBlockDataMapping(child_element, mapping)
+            descriptor.addNvBlockDataMapping(mapping)
+
+    def readNvBlockDescriptor(self, element: ET.Element, descriptor: NvBlockDescriptor):
+        self.readIdentifiable(element, descriptor)
+        for child_element in self.findall(element, "CLIENT-SERVER-PORTS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "ROLE-BASED-PORT-ASSIGNMENT":
+                descriptor.addClientServerPort(self.getRoleBasedPortAssignment(child_element))
+            else:
+                self.notImplemented("Unsupported client server port <%s>" % tag_name)
+        for ref in self.getChildElementRefTypeList(element, "CONSTANT-VALUE-MAPPING-REFS/CONSTANT-VALUE-MAPPING-REF"):
+            descriptor.addConstantValueMappingRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "DATA-TYPE-MAPPING-REFS/DATA-TYPE-MAPPING-REF"):
+            descriptor.addDataTypeMappingRef(ref)
+        for child_element in self.findall(element, "INSTANTIATION-DATA-DEF-PROPSS/INSTANTIATION-DATA-DEF-PROPS"):
+            props = InstantiationDataDefProps()
+            self.readARObjectAttributes(child_element, props)
+            props.setParameterInstance(self.getAutosarParameterRef(child_element, "PARAMETER-INSTANCE"))
+            props.setSwDataDefProps(self.getSwDataDefProps(child_element, "SW-DATA-DEF-PROPS"))
+            props.setVariableInstance(self.getAutosarVariableRef(child_element, "VARIABLE-INSTANCE"))
+            descriptor.addInstantiationDataDefProps(props)
+        for child_element in self.findall(element, "MODE-SWITCH-EVENT-TRIGGERED-ACTIVITYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "MODE-SWITCH-EVENT-TRIGGERED-ACTIVITY":
+                descriptor.addModeSwitchEventTriggeredActivity(self.getModeSwitchEventTriggeredActivity(child_element))
+            else:
+                self.notImplemented("Unsupported mode switch event triggered activity <%s>" % tag_name)
+        for child_element in self.findall(element, "NV-BLOCK-DATA-MAPPINGS/NV-BLOCK-DATA-MAPPING"):
+            mapping = NvBlockDataMapping()
+            self.readNvBlockDataMapping(child_element, mapping)
+            descriptor.addNvBlockDataMapping(mapping)
+        needs_element = self.find(element, "NV-BLOCK-NEEDS")
+        if needs_element is not None:
+            needs = NvBlockNeeds(descriptor, self.getShortName(needs_element))
+            self.readNvBlockNeeds(needs_element, needs)
+            descriptor.setNvBlockNeeds(needs)
+        ram_block_element = self.find(element, "RAM-BLOCK")
+        if ram_block_element is not None:
+            ram_block = VariableDataPrototype(descriptor, self.getShortName(ram_block_element))
+            self.readVariableDataPrototype(ram_block_element, ram_block)
+            descriptor.setRamBlock(ram_block)
+        rom_block_element = self.find(element, "ROM-BLOCK")
+        if rom_block_element is not None:
+            rom_block = ParameterDataPrototype(descriptor, self.getShortName(rom_block_element))
+            self.readParameterDataPrototype(rom_block_element, rom_block)
+            descriptor.setRomBlock(rom_block)
+        descriptor.setSupportDirtyFlag(self.getChildElementOptionalBooleanValue(element, "SUPPORT-DIRTY-FLAG"))
+        descriptor.setTimingEventRef(self.getChildElementOptionalRefType(element, "TIMING-EVENT-REF"))
+        for child_element in self.findall(element, "WRITING-STRATEGYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "ROLE-BASED-DATA-ASSIGNMENT":
+                descriptor.addWritingStrategy(self.getRoleBasedDataAssignment(child_element))
+            else:
+                self.notImplemented("Unsupported writing strategy <%s>" % tag_name)
+
     def _readVariableAccesses(self, element: ET.Element, parent: RunnableEntity, key: str):
         for child_element in self.findall(element, "%s/VARIABLE-ACCESS" % key):
             short_name = self.getShortName(child_element)
@@ -1228,6 +1311,12 @@ class ARXMLParser(AbstractARXMLParser):
         assignment.setUsedParameterElement(self.getAutosarParameterRef(element, "USED-PARAMETER-ELEMENT"))
         assignment.setUsedPimRef(self.getChildElementOptionalRefType(element, "USED-PIM-REF"))
         return assignment
+
+    def getModeSwitchEventTriggeredActivity(self, element: ET.Element) -> ModeSwitchEventTriggeredActivity:
+        activity = ModeSwitchEventTriggeredActivity()
+        activity.setRole(self.getChildElementOptionalLiteral(element, "ROLE"))
+        activity.setSwcModeSwitchEventRef(self.getChildElementOptionalRefType(element, "SWC-MODE-SWITCH-EVENT-REF"))
+        return activity
 
     def getRoleBasedPortAssignment(self, element: ET.Element) -> RoleBasedPortAssignment:
         assignment = RoleBasedPortAssignment()
