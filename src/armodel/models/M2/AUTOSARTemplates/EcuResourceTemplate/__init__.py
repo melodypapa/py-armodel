@@ -10,11 +10,8 @@ from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType, String
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Referrable
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import HwAttributeValue
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementConnector import HwElementConnector
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwPinConnector import HwPinConnector as HwPinConnector
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwPinGroupConnector import HwPinGroupConnector as HwPinGroupConnector
 
 
 class HwDescriptionEntity(Referrable):
@@ -316,6 +313,229 @@ class HwPinGroup(HwDescriptionEntity):
         if value is not None:
             self.hwPinGroupContent = value
         return self
+
+
+class HwPinConnector(Describable):
+    """
+    Represents a hardware pin connector in AUTOSAR hardware descriptions.
+    This class defines connections between hardware pins.
+
+    Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.10, p.22
+    Spec verified: R23-11
+    Note: Represents connections at the pin level between hardware elements.
+    """
+
+    # HwPinConnector method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.10, p.22
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addHwPinRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getHwPinRefs                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+
+    def __init__(self):
+        """
+        Initializes the HwPinConnector.
+        """
+        super().__init__()
+
+        # References to hardware pins that are connected
+        self.hwPinRefs: List[RefType] = []
+
+    def addHwPinRef(self, value: RefType):
+        """
+        Adds a reference to a hardware pin in this connector.
+
+        A None value is a no-op and does not add an hwPinRef.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.hwPinRefs.append(value)
+        return self
+
+    def getHwPinRefs(self) -> List[RefType]:
+        """
+        Gets all hardware pin references in this connector.
+
+        Returns:
+            The list of hwPinRefs, or an empty list if none are set
+        """
+        return self.hwPinRefs
+
+
+class HwPinGroupConnector(Describable):
+    """
+    Represents a hardware pin group connector in AUTOSAR hardware descriptions.
+    This class defines connections between hardware pin groups.
+
+    Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.9, p.22
+    Spec verified: R23-11
+    Note: Represents connections at the pin group level with optional detailed pin connections.
+    """
+
+    # HwPinGroupConnector method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.9, p.22
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addHwPinConnection           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getHwPinConnections          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addHwPinGroupRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getHwPinGroupRefs            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+
+    def __init__(self):
+        """
+        Initializes the HwPinGroupConnector.
+        """
+        super().__init__()
+
+        # Aggregation of detailed pin connections
+        self.hwPinConnections: List["HwPinConnector"] = []
+
+        # References to hardware pin groups that are connected
+        self.hwPinGroupRefs: List[RefType] = []
+
+    def addHwPinConnection(self, value: "HwPinConnector"):
+        """
+        Adds a hardware pin connection to this pin group connector.
+
+        A None value is a no-op and does not add an hwPinConnection.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.hwPinConnections.append(value)
+        return self
+
+    def getHwPinConnections(self) -> List["HwPinConnector"]:
+        """
+        Gets all hardware pin connections in this pin group connector.
+
+        Returns:
+            The list of hwPinConnections, or an empty list if none are set
+        """
+        return self.hwPinConnections
+
+    def addHwPinGroupRef(self, value: RefType):
+        """
+        Adds a reference to a hardware pin group in this connector.
+
+        A None value is a no-op and does not add an hwPinGroupRef.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.hwPinGroupRefs.append(value)
+        return self
+
+    def getHwPinGroupRefs(self) -> List[RefType]:
+        """
+        Gets all hardware pin group references in this connector.
+
+        Returns:
+            The list of hwPinGroupRefs, or an empty list if none are set
+        """
+        return self.hwPinGroupRefs
+
+
+class HwElementConnector(Describable):
+    """
+    This meta-class represents the ability to connect two hardware elements. The details of the connection can be refined by hwPinGroupConnection.
+    """
+
+    # HwElementConnector method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.8, p.21
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addHwElementRef              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getHwElementRefs             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addHwPinConnection           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getHwPinConnections          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addHwPinGroupConnection      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getHwPinGroupConnections     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # This association connects two hardware elements.
+        self.hwElementRefs: List[RefType] = []
+
+        # This represents one particular connection between two hardware pins. This connection shall be used if pin-to-pin-connection is to be described but no description of the connection between the hierarchical composition of HwPinGroups (using HwPinGroupConnector) is required.
+        self.hwPinConnections: List["HwPinConnector"] = []
+
+        # This represents one particular connection between two hardware pin groups.
+        self.hwPinGroupConnections: List["HwPinGroupConnector"] = []
+
+    def addHwElementRef(self, value: RefType):
+        """
+        This association connects two hardware elements.
+
+        A None value is a no-op and does not add an hwElementRef.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.hwElementRefs.append(value)
+        return self
+
+    def getHwElementRefs(self) -> List[RefType]:
+        """
+        This association connects two hardware elements.
+
+        Returns:
+            The list of hwElementRefs, or an empty list if none are set
+        """
+        return self.hwElementRefs
+
+    def addHwPinConnection(self, value: "HwPinConnector"):
+        """
+        This represents one particular connection between two hardware pins. This connection shall be used if pin-to-pin-connection is to be described but no description of the connection between the hierarchical composition of HwPinGroups (using HwPinGroupConnector) is required.
+
+        A None value is a no-op and does not add an hwPinConnection.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.hwPinConnections.append(value)
+        return self
+
+    def getHwPinConnections(self) -> List["HwPinConnector"]:
+        """
+        This represents one particular connection between two hardware pins. This connection shall be used if pin-to-pin-connection is to be described but no description of the connection between the hierarchical composition of HwPinGroups (using HwPinGroupConnector) is required.
+
+        Returns:
+            The list of hwPinConnections, or an empty list if none are set
+        """
+        return self.hwPinConnections
+
+    def addHwPinGroupConnection(self, value: "HwPinGroupConnector"):
+        """
+        This represents one particular connection between two hardware pin groups.
+
+        A None value is a no-op and does not add an hwPinGroupConnection.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.hwPinGroupConnections.append(value)
+        return self
+
+    def getHwPinGroupConnections(self) -> List["HwPinGroupConnector"]:
+        """
+        This represents one particular connection between two hardware pin groups.
+
+        Returns:
+            The list of hwPinGroupConnections, or an empty list if none are set
+        """
+        return self.hwPinGroupConnections
 
 
 class HwElement(HwDescriptionEntity):

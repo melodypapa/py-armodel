@@ -120,7 +120,6 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import *  # noq
 
 # Additional EcuResourceTemplate imports
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import *  # noqa: F403
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementConnector import *  # noqa: F403
 
 # GenericStructure imports
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import *  # noqa: F403

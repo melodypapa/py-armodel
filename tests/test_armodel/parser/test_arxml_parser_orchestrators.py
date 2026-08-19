@@ -1191,6 +1191,49 @@ class TestDataTypeAndCompuHandlers:
         parser.readDataConstr(element, constr)
         assert len(constr.getDataConstrRules()) == 1
 
+    def test_readDataConstr_with_phys_constrs(self, parser):
+        from armodel.models import DataConstr
+
+        constr = DataConstr(parent=_autosar_root(), short_name="dc")
+        element = _snip(
+            "<SHORT-NAME>dc</SHORT-NAME>"
+            "<DATA-CONSTR-RULES>"
+            "<DATA-CONSTR-RULE>"
+            "<PHYS-CONSTRS>"
+            '<LOWER-LIMIT INTERVAL-TYPE="CLOSED">-50.0</LOWER-LIMIT>'
+            '<UPPER-LIMIT INTERVAL-TYPE="CLOSED">150.0</UPPER-LIMIT>'
+            "<MAX-DIFF>0.5</MAX-DIFF>"
+            "<MAX-GRADIENT>1.0</MAX-GRADIENT>"
+            "<MONOTONY>increasing</MONOTONY>"
+            "<SCALE-CONSTRS>"
+            "<SCALE-CONSTR>"
+            "<SHORT-LABEL>s1</SHORT-LABEL>"
+            '<UPPER-LIMIT INTERVAL-TYPE="CLOSED">10.0</UPPER-LIMIT>'
+            "<VALIDITY>VALID</VALIDITY>"
+            "</SCALE-CONSTR>"
+            "</SCALE-CONSTRS>"
+            '<UNIT-REF DEST="UNIT">/units/c</UNIT-REF>'
+            "</PHYS-CONSTRS>"
+            "</DATA-CONSTR-RULE>"
+            "</DATA-CONSTR-RULES>",
+            root_tag="DATA-CONSTR",
+        )
+        parser.readDataConstr(element, constr)
+        rule = constr.getDataConstrRules()[0]
+        phys = rule.physConstrs
+        assert phys is not None
+        assert phys.getLowerLimit().value == "-50.0"
+        assert phys.getUpperLimit().value == "150.0"
+        assert phys.getMaxDiff().getValue() == 0.5
+        assert phys.getMaxGradient().getValue() == 1.0
+        assert phys.getMonotony().value == "increasing"
+        assert len(phys.getScaleConstrs()) == 1
+        scale = phys.getScaleConstrs()[0]
+        assert scale.getShortLabel().value == "s1"
+        assert scale.getUpperLimit().value == "10.0"
+        assert scale.getValidity().value == "VALID"
+        assert phys.getUnitRef().getValue() == "/units/c"
+
     def test_readUnit_full(self, parser):
         from armodel.models import Unit
 
@@ -2471,6 +2514,23 @@ class TestParameterInAtomicSWCTypeInstanceRef:
         result = parser.getParameterInAtomicSWCTypeInstanceRef(element, "PARAMETER-IN-ATOMIC-SWC-TYPE-INSTANCE-REF")
         assert result is not None
         assert result.getPortPrototypeRef() is not None
+
+    def test_context_data_prototype_list_ordered(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            """
+            <PARAMETER-IN-ATOMIC-SWC-TYPE-INSTANCE-REF>
+                <CONTEXT-DATA-PROTOTYPE-REF DEST="APPLICATION-COMPOSITE-ELEMENT-DATA-PROTOTYPE">/c1</CONTEXT-DATA-PROTOTYPE-REF>
+                <CONTEXT-DATA-PROTOTYPE-REF DEST="APPLICATION-COMPOSITE-ELEMENT-DATA-PROTOTYPE">/c2</CONTEXT-DATA-PROTOTYPE-REF>
+            </PARAMETER-IN-ATOMIC-SWC-TYPE-INSTANCE-REF>
+            """,
+        )
+        result = parser.getParameterInAtomicSWCTypeInstanceRef(element, "PARAMETER-IN-ATOMIC-SWC-TYPE-INSTANCE-REF")
+        assert result is not None
+        refs = result.getContextDataPrototypeRefs()
+        assert len(refs) == 2
+        assert refs[0].getValue() == "/c1"
+        assert refs[1].getValue() == "/c2"
 
     def test_without_element(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")

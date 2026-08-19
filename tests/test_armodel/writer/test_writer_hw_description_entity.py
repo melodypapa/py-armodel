@@ -6,7 +6,9 @@ import tempfile
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwElement
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import HwAttributeValue
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementConnector import HwElementConnector
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwElementConnector
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwPinConnector
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwPinGroupConnector
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -103,8 +105,14 @@ class TestWriteHwDescriptionEntity:
         element = HwElement(ar_root, "TestElement")
 
         connector = HwElementConnector()
-        connector.setHwElementRef(make_ref("/Elements/ElemA", "HW-ELEMENT"))
-        connector.setHwPinRef(make_ref("/Elements/ElemA/Pin1", "HW-PIN"))
+        connector.addHwElementRef(make_ref("/Elements/ElemA", "HW-ELEMENT"))
+        connector.addHwElementRef(make_ref("/Elements/ElemB", "HW-ELEMENT"))
+        pin_connector = HwPinConnector()
+        pin_connector.addHwPinRef(make_ref("/Elements/ElemA/Pin1", "HW-PIN"))
+        connector.addHwPinConnection(pin_connector)
+        pin_group_connector = HwPinGroupConnector()
+        pin_group_connector.addHwPinGroupRef(make_ref("/Elements/ElemA/Group1", "HW-PIN-GROUP"))
+        connector.addHwPinGroupConnection(pin_group_connector)
         element.addHwElementConnection(connector)
         element.addNestedElementRef(make_ref("/Elements/ElemB", "HW-ELEMENT"))
         element.addNestedElementRef(make_ref("/Elements/ElemC", "HW-ELEMENT"))
@@ -116,15 +124,23 @@ class TestWriteHwDescriptionEntity:
                 content = file_handle.read()
             assert "HW-ELEMENT-CONNECTIONS" in content
             assert "HW-ELEMENT-CONNECTOR" in content
+            assert "HW-PIN-CONNECTION" in content
+            assert "HW-PIN-GROUP-CONNECTION" in content
             assert "NESTED-ELEMENTS" in content
 
             element_2 = _reload(file_path)
             connections = element_2.getHwElementConnections()
             assert len(connections) == 1
-            assert connections[0].getHwElementRef().getValue() == "/Elements/ElemA"
-            assert connections[0].getHwElementRef().getDest() == "HW-ELEMENT"
-            assert connections[0].getHwPinRef().getValue() == "/Elements/ElemA/Pin1"
-            assert connections[0].getHwPinRef().getDest() == "HW-PIN"
+            hw_element_refs = connections[0].getHwElementRefs()
+            assert len(hw_element_refs) == 2
+            assert hw_element_refs[0].getValue() == "/Elements/ElemA"
+            assert hw_element_refs[0].getDest() == "HW-ELEMENT"
+            pin_connections = connections[0].getHwPinConnections()
+            assert len(pin_connections) == 1
+            assert pin_connections[0].getHwPinRefs()[0].getValue() == "/Elements/ElemA/Pin1"
+            pin_group_connections = connections[0].getHwPinGroupConnections()
+            assert len(pin_group_connections) == 1
+            assert pin_group_connections[0].getHwPinGroupRefs()[0].getValue() == "/Elements/ElemA/Group1"
             nested = element_2.getNestedElementRefs()
             assert len(nested) == 2
             assert [ref.getValue() for ref in nested] == ["/Elements/ElemB", "/Elements/ElemC"]

@@ -206,7 +206,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucValidationCondition,
     EcucValueConfigurationClass,
 )
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwElementConnector, HwPin, HwPinGroup
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwElementConnector, HwPin, HwPinConnector, HwPinGroup, HwPinGroupConnector
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import HwAttributeValue
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import Documentation, DocumentationContext
@@ -585,7 +585,7 @@ from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
     CompuScaleRationalFormula,
     CompuScales,
 )
-from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr, DataConstrRule, InternalConstrs, PhysConstrs
+from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr, DataConstrRule, InternalConstrs, PhysConstrs, ScaleConstr, ScaleConstrValidityEnum
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sd, Sdf, Sdg, SdgContents
 from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues
@@ -2727,7 +2727,8 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             parameter_iref = ParameterInAtomicSWCTypeInstanceRef()
             parameter_iref.setBaseRef(self.getChildElementOptionalRefType(child_element, "BASE-REF"))
-            parameter_iref.setContextDataPrototypeRef(self.getChildElementOptionalRefType(child_element, "CONTEXT-DATA-PROTOTYPE-REF"))
+            for ref in self.getChildElementRefTypeList(child_element, "CONTEXT-DATA-PROTOTYPE-REF"):
+                parameter_iref.addContextDataPrototypeRef(ref)
             parameter_iref.setPortPrototypeRef(self.getChildElementOptionalRefType(child_element, "PORT-PROTOTYPE-REF"))
             parameter_iref.setRootParameterDataPrototypeRef(self.getChildElementOptionalRefType(child_element, "ROOT-PARAMETER-DATA-PROTOTYPE-REF"))
             parameter_iref.setTargetDataPrototypeRef(self.getChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-REF"))
@@ -5028,14 +5029,29 @@ class ARXMLParser(AbstractARXMLParser):
             constrs.upper_limit = self.getChildLimitElement(child_element, "UPPER-LIMIT")
             parent.internalConstrs = constrs
 
+    def readScaleConstr(self, element: ET.Element) -> ScaleConstr:
+        scale_constr = ScaleConstr()
+        self.readARObjectAttributes(element, scale_constr)
+        scale_constr.setShortLabel(self.getChildElementOptionalIdentifier(element, "SHORT-LABEL"))
+        scale_constr.setUpperLimit(self.getChildLimitElement(element, "UPPER-LIMIT"))
+        validity_value = self.getChildElementOptionalLiteral(element, "VALIDITY")
+        if validity_value is not None:
+            scale_constr.setValidity(ScaleConstrValidityEnum().setValue(validity_value.getValue()))
+        return scale_constr
+
     def readPhysConstrs(self, element: ET.Element, parent: DataConstrRule):
         child_element = self.find(element, "PHYS-CONSTRS")
         if child_element is not None:
             constrs = PhysConstrs()
             self.readARObjectAttributes(child_element, constrs)
-            constrs.lower_limit = self.getChildLimitElement(child_element, "LOWER-LIMIT")
-            constrs.upper_limit = self.getChildLimitElement(child_element, "UPPER-LIMIT")
-            constrs.unit_ref = self.getChildElementOptionalRefType(child_element, "UNIT-REF")
+            constrs.setLowerLimit(self.getChildLimitElement(child_element, "LOWER-LIMIT"))
+            constrs.setUpperLimit(self.getChildLimitElement(child_element, "UPPER-LIMIT"))
+            constrs.setMaxDiff(self.getChildElementOptionalNumericalValue(child_element, "MAX-DIFF"))
+            constrs.setMaxGradient(self.getChildElementOptionalNumericalValue(child_element, "MAX-GRADIENT"))
+            constrs.setMonotony(self.getChildElementOptionalLiteral(child_element, "MONOTONY"))
+            for sc_element in self.findall(child_element, "SCALE-CONSTRS/SCALE-CONSTR"):
+                constrs.addScaleConstr(self.readScaleConstr(sc_element))
+            constrs.setUnitRef(self.getChildElementOptionalRefType(child_element, "UNIT-REF"))
             parent.physConstrs = constrs
 
     def readDataConstrRule(self, element: ET.Element, parent: DataConstr):
@@ -6166,10 +6182,30 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Hw Pin Group <%s>" % tag_name)
 
+    def readHwPinConnector(self, element: ET.Element) -> HwPinConnector:
+        pin = HwPinConnector()
+        self.readDescribable(element, pin)
+        for ref in self.getChildElementRefTypeList(element, "HW-PIN-REF"):
+            pin.addHwPinRef(ref)
+        return pin
+
+    def readHwPinGroupConnector(self, element: ET.Element) -> HwPinGroupConnector:
+        group = HwPinGroupConnector()
+        self.readDescribable(element, group)
+        for child_element in self.findall(element, "HW-PIN-CONNECTION"):
+            group.addHwPinConnection(self.readHwPinConnector(child_element))
+        for ref in self.getChildElementRefTypeList(element, "HW-PIN-GROUP-REF"):
+            group.addHwPinGroupRef(ref)
+        return group
+
     def readHwElementConnector(self, element: ET.Element, connector: HwElementConnector):
         self.readDescribable(element, connector)
-        connector.setHwElementRef(self.getChildElementOptionalRefType(element, "HW-ELEMENT-REF"))
-        connector.setHwPinRef(self.getChildElementOptionalRefType(element, "HW-PIN-REF"))
+        for ref in self.getChildElementRefTypeList(element, "HW-ELEMENT-REF"):
+            connector.addHwElementRef(ref)
+        for child_element in self.findall(element, "HW-PIN-CONNECTION"):
+            connector.addHwPinConnection(self.readHwPinConnector(child_element))
+        for child_element in self.findall(element, "HW-PIN-GROUP-CONNECTION"):
+            connector.addHwPinGroupConnection(self.readHwPinGroupConnector(child_element))
 
     def readHwElementHwElementConnections(self, element: ET.Element, hw_element: HwElement):
         for child_element in self.findall(element, "HW-ELEMENT-CONNECTIONS/HW-ELEMENT-CONNECTOR"):

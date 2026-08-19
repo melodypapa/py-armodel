@@ -308,7 +308,7 @@ class TestChildLimitElement:
         element = _snip('<L INTERVAL-TYPE="CLOSED">100</L>')
         limit = parser.getChildLimitElement(element, "L")
         assert limit is not None
-        assert limit.intervalType == "CLOSED"
+        assert limit.getIntervalType().getValue() == "CLOSED"
         assert limit.value == "100"
 
     def test_without_interval_type(self, parser):

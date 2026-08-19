@@ -873,67 +873,98 @@ class RevisionLabelString(ARLiteral):
     # (no methods)
 
 
+class IntervalTypeEnum(AREnum):
+    """
+    This enumerator specifies the type of an interval.
+    """
+
+    # IntervalTypeEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.88, p.409
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on Limit.intervalType, LimitValueVariationPoint.intervalType
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+
+    # The area is limited by the value given. The value itself is included. Tags: atp.EnumerationLiteralIndex=0
+    CLOSED = "closed"
+
+    # The area is limited by the value given. The value itself is not included. Tags: atp.EnumerationLiteralIndex=2
+    OPEN = "open"
+
+    def __init__(self):
+        super().__init__(
+            [
+                IntervalTypeEnum.CLOSED,
+                IntervalTypeEnum.OPEN,
+            ]
+        )
+
+
 class Limit(ARObject):
     """
-    Represents a limit in AUTOSAR models.
-    This class defines limits with interval type and value.
+    This class represents the ability to express a numerical limit. Note that this is in fact a NumericalVariationPoint but has the additional attribute intervalType.
     """
 
     # Limit method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-    # [ ] getIntervalType              [x] impl  [x] docstring  [ ] test
-    # [ ] setIntervalType              [x] impl  [x] docstring  [ ] test
-    # [ ] getValue                     [x] impl  [x] docstring  [ ] test
-    # [ ] setValue                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.86, p.408
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getIntervalType     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIntervalType     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getValue            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setValue            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        self.intervalType: Optional[str] = None
+        # This specifies the type of the interval. If the attribute is missing the interval shall be considered as "CLOSED".
+        self.intervalType: Optional[IntervalTypeEnum] = None
+
+        # This represents the value of the numerical limit.
         self.value: Optional[str] = None
 
-    def getIntervalType(self) -> Optional[str]:
+    def getIntervalType(self) -> Optional[IntervalTypeEnum]:
         """
-        Gets the interval type of this limit.
+        This specifies the type of the interval. If the attribute is missing the interval shall be considered as "CLOSED".
 
         Returns:
             The interval type, or None if not set
         """
         return self.intervalType
 
-    def setIntervalType(self, value: str):
+    def setIntervalType(self, value: Optional[IntervalTypeEnum]) -> "Limit":
         """
-        Sets the interval type of this limit.
+        This specifies the type of the interval. If the attribute is missing the interval shall be considered as "CLOSED".
 
-        Args:
-            value: The interval type to set
+        A None value is a no-op and does not overwrite an existing intervalType.
 
         Returns:
             self for method chaining
         """
-        self.intervalType = value
+        if value is not None:
+            self.intervalType = value
         return self
 
     def getValue(self) -> Optional[str]:
         """
-        Gets the value of this limit.
+        This represents the value of the numerical limit.
 
         Returns:
             The limit value, or None if not set
         """
         return self.value
 
-    def setValue(self, value: str):
+    def setValue(self, value: Optional[str]) -> "Limit":
         """
-        Sets the value of this limit.
+        This represents the value of the numerical limit.
 
-        Args:
-            value: The limit value to set
+        A None value is a no-op and does not overwrite an existing value.
 
         Returns:
             self for method chaining
         """
-        self.value = value
+        if value is not None:
+            self.value = value
         return self
 
 

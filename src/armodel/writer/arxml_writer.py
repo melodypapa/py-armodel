@@ -189,7 +189,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucValidationCondition,
     EcucValueConfigurationClass,
 )
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwElementConnector, HwPin, HwPinGroup
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwElementConnector, HwPin, HwPinConnector, HwPinGroup, HwPinGroupConnector
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import HwAttributeValue
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import Documentation, DocumentationContext
@@ -199,7 +199,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable, MultilanguageReferrable, Referrable, ShortNameFragment
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Limit, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, IntervalTypeEnum, Limit, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     ConditionByFormula,
@@ -562,7 +562,7 @@ from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
     CompuScaleRationalFormula,
     CompuScales,
 )
-from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr, InternalConstrs, PhysConstrs
+from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr, InternalConstrs, PhysConstrs, ScaleConstr
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg, SdgContents
 from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues
@@ -770,9 +770,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         if limit is not None:
             limit_tag = ET.SubElement(element, key)
             self.writeARObjectAttributes(limit_tag, limit)
-            if limit.intervalType is not None:
-                limit_tag.attrib["INTERVAL-TYPE"] = limit.intervalType
-            limit_tag.text = limit.value
+            interval_type = limit.getIntervalType()
+            if interval_type is not None:
+                limit_tag.attrib["INTERVAL-TYPE"] = interval_type.getValue()
+            limit_tag.text = limit.getValue()
 
     def writeReferrable(self, element: ET.Element, referrable: Referrable):
         self.writeARObjectAttributes(element, referrable)
@@ -2362,15 +2363,35 @@ class ARXMLWriter(AbstractARXMLWriter):
             if constrs.upper_limit is not None:
                 self.setChildLimitElement(constrs_tag, "UPPER-LIMIT", constrs.upper_limit)
 
+    def setScaleConstr(self, element: ET.Element, key: str, scale_constr: ScaleConstr):
+        if scale_constr is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObjectAttributes(child_element, scale_constr)
+            self.setChildElementOptionalIdentifier(child_element, "SHORT-LABEL", scale_constr.getShortLabel())
+            if scale_constr.getUpperLimit() is not None:
+                self.setChildLimitElement(child_element, "UPPER-LIMIT", scale_constr.getUpperLimit())
+            self.setChildElementOptionalLiteral(child_element, "VALIDITY", scale_constr.getValidity())
+
     def setPhysConstrs(self, element: ET.Element, constrs: PhysConstrs):
         if constrs is not None:
             child_element = ET.SubElement(element, "PHYS-CONSTRS")
             self.writeARObjectAttributes(child_element, constrs)
-            if constrs.lower_limit is not None:
-                self.setChildLimitElement(child_element, "LOWER-LIMIT", constrs.lower_limit)
-            if constrs.upper_limit is not None:
-                self.setChildLimitElement(child_element, "UPPER-LIMIT", constrs.upper_limit)
-            self.setChildElementOptionalRefType(child_element, "UNIT-REF", constrs.unit_ref)
+            if constrs.getLowerLimit() is not None:
+                self.setChildLimitElement(child_element, "LOWER-LIMIT", constrs.getLowerLimit())
+            if constrs.getUpperLimit() is not None:
+                self.setChildLimitElement(child_element, "UPPER-LIMIT", constrs.getUpperLimit())
+            self.setChildElementOptionalNumericalValue(child_element, "MAX-DIFF", constrs.getMaxDiff())
+            self.setChildElementOptionalNumericalValue(child_element, "MAX-GRADIENT", constrs.getMaxGradient())
+            monotony = constrs.getMonotony()
+            if monotony is not None:
+                mono_element = ET.SubElement(child_element, "MONOTONY")
+                mono_element.text = monotony.getText() if hasattr(monotony, "getText") else str(monotony)
+            scale_constrs = constrs.getScaleConstrs()
+            if len(scale_constrs) > 0:
+                scales_element = ET.SubElement(child_element, "SCALE-CONSTRS")
+                for scale_constr in scale_constrs:
+                    self.setScaleConstr(scales_element, "SCALE-CONSTR", scale_constr)
+            self.setChildElementOptionalRefType(child_element, "UNIT-REF", constrs.getUnitRef())
 
     def writeDataConstrRules(self, element: ET.Element, parent: DataConstr):
         rules = parent.getDataConstrRules()
@@ -2584,7 +2605,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         if parameter_iref is not None:
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalRefType(child_element, "BASE-REF", parameter_iref.getBaseRef())
-            self.setChildElementOptionalRefType(child_element, "CONTEXT-DATA-PROTOTYPE-REF", parameter_iref.getContextDataPrototypeRef())
+            for ref in parameter_iref.getContextDataPrototypeRefs():
+                self.setChildElementOptionalRefType(child_element, "CONTEXT-DATA-PROTOTYPE-REF", ref)
             self.setChildElementOptionalRefType(child_element, "PORT-PROTOTYPE-REF", parameter_iref.getPortPrototypeRef())
             self.setChildElementOptionalRefType(child_element, "ROOT-PARAMETER-DATA-PROTOTYPE-REF", parameter_iref.getRootParameterDataPrototypeRef())
             self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-REF", parameter_iref.getTargetDataPrototypeRef())
@@ -8329,11 +8351,29 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported Hw Pin Group <%s>" % type(pin_group))
 
+    def writeHwPinConnector(self, parent: ET.Element, pin: HwPinConnector):
+        child_element = ET.SubElement(parent, "HW-PIN-CONNECTION")
+        self.writeDescribable(child_element, pin)
+        for ref in pin.getHwPinRefs():
+            self.setChildElementOptionalRefType(child_element, "HW-PIN-REF", ref)
+
+    def writeHwPinGroupConnector(self, parent: ET.Element, group: HwPinGroupConnector):
+        child_element = ET.SubElement(parent, "HW-PIN-GROUP-CONNECTION")
+        self.writeDescribable(child_element, group)
+        for connection in group.getHwPinConnections():
+            self.writeHwPinConnector(child_element, connection)
+        for ref in group.getHwPinGroupRefs():
+            self.setChildElementOptionalRefType(child_element, "HW-PIN-GROUP-REF", ref)
+
     def writeHwElementConnector(self, parent: ET.Element, connector: HwElementConnector):
         child_element = ET.SubElement(parent, "HW-ELEMENT-CONNECTOR")
         self.writeDescribable(child_element, connector)
-        self.setChildElementOptionalRefType(child_element, "HW-ELEMENT-REF", connector.getHwElementRef())
-        self.setChildElementOptionalRefType(child_element, "HW-PIN-REF", connector.getHwPinRef())
+        for ref in connector.getHwElementRefs():
+            self.setChildElementOptionalRefType(child_element, "HW-ELEMENT-REF", ref)
+        for connection in connector.getHwPinConnections():
+            self.writeHwPinConnector(child_element, connection)
+        for group in connector.getHwPinGroupConnections():
+            self.writeHwPinGroupConnector(child_element, group)
 
     def writeHwElementHwElementConnections(self, element: ET.Element, hw_element: HwElement):
         connections = hw_element.getHwElementConnections()

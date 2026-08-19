@@ -24,6 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Float,
     Identifier,
     Integer,
+    IntervalTypeEnum,
     Ip4AddressString,
     Ip6AddressString,
     Limit,
@@ -691,8 +692,8 @@ class TestLimit:
 
         # Verify basic properties
         assert limit is not None
-        assert limit.intervalType is None
-        assert limit.value is None
+        assert limit.getIntervalType() is None
+        assert limit.getValue() is None
 
     def test_interval_type_methods(self):
         """
@@ -703,9 +704,9 @@ class TestLimit:
         # Test get/set interval type
         assert limit.getIntervalType() is None
 
-        result = limit.setIntervalType("closed")
+        result = limit.setIntervalType(IntervalTypeEnum().setValue("closed"))
         assert result is limit  # Verify method chaining
-        assert limit.getIntervalType() == "closed"
+        assert limit.getIntervalType().getValue() == "closed"
 
     def test_value_methods(self):
         """

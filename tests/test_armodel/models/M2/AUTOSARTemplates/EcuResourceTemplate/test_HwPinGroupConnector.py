@@ -7,7 +7,7 @@ class TestHwPinGroupConnector:
     def test_initialization(self):
         """Test HwPinGroupConnector initialization"""
         # Import after class is created
-        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwPinGroupConnector import HwPinGroupConnector
+        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwPinGroupConnector
 
         connector = HwPinGroupConnector()
         assert connector.getHwPinConnections() == []
@@ -15,8 +15,8 @@ class TestHwPinGroupConnector:
 
     def test_add_hw_pin_connection(self):
         """Test addHwPinConnection method"""
-        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwPinConnector import HwPinConnector
-        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwPinGroupConnector import HwPinGroupConnector
+        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwPinConnector
+        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwPinGroupConnector
 
         connector = HwPinGroupConnector()
         pin_conn = HwPinConnector()
@@ -27,7 +27,7 @@ class TestHwPinGroupConnector:
 
     def test_add_hw_pin_connection_none(self):
         """Test addHwPinConnection with None value"""
-        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwPinGroupConnector import HwPinGroupConnector
+        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwPinGroupConnector
 
         connector = HwPinGroupConnector()
         result = connector.addHwPinConnection(None)
@@ -36,7 +36,7 @@ class TestHwPinGroupConnector:
 
     def test_add_hw_pin_group_ref(self):
         """Test addHwPinGroupRef method"""
-        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwPinGroupConnector import HwPinGroupConnector
+        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwPinGroupConnector
 
         connector = HwPinGroupConnector()
         ref = RefType()
@@ -46,7 +46,7 @@ class TestHwPinGroupConnector:
 
     def test_add_hw_pin_group_ref_none(self):
         """Test addHwPinGroupRef with None value"""
-        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwPinGroupConnector import HwPinGroupConnector
+        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwPinGroupConnector
 
         connector = HwPinGroupConnector()
         result = connector.addHwPinGroupRef(None)
@@ -55,8 +55,8 @@ class TestHwPinGroupConnector:
 
     def test_method_chaining(self):
         """Test method chaining for all adders"""
-        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwPinConnector import HwPinConnector
-        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwPinGroupConnector import HwPinGroupConnector
+        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwPinConnector
+        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwPinGroupConnector
 
         connector = HwPinGroupConnector()
         pin_conn1 = HwPinConnector()

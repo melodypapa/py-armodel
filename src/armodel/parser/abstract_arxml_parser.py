@@ -16,6 +16,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DateTime,
     Identifier,
     Integer,
+    IntervalTypeEnum,
     Limit,
     PositiveInteger,
     RefType,
@@ -271,10 +272,10 @@ class AbstractARXMLParser(ABC):
             limit = Limit()
             self.readARObjectAttributes(child_element, limit)
             if "INTERVAL-TYPE" in child_element.attrib:
-                limit.intervalType = child_element.attrib["INTERVAL-TYPE"]
+                limit.setIntervalType(IntervalTypeEnum().setValue(child_element.attrib["INTERVAL-TYPE"]))
             else:
-                limit.intervalType = None
-            limit.value = child_element.text
+                limit.setIntervalType(None)
+            limit.setValue(child_element.text)
             return limit
         return None
 

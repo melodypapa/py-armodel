@@ -3,8 +3,7 @@ Test cases for the EcuResourceTemplate __init__.py module.
 These tests ensure 100% code coverage for the HwDescriptionEntity, HwPin, HwPinGroupContent, HwPinGroup, and HwElement classes.
 """
 
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwElement, HwPin, HwPinGroup, HwPinGroupContent
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementConnector import HwElementConnector
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwElement, HwPin, HwPinGroup, HwPinGroupContent, HwElementConnector
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 
@@ -230,12 +229,12 @@ def test_hw_element_getters_and_setters():
     ref1 = RefType()
     ref1.setDest("HW-ELEMENT")
     ref1.setValue("/pkg/elem1")
-    connection1.setHwElementRef(ref1)
+    connection1.addHwElementRef(ref1)
     connection2 = HwElementConnector()
     ref2 = RefType()
-    ref2.setDest("HW-PIN")
-    ref2.setValue("/pkg/elem1/pinA")
-    connection2.setHwPinRef(ref2)
+    ref2.setDest("HW-ELEMENT")
+    ref2.setValue("/pkg/elem2")
+    connection2.addHwElementRef(ref2)
     return_value = hw_element.addHwElementConnection(connection1)
     assert return_value == hw_element  # Verify method chaining
     hw_element.addHwElementConnection(connection2)
