@@ -29,10 +29,10 @@ class RteApiReturnValueProvisionEnum(AREnum):
 
     def __init__(self):
         super().__init__(
-            (
+            [
                 RteApiReturnValueProvisionEnum.NO_RETURN_VALUE_PROVIDED,
                 RteApiReturnValueProvisionEnum.RETURN_VALUE_PROVIDED,
-            )
+            ]
         )
 
 
@@ -49,14 +49,6 @@ class AbstractAccessPoint(AtpStructureElement, ABC):
     # [x] setReturnValueProvision      [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the AbstractAccessPoint with a parent and short name.
-        Raises TypeError if this abstract class is instantiated directly.
-
-        Args:
-            parent: The parent ARObject that contains this access point
-            short_name: The unique short name of this access point
-        """
         if type(self) is AbstractAccessPoint:
             raise TypeError("AbstractAccessPoint is an abstract class.")
 

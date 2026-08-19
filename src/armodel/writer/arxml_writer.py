@@ -253,11 +253,14 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
     AtomicSwComponentType,
     ComplexDeviceDriverSwComponentType,
     EcuAbstractionSwComponentType,
+    NvBlockSwComponentType,
     PortGroup,
     PortPrototype,
     PPortPrototype,
     PRPortPrototype,
     RPortPrototype,
+    SensorActuatorSwComponentType,
+    ServiceProxySwComponentType,
     ServiceSwComponentType,
     SwComponentType,
     SymbolProps,
@@ -323,6 +326,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicatio
     RunnableEntityInCompositionInstanceRef,
     VariableDataPrototypeInCompositionInstanceRef,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import BulkNvDataDescriptor, ModeSwitchEventTriggeredActivity, NvBlockDataMapping, NvBlockDescriptor
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
     ApplicationError,
     ArgumentDataPrototype,
@@ -2614,6 +2618,101 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setVariableInAtomicSWCTypeInstanceRef(child_element, "AUTOSAR-VARIABLE-IREF", ref.getAutosarVariableIRef())
             self.setChildElementOptionalRefType(child_element, "LOCAL-VARIABLE-REF", ref.getLocalVariableRef())
 
+    def writeNvBlockDataMapping(self, element: ET.Element, mapping: NvBlockDataMapping):
+        child_element = ET.SubElement(element, "NV-BLOCK-DATA-MAPPING")
+        self.writeARObjectAttributes(child_element, mapping)
+        self.setChildElementOptionalPositiveInteger(child_element, "BITFIELD-TEXT-TABLE-MASK-NV-BLOCK-DESCRIPTOR", mapping.getBitfieldTextTableMaskNvBlockDescriptor())
+        self.setChildElementOptionalPositiveInteger(child_element, "BITFIELD-TEXT-TABLE-MASK-PORT-PROTOTYPE", mapping.getBitfieldTextTableMaskPortPrototype())
+        self.setAutosarVariableRef(child_element, "NV-RAM-BLOCK-ELEMENT", mapping.getNvRamBlockElement())
+        self.setAutosarVariableRef(child_element, "READ-NV-DATA", mapping.getReadNvData())
+        self.setAutosarVariableRef(child_element, "WRITTEN-NV-DATA", mapping.getWrittenNvData())
+        self.setAutosarVariableRef(child_element, "WRITTEN-READ-NV-DATA", mapping.getWrittenReadNvData())
+
+    def writeBulkNvDataDescriptor(self, element: ET.Element, descriptor: BulkNvDataDescriptor):
+        child_element = ET.SubElement(element, "BULK-NV-DATA-DESCRIPTOR")
+        self.writeIdentifiable(child_element, descriptor)
+        block = descriptor.getBulkNvBlock()
+        if block is not None:
+            block_element = ET.SubElement(child_element, "BULK-NV-BLOCK")
+            self.writeVariableDataPrototype(block_element, block)
+        mappings = descriptor.getNvBlockDataMappings()
+        if len(mappings) > 0:
+            mappings_element = ET.SubElement(child_element, "NV-BLOCK-DATA-MAPPINGS")
+            for mapping in mappings:
+                self.writeNvBlockDataMapping(mappings_element, mapping)
+
+    def writeNvBlockDescriptor(self, element: ET.Element, descriptor: NvBlockDescriptor):
+        child_element = ET.SubElement(element, "NV-BLOCK-DESCRIPTOR")
+        self.writeIdentifiable(child_element, descriptor)
+        client_server_ports = descriptor.getClientServerPorts()
+        if len(client_server_ports) > 0:
+            ports_element = ET.SubElement(child_element, "CLIENT-SERVER-PORTS")
+            for assignment in client_server_ports:
+                if isinstance(assignment, RoleBasedPortAssignment):
+                    self.writeRoleBasedPortAssignment(ports_element, assignment)
+                else:
+                    self.notImplemented("Unsupported Client Server Port <%s>" % type(assignment))
+        constant_mapping_refs = descriptor.getConstantValueMappingRefs()
+        if len(constant_mapping_refs) > 0:
+            refs_element = ET.SubElement(child_element, "CONSTANT-VALUE-MAPPING-REFS")
+            for ref in constant_mapping_refs:
+                self.setChildElementOptionalRefType(refs_element, "CONSTANT-VALUE-MAPPING-REF", ref)
+        data_type_mapping_refs = descriptor.getDataTypeMappingRefs()
+        if len(data_type_mapping_refs) > 0:
+            refs_element = ET.SubElement(child_element, "DATA-TYPE-MAPPING-REFS")
+            for ref in data_type_mapping_refs:
+                self.setChildElementOptionalRefType(refs_element, "DATA-TYPE-MAPPING-REF", ref)
+        props_list = descriptor.getInstantiationDataDefPropss()
+        if len(props_list) > 0:
+            props_tag = ET.SubElement(child_element, "INSTANTIATION-DATA-DEF-PROPSS")
+            for props in props_list:
+                if isinstance(props, InstantiationDataDefProps):
+                    props_element = ET.SubElement(props_tag, "INSTANTIATION-DATA-DEF-PROPS")
+                    self.setAutosarParameterRef(props_element, "PARAMETER-INSTANCE", props.getParameterInstance())
+                    self.setSwDataDefProps(props_element, "SW-DATA-DEF-PROPS", props.getSwDataDefProps())
+                    self.setAutosarVariableRef(props_element, "VARIABLE-INSTANCE", props.getVariableInstance())
+                else:
+                    self.notImplemented("Unsupported InstantiationDataDefProps <%s>" % type(props))
+        activities = descriptor.getModeSwitchEventTriggeredActivitys()
+        if len(activities) > 0:
+            activities_element = ET.SubElement(child_element, "MODE-SWITCH-EVENT-TRIGGERED-ACTIVITYS")
+            for activity in activities:
+                if isinstance(activity, ModeSwitchEventTriggeredActivity):
+                    self.writeModeSwitchEventTriggeredActivity(activities_element, activity)
+                else:
+                    self.notImplemented("Unsupported ModeSwitchEventTriggeredActivity <%s>" % type(activity))
+        mappings = descriptor.getNvBlockDataMappings()
+        if len(mappings) > 0:
+            mappings_element = ET.SubElement(child_element, "NV-BLOCK-DATA-MAPPINGS")
+            for mapping in mappings:
+                self.writeNvBlockDataMapping(mappings_element, mapping)
+        needs = descriptor.getNvBlockNeeds()
+        if needs is not None:
+            self.writeNvBlockNeeds(child_element, needs)
+        ram_block = descriptor.getRamBlock()
+        if ram_block is not None:
+            ram_block_element = ET.SubElement(child_element, "RAM-BLOCK")
+            self.writeAutosarDataPrototype(ram_block_element, ram_block)
+        rom_block = descriptor.getRomBlock()
+        if rom_block is not None:
+            rom_block_element = ET.SubElement(child_element, "ROM-BLOCK")
+            self.writeAutosarDataPrototype(rom_block_element, rom_block)
+        self.setChildElementOptionalBooleanValue(child_element, "SUPPORT-DIRTY-FLAG", descriptor.getSupportDirtyFlag())
+        self.setChildElementOptionalRefType(child_element, "TIMING-EVENT-REF", descriptor.getTimingEventRef())
+        strategies = descriptor.getWritingStrategies()
+        if len(strategies) > 0:
+            strategies_element = ET.SubElement(child_element, "WRITING-STRATEGYS")
+            for strategy in strategies:
+                if isinstance(strategy, RoleBasedDataAssignment):
+                    self.writeRoleBasedDataAssignment(strategies_element, strategy)
+                else:
+                    self.notImplemented("Unsupported Writing Strategy <%s>" % type(strategy))
+
+    def writeModeSwitchEventTriggeredActivity(self, element: ET.Element, activity: ModeSwitchEventTriggeredActivity):
+        child_element = ET.SubElement(element, "MODE-SWITCH-EVENT-TRIGGERED-ACTIVITY")
+        self.setChildElementOptionalLiteral(child_element, "ROLE", activity.getRole())
+        self.setChildElementOptionalRefType(child_element, "SWC-MODE-SWITCH-EVENT-REF", activity.getSwcModeSwitchEventRef())
+
     def setComponentInSystemInstanceRef(self, element: ET.Element, tag_name: str, ref: ComponentInSystemInstanceRef):
         if ref is not None:
             child_element = ET.SubElement(element, tag_name)
@@ -3572,6 +3671,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for set in sets:
                 child_element = ET.SubElement(include_data_type_sets_tag, "INCLUDED-DATA-TYPE-SET")
                 self.writeARObjectAttributes(child_element, set)
+                self.setChildElementOptionalLiteral(child_element, "LITERAL-PREFIX", set.getLiteralPrefix())
                 type_refs = set.getDataTypeRefs()
                 if len(type_refs) > 0:
                     data_type_refs_tag = ET.SubElement(child_element, "DATA-TYPE-REFS")
@@ -3659,6 +3759,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("writeComplexDeviceDriverSwComponentType %s" % sw_component.getShortName())
         child_element = ET.SubElement(element, "COMPLEX-DEVICE-DRIVER-SW-COMPONENT-TYPE")
         self.writeAtomicSwComponentType(child_element, sw_component)
+        self.writeHardwareElementRefs(child_element, sw_component.getHardwareElementRefs())
+
+    def writeHardwareElementRefs(self, element: ET.Element, refs: List[RefType]):
+        if len(refs) > 0:
+            child_element = ET.SubElement(element, "HARDWARE-ELEMENT-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(child_element, "HARDWARE-ELEMENT-REF", ref)
 
     def writeArtifactDescriptors(self, element: ET.Element, code_desc: Code):
         artifact_descriptors = code_desc.getArtifactDescriptors()
@@ -5178,6 +5285,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("writeEcuAbstractionSwComponentType %s" % sw_component.getShortName())
         child_element = ET.SubElement(element, "ECU-ABSTRACTION-SW-COMPONENT-TYPE")
         self.writeAtomicSwComponentType(child_element, sw_component)
+        self.writeHardwareElementRefs(child_element, sw_component.getHardwareElementRefs())
 
     def setApplicationArrayElement(self, element: ET.Element, array_element: ApplicationArrayElement):
         if array_element is not None:
@@ -5248,6 +5356,32 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("writeServiceSwComponentType %s" % sw_component.getShortName())
         child_element = ET.SubElement(element, "SERVICE-SW-COMPONENT-TYPE")
         self.writeAtomicSwComponentType(child_element, sw_component)
+
+    def writeSensorActuatorSwComponentType(self, element: ET.Element, sw_component: SensorActuatorSwComponentType):
+        self.logger.debug("writeSensorActuatorSwComponentType %s" % sw_component.getShortName())
+        child_element = ET.SubElement(element, "SENSOR-ACTUATOR-SW-COMPONENT-TYPE")
+        self.writeAtomicSwComponentType(child_element, sw_component)
+        self.setChildElementOptionalRefType(child_element, "SENSOR-ACTUATOR-REF", sw_component.getSensorActuatorRef())
+
+    def writeServiceProxySwComponentType(self, element: ET.Element, sw_component: ServiceProxySwComponentType):
+        self.logger.debug("writeServiceProxySwComponentType %s" % sw_component.getShortName())
+        child_element = ET.SubElement(element, "SERVICE-PROXY-SW-COMPONENT-TYPE")
+        self.writeAtomicSwComponentType(child_element, sw_component)
+
+    def writeNvBlockSwComponentType(self, element: ET.Element, sw_component: NvBlockSwComponentType):
+        self.logger.debug("writeNvBlockSwComponentType %s" % sw_component.getShortName())
+        child_element = ET.SubElement(element, "NV-BLOCK-SW-COMPONENT-TYPE")
+        self.writeAtomicSwComponentType(child_element, sw_component)
+        bulk_descriptors = sw_component.getBulkNvDataDescriptors()
+        if len(bulk_descriptors) > 0:
+            descriptors_tag = ET.SubElement(child_element, "BULK-NV-DATA-DESCRIPTORS")
+            for descriptor in bulk_descriptors:
+                self.writeBulkNvDataDescriptor(descriptors_tag, descriptor)
+        nv_descriptors = sw_component.getNvBlockDescriptors()
+        if len(nv_descriptors) > 0:
+            descriptors_tag = ET.SubElement(child_element, "NV-BLOCK-DESCRIPTORS")
+            for descriptor in nv_descriptors:
+                self.writeNvBlockDescriptor(descriptors_tag, descriptor)
 
     def writeDataTypeMaps(self, element: ET.Element, parent: DataTypeMappingSet):
         maps = parent.getDataTypeMaps()
@@ -8789,6 +8923,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeTriggerInterface(element, ar_element)
         elif isinstance(ar_element, ServiceSwComponentType):
             self.writeServiceSwComponentType(element, ar_element)
+        elif isinstance(ar_element, SensorActuatorSwComponentType):
+            self.writeSensorActuatorSwComponentType(element, ar_element)
+        elif isinstance(ar_element, NvBlockSwComponentType):
+            self.writeNvBlockSwComponentType(element, ar_element)
+        elif isinstance(ar_element, ServiceProxySwComponentType):
+            self.writeServiceProxySwComponentType(element, ar_element)
         elif isinstance(ar_element, DataTypeMappingSet):
             self.writeDataTypeMappingSet(element, ar_element)
         elif isinstance(ar_element, ModeDeclarationGroup):

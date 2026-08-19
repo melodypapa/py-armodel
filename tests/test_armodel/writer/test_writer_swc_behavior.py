@@ -1555,11 +1555,13 @@ class TestWriterSetIncludedDataTypeSets:
         dt_set = IncludedDataTypeSet()
         dt_set.addDataTypeRef(_ref("/dt1", "DATA-TYPE"))
         dt_set.addDataTypeRef(_ref("/dt2", "DATA-TYPE"))
+        dt_set.setLiteralPrefix(_literal("CalVal_"))
         parent = _parent()
         writer.setIncludedDataTypeSets(parent, [dt_set])
         elem = parent.find("INCLUDED-DATA-TYPE-SETS")
         assert elem is not None
         assert elem[0].tag == "INCLUDED-DATA-TYPE-SET"
+        assert elem[0].find("LITERAL-PREFIX").text == "CalVal_"
         refs = elem[0].find("DATA-TYPE-REFS")
         assert refs is not None
         assert len(refs) == 2

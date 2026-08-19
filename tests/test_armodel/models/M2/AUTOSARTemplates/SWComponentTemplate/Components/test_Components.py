@@ -578,11 +578,11 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
 
         ref = RefType()
         ref.setValue("/Test/HwElement")
-        swc.addHardwareElementRefs(ref)
+        swc.addHardwareElementRef(ref)
         assert ref in swc.getHardwareElementRefs()
 
-        # Test addHardwareElementRefs with None
-        swc.addHardwareElementRefs(None)
+        # Test addHardwareElementRef with None
+        swc.addHardwareElementRef(None)
         assert len(swc.getHardwareElementRefs()) == 1
 
     def test_ComplexDeviceDriverSwComponentType_methods(self):
@@ -593,11 +593,11 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
 
         ref = RefType()
         ref.setValue("/Test/HwElement")
-        swc.addHardwareElementRefs(ref)
+        swc.addHardwareElementRef(ref)
         assert ref in swc.getHardwareElementRefs()
 
-        # Test addHardwareElementRefs with None
-        swc.addHardwareElementRefs(None)
+        # Test addHardwareElementRef with None
+        swc.addHardwareElementRef(None)
         assert len(swc.getHardwareElementRefs()) == 1
 
     def test_NvBlockSwComponentType_methods(self):
@@ -606,23 +606,15 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         ar_root = document.createARPackage("AUTOSAR")
         swc = NvBlockSwComponentType(ar_root, "TestNvBlock")
 
-        # Test addBulkNvDataDescriptor
-        descriptor = "bulk_descriptor"
-        swc.addBulkNvDataDescriptor(descriptor)
+        # Test createBulkNvDataDescriptor
+        descriptor = swc.createBulkNvDataDescriptor("BulkDesc")
         assert descriptor in swc.getBulkNvDataDescriptors()
+        assert swc.createBulkNvDataDescriptor("BulkDesc") is descriptor
 
-        # Test addBulkNvDataDescriptor with None
-        swc.addBulkNvDataDescriptor(None)
-        assert len(swc.getBulkNvDataDescriptors()) == 1
-
-        # Test setNvBlockDescriptor
-        nv_descriptor = "nv_descriptor"
-        swc.setNvBlockDescriptor(nv_descriptor)
+        # Test createNvBlockDescriptor
+        nv_descriptor = swc.createNvBlockDescriptor("BlockDesc")
         assert nv_descriptor in swc.getNvBlockDescriptors()
-
-        # Test setNvBlockDescriptor with None
-        swc.setNvBlockDescriptor(None)
-        assert len(swc.getNvBlockDescriptors()) == 1
+        assert swc.createNvBlockDescriptor("BlockDesc") is nv_descriptor
 
     def test_PortPrototype_all_annotation_methods(self):
         """Test all annotation methods for PortPrototype."""
