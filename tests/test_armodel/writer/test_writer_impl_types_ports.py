@@ -924,6 +924,7 @@ class TestSwComponentWriter:
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("Pkg")
         swc = pkg.createEcuAbstractionSwComponentType("EcuSwc")
+        swc.addHardwareElementRef(_make_ref("/Hw/Ecu", "HW-DESCRIPTION-ENTITY"))
 
         parent = _parent()
         writer.writeEcuAbstractionSwComponentType(parent, swc)
@@ -932,6 +933,92 @@ class TestSwComponentWriter:
         child = parent[0]
         assert child.tag == "ECU-ABSTRACTION-SW-COMPONENT-TYPE"
         assert child.find("SHORT-NAME").text == "EcuSwc"
+        assert child.find("HARDWARE-ELEMENT-REFS/HARDWARE-ELEMENT-REF").text == "/Hw/Ecu"
+
+    def test_write_complex_device_driver_sw_component_type(self, writer):
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Pkg")
+        swc = pkg.createComplexDeviceDriverSwComponentType("CddSwc")
+        swc.addHardwareElementRef(_make_ref("/Hw/Cdd", "HW-DESCRIPTION-ENTITY"))
+
+        parent = _parent()
+        writer.writeComplexDeviceDriverSwComponentType(parent, swc)
+
+        assert len(parent) == 1
+        child = parent[0]
+        assert child.tag == "COMPLEX-DEVICE-DRIVER-SW-COMPONENT-TYPE"
+        assert child.find("SHORT-NAME").text == "CddSwc"
+        assert child.find("HARDWARE-ELEMENT-REFS/HARDWARE-ELEMENT-REF").text == "/Hw/Cdd"
+
+    def test_write_sensor_actuator_sw_component_type(self, writer):
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Pkg")
+        swc = pkg.createSensorActuatorSwComponentType("SensorSwc")
+        swc.setSensorActuatorRef(_make_ref("/Hw/Sensor", "HW-DESCRIPTION-ENTITY"))
+
+        parent = _parent()
+        writer.writeSensorActuatorSwComponentType(parent, swc)
+
+        assert len(parent) == 1
+        child = parent[0]
+        assert child.tag == "SENSOR-ACTUATOR-SW-COMPONENT-TYPE"
+        assert child.find("SHORT-NAME").text == "SensorSwc"
+        assert child.find("SENSOR-ACTUATOR-REF").text == "/Hw/Sensor"
+
+    def test_write_sensor_actuator_sw_component_type_without_ref(self, writer):
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Pkg")
+        swc = pkg.createSensorActuatorSwComponentType("SensorSwc")
+
+        parent = _parent()
+        writer.writeSensorActuatorSwComponentType(parent, swc)
+
+        child = parent[0]
+        assert child.find("SENSOR-ACTUATOR-REF") is None
+
+    def test_write_service_proxy_sw_component_type(self, writer):
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Pkg")
+        swc = pkg.createServiceProxySwComponentType("ProxySwc")
+
+        parent = _parent()
+        writer.writeServiceProxySwComponentType(parent, swc)
+
+        assert len(parent) == 1
+        child = parent[0]
+        assert child.tag == "SERVICE-PROXY-SW-COMPONENT-TYPE"
+        assert child.find("SHORT-NAME").text == "ProxySwc"
+
+    def test_write_nv_block_sw_component_type(self, writer):
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Pkg")
+        swc = pkg.createNvBlockSwComponentType("NvBlockSwc")
+        swc.createBulkNvDataDescriptor("BulkDesc")
+        block = swc.createNvBlockDescriptor("BlockDesc")
+        block.setSupportDirtyFlag(_make_bool(True))
+
+        parent = _parent()
+        writer.writeNvBlockSwComponentType(parent, swc)
+
+        assert len(parent) == 1
+        child = parent[0]
+        assert child.tag == "NV-BLOCK-SW-COMPONENT-TYPE"
+        assert child.find("SHORT-NAME").text == "NvBlockSwc"
+        assert child.find("BULK-NV-DATA-DESCRIPTORS/BULK-NV-DATA-DESCRIPTOR/SHORT-NAME").text == "BulkDesc"
+        assert child.find("NV-BLOCK-DESCRIPTORS/NV-BLOCK-DESCRIPTOR/SHORT-NAME").text == "BlockDesc"
+        assert child.find("NV-BLOCK-DESCRIPTORS/NV-BLOCK-DESCRIPTOR/SUPPORT-DIRTY-FLAG").text == "true"
+
+    def test_write_nv_block_sw_component_type_no_descriptors(self, writer):
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Pkg")
+        swc = pkg.createNvBlockSwComponentType("NvBlockSwc")
+
+        parent = _parent()
+        writer.writeNvBlockSwComponentType(parent, swc)
+
+        child = parent[0]
+        assert child.find("BULK-NV-DATA-DESCRIPTORS") is None
+        assert child.find("NV-BLOCK-DESCRIPTORS") is None
 
     def test_set_application_array_element(self, writer):
         autosar = AUTOSAR.getInstance()

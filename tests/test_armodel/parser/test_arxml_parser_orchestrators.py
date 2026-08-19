@@ -2356,6 +2356,7 @@ class TestIncludedDataTypeSets:
             """
             <INCLUDED-DATA-TYPE-SETS>
                 <INCLUDED-DATA-TYPE-SET>
+                    <LITERAL-PREFIX>CalVal_</LITERAL-PREFIX>
                     <DATA-TYPE-REFS>
                         <DATA-TYPE-REF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/dt/Type1</DATA-TYPE-REF>
                     </DATA-TYPE-REFS>
@@ -2365,6 +2366,7 @@ class TestIncludedDataTypeSets:
         )
         result = parser.getIncludedDataTypeSets(element)
         assert len(result) == 1
+        assert result[0].getLiteralPrefix().getValue() == "CalVal_"
         assert len(result[0].getDataTypeRefs()) == 1
 
     def test_empty_returns_empty_list(self, parser):

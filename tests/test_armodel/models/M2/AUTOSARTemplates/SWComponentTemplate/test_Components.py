@@ -401,7 +401,7 @@ class TestEcuAbstractionSwComponentType:
 
         ref = RefType()
         ref.setValue("/Hardware/Element")
-        comp_type.addHardwareElementRefs(ref)
+        comp_type.addHardwareElementRef(ref)
         assert ref in comp_type.getHardwareElementRefs()
 
 
@@ -444,7 +444,7 @@ class TestComplexDeviceDriverSwComponentType:
 
         ref = RefType()
         ref.setValue("/Hardware/Element")
-        comp_type.addHardwareElementRefs(ref)
+        comp_type.addHardwareElementRef(ref)
         assert ref in comp_type.getHardwareElementRefs()
 
 
@@ -466,16 +466,15 @@ class TestNvBlockSwComponentType:
         assert comp_type.bulkNvDataDescriptors == []
         assert comp_type.nvBlockDescriptors == []
 
-        # Test bulkNvDataDescriptors methods
-        bulk_desc = "test_bulk_desc"
-        comp_type.addBulkNvDataDescriptor(bulk_desc)
+        # Test create/get bulkNvDataDescriptors
+        bulk_desc = comp_type.createBulkNvDataDescriptor("BulkDesc")
         assert bulk_desc in comp_type.getBulkNvDataDescriptors()
+        assert comp_type.createBulkNvDataDescriptor("BulkDesc") is bulk_desc
 
-        # Test nvBlockDescriptors methods
-        block_desc = "test_block_desc"
-        comp_type.setNvBlockDescriptor(block_desc)
-        # Note: setNvBlockDescriptor adds to the list, so we check the length
-        assert len(comp_type.nvBlockDescriptors) == 1
+        # Test create/get nvBlockDescriptors
+        block_desc = comp_type.createNvBlockDescriptor("BlockDesc")
+        assert block_desc in comp_type.getNvBlockDescriptors()
+        assert comp_type.createNvBlockDescriptor("BlockDesc") is block_desc
 
 
 class TestSensorActuatorSwComponentType:
@@ -493,6 +492,18 @@ class TestSensorActuatorSwComponentType:
         assert comp_type.portGroups == []
         assert comp_type.internalBehavior is None
         assert comp_type.symbolProps is None
+        assert comp_type.sensorActuatorRef is None
+
+        # Test get/set sensorActuatorRef
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+
+        ref = RefType()
+        ref.setValue("/Hardware/Sensor")
+        comp_type.setSensorActuatorRef(ref)
+        assert comp_type.getSensorActuatorRef() == ref
+
+        comp_type.setSensorActuatorRef(None)
+        assert comp_type.getSensorActuatorRef() == ref
 
 
 class TestServiceProxySwComponentType:

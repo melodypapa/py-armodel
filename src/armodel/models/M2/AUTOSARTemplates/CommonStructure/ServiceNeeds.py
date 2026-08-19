@@ -2557,10 +2557,10 @@ class DiagnosticMonitorUpdateKindEnum(AREnum):
         Initializes the DiagnosticMonitorUpdateKindEnum with all possible values.
         """
         super().__init__(
-            (
+            [
                 DiagnosticMonitorUpdateKindEnum.ALWAYS,
                 DiagnosticMonitorUpdateKindEnum.STEADY,
-            )
+            ]
         )
 
 

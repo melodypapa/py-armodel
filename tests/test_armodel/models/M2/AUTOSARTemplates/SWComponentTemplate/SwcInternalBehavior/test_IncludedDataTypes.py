@@ -13,8 +13,8 @@ class TestIncludedDataTypeSet:
         """Test IncludedDataTypeSet initialization and methods."""
         set = IncludedDataTypeSet()
 
-        assert set.data_type_refs == []
-        assert set.literal_prefix is None
+        assert set.dataTypeRefs == []
+        assert set.literalPrefix is None
 
         # Test dataTypeRefs methods
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -24,11 +24,18 @@ class TestIncludedDataTypeSet:
         set.addDataTypeRef(ref)
         assert ref in set.getDataTypeRefs()
 
+        # Test addDataTypeRef with None
+        set.addDataTypeRef(None)
+        assert len(set.getDataTypeRefs()) == 1
+
         # Test literalPrefix methods
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 
         literal = ARLiteral()
         literal.setValue("test_prefix")
-        set.literalPrefix = literal
-        assert set.literalPrefix == literal
+        set.setLiteralPrefix(literal)
+        assert set.getLiteralPrefix() == literal
+
+        # Test setLiteralPrefix with None
+        set.setLiteralPrefix(None)
         assert set.getLiteralPrefix() == literal

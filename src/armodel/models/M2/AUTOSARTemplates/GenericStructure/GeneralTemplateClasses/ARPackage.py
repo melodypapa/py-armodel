@@ -64,6 +64,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import C
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ServiceSwComponentType, SwComponentType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ApplicationSwComponentType, AtomicSwComponentType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ComplexDeviceDriverSwComponentType, EcuAbstractionSwComponentType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import NvBlockSwComponentType, ServiceProxySwComponentType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationArrayDataType, ApplicationDataType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationPrimitiveDataType, ApplicationRecordDataType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import DataTypeMappingSet
@@ -788,6 +789,18 @@ class ARPackage(CollectableElement):
             sw_component = SensorActuatorSwComponentType(self, short_name)
             self.addElement(sw_component)
         return self.getElement(short_name, SensorActuatorSwComponentType)
+
+    def createNvBlockSwComponentType(self, short_name: str) -> NvBlockSwComponentType:
+        if not self.IsElementExists(short_name, NvBlockSwComponentType):
+            sw_component = NvBlockSwComponentType(self, short_name)
+            self.addElement(sw_component)
+        return self.getElement(short_name, NvBlockSwComponentType)
+
+    def createServiceProxySwComponentType(self, short_name: str) -> ServiceProxySwComponentType:
+        if not self.IsElementExists(short_name, ServiceProxySwComponentType):
+            sw_component = ServiceProxySwComponentType(self, short_name)
+            self.addElement(sw_component)
+        return self.getElement(short_name, ServiceProxySwComponentType)
 
     def createCompositionSwComponentType(self, short_name: str) -> CompositionSwComponentType:
         if not self.IsElementExists(short_name, CompositionSwComponentType):

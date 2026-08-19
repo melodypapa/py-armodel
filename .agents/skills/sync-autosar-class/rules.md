@@ -393,6 +393,14 @@ Python 3.8-compatible: `Optional[T]` / `List[T]` / `Dict[K,V]` from `typing` —
   `Optional[T]`. Setters/adds declare `value` and return `"ClassName"`. Factories accept
   `short_name: str` and return the concrete type. `Optional`/`List` imported from
   `typing`. `__init__` fields annotated, matching getter/setter type.
+- **`__init__` members are PEP 526 annotated assignments with the spec `Note` above**
+  (`self.foo: Optional[T] = None`, `self.foo: List[T] = []`) and the attribute's spec
+  `Note` as the inline comment directly above the assignment. Do **not** write trailing
+  `# type:` comments on a bare assignment (`self.foo = None  # type: Optional[T]` is the
+  wrong form). The annotated member type must equal the getter return type
+  (`Optional[T]` for maybe-`None` fields, `List[T]` for collections). Established
+  pattern: `AbstractAccessPoint.returnValueProvision`,
+  `RunnableEntity.arguments`.
 - **No untyped accessors** — every getter return and setter parameter carries the
   concrete type even if the field is annotated.
 - A `None`-defaulted `0..1` field is annotated `Optional[T]`, never bare `T = None`.
@@ -583,6 +591,11 @@ R<YY>-<MM>` stamp is warranted.
   comes from the PDF. Every docstring in the file was **written fresh in this pass
   after the 0012.2.3 wipe** — no pre-wipe docstring or member comment survives on a
   removed/renamed/overlooked member.
+- **Rule 0003 (member declaration form)** — every `__init__` member is a **PEP 526
+  annotated assignment** (`self.foo: Optional[T] = None` / `self.foo: List[T] = []`)
+  placed directly under its spec-`Note` comment, matching the getter return type —
+  **no** trailing `# type:` comments on bare assignments. Grep for `# type:` during
+  9b; no automation flags it.
 - **Rule 0001.4 (attribute `Note` docstrings are verbatim, not paraphrased)** — for
   **every** spec `Attribute` row (and the class-level `Note`), the text in the
   inline `__init__` comment, the getter docstring, and the setter docstring must be
@@ -791,9 +804,12 @@ is one ordered procedure per class (Rule 0006's mechanical check only confirms t
 5. **Per-attribute loop** (all five, per attribute, before the next):
    1. Referenced type must exist and be synced before typing (Rule 0010/0011); its
       `# Spec:` cites its **own** table, independent of the owning class.
-   2. Inline `__init__` **comment** (not a docstring — `__init__` has no docstring): the
-      attribute's `Note` (markdown) semantic sentence, copied verbatim (drop
-      `Stereotypes:`/`Tags:` tail); append any `constr_*` wording + id.
+2. Inline `__init__` **comment** (not a docstring — `__init__` has no docstring): the
+       attribute's `Note` (markdown) semantic sentence, copied verbatim (drop
+       `Stereotypes:`/`Tags:` tail); append any `constr_*` wording + id. The member is
+       then declared **directly below the comment** as a PEP 526 annotated assignment —
+       `self.<attr>: Optional[T] = None` / `self.<attr>: List[T] = []` (never a trailing
+       `# type:` comment on a bare assignment; Rule 0003).
    3. Getter docstring: the spec `Note` **copied verbatim from the markdown** + constraint
       — never summarize or rephrase into "Gets the value of X"; for an `iref`, name the
       concrete `<name>InstanceRef` class.

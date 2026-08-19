@@ -278,12 +278,14 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
     AtomicSwComponentType,
     ComplexDeviceDriverSwComponentType,
     EcuAbstractionSwComponentType,
+    NvBlockSwComponentType,
     PortGroup,
     PortPrototype,
     PPortPrototype,
     PRPortPrototype,
     RPortPrototype,
     SensorActuatorSwComponentType,
+    ServiceProxySwComponentType,
     ServiceSwComponentType,
     SwComponentType,
     SymbolProps,
@@ -1832,6 +1834,7 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "INCLUDED-DATA-TYPE-SETS/INCLUDED-DATA-TYPE-SET"):
             include_data_type_set = IncludedDataTypeSet()
             self.readARObjectAttributes(child_element, include_data_type_set)
+            include_data_type_set.setLiteralPrefix(self.getChildElementOptionalLiteral(child_element, "LITERAL-PREFIX"))
             for ref_type in self.getChildElementRefTypeList(child_element, "DATA-TYPE-REFS/DATA-TYPE-REF"):
                 include_data_type_set.addDataTypeRef(ref_type)
             include_data_type_sets.append(include_data_type_set)
@@ -4557,6 +4560,11 @@ class ARXMLParser(AbstractARXMLParser):
     def readEcuAbstractionSwComponentType(self, element, sw_component: EcuAbstractionSwComponentType):
         self.logger.debug("Read EcuAbstractionSwComponentType <%s>" % sw_component.getShortName())
         self.readAtomicSwComponentType(element, sw_component)
+        self.readEcuAbstractionSwComponentTypeHardwareElementRefs(element, sw_component)
+
+    def readEcuAbstractionSwComponentTypeHardwareElementRefs(self, element, sw_component: EcuAbstractionSwComponentType):
+        for ref in self.getChildElementRefTypeList(element, "HARDWARE-ELEMENT-REFS/HARDWARE-ELEMENT-REF"):
+            sw_component.addHardwareElementRef(ref)
 
     def readApplicationSwComponentType(self, element: ET.Element, sw_component: ApplicationSwComponentType):
         self.logger.debug("Read ApplicationSwComponentType <%s>" % sw_component.getShortName())
@@ -4565,14 +4573,31 @@ class ARXMLParser(AbstractARXMLParser):
     def readComplexDeviceDriverSwComponentType(self, element: ET.Element, type: ComplexDeviceDriverSwComponentType):
         self.logger.debug("Read ComplexDeviceDriverSwComponentType <%s>" % type.getShortName())
         self.readAtomicSwComponentType(element, type)
+        for ref in self.getChildElementRefTypeList(element, "HARDWARE-ELEMENT-REFS/HARDWARE-ELEMENT-REF"):
+            type.addHardwareElementRef(ref)
 
     def readSensorActuatorSwComponentType(self, element: ET.Element, sw_component: SensorActuatorSwComponentType):
         self.logger.debug("Read SensorActuatorSwComponentType <%s>" % sw_component.getShortName())
         self.readAtomicSwComponentType(element, sw_component)
+        sw_component.setSensorActuatorRef(self.getChildElementOptionalRefType(element, "SENSOR-ACTUATOR-REF"))
 
     def readServiceSwComponentType(self, element: ET.Element, sw_component: ServiceSwComponentType):
         self.logger.debug("Read ServiceSwComponentType <%s>" % sw_component.getShortName())
         self.readAtomicSwComponentType(element, sw_component)
+
+    def readServiceProxySwComponentType(self, element: ET.Element, sw_component: ServiceProxySwComponentType):
+        self.logger.debug("Read ServiceProxySwComponentType <%s>" % sw_component.getShortName())
+        self.readAtomicSwComponentType(element, sw_component)
+
+    def readNvBlockSwComponentType(self, element: ET.Element, sw_component: NvBlockSwComponentType):
+        self.logger.debug("Read NvBlockSwComponentType <%s>" % sw_component.getShortName())
+        self.readAtomicSwComponentType(element, sw_component)
+        for child_element in self.findall(element, "BULK-NV-DATA-DESCRIPTORS/BULK-NV-DATA-DESCRIPTOR"):
+            descriptor = sw_component.createBulkNvDataDescriptor(self.getShortName(child_element))
+            self.readBulkNvDataDescriptor(child_element, descriptor)
+        for child_element in self.findall(element, "NV-BLOCK-DESCRIPTORS/NV-BLOCK-DESCRIPTOR"):
+            descriptor = sw_component.createNvBlockDescriptor(self.getShortName(child_element))
+            self.readNvBlockDescriptor(child_element, descriptor)
 
     def readPPortInCompositionInstanceRef(self, element: ET.Element, p_port_in_composition_instance_ref: PPortInCompositionInstanceRef):
         p_port_in_composition_instance_ref.setContextComponentRef(self.getChildElementOptionalRefType(element, "CONTEXT-COMPONENT-REF"))
@@ -8637,6 +8662,12 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "SENSOR-ACTUATOR-SW-COMPONENT-TYPE":
                 sw_component = parent.createSensorActuatorSwComponentType(self.getShortName(child_element))
                 self.readSensorActuatorSwComponentType(child_element, sw_component)
+            elif tag_name == "NV-BLOCK-SW-COMPONENT-TYPE":
+                sw_component = parent.createNvBlockSwComponentType(self.getShortName(child_element))
+                self.readNvBlockSwComponentType(child_element, sw_component)
+            elif tag_name == "SERVICE-PROXY-SW-COMPONENT-TYPE":
+                sw_component = parent.createServiceProxySwComponentType(self.getShortName(child_element))
+                self.readServiceProxySwComponentType(child_element, sw_component)
             elif tag_name == "DATA-TYPE-MAPPING-SET":
                 mapping_set = parent.createDataTypeMappingSet(self.getShortName(child_element))
                 self.readDataTypeMappingSet(child_element, mapping_set)

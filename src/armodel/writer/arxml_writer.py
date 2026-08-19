@@ -253,11 +253,14 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
     AtomicSwComponentType,
     ComplexDeviceDriverSwComponentType,
     EcuAbstractionSwComponentType,
+    NvBlockSwComponentType,
     PortGroup,
     PortPrototype,
     PPortPrototype,
     PRPortPrototype,
     RPortPrototype,
+    SensorActuatorSwComponentType,
+    ServiceProxySwComponentType,
     ServiceSwComponentType,
     SwComponentType,
     SymbolProps,
@@ -3668,6 +3671,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             for set in sets:
                 child_element = ET.SubElement(include_data_type_sets_tag, "INCLUDED-DATA-TYPE-SET")
                 self.writeARObjectAttributes(child_element, set)
+                self.setChildElementOptionalLiteral(child_element, "LITERAL-PREFIX", set.getLiteralPrefix())
                 type_refs = set.getDataTypeRefs()
                 if len(type_refs) > 0:
                     data_type_refs_tag = ET.SubElement(child_element, "DATA-TYPE-REFS")
@@ -3755,6 +3759,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("writeComplexDeviceDriverSwComponentType %s" % sw_component.getShortName())
         child_element = ET.SubElement(element, "COMPLEX-DEVICE-DRIVER-SW-COMPONENT-TYPE")
         self.writeAtomicSwComponentType(child_element, sw_component)
+        self.writeHardwareElementRefs(child_element, sw_component.getHardwareElementRefs())
+
+    def writeHardwareElementRefs(self, element: ET.Element, refs: List[RefType]):
+        if len(refs) > 0:
+            child_element = ET.SubElement(element, "HARDWARE-ELEMENT-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(child_element, "HARDWARE-ELEMENT-REF", ref)
 
     def writeArtifactDescriptors(self, element: ET.Element, code_desc: Code):
         artifact_descriptors = code_desc.getArtifactDescriptors()
@@ -5274,6 +5285,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("writeEcuAbstractionSwComponentType %s" % sw_component.getShortName())
         child_element = ET.SubElement(element, "ECU-ABSTRACTION-SW-COMPONENT-TYPE")
         self.writeAtomicSwComponentType(child_element, sw_component)
+        self.writeHardwareElementRefs(child_element, sw_component.getHardwareElementRefs())
 
     def setApplicationArrayElement(self, element: ET.Element, array_element: ApplicationArrayElement):
         if array_element is not None:
@@ -5344,6 +5356,32 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("writeServiceSwComponentType %s" % sw_component.getShortName())
         child_element = ET.SubElement(element, "SERVICE-SW-COMPONENT-TYPE")
         self.writeAtomicSwComponentType(child_element, sw_component)
+
+    def writeSensorActuatorSwComponentType(self, element: ET.Element, sw_component: SensorActuatorSwComponentType):
+        self.logger.debug("writeSensorActuatorSwComponentType %s" % sw_component.getShortName())
+        child_element = ET.SubElement(element, "SENSOR-ACTUATOR-SW-COMPONENT-TYPE")
+        self.writeAtomicSwComponentType(child_element, sw_component)
+        self.setChildElementOptionalRefType(child_element, "SENSOR-ACTUATOR-REF", sw_component.getSensorActuatorRef())
+
+    def writeServiceProxySwComponentType(self, element: ET.Element, sw_component: ServiceProxySwComponentType):
+        self.logger.debug("writeServiceProxySwComponentType %s" % sw_component.getShortName())
+        child_element = ET.SubElement(element, "SERVICE-PROXY-SW-COMPONENT-TYPE")
+        self.writeAtomicSwComponentType(child_element, sw_component)
+
+    def writeNvBlockSwComponentType(self, element: ET.Element, sw_component: NvBlockSwComponentType):
+        self.logger.debug("writeNvBlockSwComponentType %s" % sw_component.getShortName())
+        child_element = ET.SubElement(element, "NV-BLOCK-SW-COMPONENT-TYPE")
+        self.writeAtomicSwComponentType(child_element, sw_component)
+        bulk_descriptors = sw_component.getBulkNvDataDescriptors()
+        if len(bulk_descriptors) > 0:
+            descriptors_tag = ET.SubElement(child_element, "BULK-NV-DATA-DESCRIPTORS")
+            for descriptor in bulk_descriptors:
+                self.writeBulkNvDataDescriptor(descriptors_tag, descriptor)
+        nv_descriptors = sw_component.getNvBlockDescriptors()
+        if len(nv_descriptors) > 0:
+            descriptors_tag = ET.SubElement(child_element, "NV-BLOCK-DESCRIPTORS")
+            for descriptor in nv_descriptors:
+                self.writeNvBlockDescriptor(descriptors_tag, descriptor)
 
     def writeDataTypeMaps(self, element: ET.Element, parent: DataTypeMappingSet):
         maps = parent.getDataTypeMaps()
@@ -8885,6 +8923,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeTriggerInterface(element, ar_element)
         elif isinstance(ar_element, ServiceSwComponentType):
             self.writeServiceSwComponentType(element, ar_element)
+        elif isinstance(ar_element, SensorActuatorSwComponentType):
+            self.writeSensorActuatorSwComponentType(element, ar_element)
+        elif isinstance(ar_element, NvBlockSwComponentType):
+            self.writeNvBlockSwComponentType(element, ar_element)
+        elif isinstance(ar_element, ServiceProxySwComponentType):
+            self.writeServiceProxySwComponentType(element, ar_element)
         elif isinstance(ar_element, DataTypeMappingSet):
             self.writeDataTypeMappingSet(element, ar_element)
         elif isinstance(ar_element, ModeDeclarationGroup):

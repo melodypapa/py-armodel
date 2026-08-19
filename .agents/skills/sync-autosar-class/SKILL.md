@@ -149,7 +149,7 @@ before its failing test.
 - **1** — Extract `Note`/`Base`/`Attribute` rows in displayed order; confirm Class-vs-Enumeration header. *Rule 0015* arbitrates XSD-vs-PDF/markdown attribute conflicts (the PDF/markdown table wins — model nothing the PDF lacks).
 - **2** — `test_initialization` (defaults), `test_get_set_*` (round-trip + **None no-op**), `create*`/`add*` (append, duplicate returns existing). Abstract class → test `__init__` + base accessors via a concrete subclass.
 - **3** — Most-derived base from the `Base` chain; dedicated typed-list fields for `*` `aggr` (never registry filters); `createXxx` only for `Referrable` children; collect referenced missing classes and report in Step 8 (don't block). Enum (`AREnum`) → literals, not accessors.
-- **4** — **Wipe first, then rewrite.** Remove **all** existing docstrings — the class docstring, every method docstring (`__init__`, getters, setters, `create*`/`add*`), and every inline `__init__` member comment — so no stale wording survives a re-sync on renamed/removed/overlooked members (*Rule 0012.2.3*); keep the code, the `# Spec:` checklist block, and placeholder comments. Then copy the spec `Note` **verbatim from the markdown** into the **class docstring** (the class-level `Note` — **not** into `__init__`, which has no docstring), inline `__init__` **comments**, and getter/setter docstrings (PDF opened only for the `p.NN` page); guarded setters append the None-no-op sentence.
+- **4** — **Wipe first, then rewrite.** Remove **all** existing docstrings — the class docstring, every method docstring (`__init__`, getters, setters, `create*`/`add*`), and every inline `__init__` member comment — so no stale wording survives a re-sync on renamed/removed/overlooked members (*Rule 0012.2.3*); keep the code, the `# Spec:` checklist block, and placeholder comments. Then copy the spec `Note` **verbatim from the markdown** into the **class docstring** (the class-level `Note` — **not** into `__init__`, which has no docstring), inline `__init__` **comments**, and getter/setter docstrings (PDF opened only for the `p.NN` page); guarded setters append the None-no-op sentence. `__init__` members are declared as **PEP 526 annotated assignments** directly under their note comment — `self.foo: Optional[T] = None` / `self.foo: List[T] = []` — **never** a trailing `# type:` comment (*Rule 0003*).
 - **5** — Reader/writer tests live in **their own folders** (`tests/test_armodel/parser/`, `.../writer/`, both `class Test*`), not the per-class mirror. Assert **field values**, not just `len(...) == n`; add an empty-wrapper-list case.
 - **6** — Reader populates via mutators (`readXxx`→`set/create/addXxx`), writer reads via getters (`writeXxx`→`getXxx`); cover wrapper lists + polymorphic five-place dispatch; **no chained mutator calls**.
 - **7** — One row per method, source order, all `[x]`, 5-column format below. Writes the `# Spec:` line + method rows **only** — the `# Spec verified:` marker is added in Step 9b, never here.
@@ -237,6 +237,12 @@ detail: *Rule 0002*.
   black, and ruff cannot catch it — diff every member docstring against its spec `Note`
   verbatim during 9b. This applies to **every** class in the queue, including unstamped
   member types consumed by a stamped class.
+- **Trailing `# type:` comments instead of PEP 526 annotated members** — declaring a
+  member as `self.foo = None  # type: Optional[T]` (or `= []  # type: List[T]`) instead of
+  an annotated assignment `self.foo: Optional[T] = None` (or `self.foo: List[T] = []`)
+  directly under its spec-`Note` comment is a *Rule 0003* violation even when the
+  getter/setter signatures are correct; no automation catches it — check every
+  `__init__` member's declaration form during 9b.
 
 | Rationalization | Reality |
 |---|---|
@@ -245,6 +251,7 @@ detail: *Rule 0002*.
 | "It's just docstrings, skip Step 4" | Drift is silent; the marker then certifies wrong wording (*Rule 0012*). |
 | "The docstrings mostly look right — I'll just patch the ones that changed" | In-place patching leaves stale sentences on members you didn't re-read; wipe all docstrings first, then rewrite from the markdown (*Rule 0012.2.3*). |
 | "Gets/Sets the X is close enough to the spec Note" | A paraphrase or truncation is a *Rule 0001.4* violation the automation can't catch; copy the spec `Note` verbatim per member (inline comment + getter + setter) and diff it. |
+| "A `# type:` comment documents the member type just fine" | Verified classes annotate members directly (PEP 526) under the spec `Note`; trailing `# type:` comments on bare assignments are a *Rule 0003* violation. |
 | "The closure looks right, I'll skip the confirm gate" | Over/under-collection wastes every later step; present the set and let the user confirm (*Rule 0016.2*). |
 | "Tests pass and the round-trip is clean — I can stamp and move on" | Those don't certify a class (Rule 0012.1); run Step 9b on the blind-spot rules before stamping (*Rule 0006.1*). |
 | "The class already has `# Spec verified:` stamped — I'll skip 9b" | The marker is the *output* of 9b, not a substitute; on re-sync/drift re-run the full 9b checklist — a stale marker certifies nothing (*Rule 0006.1*, *Rule 0012.3*). |
