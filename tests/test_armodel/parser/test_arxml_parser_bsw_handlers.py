@@ -591,6 +591,31 @@ class TestExecutableEntityAndInternalBehaviorHandlers:
         assert len(behavior.getExclusiveAreas()) == 1
         assert len(behavior.getDataTypeMappingRefs()) == 1
 
+    def test_readInternalBehavior_exclusive_area_nesting_orders(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<EXCLUSIVE-AREA-NESTING-ORDERS>"
+            "<EXCLUSIVE-AREA-NESTING-ORDER>"
+            "<SHORT-NAME>o1</SHORT-NAME>"
+            "<EXCLUSIVE-AREA-REFS>"
+            "<EXCLUSIVE-AREA-REF DEST='EXCLUSIVE-AREA'>/ea1</EXCLUSIVE-AREA-REF>"
+            "<EXCLUSIVE-AREA-REF DEST='EXCLUSIVE-AREA'>/ea2</EXCLUSIVE-AREA-REF>"
+            "</EXCLUSIVE-AREA-REFS>"
+            "</EXCLUSIVE-AREA-NESTING-ORDER>"
+            "</EXCLUSIVE-AREA-NESTING-ORDERS>",
+            root_tag="BH",
+        )
+        parser.readInternalBehavior(element, behavior)
+        orders = behavior.getExclusiveAreaNestingOrders()
+        assert len(orders) == 1
+        assert orders[0].getShortName() == "o1"
+        refs = orders[0].getExclusiveAreaRefs()
+        assert len(refs) == 2
+        assert refs[0].getValue() == "/ea1"
+        assert refs[1].getValue() == "/ea2"
+
 
 # ==================== BswModuleEntity call points and trigger refs ====================
 
@@ -874,6 +899,18 @@ class TestBswInternalBehaviorEventsDetailed:
         )
         parser.readBswEvent(element, event)
         assert event.startsOnEventRef.getValue() == "/p"
+
+    def test_readBswEvent_activation_reason_representation(self, parser):
+        from armodel.models import BswModeSwitchEvent
+
+        event = BswModeSwitchEvent(parent=_autosar_root(), short_name="ev")
+        element = _snip(
+            "<SHORT-NAME>ev</SHORT-NAME>" "<ACTIVATION-REASON-REPRESENTATION-REF DEST='EXECUTABLE-ENTITY-ACTIVATION-REASON'>/ar</ACTIVATION-REASON-REPRESENTATION-REF>",
+            root_tag="BSW-MODE-SWITCH-EVENT",
+        )
+        parser.readBswModeSwitchEvent(element, event)
+        assert event.activationReasonRepresentationRef is not None
+        assert event.activationReasonRepresentationRef.getValue() == "/ar"
 
     def test_readBswModeSwitchEvent_minimal(self, parser):
         from armodel.models import BswModeSwitchEvent

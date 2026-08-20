@@ -20,7 +20,9 @@ class ModeActivationKind(AREnum):
 
     # ModeActivationKind method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.34, p.96
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on BswModeSwitchEvent.activation, SwcModeSwitchEvent.activation
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     # On entering the referred mode. Tags: atp.EnumerationLiteralIndex=0
     ON_ENTRY = "onEntry"

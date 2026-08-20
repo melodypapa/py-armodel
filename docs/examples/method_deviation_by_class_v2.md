@@ -8,101 +8,86 @@ are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IR
 `shortLabel` are excluded as framework-level.
 
 - Py classes scanned: **1030**
-- Skipped (spec verified stamp): **273**
-- Classes with deviations: **323**
+- Skipped (spec verified stamp): **295**
+- Classes with deviations: **301**
 - No spec table found (appendix): **133**
-- Missing accessors: **416**
+- Missing accessors: **376**
 - Naming deviations: **15**
-- Type deviations (list/single multiplicity): **43**
-
-## `BswModuleDescription`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 26
-- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswOverview`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswOverview/__init__.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `bswModuleDependency` | ``BswModuleDependency`` | aggr | missing |
-
-## `BswModuleEntry`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 32
-- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswInterfaces`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswInterfaces.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `argument(ordered)` | ``SwServiceArg`` | aggr | missing |
-
-## `ModeDeclarationGroup`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 42  | **table:** Table 4.10
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::ModeDeclaration`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ModeDeclaration.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `modeDeclaration` | ``ModeDeclaration`` | aggr | missing |
-| — *(missing)* | `—` | `modeTransition` | ``ModeTransition`` | aggr | missing |
-
-## `BswModuleEntity`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 70
-- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/__init__.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `activationpointrefs` | `—` | `activationPoint` | ``BswInternalTriggering Point`` | ref | type (spec many vs py single) |
-| — *(missing)* | `—` | `callPoint` | ``BswModuleCallPoint`` | aggr | missing |
-| — *(missing)* | `—` | `dataReceivePoint` | ``BswVariableAccess`` | aggr | missing |
-| — *(missing)* | `—` | `dataSendPoint` | ``BswVariableAccess`` | aggr | missing |
-| `issuedtriggerrefs` | `—` | `issuedTrigger` | ``Trigger`` | ref | type (spec many vs py single) |
-
-## `ExecutableEntity`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 70  | **table:** Table 5.3
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::InternalBehavior`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `canenterrefs` | `—` | `canEnter` | ``ExclusiveArea`` | ref | type (spec many vs py single) |
-| `runsinsiderefs` | `—` | `runsInside` | ``ExclusiveArea`` | ref | type (spec many vs py single) |
+- Type deviations (list/single multiplicity): **37**
 
 ## `ExclusiveAreaNestingOrder`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 84
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 84 | **table:** Table 5.19
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::InternalBehavior`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `exclusiveArea(ordered)` | ``ExclusiveArea`` | ref | missing |
+| `exclusiveAreaRefs` | `List[RefType]` | `exclusiveArea(ordered)` | ``ExclusiveArea`` | ref | naming (Refs suffix) |
 
-## `BswModeSwitchEvent`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 94  | **table:** Table 5.32
+## `AbstractEvent`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 541 | **table:** Table 7.8
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::InternalBehavior`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `activationReasonRepresentationRef` | `Optional[RefType]` | `activationReasonRepresentation` | ``ExecutableEntityActivationReason`` | ref | naming (Ref suffix) |
+
+- **Note:** `RTEEvent` now derives from `AbstractEvent` (spec Base includes AbstractEvent); reader/writer coverage for `ACTIVATION-REASON-REPRESENTATION-REF` added for both RTE and BSW event paths (2026-08-20).
+
+## `BswEvent`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 87 | **table:** Table 5.22
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/__init__.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `mode(ordered)` | ``ModeDeclaration`` | iref | missing |
+| `contextLimitationRefs` | `List[RefType]` | `contextLimitation` | ``BswDistinguishedPartition`` | ref | naming (Refs suffix) |
+| `disabledInModeIRefs` | `List[ModeInBswModuleDescriptionInstanceRef]` | `disabledInMode` | ``ModeDeclaration`` | iref | naming (IRefs suffix) |
+| `startsOnEventRef` | `Optional[RefType]` | `startsOnEvent` | ``BswModuleEntity`` | ref | naming (Ref suffix) |
+
+## `BswModeSwitchEvent`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 95  | **table:** Table 5.31
+- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `activation` | `Optional[ModeActivationKind]` | `activation` | ``ModeActivationKind`` | attr | — |
+| `modeIRefs` | `List[ModeInBswModuleDescriptionInstanceRef]` | `mode(ordered)` | ``ModeDeclaration`` | iref | naming (IRefs suffix) |
 
 ## `BswImplementation`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 120
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 120 | **table:** Table 6.1
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswImplementation`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswImplementation.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `preconfiguredconfigurationrefs` | `—` | `preconfiguredConfiguration` | ``EcucModule ConfigurationValues`` | ref | type (spec many vs py single) |
-| `vendorspecificmoduledefrefs` | `—` | `vendorSpecificModuleDef` | ``EcucModuleDef`` | ref | type (spec many vs py single) |
+| `arReleaseVersion` | `RevisionLabelString` | `arReleaseVersion` | ``RevisionLabelString`` | attr | — |
+| `behaviorRef` | `RefType` | `behavior` | ``BswInternalBehavior`` | ref | naming (Ref suffix) |
+| `preconfiguredConfigurationRefs` | `List[RefType]` | `preconfiguredConfiguration` | ``EcucModuleConfigurationValues`` | ref | naming (Refs suffix) |
+| `recommendedConfigurationRefs` | `List[RefType]` | `recommendedConfiguration` | ``EcucModuleConfigurationValues`` | ref | naming (Refs suffix) |
+| `vendorApiInfix` | `Identifier` | `vendorApiInfix` | ``Identifier`` | attr | — |
+| `vendorSpecificModuleDefRefs` | `List[RefType]` | `vendorSpecificModuleDef` | ``EcucModuleDef`` | ref | naming (Refs suffix) |
 
 ## `Implementation`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 126
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 621  | **table:** Table 8.1
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::Implementation`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Implementation.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `codeDescriptor` | ``Code`` | aggr | missing |
-| — *(missing)* | `—` | `compiler` | ``Compiler`` | aggr | missing |
+| `buildActionManifestRef` | `RefType` | `buildActionManifest` | ``BuildActionManifest`` | ref | naming (Ref suffix) |
+| `codeDescriptors` | `List[Code]` | `codeDescriptor` | ``Code`` | aggr | naming (plural) |
+| `compilers` | `List[Compiler]` | `compiler` | ``Compiler`` | aggr | naming (plural) |
+| `generatedArtifacts` | `List[DependencyOnArtifact]` | `generatedArtifact` | ``DependencyOnArtifact`` | aggr | naming (plural) |
+| `hwElementRefs` | `List[RefType]` | `hwElement` | ``HwElement`` | ref | naming (plural + Ref suffix) |
+| `linkers` | `List[Linker]` | `linker` | ``Linker`` | aggr | naming (plural) |
+| `requiredArtifacts` | `List[DependencyOnArtifact]` | `requiredArtifact` | ``DependencyOnArtifact`` | aggr | naming (plural) |
+| `requiredGeneratorTools` | `List[DependencyOnArtifact]` | `requiredGeneratorTool` | ``DependencyOnArtifact`` | aggr | naming (plural) |
+| `swcBswMappingRef` | `RefType` | `swcBswMapping` | ``SwcBswMapping`` | ref | naming (Ref suffix) |
+| `getCodeDescriptors` | `List[Code]` | `codeDescriptor` | ``Code`` | aggr | getter filters `self.elements` (isinstance Code) instead of returning dedicated `codeDescriptors` field |
+| `create*` methods | — | `-` | ``-`` | - | guard `if short_name not in self.elements` compares str against ARObject list (always truthy) — duplicate element created on repeated same-name call |
 
 ## `AutosarEngineeringObject`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 132  | **table:** Table 7.5
@@ -162,7 +147,7 @@ are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IR
 | `swArraysize` | `ValueList` | `swArraysize` | ``ValueList`` | aggr | type (spec one vs py list) |
 
 ## `EcucModuleConfigurationValues`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —
+- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** 111 | **table:** Table 2.47
 - **Package:** `M2::AUTOSARTemplates::ECUCDescriptionTemplate`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py`
 
@@ -175,14 +160,20 @@ are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IR
 | `moduleDescriptionRef` | `RefType` | `moduleDescription` | ``BswImplementation`` | ref | type (PDF BswImplementation vs py RefType) |
 | `postBuildVariantUsed` | `ARBoolean` | `postBuildVariantUsed` | ``Boolean`` | attr | type (PDF Boolean vs py ARBoolean) |
 
+- **Note:** reader/writer coverage for `ECUC-DEF-EDITION` and `POST-BUILD-VARIANT-USED` added (2026-08-20); all six XML elements now round-trip.
+
 ## `EcucModuleDef`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —
+- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** 32 | **table:** Table 2.2
 - **Package:** `M2::AUTOSARTemplates::ECUCParameterDefTemplate`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `container` | ``EcucContainerDef`` | aggr | missing |
+| `apiServicePrefix` | `CIdentifier` | `apiServicePrefix` | ``CIdentifier`` | attr | — |
+| `containers` | `List[EcucContainerDef]` | `container` | ``EcucContainerDef`` | aggr | naming |
+| `postBuildVariantSupport` | `Boolean` | `postBuildVariantSupport` | ``Boolean`` | attr | — |
+| `refinedModuleDefRef` | `RefType` | `refinedModuleDef` | ``EcucModuleDef`` | ref | naming (Ref suffix) |
+| `supportedConfigVariants` | `List[EcucConfigurationVariantEnum]` | `supportedConfigVariant` | ``EcucConfiguration VariantEnum`` | attr | naming |
 
 ## `System`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —
@@ -304,13 +295,13 @@ are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IR
 | — *(missing)* | `—` | `-` | ``-`` | - | missing |
 
 ## `BswScheduleEvent`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 88 | **table:** Table 5.23
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/__init__.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
+| — | — | *(no attributes — Table 5.23 is empty)* | — | — | — |
 
 ## `BswBackgroundEvent`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —  | **table:** Table 5.27
@@ -331,14 +322,35 @@ are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IR
 | — *(missing)* | `—` | `-` | ``-`` | - | missing |
 
 ## `BswInternalBehavior`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 68  | **table:** Table 5.2
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/__init__.py`
+- **Deferred:** full sync (member policy classes missing; reader/writer partial)
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `arTypedPerInstanceMemory` | ``VariableDataPrototype`` | aggr | missing |
-| — *(missing)* | `—` | `bswPerInstanceMemoryPolicy` | ``BswPerInstance MemoryPolicy`` | aggr | missing |
+| `arTypedPerInstanceMemories` | `List[VariableDataPrototype]` | `arTypedPerInstanceMemory` | ``VariableDataPrototype`` | aggr | naming (plural) |
+| `bswPerInstanceMemoryPolicies` | `List` | `bswPerInstanceMemoryPolicy` | ``BswPerInstanceMemoryPolicy`` | aggr | member class `BswPerInstanceMemoryPolicy` missing |
+| `clientPolicies` | `List` | `clientPolicy` | ``BswClientPolicy`` | aggr | member class `BswClientPolicy` missing |
+| `distinguishedPartitions` | `List[BswDistinguishedPartition]` | `distinguishedPartition` | ``BswDistinguishedPartition`` | aggr | naming (plural) |
+| `entities` | `List` | `entity` | ``BswModuleEntity`` | aggr | naming (plural); untyped |
+| `events` | `List` | `event` | ``BswEvent`` | aggr | naming (plural); untyped |
+| `exclusiveAreaPolicies` | `List` | `exclusiveAreaPolicy` | ``BswExclusiveAreaPolicy`` | aggr | naming (plural); untyped |
+| `includedDataTypeSets` | `List[IncludedDataTypeSet]` | `includedDataTypeSet` | ``IncludedDataTypeSet`` | aggr | naming (plural) |
+| `includedModeDeclarationGroupSets` | `List[IncludedModeDeclarationGroupSet]` | `includedModeDeclarationGroupSet` | ``IncludedModeDeclarationGroupSet`` | aggr | naming (plural) |
+| `internalTriggeringPointPolicies` | `List` | `internalTriggeringPointPolicy` | ``BswInternalTriggeringPointPolicy`` | aggr | member class `BswInternalTriggeringPointPolicy` missing |
+| `modeReceiverPolicies` | `List` | `modeReceiverPolicy` | ``BswModeReceiverPolicy`` | aggr | naming (plural); untyped |
+| `modeSenderPolicies` | `List` | `modeSenderPolicy` | ``BswModeSenderPolicy`` | aggr | naming (plural); untyped |
+| `parameterPolicies` | `List` | `parameterPolicy` | ``BswParameterPolicy`` | aggr | member class `BswParameterPolicy` missing |
+| `perInstanceParameters` | `List` | `perInstanceParameter` | ``ParameterDataPrototype`` | aggr | naming (plural) |
+| `receptionPolicies` | `List` | `receptionPolicy` | ``BswDataReceptionPolicy`` | aggr | naming (plural); untyped |
+| `releasedTriggerPolicies` | `List` | `releasedTriggerPolicy` | ``BswReleasedTriggerPolicy`` | aggr | member class `BswReleasedTriggerPolicy` missing |
+| `schedulerNamePrefixes` | `List` | `schedulerNamePrefix` | ``BswSchedulerNamePrefix`` | aggr | naming (plural) |
+| `sendPolicies` | `List` | `sendPolicy` | ``BswDataSendPolicy`` | aggr | member class `BswDataSendPolicy` missing |
+| `serviceDependencies` | `List` | `serviceDependency` | ``BswServiceDependency`` | aggr | naming (plural) |
+| `triggerDirectImplementations` | `List` | `triggerDirectImplementation` | ``BswTriggerDirectImplementation`` | aggr | naming (plural) |
+| `variationPointProxies` | `List` | `variationPointProxy` | ``VariationPointProxy`` | aggr | naming (plural) |
+| `addModeSenderPolicy`/`getModeSenderPolicies` | — | `modeSenderPolicy` | ``BswModeSenderPolicy`` | aggr | **fixed** — previously operated on `modeReceiverPolicies`; now uses `modeSenderPolicies` |
 
 ## `FlatMap`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —
@@ -444,15 +456,6 @@ are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IR
 
 ## `DiagnosticsCommunicationSecurityNeeds`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —  | **table:** Table 12.28
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
-
-## `DoIpServiceNeeds`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
 
@@ -859,26 +862,6 @@ are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IR
 | — *(missing)* | `—` | `v` | ``Numerical`` | attr | missing |
 | — *(missing)* | `—` | `vt` | ``VerbatimString`` | attr | missing |
 
-## `HwPin`
-- **PDF:** `AUTOSAR_CP_TPS_ECUResourceTemplate.pdf`  | **page:** 20
-- **Package:** `M2::AUTOSARTemplates::EcuResourceTemplate`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate/__init__.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `functionname` | `—` | `functionName` | ``String`` | attr | type (spec many vs py single) |
-
-## `HwElementConnector`
-- **PDF:** `AUTOSAR_CP_TPS_ECUResourceTemplate.pdf`  | **page:** 23
-- **Package:** `M2::AUTOSARTemplates::EcuResourceTemplate::HwElementConnector`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate/HwElementConnector.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `hwelementref` | `—` | `hwElement` | ``HwElement`` | ref | type (spec many vs py single) |
-| — *(missing)* | `—` | `hwPinConnection` | ``HwPinConnector`` | aggr | missing |
-| — *(missing)* | `—` | `hwPinGroupConnection` | ``HwPinGroupConnector`` | aggr | missing |
-
 ## `HwAttributeLiteralDef`
 - **PDF:** `AUTOSAR_CP_TPS_ECUResourceTemplate.pdf`  | **page:** —
 - **Package:** `M2::AUTOSARTemplates::EcuResourceTemplate::HwAttributeValue`
@@ -897,15 +880,6 @@ are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IR
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `-` | ``-`` | - | missing |
 
-## `HwAttributeDef`
-- **PDF:** `AUTOSAR_CP_TPS_ECUResourceTemplate.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate/HwElementCategory.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `hwAttributeLiteral` | ``HwAttributeLiteralDef`` | aggr | missing |
-
 ## `HwCategory`
 - **PDF:** `AUTOSAR_CP_TPS_ECUResourceTemplate.pdf`  | **page:** —
 - **Package:** `M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory`
@@ -923,53 +897,6 @@ are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IR
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `element` | ``ApplicationArray Element`` | aggr | missing |
-
-## `ParameterInAtomicSWCTypeInstanceRef`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 319
-- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::InstanceRefsUsage`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/InstanceRefsUsage.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `contextDataPrototype(ordered)` | ``ApplicationComposite ElementDataPrototype`` | ref | missing |
-
-## `SwAxisGeneric`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 355  | **table:** Table 5.51
-- **Package:** `M2::MSR::DataDictionary::Axis`
-- **Source:** `src/armodel/models/M2/MSR/DataDictionary/Axis.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `swAxisTypeRef` | `RefType` | `swAxisType` | ``SwAxisType`` | ref | type (PDF SwAxisType vs py RefType) |
-
-## `PhysConstrs`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 406
-- **Package:** `M2::MSR::AsamHdo::Constraints::GlobalConstraints`
-- **Source:** `src/armodel/models/M2/MSR/AsamHdo/Constraints/GlobalConstraints.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `lowerLimit` | ``Limit`` | attr | missing |
-| — *(missing)* | `—` | `maxDiff` | ``Numerical`` | attr | missing |
-| — *(missing)* | `—` | `maxGradient` | ``Numerical`` | attr | missing |
-| — *(missing)* | `—` | `monotony` | ``MonotonyEnum`` | attr | missing |
-| — *(missing)* | `—` | `scaleConstr(ordered)` | ``ScaleConstr`` | aggr | missing |
-| — *(missing)* | `—` | `unit` | ``Unit`` | ref | missing |
-| — *(missing)* | `—` | `upperLimit` | ``Limit`` | attr | missing |
-
-## `InternalConstrs`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 407  | **table:** Table 5.85
-- **Package:** `M2::MSR::AsamHdo::Constraints::GlobalConstraints`
-- **Source:** `src/armodel/models/M2/MSR/AsamHdo/Constraints/GlobalConstraints.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `lowerLimit` | ``Limit`` | attr | missing |
-| — *(missing)* | `—` | `maxDiff` | ``Numerical`` | attr | missing |
-| — *(missing)* | `—` | `maxGradient` | ``Numerical`` | attr | missing |
-| — *(missing)* | `—` | `monotony` | ``MonotonyEnum`` | attr | missing |
-| — *(missing)* | `—` | `scaleConstr(ordered)` | ``ScaleConstr`` | aggr | missing |
-| — *(missing)* | `—` | `upperLimit` | ``Limit`` | attr | missing |
 
 ## `SwRecordLayoutV`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 421
@@ -1033,15 +960,6 @@ are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IR
 | — *(missing)* | `—` | `maxSizeToFill` | ``PositiveInteger`` | attr | missing |
 | — *(missing)* | `—` | `rule` | ``Identifier`` | attr | missing |
 
-## `SwcModeSwitchEvent`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 544
-- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RTEEvents`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/RTEEvents.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `mode(ordered)` | ``ModeDeclaration`` | iref | missing |
-
 ## `IncludedDataTypeSet`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 600
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::IncludedDataTypes`
@@ -1060,66 +978,6 @@ are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IR
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `sensorActuator` | ``HwDescriptionEntity`` | ref | missing |
-
-## `ObdRatioServiceNeeds`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 795
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `connectionType` | ``ObdRatioConnection KindEnum`` | attr | missing |
-| — *(missing)* | `—` | `rateBasedMonitoredEvent` | ``DiagnosticEventNeeds`` | ref | missing |
-| — *(missing)* | `—` | `usedFid` | ``FunctionInhibitionNeeds`` | ref | missing |
-
-## `ObdRatioDenominatorNeeds`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 802  | **table:** Table 13.52
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `denominatorCondition` | ``DiagnosticDenominator ConditionEnum`` | attr | missing |
-
-## `DoIpRoutingActivationAuthenticationNeeds`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 806  | **table:** Table 13.59
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `dataLengthRequest` | ``PositiveInteger`` | attr | missing |
-| — *(missing)* | `—` | `dataLengthResponse` | ``PositiveInteger`` | attr | missing |
-| — *(missing)* | `—` | `routingActivationType` | ``NameToken`` | attr | missing |
-
-## `DoIpRoutingActivationConfirmationNeeds`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 807  | **table:** Table 13.60
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `dataLengthRequest` | ``PositiveInteger`` | attr | missing |
-| — *(missing)* | `—` | `dataLengthResponse` | ``PositiveInteger`` | attr | missing |
-| — *(missing)* | `—` | `routingActivationType` | ``NameToken`` | attr | missing |
-
-## `SecureOnBoardCommunicationNeeds`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 824  | **table:** Table 13.69
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `verificationStatusIndicationMode` | ``VerificationStatus IndicationModeEnum`` | attr | missing |
-
-## `IdsMgrNeeds`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 842  | **table:** Table 13.82
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `useSmartSensorApi` | ``Boolean`` | attr | missing |
 
 ## `ApplicationCompositeElementInPortInterfaceInstanceRef`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 952
@@ -1186,15 +1044,6 @@ are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IR
 |---|---|---|---|---|---|
 | `annotationOrigin` | `ARLiteral` | `annotationOrigin` | ``String`` | attr | type (PDF String vs py ARLiteral) |
 
-## `Annotation`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —
-- **Package:** `M2::MSR::Documentation::Annotation`
-- **Source:** `src/armodel/models/M2/MSR/Documentation/Annotation.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
-
 ## `CompuContent`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —  | **table:** Table 5.63
 - **Package:** `M2::MSR::AsamHdo::ComputationMethod`
@@ -1258,16 +1107,6 @@ are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IR
 |---|---|---|---|---|---|
 | `swArraysize` | `ValueList` | `swArraysize` | ``ValueList`` | aggr | type (spec one vs py list) |
 | `unitRef` | `RefType` | `unit` | ``Unit`` | ref | type (PDF Unit vs py RefType) |
-
-## `SwGenericAxisParam`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —  | **table:** Table 5.54
-- **Package:** `M2::MSR::DataDictionary::Axis`
-- **Source:** `src/armodel/models/M2/MSR/DataDictionary/Axis.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `swGenericAxisParamTypeRef` | `RefType` | `swGenericAxisParamType` | ``SwGenericAxisParam Type`` | ref | type (PDF SwGenericAxisParam Type vs py RefType) |
-| — *(missing)* | `—` | `vf(ordered)` | ``Numerical`` | attr | missing |
 
 ## `SwAxisIndividual`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —
@@ -3056,13 +2895,15 @@ are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IR
 | — *(missing)* | `—` | `timestamp` | ``DateTime`` | attr | missing |
 
 ## `CollectableElement`
-- **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** —
+- **PDF:** — *(no spec counterpart)*
 - **Package:** `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
+| — | — | — | — | — | internal helper class (no AUTOSAR meta-class) |
+
+- **Note:** `CollectableElement` is a py-armodel internal abstract base that provides collection/lookup management (`elements`, `element_mappings`, `getElement`/`addElement`/`removeElement`/`getTotalElement`/`IsElementExists`) for classes such as `Identifiable` and `ARElement`. It does not correspond to any AUTOSAR meta-class and is deliberately kept as-is (per 2026-08-20 decision; NO `# Spec verified` stamp).
 
 ## `FileInfoComment`
 - **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** —

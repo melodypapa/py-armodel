@@ -870,7 +870,10 @@ class RevisionLabelString(ARLiteral):
     """
 
     # RevisionLabelString method parity checklist:
-    # (no methods)
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.61, p.113
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — primitive type; value serialized as REVISION-LABEL-STRING via getChildElementOptionalRevisionLabelString / setChildElementOptionalRevisionLabelString
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
 
 class IntervalTypeEnum(AREnum):

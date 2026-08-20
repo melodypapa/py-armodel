@@ -429,6 +429,15 @@ class TestWriterBswEvents:
         assert parent[0].tag == "BSW-TIMING-EVENT"
         assert parent[0].find("PERIOD").text == "0.1"
 
+    def test_timing_event_activation_reason_representation(self, writer):
+        behavior = _make_behavior()
+        event = behavior.createBswTimingEvent("te")
+        event.setActivationReasonRepresentationRef(_ref("/ar", "EXECUTABLE-ENTITY-ACTIVATION-REASON"))
+        parent = _parent()
+        writer.writeBswTimingEvent(parent, event)
+        assert parent[0].tag == "BSW-TIMING-EVENT"
+        assert parent[0].find("ACTIVATION-REASON-REPRESENTATION-REF") is not None
+
     def test_background_event(self, writer):
         behavior = _make_behavior()
         event = behavior.createBswBackgroundEvent("be")

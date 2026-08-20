@@ -589,38 +589,39 @@ class Implementation(ARElement, ABC):
     """
 
     # Implementation method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 8.1, p.619
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getBuildActionManifestRef    [x] impl  [x] docstring  [x] test
-    # [x] setBuildActionManifestRef    [x] impl  [x] docstring  [x] test
-    # [x] getCodeDescriptors           [x] impl  [x] docstring  [x] test
-    # [x] createCodeDescriptor         [x] impl  [x] docstring  [x] test
-    # [x] getCompilers                 [x] impl  [x] docstring  [x] test
-    # [x] createCompiler               [x] impl  [x] docstring  [x] test
-    # [x] getGeneratedArtifacts        [x] impl  [x] docstring  [x] test
-    # [x] createGeneratedArtifact      [x] impl  [x] docstring  [x] test
-    # [x] getHwElementRefs             [x] impl  [x] docstring  [x] test
-    # [x] addHwElementRef              [x] impl  [x] docstring  [x] test
-    # [x] getLinkers                   [x] impl  [x] docstring  [x] test
-    # [x] createLinker                 [x] impl  [x] docstring  [x] test
-    # [x] getMcSupport                 [x] impl  [x] docstring  [x] test
-    # [x] setMcSupport                 [x] impl  [x] docstring  [x] test
-    # [x] getProgrammingLanguage       [x] impl  [x] docstring  [x] test
-    # [x] setProgrammingLanguage       [x] impl  [x] docstring  [x] test
-    # [x] getRequiredArtifacts         [x] impl  [x] docstring  [x] test
-    # [x] createRequiredArtifact       [x] impl  [x] docstring  [x] test
-    # [x] getRequiredGeneratorTools    [x] impl  [x] docstring  [x] test
-    # [x] createRequiredGeneratorTool  [x] impl  [x] docstring  [x] test
-    # [x] getResourceConsumption       [x] impl  [x] docstring  [x] test
-    # [x] createResourceConsumption    [x] impl  [x] docstring  [x] test
-    # [x] getSwcBswMappingRef          [x] impl  [x] docstring  [x] test
-    # [x] setSwcBswMappingRef          [x] impl  [x] docstring  [x] test
-    # [x] getSwVersion                 [x] impl  [x] docstring  [x] test
-    # [x] setSwVersion                 [x] impl  [x] docstring  [x] test
-    # [x] getUsedCodeGenerator         [x] impl  [x] docstring  [x] test
-    # [x] setUsedCodeGenerator         [x] impl  [x] docstring  [x] test
-    # [x] getVendorId                  [x] impl  [x] docstring  [x] test
-    # [x] setVendorId                  [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 8.1, p.621
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getBuildActionManifestRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setBuildActionManifestRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getCodeDescriptors               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createCodeDescriptor             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getCompilers                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createCompiler                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getGeneratedArtifacts            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createGeneratedArtifact          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getHwElementRefs                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addHwElementRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getLinkers                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createLinker                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMcSupport                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMcSupport                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getProgrammingLanguage           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setProgrammingLanguage           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRequiredArtifacts             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createRequiredArtifact           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRequiredGeneratorTools        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createRequiredGeneratorTool      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getResourceConsumption           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createResourceConsumption        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSwcBswMappingRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSwcBswMappingRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSwVersion                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSwVersion                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getUsedCodeGenerator             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setUsedCodeGenerator             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getVendorId                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setVendorId                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str) -> None:
         """

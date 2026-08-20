@@ -361,29 +361,31 @@ class EcucModuleConfigurationValues(ARElement):
     """
 
     # EcucModuleConfigurationValues method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] createContainer              [x] impl  [ ] docstring  [ ] test
-    # [ ] getContainers                [x] impl  [ ] docstring  [ ] test
-    # [ ] getDefinitionRef             [x] impl  [ ] docstring  [ ] test
-    # [ ] setDefinitionRef             [x] impl  [ ] docstring  [ ] test
-    # [ ] getEcucDefEdition            [x] impl  [ ] docstring  [ ] test
-    # [ ] setEcucDefEdition            [x] impl  [ ] docstring  [ ] test
-    # [ ] getImplementationConfigVariant [x] impl  [ ] docstring  [ ] test
-    # [ ] setImplementationConfigVariant [x] impl  [ ] docstring  [ ] test
-    # [ ] getModuleDescriptionRef      [x] impl  [ ] docstring  [ ] test
-    # [ ] setModuleDescriptionRef      [x] impl  [ ] docstring  [ ] test
-    # [ ] getPostBuildVariantUsed      [x] impl  [ ] docstring  [ ] test
-    # [ ] setPostBuildVariantUsed      [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.47, p.111
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [ ] docstring  [x] test  [—] reader  [—] writer
+    # [x] createContainer                  [x] impl  [ ] docstring  [x] test  [—] reader  [x] writer
+    # [x] getContainers                    [x] impl  [ ] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDefinitionRef                 [x] impl  [ ] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDefinitionRef                 [x] impl  [ ] docstring  [x] test  [x] reader  [—] writer
+    # [x] getEcucDefEdition                [x] impl  [ ] docstring  [x] test  [—] reader  [x] writer
+    # [x] setEcucDefEdition                [x] impl  [ ] docstring  [x] test  [x] reader  [—] writer
+    # [x] getImplementationConfigVariant   [x] impl  [ ] docstring  [x] test  [—] reader  [x] writer
+    # [x] setImplementationConfigVariant   [x] impl  [ ] docstring  [x] test  [x] reader  [—] writer
+    # [x] getModuleDescriptionRef          [x] impl  [ ] docstring  [x] test  [—] reader  [x] writer
+    # [x] setModuleDescriptionRef          [x] impl  [ ] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPostBuildVariantUsed          [x] impl  [ ] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPostBuildVariantUsed          [x] impl  [ ] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.containers = []  # type: List[EcucContainerValue]
-        self.definitionRef = None  # type: RefType
-        self.ecucDefEdition = None  # type: ARLiteral
-        self.implementationConfigVariant = None  # type: ARLiteral
-        self.moduleDescriptionRef = None  # type: RefType
-        self.postBuildVariantUsed = None  # type: ARBoolean
+        self.containers: List[EcucContainerValue] = []
+        self.definitionRef: Optional[RefType] = None
+        self.ecucDefEdition: Optional[ARLiteral] = None
+        self.implementationConfigVariant: Optional[ARLiteral] = None
+        self.moduleDescriptionRef: Optional[RefType] = None
+        self.postBuildVariantUsed: Optional[ARBoolean] = None
 
     def createContainer(self, short_name: str) -> EcucContainerValue:
         if not self.IsElementExists(short_name):
@@ -395,35 +397,35 @@ class EcucModuleConfigurationValues(ARElement):
     def getContainers(self) -> List[EcucContainerValue]:
         return list(sorted(filter(lambda a: isinstance(a, EcucContainerValue), self.elements), key=lambda o: o.short_name))
 
-    def getDefinitionRef(self) -> RefType:
+    def getDefinitionRef(self) -> Optional[RefType]:
         return self.definitionRef
 
     def setDefinitionRef(self, value: RefType):
         self.definitionRef = value
         return self
 
-    def getEcucDefEdition(self) -> ARLiteral:
+    def getEcucDefEdition(self) -> Optional[ARLiteral]:
         return self.ecucDefEdition
 
     def setEcucDefEdition(self, value: ARLiteral):
         self.ecucDefEdition = value
         return self
 
-    def getImplementationConfigVariant(self) -> ARLiteral:
+    def getImplementationConfigVariant(self) -> Optional[ARLiteral]:
         return self.implementationConfigVariant
 
     def setImplementationConfigVariant(self, value: ARLiteral):
         self.implementationConfigVariant = value
         return self
 
-    def getModuleDescriptionRef(self) -> RefType:
+    def getModuleDescriptionRef(self) -> Optional[RefType]:
         return self.moduleDescriptionRef
 
     def setModuleDescriptionRef(self, value: RefType):
         self.moduleDescriptionRef = value
         return self
 
-    def getPostBuildVariantUsed(self) -> ARBoolean:
+    def getPostBuildVariantUsed(self) -> Optional[ARBoolean]:
         return self.postBuildVariantUsed
 
     def setPostBuildVariantUsed(self, value: ARBoolean):

@@ -1220,7 +1220,26 @@ class TestReadEcucModuleConfigurationValues:
         assert values.getDefinitionRef() is None
         assert values.getImplementationConfigVariant() is None
         assert values.getModuleDescriptionRef() is None
+        assert values.getEcucDefEdition() is None
+        assert values.getPostBuildVariantUsed() is None
         assert len(values.getContainers()) == 0
+
+    def test_handler_reads_ecuc_def_edition_and_post_build_variant_used(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        values = _make_module_configuration_values("EditionModule")
+        element = _snip(
+            """
+            <SHORT-NAME>EditionModule</SHORT-NAME>
+            <ECUC-DEF-EDITION>1.0.0</ECUC-DEF-EDITION>
+            <POST-BUILD-VARIANT-USED>true</POST-BUILD-VARIANT-USED>
+            """,
+            root_tag="ECUC-MODULE-CONFIGURATION-VALUES",
+        )
+        parser.readEcucModuleConfigurationValues(element, values)
+        assert values.getEcucDefEdition() is not None
+        assert values.getEcucDefEdition().getValue() == "1.0.0"
+        assert values.getPostBuildVariantUsed() is not None
+        assert values.getPostBuildVariantUsed().getValue() is True
 
 
 # === Migrated from test_arxml_parser_remaining_gaps.py ===

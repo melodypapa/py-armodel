@@ -1805,9 +1805,9 @@ class TestBswInternalBehavior:
         policy = BswModeSenderPolicy()
         behavior.addModeSenderPolicy(policy)
 
-        # This method adds to modeReceiverPolicies, not modeSenderPolicies
-        assert len(behavior.getModeReceiverPolicies()) == 1
-        assert behavior.getModeReceiverPolicies()[0] == policy
+        # This method adds to modeSenderPolicies
+        assert len(behavior.getModeSenderPolicies()) == 1
+        assert behavior.getModeSenderPolicies()[0] == policy
 
 
 class TestBswDistinguishedPartition:

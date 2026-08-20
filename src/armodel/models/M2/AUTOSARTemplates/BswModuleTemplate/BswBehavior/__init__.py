@@ -858,13 +858,14 @@ class BswEvent(AbstractEvent, ABC):
 
     # BswEvent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.22, p.87
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getContextLimitationRefs     [x] impl  [x] docstring  [x] test
-    # [x] addContextLimitationRef      [x] impl  [x] docstring  [x] test
-    # [x] getDisabledInModeIRefs       [x] impl  [x] docstring  [x] test
-    # [x] addDisabledInModeIRef        [x] impl  [x] docstring  [x] test
-    # [x] getStartsOnEventRef          [x] impl  [x] docstring  [x] test
-    # [x] setStartsOnEventRef          [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getContextLimitationRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addContextLimitationRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDisabledInModeIRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addDisabledInModeIRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getStartsOnEventRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setStartsOnEventRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -946,7 +947,7 @@ class BswEvent(AbstractEvent, ABC):
         """
         return self.startsOnEventRef
 
-    def setStartsOnEventRef(self, value: RefType) -> "BswEvent":
+    def setStartsOnEventRef(self, value: Optional[RefType]) -> "BswEvent":
         """
         Sets the entity which is started by the event.
         Only sets if value is not None.
@@ -1013,12 +1014,14 @@ class BswOperationInvokedEvent(BswEvent):
 
 class BswScheduleEvent(BswEvent, ABC):
     """
-    Abstract base class for BSW scheduled events.
-    These events are scheduled for execution at specific times or conditions.
+    BswEvent that is able to start a BswSchedulabeEntity.
     """
 
     # BswScheduleEvent method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.23, p.88
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -1100,12 +1103,13 @@ class BswModeSwitchEvent(BswScheduleEvent):
     """
 
     # BswModeSwitchEvent method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.31, p.94
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getActivation                [x] impl  [x] docstring  [x] test
-    # [x] setActivation                [x] impl  [x] docstring  [x] test
-    # [x] getModeIRefs                 [x] impl  [x] docstring  [x] test
-    # [x] addModeIRef                  [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.31, p.95
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getActivation                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setActivation                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getModeIRefs                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addModeIRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -2354,44 +2358,46 @@ class BswInternalBehavior(InternalBehavior):
     """
 
     # BswInternalBehavior method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.2, p.68
+    # Deferred: full sync (6 member policy classes missing; reader/writer partial)
     # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getArTypedPerInstanceMemories [x] impl  [x] docstring  [ ] test
-    # [ ] setArTypedPerInstanceMemories [x] impl  [x] docstring  [ ] test
-    # [ ] getBswPerInstanceMemoryPolicies [x] impl  [x] docstring  [ ] test
-    # [ ] setBswPerInstanceMemoryPolicies [x] impl  [x] docstring  [ ] test
-    # [ ] getClientPolicies            [x] impl  [x] docstring  [ ] test
-    # [ ] setClientPolicies            [x] impl  [x] docstring  [ ] test
-    # [ ] getDistinguishedPartitions   [x] impl  [x] docstring  [ ] test
-    # [ ] setDistinguishedPartitions   [x] impl  [x] docstring  [ ] test
-    # [ ] getExclusiveAreaPolicies     [x] impl  [x] docstring  [ ] test
-    # [ ] setExclusiveAreaPolicies     [x] impl  [x] docstring  [ ] test
-    # [ ] getInternalTriggeringPoints  [x] impl  [x] docstring  [ ] test
+    # [x] getArTypedPerInstanceMemories [x] impl  [x] docstring  [x] test
+    # [x] setArTypedPerInstanceMemories [x] impl  [x] docstring  [x] test
+    # [x] getBswPerInstanceMemoryPolicies [x] impl  [x] docstring  [x] test
+    # [x] setBswPerInstanceMemoryPolicies [x] impl  [x] docstring  [x] test
+    # [x] getClientPolicies            [x] impl  [x] docstring  [x] test
+    # [x] setClientPolicies            [x] impl  [x] docstring  [x] test
+    # [x] getDistinguishedPartitions   [x] impl  [x] docstring  [x] test
+    # [x] setDistinguishedPartitions   [x] impl  [x] docstring  [x] test
+    # [x] getExclusiveAreaPolicies     [x] impl  [x] docstring  [x] test
+    # [x] setExclusiveAreaPolicies     [x] impl  [x] docstring  [x] test
+    # [x] getInternalTriggeringPoints  [x] impl  [x] docstring  [x] test
     # [x] createBswInternalTriggeringPoint [x] impl  [x] docstring  [x] test
-    # [ ] getInternalTriggeringPointPolicies [x] impl  [x] docstring  [ ] test
-    # [ ] setInternalTriggeringPointPolicies [x] impl  [x] docstring  [ ] test
+    # [x] getInternalTriggeringPointPolicies [x] impl  [x] docstring  [x] test
+    # [x] setInternalTriggeringPointPolicies [x] impl  [x] docstring  [x] test
     # [x] getModeReceiverPolicies      [x] impl  [x] docstring  [x] test
-    # [ ] setModeSenderPolicies        [x] impl  [x] docstring  [ ] test
-    # [ ] getParameterPolicies         [x] impl  [x] docstring  [ ] test
-    # [ ] setParameterPolicies         [x] impl  [x] docstring  [ ] test
-    # [ ] getPerInstanceParameters     [x] impl  [x] docstring  [ ] test
-    # [ ] setPerInstanceParameters     [x] impl  [x] docstring  [ ] test
-    # [ ] getReceptionPolicies         [x] impl  [x] docstring  [ ] test
+    # [x] setModeSenderPolicies        [x] impl  [x] docstring  [x] test
+    # [x] getParameterPolicies         [x] impl  [x] docstring  [x] test
+    # [x] setParameterPolicies         [x] impl  [x] docstring  [x] test
+    # [x] getPerInstanceParameters     [x] impl  [x] docstring  [x] test
+    # [x] setPerInstanceParameters     [x] impl  [x] docstring  [x] test
+    # [x] getReceptionPolicies         [x] impl  [x] docstring  [x] test
     # [x] addReceptionPolicy           [x] impl  [x] docstring  [x] test
-    # [ ] getReleasedTriggerPolicies   [x] impl  [x] docstring  [ ] test
-    # [ ] setReleasedTriggerPolicies   [x] impl  [x] docstring  [ ] test
-    # [ ] getSchedulerNamePrefixes     [x] impl  [x] docstring  [ ] test
-    # [ ] setSchedulerNamePrefixes     [x] impl  [x] docstring  [ ] test
-    # [ ] getSendPolicies              [x] impl  [x] docstring  [ ] test
-    # [ ] setSendPolicies              [x] impl  [x] docstring  [ ] test
-    # [ ] getServiceDependencies       [x] impl  [x] docstring  [ ] test
-    # [ ] setServiceDependencies       [x] impl  [x] docstring  [ ] test
-    # [ ] addServiceDependency         [x] impl  [x] docstring  [ ] test
-    # [ ] getTriggerDirectImplementations [x] impl  [x] docstring  [ ] test
-    # [ ] setTriggerDirectImplementations [x] impl  [x] docstring  [ ] test
-    # [ ] getVariationPointProxies     [x] impl  [x] docstring  [ ] test
-    # [ ] setVariationPointProxies     [x] impl  [x] docstring  [ ] test
+    # [x] getReleasedTriggerPolicies   [x] impl  [x] docstring  [x] test
+    # [x] setReleasedTriggerPolicies   [x] impl  [x] docstring  [x] test
+    # [x] getSchedulerNamePrefixes     [x] impl  [x] docstring  [x] test
+    # [x] setSchedulerNamePrefixes     [x] impl  [x] docstring  [x] test
+    # [x] getSendPolicies              [x] impl  [x] docstring  [x] test
+    # [x] setSendPolicies              [x] impl  [x] docstring  [x] test
+    # [x] getServiceDependencies       [x] impl  [x] docstring  [x] test
+    # [x] setServiceDependencies       [x] impl  [x] docstring  [x] test
+    # [x] addServiceDependency         [x] impl  [x] docstring  [x] test
+    # [x] getTriggerDirectImplementations [x] impl  [x] docstring  [x] test
+    # [x] setTriggerDirectImplementations [x] impl  [x] docstring  [x] test
+    # [x] getVariationPointProxies     [x] impl  [x] docstring  [x] test
+    # [x] setVariationPointProxies     [x] impl  [x] docstring  [x] test
     # [x] addModeSenderPolicy          [x] impl  [x] docstring  [x] test
-    # [ ] getModeSenderPolicies        [x] impl  [x] docstring  [ ] test
+    # [x] getModeSenderPolicies        [x] impl  [x] docstring  [x] test
     # [x] createBswCalledEntity        [x] impl  [x] docstring  [x] test
     # [x] getBswCalledEntities         [x] impl  [x] docstring  [x] test
     # [x] createBswSchedulableEntity   [x] impl  [x] docstring  [x] test
@@ -2905,24 +2911,20 @@ class BswInternalBehavior(InternalBehavior):
     def addModeSenderPolicy(self, policy: BswModeSenderPolicy):
         """
         Adds a BSW mode sender policy to the list.
-        Note: This method adds to modeReceiverPolicies instead of modeSenderPolicies,
-        which might be an error in the original implementation.
 
         Args:
             policy: The BswModeSenderPolicy instance to add
         """
-        self.modeReceiverPolicies.append(policy)
+        self.modeSenderPolicies.append(policy)
 
     def getModeSenderPolicies(self) -> List[BswModeSenderPolicy]:
         """
         Gets the list of BSW mode sender policies.
-        Note: This method returns modeReceiverPolicies instead of modeSenderPolicies,
-        which might be an error in the original implementation.
 
         Returns:
             List of BswModeSenderPolicy instances
         """
-        return self.modeReceiverPolicies
+        return self.modeSenderPolicies
 
     def createBswCalledEntity(self, short_name: str) -> BswCalledEntity:
         """

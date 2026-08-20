@@ -329,15 +329,19 @@ class InternalBehavior(AtpStructureElement, ABC):
     """
 
     # InternalBehavior method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [x] createConstantMemory         [x] impl  [x] docstring  [x] test
-    # [x] getConstantMemories          [x] impl  [x] docstring  [x] test
-    # [x] addDataTypeMappingRef        [x] impl  [x] docstring  [x] test
-    # [x] getDataTypeMappingRefs       [x] impl  [x] docstring  [x] test
-    # [x] createExclusiveArea          [x] impl  [x] docstring  [x] test
-    # [x] getExclusiveAreas            [x] impl  [x] docstring  [x] test
-    # [x] getStaticMemories            [x] impl  [x] docstring  [x] test
-    # [x] createStaticMemory           [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.1, p.518
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] createConstantMemory         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getConstantMemories          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addDataTypeMappingRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDataTypeMappingRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createExclusiveArea          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getExclusiveAreas            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createExclusiveAreaNestingOrder [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getExclusiveAreaNestingOrders [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getStaticMemories            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createStaticMemory           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         """
@@ -433,6 +437,32 @@ class InternalBehavior(AtpStructureElement, ABC):
         """
         return list(filter(lambda c: isinstance(c, ExclusiveArea), self.elements))
 
+    def createExclusiveAreaNestingOrder(self, short_name: str) -> "ExclusiveAreaNestingOrder":
+        """
+        Creates and adds an ExclusiveAreaNestingOrder to this internal behavior's
+        exclusive area nesting orders.
+
+        Args:
+            short_name: The short name for the new exclusive area nesting order
+
+        Returns:
+            The created ExclusiveAreaNestingOrder instance
+        """
+        if short_name not in self.elements:
+            nesting_order = ExclusiveAreaNestingOrder(self, short_name)
+            self.addElement(nesting_order)
+            self.exclusiveAreaNestingOrders.append(nesting_order)
+        return self.getElement(short_name)
+
+    def getExclusiveAreaNestingOrders(self) -> List["ExclusiveAreaNestingOrder"]:
+        """
+        Gets the list of exclusive area nesting orders defined in this internal behavior.
+
+        Returns:
+            List of ExclusiveAreaNestingOrder instances
+        """
+        return list(filter(lambda c: isinstance(c, ExclusiveAreaNestingOrder), self.elements))
+
     def getStaticMemories(self):
         """
         Gets the list of static memories (variable data prototypes) in this internal behavior.
@@ -461,51 +491,34 @@ class InternalBehavior(AtpStructureElement, ABC):
 
 class AbstractEvent(Identifiable, ABC):
     """
-    Represents an abstract event in AUTOSAR models.
-    Abstract events define the base structure for events that can trigger executable entities.
-    They may have activation reason representations that define why the event occurred.
+    This meta-class represents the abstract ability to model an event that can be taken to implement application software or basic software in AUTOSAR.
     """
 
     # AbstractEvent method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [x] getActivationReasonRepresentationRef [x] impl  [x] docstring  [x] test
-    # [x] setActivationReasonRepresentationRef [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.8, p.541
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getActivationReasonRepresentationRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setActivationReasonRepresentationRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the AbstractEvent with a parent and short name.
-        Raises TypeError if this abstract class is instantiated directly.
-
-        Args:
-            parent: The parent ARObject that contains this abstract event
-            short_name: The unique short name of this abstract event
-        """
         if type(self) is AbstractEvent:
             raise TypeError("AbstractEvent is an abstract class.")
         super().__init__(parent, short_name)
 
-        # Reference to activation reason representation for this event
-        self.activationReasonRepresentationRef: RefType = None
+        # If the activationReasonRepresentation is referenced from the enclosing AbstractEvent this shall be taken as an indication that the latter contributes to the activating vector of this ExecutableEntity that owns the referenced ExecutableEntityActivationReason.
+        self.activationReasonRepresentationRef: Optional[RefType] = None
 
-    def getActivationReasonRepresentationRef(self):
+    def getActivationReasonRepresentationRef(self) -> Optional[RefType]:
         """
-        Gets the reference to activation reason representation for this event.
-
-        Returns:
-            RefType: The activation reason representation reference
+        If the activationReasonRepresentation is referenced from the enclosing AbstractEvent this shall be taken as an indication that the latter contributes to the activating vector of this ExecutableEntity that owns the referenced ExecutableEntityActivationReason.
         """
         return self.activationReasonRepresentationRef
 
-    def setActivationReasonRepresentationRef(self, value):
+    def setActivationReasonRepresentationRef(self, value: Optional[RefType]):
         """
-        Sets the reference to activation reason representation for this event.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The activation reason representation reference to set
-
-        Returns:
-            self for method chaining
+        If the activationReasonRepresentation is referenced from the enclosing AbstractEvent this shall be taken as an indication that the latter contributes to the activating vector of this ExecutableEntity that owns the referenced ExecutableEntityActivationReason.
         """
         self.activationReasonRepresentationRef = value
         return self
@@ -549,9 +562,10 @@ class ExclusiveAreaNestingOrder(Referrable):
 
     # ExclusiveAreaNestingOrder method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.19, p.84
-    # [x] __init__                [x] impl  [x] docstring  [x] test
-    # [x] getExclusiveAreaRefs    [x] impl  [x] docstring  [x] test
-    # [x] addExclusiveAreaRef     [x] impl  [x] docstring  [x] test
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getExclusiveAreaRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addExclusiveAreaRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         """

@@ -15,6 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AnyInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa E501
+    ARBoolean,
     ARLiteral,
     ARNumerical,
     RefType,
@@ -367,7 +368,23 @@ class TestWriterEcucModuleConfigurationValues:
         assert parent[0].find("DEFINITION-REF") is None
         assert parent[0].find("IMPLEMENTATION-CONFIG-VARIANT") is None
         assert parent[0].find("MODULE-DESCRIPTION-REF") is None
+        assert parent[0].find("ECUC-DEF-EDITION") is None
+        assert parent[0].find("POST-BUILD-VARIANT-USED") is None
         assert parent[0].find("CONTAINERS") is None
+
+    def test_full_writes_ecuc_def_edition_and_post_build_variant_used(self, writer):
+        mcv = _make_module_config()
+        mcv.setEcucDefEdition(_literal("1.0.0"))
+        mcv.setPostBuildVariantUsed(ARBoolean().setValue(True))
+        parent = _parent()
+        writer.writeEcucModuleConfigurationValues(parent, mcv)
+        assert parent[0].tag == "ECUC-MODULE-CONFIGURATION-VALUES"
+        edition = parent[0].find("ECUC-DEF-EDITION")
+        assert edition is not None
+        assert edition.text == "1.0.0"
+        post_build = parent[0].find("POST-BUILD-VARIANT-USED")
+        assert post_build is not None
+        assert post_build.text == "true"
 
 
 class TestWriterSwSystemconst:

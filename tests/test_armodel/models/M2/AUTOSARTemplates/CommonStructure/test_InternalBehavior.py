@@ -1,6 +1,7 @@
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalBehavior
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
     AbstractEvent,
     ApiPrincipleEnum,
@@ -717,3 +718,40 @@ class TestExclusiveAreaNestingOrder:
         result = nesting_order.addExclusiveAreaRef(None)
         assert result is nesting_order  # Method chaining
         assert len(nesting_order.getExclusiveAreaRefs()) == 1
+
+
+class TestInternalBehaviorExclusiveAreaNestingOrders:
+    def test_create_exclusive_area_nesting_order(self):
+        """Test createExclusiveAreaNestingOrder creates and registers the nesting order."""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        behavior = BswInternalBehavior(ar_root, "behavior")
+
+        nesting_order = behavior.createExclusiveAreaNestingOrder("Order1")
+
+        assert nesting_order is not None
+        assert nesting_order.getShortName() == "Order1"
+        assert nesting_order.getParent() is behavior
+        assert nesting_order in behavior.getExclusiveAreaNestingOrders()
+
+    def test_get_exclusive_area_nesting_orders_empty(self):
+        """Test getExclusiveAreaNestingOrders returns an empty list initially."""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        behavior = BswInternalBehavior(ar_root, "behavior")
+
+        assert behavior.getExclusiveAreaNestingOrders() == []
+
+    def test_get_exclusive_area_nesting_orders_filters(self):
+        """Test getExclusiveAreaNestingOrders returns only nesting orders."""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        behavior = BswInternalBehavior(ar_root, "behavior")
+
+        behavior.createExclusiveArea("ea1")
+        behavior.createExclusiveAreaNestingOrder("o1")
+        behavior.createExclusiveAreaNestingOrder("o2")
+
+        orders = behavior.getExclusiveAreaNestingOrders()
+        assert len(orders) == 2
+        assert all(o.getShortName() in ("o1", "o2") for o in orders)

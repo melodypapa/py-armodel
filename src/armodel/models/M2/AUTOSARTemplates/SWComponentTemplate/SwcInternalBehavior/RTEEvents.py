@@ -5,6 +5,7 @@ in software component internal behavior templates.
 
 from abc import ABC
 from typing import List, Optional
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import AbstractEvent
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeActivationKind
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RVariableInAtomicSwcInstanceRef, RModeInAtomicSwcInstanceRef
@@ -14,7 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, TimeValue
 
 
-class RTEEvent(AtpStructureElement, ABC):
+class RTEEvent(AtpStructureElement, AbstractEvent, ABC):
     """
     Abstract base class for all RTE-related events.
     """
