@@ -5191,12 +5191,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeARObjectAttributes(element, engineering_obj)
         self.setChildElementOptionalLiteral(element, "SHORT-LABEL", engineering_obj.getShortLabel())
         self.setChildElementOptionalLiteral(element, "CATEGORY", engineering_obj.getCategory())
-        self.setChildElementOptionalLiteral(element, "DOMAIN", engineering_obj.getDomain())
         revision_labels = engineering_obj.getRevisionLabels()
         if len(revision_labels) > 0:
             revision_labels_element = ET.SubElement(element, "REVISION-LABELS")
             for revision_label in revision_labels:
                 self.setChildElementOptionalRevisionLabelString(revision_labels_element, "REVISION-LABEL", revision_label)
+        self.setChildElementOptionalLiteral(element, "DOMAIN", engineering_obj.getDomain())
 
     def writeAutosarEngineeringObject(self, element: ET.Element, obj: AutosarEngineeringObject):
         # self.logger.debug("write ArtifactDescriptor %s", obj.getShortLabel())

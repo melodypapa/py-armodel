@@ -18,71 +18,49 @@ class EngineeringObject(ARObject, ABC):
     """
 
     # EngineeringObject method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 7.6, p.132
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getShortLabel                [x] impl  [x] docstring  [x] test
-    # [x] setShortLabel                [x] impl  [x] docstring  [x] test
-    # [x] getCategory                  [x] impl  [x] docstring  [x] test
-    # [x] setCategory                  [x] impl  [x] docstring  [x] test
-    # [x] addRevisionLabel             [x] impl  [x] docstring  [x] test
-    # [x] getRevisionLabels            [x] impl  [x] docstring  [x] test
-    # [x] getDomain                    [x] impl  [x] docstring  [x] test
-    # [x] setDomain                    [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.69, p.160
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getCategory                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCategory                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDomain                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDomain                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] addRevisionLabel             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRevisionLabels            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getShortLabel                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setShortLabel                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
-        """
-        Initializes the EngineeringObject.
-        Raises TypeError if this abstract class is instantiated directly.
-        """
         if type(self) is EngineeringObject:
             raise TypeError("EngineeringObject is an abstract class.")
 
         super().__init__()
 
-        # This is the short name of the engineering object. Note that it is modeled as
-        # NameToken and not as Identifier since in ASAM-CC it is also a NameToken.
-        self.shortLabel: Optional[NameToken] = None
-
         # This denotes the role of the engineering object in the development cycle.
-        # Categories are such as SWSRC for source code, SWOBJ for object code,
-        # SWHDR for a C-header file. Further roles need to be defined via Methodology.
+        # Categories are such as • SWSRC for source code • SWOBJ for object code •
+        # SWHDR for a C-header file Further roles need to be defined via Methodology.
         self.category: Optional[NameToken] = None
+
+        # This denotes the domain in which the engineering object is stored. This allows
+        # to indicate various segments in the repository keeping the engineering objects.
+        # The domain may segregate companies, as well as automotive domains. Details need
+        # to be defined by the Methodology. Attribute is optional to support a default
+        # domain.
+        self.domain: Optional[NameToken] = None
 
         # This is a revision label denoting a particular version of the engineering object.
         self.revisionLabels: List[RevisionLabelString] = []
 
-        # This denotes the domain in which the engineering object is stored. This allows to
-        # indicate various segments in the repository keeping the engineering objects.
-        # Attribute is optional to support a default domain.
-        self.domain: Optional[NameToken] = None
-
-    def getShortLabel(self) -> Optional[NameToken]:
-        """
-        Gets the short name of the engineering object.
-
-        Returns:
-            NameToken representing the short label, or None if not set
-        """
-        return self.shortLabel
-
-    def setShortLabel(self, label: Optional[NameToken]) -> "EngineeringObject":
-        """
-        Sets the short name of the engineering object.
-        A None value is a no-op and does not overwrite an existing short label.
-
-        Args:
-            label: The short label to set
-
-        Returns:
-            self for method chaining
-        """
-        if label is not None:
-            self.shortLabel = label
-        return self
+        # This is the short name of the engineering object. Note that it is modeled as
+        # NameToken and not as Identifier since in ASAM-CC it is also a NameToken.
+        self.shortLabel: Optional[NameToken] = None
 
     def getCategory(self) -> Optional[NameToken]:
         """
-        Gets the role of the engineering object in the development cycle.
+        This denotes the role of the engineering object in the development cycle.
+        Categories are such as • SWSRC for source code • SWOBJ for object code •
+        SWHDR for a C-header file Further roles need to be defined via Methodology.
 
         Returns:
             NameToken representing the category, or None if not set
@@ -91,7 +69,10 @@ class EngineeringObject(ARObject, ABC):
 
     def setCategory(self, category: Optional[NameToken]) -> "EngineeringObject":
         """
-        Sets the role of the engineering object in the development cycle.
+        This denotes the role of the engineering object in the development cycle.
+        Categories are such as • SWSRC for source code • SWOBJ for object code •
+        SWHDR for a C-header file Further roles need to be defined via Methodology.
+
         A None value is a no-op and does not overwrite an existing category.
 
         Args:
@@ -104,9 +85,43 @@ class EngineeringObject(ARObject, ABC):
             self.category = category
         return self
 
+    def getDomain(self) -> Optional[NameToken]:
+        """
+        This denotes the domain in which the engineering object is stored. This allows
+        to indicate various segments in the repository keeping the engineering objects.
+        The domain may segregate companies, as well as automotive domains. Details need
+        to be defined by the Methodology. Attribute is optional to support a default
+        domain.
+
+        Returns:
+            NameToken representing the domain, or None if not set
+        """
+        return self.domain
+
+    def setDomain(self, domain: Optional[NameToken]) -> "EngineeringObject":
+        """
+        This denotes the domain in which the engineering object is stored. This allows
+        to indicate various segments in the repository keeping the engineering objects.
+        The domain may segregate companies, as well as automotive domains. Details need
+        to be defined by the Methodology. Attribute is optional to support a default
+        domain.
+
+        A None value is a no-op and does not overwrite an existing domain.
+
+        Args:
+            domain: The domain to set
+
+        Returns:
+            self for method chaining
+        """
+        if domain is not None:
+            self.domain = domain
+        return self
+
     def addRevisionLabel(self, revision_label: Optional[RevisionLabelString]) -> "EngineeringObject":
         """
-        Adds a revision label denoting a particular version of the engineering object.
+        This is a revision label denoting a particular version of the engineering object.
+
         A None value is a no-op and is not appended.
 
         Args:
@@ -121,35 +136,38 @@ class EngineeringObject(ARObject, ABC):
 
     def getRevisionLabels(self) -> List[RevisionLabelString]:
         """
-        Gets the list of revision labels denoting particular versions of the engineering object.
+        This is a revision label denoting a particular version of the engineering object.
 
         Returns:
             List of RevisionLabelString instances
         """
         return self.revisionLabels
 
-    def getDomain(self) -> Optional[NameToken]:
+    def getShortLabel(self) -> Optional[NameToken]:
         """
-        Gets the domain in which the engineering object is stored.
+        This is the short name of the engineering object. Note that it is modeled as
+        NameToken and not as Identifier since in ASAM-CC it is also a NameToken.
 
         Returns:
-            NameToken representing the domain, or None if not set
+            NameToken representing the short label, or None if not set
         """
-        return self.domain
+        return self.shortLabel
 
-    def setDomain(self, domain: Optional[NameToken]) -> "EngineeringObject":
+    def setShortLabel(self, label: Optional[NameToken]) -> "EngineeringObject":
         """
-        Sets the domain in which the engineering object is stored.
-        A None value is a no-op and does not overwrite an existing domain.
+        This is the short name of the engineering object. Note that it is modeled as
+        NameToken and not as Identifier since in ASAM-CC it is also a NameToken.
+
+        A None value is a no-op and does not overwrite an existing short label.
 
         Args:
-            domain: The domain to set
+            label: The short label to set
 
         Returns:
             self for method chaining
         """
-        if domain is not None:
-            self.domain = domain
+        if label is not None:
+            self.shortLabel = label
         return self
 
 
@@ -160,11 +178,10 @@ class AutosarEngineeringObject(EngineeringObject):
     """
 
     # AutosarEngineeringObject method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 7.5, p.132
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.70, p.161
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self):
-        """
-        Initializes the AutosarEngineeringObject.
-        """
         super().__init__()

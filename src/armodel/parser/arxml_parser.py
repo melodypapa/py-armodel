@@ -2366,9 +2366,9 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARObjectAttributes(element, engineering_obj)
         engineering_obj.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
         engineering_obj.setCategory(self.getChildElementOptionalLiteral(element, "CATEGORY"))
-        engineering_obj.setDomain(self.getChildElementOptionalLiteral(element, "DOMAIN"))
         for child_element in self.findall(element, "REVISION-LABELS/REVISION-LABEL"):
             engineering_obj.addRevisionLabel(self.getChildElementOptionalRevisionLabelString(child_element, "."))
+        engineering_obj.setDomain(self.getChildElementOptionalLiteral(element, "DOMAIN"))
 
     def getAutosarEngineeringObject(self, element: ET.Element) -> AutosarEngineeringObject:
         obj = AutosarEngineeringObject()
