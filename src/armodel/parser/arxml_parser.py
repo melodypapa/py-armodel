@@ -2726,7 +2726,6 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             parameter_iref = ParameterInAtomicSWCTypeInstanceRef()
-            parameter_iref.setBaseRef(self.getChildElementOptionalRefType(child_element, "BASE-REF"))
             for ref in self.getChildElementRefTypeList(child_element, "CONTEXT-DATA-PROTOTYPE-REF"):
                 parameter_iref.addContextDataPrototypeRef(ref)
             parameter_iref.setPortPrototypeRef(self.getChildElementOptionalRefType(child_element, "PORT-PROTOTYPE-REF"))
@@ -5021,22 +5020,29 @@ class ARXMLParser(AbstractARXMLParser):
             spec.setValueSpec(self.getValueSpecification(child_element, self.getTagName(child_element)))
 
     def readInternalConstrs(self, element: ET.Element, parent: DataConstrRule):
-        child_element = element.find("./xmlns:INTERNAL-CONSTRS", self.nsmap)
+        child_element = self.find(element, "INTERNAL-CONSTRS")
         if child_element is not None:
             constrs = InternalConstrs()
             self.readARObjectAttributes(child_element, constrs)
-            constrs.lower_limit = self.getChildLimitElement(child_element, "LOWER-LIMIT")
-            constrs.upper_limit = self.getChildLimitElement(child_element, "UPPER-LIMIT")
+            constrs.setLowerLimit(self.getChildLimitElement(child_element, "LOWER-LIMIT"))
+            constrs.setUpperLimit(self.getChildLimitElement(child_element, "UPPER-LIMIT"))
+            for sc_element in self.findall(child_element, "SCALE-CONSTRS/SCALE-CONSTR"):
+                constrs.addScaleConstr(self.readScaleConstr(sc_element))
+            constrs.setMaxGradient(self.getChildElementOptionalNumericalValue(child_element, "MAX-GRADIENT"))
+            constrs.setMaxDiff(self.getChildElementOptionalNumericalValue(child_element, "MAX-DIFF"))
+            constrs.setMonotony(self.getChildElementOptionalLiteral(child_element, "MONOTONY"))
             parent.internalConstrs = constrs
 
     def readScaleConstr(self, element: ET.Element) -> ScaleConstr:
         scale_constr = ScaleConstr()
         self.readARObjectAttributes(element, scale_constr)
+        scale_constr.setDesc(self.getMultiLanguageOverviewParagraph(element, "DESC"))
+        scale_constr.setLowerLimit(self.getChildLimitElement(element, "LOWER-LIMIT"))
         scale_constr.setShortLabel(self.getChildElementOptionalIdentifier(element, "SHORT-LABEL"))
         scale_constr.setUpperLimit(self.getChildLimitElement(element, "UPPER-LIMIT"))
-        validity_value = self.getChildElementOptionalLiteral(element, "VALIDITY")
+        validity_value = element.get("VALIDITY")
         if validity_value is not None:
-            scale_constr.setValidity(ScaleConstrValidityEnum().setValue(validity_value.getValue()))
+            scale_constr.setValidity(ScaleConstrValidityEnum().setValue(validity_value))
         return scale_constr
 
     def readPhysConstrs(self, element: ET.Element, parent: DataConstrRule):

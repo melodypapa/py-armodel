@@ -199,7 +199,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable, MultilanguageReferrable, Referrable, ShortNameFragment
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, IntervalTypeEnum, Limit, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Limit, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     ConditionByFormula,
@@ -2358,19 +2358,31 @@ class ARXMLWriter(AbstractARXMLWriter):
         if constrs is not None:
             constrs_tag = ET.SubElement(element, "INTERNAL-CONSTRS")
             self.writeARObjectAttributes(constrs_tag, constrs)
-            if constrs.lower_limit is not None:
-                self.setChildLimitElement(constrs_tag, "LOWER-LIMIT", constrs.lower_limit)
-            if constrs.upper_limit is not None:
-                self.setChildLimitElement(constrs_tag, "UPPER-LIMIT", constrs.upper_limit)
+            if constrs.getLowerLimit() is not None:
+                self.setChildLimitElement(constrs_tag, "LOWER-LIMIT", constrs.getLowerLimit())
+            if constrs.getUpperLimit() is not None:
+                self.setChildLimitElement(constrs_tag, "UPPER-LIMIT", constrs.getUpperLimit())
+            scale_constrs = constrs.getScaleConstrs()
+            if len(scale_constrs) > 0:
+                scales_element = ET.SubElement(constrs_tag, "SCALE-CONSTRS")
+                for scale_constr in scale_constrs:
+                    self.setScaleConstr(scales_element, "SCALE-CONSTR", scale_constr)
+            self.setChildElementOptionalNumericalValue(constrs_tag, "MAX-GRADIENT", constrs.getMaxGradient())
+            self.setChildElementOptionalNumericalValue(constrs_tag, "MAX-DIFF", constrs.getMaxDiff())
+            self.setChildElementOptionalLiteral(constrs_tag, "MONOTONY", constrs.getMonotony())
 
     def setScaleConstr(self, element: ET.Element, key: str, scale_constr: ScaleConstr):
         if scale_constr is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObjectAttributes(child_element, scale_constr)
             self.setChildElementOptionalIdentifier(child_element, "SHORT-LABEL", scale_constr.getShortLabel())
+            self.setMultiLanguageOverviewParagraph(child_element, "DESC", scale_constr.getDesc())
+            if scale_constr.getLowerLimit() is not None:
+                self.setChildLimitElement(child_element, "LOWER-LIMIT", scale_constr.getLowerLimit())
             if scale_constr.getUpperLimit() is not None:
                 self.setChildLimitElement(child_element, "UPPER-LIMIT", scale_constr.getUpperLimit())
-            self.setChildElementOptionalLiteral(child_element, "VALIDITY", scale_constr.getValidity())
+            if scale_constr.getValidity() is not None:
+                child_element.set("VALIDITY", scale_constr.getValidity().getValue())
 
     def setPhysConstrs(self, element: ET.Element, constrs: PhysConstrs):
         if constrs is not None:
@@ -2380,17 +2392,17 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildLimitElement(child_element, "LOWER-LIMIT", constrs.getLowerLimit())
             if constrs.getUpperLimit() is not None:
                 self.setChildLimitElement(child_element, "UPPER-LIMIT", constrs.getUpperLimit())
-            self.setChildElementOptionalNumericalValue(child_element, "MAX-DIFF", constrs.getMaxDiff())
-            self.setChildElementOptionalNumericalValue(child_element, "MAX-GRADIENT", constrs.getMaxGradient())
-            monotony = constrs.getMonotony()
-            if monotony is not None:
-                mono_element = ET.SubElement(child_element, "MONOTONY")
-                mono_element.text = monotony.getText() if hasattr(monotony, "getText") else str(monotony)
             scale_constrs = constrs.getScaleConstrs()
             if len(scale_constrs) > 0:
                 scales_element = ET.SubElement(child_element, "SCALE-CONSTRS")
                 for scale_constr in scale_constrs:
                     self.setScaleConstr(scales_element, "SCALE-CONSTR", scale_constr)
+            self.setChildElementOptionalNumericalValue(child_element, "MAX-GRADIENT", constrs.getMaxGradient())
+            self.setChildElementOptionalNumericalValue(child_element, "MAX-DIFF", constrs.getMaxDiff())
+            monotony = constrs.getMonotony()
+            if monotony is not None:
+                mono_element = ET.SubElement(child_element, "MONOTONY")
+                mono_element.text = monotony.getText() if hasattr(monotony, "getText") else str(monotony)
             self.setChildElementOptionalRefType(child_element, "UNIT-REF", constrs.getUnitRef())
 
     def writeDataConstrRules(self, element: ET.Element, parent: DataConstr):
@@ -2604,7 +2616,6 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setParameterInAtomicSWCTypeInstanceRef(self, element: ET.Element, key: str, parameter_iref: ParameterInAtomicSWCTypeInstanceRef):
         if parameter_iref is not None:
             child_element = ET.SubElement(element, key)
-            self.setChildElementOptionalRefType(child_element, "BASE-REF", parameter_iref.getBaseRef())
             for ref in parameter_iref.getContextDataPrototypeRefs():
                 self.setChildElementOptionalRefType(child_element, "CONTEXT-DATA-PROTOTYPE-REF", ref)
             self.setChildElementOptionalRefType(child_element, "PORT-PROTOTYPE-REF", parameter_iref.getPortPrototypeRef())

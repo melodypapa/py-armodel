@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpBlueprintable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -10,22 +12,136 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Numerical,
     RefType,
 )
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
 
 
 class InternalConstrs(ARObject):
     """
-    Represents internal constraints for data values.
-    Base: ARObject
+    This meta-class represents the ability to express internal constraints.
     """
 
     # InternalConstrs method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.85, p.407
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getLowerLimit           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setLowerLimit           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMaxDiff              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMaxDiff              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMaxGradient          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMaxGradient          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMonotony             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMonotony             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] addScaleConstr          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getScaleConstrs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getUpperLimit           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setUpperLimit           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        self.lower_limit: Limit = None
-        self.upper_limit: Limit = None
+        # This specifies the lower limit of the constraint.
+        self.lowerLimit: Optional[Limit] = None
+
+        # Maximum difference that is permitted between two consecutive values if the constraint is applied to an axis.
+        self.maxDiff: Optional[Numerical] = None
+
+        # This element specifies the maximum slope that may be used in maps and curves.
+        self.maxGradient: Optional[Numerical] = None
+
+        # This element specifies the monotony characteristics of the current internal or physical limits. The following table shows the monotony characteristics which are to be filled through the corresponding values. If the element has no contents or if it is omitted, "no Monotony" is the default content.
+        self.monotony: Optional[MonotonyEnum] = None
+
+        # This is one particular scale which contributes to the data constraints.
+        self.scaleConstrs: List[ScaleConstr] = []
+
+        # This specifies the upper limit defined by the constraint.
+        self.upperLimit: Optional[Limit] = None
+
+    def getLowerLimit(self) -> Optional[Limit]:
+        """
+        This specifies the lower limit of the constraint.
+        """
+        return self.lowerLimit
+
+    def setLowerLimit(self, value: Optional[Limit]) -> "InternalConstrs":
+        """
+        This specifies the lower limit of the constraint. A None value is a no-op and does not overwrite an existing lowerLimit.
+        """
+        if value is not None:
+            self.lowerLimit = value
+        return self
+
+    def getMaxDiff(self) -> Optional[Numerical]:
+        """
+        Maximum difference that is permitted between two consecutive values if the constraint is applied to an axis.
+        """
+        return self.maxDiff
+
+    def setMaxDiff(self, value: Optional[Numerical]) -> "InternalConstrs":
+        """
+        Maximum difference that is permitted between two consecutive values if the constraint is applied to an axis. A None value is a no-op and does not overwrite an existing maxDiff.
+        """
+        if value is not None:
+            self.maxDiff = value
+        return self
+
+    def getMaxGradient(self) -> Optional[Numerical]:
+        """
+        This element specifies the maximum slope that may be used in maps and curves.
+        """
+        return self.maxGradient
+
+    def setMaxGradient(self, value: Optional[Numerical]) -> "InternalConstrs":
+        """
+        This element specifies the maximum slope that may be used in maps and curves. A None value is a no-op and does not overwrite an existing maxGradient.
+        """
+        if value is not None:
+            self.maxGradient = value
+        return self
+
+    def getMonotony(self) -> Optional[MonotonyEnum]:
+        """
+        This element specifies the monotony characteristics of the current internal or physical limits. The following table shows the monotony characteristics which are to be filled through the corresponding values. If the element has no contents or if it is omitted, "no Monotony" is the default content.
+        """
+        return self.monotony
+
+    def setMonotony(self, value: Optional[MonotonyEnum]) -> "InternalConstrs":
+        """
+        This element specifies the monotony characteristics of the current internal or physical limits. The following table shows the monotony characteristics which are to be filled through the corresponding values. If the element has no contents or if it is omitted, "no Monotony" is the default content. A None value is a no-op and does not overwrite an existing monotony.
+        """
+        if value is not None:
+            self.monotony = value
+        return self
+
+    def addScaleConstr(self, value: Optional[ScaleConstr]) -> "InternalConstrs":
+        """
+        This is one particular scale which contributes to the data constraints. A None value is a no-op and does not add a scaleConstr.
+        """
+        if value is not None:
+            self.scaleConstrs.append(value)
+        return self
+
+    def getScaleConstrs(self) -> List[ScaleConstr]:
+        """
+        This is one particular scale which contributes to the data constraints.
+        """
+        return self.scaleConstrs
+
+    def getUpperLimit(self) -> Optional[Limit]:
+        """
+        This specifies the upper limit defined by the constraint.
+        """
+        return self.upperLimit
+
+    def setUpperLimit(self, value: Optional[Limit]) -> "InternalConstrs":
+        """
+        This specifies the upper limit defined by the constraint. A None value is a no-op and does not overwrite an existing upperLimit.
+        """
+        if value is not None:
+            self.upperLimit = value
+        return self
 
 
 class ScaleConstrValidityEnum(AREnum):
@@ -67,23 +183,33 @@ class ScaleConstrValidityEnum(AREnum):
 
 class ScaleConstr(ARObject):
     """
-    One particular scale which contributes to the data constraints. This meta-class is marked obsolete in the AUTOSAR template (atp.Status=obsolete).
+    This meta-class represents the ability to specify constraints as a list of intervals (called scales).
     """
 
     # ScaleConstr method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table E.40
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table E.39/E.40, p.1003
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setShortLabel       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getDesc             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDesc             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getLowerLimit       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setLowerLimit       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getShortLabel       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUpperLimit       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setShortLabel       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getUpperLimit       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setValidity         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setUpperLimit       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getValidity         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setValidity         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
+
+        # <desc> represents a general but brief description of the object in question.
+        self.desc: Optional[MultiLanguageOverviewParagraph] = None
+
+        # This specifies the lower limit of the scale.
+        self.lowerLimit: Optional[Limit] = None
 
         # This element specifies a short name for the scaleConstr. This can for example be used to create more specific messages of a constraint checker. The constraints cannot be associated in the meta-model, therefore shortLabel is somehow a substitute for shortName.
         self.shortLabel: Optional[Identifier] = None
@@ -94,78 +220,80 @@ class ScaleConstr(ARObject):
         # Specifies if the values defined by the scales are considered to be valid. If the attribute is missing then the default value is "VALID".
         self.validity: Optional[ScaleConstrValidityEnum] = None
 
-    def setShortLabel(self, value: Optional[Identifier]) -> "ScaleConstr":
+    def getDesc(self) -> Optional[MultiLanguageOverviewParagraph]:
         """
-        This element specifies a short name for the scaleConstr. This can for example be used to create more specific messages of a constraint checker. The constraints cannot be associated in the meta-model, therefore shortLabel is somehow a substitute for shortName.
+        <desc> represents a general but brief description of the object in question.
+        """
+        return self.desc
 
-        A None value is a no-op and does not overwrite an existing shortLabel.
-
-        Returns:
-            self for method chaining
+    def setDesc(self, value: Optional[MultiLanguageOverviewParagraph]) -> "ScaleConstr":
+        """
+        <desc> represents a general but brief description of the object in question. A None value is a no-op and does not overwrite an existing desc.
         """
         if value is not None:
-            self.shortLabel = value
+            self.desc = value
+        return self
+
+    def getLowerLimit(self) -> Optional[Limit]:
+        """
+        This specifies the lower limit of the scale.
+        """
+        return self.lowerLimit
+
+    def setLowerLimit(self, value: Optional[Limit]) -> "ScaleConstr":
+        """
+        This specifies the lower limit of the scale. A None value is a no-op and does not overwrite an existing lowerLimit.
+        """
+        if value is not None:
+            self.lowerLimit = value
         return self
 
     def getShortLabel(self) -> Optional[Identifier]:
         """
         This element specifies a short name for the scaleConstr. This can for example be used to create more specific messages of a constraint checker. The constraints cannot be associated in the meta-model, therefore shortLabel is somehow a substitute for shortName.
-
-        Returns:
-            The short label, or None if not set
         """
         return self.shortLabel
 
-    def setUpperLimit(self, value: Optional[Limit]) -> "ScaleConstr":
+    def setShortLabel(self, value: Optional[Identifier]) -> "ScaleConstr":
         """
-        This specifies the upper limit of a the scale.
-
-        A None value is a no-op and does not overwrite an existing upperLimit.
-
-        Returns:
-            self for method chaining
+        This element specifies a short name for the scaleConstr. This can for example be used to create more specific messages of a constraint checker. The constraints cannot be associated in the meta-model, therefore shortLabel is somehow a substitute for shortName. A None value is a no-op and does not overwrite an existing shortLabel.
         """
         if value is not None:
-            self.upperLimit = value
+            self.shortLabel = value
         return self
 
     def getUpperLimit(self) -> Optional[Limit]:
         """
         This specifies the upper limit of a the scale.
-
-        Returns:
-            The upper limit, or None if not set
         """
         return self.upperLimit
 
-    def setValidity(self, value: Optional[ScaleConstrValidityEnum]) -> "ScaleConstr":
+    def setUpperLimit(self, value: Optional[Limit]) -> "ScaleConstr":
         """
-        Specifies if the values defined by the scales are considered to be valid. If the attribute is missing then the default value is "VALID".
-
-        A None value is a no-op and does not overwrite an existing validity.
-
-        Returns:
-            self for method chaining
+        This specifies the upper limit of a the scale. A None value is a no-op and does not overwrite an existing upperLimit.
         """
         if value is not None:
-            self.validity = value
+            self.upperLimit = value
         return self
 
     def getValidity(self) -> Optional[ScaleConstrValidityEnum]:
         """
         Specifies if the values defined by the scales are considered to be valid. If the attribute is missing then the default value is "VALID".
-
-        Returns:
-            The validity, or None if not set
         """
         return self.validity
+
+    def setValidity(self, value: Optional[ScaleConstrValidityEnum]) -> "ScaleConstr":
+        """
+        Specifies if the values defined by the scales are considered to be valid. If the attribute is missing then the default value is "VALID". A None value is a no-op and does not overwrite an existing validity.
+        """
+        if value is not None:
+            self.validity = value
+        return self
 
 
 class PhysConstrs(ARObject):
     """
     This meta-class represents the ability to express physical constraints. Therefore it has (in opposite to InternalConstrs) a reference to a Unit.
-
-    Base: ARObject
     """
 
     # PhysConstrs method parity checklist:
@@ -173,20 +301,20 @@ class PhysConstrs(ARObject):
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setLowerLimit             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
     # [x] getLowerLimit             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxDiff                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setLowerLimit             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getMaxDiff                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxGradient            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setMaxDiff                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getMaxGradient            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMonotony               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setMaxGradient            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getMonotony               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addScaleConstr            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setMonotony               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] addScaleConstr            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getScaleConstrs           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUnitRef                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
     # [x] getUnitRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUpperLimit             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setUnitRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getUpperLimit             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setUpperLimit             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
@@ -212,102 +340,65 @@ class PhysConstrs(ARObject):
         # This specifies the upper limit of the constraint.
         self.upperLimit: Optional[Limit] = None
 
-    def setLowerLimit(self, value: Optional[Limit]) -> "PhysConstrs":
+    def getLowerLimit(self) -> Optional[Limit]:
         """
         This specifies the lower limit of the constraint.
+        """
+        return self.lowerLimit
 
-        A None value is a no-op and does not overwrite an existing lowerLimit.
-
-        Returns:
-            self for method chaining
+    def setLowerLimit(self, value: Optional[Limit]) -> "PhysConstrs":
+        """
+        This specifies the lower limit of the constraint. A None value is a no-op and does not overwrite an existing lowerLimit.
         """
         if value is not None:
             self.lowerLimit = value
         return self
 
-    def getLowerLimit(self) -> Optional[Limit]:
+    def getMaxDiff(self) -> Optional[Numerical]:
         """
-        This specifies the lower limit of the constraint.
-
-        Returns:
-            The lower limit, or None if not set
+        Maximum difference that is permitted between two consecutive values if the constraint is applied to an axis.
         """
-        return self.lowerLimit
+        return self.maxDiff
 
     def setMaxDiff(self, value: Optional[Numerical]) -> "PhysConstrs":
         """
-        Maximum difference that is permitted between two consecutive values if the constraint is applied to an axis.
-
-        A None value is a no-op and does not overwrite an existing maxDiff.
-
-        Returns:
-            self for method chaining
+        Maximum difference that is permitted between two consecutive values if the constraint is applied to an axis. A None value is a no-op and does not overwrite an existing maxDiff.
         """
         if value is not None:
             self.maxDiff = value
         return self
 
-    def getMaxDiff(self) -> Optional[Numerical]:
+    def getMaxGradient(self) -> Optional[Numerical]:
         """
-        Maximum difference that is permitted between two consecutive values if the constraint is applied to an axis.
-
-        Returns:
-            The max difference, or None if not set
+        This element specifies the maximum slope that may be used in curves and maps.
         """
-        return self.maxDiff
+        return self.maxGradient
 
     def setMaxGradient(self, value: Optional[Numerical]) -> "PhysConstrs":
         """
-        This element specifies the maximum slope that may be used in curves and maps.
-
-        A None value is a no-op and does not overwrite an existing maxGradient.
-
-        Returns:
-            self for method chaining
+        This element specifies the maximum slope that may be used in curves and maps. A None value is a no-op and does not overwrite an existing maxGradient.
         """
         if value is not None:
             self.maxGradient = value
         return self
 
-    def getMaxGradient(self) -> Optional[Numerical]:
+    def getMonotony(self) -> Optional[MonotonyEnum]:
         """
-        This element specifies the maximum slope that may be used in curves and maps.
-
-        Returns:
-            The max gradient, or None if not set
+        This specifies the monotony constraints on the data object. Note that this applies only to curves and maps.
         """
-        return self.maxGradient
+        return self.monotony
 
     def setMonotony(self, value: Optional[MonotonyEnum]) -> "PhysConstrs":
         """
-        This specifies the monotony constraints on the data object. Note that this applies only to curves and maps.
-
-        A None value is a no-op and does not overwrite an existing monotony.
-
-        Returns:
-            self for method chaining
+        This specifies the monotony constraints on the data object. Note that this applies only to curves and maps. A None value is a no-op and does not overwrite an existing monotony.
         """
         if value is not None:
             self.monotony = value
         return self
 
-    def getMonotony(self) -> Optional[MonotonyEnum]:
-        """
-        This specifies the monotony constraints on the data object. Note that this applies only to curves and maps.
-
-        Returns:
-            The monotony, or None if not set
-        """
-        return self.monotony
-
     def addScaleConstr(self, value: Optional[ScaleConstr]) -> "PhysConstrs":
         """
-        This is one particular scale which contributes to the data constraints.
-
-        A None value is a no-op and does not add a scaleConstr.
-
-        Returns:
-            self for method chaining
+        This is one particular scale which contributes to the data constraints. A None value is a no-op and does not add a scaleConstr.
         """
         if value is not None:
             self.scaleConstrs.append(value)
@@ -316,55 +407,36 @@ class PhysConstrs(ARObject):
     def getScaleConstrs(self) -> List[ScaleConstr]:
         """
         This is one particular scale which contributes to the data constraints.
-
-        Returns:
-            The ordered list of scale constraints
         """
         return self.scaleConstrs
 
-    def setUnitRef(self, value: Optional[RefType]) -> "PhysConstrs":
+    def getUnitRef(self) -> Optional[RefType]:
         """
         This is the unit to which the physical constraints relate to. In particular, it is the physical unit of the specified limits.
+        """
+        return self.unitRef
 
-        A None value is a no-op and does not overwrite an existing unitRef.
-
-        Returns:
-            self for method chaining
+    def setUnitRef(self, value: Optional[RefType]) -> "PhysConstrs":
+        """
+        This is the unit to which the physical constraints relate to. In particular, it is the physical unit of the specified limits. A None value is a no-op and does not overwrite an existing unitRef.
         """
         if value is not None:
             self.unitRef = value
         return self
 
-    def getUnitRef(self) -> Optional[RefType]:
+    def getUpperLimit(self) -> Optional[Limit]:
         """
-        This is the unit to which the physical constraints relate to. In particular, it is the physical unit of the specified limits.
-
-        Returns:
-            The unit reference, or None if not set
+        This specifies the upper limit of the constraint.
         """
-        return self.unitRef
+        return self.upperLimit
 
     def setUpperLimit(self, value: Optional[Limit]) -> "PhysConstrs":
         """
-        This specifies the upper limit of the constraint.
-
-        A None value is a no-op and does not overwrite an existing upperLimit.
-
-        Returns:
-            self for method chaining
+        This specifies the upper limit of the constraint. A None value is a no-op and does not overwrite an existing upperLimit.
         """
         if value is not None:
             self.upperLimit = value
         return self
-
-    def getUpperLimit(self) -> Optional[Limit]:
-        """
-        This specifies the upper limit of the constraint.
-
-        Returns:
-            The upper limit, or None if not set
-        """
-        return self.upperLimit
 
 
 class DataConstrRule(ARObject):

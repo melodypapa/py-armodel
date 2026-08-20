@@ -317,12 +317,9 @@ class HwPinGroup(HwDescriptionEntity):
 
 class HwPinConnector(Describable):
     """
-    Represents a hardware pin connector in AUTOSAR hardware descriptions.
-    This class defines connections between hardware pins.
+    This meta-class represents the ability to connect two pins.
 
-    Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.10, p.22
-    Spec verified: R23-11
-    Note: Represents connections at the pin level between hardware elements.
+    [constr_11004] Multiplicity of HwPinConnector . hwPin: For each HwPinConnector there shall exist exactly 2 references in the role hwPin.
     """
 
     # HwPinConnector method parity checklist:
@@ -334,17 +331,14 @@ class HwPinConnector(Describable):
     # [x] getHwPinRefs                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self):
-        """
-        Initializes the HwPinConnector.
-        """
         super().__init__()
 
-        # References to hardware pins that are connected
+        # This association connects two hardware pins.
         self.hwPinRefs: List[RefType] = []
 
     def addHwPinRef(self, value: RefType):
         """
-        Adds a reference to a hardware pin in this connector.
+        This association connects two hardware pins.
 
         A None value is a no-op and does not add an hwPinRef.
 
@@ -357,7 +351,7 @@ class HwPinConnector(Describable):
 
     def getHwPinRefs(self) -> List[RefType]:
         """
-        Gets all hardware pin references in this connector.
+        This association connects two hardware pins.
 
         Returns:
             The list of hwPinRefs, or an empty list if none are set
@@ -367,12 +361,9 @@ class HwPinConnector(Describable):
 
 class HwPinGroupConnector(Describable):
     """
-    Represents a hardware pin group connector in AUTOSAR hardware descriptions.
-    This class defines connections between hardware pin groups.
+    This meta-class represents the ability to connect two pin groups.
 
-    Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.9, p.22
-    Spec verified: R23-11
-    Note: Represents connections at the pin group level with optional detailed pin connections.
+    [constr_11003] Multiplicity of HwPinGroupConnector . hwPinGroup: For each HwPinGroupConnector there shall exist exactly 2 references in the role hwPinGroup.
     """
 
     # HwPinGroupConnector method parity checklist:
@@ -386,20 +377,17 @@ class HwPinGroupConnector(Describable):
     # [x] getHwPinGroupRefs            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self):
-        """
-        Initializes the HwPinGroupConnector.
-        """
         super().__init__()
 
-        # Aggregation of detailed pin connections
-        self.hwPinConnections: List["HwPinConnector"] = []
+        # This represents one particular connection between two hardware pins. The connected pins shall match the connection provided by the parent hwPinGroup Connection.
+        self.hwPinConnections: List[HwPinConnector] = []
 
-        # References to hardware pin groups that are connected
+        # This association connects two hardware pin groups.
         self.hwPinGroupRefs: List[RefType] = []
 
-    def addHwPinConnection(self, value: "HwPinConnector"):
+    def addHwPinConnection(self, value: HwPinConnector):
         """
-        Adds a hardware pin connection to this pin group connector.
+        This represents one particular connection between two hardware pins. The connected pins shall match the connection provided by the parent hwPinGroup Connection.
 
         A None value is a no-op and does not add an hwPinConnection.
 
@@ -410,9 +398,9 @@ class HwPinGroupConnector(Describable):
             self.hwPinConnections.append(value)
         return self
 
-    def getHwPinConnections(self) -> List["HwPinConnector"]:
+    def getHwPinConnections(self) -> List[HwPinConnector]:
         """
-        Gets all hardware pin connections in this pin group connector.
+        This represents one particular connection between two hardware pins. The connected pins shall match the connection provided by the parent hwPinGroup Connection.
 
         Returns:
             The list of hwPinConnections, or an empty list if none are set
@@ -421,7 +409,7 @@ class HwPinGroupConnector(Describable):
 
     def addHwPinGroupRef(self, value: RefType):
         """
-        Adds a reference to a hardware pin group in this connector.
+        This association connects two hardware pin groups.
 
         A None value is a no-op and does not add an hwPinGroupRef.
 
@@ -434,7 +422,7 @@ class HwPinGroupConnector(Describable):
 
     def getHwPinGroupRefs(self) -> List[RefType]:
         """
-        Gets all hardware pin group references in this connector.
+        This association connects two hardware pin groups.
 
         Returns:
             The list of hwPinGroupRefs, or an empty list if none are set
@@ -445,6 +433,8 @@ class HwPinGroupConnector(Describable):
 class HwElementConnector(Describable):
     """
     This meta-class represents the ability to connect two hardware elements. The details of the connection can be refined by hwPinGroupConnection.
+
+    [constr_11002] Multiplicity of HwElementConnector . hwElement: For each HwElementConnector there shall exist exactly 2 references in the role hwElement.
     """
 
     # HwElementConnector method parity checklist:
@@ -452,11 +442,11 @@ class HwElementConnector(Describable):
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addHwElementRef              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] addHwElementRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getHwElementRefs             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addHwPinConnection           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] addHwPinConnection           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getHwPinConnections          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addHwPinGroupConnection      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] addHwPinGroupConnection      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getHwPinGroupConnections     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self):
@@ -466,10 +456,10 @@ class HwElementConnector(Describable):
         self.hwElementRefs: List[RefType] = []
 
         # This represents one particular connection between two hardware pins. This connection shall be used if pin-to-pin-connection is to be described but no description of the connection between the hierarchical composition of HwPinGroups (using HwPinGroupConnector) is required.
-        self.hwPinConnections: List["HwPinConnector"] = []
+        self.hwPinConnections: List[HwPinConnector] = []
 
         # This represents one particular connection between two hardware pin groups.
-        self.hwPinGroupConnections: List["HwPinGroupConnector"] = []
+        self.hwPinGroupConnections: List[HwPinGroupConnector] = []
 
     def addHwElementRef(self, value: RefType):
         """
@@ -493,7 +483,7 @@ class HwElementConnector(Describable):
         """
         return self.hwElementRefs
 
-    def addHwPinConnection(self, value: "HwPinConnector"):
+    def addHwPinConnection(self, value: HwPinConnector):
         """
         This represents one particular connection between two hardware pins. This connection shall be used if pin-to-pin-connection is to be described but no description of the connection between the hierarchical composition of HwPinGroups (using HwPinGroupConnector) is required.
 
@@ -506,7 +496,7 @@ class HwElementConnector(Describable):
             self.hwPinConnections.append(value)
         return self
 
-    def getHwPinConnections(self) -> List["HwPinConnector"]:
+    def getHwPinConnections(self) -> List[HwPinConnector]:
         """
         This represents one particular connection between two hardware pins. This connection shall be used if pin-to-pin-connection is to be described but no description of the connection between the hierarchical composition of HwPinGroups (using HwPinGroupConnector) is required.
 
@@ -515,7 +505,7 @@ class HwElementConnector(Describable):
         """
         return self.hwPinConnections
 
-    def addHwPinGroupConnection(self, value: "HwPinGroupConnector"):
+    def addHwPinGroupConnection(self, value: HwPinGroupConnector):
         """
         This represents one particular connection between two hardware pin groups.
 
@@ -528,7 +518,7 @@ class HwElementConnector(Describable):
             self.hwPinGroupConnections.append(value)
         return self
 
-    def getHwPinGroupConnections(self) -> List["HwPinGroupConnector"]:
+    def getHwPinGroupConnections(self) -> List[HwPinGroupConnector]:
         """
         This represents one particular connection between two hardware pin groups.
 

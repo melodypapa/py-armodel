@@ -1183,6 +1183,16 @@ class TestDataTypeAndCompuHandlers:
             "<INTERNAL-CONSTRS>"
             "<LOWER-LIMIT>0</LOWER-LIMIT>"
             "<UPPER-LIMIT>100</UPPER-LIMIT>"
+            "<SCALE-CONSTRS>"
+            '<SCALE-CONSTR VALIDITY="VALID">'
+            "<SHORT-LABEL>s1</SHORT-LABEL>"
+            "<LOWER-LIMIT>5.0</LOWER-LIMIT>"
+            "<UPPER-LIMIT>50.0</UPPER-LIMIT>"
+            "</SCALE-CONSTR>"
+            "</SCALE-CONSTRS>"
+            "<MAX-GRADIENT>1.5</MAX-GRADIENT>"
+            "<MAX-DIFF>0.5</MAX-DIFF>"
+            "<MONOTONY>increasing</MONOTONY>"
             "</INTERNAL-CONSTRS>"
             "</DATA-CONSTR-RULE>"
             "</DATA-CONSTR-RULES>",
@@ -1190,6 +1200,20 @@ class TestDataTypeAndCompuHandlers:
         )
         parser.readDataConstr(element, constr)
         assert len(constr.getDataConstrRules()) == 1
+        rule = constr.getDataConstrRules()[0]
+        internal = rule.internalConstrs
+        assert internal is not None
+        assert internal.getLowerLimit().value == "0"
+        assert internal.getUpperLimit().value == "100"
+        assert internal.getMaxGradient().getValue() == 1.5
+        assert internal.getMaxDiff().getValue() == 0.5
+        assert internal.getMonotony().value == "increasing"
+        assert len(internal.getScaleConstrs()) == 1
+        scale = internal.getScaleConstrs()[0]
+        assert scale.getShortLabel().value == "s1"
+        assert scale.getLowerLimit().value == "5.0"
+        assert scale.getUpperLimit().value == "50.0"
+        assert scale.getValidity().value == "VALID"
 
     def test_readDataConstr_with_phys_constrs(self, parser):
         from armodel.models import DataConstr
@@ -1206,10 +1230,11 @@ class TestDataTypeAndCompuHandlers:
             "<MAX-GRADIENT>1.0</MAX-GRADIENT>"
             "<MONOTONY>increasing</MONOTONY>"
             "<SCALE-CONSTRS>"
-            "<SCALE-CONSTR>"
+            '<SCALE-CONSTR VALIDITY="VALID">'
             "<SHORT-LABEL>s1</SHORT-LABEL>"
+            '<DESC><L-2 L="EN">scale desc</L-2></DESC>'
+            '<LOWER-LIMIT INTERVAL-TYPE="CLOSED">5.0</LOWER-LIMIT>'
             '<UPPER-LIMIT INTERVAL-TYPE="CLOSED">10.0</UPPER-LIMIT>'
-            "<VALIDITY>VALID</VALIDITY>"
             "</SCALE-CONSTR>"
             "</SCALE-CONSTRS>"
             '<UNIT-REF DEST="UNIT">/units/c</UNIT-REF>'
@@ -1230,6 +1255,8 @@ class TestDataTypeAndCompuHandlers:
         assert len(phys.getScaleConstrs()) == 1
         scale = phys.getScaleConstrs()[0]
         assert scale.getShortLabel().value == "s1"
+        assert scale.getDesc().getL2s()[0].getValue() == "scale desc"
+        assert scale.getLowerLimit().value == "5.0"
         assert scale.getUpperLimit().value == "10.0"
         assert scale.getValidity().value == "VALID"
         assert phys.getUnitRef().getValue() == "/units/c"

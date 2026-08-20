@@ -318,6 +318,30 @@ class TestAdminDataAndReferrableHandlers:
     def test_getVariableInAtomicSWCTypeInstanceRef_none_element(self, parser):
         assert parser.getVariableInAtomicSWCTypeInstanceRef(None) is None
 
+    def test_getParameterInAtomicSWCTypeInstanceRef_full(self, parser):
+        element = _snip(
+            "<AUTOSAR-PARAMETER-IREF>"
+            "<BASE-REF DEST='ATOMIC-SW-COMPONENT-TYPE'>/b</BASE-REF>"
+            "<PORT-PROTOTYPE-REF DEST='PORT-PROTOTYPE'>/p1</PORT-PROTOTYPE-REF>"
+            "<ROOT-PARAMETER-DATA-PROTOTYPE-REF DEST='DATA-PROTOTYPE'>/r1</ROOT-PARAMETER-DATA-PROTOTYPE-REF>"
+            "<CONTEXT-DATA-PROTOTYPE-REF DEST='APPLICATION-COMPOSITE-ELEMENT-DATA-PROTOTYPE'>/c1</CONTEXT-DATA-PROTOTYPE-REF>"
+            "<TARGET-DATA-PROTOTYPE-REF DEST='DATA-PROTOTYPE'>/t1</TARGET-DATA-PROTOTYPE-REF>"
+            "</AUTOSAR-PARAMETER-IREF>",
+            root_tag="PARENT",
+        )
+        iref = parser.getParameterInAtomicSWCTypeInstanceRef(element, "AUTOSAR-PARAMETER-IREF")
+        assert iref is not None
+        # base is <<atpDerived>> and must NOT be read from BASE-REF
+        assert iref.getBaseRef() is None
+        assert iref.getPortPrototypeRef().getValue() == "/p1"
+        assert iref.getRootParameterDataPrototypeRef().getValue() == "/r1"
+        ctx = iref.getContextDataPrototypeRefs()
+        assert len(ctx) == 1 and ctx[0].getValue() == "/c1"
+        assert iref.getTargetDataPrototypeRef().getValue() == "/t1"
+
+    def test_getParameterInAtomicSWCTypeInstanceRef_none_element(self, parser):
+        assert parser.getParameterInAtomicSWCTypeInstanceRef(_snip(""), "AUTOSAR-PARAMETER-IREF") is None
+
     def test_getComponentInSystemInstanceRef_full(self, parser):
         element = _snip(
             "<COMPONENT-IREF>"

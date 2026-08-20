@@ -48,6 +48,7 @@ from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import (
     InternalConstrs,
     PhysConstrs,
     ScaleConstr,
+    ScaleConstrValidityEnum,
 )
 from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import (
@@ -1204,11 +1205,11 @@ class TestInternalConstrsWriter:
         lower = Limit()
         lower.value = "0"
         lower.setIntervalType(IntervalTypeEnum().setValue("CLOSED"))
-        constrs.lower_limit = lower
+        constrs.setLowerLimit(lower)
         upper = Limit()
         upper.value = "100"
         upper.setIntervalType(IntervalTypeEnum().setValue("CLOSED"))
-        constrs.upper_limit = upper
+        constrs.setUpperLimit(upper)
 
         parent = _parent()
         writer.setInternalConstrs(parent, constrs)
@@ -1228,6 +1229,50 @@ class TestInternalConstrsWriter:
         assert child.tag == "INTERNAL-CONSTRS"
         assert child.find("LOWER-LIMIT") is None
         assert child.find("UPPER-LIMIT") is None
+        assert child.find("SCALE-CONSTRS") is None
+        assert child.find("MAX-GRADIENT") is None
+        assert child.find("MAX-DIFF") is None
+        assert child.find("MONOTONY") is None
+
+    def test_set_internal_constrs_full(self, writer):
+        constrs = InternalConstrs()
+        lower = Limit()
+        lower.value = "0"
+        constrs.setLowerLimit(lower)
+        upper = Limit()
+        upper.value = "100"
+        constrs.setUpperLimit(upper)
+        constrs.setMaxGradient(_numerical("1.5"))
+        constrs.setMaxDiff(_numerical("0.5"))
+        constrs.setMonotony(MonotonyEnum().setValue(MonotonyEnum.INCREASING))
+        scale = ScaleConstr()
+        scale.setShortLabel(_identifier("s1"))
+        scale_lower = Limit()
+        scale_lower.value = "5.0"
+        scale.setLowerLimit(scale_lower)
+        scale_upper = Limit()
+        scale_upper.value = "50.0"
+        scale.setUpperLimit(scale_upper)
+        scale.setValidity(ScaleConstrValidityEnum().setValue(ScaleConstrValidityEnum.VALID))
+        constrs.addScaleConstr(scale)
+
+        parent = _parent()
+        writer.setInternalConstrs(parent, constrs)
+
+        child = parent[0]
+        assert child.tag == "INTERNAL-CONSTRS"
+        assert child.find("LOWER-LIMIT").text == "0"
+        assert child.find("UPPER-LIMIT").text == "100"
+        scales = child.find("SCALE-CONSTRS")
+        assert scales is not None
+        scale_tag = scales.find("SCALE-CONSTR")
+        assert scale_tag.attrib["VALIDITY"] == "valid"
+        assert scale_tag.find("SHORT-LABEL").text == "s1"
+        assert scale_tag.find("LOWER-LIMIT").text == "5.0"
+        assert scale_tag.find("UPPER-LIMIT").text == "50.0"
+        assert child.find("MAX-GRADIENT").text == "1.5"
+        assert child.find("MAX-DIFF").text == "0.5"
+        assert child.find("MONOTONY").text == "increasing"
 
 
 class TestPhysConstrsWriter:
@@ -1257,12 +1302,25 @@ class TestPhysConstrsWriter:
         assert child.find("UNIT-REF").text == "/units/c"
 
     def test_set_phys_constrs_full(self, writer):
+        from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LOverviewParagraph
+        from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
+
         constrs = PhysConstrs()
         constrs.setMaxDiff(_numerical("0.5"))
         constrs.setMaxGradient(_numerical("1.0"))
         constrs.setMonotony(MonotonyEnum.INCREASING)
         scale = ScaleConstr()
         scale.setShortLabel(_identifier("s1"))
+        desc = MultiLanguageOverviewParagraph()
+        desc.addL2(LOverviewParagraph().setL("EN").setValue("scale desc"))
+        scale.setDesc(desc)
+        lower = Limit()
+        lower.value = "5.0"
+        scale.setLowerLimit(lower)
+        upper = Limit()
+        upper.value = "10.0"
+        scale.setUpperLimit(upper)
+        scale.setValidity(ScaleConstrValidityEnum().setValue(ScaleConstrValidityEnum.VALID))
         constrs.addScaleConstr(scale)
 
         parent = _parent()
@@ -1274,7 +1332,12 @@ class TestPhysConstrsWriter:
         assert child.find("MONOTONY").text == "increasing"
         scales = child.find("SCALE-CONSTRS")
         assert scales is not None
-        assert scales.find("SCALE-CONSTR/SHORT-LABEL").text == "s1"
+        scale_tag = scales.find("SCALE-CONSTR")
+        assert scale_tag.attrib["VALIDITY"] == "valid"
+        assert scale_tag.find("SHORT-LABEL").text == "s1"
+        assert scale_tag.find("DESC/L-2").text == "scale desc"
+        assert scale_tag.find("LOWER-LIMIT").text == "5.0"
+        assert scale_tag.find("UPPER-LIMIT").text == "10.0"
 
 
 class TestDataConstrRulesWriter:
@@ -1299,8 +1362,9 @@ class TestDataConstrRulesWriter:
         rule.physConstrs.setLowerLimit(Limit())
         rule.physConstrs.getLowerLimit().value = "0"
         rule.internalConstrs = InternalConstrs()
-        rule.internalConstrs.lower_limit = Limit()
-        rule.internalConstrs.lower_limit.value = "0"
+        internal_lower = Limit()
+        internal_lower.value = "0"
+        rule.internalConstrs.setLowerLimit(internal_lower)
         constr.addDataConstrRule(rule)
 
         parent = _parent()

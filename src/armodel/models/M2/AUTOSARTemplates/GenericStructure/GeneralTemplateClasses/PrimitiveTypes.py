@@ -880,6 +880,7 @@ class IntervalTypeEnum(AREnum):
 
     # IntervalTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.88, p.409
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # (no methods) — enum value form serialized on Limit.intervalType, LimitValueVariationPoint.intervalType
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
@@ -901,7 +902,9 @@ class IntervalTypeEnum(AREnum):
 
 class Limit(ARObject):
     """
-    This class represents the ability to express a numerical limit. Note that this is in fact a NumericalVariationPoint but has the additional attribute intervalType.
+    This class represents the ability to express a numerical limit. Note that this is in fact a NumericalVariation Point but has the additional attribute intervalType.
+
+    [constr_1191] Value of Limit shall yield a numerical value: After all variability is bound, the content obtained from a limit shall yield a numerical value at the time when the RTE is generated.
     """
 
     # Limit method parity checklist:

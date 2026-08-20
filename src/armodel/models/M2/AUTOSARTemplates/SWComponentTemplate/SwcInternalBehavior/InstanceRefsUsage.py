@@ -30,10 +30,10 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.contextDataPrototypeRefs: List["RefType"] = []
-        self.portPrototypeRef: "RefType" = None
-        self.rootVariableDataPrototypeRef: "RefType" = None
-        self.targetDataPrototypeRef: "RefType" = None
+        self.contextDataPrototypeRefs: List[RefType] = []
+        self.portPrototypeRef: RefType = None
+        self.rootVariableDataPrototypeRef: RefType = None
+        self.targetDataPrototypeRef: RefType = None
 
     def getContextDataPrototypeRefs(self):
         """
@@ -146,11 +146,11 @@ class VariableInAtomicSWCTypeInstanceRef(AtpInstanceRef):
     def __init__(self):
         super().__init__()
 
-        self.baseRef: "RefType" = None
-        self.contextDataPrototypeRefs: List["RefType"] = []
-        self.portPrototypeRef: "RefType" = None
-        self.rootVariableDataPrototypeRef: "RefType" = None
-        self.targetDataPrototypeRef: "RefType" = None
+        self.baseRef: RefType = None
+        self.contextDataPrototypeRefs: List[RefType] = []
+        self.portPrototypeRef: RefType = None
+        self.rootVariableDataPrototypeRef: RefType = None
+        self.targetDataPrototypeRef: RefType = None
 
     def getBaseRef(self):
         """
@@ -273,8 +273,8 @@ class ParameterInAtomicSWCTypeInstanceRef(AtpInstanceRef):
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setBaseRef                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getBaseRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setBaseRef                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getBaseRef                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] addContextDataPrototypeRef  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
     # [x] getContextDataPrototypeRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setPortPrototypeRef         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
@@ -288,21 +288,21 @@ class ParameterInAtomicSWCTypeInstanceRef(AtpInstanceRef):
         super().__init__()
 
         # Stereotypes: atpDerived
-        self.baseRef: Optional["RefType"] = None
+        self.baseRef: Optional[RefType] = None
 
         # This ist the context in a compositeDataType.
-        self.contextDataPrototypeRefs: List["RefType"] = []
+        self.contextDataPrototypeRefs: List[RefType] = []
 
         # This is the port providing the variable or the entry point to the variable structure.
-        self.portPrototypeRef: Optional["RefType"] = None
+        self.portPrototypeRef: Optional[RefType] = None
 
         # This represents the entry point for references into a CompositeDataType.
-        self.rootParameterDataPrototypeRef: Optional["RefType"] = None
+        self.rootParameterDataPrototypeRef: Optional[RefType] = None
 
         # This is the target parameter element. Note that this must be nested in ParameterDataPrototype. The target must be one of ParameterDataPrototype, ApplicationCompositeElementDataPrototype.
-        self.targetDataPrototypeRef: Optional["RefType"] = None
+        self.targetDataPrototypeRef: Optional[RefType] = None
 
-    def setBaseRef(self, value: Optional["RefType"]) -> "ParameterInAtomicSWCTypeInstanceRef":
+    def setBaseRef(self, value: Optional[RefType]) -> "ParameterInAtomicSWCTypeInstanceRef":
         """
         Stereotypes: atpDerived
 
@@ -315,7 +315,7 @@ class ParameterInAtomicSWCTypeInstanceRef(AtpInstanceRef):
             self.baseRef = value
         return self
 
-    def getBaseRef(self) -> Optional["RefType"]:
+    def getBaseRef(self) -> Optional[RefType]:
         """
         Stereotypes: atpDerived
 
@@ -324,7 +324,7 @@ class ParameterInAtomicSWCTypeInstanceRef(AtpInstanceRef):
         """
         return self.baseRef
 
-    def addContextDataPrototypeRef(self, value: Optional["RefType"]) -> "ParameterInAtomicSWCTypeInstanceRef":
+    def addContextDataPrototypeRef(self, value: Optional[RefType]) -> "ParameterInAtomicSWCTypeInstanceRef":
         """
         This ist the context in a compositeDataType.
 
@@ -337,7 +337,7 @@ class ParameterInAtomicSWCTypeInstanceRef(AtpInstanceRef):
             self.contextDataPrototypeRefs.append(value)
         return self
 
-    def getContextDataPrototypeRefs(self) -> List["RefType"]:
+    def getContextDataPrototypeRefs(self) -> List[RefType]:
         """
         This ist the context in a compositeDataType.
 
@@ -346,7 +346,7 @@ class ParameterInAtomicSWCTypeInstanceRef(AtpInstanceRef):
         """
         return self.contextDataPrototypeRefs
 
-    def setPortPrototypeRef(self, value: Optional["RefType"]) -> "ParameterInAtomicSWCTypeInstanceRef":
+    def setPortPrototypeRef(self, value: Optional[RefType]) -> "ParameterInAtomicSWCTypeInstanceRef":
         """
         This is the port providing the variable or the entry point to the variable structure.
 
@@ -359,7 +359,7 @@ class ParameterInAtomicSWCTypeInstanceRef(AtpInstanceRef):
             self.portPrototypeRef = value
         return self
 
-    def getPortPrototypeRef(self) -> Optional["RefType"]:
+    def getPortPrototypeRef(self) -> Optional[RefType]:
         """
         This is the port providing the variable or the entry point to the variable structure.
 
@@ -368,7 +368,7 @@ class ParameterInAtomicSWCTypeInstanceRef(AtpInstanceRef):
         """
         return self.portPrototypeRef
 
-    def setRootParameterDataPrototypeRef(self, value: Optional["RefType"]) -> "ParameterInAtomicSWCTypeInstanceRef":
+    def setRootParameterDataPrototypeRef(self, value: Optional[RefType]) -> "ParameterInAtomicSWCTypeInstanceRef":
         """
         This represents the entry point for references into a CompositeDataType.
 
@@ -381,7 +381,7 @@ class ParameterInAtomicSWCTypeInstanceRef(AtpInstanceRef):
             self.rootParameterDataPrototypeRef = value
         return self
 
-    def getRootParameterDataPrototypeRef(self) -> Optional["RefType"]:
+    def getRootParameterDataPrototypeRef(self) -> Optional[RefType]:
         """
         This represents the entry point for references into a CompositeDataType.
 
@@ -390,7 +390,7 @@ class ParameterInAtomicSWCTypeInstanceRef(AtpInstanceRef):
         """
         return self.rootParameterDataPrototypeRef
 
-    def setTargetDataPrototypeRef(self, value: Optional["RefType"]) -> "ParameterInAtomicSWCTypeInstanceRef":
+    def setTargetDataPrototypeRef(self, value: Optional[RefType]) -> "ParameterInAtomicSWCTypeInstanceRef":
         """
         This is the target parameter element. Note that this must be nested in ParameterDataPrototype. The target must be one of ParameterDataPrototype, ApplicationCompositeElementDataPrototype.
 
@@ -403,7 +403,7 @@ class ParameterInAtomicSWCTypeInstanceRef(AtpInstanceRef):
             self.targetDataPrototypeRef = value
         return self
 
-    def getTargetDataPrototypeRef(self) -> Optional["RefType"]:
+    def getTargetDataPrototypeRef(self) -> Optional[RefType]:
         """
         This is the target parameter element. Note that this must be nested in ParameterDataPrototype. The target must be one of ParameterDataPrototype, ApplicationCompositeElementDataPrototype.
 
@@ -429,7 +429,7 @@ class AutosarParameterRef(ARObject):
         super().__init__()
 
         self.autosarParameterIRef: "ParameterInAtomicSWCTypeInstanceRef" = None
-        self.localParameterRef: "RefType" = None
+        self.localParameterRef: RefType = None
 
     def getAutosarParameterIRef(self):
         """

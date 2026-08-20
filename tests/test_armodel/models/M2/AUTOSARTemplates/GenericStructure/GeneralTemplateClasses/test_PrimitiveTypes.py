@@ -679,6 +679,27 @@ class TestPositiveInteger:
         assert pos_int._value is None
 
 
+class TestIntervalTypeEnum:
+    """
+    Test class for IntervalTypeEnum functionality.
+    """
+
+    def test_initialization(self):
+        enum = IntervalTypeEnum()
+        enum.setValue(IntervalTypeEnum.OPEN)
+        assert enum.getValue() == "open"
+
+    def test_enum_values(self):
+        enum = IntervalTypeEnum()
+
+        assert IntervalTypeEnum.CLOSED == "closed"
+        assert IntervalTypeEnum.OPEN == "open"
+
+        assert enum.validateEnumValue("closed") is True
+        assert enum.validateEnumValue("open") is True
+        assert enum.validateEnumValue("invalid") is False
+
+
 class TestLimit:
     """
     Test class for Limit functionality.
