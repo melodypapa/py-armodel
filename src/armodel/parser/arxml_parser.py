@@ -121,20 +121,26 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DiagnosticStorageConditionNeeds,
     DiagnosticValueNeeds,
     DltUserNeeds,
+    DoIpRoutingActivationAuthenticationNeeds,
+    DoIpRoutingActivationConfirmationNeeds,
     DtcStatusChangeNotificationNeeds,
     EcuStateMgrUserNeeds,
     ErrorTracerNeeds,
     FunctionInhibitionAvailabilityNeeds,
+    IdsMgrNeeds,
     IndicatorStatusNeeds,
     NvBlockNeeds,
     ObdControlServiceNeeds,
     ObdInfoServiceNeeds,
     ObdMonitorServiceNeeds,
     ObdPidServiceNeeds,
+    ObdRatioDenominatorNeeds,
+    ObdRatioServiceNeeds,
     PossibleErrorReaction,
     RoleBasedDataAssignment,
     RoleBasedDataTypeAssignment,
     RuntimeError,
+    SecureOnBoardCommunicationNeeds,
     ServiceDependency,
     ServiceNeeds,
     SupervisedEntityNeeds,
@@ -1481,6 +1487,30 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = ObdControlServiceNeeds(dependency, short_name)
                 self.readObdControlServiceNeeds(child_element, needs)
+            elif tag_name == "OBD-RATIO-SERVICE-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = ObdRatioServiceNeeds(dependency, short_name)
+                self.readObdRatioServiceNeeds(child_element, needs)
+            elif tag_name == "OBD-RATIO-DENOMINATOR-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = ObdRatioDenominatorNeeds(dependency, short_name)
+                self.readObdRatioDenominatorNeeds(child_element, needs)
+            elif tag_name == "DO-IP-ROUTING-ACTIVATION-AUTHENTICATION-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = DoIpRoutingActivationAuthenticationNeeds(dependency, short_name)
+                self.readDoIpRoutingActivationAuthenticationNeeds(child_element, needs)
+            elif tag_name == "DO-IP-ROUTING-ACTIVATION-CONFIRMATION-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = DoIpRoutingActivationConfirmationNeeds(dependency, short_name)
+                self.readDoIpRoutingActivationConfirmationNeeds(child_element, needs)
+            elif tag_name == "SECURE-ON-BOARD-COMMUNICATION-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = SecureOnBoardCommunicationNeeds(dependency, short_name)
+                self.readSecureOnBoardCommunicationNeeds(child_element, needs)
+            elif tag_name == "IDS-MGR-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = IdsMgrNeeds(dependency, short_name)
+                self.readIdsMgrNeeds(child_element, needs)
             else:
                 self.notImplemented("Unsupported service needs <%s>" % tag_name)
                 continue
@@ -1563,6 +1593,40 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readObdControlServiceNeeds(self, element: ET.Element, needs: ObdControlServiceNeeds):
         self.readDiagnosticCapabilityElement(element, needs)
+
+    def readObdRatioServiceNeeds(self, element: ET.Element, needs: ObdRatioServiceNeeds):
+        self.readDiagnosticCapabilityElement(element, needs)
+        needs.setConnectionType(self.getChildElementOptionalLiteral(element, "CONNECTION-TYPE"))
+        needs.setRateBasedMonitoredEventRef(self.getChildElementOptionalRefType(element, "RATE-BASED-MONITORED-EVENT-REF"))
+        needs.setUsedFidRef(self.getChildElementOptionalRefType(element, "USED-FID-REF"))
+
+    def readObdRatioDenominatorNeeds(self, element: ET.Element, needs: ObdRatioDenominatorNeeds):
+        self.readServiceNeeds(element, needs)
+        needs.setDenominatorCondition(self.getChildElementOptionalLiteral(element, "DENOMINATOR-CONDITION"))
+
+    def readDoIpRoutingActivationAuthenticationNeeds(self, element: ET.Element, needs: DoIpRoutingActivationAuthenticationNeeds):
+        self.readServiceNeeds(element, needs)
+        needs.setDataLengthRequest(self.getChildElementOptionalPositiveInteger(element, "DATA-LENGTH-REQUEST"))
+        needs.setDataLengthResponse(self.getChildElementOptionalPositiveInteger(element, "DATA-LENGTH-RESPONSE"))
+        child_element = self.find(element, "ROUTING-ACTIVATION-TYPE")
+        if child_element is not None:
+            needs.setRoutingActivationType(NameToken().setValue(child_element.text or ""))
+
+    def readDoIpRoutingActivationConfirmationNeeds(self, element: ET.Element, needs: DoIpRoutingActivationConfirmationNeeds):
+        self.readServiceNeeds(element, needs)
+        needs.setDataLengthRequest(self.getChildElementOptionalPositiveInteger(element, "DATA-LENGTH-REQUEST"))
+        needs.setDataLengthResponse(self.getChildElementOptionalPositiveInteger(element, "DATA-LENGTH-RESPONSE"))
+        child_element = self.find(element, "ROUTING-ACTIVATION-TYPE")
+        if child_element is not None:
+            needs.setRoutingActivationType(NameToken().setValue(child_element.text or ""))
+
+    def readSecureOnBoardCommunicationNeeds(self, element: ET.Element, needs: SecureOnBoardCommunicationNeeds):
+        self.readServiceNeeds(element, needs)
+        needs.setVerificationStatusIndicationMode(self.getChildElementOptionalLiteral(element, "VERIFICATION-STATUS-INDICATION-MODE"))
+
+    def readIdsMgrNeeds(self, element: ET.Element, needs: IdsMgrNeeds):
+        self.readServiceNeeds(element, needs)
+        needs.setUseSmartSensorApi(self.getChildElementOptionalBooleanValue(element, "USE-SMART-SENSOR-API"))
 
     def readDiagnosticCommunicationManagerNeeds(self, element: ET.Element, needs: DiagnosticCommunicationManagerNeeds):
         # self.logger.debug("Read DiagnosticCommunicationManagerNeeds <%s>" % needs.getShortName())
@@ -1803,6 +1867,24 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "OBD-CONTROL-SERVICE-NEEDS":
                 needs = parent.createObdControlServiceNeeds(self.getShortName(child_element))
                 self.readObdControlServiceNeeds(child_element, needs)
+            elif tag_name == "OBD-RATIO-SERVICE-NEEDS":
+                needs = parent.createObdRatioServiceNeeds(self.getShortName(child_element))
+                self.readObdRatioServiceNeeds(child_element, needs)
+            elif tag_name == "OBD-RATIO-DENOMINATOR-NEEDS":
+                needs = parent.createObdRatioDenominatorNeeds(self.getShortName(child_element))
+                self.readObdRatioDenominatorNeeds(child_element, needs)
+            elif tag_name == "DO-IP-ROUTING-ACTIVATION-AUTHENTICATION-NEEDS":
+                needs = parent.createDoIpRoutingActivationAuthenticationNeeds(self.getShortName(child_element))
+                self.readDoIpRoutingActivationAuthenticationNeeds(child_element, needs)
+            elif tag_name == "DO-IP-ROUTING-ACTIVATION-CONFIRMATION-NEEDS":
+                needs = parent.createDoIpRoutingActivationConfirmationNeeds(self.getShortName(child_element))
+                self.readDoIpRoutingActivationConfirmationNeeds(child_element, needs)
+            elif tag_name == "SECURE-ON-BOARD-COMMUNICATION-NEEDS":
+                needs = parent.createSecureOnBoardCommunicationNeeds(self.getShortName(child_element))
+                self.readSecureOnBoardCommunicationNeeds(child_element, needs)
+            elif tag_name == "IDS-MGR-NEEDS":
+                needs = parent.createIdsMgrNeeds(self.getShortName(child_element))
+                self.readIdsMgrNeeds(child_element, needs)
             else:
                 self.notImplemented("Unsupported service needs <%s>" % tag_name)
 

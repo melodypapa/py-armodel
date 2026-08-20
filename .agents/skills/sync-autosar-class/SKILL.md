@@ -123,6 +123,7 @@ round-trip) certifies a class as reviewed.
 | writer test | `tests/test_armodel/writer/test_*.py` → `class Test*` (set → save → reload round-trip; Step 5) |
 | spec markdown | `grep "Table N.M: <ClassName>" autosar/markdown/AUTOSAR_*_TPS_*.md` — **primary source for all text**: `Note` (→ docstrings), `Attribute`/`Base`, `Table N.M` id, table name (via filename). Covers **both** `CP_TPS` (Classic) and `FO_TPS` (Foundation) |
 | spec PDF | `autosar/pdf/AUTOSAR_*_TPS_*.pdf` — **opened only to read the page number** (`p.NN`); the markdown carries no page numbers |
+| page-number script | `python .codebuddy/skills/sync-autosar-class/pdf_page.py <ClassName> [--pdf PATH] [--table <N.M>]` — finds `Table N.M: <ClassName>` across `autosar/pdf/` and prints `p.NN` (cached per-PDF index; `--refresh` rescans). Use it in Steps 1/4 whenever the `# Spec:` line needs `p.NN` |
 | deviation records | the project deviation tracker (format in *Rule 0014*) |
 | XSD ground truth | `docs/requirements/xsd/` |
 
@@ -146,10 +147,10 @@ before its failing test.
 
 **Essence per step** (full detail in `rules.md`):
 
-- **1** — Extract `Note`/`Base`/`Attribute` rows in displayed order; confirm Class-vs-Enumeration header. *Rule 0015* arbitrates XSD-vs-PDF/markdown attribute conflicts (the PDF/markdown table wins — model nothing the PDF lacks).
+- **1** — Extract `Note`/`Base`/`Attribute` rows in displayed order; confirm Class-vs-Enumeration header. Run `python .codebuddy/skills/sync-autosar-class/pdf_page.py <ClassName>` for the `p.NN` page (the PDF is opened only for the page number). *Rule 0015* arbitrates XSD-vs-PDF/markdown attribute conflicts (the PDF/markdown table wins — model nothing the PDF lacks).
 - **2** — `test_initialization` (defaults), `test_get_set_*` (round-trip + **None no-op**), `create*`/`add*` (append, duplicate returns existing). Abstract class → test `__init__` + base accessors via a concrete subclass.
 - **3** — Most-derived base from the `Base` chain; dedicated typed-list fields for `*` `aggr` (never registry filters); `createXxx` only for `Referrable` children; collect referenced missing classes and report in Step 8 (don't block). Enum (`AREnum`) → literals, not accessors.
-- **4** — **Wipe first, then rewrite.** Remove **all** existing docstrings — the class docstring, every method docstring (`__init__`, getters, setters, `create*`/`add*`), and every inline `__init__` member comment — so no stale wording survives a re-sync on renamed/removed/overlooked members (*Rule 0012.2.3*); keep the code, the `# Spec:` checklist block, and placeholder comments. Then copy the spec `Note` **verbatim from the markdown** into the **class docstring** (the class-level `Note` — **not** into `__init__`, which has no docstring), inline `__init__` **comments**, and getter/setter docstrings (PDF opened only for the `p.NN` page); guarded setters append the None-no-op sentence. `__init__` members are declared as **PEP 526 annotated assignments** directly under their note comment — `self.foo: Optional[T] = None` / `self.foo: List[T] = []` — **never** a trailing `# type:` comment (*Rule 0003*).
+- **4** — **Wipe first, then rewrite.** Remove **all** existing docstrings — the class docstring, every method docstring (`__init__`, getters, setters, `create*`/`add*`), and every inline `__init__` member comment — so no stale wording survives a re-sync on renamed/removed/overlooked members (*Rule 0012.2.3*); keep the code, the `# Spec:` checklist block, and placeholder comments. Then copy the spec `Note` **verbatim from the markdown** into the **class docstring** (the class-level `Note` — **not** into `__init__`, which has no docstring), inline `__init__` **comments**, and getter/setter docstrings (page number via `pdf_page.py`, above); guarded setters append the None-no-op sentence. `__init__` members are declared as **PEP 526 annotated assignments** directly under their note comment — `self.foo: Optional[T] = None` / `self.foo: List[T] = []` — **never** a trailing `# type:` comment (*Rule 0003*).
 - **5** — Reader/writer tests live in **their own folders** (`tests/test_armodel/parser/`, `.../writer/`, both `class Test*`), not the per-class mirror. Assert **field values**, not just `len(...) == n`; add an empty-wrapper-list case.
 - **6** — Reader populates via mutators (`readXxx`→`set/create/addXxx`), writer reads via getters (`writeXxx`→`getXxx`); cover wrapper lists + polymorphic five-place dispatch; **no chained mutator calls**.
 - **7** — One row per method, source order, all `[x]`, 5-column format below. Writes the `# Spec:` line + method rows **only** — the `# Spec verified:` marker is added in Step 9b, never here.
@@ -182,9 +183,9 @@ before its failing test.
 
 **Citation source:** the `# Spec:` table name, `Table N.M` id, and `Note` text come from
 the **markdown** (`autosar/markdown/AUTOSAR_*_TPS_*.md` — covers `CP_TPS` and `FO_TPS`);
-only the `p.NN` **page** is read from the **PDF** (`autosar/pdf/...`) — the markdown
-carries no page numbers. In the `# Spec:` line, `<Platform>` is `CP` (Classic) or `FO`
-(Foundation), taken from the spec markdown filename.
+only the `p.NN` **page** is read from the **PDF** (`autosar/pdf/...` — look it up with
+`pdf_page.py <ClassName>`) — the markdown carries no page numbers. In the `# Spec:` line,
+`<Platform>` is `CP` (Classic) or `FO` (Foundation), taken from the spec markdown filename.
 
 `reader [x]` on the **mutator** row (reader's `readXxx` calls `setXxx`/`createXxx`/
 `addXxx`); `writer [x]` on the **getter** row (writer's `writeXxx` calls `getXxx`);
