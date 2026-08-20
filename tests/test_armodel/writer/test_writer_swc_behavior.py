@@ -478,6 +478,23 @@ class TestWriterParameterAccess:
         writer.setParameterInAtomicSWCTypeInstanceRef(parent, "PARAM-IREF", None)
         assert len(parent) == 0
 
+    def test_setParameterInAtomicSWCTypeInstanceRef_atpDerived_base_not_written(self, writer):
+        iref = ParameterInAtomicSWCTypeInstanceRef()
+        iref.setBaseRef(_ref("/base"))
+        parent = _parent()
+        writer.setParameterInAtomicSWCTypeInstanceRef(parent, "PARAM-IREF", iref)
+        # base is <<atpDerived>> and must NOT be serialized as BASE-REF
+        assert parent[0].find("BASE-REF") is None
+
+    def test_setParameterInAtomicSWCTypeInstanceRef_context_list(self, writer):
+        iref = ParameterInAtomicSWCTypeInstanceRef()
+        iref.addContextDataPrototypeRef(_ref("/c1"))
+        iref.addContextDataPrototypeRef(_ref("/c2"))
+        parent = _parent()
+        writer.setParameterInAtomicSWCTypeInstanceRef(parent, "PARAM-IREF", iref)
+        ctx_refs = parent[0].findall("CONTEXT-DATA-PROTOTYPE-REF")
+        assert len(ctx_refs) == 2
+
     def test_setAutosarParameterRef(self, writer):
         pref = AutosarParameterRef()
         iref = ParameterInAtomicSWCTypeInstanceRef()

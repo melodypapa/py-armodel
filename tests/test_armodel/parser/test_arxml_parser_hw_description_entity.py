@@ -70,7 +70,13 @@ class TestReadHwDescriptionEntity:
               <HW-ELEMENT-CONNECTIONS>
                 <HW-ELEMENT-CONNECTOR>
                   <HW-ELEMENT-REF DEST="HW-ELEMENT">/Elements/ElemA</HW-ELEMENT-REF>
-                  <HW-PIN-REF DEST="HW-PIN">/Elements/ElemA/Pin1</HW-PIN-REF>
+                  <HW-ELEMENT-REF DEST="HW-ELEMENT">/Elements/ElemB</HW-ELEMENT-REF>
+                  <HW-PIN-CONNECTION>
+                    <HW-PIN-REF DEST="HW-PIN">/Elements/ElemA/Pin1</HW-PIN-REF>
+                  </HW-PIN-CONNECTION>
+                  <HW-PIN-GROUP-CONNECTION>
+                    <HW-PIN-GROUP-REF DEST="HW-PIN-GROUP">/Elements/ElemA/Group1</HW-PIN-GROUP-REF>
+                  </HW-PIN-GROUP-CONNECTION>
                 </HW-ELEMENT-CONNECTOR>
               </HW-ELEMENT-CONNECTIONS>
               <NESTED-ELEMENTS>
@@ -89,10 +95,21 @@ class TestReadHwDescriptionEntity:
 
         connections = hw_element.getHwElementConnections()
         assert len(connections) == 1
-        assert connections[0].getHwElementRef().getValue() == "/Elements/ElemA"
-        assert connections[0].getHwElementRef().getDest() == "HW-ELEMENT"
-        assert connections[0].getHwPinRef().getValue() == "/Elements/ElemA/Pin1"
-        assert connections[0].getHwPinRef().getDest() == "HW-PIN"
+        hw_element_refs = connections[0].getHwElementRefs()
+        assert len(hw_element_refs) == 2
+        assert hw_element_refs[0].getValue() == "/Elements/ElemA"
+        assert hw_element_refs[0].getDest() == "HW-ELEMENT"
+        assert hw_element_refs[1].getValue() == "/Elements/ElemB"
+
+        pin_connections = connections[0].getHwPinConnections()
+        assert len(pin_connections) == 1
+        assert len(pin_connections[0].getHwPinRefs()) == 1
+        assert pin_connections[0].getHwPinRefs()[0].getValue() == "/Elements/ElemA/Pin1"
+
+        pin_group_connections = connections[0].getHwPinGroupConnections()
+        assert len(pin_group_connections) == 1
+        assert len(pin_group_connections[0].getHwPinGroupRefs()) == 1
+        assert pin_group_connections[0].getHwPinGroupRefs()[0].getValue() == "/Elements/ElemA/Group1"
 
         nested = hw_element.getNestedElementRefs()
         assert len(nested) == 2
@@ -103,17 +120,23 @@ class TestReadHwDescriptionEntity:
         xml_content = """
             <HW-ELEMENT-CONNECTOR>
               <HW-ELEMENT-REF DEST="HW-ELEMENT">/Elements/ElemA</HW-ELEMENT-REF>
-              <HW-PIN-REF DEST="HW-PIN">/Elements/ElemA/Pin1</HW-PIN-REF>
+              <HW-ELEMENT-REF DEST="HW-ELEMENT">/Elements/ElemB</HW-ELEMENT-REF>
+              <HW-PIN-CONNECTION>
+                <HW-PIN-REF DEST="HW-PIN">/Elements/ElemA/Pin1</HW-PIN-REF>
+              </HW-PIN-CONNECTION>
             </HW-ELEMENT-CONNECTOR>
         """
         element = ET.fromstring(xml_content)
         parser = ARXMLParser()
         parser.nsmap = {"xmlns": ""}
 
-        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementConnector import HwElementConnector
+        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwElementConnector
 
         connector = HwElementConnector()
         parser.readHwElementConnector(element, connector)
 
-        assert connector.getHwElementRef().getValue() == "/Elements/ElemA"
-        assert connector.getHwPinRef().getValue() == "/Elements/ElemA/Pin1"
+        assert len(connector.getHwElementRefs()) == 2
+        assert connector.getHwElementRefs()[0].getValue() == "/Elements/ElemA"
+        assert connector.getHwElementRefs()[1].getDest() == "HW-ELEMENT"
+        assert len(connector.getHwPinConnections()) == 1
+        assert connector.getHwPinConnections()[0].getHwPinRefs()[0].getValue() == "/Elements/ElemA/Pin1"

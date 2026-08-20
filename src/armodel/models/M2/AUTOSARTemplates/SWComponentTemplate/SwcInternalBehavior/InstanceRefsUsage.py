@@ -3,7 +3,7 @@ This module contains classes for representing AUTOSAR instance reference usages
 in software component internal behavior templates.
 """
 
-from typing import List
+from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -30,10 +30,10 @@ class ArVariableInImplementationDataInstanceRef(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.contextDataPrototypeRefs: List["RefType"] = []
-        self.portPrototypeRef: "RefType" = None
-        self.rootVariableDataPrototypeRef: "RefType" = None
-        self.targetDataPrototypeRef: "RefType" = None
+        self.contextDataPrototypeRefs: List[RefType] = []
+        self.portPrototypeRef: RefType = None
+        self.rootVariableDataPrototypeRef: RefType = None
+        self.targetDataPrototypeRef: RefType = None
 
     def getContextDataPrototypeRefs(self):
         """
@@ -146,11 +146,11 @@ class VariableInAtomicSWCTypeInstanceRef(AtpInstanceRef):
     def __init__(self):
         super().__init__()
 
-        self.baseRef: "RefType" = None
-        self.contextDataPrototypeRefs: List["RefType"] = []
-        self.portPrototypeRef: "RefType" = None
-        self.rootVariableDataPrototypeRef: "RefType" = None
-        self.targetDataPrototypeRef: "RefType" = None
+        self.baseRef: RefType = None
+        self.contextDataPrototypeRefs: List[RefType] = []
+        self.portPrototypeRef: RefType = None
+        self.rootVariableDataPrototypeRef: RefType = None
+        self.targetDataPrototypeRef: RefType = None
 
     def getBaseRef(self):
         """
@@ -265,141 +265,152 @@ class VariableInAtomicSWCTypeInstanceRef(AtpInstanceRef):
 
 class ParameterInAtomicSWCTypeInstanceRef(AtpInstanceRef):
     """
-    A reference to a parameter data prototype in the context of an atomic
-    software component type instance.
+    This class implements an instance reference which can be applied for variables as well as for parameters.
     """
 
     # ParameterInAtomicSWCTypeInstanceRef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getBaseRef                   [x] impl  [x] docstring  [ ] test
-    # [ ] setBaseRef                   [x] impl  [x] docstring  [ ] test
-    # [ ] getContextDataPrototypeRef   [x] impl  [x] docstring  [ ] test
-    # [ ] setContextDataPrototypeRef   [x] impl  [x] docstring  [ ] test
-    # [ ] getPortPrototypeRef          [x] impl  [x] docstring  [ ] test
-    # [ ] setPortPrototypeRef          [x] impl  [x] docstring  [ ] test
-    # [ ] getRootParameterDataPrototypeRef [x] impl  [x] docstring  [ ] test
-    # [ ] setRootParameterDataPrototypeRef [x] impl  [x] docstring  [ ] test
-    # [ ] getTargetDataPrototypeRef    [x] impl  [x] docstring  [ ] test
-    # [ ] setTargetDataPrototypeRef    [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.36, p.319
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setBaseRef                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getBaseRef                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addContextDataPrototypeRef  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getContextDataPrototypeRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPortPrototypeRef         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getPortPrototypeRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRootParameterDataPrototypeRef [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getRootParameterDataPrototypeRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTargetDataPrototypeRef   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getTargetDataPrototypeRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self):
         super().__init__()
 
-        self.baseRef: "RefType" = None
-        self.contextDataPrototypeRef: "RefType" = None
-        self.portPrototypeRef: "RefType" = None
-        self.rootParameterDataPrototypeRef: "RefType" = None
-        self.targetDataPrototypeRef: "RefType" = None
+        # Stereotypes: atpDerived
+        self.baseRef: Optional[RefType] = None
 
-    def getBaseRef(self):
+        # This ist the context in a compositeDataType.
+        self.contextDataPrototypeRefs: List[RefType] = []
+
+        # This is the port providing the variable or the entry point to the variable structure.
+        self.portPrototypeRef: Optional[RefType] = None
+
+        # This represents the entry point for references into a CompositeDataType.
+        self.rootParameterDataPrototypeRef: Optional[RefType] = None
+
+        # This is the target parameter element. Note that this must be nested in ParameterDataPrototype. The target must be one of ParameterDataPrototype, ApplicationCompositeElementDataPrototype.
+        self.targetDataPrototypeRef: Optional[RefType] = None
+
+    def setBaseRef(self, value: Optional[RefType]) -> "ParameterInAtomicSWCTypeInstanceRef":
         """
-        Gets the base reference.
+        Stereotypes: atpDerived
+
+        A None value is a no-op and does not overwrite an existing baseRef.
 
         Returns:
-            RefType: The base reference
+            self for method chaining
+        """
+        if value is not None:
+            self.baseRef = value
+        return self
+
+    def getBaseRef(self) -> Optional[RefType]:
+        """
+        Stereotypes: atpDerived
+
+        Returns:
+            The base reference, or None if not set
         """
         return self.baseRef
 
-    def setBaseRef(self, value):
+    def addContextDataPrototypeRef(self, value: Optional[RefType]) -> "ParameterInAtomicSWCTypeInstanceRef":
         """
-        Sets the base reference.
+        This ist the context in a compositeDataType.
 
-        Args:
-            value: The base reference to set
+        A None value is a no-op and does not add a contextDataPrototypeRef.
 
         Returns:
             self for method chaining
         """
-        self.baseRef = value
+        if value is not None:
+            self.contextDataPrototypeRefs.append(value)
         return self
 
-    def getContextDataPrototypeRef(self):
+    def getContextDataPrototypeRefs(self) -> List[RefType]:
         """
-        Gets the context data prototype reference.
+        This ist the context in a compositeDataType.
 
         Returns:
-            RefType: The context data prototype reference
+            The ordered list of context data prototype references
         """
-        return self.contextDataPrototypeRef
+        return self.contextDataPrototypeRefs
 
-    def setContextDataPrototypeRef(self, value):
+    def setPortPrototypeRef(self, value: Optional[RefType]) -> "ParameterInAtomicSWCTypeInstanceRef":
         """
-        Sets the context data prototype reference.
+        This is the port providing the variable or the entry point to the variable structure.
 
-        Args:
-            value: The context data prototype reference to set
+        A None value is a no-op and does not overwrite an existing portPrototypeRef.
 
         Returns:
             self for method chaining
         """
-        self.contextDataPrototypeRef = value
+        if value is not None:
+            self.portPrototypeRef = value
         return self
 
-    def getPortPrototypeRef(self):
+    def getPortPrototypeRef(self) -> Optional[RefType]:
         """
-        Gets the port prototype reference.
+        This is the port providing the variable or the entry point to the variable structure.
 
         Returns:
-            RefType: The port prototype reference
+            The port prototype reference, or None if not set
         """
         return self.portPrototypeRef
 
-    def setPortPrototypeRef(self, value):
+    def setRootParameterDataPrototypeRef(self, value: Optional[RefType]) -> "ParameterInAtomicSWCTypeInstanceRef":
         """
-        Sets the port prototype reference.
+        This represents the entry point for references into a CompositeDataType.
 
-        Args:
-            value: The port prototype reference to set
+        A None value is a no-op and does not overwrite an existing rootParameterDataPrototypeRef.
 
         Returns:
             self for method chaining
         """
-        self.portPrototypeRef = value
+        if value is not None:
+            self.rootParameterDataPrototypeRef = value
         return self
 
-    def getRootParameterDataPrototypeRef(self):
+    def getRootParameterDataPrototypeRef(self) -> Optional[RefType]:
         """
-        Gets the root parameter data prototype reference.
+        This represents the entry point for references into a CompositeDataType.
 
         Returns:
-            RefType: The root parameter data prototype reference
+            The root parameter data prototype reference, or None if not set
         """
         return self.rootParameterDataPrototypeRef
 
-    def setRootParameterDataPrototypeRef(self, value):
+    def setTargetDataPrototypeRef(self, value: Optional[RefType]) -> "ParameterInAtomicSWCTypeInstanceRef":
         """
-        Sets the root parameter data prototype reference.
+        This is the target parameter element. Note that this must be nested in ParameterDataPrototype. The target must be one of ParameterDataPrototype, ApplicationCompositeElementDataPrototype.
 
-        Args:
-            value: The root parameter data prototype reference to set
+        A None value is a no-op and does not overwrite an existing targetDataPrototypeRef.
 
         Returns:
             self for method chaining
         """
-        self.rootParameterDataPrototypeRef = value
+        if value is not None:
+            self.targetDataPrototypeRef = value
         return self
 
-    def getTargetDataPrototypeRef(self):
+    def getTargetDataPrototypeRef(self) -> Optional[RefType]:
         """
-        Gets the target data prototype reference.
+        This is the target parameter element. Note that this must be nested in ParameterDataPrototype. The target must be one of ParameterDataPrototype, ApplicationCompositeElementDataPrototype.
 
         Returns:
-            RefType: The target data prototype reference
+            The target data prototype reference, or None if not set
         """
         return self.targetDataPrototypeRef
-
-    def setTargetDataPrototypeRef(self, value):
-        """
-        Sets the target data prototype reference.
-
-        Args:
-            value: The target data prototype reference to set
-
-        Returns:
-            self for method chaining
-        """
-        self.targetDataPrototypeRef = value
-        return self
 
 
 class AutosarParameterRef(ARObject):
@@ -418,7 +429,7 @@ class AutosarParameterRef(ARObject):
         super().__init__()
 
         self.autosarParameterIRef: "ParameterInAtomicSWCTypeInstanceRef" = None
-        self.localParameterRef: "RefType" = None
+        self.localParameterRef: RefType = None
 
     def getAutosarParameterIRef(self):
         """

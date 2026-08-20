@@ -7,14 +7,14 @@ class TestHwPinConnector:
     def test_initialization(self):
         """Test HwPinConnector initialization"""
         # Import after class is created
-        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwPinConnector import HwPinConnector
+        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwPinConnector
 
         connector = HwPinConnector()
         assert connector.getHwPinRefs() == []
 
     def test_add_hw_pin_ref(self):
         """Test addHwPinRef method"""
-        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwPinConnector import HwPinConnector
+        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwPinConnector
 
         connector = HwPinConnector()
         ref = RefType()
@@ -24,7 +24,7 @@ class TestHwPinConnector:
 
     def test_add_hw_pin_ref_none(self):
         """Test addHwPinRef with None value"""
-        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwPinConnector import HwPinConnector
+        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwPinConnector
 
         connector = HwPinConnector()
         result = connector.addHwPinRef(None)
@@ -33,7 +33,7 @@ class TestHwPinConnector:
 
     def test_add_multiple_hw_pin_refs(self):
         """Test addHwPinRef with multiple refs"""
-        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwPinConnector import HwPinConnector
+        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwPinConnector
 
         connector = HwPinConnector()
         ref1 = RefType()

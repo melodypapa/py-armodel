@@ -14,6 +14,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DateTime,
     DisplayFormatString,
     Identifier,
+    IntervalTypeEnum,
     Limit,
     MonotonyEnum,
     NameToken,
@@ -71,7 +72,7 @@ class TestARXMLWriterBasicMethods:
 
         limit = Limit()
         limit.value = "100"
-        limit.intervalType = "CLOSED"
+        limit.setIntervalType(IntervalTypeEnum().setValue("CLOSED"))
 
         writer.setChildLimitElement(parent, "TEST-LIMIT", limit)
 

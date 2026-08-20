@@ -104,7 +104,7 @@ class TestParameterInAtomicSWCTypeInstanceRef:
         iref = ParameterInAtomicSWCTypeInstanceRef()
 
         assert iref.baseRef is None
-        assert iref.contextDataPrototypeRef is None
+        assert iref.contextDataPrototypeRefs == []
         assert iref.portPrototypeRef is None
         assert iref.rootParameterDataPrototypeRef is None
         assert iref.targetDataPrototypeRef is None
@@ -117,11 +117,12 @@ class TestParameterInAtomicSWCTypeInstanceRef:
         iref.setBaseRef(base_ref)
         assert iref.getBaseRef() == base_ref
 
-        # Test contextDataPrototypeRef methods
+        # Test contextDataPrototypeRefs methods
         context_ref = RefType()
         context_ref.setValue("/Context/Ref")
-        iref.setContextDataPrototypeRef(context_ref)
-        assert iref.getContextDataPrototypeRef() == context_ref
+        iref.addContextDataPrototypeRef(context_ref)
+        assert context_ref in iref.getContextDataPrototypeRefs()
+        assert iref.getContextDataPrototypeRefs() == [context_ref]
 
         # Test portPrototypeRef methods
         port_ref = RefType()

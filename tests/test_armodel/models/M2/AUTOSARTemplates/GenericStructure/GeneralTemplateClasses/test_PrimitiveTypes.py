@@ -24,6 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Float,
     Identifier,
     Integer,
+    IntervalTypeEnum,
     Ip4AddressString,
     Ip6AddressString,
     Limit,
@@ -678,6 +679,27 @@ class TestPositiveInteger:
         assert pos_int._value is None
 
 
+class TestIntervalTypeEnum:
+    """
+    Test class for IntervalTypeEnum functionality.
+    """
+
+    def test_initialization(self):
+        enum = IntervalTypeEnum()
+        enum.setValue(IntervalTypeEnum.OPEN)
+        assert enum.getValue() == "open"
+
+    def test_enum_values(self):
+        enum = IntervalTypeEnum()
+
+        assert IntervalTypeEnum.CLOSED == "closed"
+        assert IntervalTypeEnum.OPEN == "open"
+
+        assert enum.validateEnumValue("closed") is True
+        assert enum.validateEnumValue("open") is True
+        assert enum.validateEnumValue("invalid") is False
+
+
 class TestLimit:
     """
     Test class for Limit functionality.
@@ -691,8 +713,8 @@ class TestLimit:
 
         # Verify basic properties
         assert limit is not None
-        assert limit.intervalType is None
-        assert limit.value is None
+        assert limit.getIntervalType() is None
+        assert limit.getValue() is None
 
     def test_interval_type_methods(self):
         """
@@ -703,9 +725,9 @@ class TestLimit:
         # Test get/set interval type
         assert limit.getIntervalType() is None
 
-        result = limit.setIntervalType("closed")
+        result = limit.setIntervalType(IntervalTypeEnum().setValue("closed"))
         assert result is limit  # Verify method chaining
-        assert limit.getIntervalType() == "closed"
+        assert limit.getIntervalType().getValue() == "closed"
 
     def test_value_methods(self):
         """

@@ -24,7 +24,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARNumerical,
     Identifier,
     Integer,
+    IntervalTypeEnum,
     Limit,
+    MonotonyEnum,
     RefType,
     VerbatimString,
 )
@@ -46,6 +48,8 @@ from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import (
     DataConstrRule,
     InternalConstrs,
     PhysConstrs,
+    ScaleConstr,
+    ScaleConstrValidityEnum,
 )
 from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import (
@@ -721,11 +725,11 @@ class TestWriteCompuScaleWriter:
         scale.setMask(mask)
         lower = Limit()
         lower.value = "0"
-        lower.intervalType = "CLOSED"
+        lower.setIntervalType(IntervalTypeEnum().setValue("CLOSED"))
         scale.setLowerLimit(lower)
         upper = Limit()
         upper.value = "10"
-        upper.intervalType = "CLOSED"
+        upper.setIntervalType(IntervalTypeEnum().setValue("CLOSED"))
         scale.setUpperLimit(upper)
 
         contents = CompuScaleConstantContents()
@@ -1238,12 +1242,12 @@ class TestInternalConstrsWriter:
         constrs = InternalConstrs()
         lower = Limit()
         lower.value = "0"
-        lower.intervalType = "CLOSED"
-        constrs.lower_limit = lower
+        lower.setIntervalType(IntervalTypeEnum().setValue("CLOSED"))
+        constrs.setLowerLimit(lower)
         upper = Limit()
         upper.value = "100"
-        upper.intervalType = "CLOSED"
-        constrs.upper_limit = upper
+        upper.setIntervalType(IntervalTypeEnum().setValue("CLOSED"))
+        constrs.setUpperLimit(upper)
 
         parent = _parent()
         writer.setInternalConstrs(parent, constrs)
@@ -1263,6 +1267,50 @@ class TestInternalConstrsWriter:
         assert child.tag == "INTERNAL-CONSTRS"
         assert child.find("LOWER-LIMIT") is None
         assert child.find("UPPER-LIMIT") is None
+        assert child.find("SCALE-CONSTRS") is None
+        assert child.find("MAX-GRADIENT") is None
+        assert child.find("MAX-DIFF") is None
+        assert child.find("MONOTONY") is None
+
+    def test_set_internal_constrs_full(self, writer):
+        constrs = InternalConstrs()
+        lower = Limit()
+        lower.value = "0"
+        constrs.setLowerLimit(lower)
+        upper = Limit()
+        upper.value = "100"
+        constrs.setUpperLimit(upper)
+        constrs.setMaxGradient(_numerical("1.5"))
+        constrs.setMaxDiff(_numerical("0.5"))
+        constrs.setMonotony(MonotonyEnum().setValue(MonotonyEnum.INCREASING))
+        scale = ScaleConstr()
+        scale.setShortLabel(_identifier("s1"))
+        scale_lower = Limit()
+        scale_lower.value = "5.0"
+        scale.setLowerLimit(scale_lower)
+        scale_upper = Limit()
+        scale_upper.value = "50.0"
+        scale.setUpperLimit(scale_upper)
+        scale.setValidity(ScaleConstrValidityEnum().setValue(ScaleConstrValidityEnum.VALID))
+        constrs.addScaleConstr(scale)
+
+        parent = _parent()
+        writer.setInternalConstrs(parent, constrs)
+
+        child = parent[0]
+        assert child.tag == "INTERNAL-CONSTRS"
+        assert child.find("LOWER-LIMIT").text == "0"
+        assert child.find("UPPER-LIMIT").text == "100"
+        scales = child.find("SCALE-CONSTRS")
+        assert scales is not None
+        scale_tag = scales.find("SCALE-CONSTR")
+        assert scale_tag.attrib["VALIDITY"] == "valid"
+        assert scale_tag.find("SHORT-LABEL").text == "s1"
+        assert scale_tag.find("LOWER-LIMIT").text == "5.0"
+        assert scale_tag.find("UPPER-LIMIT").text == "50.0"
+        assert child.find("MAX-GRADIENT").text == "1.5"
+        assert child.find("MAX-DIFF").text == "0.5"
+        assert child.find("MONOTONY").text == "increasing"
 
 
 class TestPhysConstrsWriter:
@@ -1275,11 +1323,11 @@ class TestPhysConstrsWriter:
         constrs = PhysConstrs()
         lower = Limit()
         lower.value = "-50.0"
-        constrs.lower_limit = lower
+        constrs.setLowerLimit(lower)
         upper = Limit()
         upper.value = "150.0"
-        constrs.upper_limit = upper
-        constrs.unit_ref = _ref("UNIT", "/units/c")
+        constrs.setUpperLimit(upper)
+        constrs.setUnitRef(_ref("UNIT", "/units/c"))
 
         parent = _parent()
         writer.setPhysConstrs(parent, constrs)
@@ -1290,6 +1338,44 @@ class TestPhysConstrsWriter:
         assert child.find("LOWER-LIMIT").text == "-50.0"
         assert child.find("UPPER-LIMIT").text == "150.0"
         assert child.find("UNIT-REF").text == "/units/c"
+
+    def test_set_phys_constrs_full(self, writer):
+        from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LOverviewParagraph
+        from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
+
+        constrs = PhysConstrs()
+        constrs.setMaxDiff(_numerical("0.5"))
+        constrs.setMaxGradient(_numerical("1.0"))
+        constrs.setMonotony(MonotonyEnum.INCREASING)
+        scale = ScaleConstr()
+        scale.setShortLabel(_identifier("s1"))
+        desc = MultiLanguageOverviewParagraph()
+        desc.addL2(LOverviewParagraph().setL("EN").setValue("scale desc"))
+        scale.setDesc(desc)
+        lower = Limit()
+        lower.value = "5.0"
+        scale.setLowerLimit(lower)
+        upper = Limit()
+        upper.value = "10.0"
+        scale.setUpperLimit(upper)
+        scale.setValidity(ScaleConstrValidityEnum().setValue(ScaleConstrValidityEnum.VALID))
+        constrs.addScaleConstr(scale)
+
+        parent = _parent()
+        writer.setPhysConstrs(parent, constrs)
+
+        child = parent[0]
+        assert child.find("MAX-DIFF").text == "0.5"
+        assert child.find("MAX-GRADIENT").text == "1.0"
+        assert child.find("MONOTONY").text == "increasing"
+        scales = child.find("SCALE-CONSTRS")
+        assert scales is not None
+        scale_tag = scales.find("SCALE-CONSTR")
+        assert scale_tag.attrib["VALIDITY"] == "valid"
+        assert scale_tag.find("SHORT-LABEL").text == "s1"
+        assert scale_tag.find("DESC/L-2").text == "scale desc"
+        assert scale_tag.find("LOWER-LIMIT").text == "5.0"
+        assert scale_tag.find("UPPER-LIMIT").text == "10.0"
 
 
 class TestDataConstrRulesWriter:
@@ -1311,11 +1397,12 @@ class TestDataConstrRulesWriter:
         rule = DataConstrRule()
         rule.constrLevel = _numerical("1")
         rule.physConstrs = PhysConstrs()
-        rule.physConstrs.lower_limit = Limit()
-        rule.physConstrs.lower_limit.value = "0"
+        rule.physConstrs.setLowerLimit(Limit())
+        rule.physConstrs.getLowerLimit().value = "0"
         rule.internalConstrs = InternalConstrs()
-        rule.internalConstrs.lower_limit = Limit()
-        rule.internalConstrs.lower_limit.value = "0"
+        internal_lower = Limit()
+        internal_lower.value = "0"
+        rule.internalConstrs.setLowerLimit(internal_lower)
         constr.addDataConstrRule(rule)
 
         parent = _parent()
@@ -1342,7 +1429,7 @@ class TestDataConstrWriter:
         rule.physConstrs = PhysConstrs()
         upper = Limit()
         upper.value = "100"
-        rule.physConstrs.upper_limit = upper
+        rule.physConstrs.setUpperLimit(upper)
         constr.addDataConstrRule(rule)
 
         parent = _parent()

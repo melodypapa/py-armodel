@@ -1200,6 +1200,16 @@ class TestDataTypeAndCompuHandlers:
             "<INTERNAL-CONSTRS>"
             "<LOWER-LIMIT>0</LOWER-LIMIT>"
             "<UPPER-LIMIT>100</UPPER-LIMIT>"
+            "<SCALE-CONSTRS>"
+            '<SCALE-CONSTR VALIDITY="VALID">'
+            "<SHORT-LABEL>s1</SHORT-LABEL>"
+            "<LOWER-LIMIT>5.0</LOWER-LIMIT>"
+            "<UPPER-LIMIT>50.0</UPPER-LIMIT>"
+            "</SCALE-CONSTR>"
+            "</SCALE-CONSTRS>"
+            "<MAX-GRADIENT>1.5</MAX-GRADIENT>"
+            "<MAX-DIFF>0.5</MAX-DIFF>"
+            "<MONOTONY>increasing</MONOTONY>"
             "</INTERNAL-CONSTRS>"
             "</DATA-CONSTR-RULE>"
             "</DATA-CONSTR-RULES>",
@@ -1207,6 +1217,66 @@ class TestDataTypeAndCompuHandlers:
         )
         parser.readDataConstr(element, constr)
         assert len(constr.getDataConstrRules()) == 1
+        rule = constr.getDataConstrRules()[0]
+        internal = rule.internalConstrs
+        assert internal is not None
+        assert internal.getLowerLimit().value == "0"
+        assert internal.getUpperLimit().value == "100"
+        assert internal.getMaxGradient().getValue() == 1.5
+        assert internal.getMaxDiff().getValue() == 0.5
+        assert internal.getMonotony().value == "increasing"
+        assert len(internal.getScaleConstrs()) == 1
+        scale = internal.getScaleConstrs()[0]
+        assert scale.getShortLabel().value == "s1"
+        assert scale.getLowerLimit().value == "5.0"
+        assert scale.getUpperLimit().value == "50.0"
+        assert scale.getValidity().value == "VALID"
+
+    def test_readDataConstr_with_phys_constrs(self, parser):
+        from armodel.models import DataConstr
+
+        constr = DataConstr(parent=_autosar_root(), short_name="dc")
+        element = _snip(
+            "<SHORT-NAME>dc</SHORT-NAME>"
+            "<DATA-CONSTR-RULES>"
+            "<DATA-CONSTR-RULE>"
+            "<PHYS-CONSTRS>"
+            '<LOWER-LIMIT INTERVAL-TYPE="CLOSED">-50.0</LOWER-LIMIT>'
+            '<UPPER-LIMIT INTERVAL-TYPE="CLOSED">150.0</UPPER-LIMIT>'
+            "<MAX-DIFF>0.5</MAX-DIFF>"
+            "<MAX-GRADIENT>1.0</MAX-GRADIENT>"
+            "<MONOTONY>increasing</MONOTONY>"
+            "<SCALE-CONSTRS>"
+            '<SCALE-CONSTR VALIDITY="VALID">'
+            "<SHORT-LABEL>s1</SHORT-LABEL>"
+            '<DESC><L-2 L="EN">scale desc</L-2></DESC>'
+            '<LOWER-LIMIT INTERVAL-TYPE="CLOSED">5.0</LOWER-LIMIT>'
+            '<UPPER-LIMIT INTERVAL-TYPE="CLOSED">10.0</UPPER-LIMIT>'
+            "</SCALE-CONSTR>"
+            "</SCALE-CONSTRS>"
+            '<UNIT-REF DEST="UNIT">/units/c</UNIT-REF>'
+            "</PHYS-CONSTRS>"
+            "</DATA-CONSTR-RULE>"
+            "</DATA-CONSTR-RULES>",
+            root_tag="DATA-CONSTR",
+        )
+        parser.readDataConstr(element, constr)
+        rule = constr.getDataConstrRules()[0]
+        phys = rule.physConstrs
+        assert phys is not None
+        assert phys.getLowerLimit().value == "-50.0"
+        assert phys.getUpperLimit().value == "150.0"
+        assert phys.getMaxDiff().getValue() == 0.5
+        assert phys.getMaxGradient().getValue() == 1.0
+        assert phys.getMonotony().value == "increasing"
+        assert len(phys.getScaleConstrs()) == 1
+        scale = phys.getScaleConstrs()[0]
+        assert scale.getShortLabel().value == "s1"
+        assert scale.getDesc().getL2s()[0].getValue() == "scale desc"
+        assert scale.getLowerLimit().value == "5.0"
+        assert scale.getUpperLimit().value == "10.0"
+        assert scale.getValidity().value == "VALID"
+        assert phys.getUnitRef().getValue() == "/units/c"
 
     def test_readUnit_full(self, parser):
         from armodel.models import Unit
@@ -2491,6 +2561,23 @@ class TestParameterInAtomicSWCTypeInstanceRef:
         result = parser.getParameterInAtomicSWCTypeInstanceRef(element, "PARAMETER-IN-ATOMIC-SWC-TYPE-INSTANCE-REF")
         assert result is not None
         assert result.getPortPrototypeRef() is not None
+
+    def test_context_data_prototype_list_ordered(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            """
+            <PARAMETER-IN-ATOMIC-SWC-TYPE-INSTANCE-REF>
+                <CONTEXT-DATA-PROTOTYPE-REF DEST="APPLICATION-COMPOSITE-ELEMENT-DATA-PROTOTYPE">/c1</CONTEXT-DATA-PROTOTYPE-REF>
+                <CONTEXT-DATA-PROTOTYPE-REF DEST="APPLICATION-COMPOSITE-ELEMENT-DATA-PROTOTYPE">/c2</CONTEXT-DATA-PROTOTYPE-REF>
+            </PARAMETER-IN-ATOMIC-SWC-TYPE-INSTANCE-REF>
+            """,
+        )
+        result = parser.getParameterInAtomicSWCTypeInstanceRef(element, "PARAMETER-IN-ATOMIC-SWC-TYPE-INSTANCE-REF")
+        assert result is not None
+        refs = result.getContextDataPrototypeRefs()
+        assert len(refs) == 2
+        assert refs[0].getValue() == "/c1"
+        assert refs[1].getValue() == "/c2"
 
     def test_without_element(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")

@@ -1,62 +1,57 @@
 """
 Test cases for the HwElementConnector module.
-These tests ensure 100% code coverage for the HwElementConnector class.
+These tests ensure coverage for the HwElementConnector class.
 """
 
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementConnector import HwElementConnector
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwElementConnector, HwPinConnector, HwPinGroupConnector
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 
-def test_hw_element_connector_init():
-    """
-    Test initialization of HwElementConnector class.
-
-    Test Steps:
-    1. Create a HwElementConnector instance
-    2. Verify default attributes are set correctly
-    """
-    # Initialize HwElementConnector
-    hw_connector = HwElementConnector()
-
-    # Verify initial values
-    assert hw_connector.hwElementRef is None
-    assert hw_connector.hwPinRef is None
+def test_initialization():
+    connector = HwElementConnector()
+    assert connector.getHwElementRefs() == []
+    assert connector.getHwPinConnections() == []
+    assert connector.getHwPinGroupConnections() == []
 
 
-def test_hw_element_connector_getters_and_setters():
-    """
-    Test all getter and setter methods of HwElementConnector class.
-
-    Test Steps:
-    1. Create a HwElementConnector instance
-    2. Test setting and getting hwElementRef
-    3. Test setting and getting hwPinRef
-    4. Verify method chaining (return self)
-    """
-    hw_connector = HwElementConnector()
-
-    # Test hwElementRef setter and getter
-    test_element_ref = "test_element_ref"
-    return_value = hw_connector.setHwElementRef(test_element_ref)
-    assert return_value == hw_connector  # Verify method chaining
-    assert hw_connector.getHwElementRef() == test_element_ref
-
-    # Test hwPinRef setter and getter
-    test_pin_ref = "test_pin_ref"
-    return_value = hw_connector.setHwPinRef(test_pin_ref)
-    assert return_value == hw_connector  # Verify method chaining
-    assert hw_connector.getHwPinRef() == test_pin_ref
-
-    # Test with None values (should not set)
-    original_element_ref = hw_connector.getHwElementRef()
-    hw_connector.setHwElementRef(None)
-    assert hw_connector.getHwElementRef() == original_element_ref  # Should remain unchanged
-
-    original_pin_ref = hw_connector.getHwPinRef()
-    hw_connector.setHwPinRef(None)
-    assert hw_connector.getHwPinRef() == original_pin_ref  # Should remain unchanged
+def test_get_set_hw_element_refs():
+    connector = HwElementConnector()
+    ref1 = RefType()
+    ref1.setValue("/Elements/ElemA")
+    ref2 = RefType()
+    ref2.setValue("/Elements/ElemB")
+    assert connector.addHwElementRef(ref1) == connector
+    connector.addHwElementRef(ref2)
+    assert connector.getHwElementRefs() == [ref1, ref2]
 
 
-if __name__ == "__main__":
-    test_hw_element_connector_init()
-    test_hw_element_connector_getters_and_setters()
-    print("All HwElementConnector tests passed!")
+def test_get_set_hw_element_refs_none_noop():
+    connector = HwElementConnector()
+    connector.addHwElementRef(None)
+    assert connector.getHwElementRefs() == []
+
+
+def test_get_set_hw_pin_connection():
+    connector = HwElementConnector()
+    pin = HwPinConnector()
+    assert connector.addHwPinConnection(pin) == connector
+    assert connector.getHwPinConnections() == [pin]
+
+
+def test_get_set_hw_pin_connection_none_noop():
+    connector = HwElementConnector()
+    connector.addHwPinConnection(None)
+    assert connector.getHwPinConnections() == []
+
+
+def test_get_set_hw_pin_group_connection():
+    connector = HwElementConnector()
+    group = HwPinGroupConnector()
+    assert connector.addHwPinGroupConnection(group) == connector
+    assert connector.getHwPinGroupConnections() == [group]
+
+
+def test_get_set_hw_pin_group_connection_none_noop():
+    connector = HwElementConnector()
+    connector.addHwPinGroupConnection(None)
+    assert connector.getHwPinGroupConnections() == []

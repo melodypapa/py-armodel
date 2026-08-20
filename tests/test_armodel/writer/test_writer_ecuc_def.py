@@ -19,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARLiteral,
     CIdentifier,
     Float,
+    IntervalTypeEnum,
     Limit,
     PositiveInteger,
     RefType,
@@ -342,8 +343,8 @@ class TestWriterEcucFloatParamDef:
         container = _make_container()
         param = container.createEcucFloatParamDef("P")
         param.setDefaultValue(_float(1.5))
-        param.setMax(_limit(99.5, interval="CLOSED"))
-        param.setMin(_limit(0.0, interval="CLOSED"))
+        param.setMax(_limit(99.5, interval=IntervalTypeEnum().setValue("CLOSED")))
+        param.setMin(_limit(0.0, interval=IntervalTypeEnum().setValue("CLOSED")))
         parent = _parent()
         writer.writeEcucFloatParamDef(parent, param)
         assert parent[0].tag == "ECUC-FLOAT-PARAM-DEF"
