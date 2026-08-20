@@ -3,9 +3,7 @@ Test cases for the HwElementConnector module.
 These tests ensure coverage for the HwElementConnector class.
 """
 
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwElementConnector
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwPinConnector
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwPinGroupConnector
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwElementConnector, HwPinConnector, HwPinGroupConnector
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 

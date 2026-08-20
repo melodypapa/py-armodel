@@ -3,7 +3,7 @@ Test cases for the EcuResourceTemplate __init__.py module.
 These tests ensure 100% code coverage for the HwDescriptionEntity, HwPin, HwPinGroupContent, HwPinGroup, and HwElement classes.
 """
 
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwElement, HwPin, HwPinGroup, HwPinGroupContent, HwElementConnector
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwElement, HwElementConnector, HwPin, HwPinGroup, HwPinGroupContent
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 
