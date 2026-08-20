@@ -2318,6 +2318,7 @@ class DiagnosticDenominatorConditionEnum(AREnum):
 
     # DiagnosticDenominatorConditionEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.52, p.803
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test
 
     # Condition based on definition of 500miles conditions as defined for OBD2. Tags: atp.EnumerationLiteralIndex=2 xml.name=-500-MILES
@@ -2829,6 +2830,7 @@ class DoIpServiceNeeds(ServiceNeeds, ABC):
 
     # DoIpServiceNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.54, p.805
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
@@ -2845,6 +2847,7 @@ class DoIpRoutingActivationAuthenticationNeeds(DoIpServiceNeeds):
 
     # DoIpRoutingActivationAuthenticationNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.58, p.806
+    # Spec verified: R23-11
     # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getDataLengthRequest      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setDataLengthRequest      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -2858,8 +2861,10 @@ class DoIpRoutingActivationAuthenticationNeeds(DoIpServiceNeeds):
 
         # Describes the length in byte of the additional information for RA authentication that is needed by the software entity. If the software entity is a software-component the attribute does not need to exist as the information is available via the length of the uint8 Array type. Otherwise (i.e the software entity is a Complex Driver) this attribute needs to be filled out if additional information is needed.
         self.dataLengthRequest: Optional[PositiveInteger] = None
+
         # Describes the length in byte of the additional information for RA authentication that is provided by the software entity. If the software entity is a software-component the attribute does not need to exist as the information is available via the length of the uint8 Array type. Otherwise (i.e the software entity is a Complex Driver) this attribute needs to be filled in if additional information is provided.
         self.dataLengthResponse: Optional[PositiveInteger] = None
+
         # Describes the ISO 13400-2:2012 "routing activation request activation type" which is received via DoIP service 0x0005. 0x00 is DEFAULT, 0x01 is WWH-OBD. If neither of the specified values (0x00 or 0x01) is needed the token shall contain RA_ + hex value representation of the integer value shall be used (i.e: RA_0xE1).
         self.routingActivationType: Optional[NameToken] = None
 
@@ -2943,6 +2948,7 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
 
     # DoIpRoutingActivationConfirmationNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.59, p.807
+    # Spec verified: R23-11
     # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getDataLengthRequest      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setDataLengthRequest      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -2956,8 +2962,10 @@ class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
 
         # Describes the length in byte of the additional information for RA confirmation that is needed by the software entity. If the software entity is a software-component the attribute does not need to exist as the information is available via the length of the uint8 Array type. Otherwise (i.e the software entity is a Complex Driver) this attribute needs to be filled out if additional information is needed.
         self.dataLengthRequest: Optional[PositiveInteger] = None
+
         # Describes the length in byte of the additional information for RA confirmation that is provided by the software entity. If the software entity is a software-component the attribute does not need to exist as the information is available via the length of the uint8 Array type. Otherwise (i.e the software entity is a Complex Driver) this attribute needs to be filled out if additional information is provided.
         self.dataLengthResponse: Optional[PositiveInteger] = None
+
         # Describes the ISO 13400-2:2012 "routing activation request activation type" which is received via DoIP service 0x0005. 0x00 is DEFAULT, 0x01 is WWH-OBD. If neither of the specified values (0x00 or 0x01) is needed the token shall contain RA_ + hex value representation of the integer value shall be used (i.e: RA_0xE1).
         self.routingActivationType: Optional[NameToken] = None
 
@@ -3298,6 +3306,7 @@ class IdsMgrNeeds(ServiceNeeds):
 
     # IdsMgrNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.81, p.842
+    # Spec verified: R23-11
     # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getUseSmartSensorApi    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setUseSmartSensorApi    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -3722,6 +3731,7 @@ class ObdRatioConnectionKindEnum(AREnum):
 
     # ObdRatioConnectionKindEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.46, p.796
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test
 
     # The IUMPR service (of the DEM) uses an explicit API to connect to the component or module. Tags: atp.EnumerationLiteralIndex=0
@@ -3745,6 +3755,7 @@ class ObdRatioDenominatorNeeds(ServiceNeeds):
 
     # ObdRatioDenominatorNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.51, p.803
+    # Spec verified: R23-11
     # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getDenominatorCondition         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setDenominatorCondition         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -3787,6 +3798,7 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
 
     # ObdRatioServiceNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.44, p.795
+    # Spec verified: R23-11
     # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getConnectionType                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setConnectionType                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -3800,8 +3812,10 @@ class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
 
         # Defines how the DEM is connected to the component or module to perform the IUMPR (In use monitor performance ratio) service.
         self.connectionType: Optional[ObdRatioConnectionKindEnum] = None
+
         # The rate based monitored Diagnostic Event.
         self.rateBasedMonitoredEventRef: Optional[RefType] = None
+
         # This represents the primary Function Inhibition Identifier used for the rate based monitor. This is an optional attribute.
         self.usedFidRef: Optional[RefType] = None
 
@@ -3936,6 +3950,7 @@ class SecureOnBoardCommunicationNeeds(ServiceNeeds):
 
     # SecureOnBoardCommunicationNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.68, p.824
+    # Spec verified: R23-11
     # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getVerificationStatusIndicationMode   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setVerificationStatusIndicationMode   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -4579,6 +4594,7 @@ class VerificationStatusIndicationModeEnum(AREnum):
 
     # VerificationStatusIndicationModeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.69, p.824
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test
 
     # Verification attempts that came out "false" or "true" shall be forwarded to the application software. Tags: atp.EnumerationLiteralIndex=1
