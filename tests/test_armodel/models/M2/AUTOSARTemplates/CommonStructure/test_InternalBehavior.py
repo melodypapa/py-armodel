@@ -1,6 +1,7 @@
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalBehavior
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import (
     AbstractEvent,
     ApiPrincipleEnum,
@@ -10,7 +11,6 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import 
     InternalBehavior,
     ReentrancyLevelEnum,
 )
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswInternalBehavior
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, TimeValue
 
 

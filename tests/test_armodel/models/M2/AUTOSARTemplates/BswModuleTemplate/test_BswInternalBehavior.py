@@ -11,22 +11,18 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
+    BswAsynchronousServerCallReturnsEvent,
     BswBackgroundEvent,
-    BswCalledEntity,
     BswDataReceivedEvent,
     BswExternalTriggerOccurredEvent,
     BswInternalBehavior,
     BswInternalTriggerOccurredEvent,
-    BswInternalTriggeringPoint,
-    BswInterruptEntity,
     BswModeManagerErrorEvent,
     BswModeSenderPolicy,
-    BswModeSwitchEvent,
     BswModeSwitchedAckEvent,
+    BswModeSwitchEvent,
     BswOperationInvokedEvent,
-    BswSchedulableEntity,
     BswTimingEvent,
-    BswAsynchronousServerCallReturnsEvent,
     IncludedDataTypeSet,
     IncludedModeDeclarationGroupSet,
 )
