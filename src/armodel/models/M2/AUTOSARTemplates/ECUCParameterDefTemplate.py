@@ -2370,16 +2370,16 @@ class EcucModuleDef(EcucDefinitionElement):
         super().__init__(parent, short_name)
 
         # For modules where several instances of the VSMD can be defined the apiServicePrefix defines the API namespace of the derived instances, e.g. Cdd, Xfrm (ComXf, SomeIpXf, E2EXf).
-        self.apiServicePrefix: CIdentifier = None
+        self.apiServicePrefix: Optional[CIdentifier] = None
 
         # Aggregates the top-level container definitions of this specific module definition. Stereotypes: atpSplitable Tags: atp.Splitkey=container.shortName xml.sequenceOffset=11
         self.containers: List[EcucContainerDef] = []
 
         # Indicates if a module supports different post-build variants (previously known as post-build selectable configuration sets). TRUE means yes, FALSE means no.
-        self.postBuildVariantSupport: Boolean = None
+        self.postBuildVariantSupport: Optional[Boolean] = None
 
         # Optional reference from the Vendor Specific Module Definition to the Standardized Module Definition it refines. In case this EcucModuleDef has the category STANDARDIZED_MODULE_DEFINITION this reference shall not be provided. In case this EcucModuleDef has the category VENDOR_SPECIFIC_MODULE_DEFINITION this reference is mandatory. Stereotypes: atpUriDef
-        self.refinedModuleDefRef: RefType = None
+        self.refinedModuleDefRef: Optional[RefType] = None
 
         # Specifies which ConfigurationVariants are supported by this software module. This attribute is optional if the EcucModuleDef has the category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION then this attribute is mandatory.
         self.supportedConfigVariants: List[EcucConfigurationVariantEnum] = []

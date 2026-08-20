@@ -2510,6 +2510,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def setRTEEvent(self, element: ET.Element, event: RTEEvent):
         self.writeIdentifiable(element, event)
+        self.setChildElementOptionalRefType(element, "ACTIVATION-REASON-REPRESENTATION-REF", event.getActivationReasonRepresentationRef())
         irefs = event.getDisabledModeIRefs()
         if len(irefs) > 0:
             child_element = ET.SubElement(element, "DISABLED-MODE-IREFS")
@@ -2621,6 +2622,19 @@ class ARXMLWriter(AbstractARXMLWriter):
                 child_element = ET.SubElement(areas_tag, "EXCLUSIVE-AREA")
                 self.writeIdentifiable(child_element, area)
 
+    def writeExclusiveAreaNestingOrders(self, element: ET.Element, behavior: InternalBehavior):
+        nesting_orders = behavior.getExclusiveAreaNestingOrders()
+        if len(nesting_orders) > 0:
+            orders_tag = ET.SubElement(element, "EXCLUSIVE-AREA-NESTING-ORDERS")
+            for nesting_order in nesting_orders:
+                child_element = ET.SubElement(orders_tag, "EXCLUSIVE-AREA-NESTING-ORDER")
+                self.writeReferrable(child_element, nesting_order)
+                refs = nesting_order.getExclusiveAreaRefs()
+                if len(refs) > 0:
+                    refs_tag = ET.SubElement(child_element, "EXCLUSIVE-AREA-REFS")
+                    for ref in refs:
+                        self.setChildElementOptionalRefType(refs_tag, "EXCLUSIVE-AREA-REF", ref)
+
     def writeDataTypeMappingRefs(self, element: ET.Element, behavior: InternalBehavior):
         refs = behavior.getDataTypeMappingRefs()
         if len(refs) > 0:
@@ -2641,6 +2655,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeSwcInternalBehaviorParameterDataPrototypes(element, "CONSTANT-MEMORYS", behavior.getConstantMemories())
         self.writeDataTypeMappingRefs(element, behavior)
         self.writeExclusiveAreas(element, behavior)
+        self.writeExclusiveAreaNestingOrders(element, behavior)
         self.writeInternalBehaviorStaticMemories(element, behavior)
 
     def setVariableInAtomicSWCTypeInstanceRef(self, element: ET.Element, key: str, iref: VariableInAtomicSWCTypeInstanceRef):
@@ -4766,6 +4781,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeBswEvent(self, element: ET.Element, event: BswEvent):
         self.writeIdentifiable(element, event)
+        self.setChildElementOptionalRefType(element, "ACTIVATION-REASON-REPRESENTATION-REF", event.getActivationReasonRepresentationRef())
         context_limitations = event.getContextLimitationRefs()
         if len(context_limitations) > 0:
             child_element = ET.SubElement(element, "CONTEXT-LIMITATION-REFS")
@@ -8131,8 +8147,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "ECUC-MODULE-CONFIGURATION-VALUES")
         self.writeIdentifiable(child_element, values)
         self.setChildElementOptionalRefType(child_element, "DEFINITION-REF", values.getDefinitionRef())
+        self.setChildElementOptionalLiteral(child_element, "ECUC-DEF-EDITION", values.getEcucDefEdition())
         self.setChildElementOptionalLiteral(child_element, "IMPLEMENTATION-CONFIG-VARIANT", values.getImplementationConfigVariant())
         self.setChildElementOptionalRefType(child_element, "MODULE-DESCRIPTION-REF", values.getModuleDescriptionRef())
+        self.setChildElementOptionalBooleanValue(child_element, "POST-BUILD-VARIANT-USED", values.getPostBuildVariantUsed())
         self.writeEcucModuleConfigurationValuesContainers(child_element, values)
 
     def writeSwSystemconst(self, element: ET.Element, const: SwSystemconst):

@@ -752,6 +752,20 @@ class TestRteEventHandlers:
         assert event.getPeriod().getValue() == 0.1
         assert event.getOffset().getValue() == 0.05
 
+    def test_readTimingEvent_activation_reason_representation(self, parser):
+        from armodel.models import ApplicationSwComponentType
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        event = behavior.createTimingEvent("te")
+        element = _snip(
+            "<SHORT-NAME>te</SHORT-NAME>" "<ACTIVATION-REASON-REPRESENTATION-REF DEST='EXECUTABLE-ENTITY-ACTIVATION-REASON'>/ar</ACTIVATION-REASON-REPRESENTATION-REF>",
+            root_tag="TIMING-EVENT",
+        )
+        parser.readTimingEvent(element, event)
+        assert event.activationReasonRepresentationRef is not None
+        assert event.activationReasonRepresentationRef.getValue() == "/ar"
+
     def test_readOperationInvokedEvent_full(self, parser):
         from armodel.models import ApplicationSwComponentType
 

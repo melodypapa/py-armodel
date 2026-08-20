@@ -20,6 +20,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucTextualParamValue,
     EcucValueCollection,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, RefType, RevisionLabelString
 
 
 def _instantiate(cls, name):
@@ -54,6 +55,64 @@ class TestEcucModuleConfigurationValues:
     def test_instantiation(self):
         obj = _instantiate(EcucModuleConfigurationValues, "EcucModuleConfigurationValues")
         assert obj.getShortName() == "EcucModuleConfigurationValues"
+
+    def test_initialization_defaults(self):
+        obj = _instantiate(EcucModuleConfigurationValues, "EcucModuleConfigurationValues")
+        assert obj.getContainers() == []
+        assert obj.getDefinitionRef() is None
+        assert obj.getEcucDefEdition() is None
+        assert obj.getImplementationConfigVariant() is None
+        assert obj.getModuleDescriptionRef() is None
+        assert obj.getPostBuildVariantUsed() is None
+
+    def test_set_definition_ref(self):
+        obj = _instantiate(EcucModuleConfigurationValues, "EcucModuleConfigurationValues")
+        ref = RefType().setValue("/Def")
+        result = obj.setDefinitionRef(ref)
+        assert result is obj
+        assert obj.getDefinitionRef() == ref
+
+    def test_set_ecuc_def_edition(self):
+        obj = _instantiate(EcucModuleConfigurationValues, "EcucModuleConfigurationValues")
+        edition = RevisionLabelString().setValue("1.0.0")
+        result = obj.setEcucDefEdition(edition)
+        assert result is obj
+        assert obj.getEcucDefEdition() == edition
+
+    def test_set_implementation_config_variant(self):
+        obj = _instantiate(EcucModuleConfigurationValues, "EcucModuleConfigurationValues")
+        variant = EcucConfigurationVariantEnum().setValue("VariantPreCompile")
+        result = obj.setImplementationConfigVariant(variant)
+        assert result is obj
+        assert obj.getImplementationConfigVariant() == variant
+
+    def test_set_module_description_ref(self):
+        obj = _instantiate(EcucModuleConfigurationValues, "EcucModuleConfigurationValues")
+        ref = RefType().setValue("/Desc")
+        result = obj.setModuleDescriptionRef(ref)
+        assert result is obj
+        assert obj.getModuleDescriptionRef() == ref
+
+    def test_set_post_build_variant_used(self):
+        obj = _instantiate(EcucModuleConfigurationValues, "EcucModuleConfigurationValues")
+        value = ARBoolean().setValue(True)
+        result = obj.setPostBuildVariantUsed(value)
+        assert result is obj
+        assert obj.getPostBuildVariantUsed() == value
+
+    def test_create_and_get_container(self):
+        obj = _instantiate(EcucModuleConfigurationValues, "EcucModuleConfigurationValues")
+        container = obj.createContainer("Container1")
+        assert container is not None
+        assert container.getShortName() == "Container1"
+        assert obj.getContainers() == [container]
+
+    def test_create_duplicate_container_returns_existing(self):
+        obj = _instantiate(EcucModuleConfigurationValues, "EcucModuleConfigurationValues")
+        first = obj.createContainer("Container1")
+        second = obj.createContainer("Container1")
+        assert first is second
+        assert len(obj.getContainers()) == 1
 
 
 class TestEcucAddInfoParamValue:

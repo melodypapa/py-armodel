@@ -142,6 +142,24 @@ class TestWriterRteEvents:
         assert evt.find("OFFSET").text == "0.05"
         assert evt.find("PERIOD").text == "0.1"
 
+    def test_writeTimingEvent_activation_reason_representation(self, writer):
+        behavior = _make_behavior()
+        event = behavior.createTimingEvent("te")
+        event.setActivationReasonRepresentationRef(_ref("/ar", "EXECUTABLE-ENTITY-ACTIVATION-REASON"))
+        parent = _parent()
+        writer.writeTimingEvent(parent, event)
+        evt = parent[0]
+        assert evt.tag == "TIMING-EVENT"
+        assert evt.find("ACTIVATION-REASON-REPRESENTATION-REF") is not None
+
+    def test_writeTimingEvent_no_activation_reason_representation(self, writer):
+        behavior = _make_behavior()
+        event = behavior.createTimingEvent("te")
+        parent = _parent()
+        writer.writeTimingEvent(parent, event)
+        evt = parent[0]
+        assert evt.find("ACTIVATION-REASON-REPRESENTATION-REF") is None
+
     def test_writeTimingEvent_none(self, writer):
         parent = _parent()
         writer.writeTimingEvent(parent, None)
@@ -365,6 +383,28 @@ class TestWriterInternalBehavior:
         parent = _parent()
         writer.writeExclusiveAreas(parent, behavior)
         assert parent.find("EXCLUSIVE-AREAS") is None
+
+    def test_writeExclusiveAreaNestingOrders(self, writer):
+        behavior = _make_behavior()
+        nesting_order = behavior.createExclusiveAreaNestingOrder("o1")
+        nesting_order.addExclusiveAreaRef(_ref("/ea1", "EXCLUSIVE-AREA"))
+        nesting_order.addExclusiveAreaRef(_ref("/ea2", "EXCLUSIVE-AREA"))
+        parent = _parent()
+        writer.writeExclusiveAreaNestingOrders(parent, behavior)
+        orders = parent.find("EXCLUSIVE-AREA-NESTING-ORDERS")
+        assert orders is not None
+        assert orders[0].tag == "EXCLUSIVE-AREA-NESTING-ORDER"
+        assert orders[0].find("SHORT-NAME").text == "o1"
+        refs = orders[0].findall("EXCLUSIVE-AREA-REFS/EXCLUSIVE-AREA-REF")
+        assert len(refs) == 2
+        assert refs[0].text == "/ea1"
+        assert refs[1].text == "/ea2"
+
+    def test_writeExclusiveAreaNestingOrders_empty(self, writer):
+        behavior = _make_behavior()
+        parent = _parent()
+        writer.writeExclusiveAreaNestingOrders(parent, behavior)
+        assert parent.find("EXCLUSIVE-AREA-NESTING-ORDERS") is None
 
     def test_writeDataTypeMappingRefs(self, writer):
         behavior = _make_behavior()

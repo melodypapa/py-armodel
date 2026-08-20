@@ -1202,6 +1202,7 @@ class ARXMLParser(AbstractARXMLParser):
                 entity.addAccessedModeGroupRef(ref_type)
 
     def readBswEvent(self, element: ET.Element, event: BswScheduleEvent):
+        event.activationReasonRepresentationRef = self.getChildElementOptionalRefType(element, "ACTIVATION-REASON-REPRESENTATION-REF")
         for ref in self.getChildElementRefTypeList(element, "CONTEXT-LIMITATION-REFS/CONTEXT-LIMITATION-REF"):
             event.addContextLimitationRef(ref)
         for child_element in self.findall(element, "DISABLED-IN-MODE-IREFS/DISABLED-IN-MODE-IREF"):
@@ -1309,8 +1310,16 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "EXCLUSIVE-AREAS/EXCLUSIVE-AREA"):
             short_name = self.getShortName(child_element)
             behavior.createExclusiveArea(short_name)
+        self.readExclusiveAreaNestingOrders(element, behavior)
         self.readDataTypeMappingRefs(element, behavior)
         self.readInternalBehaviorStaticMemories(element, behavior)
+
+    def readExclusiveAreaNestingOrders(self, element: ET.Element, behavior: InternalBehavior):
+        for child_element in self.findall(element, "EXCLUSIVE-AREA-NESTING-ORDERS/EXCLUSIVE-AREA-NESTING-ORDER"):
+            short_name = self.getShortName(child_element)
+            nesting_order = behavior.createExclusiveAreaNestingOrder(short_name)
+            for ref in self.getChildElementRefTypeList(child_element, "EXCLUSIVE-AREA-REFS/EXCLUSIVE-AREA-REF"):
+                nesting_order.addExclusiveAreaRef(ref)
 
     def getRoleBasedDataAssignment(self, element: ET.Element) -> RoleBasedDataAssignment:
         assignment = RoleBasedDataAssignment()
@@ -3274,6 +3283,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readRTEEvent(self, element: ET.Element, event: RTEEvent):
         self.readIdentifiable(element, event)
+        event.activationReasonRepresentationRef = self.getChildElementOptionalRefType(element, "ACTIVATION-REASON-REPRESENTATION-REF")
         event.startOnEventRef = self.getChildElementOptionalRefType(element, "START-ON-EVENT-REF")
         for child_element in self.findall(element, "DISABLED-MODE-IREFS/DISABLED-MODE-IREF"):
             iref = self.getRModeInAtomicSwcInstanceRef(child_element)
@@ -8167,8 +8177,10 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read EcucModuleConfigurationValues %s" % values.getShortName())
         self.readIdentifiable(element, values)
         values.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
+        values.setEcucDefEdition(self.getChildElementOptionalLiteral(element, "ECUC-DEF-EDITION"))
         values.setImplementationConfigVariant(self.getChildElementOptionalLiteral(element, "IMPLEMENTATION-CONFIG-VARIANT"))
         values.setModuleDescriptionRef(self.getChildElementOptionalRefType(element, "MODULE-DESCRIPTION-REF"))
+        values.setPostBuildVariantUsed(self.getChildElementOptionalBooleanValue(element, "POST-BUILD-VARIANT-USED"))
         self.readEcucModuleConfigurationValuesContainers(element, values)
 
     def readPhysicalDimension(self, element: ET.Element, dimension: PhysicalDimension):
