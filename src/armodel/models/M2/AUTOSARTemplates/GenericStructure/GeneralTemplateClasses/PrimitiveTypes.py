@@ -5,7 +5,7 @@ in the GenericStructure module.
 
 from abc import ABC
 import re
-from typing import List, Optional, Union, Any
+from typing import List, Optional, Sequence, Union, Any
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
@@ -307,12 +307,12 @@ class AREnum(ARLiteral):
     # [x] setEnumValues                [x] impl  [x] docstring  [x] test
     # [x] validateEnumValue            [x] impl  [x] docstring  [x] test
 
-    def __init__(self, enum_values: List[str]):
+    def __init__(self, enum_values: Sequence[str]):
         super().__init__()
 
-        self.enumValues: List[str] = enum_values
+        self.enumValues: Sequence[str] = enum_values
 
-    def getEnumValues(self) -> List[str]:
+    def getEnumValues(self) -> Sequence[str]:
         """
         Gets the list of possible enum values.
 

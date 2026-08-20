@@ -555,38 +555,26 @@ class ApiPrincipleEnum(AREnum):
 
 class ExclusiveAreaNestingOrder(Referrable):
     """
-    This meta-class represents the ability to define a nesting order of
-    ExclusiveAreas. A nesting order (that may occur in the executable code) is
-    formally defined to be able to analyze the resource locking behavior.
+    This meta-class represents the ability to define a nesting order of ExclusiveAreas. A nesting order (that may occur in the executable code) is formally defined to be able to analyze the resource locking behavior.
     """
 
     # ExclusiveAreaNestingOrder method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.19, p.84
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getExclusiveAreaRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] addExclusiveAreaRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the ExclusiveAreaNestingOrder with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this nesting order
-            short_name: The unique short name of this nesting order
-        """
         super().__init__(parent, short_name)
 
-        # This represents a specific scenario of how Exclusive Areas can be
-        # used in terms of the nesting order. Spec attribute "exclusiveArea"
-        # (ref, *, ordered).
+        # This represents a specific scenario of how Exclusive Areas can be used in terms of the nesting order.
         self.exclusiveAreaRefs: List[RefType] = []
 
     def getExclusiveAreaRefs(self) -> List[RefType]:
         """
-        Gets the ordered references to ExclusiveAreas describing a specific
-        scenario of how exclusive areas can be used in terms of the nesting
-        order.
+        This represents a specific scenario of how Exclusive Areas can be used in terms of the nesting order.
 
         Returns:
             List of RefType instances
@@ -595,9 +583,8 @@ class ExclusiveAreaNestingOrder(Referrable):
 
     def addExclusiveAreaRef(self, value: RefType) -> "ExclusiveAreaNestingOrder":
         """
-        Adds an ordered reference to an ExclusiveArea describing a specific
-        scenario of how exclusive areas can be used in terms of the nesting
-        order.
+        This represents a specific scenario of how Exclusive Areas can be used in terms of the nesting order.
+        Only adds the value if it is not None.
 
         Args:
             value: The exclusive area reference to add
