@@ -23,6 +23,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DiagnosticCapabilityElement,
     DiagnosticClearDtcNotificationEnum,
     DiagnosticCommunicationManagerNeeds,
+    DiagnosticDenominatorConditionEnum,
     DiagnosticEnableConditionNeeds,
     DiagnosticEventInfoNeeds,
     DiagnosticEventNeeds,
@@ -38,6 +39,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DiagnosticValueAccessEnum,
     DiagnosticValueNeeds,
     DltUserNeeds,
+    DoIpRoutingActivationAuthenticationNeeds,
+    DoIpRoutingActivationConfirmationNeeds,
+    DoIpServiceNeeds,
     DtcFormatTypeEnum,
     DtcKindEnum,
     DtcStatusChangeNotificationNeeds,
@@ -45,6 +49,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     ErrorTracerNeeds,
     EventAcceptanceStatusEnum,
     FunctionInhibitionAvailabilityNeeds,
+    IdsMgrNeeds,
     IndicatorStatusNeeds,
     MaxCommModeEnum,
     NvBlockNeeds,
@@ -54,12 +59,16 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     ObdInfoServiceNeeds,
     ObdMonitorServiceNeeds,
     ObdPidServiceNeeds,
+    ObdRatioConnectionKindEnum,
+    ObdRatioDenominatorNeeds,
+    ObdRatioServiceNeeds,
     OperationCycleTypeEnum,
     PossibleErrorReaction,
     RamBlockStatusControlEnum,
     RoleBasedDataAssignment,
     RoleBasedDataTypeAssignment,
     RuntimeError,
+    SecureOnBoardCommunicationNeeds,
     ServiceDependency,
     ServiceDiagnosticRelevanceEnum,
     ServiceNeeds,
@@ -68,8 +77,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     SupervisedEntityNeeds,
     TracedFailure,
     TransientFault,
+    VerificationStatusIndicationModeEnum,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, NameToken, PositiveInteger, RefType, TimeValue
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -2905,3 +2915,569 @@ class TestObdControlServiceNeedsRoundTrip:
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
+
+
+class TestDoIpServiceNeeds:
+    def test_abstract_initialization(self):
+        """Test that DoIpServiceNeeds cannot be instantiated directly"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        with pytest.raises(TypeError):
+            DoIpServiceNeeds(ar_root, "TestDoIpServiceNeeds")
+
+
+class TestObdRatioConnectionKindEnum:
+    def test_initialization(self):
+        """Test ObdRatioConnectionKindEnum initialization"""
+        enum = ObdRatioConnectionKindEnum()
+        assert tuple(enum.enumValues) == ("apiUse", "observer")
+
+    def test_values(self):
+        """Test enum values"""
+        assert ObdRatioConnectionKindEnum.API_USE == "apiUse"
+        assert ObdRatioConnectionKindEnum.OBSERVER == "observer"
+
+    def test_get_value(self):
+        """Test setValue/getValue round-trip"""
+        enum = ObdRatioConnectionKindEnum().setValue(ObdRatioConnectionKindEnum.OBSERVER)
+        assert enum.getValue() == "observer"
+
+
+class TestDiagnosticDenominatorConditionEnum:
+    def test_initialization(self):
+        """Test DiagnosticDenominatorConditionEnum initialization"""
+        enum = DiagnosticDenominatorConditionEnum()
+        assert tuple(enum.enumValues) == ("_500miles", "coldstart", "csers", "evap", "evappurgeflow", "individual", "obd")
+
+    def test_values(self):
+        """Test enum values"""
+        assert DiagnosticDenominatorConditionEnum._500MILES == "_500miles"
+        assert DiagnosticDenominatorConditionEnum.COLDSTART == "coldstart"
+        assert DiagnosticDenominatorConditionEnum.CSERS == "csers"
+        assert DiagnosticDenominatorConditionEnum.EVAP == "evap"
+        assert DiagnosticDenominatorConditionEnum.EVAPPURGEFLOW == "evappurgeflow"
+        assert DiagnosticDenominatorConditionEnum.INDIVIDUAL == "individual"
+        assert DiagnosticDenominatorConditionEnum.OBD == "obd"
+
+    def test_get_value(self):
+        """Test setValue/getValue round-trip"""
+        enum = DiagnosticDenominatorConditionEnum().setValue(DiagnosticDenominatorConditionEnum.EVAP)
+        assert enum.getValue() == "evap"
+
+
+class TestVerificationStatusIndicationModeEnum:
+    def test_initialization(self):
+        """Test VerificationStatusIndicationModeEnum initialization"""
+        enum = VerificationStatusIndicationModeEnum()
+        assert tuple(enum.enumValues) == ("failureAndSuccess", "failureOnly")
+
+    def test_values(self):
+        """Test enum values"""
+        assert VerificationStatusIndicationModeEnum.FAILURE_AND_SUCCESS == "failureAndSuccess"
+        assert VerificationStatusIndicationModeEnum.FAILURE_ONLY == "failureOnly"
+
+    def test_get_value(self):
+        """Test setValue/getValue round-trip"""
+        enum = VerificationStatusIndicationModeEnum().setValue(VerificationStatusIndicationModeEnum.FAILURE_ONLY)
+        assert enum.getValue() == "failureOnly"
+
+
+class TestObdRatioServiceNeeds:
+    def test_initialization(self):
+        """Test ObdRatioServiceNeeds initialization"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = ObdRatioServiceNeeds(ar_root, "TestObdRatioServiceNeeds")
+
+        assert needs is not None
+        assert needs.getShortName() == "TestObdRatioServiceNeeds"
+        assert needs.getConnectionType() is None
+        assert needs.getRateBasedMonitoredEventRef() is None
+        assert needs.getUsedFidRef() is None
+
+    def test_get_set_connection_type(self):
+        """Test getConnectionType/setConnectionType (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = ObdRatioServiceNeeds(ar_root, "TestObdRatioServiceNeeds")
+
+        value = ObdRatioConnectionKindEnum().setValue(ObdRatioConnectionKindEnum.OBSERVER)
+        result = needs.setConnectionType(value)
+        assert result is needs
+        assert needs.getConnectionType() == value
+
+        needs.setConnectionType(None)  # No-op
+        assert needs.getConnectionType() == value
+
+    def test_get_set_rate_based_monitored_event_ref(self):
+        """Test getRateBasedMonitoredEventRef/setRateBasedMonitoredEventRef (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = ObdRatioServiceNeeds(ar_root, "TestObdRatioServiceNeeds")
+
+        value = RefType().setValue("/Needs/RateBasedMonitoredEvent")
+        result = needs.setRateBasedMonitoredEventRef(value)
+        assert result is needs
+        assert needs.getRateBasedMonitoredEventRef() == value
+
+        needs.setRateBasedMonitoredEventRef(None)  # No-op
+        assert needs.getRateBasedMonitoredEventRef() == value
+
+    def test_get_set_used_fid_ref(self):
+        """Test getUsedFidRef/setUsedFidRef (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = ObdRatioServiceNeeds(ar_root, "TestObdRatioServiceNeeds")
+
+        value = RefType().setValue("/Needs/UsedFid")
+        result = needs.setUsedFidRef(value)
+        assert result is needs
+        assert needs.getUsedFidRef() == value
+
+        needs.setUsedFidRef(None)  # No-op
+        assert needs.getUsedFidRef() == value
+
+    def test_round_trip(self):
+        """Test parse -> write -> re-parse preserves ObdRatioServiceNeeds fields."""
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        desc = ar_root.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        dependency = BswServiceDependency()
+        needs = ObdRatioServiceNeeds(dependency, "RatioNeeds")
+        needs.setConnectionType(ObdRatioConnectionKindEnum().setValue(ObdRatioConnectionKindEnum.OBSERVER))
+        needs.setRateBasedMonitoredEventRef(RefType().setValue("/Ratio/MonitoredEvent"))
+        needs.setUsedFidRef(RefType().setValue("/Ratio/UsedFid"))
+        dependency.setServiceNeeds(needs)
+        behavior.addServiceDependency(dependency)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            behavior_2 = document_2.getARPackages()[0].getBswModuleDescriptions()[0].getInternalBehaviors()[0]
+            needs_2 = behavior_2.getServiceDependencies()[0].getServiceNeeds()
+            assert needs_2.getShortName() == "RatioNeeds"
+            assert isinstance(needs_2, ObdRatioServiceNeeds)
+            assert needs_2.getConnectionType().getValue() == "observer"
+            assert needs_2.getRateBasedMonitoredEventRef().getValue() == "/Ratio/MonitoredEvent"
+            assert needs_2.getUsedFidRef().getValue() == "/Ratio/UsedFid"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestObdRatioDenominatorNeeds:
+    def test_initialization(self):
+        """Test ObdRatioDenominatorNeeds initialization"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = ObdRatioDenominatorNeeds(ar_root, "TestObdRatioDenominatorNeeds")
+
+        assert needs is not None
+        assert needs.getShortName() == "TestObdRatioDenominatorNeeds"
+        assert needs.getDenominatorCondition() is None
+
+    def test_get_set_denominator_condition(self):
+        """Test getDenominatorCondition/setDenominatorCondition (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = ObdRatioDenominatorNeeds(ar_root, "TestObdRatioDenominatorNeeds")
+
+        value = DiagnosticDenominatorConditionEnum().setValue(DiagnosticDenominatorConditionEnum.EVAP)
+        result = needs.setDenominatorCondition(value)
+        assert result is needs
+        assert needs.getDenominatorCondition() == value
+
+        needs.setDenominatorCondition(None)  # No-op
+        assert needs.getDenominatorCondition() == value
+
+    def test_round_trip(self):
+        """Test parse -> write -> re-parse preserves denominatorCondition."""
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        desc = ar_root.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        dependency = BswServiceDependency()
+        needs = ObdRatioDenominatorNeeds(dependency, "DenomNeeds")
+        needs.setDenominatorCondition(DiagnosticDenominatorConditionEnum().setValue(DiagnosticDenominatorConditionEnum.EVAP))
+        dependency.setServiceNeeds(needs)
+        behavior.addServiceDependency(dependency)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            behavior_2 = document_2.getARPackages()[0].getBswModuleDescriptions()[0].getInternalBehaviors()[0]
+            needs_2 = behavior_2.getServiceDependencies()[0].getServiceNeeds()
+            assert needs_2.getShortName() == "DenomNeeds"
+            assert isinstance(needs_2, ObdRatioDenominatorNeeds)
+            assert needs_2.getDenominatorCondition().getValue() == "evap"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestDoIpRoutingActivationAuthenticationNeeds:
+    def test_initialization(self):
+        """Test DoIpRoutingActivationAuthenticationNeeds initialization"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = DoIpRoutingActivationAuthenticationNeeds(ar_root, "TestDoIpRoutingActivationAuthenticationNeeds")
+
+        assert needs is not None
+        assert needs.getShortName() == "TestDoIpRoutingActivationAuthenticationNeeds"
+        assert needs.getDataLengthRequest() is None
+        assert needs.getDataLengthResponse() is None
+        assert needs.getRoutingActivationType() is None
+
+    def test_get_set_data_length_request(self):
+        """Test getDataLengthRequest/setDataLengthRequest (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = DoIpRoutingActivationAuthenticationNeeds(ar_root, "TestDoIpRoutingActivationAuthenticationNeeds")
+
+        value = PositiveInteger().setValue("4")
+        result = needs.setDataLengthRequest(value)
+        assert result is needs
+        assert needs.getDataLengthRequest() == value
+
+        needs.setDataLengthRequest(None)  # No-op
+        assert needs.getDataLengthRequest() == value
+
+    def test_get_set_data_length_response(self):
+        """Test getDataLengthResponse/setDataLengthResponse (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = DoIpRoutingActivationAuthenticationNeeds(ar_root, "TestDoIpRoutingActivationAuthenticationNeeds")
+
+        value = PositiveInteger().setValue("8")
+        result = needs.setDataLengthResponse(value)
+        assert result is needs
+        assert needs.getDataLengthResponse() == value
+
+        needs.setDataLengthResponse(None)  # No-op
+        assert needs.getDataLengthResponse() == value
+
+    def test_get_set_routing_activation_type(self):
+        """Test getRoutingActivationType/setRoutingActivationType (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = DoIpRoutingActivationAuthenticationNeeds(ar_root, "TestDoIpRoutingActivationAuthenticationNeeds")
+
+        value = NameToken().setValue("RA_0xE1")
+        result = needs.setRoutingActivationType(value)
+        assert result is needs
+        assert needs.getRoutingActivationType() == value
+
+        needs.setRoutingActivationType(None)  # No-op
+        assert needs.getRoutingActivationType() == value
+
+    def test_round_trip(self):
+        """Test parse -> write -> re-parse preserves DoIpRoutingActivationAuthenticationNeeds fields."""
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        desc = ar_root.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        dependency = BswServiceDependency()
+        needs = DoIpRoutingActivationAuthenticationNeeds(dependency, "AuthNeeds")
+        needs.setDataLengthRequest(PositiveInteger().setValue("4"))
+        needs.setDataLengthResponse(PositiveInteger().setValue("8"))
+        needs.setRoutingActivationType(NameToken().setValue("RA_0xE1"))
+        dependency.setServiceNeeds(needs)
+        behavior.addServiceDependency(dependency)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            behavior_2 = document_2.getARPackages()[0].getBswModuleDescriptions()[0].getInternalBehaviors()[0]
+            needs_2 = behavior_2.getServiceDependencies()[0].getServiceNeeds()
+            assert needs_2.getShortName() == "AuthNeeds"
+            assert isinstance(needs_2, DoIpRoutingActivationAuthenticationNeeds)
+            assert needs_2.getDataLengthRequest().getValue() == 4
+            assert needs_2.getDataLengthResponse().getValue() == 8
+            assert needs_2.getRoutingActivationType().getValue() == "RA_0xE1"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestDoIpRoutingActivationConfirmationNeeds:
+    def test_initialization(self):
+        """Test DoIpRoutingActivationConfirmationNeeds initialization"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = DoIpRoutingActivationConfirmationNeeds(ar_root, "TestDoIpRoutingActivationConfirmationNeeds")
+
+        assert needs is not None
+        assert needs.getShortName() == "TestDoIpRoutingActivationConfirmationNeeds"
+        assert needs.getDataLengthRequest() is None
+        assert needs.getDataLengthResponse() is None
+        assert needs.getRoutingActivationType() is None
+
+    def test_get_set_data_length_request(self):
+        """Test getDataLengthRequest/setDataLengthRequest (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = DoIpRoutingActivationConfirmationNeeds(ar_root, "TestDoIpRoutingActivationConfirmationNeeds")
+
+        value = PositiveInteger().setValue("4")
+        result = needs.setDataLengthRequest(value)
+        assert result is needs
+        assert needs.getDataLengthRequest() == value
+
+        needs.setDataLengthRequest(None)  # No-op
+        assert needs.getDataLengthRequest() == value
+
+    def test_get_set_data_length_response(self):
+        """Test getDataLengthResponse/setDataLengthResponse (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = DoIpRoutingActivationConfirmationNeeds(ar_root, "TestDoIpRoutingActivationConfirmationNeeds")
+
+        value = PositiveInteger().setValue("8")
+        result = needs.setDataLengthResponse(value)
+        assert result is needs
+        assert needs.getDataLengthResponse() == value
+
+        needs.setDataLengthResponse(None)  # No-op
+        assert needs.getDataLengthResponse() == value
+
+    def test_get_set_routing_activation_type(self):
+        """Test getRoutingActivationType/setRoutingActivationType (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = DoIpRoutingActivationConfirmationNeeds(ar_root, "TestDoIpRoutingActivationConfirmationNeeds")
+
+        value = NameToken().setValue("RA_0xE1")
+        result = needs.setRoutingActivationType(value)
+        assert result is needs
+        assert needs.getRoutingActivationType() == value
+
+        needs.setRoutingActivationType(None)  # No-op
+        assert needs.getRoutingActivationType() == value
+
+    def test_round_trip(self):
+        """Test parse -> write -> re-parse preserves DoIpRoutingActivationConfirmationNeeds fields."""
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        desc = ar_root.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        dependency = BswServiceDependency()
+        needs = DoIpRoutingActivationConfirmationNeeds(dependency, "ConfNeeds")
+        needs.setDataLengthRequest(PositiveInteger().setValue("4"))
+        needs.setDataLengthResponse(PositiveInteger().setValue("8"))
+        needs.setRoutingActivationType(NameToken().setValue("RA_0xE1"))
+        dependency.setServiceNeeds(needs)
+        behavior.addServiceDependency(dependency)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            behavior_2 = document_2.getARPackages()[0].getBswModuleDescriptions()[0].getInternalBehaviors()[0]
+            needs_2 = behavior_2.getServiceDependencies()[0].getServiceNeeds()
+            assert needs_2.getShortName() == "ConfNeeds"
+            assert isinstance(needs_2, DoIpRoutingActivationConfirmationNeeds)
+            assert needs_2.getDataLengthRequest().getValue() == 4
+            assert needs_2.getDataLengthResponse().getValue() == 8
+            assert needs_2.getRoutingActivationType().getValue() == "RA_0xE1"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestSecureOnBoardCommunicationNeeds:
+    def test_initialization(self):
+        """Test SecureOnBoardCommunicationNeeds initialization"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = SecureOnBoardCommunicationNeeds(ar_root, "TestSecureOnBoardCommunicationNeeds")
+
+        assert needs is not None
+        assert needs.getShortName() == "TestSecureOnBoardCommunicationNeeds"
+        assert needs.getVerificationStatusIndicationMode() is None
+
+    def test_get_set_verification_status_indication_mode(self):
+        """Test getVerificationStatusIndicationMode/setVerificationStatusIndicationMode (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = SecureOnBoardCommunicationNeeds(ar_root, "TestSecureOnBoardCommunicationNeeds")
+
+        value = VerificationStatusIndicationModeEnum().setValue(VerificationStatusIndicationModeEnum.FAILURE_ONLY)
+        result = needs.setVerificationStatusIndicationMode(value)
+        assert result is needs
+        assert needs.getVerificationStatusIndicationMode() == value
+
+        needs.setVerificationStatusIndicationMode(None)  # No-op
+        assert needs.getVerificationStatusIndicationMode() == value
+
+    def test_round_trip(self):
+        """Test parse -> write -> re-parse preserves verificationStatusIndicationMode."""
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        desc = ar_root.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        dependency = BswServiceDependency()
+        needs = SecureOnBoardCommunicationNeeds(dependency, "SecOcNeeds")
+        needs.setVerificationStatusIndicationMode(VerificationStatusIndicationModeEnum().setValue(VerificationStatusIndicationModeEnum.FAILURE_ONLY))
+        dependency.setServiceNeeds(needs)
+        behavior.addServiceDependency(dependency)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            behavior_2 = document_2.getARPackages()[0].getBswModuleDescriptions()[0].getInternalBehaviors()[0]
+            needs_2 = behavior_2.getServiceDependencies()[0].getServiceNeeds()
+            assert needs_2.getShortName() == "SecOcNeeds"
+            assert isinstance(needs_2, SecureOnBoardCommunicationNeeds)
+            assert needs_2.getVerificationStatusIndicationMode().getValue() == "failureOnly"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestIdsMgrNeeds:
+    def test_initialization(self):
+        """Test IdsMgrNeeds initialization"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = IdsMgrNeeds(ar_root, "TestIdsMgrNeeds")
+
+        assert needs is not None
+        assert needs.getShortName() == "TestIdsMgrNeeds"
+        assert needs.getUseSmartSensorApi() is None
+
+    def test_get_set_use_smart_sensor_api(self):
+        """Test getUseSmartSensorApi/setUseSmartSensorApi (chaining, round-trip, None no-op)"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = IdsMgrNeeds(ar_root, "TestIdsMgrNeeds")
+
+        value = Boolean().setValue(True)
+        result = needs.setUseSmartSensorApi(value)
+        assert result is needs
+        assert needs.getUseSmartSensorApi() == value
+
+        needs.setUseSmartSensorApi(None)  # No-op
+        assert needs.getUseSmartSensorApi() == value
+
+    def test_round_trip(self):
+        """Test parse -> write -> re-parse preserves useSmartSensorApi."""
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        desc = ar_root.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        dependency = BswServiceDependency()
+        needs = IdsMgrNeeds(dependency, "IdsNeeds")
+        needs.setUseSmartSensorApi(Boolean().setValue(True))
+        dependency.setServiceNeeds(needs)
+        behavior.addServiceDependency(dependency)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            behavior_2 = document_2.getARPackages()[0].getBswModuleDescriptions()[0].getInternalBehaviors()[0]
+            needs_2 = behavior_2.getServiceDependencies()[0].getServiceNeeds()
+            assert needs_2.getShortName() == "IdsNeeds"
+            assert isinstance(needs_2, IdsMgrNeeds)
+            assert needs_2.getUseSmartSensorApi().getValue() is True
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestNewServiceNeedsSwcRoundTrip:
+    """Round-trip the newly synced ServiceNeeds classes through the SWC aggregator."""
+
+    def _round_trip(self, needs):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        swc = ar_root.createApplicationSwComponentType("Swc")
+        behavior = swc.createSwcInternalBehavior("Beh")
+        dependency = behavior.createSwcServiceDependency("Dep")
+        if isinstance(needs, ObdRatioServiceNeeds):
+            dependency.createObdRatioServiceNeeds(needs.getShortName())
+        elif isinstance(needs, ObdRatioDenominatorNeeds):
+            dependency.createObdRatioDenominatorNeeds(needs.getShortName())
+        elif isinstance(needs, DoIpRoutingActivationAuthenticationNeeds):
+            dependency.createDoIpRoutingActivationAuthenticationNeeds(needs.getShortName())
+        elif isinstance(needs, DoIpRoutingActivationConfirmationNeeds):
+            dependency.createDoIpRoutingActivationConfirmationNeeds(needs.getShortName())
+        elif isinstance(needs, SecureOnBoardCommunicationNeeds):
+            dependency.createSecureOnBoardCommunicationNeeds(needs.getShortName())
+        elif isinstance(needs, IdsMgrNeeds):
+            dependency.createIdsMgrNeeds(needs.getShortName())
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+            behavior_2 = document_2.getARPackages()[0].getElement("Swc", ApplicationSwComponentType).getInternalBehavior()
+            needs_2 = behavior_2.getSwcServiceDependencies()[0].getServiceNeeds()[0]
+            return needs_2
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_swc_obd_ratio_service(self):
+        needs_2 = self._round_trip(ObdRatioServiceNeeds(None, "RatioSwcNeeds"))
+        assert isinstance(needs_2, ObdRatioServiceNeeds)
+        assert needs_2.getShortName() == "RatioSwcNeeds"
+
+    def test_round_trip_swc_obd_ratio_denominator(self):
+        needs_2 = self._round_trip(ObdRatioDenominatorNeeds(None, "DenomSwcNeeds"))
+        assert isinstance(needs_2, ObdRatioDenominatorNeeds)
+        assert needs_2.getShortName() == "DenomSwcNeeds"
+
+    def test_round_trip_swc_doip_auth(self):
+        needs_2 = self._round_trip(DoIpRoutingActivationAuthenticationNeeds(None, "AuthSwcNeeds"))
+        assert isinstance(needs_2, DoIpRoutingActivationAuthenticationNeeds)
+        assert needs_2.getShortName() == "AuthSwcNeeds"
+
+    def test_round_trip_swc_doip_conf(self):
+        needs_2 = self._round_trip(DoIpRoutingActivationConfirmationNeeds(None, "ConfSwcNeeds"))
+        assert isinstance(needs_2, DoIpRoutingActivationConfirmationNeeds)
+        assert needs_2.getShortName() == "ConfSwcNeeds"
+
+    def test_round_trip_swc_secure_on_board(self):
+        needs_2 = self._round_trip(SecureOnBoardCommunicationNeeds(None, "SecOcSwcNeeds"))
+        assert isinstance(needs_2, SecureOnBoardCommunicationNeeds)
+        assert needs_2.getShortName() == "SecOcSwcNeeds"
+
+    def test_round_trip_swc_ids_mgr(self):
+        needs_2 = self._round_trip(IdsMgrNeeds(None, "IdsSwcNeeds"))
+        assert isinstance(needs_2, IdsMgrNeeds)
+        assert needs_2.getShortName() == "IdsSwcNeeds"

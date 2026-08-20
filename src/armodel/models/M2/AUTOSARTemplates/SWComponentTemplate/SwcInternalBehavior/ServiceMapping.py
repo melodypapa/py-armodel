@@ -22,15 +22,21 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DtcStatusChangeNotificationNeeds,
+    DoIpRoutingActivationAuthenticationNeeds,
+    DoIpRoutingActivationConfirmationNeeds,
     EcuStateMgrUserNeeds,
     ErrorTracerNeeds,
     FunctionInhibitionAvailabilityNeeds,
+    IdsMgrNeeds,
     IndicatorStatusNeeds,
     NvBlockNeeds,
     ObdControlServiceNeeds,
     ObdInfoServiceNeeds,
     ObdMonitorServiceNeeds,
     ObdPidServiceNeeds,
+    ObdRatioDenominatorNeeds,
+    ObdRatioServiceNeeds,
+    SecureOnBoardCommunicationNeeds,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment, ServiceNeeds, ServiceDependency
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -559,6 +565,102 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         """
         if not self.IsElementExists(short_name):
             needs = ObdControlServiceNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name)
+
+    def createObdRatioServiceNeeds(self, short_name: str) -> ObdRatioServiceNeeds:
+        """
+        Creates or retrieves an ObdRatioServiceNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            ObdRatioServiceNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name):
+            needs = ObdRatioServiceNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name)
+
+    def createObdRatioDenominatorNeeds(self, short_name: str) -> ObdRatioDenominatorNeeds:
+        """
+        Creates or retrieves an ObdRatioDenominatorNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            ObdRatioDenominatorNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name):
+            needs = ObdRatioDenominatorNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name)
+
+    def createDoIpRoutingActivationAuthenticationNeeds(self, short_name: str) -> DoIpRoutingActivationAuthenticationNeeds:
+        """
+        Creates or retrieves a DoIpRoutingActivationAuthenticationNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            DoIpRoutingActivationAuthenticationNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name):
+            needs = DoIpRoutingActivationAuthenticationNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name)
+
+    def createDoIpRoutingActivationConfirmationNeeds(self, short_name: str) -> DoIpRoutingActivationConfirmationNeeds:
+        """
+        Creates or retrieves a DoIpRoutingActivationConfirmationNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            DoIpRoutingActivationConfirmationNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name):
+            needs = DoIpRoutingActivationConfirmationNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name)
+
+    def createSecureOnBoardCommunicationNeeds(self, short_name: str) -> SecureOnBoardCommunicationNeeds:
+        """
+        Creates or retrieves a SecureOnBoardCommunicationNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            SecureOnBoardCommunicationNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name):
+            needs = SecureOnBoardCommunicationNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name)
+
+    def createIdsMgrNeeds(self, short_name: str) -> IdsMgrNeeds:
+        """
+        Creates or retrieves an IdsMgrNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            IdsMgrNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name):
+            needs = IdsMgrNeeds(self, short_name)
             self.addElement(needs)
             self.serviceNeeds = needs
         return self.getElement(short_name)

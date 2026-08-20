@@ -80,3 +80,5 @@ worktrees/
 coverage_*.xml
 uv.lock
 .codebuddy
+# pdf_page.py per-PDF table cache
+.pdf_table_cache.json

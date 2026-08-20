@@ -15,6 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Im
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType, AREnum, Boolean, ARLiteral
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagRequirementIdString, Integer, PositiveInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String, TimeValue
 
 
@@ -2312,21 +2313,40 @@ class DiagnosticControlNeeds(ServiceNeeds):
 
 class DiagnosticDenominatorConditionEnum(AREnum):
     """
-    Enumeration for diagnostic denominator condition types.
+    This enumeration contains valid denominator types.
     """
 
     # DiagnosticDenominatorConditionEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.52, p.803
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
 
-    DENOMINATOR_OFF = "denominator-off"
-    DENOMINATOR_ON = "denominator-on"
+    # Condition based on definition of 500miles conditions as defined for OBD2. Tags: atp.EnumerationLiteralIndex=2 xml.name=-500-MILES
+    _500MILES = "_500miles"
+    # Condition based on definition of "cold start" as defined for EU5+ Tags: atp.EnumerationLiteralIndex=0
+    COLDSTART = "coldstart"
+    # Conditions based on the "Cold start emission reduction strategy" denominator Tags: atp.EnumerationLiteralIndex=5
+    CSERS = "csers"
+    # Condition based on definition of "EVAP" conditions as defined for OBD2. Tags: atp.EnumerationLiteralIndex=1
+    EVAP = "evap"
+    # Conditions based on the "EVAP purge flow" denominator. Tags: atp.EnumerationLiteralIndex=6
+    EVAPPURGEFLOW = "evappurgeflow"
+    # condition based on definition of individual requirements. Tags: atp.EnumerationLiteralIndex=3
+    INDIVIDUAL = "individual"
+    # Condition based on definition of OBD requirements. Tags: atp.EnumerationLiteralIndex=4
+    OBD = "obd"
 
     def __init__(self):
         super().__init__(
-            (
-                DiagnosticDenominatorConditionEnum.DENOMINATOR_OFF,
-                DiagnosticDenominatorConditionEnum.DENOMINATOR_ON,
-            )
+            [
+                DiagnosticDenominatorConditionEnum._500MILES,
+                DiagnosticDenominatorConditionEnum.COLDSTART,
+                DiagnosticDenominatorConditionEnum.CSERS,
+                DiagnosticDenominatorConditionEnum.EVAP,
+                DiagnosticDenominatorConditionEnum.EVAPPURGEFLOW,
+                DiagnosticDenominatorConditionEnum.INDIVIDUAL,
+                DiagnosticDenominatorConditionEnum.OBD,
+            ]
         )
 
 
@@ -2803,64 +2823,223 @@ class DoIpPowerModeStatusNeeds(ServiceNeeds):
         super().__init__(parent, short_name)
 
 
-class DoIpRoutingActivationAuthenticationNeeds(ServiceNeeds):
+class DoIpServiceNeeds(ServiceNeeds, ABC):
     """
-    Represents DoIP Routing Activation Authentication needs in AUTOSAR models.
-    This class defines requirements for DoIP (Diagnostics over IP) routing activation authentication services.
-    """
-
-    # DoIpRoutingActivationAuthenticationNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-
-    def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DoIpRoutingActivationAuthenticationNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this DoIP routing activation authentication needs
-            short_name: The unique short name of this DoIP routing activation authentication needs
-        """
-        super().__init__(parent, short_name)
-
-
-class DoIpRoutingActivationConfirmationNeeds(ServiceNeeds):
-    """
-    Represents DoIP Routing Activation Confirmation needs in AUTOSAR models.
-    This class defines requirements for DoIP (Diagnostics over IP) routing activation confirmation services.
-    """
-
-    # DoIpRoutingActivationConfirmationNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-
-    def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DoIpRoutingActivationConfirmationNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this DoIP routing activation confirmation needs
-            short_name: The unique short name of this DoIP routing activation confirmation needs
-        """
-        super().__init__(parent, short_name)
-
-
-class DoIpServiceNeeds(ServiceNeeds):
-    """
-    Represents DoIP Service needs in AUTOSAR models.
-    This class defines requirements for DoIP (Diagnostics over IP) services.
+    This represents an abstract base class for ServiceNeeds related to DoIP.
     """
 
     # DoIpServiceNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.54, p.805
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
 
     def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is DoIpServiceNeeds:
+            raise TypeError("DoIpServiceNeeds is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+
+class DoIpRoutingActivationAuthenticationNeeds(DoIpServiceNeeds):
+    """
+    DoIPRoutingActivationAuthenticationNeeds indicates that the software-component owning this Service Needs will have an authentication required for a DoIP routing activation service (0x0005) according to ISO 13400-2:2012.
+    """
+
+    # DoIpRoutingActivationAuthenticationNeeds method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.58, p.806
+    # Spec verified: R23-11
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDataLengthRequest      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDataLengthRequest      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDataLengthResponse     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDataLengthResponse     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRoutingActivationType  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRoutingActivationType  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Describes the length in byte of the additional information for RA authentication that is needed by the software entity. If the software entity is a software-component the attribute does not need to exist as the information is available via the length of the uint8 Array type. Otherwise (i.e the software entity is a Complex Driver) this attribute needs to be filled out if additional information is needed.
+        self.dataLengthRequest: Optional[PositiveInteger] = None
+
+        # Describes the length in byte of the additional information for RA authentication that is provided by the software entity. If the software entity is a software-component the attribute does not need to exist as the information is available via the length of the uint8 Array type. Otherwise (i.e the software entity is a Complex Driver) this attribute needs to be filled in if additional information is provided.
+        self.dataLengthResponse: Optional[PositiveInteger] = None
+
+        # Describes the ISO 13400-2:2012 "routing activation request activation type" which is received via DoIP service 0x0005. 0x00 is DEFAULT, 0x01 is WWH-OBD. If neither of the specified values (0x00 or 0x01) is needed the token shall contain RA_ + hex value representation of the integer value shall be used (i.e: RA_0xE1).
+        self.routingActivationType: Optional[NameToken] = None
+
+    def getDataLengthRequest(self) -> Optional[PositiveInteger]:
         """
-        Initializes the DoIpServiceNeeds with a parent and short name.
+        Describes the length in byte of the additional information for RA authentication that is needed by the software entity. If the software entity is a software-component the attribute does not need to exist as the information is available via the length of the uint8 Array type. Otherwise (i.e the software entity is a Complex Driver) this attribute needs to be filled out if additional information is needed.
+
+        Returns:
+            PositiveInteger instance, or None if not set
+        """
+        return self.dataLengthRequest
+
+    def setDataLengthRequest(self, value: Optional[PositiveInteger]) -> "DoIpRoutingActivationAuthenticationNeeds":
+        """
+        Describes the length in byte of the additional information for RA authentication that is needed by the software entity. If the software entity is a software-component the attribute does not need to exist as the information is available via the length of the uint8 Array type. Otherwise (i.e the software entity is a Complex Driver) this attribute needs to be filled out if additional information is needed.
+        A None value is a no-op and does not overwrite an existing dataLengthRequest.
 
         Args:
-            parent: The parent ARObject that contains this DoIP service needs
-            short_name: The unique short name of this DoIP service needs
+            value: The PositiveInteger instance to set
+
+        Returns:
+            self for method chaining
         """
+        if value is not None:
+            self.dataLengthRequest = value
+        return self
+
+    def getDataLengthResponse(self) -> Optional[PositiveInteger]:
+        """
+        Describes the length in byte of the additional information for RA authentication that is provided by the software entity. If the software entity is a software-component the attribute does not need to exist as the information is available via the length of the uint8 Array type. Otherwise (i.e the software entity is a Complex Driver) this attribute needs to be filled in if additional information is provided.
+
+        Returns:
+            PositiveInteger instance, or None if not set
+        """
+        return self.dataLengthResponse
+
+    def setDataLengthResponse(self, value: Optional[PositiveInteger]) -> "DoIpRoutingActivationAuthenticationNeeds":
+        """
+        Describes the length in byte of the additional information for RA authentication that is provided by the software entity. If the software entity is a software-component the attribute does not need to exist as the information is available via the length of the uint8 Array type. Otherwise (i.e the software entity is a Complex Driver) this attribute needs to be filled in if additional information is provided.
+        A None value is a no-op and does not overwrite an existing dataLengthResponse.
+
+        Args:
+            value: The PositiveInteger instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.dataLengthResponse = value
+        return self
+
+    def getRoutingActivationType(self) -> Optional[NameToken]:
+        """
+        Describes the ISO 13400-2:2012 "routing activation request activation type" which is received via DoIP service 0x0005. 0x00 is DEFAULT, 0x01 is WWH-OBD. If neither of the specified values (0x00 or 0x01) is needed the token shall contain RA_ + hex value representation of the integer value shall be used (i.e: RA_0xE1).
+
+        Returns:
+            NameToken instance, or None if not set
+        """
+        return self.routingActivationType
+
+    def setRoutingActivationType(self, value: Optional[NameToken]) -> "DoIpRoutingActivationAuthenticationNeeds":
+        """
+        Describes the ISO 13400-2:2012 "routing activation request activation type" which is received via DoIP service 0x0005. 0x00 is DEFAULT, 0x01 is WWH-OBD. If neither of the specified values (0x00 or 0x01) is needed the token shall contain RA_ + hex value representation of the integer value shall be used (i.e: RA_0xE1).
+        A None value is a no-op and does not overwrite an existing routingActivationType.
+
+        Args:
+            value: The NameToken instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.routingActivationType = value
+        return self
+
+
+class DoIpRoutingActivationConfirmationNeeds(DoIpServiceNeeds):
+    """
+    DoIpRoutingActivationConfirmationNeeds indicates that the software-component that owns this Service Needs will have a confirmation required for a DoIP routing activation service (0x0005) according to ISO 13400-2:2012.
+    """
+
+    # DoIpRoutingActivationConfirmationNeeds method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.59, p.807
+    # Spec verified: R23-11
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDataLengthRequest      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDataLengthRequest      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDataLengthResponse     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDataLengthResponse     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRoutingActivationType  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRoutingActivationType  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
+        # Describes the length in byte of the additional information for RA confirmation that is needed by the software entity. If the software entity is a software-component the attribute does not need to exist as the information is available via the length of the uint8 Array type. Otherwise (i.e the software entity is a Complex Driver) this attribute needs to be filled out if additional information is needed.
+        self.dataLengthRequest: Optional[PositiveInteger] = None
+
+        # Describes the length in byte of the additional information for RA confirmation that is provided by the software entity. If the software entity is a software-component the attribute does not need to exist as the information is available via the length of the uint8 Array type. Otherwise (i.e the software entity is a Complex Driver) this attribute needs to be filled out if additional information is provided.
+        self.dataLengthResponse: Optional[PositiveInteger] = None
+
+        # Describes the ISO 13400-2:2012 "routing activation request activation type" which is received via DoIP service 0x0005. 0x00 is DEFAULT, 0x01 is WWH-OBD. If neither of the specified values (0x00 or 0x01) is needed the token shall contain RA_ + hex value representation of the integer value shall be used (i.e: RA_0xE1).
+        self.routingActivationType: Optional[NameToken] = None
+
+    def getDataLengthRequest(self) -> Optional[PositiveInteger]:
+        """
+        Describes the length in byte of the additional information for RA confirmation that is needed by the software entity. If the software entity is a software-component the attribute does not need to exist as the information is available via the length of the uint8 Array type. Otherwise (i.e the software entity is a Complex Driver) this attribute needs to be filled out if additional information is needed.
+
+        Returns:
+            PositiveInteger instance, or None if not set
+        """
+        return self.dataLengthRequest
+
+    def setDataLengthRequest(self, value: Optional[PositiveInteger]) -> "DoIpRoutingActivationConfirmationNeeds":
+        """
+        Describes the length in byte of the additional information for RA confirmation that is needed by the software entity. If the software entity is a software-component the attribute does not need to exist as the information is available via the length of the uint8 Array type. Otherwise (i.e the software entity is a Complex Driver) this attribute needs to be filled out if additional information is needed.
+        A None value is a no-op and does not overwrite an existing dataLengthRequest.
+
+        Args:
+            value: The PositiveInteger instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.dataLengthRequest = value
+        return self
+
+    def getDataLengthResponse(self) -> Optional[PositiveInteger]:
+        """
+        Describes the length in byte of the additional information for RA confirmation that is provided by the software entity. If the software entity is a software-component the attribute does not need to exist as the information is available via the length of the uint8 Array type. Otherwise (i.e the software entity is a Complex Driver) this attribute needs to be filled out if additional information is provided.
+
+        Returns:
+            PositiveInteger instance, or None if not set
+        """
+        return self.dataLengthResponse
+
+    def setDataLengthResponse(self, value: Optional[PositiveInteger]) -> "DoIpRoutingActivationConfirmationNeeds":
+        """
+        Describes the length in byte of the additional information for RA confirmation that is provided by the software entity. If the software entity is a software-component the attribute does not need to exist as the information is available via the length of the uint8 Array type. Otherwise (i.e the software entity is a Complex Driver) this attribute needs to be filled out if additional information is provided.
+        A None value is a no-op and does not overwrite an existing dataLengthResponse.
+
+        Args:
+            value: The PositiveInteger instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.dataLengthResponse = value
+        return self
+
+    def getRoutingActivationType(self) -> Optional[NameToken]:
+        """
+        Describes the ISO 13400-2:2012 "routing activation request activation type" which is received via DoIP service 0x0005. 0x00 is DEFAULT, 0x01 is WWH-OBD. If neither of the specified values (0x00 or 0x01) is needed the token shall contain RA_ + hex value representation of the integer value shall be used (i.e: RA_0xE1).
+
+        Returns:
+            NameToken instance, or None if not set
+        """
+        return self.routingActivationType
+
+    def setRoutingActivationType(self, value: Optional[NameToken]) -> "DoIpRoutingActivationConfirmationNeeds":
+        """
+        Describes the ISO 13400-2:2012 "routing activation request activation type" which is received via DoIP service 0x0005. 0x00 is DEFAULT, 0x01 is WWH-OBD. If neither of the specified values (0x00 or 0x01) is needed the token shall contain RA_ + hex value representation of the integer value shall be used (i.e: RA_0xE1).
+        A None value is a no-op and does not overwrite an existing routingActivationType.
+
+        Args:
+            value: The NameToken instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.routingActivationType = value
+        return self
 
 
 class ErrorTracerNeeds(ServiceNeeds):
@@ -3122,22 +3301,45 @@ class IdsMgrCustomTimestampNeeds(ServiceNeeds):
 
 class IdsMgrNeeds(ServiceNeeds):
     """
-    Represents IDS Manager needs in AUTOSAR models.
-    This class defines requirements for IDS (Intrusion Detection System) manager services.
+    This meta-class is used to indicate that the enclosing SwcServiceDependency represents a service use case for the Intrusion Detection System Manager. Tags: atp.Status=draft
     """
 
     # IdsMgrNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.81, p.842
+    # Spec verified: R23-11
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getUseSmartSensorApi    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setUseSmartSensorApi    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute controls whether the reporting of the security event shall be done by means of the smart sensor API.
+        self.useSmartSensorApi: Optional[Boolean] = None
+
+    def getUseSmartSensorApi(self) -> Optional[Boolean]:
         """
-        Initializes the IdsMgrNeeds with a parent and short name.
+        This attribute controls whether the reporting of the security event shall be done by means of the smart sensor API.
+
+        Returns:
+            Boolean instance, or None if not set
+        """
+        return self.useSmartSensorApi
+
+    def setUseSmartSensorApi(self, value: Optional[Boolean]) -> "IdsMgrNeeds":
+        """
+        This attribute controls whether the reporting of the security event shall be done by means of the smart sensor API.
+        A None value is a no-op and does not overwrite an existing useSmartSensorApi.
 
         Args:
-            parent: The parent ARObject that contains this IDS manager needs
-            short_name: The unique short name of this IDS manager needs
+            value: The Boolean instance to set
+
+        Returns:
+            self for method chaining
         """
-        super().__init__(parent, short_name)
+        if value is not None:
+            self.useSmartSensorApi = value
+        return self
 
 
 class DiagnosticIndicatorTypeEnum(AREnum):
@@ -3524,21 +3726,25 @@ class ObdPidServiceNeeds(DiagnosticCapabilityElement):
 
 class ObdRatioConnectionKindEnum(AREnum):
     """
-    Enumeration for OBD ratio connection kind types.
+    Defines the way how the IUMPR service connection between the Dem and the client component or module is handled (for details see the DEM Specification).
     """
 
     # ObdRatioConnectionKindEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.46, p.796
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
 
-    LOGICAL_AND = "logical-and"
-    LOGICAL_OR = "logical-or"
+    # The IUMPR service (of the DEM) uses an explicit API to connect to the component or module. Tags: atp.EnumerationLiteralIndex=0
+    API_USE = "apiUse"
+    # The IUMPR service (of the Dem) uses no API but "observes" the associated diagnostic event. Tags: atp.EnumerationLiteralIndex=1
+    OBSERVER = "observer"
 
     def __init__(self):
         super().__init__(
-            (
-                ObdRatioConnectionKindEnum.LOGICAL_AND,
-                ObdRatioConnectionKindEnum.LOGICAL_OR,
-            )
+            [
+                ObdRatioConnectionKindEnum.API_USE,
+                ObdRatioConnectionKindEnum.OBSERVER,
+            ]
         )
 
 
@@ -3548,36 +3754,142 @@ class ObdRatioDenominatorNeeds(ServiceNeeds):
     """
 
     # ObdRatioDenominatorNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.51, p.803
+    # Spec verified: R23-11
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDenominatorCondition         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDenominatorCondition         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the ObdRatioDenominatorNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this OBD ratio denominator needs
-            short_name: The unique short name of this OBD ratio denominator needs
-        """
         super().__init__(parent, short_name)
 
+        # This attribute indicates the applicable denominator condition.
+        self.denominatorCondition: Optional[DiagnosticDenominatorConditionEnum] = None
 
-class ObdRatioServiceNeeds(ServiceNeeds):
+    def getDenominatorCondition(self) -> Optional[DiagnosticDenominatorConditionEnum]:
+        """
+        This attribute indicates the applicable denominator condition.
+
+        Returns:
+            DiagnosticDenominatorConditionEnum instance, or None if not set
+        """
+        return self.denominatorCondition
+
+    def setDenominatorCondition(self, value: Optional[DiagnosticDenominatorConditionEnum]) -> "ObdRatioDenominatorNeeds":
+        """
+        This attribute indicates the applicable denominator condition.
+        A None value is a no-op and does not overwrite an existing denominatorCondition.
+
+        Args:
+            value: The DiagnosticDenominatorConditionEnum instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.denominatorCondition = value
+        return self
+
+
+class ObdRatioServiceNeeds(DiagnosticCapabilityElement):
     """
     Specifies the abstract needs of a component or module on the configuration of OBD Services in relation to a particular "ratio monitoring" which is supported by this component or module.
     """
 
     # ObdRatioServiceNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.44, p.795
+    # Spec verified: R23-11
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getConnectionType                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setConnectionType                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRateBasedMonitoredEventRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRateBasedMonitoredEventRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getUsedFidRef                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setUsedFidRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Defines how the DEM is connected to the component or module to perform the IUMPR (In use monitor performance ratio) service.
+        self.connectionType: Optional[ObdRatioConnectionKindEnum] = None
+
+        # The rate based monitored Diagnostic Event.
+        self.rateBasedMonitoredEventRef: Optional[RefType] = None
+
+        # This represents the primary Function Inhibition Identifier used for the rate based monitor. This is an optional attribute.
+        self.usedFidRef: Optional[RefType] = None
+
+    def getConnectionType(self) -> Optional[ObdRatioConnectionKindEnum]:
         """
-        Initializes the ObdRatioServiceNeeds with a parent and short name.
+        Defines how the DEM is connected to the component or module to perform the IUMPR (In use monitor performance ratio) service.
+
+        Returns:
+            ObdRatioConnectionKindEnum instance, or None if not set
+        """
+        return self.connectionType
+
+    def setConnectionType(self, value: Optional[ObdRatioConnectionKindEnum]) -> "ObdRatioServiceNeeds":
+        """
+        Defines how the DEM is connected to the component or module to perform the IUMPR (In use monitor performance ratio) service.
+        A None value is a no-op and does not overwrite an existing connectionType.
 
         Args:
-            parent: The parent ARObject that contains this OBD ratio service needs
-            short_name: The unique short name of this OBD ratio service needs
+            value: The ObdRatioConnectionKindEnum instance to set
+
+        Returns:
+            self for method chaining
         """
-        super().__init__(parent, short_name)
+        if value is not None:
+            self.connectionType = value
+        return self
+
+    def getRateBasedMonitoredEventRef(self) -> Optional[RefType]:
+        """
+        The rate based monitored Diagnostic Event.
+
+        Returns:
+            RefType instance, or None if not set
+        """
+        return self.rateBasedMonitoredEventRef
+
+    def setRateBasedMonitoredEventRef(self, value: Optional[RefType]) -> "ObdRatioServiceNeeds":
+        """
+        The rate based monitored Diagnostic Event.
+        A None value is a no-op and does not overwrite an existing rateBasedMonitoredEventRef.
+
+        Args:
+            value: The RefType instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.rateBasedMonitoredEventRef = value
+        return self
+
+    def getUsedFidRef(self) -> Optional[RefType]:
+        """
+        This represents the primary Function Inhibition Identifier used for the rate based monitor. This is an optional attribute.
+
+        Returns:
+            RefType instance, or None if not set
+        """
+        return self.usedFidRef
+
+    def setUsedFidRef(self, value: Optional[RefType]) -> "ObdRatioServiceNeeds":
+        """
+        This represents the primary Function Inhibition Identifier used for the rate based monitor. This is an optional attribute.
+        A None value is a no-op and does not overwrite an existing usedFidRef.
+
+        Args:
+            value: The RefType instance to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.usedFidRef = value
+        return self
 
 
 class OperationCycleTypeEnum(AREnum):
@@ -3633,22 +3945,45 @@ class RuntimeError(TracedFailure):
 
 class SecureOnBoardCommunicationNeeds(ServiceNeeds):
     """
-    Represents Secure On-Board Communication needs in AUTOSAR models.
-    This class defines requirements for secure on-board communication services (SecOC).
+    Specifies the need for the existence of the SecOc module on the respective ECU. This class currently contains no attributes. An instance of this class is used to find out which ports of a software-component deal with the administration of secure communication in order to group the request and response ports.
     """
 
     # SecureOnBoardCommunicationNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.68, p.824
+    # Spec verified: R23-11
+    # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getVerificationStatusIndicationMode   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setVerificationStatusIndicationMode   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute provides the ability to control the mode in which the application software is notified about the result of authentication attempts.
+        self.verificationStatusIndicationMode: Optional[VerificationStatusIndicationModeEnum] = None
+
+    def getVerificationStatusIndicationMode(self) -> Optional[VerificationStatusIndicationModeEnum]:
         """
-        Initializes the SecureOnBoardCommunicationNeeds with a parent and short name.
+        This attribute provides the ability to control the mode in which the application software is notified about the result of authentication attempts.
+
+        Returns:
+            VerificationStatusIndicationModeEnum instance, or None if not set
+        """
+        return self.verificationStatusIndicationMode
+
+    def setVerificationStatusIndicationMode(self, value: Optional[VerificationStatusIndicationModeEnum]) -> "SecureOnBoardCommunicationNeeds":
+        """
+        This attribute provides the ability to control the mode in which the application software is notified about the result of authentication attempts.
+        A None value is a no-op and does not overwrite an existing verificationStatusIndicationMode.
 
         Args:
-            parent: The parent ARObject that contains this secure on-board communication needs
-            short_name: The unique short name of this secure on-board communication needs
+            value: The VerificationStatusIndicationModeEnum instance to set
+
+        Returns:
+            self for method chaining
         """
-        super().__init__(parent, short_name)
+        if value is not None:
+            self.verificationStatusIndicationMode = value
+        return self
 
 
 class ServiceProviderEnum(AREnum):
@@ -4254,21 +4589,25 @@ class VendorSpecificServiceNeeds(ServiceNeeds):
 
 class VerificationStatusIndicationModeEnum(AREnum):
     """
-    Enumeration for verification status indication mode types.
+    This enumeration provides options for setting the mode of a verification status indication.
     """
 
     # VerificationStatusIndicationModeEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.69, p.824
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
 
-    DIRECT = "direct"
-    INDIRECT = "indirect"
+    # Verification attempts that came out "false" or "true" shall be forwarded to the application software. Tags: atp.EnumerationLiteralIndex=1
+    FAILURE_AND_SUCCESS = "failureAndSuccess"
+    # Only verification attempts that came out "false" shall be forwarded to the application software. Tags: atp.EnumerationLiteralIndex=0
+    FAILURE_ONLY = "failureOnly"
 
     def __init__(self):
         super().__init__(
-            (
-                VerificationStatusIndicationModeEnum.DIRECT,
-                VerificationStatusIndicationModeEnum.INDIRECT,
-            )
+            [
+                VerificationStatusIndicationModeEnum.FAILURE_AND_SUCCESS,
+                VerificationStatusIndicationModeEnum.FAILURE_ONLY,
+            ]
         )
 
 
