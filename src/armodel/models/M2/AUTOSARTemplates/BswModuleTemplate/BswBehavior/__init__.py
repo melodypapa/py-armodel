@@ -9,6 +9,8 @@ These classes are used to model:
 - Internal behavior of BSW modules
 """
 
+from __future__ import annotations
+
 from abc import ABC
 from typing import List, Optional, TYPE_CHECKING
 
