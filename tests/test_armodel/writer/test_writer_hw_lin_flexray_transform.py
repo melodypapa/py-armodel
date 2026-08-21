@@ -510,10 +510,21 @@ class TestWriterISignalIPdu:
         parent = _parent()
         writer.writeISignalIPdu(parent, ipdu)
         assert parent[0].tag == "I-SIGNAL-I-PDU"
-        assert parent[0].find("LENGTH") is not None
+        assert parent[0].find("SHORT-NAME").text == "IPdu"
+        assert parent[0].find("LENGTH").text == "64"
         assert parent[0].find("I-PDU-TIMING-SPECIFICATIONS") is not None
-        assert parent[0].find("I-SIGNAL-TO-PDU-MAPPINGS") is not None
-        assert parent[0].find("UNUSED-BIT-PATTERN") is not None
+        assert parent[0].find("I-PDU-TIMING-SPECIFICATIONS/I-PDU-TIMING/MINIMUM-DELAY").text == "0.01"
+        assert parent[0].find("I-SIGNAL-TO-PDU-MAPPINGS/I-SIGNAL-TO-I-PDU-MAPPING/I-SIGNAL-REF").text == "/sig"
+        assert parent[0].find("UNUSED-BIT-PATTERN").text == "0"
+
+    def test_writeISignalIPdu_no_mappings_omits_wrapper(self, writer):
+        pkg = _make_pkg()
+        ipdu = ISignalIPdu(pkg, "IPdu")
+        ipdu.setUnusedBitPattern(_integer(0))
+        parent = _parent()
+        writer.writeISignalIPdu(parent, ipdu)
+        assert parent[0].tag == "I-SIGNAL-I-PDU"
+        assert parent[0].find("I-SIGNAL-TO-PDU-MAPPINGS") is None
 
 
 class TestWriterFlexrayFrame:

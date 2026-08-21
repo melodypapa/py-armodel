@@ -593,15 +593,20 @@ class Test_FibexCoreCommunication:
         ipdu.setIPduTimingSpecification(timing)
         assert ipdu.getIPduTimingSpecification() == timing
         assert ipdu == ipdu.setIPduTimingSpecification(timing)  # Test method chaining
+        assert ipdu == ipdu.setIPduTimingSpecification(None)  # None is a no-op
+        assert ipdu.getIPduTimingSpecification() == timing
 
         ipdu.setUnusedBitPattern(255)
         assert ipdu.getUnusedBitPattern() == 255
         assert ipdu == ipdu.setUnusedBitPattern(255)  # Test method chaining
+        assert ipdu == ipdu.setUnusedBitPattern(None)  # None is a no-op
+        assert ipdu.getUnusedBitPattern() == 255
 
         # Test ISignalToPduMappings creation method
         mapping = ipdu.createISignalToPduMappings("test_mapping")
         assert isinstance(mapping, ISignalToIPduMapping)
         assert len(ipdu.getISignalToPduMappings()) == 1
+        assert ipdu.createISignalToPduMappings("test_mapping") is mapping  # duplicate returns existing
 
     def test_ISignal(self):
         """Test ISignal class functionality."""

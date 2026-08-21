@@ -1124,49 +1124,77 @@ class IPduTiming(Describable):
 
 class ISignalIPdu(IPdu):
     """
-    Represents an Interaction Protocol Data Unit (IPDU) based on interaction signals,
-    defining timing specifications, signal-to-PDU mappings, and unused
-    bit patterns for signal-based communication.
+    Represents the IPdus handled by Com. The ISignalIPdu assembled and disassembled in AUTOSAR COM consists of one or more signals. In case no multiplexing is performed this IPdu is routed to/from the Interface Layer. A maximum of one dynamic length signal per IPdu is allowed.
     """
 
     # ISignalIPdu method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getIPduTimingSpecification   [x] impl  [ ] docstring  [ ] test
-    # [ ] setIPduTimingSpecification   [x] impl  [ ] docstring  [ ] test
-    # [ ] getISignalToPduMappings      [x] impl  [ ] docstring  [ ] test
-    # [ ] createISignalToPduMappings   [x] impl  [ ] docstring  [ ] test
-    # [ ] getUnusedBitPattern          [x] impl  [ ] docstring  [ ] test
-    # [ ] setUnusedBitPattern          [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.19, p.342
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getIPduTimingSpecification  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIPduTimingSpecification  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getISignalToPduMappings     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createISignalToPduMappings  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getUnusedBitPattern         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setUnusedBitPattern         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.iPduTimingSpecification: IPduTiming = None
-        self.iSignalToPduMappings: List[ISignalToIPduMapping] = []
-        self.unusedBitPattern: Integer = None
+        # Timing specification for Com IPdus (Transmission Modes). This information is mandatory for the sender in a System Extract. This information may be omitted on receivers in a System Extract. atpVariation: The timing of a Pdu can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iPduTimingSpecification, iPduTiming Specification.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.iPduTimingSpecification: Optional[IPduTiming] = None
 
-    def getIPduTimingSpecification(self):
+        # Definition of SignalToIPduMappings included in the Signal IPdu. atpVariation: The content of a PDU can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalToPduMapping.shortName, iSignalTo PduMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.iSignalToPduMappings: List[ISignalToIPduMapping] = []
+
+        # AUTOSAR COM and AUTOSAR IPDUM are filling not used areas of an IPDU with this bit-pattern. This attribute is mandatory to avoid undefined behavior. This byte-pattern will be repeated throughout the IPdu.
+        self.unusedBitPattern: Optional[Integer] = None
+
+    def getIPduTimingSpecification(self) -> Optional[IPduTiming]:
+        """
+        Timing specification for Com IPdus (Transmission Modes). This information is mandatory for the sender in a System Extract. This information may be omitted on receivers in a System Extract. atpVariation: The timing of a Pdu can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iPduTimingSpecification, iPduTiming Specification.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.iPduTimingSpecification
 
-    def setIPduTimingSpecification(self, value):
-        self.iPduTimingSpecification = value
+    def setIPduTimingSpecification(self, value: Optional[IPduTiming]) -> "ISignalIPdu":
+        """
+        Timing specification for Com IPdus (Transmission Modes). This information is mandatory for the sender in a System Extract. This information may be omitted on receivers in a System Extract. atpVariation: The timing of a Pdu can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iPduTimingSpecification, iPduTiming Specification.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        A None value is a no-op and does not overwrite an existing iPduTimingSpecification.
+        """
+        if value is not None:
+            self.iPduTimingSpecification = value
         return self
 
-    def getISignalToPduMappings(self):
+    def getISignalToPduMappings(self) -> List[ISignalToIPduMapping]:
+        """
+        Definition of SignalToIPduMappings included in the Signal IPdu. atpVariation: The content of a PDU can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalToPduMapping.shortName, iSignalTo PduMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.iSignalToPduMappings
 
     def createISignalToPduMappings(self, short_name: str) -> ISignalToIPduMapping:
+        """
+        Definition of SignalToIPduMappings included in the Signal IPdu. atpVariation: The content of a PDU can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalToPduMapping.shortName, iSignalTo PduMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         if not self.IsElementExists(short_name):
             mapping = ISignalToIPduMapping(self, short_name)
             self.addElement(mapping)
             self.iSignalToPduMappings.append(mapping)
         return self.getElement(short_name, ISignalToIPduMapping)
 
-    def getUnusedBitPattern(self):
+    def getUnusedBitPattern(self) -> Optional[Integer]:
+        """
+        AUTOSAR COM and AUTOSAR IPDUM are filling not used areas of an IPDU with this bit-pattern. This attribute is mandatory to avoid undefined behavior. This byte-pattern will be repeated throughout the IPdu.
+        """
         return self.unusedBitPattern
 
-    def setUnusedBitPattern(self, value):
-        self.unusedBitPattern = value
+    def setUnusedBitPattern(self, value: Optional[Integer]) -> "ISignalIPdu":
+        """
+        AUTOSAR COM and AUTOSAR IPDUM are filling not used areas of an IPDU with this bit-pattern. This attribute is mandatory to avoid undefined behavior. This byte-pattern will be repeated throughout the IPdu.
+        A None value is a no-op and does not overwrite an existing unusedBitPattern.
+        """
+        if value is not None:
+            self.unusedBitPattern = value
         return self
 
 
