@@ -226,7 +226,16 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable, MultilanguageReferrable, Referrable, ShortNameFragment
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, NameToken, Numerical, RefType, String, VerbatimString, VerbatimStringPlain
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARLiteral,
+    NameToken,
+    Numerical,
+    RefType,
+    SectionInitializationPolicyType,
+    String,
+    VerbatimString,
+    VerbatimStringPlain,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     ConditionByFormula,
@@ -411,6 +420,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedPortAssignment, SwcServiceDependency
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import SwcToEcuMapping, System, SystemMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecCompositeTypeMapping,
@@ -600,7 +610,7 @@ from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataCons
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sd, Sdf, Sdg, SdgContents
 from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues
-from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
+from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import MemoryAllocationKeywordPolicyType, MemorySectionType, SwAddrMethod
 from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwGenericAxisParam
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis, SwCalprmAxisSet
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
@@ -1943,6 +1953,25 @@ class ARXMLParser(AbstractARXMLParser):
             prototype = behavior.createSharedParameter(short_name)
             self.readParameterDataPrototype(child_element, prototype)
 
+    def readVariationPointProxy(self, element: ET.Element, proxy: VariationPointProxy):
+        self.readIdentifiable(element, proxy)
+        condition_element = self.find(element, "CONDITION-ACCESS")
+        if condition_element is not None:
+            proxy.setConditionAccess(self.readConditionByFormula(condition_element, ConditionByFormula()))
+        proxy.setImplementationDataTypeRef(self.getChildElementOptionalRefType(element, "IMPLEMENTATION-DATA-TYPE-REF"))
+        proxy.setPostBuildValueAccessRef(self.getChildElementOptionalRefType(element, "POST-BUILD-VALUE-ACCESS-REF"))
+        for child_element in self.findall(element, "POST-BUILD-VARIANT-CONDITIONS/POST-BUILD-VARIANT-CONDITION"):
+            proxy.addPostBuildVariantCondition(self.readPostBuildVariantCondition(child_element, PostBuildVariantCondition()))
+        if self.find(element, "VALUE-ACCESS") is not None:
+            self.notImplemented("VariationPointProxy.valueAccess is not supported yet")
+
+    def readSwcInternalBehaviorVariationPointProxies(self, element: ET.Element, behavior: SwcInternalBehavior):
+        for child_element in self.findall(element, "VARIATION-POINT-PROXYS/VARIATION-POINT-PROXY"):
+            short_name = self.getShortName(child_element)
+            proxy = VariationPointProxy(behavior, short_name)
+            self.readVariationPointProxy(child_element, proxy)
+            behavior.addVariationPointProxy(proxy)
+
     def readIncludedModeDeclarationGroupSet(self, element: ET.Element, group_set: IncludedModeDeclarationGroupSet):
         for ref in self.getChildElementRefTypeList(element, "MODE-DECLARATION-GROUP-REFS/MODE-DECLARATION-GROUP-REF"):
             group_set.addModeDeclarationGroupRef(ref)
@@ -1983,6 +2012,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readSwcInternalBehaviorRunnables(element, behavior)
         self.readSwcInternalBehaviorServiceDependencies(element, behavior)
         self.readSwcInternalBehaviorSharedParameters(element, behavior)
+        self.readSwcInternalBehaviorVariationPointProxies(element, behavior)
         behavior.setSupportsMultipleInstantiation(self.getChildElementOptionalBooleanValue(element, "SUPPORTS-MULTIPLE-INSTANTIATION"))
 
     def readSwcInternalBehaviorInstantiationDataDefProps(self, element: ET.Element, behavior: SwcInternalBehavior):
@@ -2329,6 +2359,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readSwServiceArg(self, element: ET.Element, arg: SwServiceArg):
         self.readIdentifiable(element, arg)
         arg.setDirection(self.getChildElementOptionalLiteral(element, "DIRECTION"))
+        arg.setSwArraysize(self.getValueList(element, "SW-ARRAYSIZE"))
         arg.setSwDataDefProps(self.getSwDataDefProps(element, "SW-DATA-DEF-PROPS"))
 
     def readBswModuleEntryArguments(self, element: ET.Element, entry: BswModuleEntry):
@@ -2366,9 +2397,9 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARObjectAttributes(element, engineering_obj)
         engineering_obj.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
         engineering_obj.setCategory(self.getChildElementOptionalLiteral(element, "CATEGORY"))
-        engineering_obj.setDomain(self.getChildElementOptionalLiteral(element, "DOMAIN"))
         for child_element in self.findall(element, "REVISION-LABELS/REVISION-LABEL"):
             engineering_obj.addRevisionLabel(self.getChildElementOptionalRevisionLabelString(child_element, "."))
+        engineering_obj.setDomain(self.getChildElementOptionalLiteral(element, "DOMAIN"))
 
     def getAutosarEngineeringObject(self, element: ET.Element) -> AutosarEngineeringObject:
         obj = AutosarEngineeringObject()
@@ -5481,6 +5512,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readApplicationCompositeElementDataPrototype(child_element, array_element)
             array_element.setArraySizeHandling(self.getChildElementOptionalLiteral(child_element, "ARRAY-SIZE-HANDLING"))
             array_element.setArraySizeSemantics(self.getChildElementOptionalLiteral(child_element, "ARRAY-SIZE-SEMANTICS"))
+            array_element.setIndexDataTypeRef(self.getChildElementOptionalRefType(child_element, "INDEX-DATA-TYPE-REF"))
             array_element.setMaxNumberOfElements(self.getChildElementOptionalNumericalValue(child_element, "MAX-NUMBER-OF-ELEMENTS"))
 
     def readApplicationArrayDataType(self, element: ET.Element, data_type: ApplicationArrayDataType):
@@ -5531,11 +5563,17 @@ class ARXMLParser(AbstractARXMLParser):
     def readSwAddrMethod(self, element: ET.Element, method: SwAddrMethod):
         self.logger.debug("Read SwAddrMethod <%s>" % method.getShortName())
         self.readIdentifiable(element, method)
-        method.setMemoryAllocationKeywordPolicy(self.getChildElementOptionalLiteral(element, "MEMORY-ALLOCATION-KEYWORD-POLICY"))
+        memory_allocation_keyword_policy = self.getChildElementOptionalLiteral(element, "MEMORY-ALLOCATION-KEYWORD-POLICY")
+        if memory_allocation_keyword_policy is not None:
+            method.setMemoryAllocationKeywordPolicy(MemoryAllocationKeywordPolicyType().setValue(memory_allocation_keyword_policy.getValue()))
         for option in self.getChildElementLiteralValueList(element, "OPTIONS/OPTION"):
             method.addOption(option)
-        method.setSectionInitializationPolicy(self.getChildElementOptionalLiteral(element, "SECTION-INITIALIZATION-POLICY"))
-        method.setSectionType(self.getChildElementOptionalLiteral(element, "SECTION-TYPE"))
+        section_initialization_policy = self.getChildElementOptionalLiteral(element, "SECTION-INITIALIZATION-POLICY")
+        if section_initialization_policy is not None:
+            method.setSectionInitializationPolicy(SectionInitializationPolicyType().setValue(section_initialization_policy.getValue()))
+        section_type = self.getChildElementOptionalLiteral(element, "SECTION-TYPE")
+        if section_type is not None:
+            method.setSectionType(MemorySectionType().setValue(section_type.getValue()))
 
     def readTriggerInterface(self, element: ET.Element, trigger_if: TriggerInterface):
         self.logger.debug("Read TriggerInterface <%s>" % trigger_if.getShortName())

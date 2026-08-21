@@ -9,6 +9,8 @@ These classes are used to model:
 - Internal behavior of BSW modules
 """
 
+from __future__ import annotations
+
 from abc import ABC
 from typing import List, Optional, TYPE_CHECKING
 
@@ -850,14 +852,12 @@ class BswInterruptEntity(BswModuleEntity):
 
 class BswEvent(AbstractEvent, ABC):
     """
-    Base class of various kinds of events which are used to trigger a
-    BswModuleEntity of this BSW module or cluster. The event is local to the
-    BSW module or cluster. The short name of the meta-class instance is
-    intended as an input to configure the required API of the BSW Scheduler.
+    Base class of various kinds of events which are used to trigger a BswModuleEntity of this BSW module or cluster. The event is local to the BSW module or cluster. The short name of the meta-class instance is intended as an input to configure the required API of the BSW Scheduler.
     """
 
     # BswEvent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.22, p.87
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getContextLimitationRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -868,33 +868,23 @@ class BswEvent(AbstractEvent, ABC):
     # [x] setStartsOnEventRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BSW event with a parent and short name.
-        Raises TypeError if this abstract class is instantiated directly.
-
-        Args:
-            parent: The parent ARObject that contains this event
-            short_name: The unique short name of this event
-        """
         if type(self) is BswEvent:
             raise TypeError("BswEvent is an abstract class.")
+
         super().__init__(parent, short_name)
 
-        # The existence of this reference indicates that the usage of the
-        # event is limited to the context of the referred BswDistinguishedPartitions.
+        # The existence of this reference indicates that the usage of the event is limited to the context of the referred Bsw DistinguishedPartitions.
         self.contextLimitationRefs: List[RefType] = []
 
-        # The modes, in which this event is disabled.
-        self.disabledInModeIRefs: List["ModeInBswModuleDescriptionInstanceRef"] = []
+        # The modes, in which this event is disabled. Stereotypes: atpSplitable Tags: atp.Splitkey=disabledInMode.contextMode DeclarationGroup, disabledInMode.targetMode InstanceRef implemented by: ModeInBswModule DescriptionInstanceRef
+        self.disabledInModeIRefs: List[ModeInBswModuleDescriptionInstanceRef] = []
 
         # The entity which is started by the event.
         self.startsOnEventRef: Optional[RefType] = None
 
     def getContextLimitationRefs(self) -> List[RefType]:
         """
-        Gets the context limitation references. The existence of a reference
-        indicates that the usage of the event is limited to the context of the
-        referred BswDistinguishedPartitions.
+        The existence of this reference indicates that the usage of the event is limited to the context of the referred Bsw DistinguishedPartitions.
 
         Returns:
             The list of context limitation references
@@ -903,7 +893,8 @@ class BswEvent(AbstractEvent, ABC):
 
     def addContextLimitationRef(self, value: RefType) -> "BswEvent":
         """
-        Adds a context limitation reference. Only adds if value is not None.
+        The existence of this reference indicates that the usage of the event is limited to the context of the referred Bsw DistinguishedPartitions.
+        Only adds the value if it is not None.
 
         Args:
             value: The context limitation reference to add
@@ -915,18 +906,19 @@ class BswEvent(AbstractEvent, ABC):
             self.contextLimitationRefs.append(value)
         return self
 
-    def getDisabledInModeIRefs(self) -> List["ModeInBswModuleDescriptionInstanceRef"]:
+    def getDisabledInModeIRefs(self) -> List[ModeInBswModuleDescriptionInstanceRef]:
         """
-        Gets the modes in which this event is disabled.
+        The modes, in which this event is disabled. Stereotypes: atpSplitable Tags: atp.Splitkey=disabledInMode.contextMode DeclarationGroup, disabledInMode.targetMode InstanceRef implemented by: ModeInBswModule DescriptionInstanceRef
 
         Returns:
             The list of disabled-in-mode instance references
         """
         return self.disabledInModeIRefs
 
-    def addDisabledInModeIRef(self, value: "ModeInBswModuleDescriptionInstanceRef") -> "BswEvent":
+    def addDisabledInModeIRef(self, value: ModeInBswModuleDescriptionInstanceRef) -> "BswEvent":
         """
-        Adds a mode in which this event is disabled. Only adds if value is not None.
+        The modes, in which this event is disabled. Stereotypes: atpSplitable Tags: atp.Splitkey=disabledInMode.contextMode DeclarationGroup, disabledInMode.targetMode InstanceRef implemented by: ModeInBswModule DescriptionInstanceRef
+        Only adds the value if it is not None.
 
         Args:
             value: The disabled-in-mode instance reference to add
@@ -940,7 +932,7 @@ class BswEvent(AbstractEvent, ABC):
 
     def getStartsOnEventRef(self) -> Optional[RefType]:
         """
-        Gets the entity which is started by the event.
+        The entity which is started by the event.
 
         Returns:
             The start-on-event reference
@@ -949,8 +941,8 @@ class BswEvent(AbstractEvent, ABC):
 
     def setStartsOnEventRef(self, value: Optional[RefType]) -> "BswEvent":
         """
-        Sets the entity which is started by the event.
-        Only sets if value is not None.
+        The entity which is started by the event.
+        Only sets the value if it is not None.
 
         Args:
             value: The start-on-event reference to set
@@ -1094,16 +1086,12 @@ class BswAsynchronousServerCallReturnsEvent(BswScheduleEvent):
 
 class BswModeSwitchEvent(BswScheduleEvent):
     """
-    An event which is triggered when a mode switch occurs. The mode switch
-    condition (on entering, on leaving or on transition between two modes) is
-    specified by the activation attribute. On transitions the two modes
-    referred to by the mode references must be different modes belonging to the
-    same ModeDeclarationGroup instance; the order of the references defines the
-    direction of the transition. Otherwise exactly one mode must be referred to.
+    A BswEvent resulting from a mode switch.
     """
 
     # BswModeSwitchEvent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.31, p.95
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getActivation                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -1112,24 +1100,17 @@ class BswModeSwitchEvent(BswScheduleEvent):
     # [x] addModeIRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswModeSwitchEvent with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this event
-            short_name: The unique short name of this event
-        """
         super().__init__(parent, short_name)
 
-        # Activation information for this mode switch event
+        # Kind of activation w.r.t. to the referred mode.
         self.activation: Optional[ModeActivationKind] = None
 
-        # The modes, which are relevant for this mode switch event.
-        self.modeIRefs: List["ModeInBswModuleDescriptionInstanceRef"] = []
+        # Reference to one or two Modes that initiate the Mode Switch Event. InstanceRef implemented by: ModeInBswModule DescriptionInstanceRef
+        self.modeIRefs: List[ModeInBswModuleDescriptionInstanceRef] = []
 
     def getActivation(self) -> Optional[ModeActivationKind]:
         """
-        Gets the activation information for this mode switch event.
+        Kind of activation w.r.t. to the referred mode.
 
         Returns:
             The activation information
@@ -1138,8 +1119,8 @@ class BswModeSwitchEvent(BswScheduleEvent):
 
     def setActivation(self, value: ModeActivationKind) -> "BswModeSwitchEvent":
         """
-        Sets the activation information for this mode switch event.
-        Only sets if value is not None.
+        Kind of activation w.r.t. to the referred mode.
+        Only sets the value if it is not None.
 
         Args:
             value: The activation information to set
@@ -1151,19 +1132,19 @@ class BswModeSwitchEvent(BswScheduleEvent):
             self.activation = value
         return self
 
-    def getModeIRefs(self) -> List["ModeInBswModuleDescriptionInstanceRef"]:
+    def getModeIRefs(self) -> List[ModeInBswModuleDescriptionInstanceRef]:
         """
-        Gets the modes which are relevant for this mode switch event.
+        Reference to one or two Modes that initiate the Mode Switch Event. InstanceRef implemented by: ModeInBswModule DescriptionInstanceRef
 
         Returns:
             The list of mode instance references
         """
         return self.modeIRefs
 
-    def addModeIRef(self, value: "ModeInBswModuleDescriptionInstanceRef") -> "BswModeSwitchEvent":
+    def addModeIRef(self, value: ModeInBswModuleDescriptionInstanceRef) -> "BswModeSwitchEvent":
         """
-        Adds a mode which is relevant for this mode switch event.
-        Only adds if value is not None.
+        Reference to one or two Modes that initiate the Mode Switch Event. InstanceRef implemented by: ModeInBswModule DescriptionInstanceRef
+        Only adds the value if it is not None.
 
         Args:
             value: The mode instance reference to add

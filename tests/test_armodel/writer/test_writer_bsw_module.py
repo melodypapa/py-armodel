@@ -1152,3 +1152,62 @@ class TestWriterModeInBswModuleDescriptionInstanceRefRoundTrip:
         desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
         event_2 = desc_2.getInternalBehaviors()[0].getBswEvents()[0]
         assert event_2.getModeIRefs() == []
+
+
+class TestSwServiceArgRoundTrip:
+    def _build(self, document):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ArgumentDirectionEnum
+        from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps, SwImplPolicyEnum, ValueList
+
+        pkg = document.createARPackage("AUTOSAR")
+        entry = pkg.createBswModuleEntry("entry1")
+
+        argument = entry.createArgument("arg1")
+        argument.setDirection(ArgumentDirectionEnum().setValue(ArgumentDirectionEnum.IN))
+        array_size = ValueList()
+        array_size.setV(ARNumerical().setValue("4"))
+        argument.setSwArraysize(array_size)
+        props = SwDataDefProps()
+        props.setSwImplPolicy(SwImplPolicyEnum().setValue(SwImplPolicyEnum.STANDARD))
+        argument.setSwDataDefProps(props)
+
+        return_type = entry.createReturnType("ret1")
+        return_type.setDirection(ArgumentDirectionEnum().setValue(ArgumentDirectionEnum.OUT))
+        return entry
+
+    def test_round_trip_sw_service_arg(self):
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR as _AUTOSAR
+        from armodel.parser.arxml_parser import ARXMLParser
+        from armodel.writer.arxml_writer import ARXMLWriter
+
+        _AUTOSAR.getInstance().setARRelease("R23-11")
+        document = _AUTOSAR.getInstance()
+        document.clear()
+        self._build(document)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+
+            document_2 = _AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+
+            entry_2 = document_2.getARPackages()[0].getBswModuleEntries()[0]
+            arguments = entry_2.getArguments()
+            assert len(arguments) == 1
+            argument_2 = arguments[0]
+            assert argument_2.getShortName() == "arg1"
+            assert argument_2.getDirection().getValue() == "in"
+            assert argument_2.getSwArraysize().getV().getValue() == 4
+            assert argument_2.getSwDataDefProps().getSwImplPolicy().getValue() == "standard"
+            return_type_2 = entry_2.getReturnType()
+            assert return_type_2 is not None
+            assert return_type_2.getShortName() == "ret1"
+            assert return_type_2.getDirection().getValue() == "out"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)

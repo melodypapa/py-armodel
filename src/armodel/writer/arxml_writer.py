@@ -390,6 +390,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedPortAssignment, SwcServiceDependency
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import SwcToEcuMapping, System, SystemMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecCompositeTypeMapping,
@@ -730,9 +731,9 @@ class ARXMLWriter(AbstractARXMLWriter):
                 expression_element = ET.SubElement(child_element, "EXPRESSION")
                 expression_element.text = expression.getValue()
 
-    def writeConditionByFormula(self, element: ET.Element, condition: ConditionByFormula):
+    def writeConditionByFormula(self, element: ET.Element, condition: ConditionByFormula, key: str = "SW-SYSCOND"):
         if condition is not None:
-            child_element = ET.SubElement(element, "SW-SYSCOND")
+            child_element = ET.SubElement(element, key)
             self.writeARObjectAttributes(child_element, condition)
             binding_time = condition.getBindingTime()
             if binding_time is not None:
@@ -3199,6 +3200,25 @@ class ARXMLWriter(AbstractARXMLWriter):
             for parameter in parameters:
                 self.writeParameterDataPrototype(child_element, parameter)
 
+    def writeVariationPointProxy(self, element: ET.Element, proxy: VariationPointProxy):
+        child_element = ET.SubElement(element, "VARIATION-POINT-PROXY")
+        self.writeIdentifiable(child_element, proxy)
+        self.writeConditionByFormula(child_element, proxy.getConditionAccess(), "CONDITION-ACCESS")
+        self.setChildElementOptionalRefType(child_element, "IMPLEMENTATION-DATA-TYPE-REF", proxy.getImplementationDataTypeRef())
+        self.setChildElementOptionalRefType(child_element, "POST-BUILD-VALUE-ACCESS-REF", proxy.getPostBuildValueAccessRef())
+        conditions = proxy.getPostBuildVariantConditions()
+        if len(conditions) > 0:
+            conditions_tag = ET.SubElement(child_element, "POST-BUILD-VARIANT-CONDITIONS")
+            for condition in conditions:
+                self.writePostBuildVariantCondition(conditions_tag, condition)
+
+    def writeSwcInternalBehaviorVariationPointProxies(self, element: ET.Element, behavior: SwcInternalBehavior):
+        proxies = behavior.getVariationPointProxies()
+        if len(proxies) > 0:
+            proxies_tag = ET.SubElement(element, "VARIATION-POINT-PROXYS")
+            for proxy in proxies:
+                self.writeVariationPointProxy(proxies_tag, proxy)
+
     def writePortDefinedArgumentValues(self, element: ET.Element, argument_values: List[PortDefinedArgumentValue]):
         if len(argument_values) > 0:
             child_element = ET.SubElement(element, "PORT-ARG-VALUES")
@@ -3860,6 +3880,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeSwcInternalBehaviorRunnables(child_element, behavior)
         self.writeSwcInternalBehaviorServiceDependencies(child_element, behavior)
         self.writeSwcInternalBehaviorParameterDataPrototypes(child_element, "SHARED-PARAMETERS", behavior.getSharedParameters())
+        self.writeSwcInternalBehaviorVariationPointProxies(child_element, behavior)
         self.setChildElementOptionalBooleanValue(child_element, "SUPPORTS-MULTIPLE-INSTANTIATION", behavior.getSupportsMultipleInstantiation())
 
     def writeAtomicSwComponentTypeInternalBehaviors(self, element: ET.Element, behavior: InternalBehavior):
@@ -4539,7 +4560,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeAutosarDataPrototype(self, element: ET.Element, prototype: AutosarDataPrototype):
         self.writeDataPrototype(element, prototype)
-        self.setChildElementOptionalRefType(element, "TYPE-TREF", prototype.typeTRef)
+        self.setChildElementOptionalRefType(element, "TYPE-TREF", prototype.getTypeTRef())
 
     def writeVariableDataPrototype(self, element: ET.Element, prototype: VariableDataPrototype):
         self.logger.debug("writeVariableDataPrototype %s" % prototype.getShortName())
@@ -5098,11 +5119,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeSwComponentDocumentationElement(child_element, documentation)
 
     def setSwServiceArg(self, element: ET.Element, key: str, arg: SwServiceArg):
-        self.logger.debug("Set SwServiceArg <%s>" % arg.getShortName())
         if arg is not None:
+            self.logger.debug("Set SwServiceArg <%s>" % arg.getShortName())
             child_element = ET.SubElement(element, key)
             self.writeIdentifiable(child_element, arg)
             self.setChildElementOptionalLiteral(child_element, "DIRECTION", arg.getDirection())
+            self.setValueList(child_element, "SW-ARRAYSIZE", arg.getSwArraysize())
             self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", arg.getSwDataDefProps())
 
     def writeBswModuleEntryArguments(self, element: ET.Element, entry: BswModuleEntry):
@@ -5191,12 +5213,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeARObjectAttributes(element, engineering_obj)
         self.setChildElementOptionalLiteral(element, "SHORT-LABEL", engineering_obj.getShortLabel())
         self.setChildElementOptionalLiteral(element, "CATEGORY", engineering_obj.getCategory())
-        self.setChildElementOptionalLiteral(element, "DOMAIN", engineering_obj.getDomain())
         revision_labels = engineering_obj.getRevisionLabels()
         if len(revision_labels) > 0:
             revision_labels_element = ET.SubElement(element, "REVISION-LABELS")
             for revision_label in revision_labels:
                 self.setChildElementOptionalRevisionLabelString(revision_labels_element, "REVISION-LABEL", revision_label)
+        self.setChildElementOptionalLiteral(element, "DOMAIN", engineering_obj.getDomain())
 
     def writeAutosarEngineeringObject(self, element: ET.Element, obj: AutosarEngineeringObject):
         # self.logger.debug("write ArtifactDescriptor %s", obj.getShortLabel())
@@ -5414,6 +5436,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeApplicationCompositeElementDataPrototype(child_element, array_element)
             self.setChildElementOptionalLiteral(child_element, "ARRAY-SIZE-HANDLING", array_element.getArraySizeHandling())
             self.setChildElementOptionalLiteral(child_element, "ARRAY-SIZE-SEMANTICS", array_element.getArraySizeSemantics())
+            self.setChildElementOptionalRefType(child_element, "INDEX-DATA-TYPE-REF", array_element.getIndexDataTypeRef())
             self.setChildElementOptionalNumericalValue(child_element, "MAX-NUMBER-OF-ELEMENTS", array_element.getMaxNumberOfElements())
 
     def writeApplicationArrayDataType(self, element: ET.Element, data_type: ApplicationArrayDataType):
@@ -5421,7 +5444,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "APPLICATION-ARRAY-DATA-TYPE")
         self.setApplicationCompositeDataType(child_element, data_type)
         self.setChildElementOptionalLiteral(child_element, "DYNAMIC-ARRAY-SIZE-PROFILE", data_type.getDynamicArraySizeProfile())
-        self.setApplicationArrayElement(child_element, data_type.element)
+        self.setApplicationArrayElement(child_element, data_type.getApplicationArrayElement())
 
     def setSwRecordLayoutV(self, element: ET.Element, key: str, layout_v: SwRecordLayoutV):
         if layout_v is not None:

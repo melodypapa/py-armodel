@@ -38,6 +38,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ReferrableSubtypesEnum,
     RefType,
     RegularExpression,
+    SectionInitializationPolicyType,
     String,
     TimeValue,
     TRefType,
@@ -396,6 +397,28 @@ class TestAlignmentType:
 
         alignment_unspecified = AlignmentType().setValue("UNSPECIFIED")
         assert alignment_unspecified.getValue() == "UNSPECIFIED"
+
+
+class TestSectionInitializationPolicyType:
+    """
+    Test class for SectionInitializationPolicyType functionality.
+    """
+
+    def test_initialization(self):
+        policy = SectionInitializationPolicyType()
+
+        assert policy is not None
+        assert policy._value is None
+
+    def test_set_value(self):
+        policy = SectionInitializationPolicyType().setValue("INIT")
+        assert policy.getValue() == "INIT"
+
+        cleared = SectionInitializationPolicyType().setValue(SectionInitializationPolicyType.CLEARED)
+        assert cleared.getValue() == "CLEARED"
+
+        power_on_cleared = SectionInitializationPolicyType().setValue(SectionInitializationPolicyType.POWER_ON_CLEARED)
+        assert power_on_cleared.getValue() == "POWER-ON-CLEARED"
 
 
 class TestCseCodeType:

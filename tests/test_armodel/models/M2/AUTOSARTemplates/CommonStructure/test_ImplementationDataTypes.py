@@ -4,6 +4,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import (
     AbstractImplementationDataType,
     AbstractImplementationDataTypeElement,
+    ArraySizeSemanticsEnum,
     ImplementationDataType,
     ImplementationDataTypeElement,
 )
@@ -420,3 +421,16 @@ class TestImplementationDataType:
         assert data_type.getDynamicArraySizeProfile().getValue() == "PROFILE"
         assert data_type.getIsStructWithOptionalElement().getValue() is True
         assert data_type.getTypeEmitter().getValue() == "EMITTER"
+
+
+class TestArraySizeSemanticsEnum:
+    """Test class for ArraySizeSemanticsEnum functionality (Table 5.10, p.253)."""
+
+    def test_initialization(self):
+        enum = ArraySizeSemanticsEnum()
+        enum.setValue(ArraySizeSemanticsEnum.FIXED_SIZE)
+        assert enum.getValue() == "fixedSize"
+
+    def test_enum_values(self):
+        assert ArraySizeSemanticsEnum.FIXED_SIZE == "fixedSize"
+        assert ArraySizeSemanticsEnum.VARIABLE_SIZE == "variableSize"

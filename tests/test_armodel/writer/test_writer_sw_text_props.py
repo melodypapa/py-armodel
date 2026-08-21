@@ -43,7 +43,7 @@ class TestSwTextPropsRoundTrip:
             data_type_2 = document_2.getARPackages()[0].getApplicationPrimitiveDataTypes()[0]
             sw_text_props_2 = data_type_2.getSwDataDefProps().getSwTextProps()
             assert sw_text_props_2 is not None
-            assert sw_text_props_2.getArraySizeSemantics().getValue() == "fixed-size"
+            assert sw_text_props_2.getArraySizeSemantics().getValue() == "fixedSize"
             assert sw_text_props_2.getBaseTypeRef().getDest() == "AUTOSAR/BaseTypes/uint8"
             assert sw_text_props_2.getSwFillCharacter().getValue() == 0
             assert sw_text_props_2.getSwMaxTextSize().getValue() == 200

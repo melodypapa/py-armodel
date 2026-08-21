@@ -345,19 +345,26 @@ class ArrayImplPolicyEnum(AREnum):
 
 class ArraySizeSemanticsEnum(AREnum):
     """
-    Enumeration for array size semantics.
+    This type controls how the information about the number of elements in an ApplicationArrayDataType is to be interpreted.
     """
 
     # ArraySizeSemanticsEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.10, p.253
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on ApplicationArrayElement.arraySizeSemantics, DiagnosticDataElement.arraySizeSemantics, ImplementationDataTypeElement.arraySizeSemantics, SwTextProps.arraySizeSemantics
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
-    FIXED_SIZE = "fixed-size"
-    VARIABLE_SIZE = "variable-size"
+    # This means that the ApplicationArrayDataType will always have a fixed number of elements. Tags: atp.EnumerationLiteralIndex=0
+    FIXED_SIZE = "fixedSize"
+
+    # This implies that the actual number of elements in the ApplicationArrayDataType might vary at run-time. The value of arraySize represents the maximum number of elements in the array. Tags: atp.EnumerationLiteralIndex=1
+    VARIABLE_SIZE = "variableSize"
 
     def __init__(self):
         super().__init__(
-            (
+            [
                 ArraySizeSemanticsEnum.FIXED_SIZE,
                 ArraySizeSemanticsEnum.VARIABLE_SIZE,
-            )
+            ]
         )

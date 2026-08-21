@@ -413,6 +413,50 @@ class TestApplicationRecordElementWriter:
         assert child.find("TYPE-TREF").text == "/apt"
 
 
+class TestApplicationArrayElementRoundTrip:
+    def test_round_trip_application_array_element(self):
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR as _AUTOSAR
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        _AUTOSAR.getInstance().setARRelease("R23-11")
+        document = _AUTOSAR.getInstance()
+        document.clear()
+        pkg = document.createARPackage("AUTOSAR")
+        array_type = pkg.createApplicationArrayDataType("MyArrayType")
+        array_type.setDynamicArraySizeProfile(_literal("myProfile"))
+        element = array_type.createApplicationArrayElement("MyArrayElement")
+        element.setArraySizeHandling(_literal("allIndicesSameArraySize"))
+        element.setArraySizeSemantics(_literal("fixedSize"))
+        element.setIndexDataTypeRef(_ref("APPLICATION-PRIMITIVE-DATA-TYPE", "/AUTOSAR/myIndexDataType"))
+        element.setMaxNumberOfElements(PositiveInteger().setValue("8"))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+
+            document_2 = _AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+
+            array_type_2 = document_2.getARPackages()[0].getApplicationArrayDataTypes()[0]
+            assert array_type_2.getDynamicArraySizeProfile().getValue() == "myProfile"
+            element_2 = array_type_2.getApplicationArrayElement()
+            assert element_2 is not None
+            assert element_2.getShortName() == "MyArrayElement"
+            assert element_2.getArraySizeHandling().getValue() == "allIndicesSameArraySize"
+            assert element_2.getArraySizeSemantics().getValue() == "fixedSize"
+            assert element_2.getIndexDataTypeRef().getValue() == "/AUTOSAR/myIndexDataType"
+            assert element_2.getIndexDataTypeRef().getDest() == "APPLICATION-PRIMITIVE-DATA-TYPE"
+            assert element_2.getMaxNumberOfElements().getValue() == 8
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
 class TestApplicationRecordDataTypeWriter:
     def test_write_application_record_data_type(self, writer):
         autosar = AUTOSAR.getInstance()

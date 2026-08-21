@@ -5,7 +5,11 @@ prototypes such as variable, parameter, and composite element prototypes
 used in software components.
 """
 
+from __future__ import annotations
+
 from abc import ABC
+from typing import TYPE_CHECKING, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, TRefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -13,17 +17,23 @@ from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProp
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ValueSpecification
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype
 
+if TYPE_CHECKING:
+    from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ArraySizeSemanticsEnum
+    from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ArraySizeHandlingEnum
+
 
 class DataPrototype(AtpPrototype, ABC):
     """
-    Abstract base class for all AUTOSAR data prototypes within software
-    components.
+    Base class for prototypical roles of any data type.
     """
 
     # DataPrototype method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwDataDefProps            [x] impl  [x] docstring  [ ] test
-    # [ ] setSwDataDefProps            [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.28, p.306
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getSwDataDefProps       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSwDataDefProps       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is DataPrototype:
@@ -31,41 +41,45 @@ class DataPrototype(AtpPrototype, ABC):
 
         super().__init__(parent, short_name)
 
-        self.swDataDefProps: SwDataDefProps = None
+        # This property allows to specify data definition properties which apply on data prototype level. Stereotypes: atpSplitable Tags: atp.Splitkey=swDataDefProps
+        self.swDataDefProps: Optional[SwDataDefProps] = None
 
-    def getSwDataDefProps(self):
+    def getSwDataDefProps(self) -> Optional[SwDataDefProps]:
         """
-        Gets the software data definition properties.
+        This property allows to specify data definition properties which apply on data prototype level.
 
         Returns:
-            SwDataDefProps: The software data definition properties
+            Optional[SwDataDefProps]: The swDataDefProps
         """
         return self.swDataDefProps
 
-    def setSwDataDefProps(self, value):
+    def setSwDataDefProps(self, value: Optional[SwDataDefProps]) -> "DataPrototype":
         """
-        Sets the software data definition properties.
+        This property allows to specify data definition properties which apply on data prototype level. A None value is a no-op and does not overwrite an existing swDataDefProps.
 
         Args:
-            value: The software data definition properties to set
+            value: The swDataDefProps to set
 
         Returns:
             self for method chaining
         """
-        self.swDataDefProps = value
+        if value is not None:
+            self.swDataDefProps = value
         return self
 
 
 class AutosarDataPrototype(DataPrototype, ABC):
     """
-    Abstract base class for AUTOSAR data prototypes that have a type
-    reference (typeTRef).
+    Base class for prototypical roles of an AutosarDataType.
     """
 
     # AutosarDataPrototype method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getTypeTRef                  [x] impl  [x] docstring  [ ] test
-    # [ ] setTypeTRef                  [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.29, p.306
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getTypeTRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTypeTRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AutosarDataPrototype:
@@ -73,28 +87,30 @@ class AutosarDataPrototype(DataPrototype, ABC):
 
         super().__init__(parent, short_name)
 
-        self.typeTRef: TRefType = None
+        # This represents the corresponding data type. Stereotypes: isOfType
+        self.typeTRef: Optional[TRefType] = None
 
-    def getTypeTRef(self):
+    def getTypeTRef(self) -> Optional[TRefType]:
         """
-        Gets the type reference.
+        This represents the corresponding data type.
 
         Returns:
-            TRefType: The type reference
+            Optional[TRefType]: The typeTRef
         """
         return self.typeTRef
 
-    def setTypeTRef(self, value):
+    def setTypeTRef(self, value: Optional[TRefType]) -> "AutosarDataPrototype":
         """
-        Sets the type reference.
+        This represents the corresponding data type. A None value is a no-op and does not overwrite an existing typeTRef.
 
         Args:
-            value: The type reference to set
+            value: The typeTRef to set
 
         Returns:
             self for method chaining
         """
-        self.typeTRef = value
+        if value is not None:
+            self.typeTRef = value
         return self
 
 
@@ -166,44 +182,53 @@ class ApplicationCompositeElementDataPrototype(DataPrototype, ABC):
 
 class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
     """
-    An element of an application array data type defining the array
-    element properties including size handling and index data type.
+    Describes the properties of the elements of an application array data type.
     """
 
     # ApplicationArrayElement method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getArraySizeHandling         [x] impl  [x] docstring  [ ] test
-    # [ ] setArraySizeHandling         [x] impl  [x] docstring  [ ] test
-    # [ ] getArraySizeSemantics        [x] impl  [x] docstring  [ ] test
-    # [ ] setArraySizeSemantics        [x] impl  [x] docstring  [ ] test
-    # [ ] getIndexDataTypeRef          [x] impl  [x] docstring  [ ] test
-    # [ ] setIndexDataTypeRef          [x] impl  [x] docstring  [ ] test
-    # [ ] getMaxNumberOfElements       [x] impl  [x] docstring  [ ] test
-    # [ ] setMaxNumberOfElements       [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.9, p.252
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getArraySizeHandling    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setArraySizeHandling    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getArraySizeSemantics   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setArraySizeSemantics   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getIndexDataTypeRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIndexDataTypeRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMaxNumberOfElements  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMaxNumberOfElements  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.arraySizeHandling = None
-        self.arraySizeSemantics = None
-        self.indexDataTypeRef: RefType = None
-        self.maxNumberOfElements: PositiveInteger = None
+        # The way how the size of the array is handled.
+        self.arraySizeHandling: Optional[ArraySizeHandlingEnum] = None
 
-    def getArraySizeHandling(self):
+        # This attribute controls how the information about the array size shall be interpreted.
+        self.arraySizeSemantics: Optional[ArraySizeSemanticsEnum] = None
+
+        # This reference can be taken to assign a CompuMethod of category TEXTTABLE to the array. The texttable entries associate a textual value to an index number such that the element with that index number is represented by a symbolic name.
+        self.indexDataTypeRef: Optional[RefType] = None
+
+        # The maximum number of elements that the array can contain. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.maxNumberOfElements: Optional[PositiveInteger] = None
+
+    def getArraySizeHandling(self) -> Optional[ArraySizeHandlingEnum]:
         """
-        Gets the array size handling mode.
+        The way how the size of the array is handled.
 
         Returns:
-            The array size handling mode
+            Optional[ArraySizeHandlingEnum]: The arraySizeHandling
         """
         return self.arraySizeHandling
 
-    def setArraySizeHandling(self, value):
+    def setArraySizeHandling(self, value: Optional[ArraySizeHandlingEnum]) -> "ApplicationArrayElement":
         """
-        Sets the array size handling mode.
+        The way how the size of the array is handled. A None value is a no-op and does not overwrite an existing arraySizeHandling.
 
         Args:
-            value: The array size handling mode to set
+            value: The arraySizeHandling to set
 
         Returns:
             self for method chaining
@@ -212,21 +237,21 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
             self.arraySizeHandling = value
         return self
 
-    def getArraySizeSemantics(self):
+    def getArraySizeSemantics(self) -> Optional[ArraySizeSemanticsEnum]:
         """
-        Gets the array size semantics.
+        This attribute controls how the information about the array size shall be interpreted.
 
         Returns:
-            The array size semantics
+            Optional[ArraySizeSemanticsEnum]: The arraySizeSemantics
         """
         return self.arraySizeSemantics
 
-    def setArraySizeSemantics(self, value):
+    def setArraySizeSemantics(self, value: Optional[ArraySizeSemanticsEnum]) -> "ApplicationArrayElement":
         """
-        Sets the array size semantics.
+        This attribute controls how the information about the array size shall be interpreted. A None value is a no-op and does not overwrite an existing arraySizeSemantics.
 
         Args:
-            value: The array size semantics to set
+            value: The arraySizeSemantics to set
 
         Returns:
             self for method chaining
@@ -235,21 +260,21 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
             self.arraySizeSemantics = value
         return self
 
-    def getIndexDataTypeRef(self):
+    def getIndexDataTypeRef(self) -> Optional[RefType]:
         """
-        Gets the index data type reference.
+        This reference can be taken to assign a CompuMethod of category TEXTTABLE to the array. The texttable entries associate a textual value to an index number such that the element with that index number is represented by a symbolic name.
 
         Returns:
-            RefType: The index data type reference
+            Optional[RefType]: The indexDataType reference
         """
         return self.indexDataTypeRef
 
-    def setIndexDataTypeRef(self, value):
+    def setIndexDataTypeRef(self, value: Optional[RefType]) -> "ApplicationArrayElement":
         """
-        Sets the index data type reference.
+        This reference can be taken to assign a CompuMethod of category TEXTTABLE to the array. The texttable entries associate a textual value to an index number such that the element with that index number is represented by a symbolic name. A None value is a no-op and does not overwrite an existing indexDataTypeRef.
 
         Args:
-            value: The index data type reference to set
+            value: The indexDataType reference to set
 
         Returns:
             self for method chaining
@@ -258,21 +283,21 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
             self.indexDataTypeRef = value
         return self
 
-    def getMaxNumberOfElements(self):
+    def getMaxNumberOfElements(self) -> Optional[PositiveInteger]:
         """
-        Gets the maximum number of array elements.
+        The maximum number of elements that the array can contain.
 
         Returns:
-            PositiveInteger: The maximum number of elements
+            Optional[PositiveInteger]: The maxNumberOfElements
         """
         return self.maxNumberOfElements
 
-    def setMaxNumberOfElements(self, value):
+    def setMaxNumberOfElements(self, value: Optional[PositiveInteger]) -> "ApplicationArrayElement":
         """
-        Sets the maximum number of array elements.
+        The maximum number of elements that the array can contain. A None value is a no-op and does not overwrite an existing maxNumberOfElements.
 
         Args:
-            value: The maximum number of elements to set
+            value: The maxNumberOfElements to set
 
         Returns:
             self for method chaining
@@ -324,38 +349,42 @@ class ApplicationRecordElement(ApplicationCompositeElementDataPrototype):
 
 class ParameterDataPrototype(AutosarDataPrototype):
     """
-    A data prototype that represents a parameter data element with an
-    initial value.
+    A ParameterDataPrototype represents a formalized generic piece of information that is typically immutable by the application software layer, but mutable by measurement and calibration tools. ParameterDataPrototype is used in various contexts and the specific context gives the otherwise generic ParameterDataPrototype a dedicated semantics.
     """
 
     # ParameterDataPrototype method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getInitValue                 [x] impl  [x] docstring  [ ] test
-    # [ ] setInitValue                 [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.32, p.310
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getInitValue            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setInitValue            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.initValue: ValueSpecification = None
+        # Specifies initial value(s) of the ParameterDataPrototype
+        self.initValue: Optional[ValueSpecification] = None
 
-    def getInitValue(self):
+    def getInitValue(self) -> Optional[ValueSpecification]:
         """
-        Gets the initial value.
+        Specifies initial value(s) of the ParameterDataPrototype
 
         Returns:
-            ValueSpecification: The initial value
+            Optional[ValueSpecification]: The initValue
         """
         return self.initValue
 
-    def setInitValue(self, value):
+    def setInitValue(self, value: Optional[ValueSpecification]) -> "ParameterDataPrototype":
         """
-        Sets the initial value.
+        Specifies initial value(s) of the ParameterDataPrototype A None value is a no-op and does not overwrite an existing initValue.
 
         Args:
-            value: The initial value to set
+            value: The initValue to set
 
         Returns:
             self for method chaining
         """
-        self.initValue = value
+        if value is not None:
+            self.initValue = value
         return self
