@@ -1472,6 +1472,33 @@ class TestISignalAndGroupHandlers:
         assert ipdu.getUnusedBitPattern().getValue() == 0
 
 
+class TestISignalIPduIPduTimingSpecification:
+    def test_get_sets_minimum_delay_and_declaration(self, parser):
+        element = _snip(
+            "<I-PDU-TIMING-SPECIFICATIONS>"
+            "<I-PDU-TIMING>"
+            "<MINIMUM-DELAY>0.05</MINIMUM-DELAY>"
+            "<TRANSMISSION-MODE-DECLARATION>"
+            "<SHORT-NAME>decl</SHORT-NAME>"
+            "<TRANSMISSION-MODE-TRUE-TIMING>"
+            "<CYCLIC-TIMING><TIME-PERIOD><VALUE><VALUE>0.1</VALUE></VALUE></TIME-PERIOD></CYCLIC-TIMING>"
+            "</TRANSMISSION-MODE-TRUE-TIMING>"
+            "</TRANSMISSION-MODE-DECLARATION>"
+            "</I-PDU-TIMING>"
+            "</I-PDU-TIMING-SPECIFICATIONS>",
+            root_tag="I-SIGNAL-I-PDU",
+        )
+        timing = parser.getISignalIPduIPduTimingSpecification(element)
+        assert timing is not None
+        assert timing.getMinimumDelay().getValue() == 0.05
+        assert timing.getTransmissionModeDeclaration() is not None
+
+    def test_get_absent_returns_none(self, parser):
+        element = _snip("<SHORT-NAME>ipdu</SHORT-NAME>", root_tag="I-SIGNAL-I-PDU")
+        timing = parser.getISignalIPduIPduTimingSpecification(element)
+        assert timing is None
+
+
 class TestEndToEndProtectionHandlers:
     def test_getEndToEndDescription_sets_category(self, parser):
         element = _snip(

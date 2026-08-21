@@ -543,11 +543,15 @@ class Test_FibexCoreCommunication:
         timing.setMinimumDelay(ref1)
         assert timing.getMinimumDelay() == ref1
         assert timing == timing.setMinimumDelay(ref1)  # Test method chaining
+        assert timing == timing.setMinimumDelay(None)  # None is a no-op
+        assert timing.getMinimumDelay() == ref1
 
         ref2 = object()
         timing.setTransmissionModeDeclaration(ref2)
         assert timing.getTransmissionModeDeclaration() == ref2
         assert timing == timing.setTransmissionModeDeclaration(ref2)  # Test method chaining
+        assert timing == timing.setTransmissionModeDeclaration(None)  # None is a no-op
+        assert timing.getTransmissionModeDeclaration() == ref2
 
     def test_ISignalIPdu(self):
         """Test ISignalIPdu class functionality."""

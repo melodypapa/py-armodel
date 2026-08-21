@@ -973,36 +973,56 @@ class DcmIPdu(IPdu):
 
 class IPduTiming(Describable):
     """
-    Defines timing properties for Interaction Protocol Data Units (IPDUs),
-    specifying minimum delay and transmission mode declaration for
-    timed communication.
+    AUTOSAR COM provides the possibility to define two different TRANSMISSION MODES for each IPdu. The Transmission Mode of an IPdu that is valid at a specific point in time is selected using the values of the signals that are mapped to this IPdu. For each IPdu a Transmission Mode Selector is defined. The Transmission Mode Selector is calculated by evaluating the conditions for a subset of signals (class TransmissionModeCondition in the System Template). The Transmission Mode Selector is defined to be true, if at least one Condition evaluates to true and is defined to be false, if all Conditions evaluate to false.
     """
 
     # IPduTiming method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getMinimumDelay              [x] impl  [ ] docstring  [ ] test
-    # [ ] setMinimumDelay              [x] impl  [ ] docstring  [ ] test
-    # [ ] getTransmissionModeDeclaration [x] impl  [ ] docstring  [ ] test
-    # [ ] setTransmissionModeDeclaration [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.30, p.348
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getMinimumDelay              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMinimumDelay              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTransmissionModeDeclaration [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTransmissionModeDeclaration [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        self.minimumDelay: TimeValue = None
-        self.transmissionModeDeclaration: TransmissionModeDeclaration = None
+        # Minimum Delay in seconds between successive transmissions of this I-PDU, independent of the Transmission Mode.
+        self.minimumDelay: Optional[TimeValue] = None
 
-    def getMinimumDelay(self):
+        # AUTOSAR COM allows configuring statically two different transmission modes for each I-PDU (True and False). The Transmission Mode Selector evaluates the conditions for a subset of signals and decides the transmission mode. It is possible to switch between the transmission modes during runtime.
+        self.transmissionModeDeclaration: Optional[TransmissionModeDeclaration] = None
+
+    def getMinimumDelay(self) -> Optional[TimeValue]:
+        """
+        Minimum Delay in seconds between successive transmissions of this I-PDU, independent of the Transmission Mode.
+        """
         return self.minimumDelay
 
-    def setMinimumDelay(self, value):
-        self.minimumDelay = value
+    def setMinimumDelay(self, value: Optional[TimeValue]) -> "IPduTiming":
+        """
+        Minimum Delay in seconds between successive transmissions of this I-PDU, independent of the Transmission Mode.
+        A None value is a no-op and does not overwrite an existing minimumDelay.
+        """
+        if value is not None:
+            self.minimumDelay = value
         return self
 
-    def getTransmissionModeDeclaration(self):
+    def getTransmissionModeDeclaration(self) -> Optional[TransmissionModeDeclaration]:
+        """
+        AUTOSAR COM allows configuring statically two different transmission modes for each I-PDU (True and False). The Transmission Mode Selector evaluates the conditions for a subset of signals and decides the transmission mode. It is possible to switch between the transmission modes during runtime.
+        """
         return self.transmissionModeDeclaration
 
-    def setTransmissionModeDeclaration(self, value):
-        self.transmissionModeDeclaration = value
+    def setTransmissionModeDeclaration(self, value: Optional[TransmissionModeDeclaration]) -> "IPduTiming":
+        """
+        AUTOSAR COM allows configuring statically two different transmission modes for each I-PDU (True and False). The Transmission Mode Selector evaluates the conditions for a subset of signals and decides the transmission mode. It is possible to switch between the transmission modes during runtime.
+        A None value is a no-op and does not overwrite an existing transmissionModeDeclaration.
+        """
+        if value is not None:
+            self.transmissionModeDeclaration = value
         return self
 
 
