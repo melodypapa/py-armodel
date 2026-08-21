@@ -5,7 +5,7 @@ author: melodypapa
 repository: https://github.com/melodypapa/py-armodel
 license: MIT
 metadata:
-  version: "1.8.0"
+  version: "1.9.0"
   keywords:
     - AUTOSAR
     - model-class
@@ -28,12 +28,14 @@ The AUTOSAR PDF spec table is the source of truth. Sync runs in **two phases**:
   each one's spec source (markdown → PDF → missing), resolve missing classes
   interactively (skip / derive from XSD), and write the persistent sync todo list
   (`docs/plan/sync-todo/<InputClassName>.md`) — the queue survives session death.
-- **Phase 1 — 9-step TDD per class (Rules 0001–0015, 0017):** consume the queue
+- **Phase 1 — 9-step TDD per class (Rules 0001–0015, 0017–0018):** consume the queue
   one class at a time, **one class per fresh session** (Rule 0017). Two Red→Green
   pairs per class: model (2→3) and reader/writer (5→6). Write the failing test before
-  the implementation. Each class ends with a rule-compliance confirmation gate (Step
-  9b) before it is stamped, marked finished in the todo list, and committed to the
-  feature branch. All rows `[x]` in the todo list = the sync is finished.
+  the implementation. The 9 steps are mirrored into the session todo list — one todo
+  per step, checked off the moment its step finishes (Rule 0018). Each class ends
+  with a rule-compliance confirmation gate (Step 9b) before it is stamped, marked
+  finished in the todo list, and committed to the feature branch. All rows `[x]` in
+  the todo list = the sync is finished.
 
 Set the release before parse/write:
 
@@ -42,7 +44,7 @@ document = AUTOSAR.getInstance()
 document.setARRelease('R23-11')
 ```
 
-Detailed rules live in **`rules.md`** (*Rule 0001*–*Rule 0017*); this skill is
+Detailed rules live in **`rules.md`** (*Rule 0001*–*Rule 0018*); this skill is
 self-contained (no external rules document). Each step below points into `rules.md` for
 the detail — do not re-derive it here.
 
@@ -97,7 +99,7 @@ risks fabricating fields when a referenced class turns out to be missing mid-syn
 (Rule 0016.6). Phase 1 consumes it one row at a time, **one class per fresh
 session** (Rule 0017).
 
-## Phase 1 — Session loop & the 9-step workflow (Rule 0017)
+## Phase 1 — Session loop & the 9-step workflow (Rules 0017–0018)
 
 - **Entry (every session):** the user invokes the skill (e.g. `/sync-autosar-class
   <ClassName>` or "continue the sync"). If `docs/plan/sync-todo/<ClassName>.md`
@@ -109,6 +111,15 @@ session** (Rule 0017).
   context still feels fresh — the 9b verbatim-diff work degrades silently under a
   loaded context. After a class finishes (below), stop and tell the user to start
   a new session.
+- **Mirror the 9 steps into the session todo list (Rule 0018).** After taking the
+  `[ ]` row and before Step 1, create **9 session todos — one per workflow step**
+  (`Step 1 — Sync members & description from spec` … `Step 9 — Verify (9a) +
+  confirm (9b)`). Mark each `in_progress` when the step begins and `completed`
+  **the moment that step finishes** — one completed step = exactly one newly
+  checked todo item. Never merge steps into fewer todos, never batch-check.
+  N/A steps (e.g. 5/6 for a standalone `AREnum`) complete with the N/A reason.
+  Step 9's todo completes only after the 9b user confirmation. All 9 completed is
+  a precondition of the per-class commit (Rule 0017.2).
 - **Finish (per class, after 9b):** once the user confirms Step 9b and the
   `# Spec verified:` marker is written — (1) commit the class's changes to the
   current feature branch (model source + mirrored test + parser/writer tests +
@@ -159,7 +170,9 @@ round-trip) certifies a class as reviewed.
 
 Runs once per class in the queue built by Phase 0 (Rule 0016), inside the session
 loop above. Two Red→Green pairs: **2→3** (model) and **5→6** (reader/writer). Do
-not write the implementation before its failing test.
+not write the implementation before its failing test. Each step is tracked as its
+own session todo — created as a set of 9 before Step 1, checked off one at a time
+as each step finishes (*Rule 0018*).
 
 | Step | What | Rules | Phase |
 |---|---|---|---|
@@ -286,6 +299,10 @@ detail: *Rule 0002*.
 - **Marking a todo row `[x]` before the commit exists** — the row records the commit
   hash; no commit, no `[x]`. Deferring the commit to "the end of all classes" loses a
   session's work when it dies (*Rule 0017.2*).
+- **Merging the 9 steps into fewer session todos, or batch-checking them** —
+  "Steps 2+3 model TDD" as one todo, or checking several step todos at once after
+  the fact, hides a skipped/half-finished step until 9b or never. One step = one
+  todo, checked the moment the step finishes (*Rule 0018*).
 
 | Rationalization | Reality |
 |---|---|
@@ -302,10 +319,12 @@ detail: *Rule 0002*.
 | "Session died — I'll rebuild the queue by grepping the stamps" | Stamps carry no order/roles/Skip-XSD decisions; read `docs/plan/sync-todo/<ClassName>.md` instead (*Rule 0017.4*). |
 | "Context still feels fresh — I'll sync the next class in this session" | 9b verbatim diffs degrade silently under loaded context; one class per session (*Rule 0017.1*). |
 | "I'll commit everything at the end of the whole sync" | A session death then loses every finished class's work; commit per class, right after 9b (*Rule 0017.2*). |
+| "One todo for the class is enough — or I'll check them all at the end" | The step todos exist to expose a skipped/half-finished step in real time; batch-checking shows progress the work doesn't have. 9 todos, one check per finished step (*Rule 0018*). |
+| "9b re-verifies everything anyway — I'll check off step todos as 'done' when the class finishes" | 9b verifies the class against the rules; step todos verify the workflow was walked. Step 9's todo completes only on 9b confirmation, the others at their own finish (*Rule 0018*). |
 
 ## References
 
-- **Rules (self-contained):** `rules.md` in this skill folder — *Rule 0001*–*Rule 0017*.
+- **Rules (self-contained):** `rules.md` in this skill folder — *Rule 0001*–*Rule 0018*.
 - Coding standards: `docs/development/coding_rules.md`.
 - Spec markdown (primary — source of all text: `Note`, `Table N.M` id, table name): `autosar/markdown/AUTOSAR_*_TPS_*.md` (`CP_TPS` + `FO_TPS`).
 - Spec PDFs (opened only for the `p.NN` page number): `autosar/pdf/AUTOSAR_*_TPS_*.pdf`.

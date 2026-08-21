@@ -1186,3 +1186,68 @@ row exists.
 - Syncing a second class "because the context still feels fresh" (17.1).
 - Marking `[x]` without a commit hash, or deferring commits to the end (17.2).
 - Re-running Phase 0 when the todo file already exists (17.1).
+
+## Rule 0018 — Step-level session todos (per class)
+
+While running the 9-step workflow, mirror the steps into the **session todo
+list** so per-step progress is visible and verifiable in real time. This rule
+exists because a 9-step run is long: without step-level todos, "which steps are
+actually done" lives only in the conversation, and a skipped or half-finished
+step (e.g. Step 4 wipe skipped on some members, Step 5 written after Step 6)
+surfaced nothing until 9b — or never.
+
+### 18.1 Create — 9 todos at workflow start
+
+Immediately after taking the `[ ]` row (17.1) and **before starting Step 1**,
+create exactly **9 session todo items** — one per workflow step, named:
+
+1. `Step 1 — Sync members & description from spec`
+2. `Step 2 — Write model class unit test (Red)`
+3. `Step 3 — Implement model class (Green)`
+4. `Step 4 — Sync docstrings (wipe + rewrite)`
+5. `Step 5 — Write reader/writer round-trip test (Red)`
+6. `Step 6 — Update parser & writer (Green)`
+7. `Step 7 — Update checklist comment`
+8. `Step 8 — Deviations`
+9. `Step 9 — Verify (9a) + confirm (9b)`
+
+Not fewer. Merging steps into one todo (`"Steps 2+3 model TDD"`,
+`"Steps 5+6 reader/writer"`) hides exactly the Red→Green ordering Rule 0006
+exists to enforce.
+
+### 18.2 Check off — one step, one check
+
+- Mark a step todo `in_progress` when the step begins.
+- Mark it `completed` **immediately when that step finishes** — one completed
+  step = exactly one newly checked todo item, checked at that moment.
+- **Never batch-check**: marking several step todos completed at once (or all of
+  them at the end) defeats the rule — the todo list would show progress the work
+  doesn't have.
+- Never mark completed early: Step 2/5 complete only when the failing test
+  exists and was seen failing; Step 3/6 only when tests pass; Step 9 only per
+  18.3.
+- A step that is legitimately N/A for the class shape (Workflow adaptations —
+  e.g. Steps 5/6 for a standalone `AREnum`) is marked completed **with the N/A
+  reason in the todo**, not deleted and not left open.
+
+### 18.3 Gates and boundaries
+
+- **Step 9's todo completes only after 9b user confirmation** and the
+  `# Spec verified:` marker is written (or the XSD-only exception applies) —
+  passing 9a's automated checks alone does not complete it.
+- **Before the 17.2 commit: all 9 step todos must be completed.** Any open step
+  todo ⇒ the class is not finished — resolve it before committing, never check
+  it off to "clean up".
+- Session todos are **ephemeral progress display only**. The persistent record
+  remains the sync-todo file's per-class row (Rule 0016.6 / 17.2); step todos
+  neither replace it, gate it, nor get written to it. Session death discards
+  them — that is fine, the todo file carries the real state.
+
+### 18.4 Forbidden workarounds
+
+- Creating one todo for the whole class ("Sync ClassName") instead of 9.
+- Merging Red→Green pairs into single todos (2+3, 5+6).
+- Batch-checking or end-of-run checking of step todos.
+- Checking off a step todo "because 9b will re-verify it anyway" — 9b verifies
+  the class against the rules; the step todos verify the workflow was actually
+  walked, step by step.
