@@ -102,6 +102,11 @@ ignore = ["E501"]
 # these imports (I001) breaks that ordering and triggers ImportError at load
 # time, so isort is disabled for the model tree.
 "src/armodel/models/**" = ["I001"]
+# The ARXML writer imports model types in a deliberate order to match the parser's
+# expectations, so import sorting (I001) and E402 checks are disabled.
+"src/armodel/writer/arxml_writer.py" = ["I001", "E402"]
+# The ARXML parser similarly uses deliberate import ordering.
+"src/armodel/parser/arxml_parser.py" = ["I001", "E402"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["armodel"]

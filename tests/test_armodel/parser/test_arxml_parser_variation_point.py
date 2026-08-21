@@ -85,11 +85,11 @@ class TestReadVariationPoint:
 
 class TestReadVariationPointProxy:
     def test_read_value_access(self, parser):
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import (
-            VariationPointProxy,
-        )
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints import (
             NumericalValueVariationPoint,
+        )
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import (
+            VariationPointProxy,
         )
 
         inner = "<VARIATION-POINT-PROXY>" "<SHORT-NAME>vpp1</SHORT-NAME>" "<VALUE-ACCESS>" "<NUMERICAL-VALUE-VARIATION-POINT/>" "</VALUE-ACCESS>" "</VARIATION-POINT-PROXY>"
@@ -102,11 +102,11 @@ class TestReadVariationPointProxy:
         assert isinstance(value_access, NumericalValueVariationPoint)
 
     def test_read_value_access_attributes_and_text(self, parser):
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import (
-            VariationPointProxy,
-        )
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints import (
             NumericalValueVariationPoint,
+        )
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import (
+            VariationPointProxy,
         )
 
         inner = (
@@ -131,11 +131,11 @@ class TestReadVariationPointProxy:
         assert value_access.getText() == "123"
 
     def test_read_limit_value_access_with_interval_type(self, parser):
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import (
-            VariationPointProxy,
-        )
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints import (
             LimitValueVariationPoint,
+        )
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import (
+            VariationPointProxy,
         )
 
         inner = "<VARIATION-POINT-PROXY>" "<SHORT-NAME>vpp2</SHORT-NAME>" "<VALUE-ACCESS>" '<LIMIT INTERVAL-TYPE="CLOSED">42</LIMIT>' "</VALUE-ACCESS>" "</VARIATION-POINT-PROXY>"
