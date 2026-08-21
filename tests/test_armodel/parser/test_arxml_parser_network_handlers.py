@@ -3028,6 +3028,25 @@ class TestSystemSignalGroup:
         )
         parser.readSystemSignalGroup(element, group)
         assert len(group.getSystemSignalRefs()) == 2
+        assert group.getSystemSignalRefs()[0].getValue() == "/s1"
+        assert group.getSystemSignalRefs()[1].getValue() == "/s2"
+
+    def test_readSystemSignalGroup_adds_transforming_ref(self, parser):
+        from armodel.models import SystemSignalGroup
+
+        group = SystemSignalGroup(parent=MagicMock(), short_name="Ssg")
+        element = _snip('<TRANSFORMING-SYSTEM-SIGNAL-REF DEST="SYSTEM-SIGNAL">/trans</TRANSFORMING-SYSTEM-SIGNAL-REF>')
+        parser.readSystemSignalGroup(element, group)
+        assert group.getTransformingSystemSignalRef() is not None
+        assert group.getTransformingSystemSignalRef().getValue() == "/trans"
+
+    def test_readSystemSignalGroup_absent_transforming_ref_stays_none(self, parser):
+        from armodel.models import SystemSignalGroup
+
+        group = SystemSignalGroup(parent=MagicMock(), short_name="Ssg")
+        element = _snip("<SHORT-NAME>Ssg</SHORT-NAME>")
+        parser.readSystemSignalGroup(element, group)
+        assert group.getTransformingSystemSignalRef() is None
 
 
 # ==================== ISignalIPduGroup (L5351, L5360, L5362) ====================

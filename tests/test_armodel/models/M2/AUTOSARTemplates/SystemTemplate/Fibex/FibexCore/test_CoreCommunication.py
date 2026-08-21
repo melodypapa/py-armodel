@@ -757,14 +757,16 @@ class Test_FibexCoreCommunication:
 
         # Test setter/getter methods with method chaining
         ref1 = object()
-        group.addSystemSignalRefs(ref1)
+        group.addSystemSignalRef(ref1)
         assert ref1 in group.getSystemSignalRefs()
-        assert group == group.addSystemSignalRefs(ref1)  # Test method chaining
+        assert group == group.addSystemSignalRef(ref1)  # Test method chaining
 
         ref2 = object()
         group.setTransformingSystemSignalRef(ref2)
         assert group.getTransformingSystemSignalRef() == ref2
         assert group == group.setTransformingSystemSignalRef(ref2)  # Test method chaining
+        assert group == group.setTransformingSystemSignalRef(None)  # None is a no-op
+        assert group.getTransformingSystemSignalRef() == ref2
 
     def test_ISignalTriggering(self):
         """Test ISignalTriggering class functionality."""

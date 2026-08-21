@@ -8370,7 +8370,8 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read SystemSignalGroup <%s>" % group.getShortName())
         self.readIdentifiable(element, group)
         for ref_type in self.getChildElementRefTypeList(element, "SYSTEM-SIGNAL-REFS/SYSTEM-SIGNAL-REF"):
-            group.addSystemSignalRefs(ref_type)
+            group.addSystemSignalRef(ref_type)
+        group.setTransformingSystemSignalRef(self.getChildElementOptionalRefType(element, "TRANSFORMING-SYSTEM-SIGNAL-REF"))
 
     def readSignalServiceTranslationPropsSet(self, element: ET.Element, props_set: SignalServiceTranslationPropsSet):
         self.logger.debug("Read SignalServiceTranslationPropsSet <%s>" % props_set.getShortName())

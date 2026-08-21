@@ -7748,6 +7748,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             signal_refs_tag = ET.SubElement(child_element, "SYSTEM-SIGNAL-REFS")
             for signal_ref in signal_refs:
                 self.setChildElementOptionalRefType(signal_refs_tag, "SYSTEM-SIGNAL-REF", signal_ref)
+        self.setChildElementOptionalRefType(child_element, "TRANSFORMING-SYSTEM-SIGNAL-REF", group.getTransformingSystemSignalRef())
 
     def writeSenderReceiverToSignalMapping(self, element: ET.Element, mapping: SenderReceiverToSignalMapping):
         child_element = ET.SubElement(element, "SENDER-RECEIVER-TO-SIGNAL-MAPPING")

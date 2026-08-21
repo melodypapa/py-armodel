@@ -1485,36 +1485,54 @@ class SystemSignal(ARElement):
 
 class SystemSignalGroup(ARElement):
     """
-    Represents a group of system signals, defining relationships
-    between individual system signals and transforming signal references
-    for grouped signal communication.
+    A signal group refers to a set of signals that shall always be kept together. A signal group is used to guarantee the atomic transfer of AUTOSAR composite data types. The SystemSignalGroup defines a signal grouping on VFB level. On cluster level the Signal grouping is described by the ISignalGroup element. Tags: atp.recommendedPackage=SystemSignalGroups
     """
 
     # SystemSignalGroup method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getSystemSignalRefs          [x] impl  [ ] docstring  [ ] test
-    # [ ] addSystemSignalRefs          [x] impl  [ ] docstring  [ ] test
-    # [ ] getTransformingSystemSignalRef [x] impl  [ ] docstring  [ ] test
-    # [ ] setTransformingSystemSignalRef [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.13, p.324
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getSystemSignalRefs           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addSystemSignalRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTransformingSystemSignalRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTransformingSystemSignalRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # Reference to a set of SystemSignals that shall always be kept together.
         self.systemSignalRefs: List[RefType] = []
-        self.transformingSystemSignalRef: RefType = None
 
-    def getSystemSignalRefs(self):
+        # Optional reference to the SystemSignal which shall contain the transformed (linear) data.
+        self.transformingSystemSignalRef: Optional[RefType] = None
+
+    def getSystemSignalRefs(self) -> List[RefType]:
+        """
+        Reference to a set of SystemSignals that shall always be kept together.
+        """
         return self.systemSignalRefs
 
-    def addSystemSignalRefs(self, value: RefType):
+    def addSystemSignalRef(self, value: RefType) -> "SystemSignalGroup":
+        """
+        Reference to a set of SystemSignals that shall always be kept together.
+        """
         self.systemSignalRefs.append(value)
         return self
 
-    def getTransformingSystemSignalRef(self):
+    def getTransformingSystemSignalRef(self) -> Optional[RefType]:
+        """
+        Optional reference to the SystemSignal which shall contain the transformed (linear) data.
+        """
         return self.transformingSystemSignalRef
 
-    def setTransformingSystemSignalRef(self, value):
-        self.transformingSystemSignalRef = value
+    def setTransformingSystemSignalRef(self, value: Optional[RefType]) -> "SystemSignalGroup":
+        """
+        Optional reference to the SystemSignal which shall contain the transformed (linear) data.
+        A None value is a no-op and does not overwrite an existing transformingSystemSignalRef.
+        """
+        if value is not None:
+            self.transformingSystemSignalRef = value
         return self
 
 
