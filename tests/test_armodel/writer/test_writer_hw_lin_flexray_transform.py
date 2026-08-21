@@ -628,12 +628,14 @@ class TestWriterDataTransformation:
         pkg = _make_pkg()
         dtf_set = DataTransformationSet(pkg, "DtfSet")
         dtf = dtf_set.createDataTransformation("Dtf")
+        dtf.setDataTransformationKind(_literal("SYMMETRIC"))
         dtf.setExecuteDespiteDataUnavailability(_bool(True))
         dtf.addTransformerChainRef(_ref("/chain", "TRANSFORMER-CHAIN"))
         parent = _parent()
         writer.writeDataTransformation(parent, dtf)
         assert parent[0].tag == "DATA-TRANSFORMATION"
-        assert parent[0].find("EXECUTE-DESPITE-DATA-UNAVAILABILITY") is not None
+        assert parent[0].find("DATA-TRANSFORMATION-KIND").text == "SYMMETRIC"
+        assert parent[0].find("EXECUTE-DESPITE-DATA-UNAVAILABILITY").text == "true"
         assert parent[0].find("TRANSFORMER-CHAIN-REFS") is not None
 
     def test_writeDataTransformation_none(self, writer):

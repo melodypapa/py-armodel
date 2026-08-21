@@ -7135,6 +7135,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readDataTransformation(self, element: ET.Element, dtf: DataTransformation):
         self.readIdentifiable(element, dtf)
+        dtf.setDataTransformationKind(self.getChildElementOptionalLiteral(element, "DATA-TRANSFORMATION-KIND"))
         dtf.setExecuteDespiteDataUnavailability(self.getChildElementOptionalBooleanValue(element, "EXECUTE-DESPITE-DATA-UNAVAILABILITY"))
         self.readDataTransformationTransformerChainRefs(element, dtf)
 

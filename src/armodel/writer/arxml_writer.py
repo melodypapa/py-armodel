@@ -9037,6 +9037,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if dtf is not None:
             child_element = ET.SubElement(element, "DATA-TRANSFORMATION")
             self.writeIdentifiable(child_element, dtf)
+            self.setChildElementOptionalLiteral(child_element, "DATA-TRANSFORMATION-KIND", dtf.getDataTransformationKind())
             self.setChildElementOptionalBooleanValue(child_element, "EXECUTE-DESPITE-DATA-UNAVAILABILITY", dtf.getExecuteDespiteDataUnavailability())
             self.writeDataTransformationTransformerChainRefs(child_element, dtf)
 
