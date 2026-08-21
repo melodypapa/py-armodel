@@ -206,7 +206,12 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable, MultilanguageReferrable, Referrable, ShortNameFragment
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Limit, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARLiteral,
+    ARNumerical,
+    Limit,
+    RefType,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     ConditionByFormula,
@@ -217,6 +222,28 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import 
     SwSystemconstValue,
     VariationPoint,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints import (
+    AttributeValueVariationPoint,
+    BooleanValueVariationPoint,
+    FloatValueVariationPoint,
+    IntegerValueVariationPoint,
+    LimitValueVariationPoint,
+    NumericalValueVariationPoint,
+    PositiveIntegerValueVariationPoint,
+    TimeValueValueVariationPoint,
+    UnlimitedIntegerValueVariationPoint,
+)
+
+VALUE_ACCESS_CLASS_TO_TAG = {
+    LimitValueVariationPoint: "LIMIT",
+    NumericalValueVariationPoint: "NUMERICAL-VALUE-VARIATION-POINT",
+    BooleanValueVariationPoint: "BOOLEAN-VALUE-VARIATION-POINT",
+    FloatValueVariationPoint: "FLOAT-VALUE-VARIATION-POINT",
+    IntegerValueVariationPoint: "INTEGER-VALUE-VARIATION-POINT",
+    PositiveIntegerValueVariationPoint: "POSITIVE-INTEGER-VALUE-VARIATION-POINT",
+    TimeValueValueVariationPoint: "TIME-VALUE-VARIATION-POINT",
+    UnlimitedIntegerValueVariationPoint: "UNLIMITED-INTEGER-VALUE-VARIATION-POINT",
+}
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes import (
     ClientServerAnnotation,
     DelegatedPortAnnotation,
@@ -627,6 +654,13 @@ BINDING_TIME_XML_MAP = {
     "linkTime": "LINK-TIME",
     "preCompileTime": "PRE-COMPILE-TIME",
     "systemDesignTime": "SYSTEM-DESIGN-TIME",
+}
+
+#: Mapping between IntervalTypeEnum values and their XML attribute tokens
+#: (AR:INTERVAL-TYPE-ENUM--SIMPLE).
+INTERVAL_TYPE_XML_MAP = {
+    "closed": "CLOSED",
+    "open": "OPEN",
 }
 
 
@@ -3211,6 +3245,45 @@ class ARXMLWriter(AbstractARXMLWriter):
             conditions_tag = ET.SubElement(child_element, "POST-BUILD-VARIANT-CONDITIONS")
             for condition in conditions:
                 self.writePostBuildVariantCondition(conditions_tag, condition)
+        value_access = proxy.getValueAccess()
+        if value_access is not None:
+            value_access_element = ET.SubElement(child_element, "VALUE-ACCESS")
+            tag = VALUE_ACCESS_CLASS_TO_TAG.get(type(value_access))
+            if tag is not None:
+                sub_element = ET.SubElement(value_access_element, tag)
+                self.writeAttributeValueVariationPoint(sub_element, value_access)
+            else:
+                self.notImplemented("Unsupported VALUE-ACCESS type <%s>" % type(value_access).__name__)
+
+    def writeAttributeValueVariationPoint(self, element: ET.Element, avp: AttributeValueVariationPoint):
+        self.writeARObjectAttributes(element, avp)
+        binding_time = avp.getBindingTime()
+        if binding_time is not None:
+            token = BINDING_TIME_XML_MAP.get(binding_time.getValue())
+            if token is None:
+                self.notImplemented("Unsupported BINDING-TIME <%s>" % binding_time.getValue())
+            else:
+                element.attrib["BINDING-TIME"] = token
+        blueprint_value = avp.getBlueprintValue()
+        if blueprint_value is not None:
+            element.attrib["BLUEPRINT-VALUE"] = blueprint_value.getValue()
+        sd = avp.getSd()
+        if sd is not None:
+            element.attrib["SD"] = sd.getValue()
+        short_label = avp.getShortLabel()
+        if short_label is not None:
+            element.attrib["SHORT-LABEL"] = short_label.getValue()
+        if isinstance(avp, LimitValueVariationPoint):
+            interval_type = avp.getIntervalType()
+            if interval_type is not None:
+                token = INTERVAL_TYPE_XML_MAP.get(interval_type.getValue())
+                if token is None:
+                    self.notImplemented("Unsupported INTERVAL-TYPE <%s>" % interval_type.getValue())
+                else:
+                    element.attrib["INTERVAL-TYPE"] = token
+        text = avp.getText()
+        if text is not None:
+            element.text = text
 
     def writeSwcInternalBehaviorVariationPointProxies(self, element: ET.Element, behavior: SwcInternalBehavior):
         proxies = behavior.getVariationPointProxies()

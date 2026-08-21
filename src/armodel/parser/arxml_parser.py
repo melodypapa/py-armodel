@@ -228,8 +228,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
+    IntervalTypeEnum,
     NameToken,
     Numerical,
+    PrimitiveIdentifier,
     RefType,
     SectionInitializationPolicyType,
     String,
@@ -246,6 +248,28 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import 
     SwSystemconstValue,
     VariationPoint,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints import (
+    AttributeValueVariationPoint,
+    BooleanValueVariationPoint,
+    FloatValueVariationPoint,
+    IntegerValueVariationPoint,
+    LimitValueVariationPoint,
+    NumericalValueVariationPoint,
+    PositiveIntegerValueVariationPoint,
+    TimeValueValueVariationPoint,
+    UnlimitedIntegerValueVariationPoint,
+)
+
+VALUE_ACCESS_TAG_TO_CLASS = {
+    "LIMIT": LimitValueVariationPoint,
+    "NUMERICAL-VALUE-VARIATION-POINT": NumericalValueVariationPoint,
+    "BOOLEAN-VALUE-VARIATION-POINT": BooleanValueVariationPoint,
+    "FLOAT-VALUE-VARIATION-POINT": FloatValueVariationPoint,
+    "INTEGER-VALUE-VARIATION-POINT": IntegerValueVariationPoint,
+    "POSITIVE-INTEGER-VALUE-VARIATION-POINT": PositiveIntegerValueVariationPoint,
+    "TIME-VALUE-VARIATION-POINT": TimeValueValueVariationPoint,
+    "UNLIMITED-INTEGER-VALUE-VARIATION-POINT": UnlimitedIntegerValueVariationPoint,
+}
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes import (
     ClientServerAnnotation,
     DataLimitKindEnum,
@@ -665,6 +689,13 @@ BINDING_TIME_XML_MAP = {
     "linkTime": "LINK-TIME",
     "preCompileTime": "PRE-COMPILE-TIME",
     "systemDesignTime": "SYSTEM-DESIGN-TIME",
+}
+
+#: Mapping between IntervalTypeEnum values and their XML attribute tokens
+#: (AR:INTERVAL-TYPE-ENUM--SIMPLE).
+INTERVAL_TYPE_XML_MAP = {
+    "closed": "CLOSED",
+    "open": "OPEN",
 }
 
 
@@ -1962,8 +1993,47 @@ class ARXMLParser(AbstractARXMLParser):
         proxy.setPostBuildValueAccessRef(self.getChildElementOptionalRefType(element, "POST-BUILD-VALUE-ACCESS-REF"))
         for child_element in self.findall(element, "POST-BUILD-VARIANT-CONDITIONS/POST-BUILD-VARIANT-CONDITION"):
             proxy.addPostBuildVariantCondition(self.readPostBuildVariantCondition(child_element, PostBuildVariantCondition()))
-        if self.find(element, "VALUE-ACCESS") is not None:
-            self.notImplemented("VariationPointProxy.valueAccess is not supported yet")
+        value_access_element = self.find(element, "VALUE-ACCESS")
+        if value_access_element is not None:
+            for child_element in value_access_element:
+                tag = self.getTagName(child_element)
+                avp_class = VALUE_ACCESS_TAG_TO_CLASS.get(tag)
+                if avp_class is not None:
+                    proxy.setValueAccess(self.readAttributeValueVariationPoint(child_element, avp_class()))
+                else:
+                    self.notImplemented("Unsupported VALUE-ACCESS content <%s>" % tag)
+
+    def readAttributeValueVariationPoint(self, element: ET.Element, avp: AttributeValueVariationPoint) -> AttributeValueVariationPoint:
+        self.readARObjectAttributes(element, avp)
+        if "BINDING-TIME" in element.attrib:
+            binding_time = None
+            for camel, token in BINDING_TIME_XML_MAP.items():
+                if token == element.attrib["BINDING-TIME"]:
+                    binding_time = camel
+                    break
+            if binding_time is not None:
+                avp.setBindingTime(BindingTimeEnum().setValue(binding_time))
+            else:
+                self.notImplemented("Unsupported BINDING-TIME <%s>" % element.attrib["BINDING-TIME"])
+        if "BLUEPRINT-VALUE" in element.attrib:
+            avp.setBlueprintValue(String().setValue(element.attrib["BLUEPRINT-VALUE"]))
+        if "SD" in element.attrib:
+            avp.setSd(String().setValue(element.attrib["SD"]))
+        if "SHORT-LABEL" in element.attrib:
+            avp.setShortLabel(PrimitiveIdentifier().setValue(element.attrib["SHORT-LABEL"]))
+        if isinstance(avp, LimitValueVariationPoint) and "INTERVAL-TYPE" in element.attrib:
+            interval_type = None
+            for value, token in INTERVAL_TYPE_XML_MAP.items():
+                if token == element.attrib["INTERVAL-TYPE"]:
+                    interval_type = value
+                    break
+            if interval_type is not None:
+                avp.setIntervalType(IntervalTypeEnum().setValue(interval_type))
+            else:
+                self.notImplemented("Unsupported INTERVAL-TYPE <%s>" % element.attrib["INTERVAL-TYPE"])
+        if element.text is not None and element.text.strip() != "":
+            avp.setText(element.text)
+        return avp
 
     def readSwcInternalBehaviorVariationPointProxies(self, element: ET.Element, behavior: SwcInternalBehavior):
         for child_element in self.findall(element, "VARIATION-POINT-PROXYS/VARIATION-POINT-PROXY"):

@@ -29,7 +29,6 @@ class DataPrototype(AtpPrototype, ABC):
 
     # DataPrototype method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.28, p.306
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getSwDataDefProps       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -75,7 +74,6 @@ class AutosarDataPrototype(DataPrototype, ABC):
 
     # AutosarDataPrototype method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.29, p.306
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getTypeTRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -354,7 +352,6 @@ class ParameterDataPrototype(AutosarDataPrototype):
 
     # ParameterDataPrototype method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.32, p.310
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getInitValue            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
