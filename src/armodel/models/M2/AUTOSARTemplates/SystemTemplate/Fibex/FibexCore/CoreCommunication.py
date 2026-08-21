@@ -397,15 +397,16 @@ class Pdu(FibexElement, ABC):
 
 class IPdu(Pdu, ABC):
     """
-    Abstract base class for Interaction Protocol Data Units (IPDUs),
-    extending the PDU class with contained IPDU properties for
-    interaction-based communication.
+    The IPdu (Interaction Layer Protocol Data Unit) element is used to sum up all Pdus that are routed by the PduR.
     """
 
     # IPdu method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getContainedIPduProps        [x] impl  [ ] docstring  [ ] test
-    # [ ] setContainedIPduProps        [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.18, p.341
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getContainedIPduProps     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setContainedIPduProps     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is IPdu:
@@ -413,12 +414,20 @@ class IPdu(Pdu, ABC):
 
         super().__init__(parent, short_name)
 
-        self.containedIPduProps: ContainedIPduProps = None
+        # Defines whether this IPdu may be collected inside a ContainerIPdu.
+        self.containedIPduProps: Optional[ContainedIPduProps] = None
 
-    def getContainedIPduProps(self):
+    def getContainedIPduProps(self) -> Optional[ContainedIPduProps]:
+        """
+        Defines whether this IPdu may be collected inside a ContainerIPdu.
+        """
         return self.containedIPduProps
 
-    def setContainedIPduProps(self, value):
+    def setContainedIPduProps(self, value: Optional[ContainedIPduProps]) -> "IPdu":
+        """
+        Defines whether this IPdu may be collected inside a ContainerIPdu.
+        A None value is a no-op and does not overwrite an existing containedIPduProps.
+        """
         if value is not None:
             self.containedIPduProps = value
         return self

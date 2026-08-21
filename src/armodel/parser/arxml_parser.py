@@ -505,6 +505,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommun
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinMaster
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, IPduMapping, ISignalMapping, TargetIPduRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    ContainedIPduProps,
     DcmIPdu,
     DynamicPart,
     DynamicPartAlternative,
@@ -6691,8 +6692,23 @@ class ARXMLParser(AbstractARXMLParser):
         self.readNmPduISignalToIPduMappings(element, pdu)
         pdu.setUnusedBitPattern(self.getChildElementOptionalIntegerValue(element, "UNUSED-BIT-PATTERN"))
 
+    def readContainedIPduProps(self, element: ET.Element) -> ContainedIPduProps:
+        props = None
+        child_element = self.find(element, "CONTAINED-I-PDU-PROPS")
+        if child_element is not None:
+            props = ContainedIPduProps()
+            props.setCollectionSemantics(self.getChildElementOptionalLiteral(child_element, "COLLECTION-SEMANTICS"))
+            props.setHeaderIdLongHeader(self.getChildElementOptionalPositiveInteger(child_element, "HEADER-ID-LONG-HEADER"))
+            props.setHeaderIdShortHeader(self.getChildElementOptionalPositiveInteger(child_element, "HEADER-ID-SHORT-HEADER"))
+            props.setOffset(self.getChildElementOptionalNumericalValue(child_element, "OFFSET"))
+            props.setTimeout(self.getChildElementOptionalNumericalValue(child_element, "TIMEOUT"))
+            props.setTrigger(self.getChildElementOptionalLiteral(child_element, "TRIGGER"))
+            props.setUpdateIndicationBitPosition(self.getChildElementOptionalNumericalValue(child_element, "UPDATE-INDICATION-BIT-POSITION"))
+        return props
+
     def readIPdu(self, element: ET.Element, pdu: IPdu):
         self.readPdu(element, pdu)
+        pdu.setContainedIPduProps(self.readContainedIPduProps(element))
 
     def readNPdu(self, element: ET.Element, pdu: NPdu):
         self.logger.debug("Read NPdu <%s>" % pdu.getShortName())

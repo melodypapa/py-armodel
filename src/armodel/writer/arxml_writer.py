@@ -478,6 +478,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommun
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinMaster
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, IPduMapping, ISignalMapping, TargetIPduRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    ContainedIPduProps,
     DcmIPdu,
     DynamicPart,
     DynamicPartAlternative,
@@ -8543,8 +8544,20 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(element, "HAS-DYNAMIC-LENGTH", pdu.getHasDynamicLength())
         self.setChildElementOptionalNumericalValue(element, "LENGTH", pdu.getLength())
 
+    def writeContainedIPduProps(self, element: ET.Element, props: ContainedIPduProps):
+        if props is not None:
+            child_element = ET.SubElement(element, "CONTAINED-I-PDU-PROPS")
+            self.setChildElementOptionalLiteral(child_element, "COLLECTION-SEMANTICS", props.getCollectionSemantics())
+            self.setChildElementOptionalPositiveInteger(child_element, "HEADER-ID-LONG-HEADER", props.getHeaderIdLongHeader())
+            self.setChildElementOptionalPositiveInteger(child_element, "HEADER-ID-SHORT-HEADER", props.getHeaderIdShortHeader())
+            self.setChildElementOptionalNumericalValue(child_element, "OFFSET", props.getOffset())
+            self.setChildElementOptionalNumericalValue(child_element, "TIMEOUT", props.getTimeout())
+            self.setChildElementOptionalLiteral(child_element, "TRIGGER", props.getTrigger())
+            self.setChildElementOptionalNumericalValue(child_element, "UPDATE-INDICATION-BIT-POSITION", props.getUpdateIndicationBitPosition())
+
     def writeIPdu(self, element: ET.Element, pdu: IPdu):
         self.writePdu(element, pdu)
+        self.writeContainedIPduProps(element, pdu.getContainedIPduProps())
 
     def writeSegmentPosition(self, element: ET.Element, position: SegmentPosition):
         if position is not None:

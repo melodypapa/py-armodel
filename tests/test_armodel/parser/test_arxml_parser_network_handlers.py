@@ -1256,6 +1256,42 @@ class TestFrameAndPduHandlers:
         assert pdu.getDiagPduType() is not None
         assert pdu.getDiagPduType().getValue() == "request"
 
+    def test_readIPdu_sets_containedIPduProps(self, parser):
+        from armodel.models import GeneralPurposeIPdu
+
+        ipdu = GeneralPurposeIPdu(parent=_autosar_root(), short_name="ipdu")
+        element = _snip(
+            "<SHORT-NAME>ipdu</SHORT-NAME>"
+            "<CONTAINED-I-PDU-PROPS>"
+            "<COLLECTION-SEMANTICS>lastIsBest</COLLECTION-SEMANTICS>"
+            "<HEADER-ID-LONG-HEADER>100</HEADER-ID-LONG-HEADER>"
+            "<HEADER-ID-SHORT-HEADER>50</HEADER-ID-SHORT-HEADER>"
+            "<OFFSET>4</OFFSET>"
+            "<TIMEOUT>10</TIMEOUT>"
+            "<TRIGGER>onChange</TRIGGER>"
+            "<UPDATE-INDICATION-BIT-POSITION>7</UPDATE-INDICATION-BIT-POSITION>"
+            "</CONTAINED-I-PDU-PROPS>",
+            root_tag="GENERAL-PURPOSE-I-PDU",
+        )
+        parser.readIPdu(element, ipdu)
+        props = ipdu.getContainedIPduProps()
+        assert props is not None
+        assert props.getCollectionSemantics().getValue() == "lastIsBest"
+        assert props.getHeaderIdLongHeader().getValue() == 100
+        assert props.getHeaderIdShortHeader().getValue() == 50
+        assert props.getOffset().getValue() == 4
+        assert props.getTimeout().getValue() == 10
+        assert props.getTrigger().getValue() == "onChange"
+        assert props.getUpdateIndicationBitPosition().getValue() == 7
+
+    def test_readIPdu_absent_containedIPduProps_stays_none(self, parser):
+        from armodel.models import GeneralPurposeIPdu
+
+        ipdu = GeneralPurposeIPdu(parent=_autosar_root(), short_name="ipdu")
+        element = _snip("<SHORT-NAME>ipdu</SHORT-NAME>", root_tag="GENERAL-PURPOSE-I-PDU")
+        parser.readIPdu(element, ipdu)
+        assert ipdu.getContainedIPduProps() is None
+
 
 class TestISignalAndGroupHandlers:
     def test_readISignal_sets_length(self, parser):
