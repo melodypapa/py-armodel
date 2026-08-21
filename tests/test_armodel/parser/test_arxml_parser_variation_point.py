@@ -83,6 +83,73 @@ class TestReadVariationPoint:
         assert vp.getShortLabel().getValue() == "VP_Country"
 
 
+class TestReadVariationPointProxy:
+    def test_read_value_access(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import (
+            VariationPointProxy,
+        )
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints import (
+            NumericalValueVariationPoint,
+        )
+
+        inner = "<VARIATION-POINT-PROXY>" "<SHORT-NAME>vpp1</SHORT-NAME>" "<VALUE-ACCESS>" "<NUMERICAL-VALUE-VARIATION-POINT/>" "</VALUE-ACCESS>" "</VARIATION-POINT-PROXY>"
+        element = _snip(inner).find("{%s}VARIATION-POINT-PROXY" % NS)
+
+        proxy = VariationPointProxy(None, "vpp1")
+        parser.readVariationPointProxy(element, proxy)
+
+        value_access = proxy.getValueAccess()
+        assert isinstance(value_access, NumericalValueVariationPoint)
+
+    def test_read_value_access_attributes_and_text(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import (
+            VariationPointProxy,
+        )
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints import (
+            NumericalValueVariationPoint,
+        )
+
+        inner = (
+            "<VARIATION-POINT-PROXY>"
+            "<SHORT-NAME>vpp1</SHORT-NAME>"
+            "<VALUE-ACCESS>"
+            '<NUMERICAL-VALUE-VARIATION-POINT BINDING-TIME="PRE-COMPILE-TIME" SD="sd-1" SHORT-LABEL="vp1" BLUEPRINT-VALUE="bp">123</NUMERICAL-VALUE-VARIATION-POINT>'
+            "</VALUE-ACCESS>"
+            "</VARIATION-POINT-PROXY>"
+        )
+        element = _snip(inner).find("{%s}VARIATION-POINT-PROXY" % NS)
+
+        proxy = VariationPointProxy(None, "vpp1")
+        parser.readVariationPointProxy(element, proxy)
+
+        value_access = proxy.getValueAccess()
+        assert isinstance(value_access, NumericalValueVariationPoint)
+        assert value_access.getBindingTime().getValue() == "preCompileTime"
+        assert value_access.getSd().getValue() == "sd-1"
+        assert value_access.getShortLabel().getValue() == "vp1"
+        assert value_access.getBlueprintValue().getValue() == "bp"
+        assert value_access.getText() == "123"
+
+    def test_read_limit_value_access_with_interval_type(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import (
+            VariationPointProxy,
+        )
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints import (
+            LimitValueVariationPoint,
+        )
+
+        inner = "<VARIATION-POINT-PROXY>" "<SHORT-NAME>vpp2</SHORT-NAME>" "<VALUE-ACCESS>" '<LIMIT INTERVAL-TYPE="CLOSED">42</LIMIT>' "</VALUE-ACCESS>" "</VARIATION-POINT-PROXY>"
+        element = _snip(inner).find("{%s}VARIATION-POINT-PROXY" % NS)
+
+        proxy = VariationPointProxy(None, "vpp2")
+        parser.readVariationPointProxy(element, proxy)
+
+        value_access = proxy.getValueAccess()
+        assert isinstance(value_access, LimitValueVariationPoint)
+        assert value_access.getIntervalType().getValue() == "closed"
+        assert value_access.getText() == "42"
+
+
 @pytest.mark.integration
 class TestVariationPointRoundTrip:
     def test_parse_write_reparse_preserves_variation_point(self, tmp_path):

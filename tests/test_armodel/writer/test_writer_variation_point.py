@@ -12,7 +12,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Identifier,
     Integer,
+    IntervalTypeEnum,
+    PrimitiveIdentifier,
     RefType,
+    String,
     VerbatimString,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
@@ -20,6 +23,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import 
     PostBuildVariantCondition,
     PostBuildVariantCriterion,
     VariationPoint,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints import (
+    LimitValueVariationPoint,
+    NumericalValueVariationPoint,
 )
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -122,6 +129,44 @@ class TestWriteVariationPoint:
         assert vp_element.find("SHORT-LABEL").text == "VP_Country"
 
 
+class TestWriteAttributeValueVariationPoint:
+    def _write_avp_to_element(self, avp):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        writer = ARXMLWriter()
+        element = ET.Element("PARENT")
+        writer.writeAttributeValueVariationPoint(element, avp)
+        return element
+
+    def test_write_all_members(self):
+        avp = LimitValueVariationPoint()
+        avp.setBindingTime(BindingTimeEnum().setValue("preCompileTime"))
+        avp.setSd(String().setValue("sd-x"))
+        avp.setShortLabel(PrimitiveIdentifier().setValue("limit1"))
+        avp.setBlueprintValue(String().setValue("derived"))
+        avp.setIntervalType(IntervalTypeEnum().setValue("closed"))
+        avp.setText("42")
+
+        element = self._write_avp_to_element(avp)
+
+        assert element.attrib["BINDING-TIME"] == "PRE-COMPILE-TIME"
+        assert element.attrib["SD"] == "sd-x"
+        assert element.attrib["SHORT-LABEL"] == "limit1"
+        assert element.attrib["BLUEPRINT-VALUE"] == "derived"
+        assert element.attrib["INTERVAL-TYPE"] == "CLOSED"
+        assert element.text == "42"
+
+    def test_write_minimal_no_attributes(self):
+        avp = NumericalValueVariationPoint()
+
+        element = self._write_avp_to_element(avp)
+
+        assert "BINDING-TIME" not in element.attrib
+        assert "INTERVAL-TYPE" not in element.attrib
+        assert element.text is None
+
+
 class TestVariationPointProxyRoundTrip:
     def _build(self, document):
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
@@ -140,6 +185,7 @@ class TestVariationPointProxyRoundTrip:
         condition.setMatchingCriterionRef(RefType().setValue("/Demo/Criterions/Country").setDest("POST-BUILD-VARIANT-CRITERION"))
         condition.setValue(Integer().setValue("1"))
         proxy.addPostBuildVariantCondition(condition)
+        proxy.setValueAccess(NumericalValueVariationPoint())
         behavior.addVariationPointProxy(proxy)
         return behavior
 
@@ -178,6 +224,7 @@ class TestVariationPointProxyRoundTrip:
             assert len(conditions) == 1
             assert conditions[0].getMatchingCriterionRef().getValue() == "/Demo/Criterions/Country"
             assert conditions[0].getValue().getValue() == 1
+            assert isinstance(proxy_2.getValueAccess(), NumericalValueVariationPoint)
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)
@@ -207,6 +254,56 @@ class TestVariationPointProxyRoundTrip:
 
             component_2 = document_2.getARPackages()[0].getAtomicSwComponentTypes()[0]
             assert component_2.getInternalBehavior().getVariationPointProxies() == []
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_limit_value_access_with_all_members(self):
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR as _AUTOSAR
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import (
+            VariationPointProxy,
+        )
+        from armodel.parser.arxml_parser import ARXMLParser
+        from armodel.writer.arxml_writer import ARXMLWriter
+
+        _AUTOSAR.getInstance().setARRelease("R23-11")
+        document = _AUTOSAR.getInstance()
+        document.clear()
+        pkg = document.createARPackage("AUTOSAR")
+        component = pkg.createApplicationSwComponentType("MyComponent")
+        behavior = component.createSwcInternalBehavior("Behavior")
+
+        proxy = VariationPointProxy(behavior, "vpp1")
+        limit = LimitValueVariationPoint()
+        limit.setBindingTime(BindingTimeEnum().setValue("preCompileTime"))
+        limit.setSd(String().setValue("sd-x"))
+        limit.setShortLabel(PrimitiveIdentifier().setValue("limit1"))
+        limit.setBlueprintValue(String().setValue("derived"))
+        limit.setIntervalType(IntervalTypeEnum().setValue("open"))
+        limit.setText("42")
+        proxy.setValueAccess(limit)
+        behavior.addVariationPointProxy(proxy)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+
+            document_2 = _AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+
+            component_2 = document_2.getARPackages()[0].getAtomicSwComponentTypes()[0]
+            value_access = component_2.getInternalBehavior().getVariationPointProxies()[0].getValueAccess()
+            assert isinstance(value_access, LimitValueVariationPoint)
+            assert value_access.getBindingTime().getValue() == "preCompileTime"
+            assert value_access.getSd().getValue() == "sd-x"
+            assert value_access.getShortLabel().getValue() == "limit1"
+            assert value_access.getBlueprintValue().getValue() == "derived"
+            assert value_access.getIntervalType().getValue() == "open"
+            assert value_access.getText() == "42"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

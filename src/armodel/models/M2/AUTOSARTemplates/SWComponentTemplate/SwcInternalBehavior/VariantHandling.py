@@ -4,6 +4,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import ConditionByFormula, PostBuildVariantCondition
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints import AttributeValueVariationPoint
 
 
 class VariationPointProxy(Identifiable):
@@ -13,6 +14,7 @@ class VariationPointProxy(Identifiable):
 
     # VariationPointProxy method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.61, p.613
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getConditionAccess               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -23,8 +25,8 @@ class VariationPointProxy(Identifiable):
     # [x] setPostBuildValueAccessRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getPostBuildVariantConditions    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] addPostBuildVariantCondition     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getValueAccess                   [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer
-    # [x] setValueAccess                   [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer
+    # [x] getValueAccess                   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setValueAccess                   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -42,10 +44,7 @@ class VariationPointProxy(Identifiable):
         self.postBuildVariantConditions: List[PostBuildVariantCondition] = []
 
         # This value acts as Binding Function for the VariationPoint.
-        # Deviation: spec type AttributeValueVariationPoint (abstract) is not yet
-        # implemented; carried as ARObject placeholder. See deviation tracker
-        # "class not yet implemented" (Rule 1.10).
-        self.valueAccess: Optional[ARObject] = None
+        self.valueAccess: Optional[AttributeValueVariationPoint] = None
 
     def getConditionAccess(self) -> Optional[ConditionByFormula]:
         """
@@ -139,16 +138,16 @@ class VariationPointProxy(Identifiable):
             self.postBuildVariantConditions.append(value)
         return self
 
-    def getValueAccess(self) -> Optional[ARObject]:
+    def getValueAccess(self) -> Optional[AttributeValueVariationPoint]:
         """
         This value acts as Binding Function for the VariationPoint.
 
         Returns:
-            Optional[ARObject]: The valueAccess
+            Optional[AttributeValueVariationPoint]: The valueAccess
         """
         return self.valueAccess
 
-    def setValueAccess(self, value: Optional[ARObject]) -> "VariationPointProxy":
+    def setValueAccess(self, value: Optional[AttributeValueVariationPoint]) -> "VariationPointProxy":
         """
         This value acts as Binding Function for the VariationPoint. A None value is a no-op and does not overwrite an existing valueAccess.
 
