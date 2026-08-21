@@ -798,78 +798,174 @@ class SecuredIPdu(IPdu):
         return self
 
 
+class TransferPropertyEnum(AREnum):
+    """
+    Transfer Properties of a Signal.
+    """
+
+    # TransferPropertyEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.15, p.327
+    # (no methods)
+
+    # If the signal has the TransferProperty pending, then the function Com_SendSignal shall not perform a transmission of the IPdu associated with the signal. Tags: atp.EnumerationLiteralIndex=0
+    PENDING = "pending"
+
+    # The signal in the assigned IPdu is updated and a request for the IPdu's transmission is made. Tags: atp.EnumerationLiteralIndex=1
+    TRIGGERED = "triggered"
+
+    # The signal in the assigned IPdu is updated and a request for the IPdus transmission is made only if the signal value is different from the already stored signal value. Tags: atp.EnumerationLiteralIndex=2
+    TRIGGERED_ON_CHANGE = "triggeredOnChange"
+
+    # The signal in the assigned IPdu is updated and a request for the IPdus transmission is made only if the signal value is different from the already stored signal value. In the DIRECT/N-TIMES or MIXED transmission mode (EventControlledTiming) the IPdu will be transmitted just once without a repetition, independent of the defined NumberOfRepeats. Tags: atp.EnumerationLiteralIndex=3
+    TRIGGERED_ON_CHANGE_WITHOUT_REPETITION = "triggeredOnChangeWithoutRepetition"
+
+    # The signal in the assigned IPdu is updated and a request for the IPdu's transmission is made. In the DIRECT/N-TIMES or MIXED transmission mode (EventControlledTiming) the IPdu will be transmitted just once without a repetition, independent of the defined NumberOfRepeats. Tags: atp.EnumerationLiteralIndex=4
+    TRIGGERED_WITHOUT_REPETITION = "triggeredWithoutRepetition"
+
+    def __init__(self):
+        super().__init__(
+            (
+                TransferPropertyEnum.PENDING,
+                TransferPropertyEnum.TRIGGERED,
+                TransferPropertyEnum.TRIGGERED_ON_CHANGE,
+                TransferPropertyEnum.TRIGGERED_ON_CHANGE_WITHOUT_REPETITION,
+                TransferPropertyEnum.TRIGGERED_WITHOUT_REPETITION,
+            )
+        )
+
+
 class ISignalToIPduMapping(Identifiable):
     """
-    Defines the mapping between interaction signals and Interaction Protocol Data Units (IPDUs),
-    specifying signal references, byte order, start position, transfer
-    properties, and update indication bit position.
+    An ISignalToIPduMapping describes the mapping of ISignals to ISignalIPdus and defines the position of the ISignal within an ISignalIPdu.
     """
 
     # ISignalToIPduMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getISignalRef                [x] impl  [ ] docstring  [ ] test
-    # [ ] setISignalRef                [x] impl  [ ] docstring  [ ] test
-    # [ ] getISignalGroupRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] setISignalGroupRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] getPackingByteOrder          [x] impl  [ ] docstring  [ ] test
-    # [ ] setPackingByteOrder          [x] impl  [ ] docstring  [ ] test
-    # [ ] getStartPosition             [x] impl  [ ] docstring  [ ] test
-    # [ ] setStartPosition             [x] impl  [ ] docstring  [ ] test
-    # [ ] getTransferProperty          [x] impl  [ ] docstring  [ ] test
-    # [ ] setTransferProperty          [x] impl  [ ] docstring  [ ] test
-    # [ ] getUpdateIndicationBitPosition [x] impl  [ ] docstring  [ ] test
-    # [ ] setUpdateIndicationBitPosition [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.14, p.326
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getISignalRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setISignalRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getISignalGroupRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setISignalGroupRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPackingByteOrder          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPackingByteOrder          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getStartPosition             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setStartPosition             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTransferProperty          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTransferProperty          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getUpdateIndicationBitPosition [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setUpdateIndicationBitPosition [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.iSignalRef: RefType = None
-        self.iSignalGroupRef: RefType = None
-        self.packingByteOrder: ByteOrderEnum = None
-        self.startPosition: UnlimitedInteger = None
-        self.transferProperty = None
-        self.updateIndicationBitPosition: UnlimitedInteger = None
+        # Reference to a ISignal that is mapped into the ISignal IPdu. Each ISignal contained in the ISignalGroup shall be mapped into an IPdu by an own ISignalToIPduMapping. The references to the ISignal and to the ISignalGroup in an ISignalToIPduMapping are mutually exclusive.
+        self.iSignalRef: Optional[RefType] = None
 
-    def getISignalRef(self):
+        # Reference to an ISignalGroup that is mapped into the SignalIPdu. If an ISignalToIPduMapping for an ISignal Group is defined, only the UpdateIndicationBitPosition and the transferProperty is relevant. The startPosition and the packingByteOrder shall be ignored. Each ISignal contained in the ISignalGroup shall be mapped into an IPdu by an own ISignalToIPduMapping. The references to the ISignal and to the ISignalGroup in an ISignalToIPduMapping are mutually exclusive.
+        self.iSignalGroupRef: Optional[RefType] = None
+
+        # This parameter defines the order of the bytes of the signal and the packing into the SignalIPdu. The byte ordering "Little Endian" (MostSignificantByteLast), "Big Endian" (MostSignificantByteFirst) and "Opaque" can be selected. For opaque data endianness conversion shall be configured to Opaque. The value of this attribute impacts the absolute position of the signal into the SignalIPdu (see the startPosition attribute description). For an ISignalGroup the packingByteOrder is irrelevant and shall be ignored.
+        self.packingByteOrder: Optional[ByteOrderEnum] = None
+
+        # This parameter is necessary to describe the bitposition of a signal within an SignalIPdu. It denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian" packed signals within the IPdu (see the description of the packingByteOrder attribute). In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7. Please note that the way the bytes will be actually sent on the bus does not impact this representation: they will always be seen by the software as a byte array. If a mapping for the ISignalGroup is defined, this attribute is irrelevant and shall be ignored.
+        self.startPosition: Optional[UnlimitedInteger] = None
+
+        # Defines how the referenced ISignal contributes to the send triggering of the ISignalIPdu.
+        self.transferProperty: Optional[TransferPropertyEnum] = None
+
+        # The UpdateIndicationBit indicates to the receivers that the signal (or the signal group) was updated by the sender. Length is always one bit. The UpdateIndicationBitPosition attribute describes the position of the update bit within the SignalIPdu. For Signals of a ISignalGroup this attribute is irrelevant and shall be ignored. Note that the exact bit position of the updateIndicationBitPosition is linked to the value of the attribute packingByteOrder because the method of finding the bit position is different for the values mostSignificantByteFirst and mostSignificantByteLast. This means that if the value of packingByteOrder is changed while the value of updateIndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing ISignalIPdu still undergoes a change. This attribute denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian" packed signals within the IPdu (see the description of the packingByteOrder attribute). In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7.
+        self.updateIndicationBitPosition: Optional[UnlimitedInteger] = None
+
+    def getISignalRef(self) -> Optional[RefType]:
+        """
+        Reference to a ISignal that is mapped into the ISignal IPdu. Each ISignal contained in the ISignalGroup shall be mapped into an IPdu by an own ISignalToIPduMapping. The references to the ISignal and to the ISignalGroup in an ISignalToIPduMapping are mutually exclusive.
+        """
         return self.iSignalRef
 
-    def setISignalRef(self, value):
-        self.iSignalRef = value
+    def setISignalRef(self, value: Optional[RefType]) -> "ISignalToIPduMapping":
+        """
+        Reference to a ISignal that is mapped into the ISignal IPdu. Each ISignal contained in the ISignalGroup shall be mapped into an IPdu by an own ISignalToIPduMapping. The references to the ISignal and to the ISignalGroup in an ISignalToIPduMapping are mutually exclusive.
+        A None value is a no-op and does not overwrite an existing iSignalRef.
+        """
+        if value is not None:
+            self.iSignalRef = value
         return self
 
-    def getISignalGroupRef(self):
+    def getISignalGroupRef(self) -> Optional[RefType]:
+        """
+        Reference to an ISignalGroup that is mapped into the SignalIPdu. If an ISignalToIPduMapping for an ISignal Group is defined, only the UpdateIndicationBitPosition and the transferProperty is relevant. The startPosition and the packingByteOrder shall be ignored. Each ISignal contained in the ISignalGroup shall be mapped into an IPdu by an own ISignalToIPduMapping. The references to the ISignal and to the ISignalGroup in an ISignalToIPduMapping are mutually exclusive.
+        """
         return self.iSignalGroupRef
 
-    def setISignalGroupRef(self, value):
-        self.iSignalGroupRef = value
+    def setISignalGroupRef(self, value: Optional[RefType]) -> "ISignalToIPduMapping":
+        """
+        Reference to an ISignalGroup that is mapped into the SignalIPdu. If an ISignalToIPduMapping for an ISignal Group is defined, only the UpdateIndicationBitPosition and the transferProperty is relevant. The startPosition and the packingByteOrder shall be ignored. Each ISignal contained in the ISignalGroup shall be mapped into an IPdu by an own ISignalToIPduMapping. The references to the ISignal and to the ISignalGroup in an ISignalToIPduMapping are mutually exclusive.
+        A None value is a no-op and does not overwrite an existing iSignalGroupRef.
+        """
+        if value is not None:
+            self.iSignalGroupRef = value
         return self
 
-    def getPackingByteOrder(self):
+    def getPackingByteOrder(self) -> Optional[ByteOrderEnum]:
+        """
+        This parameter defines the order of the bytes of the signal and the packing into the SignalIPdu. The byte ordering "Little Endian" (MostSignificantByteLast), "Big Endian" (MostSignificantByteFirst) and "Opaque" can be selected. For opaque data endianness conversion shall be configured to Opaque. The value of this attribute impacts the absolute position of the signal into the SignalIPdu (see the startPosition attribute description). For an ISignalGroup the packingByteOrder is irrelevant and shall be ignored.
+        """
         return self.packingByteOrder
 
-    def setPackingByteOrder(self, value):
-        self.packingByteOrder = value
+    def setPackingByteOrder(self, value: Optional[ByteOrderEnum]) -> "ISignalToIPduMapping":
+        """
+        This parameter defines the order of the bytes of the signal and the packing into the SignalIPdu. The byte ordering "Little Endian" (MostSignificantByteLast), "Big Endian" (MostSignificantByteFirst) and "Opaque" can be selected. For opaque data endianness conversion shall be configured to Opaque. The value of this attribute impacts the absolute position of the signal into the SignalIPdu (see the startPosition attribute description). For an ISignalGroup the packingByteOrder is irrelevant and shall be ignored.
+        A None value is a no-op and does not overwrite an existing packingByteOrder.
+        """
+        if value is not None:
+            self.packingByteOrder = value
         return self
 
-    def getStartPosition(self):
+    def getStartPosition(self) -> Optional[UnlimitedInteger]:
+        """
+        This parameter is necessary to describe the bitposition of a signal within an SignalIPdu. It denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian" packed signals within the IPdu (see the description of the packingByteOrder attribute). In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7. Please note that the way the bytes will be actually sent on the bus does not impact this representation: they will always be seen by the software as a byte array. If a mapping for the ISignalGroup is defined, this attribute is irrelevant and shall be ignored.
+        """
         return self.startPosition
 
-    def setStartPosition(self, value):
-        self.startPosition = value
+    def setStartPosition(self, value: Optional[UnlimitedInteger]) -> "ISignalToIPduMapping":
+        """
+        This parameter is necessary to describe the bitposition of a signal within an SignalIPdu. It denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian" packed signals within the IPdu (see the description of the packingByteOrder attribute). In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7. Please note that the way the bytes will be actually sent on the bus does not impact this representation: they will always be seen by the software as a byte array. If a mapping for the ISignalGroup is defined, this attribute is irrelevant and shall be ignored.
+        A None value is a no-op and does not overwrite an existing startPosition.
+        """
+        if value is not None:
+            self.startPosition = value
         return self
 
-    def getTransferProperty(self):
+    def getTransferProperty(self) -> Optional[TransferPropertyEnum]:
+        """
+        Defines how the referenced ISignal contributes to the send triggering of the ISignalIPdu.
+        """
         return self.transferProperty
 
-    def setTransferProperty(self, value):
-        self.transferProperty = value
+    def setTransferProperty(self, value: Optional[TransferPropertyEnum]) -> "ISignalToIPduMapping":
+        """
+        Defines how the referenced ISignal contributes to the send triggering of the ISignalIPdu.
+        A None value is a no-op and does not overwrite an existing transferProperty.
+        """
+        if value is not None:
+            self.transferProperty = value
         return self
 
-    def getUpdateIndicationBitPosition(self):
+    def getUpdateIndicationBitPosition(self) -> Optional[UnlimitedInteger]:
+        """
+        The UpdateIndicationBit indicates to the receivers that the signal (or the signal group) was updated by the sender. Length is always one bit. The UpdateIndicationBitPosition attribute describes the position of the update bit within the SignalIPdu. For Signals of a ISignalGroup this attribute is irrelevant and shall be ignored. Note that the exact bit position of the updateIndicationBitPosition is linked to the value of the attribute packingByteOrder because the method of finding the bit position is different for the values mostSignificantByteFirst and mostSignificantByteLast. This means that if the value of packingByteOrder is changed while the value of updateIndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing ISignalIPdu still undergoes a change. This attribute denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian" packed signals within the IPdu (see the description of the packingByteOrder attribute). In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7.
+        """
         return self.updateIndicationBitPosition
 
-    def setUpdateIndicationBitPosition(self, value):
-        self.updateIndicationBitPosition = value
+    def setUpdateIndicationBitPosition(self, value: Optional[UnlimitedInteger]) -> "ISignalToIPduMapping":
+        """
+        The UpdateIndicationBit indicates to the receivers that the signal (or the signal group) was updated by the sender. Length is always one bit. The UpdateIndicationBitPosition attribute describes the position of the update bit within the SignalIPdu. For Signals of a ISignalGroup this attribute is irrelevant and shall be ignored. Note that the exact bit position of the updateIndicationBitPosition is linked to the value of the attribute packingByteOrder because the method of finding the bit position is different for the values mostSignificantByteFirst and mostSignificantByteLast. This means that if the value of packingByteOrder is changed while the value of updateIndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing ISignalIPdu still undergoes a change. This attribute denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian" packed signals within the IPdu (see the description of the packingByteOrder attribute). In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7.
+        A None value is a no-op and does not overwrite an existing updateIndicationBitPosition.
+        """
+        if value is not None:
+            self.updateIndicationBitPosition = value
         return self
 
 

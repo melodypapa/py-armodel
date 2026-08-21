@@ -5950,9 +5950,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "I-SIGNAL-TO-I-PDU-MAPPING")
             self.writeIdentifiable(child_element, mapping)
             self.setChildElementOptionalRefType(child_element, "I-SIGNAL-REF", mapping.getISignalRef())
+            self.setChildElementOptionalRefType(child_element, "I-SIGNAL-GROUP-REF", mapping.getISignalGroupRef())
             self.setChildElementOptionalLiteral(child_element, "PACKING-BYTE-ORDER", mapping.getPackingByteOrder())
             self.setChildElementOptionalIntegerValue(child_element, "START-POSITION", mapping.getStartPosition())
             self.setChildElementOptionalLiteral(child_element, "TRANSFER-PROPERTY", mapping.getTransferProperty())
+            self.setChildElementOptionalNumericalValue(child_element, "UPDATE-INDICATION-BIT-POSITION", mapping.getUpdateIndicationBitPosition())
 
     def writeNmPduISignalToIPduMappings(self, element: ET.Element, pdu: NmPdu):
         mappings = pdu.getISignalToIPduMappings()

@@ -6673,9 +6673,11 @@ class ARXMLParser(AbstractARXMLParser):
     def readISignalToIPduMapping(self, element: ET.Element, mapping: ISignalToIPduMapping):
         self.readIdentifiable(element, mapping)
         mapping.setISignalRef(self.getChildElementOptionalRefType(element, "I-SIGNAL-REF"))
+        mapping.setISignalGroupRef(self.getChildElementOptionalRefType(element, "I-SIGNAL-GROUP-REF"))
         mapping.setPackingByteOrder(self.getChildElementOptionalLiteral(element, "PACKING-BYTE-ORDER"))
         mapping.setStartPosition(self.getChildElementOptionalIntegerValue(element, "START-POSITION"))
         mapping.setTransferProperty(self.getChildElementOptionalLiteral(element, "TRANSFER-PROPERTY"))
+        mapping.setUpdateIndicationBitPosition(self.getChildElementOptionalNumericalValue(element, "UPDATE-INDICATION-BIT-POSITION"))
 
     def readNmPduISignalToIPduMappings(self, element: ET.Element, pdu: NmPdu):
         for child_element in self.findall(element, "I-SIGNAL-TO-I-PDU-MAPPINGS/*"):

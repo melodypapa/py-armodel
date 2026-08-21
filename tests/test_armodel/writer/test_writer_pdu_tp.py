@@ -109,9 +109,11 @@ class TestWriteISignalToIPduMapping:
         pkg = _pkg()
         mapping = ISignalToIPduMapping(pkg, "Map")
         mapping.setISignalRef(_ref("I-SIGNAL", "/sigs/s"))
+        mapping.setISignalGroupRef(_ref("I-SIGNAL-GROUP", "/sigs/sg"))
         mapping.setPackingByteOrder(_literal("MOST-SIGNIFICANT-BYTE-LAST"))
         mapping.setStartPosition(_int("0"))
         mapping.setTransferProperty(_literal("TRIGGERED"))
+        mapping.setUpdateIndicationBitPosition(_int("7"))
         parent = _parent()
         writer.writeISignalToIPduMapping(parent, mapping)
         assert len(parent) == 1
@@ -119,9 +121,11 @@ class TestWriteISignalToIPduMapping:
         assert child.tag == "I-SIGNAL-TO-I-PDU-MAPPING"
         assert child.find("SHORT-NAME").text == "Map"
         assert child.find("I-SIGNAL-REF").text == "/sigs/s"
+        assert child.find("I-SIGNAL-GROUP-REF").text == "/sigs/sg"
         assert child.find("PACKING-BYTE-ORDER").text == "MOST-SIGNIFICANT-BYTE-LAST"
         assert child.find("START-POSITION").text == "0"
         assert child.find("TRANSFER-PROPERTY").text == "TRIGGERED"
+        assert child.find("UPDATE-INDICATION-BIT-POSITION").text == "7"
 
 
 class TestWriteNmPduISignalToIPduMappings:

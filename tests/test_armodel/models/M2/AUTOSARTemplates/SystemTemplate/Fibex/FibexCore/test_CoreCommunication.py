@@ -36,6 +36,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     StaticPart,
     SystemSignal,
     SystemSignalGroup,
+    TransferPropertyEnum,
     UserDefinedIPdu,
     UserDefinedPdu,
 )
@@ -452,27 +453,49 @@ class Test_FibexCoreCommunication:
         mapping.setISignalRef(ref1)
         assert mapping.getISignalRef() == ref1
         assert mapping == mapping.setISignalRef(ref1)  # Test method chaining
+        assert mapping == mapping.setISignalRef(None)  # None is a no-op
+        assert mapping.getISignalRef() == ref1
 
         ref2 = object()
         mapping.setISignalGroupRef(ref2)
         assert mapping.getISignalGroupRef() == ref2
         assert mapping == mapping.setISignalGroupRef(ref2)  # Test method chaining
+        assert mapping == mapping.setISignalGroupRef(None)  # None is a no-op
+        assert mapping.getISignalGroupRef() == ref2
 
         mapping.setPackingByteOrder("MOST_SIGNIFICANT_BYTE_FIRST")
         assert mapping.getPackingByteOrder() == "MOST_SIGNIFICANT_BYTE_FIRST"
         assert mapping == mapping.setPackingByteOrder("MOST_SIGNIFICANT_BYTE_FIRST")  # Test method chaining
+        assert mapping == mapping.setPackingByteOrder(None)  # None is a no-op
+        assert mapping.getPackingByteOrder() == "MOST_SIGNIFICANT_BYTE_FIRST"
 
         mapping.setStartPosition(100)
         assert mapping.getStartPosition() == 100
         assert mapping == mapping.setStartPosition(100)  # Test method chaining
+        assert mapping == mapping.setStartPosition(None)  # None is a no-op
+        assert mapping.getStartPosition() == 100
 
         mapping.setTransferProperty("PENDING")
         assert mapping.getTransferProperty() == "PENDING"
         assert mapping == mapping.setTransferProperty("PENDING")  # Test method chaining
+        assert mapping == mapping.setTransferProperty(None)  # None is a no-op
+        assert mapping.getTransferProperty() == "PENDING"
 
         mapping.setUpdateIndicationBitPosition(50)
         assert mapping.getUpdateIndicationBitPosition() == 50
         assert mapping == mapping.setUpdateIndicationBitPosition(50)  # Test method chaining
+        assert mapping == mapping.setUpdateIndicationBitPosition(None)  # None is a no-op
+        assert mapping.getUpdateIndicationBitPosition() == 50
+
+    def test_TransferPropertyEnum(self):
+        """Test TransferPropertyEnum enum functionality."""
+        enum = TransferPropertyEnum()
+        assert enum is not None
+        assert TransferPropertyEnum.PENDING in enum.getEnumValues()
+        assert TransferPropertyEnum.TRIGGERED in enum.getEnumValues()
+        assert TransferPropertyEnum.TRIGGERED_ON_CHANGE in enum.getEnumValues()
+        assert TransferPropertyEnum.TRIGGERED_ON_CHANGE_WITHOUT_REPETITION in enum.getEnumValues()
+        assert TransferPropertyEnum.TRIGGERED_WITHOUT_REPETITION in enum.getEnumValues()
 
     def test_NmPdu(self):
         """Test NmPdu class functionality."""
