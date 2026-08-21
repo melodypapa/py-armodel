@@ -10,7 +10,7 @@ Input class: EndToEndTransformationDescription · Generated: 2026-08-21 · Queue
 | [x] | IPduTiming | member | markdown | Table 6.30 | commit 6ad3cdcd |
 | [x] | ISignalGroup | member | markdown | Table 6.12 | commit 60e8454c |
 | [x] | ISignalToIPduMapping | member | markdown | Table 6.14 | commit 65bd7cc1 |
-| [ ] | ISignalIPdu | input | markdown | Table 6.19 | |
+| [x] | ISignalIPdu | input | markdown | Table 6.19 | commit ccdfe29a |
 | [ ] | DataTransformation | member | markdown | Table 7.2 | |
 | [ ] | TransformationISignalProps | member | markdown | — | |
 | [ ] | DataIdModeEnum | member enum | markdown | — | enum (Steps 5/6 N/A) |
