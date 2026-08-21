@@ -1156,9 +1156,8 @@ class TestWriterModeInBswModuleDescriptionInstanceRefRoundTrip:
 
 class TestSwServiceArgRoundTrip:
     def _build(self, document):
-        from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps, ValueList
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ArgumentDirectionEnum
-        from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
+        from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps, SwImplPolicyEnum, ValueList
 
         pkg = document.createARPackage("AUTOSAR")
         entry = pkg.createBswModuleEntry("entry1")

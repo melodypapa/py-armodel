@@ -868,7 +868,7 @@ class BswEvent(AbstractEvent, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is BswEvent:
             raise TypeError("BswEvent is an abstract class.")
-        
+
         super().__init__(parent, short_name)
 
         # The existence of this reference indicates that the usage of the event is limited to the context of the referred Bsw DistinguishedPartitions.

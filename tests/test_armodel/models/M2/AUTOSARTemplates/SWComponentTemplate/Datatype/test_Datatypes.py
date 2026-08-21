@@ -205,8 +205,6 @@ class TestArraySizeHandlingEnum:
         assert enum.getValue() == "allIndicesDifferentArraySize"
 
     def test_enum_values(self):
-        enum = ArraySizeHandlingEnum()
-
         assert ArraySizeHandlingEnum.ALL_INDICES_DIFFERENT_ARRAY_SIZE == "allIndicesDifferentArraySize"
         assert ArraySizeHandlingEnum.ALL_INDICES_SAME_ARRAY_SIZE == "allIndicesSameArraySize"
         assert ArraySizeHandlingEnum.INHERITED_FROM_ARRAY_ELEMENT_TYPE_SIZE == "inheritedFromArrayElementTypeSize"
