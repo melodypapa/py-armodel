@@ -626,7 +626,9 @@ pre-existing stamp as a substitute for 9b.
 Do **not** stamp the class or advance to the next queue item until the user
 confirms every item. If any item failed, fix it and re-present 9b. This gate is the
 post-sync analogue of the Phase 0 membership gate (Rule 0016.2): both exist because
-the agent must not silently certify work the automation cannot check.
+the agent must not silently certify work the automation cannot check. After 9b
+passes, finish the class per **Rule 0017.2** (commit to the feature branch, flip
+the todo row to `[x]` with the commit hash, stop the session).
 
 ---
 
@@ -1077,16 +1079,110 @@ type as already-synced.
 A class marked Skip in 16.4 stays out of the queue; a class marked XSD-derived
 enters the queue with the XSD-only flag.
 
-### 16.6 Phase 0 output
+### 16.6 Phase 0 output — the persistent sync todo list
 
-Phase 0 produces a sync map persisted in the conversation (a markdown table or
-JSON; not a repo file):
+Phase 0 produces a **sync todo list persisted to a repo file**:
+`docs/plan/sync-todo/<InputClassName>.md` (one file per sync run; the input class
+names the file). **The queue lives in this file, never only in the conversation**
+— a conversation-only queue dies with the session and loses the 16.4 Skip/XSD
+decisions with it.
 
-| Class | Source | Table N.M | Parent | Role | Sync? |
+File format:
+
+```markdown
+# Sync todo: <InputClassName>
+
+Input class: <InputClassName> · Generated: <YYYY-MM-DD> · Queue order = row order
+(resume = first row still `[ ]`; all rows `[x]` = sync finished)
+
+| Status | Class | Role | Source | Table | Notes |
 |---|---|---|---|---|---|
-| C | markdown | Table X.Y | (input) | yes | 9-step |
-| ParentK | markdown | Table A.B | base | yes (already stamped) | skip |
-| MemberK | missing | — | member | xsd-derived | 9-step (XSD-only) |
-| MemberK2 | missing | — | member | skipped | deviation row |
+| [ ] | ParentK | base | markdown | Table A.B | |
+| [x] | ParentJ | base | markdown | Table C.D | commit abc1234 |
+| [ ] | MemberK | member | xsd-derived | — | XSD-only, no marker (16.4) |
+| [ ] | C | input | markdown | Table X.Y | |
 
-The 9-step workflow (Phase 1) consumes this map one row at a time.
+## Not queued (16.4 decisions)
+- MemberK2 — Skip per user; deviation row recorded (Rule 0014).
+```
+
+- One row per **queued** class, in 16.5 order (deepest ancestor first → input
+  class last). Status flips `[ ]` → `[x]` only per Rule 0017.2 (commit hash
+  recorded in Notes). The **Notes** column carries what later sessions need:
+  `enum` (Steps 5/6 N/A — round-trip via the consuming class), `XSD-only`
+  (no marker), `drift R<YY>-<MM>` (re-opened row), and the commit hash once
+  finished. Classes resolved **Skip** in 16.4 never get a queue row —
+  they are listed under "Not queued" so the decision survives session death.
+- Already-stamped classes skipped by 16.5 are not queued either; list them under
+  "Not queued" with "already stamped `# Spec verified: R<YY>-<MM>`".
+- The Phase 0 session **ends** after writing this file. Every 9-step run happens
+  in its own fresh session (Rule 0017).
+
+The 9-step workflow (Phase 1) consumes this file one row at a time.
+
+---
+
+## Rule 0017 — Per-class session loop, commit & completion
+
+Phase 1 execution discipline: one class per fresh session, a commit per finished
+class, and an explicit whole-sync termination condition. This rule exists because
+the per-class workload (verbatim Note diffs per member, the 9b checklist) degrades
+silently in a context loaded with earlier classes, and because conversation-only
+state (queue, Skip/XSD decisions) is lost the moment a session dies.
+
+### 17.1 Entry — resume, never rebuild
+
+- On every skill invocation, check for `docs/plan/sync-todo/<ClassName>.md` first.
+  **File exists ⇒ resume:** read it, take the **first row still `[ ]`**, run the
+  9-step workflow for that one class. Do **not** re-run Phase 0, re-collect the
+  closure, or re-ask the 16.2/16.4 gates — they were already confirmed when the
+  file was written. **File missing ⇒ run Phase 0** (which ends by writing it).
+- **One class per session.** After finishing a class (17.2), stop and tell the
+  user to start a new session for the next class — even when the context "still
+  feels fresh". A session may run Phase 0 (then stop) or exactly one 9-step
+  class, never both, never two classes. **A user request to continue in-session
+  does not override this rule** — neither the agent nor the user can detect the
+  silent degradation of the 9b verbatim diffs, and the persistent todo file
+  makes a fresh session cost near zero (16.6); explain that and stop.
+- **Drift/extension exception:** to re-sync a class whose row is already `[x]`
+  (Rule 0012.3 drift or an extension), the user must say so explicitly; reset
+  that row to `[ ]` with a `drift R<YY>-<MM>` note, then sync it in a fresh
+  session.
+
+### 17.2 Finish — commit, then mark `[x]`
+
+A class is finished only after Step 9b passes (user confirmed every item) **and**
+the `# Spec verified:` marker is written (or the XSD-only exception applies).
+Then, in this order:
+
+1. **Commit** the class's changes to the **current feature branch**: model
+   source, mirrored model test, parser/writer tests, parser, writer, deviation
+   tracker updates, and the todo file itself. Message: `feat: <ClassName> synced.`
+   If the working branch is `main`, ask the user which feature branch to use
+   before committing.
+2. **Mark the todo row `[x]`** and record the commit hash in Notes — in the same
+   commit (or an immediate follow-up commit amending the todo file only).
+3. **Report and stop.** Tell the user: class finished (hash), N of M rows done,
+   start a new session for the next class — or, if all rows are `[x]`, that the
+   sync is complete.
+
+**No `[x]` before the commit exists** — the hash is part of the row. **No
+deferred bulk commit** ("I'll commit after all classes") — a session death then
+loses every finished class's work.
+
+### 17.3 Termination — all rows `[x]`
+
+After marking a row `[x]`, re-read the todo file: every queue row `[x]` ⇒ the
+sync is **finished**. Report the summary (classes synced, commit hashes,
+remaining deviations, "Not queued" decisions). Any `[ ]` remaining ⇒ the next
+session picks it up (17.1). Never declare the sync finished while a `[ ]` queue
+row exists.
+
+### 17.4 Forbidden workarounds
+
+- Keeping the queue/sync map only in the conversation (Rule 0016.6).
+- Rebuilding the queue by grepping `# Spec verified:` stamps instead of reading
+  the todo file — stamps carry no queue order, roles, or Skip/XSD decisions.
+- Syncing a second class "because the context still feels fresh" (17.1).
+- Marking `[x]` without a commit hash, or deferring commits to the end (17.2).
+- Re-running Phase 0 when the todo file already exists (17.1).

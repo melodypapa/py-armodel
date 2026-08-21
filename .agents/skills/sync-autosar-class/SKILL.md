@@ -1,11 +1,11 @@
 ---
 name: sync-autosar-class
-description: "Use when syncing, aligning, implementing, or extending an AUTOSAR model class in py-armodel against its PDF spec table. Triggers: 'sync <ClassName>', 'implement <ClassName> to spec', 'add reader/writer coverage for <ClassName>', 'update the class checklist', 'sync docstrings to the PDF', or working on any class under src/armodel/models/M2/AUTOSARTemplates/. py-armodel project. Phase 0 builds the class closure and resolves missing classes interactively before the per-class 9-step TDD loop."
+description: "Use when syncing, aligning, implementing, or extending an AUTOSAR model class in py-armodel against its PDF spec table. Triggers: 'sync <ClassName>', 'implement <ClassName> to spec', 'add reader/writer coverage for <ClassName>', 'update the class checklist', 'sync docstrings to the PDF', 'continue/resume the class sync', or working on any class under src/armodel/models/M2/AUTOSARTemplates/. py-armodel project. Phase 0 builds the class closure and resolves missing classes interactively before the per-class 9-step TDD loop."
 author: melodypapa
 repository: https://github.com/melodypapa/py-armodel
 license: MIT
 metadata:
-  version: "1.7.0"
+  version: "1.8.0"
   keywords:
     - AUTOSAR
     - model-class
@@ -26,11 +26,14 @@ The AUTOSAR PDF spec table is the source of truth. Sync runs in **two phases**:
 - **Phase 0 — Discovery & class closure (Rule 0016):** build the closure of related
   classes (parents + member types), confirm the collected set with the user, locate
   each one's spec source (markdown → PDF → missing), resolve missing classes
-  interactively (skip / derive from XSD), and emit an ordered sync queue.
-- **Phase 1 — 9-step TDD per class (Rules 0001–0015):** consume the queue
-  one class at a time. Two Red→Green pairs per class: model (2→3) and reader/writer
-  (5→6). Write the failing test before the implementation. Each class ends with a
-  rule-compliance confirmation gate (Step 9b) before it is stamped.
+  interactively (skip / derive from XSD), and write the persistent sync todo list
+  (`docs/plan/sync-todo/<InputClassName>.md`) — the queue survives session death.
+- **Phase 1 — 9-step TDD per class (Rules 0001–0015, 0017):** consume the queue
+  one class at a time, **one class per fresh session** (Rule 0017). Two Red→Green
+  pairs per class: model (2→3) and reader/writer (5→6). Write the failing test before
+  the implementation. Each class ends with a rule-compliance confirmation gate (Step
+  9b) before it is stamped, marked finished in the todo list, and committed to the
+  feature branch. All rows `[x]` in the todo list = the sync is finished.
 
 Set the release before parse/write:
 
@@ -39,7 +42,7 @@ document = AUTOSAR.getInstance()
 document.setARRelease('R23-11')
 ```
 
-Detailed rules live in **`rules.md`** (*Rule 0001*–*Rule 0016*); this skill is
+Detailed rules live in **`rules.md`** (*Rule 0001*–*Rule 0017*); this skill is
 self-contained (no external rules document). Each step below points into `rules.md` for
 the detail — do not re-derive it here.
 
@@ -85,11 +88,36 @@ risks fabricating fields when a referenced class turns out to be missing mid-syn
    **"Exists" is not a stamp** — a member type that exists but is a stub (no marker,
    or fields/literals don't match its own table) is queued for the same pass like a
    missing class (Rule 0001.10 / 0016.4).
+6. **Write the sync todo list file** (Rule 0016.6): persist the confirmed queue to
+   `docs/plan/sync-todo/<InputClassName>.md` — one row per queued class, plus the
+   Skip/XSD resolution decisions. **The queue lives in this file, not in the
+   conversation.** The Phase 0 session ends here.
 
-**Output:** a sync map (kept in the conversation) listing each closure class,
-its source, its parent, and whether it enters the 9-step queue.
+**Output:** `docs/plan/sync-todo/<InputClassName>.md` — the persistent queue
+(Rule 0016.6). Phase 1 consumes it one row at a time, **one class per fresh
+session** (Rule 0017).
 
-Phase 1 consumes this map one row at a time.
+## Phase 1 — Session loop & the 9-step workflow (Rule 0017)
+
+- **Entry (every session):** the user invokes the skill (e.g. `/sync-autosar-class
+  <ClassName>` or "continue the sync"). If `docs/plan/sync-todo/<ClassName>.md`
+  exists, **resume — do NOT re-run Phase 0** (the closure was already confirmed;
+  re-running it re-asks the interactive gates for nothing). Read the todo file,
+  take the **first row still `[ ]`**, and run the 9-step workflow for that one
+  class. If the file does not exist, run Phase 0 first.
+- **One class per session.** Never sync two classes in one session, even when the
+  context still feels fresh — the 9b verbatim-diff work degrades silently under a
+  loaded context. After a class finishes (below), stop and tell the user to start
+  a new session.
+- **Finish (per class, after 9b):** once the user confirms Step 9b and the
+  `# Spec verified:` marker is written — (1) commit the class's changes to the
+  current feature branch (model source + mirrored test + parser/writer tests +
+  parser + writer + deviation tracker + the todo file itself; message
+  `feat: <ClassName> synced.`), (2) flip the todo row to `[x]` and record the
+  commit hash in the same commit, (3) report and stop.
+- **Termination:** after marking a row `[x]`, if **every** queue row is `[x]`, the
+  sync is **finished** — report the summary (classes, commits, deviations). No
+  further session needed. Any `[ ]` left → next session picks it up.
 
 ## The stamp is the review gate
 
@@ -127,11 +155,11 @@ round-trip) certifies a class as reviewed.
 | deviation records | the project deviation tracker (format in *Rule 0014*) |
 | XSD ground truth | `docs/requirements/xsd/` |
 
-## Phase 1 — The 9-step workflow (TDD, per class)
+### The 9-step workflow (TDD, per class)
 
-Runs once per class in the queue built by Phase 0 (Rule 0016). Two Red→Green pairs:
-**2→3** (model) and **5→6** (reader/writer). Do not write the implementation
-before its failing test.
+Runs once per class in the queue built by Phase 0 (Rule 0016), inside the session
+loop above. Two Red→Green pairs: **2→3** (model) and **5→6** (reader/writer). Do
+not write the implementation before its failing test.
 
 | Step | What | Rules | Phase |
 |---|---|---|---|
@@ -155,7 +183,7 @@ before its failing test.
 - **6** — Reader populates via mutators (`readXxx`→`set/create/addXxx`), writer reads via getters (`writeXxx`→`getXxx`); cover wrapper lists + polymorphic five-place dispatch; **no chained mutator calls**.
 - **7** — One row per method, source order, all `[x]`, 5-column format below. Writes the `# Spec:` line + method rows **only** — the `# Spec verified:` marker is added in Step 9b, never here.
 - **8** — Record deviations; the `# Spec verified:` marker (added in 9b) is **withheld** while any placeholder/deviation remains; report the Step-3 referenced classes here.
-- **9** — **(9a automated)** `pytest` + `flake8` + `ruff check` + `black-check` + the set-based script + a lossless integration round-trip (`npm run flake8` / `ruff-check` / `black-check` are the cross-platform forms). **Stop on any failure.** **(9b confirm — gate)** then present the **complete pre-stamp** rule-compliance checklist covering every check automation is blind to — element kind + every spec attr modeled (*0001.1*), most-derived base (*0001.2*), no fabrication/flattening + PDF-typed fields (*0001.3*), **Kind-suffix naming** `ref`→Ref/Refs·`tref`→TRef·`iref`→IRef/IRefs + singular `*`→plural (*0001.5*), create/set/add shape (*0001.6*), **reader+writer coverage** for every kept attr (*0001.7*), **member order** (*0011*), docstrings = spec `Note` **verbatim by diff** (*0012* **and** *0001.4* — every attribute's inline `__init__` comment + getter docstring + setter docstring must be the spec `Note` copied verbatim, not a "Gets/Sets the…" paraphrase or a truncated summary that drops the spec's full sentence), deviations resolved/removed (*0014*), stamp decision (*0012.1*) — and get explicit user confirmation; **when all pass, write the `# Spec verified:` marker in this step (9b)** — never in Step 4/7/8. Fix & re-present on any failure (*Rule 0006.1* has the full checklist).
+- **9** — **(9a automated)** `pytest` + `flake8` + `ruff check` + `black-check` + the set-based script + a lossless integration round-trip (`npm run flake8` / `ruff-check` / `black-check` are the cross-platform forms). **Stop on any failure.** **(9b confirm — gate)** then present the **complete pre-stamp** rule-compliance checklist covering every check automation is blind to — element kind + every spec attr modeled (*0001.1*), most-derived base (*0001.2*), no fabrication/flattening + PDF-typed fields (*0001.3*), **Kind-suffix naming** `ref`→Ref/Refs·`tref`→TRef·`iref`→IRef/IRefs + singular `*`→plural (*0001.5*), create/set/add shape (*0001.6*), **reader+writer coverage** for every kept attr (*0001.7*), **member order** (*0011*), docstrings = spec `Note` **verbatim by diff** (*0012* **and** *0001.4* — every attribute's inline `__init__` comment + getter docstring + setter docstring must be the spec `Note` copied verbatim, not a "Gets/Sets the…" paraphrase or a truncated summary that drops the spec's full sentence), deviations resolved/removed (*0014*), stamp decision (*0012.1*) — and get explicit user confirmation; **when all pass, write the `# Spec verified:` marker in this step (9b)** — never in Step 4/7/8. Fix & re-present on any failure (*Rule 0006.1* has the full checklist). **Then finish the class per Rule 0017**: commit to the feature branch, flip the todo row to `[x]` with the commit hash, and stop the session (or, if all rows are `[x]`, report the sync complete).
 
 **Workflow adaptations** (which steps still apply):
 
@@ -244,6 +272,20 @@ detail: *Rule 0002*.
   directly under its spec-`Note` comment is a *Rule 0003* violation even when the
   getter/setter signatures are correct; no automation catches it — check every
   `__init__` member's declaration form during 9b.
+- **Keeping the queue only in the conversation** — the sync map that lives in
+  conversation dies with the session, taking the Skip/XSD decisions and queue order
+  with it. The queue lives in `docs/plan/sync-todo/<InputClassName>.md` (*Rule 0016.6*).
+- **Re-running Phase 0 on resume** — a todo file for the class already exists ⇒ the
+  closure was confirmed; read the file and take the first `[ ]` row. Re-running Phase 0
+  re-asks the interactive gates for nothing (*Rule 0017.1*).
+- **Re-deriving the queue from `# Spec verified:` stamps instead of reading the todo
+  file** — stamps carry no queue order, no roles, no Skip/XSD decisions (*Rule 0017.4*).
+- **Syncing a second class in the same session** — "context still feels fresh" is not
+  evidence; the 9b verbatim diffs degrade silently under a loaded context. One class
+  per session, then stop (*Rule 0017.1*).
+- **Marking a todo row `[x]` before the commit exists** — the row records the commit
+  hash; no commit, no `[x]`. Deferring the commit to "the end of all classes" loses a
+  session's work when it dies (*Rule 0017.2*).
 
 | Rationalization | Reality |
 |---|---|
@@ -256,10 +298,14 @@ detail: *Rule 0002*.
 | "The closure looks right, I'll skip the confirm gate" | Over/under-collection wastes every later step; present the set and let the user confirm (*Rule 0016.2*). |
 | "Tests pass and the round-trip is clean — I can stamp and move on" | Those don't certify a class (Rule 0012.1); run Step 9b on the blind-spot rules before stamping (*Rule 0006.1*). |
 | "The class already has `# Spec verified:` stamped — I'll skip 9b" | The marker is the *output* of 9b, not a substitute; on re-sync/drift re-run the full 9b checklist — a stale marker certifies nothing (*Rule 0006.1*, *Rule 0012.3*). |
+| "I'll keep the queue in the conversation — writing a file is overhead" | The conversation dies with the session; the queue, order, roles, and Skip/XSD decisions are lost. The todo file is the queue (*Rule 0016.6*). |
+| "Session died — I'll rebuild the queue by grepping the stamps" | Stamps carry no order/roles/Skip-XSD decisions; read `docs/plan/sync-todo/<ClassName>.md` instead (*Rule 0017.4*). |
+| "Context still feels fresh — I'll sync the next class in this session" | 9b verbatim diffs degrade silently under loaded context; one class per session (*Rule 0017.1*). |
+| "I'll commit everything at the end of the whole sync" | A session death then loses every finished class's work; commit per class, right after 9b (*Rule 0017.2*). |
 
 ## References
 
-- **Rules (self-contained):** `rules.md` in this skill folder — *Rule 0001*–*Rule 0016*.
+- **Rules (self-contained):** `rules.md` in this skill folder — *Rule 0001*–*Rule 0017*.
 - Coding standards: `docs/development/coding_rules.md`.
 - Spec markdown (primary — source of all text: `Note`, `Table N.M` id, table name): `autosar/markdown/AUTOSAR_*_TPS_*.md` (`CP_TPS` + `FO_TPS`).
 - Spec PDFs (opened only for the `p.NN` page number): `autosar/pdf/AUTOSAR_*_TPS_*.pdf`.
