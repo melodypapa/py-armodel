@@ -9,7 +9,7 @@ Input class: EndToEndTransformationDescription · Generated: 2026-08-21 · Queue
 | [x] | SystemSignalGroup | member | markdown | Table 6.13 | commit 6d986fd5 |
 | [x] | IPduTiming | member | markdown | Table 6.30 | commit 6ad3cdcd |
 | [x] | ISignalGroup | member | markdown | Table 6.12 | commit 60e8454c |
-| [ ] | ISignalToIPduMapping | member | markdown | Table 6.14 | 9-step in progress (writer done; 9a/9b pending) |
+| [x] | ISignalToIPduMapping | member | markdown | Table 6.14 | commit 65bd7cc1 |
 | [ ] | ISignalIPdu | input | markdown | Table 6.19 | |
 | [ ] | DataTransformation | member | markdown | Table 7.2 | |
 | [ ] | TransformationISignalProps | member | markdown | — | |
