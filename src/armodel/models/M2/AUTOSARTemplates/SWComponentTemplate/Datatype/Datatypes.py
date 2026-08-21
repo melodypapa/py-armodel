@@ -93,6 +93,7 @@ class ArraySizeHandlingEnum(AREnum):
 
     # ArraySizeHandlingEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.11, p.253
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # (no methods) — enum value form serialized on ApplicationArrayElement.arraySizeHandling, ImplementationDataTypeElement.arraySizeHandling
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
@@ -123,6 +124,7 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
 
     # ApplicationArrayDataType method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.8, p.252
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getDynamicArraySizeProfile       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer

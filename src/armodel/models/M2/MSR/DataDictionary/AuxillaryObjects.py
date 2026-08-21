@@ -24,10 +24,10 @@ class MemoryAllocationKeywordPolicyType(AREnum):
 
     def __init__(self):
         super().__init__(
-            (
+            [
                 MemoryAllocationKeywordPolicyType.ADDR_METHOD_SHORT_NAME,
                 MemoryAllocationKeywordPolicyType.ADDR_METHOD_SHORT_NAME_AND_ALIGNMENT,
-            )
+            ]
         )
 
 
