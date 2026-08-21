@@ -172,16 +172,18 @@ class Test_FibexCoreCommunication:
         assert isinstance(group, FibexElement)
 
         # Test default values
-        assert group.getComBasedSignalGroupTransformationRefs() == []
+        assert group.getComBasedSignalGroupTransformationRef() is None
         assert group.getISignalRefs() == []
         assert group.getSystemSignalGroupRef() is None
-        assert group.getTransformationISignalProps() is None
+        assert group.getTransformationISignalProps() == []
 
         # Test setter/getter methods with method chaining
         ref1 = object()
-        group.addComBasedSignalGroupTransformationRef(ref1)
-        assert ref1 in group.getComBasedSignalGroupTransformationRefs()
-        assert group == group.addComBasedSignalGroupTransformationRef(ref1)  # Test method chaining
+        group.setComBasedSignalGroupTransformationRef(ref1)
+        assert group.getComBasedSignalGroupTransformationRef() == ref1
+        assert group == group.setComBasedSignalGroupTransformationRef(ref1)  # Test method chaining
+        assert group == group.setComBasedSignalGroupTransformationRef(None)  # None is a no-op
+        assert group.getComBasedSignalGroupTransformationRef() == ref1
 
         ref2 = object()
         group.addISignalRef(ref2)
@@ -194,9 +196,9 @@ class Test_FibexCoreCommunication:
         assert group == group.setSystemSignalGroupRef(ref3)  # Test method chaining
 
         ref4 = object()
-        group.setTransformationISignalProps(ref4)
-        assert group.getTransformationISignalProps() == ref4
-        assert group == group.setTransformationISignalProps(ref4)  # Test method chaining
+        group.addTransformationISignalProps(ref4)
+        assert ref4 in group.getTransformationISignalProps()
+        assert group == group.addTransformationISignalProps(ref4)  # Test method chaining
 
     def test_ISignalIPduGroup(self):
         """Test ISignalIPduGroup class functionality."""

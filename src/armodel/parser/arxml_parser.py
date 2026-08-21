@@ -8323,8 +8323,8 @@ class ARXMLParser(AbstractARXMLParser):
             group.addISignalRef(ref_type)
 
     def readISignalGroupComBasedSignalGroupTransformation(self, element: ET.Element, group: ISignalGroup):
-        for ref in self.getChildElementRefTypeList(element, "COM-BASED-SIGNAL-GROUP-TRANSFORMATIONS/DATA-TRANSFORMATION-REF-CONDITIONAL/DATA-TRANSFORMATION-REF"):  # noqa E501
-            group.addComBasedSignalGroupTransformationRef(ref)
+        ref = self.getChildElementOptionalRefType(element, "COM-BASED-SIGNAL-GROUP-TRANSFORMATIONS/DATA-TRANSFORMATION-REF-CONDITIONAL/DATA-TRANSFORMATION-REF")
+        group.setComBasedSignalGroupTransformationRef(ref)
 
     def readTransformationISignalProps(self, element: ET.Element, props: TransformationISignalProps):
         self.readDescribable(element, props)
@@ -8348,7 +8348,7 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS":
                 props = EndToEndTransformationISignalProps()
                 self.readEndToEndTransformationISignalProps(child_element, props)
-                group.setTransformationISignalProps(props)
+                group.addTransformationISignalProps(props)
             else:
                 self.notImplemented("Unsupported TransformationISignalProps %s" % tag_name)
 

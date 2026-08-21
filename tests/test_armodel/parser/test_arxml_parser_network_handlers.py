@@ -2602,7 +2602,7 @@ class TestReadISignalGroupISignalRef:
 class TestReadISignalGroupComBasedSignalGroupTransformation:
     """Tests for readISignalGroupComBasedSignalGroupTransformation (L5201-5203)."""
 
-    def test_reads_transformation_refs(self, parser):
+    def test_reads_transformation_ref(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")
         group = _make_isignal_group("ISignalGroup")
         element = _snip(
@@ -2611,16 +2611,14 @@ class TestReadISignalGroupComBasedSignalGroupTransformation:
                 <DATA-TRANSFORMATION-REF-CONDITIONAL>
                     <DATA-TRANSFORMATION-REF DEST="DATA-TRANSFORMATION">/trans/Trans1</DATA-TRANSFORMATION-REF>
                 </DATA-TRANSFORMATION-REF-CONDITIONAL>
-                <DATA-TRANSFORMATION-REF-CONDITIONAL>
-                    <DATA-TRANSFORMATION-REF DEST="DATA-TRANSFORMATION">/trans/Trans2</DATA-TRANSFORMATION-REF>
-                </DATA-TRANSFORMATION-REF-CONDITIONAL>
             </COM-BASED-SIGNAL-GROUP-TRANSFORMATIONS>
             """,
             root_tag="I-SIGNAL-GROUP",
         )
         parser.readISignalGroupComBasedSignalGroupTransformation(element, group)
-        refs = group.getComBasedSignalGroupTransformationRefs()
-        assert len(refs) == 2
+        ref = group.getComBasedSignalGroupTransformationRef()
+        assert ref is not None
+        assert ref.getValue() == "/trans/Trans1"
 
     def test_empty_transformations(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")
@@ -2633,7 +2631,7 @@ class TestReadISignalGroupComBasedSignalGroupTransformation:
             root_tag="I-SIGNAL-GROUP",
         )
         parser.readISignalGroupComBasedSignalGroupTransformation(element, group)
-        assert len(group.getComBasedSignalGroupTransformationRefs()) == 0
+        assert group.getComBasedSignalGroupTransformationRef() is None
 
 
 class TestReadTransformationISignalProps:
@@ -2799,8 +2797,9 @@ class TestReadISignalGroupTransformationISignalProps:
             root_tag="I-SIGNAL-GROUP",
         )
         parser.readISignalGroupTransformationISignalProps(element, group)
-        props = group.getTransformationISignalProps()
-        assert props is not None
+        props_list = group.getTransformationISignalProps()
+        assert len(props_list) == 1
+        props = props_list[0]
         assert props.getTransformerRef() is not None
         assert len(props.getDataIds()) == 1
         assert props.getDataLength() is not None
@@ -2816,7 +2815,7 @@ class TestReadISignalGroupTransformationISignalProps:
             root_tag="I-SIGNAL-GROUP",
         )
         parser.readISignalGroupTransformationISignalProps(element, group)
-        assert group.getTransformationISignalProps() is None
+        assert group.getTransformationISignalProps() == []
 
     def test_unsupported_type_warning(self, warning_parser, caplog):
         AUTOSAR.getInstance().setARRelease("R23-11")
@@ -2843,9 +2842,9 @@ class TestReadISignalGroupTransformationISignalProps:
         with caplog.at_level(logging.ERROR):
             warning_parser.readISignalGroupTransformationISignalProps(element, group)
         assert any("Unsupported TransformationISignalProps" in rec.getMessage() for rec in caplog.records)
-        props = group.getTransformationISignalProps()
-        assert props is not None
-        assert props.getTransformerRef() is not None
+        props_list = group.getTransformationISignalProps()
+        assert len(props_list) == 1
+        assert props_list[0].getTransformerRef() is not None
 
 
 # === Migrated from test_arxml_parser_remaining_gaps.py ===

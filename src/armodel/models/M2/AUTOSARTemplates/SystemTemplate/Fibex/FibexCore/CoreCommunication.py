@@ -218,57 +218,92 @@ class ContainedIPduProps(ARObject):
 
 class ISignalGroup(FibexElement):
     """
-    Defines a group of interaction signals in the communication system,
-    specifying relationships between individual signals and system-level
-    signal groups with transformation properties.
+    SignalGroup of the Interaction Layer. The RTE supports a "signal fan-out" where the same System Signal Group is sent in different SignalIPdus to multiple receivers. An ISignalGroup refers to a set of ISignals that shall always be kept together. A ISignalGroup represents a COM Signal Group. Therefore it is recommended to put the ISignalGroup in the same Package as ISignals (see atp.recommendedPackage) Tags: atp.recommendedPackage=ISignalGroup
     """
 
     # ISignalGroup method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getComBasedSignalGroupTransformationRefs [x] impl  [ ] docstring  [ ] test
-    # [ ] addComBasedSignalGroupTransformationRef [x] impl  [ ] docstring  [ ] test
-    # [ ] getISignalRefs               [x] impl  [ ] docstring  [ ] test
-    # [ ] addISignalRef                [x] impl  [ ] docstring  [ ] test
-    # [ ] getSystemSignalGroupRef      [x] impl  [ ] docstring  [ ] test
-    # [ ] setSystemSignalGroupRef      [x] impl  [ ] docstring  [ ] test
-    # [ ] getTransformationISignalProps [x] impl  [ ] docstring  [ ] test
-    # [ ] setTransformationISignalProps [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.12, p.324
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getComBasedSignalGroupTransformationRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setComBasedSignalGroupTransformationRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getISignalRefs               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addISignalRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSystemSignalGroupRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSystemSignalGroupRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTransformationISignalProps [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addTransformationISignalProps [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.comBasedSignalGroupTransformationRefs: List[RefType] = []
+        # Optional reference to a DataTransformation which represents the transformer chain that is used to transform the data that shall be placed inside this ISignalGroup based on the COMBasedTransformer approach. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=comBasedSignalGroupTransformation.data Transformation, comBasedSignalGroup Transformation.variationPoint.shortLabel vh.latestBindingTime=codeGenerationTime
+        self.comBasedSignalGroupTransformationRef: Optional[RefType] = None
+
+        # Reference to a set of ISignals that shall always be kept together.
         self.iSignalRefs: List[RefType] = []
-        self.systemSignalGroupRef = None
-        self.transformationISignalProps = None
 
-    def getComBasedSignalGroupTransformationRefs(self):
-        return self.comBasedSignalGroupTransformationRefs
+        # Reference to the SystemSignalGroup that is defined on VFB level and that is supposed to be transmitted in the ISignalGroup.
+        self.systemSignalGroupRef: Optional[RefType] = None
 
-    def addComBasedSignalGroupTransformationRef(self, value):
+        # A transformer chain consists of an ordered list of transformers. The ISignalGroup specific configuration properties for each transformer are defined in the TransformationISignalProps class. The transformer configuration properties that are common for all ISignal Groups are described in the TransformationTechnology class. Stereotypes: atpSplitable Tags: atp.Splitkey=transformationISignalProps
+        self.transformationISignalProps: List[TransformationISignalProps] = []
+
+    def getComBasedSignalGroupTransformationRef(self) -> Optional[RefType]:
+        """
+        Optional reference to a DataTransformation which represents the transformer chain that is used to transform the data that shall be placed inside this ISignalGroup based on the COMBasedTransformer approach. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=comBasedSignalGroupTransformation.data Transformation, comBasedSignalGroup Transformation.variationPoint.shortLabel vh.latestBindingTime=codeGenerationTime
+        """
+        return self.comBasedSignalGroupTransformationRef
+
+    def setComBasedSignalGroupTransformationRef(self, value: Optional[RefType]) -> "ISignalGroup":
+        """
+        Optional reference to a DataTransformation which represents the transformer chain that is used to transform the data that shall be placed inside this ISignalGroup based on the COMBasedTransformer approach. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=comBasedSignalGroupTransformation.data Transformation, comBasedSignalGroup Transformation.variationPoint.shortLabel vh.latestBindingTime=codeGenerationTime
+        A None value is a no-op and does not overwrite an existing comBasedSignalGroupTransformationRef.
+        """
         if value is not None:
-            self.comBasedSignalGroupTransformationRefs.append(value)
+            self.comBasedSignalGroupTransformationRef = value
         return self
 
-    def getISignalRefs(self):
+    def getISignalRefs(self) -> List[RefType]:
+        """
+        Reference to a set of ISignals that shall always be kept together.
+        """
         return self.iSignalRefs
 
-    def addISignalRef(self, value):
+    def addISignalRef(self, value: RefType) -> "ISignalGroup":
+        """
+        Reference to a set of ISignals that shall always be kept together.
+        """
         self.iSignalRefs.append(value)
         return self
 
-    def getSystemSignalGroupRef(self):
+    def getSystemSignalGroupRef(self) -> Optional[RefType]:
+        """
+        Reference to the SystemSignalGroup that is defined on VFB level and that is supposed to be transmitted in the ISignalGroup.
+        """
         return self.systemSignalGroupRef
 
-    def setSystemSignalGroupRef(self, value):
-        self.systemSignalGroupRef = value
+    def setSystemSignalGroupRef(self, value: Optional[RefType]) -> "ISignalGroup":
+        """
+        Reference to the SystemSignalGroup that is defined on VFB level and that is supposed to be transmitted in the ISignalGroup.
+        A None value is a no-op and does not overwrite an existing systemSignalGroupRef.
+        """
+        if value is not None:
+            self.systemSignalGroupRef = value
         return self
 
-    def getTransformationISignalProps(self):
+    def getTransformationISignalProps(self) -> List[TransformationISignalProps]:
+        """
+        A transformer chain consists of an ordered list of transformers. The ISignalGroup specific configuration properties for each transformer are defined in the TransformationISignalProps class. The transformer configuration properties that are common for all ISignal Groups are described in the TransformationTechnology class. Stereotypes: atpSplitable Tags: atp.Splitkey=transformationISignalProps
+        """
         return self.transformationISignalProps
 
-    def setTransformationISignalProps(self, value):
-        self.transformationISignalProps = value
+    def addTransformationISignalProps(self, value: TransformationISignalProps) -> "ISignalGroup":
+        """
+        A transformer chain consists of an ordered list of transformers. The ISignalGroup specific configuration properties for each transformer are defined in the TransformationISignalProps class. The transformer configuration properties that are common for all ISignal Groups are described in the TransformationTechnology class. Stereotypes: atpSplitable Tags: atp.Splitkey=transformationISignalProps
+        """
+        self.transformationISignalProps.append(value)
         return self
 
 
