@@ -29,6 +29,9 @@ class TestSwServiceArg:
         assert sw_service_arg.getDirection() == direction
         assert result == sw_service_arg
 
+        sw_service_arg.setDirection(None)
+        assert sw_service_arg.getDirection() == direction
+
     def test_sw_service_arg_sw_array_size_methods(self):
         """Test the swArraysize getter and setter."""
         parent_obj = ARPackage(None, "parent_test")  # Using ARPackage as a concrete ARObject subclass
@@ -39,6 +42,9 @@ class TestSwServiceArg:
         assert sw_service_arg.getSwArraysize() == array_size
         assert result == sw_service_arg
 
+        sw_service_arg.setSwArraysize(None)
+        assert sw_service_arg.getSwArraysize() == array_size
+
     def test_sw_service_arg_sw_data_def_props_methods(self):
         """Test the swDataDefProps getter and setter."""
         parent_obj = ARPackage(None, "parent_test")  # Using ARPackage as a concrete ARObject subclass
@@ -48,3 +54,6 @@ class TestSwServiceArg:
         result = sw_service_arg.setSwDataDefProps(data_def_props)
         assert sw_service_arg.getSwDataDefProps() == data_def_props
         assert result == sw_service_arg
+
+        sw_service_arg.setSwDataDefProps(None)
+        assert sw_service_arg.getSwDataDefProps() == data_def_props

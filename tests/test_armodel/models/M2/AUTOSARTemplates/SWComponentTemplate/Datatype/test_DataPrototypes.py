@@ -39,6 +39,23 @@ class TestDataPrototype:
         with pytest.raises(TypeError):
             DataPrototype(ar_root, "TestDataPrototype")
 
+    def test_data_prototype_sw_data_def_props_via_concrete_subclass(self):
+        """Test swDataDefProps accessors through a concrete subclass."""
+        from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        prototype = VariableDataPrototype(ar_root, "TestDataPrototype")
+
+        assert prototype.getSwDataDefProps() is None
+
+        props = SwDataDefProps()
+        prototype.setSwDataDefProps(props)
+        assert prototype.getSwDataDefProps() == props
+
+        prototype.setSwDataDefProps(None)
+        assert prototype.getSwDataDefProps() == props
+
 
 class TestAutosarDataPrototype:
     """Test class for AutosarDataPrototype abstract class."""
@@ -49,6 +66,24 @@ class TestAutosarDataPrototype:
         ar_root = document.createARPackage("AUTOSAR")
         with pytest.raises(TypeError):
             AutosarDataPrototype(ar_root, "TestAutosarDataPrototype")
+
+    def test_autosar_data_prototype_type_t_ref_via_concrete_subclass(self):
+        """Test typeTRef accessors through a concrete subclass."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
+
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        prototype = VariableDataPrototype(ar_root, "TestAutosarDataPrototype")
+
+        assert prototype.getTypeTRef() is None
+
+        type_ref = TRefType()
+        type_ref.setValue("/Type/Ref")
+        prototype.setTypeTRef(type_ref)
+        assert prototype.getTypeTRef() == type_ref
+
+        prototype.setTypeTRef(None)
+        assert prototype.getTypeTRef() == type_ref
 
 
 class TestVariableDataPrototype:
@@ -223,6 +258,21 @@ class TestParameterDataPrototype:
         type_ref.setValue("/Type/Ref")
         param_proto.setTypeTRef(type_ref)
         assert param_proto.getTypeTRef() == type_ref
+
+    def test_parameter_data_prototype_init_value_none_no_op(self):
+        """Test setInitValue treats None as a no-op."""
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
+
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        param_proto = ParameterDataPrototype(ar_root, "TestParameterDataPrototype")
+
+        init_value = TextValueSpecification()
+        param_proto.setInitValue(init_value)
+        assert param_proto.getInitValue() == init_value
+
+        param_proto.setInitValue(None)
+        assert param_proto.getInitValue() == init_value
 
         # Test initValue methods
         from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification

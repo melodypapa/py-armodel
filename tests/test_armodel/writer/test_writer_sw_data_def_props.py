@@ -4,10 +4,12 @@ import os
 import tempfile
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AlignmentType,
     ARFloat,
+    ARLiteral,
     ARNumerical,
     Boolean,
     CseCodeType,
@@ -17,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     NativeDeclarationString,
     PrimitiveIdentifier,
     RefType,
+    TRefType,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AutosarVariableRef import AutosarVariableRef
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
@@ -159,6 +162,69 @@ class TestSwDataDefPropsRoundTrip:
 
             data_type_2 = document_2.getARPackages()[0].getApplicationPrimitiveDataTypes()[0]
             assert data_type_2.getSwDataDefProps() is None
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+
+class TestDataPrototypeSwDataDefPropsRoundTrip:
+    def test_round_trip_shared_parameter_sw_data_def_props(self):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        pkg = document.createARPackage("AUTOSAR")
+        component = pkg.createApplicationSwComponentType("MyComponent")
+        behavior = component.createSwcInternalBehavior("Behavior")
+        parameter = behavior.createSharedParameter("sp1")
+
+        props = SwDataDefProps()
+        props.setCompuMethodRef(RefType().setDest("AUTOSAR/CompuMethods/cm"))
+        props.setSwAddrMethodRef(RefType().setDest("AUTOSAR/SwAddrMethods/ram"))
+        parameter.setSwDataDefProps(props)
+        parameter.setTypeTRef(TRefType().setDest("AUTOSAR/DataTypes/uint8"))
+        parameter.setInitValue(TextValueSpecification().setValue(ARLiteral().setValue("42")))
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+
+            component_2 = document_2.getARPackages()[0].getAtomicSwComponentTypes()[0]
+            parameter_2 = component_2.getInternalBehavior().getSharedParameters()[0]
+            assert parameter_2.getShortName() == "sp1"
+            props_2 = parameter_2.getSwDataDefProps()
+            assert props_2 is not None
+            assert props_2.getCompuMethodRef().getDest() == "AUTOSAR/CompuMethods/cm"
+            assert props_2.getSwAddrMethodRef().getDest() == "AUTOSAR/SwAddrMethods/ram"
+            assert parameter_2.getTypeTRef().getDest() == "AUTOSAR/DataTypes/uint8"
+            assert parameter_2.getInitValue().getValue().getValue() == "42"
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_shared_parameter_no_sw_data_def_props(self):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        pkg = document.createARPackage("AUTOSAR")
+        component = pkg.createApplicationSwComponentType("MyComponent")
+        behavior = component.createSwcInternalBehavior("Behavior")
+        behavior.createSharedParameter("sp1")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+
+            component_2 = document_2.getARPackages()[0].getAtomicSwComponentTypes()[0]
+            parameter_2 = component_2.getInternalBehavior().getSharedParameters()[0]
+            assert parameter_2.getSwDataDefProps() is None
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

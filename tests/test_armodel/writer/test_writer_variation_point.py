@@ -120,3 +120,93 @@ class TestWriteVariationPoint:
         vp_element = element.find("VARIATION-POINT")
         assert vp_element is not None
         assert vp_element.find("SHORT-LABEL").text == "VP_Country"
+
+
+class TestVariationPointProxyRoundTrip:
+    def _build(self, document):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
+
+        pkg = document.createARPackage("AUTOSAR")
+        component = pkg.createApplicationSwComponentType("MyComponent")
+        behavior = component.createSwcInternalBehavior("Behavior")
+
+        proxy = VariationPointProxy(behavior, "vpp1")
+        syscond = ConditionByFormula()
+        syscond.setBindingTime(BindingTimeEnum().setValue("preCompileTime"))
+        proxy.setConditionAccess(syscond)
+        proxy.setImplementationDataTypeRef(RefType().setValue("/Demo/ImplementationDataTypes/uint8").setDest("IMPLEMENTATION-DATA-TYPE"))
+        proxy.setPostBuildValueAccessRef(RefType().setValue("/Demo/Criterions/Country").setDest("POST-BUILD-VARIANT-CRITERION"))
+        condition = PostBuildVariantCondition()
+        condition.setMatchingCriterionRef(RefType().setValue("/Demo/Criterions/Country").setDest("POST-BUILD-VARIANT-CRITERION"))
+        condition.setValue(Integer().setValue("1"))
+        proxy.addPostBuildVariantCondition(condition)
+        behavior.addVariationPointProxy(proxy)
+        return behavior
+
+    def test_round_trip_variation_point_proxy(self):
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR as _AUTOSAR
+        from armodel.parser.arxml_parser import ARXMLParser
+        from armodel.writer.arxml_writer import ARXMLWriter
+
+        _AUTOSAR.getInstance().setARRelease("R23-11")
+        document = _AUTOSAR.getInstance()
+        document.clear()
+        self._build(document)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+
+            document_2 = _AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+
+            component_2 = document_2.getARPackages()[0].getAtomicSwComponentTypes()[0]
+            behavior_2 = component_2.getInternalBehavior()
+            proxies = behavior_2.getVariationPointProxies()
+            assert len(proxies) == 1
+            proxy_2 = proxies[0]
+            assert proxy_2.getShortName() == "vpp1"
+            assert proxy_2.getConditionAccess().getBindingTime().getValue() == "preCompileTime"
+            assert proxy_2.getImplementationDataTypeRef().getDest() == "IMPLEMENTATION-DATA-TYPE"
+            assert proxy_2.getImplementationDataTypeRef().getValue() == "/Demo/ImplementationDataTypes/uint8"
+            assert proxy_2.getPostBuildValueAccessRef().getDest() == "POST-BUILD-VARIANT-CRITERION"
+            conditions = proxy_2.getPostBuildVariantConditions()
+            assert len(conditions) == 1
+            assert conditions[0].getMatchingCriterionRef().getValue() == "/Demo/Criterions/Country"
+            assert conditions[0].getValue().getValue() == 1
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+    def test_round_trip_no_variation_point_proxy(self):
+        import os
+        import tempfile
+
+        from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR as _AUTOSAR
+        from armodel.parser.arxml_parser import ARXMLParser
+        from armodel.writer.arxml_writer import ARXMLWriter
+
+        _AUTOSAR.getInstance().setARRelease("R23-11")
+        document = _AUTOSAR.getInstance()
+        document.clear()
+        pkg = document.createARPackage("AUTOSAR")
+        component = pkg.createApplicationSwComponentType("MyComponent")
+        component.createSwcInternalBehavior("Behavior")
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            ARXMLWriter().save(file_path, document)
+
+            document_2 = _AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+
+            component_2 = document_2.getARPackages()[0].getAtomicSwComponentTypes()[0]
+            assert component_2.getInternalBehavior().getVariationPointProxies() == []
+        finally:
+            if os.path.exists(file_path):
+                os.remove(file_path)

@@ -387,6 +387,38 @@ class AlignmentType(ARLiteral):
         super().__init__()
 
 
+class SectionInitializationPolicyType(ARLiteral):
+    """
+    SectionInitializationPolicyType describes the intended initialization of MemorySections. The following values are standardized in AUTOSAR Methodology:
+    • INIT : To be used for (explicitly or not explicitly) initialized variables.
+    • CLEARED : To be used for not explicitly initialized variables.
+    • POWER-ON-CLEARED : To be used for variables that are not explicitly initialized (cleared) during normal start-up. Instead these are cleared only after power on reset.
+    Please note that the values are defined similar to the representation of enumeration types in the XML schema to ensure backward compatibility.
+
+    Tags
+        * xml.xsd.customType=SECTION-INITIALIZATION-POLICY-TYPE
+        * xml.xsd.type=NMTOKEN
+    """
+
+    # SectionInitializationPolicyType method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.93, p.417
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+
+    # To be used for (explicitly or not explicitly) initialized variables.
+    INIT = "INIT"
+
+    # To be used for not explicitly initialized variables.
+    CLEARED = "CLEARED"
+
+    # To be used for variables that are not explicitly initialized (cleared) during normal start-up. Instead these are cleared only after power on reset.
+    POWER_ON_CLEARED = "POWER-ON-CLEARED"
+
+    def __init__(self):
+        super().__init__()
+
+
 class CseCodeType(ARLiteral):
     """
     This primitive represents an ASAM CSE (Codes for Scaling Units) based on the

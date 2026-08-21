@@ -12,6 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes i
     ApplicationDataType,
     ApplicationPrimitiveDataType,
     ApplicationRecordDataType,
+    ArraySizeHandlingEnum,
     AutosarDataType,
     DataTypeMap,
     DataTypeMappingSet,
@@ -85,7 +86,7 @@ class TestApplicationArrayDataType:
         assert array_type.short_name == "TestApplicationArrayDataType"
         assert array_type.swDataDefProps is None
         assert array_type.dynamicArraySizeProfile is None
-        assert array_type.element is None
+        assert array_type.getApplicationArrayElement() is None
 
         # Test swDataDefProps methods
         from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
@@ -105,6 +106,9 @@ class TestApplicationArrayDataType:
         assert array_element.short_name == "TestArrayElement"
         assert array_element.parent == array_type
         assert array_type.element == array_element
+
+        # Test getApplicationArrayElement accessor for the element aggregation
+        assert array_type.getApplicationArrayElement() == array_element
 
 
 class TestApplicationRecordDataType:
@@ -188,3 +192,21 @@ class TestDataTypeMappingSet:
         mode_map = ModeRequestTypeMap()
         mapping_set.addModeRequestTypeMap(mode_map)
         assert mode_map in mapping_set.getModeRequestTypeMaps()
+
+
+class TestArraySizeHandlingEnum:
+    """
+    Test class for ArraySizeHandlingEnum functionality.
+    """
+
+    def test_initialization(self):
+        enum = ArraySizeHandlingEnum()
+        enum.setValue(ArraySizeHandlingEnum.ALL_INDICES_DIFFERENT_ARRAY_SIZE)
+        assert enum.getValue() == "allIndicesDifferentArraySize"
+
+    def test_enum_values(self):
+        enum = ArraySizeHandlingEnum()
+
+        assert ArraySizeHandlingEnum.ALL_INDICES_DIFFERENT_ARRAY_SIZE == "allIndicesDifferentArraySize"
+        assert ArraySizeHandlingEnum.ALL_INDICES_SAME_ARRAY_SIZE == "allIndicesSameArraySize"
+        assert ArraySizeHandlingEnum.INHERITED_FROM_ARRAY_ELEMENT_TYPE_SIZE == "inheritedFromArrayElementTypeSize"
