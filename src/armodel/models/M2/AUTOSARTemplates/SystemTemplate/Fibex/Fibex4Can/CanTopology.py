@@ -2,6 +2,7 @@
 # It defines CAN controllers, connectors, and their configuration attributes
 
 from abc import ABC
+from typing import Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Float, Integer, PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveUnlimitedInteger, TimeValue
@@ -10,92 +11,153 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
 
 
 class CanControllerFdConfiguration(ARObject):
-    """
-    Defines CAN FD (Flexible Data Rate) configuration parameters for CAN controllers,
-    including timing settings, padding values, and bit rate switching properties
-    required for CAN FD communication.
-    """
+    """Bit timing related configuration of a CAN controller for payload and CRC of a CAN FD frame."""
 
     # CanControllerFdConfiguration method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getPaddingValue              [x] impl  [ ] docstring  [ ] test
-    # [ ] setPaddingValue              [x] impl  [ ] docstring  [ ] test
-    # [ ] getPropSeg                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setPropSeg                   [x] impl  [ ] docstring  [ ] test
-    # [ ] getSspOffset                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setSspOffset                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getSyncJumpWidth             [x] impl  [ ] docstring  [ ] test
-    # [ ] setSyncJumpWidth             [x] impl  [ ] docstring  [ ] test
-    # [ ] getTimeSeg1                  [x] impl  [ ] docstring  [ ] test
-    # [ ] setTimeSeg1                  [x] impl  [ ] docstring  [ ] test
-    # [ ] getTimeSeg2                  [x] impl  [ ] docstring  [ ] test
-    # [ ] setTimeSeg2                  [x] impl  [ ] docstring  [ ] test
-    # [ ] getTxBitRateSwitch           [x] impl  [ ] docstring  [ ] test
-    # [ ] setTxBitRateSwitch           [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.16, p.66
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getPaddingValue              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPaddingValue              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPropSeg                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPropSeg                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSspOffset                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSspOffset                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSyncJumpWidth             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSyncJumpWidth             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTimeSeg1                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTimeSeg1                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTimeSeg2                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTimeSeg2                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTxBitRateSwitch           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTxBitRateSwitch           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        self.paddingValue: PositiveInteger = None
-        self.propSeg: PositiveInteger = None
-        self.sspOffset: PositiveInteger = None
-        self.syncJumpWidth: PositiveInteger = None
-        self.timeSeg1: PositiveInteger = None
-        self.timeSeg2: PositiveInteger = None
-        self.txBitRateSwitch: Boolean = None
+        # Specifies the value which is used to pad unused data in CAN FD frames which are bigger than 8 byte if the length of a Pdu which was requested to be sent does not match the allowed DLC values of CAN FD.
+        self.paddingValue: Optional[PositiveInteger] = None
 
-    def getPaddingValue(self):
+        # Specifies propagation delay in time quantas.
+        self.propSeg: Optional[PositiveInteger] = None
+
+        # Specifies the Transmitter Delay Compensation Offset in minimum time quanta. Transmitter Delay Compensation Offset is used to adjust the position of the Secondary Sample Point (SSP), relative to the beginning of the received bit. If this parameter is configured, the Transmitter Delay Compensation is done by measurement of the CAN controller. If not specified Transmitter Delay Compensation is disabled.
+        self.sspOffset: Optional[PositiveInteger] = None
+
+        # Specifies the synchronization jump width for the controller in time quantas.
+        self.syncJumpWidth: Optional[PositiveInteger] = None
+
+        # Specifies phase segment 1 in time quantas.
+        self.timeSeg1: Optional[PositiveInteger] = None
+
+        # Specifies phase segment 2 in time quantas.
+        self.timeSeg2: Optional[PositiveInteger] = None
+
+        # Specifies if the bit rate switching shall be used for transmissions. TRUE: CAN FD frames shall be sent with bit rate switching. FALSE: CAN FD frames shall be sent without bit rate switching.
+        self.txBitRateSwitch: Optional[Boolean] = None
+
+    def getPaddingValue(self) -> Optional[PositiveInteger]:
+        """
+        Specifies the value which is used to pad unused data in CAN FD frames which are bigger than 8 byte if the length of a Pdu which was requested to be sent does not match the allowed DLC values of CAN FD.
+        """
         return self.paddingValue
 
-    def setPaddingValue(self, value):
+    def setPaddingValue(self, value: Optional[PositiveInteger]) -> "CanControllerFdConfiguration":
+        """
+        Specifies the value which is used to pad unused data in CAN FD frames which are bigger than 8 byte if the length of a Pdu which was requested to be sent does not match the allowed DLC values of CAN FD.
+        A None value is a no-op and does not overwrite an existing paddingValue.
+        """
         if value is not None:
             self.paddingValue = value
         return self
 
-    def getPropSeg(self):
+    def getPropSeg(self) -> Optional[PositiveInteger]:
+        """
+        Specifies propagation delay in time quantas.
+        """
         return self.propSeg
 
-    def setPropSeg(self, value):
+    def setPropSeg(self, value: Optional[PositiveInteger]) -> "CanControllerFdConfiguration":
+        """
+        Specifies propagation delay in time quantas.
+        A None value is a no-op and does not overwrite an existing propSeg.
+        """
         if value is not None:
             self.propSeg = value
         return self
 
-    def getSspOffset(self):
+    def getSspOffset(self) -> Optional[PositiveInteger]:
+        """
+        Specifies the Transmitter Delay Compensation Offset in minimum time quanta. Transmitter Delay Compensation Offset is used to adjust the position of the Secondary Sample Point (SSP), relative to the beginning of the received bit. If this parameter is configured, the Transmitter Delay Compensation is done by measurement of the CAN controller. If not specified Transmitter Delay Compensation is disabled.
+        """
         return self.sspOffset
 
-    def setSspOffset(self, value):
+    def setSspOffset(self, value: Optional[PositiveInteger]) -> "CanControllerFdConfiguration":
+        """
+        Specifies the Transmitter Delay Compensation Offset in minimum time quanta. Transmitter Delay Compensation Offset is used to adjust the position of the Secondary Sample Point (SSP), relative to the beginning of the received bit. If this parameter is configured, the Transmitter Delay Compensation is done by measurement of the CAN controller. If not specified Transmitter Delay Compensation is disabled.
+        A None value is a no-op and does not overwrite an existing sspOffset.
+        """
         if value is not None:
             self.sspOffset = value
         return self
 
-    def getSyncJumpWidth(self):
+    def getSyncJumpWidth(self) -> Optional[PositiveInteger]:
+        """
+        Specifies the synchronization jump width for the controller in time quantas.
+        """
         return self.syncJumpWidth
 
-    def setSyncJumpWidth(self, value):
+    def setSyncJumpWidth(self, value: Optional[PositiveInteger]) -> "CanControllerFdConfiguration":
+        """
+        Specifies the synchronization jump width for the controller in time quantas.
+        A None value is a no-op and does not overwrite an existing syncJumpWidth.
+        """
         if value is not None:
             self.syncJumpWidth = value
         return self
 
-    def getTimeSeg1(self):
+    def getTimeSeg1(self) -> Optional[PositiveInteger]:
+        """
+        Specifies phase segment 1 in time quantas.
+        """
         return self.timeSeg1
 
-    def setTimeSeg1(self, value):
+    def setTimeSeg1(self, value: Optional[PositiveInteger]) -> "CanControllerFdConfiguration":
+        """
+        Specifies phase segment 1 in time quantas.
+        A None value is a no-op and does not overwrite an existing timeSeg1.
+        """
         if value is not None:
             self.timeSeg1 = value
         return self
 
-    def getTimeSeg2(self):
+    def getTimeSeg2(self) -> Optional[PositiveInteger]:
+        """
+        Specifies phase segment 2 in time quantas.
+        """
         return self.timeSeg2
 
-    def setTimeSeg2(self, value):
+    def setTimeSeg2(self, value: Optional[PositiveInteger]) -> "CanControllerFdConfiguration":
+        """
+        Specifies phase segment 2 in time quantas.
+        A None value is a no-op and does not overwrite an existing timeSeg2.
+        """
         if value is not None:
             self.timeSeg2 = value
         return self
 
-    def getTxBitRateSwitch(self):
+    def getTxBitRateSwitch(self) -> Optional[Boolean]:
+        """
+        Specifies if the bit rate switching shall be used for transmissions. TRUE: CAN FD frames shall be sent with bit rate switching. FALSE: CAN FD frames shall be sent without bit rate switching.
+        """
         return self.txBitRateSwitch
 
-    def setTxBitRateSwitch(self, value):
+    def setTxBitRateSwitch(self, value: Optional[Boolean]) -> "CanControllerFdConfiguration":
+        """
+        Specifies if the bit rate switching shall be used for transmissions. TRUE: CAN FD frames shall be sent with bit rate switching. FALSE: CAN FD frames shall be sent without bit rate switching.
+        A None value is a no-op and does not overwrite an existing txBitRateSwitch.
+        """
         if value is not None:
             self.txBitRateSwitch = value
         return self
@@ -654,16 +716,15 @@ class CanControllerConfigurationRequirements(AbstractCanCommunicationControllerA
 
 
 class AbstractCanCommunicationController(CommunicationController, ABC):
-    """
-    Abstract base class for CAN communication controllers, defining
-    the common properties and behavior for CAN network interfaces
-    in the AUTOSAR communication system.
-    """
+    """Abstract class that is used to collect the common TtCAN and CAN Controller attributes."""
 
     # AbstractCanCommunicationController method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCanControllerAttributes   [x] impl  [ ] docstring  [ ] test
-    # [ ] setCanControllerAttributes   [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.12, p.63
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getCanControllerAttributes   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCanControllerAttributes   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractCanCommunicationController:
@@ -671,25 +732,33 @@ class AbstractCanCommunicationController(CommunicationController, ABC):
 
         super().__init__(parent, short_name)
 
-        self.canControllerAttributes: AbstractCanCommunicationControllerAttributes = None
+        # CAN Bit Timing configuration
+        self.canControllerAttributes: Optional[AbstractCanCommunicationControllerAttributes] = None
 
-    def getCanControllerAttributes(self):
+    def getCanControllerAttributes(self) -> Optional[AbstractCanCommunicationControllerAttributes]:
+        """
+        CAN Bit Timing configuration
+        """
         return self.canControllerAttributes
 
-    def setCanControllerAttributes(self, value):
-        self.canControllerAttributes = value
+    def setCanControllerAttributes(self, value: Optional[AbstractCanCommunicationControllerAttributes]) -> "AbstractCanCommunicationController":
+        """
+        CAN Bit Timing configuration
+        A None value is a no-op and does not overwrite an existing canControllerAttributes.
+        """
+        if value is not None:
+            self.canControllerAttributes = value
         return self
 
 
 class CanCommunicationController(AbstractCanCommunicationController):
-    """
-    Represents a CAN communication controller in the system, implementing
-    the specific properties and behavior for CAN network communication
-    hardware interfaces.
-    """
+    """CAN bus specific communication port attributes."""
 
     # CanCommunicationController method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.11, p.63
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

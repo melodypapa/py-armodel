@@ -258,10 +258,24 @@ class TestWriterCommunicationController:
 class TestWriterSetCanControllerFdConfiguration:
     def test_with_config(self, writer):
         config = CanControllerFdConfiguration()
+        config.setPaddingValue(_int(10))
+        config.setPropSeg(_int(4))
+        config.setSspOffset(_int(5))
+        config.setSyncJumpWidth(_int(1))
+        config.setTimeSeg1(_int(13))
+        config.setTimeSeg2(_int(2))
         config.setTxBitRateSwitch(_bool(True))
         parent = _parent()
         writer.setCanControllerFdConfiguration(parent, "CAN-CONTROLLER-FD-CONFIGURATION", config)
-        assert len(parent) == 0
+        assert len(parent) == 1
+        assert parent[0].tag == "CAN-CONTROLLER-FD-CONFIGURATION"
+        assert parent[0].find("PADDING-VALUE") is not None
+        assert parent[0].find("PROP-SEG") is not None
+        assert parent[0].find("SSP-OFFSET") is not None
+        assert parent[0].find("SYNC-JUMP-WIDTH") is not None
+        assert parent[0].find("TIME-SEG1") is not None
+        assert parent[0].find("TIME-SEG2") is not None
+        assert parent[0].find("TX-BIT-RATE-SWITCH") is not None
 
     def test_none(self, writer):
         parent = _parent()

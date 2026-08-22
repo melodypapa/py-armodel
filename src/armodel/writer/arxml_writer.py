@@ -6815,7 +6815,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeAbstractCanCluster(self, element: ET.Element, cluster: AbstractCanCluster):
         self.setCanClusterBusOffRecovery(element, "BUS-OFF-RECOVERY", cluster.getBusOffRecovery())
         self.setChildElementOptionalNumericalValue(element, "CAN-FD-BAUDRATE", cluster.getCanFdBaudrate())
-        self.setChildElementOptionalNumericalValue(element, "SPEED", cluster.getSpeed())
+        self.setChildElementOptionalNumericalValue(element, "CAN-XL-BAUDRATE", cluster.getCanXlBaudrate())
 
     def writeLinCluster(self, element: ET.Element, cluster: LinCluster):
         if cluster is not None:
@@ -7506,9 +7506,14 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def setCanControllerFdConfiguration(self, element: ET.Element, key: str, configuration: CanControllerFdConfiguration):
         if configuration is not None:
-            pass
-            # child_element = ET.SubElement(element, key)
-            # TODO: need to implemented
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalIntegerValue(child_element, "PADDING-VALUE", configuration.getPaddingValue())
+            self.setChildElementOptionalIntegerValue(child_element, "PROP-SEG", configuration.getPropSeg())
+            self.setChildElementOptionalIntegerValue(child_element, "SSP-OFFSET", configuration.getSspOffset())
+            self.setChildElementOptionalIntegerValue(child_element, "SYNC-JUMP-WIDTH", configuration.getSyncJumpWidth())
+            self.setChildElementOptionalIntegerValue(child_element, "TIME-SEG1", configuration.getTimeSeg1())
+            self.setChildElementOptionalIntegerValue(child_element, "TIME-SEG2", configuration.getTimeSeg2())
+            self.setChildElementOptionalBooleanValue(child_element, "TX-BIT-RATE-SWITCH", configuration.getTxBitRateSwitch())
 
     def setCanControllerFdConfigurationRequirements(self, element: ET.Element, key: str, requirements: CanControllerFdConfigurationRequirements):
         if requirements is not None:

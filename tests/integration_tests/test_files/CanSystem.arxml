@@ -166,7 +166,6 @@
                       </PDU-TRIGGERINGS>
                     </CAN-PHYSICAL-CHANNEL>
                   </PHYSICAL-CHANNELS>
-                  <SPEED>100</SPEED>
                 </CAN-CLUSTER-CONDITIONAL>
               </CAN-CLUSTER-VARIANTS>
             </CAN-CLUSTER>

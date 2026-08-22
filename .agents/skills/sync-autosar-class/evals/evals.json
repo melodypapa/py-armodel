@@ -106,6 +106,31 @@
         "Output does NOT accept 'context is only 40% used' as grounds to continue",
         "Output tells the user the next session picks the first [ ] row"
       ]
+    },
+    {
+      "id": 9,
+      "prompt": "Using the sync-autosar-class skill (read .agents/skills/sync-autosar-class/SKILL.md and rules.md first), run Phase 0 for the AUTOSAR class `CanPhysicalChannel` in py-armodel. The closure was already confirmed by the user and every class's spec is located; there are no missing classes. The confirmed queue (dependency-first) is: AbstractCanPhysicalChannel (base · markdown · Table 3.17), CanPhysicalChannel (input · markdown · Table 3.18). Now perform Phase 0 step 6: present the exact content of the sync todo file you would write to docs/plan/sync-todo/CanPhysicalChannel.md. Do NOT actually write any files; just present the content. Repo root: /Users/ray/Workspace/py-armodel.",
+      "expected_output": "The todo file content with a dependency-first queue (base class row before input class row) where EVERY queued class row carries a nested 9-step sub-checklist with the exact Rule 18.1 step names (Step 1 — Sync members & description from spec … Step 9 — Verify (9a) + confirm (9b)), all checkboxes [ ] at creation, written at file creation time (not deferred to class start).",
+      "expectations": [
+        "Output presents todo-file content with a queue ordered dependency-first (AbstractCanPhysicalChannel before CanPhysicalChannel)",
+        "EVERY queued class row carries a nested 9-step sub-checklist",
+        "Step names match Rule 18.1 exactly (Step 1 — Sync members & description from spec … Step 9 — Verify (9a) + confirm (9b))",
+        "All step checkboxes are [ ] at creation",
+        "The sub-checklist is part of the file as written in Phase 0 (not deferred to when a class starts syncing)",
+        "Output cites Rule 0016.6 or Rule 0018"
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "Using the sync-autosar-class skill (read .agents/skills/sync-autosar-class/SKILL.md and rules.md first): you are mid-session syncing `CanControllerFdConfiguration` (the first [ ] row of docs/plan/sync-todo/CanTopology.md). You created the 9 session todos at workflow start, and the class row in the todo file carries its 9-step sub-checklist. You have just finished Step 3 (Implement model class, Green — the model tests pass). Describe exactly what you do at this moment regarding progress tracking, and nothing else. Do NOT modify any files; just describe. Repo root: /Users/ray/Workspace/py-armodel.",
+      "expected_output": "Per Rule 0018.2: (1) mark the Step 3 session todo completed immediately, and (2) in the same action flip the Step 3 checkbox in docs/plan/sync-todo/CanTopology.md's CanControllerFdConfiguration sub-checklist from [ ] to [x]. Nothing else is checked — no batch-checking, no early check of Steps 4-9, no deferral.",
+      "expectations": [
+        "Output marks the Step 3 session todo completed immediately (not deferred, not batched)",
+        "Output ALSO flips the Step 3 checkbox in the todo file's per-class sub-checklist to [x] in the same action",
+        "Output does NOT check off Steps 4-9 or any other step",
+        "Output does not treat the session todo as a substitute for the file checkbox (or vice versa)",
+        "Output cites Rule 0018.2 or Rule 0016.6"
+      ]
     }
   ]
 }

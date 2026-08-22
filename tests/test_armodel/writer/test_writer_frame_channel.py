@@ -1478,12 +1478,13 @@ class TestWriteAbstractCanCluster:
         rec.setBorCounterL1ToL2(_pos_int("16"))
         cluster.setBusOffRecovery(rec)
         cluster.setCanFdBaudrate(_pos_int("2000000"))
-        cluster.setSpeed(_pos_int("500000"))
+        cluster.setCanXlBaudrate(_pos_int("10000000"))
         parent = _parent()
         writer.writeAbstractCanCluster(parent, cluster)
         assert parent.find("BUS-OFF-RECOVERY") is not None
         assert parent.find("CAN-FD-BAUDRATE").text == "2000000"
-        assert parent.find("SPEED").text == "500000"
+        assert parent.find("CAN-XL-BAUDRATE").text == "10000000"
+        assert parent.find("SPEED") is None
 
 
 class TestWriteLinCluster:
@@ -1530,7 +1531,6 @@ class TestWriteCanCluster:
         rec.setBorCounterL1ToL2(_pos_int("4"))
         cluster.setBusOffRecovery(rec)
         cluster.setCanFdBaudrate(_pos_int("2000000"))
-        cluster.setSpeed(_pos_int("500000"))
         parent = _parent()
         writer.writeCanCluster(parent, cluster)
         cc = parent.find("CAN-CLUSTER")
@@ -1543,7 +1543,7 @@ class TestWriteCanCluster:
         assert cond.find("PHYSICAL-CHANNELS") is not None
         assert cond.find("BUS-OFF-RECOVERY") is not None
         assert cond.find("CAN-FD-BAUDRATE").text == "2000000"
-        assert cond.find("SPEED").text == "500000"
+        assert cond.find("SPEED") is None
 
 
 class TestWriteFlexrayCluster:

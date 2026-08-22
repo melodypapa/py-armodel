@@ -1107,26 +1107,44 @@ File format:
 # Sync todo: <InputClassName>
 
 Input class: <InputClassName> · Generated: <YYYY-MM-DD> · Queue order = row order
-(resume = first row still `[ ]`; all rows `[x]` = sync finished)
+(resume = first class row still `[ ]`; all class rows `[x]` = sync finished)
 
-| Status | Class | Role | Source | Table | Notes |
-|---|---|---|---|---|---|
-| [ ] | ParentK | base | markdown | Table A.B | |
-| [x] | ParentJ | base | markdown | Table C.D | commit abc1234 |
-| [ ] | MemberK | member | xsd-derived | — | XSD-only, no marker (16.4) |
-| [ ] | C | input | markdown | Table X.Y | |
+## Queue (dependency-first)
+- [ ] ParentK (base · markdown · Table A.B)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] ParentJ (base · markdown · Table C.D · commit abc1234)
+- [ ] MemberK (member · xsd-derived · XSD-only, no marker (16.4))
+- [ ] C (input · markdown · Table X.Y)
 
 ## Not queued (16.4 decisions)
 - MemberK2 — Skip per user; deviation row recorded (Rule 0014).
 ```
 
-- One row per **queued** class, in 16.5 order (dependency-first: deepest
+- One **class row** per queued class, in 16.5 order (dependency-first: deepest
   ancestor first, referenced member types before their referrers, input class
-  last). Status flips `[ ]` → `[x]` only per Rule 0017.2 (commit hash
-  recorded in Notes). The **Notes** column carries what later sessions need:
-  `enum` (Steps 5/6 N/A — round-trip via the consuming class), `XSD-only`
-  (no marker), `drift R<YY>-<MM>` (re-opened row), and the commit hash once
-  finished. Classes resolved **Skip** in 16.4 never get a queue row —
+  last), with role · source · table · notes in the parentheses. The parenthetical
+  notes carry what later sessions need: `enum` (Steps 5/6 N/A — round-trip via
+  the consuming class), `XSD-only` (no marker), `drift R<YY>-<MM>` (re-opened
+  row), and the commit hash once finished.
+- **Every queued class row carries a 9-step sub-checklist** — the exact step
+  names from Rule 18.1, all `[ ]`, **written when the file is first created in
+  Phase 0**, before any class is synced. The steps are part of the file from the
+  start so they can never be missing from the todo list. A step checkbox flips
+  `[x]` the moment that step finishes (Rule 18.2 — same moment as the session
+  todo); a legitimately N/A step is checked with the reason appended
+  (`- [x] Step 5 — … (N/A: standalone enum)`). A finished class row keeps its
+  sub-checklist fully `[x]` as the audit trail of the run.
+- A class row flips `[ ]` → `[x]` only per Rule 0017.2 (commit hash recorded in
+  the parenthetical) and **only when all 9 of its step checkboxes are `[x]`**.
+  Classes resolved **Skip** in 16.4 never get a queue row —
   they are listed under "Not queued" so the decision survives session death.
 - Already-stamped classes skipped by 16.5 are not queued either; list them under
   "Not queued" with "already stamped `# Spec verified: R<YY>-<MM>`".
@@ -1230,11 +1248,16 @@ Not fewer. Merging steps into one todo (`"Steps 2+3 model TDD"`,
 `"Steps 5+6 reader/writer"`) hides exactly the Red→Green ordering Rule 0006
 exists to enforce.
 
-### 18.2 Check off — one step, one check
+### 18.2 Check off — one step, one check, in both places
 
 - Mark a step todo `in_progress` when the step begins.
 - Mark it `completed` **immediately when that step finishes** — one completed
   step = exactly one newly checked todo item, checked at that moment.
+- **In the same action, flip the matching step checkbox in
+  `docs/plan/sync-todo/<InputClassName>.md`** (Rule 0016.6 sub-checklist) from
+  `[ ]` to `[x]`. The session todo is the live display; the file checkbox is the
+  durable record that survives session death. Neither check substitutes for the
+  other.
 - **Never batch-check**: marking several step todos completed at once (or all of
   them at the end) defeats the rule — the todo list would show progress the work
   doesn't have.
@@ -1250,19 +1273,29 @@ exists to enforce.
 - **Step 9's todo completes only after 9b user confirmation** and the
   `# Spec verified:` marker is written (or the XSD-only exception applies) —
   passing 9a's automated checks alone does not complete it.
-- **Before the 17.2 commit: all 9 step todos must be completed.** Any open step
-  todo ⇒ the class is not finished — resolve it before committing, never check
-  it off to "clean up".
+- **Before the 17.2 commit: all 9 step todos must be completed AND all 9 of the
+  class's step checkboxes in the todo file must be `[x]`.** Any open step
+  todo or checkbox ⇒ the class is not finished — resolve it before committing,
+  never check it off to "clean up". The class row itself flips `[x]` only after
+  the commit exists (17.2).
 - Session todos are **ephemeral progress display only**. The persistent record
-  remains the sync-todo file's per-class row (Rule 0016.6 / 17.2); step todos
-  neither replace it, gate it, nor get written to it. Session death discards
-  them — that is fine, the todo file carries the real state.
+  is the sync-todo file's per-class row **and its 9-step sub-checklist**
+  (Rule 0016.6 / 17.2) — every step completion is written to the file's step
+  checkbox at the moment it happens (18.2). Session death discards the session
+  todos — that is fine, the todo file carries the real state, including
+  mid-class step progress when a session dies between steps.
 
 ### 18.4 Forbidden workarounds
 
 - Creating one todo for the whole class ("Sync ClassName") instead of 9.
 - Merging Red→Green pairs into single todos (2+3, 5+6).
 - Batch-checking or end-of-run checking of step todos.
+- Writing the todo file **without** the per-class 9-step sub-checklist, or
+  adding it only when the first class starts — the checklist is written at file
+  creation in Phase 0 (Rule 0016.6), so it exists before any step runs.
+- Checking off a step in the session todos but **not** flipping the file's step
+  checkbox (or vice versa) — one finished step = one check in each place
+  (Rule 18.2).
 - Checking off a step todo "because 9b will re-verify it anyway" — 9b verifies
   the class against the rules; the step todos verify the workflow was actually
   walked, step by step.
