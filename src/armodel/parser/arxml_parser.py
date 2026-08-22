@@ -6161,7 +6161,23 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, instance)
         self.readProvidedServiceInstanceEventHandlers(element, instance)
         instance.setInstanceIdentifier(self.getChildElementOptionalPositiveInteger(element, "INSTANCE-IDENTIFIER"))
+        instance.setLoadBalancingPriority(self.getChildElementOptionalPositiveInteger(element, "LOAD-BALANCING-PRIORITY"))
+        instance.setLoadBalancingWeight(self.getChildElementOptionalPositiveInteger(element, "LOAD-BALANCING-WEIGHT"))
+        for ref in self.getChildElementRefTypeList(element, "LOCAL-UNICAST-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF"):
+            instance.addLocalUnicastAddressRef(ref)
+        instance.setMinorVersion(self.getChildElementOptionalPositiveInteger(element, "MINOR-VERSION"))
+        instance.setPriority(self.getChildElementOptionalPositiveInteger(element, "PRIORITY"))
+        for ref in self.getChildElementRefTypeList(element, "REMOTE-MULTICAST-SUBSCRIPTION-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF"):
+            instance.addRemoteMulticastSubscriptionAddressRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "REMOTE-UNICAST-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF"):
+            instance.addRemoteUnicastAddressRef(ref)
         instance.setSdServerConfig(self.getSdServerConfig(element, "SD-SERVER-CONFIG"))
+        instance.setSdServerTimerConfigRef(
+            self.getChildElementOptionalRefType(element, "SD-SERVER-TIMER-CONFIGS/SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG-REF-CONDITIONAL/SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG-REF")
+        )
+        for ref in self.getChildElementRefTypeList(element, "ALLOWED-SERVICE-CONSUMERS/NETWORK-ENDPOINT-REF-CONDITIONAL/NETWORK-ENDPOINT-REF"):
+            instance.addAllowedServiceConsumerRef(ref)
+        instance.setAutoAvailable(self.getChildElementOptionalBooleanValue(element, "AUTO-AVAILABLE"))
         instance.setServiceIdentifier(self.getChildElementOptionalPositiveInteger(element, "SERVICE-IDENTIFIER"))
 
     def readSocketAddressApplicationEndpointProvidedServiceInstance(self, element: ET.Element, end_point: ApplicationEndpoint):
