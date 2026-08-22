@@ -13,7 +13,7 @@ Queue order (dependency-first, deepest ancestors first, inputs last):
 | # | Class | Role | Spec | Status |
 |---|-------|------|------|--------|
 | 1 | CommunicationCluster | base (of FlexrayCluster) | Table 3.6, p.57 | [x] done (feat: bc4f9ede) |
-| 2 | CommunicationController | base (of FlexrayCommunicationController) | Table 3.3, p.53 | [ ] pending |
+| 2 | CommunicationController | base (of FlexrayCommunicationController) | Table 3.3, p.53 | [x] done (feat: 3d58717f) |
 | 3 | FlexrayFifoRange | member (FlexrayFifoConfiguration.fifoRange) | Table 3.32, p.87 | [ ] pending |
 | 4 | FlexrayFifoConfiguration | member (FlexrayCommunicationController.flexrayFifo) | Table 3.31, p.87 | [ ] pending |
 | 5 | FlexrayCommunicationController | input | Table 3.30, p.86 | [ ] pending |
