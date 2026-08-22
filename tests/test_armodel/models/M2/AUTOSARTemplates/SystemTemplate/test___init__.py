@@ -1,3 +1,4 @@
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ComManagementMapping, J1939SharedAddressCluster, RootSwCompositionPrototype, SwcToEcuMapping, System, SystemMapping
 
@@ -224,31 +225,41 @@ class TestSystemTemplate:
 
     def test_root_sw_composition_prototype(self):
         """
-        Test RootSwCompositionPrototype class functionality with method chaining.
+        Test RootSwCompositionPrototype class functionality with method chaining and None handling.
         """
         parent = MockParent()
         prototype = RootSwCompositionPrototype(parent, "test_root_sw_composition_prototype")
 
-        # Test constructor
-        assert prototype is not None
+        # Test inherited from AtpPrototype
+        assert isinstance(prototype, AtpPrototype)
 
         # Test default values
-        assert prototype.getCalibrationParameterValueSetRef() is None
+        assert prototype.getCalibrationParameterValueSetRefs() == []
         assert prototype.getFlatMapRef() is None
         assert prototype.getSoftwareCompositionTRef() is None
 
+        # Test add/get calibrationParameterValueSetRefs
+        prototype.addCalibrationParameterValueSetRef("/t/f/CalibrationParameterValueSet")
+        prototype.addCalibrationParameterValueSetRef("/t/f/CalibrationParameterValueSet2")
+        assert prototype.getCalibrationParameterValueSetRefs() == [
+            "/t/f/CalibrationParameterValueSet",
+            "/t/f/CalibrationParameterValueSet2",
+        ]
+        prototype.addCalibrationParameterValueSetRef(None)
+        assert len(prototype.getCalibrationParameterValueSetRefs()) == 2
+
         # Test setter/getter methods with method chaining
-        prototype.setCalibrationParameterValueSetRef("calibration_ref")
-        assert prototype.getCalibrationParameterValueSetRef() == "calibration_ref"
-        assert prototype == prototype.setCalibrationParameterValueSetRef("calibration_ref")
+        prototype.setFlatMapRef("/t/f/FlatMap")
+        assert prototype.getFlatMapRef() == "/t/f/FlatMap"
+        assert prototype == prototype.setFlatMapRef("/t/f/FlatMap")
+        prototype.setFlatMapRef(None)
+        assert prototype.getFlatMapRef() == "/t/f/FlatMap"
 
-        prototype.setFlatMapRef("flat_map_ref")
-        assert prototype.getFlatMapRef() == "flat_map_ref"
-        assert prototype == prototype.setFlatMapRef("flat_map_ref")
-
-        prototype.setSoftwareCompositionTRef("sw_composition_ref")
-        assert prototype.getSoftwareCompositionTRef() == "sw_composition_ref"
-        assert prototype == prototype.setSoftwareCompositionTRef("sw_composition_ref")
+        prototype.setSoftwareCompositionTRef("/t/f/CompositionSwComponentType")
+        assert prototype.getSoftwareCompositionTRef() == "/t/f/CompositionSwComponentType"
+        assert prototype == prototype.setSoftwareCompositionTRef("/t/f/CompositionSwComponentType")
+        prototype.setSoftwareCompositionTRef(None)
+        assert prototype.getSoftwareCompositionTRef() == "/t/f/CompositionSwComponentType"
 
     def test_j1939_shared_address_cluster(self):
         """

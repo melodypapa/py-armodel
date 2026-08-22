@@ -2675,13 +2675,11 @@ class TestReadSenderRecRecordElementMapping:
         )
 
         mapping = SenderRecRecordElementMapping()
-        element = _snip(
-            """
+        element = _snip("""
             <APPLICATION-RECORD-ELEMENT-REF DEST="RECORD-ELEMENT">/App/Rec1</APPLICATION-RECORD-ELEMENT-REF>
             <IMPLEMENTATION-RECORD-ELEMENT-REF DEST="RECORD-ELEMENT">/Impl/Rec1</IMPLEMENTATION-RECORD-ELEMENT-REF>
             <SYSTEM-SIGNAL-REF DEST="SYSTEM-SIGNAL">/Sig/S1</SYSTEM-SIGNAL-REF>
-        """
-        )
+        """)
         parser.readSenderRecRecordElementMapping(element, mapping)
         assert mapping.getApplicationRecordElementRef() is not None
         assert mapping.getApplicationRecordElementRef().getValue() == "/App/Rec1"
@@ -2716,8 +2714,7 @@ class TestReadSenderRecArrayTypeMappingRecordElementMapping:
         )
 
         mapping = SenderRecRecordTypeMapping()
-        element = _snip(
-            """
+        element = _snip("""
             <RECORD-ELEMENT-MAPPINGS>
                 <SENDER-REC-RECORD-ELEMENT-MAPPING>
                     <APPLICATION-RECORD-ELEMENT-REF DEST="RECORD-ELEMENT">/App/Rec1</APPLICATION-RECORD-ELEMENT-REF>
@@ -2725,8 +2722,7 @@ class TestReadSenderRecArrayTypeMappingRecordElementMapping:
                     <SYSTEM-SIGNAL-REF DEST="SYSTEM-SIGNAL">/Sig/S1</SYSTEM-SIGNAL-REF>
                 </SENDER-REC-RECORD-ELEMENT-MAPPING>
             </RECORD-ELEMENT-MAPPINGS>
-        """
-        )
+        """)
         parser.readSenderRecArrayTypeMappingRecordElementMapping(element, mapping)
         mappings = mapping.getRecordElementMappings()
         assert len(mappings) == 1
@@ -2739,15 +2735,13 @@ class TestReadSenderRecArrayTypeMappingRecordElementMapping:
         )
 
         mapping = SenderRecRecordTypeMapping()
-        element = _snip(
-            """
+        element = _snip("""
             <RECORD-ELEMENT-MAPPINGS>
                 <UNKNOWN-MAPPING>
                     <SHORT-NAME>X</SHORT-NAME>
                 </UNKNOWN-MAPPING>
             </RECORD-ELEMENT-MAPPINGS>
-        """
-        )
+        """)
         with pytest.raises(NotImplementedError):
             parser.readSenderRecArrayTypeMappingRecordElementMapping(element, mapping)
 
@@ -2757,15 +2751,13 @@ class TestReadSenderRecArrayTypeMappingRecordElementMapping:
         )
 
         mapping = SenderRecRecordTypeMapping()
-        element = _snip(
-            """
+        element = _snip("""
             <RECORD-ELEMENT-MAPPINGS>
                 <UNKNOWN-MAPPING>
                     <SHORT-NAME>X</SHORT-NAME>
                 </UNKNOWN-MAPPING>
             </RECORD-ELEMENT-MAPPINGS>
-        """
-        )
+        """)
         with caplog.at_level(logging.ERROR):
             warning_parser.readSenderRecArrayTypeMappingRecordElementMapping(element, mapping)
         assert any("Unsupported RecordElementMapping" in rec.getMessage() for rec in caplog.records)
@@ -2794,8 +2786,7 @@ class TestReadSenderRecRecordTypeMapping:
         )
 
         mapping = SenderRecRecordTypeMapping()
-        element = _snip(
-            """
+        element = _snip("""
             <RECORD-ELEMENT-MAPPINGS>
                 <SENDER-REC-RECORD-ELEMENT-MAPPING>
                     <APPLICATION-RECORD-ELEMENT-REF DEST="RECORD-ELEMENT">/App/Rec1</APPLICATION-RECORD-ELEMENT-REF>
@@ -2808,8 +2799,7 @@ class TestReadSenderRecRecordTypeMapping:
                     <SYSTEM-SIGNAL-REF DEST="SYSTEM-SIGNAL">/Sig/S2</SYSTEM-SIGNAL-REF>
                 </SENDER-REC-RECORD-ELEMENT-MAPPING>
             </RECORD-ELEMENT-MAPPINGS>
-        """
-        )
+        """)
         parser.readSenderRecRecordTypeMapping(element, mapping)
         mappings = mapping.getRecordElementMappings()
         assert len(mappings) == 2
@@ -2830,8 +2820,7 @@ class TestReadSenderReceiverToSignalGroupMappingTypeMapping:
         )
 
         mapping = SenderReceiverToSignalGroupMapping()
-        element = _snip(
-            """
+        element = _snip("""
             <TYPE-MAPPING>
                 <SENDER-REC-RECORD-TYPE-MAPPING>
                     <RECORD-ELEMENT-MAPPINGS>
@@ -2843,8 +2832,7 @@ class TestReadSenderReceiverToSignalGroupMappingTypeMapping:
                     </RECORD-ELEMENT-MAPPINGS>
                 </SENDER-REC-RECORD-TYPE-MAPPING>
             </TYPE-MAPPING>
-        """
-        )
+        """)
         parser.readSenderReceiverToSignalGroupMappingTypeMapping(element, mapping)
         type_mapping = mapping.getTypeMapping()
         assert type_mapping is not None
@@ -2858,15 +2846,13 @@ class TestReadSenderReceiverToSignalGroupMappingTypeMapping:
         )
 
         mapping = SenderReceiverToSignalGroupMapping()
-        element = _snip(
-            """
+        element = _snip("""
             <TYPE-MAPPING>
                 <UNKNOWN-TYPE-MAPPING>
                     <SHORT-NAME>X</SHORT-NAME>
                 </UNKNOWN-TYPE-MAPPING>
             </TYPE-MAPPING>
-        """
-        )
+        """)
         with pytest.raises(NotImplementedError):
             parser.readSenderReceiverToSignalGroupMappingTypeMapping(element, mapping)
 
@@ -2876,15 +2862,13 @@ class TestReadSenderReceiverToSignalGroupMappingTypeMapping:
         )
 
         mapping = SenderReceiverToSignalGroupMapping()
-        element = _snip(
-            """
+        element = _snip("""
             <TYPE-MAPPING>
                 <UNKNOWN-TYPE-MAPPING>
                     <SHORT-NAME>X</SHORT-NAME>
                 </UNKNOWN-TYPE-MAPPING>
             </TYPE-MAPPING>
-        """
-        )
+        """)
         with caplog.at_level(logging.ERROR):
             warning_parser.readSenderReceiverToSignalGroupMappingTypeMapping(element, mapping)
         assert any("Unsupported Type Mapping" in rec.getMessage() for rec in caplog.records)
@@ -2909,8 +2893,7 @@ class TestReadSystemMappingDataMappings:
 
     def test_reads_sender_receiver_to_signal_mapping(self, parser):
         mapping = _make_system_mapping()
-        element = _snip(
-            """
+        element = _snip("""
             <DATA-MAPPINGS>
                 <SENDER-RECEIVER-TO-SIGNAL-MAPPING>
                     <COMMUNICATION-DIRECTION>IN</COMMUNICATION-DIRECTION>
@@ -2923,8 +2906,7 @@ class TestReadSystemMappingDataMappings:
                     <SYSTEM-SIGNAL-REF DEST="SYSTEM-SIGNAL">/Sig/S1</SYSTEM-SIGNAL-REF>
                 </SENDER-RECEIVER-TO-SIGNAL-MAPPING>
             </DATA-MAPPINGS>
-        """
-        )
+        """)
         parser.readSystemMappingDataMappings(element, mapping)
         data_mappings = mapping.getDataMappings()
         assert len(data_mappings) == 1
@@ -2939,8 +2921,7 @@ class TestReadSystemMappingDataMappings:
 
     def test_reads_sender_receiver_to_signal_group_mapping(self, parser):
         mapping = _make_system_mapping()
-        element = _snip(
-            """
+        element = _snip("""
             <DATA-MAPPINGS>
                 <SENDER-RECEIVER-TO-SIGNAL-GROUP-MAPPING>
                     <DATA-ELEMENT-IREF>
@@ -2963,8 +2944,7 @@ class TestReadSystemMappingDataMappings:
                     </TYPE-MAPPING>
                 </SENDER-RECEIVER-TO-SIGNAL-GROUP-MAPPING>
             </DATA-MAPPINGS>
-        """
-        )
+        """)
         parser.readSystemMappingDataMappings(element, mapping)
         data_mappings = mapping.getDataMappings()
         assert len(data_mappings) == 1
@@ -2983,8 +2963,7 @@ class TestReadSystemMappingDataMappings:
 
     def test_reads_both_signal_and_signal_group_mappings(self, parser):
         mapping = _make_system_mapping()
-        element = _snip(
-            """
+        element = _snip("""
             <DATA-MAPPINGS>
                 <SENDER-RECEIVER-TO-SIGNAL-MAPPING>
                     <DATA-ELEMENT-IREF>
@@ -2999,37 +2978,32 @@ class TestReadSystemMappingDataMappings:
                     <SIGNAL-GROUP-REF DEST="SIGNAL-GROUP">/Sig/Group1</SIGNAL-GROUP-REF>
                 </SENDER-RECEIVER-TO-SIGNAL-GROUP-MAPPING>
             </DATA-MAPPINGS>
-        """
-        )
+        """)
         parser.readSystemMappingDataMappings(element, mapping)
         data_mappings = mapping.getDataMappings()
         assert len(data_mappings) == 2
 
     def test_unsupported_data_mapping_raises(self, parser):
         mapping = _make_system_mapping()
-        element = _snip(
-            """
+        element = _snip("""
             <DATA-MAPPINGS>
                 <UNKNOWN-MAPPING>
                     <SHORT-NAME>X</SHORT-NAME>
                 </UNKNOWN-MAPPING>
             </DATA-MAPPINGS>
-        """
-        )
+        """)
         with pytest.raises(NotImplementedError):
             parser.readSystemMappingDataMappings(element, mapping)
 
     def test_unsupported_data_mapping_logs_warning(self, warning_parser, caplog):
         mapping = _make_system_mapping()
-        element = _snip(
-            """
+        element = _snip("""
             <DATA-MAPPINGS>
                 <UNKNOWN-MAPPING>
                     <SHORT-NAME>X</SHORT-NAME>
                 </UNKNOWN-MAPPING>
             </DATA-MAPPINGS>
-        """
-        )
+        """)
         with caplog.at_level(logging.ERROR):
             warning_parser.readSystemMappingDataMappings(element, mapping)
         assert any("Unsupported Data Mapping" in rec.getMessage() for rec in caplog.records)
@@ -3324,6 +3298,45 @@ class TestSystemMappingGaps:
 
 
 class TestRootSwCompositionPrototype:
+    def test_readRootSwCompositionPrototype_full(self, parser):
+        from armodel.models import System
+
+        system = System(parent=_autosar_root(), short_name="sys")
+        element = _snip(
+            "<ROOT-SOFTWARE-COMPOSITIONS>"
+            "<ROOT-SW-COMPOSITION-PROTOTYPE>"
+            "<SHORT-NAME>root</SHORT-NAME>"
+            "<CALIBRATION-PARAMETER-VALUE-SET-REFS>"
+            "<CALIBRATION-PARAMETER-VALUE-SET-REF DEST='CALIBRATION-PARAMETER-VALUE-SET'>/a</CALIBRATION-PARAMETER-VALUE-SET-REF>"
+            "<CALIBRATION-PARAMETER-VALUE-SET-REF DEST='CALIBRATION-PARAMETER-VALUE-SET'>/b</CALIBRATION-PARAMETER-VALUE-SET-REF>"
+            "</CALIBRATION-PARAMETER-VALUE-SET-REFS>"
+            "<FLAT-MAP-REF DEST='FLAT-MAP'>/fm</FLAT-MAP-REF>"
+            "<SOFTWARE-COMPOSITION-TREF DEST='COMPOSITION-SW-COMPONENT-TYPE'>/sc</SOFTWARE-COMPOSITION-TREF>"
+            "</ROOT-SW-COMPOSITION-PROTOTYPE>"
+            "</ROOT-SOFTWARE-COMPOSITIONS>",
+            root_tag="SYSTEM",
+        )
+        parser.readRootSwCompositionPrototype(element, system)
+        prototype = system.getRootSoftwareComposition()
+        assert prototype is not None
+        assert prototype.getShortName() == "root"
+        assert [r.getValue() for r in prototype.getCalibrationParameterValueSetRefs()] == ["/a", "/b"]
+        assert prototype.getFlatMapRef().getValue() == "/fm"
+        assert prototype.getSoftwareCompositionTRef().getValue() == "/sc"
+
+    def test_readRootSwCompositionPrototype_empty_list(self, parser):
+        from armodel.models import System
+
+        system = System(parent=_autosar_root(), short_name="sys")
+        element = _snip(
+            "<ROOT-SOFTWARE-COMPOSITIONS>" "<ROOT-SW-COMPOSITION-PROTOTYPE>" "<SHORT-NAME>root</SHORT-NAME>" "</ROOT-SW-COMPOSITION-PROTOTYPE>" "</ROOT-SOFTWARE-COMPOSITIONS>",
+            root_tag="SYSTEM",
+        )
+        parser.readRootSwCompositionPrototype(element, system)
+        prototype = system.getRootSoftwareComposition()
+        assert prototype is not None
+        assert prototype.getCalibrationParameterValueSetRefs() == []
+
     def test_readRootSwCompositionPrototype_duplicate_warns(self, warning_parser, caplog):
         system_pkg = _autosar_root().createARPackage("SysPkg")
         system = system_pkg.createSystem("Sys")

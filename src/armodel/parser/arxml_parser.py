@@ -8713,6 +8713,8 @@ class ARXMLParser(AbstractARXMLParser):
             self.logger.debug("Read RootSwCompositionPrototype %s" % short_name)
             prototype = system.createRootSoftwareComposition(short_name)
             self.readIdentifiable(child_element, prototype)
+            for ref in self.getChildElementRefTypeList(child_element, "CALIBRATION-PARAMETER-VALUE-SET-REFS/CALIBRATION-PARAMETER-VALUE-SET-REF"):
+                prototype.addCalibrationParameterValueSetRef(ref)
             prototype.setFlatMapRef(self.getChildElementOptionalRefType(child_element, "FLAT-MAP-REF"))
             prototype.setSoftwareCompositionTRef(self.getChildElementOptionalRefType(child_element, "SOFTWARE-COMPOSITION-TREF"))
             try:

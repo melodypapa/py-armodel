@@ -7902,6 +7902,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "ROOT-SOFTWARE-COMPOSITIONS")
             child_element = ET.SubElement(child_element, "ROOT-SW-COMPOSITION-PROTOTYPE")
             self.writeIdentifiable(child_element, prototype)
+            calibration_refs = prototype.getCalibrationParameterValueSetRefs()
+            if len(calibration_refs) > 0:
+                calibration_wrapper = ET.SubElement(child_element, "CALIBRATION-PARAMETER-VALUE-SET-REFS")
+                for ref in calibration_refs:
+                    self.setChildElementOptionalRefType(calibration_wrapper, "CALIBRATION-PARAMETER-VALUE-SET-REF", ref)
             self.setChildElementOptionalRefType(child_element, "FLAT-MAP-REF", prototype.getFlatMapRef())
             self.setChildElementOptionalRefType(child_element, "SOFTWARE-COMPOSITION-TREF", prototype.getSoftwareCompositionTRef())
 
