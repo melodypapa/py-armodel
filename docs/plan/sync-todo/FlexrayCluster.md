@@ -93,7 +93,7 @@ Known gaps to fix during sync:
 
 ## 6. FlexrayCluster — Table 3.29, p.81
 
-- [ ] Step 1 — Sync members & description from spec
+- [x] Step 1 — Sync members & description from spec
 - [ ] Step 2 — Write the model class unit test (Red)
 - [ ] Step 3 — Implement the model class (Green)
 - [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)

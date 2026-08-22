@@ -377,6 +377,90 @@ class TestFlexrayClusterHandlers:
         assert cluster.getDetectNitError() is not None
         assert cluster.getDetectNitError().getValue()
 
+    def test_readFlexrayCluster_all_attrs(self, parser):
+        from armodel.models import FlexrayCluster
+
+        cluster = FlexrayCluster(parent=_autosar_root(), short_name="fr")
+        element = _snip(
+            "<SHORT-NAME>fr</SHORT-NAME>"
+            "<FLEXRAY-CLUSTER-VARIANTS>"
+            "<FLEXRAY-CLUSTER-CONDITIONAL>"
+            "<ACTION-POINT-OFFSET>2</ACTION-POINT-OFFSET>"
+            "<BIT>0.1</BIT>"
+            "<CAS-RX-LOW-MAX>10</CAS-RX-LOW-MAX>"
+            "<COLD-START-ATTEMPTS>8</COLD-START-ATTEMPTS>"
+            "<CYCLE>0.005</CYCLE>"
+            "<CYCLE-COUNT-MAX>64</CYCLE-COUNT-MAX>"
+            "<DETECT-NIT-ERROR>true</DETECT-NIT-ERROR>"
+            "<DYNAMIC-SLOT-IDLE-PHASE>2</DYNAMIC-SLOT-IDLE-PHASE>"
+            "<IGNORE-AFTER-TX>5</IGNORE-AFTER-TX>"
+            "<LISTEN-NOISE>3</LISTEN-NOISE>"
+            "<MACRO-PER-CYCLE>36</MACRO-PER-CYCLE>"
+            "<MACROTICK-DURATION>0.001</MACROTICK-DURATION>"
+            "<MAX-WITHOUT-CLOCK-CORRECTION-FATAL>2</MAX-WITHOUT-CLOCK-CORRECTION-FATAL>"
+            "<MAX-WITHOUT-CLOCK-CORRECTION-PASSIVE>3</MAX-WITHOUT-CLOCK-CORRECTION-PASSIVE>"
+            "<MINISLOT-ACTION-POINT-OFFSET>1</MINISLOT-ACTION-POINT-OFFSET>"
+            "<MINISLOT-DURATION>10</MINISLOT-DURATION>"
+            "<NETWORK-IDLE-TIME>20</NETWORK-IDLE-TIME>"
+            "<NETWORK-MANAGEMENT-VECTOR-LENGTH>12</NETWORK-MANAGEMENT-VECTOR-LENGTH>"
+            "<NUMBER-OF-MINISLOTS>790</NUMBER-OF-MINISLOTS>"
+            "<NUMBER-OF-STATIC-SLOTS>70</NUMBER-OF-STATIC-SLOTS>"
+            "<OFFSET-CORRECTION-START>2</OFFSET-CORRECTION-START>"
+            "<PAYLOAD-LENGTH-STATIC>16</PAYLOAD-LENGTH-STATIC>"
+            "<SAFETY-MARGIN>2</SAFETY-MARGIN>"
+            "<SAMPLE-CLOCK-PERIOD>0.05</SAMPLE-CLOCK-PERIOD>"
+            "<STATIC-SLOT-DURATION>100</STATIC-SLOT-DURATION>"
+            "<SYMBOL-WINDOW>101</SYMBOL-WINDOW>"
+            "<SYMBOL-WINDOW-ACTION-POINT-OFFSET>102</SYMBOL-WINDOW-ACTION-POINT-OFFSET>"
+            "<SYNC-FRAME-ID-COUNT-MAX>15</SYNC-FRAME-ID-COUNT-MAX>"
+            "<TRANCEIVER-STANDBY-DELAY>0.5</TRANCEIVER-STANDBY-DELAY>"
+            "<TRANSMISSION-START-SEQUENCE-DURATION>4</TRANSMISSION-START-SEQUENCE-DURATION>"
+            "<WAKEUP-RX-IDLE>60</WAKEUP-RX-IDLE>"
+            "<WAKEUP-RX-LOW>180</WAKEUP-RX-LOW>"
+            "<WAKEUP-RX-WINDOW>300</WAKEUP-RX-WINDOW>"
+            "<WAKEUP-TX-ACTIVE>60</WAKEUP-TX-ACTIVE>"
+            "<WAKEUP-TX-IDLE>180</WAKEUP-TX-IDLE>"
+            "</FLEXRAY-CLUSTER-CONDITIONAL>"
+            "</FLEXRAY-CLUSTER-VARIANTS>",
+            root_tag="FLEXRAY-CLUSTER",
+        )
+        parser.readFlexrayCluster(element, cluster)
+        assert cluster.getActionPointOffset().getValue() == 2
+        assert cluster.getBit().getValue() == pytest.approx(0.1)
+        assert cluster.getCasRxLowMax().getValue() == 10
+        assert cluster.getColdStartAttempts().getValue() == 8
+        assert cluster.getCycle().getValue() == pytest.approx(0.005)
+        assert cluster.getCycleCountMax().getValue() == 64
+        assert cluster.getDetectNitError().getValue() is True
+        assert cluster.getDynamicSlotIdlePhase().getValue() == 2
+        assert cluster.getIgnoreAfterTx().getValue() == 5
+        assert cluster.getListenNoise().getValue() == 3
+        assert cluster.getMacroPerCycle().getValue() == 36
+        assert cluster.getMacrotickDuration().getValue() == pytest.approx(0.001)
+        assert cluster.getMaxWithoutClockCorrectionFatal().getValue() == 2
+        assert cluster.getMaxWithoutClockCorrectionPassive().getValue() == 3
+        assert cluster.getMinislotActionPointOffset().getValue() == 1
+        assert cluster.getMinislotDuration().getValue() == 10
+        assert cluster.getNetworkIdleTime().getValue() == 20
+        assert cluster.getNetworkManagementVectorLength().getValue() == 12
+        assert cluster.getNumberOfMinislots().getValue() == 790
+        assert cluster.getNumberOfStaticSlots().getValue() == 70
+        assert cluster.getOffsetCorrectionStart().getValue() == 2
+        assert cluster.getPayloadLengthStatic().getValue() == 16
+        assert cluster.getSafetyMargin().getValue() == 2
+        assert cluster.getSampleClockPeriod().getValue() == pytest.approx(0.05)
+        assert cluster.getStaticSlotDuration().getValue() == 100
+        assert cluster.getSymbolWindow().getValue() == 101
+        assert cluster.getSymbolWindowActionPointOffset().getValue() == 102
+        assert cluster.getSyncFrameIdCountMax().getValue() == 15
+        assert cluster.getTranceiverStandbyDelay().getValue() == pytest.approx(0.5)
+        assert cluster.getTransmissionStartSequenceDuration().getValue() == 4
+        assert cluster.getWakeupRxIdle().getValue() == 60
+        assert cluster.getWakeupRxLow().getValue() == 180
+        assert cluster.getWakeupRxWindow().getValue() == 300
+        assert cluster.getWakeupTxActive().getValue() == 60
+        assert cluster.getWakeupTxIdle().getValue() == 180
+
     def test_readFlexrayPhysicalChannel_sets_channelName(self, parser):
         from armodel.models import FlexrayCluster, FlexrayPhysicalChannel
 

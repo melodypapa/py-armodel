@@ -6881,7 +6881,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalIntegerValue(child_element, "SAFETY-MARGIN", cluster.getSafetyMargin())
             self.setChildElementOptionalTimeValue(child_element, "SAMPLE-CLOCK-PERIOD", cluster.getSampleClockPeriod())
             self.setChildElementOptionalIntegerValue(child_element, "STATIC-SLOT-DURATION", cluster.getStaticSlotDuration())
+            self.setChildElementOptionalIntegerValue(child_element, "SYMBOL-WINDOW", cluster.getSymbolWindow())
+            self.setChildElementOptionalIntegerValue(child_element, "SYMBOL-WINDOW-ACTION-POINT-OFFSET", cluster.getSymbolWindowActionPointOffset())
             self.setChildElementOptionalIntegerValue(child_element, "SYNC-FRAME-ID-COUNT-MAX", cluster.getSyncFrameIdCountMax())
+            self.setChildElementOptionalFloatValue(child_element, "TRANCEIVER-STANDBY-DELAY", cluster.getTranceiverStandbyDelay())  # noqa E501
             self.setChildElementOptionalIntegerValue(child_element, "TRANSMISSION-START-SEQUENCE-DURATION", cluster.getTransmissionStartSequenceDuration())  # noqa E501
             self.setChildElementOptionalIntegerValue(child_element, "WAKEUP-RX-IDLE", cluster.getWakeupRxIdle())
             self.setChildElementOptionalIntegerValue(child_element, "WAKEUP-RX-LOW", cluster.getWakeupRxLow())
