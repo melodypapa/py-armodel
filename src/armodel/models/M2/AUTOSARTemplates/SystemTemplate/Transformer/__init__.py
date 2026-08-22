@@ -884,88 +884,88 @@ class DataPrototypeInSenderReceiverInterfaceInstanceRef(AtpInstanceRef, DataProt
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getBase                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setBase                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getContextDataPrototypeInSr    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addContextDataPrototypeInSr    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRootDataPrototypeInSr       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRootDataPrototypeInSr       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTargetDataPrototypeInSr     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTargetDataPrototypeInSr     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getBaseRef                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setBaseRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getContextDataPrototypeInSrRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addContextDataPrototypeInSrRefs [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRootDataPrototypeInSrRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRootDataPrototypeInSrRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTargetDataPrototypeInSrRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTargetDataPrototypeInSrRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
         # Stereotypes: atpDerived
-        self.base: Optional[RefType] = None
+        self.baseRef: Optional[RefType] = None
 
         # This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure. Tags: xml.sequenceOffset=20
-        self.contextDataPrototypeInSr: List[RefType] = []
+        self.contextDataPrototypeInSrRefs: List[RefType] = []
 
         # Tags: xml.sequenceOffset=10
-        self.rootDataPrototypeInSr: Optional[RefType] = None
+        self.rootDataPrototypeInSrRef: Optional[RefType] = None
 
         # Tags: xml.sequenceOffset=30
-        self.targetDataPrototypeInSr: Optional[RefType] = None
+        self.targetDataPrototypeInSrRef: Optional[RefType] = None
 
-    def getBase(self) -> Optional[RefType]:
+    def getBaseRef(self) -> Optional[RefType]:
         """
         Stereotypes: atpDerived
         """
-        return self.base
+        return self.baseRef
 
-    def setBase(self, value: Optional[RefType]) -> "DataPrototypeInSenderReceiverInterfaceInstanceRef":
+    def setBaseRef(self, value: Optional[RefType]) -> "DataPrototypeInSenderReceiverInterfaceInstanceRef":
         """
         Stereotypes: atpDerived
-        A None value is a no-op and does not overwrite an existing base.
+        A None value is a no-op and does not overwrite an existing baseRef.
         """
         if value is not None:
-            self.base = value
+            self.baseRef = value
         return self
 
-    def getContextDataPrototypeInSr(self) -> List[RefType]:
+    def getContextDataPrototypeInSrRefs(self) -> List[RefType]:
         """
         This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure. Tags: xml.sequenceOffset=20
         """
-        return self.contextDataPrototypeInSr
+        return self.contextDataPrototypeInSrRefs
 
-    def addContextDataPrototypeInSr(self, value: Optional[RefType]) -> "DataPrototypeInSenderReceiverInterfaceInstanceRef":
+    def addContextDataPrototypeInSrRefs(self, value: Optional[RefType]) -> "DataPrototypeInSenderReceiverInterfaceInstanceRef":
         """
         This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure. Tags: xml.sequenceOffset=20
-        A None value is a no-op and does not add to contextDataPrototypeInSr.
+        A None value is a no-op and does not add to contextDataPrototypeInSrRefs.
         """
         if value is not None:
-            self.contextDataPrototypeInSr.append(value)
+            self.contextDataPrototypeInSrRefs.append(value)
         return self
 
-    def getRootDataPrototypeInSr(self) -> Optional[RefType]:
+    def getRootDataPrototypeInSrRef(self) -> Optional[RefType]:
         """
         Tags: xml.sequenceOffset=10
         """
-        return self.rootDataPrototypeInSr
+        return self.rootDataPrototypeInSrRef
 
-    def setRootDataPrototypeInSr(self, value: Optional[RefType]) -> "DataPrototypeInSenderReceiverInterfaceInstanceRef":
+    def setRootDataPrototypeInSrRef(self, value: Optional[RefType]) -> "DataPrototypeInSenderReceiverInterfaceInstanceRef":
         """
         Tags: xml.sequenceOffset=10
-        A None value is a no-op and does not overwrite an existing rootDataPrototypeInSr.
+        A None value is a no-op and does not overwrite an existing rootDataPrototypeInSrRef.
         """
         if value is not None:
-            self.rootDataPrototypeInSr = value
+            self.rootDataPrototypeInSrRef = value
         return self
 
-    def getTargetDataPrototypeInSr(self) -> Optional[RefType]:
+    def getTargetDataPrototypeInSrRef(self) -> Optional[RefType]:
         """
         Tags: xml.sequenceOffset=30
         """
-        return self.targetDataPrototypeInSr
+        return self.targetDataPrototypeInSrRef
 
-    def setTargetDataPrototypeInSr(self, value: Optional[RefType]) -> "DataPrototypeInSenderReceiverInterfaceInstanceRef":
+    def setTargetDataPrototypeInSrRef(self, value: Optional[RefType]) -> "DataPrototypeInSenderReceiverInterfaceInstanceRef":
         """
         Tags: xml.sequenceOffset=30
-        A None value is a no-op and does not overwrite an existing targetDataPrototypeInSr.
+        A None value is a no-op and does not overwrite an existing targetDataPrototypeInSrRef.
         """
         if value is not None:
-            self.targetDataPrototypeInSr = value
+            self.targetDataPrototypeInSrRef = value
         return self
 
 
@@ -979,88 +979,88 @@ class DataPrototypeInClientServerInterfaceInstanceRef(AtpInstanceRef, DataProtot
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getBase                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setBase                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getContextDataPrototypeInCs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addContextDataPrototypeInCs    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRootDataPrototypeInCs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRootDataPrototypeInCs       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTargetDataPrototypeInCs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTargetDataPrototypeInCs     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getBaseRef                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setBaseRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getContextDataPrototypeInCsRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addContextDataPrototypeInCsRefs [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRootDataPrototypeInCsRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRootDataPrototypeInCsRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTargetDataPrototypeInCsRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTargetDataPrototypeInCsRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
         # Stereotypes: atpDerived
-        self.base: Optional[RefType] = None
+        self.baseRef: Optional[RefType] = None
 
         # This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure. Tags: xml.sequenceOffset=20
-        self.contextDataPrototypeInCs: List[RefType] = []
+        self.contextDataPrototypeInCsRefs: List[RefType] = []
 
         # Tags: xml.sequenceOffset=10
-        self.rootDataPrototypeInCs: Optional[RefType] = None
+        self.rootDataPrototypeInCsRef: Optional[RefType] = None
 
         # Tags: xml.sequenceOffset=30
-        self.targetDataPrototypeInCs: Optional[RefType] = None
+        self.targetDataPrototypeInCsRef: Optional[RefType] = None
 
-    def getBase(self) -> Optional[RefType]:
+    def getBaseRef(self) -> Optional[RefType]:
         """
         Stereotypes: atpDerived
         """
-        return self.base
+        return self.baseRef
 
-    def setBase(self, value: Optional[RefType]) -> "DataPrototypeInClientServerInterfaceInstanceRef":
+    def setBaseRef(self, value: Optional[RefType]) -> "DataPrototypeInClientServerInterfaceInstanceRef":
         """
         Stereotypes: atpDerived
-        A None value is a no-op and does not overwrite an existing base.
+        A None value is a no-op and does not overwrite an existing baseRef.
         """
         if value is not None:
-            self.base = value
+            self.baseRef = value
         return self
 
-    def getContextDataPrototypeInCs(self) -> List[RefType]:
+    def getContextDataPrototypeInCsRefs(self) -> List[RefType]:
         """
         This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure. Tags: xml.sequenceOffset=20
         """
-        return self.contextDataPrototypeInCs
+        return self.contextDataPrototypeInCsRefs
 
-    def addContextDataPrototypeInCs(self, value: Optional[RefType]) -> "DataPrototypeInClientServerInterfaceInstanceRef":
+    def addContextDataPrototypeInCsRefs(self, value: Optional[RefType]) -> "DataPrototypeInClientServerInterfaceInstanceRef":
         """
         This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure. Tags: xml.sequenceOffset=20
-        A None value is a no-op and does not add to contextDataPrototypeInCs.
+        A None value is a no-op and does not add to contextDataPrototypeInCsRefs.
         """
         if value is not None:
-            self.contextDataPrototypeInCs.append(value)
+            self.contextDataPrototypeInCsRefs.append(value)
         return self
 
-    def getRootDataPrototypeInCs(self) -> Optional[RefType]:
+    def getRootDataPrototypeInCsRef(self) -> Optional[RefType]:
         """
         Tags: xml.sequenceOffset=10
         """
-        return self.rootDataPrototypeInCs
+        return self.rootDataPrototypeInCsRef
 
-    def setRootDataPrototypeInCs(self, value: Optional[RefType]) -> "DataPrototypeInClientServerInterfaceInstanceRef":
+    def setRootDataPrototypeInCsRef(self, value: Optional[RefType]) -> "DataPrototypeInClientServerInterfaceInstanceRef":
         """
         Tags: xml.sequenceOffset=10
-        A None value is a no-op and does not overwrite an existing rootDataPrototypeInCs.
+        A None value is a no-op and does not overwrite an existing rootDataPrototypeInCsRef.
         """
         if value is not None:
-            self.rootDataPrototypeInCs = value
+            self.rootDataPrototypeInCsRef = value
         return self
 
-    def getTargetDataPrototypeInCs(self) -> Optional[RefType]:
+    def getTargetDataPrototypeInCsRef(self) -> Optional[RefType]:
         """
         Tags: xml.sequenceOffset=30
         """
-        return self.targetDataPrototypeInCs
+        return self.targetDataPrototypeInCsRef
 
-    def setTargetDataPrototypeInCs(self, value: Optional[RefType]) -> "DataPrototypeInClientServerInterfaceInstanceRef":
+    def setTargetDataPrototypeInCsRef(self, value: Optional[RefType]) -> "DataPrototypeInClientServerInterfaceInstanceRef":
         """
         Tags: xml.sequenceOffset=30
-        A None value is a no-op and does not overwrite an existing targetDataPrototypeInCs.
+        A None value is a no-op and does not overwrite an existing targetDataPrototypeInCsRef.
         """
         if value is not None:
-            self.targetDataPrototypeInCs = value
+            self.targetDataPrototypeInCsRef = value
         return self
 
 
@@ -1074,68 +1074,68 @@ class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getContextImplementationDataElement   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addContextImplementationDataElement   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRootDataPrototype                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRootDataPrototype                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTargetImplementationDataTypeElement [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTargetImplementationDataTypeElement [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getContextImplementationDataElementRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addContextImplementationDataElementRefs [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRootDataPrototypeRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRootDataPrototypeRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTargetImplementationDataTypeElementRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTargetImplementationDataTypeElementRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
         # This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure. Tags: xml.sequenceOffset=20
-        self.contextImplementationDataElement: List[RefType] = []
+        self.contextImplementationDataElementRefs: List[RefType] = []
 
         # This refers to the AutosarDataPrototype which is typed by the ImplementationDatatype. The targetDataPrototype and all defined contextDataPrototypes can be found within this rootDataPrototype. Tags: xml.sequenceOffset=10
-        self.rootDataPrototype: Optional[RefType] = None
+        self.rootDataPrototypeRef: Optional[RefType] = None
 
         # This is a target ImplementationDataTypeElement in case that the rootDataPrototype is composite and the target is a subElement of the rootDataPrototype. Tags: xml.sequenceOffset=30
-        self.targetImplementationDataTypeElement: Optional[RefType] = None
+        self.targetImplementationDataTypeElementRef: Optional[RefType] = None
 
-    def getContextImplementationDataElement(self) -> List[RefType]:
+    def getContextImplementationDataElementRefs(self) -> List[RefType]:
         """
         This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure. Tags: xml.sequenceOffset=20
         """
-        return self.contextImplementationDataElement
+        return self.contextImplementationDataElementRefs
 
-    def addContextImplementationDataElement(self, value: Optional[RefType]) -> "ImplementationDataTypeElementInPortInterfaceRef":
+    def addContextImplementationDataElementRefs(self, value: Optional[RefType]) -> "ImplementationDataTypeElementInPortInterfaceRef":
         """
         This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure. Tags: xml.sequenceOffset=20
-        A None value is a no-op and does not add to contextImplementationDataElement.
+        A None value is a no-op and does not add to contextImplementationDataElementRefs.
         """
         if value is not None:
-            self.contextImplementationDataElement.append(value)
+            self.contextImplementationDataElementRefs.append(value)
         return self
 
-    def getRootDataPrototype(self) -> Optional[RefType]:
+    def getRootDataPrototypeRef(self) -> Optional[RefType]:
         """
         This refers to the AutosarDataPrototype which is typed by the ImplementationDatatype. The targetDataPrototype and all defined contextDataPrototypes can be found within this rootDataPrototype. Tags: xml.sequenceOffset=10
         """
-        return self.rootDataPrototype
+        return self.rootDataPrototypeRef
 
-    def setRootDataPrototype(self, value: Optional[RefType]) -> "ImplementationDataTypeElementInPortInterfaceRef":
+    def setRootDataPrototypeRef(self, value: Optional[RefType]) -> "ImplementationDataTypeElementInPortInterfaceRef":
         """
         This refers to the AutosarDataPrototype which is typed by the ImplementationDatatype. The targetDataPrototype and all defined contextDataPrototypes can be found within this rootDataPrototype. Tags: xml.sequenceOffset=10
-        A None value is a no-op and does not overwrite an existing rootDataPrototype.
+        A None value is a no-op and does not overwrite an existing rootDataPrototypeRef.
         """
         if value is not None:
-            self.rootDataPrototype = value
+            self.rootDataPrototypeRef = value
         return self
 
-    def getTargetImplementationDataTypeElement(self) -> Optional[RefType]:
+    def getTargetImplementationDataTypeElementRef(self) -> Optional[RefType]:
         """
         This is a target ImplementationDataTypeElement in case that the rootDataPrototype is composite and the target is a subElement of the rootDataPrototype. Tags: xml.sequenceOffset=30
         """
-        return self.targetImplementationDataTypeElement
+        return self.targetImplementationDataTypeElementRef
 
-    def setTargetImplementationDataTypeElement(self, value: Optional[RefType]) -> "ImplementationDataTypeElementInPortInterfaceRef":
+    def setTargetImplementationDataTypeElementRef(self, value: Optional[RefType]) -> "ImplementationDataTypeElementInPortInterfaceRef":
         """
         This is a target ImplementationDataTypeElement in case that the rootDataPrototype is composite and the target is a subElement of the rootDataPrototype. Tags: xml.sequenceOffset=30
-        A None value is a no-op and does not overwrite an existing targetImplementationDataTypeElement.
+        A None value is a no-op and does not overwrite an existing targetImplementationDataTypeElementRef.
         """
         if value is not None:
-            self.targetImplementationDataTypeElement = value
+            self.targetImplementationDataTypeElementRef = value
         return self
 
 

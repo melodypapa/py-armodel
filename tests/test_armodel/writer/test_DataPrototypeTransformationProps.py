@@ -46,9 +46,9 @@ def _build_props():
     ref = DataPrototypeInPortInterfaceRef()
     ref.setTagId(PositiveInteger().setValue("5"))
     cs = DataPrototypeInClientServerInterfaceInstanceRef()
-    cs.setBase(RefType().setValue("/Cs").setDest("CLIENT-SERVER-INTERFACE"))
-    cs.setRootDataPrototypeInCs(RefType().setValue("/Cs/Root").setDest("DATA-PROTOTYPE"))
-    cs.setTargetDataPrototypeInCs(RefType().setValue("/Cs/MyArg").setDest("DATA-PROTOTYPE"))
+    cs.setBaseRef(RefType().setValue("/Cs").setDest("CLIENT-SERVER-INTERFACE"))
+    cs.setRootDataPrototypeInCsRef(RefType().setValue("/Cs/Root").setDest("DATA-PROTOTYPE"))
+    cs.setTargetDataPrototypeInCsRef(RefType().setValue("/Cs/MyArg").setDest("DATA-PROTOTYPE"))
     ref.setDataPrototypeInClientServerInterface(cs)
     props.setDataPrototypeInPortInterfaceRef(ref)
 

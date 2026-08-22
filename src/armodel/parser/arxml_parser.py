@@ -8355,19 +8355,19 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readDataPrototypeInSenderReceiverInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInSenderReceiverInterfaceInstanceRef):
         self.readARObjectAttributes(element, iref)
-        iref.setBase(self.getChildElementOptionalRefType(element, "BASE"))
+        iref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE"))
         for ctx in self.findall(element, "CONTEXT-DATA-PROTOTYPE-IN-SR"):
-            iref.addContextDataPrototypeInSr(self.getChildElementOptionalRefType(ctx, "CONTEXT-DATA-PROTOTYPE-IN-SR") or self.getChildElementOptionalRefType(ctx, "CONTEXT-DATA-PROTOTYPE"))
-        iref.setRootDataPrototypeInSr(self.getChildElementOptionalRefType(element, "ROOT-DATA-PROTOTYPE-IN-SR"))
-        iref.setTargetDataPrototypeInSr(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-IN-SR"))
+            iref.addContextDataPrototypeInSrRefs(self.getChildElementOptionalRefType(ctx, "CONTEXT-DATA-PROTOTYPE-IN-SR") or self.getChildElementOptionalRefType(ctx, "CONTEXT-DATA-PROTOTYPE"))
+        iref.setRootDataPrototypeInSrRef(self.getChildElementOptionalRefType(element, "ROOT-DATA-PROTOTYPE-IN-SR"))
+        iref.setTargetDataPrototypeInSrRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-IN-SR"))
 
     def readDataPrototypeInClientServerInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInClientServerInterfaceInstanceRef):
         self.readARObjectAttributes(element, iref)
-        iref.setBase(self.getChildElementOptionalRefType(element, "BASE"))
+        iref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE"))
         for ctx in self.findall(element, "CONTEXT-DATA-PROTOTYPE-IN-CS"):
-            iref.addContextDataPrototypeInCs(self.getChildElementOptionalRefType(ctx, "CONTEXT-DATA-PROTOTYPE-IN-CS") or self.getChildElementOptionalRefType(ctx, "CONTEXT-DATA-PROTOTYPE"))
-        iref.setRootDataPrototypeInCs(self.getChildElementOptionalRefType(element, "ROOT-DATA-PROTOTYPE-IN-CS"))
-        iref.setTargetDataPrototypeInCs(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-IN-CS"))
+            iref.addContextDataPrototypeInCsRefs(self.getChildElementOptionalRefType(ctx, "CONTEXT-DATA-PROTOTYPE-IN-CS") or self.getChildElementOptionalRefType(ctx, "CONTEXT-DATA-PROTOTYPE"))
+        iref.setRootDataPrototypeInCsRef(self.getChildElementOptionalRefType(element, "ROOT-DATA-PROTOTYPE-IN-CS"))
+        iref.setTargetDataPrototypeInCsRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-IN-CS"))
 
     def readDataPrototypeTransformationProps(self, element: ET.Element, props: DataPrototypeTransformationProps):
         self.readARObjectAttributes(element, props)

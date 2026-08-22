@@ -8373,22 +8373,22 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeDataPrototypeInSenderReceiverInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInSenderReceiverInterfaceInstanceRef):
         child_element = ET.SubElement(element, "DATA-PROTOTYPE-IN-SENDER-RECEIVER-INTERFACE-REF")
         self.writeARObjectAttributes(child_element, iref)
-        self.setChildElementOptionalRefType(child_element, "BASE", iref.getBase())
-        for ctx in iref.getContextDataPrototypeInSr():
+        self.setChildElementOptionalRefType(child_element, "BASE", iref.getBaseRef())
+        for ctx in iref.getContextDataPrototypeInSrRefs():
             ctx_element = ET.SubElement(child_element, "CONTEXT-DATA-PROTOTYPE-IN-SR")
             self.setChildElementOptionalRefType(ctx_element, "CONTEXT-DATA-PROTOTYPE-IN-SR", ctx)
-        self.setChildElementOptionalRefType(child_element, "ROOT-DATA-PROTOTYPE-IN-SR", iref.getRootDataPrototypeInSr())
-        self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-IN-SR", iref.getTargetDataPrototypeInSr())
+        self.setChildElementOptionalRefType(child_element, "ROOT-DATA-PROTOTYPE-IN-SR", iref.getRootDataPrototypeInSrRef())
+        self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-IN-SR", iref.getTargetDataPrototypeInSrRef())
 
     def writeDataPrototypeInClientServerInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInClientServerInterfaceInstanceRef):
         child_element = ET.SubElement(element, "DATA-PROTOTYPE-IN-CLIENT-SERVER-INTERFACE-REF")
         self.writeARObjectAttributes(child_element, iref)
-        self.setChildElementOptionalRefType(child_element, "BASE", iref.getBase())
-        for ctx in iref.getContextDataPrototypeInCs():
+        self.setChildElementOptionalRefType(child_element, "BASE", iref.getBaseRef())
+        for ctx in iref.getContextDataPrototypeInCsRefs():
             ctx_element = ET.SubElement(child_element, "CONTEXT-DATA-PROTOTYPE-IN-CS")
             self.setChildElementOptionalRefType(ctx_element, "CONTEXT-DATA-PROTOTYPE-IN-CS", ctx)
-        self.setChildElementOptionalRefType(child_element, "ROOT-DATA-PROTOTYPE-IN-CS", iref.getRootDataPrototypeInCs())
-        self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-IN-CS", iref.getTargetDataPrototypeInCs())
+        self.setChildElementOptionalRefType(child_element, "ROOT-DATA-PROTOTYPE-IN-CS", iref.getRootDataPrototypeInCsRef())
+        self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-IN-CS", iref.getTargetDataPrototypeInCsRef())
 
     def writeDataPrototypeTransformationProps(self, element: ET.Element, props: DataPrototypeTransformationProps):
         child_element = ET.SubElement(element, "DATA-PROTOTYPE-TRANSFORMATION-PROPS")

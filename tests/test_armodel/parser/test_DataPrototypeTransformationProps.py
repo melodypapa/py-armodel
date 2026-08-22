@@ -76,12 +76,12 @@ def test_read_data_prototype_transformation_props_all_fields(parser):
     assert ref.getTagId().getValue() == 5
     cs_ref = ref.getDataPrototypeInClientServerInterface()
     assert isinstance(cs_ref, DataPrototypeInClientServerInterfaceInstanceRef)
-    assert cs_ref.getBase() is not None
-    assert cs_ref.getBase().getValue() == "/Cs"
-    assert cs_ref.getRootDataPrototypeInCs() is not None
-    assert cs_ref.getRootDataPrototypeInCs().getValue() == "/Cs/Root"
-    assert cs_ref.getTargetDataPrototypeInCs() is not None
-    assert cs_ref.getTargetDataPrototypeInCs().getValue() == "/Cs/MyArg"
+    assert cs_ref.getBaseRef() is not None
+    assert cs_ref.getBaseRef().getValue() == "/Cs"
+    assert cs_ref.getRootDataPrototypeInCsRef() is not None
+    assert cs_ref.getRootDataPrototypeInCsRef().getValue() == "/Cs/Root"
+    assert cs_ref.getTargetDataPrototypeInCsRef() is not None
+    assert cs_ref.getTargetDataPrototypeInCsRef().getValue() == "/Cs/MyArg"
 
     # networkRepresentationProps (aggr -> SwDataDefProps)
     net = props.getNetworkRepresentationProps()

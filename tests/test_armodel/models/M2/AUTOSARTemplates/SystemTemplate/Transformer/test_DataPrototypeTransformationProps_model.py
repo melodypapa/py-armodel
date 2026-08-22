@@ -123,7 +123,7 @@ class TestDataPrototypeInPortInterfaceRef:
     def test_get_set_data_prototype_in_client_server_interface(self):
         ref = DataPrototypeInPortInterfaceRef()
         cs = DataPrototypeInClientServerInterfaceInstanceRef()
-        cs.setTargetDataPrototypeInCs(RefType().setValue("/Cs/MyArg"))
+        cs.setTargetDataPrototypeInCsRef(RefType().setValue("/Cs/MyArg"))
 
         assert ref == ref.setDataPrototypeInClientServerInterface(None)
         assert ref.getDataPrototypeInClientServerInterface() is None
@@ -143,10 +143,10 @@ class TestDataPrototypeInSenderReceiverInterfaceInstanceRef:
     def test_initialization(self):
         iref = DataPrototypeInSenderReceiverInterfaceInstanceRef()
 
-        assert iref.getBase() is None
-        assert iref.getContextDataPrototypeInSr() == []
-        assert iref.getRootDataPrototypeInSr() is None
-        assert iref.getTargetDataPrototypeInSr() is None
+        assert iref.getBaseRef() is None
+        assert iref.getContextDataPrototypeInSrRefs() == []
+        assert iref.getRootDataPrototypeInSrRef() is None
+        assert iref.getTargetDataPrototypeInSrRef() is None
 
     def test_base_round_trip(self):
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -155,14 +155,14 @@ class TestDataPrototypeInSenderReceiverInterfaceInstanceRef:
         base = RefType()
         base.setValue("/SenderReceiverInterface")
 
-        assert iref == iref.setBase(None)
-        assert iref.getBase() is None
+        assert iref == iref.setBaseRef(None)
+        assert iref.getBaseRef() is None
 
-        assert iref == iref.setBase(base)
-        assert iref.getBase() == base
+        assert iref == iref.setBaseRef(base)
+        assert iref.getBaseRef() == base
 
-        assert iref == iref.setBase(None)  # None no-op
-        assert iref.getBase() == base
+        assert iref == iref.setBaseRef(None)  # None no-op
+        assert iref.getBaseRef() == base
 
     def test_root_and_target_round_trip(self):
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -173,10 +173,10 @@ class TestDataPrototypeInSenderReceiverInterfaceInstanceRef:
         target = RefType()
         target.setValue("/TargetDataPrototype")
 
-        iref.setRootDataPrototypeInSr(root)
-        iref.setTargetDataPrototypeInSr(target)
-        assert iref.getRootDataPrototypeInSr() == root
-        assert iref.getTargetDataPrototypeInSr() == target
+        iref.setRootDataPrototypeInSrRef(root)
+        iref.setTargetDataPrototypeInSrRef(target)
+        assert iref.getRootDataPrototypeInSrRef() == root
+        assert iref.getTargetDataPrototypeInSrRef() == target
 
     def test_add_context_data_prototype_in_sr(self):
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -187,15 +187,15 @@ class TestDataPrototypeInSenderReceiverInterfaceInstanceRef:
         ctx2 = RefType()
         ctx2.setValue("/Ctx2")
 
-        iref.addContextDataPrototypeInSr(ctx1)
-        assert ctx1 in iref.getContextDataPrototypeInSr()
-        assert len(iref.getContextDataPrototypeInSr()) == 1
+        iref.addContextDataPrototypeInSrRefs(ctx1)
+        assert ctx1 in iref.getContextDataPrototypeInSrRefs()
+        assert len(iref.getContextDataPrototypeInSrRefs()) == 1
 
-        assert iref == iref.addContextDataPrototypeInSr(None)  # None no-op
-        assert len(iref.getContextDataPrototypeInSr()) == 1
+        assert iref == iref.addContextDataPrototypeInSrRefs(None)  # None no-op
+        assert len(iref.getContextDataPrototypeInSrRefs()) == 1
 
-        assert iref == iref.addContextDataPrototypeInSr(ctx2)
-        assert len(iref.getContextDataPrototypeInSr()) == 2
+        assert iref == iref.addContextDataPrototypeInSrRefs(ctx2)
+        assert len(iref.getContextDataPrototypeInSrRefs()) == 2
 
 
 class TestDataPrototypeInClientServerInterfaceInstanceRef:
@@ -206,10 +206,10 @@ class TestDataPrototypeInClientServerInterfaceInstanceRef:
     def test_initialization(self):
         iref = DataPrototypeInClientServerInterfaceInstanceRef()
 
-        assert iref.getBase() is None
-        assert iref.getContextDataPrototypeInCs() == []
-        assert iref.getRootDataPrototypeInCs() is None
-        assert iref.getTargetDataPrototypeInCs() is None
+        assert iref.getBaseRef() is None
+        assert iref.getContextDataPrototypeInCsRefs() == []
+        assert iref.getRootDataPrototypeInCsRef() is None
+        assert iref.getTargetDataPrototypeInCsRef() is None
 
     def test_base_round_trip(self):
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -218,14 +218,14 @@ class TestDataPrototypeInClientServerInterfaceInstanceRef:
         base = RefType()
         base.setValue("/ClientServerInterface")
 
-        assert iref == iref.setBase(None)
-        assert iref.getBase() is None
+        assert iref == iref.setBaseRef(None)
+        assert iref.getBaseRef() is None
 
-        assert iref == iref.setBase(base)
-        assert iref.getBase() == base
+        assert iref == iref.setBaseRef(base)
+        assert iref.getBaseRef() == base
 
-        assert iref == iref.setBase(None)  # None no-op
-        assert iref.getBase() == base
+        assert iref == iref.setBaseRef(None)  # None no-op
+        assert iref.getBaseRef() == base
 
     def test_root_and_target_round_trip(self):
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -236,10 +236,10 @@ class TestDataPrototypeInClientServerInterfaceInstanceRef:
         target = RefType()
         target.setValue("/TargetDataPrototype")
 
-        iref.setRootDataPrototypeInCs(root)
-        iref.setTargetDataPrototypeInCs(target)
-        assert iref.getRootDataPrototypeInCs() == root
-        assert iref.getTargetDataPrototypeInCs() == target
+        iref.setRootDataPrototypeInCsRef(root)
+        iref.setTargetDataPrototypeInCsRef(target)
+        assert iref.getRootDataPrototypeInCsRef() == root
+        assert iref.getTargetDataPrototypeInCsRef() == target
 
     def test_add_context_data_prototype_in_cs(self):
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -248,12 +248,12 @@ class TestDataPrototypeInClientServerInterfaceInstanceRef:
         ctx1 = RefType()
         ctx1.setValue("/Ctx1")
 
-        iref.addContextDataPrototypeInCs(ctx1)
-        assert ctx1 in iref.getContextDataPrototypeInCs()
-        assert len(iref.getContextDataPrototypeInCs()) == 1
+        iref.addContextDataPrototypeInCsRefs(ctx1)
+        assert ctx1 in iref.getContextDataPrototypeInCsRefs()
+        assert len(iref.getContextDataPrototypeInCsRefs()) == 1
 
-        assert iref == iref.addContextDataPrototypeInCs(None)  # None no-op
-        assert len(iref.getContextDataPrototypeInCs()) == 1
+        assert iref == iref.addContextDataPrototypeInCsRefs(None)  # None no-op
+        assert len(iref.getContextDataPrototypeInCsRefs()) == 1
 
 
 class TestImplementationDataTypeElementInPortInterfaceRef:
@@ -265,9 +265,9 @@ class TestImplementationDataTypeElementInPortInterfaceRef:
         ref = ImplementationDataTypeElementInPortInterfaceRef()
 
         assert isinstance(ref, DataPrototypeReference)
-        assert ref.getContextImplementationDataElement() == []
-        assert ref.getRootDataPrototype() is None
-        assert ref.getTargetImplementationDataTypeElement() is None
+        assert ref.getContextImplementationDataElementRefs() == []
+        assert ref.getRootDataPrototypeRef() is None
+        assert ref.getTargetImplementationDataTypeElementRef() is None
 
     def test_root_and_target_round_trip(self):
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -278,10 +278,10 @@ class TestImplementationDataTypeElementInPortInterfaceRef:
         target = RefType()
         target.setValue("/TargetImplDataTypeElement")
 
-        ref.setRootDataPrototype(root)
-        ref.setTargetImplementationDataTypeElement(target)
-        assert ref.getRootDataPrototype() == root
-        assert ref.getTargetImplementationDataTypeElement() == target
+        ref.setRootDataPrototypeRef(root)
+        ref.setTargetImplementationDataTypeElementRef(target)
+        assert ref.getRootDataPrototypeRef() == root
+        assert ref.getTargetImplementationDataTypeElementRef() == target
 
     def test_add_context_implementation_data_element(self):
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -290,9 +290,9 @@ class TestImplementationDataTypeElementInPortInterfaceRef:
         ctx1 = RefType()
         ctx1.setValue("/Ctx1")
 
-        ref.addContextImplementationDataElement(ctx1)
-        assert ctx1 in ref.getContextImplementationDataElement()
-        assert len(ref.getContextImplementationDataElement()) == 1
+        ref.addContextImplementationDataElementRefs(ctx1)
+        assert ctx1 in ref.getContextImplementationDataElementRefs()
+        assert len(ref.getContextImplementationDataElementRefs()) == 1
 
-        assert ref == ref.addContextImplementationDataElement(None)  # None no-op
-        assert len(ref.getContextImplementationDataElement()) == 1
+        assert ref == ref.addContextImplementationDataElementRefs(None)  # None no-op
+        assert len(ref.getContextImplementationDataElementRefs()) == 1
