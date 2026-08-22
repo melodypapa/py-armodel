@@ -2300,6 +2300,112 @@ class TestEcuInstanceHandlers:
         parser.readFlexrayCommunicationController(element, ctrl)
         assert ctrl.getShortName() == "ctrl"
 
+    def test_readFlexrayCommunicationController_all_attrs(self, parser):
+        from armodel.models import EcuInstance, FlexrayCommunicationController
+
+        instance = EcuInstance(parent=_autosar_root(), short_name="ecu")
+        ctrl = FlexrayCommunicationController(parent=instance, short_name="ctrl")
+        element = _snip(
+            "<SHORT-NAME>ctrl</SHORT-NAME>"
+            "<FLEXRAY-COMMUNICATION-CONTROLLER-VARIANTS>"
+            "<FLEXRAY-COMMUNICATION-CONTROLLER-CONDITIONAL>"
+            "<ACCEPTED-STARTUP-RANGE>10</ACCEPTED-STARTUP-RANGE>"
+            "<ALLOW-HALT-DUE-TO-CLOCK>true</ALLOW-HALT-DUE-TO-CLOCK>"
+            "<ALLOW-PASSIVE-TO-ACTIVE>5</ALLOW-PASSIVE-TO-ACTIVE>"
+            "<CLUSTER-DRIFT-DAMPING>2</CLUSTER-DRIFT-DAMPING>"
+            "<DECODING-CORRECTION>3</DECODING-CORRECTION>"
+            "<DELAY-COMPENSATION-A>4</DELAY-COMPENSATION-A>"
+            "<DELAY-COMPENSATION-B>5</DELAY-COMPENSATION-B>"
+            "<EXTERNAL-SYNC>true</EXTERNAL-SYNC>"
+            "<EXTERN-OFFSET-CORRECTION>6</EXTERN-OFFSET-CORRECTION>"
+            "<EXTERN-RATE-CORRECTION>7</EXTERN-RATE-CORRECTION>"
+            "<FALL-BACK-INTERNAL>false</FALL-BACK-INTERNAL>"
+            "<FLEXRAY-FIFOS>"
+            "<FLEXRAY-FIFO-CONFIGURATION>"
+            "<BASE-CYCLE>1</BASE-CYCLE>"
+            "<FIFO-DEPTH>8</FIFO-DEPTH>"
+            "</FLEXRAY-FIFO-CONFIGURATION>"
+            "</FLEXRAY-FIFOS>"
+            "<KEY-SLOT-ID>1</KEY-SLOT-ID>"
+            "<KEY-SLOT-ONLY-ENABLED>true</KEY-SLOT-ONLY-ENABLED>"
+            "<KEY-SLOT-USED-FOR-START-UP>true</KEY-SLOT-USED-FOR-START-UP>"
+            "<KEY-SLOT-USED-FOR-SYNC>false</KEY-SLOT-USED-FOR-SYNC>"
+            "<LATEST-TX>20</LATEST-TX>"
+            "<LISTEN-TIMEOUT>100</LISTEN-TIMEOUT>"
+            "<MACRO-INITIAL-OFFSET-A>30</MACRO-INITIAL-OFFSET-A>"
+            "<MACRO-INITIAL-OFFSET-B>31</MACRO-INITIAL-OFFSET-B>"
+            "<MAXIMUM-DYNAMIC-PAYLOAD-LENGTH>128</MAXIMUM-DYNAMIC-PAYLOAD-LENGTH>"
+            "<MICRO-INITIAL-OFFSET-A>1</MICRO-INITIAL-OFFSET-A>"
+            "<MICRO-INITIAL-OFFSET-B>2</MICRO-INITIAL-OFFSET-B>"
+            "<MICRO-PER-CYCLE>5000</MICRO-PER-CYCLE>"
+            "<MICROTICK-DURATION>0.00001</MICROTICK-DURATION>"
+            "<NM-VECTOR-EARLY-UPDATE>true</NM-VECTOR-EARLY-UPDATE>"
+            "<OFFSET-CORRECTION-OUT>50</OFFSET-CORRECTION-OUT>"
+            "<RATE-CORRECTION-OUT>60</RATE-CORRECTION-OUT>"
+            "<SAMPLES-PER-MICROTICK>2</SAMPLES-PER-MICROTICK>"
+            "<SECOND-KEY-SLOT-ID>3</SECOND-KEY-SLOT-ID>"
+            "<TWO-KEY-SLOT-MODE>true</TWO-KEY-SLOT-MODE>"
+            "<WAKE-UP-PATTERN>0</WAKE-UP-PATTERN>"
+            "</FLEXRAY-COMMUNICATION-CONTROLLER-CONDITIONAL>"
+            "</FLEXRAY-COMMUNICATION-CONTROLLER-VARIANTS>",
+            root_tag="FLEXRAY-COMMUNICATION-CONTROLLER",
+        )
+        parser.readFlexrayCommunicationController(element, ctrl)
+
+        assert ctrl.getAcceptedStartupRange().getValue() == 10
+        assert ctrl.getAllowHaltDueToClock().getValue() is True
+        assert ctrl.getAllowPassiveToActive().getValue() == 5
+        assert ctrl.getClusterDriftDamping().getValue() == 2
+        assert ctrl.getDecodingCorrection().getValue() == 3
+        assert ctrl.getDelayCompensationA().getValue() == 4
+        assert ctrl.getDelayCompensationB().getValue() == 5
+        assert ctrl.getExternalSync().getValue() is True
+        assert ctrl.getExternOffsetCorrection().getValue() == 6
+        assert ctrl.getExternRateCorrection().getValue() == 7
+        assert ctrl.getFallBackInternal().getValue() is False
+        assert len(ctrl.getFlexrayFifos()) == 1
+        fifo = ctrl.getFlexrayFifos()[0]
+        assert fifo.getBaseCycle().getValue() == 1
+        assert fifo.getFifoDepth().getValue() == 8
+        assert ctrl.getKeySlotID().getValue() == 1
+        assert ctrl.getKeySlotOnlyEnabled().getValue() is True
+        assert ctrl.getKeySlotUsedForStartUp().getValue() is True
+        assert ctrl.getKeySlotUsedForSync().getValue() is False
+        assert ctrl.getLatestTX().getValue() == 20
+        assert ctrl.getListenTimeout().getValue() == 100
+        assert ctrl.getMacroInitialOffsetA().getValue() == 30
+        assert ctrl.getMacroInitialOffsetB().getValue() == 31
+        assert ctrl.getMaximumDynamicPayloadLength().getValue() == 128
+        assert ctrl.getMicroInitialOffsetA().getValue() == 1
+        assert ctrl.getMicroInitialOffsetB().getValue() == 2
+        assert ctrl.getMicroPerCycle().getValue() == 5000
+        assert ctrl.getMicrotickDuration().getValue() == pytest.approx(0.00001)
+        assert ctrl.getNmVectorEarlyUpdate().getValue() is True
+        assert ctrl.getOffsetCorrectionOut().getValue() == 50
+        assert ctrl.getRateCorrectionOut().getValue() == 60
+        assert ctrl.getSamplesPerMicrotick().getValue() == 2
+        assert ctrl.getSecondKeySlotId().getValue() == 3
+        assert ctrl.getTwoKeySlotMode().getValue() is True
+        assert ctrl.getWakeUpPattern().getValue() == 0
+
+    def test_readFlexrayCommunicationController_empty_fifos(self, parser):
+        from armodel.models import EcuInstance, FlexrayCommunicationController
+
+        instance = EcuInstance(parent=_autosar_root(), short_name="ecu")
+        ctrl = FlexrayCommunicationController(parent=instance, short_name="ctrl")
+        element = _snip(
+            "<SHORT-NAME>ctrl</SHORT-NAME>"
+            "<FLEXRAY-COMMUNICATION-CONTROLLER-VARIANTS>"
+            "<FLEXRAY-COMMUNICATION-CONTROLLER-CONDITIONAL>"
+            "<FLEXRAY-FIFOS>"
+            "</FLEXRAY-FIFOS>"
+            "</FLEXRAY-COMMUNICATION-CONTROLLER-CONDITIONAL>"
+            "</FLEXRAY-COMMUNICATION-CONTROLLER-VARIANTS>",
+            root_tag="FLEXRAY-COMMUNICATION-CONTROLLER",
+        )
+        parser.readFlexrayCommunicationController(element, ctrl)
+        assert ctrl.getFlexrayFifos() == []
+
     def test_readEcuInstanceConnectors_can(self, parser):
         from armodel.models import EcuInstance
 

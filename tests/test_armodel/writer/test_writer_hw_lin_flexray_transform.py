@@ -556,9 +556,17 @@ class TestWriterFlexrayCommunicationController:
         controller.setDecodingCorrection(_integer(3))
         controller.setDelayCompensationA(_integer(4))
         controller.setDelayCompensationB(_integer(5))
-        controller.setKeySlotOnlyEnabled(_bool(False))
+        controller.setExternalSync(_bool(True))
+        controller.setExternOffsetCorrection(_integer(6))
+        controller.setExternRateCorrection(_integer(7))
+        controller.setFallBackInternal(_bool(False))
+        fifo = controller.createFlexrayFifo()
+        fifo.setBaseCycle(_integer(1))
+        fifo.setFifoDepth(_integer(8))
+        controller.setKeySlotID(_posint(1))
+        controller.setKeySlotOnlyEnabled(_bool(True))
         controller.setKeySlotUsedForStartUp(_bool(True))
-        controller.setKeySlotUsedForSync(_bool(True))
+        controller.setKeySlotUsedForSync(_bool(False))
         controller.setLatestTX(_integer(20))
         controller.setListenTimeout(_integer(100))
         controller.setMacroInitialOffsetA(_integer(30))
@@ -568,42 +576,66 @@ class TestWriterFlexrayCommunicationController:
         controller.setMicroInitialOffsetB(_integer(2))
         controller.setMicroPerCycle(_integer(5000))
         controller.setMicrotickDuration(_time(0.00001))
+        controller.setNmVectorEarlyUpdate(_bool(True))
         controller.setOffsetCorrectionOut(_integer(50))
         controller.setRateCorrectionOut(_integer(60))
         controller.setSamplesPerMicrotick(_integer(2))
+        controller.setSecondKeySlotId(_posint(3))
+        controller.setTwoKeySlotMode(_bool(True))
         controller.setWakeUpPattern(_integer(0))
         parent = _parent()
         writer.writeFlexrayCommunicationController(parent, controller)
         assert parent[0].tag == "FLEXRAY-COMMUNICATION-CONTROLLER"
         cond = parent[0].find("FLEXRAY-COMMUNICATION-CONTROLLER-VARIANTS").find("FLEXRAY-COMMUNICATION-CONTROLLER-CONDITIONAL")
-        assert cond.find("ACCEPTED-STARTUP-RANGE") is not None
-        assert cond.find("ALLOW-HALT-DUE-TO-CLOCK") is not None
-        assert cond.find("ALLOW-PASSIVE-TO-ACTIVE") is not None
-        assert cond.find("CLUSTER-DRIFT-DAMPING") is not None
-        assert cond.find("DECODING-CORRECTION") is not None
-        assert cond.find("DELAY-COMPENSATION-A") is not None
-        assert cond.find("DELAY-COMPENSATION-B") is not None
-        assert cond.find("KEY-SLOT-ONLY-ENABLED") is not None
-        assert cond.find("KEY-SLOT-USED-FOR-START-UP") is not None
-        assert cond.find("KEY-SLOT-USED-FOR-SYNC") is not None
-        assert cond.find("LATEST-TX") is not None
-        assert cond.find("LISTEN-TIMEOUT") is not None
-        assert cond.find("MACRO-INITIAL-OFFSET-A") is not None
-        assert cond.find("MACRO-INITIAL-OFFSET-B") is not None
-        assert cond.find("MAXIMUM-DYNAMIC-PAYLOAD-LENGTH") is not None
-        assert cond.find("MICRO-INITIAL-OFFSET-A") is not None
-        assert cond.find("MICRO-INITIAL-OFFSET-B") is not None
-        assert cond.find("MICRO-PER-CYCLE") is not None
-        assert cond.find("MICROTICK-DURATION") is not None
-        assert cond.find("OFFSET-CORRECTION-OUT") is not None
-        assert cond.find("RATE-CORRECTION-OUT") is not None
-        assert cond.find("SAMPLES-PER-MICROTICK") is not None
-        assert cond.find("WAKE-UP-PATTERN") is not None
+        assert cond.find("ACCEPTED-STARTUP-RANGE").text == "10"
+        assert cond.find("ALLOW-HALT-DUE-TO-CLOCK").text == "true"
+        assert cond.find("ALLOW-PASSIVE-TO-ACTIVE").text == "5"
+        assert cond.find("CLUSTER-DRIFT-DAMPING").text == "2"
+        assert cond.find("DECODING-CORRECTION").text == "3"
+        assert cond.find("DELAY-COMPENSATION-A").text == "4"
+        assert cond.find("DELAY-COMPENSATION-B").text == "5"
+        assert cond.find("EXTERNAL-SYNC").text == "true"
+        assert cond.find("EXTERN-OFFSET-CORRECTION").text == "6"
+        assert cond.find("EXTERN-RATE-CORRECTION").text == "7"
+        assert cond.find("FALL-BACK-INTERNAL").text == "false"
+        fifo_element = cond.find("FLEXRAY-FIFOS/FLEXRAY-FIFO-CONFIGURATION")
+        assert fifo_element is not None
+        assert fifo_element.find("BASE-CYCLE").text == "1"
+        assert fifo_element.find("FIFO-DEPTH").text == "8"
+        assert cond.find("KEY-SLOT-ID").text == "1"
+        assert cond.find("KEY-SLOT-ONLY-ENABLED").text == "true"
+        assert cond.find("KEY-SLOT-USED-FOR-START-UP").text == "true"
+        assert cond.find("KEY-SLOT-USED-FOR-SYNC").text == "false"
+        assert cond.find("LATEST-TX").text == "20"
+        assert cond.find("LISTEN-TIMEOUT").text == "100"
+        assert cond.find("MACRO-INITIAL-OFFSET-A").text == "30"
+        assert cond.find("MACRO-INITIAL-OFFSET-B").text == "31"
+        assert cond.find("MAXIMUM-DYNAMIC-PAYLOAD-LENGTH").text == "128"
+        assert cond.find("MICRO-INITIAL-OFFSET-A").text == "1"
+        assert cond.find("MICRO-INITIAL-OFFSET-B").text == "2"
+        assert cond.find("MICRO-PER-CYCLE").text == "5000"
+        assert float(cond.find("MICROTICK-DURATION").text) == pytest.approx(0.00001)
+        assert cond.find("NM-VECTOR-EARLY-UPDATE").text == "true"
+        assert cond.find("OFFSET-CORRECTION-OUT").text == "50"
+        assert cond.find("RATE-CORRECTION-OUT").text == "60"
+        assert cond.find("SAMPLES-PER-MICROTICK").text == "2"
+        assert cond.find("SECOND-KEY-SLOT-ID").text == "3"
+        assert cond.find("TWO-KEY-SLOT-MODE").text == "true"
+        assert cond.find("WAKE-UP-PATTERN").text == "0"
 
     def test_writeFlexrayCommunicationController_none(self, writer):
         parent = _parent()
         writer.writeFlexrayCommunicationController(parent, None)
         assert len(parent) == 0
+
+    def test_writeFlexrayCommunicationController_no_fifo_wrapper(self, writer):
+        pkg = _make_pkg()
+        controller = FlexrayCommunicationController(pkg, "FrCtrl")
+        controller.setKeySlotID(_posint(1))
+        parent = _parent()
+        writer.writeFlexrayCommunicationController(parent, controller)
+        cond = parent[0].find("FLEXRAY-COMMUNICATION-CONTROLLER-VARIANTS").find("FLEXRAY-COMMUNICATION-CONTROLLER-CONDITIONAL")
+        assert cond.find("FLEXRAY-FIFOS") is None
 
 
 class TestWriterDataTransformation:

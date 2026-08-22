@@ -99,8 +99,7 @@ class TestFlexrayTopology:
         assert controller == controller.setFallBackInternal(None)
         assert controller.getFallBackInternal() is None
 
-        assert controller == controller.setFlexrayFifos(None)
-        assert controller.getFlexrayFifos() == []  # Should remain empty list when None is passed to setter that expects a value to set
+        assert controller.getFlexrayFifos() == []  # FIFO list starts empty
 
         assert controller == controller.setKeySlotID(None)
         assert controller.getKeySlotID() is None
@@ -179,9 +178,8 @@ class TestFlexrayTopology:
         assert controller.getKeySlotOnlyEnabled() is False
         assert controller == controller.setKeySlotOnlyEnabled(False)
 
-        controller.setFlexrayFifos(["fifo1", "fifo2"])
-        assert "fifo1" in controller.getFlexrayFifos()
-        assert controller == controller.setFlexrayFifos(["fifo1", "fifo2"])
+        fifo = controller.createFlexrayFifo()
+        assert controller.getFlexrayFifos() == [fifo]
 
         # Test all other setter methods with actual values to ensure 100% coverage
         controller.setAllowPassiveToActive(3)

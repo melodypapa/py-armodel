@@ -9179,6 +9179,19 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalIntegerValue(child_element, "OFFSET-CORRECTION-OUT", controller.getOffsetCorrectionOut())
             self.setChildElementOptionalIntegerValue(child_element, "RATE-CORRECTION-OUT", controller.getRateCorrectionOut())
             self.setChildElementOptionalIntegerValue(child_element, "SAMPLES-PER-MICROTICK", controller.getSamplesPerMicrotick())
+            self.setChildElementOptionalIntegerValue(child_element, "EXTERN-OFFSET-CORRECTION", controller.getExternOffsetCorrection())
+            self.setChildElementOptionalIntegerValue(child_element, "EXTERN-RATE-CORRECTION", controller.getExternRateCorrection())
+            self.setChildElementOptionalBooleanValue(child_element, "EXTERNAL-SYNC", controller.getExternalSync())
+            self.setChildElementOptionalBooleanValue(child_element, "FALL-BACK-INTERNAL", controller.getFallBackInternal())
+            fifos = controller.getFlexrayFifos()
+            if len(fifos) > 0:
+                fifos_element = ET.SubElement(child_element, "FLEXRAY-FIFOS")
+                for fifo in fifos:
+                    self.setFlexrayFifoConfiguration(fifos_element, "FLEXRAY-FIFO-CONFIGURATION", fifo)
+            self.setChildElementOptionalIntegerValue(child_element, "KEY-SLOT-ID", controller.getKeySlotID())
+            self.setChildElementOptionalBooleanValue(child_element, "NM-VECTOR-EARLY-UPDATE", controller.getNmVectorEarlyUpdate())
+            self.setChildElementOptionalIntegerValue(child_element, "SECOND-KEY-SLOT-ID", controller.getSecondKeySlotId())
+            self.setChildElementOptionalBooleanValue(child_element, "TWO-KEY-SLOT-MODE", controller.getTwoKeySlotMode())
             self.setChildElementOptionalIntegerValue(child_element, "WAKE-UP-PATTERN", controller.getWakeUpPattern())
 
     def writeDataTransformationTransformerChainRefs(self, element: ET.Element, dtf: DataTransformation):

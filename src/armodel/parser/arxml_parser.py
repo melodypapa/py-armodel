@@ -7156,6 +7156,27 @@ class ARXMLParser(AbstractARXMLParser):
             controller.setOffsetCorrectionOut(self.getChildElementOptionalIntegerValue(child_element, "OFFSET-CORRECTION-OUT"))
             controller.setRateCorrectionOut(self.getChildElementOptionalIntegerValue(child_element, "RATE-CORRECTION-OUT"))
             controller.setSamplesPerMicrotick(self.getChildElementOptionalIntegerValue(child_element, "SAMPLES-PER-MICROTICK"))
+            controller.setExternOffsetCorrection(self.getChildElementOptionalIntegerValue(child_element, "EXTERN-OFFSET-CORRECTION"))
+            controller.setExternRateCorrection(self.getChildElementOptionalIntegerValue(child_element, "EXTERN-RATE-CORRECTION"))
+            controller.setExternalSync(self.getChildElementOptionalBooleanValue(child_element, "EXTERNAL-SYNC"))
+            controller.setFallBackInternal(self.getChildElementOptionalBooleanValue(child_element, "FALL-BACK-INTERNAL"))
+            for fifo_child in self.findall(child_element, "FLEXRAY-FIFOS/FLEXRAY-FIFO-CONFIGURATION"):
+                fifo = controller.createFlexrayFifo()
+                fifo.setAdmitWithoutMessageId(self.getChildElementOptionalBooleanValue(fifo_child, "ADMIT-WITHOUT-MESSAGE-ID"))
+                fifo.setBaseCycle(self.getChildElementOptionalIntegerValue(fifo_child, "BASE-CYCLE"))
+                fifo.setChannelRef(self.getChildElementOptionalRefType(fifo_child, "CHANNEL-REF"))
+                fifo.setCycleRepetition(self.getChildElementOptionalIntegerValue(fifo_child, "CYCLE-REPETITION"))
+                fifo.setFifoDepth(self.getChildElementOptionalIntegerValue(fifo_child, "FIFO-DEPTH"))
+                for range_child in self.findall(fifo_child, "FLEXRAY-FIFO-RANGE"):
+                    fifo_range = fifo.createFlexrayFifoRange()
+                    fifo_range.setRangeMax(self.getChildElementOptionalIntegerValue(range_child, "RANGE-MAX"))
+                    fifo_range.setRangeMin(self.getChildElementOptionalIntegerValue(range_child, "RANGE-MIN"))
+                fifo.setMsgIdMask(self.getChildElementOptionalIntegerValue(fifo_child, "MSG-ID-MASK"))
+                fifo.setMsgIdMatch(self.getChildElementOptionalIntegerValue(fifo_child, "MSG-ID-MATCH"))
+            controller.setKeySlotID(self.getChildElementOptionalIntegerValue(child_element, "KEY-SLOT-ID"))
+            controller.setNmVectorEarlyUpdate(self.getChildElementOptionalBooleanValue(child_element, "NM-VECTOR-EARLY-UPDATE"))
+            controller.setSecondKeySlotId(self.getChildElementOptionalIntegerValue(child_element, "SECOND-KEY-SLOT-ID"))
+            controller.setTwoKeySlotMode(self.getChildElementOptionalBooleanValue(child_element, "TWO-KEY-SLOT-MODE"))
             controller.setWakeUpPattern(self.getChildElementOptionalIntegerValue(child_element, "WAKE-UP-PATTERN"))
 
     def readDataTransformationTransformerChainRefs(self, element: ET.Element, dtf: DataTransformation):
