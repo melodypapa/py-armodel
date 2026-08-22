@@ -731,22 +731,21 @@ class CanControllerXlConfigurationRequirements(ARObject):
 
 
 class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
-    """
-    Abstract base class for CAN communication controller attributes,
-    providing a common foundation for both FD and XL configuration
-    properties of CAN controllers.
-    """
+    """For the configuration of the CanController parameters two different approaches can be used: 1. Providing exact values which are taken by the ECU developer (CanControllerConfiguration). 2. Providing ranges of values which are taken as requirements and have to be respected by the ECU developer (CanControllerConfigurationRequirements)."""
 
     # AbstractCanCommunicationControllerAttributes method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCanControllerFdAttributes [x] impl  [ ] docstring  [ ] test
-    # [ ] setCanControllerFdAttributes [x] impl  [ ] docstring  [ ] test
-    # [ ] getCanControllerFdRequirements [x] impl  [ ] docstring  [ ] test
-    # [ ] setCanControllerFdRequirements [x] impl  [ ] docstring  [ ] test
-    # [ ] getCanControllerXlAttributes [x] impl  [ ] docstring  [ ] test
-    # [ ] setCanControllerXlAttributes [x] impl  [ ] docstring  [ ] test
-    # [ ] getCanControllerXlRequirements [x] impl  [ ] docstring  [ ] test
-    # [ ] setCanControllerXlRequirements [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.13, p.64
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getCanControllerFdAttributes      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCanControllerFdAttributes      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getCanControllerFdRequirements    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCanControllerFdRequirements    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getCanControllerXlAttributes      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCanControllerXlAttributes      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getCanControllerXlRequirements     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCanControllerXlRequirements     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         if type(self) is AbstractCanCommunicationControllerAttributes:
@@ -754,37 +753,60 @@ class AbstractCanCommunicationControllerAttributes(ARObject, ABC):
 
         super().__init__()
 
-        self.canControllerFdAttributes: CanControllerFdConfiguration = None
-        self.canControllerFdRequirements: CanControllerFdConfigurationRequirements = None
-        self.canControllerXlAttributes: CanControllerXlConfiguration = None
-        self.canControllerXlRequirements: CanControllerXlConfigurationRequirements = None
+        # Bit timing related configuration of a CAN controller for payload and CRC of a CanFD frame. If this element exists the controller supports CanFD frames and the ECU developer shall take these values for the configuration of the CanFD controller.
+        self.canControllerFdAttributes: Optional[CanControllerFdConfiguration] = None
 
-    def getCanControllerFdAttributes(self):
+        # Additional CanFD ranges of the bit timing related configuration of a CanFD controller. If this element exists the controller supports CanFD frames and the ECU developer shall take these ranges as requirements for the configuration of the CanFD controller.
+        self.canControllerFdRequirements: Optional[CanControllerFdConfigurationRequirements] = None
+
+        # Bit timing related configuration of a CAN controller for payload and CRC of a CanXL frame. If this element exists the controller supports CanXL frames and the ECU developer shall take these values for the configuration of the CanXL controller.
+        self.canControllerXlAttributes: Optional[CanControllerXlConfiguration] = None
+
+        # Additional CanXL ranges of the bit timing related configuration of a CanXL controller. If this element exists the controller supports CanXL frames and the ECU developer shall take these ranges as requirements for the configuration of the CanXL controller.
+        self.canControllerXlRequirements: Optional[CanControllerXlConfigurationRequirements] = None
+
+    def getCanControllerFdAttributes(self) -> Optional[CanControllerFdConfiguration]:
+        """Bit timing related configuration of a CAN controller for payload and CRC of a CanFD frame. If this element exists the controller supports CanFD frames and the ECU developer shall take these values for the configuration of the CanFD controller."""
         return self.canControllerFdAttributes
 
-    def setCanControllerFdAttributes(self, value):
-        self.canControllerFdAttributes = value
+    def setCanControllerFdAttributes(self, value: Optional[CanControllerFdConfiguration]) -> "AbstractCanCommunicationControllerAttributes":
+        """Bit timing related configuration of a CAN controller for payload and CRC of a CanFD frame. If this element exists the controller supports CanFD frames and the ECU developer shall take these values for the configuration of the CanFD controller.
+        A None value is a no-op and does not overwrite an existing canControllerFdAttributes."""
+        if value is not None:
+            self.canControllerFdAttributes = value
         return self
 
-    def getCanControllerFdRequirements(self):
+    def getCanControllerFdRequirements(self) -> Optional[CanControllerFdConfigurationRequirements]:
+        """Additional CanFD ranges of the bit timing related configuration of a CanFD controller. If this element exists the controller supports CanFD frames and the ECU developer shall take these ranges as requirements for the configuration of the CanFD controller."""
         return self.canControllerFdRequirements
 
-    def setCanControllerFdRequirements(self, value):
-        self.canControllerFdRequirements = value
+    def setCanControllerFdRequirements(self, value: Optional[CanControllerFdConfigurationRequirements]) -> "AbstractCanCommunicationControllerAttributes":
+        """Additional CanFD ranges of the bit timing related configuration of a CanFD controller. If this element exists the controller supports CanFD frames and the ECU developer shall take these ranges as requirements for the configuration of the CanFD controller.
+        A None value is a no-op and does not overwrite an existing canControllerFdRequirements."""
+        if value is not None:
+            self.canControllerFdRequirements = value
         return self
 
-    def getCanControllerXlAttributes(self):
+    def getCanControllerXlAttributes(self) -> Optional[CanControllerXlConfiguration]:
+        """Bit timing related configuration of a CAN controller for payload and CRC of a CanXL frame. If this element exists the controller supports CanXL frames and the ECU developer shall take these values for the configuration of the CanXL controller."""
         return self.canControllerXlAttributes
 
-    def setCanControllerXlAttributes(self, value):
-        self.canControllerXlAttributes = value
+    def setCanControllerXlAttributes(self, value: Optional[CanControllerXlConfiguration]) -> "AbstractCanCommunicationControllerAttributes":
+        """Bit timing related configuration of a CAN controller for payload and CRC of a CanXL frame. If this element exists the controller supports CanXL frames and the ECU developer shall take these values for the configuration of the CanXL controller.
+        A None value is a no-op and does not overwrite an existing canControllerXlAttributes."""
+        if value is not None:
+            self.canControllerXlAttributes = value
         return self
 
-    def getCanControllerXlRequirements(self):
+    def getCanControllerXlRequirements(self) -> Optional[CanControllerXlConfigurationRequirements]:
+        """Additional CanXL ranges of the bit timing related configuration of a CanXL controller. If this element exists the controller supports CanXL frames and the ECU developer shall take these ranges as requirements for the configuration of the CanXL controller."""
         return self.canControllerXlRequirements
 
-    def setCanControllerXlRequirements(self, value):
-        self.canControllerXlRequirements = value
+    def setCanControllerXlRequirements(self, value: Optional[CanControllerXlConfigurationRequirements]) -> "AbstractCanCommunicationControllerAttributes":
+        """Additional CanXL ranges of the bit timing related configuration of a CanXL controller. If this element exists the controller supports CanXL frames and the ECU developer shall take these ranges as requirements for the configuration of the CanXL controller.
+        A None value is a no-op and does not overwrite an existing canControllerXlRequirements."""
+        if value is not None:
+            self.canControllerXlRequirements = value
         return self
 
 

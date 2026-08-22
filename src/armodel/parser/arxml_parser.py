@@ -7920,6 +7920,8 @@ class ARXMLParser(AbstractARXMLParser):
     def readAbstractCanCommunicationControllerAttributes(self, element: ET.Element, attributes: AbstractCanCommunicationControllerAttributes):
         attributes.setCanControllerFdAttributes(self.getCanControllerFdConfiguration(element, "CAN-CONTROLLER-FD-CONFIGURATION"))
         attributes.setCanControllerFdRequirements(self.getCanControllerFdConfigurationRequirements(element, "CAN-CONTROLLER-FD-REQUIREMENTS"))
+        attributes.setCanControllerXlAttributes(self.getCanControllerXlConfiguration(element, "CAN-CONTROLLER-XL-CONFIGURATION"))
+        attributes.setCanControllerXlRequirements(self.getCanControllerXlConfigurationRequirements(element, "CAN-CONTROLLER-XL-REQUIREMENTS"))
 
     def readCanControllerConfigurationRequirements(self, element: ET.Element, requirements: CanControllerConfigurationRequirements):
         self.readAbstractCanCommunicationControllerAttributes(element, requirements)

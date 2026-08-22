@@ -7567,6 +7567,8 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeAbstractCanCommunicationControllerAttributes(self, element: ET.Element, attributes: AbstractCanCommunicationControllerAttributes):
         self.setCanControllerFdConfiguration(element, "CAN-CONTROLLER-FD-CONFIGURATION", attributes.getCanControllerFdAttributes())
         self.setCanControllerFdConfigurationRequirements(element, "CAN-CONTROLLER-FD-REQUIREMENTS", attributes.getCanControllerFdRequirements())
+        self.setCanControllerXlConfiguration(element, "CAN-CONTROLLER-XL-CONFIGURATION", attributes.getCanControllerXlAttributes())
+        self.setCanControllerXlConfigurationRequirements(element, "CAN-CONTROLLER-XL-REQUIREMENTS", attributes.getCanControllerXlRequirements())
 
     def writeCanControllerConfigurationRequirements(self, element: ET.Element, requirements: CanControllerConfigurationRequirements):
         if requirements is not None:

@@ -238,6 +238,52 @@ class TestAbstractCanCommunicationControllerCanControllerAttributes:
         assert any("Unsupported CanControllerAttributes" in rec.getMessage() for rec in caplog.records)
 
 
+# ==================== AbstractCanCommunicationControllerAttributes ====================
+
+
+class TestReadAbstractCanCommunicationControllerAttributes:
+    """readAbstractCanCommunicationControllerAttributes (Table 3.13, R23-11)."""
+
+    def test_reads_xl_attributes(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
+            CanControllerConfigurationRequirements,
+            CanControllerXlConfiguration,
+            CanControllerXlConfigurationRequirements,
+        )
+
+        attributes = CanControllerConfigurationRequirements()
+        element = _snip(
+            "<CAN-CONTROLLER-XL-CONFIGURATION>"
+            "<ERROR-SIGNALING-ENABLED>true</ERROR-SIGNALING-ENABLED>"
+            "<PROP-SEG>4</PROP-SEG>"
+            "<TRCV-PWM-MODE-ENABLED>true</TRCV-PWM-MODE-ENABLED>"
+            "</CAN-CONTROLLER-XL-CONFIGURATION>"
+            "<CAN-CONTROLLER-XL-REQUIREMENTS>"
+            "<ERROR-SIGNALING-ENABLED>false</ERROR-SIGNALING-ENABLED>"
+            "</CAN-CONTROLLER-XL-REQUIREMENTS>"
+        )
+        parser.readAbstractCanCommunicationControllerAttributes(element, attributes)
+        xl = attributes.getCanControllerXlAttributes()
+        assert isinstance(xl, CanControllerXlConfiguration)
+        assert xl.getErrorSignalingEnabled().getValue() is True
+        assert xl.getPropSeg().getValue() == 4
+        assert xl.getTrcvPwmModeEnabled().getValue() is True
+        xl_req = attributes.getCanControllerXlRequirements()
+        assert isinstance(xl_req, CanControllerXlConfigurationRequirements)
+        assert xl_req.getErrorSignalingEnabled().getValue() is False
+
+    def test_missing_xl_attributes_left_none(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
+            CanControllerConfigurationRequirements,
+        )
+
+        attributes = CanControllerConfigurationRequirements()
+        element = _snip("<OTHER/>")
+        parser.readAbstractCanCommunicationControllerAttributes(element, attributes)
+        assert attributes.getCanControllerXlAttributes() is None
+        assert attributes.getCanControllerXlRequirements() is None
+
+
 # ==================== CouplingPortDetailsCouplingPortStructuralElements ====================
 
 

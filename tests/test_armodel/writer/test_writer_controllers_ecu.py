@@ -409,6 +409,39 @@ class TestWriterAbstractCanCommunicationControllerAttributes:
         writer.writeAbstractCanCommunicationControllerAttributes(parent, attrs)
         assert parent.find("CAN-CONTROLLER-FD-REQUIREMENTS") is not None
 
+    def test_writes_xl_attributes(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
+            CanControllerXlConfiguration,
+            CanControllerXlConfigurationRequirements,
+        )
+
+        attrs = CanControllerConfigurationRequirements()
+        xl = CanControllerXlConfiguration()
+        xl.setErrorSignalingEnabled(_bool(True))
+        xl.setPropSeg(_int(4))
+        xl.setSyncJumpWidth(_int(1))
+        xl.setTimeSeg1(_int(13))
+        xl.setTimeSeg2(_int(2))
+        xl.setTrcvPwmModeEnabled(_bool(True))
+        attrs.setCanControllerXlAttributes(xl)
+        xl_req = CanControllerXlConfigurationRequirements()
+        xl_req.setErrorSignalingEnabled(_bool(False))
+        attrs.setCanControllerXlRequirements(xl_req)
+        parent = _parent()
+        writer.writeAbstractCanCommunicationControllerAttributes(parent, attrs)
+
+        xl_el = parent.find("CAN-CONTROLLER-XL-CONFIGURATION")
+        assert xl_el is not None
+        assert xl_el.find("ERROR-SIGNALING-ENABLED").text == "true"
+        assert xl_el.find("PROP-SEG").text == "4"
+        assert xl_el.find("SYNC-JUMP-WIDTH").text == "1"
+        assert xl_el.find("TIME-SEG1").text == "13"
+        assert xl_el.find("TIME-SEG2").text == "2"
+        assert xl_el.find("TRCV-PWM-MODE-ENABLED").text == "true"
+        req_el = parent.find("CAN-CONTROLLER-XL-REQUIREMENTS")
+        assert req_el is not None
+        assert req_el.find("ERROR-SIGNALING-ENABLED").text == "false"
+
 
 class TestWriterCanControllerConfigurationRequirements:
     def test_with_requirements(self, writer):
