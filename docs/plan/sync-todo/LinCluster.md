@@ -21,7 +21,7 @@ Queue order (dependency-first, deepest ancestors first, inputs last):
 | # | Class | Role | Spec | Status |
 |---|-------|------|------|--------|
 | 1 | LinCommunicationController | base (of LinMaster) | Table 3.37, p.93 | [x] done |
-| 2 | LinSlaveConfigIdent | member (LinSlaveConfig.ident) | Table 3.40, p.95 | [ ] pending |
+| 2 | LinSlaveConfigIdent | member (LinSlaveConfig.ident) | Table 3.40, p.95 | [x] done |
 | 3 | LinErrorResponse | member (LinSlaveConfig.linErrorResponse) | Table 3.42, p.97 | [ ] pending |
 | 4 | LinConfigurableFrame | member (LinSlaveConfig.linConfigurableFrame) | Table 3.44, p.99 | [ ] pending |
 | 5 | LinOrderedConfigurableFrame | member (LinSlaveConfig.linOrderedConfigurableFrame) | Table 3.45, p.99 | [ ] pending |
@@ -58,15 +58,15 @@ Known gaps to fix during sync:
 
 ## 2. LinSlaveConfigIdent — Table 3.40, p.95
 
-- [ ] Step 1 — Sync members & description from spec
-- [ ] Step 2 — Write the model class unit test (Red)
-- [ ] Step 3 — Implement the model class (Green)
-- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
-- [ ] Step 5 — Write the reader/writer round-trip test (Red)
-- [ ] Step 6 — Update the parser (reader) & writer (Green)
-- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
-- [ ] Step 8 — Deviations check (referenced classes, placeholders)
-- [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
+- [x] Step 1 — Sync members & description from spec
+- [x] Step 2 — Write the model class unit test (Red)
+- [x] Step 3 — Implement the model class (Green)
+- [x] Step 4 — Sync docstrings (wipe & rewrite from markdown)
+- [x] Step 5 — Write the reader/writer round-trip test (Red)  N/A: no own XML attributes; only aggregation LinSlaveConfig.ident is queued (#6)
+- [x] Step 6 — Update the parser (reader) & writer (Green)  N/A deferred to LinSlaveConfig session
+- [x] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [x] Step 8 — Deviations check (referenced classes, placeholders)
+- [x] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
 
 ## 3. LinErrorResponse — Table 3.42, p.97
 

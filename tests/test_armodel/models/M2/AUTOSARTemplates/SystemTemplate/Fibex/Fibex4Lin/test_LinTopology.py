@@ -13,8 +13,9 @@ from typing import Optional, get_type_hints
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinMaster
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinMaster, LinSlaveConfigIdent
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController
 
 
@@ -85,6 +86,35 @@ class TestLinCommunicationController:
             if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Attribute):
                 annotations[node.target.attr] = ast.unparse(node.annotation)
         assert annotations["protocolVersion"] == "Optional[String]"
+
+
+class TestLinSlaveConfigIdent:
+    """
+    This meta-class is created to add the ability to become the target of a reference to the non-Referrable Lin SlaveConfig.
+    """
+
+    def test_initialization(self):
+        parent = MockParent()
+        ident = LinSlaveConfigIdent(parent, "SlaveConfigIdent")
+
+        assert ident.getShortName() == "SlaveConfigIdent"
+        assert isinstance(ident, Referrable)
+        assert isinstance(ident, ARObject)
+        assert ident.getParent() is parent
+
+    def test_no_own_attributes(self):
+        import ast
+        import inspect
+
+        src = inspect.getsource(sys.modules[LinSlaveConfigIdent.__module__])
+        tree = ast.parse(src)
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "LinSlaveConfigIdent")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        annotations = {}
+        for node in ast.walk(init):
+            if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Attribute):
+                annotations[node.target.attr] = ast.unparse(node.annotation)
+        assert annotations == {}
 
 
 class TestLinTopology:
