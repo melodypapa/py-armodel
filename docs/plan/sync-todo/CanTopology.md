@@ -16,7 +16,7 @@ Created: 2026-08-22
 Member-type classes (CanClusterBusOffRecovery, AbstractCanCommunicationControllerAttributes) exist as model classes — referenced, not synced this pass.
 
 ## Queue (dependency-first)
-- [ ] AbstractCanCluster
+- [x] AbstractCanCluster (feat: 2853390c)
 - [ ] CanCluster
 - [ ] AbstractCanCommunicationController
 - [ ] CanCommunicationController
