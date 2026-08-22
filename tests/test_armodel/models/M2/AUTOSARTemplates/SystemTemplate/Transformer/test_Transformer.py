@@ -4,6 +4,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     BufferProperties,
+    CSTransformerErrorReactionEnum,
     DataIdModeEnum,
     DataTransformation,
     DataTransformationKindEnum,
@@ -504,10 +505,26 @@ class TestTransformer:
         assert enum == enum.setValue(TransformerClassEnum.SERIALIZER)
         assert enum.getValue() == "serializer"
 
+    def test_cs_transformer_error_reaction_enum(self):
+        """
+        Test CSTransformerErrorReactionEnum enum functionality.
+        """
+        enum = CSTransformerErrorReactionEnum()
+
+        # Test that it's properly initialized
+        assert enum is not None
+        assert CSTransformerErrorReactionEnum.APPLICATION_ONLY in enum.getEnumValues()
+        assert CSTransformerErrorReactionEnum.AUTONOMOUS in enum.getEnumValues()
+
+        # Test instantiation with a value
+        enum.setValue(CSTransformerErrorReactionEnum.AUTONOMOUS)
+        assert enum.getValue() == "autonomous"
+
     def test_transformation_isignal_props_abstract(self):
         """
         Test TransformationISignalProps abstract class functionality.
         """
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
         class ConcreteTransformationISignalProps(TransformationISignalProps):
             def __init__(self):
@@ -518,8 +535,10 @@ class TestTransformer:
         # Test default values
         assert props.getCsErrorReaction() is None
         assert props.getDataPrototypeTransformationProps() == []
-        assert props.getIdent() is None
         assert props.getTransformerRef() is None
+
+        # No fabricated ident field
+        assert not hasattr(props, "ident")
 
         # Test setter/getter methods with method chaining - with None values
         assert props == props.setCsErrorReaction(None)
@@ -528,28 +547,23 @@ class TestTransformer:
         assert props == props.setDataPrototypeTransformationProps(None)
         assert props.getDataPrototypeTransformationProps() == []  # Should remain empty list
 
-        assert props == props.setIdent(None)
-        assert props.getIdent() is None
-
         assert props == props.setTransformerRef(None)
         assert props.getTransformerRef() is None
 
         # Test setter/getter methods with method chaining - with actual values
-        props.setCsErrorReaction("error_reaction")
-        assert props.getCsErrorReaction() == "error_reaction"
-        assert props == props.setCsErrorReaction("error_reaction")
+        props.setCsErrorReaction(CSTransformerErrorReactionEnum.APPLICATION_ONLY)
+        assert props.getCsErrorReaction() == CSTransformerErrorReactionEnum.APPLICATION_ONLY
+        assert props == props.setCsErrorReaction(CSTransformerErrorReactionEnum.APPLICATION_ONLY)
 
         props.setDataPrototypeTransformationProps(["prop1", "prop2"])
         assert "prop1" in props.getDataPrototypeTransformationProps()
         assert props == props.setDataPrototypeTransformationProps(["prop1", "prop2"])
 
-        props.setIdent("ident_value")
-        assert props.getIdent() == "ident_value"
-        assert props == props.setIdent("ident_value")
-
-        props.setTransformerRef("transformer_ref")
-        assert props.getTransformerRef() == "transformer_ref"
-        assert props == props.setTransformerRef("transformer_ref")
+        transformer_ref = RefType()
+        transformer_ref.setValue("/Pkg/Transformer")
+        props.setTransformerRef(transformer_ref)
+        assert props.getTransformerRef() == transformer_ref
+        assert props == props.setTransformerRef(transformer_ref)
 
     def test_end_to_end_transformation_isignal_props(self):
         """

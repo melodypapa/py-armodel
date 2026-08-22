@@ -2745,6 +2745,7 @@ class TestReadEndToEndTransformationISignalProps:
             """
             <END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS>
                 <END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL>
+                    <CS-ERROR-REACTION>autonomous</CS-ERROR-REACTION>
                     <TRANSFORMER-REF DEST="TRANSFORMATION-TECHNOLOGY">/trans/Tech1</TRANSFORMER-REF>
                     <DATA-IDS>
                         <DATA-ID>1</DATA-ID>
@@ -2756,6 +2757,7 @@ class TestReadEndToEndTransformationISignalProps:
             root_tag="END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS",
         )
         parser.readEndToEndTransformationISignalProps(element, props)
+        assert props.getCsErrorReaction().getValue() == "autonomous"
         assert props.getTransformerRef() is not None
         assert len(props.getDataIds()) == 1
         assert props.getDataLength() is not None
@@ -2772,6 +2774,7 @@ class TestReadEndToEndTransformationISignalProps:
             root_tag="END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS",
         )
         parser.readEndToEndTransformationISignalProps(element, props)
+        assert props.getCsErrorReaction() is None
         assert props.getTransformerRef() is None
         assert len(props.getDataIds()) == 0
         assert props.getDataLength() is None
@@ -2794,6 +2797,7 @@ class TestReadEndToEndTransformationISignalProps:
             root_tag="END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS",
         )
         parser.readEndToEndTransformationISignalProps(element, props)
+        assert props.getCsErrorReaction() is None
         assert props.getTransformerRef() is not None
         assert len(props.getDataIds()) == 0
         assert props.getDataLength() is None

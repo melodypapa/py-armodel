@@ -174,6 +174,7 @@ class TestWriterEndToEndTransformationISignalPropsDataIds:
 class TestWriterEndToEndTransformationISignalProps:
     def test_full(self, writer):
         props = EndToEndTransformationISignalProps()
+        props.setCsErrorReaction(_literal("autonomous"))
         props.setTransformerRef(_ref("/tr", "TRANSFORMATION-PROPS"))
         props.addDataId(_posint(10))
         props.setDataLength(_posint(64))
@@ -184,6 +185,8 @@ class TestWriterEndToEndTransformationISignalProps:
         assert variants is not None
         cond = variants.find("END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL")
         assert cond is not None
+        assert cond.find("CS-ERROR-REACTION") is not None
+        assert cond.find("CS-ERROR-REACTION").text == "autonomous"
         assert cond.find("TRANSFORMER-REF") is not None
         assert cond.find("DATA-IDS") is not None
         assert cond.find("DATA-LENGTH") is not None

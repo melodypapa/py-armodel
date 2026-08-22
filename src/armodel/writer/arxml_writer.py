@@ -8351,6 +8351,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeTransformationISignalProps(self, element: ET.Element, props: TransformationISignalProps):
         self.writeDescribable(element, props)
+        self.setChildElementOptionalLiteral(element, "CS-ERROR-REACTION", props.getCsErrorReaction())
 
     def writeEndToEndTransformationISignalPropsDataIds(self, element: ET.Element, props: EndToEndTransformationISignalProps):
         ids = props.getDataIds()

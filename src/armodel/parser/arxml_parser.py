@@ -8331,6 +8331,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readTransformationISignalProps(self, element: ET.Element, props: TransformationISignalProps):
         self.readDescribable(element, props)
+        props.setCsErrorReaction(self.getChildElementOptionalLiteral(element, "CS-ERROR-REACTION"))
 
     def readEndToEndTransformationISignalPropsDataIds(self, element: ET.Element, props: EndToEndTransformationISignalProps):
         child_element = self.find(element, "DATA-IDS")

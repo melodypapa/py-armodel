@@ -2389,6 +2389,15 @@ are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IR
 | — *(missing)* | `—` | `dataTransformation` | ``DataTransformation`` | aggr | missing |
 | — *(missing)* | `—` | `transformationTechnology` | ``Transformation Technology`` | aggr | missing |
 
+## `TransformationISignalProps`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 772  | **table:** Table 7.8
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Transformer`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Transformer/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `dataPrototypeTransformationProps` | `List` | `dataPrototypeTransformationProps` | ``DataPrototypeTransformationProps`` | aggr | Rule 0001.10 placeholder (class not yet implemented) |
+
 ## `Collection`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —
 - **Package:** `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ElementCollection`
