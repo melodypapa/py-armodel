@@ -7850,7 +7850,13 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             configuration = CanControllerFdConfiguration()
-            # TODO: need to implemented
+            configuration.setPaddingValue(self.getChildElementOptionalIntegerValue(child_element, "PADDING-VALUE"))
+            configuration.setPropSeg(self.getChildElementOptionalIntegerValue(child_element, "PROP-SEG"))
+            configuration.setSspOffset(self.getChildElementOptionalIntegerValue(child_element, "SSP-OFFSET"))
+            configuration.setSyncJumpWidth(self.getChildElementOptionalIntegerValue(child_element, "SYNC-JUMP-WIDTH"))
+            configuration.setTimeSeg1(self.getChildElementOptionalIntegerValue(child_element, "TIME-SEG1"))
+            configuration.setTimeSeg2(self.getChildElementOptionalIntegerValue(child_element, "TIME-SEG2"))
+            configuration.setTxBitRateSwitch(self.getChildElementOptionalBooleanValue(child_element, "TX-BIT-RATE-SWITCH"))
         return configuration
 
     def getCanControllerFdConfigurationRequirements(self, element: ET.Element, key: str) -> CanControllerFdConfigurationRequirements:

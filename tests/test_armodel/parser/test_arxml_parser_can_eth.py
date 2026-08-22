@@ -39,8 +39,29 @@ class TestCanControllerFdConfiguration:
 
         element = _snip("<CAN-CONTROLLER-FD-CONFIGURATION>" "<PADDING-VALUE>10</PADDING-VALUE>" "</CAN-CONTROLLER-FD-CONFIGURATION>")
         result = parser.getCanControllerFdConfiguration(element, "CAN-CONTROLLER-FD-CONFIGURATION")
-        # Implementation is incomplete (TODO) but still returns an instance.
         assert isinstance(result, CanControllerFdConfiguration)
+
+    def test_sets_all_fields(self, parser):
+        element = _snip(
+            "<CAN-CONTROLLER-FD-CONFIGURATION>"
+            "<PADDING-VALUE>10</PADDING-VALUE>"
+            "<PROP-SEG>4</PROP-SEG>"
+            "<SSP-OFFSET>5</SSP-OFFSET>"
+            "<SYNC-JUMP-WIDTH>1</SYNC-JUMP-WIDTH>"
+            "<TIME-SEG1>13</TIME-SEG1>"
+            "<TIME-SEG2>2</TIME-SEG2>"
+            "<TX-BIT-RATE-SWITCH>true</TX-BIT-RATE-SWITCH>"
+            "</CAN-CONTROLLER-FD-CONFIGURATION>"
+        )
+        result = parser.getCanControllerFdConfiguration(element, "CAN-CONTROLLER-FD-CONFIGURATION")
+        assert result is not None
+        assert result.getPaddingValue().getValue() == 10
+        assert result.getPropSeg().getValue() == 4
+        assert result.getSspOffset().getValue() == 5
+        assert result.getSyncJumpWidth().getValue() == 1
+        assert result.getTimeSeg1().getValue() == 13
+        assert result.getTimeSeg2().getValue() == 2
+        assert result.getTxBitRateSwitch().getValue() is True
 
 
 # ==================== CanControllerFdConfigurationRequirements ====================
