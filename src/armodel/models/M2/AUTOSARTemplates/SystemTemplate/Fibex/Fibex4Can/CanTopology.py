@@ -462,127 +462,271 @@ class CanControllerXlConfiguration(ARObject):
 
 
 class CanControllerXlConfigurationRequirements(ARObject):
-    """
-    Specifies the requirements for CAN XL configuration parameters, defining
-    the acceptable ranges and constraints for timing, bit rate, and other
-    CAN XL communication properties.
-    """
+    """This element allows the specification of ranges for the CAN XL configuration parameters. These ranges are taken as requirements and have to be respected by the ECU developer."""
 
     # CanControllerXlConfigurationRequirements method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getMaxNumberOfTimeQuantaPerBit [x] impl  [ ] docstring  [ ] test
-    # [ ] setMaxNumberOfTimeQuantaPerBit [x] impl  [ ] docstring  [ ] test
-    # [ ] getMaxSamplePoint            [x] impl  [ ] docstring  [ ] test
-    # [ ] setMaxSamplePoint            [x] impl  [ ] docstring  [ ] test
-    # [ ] getMaxSyncJumpWidth          [x] impl  [ ] docstring  [ ] test
-    # [ ] setMaxSyncJumpWidth          [x] impl  [ ] docstring  [ ] test
-    # [ ] getMaxTrcvDelayCompensationOffset [x] impl  [ ] docstring  [ ] test
-    # [ ] setMaxTrcvDelayCompensationOffset [x] impl  [ ] docstring  [ ] test
-    # [ ] getMinNumberOfTimeQuantaPerBit [x] impl  [ ] docstring  [ ] test
-    # [ ] setMinNumberOfTimeQuantaPerBit [x] impl  [ ] docstring  [ ] test
-    # [ ] getMinSamplePoint            [x] impl  [ ] docstring  [ ] test
-    # [ ] setMinSamplePoint            [x] impl  [ ] docstring  [ ] test
-    # [ ] getMinSyncJumpWidth          [x] impl  [ ] docstring  [ ] test
-    # [ ] setMinSyncJumpWidth          [x] impl  [ ] docstring  [ ] test
-    # [ ] getMinTrcvDelayCompensationOffset [x] impl  [ ] docstring  [ ] test
-    # [ ] setMinTrcvDelayCompensationOffset [x] impl  [ ] docstring  [ ] test
-    # [ ] getPaddingValue              [x] impl  [ ] docstring  [ ] test
-    # [ ] setPaddingValue              [x] impl  [ ] docstring  [ ] test
-    # [ ] getXlBitRateSwitch           [x] impl  [ ] docstring  [ ] test
-    # [ ] setXlBitRateSwitch           [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.19, p.72
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getErrorSignalingEnabled           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setErrorSignalingEnabled           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMaxNumberOfTimeQuantaPerBit     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMaxNumberOfTimeQuantaPerBit     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMaxPwmL                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMaxPwmL                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMaxPwmO                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMaxPwmO                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMaxPwmS                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMaxPwmS                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMaxSamplePoint                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMaxSamplePoint                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMaxSyncJumpWidth                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMaxSyncJumpWidth                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMaxTrcvDelayCompensationOffset  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMaxTrcvDelayCompensationOffset  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMinNumberOfTimeQuantaPerBit     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMinNumberOfTimeQuantaPerBit     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMinPwmL                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMinPwmL                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMinPwmO                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMinPwmO                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMinPwmS                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMinPwmS                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMinSamplePoint                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMinSamplePoint                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMinSyncJumpWidth                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMinSyncJumpWidth                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMinTrcvDelayCompensationOffset  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMinTrcvDelayCompensationOffset  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTrcvPwmModeEnabled              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTrcvPwmModeEnabled              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        self.maxNumberOfTimeQuantaPerBit: Integer = None
-        self.maxSamplePoint: Float = None
-        self.maxSyncJumpWidth: Float = None
-        self.maxTrcvDelayCompensationOffset: TimeValue = None
-        self.minNumberOfTimeQuantaPerBit: Integer = None
-        self.minSamplePoint: Float = None
-        self.minSyncJumpWidth: Float = None
-        self.minTrcvDelayCompensationOffset: TimeValue = None
-        self.paddingValue: PositiveInteger = None
-        self.xlBitRateSwitch: Boolean = None
+        # Specifies if error signaling shall be enabled. This is not possible when the transceiver is switched to PWM mode (trcvPwmModeEnabled set to TRUE). TRUE: Error signaling shall be enabled. FALSE: Error signaling shall be disabled.
+        self.errorSignalingEnabled: Optional[Boolean] = None
 
-    def getMaxNumberOfTimeQuantaPerBit(self):
+        # Maximum number of time quanta in the bit time.
+        self.maxNumberOfTimeQuantaPerBit: Optional[Integer] = None
+
+        # Specifies the maximum PWM long phase length.
+        self.maxPwmL: Optional[PositiveInteger] = None
+
+        # Specifies the minimum PWM time offset.
+        self.maxPwmO: Optional[PositiveInteger] = None
+
+        # Specifies the maximum PWM short phase length.
+        self.maxPwmS: Optional[PositiveInteger] = None
+
+        # The max. value of the sample point as a percentage of the total bit time.
+        self.maxSamplePoint: Optional[Float] = None
+
+        # The max. Synchronization Jump Width value as a percentage of the total bit time. The (Re-)Synchronization Jump Width (SJW) defines how far a resynchronization may move the Sample Point inside the limits defined by the Phase Buffer Segments to compensate for edge phase errors.
+        self.maxSyncJumpWidth: Optional[Float] = None
+
+        # Specifies the maximum Transceiver Delay Compensation Offset in seconds. If not specified Transceiver Delay Compensation is disabled.
+        self.maxTrcvDelayCompensationOffset: Optional[TimeValue] = None
+
+        # Minimum number of time quantas in the bit time.
+        self.minNumberOfTimeQuantaPerBit: Optional[Integer] = None
+
+        # Specifies the minimum PWM long phase length.
+        self.minPwmL: Optional[PositiveInteger] = None
+
+        # Specifies the maximum PWM time offset.
+        self.minPwmO: Optional[PositiveInteger] = None
+
+        # Specifies the minimum PWM short phase length.
+        self.minPwmS: Optional[PositiveInteger] = None
+
+        # The min. value of the sample point as a percentage of the total bit time.
+        self.minSamplePoint: Optional[Float] = None
+
+        # The min. Synchronization Jump Width value as a percentage of the total bit time. The (Re-)Synchronization Jump Width (SJW) defines how far a resynchronization may move the Sample Point inside the limits defined by the Phase Buffer Segments to compensate for edge phase errors.
+        self.minSyncJumpWidth: Optional[Float] = None
+
+        # Specifies the minimum Transceiver Delay Compensation Offset in seconds. If not specified Transmitter Delay Compensation is disabled.
+        self.minTrcvDelayCompensationOffset: Optional[TimeValue] = None
+
+        # Specifies if the transceiver shall be set to the PWM mode. TRUE: The transceiver shall be switched to PWM mode. FALSE: The transceiver shall work in classic CAN mode.
+        self.trcvPwmModeEnabled: Optional[Boolean] = None
+
+    def getErrorSignalingEnabled(self) -> Optional[Boolean]:
+        """Specifies if error signaling shall be enabled. This is not possible when the transceiver is switched to PWM mode (trcvPwmModeEnabled set to TRUE). TRUE: Error signaling shall be enabled. FALSE: Error signaling shall be disabled."""
+        return self.errorSignalingEnabled
+
+    def setErrorSignalingEnabled(self, value: Optional[Boolean]) -> "CanControllerXlConfigurationRequirements":
+        """Specifies if error signaling shall be enabled. This is not possible when the transceiver is switched to PWM mode (trcvPwmModeEnabled set to TRUE). TRUE: Error signaling shall be enabled. FALSE: Error signaling shall be disabled.
+        A None value is a no-op and does not overwrite an existing errorSignalingEnabled."""
+        if value is not None:
+            self.errorSignalingEnabled = value
+        return self
+
+    def getMaxNumberOfTimeQuantaPerBit(self) -> Optional[Integer]:
+        """Maximum number of time quanta in the bit time."""
         return self.maxNumberOfTimeQuantaPerBit
 
-    def setMaxNumberOfTimeQuantaPerBit(self, value):
+    def setMaxNumberOfTimeQuantaPerBit(self, value: Optional[Integer]) -> "CanControllerXlConfigurationRequirements":
+        """Maximum number of time quanta in the bit time.
+        A None value is a no-op and does not overwrite an existing maxNumberOfTimeQuantaPerBit."""
         if value is not None:
             self.maxNumberOfTimeQuantaPerBit = value
         return self
 
-    def getMaxSamplePoint(self):
+    def getMaxPwmL(self) -> Optional[PositiveInteger]:
+        """Specifies the maximum PWM long phase length."""
+        return self.maxPwmL
+
+    def setMaxPwmL(self, value: Optional[PositiveInteger]) -> "CanControllerXlConfigurationRequirements":
+        """Specifies the maximum PWM long phase length.
+        A None value is a no-op and does not overwrite an existing maxPwmL."""
+        if value is not None:
+            self.maxPwmL = value
+        return self
+
+    def getMaxPwmO(self) -> Optional[PositiveInteger]:
+        """Specifies the minimum PWM time offset."""
+        return self.maxPwmO
+
+    def setMaxPwmO(self, value: Optional[PositiveInteger]) -> "CanControllerXlConfigurationRequirements":
+        """Specifies the minimum PWM time offset.
+        A None value is a no-op and does not overwrite an existing maxPwmO."""
+        if value is not None:
+            self.maxPwmO = value
+        return self
+
+    def getMaxPwmS(self) -> Optional[PositiveInteger]:
+        """Specifies the maximum PWM short phase length."""
+        return self.maxPwmS
+
+    def setMaxPwmS(self, value: Optional[PositiveInteger]) -> "CanControllerXlConfigurationRequirements":
+        """Specifies the maximum PWM short phase length.
+        A None value is a no-op and does not overwrite an existing maxPwmS."""
+        if value is not None:
+            self.maxPwmS = value
+        return self
+
+    def getMaxSamplePoint(self) -> Optional[Float]:
+        """The max. value of the sample point as a percentage of the total bit time."""
         return self.maxSamplePoint
 
-    def setMaxSamplePoint(self, value):
+    def setMaxSamplePoint(self, value: Optional[Float]) -> "CanControllerXlConfigurationRequirements":
+        """The max. value of the sample point as a percentage of the total bit time.
+        A None value is a no-op and does not overwrite an existing maxSamplePoint."""
         if value is not None:
             self.maxSamplePoint = value
         return self
 
-    def getMaxSyncJumpWidth(self):
+    def getMaxSyncJumpWidth(self) -> Optional[Float]:
+        """The max. Synchronization Jump Width value as a percentage of the total bit time. The (Re-)Synchronization Jump Width (SJW) defines how far a resynchronization may move the Sample Point inside the limits defined by the Phase Buffer Segments to compensate for edge phase errors."""
         return self.maxSyncJumpWidth
 
-    def setMaxSyncJumpWidth(self, value):
+    def setMaxSyncJumpWidth(self, value: Optional[Float]) -> "CanControllerXlConfigurationRequirements":
+        """The max. Synchronization Jump Width value as a percentage of the total bit time. The (Re-)Synchronization Jump Width (SJW) defines how far a resynchronization may move the Sample Point inside the limits defined by the Phase Buffer Segments to compensate for edge phase errors.
+        A None value is a no-op and does not overwrite an existing maxSyncJumpWidth."""
         if value is not None:
             self.maxSyncJumpWidth = value
         return self
 
-    def getMaxTrcvDelayCompensationOffset(self):
+    def getMaxTrcvDelayCompensationOffset(self) -> Optional[TimeValue]:
+        """Specifies the maximum Transceiver Delay Compensation Offset in seconds. If not specified Transceiver Delay Compensation is disabled."""
         return self.maxTrcvDelayCompensationOffset
 
-    def setMaxTrcvDelayCompensationOffset(self, value):
+    def setMaxTrcvDelayCompensationOffset(self, value: Optional[TimeValue]) -> "CanControllerXlConfigurationRequirements":
+        """Specifies the maximum Transceiver Delay Compensation Offset in seconds. If not specified Transceiver Delay Compensation is disabled.
+        A None value is a no-op and does not overwrite an existing maxTrcvDelayCompensationOffset."""
         if value is not None:
             self.maxTrcvDelayCompensationOffset = value
         return self
 
-    def getMinNumberOfTimeQuantaPerBit(self):
+    def getMinNumberOfTimeQuantaPerBit(self) -> Optional[Integer]:
+        """Minimum number of time quantas in the bit time."""
         return self.minNumberOfTimeQuantaPerBit
 
-    def setMinNumberOfTimeQuantaPerBit(self, value):
+    def setMinNumberOfTimeQuantaPerBit(self, value: Optional[Integer]) -> "CanControllerXlConfigurationRequirements":
+        """Minimum number of time quantas in the bit time.
+        A None value is a no-op and does not overwrite an existing minNumberOfTimeQuantaPerBit."""
         if value is not None:
             self.minNumberOfTimeQuantaPerBit = value
         return self
 
-    def getMinSamplePoint(self):
+    def getMinPwmL(self) -> Optional[PositiveInteger]:
+        """Specifies the minimum PWM long phase length."""
+        return self.minPwmL
+
+    def setMinPwmL(self, value: Optional[PositiveInteger]) -> "CanControllerXlConfigurationRequirements":
+        """Specifies the minimum PWM long phase length.
+        A None value is a no-op and does not overwrite an existing minPwmL."""
+        if value is not None:
+            self.minPwmL = value
+        return self
+
+    def getMinPwmO(self) -> Optional[PositiveInteger]:
+        """Specifies the maximum PWM time offset."""
+        return self.minPwmO
+
+    def setMinPwmO(self, value: Optional[PositiveInteger]) -> "CanControllerXlConfigurationRequirements":
+        """Specifies the maximum PWM time offset.
+        A None value is a no-op and does not overwrite an existing minPwmO."""
+        if value is not None:
+            self.minPwmO = value
+        return self
+
+    def getMinPwmS(self) -> Optional[PositiveInteger]:
+        """Specifies the minimum PWM short phase length."""
+        return self.minPwmS
+
+    def setMinPwmS(self, value: Optional[PositiveInteger]) -> "CanControllerXlConfigurationRequirements":
+        """Specifies the minimum PWM short phase length.
+        A None value is a no-op and does not overwrite an existing minPwmS."""
+        if value is not None:
+            self.minPwmS = value
+        return self
+
+    def getMinSamplePoint(self) -> Optional[Float]:
+        """The min. value of the sample point as a percentage of the total bit time."""
         return self.minSamplePoint
 
-    def setMinSamplePoint(self, value):
+    def setMinSamplePoint(self, value: Optional[Float]) -> "CanControllerXlConfigurationRequirements":
+        """The min. value of the sample point as a percentage of the total bit time.
+        A None value is a no-op and does not overwrite an existing minSamplePoint."""
         if value is not None:
             self.minSamplePoint = value
         return self
 
-    def getMinSyncJumpWidth(self):
+    def getMinSyncJumpWidth(self) -> Optional[Float]:
+        """The min. Synchronization Jump Width value as a percentage of the total bit time. The (Re-)Synchronization Jump Width (SJW) defines how far a resynchronization may move the Sample Point inside the limits defined by the Phase Buffer Segments to compensate for edge phase errors."""
         return self.minSyncJumpWidth
 
-    def setMinSyncJumpWidth(self, value):
+    def setMinSyncJumpWidth(self, value: Optional[Float]) -> "CanControllerXlConfigurationRequirements":
+        """The min. Synchronization Jump Width value as a percentage of the total bit time. The (Re-)Synchronization Jump Width (SJW) defines how far a resynchronization may move the Sample Point inside the limits defined by the Phase Buffer Segments to compensate for edge phase errors.
+        A None value is a no-op and does not overwrite an existing minSyncJumpWidth."""
         if value is not None:
             self.minSyncJumpWidth = value
         return self
 
-    def getMinTrcvDelayCompensationOffset(self):
+    def getMinTrcvDelayCompensationOffset(self) -> Optional[TimeValue]:
+        """Specifies the minimum Transceiver Delay Compensation Offset in seconds. If not specified Transmitter Delay Compensation is disabled."""
         return self.minTrcvDelayCompensationOffset
 
-    def setMinTrcvDelayCompensationOffset(self, value):
+    def setMinTrcvDelayCompensationOffset(self, value: Optional[TimeValue]) -> "CanControllerXlConfigurationRequirements":
+        """Specifies the minimum Transceiver Delay Compensation Offset in seconds. If not specified Transmitter Delay Compensation is disabled.
+        A None value is a no-op and does not overwrite an existing minTrcvDelayCompensationOffset."""
         if value is not None:
             self.minTrcvDelayCompensationOffset = value
         return self
 
-    def getPaddingValue(self):
-        return self.paddingValue
+    def getTrcvPwmModeEnabled(self) -> Optional[Boolean]:
+        """Specifies if the transceiver shall be set to the PWM mode. TRUE: The transceiver shall be switched to PWM mode. FALSE: The transceiver shall work in classic CAN mode."""
+        return self.trcvPwmModeEnabled
 
-    def setPaddingValue(self, value):
+    def setTrcvPwmModeEnabled(self, value: Optional[Boolean]) -> "CanControllerXlConfigurationRequirements":
+        """Specifies if the transceiver shall be set to the PWM mode. TRUE: The transceiver shall be switched to PWM mode. FALSE: The transceiver shall work in classic CAN mode.
+        A None value is a no-op and does not overwrite an existing trcvPwmModeEnabled."""
         if value is not None:
-            self.paddingValue = value
-        return self
-
-    def getXlBitRateSwitch(self):
-        return self.xlBitRateSwitch
-
-    def setXlBitRateSwitch(self, value):
-        if value is not None:
-            self.xlBitRateSwitch = value
+            self.trcvPwmModeEnabled = value
         return self
 
 

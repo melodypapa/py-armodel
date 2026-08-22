@@ -350,6 +350,54 @@ class TestWriterSetCanControllerXlConfiguration:
         assert len(parent) == 0
 
 
+class TestWriterSetCanControllerXlConfigurationRequirements:
+    def test_with_requirements(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerXlConfigurationRequirements
+
+        req = CanControllerXlConfigurationRequirements()
+        req.setErrorSignalingEnabled(_bool(True))
+        req.setMaxNumberOfTimeQuantaPerBit(_int(32))
+        req.setMaxPwmL(_int(5))
+        req.setMaxPwmO(_int(6))
+        req.setMaxPwmS(_int(7))
+        req.setMaxSamplePoint(_float(0.8))
+        req.setMaxSyncJumpWidth(_float(0.2))
+        req.setMaxTrcvDelayCompensationOffset(_time(0.001))
+        req.setMinNumberOfTimeQuantaPerBit(_int(16))
+        req.setMinPwmL(_int(3))
+        req.setMinPwmO(_int(4))
+        req.setMinPwmS(_int(5))
+        req.setMinSamplePoint(_float(0.7))
+        req.setMinSyncJumpWidth(_float(0.1))
+        req.setMinTrcvDelayCompensationOffset(_time(0.0005))
+        req.setTrcvPwmModeEnabled(_bool(True))
+        parent = _parent()
+        writer.setCanControllerXlConfigurationRequirements(parent, "CAN-CONTROLLER-XL-CONFIGURATION-REQUIREMENTS", req)
+        assert len(parent) == 1
+        assert parent[0].tag == "CAN-CONTROLLER-XL-CONFIGURATION-REQUIREMENTS"
+        assert parent[0].find("ERROR-SIGNALING-ENABLED") is not None
+        assert parent[0].find("MAX-NUMBER-OF-TIME-QUANTA-PER-BIT") is not None
+        assert parent[0].find("MAX-PWM-L") is not None
+        assert parent[0].find("MAX-PWM-O") is not None
+        assert parent[0].find("MAX-PWM-S") is not None
+        assert parent[0].find("MAX-SAMPLE-POINT") is not None
+        assert parent[0].find("MAX-SYNC-JUMP-WIDTH") is not None
+        assert parent[0].find("MAX-TRCV-DELAY-COMPENSATION-OFFSET") is not None
+        assert parent[0].find("MIN-NUMBER-OF-TIME-QUANTA-PER-BIT") is not None
+        assert parent[0].find("MIN-PWM-L") is not None
+        assert parent[0].find("MIN-PWM-O") is not None
+        assert parent[0].find("MIN-PWM-S") is not None
+        assert parent[0].find("MIN-SAMPLE-POINT") is not None
+        assert parent[0].find("MIN-SYNC-JUMP-WIDTH") is not None
+        assert parent[0].find("MIN-TRCV-DELAY-COMPENSATION-OFFSET") is not None
+        assert parent[0].find("TRCV-PWM-MODE-ENABLED") is not None
+
+    def test_none(self, writer):
+        parent = _parent()
+        writer.setCanControllerXlConfigurationRequirements(parent, "CAN-CONTROLLER-XL-CONFIGURATION-REQUIREMENTS", None)
+        assert len(parent) == 0
+
+
 class TestWriterAbstractCanCommunicationControllerAttributes:
     def test_with_attributes(self, writer):
         attrs = CanControllerConfigurationRequirements()

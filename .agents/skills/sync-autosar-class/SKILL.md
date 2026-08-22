@@ -5,7 +5,7 @@ author: melodypapa
 repository: https://github.com/melodypapa/py-armodel
 license: MIT
 metadata:
-  version: "1.9.1"
+  version: "1.9.2"
   keywords:
     - AUTOSAR
     - model-class
@@ -132,6 +132,22 @@ session** (Rule 0017).
   Step 9's todo completes only after the 9b user confirmation. All 9 completed —
   in the session todos **and** in the file's sub-checklist — is
   a precondition of the per-class commit (Rule 0017.2).
+- **Stop and ask on blockers (Rule 0018.5 — executing-plans discipline).**
+  Each step is executed like a plan task: follow the step procedure exactly,
+  run its verification, check it off — and **stop and ask the user the moment
+  a step cannot proceed honestly by the rules**. Blockers: (a) the spec source
+  itself is conflicted or ambiguous (two divergent tables for the class — e.g.
+  a stale older-release markdown copy colliding with the pinned release — or
+  rows irreconcilable with it); (b) a workflow instruction is unclear or the
+  rules don't cover the situation; (c) the same verification has failed
+  **twice** after genuine fix attempts (e.g. the 9a round-trip still drops the
+  same fields). On a blocker: STOP the step — do not guess, fabric,
+  self-resolve "deterministically", or relax a check — present the evidence
+  and a proposed resolution, and ask. A stop carries evidence + proposal, not
+  an empty "I'm stuck". **Not blockers:** a member type found missing at
+  Step 3 (collect, report at Step 8 — Rule 0001.10); N/A steps; anything the
+  rules fully determine. Blocker stops are exception gates, not routine
+  confirmations — they never substitute for or weaken the 9b gate.
 - **Finish (per class, after 9b):** once the user confirms Step 9b and the
   `# Spec verified:` marker is written — (1) commit the class's changes to the
   current feature branch (model source + mirrored test + parser/writer tests +
@@ -320,6 +336,15 @@ detail: *Rule 0002*.
   the steps exist only in the ephemeral session and vanish on session death. The
   sub-checklist is written at file creation in Phase 0 and flipped per step
   (*Rules 0016.6, 0018.2*).
+- **Self-resolving a spec conflict "deterministically" and proceeding** — two
+  divergent tables for the class (e.g. a stale older-release markdown copy) is a
+  blocker: present both sources + a proposed resolution and get the user's
+  answer first. Surfacing the conflict only at 9b means 9b is certifying a guess
+  about the spec source (*Rule 0018.5*).
+- **"One more fix attempt" on a verification that already failed twice — or
+  relaxing the check to stamp** — two genuine failed fixes = blocker; stop and
+  present evidence + the remaining within-rules options instead
+  (*Rule 0018.5*).
 
 | Rationalization | Reality |
 |---|---|
@@ -338,6 +363,9 @@ detail: *Rule 0002*.
 | "I'll commit everything at the end of the whole sync" | A session death then loses every finished class's work; commit per class, right after 9b (*Rule 0017.2*). |
 | "One todo for the class is enough — or I'll check them all at the end" | The step todos exist to expose a skipped/half-finished step in real time; batch-checking shows progress the work doesn't have. 9 todos, one check per finished step (*Rule 0018*). |
 | "9b re-verifies everything anyway — I'll check off step todos as 'done' when the class finishes" | 9b verifies the class against the rules; step todos verify the workflow was walked. Step 9's todo completes only on 9b confirmation, the others at their own finish (*Rule 0018*). |
+| "The release pin makes the table choice deterministic — no need to ask" | A spec-source collision is the user's call; present both tables + a proposed resolution before proceeding (*Rule 0018.5*). |
+| "I'll surface the conflict at 9b" | 9b certifies a finished class; the conflict decides what gets built — ask when found, not when finished (*Rule 0018.5*). |
+| "One more fix attempt / relax the round-trip so we can stamp" | Two genuine failed fixes = blocker; stop with evidence and options. A relaxed check certifies nothing (*Rule 0018.5*). |
 
 ## References
 
