@@ -1,11 +1,42 @@
 from abc import ABC
-from typing import List
+from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARNumerical, Integer, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering
+
+
+class LinErrorResponse(ARObject):
+    """Each slave node shall publish a one bit signal, named response_error, to the master node in one of its transmitted unconditional frames. The response_error signal shall be set whenever a frame (except for event triggered frame responses) that is transmitted or received by the slave node contains an error in the frame response. The response_error signal shall be cleared when the unconditional frame containing the response_error signal is successfully transmitted."""
+
+    # LinErrorResponse method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.42, p.97
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getResponseErrorRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setResponseErrorRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # This ISignal shall be taken to transport the responseError bit.
+        self.responseErrorRef: Optional[RefType] = None
+
+    def getResponseErrorRef(self) -> Optional[RefType]:
+        """This ISignal shall be taken to transport the responseError bit."""
+        return self.responseErrorRef
+
+    def setResponseErrorRef(self, value: Optional[RefType]) -> "LinErrorResponse":
+        """
+        This ISignal shall be taken to transport the responseError bit.
+        A None value is a no-op and does not overwrite an existing responseErrorRef.
+        """
+        if value is not None:
+            self.responseErrorRef = value
+        return self
 
 
 class LinFrame(Frame, ABC):

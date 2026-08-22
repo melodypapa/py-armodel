@@ -482,7 +482,14 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.Flexr
     FlexrayFifoConfiguration,
     FlexrayFifoRange,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import ApplicationEntry, LinFrameTriggering, LinScheduleTable, LinUnconditionalFrame, ScheduleTableEntry
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import (
+    ApplicationEntry,
+    LinErrorResponse,
+    LinFrameTriggering,
+    LinScheduleTable,
+    LinUnconditionalFrame,
+    ScheduleTableEntry,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinMaster
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, IPduMapping, ISignalMapping, TargetIPduRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
@@ -9069,6 +9076,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeLinCommunicationController(cond_tag, controller)
         self.setChildElementOptionalTimeValue(cond_tag, "TIME-BASE", controller.getTimeBase())
         self.setChildElementOptionalTimeValue(cond_tag, "TIME-BASE-JITTER", controller.getTimeBaseJitter())
+
+    def setLinErrorResponse(self, element: ET.Element, key: str, response: LinErrorResponse):
+        if response is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalRefType(child_element, "RESPONSE-ERROR-REF", response.getResponseErrorRef())
 
     def writeISignalToPduMappings(self, element: ET.Element, parent: ISignalIPdu):
         mappings = parent.getISignalToPduMappings()

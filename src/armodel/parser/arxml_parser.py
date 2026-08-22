@@ -509,7 +509,14 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.Flexr
     FlexrayFifoConfiguration,
     FlexrayFifoRange,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import ApplicationEntry, LinFrameTriggering, LinScheduleTable, LinUnconditionalFrame, ScheduleTableEntry
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import (
+    ApplicationEntry,
+    LinErrorResponse,
+    LinFrameTriggering,
+    LinScheduleTable,
+    LinUnconditionalFrame,
+    ScheduleTableEntry,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinMaster
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, IPduMapping, ISignalMapping, TargetIPduRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
@@ -8104,6 +8111,14 @@ class ARXMLParser(AbstractARXMLParser):
             self.readLinCommunicationController(child_element, controller)
             controller.setTimeBase(self.getChildElementOptionalTimeValue(child_element, "TIME-BASE"))
             controller.setTimeBaseJitter(self.getChildElementOptionalTimeValue(child_element, "TIME-BASE-JITTER"))
+
+    def getLinErrorResponse(self, element: ET.Element, key: str) -> LinErrorResponse:
+        response = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            response = LinErrorResponse()
+            response.setResponseErrorRef(self.getChildElementOptionalRefType(child_element, "RESPONSE-ERROR-REF"))
+        return response
 
     def readEcuInstanceCommControllers(self, element: ET.Element, instance: EcuInstance):
         self.logger.debug("readEcuInstanceCommControllers %s" % instance.getShortName())
