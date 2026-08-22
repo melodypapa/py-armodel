@@ -226,15 +226,28 @@ class DataIdModeEnum(AREnum):
 
 
 class EndToEndProfileBehaviorEnum(AREnum):
+    """
+    Behavior of the check functionality
+    """
 
     # EndToEndProfileBehaviorEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.26, p.808
+    # Spec verified: R23-11
+    # (no methods)
 
+    # Check has the legacy behavior, before AUTOSAR Release 4.2. Tags: atp.EnumerationLiteralIndex=0 xml.name=PRE-R-4-2
     PRE_R4_2 = "PRE_R4_2"
+
+    # Check behaves like new P4/P5/P6 profiles introduced in AUTOSAR Release 4.2. Tags: atp.EnumerationLiteralIndex=1 xml.name=R-4-2
     R4_2 = "R4_2"
 
     def __init__(self):
-        super().__init__([EndToEndProfileBehaviorEnum.PRE_R4_2, EndToEndProfileBehaviorEnum.R4_2])
+        super().__init__(
+            (
+                EndToEndProfileBehaviorEnum.PRE_R4_2,
+                EndToEndProfileBehaviorEnum.R4_2,
+            )
+        )
 
 
 class EndToEndTransformationDescription(TransformationDescription):

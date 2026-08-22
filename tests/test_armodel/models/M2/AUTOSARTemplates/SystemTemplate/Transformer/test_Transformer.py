@@ -167,10 +167,19 @@ class TestTransformer:
         """
         enum = EndToEndProfileBehaviorEnum()
 
-        # Test that it's properly initialized
-        assert enum is not None
-        assert hasattr(enum, "PRE_R4_2")
-        assert hasattr(enum, "R4_2")
+        # Test that it's properly initialized and instantiable
+        assert isinstance(enum, EndToEndProfileBehaviorEnum)
+
+        # Member names and values match the spec Enumeration literals (Table 7.26)
+        assert EndToEndProfileBehaviorEnum.PRE_R4_2 == "PRE_R4_2"
+        assert EndToEndProfileBehaviorEnum.R4_2 == "R4_2"
+
+        # Validated set of allowed values
+        assert list(enum.getEnumValues()) == ["PRE_R4_2", "R4_2"]
+
+        # setValue / getValue round-trip
+        assert enum.setValue(EndToEndProfileBehaviorEnum.R4_2).getValue() == "R4_2"
+        assert enum.setValue(EndToEndProfileBehaviorEnum.PRE_R4_2).getValue() == "PRE_R4_2"
 
     def test_end_to_end_transformation_description(self):
         """

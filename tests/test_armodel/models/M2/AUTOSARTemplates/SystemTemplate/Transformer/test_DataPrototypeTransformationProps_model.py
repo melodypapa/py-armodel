@@ -3,8 +3,8 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
-    DataPrototypeInPortInterfaceRef,
     DataPrototypeInClientServerInterfaceInstanceRef,
+    DataPrototypeInPortInterfaceRef,
     DataPrototypeInSenderReceiverInterfaceInstanceRef,
     DataPrototypeReference,
     DataPrototypeTransformationProps,
@@ -41,7 +41,6 @@ class TestDataPrototypeTransformationProps:
         assert props.getDataPrototypeInPortInterfaceRef() == ref
 
     def test_get_set_network_representation_props(self):
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
         props = DataPrototypeTransformationProps()
         net = SwDataDefProps()
