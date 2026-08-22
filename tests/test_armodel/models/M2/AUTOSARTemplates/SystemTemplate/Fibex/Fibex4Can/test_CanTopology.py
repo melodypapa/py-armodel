@@ -183,216 +183,178 @@ class Test_Fibex4CanTopology:
         assert reqs == reqs.setTxBitRateSwitch(True)  # Test method chaining
 
     def test_CanControllerXlConfiguration(self):
-        """Test CanControllerXlConfiguration class functionality."""
+        """Test CanControllerXlConfiguration class functionality (Table 3.18, R23-11)."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger
+
         config = CanControllerXlConfiguration()
 
         assert isinstance(config, ARObject)
 
         # Test default values
-        assert config.getArbitrationPhaseSeg1() is None
-        assert config.getArbitrationPhaseSeg2() is None
-        assert config.getArbitrationSJW() is None
-        assert config.getDataPhaseSeg1() is None
-        assert config.getDataPhaseSeg2() is None
-        assert config.getDataSJW() is None
-        assert config.getMinArbitrationBitTime() is None
-        assert config.getMinDataBitTime() is None
-        assert config.getPaddingValue() is None
-        assert config.getTimeSeg1Arbitration() is None
-        assert config.getTimeSeg1Data() is None
-        assert config.getTimeSeg2Arbitration() is None
-        assert config.getTimeSeg2Data() is None
-        assert config.getXlBitRateSwitch() is None
+        assert config.getErrorSignalingEnabled() is None
+        assert config.getPropSeg() is None
+        assert config.getPwmL() is None
+        assert config.getPwmO() is None
+        assert config.getPwmS() is None
+        assert config.getSspOffset() is None
+        assert config.getSyncJumpWidth() is None
+        assert config.getTimeSeg1() is None
+        assert config.getTimeSeg2() is None
+        assert config.getTrcvPwmModeEnabled() is None
 
         # Test setter/getter methods with method chaining - with None
-        assert config == config.setArbitrationPhaseSeg1(None)  # Test method chaining with None
-        assert config.getArbitrationPhaseSeg1() is None  # Should remain None
-
-        assert config == config.setArbitrationPhaseSeg2(None)  # Test method chaining with None
-        assert config.getArbitrationPhaseSeg2() is None  # Should remain None
-
-        assert config == config.setArbitrationSJW(None)  # Test method chaining with None
-        assert config.getArbitrationSJW() is None  # Should remain None
-
-        assert config == config.setDataPhaseSeg1(None)  # Test method chaining with None
-        assert config.getDataPhaseSeg1() is None  # Should remain None
-
-        assert config == config.setDataPhaseSeg2(None)  # Test method chaining with None
-        assert config.getDataPhaseSeg2() is None  # Should remain None
-
-        assert config == config.setDataSJW(None)  # Test method chaining with None
-        assert config.getDataSJW() is None  # Should remain None
-
-        assert config == config.setMinArbitrationBitTime(None)  # Test method chaining with None
-        assert config.getMinArbitrationBitTime() is None  # Should remain None
-
-        assert config == config.setMinDataBitTime(None)  # Test method chaining with None
-        assert config.getMinDataBitTime() is None  # Should remain None
-
-        assert config == config.setPaddingValue(None)  # Test method chaining with None
-        assert config.getPaddingValue() is None  # Should remain None
-
-        assert config == config.setTimeSeg1Arbitration(None)  # Test method chaining with None
-        assert config.getTimeSeg1Arbitration() is None  # Should remain None
-
-        assert config == config.setTimeSeg1Data(None)  # Test method chaining with None
-        assert config.getTimeSeg1Data() is None  # Should remain None
-
-        assert config == config.setTimeSeg2Arbitration(None)  # Test method chaining with None
-        assert config.getTimeSeg2Arbitration() is None  # Should remain None
-
-        assert config == config.setTimeSeg2Data(None)  # Test method chaining with None
-        assert config.getTimeSeg2Data() is None  # Should remain None
-
-        assert config == config.setXlBitRateSwitch(None)  # Test method chaining with None
-        assert config.getXlBitRateSwitch() is None  # Should remain None
+        assert config == config.setErrorSignalingEnabled(None)
+        assert config.getErrorSignalingEnabled() is None
+        assert config == config.setPropSeg(None)
+        assert config.getPropSeg() is None
+        assert config == config.setTrcvPwmModeEnabled(None)
+        assert config.getTrcvPwmModeEnabled() is None
 
         # Test setter/getter methods with method chaining - with actual values
-        config.setArbitrationPhaseSeg1(8)
-        assert config.getArbitrationPhaseSeg1() == 8
-        assert config == config.setArbitrationPhaseSeg1(8)  # Test method chaining
+        config.setErrorSignalingEnabled(Boolean().setValue("true"))
+        assert config.getErrorSignalingEnabled().getValue() is True
+        assert config == config.setErrorSignalingEnabled(Boolean().setValue("true"))
 
-        config.setArbitrationPhaseSeg2(6)
-        assert config.getArbitrationPhaseSeg2() == 6
-        assert config == config.setArbitrationPhaseSeg2(6)  # Test method chaining
+        config.setPropSeg(PositiveInteger().setValue("4"))
+        assert config.getPropSeg().getValue() == 4
+        assert config == config.setPropSeg(PositiveInteger().setValue("4"))
 
-        config.setArbitrationSJW(4)
-        assert config.getArbitrationSJW() == 4
-        assert config == config.setArbitrationSJW(4)  # Test method chaining
+        config.setPwmL(PositiveInteger().setValue("5"))
+        assert config.getPwmL().getValue() == 5
+        assert config == config.setPwmL(PositiveInteger().setValue("5"))
 
-        config.setDataPhaseSeg1(10)
-        assert config.getDataPhaseSeg1() == 10
-        assert config == config.setDataPhaseSeg1(10)  # Test method chaining
+        config.setPwmO(PositiveInteger().setValue("6"))
+        assert config.getPwmO().getValue() == 6
+        assert config == config.setPwmO(PositiveInteger().setValue("6"))
 
-        config.setDataPhaseSeg2(8)
-        assert config.getDataPhaseSeg2() == 8
-        assert config == config.setDataPhaseSeg2(8)  # Test method chaining
+        config.setPwmS(PositiveInteger().setValue("7"))
+        assert config.getPwmS().getValue() == 7
+        assert config == config.setPwmS(PositiveInteger().setValue("7"))
 
-        config.setDataSJW(5)
-        assert config.getDataSJW() == 5
-        assert config == config.setDataSJW(5)  # Test method chaining
+        config.setSspOffset(PositiveInteger().setValue("8"))
+        assert config.getSspOffset().getValue() == 8
+        assert config == config.setSspOffset(PositiveInteger().setValue("8"))
 
-        config.setMinArbitrationBitTime(1000)
-        assert config.getMinArbitrationBitTime() == 1000
-        assert config == config.setMinArbitrationBitTime(1000)  # Test method chaining
+        config.setSyncJumpWidth(PositiveInteger().setValue("1"))
+        assert config.getSyncJumpWidth().getValue() == 1
+        assert config == config.setSyncJumpWidth(PositiveInteger().setValue("1"))
 
-        config.setMinDataBitTime(500)
-        assert config.getMinDataBitTime() == 500
-        assert config == config.setMinDataBitTime(500)  # Test method chaining
+        config.setTimeSeg1(PositiveInteger().setValue("13"))
+        assert config.getTimeSeg1().getValue() == 13
+        assert config == config.setTimeSeg1(PositiveInteger().setValue("13"))
 
-        config.setPaddingValue(16)
-        assert config.getPaddingValue() == 16
-        assert config == config.setPaddingValue(16)  # Test method chaining
+        config.setTimeSeg2(PositiveInteger().setValue("2"))
+        assert config.getTimeSeg2().getValue() == 2
+        assert config == config.setTimeSeg2(PositiveInteger().setValue("2"))
 
-        config.setTimeSeg1Arbitration(7)
-        assert config.getTimeSeg1Arbitration() == 7
-        assert config == config.setTimeSeg1Arbitration(7)  # Test method chaining
-
-        config.setTimeSeg1Data(9)
-        assert config.getTimeSeg1Data() == 9
-        assert config == config.setTimeSeg1Data(9)  # Test method chaining
-
-        config.setTimeSeg2Arbitration(5)
-        assert config.getTimeSeg2Arbitration() == 5
-        assert config == config.setTimeSeg2Arbitration(5)  # Test method chaining
-
-        config.setTimeSeg2Data(7)
-        assert config.getTimeSeg2Data() == 7
-        assert config == config.setTimeSeg2Data(7)  # Test method chaining
-
-        config.setXlBitRateSwitch(True)
-        assert config.getXlBitRateSwitch() is True
-        assert config == config.setXlBitRateSwitch(True)  # Test method chaining
+        config.setTrcvPwmModeEnabled(Boolean().setValue("true"))
+        assert config.getTrcvPwmModeEnabled().getValue() is True
+        assert config == config.setTrcvPwmModeEnabled(Boolean().setValue("true"))
 
     def test_CanControllerXlConfigurationRequirements(self):
-        """Test CanControllerXlConfigurationRequirements class functionality."""
+        """Test CanControllerXlConfigurationRequirements class functionality (Table 3.19, R23-11)."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+            Boolean,
+            Float,
+            Integer,
+            PositiveInteger,
+            TimeValue,
+        )
+
         reqs = CanControllerXlConfigurationRequirements()
 
         assert isinstance(reqs, ARObject)
 
         # Test default values
+        assert reqs.getErrorSignalingEnabled() is None
         assert reqs.getMaxNumberOfTimeQuantaPerBit() is None
+        assert reqs.getMaxPwmL() is None
+        assert reqs.getMaxPwmO() is None
+        assert reqs.getMaxPwmS() is None
         assert reqs.getMaxSamplePoint() is None
         assert reqs.getMaxSyncJumpWidth() is None
         assert reqs.getMaxTrcvDelayCompensationOffset() is None
         assert reqs.getMinNumberOfTimeQuantaPerBit() is None
+        assert reqs.getMinPwmL() is None
+        assert reqs.getMinPwmO() is None
+        assert reqs.getMinPwmS() is None
         assert reqs.getMinSamplePoint() is None
         assert reqs.getMinSyncJumpWidth() is None
         assert reqs.getMinTrcvDelayCompensationOffset() is None
-        assert reqs.getPaddingValue() is None
-        assert reqs.getXlBitRateSwitch() is None
+        assert reqs.getTrcvPwmModeEnabled() is None
 
         # Test setter/getter methods with method chaining - with None
-        assert reqs == reqs.setMaxNumberOfTimeQuantaPerBit(None)  # Test method chaining with None
-        assert reqs.getMaxNumberOfTimeQuantaPerBit() is None  # Should remain None
-
-        assert reqs == reqs.setMaxSamplePoint(None)  # Test method chaining with None
-        assert reqs.getMaxSamplePoint() is None  # Should remain None
-
-        assert reqs == reqs.setMaxSyncJumpWidth(None)  # Test method chaining with None
-        assert reqs.getMaxSyncJumpWidth() is None  # Should remain None
-
-        assert reqs == reqs.setMaxTrcvDelayCompensationOffset(None)  # Test method chaining with None
-        assert reqs.getMaxTrcvDelayCompensationOffset() is None  # Should remain None
-
-        assert reqs == reqs.setMinNumberOfTimeQuantaPerBit(None)  # Test method chaining with None
-        assert reqs.getMinNumberOfTimeQuantaPerBit() is None  # Should remain None
-
-        assert reqs == reqs.setMinSamplePoint(None)  # Test method chaining with None
-        assert reqs.getMinSamplePoint() is None  # Should remain None
-
-        assert reqs == reqs.setMinSyncJumpWidth(None)  # Test method chaining with None
-        assert reqs.getMinSyncJumpWidth() is None  # Should remain None
-
-        assert reqs == reqs.setMinTrcvDelayCompensationOffset(None)  # Test method chaining with None
-        assert reqs.getMinTrcvDelayCompensationOffset() is None  # Should remain None
-
-        assert reqs == reqs.setPaddingValue(None)  # Test method chaining with None
-        assert reqs.getPaddingValue() is None  # Should remain None
-
-        assert reqs == reqs.setXlBitRateSwitch(None)  # Test method chaining with None
-        assert reqs.getXlBitRateSwitch() is None  # Should remain None
+        assert reqs == reqs.setErrorSignalingEnabled(None)
+        assert reqs.getErrorSignalingEnabled() is None
+        assert reqs == reqs.setMaxNumberOfTimeQuantaPerBit(None)
+        assert reqs.getMaxNumberOfTimeQuantaPerBit() is None
+        assert reqs == reqs.setTrcvPwmModeEnabled(None)
+        assert reqs.getTrcvPwmModeEnabled() is None
 
         # Test setter/getter methods with method chaining - with actual values
-        reqs.setMaxNumberOfTimeQuantaPerBit(15)
-        assert reqs.getMaxNumberOfTimeQuantaPerBit() == 15
-        assert reqs == reqs.setMaxNumberOfTimeQuantaPerBit(15)  # Test method chaining
+        reqs.setErrorSignalingEnabled(Boolean().setValue("false"))
+        assert reqs.getErrorSignalingEnabled().getValue() is False
+        assert reqs == reqs.setErrorSignalingEnabled(Boolean().setValue("false"))
 
-        reqs.setMaxSamplePoint(0.9)
-        assert reqs.getMaxSamplePoint() == 0.9
-        assert reqs == reqs.setMaxSamplePoint(0.9)  # Test method chaining
+        reqs.setMaxNumberOfTimeQuantaPerBit(Integer().setValue("15"))
+        assert reqs.getMaxNumberOfTimeQuantaPerBit().getValue() == 15
+        assert reqs == reqs.setMaxNumberOfTimeQuantaPerBit(Integer().setValue("15"))
 
-        reqs.setMaxSyncJumpWidth(0.3)
-        assert reqs.getMaxSyncJumpWidth() == 0.3
-        assert reqs == reqs.setMaxSyncJumpWidth(0.3)  # Test method chaining
+        reqs.setMaxPwmL(PositiveInteger().setValue("5"))
+        assert reqs.getMaxPwmL().getValue() == 5
+        assert reqs == reqs.setMaxPwmL(PositiveInteger().setValue("5"))
 
-        reqs.setMaxTrcvDelayCompensationOffset(1500)
-        assert reqs.getMaxTrcvDelayCompensationOffset() == 1500
-        assert reqs == reqs.setMaxTrcvDelayCompensationOffset(1500)  # Test method chaining
+        reqs.setMaxPwmO(PositiveInteger().setValue("6"))
+        assert reqs.getMaxPwmO().getValue() == 6
+        assert reqs == reqs.setMaxPwmO(PositiveInteger().setValue("6"))
 
-        reqs.setMinNumberOfTimeQuantaPerBit(6)
-        assert reqs.getMinNumberOfTimeQuantaPerBit() == 6
-        assert reqs == reqs.setMinNumberOfTimeQuantaPerBit(6)  # Test method chaining
+        reqs.setMaxPwmS(PositiveInteger().setValue("7"))
+        assert reqs.getMaxPwmS().getValue() == 7
+        assert reqs == reqs.setMaxPwmS(PositiveInteger().setValue("7"))
 
-        reqs.setMinSamplePoint(0.3)
-        assert reqs.getMinSamplePoint() == 0.3
-        assert reqs == reqs.setMinSamplePoint(0.3)  # Test method chaining
+        reqs.setMaxSamplePoint(Float().setValue("0.9"))
+        assert reqs.getMaxSamplePoint().getValue() == 0.9
+        assert reqs == reqs.setMaxSamplePoint(Float().setValue("0.9"))
 
-        reqs.setMinSyncJumpWidth(0.05)
-        assert reqs.getMinSyncJumpWidth() == 0.05
-        assert reqs == reqs.setMinSyncJumpWidth(0.05)  # Test method chaining
+        reqs.setMaxSyncJumpWidth(Float().setValue("0.3"))
+        assert reqs.getMaxSyncJumpWidth().getValue() == 0.3
+        assert reqs == reqs.setMaxSyncJumpWidth(Float().setValue("0.3"))
 
-        reqs.setMinTrcvDelayCompensationOffset(750)
-        assert reqs.getMinTrcvDelayCompensationOffset() == 750
-        assert reqs == reqs.setMinTrcvDelayCompensationOffset(750)  # Test method chaining
+        reqs.setMaxTrcvDelayCompensationOffset(TimeValue().setValue("1500"))
+        assert reqs.getMaxTrcvDelayCompensationOffset().getValue() == 1500
+        assert reqs == reqs.setMaxTrcvDelayCompensationOffset(TimeValue().setValue("1500"))
 
-        reqs.setPaddingValue(32)
-        assert reqs.getPaddingValue() == 32
-        assert reqs == reqs.setPaddingValue(32)  # Test method chaining
+        reqs.setMinNumberOfTimeQuantaPerBit(Integer().setValue("6"))
+        assert reqs.getMinNumberOfTimeQuantaPerBit().getValue() == 6
+        assert reqs == reqs.setMinNumberOfTimeQuantaPerBit(Integer().setValue("6"))
 
-        reqs.setXlBitRateSwitch(True)
-        assert reqs.getXlBitRateSwitch() is True
-        assert reqs == reqs.setXlBitRateSwitch(True)  # Test method chaining
+        reqs.setMinPwmL(PositiveInteger().setValue("1"))
+        assert reqs.getMinPwmL().getValue() == 1
+        assert reqs == reqs.setMinPwmL(PositiveInteger().setValue("1"))
+
+        reqs.setMinPwmO(PositiveInteger().setValue("2"))
+        assert reqs.getMinPwmO().getValue() == 2
+        assert reqs == reqs.setMinPwmO(PositiveInteger().setValue("2"))
+
+        reqs.setMinPwmS(PositiveInteger().setValue("3"))
+        assert reqs.getMinPwmS().getValue() == 3
+        assert reqs == reqs.setMinPwmS(PositiveInteger().setValue("3"))
+
+        reqs.setMinSamplePoint(Float().setValue("0.3"))
+        assert reqs.getMinSamplePoint().getValue() == 0.3
+        assert reqs == reqs.setMinSamplePoint(Float().setValue("0.3"))
+
+        reqs.setMinSyncJumpWidth(Float().setValue("0.05"))
+        assert reqs.getMinSyncJumpWidth().getValue() == 0.05
+        assert reqs == reqs.setMinSyncJumpWidth(Float().setValue("0.05"))
+
+        reqs.setMinTrcvDelayCompensationOffset(TimeValue().setValue("750"))
+        assert reqs.getMinTrcvDelayCompensationOffset().getValue() == 750
+        assert reqs == reqs.setMinTrcvDelayCompensationOffset(TimeValue().setValue("750"))
+
+        reqs.setTrcvPwmModeEnabled(Boolean().setValue("true"))
+        assert reqs.getTrcvPwmModeEnabled().getValue() is True
+        assert reqs == reqs.setTrcvPwmModeEnabled(Boolean().setValue("true"))
 
     def test_AbstractCanCommunicationControllerAttributes(self):
         """Test AbstractCanCommunicationControllerAttributes class functionality."""

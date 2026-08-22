@@ -464,6 +464,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     CanControllerConfigurationRequirements,
     CanControllerFdConfiguration,
     CanControllerFdConfigurationRequirements,
+    CanControllerXlConfiguration,
+    CanControllerXlConfigurationRequirements,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SoAdRoutingGroup, SocketConnection, SocketConnectionBundle, SocketConnectionIpduIdentifier
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
@@ -7875,9 +7877,51 @@ class ARXMLParser(AbstractARXMLParser):
             requirements.setTxBitRateSwitch(self.getChildElementOptionalBooleanValue(child_element, "TX-BIT-RATE-SWITCH"))  # NOQA E501
         return requirements
 
+    def getCanControllerXlConfiguration(self, element: ET.Element, key: str) -> CanControllerXlConfiguration:
+        configuration = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            configuration = CanControllerXlConfiguration()
+            configuration.setErrorSignalingEnabled(self.getChildElementOptionalBooleanValue(child_element, "ERROR-SIGNALING-ENABLED"))
+            configuration.setPropSeg(self.getChildElementOptionalIntegerValue(child_element, "PROP-SEG"))
+            configuration.setPwmL(self.getChildElementOptionalIntegerValue(child_element, "PWM-L"))
+            configuration.setPwmO(self.getChildElementOptionalIntegerValue(child_element, "PWM-O"))
+            configuration.setPwmS(self.getChildElementOptionalIntegerValue(child_element, "PWM-S"))
+            configuration.setSspOffset(self.getChildElementOptionalIntegerValue(child_element, "SSP-OFFSET"))
+            configuration.setSyncJumpWidth(self.getChildElementOptionalIntegerValue(child_element, "SYNC-JUMP-WIDTH"))
+            configuration.setTimeSeg1(self.getChildElementOptionalIntegerValue(child_element, "TIME-SEG1"))
+            configuration.setTimeSeg2(self.getChildElementOptionalIntegerValue(child_element, "TIME-SEG2"))
+            configuration.setTrcvPwmModeEnabled(self.getChildElementOptionalBooleanValue(child_element, "TRCV-PWM-MODE-ENABLED"))
+        return configuration
+
+    def getCanControllerXlConfigurationRequirements(self, element: ET.Element, key: str) -> CanControllerXlConfigurationRequirements:
+        requirements = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            requirements = CanControllerXlConfigurationRequirements()
+            requirements.setErrorSignalingEnabled(self.getChildElementOptionalBooleanValue(child_element, "ERROR-SIGNALING-ENABLED"))
+            requirements.setMaxNumberOfTimeQuantaPerBit(self.getChildElementOptionalIntegerValue(child_element, "MAX-NUMBER-OF-TIME-QUANTA-PER-BIT"))
+            requirements.setMaxPwmL(self.getChildElementOptionalIntegerValue(child_element, "MAX-PWM-L"))
+            requirements.setMaxPwmO(self.getChildElementOptionalIntegerValue(child_element, "MAX-PWM-O"))
+            requirements.setMaxPwmS(self.getChildElementOptionalIntegerValue(child_element, "MAX-PWM-S"))
+            requirements.setMaxSamplePoint(self.getChildElementOptionalFloatValue(child_element, "MAX-SAMPLE-POINT"))
+            requirements.setMaxSyncJumpWidth(self.getChildElementOptionalFloatValue(child_element, "MAX-SYNC-JUMP-WIDTH"))
+            requirements.setMaxTrcvDelayCompensationOffset(self.getChildElementOptionalTimeValue(child_element, "MAX-TRCV-DELAY-COMPENSATION-OFFSET"))
+            requirements.setMinNumberOfTimeQuantaPerBit(self.getChildElementOptionalIntegerValue(child_element, "MIN-NUMBER-OF-TIME-QUANTA-PER-BIT"))
+            requirements.setMinPwmL(self.getChildElementOptionalIntegerValue(child_element, "MIN-PWM-L"))
+            requirements.setMinPwmO(self.getChildElementOptionalIntegerValue(child_element, "MIN-PWM-O"))
+            requirements.setMinPwmS(self.getChildElementOptionalIntegerValue(child_element, "MIN-PWM-S"))
+            requirements.setMinSamplePoint(self.getChildElementOptionalFloatValue(child_element, "MIN-SAMPLE-POINT"))
+            requirements.setMinSyncJumpWidth(self.getChildElementOptionalFloatValue(child_element, "MIN-SYNC-JUMP-WIDTH"))
+            requirements.setMinTrcvDelayCompensationOffset(self.getChildElementOptionalTimeValue(child_element, "MIN-TRCV-DELAY-COMPENSATION-OFFSET"))
+            requirements.setTrcvPwmModeEnabled(self.getChildElementOptionalBooleanValue(child_element, "TRCV-PWM-MODE-ENABLED"))
+        return requirements
+
     def readAbstractCanCommunicationControllerAttributes(self, element: ET.Element, attributes: AbstractCanCommunicationControllerAttributes):
         attributes.setCanControllerFdAttributes(self.getCanControllerFdConfiguration(element, "CAN-CONTROLLER-FD-CONFIGURATION"))
         attributes.setCanControllerFdRequirements(self.getCanControllerFdConfigurationRequirements(element, "CAN-CONTROLLER-FD-REQUIREMENTS"))
+        attributes.setCanControllerXlAttributes(self.getCanControllerXlConfiguration(element, "CAN-CONTROLLER-XL-CONFIGURATION"))
+        attributes.setCanControllerXlRequirements(self.getCanControllerXlConfigurationRequirements(element, "CAN-CONTROLLER-XL-REQUIREMENTS"))
 
     def readCanControllerConfigurationRequirements(self, element: ET.Element, requirements: CanControllerConfigurationRequirements):
         self.readAbstractCanCommunicationControllerAttributes(element, requirements)

@@ -102,6 +102,102 @@ class TestCanControllerFdConfigurationRequirements:
         assert result.getTxBitRateSwitch().getValue() is True
 
 
+# ==================== CanControllerXlConfiguration ====================
+
+
+class TestCanControllerXlConfiguration:
+    """getCanControllerXlConfiguration (Table 3.18, R23-11)."""
+
+    def test_returns_none_when_child_absent(self, parser):
+        element = _snip("<OTHER/>")
+        result = parser.getCanControllerXlConfiguration(element, "CAN-CONTROLLER-XL-CONFIGURATION")
+        assert result is None
+
+    def test_sets_all_fields(self, parser):
+        from armodel.models import CanControllerXlConfiguration
+
+        element = _snip(
+            "<CAN-CONTROLLER-XL-CONFIGURATION>"
+            "<ERROR-SIGNALING-ENABLED>true</ERROR-SIGNALING-ENABLED>"
+            "<PROP-SEG>4</PROP-SEG>"
+            "<PWM-L>5</PWM-L>"
+            "<PWM-O>6</PWM-O>"
+            "<PWM-S>7</PWM-S>"
+            "<SSP-OFFSET>8</SSP-OFFSET>"
+            "<SYNC-JUMP-WIDTH>1</SYNC-JUMP-WIDTH>"
+            "<TIME-SEG1>13</TIME-SEG1>"
+            "<TIME-SEG2>2</TIME-SEG2>"
+            "<TRCV-PWM-MODE-ENABLED>true</TRCV-PWM-MODE-ENABLED>"
+            "</CAN-CONTROLLER-XL-CONFIGURATION>"
+        )
+        result = parser.getCanControllerXlConfiguration(element, "CAN-CONTROLLER-XL-CONFIGURATION")
+        assert isinstance(result, CanControllerXlConfiguration)
+        assert result.getErrorSignalingEnabled().getValue() is True
+        assert result.getPropSeg().getValue() == 4
+        assert result.getPwmL().getValue() == 5
+        assert result.getPwmO().getValue() == 6
+        assert result.getPwmS().getValue() == 7
+        assert result.getSspOffset().getValue() == 8
+        assert result.getSyncJumpWidth().getValue() == 1
+        assert result.getTimeSeg1().getValue() == 13
+        assert result.getTimeSeg2().getValue() == 2
+        assert result.getTrcvPwmModeEnabled().getValue() is True
+
+
+# ==================== CanControllerXlConfigurationRequirements ====================
+
+
+class TestCanControllerXlConfigurationRequirements:
+    """getCanControllerXlConfigurationRequirements (Table 3.19, R23-11)."""
+
+    def test_returns_none_when_child_absent(self, parser):
+        element = _snip("<OTHER/>")
+        result = parser.getCanControllerXlConfigurationRequirements(element, "CAN-CONTROLLER-XL-CONFIGURATION-REQUIREMENTS")
+        assert result is None
+
+    def test_sets_all_fields(self, parser):
+        from armodel.models import CanControllerXlConfigurationRequirements
+
+        element = _snip(
+            "<CAN-CONTROLLER-XL-CONFIGURATION-REQUIREMENTS>"
+            "<ERROR-SIGNALING-ENABLED>true</ERROR-SIGNALING-ENABLED>"
+            "<MAX-NUMBER-OF-TIME-QUANTA-PER-BIT>32</MAX-NUMBER-OF-TIME-QUANTA-PER-BIT>"
+            "<MAX-PWM-L>5</MAX-PWM-L>"
+            "<MAX-PWM-O>6</MAX-PWM-O>"
+            "<MAX-PWM-S>7</MAX-PWM-S>"
+            "<MAX-SAMPLE-POINT>0.8</MAX-SAMPLE-POINT>"
+            "<MAX-SYNC-JUMP-WIDTH>0.2</MAX-SYNC-JUMP-WIDTH>"
+            "<MAX-TRCV-DELAY-COMPENSATION-OFFSET>0.001</MAX-TRCV-DELAY-COMPENSATION-OFFSET>"
+            "<MIN-NUMBER-OF-TIME-QUANTA-PER-BIT>16</MIN-NUMBER-OF-TIME-QUANTA-PER-BIT>"
+            "<MIN-PWM-L>3</MIN-PWM-L>"
+            "<MIN-PWM-O>4</MIN-PWM-O>"
+            "<MIN-PWM-S>5</MIN-PWM-S>"
+            "<MIN-SAMPLE-POINT>0.7</MIN-SAMPLE-POINT>"
+            "<MIN-SYNC-JUMP-WIDTH>0.1</MIN-SYNC-JUMP-WIDTH>"
+            "<MIN-TRCV-DELAY-COMPENSATION-OFFSET>0.0005</MIN-TRCV-DELAY-COMPENSATION-OFFSET>"
+            "<TRCV-PWM-MODE-ENABLED>true</TRCV-PWM-MODE-ENABLED>"
+            "</CAN-CONTROLLER-XL-CONFIGURATION-REQUIREMENTS>"
+        )
+        result = parser.getCanControllerXlConfigurationRequirements(element, "CAN-CONTROLLER-XL-CONFIGURATION-REQUIREMENTS")
+        assert isinstance(result, CanControllerXlConfigurationRequirements)
+        assert result.getErrorSignalingEnabled().getValue() is True
+        assert result.getMaxNumberOfTimeQuantaPerBit().getValue() == 32
+        assert result.getMaxPwmL().getValue() == 5
+        assert result.getMaxPwmO().getValue() == 6
+        assert result.getMaxPwmS().getValue() == 7
+        assert result.getMaxSamplePoint().getValue() == 0.8
+        assert result.getMaxSyncJumpWidth().getValue() == 0.2
+        assert result.getMaxTrcvDelayCompensationOffset().getValue() == 0.001
+        assert result.getMinNumberOfTimeQuantaPerBit().getValue() == 16
+        assert result.getMinPwmL().getValue() == 3
+        assert result.getMinPwmO().getValue() == 4
+        assert result.getMinPwmS().getValue() == 5
+        assert result.getMinSamplePoint().getValue() == 0.7
+        assert result.getMinSyncJumpWidth().getValue() == 0.1
+        assert result.getMinTrcvDelayCompensationOffset().getValue() == 0.0005
+        assert result.getTrcvPwmModeEnabled().getValue() is True
+
+
 # ==================== AbstractCanCommunicationControllerCanControllerAttributes ====================
 
 
@@ -140,6 +236,52 @@ class TestAbstractCanCommunicationControllerCanControllerAttributes:
         with caplog.at_level(logging.ERROR):
             warning_parser.readAbstractCanCommunicationControllerCanControllerAttributes(element, controller)
         assert any("Unsupported CanControllerAttributes" in rec.getMessage() for rec in caplog.records)
+
+
+# ==================== AbstractCanCommunicationControllerAttributes ====================
+
+
+class TestReadAbstractCanCommunicationControllerAttributes:
+    """readAbstractCanCommunicationControllerAttributes (Table 3.13, R23-11)."""
+
+    def test_reads_xl_attributes(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
+            CanControllerConfigurationRequirements,
+            CanControllerXlConfiguration,
+            CanControllerXlConfigurationRequirements,
+        )
+
+        attributes = CanControllerConfigurationRequirements()
+        element = _snip(
+            "<CAN-CONTROLLER-XL-CONFIGURATION>"
+            "<ERROR-SIGNALING-ENABLED>true</ERROR-SIGNALING-ENABLED>"
+            "<PROP-SEG>4</PROP-SEG>"
+            "<TRCV-PWM-MODE-ENABLED>true</TRCV-PWM-MODE-ENABLED>"
+            "</CAN-CONTROLLER-XL-CONFIGURATION>"
+            "<CAN-CONTROLLER-XL-REQUIREMENTS>"
+            "<ERROR-SIGNALING-ENABLED>false</ERROR-SIGNALING-ENABLED>"
+            "</CAN-CONTROLLER-XL-REQUIREMENTS>"
+        )
+        parser.readAbstractCanCommunicationControllerAttributes(element, attributes)
+        xl = attributes.getCanControllerXlAttributes()
+        assert isinstance(xl, CanControllerXlConfiguration)
+        assert xl.getErrorSignalingEnabled().getValue() is True
+        assert xl.getPropSeg().getValue() == 4
+        assert xl.getTrcvPwmModeEnabled().getValue() is True
+        xl_req = attributes.getCanControllerXlRequirements()
+        assert isinstance(xl_req, CanControllerXlConfigurationRequirements)
+        assert xl_req.getErrorSignalingEnabled().getValue() is False
+
+    def test_missing_xl_attributes_left_none(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
+            CanControllerConfigurationRequirements,
+        )
+
+        attributes = CanControllerConfigurationRequirements()
+        element = _snip("<OTHER/>")
+        parser.readAbstractCanCommunicationControllerAttributes(element, attributes)
+        assert attributes.getCanControllerXlAttributes() is None
+        assert attributes.getCanControllerXlRequirements() is None
 
 
 # ==================== CouplingPortDetailsCouplingPortStructuralElements ====================
