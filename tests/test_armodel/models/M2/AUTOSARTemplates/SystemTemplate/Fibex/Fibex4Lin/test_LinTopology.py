@@ -14,8 +14,15 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, String
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinConfigurableFrame, LinMaster, LinSlaveConfigIdent
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, PositiveInteger, RefType, String
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import (
+    LinCommunicationConnector,
+    LinCommunicationController,
+    LinConfigurableFrame,
+    LinMaster,
+    LinOrderedConfigurableFrame,
+    LinSlaveConfigIdent,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController
 
 
@@ -264,3 +271,65 @@ class TestLinConfigurableFrame:
                 annotations[node.target.attr] = ast.unparse(node.annotation)
         assert annotations["frameRef"] == "Optional[RefType]"
         assert annotations["messageId"] == "Optional[PositiveInteger]"
+
+
+class TestLinOrderedConfigurableFrame:
+    """
+    With the assignment of the index to a frame a mapping of Pids to Frames is possible. This element shall be used for the LIN 2.1 Assign-Frame-PID-Range command.
+    """
+
+    def test_initialization(self):
+        obj = LinOrderedConfigurableFrame()
+
+        assert isinstance(obj, ARObject)
+        assert obj.parent is None
+        assert obj.getFrameRef() is None
+        assert obj.getIndex() is None
+
+    def test_get_set_frame_ref(self):
+        obj = LinOrderedConfigurableFrame()
+
+        ref = "/System/LinFrame"
+        assert obj == obj.setFrameRef(ref)
+        assert obj.getFrameRef() == ref
+
+        assert obj == obj.setFrameRef(None)
+        assert obj.getFrameRef() == ref
+
+    def test_get_set_index(self):
+        obj = LinOrderedConfigurableFrame()
+
+        assert obj == obj.setIndex(3)
+        assert obj.getIndex() == 3
+
+        assert obj == obj.setIndex(None)
+        assert obj.getIndex() == 3
+
+    def test_type_annotations(self):
+        import ast
+        import inspect
+
+        getter_hints = get_type_hints(LinOrderedConfigurableFrame.getFrameRef)
+        assert getter_hints["return"] == Optional[RefType]
+
+        setter_hints = get_type_hints(LinOrderedConfigurableFrame.setFrameRef)
+        assert setter_hints["value"] == Optional[RefType]
+        assert setter_hints["return"] == LinOrderedConfigurableFrame
+
+        getter_hints = get_type_hints(LinOrderedConfigurableFrame.getIndex)
+        assert getter_hints["return"] == Optional[Integer]
+
+        setter_hints = get_type_hints(LinOrderedConfigurableFrame.setIndex)
+        assert setter_hints["value"] == Optional[Integer]
+        assert setter_hints["return"] == LinOrderedConfigurableFrame
+
+        src = inspect.getsource(sys.modules[LinOrderedConfigurableFrame.__module__])
+        tree = ast.parse(src)
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "LinOrderedConfigurableFrame")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        annotations = {}
+        for node in ast.walk(init):
+            if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Attribute):
+                annotations[node.target.attr] = ast.unparse(node.annotation)
+        assert annotations["frameRef"] == "Optional[RefType]"
+        assert annotations["index"] == "Optional[Integer]"

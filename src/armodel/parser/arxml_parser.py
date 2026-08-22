@@ -517,7 +517,13 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommun
     LinUnconditionalFrame,
     ScheduleTableEntry,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinConfigurableFrame, LinMaster
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import (
+    LinCommunicationConnector,
+    LinCommunicationController,
+    LinConfigurableFrame,
+    LinMaster,
+    LinOrderedConfigurableFrame,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, IPduMapping, ISignalMapping, TargetIPduRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
     ContainedIPduProps,
@@ -8127,6 +8133,15 @@ class ARXMLParser(AbstractARXMLParser):
             frame = LinConfigurableFrame()
             frame.setFrameRef(self.getChildElementOptionalRefType(child_element, "FRAME-REF"))
             frame.setMessageId(self.getChildElementOptionalPositiveInteger(child_element, "MESSAGE-ID"))
+        return frame
+
+    def getLinOrderedConfigurableFrame(self, element: ET.Element, key: str) -> LinOrderedConfigurableFrame:
+        frame = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            frame = LinOrderedConfigurableFrame()
+            frame.setFrameRef(self.getChildElementOptionalRefType(child_element, "FRAME-REF"))
+            frame.setIndex(self.getChildElementOptionalIntegerValue(child_element, "INDEX"))
         return frame
 
     def readEcuInstanceCommControllers(self, element: ET.Element, instance: EcuInstance):

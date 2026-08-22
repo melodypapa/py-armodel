@@ -207,3 +207,52 @@ class LinConfigurableFrame(ARObject):
         if value is not None:
             self.messageId = value
         return self
+
+
+class LinOrderedConfigurableFrame(ARObject):
+    """With the assignment of the index to a frame a mapping of Pids to Frames is possible. This element shall be used for the LIN 2.1 Assign-Frame-PID-Range command."""
+
+    # LinOrderedConfigurableFrame method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.45, p.99
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getFrameRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setFrameRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getIndex                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIndex                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # Reference to a Frame that is processed by the slave node.
+        self.frameRef: Optional[RefType] = None
+
+        # This attribute is used to order the elements and allows an assignment of Pids to ConfigurableFrames that are defined in the slave.
+        self.index: Optional[Integer] = None
+
+    def getFrameRef(self) -> Optional[RefType]:
+        """Reference to a Frame that is processed by the slave node."""
+        return self.frameRef
+
+    def setFrameRef(self, value: Optional[RefType]) -> "LinOrderedConfigurableFrame":
+        """
+        Reference to a Frame that is processed by the slave node.
+        A None value is a no-op and does not overwrite an existing frameRef.
+        """
+        if value is not None:
+            self.frameRef = value
+        return self
+
+    def getIndex(self) -> Optional[Integer]:
+        """This attribute is used to order the elements and allows an assignment of Pids to ConfigurableFrames that are defined in the slave."""
+        return self.index
+
+    def setIndex(self, value: Optional[Integer]) -> "LinOrderedConfigurableFrame":
+        """
+        This attribute is used to order the elements and allows an assignment of Pids to ConfigurableFrames that are defined in the slave.
+        A None value is a no-op and does not overwrite an existing index.
+        """
+        if value is not None:
+            self.index = value
+        return self

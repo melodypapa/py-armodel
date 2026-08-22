@@ -490,7 +490,13 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommun
     LinUnconditionalFrame,
     ScheduleTableEntry,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinConfigurableFrame, LinMaster
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import (
+    LinCommunicationConnector,
+    LinCommunicationController,
+    LinConfigurableFrame,
+    LinMaster,
+    LinOrderedConfigurableFrame,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, IPduMapping, ISignalMapping, TargetIPduRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
     ContainedIPduProps,
@@ -9087,6 +9093,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalRefType(child_element, "FRAME-REF", frame.getFrameRef())
             self.setChildElementOptionalPositiveInteger(child_element, "MESSAGE-ID", frame.getMessageId())
+
+    def setLinOrderedConfigurableFrame(self, element: ET.Element, key: str, frame: LinOrderedConfigurableFrame):
+        if frame is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalRefType(child_element, "FRAME-REF", frame.getFrameRef())
+            self.setChildElementOptionalIntegerValue(child_element, "INDEX", frame.getIndex())
 
     def writeISignalToPduMappings(self, element: ET.Element, parent: ISignalIPdu):
         mappings = parent.getISignalToPduMappings()
