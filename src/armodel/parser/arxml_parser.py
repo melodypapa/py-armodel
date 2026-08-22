@@ -505,6 +505,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommun
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinMaster
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, IPduMapping, ISignalMapping, TargetIPduRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    ContainedIPduProps,
     DcmIPdu,
     DynamicPart,
     DynamicPartAlternative,
@@ -6672,9 +6673,11 @@ class ARXMLParser(AbstractARXMLParser):
     def readISignalToIPduMapping(self, element: ET.Element, mapping: ISignalToIPduMapping):
         self.readIdentifiable(element, mapping)
         mapping.setISignalRef(self.getChildElementOptionalRefType(element, "I-SIGNAL-REF"))
+        mapping.setISignalGroupRef(self.getChildElementOptionalRefType(element, "I-SIGNAL-GROUP-REF"))
         mapping.setPackingByteOrder(self.getChildElementOptionalLiteral(element, "PACKING-BYTE-ORDER"))
         mapping.setStartPosition(self.getChildElementOptionalIntegerValue(element, "START-POSITION"))
         mapping.setTransferProperty(self.getChildElementOptionalLiteral(element, "TRANSFER-PROPERTY"))
+        mapping.setUpdateIndicationBitPosition(self.getChildElementOptionalNumericalValue(element, "UPDATE-INDICATION-BIT-POSITION"))
 
     def readNmPduISignalToIPduMappings(self, element: ET.Element, pdu: NmPdu):
         for child_element in self.findall(element, "I-SIGNAL-TO-I-PDU-MAPPINGS/*"):
@@ -6691,8 +6694,23 @@ class ARXMLParser(AbstractARXMLParser):
         self.readNmPduISignalToIPduMappings(element, pdu)
         pdu.setUnusedBitPattern(self.getChildElementOptionalIntegerValue(element, "UNUSED-BIT-PATTERN"))
 
+    def readContainedIPduProps(self, element: ET.Element) -> ContainedIPduProps:
+        props = None
+        child_element = self.find(element, "CONTAINED-I-PDU-PROPS")
+        if child_element is not None:
+            props = ContainedIPduProps()
+            props.setCollectionSemantics(self.getChildElementOptionalLiteral(child_element, "COLLECTION-SEMANTICS"))
+            props.setHeaderIdLongHeader(self.getChildElementOptionalPositiveInteger(child_element, "HEADER-ID-LONG-HEADER"))
+            props.setHeaderIdShortHeader(self.getChildElementOptionalPositiveInteger(child_element, "HEADER-ID-SHORT-HEADER"))
+            props.setOffset(self.getChildElementOptionalNumericalValue(child_element, "OFFSET"))
+            props.setTimeout(self.getChildElementOptionalNumericalValue(child_element, "TIMEOUT"))
+            props.setTrigger(self.getChildElementOptionalLiteral(child_element, "TRIGGER"))
+            props.setUpdateIndicationBitPosition(self.getChildElementOptionalNumericalValue(child_element, "UPDATE-INDICATION-BIT-POSITION"))
+        return props
+
     def readIPdu(self, element: ET.Element, pdu: IPdu):
         self.readPdu(element, pdu)
+        pdu.setContainedIPduProps(self.readContainedIPduProps(element))
 
     def readNPdu(self, element: ET.Element, pdu: NPdu):
         self.logger.debug("Read NPdu <%s>" % pdu.getShortName())
@@ -7117,6 +7135,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readDataTransformation(self, element: ET.Element, dtf: DataTransformation):
         self.readIdentifiable(element, dtf)
+        dtf.setDataTransformationKind(self.getChildElementOptionalLiteral(element, "DATA-TRANSFORMATION-KIND"))
         dtf.setExecuteDespiteDataUnavailability(self.getChildElementOptionalBooleanValue(element, "EXECUTE-DESPITE-DATA-UNAVAILABILITY"))
         self.readDataTransformationTransformerChainRefs(element, dtf)
 
@@ -8307,11 +8326,12 @@ class ARXMLParser(AbstractARXMLParser):
             group.addISignalRef(ref_type)
 
     def readISignalGroupComBasedSignalGroupTransformation(self, element: ET.Element, group: ISignalGroup):
-        for ref in self.getChildElementRefTypeList(element, "COM-BASED-SIGNAL-GROUP-TRANSFORMATIONS/DATA-TRANSFORMATION-REF-CONDITIONAL/DATA-TRANSFORMATION-REF"):  # noqa E501
-            group.addComBasedSignalGroupTransformationRef(ref)
+        ref = self.getChildElementOptionalRefType(element, "COM-BASED-SIGNAL-GROUP-TRANSFORMATIONS/DATA-TRANSFORMATION-REF-CONDITIONAL/DATA-TRANSFORMATION-REF")
+        group.setComBasedSignalGroupTransformationRef(ref)
 
     def readTransformationISignalProps(self, element: ET.Element, props: TransformationISignalProps):
         self.readDescribable(element, props)
+        props.setCsErrorReaction(self.getChildElementOptionalLiteral(element, "CS-ERROR-REACTION"))
 
     def readEndToEndTransformationISignalPropsDataIds(self, element: ET.Element, props: EndToEndTransformationISignalProps):
         child_element = self.find(element, "DATA-IDS")
@@ -8332,7 +8352,7 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS":
                 props = EndToEndTransformationISignalProps()
                 self.readEndToEndTransformationISignalProps(child_element, props)
-                group.setTransformationISignalProps(props)
+                group.addTransformationISignalProps(props)
             else:
                 self.notImplemented("Unsupported TransformationISignalProps %s" % tag_name)
 
@@ -8354,7 +8374,8 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read SystemSignalGroup <%s>" % group.getShortName())
         self.readIdentifiable(element, group)
         for ref_type in self.getChildElementRefTypeList(element, "SYSTEM-SIGNAL-REFS/SYSTEM-SIGNAL-REF"):
-            group.addSystemSignalRefs(ref_type)
+            group.addSystemSignalRef(ref_type)
+        group.setTransformingSystemSignalRef(self.getChildElementOptionalRefType(element, "TRANSFORMING-SYSTEM-SIGNAL-REF"))
 
     def readSignalServiceTranslationPropsSet(self, element: ET.Element, props_set: SignalServiceTranslationPropsSet):
         self.logger.debug("Read SignalServiceTranslationPropsSet <%s>" % props_set.getShortName())

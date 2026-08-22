@@ -17,6 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     TimeValue,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (  # noqa: E501
+    ContainedIPduProps,
     DcmIPdu,
     ISignalToIPduMapping,
     NmPdu,
@@ -108,9 +109,11 @@ class TestWriteISignalToIPduMapping:
         pkg = _pkg()
         mapping = ISignalToIPduMapping(pkg, "Map")
         mapping.setISignalRef(_ref("I-SIGNAL", "/sigs/s"))
+        mapping.setISignalGroupRef(_ref("I-SIGNAL-GROUP", "/sigs/sg"))
         mapping.setPackingByteOrder(_literal("MOST-SIGNIFICANT-BYTE-LAST"))
         mapping.setStartPosition(_int("0"))
         mapping.setTransferProperty(_literal("TRIGGERED"))
+        mapping.setUpdateIndicationBitPosition(_int("7"))
         parent = _parent()
         writer.writeISignalToIPduMapping(parent, mapping)
         assert len(parent) == 1
@@ -118,9 +121,11 @@ class TestWriteISignalToIPduMapping:
         assert child.tag == "I-SIGNAL-TO-I-PDU-MAPPING"
         assert child.find("SHORT-NAME").text == "Map"
         assert child.find("I-SIGNAL-REF").text == "/sigs/s"
+        assert child.find("I-SIGNAL-GROUP-REF").text == "/sigs/sg"
         assert child.find("PACKING-BYTE-ORDER").text == "MOST-SIGNIFICANT-BYTE-LAST"
         assert child.find("START-POSITION").text == "0"
         assert child.find("TRANSFER-PROPERTY").text == "TRIGGERED"
+        assert child.find("UPDATE-INDICATION-BIT-POSITION").text == "7"
 
 
 class TestWriteNmPduISignalToIPduMappings:
@@ -191,6 +196,35 @@ class TestWriteDcmIPdu:
         assert child.tag == "DCM-I-PDU"
         assert child.find("SHORT-NAME").text == "Dcm"
         assert child.find("DIAG-PDU-TYPE").text == "DIAG-REQUEST"
+
+
+class TestWriteContainedIPduProps:
+    def test_none_props(self, writer):
+        parent = _parent()
+        writer.writeContainedIPduProps(parent, None)
+        assert len(parent) == 0
+
+    def test_full_props(self, writer):
+        props = ContainedIPduProps()
+        props.setCollectionSemantics(_literal("lastIsBest"))
+        props.setHeaderIdLongHeader(_pos_int("100"))
+        props.setHeaderIdShortHeader(_pos_int("50"))
+        props.setOffset(_pos_int("4"))
+        props.setTimeout(_pos_int("10"))
+        props.setTrigger(_literal("onChange"))
+        props.setUpdateIndicationBitPosition(_pos_int("7"))
+        parent = _parent()
+        writer.writeContainedIPduProps(parent, props)
+        assert len(parent) == 1
+        child = parent[0]
+        assert child.tag == "CONTAINED-I-PDU-PROPS"
+        assert child.find("COLLECTION-SEMANTICS").text == "lastIsBest"
+        assert child.find("HEADER-ID-LONG-HEADER").text == "100"
+        assert child.find("HEADER-ID-SHORT-HEADER").text == "50"
+        assert child.find("OFFSET").text == "4"
+        assert child.find("TIMEOUT").text == "10"
+        assert child.find("TRIGGER").text == "onChange"
+        assert child.find("UPDATE-INDICATION-BIT-POSITION").text == "7"
 
 
 class TestSetSecureCommunicationProps:

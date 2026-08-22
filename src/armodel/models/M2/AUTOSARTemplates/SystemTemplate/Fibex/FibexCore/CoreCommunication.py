@@ -218,57 +218,92 @@ class ContainedIPduProps(ARObject):
 
 class ISignalGroup(FibexElement):
     """
-    Defines a group of interaction signals in the communication system,
-    specifying relationships between individual signals and system-level
-    signal groups with transformation properties.
+    SignalGroup of the Interaction Layer. The RTE supports a "signal fan-out" where the same System Signal Group is sent in different SignalIPdus to multiple receivers. An ISignalGroup refers to a set of ISignals that shall always be kept together. A ISignalGroup represents a COM Signal Group. Therefore it is recommended to put the ISignalGroup in the same Package as ISignals (see atp.recommendedPackage) Tags: atp.recommendedPackage=ISignalGroup
     """
 
     # ISignalGroup method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getComBasedSignalGroupTransformationRefs [x] impl  [ ] docstring  [ ] test
-    # [ ] addComBasedSignalGroupTransformationRef [x] impl  [ ] docstring  [ ] test
-    # [ ] getISignalRefs               [x] impl  [ ] docstring  [ ] test
-    # [ ] addISignalRef                [x] impl  [ ] docstring  [ ] test
-    # [ ] getSystemSignalGroupRef      [x] impl  [ ] docstring  [ ] test
-    # [ ] setSystemSignalGroupRef      [x] impl  [ ] docstring  [ ] test
-    # [ ] getTransformationISignalProps [x] impl  [ ] docstring  [ ] test
-    # [ ] setTransformationISignalProps [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.12, p.324
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getComBasedSignalGroupTransformationRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setComBasedSignalGroupTransformationRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getISignalRefs               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addISignalRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSystemSignalGroupRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSystemSignalGroupRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTransformationISignalProps [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addTransformationISignalProps [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.comBasedSignalGroupTransformationRefs: List[RefType] = []
+        # Optional reference to a DataTransformation which represents the transformer chain that is used to transform the data that shall be placed inside this ISignalGroup based on the COMBasedTransformer approach. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=comBasedSignalGroupTransformation.data Transformation, comBasedSignalGroup Transformation.variationPoint.shortLabel vh.latestBindingTime=codeGenerationTime
+        self.comBasedSignalGroupTransformationRef: Optional[RefType] = None
+
+        # Reference to a set of ISignals that shall always be kept together.
         self.iSignalRefs: List[RefType] = []
-        self.systemSignalGroupRef = None
-        self.transformationISignalProps = None
 
-    def getComBasedSignalGroupTransformationRefs(self):
-        return self.comBasedSignalGroupTransformationRefs
+        # Reference to the SystemSignalGroup that is defined on VFB level and that is supposed to be transmitted in the ISignalGroup.
+        self.systemSignalGroupRef: Optional[RefType] = None
 
-    def addComBasedSignalGroupTransformationRef(self, value):
+        # A transformer chain consists of an ordered list of transformers. The ISignalGroup specific configuration properties for each transformer are defined in the TransformationISignalProps class. The transformer configuration properties that are common for all ISignal Groups are described in the TransformationTechnology class. Stereotypes: atpSplitable Tags: atp.Splitkey=transformationISignalProps
+        self.transformationISignalProps: List[TransformationISignalProps] = []
+
+    def getComBasedSignalGroupTransformationRef(self) -> Optional[RefType]:
+        """
+        Optional reference to a DataTransformation which represents the transformer chain that is used to transform the data that shall be placed inside this ISignalGroup based on the COMBasedTransformer approach. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=comBasedSignalGroupTransformation.data Transformation, comBasedSignalGroup Transformation.variationPoint.shortLabel vh.latestBindingTime=codeGenerationTime
+        """
+        return self.comBasedSignalGroupTransformationRef
+
+    def setComBasedSignalGroupTransformationRef(self, value: Optional[RefType]) -> "ISignalGroup":
+        """
+        Optional reference to a DataTransformation which represents the transformer chain that is used to transform the data that shall be placed inside this ISignalGroup based on the COMBasedTransformer approach. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=comBasedSignalGroupTransformation.data Transformation, comBasedSignalGroup Transformation.variationPoint.shortLabel vh.latestBindingTime=codeGenerationTime
+        A None value is a no-op and does not overwrite an existing comBasedSignalGroupTransformationRef.
+        """
         if value is not None:
-            self.comBasedSignalGroupTransformationRefs.append(value)
+            self.comBasedSignalGroupTransformationRef = value
         return self
 
-    def getISignalRefs(self):
+    def getISignalRefs(self) -> List[RefType]:
+        """
+        Reference to a set of ISignals that shall always be kept together.
+        """
         return self.iSignalRefs
 
-    def addISignalRef(self, value):
+    def addISignalRef(self, value: RefType) -> "ISignalGroup":
+        """
+        Reference to a set of ISignals that shall always be kept together.
+        """
         self.iSignalRefs.append(value)
         return self
 
-    def getSystemSignalGroupRef(self):
+    def getSystemSignalGroupRef(self) -> Optional[RefType]:
+        """
+        Reference to the SystemSignalGroup that is defined on VFB level and that is supposed to be transmitted in the ISignalGroup.
+        """
         return self.systemSignalGroupRef
 
-    def setSystemSignalGroupRef(self, value):
-        self.systemSignalGroupRef = value
+    def setSystemSignalGroupRef(self, value: Optional[RefType]) -> "ISignalGroup":
+        """
+        Reference to the SystemSignalGroup that is defined on VFB level and that is supposed to be transmitted in the ISignalGroup.
+        A None value is a no-op and does not overwrite an existing systemSignalGroupRef.
+        """
+        if value is not None:
+            self.systemSignalGroupRef = value
         return self
 
-    def getTransformationISignalProps(self):
+    def getTransformationISignalProps(self) -> List[TransformationISignalProps]:
+        """
+        A transformer chain consists of an ordered list of transformers. The ISignalGroup specific configuration properties for each transformer are defined in the TransformationISignalProps class. The transformer configuration properties that are common for all ISignal Groups are described in the TransformationTechnology class. Stereotypes: atpSplitable Tags: atp.Splitkey=transformationISignalProps
+        """
         return self.transformationISignalProps
 
-    def setTransformationISignalProps(self, value):
-        self.transformationISignalProps = value
+    def addTransformationISignalProps(self, value: TransformationISignalProps) -> "ISignalGroup":
+        """
+        A transformer chain consists of an ordered list of transformers. The ISignalGroup specific configuration properties for each transformer are defined in the TransformationISignalProps class. The transformer configuration properties that are common for all ISignal Groups are described in the TransformationTechnology class. Stereotypes: atpSplitable Tags: atp.Splitkey=transformationISignalProps
+        """
+        self.transformationISignalProps.append(value)
         return self
 
 
@@ -397,15 +432,16 @@ class Pdu(FibexElement, ABC):
 
 class IPdu(Pdu, ABC):
     """
-    Abstract base class for Interaction Protocol Data Units (IPDUs),
-    extending the PDU class with contained IPDU properties for
-    interaction-based communication.
+    The IPdu (Interaction Layer Protocol Data Unit) element is used to sum up all Pdus that are routed by the PduR.
     """
 
     # IPdu method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getContainedIPduProps        [x] impl  [ ] docstring  [ ] test
-    # [ ] setContainedIPduProps        [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.18, p.341
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getContainedIPduProps     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setContainedIPduProps     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is IPdu:
@@ -413,12 +449,20 @@ class IPdu(Pdu, ABC):
 
         super().__init__(parent, short_name)
 
-        self.containedIPduProps: ContainedIPduProps = None
+        # Defines whether this IPdu may be collected inside a ContainerIPdu.
+        self.containedIPduProps: Optional[ContainedIPduProps] = None
 
-    def getContainedIPduProps(self):
+    def getContainedIPduProps(self) -> Optional[ContainedIPduProps]:
+        """
+        Defines whether this IPdu may be collected inside a ContainerIPdu.
+        """
         return self.containedIPduProps
 
-    def setContainedIPduProps(self, value):
+    def setContainedIPduProps(self, value: Optional[ContainedIPduProps]) -> "IPdu":
+        """
+        Defines whether this IPdu may be collected inside a ContainerIPdu.
+        A None value is a no-op and does not overwrite an existing containedIPduProps.
+        """
         if value is not None:
             self.containedIPduProps = value
         return self
@@ -754,78 +798,174 @@ class SecuredIPdu(IPdu):
         return self
 
 
+class TransferPropertyEnum(AREnum):
+    """
+    Transfer Properties of a Signal.
+    """
+
+    # TransferPropertyEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.15, p.327
+    # (no methods)
+
+    # If the signal has the TransferProperty pending, then the function Com_SendSignal shall not perform a transmission of the IPdu associated with the signal. Tags: atp.EnumerationLiteralIndex=0
+    PENDING = "pending"
+
+    # The signal in the assigned IPdu is updated and a request for the IPdu's transmission is made. Tags: atp.EnumerationLiteralIndex=1
+    TRIGGERED = "triggered"
+
+    # The signal in the assigned IPdu is updated and a request for the IPdus transmission is made only if the signal value is different from the already stored signal value. Tags: atp.EnumerationLiteralIndex=2
+    TRIGGERED_ON_CHANGE = "triggeredOnChange"
+
+    # The signal in the assigned IPdu is updated and a request for the IPdus transmission is made only if the signal value is different from the already stored signal value. In the DIRECT/N-TIMES or MIXED transmission mode (EventControlledTiming) the IPdu will be transmitted just once without a repetition, independent of the defined NumberOfRepeats. Tags: atp.EnumerationLiteralIndex=3
+    TRIGGERED_ON_CHANGE_WITHOUT_REPETITION = "triggeredOnChangeWithoutRepetition"
+
+    # The signal in the assigned IPdu is updated and a request for the IPdu's transmission is made. In the DIRECT/N-TIMES or MIXED transmission mode (EventControlledTiming) the IPdu will be transmitted just once without a repetition, independent of the defined NumberOfRepeats. Tags: atp.EnumerationLiteralIndex=4
+    TRIGGERED_WITHOUT_REPETITION = "triggeredWithoutRepetition"
+
+    def __init__(self):
+        super().__init__(
+            (
+                TransferPropertyEnum.PENDING,
+                TransferPropertyEnum.TRIGGERED,
+                TransferPropertyEnum.TRIGGERED_ON_CHANGE,
+                TransferPropertyEnum.TRIGGERED_ON_CHANGE_WITHOUT_REPETITION,
+                TransferPropertyEnum.TRIGGERED_WITHOUT_REPETITION,
+            )
+        )
+
+
 class ISignalToIPduMapping(Identifiable):
     """
-    Defines the mapping between interaction signals and Interaction Protocol Data Units (IPDUs),
-    specifying signal references, byte order, start position, transfer
-    properties, and update indication bit position.
+    An ISignalToIPduMapping describes the mapping of ISignals to ISignalIPdus and defines the position of the ISignal within an ISignalIPdu.
     """
 
     # ISignalToIPduMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getISignalRef                [x] impl  [ ] docstring  [ ] test
-    # [ ] setISignalRef                [x] impl  [ ] docstring  [ ] test
-    # [ ] getISignalGroupRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] setISignalGroupRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] getPackingByteOrder          [x] impl  [ ] docstring  [ ] test
-    # [ ] setPackingByteOrder          [x] impl  [ ] docstring  [ ] test
-    # [ ] getStartPosition             [x] impl  [ ] docstring  [ ] test
-    # [ ] setStartPosition             [x] impl  [ ] docstring  [ ] test
-    # [ ] getTransferProperty          [x] impl  [ ] docstring  [ ] test
-    # [ ] setTransferProperty          [x] impl  [ ] docstring  [ ] test
-    # [ ] getUpdateIndicationBitPosition [x] impl  [ ] docstring  [ ] test
-    # [ ] setUpdateIndicationBitPosition [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.14, p.326
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getISignalRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setISignalRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getISignalGroupRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setISignalGroupRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPackingByteOrder          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPackingByteOrder          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getStartPosition             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setStartPosition             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTransferProperty          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTransferProperty          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getUpdateIndicationBitPosition [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setUpdateIndicationBitPosition [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.iSignalRef: RefType = None
-        self.iSignalGroupRef: RefType = None
-        self.packingByteOrder: ByteOrderEnum = None
-        self.startPosition: UnlimitedInteger = None
-        self.transferProperty = None
-        self.updateIndicationBitPosition: UnlimitedInteger = None
+        # Reference to a ISignal that is mapped into the ISignal IPdu. Each ISignal contained in the ISignalGroup shall be mapped into an IPdu by an own ISignalToIPduMapping. The references to the ISignal and to the ISignalGroup in an ISignalToIPduMapping are mutually exclusive.
+        self.iSignalRef: Optional[RefType] = None
 
-    def getISignalRef(self):
+        # Reference to an ISignalGroup that is mapped into the SignalIPdu. If an ISignalToIPduMapping for an ISignal Group is defined, only the UpdateIndicationBitPosition and the transferProperty is relevant. The startPosition and the packingByteOrder shall be ignored. Each ISignal contained in the ISignalGroup shall be mapped into an IPdu by an own ISignalToIPduMapping. The references to the ISignal and to the ISignalGroup in an ISignalToIPduMapping are mutually exclusive.
+        self.iSignalGroupRef: Optional[RefType] = None
+
+        # This parameter defines the order of the bytes of the signal and the packing into the SignalIPdu. The byte ordering "Little Endian" (MostSignificantByteLast), "Big Endian" (MostSignificantByteFirst) and "Opaque" can be selected. For opaque data endianness conversion shall be configured to Opaque. The value of this attribute impacts the absolute position of the signal into the SignalIPdu (see the startPosition attribute description). For an ISignalGroup the packingByteOrder is irrelevant and shall be ignored.
+        self.packingByteOrder: Optional[ByteOrderEnum] = None
+
+        # This parameter is necessary to describe the bitposition of a signal within an SignalIPdu. It denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian" packed signals within the IPdu (see the description of the packingByteOrder attribute). In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7. Please note that the way the bytes will be actually sent on the bus does not impact this representation: they will always be seen by the software as a byte array. If a mapping for the ISignalGroup is defined, this attribute is irrelevant and shall be ignored.
+        self.startPosition: Optional[UnlimitedInteger] = None
+
+        # Defines how the referenced ISignal contributes to the send triggering of the ISignalIPdu.
+        self.transferProperty: Optional[TransferPropertyEnum] = None
+
+        # The UpdateIndicationBit indicates to the receivers that the signal (or the signal group) was updated by the sender. Length is always one bit. The UpdateIndicationBitPosition attribute describes the position of the update bit within the SignalIPdu. For Signals of a ISignalGroup this attribute is irrelevant and shall be ignored. Note that the exact bit position of the updateIndicationBitPosition is linked to the value of the attribute packingByteOrder because the method of finding the bit position is different for the values mostSignificantByteFirst and mostSignificantByteLast. This means that if the value of packingByteOrder is changed while the value of updateIndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing ISignalIPdu still undergoes a change. This attribute denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian" packed signals within the IPdu (see the description of the packingByteOrder attribute). In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7.
+        self.updateIndicationBitPosition: Optional[UnlimitedInteger] = None
+
+    def getISignalRef(self) -> Optional[RefType]:
+        """
+        Reference to a ISignal that is mapped into the ISignal IPdu. Each ISignal contained in the ISignalGroup shall be mapped into an IPdu by an own ISignalToIPduMapping. The references to the ISignal and to the ISignalGroup in an ISignalToIPduMapping are mutually exclusive.
+        """
         return self.iSignalRef
 
-    def setISignalRef(self, value):
-        self.iSignalRef = value
+    def setISignalRef(self, value: Optional[RefType]) -> "ISignalToIPduMapping":
+        """
+        Reference to a ISignal that is mapped into the ISignal IPdu. Each ISignal contained in the ISignalGroup shall be mapped into an IPdu by an own ISignalToIPduMapping. The references to the ISignal and to the ISignalGroup in an ISignalToIPduMapping are mutually exclusive.
+        A None value is a no-op and does not overwrite an existing iSignalRef.
+        """
+        if value is not None:
+            self.iSignalRef = value
         return self
 
-    def getISignalGroupRef(self):
+    def getISignalGroupRef(self) -> Optional[RefType]:
+        """
+        Reference to an ISignalGroup that is mapped into the SignalIPdu. If an ISignalToIPduMapping for an ISignal Group is defined, only the UpdateIndicationBitPosition and the transferProperty is relevant. The startPosition and the packingByteOrder shall be ignored. Each ISignal contained in the ISignalGroup shall be mapped into an IPdu by an own ISignalToIPduMapping. The references to the ISignal and to the ISignalGroup in an ISignalToIPduMapping are mutually exclusive.
+        """
         return self.iSignalGroupRef
 
-    def setISignalGroupRef(self, value):
-        self.iSignalGroupRef = value
+    def setISignalGroupRef(self, value: Optional[RefType]) -> "ISignalToIPduMapping":
+        """
+        Reference to an ISignalGroup that is mapped into the SignalIPdu. If an ISignalToIPduMapping for an ISignal Group is defined, only the UpdateIndicationBitPosition and the transferProperty is relevant. The startPosition and the packingByteOrder shall be ignored. Each ISignal contained in the ISignalGroup shall be mapped into an IPdu by an own ISignalToIPduMapping. The references to the ISignal and to the ISignalGroup in an ISignalToIPduMapping are mutually exclusive.
+        A None value is a no-op and does not overwrite an existing iSignalGroupRef.
+        """
+        if value is not None:
+            self.iSignalGroupRef = value
         return self
 
-    def getPackingByteOrder(self):
+    def getPackingByteOrder(self) -> Optional[ByteOrderEnum]:
+        """
+        This parameter defines the order of the bytes of the signal and the packing into the SignalIPdu. The byte ordering "Little Endian" (MostSignificantByteLast), "Big Endian" (MostSignificantByteFirst) and "Opaque" can be selected. For opaque data endianness conversion shall be configured to Opaque. The value of this attribute impacts the absolute position of the signal into the SignalIPdu (see the startPosition attribute description). For an ISignalGroup the packingByteOrder is irrelevant and shall be ignored.
+        """
         return self.packingByteOrder
 
-    def setPackingByteOrder(self, value):
-        self.packingByteOrder = value
+    def setPackingByteOrder(self, value: Optional[ByteOrderEnum]) -> "ISignalToIPduMapping":
+        """
+        This parameter defines the order of the bytes of the signal and the packing into the SignalIPdu. The byte ordering "Little Endian" (MostSignificantByteLast), "Big Endian" (MostSignificantByteFirst) and "Opaque" can be selected. For opaque data endianness conversion shall be configured to Opaque. The value of this attribute impacts the absolute position of the signal into the SignalIPdu (see the startPosition attribute description). For an ISignalGroup the packingByteOrder is irrelevant and shall be ignored.
+        A None value is a no-op and does not overwrite an existing packingByteOrder.
+        """
+        if value is not None:
+            self.packingByteOrder = value
         return self
 
-    def getStartPosition(self):
+    def getStartPosition(self) -> Optional[UnlimitedInteger]:
+        """
+        This parameter is necessary to describe the bitposition of a signal within an SignalIPdu. It denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian" packed signals within the IPdu (see the description of the packingByteOrder attribute). In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7. Please note that the way the bytes will be actually sent on the bus does not impact this representation: they will always be seen by the software as a byte array. If a mapping for the ISignalGroup is defined, this attribute is irrelevant and shall be ignored.
+        """
         return self.startPosition
 
-    def setStartPosition(self, value):
-        self.startPosition = value
+    def setStartPosition(self, value: Optional[UnlimitedInteger]) -> "ISignalToIPduMapping":
+        """
+        This parameter is necessary to describe the bitposition of a signal within an SignalIPdu. It denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian" packed signals within the IPdu (see the description of the packingByteOrder attribute). In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7. Please note that the way the bytes will be actually sent on the bus does not impact this representation: they will always be seen by the software as a byte array. If a mapping for the ISignalGroup is defined, this attribute is irrelevant and shall be ignored.
+        A None value is a no-op and does not overwrite an existing startPosition.
+        """
+        if value is not None:
+            self.startPosition = value
         return self
 
-    def getTransferProperty(self):
+    def getTransferProperty(self) -> Optional[TransferPropertyEnum]:
+        """
+        Defines how the referenced ISignal contributes to the send triggering of the ISignalIPdu.
+        """
         return self.transferProperty
 
-    def setTransferProperty(self, value):
-        self.transferProperty = value
+    def setTransferProperty(self, value: Optional[TransferPropertyEnum]) -> "ISignalToIPduMapping":
+        """
+        Defines how the referenced ISignal contributes to the send triggering of the ISignalIPdu.
+        A None value is a no-op and does not overwrite an existing transferProperty.
+        """
+        if value is not None:
+            self.transferProperty = value
         return self
 
-    def getUpdateIndicationBitPosition(self):
+    def getUpdateIndicationBitPosition(self) -> Optional[UnlimitedInteger]:
+        """
+        The UpdateIndicationBit indicates to the receivers that the signal (or the signal group) was updated by the sender. Length is always one bit. The UpdateIndicationBitPosition attribute describes the position of the update bit within the SignalIPdu. For Signals of a ISignalGroup this attribute is irrelevant and shall be ignored. Note that the exact bit position of the updateIndicationBitPosition is linked to the value of the attribute packingByteOrder because the method of finding the bit position is different for the values mostSignificantByteFirst and mostSignificantByteLast. This means that if the value of packingByteOrder is changed while the value of updateIndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing ISignalIPdu still undergoes a change. This attribute denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian" packed signals within the IPdu (see the description of the packingByteOrder attribute). In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7.
+        """
         return self.updateIndicationBitPosition
 
-    def setUpdateIndicationBitPosition(self, value):
-        self.updateIndicationBitPosition = value
+    def setUpdateIndicationBitPosition(self, value: Optional[UnlimitedInteger]) -> "ISignalToIPduMapping":
+        """
+        The UpdateIndicationBit indicates to the receivers that the signal (or the signal group) was updated by the sender. Length is always one bit. The UpdateIndicationBitPosition attribute describes the position of the update bit within the SignalIPdu. For Signals of a ISignalGroup this attribute is irrelevant and shall be ignored. Note that the exact bit position of the updateIndicationBitPosition is linked to the value of the attribute packingByteOrder because the method of finding the bit position is different for the values mostSignificantByteFirst and mostSignificantByteLast. This means that if the value of packingByteOrder is changed while the value of updateIndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing ISignalIPdu still undergoes a change. This attribute denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian" packed signals within the IPdu (see the description of the packingByteOrder attribute). In AUTOSAR the bit counting is always set to "sawtooth" and the bit order is set to "Decreasing". The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7.
+        A None value is a no-op and does not overwrite an existing updateIndicationBitPosition.
+        """
+        if value is not None:
+            self.updateIndicationBitPosition = value
         return self
 
 
@@ -929,84 +1069,132 @@ class DcmIPdu(IPdu):
 
 class IPduTiming(Describable):
     """
-    Defines timing properties for Interaction Protocol Data Units (IPDUs),
-    specifying minimum delay and transmission mode declaration for
-    timed communication.
+    AUTOSAR COM provides the possibility to define two different TRANSMISSION MODES for each IPdu. The Transmission Mode of an IPdu that is valid at a specific point in time is selected using the values of the signals that are mapped to this IPdu. For each IPdu a Transmission Mode Selector is defined. The Transmission Mode Selector is calculated by evaluating the conditions for a subset of signals (class TransmissionModeCondition in the System Template). The Transmission Mode Selector is defined to be true, if at least one Condition evaluates to true and is defined to be false, if all Conditions evaluate to false.
     """
 
     # IPduTiming method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getMinimumDelay              [x] impl  [ ] docstring  [ ] test
-    # [ ] setMinimumDelay              [x] impl  [ ] docstring  [ ] test
-    # [ ] getTransmissionModeDeclaration [x] impl  [ ] docstring  [ ] test
-    # [ ] setTransmissionModeDeclaration [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.30, p.348
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getMinimumDelay              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMinimumDelay              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTransmissionModeDeclaration [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTransmissionModeDeclaration [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        self.minimumDelay: TimeValue = None
-        self.transmissionModeDeclaration: TransmissionModeDeclaration = None
+        # Minimum Delay in seconds between successive transmissions of this I-PDU, independent of the Transmission Mode.
+        self.minimumDelay: Optional[TimeValue] = None
 
-    def getMinimumDelay(self):
+        # AUTOSAR COM allows configuring statically two different transmission modes for each I-PDU (True and False). The Transmission Mode Selector evaluates the conditions for a subset of signals and decides the transmission mode. It is possible to switch between the transmission modes during runtime.
+        self.transmissionModeDeclaration: Optional[TransmissionModeDeclaration] = None
+
+    def getMinimumDelay(self) -> Optional[TimeValue]:
+        """
+        Minimum Delay in seconds between successive transmissions of this I-PDU, independent of the Transmission Mode.
+        """
         return self.minimumDelay
 
-    def setMinimumDelay(self, value):
-        self.minimumDelay = value
+    def setMinimumDelay(self, value: Optional[TimeValue]) -> "IPduTiming":
+        """
+        Minimum Delay in seconds between successive transmissions of this I-PDU, independent of the Transmission Mode.
+        A None value is a no-op and does not overwrite an existing minimumDelay.
+        """
+        if value is not None:
+            self.minimumDelay = value
         return self
 
-    def getTransmissionModeDeclaration(self):
+    def getTransmissionModeDeclaration(self) -> Optional[TransmissionModeDeclaration]:
+        """
+        AUTOSAR COM allows configuring statically two different transmission modes for each I-PDU (True and False). The Transmission Mode Selector evaluates the conditions for a subset of signals and decides the transmission mode. It is possible to switch between the transmission modes during runtime.
+        """
         return self.transmissionModeDeclaration
 
-    def setTransmissionModeDeclaration(self, value):
-        self.transmissionModeDeclaration = value
+    def setTransmissionModeDeclaration(self, value: Optional[TransmissionModeDeclaration]) -> "IPduTiming":
+        """
+        AUTOSAR COM allows configuring statically two different transmission modes for each I-PDU (True and False). The Transmission Mode Selector evaluates the conditions for a subset of signals and decides the transmission mode. It is possible to switch between the transmission modes during runtime.
+        A None value is a no-op and does not overwrite an existing transmissionModeDeclaration.
+        """
+        if value is not None:
+            self.transmissionModeDeclaration = value
         return self
 
 
 class ISignalIPdu(IPdu):
     """
-    Represents an Interaction Protocol Data Unit (IPDU) based on interaction signals,
-    defining timing specifications, signal-to-PDU mappings, and unused
-    bit patterns for signal-based communication.
+    Represents the IPdus handled by Com. The ISignalIPdu assembled and disassembled in AUTOSAR COM consists of one or more signals. In case no multiplexing is performed this IPdu is routed to/from the Interface Layer. A maximum of one dynamic length signal per IPdu is allowed.
     """
 
     # ISignalIPdu method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getIPduTimingSpecification   [x] impl  [ ] docstring  [ ] test
-    # [ ] setIPduTimingSpecification   [x] impl  [ ] docstring  [ ] test
-    # [ ] getISignalToPduMappings      [x] impl  [ ] docstring  [ ] test
-    # [ ] createISignalToPduMappings   [x] impl  [ ] docstring  [ ] test
-    # [ ] getUnusedBitPattern          [x] impl  [ ] docstring  [ ] test
-    # [ ] setUnusedBitPattern          [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.19, p.342
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getIPduTimingSpecification  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIPduTimingSpecification  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getISignalToPduMappings     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createISignalToPduMappings  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getUnusedBitPattern         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setUnusedBitPattern         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.iPduTimingSpecification: IPduTiming = None
-        self.iSignalToPduMappings: List[ISignalToIPduMapping] = []
-        self.unusedBitPattern: Integer = None
+        # Timing specification for Com IPdus (Transmission Modes). This information is mandatory for the sender in a System Extract. This information may be omitted on receivers in a System Extract. atpVariation: The timing of a Pdu can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iPduTimingSpecification, iPduTiming Specification.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.iPduTimingSpecification: Optional[IPduTiming] = None
 
-    def getIPduTimingSpecification(self):
+        # Definition of SignalToIPduMappings included in the Signal IPdu. atpVariation: The content of a PDU can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalToPduMapping.shortName, iSignalTo PduMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.iSignalToPduMappings: List[ISignalToIPduMapping] = []
+
+        # AUTOSAR COM and AUTOSAR IPDUM are filling not used areas of an IPDU with this bit-pattern. This attribute is mandatory to avoid undefined behavior. This byte-pattern will be repeated throughout the IPdu.
+        self.unusedBitPattern: Optional[Integer] = None
+
+    def getIPduTimingSpecification(self) -> Optional[IPduTiming]:
+        """
+        Timing specification for Com IPdus (Transmission Modes). This information is mandatory for the sender in a System Extract. This information may be omitted on receivers in a System Extract. atpVariation: The timing of a Pdu can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iPduTimingSpecification, iPduTiming Specification.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.iPduTimingSpecification
 
-    def setIPduTimingSpecification(self, value):
-        self.iPduTimingSpecification = value
+    def setIPduTimingSpecification(self, value: Optional[IPduTiming]) -> "ISignalIPdu":
+        """
+        Timing specification for Com IPdus (Transmission Modes). This information is mandatory for the sender in a System Extract. This information may be omitted on receivers in a System Extract. atpVariation: The timing of a Pdu can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iPduTimingSpecification, iPduTiming Specification.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        A None value is a no-op and does not overwrite an existing iPduTimingSpecification.
+        """
+        if value is not None:
+            self.iPduTimingSpecification = value
         return self
 
-    def getISignalToPduMappings(self):
+    def getISignalToPduMappings(self) -> List[ISignalToIPduMapping]:
+        """
+        Definition of SignalToIPduMappings included in the Signal IPdu. atpVariation: The content of a PDU can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalToPduMapping.shortName, iSignalTo PduMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.iSignalToPduMappings
 
     def createISignalToPduMappings(self, short_name: str) -> ISignalToIPduMapping:
+        """
+        Definition of SignalToIPduMappings included in the Signal IPdu. atpVariation: The content of a PDU can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalToPduMapping.shortName, iSignalTo PduMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         if not self.IsElementExists(short_name):
             mapping = ISignalToIPduMapping(self, short_name)
             self.addElement(mapping)
             self.iSignalToPduMappings.append(mapping)
         return self.getElement(short_name, ISignalToIPduMapping)
 
-    def getUnusedBitPattern(self):
+    def getUnusedBitPattern(self) -> Optional[Integer]:
+        """
+        AUTOSAR COM and AUTOSAR IPDUM are filling not used areas of an IPDU with this bit-pattern. This attribute is mandatory to avoid undefined behavior. This byte-pattern will be repeated throughout the IPdu.
+        """
         return self.unusedBitPattern
 
-    def setUnusedBitPattern(self, value):
-        self.unusedBitPattern = value
+    def setUnusedBitPattern(self, value: Optional[Integer]) -> "ISignalIPdu":
+        """
+        AUTOSAR COM and AUTOSAR IPDUM are filling not used areas of an IPDU with this bit-pattern. This attribute is mandatory to avoid undefined behavior. This byte-pattern will be repeated throughout the IPdu.
+        A None value is a no-op and does not overwrite an existing unusedBitPattern.
+        """
+        if value is not None:
+            self.unusedBitPattern = value
         return self
 
 
@@ -1441,36 +1629,54 @@ class SystemSignal(ARElement):
 
 class SystemSignalGroup(ARElement):
     """
-    Represents a group of system signals, defining relationships
-    between individual system signals and transforming signal references
-    for grouped signal communication.
+    A signal group refers to a set of signals that shall always be kept together. A signal group is used to guarantee the atomic transfer of AUTOSAR composite data types. The SystemSignalGroup defines a signal grouping on VFB level. On cluster level the Signal grouping is described by the ISignalGroup element. Tags: atp.recommendedPackage=SystemSignalGroups
     """
 
     # SystemSignalGroup method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getSystemSignalRefs          [x] impl  [ ] docstring  [ ] test
-    # [ ] addSystemSignalRefs          [x] impl  [ ] docstring  [ ] test
-    # [ ] getTransformingSystemSignalRef [x] impl  [ ] docstring  [ ] test
-    # [ ] setTransformingSystemSignalRef [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.13, p.324
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getSystemSignalRefs           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addSystemSignalRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTransformingSystemSignalRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTransformingSystemSignalRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # Reference to a set of SystemSignals that shall always be kept together.
         self.systemSignalRefs: List[RefType] = []
-        self.transformingSystemSignalRef: RefType = None
 
-    def getSystemSignalRefs(self):
+        # Optional reference to the SystemSignal which shall contain the transformed (linear) data.
+        self.transformingSystemSignalRef: Optional[RefType] = None
+
+    def getSystemSignalRefs(self) -> List[RefType]:
+        """
+        Reference to a set of SystemSignals that shall always be kept together.
+        """
         return self.systemSignalRefs
 
-    def addSystemSignalRefs(self, value: RefType):
+    def addSystemSignalRef(self, value: RefType) -> "SystemSignalGroup":
+        """
+        Reference to a set of SystemSignals that shall always be kept together.
+        """
         self.systemSignalRefs.append(value)
         return self
 
-    def getTransformingSystemSignalRef(self):
+    def getTransformingSystemSignalRef(self) -> Optional[RefType]:
+        """
+        Optional reference to the SystemSignal which shall contain the transformed (linear) data.
+        """
         return self.transformingSystemSignalRef
 
-    def setTransformingSystemSignalRef(self, value):
-        self.transformingSystemSignalRef = value
+    def setTransformingSystemSignalRef(self, value: Optional[RefType]) -> "SystemSignalGroup":
+        """
+        Optional reference to the SystemSignal which shall contain the transformed (linear) data.
+        A None value is a no-op and does not overwrite an existing transformingSystemSignalRef.
+        """
+        if value is not None:
+            self.transformingSystemSignalRef = value
         return self
 
 

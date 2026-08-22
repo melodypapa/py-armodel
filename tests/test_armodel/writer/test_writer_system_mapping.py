@@ -162,8 +162,8 @@ def _make_mapping_set():
 class TestWriterSystemSignalGroup:
     def test_with_signal_refs(self, writer):
         group = _make_system_signal_group()
-        group.addSystemSignalRefs(_ref("/s1", "SYSTEM-SIGNAL"))
-        group.addSystemSignalRefs(_ref("/s2", "SYSTEM-SIGNAL"))
+        group.addSystemSignalRef(_ref("/s1", "SYSTEM-SIGNAL"))
+        group.addSystemSignalRef(_ref("/s2", "SYSTEM-SIGNAL"))
         parent = _parent()
         writer.writeSystemSignalGroup(parent, group)
         assert parent[0].tag == "SYSTEM-SIGNAL-GROUP"
@@ -177,6 +177,23 @@ class TestWriterSystemSignalGroup:
         writer.writeSystemSignalGroup(parent, group)
         assert parent[0].tag == "SYSTEM-SIGNAL-GROUP"
         assert parent[0].find("SYSTEM-SIGNAL-REFS") is None
+
+    def test_with_transforming_signal_ref(self, writer):
+        group = _make_system_signal_group()
+        group.setTransformingSystemSignalRef(_ref("/trans", "SYSTEM-SIGNAL"))
+        parent = _parent()
+        writer.writeSystemSignalGroup(parent, group)
+        assert parent[0].tag == "SYSTEM-SIGNAL-GROUP"
+        ref = parent[0].find("TRANSFORMING-SYSTEM-SIGNAL-REF")
+        assert ref is not None
+        assert ref.text == "/trans"
+
+    def test_without_transforming_signal_ref(self, writer):
+        group = _make_system_signal_group()
+        parent = _parent()
+        writer.writeSystemSignalGroup(parent, group)
+        assert parent[0].tag == "SYSTEM-SIGNAL-GROUP"
+        assert parent[0].find("TRANSFORMING-SYSTEM-SIGNAL-REF") is None
 
 
 class TestWriterSenderReceiverToSignalMapping:

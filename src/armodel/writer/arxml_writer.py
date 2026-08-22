@@ -478,6 +478,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommun
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinMaster
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, IPduMapping, ISignalMapping, TargetIPduRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    ContainedIPduProps,
     DcmIPdu,
     DynamicPart,
     DynamicPartAlternative,
@@ -5949,9 +5950,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "I-SIGNAL-TO-I-PDU-MAPPING")
             self.writeIdentifiable(child_element, mapping)
             self.setChildElementOptionalRefType(child_element, "I-SIGNAL-REF", mapping.getISignalRef())
+            self.setChildElementOptionalRefType(child_element, "I-SIGNAL-GROUP-REF", mapping.getISignalGroupRef())
             self.setChildElementOptionalLiteral(child_element, "PACKING-BYTE-ORDER", mapping.getPackingByteOrder())
             self.setChildElementOptionalIntegerValue(child_element, "START-POSITION", mapping.getStartPosition())
             self.setChildElementOptionalLiteral(child_element, "TRANSFER-PROPERTY", mapping.getTransferProperty())
+            self.setChildElementOptionalNumericalValue(child_element, "UPDATE-INDICATION-BIT-POSITION", mapping.getUpdateIndicationBitPosition())
 
     def writeNmPduISignalToIPduMappings(self, element: ET.Element, pdu: NmPdu):
         mappings = pdu.getISignalToIPduMappings()
@@ -7747,6 +7750,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             signal_refs_tag = ET.SubElement(child_element, "SYSTEM-SIGNAL-REFS")
             for signal_ref in signal_refs:
                 self.setChildElementOptionalRefType(signal_refs_tag, "SYSTEM-SIGNAL-REF", signal_ref)
+        self.setChildElementOptionalRefType(child_element, "TRANSFORMING-SYSTEM-SIGNAL-REF", group.getTransformingSystemSignalRef())
 
     def writeSenderReceiverToSignalMapping(self, element: ET.Element, mapping: SenderReceiverToSignalMapping):
         child_element = ET.SubElement(element, "SENDER-RECEIVER-TO-SIGNAL-MAPPING")
@@ -8339,15 +8343,15 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalRefType(child_element, "I-SIGNAL-REF", signal_ref)
 
     def writeISignalGroupComBasedSignalGroupTransformation(self, element: ET.Element, group: ISignalGroup):
-        refs = group.getComBasedSignalGroupTransformationRefs()
-        if len(refs) > 0:
+        ref = group.getComBasedSignalGroupTransformationRef()
+        if ref is not None:
             com_based_element = ET.SubElement(element, "COM-BASED-SIGNAL-GROUP-TRANSFORMATIONS")
             cond_element = ET.SubElement(com_based_element, "DATA-TRANSFORMATION-REF-CONDITIONAL")
-            for ref in refs:
-                self.setChildElementOptionalRefType(cond_element, "DATA-TRANSFORMATION-REF", ref)
+            self.setChildElementOptionalRefType(cond_element, "DATA-TRANSFORMATION-REF", ref)
 
     def writeTransformationISignalProps(self, element: ET.Element, props: TransformationISignalProps):
         self.writeDescribable(element, props)
+        self.setChildElementOptionalLiteral(element, "CS-ERROR-REACTION", props.getCsErrorReaction())
 
     def writeEndToEndTransformationISignalPropsDataIds(self, element: ET.Element, props: EndToEndTransformationISignalProps):
         ids = props.getDataIds()
@@ -8367,13 +8371,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH", props.getDataLength())
 
     def writeISignalGroupTransformationISignalProps(self, element: ET.Element, group: ISignalGroup):
-        props = group.getTransformationISignalProps()
-        if props is not None:
+        props_list = group.getTransformationISignalProps()
+        if len(props_list) > 0:
             child_element = ET.SubElement(element, "TRANSFORMATION-I-SIGNAL-PROPSS")
-            if isinstance(props, EndToEndTransformationISignalProps):
-                self.writeEndToEndTransformationISignalProps(child_element, props)
-            else:
-                self.notImplemented("Unsupported TransformationISignalProps %s" % type(props))
+            for props in props_list:
+                if isinstance(props, EndToEndTransformationISignalProps):
+                    self.writeEndToEndTransformationISignalProps(child_element, props)
+                else:
+                    self.notImplemented("Unsupported TransformationISignalProps %s" % type(props))
 
     def writeISignalGroup(self, element: ET.Element, group: ISignalGroup):
         self.logger.debug("ISignalGroup %s" % group.getShortName())
@@ -8543,8 +8548,20 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(element, "HAS-DYNAMIC-LENGTH", pdu.getHasDynamicLength())
         self.setChildElementOptionalNumericalValue(element, "LENGTH", pdu.getLength())
 
+    def writeContainedIPduProps(self, element: ET.Element, props: ContainedIPduProps):
+        if props is not None:
+            child_element = ET.SubElement(element, "CONTAINED-I-PDU-PROPS")
+            self.setChildElementOptionalLiteral(child_element, "COLLECTION-SEMANTICS", props.getCollectionSemantics())
+            self.setChildElementOptionalPositiveInteger(child_element, "HEADER-ID-LONG-HEADER", props.getHeaderIdLongHeader())
+            self.setChildElementOptionalPositiveInteger(child_element, "HEADER-ID-SHORT-HEADER", props.getHeaderIdShortHeader())
+            self.setChildElementOptionalNumericalValue(child_element, "OFFSET", props.getOffset())
+            self.setChildElementOptionalNumericalValue(child_element, "TIMEOUT", props.getTimeout())
+            self.setChildElementOptionalLiteral(child_element, "TRIGGER", props.getTrigger())
+            self.setChildElementOptionalNumericalValue(child_element, "UPDATE-INDICATION-BIT-POSITION", props.getUpdateIndicationBitPosition())
+
     def writeIPdu(self, element: ET.Element, pdu: IPdu):
         self.writePdu(element, pdu)
+        self.writeContainedIPduProps(element, pdu.getContainedIPduProps())
 
     def writeSegmentPosition(self, element: ET.Element, position: SegmentPosition):
         if position is not None:
@@ -9021,6 +9038,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if dtf is not None:
             child_element = ET.SubElement(element, "DATA-TRANSFORMATION")
             self.writeIdentifiable(child_element, dtf)
+            self.setChildElementOptionalLiteral(child_element, "DATA-TRANSFORMATION-KIND", dtf.getDataTransformationKind())
             self.setChildElementOptionalBooleanValue(child_element, "EXECUTE-DESPITE-DATA-UNAVAILABILITY", dtf.getExecuteDespiteDataUnavailability())
             self.writeDataTransformationTransformerChainRefs(child_element, dtf)
 

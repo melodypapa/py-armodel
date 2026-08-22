@@ -1256,6 +1256,42 @@ class TestFrameAndPduHandlers:
         assert pdu.getDiagPduType() is not None
         assert pdu.getDiagPduType().getValue() == "request"
 
+    def test_readIPdu_sets_containedIPduProps(self, parser):
+        from armodel.models import GeneralPurposeIPdu
+
+        ipdu = GeneralPurposeIPdu(parent=_autosar_root(), short_name="ipdu")
+        element = _snip(
+            "<SHORT-NAME>ipdu</SHORT-NAME>"
+            "<CONTAINED-I-PDU-PROPS>"
+            "<COLLECTION-SEMANTICS>lastIsBest</COLLECTION-SEMANTICS>"
+            "<HEADER-ID-LONG-HEADER>100</HEADER-ID-LONG-HEADER>"
+            "<HEADER-ID-SHORT-HEADER>50</HEADER-ID-SHORT-HEADER>"
+            "<OFFSET>4</OFFSET>"
+            "<TIMEOUT>10</TIMEOUT>"
+            "<TRIGGER>onChange</TRIGGER>"
+            "<UPDATE-INDICATION-BIT-POSITION>7</UPDATE-INDICATION-BIT-POSITION>"
+            "</CONTAINED-I-PDU-PROPS>",
+            root_tag="GENERAL-PURPOSE-I-PDU",
+        )
+        parser.readIPdu(element, ipdu)
+        props = ipdu.getContainedIPduProps()
+        assert props is not None
+        assert props.getCollectionSemantics().getValue() == "lastIsBest"
+        assert props.getHeaderIdLongHeader().getValue() == 100
+        assert props.getHeaderIdShortHeader().getValue() == 50
+        assert props.getOffset().getValue() == 4
+        assert props.getTimeout().getValue() == 10
+        assert props.getTrigger().getValue() == "onChange"
+        assert props.getUpdateIndicationBitPosition().getValue() == 7
+
+    def test_readIPdu_absent_containedIPduProps_stays_none(self, parser):
+        from armodel.models import GeneralPurposeIPdu
+
+        ipdu = GeneralPurposeIPdu(parent=_autosar_root(), short_name="ipdu")
+        element = _snip("<SHORT-NAME>ipdu</SHORT-NAME>", root_tag="GENERAL-PURPOSE-I-PDU")
+        parser.readIPdu(element, ipdu)
+        assert ipdu.getContainedIPduProps() is None
+
 
 class TestISignalAndGroupHandlers:
     def test_readISignal_sets_length(self, parser):
@@ -1434,6 +1470,33 @@ class TestISignalAndGroupHandlers:
         )
         parser.readISignalIPdu(element, ipdu)
         assert ipdu.getUnusedBitPattern().getValue() == 0
+
+
+class TestISignalIPduIPduTimingSpecification:
+    def test_get_sets_minimum_delay_and_declaration(self, parser):
+        element = _snip(
+            "<I-PDU-TIMING-SPECIFICATIONS>"
+            "<I-PDU-TIMING>"
+            "<MINIMUM-DELAY>0.05</MINIMUM-DELAY>"
+            "<TRANSMISSION-MODE-DECLARATION>"
+            "<SHORT-NAME>decl</SHORT-NAME>"
+            "<TRANSMISSION-MODE-TRUE-TIMING>"
+            "<CYCLIC-TIMING><TIME-PERIOD><VALUE><VALUE>0.1</VALUE></VALUE></TIME-PERIOD></CYCLIC-TIMING>"
+            "</TRANSMISSION-MODE-TRUE-TIMING>"
+            "</TRANSMISSION-MODE-DECLARATION>"
+            "</I-PDU-TIMING>"
+            "</I-PDU-TIMING-SPECIFICATIONS>",
+            root_tag="I-SIGNAL-I-PDU",
+        )
+        timing = parser.getISignalIPduIPduTimingSpecification(element)
+        assert timing is not None
+        assert timing.getMinimumDelay().getValue() == 0.05
+        assert timing.getTransmissionModeDeclaration() is not None
+
+    def test_get_absent_returns_none(self, parser):
+        element = _snip("<SHORT-NAME>ipdu</SHORT-NAME>", root_tag="I-SIGNAL-I-PDU")
+        timing = parser.getISignalIPduIPduTimingSpecification(element)
+        assert timing is None
 
 
 class TestEndToEndProtectionHandlers:
@@ -2566,7 +2629,7 @@ class TestReadISignalGroupISignalRef:
 class TestReadISignalGroupComBasedSignalGroupTransformation:
     """Tests for readISignalGroupComBasedSignalGroupTransformation (L5201-5203)."""
 
-    def test_reads_transformation_refs(self, parser):
+    def test_reads_transformation_ref(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")
         group = _make_isignal_group("ISignalGroup")
         element = _snip(
@@ -2575,16 +2638,14 @@ class TestReadISignalGroupComBasedSignalGroupTransformation:
                 <DATA-TRANSFORMATION-REF-CONDITIONAL>
                     <DATA-TRANSFORMATION-REF DEST="DATA-TRANSFORMATION">/trans/Trans1</DATA-TRANSFORMATION-REF>
                 </DATA-TRANSFORMATION-REF-CONDITIONAL>
-                <DATA-TRANSFORMATION-REF-CONDITIONAL>
-                    <DATA-TRANSFORMATION-REF DEST="DATA-TRANSFORMATION">/trans/Trans2</DATA-TRANSFORMATION-REF>
-                </DATA-TRANSFORMATION-REF-CONDITIONAL>
             </COM-BASED-SIGNAL-GROUP-TRANSFORMATIONS>
             """,
             root_tag="I-SIGNAL-GROUP",
         )
         parser.readISignalGroupComBasedSignalGroupTransformation(element, group)
-        refs = group.getComBasedSignalGroupTransformationRefs()
-        assert len(refs) == 2
+        ref = group.getComBasedSignalGroupTransformationRef()
+        assert ref is not None
+        assert ref.getValue() == "/trans/Trans1"
 
     def test_empty_transformations(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")
@@ -2597,7 +2658,7 @@ class TestReadISignalGroupComBasedSignalGroupTransformation:
             root_tag="I-SIGNAL-GROUP",
         )
         parser.readISignalGroupComBasedSignalGroupTransformation(element, group)
-        assert len(group.getComBasedSignalGroupTransformationRefs()) == 0
+        assert group.getComBasedSignalGroupTransformationRef() is None
 
 
 class TestReadTransformationISignalProps:
@@ -2684,6 +2745,7 @@ class TestReadEndToEndTransformationISignalProps:
             """
             <END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-VARIANTS>
                 <END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL>
+                    <CS-ERROR-REACTION>autonomous</CS-ERROR-REACTION>
                     <TRANSFORMER-REF DEST="TRANSFORMATION-TECHNOLOGY">/trans/Tech1</TRANSFORMER-REF>
                     <DATA-IDS>
                         <DATA-ID>1</DATA-ID>
@@ -2695,6 +2757,7 @@ class TestReadEndToEndTransformationISignalProps:
             root_tag="END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS",
         )
         parser.readEndToEndTransformationISignalProps(element, props)
+        assert props.getCsErrorReaction().getValue() == "autonomous"
         assert props.getTransformerRef() is not None
         assert len(props.getDataIds()) == 1
         assert props.getDataLength() is not None
@@ -2711,6 +2774,7 @@ class TestReadEndToEndTransformationISignalProps:
             root_tag="END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS",
         )
         parser.readEndToEndTransformationISignalProps(element, props)
+        assert props.getCsErrorReaction() is None
         assert props.getTransformerRef() is None
         assert len(props.getDataIds()) == 0
         assert props.getDataLength() is None
@@ -2733,6 +2797,7 @@ class TestReadEndToEndTransformationISignalProps:
             root_tag="END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS",
         )
         parser.readEndToEndTransformationISignalProps(element, props)
+        assert props.getCsErrorReaction() is None
         assert props.getTransformerRef() is not None
         assert len(props.getDataIds()) == 0
         assert props.getDataLength() is None
@@ -2763,8 +2828,9 @@ class TestReadISignalGroupTransformationISignalProps:
             root_tag="I-SIGNAL-GROUP",
         )
         parser.readISignalGroupTransformationISignalProps(element, group)
-        props = group.getTransformationISignalProps()
-        assert props is not None
+        props_list = group.getTransformationISignalProps()
+        assert len(props_list) == 1
+        props = props_list[0]
         assert props.getTransformerRef() is not None
         assert len(props.getDataIds()) == 1
         assert props.getDataLength() is not None
@@ -2780,7 +2846,7 @@ class TestReadISignalGroupTransformationISignalProps:
             root_tag="I-SIGNAL-GROUP",
         )
         parser.readISignalGroupTransformationISignalProps(element, group)
-        assert group.getTransformationISignalProps() is None
+        assert group.getTransformationISignalProps() == []
 
     def test_unsupported_type_warning(self, warning_parser, caplog):
         AUTOSAR.getInstance().setARRelease("R23-11")
@@ -2807,9 +2873,9 @@ class TestReadISignalGroupTransformationISignalProps:
         with caplog.at_level(logging.ERROR):
             warning_parser.readISignalGroupTransformationISignalProps(element, group)
         assert any("Unsupported TransformationISignalProps" in rec.getMessage() for rec in caplog.records)
-        props = group.getTransformationISignalProps()
-        assert props is not None
-        assert props.getTransformerRef() is not None
+        props_list = group.getTransformationISignalProps()
+        assert len(props_list) == 1
+        assert props_list[0].getTransformerRef() is not None
 
 
 # === Migrated from test_arxml_parser_remaining_gaps.py ===
@@ -2993,6 +3059,25 @@ class TestSystemSignalGroup:
         )
         parser.readSystemSignalGroup(element, group)
         assert len(group.getSystemSignalRefs()) == 2
+        assert group.getSystemSignalRefs()[0].getValue() == "/s1"
+        assert group.getSystemSignalRefs()[1].getValue() == "/s2"
+
+    def test_readSystemSignalGroup_adds_transforming_ref(self, parser):
+        from armodel.models import SystemSignalGroup
+
+        group = SystemSignalGroup(parent=MagicMock(), short_name="Ssg")
+        element = _snip('<TRANSFORMING-SYSTEM-SIGNAL-REF DEST="SYSTEM-SIGNAL">/trans</TRANSFORMING-SYSTEM-SIGNAL-REF>')
+        parser.readSystemSignalGroup(element, group)
+        assert group.getTransformingSystemSignalRef() is not None
+        assert group.getTransformingSystemSignalRef().getValue() == "/trans"
+
+    def test_readSystemSignalGroup_absent_transforming_ref_stays_none(self, parser):
+        from armodel.models import SystemSignalGroup
+
+        group = SystemSignalGroup(parent=MagicMock(), short_name="Ssg")
+        element = _snip("<SHORT-NAME>Ssg</SHORT-NAME>")
+        parser.readSystemSignalGroup(element, group)
+        assert group.getTransformingSystemSignalRef() is None
 
 
 # ==================== ISignalIPduGroup (L5351, L5360, L5362) ====================

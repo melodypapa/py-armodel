@@ -473,13 +473,25 @@ class TestPduAndSecureCommunication:
         mapping = ISignalToIPduMapping(parent=MagicMock(), short_name="M")
         element = _snip(
             '<I-SIGNAL-REF DEST="I-SIGNAL">/is</I-SIGNAL-REF>'
+            '<I-SIGNAL-GROUP-REF DEST="I-SIGNAL-GROUP">/isg</I-SIGNAL-GROUP-REF>'
             "<PACKING-BYTE-ORDER>MOST-SIGNIFICANT-BYTE-LAST</PACKING-BYTE-ORDER>"
             "<START-POSITION>0</START-POSITION>"
             "<TRANSFER-PROPERTY>TRIGGERED</TRANSFER-PROPERTY>"
+            "<UPDATE-INDICATION-BIT-POSITION>7</UPDATE-INDICATION-BIT-POSITION>"
         )
         parser.readISignalToIPduMapping(element, mapping)
         assert mapping.getISignalRef() is not None
+        assert mapping.getISignalRef().getValue() == "/is"
+        assert mapping.getISignalGroupRef() is not None
+        assert mapping.getISignalGroupRef().getValue() == "/isg"
         assert mapping.getPackingByteOrder() is not None
+        assert mapping.getPackingByteOrder().getValue() == "MOST-SIGNIFICANT-BYTE-LAST"
+        assert mapping.getStartPosition() is not None
+        assert mapping.getStartPosition().getValue() == 0
+        assert mapping.getTransferProperty() is not None
+        assert mapping.getTransferProperty().getValue() == "TRIGGERED"
+        assert mapping.getUpdateIndicationBitPosition() is not None
+        assert mapping.getUpdateIndicationBitPosition().getValue() == 7
 
     def test_readNmPduISignalToIPduMappings_creates_mapping(self, parser):
         from armodel.models import NmPdu

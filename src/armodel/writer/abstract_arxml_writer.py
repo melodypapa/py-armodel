@@ -92,7 +92,10 @@ class AbstractARXMLWriter(ABC):
             self.writeARObjectAttributes(child_element, numerical)
             if numerical.getShortLabel() is not None:
                 child_element.attrib["SHORT-LABEL"] = numerical.getShortLabel()
-            child_element.text = numerical._text
+            if numerical._text is not None:
+                child_element.text = numerical._text
+            elif numerical._value is not None:
+                child_element.text = str(numerical._value)
 
     def setChildElementOptionalIntegerValue(self, element: ET.Element, key: str, value: Integer):
         self.setChildElementOptionalNumericalValue(element, key, value)

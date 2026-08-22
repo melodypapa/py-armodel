@@ -36,6 +36,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     StaticPart,
     SystemSignal,
     SystemSignalGroup,
+    TransferPropertyEnum,
     UserDefinedIPdu,
     UserDefinedPdu,
 )
@@ -172,16 +173,18 @@ class Test_FibexCoreCommunication:
         assert isinstance(group, FibexElement)
 
         # Test default values
-        assert group.getComBasedSignalGroupTransformationRefs() == []
+        assert group.getComBasedSignalGroupTransformationRef() is None
         assert group.getISignalRefs() == []
         assert group.getSystemSignalGroupRef() is None
-        assert group.getTransformationISignalProps() is None
+        assert group.getTransformationISignalProps() == []
 
         # Test setter/getter methods with method chaining
         ref1 = object()
-        group.addComBasedSignalGroupTransformationRef(ref1)
-        assert ref1 in group.getComBasedSignalGroupTransformationRefs()
-        assert group == group.addComBasedSignalGroupTransformationRef(ref1)  # Test method chaining
+        group.setComBasedSignalGroupTransformationRef(ref1)
+        assert group.getComBasedSignalGroupTransformationRef() == ref1
+        assert group == group.setComBasedSignalGroupTransformationRef(ref1)  # Test method chaining
+        assert group == group.setComBasedSignalGroupTransformationRef(None)  # None is a no-op
+        assert group.getComBasedSignalGroupTransformationRef() == ref1
 
         ref2 = object()
         group.addISignalRef(ref2)
@@ -194,9 +197,9 @@ class Test_FibexCoreCommunication:
         assert group == group.setSystemSignalGroupRef(ref3)  # Test method chaining
 
         ref4 = object()
-        group.setTransformationISignalProps(ref4)
-        assert group.getTransformationISignalProps() == ref4
-        assert group == group.setTransformationISignalProps(ref4)  # Test method chaining
+        group.addTransformationISignalProps(ref4)
+        assert ref4 in group.getTransformationISignalProps()
+        assert group == group.addTransformationISignalProps(ref4)  # Test method chaining
 
     def test_ISignalIPduGroup(self):
         """Test ISignalIPduGroup class functionality."""
@@ -450,27 +453,49 @@ class Test_FibexCoreCommunication:
         mapping.setISignalRef(ref1)
         assert mapping.getISignalRef() == ref1
         assert mapping == mapping.setISignalRef(ref1)  # Test method chaining
+        assert mapping == mapping.setISignalRef(None)  # None is a no-op
+        assert mapping.getISignalRef() == ref1
 
         ref2 = object()
         mapping.setISignalGroupRef(ref2)
         assert mapping.getISignalGroupRef() == ref2
         assert mapping == mapping.setISignalGroupRef(ref2)  # Test method chaining
+        assert mapping == mapping.setISignalGroupRef(None)  # None is a no-op
+        assert mapping.getISignalGroupRef() == ref2
 
         mapping.setPackingByteOrder("MOST_SIGNIFICANT_BYTE_FIRST")
         assert mapping.getPackingByteOrder() == "MOST_SIGNIFICANT_BYTE_FIRST"
         assert mapping == mapping.setPackingByteOrder("MOST_SIGNIFICANT_BYTE_FIRST")  # Test method chaining
+        assert mapping == mapping.setPackingByteOrder(None)  # None is a no-op
+        assert mapping.getPackingByteOrder() == "MOST_SIGNIFICANT_BYTE_FIRST"
 
         mapping.setStartPosition(100)
         assert mapping.getStartPosition() == 100
         assert mapping == mapping.setStartPosition(100)  # Test method chaining
+        assert mapping == mapping.setStartPosition(None)  # None is a no-op
+        assert mapping.getStartPosition() == 100
 
         mapping.setTransferProperty("PENDING")
         assert mapping.getTransferProperty() == "PENDING"
         assert mapping == mapping.setTransferProperty("PENDING")  # Test method chaining
+        assert mapping == mapping.setTransferProperty(None)  # None is a no-op
+        assert mapping.getTransferProperty() == "PENDING"
 
         mapping.setUpdateIndicationBitPosition(50)
         assert mapping.getUpdateIndicationBitPosition() == 50
         assert mapping == mapping.setUpdateIndicationBitPosition(50)  # Test method chaining
+        assert mapping == mapping.setUpdateIndicationBitPosition(None)  # None is a no-op
+        assert mapping.getUpdateIndicationBitPosition() == 50
+
+    def test_TransferPropertyEnum(self):
+        """Test TransferPropertyEnum enum functionality."""
+        enum = TransferPropertyEnum()
+        assert enum is not None
+        assert TransferPropertyEnum.PENDING in enum.getEnumValues()
+        assert TransferPropertyEnum.TRIGGERED in enum.getEnumValues()
+        assert TransferPropertyEnum.TRIGGERED_ON_CHANGE in enum.getEnumValues()
+        assert TransferPropertyEnum.TRIGGERED_ON_CHANGE_WITHOUT_REPETITION in enum.getEnumValues()
+        assert TransferPropertyEnum.TRIGGERED_WITHOUT_REPETITION in enum.getEnumValues()
 
     def test_NmPdu(self):
         """Test NmPdu class functionality."""
@@ -541,11 +566,15 @@ class Test_FibexCoreCommunication:
         timing.setMinimumDelay(ref1)
         assert timing.getMinimumDelay() == ref1
         assert timing == timing.setMinimumDelay(ref1)  # Test method chaining
+        assert timing == timing.setMinimumDelay(None)  # None is a no-op
+        assert timing.getMinimumDelay() == ref1
 
         ref2 = object()
         timing.setTransmissionModeDeclaration(ref2)
         assert timing.getTransmissionModeDeclaration() == ref2
         assert timing == timing.setTransmissionModeDeclaration(ref2)  # Test method chaining
+        assert timing == timing.setTransmissionModeDeclaration(None)  # None is a no-op
+        assert timing.getTransmissionModeDeclaration() == ref2
 
     def test_ISignalIPdu(self):
         """Test ISignalIPdu class functionality."""
@@ -564,15 +593,20 @@ class Test_FibexCoreCommunication:
         ipdu.setIPduTimingSpecification(timing)
         assert ipdu.getIPduTimingSpecification() == timing
         assert ipdu == ipdu.setIPduTimingSpecification(timing)  # Test method chaining
+        assert ipdu == ipdu.setIPduTimingSpecification(None)  # None is a no-op
+        assert ipdu.getIPduTimingSpecification() == timing
 
         ipdu.setUnusedBitPattern(255)
         assert ipdu.getUnusedBitPattern() == 255
         assert ipdu == ipdu.setUnusedBitPattern(255)  # Test method chaining
+        assert ipdu == ipdu.setUnusedBitPattern(None)  # None is a no-op
+        assert ipdu.getUnusedBitPattern() == 255
 
         # Test ISignalToPduMappings creation method
         mapping = ipdu.createISignalToPduMappings("test_mapping")
         assert isinstance(mapping, ISignalToIPduMapping)
         assert len(ipdu.getISignalToPduMappings()) == 1
+        assert ipdu.createISignalToPduMappings("test_mapping") is mapping  # duplicate returns existing
 
     def test_ISignal(self):
         """Test ISignal class functionality."""
@@ -755,14 +789,16 @@ class Test_FibexCoreCommunication:
 
         # Test setter/getter methods with method chaining
         ref1 = object()
-        group.addSystemSignalRefs(ref1)
+        group.addSystemSignalRef(ref1)
         assert ref1 in group.getSystemSignalRefs()
-        assert group == group.addSystemSignalRefs(ref1)  # Test method chaining
+        assert group == group.addSystemSignalRef(ref1)  # Test method chaining
 
         ref2 = object()
         group.setTransformingSystemSignalRef(ref2)
         assert group.getTransformingSystemSignalRef() == ref2
         assert group == group.setTransformingSystemSignalRef(ref2)  # Test method chaining
+        assert group == group.setTransformingSystemSignalRef(None)  # None is a no-op
+        assert group.getTransformingSystemSignalRef() == ref2
 
     def test_ISignalTriggering(self):
         """Test ISignalTriggering class functionality."""

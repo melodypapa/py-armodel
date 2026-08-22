@@ -626,7 +626,9 @@ pre-existing stamp as a substitute for 9b.
 Do **not** stamp the class or advance to the next queue item until the user
 confirms every item. If any item failed, fix it and re-present 9b. This gate is the
 post-sync analogue of the Phase 0 membership gate (Rule 0016.2): both exist because
-the agent must not silently certify work the automation cannot check.
+the agent must not silently certify work the automation cannot check. After 9b
+passes, finish the class per **Rule 0017.2** (commit to the feature branch, flip
+the todo row to `[x]` with the commit hash, stop the session).
 
 ---
 
@@ -1055,12 +1057,26 @@ without the user's decision.
 
 ### 16.5 Build the ordered sync queue
 
-Order the closure for syncing:
+Order the closure **dependency-first**: a class that other queued classes depend
+on is generated (queued) **before** its dependents — never the reverse.
 
-1. Deepest ancestor first (transitive parents of C, root-last).
-2. Member types next, in spec-row order of C's `Attribute` column (resolve
-   forward references after their target).
-3. C last.
+1. Topological order over the closure's dependency edges: a class referenced by
+   another queued class (as a `Base` or as an `Attribute` member type — `ref` /
+   `tref` / `iref` target / `aggr` child / shared enum / primitive container)
+   comes **before** the class that references it.
+2. **Bases before member types**: all `Base`-chain classes are queued first,
+   each chain deepest-ancestor-first (root-last) — this is the same rule
+   applied to the `Base` edges, and it fixes the order between sibling bases
+   of unrelated classes (any deterministic base-first order is valid; keep
+   closure-collection order among independent chains).
+3. Ties left after 1–2 (member types with no dependency between them) keep
+   spec-row order of C's `Attribute` column.
+4. C last.
+
+A queue where a dependent class precedes the class it references is malformed —
+the member type would not exist when the dependent's Step 3 needs it, inviting
+fabrication (Rule 0001.10). If dependency order and spec-row order conflict,
+dependency order wins.
 
 Skip classes that already carry `# Spec verified: R<YY>-<MM>` **unless** the spec
 changed (Rule 0012.3 drift) or the class is being extended — those re-enter the
@@ -1077,16 +1093,176 @@ type as already-synced.
 A class marked Skip in 16.4 stays out of the queue; a class marked XSD-derived
 enters the queue with the XSD-only flag.
 
-### 16.6 Phase 0 output
+### 16.6 Phase 0 output — the persistent sync todo list
 
-Phase 0 produces a sync map persisted in the conversation (a markdown table or
-JSON; not a repo file):
+Phase 0 produces a **sync todo list persisted to a repo file**:
+`docs/plan/sync-todo/<InputClassName>.md` (one file per sync run; the input class
+names the file). **The queue lives in this file, never only in the conversation**
+— a conversation-only queue dies with the session and loses the 16.4 Skip/XSD
+decisions with it.
 
-| Class | Source | Table N.M | Parent | Role | Sync? |
+File format:
+
+```markdown
+# Sync todo: <InputClassName>
+
+Input class: <InputClassName> · Generated: <YYYY-MM-DD> · Queue order = row order
+(resume = first row still `[ ]`; all rows `[x]` = sync finished)
+
+| Status | Class | Role | Source | Table | Notes |
 |---|---|---|---|---|---|
-| C | markdown | Table X.Y | (input) | yes | 9-step |
-| ParentK | markdown | Table A.B | base | yes (already stamped) | skip |
-| MemberK | missing | — | member | xsd-derived | 9-step (XSD-only) |
-| MemberK2 | missing | — | member | skipped | deviation row |
+| [ ] | ParentK | base | markdown | Table A.B | |
+| [x] | ParentJ | base | markdown | Table C.D | commit abc1234 |
+| [ ] | MemberK | member | xsd-derived | — | XSD-only, no marker (16.4) |
+| [ ] | C | input | markdown | Table X.Y | |
 
-The 9-step workflow (Phase 1) consumes this map one row at a time.
+## Not queued (16.4 decisions)
+- MemberK2 — Skip per user; deviation row recorded (Rule 0014).
+```
+
+- One row per **queued** class, in 16.5 order (dependency-first: deepest
+  ancestor first, referenced member types before their referrers, input class
+  last). Status flips `[ ]` → `[x]` only per Rule 0017.2 (commit hash
+  recorded in Notes). The **Notes** column carries what later sessions need:
+  `enum` (Steps 5/6 N/A — round-trip via the consuming class), `XSD-only`
+  (no marker), `drift R<YY>-<MM>` (re-opened row), and the commit hash once
+  finished. Classes resolved **Skip** in 16.4 never get a queue row —
+  they are listed under "Not queued" so the decision survives session death.
+- Already-stamped classes skipped by 16.5 are not queued either; list them under
+  "Not queued" with "already stamped `# Spec verified: R<YY>-<MM>`".
+- The Phase 0 session **ends** after writing this file. Every 9-step run happens
+  in its own fresh session (Rule 0017).
+
+The 9-step workflow (Phase 1) consumes this file one row at a time.
+
+---
+
+## Rule 0017 — Per-class session loop, commit & completion
+
+Phase 1 execution discipline: one class per fresh session, a commit per finished
+class, and an explicit whole-sync termination condition. This rule exists because
+the per-class workload (verbatim Note diffs per member, the 9b checklist) degrades
+silently in a context loaded with earlier classes, and because conversation-only
+state (queue, Skip/XSD decisions) is lost the moment a session dies.
+
+### 17.1 Entry — resume, never rebuild
+
+- On every skill invocation, check for `docs/plan/sync-todo/<ClassName>.md` first.
+  **File exists ⇒ resume:** read it, take the **first row still `[ ]`**, run the
+  9-step workflow for that one class. Do **not** re-run Phase 0, re-collect the
+  closure, or re-ask the 16.2/16.4 gates — they were already confirmed when the
+  file was written. **File missing ⇒ run Phase 0** (which ends by writing it).
+- **One class per session.** After finishing a class (17.2), stop and tell the
+  user to start a new session for the next class — even when the context "still
+  feels fresh". A session may run Phase 0 (then stop) or exactly one 9-step
+  class, never both, never two classes. **A user request to continue in-session
+  does not override this rule** — neither the agent nor the user can detect the
+  silent degradation of the 9b verbatim diffs, and the persistent todo file
+  makes a fresh session cost near zero (16.6); explain that and stop.
+- **Drift/extension exception:** to re-sync a class whose row is already `[x]`
+  (Rule 0012.3 drift or an extension), the user must say so explicitly; reset
+  that row to `[ ]` with a `drift R<YY>-<MM>` note, then sync it in a fresh
+  session.
+
+### 17.2 Finish — commit, then mark `[x]`
+
+A class is finished only after Step 9b passes (user confirmed every item) **and**
+the `# Spec verified:` marker is written (or the XSD-only exception applies).
+Then, in this order:
+
+1. **Commit** the class's changes to the **current feature branch**: model
+   source, mirrored model test, parser/writer tests, parser, writer, deviation
+   tracker updates, and the todo file itself. Message: `feat: <ClassName> synced.`
+   If the working branch is `main`, ask the user which feature branch to use
+   before committing.
+2. **Mark the todo row `[x]`** and record the commit hash in Notes — in the same
+   commit (or an immediate follow-up commit amending the todo file only).
+3. **Report and stop.** Tell the user: class finished (hash), N of M rows done,
+   start a new session for the next class — or, if all rows are `[x]`, that the
+   sync is complete.
+
+**No `[x]` before the commit exists** — the hash is part of the row. **No
+deferred bulk commit** ("I'll commit after all classes") — a session death then
+loses every finished class's work.
+
+### 17.3 Termination — all rows `[x]`
+
+After marking a row `[x]`, re-read the todo file: every queue row `[x]` ⇒ the
+sync is **finished**. Report the summary (classes synced, commit hashes,
+remaining deviations, "Not queued" decisions). Any `[ ]` remaining ⇒ the next
+session picks it up (17.1). Never declare the sync finished while a `[ ]` queue
+row exists.
+
+### 17.4 Forbidden workarounds
+
+- Keeping the queue/sync map only in the conversation (Rule 0016.6).
+- Rebuilding the queue by grepping `# Spec verified:` stamps instead of reading
+  the todo file — stamps carry no queue order, roles, or Skip/XSD decisions.
+- Syncing a second class "because the context still feels fresh" (17.1).
+- Marking `[x]` without a commit hash, or deferring commits to the end (17.2).
+- Re-running Phase 0 when the todo file already exists (17.1).
+
+## Rule 0018 — Step-level session todos (per class)
+
+While running the 9-step workflow, mirror the steps into the **session todo
+list** so per-step progress is visible and verifiable in real time. This rule
+exists because a 9-step run is long: without step-level todos, "which steps are
+actually done" lives only in the conversation, and a skipped or half-finished
+step (e.g. Step 4 wipe skipped on some members, Step 5 written after Step 6)
+surfaced nothing until 9b — or never.
+
+### 18.1 Create — 9 todos at workflow start
+
+Immediately after taking the `[ ]` row (17.1) and **before starting Step 1**,
+create exactly **9 session todo items** — one per workflow step, named:
+
+1. `Step 1 — Sync members & description from spec`
+2. `Step 2 — Write model class unit test (Red)`
+3. `Step 3 — Implement model class (Green)`
+4. `Step 4 — Sync docstrings (wipe + rewrite)`
+5. `Step 5 — Write reader/writer round-trip test (Red)`
+6. `Step 6 — Update parser & writer (Green)`
+7. `Step 7 — Update checklist comment`
+8. `Step 8 — Deviations`
+9. `Step 9 — Verify (9a) + confirm (9b)`
+
+Not fewer. Merging steps into one todo (`"Steps 2+3 model TDD"`,
+`"Steps 5+6 reader/writer"`) hides exactly the Red→Green ordering Rule 0006
+exists to enforce.
+
+### 18.2 Check off — one step, one check
+
+- Mark a step todo `in_progress` when the step begins.
+- Mark it `completed` **immediately when that step finishes** — one completed
+  step = exactly one newly checked todo item, checked at that moment.
+- **Never batch-check**: marking several step todos completed at once (or all of
+  them at the end) defeats the rule — the todo list would show progress the work
+  doesn't have.
+- Never mark completed early: Step 2/5 complete only when the failing test
+  exists and was seen failing; Step 3/6 only when tests pass; Step 9 only per
+  18.3.
+- A step that is legitimately N/A for the class shape (Workflow adaptations —
+  e.g. Steps 5/6 for a standalone `AREnum`) is marked completed **with the N/A
+  reason in the todo**, not deleted and not left open.
+
+### 18.3 Gates and boundaries
+
+- **Step 9's todo completes only after 9b user confirmation** and the
+  `# Spec verified:` marker is written (or the XSD-only exception applies) —
+  passing 9a's automated checks alone does not complete it.
+- **Before the 17.2 commit: all 9 step todos must be completed.** Any open step
+  todo ⇒ the class is not finished — resolve it before committing, never check
+  it off to "clean up".
+- Session todos are **ephemeral progress display only**. The persistent record
+  remains the sync-todo file's per-class row (Rule 0016.6 / 17.2); step todos
+  neither replace it, gate it, nor get written to it. Session death discards
+  them — that is fine, the todo file carries the real state.
+
+### 18.4 Forbidden workarounds
+
+- Creating one todo for the whole class ("Sync ClassName") instead of 9.
+- Merging Red→Green pairs into single todos (2+3, 5+6).
+- Batch-checking or end-of-run checking of step todos.
+- Checking off a step todo "because 9b will re-verify it anyway" — 9b verifies
+  the class against the rules; the step todos verify the workflow was actually
+  walked, step by step.

@@ -1209,6 +1209,7 @@ class TestDataTransformationHandlers:
             "<DATA-TRANSFORMATIONS>"
             "<DATA-TRANSFORMATION>"
             "<SHORT-NAME>dt1</SHORT-NAME>"
+            "<DATA-TRANSFORMATION-KIND>SYMMETRIC</DATA-TRANSFORMATION-KIND>"
             "<TRANSFORMER-CHAIN-REFS>"
             "<TRANSFORMER-CHAIN-REF DEST='TRANSFORMER-CHAIN'>/tc1</TRANSFORMER-CHAIN-REF>"
             "<TRANSFORMER-CHAIN-REF DEST='TRANSFORMER-CHAIN'>/tc2</TRANSFORMER-CHAIN-REF>"
@@ -1219,6 +1220,8 @@ class TestDataTransformationHandlers:
         )
         parser.readDataTransformationSet(element, dtf_set)
         dt1 = dtf_set.getDataTransformations()[0]
+        assert dt1.getDataTransformationKind() is not None
+        assert dt1.getDataTransformationKind().getValue() == "SYMMETRIC"
         assert len(dt1.getTransformerChainRefs()) == 2
         assert dt1.getTransformerChainRefs()[0].getValue() == "/tc1"
         assert dt1.getTransformerChainRefs()[1].getValue() == "/tc2"

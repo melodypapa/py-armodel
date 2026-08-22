@@ -126,17 +126,17 @@ class TestWriterISignalGroupISignalRef:
 
 
 class TestWriterISignalGroupComBasedSignalGroupTransformation:
-    def test_with_refs(self, writer):
+    def test_with_ref(self, writer):
         group = _make_isignal_group()
-        group.addComBasedSignalGroupTransformationRef(_ref("/dt1", "DATA-TRANSFORMATION"))
-        group.addComBasedSignalGroupTransformationRef(_ref("/dt2", "DATA-TRANSFORMATION"))
+        group.setComBasedSignalGroupTransformationRef(_ref("/dt1", "DATA-TRANSFORMATION"))
         parent = _parent()
         writer.writeISignalGroupComBasedSignalGroupTransformation(parent, group)
         assert parent[0].tag == "COM-BASED-SIGNAL-GROUP-TRANSFORMATIONS"
         cond = parent[0].find("DATA-TRANSFORMATION-REF-CONDITIONAL")
         assert cond is not None
         refs = cond.findall("DATA-TRANSFORMATION-REF")
-        assert len(refs) == 2
+        assert len(refs) == 1
+        assert refs[0].text == "/dt1"
 
     def test_empty(self, writer):
         group = _make_isignal_group()
@@ -174,6 +174,7 @@ class TestWriterEndToEndTransformationISignalPropsDataIds:
 class TestWriterEndToEndTransformationISignalProps:
     def test_full(self, writer):
         props = EndToEndTransformationISignalProps()
+        props.setCsErrorReaction(_literal("autonomous"))
         props.setTransformerRef(_ref("/tr", "TRANSFORMATION-PROPS"))
         props.addDataId(_posint(10))
         props.setDataLength(_posint(64))
@@ -184,6 +185,8 @@ class TestWriterEndToEndTransformationISignalProps:
         assert variants is not None
         cond = variants.find("END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL")
         assert cond is not None
+        assert cond.find("CS-ERROR-REACTION") is not None
+        assert cond.find("CS-ERROR-REACTION").text == "autonomous"
         assert cond.find("TRANSFORMER-REF") is not None
         assert cond.find("DATA-IDS") is not None
         assert cond.find("DATA-LENGTH") is not None
@@ -199,13 +202,13 @@ class TestWriterISignalGroupTransformationISignalProps:
         group = _make_isignal_group()
         props = EndToEndTransformationISignalProps()
         props.setTransformerRef(_ref("/tr", "TRANSFORMATION-PROPS"))
-        group.setTransformationISignalProps(props)
+        group.addTransformationISignalProps(props)
         parent = _parent()
         writer.writeISignalGroupTransformationISignalProps(parent, group)
         assert parent[0].tag == "TRANSFORMATION-I-SIGNAL-PROPSS"
         assert parent[0].find("END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS") is not None
 
-    def test_none(self, writer):
+    def test_empty(self, writer):
         group = _make_isignal_group()
         parent = _parent()
         writer.writeISignalGroupTransformationISignalProps(parent, group)
@@ -219,7 +222,7 @@ class TestWriterISignalGroupTransformationISignalProps:
                 super().__init__()
 
         group = _make_isignal_group()
-        group.setTransformationISignalProps(_OtherProps())
+        group.addTransformationISignalProps(_OtherProps())
         parent = _parent()
         warn_writer.writeISignalGroupTransformationISignalProps(parent, group)
         assert parent[0].tag == "TRANSFORMATION-I-SIGNAL-PROPSS"
@@ -231,13 +234,13 @@ class TestWriterISignalGroup:
     def test_full(self, writer):
         group = _make_isignal_group()
         group.addISignalRef(_ref("/s1", "I-SIGNAL"))
-        group.addComBasedSignalGroupTransformationRef(_ref("/dt", "DATA-TRANSFORMATION"))
+        group.setComBasedSignalGroupTransformationRef(_ref("/dt", "DATA-TRANSFORMATION"))
         group.setSystemSignalGroupRef(_ref("/ssg", "SYSTEM-SIGNAL-GROUP"))
         props = EndToEndTransformationISignalProps()
         props.setTransformerRef(_ref("/tr", "TRANSFORMATION-PROPS"))
         props.addDataId(_posint(5))
         props.setDataLength(_posint(32))
-        group.setTransformationISignalProps(props)
+        group.addTransformationISignalProps(props)
         parent = _parent()
         writer.writeISignalGroup(parent, group)
         elem = parent.find("I-SIGNAL-GROUP")

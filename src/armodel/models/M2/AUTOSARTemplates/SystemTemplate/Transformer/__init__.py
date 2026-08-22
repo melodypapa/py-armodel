@@ -13,61 +13,103 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import
 
 class DataTransformationKindEnum(AREnum):
     """
-    Enumeration defining types of data transformations,
-    specifying the kind of transformation to be applied
-    to data elements in the communication system.
+    This enumeration contributes to the definition of the scope of the DataTransformation.
     """
 
     # DataTransformationKindEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.40, p.150
+    # Spec verified: R23-11
+    # (no methods)
+
+    # The DataTransformation shall only be applied to the receiving end only, i.e. transform from byte array to data type. Tags: atp.EnumerationLiteralIndex=0
+    ASYMMETRIC_FROM_BYTE_ARRAY = "asymmetricFromByteArray"
+
+    # The DataTransformation shall be applied to the sending end only, i.e. from data type to byte array. Tags: atp.EnumerationLiteralIndex=1
+    ASYMMETRIC_TO_BYTE_ARRAY = "asymmetricToByteArray"
+
+    # The DataTransformation shall be applied at both the sending and the receiving end of the communication. Tags: atp.EnumerationLiteralIndex=2
+    SYMMETRIC = "symmetric"
 
     def __init__(self):
-        super().__init__([])
+        super().__init__(
+            (
+                DataTransformationKindEnum.ASYMMETRIC_FROM_BYTE_ARRAY,
+                DataTransformationKindEnum.ASYMMETRIC_TO_BYTE_ARRAY,
+                DataTransformationKindEnum.SYMMETRIC,
+            )
+        )
 
 
 class DataTransformation(Identifiable):
     """
-    Represents a data transformation in the system, defining
-    the type of transformation, execution behavior, and
-    references to transformation chains for data processing.
+    A DataTransformation represents a transformer chain. It is an ordered list of transformers.
     """
 
     # DataTransformation method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataTransformationKind    [x] impl  [ ] docstring  [ ] test
-    # [ ] setDataTransformationKind    [x] impl  [ ] docstring  [ ] test
-    # [ ] getExecuteDespiteDataUnavailability [x] impl  [ ] docstring  [ ] test
-    # [ ] setExecuteDespiteDataUnavailability [x] impl  [ ] docstring  [ ] test
-    # [ ] getTransformerChainRefs      [x] impl  [ ] docstring  [ ] test
-    # [ ] addTransformerChainRef       [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.2, p.763
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDataTransformationKind    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDataTransformationKind    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getExecuteDespiteDataUnavailability [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setExecuteDespiteDataUnavailability [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTransformerChainRefs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addTransformerChainRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.dataTransformationKind: DataTransformationKindEnum = None
-        self.executeDespiteDataUnavailability: Boolean = None
+        # This attribute controls the kind of DataTransformation to be applied.
+        self.dataTransformationKind: Optional[DataTransformationKindEnum] = None
+
+        # Specifies whether the transformer chain is executed even if no input data are available.
+        self.executeDespiteDataUnavailability: Optional[Boolean] = None
+
+        # This attribute represents the definition of a chain of transformers that are supposed to be executed according to the order of being referenced from DataTransformation.
         self.transformerChainRefs: List[RefType] = []
 
-    def getDataTransformationKind(self):
+    def getDataTransformationKind(self) -> Optional[DataTransformationKindEnum]:
+        """
+        This attribute controls the kind of DataTransformation to be applied.
+        """
         return self.dataTransformationKind
 
-    def setDataTransformationKind(self, value):
+    def setDataTransformationKind(self, value: Optional[DataTransformationKindEnum]) -> "DataTransformation":
+        """
+        This attribute controls the kind of DataTransformation to be applied.
+        A None value is a no-op and does not overwrite an existing dataTransformationKind.
+        """
         if value is not None:
             self.dataTransformationKind = value
         return self
 
-    def getExecuteDespiteDataUnavailability(self):
+    def getExecuteDespiteDataUnavailability(self) -> Optional[Boolean]:
+        """
+        Specifies whether the transformer chain is executed even if no input data are available.
+        """
         return self.executeDespiteDataUnavailability
 
-    def setExecuteDespiteDataUnavailability(self, value):
+    def setExecuteDespiteDataUnavailability(self, value: Optional[Boolean]) -> "DataTransformation":
+        """
+        Specifies whether the transformer chain is executed even if no input data are available.
+        A None value is a no-op and does not overwrite an existing executeDespiteDataUnavailability.
+        """
         if value is not None:
             self.executeDespiteDataUnavailability = value
         return self
 
-    def getTransformerChainRefs(self):
+    def getTransformerChainRefs(self) -> List[RefType]:
+        """
+        This attribute represents the definition of a chain of transformers that are supposed to be executed according to the order of being referenced from DataTransformation.
+        """
         return self.transformerChainRefs
 
-    def addTransformerChainRef(self, value):
+    def addTransformerChainRef(self, value: Optional[RefType]) -> "DataTransformation":
+        """
+        This attribute represents the definition of a chain of transformers that are supposed to be executed according to the order of being referenced from DataTransformation.
+        A None value is a no-op and does not add to transformerChainRefs.
+        """
         if value is not None:
             self.transformerChainRefs.append(value)
         return self
@@ -653,62 +695,97 @@ class DataTransformationSet(ARElement):
         return self.getElement(short_name)
 
 
+class CSTransformerErrorReactionEnum(AREnum):
+    """
+    Possible kinds of error reaction in case of a hard transformer error.
+    """
+
+    # CSTransformerErrorReactionEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.9, p.773
+    # Spec verified: R23-11
+    # (no methods)
+
+    # The application is responsible for any error reaction. No autonomous error reaction of RTE and transformer. Tags: atp.EnumerationLiteralIndex=0
+    APPLICATION_ONLY = "applicationOnly"
+
+    # RTE and Transformer coordinate an autonomous error reaction on their own. Tags: atp.EnumerationLiteralIndex=1
+    AUTONOMOUS = "autonomous"
+
+    def __init__(self):
+        super().__init__([CSTransformerErrorReactionEnum.APPLICATION_ONLY, CSTransformerErrorReactionEnum.AUTONOMOUS])
+
+
 class TransformationISignalProps(Describable, ABC):
     """
-    Abstract base class for transformation interaction signal properties,
-    defining common properties for signal transformation including
-    error reactions, data prototype properties, and transformer references.
+    TransformationISignalProps holds all the attributes for the different TransformationTechnologies that are ISignal specific. Tags: vh.latestBindingTime=postBuild
     """
 
     # TransformationISignalProps method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCsErrorReaction           [x] impl  [ ] docstring  [ ] test
-    # [ ] setCsErrorReaction           [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataPrototypeTransformationProps [x] impl  [ ] docstring  [ ] test
-    # [ ] setDataPrototypeTransformationProps [x] impl  [ ] docstring  [ ] test
-    # [ ] getIdent                     [x] impl  [ ] docstring  [ ] test
-    # [ ] setIdent                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getTransformerRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] setTransformerRef            [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.8, p.772
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getCsErrorReaction           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCsErrorReaction           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDataPrototypeTransformationProps [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer
+    # [x] setDataPrototypeTransformationProps [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer
+    # [x] getTransformerRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTransformerRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         if type(self) is TransformationISignalProps:
             raise TypeError("TransformationISignalProps is an abstract class.")
         super().__init__()
 
-        self.csErrorReaction = None
-        self.dataPrototypeTransformationProps: List = []
-        self.ident = None
-        self.transformerRef: RefType = None
+        # Defines whether the transformer chain of client/server communication coordinates an autonomous error reaction together with the RTE or whether any error reaction is the responsibility of the application.
+        self.csErrorReaction: Optional[CSTransformerErrorReactionEnum] = None
 
-    def getCsErrorReaction(self):
+        # Fine granular modeling of TransfromationProps on the level of DataPrototypes. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable
+        self.dataPrototypeTransformationProps: List = []  # placeholder: DataPrototypeTransformationProps not yet implemented
+
+        # Reference to the TransformationTechnology description that contains transformer specific and ISignal independent configuration properties.
+        self.transformerRef: Optional[RefType] = None
+
+    def getCsErrorReaction(self) -> Optional[CSTransformerErrorReactionEnum]:
+        """
+        Defines whether the transformer chain of client/server communication coordinates an autonomous error reaction together with the RTE or whether any error reaction is the responsibility of the application.
+        """
         return self.csErrorReaction
 
-    def setCsErrorReaction(self, value):
+    def setCsErrorReaction(self, value: Optional[CSTransformerErrorReactionEnum]) -> "TransformationISignalProps":
+        """
+        Defines whether the transformer chain of client/server communication coordinates an autonomous error reaction together with the RTE or whether any error reaction is the responsibility of the application.
+        A None value is a no-op and does not overwrite an existing csErrorReaction.
+        """
         if value is not None:
             self.csErrorReaction = value
         return self
 
-    def getDataPrototypeTransformationProps(self):
+    def getDataPrototypeTransformationProps(self) -> List:
+        """
+        Fine granular modeling of TransfromationProps on the level of DataPrototypes. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable
+        """
         return self.dataPrototypeTransformationProps
 
-    def setDataPrototypeTransformationProps(self, value):
+    def setDataPrototypeTransformationProps(self, value: Optional[List]) -> "TransformationISignalProps":
+        """
+        Fine granular modeling of TransfromationProps on the level of DataPrototypes. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable
+        A None value is a no-op and does not overwrite an existing dataPrototypeTransformationProps.
+        """
         if value is not None:
             self.dataPrototypeTransformationProps = value
         return self
 
-    def getIdent(self):
-        return self.ident
-
-    def setIdent(self, value):
-        if value is not None:
-            self.ident = value
-        return self
-
-    def getTransformerRef(self):
+    def getTransformerRef(self) -> Optional[RefType]:
+        """
+        Reference to the TransformationTechnology description that contains transformer specific and ISignal independent configuration properties.
+        """
         return self.transformerRef
 
-    def setTransformerRef(self, value):
+    def setTransformerRef(self, value: Optional[RefType]) -> "TransformationISignalProps":
+        """
+        Reference to the TransformationTechnology description that contains transformer specific and ISignal independent configuration properties.
+        A None value is a no-op and does not overwrite an existing transformerRef.
+        """
         if value is not None:
             self.transformerRef = value
         return self

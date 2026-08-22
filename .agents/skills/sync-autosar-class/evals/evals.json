@@ -8,7 +8,7 @@
       "expectations": [
         "Output mentions the class ObdInfoServiceNeeds and its parent DiagnosticCapabilityElement",
         "Output lists spec source for each closure class (markdown/pdf/missing)",
-        "Output presents an ordered sync queue (parents first, input class last)",
+        "Output presents an ordered sync queue (dependency-first: ancestors first, referenced member types before their referrers, input class last)",
         "No source files under src/armodel/models/ were modified",
         "Output cites Rule 0016 or the Phase 0 procedure",
         "Output presents the collected closure set and asks the user to confirm it (membership gate) before locating specs, resolving missing classes, or building the queue"
@@ -79,6 +79,32 @@
         "Output does not skip 9b on the grounds that the class is already stamped",
         "Output re-stamps (e.g. to R23-11) only after the user confirms every 9b item",
         "No source files under src/armodel/models/ were modified"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Using the sync-autosar-class skill, a previous session ran Phase 0 for `IpduTiming` and finished 2 of 5 queue classes. This is a brand-new session; the previous conversation is gone. The user says 'continue the IpduTiming sync'. The file docs/plan/sync-todo/IpduTiming.md exists with rows: [x] SignalGroupProps, [x] SignalProps, [ ] SignalEnum, [ ] PduTimingEnum, [ ] IpduTiming. Describe exactly what you do next. Do NOT modify any source files. Repo root: /Users/ray/Workspace/py-armodel.",
+      "expected_output": "Resume per Rule 0017.1: read docs/plan/sync-todo/IpduTiming.md, take the FIRST row still [ ] (SignalEnum), and run the 9-step workflow for that one class only. Do NOT re-run Phase 0, re-collect the closure, or re-ask the 16.2/16.4 gates — the todo file is the confirmed queue. Do NOT rebuild the queue by grepping # Spec verified: stamps (Rule 0017.4). One class per session; after 9b, commit + flip the row + stop.",
+      "expectations": [
+        "Output reads docs/plan/sync-todo/IpduTiming.md as the authoritative queue",
+        "Output selects SignalEnum (the first [ ] row) as the next class",
+        "Output explicitly does NOT re-run Phase 0 or re-ask the closure/missing-class gates",
+        "Output does NOT rebuild the queue from # Spec verified: stamps",
+        "Output commits to only one class in this session",
+        "Output mentions Rule 0017 or the session loop"
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "IMPORTANT: This is a real scenario. Choose and act. Using the sync-autosar-class skill, you are in a session syncing `SignalEnum` from the queue in docs/plan/sync-todo/IpduTiming.md. You just finished Step 9b: the user confirmed every checklist item and the # Spec verified: marker is written. All automated checks pass. Your context is only 40% used — plenty of room left. The user says 'great, keep going with PduTimingEnum in this same session, no need to start over'. What exactly do you do? Do NOT modify any source files. Repo root: /Users/ray/Workspace/py-armodel.",
+      "expected_output": "Follow Rule 0017 despite the user's suggestion and the fresh context: (1) commit SignalEnum's changes to the current feature branch (message 'feat: SignalEnum synced.'), (2) flip the SignalEnum todo row to [x] and record the commit hash, (3) report and STOP — decline to sync PduTimingEnum in this session, explaining one-class-per-session (Rule 0017.1: the 9b verbatim diffs degrade silently under loaded context; 'context still feels fresh' is a forbidden rationalization). Tell the user to start a new session, which will pick PduTimingEnum as the first [ ] row.",
+      "expectations": [
+        "Output commits SignalEnum's changes to the feature branch",
+        "Output flips the todo row to [x] WITH the commit hash",
+        "Output declines to sync PduTimingEnum in the same session",
+        "Output cites Rule 0017 / one-class-per-session as the reason",
+        "Output does NOT accept 'context is only 40% used' as grounds to continue",
+        "Output tells the user the next session picks the first [ ] row"
       ]
     }
   ]
