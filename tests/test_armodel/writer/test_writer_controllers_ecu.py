@@ -314,6 +314,42 @@ class TestWriterSetCanControllerFdConfigurationRequirements:
         assert len(parent) == 0
 
 
+class TestWriterSetCanControllerXlConfiguration:
+    def test_with_config(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerXlConfiguration
+
+        config = CanControllerXlConfiguration()
+        config.setErrorSignalingEnabled(_bool(True))
+        config.setPropSeg(_int(4))
+        config.setPwmL(_int(5))
+        config.setPwmO(_int(6))
+        config.setPwmS(_int(7))
+        config.setSspOffset(_int(8))
+        config.setSyncJumpWidth(_int(1))
+        config.setTimeSeg1(_int(13))
+        config.setTimeSeg2(_int(2))
+        config.setTrcvPwmModeEnabled(_bool(True))
+        parent = _parent()
+        writer.setCanControllerXlConfiguration(parent, "CAN-CONTROLLER-XL-CONFIGURATION", config)
+        assert len(parent) == 1
+        assert parent[0].tag == "CAN-CONTROLLER-XL-CONFIGURATION"
+        assert parent[0].find("ERROR-SIGNALING-ENABLED") is not None
+        assert parent[0].find("PROP-SEG") is not None
+        assert parent[0].find("PWM-L") is not None
+        assert parent[0].find("PWM-O") is not None
+        assert parent[0].find("PWM-S") is not None
+        assert parent[0].find("SSP-OFFSET") is not None
+        assert parent[0].find("SYNC-JUMP-WIDTH") is not None
+        assert parent[0].find("TIME-SEG1") is not None
+        assert parent[0].find("TIME-SEG2") is not None
+        assert parent[0].find("TRCV-PWM-MODE-ENABLED") is not None
+
+    def test_none(self, writer):
+        parent = _parent()
+        writer.setCanControllerXlConfiguration(parent, "CAN-CONTROLLER-XL-CONFIGURATION", None)
+        assert len(parent) == 0
+
+
 class TestWriterAbstractCanCommunicationControllerAttributes:
     def test_with_attributes(self, writer):
         attrs = CanControllerConfigurationRequirements()

@@ -289,171 +289,175 @@ class CanControllerFdConfigurationRequirements(ARObject):
 
 
 class CanControllerXlConfiguration(ARObject):
-    """
-    Defines CAN XL (eXtended Length) configuration parameters for CAN controllers,
-    including timing settings, payload length configurations, and other
-    CAN XL communication properties.
-    """
+    """This meta-class represents the CAN XL-specific controller attributes."""
 
     # CanControllerXlConfiguration method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getArbitrationPhaseSeg1      [x] impl  [ ] docstring  [ ] test
-    # [ ] setArbitrationPhaseSeg1      [x] impl  [ ] docstring  [ ] test
-    # [ ] getArbitrationPhaseSeg2      [x] impl  [ ] docstring  [ ] test
-    # [ ] setArbitrationPhaseSeg2      [x] impl  [ ] docstring  [ ] test
-    # [ ] getArbitrationSJW            [x] impl  [ ] docstring  [ ] test
-    # [ ] setArbitrationSJW            [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataPhaseSeg1             [x] impl  [ ] docstring  [ ] test
-    # [ ] setDataPhaseSeg1             [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataPhaseSeg2             [x] impl  [ ] docstring  [ ] test
-    # [ ] setDataPhaseSeg2             [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataSJW                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setDataSJW                   [x] impl  [ ] docstring  [ ] test
-    # [ ] getMinArbitrationBitTime     [x] impl  [ ] docstring  [ ] test
-    # [ ] setMinArbitrationBitTime     [x] impl  [ ] docstring  [ ] test
-    # [ ] getMinDataBitTime            [x] impl  [ ] docstring  [ ] test
-    # [ ] setMinDataBitTime            [x] impl  [ ] docstring  [ ] test
-    # [ ] getPaddingValue              [x] impl  [ ] docstring  [ ] test
-    # [ ] setPaddingValue              [x] impl  [ ] docstring  [ ] test
-    # [ ] getTimeSeg1Arbitration       [x] impl  [ ] docstring  [ ] test
-    # [ ] setTimeSeg1Arbitration       [x] impl  [ ] docstring  [ ] test
-    # [ ] getTimeSeg1Data              [x] impl  [ ] docstring  [ ] test
-    # [ ] setTimeSeg1Data              [x] impl  [ ] docstring  [ ] test
-    # [ ] getTimeSeg2Arbitration       [x] impl  [ ] docstring  [ ] test
-    # [ ] setTimeSeg2Arbitration       [x] impl  [ ] docstring  [ ] test
-    # [ ] getTimeSeg2Data              [x] impl  [ ] docstring  [ ] test
-    # [ ] setTimeSeg2Data              [x] impl  [ ] docstring  [ ] test
-    # [ ] getXlBitRateSwitch           [x] impl  [ ] docstring  [ ] test
-    # [ ] setXlBitRateSwitch           [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.18, p.71
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getErrorSignalingEnabled     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setErrorSignalingEnabled     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPropSeg                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPropSeg                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPwmL                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPwmL                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPwmO                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPwmO                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPwmS                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPwmS                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSspOffset                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSspOffset                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSyncJumpWidth             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSyncJumpWidth             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTimeSeg1                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTimeSeg1                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTimeSeg2                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTimeSeg2                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTrcvPwmModeEnabled        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTrcvPwmModeEnabled        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        self.arbitrationPhaseSeg1: PositiveInteger = None
-        self.arbitrationPhaseSeg2: PositiveInteger = None
-        self.arbitrationSJW: PositiveInteger = None
-        self.dataPhaseSeg1: PositiveInteger = None
-        self.dataPhaseSeg2: PositiveInteger = None
-        self.dataSJW: PositiveInteger = None
-        self.minArbitrationBitTime: TimeValue = None
-        self.minDataBitTime: TimeValue = None
-        self.paddingValue: PositiveInteger = None
-        self.timeSeg1Arbitration: PositiveInteger = None
-        self.timeSeg1Data: PositiveInteger = None
-        self.timeSeg2Arbitration: PositiveInteger = None
-        self.timeSeg2Data: PositiveInteger = None
-        self.xlBitRateSwitch: Boolean = None
+        # Specifies if error signaling shall be enabled. This is not possible when the transceiver is switched to PWM mode (trcvPwmModeEnabled set to TRUE). TRUE: Error signaling shall be enabled. FALSE: Error signaling shall be disabled.
+        self.errorSignalingEnabled: Optional[Boolean] = None
 
-    def getArbitrationPhaseSeg1(self):
-        return self.arbitrationPhaseSeg1
+        # Specifies propagation delay in time quantas.
+        self.propSeg: Optional[PositiveInteger] = None
 
-    def setArbitrationPhaseSeg1(self, value):
+        # Specifies the PWM long phase length.
+        self.pwmL: Optional[PositiveInteger] = None
+
+        # Specifies the PWM time offset.
+        self.pwmO: Optional[PositiveInteger] = None
+
+        # Specifies the PWM short phase length.
+        self.pwmS: Optional[PositiveInteger] = None
+
+        # Specifies the Transmitter Delay Compensation Offset in minimum time quanta. Transmitter Delay Compensation Offset is used to adjust the position of the Secondary Sample Point (SSP), relative to the beginning of the received bit. If this parameter is configured, the Transmitter Delay Compensation is done by measurement of the CAN controller. If not specified Transmitter Delay Compensation is disabled.
+        self.sspOffset: Optional[PositiveInteger] = None
+
+        # Specifies the synchronization jump width for the controller in time quantas.
+        self.syncJumpWidth: Optional[PositiveInteger] = None
+
+        # Specifies phase segment 1 in time quantas.
+        self.timeSeg1: Optional[PositiveInteger] = None
+
+        # Specifies phase segment 2 in time quantas.
+        self.timeSeg2: Optional[PositiveInteger] = None
+
+        # Specifies if the transceiver shall be set to the PWM mode. TRUE: The transceiver shall be switched to PWM mode. FALSE: The transceiver shall work in classic CAN mode.
+        self.trcvPwmModeEnabled: Optional[Boolean] = None
+
+    def getErrorSignalingEnabled(self) -> Optional[Boolean]:
+        """Specifies if error signaling shall be enabled. This is not possible when the transceiver is switched to PWM mode (trcvPwmModeEnabled set to TRUE). TRUE: Error signaling shall be enabled. FALSE: Error signaling shall be disabled."""
+        return self.errorSignalingEnabled
+
+    def setErrorSignalingEnabled(self, value: Optional[Boolean]) -> "CanControllerXlConfiguration":
+        """Specifies if error signaling shall be enabled. This is not possible when the transceiver is switched to PWM mode (trcvPwmModeEnabled set to TRUE). TRUE: Error signaling shall be enabled. FALSE: Error signaling shall be disabled.
+        A None value is a no-op and does not overwrite an existing errorSignalingEnabled."""
         if value is not None:
-            self.arbitrationPhaseSeg1 = value
+            self.errorSignalingEnabled = value
         return self
 
-    def getArbitrationPhaseSeg2(self):
-        return self.arbitrationPhaseSeg2
+    def getPropSeg(self) -> Optional[PositiveInteger]:
+        """Specifies propagation delay in time quantas."""
+        return self.propSeg
 
-    def setArbitrationPhaseSeg2(self, value):
+    def setPropSeg(self, value: Optional[PositiveInteger]) -> "CanControllerXlConfiguration":
+        """Specifies propagation delay in time quantas.
+        A None value is a no-op and does not overwrite an existing propSeg."""
         if value is not None:
-            self.arbitrationPhaseSeg2 = value
+            self.propSeg = value
         return self
 
-    def getArbitrationSJW(self):
-        return self.arbitrationSJW
+    def getPwmL(self) -> Optional[PositiveInteger]:
+        """Specifies the PWM long phase length."""
+        return self.pwmL
 
-    def setArbitrationSJW(self, value):
+    def setPwmL(self, value: Optional[PositiveInteger]) -> "CanControllerXlConfiguration":
+        """Specifies the PWM long phase length.
+        A None value is a no-op and does not overwrite an existing pwmL."""
         if value is not None:
-            self.arbitrationSJW = value
+            self.pwmL = value
         return self
 
-    def getDataPhaseSeg1(self):
-        return self.dataPhaseSeg1
+    def getPwmO(self) -> Optional[PositiveInteger]:
+        """Specifies the PWM time offset."""
+        return self.pwmO
 
-    def setDataPhaseSeg1(self, value):
+    def setPwmO(self, value: Optional[PositiveInteger]) -> "CanControllerXlConfiguration":
+        """Specifies the PWM time offset.
+        A None value is a no-op and does not overwrite an existing pwmO."""
         if value is not None:
-            self.dataPhaseSeg1 = value
+            self.pwmO = value
         return self
 
-    def getDataPhaseSeg2(self):
-        return self.dataPhaseSeg2
+    def getPwmS(self) -> Optional[PositiveInteger]:
+        """Specifies the PWM short phase length."""
+        return self.pwmS
 
-    def setDataPhaseSeg2(self, value):
+    def setPwmS(self, value: Optional[PositiveInteger]) -> "CanControllerXlConfiguration":
+        """Specifies the PWM short phase length.
+        A None value is a no-op and does not overwrite an existing pwmS."""
         if value is not None:
-            self.dataPhaseSeg2 = value
+            self.pwmS = value
         return self
 
-    def getDataSJW(self):
-        return self.dataSJW
+    def getSspOffset(self) -> Optional[PositiveInteger]:
+        """Specifies the Transmitter Delay Compensation Offset in minimum time quanta. Transmitter Delay Compensation Offset is used to adjust the position of the Secondary Sample Point (SSP), relative to the beginning of the received bit. If this parameter is configured, the Transmitter Delay Compensation is done by measurement of the CAN controller. If not specified Transmitter Delay Compensation is disabled."""
+        return self.sspOffset
 
-    def setDataSJW(self, value):
+    def setSspOffset(self, value: Optional[PositiveInteger]) -> "CanControllerXlConfiguration":
+        """Specifies the Transmitter Delay Compensation Offset in minimum time quanta. Transmitter Delay Compensation Offset is used to adjust the position of the Secondary Sample Point (SSP), relative to the beginning of the received bit. If this parameter is configured, the Transmitter Delay Compensation is done by measurement of the CAN controller. If not specified Transmitter Delay Compensation is disabled.
+        A None value is a no-op and does not overwrite an existing sspOffset."""
         if value is not None:
-            self.dataSJW = value
+            self.sspOffset = value
         return self
 
-    def getMinArbitrationBitTime(self):
-        return self.minArbitrationBitTime
+    def getSyncJumpWidth(self) -> Optional[PositiveInteger]:
+        """Specifies the synchronization jump width for the controller in time quantas."""
+        return self.syncJumpWidth
 
-    def setMinArbitrationBitTime(self, value):
+    def setSyncJumpWidth(self, value: Optional[PositiveInteger]) -> "CanControllerXlConfiguration":
+        """Specifies the synchronization jump width for the controller in time quantas.
+        A None value is a no-op and does not overwrite an existing syncJumpWidth."""
         if value is not None:
-            self.minArbitrationBitTime = value
+            self.syncJumpWidth = value
         return self
 
-    def getMinDataBitTime(self):
-        return self.minDataBitTime
+    def getTimeSeg1(self) -> Optional[PositiveInteger]:
+        """Specifies phase segment 1 in time quantas."""
+        return self.timeSeg1
 
-    def setMinDataBitTime(self, value):
+    def setTimeSeg1(self, value: Optional[PositiveInteger]) -> "CanControllerXlConfiguration":
+        """Specifies phase segment 1 in time quantas.
+        A None value is a no-op and does not overwrite an existing timeSeg1."""
         if value is not None:
-            self.minDataBitTime = value
+            self.timeSeg1 = value
         return self
 
-    def getPaddingValue(self):
-        return self.paddingValue
+    def getTimeSeg2(self) -> Optional[PositiveInteger]:
+        """Specifies phase segment 2 in time quantas."""
+        return self.timeSeg2
 
-    def setPaddingValue(self, value):
+    def setTimeSeg2(self, value: Optional[PositiveInteger]) -> "CanControllerXlConfiguration":
+        """Specifies phase segment 2 in time quantas.
+        A None value is a no-op and does not overwrite an existing timeSeg2."""
         if value is not None:
-            self.paddingValue = value
+            self.timeSeg2 = value
         return self
 
-    def getTimeSeg1Arbitration(self):
-        return self.timeSeg1Arbitration
+    def getTrcvPwmModeEnabled(self) -> Optional[Boolean]:
+        """Specifies if the transceiver shall be set to the PWM mode. TRUE: The transceiver shall be switched to PWM mode. FALSE: The transceiver shall work in classic CAN mode."""
+        return self.trcvPwmModeEnabled
 
-    def setTimeSeg1Arbitration(self, value):
+    def setTrcvPwmModeEnabled(self, value: Optional[Boolean]) -> "CanControllerXlConfiguration":
+        """Specifies if the transceiver shall be set to the PWM mode. TRUE: The transceiver shall be switched to PWM mode. FALSE: The transceiver shall work in classic CAN mode.
+        A None value is a no-op and does not overwrite an existing trcvPwmModeEnabled."""
         if value is not None:
-            self.timeSeg1Arbitration = value
-        return self
-
-    def getTimeSeg1Data(self):
-        return self.timeSeg1Data
-
-    def setTimeSeg1Data(self, value):
-        if value is not None:
-            self.timeSeg1Data = value
-        return self
-
-    def getTimeSeg2Arbitration(self):
-        return self.timeSeg2Arbitration
-
-    def setTimeSeg2Arbitration(self, value):
-        if value is not None:
-            self.timeSeg2Arbitration = value
-        return self
-
-    def getTimeSeg2Data(self):
-        return self.timeSeg2Data
-
-    def setTimeSeg2Data(self, value):
-        if value is not None:
-            self.timeSeg2Data = value
-        return self
-
-    def getXlBitRateSwitch(self):
-        return self.xlBitRateSwitch
-
-    def setXlBitRateSwitch(self, value):
-        if value is not None:
-            self.xlBitRateSwitch = value
+            self.trcvPwmModeEnabled = value
         return self
 
 

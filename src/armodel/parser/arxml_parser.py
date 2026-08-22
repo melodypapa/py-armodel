@@ -464,6 +464,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     CanControllerConfigurationRequirements,
     CanControllerFdConfiguration,
     CanControllerFdConfigurationRequirements,
+    CanControllerXlConfiguration,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SoAdRoutingGroup, SocketConnection, SocketConnectionBundle, SocketConnectionIpduIdentifier
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
@@ -7874,6 +7875,23 @@ class ARXMLParser(AbstractARXMLParser):
             requirements.setMinTrcvDelayCompensationOffset(self.getChildElementOptionalTimeValue(child_element, "MIN-TRCV-DELAY-COMPENSATION-OFFSET"))
             requirements.setTxBitRateSwitch(self.getChildElementOptionalBooleanValue(child_element, "TX-BIT-RATE-SWITCH"))  # NOQA E501
         return requirements
+
+    def getCanControllerXlConfiguration(self, element: ET.Element, key: str) -> CanControllerXlConfiguration:
+        configuration = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            configuration = CanControllerXlConfiguration()
+            configuration.setErrorSignalingEnabled(self.getChildElementOptionalBooleanValue(child_element, "ERROR-SIGNALING-ENABLED"))
+            configuration.setPropSeg(self.getChildElementOptionalIntegerValue(child_element, "PROP-SEG"))
+            configuration.setPwmL(self.getChildElementOptionalIntegerValue(child_element, "PWM-L"))
+            configuration.setPwmO(self.getChildElementOptionalIntegerValue(child_element, "PWM-O"))
+            configuration.setPwmS(self.getChildElementOptionalIntegerValue(child_element, "PWM-S"))
+            configuration.setSspOffset(self.getChildElementOptionalIntegerValue(child_element, "SSP-OFFSET"))
+            configuration.setSyncJumpWidth(self.getChildElementOptionalIntegerValue(child_element, "SYNC-JUMP-WIDTH"))
+            configuration.setTimeSeg1(self.getChildElementOptionalIntegerValue(child_element, "TIME-SEG1"))
+            configuration.setTimeSeg2(self.getChildElementOptionalIntegerValue(child_element, "TIME-SEG2"))
+            configuration.setTrcvPwmModeEnabled(self.getChildElementOptionalBooleanValue(child_element, "TRCV-PWM-MODE-ENABLED"))
+        return configuration
 
     def readAbstractCanCommunicationControllerAttributes(self, element: ET.Element, attributes: AbstractCanCommunicationControllerAttributes):
         attributes.setCanControllerFdAttributes(self.getCanControllerFdConfiguration(element, "CAN-CONTROLLER-FD-CONFIGURATION"))

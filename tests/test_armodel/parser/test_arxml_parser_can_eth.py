@@ -102,6 +102,48 @@ class TestCanControllerFdConfigurationRequirements:
         assert result.getTxBitRateSwitch().getValue() is True
 
 
+# ==================== CanControllerXlConfiguration ====================
+
+
+class TestCanControllerXlConfiguration:
+    """getCanControllerXlConfiguration (Table 3.18, R23-11)."""
+
+    def test_returns_none_when_child_absent(self, parser):
+        element = _snip("<OTHER/>")
+        result = parser.getCanControllerXlConfiguration(element, "CAN-CONTROLLER-XL-CONFIGURATION")
+        assert result is None
+
+    def test_sets_all_fields(self, parser):
+        from armodel.models import CanControllerXlConfiguration
+
+        element = _snip(
+            "<CAN-CONTROLLER-XL-CONFIGURATION>"
+            "<ERROR-SIGNALING-ENABLED>true</ERROR-SIGNALING-ENABLED>"
+            "<PROP-SEG>4</PROP-SEG>"
+            "<PWM-L>5</PWM-L>"
+            "<PWM-O>6</PWM-O>"
+            "<PWM-S>7</PWM-S>"
+            "<SSP-OFFSET>8</SSP-OFFSET>"
+            "<SYNC-JUMP-WIDTH>1</SYNC-JUMP-WIDTH>"
+            "<TIME-SEG1>13</TIME-SEG1>"
+            "<TIME-SEG2>2</TIME-SEG2>"
+            "<TRCV-PWM-MODE-ENABLED>true</TRCV-PWM-MODE-ENABLED>"
+            "</CAN-CONTROLLER-XL-CONFIGURATION>"
+        )
+        result = parser.getCanControllerXlConfiguration(element, "CAN-CONTROLLER-XL-CONFIGURATION")
+        assert isinstance(result, CanControllerXlConfiguration)
+        assert result.getErrorSignalingEnabled().getValue() is True
+        assert result.getPropSeg().getValue() == 4
+        assert result.getPwmL().getValue() == 5
+        assert result.getPwmO().getValue() == 6
+        assert result.getPwmS().getValue() == 7
+        assert result.getSspOffset().getValue() == 8
+        assert result.getSyncJumpWidth().getValue() == 1
+        assert result.getTimeSeg1().getValue() == 13
+        assert result.getTimeSeg2().getValue() == 2
+        assert result.getTrcvPwmModeEnabled().getValue() is True
+
+
 # ==================== AbstractCanCommunicationControllerCanControllerAttributes ====================
 
 
