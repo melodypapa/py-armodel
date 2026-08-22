@@ -17,7 +17,7 @@ Member-type classes (CanClusterBusOffRecovery, AbstractCanCommunicationControlle
 
 ## Queue (dependency-first)
 - [x] AbstractCanCluster (feat: 2853390c)
-- [ ] CanCluster
+- [x] CanCluster (feat: 79861080)
 - [ ] AbstractCanCommunicationController
 - [ ] CanCommunicationController
 - [ ] CanControllerFdConfiguration
