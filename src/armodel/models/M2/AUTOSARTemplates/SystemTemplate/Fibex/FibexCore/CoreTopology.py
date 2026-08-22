@@ -7,7 +7,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Integer, PositiveInteger
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveUnlimitedInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveUnlimitedInteger, RefType, String, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering, LinScheduleTable
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import NetworkEndpoint
@@ -387,29 +387,27 @@ class FlexrayPhysicalChannel(PhysicalChannel):
 
 
 class CommunicationCluster(FibexElement, ABC):
-    """
-    Abstract base class for communication clusters, defining
-    common properties for different types of communication
-    networks including baud rate, protocol specifications,
-    and physical channel management.
-    """
+    """The CommunicationCluster is the main element to describe the topological connection of communicating ECUs. A cluster describes the ensemble of ECUs, which are linked by a communication medium of arbitrary topology (bus, star, ring, ...). The nodes within the cluster share the same communication protocol, which may be event-triggered, time-triggered or a combination of both. A CommunicationCluster aggregates one or more physical channels. Tags: vh.latestBindingTime=postBuild"""
 
     # CommunicationCluster method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getBaudrate                  [x] impl  [ ] docstring  [ ] test
-    # [ ] setBaudrate                  [x] impl  [ ] docstring  [ ] test
-    # [ ] getPhysicalChannels          [x] impl  [ ] docstring  [ ] test
-    # [ ] getCanPhysicalChannels       [x] impl  [ ] docstring  [ ] test
-    # [ ] getLinPhysicalChannels       [x] impl  [ ] docstring  [ ] test
-    # [ ] getEthernetPhysicalChannels  [x] impl  [ ] docstring  [ ] test
-    # [ ] createCanPhysicalChannel     [x] impl  [ ] docstring  [ ] test
-    # [ ] createLinPhysicalChannel     [x] impl  [ ] docstring  [ ] test
-    # [ ] createEthernetPhysicalChannel [x] impl  [ ] docstring  [ ] test
-    # [ ] createFlexrayPhysicalChannel [x] impl  [ ] docstring  [ ] test
-    # [ ] getProtocolName              [x] impl  [ ] docstring  [ ] test
-    # [ ] setProtocolName              [x] impl  [ ] docstring  [ ] test
-    # [ ] getProtocolVersion           [x] impl  [ ] docstring  [ ] test
-    # [ ] setProtocolVersion           [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.6, p.57
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getBaudrate                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setBaudrate                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPhysicalChannels          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getCanPhysicalChannels       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getLinPhysicalChannels       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getEthernetPhysicalChannels  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createCanPhysicalChannel     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createLinPhysicalChannel     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createEthernetPhysicalChannel [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createFlexrayPhysicalChannel [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getProtocolName              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setProtocolName              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getProtocolVersion           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setProtocolVersion           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CommunicationCluster:
@@ -417,31 +415,61 @@ class CommunicationCluster(FibexElement, ABC):
 
         super().__init__(parent, short_name)
 
-        self.baudrate = None  # type: ARFloat
-        self.physicalChannel: List[PhysicalChannel] = []
-        self.protocolName = None  # type: ARLiteral
-        self.protocolVersion = None  # type: ARLiteral
+        # Channels speed in bits/s.
+        self.baudrate: Optional[PositiveUnlimitedInteger] = None
 
-    def getBaudrate(self):
+        # This relationship defines which channel element belongs to which cluster. A channel shall be assigned to exactly one cluster, whereas a cluster may have one or more channels. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable; atpVariation Tags: vh.latestBindingTime=systemDesignTime
+        self.physicalChannel: List[PhysicalChannel] = []
+
+        # The name of the protocol used.
+        self.protocolName: Optional[String] = None
+
+        # The version of the protocol used.
+        self.protocolVersion: Optional[String] = None
+
+    def getBaudrate(self) -> Optional[PositiveUnlimitedInteger]:
+        """
+        Channels speed in bits/s.
+        """
         return self.baudrate
 
-    def setBaudrate(self, value):
-        self.baudrate = value
+    def setBaudrate(self, value: Optional[PositiveUnlimitedInteger]) -> "CommunicationCluster":
+        """
+        Channels speed in bits/s.
+        A None value is a no-op and does not overwrite an existing baudrate.
+        """
+        if value is not None:
+            self.baudrate = value
         return self
 
     def getPhysicalChannels(self) -> List[PhysicalChannel]:
-        return list(sorted(filter(lambda a: isinstance(a, PhysicalChannel), self.elements), key=lambda o: o.getShortName()))
+        """
+        This relationship defines which channel element belongs to which cluster. A channel shall be assigned to exactly one cluster, whereas a cluster may have one or more channels. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable; atpVariation Tags: vh.latestBindingTime=systemDesignTime
+        """
+        return list(sorted(self.physicalChannel, key=lambda o: o.getShortName()))
 
     def getCanPhysicalChannels(self) -> List[CanPhysicalChannel]:
-        return list(sorted(filter(lambda a: isinstance(a, CanPhysicalChannel), self.elements), key=lambda o: o.getShortName()))
+        """
+        This relationship defines which channel element belongs to which cluster. A channel shall be assigned to exactly one cluster, whereas a cluster may have one or more channels. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable; atpVariation Tags: vh.latestBindingTime=systemDesignTime
+        """
+        return list(sorted(filter(lambda a: isinstance(a, CanPhysicalChannel), self.physicalChannel), key=lambda o: o.getShortName()))
 
     def getLinPhysicalChannels(self) -> List[LinPhysicalChannel]:
-        return list(sorted(filter(lambda a: isinstance(a, LinPhysicalChannel), self.elements), key=lambda o: o.getShortName()))
+        """
+        This relationship defines which channel element belongs to which cluster. A channel shall be assigned to exactly one cluster, whereas a cluster may have one or more channels. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable; atpVariation Tags: vh.latestBindingTime=systemDesignTime
+        """
+        return list(sorted(filter(lambda a: isinstance(a, LinPhysicalChannel), self.physicalChannel), key=lambda o: o.getShortName()))
 
     def getEthernetPhysicalChannels(self) -> List[EthernetPhysicalChannel]:
-        return list(sorted(filter(lambda a: isinstance(a, EthernetPhysicalChannel), self.elements), key=lambda o: o.getShortName()))
+        """
+        This relationship defines which channel element belongs to which cluster. A channel shall be assigned to exactly one cluster, whereas a cluster may have one or more channels. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable; atpVariation Tags: vh.latestBindingTime=systemDesignTime
+        """
+        return list(sorted(filter(lambda a: isinstance(a, EthernetPhysicalChannel), self.physicalChannel), key=lambda o: o.getShortName()))
 
     def createCanPhysicalChannel(self, short_name: str):
+        """
+        This relationship defines which channel element belongs to which cluster. A channel shall be assigned to exactly one cluster, whereas a cluster may have one or more channels. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable; atpVariation Tags: vh.latestBindingTime=systemDesignTime
+        """
         if short_name not in self.elements:
             channel = CanPhysicalChannel(self, short_name)
             self.addElement(channel)
@@ -449,6 +477,9 @@ class CommunicationCluster(FibexElement, ABC):
         return self.getElement(short_name)
 
     def createLinPhysicalChannel(self, short_name: str):
+        """
+        This relationship defines which channel element belongs to which cluster. A channel shall be assigned to exactly one cluster, whereas a cluster may have one or more channels. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable; atpVariation Tags: vh.latestBindingTime=systemDesignTime
+        """
         if short_name not in self.elements:
             channel = LinPhysicalChannel(self, short_name)
             self.addElement(channel)
@@ -456,6 +487,9 @@ class CommunicationCluster(FibexElement, ABC):
         return self.getElement(short_name)
 
     def createEthernetPhysicalChannel(self, short_name: str):
+        """
+        This relationship defines which channel element belongs to which cluster. A channel shall be assigned to exactly one cluster, whereas a cluster may have one or more channels. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable; atpVariation Tags: vh.latestBindingTime=systemDesignTime
+        """
         if short_name not in self.elements:
             channel = EthernetPhysicalChannel(self, short_name)
             self.addElement(channel)
@@ -463,24 +497,43 @@ class CommunicationCluster(FibexElement, ABC):
         return self.getElement(short_name)
 
     def createFlexrayPhysicalChannel(self, short_name: str):
+        """
+        This relationship defines which channel element belongs to which cluster. A channel shall be assigned to exactly one cluster, whereas a cluster may have one or more channels. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable; atpVariation Tags: vh.latestBindingTime=systemDesignTime
+        """
         if short_name not in self.elements:
             channel = FlexrayPhysicalChannel(self, short_name)
             self.addElement(channel)
             self.physicalChannel.append(channel)
         return self.getElement(short_name)
 
-    def getProtocolName(self):
+    def getProtocolName(self) -> Optional[String]:
+        """
+        The name of the protocol used.
+        """
         return self.protocolName
 
-    def setProtocolName(self, value):
-        self.protocolName = value
+    def setProtocolName(self, value: Optional[String]) -> "CommunicationCluster":
+        """
+        The name of the protocol used.
+        A None value is a no-op and does not overwrite an existing protocolName.
+        """
+        if value is not None:
+            self.protocolName = value
         return self
 
-    def getProtocolVersion(self):
+    def getProtocolVersion(self) -> Optional[String]:
+        """
+        The version of the protocol used.
+        """
         return self.protocolVersion
 
-    def setProtocolVersion(self, value):
-        self.protocolVersion = value
+    def setProtocolVersion(self, value: Optional[String]) -> "CommunicationCluster":
+        """
+        The version of the protocol used.
+        A None value is a no-op and does not overwrite an existing protocolVersion.
+        """
+        if value is not None:
+            self.protocolVersion = value
         return self
 
 

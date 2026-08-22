@@ -622,6 +622,14 @@ class Test_FibexCoreTopology:
         assert cluster.getProtocolVersion() == "2.0A"
         assert cluster == cluster.setProtocolVersion("2.0A")  # Test method chaining
 
+        # Test None no-op (guarded setters must not overwrite an existing value)
+        assert cluster == cluster.setBaudrate(None)
+        assert cluster.getBaudrate() == 500000  # Should remain unchanged
+        assert cluster == cluster.setProtocolName(None)
+        assert cluster.getProtocolName() == "CAN"  # Should remain unchanged
+        assert cluster == cluster.setProtocolVersion(None)
+        assert cluster.getProtocolVersion() == "2.0A"  # Should remain unchanged
+
         # Test physical channel creation methods
         can_channel = cluster.createCanPhysicalChannel("can_channel")
         assert isinstance(can_channel, CanPhysicalChannel)

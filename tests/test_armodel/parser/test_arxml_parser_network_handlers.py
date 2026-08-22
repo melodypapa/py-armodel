@@ -167,10 +167,12 @@ class TestCanClusterHandlers:
 
         cluster = CanCluster(parent=_autosar_root(), short_name="c")
         element = _snip(
-            "<PROTOCOL-NAME>CAN</PROTOCOL-NAME>" "<PROTOCOL-VERSION>2.0</PROTOCOL-VERSION>",
+            "<BAUDRATE>500000</BAUDRATE>" "<PROTOCOL-NAME>CAN</PROTOCOL-NAME>" "<PROTOCOL-VERSION>2.0</PROTOCOL-VERSION>",
             root_tag="CAN-CLUSTER-CONDITIONAL",
         )
         parser.readCommunicationCluster(element, cluster)
+        assert cluster.getBaudrate() is not None
+        assert cluster.getBaudrate().getValue() == 500000
         assert cluster.getProtocolName() is not None
         assert cluster.getProtocolName().getValue() == "CAN"
         assert cluster.getProtocolVersion() is not None
