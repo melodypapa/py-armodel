@@ -475,7 +475,13 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     UdpTp,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayAbsolutelyScheduledTiming, FlexrayFrame, FlexrayFrameTriggering
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCluster, FlexrayCommunicationConnector, FlexrayCommunicationController, FlexrayFifoRange
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import (
+    FlexrayCluster,
+    FlexrayCommunicationConnector,
+    FlexrayCommunicationController,
+    FlexrayFifoConfiguration,
+    FlexrayFifoRange,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import ApplicationEntry, LinFrameTriggering, LinScheduleTable, LinUnconditionalFrame, ScheduleTableEntry
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinMaster
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, IPduMapping, ISignalMapping, TargetIPduRef
@@ -7522,6 +7528,19 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalIntegerValue(child_element, "RANGE-MAX", fifo_range.getRangeMax())
             self.setChildElementOptionalIntegerValue(child_element, "RANGE-MIN", fifo_range.getRangeMin())
+
+    def setFlexrayFifoConfiguration(self, element: ET.Element, key: str, configuration: FlexrayFifoConfiguration):
+        if configuration is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalBooleanValue(child_element, "ADMIT-WITHOUT-MESSAGE-ID", configuration.getAdmitWithoutMessageId())
+            self.setChildElementOptionalIntegerValue(child_element, "BASE-CYCLE", configuration.getBaseCycle())
+            self.setChildElementOptionalRefType(child_element, "CHANNEL-REF", configuration.getChannelRef())
+            self.setChildElementOptionalIntegerValue(child_element, "CYCLE-REPETITION", configuration.getCycleRepetition())
+            self.setChildElementOptionalIntegerValue(child_element, "FIFO-DEPTH", configuration.getFifoDepth())
+            for fifo_range in configuration.getFlexrayFifoRanges():
+                self.setFlexrayFifoRange(child_element, "FLEXRAY-FIFO-RANGE", fifo_range)
+            self.setChildElementOptionalIntegerValue(child_element, "MSG-ID-MASK", configuration.getMsgIdMask())
+            self.setChildElementOptionalIntegerValue(child_element, "MSG-ID-MATCH", configuration.getMsgIdMatch())
 
     def setCanControllerFdConfigurationRequirements(self, element: ET.Element, key: str, requirements: CanControllerFdConfigurationRequirements):
         if requirements is not None:

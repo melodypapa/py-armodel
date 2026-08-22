@@ -54,6 +54,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.Flexr
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import (  # noqa: E501
     FlexrayCluster,
+    FlexrayFifoConfiguration,
     FlexrayFifoRange,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import (  # noqa: E501
@@ -1645,4 +1646,43 @@ class TestWriteFlexrayFifoRange:
     def test_write_flexray_fifo_range_none(self, writer):
         parent = _parent()
         writer.setFlexrayFifoRange(parent, "FLEXRAY-FIFO-RANGE", None)
+        assert len(parent) == 0
+
+
+class TestWriteFlexrayFifoConfiguration:
+    def test_write_flexray_fifo_configuration(self, writer):
+        config = FlexrayFifoConfiguration()
+        config.setAdmitWithoutMessageId(_boolean(True))
+        config.setBaseCycle(_integer("2"))
+        ref = RefType()
+        ref.setDest("FLEXRAY-PHYSICAL-CHANNEL")
+        ref.setValue("/FlexrayCluster/ChannelA")
+        config.setChannelRef(ref)
+        config.setCycleRepetition(_integer("4"))
+        config.setFifoDepth(_integer("8"))
+        fifo_range = config.createFlexrayFifoRange()
+        fifo_range.setRangeMax(_integer("200"))
+        fifo_range.setRangeMin(_integer("100"))
+        config.setMsgIdMask(_integer("16"))
+        config.setMsgIdMatch(_integer("32"))
+        parent = _parent()
+        writer.setFlexrayFifoConfiguration(parent, "FLEXRAY-FIFO-CONFIGURATION", config)
+        el = parent.find("FLEXRAY-FIFO-CONFIGURATION")
+        assert el is not None
+        assert el.find("ADMIT-WITHOUT-MESSAGE-ID").text == "true"
+        assert el.find("BASE-CYCLE").text == "2"
+        channel_ref = el.find("CHANNEL-REF")
+        assert channel_ref.attrib["DEST"] == "FLEXRAY-PHYSICAL-CHANNEL"
+        assert channel_ref.text == "/FlexrayCluster/ChannelA"
+        assert el.find("CYCLE-REPETITION").text == "4"
+        assert el.find("FIFO-DEPTH").text == "8"
+        range_el = el.find("FLEXRAY-FIFO-RANGE")
+        assert range_el.find("RANGE-MAX").text == "200"
+        assert range_el.find("RANGE-MIN").text == "100"
+        assert el.find("MSG-ID-MASK").text == "16"
+        assert el.find("MSG-ID-MATCH").text == "32"
+
+    def test_write_flexray_fifo_configuration_none(self, writer):
+        parent = _parent()
+        writer.setFlexrayFifoConfiguration(parent, "FLEXRAY-FIFO-CONFIGURATION", None)
         assert len(parent) == 0

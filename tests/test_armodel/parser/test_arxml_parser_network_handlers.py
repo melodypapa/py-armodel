@@ -2936,6 +2936,38 @@ class TestFrameAndFlexrayTriggering:
         element = _snip("", root_tag="ROOT")
         assert parser.getFlexrayFifoRange(element, "FLEXRAY-FIFO-RANGE") is None
 
+    def test_getFlexrayFifoConfiguration_reads_fields(self, parser):
+        element = _snip(
+            "<FLEXRAY-FIFO-CONFIGURATION>"
+            "<ADMIT-WITHOUT-MESSAGE-ID>true</ADMIT-WITHOUT-MESSAGE-ID>"
+            "<BASE-CYCLE>2</BASE-CYCLE>"
+            "<CHANNEL-REF DEST='FLEXRAY-PHYSICAL-CHANNEL'>/FlexrayCluster/ChannelA</CHANNEL-REF>"
+            "<CYCLE-REPETITION>4</CYCLE-REPETITION>"
+            "<FIFO-DEPTH>8</FIFO-DEPTH>"
+            "<FLEXRAY-FIFO-RANGE><RANGE-MAX>200</RANGE-MAX><RANGE-MIN>100</RANGE-MIN></FLEXRAY-FIFO-RANGE>"
+            "<MSG-ID-MASK>16</MSG-ID-MASK>"
+            "<MSG-ID-MATCH>32</MSG-ID-MATCH>"
+            "</FLEXRAY-FIFO-CONFIGURATION>",
+            root_tag="ROOT",
+        )
+        config = parser.getFlexrayFifoConfiguration(element, "FLEXRAY-FIFO-CONFIGURATION")
+        assert config is not None
+        assert config.getAdmitWithoutMessageId().getValue() is True
+        assert config.getBaseCycle().getValue() == 2
+        assert config.getChannelRef().getValue() == "/FlexrayCluster/ChannelA"
+        assert config.getCycleRepetition().getValue() == 4
+        assert config.getFifoDepth().getValue() == 8
+        ranges = config.getFlexrayFifoRanges()
+        assert len(ranges) == 1
+        assert ranges[0].getRangeMax().getValue() == 200
+        assert ranges[0].getRangeMin().getValue() == 100
+        assert config.getMsgIdMask().getValue() == 16
+        assert config.getMsgIdMatch().getValue() == 32
+
+    def test_getFlexrayFifoConfiguration_absent_returns_none(self, parser):
+        element = _snip("", root_tag="ROOT")
+        assert parser.getFlexrayFifoConfiguration(element, "FLEXRAY-FIFO-CONFIGURATION") is None
+
 
 # ==================== PduTriggering / PhysicalChannel (L3084, L3112, L3121, L3148-3152) ====================
 
