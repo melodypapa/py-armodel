@@ -2922,6 +2922,20 @@ class TestFrameAndFlexrayTriggering:
             warning_parser.readFlexrayFrameTriggeringAbsolutelyScheduledTimings(element, triggering)
         assert any("Unsupported AbsolutelyScheduledTiming" in r.getMessage() for r in caplog.records)
 
+    def test_getFlexrayFifoRange_sets_rangeMax_and_rangeMin(self, parser):
+        element = _snip(
+            "<FLEXRAY-FIFO-RANGE>" "<RANGE-MAX>200</RANGE-MAX>" "<RANGE-MIN>100</RANGE-MIN>" "</FLEXRAY-FIFO-RANGE>",
+            root_tag="ROOT",
+        )
+        fifo_range = parser.getFlexrayFifoRange(element, "FLEXRAY-FIFO-RANGE")
+        assert fifo_range is not None
+        assert fifo_range.getRangeMax().getValue() == 200
+        assert fifo_range.getRangeMin().getValue() == 100
+
+    def test_getFlexrayFifoRange_absent_returns_none(self, parser):
+        element = _snip("", root_tag="ROOT")
+        assert parser.getFlexrayFifoRange(element, "FLEXRAY-FIFO-RANGE") is None
+
 
 # ==================== PduTriggering / PhysicalChannel (L3084, L3112, L3121, L3148-3152) ====================
 

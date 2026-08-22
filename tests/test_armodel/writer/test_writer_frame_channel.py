@@ -54,6 +54,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.Flexr
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import (  # noqa: E501
     FlexrayCluster,
+    FlexrayFifoRange,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import (  # noqa: E501
     ApplicationEntry,
@@ -1627,3 +1628,21 @@ class TestWriteFlexrayCluster:
         assert cond.find("WAKEUP-RX-WINDOW").text == "300"
         assert cond.find("WAKEUP-TX-ACTIVE").text == "60"
         assert cond.find("WAKEUP-TX-IDLE").text == "180"
+
+
+class TestWriteFlexrayFifoRange:
+    def test_write_flexray_fifo_range(self, writer):
+        fifo_range = FlexrayFifoRange()
+        fifo_range.setRangeMax(_integer("200"))
+        fifo_range.setRangeMin(_integer("100"))
+        parent = _parent()
+        writer.setFlexrayFifoRange(parent, "FLEXRAY-FIFO-RANGE", fifo_range)
+        range_el = parent.find("FLEXRAY-FIFO-RANGE")
+        assert range_el is not None
+        assert range_el.find("RANGE-MAX").text == "200"
+        assert range_el.find("RANGE-MIN").text == "100"
+
+    def test_write_flexray_fifo_range_none(self, writer):
+        parent = _parent()
+        writer.setFlexrayFifoRange(parent, "FLEXRAY-FIFO-RANGE", None)
+        assert len(parent) == 0
