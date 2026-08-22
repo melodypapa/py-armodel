@@ -3,7 +3,7 @@ from typing import Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, String, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, PositiveInteger, RefType, String, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController
 
 
@@ -157,4 +157,53 @@ class LinCommunicationConnector(CommunicationConnector):
     def setScheduleChangeNextTimeBase(self, value):
         if value is not None:
             self.scheduleChangeNextTimeBase = value
+        return self
+
+
+class LinConfigurableFrame(ARObject):
+    """Assignment of messageIds to Frames. This element shall be used for the LIN 2.0 Assign-Frame command."""
+
+    # LinConfigurableFrame method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.44, p.99
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getFrameRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setFrameRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMessageId                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMessageId                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # Reference to a Frame that is processed by the slave node.
+        self.frameRef: Optional[RefType] = None
+
+        # MessageId for the referenced frame
+        self.messageId: Optional[PositiveInteger] = None
+
+    def getFrameRef(self) -> Optional[RefType]:
+        """Reference to a Frame that is processed by the slave node."""
+        return self.frameRef
+
+    def setFrameRef(self, value: Optional[RefType]) -> "LinConfigurableFrame":
+        """
+        Reference to a Frame that is processed by the slave node.
+        A None value is a no-op and does not overwrite an existing frameRef.
+        """
+        if value is not None:
+            self.frameRef = value
+        return self
+
+    def getMessageId(self) -> Optional[PositiveInteger]:
+        """MessageId for the referenced frame"""
+        return self.messageId
+
+    def setMessageId(self, value: Optional[PositiveInteger]) -> "LinConfigurableFrame":
+        """
+        MessageId for the referenced frame
+        A None value is a no-op and does not overwrite an existing messageId.
+        """
+        if value is not None:
+            self.messageId = value
         return self
