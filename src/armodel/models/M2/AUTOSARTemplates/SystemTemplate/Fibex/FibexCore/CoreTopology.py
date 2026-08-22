@@ -631,14 +631,13 @@ class AbstractCanCluster(CommunicationCluster, ABC):
 
 
 class CanCluster(AbstractCanCluster):
-    """
-    Represents a CAN cluster in the communication system,
-    implementing specific properties for CAN network
-    communication including timing and error recovery.
-    """
+    """CAN bus specific cluster attributes. Tags: atp.recommendedPackage=CommunicationClusters"""
 
     # CanCluster method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.9, p.62
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

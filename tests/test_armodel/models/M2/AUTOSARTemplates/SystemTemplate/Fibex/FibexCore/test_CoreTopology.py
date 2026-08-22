@@ -308,6 +308,7 @@ class Test_FibexCoreTopology:
         parent = MockParent()
         cluster = CanCluster(parent, "test_can_cluster")
 
+        assert isinstance(cluster, AbstractCanCluster)
         assert isinstance(cluster, CommunicationCluster)
 
         # Test default values
