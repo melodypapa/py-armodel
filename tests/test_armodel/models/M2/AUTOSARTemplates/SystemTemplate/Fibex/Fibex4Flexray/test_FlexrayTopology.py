@@ -1,5 +1,5 @@
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCluster, FlexrayCommunicationConnector, FlexrayCommunicationController
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCluster, FlexrayCommunicationConnector, FlexrayCommunicationController, FlexrayFifoRange
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector, CommunicationController
 
 
@@ -575,3 +575,27 @@ class TestFlexrayTopology:
         cluster.setMaxWithoutClockCorrectionPassive(35)
         assert cluster.getMaxWithoutClockCorrectionPassive() == 35
         assert cluster == cluster.setMaxWithoutClockCorrectionPassive(35)
+
+
+class TestFlexrayFifoRange:
+    def test_flexray_fifo_range_defaults(self):
+        fifo_range = FlexrayFifoRange()
+        assert isinstance(fifo_range, ARObject)
+        assert fifo_range.getRangeMax() is None
+        assert fifo_range.getRangeMin() is None
+
+    def test_flexray_fifo_range_setters(self):
+        fifo_range = FlexrayFifoRange()
+        assert fifo_range == fifo_range.setRangeMax(200)
+        assert fifo_range.getRangeMax() == 200
+        assert fifo_range == fifo_range.setRangeMin(100)
+        assert fifo_range.getRangeMin() == 100
+
+    def test_flexray_fifo_range_none_noop(self):
+        fifo_range = FlexrayFifoRange()
+        fifo_range.setRangeMax(200)
+        fifo_range.setRangeMin(100)
+        fifo_range.setRangeMax(None)
+        fifo_range.setRangeMin(None)
+        assert fifo_range.getRangeMax() == 200
+        assert fifo_range.getRangeMin() == 100

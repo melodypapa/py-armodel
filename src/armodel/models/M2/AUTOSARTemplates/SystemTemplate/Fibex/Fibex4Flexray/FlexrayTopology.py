@@ -1,3 +1,5 @@
+from typing import Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Float, Integer, PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveUnlimitedInteger, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -818,4 +820,49 @@ class FlexrayCluster(CommunicationCluster):
     def setWakeupTxIdle(self, value):
         if value is not None:
             self.wakeupTxIdle = value
+        return self
+
+
+class FlexrayFifoRange(ARObject):
+    """FIFO Frame Id range acceptance criteria."""
+
+    # FlexrayFifoRange method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.32, p.87
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getRangeMax  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRangeMax  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRangeMin  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRangeMin  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # Max Range.
+        self.rangeMax: Optional[Integer] = None
+
+        # Min Range.
+        self.rangeMin: Optional[Integer] = None
+
+    def getRangeMax(self) -> Optional[Integer]:
+        """Max Range."""
+        return self.rangeMax
+
+    def setRangeMax(self, value: Optional[Integer]) -> "FlexrayFifoRange":
+        """Max Range.
+        A None value is a no-op and does not overwrite an existing rangeMax."""
+        if value is not None:
+            self.rangeMax = value
+        return self
+
+    def getRangeMin(self) -> Optional[Integer]:
+        """Min Range."""
+        return self.rangeMin
+
+    def setRangeMin(self, value: Optional[Integer]) -> "FlexrayFifoRange":
+        """Min Range.
+        A None value is a no-op and does not overwrite an existing rangeMin."""
+        if value is not None:
+            self.rangeMin = value
         return self
