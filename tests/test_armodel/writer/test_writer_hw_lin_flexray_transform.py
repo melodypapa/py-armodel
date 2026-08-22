@@ -277,6 +277,34 @@ class TestWriterLinMaster:
         assert cond.find("TIME-BASE-JITTER") is not None
 
 
+class TestLinCommunicationControllerRoundTrip:
+    def _round_trip(self, tmp_path):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Pkg")
+        instance = pkg.createEcuInstance("EcuInst")
+        master = instance.createLinMaster("Master")
+        master.setProtocolVersion(_literal("LIN22"))
+        out_file = tmp_path / "lin_master.arxml"
+        writer = ARXMLWriter()
+        writer.save(str(out_file), autosar)
+        reload = AUTOSAR.getInstance()
+        reload.clear()
+        parser = ARXMLParser()
+        parser.load(str(out_file), reload)
+        return reload
+
+    def test_round_trip_protocol_version(self, tmp_path):
+        reload = self._round_trip(tmp_path)
+        reloaded_pkg = reload.getARPackages()[0]
+        reloaded_instance = reloaded_pkg.getElement("EcuInst", None)
+        controllers = reloaded_instance.getCommControllers()
+        assert len(controllers) == 1
+        master = controllers[0]
+        assert master.getProtocolVersion() is not None
+        assert master.getProtocolVersion().getValue() == "LIN22"
+
+
 class TestWriterISignalToPduMappings:
     def test_writeISignalToPduMappings_with_mappings(self, writer):
         pkg = _make_pkg()

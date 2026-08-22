@@ -1,32 +1,39 @@
 from abc import ABC
+from typing import Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, String, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController
 
 
 class LinCommunicationController(CommunicationController, ABC):
-    """
-    Represents a LIN communication controller in the system,
-    defining properties for LIN network communication including
-    protocol version specifications.
-    """
+    """LIN bus specific communication controller attributes."""
 
     # LinCommunicationController method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getProtocolVersion           [x] impl  [ ] docstring  [ ] test
-    # [ ] setProtocolVersion           [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.37, p.93
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getProtocolVersion           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setProtocolVersion           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is LinCommunicationController:
             raise TypeError("LinCommunicationController is an abstract class.")
         super().__init__(parent, short_name)
 
-        self.protocolVersion: String = None
+        # Version specifier for a communication protocol.
+        self.protocolVersion: Optional[String] = None
 
-    def getProtocolVersion(self):
+    def getProtocolVersion(self) -> Optional[String]:
+        """Version specifier for a communication protocol."""
         return self.protocolVersion
 
-    def setProtocolVersion(self, value):
+    def setProtocolVersion(self, value: Optional[String]) -> "LinCommunicationController":
+        """
+        Version specifier for a communication protocol.
+        A None value is a no-op and does not overwrite an existing protocolVersion.
+        """
         if value is not None:
             self.protocolVersion = value
         return self

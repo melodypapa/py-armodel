@@ -7,9 +7,13 @@ Each test validates the functionality, inheritance, and setter/getter methods
 of the respective classes.
 """
 
+import sys
+from typing import Optional, get_type_hints
+
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinMaster
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController
 
@@ -25,6 +29,62 @@ class MockParent(ARObject):
 
     def __init__(self):
         super().__init__()
+
+
+class _ConcreteController(LinCommunicationController):
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+
+class TestLinCommunicationController:
+    """
+    LIN bus specific communication controller attributes.
+    """
+
+    def test_abstract_instantiation(self):
+        parent = MockParent()
+
+        with pytest.raises(TypeError, match="LinCommunicationController is an abstract class"):
+            LinCommunicationController(parent, "TestController")
+
+    def test_initialization(self):
+        parent = MockParent()
+        controller = _ConcreteController(parent, "TestController")
+
+        assert controller.getShortName() == "TestController"
+        assert isinstance(controller, CommunicationController)
+        assert controller.getProtocolVersion() is None
+
+    def test_get_set_protocol_version(self):
+        parent = MockParent()
+        controller = _ConcreteController(parent, "TestController")
+
+        assert controller == controller.setProtocolVersion("LIN22")
+        assert controller.getProtocolVersion() == "LIN22"
+
+        assert controller == controller.setProtocolVersion(None)
+        assert controller.getProtocolVersion() == "LIN22"
+
+    def test_type_annotations(self):
+        import ast
+        import inspect
+
+        getter_hints = get_type_hints(_ConcreteController.getProtocolVersion)
+        assert getter_hints["return"] == Optional[String]
+
+        setter_hints = get_type_hints(_ConcreteController.setProtocolVersion)
+        assert setter_hints["value"] == Optional[String]
+        assert setter_hints["return"] == LinCommunicationController
+
+        src = inspect.getsource(sys.modules[LinCommunicationController.__module__])
+        tree = ast.parse(src)
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "LinCommunicationController")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        annotations = {}
+        for node in ast.walk(init):
+            if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Attribute):
+                annotations[node.target.attr] = ast.unparse(node.annotation)
+        assert annotations["protocolVersion"] == "Optional[String]"
 
 
 class TestLinTopology:
