@@ -504,6 +504,8 @@ class TestWriterRootSwCompositionPrototype:
     def test_full(self, writer):
         system = _make_system()
         root = system.createRootSoftwareComposition("Root")
+        root.addCalibrationParameterValueSetRef(_ref("/a", "CALIBRATION-PARAMETER-VALUE-SET"))
+        root.addCalibrationParameterValueSetRef(_ref("/b", "CALIBRATION-PARAMETER-VALUE-SET"))
         root.setFlatMapRef(_ref("/fm", "FLAT-MAP"))
         root.setSoftwareCompositionTRef(_ref("/sc", "SW-COMPONENT-TYPE"))
         parent = _parent()
@@ -512,8 +514,21 @@ class TestWriterRootSwCompositionPrototype:
         assert outer.tag == "ROOT-SOFTWARE-COMPOSITIONS"
         proto = outer.find("ROOT-SW-COMPOSITION-PROTOTYPE")
         assert proto is not None
+        calibration_refs = proto.find("CALIBRATION-PARAMETER-VALUE-SET-REFS")
+        assert calibration_refs is not None
+        assert len(calibration_refs.findall("CALIBRATION-PARAMETER-VALUE-SET-REF")) == 2
         assert proto.find("FLAT-MAP-REF") is not None
         assert proto.find("SOFTWARE-COMPOSITION-TREF") is not None
+
+    def test_empty_calibration_refs_writes_no_wrapper(self, writer):
+        system = _make_system()
+        system.createRootSoftwareComposition("Root")
+        parent = _parent()
+        writer.writeRootSwCompositionPrototype(parent, system)
+        outer = parent[0]
+        proto = outer.find("ROOT-SW-COMPOSITION-PROTOTYPE")
+        assert proto is not None
+        assert proto.find("CALIBRATION-PARAMETER-VALUE-SET-REFS") is None
 
 
 class TestWriterSystemFibexElementRefs:

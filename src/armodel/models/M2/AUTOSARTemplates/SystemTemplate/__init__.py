@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype, AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import DataMapping
@@ -394,46 +394,76 @@ class SystemMapping(Identifiable):
 
 class RootSwCompositionPrototype(AtpPrototype):
     """
-    Represents the root software composition prototype in the system,
-    defining references to calibration parameter value sets, flat maps,
-    and software composition templates for the top-level composition.
+    The RootSwCompositionPrototype represents the top-level-composition of software components within a given System. According to the use case of the System, this may for example be a more or less complete VFB description, the software of a System Extract or the software of a flat ECU Extract with only atomic SWCs. Therefore the RootSwComposition will only occasionally contain all atomic software components that are used in a complete VFB System. The OEM is primarily interested in the required functionality and the interfaces defining the integration of the Software Component into the System. The internal structure of such a component contains often substantial intellectual property of a supplier. Therefore a top-level software composition will often contain empty compositions which represent subsystems. The contained SwComponentPrototypes are fully specified by their SwComponentTypes (including Port Prototypes, PortInterfaces, VariableDataPrototypes, SwcInternalBehavior etc.), and their ports are interconnected using SwConnectorPrototypes.
     """
 
     # RootSwCompositionPrototype method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCalibrationParameterValueSetRef [x] impl  [ ] docstring  [ ] test
-    # [ ] setCalibrationParameterValueSetRef [x] impl  [ ] docstring  [ ] test
-    # [ ] getFlatMapRef                [x] impl  [ ] docstring  [ ] test
-    # [ ] setFlatMapRef                [x] impl  [ ] docstring  [ ] test
-    # [ ] getSoftwareCompositionTRef   [x] impl  [ ] docstring  [ ] test
-    # [ ] setSoftwareCompositionTRef   [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 4.1, p.186
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getCalibrationParameterValueSetRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addCalibrationParameterValueSetRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getFlatMapRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setFlatMapRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSoftwareCompositionTRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSoftwareCompositionTRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.calibrationParameterValueSetRef: RefType = None
-        self.flatMapRef: RefType = None
-        self.softwareCompositionTRef: TRefType = None
+        # Used CalibrationParameterValueSet for instance specific initialization of calibration parameters.
+        self.calibrationParameterValueSetRefs: List[RefType] = []
 
-    def getCalibrationParameterValueSetRef(self):
-        return self.calibrationParameterValueSetRef
+        # The FlatMap used in the scope of this RootSw CompositionPrototype.
+        self.flatMapRef: Optional[RefType] = None
 
-    def setCalibrationParameterValueSetRef(self, value):
-        self.calibrationParameterValueSetRef = value
+        # We assume that there is exactly one top-level composition that includes all Component instances of the system.
+        self.softwareCompositionTRef: Optional[TRefType] = None
+
+    def getCalibrationParameterValueSetRefs(self) -> List[RefType]:
+        """
+        Used CalibrationParameterValueSet for instance specific initialization of calibration parameters.
+        """
+        return self.calibrationParameterValueSetRefs
+
+    def addCalibrationParameterValueSetRef(self, value: Optional[RefType]) -> "RootSwCompositionPrototype":
+        """
+        Used CalibrationParameterValueSet for instance specific initialization of calibration parameters.
+        A None value is a no-op and does not add to calibrationParameterValueSetRefs.
+        """
+        if value is not None:
+            self.calibrationParameterValueSetRefs.append(value)
         return self
 
-    def getFlatMapRef(self):
+    def getFlatMapRef(self) -> Optional[RefType]:
+        """
+        The FlatMap used in the scope of this RootSw CompositionPrototype.
+        """
         return self.flatMapRef
 
-    def setFlatMapRef(self, value):
-        self.flatMapRef = value
+    def setFlatMapRef(self, value: Optional[RefType]) -> "RootSwCompositionPrototype":
+        """
+        The FlatMap used in the scope of this RootSw CompositionPrototype.
+        A None value is a no-op and does not overwrite an existing flatMapRef.
+        """
+        if value is not None:
+            self.flatMapRef = value
         return self
 
-    def getSoftwareCompositionTRef(self):
+    def getSoftwareCompositionTRef(self) -> Optional[TRefType]:
+        """
+        We assume that there is exactly one top-level composition that includes all Component instances of the system.
+        """
         return self.softwareCompositionTRef
 
-    def setSoftwareCompositionTRef(self, value):
-        self.softwareCompositionTRef = value
+    def setSoftwareCompositionTRef(self, value: Optional[TRefType]) -> "RootSwCompositionPrototype":
+        """
+        We assume that there is exactly one top-level composition that includes all Component instances of the system.
+        A None value is a no-op and does not overwrite an existing softwareCompositionTRef.
+        """
+        if value is not None:
+            self.softwareCompositionTRef = value
         return self
 
 
