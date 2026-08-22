@@ -6282,7 +6282,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readCommunicationCluster(element, cluster)
         cluster.setBusOffRecovery(self.getCanClusterBusOffRecovery(element, "BUS-OFF-RECOVERY"))
         cluster.setCanFdBaudrate(self.getChildElementOptionalNumericalValue(element, "CAN-FD-BAUDRATE"))
-        cluster.setSpeed(self.getChildElementOptionalNumericalValue(element, "SPEED"))
+        cluster.setCanXlBaudrate(self.getChildElementOptionalNumericalValue(element, "CAN-XL-BAUDRATE"))
 
     def readLinCluster(self, element: ET.Element, cluster: LinCluster):
         self.logger.debug("Read LinCluster <%s>" % cluster.getShortName())

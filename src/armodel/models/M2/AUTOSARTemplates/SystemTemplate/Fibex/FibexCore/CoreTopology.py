@@ -1,6 +1,6 @@
 from abc import ABC
 from enum import Enum
-from typing import List
+from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrameTriggering
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
@@ -555,22 +555,19 @@ class CanClusterBusOffRecovery(ARObject):
 
 
 class AbstractCanCluster(CommunicationCluster, ABC):
-    """
-    Abstract base class for CAN clusters, extending communication
-    clusters with CAN-specific properties including FD and XL
-    baud rates and speed configurations.
-    """
+    """Abstract class that is used to collect the common TtCAN, J1939 and CAN Cluster attributes."""
 
     # AbstractCanCluster method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getBusOffRecovery            [x] impl  [ ] docstring  [ ] test
-    # [ ] setBusOffRecovery            [x] impl  [ ] docstring  [ ] test
-    # [ ] getCanFdBaudrate             [x] impl  [ ] docstring  [ ] test
-    # [ ] setCanFdBaudrate             [x] impl  [ ] docstring  [ ] test
-    # [ ] getCanXlBaudrate             [x] impl  [ ] docstring  [ ] test
-    # [ ] setCanXlBaudrate             [x] impl  [ ] docstring  [ ] test
-    # [ ] getSpeed                     [x] impl  [ ] docstring  [ ] test
-    # [ ] setSpeed                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.8, p.62
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getBusOffRecovery      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setBusOffRecovery      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getCanFdBaudrate       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCanFdBaudrate       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getCanXlBaudrate       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCanXlBaudrate       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractCanCluster:
@@ -578,37 +575,58 @@ class AbstractCanCluster(CommunicationCluster, ABC):
 
         super().__init__(parent, short_name)
 
-        self.busOffRecovery: CanClusterBusOffRecovery = None
-        self.canFdBaudrate: PositiveUnlimitedInteger = None
-        self.canXlBaudrate: PositiveUnlimitedInteger = None
-        self.speed: PositiveUnlimitedInteger = None
+        # CAN bus off monitoring / recovery at system level.
+        self.busOffRecovery: Optional[CanClusterBusOffRecovery] = None
 
-    def getBusOffRecovery(self):
+        # Specifies the data segment baud rate of the controller in bits/s.
+        self.canFdBaudrate: Optional[PositiveUnlimitedInteger] = None
+
+        # Specifies the data segment baud rate of the CAN XL controller in bits/s.
+        self.canXlBaudrate: Optional[PositiveUnlimitedInteger] = None
+
+    def getBusOffRecovery(self) -> Optional[CanClusterBusOffRecovery]:
+        """
+        CAN bus off monitoring / recovery at system level.
+        """
         return self.busOffRecovery
 
-    def setBusOffRecovery(self, value):
-        self.busOffRecovery = value
+    def setBusOffRecovery(self, value: Optional[CanClusterBusOffRecovery]) -> "AbstractCanCluster":
+        """
+        CAN bus off monitoring / recovery at system level.
+        A None value is a no-op and does not overwrite an existing busOffRecovery.
+        """
+        if value is not None:
+            self.busOffRecovery = value
         return self
 
-    def getCanFdBaudrate(self):
+    def getCanFdBaudrate(self) -> Optional[PositiveUnlimitedInteger]:
+        """
+        Specifies the data segment baud rate of the controller in bits/s.
+        """
         return self.canFdBaudrate
 
-    def setCanFdBaudrate(self, value):
-        self.canFdBaudrate = value
+    def setCanFdBaudrate(self, value: Optional[PositiveUnlimitedInteger]) -> "AbstractCanCluster":
+        """
+        Specifies the data segment baud rate of the controller in bits/s.
+        A None value is a no-op and does not overwrite an existing canFdBaudrate.
+        """
+        if value is not None:
+            self.canFdBaudrate = value
         return self
 
-    def getCanXlBaudrate(self):
+    def getCanXlBaudrate(self) -> Optional[PositiveUnlimitedInteger]:
+        """
+        Specifies the data segment baud rate of the CAN XL controller in bits/s.
+        """
         return self.canXlBaudrate
 
-    def setCanXlBaudrate(self, value):
-        self.canXlBaudrate = value
-        return self
-
-    def getSpeed(self):
-        return self.speed
-
-    def setSpeed(self, value):
-        self.speed = value
+    def setCanXlBaudrate(self, value: Optional[PositiveUnlimitedInteger]) -> "AbstractCanCluster":
+        """
+        Specifies the data segment baud rate of the CAN XL controller in bits/s.
+        A None value is a no-op and does not overwrite an existing canXlBaudrate.
+        """
+        if value is not None:
+            self.canXlBaudrate = value
         return self
 
 

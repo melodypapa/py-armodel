@@ -286,6 +286,23 @@ class Test_FibexCoreTopology:
         with pytest.raises(TypeError):
             AbstractCanCluster(parent, "test_abstract_can_cluster")
 
+        # Verify inherited accessors via a concrete subclass (CanCluster).
+        cluster = CanCluster(parent, "test_can_cluster_base")
+
+        assert cluster.getBusOffRecovery() is None
+        assert cluster.getCanFdBaudrate() is None
+        assert cluster.getCanXlBaudrate() is None
+        assert not hasattr(cluster, "getSpeed")  # no fabricated SPEED member (Rule 0001.3)
+
+        recovery = CanClusterBusOffRecovery()
+        assert cluster == cluster.setBusOffRecovery(recovery)
+        assert cluster.getBusOffRecovery() == recovery
+
+        assert cluster == cluster.setCanFdBaudrate(500000)
+        assert cluster.getCanFdBaudrate() == 500000
+        assert cluster == cluster.setCanXlBaudrate(10000000)
+        assert cluster.getCanXlBaudrate() == 10000000
+
     def test_CanCluster(self):
         """Test CanCluster class functionality."""
         parent = MockParent()
@@ -297,7 +314,6 @@ class Test_FibexCoreTopology:
         assert cluster.getBusOffRecovery() is None
         assert cluster.getCanFdBaudrate() is None
         assert cluster.getCanXlBaudrate() is None
-        assert cluster.getSpeed() is None
 
         # Test setter/getter methods with method chaining
         recovery = CanClusterBusOffRecovery()
@@ -312,10 +328,6 @@ class Test_FibexCoreTopology:
         cluster.setCanXlBaudrate(10000000)
         assert cluster.getCanXlBaudrate() == 10000000
         assert cluster == cluster.setCanXlBaudrate(10000000)  # Test method chaining
-
-        cluster.setSpeed(125000)
-        assert cluster.getSpeed() == 125000
-        assert cluster == cluster.setSpeed(125000)  # Test method chaining
 
     def test_LinCluster(self):
         """Test LinCluster class functionality."""

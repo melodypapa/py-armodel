@@ -62,17 +62,17 @@ class TestCanClusterHandlers:
         parser.readCanCluster(element, cluster)
         assert cluster.getBaudrate() is not None
 
-    def test_readCanCluster_sets_speed(self, parser):
+    def test_readCanCluster_sets_canXlBaudrate(self, parser):
         from armodel.models import CanCluster
 
         cluster = CanCluster(parent=_autosar_root(), short_name="c")
         element = _snip(
-            "<SHORT-NAME>c</SHORT-NAME>" "<CAN-CLUSTER-VARIANTS>" "<CAN-CLUSTER-CONDITIONAL>" "<SPEED>100000</SPEED>" "</CAN-CLUSTER-CONDITIONAL>" "</CAN-CLUSTER-VARIANTS>",
+            "<SHORT-NAME>c</SHORT-NAME>" "<CAN-CLUSTER-VARIANTS>" "<CAN-CLUSTER-CONDITIONAL>" "<CAN-XL-BAUDRATE>10000000</CAN-XL-BAUDRATE>" "</CAN-CLUSTER-CONDITIONAL>" "</CAN-CLUSTER-VARIANTS>",
             root_tag="CAN-CLUSTER",
         )
         parser.readCanCluster(element, cluster)
-        assert cluster.getSpeed() is not None
-        assert cluster.getSpeed().getValue() == 100000
+        assert cluster.getCanXlBaudrate() is not None
+        assert cluster.getCanXlBaudrate().getValue() == 10000000
 
     def test_readCanCluster_sets_canFdBaudrate(self, parser):
         from armodel.models import CanCluster

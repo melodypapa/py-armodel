@@ -6815,7 +6815,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeAbstractCanCluster(self, element: ET.Element, cluster: AbstractCanCluster):
         self.setCanClusterBusOffRecovery(element, "BUS-OFF-RECOVERY", cluster.getBusOffRecovery())
         self.setChildElementOptionalNumericalValue(element, "CAN-FD-BAUDRATE", cluster.getCanFdBaudrate())
-        self.setChildElementOptionalNumericalValue(element, "SPEED", cluster.getSpeed())
+        self.setChildElementOptionalNumericalValue(element, "CAN-XL-BAUDRATE", cluster.getCanXlBaudrate())
 
     def writeLinCluster(self, element: ET.Element, cluster: LinCluster):
         if cluster is not None:
