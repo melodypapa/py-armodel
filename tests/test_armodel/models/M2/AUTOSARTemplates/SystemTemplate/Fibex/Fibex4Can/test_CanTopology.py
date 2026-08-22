@@ -467,10 +467,19 @@ class Test_Fibex4CanTopology:
         assert reqs == reqs.setMinSyncJumpWidth(0.02)  # Test method chaining
 
     def test_AbstractCanCommunicationController(self):
-        """Test AbstractCanCommunicationController abstract class instantiation."""
+        """Test AbstractCanCommunicationController abstract class instantiation (Rule 0001.2)."""
         parent = MockParent()
         with pytest.raises(TypeError):
             AbstractCanCommunicationController(parent, "test_abstract_controller")
+
+        # Verify inherited accessors via a concrete subclass (CanCommunicationController).
+        controller = CanCommunicationController(parent, "test_can_comm_controller_base")
+
+        assert controller.getCanControllerAttributes() is None
+
+        attrs = CanControllerConfigurationRequirements()
+        assert controller == controller.setCanControllerAttributes(attrs)
+        assert controller.getCanControllerAttributes() == attrs
 
     def test_CanCommunicationController(self):
         """Test CanCommunicationController class functionality."""
@@ -478,11 +487,16 @@ class Test_Fibex4CanTopology:
         controller = CanCommunicationController(parent, "test_can_comm_controller")
 
         assert isinstance(controller, CommunicationController)
+        assert isinstance(controller, AbstractCanCommunicationController)
 
         # Test default values
         assert controller.getCanControllerAttributes() is None
 
-        # Test setter/getter methods with method chaining
+        # Test setter/getter methods with method chaining - with None
+        assert controller == controller.setCanControllerAttributes(None)  # Test method chaining with None
+        assert controller.getCanControllerAttributes() is None  # Should remain None
+
+        # Test setter/getter methods with method chaining - with actual values
         attrs = CanControllerConfigurationRequirements()
         controller.setCanControllerAttributes(attrs)
         assert controller.getCanControllerAttributes() == attrs

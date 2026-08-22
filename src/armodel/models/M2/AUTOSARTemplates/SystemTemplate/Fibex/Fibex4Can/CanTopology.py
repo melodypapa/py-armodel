@@ -2,6 +2,7 @@
 # It defines CAN controllers, connectors, and their configuration attributes
 
 from abc import ABC
+from typing import Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Float, Integer, PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveUnlimitedInteger, TimeValue
@@ -654,16 +655,15 @@ class CanControllerConfigurationRequirements(AbstractCanCommunicationControllerA
 
 
 class AbstractCanCommunicationController(CommunicationController, ABC):
-    """
-    Abstract base class for CAN communication controllers, defining
-    the common properties and behavior for CAN network interfaces
-    in the AUTOSAR communication system.
-    """
+    """Abstract class that is used to collect the common TtCAN and CAN Controller attributes."""
 
     # AbstractCanCommunicationController method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCanControllerAttributes   [x] impl  [ ] docstring  [ ] test
-    # [ ] setCanControllerAttributes   [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.12, p.63
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getCanControllerAttributes   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCanControllerAttributes   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractCanCommunicationController:
@@ -671,13 +671,22 @@ class AbstractCanCommunicationController(CommunicationController, ABC):
 
         super().__init__(parent, short_name)
 
-        self.canControllerAttributes: AbstractCanCommunicationControllerAttributes = None
+        # CAN Bit Timing configuration
+        self.canControllerAttributes: Optional[AbstractCanCommunicationControllerAttributes] = None
 
-    def getCanControllerAttributes(self):
+    def getCanControllerAttributes(self) -> Optional[AbstractCanCommunicationControllerAttributes]:
+        """
+        CAN Bit Timing configuration
+        """
         return self.canControllerAttributes
 
-    def setCanControllerAttributes(self, value):
-        self.canControllerAttributes = value
+    def setCanControllerAttributes(self, value: Optional[AbstractCanCommunicationControllerAttributes]) -> "AbstractCanCommunicationController":
+        """
+        CAN Bit Timing configuration
+        A None value is a no-op and does not overwrite an existing canControllerAttributes.
+        """
+        if value is not None:
+            self.canControllerAttributes = value
         return self
 
 
