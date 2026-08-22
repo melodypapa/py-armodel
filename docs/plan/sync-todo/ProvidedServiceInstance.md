@@ -19,4 +19,4 @@ Worktree: .worktrees/feature-sync-providedserviceinstance (branch feature/sync-p
 - SomeipSdServerServiceInstanceConfig: ref-only dependency (RefType). No class modeled.
 
 ## Queue (dependency-first)
-- [ ] ProvidedServiceInstance  — add missing attrs: loadBalancingPriority, loadBalancingWeight, localUnicastAddressRefs (0..2), minorVersion, remoteMulticastSubscriptionAddressRefs (*), remoteUnicastAddressRefs (*), sdServerTimerConfigRef (0..1). Verify base AbstractServiceInstance. Commit: <hash>
+- [x] ProvidedServiceInstance  — all 14 spec attributes (Table E.37) modeled verbatim with reader+writer coverage; kept allowedServiceConsumerRefs (→NetworkEndpoint) and autoAvailable (→Boolean) per user direction (SoftwareComponentTemplate Table E.37 is the complete/correct source). Base AbstractServiceInstance verified. Commit: 033f8184
