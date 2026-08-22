@@ -5,7 +5,7 @@ author: melodypapa
 repository: https://github.com/melodypapa/py-armodel
 license: MIT
 metadata:
-  version: "1.9.0"
+  version: "1.9.1"
   keywords:
     - AUTOSAR
     - model-class
@@ -32,7 +32,10 @@ The AUTOSAR PDF spec table is the source of truth. Sync runs in **two phases**:
   one class at a time, **one class per fresh session** (Rule 0017). Two Red→Green
   pairs per class: model (2→3) and reader/writer (5→6). Write the failing test before
   the implementation. The 9 steps are mirrored into the session todo list — one todo
-  per step, checked off the moment its step finishes (Rule 0018). Each class ends
+  per step, checked off the moment its step finishes (Rule 0018) — **and into the
+  todo file itself: every queued class row carries a 9-step sub-checklist written
+  at file creation (Phase 0) and flipped per step, so step progress survives
+  session death (Rule 0016.6)**. Each class ends
   with a rule-compliance confirmation gate (Step 9b) before it is stamped, marked
   finished in the todo list, and committed to the feature branch. All rows `[x]` in
   the todo list = the sync is finished.
@@ -94,8 +97,10 @@ risks fabricating fields when a referenced class turns out to be missing mid-syn
    or fields/literals don't match its own table) is queued for the same pass like a
    missing class (Rule 0001.10 / 0016.4).
 6. **Write the sync todo list file** (Rule 0016.6): persist the confirmed queue to
-   `docs/plan/sync-todo/<InputClassName>.md` — one row per queued class, plus the
-   Skip/XSD resolution decisions. **The queue lives in this file, not in the
+   `docs/plan/sync-todo/<InputClassName>.md` — one row per queued class, **each
+   row carrying its 9-step sub-checklist (all `[ ]`, names per Rule 18.1, written
+   now at file creation — not deferred to class start)**, plus the Skip/XSD
+   resolution decisions. **The queue lives in this file, not in the
    conversation.** The Phase 0 session ends here.
 
 **Output:** `docs/plan/sync-todo/<InputClassName>.md` — the persistent queue
@@ -119,9 +124,13 @@ session** (Rule 0017).
   (`Step 1 — Sync members & description from spec` … `Step 9 — Verify (9a) +
   confirm (9b)`). Mark each `in_progress` when the step begins and `completed`
   **the moment that step finishes** — one completed step = exactly one newly
-  checked todo item. Never merge steps into fewer todos, never batch-check.
+  checked todo item, **and in the same action flip the matching step checkbox in
+  the todo file's per-class 9-step sub-checklist** (Rule 0016.6 — written at file
+  creation; the file is the durable record, the session todos the live display).
+  Never merge steps into fewer todos, never batch-check.
   N/A steps (e.g. 5/6 for a standalone `AREnum`) complete with the N/A reason.
-  Step 9's todo completes only after the 9b user confirmation. All 9 completed is
+  Step 9's todo completes only after the 9b user confirmation. All 9 completed —
+  in the session todos **and** in the file's sub-checklist — is
   a precondition of the per-class commit (Rule 0017.2).
 - **Finish (per class, after 9b):** once the user confirms Step 9b and the
   `# Spec verified:` marker is written — (1) commit the class's changes to the
@@ -306,6 +315,11 @@ detail: *Rule 0002*.
   "Steps 2+3 model TDD" as one todo, or checking several step todos at once after
   the fact, hides a skipped/half-finished step until 9b or never. One step = one
   todo, checked the moment the step finishes (*Rule 0018*).
+- **Writing the todo file without the per-class 9-step sub-checklist** — or
+  deferring it to "when the first class starts" — recreates the original failure:
+  the steps exist only in the ephemeral session and vanish on session death. The
+  sub-checklist is written at file creation in Phase 0 and flipped per step
+  (*Rules 0016.6, 0018.2*).
 
 | Rationalization | Reality |
 |---|---|
