@@ -502,7 +502,13 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     UdpTp,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayAbsolutelyScheduledTiming, FlexrayFrame, FlexrayFrameTriggering
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCluster, FlexrayCommunicationConnector, FlexrayCommunicationController
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import (
+    FlexrayCluster,
+    FlexrayCommunicationConnector,
+    FlexrayCommunicationController,
+    FlexrayFifoConfiguration,
+    FlexrayFifoRange,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import ApplicationEntry, LinFrameTriggering, LinScheduleTable, LinUnconditionalFrame, ScheduleTableEntry
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinMaster
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, IPduMapping, ISignalMapping, TargetIPduRef
@@ -6331,7 +6337,10 @@ class ARXMLParser(AbstractARXMLParser):
             cluster.setSafetyMargin(self.getChildElementOptionalIntegerValue(child_element, "SAFETY-MARGIN"))
             cluster.setSampleClockPeriod(self.getChildElementOptionalTimeValue(child_element, "SAMPLE-CLOCK-PERIOD"))
             cluster.setStaticSlotDuration(self.getChildElementOptionalIntegerValue(child_element, "STATIC-SLOT-DURATION"))
+            cluster.setSymbolWindow(self.getChildElementOptionalIntegerValue(child_element, "SYMBOL-WINDOW"))
+            cluster.setSymbolWindowActionPointOffset(self.getChildElementOptionalIntegerValue(child_element, "SYMBOL-WINDOW-ACTION-POINT-OFFSET"))
             cluster.setSyncFrameIdCountMax(self.getChildElementOptionalIntegerValue(child_element, "SYNC-FRAME-ID-COUNT-MAX"))
+            cluster.setTranceiverStandbyDelay(self.getChildElementOptionalFloatValue(child_element, "TRANCEIVER-STANDBY-DELAY"))
             cluster.setTransmissionStartSequenceDuration(self.getChildElementOptionalIntegerValue(child_element, "TRANSMISSION-START-SEQUENCE-DURATION"))
             cluster.setWakeupRxIdle(self.getChildElementOptionalIntegerValue(child_element, "WAKEUP-RX-IDLE"))
             cluster.setWakeupRxLow(self.getChildElementOptionalIntegerValue(child_element, "WAKEUP-RX-LOW"))
@@ -7150,6 +7159,27 @@ class ARXMLParser(AbstractARXMLParser):
             controller.setOffsetCorrectionOut(self.getChildElementOptionalIntegerValue(child_element, "OFFSET-CORRECTION-OUT"))
             controller.setRateCorrectionOut(self.getChildElementOptionalIntegerValue(child_element, "RATE-CORRECTION-OUT"))
             controller.setSamplesPerMicrotick(self.getChildElementOptionalIntegerValue(child_element, "SAMPLES-PER-MICROTICK"))
+            controller.setExternOffsetCorrection(self.getChildElementOptionalIntegerValue(child_element, "EXTERN-OFFSET-CORRECTION"))
+            controller.setExternRateCorrection(self.getChildElementOptionalIntegerValue(child_element, "EXTERN-RATE-CORRECTION"))
+            controller.setExternalSync(self.getChildElementOptionalBooleanValue(child_element, "EXTERNAL-SYNC"))
+            controller.setFallBackInternal(self.getChildElementOptionalBooleanValue(child_element, "FALL-BACK-INTERNAL"))
+            for fifo_child in self.findall(child_element, "FLEXRAY-FIFOS/FLEXRAY-FIFO-CONFIGURATION"):
+                fifo = controller.createFlexrayFifo()
+                fifo.setAdmitWithoutMessageId(self.getChildElementOptionalBooleanValue(fifo_child, "ADMIT-WITHOUT-MESSAGE-ID"))
+                fifo.setBaseCycle(self.getChildElementOptionalIntegerValue(fifo_child, "BASE-CYCLE"))
+                fifo.setChannelRef(self.getChildElementOptionalRefType(fifo_child, "CHANNEL-REF"))
+                fifo.setCycleRepetition(self.getChildElementOptionalIntegerValue(fifo_child, "CYCLE-REPETITION"))
+                fifo.setFifoDepth(self.getChildElementOptionalIntegerValue(fifo_child, "FIFO-DEPTH"))
+                for range_child in self.findall(fifo_child, "FLEXRAY-FIFO-RANGE"):
+                    fifo_range = fifo.createFlexrayFifoRange()
+                    fifo_range.setRangeMax(self.getChildElementOptionalIntegerValue(range_child, "RANGE-MAX"))
+                    fifo_range.setRangeMin(self.getChildElementOptionalIntegerValue(range_child, "RANGE-MIN"))
+                fifo.setMsgIdMask(self.getChildElementOptionalIntegerValue(fifo_child, "MSG-ID-MASK"))
+                fifo.setMsgIdMatch(self.getChildElementOptionalIntegerValue(fifo_child, "MSG-ID-MATCH"))
+            controller.setKeySlotID(self.getChildElementOptionalIntegerValue(child_element, "KEY-SLOT-ID"))
+            controller.setNmVectorEarlyUpdate(self.getChildElementOptionalBooleanValue(child_element, "NM-VECTOR-EARLY-UPDATE"))
+            controller.setSecondKeySlotId(self.getChildElementOptionalIntegerValue(child_element, "SECOND-KEY-SLOT-ID"))
+            controller.setTwoKeySlotMode(self.getChildElementOptionalBooleanValue(child_element, "TWO-KEY-SLOT-MODE"))
             controller.setWakeUpPattern(self.getChildElementOptionalIntegerValue(child_element, "WAKE-UP-PATTERN"))
 
     def readDataTransformationTransformerChainRefs(self, element: ET.Element, dtf: DataTransformation):
@@ -7859,6 +7889,33 @@ class ARXMLParser(AbstractARXMLParser):
             configuration.setTimeSeg1(self.getChildElementOptionalIntegerValue(child_element, "TIME-SEG1"))
             configuration.setTimeSeg2(self.getChildElementOptionalIntegerValue(child_element, "TIME-SEG2"))
             configuration.setTxBitRateSwitch(self.getChildElementOptionalBooleanValue(child_element, "TX-BIT-RATE-SWITCH"))
+        return configuration
+
+    def getFlexrayFifoRange(self, element: ET.Element, key: str) -> FlexrayFifoRange:
+        fifo_range = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            fifo_range = FlexrayFifoRange()
+            fifo_range.setRangeMax(self.getChildElementOptionalIntegerValue(child_element, "RANGE-MAX"))
+            fifo_range.setRangeMin(self.getChildElementOptionalIntegerValue(child_element, "RANGE-MIN"))
+        return fifo_range
+
+    def getFlexrayFifoConfiguration(self, element: ET.Element, key: str) -> FlexrayFifoConfiguration:
+        configuration = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            configuration = FlexrayFifoConfiguration()
+            configuration.setAdmitWithoutMessageId(self.getChildElementOptionalBooleanValue(child_element, "ADMIT-WITHOUT-MESSAGE-ID"))
+            configuration.setBaseCycle(self.getChildElementOptionalIntegerValue(child_element, "BASE-CYCLE"))
+            configuration.setChannelRef(self.getChildElementOptionalRefType(child_element, "CHANNEL-REF"))
+            configuration.setCycleRepetition(self.getChildElementOptionalIntegerValue(child_element, "CYCLE-REPETITION"))
+            configuration.setFifoDepth(self.getChildElementOptionalIntegerValue(child_element, "FIFO-DEPTH"))
+            for range_child in self.findall(child_element, "FLEXRAY-FIFO-RANGE"):
+                fifo_range = configuration.createFlexrayFifoRange()
+                fifo_range.setRangeMax(self.getChildElementOptionalIntegerValue(range_child, "RANGE-MAX"))
+                fifo_range.setRangeMin(self.getChildElementOptionalIntegerValue(range_child, "RANGE-MIN"))
+            configuration.setMsgIdMask(self.getChildElementOptionalIntegerValue(child_element, "MSG-ID-MASK"))
+            configuration.setMsgIdMatch(self.getChildElementOptionalIntegerValue(child_element, "MSG-ID-MATCH"))
         return configuration
 
     def getCanControllerFdConfigurationRequirements(self, element: ET.Element, key: str) -> CanControllerFdConfigurationRequirements:

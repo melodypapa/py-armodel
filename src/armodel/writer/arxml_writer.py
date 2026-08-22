@@ -475,7 +475,13 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     UdpTp,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayAbsolutelyScheduledTiming, FlexrayFrame, FlexrayFrameTriggering
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCluster, FlexrayCommunicationConnector, FlexrayCommunicationController
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import (
+    FlexrayCluster,
+    FlexrayCommunicationConnector,
+    FlexrayCommunicationController,
+    FlexrayFifoConfiguration,
+    FlexrayFifoRange,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import ApplicationEntry, LinFrameTriggering, LinScheduleTable, LinUnconditionalFrame, ScheduleTableEntry
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinMaster
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, IPduMapping, ISignalMapping, TargetIPduRef
@@ -6875,7 +6881,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalIntegerValue(child_element, "SAFETY-MARGIN", cluster.getSafetyMargin())
             self.setChildElementOptionalTimeValue(child_element, "SAMPLE-CLOCK-PERIOD", cluster.getSampleClockPeriod())
             self.setChildElementOptionalIntegerValue(child_element, "STATIC-SLOT-DURATION", cluster.getStaticSlotDuration())
+            self.setChildElementOptionalIntegerValue(child_element, "SYMBOL-WINDOW", cluster.getSymbolWindow())
+            self.setChildElementOptionalIntegerValue(child_element, "SYMBOL-WINDOW-ACTION-POINT-OFFSET", cluster.getSymbolWindowActionPointOffset())
             self.setChildElementOptionalIntegerValue(child_element, "SYNC-FRAME-ID-COUNT-MAX", cluster.getSyncFrameIdCountMax())
+            self.setChildElementOptionalFloatValue(child_element, "TRANCEIVER-STANDBY-DELAY", cluster.getTranceiverStandbyDelay())  # noqa E501
             self.setChildElementOptionalIntegerValue(child_element, "TRANSMISSION-START-SEQUENCE-DURATION", cluster.getTransmissionStartSequenceDuration())  # noqa E501
             self.setChildElementOptionalIntegerValue(child_element, "WAKEUP-RX-IDLE", cluster.getWakeupRxIdle())
             self.setChildElementOptionalIntegerValue(child_element, "WAKEUP-RX-LOW", cluster.getWakeupRxLow())
@@ -7516,6 +7525,25 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalIntegerValue(child_element, "TIME-SEG1", configuration.getTimeSeg1())
             self.setChildElementOptionalIntegerValue(child_element, "TIME-SEG2", configuration.getTimeSeg2())
             self.setChildElementOptionalBooleanValue(child_element, "TX-BIT-RATE-SWITCH", configuration.getTxBitRateSwitch())
+
+    def setFlexrayFifoRange(self, element: ET.Element, key: str, fifo_range: FlexrayFifoRange):
+        if fifo_range is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalIntegerValue(child_element, "RANGE-MAX", fifo_range.getRangeMax())
+            self.setChildElementOptionalIntegerValue(child_element, "RANGE-MIN", fifo_range.getRangeMin())
+
+    def setFlexrayFifoConfiguration(self, element: ET.Element, key: str, configuration: FlexrayFifoConfiguration):
+        if configuration is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalBooleanValue(child_element, "ADMIT-WITHOUT-MESSAGE-ID", configuration.getAdmitWithoutMessageId())
+            self.setChildElementOptionalIntegerValue(child_element, "BASE-CYCLE", configuration.getBaseCycle())
+            self.setChildElementOptionalRefType(child_element, "CHANNEL-REF", configuration.getChannelRef())
+            self.setChildElementOptionalIntegerValue(child_element, "CYCLE-REPETITION", configuration.getCycleRepetition())
+            self.setChildElementOptionalIntegerValue(child_element, "FIFO-DEPTH", configuration.getFifoDepth())
+            for fifo_range in configuration.getFlexrayFifoRanges():
+                self.setFlexrayFifoRange(child_element, "FLEXRAY-FIFO-RANGE", fifo_range)
+            self.setChildElementOptionalIntegerValue(child_element, "MSG-ID-MASK", configuration.getMsgIdMask())
+            self.setChildElementOptionalIntegerValue(child_element, "MSG-ID-MATCH", configuration.getMsgIdMatch())
 
     def setCanControllerFdConfigurationRequirements(self, element: ET.Element, key: str, requirements: CanControllerFdConfigurationRequirements):
         if requirements is not None:
@@ -9154,6 +9182,19 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalIntegerValue(child_element, "OFFSET-CORRECTION-OUT", controller.getOffsetCorrectionOut())
             self.setChildElementOptionalIntegerValue(child_element, "RATE-CORRECTION-OUT", controller.getRateCorrectionOut())
             self.setChildElementOptionalIntegerValue(child_element, "SAMPLES-PER-MICROTICK", controller.getSamplesPerMicrotick())
+            self.setChildElementOptionalIntegerValue(child_element, "EXTERN-OFFSET-CORRECTION", controller.getExternOffsetCorrection())
+            self.setChildElementOptionalIntegerValue(child_element, "EXTERN-RATE-CORRECTION", controller.getExternRateCorrection())
+            self.setChildElementOptionalBooleanValue(child_element, "EXTERNAL-SYNC", controller.getExternalSync())
+            self.setChildElementOptionalBooleanValue(child_element, "FALL-BACK-INTERNAL", controller.getFallBackInternal())
+            fifos = controller.getFlexrayFifos()
+            if len(fifos) > 0:
+                fifos_element = ET.SubElement(child_element, "FLEXRAY-FIFOS")
+                for fifo in fifos:
+                    self.setFlexrayFifoConfiguration(fifos_element, "FLEXRAY-FIFO-CONFIGURATION", fifo)
+            self.setChildElementOptionalIntegerValue(child_element, "KEY-SLOT-ID", controller.getKeySlotID())
+            self.setChildElementOptionalBooleanValue(child_element, "NM-VECTOR-EARLY-UPDATE", controller.getNmVectorEarlyUpdate())
+            self.setChildElementOptionalIntegerValue(child_element, "SECOND-KEY-SLOT-ID", controller.getSecondKeySlotId())
+            self.setChildElementOptionalBooleanValue(child_element, "TWO-KEY-SLOT-MODE", controller.getTwoKeySlotMode())
             self.setChildElementOptionalIntegerValue(child_element, "WAKE-UP-PATTERN", controller.getWakeUpPattern())
 
     def writeDataTransformationTransformerChainRefs(self, element: ET.Element, dtf: DataTransformation):

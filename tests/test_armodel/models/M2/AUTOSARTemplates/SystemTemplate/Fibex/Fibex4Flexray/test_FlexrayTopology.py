@@ -1,5 +1,12 @@
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCluster, FlexrayCommunicationConnector, FlexrayCommunicationController
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import (
+    FlexrayCluster,
+    FlexrayCommunicationConnector,
+    FlexrayCommunicationController,
+    FlexrayFifoConfiguration,
+    FlexrayFifoRange,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector, CommunicationController
 
 
@@ -92,8 +99,7 @@ class TestFlexrayTopology:
         assert controller == controller.setFallBackInternal(None)
         assert controller.getFallBackInternal() is None
 
-        assert controller == controller.setFlexrayFifos(None)
-        assert controller.getFlexrayFifos() == []  # Should remain empty list when None is passed to setter that expects a value to set
+        assert controller.getFlexrayFifos() == []  # FIFO list starts empty
 
         assert controller == controller.setKeySlotID(None)
         assert controller.getKeySlotID() is None
@@ -172,9 +178,8 @@ class TestFlexrayTopology:
         assert controller.getKeySlotOnlyEnabled() is False
         assert controller == controller.setKeySlotOnlyEnabled(False)
 
-        controller.setFlexrayFifos(["fifo1", "fifo2"])
-        assert "fifo1" in controller.getFlexrayFifos()
-        assert controller == controller.setFlexrayFifos(["fifo1", "fifo2"])
+        fifo = controller.createFlexrayFifo()
+        assert controller.getFlexrayFifos() == [fifo]
 
         # Test all other setter methods with actual values to ensure 100% coverage
         controller.setAllowPassiveToActive(3)
@@ -575,3 +580,76 @@ class TestFlexrayTopology:
         cluster.setMaxWithoutClockCorrectionPassive(35)
         assert cluster.getMaxWithoutClockCorrectionPassive() == 35
         assert cluster == cluster.setMaxWithoutClockCorrectionPassive(35)
+
+
+class TestFlexrayFifoRange:
+    def test_flexray_fifo_range_defaults(self):
+        fifo_range = FlexrayFifoRange()
+        assert isinstance(fifo_range, ARObject)
+        assert fifo_range.getRangeMax() is None
+        assert fifo_range.getRangeMin() is None
+
+    def test_flexray_fifo_range_setters(self):
+        fifo_range = FlexrayFifoRange()
+        assert fifo_range == fifo_range.setRangeMax(200)
+        assert fifo_range.getRangeMax() == 200
+        assert fifo_range == fifo_range.setRangeMin(100)
+        assert fifo_range.getRangeMin() == 100
+
+    def test_flexray_fifo_range_none_noop(self):
+        fifo_range = FlexrayFifoRange()
+        fifo_range.setRangeMax(200)
+        fifo_range.setRangeMin(100)
+        fifo_range.setRangeMax(None)
+        fifo_range.setRangeMin(None)
+        assert fifo_range.getRangeMax() == 200
+        assert fifo_range.getRangeMin() == 100
+
+
+class TestFlexrayFifoConfiguration:
+    def test_defaults(self):
+        config = FlexrayFifoConfiguration()
+        assert isinstance(config, ARObject)
+        assert config.getAdmitWithoutMessageId() is None
+        assert config.getBaseCycle() is None
+        assert config.getChannelRef() is None
+        assert config.getCycleRepetition() is None
+        assert config.getFifoDepth() is None
+        assert config.getFlexrayFifoRanges() == []
+        assert config.getMsgIdMask() is None
+        assert config.getMsgIdMatch() is None
+
+    def test_setters(self):
+        config = FlexrayFifoConfiguration()
+        assert config == config.setAdmitWithoutMessageId(True)
+        assert config.getAdmitWithoutMessageId() is True
+        assert config == config.setBaseCycle(2)
+        assert config.getBaseCycle() == 2
+        assert config == config.setCycleRepetition(4)
+        assert config.getCycleRepetition() == 4
+        assert config == config.setFifoDepth(8)
+        assert config.getFifoDepth() == 8
+        assert config == config.setMsgIdMask(16)
+        assert config.getMsgIdMask() == 16
+        assert config == config.setMsgIdMatch(32)
+        assert config.getMsgIdMatch() == 32
+
+    def test_channel_ref_setter(self):
+        config = FlexrayFifoConfiguration()
+        ref = RefType()
+        ref.setValue("/FlexrayCluster/ChannelA")
+        assert config == config.setChannelRef(ref)
+        assert config.getChannelRef() is ref
+
+    def test_create_fifo_range(self):
+        config = FlexrayFifoConfiguration()
+        range_1 = config.createFlexrayFifoRange()
+        range_1.setRangeMax(200)
+        range_2 = config.createFlexrayFifoRange()
+        assert config.getFlexrayFifoRanges() == [range_1, range_2]
+
+    def test_none_noop(self):
+        config = FlexrayFifoConfiguration()
+        config.setBaseCycle(2)
+        config.setBaseCycle(None)
+        assert config.getBaseCycle() == 2

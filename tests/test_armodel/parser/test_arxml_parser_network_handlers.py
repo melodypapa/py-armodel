@@ -167,10 +167,12 @@ class TestCanClusterHandlers:
 
         cluster = CanCluster(parent=_autosar_root(), short_name="c")
         element = _snip(
-            "<PROTOCOL-NAME>CAN</PROTOCOL-NAME>" "<PROTOCOL-VERSION>2.0</PROTOCOL-VERSION>",
+            "<BAUDRATE>500000</BAUDRATE>" "<PROTOCOL-NAME>CAN</PROTOCOL-NAME>" "<PROTOCOL-VERSION>2.0</PROTOCOL-VERSION>",
             root_tag="CAN-CLUSTER-CONDITIONAL",
         )
         parser.readCommunicationCluster(element, cluster)
+        assert cluster.getBaudrate() is not None
+        assert cluster.getBaudrate().getValue() == 500000
         assert cluster.getProtocolName() is not None
         assert cluster.getProtocolName().getValue() == "CAN"
         assert cluster.getProtocolVersion() is not None
@@ -374,6 +376,90 @@ class TestFlexrayClusterHandlers:
         parser.readFlexrayCluster(element, cluster)
         assert cluster.getDetectNitError() is not None
         assert cluster.getDetectNitError().getValue()
+
+    def test_readFlexrayCluster_all_attrs(self, parser):
+        from armodel.models import FlexrayCluster
+
+        cluster = FlexrayCluster(parent=_autosar_root(), short_name="fr")
+        element = _snip(
+            "<SHORT-NAME>fr</SHORT-NAME>"
+            "<FLEXRAY-CLUSTER-VARIANTS>"
+            "<FLEXRAY-CLUSTER-CONDITIONAL>"
+            "<ACTION-POINT-OFFSET>2</ACTION-POINT-OFFSET>"
+            "<BIT>0.1</BIT>"
+            "<CAS-RX-LOW-MAX>10</CAS-RX-LOW-MAX>"
+            "<COLD-START-ATTEMPTS>8</COLD-START-ATTEMPTS>"
+            "<CYCLE>0.005</CYCLE>"
+            "<CYCLE-COUNT-MAX>64</CYCLE-COUNT-MAX>"
+            "<DETECT-NIT-ERROR>true</DETECT-NIT-ERROR>"
+            "<DYNAMIC-SLOT-IDLE-PHASE>2</DYNAMIC-SLOT-IDLE-PHASE>"
+            "<IGNORE-AFTER-TX>5</IGNORE-AFTER-TX>"
+            "<LISTEN-NOISE>3</LISTEN-NOISE>"
+            "<MACRO-PER-CYCLE>36</MACRO-PER-CYCLE>"
+            "<MACROTICK-DURATION>0.001</MACROTICK-DURATION>"
+            "<MAX-WITHOUT-CLOCK-CORRECTION-FATAL>2</MAX-WITHOUT-CLOCK-CORRECTION-FATAL>"
+            "<MAX-WITHOUT-CLOCK-CORRECTION-PASSIVE>3</MAX-WITHOUT-CLOCK-CORRECTION-PASSIVE>"
+            "<MINISLOT-ACTION-POINT-OFFSET>1</MINISLOT-ACTION-POINT-OFFSET>"
+            "<MINISLOT-DURATION>10</MINISLOT-DURATION>"
+            "<NETWORK-IDLE-TIME>20</NETWORK-IDLE-TIME>"
+            "<NETWORK-MANAGEMENT-VECTOR-LENGTH>12</NETWORK-MANAGEMENT-VECTOR-LENGTH>"
+            "<NUMBER-OF-MINISLOTS>790</NUMBER-OF-MINISLOTS>"
+            "<NUMBER-OF-STATIC-SLOTS>70</NUMBER-OF-STATIC-SLOTS>"
+            "<OFFSET-CORRECTION-START>2</OFFSET-CORRECTION-START>"
+            "<PAYLOAD-LENGTH-STATIC>16</PAYLOAD-LENGTH-STATIC>"
+            "<SAFETY-MARGIN>2</SAFETY-MARGIN>"
+            "<SAMPLE-CLOCK-PERIOD>0.05</SAMPLE-CLOCK-PERIOD>"
+            "<STATIC-SLOT-DURATION>100</STATIC-SLOT-DURATION>"
+            "<SYMBOL-WINDOW>101</SYMBOL-WINDOW>"
+            "<SYMBOL-WINDOW-ACTION-POINT-OFFSET>102</SYMBOL-WINDOW-ACTION-POINT-OFFSET>"
+            "<SYNC-FRAME-ID-COUNT-MAX>15</SYNC-FRAME-ID-COUNT-MAX>"
+            "<TRANCEIVER-STANDBY-DELAY>0.5</TRANCEIVER-STANDBY-DELAY>"
+            "<TRANSMISSION-START-SEQUENCE-DURATION>4</TRANSMISSION-START-SEQUENCE-DURATION>"
+            "<WAKEUP-RX-IDLE>60</WAKEUP-RX-IDLE>"
+            "<WAKEUP-RX-LOW>180</WAKEUP-RX-LOW>"
+            "<WAKEUP-RX-WINDOW>300</WAKEUP-RX-WINDOW>"
+            "<WAKEUP-TX-ACTIVE>60</WAKEUP-TX-ACTIVE>"
+            "<WAKEUP-TX-IDLE>180</WAKEUP-TX-IDLE>"
+            "</FLEXRAY-CLUSTER-CONDITIONAL>"
+            "</FLEXRAY-CLUSTER-VARIANTS>",
+            root_tag="FLEXRAY-CLUSTER",
+        )
+        parser.readFlexrayCluster(element, cluster)
+        assert cluster.getActionPointOffset().getValue() == 2
+        assert cluster.getBit().getValue() == pytest.approx(0.1)
+        assert cluster.getCasRxLowMax().getValue() == 10
+        assert cluster.getColdStartAttempts().getValue() == 8
+        assert cluster.getCycle().getValue() == pytest.approx(0.005)
+        assert cluster.getCycleCountMax().getValue() == 64
+        assert cluster.getDetectNitError().getValue() is True
+        assert cluster.getDynamicSlotIdlePhase().getValue() == 2
+        assert cluster.getIgnoreAfterTx().getValue() == 5
+        assert cluster.getListenNoise().getValue() == 3
+        assert cluster.getMacroPerCycle().getValue() == 36
+        assert cluster.getMacrotickDuration().getValue() == pytest.approx(0.001)
+        assert cluster.getMaxWithoutClockCorrectionFatal().getValue() == 2
+        assert cluster.getMaxWithoutClockCorrectionPassive().getValue() == 3
+        assert cluster.getMinislotActionPointOffset().getValue() == 1
+        assert cluster.getMinislotDuration().getValue() == 10
+        assert cluster.getNetworkIdleTime().getValue() == 20
+        assert cluster.getNetworkManagementVectorLength().getValue() == 12
+        assert cluster.getNumberOfMinislots().getValue() == 790
+        assert cluster.getNumberOfStaticSlots().getValue() == 70
+        assert cluster.getOffsetCorrectionStart().getValue() == 2
+        assert cluster.getPayloadLengthStatic().getValue() == 16
+        assert cluster.getSafetyMargin().getValue() == 2
+        assert cluster.getSampleClockPeriod().getValue() == pytest.approx(0.05)
+        assert cluster.getStaticSlotDuration().getValue() == 100
+        assert cluster.getSymbolWindow().getValue() == 101
+        assert cluster.getSymbolWindowActionPointOffset().getValue() == 102
+        assert cluster.getSyncFrameIdCountMax().getValue() == 15
+        assert cluster.getTranceiverStandbyDelay().getValue() == pytest.approx(0.5)
+        assert cluster.getTransmissionStartSequenceDuration().getValue() == 4
+        assert cluster.getWakeupRxIdle().getValue() == 60
+        assert cluster.getWakeupRxLow().getValue() == 180
+        assert cluster.getWakeupRxWindow().getValue() == 300
+        assert cluster.getWakeupTxActive().getValue() == 60
+        assert cluster.getWakeupTxIdle().getValue() == 180
 
     def test_readFlexrayPhysicalChannel_sets_channelName(self, parser):
         from armodel.models import FlexrayCluster, FlexrayPhysicalChannel
@@ -2298,6 +2384,112 @@ class TestEcuInstanceHandlers:
         parser.readFlexrayCommunicationController(element, ctrl)
         assert ctrl.getShortName() == "ctrl"
 
+    def test_readFlexrayCommunicationController_all_attrs(self, parser):
+        from armodel.models import EcuInstance, FlexrayCommunicationController
+
+        instance = EcuInstance(parent=_autosar_root(), short_name="ecu")
+        ctrl = FlexrayCommunicationController(parent=instance, short_name="ctrl")
+        element = _snip(
+            "<SHORT-NAME>ctrl</SHORT-NAME>"
+            "<FLEXRAY-COMMUNICATION-CONTROLLER-VARIANTS>"
+            "<FLEXRAY-COMMUNICATION-CONTROLLER-CONDITIONAL>"
+            "<ACCEPTED-STARTUP-RANGE>10</ACCEPTED-STARTUP-RANGE>"
+            "<ALLOW-HALT-DUE-TO-CLOCK>true</ALLOW-HALT-DUE-TO-CLOCK>"
+            "<ALLOW-PASSIVE-TO-ACTIVE>5</ALLOW-PASSIVE-TO-ACTIVE>"
+            "<CLUSTER-DRIFT-DAMPING>2</CLUSTER-DRIFT-DAMPING>"
+            "<DECODING-CORRECTION>3</DECODING-CORRECTION>"
+            "<DELAY-COMPENSATION-A>4</DELAY-COMPENSATION-A>"
+            "<DELAY-COMPENSATION-B>5</DELAY-COMPENSATION-B>"
+            "<EXTERNAL-SYNC>true</EXTERNAL-SYNC>"
+            "<EXTERN-OFFSET-CORRECTION>6</EXTERN-OFFSET-CORRECTION>"
+            "<EXTERN-RATE-CORRECTION>7</EXTERN-RATE-CORRECTION>"
+            "<FALL-BACK-INTERNAL>false</FALL-BACK-INTERNAL>"
+            "<FLEXRAY-FIFOS>"
+            "<FLEXRAY-FIFO-CONFIGURATION>"
+            "<BASE-CYCLE>1</BASE-CYCLE>"
+            "<FIFO-DEPTH>8</FIFO-DEPTH>"
+            "</FLEXRAY-FIFO-CONFIGURATION>"
+            "</FLEXRAY-FIFOS>"
+            "<KEY-SLOT-ID>1</KEY-SLOT-ID>"
+            "<KEY-SLOT-ONLY-ENABLED>true</KEY-SLOT-ONLY-ENABLED>"
+            "<KEY-SLOT-USED-FOR-START-UP>true</KEY-SLOT-USED-FOR-START-UP>"
+            "<KEY-SLOT-USED-FOR-SYNC>false</KEY-SLOT-USED-FOR-SYNC>"
+            "<LATEST-TX>20</LATEST-TX>"
+            "<LISTEN-TIMEOUT>100</LISTEN-TIMEOUT>"
+            "<MACRO-INITIAL-OFFSET-A>30</MACRO-INITIAL-OFFSET-A>"
+            "<MACRO-INITIAL-OFFSET-B>31</MACRO-INITIAL-OFFSET-B>"
+            "<MAXIMUM-DYNAMIC-PAYLOAD-LENGTH>128</MAXIMUM-DYNAMIC-PAYLOAD-LENGTH>"
+            "<MICRO-INITIAL-OFFSET-A>1</MICRO-INITIAL-OFFSET-A>"
+            "<MICRO-INITIAL-OFFSET-B>2</MICRO-INITIAL-OFFSET-B>"
+            "<MICRO-PER-CYCLE>5000</MICRO-PER-CYCLE>"
+            "<MICROTICK-DURATION>0.00001</MICROTICK-DURATION>"
+            "<NM-VECTOR-EARLY-UPDATE>true</NM-VECTOR-EARLY-UPDATE>"
+            "<OFFSET-CORRECTION-OUT>50</OFFSET-CORRECTION-OUT>"
+            "<RATE-CORRECTION-OUT>60</RATE-CORRECTION-OUT>"
+            "<SAMPLES-PER-MICROTICK>2</SAMPLES-PER-MICROTICK>"
+            "<SECOND-KEY-SLOT-ID>3</SECOND-KEY-SLOT-ID>"
+            "<TWO-KEY-SLOT-MODE>true</TWO-KEY-SLOT-MODE>"
+            "<WAKE-UP-PATTERN>0</WAKE-UP-PATTERN>"
+            "</FLEXRAY-COMMUNICATION-CONTROLLER-CONDITIONAL>"
+            "</FLEXRAY-COMMUNICATION-CONTROLLER-VARIANTS>",
+            root_tag="FLEXRAY-COMMUNICATION-CONTROLLER",
+        )
+        parser.readFlexrayCommunicationController(element, ctrl)
+
+        assert ctrl.getAcceptedStartupRange().getValue() == 10
+        assert ctrl.getAllowHaltDueToClock().getValue() is True
+        assert ctrl.getAllowPassiveToActive().getValue() == 5
+        assert ctrl.getClusterDriftDamping().getValue() == 2
+        assert ctrl.getDecodingCorrection().getValue() == 3
+        assert ctrl.getDelayCompensationA().getValue() == 4
+        assert ctrl.getDelayCompensationB().getValue() == 5
+        assert ctrl.getExternalSync().getValue() is True
+        assert ctrl.getExternOffsetCorrection().getValue() == 6
+        assert ctrl.getExternRateCorrection().getValue() == 7
+        assert ctrl.getFallBackInternal().getValue() is False
+        assert len(ctrl.getFlexrayFifos()) == 1
+        fifo = ctrl.getFlexrayFifos()[0]
+        assert fifo.getBaseCycle().getValue() == 1
+        assert fifo.getFifoDepth().getValue() == 8
+        assert ctrl.getKeySlotID().getValue() == 1
+        assert ctrl.getKeySlotOnlyEnabled().getValue() is True
+        assert ctrl.getKeySlotUsedForStartUp().getValue() is True
+        assert ctrl.getKeySlotUsedForSync().getValue() is False
+        assert ctrl.getLatestTX().getValue() == 20
+        assert ctrl.getListenTimeout().getValue() == 100
+        assert ctrl.getMacroInitialOffsetA().getValue() == 30
+        assert ctrl.getMacroInitialOffsetB().getValue() == 31
+        assert ctrl.getMaximumDynamicPayloadLength().getValue() == 128
+        assert ctrl.getMicroInitialOffsetA().getValue() == 1
+        assert ctrl.getMicroInitialOffsetB().getValue() == 2
+        assert ctrl.getMicroPerCycle().getValue() == 5000
+        assert ctrl.getMicrotickDuration().getValue() == pytest.approx(0.00001)
+        assert ctrl.getNmVectorEarlyUpdate().getValue() is True
+        assert ctrl.getOffsetCorrectionOut().getValue() == 50
+        assert ctrl.getRateCorrectionOut().getValue() == 60
+        assert ctrl.getSamplesPerMicrotick().getValue() == 2
+        assert ctrl.getSecondKeySlotId().getValue() == 3
+        assert ctrl.getTwoKeySlotMode().getValue() is True
+        assert ctrl.getWakeUpPattern().getValue() == 0
+
+    def test_readFlexrayCommunicationController_empty_fifos(self, parser):
+        from armodel.models import EcuInstance, FlexrayCommunicationController
+
+        instance = EcuInstance(parent=_autosar_root(), short_name="ecu")
+        ctrl = FlexrayCommunicationController(parent=instance, short_name="ctrl")
+        element = _snip(
+            "<SHORT-NAME>ctrl</SHORT-NAME>"
+            "<FLEXRAY-COMMUNICATION-CONTROLLER-VARIANTS>"
+            "<FLEXRAY-COMMUNICATION-CONTROLLER-CONDITIONAL>"
+            "<FLEXRAY-FIFOS>"
+            "</FLEXRAY-FIFOS>"
+            "</FLEXRAY-COMMUNICATION-CONTROLLER-CONDITIONAL>"
+            "</FLEXRAY-COMMUNICATION-CONTROLLER-VARIANTS>",
+            root_tag="FLEXRAY-COMMUNICATION-CONTROLLER",
+        )
+        parser.readFlexrayCommunicationController(element, ctrl)
+        assert ctrl.getFlexrayFifos() == []
+
     def test_readEcuInstanceConnectors_can(self, parser):
         from armodel.models import EcuInstance
 
@@ -2919,6 +3111,52 @@ class TestFrameAndFlexrayTriggering:
         with caplog.at_level(logging.ERROR):
             warning_parser.readFlexrayFrameTriggeringAbsolutelyScheduledTimings(element, triggering)
         assert any("Unsupported AbsolutelyScheduledTiming" in r.getMessage() for r in caplog.records)
+
+    def test_getFlexrayFifoRange_sets_rangeMax_and_rangeMin(self, parser):
+        element = _snip(
+            "<FLEXRAY-FIFO-RANGE>" "<RANGE-MAX>200</RANGE-MAX>" "<RANGE-MIN>100</RANGE-MIN>" "</FLEXRAY-FIFO-RANGE>",
+            root_tag="ROOT",
+        )
+        fifo_range = parser.getFlexrayFifoRange(element, "FLEXRAY-FIFO-RANGE")
+        assert fifo_range is not None
+        assert fifo_range.getRangeMax().getValue() == 200
+        assert fifo_range.getRangeMin().getValue() == 100
+
+    def test_getFlexrayFifoRange_absent_returns_none(self, parser):
+        element = _snip("", root_tag="ROOT")
+        assert parser.getFlexrayFifoRange(element, "FLEXRAY-FIFO-RANGE") is None
+
+    def test_getFlexrayFifoConfiguration_reads_fields(self, parser):
+        element = _snip(
+            "<FLEXRAY-FIFO-CONFIGURATION>"
+            "<ADMIT-WITHOUT-MESSAGE-ID>true</ADMIT-WITHOUT-MESSAGE-ID>"
+            "<BASE-CYCLE>2</BASE-CYCLE>"
+            "<CHANNEL-REF DEST='FLEXRAY-PHYSICAL-CHANNEL'>/FlexrayCluster/ChannelA</CHANNEL-REF>"
+            "<CYCLE-REPETITION>4</CYCLE-REPETITION>"
+            "<FIFO-DEPTH>8</FIFO-DEPTH>"
+            "<FLEXRAY-FIFO-RANGE><RANGE-MAX>200</RANGE-MAX><RANGE-MIN>100</RANGE-MIN></FLEXRAY-FIFO-RANGE>"
+            "<MSG-ID-MASK>16</MSG-ID-MASK>"
+            "<MSG-ID-MATCH>32</MSG-ID-MATCH>"
+            "</FLEXRAY-FIFO-CONFIGURATION>",
+            root_tag="ROOT",
+        )
+        config = parser.getFlexrayFifoConfiguration(element, "FLEXRAY-FIFO-CONFIGURATION")
+        assert config is not None
+        assert config.getAdmitWithoutMessageId().getValue() is True
+        assert config.getBaseCycle().getValue() == 2
+        assert config.getChannelRef().getValue() == "/FlexrayCluster/ChannelA"
+        assert config.getCycleRepetition().getValue() == 4
+        assert config.getFifoDepth().getValue() == 8
+        ranges = config.getFlexrayFifoRanges()
+        assert len(ranges) == 1
+        assert ranges[0].getRangeMax().getValue() == 200
+        assert ranges[0].getRangeMin().getValue() == 100
+        assert config.getMsgIdMask().getValue() == 16
+        assert config.getMsgIdMatch().getValue() == 32
+
+    def test_getFlexrayFifoConfiguration_absent_returns_none(self, parser):
+        element = _snip("", root_tag="ROOT")
+        assert parser.getFlexrayFifoConfiguration(element, "FLEXRAY-FIFO-CONFIGURATION") is None
 
 
 # ==================== PduTriggering / PhysicalChannel (L3084, L3112, L3121, L3148-3152) ====================

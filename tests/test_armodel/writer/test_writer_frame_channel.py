@@ -9,6 +9,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
     ARBoolean,
     ARLiteral,
+    Float,
     Integer,
     PositiveInteger,
     RefType,
@@ -54,6 +55,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.Flexr
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import (  # noqa: E501
     FlexrayCluster,
+    FlexrayFifoConfiguration,
+    FlexrayFifoRange,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import (  # noqa: E501
     ApplicationEntry,
@@ -124,6 +127,12 @@ def _integer(text):
 
 def _time(text):
     val = TimeValue()
+    val.setValue(text)
+    return val
+
+
+def _float(text):
+    val = Float()
     val.setValue(text)
     return val
 
@@ -1580,7 +1589,10 @@ class TestWriteFlexrayCluster:
         cluster.setSafetyMargin(_pos_int("2"))
         cluster.setSampleClockPeriod(_time("0.05"))
         cluster.setStaticSlotDuration(_pos_int("100"))
+        cluster.setSymbolWindow(_integer("101"))
+        cluster.setSymbolWindowActionPointOffset(_integer("102"))
         cluster.setSyncFrameIdCountMax(_pos_int("15"))
+        cluster.setTranceiverStandbyDelay(_float("0.5"))
         cluster.setTransmissionStartSequenceDuration(_pos_int("4"))
         cluster.setWakeupRxIdle(_pos_int("60"))
         cluster.setWakeupRxLow(_pos_int("180"))
@@ -1620,10 +1632,70 @@ class TestWriteFlexrayCluster:
         assert cond.find("SAFETY-MARGIN").text == "2"
         assert cond.find("SAMPLE-CLOCK-PERIOD").text == "0.05"
         assert cond.find("STATIC-SLOT-DURATION").text == "100"
+        assert cond.find("SYMBOL-WINDOW").text == "101"
+        assert cond.find("SYMBOL-WINDOW-ACTION-POINT-OFFSET").text == "102"
         assert cond.find("SYNC-FRAME-ID-COUNT-MAX").text == "15"
+        assert cond.find("TRANCEIVER-STANDBY-DELAY").text == "0.5"
         assert cond.find("TRANSMISSION-START-SEQUENCE-DURATION").text == "4"
         assert cond.find("WAKEUP-RX-IDLE").text == "60"
         assert cond.find("WAKEUP-RX-LOW").text == "180"
         assert cond.find("WAKEUP-RX-WINDOW").text == "300"
         assert cond.find("WAKEUP-TX-ACTIVE").text == "60"
         assert cond.find("WAKEUP-TX-IDLE").text == "180"
+
+
+class TestWriteFlexrayFifoRange:
+    def test_write_flexray_fifo_range(self, writer):
+        fifo_range = FlexrayFifoRange()
+        fifo_range.setRangeMax(_integer("200"))
+        fifo_range.setRangeMin(_integer("100"))
+        parent = _parent()
+        writer.setFlexrayFifoRange(parent, "FLEXRAY-FIFO-RANGE", fifo_range)
+        range_el = parent.find("FLEXRAY-FIFO-RANGE")
+        assert range_el is not None
+        assert range_el.find("RANGE-MAX").text == "200"
+        assert range_el.find("RANGE-MIN").text == "100"
+
+    def test_write_flexray_fifo_range_none(self, writer):
+        parent = _parent()
+        writer.setFlexrayFifoRange(parent, "FLEXRAY-FIFO-RANGE", None)
+        assert len(parent) == 0
+
+
+class TestWriteFlexrayFifoConfiguration:
+    def test_write_flexray_fifo_configuration(self, writer):
+        config = FlexrayFifoConfiguration()
+        config.setAdmitWithoutMessageId(_boolean(True))
+        config.setBaseCycle(_integer("2"))
+        ref = RefType()
+        ref.setDest("FLEXRAY-PHYSICAL-CHANNEL")
+        ref.setValue("/FlexrayCluster/ChannelA")
+        config.setChannelRef(ref)
+        config.setCycleRepetition(_integer("4"))
+        config.setFifoDepth(_integer("8"))
+        fifo_range = config.createFlexrayFifoRange()
+        fifo_range.setRangeMax(_integer("200"))
+        fifo_range.setRangeMin(_integer("100"))
+        config.setMsgIdMask(_integer("16"))
+        config.setMsgIdMatch(_integer("32"))
+        parent = _parent()
+        writer.setFlexrayFifoConfiguration(parent, "FLEXRAY-FIFO-CONFIGURATION", config)
+        el = parent.find("FLEXRAY-FIFO-CONFIGURATION")
+        assert el is not None
+        assert el.find("ADMIT-WITHOUT-MESSAGE-ID").text == "true"
+        assert el.find("BASE-CYCLE").text == "2"
+        channel_ref = el.find("CHANNEL-REF")
+        assert channel_ref.attrib["DEST"] == "FLEXRAY-PHYSICAL-CHANNEL"
+        assert channel_ref.text == "/FlexrayCluster/ChannelA"
+        assert el.find("CYCLE-REPETITION").text == "4"
+        assert el.find("FIFO-DEPTH").text == "8"
+        range_el = el.find("FLEXRAY-FIFO-RANGE")
+        assert range_el.find("RANGE-MAX").text == "200"
+        assert range_el.find("RANGE-MIN").text == "100"
+        assert el.find("MSG-ID-MASK").text == "16"
+        assert el.find("MSG-ID-MATCH").text == "32"
+
+    def test_write_flexray_fifo_configuration_none(self, writer):
+        parent = _parent()
+        writer.setFlexrayFifoConfiguration(parent, "FLEXRAY-FIFO-CONFIGURATION", None)
+        assert len(parent) == 0
