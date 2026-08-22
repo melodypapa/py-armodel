@@ -37,13 +37,13 @@ Member types referenced (all already exist in PrimitiveTypes / same module, refe
   - [x] Step 7 — Update checklist comment (# Spec: line + rows; marker deferred to 9b)
   - [x] Step 8 — Deviations (none expected)
   - [x] Step 9 — Verify (9a) + confirm (9b) ⇒ write # Spec verified: R23-11
-- [ ] AbstractCanCommunicationControllerAttributes
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite verbatim)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment (# Spec: line + rows; marker deferred to 9b)
-  - [ ] Step 8 — Deviations (none expected)
-  - [ ] Step 9 — Verify (9a) + confirm (9b) ⇒ write # Spec verified: R23-11
+- [x] AbstractCanCommunicationControllerAttributes (commit d501d4ec)
+   - [x] Step 1 — Sync members & description from spec
+   - [x] Step 2 — Write model class unit test (Red)
+   - [x] Step 3 — Implement model class (Green)
+   - [x] Step 4 — Sync docstrings (wipe + rewrite verbatim)
+   - [x] Step 5 — Write reader/writer round-trip test (Red)
+   - [x] Step 6 — Update parser & writer (Green)
+   - [x] Step 7 — Update checklist comment (# Spec: line + rows; marker deferred to 9b)
+   - [x] Step 8 — Deviations (none expected)
+   - [x] Step 9 — Verify (9a) + confirm (9b) ⇒ write # Spec verified: R23-11
