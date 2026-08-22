@@ -587,19 +587,38 @@ class Test_Fibex4EthernetServiceInstances:
         # Test default values
         assert instance.getEventHandlers() == []
         assert instance.getInstanceIdentifier() is None
+        assert instance.getLoadBalancingPriority() is None
+        assert instance.getLoadBalancingWeight() is None
+        assert instance.getLocalUnicastAddressRefs() == []
+        assert instance.getMinorVersion() is None
         assert instance.getPriority() is None
+        assert instance.getRemoteMulticastSubscriptionAddressRefs() == []
+        assert instance.getRemoteUnicastAddressRefs() == []
         assert instance.getSdServerConfig() is None
+        assert instance.getSdServerTimerConfigRef() is None
         assert instance.getServiceIdentifier() is None
 
         # Test setter/getter methods with method chaining - with None
         assert instance == instance.setInstanceIdentifier(None)  # Test method chaining with None
         assert instance.getInstanceIdentifier() is None  # Should remain None
 
+        assert instance == instance.setLoadBalancingPriority(None)  # Test method chaining with None
+        assert instance.getLoadBalancingPriority() is None  # Should remain None
+
+        assert instance == instance.setLoadBalancingWeight(None)  # Test method chaining with None
+        assert instance.getLoadBalancingWeight() is None  # Should remain None
+
+        assert instance == instance.setMinorVersion(None)  # Test method chaining with None
+        assert instance.getMinorVersion() is None  # Should remain None
+
         assert instance == instance.setPriority(None)  # Test method chaining with None
         assert instance.getPriority() is None  # Should remain None
 
         assert instance == instance.setSdServerConfig(None)  # Test method chaining with None
         assert instance.getSdServerConfig() is None  # Should remain None
+
+        assert instance == instance.setSdServerTimerConfigRef(None)  # Test method chaining with None
+        assert instance.getSdServerTimerConfigRef() is None  # Should remain None
 
         assert instance == instance.setServiceIdentifier(None)  # Test method chaining with None
         assert instance.getServiceIdentifier() is None  # Should remain None
@@ -608,6 +627,18 @@ class Test_Fibex4EthernetServiceInstances:
         instance.setInstanceIdentifier(200)
         assert instance.getInstanceIdentifier() == 200
         assert instance == instance.setInstanceIdentifier(200)  # Test method chaining
+
+        instance.setLoadBalancingPriority(7)
+        assert instance.getLoadBalancingPriority() == 7
+        assert instance == instance.setLoadBalancingPriority(7)  # Test method chaining
+
+        instance.setLoadBalancingWeight(3)
+        assert instance.getLoadBalancingWeight() == 3
+        assert instance == instance.setLoadBalancingWeight(3)  # Test method chaining
+
+        instance.setMinorVersion(2)
+        assert instance.getMinorVersion() == 2
+        assert instance == instance.setMinorVersion(2)  # Test method chaining
 
         instance.setPriority(3)
         assert instance.getPriority() == 3
@@ -618,14 +649,49 @@ class Test_Fibex4EthernetServiceInstances:
         assert instance.getSdServerConfig() == config
         assert instance == instance.setSdServerConfig(config)  # Test method chaining
 
+        instance.setSdServerTimerConfigRef("sd_server_timer_config_ref")
+        assert instance.getSdServerTimerConfigRef() == "sd_server_timer_config_ref"
+        assert instance == instance.setSdServerTimerConfigRef("sd_server_timer_config_ref")  # Test method chaining
+
         instance.setServiceIdentifier(25)
         assert instance.getServiceIdentifier() == 25
         assert instance == instance.setServiceIdentifier(25)  # Test method chaining
+
+        # Test add methods for reference lists
+        instance.addLocalUnicastAddressRef("local_unicast_ref1")
+        assert "local_unicast_ref1" in instance.getLocalUnicastAddressRefs()
+        assert instance == instance.addLocalUnicastAddressRef("local_unicast_ref1")  # Test method chaining
+
+        instance.addAllowedServiceConsumerRef("network_endpoint_ref1")
+        assert "network_endpoint_ref1" in instance.getAllowedServiceConsumerRefs()
+        assert instance == instance.addAllowedServiceConsumerRef("network_endpoint_ref1")  # Test method chaining
+        assert instance == instance.setAllowedServiceConsumerRefs(["network_endpoint_ref2"])
+        assert instance.getAllowedServiceConsumerRefs() == ["network_endpoint_ref2"]
+        assert instance == instance.setAllowedServiceConsumerRefs(None)  # None no-op
+        assert instance.getAllowedServiceConsumerRefs() == ["network_endpoint_ref2"]
+
+        instance.setLocalUnicastAddressRefs(["local_unicast_ref2"])
+        assert "local_unicast_ref2" in instance.getLocalUnicastAddressRefs()
+
+        instance.addRemoteMulticastSubscriptionAddressRef("remote_multicast_ref1")
+        assert "remote_multicast_ref1" in instance.getRemoteMulticastSubscriptionAddressRefs()
+        assert instance == instance.addRemoteMulticastSubscriptionAddressRef("remote_multicast_ref1")  # Test method chaining
+
+        instance.addRemoteUnicastAddressRef("remote_unicast_ref1")
+        assert "remote_unicast_ref1" in instance.getRemoteUnicastAddressRefs()
+        assert instance == instance.addRemoteUnicastAddressRef("remote_unicast_ref1")  # Test method chaining
 
         # Test create method for event handlers
         event_handler = instance.createEventHandler("test_event_handler")
         assert isinstance(event_handler, EventHandler)
         assert len(instance.getEventHandlers()) == 1
+
+        # Test autoAvailable attribute (Boolean, 0..1)
+        assert instance == instance.setAutoAvailable(None)  # None no-op
+        assert instance.getAutoAvailable() is None
+        instance.setAutoAvailable(True)
+        assert instance.getAutoAvailable() is True
+        assert instance == instance.setAutoAvailable(True)  # Test method chaining
 
     def test_ApplicationEndpoint(self):
         """Test ApplicationEndpoint class functionality."""

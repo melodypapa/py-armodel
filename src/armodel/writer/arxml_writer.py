@@ -6673,7 +6673,41 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeIdentifiable(child_element, instance)
             self.writeProvidedServiceInstanceEventHandlers(child_element, instance)
             self.setChildElementOptionalPositiveInteger(child_element, "INSTANCE-IDENTIFIER", instance.getInstanceIdentifier())
+            self.setChildElementOptionalPositiveInteger(child_element, "LOAD-BALANCING-PRIORITY", instance.getLoadBalancingPriority())
+            self.setChildElementOptionalPositiveInteger(child_element, "LOAD-BALANCING-WEIGHT", instance.getLoadBalancingWeight())
+            refs = instance.getLocalUnicastAddressRefs()
+            if len(refs) > 0:
+                wrapper = ET.SubElement(child_element, "LOCAL-UNICAST-ADDRESSS")
+                for ref in refs:
+                    cond_tag = ET.SubElement(wrapper, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
+                    self.setChildElementOptionalRefType(cond_tag, "APPLICATION-ENDPOINT-REF", ref)
+            self.setChildElementOptionalPositiveInteger(child_element, "MINOR-VERSION", instance.getMinorVersion())
+            self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", instance.getPriority())
+            refs = instance.getRemoteMulticastSubscriptionAddressRefs()
+            if len(refs) > 0:
+                wrapper = ET.SubElement(child_element, "REMOTE-MULTICAST-SUBSCRIPTION-ADDRESSS")
+                for ref in refs:
+                    cond_tag = ET.SubElement(wrapper, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
+                    self.setChildElementOptionalRefType(cond_tag, "APPLICATION-ENDPOINT-REF", ref)
+            refs = instance.getRemoteUnicastAddressRefs()
+            if len(refs) > 0:
+                wrapper = ET.SubElement(child_element, "REMOTE-UNICAST-ADDRESSS")
+                for ref in refs:
+                    cond_tag = ET.SubElement(wrapper, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
+                    self.setChildElementOptionalRefType(cond_tag, "APPLICATION-ENDPOINT-REF", ref)
             self.setSdServerConfig(child_element, "SD-SERVER-CONFIG", instance.getSdServerConfig())
+            ref = instance.getSdServerTimerConfigRef()
+            if ref is not None:
+                wrapper = ET.SubElement(child_element, "SD-SERVER-TIMER-CONFIGS")
+                cond_tag = ET.SubElement(wrapper, "SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(cond_tag, "SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG-REF", ref)
+            refs = instance.getAllowedServiceConsumerRefs()
+            if len(refs) > 0:
+                wrapper = ET.SubElement(child_element, "ALLOWED-SERVICE-CONSUMERS")
+                for ref in refs:
+                    cond_tag = ET.SubElement(wrapper, "NETWORK-ENDPOINT-REF-CONDITIONAL")
+                    self.setChildElementOptionalRefType(cond_tag, "NETWORK-ENDPOINT-REF", ref)
+            self.setChildElementOptionalBooleanValue(child_element, "AUTO-AVAILABLE", instance.getAutoAvailable())
             self.setChildElementOptionalPositiveInteger(child_element, "SERVICE-IDENTIFIER", instance.getServiceIdentifier())
 
     def writeSocketAddressApplicationEndpointProvidedServiceInstance(self, element: ET.Element, end_point: ApplicationEndpoint):
