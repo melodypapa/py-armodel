@@ -566,6 +566,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     DataPrototypeTransformationProps,
     DataTransformation,
     DataTransformationSet,
+    E2EProfileCompatibilityProps,
     EndToEndTransformationComSpecProps,
     EndToEndTransformationDescription,
     EndToEndTransformationISignalProps,
@@ -9173,6 +9174,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDataTransformationSetDataTransformations(child_element, dtf_set)
             self.writeDataTransformationSetTransformationTechnologies(child_element, dtf_set)
 
+    def writeE2EProfileCompatibilityProps(self, element: ET.Element, props: E2EProfileCompatibilityProps):
+        if props is not None:
+            child_element = ET.SubElement(element, "E-2-E-PROFILE-COMPATIBILITY-PROPS")
+            self.writeIdentifiable(child_element, props)
+            self.setChildElementOptionalBooleanValue(child_element, "TRANSIT-TO-INVALID-EXTENDED", props.getTransitToInvalidExtended())
+
     def writeARPackageElement(self, element: ET.Element, ar_element: ARElement):
         if isinstance(ar_element, ComplexDeviceDriverSwComponentType):
             self.writeComplexDeviceDriverSwComponentType(element, ar_element)
@@ -9322,6 +9329,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeHwType(element, ar_element)
         elif isinstance(ar_element, DataTransformationSet):
             self.writeDataTransformationSet(element, ar_element)
+        elif isinstance(ar_element, E2EProfileCompatibilityProps):
+            self.writeE2EProfileCompatibilityProps(element, ar_element)
         elif isinstance(ar_element, FlexrayFrame):
             self.writeFlexrayFrame(element, ar_element)
         elif isinstance(ar_element, ISignalGroup):

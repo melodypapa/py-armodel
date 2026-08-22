@@ -2,6 +2,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     BufferProperties,
     CSTransformerErrorReactionEnum,
@@ -9,6 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     DataTransformation,
     DataTransformationKindEnum,
     DataTransformationSet,
+    E2EProfileCompatibilityProps,
     EndToEndProfileBehaviorEnum,
     EndToEndTransformationComSpecProps,
     EndToEndTransformationDescription,
@@ -180,6 +182,28 @@ class TestTransformer:
         # setValue / getValue round-trip
         assert enum.setValue(EndToEndProfileBehaviorEnum.R4_2).getValue() == "R4_2"
         assert enum.setValue(EndToEndProfileBehaviorEnum.PRE_R4_2).getValue() == "PRE_R4_2"
+
+    def test_e2e_profile_compatibility_props(self):
+        """
+        Test E2EProfileCompatibilityProps class functionality with method chaining and None handling.
+        """
+        parent = MockParent()
+        props = E2EProfileCompatibilityProps(parent, "test_e2e_profile_compatibility_props")
+
+        assert isinstance(props, ARElement)
+
+        # Test default values
+        assert props.getTransitToInvalidExtended() is None
+
+        # Test set/get round-trip and method chaining
+        flag = Boolean()
+        flag.setValue("true")
+        assert props.setTransitToInvalidExtended(flag) is props
+        assert props.getTransitToInvalidExtended() is flag
+
+        # Test None no-op
+        assert props.setTransitToInvalidExtended(None) is props
+        assert props.getTransitToInvalidExtended() is flag
 
     def test_end_to_end_transformation_description(self):
         """

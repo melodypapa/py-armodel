@@ -19,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARBoolean,
     ARLiteral,
     ARNumerical,
+    Boolean,
     Integer,
     PositiveInteger,
     RefType,
@@ -48,8 +49,10 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing im
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     BufferProperties,
     DataTransformationSet,
+    E2EProfileCompatibilityProps,
     EndToEndTransformationDescription,
 )
+from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
 
@@ -831,3 +834,55 @@ class TestWriterTransformationTechnology:
         parent = _parent()
         writer.writeTransformationTechnology(parent, None)
         assert len(parent) == 0
+
+
+class TestE2EProfileCompatibilityPropsRoundTrip:
+    def _round_trip(self, props, tmp_path):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Pkg")
+        pkg.addElement(props)
+        out_file = tmp_path / "e2e_compat.arxml"
+        writer = ARXMLWriter()
+        writer.save(str(out_file), autosar)
+        reload = AUTOSAR.getInstance()
+        reload.clear()
+        parser = ARXMLParser()
+        parser.load(str(out_file), reload)
+        return reload
+
+    def test_round_trip_with_transit_to_invalid_extended_true(self, tmp_path):
+        pkg = AUTOSAR.getInstance().createARPackage("Pkg")
+        props = pkg.createE2EProfileCompatibilityProps("Props")
+        flag = Boolean()
+        flag.setValue("true")
+        props.setTransitToInvalidExtended(flag)
+        reload = self._round_trip(props, tmp_path)
+        reloaded_pkg = reload.getARPackages()[0]
+        reloaded_props = reloaded_pkg.getElement("Props", E2EProfileCompatibilityProps)
+        assert reloaded_props is not None
+        assert reloaded_props.getTransitToInvalidExtended() is not None
+        assert reloaded_props.getTransitToInvalidExtended().getValue() is True
+
+    def test_round_trip_with_transit_to_invalid_extended_false(self, tmp_path):
+        pkg = AUTOSAR.getInstance().createARPackage("Pkg")
+        props = pkg.createE2EProfileCompatibilityProps("Props")
+        flag = Boolean()
+        flag.setValue("false")
+        props.setTransitToInvalidExtended(flag)
+        reload = self._round_trip(props, tmp_path)
+        reloaded_pkg = reload.getARPackages()[0]
+        reloaded_props = reloaded_pkg.getElement("Props", E2EProfileCompatibilityProps)
+        assert reloaded_props is not None
+        assert reloaded_props.getTransitToInvalidExtended() is not None
+        assert reloaded_props.getTransitToInvalidExtended().getValue() is False
+
+    def test_round_trip_empty_omits_attribute(self, tmp_path):
+        pkg = AUTOSAR.getInstance().createARPackage("Pkg")
+        props = pkg.createE2EProfileCompatibilityProps("Props")
+        assert props.getTransitToInvalidExtended() is None
+        reload = self._round_trip(props, tmp_path)
+        reloaded_pkg = reload.getARPackages()[0]
+        reloaded_props = reloaded_pkg.getElement("Props", E2EProfileCompatibilityProps)
+        assert reloaded_props is not None
+        assert reloaded_props.getTransitToInvalidExtended() is None

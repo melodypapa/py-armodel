@@ -250,6 +250,42 @@ class EndToEndProfileBehaviorEnum(AREnum):
         )
 
 
+class E2EProfileCompatibilityProps(ARElement):
+    """
+    This meta-class collects settings for configuration of the E2E state machine. Tags: atp.recommendedPackage=E2EProfileCompatibilityPropsCollection
+    """
+
+    # E2EProfileCompatibilityProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.25, p.808
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getTransitToInvalidExtended    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setTransitToInvalidExtended    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # E2E State machine behavior concerning transition from NODATA/INIT to INVALID value=0 (false): no direct transition from NODATA to INVALID, no transition from INIT to INVALID due to counter-related faults (Autosar R19-11 or former behavior) value=1 (true): direct transition from NODATA to INVALID covered, transition from INIT to INVALID due to counter-related faults covered (state machine extended)
+        self.transitToInvalidExtended: Optional[Boolean] = None
+
+    def getTransitToInvalidExtended(self) -> Optional[Boolean]:
+        """
+        E2E State machine behavior concerning transition from NODATA/INIT to INVALID value=0 (false): no direct transition from NODATA to INVALID, no transition from INIT to INVALID due to counter-related faults (Autosar R19-11 or former behavior) value=1 (true): direct transition from NODATA to INVALID covered, transition from INIT to INVALID due to counter-related faults covered (state machine extended)
+        """
+        return self.transitToInvalidExtended
+
+    def setTransitToInvalidExtended(self, value: Optional[Boolean]) -> "E2EProfileCompatibilityProps":
+        """
+        E2E State machine behavior concerning transition from NODATA/INIT to INVALID value=0 (false): no direct transition from NODATA to INVALID, no transition from INIT to INVALID due to counter-related faults (Autosar R19-11 or former behavior) value=1 (true): direct transition from NODATA to INVALID covered, transition from INIT to INVALID due to counter-related faults covered (state machine extended)
+
+        If value is None, this method does nothing and returns self (no-op for None).
+        """
+        if value is not None:
+            self.transitToInvalidExtended = value
+        return self
+
+
 class EndToEndTransformationDescription(TransformationDescription):
     """
     Defines end-to-end transformation properties for data protection,

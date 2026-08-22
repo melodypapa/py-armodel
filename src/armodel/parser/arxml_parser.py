@@ -594,6 +594,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     DataPrototypeTransformationProps,
     DataTransformation,
     DataTransformationSet,
+    E2EProfileCompatibilityProps,
     EndToEndTransformationComSpecProps,
     EndToEndTransformationDescription,
     EndToEndTransformationISignalProps,
@@ -7226,6 +7227,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.readDataTransformationSetDataTransformations(element, dtf_set)
         self.readDataTransformationSetTransformationTechnologies(element, dtf_set)
 
+    def readE2EProfileCompatibilityProps(self, element: ET.Element, props: E2EProfileCompatibilityProps):
+        self.logger.debug("Read E2EProfileCompatibilityProps <%s>" % props.getShortName())
+        self.readARElement(element, props)
+        props.setTransitToInvalidExtended(self.getChildElementOptionalBooleanValue(element, "TRANSIT-TO-INVALID-EXTENDED"))
+
     def readCollectionElementRefs(self, element: ET.Element, collection: Collection):
         for ref in self.getChildElementRefTypeList(element, "ELEMENT-REFS/ELEMENT-REF"):
             collection.addElementRef(ref)
@@ -9132,6 +9138,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DATA-TRANSFORMATION-SET":
                 transformation_set = parent.createDataTransformationSet(self.getShortName(child_element))
                 self.readDataTransformationSet(child_element, transformation_set)
+            elif tag_name == "E-2-E-PROFILE-COMPATIBILITY-PROPS":
+                props = parent.createE2EProfileCompatibilityProps(self.getShortName(child_element))
+                self.readE2EProfileCompatibilityProps(child_element, props)
             elif tag_name == "COLLECTION":
                 collection = parent.createCollection(self.getShortName(child_element))
                 self.readCollection(child_element, collection)
