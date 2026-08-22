@@ -7175,7 +7175,12 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readEndToEndTransformationDescription(self, element: ET.Element, desc: EndToEndTransformationDescription):
         self.readTransformationDescription(element, desc)
+        desc.setClearFromValidToInvalid(self.getChildElementOptionalBooleanValue(element, "CLEAR-FROM-VALID-TO-INVALID"))
+        desc.setCounterOffset(self.getChildElementOptionalPositiveInteger(element, "COUNTER-OFFSET"))
+        desc.setCrcOffset(self.getChildElementOptionalPositiveInteger(element, "CRC-OFFSET"))
         desc.setDataIdMode(self.getChildElementOptionalLiteral(element, "DATA-ID-MODE"))
+        desc.setDataIdNibbleOffset(self.getChildElementOptionalPositiveInteger(element, "DATA-ID-NIBBLE-OFFSET"))
+        desc.setE2eProfileCompatibilityPropsRef(self.getChildElementOptionalRefType(element, "E-2-E-PROFILE-COMPATIBILITY-PROPS-REF"))
         desc.setMaxDeltaCounter(self.getChildElementOptionalPositiveInteger(element, "MAX-DELTA-COUNTER"))
         desc.setMaxErrorStateInit(self.getChildElementOptionalPositiveInteger(element, "MAX-ERROR-STATE-INIT"))
         desc.setMaxErrorStateInvalid(self.getChildElementOptionalPositiveInteger(element, "MAX-ERROR-STATE-INVALID"))
@@ -7184,6 +7189,7 @@ class ARXMLParser(AbstractARXMLParser):
         desc.setMinOkStateInit(self.getChildElementOptionalPositiveInteger(element, "MIN-OK-STATE-INIT"))
         desc.setMinOkStateInvalid(self.getChildElementOptionalPositiveInteger(element, "MIN-OK-STATE-INVALID"))
         desc.setMinOkStateValid(self.getChildElementOptionalPositiveInteger(element, "MIN-OK-STATE-VALID"))
+        desc.setOffset(self.getChildElementOptionalPositiveInteger(element, "OFFSET"))
         desc.setProfileBehavior(self.getChildElementOptionalLiteral(element, "PROFILE-BEHAVIOR"))
         desc.setProfileName(self.getChildElementOptionalLiteral(element, "PROFILE-NAME"))
         desc.setSyncCounterInit(self.getChildElementOptionalPositiveInteger(element, "SYNC-COUNTER-INIT"))

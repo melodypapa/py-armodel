@@ -17,4 +17,4 @@ Input class: EndToEndTransformationDescription · Generated: 2026-08-21 · Queue
 | [x] | DataIdModeEnum | member enum | markdown | Table 7.24 | commit 1ea0aa9f; enum synced (p.807, Steps 5/6 N/A) |
 | [x] | EndToEndProfileBehaviorEnum | member enum | markdown | Table 7.26 | commit d36d7c5d; enum (Steps 5/6 N/A), p.808 |
 | [x] | E2EProfileCompatibilityProps | member | markdown | Table 7.25 | commit 68fbcce4; class E2EProfileCompatibilityProps (Table 7.25, p.808); Steps 5/6 applied |
-| [ ] | EndToEndTransformationDescription | input | markdown | Table 7.3 | |
+| [x] | EndToEndTransformationDescription | input | markdown | Table 7.23 | commit <PENDING>; class EndToEndTransformationDescription (Table 7.23, p.807); reader/writer gaps for 6 attrs filled |

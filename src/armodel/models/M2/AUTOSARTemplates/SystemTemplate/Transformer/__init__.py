@@ -288,256 +288,476 @@ class E2EProfileCompatibilityProps(ARElement):
 
 class EndToEndTransformationDescription(TransformationDescription):
     """
-    Defines end-to-end transformation properties for data protection,
-    specifying counter offsets, CRC calculations, data ID modes,
-    and profile behavior for safe data transmission.
+    EndToEndTransformationDescription holds these attributes which are profile specific and have the same value for all E2E transformers.
     """
 
     # EndToEndTransformationDescription method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getClearFromValidToInvalid   [x] impl  [ ] docstring  [ ] test
-    # [ ] setClearFromValidToInvalid   [x] impl  [ ] docstring  [ ] test
-    # [ ] getCounterOffset             [x] impl  [ ] docstring  [ ] test
-    # [ ] setCounterOffset             [x] impl  [ ] docstring  [ ] test
-    # [ ] getCrcOffset                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setCrcOffset                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataIdMode                [x] impl  [ ] docstring  [ ] test
-    # [ ] setDataIdMode                [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataIdNibbleOffset        [x] impl  [ ] docstring  [ ] test
-    # [ ] setDataIdNibbleOffset        [x] impl  [ ] docstring  [ ] test
-    # [ ] getE2eProfileCompatibilityPropsRef [x] impl  [ ] docstring  [ ] test
-    # [ ] setE2eProfileCompatibilityPropsRef [x] impl  [ ] docstring  [ ] test
-    # [ ] getMaxDeltaCounter           [x] impl  [ ] docstring  [ ] test
-    # [ ] setMaxDeltaCounter           [x] impl  [ ] docstring  [ ] test
-    # [ ] getMaxErrorStateInit         [x] impl  [ ] docstring  [ ] test
-    # [ ] setMaxErrorStateInit         [x] impl  [ ] docstring  [ ] test
-    # [ ] getMaxErrorStateInvalid      [x] impl  [ ] docstring  [ ] test
-    # [ ] setMaxErrorStateInvalid      [x] impl  [ ] docstring  [ ] test
-    # [ ] getMaxErrorStateValid        [x] impl  [ ] docstring  [ ] test
-    # [ ] setMaxErrorStateValid        [x] impl  [ ] docstring  [ ] test
-    # [ ] getMaxNoNewOrRepeatedData    [x] impl  [ ] docstring  [ ] test
-    # [ ] setMaxNoNewOrRepeatedData    [x] impl  [ ] docstring  [ ] test
-    # [ ] getMinOkStateInit            [x] impl  [ ] docstring  [ ] test
-    # [ ] setMinOkStateInit            [x] impl  [ ] docstring  [ ] test
-    # [ ] getMinOkStateInvalid         [x] impl  [ ] docstring  [ ] test
-    # [ ] setMinOkStateInvalid         [x] impl  [ ] docstring  [ ] test
-    # [ ] getMinOkStateValid           [x] impl  [ ] docstring  [ ] test
-    # [ ] setMinOkStateValid           [x] impl  [ ] docstring  [ ] test
-    # [ ] getOffset                    [x] impl  [ ] docstring  [ ] test
-    # [ ] setOffset                    [x] impl  [ ] docstring  [ ] test
-    # [ ] getProfileBehavior           [x] impl  [ ] docstring  [ ] test
-    # [ ] setProfileBehavior           [x] impl  [ ] docstring  [ ] test
-    # [ ] getProfileName               [x] impl  [ ] docstring  [ ] test
-    # [ ] setProfileName               [x] impl  [ ] docstring  [ ] test
-    # [ ] getSyncCounterInit           [x] impl  [ ] docstring  [ ] test
-    # [ ] setSyncCounterInit           [x] impl  [ ] docstring  [ ] test
-    # [ ] getUpperHeaderBitsToShift    [x] impl  [ ] docstring  [ ] test
-    # [ ] setUpperHeaderBitsToShift    [x] impl  [ ] docstring  [ ] test
-    # [ ] getWindowSizeInit            [x] impl  [ ] docstring  [ ] test
-    # [ ] setWindowSizeInit            [x] impl  [ ] docstring  [ ] test
-    # [ ] getWindowSizeInvalid         [x] impl  [ ] docstring  [ ] test
-    # [ ] setWindowSizeInvalid         [x] impl  [ ] docstring  [ ] test
-    # [ ] getWindowSizeValid           [x] impl  [ ] docstring  [ ] test
-    # [ ] setWindowSizeValid           [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.23, p.807
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getClearFromValidToInvalid      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setClearFromValidToInvalid      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getCounterOffset                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setCounterOffset                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getCrcOffset                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setCrcOffset                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getDataIdMode                   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setDataIdMode                   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getDataIdNibbleOffset           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setDataIdNibbleOffset           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getE2eProfileCompatibilityPropsRef [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setE2eProfileCompatibilityPropsRef [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getMaxDeltaCounter              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setMaxDeltaCounter              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getMaxErrorStateInit            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setMaxErrorStateInit            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getMaxErrorStateInvalid         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setMaxErrorStateInvalid         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getMaxErrorStateValid           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setMaxErrorStateValid           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getMaxNoNewOrRepeatedData       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setMaxNoNewOrRepeatedData       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getMinOkStateInit               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setMinOkStateInit               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getMinOkStateInvalid            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setMinOkStateInvalid            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getMinOkStateValid              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setMinOkStateValid              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getOffset                       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setOffset                       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getProfileBehavior              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setProfileBehavior              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getProfileName                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setProfileName                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getSyncCounterInit              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setSyncCounterInit              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getUpperHeaderBitsToShift       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setUpperHeaderBitsToShift       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getWindowSizeInit               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setWindowSizeInit               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getWindowSizeInvalid            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setWindowSizeInvalid            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getWindowSizeValid              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setWindowSizeValid              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
 
     def __init__(self):
         super().__init__()
 
-        self.clearFromValidToInvalid: Boolean = None
-        self.counterOffset: PositiveInteger = None
-        self.crcOffset: PositiveInteger = None
-        self.dataIdMode: DataIdModeEnum = None
-        self.dataIdNibbleOffset: PositiveInteger = None
-        self.e2eProfileCompatibilityPropsRef: RefType = None
-        self.maxDeltaCounter: PositiveInteger = None
-        self.maxErrorStateInit: PositiveInteger = None
-        self.maxErrorStateInvalid: PositiveInteger = None
-        self.maxErrorStateValid: PositiveInteger = None
-        self.maxNoNewOrRepeatedData: PositiveInteger = None
-        self.minOkStateInit: PositiveInteger = None
-        self.minOkStateInvalid: PositiveInteger = None
-        self.minOkStateValid: PositiveInteger = None
-        self.offset: PositiveInteger = None
-        self.profileBehavior: EndToEndProfileBehaviorEnum = None
-        self.profileName: NameToken = None
-        self.syncCounterInit: PositiveInteger = None
-        self.upperHeaderBitsToShift: PositiveInteger = None
-        self.windowSizeInit: PositiveInteger = None
-        self.windowSizeInvalid: PositiveInteger = None
-        self.windowSizeValid: PositiveInteger = None
+        # Clear monitoring window on transition from state Valid to state Invalid.
+        self.clearFromValidToInvalid: Optional[Boolean] = None
 
-    def getClearFromValidToInvalid(self):
+        # Offset of the counter in the Data[] array in bits.
+        self.counterOffset: Optional[PositiveInteger] = None
+
+        # Offset of the CRC in the Data[] array in bits.
+        self.crcOffset: Optional[PositiveInteger] = None
+
+        # This attribute describes the inclusion mode that is used to include the implicit two-byte Data ID in the one-byte CRC.
+        self.dataIdMode: Optional[DataIdModeEnum] = None
+
+        # Offset of the Data ID nibble in the Data[] array in bits.
+        self.dataIdNibbleOffset: Optional[PositiveInteger] = None
+
+        # Reference to additional settings for the E2E state machine.
+        self.e2eProfileCompatibilityPropsRef: Optional[RefType] = None
+
+        # Maximum allowed difference between two counter values of two consecutively received valid messages. For example, if the receiver gets data with counter 1 and Max DeltaCounter is 3, then at the next reception the receiver can accept Counters with values 2, 3 or 4.
+        self.maxDeltaCounter: Optional[PositiveInteger] = None
+
+        # Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last Window Size checks, for the state E2E_SM_INIT.
+        self.maxErrorStateInit: Optional[PositiveInteger] = None
+
+        # Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last Window Size checks, for the state E2E_SM_INVALID.
+        self.maxErrorStateInvalid: Optional[PositiveInteger] = None
+
+        # Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last Window Size checks, for the state E2E_SM_VALID.
+        self.maxErrorStateValid: Optional[PositiveInteger] = None
+
+        # The maximum allowed amount of consecutive failed counter checks.
+        self.maxNoNewOrRepeatedData: Optional[PositiveInteger] = None
+
+        # Minimal number of checks in which ProfileStatus equal to E2E_P_OK was determined, within the last WindowSize checks, for the state E2E_SM_INIT.
+        self.minOkStateInit: Optional[PositiveInteger] = None
+
+        # Minimal number of checks in which ProfileStatus equal to E2E_P_OK was determined, within the last WindowSize checks, for the state E2E_SM_INVALID.
+        self.minOkStateInvalid: Optional[PositiveInteger] = None
+
+        # Minimal number of checks in which ProfileStatus equal to E2E_P_OK was determined, within the last WindowSize checks, for the state E2E_SM_VALID.
+        self.minOkStateValid: Optional[PositiveInteger] = None
+
+        # Offset of the E2E header in the Data[] array in bits.
+        self.offset: Optional[PositiveInteger] = None
+
+        # Behavior of the check functionality
+        self.profileBehavior: Optional[EndToEndProfileBehaviorEnum] = None
+
+        # Definition of the E2E profile.
+        self.profileName: Optional[NameToken] = None
+
+        # Number of checks required for validating the consistency of the counter that shall be received with a valid counter (i.e. counter within the allowed lock-in range) after the detection of an unexpected behavior of a received counter.
+        self.syncCounterInit: Optional[PositiveInteger] = None
+
+        # This attribute describes the number of upper-header bits to be shifted. value = 0 or not present: shift of upper header is NOT performed. value > 0: the E2E Transformer on the protect-side, takes the first upperHeaderBitsToShift bits from the upper buffer (e.g. SOME/IP header part generated by SOME/IP transformer) and shifts them towards the lower bytes and bits within the Data[] for the length of the E2E header (e.g. 12 bytes in case of E2E Profile 4). This means the shift distance is fixed - it depends on the E2E header size - what is configured here is the number of bits that are to be shifted. This option is defined because the Some/IP header generated by SOME/IP transformer shall be, due to compatibility between non-protected and E2E-protected communication, at the same position, which is before E2E header.
+        self.upperHeaderBitsToShift: Optional[PositiveInteger] = None
+
+        # Size of the monitoring window of state Init for the E2E state machine.
+        self.windowSizeInit: Optional[PositiveInteger] = None
+
+        # Size of the monitoring window of state Invalid for the E2E state machine.
+        self.windowSizeInvalid: Optional[PositiveInteger] = None
+
+        # Size of the monitoring window of state Valid for the E2E state machine.
+        self.windowSizeValid: Optional[PositiveInteger] = None
+
+    def getClearFromValidToInvalid(self) -> Optional[Boolean]:
+        """
+        Clear monitoring window on transition from state Valid to state Invalid.
+        """
         return self.clearFromValidToInvalid
 
-    def setClearFromValidToInvalid(self, value):
+    def setClearFromValidToInvalid(self, value: Optional[Boolean]) -> "EndToEndTransformationDescription":
+        """
+        Clear monitoring window on transition from state Valid to state Invalid.
+
+        If value is None, this method does nothing and returns self (no-op for None).
+        """
         if value is not None:
             self.clearFromValidToInvalid = value
         return self
 
-    def getCounterOffset(self):
+    def getCounterOffset(self) -> Optional[PositiveInteger]:
+        """
+        Offset of the counter in the Data[] array in bits.
+        """
         return self.counterOffset
 
-    def setCounterOffset(self, value):
+    def setCounterOffset(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+        """
+        Offset of the counter in the Data[] array in bits.
+
+        If value is None, this method does nothing and returns self (no-op for None).
+        """
         if value is not None:
             self.counterOffset = value
         return self
 
-    def getCrcOffset(self):
+    def getCrcOffset(self) -> Optional[PositiveInteger]:
+        """
+        Offset of the CRC in the Data[] array in bits.
+        """
         return self.crcOffset
 
-    def setCrcOffset(self, value):
+    def setCrcOffset(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+        """
+        Offset of the CRC in the Data[] array in bits.
+
+        If value is None, this method does nothing and returns self (no-op for None).
+        """
         if value is not None:
             self.crcOffset = value
         return self
 
-    def getDataIdMode(self):
+    def getDataIdMode(self) -> Optional[DataIdModeEnum]:
+        """
+        This attribute describes the inclusion mode that is used to include the implicit two-byte Data ID in the one-byte CRC.
+        """
         return self.dataIdMode
 
-    def setDataIdMode(self, value):
+    def setDataIdMode(self, value: Optional[DataIdModeEnum]) -> "EndToEndTransformationDescription":
+        """
+        This attribute describes the inclusion mode that is used to include the implicit two-byte Data ID in the one-byte CRC.
+
+        If value is None, this method does nothing and returns self (no-op for None).
+        """
         if value is not None:
             self.dataIdMode = value
         return self
 
-    def getDataIdNibbleOffset(self):
+    def getDataIdNibbleOffset(self) -> Optional[PositiveInteger]:
+        """
+        Offset of the Data ID nibble in the Data[] array in bits.
+        """
         return self.dataIdNibbleOffset
 
-    def setDataIdNibbleOffset(self, value):
+    def setDataIdNibbleOffset(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+        """
+        Offset of the Data ID nibble in the Data[] array in bits.
+
+        If value is None, this method does nothing and returns self (no-op for None).
+        """
         if value is not None:
             self.dataIdNibbleOffset = value
         return self
 
-    def getE2eProfileCompatibilityPropsRef(self):
+    def getE2eProfileCompatibilityPropsRef(self) -> Optional[RefType]:
+        """
+        Reference to additional settings for the E2E state machine.
+        """
         return self.e2eProfileCompatibilityPropsRef
 
-    def setE2eProfileCompatibilityPropsRef(self, value):
+    def setE2eProfileCompatibilityPropsRef(self, value: Optional[RefType]) -> "EndToEndTransformationDescription":
+        """
+        Reference to additional settings for the E2E state machine.
+
+        If value is None, this method does nothing and returns self (no-op for None).
+        """
         if value is not None:
             self.e2eProfileCompatibilityPropsRef = value
         return self
 
-    def getMaxDeltaCounter(self):
+    def getMaxDeltaCounter(self) -> Optional[PositiveInteger]:
+        """
+        Maximum allowed difference between two counter values of two consecutively received valid messages. For example, if the receiver gets data with counter 1 and Max DeltaCounter is 3, then at the next reception the receiver can accept Counters with values 2, 3 or 4.
+        """
         return self.maxDeltaCounter
 
-    def setMaxDeltaCounter(self, value):
+    def setMaxDeltaCounter(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+        """
+        Maximum allowed difference between two counter values of two consecutively received valid messages. For example, if the receiver gets data with counter 1 and Max DeltaCounter is 3, then at the next reception the receiver can accept Counters with values 2, 3 or 4.
+
+        If value is None, this method does nothing and returns self (no-op for None).
+        """
         if value is not None:
             self.maxDeltaCounter = value
         return self
 
-    def getMaxErrorStateInit(self):
+    def getMaxErrorStateInit(self) -> Optional[PositiveInteger]:
+        """
+        Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last Window Size checks, for the state E2E_SM_INIT.
+        """
         return self.maxErrorStateInit
 
-    def setMaxErrorStateInit(self, value):
+    def setMaxErrorStateInit(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+        """
+        Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last Window Size checks, for the state E2E_SM_INIT.
+
+        If value is None, this method does nothing and returns self (no-op for None).
+        """
         if value is not None:
             self.maxErrorStateInit = value
         return self
 
-    def getMaxErrorStateInvalid(self):
+    def getMaxErrorStateInvalid(self) -> Optional[PositiveInteger]:
+        """
+        Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last Window Size checks, for the state E2E_SM_INVALID.
+        """
         return self.maxErrorStateInvalid
 
-    def setMaxErrorStateInvalid(self, value):
+    def setMaxErrorStateInvalid(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+        """
+        Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last Window Size checks, for the state E2E_SM_INVALID.
+
+        If value is None, this method does nothing and returns self (no-op for None).
+        """
         if value is not None:
             self.maxErrorStateInvalid = value
         return self
 
-    def getMaxErrorStateValid(self):
+    def getMaxErrorStateValid(self) -> Optional[PositiveInteger]:
+        """
+        Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last Window Size checks, for the state E2E_SM_VALID.
+        """
         return self.maxErrorStateValid
 
-    def setMaxErrorStateValid(self, value):
+    def setMaxErrorStateValid(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+        """
+        Maximal number of checks in which ProfileStatus equal to E2E_P_ERROR was determined, within the last Window Size checks, for the state E2E_SM_VALID.
+
+        If value is None, this method does nothing and returns self (no-op for None).
+        """
         if value is not None:
             self.maxErrorStateValid = value
         return self
 
-    def getMaxNoNewOrRepeatedData(self):
+    def getMaxNoNewOrRepeatedData(self) -> Optional[PositiveInteger]:
+        """
+        The maximum allowed amount of consecutive failed counter checks.
+        """
         return self.maxNoNewOrRepeatedData
 
-    def setMaxNoNewOrRepeatedData(self, value):
+    def setMaxNoNewOrRepeatedData(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+        """
+        The maximum allowed amount of consecutive failed counter checks.
+
+        If value is None, this method does nothing and returns self (no-op for None).
+        """
         if value is not None:
             self.maxNoNewOrRepeatedData = value
         return self
 
-    def getMinOkStateInit(self):
+    def getMinOkStateInit(self) -> Optional[PositiveInteger]:
+        """
+        Minimal number of checks in which ProfileStatus equal to E2E_P_OK was determined, within the last WindowSize checks, for the state E2E_SM_INIT.
+        """
         return self.minOkStateInit
 
-    def setMinOkStateInit(self, value):
+    def setMinOkStateInit(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+        """
+        Minimal number of checks in which ProfileStatus equal to E2E_P_OK was determined, within the last WindowSize checks, for the state E2E_SM_INIT.
+
+        If value is None, this method does nothing and returns self (no-op for None).
+        """
         if value is not None:
             self.minOkStateInit = value
         return self
 
-    def getMinOkStateInvalid(self):
+    def getMinOkStateInvalid(self) -> Optional[PositiveInteger]:
+        """
+        Minimal number of checks in which ProfileStatus equal to E2E_P_OK was determined, within the last WindowSize checks, for the state E2E_SM_INVALID.
+        """
         return self.minOkStateInvalid
 
-    def setMinOkStateInvalid(self, value):
+    def setMinOkStateInvalid(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+        """
+        Minimal number of checks in which ProfileStatus equal to E2E_P_OK was determined, within the last WindowSize checks, for the state E2E_SM_INVALID.
+
+        If value is None, this method does nothing and returns self (no-op for None).
+        """
         if value is not None:
             self.minOkStateInvalid = value
         return self
 
-    def getMinOkStateValid(self):
+    def getMinOkStateValid(self) -> Optional[PositiveInteger]:
+        """
+        Minimal number of checks in which ProfileStatus equal to E2E_P_OK was determined, within the last WindowSize checks, for the state E2E_SM_VALID.
+        """
         return self.minOkStateValid
 
-    def setMinOkStateValid(self, value):
+    def setMinOkStateValid(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+        """
+        Minimal number of checks in which ProfileStatus equal to E2E_P_OK was determined, within the last WindowSize checks, for the state E2E_SM_VALID.
+
+        If value is None, this method does nothing and returns self (no-op for None).
+        """
         if value is not None:
             self.minOkStateValid = value
         return self
 
-    def getOffset(self):
+    def getOffset(self) -> Optional[PositiveInteger]:
+        """
+        Offset of the E2E header in the Data[] array in bits.
+        """
         return self.offset
 
-    def setOffset(self, value):
+    def setOffset(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+        """
+        Offset of the E2E header in the Data[] array in bits.
+
+        If value is None, this method does nothing and returns self (no-op for None).
+        """
         if value is not None:
             self.offset = value
         return self
 
-    def getProfileBehavior(self):
+    def getProfileBehavior(self) -> Optional[EndToEndProfileBehaviorEnum]:
+        """
+        Behavior of the check functionality
+        """
         return self.profileBehavior
 
-    def setProfileBehavior(self, value):
+    def setProfileBehavior(self, value: Optional[EndToEndProfileBehaviorEnum]) -> "EndToEndTransformationDescription":
+        """
+        Behavior of the check functionality
+
+        If value is None, this method does nothing and returns self (no-op for None).
+        """
         if value is not None:
             self.profileBehavior = value
         return self
 
-    def getProfileName(self):
+    def getProfileName(self) -> Optional[NameToken]:
+        """
+        Definition of the E2E profile.
+        """
         return self.profileName
 
-    def setProfileName(self, value):
+    def setProfileName(self, value: Optional[NameToken]) -> "EndToEndTransformationDescription":
+        """
+        Definition of the E2E profile.
+
+        If value is None, this method does nothing and returns self (no-op for None).
+        """
         if value is not None:
             self.profileName = value
         return self
 
-    def getSyncCounterInit(self):
+    def getSyncCounterInit(self) -> Optional[PositiveInteger]:
+        """
+        Number of checks required for validating the consistency of the counter that shall be received with a valid counter (i.e. counter within the allowed lock-in range) after the detection of an unexpected behavior of a received counter.
+        """
         return self.syncCounterInit
 
-    def setSyncCounterInit(self, value):
+    def setSyncCounterInit(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+        """
+        Number of checks required for validating the consistency of the counter that shall be received with a valid counter (i.e. counter within the allowed lock-in range) after the detection of an unexpected behavior of a received counter.
+
+        If value is None, this method does nothing and returns self (no-op for None).
+        """
         if value is not None:
             self.syncCounterInit = value
         return self
 
-    def getUpperHeaderBitsToShift(self):
+    def getUpperHeaderBitsToShift(self) -> Optional[PositiveInteger]:
+        """
+        This attribute describes the number of upper-header bits to be shifted. value = 0 or not present: shift of upper header is NOT performed. value > 0: the E2E Transformer on the protect-side, takes the first upperHeaderBitsToShift bits from the upper buffer (e.g. SOME/IP header part generated by SOME/IP transformer) and shifts them towards the lower bytes and bits within the Data[] for the length of the E2E header (e.g. 12 bytes in case of E2E Profile 4). This means the shift distance is fixed - it depends on the E2E header size - what is configured here is the number of bits that are to be shifted. This option is defined because the Some/IP header generated by SOME/IP transformer shall be, due to compatibility between non-protected and E2E-protected communication, at the same position, which is before E2E header.
+        """
         return self.upperHeaderBitsToShift
 
-    def setUpperHeaderBitsToShift(self, value):
+    def setUpperHeaderBitsToShift(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+        """
+        This attribute describes the number of upper-header bits to be shifted. value = 0 or not present: shift of upper header is NOT performed. value > 0: the E2E Transformer on the protect-side, takes the first upperHeaderBitsToShift bits from the upper buffer (e.g. SOME/IP header part generated by SOME/IP transformer) and shifts them towards the lower bytes and bits within the Data[] for the length of the E2E header (e.g. 12 bytes in case of E2E Profile 4). This means the shift distance is fixed - it depends on the E2E header size - what is configured here is the number of bits that are to be shifted. This option is defined because the Some/IP header generated by SOME/IP transformer shall be, due to compatibility between non-protected and E2E-protected communication, at the same position, which is before E2E header.
+
+        If value is None, this method does nothing and returns self (no-op for None).
+        """
         if value is not None:
             self.upperHeaderBitsToShift = value
         return self
 
-    def getWindowSizeInit(self):
+    def getWindowSizeInit(self) -> Optional[PositiveInteger]:
+        """
+        Size of the monitoring window of state Init for the E2E state machine.
+        """
         return self.windowSizeInit
 
-    def setWindowSizeInit(self, value):
+    def setWindowSizeInit(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+        """
+        Size of the monitoring window of state Init for the E2E state machine.
+
+        If value is None, this method does nothing and returns self (no-op for None).
+        """
         if value is not None:
             self.windowSizeInit = value
         return self
 
-    def getWindowSizeInvalid(self):
+    def getWindowSizeInvalid(self) -> Optional[PositiveInteger]:
+        """
+        Size of the monitoring window of state Invalid for the E2E state machine.
+        """
         return self.windowSizeInvalid
 
-    def setWindowSizeInvalid(self, value):
+    def setWindowSizeInvalid(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+        """
+        Size of the monitoring window of state Invalid for the E2E state machine.
+
+        If value is None, this method does nothing and returns self (no-op for None).
+        """
         if value is not None:
             self.windowSizeInvalid = value
         return self
 
-    def getWindowSizeValid(self):
+    def getWindowSizeValid(self) -> Optional[PositiveInteger]:
+        """
+        Size of the monitoring window of state Valid for the E2E state machine.
+        """
         return self.windowSizeValid
 
-    def setWindowSizeValid(self, value):
+    def setWindowSizeValid(self, value: Optional[PositiveInteger]) -> "EndToEndTransformationDescription":
+        """
+        Size of the monitoring window of state Valid for the E2E state machine.
+
+        If value is None, this method does nothing and returns self (no-op for None).
+        """
         if value is not None:
             self.windowSizeValid = value
         return self
