@@ -13,8 +13,8 @@ Input class: EndToEndTransformationDescription · Generated: 2026-08-21 · Queue
 | [x] | ISignalIPdu | input | markdown | Table 6.19 | commit ccdfe29a |
 | [x] | DataTransformation | member | markdown | Table 7.2 | commit 1dec1aff |
 | [x] | TransformationISignalProps | member | markdown | Table 7.8 | commit 4ba99f8c; no stamp; placeholder dataPrototypeTransformationProps (Rule 0001.10) |
-| [ ] | DataPrototypeTransformationProps | member (deferred) | markdown | — | queued later; replaces placeholder in TransformationISignalProps |
-| [ ] | DataIdModeEnum | member enum | markdown | — | enum (Steps 5/6 N/A) |
-| [ ] | EndToEndProfileBehaviorEnum | member enum | markdown | — | enum (Steps 5/6 N/A) |
-| [ ] | E2EProfileCompatibilityProps | member | markdown | — | create if missing |
-| [ ] | EndToEndTransformationDescription | input | markdown | Table 7.3 | |
+| [x] | DataPrototypeTransformationProps | member (deferred) | markdown | Table 7.17 | commit ba255a82; replaces placeholder in TransformationISignalProps; closure classes DataPrototypeReference (7.18), DataPrototypeInPortInterfaceRef (7.19), DataPrototypeInSenderReceiverInterfaceInstanceRef (7.20), DataPrototypeInClientServerInterfaceInstanceRef (7.21), ImplementationDataTypeElementInPortInterfaceRef (7.22) also synced |
+| [x] | DataIdModeEnum | member enum | markdown | Table 7.24 | commit 1ea0aa9f; enum synced (p.807, Steps 5/6 N/A) |
+| [x] | EndToEndProfileBehaviorEnum | member enum | markdown | Table 7.26 | commit d36d7c5d; enum (Steps 5/6 N/A), p.808 |
+| [x] | E2EProfileCompatibilityProps | member | markdown | Table 7.25 | commit 68fbcce4; class E2EProfileCompatibilityProps (Table 7.25, p.808); Steps 5/6 applied |
+| [x] | EndToEndTransformationDescription | input | markdown | Table 7.23 | commit a86dbaa5; class EndToEndTransformationDescription (Table 7.23, p.807); reader/writer gaps for 6 attrs filled |

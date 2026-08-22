@@ -588,8 +588,13 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import SwcToImplMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     BufferProperties,
+    DataPrototypeInPortInterfaceRef,
+    DataPrototypeInClientServerInterfaceInstanceRef,
+    DataPrototypeInSenderReceiverInterfaceInstanceRef,
+    DataPrototypeTransformationProps,
     DataTransformation,
     DataTransformationSet,
+    E2EProfileCompatibilityProps,
     EndToEndTransformationComSpecProps,
     EndToEndTransformationDescription,
     EndToEndTransformationISignalProps,
@@ -7170,7 +7175,12 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readEndToEndTransformationDescription(self, element: ET.Element, desc: EndToEndTransformationDescription):
         self.readTransformationDescription(element, desc)
+        desc.setClearFromValidToInvalid(self.getChildElementOptionalBooleanValue(element, "CLEAR-FROM-VALID-TO-INVALID"))
+        desc.setCounterOffset(self.getChildElementOptionalPositiveInteger(element, "COUNTER-OFFSET"))
+        desc.setCrcOffset(self.getChildElementOptionalPositiveInteger(element, "CRC-OFFSET"))
         desc.setDataIdMode(self.getChildElementOptionalLiteral(element, "DATA-ID-MODE"))
+        desc.setDataIdNibbleOffset(self.getChildElementOptionalPositiveInteger(element, "DATA-ID-NIBBLE-OFFSET"))
+        desc.setE2eProfileCompatibilityPropsRef(self.getChildElementOptionalRefType(element, "E-2-E-PROFILE-COMPATIBILITY-PROPS-REF"))
         desc.setMaxDeltaCounter(self.getChildElementOptionalPositiveInteger(element, "MAX-DELTA-COUNTER"))
         desc.setMaxErrorStateInit(self.getChildElementOptionalPositiveInteger(element, "MAX-ERROR-STATE-INIT"))
         desc.setMaxErrorStateInvalid(self.getChildElementOptionalPositiveInteger(element, "MAX-ERROR-STATE-INVALID"))
@@ -7179,6 +7189,7 @@ class ARXMLParser(AbstractARXMLParser):
         desc.setMinOkStateInit(self.getChildElementOptionalPositiveInteger(element, "MIN-OK-STATE-INIT"))
         desc.setMinOkStateInvalid(self.getChildElementOptionalPositiveInteger(element, "MIN-OK-STATE-INVALID"))
         desc.setMinOkStateValid(self.getChildElementOptionalPositiveInteger(element, "MIN-OK-STATE-VALID"))
+        desc.setOffset(self.getChildElementOptionalPositiveInteger(element, "OFFSET"))
         desc.setProfileBehavior(self.getChildElementOptionalLiteral(element, "PROFILE-BEHAVIOR"))
         desc.setProfileName(self.getChildElementOptionalLiteral(element, "PROFILE-NAME"))
         desc.setSyncCounterInit(self.getChildElementOptionalPositiveInteger(element, "SYNC-COUNTER-INIT"))
@@ -7221,6 +7232,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARElement(element, dtf_set)
         self.readDataTransformationSetDataTransformations(element, dtf_set)
         self.readDataTransformationSetTransformationTechnologies(element, dtf_set)
+
+    def readE2EProfileCompatibilityProps(self, element: ET.Element, props: E2EProfileCompatibilityProps):
+        self.logger.debug("Read E2EProfileCompatibilityProps <%s>" % props.getShortName())
+        self.readARElement(element, props)
+        props.setTransitToInvalidExtended(self.getChildElementOptionalBooleanValue(element, "TRANSIT-TO-INVALID-EXTENDED"))
 
     def readCollectionElementRefs(self, element: ET.Element, collection: Collection):
         for ref in self.getChildElementRefTypeList(element, "ELEMENT-REFS/ELEMENT-REF"):
@@ -8332,6 +8348,48 @@ class ARXMLParser(AbstractARXMLParser):
     def readTransformationISignalProps(self, element: ET.Element, props: TransformationISignalProps):
         self.readDescribable(element, props)
         props.setCsErrorReaction(self.getChildElementOptionalLiteral(element, "CS-ERROR-REACTION"))
+        for child_element in self.findall(element, "DATA-PROTOTYPE-TRANSFORMATION-PROPSS/*"):
+            if self.getTagName(child_element) == "DATA-PROTOTYPE-TRANSFORMATION-PROPS":
+                dp_props = DataPrototypeTransformationProps()
+                self.readDataPrototypeTransformationProps(child_element, dp_props)
+                props.addDataPrototypeTransformationProps(dp_props)
+            else:
+                self.notImplemented("Unsupported DataPrototypeTransformationProps %s" % self.getTagName(child_element))
+
+    def readDataPrototypeInPortInterfaceRef(self, element: ET.Element, ref: DataPrototypeInPortInterfaceRef):
+        self.readARObjectAttributes(element, ref)
+        ref.setTagId(self.getChildElementOptionalPositiveInteger(element, "TAG-ID"))
+        child_element = self.find(element, "DATA-PROTOTYPE-IN-CLIENT-SERVER-INTERFACE-REF")
+        if child_element is not None:
+            cs_ref = DataPrototypeInClientServerInterfaceInstanceRef()
+            self.readDataPrototypeInClientServerInterfaceInstanceRef(child_element, cs_ref)
+            ref.setDataPrototypeInClientServerInterface(cs_ref)
+
+    def readDataPrototypeInSenderReceiverInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInSenderReceiverInterfaceInstanceRef):
+        self.readARObjectAttributes(element, iref)
+        iref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE"))
+        for ctx in self.findall(element, "CONTEXT-DATA-PROTOTYPE-IN-SR"):
+            iref.addContextDataPrototypeInSrRefs(self.getChildElementOptionalRefType(ctx, "CONTEXT-DATA-PROTOTYPE-IN-SR") or self.getChildElementOptionalRefType(ctx, "CONTEXT-DATA-PROTOTYPE"))
+        iref.setRootDataPrototypeInSrRef(self.getChildElementOptionalRefType(element, "ROOT-DATA-PROTOTYPE-IN-SR"))
+        iref.setTargetDataPrototypeInSrRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-IN-SR"))
+
+    def readDataPrototypeInClientServerInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInClientServerInterfaceInstanceRef):
+        self.readARObjectAttributes(element, iref)
+        iref.setBaseRef(self.getChildElementOptionalRefType(element, "BASE"))
+        for ctx in self.findall(element, "CONTEXT-DATA-PROTOTYPE-IN-CS"):
+            iref.addContextDataPrototypeInCsRefs(self.getChildElementOptionalRefType(ctx, "CONTEXT-DATA-PROTOTYPE-IN-CS") or self.getChildElementOptionalRefType(ctx, "CONTEXT-DATA-PROTOTYPE"))
+        iref.setRootDataPrototypeInCsRef(self.getChildElementOptionalRefType(element, "ROOT-DATA-PROTOTYPE-IN-CS"))
+        iref.setTargetDataPrototypeInCsRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-IN-CS"))
+
+    def readDataPrototypeTransformationProps(self, element: ET.Element, props: DataPrototypeTransformationProps):
+        self.readARObjectAttributes(element, props)
+        child_element = self.find(element, "DATA-PROTOTYPE-IN-PORT-INTERFACE-REF")
+        if child_element is not None:
+            ref = DataPrototypeInPortInterfaceRef()
+            self.readDataPrototypeInPortInterfaceRef(child_element, ref)
+            props.setDataPrototypeInPortInterfaceRef(ref)
+        props.setNetworkRepresentationProps(self.getSwDataDefProps(element, "NETWORK-REPRESENTATION-PROPS"))
+        props.setTransformationProps(self.getChildElementOptionalRefType(element, "TRANSFORMATION-PROPS"))
 
     def readEndToEndTransformationISignalPropsDataIds(self, element: ET.Element, props: EndToEndTransformationISignalProps):
         child_element = self.find(element, "DATA-IDS")
@@ -9086,6 +9144,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DATA-TRANSFORMATION-SET":
                 transformation_set = parent.createDataTransformationSet(self.getShortName(child_element))
                 self.readDataTransformationSet(child_element, transformation_set)
+            elif tag_name == "E-2-E-PROFILE-COMPATIBILITY-PROPS":
+                props = parent.createE2EProfileCompatibilityProps(self.getShortName(child_element))
+                self.readE2EProfileCompatibilityProps(child_element, props)
             elif tag_name == "COLLECTION":
                 collection = parent.createCollection(self.getShortName(child_element))
                 self.readCollection(child_element, collection)

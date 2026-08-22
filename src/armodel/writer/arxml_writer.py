@@ -560,8 +560,13 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import SwcToImplMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     BufferProperties,
+    DataPrototypeInPortInterfaceRef,
+    DataPrototypeInClientServerInterfaceInstanceRef,
+    DataPrototypeInSenderReceiverInterfaceInstanceRef,
+    DataPrototypeTransformationProps,
     DataTransformation,
     DataTransformationSet,
+    E2EProfileCompatibilityProps,
     EndToEndTransformationComSpecProps,
     EndToEndTransformationDescription,
     EndToEndTransformationISignalProps,
@@ -8352,6 +8357,48 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeTransformationISignalProps(self, element: ET.Element, props: TransformationISignalProps):
         self.writeDescribable(element, props)
         self.setChildElementOptionalLiteral(element, "CS-ERROR-REACTION", props.getCsErrorReaction())
+        dp_props_list = props.getDataPrototypeTransformationProps()
+        if len(dp_props_list) > 0:
+            child_element = ET.SubElement(element, "DATA-PROTOTYPE-TRANSFORMATION-PROPSS")
+            for dp_props in dp_props_list:
+                self.writeDataPrototypeTransformationProps(child_element, dp_props)
+
+    def writeDataPrototypeInPortInterfaceRef(self, element: ET.Element, ref: DataPrototypeInPortInterfaceRef):
+        child_element = ET.SubElement(element, "DATA-PROTOTYPE-IN-PORT-INTERFACE-REF")
+        self.writeARObjectAttributes(child_element, ref)
+        self.setChildElementOptionalPositiveInteger(child_element, "TAG-ID", ref.getTagId())
+        cs_ref = ref.getDataPrototypeInClientServerInterface()
+        if cs_ref is not None:
+            self.writeDataPrototypeInClientServerInterfaceInstanceRef(child_element, cs_ref)
+
+    def writeDataPrototypeInSenderReceiverInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInSenderReceiverInterfaceInstanceRef):
+        child_element = ET.SubElement(element, "DATA-PROTOTYPE-IN-SENDER-RECEIVER-INTERFACE-REF")
+        self.writeARObjectAttributes(child_element, iref)
+        self.setChildElementOptionalRefType(child_element, "BASE", iref.getBaseRef())
+        for ctx in iref.getContextDataPrototypeInSrRefs():
+            ctx_element = ET.SubElement(child_element, "CONTEXT-DATA-PROTOTYPE-IN-SR")
+            self.setChildElementOptionalRefType(ctx_element, "CONTEXT-DATA-PROTOTYPE-IN-SR", ctx)
+        self.setChildElementOptionalRefType(child_element, "ROOT-DATA-PROTOTYPE-IN-SR", iref.getRootDataPrototypeInSrRef())
+        self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-IN-SR", iref.getTargetDataPrototypeInSrRef())
+
+    def writeDataPrototypeInClientServerInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInClientServerInterfaceInstanceRef):
+        child_element = ET.SubElement(element, "DATA-PROTOTYPE-IN-CLIENT-SERVER-INTERFACE-REF")
+        self.writeARObjectAttributes(child_element, iref)
+        self.setChildElementOptionalRefType(child_element, "BASE", iref.getBaseRef())
+        for ctx in iref.getContextDataPrototypeInCsRefs():
+            ctx_element = ET.SubElement(child_element, "CONTEXT-DATA-PROTOTYPE-IN-CS")
+            self.setChildElementOptionalRefType(ctx_element, "CONTEXT-DATA-PROTOTYPE-IN-CS", ctx)
+        self.setChildElementOptionalRefType(child_element, "ROOT-DATA-PROTOTYPE-IN-CS", iref.getRootDataPrototypeInCsRef())
+        self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-IN-CS", iref.getTargetDataPrototypeInCsRef())
+
+    def writeDataPrototypeTransformationProps(self, element: ET.Element, props: DataPrototypeTransformationProps):
+        child_element = ET.SubElement(element, "DATA-PROTOTYPE-TRANSFORMATION-PROPS")
+        self.writeARObjectAttributes(child_element, props)
+        dp_ref = props.getDataPrototypeInPortInterfaceRef()
+        if dp_ref is not None:
+            self.writeDataPrototypeInPortInterfaceRef(child_element, dp_ref)
+        self.setSwDataDefProps(child_element, "NETWORK-REPRESENTATION-PROPS", props.getNetworkRepresentationProps())
+        self.setChildElementOptionalRefType(child_element, "TRANSFORMATION-PROPS", props.getTransformationProps())
 
     def writeEndToEndTransformationISignalPropsDataIds(self, element: ET.Element, props: EndToEndTransformationISignalProps):
         ids = props.getDataIds()
@@ -9082,7 +9129,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         if desc is not None:
             child_element = ET.SubElement(element, "END-TO-END-TRANSFORMATION-DESCRIPTION")
             self.writeTransformationDescription(child_element, desc)
+            self.setChildElementOptionalBooleanValue(child_element, "CLEAR-FROM-VALID-TO-INVALID", desc.getClearFromValidToInvalid())
+            self.setChildElementOptionalPositiveInteger(child_element, "COUNTER-OFFSET", desc.getCounterOffset())
+            self.setChildElementOptionalPositiveInteger(child_element, "CRC-OFFSET", desc.getCrcOffset())
             self.setChildElementOptionalLiteral(child_element, "DATA-ID-MODE", desc.getDataIdMode())
+            self.setChildElementOptionalPositiveInteger(child_element, "DATA-ID-NIBBLE-OFFSET", desc.getDataIdNibbleOffset())
+            self.setChildElementOptionalRefType(child_element, "E-2-E-PROFILE-COMPATIBILITY-PROPS-REF", desc.getE2eProfileCompatibilityPropsRef())
             self.setChildElementOptionalPositiveInteger(child_element, "MAX-DELTA-COUNTER", desc.getMaxDeltaCounter())
             self.setChildElementOptionalPositiveInteger(child_element, "MAX-ERROR-STATE-INIT", desc.getMaxErrorStateInit())
             self.setChildElementOptionalPositiveInteger(child_element, "MAX-ERROR-STATE-INVALID", desc.getMaxErrorStateInvalid())
@@ -9091,6 +9143,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalPositiveInteger(child_element, "MIN-OK-STATE-INIT", desc.getMinOkStateInit())
             self.setChildElementOptionalPositiveInteger(child_element, "MIN-OK-STATE-INVALID", desc.getMinOkStateInvalid())
             self.setChildElementOptionalPositiveInteger(child_element, "MIN-OK-STATE-VALID", desc.getMinOkStateValid())
+            self.setChildElementOptionalPositiveInteger(child_element, "OFFSET", desc.getOffset())
             self.setChildElementOptionalLiteral(child_element, "PROFILE-BEHAVIOR", desc.getProfileBehavior())
             self.setChildElementOptionalLiteral(child_element, "PROFILE-NAME", desc.getProfileName())
             self.setChildElementOptionalPositiveInteger(child_element, "SYNC-COUNTER-INIT", desc.getSyncCounterInit())
@@ -9126,6 +9179,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeIdentifiable(child_element, dtf_set)
             self.writeDataTransformationSetDataTransformations(child_element, dtf_set)
             self.writeDataTransformationSetTransformationTechnologies(child_element, dtf_set)
+
+    def writeE2EProfileCompatibilityProps(self, element: ET.Element, props: E2EProfileCompatibilityProps):
+        if props is not None:
+            child_element = ET.SubElement(element, "E-2-E-PROFILE-COMPATIBILITY-PROPS")
+            self.writeIdentifiable(child_element, props)
+            self.setChildElementOptionalBooleanValue(child_element, "TRANSIT-TO-INVALID-EXTENDED", props.getTransitToInvalidExtended())
 
     def writeARPackageElement(self, element: ET.Element, ar_element: ARElement):
         if isinstance(ar_element, ComplexDeviceDriverSwComponentType):
@@ -9276,6 +9335,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeHwType(element, ar_element)
         elif isinstance(ar_element, DataTransformationSet):
             self.writeDataTransformationSet(element, ar_element)
+        elif isinstance(ar_element, E2EProfileCompatibilityProps):
+            self.writeE2EProfileCompatibilityProps(element, ar_element)
         elif isinstance(ar_element, FlexrayFrame):
             self.writeFlexrayFrame(element, ar_element)
         elif isinstance(ar_element, ISignalGroup):

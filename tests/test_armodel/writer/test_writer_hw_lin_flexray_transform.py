@@ -19,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARBoolean,
     ARLiteral,
     ARNumerical,
+    Boolean,
     Integer,
     PositiveInteger,
     RefType,
@@ -48,8 +49,10 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing im
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     BufferProperties,
     DataTransformationSet,
+    E2EProfileCompatibilityProps,
     EndToEndTransformationDescription,
 )
+from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
 
@@ -831,3 +834,156 @@ class TestWriterTransformationTechnology:
         parent = _parent()
         writer.writeTransformationTechnology(parent, None)
         assert len(parent) == 0
+
+
+class TestE2EProfileCompatibilityPropsRoundTrip:
+    def _round_trip(self, props, tmp_path):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Pkg")
+        pkg.addElement(props)
+        out_file = tmp_path / "e2e_compat.arxml"
+        writer = ARXMLWriter()
+        writer.save(str(out_file), autosar)
+        reload = AUTOSAR.getInstance()
+        reload.clear()
+        parser = ARXMLParser()
+        parser.load(str(out_file), reload)
+        return reload
+
+    def test_round_trip_with_transit_to_invalid_extended_true(self, tmp_path):
+        pkg = AUTOSAR.getInstance().createARPackage("Pkg")
+        props = pkg.createE2EProfileCompatibilityProps("Props")
+        flag = Boolean()
+        flag.setValue("true")
+        props.setTransitToInvalidExtended(flag)
+        reload = self._round_trip(props, tmp_path)
+        reloaded_pkg = reload.getARPackages()[0]
+        reloaded_props = reloaded_pkg.getElement("Props", E2EProfileCompatibilityProps)
+        assert reloaded_props is not None
+        assert reloaded_props.getTransitToInvalidExtended() is not None
+        assert reloaded_props.getTransitToInvalidExtended().getValue() is True
+
+    def test_round_trip_with_transit_to_invalid_extended_false(self, tmp_path):
+        pkg = AUTOSAR.getInstance().createARPackage("Pkg")
+        props = pkg.createE2EProfileCompatibilityProps("Props")
+        flag = Boolean()
+        flag.setValue("false")
+        props.setTransitToInvalidExtended(flag)
+        reload = self._round_trip(props, tmp_path)
+        reloaded_pkg = reload.getARPackages()[0]
+        reloaded_props = reloaded_pkg.getElement("Props", E2EProfileCompatibilityProps)
+        assert reloaded_props is not None
+        assert reloaded_props.getTransitToInvalidExtended() is not None
+        assert reloaded_props.getTransitToInvalidExtended().getValue() is False
+
+    def test_round_trip_empty_omits_attribute(self, tmp_path):
+        pkg = AUTOSAR.getInstance().createARPackage("Pkg")
+        props = pkg.createE2EProfileCompatibilityProps("Props")
+        assert props.getTransitToInvalidExtended() is None
+        reload = self._round_trip(props, tmp_path)
+        reloaded_pkg = reload.getARPackages()[0]
+        reloaded_props = reloaded_pkg.getElement("Props", E2EProfileCompatibilityProps)
+        assert reloaded_props is not None
+        assert reloaded_props.getTransitToInvalidExtended() is None
+
+
+class TestEndToEndTransformationDescriptionRoundTrip:
+    def _build(self):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Pkg")
+        dtf_set = pkg.createDataTransformationSet("DtfSet")
+        tech = dtf_set.createTransformationTechnology("Tech")
+        desc = EndToEndTransformationDescription()
+        flag = Boolean()
+        flag.setValue("true")
+        desc.setClearFromValidToInvalid(flag)
+        desc.setCounterOffset(PositiveInteger().setValue("5"))
+        desc.setCrcOffset(PositiveInteger().setValue("10"))
+        desc.setDataIdMode(_literal("all16Bit"))
+        desc.setDataIdNibbleOffset(PositiveInteger().setValue("2"))
+        ref = RefType()
+        ref.setValue("/E2E/Props")
+        ref.setDest("E-2-E-PROFILE-COMPATIBILITY-PROPS")
+        desc.setE2eProfileCompatibilityPropsRef(ref)
+        desc.setMaxDeltaCounter(PositiveInteger().setValue("100"))
+        desc.setMaxErrorStateInit(PositiveInteger().setValue("1"))
+        desc.setMaxErrorStateInvalid(PositiveInteger().setValue("2"))
+        desc.setMaxErrorStateValid(PositiveInteger().setValue("3"))
+        desc.setMaxNoNewOrRepeatedData(PositiveInteger().setValue("2"))
+        desc.setMinOkStateInit(PositiveInteger().setValue("0"))
+        desc.setMinOkStateInvalid(PositiveInteger().setValue("1"))
+        desc.setMinOkStateValid(PositiveInteger().setValue("2"))
+        desc.setOffset(PositiveInteger().setValue("0"))
+        desc.setProfileBehavior(_literal("R4_2"))
+        desc.setProfileName(_literal("Profile1"))
+        desc.setSyncCounterInit(PositiveInteger().setValue("0"))
+        desc.setUpperHeaderBitsToShift(PositiveInteger().setValue("0"))
+        desc.setWindowSizeInit(PositiveInteger().setValue("1"))
+        desc.setWindowSizeInvalid(PositiveInteger().setValue("2"))
+        desc.setWindowSizeValid(PositiveInteger().setValue("3"))
+        tech.setTransformationDescription(desc)
+        return autosar, desc
+
+    def _round_trip(self, autosar, tmp_path):
+        out_file = tmp_path / "e2e_desc.arxml"
+        ARXMLWriter().save(str(out_file), autosar)
+        reload = AUTOSAR.getInstance()
+        reload.clear()
+        ARXMLParser().load(str(out_file), reload)
+        return reload
+
+    def _reload_desc(self, reload):
+        dtf_set = reload.getARPackages()[0].getElement("DtfSet", DataTransformationSet)
+        tech = None
+        for t in dtf_set.getTransformationTechnologies():
+            if t.getShortName() == "Tech":
+                tech = t
+        return tech.getTransformationDescription()
+
+    def test_round_trip_all_attributes(self, tmp_path):
+        autosar, _ = self._build()
+        reload = self._round_trip(autosar, tmp_path)
+        desc = self._reload_desc(reload)
+        assert isinstance(desc, EndToEndTransformationDescription)
+        assert desc.getClearFromValidToInvalid().getValue() is True
+        assert desc.getCounterOffset().getValue() == 5
+        assert desc.getCrcOffset().getValue() == 10
+        assert desc.getDataIdMode().getValue() == "all16Bit"
+        assert desc.getDataIdNibbleOffset().getValue() == 2
+        ref = desc.getE2eProfileCompatibilityPropsRef()
+        assert ref is not None and ref.getValue() == "/E2E/Props"
+        assert ref.getDest() == "E-2-E-PROFILE-COMPATIBILITY-PROPS"
+        assert desc.getMaxDeltaCounter().getValue() == 100
+        assert desc.getMaxErrorStateInit().getValue() == 1
+        assert desc.getMaxErrorStateInvalid().getValue() == 2
+        assert desc.getMaxErrorStateValid().getValue() == 3
+        assert desc.getMaxNoNewOrRepeatedData().getValue() == 2
+        assert desc.getMinOkStateInit().getValue() == 0
+        assert desc.getMinOkStateInvalid().getValue() == 1
+        assert desc.getMinOkStateValid().getValue() == 2
+        assert desc.getOffset().getValue() == 0
+        assert desc.getProfileBehavior().getValue() == "R4_2"
+        assert desc.getProfileName().getValue() == "Profile1"
+        assert desc.getSyncCounterInit().getValue() == 0
+        assert desc.getUpperHeaderBitsToShift().getValue() == 0
+        assert desc.getWindowSizeInit().getValue() == 1
+        assert desc.getWindowSizeInvalid().getValue() == 2
+        assert desc.getWindowSizeValid().getValue() == 3
+
+    def test_round_trip_empty_omits_attributes(self, tmp_path):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Pkg")
+        dtf_set = pkg.createDataTransformationSet("DtfSet")
+        tech = dtf_set.createTransformationTechnology("Tech")
+        tech.setTransformationDescription(EndToEndTransformationDescription())
+        reload = self._round_trip(autosar, tmp_path)
+        desc = self._reload_desc(reload)
+        assert desc.getCounterOffset() is None
+        assert desc.getCrcOffset() is None
+        assert desc.getDataIdMode() is None
+        assert desc.getE2eProfileCompatibilityPropsRef() is None
+        assert desc.getProfileName() is None
+        assert desc.getWindowSizeValid() is None

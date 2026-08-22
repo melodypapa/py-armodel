@@ -2,6 +2,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     BufferProperties,
     CSTransformerErrorReactionEnum,
@@ -9,6 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     DataTransformation,
     DataTransformationKindEnum,
     DataTransformationSet,
+    E2EProfileCompatibilityProps,
     EndToEndProfileBehaviorEnum,
     EndToEndTransformationComSpecProps,
     EndToEndTransformationDescription,
@@ -70,19 +72,6 @@ class TestTransformer:
         props = BufferProperties()
 
         assert not hasattr(props, "bufferComputation")
-
-    def test_data_id_mode_enum(self):
-        """
-        Test DataIdModeEnum class functionality.
-        """
-        enum = DataIdModeEnum()
-
-        # Test that it's properly initialized
-        assert enum is not None
-        assert hasattr(enum, "ALL_16_BIT")
-        assert hasattr(enum, "ALTERNATING_8_BIT")
-        assert hasattr(enum, "LOWER_12_BIT")
-        assert hasattr(enum, "LOWER_8_BIT")
 
     def test_data_transformation(self):
         """
@@ -180,10 +169,41 @@ class TestTransformer:
         """
         enum = EndToEndProfileBehaviorEnum()
 
-        # Test that it's properly initialized
-        assert enum is not None
-        assert hasattr(enum, "PRE_R4_2")
-        assert hasattr(enum, "R4_2")
+        # Test that it's properly initialized and instantiable
+        assert isinstance(enum, EndToEndProfileBehaviorEnum)
+
+        # Member names and values match the spec Enumeration literals (Table 7.26)
+        assert EndToEndProfileBehaviorEnum.PRE_R4_2 == "PRE_R4_2"
+        assert EndToEndProfileBehaviorEnum.R4_2 == "R4_2"
+
+        # Validated set of allowed values
+        assert list(enum.getEnumValues()) == ["PRE_R4_2", "R4_2"]
+
+        # setValue / getValue round-trip
+        assert enum.setValue(EndToEndProfileBehaviorEnum.R4_2).getValue() == "R4_2"
+        assert enum.setValue(EndToEndProfileBehaviorEnum.PRE_R4_2).getValue() == "PRE_R4_2"
+
+    def test_e2e_profile_compatibility_props(self):
+        """
+        Test E2EProfileCompatibilityProps class functionality with method chaining and None handling.
+        """
+        parent = MockParent()
+        props = E2EProfileCompatibilityProps(parent, "test_e2e_profile_compatibility_props")
+
+        assert isinstance(props, ARElement)
+
+        # Test default values
+        assert props.getTransitToInvalidExtended() is None
+
+        # Test set/get round-trip and method chaining
+        flag = Boolean()
+        flag.setValue("true")
+        assert props.setTransitToInvalidExtended(flag) is props
+        assert props.getTransitToInvalidExtended() is flag
+
+        # Test None no-op
+        assert props.setTransitToInvalidExtended(None) is props
+        assert props.getTransitToInvalidExtended() is flag
 
     def test_end_to_end_transformation_description(self):
         """

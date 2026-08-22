@@ -91,7 +91,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCluster
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmConfig
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import DataTransformationSet
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import DataTransformationSet, E2EProfileCompatibilityProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpConfig, DoIpTpConfig, LinTpConfig
 
 
@@ -1428,6 +1428,12 @@ class ARPackage(CollectableElement):
             transform_set = DataTransformationSet(self, short_name)
             self.addElement(transform_set)
         return self.getElement(short_name, DataTransformationSet)
+
+    def createE2EProfileCompatibilityProps(self, short_name: str) -> E2EProfileCompatibilityProps:
+        if not self.IsElementExists(short_name, E2EProfileCompatibilityProps):
+            props = E2EProfileCompatibilityProps(self, short_name)
+            self.addElement(props)
+        return self.getElement(short_name, E2EProfileCompatibilityProps)
 
     def createCollection(self, short_name: str) -> Collection:
         if not self.IsElementExists(short_name, Collection):
