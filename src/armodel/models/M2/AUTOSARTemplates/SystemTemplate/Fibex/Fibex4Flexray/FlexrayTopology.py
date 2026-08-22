@@ -1,7 +1,7 @@
-from typing import Optional
+from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Float, Integer, PositiveInteger
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveUnlimitedInteger, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveUnlimitedInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationController
@@ -865,4 +865,144 @@ class FlexrayFifoRange(ARObject):
         A None value is a no-op and does not overwrite an existing rangeMin."""
         if value is not None:
             self.rangeMin = value
+        return self
+
+
+class FlexrayFifoConfiguration(ARObject):
+    """One First In First Out (FIFO) queued receive structure, defining the admittance criteria to the FIFO, and mandating the ability to admit messages into the FIFO based on Message Id filtering criteria."""
+
+    # FlexrayFifoConfiguration method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.31, p.87
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getAdmitWithoutMessageId        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setAdmitWithoutMessageId        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getBaseCycle                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setBaseCycle                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getChannelRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setChannelRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getCycleRepetition              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCycleRepetition              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getFifoDepth                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setFifoDepth                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getFlexrayFifoRanges            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createFlexrayFifoRange          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMsgIdMask                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMsgIdMask                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMsgIdMatch                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMsgIdMatch                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # Boolean configuration which determines whether or not frames received in the dynamic segment that don't contain a message ID will be admitted into the FIFO.
+        self.admitWithoutMessageId: Optional[Boolean] = None
+
+        # FIFO cycle counter acceptance criteria.
+        self.baseCycle: Optional[Integer] = None
+
+        # Fifo channel admittance criteria.
+        self.channelRef: Optional[RefType] = None
+
+        # FIFO cycle counter acceptance criteria.
+        self.cycleRepetition: Optional[Integer] = None
+
+        # FrFifoDepth configures the maximum number of rx-frames which can be contained in the FIFO.
+        self.fifoDepth: Optional[Integer] = None
+
+        # FIFO Frame Id range acceptance criteria.
+        self.fifoRange: List[FlexrayFifoRange] = []
+
+        # FIFO message identifier acceptance criteria (Mask filter).
+        self.msgIdMask: Optional[Integer] = None
+
+        # FIFO message identifier acceptance criteria (Match filter).
+        self.msgIdMatch: Optional[Integer] = None
+
+    def getAdmitWithoutMessageId(self) -> Optional[Boolean]:
+        """Boolean configuration which determines whether or not frames received in the dynamic segment that don't contain a message ID will be admitted into the FIFO."""
+        return self.admitWithoutMessageId
+
+    def setAdmitWithoutMessageId(self, value: Optional[Boolean]) -> "FlexrayFifoConfiguration":
+        """Boolean configuration which determines whether or not frames received in the dynamic segment that don't contain a message ID will be admitted into the FIFO.
+        A None value is a no-op and does not overwrite an existing admitWithoutMessageId."""
+        if value is not None:
+            self.admitWithoutMessageId = value
+        return self
+
+    def getBaseCycle(self) -> Optional[Integer]:
+        """FIFO cycle counter acceptance criteria."""
+        return self.baseCycle
+
+    def setBaseCycle(self, value: Optional[Integer]) -> "FlexrayFifoConfiguration":
+        """FIFO cycle counter acceptance criteria.
+        A None value is a no-op and does not overwrite an existing baseCycle."""
+        if value is not None:
+            self.baseCycle = value
+        return self
+
+    def getChannelRef(self) -> Optional[RefType]:
+        """Fifo channel admittance criteria."""
+        return self.channelRef
+
+    def setChannelRef(self, value: Optional[RefType]) -> "FlexrayFifoConfiguration":
+        """Fifo channel admittance criteria.
+        A None value is a no-op and does not overwrite an existing channelRef."""
+        if value is not None:
+            self.channelRef = value
+        return self
+
+    def getCycleRepetition(self) -> Optional[Integer]:
+        """FIFO cycle counter acceptance criteria."""
+        return self.cycleRepetition
+
+    def setCycleRepetition(self, value: Optional[Integer]) -> "FlexrayFifoConfiguration":
+        """FIFO cycle counter acceptance criteria.
+        A None value is a no-op and does not overwrite an existing cycleRepetition."""
+        if value is not None:
+            self.cycleRepetition = value
+        return self
+
+    def getFifoDepth(self) -> Optional[Integer]:
+        """FrFifoDepth configures the maximum number of rx-frames which can be contained in the FIFO."""
+        return self.fifoDepth
+
+    def setFifoDepth(self, value: Optional[Integer]) -> "FlexrayFifoConfiguration":
+        """FrFifoDepth configures the maximum number of rx-frames which can be contained in the FIFO.
+        A None value is a no-op and does not overwrite an existing fifoDepth."""
+        if value is not None:
+            self.fifoDepth = value
+        return self
+
+    def getFlexrayFifoRanges(self) -> List[FlexrayFifoRange]:
+        """FIFO Frame Id range acceptance criteria."""
+        return self.fifoRange
+
+    def createFlexrayFifoRange(self) -> FlexrayFifoRange:
+        """FIFO Frame Id range acceptance criteria."""
+        fifo_range = FlexrayFifoRange()
+        self.fifoRange.append(fifo_range)
+        return fifo_range
+
+    def getMsgIdMask(self) -> Optional[Integer]:
+        """FIFO message identifier acceptance criteria (Mask filter)."""
+        return self.msgIdMask
+
+    def setMsgIdMask(self, value: Optional[Integer]) -> "FlexrayFifoConfiguration":
+        """FIFO message identifier acceptance criteria (Mask filter).
+        A None value is a no-op and does not overwrite an existing msgIdMask."""
+        if value is not None:
+            self.msgIdMask = value
+        return self
+
+    def getMsgIdMatch(self) -> Optional[Integer]:
+        """FIFO message identifier acceptance criteria (Match filter)."""
+        return self.msgIdMatch
+
+    def setMsgIdMatch(self, value: Optional[Integer]) -> "FlexrayFifoConfiguration":
+        """FIFO message identifier acceptance criteria (Match filter).
+        A None value is a no-op and does not overwrite an existing msgIdMatch."""
+        if value is not None:
+            self.msgIdMatch = value
         return self
