@@ -193,17 +193,36 @@ class TransformationDescription(Describable, ABC):
 
 
 class DataIdModeEnum(AREnum):
+    """
+    Supported inclusion modes to include the implicit two-byte Data ID in the one-byte CRC.
+    """
 
     # DataIdModeEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.24, p.807
+    # Spec verified: R23-11
+    # (no methods)
 
+    # Two bytes are included in the CRC (double ID configuration). Tags: atp.EnumerationLiteralIndex=0
     ALL_16_BIT = "all16Bit"
+
+    # One of the two bytes byte is included, alternating high and low byte, depending on parity of the counter (alternating ID configuration). For even counter low byte is included; For odd counters the high byte is included. Tags: atp.EnumerationLiteralIndex=1
     ALTERNATING_8_BIT = "alternating8Bit"
+
+    # The low byte is included in the implicit CRC calculation, the low nibble of the high byte is transmitted along with the data (i.e. it is explicitly included), the high nibble of the high byte is not used. This is applicable for the IDs up to 12 bits. Tags: atp.EnumerationLiteralIndex=2
     LOWER_12_BIT = "lower12Bit"
+
+    # Only low byte is included, high byte is never used. This is applicable if the IDs in a particular system are 8 bits. Tags: atp.EnumerationLiteralIndex=3
     LOWER_8_BIT = "lower8Bit"
 
     def __init__(self):
-        super().__init__([DataIdModeEnum.ALL_16_BIT, DataIdModeEnum.ALTERNATING_8_BIT, DataIdModeEnum.LOWER_12_BIT, DataIdModeEnum.LOWER_8_BIT])
+        super().__init__(
+            (
+                DataIdModeEnum.ALL_16_BIT,
+                DataIdModeEnum.ALTERNATING_8_BIT,
+                DataIdModeEnum.LOWER_12_BIT,
+                DataIdModeEnum.LOWER_8_BIT,
+            )
+        )
 
 
 class EndToEndProfileBehaviorEnum(AREnum):

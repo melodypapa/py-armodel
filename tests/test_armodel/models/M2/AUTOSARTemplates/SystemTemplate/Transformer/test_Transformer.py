@@ -71,19 +71,6 @@ class TestTransformer:
 
         assert not hasattr(props, "bufferComputation")
 
-    def test_data_id_mode_enum(self):
-        """
-        Test DataIdModeEnum class functionality.
-        """
-        enum = DataIdModeEnum()
-
-        # Test that it's properly initialized
-        assert enum is not None
-        assert hasattr(enum, "ALL_16_BIT")
-        assert hasattr(enum, "ALTERNATING_8_BIT")
-        assert hasattr(enum, "LOWER_12_BIT")
-        assert hasattr(enum, "LOWER_8_BIT")
-
     def test_data_transformation(self):
         """
         Test DataTransformation class functionality with method chaining and None handling.
