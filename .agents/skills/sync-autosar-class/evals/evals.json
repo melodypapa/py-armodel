@@ -8,7 +8,7 @@
       "expectations": [
         "Output mentions the class ObdInfoServiceNeeds and its parent DiagnosticCapabilityElement",
         "Output lists spec source for each closure class (markdown/pdf/missing)",
-        "Output presents an ordered sync queue (parents first, input class last)",
+        "Output presents an ordered sync queue (dependency-first: ancestors first, referenced member types before their referrers, input class last)",
         "No source files under src/armodel/models/ were modified",
         "Output cites Rule 0016 or the Phase 0 procedure",
         "Output presents the collected closure set and asks the user to confirm it (membership gate) before locating specs, resolving missing classes, or building the queue"

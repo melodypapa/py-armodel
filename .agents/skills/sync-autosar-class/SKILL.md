@@ -84,9 +84,12 @@ risks fabricating fields when a referenced class turns out to be missing mid-syn
    user picks **Skip** (deviation row + placeholder) or **Derive from XSD**
    (XSD-only class, no marker). Do not proceed without an answer; do not invent a
    third option.
-5. **Build the sync queue**: parents first (deepest ancestor first → input class
-   last), member types in spec-row order. Skip classes already stamped
-   `# Spec verified: R<YY>-<MM>` unless extending or drift (Rule 0012.3).
+5. **Build the sync queue — dependency-first** (Rule 0016.5): a class that other
+   queued classes reference (`Base` or `Attribute` member type) is queued
+   **before** its dependents; deepest ancestors first, ties keep spec-row order,
+   input class last. A dependent must never precede the class it references.
+   Skip classes already stamped `# Spec verified: R<YY>-<MM>` unless extending
+   or drift (Rule 0012.3).
    **"Exists" is not a stamp** — a member type that exists but is a stub (no marker,
    or fields/literals don't match its own table) is queued for the same pass like a
    missing class (Rule 0001.10 / 0016.4).

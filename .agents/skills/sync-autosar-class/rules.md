@@ -1057,12 +1057,26 @@ without the user's decision.
 
 ### 16.5 Build the ordered sync queue
 
-Order the closure for syncing:
+Order the closure **dependency-first**: a class that other queued classes depend
+on is generated (queued) **before** its dependents — never the reverse.
 
-1. Deepest ancestor first (transitive parents of C, root-last).
-2. Member types next, in spec-row order of C's `Attribute` column (resolve
-   forward references after their target).
-3. C last.
+1. Topological order over the closure's dependency edges: a class referenced by
+   another queued class (as a `Base` or as an `Attribute` member type — `ref` /
+   `tref` / `iref` target / `aggr` child / shared enum / primitive container)
+   comes **before** the class that references it.
+2. **Bases before member types**: all `Base`-chain classes are queued first,
+   each chain deepest-ancestor-first (root-last) — this is the same rule
+   applied to the `Base` edges, and it fixes the order between sibling bases
+   of unrelated classes (any deterministic base-first order is valid; keep
+   closure-collection order among independent chains).
+3. Ties left after 1–2 (member types with no dependency between them) keep
+   spec-row order of C's `Attribute` column.
+4. C last.
+
+A queue where a dependent class precedes the class it references is malformed —
+the member type would not exist when the dependent's Step 3 needs it, inviting
+fabrication (Rule 0001.10). If dependency order and spec-row order conflict,
+dependency order wins.
 
 Skip classes that already carry `# Spec verified: R<YY>-<MM>` **unless** the spec
 changed (Rule 0012.3 drift) or the class is being extended — those re-enter the
@@ -1106,8 +1120,9 @@ Input class: <InputClassName> · Generated: <YYYY-MM-DD> · Queue order = row or
 - MemberK2 — Skip per user; deviation row recorded (Rule 0014).
 ```
 
-- One row per **queued** class, in 16.5 order (deepest ancestor first → input
-  class last). Status flips `[ ]` → `[x]` only per Rule 0017.2 (commit hash
+- One row per **queued** class, in 16.5 order (dependency-first: deepest
+  ancestor first, referenced member types before their referrers, input class
+  last). Status flips `[ ]` → `[x]` only per Rule 0017.2 (commit hash
   recorded in Notes). The **Notes** column carries what later sessions need:
   `enum` (Steps 5/6 N/A — round-trip via the consuming class), `XSD-only`
   (no marker), `drift R<YY>-<MM>` (re-opened row), and the commit hash once
