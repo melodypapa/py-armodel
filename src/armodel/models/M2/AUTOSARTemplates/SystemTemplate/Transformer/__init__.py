@@ -8,7 +8,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import TransformationComSpecProps
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
 
 class DataTransformationKindEnum(AREnum):
@@ -726,8 +728,8 @@ class TransformationISignalProps(Describable, ABC):
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getCsErrorReaction           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setCsErrorReaction           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDataPrototypeTransformationProps [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer
-    # [x] setDataPrototypeTransformationProps [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer
+    # [x] getDataPrototypeTransformationProps [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setDataPrototypeTransformationProps [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getTransformerRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setTransformerRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
@@ -740,7 +742,7 @@ class TransformationISignalProps(Describable, ABC):
         self.csErrorReaction: Optional[CSTransformerErrorReactionEnum] = None
 
         # Fine granular modeling of TransfromationProps on the level of DataPrototypes. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable
-        self.dataPrototypeTransformationProps: List = []  # placeholder: DataPrototypeTransformationProps not yet implemented
+        self.dataPrototypeTransformationProps: List[DataPrototypeTransformationProps] = []
 
         # Reference to the TransformationTechnology description that contains transformer specific and ISignal independent configuration properties.
         self.transformerRef: Optional[RefType] = None
@@ -775,6 +777,15 @@ class TransformationISignalProps(Describable, ABC):
             self.dataPrototypeTransformationProps = value
         return self
 
+    def addDataPrototypeTransformationProps(self, value: Optional["DataPrototypeTransformationProps"]) -> "TransformationISignalProps":
+        """
+        Fine granular modeling of TransfromationProps on the level of DataPrototypes. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable
+        A None value is a no-op and does not add to dataPrototypeTransformationProps.
+        """
+        if value is not None:
+            self.dataPrototypeTransformationProps.append(value)
+        return self
+
     def getTransformerRef(self) -> Optional[RefType]:
         """
         Reference to the TransformationTechnology description that contains transformer specific and ISignal independent configuration properties.
@@ -788,6 +799,418 @@ class TransformationISignalProps(Describable, ABC):
         """
         if value is not None:
             self.transformerRef = value
+        return self
+
+
+class DataPrototypeReference(ARObject, ABC):
+    """
+    This meta-class provides the ability to reference a DataPrototype.
+    """
+
+    # DataPrototypeReference method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.18, p.787
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getTagId            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTagId            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self):
+        if type(self) is DataPrototypeReference:
+            raise TypeError("DataPrototypeReference is an abstract class.")
+        super().__init__()
+
+        # This attribute represents the ability to specify a tag-id for the serialization of a specific DataPrototype in the context of a (potentially deeply-nested) composite data structure.
+        self.tagId: Optional[PositiveInteger] = None
+
+    def getTagId(self) -> Optional[PositiveInteger]:
+        """
+        This attribute represents the ability to specify a tag-id for the serialization of a specific DataPrototype in the context of a (potentially deeply-nested) composite data structure.
+        """
+        return self.tagId
+
+    def setTagId(self, value: Optional[PositiveInteger]) -> "DataPrototypeReference":
+        """
+        This attribute represents the ability to specify a tag-id for the serialization of a specific DataPrototype in the context of a (potentially deeply-nested) composite data structure.
+        A None value is a no-op and does not overwrite an existing tagId.
+        """
+        if value is not None:
+            self.tagId = value
+        return self
+
+
+class DataPrototypeInPortInterfaceRef(DataPrototypeReference):
+    """
+    This class represents a RootDataPrototype that is typed by an ApplicationDataType or Implementation DataType or a DataTypeElement that is aggregated within a composite application data type (record or array).
+    """
+
+    # DataPrototypeInPortInterfaceRef method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.19, p.788
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDataPrototypeInClientServerInterface [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setDataPrototypeInClientServerInterface [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # This element defines a reference to a DataPrototype in the context of a ClientServerInterface. InstanceRef implemented by: DataPrototypeInClientServerInterfaceInstanceRef
+        self.dataPrototypeInClientServerInterface: Optional["DataPrototypeInClientServerInterfaceInstanceRef"] = None
+
+    def getDataPrototypeInClientServerInterface(self) -> Optional["DataPrototypeInClientServerInterfaceInstanceRef"]:
+        """
+        This element defines a reference to a DataPrototype in the context of a ClientServerInterface. InstanceRef implemented by: DataPrototypeInClientServerInterfaceInstanceRef
+        """
+        return self.dataPrototypeInClientServerInterface
+
+    def setDataPrototypeInClientServerInterface(self, value: Optional["DataPrototypeInClientServerInterfaceInstanceRef"]) -> "DataPrototypeInPortInterfaceRef":
+        """
+        This element defines a reference to a DataPrototype in the context of a ClientServerInterface. InstanceRef implemented by: DataPrototypeInClientServerInterfaceInstanceRef
+        A None value is a no-op and does not overwrite an existing dataPrototypeInClientServerInterface.
+        """
+        if value is not None:
+            self.dataPrototypeInClientServerInterface = value
+        return self
+
+
+class DataPrototypeInSenderReceiverInterfaceInstanceRef(AtpInstanceRef, DataPrototypeInPortInterfaceRef):
+    """
+    Instance reference to a DataPrototype in the context of a SenderReceiverInterface.
+    """
+
+    # DataPrototypeInSenderReceiverInterfaceInstanceRef method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.20, p.788
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getBase                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setBase                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getContextDataPrototypeInSr    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addContextDataPrototypeInSr    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRootDataPrototypeInSr       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRootDataPrototypeInSr       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTargetDataPrototypeInSr     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTargetDataPrototypeInSr     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # Stereotypes: atpDerived
+        self.base: Optional[RefType] = None
+
+        # This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure. Tags: xml.sequenceOffset=20
+        self.contextDataPrototypeInSr: List[RefType] = []
+
+        # Tags: xml.sequenceOffset=10
+        self.rootDataPrototypeInSr: Optional[RefType] = None
+
+        # Tags: xml.sequenceOffset=30
+        self.targetDataPrototypeInSr: Optional[RefType] = None
+
+    def getBase(self) -> Optional[RefType]:
+        """
+        Stereotypes: atpDerived
+        """
+        return self.base
+
+    def setBase(self, value: Optional[RefType]) -> "DataPrototypeInSenderReceiverInterfaceInstanceRef":
+        """
+        Stereotypes: atpDerived
+        A None value is a no-op and does not overwrite an existing base.
+        """
+        if value is not None:
+            self.base = value
+        return self
+
+    def getContextDataPrototypeInSr(self) -> List[RefType]:
+        """
+        This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure. Tags: xml.sequenceOffset=20
+        """
+        return self.contextDataPrototypeInSr
+
+    def addContextDataPrototypeInSr(self, value: Optional[RefType]) -> "DataPrototypeInSenderReceiverInterfaceInstanceRef":
+        """
+        This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure. Tags: xml.sequenceOffset=20
+        A None value is a no-op and does not add to contextDataPrototypeInSr.
+        """
+        if value is not None:
+            self.contextDataPrototypeInSr.append(value)
+        return self
+
+    def getRootDataPrototypeInSr(self) -> Optional[RefType]:
+        """
+        Tags: xml.sequenceOffset=10
+        """
+        return self.rootDataPrototypeInSr
+
+    def setRootDataPrototypeInSr(self, value: Optional[RefType]) -> "DataPrototypeInSenderReceiverInterfaceInstanceRef":
+        """
+        Tags: xml.sequenceOffset=10
+        A None value is a no-op and does not overwrite an existing rootDataPrototypeInSr.
+        """
+        if value is not None:
+            self.rootDataPrototypeInSr = value
+        return self
+
+    def getTargetDataPrototypeInSr(self) -> Optional[RefType]:
+        """
+        Tags: xml.sequenceOffset=30
+        """
+        return self.targetDataPrototypeInSr
+
+    def setTargetDataPrototypeInSr(self, value: Optional[RefType]) -> "DataPrototypeInSenderReceiverInterfaceInstanceRef":
+        """
+        Tags: xml.sequenceOffset=30
+        A None value is a no-op and does not overwrite an existing targetDataPrototypeInSr.
+        """
+        if value is not None:
+            self.targetDataPrototypeInSr = value
+        return self
+
+
+class DataPrototypeInClientServerInterfaceInstanceRef(AtpInstanceRef, DataPrototypeInPortInterfaceRef):
+    """
+    Instance reference to a DataPrototype in the context of a ClientServerInterface.
+    """
+
+    # DataPrototypeInClientServerInterfaceInstanceRef method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.21, p.788
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getBase                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setBase                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getContextDataPrototypeInCs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addContextDataPrototypeInCs    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRootDataPrototypeInCs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRootDataPrototypeInCs       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTargetDataPrototypeInCs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTargetDataPrototypeInCs     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # Stereotypes: atpDerived
+        self.base: Optional[RefType] = None
+
+        # This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure. Tags: xml.sequenceOffset=20
+        self.contextDataPrototypeInCs: List[RefType] = []
+
+        # Tags: xml.sequenceOffset=10
+        self.rootDataPrototypeInCs: Optional[RefType] = None
+
+        # Tags: xml.sequenceOffset=30
+        self.targetDataPrototypeInCs: Optional[RefType] = None
+
+    def getBase(self) -> Optional[RefType]:
+        """
+        Stereotypes: atpDerived
+        """
+        return self.base
+
+    def setBase(self, value: Optional[RefType]) -> "DataPrototypeInClientServerInterfaceInstanceRef":
+        """
+        Stereotypes: atpDerived
+        A None value is a no-op and does not overwrite an existing base.
+        """
+        if value is not None:
+            self.base = value
+        return self
+
+    def getContextDataPrototypeInCs(self) -> List[RefType]:
+        """
+        This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure. Tags: xml.sequenceOffset=20
+        """
+        return self.contextDataPrototypeInCs
+
+    def addContextDataPrototypeInCs(self, value: Optional[RefType]) -> "DataPrototypeInClientServerInterfaceInstanceRef":
+        """
+        This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure. Tags: xml.sequenceOffset=20
+        A None value is a no-op and does not add to contextDataPrototypeInCs.
+        """
+        if value is not None:
+            self.contextDataPrototypeInCs.append(value)
+        return self
+
+    def getRootDataPrototypeInCs(self) -> Optional[RefType]:
+        """
+        Tags: xml.sequenceOffset=10
+        """
+        return self.rootDataPrototypeInCs
+
+    def setRootDataPrototypeInCs(self, value: Optional[RefType]) -> "DataPrototypeInClientServerInterfaceInstanceRef":
+        """
+        Tags: xml.sequenceOffset=10
+        A None value is a no-op and does not overwrite an existing rootDataPrototypeInCs.
+        """
+        if value is not None:
+            self.rootDataPrototypeInCs = value
+        return self
+
+    def getTargetDataPrototypeInCs(self) -> Optional[RefType]:
+        """
+        Tags: xml.sequenceOffset=30
+        """
+        return self.targetDataPrototypeInCs
+
+    def setTargetDataPrototypeInCs(self, value: Optional[RefType]) -> "DataPrototypeInClientServerInterfaceInstanceRef":
+        """
+        Tags: xml.sequenceOffset=30
+        A None value is a no-op and does not overwrite an existing targetDataPrototypeInCs.
+        """
+        if value is not None:
+            self.targetDataPrototypeInCs = value
+        return self
+
+
+class ImplementationDataTypeElementInPortInterfaceRef(DataPrototypeReference):
+    """
+    This meta-class represents the ability to refer to the internal structure of an AutosarDataPrototype which is typed by an ImplementationDatatype in the context of a PortInterface. In other words, this meta-class shall not be used to model a reference to the AutosarDataPrototype as a target itself, even if the AutosarDataPrototype is typed by an ImplementationDataType and even if that ImplementationDataType represents a composite data type.
+    """
+
+    # ImplementationDataTypeElementInPortInterfaceRef method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.22, p.789
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getContextImplementationDataElement   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addContextImplementationDataElement   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRootDataPrototype                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRootDataPrototype                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTargetImplementationDataTypeElement [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTargetImplementationDataTypeElement [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure. Tags: xml.sequenceOffset=20
+        self.contextImplementationDataElement: List[RefType] = []
+
+        # This refers to the AutosarDataPrototype which is typed by the ImplementationDatatype. The targetDataPrototype and all defined contextDataPrototypes can be found within this rootDataPrototype. Tags: xml.sequenceOffset=10
+        self.rootDataPrototype: Optional[RefType] = None
+
+        # This is a target ImplementationDataTypeElement in case that the rootDataPrototype is composite and the target is a subElement of the rootDataPrototype. Tags: xml.sequenceOffset=30
+        self.targetImplementationDataTypeElement: Optional[RefType] = None
+
+    def getContextImplementationDataElement(self) -> List[RefType]:
+        """
+        This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure. Tags: xml.sequenceOffset=20
+        """
+        return self.contextImplementationDataElement
+
+    def addContextImplementationDataElement(self, value: Optional[RefType]) -> "ImplementationDataTypeElementInPortInterfaceRef":
+        """
+        This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure. Tags: xml.sequenceOffset=20
+        A None value is a no-op and does not add to contextImplementationDataElement.
+        """
+        if value is not None:
+            self.contextImplementationDataElement.append(value)
+        return self
+
+    def getRootDataPrototype(self) -> Optional[RefType]:
+        """
+        This refers to the AutosarDataPrototype which is typed by the ImplementationDatatype. The targetDataPrototype and all defined contextDataPrototypes can be found within this rootDataPrototype. Tags: xml.sequenceOffset=10
+        """
+        return self.rootDataPrototype
+
+    def setRootDataPrototype(self, value: Optional[RefType]) -> "ImplementationDataTypeElementInPortInterfaceRef":
+        """
+        This refers to the AutosarDataPrototype which is typed by the ImplementationDatatype. The targetDataPrototype and all defined contextDataPrototypes can be found within this rootDataPrototype. Tags: xml.sequenceOffset=10
+        A None value is a no-op and does not overwrite an existing rootDataPrototype.
+        """
+        if value is not None:
+            self.rootDataPrototype = value
+        return self
+
+    def getTargetImplementationDataTypeElement(self) -> Optional[RefType]:
+        """
+        This is a target ImplementationDataTypeElement in case that the rootDataPrototype is composite and the target is a subElement of the rootDataPrototype. Tags: xml.sequenceOffset=30
+        """
+        return self.targetImplementationDataTypeElement
+
+    def setTargetImplementationDataTypeElement(self, value: Optional[RefType]) -> "ImplementationDataTypeElementInPortInterfaceRef":
+        """
+        This is a target ImplementationDataTypeElement in case that the rootDataPrototype is composite and the target is a subElement of the rootDataPrototype. Tags: xml.sequenceOffset=30
+        A None value is a no-op and does not overwrite an existing targetImplementationDataTypeElement.
+        """
+        if value is not None:
+            self.targetImplementationDataTypeElement = value
+        return self
+
+
+class DataPrototypeTransformationProps(ARObject):
+    """
+    DataPrototypeTransformationProps allows to set the attributes for the different Transformation Technologies that are DataPrototype specific.
+    """
+
+    # DataPrototypeTransformationProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 7.17, p.787
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDataPrototypeInPortInterfaceRef [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setDataPrototypeInPortInterfaceRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getNetworkRepresentationProps     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setNetworkRepresentationProps     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTransformationProps             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setTransformationProps             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # Reference to a DataPrototype that is transported in the serialized ISignal.
+        self.dataPrototypeInPortInterfaceRef: Optional[DataPrototypeInPortInterfaceRef] = None
+
+        # Specification of the actual network representation for the referenced primitive DataPrototype. If a network representation is provided then the baseType shall be used by the Transformer as input for the serialization/deserilaization. Stereotypes: atpSplitable Tags: atp.Splitkey=networkRepresentationProps
+        self.networkRepresentationProps: Optional[SwDataDefProps] = None
+
+        # Collection of AutosarDataPrototype related configuration settings for a transformer.
+        self.transformationProps: Optional[RefType] = None
+
+    def getDataPrototypeInPortInterfaceRef(self) -> Optional[DataPrototypeInPortInterfaceRef]:
+        """
+        Reference to a DataPrototype that is transported in the serialized ISignal.
+        """
+        return self.dataPrototypeInPortInterfaceRef
+
+    def setDataPrototypeInPortInterfaceRef(self, value: Optional[DataPrototypeInPortInterfaceRef]) -> "DataPrototypeTransformationProps":
+        """
+        Reference to a DataPrototype that is transported in the serialized ISignal.
+        A None value is a no-op and does not overwrite an existing dataPrototypeInPortInterfaceRef.
+        """
+        if value is not None:
+            self.dataPrototypeInPortInterfaceRef = value
+        return self
+
+    def getNetworkRepresentationProps(self) -> Optional[SwDataDefProps]:
+        """
+        Specification of the actual network representation for the referenced primitive DataPrototype. If a network representation is provided then the baseType shall be used by the Transformer as input for the serialization/deserilaization. Stereotypes: atpSplitable Tags: atp.Splitkey=networkRepresentationProps
+        """
+        return self.networkRepresentationProps
+
+    def setNetworkRepresentationProps(self, value: Optional[SwDataDefProps]) -> "DataPrototypeTransformationProps":
+        """
+        Specification of the actual network representation for the referenced primitive DataPrototype. If a network representation is provided then the baseType shall be used by the Transformer as input for the serialization/deserilaization. Stereotypes: atpSplitable Tags: atp.Splitkey=networkRepresentationProps
+        A None value is a no-op and does not overwrite an existing networkRepresentationProps.
+        """
+        if value is not None:
+            self.networkRepresentationProps = value
+        return self
+
+    def getTransformationProps(self) -> Optional[RefType]:
+        """
+        Collection of AutosarDataPrototype related configuration settings for a transformer.
+        """
+        return self.transformationProps
+
+    def setTransformationProps(self, value: Optional[RefType]) -> "DataPrototypeTransformationProps":
+        """
+        Collection of AutosarDataPrototype related configuration settings for a transformer.
+        A None value is a no-op and does not overwrite an existing transformationProps.
+        """
+        if value is not None:
+            self.transformationProps = value
         return self
 
 

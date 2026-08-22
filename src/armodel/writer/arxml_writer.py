@@ -560,6 +560,10 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import SwcToImplMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     BufferProperties,
+    DataPrototypeInPortInterfaceRef,
+    DataPrototypeInClientServerInterfaceInstanceRef,
+    DataPrototypeInSenderReceiverInterfaceInstanceRef,
+    DataPrototypeTransformationProps,
     DataTransformation,
     DataTransformationSet,
     EndToEndTransformationComSpecProps,
@@ -8352,6 +8356,48 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeTransformationISignalProps(self, element: ET.Element, props: TransformationISignalProps):
         self.writeDescribable(element, props)
         self.setChildElementOptionalLiteral(element, "CS-ERROR-REACTION", props.getCsErrorReaction())
+        dp_props_list = props.getDataPrototypeTransformationProps()
+        if len(dp_props_list) > 0:
+            child_element = ET.SubElement(element, "DATA-PROTOTYPE-TRANSFORMATION-PROPSS")
+            for dp_props in dp_props_list:
+                self.writeDataPrototypeTransformationProps(child_element, dp_props)
+
+    def writeDataPrototypeInPortInterfaceRef(self, element: ET.Element, ref: DataPrototypeInPortInterfaceRef):
+        child_element = ET.SubElement(element, "DATA-PROTOTYPE-IN-PORT-INTERFACE-REF")
+        self.writeARObjectAttributes(child_element, ref)
+        self.setChildElementOptionalPositiveInteger(child_element, "TAG-ID", ref.getTagId())
+        cs_ref = ref.getDataPrototypeInClientServerInterface()
+        if cs_ref is not None:
+            self.writeDataPrototypeInClientServerInterfaceInstanceRef(child_element, cs_ref)
+
+    def writeDataPrototypeInSenderReceiverInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInSenderReceiverInterfaceInstanceRef):
+        child_element = ET.SubElement(element, "DATA-PROTOTYPE-IN-SENDER-RECEIVER-INTERFACE-REF")
+        self.writeARObjectAttributes(child_element, iref)
+        self.setChildElementOptionalRefType(child_element, "BASE", iref.getBase())
+        for ctx in iref.getContextDataPrototypeInSr():
+            ctx_element = ET.SubElement(child_element, "CONTEXT-DATA-PROTOTYPE-IN-SR")
+            self.setChildElementOptionalRefType(ctx_element, "CONTEXT-DATA-PROTOTYPE-IN-SR", ctx)
+        self.setChildElementOptionalRefType(child_element, "ROOT-DATA-PROTOTYPE-IN-SR", iref.getRootDataPrototypeInSr())
+        self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-IN-SR", iref.getTargetDataPrototypeInSr())
+
+    def writeDataPrototypeInClientServerInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInClientServerInterfaceInstanceRef):
+        child_element = ET.SubElement(element, "DATA-PROTOTYPE-IN-CLIENT-SERVER-INTERFACE-REF")
+        self.writeARObjectAttributes(child_element, iref)
+        self.setChildElementOptionalRefType(child_element, "BASE", iref.getBase())
+        for ctx in iref.getContextDataPrototypeInCs():
+            ctx_element = ET.SubElement(child_element, "CONTEXT-DATA-PROTOTYPE-IN-CS")
+            self.setChildElementOptionalRefType(ctx_element, "CONTEXT-DATA-PROTOTYPE-IN-CS", ctx)
+        self.setChildElementOptionalRefType(child_element, "ROOT-DATA-PROTOTYPE-IN-CS", iref.getRootDataPrototypeInCs())
+        self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-IN-CS", iref.getTargetDataPrototypeInCs())
+
+    def writeDataPrototypeTransformationProps(self, element: ET.Element, props: DataPrototypeTransformationProps):
+        child_element = ET.SubElement(element, "DATA-PROTOTYPE-TRANSFORMATION-PROPS")
+        self.writeARObjectAttributes(child_element, props)
+        dp_ref = props.getDataPrototypeInPortInterfaceRef()
+        if dp_ref is not None:
+            self.writeDataPrototypeInPortInterfaceRef(child_element, dp_ref)
+        self.setSwDataDefProps(child_element, "NETWORK-REPRESENTATION-PROPS", props.getNetworkRepresentationProps())
+        self.setChildElementOptionalRefType(child_element, "TRANSFORMATION-PROPS", props.getTransformationProps())
 
     def writeEndToEndTransformationISignalPropsDataIds(self, element: ET.Element, props: EndToEndTransformationISignalProps):
         ids = props.getDataIds()

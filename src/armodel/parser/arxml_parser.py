@@ -588,6 +588,10 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SWmapping import SwcToImplMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     BufferProperties,
+    DataPrototypeInPortInterfaceRef,
+    DataPrototypeInClientServerInterfaceInstanceRef,
+    DataPrototypeInSenderReceiverInterfaceInstanceRef,
+    DataPrototypeTransformationProps,
     DataTransformation,
     DataTransformationSet,
     EndToEndTransformationComSpecProps,
@@ -8332,6 +8336,48 @@ class ARXMLParser(AbstractARXMLParser):
     def readTransformationISignalProps(self, element: ET.Element, props: TransformationISignalProps):
         self.readDescribable(element, props)
         props.setCsErrorReaction(self.getChildElementOptionalLiteral(element, "CS-ERROR-REACTION"))
+        for child_element in self.findall(element, "DATA-PROTOTYPE-TRANSFORMATION-PROPSS/*"):
+            if self.getTagName(child_element) == "DATA-PROTOTYPE-TRANSFORMATION-PROPS":
+                dp_props = DataPrototypeTransformationProps()
+                self.readDataPrototypeTransformationProps(child_element, dp_props)
+                props.addDataPrototypeTransformationProps(dp_props)
+            else:
+                self.notImplemented("Unsupported DataPrototypeTransformationProps %s" % self.getTagName(child_element))
+
+    def readDataPrototypeInPortInterfaceRef(self, element: ET.Element, ref: DataPrototypeInPortInterfaceRef):
+        self.readARObjectAttributes(element, ref)
+        ref.setTagId(self.getChildElementOptionalPositiveInteger(element, "TAG-ID"))
+        child_element = self.find(element, "DATA-PROTOTYPE-IN-CLIENT-SERVER-INTERFACE-REF")
+        if child_element is not None:
+            cs_ref = DataPrototypeInClientServerInterfaceInstanceRef()
+            self.readDataPrototypeInClientServerInterfaceInstanceRef(child_element, cs_ref)
+            ref.setDataPrototypeInClientServerInterface(cs_ref)
+
+    def readDataPrototypeInSenderReceiverInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInSenderReceiverInterfaceInstanceRef):
+        self.readARObjectAttributes(element, iref)
+        iref.setBase(self.getChildElementOptionalRefType(element, "BASE"))
+        for ctx in self.findall(element, "CONTEXT-DATA-PROTOTYPE-IN-SR"):
+            iref.addContextDataPrototypeInSr(self.getChildElementOptionalRefType(ctx, "CONTEXT-DATA-PROTOTYPE-IN-SR") or self.getChildElementOptionalRefType(ctx, "CONTEXT-DATA-PROTOTYPE"))
+        iref.setRootDataPrototypeInSr(self.getChildElementOptionalRefType(element, "ROOT-DATA-PROTOTYPE-IN-SR"))
+        iref.setTargetDataPrototypeInSr(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-IN-SR"))
+
+    def readDataPrototypeInClientServerInterfaceInstanceRef(self, element: ET.Element, iref: DataPrototypeInClientServerInterfaceInstanceRef):
+        self.readARObjectAttributes(element, iref)
+        iref.setBase(self.getChildElementOptionalRefType(element, "BASE"))
+        for ctx in self.findall(element, "CONTEXT-DATA-PROTOTYPE-IN-CS"):
+            iref.addContextDataPrototypeInCs(self.getChildElementOptionalRefType(ctx, "CONTEXT-DATA-PROTOTYPE-IN-CS") or self.getChildElementOptionalRefType(ctx, "CONTEXT-DATA-PROTOTYPE"))
+        iref.setRootDataPrototypeInCs(self.getChildElementOptionalRefType(element, "ROOT-DATA-PROTOTYPE-IN-CS"))
+        iref.setTargetDataPrototypeInCs(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-IN-CS"))
+
+    def readDataPrototypeTransformationProps(self, element: ET.Element, props: DataPrototypeTransformationProps):
+        self.readARObjectAttributes(element, props)
+        child_element = self.find(element, "DATA-PROTOTYPE-IN-PORT-INTERFACE-REF")
+        if child_element is not None:
+            ref = DataPrototypeInPortInterfaceRef()
+            self.readDataPrototypeInPortInterfaceRef(child_element, ref)
+            props.setDataPrototypeInPortInterfaceRef(ref)
+        props.setNetworkRepresentationProps(self.getSwDataDefProps(element, "NETWORK-REPRESENTATION-PROPS"))
+        props.setTransformationProps(self.getChildElementOptionalRefType(element, "TRANSFORMATION-PROPS"))
 
     def readEndToEndTransformationISignalPropsDataIds(self, element: ET.Element, props: EndToEndTransformationISignalProps):
         child_element = self.find(element, "DATA-IDS")
