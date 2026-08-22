@@ -691,14 +691,13 @@ class AbstractCanCommunicationController(CommunicationController, ABC):
 
 
 class CanCommunicationController(AbstractCanCommunicationController):
-    """
-    Represents a CAN communication controller in the system, implementing
-    the specific properties and behavior for CAN network communication
-    hardware interfaces.
-    """
+    """CAN bus specific communication port attributes."""
 
     # CanCommunicationController method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.11, p.63
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
