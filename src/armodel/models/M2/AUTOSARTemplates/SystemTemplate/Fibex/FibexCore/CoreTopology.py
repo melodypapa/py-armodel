@@ -711,16 +711,15 @@ class LinCluster(CommunicationCluster):
 
 
 class CommunicationController(Identifiable, ABC):
-    """
-    Abstract base class for communication controllers,
-    defining common properties for different types of
-    communication hardware controllers in the system.
-    """
+    """The communication controller is a dedicated hardware device by means of which hosts are sending frames to and receiving frames from the communication medium. Tags: vh.latestBindingTime=postBuild"""
 
     # CommunicationController method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getWakeUpByControllerSupported [x] impl  [ ] docstring  [ ] test
-    # [ ] setWakeUpByControllerSupported [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.3, p.53
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getWakeUpByControllerSupported [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setWakeUpByControllerSupported [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CommunicationController:
@@ -728,13 +727,22 @@ class CommunicationController(Identifiable, ABC):
 
         super().__init__(parent, short_name)
 
-        self.wakeUpByControllerSupported: Boolean = None
+        # Defines whether the ECU shall be woken up by this CommunicationController. TRUE: wake up is possible FALSE: wake up is not supported Note: If wakeUpByControllerSupported is set to TRUE the feature shall be supported by both hardware and basic software.
+        self.wakeUpByControllerSupported: Optional[Boolean] = None
 
-    def getWakeUpByControllerSupported(self):
+    def getWakeUpByControllerSupported(self) -> Optional[Boolean]:
+        """
+        Defines whether the ECU shall be woken up by this CommunicationController. TRUE: wake up is possible FALSE: wake up is not supported Note: If wakeUpByControllerSupported is set to TRUE the feature shall be supported by both hardware and basic software.
+        """
         return self.wakeUpByControllerSupported
 
-    def setWakeUpByControllerSupported(self, value):
-        self.wakeUpByControllerSupported = value
+    def setWakeUpByControllerSupported(self, value: Optional[Boolean]) -> "CommunicationController":
+        """
+        Defines whether the ECU shall be woken up by this CommunicationController. TRUE: wake up is possible FALSE: wake up is not supported Note: If wakeUpByControllerSupported is set to TRUE the feature shall be supported by both hardware and basic software.
+        A None value is a no-op and does not overwrite an existing wakeUpByControllerSupported.
+        """
+        if value is not None:
+            self.wakeUpByControllerSupported = value
         return self
 
 

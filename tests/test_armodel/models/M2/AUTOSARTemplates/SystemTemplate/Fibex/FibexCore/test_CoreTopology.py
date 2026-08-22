@@ -432,6 +432,11 @@ class Test_FibexCoreTopology:
         assert controller.getWakeUpByControllerSupported() is True
         assert controller == controller.setWakeUpByControllerSupported(True)  # Test method chaining
 
+        # Test None no-op (guarded setter must not overwrite an existing value)
+        controller.setWakeUpByControllerSupported(True)
+        assert controller == controller.setWakeUpByControllerSupported(None)
+        assert controller.getWakeUpByControllerSupported() is True  # Should remain unchanged
+
     def test_IPduPort(self):
         """Test IPduPort class functionality."""
         parent = MockParent()
