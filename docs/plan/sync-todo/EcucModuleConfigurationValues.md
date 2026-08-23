@@ -40,7 +40,7 @@ Source file for all queued classes: `src/armodel/models/M2/AUTOSARTemplates/ECUC
   - [x] Step 7 — Update checklist comment (pointer comment left at removal site; canonical checklist+stamp unchanged)
   - [x] Step 8 — Deviations (duplicate-resolution recorded here instead of new sync)
   - [x] Step 9 — Verify (9a) + confirm (9b) ⇒ write # Spec verified: R23-11 (resolved by duplicate removal — canonical already stamped R23-11; no new code to stamp)
-- [ ] EcucParameterValue
+- [x] EcucParameterValue (221669a)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -49,7 +49,7 @@ Source file for all queued classes: `src/armodel/models/M2/AUTOSARTemplates/ECUC
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment (# Spec: line + rows; marker deferred to 9b)
   - [x] Step 8 — Deviations (none expected)
-  - [ ] Step 9 — Verify (9a) + confirm (9b) ⇒ write # Spec verified: R23-11
+  - [x] Step 9 — Verify (9a) + confirm (9b) ⇒ write # Spec verified: R23-11 (confirmed 2026-08-23 — marker at ECUCDescriptionTemplate.py; commit 221669a)
 - [ ] EcucTextualParamValue
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
