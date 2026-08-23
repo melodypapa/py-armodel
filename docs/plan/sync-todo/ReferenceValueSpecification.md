@@ -38,7 +38,7 @@ Spec source for all rows unless noted: `autosar/markdown/AUTOSAR_CP_TPS_Software
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] ValueList (member · markdown · Table 5.127 · pulled by RuleBasedAxisCont.swArraysize · exists unstamped in `MSR/DataDictionary/DataDefProperties.py` — current `getVfs()` sorts but spec marks `vf (ordered)`; verify against spec)
+- [x] ValueList (member · markdown · Table 5.127 · pulled by RuleBasedAxisCont.swArraysize · exists unstamped in `MSR/DataDictionary/DataDefProperties.py` — current `getVfs()` sorts but spec marks `vf (ordered)`; verify against spec) · commit c49ebbc2
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
