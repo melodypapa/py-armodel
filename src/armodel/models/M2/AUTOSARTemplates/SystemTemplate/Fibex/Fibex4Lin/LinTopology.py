@@ -75,7 +75,7 @@ class LinMaster(LinCommunicationController):
         super().__init__(parent, short_name)
 
         # LinSlaves that are handled by the LinMaster.
-        self.linSlaves: List[LinSlaveConfig] = []
+        self.linSlaves: List["LinSlaveConfig"] = []
 
         # Time base is mandatory for the master. It is not used for slaves. LIN 2.0 Spec states: "The time_base value specifies the used time base in the master node to generate the maximum allowed frame transfer time." The time base shall be specified AUTOSAR conform in seconds.
         self.timeBase: Optional[TimeValue] = None
@@ -83,11 +83,11 @@ class LinMaster(LinCommunicationController):
         # The attribute timeBaseJitter is a mandatory attribute for the master and not used for slaves. LIN 2.0 Spec states: "The jitter value specifies the differences between the maximum and minimum delay from time base start point to the frame header sending start point (falling edge of BREAK signal)." The jitter shall be specified AUTOSAR conform in seconds.
         self.timeBaseJitter: Optional[TimeValue] = None
 
-    def getLinSlaves(self) -> List[LinSlaveConfig]:
+    def getLinSlaves(self) -> List["LinSlaveConfig"]:
         """LinSlaves that are handled by the LinMaster."""
         return self.linSlaves
 
-    def addLinSlave(self, value: LinSlaveConfig) -> "LinMaster":
+    def addLinSlave(self, value: "LinSlaveConfig") -> "LinMaster":
         """
         LinSlaves that are handled by the LinMaster.
         A None value is a no-op and does not extend linSlaves.
